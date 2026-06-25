@@ -24,10 +24,18 @@ defmodule DevelopmentWeb.Components.Headless.Tabs do
   attr :value, :string, default: nil, doc: "Active tab value (controlled by the server)"
   attr :default_value, :string, default: nil, doc: "Initial active tab value (uncontrolled)"
   attr :orientation, :string, default: "horizontal", values: ~w(horizontal vertical)
-  attr :activate_on_focus, :boolean, default: true, doc: "Activate a tab when it receives focus (automatic)"
+
+  attr :activate_on_focus, :boolean,
+    default: true,
+    doc: "Activate a tab when it receives focus (automatic)"
+
   attr :indicator, :boolean, default: true, doc: "Render the animated indicator element"
   attr :on_change, :string, default: nil, doc: "LiveView event pushed on user switch ({value})"
-  attr :on_change_target, :string, default: nil, doc: "Optional pushEventTo target (e.g. a LiveComponent selector)"
+
+  attr :on_change_target, :string,
+    default: nil,
+    doc: "Optional pushEventTo target (e.g. a LiveComponent selector)"
+
   attr :class, :any, default: nil
   attr :rest, :global
 
@@ -45,13 +53,13 @@ defmodule DevelopmentWeb.Components.Headless.Tabs do
 
     active =
       assigns.value || assigns.default_value ||
-        (assigns.tab
-         |> Enum.with_index()
-         |> Enum.find(fn {t, _} -> !t[:disabled] end)
-         |> case do
-           {t, i} -> tab_value.(t, i)
-           _ -> "#{assigns.id}-0"
-         end)
+        assigns.tab
+        |> Enum.with_index()
+        |> Enum.find(fn {t, _} -> !t[:disabled] end)
+        |> case do
+          {t, i} -> tab_value.(t, i)
+          _ -> "#{assigns.id}-0"
+        end
 
     assigns = assign(assigns, active: active, tab_value: tab_value)
 
@@ -68,7 +76,12 @@ defmodule DevelopmentWeb.Components.Headless.Tabs do
       class={["chelekom-tabs", @class]}
       {@rest}
     >
-      <div role="tablist" data-part="tablist" aria-orientation={@orientation} class="chelekom-tabs__list">
+      <div
+        role="tablist"
+        data-part="tablist"
+        aria-orientation={@orientation}
+        class="chelekom-tabs__list"
+      >
         <button
           :for={{tab, i} <- Enum.with_index(@tab)}
           type="button"

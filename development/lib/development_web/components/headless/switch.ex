@@ -23,11 +23,25 @@ defmodule DevelopmentWeb.Components.Headless.Switch do
   attr :name, :string, default: nil, doc: "Name for the hidden form input"
   attr :checked, :boolean, default: false, doc: "Initial/controlled on state"
   attr :disabled, :boolean, default: false, doc: "Ignore interaction (data-disabled)"
-  attr :readonly, :boolean, default: false, doc: "Block toggling but stay focusable (data-readonly)"
-  attr :required, :boolean, default: false, doc: "Require the switch on for form submit (data-required)"
+
+  attr :readonly, :boolean,
+    default: false,
+    doc: "Block toggling but stay focusable (data-readonly)"
+
+  attr :required, :boolean,
+    default: false,
+    doc: "Require the switch on for form submit (data-required)"
+
   attr :value, :string, default: "on", doc: "Value submitted when on"
-  attr :unchecked_value, :string, default: nil, doc: "Value submitted when off (adds a companion hidden input)"
-  attr :form, :string, default: nil, doc: "Form id owning the hidden input (when rendered outside the form)"
+
+  attr :unchecked_value, :string,
+    default: nil,
+    doc: "Value submitted when off (adds a companion hidden input)"
+
+  attr :form, :string,
+    default: nil,
+    doc: "Form id owning the hidden input (when rendered outside the form)"
+
   attr :on_change, :string, default: nil, doc: "LiveView event pushed on toggle ({checked})"
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :rest, :global

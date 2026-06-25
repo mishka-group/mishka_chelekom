@@ -806,9 +806,9 @@ defmodule DevelopmentWeb.Showcase.SliderFormDemo do
     changeset = cs(p)
 
     if changeset.valid?,
+      # On success, reset the form back to its default (40) — the common "form clears after save"
+      # pattern. The slider snaps back to 40 (the hook re-positions); @saved keeps what was saved.
       do:
-        # On success, reset the form back to its default (40) — the common "form clears after save"
-        # pattern. The slider snaps back to 40 (the hook re-positions); @saved keeps what was saved.
         {:noreply,
          assign(socket,
            saved: apply_changes(changeset),
@@ -896,18 +896,27 @@ defmodule DevelopmentWeb.Showcase.SliderRangeFormDemo do
 
     if changeset.valid?,
       # On success, reset the range back to its default [20, 60] (both thumbs re-position).
-      do: {:noreply, assign(socket, saved: apply_changes(changeset), form: to_form(cs(%{"price" => [20, 60]}), as: :filters))},
-      else: {:noreply, assign(socket, saved: nil, form: to_form(changeset, as: :filters, action: :save))}
+      do:
+        {:noreply,
+         assign(socket,
+           saved: apply_changes(changeset),
+           form: to_form(cs(%{"price" => [20, 60]}), as: :filters)
+         )},
+      else:
+        {:noreply,
+         assign(socket, saved: nil, form: to_form(changeset, as: :filters, action: :save))}
   end
 
   def handle_event("reset", _params, socket),
-    do: {:noreply, assign(socket, saved: nil, form: to_form(cs(%{"price" => [20, 60]}), as: :filters))}
+    do:
+      {:noreply,
+       assign(socket, saved: nil, form: to_form(cs(%{"price" => [20, 60]}), as: :filters))}
 
   @impl true
   def render(assigns) do
     ~H"""
     <div>
-      <.form for={@form} phx-target={@myself} phx-submit="save" :let={f} class="space-y-4">
+      <.form :let={f} for={@form} phx-target={@myself} phx-submit="save" class="space-y-4">
         <label class="block text-sm font-medium">Price range ($0–$100, two thumbs)</label>
         <Slider.slider
           id={"#{@id}-price"}
@@ -922,7 +931,10 @@ defmodule DevelopmentWeb.Showcase.SliderRangeFormDemo do
         />
         <p :for={msg <- H.field_errors(f[:price])} class="text-sm text-error">{msg}</p>
         <div class="flex gap-2">
-          <button type="submit" class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content">
+          <button
+            type="submit"
+            class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content"
+          >
             Apply filter
           </button>
           <button
@@ -935,7 +947,10 @@ defmodule DevelopmentWeb.Showcase.SliderRangeFormDemo do
           </button>
         </div>
       </.form>
-      <div :if={@saved} class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success">
+      <div
+        :if={@saved}
+        class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success"
+      >
         ✓ Filtering ${Enum.at(@saved.price, 0)}–${Enum.at(@saved.price, 1)} (not persisted)
       </div>
     </div>
@@ -983,7 +998,9 @@ defmodule DevelopmentWeb.Showcase.SwitchFormDemo do
       {:ok,
        socket
        |> assign(assigns)
-       |> assign_new(:form, fn -> to_form(cs(%{"notify" => "true", "terms" => "false"}), as: :prefs) end)
+       |> assign_new(:form, fn ->
+         to_form(cs(%{"notify" => "true", "terms" => "false"}), as: :prefs)
+       end)
        |> assign_new(:saved, fn -> nil end)}
 
   @impl true
@@ -991,15 +1008,19 @@ defmodule DevelopmentWeb.Showcase.SwitchFormDemo do
     changeset = cs(p)
 
     if changeset.valid?,
-      do: {:noreply, assign(socket, saved: apply_changes(changeset), form: to_form(changeset, as: :prefs))},
-      else: {:noreply, assign(socket, saved: nil, form: to_form(changeset, as: :prefs, action: :save))}
+      do:
+        {:noreply,
+         assign(socket, saved: apply_changes(changeset), form: to_form(changeset, as: :prefs))},
+      else:
+        {:noreply,
+         assign(socket, saved: nil, form: to_form(changeset, as: :prefs, action: :save))}
   end
 
   @impl true
   def render(assigns) do
     ~H"""
     <div>
-      <.form for={@form} phx-target={@myself} phx-submit="save" :let={f} class="space-y-4">
+      <.form :let={f} for={@form} phx-target={@myself} phx-submit="save" class="space-y-4">
         <div class="flex items-center gap-3">
           <Switch.switch
             id={"#{@id}-notify"}
@@ -1025,11 +1046,17 @@ defmodule DevelopmentWeb.Showcase.SwitchFormDemo do
           </div>
           <p :for={msg <- H.field_errors(f[:terms])} class="mt-1 text-sm text-error">{msg}</p>
         </div>
-        <button type="submit" class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content">
+        <button
+          type="submit"
+          class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content"
+        >
           Save settings
         </button>
       </.form>
-      <div :if={@saved} class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success">
+      <div
+        :if={@saved}
+        class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success"
+      >
         ✓ Saved — notifications {if @saved.notify, do: "on", else: "off"}, terms accepted (not persisted)
       </div>
     </div>
@@ -1077,15 +1104,26 @@ defmodule DevelopmentWeb.Showcase.ToggleFormDemo do
     changeset = cs(p)
 
     if changeset.valid?,
-      do: {:noreply, assign(socket, saved: apply_changes(changeset), form: to_form(changeset, as: :prefs))},
-      else: {:noreply, assign(socket, saved: nil, form: to_form(changeset, as: :prefs, action: :save))}
+      do:
+        {:noreply,
+         assign(socket, saved: apply_changes(changeset), form: to_form(changeset, as: :prefs))},
+      else:
+        {:noreply,
+         assign(socket, saved: nil, form: to_form(changeset, as: :prefs, action: :save))}
   end
 
   @impl true
   def render(assigns) do
     ~H"""
     <div>
-      <.form for={@form} phx-target={@myself} phx-change="validate" phx-submit="save" :let={f} class="space-y-4">
+      <.form
+        :let={f}
+        for={@form}
+        phx-target={@myself}
+        phx-change="validate"
+        phx-submit="save"
+        class="space-y-4"
+      >
         <div class="flex items-center gap-3">
           <Toggle.toggle
             id={"#{@id}-public"}
@@ -1100,11 +1138,17 @@ defmodule DevelopmentWeb.Showcase.ToggleFormDemo do
           </Toggle.toggle>
           <span class="text-sm font-medium">Profile visibility</span>
         </div>
-        <button type="submit" class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content">
+        <button
+          type="submit"
+          class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content"
+        >
           Save settings
         </button>
       </.form>
-      <div :if={@saved} class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success">
+      <div
+        :if={@saved}
+        class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success"
+      >
         ✓ Profile is {if @saved.public, do: "public 🌐", else: "private 🔒"} (not persisted)
       </div>
     </div>
@@ -1138,7 +1182,9 @@ defmodule DevelopmentWeb.Showcase.ToggleGroupFormDemo do
       {:ok,
        socket
        |> assign(assigns)
-       |> assign_new(:form, fn -> to_form(cs(%{"align" => "center", "styles" => ["bold"]}), as: :fmt) end)
+       |> assign_new(:form, fn ->
+         to_form(cs(%{"align" => "center", "styles" => ["bold"]}), as: :fmt)
+       end)
        |> assign_new(:saved, fn -> nil end)}
 
   @impl true
@@ -1150,18 +1196,33 @@ defmodule DevelopmentWeb.Showcase.ToggleGroupFormDemo do
     changeset = cs(p)
 
     if changeset.valid?,
-      do: {:noreply, assign(socket, saved: apply_changes(changeset), form: to_form(changeset, as: :fmt))},
-      else: {:noreply, assign(socket, saved: nil, form: to_form(changeset, as: :fmt, action: :save))}
+      do:
+        {:noreply,
+         assign(socket, saved: apply_changes(changeset), form: to_form(changeset, as: :fmt))},
+      else:
+        {:noreply, assign(socket, saved: nil, form: to_form(changeset, as: :fmt, action: :save))}
   end
 
   @impl true
   def render(assigns) do
     ~H"""
     <div>
-      <.form for={@form} phx-target={@myself} phx-change="validate" phx-submit="save" :let={f} class="space-y-4">
+      <.form
+        :let={f}
+        for={@form}
+        phx-target={@myself}
+        phx-change="validate"
+        phx-submit="save"
+        class="space-y-4"
+      >
         <div>
           <span class="mb-1.5 block text-sm font-medium">Alignment (single, required)</span>
-          <ToggleGroup.toggle_group id={"#{@id}-align"} name={f[:align].name} value={f[:align].value} class={tgc()}>
+          <ToggleGroup.toggle_group
+            id={"#{@id}-align"}
+            name={f[:align].name}
+            value={f[:align].value}
+            class={tgc()}
+          >
             <:item value="left">Left</:item>
             <:item value="center">Center</:item>
             <:item value="right">Right</:item>
@@ -1170,17 +1231,29 @@ defmodule DevelopmentWeb.Showcase.ToggleGroupFormDemo do
         </div>
         <div>
           <span class="mb-1.5 block text-sm font-medium">Styles (multiple, optional)</span>
-          <ToggleGroup.toggle_group id={"#{@id}-styles"} name={f[:styles].name} multiple value={f[:styles].value} class={tgc()}>
+          <ToggleGroup.toggle_group
+            id={"#{@id}-styles"}
+            name={f[:styles].name}
+            multiple
+            value={f[:styles].value}
+            class={tgc()}
+          >
             <:item value="bold">Bold</:item>
             <:item value="italic">Italic</:item>
             <:item value="underline">Underline</:item>
           </ToggleGroup.toggle_group>
         </div>
-        <button type="submit" class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content">
+        <button
+          type="submit"
+          class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content"
+        >
           Apply formatting
         </button>
       </.form>
-      <div :if={@saved} class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success">
+      <div
+        :if={@saved}
+        class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success"
+      >
         ✓ {@saved.align} · {(@saved.styles == [] && "no styles") || Enum.join(@saved.styles, ", ")} (not persisted)
       </div>
     </div>
@@ -1289,14 +1362,16 @@ defmodule DevelopmentWeb.Showcase.AlertDialogDemo do
        |> assign_new(:open, fn -> false end)}
 
   @impl true
-  def handle_event("delete", _p, socket), do: {:noreply, assign(socket, items: max(0, socket.assigns.items - 1))}
+  def handle_event("delete", _p, socket),
+    do: {:noreply, assign(socket, items: max(0, socket.assigns.items - 1))}
 
   # Controlled: track `open` so the on_open_change re-render confirms the open state
   # (instead of resetting data-open and closing the dialog).
   def handle_event("toggled", %{"open" => true}, socket),
     do: {:noreply, assign(socket, open: true, opened: socket.assigns.opened + 1)}
 
-  def handle_event("toggled", %{"open" => false}, socket), do: {:noreply, assign(socket, open: false)}
+  def handle_event("toggled", %{"open" => false}, socket),
+    do: {:noreply, assign(socket, open: false)}
 
   @impl true
   def render(assigns) do
@@ -1314,7 +1389,9 @@ defmodule DevelopmentWeb.Showcase.AlertDialogDemo do
         <:title>Delete this item?</:title>
         <:description>This permanently removes the item. This action cannot be undone.</:description>
         <:actions>
-          <button class="rounded-md border border-base-300 px-3 py-1.5 text-sm" data-close>Cancel</button>
+          <button class="rounded-md border border-base-300 px-3 py-1.5 text-sm" data-close>
+            Cancel
+          </button>
           <button
             class="rounded-md bg-error px-3 py-1.5 text-sm font-medium text-error-content"
             data-close

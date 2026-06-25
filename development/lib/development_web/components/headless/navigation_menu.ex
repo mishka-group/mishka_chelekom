@@ -37,7 +37,9 @@ defmodule DevelopmentWeb.Components.Headless.NavigationMenu do
   attr :content_class, :any, default: nil, doc: "Extra classes for each panel content"
   attr :rest, :global
 
-  slot :item, required: true, doc: "A nav item: a plain link, or a dropdown if it has body content" do
+  slot :item,
+    required: true,
+    doc: "A nav item: a plain link, or a dropdown if it has body content" do
     attr :label, :string, required: true
     attr :href, :string
     attr :value, :string, doc: "Stable id for this item (defaults to a generated one)"
@@ -110,9 +112,21 @@ defmodule DevelopmentWeb.Components.Headless.NavigationMenu do
       </ul>
 
       <div data-part="positioner" data-closed class="chelekom-navigation_menu__positioner">
-        <nav data-part="popup" id={"#{@id}-popup"} tabindex="-1" data-closed class="chelekom-navigation_menu__popup">
+        <nav
+          data-part="popup"
+          id={"#{@id}-popup"}
+          tabindex="-1"
+          data-closed
+          class="chelekom-navigation_menu__popup"
+        >
           <div data-part="viewport" class="chelekom-navigation_menu__viewport"></div>
-          <div :if={@arrow} data-part="arrow" aria-hidden="true" class="chelekom-navigation_menu__arrow"></div>
+          <div
+            :if={@arrow}
+            data-part="arrow"
+            aria-hidden="true"
+            class="chelekom-navigation_menu__arrow"
+          >
+          </div>
         </nav>
       </div>
     </nav>

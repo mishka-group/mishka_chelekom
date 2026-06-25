@@ -21,21 +21,45 @@ defmodule DevelopmentWeb.Components.Headless.Popover do
   @doc type: :component
   attr :id, :string, required: true, doc: "Unique id (anchors aria relationships)"
   attr :open, :boolean, default: false, doc: "Initial/controlled open state"
-  attr :side, :string, default: "bottom", values: ~w(top right bottom left), doc: "Preferred side to anchor the popup"
-  attr :align, :string, default: "center", values: ~w(start center end), doc: "Alignment along the side"
+
+  attr :side, :string,
+    default: "bottom",
+    values: ~w(top right bottom left),
+    doc: "Preferred side to anchor the popup"
+
+  attr :align, :string,
+    default: "center",
+    values: ~w(start center end),
+    doc: "Alignment along the side"
+
   attr :side_offset, :integer, default: 8, doc: "Gap between trigger and popup (px)"
   attr :align_offset, :integer, default: 0, doc: "Offset along the alignment axis (px)"
-  attr :modal, :any, default: false, doc: "false | true | \"trap-focus\" — focus trap / scroll lock / backdrop"
+
+  attr :modal, :any,
+    default: false,
+    doc: "false | true | \"trap-focus\" — focus trap / scroll lock / backdrop"
+
   attr :open_on_hover, :boolean, default: false, doc: "Open on trigger hover (with delay)"
   attr :delay, :integer, default: 300, doc: "Hover open delay (ms)"
   attr :close_delay, :integer, default: 0, doc: "Hover close delay (ms)"
   attr :dismissible, :boolean, default: true, doc: "Whether an outside click dismisses"
   attr :close_on_escape, :boolean, default: true, doc: "Whether Escape closes"
   attr :disabled, :boolean, default: false, doc: "Disable the trigger"
-  attr :initial_focus, :string, default: nil, doc: "Selector focused on open (default: first focusable / the popup)"
-  attr :final_focus, :string, default: nil, doc: "Selector focused on close (default: the trigger)"
+
+  attr :initial_focus, :string,
+    default: nil,
+    doc: "Selector focused on open (default: first focusable / the popup)"
+
+  attr :final_focus, :string,
+    default: nil,
+    doc: "Selector focused on close (default: the trigger)"
+
   attr :on_open_change, :string, default: nil, doc: "LiveView event pushed on open/close ({open})"
-  attr :on_open_change_target, :string, default: nil, doc: "Optional pushEventTo target for on_open_change"
+
+  attr :on_open_change_target, :string,
+    default: nil,
+    doc: "Optional pushEventTo target for on_open_change"
+
   attr :labelledby, :string, default: nil, doc: "Override aria-labelledby"
   attr :describedby, :string, default: nil, doc: "Override aria-describedby"
   attr :class, :any, default: nil, doc: "Extra classes for the root"

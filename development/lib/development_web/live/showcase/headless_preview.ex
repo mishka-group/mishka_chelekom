@@ -150,13 +150,24 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         Slides from the right. Click outside, press Escape, or hit Cancel — or drag the panel rightward to swipe it away.
       </:description>
       <div class="mt-1 space-y-2 text-sm">
-        <label class="flex items-center gap-2"><input type="checkbox" class="size-4" /> In stock</label>
-        <label class="flex items-center gap-2"><input type="checkbox" class="size-4" /> On sale</label>
-        <label class="flex items-center gap-2"><input type="checkbox" class="size-4" /> Free shipping</label>
+        <label class="flex items-center gap-2">
+          <input type="checkbox" class="size-4" /> In stock
+        </label>
+        <label class="flex items-center gap-2">
+          <input type="checkbox" class="size-4" /> On sale
+        </label>
+        <label class="flex items-center gap-2">
+          <input type="checkbox" class="size-4" /> Free shipping
+        </label>
       </div>
       <:close>
-        <button class="rounded-md border border-base-300 px-3 py-1.5 text-sm" data-close>Cancel</button>
-        <button class="rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-content" data-close>
+        <button class="rounded-md border border-base-300 px-3 py-1.5 text-sm" data-close>
+          Cancel
+        </button>
+        <button
+          class="rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-content"
+          data-close
+        >
           Apply
         </button>
       </:close>
@@ -317,13 +328,23 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     ~H"""
     <div class="flex flex-wrap items-center gap-4">
       <div class="flex flex-col items-center gap-1">
-        <.avatar id={@id} src="https://avatars.githubusercontent.com/u/8722951?v=4" alt="User avatar" class={avatar_class()}>
+        <.avatar
+          id={@id}
+          src="https://avatars.githubusercontent.com/u/8722951?v=4"
+          alt="User avatar"
+          class={avatar_class()}
+        >
           MC
         </.avatar>
         <span class="text-[0.7rem] text-base-content/40">loaded</span>
       </div>
       <div class="flex flex-col items-center gap-1">
-        <.avatar id={"#{@id}-broken"} src="https://example.invalid/missing.png" alt="Jane Doe" class={avatar_class()}>
+        <.avatar
+          id={"#{@id}-broken"}
+          src="https://example.invalid/missing.png"
+          alt="Jane Doe"
+          class={avatar_class()}
+        >
           JD
         </.avatar>
         <span class="text-[0.7rem] text-base-content/40">broken → fallback</span>
@@ -929,8 +950,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">
           Scroll fade · masks the edges via <code>--scroll-area-overflow-y-*</code>
         </p>
-        <.scroll_area id={"#{@id}-fade"} orientation="vertical" class={[scroll_area_class(), scroll_fade()]}>
-          <p :for={n <- 1..16} class="text-sm leading-relaxed">Line {n} — fades at the top/bottom while there's more to scroll.</p>
+        <.scroll_area
+          id={"#{@id}-fade"}
+          orientation="vertical"
+          class={[scroll_area_class(), scroll_fade()]}
+        >
+          <p :for={n <- 1..16} class="text-sm leading-relaxed">
+            Line {n} — fades at the top/bottom while there's more to scroll.
+          </p>
         </.scroll_area>
       </div>
 
@@ -939,7 +966,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         <.scroll_area id={"#{@id}-both"} orientation="both" class={scroll_area_class()}>
           <table class="text-sm">
             <tr :for={r <- 1..16}>
-              <td :for={c <- 1..8} class="whitespace-nowrap border border-base-200 px-3 py-1.5">R{r}C{c}</td>
+              <td :for={c <- 1..8} class="whitespace-nowrap border border-base-200 px-3 py-1.5">
+                R{r}C{c}
+              </td>
             </tr>
           </table>
         </.scroll_area>
@@ -1172,7 +1201,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         <p class="text-[0.7rem] uppercase tracking-wide text-base-content/40">
           Multiple · several pressed at once · one disabled item
         </p>
-        <.toggle_group id={"#{@id}-multi"} multiple value={["bold", "italic"]} class={toggle_group_class()}>
+        <.toggle_group
+          id={"#{@id}-multi"}
+          multiple
+          value={["bold", "italic"]}
+          class={toggle_group_class()}
+        >
           <:item value="bold">Bold</:item>
           <:item value="italic">Italic</:item>
           <:item value="underline" disabled>Underline</:item>
@@ -1701,7 +1735,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
           <code>&lt;.form&gt;</code>
           and is validated with <code>validate_number</code>
           (10–80) on submit. On success the handler assigns a fresh changeset, so the slider
-          <strong>resets back to the default (40)</strong> — the usual "form clears after save".
+          <strong>resets back to the default (40)</strong>
+          — the usual "form clears after save".
         </p>
         <div class="mt-4 max-w-sm">
           <.live_component module={DevelopmentWeb.Showcase.SliderFormDemo} id={"#{@id}-form"} />
@@ -1720,7 +1755,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
           assigns a fresh changeset to snap it back.
         </p>
         <div class="mt-4 max-w-sm">
-          <.live_component module={DevelopmentWeb.Showcase.SliderRangeFormDemo} id={"#{@id}-range-form"} />
+          <.live_component
+            module={DevelopmentWeb.Showcase.SliderRangeFormDemo}
+            id={"#{@id}-range-form"}
+          />
         </div>
       </details>
     </div>
@@ -1735,11 +1773,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
           In a form — settings with a required toggle
         </summary>
         <p class="mt-1 text-sm text-base-content/60">
-          Each switch carries a hidden checkbox; <code>value</code> / <code>unchecked_value</code>
+          Each switch carries a hidden checkbox; <code>value</code>
+          / <code>unchecked_value</code>
           submit a boolean either way (on → <code>"true"</code>, off → <code>"false"</code>), so
           <code>&lt;.form&gt;</code>
-          always gets a value. The terms switch is validated with
-          <code>validate_acceptance</code>
+          always gets a value. The terms switch is validated with <code>validate_acceptance</code>
           on submit.
         </p>
         <div class="mt-4 max-w-sm">
@@ -1760,9 +1798,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         <p class="mt-1 text-sm text-base-content/60">
           A pressed button isn't a form control in Base UI, but giving it a <code>name</code>
           opts into form submission: it renders a hidden checkbox the engine keeps in sync, so
-          <code>value</code> / <code>unchecked_value</code>
-          submit a boolean either way and it works with <code>&lt;.form&gt;</code> (cast to
-          <code>:boolean</code>).
+          <code>value</code>
+          / <code>unchecked_value</code>
+          submit a boolean either way and it works with <code>&lt;.form&gt;</code>
+          (cast to <code>:boolean</code>).
         </p>
         <div class="mt-4 max-w-sm">
           <.live_component module={DevelopmentWeb.Showcase.ToggleFormDemo} id={"#{@id}-form"} />
@@ -1780,9 +1819,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
           In a form — single + multiple selection
         </summary>
         <p class="mt-1 text-sm text-base-content/60">
-          A single-select group submits one value (<code>name</code>, validated
-          <code>required</code>); a multiple group submits an array (<code>name[]</code>, cast to
-          <code>{"{:array, :string}"}</code>). The hook mirrors the pressed values into hidden inputs,
+          A single-select group submits one value (<code>name</code>, validated <code>required</code>); a multiple group submits an array (<code>name[]</code>, cast to <code>{"{:array, :string}"}</code>). The hook mirrors the pressed values into hidden inputs,
           so both work with <code>&lt;.form&gt;</code>.
         </p>
         <div class="mt-4 max-w-sm">
@@ -1843,8 +1880,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
           Push to the server — controlled tabs (on_change + value)
         </summary>
         <p class="mt-1 text-sm text-base-content/60">
-          Switching a tab pushes <code>{"%{value}"}</code> to the LiveComponent via
-          <code>on_change</code> / <code>on_change_target</code>; the server stores it and feeds it
+          Switching a tab pushes <code>{"%{value}"}</code>
+          to the LiveComponent via <code>on_change</code>
+          / <code>on_change_target</code>; the server stores it and feeds it
           back through <code>value</code>
           — so it stays in sync, and the server can drive the tab itself (the button).
         </p>
@@ -1866,8 +1904,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         <p class="mt-1 text-sm text-base-content/60">
           The alert never dismisses on an outside click — only the buttons (or Escape) close it. The
           <strong>Delete</strong>
-          button has <code>data-close</code> (closes) plus <code>phx-click</code>
-          (deletes server-side), and <code>on_open_change</code> reports each open/close.
+          button has <code>data-close</code>
+          (closes) plus <code>phx-click</code>
+          (deletes server-side), and <code>on_open_change</code>
+          reports each open/close.
         </p>
         <div class="mt-4">
           <.live_component module={DevelopmentWeb.Showcase.AlertDialogDemo} id={"#{@id}-demo"} />
@@ -1881,10 +1921,26 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
 
   defp nav_handbook do
     [
-      %{title: "Styling", href: "#styling", desc: "Plain CSS, Tailwind, CSS-in-JS, or CSS Modules."},
-      %{title: "Animation", href: "#animation", desc: "CSS transitions, animations, or JS libraries."},
-      %{title: "Composition", href: "#composition", desc: "Replace and compose with your own elements."},
-      %{title: "Accessibility", href: "#a11y", desc: "ARIA, focus management and keyboard built in."}
+      %{
+        title: "Styling",
+        href: "#styling",
+        desc: "Plain CSS, Tailwind, CSS-in-JS, or CSS Modules."
+      },
+      %{
+        title: "Animation",
+        href: "#animation",
+        desc: "CSS transitions, animations, or JS libraries."
+      },
+      %{
+        title: "Composition",
+        href: "#composition",
+        desc: "Replace and compose with your own elements."
+      },
+      %{
+        title: "Accessibility",
+        href: "#a11y",
+        desc: "ARIA, focus management and keyboard built in."
+      }
     ]
   end
 

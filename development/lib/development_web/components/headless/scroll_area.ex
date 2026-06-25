@@ -54,7 +54,8 @@ defmodule DevelopmentWeb.Components.Headless.ScrollArea do
         data-orientation="horizontal"
         class="chelekom-scroll_area__scrollbar"
       >
-        <div data-part="thumb" data-orientation="horizontal" class="chelekom-scroll_area__thumb"></div>
+        <div data-part="thumb" data-orientation="horizontal" class="chelekom-scroll_area__thumb">
+        </div>
       </div>
 
       <div :if={@orientation == "both"} data-part="corner" class="chelekom-scroll_area__corner"></div>

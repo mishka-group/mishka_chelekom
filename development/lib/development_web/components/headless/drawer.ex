@@ -19,21 +19,59 @@ defmodule DevelopmentWeb.Components.Headless.Drawer do
   @doc type: :component
   attr :id, :string, required: true, doc: "Unique id (anchors aria + indent scope + hook)"
   attr :open, :boolean, default: false, doc: "Initial/controlled open state"
-  attr :side, :string, default: "right", values: ~w(left right top bottom), doc: "Edge the drawer slides from"
-  attr :swipe_direction, :string, default: nil, values: [nil, "up", "down", "left", "right"], doc: "Dismiss direction (defaults from side)"
-  attr :modal, :any, default: true, doc: "true | false | \"trap-focus\" — focus trap / scroll lock / backdrop"
+
+  attr :side, :string,
+    default: "right",
+    values: ~w(left right top bottom),
+    doc: "Edge the drawer slides from"
+
+  attr :swipe_direction, :string,
+    default: nil,
+    values: [nil, "up", "down", "left", "right"],
+    doc: "Dismiss direction (defaults from side)"
+
+  attr :modal, :any,
+    default: true,
+    doc: "true | false | \"trap-focus\" — focus trap / scroll lock / backdrop"
+
   attr :dismissible, :boolean, default: true, doc: "Whether an outside (backdrop) click dismisses"
   attr :close_on_escape, :boolean, default: true, doc: "Whether Escape closes"
   attr :swipe, :boolean, default: true, doc: "Enable swipe-to-dismiss"
-  attr :swipe_area, :boolean, default: false, doc: "Render an edge swipe-area that opens a closed drawer"
-  attr :swipe_area_direction, :string, default: nil, doc: "Explicit open direction for the swipe-area"
-  attr :snap_points, :list, default: [], doc: "Bottom-sheet snap points (fraction ≤1, px >1, \"Npx\", \"Nrem\"); vertical only"
-  attr :default_snap_point, :any, default: nil, doc: "Initial active snap point (defaults to the first)"
-  attr :snap_to_sequential_points, :boolean, default: false, doc: "One snap point per flick (no velocity skipping)"
+
+  attr :swipe_area, :boolean,
+    default: false,
+    doc: "Render an edge swipe-area that opens a closed drawer"
+
+  attr :swipe_area_direction, :string,
+    default: nil,
+    doc: "Explicit open direction for the swipe-area"
+
+  attr :snap_points, :list,
+    default: [],
+    doc: "Bottom-sheet snap points (fraction ≤1, px >1, \"Npx\", \"Nrem\"); vertical only"
+
+  attr :default_snap_point, :any,
+    default: nil,
+    doc: "Initial active snap point (defaults to the first)"
+
+  attr :snap_to_sequential_points, :boolean,
+    default: false,
+    doc: "One snap point per flick (no velocity skipping)"
+
   attr :on_open_change, :string, default: nil, doc: "LiveView event pushed on open/close ({open})"
-  attr :on_open_change_target, :string, default: nil, doc: "Optional pushEventTo target for on_open_change"
-  attr :on_snap_point_change, :string, default: nil, doc: "LiveView event pushed when the active snap point changes ({value})"
-  attr :on_snap_point_change_target, :string, default: nil, doc: "Optional pushEventTo target for on_snap_point_change"
+
+  attr :on_open_change_target, :string,
+    default: nil,
+    doc: "Optional pushEventTo target for on_open_change"
+
+  attr :on_snap_point_change, :string,
+    default: nil,
+    doc: "LiveView event pushed when the active snap point changes ({value})"
+
+  attr :on_snap_point_change_target, :string,
+    default: nil,
+    doc: "Optional pushEventTo target for on_snap_point_change"
+
   attr :labelledby, :string, default: nil, doc: "Override aria-labelledby"
   attr :describedby, :string, default: nil, doc: "Override aria-describedby"
   attr :class, :any, default: nil, doc: "Extra classes for the root"
@@ -53,7 +91,10 @@ defmodule DevelopmentWeb.Components.Headless.Drawer do
       assigns
       |> assign(:dismiss_dir, dismiss_dir)
       |> assign(:area_dir, assigns.swipe_area_direction || drawer_opposite_dir(dismiss_dir))
-      |> assign(:snap_json, (assigns.snap_points != [] && Jason.encode!(assigns.snap_points)) || nil)
+      |> assign(
+        :snap_json,
+        (assigns.snap_points != [] && Jason.encode!(assigns.snap_points)) || nil
+      )
 
     ~H"""
     <div
@@ -115,13 +156,23 @@ defmodule DevelopmentWeb.Components.Headless.Drawer do
           data-open={@open}
           data-closed={!@open}
         >
-          <div :if={@handle != []} data-part="handle" aria-hidden="true" class="chelekom-drawer__handle">
+          <div
+            :if={@handle != []}
+            data-part="handle"
+            aria-hidden="true"
+            class="chelekom-drawer__handle"
+          >
             {render_slot(@handle)}
           </div>
           <h2 :if={@title != []} id={"#{@id}-title"} data-part="title" class="chelekom-drawer__title">
             {render_slot(@title)}
           </h2>
-          <p :if={@description != []} id={"#{@id}-desc"} data-part="description" class="chelekom-drawer__description">
+          <p
+            :if={@description != []}
+            id={"#{@id}-desc"}
+            data-part="description"
+            class="chelekom-drawer__description"
+          >
             {render_slot(@description)}
           </p>
           <div data-part="content" class="chelekom-drawer__content">{render_slot(@inner_block)}</div>

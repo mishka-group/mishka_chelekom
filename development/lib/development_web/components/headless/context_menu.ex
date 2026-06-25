@@ -32,7 +32,11 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
   attr :id, :string, required: true, doc: "Unique id (anchors aria relationships)"
   attr :disabled, :boolean, default: false, doc: "Disable all interaction"
   attr :on_open_change, :string, default: nil, doc: "LiveView event pushed on open/close ({open})"
-  attr :on_open_change_target, :string, default: nil, doc: "Optional pushEventTo target for on_open_change"
+
+  attr :on_open_change_target, :string,
+    default: nil,
+    doc: "Optional pushEventTo target for on_open_change"
+
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :rest, :global
 
@@ -83,8 +87,23 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
       >
         {render_slot(@inner_block)}
         <div :for={it <- @item} style="display: contents">
-          <div :if={it[:type] == "separator"} role="separator" data-part="separator" data-orientation="horizontal" aria-orientation="horizontal" class="chelekom-context_menu__separator"></div>
-          <div :if={it[:type] == "label"} role="presentation" data-part="group-label" class="chelekom-context_menu__group-label">{render_slot(it)}</div>
+          <div
+            :if={it[:type] == "separator"}
+            role="separator"
+            data-part="separator"
+            data-orientation="horizontal"
+            aria-orientation="horizontal"
+            class="chelekom-context_menu__separator"
+          >
+          </div>
+          <div
+            :if={it[:type] == "label"}
+            role="presentation"
+            data-part="group-label"
+            class="chelekom-context_menu__group-label"
+          >
+            {render_slot(it)}
+          </div>
           <button
             :if={it[:type] == "checkbox"}
             type="button"
@@ -100,7 +119,15 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
             tabindex="-1"
             class="chelekom-context_menu__checkbox-item"
           >
-            <span data-part="checkbox-item-indicator" aria-hidden="true" data-checked={it[:checked] == true} data-unchecked={it[:checked] != true} class="chelekom-context_menu__indicator">✓</span>
+            <span
+              data-part="checkbox-item-indicator"
+              aria-hidden="true"
+              data-checked={it[:checked] == true}
+              data-unchecked={it[:checked] != true}
+              class="chelekom-context_menu__indicator"
+            >
+              ✓
+            </span>
             {render_slot(it)}
           </button>
           <button
@@ -120,10 +147,28 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
             tabindex="-1"
             class="chelekom-context_menu__radio-item"
           >
-            <span data-part="radio-item-indicator" aria-hidden="true" data-checked={it[:checked] == true} data-unchecked={it[:checked] != true} class="chelekom-context_menu__indicator">●</span>
+            <span
+              data-part="radio-item-indicator"
+              aria-hidden="true"
+              data-checked={it[:checked] == true}
+              data-unchecked={it[:checked] != true}
+              class="chelekom-context_menu__indicator"
+            >
+              ●
+            </span>
             {render_slot(it)}
           </button>
-          <a :if={it[:type] == "link"} href={it[:href]} role="menuitem" data-part="link-item" data-label={it[:label]} tabindex="-1" class="chelekom-context_menu__link-item">{render_slot(it)}</a>
+          <a
+            :if={it[:type] == "link"}
+            href={it[:href]}
+            role="menuitem"
+            data-part="link-item"
+            data-label={it[:label]}
+            tabindex="-1"
+            class="chelekom-context_menu__link-item"
+          >
+            {render_slot(it)}
+          </a>
           <button
             :if={it[:type] in [nil, "item"]}
             type="button"
@@ -156,7 +201,13 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
             class="chelekom-context_menu__submenu-trigger"
           >
             {sm[:label]}
-            <span data-part="submenu-chevron" aria-hidden="true" class="chelekom-context_menu__chevron">›</span>
+            <span
+              data-part="submenu-chevron"
+              aria-hidden="true"
+              class="chelekom-context_menu__chevron"
+            >
+              ›
+            </span>
           </button>
           <div
             id={"#{@id}-sub-#{idx}"}
@@ -237,7 +288,9 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
         data-checked={@checked}
         data-unchecked={!@checked}
         class="chelekom-context_menu__indicator"
-      >{if @indicator != [], do: render_slot(@indicator), else: "✓"}</span>
+      >
+        {if @indicator != [], do: render_slot(@indicator), else: "✓"}
+      </span>
       {render_slot(@inner_block)}
     </button>
     """
@@ -276,7 +329,12 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
 
   @doc type: :component
   attr :value, :string, required: true
-  attr :name, :string, default: nil, doc: "Radio group name (single-selects items sharing it; alternative to a radio_group wrapper)"
+
+  attr :name, :string,
+    default: nil,
+    doc:
+      "Radio group name (single-selects items sharing it; alternative to a radio_group wrapper)"
+
   attr :checked, :boolean, default: false
   attr :disabled, :boolean, default: false
   attr :label, :string, default: nil
@@ -312,7 +370,9 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
         data-checked={@checked}
         data-unchecked={!@checked}
         class="chelekom-context_menu__indicator"
-      >{if @indicator != [], do: render_slot(@indicator), else: "●"}</span>
+      >
+        {if @indicator != [], do: render_slot(@indicator), else: "●"}
+      </span>
       {render_slot(@inner_block)}
     </button>
     """
@@ -419,7 +479,9 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
         class="chelekom-context_menu__submenu-trigger"
       >
         {@label}
-        <span data-part="submenu-chevron" aria-hidden="true" class="chelekom-context_menu__chevron">{if @chevron != [], do: render_slot(@chevron), else: "›"}</span>
+        <span data-part="submenu-chevron" aria-hidden="true" class="chelekom-context_menu__chevron">
+          {if @chevron != [], do: render_slot(@chevron), else: "›"}
+        </span>
       </button>
       <div
         id={"#{@id}-sub"}

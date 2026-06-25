@@ -31,9 +31,21 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
   attr :id, :string, required: true, doc: "Unique id (anchors aria relationships)"
   attr :disabled, :boolean, default: false, doc: "Disable all interaction"
   attr :on_open_change, :string, default: nil, doc: "LiveView event pushed on open/close ({open})"
-  attr :on_open_change_target, :string, default: nil, doc: "Optional pushEventTo target for on_open_change"
-  attr :side, :string, default: "bottom", values: ~w(top right bottom left), doc: "Preferred side to anchor the popup"
-  attr :align, :string, default: "start", values: ~w(start center end), doc: "Alignment along the side"
+
+  attr :on_open_change_target, :string,
+    default: nil,
+    doc: "Optional pushEventTo target for on_open_change"
+
+  attr :side, :string,
+    default: "bottom",
+    values: ~w(top right bottom left),
+    doc: "Preferred side to anchor the popup"
+
+  attr :align, :string,
+    default: "start",
+    values: ~w(start center end),
+    doc: "Alignment along the side"
+
   attr :side_offset, :integer, default: 4, doc: "Gap between the trigger and popup (px)"
   attr :align_offset, :integer, default: 0, doc: "Offset along the alignment axis (px)"
   attr :open_on_hover, :boolean, default: false, doc: "Open on trigger hover (with delay)"
@@ -105,8 +117,23 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
       >
         {render_slot(@inner_block)}
         <div :for={it <- @item} style="display: contents">
-          <div :if={it[:type] == "separator"} role="separator" data-part="separator" data-orientation="horizontal" aria-orientation="horizontal" class="chelekom-menu__separator"></div>
-          <div :if={it[:type] == "label"} role="presentation" data-part="group-label" class="chelekom-menu__group-label">{render_slot(it)}</div>
+          <div
+            :if={it[:type] == "separator"}
+            role="separator"
+            data-part="separator"
+            data-orientation="horizontal"
+            aria-orientation="horizontal"
+            class="chelekom-menu__separator"
+          >
+          </div>
+          <div
+            :if={it[:type] == "label"}
+            role="presentation"
+            data-part="group-label"
+            class="chelekom-menu__group-label"
+          >
+            {render_slot(it)}
+          </div>
           <button
             :if={it[:type] == "checkbox"}
             type="button"
@@ -122,7 +149,15 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
             tabindex="-1"
             class="chelekom-menu__checkbox-item"
           >
-            <span data-part="checkbox-item-indicator" aria-hidden="true" data-checked={it[:checked] == true} data-unchecked={it[:checked] != true} class="chelekom-menu__indicator">✓</span>
+            <span
+              data-part="checkbox-item-indicator"
+              aria-hidden="true"
+              data-checked={it[:checked] == true}
+              data-unchecked={it[:checked] != true}
+              class="chelekom-menu__indicator"
+            >
+              ✓
+            </span>
             {render_slot(it)}
           </button>
           <button
@@ -142,10 +177,28 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
             tabindex="-1"
             class="chelekom-menu__radio-item"
           >
-            <span data-part="radio-item-indicator" aria-hidden="true" data-checked={it[:checked] == true} data-unchecked={it[:checked] != true} class="chelekom-menu__indicator">●</span>
+            <span
+              data-part="radio-item-indicator"
+              aria-hidden="true"
+              data-checked={it[:checked] == true}
+              data-unchecked={it[:checked] != true}
+              class="chelekom-menu__indicator"
+            >
+              ●
+            </span>
             {render_slot(it)}
           </button>
-          <a :if={it[:type] == "link"} href={it[:href]} role="menuitem" data-part="link-item" data-label={it[:label]} tabindex="-1" class="chelekom-menu__link-item">{render_slot(it)}</a>
+          <a
+            :if={it[:type] == "link"}
+            href={it[:href]}
+            role="menuitem"
+            data-part="link-item"
+            data-label={it[:label]}
+            tabindex="-1"
+            class="chelekom-menu__link-item"
+          >
+            {render_slot(it)}
+          </a>
           <button
             :if={it[:type] in [nil, "item"]}
             type="button"
@@ -178,7 +231,9 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
             class="chelekom-menu__submenu-trigger"
           >
             {sm[:label]}
-            <span data-part="submenu-chevron" aria-hidden="true" class="chelekom-menu__chevron">›</span>
+            <span data-part="submenu-chevron" aria-hidden="true" class="chelekom-menu__chevron">
+              ›
+            </span>
           </button>
           <div
             id={"#{@id}-sub-#{idx}"}
@@ -259,7 +314,9 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
         data-checked={@checked}
         data-unchecked={!@checked}
         class="chelekom-menu__indicator"
-      >{if @indicator != [], do: render_slot(@indicator), else: "✓"}</span>
+      >
+        {if @indicator != [], do: render_slot(@indicator), else: "✓"}
+      </span>
       {render_slot(@inner_block)}
     </button>
     """
@@ -298,7 +355,12 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
 
   @doc type: :component
   attr :value, :string, required: true
-  attr :name, :string, default: nil, doc: "Radio group name (single-selects items sharing it; alternative to a radio_group wrapper)"
+
+  attr :name, :string,
+    default: nil,
+    doc:
+      "Radio group name (single-selects items sharing it; alternative to a radio_group wrapper)"
+
   attr :checked, :boolean, default: false
   attr :disabled, :boolean, default: false
   attr :label, :string, default: nil
@@ -334,7 +396,9 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
         data-checked={@checked}
         data-unchecked={!@checked}
         class="chelekom-menu__indicator"
-      >{if @indicator != [], do: render_slot(@indicator), else: "●"}</span>
+      >
+        {if @indicator != [], do: render_slot(@indicator), else: "●"}
+      </span>
       {render_slot(@inner_block)}
     </button>
     """
@@ -441,7 +505,9 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
         class="chelekom-menu__submenu-trigger"
       >
         {@label}
-        <span data-part="submenu-chevron" aria-hidden="true" class="chelekom-menu__chevron">{if @chevron != [], do: render_slot(@chevron), else: "›"}</span>
+        <span data-part="submenu-chevron" aria-hidden="true" class="chelekom-menu__chevron">
+          {if @chevron != [], do: render_slot(@chevron), else: "›"}
+        </span>
       </button>
       <div
         id={"#{@id}-sub"}

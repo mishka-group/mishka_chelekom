@@ -19,15 +19,28 @@ defmodule DevelopmentWeb.Components.Headless.PreviewCard do
   @doc type: :component
   attr :id, :string, required: true, doc: "Unique id (anchors aria relationships)"
   attr :open, :boolean, default: false, doc: "Initial/controlled open state"
-  attr :side, :string, default: "bottom", values: ~w(top right bottom left), doc: "Preferred side to anchor the popup"
-  attr :align, :string, default: "center", values: ~w(start center end), doc: "Alignment along the side"
+
+  attr :side, :string,
+    default: "bottom",
+    values: ~w(top right bottom left),
+    doc: "Preferred side to anchor the popup"
+
+  attr :align, :string,
+    default: "center",
+    values: ~w(start center end),
+    doc: "Alignment along the side"
+
   attr :side_offset, :integer, default: 8, doc: "Gap between trigger and popup (px)"
   attr :align_offset, :integer, default: 0, doc: "Offset along the alignment axis (px)"
   attr :delay, :integer, default: 600, doc: "Hover open delay (ms)"
   attr :close_delay, :integer, default: 300, doc: "Hover/blur close delay (ms)"
   attr :close_on_escape, :boolean, default: true, doc: "Whether Escape closes"
   attr :on_open_change, :string, default: nil, doc: "LiveView event pushed on open/close ({open})"
-  attr :on_open_change_target, :string, default: nil, doc: "Optional pushEventTo target for on_open_change"
+
+  attr :on_open_change_target, :string,
+    default: nil,
+    doc: "Optional pushEventTo target for on_open_change"
+
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :rest, :global
 

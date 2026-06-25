@@ -22,8 +22,15 @@ defmodule DevelopmentWeb.Components.Headless.ToggleGroup do
   @doc type: :component
   attr :id, :string, required: true
   attr :name, :string, default: nil, doc: "Form field name (single → name, multiple → name[])"
-  attr :value, :any, default: nil, doc: "Pressed value(s) — a list, or a single string (Phoenix form value)"
-  attr :multiple, :boolean, default: false, doc: "Allow several items pressed at once (data-multiple)"
+
+  attr :value, :any,
+    default: nil,
+    doc: "Pressed value(s) — a list, or a single string (Phoenix form value)"
+
+  attr :multiple, :boolean,
+    default: false,
+    doc: "Allow several items pressed at once (data-multiple)"
+
   attr :disabled, :boolean, default: false, doc: "Disable the whole group (data-disabled)"
   attr :orientation, :string, default: "horizontal", doc: "horizontal | vertical (arrow-key axis)"
   attr :loop, :boolean, default: true, doc: "Loop arrow-key focus past the ends"
@@ -47,7 +54,10 @@ defmodule DevelopmentWeb.Components.Headless.ToggleGroup do
 
     # The tabbable entry is the first pressed-and-enabled item, else the first enabled one.
     tabbable =
-      Enum.find_index(assigns.item, &(&1[:value] in values and !(&1[:disabled] || assigns.disabled))) ||
+      Enum.find_index(
+        assigns.item,
+        &(&1[:value] in values and !(&1[:disabled] || assigns.disabled))
+      ) ||
         Enum.find_index(assigns.item, &(!(&1[:disabled] || assigns.disabled))) || 0
 
     assigns = assign(assigns, values: values, tabbable: tabbable)
@@ -70,9 +80,21 @@ defmodule DevelopmentWeb.Components.Headless.ToggleGroup do
     >
       <span data-part="value-inputs" class="chelekom-sr-only">
         <%= for v <- @values do %>
-          <input :if={@name} type="hidden" name={if @multiple, do: "#{@name}[]", else: @name} value={v} form={@form} />
+          <input
+            :if={@name}
+            type="hidden"
+            name={if @multiple, do: "#{@name}[]", else: @name}
+            value={v}
+            form={@form}
+          />
         <% end %>
-        <input :if={@name && @values == [] && !@multiple} type="hidden" name={@name} value="" form={@form} />
+        <input
+          :if={@name && @values == [] && !@multiple}
+          type="hidden"
+          name={@name}
+          value=""
+          form={@form}
+        />
       </span>
 
       <button
