@@ -166,7 +166,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessKitDemo do
       <.my_checkbox id="hl-checkbox-skin" name="terms" value="accepted" checked>
         I agree to the terms and conditions
       </.my_checkbox>
-      <div id="hl-checkbox-grp" phx-hook="CheckboxGroup" role="group" aria-label="Fruit">
+      <div id="hl-checkbox-grp-skin" phx-hook="CheckboxGroup" role="group" aria-label="Fruit">
         <.my_checkbox id="hl-cb-all" parent indeterminate>Apples</.my_checkbox>
         <div class="ml-6 mt-1 flex flex-col gap-1.5">
           <.my_checkbox id="hl-cb-fuji" checked>Fuji</.my_checkbox>
