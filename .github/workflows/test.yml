@@ -4,9 +4,9 @@ permissions:
 
 on:
   push:
-    branches: [master]
+    branches: [master, sup-headless-cli]
   pull_request:
-    branches: [master]
+    branches: [master, sup-headless-cli]
 
 jobs:
   test:
@@ -66,3 +66,34 @@ jobs:
         env:
           MIX_ENV: test
         run: mix test --trace
+
+  idempotency:
+    name: Generators are idempotent (development harness)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1.20.4
+        with:
+          elixir-version: "1.18.4"
+          otp-version: "28"
+
+      - name: Install Hex and Rebar
+        run: |
+          mix local.hex --force
+          mix local.rebar --force
+
+      - name: Install development harness deps
+        working-directory: development
+        run: mix deps.get
+
+      # Re-running the CLI against the already-generated harness must change NOTHING.
+      # Fails (exit 1, listing the drifted files) if the committed output is out of sync
+      # with the current templates/theme — regenerate and commit to fix.
+      - name: Generators must produce no changes on re-run
+        working-directory: development
+        env:
+          MIX_ENV: dev
+        run: mix run idempotency_check.exs

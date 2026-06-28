@@ -65,7 +65,8 @@ const liveSocket = new LiveSocket("/live", Socket, {
             el.toggleAttribute("data-complete", complete);
             el.toggleAttribute("data-progressing", !complete);
           });
-          if (indicator) indicator.style.setProperty("--chelekom-progress", v / max);
+          if (indicator)
+            indicator.style.setProperty("--chelekom-progress", v / max);
           if (valueEl) valueEl.textContent = `${v}%`;
         };
         this.timer = setInterval(() => {
@@ -98,19 +99,19 @@ liveSocket.connect();
 // >> liveSocket.enableLatencySim(1000)  // enabled for duration of browser session
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket;
-
 // Floating light/dark toggle (rendered in root.html.heex). Delegated on window so it works on
 // every page and survives LiveView re-renders. Reuses Phoenix's `phx:theme` localStorage key.
 window.addEventListener("click", (e) => {
   if (!e.target.closest("[data-theme-toggle]")) return;
   const current =
     document.documentElement.getAttribute("data-theme") ||
-    (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    (window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light");
   const next = current === "dark" ? "light" : "dark";
   localStorage.setItem("phx:theme", next);
   document.documentElement.setAttribute("data-theme", next);
 });
-
 // The lines below enable quality of life phoenix_live_reload
 // development features:
 //
