@@ -58,19 +58,19 @@ defmodule DevelopmentWeb.Showcase.NumberFieldFormDemo do
           max="10"
           step="1"
           phx-update="ignore"
-          class="inline-flex items-center rounded-md border border-base-300 [&_[data-part=decrement]]:px-3 [&_[data-part=decrement]]:py-1.5 [&_[data-part=decrement]]:text-lg [&_[data-part=decrement]]:hover:bg-base-200 [&_[data-part=increment]]:px-3 [&_[data-part=increment]]:py-1.5 [&_[data-part=increment]]:text-lg [&_[data-part=increment]]:hover:bg-base-200 [&_[data-part=input]]:w-16 [&_[data-part=input]]:border-x [&_[data-part=input]]:border-base-300 [&_[data-part=input]]:py-1.5 [&_[data-part=input]]:text-center [&_[data-part=input]]:outline-none"
+          class="inline-flex items-center rounded-md border border-[var(--c-base-300)] [&_[data-part=decrement]]:px-3 [&_[data-part=decrement]]:py-1.5 [&_[data-part=decrement]]:text-lg [&_[data-part=decrement]]:hover:bg-[var(--c-base-200)] [&_[data-part=increment]]:px-3 [&_[data-part=increment]]:py-1.5 [&_[data-part=increment]]:text-lg [&_[data-part=increment]]:hover:bg-[var(--c-base-200)] [&_[data-part=input]]:w-16 [&_[data-part=input]]:border-x [&_[data-part=input]]:border-[var(--c-base-300)] [&_[data-part=input]]:py-1.5 [&_[data-part=input]]:text-center [&_[data-part=input]]:outline-none"
         />
-        <p :for={e <- f[:qty].errors} class="text-sm text-error">{H.err(e)}</p>
+        <p :for={e <- f[:qty].errors} class="text-sm text-[var(--c-error)]">{H.err(e)}</p>
         <button
           type="submit"
-          class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content"
+          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content"
         >
           Order
         </button>
       </.form>
       <div
         :if={@saved}
-        class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success"
+        class="mt-3 rounded-md border border-[var(--c-success)]/40 bg-[var(--c-success)]/10 p-3 text-sm font-medium text-[var(--c-success)]"
       >
         ✓ Ordered quantity {@saved.qty} (not persisted)
       </div>
@@ -135,17 +135,17 @@ defmodule DevelopmentWeb.Showcase.ComboboxFormDemo do
           <:option value="cherry">Cherry</:option>
           <:empty>No fruit found.</:empty>
         </Combobox.combobox>
-        <p :for={e <- f[:fruit].errors} class="text-sm text-error">{H.err(e)}</p>
+        <p :for={e <- f[:fruit].errors} class="text-sm text-[var(--c-error)]">{H.err(e)}</p>
         <button
           type="submit"
-          class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content"
+          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content"
         >
           Save
         </button>
       </.form>
       <div
         :if={@saved}
-        class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success"
+        class="mt-3 rounded-md border border-[var(--c-success)]/40 bg-[var(--c-success)]/10 p-3 text-sm font-medium text-[var(--c-success)]"
       >
         ✓ Picked {@saved.fruit} (not persisted)
       </div>
@@ -162,12 +162,12 @@ defmodule DevelopmentWeb.Showcase.ComboboxFormDemo do
   defp combo_class do
     [
       "relative w-64",
-      "[&_[data-part=control]]:flex [&_[data-part=control]]:items-center [&_[data-part=control]]:rounded-md [&_[data-part=control]]:border [&_[data-part=control]]:border-base-300 [&_[data-part=control]]:bg-base-100 [&_[data-part=control]]:px-2 [&_[data-part=control]]:py-1",
+      "[&_[data-part=control]]:flex [&_[data-part=control]]:items-center [&_[data-part=control]]:rounded-md [&_[data-part=control]]:border [&_[data-part=control]]:border-[var(--c-base-300)] [&_[data-part=control]]:bg-[var(--c-base-100)] [&_[data-part=control]]:px-2 [&_[data-part=control]]:py-1",
       "[&_[data-part=input]]:flex-1 [&_[data-part=input]]:border-0 [&_[data-part=input]]:bg-transparent [&_[data-part=input]]:px-1 [&_[data-part=input]]:text-sm [&_[data-part=input]]:outline-none",
-      "[&_[data-part=clear]]:px-1 [&_[data-part=clear]]:text-base-content/40 [&_[data-part=clear][data-hidden]]:hidden",
-      "[&_[data-part=popup]]:absolute [&_[data-part=popup]]:left-0 [&_[data-part=popup]]:right-0 [&_[data-part=popup]]:top-full [&_[data-part=popup]]:z-10 [&_[data-part=popup]]:mt-1 [&_[data-part=popup]]:max-h-56 [&_[data-part=popup]]:overflow-auto [&_[data-part=popup]]:rounded-md [&_[data-part=popup]]:border [&_[data-part=popup]]:border-base-300 [&_[data-part=popup]]:bg-base-100 [&_[data-part=popup]]:p-1 [&_[data-part=popup]]:shadow-lg [&_[data-part=popup][data-closed]]:hidden",
-      "[&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:rounded [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1.5 [&_[data-part=item][data-highlighted]]:bg-base-200 [&_[data-part=item][data-selected]]:font-semibold",
-      "[&_[data-part=empty]]:px-3 [&_[data-part=empty]]:py-2 [&_[data-part=empty]]:text-sm [&_[data-part=empty]]:text-base-content/50"
+      "[&_[data-part=clear]]:px-1 [&_[data-part=clear]]:text-[var(--c-base-content)]/40 [&_[data-part=clear][data-hidden]]:hidden",
+      "[&_[data-part=popup]]:absolute [&_[data-part=popup]]:left-0 [&_[data-part=popup]]:right-0 [&_[data-part=popup]]:top-full [&_[data-part=popup]]:z-10 [&_[data-part=popup]]:mt-1 [&_[data-part=popup]]:max-h-56 [&_[data-part=popup]]:overflow-auto [&_[data-part=popup]]:rounded-md [&_[data-part=popup]]:border [&_[data-part=popup]]:border-[var(--c-base-300)] [&_[data-part=popup]]:bg-[var(--c-base-100)] [&_[data-part=popup]]:p-1 [&_[data-part=popup]]:shadow-lg [&_[data-part=popup][data-closed]]:hidden",
+      "[&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:rounded [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1.5 [&_[data-part=item][data-highlighted]]:bg-[var(--c-base-200)] [&_[data-part=item][data-selected]]:font-semibold",
+      "[&_[data-part=empty]]:px-3 [&_[data-part=empty]]:py-2 [&_[data-part=empty]]:text-sm [&_[data-part=empty]]:text-[var(--c-base-content)]/50"
     ]
   end
 end
@@ -217,17 +217,17 @@ defmodule DevelopmentWeb.Showcase.CheckboxGroupFormDemo do
           <:item value="mushroom">Mushroom</:item>
           <:item value="pepperoni">Pepperoni</:item>
         </CheckboxGroup.checkbox_group>
-        <p :for={e <- f[:toppings].errors} class="text-sm text-error">{H.err(e)}</p>
+        <p :for={e <- f[:toppings].errors} class="text-sm text-[var(--c-error)]">{H.err(e)}</p>
         <button
           type="submit"
-          class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content"
+          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content"
         >
           Save
         </button>
       </.form>
       <div
         :if={@saved}
-        class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success"
+        class="mt-3 rounded-md border border-[var(--c-success)]/40 bg-[var(--c-success)]/10 p-3 text-sm font-medium text-[var(--c-success)]"
       >
         ✓ Toppings: {Enum.join(@saved.toppings, ", ")} (not persisted)
       </div>
@@ -244,11 +244,11 @@ defmodule DevelopmentWeb.Showcase.CheckboxGroupFormDemo do
 
   defp cg_class do
     [
-      "flex w-64 flex-col gap-1 rounded-md border border-base-300 p-3",
+      "flex w-64 flex-col gap-1 rounded-md border border-[var(--c-base-300)] p-3",
       "[&_[data-part=label]]:mb-1 [&_[data-part=label]]:block [&_[data-part=label]]:text-sm [&_[data-part=label]]:font-semibold",
       "[&_[data-part=item]]:flex [&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:items-center [&_[data-part=item]]:gap-2 [&_[data-part=item]]:rounded [&_[data-part=item]]:px-2 [&_[data-part=item]]:py-1 [&_[data-part=item]]:text-sm",
-      "[&_[data-part=indicator]]:grid [&_[data-part=indicator]]:size-5 [&_[data-part=indicator]]:place-items-center [&_[data-part=indicator]]:rounded [&_[data-part=indicator]]:border [&_[data-part=indicator]]:border-base-300 [&_[data-part=indicator]]:text-xs [&_[data-part=indicator]]:text-base-100",
-      "[&_[data-part=indicator][data-checked]]:border-base-content [&_[data-part=indicator][data-checked]]:bg-base-content [&_[data-part=indicator][data-checked]]:after:content-['✓']"
+      "[&_[data-part=indicator]]:grid [&_[data-part=indicator]]:size-5 [&_[data-part=indicator]]:place-items-center [&_[data-part=indicator]]:rounded [&_[data-part=indicator]]:border [&_[data-part=indicator]]:border-[var(--c-base-300)] [&_[data-part=indicator]]:text-xs [&_[data-part=indicator]]:text-[var(--c-base-100)]",
+      "[&_[data-part=indicator][data-checked]]:border-[var(--c-base-content)] [&_[data-part=indicator][data-checked]]:bg-[var(--c-base-content)] [&_[data-part=indicator][data-checked]]:after:content-['✓']"
     ]
   end
 end
@@ -304,17 +304,17 @@ defmodule DevelopmentWeb.Showcase.CheckboxFormDemo do
             I accept the terms and conditions
           </Checkbox.checkbox>
         </div>
-        <p :for={e <- f[:terms].errors} class="text-sm text-error">{H.err(e)}</p>
+        <p :for={e <- f[:terms].errors} class="text-sm text-[var(--c-error)]">{H.err(e)}</p>
         <button
           type="submit"
-          class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content"
+          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content"
         >
           Sign up
         </button>
       </.form>
       <div
         :if={@saved}
-        class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success"
+        class="mt-3 rounded-md border border-[var(--c-success)]/40 bg-[var(--c-success)]/10 p-3 text-sm font-medium text-[var(--c-success)]"
       >
         ✓ Signed up — terms accepted (not persisted)
       </div>
@@ -331,8 +331,8 @@ defmodule DevelopmentWeb.Showcase.CheckboxFormDemo do
   defp cb_class do
     [
       "inline-flex cursor-pointer items-center gap-2",
-      "[&_[data-part=indicator]]:grid [&_[data-part=indicator]]:size-5 [&_[data-part=indicator]]:place-items-center [&_[data-part=indicator]]:rounded [&_[data-part=indicator]]:border [&_[data-part=indicator]]:border-base-300 [&_[data-part=indicator]]:text-xs [&_[data-part=indicator]]:text-base-100",
-      "[&_[data-part=indicator][data-checked]]:border-base-content [&_[data-part=indicator][data-checked]]:bg-base-content [&_[data-part=indicator][data-checked]]:after:content-['✓']",
+      "[&_[data-part=indicator]]:grid [&_[data-part=indicator]]:size-5 [&_[data-part=indicator]]:place-items-center [&_[data-part=indicator]]:rounded [&_[data-part=indicator]]:border [&_[data-part=indicator]]:border-[var(--c-base-300)] [&_[data-part=indicator]]:text-xs [&_[data-part=indicator]]:text-[var(--c-base-100)]",
+      "[&_[data-part=indicator][data-checked]]:border-[var(--c-base-content)] [&_[data-part=indicator][data-checked]]:bg-[var(--c-base-content)] [&_[data-part=indicator][data-checked]]:after:content-['✓']",
       "[&_[data-part=label]]:text-sm"
     ]
   end
@@ -389,17 +389,17 @@ defmodule DevelopmentWeb.Showcase.AutocompleteFormDemo do
           <:option value="New York">New York</:option>
           <:empty>No matches.</:empty>
         </Autocomplete.autocomplete>
-        <p :for={e <- f[:city].errors} class="text-sm text-error">{H.err(e)}</p>
+        <p :for={e <- f[:city].errors} class="text-sm text-[var(--c-error)]">{H.err(e)}</p>
         <button
           type="submit"
-          class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content"
+          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content"
         >
           Save
         </button>
       </.form>
       <div
         :if={@saved}
-        class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success"
+        class="mt-3 rounded-md border border-[var(--c-success)]/40 bg-[var(--c-success)]/10 p-3 text-sm font-medium text-[var(--c-success)]"
       >
         ✓ City: {@saved.city} (not persisted)
       </div>
@@ -416,11 +416,11 @@ defmodule DevelopmentWeb.Showcase.AutocompleteFormDemo do
   defp ac_class do
     [
       "relative w-64",
-      "[&_[data-part=input]]:w-full [&_[data-part=input]]:rounded-md [&_[data-part=input]]:border [&_[data-part=input]]:border-base-300 [&_[data-part=input]]:px-3 [&_[data-part=input]]:py-1.5 [&_[data-part=input]]:pr-8 [&_[data-part=input]]:outline-none",
-      "[&_[data-part=clear]]:absolute [&_[data-part=clear]]:right-2 [&_[data-part=clear]]:top-1.5 [&_[data-part=clear]]:text-base-content/40 [&_[data-part=clear][data-hidden]]:hidden",
-      "[&_[data-part=popup]]:absolute [&_[data-part=popup]]:left-0 [&_[data-part=popup]]:right-0 [&_[data-part=popup]]:top-full [&_[data-part=popup]]:z-10 [&_[data-part=popup]]:mt-1 [&_[data-part=popup]]:max-h-56 [&_[data-part=popup]]:overflow-auto [&_[data-part=popup]]:rounded-md [&_[data-part=popup]]:border [&_[data-part=popup]]:border-base-300 [&_[data-part=popup]]:bg-base-100 [&_[data-part=popup]]:p-1 [&_[data-part=popup]]:shadow-lg [&_[data-part=popup][data-closed]]:hidden",
-      "[&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:rounded [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1.5 [&_[data-part=item][data-highlighted]]:bg-base-200 [&_[data-part=item][aria-selected=true]]:font-semibold",
-      "[&_[data-part=empty]]:px-3 [&_[data-part=empty]]:py-2 [&_[data-part=empty]]:text-sm [&_[data-part=empty]]:text-base-content/50"
+      "[&_[data-part=input]]:w-full [&_[data-part=input]]:rounded-md [&_[data-part=input]]:border [&_[data-part=input]]:border-[var(--c-base-300)] [&_[data-part=input]]:px-3 [&_[data-part=input]]:py-1.5 [&_[data-part=input]]:pr-8 [&_[data-part=input]]:outline-none",
+      "[&_[data-part=clear]]:absolute [&_[data-part=clear]]:right-2 [&_[data-part=clear]]:top-1.5 [&_[data-part=clear]]:text-[var(--c-base-content)]/40 [&_[data-part=clear][data-hidden]]:hidden",
+      "[&_[data-part=popup]]:absolute [&_[data-part=popup]]:left-0 [&_[data-part=popup]]:right-0 [&_[data-part=popup]]:top-full [&_[data-part=popup]]:z-10 [&_[data-part=popup]]:mt-1 [&_[data-part=popup]]:max-h-56 [&_[data-part=popup]]:overflow-auto [&_[data-part=popup]]:rounded-md [&_[data-part=popup]]:border [&_[data-part=popup]]:border-[var(--c-base-300)] [&_[data-part=popup]]:bg-[var(--c-base-100)] [&_[data-part=popup]]:p-1 [&_[data-part=popup]]:shadow-lg [&_[data-part=popup][data-closed]]:hidden",
+      "[&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:rounded [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1.5 [&_[data-part=item][data-highlighted]]:bg-[var(--c-base-200)] [&_[data-part=item][aria-selected=true]]:font-semibold",
+      "[&_[data-part=empty]]:px-3 [&_[data-part=empty]]:py-2 [&_[data-part=empty]]:text-sm [&_[data-part=empty]]:text-[var(--c-base-content)]/50"
     ]
   end
 end
@@ -472,26 +472,26 @@ defmodule DevelopmentWeb.Showcase.FieldsetFormDemo do
           <:legend>Shipping address</:legend>
           <div class="space-y-2">
             <label class="block text-sm">
-              <span class="mb-1 block text-base-content/70">Street</span>
+              <span class="mb-1 block text-[var(--c-base-content)]/70">Street</span>
               <input
                 type="text"
                 name={f[:street].name}
                 value={f[:street].value}
-                class="w-full rounded-md border border-base-300 px-3 py-1.5"
+                class="w-full rounded-md border border-[var(--c-base-300)] px-3 py-1.5"
               />
-              <span :for={msg <- H.field_errors(f[:street])} class="mt-1 block text-xs text-error">
+              <span :for={msg <- H.field_errors(f[:street])} class="mt-1 block text-xs text-[var(--c-error)]">
                 {msg}
               </span>
             </label>
             <label class="block text-sm">
-              <span class="mb-1 block text-base-content/70">City</span>
+              <span class="mb-1 block text-[var(--c-base-content)]/70">City</span>
               <input
                 type="text"
                 name={f[:city].name}
                 value={f[:city].value}
-                class="w-full rounded-md border border-base-300 px-3 py-1.5"
+                class="w-full rounded-md border border-[var(--c-base-300)] px-3 py-1.5"
               />
-              <span :for={msg <- H.field_errors(f[:city])} class="mt-1 block text-xs text-error">
+              <span :for={msg <- H.field_errors(f[:city])} class="mt-1 block text-xs text-[var(--c-error)]">
                 {msg}
               </span>
             </label>
@@ -499,14 +499,14 @@ defmodule DevelopmentWeb.Showcase.FieldsetFormDemo do
         </Fieldset.fieldset>
         <button
           type="submit"
-          class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content"
+          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content"
         >
           Save
         </button>
       </.form>
       <div
         :if={@saved}
-        class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success"
+        class="mt-3 rounded-md border border-[var(--c-success)]/40 bg-[var(--c-success)]/10 p-3 text-sm font-medium text-[var(--c-success)]"
       >
         ✓ {@saved.street}, {@saved.city} (not persisted)
       </div>
@@ -522,7 +522,7 @@ defmodule DevelopmentWeb.Showcase.FieldsetFormDemo do
 
   defp fs_class do
     [
-      "w-72 rounded-md border border-base-300 p-4",
+      "w-72 rounded-md border border-[var(--c-base-300)] p-4",
       "[&_[data-part=legend]]:mb-2 [&_[data-part=legend]]:text-sm [&_[data-part=legend]]:font-semibold",
       "[&[data-disabled]]:opacity-60"
     ]
@@ -578,17 +578,17 @@ defmodule DevelopmentWeb.Showcase.RadioFormDemo do
             {label}
           </Radio.radio>
         </fieldset>
-        <p :for={msg <- H.field_errors(f[:plan])} class="text-sm text-error">{msg}</p>
+        <p :for={msg <- H.field_errors(f[:plan])} class="text-sm text-[var(--c-error)]">{msg}</p>
         <button
           type="submit"
-          class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content"
+          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content"
         >
           Subscribe
         </button>
       </.form>
       <div
         :if={@saved}
-        class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success"
+        class="mt-3 rounded-md border border-[var(--c-success)]/40 bg-[var(--c-success)]/10 p-3 text-sm font-medium text-[var(--c-success)]"
       >
         ✓ Subscribed to the {@saved.plan} plan (not persisted)
       </div>
@@ -607,8 +607,8 @@ defmodule DevelopmentWeb.Showcase.RadioFormDemo do
     [
       "inline-flex cursor-pointer items-center gap-2 [&[data-disabled]]:opacity-50",
       "[&_[data-part=input]]:sr-only",
-      "[&_[data-part=indicator]]:grid [&_[data-part=indicator]]:size-4 [&_[data-part=indicator]]:place-items-center [&_[data-part=indicator]]:rounded-full [&_[data-part=indicator]]:border [&_[data-part=indicator]]:border-base-300",
-      "[&_[data-part=indicator][data-checked]]:border-primary [&_[data-part=indicator][data-checked]]:after:size-2 [&_[data-part=indicator][data-checked]]:after:rounded-full [&_[data-part=indicator][data-checked]]:after:bg-primary [&_[data-part=indicator][data-checked]]:after:content-['']",
+      "[&_[data-part=indicator]]:grid [&_[data-part=indicator]]:size-4 [&_[data-part=indicator]]:place-items-center [&_[data-part=indicator]]:rounded-full [&_[data-part=indicator]]:border [&_[data-part=indicator]]:border-[var(--c-base-300)]",
+      "[&_[data-part=indicator][data-checked]]:border-[var(--c-primary)] [&_[data-part=indicator][data-checked]]:after:size-2 [&_[data-part=indicator][data-checked]]:after:rounded-full [&_[data-part=indicator][data-checked]]:after:bg-[var(--c-primary)] [&_[data-part=indicator][data-checked]]:after:content-['']",
       "[&_[data-part=label]]:text-sm [&[data-checked]_[data-part=label]]:font-medium"
     ]
   end
@@ -659,17 +659,17 @@ defmodule DevelopmentWeb.Showcase.RadioGroupFormDemo do
         >
           <:option :for={{v, label} <- @plans} value={v}>{label}</:option>
         </RadioGroup.radio_group>
-        <p :for={msg <- H.field_errors(f[:plan])} class="text-sm text-error">{msg}</p>
+        <p :for={msg <- H.field_errors(f[:plan])} class="text-sm text-[var(--c-error)]">{msg}</p>
         <button
           type="submit"
-          class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content"
+          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content"
         >
           Subscribe
         </button>
       </.form>
       <div
         :if={@saved}
-        class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success"
+        class="mt-3 rounded-md border border-[var(--c-success)]/40 bg-[var(--c-success)]/10 p-3 text-sm font-medium text-[var(--c-success)]"
       >
         ✓ Subscribed to the {@saved.plan} plan (not persisted)
       </div>
@@ -687,10 +687,10 @@ defmodule DevelopmentWeb.Showcase.RadioGroupFormDemo do
   defp rgc do
     [
       "w-64 space-y-2",
-      "[&_[data-part=item]]:flex [&_[data-part=item]]:w-full [&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:items-center [&_[data-part=item]]:gap-2 [&_[data-part=item]]:rounded-md [&_[data-part=item]]:border [&_[data-part=item]]:border-base-300 [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-2 [&_[data-part=item]]:text-left",
-      "[&_[data-part=item]]:before:size-4 [&_[data-part=item]]:before:shrink-0 [&_[data-part=item]]:before:rounded-full [&_[data-part=item]]:before:border [&_[data-part=item]]:before:border-base-300 [&_[data-part=item]]:before:content-['']",
-      "[&_[data-part=item][data-checked]]:border-primary [&_[data-part=item][data-checked]]:font-semibold [&_[data-part=item][data-checked]]:before:border-[5px] [&_[data-part=item][data-checked]]:before:border-primary",
-      "[&_[data-part=item][data-highlighted]]:ring-2 [&_[data-part=item][data-highlighted]]:ring-primary/40 [&_[data-part=item][data-highlighted]]:outline-none"
+      "[&_[data-part=item]]:flex [&_[data-part=item]]:w-full [&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:items-center [&_[data-part=item]]:gap-2 [&_[data-part=item]]:rounded-md [&_[data-part=item]]:border [&_[data-part=item]]:border-[var(--c-base-300)] [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-2 [&_[data-part=item]]:text-left",
+      "[&_[data-part=item]]:before:size-4 [&_[data-part=item]]:before:shrink-0 [&_[data-part=item]]:before:rounded-full [&_[data-part=item]]:before:border [&_[data-part=item]]:before:border-[var(--c-base-300)] [&_[data-part=item]]:before:content-['']",
+      "[&_[data-part=item][data-checked]]:border-[var(--c-primary)] [&_[data-part=item][data-checked]]:font-semibold [&_[data-part=item][data-checked]]:before:border-[5px] [&_[data-part=item][data-checked]]:before:border-[var(--c-primary)]",
+      "[&_[data-part=item][data-highlighted]]:ring-2 [&_[data-part=item][data-highlighted]]:ring-[var(--c-primary)]/40 [&_[data-part=item][data-highlighted]]:outline-none"
     ]
   end
 end
@@ -746,17 +746,17 @@ defmodule DevelopmentWeb.Showcase.SelectFormDemo do
         >
           <:option :for={{v, label} <- @countries} value={v}>{label}</:option>
         </Select.select>
-        <p :for={msg <- H.field_errors(f[:country])} class="text-sm text-error">{msg}</p>
+        <p :for={msg <- H.field_errors(f[:country])} class="text-sm text-[var(--c-error)]">{msg}</p>
         <button
           type="submit"
-          class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content"
+          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content"
         >
           Continue
         </button>
       </.form>
       <div
         :if={@saved}
-        class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success"
+        class="mt-3 rounded-md border border-[var(--c-success)]/40 bg-[var(--c-success)]/10 p-3 text-sm font-medium text-[var(--c-success)]"
       >
         ✓ Shipping to {@saved.country} (not persisted)
       </div>
@@ -774,12 +774,12 @@ defmodule DevelopmentWeb.Showcase.SelectFormDemo do
   defp sc do
     [
       "relative inline-block",
-      "[&_[data-part=trigger]]:flex [&_[data-part=trigger]]:min-w-56 [&_[data-part=trigger]]:items-center [&_[data-part=trigger]]:justify-between [&_[data-part=trigger]]:gap-2 [&_[data-part=trigger]]:rounded-md [&_[data-part=trigger]]:border [&_[data-part=trigger]]:border-base-300 [&_[data-part=trigger]]:bg-base-100 [&_[data-part=trigger]]:px-3 [&_[data-part=trigger]]:py-1.5 [&_[data-part=trigger]]:text-left",
-      "[&_[data-part=value][data-placeholder]]:text-base-content/40",
-      "[&_[data-part=icon]]:text-base-content/50 [&_[data-part=icon][data-popup-open]]:rotate-180",
+      "[&_[data-part=trigger]]:flex [&_[data-part=trigger]]:min-w-56 [&_[data-part=trigger]]:items-center [&_[data-part=trigger]]:justify-between [&_[data-part=trigger]]:gap-2 [&_[data-part=trigger]]:rounded-md [&_[data-part=trigger]]:border [&_[data-part=trigger]]:border-[var(--c-base-300)] [&_[data-part=trigger]]:bg-[var(--c-base-100)] [&_[data-part=trigger]]:px-3 [&_[data-part=trigger]]:py-1.5 [&_[data-part=trigger]]:text-left",
+      "[&_[data-part=value][data-placeholder]]:text-[var(--c-base-content)]/40",
+      "[&_[data-part=icon]]:text-[var(--c-base-content)]/50 [&_[data-part=icon][data-popup-open]]:rotate-180",
       "[&_[data-part=positioner]]:relative",
-      "[&_[data-part=popup]]:absolute [&_[data-part=popup]]:left-0 [&_[data-part=popup]]:right-0 [&_[data-part=popup]]:top-full [&_[data-part=popup]]:z-10 [&_[data-part=popup]]:mt-1 [&_[data-part=popup]]:max-h-60 [&_[data-part=popup]]:overflow-auto [&_[data-part=popup]]:rounded-md [&_[data-part=popup]]:border [&_[data-part=popup]]:border-base-300 [&_[data-part=popup]]:bg-base-100 [&_[data-part=popup]]:p-1 [&_[data-part=popup]]:shadow-lg [&_[data-part=popup][data-closed]]:hidden",
-      "[&_[data-part=item]]:flex [&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:items-center [&_[data-part=item]]:gap-2 [&_[data-part=item]]:rounded [&_[data-part=item]]:px-2 [&_[data-part=item]]:py-1.5 [&_[data-part=item]]:outline-none [&_[data-part=item][data-highlighted]]:bg-base-200 [&_[data-part=item][data-selected]]:font-semibold",
+      "[&_[data-part=popup]]:absolute [&_[data-part=popup]]:left-0 [&_[data-part=popup]]:right-0 [&_[data-part=popup]]:top-full [&_[data-part=popup]]:z-10 [&_[data-part=popup]]:mt-1 [&_[data-part=popup]]:max-h-60 [&_[data-part=popup]]:overflow-auto [&_[data-part=popup]]:rounded-md [&_[data-part=popup]]:border [&_[data-part=popup]]:border-[var(--c-base-300)] [&_[data-part=popup]]:bg-[var(--c-base-100)] [&_[data-part=popup]]:p-1 [&_[data-part=popup]]:shadow-lg [&_[data-part=popup][data-closed]]:hidden",
+      "[&_[data-part=item]]:flex [&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:items-center [&_[data-part=item]]:gap-2 [&_[data-part=item]]:rounded [&_[data-part=item]]:px-2 [&_[data-part=item]]:py-1.5 [&_[data-part=item]]:outline-none [&_[data-part=item][data-highlighted]]:bg-[var(--c-base-200)] [&_[data-part=item][data-selected]]:font-semibold",
       "[&_[data-part=item-indicator]]:w-4 [&_[data-part=item-indicator]]:shrink-0 [&_[data-part=item-indicator]]:text-xs [&_[data-part=item-indicator]]:opacity-0 [&_[data-part=item][data-selected]_[data-part=item-indicator]]:opacity-100"
     ]
   end
@@ -837,17 +837,17 @@ defmodule DevelopmentWeb.Showcase.SliderFormDemo do
             class={slc()}
           />
         </div>
-        <p :for={msg <- H.field_errors(f[:budget])} class="text-sm text-error">{msg}</p>
+        <p :for={msg <- H.field_errors(f[:budget])} class="text-sm text-[var(--c-error)]">{msg}</p>
         <button
           type="submit"
-          class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content"
+          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content"
         >
           Save budget
         </button>
       </.form>
       <div
         :if={@saved}
-        class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success"
+        class="mt-3 rounded-md border border-[var(--c-success)]/40 bg-[var(--c-success)]/10 p-3 text-sm font-medium text-[var(--c-success)]"
       >
         ✓ Budget set to {@saved.budget} (not persisted)
       </div>
@@ -865,11 +865,11 @@ defmodule DevelopmentWeb.Showcase.SliderFormDemo do
   defp slc do
     [
       "inline-block",
-      "[&_[data-part=value]]:mb-1 [&_[data-part=value]]:block [&_[data-part=value]]:text-sm [&_[data-part=value]]:tabular-nums [&_[data-part=value]]:text-base-content/70",
+      "[&_[data-part=value]]:mb-1 [&_[data-part=value]]:block [&_[data-part=value]]:text-sm [&_[data-part=value]]:tabular-nums [&_[data-part=value]]:text-[var(--c-base-content)]/70",
       "[&_[data-part=control]]:flex [&_[data-part=control]]:w-64 [&_[data-part=control]]:items-center [&_[data-part=control]]:touch-none [&_[data-part=control]]:select-none [&_[data-part=control]]:py-3",
-      "[&_[data-part=track]]:relative [&_[data-part=track]]:h-1.5 [&_[data-part=track]]:w-full [&_[data-part=track]]:rounded-full [&_[data-part=track]]:bg-base-300",
-      "[&_[data-part=indicator]]:rounded-full [&_[data-part=indicator]]:bg-primary",
-      "[&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border [&_[data-part=thumb]]:border-base-300 [&_[data-part=thumb]]:bg-base-100 [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:cursor-grab [&_[data-part=thumb]]:outline-none focus:[&_[data-part=thumb]]:ring-2 focus:[&_[data-part=thumb]]:ring-primary"
+      "[&_[data-part=track]]:relative [&_[data-part=track]]:h-1.5 [&_[data-part=track]]:w-full [&_[data-part=track]]:rounded-full [&_[data-part=track]]:bg-[var(--c-base-300)]",
+      "[&_[data-part=indicator]]:rounded-full [&_[data-part=indicator]]:bg-[var(--c-primary)]",
+      "[&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border [&_[data-part=thumb]]:border-[var(--c-base-300)] [&_[data-part=thumb]]:bg-[var(--c-base-100)] [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:cursor-grab [&_[data-part=thumb]]:outline-none focus:[&_[data-part=thumb]]:ring-2 focus:[&_[data-part=thumb]]:ring-[var(--c-primary)]"
     ]
   end
 end
@@ -929,11 +929,11 @@ defmodule DevelopmentWeb.Showcase.SliderRangeFormDemo do
           show_value
           class={slc()}
         />
-        <p :for={msg <- H.field_errors(f[:price])} class="text-sm text-error">{msg}</p>
+        <p :for={msg <- H.field_errors(f[:price])} class="text-sm text-[var(--c-error)]">{msg}</p>
         <div class="flex gap-2">
           <button
             type="submit"
-            class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content"
+            class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content"
           >
             Apply filter
           </button>
@@ -941,7 +941,7 @@ defmodule DevelopmentWeb.Showcase.SliderRangeFormDemo do
             type="button"
             phx-target={@myself}
             phx-click="reset"
-            class="rounded-md border border-base-300 px-4 py-1.5 text-sm font-medium"
+            class="rounded-md border border-[var(--c-base-300)] px-4 py-1.5 text-sm font-medium"
           >
             Reset
           </button>
@@ -949,7 +949,7 @@ defmodule DevelopmentWeb.Showcase.SliderRangeFormDemo do
       </.form>
       <div
         :if={@saved}
-        class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success"
+        class="mt-3 rounded-md border border-[var(--c-success)]/40 bg-[var(--c-success)]/10 p-3 text-sm font-medium text-[var(--c-success)]"
       >
         ✓ Filtering ${Enum.at(@saved.price, 0)}–${Enum.at(@saved.price, 1)} (not persisted)
       </div>
@@ -960,11 +960,11 @@ defmodule DevelopmentWeb.Showcase.SliderRangeFormDemo do
   defp slc do
     [
       "inline-block",
-      "[&_[data-part=value]]:mb-1 [&_[data-part=value]]:block [&_[data-part=value]]:text-sm [&_[data-part=value]]:tabular-nums [&_[data-part=value]]:text-base-content/70",
+      "[&_[data-part=value]]:mb-1 [&_[data-part=value]]:block [&_[data-part=value]]:text-sm [&_[data-part=value]]:tabular-nums [&_[data-part=value]]:text-[var(--c-base-content)]/70",
       "[&_[data-part=control]]:flex [&_[data-part=control]]:w-64 [&_[data-part=control]]:items-center [&_[data-part=control]]:touch-none [&_[data-part=control]]:select-none [&_[data-part=control]]:py-3",
-      "[&_[data-part=track]]:relative [&_[data-part=track]]:h-1.5 [&_[data-part=track]]:w-full [&_[data-part=track]]:rounded-full [&_[data-part=track]]:bg-base-300",
-      "[&_[data-part=indicator]]:rounded-full [&_[data-part=indicator]]:bg-primary",
-      "[&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border [&_[data-part=thumb]]:border-base-300 [&_[data-part=thumb]]:bg-base-100 [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:cursor-grab [&_[data-part=thumb]]:outline-none focus:[&_[data-part=thumb]]:ring-2 focus:[&_[data-part=thumb]]:ring-primary"
+      "[&_[data-part=track]]:relative [&_[data-part=track]]:h-1.5 [&_[data-part=track]]:w-full [&_[data-part=track]]:rounded-full [&_[data-part=track]]:bg-[var(--c-base-300)]",
+      "[&_[data-part=indicator]]:rounded-full [&_[data-part=indicator]]:bg-[var(--c-primary)]",
+      "[&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border [&_[data-part=thumb]]:border-[var(--c-base-300)] [&_[data-part=thumb]]:bg-[var(--c-base-100)] [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:cursor-grab [&_[data-part=thumb]]:outline-none focus:[&_[data-part=thumb]]:ring-2 focus:[&_[data-part=thumb]]:ring-[var(--c-primary)]"
     ]
   end
 
@@ -1044,18 +1044,18 @@ defmodule DevelopmentWeb.Showcase.SwitchFormDemo do
             />
             <span class="text-sm font-medium">I accept the terms (required)</span>
           </div>
-          <p :for={msg <- H.field_errors(f[:terms])} class="mt-1 text-sm text-error">{msg}</p>
+          <p :for={msg <- H.field_errors(f[:terms])} class="mt-1 text-sm text-[var(--c-error)]">{msg}</p>
         </div>
         <button
           type="submit"
-          class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content"
+          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content"
         >
           Save settings
         </button>
       </.form>
       <div
         :if={@saved}
-        class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success"
+        class="mt-3 rounded-md border border-[var(--c-success)]/40 bg-[var(--c-success)]/10 p-3 text-sm font-medium text-[var(--c-success)]"
       >
         ✓ Saved — notifications {if @saved.notify, do: "on", else: "off"}, terms accepted (not persisted)
       </div>
@@ -1072,10 +1072,10 @@ defmodule DevelopmentWeb.Showcase.SwitchFormDemo do
   defp sw do
     [
       "group inline-flex items-center gap-3 cursor-pointer focus-visible:outline-none",
-      "[&_[data-part=track]]:inline-flex [&_[data-part=track]]:h-6 [&_[data-part=track]]:w-11 [&_[data-part=track]]:shrink-0 [&_[data-part=track]]:items-center [&_[data-part=track]]:rounded-full [&_[data-part=track]]:border [&_[data-part=track]]:border-base-300 [&_[data-part=track]]:p-0.5 [&_[data-part=track]]:transition-colors",
-      "[&_[data-part=track][data-checked]]:bg-primary [&_[data-part=track][data-unchecked]]:bg-base-300",
-      "[&:focus-visible_[data-part=track]]:ring-2 [&:focus-visible_[data-part=track]]:ring-primary/40",
-      "[&_[data-part=thumb]]:block [&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:bg-base-100 [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:transition-transform [&_[data-part=thumb][data-checked]]:translate-x-5"
+      "[&_[data-part=track]]:inline-flex [&_[data-part=track]]:h-6 [&_[data-part=track]]:w-11 [&_[data-part=track]]:shrink-0 [&_[data-part=track]]:items-center [&_[data-part=track]]:rounded-full [&_[data-part=track]]:border [&_[data-part=track]]:border-[var(--c-base-300)] [&_[data-part=track]]:p-0.5 [&_[data-part=track]]:transition-colors",
+      "[&_[data-part=track][data-checked]]:bg-[var(--c-primary)] [&_[data-part=track][data-unchecked]]:bg-[var(--c-base-300)]",
+      "[&:focus-visible_[data-part=track]]:ring-2 [&:focus-visible_[data-part=track]]:ring-[var(--c-primary)]/40",
+      "[&_[data-part=thumb]]:block [&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:bg-[var(--c-base-100)] [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:transition-transform [&_[data-part=thumb][data-checked]]:translate-x-5"
     ]
   end
 end
@@ -1141,14 +1141,14 @@ defmodule DevelopmentWeb.Showcase.ToggleFormDemo do
         </div>
         <button
           type="submit"
-          class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content"
+          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content"
         >
           Save settings
         </button>
       </.form>
       <div
         :if={@saved}
-        class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success"
+        class="mt-3 rounded-md border border-[var(--c-success)]/40 bg-[var(--c-success)]/10 p-3 text-sm font-medium text-[var(--c-success)]"
       >
         ✓ Profile is {if @saved.public, do: "public 🌐", else: "private 🔒"} (not persisted)
       </div>
@@ -1160,9 +1160,9 @@ defmodule DevelopmentWeb.Showcase.ToggleFormDemo do
 
   defp tc do
     [
-      "inline-flex items-center gap-2 rounded-md border border-base-300 bg-base-100 px-3 py-1.5 text-sm transition-colors",
-      "data-[pressed]:border-primary data-[pressed]:bg-primary data-[pressed]:text-primary-content",
-      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+      "inline-flex items-center gap-2 rounded-md border border-[var(--c-base-300)] bg-[var(--c-base-100)] px-3 py-1.5 text-sm transition-colors",
+      "data-[pressed]:border-[var(--c-primary)] data-[pressed]:bg-[var(--c-primary)] data-[pressed]:text-primary-content",
+      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--c-primary)]/40"
     ]
   end
 end
@@ -1228,7 +1228,7 @@ defmodule DevelopmentWeb.Showcase.ToggleGroupFormDemo do
             <:item value="center">Center</:item>
             <:item value="right">Right</:item>
           </ToggleGroup.toggle_group>
-          <p :for={msg <- H.field_errors(f[:align])} class="mt-1 text-sm text-error">{msg}</p>
+          <p :for={msg <- H.field_errors(f[:align])} class="mt-1 text-sm text-[var(--c-error)]">{msg}</p>
         </div>
         <div>
           <span class="mb-1.5 block text-sm font-medium">Styles (multiple, optional)</span>
@@ -1246,14 +1246,14 @@ defmodule DevelopmentWeb.Showcase.ToggleGroupFormDemo do
         </div>
         <button
           type="submit"
-          class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content"
+          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content"
         >
           Apply formatting
         </button>
       </.form>
       <div
         :if={@saved}
-        class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success"
+        class="mt-3 rounded-md border border-[var(--c-success)]/40 bg-[var(--c-success)]/10 p-3 text-sm font-medium text-[var(--c-success)]"
       >
         ✓ {@saved.align} · {(@saved.styles == [] && "no styles") || Enum.join(@saved.styles, ", ")} (not persisted)
       </div>
@@ -1271,10 +1271,10 @@ defmodule DevelopmentWeb.Showcase.ToggleGroupFormDemo do
 
   defp tgc do
     [
-      "inline-flex gap-1 rounded-md border border-base-300 bg-base-100 p-1",
-      "[&_[data-part=item]]:rounded [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1.5 [&_[data-part=item]]:text-sm [&_[data-part=item]]:text-base-content [&_[data-part=item]]:outline-none [&_[data-part=item]]:not-data-disabled:hover:bg-base-200",
-      "[&_[data-part=item][data-pressed]]:bg-primary [&_[data-part=item][data-pressed]]:text-primary-content",
-      "[&_[data-part=item]]:focus-visible:ring-2 [&_[data-part=item]]:focus-visible:ring-primary/40"
+      "inline-flex gap-1 rounded-md border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-1",
+      "[&_[data-part=item]]:rounded [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1.5 [&_[data-part=item]]:text-sm [&_[data-part=item]]:text-[var(--c-base-content)] [&_[data-part=item]]:outline-none [&_[data-part=item]]:not-data-disabled:hover:bg-[var(--c-base-200)]",
+      "[&_[data-part=item][data-pressed]]:bg-[var(--c-primary)] [&_[data-part=item][data-pressed]]:text-primary-content",
+      "[&_[data-part=item]]:focus-visible:ring-2 [&_[data-part=item]]:focus-visible:ring-[var(--c-primary)]/40"
     ]
   end
 end
@@ -1320,14 +1320,14 @@ defmodule DevelopmentWeb.Showcase.TabsServerDemo do
         </:panel>
       </Tabs.tabs>
 
-      <div class="mt-3 flex items-center justify-between rounded-md border border-base-300 bg-base-100 px-3 py-2 text-sm">
+      <div class="mt-3 flex items-center justify-between rounded-md border border-[var(--c-base-300)] bg-[var(--c-base-100)] px-3 py-2 text-sm">
         <span>Server active tab: <strong>{@active}</strong> · {@switches} switches</span>
         <button
           type="button"
           phx-target={@myself}
           phx-click="set"
           phx-value-v="settings"
-          class="rounded bg-primary px-2.5 py-1 text-xs font-medium text-primary-content"
+          class="rounded bg-[var(--c-primary)] px-2.5 py-1 text-xs font-medium text-primary-content"
         >
           Set to Settings (from server)
         </button>
@@ -1339,10 +1339,10 @@ defmodule DevelopmentWeb.Showcase.TabsServerDemo do
   defp tc do
     [
       "w-full",
-      "[&_[data-part=tablist]]:relative [&_[data-part=tablist]]:flex [&_[data-part=tablist]]:gap-1 [&_[data-part=tablist]]:border-b [&_[data-part=tablist]]:border-base-300",
-      "[&_[data-part=tab]]:px-3 [&_[data-part=tab]]:py-1.5 [&_[data-part=tab]]:text-sm [&_[data-part=tab]]:text-base-content/60 [&_[data-part=tab]]:outline-none [&_[data-part=tab][data-active]]:text-base-content [&_[data-part=tab][data-active]]:font-semibold",
-      "[&_[data-part=indicator]]:absolute [&_[data-part=indicator]]:-bottom-px [&_[data-part=indicator]]:left-0 [&_[data-part=indicator]]:h-0.5 [&_[data-part=indicator]]:rounded-full [&_[data-part=indicator]]:bg-primary [&_[data-part=indicator]]:[width:var(--active-tab-width)] [&_[data-part=indicator]]:[translate:var(--active-tab-left)_0] [&_[data-part=indicator]]:transition-[translate,width] [&_[data-part=indicator]]:duration-200",
-      "[&_[data-part=panel]]:bg-base-100 [&_[data-part=panel]]:p-3 [&_[data-part=panel]]:text-sm"
+      "[&_[data-part=tablist]]:relative [&_[data-part=tablist]]:flex [&_[data-part=tablist]]:gap-1 [&_[data-part=tablist]]:border-b [&_[data-part=tablist]]:border-[var(--c-base-300)]",
+      "[&_[data-part=tab]]:px-3 [&_[data-part=tab]]:py-1.5 [&_[data-part=tab]]:text-sm [&_[data-part=tab]]:text-[var(--c-base-content)]/60 [&_[data-part=tab]]:outline-none [&_[data-part=tab][data-active]]:text-[var(--c-base-content)] [&_[data-part=tab][data-active]]:font-semibold",
+      "[&_[data-part=indicator]]:absolute [&_[data-part=indicator]]:-bottom-px [&_[data-part=indicator]]:left-0 [&_[data-part=indicator]]:h-0.5 [&_[data-part=indicator]]:rounded-full [&_[data-part=indicator]]:bg-[var(--c-primary)] [&_[data-part=indicator]]:[width:var(--active-tab-width)] [&_[data-part=indicator]]:[translate:var(--active-tab-left)_0] [&_[data-part=indicator]]:transition-[translate,width] [&_[data-part=indicator]]:duration-200",
+      "[&_[data-part=panel]]:bg-[var(--c-base-100)] [&_[data-part=panel]]:p-3 [&_[data-part=panel]]:text-sm"
     ]
   end
 end
@@ -1390,11 +1390,11 @@ defmodule DevelopmentWeb.Showcase.AlertDialogDemo do
         <:title>Delete this item?</:title>
         <:description>This permanently removes the item. This action cannot be undone.</:description>
         <:actions>
-          <button class="rounded-md border border-base-300 px-3 py-1.5 text-sm" data-close>
+          <button class="rounded-md border border-[var(--c-base-300)] px-3 py-1.5 text-sm" data-close>
             Cancel
           </button>
           <button
-            class="rounded-md bg-error px-3 py-1.5 text-sm font-medium text-error-content"
+            class="rounded-md bg-[var(--c-error)] px-3 py-1.5 text-sm font-medium text-error-content"
             data-close
             phx-target={@myself}
             phx-click="delete"
@@ -1409,10 +1409,10 @@ defmodule DevelopmentWeb.Showcase.AlertDialogDemo do
 
   defp adc do
     [
-      "[&_[data-part=trigger]]:rounded-md [&_[data-part=trigger]]:border [&_[data-part=trigger]]:border-base-300 [&_[data-part=trigger]]:px-3 [&_[data-part=trigger]]:py-1.5 [&_[data-part=trigger]]:text-sm [&_[data-part=trigger][data-popup-open]]:bg-base-200",
+      "[&_[data-part=trigger]]:rounded-md [&_[data-part=trigger]]:border [&_[data-part=trigger]]:border-[var(--c-base-300)] [&_[data-part=trigger]]:px-3 [&_[data-part=trigger]]:py-1.5 [&_[data-part=trigger]]:text-sm [&_[data-part=trigger][data-popup-open]]:bg-[var(--c-base-200)]",
       "[&_[data-part=backdrop]]:fixed [&_[data-part=backdrop]]:inset-0 [&_[data-part=backdrop]]:z-40 [&_[data-part=backdrop]]:bg-black/40",
-      "[&_[data-part=popup]]:fixed [&_[data-part=popup]]:left-1/2 [&_[data-part=popup]]:top-1/2 [&_[data-part=popup]]:z-50 [&_[data-part=popup]]:w-80 [&_[data-part=popup]]:-translate-x-1/2 [&_[data-part=popup]]:-translate-y-1/2 [&_[data-part=popup]]:rounded-lg [&_[data-part=popup]]:bg-base-100 [&_[data-part=popup]]:p-6 [&_[data-part=popup]]:shadow-xl",
-      "[&_[data-part=title]]:text-lg [&_[data-part=title]]:font-semibold [&_[data-part=description]]:mt-1 [&_[data-part=description]]:text-sm [&_[data-part=description]]:text-base-content/70",
+      "[&_[data-part=popup]]:fixed [&_[data-part=popup]]:left-1/2 [&_[data-part=popup]]:top-1/2 [&_[data-part=popup]]:z-50 [&_[data-part=popup]]:w-80 [&_[data-part=popup]]:-translate-x-1/2 [&_[data-part=popup]]:-translate-y-1/2 [&_[data-part=popup]]:rounded-lg [&_[data-part=popup]]:bg-[var(--c-base-100)] [&_[data-part=popup]]:p-6 [&_[data-part=popup]]:shadow-xl",
+      "[&_[data-part=title]]:text-lg [&_[data-part=title]]:font-semibold [&_[data-part=description]]:mt-1 [&_[data-part=description]]:text-sm [&_[data-part=description]]:text-[var(--c-base-content)]/70",
       "[&_[data-part=actions]]:mt-4 [&_[data-part=actions]]:flex [&_[data-part=actions]]:justify-end [&_[data-part=actions]]:gap-2"
     ]
   end

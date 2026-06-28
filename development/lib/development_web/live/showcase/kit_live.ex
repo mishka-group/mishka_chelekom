@@ -47,23 +47,23 @@ defmodule DevelopmentWeb.Showcase.KitLive do
 
     # the whole card — bg, border, rounded, dividers between items
     part :root,
-         "rounded-2xl border border-base-300 bg-base-100 shadow-sm divide-y divide-base-200"
+         "rounded-2xl border border-[var(--c-base-300)] bg-[var(--c-base-100)] shadow-sm divide-y divide-[var(--c-base-200)]"
 
     # tint whichever item is open
     part :item,
-         "[&_[data-part=item]:has([data-part=panel][data-open])]:bg-base-200/40"
+         "[&_[data-part=item]:has([data-part=panel][data-open])]:bg-[var(--c-base-200)]/40"
 
     # header row + a chevron that flips open (one [&_[data-part=trigger]]: per utility)
     part :trigger,
          "[&_[data-part=trigger]]:flex [&_[data-part=trigger]]:justify-between
           [&_[data-part=trigger]]:px-4 [&_[data-part=trigger]]:py-3.5
-          [&_[data-part=trigger]]:hover:bg-base-200/60
+          [&_[data-part=trigger]]:hover:bg-[var(--c-base-200)]/60
           [&_[data-part=trigger]]:after:content-['▾']
           [&_[data-part=trigger][aria-expanded=true]]:after:rotate-180"
 
     # the panel body — padding + muted text
     part :panel,
-         "[&_[data-part=panel]]:px-4 [&_[data-part=panel]]:pb-4 [&_[data-part=panel]]:text-base-content/70"
+         "[&_[data-part=panel]]:px-4 [&_[data-part=panel]]:pb-4 [&_[data-part=panel]]:text-[var(--c-base-content)]/70"
   end\
   """
 
@@ -85,14 +85,14 @@ defmodule DevelopmentWeb.Showcase.KitLive do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="min-h-screen bg-base-200 text-base-content">
+    <div class="min-h-screen bg-[var(--c-base-200)] text-[var(--c-base-content)]">
       <main class="max-w-5xl mx-auto px-6 py-8 space-y-8">
         <header class="space-y-1">
-          <.link navigate={~p"/showcase"} class="text-sm text-base-content/60 hover:underline">
+          <.link navigate={~p"/showcase"} class="text-sm text-[var(--c-base-content)]/60 hover:underline">
             ← All components
           </.link>
           <h1 class="text-3xl font-bold">The <code>Kit</code> — reuse &amp; customize</h1>
-          <p class="text-base-content/70 max-w-2xl">
+          <p class="text-[var(--c-base-content)]/70 max-w-2xl">
             One Spark DSL with two moves: <strong>customize</strong> an existing styled component
             (add/restyle colors &amp; variants) and <strong>skin</strong> an existing headless one.
             Each generates a thin wrapper that delegates to the real component — nothing is built
@@ -108,15 +108,15 @@ defmodule DevelopmentWeb.Showcase.KitLive do
           <:result>
             <div class="space-y-4">
               <div class="space-y-1.5">
-                <div class="text-[11px] text-base-content/50">restyle :primary — stock → Kit</div>
+                <div class="text-[11px] text-[var(--c-base-content)]/50">restyle :primary — stock → Kit</div>
                 <div class="flex flex-wrap items-center gap-2">
                   <.button color="primary" size="small">stock</.button>
-                  <span class="text-base-content/30">→</span>
+                  <span class="text-[var(--c-base-content)]/30">→</span>
                   <DemoKit.button color="primary" size="small">Kit</DemoKit.button>
                 </div>
               </div>
               <div class="space-y-1.5">
-                <div class="text-[11px] text-base-content/50">
+                <div class="text-[11px] text-[var(--c-base-content)]/50">
                   new :brand · new :glow · untouched :success
                 </div>
                 <div class="flex flex-wrap items-center gap-2">
@@ -149,10 +149,10 @@ defmodule DevelopmentWeb.Showcase.KitLive do
         >
           <:result>
             <div class="space-y-1.5">
-              <div class="text-[11px] text-base-content/50">stock widget → Kit's :brand</div>
+              <div class="text-[11px] text-[var(--c-base-content)]/50">stock widget → Kit's :brand</div>
               <div class="flex flex-wrap items-center gap-2">
                 <Widgets.ribbon>stock ribbon</Widgets.ribbon>
-                <span class="text-base-content/30">→</span>
+                <span class="text-[var(--c-base-content)]/30">→</span>
                 <DemoKit.ribbon>Kit brand ribbon</DemoKit.ribbon>
               </div>
             </div>
@@ -179,8 +179,8 @@ defmodule DevelopmentWeb.Showcase.KitLive do
           </:result>
         </.kit_example>
 
-        <section class="bg-base-100 rounded-box p-5 shadow-sm flex flex-wrap items-center gap-3 text-sm">
-          <span class="text-[11px] uppercase tracking-wide font-semibold text-base-content/50">
+        <section class="bg-[var(--c-base-100)] rounded-lg p-5 shadow-sm flex flex-wrap items-center gap-3 text-sm">
+          <span class="text-[11px] uppercase tracking-wide font-semibold text-[var(--c-base-content)]/50">
             Generated wrappers
           </span>
           <span class="flex flex-wrap gap-1.5">
@@ -201,18 +201,18 @@ defmodule DevelopmentWeb.Showcase.KitLive do
 
   defp kit_example(assigns) do
     ~H"""
-    <section class="bg-base-100 rounded-box shadow-sm overflow-hidden">
-      <div class="px-5 pt-5 pb-3 space-y-1 border-b border-base-200">
+    <section class="bg-[var(--c-base-100)] rounded-lg shadow-sm overflow-hidden">
+      <div class="px-5 pt-5 pb-3 space-y-1 border-b border-[var(--c-base-200)]">
         <h2 class="font-semibold">{@title}</h2>
-        <p :if={@subtitle} class="text-sm text-base-content/60 max-w-2xl">{@subtitle}</p>
+        <p :if={@subtitle} class="text-sm text-[var(--c-base-content)]/60 max-w-2xl">{@subtitle}</p>
       </div>
       <div class="grid lg:grid-cols-2">
-        <div class="p-5 lg:border-r border-base-200">
-          <div class="text-[11px] uppercase tracking-wide text-base-content/40 mb-2">customize</div>
+        <div class="p-5 lg:border-r border-[var(--c-base-200)]">
+          <div class="text-[11px] uppercase tracking-wide text-[var(--c-base-content)]/40 mb-2">customize</div>
           <.code_block code={@code} wrap />
         </div>
-        <div class="p-5 bg-base-200/30">
-          <div class="text-[11px] uppercase tracking-wide text-base-content/40 mb-3">result</div>
+        <div class="p-5 bg-[var(--c-base-200)]/30">
+          <div class="text-[11px] uppercase tracking-wide text-[var(--c-base-content)]/40 mb-3">result</div>
           {render_slot(@result)}
         </div>
       </div>

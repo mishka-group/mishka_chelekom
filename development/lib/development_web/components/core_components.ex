@@ -8,12 +8,8 @@ defmodule DevelopmentWeb.CoreComponents do
   with doc strings and declarative assigns. You may customize and style
   them in any way you want, based on your application growth and needs.
 
-  The foundation for styling is Tailwind CSS, a utility-first CSS framework,
-  augmented with daisyUI, a Tailwind CSS plugin that provides UI components
-  and themes. Here are useful references:
-
-    * [daisyUI](https://daisyui.com/docs/intro/) - a good place to get
-      started and see the available components.
+  The foundation for styling is Tailwind CSS, a utility-first CSS framework.
+  Here are useful references:
 
     * [Tailwind CSS](https://tailwindcss.com) - the foundational framework
       we build on. You will use it for layout, sizing, flexbox, grid, and
@@ -305,7 +301,7 @@ defmodule DevelopmentWeb.CoreComponents do
   # Helper used by inputs to generate form errors
   defp error(assigns) do
     ~H"""
-    <p class="mt-1.5 flex gap-2 items-center text-sm text-error">
+    <p class="mt-1.5 flex gap-2 items-center text-sm text-[var(--c-error)]">
       <.icon name="hero-exclamation-circle" class="size-5" />
       {render_slot(@inner_block)}
     </p>
@@ -326,7 +322,7 @@ defmodule DevelopmentWeb.CoreComponents do
         <h1 class="text-lg font-semibold leading-8">
           {render_slot(@inner_block)}
         </h1>
-        <p :if={@subtitle != []} class="text-sm text-base-content/70">
+        <p :if={@subtitle != []} class="text-sm text-[var(--c-base-content)]/70">
           {render_slot(@subtitle)}
         </p>
       </div>

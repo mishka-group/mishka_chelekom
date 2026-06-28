@@ -406,7 +406,7 @@ defmodule DevelopmentWeb.Showcase.PreviewGenerated do
 
   def show(assigns) do
     ~H"""
-    <p class="text-sm text-base-content/60">
+    <p class="text-sm text-[var(--c-base-content)]/60">
       No generated preview for <code>{@component}</code>.
     </p>
     """

@@ -234,7 +234,7 @@ defmodule DevelopmentWeb.Showcase.FieldFormDemo do
         <div class="flex flex-wrap items-center gap-3 pt-1">
           <button
             type="submit"
-            class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content"
+            class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content"
           >
             Create account
           </button>
@@ -242,17 +242,17 @@ defmodule DevelopmentWeb.Showcase.FieldFormDemo do
             type="button"
             phx-target={@myself}
             phx-click="reset"
-            class="rounded-md border border-base-300 px-4 py-1.5 text-sm"
+            class="rounded-md border border-[var(--c-base-300)] px-4 py-1.5 text-sm"
           >
             Reset
           </button>
-          <span class="text-xs text-base-content/40">Nothing is saved — validation only.</span>
+          <span class="text-xs text-[var(--c-base-content)]/40">Nothing is saved — validation only.</span>
         </div>
       </.form>
 
-      <div :if={@saved} class="mt-4 rounded-md border border-success/40 bg-success/10 p-3 text-sm">
-        <p class="font-medium text-success">✓ Validated (not persisted)</p>
-        <pre class="mt-1 overflow-x-auto text-xs text-base-content/70">{format_saved(@saved)}</pre>
+      <div :if={@saved} class="mt-4 rounded-md border border-[var(--c-success)]/40 bg-[var(--c-success)]/10 p-3 text-sm">
+        <p class="font-medium text-[var(--c-success)]">✓ Validated (not persisted)</p>
+        <pre class="mt-1 overflow-x-auto text-xs text-[var(--c-base-content)]/70">{format_saved(@saved)}</pre>
       </div>
     </div>
     """
@@ -290,18 +290,18 @@ defmodule DevelopmentWeb.Showcase.FieldFormDemo do
   defp fc do
     [
       "[&_[data-part=label]]:mb-1 [&_[data-part=label]]:block [&_[data-part=label]]:text-sm [&_[data-part=label]]:font-medium",
-      "[&_[data-part=description]]:mt-1 [&_[data-part=description]]:text-xs [&_[data-part=description]]:text-base-content/60",
-      "[&_[data-part=error]]:mt-1 [&_[data-part=error]]:text-xs [&_[data-part=error]]:text-error",
-      "[&[data-invalid]_.ffd-ctl]:border-error",
+      "[&_[data-part=description]]:mt-1 [&_[data-part=description]]:text-xs [&_[data-part=description]]:text-[var(--c-base-content)]/60",
+      "[&_[data-part=error]]:mt-1 [&_[data-part=error]]:text-xs [&_[data-part=error]]:text-[var(--c-error)]",
+      "[&[data-invalid]_.ffd-ctl]:border-[var(--c-error)]",
       # success state (data-valid) — green control + a ✓ after the label
-      "[&[data-valid]_.ffd-ctl]:border-success",
-      "[&[data-valid]_[data-part=label]]:after:content-['_✓'] [&[data-valid]_[data-part=label]]:after:text-success",
-      "[&[data-focused]_.ffd-ctl]:ring-2 [&[data-focused]_.ffd-ctl]:ring-primary/30",
+      "[&[data-valid]_.ffd-ctl]:border-[var(--c-success)]",
+      "[&[data-valid]_[data-part=label]]:after:content-['_✓'] [&[data-valid]_[data-part=label]]:after:text-[var(--c-success)]",
+      "[&[data-focused]_.ffd-ctl]:ring-2 [&[data-focused]_.ffd-ctl]:ring-[var(--c-primary)]/30",
       "[&[data-disabled]]:opacity-60"
     ]
   end
 
   defp input_cls do
-    "ffd-ctl w-full rounded-md border border-base-300 bg-base-100 px-3 py-1.5 text-sm outline-none"
+    "ffd-ctl w-full rounded-md border border-[var(--c-base-300)] bg-[var(--c-base-100)] px-3 py-1.5 text-sm outline-none"
   end
 end

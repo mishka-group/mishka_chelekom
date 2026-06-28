@@ -253,7 +253,7 @@ defmodule DevelopmentWeb.Showcase.KitDemo do
 
   def demo(%{component: "drawer"} = assigns) do
     ~H"""
-    <div class="relative h-64 overflow-hidden rounded-lg border border-base-300 bg-base-200/30">
+    <div class="relative h-64 overflow-hidden rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-200)]/30">
       <.drawer_kit
         id="drawer-kit-demo"
         color="brand"
@@ -300,7 +300,7 @@ defmodule DevelopmentWeb.Showcase.KitDemo do
           </ul>
         </:content>
       </.dropdown_kit>
-      <p class="text-xs text-base-content/50">Click the trigger — the brand-fuchsia menu opens.</p>
+      <p class="text-xs text-[var(--c-base-content)]/50">Click the trigger — the brand-fuchsia menu opens.</p>
     </div>
     """
   end
@@ -443,7 +443,7 @@ defmodule DevelopmentWeb.Showcase.KitDemo do
 
   def demo(%{component: "modal"} = assigns) do
     ~H"""
-    <div class="relative grid h-72 w-full place-items-center overflow-hidden rounded-lg border border-base-300 bg-base-200/30">
+    <div class="relative grid h-72 w-full place-items-center overflow-hidden rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-200)]/30">
       <.modal_kit
         id="modal-kit-demo"
         color="brand"
@@ -581,7 +581,7 @@ defmodule DevelopmentWeb.Showcase.KitDemo do
           </span>
         </:content>
       </.popover_kit>
-      <p class="text-xs text-base-content/50">Click the trigger — the brand-fuchsia popover opens.</p>
+      <p class="text-xs text-[var(--c-base-content)]/50">Click the trigger — the brand-fuchsia popover opens.</p>
     </div>
     """
   end
@@ -912,7 +912,7 @@ defmodule DevelopmentWeb.Showcase.KitDemo do
           </.button>
         </:trigger>
       </.tooltip_kit>
-      <p class="text-xs text-base-content/50">Click the trigger — the brand-fuchsia tooltip opens.</p>
+      <p class="text-xs text-[var(--c-base-content)]/50">Click the trigger — the brand-fuchsia tooltip opens.</p>
     </div>
     """
   end

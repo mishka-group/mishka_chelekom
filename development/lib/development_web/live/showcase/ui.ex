@@ -16,8 +16,8 @@ defmodule DevelopmentWeb.Showcase.UI do
     ~H"""
     <section class={["space-y-3", @class]}>
       <div>
-        <h2 class="text-sm font-semibold uppercase tracking-wide text-base-content/50">{@title}</h2>
-        <p :if={@subtitle} class="text-sm text-base-content/60 mt-0.5">{@subtitle}</p>
+        <h2 class="text-sm font-semibold uppercase tracking-wide text-[var(--c-base-content)]/50">{@title}</h2>
+        <p :if={@subtitle} class="text-sm text-[var(--c-base-content)]/60 mt-0.5">{@subtitle}</p>
       </div>
       {render_slot(@inner_block)}
     </section>
@@ -29,7 +29,7 @@ defmodule DevelopmentWeb.Showcase.UI do
 
   def tip(assigns) do
     ~H"""
-    <div class="flex gap-2 rounded-box bg-info/10 ring-1 ring-info/20 p-3 text-xs text-base-content/80 leading-relaxed">
+    <div class="flex gap-2 rounded-lg bg-[var(--c-info)]/10 ring-1 ring-[var(--c-info)]/20 p-3 text-xs text-[var(--c-base-content)]/80 leading-relaxed">
       <span class="shrink-0">💡</span>
       <div>{render_slot(@inner_block)}</div>
     </div>
@@ -46,7 +46,7 @@ defmodule DevelopmentWeb.Showcase.UI do
 
   def code_block(assigns) do
     ~H"""
-    <div class={["group relative rounded-box bg-base-300/70 ring-1 ring-base-content/5", @class]}>
+    <div class={["group relative rounded-lg bg-[var(--c-base-300)]/70 ring-1 ring-[var(--c-base-content)]/5", @class]}>
       <button
         type="button"
         phx-hook="Copy"
@@ -69,8 +69,8 @@ defmodule DevelopmentWeb.Showcase.UI do
 
   def attrs_table(assigns) do
     ~H"""
-    <div :if={@attrs == []} class="text-sm text-base-content/50">No attributes documented.</div>
-    <div :if={@attrs != []} class="overflow-x-auto rounded-box ring-1 ring-base-content/5">
+    <div :if={@attrs == []} class="text-sm text-[var(--c-base-content)]/50">No attributes documented.</div>
+    <div :if={@attrs != []} class="overflow-x-auto rounded-lg ring-1 ring-[var(--c-base-content)]/5">
       <table class="table table-sm">
         <thead>
           <tr>
@@ -83,9 +83,9 @@ defmodule DevelopmentWeb.Showcase.UI do
         <tbody>
           <tr :for={a <- @attrs}>
             <td class="font-mono text-xs whitespace-nowrap">{a.name}</td>
-            <td class="font-mono text-xs text-base-content/60">{a.type}</td>
-            <td class="font-mono text-xs text-base-content/60">{a.default || "—"}</td>
-            <td class="text-xs text-base-content/70">
+            <td class="font-mono text-xs text-[var(--c-base-content)]/60">{a.type}</td>
+            <td class="font-mono text-xs text-[var(--c-base-content)]/60">{a.default || "—"}</td>
+            <td class="text-xs text-[var(--c-base-content)]/70">
               {a.doc}
               <div :if={is_list(a[:values]) and a.values != []} class="mt-1 flex flex-wrap gap-1">
                 <span :for={v <- a.values} class="badge badge-xs badge-ghost font-mono">{v}</span>
@@ -103,7 +103,7 @@ defmodule DevelopmentWeb.Showcase.UI do
 
   def slots_table(assigns) do
     ~H"""
-    <div :if={@slots != []} class="overflow-x-auto rounded-box ring-1 ring-base-content/5">
+    <div :if={@slots != []} class="overflow-x-auto rounded-lg ring-1 ring-[var(--c-base-content)]/5">
       <table class="table table-sm">
         <thead>
           <tr>
@@ -116,7 +116,7 @@ defmodule DevelopmentWeb.Showcase.UI do
           <tr :for={s <- @slots}>
             <td class="font-mono text-xs whitespace-nowrap">{s.name}</td>
             <td class="text-xs">{(s.required && "yes") || "no"}</td>
-            <td class="text-xs text-base-content/70">{s.doc}</td>
+            <td class="text-xs text-[var(--c-base-content)]/70">{s.doc}</td>
           </tr>
         </tbody>
       </table>
