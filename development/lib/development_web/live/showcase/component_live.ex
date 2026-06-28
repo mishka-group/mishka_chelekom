@@ -149,7 +149,8 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
               subtitle="Reuse this component — add or restyle its colors & variants from a Kit."
             >
               <p class="text-xs text-[var(--c-base-content)]/50">
-                <span class="font-semibold text-[var(--c-base-content)]/70">1 ·</span> Customize it in your Kit
+                <span class="font-semibold text-[var(--c-base-content)]/70">1 ·</span>
+                Customize it in your Kit
                 (same value name ⇒ replace, new name ⇒ add):
               </p>
               <.code_block code={Snippets.customize(@component)} />
@@ -292,7 +293,9 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
                 phx-change="update"
                 class="space-y-1.5 border-t border-[var(--c-base-300)] pt-3"
               >
-                <div class="text-xs uppercase tracking-wide text-[var(--c-base-content)]/40">Props</div>
+                <div class="text-xs uppercase tracking-wide text-[var(--c-base-content)]/40">
+                  Props
+                </div>
                 <label
                   :for={flag <- @component.flags}
                   class="flex items-center gap-2 cursor-pointer"
@@ -360,7 +363,10 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
     ~H"""
     <header class="space-y-2">
       <div class="flex items-center justify-between gap-4 flex-wrap">
-        <.link navigate={~p"/showcase"} class="text-sm text-[var(--c-base-content)]/60 hover:underline">
+        <.link
+          navigate={~p"/showcase"}
+          class="text-sm text-[var(--c-base-content)]/60 hover:underline"
+        >
           ← All components
         </.link>
         <div class="flex items-center gap-3 text-sm">

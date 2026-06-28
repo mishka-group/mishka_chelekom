@@ -54,7 +54,9 @@ defmodule DevelopmentWeb.Showcase.OtpFormDemo do
           auto_submit
           class={fc()}
         />
-        <p :for={{msg, _} <- f[:code].errors} class="mt-2 text-sm font-medium text-[var(--c-error)]">{msg}</p>
+        <p :for={{msg, _} <- f[:code].errors} class="mt-2 text-sm font-medium text-[var(--c-error)]">
+          {msg}
+        </p>
 
         <div class="mt-3 flex flex-wrap items-center gap-3">
           <button

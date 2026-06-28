@@ -479,7 +479,10 @@ defmodule DevelopmentWeb.Showcase.FieldsetFormDemo do
                 value={f[:street].value}
                 class="w-full rounded-md border border-[var(--c-base-300)] px-3 py-1.5"
               />
-              <span :for={msg <- H.field_errors(f[:street])} class="mt-1 block text-xs text-[var(--c-error)]">
+              <span
+                :for={msg <- H.field_errors(f[:street])}
+                class="mt-1 block text-xs text-[var(--c-error)]"
+              >
                 {msg}
               </span>
             </label>
@@ -491,7 +494,10 @@ defmodule DevelopmentWeb.Showcase.FieldsetFormDemo do
                 value={f[:city].value}
                 class="w-full rounded-md border border-[var(--c-base-300)] px-3 py-1.5"
               />
-              <span :for={msg <- H.field_errors(f[:city])} class="mt-1 block text-xs text-[var(--c-error)]">
+              <span
+                :for={msg <- H.field_errors(f[:city])}
+                class="mt-1 block text-xs text-[var(--c-error)]"
+              >
                 {msg}
               </span>
             </label>
@@ -1044,7 +1050,9 @@ defmodule DevelopmentWeb.Showcase.SwitchFormDemo do
             />
             <span class="text-sm font-medium">I accept the terms (required)</span>
           </div>
-          <p :for={msg <- H.field_errors(f[:terms])} class="mt-1 text-sm text-[var(--c-error)]">{msg}</p>
+          <p :for={msg <- H.field_errors(f[:terms])} class="mt-1 text-sm text-[var(--c-error)]">
+            {msg}
+          </p>
         </div>
         <button
           type="submit"
@@ -1228,7 +1236,9 @@ defmodule DevelopmentWeb.Showcase.ToggleGroupFormDemo do
             <:item value="center">Center</:item>
             <:item value="right">Right</:item>
           </ToggleGroup.toggle_group>
-          <p :for={msg <- H.field_errors(f[:align])} class="mt-1 text-sm text-[var(--c-error)]">{msg}</p>
+          <p :for={msg <- H.field_errors(f[:align])} class="mt-1 text-sm text-[var(--c-error)]">
+            {msg}
+          </p>
         </div>
         <div>
           <span class="mb-1.5 block text-sm font-medium">Styles (multiple, optional)</span>

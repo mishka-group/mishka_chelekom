@@ -300,7 +300,9 @@ defmodule DevelopmentWeb.Showcase.KitDemo do
           </ul>
         </:content>
       </.dropdown_kit>
-      <p class="text-xs text-[var(--c-base-content)]/50">Click the trigger — the brand-fuchsia menu opens.</p>
+      <p class="text-xs text-[var(--c-base-content)]/50">
+        Click the trigger — the brand-fuchsia menu opens.
+      </p>
     </div>
     """
   end
@@ -581,7 +583,9 @@ defmodule DevelopmentWeb.Showcase.KitDemo do
           </span>
         </:content>
       </.popover_kit>
-      <p class="text-xs text-[var(--c-base-content)]/50">Click the trigger — the brand-fuchsia popover opens.</p>
+      <p class="text-xs text-[var(--c-base-content)]/50">
+        Click the trigger — the brand-fuchsia popover opens.
+      </p>
     </div>
     """
   end
@@ -912,7 +916,9 @@ defmodule DevelopmentWeb.Showcase.KitDemo do
           </.button>
         </:trigger>
       </.tooltip_kit>
-      <p class="text-xs text-[var(--c-base-content)]/50">Click the trigger — the brand-fuchsia tooltip opens.</p>
+      <p class="text-xs text-[var(--c-base-content)]/50">
+        Click the trigger — the brand-fuchsia tooltip opens.
+      </p>
     </div>
     """
   end

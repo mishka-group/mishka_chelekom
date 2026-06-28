@@ -246,11 +246,16 @@ defmodule DevelopmentWeb.Showcase.FieldFormDemo do
           >
             Reset
           </button>
-          <span class="text-xs text-[var(--c-base-content)]/40">Nothing is saved — validation only.</span>
+          <span class="text-xs text-[var(--c-base-content)]/40">
+            Nothing is saved — validation only.
+          </span>
         </div>
       </.form>
 
-      <div :if={@saved} class="mt-4 rounded-md border border-[var(--c-success)]/40 bg-[var(--c-success)]/10 p-3 text-sm">
+      <div
+        :if={@saved}
+        class="mt-4 rounded-md border border-[var(--c-success)]/40 bg-[var(--c-success)]/10 p-3 text-sm"
+      >
         <p class="font-medium text-[var(--c-success)]">✓ Validated (not persisted)</p>
         <pre class="mt-1 overflow-x-auto text-xs text-[var(--c-base-content)]/70">{format_saved(@saved)}</pre>
       </div>

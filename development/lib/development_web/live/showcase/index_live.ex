@@ -97,7 +97,9 @@ defmodule DevelopmentWeb.Showcase.IndexLive do
         {@title} <span class="badge badge-sm">{@count}</span>
       </div>
       <p class="text-sm text-[var(--c-base-content)]/70">{@desc}</p>
-      <code class="block text-xs bg-[var(--c-base-300)]/70 rounded px-2 py-1 overflow-x-auto">{@code}</code>
+      <code class="block text-xs bg-[var(--c-base-300)]/70 rounded px-2 py-1 overflow-x-auto">
+        {@code}
+      </code>
     </div>
     """
   end
@@ -115,7 +117,9 @@ defmodule DevelopmentWeb.Showcase.IndexLive do
         {@heading} <span class={["badge badge-sm", @badge]}>{@count}</span>
       </h2>
       <div :for={{category, items} <- @groups} class="space-y-2">
-        <h3 class="text-xs font-semibold uppercase tracking-wide text-[var(--c-base-content)]/40">{category}</h3>
+        <h3 class="text-xs font-semibold uppercase tracking-wide text-[var(--c-base-content)]/40">
+          {category}
+        </h3>
         <ul class="grid grid-cols-2 gap-1">
           <li :for={c <- items}>
             <.link

@@ -16,7 +16,9 @@ defmodule DevelopmentWeb.Showcase.UI do
     ~H"""
     <section class={["space-y-3", @class]}>
       <div>
-        <h2 class="text-sm font-semibold uppercase tracking-wide text-[var(--c-base-content)]/50">{@title}</h2>
+        <h2 class="text-sm font-semibold uppercase tracking-wide text-[var(--c-base-content)]/50">
+          {@title}
+        </h2>
         <p :if={@subtitle} class="text-sm text-[var(--c-base-content)]/60 mt-0.5">{@subtitle}</p>
       </div>
       {render_slot(@inner_block)}
@@ -46,7 +48,10 @@ defmodule DevelopmentWeb.Showcase.UI do
 
   def code_block(assigns) do
     ~H"""
-    <div class={["group relative rounded-lg bg-[var(--c-base-300)]/70 ring-1 ring-[var(--c-base-content)]/5", @class]}>
+    <div class={[
+      "group relative rounded-lg bg-[var(--c-base-300)]/70 ring-1 ring-[var(--c-base-content)]/5",
+      @class
+    ]}>
       <button
         type="button"
         phx-hook="Copy"
@@ -69,7 +74,9 @@ defmodule DevelopmentWeb.Showcase.UI do
 
   def attrs_table(assigns) do
     ~H"""
-    <div :if={@attrs == []} class="text-sm text-[var(--c-base-content)]/50">No attributes documented.</div>
+    <div :if={@attrs == []} class="text-sm text-[var(--c-base-content)]/50">
+      No attributes documented.
+    </div>
     <div :if={@attrs != []} class="overflow-x-auto rounded-lg ring-1 ring-[var(--c-base-content)]/5">
       <table class="table table-sm">
         <thead>

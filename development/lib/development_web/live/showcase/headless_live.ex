@@ -50,7 +50,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessLive do
     ~H"""
     <div class="min-h-screen bg-[var(--c-base-200)] text-[var(--c-base-content)]">
       <main class="max-w-5xl mx-auto px-6 py-10 space-y-6">
-        <.link navigate={~p"/showcase"} class="text-sm text-[var(--c-base-content)]/60 hover:underline">
+        <.link
+          navigate={~p"/showcase"}
+          class="text-sm text-[var(--c-base-content)]/60 hover:underline"
+        >
           ← All components
         </.link>
         <div class="flex flex-wrap items-center justify-between gap-3">
@@ -69,7 +72,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessLive do
             class="block bg-[var(--c-base-100)] rounded-lg p-4 shadow-sm hover:ring-2 hover:ring-[var(--c-secondary)]/40 transition"
           >
             <div class="font-semibold capitalize">{String.replace(c.name, "_", " ")}</div>
-            <div class="text-xs text-[var(--c-base-content)]/60 mt-1 line-clamp-2">{c.description}</div>
+            <div class="text-xs text-[var(--c-base-content)]/60 mt-1 line-clamp-2">
+              {c.description}
+            </div>
           </.link>
         </div>
       </main>
@@ -279,7 +284,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessLive do
     assigns = assign(assigns, :rows, anatomy_rows(assigns.anatomy))
 
     ~H"""
-    <div :if={@rows == []} class="text-sm text-[var(--c-base-content)]/50">Anatomy not documented.</div>
+    <div :if={@rows == []} class="text-sm text-[var(--c-base-content)]/50">
+      Anatomy not documented.
+    </div>
     <div :if={@rows != []} class="overflow-x-auto rounded-lg ring-1 ring-[var(--c-base-content)]/5">
       <table class="table table-sm">
         <thead>

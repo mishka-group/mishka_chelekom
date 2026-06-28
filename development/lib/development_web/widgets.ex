@@ -30,6 +30,10 @@ defmodule DevelopmentWeb.Widgets do
   end
 
   defp color_class(c) when is_atom(c) and not is_nil(c), do: color_class(to_string(c))
-  defp color_class("plain"), do: "bg-[var(--c-base-200)] text-[var(--c-base-content)] ring-[var(--c-base-300)]"
-  defp color_class(_), do: "bg-[var(--c-base-200)] text-[var(--c-base-content)] ring-[var(--c-base-300)]"
+
+  defp color_class("plain"),
+    do: "bg-[var(--c-base-200)] text-[var(--c-base-content)] ring-[var(--c-base-300)]"
+
+  defp color_class(_),
+    do: "bg-[var(--c-base-200)] text-[var(--c-base-content)] ring-[var(--c-base-300)]"
 end

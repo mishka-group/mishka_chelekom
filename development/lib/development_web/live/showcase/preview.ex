@@ -239,7 +239,9 @@ defmodule DevelopmentWeb.Showcase.Preview do
         <.button variant="outline" color="primary" class="relative">
           Inbox <.indicator color={@ind_color} size={@ind_size} {@on_button_attrs} />
         </.button>
-        <span class="text-[11px] text-[var(--c-base-content)]/50">on a button · {@props[:position]}</span>
+        <span class="text-[11px] text-[var(--c-base-content)]/50">
+          on a button · {@props[:position]}
+        </span>
       </div>
     </div>
     """
@@ -1144,7 +1146,8 @@ defmodule DevelopmentWeb.Showcase.Preview do
         <:trigger>
           <div class="flex w-full items-center justify-between gap-3 px-4 py-3 font-medium cursor-pointer select-none transition-colors hover:bg-[var(--c-base-200)]/60">
             <span class="flex items-center gap-2">
-              <.icon name="hero-truck" class="size-4 text-[var(--c-base-content)]/60" /> Shipping &amp; returns
+              <.icon name="hero-truck" class="size-4 text-[var(--c-base-content)]/60" />
+              Shipping &amp; returns
             </span>
             <.icon
               name="hero-chevron-down"
@@ -1455,7 +1458,9 @@ defmodule DevelopmentWeb.Showcase.Preview do
           <div class="font-semibold">multiple OFF · name="notify"</div>
           <div>request body → {@body_off}</div>
           <div>server params → {@params_off}</div>
-          <div class="text-[var(--c-warning)]">↳ same key repeats, so only the last value survives</div>
+          <div class="text-[var(--c-warning)]">
+            ↳ same key repeats, so only the last value survives
+          </div>
         </div>
         <div class={["border-t border-[var(--c-base-content)]/10 pt-2", @multiple_on || "opacity-40"]}>
           <div class="font-semibold">multiple ON · name="notify[]"</div>

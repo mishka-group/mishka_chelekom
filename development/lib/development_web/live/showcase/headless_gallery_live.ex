@@ -171,7 +171,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessGalleryLive do
         <HeadlessPreview.show :if={@kind == :show} component={@component} id={@preview_id} />
         <HeadlessPreview.examples :if={@kind == :examples} component={@component} id={@preview_id} />
       </div>
-      <details :if={@code} class="group overflow-hidden rounded-b-2xl border-t border-[var(--c-base-300)]">
+      <details
+        :if={@code}
+        class="group overflow-hidden rounded-b-2xl border-t border-[var(--c-base-300)]"
+      >
         <summary class="cursor-pointer list-none px-4 py-2.5 text-center text-sm font-medium text-[var(--c-base-content)]/60 hover:text-[var(--c-base-content)]">
           <span class="group-open:hidden">▸ Show code</span>
           <span class="hidden group-open:inline">▾ Hide code</span>

@@ -474,7 +474,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       <:trigger>Shipping details</:trigger>
       <div class="mt-2 rounded-md border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-3 text-sm">
         <p>Orders ship within 2 business days via standard carrier.</p>
-        <p class="mt-2 text-[var(--c-base-content)]/60">Tracking is emailed once the label is created.</p>
+        <p class="mt-2 text-[var(--c-base-content)]/60">
+          Tracking is emailed once the label is created.
+        </p>
       </div>
     </.collapsible>
     """
@@ -571,7 +573,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         Tab cycles inside; Escape, the backdrop, or the close button dismiss it.
       </p>
       <:close>
-        <button type="button" class="rounded-md border border-[var(--c-base-300)] px-3 py-1.5 text-sm" data-close>
+        <button
+          type="button"
+          class="rounded-md border border-[var(--c-base-300)] px-3 py-1.5 text-sm"
+          data-close
+        >
           Cancel
         </button>
         <button
@@ -876,7 +882,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         />
       </label>
       <:close>
-        <button type="button" class="rounded-md border border-[var(--c-base-300)] px-3 py-1.5 text-sm" data-close>
+        <button
+          type="button"
+          class="rounded-md border border-[var(--c-base-300)] px-3 py-1.5 text-sm"
+          data-close
+        >
           Close
         </button>
       </:close>
@@ -941,7 +951,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         <.scroll_area id={@id} orientation="vertical" class={scroll_area_class()}>
           <p class="text-sm font-semibold">Scrollable region</p>
           <ul class="mt-2 space-y-2 text-sm">
-            <li :for={n <- 1..20} class="rounded border border-[var(--c-base-200)] px-2 py-1.5">Item {n}</li>
+            <li :for={n <- 1..20} class="rounded border border-[var(--c-base-200)] px-2 py-1.5">
+              Item {n}
+            </li>
           </ul>
         </.scroll_area>
       </div>
@@ -962,11 +974,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       </div>
 
       <div class="space-y-1.5">
-        <p class="text-[0.7rem] uppercase tracking-wide text-[var(--c-base-content)]/40">Both axes · + corner</p>
+        <p class="text-[0.7rem] uppercase tracking-wide text-[var(--c-base-content)]/40">
+          Both axes · + corner
+        </p>
         <.scroll_area id={"#{@id}-both"} orientation="both" class={scroll_area_class()}>
           <table class="text-sm">
             <tr :for={r <- 1..16}>
-              <td :for={c <- 1..8} class="whitespace-nowrap border border-[var(--c-base-200)] px-3 py-1.5">
+              <td
+                :for={c <- 1..8}
+                class="whitespace-nowrap border border-[var(--c-base-200)] px-3 py-1.5"
+              >
                 R{r}C{c}
               </td>
             </tr>
@@ -1023,7 +1040,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     ~H"""
     <div class="space-y-6">
       <div class="space-y-1.5">
-        <p class="text-[0.7rem] uppercase tracking-wide text-[var(--c-base-content)]/40">Horizontal</p>
+        <p class="text-[0.7rem] uppercase tracking-wide text-[var(--c-base-content)]/40">
+          Horizontal
+        </p>
         <div class="w-72 text-sm text-[var(--c-base-content)]/70">
           <p>Account settings</p>
           <.separator id={"#{@id}-plain"} class="my-2.5 h-px w-full bg-[var(--c-base-300)]" />
@@ -1042,13 +1061,19 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       </div>
 
       <div class="space-y-1.5">
-        <p class="text-[0.7rem] uppercase tracking-wide text-[var(--c-base-content)]/40">Vertical (in a nav)</p>
+        <p class="text-[0.7rem] uppercase tracking-wide text-[var(--c-base-content)]/40">
+          Vertical (in a nav)
+        </p>
         <nav class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-[var(--c-base-content)]/80">
           <a href="#" class="hover:text-[var(--c-base-content)]">Home</a>
           <a href="#" class="hover:text-[var(--c-base-content)]">Pricing</a>
           <a href="#" class="hover:text-[var(--c-base-content)]">Blog</a>
           <a href="#" class="hover:text-[var(--c-base-content)]">Support</a>
-          <.separator id={"#{@id}-nav"} orientation="vertical" class="h-4 w-px bg-[var(--c-base-300)]" />
+          <.separator
+            id={"#{@id}-nav"}
+            orientation="vertical"
+            class="h-4 w-px bg-[var(--c-base-300)]"
+          />
           <a href="#" class="hover:text-[var(--c-base-content)]">Log in</a>
           <a href="#" class="hover:text-[var(--c-base-content)]">Sign up</a>
         </nav>
@@ -1097,7 +1122,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
 
       <div class="flex gap-10">
         <div class="space-y-1.5">
-          <p class="text-[0.7rem] uppercase tracking-wide text-[var(--c-base-content)]/40">Vertical</p>
+          <p class="text-[0.7rem] uppercase tracking-wide text-[var(--c-base-content)]/40">
+            Vertical
+          </p>
           <.slider
             id={"#{@id}-vert"}
             name="bass"
@@ -1107,7 +1134,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
           />
         </div>
         <div class="space-y-1.5">
-          <p class="text-[0.7rem] uppercase tracking-wide text-[var(--c-base-content)]/40">Disabled</p>
+          <p class="text-[0.7rem] uppercase tracking-wide text-[var(--c-base-content)]/40">
+            Disabled
+          </p>
           <.slider id={"#{@id}-dis"} value={60} disabled class={slider_class()} />
         </div>
       </div>
@@ -1215,7 +1244,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
 
       <div class="flex gap-8">
         <div class="space-y-1.5">
-          <p class="text-[0.7rem] uppercase tracking-wide text-[var(--c-base-content)]/40">Vertical</p>
+          <p class="text-[0.7rem] uppercase tracking-wide text-[var(--c-base-content)]/40">
+            Vertical
+          </p>
           <.toggle_group
             id={"#{@id}-vert"}
             orientation="vertical"
@@ -1228,7 +1259,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
           </.toggle_group>
         </div>
         <div class="space-y-1.5">
-          <p class="text-[0.7rem] uppercase tracking-wide text-[var(--c-base-content)]/40">Disabled group</p>
+          <p class="text-[0.7rem] uppercase tracking-wide text-[var(--c-base-content)]/40">
+            Disabled group
+          </p>
           <.toggle_group id={"#{@id}-dis"} disabled value="b" class={toggle_group_class()}>
             <:item value="a">A</:item>
             <:item value="b">B</:item>
@@ -1367,7 +1400,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
             <:template>
               <div class="min-w-0 flex-1">
                 <p class="font-semibold">Saved</p>
-                <p class="text-[var(--c-base-content)]/70">Re-clicking just refreshes this one toast.</p>
+                <p class="text-[var(--c-base-content)]/70">
+                  Re-clicking just refreshes this one toast.
+                </p>
               </div>
             </:template>
           </.toast>

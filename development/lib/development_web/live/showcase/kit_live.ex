@@ -88,7 +88,10 @@ defmodule DevelopmentWeb.Showcase.KitLive do
     <div class="min-h-screen bg-[var(--c-base-200)] text-[var(--c-base-content)]">
       <main class="max-w-5xl mx-auto px-6 py-8 space-y-8">
         <header class="space-y-1">
-          <.link navigate={~p"/showcase"} class="text-sm text-[var(--c-base-content)]/60 hover:underline">
+          <.link
+            navigate={~p"/showcase"}
+            class="text-sm text-[var(--c-base-content)]/60 hover:underline"
+          >
             ← All components
           </.link>
           <h1 class="text-3xl font-bold">The <code>Kit</code> — reuse &amp; customize</h1>
@@ -108,7 +111,9 @@ defmodule DevelopmentWeb.Showcase.KitLive do
           <:result>
             <div class="space-y-4">
               <div class="space-y-1.5">
-                <div class="text-[11px] text-[var(--c-base-content)]/50">restyle :primary — stock → Kit</div>
+                <div class="text-[11px] text-[var(--c-base-content)]/50">
+                  restyle :primary — stock → Kit
+                </div>
                 <div class="flex flex-wrap items-center gap-2">
                   <.button color="primary" size="small">stock</.button>
                   <span class="text-[var(--c-base-content)]/30">→</span>
@@ -149,7 +154,9 @@ defmodule DevelopmentWeb.Showcase.KitLive do
         >
           <:result>
             <div class="space-y-1.5">
-              <div class="text-[11px] text-[var(--c-base-content)]/50">stock widget → Kit's :brand</div>
+              <div class="text-[11px] text-[var(--c-base-content)]/50">
+                stock widget → Kit's :brand
+              </div>
               <div class="flex flex-wrap items-center gap-2">
                 <Widgets.ribbon>stock ribbon</Widgets.ribbon>
                 <span class="text-[var(--c-base-content)]/30">→</span>
@@ -208,11 +215,15 @@ defmodule DevelopmentWeb.Showcase.KitLive do
       </div>
       <div class="grid lg:grid-cols-2">
         <div class="p-5 lg:border-r border-[var(--c-base-200)]">
-          <div class="text-[11px] uppercase tracking-wide text-[var(--c-base-content)]/40 mb-2">customize</div>
+          <div class="text-[11px] uppercase tracking-wide text-[var(--c-base-content)]/40 mb-2">
+            customize
+          </div>
           <.code_block code={@code} wrap />
         </div>
         <div class="p-5 bg-[var(--c-base-200)]/30">
-          <div class="text-[11px] uppercase tracking-wide text-[var(--c-base-content)]/40 mb-3">result</div>
+          <div class="text-[11px] uppercase tracking-wide text-[var(--c-base-content)]/40 mb-3">
+            result
+          </div>
           {render_slot(@result)}
         </div>
       </div>
