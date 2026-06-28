@@ -62,7 +62,11 @@ defmodule MishkaChelekom.Generators.CoreTest do
 
     test "drops blank entries from the requested list" do
       igniter = test_project_with_formatter()
-      assert Core.resolve_components(igniter, "alert,,button", :styled, %{}, nil) == ["alert", "button"]
+
+      assert Core.resolve_components(igniter, "alert,,button", :styled, %{}, nil) == [
+               "alert",
+               "button"
+             ]
     end
   end
 

@@ -113,7 +113,8 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
   defp print_banner, do: Core.banner(IO.ANSI.red())
 
   defp print_exclusions(user_config, options) do
-    all_excluded = Enum.uniq((user_config[:exclude_components] || []) ++ (options[:exclude] || []))
+    all_excluded =
+      Enum.uniq((user_config[:exclude_components] || []) ++ (options[:exclude] || []))
 
     if all_excluded != [] do
       IO.puts(
