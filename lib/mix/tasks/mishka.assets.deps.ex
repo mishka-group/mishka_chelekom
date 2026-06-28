@@ -42,6 +42,8 @@ if Code.ensure_loaded?(Igniter) do
     @pkgs [:npm, :bun, :yarn]
     use Igniter.Mix.Task
 
+    alias MishkaChelekom.Generators.Core
+
     @impl Igniter.Mix.Task
     def info(_argv, _composing_task) do
       %Igniter.Mix.Task.Info{
@@ -81,18 +83,7 @@ if Code.ensure_loaded?(Igniter) do
           true -> Enum.find(@pkgs, &(!is_nil(System.find_executable(Atom.to_string(&1)))))
         end
 
-      if !options[:test] do
-        msg =
-          """
-                .-.
-               /'v'\\
-              (/   \\)
-              =="="==
-            Mishka.tools
-          """
-
-        IO.puts(IO.ANSI.light_yellow() <> String.trim_trailing(msg) <> IO.ANSI.reset())
-      end
+      if !options[:test], do: Core.banner(IO.ANSI.light_yellow())
 
       igniter
       |> ensure_package_json_exists()

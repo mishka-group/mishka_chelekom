@@ -80,6 +80,8 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
 
   use Igniter.Mix.Task
 
+  alias MishkaChelekom.Generators.Core
+
   @default_json_template """
   {
     "name": "something-new",
@@ -152,18 +154,7 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
 
     options = igniter.args.options
 
-    if !options[:test] do
-      msg =
-        """
-              .-.
-             /'v'\\
-            (/   \\)
-            =="="==
-          Mishka.tools
-        """
-
-      IO.puts(IO.ANSI.yellow() <> String.trim_trailing(msg) <> IO.ANSI.reset())
-    end
+    if !options[:test], do: Core.banner(IO.ANSI.yellow())
 
     name = Keyword.get(options, :name, "template")
     org = Keyword.get(options, :org, "component")
