@@ -89,9 +89,6 @@ jobs:
         working-directory: development
         run: mix deps.get
 
-      # Re-running the CLI against the already-generated harness must change NOTHING.
-      # Fails (exit 1, listing the drifted files) if the committed output is out of sync
-      # with the current templates/theme — regenerate and commit to fix.
       - name: Generators must produce no changes on re-run
         working-directory: development
         env:

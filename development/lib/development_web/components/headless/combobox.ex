@@ -245,11 +245,11 @@ defmodule DevelopmentWeb.Components.Headless.Combobox do
             :if={@create_icon != []}
             data-part="create-label"
             class={["chelekom-combobox__create-label", @create_label_class]}
-          >Create “<span data-create-label></span>”</span>
-          <span :if={@create_icon == []}>
+          >Create “<span data-create-label></span>”</span><span :if={@create_icon == []}>
             Create “
-          </span>
-          <span :if={@create_icon == []} data-create-label></span><span :if={@create_icon == []}>”</span>
+          </span><span :if={@create_icon == []} data-create-label></span><span :if={
+            @create_icon == []
+          }>”</span>
         </li>
       </ul>
     </div>

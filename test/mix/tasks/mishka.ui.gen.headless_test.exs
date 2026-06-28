@@ -79,7 +79,10 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.HeadlessTest do
 
       # re-running detects it and does not add a second copy
       assert {:ok, :exists, again} =
-               MishkaChelekom.SimpleCSSUtilities.add_import(css, "../vendor/mishka_chelekom_headless.css")
+               MishkaChelekom.SimpleCSSUtilities.add_import(
+                 css,
+                 "../vendor/mishka_chelekom_headless.css"
+               )
 
       assert length(String.split(again, "../vendor/mishka_chelekom_headless.css")) == 2
     end
