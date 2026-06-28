@@ -150,6 +150,7 @@ defmodule MishkaChelekom.Generators.Assets do
       igniter
     else
       igniter
+      |> Core.ensure_user_config()
       |> create_mishka_css("assets/vendor/mishka_chelekom.css")
       |> import_and_setup_theme("assets/css/app.css")
     end
@@ -158,11 +159,9 @@ defmodule MishkaChelekom.Generators.Assets do
   defp create_mishka_css(igniter, vendor_css_path) do
     mishka_css_content = Config.generate_css_content(igniter)
 
-    igniter
-    |> Igniter.create_or_update_file(vendor_css_path, mishka_css_content, fn source ->
+    Igniter.create_or_update_file(igniter, vendor_css_path, mishka_css_content, fn source ->
       Rewrite.Source.update(source, :content, mishka_css_content)
     end)
-    |> maybe_create_sample_config()
   end
 
   defp import_and_setup_theme(igniter, app_css_path) do
@@ -192,43 +191,6 @@ defmodule MishkaChelekom.Generators.Assets do
     end
   end
 
-  defp maybe_create_sample_config(igniter) do
-    config_path = Path.join(["priv", "mishka_chelekom", "config.exs"])
-
-    if !File.exists?(config_path) do
-      {igniter, path, content} = Config.create_sample_config(igniter)
-
-      igniter
-      |> Igniter.create_or_update_file(path, content, fn source ->
-        Rewrite.Source.update(source, :content, content)
-      end)
-      |> Igniter.add_notice("""
-      Created a sample configuration file at #{path}
-
-      This configuration file allows you to customize Mishka Chelekom globally:
-
-      Component Control:
-      - exclude_components: Exclude specific components from generation
-      - component_colors: Limit which color variants are generated
-      - component_variants: Limit which variant options are generated
-      - component_sizes: Limit which size options are generated
-      - component_rounded: Limit which rounded options are generated
-      - component_padding: Limit which padding options are generated
-      - component_space: Limit which space options are generated
-      - component_prefix: Prefix public functions
-
-      CSS Customization:
-      - css_overrides: Override specific CSS variables
-      - custom_css_path: Use a completely custom CSS file
-      - css_merge_strategy: Choose between merging or replacing CSS
-
-      Your customizations will be applied when generating components.
-      """)
-    else
-      igniter
-    end
-  end
-
   @doc """
   Installs the functional (color-free) headless base stylesheet and imports it once into
   `app.css`. No-op for sub generations (`--sub`).
@@ -238,41 +200,45 @@ defmodule MishkaChelekom.Generators.Assets do
     if options[:sub] do
       igniter
     else
-      css = File.read!(Core.lib_priv("assets/css/chelekom_headless.css"))
+      css = File.read!(Core.lib_priv("assets/css/mishka_chelekom_headless.css"))
 
       igniter
+      |> Core.ensure_user_config()
       |> Igniter.create_or_update_file(
-        "assets/vendor/chelekom_headless.css",
+        "assets/vendor/mishka_chelekom_headless.css",
         css,
         &Rewrite.Source.update(&1, :content, css)
       )
-      |> ensure_headless_css_import()
+      |> add_vendor_import("assets/css/app.css", "../vendor/mishka_chelekom_headless.css")
     end
   end
 
-  defp ensure_headless_css_import(igniter) do
-    app_css = "assets/css/app.css"
-    import_line = ~s|@import "../vendor/chelekom_headless.css";|
-
+  # Idempotently adds a vendor `@import` to app.css using the same parser the styled side uses
+  # (regex dedup + correct Tailwind-4 ordering), so it never duplicates and never lands before
+  # `@import "tailwindcss";`. Never rewrites the rest of the user's app.css.
+  defp add_vendor_import(igniter, app_css, import_path) do
     case File.read(app_css) do
       {:ok, content} ->
-        if String.contains?(content, "chelekom_headless.css") do
-          igniter
-        else
-          updated = import_line <> "\n" <> content
+        case SimpleCSSUtilities.add_import(content, import_path) do
+          {:ok, :exists, _} ->
+            igniter
 
-          Igniter.create_or_update_file(
-            igniter,
-            app_css,
-            updated,
-            &Rewrite.Source.update(&1, :content, updated)
-          )
+          {:ok, :added, updated} ->
+            Igniter.create_or_update_file(igniter, app_css, updated, fn source ->
+              Rewrite.Source.update(source, :content, updated)
+            end)
+
+          {:error, _, _} ->
+            Igniter.add_notice(
+              igniter,
+              "Could not update #{app_css} — add `@import \"#{import_path}\";` manually."
+            )
         end
 
       _ ->
         Igniter.add_notice(
           igniter,
-          "Could not find assets/css/app.css — add `@import \"../vendor/chelekom_headless.css\";` manually."
+          "Could not find #{app_css} — add `@import \"#{import_path}\";` manually."
         )
     end
   end

@@ -253,7 +253,8 @@ defmodule DevelopmentWeb.Components.Headless.Combobox do
           <span
             :if={@create_icon == []}
             data-create-label
-          ></span><span :if={@create_icon == []}>”</span>
+          >
+          </span><span :if={@create_icon == []}>”</span>
         </li>
       </ul>
     </div>

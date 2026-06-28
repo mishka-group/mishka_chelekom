@@ -2,7 +2,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless.Components do
   use Igniter.Mix.Task
 
   alias MishkaChelekom.Config
-  alias MishkaChelekom.Generators.Core
+  alias MishkaChelekom.Generators.{Assets, Core}
 
   @example "mix mishka.ui.gen.headless.components dialog,tabs"
   @shortdoc "Generate multiple (or all) headless components at once"
@@ -65,6 +65,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless.Components do
       igniter
       |> Igniter.assign(:mishka_user_config, user_config)
       |> Core.fan_out("mishka.ui.gen.headless", list, child_args)
+      |> Assets.setup_headless_css([])
       |> Core.maybe_save_prefixes(options)
 
     if tty? do

@@ -48,6 +48,43 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.HeadlessTest do
     end
   end
 
+  describe "css + config" do
+    test "installs the headless base CSS vendor file and creates config.exs" do
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.compose_task(Headless, ["accordion", "--yes"])
+
+      assert igniter.rewrite.sources["assets/vendor/mishka_chelekom_headless.css"]
+      assert igniter.rewrite.sources["priv/mishka_chelekom/config.exs"]
+    end
+
+    test "does not install the base CSS for a --sub generation" do
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.compose_task(Headless, ["accordion", "--sub", "--yes"])
+
+      refute igniter.rewrite.sources["assets/vendor/mishka_chelekom_headless.css"]
+    end
+
+    test "the headless @import is inserted AFTER tailwindcss, and deduped on re-run" do
+      {:ok, :added, css} =
+        MishkaChelekom.SimpleCSSUtilities.add_import(
+          ~s|@import "tailwindcss";|,
+          "../vendor/mishka_chelekom_headless.css"
+        )
+
+      {tailwind_at, _} = :binary.match(css, "tailwindcss")
+      {headless_at, _} = :binary.match(css, "mishka_chelekom_headless")
+      assert tailwind_at < headless_at
+
+      # re-running detects it and does not add a second copy
+      assert {:ok, :exists, again} =
+               MishkaChelekom.SimpleCSSUtilities.add_import(css, "../vendor/mishka_chelekom_headless.css")
+
+      assert length(String.split(again, "../vendor/mishka_chelekom_headless.css")) == 2
+    end
+  end
+
   describe "validation" do
     test "adds an issue for a non-existent headless component" do
       igniter =

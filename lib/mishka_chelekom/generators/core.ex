@@ -232,6 +232,49 @@ defmodule MishkaChelekom.Generators.Core do
   defp save_prefix(igniter, prefix, fun), do: fun.(igniter, prefix)
 
   @doc """
+  Creates the sample `priv/mishka_chelekom/config.exs` if it does not exist yet (idempotent).
+
+  Shared by the styled and headless setup so both layers handle the config file the same way.
+  """
+  @spec ensure_user_config(Igniter.t()) :: Igniter.t()
+  def ensure_user_config(igniter) do
+    config_path = Path.join(["priv", "mishka_chelekom", "config.exs"])
+
+    if File.exists?(config_path) do
+      igniter
+    else
+      {igniter, path, content} = Config.create_sample_config(igniter)
+
+      igniter
+      |> Igniter.create_or_update_file(path, content, fn source ->
+        Rewrite.Source.update(source, :content, content)
+      end)
+      |> Igniter.add_notice("""
+      Created a sample configuration file at #{path}
+
+      This configuration file allows you to customize Mishka Chelekom globally:
+
+      Component Control:
+      - exclude_components: Exclude specific components from generation
+      - component_colors: Limit which color variants are generated
+      - component_variants: Limit which variant options are generated
+      - component_sizes: Limit which size options are generated
+      - component_rounded: Limit which rounded options are generated
+      - component_padding: Limit which padding options are generated
+      - component_space: Limit which space options are generated
+      - component_prefix: Prefix public functions
+
+      CSS Customization:
+      - css_overrides: Override specific CSS variables
+      - custom_css_path: Use a completely custom CSS file
+      - css_merge_strategy: Choose between merging or replacing CSS
+
+      Your customizations will be applied when generating components.
+      """)
+    end
+  end
+
+  @doc """
   Converts a CSV string or list of values into a trimmed list of strings.
   """
   @spec convert_options(nil | String.t() | [String.t()]) :: nil | [String.t()]

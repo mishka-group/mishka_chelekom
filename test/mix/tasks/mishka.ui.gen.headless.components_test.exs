@@ -36,4 +36,13 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless.ComponentsTest do
 
     assert igniter.rewrite.sources["lib/test_web/components/headless/mishka_accordion.ex"]
   end
+
+  test "installs the headless base CSS + config once for the whole batch" do
+    igniter =
+      test_project_with_formatter()
+      |> Igniter.compose_task(Components, ["accordion,dialog", "--yes"])
+
+    assert igniter.rewrite.sources["assets/vendor/mishka_chelekom_headless.css"]
+    assert igniter.rewrite.sources["priv/mishka_chelekom/config.exs"]
+  end
 end
