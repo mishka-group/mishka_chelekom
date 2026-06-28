@@ -2,7 +2,7 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   use Igniter.Mix.Task
   alias IgniterJs.Parsers.Javascript.Parser, as: JsParser
   alias IgniterJs.Parsers.Javascript.Formatter, as: JsFormatter
-  alias Mix.Tasks.Mishka.Ui.Gen.Component, as: GenComponent
+  alias MishkaChelekom.Generators.Core
   alias MishkaChelekom.Config
 
   @example "mix mishka.ui.uninstall accordion"
@@ -123,18 +123,7 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
 
   defp handle_uninstall(igniter), do: process_uninstall(igniter)
 
-  defp print_banner do
-    """
-          .-.
-         /'v'\\
-        (/   \\)
-        =="="==
-      Mishka.tools
-       Uninstall
-    """
-    |> String.trim_trailing()
-    |> then(&IO.puts(IO.ANSI.magenta() <> &1 <> IO.ANSI.reset()))
-  end
+  defp print_banner, do: Core.banner(IO.ANSI.magenta(), "Uninstall")
 
   defp find_all_installed_components(igniter) do
     Igniter.assign(igniter, :components, list_installed_components(igniter))
@@ -444,7 +433,7 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
 
   defp build_module_name(web_module, component, prefix) do
     name = if prefix && prefix != "", do: "#{prefix}#{component}", else: component
-    Module.concat([web_module, "Components", GenComponent.atom_to_module(name)])
+    Module.concat([web_module, "Components", Core.module_atom(name)])
   end
 
   defp show_removal_plan(plan, dry_run) do

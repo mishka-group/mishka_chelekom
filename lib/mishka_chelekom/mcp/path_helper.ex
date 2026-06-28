@@ -7,6 +7,8 @@ defmodule MishkaChelekom.MCP.PathHelper do
   Uses `:code.priv_dir/1` for installed dependency, falls back to local paths for development.
   """
 
+  alias MishkaChelekom.Generators.Core
+
   @doc """
   Returns the package root directory for mishka_chelekom.
   This is where usage-rules/ folder is located.
@@ -42,23 +44,7 @@ defmodule MishkaChelekom.MCP.PathHelper do
   Returns the priv directory path for mishka_chelekom.
   Works both in development and when installed as a dependency.
   """
-  def priv_dir do
-    case :code.priv_dir(:mishka_chelekom) do
-      {:error, :bad_name} ->
-        # Fallback for development - check local priv directory
-        local_priv = Path.join(File.cwd!(), "priv")
-
-        if File.dir?(local_priv) do
-          local_priv
-        else
-          # Last resort - try deps path
-          Path.join([File.cwd!(), "deps", "mishka_chelekom", "priv"])
-        end
-
-      path when is_list(path) ->
-        List.to_string(path)
-    end
-  end
+  def priv_dir, do: Core.lib_priv_dir()
 
   @doc """
   Returns the path to usage-rules directory.
@@ -100,7 +86,7 @@ defmodule MishkaChelekom.MCP.PathHelper do
   Returns the path to a component config file in priv/components/.
   """
   def component_config_path(name) do
-    Path.join([priv_dir(), "components", "#{name}.exs"])
+    Path.join(Core.template_dir(:styled), "#{name}.exs")
   end
 
   @doc """
