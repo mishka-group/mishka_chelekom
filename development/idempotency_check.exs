@@ -42,10 +42,20 @@ defmodule IdempotencyCheck do
     igniter.rewrite
     |> Rewrite.sources()
     |> Enum.filter(fn source ->
-      Rewrite.Source.get(source, :content) != Rewrite.Source.get(source, :content, 1)
+      path = Rewrite.Source.get(source, :path)
+      current = Rewrite.Source.get(source, :content)
+      original = Rewrite.Source.get(source, :content, 1)
+      formatted(path, current) != formatted(path, original)
     end)
     |> Enum.map(&Rewrite.Source.get(&1, :path))
     |> Enum.sort()
+  end
+
+  defp formatted(path, content) do
+    {formatter, _opts} = Mix.Tasks.Format.formatter_for_file(path)
+    formatter.(content)
+  rescue
+    _ -> content
   end
 end
 
