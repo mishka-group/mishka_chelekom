@@ -2,7 +2,7 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   use Igniter.Mix.Task
   alias IgniterJs.Parsers.Javascript.Parser, as: JsParser
   alias IgniterJs.Parsers.Javascript.Formatter, as: JsFormatter
-  alias Mix.Tasks.Mishka.Ui.Gen.Component, as: GenComponent
+  alias MishkaChelekom.Generators.Core
   alias MishkaChelekom.Config
 
   @example "mix mishka.ui.uninstall accordion"
@@ -123,18 +123,7 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
 
   defp handle_uninstall(igniter), do: process_uninstall(igniter)
 
-  defp print_banner do
-    """
-          .-.
-         /'v'\\
-        (/   \\)
-        =="="==
-      Mishka.tools
-       Uninstall
-    """
-    |> String.trim_trailing()
-    |> then(&IO.puts(IO.ANSI.magenta() <> &1 <> IO.ANSI.reset()))
-  end
+  defp print_banner, do: Core.banner(IO.ANSI.magenta(), "Uninstall")
 
   defp find_all_installed_components(igniter) do
     Igniter.assign(igniter, :components, list_installed_components(igniter))
@@ -310,15 +299,13 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   defp should_proceed?(%{dry_run: true}), do: false
   defp should_proceed?(_), do: true
 
-  defp add_cancel_notice(%{assigns: %{opts: %{dry_run: true}}} = igniter) do
+  defp add_cancel_notice(igniter) do
     Igniter.add_notice(igniter, """
 
     Dry-run complete. No files were modified.
     Run without --dry-run to perform the actual uninstall.
     """)
   end
-
-  defp add_cancel_notice(igniter), do: Igniter.add_notice(igniter, "Uninstall cancelled.")
 
   defp build_removal_plan(igniter) do
     %{components: components, user_config: user_config} = igniter.assigns
@@ -444,7 +431,7 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
 
   defp build_module_name(web_module, component, prefix) do
     name = if prefix && prefix != "", do: "#{prefix}#{component}", else: component
-    Module.concat([web_module, "Components", GenComponent.atom_to_module(name)])
+    Module.concat([web_module, "Components", Core.module_atom(name)])
   end
 
   defp show_removal_plan(plan, dry_run) do

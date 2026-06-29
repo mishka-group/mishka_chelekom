@@ -43,10 +43,9 @@ defmodule DevelopmentWeb.Components.Headless.Combobox do
 
   attr :on_create, :string, default: nil, doc: "LiveView event pushed to create ({value})"
   attr :on_change, :string, default: nil, doc: "LiveView event pushed on selection ({value})"
-
   attr :class, :any, default: nil
 
-  # Optional per-part class props (backward-compatible). Carry Base-UI verbatim classes.
+  # Optional per-part class props (backward-compatible).
   attr :control_class, :any, default: nil, doc: "Class for the `control` part"
   attr :input_class, :any, default: nil, doc: "Class for the `input` part"
   attr :clear_class, :any, default: nil, doc: "Class for the `clear` button part"
@@ -250,10 +249,7 @@ defmodule DevelopmentWeb.Components.Headless.Combobox do
           <span :if={@create_icon == []}>
             Create “
           </span>
-          <span
-            :if={@create_icon == []}
-            data-create-label
-          ></span><span :if={@create_icon == []}>”</span>
+          <span :if={@create_icon == []} data-create-label></span><span :if={@create_icon == []}>”</span>
         </li>
       </ul>
     </div>

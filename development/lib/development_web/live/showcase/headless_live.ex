@@ -48,16 +48,19 @@ defmodule DevelopmentWeb.Showcase.HeadlessLive do
   @impl true
   def render(%{component: nil} = assigns) do
     ~H"""
-    <div class="min-h-screen bg-base-200 text-base-content">
+    <div class="min-h-screen bg-[var(--c-base-200)] text-[var(--c-base-content)]">
       <main class="max-w-5xl mx-auto px-6 py-10 space-y-6">
-        <.link navigate={~p"/showcase"} class="text-sm text-base-content/60 hover:underline">
+        <.link
+          navigate={~p"/showcase"}
+          class="text-sm text-[var(--c-base-content)]/60 hover:underline"
+        >
           ← All components
         </.link>
         <div class="flex flex-wrap items-center justify-between gap-3">
           <h1 class="text-3xl font-bold">Unstyled components</h1>
           <.link
             navigate={~p"/showcase/headless-baseui"}
-            class="inline-flex items-center gap-1.5 rounded-lg border border-base-300 bg-base-100 px-3.5 py-2 text-sm font-medium shadow-sm hover:bg-base-200"
+            class="inline-flex items-center gap-1.5 rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] px-3.5 py-2 text-sm font-medium shadow-sm hover:bg-[var(--c-base-200)]"
           >
             Base UI examples →
           </.link>
@@ -66,10 +69,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessLive do
           <.link
             :for={c <- @catalog}
             navigate={~p"/showcase/headless/#{c.name}"}
-            class="block bg-base-100 rounded-box p-4 shadow-sm hover:ring-2 hover:ring-secondary/40 transition"
+            class="block bg-[var(--c-base-100)] rounded-lg p-4 shadow-sm hover:ring-2 hover:ring-[var(--c-secondary)]/40 transition"
           >
             <div class="font-semibold capitalize">{String.replace(c.name, "_", " ")}</div>
-            <div class="text-xs text-base-content/60 mt-1 line-clamp-2">{c.description}</div>
+            <div class="text-xs text-[var(--c-base-content)]/60 mt-1 line-clamp-2">
+              {c.description}
+            </div>
           </.link>
         </div>
       </main>
@@ -79,20 +84,20 @@ defmodule DevelopmentWeb.Showcase.HeadlessLive do
 
   def render(assigns) do
     ~H"""
-    <div class="min-h-screen bg-base-200 text-base-content">
+    <div class="min-h-screen bg-[var(--c-base-200)] text-[var(--c-base-content)]">
       <div class="max-w-6xl mx-auto px-6 py-8 space-y-6">
         <header class="space-y-2">
           <div class="flex items-center justify-between gap-4 flex-wrap">
             <.link
               navigate={~p"/showcase/headless"}
-              class="text-sm text-base-content/60 hover:underline"
+              class="text-sm text-[var(--c-base-content)]/60 hover:underline"
             >
               ← All unstyled
             </.link>
             <div class="flex items-center gap-3 text-sm">
               <.link
                 navigate={~p"/showcase/headless-baseui/#{@component.name}"}
-                class="inline-flex items-center gap-1 rounded-lg border border-base-300 bg-base-100 px-2.5 py-1 font-medium shadow-sm hover:bg-base-200"
+                class="inline-flex items-center gap-1 rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] px-2.5 py-1 font-medium shadow-sm hover:bg-[var(--c-base-200)]"
               >
                 Base UI examples →
               </.link>
@@ -114,7 +119,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessLive do
             </div>
           </div>
           <h1 class="text-3xl font-bold capitalize">{String.replace(@component.name, "_", " ")}</h1>
-          <p class="text-base-content/70 max-w-2xl">{@component.description}</p>
+          <p class="text-[var(--c-base-content)]/70 max-w-2xl">{@component.description}</p>
           <div class="flex flex-wrap items-center gap-1.5">
             <span class="badge badge-sm">{@component.category}</span>
             <span class="badge badge-sm badge-ghost">APG: {@component.pattern}</span>
@@ -128,7 +133,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessLive do
               title="Usage"
               subtitle="Use the generated component directly in a Phoenix template."
             >
-              <p class="text-xs text-base-content/50">
+              <p class="text-xs text-[var(--c-base-content)]/50">
                 Generated into <code>{@module}</code> — import it, then:
               </p>
               <.code_block code={@usage} />
@@ -142,12 +147,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessLive do
             </.section>
 
             <.section :if={@component.keyboard != [] or @component.focus} title="Keyboard & focus">
-              <ul class="text-sm space-y-1 text-base-content/80">
+              <ul class="text-sm space-y-1 text-[var(--c-base-content)]/80">
                 <li :for={k <- @component.keyboard} class="flex gap-2">
-                  <span class="text-base-content/40">›</span> {k}
+                  <span class="text-[var(--c-base-content)]/40">›</span> {k}
                 </li>
                 <li :if={@component.focus} class="flex gap-2">
-                  <span class="text-base-content/40">›</span> {@component.focus}
+                  <span class="text-[var(--c-base-content)]/40">›</span> {@component.focus}
                 </li>
               </ul>
             </.section>
@@ -174,11 +179,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessLive do
                 HeadlessKitDemo.code(@component.name) || Snippets.customize_headless(@component)
               } />
               <details :if={HeadlessKitDemo.available?(@component.name)} class="mt-4">
-                <summary class="cursor-pointer select-none text-xs font-medium text-base-content/50 hover:text-base-content/80">
-                  <span class="font-semibold text-base-content/70">→</span>
+                <summary class="cursor-pointer select-none text-xs font-medium text-[var(--c-base-content)]/50 hover:text-[var(--c-base-content)]/80">
+                  <span class="font-semibold text-[var(--c-base-content)]/70">→</span>
                   Show the result, rendered live by a real Kit
                 </summary>
-                <div class="mt-2 rounded-box ring-1 ring-base-content/5 bg-base-100 p-4">
+                <div class="mt-2 rounded-lg ring-1 ring-[var(--c-base-content)]/5 bg-[var(--c-base-100)] p-4">
                   <HeadlessKitDemo.demo component={@component.name} />
                 </div>
               </details>
@@ -196,8 +201,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessLive do
           </div>
 
           <aside class="order-1 lg:order-2 lg:sticky lg:top-8 space-y-4">
-            <div class="bg-base-100 rounded-box p-6 shadow-sm">
-              <div class="text-xs uppercase tracking-wide text-base-content/40 mb-4">
+            <div class="bg-[var(--c-base-100)] rounded-lg p-6 shadow-sm">
+              <div class="text-xs uppercase tracking-wide text-[var(--c-base-content)]/40 mb-4">
                 Live preview — try keyboard + mouse
               </div>
               <div class="flex flex-wrap items-start gap-4 min-h-32">
@@ -206,16 +211,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessLive do
             </div>
             <details
               :if={HeadlessPreview.source(@component.name)}
-              class="bg-base-100 rounded-box shadow-sm"
+              class="bg-[var(--c-base-100)] rounded-lg shadow-sm"
             >
-              <summary class="cursor-pointer select-none px-6 py-3 text-xs font-medium uppercase tracking-wide text-base-content/50 hover:text-base-content/80">
+              <summary class="cursor-pointer select-none px-6 py-3 text-xs font-medium uppercase tracking-wide text-[var(--c-base-content)]/50 hover:text-[var(--c-base-content)]/80">
                 Code — copy &amp; paste
               </summary>
               <div class="px-4 pb-4">
                 <.code_block code={HeadlessPreview.source(@component.name)} wrap />
               </div>
             </details>
-            <div class="bg-base-300/70 rounded-box p-4 text-xs text-base-content/70">
+            <div class="bg-[var(--c-base-300)]/70 rounded-lg p-4 text-xs text-[var(--c-base-content)]/70">
               Ships <strong>no colors or spacing</strong>. The classes here are showcase-only — in
               your app you style the <code>chelekom-{@component.name}*</code>
               hooks and <code>data-*</code>
@@ -226,11 +231,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessLive do
 
         <section
           :if={HeadlessPreview.has_examples?(@component.name)}
-          class="space-y-4 border-t border-base-300 pt-6"
+          class="space-y-4 border-t border-[var(--c-base-300)] pt-6"
         >
           <div>
             <h2 class="text-xl font-semibold">Examples</h2>
-            <p class="text-sm text-base-content/60">
+            <p class="text-sm text-[var(--c-base-content)]/60">
               More worked patterns for this component — click to expand.
             </p>
           </div>
@@ -239,15 +244,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessLive do
 
         <nav
           :if={@prev || @next}
-          class="flex items-stretch gap-4 border-t border-base-300 pt-6"
+          class="flex items-stretch gap-4 border-t border-[var(--c-base-300)] pt-6"
           aria-label="Component navigation"
         >
           <.link
             :if={@prev}
             navigate={~p"/showcase/headless/#{@prev.name}"}
-            class="group flex min-w-0 max-w-xs flex-col items-start gap-1 rounded-box border border-base-300 bg-base-100 px-5 py-4 shadow-sm transition-colors hover:border-secondary"
+            class="group flex min-w-0 max-w-xs flex-col items-start gap-1 rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] px-5 py-4 shadow-sm transition-colors hover:border-[var(--c-secondary)]"
           >
-            <span class="flex items-center gap-1 text-xs uppercase tracking-wide text-base-content/40">
+            <span class="flex items-center gap-1 text-xs uppercase tracking-wide text-[var(--c-base-content)]/40">
               <span class="transition-transform group-hover:-translate-x-0.5">←</span> Previous
             </span>
             <span class="w-full truncate text-left font-semibold capitalize">
@@ -258,9 +263,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessLive do
           <.link
             :if={@next}
             navigate={~p"/showcase/headless/#{@next.name}"}
-            class="group ml-auto flex min-w-0 max-w-xs flex-col items-end gap-1 rounded-box border border-base-300 bg-base-100 px-5 py-4 shadow-sm transition-colors hover:border-secondary"
+            class="group ml-auto flex min-w-0 max-w-xs flex-col items-end gap-1 rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] px-5 py-4 shadow-sm transition-colors hover:border-[var(--c-secondary)]"
           >
-            <span class="flex items-center gap-1 text-xs uppercase tracking-wide text-base-content/40">
+            <span class="flex items-center gap-1 text-xs uppercase tracking-wide text-[var(--c-base-content)]/40">
               Next <span class="transition-transform group-hover:translate-x-0.5">→</span>
             </span>
             <span class="w-full truncate text-right font-semibold capitalize">
@@ -279,8 +284,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessLive do
     assigns = assign(assigns, :rows, anatomy_rows(assigns.anatomy))
 
     ~H"""
-    <div :if={@rows == []} class="text-sm text-base-content/50">Anatomy not documented.</div>
-    <div :if={@rows != []} class="overflow-x-auto rounded-box ring-1 ring-base-content/5">
+    <div :if={@rows == []} class="text-sm text-[var(--c-base-content)]/50">
+      Anatomy not documented.
+    </div>
+    <div :if={@rows != []} class="overflow-x-auto rounded-lg ring-1 ring-[var(--c-base-content)]/5">
       <table class="table table-sm">
         <thead>
           <tr>
@@ -293,9 +300,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessLive do
         <tbody>
           <tr :for={r <- @rows}>
             <td class="font-mono text-xs whitespace-nowrap">{r.name}</td>
-            <td class="font-mono text-xs text-base-content/60">&lt;{r.element}&gt;</td>
-            <td class="font-mono text-xs text-base-content/60">{r.role || "—"}</td>
-            <td class="text-xs text-base-content/70">
+            <td class="font-mono text-xs text-[var(--c-base-content)]/60">&lt;{r.element}&gt;</td>
+            <td class="font-mono text-xs text-[var(--c-base-content)]/60">{r.role || "—"}</td>
+            <td class="text-xs text-[var(--c-base-content)]/70">
               <span :for={a <- r.aria} class="badge badge-xs badge-ghost font-mono mr-1">{a}</span>
               <span :if={r.aria == []}>—</span>
             </td>

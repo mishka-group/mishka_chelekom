@@ -179,15 +179,14 @@ defmodule MishkaChelekom.SimpleCSSUtilities do
     before_trimmed = String.trim_trailing(before)
     after_trimmed = String.trim_leading(after_content)
 
-    spacing_after =
-      cond do
-        after_trimmed == "" -> ""
-        String.starts_with?(after_trimmed, "\n") -> ""
-        true -> "\n"
-      end
-
-    ending = if after_trimmed == "", do: "\n", else: spacing_after
-    before_trimmed <> "\n" <> import_statement <> ending <> after_trimmed
+    # Group consecutive imports together (no blank line), but always leave exactly one blank
+    # line before any following block (e.g. `@theme`/`@source`) — never zero, never more.
+    if after_trimmed == "" do
+      before_trimmed <> "\n" <> import_statement <> "\n"
+    else
+      separator = if String.starts_with?(after_trimmed, "@import"), do: "\n", else: "\n\n"
+      before_trimmed <> "\n" <> import_statement <> separator <> after_trimmed
+    end
   end
 
   defp normalize_import_path(path) do

@@ -62,7 +62,7 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
 
     ~H"""
     <details :if={@code} class="mt-4">
-      <summary class="cursor-pointer select-none text-xs font-medium text-base-content/50 hover:text-base-content/80">
+      <summary class="cursor-pointer select-none text-xs font-medium text-[var(--c-base-content)]/50 hover:text-[var(--c-base-content)]/80">
         Show code
       </summary>
       <div class="mt-2">
@@ -130,7 +130,7 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="min-h-screen bg-base-200 text-base-content">
+    <div class="min-h-screen bg-[var(--c-base-200)] text-[var(--c-base-content)]">
       <div class="max-w-6xl mx-auto px-6 py-8 space-y-6">
         <.page_header component={@component} />
 
@@ -148,22 +148,23 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
               title="Customize it"
               subtitle="Reuse this component — add or restyle its colors & variants from a Kit."
             >
-              <p class="text-xs text-base-content/50">
-                <span class="font-semibold text-base-content/70">1 ·</span> Customize it in your Kit
+              <p class="text-xs text-[var(--c-base-content)]/50">
+                <span class="font-semibold text-[var(--c-base-content)]/70">1 ·</span>
+                Customize it in your Kit
                 (same value name ⇒ replace, new name ⇒ add):
               </p>
               <.code_block code={Snippets.customize(@component)} />
-              <p class="text-xs text-base-content/50 mt-3">
-                <span class="font-semibold text-base-content/70">2 ·</span>
+              <p class="text-xs text-[var(--c-base-content)]/50 mt-3">
+                <span class="font-semibold text-[var(--c-base-content)]/70">2 ·</span>
                 It generates a same-named wrapper — use it like the original:
               </p>
               <.code_block code={Snippets.customize_usage(@component)} />
               <details :if={KitDemo.available?(@component.name)} class="mt-4">
-                <summary class="cursor-pointer select-none text-xs font-medium text-base-content/50 hover:text-base-content/80">
-                  <span class="font-semibold text-base-content/70">3 ·</span>
+                <summary class="cursor-pointer select-none text-xs font-medium text-[var(--c-base-content)]/50 hover:text-[var(--c-base-content)]/80">
+                  <span class="font-semibold text-[var(--c-base-content)]/70">3 ·</span>
                   Show the result, rendered live by a real Kit
                 </summary>
-                <div class="mt-2 rounded-box ring-1 ring-base-content/5 bg-base-100 p-4">
+                <div class="mt-2 rounded-lg ring-1 ring-[var(--c-base-content)]/5 bg-[var(--c-base-100)] p-4">
                   <KitDemo.demo component={@component.name} />
                 </div>
               </details>
@@ -203,17 +204,17 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
               title="Live examples"
               subtitle="From the Mishka docs — click a section to render it; collapsing removes it from the page."
             >
-              <div class="rounded-box ring-1 ring-base-content/5 divide-y divide-base-300 overflow-hidden">
+              <div class="rounded-lg ring-1 ring-[var(--c-base-content)]/5 divide-y divide-[var(--c-base-300)] overflow-hidden">
                 <div :for={s <- @example_sections}>
                   <button
                     type="button"
                     phx-click="toggle_example"
                     phx-value-id={s.id}
-                    class="flex w-full items-center justify-between px-4 py-3 text-left text-sm font-medium hover:bg-base-100"
+                    class="flex w-full items-center justify-between px-4 py-3 text-left text-sm font-medium hover:bg-[var(--c-base-100)]"
                   >
                     {s.title}
                     <span class={[
-                      "text-base-content/40 transition-transform",
+                      "text-[var(--c-base-content)]/40 transition-transform",
                       MapSet.member?(@open_examples, s.id) && "rotate-180"
                     ]}>
                       ▾
@@ -221,7 +222,7 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
                   </button>
                   <div
                     :if={MapSet.member?(@open_examples, s.id)}
-                    class="px-4 pb-5 pt-1 bg-base-100/40"
+                    class="px-4 pb-5 pt-1 bg-[var(--c-base-100)]/40"
                   >
                     <.example mod={@examples_mod} section={s.id} />
                     <.example_code mod={@examples_mod} section={s.id} />
@@ -232,8 +233,8 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
           </div>
 
           <aside class="order-1 lg:order-2 lg:sticky lg:top-8 space-y-4">
-            <div class="bg-base-100 rounded-box p-6 shadow-sm">
-              <div class="text-xs uppercase tracking-wide text-base-content/40 mb-4">
+            <div class="bg-[var(--c-base-100)] rounded-lg p-6 shadow-sm">
+              <div class="text-xs uppercase tracking-wide text-[var(--c-base-content)]/40 mb-4">
                 Live preview
               </div>
               <div class="flex flex-wrap items-center justify-center gap-4 min-h-24">
@@ -250,11 +251,11 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
 
             <div
               :if={@component.dims != [] or @component.flags != []}
-              class="bg-base-100 rounded-box p-4 shadow-sm space-y-3"
+              class="bg-[var(--c-base-100)] rounded-lg p-4 shadow-sm space-y-3"
             >
               <form :if={@component.dims != []} phx-change="update" class="space-y-2">
                 <label :for={dim <- @component.dims} class="flex items-center justify-between gap-3">
-                  <span class="text-sm capitalize text-base-content/70">
+                  <span class="text-sm capitalize text-[var(--c-base-content)]/70">
                     {String.replace(dim.key, "_", " ")}
                   </span>
                   <span :if={Map.get(dim, :kind) == :range} class="flex w-40 items-center gap-2">
@@ -267,7 +268,7 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
                       value={@props[String.to_atom(dim.attr)]}
                       class="range range-xs flex-1"
                     />
-                    <span class="w-7 text-right text-xs tabular-nums text-base-content/70">
+                    <span class="w-7 text-right text-xs tabular-nums text-[var(--c-base-content)]/70">
                       {@props[String.to_atom(dim.attr)]}
                     </span>
                   </span>
@@ -290,9 +291,11 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
               <form
                 :if={@component.flags != []}
                 phx-change="update"
-                class="space-y-1.5 border-t border-base-300 pt-3"
+                class="space-y-1.5 border-t border-[var(--c-base-300)] pt-3"
               >
-                <div class="text-xs uppercase tracking-wide text-base-content/40">Props</div>
+                <div class="text-xs uppercase tracking-wide text-[var(--c-base-content)]/40">
+                  Props
+                </div>
                 <label
                   :for={flag <- @component.flags}
                   class="flex items-center gap-2 cursor-pointer"
@@ -303,9 +306,9 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
                     name={flag.name}
                     value="true"
                     checked={@props[String.to_atom(flag.name)] == true}
-                    class="size-4 rounded border-base-300 accent-current"
+                    class="size-4 rounded border-[var(--c-base-300)] accent-current"
                   />
-                  <span class="text-sm capitalize text-base-content/70">
+                  <span class="text-sm capitalize text-[var(--c-base-content)]/70">
                     {String.replace(flag.name, "_", " ")}
                   </span>
                 </label>
@@ -322,15 +325,15 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
 
         <nav
           :if={@prev || @next}
-          class="flex items-stretch gap-4 border-t border-base-300 pt-6"
+          class="flex items-stretch gap-4 border-t border-[var(--c-base-300)] pt-6"
           aria-label="Component navigation"
         >
           <.link
             :if={@prev}
             navigate={~p"/showcase/#{@prev.name}"}
-            class="group flex min-w-0 max-w-xs flex-col items-start gap-1 rounded-box border border-base-300 bg-base-100 px-5 py-4 shadow-sm transition-colors hover:border-primary"
+            class="group flex min-w-0 max-w-xs flex-col items-start gap-1 rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] px-5 py-4 shadow-sm transition-colors hover:border-[var(--c-primary)]"
           >
-            <span class="flex items-center gap-1 text-xs uppercase tracking-wide text-base-content/40">
+            <span class="flex items-center gap-1 text-xs uppercase tracking-wide text-[var(--c-base-content)]/40">
               <span class="transition-transform group-hover:-translate-x-0.5">←</span> Previous
             </span>
             <span class="w-full truncate text-left font-semibold capitalize">
@@ -341,9 +344,9 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
           <.link
             :if={@next}
             navigate={~p"/showcase/#{@next.name}"}
-            class="group ml-auto flex min-w-0 max-w-xs flex-col items-end gap-1 rounded-box border border-base-300 bg-base-100 px-5 py-4 shadow-sm transition-colors hover:border-primary"
+            class="group ml-auto flex min-w-0 max-w-xs flex-col items-end gap-1 rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] px-5 py-4 shadow-sm transition-colors hover:border-[var(--c-primary)]"
           >
-            <span class="flex items-center gap-1 text-xs uppercase tracking-wide text-base-content/40">
+            <span class="flex items-center gap-1 text-xs uppercase tracking-wide text-[var(--c-base-content)]/40">
               Next <span class="transition-transform group-hover:translate-x-0.5">→</span>
             </span>
             <span class="w-full truncate text-right font-semibold capitalize">
@@ -360,7 +363,10 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
     ~H"""
     <header class="space-y-2">
       <div class="flex items-center justify-between gap-4 flex-wrap">
-        <.link navigate={~p"/showcase"} class="text-sm text-base-content/60 hover:underline">
+        <.link
+          navigate={~p"/showcase"}
+          class="text-sm text-[var(--c-base-content)]/60 hover:underline"
+        >
           ← All components
         </.link>
         <div class="flex items-center gap-3 text-sm">
@@ -382,7 +388,7 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
         </div>
       </div>
       <h1 class="text-3xl font-bold capitalize">{String.replace(@component.name, "_", " ")}</h1>
-      <p class="text-base-content/70 max-w-2xl">{@component.description}</p>
+      <p class="text-[var(--c-base-content)]/70 max-w-2xl">{@component.description}</p>
       <span class="badge badge-sm">{@component.category}</span>
     </header>
     """

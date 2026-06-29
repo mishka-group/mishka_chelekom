@@ -141,10 +141,7 @@ defmodule DevelopmentWeb.Components.Headless.NavigationMenu do
           data-closed
           class={["chelekom-navigation_menu__popup", @popup_class]}
         >
-          <div
-            data-part="viewport"
-            class={["chelekom-navigation_menu__viewport", @viewport_class]}
-          >
+          <div data-part="viewport" class={["chelekom-navigation_menu__viewport", @viewport_class]}>
           </div>
           <div
             :if={@arrow}

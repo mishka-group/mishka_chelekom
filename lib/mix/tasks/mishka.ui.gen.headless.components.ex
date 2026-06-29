@@ -1,8 +1,8 @@
 defmodule Mix.Tasks.Mishka.Ui.Gen.Headless.Components do
   use Igniter.Mix.Task
 
-  alias MishkaChelekom.Generators.Core
   alias MishkaChelekom.Config
+  alias MishkaChelekom.Generators.{Assets, Core}
 
   @example "mix mishka.ui.gen.headless.components dialog,tabs"
   @shortdoc "Generate multiple (or all) headless components at once"
@@ -31,6 +31,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless.Components do
     %Igniter.Mix.Task.Info{
       example: @example,
       positional: [{:components, optional: true}],
+      group: :mishka_chelekom,
       composes: ["mishka.ui.gen.headless"],
       schema: [
         exclude: :csv,
@@ -45,45 +46,36 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless.Components do
   def supports_umbrella?(), do: false
 
   def igniter(igniter) do
-    %Igniter.Mix.Task.Args{positional: %{components: components}} = igniter.args
-    options = igniter.args.options
+    %Igniter.Mix.Task.Args{positional: %{components: components}, options: options} = igniter.args
 
-    requested = String.split(components || "", ",", trim: true)
-    exclude = options[:exclude] || []
+    print_banner()
+    user_config = Config.load_user_config(igniter)
 
-    list =
-      if requested == [] or "all" in requested, do: all_headless(), else: requested
+    tty? = IO.ANSI.enabled?()
+    if tty?, do: Owl.Spinner.start(id: :my_spinner, labels: [processing: "Please wait..."])
 
-    list = Enum.reject(list, &(&1 in exclude))
+    list = Core.resolve_components(igniter, components, :headless, user_config, options[:exclude])
 
-    prefix_args =
-      []
-      |> maybe_arg("--component-prefix", options[:component_prefix])
-      |> maybe_arg("--module-prefix", options[:module_prefix])
-      |> then(&if(options[:no_save], do: &1 ++ ["--no-save"], else: &1))
+    child_args =
+      ["--sub", "--yes"]
+      |> Core.append_arg("--component-prefix", options[:component_prefix])
+      |> Core.append_arg("--module-prefix", options[:module_prefix])
 
-    Config.load_user_config(igniter)
-    |> then(&Igniter.assign(igniter, %{mishka_user_config: &1}))
-    |> then(fn ig ->
-      Enum.reduce(list, ig, fn name, acc ->
-        Igniter.compose_task(
-          acc,
-          "mishka.ui.gen.headless",
-          [name, "--sub", "--yes"] ++ prefix_args
-        )
-      end)
-    end)
+    igniter =
+      igniter
+      |> Igniter.assign(:mishka_user_config, user_config)
+      |> Core.fan_out("mishka.ui.gen.headless", list, child_args)
+      |> Assets.setup_headless_css([])
+      |> Core.maybe_save_prefixes(options)
+
+    if tty? do
+      if Map.get(igniter, :issues, []) == [],
+        do: Owl.Spinner.stop(id: :my_spinner, resolution: :ok, label: "Done"),
+        else: Owl.Spinner.stop(id: :my_spinner, resolution: :error, label: "Error")
+    end
+
+    igniter
   end
 
-  defp all_headless do
-    Core.template_dir(:headless)
-    |> Path.join("*.eex")
-    |> Path.wildcard()
-    |> Enum.map(&Path.basename(&1, ".eex"))
-    |> Enum.sort()
-  end
-
-  defp maybe_arg(args, _flag, nil), do: args
-  defp maybe_arg(args, _flag, ""), do: args
-  defp maybe_arg(args, flag, value), do: args ++ [flag, value]
+  defp print_banner, do: Core.banner(IO.ANSI.blue())
 end

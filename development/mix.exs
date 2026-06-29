@@ -67,8 +67,8 @@ defmodule Development.MixProject do
       {:bandit, "~> 1.5"},
       # Mishka Chelekom dev harness: consume the in-repo library as a path dep so
       # editing templates/JS/CSS in ../priv reflects live when regenerating here.
-      # Dev-only (mirrors how real host apps install it). See development/README.md.
-      {:mishka_chelekom, path: "../", only: :dev},
+      # See development/README.md.
+      {:mishka_chelekom, path: "../", only: [:dev, :test]},
       {:igniter, "~> 0.7", only: [:dev, :test]}
     ]
   end

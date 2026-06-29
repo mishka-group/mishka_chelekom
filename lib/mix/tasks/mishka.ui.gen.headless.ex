@@ -1,10 +1,9 @@
 defmodule Mix.Tasks.Mishka.Ui.Gen.Headless do
   use Igniter.Mix.Task
 
-  alias Mix.Tasks.Mishka.Ui.Gen.Component
-  alias MishkaChelekom.Generators.Core
-  alias MishkaChelekom.Config
   alias Igniter.Project.Application, as: IAPP
+  alias MishkaChelekom.Config
+  alias MishkaChelekom.Generators.{Assets, Core}
 
   @example "mix mishka.ui.gen.headless dialog"
   @shortdoc "Generate an unstyled (headless) Phoenix component: ARIA + slots + behavior hook"
@@ -34,7 +33,6 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless do
   * `--component-prefix` - Prefix for the public function name
   * `--module-prefix` - Prefix for the module name
   * `--sub` - Marks this as a dependency sub-generation
-  * `--no-deps` - Do not generate dependent components
   * `--no-save` - Use prefixes without saving them to config
   * `--yes` - Apply without prompts
   """
@@ -43,12 +41,12 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless do
     %Igniter.Mix.Task.Info{
       example: @example,
       positional: [:component],
+      group: :mishka_chelekom,
       schema: [
         module: :string,
         component_prefix: :string,
         module_prefix: :string,
         sub: :boolean,
-        no_deps: :boolean,
         no_save: :boolean
       ],
       aliases: [m: :module]
@@ -58,181 +56,115 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless do
   def supports_umbrella?(), do: false
 
   def igniter(igniter) do
-    %Igniter.Mix.Task.Args{positional: %{component: component}} = igniter.args
-    options = igniter.args.options
+    %Igniter.Mix.Task.Args{positional: %{component: component}, options: options} = igniter.args
 
-    if !options[:sub] and Mix.env() != :test do
-      IO.puts(IO.ANSI.cyan() <> "Mishka Chelekom · headless" <> IO.ANSI.reset())
-    end
-
-    user_config = Config.load_user_config(igniter)
+    print_banner(options)
 
     igniter
-    |> Igniter.assign(%{mishka_user_config: user_config})
-    |> Component.check_dependencies_versions()
+    |> Igniter.assign(:mishka_user_config, Config.load_user_config(igniter))
+    |> Core.check_dependencies()
     |> resolve_template(component)
-    |> compute_output(options)
-    |> build_assigns(options)
-    |> write_component(options)
+    |> compute_location()
+    |> build_eex_assigns()
+    |> write_component()
     |> wire_scripts()
-    |> setup_headless_css(options)
+    |> maybe_setup_css()
+    |> maybe_save_prefixes()
   end
 
-  # --- pipeline -----------------------------------------------------------------------
+  defp print_banner(options) do
+    if !options[:sub] and Mix.env() != :test, do: Core.banner(IO.ANSI.cyan())
+    :ok
+  end
 
   defp resolve_template(igniter, component) do
-    component = component |> String.replace(" ", "") |> Macro.underscore()
-    path = Core.lib_priv("headless/#{component}.eex")
-    config_path = Path.rootname(path) <> ".exs"
+    case Core.fetch_catalog(igniter, component, :headless) do
+      {:ok, template} ->
+        igniter
+        |> Igniter.assign(:component_name, template.component)
+        |> Igniter.assign(:template_path, template.path)
+        |> Igniter.assign(:template_config, template.config)
 
-    case {File.exists?(path), File.exists?(config_path)} do
-      {true, true} ->
-        config =
-          Elixir.Config.Reader.read!(config_path)[Component.component_to_atom(component)]
+      {:error, {:not_found, _path}} ->
+        Igniter.add_issue(
+          igniter,
+          "Headless component #{inspect(component)} not found in priv/headless/. " <>
+            "Run `mix mishka.ui.gen.headless` with a valid name."
+        )
 
-        case Core.validate_catalog(config) do
-          {:ok, config} ->
-            %{igniter: igniter, component: component, path: path, config: config}
-
-          {:error, reason} ->
-            {:error, "Invalid headless catalog for #{component}: #{reason}", igniter}
-        end
-
-      _ ->
-        {:error,
-         "Headless component #{inspect(component)} not found in priv/headless/. " <>
-           "Run `mix mishka.ui.gen.headless` with a valid name.", igniter}
+      {:error, {:bad_catalog, reason, _config_path}} ->
+        Igniter.add_issue(igniter, "Invalid headless catalog for #{component}: #{reason}")
     end
   end
 
-  defp compute_output({:error, _, _} = error, _options), do: error
-
-  defp compute_output(%{igniter: igniter} = template, options) do
+  defp compute_location(%{assigns: %{component_name: _}} = igniter) do
+    options = igniter.args.options
+    component = igniter.assigns.component_name
     web_dir = "#{IAPP.app_name(igniter)}_web"
 
     module_prefix =
-      Keyword.get(options, :module_prefix) ||
-        get_in(igniter.assigns, [:mishka_user_config, :module_prefix])
+      options[:module_prefix] || get_in(igniter.assigns, [:mishka_user_config, :module_prefix])
 
     name_part =
       if module_prefix && module_prefix != "" do
-        "#{module_prefix}#{template.component}"
+        "#{module_prefix}#{component}"
       else
-        template.component
+        component
       end
 
-    # Build the module atom the same way the styled task does (String.to_atom of a dotted
-    # CamelCase string) so `<%= @module %>` renders a clean `defmodule` without the Elixir. prefix.
     module =
-      case Keyword.get(options, :module) do
-        nil -> Component.atom_to_module("#{web_dir}.components.headless.#{name_part}")
-        custom -> Component.atom_to_module(custom)
+      case options[:module] do
+        nil -> Core.module_atom("#{web_dir}.components.headless.#{name_part}")
+        custom -> Core.module_atom(custom)
       end
 
     location = "lib/#{web_dir}/components/headless/#{name_part}.ex"
 
-    igniter =
-      Map.update!(igniter, :assigns, fn assigns ->
-        assigns
-        |> Map.put_new(:igniter_exs, [])
-        |> Map.update!(:igniter_exs, fn exs ->
-          Keyword.update(exs, :dont_move_files, [location], &[location | &1])
-        end)
-      end)
-
-    Map.merge(template, %{igniter: igniter, module: module, location: location})
+    igniter
+    |> Core.track_generated_file(location)
+    |> Igniter.assign(:component_module, module)
+    |> Igniter.assign(:proper_location, location)
   end
 
-  defp build_assigns({:error, _, _} = error, _options), do: error
+  defp compute_location(igniter), do: igniter
 
-  defp build_assigns(%{config: config} = template, options) do
+  defp build_eex_assigns(%{assigns: %{component_module: _}} = igniter) do
+    options = igniter.args.options
+    config = igniter.assigns.template_config
+
     component_prefix =
-      Keyword.get(options, :component_prefix) ||
-        get_in(template.igniter.assigns, [:mishka_user_config, :component_prefix])
-
-    module_prefix = Keyword.get(options, :module_prefix) || ""
-
-    module_prefix_camel =
-      if module_prefix != "",
-        do: module_prefix |> String.trim_trailing("_") |> Macro.camelize(),
-        else: ""
-
-    # Nil-fill any declared catalog args so templates never hit "undefined variable".
-    arg_assigns =
-      (config[:args] || [])
-      |> Keyword.keys()
-      |> Enum.map(&{&1, nil})
+      options[:component_prefix] ||
+        get_in(igniter.assigns, [:mishka_user_config, :component_prefix])
 
     assigns =
-      arg_assigns
-      |> Keyword.merge(
-        module: template.module,
-        web_module: Igniter.Libs.Phoenix.web_module(template.igniter),
+      Core.eex_assigns(igniter, igniter.assigns.component_module, config,
         component_prefix: component_prefix,
-        module_prefix_camel: module_prefix_camel
+        module_prefix: options[:module_prefix] || ""
       )
 
-    Map.put(template, :assigns, assigns)
+    Igniter.assign(igniter, :eex_assigns, assigns)
   end
 
-  defp write_component({:error, msg, igniter}, _options), do: Igniter.add_issue(igniter, msg)
+  defp build_eex_assigns(igniter), do: igniter
 
-  defp write_component(%{igniter: igniter} = template, _options) do
-    igniter =
-      Igniter.copy_template(igniter, template.path, template.location, template.assigns,
-        on_exists: :overwrite
-      )
-
-    {igniter, template.config}
+  defp write_component(%{assigns: %{eex_assigns: _}} = igniter) do
+    Igniter.copy_template(
+      igniter,
+      igniter.assigns.template_path,
+      igniter.assigns.proper_location,
+      igniter.assigns.eex_assigns,
+      on_exists: :overwrite
+    )
   end
 
-  defp wire_scripts({igniter, config}) do
-    Component.create_or_update_scripts({igniter, config})
-  end
+  defp write_component(igniter), do: igniter
 
-  defp wire_scripts(%Igniter{} = igniter), do: igniter
+  defp wire_scripts(%{assigns: %{eex_assigns: _}} = igniter),
+    do: Assets.wire_scripts(igniter, igniter.assigns.template_config)
 
-  # Install the functional (color-free) headless base stylesheet and import it once.
-  defp setup_headless_css(%Igniter{} = igniter, options) do
-    if options[:sub] do
-      igniter
-    else
-      css = File.read!(Core.lib_priv("assets/css/chelekom_headless.css"))
+  defp wire_scripts(igniter), do: igniter
 
-      igniter
-      |> Igniter.create_or_update_file(
-        "assets/vendor/chelekom_headless.css",
-        css,
-        &Rewrite.Source.update(&1, :content, css)
-      )
-      |> ensure_css_import()
-    end
-  end
+  defp maybe_setup_css(igniter), do: Assets.setup_headless_css(igniter, igniter.args.options)
 
-  defp ensure_css_import(igniter) do
-    app_css = "assets/css/app.css"
-    import_line = ~s|@import "../vendor/chelekom_headless.css";|
-
-    case File.read(app_css) do
-      {:ok, content} ->
-        if String.contains?(content, "chelekom_headless.css") do
-          igniter
-        else
-          updated = import_line <> "\n" <> content
-
-          Igniter.create_or_update_file(
-            igniter,
-            app_css,
-            updated,
-            &Rewrite.Source.update(&1, :content, updated)
-          )
-        end
-
-      _ ->
-        Igniter.add_notice(
-          igniter,
-          "Could not find assets/css/app.css — add `@import \"../vendor/chelekom_headless.css\";` manually."
-        )
-    end
-  end
+  defp maybe_save_prefixes(igniter), do: Core.maybe_save_prefixes(igniter, igniter.args.options)
 end

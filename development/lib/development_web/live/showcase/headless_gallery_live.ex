@@ -34,11 +34,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessGalleryLive do
   @impl true
   def render(%{mode: :show} = assigns) do
     ~H"""
-    <div class="min-h-screen bg-base-200 text-base-content">
+    <div class="min-h-screen bg-[var(--c-base-200)] text-[var(--c-base-content)]">
       <main class="mx-auto max-w-3xl space-y-6 px-4 py-10">
         <.link
           navigate={~p"/showcase/headless/#{@component.name}"}
-          class="text-sm text-base-content/60 hover:underline"
+          class="text-sm text-[var(--c-base-content)]/60 hover:underline"
         >
           ← {String.replace(@component.name, "_", " ")} page
         </.link>
@@ -46,16 +46,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessGalleryLive do
         <header class="space-y-1">
           <h1 class="text-2xl font-bold capitalize">
             {String.replace(@component.name, "_", " ")}
-            <span class="text-base-content/40">— Base UI examples</span>
+            <span class="text-[var(--c-base-content)]/40">— Base UI examples</span>
           </h1>
-          <p class="text-sm text-base-content/60">{@component.description}</p>
+          <p class="text-sm text-[var(--c-base-content)]/60">{@component.description}</p>
         </header>
 
         <.component_examples component={@component.name} />
 
         <.link
           navigate={~p"/showcase/headless/#{@component.name}"}
-          class="block pt-2 text-sm text-base-content/60 hover:underline"
+          class="block pt-2 text-sm text-[var(--c-base-content)]/60 hover:underline"
         >
           ← Back to {String.replace(@component.name, "_", " ")}
         </.link>
@@ -67,12 +67,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessGalleryLive do
   # ── all components ────────────────────────────────────────────────────────
   def render(%{mode: :index} = assigns) do
     ~H"""
-    <div class="min-h-screen bg-base-200 text-base-content">
-      <header class="sticky top-0 z-30 border-b border-base-300 bg-base-100/90 backdrop-blur">
+    <div class="min-h-screen bg-[var(--c-base-200)] text-[var(--c-base-content)]">
+      <header class="sticky top-0 z-30 border-b border-[var(--c-base-300)] bg-[var(--c-base-100)]/90 backdrop-blur">
         <div class="mx-auto flex max-w-3xl items-center justify-between gap-4 px-4 py-3">
           <.link
             navigate={~p"/showcase/headless"}
-            class="text-sm text-base-content/60 hover:underline"
+            class="text-sm text-[var(--c-base-content)]/60 hover:underline"
           >
             ← Headless components
           </.link>
@@ -83,7 +83,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessGalleryLive do
             <.link
               :for={c <- @catalog}
               navigate={~p"/showcase/headless-baseui/#{c.name}"}
-              class="rounded-full border border-base-300 px-2.5 py-0.5 text-xs capitalize text-base-content/70 hover:bg-base-200"
+              class="rounded-full border border-[var(--c-base-300)] px-2.5 py-0.5 text-xs capitalize text-[var(--c-base-content)]/70 hover:bg-[var(--c-base-200)]"
             >
               {String.replace(c.name, "_", " ")}
             </.link>
@@ -92,7 +92,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessGalleryLive do
       </header>
 
       <main class="mx-auto max-w-3xl space-y-16 px-4 py-10">
-        <p class="text-center text-sm text-base-content/60">
+        <p class="text-center text-sm text-[var(--c-base-content)]/60">
           Every headless component, Base-UI style — preview in the center, copy-paste HEEx under <strong>Show code</strong>. The previews are live: open the menus/dialogs/popovers to test them.
         </p>
 
@@ -103,7 +103,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessGalleryLive do
                 {String.replace(c.name, "_", " ")}
               </.link>
             </h2>
-            <p class="text-sm text-base-content/60">{c.description}</p>
+            <p class="text-sm text-[var(--c-base-content)]/60">{c.description}</p>
           </div>
           <.component_examples component={c.name} />
         </section>
@@ -121,7 +121,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessGalleryLive do
       <div :for={{id, title, desc} <- HeadlessBaseUIExamples.sections(@component)} class="space-y-2">
         <div class="space-y-0.5">
           <h3 class="text-sm font-semibold">{title}</h3>
-          <p class="text-xs text-base-content/50">{desc}</p>
+          <p class="text-xs text-[var(--c-base-content)]/50">{desc}</p>
         </div>
         <.example_card
           kind={:baseui}
@@ -159,10 +159,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessGalleryLive do
 
   defp example_card(assigns) do
     ~H"""
-    <div class="rounded-2xl border border-base-300 bg-base-100">
+    <div class="rounded-2xl border border-[var(--c-base-300)] bg-[var(--c-base-100)]">
       <p
         :if={@label}
-        class="border-b border-base-300 px-4 py-2 text-xs font-medium text-base-content/50"
+        class="border-b border-[var(--c-base-300)] px-4 py-2 text-xs font-medium text-[var(--c-base-content)]/50"
       >
         {@label}
       </p>
@@ -171,12 +171,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessGalleryLive do
         <HeadlessPreview.show :if={@kind == :show} component={@component} id={@preview_id} />
         <HeadlessPreview.examples :if={@kind == :examples} component={@component} id={@preview_id} />
       </div>
-      <details :if={@code} class="group overflow-hidden rounded-b-2xl border-t border-base-300">
-        <summary class="cursor-pointer list-none px-4 py-2.5 text-center text-sm font-medium text-base-content/60 hover:text-base-content">
+      <details
+        :if={@code}
+        class="group overflow-hidden rounded-b-2xl border-t border-[var(--c-base-300)]"
+      >
+        <summary class="cursor-pointer list-none px-4 py-2.5 text-center text-sm font-medium text-[var(--c-base-content)]/60 hover:text-[var(--c-base-content)]">
           <span class="group-open:hidden">▸ Show code</span>
           <span class="hidden group-open:inline">▾ Hide code</span>
         </summary>
-        <div class="border-t border-base-300">
+        <div class="border-t border-[var(--c-base-300)]">
           <.code_block code={@code} wrap />
         </div>
       </details>

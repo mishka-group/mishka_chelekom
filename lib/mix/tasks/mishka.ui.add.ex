@@ -2,6 +2,7 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
   use Igniter.Mix.Task
   use GuardedStruct
   alias GuardedStruct.Derive.ValidationDerive
+  alias MishkaChelekom.Generators.Core
 
   @community_url "https://api.github.com/repos/mishka-group/mishka_chelekom_community/contents/"
 
@@ -169,18 +170,7 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
     options = igniter.args.options
     tty? = IO.ANSI.enabled?()
 
-    if !options[:test] do
-      msg =
-        """
-              .-.
-             /'v'\\
-            (/   \\)
-            =="="==
-          Mishka.tools
-        """
-
-      IO.puts(IO.ANSI.blue() <> String.trim_trailing(msg) <> IO.ANSI.reset())
-    end
+    if !options[:test], do: Core.banner(IO.ANSI.light_blue())
 
     if !options[:test] and tty?,
       do: Owl.Spinner.start(id: :my_spinner, labels: [processing: "Please wait..."])

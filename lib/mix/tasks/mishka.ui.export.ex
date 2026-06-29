@@ -80,6 +80,8 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
 
   use Igniter.Mix.Task
 
+  alias MishkaChelekom.Generators.Core
+
   @default_json_template """
   {
     "name": "something-new",
@@ -152,18 +154,7 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
 
     options = igniter.args.options
 
-    if !options[:test] do
-      msg =
-        """
-              .-.
-             /'v'\\
-            (/   \\)
-            =="="==
-          Mishka.tools
-        """
-
-      IO.puts(IO.ANSI.yellow() <> String.trim_trailing(msg) <> IO.ANSI.reset())
-    end
+    if !options[:test], do: Core.banner(IO.ANSI.yellow())
 
     name = Keyword.get(options, :name, "template")
     org = Keyword.get(options, :org, "component")
@@ -649,6 +640,12 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
       Igniter.add_issue(igniter, msg)
   end
 
+  if Code.ensure_loaded?(JSON) do
+    defp encode_json!(data), do: JSON.encode!(data)
+  else
+    defp encode_json!(data), do: Jason.encode!(data)
+  end
+
   defp create_json_file(igniter, name, org) do
     dir = igniter.assigns.cli_dir
 
@@ -658,7 +655,7 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
 
       data ->
         # Hard coded skipped org type
-        new_data = %{name: name, type: org, files: data} |> JSON.encode!()
+        new_data = %{name: name, type: org, files: data} |> encode_json!()
 
         igniter
         |> Igniter.create_new_file(dir <> "/#{name}.json", new_data, on_exists: :overwrite)

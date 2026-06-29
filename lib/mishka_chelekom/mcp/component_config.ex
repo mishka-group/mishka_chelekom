@@ -6,13 +6,12 @@ defmodule MishkaChelekom.MCP.ComponentConfig do
   names, categories, colors, variants, sizes, and other configuration options.
   """
 
+  alias MishkaChelekom.Generators.Core
+
   @doc """
   Returns the path to the components directory.
   """
-  def components_path do
-    :code.priv_dir(:mishka_chelekom)
-    |> Path.join("components")
-  end
+  def components_path, do: Core.template_dir(:styled)
 
   @doc """
   Loads and returns all component configurations.
@@ -312,7 +311,7 @@ defmodule MishkaChelekom.MCP.ComponentConfig do
   Returns all JS hooks from priv/assets/js directory.
   """
   def list_js_hooks do
-    js_path = :code.priv_dir(:mishka_chelekom) |> Path.join("assets/js")
+    js_path = Core.lib_priv("assets/js")
 
     if File.exists?(js_path) do
       js_path

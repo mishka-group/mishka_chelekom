@@ -72,7 +72,7 @@ defmodule DevelopmentWeb.Showcase.Preview do
 
   def show(%{component: "layout"} = assigns) do
     ~H"""
-    <div class="w-full rounded-box border border-base-300 bg-base-200/40 p-3">
+    <div class="w-full rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-200)]/40 p-3">
       <.flex id={@id} {@props} class="min-h-44 w-full">
         <div
           :for={
@@ -147,7 +147,7 @@ defmodule DevelopmentWeb.Showcase.Preview do
         <% _ -> %>
           <div class="w-72 space-y-2">
             <div class="flex items-center justify-between text-sm">
-              <span class="text-base-content/70">Uploading project files…</span>
+              <span class="text-[var(--c-base-content)]/70">Uploading project files…</span>
               <span class="font-semibold tabular-nums">{@props[:value]}%</span>
             </div>
             <.progress
@@ -177,10 +177,10 @@ defmodule DevelopmentWeb.Showcase.Preview do
     ~H"""
     <div class="w-72 space-y-2.5 text-sm">
       <div :for={{label, keys} <- @shortcuts} class="flex items-center justify-between gap-6">
-        <span class="text-base-content/60">{label}</span>
+        <span class="text-[var(--c-base-content)]/60">{label}</span>
         <span class="flex items-center gap-1.5">
           <%= for {key, i} <- Enum.with_index(keys) do %>
-            <span :if={i > 0} class="text-xs text-base-content/30">+</span>
+            <span :if={i > 0} class="text-xs text-[var(--c-base-content)]/30">+</span>
             <.keyboard {@props}>{key}</.keyboard>
           <% end %>
         </span>
@@ -192,13 +192,13 @@ defmodule DevelopmentWeb.Showcase.Preview do
   def show(%{component: "jumbotron"} = assigns) do
     ~H"""
     <.jumbotron id={@id} {@props} class="text-center">
-      <span class="mx-auto inline-flex w-fit items-center gap-1.5 rounded-full bg-base-200 px-3 py-1 text-xs font-medium text-base-content/70">
+      <span class="mx-auto inline-flex w-fit items-center gap-1.5 rounded-full bg-[var(--c-base-200)] px-3 py-1 text-xs font-medium text-[var(--c-base-content)]/70">
         <.icon name="hero-sparkles" class="size-3.5 text-primary-light" /> Now in beta
       </span>
       <h1 class="mx-auto max-w-2xl text-3xl font-extrabold tracking-tight md:text-4xl">
         Build your Phoenix UI faster
       </h1>
-      <p class="mx-auto max-w-xl text-base text-base-content/70">
+      <p class="mx-auto max-w-xl text-base text-[var(--c-base-content)]/70">
         A fully featured components &amp; UI kit for Phoenix &amp; LiveView — generated straight into
         your app, with zero runtime dependency.
       </p>
@@ -232,14 +232,16 @@ defmodule DevelopmentWeb.Showcase.Preview do
     <div class="flex items-center gap-10">
       <div class="flex flex-col items-center gap-2">
         <.indicator color={@ind_color} size={@ind_size} {@dot_attrs} />
-        <span class="text-[11px] text-base-content/50">standalone</span>
+        <span class="text-[11px] text-[var(--c-base-content)]/50">standalone</span>
       </div>
 
       <div class="flex flex-col items-center gap-2">
         <.button variant="outline" color="primary" class="relative">
           Inbox <.indicator color={@ind_color} size={@ind_size} {@on_button_attrs} />
         </.button>
-        <span class="text-[11px] text-base-content/50">on a button · {@props[:position]}</span>
+        <span class="text-[11px] text-[var(--c-base-content)]/50">
+          on a button · {@props[:position]}
+        </span>
       </div>
     </div>
     """
@@ -259,10 +261,10 @@ defmodule DevelopmentWeb.Showcase.Preview do
         size={@props[:size]}
         count={5}
       />
-      <div class="text-sm text-base-content/60">
-        <span class="font-semibold text-base-content tabular-nums">{@props[:select]}</span>
+      <div class="text-sm text-[var(--c-base-content)]/60">
+        <span class="font-semibold text-[var(--c-base-content)] tabular-nums">{@props[:select]}</span>
         / 5
-        <span :if={@props[:interactive]} class="ml-1 text-xs text-base-content/40">
+        <span :if={@props[:interactive]} class="ml-1 text-xs text-[var(--c-base-content)]/40">
           · click the stars
         </span>
       </div>
@@ -284,7 +286,7 @@ defmodule DevelopmentWeb.Showcase.Preview do
         <.shape variant={@props[:variant]} size={@props[:size]} half={@shape_half}>
           <div class="size-full bg-linear-to-br from-indigo-500 to-fuchsia-500"></div>
         </.shape>
-        <span class="text-[11px] text-base-content/50">gradient</span>
+        <span class="text-[11px] text-[var(--c-base-content)]/50">gradient</span>
       </div>
       <div class="flex flex-col items-center gap-2">
         <.shape
@@ -294,7 +296,7 @@ defmodule DevelopmentWeb.Showcase.Preview do
           src="/images/card-media.svg"
           alt="Sample"
         />
-        <span class="text-[11px] text-base-content/50">image</span>
+        <span class="text-[11px] text-[var(--c-base-content)]/50">image</span>
       </div>
     </div>
     """
@@ -310,7 +312,7 @@ defmodule DevelopmentWeb.Showcase.Preview do
       })
 
     ~H"""
-    <div class="w-72 space-y-4 rounded-box border border-base-300 bg-base-100 p-4">
+    <div class="w-72 space-y-4 rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
       <div class="flex items-center gap-3">
         <.skeleton
           color={@props[:color]}
@@ -338,8 +340,8 @@ defmodule DevelopmentWeb.Showcase.Preview do
 
   def show(%{component: "speed_dial"} = assigns) do
     ~H"""
-    <div class="relative h-72 w-full overflow-hidden rounded-box border border-base-300 bg-base-200/30">
-      <span class="absolute left-3 top-3 text-xs text-base-content/40">
+    <div class="relative h-72 w-full overflow-hidden rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-200)]/30">
+      <span class="absolute left-3 top-3 text-xs text-[var(--c-base-content)]/40">
         hover / click the button ↘
       </span>
       <.speed_dial id={@id} {@props} icon="hero-plus" class="!absolute !bottom-4 !end-4">
@@ -434,7 +436,7 @@ defmodule DevelopmentWeb.Showcase.Preview do
       ])
 
     ~H"""
-    <div class="max-h-64 w-full overflow-y-auto overflow-x-hidden rounded-box border border-base-300">
+    <div class="max-h-64 w-full overflow-y-auto overflow-x-hidden rounded-lg border border-[var(--c-base-300)]">
       <.table
         id={@id}
         {@props}
@@ -478,11 +480,11 @@ defmodule DevelopmentWeb.Showcase.Preview do
     <div
       id={@scroll_id}
       class={[
-        "max-h-80 w-full overflow-y-auto rounded-box border border-base-300 bg-base-100 p-3",
+        "max-h-80 w-full overflow-y-auto rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-3",
         @props[:animated] && "scroll-smooth"
       ]}
     >
-      <div class="sticky top-0 z-10 mb-2 bg-base-100 pb-2">
+      <div class="sticky top-0 z-10 mb-2 bg-[var(--c-base-100)] pb-2">
         <.table_content id={@id} {@props} title="On this page">
           <.content_item
             :for={{anchor, label, _} <- @sections}
@@ -501,8 +503,8 @@ defmodule DevelopmentWeb.Showcase.Preview do
           class="scroll-mt-2"
         >
           <h4 class="mb-1 font-semibold">{label}</h4>
-          <p class="text-base-content/60">{body}</p>
-          <div class="mt-3 h-16 rounded-lg bg-base-200/50"></div>
+          <p class="text-[var(--c-base-content)]/60">{body}</p>
+          <div class="mt-3 h-16 rounded-lg bg-[var(--c-base-200)]/50"></div>
         </section>
       </div>
     </div>
@@ -653,7 +655,7 @@ defmodule DevelopmentWeb.Showcase.Preview do
           </:content>
         </.dropdown>
       </div>
-      <p :if={@smart?} class="mt-3 text-center text-xs text-base-content/50">
+      <p :if={@smart?} class="mt-3 text-center text-xs text-[var(--c-base-content)]/50">
         Smart position on: the trigger sits low in the viewport, so opening the menu flips it
         <span class="font-medium">upward</span>
         when there's no room below.
@@ -700,7 +702,7 @@ defmodule DevelopmentWeb.Showcase.Preview do
   def show(%{component: "mega_menu"} = assigns) do
     ~H"""
     <div class="w-full text-left">
-      <p class="mb-2 text-xs text-base-content/50">
+      <p class="mb-2 text-xs text-[var(--c-base-content)]/50">
         Hover the trigger to open it — enable <span class="font-medium">clickable</span> to switch to
         click-to-toggle.
       </p>
@@ -781,7 +783,7 @@ defmodule DevelopmentWeb.Showcase.Preview do
           </span>
         </.button>
 
-        <ul id="menu-ecom-sub" class="mt-1 ml-5 space-y-1 border-l border-base-300 pl-3">
+        <ul id="menu-ecom-sub" class="mt-1 ml-5 space-y-1 border-l border-[var(--c-base-300)] pl-3">
           <li>
             <.button
               display="flex"
@@ -926,7 +928,7 @@ defmodule DevelopmentWeb.Showcase.Preview do
       |> assign(:drawer_id, "#{assigns.id}-#{:erlang.phash2(assigns.props)}")
 
     ~H"""
-    <div class="relative grid h-72 w-full place-items-center overflow-hidden rounded-box border border-base-300 bg-base-200/30">
+    <div class="relative grid h-72 w-full place-items-center overflow-hidden rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-200)]/30">
       <.button
         size="small"
         variant="outline"
@@ -971,7 +973,7 @@ defmodule DevelopmentWeb.Showcase.Preview do
     assigns = assign(assigns, :modal_id, modal_id)
 
     ~H"""
-    <div class="relative grid h-60 w-full place-items-center overflow-hidden rounded-box border border-base-300 bg-base-200/30">
+    <div class="relative grid h-60 w-full place-items-center overflow-hidden rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-200)]/30">
       <.button
         size="small"
         variant="outline"
@@ -1022,24 +1024,24 @@ defmodule DevelopmentWeb.Showcase.Preview do
 
   def show(%{component: "overlay"} = assigns) do
     ~H"""
-    <div class="relative h-64 w-full overflow-hidden rounded-box border border-base-300 bg-base-100">
+    <div class="relative h-64 w-full overflow-hidden rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)]">
       <div class="space-y-3 p-4">
         <div class="flex items-center gap-3">
-          <div class="size-10 shrink-0 rounded-full bg-base-300"></div>
+          <div class="size-10 shrink-0 rounded-full bg-[var(--c-base-300)]"></div>
           <div class="space-y-2">
-            <div class="h-3 w-32 rounded bg-base-300"></div>
-            <div class="h-2.5 w-20 rounded bg-base-200"></div>
+            <div class="h-3 w-32 rounded bg-[var(--c-base-300)]"></div>
+            <div class="h-2.5 w-20 rounded bg-[var(--c-base-200)]"></div>
           </div>
         </div>
-        <div class="h-2.5 w-full rounded bg-base-200"></div>
-        <div class="h-2.5 w-5/6 rounded bg-base-200"></div>
-        <div class="h-2.5 w-2/3 rounded bg-base-200"></div>
-        <div class="mt-4 h-9 w-28 rounded-lg bg-base-300"></div>
+        <div class="h-2.5 w-full rounded bg-[var(--c-base-200)]"></div>
+        <div class="h-2.5 w-5/6 rounded bg-[var(--c-base-200)]"></div>
+        <div class="h-2.5 w-2/3 rounded bg-[var(--c-base-200)]"></div>
+        <div class="mt-4 h-9 w-28 rounded-lg bg-[var(--c-base-300)]"></div>
       </div>
       <.overlay id={@id} {@props}>
         <div class="flex h-full flex-col items-center justify-center gap-3">
           <.spinner size="large" />
-          <div class="text-sm font-medium text-base-content">Loading account…</div>
+          <div class="text-sm font-medium text-[var(--c-base-content)]">Loading account…</div>
         </div>
       </.overlay>
     </div>
@@ -1089,7 +1091,7 @@ defmodule DevelopmentWeb.Showcase.Preview do
         </:content>
       </.popover>
 
-      <p :if={!@inline?} class="text-xs text-base-content/40">
+      <p :if={!@inline?} class="text-xs text-[var(--c-base-content)]/40">
         {if @props[:clickable], do: "Click", else: "Hover or focus"} the trigger to reveal it.
       </p>
     </div>
@@ -1139,20 +1141,21 @@ defmodule DevelopmentWeb.Showcase.Preview do
       <.collapse
         id={@id}
         {@props}
-        class="rounded-box border border-base-300 bg-base-100 overflow-hidden"
+        class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] overflow-hidden"
       >
         <:trigger>
-          <div class="flex w-full items-center justify-between gap-3 px-4 py-3 font-medium cursor-pointer select-none transition-colors hover:bg-base-200/60">
+          <div class="flex w-full items-center justify-between gap-3 px-4 py-3 font-medium cursor-pointer select-none transition-colors hover:bg-[var(--c-base-200)]/60">
             <span class="flex items-center gap-2">
-              <.icon name="hero-truck" class="size-4 text-base-content/60" /> Shipping &amp; returns
+              <.icon name="hero-truck" class="size-4 text-[var(--c-base-content)]/60" />
+              Shipping &amp; returns
             </span>
             <.icon
               name="hero-chevron-down"
-              class="size-4 text-base-content/40 transition-transform [[aria-expanded=true]_&]:rotate-180"
+              class="size-4 text-[var(--c-base-content)]/40 transition-transform [[aria-expanded=true]_&]:rotate-180"
             />
           </div>
         </:trigger>
-        <div class="px-4 pb-4 pt-1 text-sm text-base-content/70 space-y-2">
+        <div class="px-4 pb-4 pt-1 text-sm text-[var(--c-base-content)]/70 space-y-2">
           <p>
             Free standard shipping on orders over $50 — most orders ship within 1–2 business days.
           </p>
@@ -1167,17 +1170,17 @@ defmodule DevelopmentWeb.Showcase.Preview do
     ~H"""
     <div>
       <div :if={@props[:variation] == "vertical"} class="flex h-28 items-stretch gap-6">
-        <div class="flex items-center text-sm text-base-content/60">Left</div>
+        <div class="flex items-center text-sm text-[var(--c-base-content)]/60">Left</div>
         <.divider id={@id} {@props} height="h-full" />
-        <div class="flex items-center text-sm text-base-content/60">Right</div>
+        <div class="flex items-center text-sm text-[var(--c-base-content)]/60">Right</div>
       </div>
 
       <div :if={@props[:variation] != "vertical"} class="w-72 space-y-3">
-        <p class="text-sm text-base-content/60">Section one</p>
+        <p class="text-sm text-[var(--c-base-content)]/60">Section one</p>
         <.divider id={@id} {@props}>
           <:text>OR</:text>
         </.divider>
-        <p class="text-sm text-base-content/60">Section two</p>
+        <p class="text-sm text-[var(--c-base-content)]/60">Section two</p>
       </div>
     </div>
     """
@@ -1260,10 +1263,10 @@ defmodule DevelopmentWeb.Showcase.Preview do
     <.clipboard
       id="showcase-clipboard-demo"
       {@props}
-      class="inline-flex items-center gap-3 rounded-box border border-base-300 bg-base-100 px-3 py-2"
+      class="inline-flex items-center gap-3 rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] px-3 py-2"
     >
       <:content>
-        <code class="text-sm font-mono text-base-content/80">hello@mishka.tools</code>
+        <code class="text-sm font-mono text-[var(--c-base-content)]/80">hello@mishka.tools</code>
       </:content>
       <:trigger>
         <.button size="extra_small" variant="outline" color="natural" class="gap-1.5">
@@ -1391,7 +1394,7 @@ defmodule DevelopmentWeb.Showcase.Preview do
       </.alert>
 
       <div class="space-y-1.5">
-        <div class="text-xs uppercase tracking-wide text-base-content/40">
+        <div class="text-xs uppercase tracking-wide text-[var(--c-base-content)]/40">
           flash &amp; flash_group — dismissible
         </div>
         <div class="relative w-full max-w-sm [&_.flash-alert:not(:first-child)]:mt-2">
@@ -1436,7 +1439,7 @@ defmodule DevelopmentWeb.Showcase.Preview do
 
     ~H"""
     <div class="flex w-full flex-col gap-3 text-left">
-      <p class="text-xs text-base-content/50">
+      <p class="text-xs text-[var(--c-base-content)]/50">
         A checkbox group — all share <code class="font-mono">name="{@group_name}"</code>:
       </p>
 
@@ -1450,18 +1453,20 @@ defmodule DevelopmentWeb.Showcase.Preview do
         {@props}
       />
 
-      <div class="space-y-2 rounded-box bg-base-300/40 p-3 font-mono text-[11px] leading-5">
+      <div class="space-y-2 rounded-lg bg-[var(--c-base-300)]/40 p-3 font-mono text-[11px] leading-5">
         <div class={!@multiple_on || "opacity-40"}>
           <div class="font-semibold">multiple OFF · name="notify"</div>
           <div>request body → {@body_off}</div>
           <div>server params → {@params_off}</div>
-          <div class="text-warning">↳ same key repeats, so only the last value survives</div>
+          <div class="text-[var(--c-warning)]">
+            ↳ same key repeats, so only the last value survives
+          </div>
         </div>
-        <div class={["border-t border-base-content/10 pt-2", @multiple_on || "opacity-40"]}>
+        <div class={["border-t border-[var(--c-base-content)]/10 pt-2", @multiple_on || "opacity-40"]}>
           <div class="font-semibold">multiple ON · name="notify[]"</div>
           <div>request body → {@body_on}</div>
           <div>server params → {@params_on}</div>
-          <div class="text-success">↳ [] collects every checked box into a list</div>
+          <div class="text-[var(--c-success)]">↳ [] collects every checked box into a list</div>
         </div>
       </div>
     </div>
@@ -1583,7 +1588,7 @@ defmodule DevelopmentWeb.Showcase.Preview do
     ~H"""
     <div class="flex w-full flex-wrap items-end justify-center gap-5">
       <div :for={{key, lbl} <- @rounds} class="flex flex-col items-center gap-2">
-        <span class="text-[11px] font-medium text-base-content/60">{lbl}</span>
+        <span class="text-[11px] font-medium text-[var(--c-base-content)]/60">{lbl}</span>
         <.toggle_field
           id={"tf-#{key}"}
           name={"tf_#{key}"}
@@ -1601,7 +1606,7 @@ defmodule DevelopmentWeb.Showcase.Preview do
     ~H"""
     <div class="w-full space-y-5 text-left">
       <div>
-        <p class="mb-2 text-xs font-semibold uppercase tracking-wide text-base-content/50">
+        <p class="mb-2 text-xs font-semibold uppercase tracking-wide text-[var(--c-base-content)]/50">
           Individual radios (shared name → one selection)
         </p>
         <div class="space-y-1">
@@ -1612,7 +1617,7 @@ defmodule DevelopmentWeb.Showcase.Preview do
       </div>
 
       <div>
-        <p class="mb-2 text-xs font-semibold uppercase tracking-wide text-base-content/50">
+        <p class="mb-2 text-xs font-semibold uppercase tracking-wide text-[var(--c-base-content)]/50">
           Radio group component (group_radio)
         </p>
         <.group_radio
@@ -1637,10 +1642,10 @@ defmodule DevelopmentWeb.Showcase.Preview do
 
     ~H"""
     <.avatar_group id={"#{@id}-group"} space={@props[:space] || "small"}>
-      <.avatar id={"#{@id}-icon"} class="ring-2 ring-base-100" {@avatar_props}>
+      <.avatar id={"#{@id}-icon"} class="ring-2 ring-[var(--c-base-100)]" {@avatar_props}>
         <:icon name="hero-user-solid" />
       </.avatar>
-      <.avatar id={"#{@id}-sha"} class="ring-2 ring-base-100" {@avatar_props}>SHA</.avatar>
+      <.avatar id={"#{@id}-sha"} class="ring-2 ring-[var(--c-base-100)]" {@avatar_props}>SHA</.avatar>
     </.avatar_group>
     """
   end
@@ -1659,12 +1664,12 @@ defmodule DevelopmentWeb.Showcase.Preview do
             </.button>
           </:trigger>
         </.tooltip>
-        <p class="text-xs text-base-content/40">
+        <p class="text-xs text-[var(--c-base-content)]/40">
           {if @props[:clickable], do: "Click", else: "Hover or focus"} the trigger to reveal it.
         </p>
       </div>
 
-      <div class="max-w-xs text-center text-sm leading-7 text-base-content/70">
+      <div class="max-w-xs text-center text-sm leading-7 text-[var(--c-base-content)]/70">
         Mishka Chelekom is a
         <.tooltip
           id={"#{@id}-inline-#{@fkey}"}
@@ -1672,7 +1677,7 @@ defmodule DevelopmentWeb.Showcase.Preview do
           {@props}
         >
           <:trigger>
-            <span class="cursor-help text-primary underline decoration-dotted underline-offset-2">
+            <span class="cursor-help text-[var(--c-primary)] underline decoration-dotted underline-offset-2">
               component library
             </span>
           </:trigger>

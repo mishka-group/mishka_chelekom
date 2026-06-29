@@ -54,12 +54,14 @@ defmodule DevelopmentWeb.Showcase.OtpFormDemo do
           auto_submit
           class={fc()}
         />
-        <p :for={{msg, _} <- f[:code].errors} class="mt-2 text-sm font-medium text-error">{msg}</p>
+        <p :for={{msg, _} <- f[:code].errors} class="mt-2 text-sm font-medium text-[var(--c-error)]">
+          {msg}
+        </p>
 
         <div class="mt-3 flex flex-wrap items-center gap-3">
           <button
             type="submit"
-            class="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-content"
+            class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content"
           >
             Verify
           </button>
@@ -67,11 +69,11 @@ defmodule DevelopmentWeb.Showcase.OtpFormDemo do
             type="button"
             phx-target={@myself}
             phx-click="reset"
-            class="rounded-md border border-base-300 px-4 py-1.5 text-sm"
+            class="rounded-md border border-[var(--c-base-300)] px-4 py-1.5 text-sm"
           >
             Reset
           </button>
-          <span class="text-xs text-base-content/40">
+          <span class="text-xs text-[var(--c-base-content)]/40">
             Auto-submits when all 6 digits are entered · try <code>123456</code>
           </span>
         </div>
@@ -79,7 +81,7 @@ defmodule DevelopmentWeb.Showcase.OtpFormDemo do
 
       <div
         :if={@verified}
-        class="mt-3 rounded-md border border-success/40 bg-success/10 p-3 text-sm font-medium text-success"
+        class="mt-3 rounded-md border border-[var(--c-success)]/40 bg-[var(--c-success)]/10 p-3 text-sm font-medium text-[var(--c-success)]"
       >
         ✓ Verified — code accepted (not persisted)
       </div>
@@ -101,10 +103,10 @@ defmodule DevelopmentWeb.Showcase.OtpFormDemo do
   defp fc do
     [
       "flex items-center gap-2",
-      "[&_[data-part=input]]:size-11 [&_[data-part=input]]:rounded-md [&_[data-part=input]]:border [&_[data-part=input]]:border-base-300 [&_[data-part=input]]:bg-base-100 [&_[data-part=input]]:text-center [&_[data-part=input]]:text-lg [&_[data-part=input]]:tabular-nums [&_[data-part=input]]:outline-none",
-      "[&_[data-part=input]:focus]:border-primary [&_[data-part=input]:focus]:ring-2 [&_[data-part=input]:focus]:ring-primary/30",
-      "[&_[data-part=input][data-filled]]:border-base-content/40",
-      "[&[data-complete]_[data-part=input]]:border-success"
+      "[&_[data-part=input]]:size-11 [&_[data-part=input]]:rounded-md [&_[data-part=input]]:border [&_[data-part=input]]:border-[var(--c-base-300)] [&_[data-part=input]]:bg-[var(--c-base-100)] [&_[data-part=input]]:text-center [&_[data-part=input]]:text-lg [&_[data-part=input]]:tabular-nums [&_[data-part=input]]:outline-none",
+      "[&_[data-part=input]:focus]:border-[var(--c-primary)] [&_[data-part=input]:focus]:ring-2 [&_[data-part=input]:focus]:ring-[var(--c-primary)]/30",
+      "[&_[data-part=input][data-filled]]:border-[var(--c-base-content)]/40",
+      "[&[data-complete]_[data-part=input]]:border-[var(--c-success)]"
     ]
   end
 end

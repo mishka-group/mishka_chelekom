@@ -2,6 +2,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentTest do
   use ExUnit.Case
   import MishkaChelekom.ComponentTestHelper
   alias Mix.Tasks.Mishka.Ui.Gen.Component
+  alias MishkaChelekom.Generators.{Assets, Core}
   @moduletag :igniter
 
   setup do
@@ -101,31 +102,31 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentTest do
 
   describe "helper functions" do
     test "atom_to_module converts strings to module names" do
-      assert Component.atom_to_module("test_project_web.components.button") ==
+      assert Core.module_atom("test_project_web.components.button") ==
                :"TestProjectWeb.Components.Button"
 
-      assert Component.atom_to_module("my_app.ui.component") == :"MyApp.Ui.Component"
+      assert Core.module_atom("my_app.ui.component") == :"MyApp.Ui.Component"
     end
 
     test "atom_to_module with :last gets last segment" do
-      assert Component.atom_to_module("test_project_web.components.button", :last) == :Button
-      assert Component.atom_to_module("my_app.ui.component", :last) == :Component
+      assert Core.module_atom("test_project_web.components.button", :last) == :Button
+      assert Core.module_atom("my_app.ui.component", :last) == :Component
     end
 
     test "component_to_atom converts component string to atom" do
-      assert Component.component_to_atom("component_button") == :component_button
-      assert Component.component_to_atom("preset_form") == :preset_form
+      assert Core.component_atom("component_button") == :component_button
+      assert Core.component_atom("preset_form") == :preset_form
     end
 
     test "convert_options handles CSV strings" do
-      assert Component.convert_options("default,outline,ghost") == ["default", "outline", "ghost"]
-      assert Component.convert_options("sm, md, lg") == ["sm", "md", "lg"]
-      assert Component.convert_options(nil) == nil
+      assert Core.convert_options("default,outline,ghost") == ["default", "outline", "ghost"]
+      assert Core.convert_options("sm, md, lg") == ["sm", "md", "lg"]
+      assert Core.convert_options(nil) == nil
     end
 
     test "convert_options handles lists" do
-      assert Component.convert_options(["default", "outline"]) == ["default", "outline"]
-      assert Component.convert_options([" sm ", " md "]) == ["sm", "md"]
+      assert Core.convert_options(["default", "outline"]) == ["default", "outline"]
+      assert Core.convert_options([" sm ", " md "]) == ["sm", "md"]
     end
   end
 
@@ -168,7 +169,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentTest do
           """
         )
 
-      igniter_after = Component.setup_css_files(igniter, [])
+      igniter_after = Assets.setup_styled_css(igniter, [])
 
       # Should create mishka_chelekom.css
       assert igniter_after.rewrite.sources["assets/vendor/mishka_chelekom.css"]
@@ -186,7 +187,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentTest do
         @import "tailwindcss";
         """)
 
-      igniter_after = Component.setup_css_files(igniter, sub: true)
+      igniter_after = Assets.setup_styled_css(igniter, sub: true)
 
       # Should not create CSS files when --sub flag is set
       assert igniter_after.rewrite.sources["assets/vendor/mishka_chelekom.css"] == nil
@@ -204,7 +205,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentTest do
         }
         """)
 
-      igniter_after = Component.setup_css_files(igniter, [])
+      igniter_after = Assets.setup_styled_css(igniter, [])
 
       # Should create sample config
       assert igniter_after.rewrite.sources["priv/mishka_chelekom/config.exs"]
@@ -224,14 +225,14 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentTest do
         [component_button: [args: [], necessary: [], optional: [], scripts: []]]
         """)
 
-      result = Component.get_component_template(igniter, "component_button")
+      result = Core.fetch_catalog(igniter, "component_button", :styled)
 
       case result do
-        %{component: component, path: path} ->
+        {:ok, %{component: component, path: path}} ->
           assert component == "component_button"
           assert String.ends_with?(path, "component_button.eex")
 
-        {:error, :no_component, _, _} ->
+        {:error, {:not_found, _}} ->
           # In test environment, the path resolution might fail
           assert true
       end
@@ -245,14 +246,14 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentTest do
         [preset_form: [args: [], necessary: [], optional: [], scripts: []]]
         """)
 
-      result = Component.get_component_template(igniter, "preset_form")
+      result = Core.fetch_catalog(igniter, "preset_form", :styled)
 
       case result do
-        %{component: component, path: path} ->
+        {:ok, %{component: component, path: path}} ->
           assert component == "preset_form"
           assert String.ends_with?(path, "preset_form.eex")
 
-        {:error, :no_component, _, _} ->
+        {:error, {:not_found, _}} ->
           # In test environment, the path resolution might fail
           assert true
       end
@@ -266,14 +267,14 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentTest do
         [template_layout: [args: [], necessary: [], optional: [], scripts: []]]
         """)
 
-      result = Component.get_component_template(igniter, "template_layout")
+      result = Core.fetch_catalog(igniter, "template_layout", :styled)
 
       case result do
-        %{component: component, path: path} ->
+        {:ok, %{component: component, path: path}} ->
           assert component == "template_layout"
           assert String.ends_with?(path, "template_layout.eex")
 
-        {:error, :no_component, _, _} ->
+        {:error, {:not_found, _}} ->
           # In test environment, the path resolution might fail
           assert true
       end
@@ -281,10 +282,10 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentTest do
 
     test "returns error for non-existent component" do
       igniter = test_project_with_formatter()
-      result = Component.get_component_template(igniter, "non_existent")
+      result = Core.fetch_catalog(igniter, "non_existent", :styled)
 
-      assert {:error, :no_component, msg, _igniter} = result
-      assert String.contains?(msg, "does not exist")
+      assert {:error, {:not_found, path}} = result
+      assert String.ends_with?(path, "non_existent.eex")
     end
   end
 end

@@ -19,6 +19,8 @@ jobs:
         include:
           - elixir: "1.18.1"
             otp: "27.2"
+          - elixir: "1.20.2"
+            otp: "29.0.2"
 
     steps:
       - uses: actions/checkout@v5
@@ -66,3 +68,31 @@ jobs:
         env:
           MIX_ENV: test
         run: mix test --trace
+
+  idempotency:
+    name: Generators are idempotent (development harness)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1.20.4
+        with:
+          elixir-version: "1.19.5"
+          otp-version: "28"
+
+      - name: Install Hex and Rebar
+        run: |
+          mix local.hex --force
+          mix local.rebar --force
+
+      - name: Install development harness deps
+        working-directory: development
+        run: mix deps.get
+
+      - name: Generators must produce no changes on re-run
+        working-directory: development
+        env:
+          MIX_ENV: dev
+        run: mix run --no-start idempotency_check.exs

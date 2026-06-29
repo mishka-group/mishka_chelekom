@@ -1,7 +1,7 @@
 defmodule MishkaChelekom.MixProject do
   use Mix.Project
 
-  @version "0.0.9-beta.2"
+  @version "0.0.9-beta.3"
   @source_url "https://github.com/mishka-group/mishka_chelekom"
 
   def project do
@@ -9,7 +9,7 @@ defmodule MishkaChelekom.MixProject do
       app: :mishka_chelekom,
       name: "Mishka Chelekom",
       version: @version,
-      elixir: "~> 1.17",
+      elixir: "~> 1.18",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       test_ignore_filters: [&String.starts_with?(&1, "test/fixtures/")],
