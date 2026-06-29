@@ -299,15 +299,13 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   defp should_proceed?(%{dry_run: true}), do: false
   defp should_proceed?(_), do: true
 
-  defp add_cancel_notice(%{assigns: %{opts: %{dry_run: true}}} = igniter) do
+  defp add_cancel_notice(igniter) do
     Igniter.add_notice(igniter, """
 
     Dry-run complete. No files were modified.
     Run without --dry-run to perform the actual uninstall.
     """)
   end
-
-  defp add_cancel_notice(igniter), do: Igniter.add_notice(igniter, "Uninstall cancelled.")
 
   defp build_removal_plan(igniter) do
     %{components: components, user_config: user_config} = igniter.assigns

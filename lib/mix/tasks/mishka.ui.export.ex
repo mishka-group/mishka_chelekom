@@ -640,6 +640,12 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
       Igniter.add_issue(igniter, msg)
   end
 
+  if Code.ensure_loaded?(JSON) do
+    defp encode_json!(data), do: JSON.encode!(data)
+  else
+    defp encode_json!(data), do: Jason.encode!(data)
+  end
+
   defp create_json_file(igniter, name, org) do
     dir = igniter.assigns.cli_dir
 
@@ -649,7 +655,7 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
 
       data ->
         # Hard coded skipped org type
-        new_data = %{name: name, type: org, files: data} |> JSON.encode!()
+        new_data = %{name: name, type: org, files: data} |> encode_json!()
 
         igniter
         |> Igniter.create_new_file(dir <> "/#{name}.json", new_data, on_exists: :overwrite)

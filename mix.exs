@@ -9,7 +9,7 @@ defmodule MishkaChelekom.MixProject do
       app: :mishka_chelekom,
       name: "Mishka Chelekom",
       version: @version,
-      elixir: "~> 1.17",
+      elixir: "~> 1.18",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       test_ignore_filters: [&String.starts_with?(&1, "test/fixtures/")],
