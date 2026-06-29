@@ -85,7 +85,7 @@ defmodule MishkaChelekom.MixProject do
       # `priv/components/chelekom.json` bundle is NOT shipped to Hex — it is a build export
       # (cms_bundle_exporter), not read at runtime. Everything else under priv is included.
       files: ~w(lib .formatter.exs mix.exs LICENSE README* MCP.md usage-rules.md usage-rules
-           priv/assets priv/demos priv/headless priv/usage-rules
+           priv/assets priv/demos priv/headless
            priv/components/*.exs priv/components/*.eex),
       licenses: ["Apache-2.0"],
       maintainers: ["Shahryar Tavakkoli", "Mona Aghili", "Arian Alijani"],
