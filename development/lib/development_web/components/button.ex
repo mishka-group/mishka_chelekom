@@ -702,7 +702,8 @@ defmodule DevelopmentWeb.Components.Button do
               "default_gradient",
               "outline_gradient",
               "inverted_gradient"
-            ], do: nil
+            ],
+       do: nil
 
   defp border_size("none", _), do: nil
   defp border_size("extra_small", _), do: "border"
