@@ -4,9 +4,9 @@ permissions:
 
 on:
   push:
-    branches: [master, sup-headless-cli]
+    branches: [master]
   pull_request:
-    branches: [master, sup-headless-cli]
+    branches: [master]
 
 jobs:
   test:
