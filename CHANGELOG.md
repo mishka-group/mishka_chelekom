@@ -15,6 +15,9 @@
 - Add Stat component
 - Add harness demo driven kit test for dynamic CMS generator (Private APIs) [#479](https://github.com/mishka-group/mishka_chelekom/pull/479)
 - Add stdio transport + mix mishka.mcp.setup --stdio [Issue with help](https://github.com/mishka-group/mishka_chelekom/issues/#480)
+- Add entry-level headless components ported from Base UI for Phoenix [#489](https://github.com/mishka-group/mishka_chelekom/pull/489)
+- Add creatable option support to Combobox component [Commit](https://github.com/mishka-group/mishka_chelekom/commit/f3fd81fd08b3f577a15d8085dafb0cbd708df5ee)
+- Add scrollable trigger list (`scroll_area`) for Tabs in vertical orientation [Issue with help](https://github.com/mishka-group/mishka_chelekom/issues/471)
 
 
 ### Refactors:
@@ -22,6 +25,9 @@
 - Refactor accordion to auto-generate item IDs (Explicit and open dynamic identifiers) [Commit](https://github.com/mishka-group/mishka_chelekom/commit/41a9f87d896c3524ce60826d5436ee14efacfb83) and [Issue with help](https://github.com/mishka-group/mishka_chelekom/issues/443#issuecomment-3529762821)
 - Change `:class` attr type from `:string` to `:any` in components [Commit](https://github.com/mishka-group/mishka_chelekom/commit/dc4d66b52ad7703524a4057346b574fbf72992f0)
 - Refactor server-render active state so it works on static mount and reacts to assign changes [Issue with help](https://github.com/mishka-group/mishka_chelekom/issues/476) - [Issue with help](https://github.com/mishka-group/mishka_chelekom/issues/472)
+- Refactor generators and asset handling for the headless CLI, with unified per-command banners and improved headless CSS import [Commit](https://github.com/mishka-group/mishka_chelekom/commit/3f873a5bff4de148d0f4305cd3857c4e72c6a06a)
+- Bump minimum Elixir to 1.18 and add compile-time `JSON`/`Jason` fallback [Commit](https://github.com/mishka-group/mishka_chelekom/commit/2c771d52e3abbf2c9af72f079143ad16e6c0b777)
+- Refactor uninstall to restore `CoreComponents` import [#465](https://github.com/mishka-group/mishka_chelekom/pull/465)
 
 ### Bugs:
 
@@ -36,6 +42,14 @@
 - Fix MCP runtime error [Commit](https://github.com/mishka-group/mishka_chelekom/commit/c30039e753a6581a5d910120040bf9cc95837d0b)
 - Update and fix version conflict with other Mishka Project [Commit](https://github.com/mishka-group/mishka_chelekom/commit/c30039e753a6581a5d910120040bf9cc95837d0b)
 - Fix Only use `Owl.Spinner` when TTY available [#477](https://github.com/mishka-group/mishka_chelekom/issues/477)
+- Fix dropdown content slot class attribute concatenation [Commit](https://github.com/mishka-group/mishka_chelekom/commit/be96e764b24d0e854c303480f6afeee086ccba51)
+- Fix Combobox field attribute not sending values to form params [Commit](https://github.com/mishka-group/mishka_chelekom/commit/903f2204ff51ca1a43d8b89b06146ddf93166c78)
+- Fix Elixir 1.19 and `not ... in ...` deprecation warnings [Commit](https://github.com/mishka-group/mishka_chelekom/commit/b545a40b8f663355e172b048886b28e5bcd4813b)
+
+### Tests:
+
+- Add retire-js and semgrep security scanning [#460](https://github.com/mishka-group/mishka_chelekom/pull/460)
+- Add Elixir 1.20.2 (OTP 29) to the CI test matrix [Commit](https://github.com/mishka-group/mishka_chelekom/commit/6197ccf8aa6668be213074e08846ed88922cd2f7)
 
 ---
 
