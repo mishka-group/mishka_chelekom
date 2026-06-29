@@ -1,8 +1,8 @@
 defmodule DevelopmentWeb.PageControllerTest do
   use DevelopmentWeb.ConnCase
 
-  test "GET /", %{conn: conn} do
+  test "GET / redirects to the showcase", %{conn: conn} do
     conn = get(conn, ~p"/")
-    assert html_response(conn, 200) =~ "Peace of mind from prototype to production"
+    assert redirected_to(conn) == ~p"/showcase"
   end
 end

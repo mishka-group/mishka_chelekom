@@ -77,7 +77,7 @@ jobs:
       - name: Set up Elixir
         uses: erlef/setup-beam@v1.20.4
         with:
-          elixir-version: "1.18.4"
+          elixir-version: "1.19.5"
           otp-version: "28"
 
       - name: Install Hex and Rebar
@@ -93,4 +93,4 @@ jobs:
         working-directory: development
         env:
           MIX_ENV: dev
-        run: mix run idempotency_check.exs
+        run: mix run --no-start idempotency_check.exs

@@ -7,6 +7,8 @@ config :development, DevelopmentWeb.Endpoint,
   secret_key_base: "esazP+BIDGQ0KRgXWmVt2doyZQmCdn+GGkDCIu0DAvPXhIzQ2w/GFWztUyLuRJ8Y",
   server: false
 
+config :mishka_chelekom, mcp_transport: {:streamable_http, start: false}
+
 # Print only warnings and errors during test
 config :logger, level: :warning
 
