@@ -163,9 +163,7 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
               data-checked={it[:checked] == true}
               data-unchecked={it[:checked] != true}
               class={["chelekom-menu__indicator", it[:indicator_class]]}
-            >
-              {if @check_icon != [], do: render_slot(@check_icon), else: "✓"}
-            </span>
+            >{if @check_icon != [], do: render_slot(@check_icon), else: "✓"}</span>
             {render_slot(it)}
           </button>
           <button
@@ -191,9 +189,7 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
               data-checked={it[:checked] == true}
               data-unchecked={it[:checked] != true}
               class={["chelekom-menu__indicator", it[:indicator_class]]}
-            >
-              {if @check_icon != [], do: render_slot(@check_icon), else: "●"}
-            </span>
+            >{if @check_icon != [], do: render_slot(@check_icon), else: "●"}</span>
             {render_slot(it)}
           </button>
           <a
@@ -204,9 +200,7 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
             data-label={it[:label]}
             tabindex="-1"
             class={["chelekom-menu__link-item", it[:class]]}
-          >
-            {render_slot(it)}
-          </a>
+          >{render_slot(it)}</a>
           <button
             :if={it[:type] in [nil, "item"]}
             type="button"
@@ -239,9 +233,7 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
             class="chelekom-menu__submenu-trigger"
           >
             {sm[:label]}
-            <span data-part="submenu-chevron" aria-hidden="true" class="chelekom-menu__chevron">
-              ›
-            </span>
+            <span data-part="submenu-chevron" aria-hidden="true" class="chelekom-menu__chevron">›</span>
           </button>
           <div
             id={"#{@id}-sub-#{idx}"}
@@ -323,9 +315,7 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
         data-checked={@checked}
         data-unchecked={!@checked}
         class={["chelekom-menu__indicator", @indicator_class]}
-      >
-        {if @indicator != [], do: render_slot(@indicator), else: "✓"}
-      </span>
+      >{if @indicator != [], do: render_slot(@indicator), else: "✓"}</span>
       {render_slot(@inner_block)}
     </button>
     """
@@ -407,9 +397,7 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
         data-checked={@checked}
         data-unchecked={!@checked}
         class={["chelekom-menu__indicator", @indicator_class]}
-      >
-        {if @indicator != [], do: render_slot(@indicator), else: "●"}
-      </span>
+      >{if @indicator != [], do: render_slot(@indicator), else: "●"}</span>
       {render_slot(@inner_block)}
     </button>
     """
@@ -524,9 +512,7 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
           data-part="submenu-chevron"
           aria-hidden="true"
           class={["chelekom-menu__chevron", @chevron_class]}
-        >
-          {if @chevron != [], do: render_slot(@chevron), else: "›"}
-        </span>
+        >{if @chevron != [], do: render_slot(@chevron), else: "›"}</span>
       </button>
       <div
         id={"#{@id}-sub"}

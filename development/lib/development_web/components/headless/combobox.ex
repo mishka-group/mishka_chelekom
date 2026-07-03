@@ -245,11 +245,10 @@ defmodule DevelopmentWeb.Components.Headless.Combobox do
             :if={@create_icon != []}
             data-part="create-label"
             class={["chelekom-combobox__create-label", @create_label_class]}
-          >Create “<span data-create-label></span>”</span>
-          <span :if={@create_icon == []}>
-            Create “
-          </span>
-          <span :if={@create_icon == []} data-create-label></span><span :if={@create_icon == []}>”</span>
+          >Create “<span data-create-label></span>”</span><span :if={@create_icon == []}>Create “</span><span
+            :if={@create_icon == []}
+            data-create-label
+          ></span><span :if={@create_icon == []}>”</span>
         </li>
       </ul>
     </div>
@@ -288,9 +287,7 @@ defmodule DevelopmentWeb.Components.Headless.Combobox do
         data-part="indicator"
         aria-hidden="true"
         class={["chelekom-combobox__indicator", @indicator_class]}
-      >
-        {render_slot(@item_indicator)}
-      </span>
+      >{render_slot(@item_indicator)}</span>
       {render_slot(@opt)}
     </li>
     """

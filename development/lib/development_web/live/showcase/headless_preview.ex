@@ -270,7 +270,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       <:item title="Can panels animate?">
         <div class="px-3 pb-3 text-sm text-[var(--c-base-content)]/70">
           Yes — the panel exposes <code>--accordion-panel-height</code>
-          plus <code>data-starting-style</code>/<code>data-ending-style</code> so your CSS transitions height.
+          plus <code>data-starting-style</code>/<code>data-ending-style</code>
+          so your CSS transitions height.
         </div>
       </:item>
     </.accordion>
@@ -1459,7 +1460,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
           changeset — no database, nothing is saved. The stateless <code>&lt;.field&gt;</code>
           auto-wires <code>for</code>
           / <code>aria-describedby</code>
-          (description + every error) / <code>aria-invalid</code>, and hands <code>id</code>/<code>name</code>/<code>describedby</code> back through <code>:let</code>. Errors appear per-field once you touch it
+          (description + every error) / <code>aria-invalid</code>, and hands <code>id</code>/<code>name</code>/<code>describedby</code>
+          back through <code>:let</code>. Errors appear per-field once you touch it
           (<code>used_input?</code>) and on submit; the <code>Field</code>
           hook adds <code>data-focused</code>/<code>-touched</code>/<code>-dirty</code>/<code>-filled</code>.
         </p>

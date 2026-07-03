@@ -79,9 +79,7 @@ defmodule DevelopmentWeb.Components.Headless.Meter do
         :if={@show_value}
         data-part="value"
         class={["chelekom-meter__value", @value_class]}
-      >
-        {@value_text}
-      </span>
+      >{@value_text}</span>
       <div data-part="track" class={["chelekom-meter__track", @track_class]}>
         <div
           data-part="indicator"

@@ -114,9 +114,7 @@ defmodule DevelopmentWeb.Components.Breadcrumb do
             navigate={item[:link]}
             title={item[:title]}
             class={item[:link_class]}
-          >
-            {render_slot(item)}
-          </.link>
+          >{render_slot(item)}</.link>
 
           <div :if={is_nil(item[:link])}>{render_slot(item)}</div>
 

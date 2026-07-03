@@ -277,9 +277,7 @@ defmodule DevelopmentWeb.Components.Headless.Select do
       <span
         data-part="item-text"
         class={["chelekom-select__text", @item_text_class, @opt[:text_class]]}
-      >
-        {render_slot(@opt)}
-      </span>
+      >{render_slot(@opt)}</span>
     </li>
     """
   end

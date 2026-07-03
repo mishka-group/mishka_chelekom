@@ -112,9 +112,7 @@ defmodule DevelopmentWeb.Components.Headless.NavigationMenu do
               data-part="icon"
               aria-hidden="true"
               class={["chelekom-navigation_menu__icon", @icon_class]}
-            >
-              {if @icon != [], do: render_slot(@icon), else: "▾"}
-            </span>
+            >{if @icon != [], do: render_slot(@icon), else: "▾"}</span>
           </button>
 
           <div

@@ -73,9 +73,9 @@ defmodule DevelopmentWeb.Components.Headless.Radio do
       >
         {render_slot(@indicator)}
       </span>
-      <span data-part="label" class={["chelekom-radio__label", @label_class]}>
-        {render_slot(@inner_block)}
-      </span>
+      <span data-part="label" class={["chelekom-radio__label", @label_class]}>{render_slot(
+        @inner_block
+      )}</span>
     </label>
     """
   end

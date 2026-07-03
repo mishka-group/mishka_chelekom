@@ -81,9 +81,9 @@ defmodule DevelopmentWeb.Components.Headless.Checkbox do
       >
         {render_slot(@indicator)}
       </span>
-      <span data-part="label" class={["chelekom-checkbox__label", @label_class]}>
-        {render_slot(@inner_block)}
-      </span>
+      <span data-part="label" class={["chelekom-checkbox__label", @label_class]}>{render_slot(
+        @inner_block
+      )}</span>
     </button>
     """
   end

@@ -106,8 +106,7 @@ defmodule DevelopmentWeb.Components.Headless.Switch do
           data-unchecked={!@checked}
           class={["chelekom-switch__thumb", @thumb_class]}
           aria-hidden="true"
-        >
-        </span>
+        ></span>
       </span>
       <span
         :if={@inner_block != []}

@@ -174,8 +174,7 @@ defmodule DevelopmentWeb.Components.Popover do
             arrow_position_class(@position),
             @arrow_class
           ]}
-        >
-        </span>
+        ></span>
 
         <span :for={content <- @content} :if={@content != []} class={content[:class]}>
           {render_slot(content)}
@@ -234,8 +233,7 @@ defmodule DevelopmentWeb.Components.Popover do
             arrow_position_class(@position),
             @arrow_class
           ]}
-        >
-        </span>
+        ></span>
 
         <span :for={content <- @content} :if={@content != []} class={content[:class]}>
           {render_slot(content)}

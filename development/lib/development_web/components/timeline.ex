@@ -284,9 +284,7 @@ defmodule DevelopmentWeb.Components.Timeline do
 
       <div class={["mt-3 sm:pe-5", @content_class]}>
         <h3 :if={@title} class={["text-lg font-semibold mb-2", @title_class]}>{@title}</h3>
-        <time :if={@time} class={["block mb-3 text-xs font-normal leading-none", @time_class]}>
-          {@time}
-        </time>
+        <time :if={@time} class={["block mb-3 text-xs font-normal leading-none", @time_class]}>{@time}</time>
         <p :if={@description} class={@description_class}>{@description}</p>
 
         {render_slot(@inner_block)}
@@ -358,9 +356,7 @@ defmodule DevelopmentWeb.Components.Timeline do
 
       <div class={["grow pt-0.5 pb-5", @content_class]}>
         <h3 :if={@title} class={["text-lg font-semibold mb-2", @title_class]}>{@title}</h3>
-        <time :if={@time} class={["block mb-3 text-[12px] font-normal leading-none", @time_class]}>
-          {@time}
-        </time>
+        <time :if={@time} class={["block mb-3 text-[12px] font-normal leading-none", @time_class]}>{@time}</time>
         <p :if={@description} class={@description_class}>{@description}</p>
 
         {render_slot(@inner_block)}

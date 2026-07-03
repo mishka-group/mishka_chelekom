@@ -204,9 +204,7 @@ defmodule DevelopmentWeb.Components.SpeedDial do
             @icon_animated && "transition-transform group-hover:rotate-45"
           ]}
         />
-        <span :if={is_nil(@icon)} class={@trigger_content[:class]}>
-          {render_slot(@trigger_content)}
-        </span>
+        <span :if={is_nil(@icon)} class={@trigger_content[:class]}>{render_slot(@trigger_content)}</span>
         <span class="sr-only">{gettext("Open actions menu")}</span>
       </button>
     </div>

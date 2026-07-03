@@ -216,8 +216,7 @@ defmodule DevelopmentWeb.Components.Stepper do
       {@rest}
     >
       <span class="block relative">
-        <span class={["stepper-separator block h-screen absolute start-1/2", @separator_class]}>
-        </span>
+        <span class={["stepper-separator block h-screen absolute start-1/2", @separator_class]}></span>
         <span
           :if={@icon}
           class={[
