@@ -1,7 +1,7 @@
 defmodule MishkaChelekom.MixProject do
   use Mix.Project
 
-  @version "0.0.9-beta.3"
+  @version "0.0.9-beta.4"
   @source_url "https://github.com/mishka-group/mishka_chelekom"
 
   def project do
@@ -52,17 +52,17 @@ defmodule MishkaChelekom.MixProject do
 
   defp deps do
     [
-      {:igniter, "~> 0.5 and >= 0.7.0"},
-      {:guarded_struct, "~> 0.1.0-beta.8"},
+      {:igniter, "~> 0.6 and >= 0.8.2"},
+      {:guarded_struct, "~> 0.1.1"},
       # Layer 3 declarative config DSL (already present transitively via guarded_struct).
       {:spark, "~> 2.7"},
       {:igniter_js, "~> 0.4.11"},
       {:owl, "~> 0.13"},
-      {:ex_doc, "~> 0.40.1", only: :dev, runtime: false},
-      {:plug, "~> 1.18 and >= 1.19.0"},
+      {:ex_doc, "~> 0.40.3", only: :dev, runtime: false},
+      {:plug, "~> 1.18 and >= 1.20.0"},
       {:usage_rules, "~> 1.2", only: :test},
-      {:anubis_mcp, "~> 1.1"},
-      {:bandit, "~> 1.10", optional: true},
+      {:anubis_mcp, "~> 1.6"},
+      {:bandit, "~> 1.12", optional: true},
       {:jason, "~> 1.4"},
       # Optional (not forced on consumers): host Phoenix apps always provide their own
       # phoenix_live_view. Declaring it `optional` (rather than dev/test-only) keeps the
@@ -70,7 +70,7 @@ defmodule MishkaChelekom.MixProject do
       # host's LiveView is compiled first and `Phoenix.Component` is available to the
       # `MishkaChelekom.Component` macro renderers and the `mix mishka.ui.verify --cms` harness.
       # Production-installed users are unaffected — `optional` is never auto-installed.
-      {:phoenix_live_view, "~> 1.0", optional: true}
+      {:phoenix_live_view, "~> 1.2", optional: true}
     ]
   end
 

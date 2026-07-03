@@ -43,7 +43,7 @@ defmodule Development.MixProject do
       {:phoenix, "~> 1.8.7"},
       {:phoenix_html, "~> 4.1"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:phoenix_live_view, "~> 1.1.0"},
+      {:phoenix_live_view, "~> 1.2"},
       # Ecto (NO ecto_sql / postgrex): embedded changesets to drive the showcase form demos —
       # validation only, nothing is ever persisted to a database. phoenix_ecto provides the
       # Phoenix.HTML.FormData protocol for Ecto.Changeset so `to_form(changeset)` works.

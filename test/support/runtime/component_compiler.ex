@@ -527,17 +527,15 @@ defmodule MishkaChelekom.Test.Runtime.Compilers.ComponentCompiler do
 
   defp compile_clause_template(str, params) when is_binary(str) do
     opts = [
-      engine: Phoenix.LiveView.TagEngine,
       line: 1,
       indentation: 0,
       file: "mishka_cms_runtime_component_#{params[:title]}_#{params[:site]}_clause",
       caller: make_env(),
-      source: str,
       trim: true,
       tag_handler: Phoenix.LiveView.HTMLEngine
     ]
 
-    EEx.compile_string(str, opts)
+    Phoenix.LiveView.TagEngine.compile(str, opts)
   end
 
   @doc """
@@ -868,17 +866,15 @@ defmodule MishkaChelekom.Test.Runtime.Compilers.ComponentCompiler do
     template_ast =
       if params[:template] && params[:template] != "" do
         opts = [
-          engine: Phoenix.LiveView.TagEngine,
           line: 1,
           indentation: 0,
           file: "mishka_cms_runtime_component_#{params[:title]}_#{params[:site]}",
           caller: make_env(),
-          source: params[:template],
           trim: true,
           tag_handler: Phoenix.LiveView.HTMLEngine
         ]
 
-        EEx.compile_string(params[:template], opts)
+        Phoenix.LiveView.TagEngine.compile(params[:template], opts)
       else
         quote do: ~H""
       end

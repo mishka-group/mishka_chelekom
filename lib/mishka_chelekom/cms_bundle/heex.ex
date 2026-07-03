@@ -5,11 +5,11 @@ defmodule MishkaChelekom.CmsBundle.Heex do
 
     * `tokenize/2` — return a unified token stream for raw `.heex`
       source by composing `EEx.tokenize/1` with
-      `Phoenix.LiveView.Tokenizer.tokenize/5`. This is the same recipe
+      `Phoenix.LiveView.TagEngine.Tokenizer.tokenize/5`. This is the same recipe
       `Phoenix.LiveView.HTMLFormatter` (the official `mix format`
       plugin for HEEx) uses internally — neither tokenizer alone
       handles raw HEEx (`EEx.tokenize` leaves HTML opaque inside
-      `:text` tokens; `Phoenix.LiveView.Tokenizer` raises on `<%= … %>`
+      `:text` tokens; `Phoenix.LiveView.TagEngine.Tokenizer` raises on `<%= … %>`
       mid-content).
 
     * `extract/2` — find every top-level chelekom-component invocation
@@ -67,11 +67,11 @@ defmodule MishkaChelekom.CmsBundle.Heex do
         {tokens, cont} =
           Enum.reduce(eex_nodes, {[], {:text, :enabled}}, &reduce_eex_node(&1, &2, source, file))
 
-        # `Phoenix.LiveView.Tokenizer.finalize/4` already reverses the
+        # `Phoenix.LiveView.TagEngine.Tokenizer.finalize/4` already reverses the
         # prepend-accumulator into source order — return as-is.
-        {:ok, Phoenix.LiveView.Tokenizer.finalize(tokens, file, cont, source)}
+        {:ok, Phoenix.LiveView.TagEngine.Tokenizer.finalize(tokens, file, cont, source)}
       rescue
-        e in Phoenix.LiveView.Tokenizer.ParseError -> {:error, Exception.message(e)}
+        e in Phoenix.LiveView.TagEngine.Tokenizer.ParseError -> {:error, Exception.message(e)}
         e -> {:error, Exception.message(e)}
       catch
         kind, reason -> {:error, "#{inspect(kind)}: #{inspect(reason)}"}
@@ -92,8 +92,11 @@ defmodule MishkaChelekom.CmsBundle.Heex do
   defp reduce_eex_node({:text, chars, meta}, {tokens, cont}, source, file) do
     text = List.to_string(chars)
     pos = [line: meta.line, column: meta.column]
-    state = Phoenix.LiveView.Tokenizer.init(0, file, source, Phoenix.LiveView.HTMLEngine)
-    Phoenix.LiveView.Tokenizer.tokenize(text, pos, tokens, cont, state)
+
+    state =
+      Phoenix.LiveView.TagEngine.Tokenizer.init(0, file, source, Phoenix.LiveView.HTMLEngine)
+
+    Phoenix.LiveView.TagEngine.Tokenizer.tokenize(text, pos, tokens, cont, state)
   end
 
   defp reduce_eex_node({:comment, chars, meta}, {tokens, cont}, _source, _file) do

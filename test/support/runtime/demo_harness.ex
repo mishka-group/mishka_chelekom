@@ -91,7 +91,7 @@ defmodule MishkaChelekom.Test.Runtime.DemoHarness do
   incremental steps:
 
   1. Replace `dispatched_components/1` regex with
-     `Phoenix.LiveView.Tokenizer`.
+     `Phoenix.LiveView.TagEngine.Tokenizer`.
   2. Extend `HeexTagExtractor` to capture parent `:for`/`:if`.
   3. Replace hand-rolled `strip_route_sigils/1` with token + Sourceror.
   4. Replace `HeexTagExtractor`/`Rewriter` with the official tokenizer.
@@ -214,7 +214,7 @@ defmodule MishkaChelekom.Test.Runtime.DemoHarness do
 
   # Names dispatched-to via `<.component component_name="…">`.
   #
-  # Tokenizes the translated HEEx source via `Phoenix.LiveView.Tokenizer`
+  # Tokenizes the translated HEEx source via `Phoenix.LiveView.TagEngine.Tokenizer`
   # — the same tokenizer Phoenix uses to compile `~H` sigils. For each
   # component-tag token (`{:tag, "." <> _name, attrs, _meta}`) we read
   # the literal `component_name` attr value and add it to the set.
@@ -235,7 +235,7 @@ defmodule MishkaChelekom.Test.Runtime.DemoHarness do
           _ -> []
         end)
         |> Enum.flat_map(fn
-          # Phoenix.LiveView.Tokenizer attr shape:
+          # Phoenix.LiveView.TagEngine.Tokenizer attr shape:
           #   {name, {:string, value, _meta}, _attr_meta}
           {"component_name", {:string, value, _}, _} -> [value]
           _ -> []
@@ -256,10 +256,15 @@ defmodule MishkaChelekom.Test.Runtime.DemoHarness do
   defp tokenize_heex(source) do
     try do
       state =
-        Phoenix.LiveView.Tokenizer.init(0, "demo_harness", source, Phoenix.LiveView.HTMLEngine)
+        Phoenix.LiveView.TagEngine.Tokenizer.init(
+          0,
+          "demo_harness",
+          source,
+          Phoenix.LiveView.HTMLEngine
+        )
 
       {tokens, _cont} =
-        Phoenix.LiveView.Tokenizer.tokenize(
+        Phoenix.LiveView.TagEngine.Tokenizer.tokenize(
           source,
           [line: 1, column: 1],
           [],
@@ -661,17 +666,15 @@ defmodule MishkaChelekom.Test.Runtime.DemoHarness do
   # captured env is the *call-site* env — which is this module's env.
   defp compile_heex(source) do
     opts = [
-      engine: Phoenix.LiveView.TagEngine,
       file: "demo_harness",
       line: 1,
       indentation: 0,
-      source: source,
       trim: true,
       caller: __ENV__,
       tag_handler: Phoenix.LiveView.HTMLEngine
     ]
 
-    EEx.compile_string(source, opts)
+    Phoenix.LiveView.TagEngine.compile(source, opts)
   end
 
   defp format_error(e, stack) do
