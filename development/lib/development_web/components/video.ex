@@ -211,7 +211,7 @@ defmodule DevelopmentWeb.Components.Video do
 
   defp caption_background("success"),
     do:
-      "[&::cue]:bg-[linear-gradient(var(--color-success-light),var(--color-success-light))] [&::cue]:text-default-dark-bg"
+      "[&::cue]:bg-[linear-gradient(var(--color-success-light),var(--color-success-light))] [&::cue]:text-white"
 
   defp caption_background("warning"),
     do:
@@ -219,19 +219,19 @@ defmodule DevelopmentWeb.Components.Video do
 
   defp caption_background("danger"),
     do:
-      "[&::cue]:bg-[linear-gradient(var(--color-danger-light),var(--color-danger-light))] [&::cue]:text-default-dark-bg"
+      "[&::cue]:bg-[linear-gradient(var(--color-danger-light),var(--color-danger-light))] [&::cue]:text-white"
 
   defp caption_background("info"),
     do:
-      "[&::cue]:bg-[linear-gradient(var(--color-info-light),var(--color-info-light))] [&::cue]:text-default-dark-bg"
+      "[&::cue]:bg-[linear-gradient(var(--color-info-light),var(--color-info-light))] [&::cue]:text-white"
 
   defp caption_background("misc"),
     do:
-      "[&::cue]:bg-[linear-gradient(var(--color-misc-light),var(--color-misc-light))] [&::cue]:text-default-dark-bg"
+      "[&::cue]:bg-[linear-gradient(var(--color-misc-light),var(--color-misc-light))] [&::cue]:text-white"
 
   defp caption_background("dawn"),
     do:
-      "[&::cue]:bg-[linear-gradient(var(--color-dawn-light),var(--color-dawn-light))] [&::cue]:text-default-dark-bg"
+      "[&::cue]:bg-[linear-gradient(var(--color-dawn-light),var(--color-dawn-light))] [&::cue]:text-white"
 
   defp caption_background("silver"),
     do:
@@ -243,45 +243,18 @@ defmodule DevelopmentWeb.Components.Video do
 
   defp caption_background(params) when is_binary(params), do: params
 
-  defp caption_opacity("transparent") do
-    "[&::cue]:bg-opacity-10"
-  end
-
-  defp caption_opacity("translucent") do
-    "[&::cue]:bg-opacity-20"
-  end
-
-  defp caption_opacity("semi_transparent") do
-    "[&::cue]:bg-opacity-30"
-  end
-
-  defp caption_opacity("lightly_tinted") do
-    "[&::cue]:bg-opacity-40"
-  end
-
-  defp caption_opacity("tinted") do
-    "[&::cue]:bg-opacity-50"
-  end
-
-  defp caption_opacity("semi_opaque") do
-    "[&::cue]:bg-opacity-60"
-  end
-
-  defp caption_opacity("opaque") do
-    "[&::cue]:bg-opacity-70"
-  end
-
-  defp caption_opacity("heavily_tinted") do
-    "[&::cue]:bg-opacity-80"
-  end
-
-  defp caption_opacity("almost_solid") do
-    "[&::cue]:bg-opacity-90"
-  end
-
-  defp caption_opacity("solid") do
-    "[&::cue]:bg-opacity-100"
-  end
-
+  # `::cue` only supports a small set of properties and does NOT resolve `color-mix()` /
+  # custom-property backgrounds, so caption opacity is applied with element `opacity-*`
+  # (which `::cue` does support). Default `solid` (100%) leaves the caption fully readable.
+  defp caption_opacity("transparent"), do: "[&::cue]:opacity-10"
+  defp caption_opacity("translucent"), do: "[&::cue]:opacity-20"
+  defp caption_opacity("semi_transparent"), do: "[&::cue]:opacity-30"
+  defp caption_opacity("lightly_tinted"), do: "[&::cue]:opacity-40"
+  defp caption_opacity("tinted"), do: "[&::cue]:opacity-50"
+  defp caption_opacity("semi_opaque"), do: "[&::cue]:opacity-60"
+  defp caption_opacity("opaque"), do: "[&::cue]:opacity-70"
+  defp caption_opacity("heavily_tinted"), do: "[&::cue]:opacity-80"
+  defp caption_opacity("almost_solid"), do: "[&::cue]:opacity-90"
+  defp caption_opacity("solid"), do: "[&::cue]:opacity-100"
   defp caption_opacity(params) when is_binary(params), do: params
 end
