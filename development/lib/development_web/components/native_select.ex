@@ -462,7 +462,7 @@ defmodule DevelopmentWeb.Components.NativeSelect do
       "text-natural-bordered-text-light dark:text-natural-hover-dark [&_.select-field:not(:has(.select-field-error))]:border-natural-bordered-text-light",
       "[&_.select-field:not(:has(.select-field-error))]:bg-natural-bordered-bg-light",
       "dark:[&_.select-field:not(:has(.select-field-error))]:bg-natural-bordered-bg-dark",
-      "dark:[&_.select-field:not(:has(.select-field-error))]:border-silver-light",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:border-natural-hover-dark",
       "[&_.select-field.select-field-error]:bg-rose-700 [&_.select-field.select-field-error]:border-rose-700",
       "focus-within:[&_.select-field]:ring-natural-light dark:focus-within:[&_.select-field]:ring-natural-dark"
     ]
@@ -472,7 +472,7 @@ defmodule DevelopmentWeb.Components.NativeSelect do
     [
       "text-primary-bordered-text-light dark:text-primary-hover-dark [&_.select-field:not(:has(.select-field-error))]:border-primary-bordered-text-light",
       "[&_.select-field:not(:has(.select-field-error))]:bg-primary-bordered-bg-light",
-      "dark:[&_.select-field:not(:has(.select-field-error))]:bg-natural-bordered-bg-dark",
+      "dark:[&_.select-field:not(:has(.select-field-error))]:bg-primary-bordered-bg-dark",
       "dark:[&_.select-field:not(:has(.select-field-error))]:border-primary-hover-dark",
       "[&_.select-field.select-field-error]:bg-rose-700 [&_.select-field.select-field-error]:border-rose-700",
       "focus-within:[&_.select-field]:ring-primary-light dark:focus-within:[&_.select-field]:ring-primary-dark"
@@ -558,7 +558,7 @@ defmodule DevelopmentWeb.Components.NativeSelect do
 
   defp color_variant("bordered", "silver") do
     [
-      "text-silver-hover-light dark:text-silver-hover-dark [&_.select-field:not(:has(.select-field-error))]:border-silver-hover-light",
+      "text-silver-bordered-text-light dark:text-silver-hover-dark [&_.select-field:not(:has(.select-field-error))]:border-silver-bordered-text-light",
       "[&_.select-field:not(:has(.select-field-error))]:bg-silver-bordered-bg-light",
       "dark:[&_.select-field:not(:has(.select-field-error))]:bg-silver-bordered-bg-dark",
       "dark:[&_.select-field:not(:has(.select-field-error))]:border-silver-hover-dark",

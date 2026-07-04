@@ -526,7 +526,7 @@ defmodule DevelopmentWeb.Components.Fieldset do
 
   defp color_variant("bordered", "silver") do
     [
-      "text-silver-hover-light [&_.fieldset-field]:border-silver-hover-light [&_.fieldset-field]:bg-silver-bordered-bg-light",
+      "text-silver-bordered-text-light [&_.fieldset-field]:border-silver-bordered-text-light [&_.fieldset-field]:bg-silver-bordered-bg-light",
       "dark:text-silver-hover-dark dark:[&_.fieldset-field]:border-silver-hover-dark dark:[&_.fieldset-field]:bg-silver-bordered-bg-dark",
       "[&_.fieldset-legend]:bg-silver-bordered-bg-light dark:[&_.fieldset-legend]:bg-silver-bordered-bg-dark"
     ]
@@ -595,7 +595,7 @@ defmodule DevelopmentWeb.Components.Fieldset do
   defp color_variant("gradient", "natural") do
     [
       "[&_.fieldset-field]:bg-linear-to-br [&_.fieldset-field]:from-gradient-natural-from-light [&_.fieldset-field]:to-gradient-natural-to-light text-white",
-      "dark:[&_.fieldset-field]:from-gradient-natural-from-dark dark:to-white dark:text-black",
+      "dark:[&_.fieldset-field]:from-gradient-natural-from-dark dark:[&_.fieldset-field]:to-white dark:text-black",
       "[&_.fieldset-legend]:bg-gradient-natural-from-light dark:[&_.fieldset-legend]:bg-gradient-natural-from-dark"
     ]
   end

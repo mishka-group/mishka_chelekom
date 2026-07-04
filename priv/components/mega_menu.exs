@@ -4,7 +4,7 @@
     category: "navigations",
     doc_url: "https://mishka.tools/chelekom/docs/mega-menu",
     args: [
-      variant: ["default", "outline", "bordered", "shadow", "gradeint", "base"],
+      variant: ["default", "outline", "bordered", "shadow", "gradient", "base"],
       color: [
         "base",
         "natural",

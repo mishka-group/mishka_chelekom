@@ -800,7 +800,7 @@ defmodule DevelopmentWeb.Components.Combobox do
 
   defp color_variant("default", "natural") do
     [
-      "[&_.combobox-trigger]:bg-natural-bg-dark text-white dark:[&_.combobox-trigger]:bg-natural-dark dark:text-black",
+      "[&_.combobox-trigger]:bg-natural-light text-white dark:[&_.combobox-trigger]:bg-natural-dark dark:text-black",
       "[&_.combobox-option]:hover:bg-natural-hover-light dark:[&_.combobox-option]:hover:bg-natural-hover-dark",
       "[&_.combobox-pill]:bg-natural-hover-light dark:[&_.combobox-pill]:bg-natural-hover-dark"
     ]
@@ -1003,7 +1003,7 @@ defmodule DevelopmentWeb.Components.Combobox do
 
   defp dropdown_color_variant("default", "natural") do
     [
-      "bg-natural-bg-dark dark:bg-natural-hover-dark",
+      "bg-natural-light dark:bg-natural-dark",
       "[&_.combobox-search-input]:border-white dark:[&_.combobox-search-input]:border-black",
       "[&_.combobox-search-input]:text-white dark:[&_.combobox-search-input]:text-black",
       "[&_.combobox-search-input]:placeholder-white dark:[&_.combobox-search-input]:placeholder-black",

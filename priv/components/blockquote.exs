@@ -9,7 +9,7 @@
         "base",
         "natural",
         "white",
-        "natudarkral",
+        "dark",
         "primary",
         "secondary",
         "success",

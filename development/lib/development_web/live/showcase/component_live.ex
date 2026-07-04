@@ -92,12 +92,10 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
         end
       end)
 
-    socket = assign(socket, :props, Map.merge(socket.assigns.props, parsed))
-
     socket =
-      if Enum.any?(Map.keys(params), &(&1 in flag_names)),
-        do: update(socket, :preview_nonce, &(&1 + 1)),
-        else: socket
+      socket
+      |> assign(:props, Map.merge(socket.assigns.props, parsed))
+      |> update(:preview_nonce, &(&1 + 1))
 
     {:noreply, socket}
   end

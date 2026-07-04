@@ -41,9 +41,9 @@ defmodule <%= @module %> do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
-  attr :color, :string, default: "", doc: "Determines color theme"
-  attr :variant, :string, default: "", doc: "Determines the style"
-  attr :border, :string, default: "", doc: "Determines border style"
+  attr :color, :string, default: "natural", doc: "Determines color theme"
+  attr :variant, :string, default: "base", doc: "Determines the style"
+  attr :border, :string, default: "extra_small", doc: "Determines border style"
   attr :rounded, :string, default: "", doc: "Determines the border radius"
   attr :padding, :string, default: "", doc: "Determines padding for items"
   attr :space, :string, default: "", doc: "Space between items"
@@ -163,6 +163,8 @@ defmodule <%= @module %> do
 
   defp border_class(_, variant) when variant in ["default", "shadow", "transparent"],
     do: nil
+
+  defp border_class("", variant) when variant in ["outline", "bordered"], do: "border"
 
   defp border_class("extra_small", _), do: "border"
   defp border_class("small", _), do: "border-2"
@@ -583,7 +585,7 @@ defmodule <%= @module %> do
   <%= if is_nil(@color) or "silver" in @color do %>
     defp color_variant("bordered", "silver") do
       [
-        "text-silver-hover-light border-silver-hover-light bg-silver-bordered-bg-light",
+        "text-silver-bordered-text-light border-silver-bordered-text-light bg-silver-bordered-bg-light",
         "dark:text-silver-hover-dark dark:border-silver-hover-dark dark:bg-silver-bordered-bg-dark"
       ]
     end

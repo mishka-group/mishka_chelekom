@@ -10,9 +10,8 @@
         "outline",
         "shadow",
         "gradient",
-        "menu",
         "outline_separated",
-        "bordered_seperated",
+        "bordered_separated",
         "transparent",
         "base",
         "base_separated"

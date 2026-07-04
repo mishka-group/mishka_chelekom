@@ -6,6 +6,9 @@
     args: [
       variant: [
         "base",
+        "base_hoverable",
+        "base_separated",
+        "base_stripped",
         "outline",
         "default",
         "shadow",

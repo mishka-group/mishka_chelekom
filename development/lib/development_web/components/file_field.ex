@@ -786,7 +786,7 @@ defmodule DevelopmentWeb.Components.FileField do
 
   defp color_variant("bordered", "silver") do
     [
-      "text-silver-hover-light [&_.dropzone-wrapper]:border-silver-hover-light [&_.dropzone-wrapper]:bg-silver-bordered-bg-light",
+      "text-silver-bordered-text-light [&_.dropzone-wrapper]:border-silver-bordered-text-light [&_.dropzone-wrapper]:bg-silver-bordered-bg-light",
       "dark:text-silver-hover-dark dark:[&_.dropzone-wrapper]:border-silver-hover-dark dark:[&_.dropzone-wrapper]:bg-silver-bordered-bg-dark"
     ]
   end
@@ -854,7 +854,7 @@ defmodule DevelopmentWeb.Components.FileField do
   defp color_variant("gradient", "natural") do
     [
       "[&_.dropzone-wrapper]:bg-linear-to-br [&_.dropzone-wrapper]:from-gradient-natural-from-light [&_.dropzone-wrapper]:to-gradient-natural-to-light text-white",
-      "dark:[&_.dropzone-wrapper]:from-gradient-natural-from-dark dark:to-white dark:text-black"
+      "dark:[&_.dropzone-wrapper]:from-gradient-natural-from-dark dark:[&_.dropzone-wrapper]:to-white dark:text-black"
     ]
   end
 

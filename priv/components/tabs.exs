@@ -4,7 +4,7 @@
     category: "general",
     doc_url: "https://mishka.tools/chelekom/docs/tabs",
     args: [
-      variant: ["default", "pills", "base"],
+      variant: ["default", "pills", "nav_pills", "base"],
       color: [
         "base",
         "natural",
