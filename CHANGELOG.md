@@ -50,7 +50,13 @@
 - Fix false cross-kind dependency warning when uninstalling a headless component that shares a name with a styled one
 - Fix uninstall `--all` component discovery for path and umbrella dependencies
 - Fix `:owl` application not started before the spinner in `mix mishka.ui.gen.headless.components`
-- Fix active mode Outline Radio Card ring [#488](https://github.com/mishka-group/mishka_chelekom/issues/488)
+- Fix active mode of Outline Radio Card and Checkbox Card [#488](https://github.com/mishka-group/mishka_chelekom/issues/488) [#481](https://github.com/mishka-group/mishka_chelekom/issues/481)
+- Fix `show_checkbox` prop not applying in Checkbox Card and Radio Card [#487](https://github.com/mishka-group/mishka_chelekom/issues/487)
+- Fix component colors and gradients across form and menu components, including `form_wrapper` default variant/color/border and `mega_menu` gradient rendering [#485](https://github.com/mishka-group/mishka_chelekom/issues/485)
+- Align component catalog (`.exs`) variant and color lists with their implementations (`unbordered`→`bordered`, `gradeint`→`gradient`, corrupted color token, missing `table`/`tabs` variants) [Commit](https://github.com/mishka-group/mishka_chelekom/commit/723800d122953268fd360aaca5fd1d30f2c5470c)
+- Fix Combobox dropdown color not matching the selected variant/color and theme the option highlight to follow the chosen color [Commit](https://github.com/mishka-group/mishka_chelekom/commit/1a5a27ada84caec3643ab96c4034569c86d332ef)
+- Migrate remaining Tailwind v3 utilities to v4 (video track captions, opacity, flex-shrink) [#486](https://github.com/mishka-group/mishka_chelekom/issues/486)
+- Fix `color_field` `circle` option having no effect and migrate it to Tailwind v4 [#483](https://github.com/mishka-group/mishka_chelekom/issues/483)
 
 ### Tests:
 
