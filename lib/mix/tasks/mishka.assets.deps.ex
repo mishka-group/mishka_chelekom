@@ -83,7 +83,7 @@ if Code.ensure_loaded?(Igniter) do
           true -> Enum.find(@pkgs, &(!is_nil(System.find_executable(Atom.to_string(&1)))))
         end
 
-      if !options[:test], do: Core.banner(IO.ANSI.light_yellow())
+      if !options[:test], do: Core.banner(IO.ANSI.light_yellow(), "Assets")
 
       igniter
       |> ensure_package_json_exists()

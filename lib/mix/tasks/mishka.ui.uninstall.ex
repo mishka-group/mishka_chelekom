@@ -25,7 +25,11 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
 
   ## Options
 
-  * `--all` or `-a` - Remove all installed Mishka components
+  * `--all` or `-a` - Remove all installed Mishka components. Without `--headless` this
+    removes **both** styled and headless components; combine with `--headless` to remove
+    only headless ones.
+  * `--headless` - Target headless components (`lib/<app>_web/components/headless/`) instead
+    of styled ones, e.g. `mix mishka.ui.uninstall accordion --headless`.
   * `--dry-run` or `-d` - Preview what would be removed without making changes
   * `--yes` - Skip confirmation prompts
   * `--force` or `-f` - Force removal even if other components depend on it
@@ -46,6 +50,7 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
       composes: [],
       schema: [
         all: :boolean,
+        headless: :boolean,
         dry_run: :boolean,
         force: :boolean,
         include_css: :boolean,
@@ -91,17 +96,28 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
       yes: options[:yes] == true,
       force: options[:force] == true,
       all: options[:all] == true,
+      headless: options[:headless] == true,
       keep_js: options[:keep_js] == true,
       include_css: options[:include_css] == true,
       include_config: options[:include_config] == true
     }
   end
 
-  defp parse_components(%{assigns: %{opts: %{all: true}}} = igniter, _arg),
-    do: find_all_installed_components(igniter)
+  # `--all` gathers every installed component. Without `--headless` that spans both
+  # styled and headless; with it, only headless.
+  defp parse_components(%{assigns: %{opts: %{all: true} = opts}} = igniter, _arg) do
+    kinds = if opts.headless, do: [:headless], else: [:styled, :headless]
+    components = Enum.flat_map(kinds, &list_installed_components(igniter, &1))
+    Igniter.assign(igniter, :components, components)
+  end
 
-  defp parse_components(igniter, arg) when is_binary(arg) and arg != "",
-    do: Igniter.assign(igniter, :components, String.split(arg, ",", trim: true))
+  # Named components are tagged with the kind chosen by `--headless`.
+  defp parse_components(%{assigns: %{opts: opts}} = igniter, arg)
+       when is_binary(arg) and arg != "" do
+    kind = if opts.headless, do: :headless, else: :styled
+    components = arg |> String.split(",", trim: true) |> Enum.map(&{&1, kind})
+    Igniter.assign(igniter, :components, components)
+  end
 
   defp parse_components(igniter, _arg) do
     Igniter.add_issue(igniter, """
@@ -110,6 +126,7 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     Examples:
       mix mishka.ui.uninstall accordion
       mix mishka.ui.uninstall accordion,button,alert
+      mix mishka.ui.uninstall accordion --headless
       mix mishka.ui.uninstall --all
     """)
   end
@@ -125,26 +142,28 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
 
   defp print_banner, do: Core.banner(IO.ANSI.magenta(), "Uninstall")
 
-  defp find_all_installed_components(igniter) do
-    Igniter.assign(igniter, :components, list_installed_components(igniter))
+  defp all_installed_components(igniter) do
+    Enum.flat_map([:styled, :headless], &list_installed_components(igniter, &1))
   end
 
-  defp list_installed_components(igniter) do
+  defp list_installed_components(igniter, kind) do
     web_module = Igniter.Libs.Phoenix.web_module(igniter)
     module_prefix = igniter.assigns.user_config[:module_prefix]
-    known = get_known_component_names()
-    components_dir = get_components_dir(igniter, web_module)
+    known = get_known_component_names(kind)
+    components_dir = get_components_dir(igniter, web_module, kind)
 
     real_files =
       components_dir
       |> Path.join("*.ex")
       |> Path.wildcard()
 
+    # `Path.dirname/1 == components_dir` keeps the scan single-level, so the styled
+    # directory doesn't sweep up files living under its `headless/` subfolder.
     virtual_files =
       igniter.rewrite
       |> Rewrite.sources()
       |> Enum.map(&Rewrite.Source.get(&1, :path))
-      |> Enum.filter(&String.starts_with?(&1, components_dir))
+      |> Enum.filter(&(Path.dirname(&1) == components_dir))
       |> Enum.filter(&String.ends_with?(&1, ".ex"))
 
     (real_files ++ virtual_files)
@@ -154,6 +173,7 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     |> Enum.map(&strip_prefix(&1, module_prefix))
     |> Enum.filter(&(&1 in known))
     |> Enum.uniq()
+    |> Enum.map(&{&1, kind})
   end
 
   defp strip_prefix(name, prefix) when is_binary(prefix) and prefix != "",
@@ -161,8 +181,8 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
 
   defp strip_prefix(name, _), do: name
 
-  defp get_known_component_names do
-    config_paths()
+  defp get_known_component_names(kind) do
+    config_paths(kind)
     |> Enum.flat_map(&Path.wildcard(Path.join(&1, "*.exs")))
     |> Enum.map(&Path.basename(&1, ".exs"))
     |> Enum.uniq()
@@ -201,7 +221,7 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
 
         Options:
           - Use --force to remove anyway
-          - Also remove the dependent components: #{Enum.join(dependent_components, ",")}
+          - Also remove the dependent components: #{Enum.map_join(dependent_components, ",", &label/1)}
         """)
 
       Mix.env() != :test ->
@@ -219,7 +239,9 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     IO.puts("These components depend on what you're removing:\n")
 
     Enum.each(igniter.assigns.plan.warnings, fn {comp, deps} ->
-      IO.puts("  #{IO.ANSI.yellow()}• #{comp}#{IO.ANSI.reset()} uses: #{Enum.join(deps, ", ")}")
+      IO.puts(
+        "  #{IO.ANSI.yellow()}• #{label(comp)}#{IO.ANSI.reset()} uses: #{Enum.join(deps, ", ")}"
+      )
     end)
 
     IO.puts("")
@@ -255,7 +277,7 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
 
   defp format_dependency_list(warnings) do
     Enum.map_join(warnings, "\n", fn {comp, deps} ->
-      "  • #{comp} depends on: #{Enum.join(deps, ", ")}"
+      "  • #{label(comp)} depends on: #{Enum.join(deps, ", ")}"
     end)
   end
 
@@ -313,7 +335,9 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     module_prefix = user_config[:module_prefix]
 
     all_configs = load_all_configs()
-    all_installed = list_installed_components(igniter)
+    # Everything installed across both kinds — so JS/CSS/config shared by a component of
+    # the *other* kind is preserved even when this run only targets one kind.
+    all_installed = all_installed_components(igniter)
     remaining = all_installed -- components
 
     configs_to_remove = Map.new(components, &{&1, Map.get(all_configs, &1)})
@@ -343,21 +367,33 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   end
 
   defp load_all_configs do
-    config_paths()
-    |> Enum.flat_map(&Path.wildcard(Path.join(&1, "*.exs")))
-    |> Enum.reduce(%{}, fn path, acc ->
-      component = Path.basename(path, ".exs")
+    Enum.reduce([:styled, :headless], %{}, fn kind, acc ->
+      config_paths(kind)
+      |> Enum.flat_map(&Path.wildcard(Path.join(&1, "*.exs")))
+      |> Enum.reduce(acc, fn path, acc2 ->
+        component = Path.basename(path, ".exs")
 
-      case read_config_file(path, component) do
-        nil -> acc
-        config -> Map.put(acc, component, config)
-      end
+        case read_config_file(path, component) do
+          nil -> acc2
+          config -> Map.put(acc2, {component, kind}, config)
+        end
+      end)
     end)
   end
 
-  defp config_paths do
-    ["deps/mishka_chelekom/priv/components", "priv/components"]
+  # `Core.lib_priv/1` resolves the library catalogs via `:code.priv_dir/1`, which works for
+  # hex deps, path deps, and umbrellas — the bare `deps/mishka_chelekom/priv/*` string only
+  # works for a vanilla hex install. `priv/*` picks up host-app custom catalogs.
+  defp config_paths(:headless) do
+    ["deps/mishka_chelekom/priv/headless", Core.lib_priv("headless"), "priv/headless"]
     |> Enum.filter(&File.dir?/1)
+    |> Enum.uniq()
+  end
+
+  defp config_paths(_styled) do
+    ["deps/mishka_chelekom/priv/components", Core.lib_priv("components"), "priv/components"]
+    |> Enum.filter(&File.dir?/1)
+    |> Enum.uniq()
   end
 
   defp read_config_file(path, component) do
@@ -367,11 +403,17 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     _ -> nil
   end
 
-  defp get_components_dir(igniter, web_module) do
-    [web_module, "Components", "Placeholder"]
-    |> Module.concat()
-    |> then(&Igniter.Project.Module.proper_location(igniter, &1))
-    |> Path.dirname()
+  defp get_components_dir(igniter, web_module, kind) do
+    base =
+      [web_module, "Components", "Placeholder"]
+      |> Module.concat()
+      |> then(&Igniter.Project.Module.proper_location(igniter, &1))
+      |> Path.dirname()
+
+    case kind do
+      :headless -> Path.join(base, "headless")
+      _ -> base
+    end
   end
 
   defp extract_js_files(configs) do
@@ -401,38 +443,60 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   end
 
   defp resolve_component_files(igniter, components, web_module, module_prefix) do
-    Enum.reduce(components, {igniter, []}, fn component, {ig, files} ->
-      module = build_module_name(web_module, component, module_prefix)
+    Enum.reduce(components, {igniter, []}, fn {name, kind} = component, {ig, files} ->
+      module = build_module_name(web_module, name, module_prefix, kind)
 
       case Igniter.Project.Module.find_module(ig, module) do
         {:ok, {ig, source, _}} ->
-          {ig, [{component, Rewrite.Source.get(source, :path), true, module} | files]}
+          {ig, [{label(component), Rewrite.Source.get(source, :path), true, module} | files]}
 
         {:error, ig} ->
           path = Igniter.Project.Module.proper_location(ig, module)
-          {ig, [{component, path, false, module} | files]}
+          {ig, [{label(component), path, false, module} | files]}
       end
     end)
     |> then(fn {ig, files} -> {ig, Enum.reverse(files)} end)
   end
 
   defp find_dependency_warnings(configs_remaining, removing) do
-    Enum.flat_map(configs_remaining, fn {component, config} ->
+    # A component's `:necessary` deps only reference components of its OWN kind, so match
+    # removed names per-kind — otherwise a name collision (styled vs headless "scroll_area")
+    # raises a false "styled tabs depends on the removed headless scroll_area" warning.
+    removed_by_kind =
+      Enum.group_by(removing, fn {_name, kind} -> kind end, fn {name, _kind} -> name end)
+
+    Enum.flat_map(configs_remaining, fn {{_name, kind} = component, config} ->
+      removed_names = Map.get(removed_by_kind, kind, [])
+
       case config do
         nil ->
           []
 
         config ->
-          affected = config |> Keyword.get(:necessary, []) |> Enum.filter(&(&1 in removing))
+          affected =
+            config |> Keyword.get(:necessary, []) |> Enum.filter(&(&1 in removed_names))
+
           if affected != [], do: [{component, affected}], else: []
       end
     end)
   end
 
-  defp build_module_name(web_module, component, prefix) do
+  defp build_module_name(web_module, component, prefix, kind) do
     name = if prefix && prefix != "", do: "#{prefix}#{component}", else: component
-    Module.concat([web_module, "Components", Core.module_atom(name)])
+
+    segments =
+      case kind do
+        :headless -> [web_module, "Components", "Headless", Core.module_atom(name)]
+        _ -> [web_module, "Components", Core.module_atom(name)]
+      end
+
+    Module.concat(segments)
   end
+
+  # Human label for a `{name, kind}` target — headless ones are tagged so the plan/output
+  # can't be confused with a same-named styled component.
+  defp label({name, :headless}), do: "#{name} (headless)"
+  defp label({name, _}), do: name
 
   defp show_removal_plan(plan, dry_run) do
     if dry_run do
@@ -469,7 +533,7 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
 
     Enum.each(warnings, fn {component, deps} ->
       IO.puts(
-        "  #{IO.ANSI.yellow()}• #{component}#{IO.ANSI.reset()} uses: #{Enum.join(deps, ", ")}"
+        "  #{IO.ANSI.yellow()}• #{label(component)}#{IO.ANSI.reset()} uses: #{Enum.join(deps, ", ")}"
       )
     end)
   end
@@ -620,8 +684,8 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
 
   defp do_update_import_macro(igniter, _path, plan, module_prefix, web_module) do
     modules_to_remove =
-      Enum.map(plan.components, fn component ->
-        build_module_name(web_module, component, module_prefix)
+      Enum.map(plan.components, fn {name, kind} ->
+        build_module_name(web_module, name, module_prefix, kind)
       end)
 
     Igniter.Project.Module.find_and_update_module!(
@@ -766,23 +830,33 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
 
   defp remove_marker_nodes(other), do: other
 
-  defp maybe_remove_css(%{assigns: %{plan: %{remaining: r}}} = igniter) when r != [], do: igniter
-
   defp maybe_remove_css(%{assigns: %{opts: %{all: false, include_css: false}}} = igniter),
     do: igniter
 
   defp maybe_remove_css(igniter) do
-    path = "assets/vendor/mishka_chelekom.css"
+    %{plan: %{remaining: remaining, components: removed}} = igniter.assigns
 
-    if Igniter.exists?(igniter, path) do
+    igniter
+    |> maybe_remove_kind_css(:styled, "mishka_chelekom.css", removed, remaining)
+    |> maybe_remove_kind_css(:headless, "mishka_chelekom_headless.css", removed, remaining)
+  end
+
+  # Remove a kind's vendored stylesheet only when this run removes that kind AND no
+  # component of that kind is left installed (the two kinds ship separate stylesheets).
+  defp maybe_remove_kind_css(igniter, kind, file, removed, remaining) do
+    removing_kind? = Enum.any?(removed, fn {_n, k} -> k == kind end)
+    kind_remains? = Enum.any?(remaining, fn {_n, k} -> k == kind end)
+    path = "assets/vendor/#{file}"
+
+    if removing_kind? and not kind_remains? and Igniter.exists?(igniter, path) do
       verbose_log(igniter, "  Removing CSS: #{path}")
-      igniter |> Igniter.rm(path) |> clean_app_css()
+      igniter |> Igniter.rm(path) |> clean_app_css(file, kind)
     else
       igniter
     end
   end
 
-  defp clean_app_css(igniter) do
+  defp clean_app_css(igniter, file, kind) do
     path = "assets/css/app.css"
 
     if Igniter.exists?(igniter, path) do
@@ -790,10 +864,9 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
         content =
           source
           |> Rewrite.Source.get(:content)
-          # Remove @import for mishka_chelekom.css
-          |> String.replace(~r/@import\s+["']\.\.\/vendor\/mishka_chelekom\.css["'];?\n?/, "")
-          # Remove @theme block added by Mishka (matches @theme { ... } including multiline)
-          |> String.replace(~r/\n*@theme\s*\{[^}]*\}\n*/s, "\n")
+          # Remove the @import for this vendored stylesheet
+          |> String.replace(~r/@import\s+["']\.\.\/vendor\/#{Regex.escape(file)}["'];?\n?/, "")
+          |> remove_theme_block(kind)
           # Clean up multiple blank lines
           |> String.replace(~r/\n{3,}/, "\n\n")
           |> String.trim()
@@ -805,6 +878,12 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
       igniter
     end
   end
+
+  # The `@theme` block is only injected by the styled stylesheet install.
+  defp remove_theme_block(content, :styled),
+    do: String.replace(content, ~r/\n*@theme\s*\{[^}]*\}\n*/s, "\n")
+
+  defp remove_theme_block(content, _), do: content
 
   defp maybe_remove_config(%{assigns: %{plan: %{remaining: r}}} = igniter) when r != [],
     do: igniter

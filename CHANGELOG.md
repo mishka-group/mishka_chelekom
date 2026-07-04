@@ -18,6 +18,7 @@
 - Add entry-level headless components ported from Base UI for Phoenix [#489](https://github.com/mishka-group/mishka_chelekom/pull/489)
 - Add creatable option support to Combobox component [Commit](https://github.com/mishka-group/mishka_chelekom/commit/f3fd81fd08b3f577a15d8085dafb0cbd708df5ee)
 - Add scrollable trigger list (`scroll_area`) for Tabs in vertical orientation [Issue with help](https://github.com/mishka-group/mishka_chelekom/issues/471)
+- Add `--headless` flag to `mix mishka.ui.uninstall` and make `--all` remove both styled and headless components
 
 
 ### Refactors:
@@ -28,6 +29,7 @@
 - Refactor generators and asset handling for the headless CLI, with unified per-command banners and improved headless CSS import [Commit](https://github.com/mishka-group/mishka_chelekom/commit/3f873a5bff4de148d0f4305cd3857c4e72c6a06a)
 - Bump minimum Elixir to 1.18 and add compile-time `JSON`/`Jason` fallback [Commit](https://github.com/mishka-group/mishka_chelekom/commit/2c771d52e3abbf2c9af72f079143ad16e6c0b777)
 - Refactor uninstall to restore `CoreComponents` import [#465](https://github.com/mishka-group/mishka_chelekom/pull/465)
+- Center the banner subtitle and give every mix task its own title
 
 ### Bugs:
 
@@ -45,11 +47,15 @@
 - Fix dropdown content slot class attribute concatenation [Commit](https://github.com/mishka-group/mishka_chelekom/commit/be96e764b24d0e854c303480f6afeee086ccba51)
 - Fix Combobox field attribute not sending values to form params [Commit](https://github.com/mishka-group/mishka_chelekom/commit/903f2204ff51ca1a43d8b89b06146ddf93166c78)
 - Fix Elixir 1.19 and `not ... in ...` deprecation warnings [Commit](https://github.com/mishka-group/mishka_chelekom/commit/b545a40b8f663355e172b048886b28e5bcd4813b)
+- Fix false cross-kind dependency warning when uninstalling a headless component that shares a name with a styled one
+- Fix uninstall `--all` component discovery for path and umbrella dependencies
+- Fix `:owl` application not started before the spinner in `mix mishka.ui.gen.headless.components`
 
 ### Tests:
 
 - Add retire-js and semgrep security scanning [#460](https://github.com/mishka-group/mishka_chelekom/pull/460)
 - Add Elixir 1.20.2 (OTP 29) to the CI test matrix [Commit](https://github.com/mishka-group/mishka_chelekom/commit/6197ccf8aa6668be213074e08846ed88922cd2f7)
+- Add direct end-to-end tests for every mix command in the development harness
 
 ---
 

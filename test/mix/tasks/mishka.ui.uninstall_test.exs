@@ -859,18 +859,19 @@ defmodule Mix.Tasks.Mishka.Ui.UninstallTest do
           yes: true,
           force: false,
           all: false,
+          headless: false,
           keep_js: false,
           include_css: false,
           include_config: false
         })
         |> Igniter.assign(:user_config, [])
-        |> Igniter.assign(:components, ["icon"])
+        |> Igniter.assign(:components, [{"icon", :styled}])
 
-      result = Uninstall.apply_cascade_choice(igniter, :cascade, ["button"])
+      result = Uninstall.apply_cascade_choice(igniter, :cascade, [{"button", :styled}])
 
       # Both icon and button should be in removal list
-      assert "icon" in result.assigns.components
-      assert "button" in result.assigns.components
+      assert {"icon", :styled} in result.assigns.components
+      assert {"button", :styled} in result.assigns.components
     end
   end
 

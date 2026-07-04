@@ -76,7 +76,7 @@ You will only use this library in your `development` environment, and it will no
 ```elixir
 def deps do
   [
-    {:mishka_chelekom, "~> 0.0.8", only: :dev}
+    {:mishka_chelekom, "~> 0.0.9", only: :dev}
   ]
 end
 ```

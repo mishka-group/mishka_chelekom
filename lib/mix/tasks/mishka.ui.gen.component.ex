@@ -115,7 +115,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
   end
 
   defp print_banner(options) do
-    if !options[:sub] and Mix.env() != :test, do: Core.banner(IO.ANSI.green())
+    if !options[:sub] and Mix.env() != :test, do: Core.banner(IO.ANSI.green(), "Component")
     :ok
   end
 

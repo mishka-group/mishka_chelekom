@@ -184,8 +184,14 @@ mix mishka.ui.uninstall accordion
 # Remove multiple components
 mix mishka.ui.uninstall accordion,button,alert
 
-# Remove all installed components
+# Remove all installed components (both styled and headless)
 mix mishka.ui.uninstall --all
+
+# Remove a headless component (from lib/<app>_web/components/headless/)
+mix mishka.ui.uninstall accordion --headless
+
+# Remove every installed headless component only
+mix mishka.ui.uninstall --all --headless
 
 # Preview what will be removed (no changes made)
 mix mishka.ui.uninstall accordion --dry-run
@@ -198,7 +204,8 @@ mix mishka.ui.uninstall accordion --yes
 
 | Option | Alias | Description |
 |--------|-------|-------------|
-| `--all` | `-a` | Remove all installed Mishka components |
+| `--all` | `-a` | Remove all installed Mishka components. Without `--headless` this removes **both** styled and headless components; add `--headless` to remove only headless ones |
+| `--headless` | - | Target headless components (`components/headless/`) instead of styled ones |
 | `--dry-run` | `-d` | Preview removal without making changes |
 | `--yes` | `-y` | Skip confirmation prompts |
 | `--force` | `-f` | Force removal even when other components depend on them |

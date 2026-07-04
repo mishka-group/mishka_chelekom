@@ -95,6 +95,9 @@ defmodule Mix.Tasks.Mishka.Mcp.Setup do
   def igniter(igniter) do
     options = igniter.args.options
 
+    if Mix.env() != :test,
+      do: MishkaChelekom.Generators.Core.banner(IO.ANSI.light_magenta(), "MCP Setup")
+
     if Keyword.get(options, :stdio, false) do
       setup_stdio(igniter)
     else

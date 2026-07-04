@@ -92,12 +92,15 @@ The `mix mishka.ui.uninstall` task removes components from your project:
 mix mishka.ui.uninstall accordion
 mix mishka.ui.uninstall accordion,button,alert
 mix mishka.ui.uninstall --all
+mix mishka.ui.uninstall accordion --headless
+mix mishka.ui.uninstall --all --headless
 mix mishka.ui.uninstall accordion --dry-run
 mix mishka.ui.uninstall accordion --force
 ```
 
 **Options:**
-- `--all` - Uninstall all Mishka components
+- `--all` - Uninstall all Mishka components (both styled and headless; add `--headless` for headless only)
+- `--headless` - Target headless components instead of styled ones
 - `--dry-run` - Preview what will be removed
 - `--force` - Force removal even if other components depend on it
 - `--keep-js` - Keep JavaScript files even if unused

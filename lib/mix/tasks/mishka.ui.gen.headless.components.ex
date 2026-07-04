@@ -78,5 +78,5 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless.Components do
     igniter
   end
 
-  defp print_banner, do: Core.banner(IO.ANSI.blue())
+  defp print_banner, do: Core.banner(IO.ANSI.blue(), "Headless")
 end

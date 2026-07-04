@@ -70,6 +70,9 @@ defmodule Mix.Tasks.Mishka.Ui.Css.Config do
   def igniter(igniter) do
     options = igniter.args.options
 
+    if Mix.env() != :test,
+      do: MishkaChelekom.Generators.Core.banner(IO.ANSI.light_cyan(), "CSS Config")
+
     cond do
       options[:init] ->
         init_config(igniter)

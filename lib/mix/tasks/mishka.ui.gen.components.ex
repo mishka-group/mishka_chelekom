@@ -60,7 +60,8 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
         exclude: :csv,
         component_prefix: :string,
         module_prefix: :string,
-        no_save: :boolean
+        no_save: :boolean,
+        sub: :boolean
       ],
       # CLI aliases
       aliases: [i: :import, g: :global, e: :exclude]
@@ -72,7 +73,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
     Application.ensure_all_started(:owl)
     %Igniter.Mix.Task.Args{positional: %{components: components}, options: options} = igniter.args
 
-    print_banner()
+    print_banner(options)
     user_config = Config.load_user_config(igniter)
     print_exclusions(user_config, options)
     print_filters(user_config)
@@ -110,7 +111,10 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
     igniter
   end
 
-  defp print_banner, do: Core.banner(IO.ANSI.red())
+  defp print_banner(options) do
+    if !options[:sub] and Mix.env() != :test, do: Core.banner(IO.ANSI.red(), "Components")
+    :ok
+  end
 
   defp print_exclusions(user_config, options) do
     all_excluded =

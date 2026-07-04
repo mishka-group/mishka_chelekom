@@ -73,7 +73,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless do
   end
 
   defp print_banner(options) do
-    if !options[:sub] and Mix.env() != :test, do: Core.banner(IO.ANSI.cyan())
+    if !options[:sub] and Mix.env() != :test, do: Core.banner(IO.ANSI.cyan(), "Headless")
     :ok
   end
 

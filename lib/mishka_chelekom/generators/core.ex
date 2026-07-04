@@ -321,8 +321,19 @@ defmodule MishkaChelekom.Generators.Core do
   @spec banner(String.t(), String.t() | nil) :: :ok
   def banner(color, subtitle \\ nil) do
     art = String.trim_trailing(@banner)
-    art = if subtitle, do: art <> "\n     " <> subtitle, else: art
+    art = if subtitle, do: art <> "\n" <> center_subtitle(art, subtitle), else: art
     IO.puts(color <> art <> IO.ANSI.reset())
+  end
+
+  defp center_subtitle(art, subtitle) do
+    width =
+      art
+      |> String.split("\n")
+      |> Enum.map(&String.length/1)
+      |> Enum.max()
+
+    pad = max(0, div(width - String.length(subtitle), 2))
+    String.duplicate(" ", pad) <> subtitle
   end
 
   # ---- Dependency preflight -----------------------------------------------------------

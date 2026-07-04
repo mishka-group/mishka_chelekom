@@ -64,8 +64,16 @@ if Code.ensure_loaded?(Igniter) do
 
     @impl Igniter.Mix.Task
     def igniter(igniter) do
+      if Mix.env() != :test,
+        do: MishkaChelekom.Generators.Core.banner(IO.ANSI.light_green(), "Install")
+
       igniter
-      |> Igniter.compose_task("mishka.ui.gen.components", ["--import", "--helpers", "--global"])
+      |> Igniter.compose_task("mishka.ui.gen.components", [
+        "--import",
+        "--helpers",
+        "--global",
+        "--sub"
+      ])
     end
   end
 else

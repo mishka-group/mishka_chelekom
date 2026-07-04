@@ -170,7 +170,7 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
     options = igniter.args.options
     tty? = IO.ANSI.enabled?()
 
-    if !options[:test], do: Core.banner(IO.ANSI.light_blue())
+    if !options[:test], do: Core.banner(IO.ANSI.light_blue(), "Add")
 
     if !options[:test] and tty?,
       do: Owl.Spinner.start(id: :my_spinner, labels: [processing: "Please wait..."])

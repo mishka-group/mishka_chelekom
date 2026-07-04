@@ -154,7 +154,7 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
 
     options = igniter.args.options
 
-    if !options[:test], do: Core.banner(IO.ANSI.yellow())
+    if !options[:test], do: Core.banner(IO.ANSI.yellow(), "Export")
 
     name = Keyword.get(options, :name, "template")
     org = Keyword.get(options, :org, "component")
