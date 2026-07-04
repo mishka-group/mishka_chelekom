@@ -46,6 +46,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless.Components do
   def supports_umbrella?(), do: false
 
   def igniter(igniter) do
+    Application.ensure_all_started(:owl)
     %Igniter.Mix.Task.Args{positional: %{components: components}, options: options} = igniter.args
 
     print_banner()
