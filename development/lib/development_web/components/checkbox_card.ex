@@ -525,7 +525,8 @@ defmodule DevelopmentWeb.Components.CheckboxCard do
       "[&_.checkbox-card-input]:border-natural-dark",
       "dark:checked:[&_.checkbox-card-input]:text-natural-light",
       "dark:[&_.checkbox-card-input]:border-natural-light",
-      "has-[:checked]:border-black dark:has-[:checked]:border-white"
+      "has-[:checked]:bg-natural-light/10 dark:has-[:checked]:bg-natural-dark/10",
+      "has-[:checked]:ring-1 has-[:checked]:ring-natural-light dark:has-[:checked]:ring-natural-dark"
     ]
   end
 
@@ -536,7 +537,8 @@ defmodule DevelopmentWeb.Components.CheckboxCard do
       "[&_.checkbox-card-input]:border-primary-light",
       "dark:checked:[&_.checkbox-card-input]:text-primary-dark",
       "dark:[&_.checkbox-card-input]:border-primary-dark",
-      "has-[:checked]:border-primary-indicator-light dark:has-[:checked]:border-primary-indicator-dark"
+      "has-[:checked]:bg-primary-light/10 dark:has-[:checked]:bg-primary-dark/10",
+      "has-[:checked]:ring-1 has-[:checked]:ring-primary-light dark:has-[:checked]:ring-primary-dark"
     ]
   end
 
@@ -547,7 +549,8 @@ defmodule DevelopmentWeb.Components.CheckboxCard do
       "[&_.checkbox-card-input]:border-secondary-light",
       "dark:checked:[&_.checkbox-card-input]:text-secondary-dark",
       "dark:[&_.checkbox-card-input]:border-secondary-dark",
-      "has-[:checked]:border-secondary-indicator-light dark:has-[:checked]:border-secondary-indicator-dark"
+      "has-[:checked]:bg-secondary-light/10 dark:has-[:checked]:bg-secondary-dark/10",
+      "has-[:checked]:ring-1 has-[:checked]:ring-secondary-light dark:has-[:checked]:ring-secondary-dark"
     ]
   end
 
@@ -558,7 +561,8 @@ defmodule DevelopmentWeb.Components.CheckboxCard do
       "[&_.checkbox-card-input]:border-success-light",
       "dark:checked:[&_.checkbox-card-input]:text-success-dark",
       "dark:[&_.checkbox-card-input]:border-success-dark",
-      "has-[:checked]:border-success-indicator-alt-light dark:has-[:checked]:border-success-indicator-dark"
+      "has-[:checked]:bg-success-light/10 dark:has-[:checked]:bg-success-dark/10",
+      "has-[:checked]:ring-1 has-[:checked]:ring-success-light dark:has-[:checked]:ring-success-dark"
     ]
   end
 
@@ -569,7 +573,8 @@ defmodule DevelopmentWeb.Components.CheckboxCard do
       "[&_.checkbox-card-input]:border-warning-light",
       "dark:checked:[&_.checkbox-card-input]:text-warning-dark",
       "dark:[&_.checkbox-card-input]:border-warning-dark",
-      "has-[:checked]:border-warning-indicator-alt-light dark:has-[:checked]:border-warning-indicator-dark"
+      "has-[:checked]:bg-warning-light/10 dark:has-[:checked]:bg-warning-dark/10",
+      "has-[:checked]:ring-1 has-[:checked]:ring-warning-light dark:has-[:checked]:ring-warning-dark"
     ]
   end
 
@@ -580,7 +585,8 @@ defmodule DevelopmentWeb.Components.CheckboxCard do
       "[&_.checkbox-card-input]:border-danger-light",
       "dark:checked:[&_.checkbox-card-input]:text-danger-dark",
       "dark:[&_.checkbox-card-input]:border-danger-dark",
-      "has-[:checked]:border-danger-indicator-alt-light dark:has-[:checked]:border-danger-indicator-dark"
+      "has-[:checked]:bg-danger-light/10 dark:has-[:checked]:bg-danger-dark/10",
+      "has-[:checked]:ring-1 has-[:checked]:ring-danger-light dark:has-[:checked]:ring-danger-dark"
     ]
   end
 
@@ -591,7 +597,8 @@ defmodule DevelopmentWeb.Components.CheckboxCard do
       "[&_.checkbox-card-input]:border-info-light",
       "dark:checked:[&_.checkbox-card-input]:text-info-dark",
       "dark:[&_.checkbox-card-input]:border-info-dark",
-      "has-[:checked]:border-info-indicator-alt-light dark:has-[:checked]:border-info-indicator-dark"
+      "has-[:checked]:bg-info-light/10 dark:has-[:checked]:bg-info-dark/10",
+      "has-[:checked]:ring-1 has-[:checked]:ring-info-light dark:has-[:checked]:ring-info-dark"
     ]
   end
 
@@ -602,7 +609,8 @@ defmodule DevelopmentWeb.Components.CheckboxCard do
       "[&_.checkbox-card-input]:border-misc-light",
       "dark:checked:[&_.checkbox-card-input]:text-misc-dark",
       "dark:[&_.checkbox-card-input]:border-misc-dark",
-      "has-[:checked]:border-misc-indicator-alt-light dark:has-[:checked]:border-misc-indicator-dark"
+      "has-[:checked]:bg-misc-light/10 dark:has-[:checked]:bg-misc-dark/10",
+      "has-[:checked]:ring-1 has-[:checked]:ring-misc-light dark:has-[:checked]:ring-misc-dark"
     ]
   end
 
@@ -613,7 +621,8 @@ defmodule DevelopmentWeb.Components.CheckboxCard do
       "[&_.checkbox-card-input]:border-dawn-light",
       "dark:checked:[&_.checkbox-card-input]:text-dawn-dark",
       "dark:[&_.checkbox-card-input]:border-dawn-dark",
-      "has-[:checked]:border-dawn-indicator-alt-light dark:has-[:checked]:border-dawn-indicator-dark"
+      "has-[:checked]:bg-dawn-light/10 dark:has-[:checked]:bg-dawn-dark/10",
+      "has-[:checked]:ring-1 has-[:checked]:ring-dawn-light dark:has-[:checked]:ring-dawn-dark"
     ]
   end
 
@@ -624,7 +633,8 @@ defmodule DevelopmentWeb.Components.CheckboxCard do
       "[&_.checkbox-card-input]:border-silver-light",
       "dark:checked:[&_.checkbox-card-input]:text-silver-dark",
       "dark:[&_.checkbox-card-input]:border-silver-dark",
-      "has-[:checked]:border-silver-indicator-alt-light dark:has-[:checked]:border-silver-indicator-dark"
+      "has-[:checked]:bg-silver-light/10 dark:has-[:checked]:bg-silver-dark/10",
+      "has-[:checked]:ring-1 has-[:checked]:ring-silver-light dark:has-[:checked]:ring-silver-dark"
     ]
   end
 
