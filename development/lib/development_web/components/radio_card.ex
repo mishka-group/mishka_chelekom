@@ -158,7 +158,8 @@ defmodule DevelopmentWeb.Components.RadioCard do
             value={radio[:value]}
             checked={radio[:checked]}
             class={[
-              "radio-card-input shrink-0 focus:ring-0 focus:ring-offset-0 appearance-none",
+              "radio-card-input shrink-0 focus:ring-0 focus:ring-offset-0 appearance-none cursor-pointer",
+              "size-[18px] rounded-full border-2 border-current bg-clip-content p-[3px] checked:bg-current",
               "disabled:opacity-50",
               !@show_radio && "opacity-0 absolute",
               radio[:radio_input_class]
