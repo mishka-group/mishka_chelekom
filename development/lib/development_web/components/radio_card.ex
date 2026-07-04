@@ -521,7 +521,8 @@ defmodule DevelopmentWeb.Components.RadioCard do
       "[&_.radio-card-input]:border-natural-dark",
       "dark:[&_.radio-card-input]:checked:accent-natural-light",
       "dark:[&_.radio-card-input]:border-natural-light",
-      "has-[:checked]:border-black dark:has-[:checked]:border-white"
+      "has-[:checked]:bg-natural-light/10 dark:has-[:checked]:bg-natural-dark/10",
+      "has-[:checked]:ring-1 has-[:checked]:ring-natural-light dark:has-[:checked]:ring-natural-dark"
     ]
   end
 
@@ -532,7 +533,8 @@ defmodule DevelopmentWeb.Components.RadioCard do
       "[&_.radio-card-input]:border-primary-light",
       "dark:[&_.radio-card-input]:checked:accent-primary-dark",
       "dark:[&_.radio-card-input]:border-primary-dark",
-      "has-[:checked]:border-primary-indicator-light dark:has-[:checked]:border-primary-indicator-dark"
+      "has-[:checked]:bg-primary-light/10 dark:has-[:checked]:bg-primary-dark/10",
+      "has-[:checked]:ring-1 has-[:checked]:ring-primary-light dark:has-[:checked]:ring-primary-dark"
     ]
   end
 
@@ -543,7 +545,8 @@ defmodule DevelopmentWeb.Components.RadioCard do
       "[&_.radio-card-input]:border-secondary-light",
       "dark:[&_.radio-card-input]:checked:accent-secondary-dark",
       "dark:[&_.radio-card-input]:border-secondary-dark",
-      "has-[:checked]:border-secondary-indicator-light dark:has-[:checked]:border-secondary-indicator-dark"
+      "has-[:checked]:bg-secondary-light/10 dark:has-[:checked]:bg-secondary-dark/10",
+      "has-[:checked]:ring-1 has-[:checked]:ring-secondary-light dark:has-[:checked]:ring-secondary-dark"
     ]
   end
 
@@ -554,7 +557,8 @@ defmodule DevelopmentWeb.Components.RadioCard do
       "[&_.radio-card-input]:border-success-light",
       "dark:[&_.radio-card-input]:checked:accent-success-dark",
       "dark:[&_.radio-card-input]:border-success-dark",
-      "has-[:checked]:border-success-indicator-alt-light dark:has-[:checked]:border-success-indicator-dark"
+      "has-[:checked]:bg-success-light/10 dark:has-[:checked]:bg-success-dark/10",
+      "has-[:checked]:ring-1 has-[:checked]:ring-success-light dark:has-[:checked]:ring-success-dark"
     ]
   end
 
@@ -565,7 +569,8 @@ defmodule DevelopmentWeb.Components.RadioCard do
       "[&_.radio-card-input]:border-warning-light",
       "dark:[&_.radio-card-input]:checked:accent-warning-dark",
       "dark:[&_.radio-card-input]:border-warning-dark",
-      "has-[:checked]:border-warning-indicator-alt-light dark:has-[:checked]:border-warning-indicator-dark"
+      "has-[:checked]:bg-warning-light/10 dark:has-[:checked]:bg-warning-dark/10",
+      "has-[:checked]:ring-1 has-[:checked]:ring-warning-light dark:has-[:checked]:ring-warning-dark"
     ]
   end
 
@@ -576,7 +581,8 @@ defmodule DevelopmentWeb.Components.RadioCard do
       "[&_.radio-card-input]:border-danger-light",
       "dark:[&_.radio-card-input]:checked:accent-danger-dark",
       "dark:[&_.radio-card-input]:border-danger-dark",
-      "has-[:checked]:border-danger-indicator-alt-light dark:has-[:checked]:border-danger-indicator-dark"
+      "has-[:checked]:bg-danger-light/10 dark:has-[:checked]:bg-danger-dark/10",
+      "has-[:checked]:ring-1 has-[:checked]:ring-danger-light dark:has-[:checked]:ring-danger-dark"
     ]
   end
 
@@ -587,7 +593,8 @@ defmodule DevelopmentWeb.Components.RadioCard do
       "[&_.radio-card-input]:border-info-light",
       "dark:[&_.radio-card-input]:checked:accent-info-dark",
       "dark:[&_.radio-card-input]:border-info-dark",
-      "has-[:checked]:border-info-indicator-alt-light dark:has-[:checked]:border-info-indicator-dark"
+      "has-[:checked]:bg-info-light/10 dark:has-[:checked]:bg-info-dark/10",
+      "has-[:checked]:ring-1 has-[:checked]:ring-info-light dark:has-[:checked]:ring-info-dark"
     ]
   end
 
@@ -598,7 +605,8 @@ defmodule DevelopmentWeb.Components.RadioCard do
       "[&_.radio-card-input]:border-misc-light",
       "dark:[&_.radio-card-input]:checked:accent-misc-dark",
       "dark:[&_.radio-card-input]:border-misc-dark",
-      "has-[:checked]:border-misc-indicator-alt-light dark:has-[:checked]:border-misc-indicator-dark"
+      "has-[:checked]:bg-misc-light/10 dark:has-[:checked]:bg-misc-dark/10",
+      "has-[:checked]:ring-1 has-[:checked]:ring-misc-light dark:has-[:checked]:ring-misc-dark"
     ]
   end
 
@@ -609,7 +617,8 @@ defmodule DevelopmentWeb.Components.RadioCard do
       "[&_.radio-card-input]:border-dawn-light",
       "dark:[&_.radio-card-input]:checked:accent-dawn-dark",
       "dark:[&_.radio-card-input]:border-dawn-dark",
-      "has-[:checked]:border-dawn-indicator-alt-light dark:has-[:checked]:border-dawn-indicator-dark"
+      "has-[:checked]:bg-dawn-light/10 dark:has-[:checked]:bg-dawn-dark/10",
+      "has-[:checked]:ring-1 has-[:checked]:ring-dawn-light dark:has-[:checked]:ring-dawn-dark"
     ]
   end
 
@@ -620,7 +629,8 @@ defmodule DevelopmentWeb.Components.RadioCard do
       "[&_.radio-card-input]:border-silver-light",
       "dark:[&_.radio-card-input]:checked:accent-silver-dark",
       "dark:[&_.radio-card-input]:border-silver-dark",
-      "has-[:checked]:border-silver-indicator-alt-light dark:has-[:checked]:border-silver-indicator-dark"
+      "has-[:checked]:bg-silver-light/10 dark:has-[:checked]:bg-silver-dark/10",
+      "has-[:checked]:ring-1 has-[:checked]:ring-silver-light dark:has-[:checked]:ring-silver-dark"
     ]
   end
 

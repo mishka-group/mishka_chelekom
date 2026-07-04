@@ -50,6 +50,7 @@
 - Fix false cross-kind dependency warning when uninstalling a headless component that shares a name with a styled one
 - Fix uninstall `--all` component discovery for path and umbrella dependencies
 - Fix `:owl` application not started before the spinner in `mix mishka.ui.gen.headless.components`
+- Fix active mode Outline Radio Card ring [#488](https://github.com/mishka-group/mishka_chelekom/issues/488)
 
 ### Tests:
 
