@@ -30,4 +30,4 @@ mix assets.build
 
 echo
 echo "Done. Start the harness with:"
-echo "    mix phx.server   ->   http://localhost:4000/showcase"
+echo "    mix phx.server   ->   http://localhost:4002/showcase"
