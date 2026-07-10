@@ -70,12 +70,27 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
   #{@example}
   ```
 
+  Export the built-in styled components as a MishkaCMS UI-kit bundle:
+
+  ```bash
+  mix mishka.ui.export priv/components --cms --name chelekom --bundle-name chelekom --bundle-version 0.0.9
+  ```
+
+  Export the headless Kit components as a MishkaCMS UI-kit bundle:
+
+  ```bash
+  mix mishka.ui.export priv/headless --cms --name chelekom_headless --bundle-name chelekom_headless --bundle-version 0.0.9
+  ```
+
   ## Options
 
   * `--base64` or `-b` - Converts component content to Base64
   * `--name` or `-n` - Defines a name for JSON file, if it is not set default is template.json
   * `--org` or `-o` - It is only for structuring the file and has no effect on your export.
   * `--template` or `-t` - Creates a default JSON file for manual processing steps.
+  * `--cms` - Exports a MishkaCMS UI-kit bundle (`mishka.ui_kit.bundle.v3`) instead of the default JSON.
+  * `--bundle-name` - Sets the bundle name in `--cms` output (defaults to the `--name` value).
+  * `--bundle-version` - Sets the bundle version in `--cms` output (defaults to `0.0.1`).
   """
 
   use Igniter.Mix.Task
@@ -149,12 +164,17 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
 
   @impl Igniter.Mix.Task
   def igniter(igniter) do
+    Application.ensure_all_started(:owl)
     # extract positional arguments according to `positional` above
     %Igniter.Mix.Task.Args{positional: %{dir: dir}} = igniter.args
 
     options = igniter.args.options
+    tty? = IO.ANSI.enabled?()
 
     if !options[:test], do: Core.banner(IO.ANSI.yellow(), "Export")
+
+    if !options[:test] and tty?,
+      do: Owl.Spinner.start(id: :my_spinner, labels: [processing: "Please wait..."])
 
     name = Keyword.get(options, :name, "template")
     org = Keyword.get(options, :org, "component")
@@ -168,27 +188,37 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
         else: igniter
 
     base64 = Keyword.get(options, :base64, false)
+
     # If user selects --template, it just creates a default JSON template
-    cond do
-      Keyword.get(options, :template, false) ->
-        Igniter.create_new_file(igniter, dir <> "/#{name}.json", @default_json_template,
-          on_exists: :overwrite
-        )
+    final_igniter =
+      cond do
+        Keyword.get(options, :template, false) ->
+          Igniter.create_new_file(igniter, dir <> "/#{name}.json", @default_json_template,
+            on_exists: :overwrite
+          )
 
-      Keyword.get(options, :cms, false) ->
-        igniter
-        |> Igniter.assign(%{cli_args: options, cli_dir: dir})
-        |> check_dir_files()
-        |> create_cms_bundle(name, options, base64)
+        Keyword.get(options, :cms, false) ->
+          igniter
+          |> Igniter.assign(%{cli_args: options, cli_dir: dir})
+          |> check_dir_files()
+          |> create_cms_bundle(name, options, base64)
 
-      true ->
-        igniter
-        |> Igniter.assign(%{cli_args: options, cli_dir: dir})
-        |> check_dir_files()
-        |> create_elixir_files_config(base64)
-        |> create_asset_files_config(base64)
-        |> create_json_file(name, org)
+        true ->
+          igniter
+          |> Igniter.assign(%{cli_args: options, cli_dir: dir})
+          |> check_dir_files()
+          |> create_elixir_files_config(base64)
+          |> create_asset_files_config(base64)
+          |> create_json_file(name, org)
+      end
+
+    if !options[:test] and tty? do
+      if Map.get(final_igniter, :issues, []) == [],
+        do: Owl.Spinner.stop(id: :my_spinner, resolution: :ok, label: "Done"),
+        else: Owl.Spinner.stop(id: :my_spinner, resolution: :error, label: "Error")
     end
+
+    final_igniter
   end
 
   # --cms output (mishka.ui_kit.bundle.v3)
