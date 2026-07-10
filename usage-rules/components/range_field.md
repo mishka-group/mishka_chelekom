@@ -24,9 +24,9 @@ mix mishka.ui.gen.component range_field
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `color` | `:string` | `"base"` | Color theme |
-| `size` | `:string` | `"medium"` | Slider size |
-| `appearance` | `:string` | `"default"` | Visual style |
+| `color` | `:string` | `"base"` | Color theme — `base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn` |
+| `size` | `:string` | `"medium"` | Slider size — `extra_small`, `small`, `medium`, `large`, `extra_large` |
+| `appearance` | `:string` | `"default"` | Visual style (e.g. `"custom"`) |
 | `min` | `:string` | `"0"` | Minimum value |
 | `max` | `:string` | `"100"` | Maximum value |
 | `step` | `:string` | `"1"` | Step increment |
@@ -35,7 +35,7 @@ mix mishka.ui.gen.component range_field
 
 ## Slots
 
-### `range_value` Slot
+### `range_value`
 
 Value labels at different positions.
 
@@ -43,41 +43,22 @@ Value labels at different positions.
 |-----------|------|-------------|
 | `position` | `:string` | `start`, `middle`, or `end` |
 
-## Available Options
-
-### Colors
-`base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
-
 ## Usage Examples
 
-### Basic Range Field
+### Basic / labeled
 
 ```heex
 <.range_field name="volume" value="50" />
-```
-
-### With Label
-
-```heex
 <.range_field name="brightness" label="Brightness" value="75" />
 ```
 
-### Custom Range
+### Custom range (min/max/step)
 
 ```heex
-<.range_field
-  name="price"
-  min="100"
-  max="1000"
-  step="50"
-  value="500"
-/>
+<.range_field name="price" min="100" max="1000" step="50" value="500" />
 ```
 
-### With Value Labels
+### With value labels
 
 ```heex
 <.range_field name="price" value="500" min="100" max="1000">
@@ -87,23 +68,15 @@ Value labels at different positions.
 </.range_field>
 ```
 
-### Different Colors
+### Colors and sizes
 
 ```heex
 <.range_field name="slider" value="50" color="primary" />
-<.range_field name="slider" value="50" color="success" />
-<.range_field name="slider" value="50" color="warning" />
+<.range_field name="slider" value="50" color="success" size="small" />
+<.range_field name="slider" value="50" color="warning" size="large" />
 ```
 
-### Different Sizes
-
-```heex
-<.range_field name="slider" value="50" size="small" />
-<.range_field name="slider" value="50" size="medium" />
-<.range_field name="slider" value="50" size="large" />
-```
-
-### Custom Appearance
+### Custom appearance
 
 ```heex
 <.range_field
@@ -124,7 +97,7 @@ Value labels at different positions.
 
 ## Common Patterns
 
-### Volume Control
+### Volume control (paired with icon)
 
 ```heex
 <div class="flex items-center gap-3">
@@ -134,7 +107,7 @@ Value labels at different positions.
 </div>
 ```
 
-### Price Filter
+### Price filter
 
 ```heex
 <div class="space-y-2">
@@ -147,7 +120,7 @@ Value labels at different positions.
 </div>
 ```
 
-### Rating Slider
+### Rating slider
 
 ```heex
 <.range_field

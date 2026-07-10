@@ -25,15 +25,15 @@ mix mishka.ui.gen.component speed_dial
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `id` | `:string` | **required** | Unique identifier |
-| `variant` | `:string` | `"base"` | Style variant |
-| `color` | `:string` | `"base"` | Color theme |
-| `size` | `:string` | `"medium"` | Button size |
+| `variant` | `:string` | `"base"` | `base`, `default`, `bordered`, `shadow`, `gradient` |
+| `color` | `:string` | `"base"` | `base`, `natural`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dark`, `white`, `dawn` |
+| `size` | `:string` | `"medium"` | `extra_small`, `small`, `medium`, `large`, `extra_large`, `double_large`, `triple_large`, `quadruple_large` |
 | `rounded` | `:string` | `"full"` | Border radius |
 | `padding` | `:string` | `"small"` | Button padding |
 | `space` | `:string` | `"small"` | Space between items |
 | `icon` | `:string` | `nil` | Main button icon |
 | `icon_animated` | `:boolean` | `false` | Animate icon on hover |
-| `clickable` | `:boolean` | `false` | Click to toggle |
+| `clickable` | `:boolean` | `false` | Click to toggle (vs. hover) |
 | `position` | `:string` | `"bottom-end"` | Menu position |
 
 ## Slots
@@ -51,20 +51,9 @@ Action items in the speed dial menu.
 | `patch` | `:string` | LiveView patch |
 | `navigate` | `:string` | LiveView navigate |
 
-## Available Options
-
-### Variants
-`base`, `default`, `bordered`, `shadow`, `gradient`
-
-### Colors
-`base`, `natural`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dark`, `white`, `dawn`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `double_large`, `triple_large`, `quadruple_large`
-
 ## Usage Examples
 
-### Basic Speed Dial
+### Basic (hover-triggered)
 
 ```heex
 <.speed_dial id="actions" icon="hero-plus">
@@ -74,40 +63,22 @@ Action items in the speed dial menu.
 </.speed_dial>
 ```
 
-### Click to Toggle
+### Click to Toggle + Animated Icon
 
 ```heex
-<.speed_dial id="menu" icon="hero-plus" clickable>
-  <:item icon="hero-document" href="/new" />
-  <:item icon="hero-folder" href="/files" />
-</.speed_dial>
-```
-
-### With Animated Icon
-
-```heex
-<.speed_dial id="fab" icon="hero-plus" icon_animated>
+<.speed_dial id="fab" icon="hero-plus" clickable icon_animated>
   <:item icon="hero-photo" color="primary" />
   <:item icon="hero-document" color="success" />
   <:item icon="hero-link" color="info" />
 </.speed_dial>
 ```
 
-### Different Colors
+### Variant + Color
 
 ```heex
-<.speed_dial id="primary-dial" icon="hero-plus" color="primary">
-  <:item icon="hero-home" color="primary" />
-  <:item icon="hero-user" color="primary" />
-</.speed_dial>
-```
-
-### Different Variants
-
-```heex
-<.speed_dial id="shadow-dial" icon="hero-plus" variant="shadow">
-  <:item icon="hero-share" variant="shadow" />
-  <:item icon="hero-heart" variant="shadow" />
+<.speed_dial id="shadow-dial" icon="hero-plus" variant="shadow" color="primary">
+  <:item icon="hero-share" variant="shadow" color="primary" />
+  <:item icon="hero-heart" variant="shadow" color="primary" />
 </.speed_dial>
 ```
 

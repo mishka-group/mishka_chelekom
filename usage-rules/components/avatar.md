@@ -1,6 +1,6 @@
 # Avatar Component
 
-Displays user profile images, initials, icons, or fallback placeholders in Phoenix LiveView applications. Supports individual avatars and grouped layouts.
+Displays user profile images, initials, icons, or fallback placeholders. Supports individual avatars and grouped layouts.
 
 **Documentation**: https://mishka.tools/chelekom/docs/avatar
 
@@ -9,16 +9,9 @@ Displays user profile images, initials, icons, or fallback placeholders in Phoen
 ## Generate
 
 ```bash
-# Generate with all options
 mix mishka.ui.gen.component avatar
-
-# Generate with specific options
 mix mishka.ui.gen.component avatar --color primary,success --size small,medium,large
-
-# Generate specific component types only
 mix mishka.ui.gen.component avatar --type avatar,avatar_group
-
-# Generate with custom module name
 mix mishka.ui.gen.component avatar --module MyAppWeb.Components.CustomAvatar
 ```
 
@@ -39,7 +32,7 @@ mix mishka.ui.gen.component avatar --module MyAppWeb.Components.CustomAvatar
 
 ## Attributes
 
-### `avatar/1` Attributes
+### `avatar/1`
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -54,7 +47,7 @@ mix mishka.ui.gen.component avatar --module MyAppWeb.Components.CustomAvatar
 | `class` | `:any` | `nil` | Custom CSS class |
 | `rest` | `:global` | - | Global attributes (alt, title, etc.) |
 
-### `avatar_group/1` Attributes
+### `avatar_group/1`
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -65,7 +58,7 @@ mix mishka.ui.gen.component avatar --module MyAppWeb.Components.CustomAvatar
 
 ## Slots
 
-### `icon` Slot (for avatar/1)
+### `icon` (avatar/1 only)
 
 | Attribute | Type | Required | Description |
 |-----------|------|----------|-------------|
@@ -75,59 +68,42 @@ mix mishka.ui.gen.component avatar --module MyAppWeb.Components.CustomAvatar
 | `color` | `:string` | No | Icon color |
 | `size` | `:string` | No | Icon size |
 
-### `inner_block` Slot
+### `inner_block`
 
 Both components accept `inner_block` for custom content (text, initials, indicators).
 
 ## Available Options
 
-### Colors
-`transparent`, `base`, `natural`, `white`, `dark`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
-
-### Rounded
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `full`, `none`
-
-### Border
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `none`
-
-### Shadow
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `none`
-
-### Space (avatar_group)
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `none`
+| Option | Values |
+|--------|--------|
+| Colors | `transparent`, `base`, `natural`, `white`, `dark`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn` |
+| Sizes | `extra_small`, `small`, `medium`, `large`, `extra_large` |
+| Rounded | `extra_small`, `small`, `medium`, `large`, `extra_large`, `full`, `none` |
+| Border | `extra_small`, `small`, `medium`, `large`, `extra_large`, `none` |
+| Shadow | `extra_small`, `small`, `medium`, `large`, `extra_large`, `none` |
+| Space (avatar_group) | `extra_small`, `small`, `medium`, `large`, `extra_large`, `none` |
 
 ## Usage Examples
 
-### Image Avatar
+### Image, Icon, and Text Avatars
 
 ```heex
+<%# Image %>
 <.avatar src="/images/profile.jpg" size="medium" rounded="full" />
-
 <.avatar src={@user.avatar_url} size="large" rounded="full" alt={@user.name} />
-```
 
-### Icon Avatar (Placeholder)
-
-```heex
+<%# Icon placeholder %>
 <.avatar size="medium" rounded="full" color="primary">
   <:icon name="hero-user" />
 </.avatar>
-
 <.avatar size="large" rounded="full" color="silver">
   <:icon name="hero-user-circle" icon_class="size-8" />
 </.avatar>
-```
 
-### Text/Initials Avatar
-
-```heex
+<%# Text/initials %>
 <.avatar size="medium" rounded="full" color="primary">
   JD
 </.avatar>
-
 <.avatar size="large" rounded="full" color="success" font_weight="font-bold">
   AB
 </.avatar>
@@ -146,27 +122,12 @@ Both components accept `inner_block` for custom content (text, initials, indicat
 </.avatar>
 ```
 
-### Avatar with Border
+### Border and Shadow
 
 ```heex
-<.avatar
-  src="/images/profile.jpg"
-  size="large"
-  rounded="full"
-  border="medium"
-  color="primary"
-/>
-```
+<.avatar src="/images/profile.jpg" size="large" rounded="full" border="medium" color="primary" />
 
-### Avatar with Shadow
-
-```heex
-<.avatar
-  src="/images/profile.jpg"
-  size="large"
-  rounded="full"
-  shadow="medium"
-/>
+<.avatar src="/images/profile.jpg" size="large" rounded="full" shadow="medium" />
 ```
 
 ### Avatar Group
@@ -180,11 +141,8 @@ Both components accept `inner_block` for custom content (text, initials, indicat
     +5
   </.avatar>
 </.avatar_group>
-```
 
-### Avatar Group with Custom Spacing
-
-```heex
+<%# Custom spacing %>
 <.avatar_group space="small">
   <.avatar src="/images/user1.jpg" size="medium" rounded="full" border="small" color="white" />
   <.avatar src="/images/user2.jpg" size="medium" rounded="full" border="small" color="white" />
@@ -192,22 +150,15 @@ Both components accept `inner_block` for custom content (text, initials, indicat
 </.avatar_group>
 ```
 
-### Different Rounded Styles
+### Rounded Styles and Sizes
 
 ```heex
-<%# Circular avatar %>
+<%# Rounded: full (circular), large (rounded corners), none (square) %>
 <.avatar src="/images/profile.jpg" size="medium" rounded="full" />
-
-<%# Rounded corners %>
 <.avatar src="/images/profile.jpg" size="medium" rounded="large" />
-
-<%# Square avatar %>
 <.avatar src="/images/profile.jpg" size="medium" rounded="none" />
-```
 
-### All Sizes Comparison
-
-```heex
+<%# All sizes %>
 <.avatar src="/images/profile.jpg" size="extra_small" rounded="full" />
 <.avatar src="/images/profile.jpg" size="small" rounded="full" />
 <.avatar src="/images/profile.jpg" size="medium" rounded="full" />

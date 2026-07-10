@@ -1,6 +1,6 @@
 # Fieldset Component
 
-Styled fieldset component for grouping related form elements with customizable styling.
+Styled fieldset for grouping related form elements.
 
 **Documentation**: https://mishka.tools/chelekom/docs/forms/fieldset
 
@@ -9,13 +9,8 @@ Styled fieldset component for grouping related form elements with customizable s
 ## Generate
 
 ```bash
-# Generate with all options
 mix mishka.ui.gen.component fieldset
-
-# Generate with specific options
 mix mishka.ui.gen.component fieldset --variant default,outline --color primary,natural
-
-# Generate with custom module name
 mix mishka.ui.gen.component fieldset --module MyAppWeb.Components.CustomFieldset
 ```
 
@@ -45,30 +40,18 @@ mix mishka.ui.gen.component fieldset --module MyAppWeb.Components.CustomFieldset
 
 ## Slots
 
-### `control` Slot
-
-Form controls to be grouped within the fieldset.
-
-### `inner_block` Slot
-
-Additional content.
+- **`control`** — form controls to be grouped within the fieldset.
+- **`inner_block`** — additional content.
 
 ## Available Options
 
-### Variants
-`base`, `default`, `outline`, `unbordered`, `shadow`, `transparent`, `gradient`
-
-### Colors
-`base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
-
-### Space / Padding
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `none`
-
-### Rounded
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `full`, `none`
+| Option | Values |
+|--------|--------|
+| Variant | `base`, `default`, `outline`, `unbordered`, `shadow`, `transparent`, `gradient` |
+| Color | `base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn` |
+| Size | `extra_small`, `small`, `medium`, `large`, `extra_large` |
+| Space / Padding | `extra_small`, `small`, `medium`, `large`, `extra_large`, `none` |
+| Rounded | `extra_small`, `small`, `medium`, `large`, `extra_large`, `full`, `none` |
 
 ## Usage Examples
 
@@ -84,7 +67,7 @@ Additional content.
 </.fieldset>
 ```
 
-### With Variant Styling
+### Variant + Color
 
 ```heex
 <.fieldset variant="outline" color="primary" legend="Personal Details">
@@ -100,10 +83,6 @@ Additional content.
 ```heex
 <.fieldset variant="default" legend="Default">
   <:control><.text_field name="f1" /></:control>
-</.fieldset>
-
-<.fieldset variant="outline" legend="Outline">
-  <:control><.text_field name="f2" /></:control>
 </.fieldset>
 
 <.fieldset variant="shadow" legend="Shadow">
@@ -169,7 +148,6 @@ Additional content.
   <.fieldset legend="Shipping Address" variant="outline" space="medium">
     <:control>
       <.checkbox_field name="same_as_billing" label="Same as billing address" />
-      <!-- Shipping fields -->
     </:control>
   </.fieldset>
 

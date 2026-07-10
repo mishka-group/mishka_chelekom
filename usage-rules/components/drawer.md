@@ -9,13 +9,8 @@ Sliding panel component for displaying content from screen edges with customizab
 ## Generate
 
 ```bash
-# Generate with all options
 mix mishka.ui.gen.component drawer
-
-# Generate with specific options
 mix mishka.ui.gen.component drawer --variant default,outline --color primary,natural
-
-# Generate with custom module name
 mix mishka.ui.gen.component drawer --module MyAppWeb.Components.CustomDrawer
 ```
 
@@ -32,10 +27,10 @@ mix mishka.ui.gen.component drawer --module MyAppWeb.Components.CustomDrawer
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `id` | `:string` | **required** | Unique identifier |
-| `variant` | `:string` | `"base"` | Style variant |
-| `color` | `:string` | `"base"` | Color theme |
-| `size` | `:string` | `"medium"` | Drawer width/height |
-| `position` | `:string` | `"left"` | Position: `left`, `right`, `top`, `bottom` |
+| `variant` | `:string` | `"base"` | Style variant — see Variants |
+| `color` | `:string` | `"base"` | Color theme — see Colors |
+| `size` | `:string` | `"medium"` | Drawer width/height — see Sizes |
+| `position` | `:string` | `"left"` | `left`, `right`, `top`, `bottom` |
 | `rounded` | `:string` | `"none"` | Border radius |
 | `border` | `:string` | `"none"` | Border style |
 | `padding` | `:string` | `"medium"` | Content padding |
@@ -46,51 +41,31 @@ mix mishka.ui.gen.component drawer --module MyAppWeb.Components.CustomDrawer
 
 ## Slots
 
-### `header` Slot
-
-Custom header content for the drawer.
-
-### `inner_block` Slot
-
-Main drawer content.
+- `header` — custom header content
+- `inner_block` — main drawer content
 
 ## Helper Functions
 
-### `show_drawer/2` and `show_drawer/3`
-
-Show a drawer programmatically.
+Show/hide a drawer programmatically (both accept an optional leading `%JS{}` and optional trailing `options`):
 
 ```elixir
 show_drawer(js \\ %JS{}, id)
 show_drawer(js \\ %JS{}, id, options)
-```
 
-### `hide_drawer/2` and `hide_drawer/3`
-
-Hide a drawer programmatically.
-
-```elixir
 hide_drawer(js \\ %JS{}, id)
 hide_drawer(js \\ %JS{}, id, options)
 ```
 
 ## Available Options
 
-### Variants
-`base`, `default`, `outline`, `transparent`, `bordered`, `gradient`
-
-### Colors
-`base`, `natural`, `white`, `dark`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
-
-### Position
-`left`, `right`, `top`, `bottom`
+- **Variants**: `base`, `default`, `outline`, `transparent`, `bordered`, `gradient`
+- **Colors**: `base`, `natural`, `white`, `dark`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
+- **Sizes**: `extra_small`, `small`, `medium`, `large`, `extra_large`
+- **Position**: `left`, `right`, `top`, `bottom`
 
 ## Usage Examples
 
-### Basic Left Drawer
+### Positions
 
 ```heex
 <.button phx-click={show_drawer("left-drawer")}>Open Drawer</.button>
@@ -103,42 +78,11 @@ hide_drawer(js \\ %JS{}, id, options)
     <a href="/contact" class="block p-2 hover:bg-gray-100 rounded">Contact</a>
   </nav>
 </.drawer>
-```
 
-### Right Drawer
-
-```heex
-<.button phx-click={show_drawer("right-drawer")}>Open Right</.button>
-
-<.drawer id="right-drawer" position="right">
-  <:header>Settings</:header>
-  <p>Settings content here...</p>
-</.drawer>
-```
-
-### Top Drawer
-
-```heex
-<.button phx-click={show_drawer("top-drawer")}>Open Top</.button>
-
-<.drawer id="top-drawer" position="top" size="small">
-  <p class="text-center">Notification bar content</p>
-</.drawer>
-```
-
-### Bottom Drawer
-
-```heex
-<.button phx-click={show_drawer("bottom-drawer")}>Open Bottom</.button>
-
-<.drawer id="bottom-drawer" position="bottom">
-  <:header>Quick Actions</:header>
-  <div class="flex gap-4 justify-center">
-    <.button>Action 1</.button>
-    <.button>Action 2</.button>
-    <.button>Action 3</.button>
-  </div>
-</.drawer>
+<!-- Same pattern for other edges: -->
+<.drawer id="right-drawer" position="right">...</.drawer>
+<.drawer id="top-drawer" position="top" size="small">...</.drawer>
+<.drawer id="bottom-drawer" position="bottom">...</.drawer>
 ```
 
 ### Initially Visible
@@ -150,20 +94,12 @@ hide_drawer(js \\ %JS{}, id, options)
 </.drawer>
 ```
 
-### Different Variants
+### Variants
 
 ```heex
-<.drawer id="default-drawer" variant="default" color="natural">
-  Default variant
-</.drawer>
-
-<.drawer id="outline-drawer" variant="outline" color="primary">
-  Outline variant
-</.drawer>
-
-<.drawer id="gradient-drawer" variant="gradient" color="primary">
-  Gradient variant
-</.drawer>
+<.drawer id="default-drawer" variant="default" color="natural">Default variant</.drawer>
+<.drawer id="outline-drawer" variant="outline" color="primary">Outline variant</.drawer>
+<.drawer id="gradient-drawer" variant="gradient" color="primary">Gradient variant</.drawer>
 ```
 
 ### Custom Header Styling
@@ -176,6 +112,8 @@ hide_drawer(js \\ %JS{}, id, options)
 ```
 
 ### Without Close Button
+
+Use `hide_close={true}` and close manually via `hide_drawer/1,2`:
 
 ```heex
 <.drawer id="no-close-drawer" hide_close={true}>

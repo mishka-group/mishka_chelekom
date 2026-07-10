@@ -14,11 +14,7 @@ mix mishka.ui.gen.component video
 
 ## Dependencies
 
-| Type | Components |
-|------|------------|
-| **Necessary** | None |
-| **Optional** | None |
-| **JavaScript** | None |
+None (necessary, optional, or JavaScript).
 
 ## Attributes
 
@@ -26,8 +22,8 @@ mix mishka.ui.gen.component video
 |-----------|------|---------|-------------|
 | `src` | `:string` | `nil` | Video source URL |
 | `thumbnail` | `:string` | `nil` | Poster image URL |
-| `ratio` | `:string` | `"video"` | Aspect ratio |
-| `rounded` | `:string` | `"medium"` | Border radius |
+| `ratio` | `:string` | `"video"` | Aspect ratio: `video` (16:9), `square` (1:1), or custom |
+| `rounded` | `:string` | `"medium"` | `extra_small`, `small`, `medium`, `large`, `extra_large` |
 | `controls` | `:boolean` | `true` | Show controls |
 | `autoplay` | `:boolean` | `false` | Auto-play video |
 | `loop` | `:boolean` | `false` | Loop playback |
@@ -35,80 +31,45 @@ mix mishka.ui.gen.component video
 
 ## Slots
 
-### `source` Slot
+**`source`** — multiple video sources for different formats: `src` (URL), `type` (MIME type).
 
-Multiple video sources for different formats.
-
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `src` | `:string` | Source URL |
-| `type` | `:string` | MIME type |
-
-### `track` Slot
-
-Subtitle/caption tracks.
-
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `src` | `:string` | Track file URL |
-| `kind` | `:string` | `subtitles`, `captions` |
-| `srclang` | `:string` | Language code |
-| `label` | `:string` | Display label |
-
-## Available Options
-
-### Rounded
-`extra_small`, `small`, `medium`, `large`, `extra_large`
-
-### Ratio
-`video` (16:9), `square` (1:1), or custom
+**`track`** — subtitle/caption tracks: `src` (file URL), `kind` (`subtitles`, `captions`), `srclang` (language code), `label` (display label).
 
 ## Usage Examples
 
-### Basic Video
+### Basic, thumbnail, multiple sources
 
 ```heex
 <.video src="/videos/intro.mp4" />
-```
 
-### With Thumbnail
+<.video src="/videos/demo.mp4" thumbnail="/images/video-thumbnail.jpg" />
 
-```heex
-<.video
-  src="/videos/demo.mp4"
-  thumbnail="/images/video-thumbnail.jpg"
-/>
-```
-
-### Multiple Sources
-
-```heex
 <.video thumbnail="/images/thumbnail.jpg">
   <:source src="/videos/video.webm" type="video/webm" />
   <:source src="/videos/video.mp4" type="video/mp4" />
 </.video>
 ```
 
-### With Captions
+### With captions (static and dynamic `:for`)
 
 ```heex
 <.video src="/videos/tutorial.mp4" thumbnail="/images/tutorial-thumb.jpg">
+  <:track src="/captions/en.vtt" kind="subtitles" srclang="en" label="English" />
+  <:track src="/captions/es.vtt" kind="subtitles" srclang="es" label="Spanish" />
+</.video>
+
+<.video src={@tutorial.video_url} thumbnail={@tutorial.thumbnail}>
   <:track
-    src="/captions/en.vtt"
+    :for={caption <- @tutorial.captions}
+    src={caption.url}
     kind="subtitles"
-    srclang="en"
-    label="English"
-  />
-  <:track
-    src="/captions/es.vtt"
-    kind="subtitles"
-    srclang="es"
-    label="Spanish"
+    srclang={caption.lang}
+    label={caption.label}
   />
 </.video>
 ```
 
-### Autoplay Muted
+### Autoplay muted (background/hero video)
 
 ```heex
 <.video
@@ -120,23 +81,18 @@ Subtitle/caption tracks.
 />
 ```
 
-### Different Rounded
+### Rounded and ratio variants
 
 ```heex
 <.video src="/video.mp4" rounded="small" />
 <.video src="/video.mp4" rounded="large" />
 <.video src="/video.mp4" rounded="extra_large" />
-```
-
-### Square Ratio
-
-```heex
 <.video src="/video.mp4" ratio="square" />
 ```
 
 ## Common Patterns
 
-### Hero Video
+### Hero video
 
 ```heex
 <div class="relative">
@@ -154,7 +110,7 @@ Subtitle/caption tracks.
 </div>
 ```
 
-### Video Gallery
+### Video gallery
 
 ```heex
 <div class="grid grid-cols-2 gap-4">
@@ -167,7 +123,7 @@ Subtitle/caption tracks.
 </div>
 ```
 
-### Product Demo
+### Product demo
 
 ```heex
 <div class="max-w-3xl mx-auto">
@@ -176,42 +132,12 @@ Subtitle/caption tracks.
     thumbnail="/images/demo-poster.jpg"
     rounded="large"
   >
-    <:track
-      src="/captions/demo-en.vtt"
-      kind="captions"
-      srclang="en"
-      label="English"
-    />
+    <:track src="/captions/demo-en.vtt" kind="captions" srclang="en" label="English" />
   </.video>
   <p class="text-center text-gray-600 mt-4">
     Watch our 2-minute product demo
   </p>
 </div>
-```
-
-### Tutorial Video
-
-```heex
-<.card>
-  <.video
-    src={@tutorial.video_url}
-    thumbnail={@tutorial.thumbnail}
-    rounded="medium"
-  >
-    <:track
-      :for={caption <- @tutorial.captions}
-      src={caption.url}
-      kind="subtitles"
-      srclang={caption.lang}
-      label={caption.label}
-    />
-  </.video>
-
-  <div class="p-4">
-    <.h3>{@tutorial.title}</.h3>
-    <.p color="natural" size="small">{@tutorial.description}</.p>
-  </div>
-</.card>
 ```
 
 ## CORS Note

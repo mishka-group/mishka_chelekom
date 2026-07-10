@@ -24,9 +24,9 @@ mix mishka.ui.gen.component number_field
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `variant` | `:string` | `"base"` | Style variant |
-| `color` | `:string` | `"base"` | Color theme |
-| `size` | `:string` | `"medium"` | Input size |
+| `variant` | `:string` | `"base"` | Style variant — one of `base`, `default`, `outline`, `shadow`, `bordered`, `transparent` |
+| `color` | `:string` | `"base"` | Color theme — one of `base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `misc`, `dawn`, `silver` |
+| `size` | `:string` | `"medium"` | Input size — one of `extra_small`, `small`, `medium`, `large`, `extra_large` |
 | `rounded` | `:string` | `"small"` | Border radius |
 | `space` | `:string` | `"medium"` | Space between elements |
 | `min` | `:number` | `nil` | Minimum value |
@@ -38,30 +38,17 @@ mix mishka.ui.gen.component number_field
 
 ## Slots
 
-### `start_section` / `end_section` Slots
-
-Content before/after input.
-
-## Available Options
-
-### Variants
-`base`, `default`, `outline`, `shadow`, `bordered`, `transparent`
-
-### Colors
-`base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `misc`, `dawn`, `silver`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
+- `start_section` / `end_section` — content before/after the input.
 
 ## Usage Examples
 
-### Basic Number Field
+### Basic
 
 ```heex
 <.number_field name="quantity" label="Quantity" />
 ```
 
-### With Min/Max
+### Min/Max/Step
 
 ```heex
 <.number_field
@@ -71,31 +58,17 @@ Content before/after input.
   max={120}
   value={25}
 />
-```
 
-### With Step
-
-```heex
-<.number_field
-  name="price"
-  label="Price"
-  min={0}
-  max={1000}
-  step={0.01}
-/>
+<.number_field name="price" label="Price" min={0} max={1000} step={0.01} />
 ```
 
 ### Without Controls
 
 ```heex
-<.number_field
-  name="amount"
-  label="Amount"
-  show_controls={false}
-/>
+<.number_field name="amount" label="Amount" show_controls={false} />
 ```
 
-### Different Variants
+### Variants
 
 ```heex
 <.number_field variant="default" label="Default" />
@@ -103,20 +76,7 @@ Content before/after input.
 <.number_field variant="bordered" label="Bordered" />
 ```
 
-### With Form Field
-
-```heex
-<.number_field
-  field={@form[:quantity]}
-  label="Quantity"
-  min={1}
-  max={100}
-/>
-```
-
-## Common Patterns
-
-### Quantity Selector
+### With Form Field / Quantity Selector
 
 ```heex
 <.number_field
@@ -128,7 +88,7 @@ Content before/after input.
 />
 ```
 
-### Price Input
+### Price Input with `start_section`
 
 ```heex
 <.number_field name="price" label="Price" min={0} step={0.01}>

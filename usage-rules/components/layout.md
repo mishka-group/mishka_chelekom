@@ -36,52 +36,35 @@ mix mishka.ui.gen.component layout --module MyAppWeb.Components.CustomLayout
 
 ## Attributes
 
-### `flex/1` Attributes
+### `flex/1`
 
-| Attribute | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `direction` | `:string` | `"row"` | Flex direction |
-| `justify` | `:string` | `"start"` | Justify content |
-| `align` | `:string` | `"stretch"` | Align items |
-| `wrap` | `:string` | `"nowrap"` | Flex wrap |
-| `gap` | `:string` | `nil` | Gap between items |
-| `class` | `:any` | `nil` | Custom CSS class |
+| Attribute | Type | Default | Description | Allowed values |
+|-----------|------|---------|-------------|-----------------|
+| `direction` | `:string` | `"row"` | Flex direction | `row`, `row-reverse`, `col`, `col-reverse` |
+| `justify` | `:string` | `"start"` | Justify content | `start`, `end`, `center`, `between`, `around`, `evenly` |
+| `align` | `:string` | `"stretch"` | Align items | `start`, `end`, `center`, `baseline`, `stretch` |
+| `wrap` | `:string` | `"nowrap"` | Flex wrap | `nowrap`, `wrap`, `wrap-reverse` |
+| `gap` | `:string` | `nil` | Gap between items | Tailwind spacing scale: `1`, `2`, `3`, `4`, `5`, `6`, `8`, `10`, `12`, etc. |
+| `class` | `:any` | `nil` | Custom CSS class | — |
 
-### `grid/1` Attributes
+### `grid/1`
 
-| Attribute | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `cols` | `:integer` | `1` | Number of columns |
-| `rows` | `:integer` | `nil` | Number of rows |
-| `gap` | `:string` | `nil` | Gap between items |
-| `class` | `:any` | `nil` | Custom CSS class |
+| Attribute | Type | Default | Description | Allowed values |
+|-----------|------|---------|-------------|-----------------|
+| `cols` | `:integer` | `1` | Number of columns | — |
+| `rows` | `:integer` | `nil` | Number of rows | — |
+| `gap` | `:string` | `nil` | Gap between items | Tailwind spacing scale: `1`, `2`, `3`, `4`, `5`, `6`, `8`, `10`, `12`, etc. |
+| `class` | `:any` | `nil` | Custom CSS class | — |
 
 ## Slots
 
-### `inner_block` Slot
+### `inner_block`
 
-Child elements to layout.
-
-## Available Options
-
-### Flex Direction
-`row`, `row-reverse`, `col`, `col-reverse`
-
-### Justify Content
-`start`, `end`, `center`, `between`, `around`, `evenly`
-
-### Align Items
-`start`, `end`, `center`, `baseline`, `stretch`
-
-### Flex Wrap
-`nowrap`, `wrap`, `wrap-reverse`
-
-### Gap
-`1`, `2`, `3`, `4`, `5`, `6`, `8`, `10`, `12`, etc. (Tailwind spacing scale)
+Child elements to layout. (Both `flex/1` and `grid/1`.)
 
 ## Usage Examples
 
-### Basic Flex Row
+### Flex: direction, gap, wrap
 
 ```heex
 <.flex gap="4">
@@ -89,78 +72,46 @@ Child elements to layout.
   <div>Item 2</div>
   <div>Item 3</div>
 </.flex>
-```
 
-### Flex Column
-
-```heex
 <.flex direction="col" gap="4">
   <div>Item 1</div>
   <div>Item 2</div>
-  <div>Item 3</div>
+</.flex>
+
+<.flex wrap="wrap" gap="4">
+  <div :for={_i <- 1..10} class="w-24 h-24 bg-gray-200">Item</div>
 </.flex>
 ```
 
-### Centered Content
+### Flex: justify / align
 
 ```heex
 <.flex justify="center" align="center" class="h-64">
   <div>Centered content</div>
 </.flex>
-```
 
-### Space Between
-
-```heex
 <.flex justify="between" align="center">
   <div>Left</div>
   <div>Right</div>
 </.flex>
 ```
 
-### Wrapping Items
-
-```heex
-<.flex wrap="wrap" gap="4">
-  <div :for={_i <- 1..10} class="w-24 h-24 bg-gray-200">
-    Item
-  </div>
-</.flex>
-```
-
-### Basic Grid
+### Grid: cols
 
 ```heex
 <.grid cols={3} gap="4">
   <div>Cell 1</div>
   <div>Cell 2</div>
   <div>Cell 3</div>
-  <div>Cell 4</div>
-  <div>Cell 5</div>
-  <div>Cell 6</div>
 </.grid>
-```
 
-### Two Column Grid
-
-```heex
 <.grid cols={2} gap="6">
   <div>Left column</div>
   <div>Right column</div>
 </.grid>
 ```
 
-### Four Column Grid
-
-```heex
-<.grid cols={4} gap="4">
-  <div :for={_i <- 1..8} class="p-4 bg-gray-100 rounded">
-    Grid item
-  </div>
-</.grid>
-```
-
-### Mixed Layout
+### Mixed Layout (flex + grid nesting)
 
 ```heex
 <.flex direction="col" gap="8">

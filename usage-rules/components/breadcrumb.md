@@ -68,7 +68,7 @@ Additional custom content.
 
 ## Usage Examples
 
-### Basic Breadcrumb
+### Basic Breadcrumb (with icons, color, tooltips)
 
 ```heex
 <.breadcrumb>
@@ -77,43 +77,18 @@ Additional custom content.
   <:item link="/products/electronics">Electronics</:item>
   <:item>Laptops</:item>
 </.breadcrumb>
-```
 
-### With Icons
-
-```heex
-<.breadcrumb>
-  <:item icon="hero-home" link="/">Home</:item>
-  <:item icon="hero-folder" link="/documents">Documents</:item>
-  <:item icon="hero-document" link="/documents/reports">Reports</:item>
-  <:item icon="hero-document-text">Annual Report 2024</:item>
-</.breadcrumb>
-```
-
-### Different Colors
-
-```heex
 <.breadcrumb color="primary">
-  <:item link="/">Home</:item>
-  <:item link="/dashboard">Dashboard</:item>
-  <:item>Settings</:item>
-</.breadcrumb>
-
-<.breadcrumb color="success">
-  <:item link="/">Home</:item>
-  <:item>Completed</:item>
+  <:item icon="hero-home" link="/" title="Go to homepage">Home</:item>
+  <:item icon="hero-folder" link="/documents" title="Browse documents">Documents</:item>
+  <:item icon="hero-document-text" title="Current page">Annual Report 2024</:item>
 </.breadcrumb>
 ```
 
-### Different Sizes
+### Sizes
 
 ```heex
 <.breadcrumb size="extra_small">
-  <:item link="/">Home</:item>
-  <:item>Page</:item>
-</.breadcrumb>
-
-<.breadcrumb size="medium">
   <:item link="/">Home</:item>
   <:item>Page</:item>
 </.breadcrumb>
@@ -124,40 +99,20 @@ Additional custom content.
 </.breadcrumb>
 ```
 
-### Text Separator
+### Text Separator / Custom Separator Icon
 
 ```heex
+<!-- set separator_icon={nil} when using separator_text -->
 <.breadcrumb separator_icon={nil} separator_text="/">
   <:item link="/">Home</:item>
   <:item link="/blog">Blog</:item>
   <:item>Article</:item>
 </.breadcrumb>
 
-<.breadcrumb separator_icon={nil} separator_text="•">
-  <:item link="/">Home</:item>
-  <:item link="/shop">Shop</:item>
-  <:item>Cart</:item>
-</.breadcrumb>
-```
-
-### Custom Separator Icon
-
-```heex
 <.breadcrumb separator_icon="hero-arrow-right">
   <:item link="/">Home</:item>
   <:item link="/step-1">Step 1</:item>
-  <:item link="/step-2">Step 2</:item>
   <:item>Complete</:item>
-</.breadcrumb>
-```
-
-### With Tooltips
-
-```heex
-<.breadcrumb>
-  <:item link="/" title="Go to homepage">Home</:item>
-  <:item link="/products" title="Browse all products">Products</:item>
-  <:item title="Current page">Electronics</:item>
 </.breadcrumb>
 ```
 

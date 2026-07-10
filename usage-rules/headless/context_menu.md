@@ -1,6 +1,6 @@
 # context_menu (headless)
 
-An unstyled, accessible right-click (context) menu over an arbitrary area: markup + WAI-ARIA wiring, with behavior delegated to two shared JS engines (`Popup` + `RovingTabindex`). Implements the [WAI-ARIA APG Menu pattern](https://www.w3.org/WAI/ARIA/apg/patterns/menu/).
+An unstyled, accessible right-click (context) menu over an arbitrary area: markup + WAI-ARIA wiring, behavior delegated to two shared JS engines (`Popup` + `RovingTabindex`). Implements the [WAI-ARIA APG Menu pattern](https://www.w3.org/WAI/ARIA/apg/patterns/menu/).
 
 ## Generate
 
@@ -18,7 +18,7 @@ const Hooks = { Popup, RovingTabindex };
 
 ## Anatomy
 
-The root is a `<div>` carrying `phx-hook="Popup"`, `data-trigger="contextmenu"`, and `class="chelekom-context-menu"`. The popup is a nested `<div>` carrying `phx-hook="RovingTabindex"` and `data-orientation="vertical"`. Parts are marked with `data-part` hooks the engines query:
+Root `<div>` carries `phx-hook="Popup"`, `data-trigger="contextmenu"`, `class="chelekom-context-menu"`. Popup is a nested `<div>` carrying `phx-hook="RovingTabindex"` and `data-orientation="vertical"`.
 
 | Part | Element | `data-part` | Class | Source |
 |------|---------|-------------|-------|--------|
@@ -31,18 +31,16 @@ The root is a `<div>` carrying `phx-hook="Popup"`, `data-trigger="contextmenu"`,
 
 ## ARIA & keyboard
 
-Roles and aria attributes (wired by the template + engines):
-
-- **trigger** — right-click target. `Popup` sets `aria-controls` (pointing at `#{@id}-popup`) and `aria-expanded` (toggled `false`/`true`).
+- **trigger** — right-click target; `Popup` sets `aria-controls` (→ `#{@id}-popup`) and `aria-expanded` (`false`/`true`).
 - **popup** — `role="menu"`, `data-orientation="vertical"`.
-- **item** — `role="menuitem"`, `tabindex="-1"`, plus `data-disabled` when the `<:item disabled>` attr is set.
+- **item** — `role="menuitem"`, `tabindex="-1"`, plus `data-disabled` when `<:item disabled>` is set.
 
-Keyboard (handled by `RovingTabindex` on the popup, `Popup` on the root):
+Keyboard (`RovingTabindex` on the popup, `Popup` on the root):
 
-- **Down/Up** — move focus among items (vertical orientation), wrapping at the ends.
-- **Home/End** — focus the first / last item.
+- **Down/Up** — move focus among items (vertical), wrapping at the ends.
+- **Home/End** — focus first / last item.
 - **Enter/Space** — activate the focused item (`RovingTabindex` toggles `data-highlighted`).
-- **Escape** — closes the menu and returns focus to the trigger (`Popup`).
+- **Escape** — closes the menu, returns focus to the trigger.
 
 Right-clicking the trigger calls `e.preventDefault()` and opens the menu at the pointer (`position: fixed` at `clientX`/`clientY`); right-clicking again toggles it closed. On open, `Popup` focuses the first menu item. Clicking outside the root closes the menu. Disabled items are skipped during navigation.
 
@@ -50,13 +48,15 @@ Right-clicking the trigger calls `e.preventDefault()` and opens the menu at the 
 
 Paired-presence (Base-UI style) attributes:
 
-- `data-open` — present on the popup when the menu is open (toggled by `Popup`).
-- `data-closed` — present on the popup when closed (rendered initially in the template, toggled by `Popup`); the two are mutually exclusive.
-- `data-side` — written on the popup by `Popup` on open (default `bottom`); also exposed as the `--chelekom-side` CSS var.
-- `data-highlighted` — toggled on the activated item by `RovingTabindex`.
-- `data-disabled` — rendered by the template from `<:item disabled>`; excludes the item from roving navigation.
+| Attribute | Meaning |
+|-----------|---------|
+| `data-open` | present on the popup when open (toggled by `Popup`) |
+| `data-closed` | present on the popup when closed (initial in template, toggled by `Popup`); mutually exclusive with `data-open` |
+| `data-side` | written on the popup by `Popup` on open (default `bottom`); also exposed as `--chelekom-side` CSS var |
+| `data-highlighted` | toggled on the activated item by `RovingTabindex` |
+| `data-disabled` | rendered from `<:item disabled>`; excludes the item from roving navigation |
 
-`Popup` also mirrors open state on the trigger via `aria-expanded`. The template renders the popup with an initial `data-closed`.
+`Popup` also mirrors open state on the trigger via `aria-expanded`.
 
 ## Example
 
@@ -73,11 +73,12 @@ Paired-presence (Base-UI style) attributes:
 </.context_menu>
 ```
 
-Attrs: `id` (required, anchors the aria relationships), `class` (extra classes for the root), and `rest` (global). Slots: `trigger` (required, the right-click area) and `item` (required, repeated; supports a `disabled` boolean attr). Each item renders as a `<button type="button">`.
+- **Attrs**: `id` (required, anchors aria relationships), `class` (extra classes for root), `rest` (global).
+- **Slots**: `trigger` (required, the right-click area); `item` (required, repeated; supports boolean `disabled`). Each item renders as `<button type="button">`.
 
 ## Styling
 
-This component ships **no** colors or spacing — only structural markup. Style it via the `chelekom-context-menu*` classes (`chelekom-context-menu`, `__trigger`, `__popup`, `__item`) and the `data-*` state attributes, e.g.:
+Ships **no** colors or spacing — only structural markup. Style via `chelekom-context-menu*` classes (`chelekom-context-menu`, `__trigger`, `__popup`, `__item`) and the `data-*` state attributes:
 
 ```css
 .chelekom-context-menu__popup[data-closed]      { display: none; }
@@ -86,4 +87,4 @@ This component ships **no** colors or spacing — only structural markup. Style 
 .chelekom-context-menu__item[data-disabled]     { opacity: 0.5; pointer-events: none; }
 ```
 
-Add your own classes to the root via the `class` attr.
+Add custom classes to the root via the `class` attr.

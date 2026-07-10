@@ -48,38 +48,20 @@ mix mishka.ui.gen.component input_field --module MyAppWeb.Components.CustomInput
 | `multiple` | `:boolean` | `false` | Multiple selection |
 | `class` | `:any` | `nil` | Custom CSS class |
 
-## Supported Input Types
+## Supported `type` values
 
-- `text`
-- `email`
-- `password`
-- `number`
-- `tel`
-- `url`
-- `date`
-- `time`
-- `datetime-local`
-- `checkbox`
-- `select`
-- `textarea`
+`text`, `email`, `password`, `number`, `tel`, `url`, `date`, `time`, `datetime-local`, `checkbox`, `select`, `textarea`
 
 ## Usage Examples
 
-### Basic Text Input
-
 ```heex
+<!-- Basic text input -->
 <.input type="text" name="username" label="Username" />
-```
 
-### With Form Field
-
-```heex
+<!-- With form field (errors are pulled from the field automatically) -->
 <.input field={@form[:email]} type="email" label="Email Address" />
-```
 
-### Select Input
-
-```heex
+<!-- Select -->
 <.input
   type="select"
   name="country"
@@ -87,40 +69,18 @@ mix mishka.ui.gen.component input_field --module MyAppWeb.Components.CustomInput
   options={[{"United States", "us"}, {"Canada", "ca"}, {"Mexico", "mx"}]}
   prompt="Select a country"
 />
-```
 
-### Textarea
-
-```heex
+<!-- Textarea -->
 <.input type="textarea" name="message" label="Message" rows={5} />
-```
 
-### Checkbox
-
-```heex
+<!-- Checkbox -->
 <.input type="checkbox" name="terms" label="I accept the terms" />
-```
 
-### Password
-
-```heex
+<!-- Password -->
 <.input type="password" name="password" label="Password" />
-```
 
-### Number
-
-```heex
+<!-- Number -->
 <.input type="number" name="quantity" label="Quantity" min={1} max={100} />
-```
-
-### With Errors
-
-```heex
-<.input
-  field={@form[:email]}
-  type="email"
-  label="Email"
-/>
 ```
 
 ### Error Component
@@ -161,12 +121,7 @@ mix mishka.ui.gen.component input_field --module MyAppWeb.Components.CustomInput
 
 ## Note
 
-For more specialized input components with additional styling options, consider using:
-- `text_field` - Styled text input
-- `email_field` - Styled email input
-- `password_field` - Styled password input
-- `number_field` - Styled number input
-- `textarea_field` - Styled textarea
-- `native_select` - Styled select
+For more specialized input components with additional styling options, consider:
+`text_field`, `email_field`, `password_field`, `number_field`, `textarea_field`, `native_select` (styled versions of each type).
 
-The `input` component provides basic Phoenix form integration while the specialized field components offer more customization options.
+`input` gives basic Phoenix form integration; the specialized field components offer more customization.

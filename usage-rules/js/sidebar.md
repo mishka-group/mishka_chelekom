@@ -53,7 +53,7 @@ The hook is attached to the minimize button:
 
 ## Usage Examples
 
-### Basic Sidebar
+### Basic, Minimize, Sizes
 
 ```heex
 <.sidebar id="app-sidebar">
@@ -61,19 +61,20 @@ The hook is attached to the minimize button:
   <:item icon="hero-users" label="Users" link={~p"/users"} />
   <:item icon="hero-cog-6-tooth" label="Settings" link={~p"/settings"} />
 </.sidebar>
-```
 
-### With Minimize Button
-
-```heex
+<!-- minimize={true} enables the minimize/expand toggle -->
 <.sidebar id="main-sidebar" minimize={true}>
   <:item icon="hero-home" label="Home" link={~p"/"} />
   <:item icon="hero-document" label="Documents" link={~p"/docs"} />
-  <:item icon="hero-chart-bar" label="Analytics" link={~p"/analytics"} />
+</.sidebar>
+
+<!-- size accepts e.g. "small" / "large" -->
+<.sidebar id="small-sidebar" size="small" minimize={true}>
+  <:item icon="hero-home" label="Home" link={~p"/"} />
 </.sidebar>
 ```
 
-### With Header
+### Header, Footer, Groups
 
 ```heex
 <.sidebar id="branded-sidebar" minimize={true}>
@@ -84,17 +85,15 @@ The hook is attached to the minimize button:
     </div>
   </:header>
 
-  <:item icon="hero-home" label="Home" link={~p"/"} />
-  <:item icon="hero-folder" label="Projects" link={~p"/projects"} />
-</.sidebar>
-```
+  <:group title="Main">
+    <:item icon="hero-home" label="Home" link={~p"/"} />
+    <:item icon="hero-inbox" label="Inbox" link={~p"/inbox"} />
+  </:group>
 
-### With Footer
-
-```heex
-<.sidebar id="nav-sidebar">
-  <:item icon="hero-home" label="Dashboard" link={~p"/"} />
-  <:item icon="hero-users" label="Team" link={~p"/team"} />
+  <:group title="Management">
+    <:item icon="hero-users" label="Users" link={~p"/users"} />
+    <:item icon="hero-building-office" label="Teams" link={~p"/teams"} />
+  </:group>
 
   <:footer>
     <div class="p-4 border-t">
@@ -107,40 +106,7 @@ The hook is attached to the minimize button:
 </.sidebar>
 ```
 
-### With Groups
-
-```heex
-<.sidebar id="grouped-sidebar" minimize={true}>
-  <:group title="Main">
-    <:item icon="hero-home" label="Home" link={~p"/"} />
-    <:item icon="hero-inbox" label="Inbox" link={~p"/inbox"} />
-  </:group>
-
-  <:group title="Management">
-    <:item icon="hero-users" label="Users" link={~p"/users"} />
-    <:item icon="hero-building-office" label="Teams" link={~p"/teams"} />
-  </:group>
-
-  <:group title="Settings">
-    <:item icon="hero-cog-6-tooth" label="Preferences" link={~p"/settings"} />
-    <:item icon="hero-shield-check" label="Security" link={~p"/security"} />
-  </:group>
-</.sidebar>
-```
-
-### Different Sizes
-
-```heex
-<.sidebar id="small-sidebar" size="small" minimize={true}>
-  <:item icon="hero-home" label="Home" link={~p"/"} />
-</.sidebar>
-
-<.sidebar id="large-sidebar" size="large" minimize={true}>
-  <:item icon="hero-home" label="Home" link={~p"/"} />
-</.sidebar>
-```
-
-### With Custom Content
+### Custom Item Content
 
 ```heex
 <.sidebar id="custom-sidebar" minimize={true}>
@@ -150,7 +116,6 @@ The hook is attached to the minimize button:
       3
     </span>
   </:item>
-  <:item icon="hero-envelope" label="Messages" link={~p"/messages"} />
 </.sidebar>
 ```
 
@@ -193,8 +158,6 @@ When minimized:
 - `.sidebar-text` elements are hidden
 - `.minimize-icon` rotates 180 degrees
 - Tooltips can show on hover (optional)
-
-## CSS for Minimized State
 
 ```css
 /* Minimized sidebar */

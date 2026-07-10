@@ -27,82 +27,35 @@ mix mishka.ui.gen.component radio_field
 | `radio_field/1` | Single radio button |
 | `group_radio/1` | Grouped radio buttons |
 
-## Attributes
-
-### `radio_field/1` Attributes
+## `radio_field/1` Attributes
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `color` | `:string` | `"base"` | Color theme |
-| `size` | `:string` | `"medium"` | Radio size |
+| `color` | `:string` | `"base"` | One of: `base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn` |
+| `size` | `:string` | `"medium"` | One of: `extra_small`, `small`, `medium`, `large`, `extra_large` |
 | `space` | `:string` | `"medium"` | Label spacing |
 | `name` | `:string` | **required** | Input name |
 | `value` | `:string` | **required** | Option value |
 | `label` | `:string` | `nil` | Label text |
 | `checked` | `:boolean` | `false` | Selected state |
-| `reverse` | `:boolean` | `false` | Reverse layout |
+| `reverse` | `:boolean` | `false` | Reverse layout (label before input) |
 | `errors` | `:list` | `[]` | Error messages |
-
-## Available Options
-
-### Colors
-`base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
 
 ## Usage Examples
 
-### Basic Radio Field
+### Basic / with Form field / errors
 
 ```heex
 <.radio_field name="gender" value="male" label="Male" />
 <.radio_field name="gender" value="female" label="Female" />
-<.radio_field name="gender" value="other" label="Other" />
-```
 
-### With Form Field
-
-```heex
 <.radio_field
   field={@form[:status]}
   value="active"
   label="Active"
   checked={@form[:status].value == "active"}
 />
-<.radio_field
-  field={@form[:status]}
-  value="inactive"
-  label="Inactive"
-  checked={@form[:status].value == "inactive"}
-/>
-```
 
-### Different Colors
-
-```heex
-<.radio_field name="option" value="primary" label="Primary" color="primary" checked />
-<.radio_field name="option" value="success" label="Success" color="success" />
-<.radio_field name="option" value="danger" label="Danger" color="danger" />
-```
-
-### Different Sizes
-
-```heex
-<.radio_field name="size" value="small" label="Small" size="small" />
-<.radio_field name="size" value="medium" label="Medium" size="medium" />
-<.radio_field name="size" value="large" label="Large" size="large" />
-```
-
-### Reversed Layout
-
-```heex
-<.radio_field name="option" value="reversed" label="Label on left" reverse />
-```
-
-### With Errors
-
-```heex
 <.radio_field
   name="terms"
   value="agree"
@@ -111,7 +64,24 @@ mix mishka.ui.gen.component radio_field
 />
 ```
 
-### Group Radio
+### Colors and sizes
+
+```heex
+<.radio_field name="option" value="primary" label="Primary" color="primary" checked />
+<.radio_field name="option" value="success" label="Success" color="success" />
+<.radio_field name="option" value="danger" label="Danger" color="danger" />
+
+<.radio_field name="size" value="small" label="Small" size="small" />
+<.radio_field name="size" value="large" label="Large" size="large" />
+```
+
+### Reversed layout
+
+```heex
+<.radio_field name="option" value="reversed" label="Label on left" reverse />
+```
+
+### Group radio
 
 ```heex
 <.group_radio name="priority" label="Priority Level">
@@ -123,7 +93,7 @@ mix mishka.ui.gen.component radio_field
 
 ## Common Patterns
 
-### Survey Question
+### Survey question (fieldset)
 
 ```heex
 <fieldset class="space-y-2">
@@ -135,7 +105,7 @@ mix mishka.ui.gen.component radio_field
 </fieldset>
 ```
 
-### Inline Radio Group
+### Inline radio group
 
 ```heex
 <div class="flex items-center gap-4">

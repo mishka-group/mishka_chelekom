@@ -32,13 +32,13 @@ mix mishka.ui.gen.component blockquote --module MyAppWeb.Components.CustomBlockq
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `id` | `:string` | `nil` | Unique identifier |
-| `variant` | `:string` | `"base"` | Style variant |
-| `color` | `:string` | `"natural"` | Color theme |
-| `size` | `:string` | `"medium"` | Overall size |
+| `variant` | `:string` | `"base"` | Style variant — `base`, `default`, `outline`, `transparent`, `shadow`, `bordered`, `gradient` |
+| `color` | `:string` | `"natural"` | Color theme — `natural`, `white`, `dark`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn` |
+| `size` | `:string` | `"medium"` | Overall size — `extra_small`, `small`, `medium`, `large`, `extra_large` |
 | `border` | `:string` | `"medium"` | Border width |
-| `rounded` | `:string` | `"small"` | Border radius |
-| `space` | `:string` | `"small"` | Space between elements |
-| `padding` | `:string` | `"small"` | Padding size |
+| `rounded` | `:string` | `"small"` | Border radius — `extra_small`, `small`, `medium`, `large`, `extra_large`, `full`, `none` |
+| `space` | `:string` | `"small"` | Space between elements — `extra_small`, `small`, `medium`, `large`, `extra_large`, `none` |
+| `padding` | `:string` | `"small"` | Padding size — `extra_small`, `small`, `medium`, `large`, `extra_large`, `none` |
 | `font_weight` | `:string` | `"font-normal"` | Font weight class |
 | `icon` | `:string` | `"hero-quote"` | Quote icon |
 | `icon_class` | `:string` | `nil` | Icon styling class |
@@ -72,36 +72,15 @@ mix mishka.ui.gen.component blockquote --module MyAppWeb.Components.CustomBlockq
 
 Quote content.
 
-## Available Options
-
-### Variants
-`base`, `default`, `outline`, `transparent`, `shadow`, `bordered`, `gradient`
-
-### Colors
-`natural`, `white`, `dark`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
-
-### Rounded
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `full`, `none`
-
-### Padding / Space
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `none`
-
 ## Usage Examples
 
-### Basic Blockquote
+### Basic + Caption
 
 ```heex
 <.blockquote>
   The only way to do great work is to love what you do.
 </.blockquote>
-```
 
-### With Caption
-
-```heex
 <.blockquote left_border>
   <p>Innovation distinguishes between a leader and a follower.</p>
   <:caption image="/images/steve.jpg" position="left">
@@ -110,36 +89,22 @@ Quote content.
 </.blockquote>
 ```
 
-### Different Border Positions
+### Border Positions
 
 ```heex
-<.blockquote left_border color="primary">
-  Left border quote
-</.blockquote>
-
-<.blockquote right_border color="success">
-  Right border quote
-</.blockquote>
-
-<.blockquote full_border color="warning">
-  Full border quote
-</.blockquote>
+<.blockquote left_border color="primary">Left border quote</.blockquote>
+<.blockquote right_border color="success">Right border quote</.blockquote>
+<.blockquote full_border color="warning">Full border quote</.blockquote>
 ```
 
-### Without Icon
+### Icon Control
 
 ```heex
 <.blockquote hide_icon left_border>
   <p>Simple quote without the decorative icon.</p>
-  <:caption position="center">
-    Anonymous
-  </:caption>
+  <:caption position="center">Anonymous</:caption>
 </.blockquote>
-```
 
-### Custom Icon
-
-```heex
 <.blockquote icon="hero-chat-bubble-left-ellipsis" color="info">
   <p>A custom icon can be used instead of the default quote icon.</p>
 </.blockquote>
@@ -148,35 +113,18 @@ Quote content.
 ### Variant Styles
 
 ```heex
-<.blockquote variant="default" color="primary">
-  Default variant with solid background.
-</.blockquote>
+<.blockquote variant="default" color="primary">Default variant with solid background.</.blockquote>
+<.blockquote variant="outline" color="success">Outline variant with border only.</.blockquote>
+<.blockquote variant="shadow" color="dark">Shadow variant with elevation effect.</.blockquote>
+<.blockquote variant="gradient" color="primary">Gradient background variant.</.blockquote>
 
-<.blockquote variant="outline" color="success">
-  Outline variant with border only.
-</.blockquote>
-
-<.blockquote variant="shadow" color="dark">
-  Shadow variant with elevation effect.
-</.blockquote>
-
-<.blockquote variant="gradient" color="primary">
-  Gradient background variant.
-</.blockquote>
-```
-
-### Transparent Style
-
-```heex
 <.blockquote variant="transparent" color="primary">
   <p>Minimal styling without background.</p>
-  <:caption image="/images/author.jpg">
-    Author Name
-  </:caption>
+  <:caption image="/images/author.jpg">Author Name</:caption>
 </.blockquote>
 ```
 
-### Different Sizes
+### Sizes
 
 ```heex
 <.blockquote size="extra_small">Extra small quote</.blockquote>
@@ -191,23 +139,17 @@ Quote content.
 ```heex
 <.blockquote>
   <p>Quote with left-aligned caption.</p>
-  <:caption image="/images/avatar.jpg" position="left">
-    Author Name
-  </:caption>
+  <:caption image="/images/avatar.jpg" position="left">Author Name</:caption>
 </.blockquote>
 
 <.blockquote>
   <p>Quote with centered caption.</p>
-  <:caption position="center">
-    Author Name
-  </:caption>
+  <:caption position="center">Author Name</:caption>
 </.blockquote>
 
 <.blockquote>
   <p>Quote with right-aligned caption.</p>
-  <:caption image="/images/avatar.jpg" position="right">
-    Author Name
-  </:caption>
+  <:caption image="/images/avatar.jpg" position="right">Author Name</:caption>
 </.blockquote>
 ```
 

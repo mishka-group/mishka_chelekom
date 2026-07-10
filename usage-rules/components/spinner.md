@@ -22,52 +22,33 @@ mix mishka.ui.gen.component spinner
 
 ## Attributes
 
-| Attribute | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `type` | `:string` | `"default"` | Animation type |
-| `color` | `:string` | `"base"` | Color theme |
-| `size` | `:string` | `"medium"` | Spinner size |
-
-## Available Options
-
-### Types
-`default`, `dots`, `bars`, `pinging`
-
-### Colors
-`base`, `natural`, `white`, `dark`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `double_large`, `triple_large`, `quadruple_large`
+| Attribute | Type | Default | Options |
+|-----------|------|---------|---------|
+| `type` | `:string` | `"default"` | `default`, `dots`, `bars`, `pinging` |
+| `color` | `:string` | `"base"` | `base`, `natural`, `white`, `dark`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn` |
+| `size` | `:string` | `"medium"` | `extra_small`, `small`, `medium`, `large`, `extra_large`, `double_large`, `triple_large`, `quadruple_large` |
 
 ## Usage Examples
 
-### Basic Spinner
+### Basic
 
 ```heex
 <.spinner />
 ```
 
-### Different Types
+### Type / Color / Size
 
 ```heex
 <.spinner type="default" />
 <.spinner type="dots" />
 <.spinner type="bars" />
 <.spinner type="pinging" />
-```
 
-### Different Colors
-
-```heex
 <.spinner color="primary" />
 <.spinner color="success" />
 <.spinner color="warning" />
 <.spinner color="danger" />
-```
 
-### Different Sizes
-
-```heex
 <.spinner size="extra_small" />
 <.spinner size="small" />
 <.spinner size="medium" />
@@ -75,21 +56,11 @@ mix mishka.ui.gen.component spinner
 <.spinner size="extra_large" />
 ```
 
-### Pinging Style
+### Combined (type + color + size)
 
 ```heex
 <.spinner type="pinging" color="primary" size="large" />
-```
-
-### Dots Style
-
-```heex
 <.spinner type="dots" color="info" size="medium" />
-```
-
-### Bars Style
-
-```heex
 <.spinner type="bars" color="success" size="large" />
 ```
 

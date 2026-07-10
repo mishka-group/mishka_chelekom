@@ -9,13 +9,8 @@ Displays badges with icons, indicators, and dismiss functionality for notificati
 ## Generate
 
 ```bash
-# Generate with all options
 mix mishka.ui.gen.component badge
-
-# Generate with specific options
 mix mishka.ui.gen.component badge --variant default,outline --color primary,success,danger
-
-# Generate with custom module name
 mix mishka.ui.gen.component badge --module MyAppWeb.Components.CustomBadge
 ```
 
@@ -41,20 +36,20 @@ mix mishka.ui.gen.component badge --module MyAppWeb.Components.CustomBadge
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `id` | `:string` | `nil` | Unique identifier |
-| `variant` | `:string` | `"base"` | Style variant |
-| `color` | `:string` | `"natural"` | Color theme |
-| `size` | `:string` | `"extra_small"` | Badge size |
-| `rounded` | `:string` | `"small"` | Border radius |
-| `border` | `:string` | `"extra_small"` | Border width |
+| `variant` | `:string` | `"base"` | Style variant — see [Variants](#variants) |
+| `color` | `:string` | `"natural"` | Color theme — see [Colors](#colors) |
+| `size` | `:string` | `"extra_small"` | Badge size — see [Sizes](#sizes) |
+| `rounded` | `:string` | `"small"` | Border radius — see [Rounded](#rounded) |
+| `border` | `:string` | `"extra_small"` | Border width — see [Border](#border) |
 | `font_weight` | `:string` | `"font-normal"` | Font weight class |
 | `icon` | `:string` | `nil` | Icon name |
 | `class` | `:any` | `nil` | Custom CSS class |
 | `icon_class` | `:string` | `nil` | Icon styling class |
 | `content_class` | `:string` | `nil` | Content styling class |
 | `dismiss_class` | `:string` | `nil` | Dismiss button styling |
-| `badge_position` | `:string` | `""` | Position for floating badges |
+| `badge_position` | `:string` | `""` | Position for floating badges — see [Badge Position](#badge-position) |
 | `indicator_class` | `:string` | `nil` | Indicator styling class |
-| `indicator_size` | `:string` | `""` | Indicator size |
+| `indicator_size` | `:string` | `""` | Indicator size — see [Indicator Size](#indicator-size) |
 | `params` | `:map` | `%{kind: "badge"}` | Additional params for events |
 | `type` | `:string` | `"button"` | Button type for dismiss |
 
@@ -83,96 +78,77 @@ mix mishka.ui.gen.component badge --module MyAppWeb.Components.CustomBadge
 
 ## Slots
 
-### `inner_block` Slot
-
-Badge content (text, numbers, etc.).
+- `inner_block` — Badge content (text, numbers, etc.)
 
 ## Available Options
 
-### Variants
-`base`, `default`, `outline`, `transparent`, `shadow`, `bordered`, `gradient`
-
-### Colors
-`natural`, `white`, `dark`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
-
-### Rounded
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `full`, `none`
-
-### Border
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `none`
-
-### Badge Position
-`top-left`, `top-right`, `bottom-left`, `bottom-right`
-
-### Indicator Size
-`extra_small`, `small`, `medium`, `large`, `extra_large`
+| Option | Values |
+|--------|--------|
+| Variants | `base`, `default`, `outline`, `transparent`, `shadow`, `bordered`, `gradient` |
+| Colors | `natural`, `white`, `dark`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn` |
+| Sizes | `extra_small`, `small`, `medium`, `large`, `extra_large` |
+| Rounded | `extra_small`, `small`, `medium`, `large`, `extra_large`, `full`, `none` |
+| Border | `extra_small`, `small`, `medium`, `large`, `extra_large`, `none` |
+| Badge Position | `top-left`, `top-right`, `bottom-left`, `bottom-right` |
+| Indicator Size | `extra_small`, `small`, `medium`, `large`, `extra_large` |
 
 ## Usage Examples
 
-### Basic Badge
+### Basic, Icon, Variants
 
 ```heex
 <.badge>Default</.badge>
-
 <.badge color="primary">Primary</.badge>
-
 <.badge color="success" variant="default">Success</.badge>
-```
 
-### Badge with Icon
-
-```heex
 <.badge icon="hero-bell" color="primary">Notifications</.badge>
-
 <.badge icon="hero-envelope" right_icon color="info">Messages</.badge>
 
-<.badge icon="hero-arrow-down-tray" color="warning">Download</.badge>
+<.badge variant="outline" color="primary">Outline</.badge>
+<.badge variant="transparent" color="primary">Transparent</.badge>
+<.badge variant="shadow" color="primary">Shadow</.badge>
+<.badge variant="bordered" color="primary">Bordered</.badge>
+<.badge variant="gradient" color="primary">Gradient</.badge>
 ```
 
-### Badge with Indicator
+### Indicators (all positions + pinging)
 
 ```heex
 <.badge indicator color="success">Active</.badge>
-
 <.badge right_indicator color="danger">Alert</.badge>
-
 <.badge top_right_indicator pinging color="primary">New</.badge>
+
+<.badge top_left_indicator>Top Left</.badge>
+<.badge top_center_indicator>Top Center</.badge>
+<.badge middle_left_indicator>Middle Left</.badge>
+<.badge middle_right_indicator>Middle Right</.badge>
+<.badge bottom_left_indicator>Bottom Left</.badge>
+<.badge bottom_center_indicator pinging color="danger">Live</.badge>
 ```
 
 ### Dismissible Badge
 
-```heex
-<.badge id="notification-1" dismiss color="info">
-  New message
-</.badge>
+`id` is required for dismiss to work.
 
-<.badge id="alert-1" left_dismiss color="danger">
-  Error
-</.badge>
+```heex
+<.badge id="notification-1" dismiss color="info">New message</.badge>
+<.badge id="alert-1" left_dismiss color="danger">Error</.badge>
+```
+
+Handle the dismiss event in your LiveView (default `params` is `%{kind: "badge"}`):
+
+```elixir
+def handle_event("dismiss", %{"id" => id, "kind" => "badge"}, socket) do
+  {:noreply, socket}
+end
 ```
 
 ### Circular Badge
 
 ```heex
 <.badge circle color="danger">5</.badge>
-
 <.badge circle color="primary" size="medium">12</.badge>
-
 <.badge circle indicator pinging color="success" />
-```
-
-### Badge Variants
-
-```heex
-<.badge variant="default" color="primary">Default</.badge>
-<.badge variant="outline" color="primary">Outline</.badge>
-<.badge variant="transparent" color="primary">Transparent</.badge>
-<.badge variant="shadow" color="primary">Shadow</.badge>
-<.badge variant="bordered" color="primary">Bordered</.badge>
-<.badge variant="gradient" color="primary">Gradient</.badge>
 ```
 
 ### Floating Badge (Positioned)
@@ -186,52 +162,15 @@ Badge content (text, numbers, etc.).
 </div>
 ```
 
-### Badge with Custom Styling
+### Custom Styling
 
 ```heex
-<.badge
-  color="primary"
-  rounded="full"
-  font_weight="font-semibold"
-  class="uppercase tracking-wide"
->
+<.badge color="primary" rounded="full" font_weight="font-semibold" class="uppercase tracking-wide">
   PRO
 </.badge>
 ```
 
-### All Indicator Positions
-
-```heex
-<.badge top_left_indicator>Top Left</.badge>
-<.badge top_center_indicator>Top Center</.badge>
-<.badge top_right_indicator>Top Right</.badge>
-<.badge middle_left_indicator>Middle Left</.badge>
-<.badge middle_right_indicator>Middle Right</.badge>
-<.badge bottom_left_indicator>Bottom Left</.badge>
-<.badge bottom_center_indicator>Bottom Center</.badge>
-<.badge bottom_right_indicator>Bottom Right</.badge>
-```
-
-### Pinging Indicator
-
-```heex
-<.badge indicator pinging color="success">Online</.badge>
-
-<.badge bottom_center_indicator pinging color="danger">Live</.badge>
-```
-
-## Handling Dismiss Events
-
-When using dismissible badges, handle the event in your LiveView:
-
-```elixir
-def handle_event("dismiss", %{"id" => id, "kind" => "badge"}, socket) do
-  # Handle badge dismissal
-  {:noreply, socket}
-end
-```
-
-## Programmatic Show/Hide
+### Programmatic Show/Hide
 
 ```heex
 <button phx-click={show_badge("#my-badge")}>Show Badge</button>
@@ -251,13 +190,8 @@ end
   <button class="p-2">
     <.icon name="hero-bell" class="size-6" />
   </button>
-  <.badge
-    badge_position="top-right"
-    circle
-    color="danger"
-    size="extra_small"
-  >
-    {@ unread_count}
+  <.badge badge_position="top-right" circle color="danger" size="extra_small">
+    {@unread_count}
   </.badge>
 </div>
 ```
@@ -274,19 +208,19 @@ end
 </.badge>
 ```
 
-### Tag List
+### Tag List (dismissible, custom params)
 
 ```heex
 <div class="flex gap-2 flex-wrap">
-    <.badge
-        :for={tag <- @tags}
-        id={"tag-#{tag.id}"}
-        dismiss
-        color="primary"
-        variant="bordered"
-        params={%{kind: "tag", tag_id: tag.id}}
-    >
-        {tag.name}
-    </.badge>
+  <.badge
+    :for={tag <- @tags}
+    id={"tag-#{tag.id}"}
+    dismiss
+    color="primary"
+    variant="bordered"
+    params={%{kind: "tag", tag_id: tag.id}}
+  >
+    {tag.name}
+  </.badge>
 </div>
 ```

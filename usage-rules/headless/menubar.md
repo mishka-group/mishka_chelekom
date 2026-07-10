@@ -1,6 +1,6 @@
 # menubar (headless)
 
-An unstyled, accessible desktop-style horizontal bar of menu buttons: markup + WAI-ARIA wiring, with behavior delegated to the shared `RovingTabindex` (root navigation) and `Popup` (per-menu open/close) JS engines. Implements the [WAI-ARIA APG Menubar pattern](https://www.w3.org/WAI/ARIA/apg/patterns/menubar/).
+An unstyled, accessible desktop-style horizontal bar of menu buttons: markup + WAI-ARIA wiring, behavior delegated to the shared `RovingTabindex` (root navigation) and `Popup` (per-menu open/close) JS engines. Implements the [WAI-ARIA APG Menubar pattern](https://www.w3.org/WAI/ARIA/apg/patterns/menubar/).
 
 ## Generate
 
@@ -18,7 +18,7 @@ const Hooks = { RovingTabindex, Popup };
 
 ## Anatomy
 
-The root is a `<div role="menubar">` carrying `phx-hook="RovingTabindex"` and `class="chelekom-menubar"`. Each `<:menu>` slot renders a per-menu wrapper carrying `phx-hook="Popup"`, holding a trigger button and a popup. Parts are marked with `data-part` hooks the `Popup` engine queries:
+Root is `<div role="menubar">` with `phx-hook="RovingTabindex"` and class `chelekom-menubar`. Each `<:menu>` slot renders a per-menu wrapper with `phx-hook="Popup"`, holding a trigger button and a popup. `Popup` queries `[data-part="trigger"]`/`[data-part="popup"]` within each wrapper.
 
 | Part | Element | `data-part` | Class | Source |
 |------|---------|-------------|-------|--------|
@@ -27,35 +27,35 @@ The root is a `<div role="menubar">` carrying `phx-hook="RovingTabindex"` and `c
 | trigger | `button` | `trigger` | `chelekom-menubar__trigger` | per menu (uses `menu.label`) |
 | popup | `div` | `popup` | `chelekom-menubar__popup` | per menu, holds `render_slot(menu)` |
 
-Each menu wrapper is its own `Popup` instance; `Popup` queries `[data-part="trigger"]` and `[data-part="popup"]` within that wrapper. The popup id is `#{@id}-popup-#{i}` and the wrapper id is `#{@id}-menu-#{i}`.
+Popup id: `#{@id}-popup-#{i}`; wrapper id: `#{@id}-menu-#{i}`.
 
-Note: the trigger button carries `data-item` (not `data-part="item"`). `RovingTabindex` queries `[data-part="item"]`, so the template's initial `tabindex` (`0` on the first trigger, `-1` on the rest) is what's authored statically; arrow-key roving across triggers only engages for items marked `data-part="item"`.
+Note: the trigger button carries `data-item` (not `data-part="item"`). `RovingTabindex` queries `[data-part="item"]`, so the template's static `tabindex` (`0` on first trigger, `-1` on rest) is authored directly; arrow-key roving across triggers only engages for items marked `data-part="item"`.
 
 ## ARIA & keyboard
 
-Roles and aria attributes (wired by the template + engines):
-
 - **root** — `role="menubar"`, `data-orientation="horizontal"`.
-- **trigger** — `role="menuitem"`, `aria-haspopup="menu"`, `aria-controls="#{@id}-popup-#{i}"`, and `aria-expanded` (authored `"false"`, toggled to `"true"`/`"false"` by `Popup` on open/close).
+- **trigger** — `role="menuitem"`, `aria-haspopup="menu"`, `aria-controls="#{@id}-popup-#{i}"`, `aria-expanded` (authored `"false"`, toggled by `Popup` on open/close).
 - **popup** — `role="menu"`, `aria-label={menu.label}`.
 
-Keyboard (per the Menubar APG pattern; `Popup` handles open/close, `RovingTabindex` handles root navigation between items it finds):
+Keyboard (per Menubar APG; `Popup` handles open/close, `RovingTabindex` handles root navigation between items it finds):
 
-- **Left / Right** — move between menus.
-- **Home / End** — first / last menu.
-- **Enter / Space** — open the focused menu.
-- **Escape** — close the open menu (and return focus to its trigger).
+| Key | Action |
+|---|---|
+| Left / Right | move between menus |
+| Home / End | first / last menu |
+| Enter / Space | open focused menu |
+| Escape | close open menu, return focus to its trigger |
 
 `Popup` opens a menu on trigger click (toggle), closes on outside-click or Escape, and on open moves focus to the first `[data-part="item"]`, `[role="menuitem"]`, `[role="option"]`, `a`, or `button` inside the popup.
 
 ## State
 
-Paired-presence (Base-UI style) attributes on each **popup**, toggled by the `Popup` engine:
+Paired-presence (Base-UI style) attrs on each **popup**, toggled by `Popup`, mutually exclusive per popup:
 
-- `data-open` — present when that menu is open.
-- `data-closed` — present when that menu is closed.
+- `data-open` — menu is open.
+- `data-closed` — menu is closed (template renders this initially).
 
-The two are mutually exclusive per popup. The template renders the initial `data-closed`; thereafter `Popup` toggles `data-open`/`data-closed` (and sets `data-side` + the `--chelekom-side` CSS var) on show/hide, and mirrors the open state into the trigger's `aria-expanded`.
+`Popup` toggles these on show/hide (also sets `data-side` + `--chelekom-side` CSS var) and mirrors open state into the trigger's `aria-expanded`.
 
 ## Example
 
@@ -79,11 +79,11 @@ The two are mutually exclusive per popup. The template renders the initial `data
 </.menubar>
 ```
 
-Attrs: `id` (required), `class`, and `rest` (global). Slot: `menu` (required, repeatable) with a required `label` attr; its inner block holds the menu items. Give each item `role="menuitem"` so `Popup` can focus it on open.
+Attrs: `id` (required), `class`, `rest` (global). Slot: `menu` (required, repeatable) with required `label` attr; inner block holds menu items. Give each item `role="menuitem"` so `Popup` can focus it on open.
 
 ## Styling
 
-This component ships **no** colors or spacing — only structural markup. Style it via the `chelekom-menubar*` classes (`chelekom-menubar`, `__menu`, `__trigger`, `__popup`) and the `data-open` / `data-closed` state attributes, e.g.:
+Ships **no** colors or spacing — structural markup only. Style via the `chelekom-menubar*` classes (`chelekom-menubar`, `__menu`, `__trigger`, `__popup`) and `data-open`/`data-closed` state attrs:
 
 ```css
 .chelekom-menubar__popup            { position: absolute; }
@@ -91,4 +91,4 @@ This component ships **no** colors or spacing — only structural markup. Style 
 .chelekom-menubar__popup[data-closed] { display: none; }
 ```
 
-Add your own classes to the root via the `class` attr.
+Add custom classes to the root via `class`.

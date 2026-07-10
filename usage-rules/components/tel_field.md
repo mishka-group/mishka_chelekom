@@ -24,48 +24,32 @@ mix mishka.ui.gen.component tel_field
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `variant` | `:string` | `"base"` | Style variant |
-| `color` | `:string` | `"base"` | Color theme |
-| `size` | `:string` | `"medium"` | Input size |
+| `variant` | `:string` | `"base"` | Style variant — `base`, `default`, `outline`, `shadow`, `bordered`, `transparent` |
+| `color` | `:string` | `"base"` | Color theme — `base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `misc`, `dawn`, `silver` |
+| `size` | `:string` | `"medium"` | Input size — `extra_small`, `small`, `medium`, `large`, `extra_large` |
 | `rounded` | `:string` | `"small"` | Border radius |
 | `space` | `:string` | `"medium"` | Space between elements |
 | `label` | `:string` | `nil` | Label text |
 | `placeholder` | `:string` | `nil` | Placeholder text |
 | `description` | `:string` | `nil` | Description text |
-| `floating` | `:string` | `nil` | Floating label |
+| `floating` | `:string` | `nil` | Floating label (e.g. `"outer"`) |
 
 ## Slots
 
-### `start_section` / `end_section` Slots
-
-Content before/after input.
-
-## Available Options
-
-### Variants
-`base`, `default`, `outline`, `shadow`, `bordered`, `transparent`
-
-### Colors
-`base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `misc`, `dawn`, `silver`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
+- `start_section` / `end_section` — content before/after the input (icons, select, etc.)
 
 ## Usage Examples
 
-### Basic Tel Field
+### Basic / Placeholder / Description
 
 ```heex
 <.tel_field name="phone" label="Phone Number" />
-```
 
-### With Placeholder
-
-```heex
 <.tel_field
   name="phone"
   label="Phone"
   placeholder="+1 (555) 123-4567"
+  description="We'll only use this for account recovery"
 />
 ```
 
@@ -79,24 +63,10 @@ Content before/after input.
 />
 ```
 
-### With Description
-
-```heex
-<.tel_field
-  name="phone"
-  label="Phone Number"
-  description="We'll only use this for account recovery"
-/>
-```
-
 ### Floating Label
 
 ```heex
-<.tel_field
-  name="phone"
-  floating="outer"
-  label="Phone Number"
-/>
+<.tel_field name="phone" floating="outer" label="Phone Number" />
 ```
 
 ### Different Variants
@@ -107,7 +77,7 @@ Content before/after input.
 <.tel_field name="phone" variant="bordered" label="Bordered" />
 ```
 
-### With Country Code Icon
+### With Start Section (icon or country selector)
 
 ```heex
 <.tel_field name="phone" label="Phone Number">
@@ -115,11 +85,7 @@ Content before/after input.
     <.icon name="hero-phone" class="size-5" />
   </:start_section>
 </.tel_field>
-```
 
-### With Country Selector
-
-```heex
 <.tel_field name="phone" label="Phone Number">
   <:start_section>
     <select class="bg-transparent border-none text-sm">

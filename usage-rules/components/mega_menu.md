@@ -9,13 +9,8 @@ Multi-column navigation menu for complex site hierarchies.
 ## Generate
 
 ```bash
-# Generate with all options
 mix mishka.ui.gen.component mega_menu
-
-# Generate with specific options
 mix mishka.ui.gen.component mega_menu --variant default,shadow --color white,natural
-
-# Generate with custom module name
 mix mishka.ui.gen.component mega_menu --module MyAppWeb.Components.CustomMegaMenu
 ```
 
@@ -43,31 +38,21 @@ mix mishka.ui.gen.component mega_menu --module MyAppWeb.Components.CustomMegaMen
 
 ## Slots
 
-### `trigger` Slot
-
-The element that activates the mega menu.
-
-### `inner_block` Slot
-
-Mega menu content (columns, links, sections).
+- **`trigger`** — the element that activates the mega menu.
+- **`inner_block`** — mega menu content (columns, links, sections).
 
 ## Available Options
 
-### Variants
-`base`, `default`, `outline`, `bordered`, `shadow`, `gradient`
-
-### Colors
-`base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
-
-### Space / Padding / Rounded
-`extra_small`, `small`, `medium`, `large`, `extra_large`
+| Option | Values |
+|--------|--------|
+| Variants | `base`, `default`, `outline`, `bordered`, `shadow`, `gradient` |
+| Colors | `base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn` |
+| Sizes | `extra_small`, `small`, `medium`, `large`, `extra_large` |
+| Space / Padding / Rounded | `extra_small`, `small`, `medium`, `large`, `extra_large` |
 
 ## Usage Examples
 
-### Basic Mega Menu
+### Basic (hover-activated, multi-column)
 
 ```heex
 <.mega_menu>
@@ -82,18 +67,10 @@ Mega menu content (columns, links, sections).
       <ul class="space-y-2">
         <li><a href="#">Link 1</a></li>
         <li><a href="#">Link 2</a></li>
-        <li><a href="#">Link 3</a></li>
       </ul>
     </div>
     <div>
       <h3 class="font-bold mb-3">Category 2</h3>
-      <ul class="space-y-2">
-        <li><a href="#">Link 1</a></li>
-        <li><a href="#">Link 2</a></li>
-      </ul>
-    </div>
-    <div>
-      <h3 class="font-bold mb-3">Category 3</h3>
       <ul class="space-y-2">
         <li><a href="#">Link 1</a></li>
         <li><a href="#">Link 2</a></li>
@@ -116,7 +93,7 @@ Mega menu content (columns, links, sections).
 </.mega_menu>
 ```
 
-### Different Variants
+### Variant/Color Combos
 
 ```heex
 <.mega_menu variant="default" color="white">Default</.mega_menu>
@@ -126,7 +103,7 @@ Mega menu content (columns, links, sections).
 
 ## Common Patterns
 
-### E-commerce Navigation
+### E-commerce Navigation (columns + promo card)
 
 ```heex
 <nav class="flex items-center gap-6">
@@ -142,8 +119,6 @@ Mega menu content (columns, links, sections).
         <ul class="space-y-2">
           <li><a href="/women/dresses" class="hover:text-primary-500">Dresses</a></li>
           <li><a href="/women/tops" class="hover:text-primary-500">Tops</a></li>
-          <li><a href="/women/bottoms" class="hover:text-primary-500">Bottoms</a></li>
-          <li><a href="/women/accessories" class="hover:text-primary-500">Accessories</a></li>
         </ul>
       </div>
       <div>
@@ -151,8 +126,6 @@ Mega menu content (columns, links, sections).
         <ul class="space-y-2">
           <li><a href="/men/shirts" class="hover:text-primary-500">Shirts</a></li>
           <li><a href="/men/pants" class="hover:text-primary-500">Pants</a></li>
-          <li><a href="/men/shoes" class="hover:text-primary-500">Shoes</a></li>
-          <li><a href="/men/accessories" class="hover:text-primary-500">Accessories</a></li>
         </ul>
       </div>
       <div>
@@ -160,7 +133,6 @@ Mega menu content (columns, links, sections).
         <ul class="space-y-2">
           <li><a href="/kids/boys" class="hover:text-primary-500">Boys</a></li>
           <li><a href="/kids/girls" class="hover:text-primary-500">Girls</a></li>
-          <li><a href="/kids/baby" class="hover:text-primary-500">Baby</a></li>
         </ul>
       </div>
       <div class="bg-gray-50 p-4 rounded-lg">
@@ -175,7 +147,7 @@ Mega menu content (columns, links, sections).
 </nav>
 ```
 
-### Software Product Navigation
+### Product Cards (icon + title + description grid)
 
 ```heex
 <.mega_menu variant="shadow" padding="extra_large">
@@ -195,16 +167,11 @@ Mega menu content (columns, links, sections).
       <h4 class="font-bold group-hover:text-primary-500">Product B</h4>
       <p class="text-sm text-gray-600 mt-1">Description of product B features.</p>
     </a>
-    <a href="/product-c" class="p-4 hover:bg-gray-50 rounded-lg group">
-      <.icon name="hero-shield-check" class="size-8 text-primary-500 mb-3" />
-      <h4 class="font-bold group-hover:text-primary-500">Product C</h4>
-      <p class="text-sm text-gray-600 mt-1">Description of product C features.</p>
-    </a>
   </div>
 </.mega_menu>
 ```
 
-### Resources Menu
+### Resources Menu (using `.list` for items)
 
 ```heex
 <.mega_menu variant="shadow" color="white">
@@ -223,9 +190,6 @@ Mega menu content (columns, links, sections).
         <:item icon="hero-academic-cap" padding="small" class="hover:bg-gray-50 rounded">
           Tutorials
         </:item>
-        <:item icon="hero-play-circle" padding="small" class="hover:bg-gray-50 rounded">
-          Video Guides
-        </:item>
       </.list>
     </div>
     <div>
@@ -233,9 +197,6 @@ Mega menu content (columns, links, sections).
       <.list variant="transparent" size="small">
         <:item icon="hero-user-group" padding="small" class="hover:bg-gray-50 rounded">
           Forum
-        </:item>
-        <:item icon="hero-chat-bubble-left-right" padding="small" class="hover:bg-gray-50 rounded">
-          Discord
         </:item>
         <:item icon="hero-code-bracket" padding="small" class="hover:bg-gray-50 rounded">
           GitHub

@@ -52,46 +52,31 @@ mix mishka.ui.gen.component file_field --module MyAppWeb.Components.CustomFileFi
 
 ## Slots
 
-### `inner_block` Slot
-
-Custom content for the dropzone.
+- `inner_block` — custom content for the dropzone.
 
 ## Available Options
 
-### Variants
-`base`, `default`, `outline`, `bordered`, `shadow`, `gradient`, `transparent`
-
-### Colors
-`base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `misc`, `dawn`, `silver`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
-
-### Space / Rounded
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `none`
+| Group | Values |
+|-------|--------|
+| Variants | `base`, `default`, `outline`, `bordered`, `shadow`, `gradient`, `transparent` |
+| Colors | `base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `misc`, `dawn`, `silver` |
+| Sizes | `extra_small`, `small`, `medium`, `large`, `extra_large` |
+| Space / Rounded | `extra_small`, `small`, `medium`, `large`, `extra_large`, `none` |
 
 ## Usage Examples
 
-### Basic File Input
+### Basic, Label, Accept Types, Multiple
 
 ```heex
 <.file_field name="document" />
-```
 
-### With Label and Accept Types
-
-```heex
 <.file_field
   name="avatar"
   label="Profile Photo"
   accept="image/*"
   description="PNG, JPG up to 5MB"
 />
-```
 
-### Multiple Files
-
-```heex
 <.file_field
   name="documents"
   label="Upload Documents"
@@ -100,7 +85,7 @@ Custom content for the dropzone.
 />
 ```
 
-### Dropzone Style
+### Dropzone Style + Live Upload
 
 ```heex
 <.file_field
@@ -109,11 +94,7 @@ Custom content for the dropzone.
   dropzone_title="Drop files here"
   dropzone_description="or click to browse"
 />
-```
 
-### With Live Upload
-
-```heex
 <.file_field
   upload={@uploads.avatar}
   dropzone={true}
@@ -122,24 +103,20 @@ Custom content for the dropzone.
 />
 ```
 
-### Different Variants
+### Variants and Colors
 
 ```heex
 <.file_field name="f1" variant="default" label="Default" />
 <.file_field name="f2" variant="outline" label="Outline" />
 <.file_field name="f3" variant="bordered" label="Bordered" />
 <.file_field name="f4" variant="shadow" label="Shadow" />
+
+<.file_field name="f5" dropzone={true} color="primary" />
+<.file_field name="f6" dropzone={true} color="success" />
+<.file_field name="f7" dropzone={true} color="info" />
 ```
 
-### Different Colors
-
-```heex
-<.file_field name="f1" dropzone={true} color="primary" />
-<.file_field name="f2" dropzone={true} color="success" />
-<.file_field name="f3" dropzone={true} color="info" />
-```
-
-### Custom Dropzone Content
+### Custom Dropzone Content (`inner_block` slot)
 
 ```heex
 <.file_field upload={@uploads.files} dropzone={true}>
@@ -178,7 +155,7 @@ Custom content for the dropzone.
 </.form>
 ```
 
-### Document Upload with Preview
+### Document Upload with Preview (entries, progress, cancel)
 
 ```heex
 <.form for={@form} phx-submit="upload" phx-change="validate">

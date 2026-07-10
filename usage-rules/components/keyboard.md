@@ -9,66 +9,37 @@ Keyboard key display component for showing shortcuts, key combinations, and hotk
 ## Generate
 
 ```bash
-# Generate with all options
 mix mishka.ui.gen.component keyboard
-
-# Generate with specific options
 mix mishka.ui.gen.component keyboard --variant default,outline --color natural,dark
-
-# Generate with custom module name
 mix mishka.ui.gen.component keyboard --module MyAppWeb.Components.CustomKeyboard
 ```
 
 ## Dependencies
 
-| Type | Components |
-|------|------------|
-| **Necessary** | None |
-| **Optional** | None |
-| **JavaScript** | None |
+None (no other components, no JavaScript).
 
 ## Attributes
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `id` | `:string` | `nil` | Unique identifier |
-| `variant` | `:string` | `"base"` | Style variant |
-| `color` | `:string` | `"base"` | Color theme |
-| `size` | `:string` | `"medium"` | Key size |
-| `rounded` | `:string` | `"small"` | Border radius |
+| `variant` | `:string` | `"base"` | Style variant — `base`, `default`, `outline`, `transparent`, `shadow`, `bordered`, `gradient` |
+| `color` | `:string` | `"base"` | Color theme — `base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn` |
+| `size` | `:string` | `"medium"` | Key size — `extra_small`, `small`, `medium`, `large`, `extra_large` |
+| `rounded` | `:string` | `"small"` | Border radius — `extra_small`, `small`, `medium`, `large`, `extra_large`, `full`, `none` |
 | `class` | `:any` | `nil` | Custom CSS class |
 
 ## Slots
 
-### `inner_block` Slot
-
-Key label or content.
-
-## Available Options
-
-### Variants
-`base`, `default`, `outline`, `transparent`, `shadow`, `bordered`, `gradient`
-
-### Colors
-`base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
-
-### Rounded
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `full`, `none`
+- `inner_block` — key label or content (required).
 
 ## Usage Examples
 
-### Basic Key
+### Basic key / combination
 
 ```heex
 <.keyboard>Ctrl</.keyboard>
-```
 
-### Key Combination
-
-```heex
 <span class="flex items-center gap-1">
   <.keyboard>Ctrl</.keyboard>
   <span>+</span>
@@ -76,44 +47,28 @@ Key label or content.
 </span>
 ```
 
-### Different Variants
+### Variants, colors, sizes, rounded
 
 ```heex
 <.keyboard variant="default">Enter</.keyboard>
 <.keyboard variant="outline">Enter</.keyboard>
 <.keyboard variant="shadow">Enter</.keyboard>
 <.keyboard variant="bordered">Enter</.keyboard>
-```
 
-### Different Colors
-
-```heex
 <.keyboard color="natural">Esc</.keyboard>
 <.keyboard color="primary">Tab</.keyboard>
 <.keyboard color="dark">Space</.keyboard>
-```
 
-### Different Sizes
-
-```heex
 <.keyboard size="extra_small">A</.keyboard>
-<.keyboard size="small">A</.keyboard>
-<.keyboard size="medium">A</.keyboard>
 <.keyboard size="large">A</.keyboard>
 <.keyboard size="extra_large">A</.keyboard>
-```
 
-### Different Rounded
-
-```heex
 <.keyboard rounded="none">Key</.keyboard>
-<.keyboard rounded="small">Key</.keyboard>
-<.keyboard rounded="medium">Key</.keyboard>
 <.keyboard rounded="large">Key</.keyboard>
 <.keyboard rounded="full">Key</.keyboard>
 ```
 
-### Arrow Keys
+### Arrow keys
 
 ```heex
 <div class="flex flex-col items-center gap-1">
@@ -126,7 +81,7 @@ Key label or content.
 </div>
 ```
 
-### Special Keys
+### Special keys
 
 ```heex
 <.keyboard>&#8984; Cmd</.keyboard>
@@ -137,7 +92,7 @@ Key label or content.
 
 ## Common Patterns
 
-### Shortcut Documentation
+### Shortcut documentation list
 
 ```heex
 <div class="space-y-2">
@@ -155,17 +110,10 @@ Key label or content.
       <.keyboard size="small">V</.keyboard>
     </span>
   </div>
-  <div class="flex justify-between items-center">
-    <span>Undo</span>
-    <span class="flex items-center gap-1">
-      <.keyboard size="small">&#8984;</.keyboard>
-      <.keyboard size="small">Z</.keyboard>
-    </span>
-  </div>
 </div>
 ```
 
-### Inline Shortcut Hint
+### Inline shortcut hint
 
 ```heex
 <p>
@@ -177,7 +125,7 @@ Key label or content.
 </p>
 ```
 
-### Search Input with Shortcut
+### Search input with shortcut badge
 
 ```heex
 <div class="relative">
@@ -188,7 +136,7 @@ Key label or content.
 </div>
 ```
 
-### Help Modal Shortcuts
+### Help modal shortcuts (grouped)
 
 ```heex
 <div class="grid grid-cols-2 gap-4">
@@ -201,7 +149,7 @@ Key label or content.
       </li>
       <li class="flex justify-between">
         <span>Go to Search</span>
-        <.keyboard size="small">/</span>
+        <.keyboard size="small">/</.keyboard>
       </li>
     </ul>
   </div>
@@ -221,7 +169,7 @@ Key label or content.
 </div>
 ```
 
-### Tooltip with Shortcut
+### Button with shortcut hint
 
 ```heex
 <.button>

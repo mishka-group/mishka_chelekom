@@ -1,22 +1,18 @@
 # radio (headless)
 
-A single, unstyled radio control (label + native input + indicator). For use inside a
-`radio_group` or a native `<fieldset>`. WAI-ARIA Radio pattern; relies on native radio
-semantics (no JS).
+Single, unstyled radio control (label + native input + indicator). Use inside a `radio_group` or a native `<fieldset>`. Follows WAI-ARIA Radio pattern via native radio semantics (no JS).
 
 ## Generate
 `mix mishka.ui.gen.headless radio` → `lib/<app>_web/components/headless/radio.ex`.
 
 ## Anatomy
-A `<label>` wrapping: `input` (`data-part="input"`, native `type="radio"`), `indicator`
-(`data-part="indicator"`, `aria-hidden`), and `label` (`data-part="label"`).
+`<label>` wrapping:
+- `input` — `data-part="input"`, native `type="radio"`
+- `indicator` — `data-part="indicator"`, `aria-hidden`
+- `label` — `data-part="label"`
 
-## ARIA & keyboard
-Native radio behavior — arrow keys move within a `name` group; only one selected.
-
-## State
-`data-disabled` on the label when disabled; style the native `:checked` state (or a
-`data-checked` you toggle) on the input.
+## ARIA & keyboard / state
+Native radio behavior — arrow keys move within a `name` group; only one selected. `data-disabled` set on the label when disabled; style native `:checked` (or a `data-checked` you toggle) on the input.
 
 ## Example
 ```heex
@@ -25,9 +21,7 @@ Native radio behavior — arrow keys move within a `name` group; only one select
   {label}
 </.radio>
 ```
-Attrs: `id` (req), `name`, `value`, `checked`, `disabled`, `class`, `rest`. Slot: `inner_block`
-(the label).
+Attrs: `id` (req), `name`, `value`, `checked`, `disabled`, `class`, `rest`. Slot: `inner_block` (the label).
 
 ## Styling
-Ships no colors. Hide the native input and style the `chelekom-radio__indicator` off
-`:checked` (e.g. `.chelekom-radio__input:checked + .chelekom-radio__indicator{ … }`).
+Ships no colors. Hide the native input and style `chelekom-radio__indicator` off `:checked`, e.g. `.chelekom-radio__input:checked + .chelekom-radio__indicator{ … }`.

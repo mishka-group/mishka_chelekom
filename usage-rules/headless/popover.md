@@ -28,10 +28,7 @@ The root `<div>` carries `id`, `phx-hook="Popup"`, `data-side`, `data-align`, an
 
 - **trigger**: `aria-expanded` (toggled `"false"`/`"true"` by the engine) and `aria-controls` (set to the popup's `id`).
 - **popup**: `role="dialog"`.
-- **Keyboard / dismissal**:
-  - `Escape` — closes the popup and returns focus to the trigger.
-  - Click outside — closes the popup.
-  - On open, focus moves to the first focusable element inside the popup (`[data-part="item"]`, `[role="menuitem"]`, `[role="option"]`, `a`, or `button`).
+- **Keyboard / dismissal**: `Escape` closes the popup and returns focus to the trigger; click outside closes the popup; on open, focus moves to the first focusable element inside the popup (`[data-part="item"]`, `[role="menuitem"]`, `[role="option"]`, `a`, or `button`).
 
 ## State
 
@@ -57,13 +54,15 @@ The engine flips `data-open`/`data-closed` on `show()`/`hide()` and keeps `aria-
 </.popover>
 ```
 
-Attributes (from the template):
+Attributes:
 
-- `id` (required) — root id; the popup gets `"#{id}-popup"`.
-- `side` — `top` | `right` | `bottom` | `left` (default `bottom`).
-- `align` — `start` | `center` | `end` (default `center`).
-- `class` — extra classes appended to `chelekom-popover` on the root.
-- `rest` — global attributes spread onto the root `<div>`.
+| Attribute | Values | Notes |
+|-----------|--------|-------|
+| `id` | — | required; root id, popup gets `"#{id}-popup"` |
+| `side` | `top` \| `right` \| `bottom` \| `left` | default `bottom` |
+| `align` | `start` \| `center` \| `end` | default `center` |
+| `class` | — | extra classes appended to `chelekom-popover` on the root |
+| `rest` | — | global attributes spread onto the root `<div>` |
 
 Slots: `:trigger` (required, button content) and the default `inner_block` (required, popup content).
 

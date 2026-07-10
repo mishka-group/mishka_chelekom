@@ -34,9 +34,9 @@ mix mishka.ui.gen.component color_field --module MyAppWeb.Components.CustomColor
 | `id` | `:string` | `nil` | Unique identifier |
 | `name` | `:string` | `nil` | Input field name |
 | `value` | `:string` | `nil` | Color value (hex) |
-| `color` | `:string` | `"base"` | Color theme |
-| `size` | `:string` | `"medium"` | Input size |
-| `rounded` | `:string` | `"small"` | Border radius |
+| `color` | `:string` | `"base"` | Color theme — one of Colors below |
+| `size` | `:string` | `"medium"` | Input size — one of Sizes below |
+| `rounded` | `:string` | `"small"` | Border radius — one of Rounded below |
 | `border` | `:string` | `"extra_small"` | Border width |
 | `space` | `:string` | `"medium"` | Space between elements |
 | `label` | `:string` | `nil` | Label text |
@@ -47,31 +47,28 @@ mix mishka.ui.gen.component color_field --module MyAppWeb.Components.CustomColor
 
 ## Slots
 
-### `start_section` Slot
-
-Content before the color input.
-
-### `end_section` Slot
-
-Content after the color input.
+| Slot | Description |
+|------|-------------|
+| `start_section` | Content before the color input |
+| `end_section` | Content after the color input |
 
 ## Available Options
 
-### Colors
-`base`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
-
-### Rounded
-`extra_small`, `small`, `medium`, `large`, `extra_large`
+- **Colors**: `base`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
+- **Sizes**: `extra_small`, `small`, `medium`, `large`, `extra_large`
+- **Rounded**: `extra_small`, `small`, `medium`, `large`, `extra_large`
 
 ## Usage Examples
 
 ### Basic Color Field
 
 ```heex
-<.color_field name="color" value="#ff5733" label="Select Color" />
+<.color_field
+  name="background"
+  value="#ffffff"
+  label="Background Color"
+  description="This color will be used for the page background"
+/>
 ```
 
 ### With Form Integration
@@ -84,31 +81,15 @@ Content after the color input.
 />
 ```
 
-### Different Sizes
+### Sizes and Colors
 
 ```heex
 <.color_field name="c1" size="small" label="Small" />
-<.color_field name="c2" size="medium" label="Medium" />
-<.color_field name="c3" size="large" label="Large" />
-```
+<.color_field name="c2" size="large" label="Large" />
 
-### Different Colors
-
-```heex
 <.color_field name="c1" color="primary" label="Primary" />
 <.color_field name="c2" color="success" label="Success" />
 <.color_field name="c3" color="danger" label="Danger" />
-```
-
-### With Description
-
-```heex
-<.color_field
-  name="background"
-  value="#ffffff"
-  label="Background Color"
-  description="This color will be used for the page background"
-/>
 ```
 
 ### With Sections

@@ -14,50 +14,27 @@ mix mishka.ui.gen.component tooltip
 
 ## Dependencies
 
-| Type | Components |
-|------|------------|
-| **Necessary** | None |
-| **Optional** | None |
-| **JavaScript** | None |
+None (no components, no JS).
 
 ## Attributes
 
-| Attribute | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `variant` | `:string` | `"base"` | Style variant |
-| `color` | `:string` | `"base"` | Color theme |
-| `size` | `:string` | `"medium"` | Text size |
-| `padding` | `:string` | `"small"` | Content padding |
-| `rounded` | `:string` | `"medium"` | Border radius |
-| `position` | `:string` | `"top"` | Tooltip position |
+| Attribute | Type | Default | Description | Options |
+|-----------|------|---------|-------------|---------|
+| `variant` | `:string` | `"base"` | Style variant | `base`, `default`, `shadow`, `bordered`, `gradient` |
+| `color` | `:string` | `"base"` | Color theme | `base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn` |
+| `size` | `:string` | `"medium"` | Text size | `extra_small`, `small`, `medium`, `large`, `extra_large` |
+| `padding` | `:string` | `"small"` | Content padding | |
+| `rounded` | `:string` | `"medium"` | Border radius | |
+| `position` | `:string` | `"top"` | Tooltip position | `top`, `bottom`, `left`, `right` |
 
 ## Slots
 
-### `trigger` Slot
-
-Element that triggers the tooltip.
-
-### `content` Slot
-
-Tooltip content.
-
-## Available Options
-
-### Variants
-`base`, `default`, `shadow`, `bordered`, `gradient`
-
-### Colors
-`base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
-
-### Positions
-`top`, `bottom`, `left`, `right`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
+- `trigger` — element that triggers the tooltip
+- `content` — tooltip content
 
 ## Usage Examples
 
-### Basic Tooltip
+### Basic
 
 ```heex
 <.tooltip>
@@ -68,7 +45,7 @@ Tooltip content.
 </.tooltip>
 ```
 
-### Different Positions
+### Positions
 
 ```heex
 <.tooltip position="top">
@@ -92,7 +69,7 @@ Tooltip content.
 </.tooltip>
 ```
 
-### Different Colors
+### Colors and Variants
 
 ```heex
 <.tooltip color="dark">
@@ -109,11 +86,7 @@ Tooltip content.
   <:trigger><span class="underline cursor-help">Warning tooltip</span></:trigger>
   <:content>Warning themed tooltip</:content>
 </.tooltip>
-```
 
-### Different Variants
-
-```heex
 <.tooltip variant="shadow" color="white">
   <:trigger><.button>Shadow</.button></:trigger>
   <:content>Shadow variant</:content>
@@ -161,7 +134,7 @@ Tooltip content.
 </div>
 ```
 
-### Icon Tooltip
+### Icon Action Tooltips
 
 ```heex
 <div class="flex gap-2">

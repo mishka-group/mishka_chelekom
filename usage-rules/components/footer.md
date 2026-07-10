@@ -39,7 +39,7 @@ mix mishka.ui.gen.component footer --module MyAppWeb.Components.CustomFooter
 
 ## Attributes
 
-### `footer/1` Attributes
+### `footer/1`
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -54,7 +54,7 @@ mix mishka.ui.gen.component footer --module MyAppWeb.Components.CustomFooter
 | `text_position` | `:string` | `"center"` | Text alignment |
 | `class` | `:any` | `nil` | Custom CSS class |
 
-### `footer_section/1` Attributes
+### `footer_section/1`
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -63,23 +63,16 @@ mix mishka.ui.gen.component footer --module MyAppWeb.Components.CustomFooter
 
 ## Slots
 
-### `inner_block` Slot
-
-Footer content including footer_section components.
+`inner_block` — footer content, including `footer_section` components.
 
 ## Available Options
 
-### Variants
-`base`, `default`, `outline`, `transparent`, `shadow`, `bordered`, `gradient`
-
-### Colors
-`base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
-
-### Space / Padding / Rounded
-`extra_small`, `small`, `medium`, `large`, `extra_large`
+| Group | Values |
+|-------|--------|
+| Variants | `base`, `default`, `outline`, `transparent`, `shadow`, `bordered`, `gradient` |
+| Colors | `base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn` |
+| Sizes | `extra_small`, `small`, `medium`, `large`, `extra_large` |
+| Space / Padding / Rounded | `extra_small`, `small`, `medium`, `large`, `extra_large` |
 
 ## Usage Examples
 
@@ -93,51 +86,62 @@ Footer content including footer_section components.
 </.footer>
 ```
 
-### Multi-Section Footer
+### Multi-Section Footer (grid columns + bottom bar)
 
 ```heex
-<.footer color="natural" variant="default" padding="large" space="medium">
-  <.footer_section class="border-b pb-4">
-    <div class="grid grid-cols-4 gap-8">
+<.footer color="dark" variant="default" padding="extra_large" space="medium">
+  <.footer_section class="max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <%# Brand Column %>
+      <div class="col-span-1">
+        <img src="/logo.svg" alt="Brand" class="h-10 mb-4" />
+        <p class="text-gray-400">Building great products for amazing people.</p>
+      </div>
+
+      <%# Links Column %>
       <div>
-        <h4 class="font-bold mb-4">Company</h4>
-        <ul class="space-y-2">
-          <li><a href="/about">About</a></li>
-          <li><a href="/careers">Careers</a></li>
-          <li><a href="/contact">Contact</a></li>
+        <h5 class="font-semibold text-white mb-4">Product</h5>
+        <ul class="space-y-2 text-gray-400">
+          <li><a href="/features" class="hover:text-white">Features</a></li>
+          <li><a href="/pricing" class="hover:text-white">Pricing</a></li>
+          <li><a href="/changelog" class="hover:text-white">Changelog</a></li>
         </ul>
       </div>
+
       <div>
-        <h4 class="font-bold mb-4">Products</h4>
-        <ul class="space-y-2">
-          <li><a href="/products">All Products</a></li>
-          <li><a href="/pricing">Pricing</a></li>
-          <li><a href="/features">Features</a></li>
+        <h5 class="font-semibold text-white mb-4">Company</h5>
+        <ul class="space-y-2 text-gray-400">
+          <li><a href="/about" class="hover:text-white">About</a></li>
+          <li><a href="/blog" class="hover:text-white">Blog</a></li>
+          <li><a href="/careers" class="hover:text-white">Careers</a></li>
         </ul>
       </div>
+
       <div>
-        <h4 class="font-bold mb-4">Resources</h4>
-        <ul class="space-y-2">
-          <li><a href="/docs">Documentation</a></li>
-          <li><a href="/blog">Blog</a></li>
-          <li><a href="/support">Support</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4 class="font-bold mb-4">Legal</h4>
-        <ul class="space-y-2">
-          <li><a href="/privacy">Privacy</a></li>
-          <li><a href="/terms">Terms</a></li>
-          <li><a href="/cookies">Cookies</a></li>
+        <h5 class="font-semibold text-white mb-4">Support</h5>
+        <ul class="space-y-2 text-gray-400">
+          <li><a href="/help" class="hover:text-white">Help Center</a></li>
+          <li><a href="/contact" class="hover:text-white">Contact</a></li>
+          <li><a href="/status" class="hover:text-white">Status</a></li>
         </ul>
       </div>
     </div>
   </.footer_section>
-  <.footer_section padding="small">
-    <p class="text-center text-sm">&copy; 2024 Company. All rights reserved.</p>
+
+  <%# Bottom bar section, separately padded %>
+  <.footer_section class="border-t border-gray-700 mt-8 pt-8" padding="small">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <p class="text-gray-400 text-sm">&copy; 2024 Company Inc.</p>
+      <div class="flex gap-6 text-gray-400">
+        <a href="/privacy" class="hover:text-white text-sm">Privacy</a>
+        <a href="/terms" class="hover:text-white text-sm">Terms</a>
+      </div>
+    </div>
   </.footer_section>
 </.footer>
 ```
+
+Use multiple `<.footer_section>` blocks to separate a main grid area from a bordered bottom bar; each section can have its own `class`/`padding`.
 
 ### Different Variants
 
@@ -170,62 +174,6 @@ Footer content including footer_section components.
   <.footer_section>
     <p>Made with love by the team</p>
     <p class="text-sm mt-2">&copy; 2024 All rights reserved.</p>
-  </.footer_section>
-</.footer>
-```
-
-## Common Patterns
-
-### Full Website Footer
-
-```heex
-<.footer color="dark" variant="default" padding="extra_large">
-  <.footer_section class="max-w-7xl mx-auto">
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-      <%# Brand Column %>
-      <div class="col-span-1">
-        <img src="/logo.svg" alt="Brand" class="h-10 mb-4" />
-        <p class="text-gray-400">Building great products for amazing people.</p>
-      </div>
-
-      <%# Links Columns %>
-      <div>
-        <h5 class="font-semibold text-white mb-4">Product</h5>
-        <ul class="space-y-2 text-gray-400">
-          <li><a href="/features" class="hover:text-white">Features</a></li>
-          <li><a href="/pricing" class="hover:text-white">Pricing</a></li>
-          <li><a href="/changelog" class="hover:text-white">Changelog</a></li>
-        </ul>
-      </div>
-
-      <div>
-        <h5 class="font-semibold text-white mb-4">Company</h5>
-        <ul class="space-y-2 text-gray-400">
-          <li><a href="/about" class="hover:text-white">About</a></li>
-          <li><a href="/blog" class="hover:text-white">Blog</a></li>
-          <li><a href="/careers" class="hover:text-white">Careers</a></li>
-        </ul>
-      </div>
-
-      <div>
-        <h5 class="font-semibold text-white mb-4">Support</h5>
-        <ul class="space-y-2 text-gray-400">
-          <li><a href="/help" class="hover:text-white">Help Center</a></li>
-          <li><a href="/contact" class="hover:text-white">Contact</a></li>
-          <li><a href="/status" class="hover:text-white">Status</a></li>
-        </ul>
-      </div>
-    </div>
-  </.footer_section>
-
-  <.footer_section class="border-t border-gray-700 mt-8 pt-8">
-    <div class="max-w-7xl mx-auto flex justify-between items-center">
-      <p class="text-gray-400 text-sm">&copy; 2024 Company Inc.</p>
-      <div class="flex gap-6 text-gray-400">
-        <a href="/privacy" class="hover:text-white text-sm">Privacy</a>
-        <a href="/terms" class="hover:text-white text-sm">Terms</a>
-      </div>
-    </div>
   </.footer_section>
 </.footer>
 ```

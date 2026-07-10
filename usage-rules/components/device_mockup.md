@@ -32,8 +32,8 @@ mix mishka.ui.gen.component device_mockup --module MyAppWeb.Components.CustomDev
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `id` | `:string` | `nil` | Unique identifier |
-| `type` | `:string` | `"iphone"` | Device type |
-| `color` | `:string` | `"natural"` | Frame color theme |
+| `type` | `:string` | `"iphone"` | Device type — one of `iphone`, `android`, `watch`, `laptop`, `ipad`, `imac` |
+| `color` | `:string` | `"natural"` | Frame color theme — one of `base`, `natural`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `misc`, `dawn`, `silver` |
 | `image` | `:string` | `nil` | Screen image URL |
 | `alt` | `:string` | `nil` | Image alt text |
 | `class` | `:any` | `nil` | Custom CSS class |
@@ -42,51 +42,18 @@ mix mishka.ui.gen.component device_mockup --module MyAppWeb.Components.CustomDev
 
 ### `inner_block` Slot
 
-Custom content to display inside the device screen.
-
-## Available Options
-
-### Device Types
-`iphone`, `android`, `watch`, `laptop`, `ipad`, `imac`
-
-### Colors
-`base`, `natural`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `misc`, `dawn`, `silver`
+Custom content to display inside the device screen (used instead of, or alongside, `image`).
 
 ## Usage Examples
 
-### iPhone Mockup
+### Device Types
 
 ```heex
 <.device_mockup image="/images/app-screenshot.png" />
-```
-
-### Android Mockup
-
-```heex
 <.device_mockup type="android" image="/images/android-screenshot.png" />
-```
-
-### Watch Mockup
-
-```heex
 <.device_mockup type="watch" image="/images/watch-screen.png" />
-```
-
-### Laptop Mockup
-
-```heex
 <.device_mockup type="laptop" image="/images/website-screenshot.png" />
-```
-
-### iPad Mockup
-
-```heex
 <.device_mockup type="ipad" image="/images/tablet-screenshot.png" />
-```
-
-### iMac Mockup
-
-```heex
 <.device_mockup type="imac" image="/images/desktop-screenshot.png" />
 ```
 
@@ -98,6 +65,12 @@ Custom content to display inside the device screen.
     <p class="text-white text-xl">App Preview</p>
   </div>
 </.device_mockup>
+
+<.device_mockup type="ipad" image="/images/tablet-mockup.png">
+  <div class="text-center p-4">
+    <p>Additional overlay content</p>
+  </div>
+</.device_mockup>
 ```
 
 ### Different Colors
@@ -106,16 +79,6 @@ Custom content to display inside the device screen.
 <.device_mockup color="natural" image="/images/screen.png" />
 <.device_mockup color="primary" image="/images/screen.png" />
 <.device_mockup color="silver" image="/images/screen.png" />
-```
-
-### iPad with Content
-
-```heex
-<.device_mockup type="ipad" image="/images/tablet-mockup.png">
-  <div class="text-center p-4">
-    <p>Additional overlay content</p>
-  </div>
-</.device_mockup>
 ```
 
 ## Common Patterns

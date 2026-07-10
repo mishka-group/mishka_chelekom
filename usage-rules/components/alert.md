@@ -1,6 +1,6 @@
 # Alert Component
 
-Displays static alerts and dynamic flash messages for clear and effective user communication in Phoenix LiveView applications.
+Static alerts and dynamic flash messages for Phoenix LiveView.
 
 **Documentation**: https://mishka.tools/chelekom/docs/alert
 
@@ -8,32 +8,18 @@ Displays static alerts and dynamic flash messages for clear and effective user c
 
 ## Important: Phoenix 1.8+ Flash Group
 
-**Phoenix 1.8+ includes a built-in `flash_group` in `lib/your_app_web/components/layouts.ex`.**
-
-Mishka's `flash_group` is **NOT automatically imported** to avoid conflicts. To use Mishka's flash_group:
-
-1. Open `lib/your_app_web/components/layouts.ex`
-2. Replace the existing flash_group call with Mishka's version
-3. Or call it in any template where you need it
+Phoenix 1.8+ ships a built-in `flash_group` in `lib/your_app_web/components/layouts.ex`. Mishka's `flash_group` is **NOT auto-imported** (avoids conflicts). To use Mishka's version, replace the existing call in `layouts.ex` (or call it in any template):
 
 ```elixir
-# In layouts.ex or any template
 <YourAppWeb.Components.Alert.flash_group flash={@flash} />
 ```
 
 ## Generate
 
 ```bash
-# Generate with all options
 mix mishka.ui.gen.component alert
-
-# Generate with specific options
 mix mishka.ui.gen.component alert --variant default,bordered --color success,danger,info
-
-# Generate specific component types only
 mix mishka.ui.gen.component alert --type flash,alert
-
-# Generate with custom module name
 mix mishka.ui.gen.component alert --module MyAppWeb.Components.CustomAlert
 ```
 
@@ -47,42 +33,40 @@ mix mishka.ui.gen.component alert --module MyAppWeb.Components.CustomAlert
 
 ## Component Types
 
-This module provides **three component types**:
-
 | Component | Description |
 |-----------|-------------|
-| `flash/1` | Renders flash notices with auto-dismiss on click |
-| `flash_group/1` | Renders a group of flash messages with predefined content |
-| `alert/1` | Renders static alert messages |
+| `flash/1` | Flash notices with auto-dismiss on click |
+| `flash_group/1` | Group of flash messages with predefined content |
+| `alert/1` | Static alert messages |
 
 ## Helper Functions
 
 | Function | Description |
 |----------|-------------|
-| `show_alert/1` | Shows an alert with transition effect |
-| `show_alert/2` | Shows an alert with JS struct and selector |
-| `hide_alert/1` | Hides an alert with transition effect |
-| `hide_alert/2` | Hides an alert with JS struct and selector |
+| `show_alert/1` | Show an alert with transition effect |
+| `show_alert/2` | Show an alert with JS struct and selector |
+| `hide_alert/1` | Hide an alert with transition effect |
+| `hide_alert/2` | Hide an alert with JS struct and selector |
 
 ## Attributes
 
-### Common Attributes (all components)
+### Common (all components)
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `id` | `:string` | auto-generated | Unique identifier |
-| `kind` | `:atom` | `:natural` | Color/type: `:info`, `:danger`, `:success`, `:warning`, `:error`, `:natural`, `:primary`, `:secondary`, `:misc`, `:dawn`, `:silver`, `:white`, `:dark` |
-| `variant` | `:string` | varies | Style variant |
+| `kind` | `:atom` | `:natural` | Color/type: `:info`, `:danger`, `:success`, `:warning`, `:error`, `:natural`, `:primary`, `:secondary`, `:misc`, `:dawn`, `:silver`, `:white`, `:dark` (`:error` and `:danger` are equivalent) |
+| `variant` | `:string` | varies | `base`, `default`, `outline`, `shadow`, `bordered`, `gradient` |
 | `position` | `:string` | `""` | Fixed position: `"top_left"`, `"top_right"`, `"bottom_left"`, `"bottom_right"` |
-| `width` | `:string` | `"full"` | Width: `"extra_small"`, `"small"`, `"medium"`, `"large"`, `"extra_large"`, `"full"`, `"fit"` |
+| `width` | `:string` | `"full"` | `"extra_small"`, `"small"`, `"medium"`, `"large"`, `"extra_large"`, `"full"`, `"fit"` |
 | `border` | `:string` | `"extra_small"` | Border width |
-| `padding` | `:string` | `"small"` | Padding size |
-| `size` | `:string` | `"medium"` | Overall size (text, icons) |
-| `rounded` | `:string` | `"small"` | Border radius |
+| `padding` | `:string` | `"small"` | `"extra_small"`, `"small"`, `"medium"`, `"large"`, `"extra_large"`, `"none"` |
+| `size` | `:string` | `"medium"` | Overall size (text, icons): `"extra_small"`, `"small"`, `"medium"`, `"large"`, `"extra_large"` |
+| `rounded` | `:string` | `"small"` | `"extra_small"`, `"small"`, `"medium"`, `"large"`, `"extra_large"`, `"full"`, `"none"` |
 | `z_index` | `:string` | `"z-50"` | Custom z-index class |
 | `class` | `:any` | `nil` | Custom CSS class |
 
-### `flash/1` Specific Attributes
+### `flash/1` specific
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -95,7 +79,7 @@ This module provides **three component types**:
 | `button_class` | `:string` | `"p-2"` | Custom class for close button |
 | `rest` | `:global` | - | Global attributes |
 
-### `flash_group/1` Specific Attributes
+### `flash_group/1` specific
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -104,7 +88,7 @@ This module provides **three component types**:
 | `variant` | `:string` | `"bordered"` | Style variant |
 | `position` | `:string` | `"top_right"` | Position on screen |
 
-### `alert/1` Specific Attributes
+### `alert/1` specific
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -116,48 +100,17 @@ This module provides **three component types**:
 
 ## Slots
 
-### `inner_block` Slot
-
-All alert components accept an `inner_block` slot for custom content.
-
-## Available Options
-
-### Variants
-`base`, `default`, `outline`, `shadow`, `bordered`, `gradient`
-
-### Colors (kind)
-`:natural`, `:white`, `:dark`, `:primary`, `:secondary`, `:success`, `:warning`, `:danger`, `:error`, `:info`, `:misc`, `:dawn`, `:silver`
-
-**Note**: `:error` and `:danger` are equivalent.
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
-
-### Rounded
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `full`, `none`
-
-### Padding
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `none`
-
-### Width
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `full`, `fit`
-
-### Positions
-`top_left`, `top_right`, `bottom_left`, `bottom_right`
+`inner_block` — all three components accept it for custom content.
 
 ## Usage Examples
 
-### Basic Alert
+### Basic alert, variants, no icon, positioned
 
 ```heex
 <.alert kind={:info} title="Information">
   This is an informational message.
 </.alert>
-```
 
-### Alert with Different Variants
-
-```heex
 <.alert kind={:success} variant="default" title="Success!">
   Your changes have been saved.
 </.alert>
@@ -169,35 +122,34 @@ All alert components accept an `inner_block` slot for custom content.
 <.alert kind={:warning} variant="outline" title="Warning">
   Please review your input.
 </.alert>
-```
 
-### Alert Without Icon
-
-```heex
+<%# No icon %>
 <.alert kind={:primary} title="Note" icon={nil}>
   This alert has no icon.
 </.alert>
-```
 
-### Positioned Alert
-
-```heex
+<%# Fixed position %>
 <.alert kind={:info} position="top_right" width="medium">
   Fixed position alert in top right corner.
 </.alert>
+
+<%# Gradient variant %>
+<.alert kind={:primary} variant="gradient" title="Premium Feature">
+  Upgrade to access this feature.
+</.alert>
+
+<%# Sizes: extra_small, small, medium, large, extra_large %>
+<.alert kind={:info} size="large" title="Large">Content</.alert>
 ```
 
-### Flash Message
+### Flash message and flash group
 
 ```heex
 <.flash kind={:info} title="Welcome!" flash={@flash}>
   <p>You have successfully logged in.</p>
 </.flash>
-```
 
-### Flash with Custom Styling
-
-```heex
+<%# Custom styling %>
 <.flash
   kind={:error}
   title="Error!"
@@ -206,19 +158,17 @@ All alert components accept an `inner_block` slot for custom content.
   size="large"
   flash={@flash}
 />
-```
 
-### Flash Group
-
-```heex
 <%# In your layout or root template %>
 <.flash_group flash={@flash} />
 
-<%# With custom position %>
+<%# With custom position/variant %>
 <.flash_group flash={@flash} position="bottom_right" variant="shadow" />
 ```
 
-### Using Helper Functions
+`flash_group/1` also auto-handles LiveView disconnection/reconnection: shows a client-error flash on disconnect and a server-error flash on server error, both auto-hiding on reconnection.
+
+### Helper functions (show/hide)
 
 ```heex
 <%# Show alert on mount %>
@@ -235,54 +185,15 @@ All alert components accept an `inner_block` slot for custom content.
 </.alert>
 ```
 
-### In LiveView Module
+Server-side push works too — `show_alert`/`hide_alert` return JS commands, or you can push the `"js-exec"` event directly:
 
 ```elixir
 def handle_event("show_notification", _, socket) do
   {:noreply, push_event(socket, "js-exec", %{to: "#notification", attr: "phx-show"})}
 end
-
-# Or using the helper functions directly
-def handle_event("toggle_alert", _, socket) do
-  # The show_alert/hide_alert functions return JS commands
-  {:noreply, socket}
-end
-```
-
-### Flash with Reconnection Handling
-
-The `flash_group/1` component automatically handles LiveView disconnection/reconnection:
-
-```heex
-<.flash_group flash={@flash} />
-```
-
-This includes:
-- Client error flash (shown on disconnect)
-- Server error flash (shown on server error)
-- Both auto-hide on reconnection
-
-### Custom Gradient Alert
-
-```heex
-<.alert kind={:primary} variant="gradient" title="Premium Feature">
-  Upgrade to access this feature.
-</.alert>
-```
-
-### Alert Sizes
-
-```heex
-<.alert kind={:info} size="extra_small" title="Extra Small">Content</.alert>
-<.alert kind={:info} size="small" title="Small">Content</.alert>
-<.alert kind={:info} size="medium" title="Medium">Content</.alert>
-<.alert kind={:info} size="large" title="Large">Content</.alert>
-<.alert kind={:info} size="extra_large" title="Extra Large">Content</.alert>
 ```
 
 ## Phoenix Flash Integration
-
-The flash components integrate with Phoenix's flash system:
 
 ```elixir
 # In your controller

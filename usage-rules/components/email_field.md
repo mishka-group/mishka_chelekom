@@ -34,11 +34,11 @@ mix mishka.ui.gen.component email_field --module MyAppWeb.Components.CustomEmail
 | `id` | `:string` | `nil` | Unique identifier |
 | `name` | `:string` | `nil` | Input field name |
 | `value` | `:string` | `nil` | Input value |
-| `variant` | `:string` | `"base"` | Style variant |
-| `color` | `:string` | `"base"` | Color theme |
-| `size` | `:string` | `"medium"` | Input size |
-| `rounded` | `:string` | `"small"` | Border radius |
-| `space` | `:string` | `"medium"` | Space between elements |
+| `variant` | `:string` | `"base"` | Style variant — see Variants |
+| `color` | `:string` | `"base"` | Color theme — see Colors |
+| `size` | `:string` | `"medium"` | Input size — see Sizes |
+| `rounded` | `:string` | `"small"` | Border radius — see Rounded |
+| `space` | `:string` | `"medium"` | Space between elements — see Space |
 | `floating` | `:string` | `nil` | Floating label: `inner`, `outer` |
 | `placeholder` | `:string` | `nil` | Placeholder text |
 | `label` | `:string` | `nil` | Label text |
@@ -49,71 +49,35 @@ mix mishka.ui.gen.component email_field --module MyAppWeb.Components.CustomEmail
 
 ## Slots
 
-### `start_section` Slot
-
-Content before the input (icon, text, etc.).
-
-### `end_section` Slot
-
-Content after the input (button, icon, etc.).
+- **`start_section`** — content before the input (icon, text, etc.)
+- **`end_section`** — content after the input (button, icon, etc.)
 
 ## Available Options
 
-### Variants
-`base`, `default`, `outline`, `shadow`, `bordered`, `transparent`
-
-### Colors
-`base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `misc`, `dawn`, `silver`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
-
-### Space
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `none`
-
-### Rounded
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `full`, `none`
+- **Variants**: `base`, `default`, `outline`, `shadow`, `bordered`, `transparent`
+- **Colors**: `base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `misc`, `dawn`, `silver`
+- **Sizes**: `extra_small`, `small`, `medium`, `large`, `extra_large`
+- **Space**: `extra_small`, `small`, `medium`, `large`, `extra_large`, `none`
+- **Rounded**: `extra_small`, `small`, `medium`, `large`, `extra_large`, `full`, `none`
 
 ## Usage Examples
 
-### Basic Email Field
+### Basic / Form Integration
 
 ```heex
 <.email_field name="email" label="Email Address" placeholder="Enter your email" />
+
+<.email_field field={@form[:email]} label="Email" placeholder="you@example.com" />
 ```
 
-### With Form Integration
+### Floating Label
 
 ```heex
-<.email_field
-  field={@form[:email]}
-  label="Email"
-  placeholder="you@example.com"
-/>
+<.email_field name="email" floating="outer" label="Email Address" placeholder="Enter your email" />
+<.email_field name="email" floating="inner" label="Email Address" />
 ```
 
-### With Floating Label (Outer)
-
-```heex
-<.email_field
-  name="email"
-  floating="outer"
-  label="Email Address"
-  placeholder="Enter your email"
-/>
-```
-
-### With Floating Label (Inner)
-
-```heex
-<.email_field
-  name="email"
-  floating="inner"
-  label="Email Address"
-/>
-```
-
-### Different Variants
+### Variants
 
 ```heex
 <.email_field name="e1" variant="default" label="Default" />
@@ -123,7 +87,7 @@ Content after the input (button, icon, etc.).
 <.email_field name="e5" variant="transparent" label="Transparent" />
 ```
 
-### Different Colors
+### Colors
 
 ```heex
 <.email_field name="e1" color="primary" label="Primary" />
@@ -132,7 +96,7 @@ Content after the input (button, icon, etc.).
 <.email_field name="e4" color="warning" label="Warning" />
 ```
 
-### Different Sizes
+### Sizes
 
 ```heex
 <.email_field name="e1" size="small" label="Small" />
@@ -151,27 +115,7 @@ Content after the input (button, icon, etc.).
 />
 ```
 
-### With Start Section (Icon)
-
-```heex
-<.email_field name="email" label="Email" placeholder="Enter email">
-  <:start_section>
-    <.icon name="hero-envelope" class="size-5 text-gray-400" />
-  </:start_section>
-</.email_field>
-```
-
-### With End Section
-
-```heex
-<.email_field name="email" label="Email">
-  <:end_section>
-    <.button size="small" variant="transparent">Verify</.button>
-  </:end_section>
-</.email_field>
-```
-
-### With Both Sections
+### Start/End Sections
 
 ```heex
 <.email_field name="email" placeholder="Enter email">
@@ -180,6 +124,12 @@ Content after the input (button, icon, etc.).
   </:start_section>
   <:end_section>
     <.icon name="hero-check-circle" class="size-5 text-green-500" />
+  </:end_section>
+</.email_field>
+
+<.email_field name="email" label="Email">
+  <:end_section>
+    <.button size="small" variant="transparent">Verify</.button>
   </:end_section>
 </.email_field>
 ```
@@ -211,10 +161,7 @@ Content after the input (button, icon, etc.).
     </:start_section>
   </.email_field>
 
-  <.password_field
-    field={@form[:password]}
-    label="Password"
-  />
+  <.password_field field={@form[:password]} label="Password" />
 
   <.button type="submit" full_width color="primary">
     Sign In
@@ -226,11 +173,7 @@ Content after the input (button, icon, etc.).
 
 ```heex
 <div class="flex gap-2">
-  <.email_field
-    name="email"
-    placeholder="Enter your email"
-    class="flex-1"
-  >
+  <.email_field name="email" placeholder="Enter your email" class="flex-1">
     <:start_section>
       <.icon name="hero-envelope" class="size-5" />
     </:start_section>

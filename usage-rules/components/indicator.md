@@ -1,6 +1,6 @@
 # Indicator Component
 
-Visual indicator dots for notifications, status updates, and highlighting elements.
+Visual indicator dots for notifications, status updates, and highlighting elements. Always wrap the indicator's parent in `class="relative inline-block"` (or similar `relative` container) so absolute positioning works.
 
 **Documentation**: https://mishka.tools/chelekom/docs/indicator
 
@@ -40,48 +40,24 @@ mix mishka.ui.gen.component indicator --module MyAppWeb.Components.CustomIndicat
 
 ## Slots
 
-### `inner_block` Slot
-
-Content to display inside the indicator (like a number).
+- `inner_block` — content to display inside the indicator (e.g. a number badge).
 
 ## Available Options
 
-### Colors
-`base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
-
-### Positions
-`top_left`, `top_center`, `top_right`, `middle_left`, `middle_right`, `bottom_left`, `bottom_center`, `bottom_right`
+| Option | Values |
+|--------|--------|
+| Colors | `base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn` |
+| Sizes | `extra_small`, `small`, `medium`, `large`, `extra_large` |
+| Positions | `top_left`, `top_center`, `top_right`, `middle_left`, `middle_right`, `bottom_left`, `bottom_center`, `bottom_right` |
 
 ## Usage Examples
 
-### Basic Indicator
+### Basic + Positions
 
 ```heex
 <div class="relative inline-block">
   <.icon name="hero-bell" class="size-6" />
   <.indicator color="danger" />
-</div>
-```
-
-### Different Positions
-
-```heex
-<div class="relative inline-block">
-  <.icon name="hero-bell" class="size-8" />
-  <.indicator position="top_right" color="danger" />
-</div>
-
-<div class="relative inline-block">
-  <.icon name="hero-bell" class="size-8" />
-  <.indicator position="top_left" color="danger" />
-</div>
-
-<div class="relative inline-block">
-  <.icon name="hero-bell" class="size-8" />
-  <.indicator position="bottom_right" color="danger" />
 </div>
 
 <div class="relative inline-block">
@@ -90,7 +66,7 @@ Content to display inside the indicator (like a number).
 </div>
 ```
 
-### Different Colors
+### Colors and Sizes
 
 ```heex
 <.indicator color="primary" />
@@ -98,11 +74,7 @@ Content to display inside the indicator (like a number).
 <.indicator color="warning" />
 <.indicator color="danger" />
 <.indicator color="info" />
-```
 
-### Different Sizes
-
-```heex
 <.indicator size="extra_small" color="danger" />
 <.indicator size="small" color="danger" />
 <.indicator size="medium" color="danger" />
@@ -110,53 +82,7 @@ Content to display inside the indicator (like a number).
 <.indicator size="extra_large" color="danger" />
 ```
 
-### With Ping Animation
-
-```heex
-<div class="relative inline-block">
-  <.icon name="hero-bell" class="size-6" />
-  <.indicator color="danger" ping />
-</div>
-```
-
-### With Content (Badge Number)
-
-```heex
-<div class="relative inline-block">
-  <.icon name="hero-inbox" class="size-6" />
-  <.indicator color="danger" size="medium">5</.indicator>
-</div>
-
-<div class="relative inline-block">
-  <.icon name="hero-shopping-cart" class="size-6" />
-  <.indicator color="primary" size="medium">99+</.indicator>
-</div>
-```
-
-### On Avatar
-
-```heex
-<div class="relative inline-block">
-  <.avatar src="/images/user.jpg" size="medium" rounded="full" />
-  <.indicator color="success" position="bottom_right" />
-</div>
-```
-
-### Status Indicator
-
-```heex
-<div class="relative inline-block">
-  <.avatar src={@user.avatar} rounded="full" />
-  <.indicator
-    color={if @user.online, do: "success", else: "natural"}
-    position="bottom_right"
-  />
-</div>
-```
-
-## Common Patterns
-
-### Notification Bell
+### Ping Animation + Conditional Render (Notification Bell)
 
 ```heex
 <button class="relative p-2 hover:bg-gray-100 rounded-lg">
@@ -165,9 +91,14 @@ Content to display inside the indicator (like a number).
 </button>
 ```
 
-### Inbox with Count
+### Content (Badge Number)
 
 ```heex
+<div class="relative inline-block">
+  <.icon name="hero-inbox" class="size-6" />
+  <.indicator color="danger" size="medium">5</.indicator>
+</div>
+
 <a href="/inbox" class="relative inline-flex items-center gap-2">
   <.icon name="hero-inbox" class="size-6" />
   <span>Messages</span>
@@ -175,9 +106,16 @@ Content to display inside the indicator (like a number).
     {min(@message_count, 99)}
   </.indicator>
 </a>
+
+<.button_link navigate={~p"/cart"} variant="transparent" class="relative">
+  <.icon name="hero-shopping-cart" class="size-6" />
+  <.indicator :if={@cart_count > 0} color="primary" size="small">
+    {@cart_count}
+  </.indicator>
+</.button_link>
 ```
 
-### Online Status
+### On Avatar / Dynamic Status Color
 
 ```heex
 <div class="flex items-center gap-3">
@@ -203,38 +141,17 @@ defp status_color(:busy), do: "danger"
 defp status_color(_), do: "natural"
 ```
 
-### Cart Icon
-
-```heex
-<.button_link navigate={~p"/cart"} variant="transparent" class="relative">
-  <.icon name="hero-shopping-cart" class="size-6" />
-  <.indicator :if={@cart_count > 0} color="primary" size="small">
-    {@cart_count}
-  </.indicator>
-</.button_link>
-```
-
-### Task Status
+### Color-Only Status Dots (Task / Connection)
 
 ```heex
 <div :for={task <- @tasks} class="flex items-center gap-3 p-3 border rounded">
-  <.indicator
-    color={task_status_color(task.status)}
-    size="small"
-  />
+  <.indicator color={task_status_color(task.status)} size="small" />
   <span class="flex-1">{task.title}</span>
   <span class="text-sm text-gray-500">{task.due_date}</span>
 </div>
-```
 
-### Connection Status
-
-```heex
 <div class="flex items-center gap-2">
-  <.indicator
-    color={if @connected, do: "success", else: "danger"}
-    size="extra_small"
-  />
+  <.indicator color={if @connected, do: "success", else: "danger"} size="extra_small" />
   <span class="text-sm">
     {if @connected, do: "Connected", else: "Disconnected"}
   </span>

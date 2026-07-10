@@ -14,11 +14,7 @@ mix mishka.ui.gen.component skeleton
 
 ## Dependencies
 
-| Type | Components |
-|------|------------|
-| **Necessary** | None |
-| **Optional** | None |
-| **JavaScript** | None |
+None (necessary, optional, or JavaScript).
 
 ## Attributes
 
@@ -33,51 +29,29 @@ mix mishka.ui.gen.component skeleton
 
 ## Available Options
 
-### Colors
-`base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `misc`, `dawn`, `silver`
-
-### Rounded
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `full`, `none`
+- **Colors**: `base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `misc`, `dawn`, `silver`
+- **Rounded**: `extra_small`, `small`, `medium`, `large`, `extra_large`, `full`, `none`
 
 ## Usage Examples
 
-### Basic Skeleton
-
 ```heex
 <.skeleton />
-```
-
-### Animated Skeleton
-
-```heex
 <.skeleton animated />
-```
 
-### Custom Dimensions
-
-```heex
+<!-- Custom dimensions -->
 <.skeleton height="h-4" width="w-32" />
 <.skeleton height="h-8" width="w-64" />
 <.skeleton height="h-48" width="w-full" />
-```
 
-### Circle Skeleton
-
-```heex
+<!-- Circle (avatar) skeleton -->
 <.skeleton width="w-12" height="h-12" rounded="full" />
-```
 
-### Different Colors
-
-```heex
+<!-- Colors -->
 <.skeleton color="natural" animated />
 <.skeleton color="primary" animated />
 <.skeleton color="dark" animated />
-```
 
-### Conditional Visibility
-
-```heex
+<!-- Conditional visibility -->
 <.skeleton :if={@loading} animated />
 <div :if={!@loading}>{@content}</div>
 ```

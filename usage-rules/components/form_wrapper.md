@@ -9,23 +9,14 @@ Styled form container with consistent layout, spacing, and action slots.
 ## Generate
 
 ```bash
-# Generate with all options
 mix mishka.ui.gen.component form_wrapper
-
-# Generate with specific options
 mix mishka.ui.gen.component form_wrapper --variant default,outline --color white,natural
-
-# Generate with custom module name
 mix mishka.ui.gen.component form_wrapper --module MyAppWeb.Components.CustomFormWrapper
 ```
 
 ## Dependencies
 
-| Type | Components |
-|------|------------|
-| **Necessary** | None |
-| **Optional** | None |
-| **JavaScript** | None |
+None (necessary, optional, or JavaScript).
 
 ## Component Types
 
@@ -34,9 +25,7 @@ mix mishka.ui.gen.component form_wrapper --module MyAppWeb.Components.CustomForm
 | `form_wrapper/1` | Styled form container |
 | `simple_form/1` | Simple form with Phoenix integration |
 
-## Attributes
-
-### `form_wrapper/1` Attributes
+## `form_wrapper/1` Attributes
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -51,34 +40,24 @@ mix mishka.ui.gen.component form_wrapper --module MyAppWeb.Components.CustomForm
 
 ## Slots
 
-### `inner_block` Slot
-
-Form fields and content.
-
-### `actions` Slot
-
-Form action buttons (submit, cancel, etc.).
+| Slot | Description |
+|------|-------------|
+| `inner_block` | Form fields and content |
+| `actions` | Form action buttons (submit, cancel, etc.) |
 
 ## Available Options
 
-### Variants
-`base`, `default`, `outline`, `transparent`, `shadow`, `unbordered`
-
-### Colors
-`base`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `light`, `misc`, `dawn`, `silver`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
-
-### Space / Padding
-`extra_small`, `small`, `medium`, `large`, `extra_large`
-
-### Rounded
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `none`
+| Option | Values |
+|--------|--------|
+| Variants | `base`, `default`, `outline`, `transparent`, `shadow`, `unbordered` |
+| Colors | `base`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `light`, `misc`, `dawn`, `silver` |
+| Sizes | `extra_small`, `small`, `medium`, `large`, `extra_large` |
+| Space / Padding | `extra_small`, `small`, `medium`, `large`, `extra_large` |
+| Rounded | `extra_small`, `small`, `medium`, `large`, `extra_large`, `none` |
 
 ## Usage Examples
 
-### Basic Form Wrapper
+### Basic Form Wrapper (standalone or with `@form`)
 
 ```heex
 <.form_wrapper>
@@ -90,8 +69,6 @@ Form action buttons (submit, cancel, etc.).
   </:actions>
 </.form_wrapper>
 ```
-
-### With Form Integration
 
 ```heex
 <.form for={@form} phx-submit="save">
@@ -110,17 +87,9 @@ Form action buttons (submit, cancel, etc.).
 ### Different Variants
 
 ```heex
-<.form_wrapper variant="default" color="white">
-  Default variant
-</.form_wrapper>
-
-<.form_wrapper variant="outline" color="primary">
-  Outline variant
-</.form_wrapper>
-
-<.form_wrapper variant="shadow" color="white">
-  Shadow variant
-</.form_wrapper>
+<.form_wrapper variant="default" color="white">Default variant</.form_wrapper>
+<.form_wrapper variant="outline" color="primary">Outline variant</.form_wrapper>
+<.form_wrapper variant="shadow" color="white">Shadow variant</.form_wrapper>
 ```
 
 ### With Actions Row
@@ -173,21 +142,11 @@ Form action buttons (submit, cancel, etc.).
 
 ## Common Patterns
 
-### Registration Form
+### Registration Form (grid layout, `full_width`/`size` on button)
 
 ```heex
 <.form for={@form} phx-submit="register" phx-change="validate">
-  <.form_wrapper
-    variant="outline"
-    color="natural"
-    padding="large"
-    rounded="large"
-  >
-    <div class="text-center mb-6">
-      <h1 class="text-2xl font-bold">Create Account</h1>
-      <p class="text-gray-500">Get started with your free account</p>
-    </div>
-
+  <.form_wrapper variant="outline" color="natural" padding="large" rounded="large">
     <div class="grid grid-cols-2 gap-4">
       <.text_field field={@form[:first_name]} label="First Name" />
       <.text_field field={@form[:last_name]} label="Last Name" />
@@ -196,26 +155,20 @@ Form action buttons (submit, cancel, etc.).
     <.email_field field={@form[:email]} label="Email" />
     <.password_field field={@form[:password]} label="Password" />
     <.password_field field={@form[:password_confirmation]} label="Confirm Password" />
-
     <.checkbox_field name="terms" label="I agree to the Terms of Service" />
 
     <:actions>
-      <.button type="submit" color="primary" full_width size="large">
-        Create Account
-      </.button>
+      <.button type="submit" color="primary" full_width size="large">Create Account</.button>
     </:actions>
   </.form_wrapper>
 </.form>
 ```
 
-### Contact Form
+### Contact Form (icon button in actions)
 
 ```heex
 <.form for={@form} phx-submit="send_message">
   <.form_wrapper variant="default" padding="large" space="medium">
-    <h2 class="text-xl font-semibold">Contact Us</h2>
-    <p class="text-gray-500 mb-4">We'd love to hear from you</p>
-
     <div class="grid grid-cols-2 gap-4">
       <.text_field field={@form[:name]} label="Name" />
       <.email_field field={@form[:email]} label="Email" />
@@ -225,15 +178,13 @@ Form action buttons (submit, cancel, etc.).
     <.textarea_field field={@form[:message]} label="Message" rows={5} />
 
     <:actions>
-      <.button type="submit" color="primary" icon="hero-paper-airplane">
-        Send Message
-      </.button>
+      <.button type="submit" color="primary" icon="hero-paper-airplane">Send Message</.button>
     </:actions>
   </.form_wrapper>
 </.form>
 ```
 
-### Settings Form
+### Settings Form (grouped with `fieldset`, `padding="none"`)
 
 ```heex
 <.form for={@form} phx-submit="save_settings">

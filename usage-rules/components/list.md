@@ -9,17 +9,10 @@ Versatile list components for ordered, unordered, and grouped lists with customi
 ## Generate
 
 ```bash
-# Generate with all options
-mix mishka.ui.gen.component list
-
-# Generate with specific options
+mix mishka.ui.gen.component list                                          # all options
 mix mishka.ui.gen.component list --variant default,bordered --color natural,primary
-
-# Generate specific component types only
-mix mishka.ui.gen.component list --type list,ul,ol,list_group
-
-# Generate with custom module name
-mix mishka.ui.gen.component list --module MyAppWeb.Components.CustomList
+mix mishka.ui.gen.component list --type list,ul,ol,list_group             # specific types only
+mix mishka.ui.gen.component list --module MyAppWeb.Components.CustomList  # custom module name
 ```
 
 ## Dependencies
@@ -40,9 +33,7 @@ mix mishka.ui.gen.component list --module MyAppWeb.Components.CustomList
 | `ol/1` | Ordered list |
 | `list_group/1` | Grouped list container |
 
-## Attributes
-
-### `list/1` Attributes
+## `list/1` Attributes
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -57,39 +48,22 @@ mix mishka.ui.gen.component list --module MyAppWeb.Components.CustomList
 
 ## Slots
 
-### `item` Slot
-
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `icon` | `:string` | Icon name |
-| `icon_class` | `:string` | Icon styling |
-| `padding` | `:string` | Item padding |
-| `class` | `:any` | Item class |
-
-### `inner_block` Slot
-
-Content for list items.
+- **`item`**: `icon` (`:string`, icon name), `icon_class` (`:string`), `padding` (`:string`), `class` (`:any`) — one per list item.
+- **`inner_block`**: content for list items.
 
 ## Available Options
 
-### Variants
-`base`, `default`, `bordered`, `outline`, `shadow`, `gradient`, `outline_separated`, `bordered_separated`, `transparent`, `base_separated`
-
-### Colors
-`base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
-
-### Space / Padding
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `none`
-
-### Rounded
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `full`, `none`
+| Option | Values |
+|--------|--------|
+| Variants | `base`, `default`, `bordered`, `outline`, `shadow`, `gradient`, `outline_separated`, `bordered_separated`, `transparent`, `base_separated` |
+| Colors | `base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn` |
+| Sizes | `extra_small`, `small`, `medium`, `large`, `extra_large` |
+| Space / Padding | `extra_small`, `small`, `medium`, `large`, `extra_large`, `none` |
+| Rounded | `extra_small`, `small`, `medium`, `large`, `extra_large`, `full`, `none` |
 
 ## Usage Examples
 
-### Basic List
+### Basic list, icons, variants, colors
 
 ```heex
 <.list>
@@ -97,41 +71,28 @@ Content for list items.
   <:item>Second item</:item>
   <:item>Third item</:item>
 </.list>
-```
 
-### With Icons
-
-```heex
 <.list>
   <:item icon="hero-home">Home</:item>
   <:item icon="hero-user">Profile</:item>
   <:item icon="hero-cog-6-tooth">Settings</:item>
 </.list>
-```
 
-### Different Variants
-
-```heex
 <.list variant="default">Default</.list>
 <.list variant="bordered">Bordered</.list>
 <.list variant="outline">Outline</.list>
 <.list variant="shadow">Shadow</.list>
 <.list variant="bordered_separated">Bordered Separated</.list>
-```
 
-### Different Colors
-
-```heex
 <.list color="primary">
   <:item>Primary colored</:item>
 </.list>
-
 <.list color="success">
   <:item>Success colored</:item>
 </.list>
 ```
 
-### Unordered List
+### Unordered / Ordered list (`ul`, `ol`, `li`)
 
 ```heex
 <.ul>
@@ -139,11 +100,7 @@ Content for list items.
   <.li>Item two</.li>
   <.li>Item three</.li>
 </.ul>
-```
 
-### Ordered List
-
-```heex
 <.ol>
   <.li>First step</.li>
   <.li>Second step</.li>
@@ -163,7 +120,9 @@ Content for list items.
 </.list_group>
 ```
 
-### Navigation List
+### Navigation list / dropdown menu items
+
+Transparent variant plus per-item `class` (e.g. hover styling) is the pattern for clickable nav/menu rows:
 
 ```heex
 <.list variant="transparent" size="small">
@@ -173,15 +132,21 @@ Content for list items.
   <:item icon="hero-users" padding="small" class="hover:bg-gray-100 rounded cursor-pointer">
     Users
   </:item>
-  <:item icon="hero-chart-bar" padding="small" class="hover:bg-gray-100 rounded cursor-pointer">
-    Analytics
+</.list>
+
+<.list variant="transparent" size="small" padding="none">
+  <:item icon="hero-pencil" padding="extra_small" class="hover:bg-gray-100 cursor-pointer">
+    Edit
+  </:item>
+  <:item icon="hero-trash" padding="extra_small" class="hover:bg-gray-100 cursor-pointer text-red-500">
+    Delete
   </:item>
 </.list>
 ```
 
 ## Common Patterns
 
-### Feature List
+### Feature list (icon + title/subtitle)
 
 ```heex
 <.list variant="transparent" space="medium">
@@ -197,16 +162,10 @@ Content for list items.
       <p class="text-sm text-gray-500">Get help when you need it</p>
     </div>
   </:item>
-  <:item icon="hero-check-circle" icon_class="text-green-500 size-6">
-    <div>
-      <p class="font-medium">Advanced analytics</p>
-      <p class="text-sm text-gray-500">Track everything</p>
-    </div>
-  </:item>
 </.list>
 ```
 
-### User List
+### User list (dynamic `:for` with `.avatar`)
 
 ```heex
 <.list variant="bordered_separated" rounded="large">
@@ -222,7 +181,7 @@ Content for list items.
 </.list>
 ```
 
-### Activity Feed
+### Activity feed (dynamic `:for` with `.icon`)
 
 ```heex
 <.list variant="transparent" space="small">
@@ -238,23 +197,7 @@ Content for list items.
 </.list>
 ```
 
-### Dropdown Menu Items
-
-```heex
-<.list variant="transparent" size="small" padding="none">
-  <:item icon="hero-pencil" padding="extra_small" class="hover:bg-gray-100 cursor-pointer">
-    Edit
-  </:item>
-  <:item icon="hero-document-duplicate" padding="extra_small" class="hover:bg-gray-100 cursor-pointer">
-    Duplicate
-  </:item>
-  <:item icon="hero-trash" padding="extra_small" class="hover:bg-gray-100 cursor-pointer text-red-500">
-    Delete
-  </:item>
-</.list>
-```
-
-### Settings List
+### Settings list (row with `.toggle_field`)
 
 ```heex
 <.list variant="bordered_separated" rounded="large">
@@ -265,15 +208,6 @@ Content for list items.
         <p class="text-sm text-gray-500">Receive email updates</p>
       </div>
       <.toggle_field name="email_notifications" checked={@settings.email_notifications} />
-    </div>
-  </:item>
-  <:item padding="medium">
-    <div class="flex items-center justify-between w-full">
-      <div>
-        <p class="font-medium">Push notifications</p>
-        <p class="text-sm text-gray-500">Get push alerts</p>
-      </div>
-      <.toggle_field name="push_notifications" checked={@settings.push_notifications} />
     </div>
   </:item>
 </.list>

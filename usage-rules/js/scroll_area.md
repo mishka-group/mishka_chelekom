@@ -47,21 +47,30 @@ The hook expects this DOM structure:
 </div>
 ```
 
+## `<.scroll_area>` Attributes Seen in Examples
+
+| Attribute | Example values | Notes |
+|---|---|---|
+| `id` | any string | required |
+| `height` | `h-64`, `h-96`, `h-48`, `h-[400px]`, `h-[500px]`, `h-[600px]` | Tailwind height class |
+| `width` | `w-64`, `w-48` | Tailwind width class |
+| `horizontal` | `true` / `false` | enable horizontal scrollbar |
+| `vertical` | `true` / `false` | enable vertical scrollbar |
+| `scrollbar_width` | `w-1` | Tailwind width class for thumb thickness |
+| `type` | `"hover"` | auto-hide scrollbars, shown on hover |
+| `padding` | `"medium"`, `"large"` | inner content padding |
+| `content_class` | e.g. `space-y-4` | extra classes on `.scroll-content` |
+| `class` | any | classes on the wrapper |
+
 ## Usage Examples
 
-### Basic Scroll Area
+### Basic / Fixed Height & Width
 
 ```heex
 <.scroll_area id="content-scroll" height="h-64">
   <p>Long scrollable content here...</p>
-  <p>More content...</p>
-  <p>Even more content...</p>
 </.scroll_area>
-```
 
-### Fixed Height Container
-
-```heex
 <.scroll_area id="sidebar-scroll" height="h-[400px]" width="w-64">
   <nav>
     <a :for={item <- @nav_items} href={item.url} class="block p-2">
@@ -71,52 +80,14 @@ The hook expects this DOM structure:
 </.scroll_area>
 ```
 
-### Both Scrollbars
+### Both Scrollbars / Horizontal Only
 
 ```heex
-<.scroll_area
-  id="code-scroll"
-  height="h-96"
-  horizontal={true}
-  vertical={true}
->
+<.scroll_area id="code-scroll" height="h-96" horizontal={true} vertical={true}>
   <pre><code>{@code_content}</code></pre>
 </.scroll_area>
-```
 
-### With Custom Scrollbar Width
-
-```heex
-<.scroll_area
-  id="thin-scroll"
-  height="h-48"
-  scrollbar_width="w-1"
->
-  <p>Content with thin scrollbar...</p>
-</.scroll_area>
-```
-
-### Auto-hide Scrollbars
-
-```heex
-<.scroll_area
-  id="auto-scroll"
-  height="h-64"
-  type="hover"
->
-  <p>Scrollbars appear on hover...</p>
-</.scroll_area>
-```
-
-### Horizontal Only
-
-```heex
-<.scroll_area
-  id="horizontal-scroll"
-  horizontal={true}
-  vertical={false}
-  class="w-full"
->
+<.scroll_area id="horizontal-scroll" horizontal={true} vertical={false} class="w-full">
   <div class="flex gap-4 w-max">
     <.card :for={item <- @items} class="w-64 shrink-0">
       {item.title}
@@ -125,7 +96,19 @@ The hook expects this DOM structure:
 </.scroll_area>
 ```
 
-### Chat Messages Container
+### Custom Scrollbar Width & Auto-hide
+
+```heex
+<.scroll_area id="thin-scroll" height="h-48" scrollbar_width="w-1">
+  <p>Content with thin scrollbar...</p>
+</.scroll_area>
+
+<.scroll_area id="auto-scroll" height="h-64" type="hover">
+  <p>Scrollbars appear on hover...</p>
+</.scroll_area>
+```
+
+### Padding & Content Class (Chat Messages)
 
 ```heex
 <.scroll_area
@@ -133,6 +116,7 @@ The hook expects this DOM structure:
   height="h-[500px]"
   class="border rounded-lg"
   padding="medium"
+  content_class="space-y-4"
 >
   <div :for={message <- @messages} class="mb-4">
     <div class="font-medium">{message.sender}</div>
@@ -141,7 +125,7 @@ The hook expects this DOM structure:
 </.scroll_area>
 ```
 
-### Code Editor Panel
+### Code Editor Panel (Multiple Scroll Areas)
 
 ```heex
 <div class="flex gap-4">
@@ -155,21 +139,6 @@ The hook expects this DOM structure:
     <pre class="text-sm"><code>{@file_content}</code></pre>
   </.scroll_area>
 </div>
-```
-
-### With Content Class
-
-```heex
-<.scroll_area
-  id="padded-scroll"
-  height="h-64"
-  content_class="space-y-4"
-  padding="large"
->
-  <p :for={paragraph <- @paragraphs}>
-    {paragraph}
-  </p>
-</.scroll_area>
 ```
 
 ## CSS Classes
@@ -186,7 +155,7 @@ The hook expects this DOM structure:
 
 ## Scrollbar Visibility
 
-The component hides native scrollbars:
+Native scrollbars are hidden:
 
 ```css
 .scroll-viewport {

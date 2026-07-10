@@ -1,6 +1,6 @@
 # preview_card (headless)
 
-An unstyled, accessible hover card (preview card): a trigger that reveals a floating, non-modal preview on hover/focus, with behavior delegated to the shared `Popup` JS engine in hover mode. Follows the **Hover Card** convention (no formal WAI-ARIA APG pattern); the trigger exposes `aria-expanded` + `aria-controls` and the popup uses `role="dialog"`.
+An unstyled, accessible hover card (preview card): a trigger that reveals a floating, non-modal preview on hover/focus, delegated to the shared `Popup` JS engine in hover mode. Follows the **Hover Card** convention (no formal WAI-ARIA APG pattern); trigger exposes `aria-expanded` + `aria-controls`, popup uses `role="dialog"`.
 
 ## Generate
 
@@ -17,7 +17,7 @@ const Hooks = { Popup };
 
 ## Anatomy
 
-The root is a `<div>` carrying `phx-hook="Popup"`, `data-trigger="hover"`, `data-side={@side}`, and `class="chelekom-preview-card"`. Parts are marked with `data-part` hooks the engine queries:
+Root `<div>` carries `phx-hook="Popup"`, `data-trigger="hover"`, `data-side={@side}`, `class="chelekom-preview-card"`. `Popup` queries `[data-part="trigger"]`/`[data-part="popup"]` inside the root. Popup id is `#{@id}-popup`.
 
 | Part | Element | `data-part` | Class | Source |
 |------|---------|-------------|-------|--------|
@@ -25,31 +25,23 @@ The root is a `<div>` carrying `phx-hook="Popup"`, `data-trigger="hover"`, `data
 | trigger | `span` | `trigger` | `chelekom-preview-card__trigger` | `<:trigger>` slot (required) |
 | popup | `div` | `popup` | `chelekom-preview-card__popup` | `inner_block` (required) |
 
-`Popup` queries `[data-part="trigger"]` and `[data-part="popup"]` inside the root. The popup id is `#{@id}-popup`.
-
 ## ARIA & keyboard
 
-Roles and aria attributes (wired by the template + engine):
-
-- **trigger** — `aria-controls` points at the popup id (`#{@id}-popup`); `aria-expanded` is rendered `"false"` and toggled `"true"`/`"false"` by the engine as the preview opens/closes.
-- **popup** — `role="dialog"`. It is **non-modal**: focus is never trapped and there is no `aria-modal`.
-
-Interactions (handled by `Popup` in hover mode):
-
-- **Pointer enter / focus in** (`mouseenter`, `focusin` on the root) — opens the preview.
-- **Pointer leave / focus out** (`mouseleave`, `focusout` on the root) — closes the preview.
-- **Escape** — closes the preview and returns focus to the trigger.
-
-In hover mode the engine does **not** autofocus content on open and does not trap Tab focus. Outside-click also closes while open (engine listens on `document` only while open). Placement follows `data-side` (default `top`).
+- **trigger** — `aria-controls` points at `#{@id}-popup`; `aria-expanded` rendered `"false"`, toggled `"true"`/`"false"` by the engine as the preview opens/closes.
+- **popup** — `role="dialog"`, **non-modal**: focus is never trapped, no `aria-modal`.
+- **Pointer enter / focus in** (`mouseenter`/`focusin` on root) — opens.
+- **Pointer leave / focus out** (`mouseleave`/`focusout` on root) — closes.
+- **Escape** — closes and returns focus to trigger.
+- Hover mode does **not** autofocus content on open and does not trap Tab focus. Outside-click also closes while open (engine listens on `document` only while open). Placement follows `data-side` (default `top`).
 
 ## State
 
-Paired-presence (Base-UI style) attributes on the popup, toggled by the `Popup` engine:
+Paired-presence (Base-UI style) attrs on the popup, toggled by the `Popup` engine, mutually exclusive:
 
-- `data-open` — present when the preview is open.
-- `data-closed` — present when the preview is closed (the template renders the initial `data-closed`).
+- `data-open` — preview is open.
+- `data-closed` — preview is closed (template renders this initially).
 
-The two are mutually exclusive. On open the engine also sets `data-side` on the popup and the `--chelekom-side` CSS custom property to the resolved side. On the trigger, `aria-expanded` mirrors the open state.
+On open the engine also sets `data-side` on the popup and the `--chelekom-side` CSS custom property to the resolved side. `aria-expanded` on the trigger mirrors the open state.
 
 ## Example
 
@@ -67,11 +59,11 @@ The two are mutually exclusive. On open the engine also sets `data-side` on the 
 </.preview_card>
 ```
 
-Attrs: `id` (required), `side` (one of `top` | `right` | `bottom` | `left`, default `top`), `class`, and `rest` (global). Slots: `trigger` (required, the hovered/focused element) and `inner_block` (required, the preview content).
+Attrs: `id` (required), `side` (`top` | `right` | `bottom` | `left`, default `top`), `class`, `rest` (global). Slots: `trigger` (required, hovered/focused element), `inner_block` (required, preview content).
 
 ## Styling
 
-This component ships **no** colors or spacing — only structural markup. Style it via the `chelekom-preview-card*` classes (`chelekom-preview-card`, `__trigger`, `__popup`) and the `data-open` / `data-closed` / `data-side` state attributes, e.g.:
+Ships **no** colors or spacing — structural markup only. Style via `chelekom-preview-card*` classes (`chelekom-preview-card`, `__trigger`, `__popup`) and `data-open`/`data-closed`/`data-side` state attrs:
 
 ```css
 .chelekom-preview-card__popup            { position: absolute; }
@@ -80,4 +72,4 @@ This component ships **no** colors or spacing — only structural markup. Style 
 .chelekom-preview-card__popup[data-side="top"]    { /* per-side offset */ }
 ```
 
-The engine exposes the resolved side via the `--chelekom-side` CSS variable for transitions/arrows. Add your own classes to the root via the `class` attr.
+`--chelekom-side` CSS variable exposes the resolved side for transitions/arrows. Add custom classes to the root via `class`.

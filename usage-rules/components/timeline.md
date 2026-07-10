@@ -29,7 +29,7 @@ mix mishka.ui.gen.component timeline
 
 ## Attributes
 
-### `timeline/1` Attributes
+### `timeline/1`
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -38,7 +38,7 @@ mix mishka.ui.gen.component timeline
 | `gapped_sections` | `:boolean` | `false` | Add gap between sections |
 | `hide_last_line` | `:boolean` | `false` | Hide last connector line |
 
-### `timeline_section/1` Attributes
+### `timeline_section/1`
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -49,11 +49,8 @@ mix mishka.ui.gen.component timeline
 
 ## Available Options
 
-### Colors
-`base`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `natural`, `misc`, `dawn`, `silver`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `double_large`, `triple_large`, `quadruple_large`
+- **Colors**: `base`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `natural`, `misc`, `dawn`, `silver`
+- **Sizes**: `extra_small`, `small`, `medium`, `large`, `extra_large`, `double_large`, `triple_large`, `quadruple_large`
 
 ## Usage Examples
 
@@ -69,33 +66,24 @@ mix mishka.ui.gen.component timeline
     <p class="font-bold">Event 2</p>
     <p class="text-sm text-gray-600">Description of event 2</p>
   </.timeline_section>
-  <.timeline_section>
-    <p class="font-bold">Event 3</p>
-    <p class="text-sm text-gray-600">Description of event 3</p>
-  </.timeline_section>
 </.timeline>
 ```
 
-### With Icons
+### Icons and Section Colors
+
+`icon` sets the bullet icon; `color` on `timeline_section` overrides the container's color for that bullet.
 
 ```heex
-<.timeline color="primary">
-  <.timeline_section icon="hero-check">
-    <p class="font-bold">Order Placed</p>
-    <p class="text-sm">March 1, 2024</p>
-  </.timeline_section>
-  <.timeline_section icon="hero-truck">
-    <p class="font-bold">Shipped</p>
-    <p class="text-sm">March 3, 2024</p>
-  </.timeline_section>
-  <.timeline_section icon="hero-home">
-    <p class="font-bold">Delivered</p>
-    <p class="text-sm">March 5, 2024</p>
-  </.timeline_section>
+<.timeline>
+  <.timeline_section color="success" icon="hero-check">Completed</.timeline_section>
+  <.timeline_section color="warning" icon="hero-clock">In Progress</.timeline_section>
+  <.timeline_section color="natural" icon="hero-ellipsis-horizontal">Pending</.timeline_section>
 </.timeline>
 ```
 
 ### With Images
+
+`image` sets the bullet to an avatar instead of an icon.
 
 ```heex
 <.timeline>
@@ -121,17 +109,7 @@ mix mishka.ui.gen.component timeline
 </.timeline>
 ```
 
-### Different Colors
-
-```heex
-<.timeline>
-  <.timeline_section color="success" icon="hero-check">Completed</.timeline_section>
-  <.timeline_section color="warning" icon="hero-clock">In Progress</.timeline_section>
-  <.timeline_section color="natural" icon="hero-ellipsis-horizontal">Pending</.timeline_section>
-</.timeline>
-```
-
-### With Gap
+### With Gap (`gapped_sections`)
 
 ```heex
 <.timeline gapped_sections>
@@ -150,19 +128,9 @@ mix mishka.ui.gen.component timeline
 </.timeline>
 ```
 
-### Hide Last Line
-
-```heex
-<.timeline hide_last_line>
-  <.timeline_section>First event</.timeline_section>
-  <.timeline_section>Second event</.timeline_section>
-  <.timeline_section>Last event (no line below)</.timeline_section>
-</.timeline>
-```
-
 ## Common Patterns
 
-### Order Tracking
+### Order Tracking (`hide_last_line`)
 
 ```heex
 <.timeline color="primary" hide_last_line>

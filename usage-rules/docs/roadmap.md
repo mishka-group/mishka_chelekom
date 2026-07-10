@@ -1,6 +1,6 @@
 # Chelekom Phoenix UIKit - Roadmap
 
-## Current Version: v0.0.8
+## Current Version: v0.0.9
 
 ### Version 0.0.8
 

@@ -40,14 +40,14 @@ mix mishka.ui.gen.component accordion --module MyAppWeb.Components.CustomAccordi
 | `server_events` | `:boolean` | `false` | Send open/close events to LiveView |
 | `event_handler` | `:string` | `nil` | Specify event handler for accordion events |
 | `initial_open` | `:list` | `[]` | List of initially open item IDs |
-| `variant` | `:string` | `"base"` | Visual style variant |
-| `color` | `:string` | `"natural"` | Color theme |
-| `size` | `:string` | `"medium"` | Overall size |
-| `rounded` | `:string` | `"medium"` | Border radius |
+| `variant` | `:string` | `"base"` | Visual style variant (see below) |
+| `color` | `:string` | `"natural"` | Color theme (see below) |
+| `size` | `:string` | `"medium"` | Overall size (see below) |
+| `rounded` | `:string` | `"medium"` | Border radius (see below) |
 | `border` | `:string` | `"extra_small"` | Border style |
-| `space` | `:string` | `"small"` | Space between separated items |
+| `space` | `:string` | `"small"` | Space between separated items (see below) |
 | `media_size` | `:string` | `"small"` | Size of media elements like icons and images |
-| `padding` | `:string` | `"small"` | Padding for accordion items |
+| `padding` | `:string` | `"small"` | Padding for accordion items (see below) |
 | `chevron_icon` | `:string` | `"hero-chevron-down"` | Chevron icon |
 | `chevron_position` | `:string` | `"right"` | Chevron position (left/right) |
 | `left_chevron` | `:boolean` | `false` | Position chevron on the left |
@@ -75,72 +75,47 @@ mix mishka.ui.gen.component accordion --module MyAppWeb.Components.CustomAccordi
 
 ## Available Options
 
-### Variants
-`base`, `base_separated`, `default`, `bordered`, `bordered_separated`, `outline`, `outline_separated`, `transparent`, `shadow`, `gradient`
-
-### Colors
-`natural`, `white`, `dark`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
-
-### Rounded
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `full`, `none`
-
-### Padding
-`extra_small`, `small`, `medium`, `large`, `extra_large`
-
-### Space
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `none`
+- **Variants**: `base`, `base_separated`, `default`, `bordered`, `bordered_separated`, `outline`, `outline_separated`, `transparent`, `shadow`, `gradient`
+- **Colors**: `natural`, `white`, `dark`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
+- **Sizes**: `extra_small`, `small`, `medium`, `large`, `extra_large`
+- **Rounded**: `extra_small`, `small`, `medium`, `large`, `extra_large`, `full`, `none`
+- **Padding**: `extra_small`, `small`, `medium`, `large`, `extra_large`
+- **Space**: `extra_small`, `small`, `medium`, `large`, `extra_large`, `none`
 
 ## Usage Examples
 
-### Basic Usage
+### Basic, colors/variants, and icons/images
 
 ```heex
 <.accordion>
-  <:item title="Section 1">
-    Content for section 1
-  </:item>
-  <:item title="Section 2">
-    Content for section 2
-  </:item>
+  <:item title="Section 1">Content for section 1</:item>
+  <:item title="Section 2">Content for section 2</:item>
 </.accordion>
-```
 
-### With Colors and Variants
-
-```heex
 <.accordion variant="outline" color="primary" rounded="large">
   <:item title="Primary Outline" description="With description">
     This is an outlined accordion with primary color.
   </:item>
 </.accordion>
-```
 
-### Multiple Open Panels
-
-```heex
-<.accordion multiple={true}>
-  <:item title="Panel 1" open={true}>
-    Initially open panel
-  </:item>
-  <:item title="Panel 2">
-    Closed by default
-  </:item>
+<.accordion>
+  <:item title="Settings" icon="hero-cog-6-tooth">Settings content here</:item>
+  <:item title="Profile" image="/images/avatar.png">Profile content here</:item>
 </.accordion>
 ```
 
-### With Icons and Images
+### Multiple open panels / initial open items
 
 ```heex
-<.accordion>
-  <:item title="Settings" icon="hero-cog-6-tooth">
-    Settings content here
-  </:item>
-  <:item title="Profile" image="/images/avatar.png">
-    Profile content here
-  </:item>
+<.accordion multiple={true}>
+  <:item title="Panel 1" open={true}>Initially open panel</:item>
+  <:item title="Panel 2">Closed by default</:item>
+</.accordion>
+
+<.accordion initial_open={["section-1", "section-3"]}>
+  <:item id="section-1" title="Section 1">Open by default</:item>
+  <:item id="section-2" title="Section 2">Closed</:item>
+  <:item id="section-3" title="Section 3">Open by default</:item>
 </.accordion>
 ```
 
@@ -168,16 +143,6 @@ def handle_event("collapsible_close", %{"id" => id}, socket) do
 end
 ```
 
-### Initial Open Items
-
-```heex
-<.accordion initial_open={["section-1", "section-3"]}>
-  <:item id="section-1" title="Section 1">Open by default</:item>
-  <:item id="section-2" title="Section 2">Closed</:item>
-  <:item id="section-3" title="Section 3">Open by default</:item>
-</.accordion>
-```
-
 ### Separated Variant with Space
 
 ```heex
@@ -187,35 +152,21 @@ end
 </.accordion>
 ```
 
-### Custom Chevron
+### Custom / hidden chevron
 
 ```heex
-<.accordion
-  chevron_icon="hero-plus"
-  chevron_position="left"
-  chevron_class="text-primary-500"
->
-  <:item title="Custom Chevron">
-    Content with custom chevron on the left
-  </:item>
+<.accordion chevron_icon="hero-plus" chevron_position="left" chevron_class="text-primary-500">
+  <:item title="Custom Chevron">Content with custom chevron on the left</:item>
 </.accordion>
-```
 
-### Hidden Chevron
-
-```heex
 <.accordion hide_chevron={true}>
-  <:item title="No Chevron">
-    Accordion without chevron indicator
-  </:item>
+  <:item title="No Chevron">Accordion without chevron indicator</:item>
 </.accordion>
 ```
 
 ## JavaScript Hook
 
-The accordion uses the `Collapsible` JavaScript hook for animations. This is automatically configured when you generate the component.
-
-The hook is registered in `assets/js/app.js`:
+Uses the `Collapsible` JS hook for animations, auto-configured on generation. Registered in `assets/js/app.js`:
 
 ```javascript
 import MishkaComponents from "../vendor/mishka_components.js";

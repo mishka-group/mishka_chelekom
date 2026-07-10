@@ -39,14 +39,14 @@ mix mishka.ui.gen.component divider --module MyAppWeb.Components.CustomDivider
 
 ## Attributes
 
-### `divider/1` Attributes
+### `divider/1`
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `id` | `:string` | `nil` | Unique identifier |
 | `type` | `:string` | `"solid"` | Line style: `solid`, `dashed`, `dotted` |
-| `color` | `:string` | `"base"` | Color theme |
-| `size` | `:string` | `"extra_small"` | Line thickness |
+| `color` | `:string` | `"base"` | Color theme: `base`, `natural`, `white`, `dark`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `misc`, `dawn`, `silver` |
+| `size` | `:string` | `"extra_small"` | Line thickness: `extra_small`, `small`, `medium`, `large`, `extra_large` |
 | `position` | `:string` | `"center"` | Content position: `start`, `center`, `end` |
 | `orientation` | `:string` | `"horizontal"` | Direction: `horizontal`, `vertical` |
 | `width` | `:string` | `nil` | Custom width |
@@ -54,117 +54,72 @@ mix mishka.ui.gen.component divider --module MyAppWeb.Components.CustomDivider
 | `margin` | `:string` | `nil` | Custom margin |
 | `class` | `:any` | `nil` | Custom CSS class |
 
-### `hr/1` Attributes
+### `hr/1`
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `color` | `:string` | `"base"` | Color theme |
-| `size` | `:string` | `"extra_small"` | Line thickness |
+| `color` | `:string` | `"base"` | Color theme (same options as `divider/1`) |
+| `size` | `:string` | `"extra_small"` | Line thickness (same options as `divider/1`) |
 | `class` | `:any` | `nil` | Custom CSS class |
 
 ## Slots
 
-### `text` Slot
-
-Text content displayed on the divider line.
-
-### `icon` Slot
-
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `name` | `:string` | Icon name |
-| `class` | `:string` | Icon styling |
-
-## Available Options
-
-### Line Types
-`solid`, `dashed`, `dotted`
-
-### Colors
-`base`, `natural`, `white`, `dark`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `misc`, `dawn`, `silver`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
-
-### Position
-`start`, `center`, `end`
-
-### Orientation
-`horizontal`, `vertical`
+| Slot | Attribute | Type | Description |
+|------|-----------|------|-------------|
+| `text` | — | — | Text content displayed on the divider line |
+| `icon` | `name` | `:string` | Icon name |
+| `icon` | `class` | `:string` | Icon styling |
 
 ## Usage Examples
 
-### Basic Divider
+### Basic
 
 ```heex
 <.divider />
-```
-
-### Simple HR
-
-```heex
 <.hr />
 ```
 
-### With Text
+### Text / Icon content
 
 ```heex
 <.divider>
   <:text>Or</:text>
 </.divider>
-```
 
-### With Icon
-
-```heex
 <.divider>
   <:icon name="hero-star" class="size-5 text-yellow-500" />
 </.divider>
 ```
 
-### Different Line Types
+### Type, color, size, position
 
 ```heex
 <.divider type="solid" />
 <.divider type="dashed" />
 <.divider type="dotted" />
-```
 
-### Different Colors
-
-```heex
 <.divider color="primary" />
 <.divider color="success" />
 <.divider color="danger" />
 <.divider color="warning" />
-```
 
-### Different Sizes
-
-```heex
 <.divider size="extra_small" />
 <.divider size="small" />
 <.divider size="medium" />
 <.divider size="large" />
-```
 
-### Text Position
-
-```heex
 <.divider position="start">
   <:text>Start</:text>
 </.divider>
-
 <.divider position="center">
   <:text>Center</:text>
 </.divider>
-
 <.divider position="end">
   <:text>End</:text>
 </.divider>
 ```
 
-### Vertical Divider
+### Vertical divider
 
 ```heex
 <div class="flex items-center h-20 gap-4">
@@ -176,17 +131,13 @@ Text content displayed on the divider line.
 </div>
 ```
 
-### Dashed with Text
+### Combined type + color + position/size
 
 ```heex
 <.divider type="dashed" color="primary" position="center">
   <:text>Section Break</:text>
 </.divider>
-```
 
-### Dotted with Icon
-
-```heex
 <.divider type="dotted" size="medium">
   <:icon name="hero-circle-stack" class="p-2 bg-white text-yellow-600" />
 </.divider>
@@ -194,7 +145,7 @@ Text content displayed on the divider line.
 
 ## Common Patterns
 
-### Login Form Divider
+### Login form divider
 
 ```heex
 <.divider color="natural">
@@ -204,7 +155,7 @@ Text content displayed on the divider line.
 </.divider>
 ```
 
-### Section Separator
+### Section separator (icon + margin)
 
 ```heex
 <.divider type="dashed" color="natural" margin="my-8">
@@ -212,13 +163,13 @@ Text content displayed on the divider line.
 </.divider>
 ```
 
-### Footer Divider
+### Footer divider (`hr`)
 
 ```heex
 <.hr color="natural" size="small" class="my-6" />
 ```
 
-### Content Sections
+### Content sections
 
 ```heex
 <article>
@@ -232,7 +183,7 @@ Text content displayed on the divider line.
 </article>
 ```
 
-### Inline Items
+### Inline items (vertical, compact height)
 
 ```heex
 <div class="flex items-center gap-4">

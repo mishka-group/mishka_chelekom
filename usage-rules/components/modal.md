@@ -1,6 +1,6 @@
 # Modal Component
 
-Dialog/popup component for displaying content overlays with customizable styling and accessibility.
+Dialog/popup component for content overlays with customizable styling and accessibility.
 
 **Documentation**: https://mishka.tools/chelekom/docs/modal
 
@@ -9,13 +9,8 @@ Dialog/popup component for displaying content overlays with customizable styling
 ## Generate
 
 ```bash
-# Generate with all options
 mix mishka.ui.gen.component modal
-
-# Generate with specific options
 mix mishka.ui.gen.component modal --variant default,shadow --color white,natural
-
-# Generate with custom module name
 mix mishka.ui.gen.component modal --module MyAppWeb.Components.CustomModal
 ```
 
@@ -46,58 +41,28 @@ mix mishka.ui.gen.component modal --module MyAppWeb.Components.CustomModal
 
 ## Slots
 
-### `inner_block` Slot
-
-Modal content.
+- `inner_block` — modal content.
 
 ## Helper Functions
 
-### `show_modal/1` and `show_modal/2`
-
-Show a modal programmatically.
-
-```elixir
-show_modal(id)
-show_modal(js \\ %JS{}, id)
-```
-
-### `hide_modal/1` and `hide_modal/2`
-
-Hide a modal programmatically.
-
-```elixir
-hide_modal(id)
-hide_modal(js \\ %JS{}, id)
-```
-
-### `show/1` and `show/2`
-
-Alternative show function.
-
-### `hide/1` and `hide/2`
-
-Alternative hide function.
+- `show_modal(id)` / `show_modal(js \\ %JS{}, id)` — show a modal programmatically.
+- `hide_modal(id)` / `hide_modal(js \\ %JS{}, id)` — hide a modal programmatically.
+- `show/1`, `show/2` — alternative show function.
+- `hide/1`, `hide/2` — alternative hide function.
 
 ## Available Options
 
-### Variants
-`base`, `default`, `shadow`, `bordered`, `gradient`
-
-### Colors
-`base`, `white`, `natural`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `double_large`, `triple_large`, `quadruple_large`, `screen`
-
-### Rounded
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `none`
-
-### Padding
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `none`
+| Option | Values |
+|--------|--------|
+| Variants | `base`, `default`, `shadow`, `bordered`, `gradient` |
+| Colors | `base`, `white`, `natural`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn` |
+| Sizes | `extra_small`, `small`, `medium`, `large`, `extra_large`, `double_large`, `triple_large`, `quadruple_large`, `screen` |
+| Rounded | `extra_small`, `small`, `medium`, `large`, `extra_large`, `none` |
+| Padding | `extra_small`, `small`, `medium`, `large`, `extra_large`, `none` |
 
 ## Usage Examples
 
-### Basic Modal
+### Basic
 
 ```heex
 <.button phx-click={show_modal("basic-modal")}>Open Modal</.button>
@@ -107,10 +72,10 @@ Alternative hide function.
 </.modal>
 ```
 
-### With Actions
+### With Confirm/Cancel Actions
 
 ```heex
-<.modal id="confirm-modal" title="Confirm Action">
+<.modal id="confirm-modal" title="Confirm Action" variant="shadow">
   <p>Are you sure you want to proceed?</p>
   <div class="flex justify-end gap-4 mt-6">
     <.button variant="outline" phx-click={hide_modal("confirm-modal")}>Cancel</.button>
@@ -119,27 +84,15 @@ Alternative hide function.
 </.modal>
 ```
 
-### Different Sizes
+### Sizes and Variants
+
+`size` and `variant` accept any value from the tables above:
 
 ```heex
-<.modal id="small-modal" size="small" title="Small Modal">
-  Small content
-</.modal>
+<.modal id="small-modal" size="small" title="Small Modal">Small content</.modal>
+<.modal id="full-modal" size="screen" title="Full Screen">Full screen content</.modal>
 
-<.modal id="large-modal" size="large" title="Large Modal">
-  Large content
-</.modal>
-
-<.modal id="full-modal" size="screen" title="Full Screen">
-  Full screen content
-</.modal>
-```
-
-### Different Variants
-
-```heex
 <.modal id="default-modal" variant="default" title="Default">Content</.modal>
-<.modal id="shadow-modal" variant="shadow" title="Shadow">Content</.modal>
 <.modal id="bordered-modal" variant="bordered" title="Bordered">Content</.modal>
 ```
 
@@ -151,7 +104,7 @@ Alternative hide function.
 </.modal>
 ```
 
-### Without Title/Close
+### Without Title/Close (manual close button)
 
 ```heex
 <.modal id="custom-modal" hide_close={true} padding="none">
@@ -187,23 +140,15 @@ Alternative hide function.
 ### Confirmation Dialog
 
 ```heex
-<.button
-  phx-click={show_modal("delete-confirm")}
-  phx-value-id={@item.id}
-  color="danger"
->
+<.button phx-click={show_modal("delete-confirm")} phx-value-id={@item.id} color="danger">
   Delete
 </.button>
 
 <.modal id="delete-confirm" title="Delete Item" variant="shadow">
   <p>Are you sure you want to delete this item? This action cannot be undone.</p>
   <div class="flex justify-end gap-4 mt-6">
-    <.button variant="outline" phx-click={hide_modal("delete-confirm")}>
-      Cancel
-    </.button>
-    <.button color="danger" phx-click="delete" phx-value-id={@delete_id}>
-      Delete
-    </.button>
+    <.button variant="outline" phx-click={hide_modal("delete-confirm")}>Cancel</.button>
+    <.button color="danger" phx-click="delete" phx-value-id={@delete_id}>Delete</.button>
   </div>
 </.modal>
 ```
@@ -224,11 +169,7 @@ Alternative hide function.
     <.icon name="hero-check-circle" class="size-16 text-green-500 mx-auto" />
     <h3 class="text-xl font-bold mt-4">Success!</h3>
     <p class="text-gray-600 mt-2">Your changes have been saved.</p>
-    <.button
-      color="success"
-      class="mt-6"
-      phx-click={hide_modal("success-modal")}
-    >
+    <.button color="success" class="mt-6" phx-click={hide_modal("success-modal")}>
       Done
     </.button>
   </div>
@@ -239,18 +180,9 @@ Alternative hide function.
 
 ```heex
 <.modal id="wizard-modal" title="Setup Wizard" size="large">
-  <div :if={@step == 1}>
-    <h3>Step 1: Basic Info</h3>
-    <!-- Step 1 content -->
-  </div>
-  <div :if={@step == 2}>
-    <h3>Step 2: Preferences</h3>
-    <!-- Step 2 content -->
-  </div>
-  <div :if={@step == 3}>
-    <h3>Step 3: Confirmation</h3>
-    <!-- Step 3 content -->
-  </div>
+  <div :if={@step == 1}><h3>Step 1: Basic Info</h3></div>
+  <div :if={@step == 2}><h3>Step 2: Preferences</h3></div>
+  <div :if={@step == 3}><h3>Step 3: Confirmation</h3></div>
 
   <div class="flex justify-between mt-6">
     <.button :if={@step > 1} variant="outline" phx-click="prev_step">Back</.button>

@@ -12,37 +12,31 @@ Generates `lib/<app>_web/components/headless/checkbox_group.ex`. No JS engine to
 
 ## Anatomy
 
-The root is a `<div role="group">` with `class="chelekom-checkbox_group"`. Parts are marked with `data-part` hooks:
+Root is `<div role="group">` with `class="chelekom-checkbox_group"`, plus `aria-labelledby="#{@id}-label"` when a `<:label>` slot is present (otherwise omitted). Parts are marked with `data-part` hooks:
 
 | Part | Element | `data-part` | Class | Source |
 |------|---------|-------------|-------|--------|
 | root | `div` | — | `chelekom-checkbox_group` | always rendered |
-| label | `span` | `label` | `chelekom-checkbox_group__label` | `<:label>` slot (rendered only when present) |
+| label | `span` | `label` | `chelekom-checkbox_group__label` | `<:label>` slot (optional); gets `id="#{@id}-label"`, referenced by root's `aria-labelledby` |
 | item | `label` | `item` | `chelekom-checkbox_group__item` | `<:item>` slot (required, one per option) |
-| input | `input` | `input` | `chelekom-checkbox_group__input` | native checkbox inside each item |
+| input | `input` | `input` | `chelekom-checkbox_group__input` | native `<input type="checkbox">` inside each item; gets `checked`/`disabled` from the item attrs |
 
-Each `<:item>` accepts `value` (required), `checked` (boolean), and `disabled` (boolean). Inputs share `name="<name>[]"` so the selected values submit as a list. The item's inner block renders after the input as its visible label text.
+Each `<:item>` accepts `value` (required), `checked` (boolean), and `disabled` (boolean). Inputs share `name="<name>[]"` so selected values submit as a list; the item's inner block renders after the input as its visible label text.
 
 ## ARIA & keyboard
-
-Roles and aria attributes (wired by the template):
-
-- **root** — `role="group"`, plus `aria-labelledby="#{@id}-label"` when a `<:label>` slot is present (otherwise omitted).
-- **label** — `id="#{@id}-label"`, referenced by the root's `aria-labelledby`.
-- **input** — native `<input type="checkbox">`; gets `checked` / `disabled` from the item attrs.
-
-Keyboard (native browser behavior — no JS):
 
 - **Space** — toggles the focused checkbox.
 - **Tab** — moves between checkboxes.
 
+All native browser behavior — no JS.
+
 ## State
 
-This component has **no JS** (the `.exs` lists no scripts). The only state attribute is `data-disabled`, rendered statically by the template:
+This component has **no JS** (the `.exs` lists no scripts); checked/disabled state is driven entirely by the native inputs and slot attrs. The only state attribute is:
 
 - `data-disabled` — present on the `item` (`<label>`) when that item's `disabled` attr is set; the input also gets the native `disabled` attribute.
 
-There are no engine-toggled paired-presence attributes; checked/disabled state is driven by the native inputs and the slot attrs.
+No engine-toggled paired-presence attributes.
 
 ## Example
 
@@ -56,11 +50,11 @@ There are no engine-toggled paired-presence attributes; checked/disabled state i
 </.checkbox_group>
 ```
 
-Attrs: `id` (required), `name` (base form name; inputs submit as `name[]`), `class`, and `rest` (global). Slots: `label` (optional, wired to `aria-labelledby`), `item` (required, repeatable — each with `value` required, plus optional `checked` and `disabled`). Omit `name` to render inputs without a form name.
+Attrs: `id` (required), `name` (base form name; inputs submit as `name[]`; omit to render inputs without a form name), `class`, `rest` (global). Slots: `label` (optional, wired to `aria-labelledby`), `item` (required, repeatable — each with `value` required, plus optional `checked` and `disabled`).
 
 ## Styling
 
-This component ships **no** colors or spacing — only structural markup. Style it via the `chelekom-checkbox_group*` classes (`chelekom-checkbox_group`, `__label`, `__item`, `__input`) and the `data-disabled` state attribute, e.g.:
+Ships **no** colors or spacing — only structural markup. Style via the `chelekom-checkbox_group*` classes (`chelekom-checkbox_group`, `__label`, `__item`, `__input`) and the `data-disabled` state attribute:
 
 ```css
 .chelekom-checkbox_group__item[data-disabled] { opacity: 0.5; cursor: not-allowed; }

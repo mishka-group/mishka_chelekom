@@ -49,38 +49,25 @@ Individual radio card options.
 
 ## Available Options
 
-### Variants
-`base`, `default`, `outline`, `shadow`, `bordered`
-
-### Colors
-`base`, `natural`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dark`, `white`, `dawn`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
+- **Variants**: `base`, `default`, `outline`, `shadow`, `bordered`
+- **Colors**: `base`, `natural`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dark`, `white`, `dawn`
+- **Sizes** (border/rounded/padding/space): `extra_small`, `small`, `medium`, `large`, `extra_large`
 
 ## Usage Examples
 
-### Basic Radio Card
+### Basic, with icon, and grid layout
 
 ```heex
 <.radio_card name="plan">
   <:radio value="basic" title="Basic Plan" description="For individuals" />
   <:radio value="pro" title="Pro Plan" description="For teams" />
 </.radio_card>
-```
 
-### With Icons
-
-```heex
 <.radio_card name="plan" icon="hero-home">
   <:radio value="basic" title="Basic" description="$9/month" />
   <:radio value="pro" title="Pro" description="$29/month" />
 </.radio_card>
-```
 
-### Grid Layout
-
-```heex
 <.radio_card name="plan" cols="three" class="w-full">
   <:radio value="starter" title="Starter" description="For individuals" />
   <:radio value="team" title="Team" description="For small teams" />
@@ -88,10 +75,10 @@ Individual radio card options.
 </.radio_card>
 ```
 
-### With Custom Content
+### Custom content in the `radio` slot (with `variant`/`color`)
 
 ```heex
-<.radio_card name="plan" variant="shadow">
+<.radio_card name="plan" variant="outline" color="primary">
   <:radio value="basic" title="Basic Plan">
     <p class="text-lg font-bold">$9/month</p>
     <ul class="text-sm mt-2">
@@ -109,18 +96,9 @@ Individual radio card options.
 </.radio_card>
 ```
 
-### Different Variants
-
-```heex
-<.radio_card name="option" variant="outline" color="primary">
-  <:radio value="a" title="Option A" />
-  <:radio value="b" title="Option B" />
-</.radio_card>
-```
-
 ## Common Patterns
 
-### Subscription Plans
+### Subscription Plans (grid + `checked` pre-selection)
 
 ```heex
 <.radio_card name="subscription" cols="three" variant="shadow" class="w-full">
@@ -136,7 +114,7 @@ Individual radio card options.
 </.radio_card>
 ```
 
-### Shipping Options
+### Shipping Options (`bordered` variant)
 
 ```heex
 <.radio_card name="shipping" variant="bordered">

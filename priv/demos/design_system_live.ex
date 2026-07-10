@@ -28,7 +28,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.DesignSystemLive do
     """
     def deps do
       [
-        {:mishka_chelekom, "~> 0.0.8", only: :dev}
+        {:mishka_chelekom, "~> 0.0.9", only: :dev}
       ]
     end
     """

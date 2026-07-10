@@ -24,9 +24,9 @@ mix mishka.ui.gen.component url_field
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `variant` | `:string` | `"base"` | Style variant |
-| `color` | `:string` | `"base"` | Color theme |
-| `size` | `:string` | `"medium"` | Input size |
+| `variant` | `:string` | `"base"` | Style variant — `base`, `default`, `outline`, `shadow`, `bordered`, `transparent` |
+| `color` | `:string` | `"base"` | Color theme — `base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `misc`, `dawn`, `silver` |
+| `size` | `:string` | `"medium"` | Input size — `extra_small`, `small`, `medium`, `large`, `extra_large` |
 | `rounded` | `:string` | `"small"` | Border radius |
 | `space` | `:string` | `"medium"` | Space between elements |
 | `label` | `:string` | `nil` | Label text |
@@ -36,70 +36,37 @@ mix mishka.ui.gen.component url_field
 
 ## Slots
 
-### `start_section` / `end_section` Slots
-
-Content before/after input.
-
-## Available Options
-
-### Variants
-`base`, `default`, `outline`, `shadow`, `bordered`, `transparent`
-
-### Colors
-`base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `misc`, `dawn`, `silver`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
+- `start_section` / `end_section` — content before/after the input (e.g. icon, protocol prefix).
 
 ## Usage Examples
 
-### Basic URL Field
+### Basic / Placeholder / Description / Floating
 
 ```heex
 <.url_field name="website" label="Website" />
-```
 
-### With Placeholder
-
-```heex
 <.url_field
   name="website"
   label="Website URL"
   placeholder="https://example.com"
 />
-```
 
-### With Form Field
-
-```heex
 <.url_field
   field={@form[:website]}
   label="Website"
   placeholder="Enter your website URL"
 />
-```
 
-### With Description
-
-```heex
 <.url_field
   name="portfolio"
   label="Portfolio URL"
   description="Link to your online portfolio or personal website"
 />
+
+<.url_field name="website" floating="outer" label="Website URL" />
 ```
 
-### Floating Label
-
-```heex
-<.url_field
-  name="website"
-  floating="outer"
-  label="Website URL"
-/>
-```
-
-### Different Variants
+### Variants
 
 ```heex
 <.url_field name="url" variant="default" label="Default" />
@@ -107,7 +74,7 @@ Content before/after input.
 <.url_field name="url" variant="bordered" label="Bordered" />
 ```
 
-### With Link Icon
+### `start_section`: Icon or Protocol Prefix
 
 ```heex
 <.url_field name="website" label="Website">
@@ -115,11 +82,7 @@ Content before/after input.
     <.icon name="hero-link" class="size-5" />
   </:start_section>
 </.url_field>
-```
 
-### With Protocol Prefix
-
-```heex
 <.url_field name="website" label="Website">
   <:start_section>
     <span class="text-gray-500 text-sm">https://</span>
@@ -153,7 +116,7 @@ Content before/after input.
 </div>
 ```
 
-### Profile Links
+### Profile Links (with other field types + submit)
 
 ```heex
 <.form for={@form} phx-submit="save_profile">
@@ -182,7 +145,7 @@ Content before/after input.
 </.form>
 ```
 
-### Company Information
+### Company Information (fieldset grouping)
 
 ```heex
 <fieldset class="space-y-4">

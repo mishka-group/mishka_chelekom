@@ -9,75 +9,43 @@ Large, prominent hero section for showcasing important content.
 ## Generate
 
 ```bash
-# Generate with all options
 mix mishka.ui.gen.component jumbotron
-
-# Generate with specific options
 mix mishka.ui.gen.component jumbotron --variant default,gradient --color primary,dark
-
-# Generate with custom module name
 mix mishka.ui.gen.component jumbotron --module MyAppWeb.Components.CustomJumbotron
 ```
 
 ## Dependencies
 
-| Type | Components |
-|------|------------|
-| **Necessary** | None |
-| **Optional** | None |
-| **JavaScript** | None |
+None (no other components, no JavaScript).
 
 ## Attributes
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `id` | `:string` | `nil` | Unique identifier |
-| `variant` | `:string` | `"base"` | Style variant |
-| `color` | `:string` | `"base"` | Color theme |
-| `size` | `:string` | `"medium"` | Text size |
-| `space` | `:string` | `"medium"` | Space between elements |
-| `padding` | `:string` | `"large"` | Content padding |
+| `variant` | `:string` | `"base"` | One of: `base`, `default`, `outline`, `transparent`, `shadow`, `bordered`, `gradient` |
+| `color` | `:string` | `"base"` | One of: `base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn` |
+| `size` | `:string` | `"medium"` | Text size: `extra_small`, `small`, `medium`, `large`, `extra_large` |
+| `space` | `:string` | `"medium"` | Space between elements: `extra_small`, `small`, `medium`, `large`, `extra_large` |
+| `padding` | `:string` | `"large"` | Content padding: `extra_small`, `small`, `medium`, `large`, `extra_large`, `double_large`, `triple_large`, `quadruple_large`, `none` |
 | `border` | `:string` | `"none"` | Border size |
-| `border_position` | `:string` | `nil` | Border position: `top`, `bottom`, `left`, `right` |
+| `border_position` | `:string` | `nil` | `top`, `bottom`, `left`, `right` |
 | `class` | `:any` | `nil` | Custom CSS class |
 
 ## Slots
 
-### `inner_block` Slot
-
-Content to display inside the jumbotron (headings, text, buttons, images).
-
-## Available Options
-
-### Variants
-`base`, `default`, `outline`, `transparent`, `shadow`, `bordered`, `gradient`
-
-### Colors
-`base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
-
-### Space
-`extra_small`, `small`, `medium`, `large`, `extra_large`
-
-### Padding
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `double_large`, `triple_large`, `quadruple_large`, `none`
+- `inner_block` — content to display inside the jumbotron (headings, text, buttons, images).
 
 ## Usage Examples
 
-### Basic Jumbotron
+### Basic + Call to Action
 
 ```heex
 <.jumbotron>
   <h1 class="text-4xl font-bold">Welcome to Our App</h1>
   <p class="text-lg mt-4">The best solution for your needs.</p>
 </.jumbotron>
-```
 
-### With Call to Action
-
-```heex
 <.jumbotron color="primary" variant="default" padding="quadruple_large">
   <div class="text-center text-white">
     <h1 class="text-5xl font-bold mb-4">Get Started Today</h1>
@@ -159,12 +127,7 @@ Content to display inside the jumbotron (headings, text, buttons, images).
 ### Announcement Banner
 
 ```heex
-<.jumbotron
-  variant="default"
-  color="info"
-  padding="medium"
-  class="text-center"
->
+<.jumbotron variant="default" color="info" padding="medium" class="text-center">
   <p class="flex items-center justify-center gap-2">
     <.icon name="hero-megaphone" class="size-5" />
     <span>New feature released! Check out our latest update.</span>
@@ -198,12 +161,7 @@ Content to display inside the jumbotron (headings, text, buttons, images).
 ### Pricing Header
 
 ```heex
-<.jumbotron
-  color="natural"
-  variant="default"
-  padding="triple_large"
-  class="text-center"
->
+<.jumbotron color="natural" variant="default" padding="triple_large" class="text-center">
   <h1 class="text-4xl font-bold">Simple, Transparent Pricing</h1>
   <p class="text-lg text-gray-600 mt-4 max-w-2xl mx-auto">
     No hidden fees. No surprises. Choose the plan that works for you.

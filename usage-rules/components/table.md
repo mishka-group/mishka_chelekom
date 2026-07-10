@@ -29,40 +29,30 @@ mix mishka.ui.gen.component table
 | `tr/1` | Table row |
 | `td/1` | Table data cell |
 
-## Attributes
-
-### `table/1` Attributes
+## `table/1` Attributes
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `variant` | `:string` | `"base"` | Style variant |
-| `color` | `:string` | `"base"` | Color theme |
-| `padding` | `:string` | `"small"` | Cell padding |
+| `variant` | `:string` | `"base"` | Style variant — see options below |
+| `color` | `:string` | `"base"` | Color theme — see options below |
+| `padding` | `:string` | `"small"` | Cell padding — see options below |
 | `rounded` | `:string` | `"medium"` | Border radius |
 | `text_position` | `:string` | `"left"` | Text alignment |
 | `border` | `:string` | `nil` | Border style |
-| `fixed` | `:boolean` | `false` | Fixed layout |
+| `fixed` | `:boolean` | `false` | Fixed table layout |
 
 ## Slots
 
-### `header` Slot
-
-Table header cells.
-
-### `footer` Slot
-
-Table footer content.
+| Slot | Description |
+|------|-------------|
+| `header` | Table header cells |
+| `footer` | Table footer content |
 
 ## Available Options
 
-### Variants
-`base`, `outline`, `default`, `shadow`, `bordered`, `transparent`, `hoverable`, `stripped`, `separated`
-
-### Colors
-`base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `misc`, `dawn`, `silver`
-
-### Padding
-`extra_small`, `small`, `medium`, `large`, `extra_large`
+- **Variants**: `base`, `outline`, `default`, `shadow`, `bordered`, `transparent`, `hoverable`, `stripped`, `separated`
+- **Colors**: `base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `misc`, `dawn`, `silver`
+- **Padding**: `extra_small`, `small`, `medium`, `large`, `extra_large`
 
 ## Usage Examples
 
@@ -74,61 +64,41 @@ Table footer content.
   <:header>Email</:header>
   <:header>Role</:header>
 
-  <.tr>
-    <.td>John Doe</.td>
-    <.td>john@example.com</.td>
-    <.td>Admin</.td>
-  </.tr>
-  <.tr>
-    <.td>Jane Smith</.td>
-    <.td>jane@example.com</.td>
-    <.td>User</.td>
+  <.tr :for={user <- @users}>
+    <.td>{user.name}</.td>
+    <.td>{user.email}</.td>
+    <.td>{user.role}</.td>
   </.tr>
 </.table>
 ```
 
-### Stripped Table
+### Variant, Color & Padding
 
 ```heex
 <.table variant="stripped">
   <:header>Product</:header>
   <:header>Price</:header>
-  <:header>Stock</:header>
-
   <.tr :for={product <- @products}>
     <.td>{product.name}</.td>
     <.td>${product.price}</.td>
-    <.td>{product.stock}</.td>
   </.tr>
 </.table>
-```
 
-### Hoverable Table
-
-```heex
 <.table variant="hoverable">
   <:header>Name</:header>
   <:header>Status</:header>
-
   <.tr :for={user <- @users}>
     <.td>{user.name}</.td>
     <.td><.badge color={status_color(user.status)}>{user.status}</.badge></.td>
   </.tr>
 </.table>
-```
 
-### Bordered Table
-
-```heex
-<.table variant="bordered" color="natural">
+<.table variant="bordered" color="natural" padding="large">
   <:header>Column 1</:header>
   <:header>Column 2</:header>
-  <:header>Column 3</:header>
-
   <.tr>
     <.td>Cell 1</.td>
     <.td>Cell 2</.td>
-    <.td>Cell 3</.td>
   </.tr>
 </.table>
 ```
@@ -170,20 +140,6 @@ Table footer content.
     <.td class="w-1/4">
       <.button size="small">Edit</.button>
     </.td>
-  </.tr>
-</.table>
-```
-
-### Different Padding
-
-```heex
-<.table padding="large">
-  <:header>Name</:header>
-  <:header>Value</:header>
-
-  <.tr>
-    <.td>Large Padding</.td>
-    <.td>Spacious cells</.td>
   </.tr>
 </.table>
 ```

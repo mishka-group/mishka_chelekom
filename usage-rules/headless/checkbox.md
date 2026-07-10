@@ -1,6 +1,6 @@
 # checkbox (headless)
 
-An unstyled, accessible single checkable control: markup + WAI-ARIA wiring + a synced hidden form input, with behavior delegated to the shared `Toggle` JS engine. Implements the [WAI-ARIA APG Checkbox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/).
+Unstyled, accessible single checkable control: markup + WAI-ARIA wiring + a synced hidden form input, behavior delegated to the shared `Toggle` JS engine. Implements the [WAI-ARIA APG Checkbox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/).
 
 ## Generate
 
@@ -17,7 +17,7 @@ const Hooks = { Toggle };
 
 ## Anatomy
 
-The root is a `<button type="button">` carrying `phx-hook="Toggle"`, `role="checkbox"`, and `class="chelekom-checkbox"`. Parts are marked with `data-part` hooks the engine queries:
+Root is a `<button type="button">` with `phx-hook="Toggle"`, `role="checkbox"`, `class="chelekom-checkbox"`. Parts are marked with `data-part` hooks the engine queries:
 
 | Part | Element | `data-part` | Class | Source |
 |------|---------|-------------|-------|--------|
@@ -30,27 +30,20 @@ The root is a `<button type="button">` carrying `phx-hook="Toggle"`, `role="chec
 
 ## ARIA & keyboard
 
-Roles and aria attributes (wired by the template + engine):
-
 - **root** — `role="checkbox"` with `aria-checked` (initialized from the `checked` attr, then toggled `"true"`/`"false"` by the engine).
 - **input** — hidden native `<input type="checkbox">` with `tabindex="-1"` and `aria-hidden="true"` (carries `name`/`value`/`checked`/`disabled` for form submission).
 - **indicator** — `aria-hidden="true"` (decorative).
 
-Keyboard (handled by `Toggle`):
-
-- **Space** — toggles checked.
-- **Enter** — toggles checked.
-
-The engine ignores activation while `data-disabled` is present on the root.
+Keyboard (via `Toggle`): **Space** and **Enter** both toggle checked. The engine ignores activation while `data-disabled` is present on the root.
 
 ## State
 
-Paired-presence (Base-UI style) attributes, toggled by the `Toggle` engine on the root:
+Paired-presence (Base-UI style) attributes, toggled by `Toggle` on the root:
 
 - `data-checked` — present when checked.
 - `data-unchecked` — present when unchecked.
 
-The two are always mutually exclusive. `aria-checked` mirrors the same state, and the hidden input's `.checked` is updated to match. `data-disabled` is rendered from the `disabled` assign (present only when disabled) and gates all toggling. The template renders the initial `data-checked`/`data-unchecked` from the `checked` assign; thereafter `Toggle` re-syncs on click and Enter/Space.
+Always mutually exclusive. `aria-checked` mirrors the same state, and the hidden input's `.checked` is updated to match. `data-disabled` is rendered from the `disabled` assign (present only when disabled) and gates all toggling. The template renders the initial `data-checked`/`data-unchecked` from the `checked` assign; thereafter `Toggle` re-syncs on click and Enter/Space.
 
 ## Example
 
@@ -60,11 +53,11 @@ The two are always mutually exclusive. `aria-checked` mirrors the same state, an
 </.checkbox>
 ```
 
-Attrs: `id` (required), `name` (hidden input name, default `nil`), `checked` (boolean, default `false`), `value` (submitted value when checked, default `"true"`), `disabled` (boolean, default `false`), `class`, and `rest` (global). Slot: `inner_block` (required, the label). To drive it from the server, toggle the `checked` assign; for form submission, set `name` so the hidden input posts `value` when checked.
+Attrs: `id` (required), `name` (hidden input name, default `nil`), `checked` (boolean, default `false`), `value` (submitted value when checked, default `"true"`), `disabled` (boolean, default `false`), `class`, `rest` (global). Slot: `inner_block` (required, the label). Drive it from the server via the `checked` assign; for form submission, set `name` so the hidden input posts `value` when checked.
 
 ## Styling
 
-This component ships **no** colors or spacing — only structural markup. Style it via the `chelekom-checkbox*` classes (`chelekom-checkbox`, `__input`, `__indicator`, `__label`) and the `data-checked` / `data-unchecked` / `data-disabled` state attributes, e.g.:
+Ships **no** colors or spacing — only structural markup. Style via `chelekom-checkbox*` classes (`chelekom-checkbox`, `__input`, `__indicator`, `__label`) and the `data-checked` / `data-unchecked` / `data-disabled` state attributes:
 
 ```css
 .chelekom-checkbox__indicator                       { /* base box */ }
@@ -73,4 +66,4 @@ This component ships **no** colors or spacing — only structural markup. Style 
 .chelekom-checkbox[data-disabled]                   { /* disabled styles */ }
 ```
 
-The `chelekom-sr-only` class visually hides the native input while keeping it in the form. Add your own classes to the root via the `class` attr.
+`chelekom-sr-only` visually hides the native input while keeping it in the form. Add your own classes to the root via the `class` attr.

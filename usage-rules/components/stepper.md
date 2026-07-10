@@ -29,54 +29,33 @@ mix mishka.ui.gen.component stepper
 
 ## Attributes
 
-### `stepper/1` Attributes
+### `stepper/1`
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `variant` | `:string` | `"base"` | Style variant |
-| `color` | `:string` | `"natural"` | Color theme |
-| `size` | `:string` | `"small"` | Step size |
+| `variant` | `:string` | `"base"` | Style variant: `base`, `default`, `gradient` |
+| `color` | `:string` | `"natural"` | `base`, `natural`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn` |
+| `size` | `:string` | `"small"` | `extra_small`, `small`, `medium`, `large`, `extra_large` |
 | `margin` | `:string` | `"medium"` | Step margin |
 | `vertical` | `:boolean` | `false` | Vertical layout |
 
-### `stepper_section/1` Attributes
+### `stepper_section/1`
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `step` | `:string` | `nil` | Step state (`current`, `loading`, `completed`, `canceled`) |
+| `step` | `:string` | `nil` | Step state: `current`, `loading`, `completed`, `canceled` |
 | `title` | `:string` | `nil` | Step title |
 | `description` | `:string` | `nil` | Step description |
 | `icon` | `:string` | `nil` | Custom icon |
 
-## Available Options
-
-### Variants
-`base`, `default`, `gradient`
-
-### Colors
-`base`, `natural`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
-
 ## Usage Examples
 
-### Basic Stepper
-
-```heex
-<.stepper>
-  <.stepper_section step="completed" title="Step 1" description="Account created" />
-  <.stepper_section step="current" title="Step 2" description="Verify email" />
-  <.stepper_section title="Step 3" description="Complete profile" />
-</.stepper>
-```
-
-### With Colors
+### Basic Stepper (with color)
 
 ```heex
 <.stepper color="primary">
-  <.stepper_section step="completed" title="Order Placed" />
-  <.stepper_section step="current" title="Processing" />
+  <.stepper_section step="completed" title="Order Placed" description="Account created" />
+  <.stepper_section step="current" title="Processing" description="Verify email" />
   <.stepper_section title="Shipped" />
   <.stepper_section title="Delivered" />
 </.stepper>
@@ -93,7 +72,7 @@ mix mishka.ui.gen.component stepper
 </.stepper>
 ```
 
-### Different Sizes
+### Sizes
 
 ```heex
 <.stepper size="small">
@@ -129,7 +108,7 @@ mix mishka.ui.gen.component stepper
 </.stepper>
 ```
 
-### With Custom Icons
+### Custom Icons
 
 ```heex
 <.stepper color="success">
@@ -141,7 +120,7 @@ mix mishka.ui.gen.component stepper
 
 ## Common Patterns
 
-### Checkout Process
+### Checkout Process (dynamic step from assign)
 
 ```heex
 <.stepper color="primary">
@@ -160,15 +139,11 @@ mix mishka.ui.gen.component stepper
     title="Payment"
     description="Add payment"
   />
-  <.stepper_section
-    step={if @step == 4, do: "current"}
-    title="Confirm"
-    description="Place order"
-  />
+  <.stepper_section step={if @step == 4, do: "current"} title="Confirm" description="Place order" />
 </.stepper>
 ```
 
-### Onboarding Flow
+### Onboarding Flow (vertical, icons, large)
 
 ```heex
 <.stepper vertical size="large" color="info">

@@ -1,6 +1,6 @@
 # separator (headless)
 
-An unstyled, accessible thematic divider between groups of content: a `<div role="separator">` (or `role="none"` when decorative) carrying `aria-orientation`, with **no JavaScript**. No formal WAI-ARIA APG pattern — it follows the [`separator` role](https://www.w3.org/WAI/ARIA/apg/) semantics.
+An unstyled, accessible thematic divider between groups of content: a `<div role="separator">` (or `role="none"` when decorative) carrying `aria-orientation`, with **no JavaScript**. No formal WAI-ARIA APG pattern — follows the [`separator` role](https://www.w3.org/WAI/ARIA/apg/) semantics.
 
 ## Generate
 
@@ -12,25 +12,21 @@ Generates `lib/<app>_web/components/headless/separator.ex`. No JS engine to wire
 
 ## Anatomy
 
-The root is a `<div>` with `class="chelekom-separator"`. An optional label part is rendered only when the `inner_block` slot is non-empty:
+Root is a `<div>` with `class="chelekom-separator"`. The label part renders only when `inner_block` is non-empty.
 
 | Part | Element | `data-part` | Class | Source |
 |------|---------|-------------|-------|--------|
 | root | `div` | — | `chelekom-separator` | always rendered |
 | label | `span` | `label` | `chelekom-separator__label` | `inner_block` (rendered only when present) |
 
-## ARIA & keyboard
+## ARIA & state
 
-Roles and aria attributes (set directly by the template):
+Set directly by the template (no JS, `hooks: []`, no runtime toggling):
 
-- **root** — `role="separator"` by default, or `role="none"` when `decorative` is `true`.
-- **aria-orientation** — set to the `orientation` value (`"horizontal"` or `"vertical"`) on a non-decorative separator; omitted (`nil`) when `decorative`.
-
-No keyboard interactions — the separator is a static, non-interactive divider (the `.exs` `aria_pattern` lists an empty `keyboard`).
-
-## State
-
-There is **no JS** (`hooks: []`, no scripts). The only state attribute is `data-orientation`, rendered statically by the template from the `orientation` assign (`"horizontal"` or `"vertical"`); it is not toggled at runtime. Use it as a styling hook.
+- **role** — `"separator"` by default, or `"none"` when `decorative` is `true`.
+- **aria-orientation** — the `orientation` value (`"horizontal"` or `"vertical"`) when not decorative; `nil` (omitted) when `decorative`.
+- **data-orientation** — always rendered from `orientation` (`"horizontal"` or `"vertical"`); use as a styling hook.
+- **keyboard** — none; static, non-interactive divider (`.exs` `aria_pattern` lists an empty `keyboard`).
 
 ## Example
 
@@ -48,11 +44,12 @@ There is **no JS** (`hooks: []`, no scripts). The only state attribute is `data-
 <.separator decorative />
 ```
 
-Attrs: `id` (default `nil`), `orientation` (`"horizontal"` | `"vertical"`, default `"horizontal"`), `decorative` (boolean, default `false`), `class`, and `rest` (global). Slot: `inner_block` (optional — its presence renders the labelled `<span data-part="label">`).
+**Attrs**: `id` (default `nil`) · `orientation` (`"horizontal"` | `"vertical"`, default `"horizontal"`) · `decorative` (boolean, default `false`) · `class` · `rest` (global).
+**Slot**: `inner_block` (optional — presence renders the labelled `<span data-part="label">`).
 
 ## Styling
 
-This component ships **no** colors or spacing — only structural markup. Style it via the `chelekom-separator*` classes (`chelekom-separator`, `chelekom-separator__label`) and the `data-orientation` state attribute, e.g.:
+Ships **no** colors or spacing — structural markup only. Style via the `chelekom-separator*` classes and `data-orientation`:
 
 ```css
 .chelekom-separator[data-orientation="horizontal"] { /* full-width line */ }

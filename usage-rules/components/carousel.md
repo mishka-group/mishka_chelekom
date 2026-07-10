@@ -9,13 +9,8 @@ Dynamic image/media carousel with navigation controls, indicators, and autoplay 
 ## Generate
 
 ```bash
-# Generate with all options
 mix mishka.ui.gen.component carousel
-
-# Generate with specific options
 mix mishka.ui.gen.component carousel --color primary,natural --size medium,large
-
-# Generate with custom module name
 mix mishka.ui.gen.component carousel --module MyAppWeb.Components.CustomCarousel
 ```
 
@@ -29,13 +24,13 @@ mix mishka.ui.gen.component carousel --module MyAppWeb.Components.CustomCarousel
 
 ## Attributes
 
-| Attribute | Type | Default | Description |
+| Attribute | Type | Default | Description / Allowed values |
 |-----------|------|---------|-------------|
 | `id` | `:string` | **required** | Unique identifier |
-| `overlay` | `:string` | `"natural"` | Overlay color theme |
-| `size` | `:string` | `"large"` | Text and content size |
-| `padding` | `:string` | `"medium"` | Content padding |
-| `text_position` | `:string` | `"center"` | Text alignment: `start`, `end`, `center` |
+| `overlay` | `:string` | `"natural"` | `base`, `natural`, `white`, `dark`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn` |
+| `size` | `:string` | `"large"` | `extra_small`, `small`, `medium`, `large`, `extra_large` — text/content size |
+| `padding` | `:string` | `"medium"` | `extra_small`, `small`, `medium`, `large`, `extra_large` |
+| `text_position` | `:string` | `"center"` | `start`, `end`, `center` |
 | `indicator` | `:boolean` | `false` | Show navigation dots |
 | `control` | `:boolean` | `true` | Show navigation arrows |
 | `autoplay` | `:boolean` | `false` | Auto-advance slides |
@@ -44,7 +39,7 @@ mix mishka.ui.gen.component carousel --module MyAppWeb.Components.CustomCarousel
 
 ## Slots
 
-### `slide` Slot
+### `slide`
 
 | Attribute | Type | Description |
 |-----------|------|-------------|
@@ -54,37 +49,20 @@ mix mishka.ui.gen.component carousel --module MyAppWeb.Components.CustomCarousel
 | `title_class` | `:string` | Title styling class |
 | `description` | `:string` | Slide description |
 | `description_class` | `:string` | Description styling class |
-| `content_position` | `:string` | Position: `start`, `end`, `center`, `between`, `around` |
+| `content_position` | `:string` | `start`, `end`, `center`, `between`, `around` |
 | `active` | `:boolean` | Initially active slide |
 | `navigate` | `:string` | LiveView navigation path |
 | `patch` | `:string` | LiveView patch path |
 | `href` | `:string` | External URL |
 | `wrapper_class` | `:string` | Slide wrapper class |
 
-### `inner_block` Slot
+### `inner_block`
 
-Custom content for slides.
-
-## Available Options
-
-### Overlay Colors
-`base`, `natural`, `white`, `dark`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
-
-### Padding
-`extra_small`, `small`, `medium`, `large`, `extra_large`
-
-### Text Position
-`start`, `end`, `center`
-
-### Content Position
-`start`, `end`, `center`, `between`, `around`
+Custom content for a slide (e.g. a `<.button>`), rendered inside the slide slot.
 
 ## Usage Examples
 
-### Basic Carousel
+### Basic
 
 ```heex
 <.carousel id="hero-carousel">
@@ -94,122 +72,52 @@ Custom content for slides.
 </.carousel>
 ```
 
-### With Indicators
+### Indicators, autoplay, no controls
 
 ```heex
 <.carousel id="gallery" indicator={true}>
   <:slide image="/images/photo1.jpg" active={true} />
   <:slide image="/images/photo2.jpg" />
-  <:slide image="/images/photo3.jpg" />
 </.carousel>
-```
 
-### Autoplay Carousel
-
-```heex
-<.carousel
-  id="promo-carousel"
-  autoplay={true}
-  autoplay_interval={3000}
-  indicator={true}
->
+<.carousel id="promo-carousel" autoplay={true} autoplay_interval={3000} indicator={true}>
   <:slide image="/images/promo1.jpg" title="Special Offer" />
   <:slide image="/images/promo2.jpg" title="New Arrivals" />
-  <:slide image="/images/promo3.jpg" title="Best Sellers" />
 </.carousel>
-```
 
-### Without Controls
-
-```heex
 <.carousel id="auto-carousel" control={false} autoplay={true}>
   <:slide image="/images/banner1.jpg" />
   <:slide image="/images/banner2.jpg" />
 </.carousel>
 ```
 
-### With Navigation Links
+### Navigation links (`navigate`, `patch`, `href`)
 
 ```heex
 <.carousel id="nav-carousel">
-  <:slide
-    image="/images/product1.jpg"
-    title="Product A"
-    description="Click to view"
-    navigate={~p"/products/a"}
-  />
-  <:slide
-    image="/images/product2.jpg"
-    title="Product B"
-    description="Click to view"
-    patch={~p"/products/b"}
-  />
-  <:slide
-    image="/images/external.jpg"
-    title="External Link"
-    href="https://example.com"
-  />
+  <:slide image="/images/product1.jpg" title="Product A" navigate={~p"/products/a"} />
+  <:slide image="/images/product2.jpg" title="Product B" patch={~p"/products/b"} />
+  <:slide image="/images/external.jpg" title="External Link" href="https://example.com" />
 </.carousel>
 ```
 
-### Different Text Positions
+### Text position, size/padding, overlay color
 
 ```heex
-<.carousel id="text-positions" text_position="start">
+<.carousel id="text-start" text_position="start">
   <:slide image="/images/slide.jpg" title="Left Aligned" description="Text on left" />
 </.carousel>
 
-<.carousel id="text-center" text_position="center">
-  <:slide image="/images/slide.jpg" title="Centered" description="Text in center" />
-</.carousel>
-
-<.carousel id="text-end" text_position="end">
-  <:slide image="/images/slide.jpg" title="Right Aligned" description="Text on right" />
-</.carousel>
-```
-
-### Different Sizes
-
-```heex
 <.carousel id="small-carousel" size="small" padding="small">
   <:slide image="/images/slide.jpg" title="Small" />
 </.carousel>
 
-<.carousel id="large-carousel" size="extra_large" padding="extra_large">
-  <:slide image="/images/slide.jpg" title="Extra Large" />
-</.carousel>
-```
-
-### Colored Overlay
-
-```heex
 <.carousel id="primary-carousel" overlay="primary">
   <:slide image="/images/slide.jpg" title="Primary Theme" />
 </.carousel>
-
-<.carousel id="dark-carousel" overlay="dark">
-  <:slide image="/images/slide.jpg" title="Dark Theme" />
-</.carousel>
 ```
 
-### Custom Content Position
-
-```heex
-<.carousel id="custom-carousel">
-  <:slide
-    image="/images/hero.jpg"
-    title="Hero Title"
-    description="Hero description text"
-    content_position="start"
-    title_class="text-4xl font-bold"
-    description_class="text-lg"
-  />
-</.carousel>
-```
-
-## Common Patterns
-
-### Hero Banner Carousel
+### Custom content position/classes and `inner_block`
 
 ```heex
 <.carousel
@@ -230,16 +138,13 @@ Custom content for slides.
   >
     <.button color="primary" size="large">Shop Now</.button>
   </:slide>
-  <:slide
-    image="/images/hero2.jpg"
-    title="New Collection"
-    description="Check out our latest arrivals"
-    navigate={~p"/new-arrivals"}
-  />
+  <:slide image="/images/hero2.jpg" title="New Collection" navigate={~p"/new-arrivals"} />
 </.carousel>
 ```
 
-### Product Gallery
+## Common Patterns
+
+### Product gallery (looped slides)
 
 ```heex
 <.carousel
@@ -249,15 +154,11 @@ Custom content for slides.
   size="medium"
   class="aspect-square"
 >
-  <:slide
-    :for={image <- @product.images}
-    image={image.url}
-    image_class="object-contain"
-  />
+  <:slide :for={image <- @product.images} image={image.url} image_class="object-contain" />
 </.carousel>
 ```
 
-### Testimonials Carousel
+### Testimonials
 
 ```heex
 <.carousel
@@ -279,9 +180,7 @@ Custom content for slides.
 
 ## JavaScript Hook
 
-The carousel uses the `Carousel` JavaScript hook for slide navigation. This is automatically configured when you generate the component.
-
-The hook is registered in `assets/js/app.js`:
+Uses the `Carousel` JS hook for slide navigation, auto-configured on generation. Registered in `assets/js/app.js`:
 
 ```javascript
 import MishkaComponents from "../vendor/mishka_components.js";

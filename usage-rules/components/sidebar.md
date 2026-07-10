@@ -32,24 +32,19 @@ mix mishka.ui.gen.component sidebar
 
 ## Slots
 
-### `inner_block` Slot
-
-Sidebar content.
+- `inner_block` — sidebar content.
 
 ## Available Options
 
-### Variants
-`base`, `default`, `outline`, `transparent`, `bordered`, `gradient`
-
-### Colors
-`base`, `natural`, `white`, `dark`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
+| Group | Values |
+|-------|--------|
+| Variants | `base`, `default`, `outline`, `transparent`, `bordered`, `gradient` |
+| Colors | `base`, `natural`, `white`, `dark`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn` |
+| Sizes | `extra_small`, `small`, `medium`, `large`, `extra_large` |
 
 ## Usage Examples
 
-### Basic Sidebar
+### Basic Sidebar (position, size, variant)
 
 ```heex
 <.sidebar id="main-sidebar" color="dark">
@@ -62,43 +57,21 @@ Sidebar content.
     </nav>
   </div>
 </.sidebar>
-```
 
-### Right-Side Sidebar
-
-```heex
-<.sidebar id="right-sidebar" hide_position="right" color="white">
-  <div class="p-4">
-    Right sidebar content
-  </div>
-</.sidebar>
-```
-
-### Different Sizes
-
-```heex
-<.sidebar id="small-sidebar" size="small" color="dark">
-  <div class="p-4">Small sidebar</div>
+<!-- right-side, small, bordered -->
+<.sidebar id="right-sidebar" hide_position="right" size="small" variant="bordered" color="white">
+  <div class="p-4">Right sidebar content</div>
 </.sidebar>
 
-<.sidebar id="large-sidebar" size="large" color="dark">
-  <div class="p-4">Large sidebar</div>
-</.sidebar>
-```
-
-### Different Variants
-
-```heex
-<.sidebar id="bordered-sidebar" variant="bordered" color="white">
-  Bordered sidebar
-</.sidebar>
-
+<!-- gradient variant -->
 <.sidebar id="gradient-sidebar" variant="gradient" color="primary">
   Gradient sidebar
 </.sidebar>
 ```
 
 ### Toggle Button
+
+Toggling is driven by dispatching the `"toggle-sidebar"` JS event to the sidebar's `id`:
 
 ```heex
 <.button phx-click={JS.dispatch("toggle-sidebar", to: "#main-sidebar")}>

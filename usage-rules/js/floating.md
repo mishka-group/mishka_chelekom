@@ -1,51 +1,27 @@
 # Floating Hook
 
-JavaScript hook for positioning floating elements like dropdowns, popovers, and tooltips.
+JavaScript hook (`Floating`) for positioning floating elements like dropdowns, popovers, and tooltips.
 
-## Hook Name
+## Used By
 
-```javascript
-Floating
-```
-
-## Used By Components
-
-- `dropdown`
-- `popover`
-- `tooltip`
-- `progress` (tooltip display)
+`dropdown`, `popover`, `tooltip`, `progress` (tooltip display)
 
 ## Data Attributes
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `data-position` | `string` | `"bottom"` | Position relative to trigger |
+| `data-position` | `string` | `"bottom"` | Position relative to trigger: `top`, `bottom`, `left`, `right` |
 | `data-floating-type` | `string` | `"dropdown"` | Type: `dropdown`, `popover`, `tooltip` |
 | `data-clickable` | `string` | `"true"` | Open on click (vs hover) |
 | `data-smart-position` | `string` | `"true"` | Auto-adjust to stay in viewport |
 
 ## Features
 
-- **Smart Positioning**: Adjusts to stay within viewport
-- **Multiple Positions**: Top, bottom, left, right
-- **Click/Hover Triggers**: Configurable activation
-- **Click Outside**: Closes on outside click
-- **Escape Key**: Closes on Escape press
-- **Focus Management**: Handles focus for accessibility
-- **Scroll Handling**: Repositions on scroll
-
-## Positions
-
-| Position | Description |
-|----------|-------------|
-| `top` | Above the trigger |
-| `bottom` | Below the trigger |
-| `left` | To the left of trigger |
-| `right` | To the right of trigger |
+Smart positioning (stays within viewport) - multiple positions (top/bottom/left/right) - configurable click/hover triggers - closes on outside click - closes on Escape - focus management for accessibility - repositions on scroll.
 
 ## Element Structure
 
-The hook expects a trigger and content element:
+Expects a trigger and content element:
 
 ```html
 <div id="dropdown-1" phx-hook="Floating" data-position="bottom" data-floating-type="dropdown">
@@ -62,7 +38,7 @@ The hook expects a trigger and content element:
 
 ## Usage Examples
 
-### Dropdown
+### Dropdown (default and with position)
 
 ```heex
 <.dropdown id="user-menu">
@@ -76,11 +52,7 @@ The hook expects a trigger and content element:
     <.dropdown_item>Logout</.dropdown_item>
   </:content>
 </.dropdown>
-```
 
-### Dropdown with Position
-
-```heex
 <.dropdown id="actions-menu" position="right">
   <:trigger>
     <.icon name="hero-ellipsis-vertical" class="size-5" />
@@ -92,7 +64,7 @@ The hook expects a trigger and content element:
 </.dropdown>
 ```
 
-### Popover
+### Popover (default and clickable)
 
 ```heex
 <.popover id="help-popover">
@@ -106,9 +78,19 @@ The hook expects a trigger and content element:
     </p>
   </:content>
 </.popover>
+
+<.popover id="info-popover" clickable={true}>
+  <:trigger>
+    <.button>Click for Info</.button>
+  </:trigger>
+  <:content>
+    <p>This popover opens on click.</p>
+    <.button size="small">Action</.button>
+  </:content>
+</.popover>
 ```
 
-### Tooltip
+### Tooltip (all positions)
 
 ```heex
 <.tooltip>
@@ -117,11 +99,7 @@ The hook expects a trigger and content element:
   </:trigger>
   <:content>Helpful tooltip text</:content>
 </.tooltip>
-```
 
-### Tooltip with Positions
-
-```heex
 <.tooltip position="top">
   <:trigger><span>Top</span></:trigger>
   <:content>Top tooltip</:content>
@@ -143,21 +121,7 @@ The hook expects a trigger and content element:
 </.tooltip>
 ```
 
-### Clickable Popover
-
-```heex
-<.popover id="info-popover" clickable={true}>
-  <:trigger>
-    <.button>Click for Info</.button>
-  </:trigger>
-  <:content>
-    <p>This popover opens on click.</p>
-    <.button size="small">Action</.button>
-  </:content>
-</.popover>
-```
-
-### With Smart Positioning Disabled
+### Smart Positioning Disabled
 
 ```heex
 <.dropdown id="fixed-dropdown" smart_position={false} position="bottom">
@@ -183,23 +147,11 @@ The hook expects a trigger and content element:
 
 ## Behavior by Type
 
-### Dropdown
-- Opens on click
-- Closes on outside click
-- Closes on Escape
-- Closes on item selection
-
-### Popover
-- Opens on click (default)
-- Closes on outside click
-- Closes on Escape
-- Stays open for interaction
-
-### Tooltip
-- Opens on hover
-- Opens on focus
-- Closes on mouse leave
-- No click interaction needed
+| Type | Opens on | Closes on | Notes |
+|------|----------|-----------|-------|
+| Dropdown | click | outside click, Escape, item selection | |
+| Popover | click (default) | outside click, Escape | stays open for interaction |
+| Tooltip | hover, focus | mouse leave | no click interaction needed |
 
 ## Keyboard Controls
 

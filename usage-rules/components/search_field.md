@@ -24,9 +24,9 @@ mix mishka.ui.gen.component search_field
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `variant` | `:string` | `"base"` | Style variant |
-| `color` | `:string` | `"base"` | Color theme |
-| `size` | `:string` | `"medium"` | Input size |
+| `variant` | `:string` | `"base"` | Style variant — `base`, `default`, `outline`, `shadow`, `bordered`, `transparent` |
+| `color` | `:string` | `"base"` | Color theme — `base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `misc`, `dawn`, `silver` |
+| `size` | `:string` | `"medium"` | Input size — `extra_small`, `small`, `medium`, `large`, `extra_large` |
 | `rounded` | `:string` | `"medium"` | Border radius |
 | `space` | `:string` | `"medium"` | Space between elements |
 | `label` | `:string` | `nil` | Label text |
@@ -37,44 +37,20 @@ mix mishka.ui.gen.component search_field
 
 ## Slots
 
-### `start_section` / `end_section` Slots
-
-Content before/after input.
-
-## Available Options
-
-### Variants
-`base`, `default`, `outline`, `shadow`, `bordered`, `transparent`
-
-### Colors
-`base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `misc`, `dawn`, `silver`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
+- `start_section` — content before input (e.g. search icon)
+- `end_section` — content after input (e.g. loading spinner)
 
 ## Usage Examples
 
-### Basic Search Field
+### Basic, label, button, icon
 
 ```heex
 <.search_field name="query" placeholder="Search..." />
-```
 
-### With Label
-
-```heex
 <.search_field name="search" label="Search" placeholder="Type to search..." />
-```
 
-### With Search Button
-
-```heex
 <.search_field name="query" placeholder="Search..." search_button />
-```
 
-### With Icon
-
-```heex
 <.search_field name="query" placeholder="Search...">
   <:start_section>
     <.icon name="hero-magnifying-glass" class="size-4" />
@@ -82,35 +58,18 @@ Content before/after input.
 </.search_field>
 ```
 
-### Different Variants
+### Variants and colors
 
 ```heex
-<.search_field name="query" variant="default" placeholder="Default" />
-<.search_field name="query" variant="outline" placeholder="Outline" />
-<.search_field name="query" variant="shadow" placeholder="Shadow" />
+<.search_field name="query" variant="outline" color="primary" placeholder="Outline primary" />
+<.search_field name="query" variant="shadow" color="success" placeholder="Shadow success" />
 ```
 
-### Different Colors
+### Floating label and description
 
 ```heex
-<.search_field name="query" color="primary" placeholder="Primary" />
-<.search_field name="query" color="success" placeholder="Success" />
-```
+<.search_field name="query" floating="outer" label="Search" placeholder="Type here..." />
 
-### Floating Label
-
-```heex
-<.search_field
-  name="query"
-  floating="outer"
-  label="Search"
-  placeholder="Type here..."
-/>
-```
-
-### With Description
-
-```heex
 <.search_field
   name="query"
   label="Search"
@@ -139,7 +98,7 @@ Content before/after input.
 </.form>
 ```
 
-### Live Search
+### Live Search (debounced, with loading indicator)
 
 ```heex
 <.search_field
@@ -158,7 +117,7 @@ Content before/after input.
 </.search_field>
 ```
 
-### Filter Search
+### Filter Search (paired with external button)
 
 ```heex
 <div class="flex gap-2">

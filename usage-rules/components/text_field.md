@@ -24,9 +24,9 @@ mix mishka.ui.gen.component text_field
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `variant` | `:string` | `"base"` | Style variant |
-| `color` | `:string` | `"base"` | Color theme |
-| `size` | `:string` | `"medium"` | Input size |
+| `variant` | `:string` | `"base"` | Style variant — one of `base`, `default`, `outline`, `shadow`, `bordered`, `transparent` |
+| `color` | `:string` | `"base"` | Color theme — one of `base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `misc`, `dawn`, `silver` |
+| `size` | `:string` | `"medium"` | Input size — one of `extra_small`, `small`, `medium`, `large`, `extra_large` |
 | `rounded` | `:string` | `"small"` | Border radius |
 | `space` | `:string` | `"medium"` | Space between elements |
 | `label` | `:string` | `nil` | Label text |
@@ -36,89 +36,41 @@ mix mishka.ui.gen.component text_field
 
 ## Slots
 
-### `start_section` / `end_section` Slots
-
-Content before/after input.
-
-## Available Options
-
-### Variants
-`base`, `default`, `outline`, `shadow`, `bordered`, `transparent`
-
-### Colors
-`base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `misc`, `dawn`, `silver`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
+| Slot | Description |
+|------|--------------|
+| `start_section` | Content before the input (e.g. prefix text, icon) |
+| `end_section` | Content after the input (e.g. suffix button, icon) |
 
 ## Usage Examples
 
-### Basic Text Field
-
 ```heex
+<%!-- Basic --%>
 <.text_field name="username" label="Username" />
-```
 
-### With Placeholder
+<%!-- Placeholder --%>
+<.text_field name="name" label="Full Name" placeholder="Enter your full name" />
 
-```heex
-<.text_field
-  name="name"
-  label="Full Name"
-  placeholder="Enter your full name"
-/>
-```
+<%!-- Bound to a form field --%>
+<.text_field field={@form[:name]} label="Name" placeholder="Your name" />
 
-### With Form Field
+<%!-- Description --%>
+<.text_field name="username" label="Username" description="This will be your public display name" />
 
-```heex
-<.text_field
-  field={@form[:name]}
-  label="Name"
-  placeholder="Your name"
-/>
-```
+<%!-- Floating label --%>
+<.text_field name="company" floating="outer" label="Company Name" />
 
-### With Description
-
-```heex
-<.text_field
-  name="username"
-  label="Username"
-  description="This will be your public display name"
-/>
-```
-
-### Floating Label
-
-```heex
-<.text_field
-  name="company"
-  floating="outer"
-  label="Company Name"
-/>
-```
-
-### Different Variants
-
-```heex
+<%!-- Variants --%>
 <.text_field name="input" variant="default" label="Default" />
 <.text_field name="input" variant="outline" label="Outline" />
 <.text_field name="input" variant="shadow" label="Shadow" />
 <.text_field name="input" variant="bordered" label="Bordered" />
-```
 
-### Different Sizes
-
-```heex
+<%!-- Sizes --%>
 <.text_field name="input" size="small" label="Small" />
 <.text_field name="input" size="medium" label="Medium" />
 <.text_field name="input" size="large" label="Large" />
-```
 
-### With Start/End Sections
-
-```heex
+<%!-- start_section / end_section --%>
 <.text_field name="website" label="Website">
   <:start_section>
     <span class="text-gray-500">https://</span>
@@ -146,28 +98,11 @@ Content before/after input.
 
 ```heex
 <.form for={@form} phx-submit="register">
-  <.text_field
-    field={@form[:first_name]}
-    label="First Name"
-    placeholder="John"
-  />
-  <.text_field
-    field={@form[:last_name]}
-    label="Last Name"
-    placeholder="Doe"
-  />
-  <.email_field
-    field={@form[:email]}
-    label="Email"
-    placeholder="john@example.com"
-  />
-  <.password_field
-    field={@form[:password]}
-    label="Password"
-  />
-  <.button type="submit" color="primary" full_width>
-    Register
-  </.button>
+  <.text_field field={@form[:first_name]} label="First Name" placeholder="John" />
+  <.text_field field={@form[:last_name]} label="Last Name" placeholder="Doe" />
+  <.email_field field={@form[:email]} label="Email" placeholder="john@example.com" />
+  <.password_field field={@form[:password]} label="Password" />
+  <.button type="submit" color="primary" full_width>Register</.button>
 </.form>
 ```
 
@@ -175,16 +110,8 @@ Content before/after input.
 
 ```heex
 <.form for={@form} phx-submit="update_profile">
-  <.text_field
-    field={@form[:display_name]}
-    label="Display Name"
-    description="This is how others will see you"
-  />
-  <.text_field
-    field={@form[:bio]}
-    label="Bio"
-    placeholder="Tell us about yourself"
-  />
+  <.text_field field={@form[:display_name]} label="Display Name" description="This is how others will see you" />
+  <.text_field field={@form[:bio]} label="Bio" placeholder="Tell us about yourself" />
   <.text_field field={@form[:website]} label="Website">
     <:start_section>
       <span class="text-gray-500 text-sm">https://</span>
@@ -197,11 +124,7 @@ Content before/after input.
 
 ```heex
 <div class="flex gap-2">
-  <.text_field
-    name="coupon"
-    placeholder="Enter coupon code"
-    class="flex-1"
-  />
+  <.text_field name="coupon" placeholder="Enter coupon code" class="flex-1" />
   <.button color="primary">Apply</.button>
 </div>
 ```

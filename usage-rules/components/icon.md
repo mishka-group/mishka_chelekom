@@ -5,20 +5,13 @@ Flexible icon component supporting Hero Icons with customizable sizes, colors, a
 ## Generate
 
 ```bash
-# Generate with all options
 mix mishka.ui.gen.component icon
-
-# Generate with custom module name
 mix mishka.ui.gen.component icon --module MyAppWeb.Components.CustomIcon
 ```
 
 ## Dependencies
 
-| Type | Components |
-|------|------------|
-| **Necessary** | None |
-| **Optional** | None |
-| **JavaScript** | None |
+None (necessary, optional, or JavaScript).
 
 ## Attributes
 
@@ -29,94 +22,50 @@ mix mishka.ui.gen.component icon --module MyAppWeb.Components.CustomIcon
 
 ## Icon Naming Convention
 
-Hero Icons use the following naming pattern:
 - Solid variant: `hero-{icon-name}`
 - Outline variant: `hero-{icon-name}-solid`
 - Mini variant: `hero-{icon-name}-mini`
 
 ## Usage Examples
 
-### Basic Icon
-
 ```heex
+<%!-- Basic --%>
 <.icon name="hero-home" class="size-6" />
-```
 
-### Different Sizes
-
-```heex
+<%!-- Sizes --%>
 <.icon name="hero-star" class="size-4" />
-<.icon name="hero-star" class="size-5" />
-<.icon name="hero-star" class="size-6" />
-<.icon name="hero-star" class="size-8" />
 <.icon name="hero-star" class="size-10" />
-```
 
-### With Colors
-
-```heex
+<%!-- Colors --%>
 <.icon name="hero-heart" class="size-6 text-red-500" />
 <.icon name="hero-check-circle" class="size-6 text-green-500" />
-<.icon name="hero-exclamation-circle" class="size-6 text-yellow-500" />
-<.icon name="hero-x-circle" class="size-6 text-red-500" />
-<.icon name="hero-information-circle" class="size-6 text-blue-500" />
-```
 
-### Solid Icons
-
-```heex
+<%!-- Solid variant --%>
 <.icon name="hero-home-solid" class="size-6" />
-<.icon name="hero-star-solid" class="size-6" />
-<.icon name="hero-heart-solid" class="size-6" />
-```
 
-### Mini Icons
-
-```heex
+<%!-- Mini variant --%>
 <.icon name="hero-home-mini" class="size-5" />
-<.icon name="hero-star-mini" class="size-5" />
-```
 
-### With Animation
-
-```heex
+<%!-- Animation --%>
 <.icon name="hero-arrow-path" class="size-6 animate-spin" />
 <.icon name="hero-bell" class="size-6 animate-bounce" />
 <.icon name="hero-cursor-arrow-rays" class="size-6 animate-pulse" />
-```
 
-### In Buttons
-
-```heex
+<%!-- In buttons --%>
 <.button icon="hero-plus" color="primary">Add Item</.button>
-<.button icon="hero-trash" color="danger">Delete</.button>
 <.button icon="hero-arrow-right" right_icon color="success">Continue</.button>
-```
 
-### Inline with Text
-
-```heex
+<%!-- Inline with text --%>
 <p class="flex items-center gap-2">
   <.icon name="hero-map-pin" class="size-5 text-gray-500" />
   <span>New York, NY</span>
 </p>
-```
 
-### In Lists
-
-```heex
+<%!-- In a list --%>
 <ul class="space-y-2">
   <li class="flex items-center gap-2">
     <.icon name="hero-check" class="size-5 text-green-500" />
     <span>Feature one</span>
-  </li>
-  <li class="flex items-center gap-2">
-    <.icon name="hero-check" class="size-5 text-green-500" />
-    <span>Feature two</span>
-  </li>
-  <li class="flex items-center gap-2">
-    <.icon name="hero-check" class="size-5 text-green-500" />
-    <span>Feature three</span>
   </li>
 </ul>
 ```
@@ -130,14 +79,6 @@ Hero Icons use the following naming pattern:
   <a href="/" class="flex items-center gap-1">
     <.icon name="hero-home" class="size-5" />
     Home
-  </a>
-  <a href="/profile" class="flex items-center gap-1">
-    <.icon name="hero-user" class="size-5" />
-    Profile
-  </a>
-  <a href="/settings" class="flex items-center gap-1">
-    <.icon name="hero-cog-6-tooth" class="size-5" />
-    Settings
   </a>
 </nav>
 ```
@@ -170,9 +111,6 @@ Hero Icons use the following naming pattern:
 <div class="flex gap-4">
   <a href="#" class="hover:text-blue-500 transition">
     <.icon name="hero-globe-alt" class="size-6" />
-  </a>
-  <a href="#" class="hover:text-blue-400 transition">
-    <.icon name="hero-chat-bubble-left-right" class="size-6" />
   </a>
   <a href="#" class="hover:text-red-500 transition">
     <.icon name="hero-heart" class="size-6" />

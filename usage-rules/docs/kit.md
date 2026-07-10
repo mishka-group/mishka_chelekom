@@ -1,103 +1,80 @@
-# The Kit — one DSL for your whole design system
+# The Kit — reuse & restyle your components
 
-`MishkaChelekom.Kit` is a single [Spark](https://hexdocs.pm/spark) DSL that describes your entire
-design system in one module, and drives **four** outputs from that one declaration. It is
-**additive and non-breaking**: components you generated or wrote keep working standalone — the Kit
-only layers options on top.
+`MishkaChelekom.Kit` is an opt-in [Spark](https://hexdocs.pm/spark) DSL that **reuses and restyles the components you already have** — it never builds HTML from scratch and never edits a component's file. Each `customize` generates a thin wrapper function that transforms `assigns` and delegates to the real styled or headless component. It is additive: your components keep working standalone.
 
 ```elixir
 defmodule MyAppWeb.Kit do
   use MishkaChelekom.Kit
 
-  tokens do
-    color :brand, "oklch(62% 0.2 255)"
-    radius :md, "0.75rem"
-    space :gap, "1rem"
+  # STYLED component — add/replace colors, variants, sizes, … (classes verbatim; write the `!`)
+  customize :button do
+    color :primary, "bg-indigo-600! text-white!"       # replace an existing name
+    color :brand,   "bg-brand-500! text-white!"         # add a new one
+    variant :glow,  "shadow-[0_0_20px_currentColor]!"
+    default color: :brand
   end
 
-  # ① MODIFY an existing component — trim options, set defaults, restyle a part
-  component :button do
-    only_colors [:primary, :danger]
-    only_sizes  [:small, :medium, :large]
-    default     color: :primary, size: :medium
-    override    :root, "rounded-full"
-  end
-
-  # ② ADD a brand-new headless component from its parts
-  headless :star_rating do
-    hook "Rating"
-    part :star, tag: :button, role: "radio", repeat: 5
-  end
-
-  headless :faq do
-    hook "Disclosure"
-    part :trigger, tag: :button, id: true, slot: true,
-                   aria: [controls: {:ref, :panel}, expanded: "false"]
-    part :panel,   tag: :div, id: true, role: "region", state: true,
-                   aria: [labelledby: {:ref, :trigger}], slot: :inner_block
-  end
-
-  # ③ COMPOSE existing components into a new one
-  compose :search_box do
-    place :text_field, props: [placeholder: "Search…"]
-    place :button,     props: [color: :primary]
+  # HEADLESS component — style its parts (write the full `[&_[data-part=…]]:` variant)
+  customize :confirm_dialog do
+    from :dialog
+    part :popup, "[&_[data-part=popup]]:rounded-2xl [&_[data-part=popup]]:p-6"
+    part :title, "[&_[data-part=title]]:text-lg [&_[data-part=title]]:font-semibold"
   end
 end
 ```
 
-## The four outputs
+## `customize :name do … end`
 
-| # | Output | How |
-|---|--------|-----|
-| 🏭 | **Generation config** | `MishkaChelekom.Kit.gen_config(MyAppWeb.Kit)` returns the `component_colors`/`component_variants`/`component_sizes` trim that `mix mishka.ui.gen.*` honors. Merge it into your generator config. |
-| 🎨 | **Runtime theming** | The Kit module **is** a `MishkaChelekom.Overrides` source (it exposes `__overrides__/0`). Set `config :mishka_chelekom, overrides: [MyAppWeb.Kit]` and every styled component composes the Kit's `override`s in (first-wins). |
-| 🧩 | **New components** | `use MishkaChelekom.Kit.Components, kit: MyAppWeb.Kit` in a companion module materializes each `headless` declaration into a real Phoenix component. |
-| 🤖 | **Introspection** | `MishkaChelekom.Kit.Info` (structured) and `MishkaChelekom.Kit.describe/1` (Markdown for docs/LLMs); `MishkaChelekom.Kit.safelist/1` lists every override class to keep through Tailwind purge. |
+The one verb. The macro infers the target world from the **rules you write** — never mix both in one block:
 
-## Sections & entities
+- **styled** rules: `color`, `variant`, `size`, `padding`, `rounded`, `space`, `border`, `width`, `kind` — written `dimension :value, "classes"`.
+- **headless** rule: `part :name, "classes"`.
 
-### `tokens do … end`
-`color :name, "value"`, `radius :name, "value"`, `space :name, "value"` — shared design tokens
-(introspect with `Kit.Info.tokens/1`, grouped by `:kind`).
+Options inside the block:
 
-### `component :name do … end` — modify an EXISTING component
-Never re-declares HTML; only layers options:
-- `only_variants [..]` / `only_colors [..]` / `only_sizes [..]` — trim the allowed option set.
-- `default key: value` — set defaults. **Compile-time checked**: a default outside its `only_*`
-  set raises a `Spark.Error.DslError`.
-- `override :part, "classes"` — Pyro-style class override for `{component, part}`.
+| Option | Meaning |
+|--------|---------|
+| `from:` | Component to reuse. Defaults to the `customize` name. A **bare atom** resolves by convention (`<Web>.Components.<Name>` for styled, `<Web>.Components.Headless.<Name>` for headless); a **`{Module, :function}` tuple** targets an exact function verbatim. |
+| `base:` | The neutral value a customized dimension falls back to on the real component (default `"base"`). |
+| `default:` | Keyword list of default props for the generated wrapper, e.g. `default color: :brand`. |
 
-### `headless :name do … end` — define a NEW component
-- `hook "JsHook"` — the JS behavior hook attached to the root.
-- `part :name, opts` — one anatomy part; nest with a `do … end` block (`part :outer do part :inner … end`).
-
-Part options: `tag:` (default `:div`), `role:`, `state: true` (paired-presence
-`data-open`/`data-closed`), `id: true` (`id="#{@id}-name"`), `slot: true` (named `<:name>` slot) or
-`slot: :inner_block` (default slot), `repeat: n` (n sibling parts, e.g. 5 stars),
-`aria: [key: value]` where a value of `{:ref, :other_part}` resolves to `"#{@id}-other_part"`.
-
-The generated component is an ordinary Phoenix component with the full headless contract:
-`chelekom-<comp>__<part>` classes, `data-part`, ARIA, state, and the hook.
-
-### `compose :name do … end` — compose existing components
-`place :component, props: [..]` — currently introspection-level (`Kit.Info.composes/1`).
-
-## Usage
+Pair a rule on the **variant×color** axis for a combo-specific rule (mirrors how components key `color_variant(variant, color)`):
 
 ```elixir
-# Companion module — turns the Kit's `headless` declarations into <.star_rating> / <.faq>
-defmodule MyAppWeb.KitComponents do
-  use MishkaChelekom.Kit.Components, kit: MyAppWeb.Kit
+customize :alert do
+  variant :bordered, "border-2 border-red-600!", color: :danger   # matches only bordered × danger
 end
-
-# Theming — make the Kit's overrides global (first-wins over component base classes)
-config :mishka_chelekom, overrides: [MyAppWeb.Kit]
-
-# Introspection
-MishkaChelekom.Kit.describe(MyAppWeb.Kit)   # => Markdown summary of the whole system
-MishkaChelekom.Kit.safelist(MyAppWeb.Kit)   # => ["rounded-full", ...] for Tailwind safelist
 ```
 
-> The generated/companion components use `mishka_chelekom` at runtime (like the `component` macro),
-> which is why `phoenix_live_view` is an **optional** dependency. The zero-runtime path is still
-> `mix mishka.ui.gen.*`; the Kit's `gen_config/1` feeds that path.
+## Rules (compile-time checked)
+
+- Classes are used **verbatim** — write them whole, including the trailing `!` for precedence (styled) and the full `[&_[data-part=…]]:` variant (headless). Because they are literal strings in your module, Tailwind scans them straight from the file: **no safelist, no `@source inline`**.
+- A `customize` must declare **at least one** rule and may **not** mix styled rules with a `part`.
+- A pair must pin the **other** axis (a `variant` rule with `color:`, or a `color` rule with `variant:`).
+- `from:` must be a real component of the inferred kind (a "did you mean?" hint is offered), unless it is a `{Module, :function}` tuple or you set a custom namespace.
+- Two `customize`s may not generate the same name.
+
+## Namespaces & introspection
+
+- `components MyAppWeb.Components` / `headless MyAppWeb.Components.Headless` — override the module namespace the convention resolves against (top-level options).
+- `MishkaChelekom.Kit.Info.customizes(MyAppWeb.Kit)` — list every `customize` entry.
+- Reach a wrapper by remote call so it never clashes with the globally-imported original: `<MyAppWeb.Kit.button color="brand">…</MyAppWeb.Kit.button>`.
+
+## Shipping to production — `mix mishka.ui.gen.kit`
+
+Generated components are plain code with no runtime dependency, but the Kit is a **live macro**: `use` runs Spark transformers at compile time and each wrapper calls the runtime at render time. So, unlike components, it cannot ride a `only: :dev, runtime: false` install of `mishka_chelekom`.
+
+Run once to **vendor the engine into your app**:
+
+```bash
+mix mishka.ui.gen.kit
+```
+
+This copies the engine to `lib/<app>/kit/` (default module `<App>.Kit`, override with `--module`), regenerates a **self-contained catalog** (no read of chelekom's `priv/`), adds `{:spark, "~> 2.7"}` to `mix.exs` via Igniter (`--no-deps` to skip), and scaffolds a `<App>.Kit.Customizations` starter (`--no-starter` to skip) — everything under one folder, with **zero `mishka_chelekom` references**. Write your `customize` blocks in that starter (`use <App>.Kit`) and keep chelekom dev-only:
+
+```elixir
+{:mishka_chelekom, "~> 0.0.9", only: :dev, runtime: false},
+{:spark, "~> 2.7"}
+```
+
+Re-run the task any time to refresh the engine and the catalog snapshot after adding components.

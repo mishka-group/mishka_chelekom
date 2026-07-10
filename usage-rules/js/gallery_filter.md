@@ -16,21 +16,10 @@ GalleryFilter
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `data-default-filter` | `string` | `"All"` | Default active filter |
-
-### Filter Button Attributes
-
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `data-gallery-filter` | - | Marks element as filter button |
-| `data-category` | `string` | Filter category name |
-
-### Gallery Item Attributes
-
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `data-gallery-item` | - | Marks element as gallery item |
-| `data-category` | `string` | Item's category |
+| `data-default-filter` | `string` | `"All"` | Default active filter (on root element) |
+| `data-gallery-filter` | - | - | Marks element as filter button |
+| `data-category` | `string` | - | Category name — used on both filter buttons and gallery items |
+| `data-gallery-item` | - | - | Marks element as gallery item |
 
 ## Features
 
@@ -41,8 +30,6 @@ GalleryFilter
 - **Accessibility**: ARIA labels for filter buttons
 
 ## Element Structure
-
-The hook expects this DOM structure:
 
 ```html
 <div id="gallery-1" phx-hook="GalleryFilter" data-default-filter="All">
@@ -70,7 +57,7 @@ The hook expects this DOM structure:
 
 ## Usage Examples
 
-### Basic Filterable Gallery
+### Basic, with default filter, and animation options
 
 ```heex
 <.filterable_gallery
@@ -81,11 +68,7 @@ The hook expects this DOM structure:
     <img src={photo.url} alt={photo.title} class="rounded-lg" />
   </:item>
 </.filterable_gallery>
-```
 
-### With Custom Default Filter
-
-```heex
 <.filterable_gallery
   id="portfolio-gallery"
   filters={["Web", "Mobile", "Design"]}
@@ -95,6 +78,23 @@ The hook expects this DOM structure:
     <div class="p-4">
       <img src={project.thumbnail} alt={project.name} />
       <h3>{project.name}</h3>
+    </div>
+  </:item>
+</.filterable_gallery>
+
+<.filterable_gallery
+  id="animated-gallery"
+  filters={["All", "Photos", "Videos"]}
+  animation="fade"
+  animation_size="large"
+>
+  <:item :for={media <- @media} category={media.type}>
+    <div class="aspect-video">
+      <%= if media.type == "Videos" do %>
+        <video src={media.url} />
+      <% else %>
+        <img src={media.url} />
+      <% end %>
     </div>
   </:item>
 </.filterable_gallery>
@@ -126,27 +126,6 @@ The hook expects this DOM structure:
         <p>${product.price}</p>
       </div>
     </.card>
-  </:item>
-</.filterable_gallery>
-```
-
-### With Animation Options
-
-```heex
-<.filterable_gallery
-  id="animated-gallery"
-  filters={["All", "Photos", "Videos"]}
-  animation="fade"
-  animation_size="large"
->
-  <:item :for={media <- @media} category={media.type}>
-    <div class="aspect-video">
-      <%= if media.type == "Videos" do %>
-        <video src={media.url} />
-      <% else %>
-        <img src={media.url} />
-      <% end %>
-    </div>
   </:item>
 </.filterable_gallery>
 ```

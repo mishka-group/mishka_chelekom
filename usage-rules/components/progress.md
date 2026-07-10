@@ -29,100 +29,52 @@ mix mishka.ui.gen.component progress
 | `semi_circle_progress/1` | Semi-circle gauge |
 | `ring_progress/1` | Circular ring |
 
-## Attributes
-
-### `progress/1` Attributes
+## `progress/1` Attributes
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `variant` | `:string` | `"base"` | Style variant |
-| `color` | `:string` | `"base"` | Color theme |
-| `size` | `:string` | `"medium"` | Bar thickness |
-| `rounded` | `:string` | `"full"` | Border radius |
+| `variant` | `:string` | `"base"` | Style variant — `base`, `default`, `gradient` |
+| `color` | `:string` | `"base"` | Color theme — `base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn` |
+| `size` | `:string` | `"medium"` | Bar thickness — `extra_small`, `small`, `medium`, `large`, `extra_large`, `double_large`, `triple_large`, `quadruple_large` |
+| `rounded` | `:string` | `"full"` | Border radius — `extra_small`, `small`, `medium`, `large`, `extra_large`, `full` |
 | `value` | `:integer` | `0` | Progress value (0-100) |
 | `vertical` | `:boolean` | `false` | Vertical orientation |
 | `label` | `:string` | `nil` | Label text |
 
 ## Slots
 
-### `inner_block` Slot
-
-Content inside the progress bar.
-
-## Available Options
-
-### Variants
-`base`, `default`, `gradient`
-
-### Colors
-`base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `double_large`, `triple_large`, `quadruple_large`
-
-### Rounded
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `full`
+- `inner_block` — content inside the progress bar.
 
 ## Usage Examples
 
-### Basic Progress
-
 ```heex
 <.progress value={75} />
-```
-
-### With Label
-
-```heex
 <.progress value={75} label="75% Complete" />
-```
 
-### Different Colors
-
-```heex
+<%!-- Colors --%>
 <.progress value={25} color="primary" />
 <.progress value={50} color="success" />
 <.progress value={75} color="warning" />
 <.progress value={90} color="danger" />
-```
 
-### Different Sizes
-
-```heex
+<%!-- Sizes --%>
 <.progress value={60} size="small" />
 <.progress value={60} size="medium" />
 <.progress value={60} size="large" />
-```
 
-### Gradient Variant
-
-```heex
+<%!-- Gradient variant --%>
 <.progress value={80} variant="gradient" color="primary" />
-```
 
-### With Content
-
-```heex
+<%!-- With content (inner_block) --%>
 <.progress value={65} size="large" color="primary">
   <span class="text-white text-sm">65%</span>
 </.progress>
-```
 
-### Vertical Progress
-
-```heex
+<%!-- Vertical --%>
 <.progress value={70} vertical={true} class="h-32" />
-```
 
-### Semi-Circle Progress
-
-```heex
+<%!-- Semi-circle and ring --%>
 <.semi_circle_progress value={75} color="primary" />
-```
-
-### Ring Progress
-
-```heex
 <.ring_progress value={80} color="success" />
 ```
 

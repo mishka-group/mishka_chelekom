@@ -1,6 +1,6 @@
 # Button Component
 
-Comprehensive button components with multiple variants, icons, indicators, and loading states for Phoenix LiveView.
+Button components with variants, icons, indicators, and loading states for Phoenix LiveView.
 
 **Documentation**: https://mishka.tools/chelekom/docs/button
 
@@ -9,16 +9,9 @@ Comprehensive button components with multiple variants, icons, indicators, and l
 ## Generate
 
 ```bash
-# Generate with all options
 mix mishka.ui.gen.component button
-
-# Generate with specific options
 mix mishka.ui.gen.component button --variant default,outline,gradient --color primary,danger
-
-# Generate specific component types only
 mix mishka.ui.gen.component button --type button,button_link,button_group
-
-# Generate with custom module name
 mix mishka.ui.gen.component button --module MyAppWeb.Components.CustomButton
 ```
 
@@ -42,7 +35,7 @@ mix mishka.ui.gen.component button --module MyAppWeb.Components.CustomButton
 
 ## Attributes
 
-### `button/1` Attributes
+### `button/1`
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -65,7 +58,7 @@ mix mishka.ui.gen.component button --module MyAppWeb.Components.CustomButton
 | `content_class` | `:string` | `"block"` | Content wrapper class |
 | `class` | `:any` | `nil` | Custom CSS class |
 
-### `button_group/1` Attributes
+### `button_group/1`
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -75,7 +68,7 @@ mix mishka.ui.gen.component button --module MyAppWeb.Components.CustomButton
 | `rounded` | `:string` | `"small"` | Border radius |
 | `class` | `:any` | `nil` | Custom CSS class |
 
-### `button_link/1` Attributes
+### `button_link/1`
 
 Same as `button/1` plus:
 
@@ -87,95 +80,54 @@ Same as `button/1` plus:
 | `target` | `:string` | Link target (`_blank`, etc.) |
 | `download` | `:boolean` | Download attribute |
 
-### `input_button/1` Attributes
+### `input_button/1`
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `value` | `:string` | `""` | Button text |
 | `type` | `:string` | `"button"` | Input type |
-| Plus standard button attributes | | | |
+| — | | | Plus standard button attributes |
 
 ## Global Attributes (Boolean Flags)
 
-| Attribute | Description |
-|-----------|-------------|
-| `disabled` | Disable the button |
-| `circle` | Create circular button |
-| `pinging` | Animate indicator |
-| `left_icon` | Position icon on left |
-| `right_icon` | Position icon on right |
-| `indicator` | Show indicator (left side) |
-| `left_indicator` | Show indicator on left |
-| `right_indicator` | Show indicator on right |
-| `top_left_indicator` | Show indicator top-left |
-| `top_center_indicator` | Show indicator top-center |
-| `top_right_indicator` | Show indicator top-right |
-| `middle_left_indicator` | Show indicator middle-left |
-| `middle_right_indicator` | Show indicator middle-right |
-| `bottom_left_indicator` | Show indicator bottom-left |
-| `bottom_center_indicator` | Show indicator bottom-center |
-| `bottom_right_indicator` | Show indicator bottom-right |
+`disabled`, `circle`, `pinging` (animate indicator), `left_icon`, `right_icon`, `indicator` (left side), `left_indicator`, `right_indicator`, `top_left_indicator`, `top_center_indicator`, `top_right_indicator`, `middle_left_indicator`, `middle_right_indicator`, `bottom_left_indicator`, `bottom_center_indicator`, `bottom_right_indicator`
 
 ## Slots
 
-### `inner_block` Slot
-
-Button content (text, icons, etc.).
-
-### `loading` Slot
-
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `class` | `:any` | Loading element class |
-| `position` | `:string` | `start` or `end` |
+- **`inner_block`** — button content (text, icons, etc.)
+- **`loading`** — attrs: `class` (`:any`, loading element class), `position` (`:string`, `start` or `end`)
 
 ## Available Options
 
-### Variants
-`base`, `default`, `outline`, `transparent`, `subtle`, `shadow`, `inverted`, `bordered`, `default_gradient`, `outline_gradient`, `inverted_gradient`
-
-### Colors
-`base`, `natural`, `white`, `dark`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`, `transparent`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `full`
-
-### Rounded
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `full`, `none`
+| Group | Values |
+|-------|--------|
+| Variants | `base`, `default`, `outline`, `transparent`, `subtle`, `shadow`, `inverted`, `bordered`, `default_gradient`, `outline_gradient`, `inverted_gradient` |
+| Colors | `base`, `natural`, `white`, `dark`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`, `transparent` |
+| Sizes | `extra_small`, `small`, `medium`, `large`, `extra_large`, `full` |
+| Rounded | `extra_small`, `small`, `medium`, `large`, `extra_large`, `full`, `none` |
 
 ## Usage Examples
 
-### Basic Buttons
+### Basic & Variants
 
 ```heex
 <.button>Default Button</.button>
-
 <.button color="primary">Primary</.button>
-
 <.button color="danger" variant="default">Danger</.button>
-```
 
-### Button Variants
-
-```heex
-<.button variant="default" color="primary">Default</.button>
 <.button variant="outline" color="primary">Outline</.button>
 <.button variant="transparent" color="primary">Transparent</.button>
 <.button variant="subtle" color="primary">Subtle</.button>
 <.button variant="shadow" color="primary">Shadow</.button>
 <.button variant="inverted" color="primary">Inverted</.button>
 <.button variant="bordered" color="primary">Bordered</.button>
-```
 
-### Gradient Variants
-
-```heex
 <.button variant="default_gradient" color="primary">Default Gradient</.button>
 <.button variant="outline_gradient" color="success">Outline Gradient</.button>
 <.button variant="inverted_gradient" color="danger">Inverted Gradient</.button>
 ```
 
-### With Icons
+### Icons & Sizes
 
 ```heex
 <.button icon="hero-plus" color="primary">Add Item</.button>
@@ -185,11 +137,7 @@ Button content (text, icons, etc.).
 </.button>
 
 <.button icon="hero-trash" color="danger" />
-```
 
-### Button Sizes
-
-```heex
 <.button size="extra_small">Extra Small</.button>
 <.button size="small">Small</.button>
 <.button size="medium">Medium</.button>
@@ -205,7 +153,7 @@ Button content (text, icons, etc.).
 <.button icon="hero-trash" circle color="danger" size="small" />
 ```
 
-### With Indicators
+### Indicators
 
 ```heex
 <.button indicator color="primary">Notifications</.button>
@@ -219,21 +167,13 @@ Button content (text, icons, etc.).
 </.button>
 ```
 
-### Full Width
+### Full Width, Disabled, Form Submit
 
 ```heex
 <.button full_width color="primary">Full Width Button</.button>
-```
 
-### Disabled State
-
-```heex
 <.button disabled color="primary">Disabled</.button>
-```
 
-### Form Submit
-
-```heex
 <.button type="submit" color="success">Save Changes</.button>
 <.button type="reset" color="warning">Reset Form</.button>
 ```

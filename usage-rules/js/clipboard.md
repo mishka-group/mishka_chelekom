@@ -1,16 +1,6 @@
 # Clipboard Hook
 
-JavaScript hook for copying text to clipboard with visual feedback and accessibility support.
-
-## Hook Name
-
-```javascript
-Clipboard
-```
-
-## Used By Components
-
-- `clipboard`
+JS hook (`Clipboard`) for copying text to clipboard with visual feedback and accessibility support. Used by the `clipboard` component.
 
 ## Data Attributes
 
@@ -27,16 +17,13 @@ Clipboard
 
 ## Features
 
-- **Clipboard API**: Uses modern Clipboard API with fallback
-- **Visual Feedback**: Success/error states with CSS classes
-- **Dynamic Labels**: Optionally updates button text on copy
+- **Clipboard API**: modern `navigator.clipboard.writeText()` with fallback (temporary textarea for older browsers)
+- **Visual Feedback**: success/error states toggled via CSS classes
+- **Dynamic Labels**: optionally updates button text on copy
 - **Accessibility**: ARIA live announcements for screen readers
-- **Multiple Sources**: Copy from attribute, selector, or content slot
-- **Fallback Support**: Works in older browsers without Clipboard API
+- **Multiple Sources**: copy from attribute, selector, or content slot
 
 ## Element Structure
-
-The hook expects elements with specific classes:
 
 ```html
 <span id="clip-1" phx-hook="Clipboard" data-clipboard-text="Copy me">
@@ -54,7 +41,7 @@ The hook expects elements with specific classes:
 
 ## Usage Examples
 
-### Basic Clipboard
+### Basic
 
 ```heex
 <.clipboard text="Hello, World!">
@@ -64,7 +51,7 @@ The hook expects elements with specific classes:
 </.clipboard>
 ```
 
-### Copy From Content
+### Copy From Content Slot
 
 ```heex
 <.clipboard>
@@ -77,7 +64,7 @@ The hook expects elements with specific classes:
 </.clipboard>
 ```
 
-### With Dynamic Label
+### Dynamic Label
 
 ```heex
 <.clipboard
@@ -108,7 +95,7 @@ end</code></pre>
 </.clipboard>
 ```
 
-### With Custom Feedback
+### Custom Feedback (class + timeout)
 
 ```heex
 <.clipboard
@@ -126,7 +113,7 @@ end</code></pre>
 </.clipboard>
 ```
 
-### Code Snippet with Icon States
+### Icon States via Label Classes
 
 ```heex
 <.clipboard text={@code_snippet}>
@@ -143,8 +130,6 @@ end</code></pre>
 
 ## CSS Classes
 
-The hook toggles these classes:
-
 | Class | When Applied |
 |-------|--------------|
 | `clipboard-success` | After successful copy |
@@ -153,14 +138,7 @@ The hook toggles these classes:
 | `.clipboard-success-label` | Shown on success |
 | `.clipboard-error-label` | Shown on error |
 
-## Browser Support
-
-- **Modern browsers**: Uses `navigator.clipboard.writeText()`
-- **Fallback**: Creates temporary textarea for older browsers
-
 ## JavaScript Integration
-
-Register the hook in your `app.js`:
 
 ```javascript
 import Clipboard from "./clipboard"

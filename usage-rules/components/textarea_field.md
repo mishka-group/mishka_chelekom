@@ -24,9 +24,9 @@ mix mishka.ui.gen.component textarea_field
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `variant` | `:string` | `"base"` | Style variant |
-| `color` | `:string` | `"base"` | Color theme |
-| `size` | `:string` | `"medium"` | Textarea height |
+| `variant` | `:string` | `"base"` | Style variant — `base`, `default`, `outline`, `shadow`, `bordered`, `transparent` |
+| `color` | `:string` | `"base"` | Color theme — `base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `misc`, `dawn`, `silver` |
+| `size` | `:string` | `"medium"` | Textarea height — `extra_small`, `small`, `medium`, `large`, `extra_large`, `auto` |
 | `rounded` | `:string` | `"small"` | Border radius |
 | `space` | `:string` | `"medium"` | Space between elements |
 | `label` | `:string` | `nil` | Label text |
@@ -37,108 +37,50 @@ mix mishka.ui.gen.component textarea_field
 
 ## Slots
 
-### `start_section` / `end_section` Slots
-
-Content before/after textarea.
-
-## Available Options
-
-### Variants
-`base`, `default`, `outline`, `shadow`, `bordered`, `transparent`
-
-### Colors
-`base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `misc`, `dawn`, `silver`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `auto`
+- `start_section` / `end_section` — content before/after the textarea.
 
 ## Usage Examples
 
-### Basic Textarea
+### Basic / field / description
 
 ```heex
-<.textarea_field name="message" label="Message" />
-```
+<.textarea_field name="message" label="Message" placeholder="Tell us about yourself..." />
 
-### With Placeholder
-
-```heex
-<.textarea_field
-  name="bio"
-  label="Bio"
-  placeholder="Tell us about yourself..."
-/>
-```
-
-### With Form Field
-
-```heex
 <.textarea_field
   field={@form[:description]}
   label="Description"
   placeholder="Enter a description"
-/>
-```
-
-### With Description
-
-```heex
-<.textarea_field
-  name="notes"
-  label="Notes"
   description="Maximum 500 characters"
 />
 ```
 
-### Floating Label
+### Floating label
 
 ```heex
-<.textarea_field
-  name="comment"
-  floating="outer"
-  label="Your Comment"
-/>
+<.textarea_field name="comment" floating="outer" label="Your Comment" />
 ```
 
-### Disable Resize
+### Disable resize
 
 ```heex
-<.textarea_field
-  name="message"
-  label="Message"
-  disable_resize
-/>
+<.textarea_field name="message" label="Message" disable_resize />
 ```
 
-### Different Sizes
+### Sizes, variants, auto height
 
 ```heex
 <.textarea_field name="small" label="Small" size="small" />
-<.textarea_field name="medium" label="Medium" size="medium" />
 <.textarea_field name="large" label="Large" size="large" />
-```
+<.textarea_field name="content" label="Content" size="auto" />
 
-### Different Variants
-
-```heex
 <.textarea_field name="text" variant="default" label="Default" />
 <.textarea_field name="text" variant="outline" label="Outline" />
 <.textarea_field name="text" variant="bordered" label="Bordered" />
 ```
 
-### Auto Height
-
-```heex
-<.textarea_field
-  name="content"
-  label="Content"
-  size="auto"
-/>
-```
-
 ## Common Patterns
 
-### Contact Form Message
+### Contact form message
 
 ```heex
 <.form for={@form} phx-submit="submit">
@@ -155,7 +97,7 @@ Content before/after textarea.
 </.form>
 ```
 
-### Blog Post Editor
+### Blog post editor
 
 ```heex
 <.textarea_field
@@ -167,7 +109,7 @@ Content before/after textarea.
 />
 ```
 
-### Review Form
+### Review form
 
 ```heex
 <div class="space-y-4">
@@ -181,7 +123,7 @@ Content before/after textarea.
 </div>
 ```
 
-### Character Counter
+### Character counter
 
 ```heex
 <div class="relative">

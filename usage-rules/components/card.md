@@ -42,7 +42,7 @@ mix mishka.ui.gen.component card --module MyAppWeb.Components.CustomCard
 
 ## Attributes
 
-### `card/1` Attributes
+### `card/1`
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -56,7 +56,7 @@ mix mishka.ui.gen.component card --module MyAppWeb.Components.CustomCard
 | `font_weight` | `:string` | `"font-normal"` | Font weight class |
 | `class` | `:any` | `nil` | Custom CSS class |
 
-### `card_title/1` Attributes
+### `card_title/1`
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -69,7 +69,7 @@ mix mishka.ui.gen.component card --module MyAppWeb.Components.CustomCard
 | `padding` | `:string` | `"none"` | Padding size |
 | `class` | `:any` | `nil` | Custom CSS class |
 
-### `card_content/1` Attributes
+### `card_content/1`
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -77,7 +77,7 @@ mix mishka.ui.gen.component card --module MyAppWeb.Components.CustomCard
 | `padding` | `:string` | `"none"` | Padding size |
 | `class` | `:any` | `nil` | Custom CSS class |
 
-### `card_media/1` Attributes
+### `card_media/1`
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -86,7 +86,7 @@ mix mishka.ui.gen.component card --module MyAppWeb.Components.CustomCard
 | `rounded` | `:string` | `nil` | Border radius |
 | `class` | `:any` | `nil` | Custom CSS class |
 
-### `card_footer/1` Attributes
+### `card_footer/1`
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -99,20 +99,13 @@ All components accept `inner_block` for custom content.
 
 ## Available Options
 
-### Variants
-`base`, `default`, `outline`, `transparent`, `shadow`, `bordered`, `gradient`
-
-### Colors
-`base`, `natural`, `white`, `dark`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
-
-### Padding / Space
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `double_large`, `triple_large`, `quadruple_large`, `none`
-
-### Rounded
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `none`
+| Category | Values |
+|----------|--------|
+| Variants | `base`, `default`, `outline`, `transparent`, `shadow`, `bordered`, `gradient` |
+| Colors | `base`, `natural`, `white`, `dark`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn` |
+| Sizes | `extra_small`, `small`, `medium`, `large`, `extra_large` |
+| Padding / Space | `extra_small`, `small`, `medium`, `large`, `extra_large`, `double_large`, `triple_large`, `quadruple_large`, `none` |
+| Rounded | `extra_small`, `small`, `medium`, `large`, `extra_large`, `none` |
 
 ## Usage Examples
 
@@ -153,63 +146,31 @@ All components accept `inner_block` for custom content.
 <.card variant="gradient" color="primary">Gradient Card</.card>
 ```
 
-### Card with Centered Title
+### Title Positioning and Icon Slot
+
+`position` aligns the title (`start`, `center`, `end`, `between`, `around`); `card_title` accepts an `inner_block` for inline actions (e.g. a button) when using `position="between"`.
 
 ```heex
 <.card padding="large">
   <.card_title title="Centered Title" position="center" size="extra_large" />
-  <.card_content>
-    Content with centered title above.
-  </.card_content>
+  <.card_content>Content with centered title above.</.card_content>
 </.card>
-```
 
-### Card with Icon Title
-
-```heex
 <.card variant="bordered" color="primary" padding="medium">
-  <.card_title
-    title="Settings"
-    icon="hero-cog-6-tooth"
-    position="between"
-  >
+  <.card_title title="Settings" icon="hero-cog-6-tooth" position="between">
     <.button size="small" variant="outline">Edit</.button>
   </.card_title>
-  <.card_content>
-    Manage your account settings.
-  </.card_content>
-</.card>
-```
-
-### Media Card
-
-```heex
-<.card variant="shadow" rounded="large">
-  <.card_media
-    src="/images/product.jpg"
-    alt="Product image"
-    rounded="large"
-  />
-  <.card_content padding="medium">
-    <.card_title title="Product Name" size="medium" />
-    <p>Product description here.</p>
-    <p class="text-xl font-bold">$99.99</p>
-  </.card_content>
-  <.card_footer padding="medium">
-    <.button full_width color="primary">Add to Cart</.button>
-  </.card_footer>
+  <.card_content>Manage your account settings.</.card_content>
 </.card>
 ```
 
 ### Horizontal Card
 
+Pass layout classes (e.g. `flex flex-row`) via `class` to reflow the card; combine with sizing classes on `card_media`.
+
 ```heex
 <.card class="flex flex-row" variant="bordered">
-  <.card_media
-    src="/images/avatar.jpg"
-    alt="User"
-    class="w-24 h-24 object-cover"
-  />
+  <.card_media src="/images/avatar.jpg" alt="User" class="w-24 h-24 object-cover" />
   <div class="flex-1">
     <.card_content padding="small">
       <.card_title title="John Doe" size="medium" />
@@ -221,7 +182,7 @@ All components accept `inner_block` for custom content.
 
 ## Common Patterns
 
-### Product Card
+### Product Card (media + dynamic content + conditional badge)
 
 ```heex
 <.card variant="shadow" rounded="large" class="overflow-hidden">
@@ -242,7 +203,7 @@ All components accept `inner_block` for custom content.
 </.card>
 ```
 
-### User Profile Card
+### User Profile Card (avatar + centered content)
 
 ```heex
 <.card variant="default" color="natural" padding="large" class="text-center">

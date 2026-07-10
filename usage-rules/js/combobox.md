@@ -1,6 +1,6 @@
 # Combobox Hook
 
-JavaScript hook for searchable dropdown with autocomplete, single/multiple selection support.
+JavaScript hook for a searchable dropdown with autocomplete and single/multiple selection.
 
 ## Hook Name
 
@@ -59,7 +59,7 @@ The hook manages this DOM structure:
 
 ## Usage Examples
 
-### Basic Combobox
+### Basic (options list, id/name)
 
 ```heex
 <.combobox
@@ -70,16 +70,20 @@ The hook manages this DOM structure:
 />
 ```
 
-### With Form Field
+### Form Field, with description and default value
 
 ```heex
 <.combobox
-  field={@form[:category]}
-  label="Category"
-  placeholder="Select category..."
-  options={@categories}
+  field={@form[:status]}
+  label="Status"
+  placeholder="Select status..."
+  description="Set the task priority level"
+  value="active"
+  options={[{"Active", "active"}, {"Inactive", "inactive"}, {"Pending", "pending"}]}
 />
 ```
+
+`options` accepts any enumerable of `{label, value}` tuples, e.g. `Enum.map(@products, &{&1.name, &1.id})`.
 
 ### Multiple Selection
 
@@ -93,7 +97,7 @@ The hook manages this DOM structure:
 />
 ```
 
-### With Option Slot
+### With Option Slot (custom option content)
 
 ```heex
 <.combobox id="user-select" name="user_id" label="Assign To">
@@ -110,62 +114,11 @@ The hook manages this DOM structure:
 
 ```heex
 <.combobox id="timezone" name="timezone" label="Timezone">
-  <:option value="America/New_York" group="Americas">
-    Eastern Time (ET)
-  </:option>
-  <:option value="America/Los_Angeles" group="Americas">
-    Pacific Time (PT)
-  </:option>
-  <:option value="Europe/London" group="Europe">
-    Greenwich Mean Time (GMT)
-  </:option>
-  <:option value="Europe/Paris" group="Europe">
-    Central European Time (CET)
-  </:option>
+  <:option value="America/New_York" group="Americas">Eastern Time (ET)</:option>
+  <:option value="America/Los_Angeles" group="Americas">Pacific Time (PT)</:option>
+  <:option value="Europe/London" group="Europe">Greenwich Mean Time (GMT)</:option>
+  <:option value="Europe/Paris" group="Europe">Central European Time (CET)</:option>
 </.combobox>
-```
-
-### With Description
-
-```heex
-<.combobox
-  field={@form[:priority]}
-  label="Priority"
-  description="Set the task priority level"
-  options={[
-    {"Low", "low"},
-    {"Medium", "medium"},
-    {"High", "high"},
-    {"Critical", "critical"}
-  ]}
-/>
-```
-
-### Searchable with Many Options
-
-```heex
-<.combobox
-  id="product-search"
-  name="product_id"
-  label="Product"
-  placeholder="Search products..."
-  options={Enum.map(@products, &{&1.name, &1.id})}
-/>
-```
-
-### With Default Value
-
-```heex
-<.combobox
-  field={@form[:status]}
-  label="Status"
-  value="active"
-  options={[
-    {"Active", "active"},
-    {"Inactive", "inactive"},
-    {"Pending", "pending"}
-  ]}
-/>
 ```
 
 ## Keyboard Controls

@@ -12,7 +12,7 @@ Generates `lib/<app>_web/components/headless/fieldset.ex`. No JS engine to wire 
 
 ## Anatomy
 
-The root is a native `<fieldset>` carrying `class="chelekom-fieldset"`. The single part is the `<legend>`, marked with a `data-part` hook (purely a styling/query anchor here — no engine consumes it):
+Root is a native `<fieldset>` carrying `class="chelekom-fieldset"`. The single part is the `<legend>`, marked with a `data-part` hook (purely a styling/query anchor — no engine consumes it):
 
 | Part | Element | `data-part` | Class | Source |
 |------|---------|-------------|-------|--------|
@@ -22,15 +22,15 @@ The root is a native `<fieldset>` carrying `class="chelekom-fieldset"`. The sing
 
 ## ARIA & keyboard
 
-No explicit ARIA wiring and no JS. The `aria_pattern` is "Fieldset (no formal APG pattern)" with an empty keyboard list.
+No explicit ARIA wiring and no JS. `aria_pattern` is "Fieldset (no formal APG pattern)" with an empty keyboard list.
 
-- The native `<fieldset>` exposes a `group` role and groups its descendant form controls.
-- The native `<legend>` provides the group's accessible name; it is rendered only when the `<:legend>` slot is present.
-- Keyboard behavior is the browser's native tab order through the contained controls — nothing is added or trapped.
+- Native `<fieldset>` exposes a `group` role and groups its descendant form controls.
+- Native `<legend>` provides the group's accessible name; rendered only when `<:legend>` is present.
+- Keyboard behavior is the browser's native tab order — nothing added or trapped.
 
 ## State
 
-No state attributes. The `.exs` declares `state_attributes: []` and `hooks: []`, and the template adds no `data-open`/`data-closed`-style paired-presence attributes. **No JS** — there is nothing to toggle.
+No state attributes. `.exs` declares `state_attributes: []` and `hooks: []`; the template adds no `data-open`/`data-closed`-style presence attributes. **No JS** — nothing to toggle.
 
 ## Example
 
@@ -46,11 +46,11 @@ No state attributes. The `.exs` declares `state_attributes: []` and `hooks: []`,
 </.fieldset>
 ```
 
-Attrs: `id` (default `nil`), `class` (extra classes for the root), and `rest` (global). Slots: `legend` (optional group label rendered as a `<legend>`) and `inner_block` (required, the grouped form controls). Omit `<:legend>` to render a fieldset with no legend.
+Attrs: `id` (default `nil`), `class` (extra classes for root), `rest` (global). Slots: `legend` (optional group label, rendered as `<legend>`) and `inner_block` (required, the grouped form controls). Omit `<:legend>` to render a fieldset with no legend.
 
 ## Styling
 
-This component ships **no** colors or spacing — only structural markup. Style it via the `chelekom-fieldset*` classes (`chelekom-fieldset`, `chelekom-fieldset__legend`) and the `data-part="legend"` hook, e.g.:
+Ships **no** colors or spacing — structural markup only. Style via classes/part hook:
 
 ```css
 .chelekom-fieldset        { /* border / padding */ }
@@ -58,4 +58,4 @@ This component ships **no** colors or spacing — only structural markup. Style 
 [data-part="legend"]       { /* or target the part directly */ }
 ```
 
-Add your own classes to the root via the `class` attr. There are no state `data-*` attributes to style against.
+Add custom classes to the root via `class`. No state `data-*` attributes to style against.

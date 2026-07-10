@@ -9,16 +9,9 @@ Dropdown menu component with trigger-based display, hover/click activation, and 
 ## Generate
 
 ```bash
-# Generate with all options
 mix mishka.ui.gen.component dropdown
-
-# Generate with specific options
 mix mishka.ui.gen.component dropdown --variant default,shadow --color primary,natural
-
-# Generate specific component types only
 mix mishka.ui.gen.component dropdown --type dropdown,dropdown_trigger,dropdown_content
-
-# Generate with custom module name
 mix mishka.ui.gen.component dropdown --module MyAppWeb.Components.CustomDropdown
 ```
 
@@ -40,17 +33,17 @@ mix mishka.ui.gen.component dropdown --module MyAppWeb.Components.CustomDropdown
 
 ## Attributes
 
-### `dropdown/1` Attributes
+### `dropdown/1`
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `id` | `:string` | `nil` | Unique identifier |
 | `clickable` | `:boolean` | `false` | Activate on click (default: hover) |
-| `position` | `:string` | `"bottom"` | Position: `top`, `bottom`, `left`, `right` |
+| `position` | `:string` | `"bottom"` | `top`, `bottom`, `left`, `right` |
 | `relative` | `:string` | `nil` | Position context class |
 | `class` | `:any` | `nil` | Custom CSS class |
 
-### `dropdown_content/1` Attributes
+### `dropdown_content/1`
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -60,35 +53,25 @@ mix mishka.ui.gen.component dropdown --module MyAppWeb.Components.CustomDropdown
 | `space` | `:string` | `"small"` | Space between items |
 | `rounded` | `:string` | `"medium"` | Border radius |
 | `padding` | `:string` | `"small"` | Content padding |
-| `width` | `:string` | `nil` | Width: `full`, `fit`, custom |
+| `width` | `:string` | `nil` | `full`, `fit`, custom |
 | `class` | `:any` | `nil` | Custom CSS class |
 
 ## Slots
 
-### `trigger` Slot
-
-The element that activates the dropdown.
-
-### `content` Slot
-
-The dropdown content with attributes for styling.
+| Slot | Description |
+|------|-------------|
+| `trigger` | The element that activates the dropdown |
+| `content` | The dropdown content, with attributes for styling |
 
 ## Available Options
 
-### Variants
-`base`, `default`, `outline`, `bordered`, `shadow`, `gradient`
-
-### Colors
-`base`, `natural`, `white`, `dark`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
-
-### Space / Padding / Rounded
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `none`
-
-### Position
-`top`, `bottom`, `left`, `right`
+| Group | Values |
+|-------|--------|
+| Variants | `base`, `default`, `outline`, `bordered`, `shadow`, `gradient` |
+| Colors | `base`, `natural`, `white`, `dark`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn` |
+| Sizes | `extra_small`, `small`, `medium`, `large`, `extra_large` |
+| Space / Padding / Rounded | `extra_small`, `small`, `medium`, `large`, `extra_large`, `none` |
+| Position | `top`, `bottom`, `left`, `right` |
 
 ## Usage Examples
 
@@ -112,7 +95,7 @@ The dropdown content with attributes for styling.
 </.dropdown>
 ```
 
-### Click Activated
+### Click Activated (`clickable`) + Positions
 
 ```heex
 <.dropdown relative="relative" clickable>
@@ -129,29 +112,11 @@ The dropdown content with attributes for styling.
     </.list>
   </:content>
 </.dropdown>
-```
 
-### Different Positions
-
-```heex
-<.dropdown relative="relative" position="bottom">
-  <:trigger><.button>Bottom</.button></:trigger>
-  <:content>Content below</:content>
-</.dropdown>
-
+<%!-- position accepts: top, bottom (default), left, right --%>
 <.dropdown relative="relative" position="top">
   <:trigger><.button>Top</.button></:trigger>
   <:content>Content above</:content>
-</.dropdown>
-
-<.dropdown relative="relative" position="left">
-  <:trigger><.button>Left</.button></:trigger>
-  <:content>Content left</:content>
-</.dropdown>
-
-<.dropdown relative="relative" position="right">
-  <:trigger><.button>Right</.button></:trigger>
-  <:content>Content right</:content>
 </.dropdown>
 ```
 
@@ -229,7 +194,7 @@ The dropdown content with attributes for styling.
 </.dropdown>
 ```
 
-### Action Menu
+### Action Menu (per-row, with `phx-click`)
 
 ```heex
 <.dropdown :for={item <- @items} relative="relative" clickable>
@@ -241,11 +206,6 @@ The dropdown content with attributes for styling.
       <:item padding="extra_small">
         <button phx-click="edit" phx-value-id={item.id} class="flex items-center gap-2 w-full">
           <.icon name="hero-pencil" class="size-4" /> Edit
-        </button>
-      </:item>
-      <:item padding="extra_small">
-        <button phx-click="duplicate" phx-value-id={item.id} class="flex items-center gap-2 w-full">
-          <.icon name="hero-document-duplicate" class="size-4" /> Duplicate
         </button>
       </:item>
       <:item padding="extra_small">

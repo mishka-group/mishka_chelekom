@@ -1,24 +1,24 @@
 # drawer (headless)
 
 An unstyled, focus-trapped panel that slides in from an edge — same behavior as `dialog`
-(WAI-ARIA Dialog-Modal pattern), with a `side`.
+(WAI-ARIA Dialog-Modal pattern), plus a `side`.
 
 ## Generate
 `mix mishka.ui.gen.headless drawer` → `lib/<app>_web/components/headless/drawer.ex` (wires the
 `FocusTrap` JS engine).
 
 ## Anatomy
-Root `div[phx-hook="FocusTrap"][data-side]`. Parts (via `data-part`): `trigger`, `backdrop`
-(auto, `aria-hidden`), `popup` (`role="dialog"` `aria-modal` `data-side`), `title`,
-`description`, `close`. Put `data-close` on a button to close.
+Root `div[phx-hook="FocusTrap"][data-side]`. `data-part`s: `trigger`, `backdrop` (auto,
+`aria-hidden`), `popup` (`role="dialog"` `aria-modal` `data-side`), `title`, `description`,
+`close`. Put `data-close` on a button to close.
 
 ## ARIA & keyboard
-Escape closes; Tab is trapped inside the popup; focus returns to the opener on close. Backdrop
-click closes (unless `data-close-on-outside="false"`).
+- **Escape** closes; **Tab** is trapped inside the popup; focus returns to the opener on close.
+- Backdrop click closes (unless `data-close-on-outside="false"`).
 
 ## State
 Paired-presence `data-open`/`data-closed` on root + popup (toggled by `FocusTrap`); `data-side`
-(left/right/top/bottom) for your slide animation.
+(`left`/`right`/`top`/`bottom`) drives your slide animation.
 
 ## Example
 ```heex
@@ -31,7 +31,8 @@ Paired-presence `data-open`/`data-closed` on root + popup (toggled by `FocusTrap
 </.drawer>
 ```
 Attrs: `id` (req), `open`, `side` (default `right`), `labelledby`, `describedby`, `class`, `rest`.
+Slots: `trigger`, `title`, `description`, `inner_block` (required, body), `close`.
 
 ## Styling
-Ships no colors. Pin the popup to an edge and animate off the `data-side` + `data-open`/`data-closed`
-state, e.g. `.chelekom-drawer__popup[data-side=right]{ right:0; … }`.
+Ships no colors. Pin the popup to an edge and animate off `data-side` + `data-open`/`data-closed`,
+e.g. `.chelekom-drawer__popup[data-side=right]{ right:0; … }`.

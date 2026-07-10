@@ -17,7 +17,7 @@ import Disclosure from "./disclosure.js";
 
 ## Anatomy
 
-Root `<div>` carries `phx-hook="Disclosure"`, `class="chelekom-accordion"`, plus `data-single` and `data-collapsible`. Each item renders these parts (selected by the engine via `data-part`):
+Root `<div>` carries `phx-hook="Disclosure"`, `class="chelekom-accordion"`, plus `data-single` and `data-collapsible`.
 
 | Part | Element | `data-part` | Class |
 | --- | --- | --- | --- |
@@ -30,21 +30,21 @@ The engine pairs each `[data-part="trigger"]` to its `[data-part="panel"]` via t
 
 ## ARIA & keyboard
 
-- **trigger** (`button`, wrapped in `<h3>`): `aria-expanded` (`"true"`/`"false"`) and `aria-controls` pointing to its panel id.
-- **panel** (`div`): `role="region"` and `aria-labelledby` pointing back to its trigger id.
-- **Keyboard:** Enter / Space on a focused trigger toggles its panel (native button activation; the engine listens for `click`).
+- **trigger** (`button`, wrapped in `<h3>`): `aria-expanded` (`"true"`/`"false"`), `aria-controls` → panel id.
+- **panel** (`div`): `role="region"`, `aria-labelledby` → trigger id.
+- **Keyboard:** Enter / Space on a focused trigger toggles its panel (native button activation; engine listens for `click`).
 
 ## State
 
-The `Disclosure` engine toggles paired-presence attributes on the **panel**, and keeps the trigger's `aria-expanded` in sync:
+The `Disclosure` engine toggles mutually-exclusive presence attributes on the **panel** (always exactly one present) and keeps the trigger's `aria-expanded` in sync:
 
-- `data-open` — present when the panel is open.
-- `data-closed` — present when the panel is closed.
+- `data-open` — panel is open.
+- `data-closed` — panel is closed.
 
-These are mutually exclusive (always exactly one). Root flags read by the engine:
+Root flags read by the engine:
 
-- `data-single` (from the `single` attr, default `true`) — opening one item closes the others.
-- `data-collapsible` (from the `collapsible` attr, default `true`) — when `"false"`, the open item cannot be closed by clicking its own trigger.
+- `data-single` (from `single` attr, default `true`) — opening one item closes the others.
+- `data-collapsible` (from `collapsible` attr, default `true`) — when `"false"`, the open item cannot be closed by clicking its own trigger.
 
 Initial open state comes from the per-item `:open` attr, which seeds `aria-expanded`, `data-open`, and `data-closed` at render time.
 
@@ -64,11 +64,11 @@ Initial open state comes from the per-item `:open` attr, which seeds `aria-expan
 </.accordion>
 ```
 
-Attrs: `id` (required), `single` (boolean, default `true`), `collapsible` (boolean, default `true`), `class`, and `rest` (global). Slot: `:item` (required) with `title` (required string) and optional `open` (boolean); the slot's inner content is the panel body.
+Attrs: `id` (required), `single` (boolean, default `true`), `collapsible` (boolean, default `true`), `class`, `rest` (global). Slot: `:item` (required) with `title` (required string), optional `open` (boolean); inner content is the panel body.
 
 ## Styling
 
-No colors or theme are shipped. Style the structural classes — `chelekom-accordion`, `chelekom-accordion__item`, `chelekom-accordion__heading`, `chelekom-accordion__trigger`, `chelekom-accordion__panel` — and key panel visibility/animation off the state attributes, e.g.:
+No colors or theme are shipped. Style the structural classes — `chelekom-accordion`, `chelekom-accordion__item`, `chelekom-accordion__heading`, `chelekom-accordion__trigger`, `chelekom-accordion__panel` — and key panel visibility/animation off the state attributes:
 
 ```css
 .chelekom-accordion__panel[data-closed] { display: none; }

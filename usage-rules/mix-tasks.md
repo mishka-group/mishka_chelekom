@@ -171,6 +171,36 @@ mix mishka.ui.gen.components --exclude carousel,gallery,sidebar --yes
 mix mishka.ui.gen.components --module-prefix ui_ --component-prefix ui_ --yes
 ```
 
+## mix mishka.ui.gen.kit
+
+Vendors the **Kit** engine (`MishkaChelekom.Kit` — the `customize`/`from` DSL) into your app so it works in production with **no `mishka_chelekom` runtime dependency**. Unlike generated components, the Kit is a live macro (compile-time `use` + render-time runtime), so it cannot ride a `only: :dev, runtime: false` install.
+
+### Basic Usage
+
+```bash
+# Vendor the engine under <App>.Kit into lib/<app>/kit/
+mix mishka.ui.gen.kit
+
+# Custom engine namespace
+mix mishka.ui.gen.kit --module MyApp.UiKit
+```
+
+### Available Options
+
+| Option | Description |
+|--------|-------------|
+| `--module` / `-m` | Base module for the vendored engine (default `<App>.Kit`) |
+| `--no-deps` | Do not add `{:spark, "~> 2.7"}` to `mix.exs` |
+| `--no-starter` | Do not scaffold the `<App>.Kit.Customizations` starter |
+| `--yes` | Apply without prompts |
+
+### What it generates
+
+- `lib/<app>/kit/` — the vendored engine (namespace-rewritten to `<App>.Kit`) plus a **self-contained catalog** (no read of chelekom's `priv/`) and a `<App>.Kit.Customizations` starter — everything under one folder, with zero `mishka_chelekom` references.
+- Adds `{:spark, "~> 2.7"}` to `mix.exs` via Igniter (the only runtime dependency the engine needs).
+
+Afterward you can keep chelekom a dev-only generator: `{:mishka_chelekom, "~> 0.0.9", only: :dev, runtime: false}`. Re-run any time to refresh the engine and catalog. See **[The Kit](docs/kit.md)** for the DSL reference.
+
 ## mix mishka.ui.uninstall
 
 Removes installed Mishka Chelekom components from your project.

@@ -27,16 +27,9 @@ Collapsible
 
 ## Features
 
-- **Single/Multiple Mode**: Open one or many sections at once
-- **Smooth Animations**: Height-based CSS transitions
-- **Server Events**: Optional LiveView server notifications
-- **Keep Mounted**: Content stays in DOM for forms/state
-- **Keyboard Navigation**: Arrow keys and Enter/Space
-- **Accessibility**: ARIA expanded states and roles
+Single/multiple open mode; smooth height-based CSS transitions; optional LiveView server-event notifications; keep-mounted content for forms/state; keyboard navigation (arrows, Enter/Space); ARIA expanded states and roles.
 
 ## Element Structure
-
-The hook expects this DOM structure:
 
 ```html
 <div id="accordion-1" phx-hook="Collapsible" data-multiple="false">
@@ -74,7 +67,7 @@ The hook expects this DOM structure:
 </.accordion>
 ```
 
-### Multiple Open Sections
+### Multiple Open Sections (`multiple={true}`)
 
 ```heex
 <.accordion id="features-accordion" multiple={true}>
@@ -84,7 +77,7 @@ The hook expects this DOM structure:
 </.accordion>
 ```
 
-### With Initial Open
+### Initial Open Sections (`initial_open={[...]}`, needs `:item id=`)
 
 ```heex
 <.accordion id="docs-accordion" initial_open={["section-1", "section-3"]}>
@@ -100,7 +93,7 @@ The hook expects this DOM structure:
 </.accordion>
 ```
 
-### Collapse Component
+### Collapse Component (`<:trigger>` / `<:content>` slots)
 
 ```heex
 <.collapse id="details-collapse">
@@ -113,7 +106,7 @@ The hook expects this DOM structure:
 </.collapse>
 ```
 
-### With Server Events
+### Server Events (`server_events={true}`, `event_handler="..."`)
 
 ```heex
 <.accordion
@@ -135,7 +128,7 @@ def handle_event("accordion_changed", %{"id" => id, "open" => open}, socket) do
 end
 ```
 
-### Non-Collapsible (Always One Open)
+### Non-Collapsible — Always One Open (`collapsible={false}`)
 
 ```heex
 <.accordion id="tabs-accordion" collapsible={false}>
@@ -144,7 +137,7 @@ end
 </.accordion>
 ```
 
-### Custom Animation Duration
+### Custom Animation Duration (`duration={ms}`)
 
 ```heex
 <.accordion id="slow-accordion" duration={500}>
@@ -175,7 +168,7 @@ end
 
 ## Animation
 
-The hook animates using CSS height transitions:
+Height-based CSS transition:
 
 ```css
 .accordion-content {

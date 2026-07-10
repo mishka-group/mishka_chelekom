@@ -41,19 +41,19 @@ mix mishka.ui.gen.component banner --module MyAppWeb.Components.CustomBanner
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `id` | `:string` | **required** | Unique identifier |
-| `variant` | `:string` | `"base"` | Style variant |
-| `color` | `:string` | `"natural"` | Color theme |
-| `size` | `:string` | `"large"` | Overall size |
+| `variant` | `:string` | `"base"` | `base`, `default`, `outline`, `transparent`, `shadow`, `bordered`, `gradient` |
+| `color` | `:string` | `"natural"` | `natural`, `white`, `dark`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn` |
+| `size` | `:string` | `"large"` | `extra_small`, `small`, `medium`, `large`, `extra_large` |
 | `border` | `:string` | `"extra_small"` | Border width |
-| `border_position` | `:string` | `"top"` | Border position: `top`, `bottom`, `full`, `none` |
+| `border_position` | `:string` | `"top"` | `top`, `bottom`, `full`, `none` |
 | `rounded` | `:string` | `"none"` | Border radius |
-| `rounded_position` | `:string` | `"none"` | Rounded position: `top`, `bottom`, `all`, `none` |
-| `space` | `:string` | `"extra_small"` | Space between content items |
-| `padding` | `:string` | `"extra_small"` | Padding size |
-| `vertical_position` | `:string` | `"top"` | Vertical position: `top`, `bottom` |
-| `vertical_size` | `:string` | `"none"` | Vertical offset size |
-| `position` | `:string` | `"full"` | Horizontal position |
-| `position_size` | `:string` | `"none"` | Position offset size |
+| `rounded_position` | `:string` | `"none"` | `top`, `bottom`, `all`, `none` |
+| `space` | `:string` | `"extra_small"` | Space between content items; `extra_small`\|`small`\|`medium`\|`large`\|`extra_large`\|`none` |
+| `padding` | `:string` | `"extra_small"` | Padding size; `extra_small`\|`small`\|`medium`\|`large`\|`extra_large`\|`none` |
+| `vertical_position` | `:string` | `"top"` | `top`, `bottom` |
+| `vertical_size` | `:string` | `"none"` | Vertical offset; `extra_small`\|`small`\|`medium`\|`large`\|`extra_large`\|`none` |
+| `position` | `:string` | `"full"` | `top_left`, `top_right`, `bottom_left`, `bottom_right`, `center`, `full` |
+| `position_size` | `:string` | `"none"` | Position offset; `extra_small`\|`small`\|`medium`\|`large`\|`extra_large`\|`none` |
 | `font_weight` | `:string` | `"font-normal"` | Font weight class |
 | `hide_dismiss` | `:boolean` | `false` | Hide dismiss button |
 | `dismiss_size` | `:string` | `"small"` | Dismiss button size |
@@ -71,59 +71,23 @@ mix mishka.ui.gen.component banner --module MyAppWeb.Components.CustomBanner
 
 ## Slots
 
-### `inner_block` Slot
-
-Banner content (text, links, buttons, etc.).
-
-## Available Options
-
-### Variants
-`base`, `default`, `outline`, `transparent`, `shadow`, `bordered`, `gradient`
-
-### Colors
-`natural`, `white`, `dark`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
-
-### Position
-`top_left`, `top_right`, `bottom_left`, `bottom_right`, `center`, `full`
-
-### Border Position
-`top`, `bottom`, `full`, `none`
-
-### Rounded Position
-`top`, `bottom`, `all`, `none`
-
-### Vertical Position
-`top`, `bottom`
-
-### Padding / Space / Vertical Size / Position Size
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `none`
+- `inner_block` — Banner content (text, links, buttons, etc.)
 
 ## Usage Examples
 
-### Basic Banner
+### Basic + Colored Variants
 
 ```heex
 <.banner id="announcement">
   Welcome to our website! Check out our new features.
 </.banner>
-```
 
-### Colored Variants
-
-```heex
 <.banner id="success-banner" variant="default" color="success">
   Your changes have been saved successfully!
 </.banner>
 
 <.banner id="warning-banner" variant="bordered" color="warning">
   Please update your profile information.
-</.banner>
-
-<.banner id="error-banner" variant="default" color="danger">
-  An error occurred. Please try again.
 </.banner>
 ```
 

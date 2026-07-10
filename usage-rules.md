@@ -105,6 +105,8 @@ This package includes detailed rules for specific topics:
 
 - **[Mix Tasks](usage-rules/mix-tasks.md)**: Complete guide for all mix tasks
 - **[Components](usage-rules/components/)**: Detailed rules for each component
+- **[Headless Components](usage-rules/headless/)**: Unstyled, behavior-only components (ARIA + hooks)
+- **[The Kit](usage-rules/docs/kit.md)**: Reuse & restyle components with one DSL (`customize`/`from`), plus `mix mishka.ui.gen.kit`
 - **[JavaScript Hooks](usage-rules/js/)**: Documentation for JavaScript hooks (Carousel, Clipboard, Collapsible, Combobox, Floating, GalleryFilter, ScrollArea, Sidebar)
 
 For comprehensive documentation, visit: https://mishka.tools/chelekom/docs
@@ -241,57 +243,31 @@ When generating components, you can customize:
 
 ## The Kit — Reuse & Restyle Components
 
-The **Kit** is an opt-in Spark DSL (`MishkaChelekom.Kit`) that lets you reuse and restyle the components you already generated — **without editing their files**. Each `customize` generates a thin wrapper that delegates to the real component; the component's own file is never touched.
-
-### Two kinds of customization
+The **Kit** (`MishkaChelekom.Kit`) is an opt-in Spark DSL that reuses and restyles the components you already generated — **without editing their files**. Each `customize` generates a thin wrapper that delegates to the real component.
 
 ```elixir
 defmodule MyAppWeb.Kit do
-  use MishkaChelekom.Kit   # for production, vendor first and switch to `use MyApp.Kit` (see below)
+  use MishkaChelekom.Kit
 
-  # STYLED component — add/replace colors, variants, sizes (classes verbatim; write the trailing `!`)
-  customize :button do
-    color :primary, "bg-indigo-600! text-white!"     # replace an existing name
-    color :brand,   "bg-brand-500! text-white!"      # add a new one
-    variant :glow,  "shadow-[0_0_20px_currentColor]!"
+  customize :button do                # STYLED: color/variant/size/… (classes verbatim; write the `!`)
+    color :brand, "bg-brand-500! text-white!"
     default color: :brand
   end
 
-  # HEADLESS component — style its parts (write the full `[&_[data-part=…]]:` variant)
-  customize :confirm_dialog do
+  customize :confirm_dialog do        # HEADLESS: style parts (full `[&_[data-part=…]]:` variant)
     from :dialog
-    part :popup, "[&_[data-part=popup]]:rounded-2xl [&_[data-part=popup]]:p-6"
-    part :title, "[&_[data-part=title]]:text-lg [&_[data-part=title]]:font-semibold"
+    part :popup, "[&_[data-part=popup]]:rounded-2xl"
   end
 end
 ```
 
-Rules:
-
-- The macro picks **styled vs headless** from the rules you write (`color`/`variant`/`size`/… vs `part`) — never mix both in one `customize`.
-- `from:` names the component to reuse (defaults to the `customize` name). A bare atom resolves by convention (`<Web>.Components.<Name>` / `<Web>.Components.Headless.<Name>`); a `{Module, :function}` tuple points at an exact function.
-- Classes are used **verbatim** — write them whole, including the trailing `!` for precedence (styled) and the full `[&_[data-part=…]]:` variant (headless). Because they are literal strings in your own module, Tailwind scans them straight from the file — **no safelist, no `@source inline`**.
-- Pair a rule on the variant×color axis for combo-specific styling: `variant :bordered, "…", color: :danger`.
-- Reach a wrapper by remote call so it never clashes with the globally-imported original: `<MyAppWeb.Kit.button color="brand">…</MyAppWeb.Kit.button>`.
-
-### Shipping the Kit to production: `mix mishka.ui.gen.kit`
-
-Generated components are plain code with no runtime dependency, but the Kit is a **live macro** — it needs the engine at compile time (`use`) and at render time (its wrappers call the runtime). So, unlike components, it cannot ride a `only: :dev, runtime: false` install of `mishka_chelekom`.
-
-Run once to **vendor the engine into your app** under your own namespace:
+Classes are **verbatim** — Tailwind scans them straight from your module (no safelist). The Kit is a live macro, so for **production** vendor it into your app once (it can't ride a `runtime: false` install):
 
 ```bash
-mix mishka.ui.gen.kit
+mix mishka.ui.gen.kit   # copies the engine to lib/<app>/kit/, adds {:spark, "~> 2.7"}, keeps chelekom dev-only
 ```
 
-This copies the engine to `lib/<app>/kit/` (default module `<App>.Kit`), regenerates a **self-contained catalog** (no read of chelekom's `priv/`), adds `{:spark, "~> 2.7"}` to `mix.exs` via Igniter, and scaffolds a `<App>.Kit.Customizations` starter — everything under one folder, with **zero `mishka_chelekom` references**. Write your `customize` blocks in that starter (`use <App>.Kit`) and you can keep chelekom dev-only:
-
-```elixir
-{:mishka_chelekom, "~> 0.0.9", only: :dev, runtime: false},
-{:spark, "~> 2.7"}
-```
-
-Options: `--module <Base>` (engine namespace), `--no-deps` (skip the spark dep), `--no-starter`. Re-run any time to refresh the engine and the catalog snapshot after adding components.
+Full DSL reference (all dimensions, pair rules, `from`/`base`/`default`, the vendoring flow): **[usage-rules/docs/kit.md](usage-rules/docs/kit.md)**.
 
 ## Best Practices
 

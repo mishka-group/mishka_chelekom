@@ -26,36 +26,22 @@ mix mishka.ui.gen.component rating
 |-----------|------|---------|-------------|
 | `id` | `:string` | `nil` | Unique identifier for managing state and interaction |
 | `class` | `:string` | `nil` | Custom CSS class for additional styling |
-| `color` | `:string` | `"warning"` | Star color theme |
-| `size` | `:string` | `"small"` | Star size |
-| `gap` | `:string` | `"small"` | Space between stars |
+| `color` | `:string` | `"warning"` | Star color theme — one of: `base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn` |
+| `size` | `:string` | `"small"` | Star size — one of: `extra_small`, `small`, `medium`, `large`, `extra_large`, `double_large`, `triple_large`, `quadruple_large` |
+| `gap` | `:string` | `"small"` | Space between stars — one of: `extra_small`, `small`, `medium`, `large`, `extra_large`, `none` |
 | `count` | `:integer` | `5` | Number of stars |
 | `select` | `:any` | `0` | Selected rating value (integer or float) |
 | `interactive` | `:boolean` | `false` | Allow user selection via click |
-| `disabled` | `:boolean` | `false` | Disable all interaction (reduced opacity, no click) |
-| `precision` | `:float` | `1.0` | Rating granularity — `1.0` for full stars, `0.5` for half-star selection |
-| `field` | `Phoenix.HTML.FormField` | `nil` | Form field struct for native Phoenix form integration |
+| `disabled` | `:boolean` | `false` | Disable all interaction (reduced opacity, no click); works in both static and interactive modes; when combined with `field`, interactivity is automatically turned off |
+| `precision` | `:float` | `1.0` | Rating granularity — `1.0` for full stars, `0.5` for half-star selection (each star becomes two click targets: left/right half). Use a `:float` field type in your Ecto schema when using `0.5` with `field` |
+| `field` | `Phoenix.HTML.FormField` | `nil` | Form field struct for native Phoenix form integration; auto-enables interactive mode, renders a hidden input for form submission, and displays changeset validation errors |
 | `label` | `:string` | `nil` | Label text displayed above the rating |
 | `name` | `:any` | `nil` | Input name (auto-extracted when using `field`) |
 | `errors` | `:list` | `[]` | Error messages (auto-populated when using `field`) |
 | `error_icon` | `:string` | `nil` | Icon displayed alongside error messages |
-| `params` | `:map` | `%{}` | Additional parameters merged into the event payload |
+| `params` | `:map` | `%{}` | Additional parameters merged into the event payload alongside `action` and `number` |
 | `on_action` | `JS` | `%JS{}` | Custom JS command chained before the click action |
 | `rest` | `:global` | — | Global attributes merged with caller-provided attributes |
-
-## Available Options
-
-### Colors
-`base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `double_large`, `triple_large`, `quadruple_large`
-
-### Gaps
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `none`
-
-### Precision
-`1.0` (full star), `0.5` (half star)
 
 ## Helper Functions
 
@@ -68,11 +54,15 @@ rating_select(:rating, @form)
 
 ## Usage Examples
 
-### Basic Rating (Display)
+### Basic Rating (Display, colors, sizes, gaps, count)
 
 ```heex
 <.rating select={4} />
 <.rating select={3.5} />
+<.rating select={4} color="primary" />
+<.rating select={3} size="large" />
+<.rating select={4} gap="extra_large" />
+<.rating count={10} select={7} size="small" />
 ```
 
 ### Interactive Rating (Event Mode)
@@ -90,93 +80,31 @@ def handle_event("rating", %{"action" => "select", "number" => number}, socket)
 end
 ```
 
-### Form Integration (Field Mode)
+Event payload shape:
 
-When you pass the `field` prop, the component auto-enables interactive mode, renders a hidden input for form submission, and displays changeset validation errors.
+```elixir
+%{"action" => "select", "number" => 3}
+# With params:
+%{"action" => "select", "number" => 2.5, "product_id" => "abc123"}
+```
+
+### Form Integration (Field Mode), with Label and Half-Star Precision
 
 ```heex
 <.form for={@form} phx-change="validate" phx-submit="save">
-  <.rating field={@form[:rating]} size="large" color="warning" />
+  <.rating field={@form[:rating]} label="Your Rating" size="large" color="warning" precision={0.5} />
 </.form>
 ```
 
-### Half-Star Precision
-
-Set `precision={0.5}` to allow half-star selection. Each star becomes two click targets (left half, right half).
-
-```heex
-<.rating
-  id="rating-precision"
-  select={2.5}
-  size="large"
-  color="warning"
-  precision={0.5}
-  interactive
-/>
-```
-
-### Half-Star Precision with Form
-
-```heex
-<.rating field={@form[:rating]} size="large" color="warning" precision={0.5} />
-```
-
-Note: use a `:float` field type in your Ecto schema when using precision 0.5.
-
 ### Disabled Rating
-
-Renders with reduced opacity and blocks all interaction. Works in both static and interactive modes.
 
 ```heex
 <.rating select={3} size="large" disabled />
 <.rating select={2} size="large" interactive disabled />
-```
-
-When using `field` with `disabled`, interactivity is automatically turned off:
-
-```heex
-<.rating field={@form[:rating]} disabled />
-```
-
-### Different Colors
-
-```heex
-<.rating select={4} color="warning" />
-<.rating select={4} color="primary" />
-<.rating select={4} color="danger" />
-```
-
-### Different Sizes
-
-```heex
-<.rating select={3} size="small" />
-<.rating select={3} size="medium" />
-<.rating select={3} size="large" />
-```
-
-### Custom Star Count
-
-```heex
-<.rating count={10} select={7} size="small" />
-```
-
-### With Gap Sizes
-
-```heex
-<.rating select={4} gap="small" />
-<.rating select={4} gap="large" />
-<.rating select={4} gap="extra_large" />
-```
-
-### With Label
-
-```heex
-<.rating field={@form[:rating]} label="Your Rating" size="large" />
+<.rating field={@form[:rating]} size="large" disabled />
 ```
 
 ### With Custom Params
-
-Pass extra data in the event payload using `params`:
 
 ```heex
 <.rating
@@ -186,8 +114,6 @@ Pass extra data in the event payload using `params`:
   params={%{product_id: @product.id}}
 />
 ```
-
-The params map is merged into the event payload alongside `action` and `number`.
 
 ## Common Patterns
 
@@ -223,20 +149,3 @@ The params map is merged into the event payload alongside `action` and `number`.
   <span class="font-bold">{@rating}/5</span>
 </div>
 ```
-
-### Read-Only Rating in a Form
-
-```heex
-<.rating field={@form[:rating]} size="large" disabled />
-```
-
-## Event Payloads
-
-### Click Select Event
-
-```elixir
-%{"action" => "select", "number" => 3}
-# With params:
-%{"action" => "select", "number" => 2.5, "product_id" => "abc123"}
-```
-

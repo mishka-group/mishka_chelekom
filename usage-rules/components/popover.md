@@ -14,50 +14,30 @@ mix mishka.ui.gen.component popover
 
 ## Dependencies
 
-| Type | Components |
-|------|------------|
-| **Necessary** | None |
-| **Optional** | None |
-| **JavaScript** | None |
+None (necessary, optional, or JS).
 
 ## Attributes
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `variant` | `:string` | `"base"` | Style variant |
-| `color` | `:string` | `"base"` | Color theme |
+| `variant` | `:string` | `"base"` | Style variant — `base`, `default`, `shadow`, `bordered`, `gradient` |
+| `color` | `:string` | `"base"` | Color theme — `base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn` |
 | `size` | `:string` | `"medium"` | Content size |
 | `padding` | `:string` | `"small"` | Content padding |
 | `rounded` | `:string` | `"medium"` | Border radius |
 | `space` | `:string` | `"small"` | Trigger spacing |
-| `position` | `:string` | `"top"` | Popover position |
-| `clickable` | `:boolean` | `false` | Click to activate |
+| `position` | `:string` | `"top"` | Popover position — `top`, `bottom`, `left`, `right` |
+| `clickable` | `:boolean` | `false` | Click (instead of hover) to activate |
 | `inline` | `:boolean` | `false` | Inline display |
 
 ## Slots
 
-### `trigger` Slot
-
-Element that triggers the popover.
-
-### `inner_block` Slot
-
-Popover content.
-
-## Available Options
-
-### Variants
-`base`, `default`, `shadow`, `bordered`, `gradient`
-
-### Colors
-`base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
-
-### Positions
-`top`, `bottom`, `left`, `right`
+- `trigger` — element that triggers the popover.
+- `inner_block` — popover content.
 
 ## Usage Examples
 
-### Basic Popover (Hover)
+### Basic (hover) and click-activated
 
 ```heex
 <.popover>
@@ -66,11 +46,7 @@ Popover content.
   </:trigger>
   <p>Popover content appears here.</p>
 </.popover>
-```
 
-### Click Activated
-
-```heex
 <.popover clickable>
   <:trigger>
     <.button>Click Me</.button>
@@ -79,7 +55,7 @@ Popover content.
 </.popover>
 ```
 
-### Different Positions
+### Positions
 
 ```heex
 <.popover position="top"><:trigger>Top</:trigger>Content</.popover>
@@ -88,7 +64,7 @@ Popover content.
 <.popover position="right"><:trigger>Right</:trigger>Content</.popover>
 ```
 
-### Different Variants
+### Variants
 
 ```heex
 <.popover variant="default" color="white">
@@ -102,7 +78,7 @@ Popover content.
 </.popover>
 ```
 
-### Inline Popover
+### Inline popover
 
 ```heex
 <p>
@@ -119,7 +95,7 @@ Popover content.
 
 ## Common Patterns
 
-### Info Tooltip
+### Info tooltip (icon trigger)
 
 ```heex
 <div class="flex items-center gap-2">
@@ -133,7 +109,7 @@ Popover content.
 </div>
 ```
 
-### User Card Popover
+### User card popover (`padding="none"` for custom layout)
 
 ```heex
 <.popover variant="shadow" padding="none">

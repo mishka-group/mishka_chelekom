@@ -9,13 +9,8 @@ Image component with responsive options, lazy loading, and customizable styling.
 ## Generate
 
 ```bash
-# Generate with all options
 mix mishka.ui.gen.component image
-
-# Generate with specific options
 mix mishka.ui.gen.component image --rounded medium,large,full
-
-# Generate with custom module name
 mix mishka.ui.gen.component image --module MyAppWeb.Components.CustomImage
 ```
 
@@ -37,65 +32,34 @@ mix mishka.ui.gen.component image --module MyAppWeb.Components.CustomImage
 | `height` | `:integer` | `nil` | Image height |
 | `loading` | `:string` | `nil` | Loading behavior: `lazy`, `eager` |
 | `fetchpriority` | `:string` | `nil` | Fetch priority: `high`, `low`, `auto` |
-| `rounded` | `:string` | `nil` | Border radius |
-| `shadow` | `:string` | `nil` | Shadow style |
+| `rounded` | `:string` | `nil` | Border radius — see Options |
+| `shadow` | `:string` | `nil` | Shadow style — see Options |
 | `srcset` | `:string` | `nil` | Responsive image sources |
 | `sizes` | `:string` | `nil` | Responsive sizes |
 | `class` | `:any` | `nil` | Custom CSS class |
 
 ## Available Options
 
-### Rounded
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `full`
-
-### Shadow
-`extra_small`, `small`, `medium`, `large`, `extra_large`
+- **Rounded**: `extra_small`, `small`, `medium`, `large`, `extra_large`, `full`
+- **Shadow**: `extra_small`, `small`, `medium`, `large`, `extra_large`
 
 ## Usage Examples
 
-### Basic Image
+### Basic
 
 ```heex
 <.image src="/images/photo.jpg" alt="Description" />
-```
-
-### With Dimensions
-
-```heex
 <.image src="/images/photo.jpg" alt="Photo" width={400} height={300} />
-```
-
-### Lazy Loading
-
-```heex
 <.image src="/images/below-fold.jpg" alt="Below fold" loading="lazy" />
-```
-
-### High Priority
-
-```heex
 <.image src="/images/hero.jpg" alt="Hero image" fetchpriority="high" />
 ```
 
-### Rounded Corners
+### Rounded / Shadow / Combined
 
 ```heex
 <.image src="/images/avatar.jpg" alt="Avatar" rounded="full" />
-<.image src="/images/card.jpg" alt="Card" rounded="large" />
-<.image src="/images/thumb.jpg" alt="Thumbnail" rounded="medium" />
-```
-
-### With Shadow
-
-```heex
 <.image src="/images/product.jpg" alt="Product" shadow="medium" />
-<.image src="/images/feature.jpg" alt="Feature" shadow="large" />
-<.image src="/images/hero.jpg" alt="Hero" shadow="extra_large" />
-```
 
-### Combined Styling
-
-```heex
 <.image
   src="/images/photo.jpg"
   alt="Styled photo"
@@ -105,7 +69,7 @@ mix mishka.ui.gen.component image --module MyAppWeb.Components.CustomImage
 />
 ```
 
-### Responsive Images
+### Responsive (srcset/sizes)
 
 ```heex
 <.image
@@ -131,7 +95,7 @@ mix mishka.ui.gen.component image --module MyAppWeb.Components.CustomImage
 
 ## Common Patterns
 
-### Product Image
+### Product / Hero Image
 
 ```heex
 <.image
@@ -142,11 +106,7 @@ mix mishka.ui.gen.component image --module MyAppWeb.Components.CustomImage
   loading="lazy"
   class="w-full aspect-square object-cover"
 />
-```
 
-### Hero Image
-
-```heex
 <.image
   src="/images/hero-banner.jpg"
   alt="Welcome to our site"
@@ -175,7 +135,7 @@ mix mishka.ui.gen.component image --module MyAppWeb.Components.CustomImage
 ```heex
 <div class="flex items-center gap-4">
   <.image
-    src={@user.avatar}
+    src={@user.avatar || "/images/default-avatar.png"}
     alt={@user.name}
     rounded="full"
     width={64}
@@ -221,15 +181,4 @@ mix mishka.ui.gen.component image --module MyAppWeb.Components.CustomImage
   <h1 class="text-3xl font-bold">{@post.title}</h1>
   <p class="text-gray-600 mt-4">{@post.excerpt}</p>
 </article>
-```
-
-### Image with Fallback
-
-```heex
-<.image
-  src={@user.avatar || "/images/default-avatar.png"}
-  alt={@user.name}
-  rounded="full"
-  class="size-12 object-cover"
-/>
 ```

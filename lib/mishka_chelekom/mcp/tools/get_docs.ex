@@ -251,7 +251,7 @@ defmodule MishkaChelekom.MCP.Tools.GetDocs do
 
   defp quick_reference("roadmap") do
     """
-    ### Current Version: v0.0.8
+    ### Current Version: v0.0.9
 
     Key milestones:
     - Tailwind CSS 4 migration

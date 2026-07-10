@@ -9,10 +9,9 @@ Collapsible content component with smooth animations and server event support.
 ## Generate
 
 ```bash
-# Generate with all options
 mix mishka.ui.gen.component collapse
 
-# Generate with custom module name
+# Custom module name
 mix mishka.ui.gen.component collapse --module MyAppWeb.Components.CustomCollapse
 ```
 
@@ -38,26 +37,21 @@ mix mishka.ui.gen.component collapse --module MyAppWeb.Components.CustomCollapse
 
 ## Slots
 
-### `trigger` Slot
-
-The clickable element that toggles the collapse.
-
-### `inner_block` Slot
-
-The collapsible content.
+- `trigger` - the clickable element that toggles the collapse
+- `inner_block` - the collapsible content
 
 ## Server Events
 
 When `server_events={true}`, the component sends events to the server:
 
-- `collapsible_open` - Fired when content opens
-- `collapsible_close` - Fired when content closes
+- `collapsible_open` - fired when content opens
+- `collapsible_close` - fired when content closes
 
-Use `event_handler` to customize the event name.
+Use `event_handler` to override the default event name.
 
 ## Usage Examples
 
-### Basic Collapse
+### Basic
 
 ```heex
 <.collapse id="basic-collapse">
@@ -66,49 +60,19 @@ Use `event_handler` to customize the event name.
       Toggle Content
     </button>
   </:trigger>
-  <p class="p-4">
-    This content can be toggled on and off.
-  </p>
+  <p class="p-4">This content can be toggled on and off.</p>
 </.collapse>
 ```
 
-### Initially Open
+### Initially Open + Custom Duration
 
 ```heex
-<.collapse id="open-collapse" open={true}>
+<.collapse id="open-collapse" open={true} duration={500}>
   <:trigger>
-    <button class="px-4 py-2 bg-blue-500 text-white rounded">
-      Settings
-    </button>
+    <button class="px-4 py-2 bg-blue-500 text-white rounded">Settings</button>
   </:trigger>
   <div class="p-4 border rounded mt-2">
-    <p>Settings content is visible by default.</p>
-  </div>
-</.collapse>
-```
-
-### Custom Animation Duration
-
-```heex
-<.collapse id="slow-collapse" duration={500}>
-  <:trigger>
-    <button class="btn">Slow Animation</button>
-  </:trigger>
-  <div class="p-4">
-    This uses a 500ms animation.
-  </div>
-</.collapse>
-```
-
-### Fast Animation
-
-```heex
-<.collapse id="fast-collapse" duration={100}>
-  <:trigger>
-    <button class="btn">Fast Animation</button>
-  </:trigger>
-  <div class="p-4">
-    This uses a 100ms animation.
+    <p>Visible by default; uses a 500ms animation.</p>
   </div>
 </.collapse>
 ```
@@ -118,26 +82,18 @@ Use `event_handler` to customize the event name.
 ```heex
 <.collapse id="server-collapse" server_events={true}>
   <:trigger>
-    <button class="px-4 py-2 border rounded">
-      Track Toggle
-    </button>
+    <button class="px-4 py-2 border rounded">Track Toggle</button>
   </:trigger>
-  <div class="p-4">
-    Opening/closing this sends events to the server.
-  </div>
+  <div class="p-4">Opening/closing this sends events to the server.</div>
 </.collapse>
 ```
 
-Handle in LiveView:
-
 ```elixir
 def handle_event("collapsible_open", %{"id" => id}, socket) do
-  # Handle open event
   {:noreply, socket}
 end
 
 def handle_event("collapsible_close", %{"id" => id}, socket) do
-  # Handle close event
   {:noreply, socket}
 end
 ```
@@ -167,9 +123,7 @@ end
   <:trigger>
     <button class="btn">Toggle (Keep Mounted)</button>
   </:trigger>
-  <div class="p-4">
-    This content stays in the DOM even when hidden.
-  </div>
+  <div class="p-4">This content stays in the DOM even when hidden.</div>
 </.collapse>
 ```
 
@@ -204,9 +158,7 @@ end
         <.icon name="hero-plus" class="size-5" />
       </button>
     </:trigger>
-    <div class="p-4 text-gray-600">
-      {answer}
-    </div>
+    <div class="p-4 text-gray-600">{answer}</div>
   </.collapse>
 </div>
 ```
@@ -219,8 +171,7 @@ end
     <:trigger>
       <button class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 rounded">
         <span class="flex items-center gap-2">
-          <.icon name="hero-cube" class="size-5" />
-          Products
+          <.icon name="hero-cube" class="size-5" /> Products
         </span>
         <.icon name="hero-chevron-right" class="size-4" />
       </button>
@@ -250,18 +201,9 @@ end
     </:trigger>
     <div class="border-t p-4">
       <ul class="space-y-2">
-        <li class="flex justify-between">
-          <span>Product A</span>
-          <span>$49.99</span>
-        </li>
-        <li class="flex justify-between">
-          <span>Product B</span>
-          <span>$59.99</span>
-        </li>
-        <li class="flex justify-between">
-          <span>Product C</span>
-          <span>$40.01</span>
-        </li>
+        <li class="flex justify-between"><span>Product A</span><span>$49.99</span></li>
+        <li class="flex justify-between"><span>Product B</span><span>$59.99</span></li>
+        <li class="flex justify-between"><span>Product C</span><span>$40.01</span></li>
       </ul>
     </div>
   </.collapse>
@@ -274,8 +216,7 @@ end
 <.collapse id="filters" open={@show_filters} server_events={true}>
   <:trigger>
     <button class="flex items-center gap-2 px-4 py-2 border rounded">
-      <.icon name="hero-funnel" class="size-5" />
-      Filters
+      <.icon name="hero-funnel" class="size-5" /> Filters
       <.badge :if={@active_filter_count > 0} color="primary">{@active_filter_count}</.badge>
     </button>
   </:trigger>
@@ -296,9 +237,7 @@ end
 
 ## JavaScript Hook
 
-The collapse uses the `Collapsible` JavaScript hook for smooth animations. This is automatically configured when you generate the component.
-
-The hook is registered in `assets/js/app.js`:
+Uses the `Collapsible` JS hook for smooth animations, auto-configured on generate. Registered in `assets/js/app.js`:
 
 ```javascript
 import MishkaComponents from "../vendor/mishka_components.js";

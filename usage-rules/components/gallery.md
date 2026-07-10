@@ -40,7 +40,7 @@ mix mishka.ui.gen.component gallery --module MyAppWeb.Components.CustomGallery
 
 ## Attributes
 
-### `gallery/1` Attributes
+### `gallery/1`
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -50,17 +50,17 @@ mix mishka.ui.gen.component gallery --module MyAppWeb.Components.CustomGallery
 | `gap` | `:string` | `"medium"` | Space between items |
 | `class` | `:any` | `nil` | Custom CSS class |
 
-### `gallery_media/1` Attributes
+### `gallery_media/1`
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `src` | `:string` | **required** | Media source URL |
 | `alt` | `:string` | `nil` | Alt text |
-| `rounded` | `:string` | `"medium"` | Border radius |
+| `rounded` | `:string` | `"medium"` | Border radius — one of Rounded options below |
 | `shadow` | `:string` | `nil` | Shadow style |
 | `class` | `:any` | `nil` | Custom CSS class |
 
-### `filterable_gallery/1` Attributes
+### `filterable_gallery/1`
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -71,21 +71,15 @@ mix mishka.ui.gen.component gallery --module MyAppWeb.Components.CustomGallery
 
 ## Slots
 
-### `inner_block` Slot
-
-Gallery media items.
-
-### `filter` Slot (for filterable_gallery)
-
-Filter button items.
+| Slot | Applies to | Description |
+|------|-----------|-------------|
+| `inner_block` | `gallery/1`, `gallery_media/1` | Gallery media items (or overlay content inside `gallery_media`) |
+| `filter` | `filterable_gallery/1` | Filter button items, each with a `category` attribute |
 
 ## Available Options
 
-### Rounded
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `none`
-
-### Gallery Types
-`default`, `masonry`, `featured`
+- **Rounded**: `extra_small`, `small`, `medium`, `large`, `extra_large`, `none`
+- **Gallery Types**: `default`, `masonry`, `featured`
 
 ## Usage Examples
 
@@ -96,11 +90,10 @@ Filter button items.
   <.gallery_media src="/images/photo1.jpg" alt="Photo 1" />
   <.gallery_media src="/images/photo2.jpg" alt="Photo 2" />
   <.gallery_media src="/images/photo3.jpg" alt="Photo 3" />
-  <.gallery_media src="/images/photo4.jpg" alt="Photo 4" />
-  <.gallery_media src="/images/photo5.jpg" alt="Photo 5" />
-  <.gallery_media src="/images/photo6.jpg" alt="Photo 6" />
 </.gallery>
 ```
+
+`cols` accepts any integer (e.g. `2`, `3`, `4`, `5`).
 
 ### Masonry Layout
 
@@ -117,28 +110,16 @@ Filter button items.
   <.gallery_media src="/images/featured.jpg" alt="Featured" class="col-span-2 row-span-2" />
   <.gallery_media src="/images/small1.jpg" alt="Small 1" />
   <.gallery_media src="/images/small2.jpg" alt="Small 2" />
-  <.gallery_media src="/images/small3.jpg" alt="Small 3" />
-  <.gallery_media src="/images/small4.jpg" alt="Small 4" />
 </.gallery>
 ```
 
-### With Rounded Corners
+### Rounded Corners and Shadows
 
 ```heex
 <.gallery cols={3}>
-  <.gallery_media src="/images/1.jpg" rounded="large" />
-  <.gallery_media src="/images/2.jpg" rounded="large" />
-  <.gallery_media src="/images/3.jpg" rounded="large" />
-</.gallery>
-```
-
-### With Shadows
-
-```heex
-<.gallery cols={3}>
-  <.gallery_media src="/images/1.jpg" shadow="medium" />
-  <.gallery_media src="/images/2.jpg" shadow="large" />
-  <.gallery_media src="/images/3.jpg" shadow="extra_large" />
+  <.gallery_media src="/images/1.jpg" rounded="large" shadow="medium" />
+  <.gallery_media src="/images/2.jpg" rounded="large" shadow="large" />
+  <.gallery_media src="/images/3.jpg" rounded="large" shadow="extra_large" />
 </.gallery>
 ```
 
@@ -154,23 +135,12 @@ Filter button items.
   <.gallery_media src="/images/web1.jpg" category="web" />
   <.gallery_media src="/images/mobile1.jpg" category="mobile" />
   <.gallery_media src="/images/brand1.jpg" category="branding" />
-  <.gallery_media src="/images/web2.jpg" category="web" />
-  <.gallery_media src="/images/mobile2.jpg" category="mobile" />
 </.filterable_gallery>
-```
-
-### Different Column Counts
-
-```heex
-<.gallery cols={2}>Two columns</.gallery>
-<.gallery cols={3}>Three columns</.gallery>
-<.gallery cols={4}>Four columns</.gallery>
-<.gallery cols={5}>Five columns</.gallery>
 ```
 
 ## Common Patterns
 
-### Product Image Gallery
+### Product Image Gallery (click-to-select)
 
 ```heex
 <.gallery cols={4} gap="small" class="mt-4">
@@ -186,14 +156,13 @@ Filter button items.
 </.gallery>
 ```
 
-### Portfolio Gallery
+### Portfolio Gallery (filterable, with hover overlay via slot)
 
 ```heex
 <.filterable_gallery id="portfolio" cols={3} gap="large">
   <:filter category="all" class="active">All Projects</:filter>
   <:filter category="design">Design</:filter>
   <:filter category="development">Development</:filter>
-  <:filter category="marketing">Marketing</:filter>
 
   <.gallery_media
     :for={project <- @projects}
@@ -210,7 +179,7 @@ Filter button items.
 </.filterable_gallery>
 ```
 
-### Image Grid with Overlay
+### Image Grid with Overlay (wrapper div instead of slot)
 
 ```heex
 <.gallery cols={3} gap="medium">
@@ -228,7 +197,7 @@ Filter button items.
 
 ## JavaScript Hook
 
-The filterable gallery uses the `GalleryFilter` JavaScript hook. This is automatically configured when you generate the component.
+`filterable_gallery` requires the `GalleryFilter` JavaScript hook, automatically configured when you generate the component.
 
 ```javascript
 import MishkaComponents from "../vendor/mishka_components.js";

@@ -25,72 +25,38 @@ mix mishka.ui.gen.component tabs
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `id` | `:string` | **required** | Unique identifier |
-| `variant` | `:string` | `"base"` | Style variant |
-| `color` | `:string` | `"base"` | Color theme |
-| `size` | `:string` | `"medium"` | Tab size |
+| `variant` | `:string` | `"base"` | `base`, `default`, `pills` |
+| `color` | `:string` | `"base"` | `base`, `natural`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn` |
+| `size` | `:string` | `"medium"` | `extra_small`, `small`, `medium`, `large`, `extra_large` |
 | `padding` | `:string` | `"small"` | Panel padding |
 | `gap` | `:string` | `"small"` | Space between tabs |
 | `vertical` | `:boolean` | `false` | Vertical layout |
 
 ## Slots
 
-### `tab` Slot
+| Slot | Attribute | Type | Description |
+|------|-----------|------|-------------|
+| `tab` | `icon` | `:string` | Tab icon |
+| `tab` | `active` | `:boolean` | Initially active |
+| `panel` | — | — | Tab panel content |
 
-Tab buttons.
-
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `icon` | `:string` | Tab icon |
-| `active` | `:boolean` | Initially active |
-
-### `panel` Slot
-
-Tab panel content.
-
-## Available Options
-
-### Variants
-`base`, `default`, `pills`
-
-### Colors
-`base`, `natural`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
+`tab` and `panel` slots pair up by order (1st `tab` ↔ 1st `panel`, etc.).
 
 ## Usage Examples
 
-### Basic Tabs
+### Basic Tabs (with active tab + icons)
 
 ```heex
 <.tabs id="basic-tabs">
   <:tab>Tab 1</:tab>
-  <:tab>Tab 2</:tab>
+  <:tab active>Tab 2</:tab>
   <:tab>Tab 3</:tab>
 
   <:panel>Content for Tab 1</:panel>
-  <:panel>Content for Tab 2</:panel>
+  <:panel>Content for Tab 2 (active by default)</:panel>
   <:panel>Content for Tab 3</:panel>
 </.tabs>
-```
 
-### With Active Tab
-
-```heex
-<.tabs id="active-tabs">
-  <:tab>First</:tab>
-  <:tab active>Second</:tab>
-  <:tab>Third</:tab>
-
-  <:panel>First panel</:panel>
-  <:panel>Second panel (active by default)</:panel>
-  <:panel>Third panel</:panel>
-</.tabs>
-```
-
-### With Icons
-
-```heex
 <.tabs id="icon-tabs" color="primary">
   <:tab icon="hero-home">Home</:tab>
   <:tab icon="hero-user">Profile</:tab>
@@ -130,7 +96,7 @@ Tab panel content.
 </.tabs>
 ```
 
-### Different Sizes
+### Sizes
 
 ```heex
 <.tabs id="small-tabs" size="small">
@@ -146,6 +112,16 @@ Tab panel content.
   <:panel>Large panel 1</:panel>
   <:panel>Large panel 2</:panel>
 </.tabs>
+```
+
+## Helper Functions
+
+```elixir
+# Show a specific tab programmatically
+show_tab(js \\ %JS{}, id, index)
+
+# Hide a specific tab programmatically
+hide_tab(js \\ %JS{}, id, index)
 ```
 
 ## Common Patterns

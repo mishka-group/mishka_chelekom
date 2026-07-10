@@ -31,9 +31,9 @@ mix mishka.ui.gen.component native_select
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `variant` | `:string` | `"base"` | Style variant |
-| `color` | `:string` | `"base"` | Color theme |
-| `size` | `:string` | `"medium"` | Select size |
+| `variant` | `:string` | `"base"` | Style variant — one of `base`, `default`, `shadow`, `bordered`, `native` |
+| `color` | `:string` | `"base"` | Color theme — one of `base`, `white`, `natural`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn` |
+| `size` | `:string` | `"medium"` | Select size — one of `extra_small`, `small`, `medium`, `large`, `extra_large` |
 | `rounded` | `:string` | `"small"` | Border radius |
 | `space` | `:string` | `"medium"` | Space between elements |
 | `multiple` | `:boolean` | `false` | Multi-select |
@@ -51,17 +51,6 @@ mix mishka.ui.gen.component native_select
 | `selected` | `:boolean` | Selected state |
 | `disabled` | `:boolean` | Disabled state |
 
-## Available Options
-
-### Variants
-`base`, `default`, `shadow`, `bordered`, `native`
-
-### Colors
-`base`, `white`, `natural`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
-
 ## Usage Examples
 
 ### Basic Select
@@ -75,11 +64,11 @@ mix mishka.ui.gen.component native_select
 </.native_select>
 ```
 
-### With Form Field
+### With Form Field, Prompt, and Color
 
 ```heex
-<.native_select field={@form[:role]} label="Role" prompt="Select role">
-  <:option :for={role <- @roles} value={role.id}>{role.name}</:option>
+<.native_select field={@form[:country]} label="Country" prompt="Select your country" color="primary">
+  <:option :for={country <- @countries} value={country.code}>{country.name}</:option>
 </.native_select>
 ```
 
@@ -88,30 +77,5 @@ mix mishka.ui.gen.component native_select
 ```heex
 <.native_select name="categories" label="Categories" multiple={true}>
   <:option :for={cat <- @categories} value={cat.id}>{cat.name}</:option>
-</.native_select>
-```
-
-### Different Variants
-
-```heex
-<.native_select variant="default" label="Default"></:option></.native_select>
-<.native_select variant="bordered" label="Bordered"></:option></.native_select>
-<.native_select variant="shadow" label="Shadow"></:option></.native_select>
-```
-
-## Common Patterns
-
-### Country Selector
-
-```heex
-<.native_select
-  field={@form[:country]}
-  label="Country"
-  prompt="Select your country"
-  color="primary"
->
-  <:option :for={country <- @countries} value={country.code}>
-    {country.name}
-  </:option>
 </.native_select>
 ```

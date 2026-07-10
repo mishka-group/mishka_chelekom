@@ -30,42 +30,37 @@ mix mishka.ui.gen.component scroll_area
 | `vertical` | `:boolean` | `true` | Enable vertical scrollbar |
 | `height` | `:string` | `"h-96"` | Container height |
 | `width` | `:string` | `"w-full"` | Container width |
-| `padding` | `:string` | `"extra_small"` | Content padding |
+| `padding` | `:string` | `"extra_small"` | Content padding (`extra_small`, `small`, `medium`, `large`, `extra_large`, `none`) |
 | `scrollbar_width` | `:string` | `"w-2"` | Vertical scrollbar width |
 | `scrollbar_height` | `:string` | `"h-2"` | Horizontal scrollbar height |
 
 ## Slots
 
-### `inner_block` Slot
-
-Scrollable content.
-
-## Available Options
-
-### Padding
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `none`
+- `inner_block` — scrollable content.
 
 ## Usage Examples
 
-### Basic Scroll Area
+### Basic / dimensions / scrollbar tuning
 
 ```heex
 <.scroll_area id="content-scroll" height="h-64">
   <p>Long content goes here...</p>
-  <p>More content...</p>
-  <p>Even more content...</p>
 </.scroll_area>
-```
 
-### Custom Dimensions
-
-```heex
 <.scroll_area id="custom-scroll" height="h-48" width="w-96">
   Content here...
 </.scroll_area>
+
+<.scroll_area id="hover-scroll" type="hover" height="h-64">
+  Scrollbar appears on hover
+</.scroll_area>
+
+<.scroll_area id="thick-scroll" scrollbar_width="w-3" height="h-64">
+  Content with thicker scrollbar
+</.scroll_area>
 ```
 
-### Horizontal Scrolling
+### Horizontal only
 
 ```heex
 <.scroll_area id="horizontal-scroll" horizontal vertical={false}>
@@ -77,7 +72,7 @@ Scrollable content.
 </.scroll_area>
 ```
 
-### Both Directions
+### Both directions
 
 ```heex
 <.scroll_area id="both-scroll" horizontal vertical height="h-64" width="w-96">
@@ -87,25 +82,9 @@ Scrollable content.
 </.scroll_area>
 ```
 
-### Hover Scrollbar
-
-```heex
-<.scroll_area id="hover-scroll" type="hover" height="h-64">
-  Scrollbar appears on hover
-</.scroll_area>
-```
-
-### Custom Scrollbar Size
-
-```heex
-<.scroll_area id="thick-scroll" scrollbar_width="w-3" height="h-64">
-  Content with thicker scrollbar
-</.scroll_area>
-```
-
 ## Common Patterns
 
-### Chat Messages Container
+### Chat messages container
 
 ```heex
 <.scroll_area id="chat-messages" height="h-96" class="border rounded-lg">
@@ -121,7 +100,7 @@ Scrollable content.
 </.scroll_area>
 ```
 
-### Code Preview
+### Code preview (horizontal + vertical)
 
 ```heex
 <.scroll_area id="code-preview" horizontal vertical height="h-64" class="bg-gray-900 rounded-lg">
@@ -131,7 +110,7 @@ Scrollable content.
 </.scroll_area>
 ```
 
-### Sidebar Navigation
+### Sidebar navigation
 
 ```heex
 <.scroll_area id="sidebar-nav" height="h-[calc(100vh-4rem)]" padding="small">

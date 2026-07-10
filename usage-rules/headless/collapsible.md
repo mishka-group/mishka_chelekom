@@ -1,6 +1,6 @@
 # collapsible (headless)
 
-An unstyled, accessible disclosure: a trigger button that shows/hides one region, with behavior delegated to the shared `Disclosure` JS engine. Implements the [WAI-ARIA APG Disclosure pattern](https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/).
+An unstyled, accessible disclosure: a trigger button that shows/hides one region, behavior delegated to the shared `Disclosure` JS engine. Implements the [WAI-ARIA APG Disclosure pattern](https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/).
 
 ## Generate
 
@@ -17,37 +17,29 @@ const Hooks = { Disclosure };
 
 ## Anatomy
 
-The root is a `<div>` carrying `phx-hook="Disclosure"` and `class="chelekom-collapsible"`. Parts are marked with `data-part` hooks the engine queries:
+Root is a `<div>` with `phx-hook="Disclosure"` and `class="chelekom-collapsible"`. `Disclosure` queries `[data-part="trigger"]` and follows each trigger's `aria-controls` to its panel.
 
-| Part | Element | `data-part` | Class | Source |
-|------|---------|-------------|-------|--------|
-| root | `div` | — | `chelekom-collapsible` | always rendered |
-| trigger | `button` | `trigger` | `chelekom-collapsible__trigger` | `<:trigger>` slot (required) |
-| panel | `div` | `panel` | `chelekom-collapsible__panel` | `inner_block` (required) |
-
-The trigger id is `#{@id}-trigger`; the panel id is `#{@id}-panel`. `Disclosure` queries `[data-part="trigger"]` and follows each trigger's `aria-controls` to its panel.
+| Part | Element | `data-part` | Class | Source | id |
+|------|---------|-------------|-------|--------|----|
+| root | `div` | — | `chelekom-collapsible` | always rendered | — |
+| trigger | `button` | `trigger` | `chelekom-collapsible__trigger` | `<:trigger>` slot (required) | `#{@id}-trigger` |
+| panel | `div` | `panel` | `chelekom-collapsible__panel` | `inner_block` (required) | `#{@id}-panel` |
 
 ## ARIA & keyboard
 
-Roles and aria attributes (wired by the template + engine):
-
-- **trigger** — `aria-controls` points at the panel id (`#{@id}-panel`); `aria-expanded` is rendered from the `open` assign and re-synced by the engine on toggle.
-- **panel** — `role="region"`, `aria-labelledby` pointing at the trigger id (`#{@id}-trigger`).
-
-Keyboard (native button behavior, handled via the engine's click listener):
-
-- **Enter / Space** — toggles the panel open/closed.
-
-The engine reads each panel's initial `data-open` on mount and sets the trigger's `aria-expanded` to match.
+- **trigger** — `aria-controls` points at the panel id; `aria-expanded` renders from the `open` assign and is re-synced by the engine on toggle.
+- **panel** — `role="region"`, `aria-labelledby` pointing at the trigger id.
+- **Enter / Space** — toggles open/closed (native button behavior via the engine's click listener).
+- On mount, the engine reads each panel's initial `data-open` and sets the trigger's `aria-expanded` to match.
 
 ## State
 
-Paired-presence (Base-UI style) attributes on the panel, toggled by the `Disclosure` engine:
+Paired-presence (Base-UI style) attributes on the panel, mutually exclusive, toggled by the `Disclosure` engine on click:
 
-- `data-open` — present when the panel is open.
-- `data-closed` — present when the panel is closed.
+- `data-open` — present when open.
+- `data-closed` — present when closed.
 
-The two are always mutually exclusive. On the trigger, `aria-expanded` mirrors the open state. The template renders the initial `data-open`/`data-closed` from the `open` assign; thereafter the `Disclosure` engine toggles them on click.
+`aria-expanded` on the trigger mirrors the open state. The template renders the initial `data-open`/`data-closed` from the `open` assign.
 
 ## Example
 
@@ -59,11 +51,11 @@ The two are always mutually exclusive. On the trigger, `aria-expanded` mirrors t
 </.collapsible>
 ```
 
-Attrs: `id` (required), `open` (boolean, default `false`), `class`, and `rest` (global). Slots: `trigger` (required, the toggle button label), `inner_block` (required, the collapsible content). Add your own classes to the root via the `class` attr.
+Attrs: `id` (required), `open` (boolean, default `false`), `class`, `rest` (global). Slots: `trigger` (required, toggle button label), `inner_block` (required, collapsible content).
 
 ## Styling
 
-This component ships **no** colors or spacing — only structural markup. Style it via the `chelekom-collapsible*` classes (`chelekom-collapsible`, `__trigger`, `__panel`) and the `data-open` / `data-closed` state attributes, e.g.:
+Ships **no** colors or spacing — structural markup only. Style via the `chelekom-collapsible*` classes (`chelekom-collapsible`, `__trigger`, `__panel`) and the `data-open` / `data-closed` state attributes:
 
 ```css
 .chelekom-collapsible__panel[data-closed] { display: none; }

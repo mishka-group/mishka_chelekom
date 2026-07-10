@@ -39,7 +39,7 @@ mix mishka.ui.gen.component chat --module MyAppWeb.Components.CustomChat
 
 ## Attributes
 
-### `chat/1` Attributes
+### `chat/1`
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -54,7 +54,7 @@ mix mishka.ui.gen.component chat --module MyAppWeb.Components.CustomChat
 | `position` | `:string` | `"normal"` | Layout: `normal`, `flipped` |
 | `class` | `:any` | `nil` | Custom CSS class |
 
-### `chat_section/1` Attributes
+### `chat_section/1`
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -64,56 +64,29 @@ mix mishka.ui.gen.component chat --module MyAppWeb.Components.CustomChat
 
 ## Slots
 
-### `status` Slot (for chat_section)
-
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `time` | `:string` | Message timestamp |
-| `deliver` | `:string` | Delivery status |
-| `time_class` | `:string` | Time styling class |
-| `deliver_class` | `:string` | Delivery status class |
-
-### `meta` Slot (for chat_section)
-
-Custom HTML content for message metadata.
-
-### `inner_block` Slot
-
-Message content.
+| Slot | Where | Attribute/Content | Description |
+|------|-------|--------------------|--------------|
+| `status` | `chat_section` | `time` (`:string`) | Message timestamp |
+| `status` | `chat_section` | `deliver` (`:string`) | Delivery status |
+| `status` | `chat_section` | `time_class` (`:string`) | Time styling class |
+| `status` | `chat_section` | `deliver_class` (`:string`) | Delivery status class |
+| `meta` | `chat_section` | inner HTML | Custom message metadata content |
+| `inner_block` | both | inner HTML | Message content |
 
 ## Available Options
 
-### Variants
-`base`, `default`, `outline`, `transparent`, `shadow`, `bordered`, `gradient`
-
-### Colors
-`base`, `white`, `natural`, `dark`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
-
-### Rounded
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `none`
-
-### Space / Padding
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `none`
-
-### Position
-`normal`, `flipped`
+| Option | Values |
+|--------|--------|
+| Variants | `base`, `default`, `outline`, `transparent`, `shadow`, `bordered`, `gradient` |
+| Colors | `base`, `white`, `natural`, `dark`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn` |
+| Sizes | `extra_small`, `small`, `medium`, `large`, `extra_large` |
+| Rounded | `extra_small`, `small`, `medium`, `large`, `extra_large`, `none` |
+| Space / Padding | `extra_small`, `small`, `medium`, `large`, `extra_large`, `none` |
+| Position | `normal`, `flipped` |
 
 ## Usage Examples
 
-### Basic Chat Message
-
-```heex
-<.chat>
-  <.chat_section>
-    Hello! How can I help you today?
-  </.chat_section>
-</.chat>
-```
-
-### Chat with Avatar
+### Basic Chat, Avatar, Status/Time
 
 ```heex
 <.chat>
@@ -122,11 +95,7 @@ Message content.
     Hi there! I have a question about your product.
   </.chat_section>
 </.chat>
-```
 
-### With Status and Time
-
-```heex
 <.chat color="primary">
   <.chat_section>
     Your order has been shipped!
@@ -136,6 +105,8 @@ Message content.
 ```
 
 ### Flipped Position (Sender's Messages)
+
+`position="flipped"` mirrors the layout, typically paired with the avatar placed after `chat_section`.
 
 ```heex
 <.chat position="flipped" color="primary">
@@ -147,7 +118,7 @@ Message content.
 </.chat>
 ```
 
-### Full Conversation
+### Full Conversation (mixing normal + flipped)
 
 ```heex
 <%# Received message %>
@@ -167,34 +138,25 @@ Message content.
   </.chat_section>
   <.avatar src="/images/me.jpg" size="small" rounded="full" />
 </.chat>
-
-<%# Received message %>
-<.chat>
-  <.avatar src="/images/support.jpg" size="small" rounded="full" />
-  <.chat_section>
-    Of course! What's your order number?
-    <:status time="9:02 AM" />
-  </.chat_section>
-</.chat>
 ```
 
-### Different Variants
+### Variants and Sizes
 
 ```heex
-<.chat variant="default" color="natural">
-  <.chat_section>Default variant</.chat_section>
-</.chat>
-
 <.chat variant="outline" color="primary">
   <.chat_section>Outline variant</.chat_section>
 </.chat>
 
-<.chat variant="shadow" color="success">
-  <.chat_section>Shadow variant</.chat_section>
-</.chat>
-
 <.chat variant="gradient" color="primary">
   <.chat_section>Gradient variant</.chat_section>
+</.chat>
+
+<.chat size="small">
+  <.chat_section>Small chat bubble</.chat_section>
+</.chat>
+
+<.chat size="large">
+  <.chat_section>Large chat bubble</.chat_section>
 </.chat>
 ```
 
@@ -214,18 +176,6 @@ Message content.
     </:meta>
     <:status time="2:45 PM" deliver="Sent" />
   </.chat_section>
-</.chat>
-```
-
-### Different Sizes
-
-```heex
-<.chat size="small">
-  <.chat_section>Small chat bubble</.chat_section>
-</.chat>
-
-<.chat size="large">
-  <.chat_section>Large chat bubble</.chat_section>
 </.chat>
 ```
 

@@ -48,15 +48,12 @@ mix mishka.ui.gen.component typography
 
 ## Available Options
 
-### Colors
-`base`, `primary`, `white`, `natural`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`, `inherit`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `double_large`, `triple_large`, `quadruple_large`
+- **Colors**: `base`, `primary`, `white`, `natural`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`, `inherit`
+- **Sizes**: `extra_small`, `small`, `medium`, `large`, `extra_large`, `double_large`, `triple_large`, `quadruple_large`
 
 ## Usage Examples
 
-### Headings
+### Headings, Colors, Sizes, Font Weight
 
 ```heex
 <.h1>Heading 1</.h1>
@@ -65,28 +62,16 @@ mix mishka.ui.gen.component typography
 <.h4>Heading 4</.h4>
 <.h5>Heading 5</.h5>
 <.h6>Heading 6</.h6>
-```
 
-### With Colors
-
-```heex
 <.h1 color="primary">Primary Heading</.h1>
 <.h2 color="secondary">Secondary Heading</.h2>
 <.p color="danger">Danger text paragraph</.p>
-```
 
-### With Sizes
-
-```heex
 <.h1 size="quadruple_large">Extra Large Heading</.h1>
 <.h2 size="triple_large">Large Heading</.h2>
 <.p size="large">Large paragraph</.p>
 <.p size="small">Small paragraph</.p>
-```
 
-### With Font Weight
-
-```heex
 <.h1 font_weight="font-bold">Bold Heading</.h1>
 <.h2 font_weight="font-semibold">Semibold Heading</.h2>
 <.p font_weight="font-medium">Medium weight text</.p>

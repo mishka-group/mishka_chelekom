@@ -39,62 +39,33 @@ mix mishka.ui.gen.component pagination
 
 ## Available Options
 
-### Variants
-`base`, `default`, `outline`, `transparent`, `subtle`, `shadow`, `inverted`, `gradient`, `bordered`
-
-### Colors
-`base`, `natural`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`, `dark`, `white`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
-
-### Rounded
-`extra_small`, `small`, `medium`, `large`, `extra_large`, `full`, `none`
+| Option | Values |
+|--------|--------|
+| `variant` | `base`, `default`, `outline`, `transparent`, `subtle`, `shadow`, `inverted`, `gradient`, `bordered` |
+| `color` | `base`, `natural`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`, `dark`, `white` |
+| `size` | `extra_small`, `small`, `medium`, `large`, `extra_large` |
+| `rounded` | `extra_small`, `small`, `medium`, `large`, `extra_large`, `full`, `none` |
 
 ## Usage Examples
 
-### Basic Pagination
-
 ```heex
+<%!-- Basic --%>
 <.pagination total={10} current={@page} on_change="page_changed" />
-```
 
-### Different Variants
+<%!-- Variants / colors --%>
+<.pagination variant="outline" color="primary" total={10} current={1} />
+<.pagination variant="shadow" color="success" total={10} current={1} />
 
-```heex
-<.pagination variant="default" total={10} current={1} />
-<.pagination variant="outline" total={10} current={1} />
-<.pagination variant="shadow" total={10} current={1} />
-```
-
-### Different Colors
-
-```heex
-<.pagination color="primary" total={10} current={1} />
-<.pagination color="success" total={10} current={1} />
-```
-
-### With More Siblings
-
-```heex
+<%!-- More siblings/boundaries --%>
 <.pagination total={20} current={10} siblings={2} boundaries={2} />
-```
 
-### Without Edge Controls
-
-```heex
+<%!-- Without edge controls (first/last) --%>
 <.pagination total={10} current={5} show_edges={false} />
-```
 
-### Compact (No Controls)
-
-```heex
+<%!-- Compact: no prev/next controls --%>
 <.pagination total={5} current={3} show_controls={false} />
-```
 
-### Rounded Full
-
-```heex
+<%!-- Rounded full --%>
 <.pagination total={10} current={1} rounded="full" variant="default" />
 ```
 

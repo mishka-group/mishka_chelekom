@@ -31,8 +31,8 @@ mix mishka.ui.gen.component navbar
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `variant` | `:string` | `"base"` | Style variant |
-| `color` | `:string` | `"base"` | Color theme |
+| `variant` | `:string` | `"base"` | Style variant — `base`, `default`, `shadow`, `bordered`, `gradient` |
+| `color` | `:string` | `"base"` | Color theme — `base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn` |
 | `padding` | `:string` | `"small"` | Content padding |
 | `rounded` | `:string` | `"none"` | Border radius |
 | `space` | `:string` | `"small"` | Space between elements |
@@ -41,25 +41,11 @@ mix mishka.ui.gen.component navbar
 
 ## Slots
 
-### `brand` Slot
-
-Logo/brand area.
-
-### `inner_block` Slot
-
-Navigation links and content.
-
-### `action` Slot
-
-Action buttons area.
-
-## Available Options
-
-### Variants
-`base`, `default`, `shadow`, `bordered`, `gradient`
-
-### Colors
-`base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
+| Slot | Description |
+|------|-------------|
+| `brand` | Logo/brand area |
+| `inner_block` | Navigation links and content |
+| `action` | Action buttons area |
 
 ## Usage Examples
 
@@ -110,14 +96,7 @@ Action buttons area.
 </.navbar>
 ```
 
-### Different Variants
-
-```heex
-<.navbar variant="default" color="natural">Default</.navbar>
-<.navbar variant="shadow" color="white">Shadow</.navbar>
-<.navbar variant="bordered" color="white">Bordered</.navbar>
-<.navbar variant="gradient" color="primary">Gradient</.navbar>
-```
+Other variant/color combos use the same shape, e.g. `<.navbar variant="bordered" color="white">…</.navbar>` or `<.navbar variant="gradient" color="primary">…</.navbar>`.
 
 ## Common Patterns
 

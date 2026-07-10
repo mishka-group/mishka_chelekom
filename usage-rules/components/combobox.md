@@ -9,13 +9,8 @@ Searchable select/dropdown component with filtering, single/multiple selection, 
 ## Generate
 
 ```bash
-# Generate with all options
 mix mishka.ui.gen.component combobox
-
-# Generate with specific options
 mix mishka.ui.gen.component combobox --variant default,bordered --color primary,natural
-
-# Generate with custom module name
 mix mishka.ui.gen.component combobox --module MyAppWeb.Components.CustomCombobox
 ```
 
@@ -33,16 +28,16 @@ mix mishka.ui.gen.component combobox --module MyAppWeb.Components.CustomCombobox
 |-----------|------|---------|-------------|
 | `id` | `:string` | auto-generated | Unique identifier |
 | `name` | `:string` | `nil` | Input field name |
-| `variant` | `:string` | `"base"` | Style variant |
-| `color` | `:string` | `"natural"` | Color theme |
-| `size` | `:string` | `"medium"` | Component size |
-| `space` | `:string` | `"small"` | Space between elements |
-| `padding` | `:string` | `"small"` | Dropdown padding |
-| `rounded` | `:string` | `"medium"` | Border radius |
+| `variant` | `:string` | `"base"` | Style variant — `base`, `default`, `bordered` |
+| `color` | `:string` | `"natural"` | Color theme — `base`, `natural`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn` |
+| `size` | `:string` | `"medium"` | Component size — `extra_small`, `small`, `medium`, `large`, `extra_large` |
+| `space` | `:string` | `"small"` | Space between elements — `extra_small`, `small`, `medium`, `large`, `extra_large` |
+| `padding` | `:string` | `"small"` | Dropdown padding — `extra_small`, `small`, `medium`, `large`, `extra_large` |
+| `rounded` | `:string` | `"medium"` | Border radius — `extra_small`, `small`, `medium`, `large`, `extra_large` |
 | `placeholder` | `:string` | `nil` | Placeholder text |
 | `searchable` | `:boolean` | `true` | Enable search filtering |
 | `multiple` | `:boolean` | `false` | Enable multiple selection |
-| `options` | `:list` | `[]` | List of options |
+| `options` | `:list` | `[]` | List of options (alternative to `:option` slot) |
 | `on_change` | `:string` | `nil` | Change event handler |
 | `label` | `:string` | `nil` | Label text |
 | `description` | `:string` | `nil` | Description text |
@@ -52,30 +47,11 @@ mix mishka.ui.gen.component combobox --module MyAppWeb.Components.CustomCombobox
 
 ## Slots
 
-### `option` Slot
-
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `value` | `:string` | Option value |
-| `disabled` | `:boolean` | Disable option |
-
-### `start_section` Slot
-
-Content before the input.
-
-## Available Options
-
-### Variants
-`base`, `default`, `bordered`
-
-### Colors
-`base`, `natural`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
-
-### Sizes
-`extra_small`, `small`, `medium`, `large`, `extra_large`
-
-### Space / Padding / Rounded
-`extra_small`, `small`, `medium`, `large`, `extra_large`
+| Slot | Attribute | Type | Description |
+|------|-----------|------|-------------|
+| `option` | `value` | `:string` | Option value |
+| `option` | `disabled` | `:boolean` | Disable option |
+| `start_section` | — | — | Content before the input |
 
 ## Usage Examples
 
@@ -89,7 +65,7 @@ Content before the input.
 </.combobox>
 ```
 
-### With Options List
+### With Options List (`options` attr instead of slot)
 
 ```heex
 <.combobox
@@ -103,46 +79,35 @@ Content before the input.
 />
 ```
 
-### Multiple Selection
+### Multiple + Searchable Selection
 
 ```heex
 <.combobox
-  name="tags"
-  placeholder="Select tags"
+  field={@form[:tags]}
+  label="Tags"
+  placeholder="Add tags..."
   multiple={true}
->
-  <:option value="frontend">Frontend</:option>
-  <:option value="backend">Backend</:option>
-  <:option value="devops">DevOps</:option>
-  <:option value="design">Design</:option>
-</.combobox>
-```
-
-### Searchable
-
-```heex
-<.combobox
-  placeholder="Search and select..."
   searchable={true}
 >
-  <:option :for={country <- @countries} value={country.code}>
-    {country.name}
+  <:option :for={tag <- @available_tags} value={tag.id}>
+    {tag.name}
   </:option>
 </.combobox>
 ```
 
-### With Form Integration
+### With Form Integration (field + label/description)
 
 ```heex
 <.form for={@form} phx-submit="save">
   <.combobox
-    field={@form[:category]}
-    label="Category"
+    field={@form[:country]}
+    label="Country"
     description="Select product category"
-    placeholder="Choose category"
+    placeholder="Select your country"
+    searchable={true}
   >
-    <:option :for={cat <- @categories} value={cat.id}>
-      {cat.name}
+    <:option :for={country <- @countries} value={country.code}>
+      {country.flag} {country.name}
     </:option>
   </.combobox>
 </.form>
@@ -169,39 +134,6 @@ Content before the input.
   </:start_section>
   <:option :for={user <- @users} value={user.id}>
     {user.name}
-  </:option>
-</.combobox>
-```
-
-## Common Patterns
-
-### Country Selector
-
-```heex
-<.combobox
-  field={@form[:country]}
-  label="Country"
-  placeholder="Select your country"
-  searchable={true}
->
-  <:option :for={country <- @countries} value={country.code}>
-    {country.flag} {country.name}
-  </:option>
-</.combobox>
-```
-
-### Tag Selection
-
-```heex
-<.combobox
-  field={@form[:tags]}
-  label="Tags"
-  placeholder="Add tags..."
-  multiple={true}
-  searchable={true}
->
-  <:option :for={tag <- @available_tags} value={tag.id}>
-    {tag.name}
   </:option>
 </.combobox>
 ```

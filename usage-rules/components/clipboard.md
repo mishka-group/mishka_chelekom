@@ -44,17 +44,9 @@ mix mishka.ui.gen.component clipboard --module MyAppWeb.Components.CustomClipboa
 
 ## Slots
 
-### `trigger` Slot (Required)
-
-The clickable element that activates the copy action.
-
-### `content` Slot (Optional)
-
-Fallback content to copy if `text` and `target_selector` are not provided.
-
-### `inner_block` Slot (Optional)
-
-Additional wrapper content.
+- **`trigger` (required)** — the clickable element that activates the copy action.
+- **`content` (optional)** — fallback content to copy if `text` and `target_selector` are not provided.
+- **`inner_block` (optional)** — additional wrapper content.
 
 ## Copy Priority
 
@@ -77,7 +69,7 @@ Content sources are prioritized in this order:
 </.clipboard>
 ```
 
-### Copy from Element
+### Copy from Element (`target_selector`)
 
 ```heex
 <div id="code-block" class="p-4 bg-gray-100 rounded">
@@ -91,7 +83,7 @@ Content sources are prioritized in this order:
 </.clipboard>
 ```
 
-### With Custom Feedback
+### Custom Feedback (text, timeout, classes)
 
 ```heex
 <.clipboard
@@ -99,32 +91,19 @@ Content sources are prioritized in this order:
   copy_success_text="Copied to clipboard!"
   copy_error_text="Copy failed, try again"
   timeout={3000}
->
-  <:trigger>
-    <button class="btn">Copy</button>
-  </:trigger>
-</.clipboard>
-```
-
-### With Success/Error Classes
-
-```heex
-<.clipboard
-  text="Copy me"
   success_class="bg-green-500 text-white"
   error_class="bg-red-500 text-white"
 >
   <:trigger>
-    <button class="px-4 py-2 border rounded transition-colors">
-      Copy
-    </button>
+    <button class="px-4 py-2 border rounded transition-colors">Copy</button>
   </:trigger>
 </.clipboard>
 ```
 
-### Dynamic Label
+### Dynamic Label & Hidden Status Text
 
 ```heex
+<!-- dynamic_label updates the trigger's label text on copy -->
 <.clipboard text="API Key: abc123" dynamic_label={true}>
   <:trigger>
     <button class="flex items-center gap-2">
@@ -133,11 +112,8 @@ Content sources are prioritized in this order:
     </button>
   </:trigger>
 </.clipboard>
-```
 
-### Hidden Status Text
-
-```heex
+<!-- show_status_text=false suppresses the visible status message (icon-only triggers) -->
 <.clipboard text="Secret value" show_status_text={false}>
   <:trigger>
     <button class="p-2 hover:bg-gray-100 rounded">
@@ -147,7 +123,9 @@ Content sources are prioritized in this order:
 </.clipboard>
 ```
 
-### With Content Slot
+### `:content` Slot Fallback
+
+Used when neither `text` nor `target_selector` is provided.
 
 ```heex
 <.clipboard>
@@ -162,7 +140,7 @@ end
 </.clipboard>
 ```
 
-### With Accessibility Description
+### Accessibility Description
 
 ```heex
 <.clipboard
@@ -198,7 +176,7 @@ end
 </div>
 ```
 
-### Share Link
+### Share Link (copy from a readonly input)
 
 ```heex
 <div class="flex items-center gap-2">
@@ -219,28 +197,7 @@ end
 </div>
 ```
 
-### API Key Display
-
-```heex
-<div class="p-4 bg-gray-50 rounded-lg">
-  <div class="flex items-center justify-between">
-    <div>
-      <p class="text-sm text-gray-500">API Key</p>
-      <code id="api-key" class="text-sm font-mono">{@masked_key}</code>
-    </div>
-    <.clipboard text={@full_api_key}>
-      <:trigger>
-        <button class="flex items-center gap-1 text-sm text-blue-500 hover:text-blue-700">
-          <.icon name="hero-clipboard-document" class="size-4" />
-          Copy
-        </button>
-      </:trigger>
-    </.clipboard>
-  </div>
-</div>
-```
-
-### Color Picker Copy
+### Loop Usage (e.g. copying each color in a list)
 
 ```heex
 <div :for={color <- @colors} class="flex items-center gap-2">
@@ -258,9 +215,7 @@ end
 
 ## JavaScript Hook
 
-The clipboard uses the `Clipboard` JavaScript hook. This is automatically configured when you generate the component.
-
-The hook is registered in `assets/js/app.js`:
+The clipboard uses the `Clipboard` JavaScript hook, automatically configured when you generate the component. It's registered in `assets/js/app.js`:
 
 ```javascript
 import MishkaComponents from "../vendor/mishka_components.js";

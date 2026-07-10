@@ -1,6 +1,6 @@
 # Table Content Component
 
-Structured content display within table-like layouts.
+Structured content display within table-like layouts (e.g. table of contents, nested sidebars).
 
 **Documentation**: https://mishka.tools/chelekom/docs/table-content
 
@@ -20,55 +20,42 @@ mix mishka.ui.gen.component table_content
 | **Optional** | None |
 | **JavaScript** | None |
 
-## Component Types
+## Components
 
 | Component | Description |
-|-----------|-------------|
+|-----------|--------------|
 | `table_content/1` | Content container |
-| `content_wrapper/1` | Nested content wrapper |
+| `content_wrapper/1` | Nested content wrapper (goes inside a `content_item` to hold sub-items) |
 | `content_item/1` | Individual content item |
 
 ## Attributes
 
-### `table_content/1` Attributes
+| Component | Attribute | Type | Default | Description |
+|-----------|-----------|------|---------|-------------|
+| `table_content/1` | `variant` | `:string` | `"base"` | Style variant |
+| | `color` | `:string` | `"base"` | Color theme |
+| | `rounded` | `:string` | `"medium"` | Border radius |
+| | `space` | `:string` | `"small"` | Space between items |
+| | `size` | `:string` | `"medium"` | Content size |
+| | `padding` | `:string` | `"small"` | Container padding |
+| | `title` | `:string` | `nil` | Section title |
+| | `animated` | `:boolean` | `false` | Animation effect |
+| `content_item/1` | `icon` | `:string` | `nil` | Item icon |
+| | `title` | `:string` | `nil` | Item title |
+| | `active` | `:boolean` | `false` | Active state |
+| | `font_weight` | `:string` | `nil` | Text weight |
 
-| Attribute | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `variant` | `:string` | `"base"` | Style variant |
-| `color` | `:string` | `"base"` | Color theme |
-| `rounded` | `:string` | `"medium"` | Border radius |
-| `space` | `:string` | `"small"` | Space between items |
-| `size` | `:string` | `"medium"` | Content size |
-| `padding` | `:string` | `"small"` | Container padding |
-| `title` | `:string` | `nil` | Section title |
-| `animated` | `:boolean` | `false` | Animation effect |
+**Variants**: `base`, `outline`, `default`, `bordered`, `transparent`, `gradient`
 
-### `content_item/1` Attributes
-
-| Attribute | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `icon` | `:string` | `nil` | Item icon |
-| `title` | `:string` | `nil` | Item title |
-| `active` | `:boolean` | `false` | Active state |
-| `font_weight` | `:string` | `nil` | Text weight |
-
-## Available Options
-
-### Variants
-`base`, `outline`, `default`, `bordered`, `transparent`, `gradient`
-
-### Colors
-`base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
+**Colors**: `base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
 
 ## Usage Examples
 
-### Basic Table Content
+### Basic list, active state, and variants
 
 ```heex
 <.table_content title="Contents">
-  <.content_item icon="hero-hashtag">
-    <.link href="#introduction">Introduction</.link>
-  </.content_item>
+  <.content_item icon="hero-hashtag" active>Current Section</.content_item>
   <.content_item icon="hero-hashtag">
     <.link href="#getting-started">Getting Started</.link>
   </.content_item>
@@ -76,9 +63,19 @@ mix mishka.ui.gen.component table_content
     <.link href="#examples">Examples</.link>
   </.content_item>
 </.table_content>
+
+<.table_content variant="bordered" color="natural">
+  <.content_item>Bordered Style</.content_item>
+</.table_content>
+
+<.table_content variant="outline" color="primary">
+  <.content_item>Outline Style</.content_item>
+</.table_content>
 ```
 
-### With Nested Content
+### Nested content with `content_wrapper`
+
+Give the parent `content_item` a `title` (no `icon`/link) and nest a `content_wrapper` holding child `content_item`s.
 
 ```heex
 <.table_content color="primary">
@@ -103,41 +100,18 @@ mix mishka.ui.gen.component table_content
 </.table_content>
 ```
 
-### With Animation
+### Animated
 
 ```heex
 <.table_content animated color="info">
   <.content_item icon="hero-document">Chapter 1</.content_item>
   <.content_item icon="hero-document">Chapter 2</.content_item>
-  <.content_item icon="hero-document">Chapter 3</.content_item>
-</.table_content>
-```
-
-### Active State
-
-```heex
-<.table_content>
-  <.content_item icon="hero-hashtag" active>Current Section</.content_item>
-  <.content_item icon="hero-hashtag">Next Section</.content_item>
-  <.content_item icon="hero-hashtag">Final Section</.content_item>
-</.table_content>
-```
-
-### Different Variants
-
-```heex
-<.table_content variant="bordered" color="natural">
-  <.content_item>Bordered Style</.content_item>
-</.table_content>
-
-<.table_content variant="outline" color="primary">
-  <.content_item>Outline Style</.content_item>
 </.table_content>
 ```
 
 ## Common Patterns
 
-### Documentation Sidebar
+### Documentation Sidebar (dynamic nested items)
 
 ```heex
 <aside class="w-64">
@@ -168,7 +142,7 @@ mix mishka.ui.gen.component table_content
 </aside>
 ```
 
-### Article Table of Contents
+### Article Table of Contents (dynamic active state)
 
 ```heex
 <.table_content title="On this page" variant="transparent" animated>

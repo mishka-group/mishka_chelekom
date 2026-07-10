@@ -27,9 +27,7 @@ mix mishka.ui.gen.component toast
 | `toast/1` | Individual toast notification |
 | `toast_group/1` | Container for multiple toasts |
 
-## Attributes
-
-### `toast/1` Attributes
+## `toast/1` Attributes
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -45,65 +43,46 @@ mix mishka.ui.gen.component toast
 | `border_position` | `:string` | `nil` | Border accent position |
 | `content_border` | `:string` | `nil` | Content border size |
 
-## Slots
-
-### `inner_block` Slot
-
-Toast content.
+**Slot**: `inner_block` — toast content.
 
 ## Available Options
 
-### Variants
-`base`, `default`, `outline`, `shadow`, `bordered`, `gradient`
-
-### Colors
-`base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
-
-### Positions
-- Horizontal: `left`, `center`, `right`
-- Vertical: `top`, `bottom`
+- **Variants**: `base`, `default`, `outline`, `shadow`, `bordered`, `gradient`
+- **Colors**: `base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
+- **Horizontal**: `left`, `center`, `right`
+- **Vertical**: `top`, `bottom`
 
 ## Usage Examples
 
-### Basic Toast
+### Basic / colored / variant
 
 ```heex
 <.toast id="notification">
   <p>Your changes have been saved.</p>
 </.toast>
-```
 
-### Success Toast
-
-```heex
 <.toast id="success-toast" color="success" variant="shadow">
   <div class="flex items-center gap-2">
     <.icon name="hero-check-circle" class="size-5" />
     <span>Operation completed successfully!</span>
   </div>
 </.toast>
-```
 
-### Error Toast
-
-```heex
 <.toast id="error-toast" color="danger" variant="shadow">
   <div class="flex items-center gap-2">
     <.icon name="hero-x-circle" class="size-5" />
     <span>An error occurred. Please try again.</span>
   </div>
 </.toast>
+
+<.toast id="gradient-toast" variant="gradient" color="primary">Gradient style</.toast>
 ```
 
-### Different Positions
+### Positioning (combine any `horizontal` + `vertical`)
 
 ```heex
 <.toast id="top-left" horizontal="left" vertical="top">Top Left</.toast>
-<.toast id="top-center" horizontal="center" vertical="top">Top Center</.toast>
-<.toast id="top-right" horizontal="right" vertical="top">Top Right</.toast>
-<.toast id="bottom-left" horizontal="left" vertical="bottom">Bottom Left</.toast>
 <.toast id="bottom-center" horizontal="center" vertical="bottom">Bottom Center</.toast>
-<.toast id="bottom-right" horizontal="right" vertical="bottom">Bottom Right</.toast>
 ```
 
 ### With Border Accent
@@ -112,15 +91,6 @@ Toast content.
 <.toast id="accent-toast" color="primary" content_border="small" border_position="start">
   <p>Important notification with accent border</p>
 </.toast>
-```
-
-### Different Variants
-
-```heex
-<.toast id="default-toast" variant="default">Default style</.toast>
-<.toast id="shadow-toast" variant="shadow">Shadow style</.toast>
-<.toast id="bordered-toast" variant="bordered">Bordered style</.toast>
-<.toast id="gradient-toast" variant="gradient" color="primary">Gradient style</.toast>
 ```
 
 ### Toast Group
@@ -135,7 +105,7 @@ Toast content.
 
 ## Common Patterns
 
-### Flash Messages
+### Flash Message (dismissible)
 
 ```heex
 <.toast
@@ -153,23 +123,9 @@ Toast content.
     </button>
   </div>
 </.toast>
-
-<.toast
-  :if={@flash["error"]}
-  id="flash-error"
-  color="danger"
-  variant="shadow"
-  horizontal="center"
-  vertical="top"
->
-  <div class="flex items-center justify-between gap-4">
-    <span>{@flash["error"]}</span>
-    <button phx-click={hide_toast("#flash-error")}>
-      <.icon name="hero-x-mark" class="size-4" />
-    </button>
-  </div>
-</.toast>
 ```
+
+Same pattern for `@flash["error"]` with `color="danger"`.
 
 ### Action Toast
 

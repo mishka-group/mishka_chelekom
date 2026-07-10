@@ -8,7 +8,7 @@ A button that opens a single-select option list (listbox), wiring open/close, ke
 mix mishka.ui.gen.headless select
 ```
 
-Generates `lib/<app>_web/components/headless/select.ex` defining `<.select>` (component name is prefixed per your config, e.g. `<.select>`). Requires two JS hooks registered in your `app.js`:
+Generates `lib/<app>_web/components/headless/select.ex` defining `<.select>` (prefixed per your config). Requires two JS hooks registered in `app.js`:
 
 ```js
 import Popup from "./popup.js";
@@ -25,30 +25,22 @@ import RovingTabindex from "./roving_tabindex.js";
 | option | `li` | `item` | `role="option"`, one per `:option` slot entry; carries `data-value` |
 | hidden input | `input` | — | `type="hidden"`, rendered only when `name` is set; carries the value for form submission |
 
-The root `<div>` carries `phx-hook="Popup"`; the `<ul>` popup carries `phx-hook="RovingTabindex"` with `data-orientation="vertical"`.
+Root `<div>` carries `phx-hook="Popup"`; the `<ul>` popup carries `phx-hook="RovingTabindex"` with `data-orientation="vertical"`.
 
 ## ARIA & keyboard
 
-Roles and attributes set by the template:
-
-- Trigger: `role="combobox"`, `aria-haspopup="listbox"`, `aria-controls="<id>-popup"`. The `Popup` engine sets `aria-expanded` (`false` → `true`).
+- Trigger: `role="combobox"`, `aria-haspopup="listbox"`, `aria-controls="<id>-popup"`. `Popup` engine sets `aria-expanded` (`false` → `true`).
 - Popup: `role="listbox"`.
-- Option: `role="option"`, `aria-selected` (`"true"`/`"false"` from the template; `RovingTabindex` updates it on activation), `tabindex="-1"`.
+- Option: `role="option"`, `aria-selected` (`"true"`/`"false"` from template; `RovingTabindex` updates it on activation), `tabindex="-1"`.
 
-Keyboard (from the catalog `aria_pattern` and the engines):
-
-- **Down / Up**: move focus among options (vertical orientation), rolling `tabindex`.
-- **Home / End**: focus first / last option.
-- **Enter / Space**: activate the focused option.
-- **Escape**: close the popup and return focus to the trigger.
-- Outside click closes the popup.
+Keyboard: **Down/Up** move focus among options (vertical, rolling tabindex) · **Home/End** focus first/last option · **Enter/Space** activate focused option · **Escape** close popup and return focus to trigger · outside click closes the popup.
 
 ## State
 
 Paired-presence `data-*` attributes (the absent half of each pair is never both present):
 
-- `data-open` / `data-closed` — on the popup `<ul>`. Toggled by the **Popup** engine on show/hide (the template renders `data-closed` initially). Popup also sets `data-side` and the `--chelekom-side` CSS var.
-- `data-highlighted` — on the active option `<li>`. Toggled by the **RovingTabindex** engine when an option is activated (it also flips `aria-selected`).
+- `data-open` / `data-closed` — on the popup `<ul>`. Toggled by the **Popup** engine on show/hide (template renders `data-closed` initially). Popup also sets `data-side` and the `--chelekom-side` CSS var.
+- `data-highlighted` — on the active option `<li>`. Toggled by the **RovingTabindex** engine when an option is activated (also flips `aria-selected`).
 
 ## Example
 
@@ -72,7 +64,7 @@ Attributes/slots (exactly as defined in the template):
 
 ## Styling
 
-Ships **no colors** and minimal layout. Style against the stable class names and state hooks:
+Ships **no colors** and minimal layout. Style against stable class names and state hooks:
 
 - `.chelekom-select` (root), `.chelekom-select__trigger`, `.chelekom-select__popup`, `.chelekom-select__option`.
 - `.chelekom-sr-only` on the hidden input.
