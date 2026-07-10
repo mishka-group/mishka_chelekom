@@ -98,20 +98,34 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
   def supports_umbrella?(), do: false
 
   def igniter(igniter) do
+    Application.ensure_all_started(:owl)
     %Igniter.Mix.Task.Args{positional: %{component: component}, options: options} = igniter.args
 
     print_banner(options)
 
-    igniter
-    |> Igniter.assign(:mishka_user_config, Config.load_user_config(igniter))
-    |> Core.check_dependencies()
-    |> resolve_template(component)
-    |> compute_location()
-    |> build_eex_assigns()
-    |> write_component()
-    |> wire_scripts()
-    |> maybe_setup_css()
-    |> maybe_save_prefixes()
+    tty? = IO.ANSI.enabled?()
+    spin? = !options[:sub] and Mix.env() != :test and tty?
+    if spin?, do: Owl.Spinner.start(id: :my_spinner, labels: [processing: "Please wait..."])
+
+    final =
+      igniter
+      |> Igniter.assign(:mishka_user_config, Config.load_user_config(igniter))
+      |> Core.check_dependencies()
+      |> resolve_template(component)
+      |> compute_location()
+      |> build_eex_assigns()
+      |> write_component()
+      |> wire_scripts()
+      |> maybe_setup_css()
+      |> maybe_save_prefixes()
+
+    if spin? do
+      if Map.get(final, :issues, []) == [],
+        do: Owl.Spinner.stop(id: :my_spinner, resolution: :ok, label: "Done"),
+        else: Owl.Spinner.stop(id: :my_spinner, resolution: :error, label: "Error")
+    end
+
+    final
   end
 
   defp print_banner(options) do

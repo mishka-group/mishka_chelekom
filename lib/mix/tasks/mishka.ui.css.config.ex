@@ -68,38 +68,52 @@ defmodule Mix.Tasks.Mishka.Ui.Css.Config do
   end
 
   def igniter(igniter) do
+    Application.ensure_all_started(:owl)
     options = igniter.args.options
 
     if Mix.env() != :test,
       do: MishkaChelekom.Generators.Core.banner(IO.ANSI.light_cyan(), "CSS Config")
 
-    cond do
-      options[:init] ->
-        init_config(igniter)
+    tty? = IO.ANSI.enabled?()
+    spin? = Mix.env() != :test and tty?
+    if spin?, do: Owl.Spinner.start(id: :my_spinner, labels: [processing: "Please wait..."])
 
-      options[:regenerate] ->
-        regenerate_css(igniter)
+    final =
+      cond do
+        options[:init] ->
+          init_config(igniter)
 
-      options[:validate] ->
-        validate_config(igniter)
+        options[:regenerate] ->
+          regenerate_css(igniter)
 
-      options[:show] ->
-        show_config(igniter)
+        options[:validate] ->
+          validate_config(igniter)
 
-      true ->
-        igniter
-        |> Igniter.add_warning("""
-        Please specify an action:
+        options[:show] ->
+          show_config(igniter)
 
-        --init       Create a sample configuration file
-        --init --force  Force overwrite existing configuration
-        --regenerate Regenerate CSS with your configuration
-        --validate   Validate your configuration
-        --show       Display current configuration
+        true ->
+          igniter
+          |> Igniter.add_warning("""
+          Please specify an action:
 
-        Example: mix mishka.ui.css.config --init
-        """)
+          --init       Create a sample configuration file
+          --init --force  Force overwrite existing configuration
+          --regenerate Regenerate CSS with your configuration
+          --validate   Validate your configuration
+          --show       Display current configuration
+
+          Example: mix mishka.ui.css.config --init
+          """)
+      end
+
+    if spin? do
+      if Map.get(final, :issues, []) == [],
+        do: Owl.Spinner.stop(id: :my_spinner, resolution: :ok, label: "Done"),
+        else: Owl.Spinner.stop(id: :my_spinner, resolution: :error, label: "Error")
     end
+
+    final
   end
 
   defp init_config(igniter) do

@@ -93,16 +93,30 @@ defmodule Mix.Tasks.Mishka.Mcp.Setup do
   end
 
   def igniter(igniter) do
+    Application.ensure_all_started(:owl)
     options = igniter.args.options
 
     if Mix.env() != :test,
       do: MishkaChelekom.Generators.Core.banner(IO.ANSI.light_magenta(), "MCP Setup")
 
-    if Keyword.get(options, :stdio, false) do
-      setup_stdio(igniter)
-    else
-      setup_http(igniter, options)
+    tty? = IO.ANSI.enabled?()
+    spin? = Mix.env() != :test and tty?
+    if spin?, do: Owl.Spinner.start(id: :my_spinner, labels: [processing: "Please wait..."])
+
+    final =
+      if Keyword.get(options, :stdio, false) do
+        setup_stdio(igniter)
+      else
+        setup_http(igniter, options)
+      end
+
+    if spin? do
+      if Map.get(final, :issues, []) == [],
+        do: Owl.Spinner.stop(id: :my_spinner, resolution: :ok, label: "Done"),
+        else: Owl.Spinner.stop(id: :my_spinner, resolution: :error, label: "Error")
     end
+
+    final
   end
 
   defp setup_stdio(igniter) do

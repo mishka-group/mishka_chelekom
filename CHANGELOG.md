@@ -19,6 +19,8 @@
 - Add creatable option support to Combobox component [Commit](https://github.com/mishka-group/mishka_chelekom/commit/f3fd81fd08b3f577a15d8085dafb0cbd708df5ee)
 - Add scrollable trigger list (`scroll_area`) for Tabs in vertical orientation [Issue with help](https://github.com/mishka-group/mishka_chelekom/issues/471)
 - Add `--headless` flag to `mix mishka.ui.uninstall` and make `--all` remove both styled and headless components
+- Add `MishkaChelekom.Kit` — a Spark DSL (`customize`/`from`) to reuse and restyle existing styled and headless components without editing their files
+- Add `mix mishka.ui.gen.kit` to vendor the Kit engine into your app (self-contained catalog + `spark` dep), so the Kit works in production with no `mishka_chelekom` runtime dependency
 
 
 ### Refactors:
@@ -30,6 +32,7 @@
 - Bump minimum Elixir to 1.18 and add compile-time `JSON`/`Jason` fallback [Commit](https://github.com/mishka-group/mishka_chelekom/commit/2c771d52e3abbf2c9af72f079143ad16e6c0b777)
 - Refactor uninstall to restore `CoreComponents` import [#465](https://github.com/mishka-group/mishka_chelekom/pull/465)
 - Center the banner subtitle and give every mix task its own title
+- Add a consistent Owl loading spinner to every Igniter mix task (`export`, `gen.component`, `gen.headless`, `gen.kit`, `css.config`, `assets.deps`, `mcp.setup`)
 
 ### Bugs:
 

@@ -71,6 +71,7 @@ if Code.ensure_loaded?(Igniter) do
 
     @impl Igniter.Mix.Task
     def igniter(igniter) do
+      Application.ensure_all_started(:owl)
       %Igniter.Mix.Task.Args{positional: %{deps: deps}} = igniter.args
       options = igniter.args.options
 
@@ -85,11 +86,24 @@ if Code.ensure_loaded?(Igniter) do
 
       if !options[:test], do: Core.banner(IO.ANSI.light_yellow(), "Assets")
 
-      igniter
-      |> ensure_package_json_exists()
-      |> handle_deps(String.split(deps, ","), options)
-      |> check_package_manager(package_manager)
-      |> run_command(options)
+      tty? = IO.ANSI.enabled?()
+      spin? = !options[:test] and tty?
+      if spin?, do: Owl.Spinner.start(id: :my_spinner, labels: [processing: "Please wait..."])
+
+      final =
+        igniter
+        |> ensure_package_json_exists()
+        |> handle_deps(String.split(deps, ","), options)
+        |> check_package_manager(package_manager)
+        |> run_command(options)
+
+      if spin? do
+        if Map.get(final, :issues, []) == [],
+          do: Owl.Spinner.stop(id: :my_spinner, resolution: :ok, label: "Done"),
+          else: Owl.Spinner.stop(id: :my_spinner, resolution: :error, label: "Error")
+      end
+
+      final
     end
 
     defp handle_deps(igniter, deps, options) do
