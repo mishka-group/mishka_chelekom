@@ -325,14 +325,14 @@ defmodule MishkaChelekom.Generators.Core do
     IO.puts(color <> art <> IO.ANSI.reset())
   end
 
+  # Center under the widest art line ("Mishka.tools"), anchoring on THAT line's own column span
+  # (it is itself indented) rather than column 0 — otherwise longer subtitles drift left.
   defp center_subtitle(art, subtitle) do
-    width =
-      art
-      |> String.split("\n")
-      |> Enum.map(&String.length/1)
-      |> Enum.max()
+    anchor = art |> String.split("\n") |> Enum.max_by(&String.length/1)
+    leading = String.length(anchor) - String.length(String.trim_leading(anchor))
+    content = String.length(String.trim(anchor))
 
-    pad = max(0, div(width - String.length(subtitle), 2))
+    pad = max(0, leading + round((content - String.length(subtitle)) / 2))
     String.duplicate(" ", pad) <> subtitle
   end
 

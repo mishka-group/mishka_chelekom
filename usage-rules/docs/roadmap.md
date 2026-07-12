@@ -2,6 +2,18 @@
 
 ## Current Version: v0.0.9
 
+### Version 0.0.9
+
+Key updates include:
+
+- Added AI-native tooling: an entry-level MCP server exposing components, docs and CLIs to AI agents, with an stdio transport (`mix mishka.mcp.setup --stdio`)
+- Introduced entry-level headless (unstyled) components ported from Base UI — full WAI-ARIA wiring and behavior hooks, coexisting with the styled set
+- Added `MishkaChelekom.Kit` — one Spark DSL to reuse and restyle existing components (`customize`/`from`), vendorable to production via `mix mishka.ui.gen.kit`
+- Added comprehensive LLM-ready usage rules for every component and JavaScript hook
+- Expanded the CLI and catalog: component/module name prefixes and `--no-save`, a full `mix mishka.ui.uninstall` (with `--headless`), new dock/shape/stat components, and Combobox (creatable + server push), vertical Tabs and rating upgrades
+
+**Milestones**: [View on GitHub](https://github.com/mishka-group/mishka_chelekom/milestone/9)
+
 ### Version 0.0.8
 
 Key updates include:
