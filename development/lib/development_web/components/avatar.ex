@@ -84,6 +84,7 @@ defmodule DevelopmentWeb.Components.Avatar do
   end
 
   attr :rest, :global,
+    include: ~w(alt srcset sizes width height loading decoding fetchpriority referrerpolicy),
     doc:
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
