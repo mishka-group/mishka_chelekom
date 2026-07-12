@@ -111,7 +111,7 @@ defmodule DevelopmentWeb.Components.Stepper do
         separator_size(@separator_size),
         col_step_position(@col_step_position),
         @col_step && "col-step",
-        @col_step_position && "col-step-position",
+        @col_step && "col-step-position",
         @font_weight,
         @class
       ]}

@@ -125,7 +125,7 @@ defmodule DevelopmentWeb.Components.TableContent do
       <h5
         :if={@title}
         class={["font-semibold text-sm leading-6", @title_class]}
-        id={@title && @id && "#{@id}-title"}
+        id={@id && "#{@id}-title"}
       >
         {@title}
       </h5>

@@ -123,7 +123,7 @@ defmodule <%= @module %> do
       ]}
       {@rest}
     >
-    <h5 :if={@title} class={["font-semibold text-sm leading-6", @title_class]} id={@title && @id && "#{@id}-title"}>{@title}</h5>
+    <h5 :if={@title} class={["font-semibold text-sm leading-6", @title_class]} id={@id && "#{@id}-title"}>{@title}</h5>
 
     <div
       :for={item <- @item}
