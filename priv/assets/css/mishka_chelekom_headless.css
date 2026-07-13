@@ -448,3 +448,10 @@
 .chelekom-tabs__panel[hidden] {
     display: none;
 }
+
+/* The scrub-area virtual cursor is shown only while scrubbing (the NumberField hook toggles
+ * data-scrubbing on it); hide it otherwise so it never lingers at the viewport origin (top-left)
+ * after a scrub ends. */
+[data-part="scrub-area-cursor"]:not([data-scrubbing]) {
+    display: none;
+}

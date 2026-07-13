@@ -125,6 +125,23 @@ mix mishka.ui.gen.components --import --helpers --global --yes
 mix igniter.new my_app --with phx.new --install mishka_chelekom
 ```
 
+### Creating a Headless Component
+
+Headless components ship only semantic markup, full WAI-ARIA wiring, named slots (anatomy "parts"), and JavaScript behavior hooks — no colors, variants, or sizes. Each one is written to `lib/<app>_web/components/headless/`, right next to the styled ones.
+
+```bash
+mix mishka.ui.gen.headless dialog
+```
+
+### Generating All Headless Components
+
+```bash
+mix mishka.ui.gen.headless.components dialog,tabs
+mix mishka.ui.gen.headless.components
+```
+
+> Pass a comma-separated list, or omit it (or pass `all`) to generate every headless component. Remove them the same way with `mix mishka.ui.uninstall <name> --headless` (or `--all --headless`).
+
 <details>
   <summary>All options</summary>
 
@@ -155,6 +172,26 @@ mix igniter.new my_app --with phx.new --install mishka_chelekom
   * `--global` - Makes components accessible throughout the project without explicit imports
   * `--yes` - Makes directly without questions
   * `--exclude` - Comma-separated list of components to exclude (e.g., `--exclude alert,badge`)
+
+  ## Options `mishka.ui.gen.headless` task
+
+  Generates a single unstyled (headless) component. There are no `--color/--variant/--size/--padding` options — they are meaningless for headless.
+
+  * `--module` or `-m` - Custom module name for the component
+  * `--component-prefix` - Prefix for the public function name
+  * `--module-prefix` - Prefix for the module name
+  * `--sub` - Marks this as a dependency sub-generation
+  * `--no-save` - Use prefixes without saving them to config
+  * `--yes` - Apply without prompts
+
+  ## Options `mishka.ui.gen.headless.components` task
+
+  Generates multiple (or all) headless components at once.
+
+  * `--exclude` or `-e` - Comma-separated names to skip
+  * `--component-prefix` - Prefix for public function names
+  * `--module-prefix` - Prefix for module names
+  * `--no-save` - Use prefixes without saving them to config
 
   ## Options `mishka.ui.add` task
 
