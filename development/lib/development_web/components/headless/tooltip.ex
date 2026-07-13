@@ -16,6 +16,8 @@ defmodule DevelopmentWeb.Components.Headless.Tooltip do
   `data-popup-open`/`data-starting-style` state — this component ships **no** colors/spacing.
 
   WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/tooltip
   """
   use Phoenix.Component
 

@@ -20,6 +20,8 @@ defmodule <%= @module %> do
   input). Style via `chelekom-otp_field*` — ships **no** styling.
 
   WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/otp-field
   """
   use Phoenix.Component
 

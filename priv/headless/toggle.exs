@@ -2,7 +2,8 @@
   toggle: [
     name: "toggle",
     category: "forms",
-    doc_url: "https://www.w3.org/WAI/ARIA/apg/patterns/button/",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/toggle",
+    spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/button/",
     args: [type: ["toggle"], only: ["toggle"], helpers: [], module: ""],
     optional: [],
     necessary: [],

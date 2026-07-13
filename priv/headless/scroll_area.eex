@@ -13,6 +13,8 @@ defmodule <%= @module %> do
   `viewport`, `content`, `scrollbar` (per orientation), `thumb`, `corner`. Style via `chelekom-scroll_area*`.
 
   WAI-ARIA APG: no formal pattern; the viewport is focusable for keyboard scrolling.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/scroll-area
   """
   use Phoenix.Component
 

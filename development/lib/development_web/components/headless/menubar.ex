@@ -15,6 +15,8 @@ defmodule DevelopmentWeb.Components.Headless.Menubar do
   `aria-haspopup="menu"` + `aria-expanded`; popups `role="menu"`. Style via `chelekom-menubar*`.
 
   WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/menubar/
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/menubar
   """
   use Phoenix.Component
 

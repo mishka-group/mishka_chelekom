@@ -12,6 +12,8 @@ defmodule DevelopmentWeb.Components.Headless.Fieldset do
   When `disabled`, the root and the legend both carry `data-disabled` for CSS.
   Style via the `chelekom-fieldset*` classes and the `data-disabled` hook — this
   component ships **no** colors or spacing.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/fieldset
   """
   use Phoenix.Component
 

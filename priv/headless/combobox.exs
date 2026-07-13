@@ -2,7 +2,8 @@
   combobox: [
     name: "combobox",
     category: "forms",
-    doc_url: "https://www.w3.org/WAI/ARIA/apg/patterns/combobox/",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/combobox",
+    spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/combobox/",
     args: [type: ["combobox"], only: ["combobox"], helpers: [], module: ""],
     optional: [],
     necessary: [],

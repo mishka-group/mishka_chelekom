@@ -16,6 +16,8 @@ defmodule <%= @module %> do
   `data-starting-style`/`data-ending-style` (transitions), and `--accordion-panel-height/width`.
 
   WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/accordion/
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/accordion
   """
   use Phoenix.Component
 

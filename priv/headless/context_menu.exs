@@ -2,7 +2,8 @@
   context_menu: [
     name: "context_menu",
     category: "overlays",
-    doc_url: "https://www.w3.org/WAI/ARIA/apg/patterns/menu/",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/context-menu",
+    spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/menu/",
     args: [type: ["context_menu"], only: ["context_menu"], helpers: [], module: ""],
     optional: [],
     necessary: [],

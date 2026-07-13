@@ -2,7 +2,8 @@
   avatar: [
     name: "avatar",
     category: "media",
-    doc_url: "https://www.w3.org/WAI/ARIA/apg/",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/avatar",
+    spec_url: "https://www.w3.org/WAI/ARIA/apg/",
     args: [type: ["avatar"], only: ["avatar"], helpers: [], module: ""],
     optional: [],
     necessary: [],

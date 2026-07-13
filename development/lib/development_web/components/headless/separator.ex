@@ -9,6 +9,8 @@ defmodule DevelopmentWeb.Components.Headless.Separator do
 
   No formal WAI-ARIA APG pattern; follows the `separator` role:
   https://www.w3.org/TR/wai-aria-1.2/#separator
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/separator
   """
   use Phoenix.Component
 

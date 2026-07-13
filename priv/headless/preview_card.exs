@@ -2,7 +2,8 @@
   preview_card: [
     name: "preview_card",
     category: "overlays",
-    doc_url: "https://www.w3.org/WAI/ARIA/apg/",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/preview-card",
+    spec_url: "https://www.w3.org/WAI/ARIA/apg/",
     args: [type: ["preview_card"], only: ["preview_card"], helpers: [], module: ""],
     optional: [],
     necessary: [],

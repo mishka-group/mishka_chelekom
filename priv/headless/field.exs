@@ -2,7 +2,8 @@
   field: [
     name: "field",
     category: "forms",
-    doc_url: "",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/field",
+    spec_url: "",
     args: [type: ["field"], only: ["field"], helpers: [], module: ""],
     optional: [],
     necessary: [],

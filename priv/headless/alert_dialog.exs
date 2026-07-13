@@ -2,7 +2,8 @@
   alert_dialog: [
     name: "alert_dialog",
     category: "overlays",
-    doc_url: "https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/alert-dialog",
+    spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/",
     args: [type: ["alert_dialog"], only: ["alert_dialog"], helpers: [], module: ""],
     optional: [],
     necessary: [],

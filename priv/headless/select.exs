@@ -2,7 +2,8 @@
   select: [
     name: "select",
     category: "forms",
-    doc_url: "https://www.w3.org/WAI/ARIA/apg/patterns/combobox/",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/select",
+    spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/combobox/",
     args: [type: ["select"], only: ["select"], helpers: [], module: ""],
     optional: [],
     necessary: [],

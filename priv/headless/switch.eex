@@ -15,6 +15,8 @@ defmodule <%= @module %> do
   checkbox), `thumb`, `label`. Style via `chelekom-switch*` — ships **no** colors or spacing.
 
   WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/switch/
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/switch
   """
   use Phoenix.Component
 

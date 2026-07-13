@@ -2,7 +2,8 @@
   toast: [
     name: "toast",
     category: "feedback",
-    doc_url: "https://www.w3.org/TR/wai-aria-1.2/#aria-live",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/toast",
+    spec_url: "https://www.w3.org/TR/wai-aria-1.2/#aria-live",
     args: [type: ["toast"], only: ["toast"], helpers: [], module: ""],
     optional: [],
     necessary: [],

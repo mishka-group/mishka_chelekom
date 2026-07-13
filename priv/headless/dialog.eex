@@ -19,6 +19,8 @@ defmodule <%= @module %> do
   state — this component ships **no** colors or spacing.
 
   WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/dialog
   """
   use Phoenix.Component
 

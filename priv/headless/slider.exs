@@ -2,7 +2,8 @@
   slider: [
     name: "slider",
     category: "forms",
-    doc_url: "https://www.w3.org/WAI/ARIA/apg/patterns/slider/",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/slider",
+    spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/slider/",
     args: [type: ["slider"], only: ["slider"], helpers: [], module: ""],
     optional: [],
     necessary: [],

@@ -20,6 +20,8 @@ defmodule <%= @module %> do
   Compose inside `field` for label/description/error wiring and validity state.
 
   WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/spinbutton/
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/number-field
   """
   use Phoenix.Component
 

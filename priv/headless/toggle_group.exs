@@ -2,7 +2,8 @@
   toggle_group: [
     name: "toggle_group",
     category: "forms",
-    doc_url: "https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/toggle-group",
+    spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/",
     args: [type: ["toggle_group"], only: ["toggle_group"], helpers: [], module: ""],
     optional: [],
     necessary: [],

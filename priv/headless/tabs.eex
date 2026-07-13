@@ -16,6 +16,8 @@ defmodule <%= @module %> do
   `data-hidden`. Style via `chelekom-tabs*`.
 
   WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/tabs/
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/tabs
   """
   use Phoenix.Component
 

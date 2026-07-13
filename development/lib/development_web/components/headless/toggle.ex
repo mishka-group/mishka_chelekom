@@ -15,6 +15,8 @@ defmodule DevelopmentWeb.Components.Headless.Toggle do
   `data-pressed` / `data-disabled` hooks — this component ships **no** colors, spacing or typography.
 
   WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/button/
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/toggle
   """
   use Phoenix.Component
 

@@ -2,7 +2,8 @@
   menubar: [
     name: "menubar",
     category: "navigation",
-    doc_url: "https://www.w3.org/WAI/ARIA/apg/patterns/menubar/",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/menubar",
+    spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/menubar/",
     args: [type: ["menubar"], only: ["menubar"], helpers: [], module: ""],
     optional: [],
     necessary: [],

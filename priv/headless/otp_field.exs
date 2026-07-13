@@ -2,7 +2,8 @@
   otp_field: [
     name: "otp_field",
     category: "forms",
-    doc_url: "https://www.w3.org/WAI/ARIA/apg/",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/otp-field",
+    spec_url: "https://www.w3.org/WAI/ARIA/apg/",
     args: [type: ["otp_field"], only: ["otp_field"], helpers: [], module: ""],
     optional: [],
     necessary: [],

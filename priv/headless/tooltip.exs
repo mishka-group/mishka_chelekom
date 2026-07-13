@@ -2,7 +2,8 @@
   tooltip: [
     name: "tooltip",
     category: "overlays",
-    doc_url: "https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/tooltip",
+    spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/",
     args: [type: ["tooltip"], only: ["tooltip"], helpers: [], module: ""],
     optional: [],
     necessary: [],

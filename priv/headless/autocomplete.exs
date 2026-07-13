@@ -2,7 +2,8 @@
   autocomplete: [
     name: "autocomplete",
     category: "forms",
-    doc_url: "https://www.w3.org/WAI/ARIA/apg/patterns/combobox/",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/autocomplete",
+    spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/combobox/",
     args: [type: ["autocomplete"], only: ["autocomplete"], helpers: [], module: ""],
     optional: [],
     necessary: [],

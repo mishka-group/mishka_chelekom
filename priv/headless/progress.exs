@@ -2,7 +2,8 @@
   progress: [
     name: "progress",
     category: "feedback",
-    doc_url: "https://www.w3.org/TR/wai-aria-1.2/#progressbar",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/progress",
+    spec_url: "https://www.w3.org/TR/wai-aria-1.2/#progressbar",
     args: [type: ["progress"], only: ["progress"], helpers: [], module: ""],
     optional: [],
     necessary: [],

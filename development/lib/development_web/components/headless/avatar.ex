@@ -14,6 +14,8 @@ defmodule DevelopmentWeb.Components.Headless.Avatar do
 
   WAI-ARIA APG: no formal pattern. Decorative images use an empty `alt` by default; pass a meaningful
   `alt` when the avatar conveys information.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/avatar
   """
   use Phoenix.Component
 

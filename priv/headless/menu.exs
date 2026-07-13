@@ -2,7 +2,8 @@
   menu: [
     name: "menu",
     category: "overlays",
-    doc_url: "https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/menu",
+    spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/",
     args: [type: ["menu"], only: ["menu"], helpers: [], module: ""],
     optional: [],
     necessary: [],

@@ -17,6 +17,8 @@ defmodule <%= @module %> do
   your CSS does the transforms. Ships **no** colors or spacing — style via `chelekom-toast*`.
 
   WAI-ARIA: https://www.w3.org/TR/wai-aria-1.2/#aria-live
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/toast
   """
   use Phoenix.Component
 

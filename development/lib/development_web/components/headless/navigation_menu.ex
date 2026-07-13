@@ -19,6 +19,8 @@ defmodule DevelopmentWeb.Components.Headless.NavigationMenu do
   submenus), no transition-status state machine, and a "pointer over the list or popup" close-grace.
 
   WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/menubar/ (navigation-menu has no dedicated pattern)
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/navigation-menu
   """
   use Phoenix.Component
 

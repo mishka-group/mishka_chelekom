@@ -12,6 +12,8 @@ defmodule DevelopmentWeb.Components.Headless.Radio do
   the `chelekom-radio*` classes and the `data-*` hooks — ships **no** styling.
 
   WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/radio/
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/radio
   """
   use Phoenix.Component
 

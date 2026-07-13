@@ -15,6 +15,8 @@ defmodule DevelopmentWeb.Components.Headless.Meter do
   spacing.
 
   WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/meter/
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/meter
   """
   use Phoenix.Component
 

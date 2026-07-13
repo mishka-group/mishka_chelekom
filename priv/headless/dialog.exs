@@ -2,7 +2,8 @@
   dialog: [
     name: "dialog",
     category: "overlays",
-    doc_url: "https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/dialog",
+    spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/",
     args: [type: ["dialog"], only: ["dialog"], helpers: [], module: ""],
     optional: [],
     necessary: [],

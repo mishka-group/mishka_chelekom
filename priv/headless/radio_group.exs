@@ -2,7 +2,8 @@
   radio_group: [
     name: "radio_group",
     category: "forms",
-    doc_url: "https://www.w3.org/WAI/ARIA/apg/patterns/radio/",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/radio-group",
+    spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/radio/",
     args: [type: ["radio_group"], only: ["radio_group"], helpers: [], module: ""],
     optional: [],
     necessary: [],

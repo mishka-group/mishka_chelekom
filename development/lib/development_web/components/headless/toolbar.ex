@@ -15,6 +15,8 @@ defmodule DevelopmentWeb.Components.Headless.Toolbar do
   `chelekom-toolbar*`.
 
   WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/toolbar
   """
   use Phoenix.Component
 

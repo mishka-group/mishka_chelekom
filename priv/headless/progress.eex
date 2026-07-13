@@ -11,6 +11,8 @@ defmodule <%= @module %> do
   style via the `chelekom-progress*` classes.
 
   WAI-ARIA: https://www.w3.org/TR/wai-aria-1.2/#progressbar
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/progress
   """
   use Phoenix.Component
 

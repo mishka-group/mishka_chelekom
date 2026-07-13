@@ -18,6 +18,8 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
   `data-disabled`/`data-popup-open`/`data-pressed`/`data-starting-style` state.
 
   WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/menu
   """
   use Phoenix.Component
 

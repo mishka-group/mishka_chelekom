@@ -2,7 +2,8 @@
   meter: [
     name: "meter",
     category: "feedback",
-    doc_url: "https://www.w3.org/WAI/ARIA/apg/patterns/meter/",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/meter",
+    spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/meter/",
     args: [type: ["meter"], only: ["meter"], helpers: [], module: ""],
     optional: [],
     necessary: [],

@@ -2,7 +2,8 @@
   fieldset: [
     name: "fieldset",
     category: "forms",
-    doc_url: "https://www.w3.org/WAI/ARIA/apg/",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/fieldset",
+    spec_url: "https://www.w3.org/WAI/ARIA/apg/",
     args: [type: ["fieldset"], only: ["fieldset"], helpers: [], module: ""],
     optional: [],
     necessary: [],

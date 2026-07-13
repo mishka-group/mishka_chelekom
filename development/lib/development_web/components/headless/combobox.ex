@@ -18,6 +18,8 @@ defmodule DevelopmentWeb.Components.Headless.Combobox do
   `data-hidden`/`data-selected`/`data-disabled` state attributes.
 
   WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/combobox
   """
   use Phoenix.Component
 

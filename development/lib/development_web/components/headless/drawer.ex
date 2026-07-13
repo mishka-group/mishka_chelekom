@@ -13,6 +13,8 @@ defmodule DevelopmentWeb.Components.Headless.Drawer do
   Ships **no** colors or spacing — only functional CSS (per-side positioning + the slide,
   driven by `data-side` and the `--drawer-*` CSS vars). Style the `chelekom-drawer*` classes
   and the `data-open`/`data-closed`/`data-side`/`data-swiping`/`data-expanded`/... state.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/drawer
   """
   use Phoenix.Component
 

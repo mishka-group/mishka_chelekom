@@ -16,6 +16,8 @@ defmodule DevelopmentWeb.Components.Headless.ToggleGroup do
   `data-disabled`; items `data-pressed`, `data-disabled`. Style via `chelekom-toggle-group*`.
 
   WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/toggle-group
   """
   use Phoenix.Component
 

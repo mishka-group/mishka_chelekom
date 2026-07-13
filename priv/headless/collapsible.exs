@@ -2,7 +2,8 @@
   collapsible: [
     name: "collapsible",
     category: "disclosure",
-    doc_url: "https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/collapsible",
+    spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/",
     args: [type: ["collapsible"], only: ["collapsible"], helpers: [], module: ""],
     optional: [],
     necessary: [],

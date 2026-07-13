@@ -2,7 +2,8 @@
   accordion: [
     name: "accordion",
     category: "disclosure",
-    doc_url: "https://www.w3.org/WAI/ARIA/apg/patterns/accordion/",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/accordion",
+    spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/accordion/",
     args: [type: ["accordion"], only: ["accordion"], helpers: [], module: ""],
     optional: [],
     necessary: [],

@@ -15,6 +15,8 @@ defmodule DevelopmentWeb.Components.Headless.Checkbox do
   when set. Style via the `chelekom-checkbox*` classes — ships **no** colors or spacing.
 
   WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/checkbox
   """
   use Phoenix.Component
 

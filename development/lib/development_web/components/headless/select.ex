@@ -20,6 +20,8 @@ defmodule DevelopmentWeb.Components.Headless.Select do
   `chelekom-select*`.
 
   WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/select
   """
   use Phoenix.Component
 

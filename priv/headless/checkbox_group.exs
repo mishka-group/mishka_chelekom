@@ -2,7 +2,8 @@
   checkbox_group: [
     name: "checkbox_group",
     category: "forms",
-    doc_url: "https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/checkbox-group",
+    spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/",
     args: [type: ["checkbox_group"], only: ["checkbox_group"], helpers: [], module: ""],
     optional: [],
     necessary: [],

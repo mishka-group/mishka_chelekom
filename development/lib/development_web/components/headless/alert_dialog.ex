@@ -14,6 +14,8 @@ defmodule DevelopmentWeb.Components.Headless.AlertDialog do
   attributes — this component ships **no** colors or spacing.
 
   WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/alert-dialog
   """
   use Phoenix.Component
 

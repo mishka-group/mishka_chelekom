@@ -15,6 +15,8 @@ defmodule DevelopmentWeb.Components.Headless.RadioGroup do
   `chelekom-radio-group*` classes.
 
   WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/radio/
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/radio-group
   """
   use Phoenix.Component
 

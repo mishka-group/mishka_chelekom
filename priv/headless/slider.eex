@@ -17,6 +17,8 @@ defmodule <%= @module %> do
   dispatch `input` on commit so `<.form phx-change>` fires. Style via `chelekom-slider*`.
 
   WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/slider/ (and slider-multithumb)
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/slider
   """
   use Phoenix.Component
 

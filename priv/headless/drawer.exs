@@ -2,7 +2,8 @@
   drawer: [
     name: "drawer",
     category: "overlays",
-    doc_url: "https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/drawer",
+    spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/",
     args: [type: ["drawer"], only: ["drawer"], helpers: [], module: ""],
     optional: [],
     necessary: [],

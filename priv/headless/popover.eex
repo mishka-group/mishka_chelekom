@@ -15,6 +15,8 @@ defmodule <%= @module %> do
   `description`, inner content, `close`. Style the `chelekom-popover*` classes and the
   `data-open`/`data-closed`/`data-side`/`data-align`/`data-popup-open`/`data-pressed`/
   `data-starting-style` state — this component ships **no** colors or spacing.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/popover
   """
   use Phoenix.Component
 

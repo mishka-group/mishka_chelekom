@@ -2,7 +2,8 @@
   switch: [
     name: "switch",
     category: "forms",
-    doc_url: "https://www.w3.org/WAI/ARIA/apg/patterns/switch/",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/switch",
+    spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/switch/",
     args: [type: ["switch"], only: ["switch"], helpers: [], module: ""],
     optional: [],
     necessary: [],

@@ -13,6 +13,8 @@ defmodule DevelopmentWeb.Components.Headless.PreviewCard do
   Style the `chelekom-preview_card*` classes and the `data-open`/`data-closed`/`data-side`/
   `data-align`/`data-popup-open`/`data-starting-style` state — this component ships **no**
   colors or spacing.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/preview-card
   """
   use Phoenix.Component
 

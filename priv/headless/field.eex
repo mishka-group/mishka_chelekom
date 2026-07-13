@@ -40,6 +40,8 @@ defmodule <%= @module %> do
   Base UI's `validationMode` by putting `phx-change`/`phx-blur` on your control.
   The client validation engine (`validate`, `match`, debounce) is intentionally
   not ported — LiveView validates server-side.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/field
   """
   use Phoenix.Component
 

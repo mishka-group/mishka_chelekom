@@ -2,7 +2,8 @@
   popover: [
     name: "popover",
     category: "overlays",
-    doc_url: "https://www.w3.org/WAI/ARIA/apg/",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/popover",
+    spec_url: "https://www.w3.org/WAI/ARIA/apg/",
     args: [type: ["popover"], only: ["popover"], helpers: [], module: ""],
     optional: [],
     necessary: [],

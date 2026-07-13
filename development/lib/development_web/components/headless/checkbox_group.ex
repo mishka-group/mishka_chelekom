@@ -15,6 +15,8 @@ defmodule DevelopmentWeb.Components.Headless.CheckboxGroup do
   **no** colors or spacing.
 
   WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/checkbox-group
   """
   use Phoenix.Component
 

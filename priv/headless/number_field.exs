@@ -2,7 +2,8 @@
   number_field: [
     name: "number_field",
     category: "forms",
-    doc_url: "https://www.w3.org/WAI/ARIA/apg/patterns/spinbutton/",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/number-field",
+    spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/spinbutton/",
     args: [type: ["number_field"], only: ["number_field"], helpers: [], module: ""],
     optional: [],
     necessary: [],

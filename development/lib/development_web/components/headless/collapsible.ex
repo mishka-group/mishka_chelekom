@@ -12,6 +12,8 @@ defmodule DevelopmentWeb.Components.Headless.Collapsible do
   this component ships **no** colors or spacing.
 
   WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/collapsible
   """
   use Phoenix.Component
 

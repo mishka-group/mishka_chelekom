@@ -19,6 +19,8 @@ defmodule <%= @module %> do
   cursor by the engine; the scale-from-origin animation is your CSS.
 
   WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/menu/
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/context-menu
   """
   use Phoenix.Component
 

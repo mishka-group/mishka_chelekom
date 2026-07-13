@@ -2,7 +2,8 @@
   checkbox: [
     name: "checkbox",
     category: "forms",
-    doc_url: "https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/checkbox",
+    spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/",
     args: [type: ["checkbox"], only: ["checkbox"], helpers: [], module: ""],
     optional: [],
     necessary: [],
