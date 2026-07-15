@@ -196,7 +196,7 @@ defmodule DevelopmentWeb.Components.Tabs do
             tabindex={(@active_index == index && "0") || "-1"}
             class={[
               "tab-trigger flex flex-row flex-nowrap items-center gap-1.5 leading-5",
-              "transition-all duration-400 delay-100 disabled:opacity-80",
+              "transition-all duration-400 delay-100 cursor-pointer disabled:opacity-80",
               "shrink-0",
               @active_index == index && "active-tab",
               tab[:icon_position] == "end" && tab[:badge_position] == "end" && "flex-row-reverse",
@@ -250,7 +250,7 @@ defmodule DevelopmentWeb.Components.Tabs do
           tabindex={(@active_index == index && "0") || "-1"}
           class={[
             "tab-trigger flex flex-row flex-nowrap items-center gap-1.5 leading-5",
-            "transition-all duration-400 delay-100 disabled:opacity-80",
+            "transition-all duration-400 delay-100 cursor-pointer disabled:opacity-80",
             @active_index == index && "active-tab",
             tab[:icon_position] == "end" && tab[:badge_position] == "end" && "flex-row-reverse",
             tab[:class]
@@ -355,7 +355,7 @@ defmodule DevelopmentWeb.Components.Tabs do
             tabindex={(@active_index == index && "0") || "-1"}
             class={[
               "tab-trigger flex flex-row flex-nowrap justify-center items-center gap-1.5 leading-5",
-              "transition-all duration-400 delay-100 disabled:opacity-80",
+              "transition-all duration-400 delay-100 cursor-pointer disabled:opacity-80",
               "shrink-0",
               @active_index == index && "active-tab",
               tab[:icon_position] == "end" && tab[:badge_position] == "end" && "flex-row-reverse",
@@ -406,7 +406,7 @@ defmodule DevelopmentWeb.Components.Tabs do
           tabindex={(@active_index == index && "0") || "-1"}
           class={[
             "tab-trigger flex flex-row flex-nowrap justify-center items-center gap-1.5 leading-5",
-            "transition-all duration-400 delay-100 disabled:opacity-80",
+            "transition-all duration-400 delay-100 cursor-pointer disabled:opacity-80",
             @active_index == index && "active-tab",
             tab[:icon_position] == "end" && tab[:badge_position] == "end" && "flex-row-reverse",
             tab[:class]
