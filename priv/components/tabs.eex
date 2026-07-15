@@ -205,7 +205,7 @@ defmodule <%= @module %> do
               circle
             >
               {tab[:badge]}
-            </.badge>
+            </.<%= @component_prefix %>badge>
             <span class="block tab-button_content">
               {render_slot(tab)}
             </span>
@@ -258,7 +258,7 @@ defmodule <%= @module %> do
             circle
           >
             {tab[:badge]}
-          </.badge>
+          </.<%= @component_prefix %>badge>
           <span class="block tab-button_content">
             {render_slot(tab)}
           </span>
@@ -364,7 +364,7 @@ defmodule <%= @module %> do
               circle
             >
               {tab[:badge]}
-            </.badge>
+            </.<%= @component_prefix %>badge>
             <span class="block tab-button_content">
               {render_slot(tab)}
             </span>
@@ -414,7 +414,7 @@ defmodule <%= @module %> do
             circle
           >
             {tab[:badge]}
-          </.badge>
+          </.<%= @component_prefix %>badge>
           <span class="block tab-button_content">
             {render_slot(tab)}
           </span>

@@ -51,12 +51,12 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.<%= @component_prefix %>badge icon="hero-arrow-down-tray" color="warning" dismiss indicator>Default warning</.badge>
-  <.<%= @component_prefix %>badge variant="shadow" rounded="large" indicator>Active</.badge>
+  <.<%= @component_prefix %>badge icon="hero-arrow-down-tray" color="warning" dismiss indicator>Default warning</.<%= @component_prefix %>badge>
+  <.<%= @component_prefix %>badge variant="shadow" rounded="large" indicator>Active</.<%= @component_prefix %>badge>
 
   <.<%= @component_prefix %>badge icon="hero-square-2-stack" color="danger" size="medium" bottom_center_indicator pinging>
     Duplicate
-  </.badge>
+  </.<%= @component_prefix %>badge>
   ```
   """
   @doc type: :component

@@ -133,9 +133,9 @@ defmodule <%= @module %> do
   Horizontal Step Section:
 
   ```elixir
-  <.stepper_section step="current" title="First step" description="Create an account" />
-  <.stepper_section title="Second Step" description="Verify email" />
-  <.stepper_section title="Third Step" description="Get full access" />
+  <.<%= @component_prefix %>stepper_section step="current" title="First step" description="Create an account" />
+  <.<%= @component_prefix %>stepper_section title="Second Step" description="Verify email" />
+  <.<%= @component_prefix %>stepper_section title="Third Step" description="Get full access" />
   ```
   """
   @doc type: :component

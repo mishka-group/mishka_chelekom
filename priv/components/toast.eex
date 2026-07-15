@@ -179,7 +179,7 @@ defmodule <%= @module %> do
 
   ```elixir
   <.toast_group vertical_space="large" horizontal_space="extra_large">
-    <.toast
+    <.<%= @component_prefix %>toast
       id="toast-1"
       color="success"
       content_border="small"
@@ -189,9 +189,9 @@ defmodule <%= @module %> do
       <div>
         Lorem ipsum dolor sit amet consectetur adipisicing elit.
       </div>
-    </.toast>
+    </.<%= @component_prefix %>toast>
 
-    <.toast
+    <.<%= @component_prefix %>toast
       id="toast-2"
       variant="outline"
       color="danger"
@@ -202,9 +202,9 @@ defmodule <%= @module %> do
       <div>
         Lorem ipsum dolor sit amet consectetur adipisicing elit.
       </div>
-    </.toast>
+    </.<%= @component_prefix %>toast>
 
-    <.toast
+    <.<%= @component_prefix %>toast
       id="toast-3"
       variant="unbordered"
       color="warning"
@@ -215,7 +215,7 @@ defmodule <%= @module %> do
       <div>
         Lorem ipsum dolor sit amet consectetur adipisicing elit.
       </div>
-    </.toast>
+    </.<%= @component_prefix %>toast>
   </.toast_group>
   ```
   """

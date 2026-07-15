@@ -125,9 +125,9 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.li>LI 1</.li>
+  <.<%= @component_prefix %>li>LI 1</.<%= @component_prefix %>li>
 
-  <.li>L2</.li>
+  <.<%= @component_prefix %>li>L2</.<%= @component_prefix %>li>
   ```
   """
   @doc type: :component
@@ -193,11 +193,11 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.ul style="list-disc">
+  <.<%= @component_prefix %>ul style="list-disc">
     <li>Default background ul list disc</li>
     <li>Default background ul list disc</li>
     <li>Default background ul list disc</li>
-  </.ul>
+  </.<%= @component_prefix %>ul>
   ```
   """
   @doc type: :component
@@ -331,9 +331,9 @@ defmodule <%= @module %> do
 
   ```elixir
   <.<%= @component_prefix %>list_group variant="separated" rounded="extra_small" color="dawn">
-    <.<%= @component_prefix %>li position="end" icon="hero-chat-bubble-left-ellipsis">HBase</.li>
-    <.<%= @component_prefix %>li>SQL</.li>
-    <.<%= @component_prefix %>li>Sqlight</.li>
+    <.<%= @component_prefix %>li position="end" icon="hero-chat-bubble-left-ellipsis">HBase</.<%= @component_prefix %>li>
+    <.<%= @component_prefix %>li>SQL</.<%= @component_prefix %>li>
+    <.<%= @component_prefix %>li>Sqlight</.<%= @component_prefix %>li>
   </.<%= @component_prefix %>list_group>
   ```
   """

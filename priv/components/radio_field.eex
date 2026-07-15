@@ -27,7 +27,7 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.radio_field name="option" value="Option 1" space="small" label="Option 1 Label"/>
+  <.<%= @component_prefix %>radio_field name="option" value="Option 1" space="small" label="Option 1 Label"/>
 
   <.<%= @component_prefix %>radio_field
     name="option"

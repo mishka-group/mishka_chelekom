@@ -181,7 +181,7 @@ defmodule <%= @module %> do
                     class={["table-header-icon block me-2", header[:icon_class]]}
                   />
                   {render_slot(header)}
-                </<%= @component_prefix %>.th>
+                </.<%= @component_prefix %>th>
               </.<%= @component_prefix %>tr>
 
               <.<%= @component_prefix %>tr :if={@col}>

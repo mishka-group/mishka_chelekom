@@ -373,7 +373,7 @@ defmodule <%= @module %> do
                   <span class="combobox-create-label"></span>
                 </div>
               </div>
-            </.scroll_area>
+            </.<%= @component_prefix %>scroll_area>
           </div>
         </div>
       </div>
@@ -586,7 +586,7 @@ defmodule <%= @module %> do
                   <span class="combobox-create-label"></span>
                 </div>
               </div>
-            </.scroll_area>
+            </.<%= @component_prefix %>scroll_area>
           </div>
         </div>
       </div>

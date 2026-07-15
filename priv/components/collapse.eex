@@ -26,7 +26,7 @@ defmodule <%= @module %> do
           <p class="p-4">
             This content can be toggled on/off.
           </p>
-        </.collapse>
+        </.<%= @component_prefix %>collapse>
 
     With initial open state and custom duration:
 
@@ -41,7 +41,7 @@ defmodule <%= @module %> do
             <h3>User Preferences</h3>
             <p>Configure your settings here...</p>
           </div>
-        </.collapse>
+        </.<%= @component_prefix %>collapse>
 
     With server events:
 
@@ -61,7 +61,7 @@ defmodule <%= @module %> do
               <p>{notification.text}</p>
             </div>
           </div>
-        </.collapse>
+        </.<%= @component_prefix %>collapse>
   """
 
   @doc type: :component

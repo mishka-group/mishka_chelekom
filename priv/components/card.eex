@@ -143,10 +143,10 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.card_title class="border-b" padding="small" position="between">
+  <.<%= @component_prefix %>card_title class="border-b" padding="small" position="between">
     <div>Title</div>
     <div><.<%= @component_prefix %>icon name="hero-ellipsis-horizontal" /></div>
-  </.card_title>
+  </.<%= @component_prefix %>card_title>
   ```
   """
   @doc type: :component
@@ -213,7 +213,7 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.card_media src="https://example.com/bg.png" alt="test"/>
+  <.<%= @component_prefix %>card_media src="https://example.com/bg.png" alt="test"/>
   ```
   """
   @doc type: :component
@@ -258,12 +258,12 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.card_content padding="large">
+  <.<%= @component_prefix %>card_content padding="large">
     <p>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi ea atque soluta praesentium
       quidem dicta sapiente accusamus nihil.
     </p>
-  </.card_content>
+  </.<%= @component_prefix %>card_content>
   ```
   """
   @doc type: :component

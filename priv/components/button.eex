@@ -324,11 +324,11 @@ defmodule <%= @module %> do
 
   ```elixir
   <.<%= @component_prefix %>button_link navigate="/admin" icon="hero-adjustments-vertical" />
-  <.<%= @component_prefix %>button_link navigate="/admin">Button 3</.button_link>
+  <.<%= @component_prefix %>button_link navigate="/admin">Button 3</.<%= @component_prefix %>button_link>
 
   <.<%= @component_prefix %>button_link navigate="/admin" icon="hero-adjustments-vertical">
     Button 1
-  </.button_link>
+  </.<%= @component_prefix %>button_link>
   ```
   """
   @doc type: :component

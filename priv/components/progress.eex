@@ -36,26 +36,26 @@ defmodule <%= @module %> do
   <.<%= @component_prefix %>progress variation="vertical" color="primary" value={20} />
 
   <.<%= @component_prefix %>progress>
-    <.progress_section color="primary" value={10} />
-    <.progress_section color="secondary" value={15} />
-    <.progress_section color="misc" value={10} />
-    <.progress_section color="danger" value={5} />
-    <.progress_section color="warning" value={10} />
-    <.progress_section color="success" value={10} />
-    <.progress_section color="info" value={5} />
-  </.progress>
+    <.<%= @component_prefix %>progress_section color="primary" value={10} />
+    <.<%= @component_prefix %>progress_section color="secondary" value={15} />
+    <.<%= @component_prefix %>progress_section color="misc" value={10} />
+    <.<%= @component_prefix %>progress_section color="danger" value={5} />
+    <.<%= @component_prefix %>progress_section color="warning" value={10} />
+    <.<%= @component_prefix %>progress_section color="success" value={10} />
+    <.<%= @component_prefix %>progress_section color="info" value={5} />
+  </.<%= @component_prefix %>progress>
 
   <.<%= @component_prefix %>progress variation="horizontal" size="large" value={70}>
     <div class="absolute inset-y-0 left-0 flex items-center pl-3 text-white">
       70%
     </div>
-  </.progress>
+  </.<%= @component_prefix %>progress>
 
   <.<%= @component_prefix %>progress variation="vertical" size="extra_large" value={80}>
     <div class="absolute bottom-0 left-0 flex items-center text-white">
       80%
     </div>
-  </.progress>
+  </.<%= @component_prefix %>progress>
   ```
   """
   @doc type: :component
@@ -337,14 +337,14 @@ defmodule <%= @module %> do
 
   ```elixir
   <.<%= @component_prefix %>progress>
-    <.progress_section color="primary" value={10} />
-    <.progress_section color="secondary" value={15} />
-    <.progress_section color="misc" value={10} />
-    <.progress_section color="danger" value={5} />
-    <.progress_section color="warning" value={10} />
-    <.progress_section color="success" value={10} />
-    <.progress_section color="info" value={5} />
-  </.progress>
+    <.<%= @component_prefix %>progress_section color="primary" value={10} />
+    <.<%= @component_prefix %>progress_section color="secondary" value={15} />
+    <.<%= @component_prefix %>progress_section color="misc" value={10} />
+    <.<%= @component_prefix %>progress_section color="danger" value={5} />
+    <.<%= @component_prefix %>progress_section color="warning" value={10} />
+    <.<%= @component_prefix %>progress_section color="success" value={10} />
+    <.<%= @component_prefix %>progress_section color="info" value={5} />
+  </.<%= @component_prefix %>progress>
   ```
   """
   @doc type: :component

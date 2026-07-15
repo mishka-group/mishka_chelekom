@@ -193,11 +193,11 @@ defmodule <%= @module %> do
 
   ```elixir
   <.avatar_group>
-    <.avatar src="https://example.com/profile.jpg" size="large" rounded="full"/>
-    <.avatar src="https://example.com/profile.jpg" size="large" border="extra_large" rounded="full"/>
-    <.avatar src="https://example.com/profile.jpg" size="large" color="warning" rounded="full"/>
-    <.avatar src="https://example.com/profile.jpg" size="large" rounded="full"/>
-    <.avatar size="large" rounded="full" border="medium">+20</.avatar>
+    <.<%= @component_prefix %>avatar src="https://example.com/profile.jpg" size="large" rounded="full"/>
+    <.<%= @component_prefix %>avatar src="https://example.com/profile.jpg" size="large" border="extra_large" rounded="full"/>
+    <.<%= @component_prefix %>avatar src="https://example.com/profile.jpg" size="large" color="warning" rounded="full"/>
+    <.<%= @component_prefix %>avatar src="https://example.com/profile.jpg" size="large" rounded="full"/>
+    <.<%= @component_prefix %>avatar size="large" rounded="full" border="medium">+20</.<%= @component_prefix %>avatar>
   </.avatar_group>
   ```
   """

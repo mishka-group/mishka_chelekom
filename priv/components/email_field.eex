@@ -30,7 +30,7 @@ defmodule <%= @module %>  do
   ## Examples
 
   ```elixir
-  <.email_field name="name" color="danger" placeholder="This is placeholder" floating="outer"/>
+  <.<%= @component_prefix %>email_field name="name" color="danger" placeholder="This is placeholder" floating="outer"/>
 
   <.<%= @component_prefix %>email_field
     name="name"

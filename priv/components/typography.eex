@@ -354,7 +354,7 @@ defmodule <%= @module %> do
   ```elixir
   <.<%= @component_prefix %>p>Here is the paragraph.</.<%= @component_prefix %>p>
   <.<%= @component_prefix %>p color="primary" size="large">This is a primary colored paragraph with a larger size.</.<%= @component_prefix %>p>
-  <.<%= @component_prefix %>p><.strong>This is Strong</.strong></.<%= @component_prefix %>p>
+  <.<%= @component_prefix %>p><.<%= @component_prefix %>strong>This is Strong</.<%= @component_prefix %>strong></.<%= @component_prefix %>p>
   ```
   """
   @doc type: :component
@@ -464,7 +464,7 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.<%= @component_prefix %>p><.<%= @component_prefix %>em>This is Em</.<%= @component_prefix %>em></<%= @component_prefix %>.p>
+  <.<%= @component_prefix %>p><.<%= @component_prefix %>em>This is Em</.<%= @component_prefix %>em></.<%= @component_prefix %>p>
 
   <.<%= @component_prefix %>em color="primary" size="large">
     This is emphasized text with a primary color and larger size.
@@ -826,7 +826,7 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.abbr title="HyperText Markup Language">HTML</.abbr>
+  <.<%= @component_prefix %>abbr title="HyperText Markup Language">HTML</.<%= @component_prefix %>abbr>
 
   <.<%= @component_prefix %>p>
     The standard language for creating web pages is
