@@ -221,6 +221,23 @@ defmodule DevelopmentWeb.Components.Navbar do
 
   @doc """
   Renders a header with title.
+
+  ## Examples
+
+  ```elixir
+  <.header>
+    Listing Users
+    <:subtitle>Manage the people in your organization</:subtitle>
+  </.header>
+
+  <.header class="mb-6">
+    Settings
+    <:subtitle>Update your account details</:subtitle>
+    <:actions>
+      <.link navigate="/users/new">New user</.link>
+    </:actions>
+  </.header>
+  ```
   """
   @doc type: :component
   attr :class, :any, default: nil

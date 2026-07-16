@@ -182,6 +182,13 @@ defmodule DevelopmentWeb.Components.InputField do
 
   @doc """
   Renders a label.
+
+  ## Examples
+
+  ```elixir
+  <.label for="user_email">Email</.label>
+  <.label>Password</.label>
+  ```
   """
   @doc type: :component
   attr :for, :string, default: nil, doc: "Specifies the form which is associated with"
@@ -197,6 +204,13 @@ defmodule DevelopmentWeb.Components.InputField do
 
   @doc """
   Generates a generic error message.
+
+  ## Examples
+
+  ```elixir
+  <.error>This field is required</.error>
+  <.error>Oh no, something went wrong!</.error>
+  ```
   """
   @doc type: :component
   slot :inner_block, required: true, doc: "Inner block that renders HEEx content"
