@@ -265,6 +265,7 @@ defmodule MishkaChelekom.CmsBundleExporter do
       module_attrs: [],
       pending_attrs: [],
       pending_slots: [],
+      pending_doc: nil,
       public_defs: [],
       private_helpers: []
     }
@@ -287,9 +288,18 @@ defmodule MishkaChelekom.CmsBundleExporter do
       module_attrs: [],
       pending_attrs: [],
       pending_slots: [],
+      pending_doc: nil,
       public_defs: [],
       private_helpers: []
     }
+
+  # `@doc """..."""` — held for the next public def, which harvests its
+  # `## Examples` fence. Must precede the @ignored_attributes clause,
+  # which would otherwise swallow it. `@doc type: :component` and
+  # `@doc false` fall through to that clause.
+  defp accumulate_node({:@, _, [{:doc, _, [doc]}]}, acc) when is_binary(doc) do
+    %{acc | pending_doc: doc}
+  end
 
   # Ignored doc/spec/type pragmas
   defp accumulate_node({:@, _, [{name, _, _}]}, acc)
@@ -371,10 +381,17 @@ defmodule MishkaChelekom.CmsBundleExporter do
         body: maybe_to_string(pre_template_body),
         template: template_str,
         attrs: acc.pending_attrs,
-        slots: acc.pending_slots
+        slots: acc.pending_slots,
+        doc_examples: MishkaChelekom.CmsBundle.DocExamples.from_doc(acc.pending_doc, fn_name)
       }
 
-      %{acc | public_defs: [pub | acc.public_defs], pending_attrs: [], pending_slots: []}
+      %{
+        acc
+        | public_defs: [pub | acc.public_defs],
+          pending_attrs: [],
+          pending_slots: [],
+          pending_doc: nil
+      }
     else
       # Public def without ~H — treat as a delegating clause of a
       # multi-clause public def (`def fn(%{field: ...} = assigns) do
@@ -1110,7 +1127,8 @@ defmodule MishkaChelekom.CmsBundleExporter do
         "function" => c.name,
         "prelude" => c.__prelude__,
         "module_attributes" => module_attributes,
-        "clauses" => clauses_field
+        "clauses" => clauses_field,
+        "doc_examples" => Map.get(c, :doc_examples, [])
       }
     }
   end

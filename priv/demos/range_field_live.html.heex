@@ -1,0 +1,602 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-range" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Range Field"
+        description="Range slider component for Phoenix and Phoenix LiveView with floating labels and slots to display minimum, maximum, and average values beneath the slider."
+        mix="mix mishka.ui.gen.component range_field"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/range_field.eex"
+        tags={["Component", "Stateless"]}
+      />
+      <.custom_tab id="chelekom-range-tab">
+        <:documentation_panel>
+          <.heading2 margin="my-5" id="form-range">
+            <.link patch={~p"/chelekom/docs/forms/range-field/#form-range"}>
+              Range component
+            </.link>
+          </.heading2>
+
+          <.custom_block position="left" color="danger" class="my-8" border="medium">
+            <.cp>
+              Certain props are shared across all form-related components, and you can find them in the <.link
+                class="font-bold"
+                title="Mishka chelekom form component"
+                patch={~p"/chelekom/docs/forms"}
+              >
+           form wrapper</.link>.
+            </.cp>
+          </.custom_block>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or
+              <strong>Tailwind CSS</strong>
+              classes to customize the appearance and behavior of the gallery, allowing for flexible design changes.
+            </.cp>
+          </.custom_block>
+
+          <.custom_block position="left" color="danger" class="my-8" border="medium">
+            <.cp>
+              If you want to change the accent color of a range input slider using a single hex value, refer to the <.link
+                class="font-bold"
+                href="https://github.com/tailwindlabs/tailwindcss/discussions/15300"
+                target="_blank"
+              >Tailwind Labs discussion</.link>.
+              Keep in mind that browsers automatically adjust the slider's bar contrast when using lighter colors, such as yellow,
+              to ensure visibility between the filled and empty sections. While you can customize the filled portion of the bar
+              with CSS, modifying the empty part isn’t possible. To maintain optimal contrast in both dark and light modes,
+              carefully select a custom color that works well across themes.
+            </.cp>
+          </.custom_block>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_1}>
+            <.range_field
+              value="80"
+              size="large"
+              min="0"
+              id="form-example-9"
+              max="100"
+              color="base"
+              name="form-example-9"
+            />
+            <.range_field
+              value="80"
+              size="large"
+              min="0"
+              id="form-example-31"
+              max="100"
+              name="form-example-31"
+            />
+            <.range_field
+              value="80"
+              size="large"
+              min="0"
+              id="form-example-399"
+              max="100"
+              name="form-example-399"
+              color="natural"
+            />
+            <.range_field
+              value="80"
+              color="primary"
+              size="large"
+              min="0"
+              id="form-example-32"
+              max="100"
+              name="form-example-32"
+            />
+            <.range_field
+              value="80"
+              color="secondary"
+              size="large"
+              min="0"
+              id="form-example-874"
+              max="100"
+              name="form-example-874"
+            />
+            <.range_field
+              value="80"
+              color="success"
+              size="large"
+              min="0"
+              id="form-example-1"
+              max="100"
+              name="form-example-1"
+            />
+            <.range_field
+              value="20"
+              color="warning"
+              size="large"
+              min="0"
+              id="form-example-2"
+              max="100"
+              name="form-example-2"
+            />
+            <.range_field
+              value="80"
+              color="danger"
+              size="large"
+              min="0"
+              id="form-example-127"
+              max="100"
+              name="form-example-127"
+            />
+            <.range_field
+              value="10"
+              color="info"
+              size="large"
+              min="0"
+              id="form-example-3"
+              max="100"
+              name="form-example-3"
+            />
+            <.range_field
+              value="30"
+              color="misc"
+              size="large"
+              min="0"
+              id="form-example-4"
+              max="100"
+              name="form-example-4"
+            />
+            <.range_field
+              value="60"
+              color="dawn"
+              size="large"
+              min="0"
+              id="form-example-5+1"
+              max="100"
+              name="form-example-5"
+            />
+            <.range_field
+              value="60"
+              color="silver"
+              size="large"
+              min="0"
+              id="form-example-5"
+              max="100"
+              name="form-example-5"
+            />
+            <.range_field
+              value="37"
+              color="dark"
+              size="large"
+              min="0"
+              id="form-example-6"
+              max="100"
+              name="form-example-6"
+            />
+            <.range_field
+              appearance="custom"
+              value="80"
+              color="danger"
+              size="large"
+              min="0"
+              id="form-example-128"
+              max="100"
+              name="form-example-128"
+              step="10"
+            />
+            <.range_field
+              appearance="custom"
+              value="40"
+              color="warning"
+              size="small"
+              min="10"
+              id="form-example-129"
+              name="form-example-129"
+              max="100"
+              step="5"
+            >
+            </.range_field>
+
+            <.range_field
+              appearance="custom"
+              value=""
+              color="success"
+              size="medium"
+              id="form-example-130"
+              name="form-example-130"
+            />
+            <.range_field
+              appearance="custom"
+              value=""
+              color="secondary"
+              size="extra_large"
+              id="form-example-131"
+              name="form-example-131"
+            />
+            <.range_field
+              appearance="custom"
+              value=""
+              color="primary"
+              id="form-example-132"
+              name="form-example-132"
+            />
+            <.range_field
+              appearance="custom"
+              id="form-example-173"
+              name="form-example-173"
+              value=""
+              color="info"
+            />
+            <.range_field
+              appearance="custom"
+              id="form-example-133"
+              name="form-example-133"
+              value=""
+              color="dawn"
+            />
+            <.range_field
+              appearance="custom"
+              id="form-example-134"
+              name="form-example-134"
+              value=""
+              color="misc"
+            />
+            <.range_field
+              appearance="custom"
+              id="form-example-135"
+              name="form-example-135"
+              value=""
+              color="dark"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="form-range-appearance">
+            <.link patch={~p"/chelekom/docs/forms/range-field/#form-range-appearance"}>
+              Range appearance prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>appearance</.custom_inline_code>
+            attribute controls the visual style of a range slider component, with a default value of <.custom_inline_code>default</.custom_inline_code>. If set to <.custom_inline_code>custom</.custom_inline_code>, the design of the range slider will change, allowing for a more personalized or unique look. This option provides flexibility in styling the slider to match the overall design of your application, offering a tailored appearance beyond the standard browser-provided styles.
+          </.cp>
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_2}>
+            <.range_field
+              value="80"
+              size="large"
+              min="0"
+              id="form-example-136"
+              max="100"
+              name="form-example-136"
+            />
+            <.range_field
+              appearance="custom"
+              value="80"
+              color="danger"
+              size="large"
+              min="0"
+              id="form-example-137"
+              max="100"
+              name="form-example-137"
+              step="10"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="form-range-step-min-max-value">
+            <.link patch={~p"/chelekom/docs/forms/range-field/#form-range-step-min-max-value"}>
+              Range step and min and max and value prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The <.custom_inline_code>step</.custom_inline_code>, <.custom_inline_code>min</.custom_inline_code>, <.custom_inline_code>max</.custom_inline_code>, and
+            <.custom_inline_code>value</.custom_inline_code>
+            attributes in the
+            <.custom_inline_code>range_field</.custom_inline_code>
+            component control the range, precision, and default value of the slider. The
+            <.custom_inline_code>min</.custom_inline_code>
+            sets the lowest value, while the
+            <.custom_inline_code>max</.custom_inline_code>
+            defines the highest. The
+            <.custom_inline_code>step</.custom_inline_code>
+            determines the intervals between selectable values, allowing users to increment or decrement by the specified step size. The
+            <.custom_inline_code>value</.custom_inline_code>
+            attribute sets the initial or current value of the slider. These attributes work together to define the behavior, starting point, and precision of the slider, offering a highly customizable user experience for selecting values within a defined range.
+          </.cp>
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_3}>
+            <.range_field
+              value="80"
+              size="large"
+              min="0"
+              id="form-example-138"
+              max="100"
+              name="form-example-138"
+              step="20"
+            />
+            <.range_field
+              appearance="custom"
+              value="80"
+              color="danger"
+              size="large"
+              min="0"
+              max="100"
+              id="form-example-139"
+              name="form-example-139"
+              step="10"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="form-range-range-value-slot">
+            <.link patch={~p"/chelekom/docs/forms/range-field/#form-range-range-value-slot"}>
+              Range component range value slot
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>range_value</.custom_inline_code>
+            slot in the
+            <.custom_inline_code>range_field</.custom_inline_code>
+            component allows you to display custom labels or values at specific positions along the range slider. With attributes like
+            <.custom_inline_code>class</.custom_inline_code>
+            for custom styling and
+            <.custom_inline_code>position</.custom_inline_code>
+            to define placement (such as "start", "middle", or "end"), you can visually enhance the slider by adding relevant labels, like minimum and maximum values. This makes the range slider more informative and user-friendly, helping users better understand the value range they are selecting from.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_4}>
+            <.range_field
+              appearance="custom"
+              value="30"
+              color="warning"
+              size="small"
+              min="100"
+              id="form-example-171"
+              max="1500"
+              name="form-example-171"
+              step="2"
+            >
+              <:range_value position="start">Min ($100)</:range_value>
+              <:range_value position="middle">$700</:range_value>
+              <:range_value position="end">Max ($1500)</:range_value>
+            </.range_field>
+          </.custom_code_wrapper>
+
+          <.custom_code_wrapper class="mt-10" code_class="text-xs" elements_class="space-y-5">
+            <.flash variant="default" kind={:info} flash={@flash} />
+            <.form_wrapper
+              for={@form}
+              id="user-form"
+              phx-change="validate"
+              phx-submit="save"
+              space="extra_large"
+            >
+              <.text_field size="small" label="Full name" field={@form[:fullname]} />
+
+              <.group_radio field={@form[:job]} space="small" variation="horizontal" color="base">
+                <:radio
+                  :for={item <- Ecto.Enum.values(User, :job)}
+                  value={"#{item}"}
+                  checked={radio_check(:list, {:job, "#{item}"}, @form)}
+                >
+                  {String.capitalize("#{item}")}
+                </:radio>
+              </.group_radio>
+
+              <.h3>What is your hobbies?</.h3>
+
+              <.group_checkbox variation="horizontal" field={@form[:hobbies]} color="base">
+                <:checkbox
+                  :for={item <- ["reading", "programming", "photography"]}
+                  value={item}
+                  checked={checkbox_check(:list, {:hobbies, item}, @form)}
+                >
+                  {String.capitalize(item)}
+                </:checkbox>
+              </.group_checkbox>
+
+              <.range_field
+                label={"User age: #{@form[:age].value || "50"}"}
+                field={@form[:age]}
+                phx-debounce="300"
+                min="1"
+                max="120"
+                step="10"
+                color="base"
+              >
+                <:range_value position="start">Min (1)</:range_value>
+                <:range_value position="middle">Mid (50)</:range_value>
+                <:range_value position="end">Max (100)</:range_value>
+              </.range_field>
+
+              <.checkbox_field
+                field={@form[:accepted_terms]}
+                label="Terms"
+                value="true"
+                checked={checkbox_check(:boolean, :accepted_terms, @form)}
+                color="base"
+              />
+
+              <:actions>
+                <.button
+                  variant="outline"
+                  color="primary"
+                  size="small"
+                  phx-disable-with="Saving..."
+                >
+                  Save User
+                </.button>
+              </:actions>
+            </.form_wrapper>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Range Field Component Props</h2>
+
+            <.custom_table id="range-field-props">
+              <:header>
+                <.table_th>Name</.table_th>
+                <.table_th>Type</.table_th>
+                <.table_th>Required</.table_th>
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>label_class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Custom CSS class for the label styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines color theme (default is "primary").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines border style (default is "extra_small").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines the overall size (default is "extra_small").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>appearance</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Defines the appearance style (default is "default").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>width</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines the element width (default is "full").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>ring</.table_td>
+                <.table_td>boolean</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines a ring border on focused input (default is true).
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>reverse</.table_td>
+                <.table_td>boolean</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Switches the order of the element and label (default is false).
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>checked</.table_td>
+                <.table_td>boolean</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Specifies if the element is checked by default (default is false).
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>error_icon</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Icon to be displayed alongside error messages.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>label</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Specifies text for the label.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>errors</.table_td>
+                <.table_td>list</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>List of error messages to be displayed.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>name</.table_td>
+                <.table_td>any</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Name of the input.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>value</.table_td>
+                <.table_td>any</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Value of the input.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>field</.table_td>
+                <.table_td>Phoenix.HTML.FormField</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>A form field struct retrieved from the form.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>range_value</.table_td>
+                <.table_td>slot</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Slot for displaying dynamic range values.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/forms/range-field/#form-range"}
+            title="Range component"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/range-field/#form-range-appearance"}
+            title="Range appearance prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/range-field/#form-range-step-min-max-value"}
+            title="Range step and min and max and value prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/range-field/#form-range-range-value-slot"}
+            title="Range component range value slot"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

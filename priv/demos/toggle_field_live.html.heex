@@ -1,0 +1,534 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-toggle" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Toggle Field"
+        description="Toggle switch component for Phoenix and Phoenix LiveView with seamless on/off functionality and customizable styling for intuitive interaction."
+        mix="mix mishka.ui.gen.component toggle_field"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/toggle_field.eex"
+        tags={["Component", "Stateless"]}
+      />
+      <.custom_tab id="chelekom-toggle-tab">
+        <:documentation_panel>
+          <.heading2 margin="my-5" id="form-toggle">
+            <.link patch={~p"/chelekom/docs/forms/toggle/#form-toggle"}>
+              Toggle component
+            </.link>
+          </.heading2>
+
+          <.custom_block position="left" color="danger" class="my-8" border="medium">
+            <.cp>
+              Certain props are shared across all form-related components, and you can find them in the <.link
+                class="font-bold"
+                title="Mishka chelekom form component"
+                patch={~p"/chelekom/docs/forms"}
+              >
+           form wrapper</.link>.
+            </.cp>
+          </.custom_block>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or
+              <strong>Tailwind CSS</strong>
+              classes to customize the appearance and behavior of the gallery, allowing for flexible design changes.
+            </.cp>
+          </.custom_block>
+
+          <.cp>
+            The
+            <.custom_inline_code>toggle</.custom_inline_code>
+            component is a switch-like input used to enable or disable a setting or feature. It provides a clear and interactive way for users to select between two states, such as "on" and "off" or "enabled" and "disabled." With its simple, intuitive design, the
+            <.custom_inline_code>toggle</.custom_inline_code>
+            is often used for settings, preferences, or activating specific features in applications. It enhances the user experience by offering a quick and clear method of making binary choices.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex gap-5 items-center flex-wrap"
+            code={@code_1}
+          >
+            <.toggle_field id="form-example-fds" name="form-example-fds" label="label of Default" />
+            <.toggle_field
+              id="form-example-149"
+              name="form-example-149"
+              color="danger"
+              label="label of toggle"
+            />
+            <.toggle_field
+              id="form-example-150"
+              name="form-example-150"
+              color="dark"
+              label="This is label"
+              size="extra_large"
+            />
+            <.toggle_field
+              id="form-example-151"
+              name="form-example-151"
+              color="warning"
+              label="This is label"
+              size="extra_small"
+              checked={true}
+            />
+            <.toggle_field
+              id="form-example-152"
+              name="form-example-152"
+              color="success"
+              label="This is label"
+              size="small"
+            />
+            <.toggle_field
+              id="form-example-153"
+              name="form-example-153"
+              color="misc"
+              label="This is label"
+              size="large"
+            />
+            <.toggle_field
+              id="form-example-154"
+              name="form-example-154"
+              color="dawn"
+              label="label of toggle checkd"
+              size="large"
+              checked={true}
+            />
+            <.toggle_field
+              id="form-example-155"
+              name="form-example-155"
+              color="info"
+              label="label of toggle"
+              size="large"
+            />
+            <.toggle_field
+              id="form-example-156"
+              name="form-example-156"
+              color="primary"
+              label="label of toggle"
+              size="large"
+            />
+            <.toggle_field
+              id="form-example-15ee6"
+              name="form-example-15dd6"
+              color="silver"
+              label="label of toggle"
+              size="small"
+            />
+            <.toggle_field
+              id="form-example-157"
+              name="form-example-157"
+              color="secondary"
+              label="label of toggle checkd"
+              size="large"
+              checked={true}
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="toggle-rounded-prop">
+            <.link patch={~p"/chelekom/docs/forms/toggle/#toggle-rounded-prop"}>
+              Toggle rounded prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>rounded</.custom_inline_code>
+            prop is a versatile feature that controls the corner radius of toggle elements, allowing you to adjust how rounded or circular the toggle appears. It offers predefined sizes such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, <.custom_inline_code>extra_large</.custom_inline_code>, and <.custom_inline_code>full</.custom_inline_code>, each applying different levels of rounding to both the toggle base and circle. For instance,
+            <.custom_inline_code>extra_small</.custom_inline_code>
+            gives subtle rounded corners, while
+            <.custom_inline_code>full</.custom_inline_code>
+            creates a completely circular toggle. By default, the prop is set to <.custom_inline_code>full</.custom_inline_code>, ensuring a polished and modern look. Additionally, you can specify a custom value to achieve unique designs if needed, making it a flexible option for styling toggles to fit various design contexts.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex gap-5 items-center flex-wrap"
+            code={@code_4}
+          >
+            <.toggle_field
+              id="form-example-2000"
+              name="form-example-2000"
+              color="danger"
+              label="Extra small"
+              rounded="extra_small"
+            />
+            <.toggle_field
+              id="form-example-2001"
+              name="form-example-2001"
+              label="small"
+              color="dark"
+              size="extra_large"
+              rounded="small"
+            />
+            <.toggle_field
+              id="form-example-2002"
+              name="form-example-2002"
+              color="warning"
+              label="Medium"
+              size="extra_small"
+              rounded="medium"
+              checked={true}
+            />
+            <.toggle_field
+              id="form-example-2003"
+              name="form-example-2003"
+              color="success"
+              label="Large"
+              rounded="large"
+              size="small"
+              checked={true}
+            />
+            <.toggle_field
+              id="form-example-2004"
+              name="form-example-2004"
+              color="misc"
+              label="Extra large"
+              rounded="extra_large"
+              size="large"
+            />
+            <.toggle_field
+              id="form-example-2005"
+              name="form-example-2005"
+              color="dawn"
+              label="Full radius"
+              size="large"
+              rounded="full"
+              checked={true}
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="form-toggle-checked">
+            <.link patch={~p"/chelekom/docs/forms/toggle/#form-toggle-checked"}>
+              Toggle checked prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>checked</.custom_inline_code>
+            prop in the
+            <.custom_inline_code>toggle</.custom_inline_code>
+            component determines whether the toggle is initially set to "on" or "off". When the
+            <.custom_inline_code>checked</.custom_inline_code>
+            prop is set to true, the toggle will be in the "on" position by default. This prop allows you to control the initial state of the toggle, making it useful for settings or features that should be enabled when the form or page is first loaded.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex gap-5 items-center flex-wrap"
+            code={@code_2}
+          >
+            <.toggle_field
+              id="form-example-158"
+              name="form-example-158"
+              color="primary"
+              label="label of toggle"
+              size="small"
+            />
+
+            <.toggle_field
+              id="form-example-159"
+              name="form-example-159"
+              color="misc"
+              label="label of toggle checkd"
+              size="small"
+              checked={true}
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="form-toggle-toggle-check-helper">
+            <.link patch={~p"/chelekom/docs/forms/toggle/#form-toggle-toggle-check-helper"}>
+              toggle_check helper
+            </.link>
+          </.heading2>
+
+          <.custom_block position="left" color="danger" class="my-8" border="medium">
+            <.cp>
+              The
+              <.custom_inline_code>toggle_check</.custom_inline_code>
+              function is designed to streamline the process of managing toggle checkboxes with enhanced customization options. By using this function, developers can apply real-time validation on toggle elements, ensuring they meet specific criteria before further actions are triggered. This function is particularly useful in complex forms where real-time server validation is essential. With <.custom_inline_code>toggle_check</.custom_inline_code>, you can easily adapt the behavior of checkboxes according to dynamic user inputs, providing a seamless and responsive user experience.
+            </.cp>
+          </.custom_block>
+
+          <.custom_block position="left" color="warning" class="my-8" border="medium">
+            <.cp>
+              Note: For real-time validation with a toggle in a form, be sure to use
+              <.custom_inline_code>phx-debounce=""</.custom_inline_code>
+              with a suitable value. This delay reduces unnecessary server requests, enhancing user experience. Adjust the debounce value to balance responsiveness and performance.
+            </.cp>
+          </.custom_block>
+
+          <.cp class="my-8">
+            Here is a real-world example provided for you.
+          </.cp>
+
+          <.custom_code_wrapper
+            class="mt-10"
+            code_class="text-xs"
+            elements_class="space-y-5"
+            code={@code_3}
+          >
+            <.flash kind={:info} flash={@flash} />
+
+            <.form_wrapper
+              for={@form}
+              id="user-form"
+              phx-change="validate"
+              phx-submit="save"
+              space="extra_large"
+            >
+              <.text_field size="small" label="Full name" field={@form[:fullname]} />
+
+              <.group_radio field={@form[:job]} space="small" variation="horizontal" color="base">
+                <:radio
+                  :for={item <- Ecto.Enum.values(User, :job)}
+                  value={"#{item}"}
+                  checked={radio_check(:list, {:job, "#{item}"}, @form)}
+                >
+                  {String.capitalize("#{item}")}
+                </:radio>
+              </.group_radio>
+
+              <.h3>What is your hobbies?</.h3>
+
+              <.group_checkbox variation="horizontal" field={@form[:hobbies]} color="base">
+                <:checkbox
+                  value="reading"
+                  checked={checkbox_check(:list, {:hobbies, "reading"}, @form)}
+                >
+                  Reading
+                </:checkbox>
+                <:checkbox
+                  value="programming"
+                  checked={checkbox_check(:list, {:hobbies, "programming"}, @form)}
+                >
+                  Programming
+                </:checkbox>
+                <:checkbox
+                  value="photography"
+                  checked={checkbox_check(:list, {:hobbies, "photography"}, @form)}
+                >
+                  Photography
+                </:checkbox>
+              </.group_checkbox>
+
+              <hr />
+
+              <.toggle_field
+                field={@form[:accepted_terms]}
+                label="Terms"
+                checked={toggle_check(:accepted_terms, @form)}
+                color="base"
+                phx-debounce="300"
+              />
+
+              <:actions>
+                <.button variant="outline" color="info" size="small" phx-disable-with="Saving...">
+                  Save User
+                </.button>
+              </:actions>
+            </.form_wrapper>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Form Wrapper Component Props</h2>
+
+            <.custom_table id="form-wrapper-props">
+              <:header>
+                <.table_th>Name</.table_th>
+                <.table_th>Type</.table_th>
+                <.table_th>Required</.table_th>
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines the color theme. Default is "primary".</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>description</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines a short description.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines the border style. Default is "extra_small".</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>labe_class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines the label class.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the border radius. Supported values: <strong>extra_small</strong>, <strong>small</strong>, <strong>medium</strong>, <strong>large</strong>, <strong>extra_large</strong>, <strong>full</strong>. Default is <strong>full</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the overall size of elements, including padding, font size, etc. Default is "medium".
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>label_class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines the label class.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>label_wrapper_class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines the label wrapper.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>description_class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines the label description.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>toggle_wrapper_class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines the toggle wrapper.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>toggle_field_wrapper_class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines the toggle field wrapper.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>toggle_base_class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines the toggle base.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>toggle_circle_class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines the toggle circle.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>checked</.table_td>
+                <.table_td>boolean</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Specifies whether the input is checked. Default is "false".</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>ring</.table_td>
+                <.table_td>boolean</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Creates a ring border on focused input. Default is "true".</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>reverse</.table_td>
+                <.table_td>boolean</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Switches the order of the element and label. Default is "false".
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>error_icon</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Icon displayed alongside error messages.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>label</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Specifies text for the label.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>name</.table_td>
+                <.table_td>any</.table_td>
+                <.table_td>Yes</.table_td>
+                <.table_td>Name of the input field.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>value</.table_td>
+                <.table_td>any</.table_td>
+                <.table_td>Yes</.table_td>
+                <.table_td>Value of the input field.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content link={~p"/chelekom/docs/forms/toggle/#form-toggle"} title="Toggle component" />
+          <:content
+            link={~p"/chelekom/docs/forms/toggle/#toggle-rounded-prop"}
+            title="Rounded prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/toggle/#form-toggle-checked"}
+            title="Toggle checked prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/toggle/#form-toggle-toggle-check-helper"}
+            title="toggle_check helper"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

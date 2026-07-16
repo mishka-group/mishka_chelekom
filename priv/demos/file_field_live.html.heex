@@ -1,0 +1,516 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-file" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="File Field"
+        description="Form file upload and dropzone component for Phoenix and Phoenix LiveView with floating labels and seamless drag-and-drop functionality."
+        mix="mix mishka.ui.gen.component file_field"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/file_field.eex"
+        tags={["Component", "Stateless"]}
+      />
+      <.custom_tab id="chelekom-file-tab">
+        <:documentation_panel>
+          <.heading2 margin="my-5" id="form-file">
+            <.link patch={~p"/chelekom/docs/forms/file-field/#form-file"}>
+              File component
+            </.link>
+          </.heading2>
+          <.custom_block position="left" color="danger" class="my-8" border="medium">
+            <.cp>
+              Certain props are shared across all form-related components, and you can find them in the <.link
+                class="font-bold"
+                title="Mishka chelekom form component"
+                patch={~p"/chelekom/docs/forms"}
+              >
+           form wrapper</.link>.
+            </.cp>
+          </.custom_block>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or
+              <strong>Tailwind CSS</strong>
+              classes to customize the appearance and behavior of the gallery, allowing for flexible design changes.
+            </.cp>
+          </.custom_block>
+
+          <.cp>
+            The
+            <.custom_inline_code>file_field</.custom_inline_code>
+            component allows users to upload files in a traditional way. However, by adding the
+            <.custom_inline_code>dropzone</.custom_inline_code>
+            option, you can enable a drag-and-drop feature for a more intuitive file upload experience. With the <.custom_inline_code>dropzone</.custom_inline_code>, users can simply drag files into the designated area, making the process faster and easier. This combination offers flexibility by supporting both standard file selection and the convenience of drag-and-drop functionality.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_1}>
+            <.file_field id="form-example-16" name="form-example-16" color="natural" />
+            <.file_field id="form-example-18" name="form-example-18" color="danger" />
+            <.file_field id="form-example-107" name="form-example-107" color="warning" />
+            <.file_field id="form-example-108" name="form-example-108" color="success" />
+            <.file_field id="form-example-109" name="form-example-109" color="primary" />
+            <.file_field id="form-example-110" name="form-example-110" color="secondary" />
+            <.file_field id="form-example-111" name="form-example-111" color="info" />
+            <.file_field id="form-example-112" name="form-example-112" color="misc" />
+            <.file_field id="form-example-113" name="form-example-113" color="dawn" />
+            <.file_field id="form-example-114" name="form-example-114" color="silver" />
+            <.file_field id="form-example-106" name="form-example-106" color="base" />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="form-file-multiple">
+            <.link patch={~p"/chelekom/docs/forms/checkbox-field/#form-file-multiple"}>
+              File multiple prop
+            </.link>
+          </.heading2>
+
+          <.custom_block position="left" color="warning" class="my-8" border="medium">
+            <.cp>
+              If you want to collect data in the form of arrays within your forms, you can use the
+              <.custom_inline_code>multiple</.custom_inline_code>
+              attribute on the relevant field. This enables the form to accept and output data as arrays, allowing users to submit multiple entries in a single field. When the
+              <.custom_inline_code>multiple</.custom_inline_code>
+              attribute is active, each value entered will be collected into an array, providing a structured format that can streamline data handling, especially when working with multiple selections or repeated input fields.
+            </.cp>
+          </.custom_block>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_6}>
+            <.file_field id="form-example-130" name="form-example-130" multiple />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="form-file-dropzone">
+            <.link patch={~p"/chelekom/docs/forms/file-field/#form-file-dropzone"}>
+              Dropzone
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>file</.custom_inline_code>
+            component enables users to upload files either through a standard input field or by using a drag-and-drop interface, known as a <.custom_inline_code>dropzone</.custom_inline_code>. This
+            <.custom_inline_code>dropzone</.custom_inline_code>
+            feature allows users to easily drag files into a designated area, making the upload process more intuitive. The component supports various file types and sizes, enhancing flexibility. With the combination of traditional file input and the <.custom_inline_code>dropzone</.custom_inline_code>, it offers a seamless and user-friendly file upload experience.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_2} />
+
+          <.heading2 margin="my-5" id="form-file-dropzone-type">
+            <.link patch={~p"/chelekom/docs/forms/file-field/#form-file-dropzone-type"}>
+              Dropzone type
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>file</.custom_inline_code>
+            component enables users to upload files either through a standard input field or by using a drag-and-drop interface, known as a <.custom_inline_code>dropzone</.custom_inline_code>. This
+            <.custom_inline_code>dropzone</.custom_inline_code>
+            feature allows users to easily drag files into a designated area, making the upload process more intuitive. The component supports various file types and sizes, enhancing flexibility. With the combination of traditional file input and the <.custom_inline_code>dropzone</.custom_inline_code>, it offers a seamless and user-friendly file upload experience.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_4} />
+
+          <.heading2 margin="my-5" id="form-file-form-text-icon">
+            <.link patch={~p"/chelekom/docs/forms/file-field/#form-file-form-text-icon"}>
+              Dropzone title and icon and description
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>dropzone</.custom_inline_code>
+            component provides a convenient and customizable area for file uploads, allowing users to add unique icons, titles, and descriptions. By setting the
+            <.custom_inline_code>dropzone_icon</.custom_inline_code>
+            attribute, you can specify any Heroicon icon to replace the default cloud upload symbol, giving it a personal touch or matching the application's theme. The
+            <.custom_inline_code>dropzone_title</.custom_inline_code>
+            attribute offers a clear prompt, such as “Click to upload, or drag and drop a file,” helping users understand how to interact with the component. Additionally, the
+            <.custom_inline_code>dropzone_description</.custom_inline_code>
+            attribute allows for an optional description, which can specify file size limits, accepted file types, or other upload requirements. This added customization helps users upload files confidently by making the process intuitive and guided.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_5} />
+
+          <.heading2 margin="my-5" id="form-file-dropzone-variant-colors">
+            <.link patch={~p"/chelekom/docs/forms/file-field/#form-file-dropzone-variant-colors"}>
+              Dropzone variant and colors
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>dropzone</.custom_inline_code>
+            component comes with three visual variants: outline, shadow, and default. The
+            <.custom_inline_code>outline</.custom_inline_code>
+            variant provides a clean border around the dropzone, making it stand out while keeping a minimal look. The
+            <.custom_inline_code>shadow</.custom_inline_code>
+            variant adds a subtle box-shadow, giving the dropzone a more prominent, elevated appearance. The
+            <.custom_inline_code>default</.custom_inline_code>
+            variant offers a balanced and simple look without additional borders or shadows. These variants can be further customized with various color options, including <.custom_inline_code>primary</.custom_inline_code>, <.custom_inline_code>secondary</.custom_inline_code>, <.custom_inline_code>dark</.custom_inline_code>, <.custom_inline_code>success</.custom_inline_code>, and more, allowing you to tailor the appearance to your design needs.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_3}>
+            <.flash kind={:info} flash={@flash} />
+
+            <.form_wrapper
+              for={@form}
+              id="user-form"
+              phx-change="validate"
+              phx-submit="save"
+              space="large"
+              variant="transparent"
+            >
+              <.text_field size="medium" label="Full name" field={@form[:fullname]} />
+
+              <.group_radio field={@form[:job]} space="small" variation="horizontal" color="base">
+                <:radio
+                  :for={item <- Ecto.Enum.values(User, :job)}
+                  value={"#{item}"}
+                  checked={radio_check(:list, {:job, "#{item}"}, @form)}
+                >
+                  {String.capitalize("#{item}")}
+                </:radio>
+              </.group_radio>
+
+              <.h3>What is your hobbies?</.h3>
+
+              <.group_checkbox variation="horizontal" field={@form[:hobbies]} color="base">
+                <:checkbox
+                  value="reading"
+                  checked={checkbox_check(:list, {:hobbies, "reading"}, @form)}
+                >
+                  Reading
+                </:checkbox>
+                <:checkbox
+                  value="programming"
+                  checked={checkbox_check(:list, {:hobbies, "programming"}, @form)}
+                >
+                  Programming
+                </:checkbox>
+                <:checkbox
+                  value="photography"
+                  checked={checkbox_check(:list, {:hobbies, "photography"}, @form)}
+                >
+                  Photography
+                </:checkbox>
+              </.group_checkbox>
+
+              <.file_field
+                target={:avatar}
+                uploads={@uploads}
+                dropzone_type="image"
+                color="base"
+                dropzone
+              />
+              <hr />
+
+              <.checkbox_field
+                field={@form[:accepted_terms]}
+                label="Terms"
+                value="true"
+                color="base"
+                checked={checkbox_check(:boolean, :accepted_terms, @form)}
+              />
+
+              <:actions>
+                <.button
+                  variant="outline"
+                  color="natural"
+                  size="small"
+                  phx-disable-with="Saving..."
+                >
+                  Save User
+                </.button>
+              </:actions>
+            </.form_wrapper>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">File Field Component Props</h2>
+
+            <.custom_table id="file-field-props">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>label_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for the label styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines color theme (default is "primary").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines the style (e.g., default, outline).</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines border style (default is "extra_small").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines the border radius (default is "small").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>live</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Specifies whether this upload is live or input file.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Space between items (default is "medium").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines the overall size (default is "extra_small").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>label</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Specifies text for the label.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>dashed</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines if the border is dashed.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>error_icon</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Icon displayed alongside error messages.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>errors</.table_td>
+
+                <.table_td>list</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>List of error messages to be displayed.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>uploads</.table_td>
+
+                <.table_td>any</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>LiveView upload map.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>name</.table_td>
+
+                <.table_td>any</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Name of the input.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>value</.table_td>
+
+                <.table_td>any</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Value of the input.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>dropzone</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Indicates if the input is a dropzone.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>dropzone_type</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Type of dropzone (file or image).</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>target</.table_td>
+
+                <.table_td>atom</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Name of upload input when used as Live Upload.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>dropzone_icon</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Icon for the dropzone.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>dropzone_title</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Title text for the dropzone.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>dropzone_description</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Description for the dropzone.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>field</.table_td>
+
+                <.table_td>Phoenix.HTML.FormField</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>A form field struct retrieved from the form.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content link={~p"/chelekom/docs/forms/file-field/#form-file"} title="File component" />
+          <:content
+            link={~p"/chelekom/docs/forms/file-field/#form-file-multiple"}
+            title="File multuiple prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/file-field/#form-file-dropzone"}
+            title="Dropzone"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/file-field/#form-file-dropzone-type"}
+            title="Dropzone type"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/file-field/#form-file-form-text-icon"}
+            title="Dropzone title and icon and description"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/file-field/#form-file-dropzone-variant-colors"}
+            title="Dropzone variant and colors"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

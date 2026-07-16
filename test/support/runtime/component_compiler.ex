@@ -480,7 +480,7 @@ defmodule MishkaChelekom.Test.Runtime.Compilers.ComponentCompiler do
             unquote(template_ast)
           end
 
-        {:->, [], [[pattern_ast], branch_body]}
+        {:->, [], [[guarded(pattern_ast, Map.get(clause, :guard))], branch_body]}
       end)
 
     # Construct the case node manually rather than going through
@@ -515,6 +515,18 @@ defmodule MishkaChelekom.Test.Runtime.Compilers.ComponentCompiler do
   # The catch-all pattern is `var!(assigns)` so it binds the same variable
   # the surrounding def already binds — meaning the inner branch can keep
   # reading `@something` via the standard Phoenix.Component.assign path.
+  # A clause's guard is as load-bearing as its pattern: chelekom's form
+  # fields dispatch on `%{floating: floating} when floating in ["inner",
+  # "outer"]`, and the enclosing def merges attr defaults in before the
+  # case, so `floating` is always present. Without the guard that pattern
+  # matches every call and the floating-label branch swallows the
+  # default `floating: "none"`, raising FunctionClauseError downstream.
+  defp guarded(pattern_ast, guard) when guard in [nil, ""], do: pattern_ast
+
+  defp guarded(pattern_ast, guard) when is_binary(guard) do
+    {:when, [], [pattern_ast, Code.string_to_quoted!(guard)]}
+  end
+
   defp parse_clause_match(nil), do: quote(do: var!(assigns))
   defp parse_clause_match(""), do: quote(do: var!(assigns))
   defp parse_clause_match(str) when is_binary(str), do: Code.string_to_quoted!(str)

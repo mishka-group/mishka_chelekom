@@ -2,9 +2,11 @@ defmodule Mix.Tasks.Mishka.Ui.ExportExamplesTest do
   @moduledoc """
   Fast, focused coverage for the `--cms` example pipeline in `mix mishka.ui.export`.
 
-  Two consumers, two outputs (see `populate_examples/4`):
+  Three consumers, three outputs (see `populate_examples/4`):
 
-    * top-level `examples` — clean, self-contained, ≤5 HEEx strings for the CMS preview.
+    * top-level `examples` — clean, self-contained, base-first, ≤12 HEEx strings for the CMS preview.
+    * `extra.examples` — the same list with `{label, section, base, requires}`, so a consumer can
+      hide an example whose variant the install narrowed away.
     * `extra.demo_examples` — the full invocation maps the `DemoHarness` compiles and renders.
 
   Guards the regression where the export dropped `extra.demo_examples` (the harness then saw
@@ -54,12 +56,26 @@ defmodule Mix.Tasks.Mishka.Ui.ExportExamplesTest do
       end
     end
 
+    test "accepts nested literal terms — a list/map/tuple of literals renders with no assigns" do
+      for lit <- [~s({["oh no!"]}), "{[1, 2]}", ~s({%{a: 1}}), "{{1, :two}}", "{[%{a: [1]}]}"] do
+        assert Export.self_contained_example?("<.x errors=" <> lit <> " />"),
+               "expected literal: #{lit}"
+      end
+    end
+
     test "is quote-aware: a } inside a string literal does not fool the scan" do
       assert Export.self_contained_example?(~S(<.x label={"a}b"} />))
     end
 
     test "rejects any non-literal interpolation" do
-      for expr <- ["{@variant}", "{assigns.site}", "{some_fn()}", "{@a <> @b}", "{[1, 2]}", "{x}"] do
+      for expr <- [
+            "{@variant}",
+            "{assigns.site}",
+            "{some_fn()}",
+            "{@a <> @b}",
+            "{[1, @b]}",
+            "{x}"
+          ] do
         refute Export.self_contained_example?("<.x>" <> expr <> "</.x>"),
                "expected non-literal: #{expr}"
       end
@@ -86,9 +102,9 @@ defmodule Mix.Tasks.Mishka.Ui.ExportExamplesTest do
       assert out == [~s(<.x a="1" />)]
     end
 
-    test "caps the list at five examples" do
-      sources = for i <- 1..9, do: ~s(<.x a="#{i}" />)
-      assert length(Export.build_example_strings(sources)) == 5
+    test "caps the list at the documented maximum" do
+      sources = for i <- 1..40, do: ~s(<.x a="#{i}" />)
+      assert length(Export.build_example_strings(sources)) == 12
     end
   end
 
@@ -135,11 +151,12 @@ defmodule Mix.Tasks.Mishka.Ui.ExportExamplesTest do
       assert is_list(demo_examples) and demo_examples != []
 
       # `examples` — cleaned, self-contained strings for the CMS preview.
-      assert length(examples) <= 5
+      assert length(examples) <= 12
       assert Enum.all?(examples, &is_binary/1)
       assert Enum.all?(examples, &(&1 =~ ~s(component_name="chelekom-card")))
       refute Enum.any?(examples, &(&1 =~ ":if="))
       refute Enum.any?(examples, &(&1 =~ "\n"))
+      refute Enum.any?(examples, &(&1 =~ "assigns[:site]"))
 
       # `extra.demo_examples` — the rich invocation maps the DemoHarness renders.
       ex = hd(demo_examples)
@@ -168,6 +185,92 @@ defmodule Mix.Tasks.Mishka.Ui.ExportExamplesTest do
       assert Export.populate_examples([ctx.component], missing, ctx.kit_set, @kit) == [
                ctx.component
              ]
+    end
+  end
+
+  describe "shipped bundle — per-option example contract" do
+    setup do
+      bundle =
+        :code.priv_dir(:mishka_chelekom)
+        |> Path.join("components/chelekom.json")
+        |> File.read!()
+        |> Jason.decode!()
+
+      %{components: bundle["components"]}
+    end
+
+    test "every component ships at least one example", %{components: components} do
+      empty = for c <- components, c["examples"] == [], do: c["name"]
+      assert empty == [], "components with no example: #{inspect(empty)}"
+    end
+
+    test "examples mirrors extra.examples[].source exactly, in order", %{components: components} do
+      drifted =
+        for c <- components,
+            Enum.map(c["extra"]["examples"], & &1["source"]) != c["examples"],
+            do: c["name"]
+
+      assert drifted == []
+    end
+
+    test "exactly one base per component, and it is first", %{components: components} do
+      bad =
+        for c <- components,
+            examples = c["extra"]["examples"],
+            examples != [],
+            Enum.count(examples, & &1["base"]) != 1 or not hd(examples)["base"],
+            do: c["name"]
+
+      assert bad == []
+    end
+
+    test "every required option value is one the component actually ships", %{
+      components: components
+    } do
+      # `requires` exists so a consumer can hide an example whose variant was
+      # narrowed away at install. That only works if the values it names are
+      # drawn from the component's own universe (its helper discriminators).
+      violations =
+        for c <- components,
+            universe = MishkaChelekom.CmsBundle.Examples.option_universe(c),
+            example <- c["extra"]["examples"],
+            {axis, values} <- example["requires"],
+            axis != "components",
+            value <- values,
+            not MapSet.member?(Map.get(universe, axis, MapSet.new()), value),
+            do: {c["name"], axis, value}
+
+      assert violations == []
+    end
+
+    test "requires.components only names components the snippet really dispatches to", %{
+      components: components
+    } do
+      violations =
+        for c <- components,
+            example <- c["extra"]["examples"],
+            declared = Map.get(example["requires"], "components", []),
+            actual =
+              Regex.scan(~r/component_name="([^"]+)"/, example["source"])
+              |> Enum.map(&List.last/1)
+              |> Enum.reject(&(&1 == c["name"]))
+              |> Enum.uniq(),
+            Enum.sort(declared) != Enum.sort(actual),
+            do: {c["name"], declared, actual}
+
+      assert violations == []
+    end
+
+    test "every example is self-contained — no unresolved assign survives", %{
+      components: components
+    } do
+      leaked =
+        for c <- components,
+            example <- c["extra"]["examples"],
+            not Export.self_contained_example?(example["source"]),
+            do: {c["name"], example["source"]}
+
+      assert leaked == []
     end
   end
 end

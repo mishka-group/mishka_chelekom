@@ -1,0 +1,417 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-fieldset" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Fieldset Field"
+        description="Fieldset component for Phoenix and Phoenix LiveView with customizable grouping and enhanced form organization."
+        mix="mix mishka.ui.gen.component fieldset"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/fieldset.eex"
+        tags={["Component", "Stateless"]}
+      />
+      <.custom_tab id="chelekom-fieldset-tab">
+        <:documentation_panel>
+          <.heading2 margin="my-5" id="form-fieldset-component">
+            <.link patch={~p"/chelekom/docs/forms/fieldset/#form-fieldset-component"}>
+              Fieldset component
+            </.link>
+          </.heading2>
+
+          <.custom_block position="left" color="danger" class="my-8" border="medium">
+            <.cp>
+              Certain props are shared across all form-related components, and you can find them in the <.link
+                class="font-bold"
+                title="Mishka chelekom form component"
+                patch={~p"/chelekom/docs/forms"}
+              >
+           form wrapper</.link>.
+            </.cp>
+          </.custom_block>
+
+          <.custom_code_wrapper elements_class="grid md:grid-cols-2 gap-5">
+            <.fieldset space="extra_small" id="sampl-fieldset-1" legend="News">
+              <:control>
+                <.checkbox_field
+                  name="privacy_newsletter"
+                  value=""
+                  space="small"
+                  label="Subscribe to newsletter updates"
+                  id="privacy_newsletter"
+                  checked
+                />
+              </:control>
+              <:control>
+                <.checkbox_field
+                  name="privacy_marketing"
+                  value=""
+                  space="small"
+                  label="Allow marketing communications"
+                  id="privacy_marketing"
+                />
+              </:control>
+              <:control>
+                <.checkbox_field
+                  name="privacy_terms"
+                  value=""
+                  space="small"
+                  label="I accept the terms and conditions"
+                  id="privacy_terms"
+                />
+              </:control>
+            </.fieldset>
+            <.fieldset space="large" id="sampl-fieldset-2" class="mt-4">
+              <:control>
+                <.checkbox_field
+                  name="notification_email"
+                  value=""
+                  space="small"
+                  label="Email notifications"
+                  id="notification_email"
+                  color="natural"
+                />
+              </:control>
+              <:control>
+                <.checkbox_field
+                  name="notification_mobile"
+                  value=""
+                  space="small"
+                  label="Mobile notifications"
+                  id="notification_mobile"
+                  color="natural"
+                />
+              </:control>
+              <:control>
+                <.checkbox_field
+                  name="notification_web"
+                  value=""
+                  space="small"
+                  label="Browser notifications"
+                  id="notification_web"
+                  color="natural"
+                  checked
+                />
+              </:control>
+            </.fieldset>
+          </.custom_code_wrapper>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or
+              <strong>Tailwind CSS</strong>
+              classes to customize the appearance and behavior of the gallery, allowing for flexible design changes.
+            </.cp>
+          </.custom_block>
+
+          <.cp>
+            A
+            <.custom_inline_code>fieldset</.custom_inline_code>
+            is an HTML element used to group related input fields within a form. It helps in organizing form elements, making the structure clearer and more accessible, particularly for screen readers. By enclosing inputs and their labels within a <.custom_inline_code>fieldset</.custom_inline_code>, you can create a logical grouping of form controls that are related in purpose. A
+            <.custom_inline_code>legend</.custom_inline_code>
+            element is often included within a
+            <.custom_inline_code>fieldset</.custom_inline_code>
+            to provide a caption or description for the group of fields. This improves the form's usability, ensuring a better user experience by visually and structurally grouping related information together.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex justify-between gap-5"
+            code={@code_1}
+          >
+            <.fieldset space="medium" id="fieldset-133">
+              <:control>
+                <.checkbox_field
+                  name="form-example-1"
+                  value=""
+                  space="small"
+                  label="group of checkboxes"
+                  id="form-example-1"
+                  color="dawn"
+                />
+              </:control>
+              <:control>
+                <.checkbox_field
+                  name="form-example-2"
+                  value=""
+                  space="small"
+                  label="group of checkboxes"
+                  id="form-example-2"
+                  color="dawn"
+                />
+              </:control>
+              <:control>
+                <.checkbox_field
+                  name="form-example-3"
+                  value=""
+                  space="small"
+                  label="group of checkboxes"
+                  id="form-example-3"
+                  color="dawn"
+                  checked
+                />
+              </:control>
+            </.fieldset>
+
+            <.fieldset space="large" variant="default" color="info" id="fieldset-2">
+              <:control>
+                <.checkbox_field
+                  name="form-example-100"
+                  value=""
+                  space="small"
+                  label="Fieldset group of checkboxes"
+                  id="form-example-100"
+                  color="natural"
+                />
+              </:control>
+              <:control>
+                <.checkbox_field
+                  name="form-example-101"
+                  value=""
+                  space="small"
+                  label="Fieldset group of checkboxes"
+                  id="form-example-101"
+                  color="natural"
+                />
+              </:control>
+              <:control>
+                <.checkbox_field
+                  name="form-example-102"
+                  value=""
+                  space="small"
+                  label="Fieldset group of checkboxes"
+                  id="form-example-102"
+                  color="natural"
+                  checked
+                />
+              </:control>
+            </.fieldset>
+          </.custom_code_wrapper>
+          <.heading2 margin="my-5" id="form-fieldset-legend">
+            <.link patch={~p"/chelekom/docs/forms/fieldset/#form-fieldset-legend"}>
+              Fieldset legend prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            A
+            <.custom_inline_code>fieldset</.custom_inline_code>
+            groups related form inputs, while the
+            <.custom_inline_code>legend</.custom_inline_code>
+            provides a title for that group. Placed at the start of the <.custom_inline_code>fieldset</.custom_inline_code>, the
+            <.custom_inline_code>legend</.custom_inline_code>
+            offers context and improves accessibility by clearly describing the purpose of the grouped fields, enhancing form clarity and usability.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-5" code={@code_2}>
+            <.fieldset space="medium" legend="Grouped" id="fieldset-3">
+              <:control>
+                <.checkbox_field
+                  name="form-example-103"
+                  value=""
+                  space="small"
+                  label="Fieldset group of checkboxes"
+                  id="form-example-103"
+                  color="silver"
+                />
+              </:control>
+              <:control>
+                <.checkbox_field
+                  name="form-example-104"
+                  value=""
+                  space="small"
+                  label="Fieldset group of checkboxes"
+                  id="form-example-104"
+                  color="silver"
+                />
+              </:control>
+              <:control>
+                <.checkbox_field
+                  name="form-example-105"
+                  value=""
+                  space="small"
+                  label="Fieldset group of checkboxes"
+                  id="form-example-105"
+                  color="silver"
+                  checked
+                />
+              </:control>
+            </.fieldset>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Fieldset Component Props</h2>
+
+            <.custom_table id="fieldset-props">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines the color theme (default is "silver").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines border style (default is "extra_small").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines the border radius (default is "small").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>padding</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines padding for items (default is "small").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines the style (default is "outline").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Space between items (default is "medium").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines overall size (default is "extra_large").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>error_icon</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Icon displayed alongside error messages.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>legend</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Caption for the content of its parent.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>errors</.table_td>
+
+                <.table_td>list</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>List of error messages to display.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>name</.table_td>
+
+                <.table_td>any</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Name of the input.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>value</.table_td>
+
+                <.table_td>any</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Value of the input.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/forms/fieldset/#form-fieldset-component"}
+            title="Fieldset component"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/fieldset/#form-fieldset-legend"}
+            title="Fieldset legend prop"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

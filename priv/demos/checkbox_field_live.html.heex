@@ -1,0 +1,835 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-checkbox" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Checkbox Field"
+        description="Form checkbox component for Phoenix and Phoenix LiveView, featuring floating labels and versatile input styles."
+        mix="mix mishka.ui.gen.component checkbox_field"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/chekbox_field.eex"
+        tags={["Component", "Stateless"]}
+      />
+      <.custom_tab id="chelekom-checkbox-tab">
+        <:documentation_panel>
+          <.heading2 margin="my-5" id="form-checkbox-field">
+            <.link patch={~p"/chelekom/docs/forms/checkbox-field/#form-checkbox-field"}>
+              Checkbox component
+            </.link>
+          </.heading2>
+
+          <.custom_block position="left" color="danger" class="my-8" border="medium">
+            <.cp>
+              Certain props are shared across all form-related components, and you can find them in the <.link
+                class="font-bold"
+                title="Mishka chelekom form component"
+                patch={~p"/chelekom/docs/forms"}
+              >
+           form wrapper</.link>.
+            </.cp>
+          </.custom_block>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or
+              <strong>Tailwind CSS</strong>
+              classes to customize the appearance and behavior of the gallery, allowing for flexible design changes.
+            </.cp>
+          </.custom_block>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_1}>
+            <.checkbox_field
+              name="form-example-763"
+              value=""
+              space="small"
+              label="Base"
+              id="form-example-763"
+              color="base"
+            />
+
+            <.checkbox_field
+              name="form-example-76"
+              value=""
+              space="small"
+              label="Natural"
+              id="form-example-76"
+              color="natural"
+            />
+
+            <.checkbox_field
+              name="form-example-77"
+              value=""
+              space="small"
+              label="Primary"
+              id="form-example-77"
+              color="primary"
+            />
+
+            <.checkbox_field
+              name="form-example-78"
+              value=""
+              space="small"
+              label="Secondary"
+              id="form-example-78"
+              color="secondary"
+            />
+
+            <.checkbox_field
+              name="form-example-79"
+              value=""
+              space="small"
+              label="Dark"
+              id="form-example-79"
+              color="dark"
+            />
+
+            <.checkbox_field
+              name="form-example-80"
+              value=""
+              space="small"
+              label="Success"
+              id="form-example-80"
+              color="success"
+            />
+
+            <.checkbox_field
+              name="form-example-81"
+              value=""
+              space="small"
+              label="Warning"
+              id="form-example-81"
+              color="warning"
+            />
+
+            <.checkbox_field
+              name="form-example-82"
+              value=""
+              space="small"
+              label="Danger"
+              id="form-example-82"
+              color="danger"
+            />
+
+            <.checkbox_field
+              name="form-example-83"
+              value=""
+              space="small"
+              label="Info"
+              id="form-example-83"
+              color="info"
+            />
+
+            <.checkbox_field
+              name="form-example-84"
+              value=""
+              space="small"
+              label="silver"
+              id="form-example-84"
+              color="silver"
+            />
+
+            <.checkbox_field
+              name="form-example-85"
+              value=""
+              space="small"
+              label="Misc"
+              id="form-example-85"
+              color="misc"
+            />
+
+            <.checkbox_field
+              name="form-example-86"
+              value=""
+              space="small"
+              label="Dawn"
+              id="form-example-86"
+              color="dawn"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="form-checbox-label-class">
+            <.link patch={~p"/chelekom/docs/forms/checkbox-field/#form-checbox-label-class"}>
+              Checkbox label class prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Add your custom classes to checkbox labels
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_2}>
+            <.checkbox_field
+              name="form-example-87"
+              value=""
+              space="small"
+              label="silver"
+              id="form-example-87"
+              color="dawn"
+              label_class="font-silver text-rose-400"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="form-checbox-reverse">
+            <.link patch={~p"/chelekom/docs/forms/checkbox-field/#form-checbox-reverse"}>
+              Checkbox reverse prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            Change the order of the checkbox and label.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_3}>
+            <.checkbox_field
+              name="form-example-88"
+              value=""
+              space="small"
+              label="Reversed"
+              id="form-example-88"
+              color="silver"
+              reverse
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="form-checbox-checked">
+            <.link patch={~p"/chelekom/docs/forms/checkbox-field/#form-checbox-checked"}>
+              Checkbox checked prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            This prop sets the checkbox to checked (true).
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_4}>
+            <.checkbox_field
+              name="form-example-89"
+              value=""
+              space="small"
+              label="Checked"
+              id="form-example-89"
+              color="info"
+              checked
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="form-checbox-multiple">
+            <.link patch={~p"/chelekom/docs/forms/checkbox-field/#form-checbox-multiple"}>
+              Checkbox multiple prop
+            </.link>
+          </.heading2>
+
+          <.custom_block position="left" color="warning" class="my-8" border="medium">
+            <.cp>
+              If you want to collect data in the form of arrays within your forms, you can use the
+              <.custom_inline_code>multiple</.custom_inline_code>
+              attribute on the relevant field. This enables the form to accept and output data as arrays, allowing users to submit multiple entries in a single field. When the
+              <.custom_inline_code>multiple</.custom_inline_code>
+              attribute is active, each value entered will be collected into an array, providing a structured format that can streamline data handling, especially when working with multiple selections or repeated input fields.
+            </.cp>
+          </.custom_block>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-2" code={@code_5}>
+            <.checkbox_field
+              name="form-example-90"
+              value=""
+              space="small"
+              label="multiple Checkbox"
+              id="form-example-90"
+              color="info"
+            />
+            <.checkbox_field
+              name="form-example-91"
+              value=""
+              space="small"
+              label="multiple Checkbox"
+              id="form-example-91"
+              color="info"
+            />
+            <.checkbox_field
+              name="form-example-92"
+              value=""
+              space="small"
+              label="multiple Checkbox"
+              id="form-example-92"
+              color="info"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="form-checbox-group">
+            <.link patch={~p"/chelekom/docs/forms/checkbox-field/#form-checbox-group"}>
+              Checkbox Group component prop
+            </.link>
+          </.heading2>
+
+          <.custom_block position="left" color="warning" class="my-8" border="medium">
+            <.cp>
+              Keep in mind that the
+              <.custom_inline_code>checkbox_group</.custom_inline_code>
+              component represents a group of checkboxes, so within a form, it will return a list of checked items. In contrast, using the
+              <.custom_inline_code>checkbox</.custom_inline_code>
+              component individually will return a boolean value indicating whether it’s checked or not. Inside <.custom_inline_code>checkbox_group</.custom_inline_code>, the multiple property is set to true by default, meaning it will return a list of selected values and keys. This setup allows users to select multiple options, with each selection stored in a structured list format for easy processing in your form.
+            </.cp>
+          </.custom_block>
+
+          <.custom_block position="left" color="danger" class="my-8" border="medium">
+            <.cp>
+              Note that in a form, each
+              <.custom_inline_code>checkbox</.custom_inline_code>
+              will return an error specific to that individual checkbox if validation fails. In contrast, with <.custom_inline_code>checkbox_group</.custom_inline_code>, a single error message will be returned for the entire group, rather than for each checkbox individually. This distinction is useful for managing validation feedback depending on whether checkboxes are used individually or as a group.
+            </.cp>
+          </.custom_block>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-10" code={@code_6}>
+            <.group_checkbox
+              id="form-example-group-1"
+              variation="horizontal"
+              name="form-example-group-1"
+              space="large"
+              color="danger"
+            >
+              <:checkbox value="10">Label of item 1 in group</:checkbox>
+              <:checkbox value="30">Label of item 2 in group</:checkbox>
+              <:checkbox value="60" checked={true}>Label of item 3 in group</:checkbox>
+            </.group_checkbox>
+
+            <.group_checkbox
+              id="form-example-group-2"
+              name="form-example-group-2"
+              space="large"
+              color="info"
+            >
+              <:checkbox value="10">Label of item 1 in group</:checkbox>
+              <:checkbox value="30">Label of item 2 in group</:checkbox>
+              <:checkbox value="50">Label of item 3 in group</:checkbox>
+              <:checkbox value="60" checked={true}>Label of item 4 in group</:checkbox>
+            </.group_checkbox>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="form-checkbox-checkbox-check-helper">
+            <.link patch={
+              ~p"/chelekom/docs/forms/checkbox-field/#form-checkbox-checkbox-check-helper"
+            }>
+              checkbox_check helper
+            </.link>
+          </.heading2>
+
+          <.custom_block position="left" color="danger" class="my-8" border="medium">
+            <.cp>
+              The
+              <.custom_inline_code>checkbox_check</.custom_inline_code>
+              function is designed to streamline the process of managing checkbox checkboxes with enhanced customization options. By using this function, developers can apply real-time validation on checkbox elements, ensuring they meet specific criteria before further actions are triggered. This function is particularly useful in complex forms where real-time server validation is essential. With <.custom_inline_code>checkbox_check</.custom_inline_code>, you can easily adapt the behavior of checkboxes according to dynamic user inputs, providing a seamless and responsive user experience.
+            </.cp>
+          </.custom_block>
+
+          <.custom_block position="left" color="warning" class="my-8" border="medium">
+            <.cp>
+              The
+              <.custom_inline_code>checkbox_check</.custom_inline_code>
+              function is tailored to handle checkbox selections in forms by checking if a specific value is present in the form’s parameters. For instance, using
+              <.custom_inline_code>
+                checkbox_check(:list, <%= "{" %>:hobbies, "reading"}, @form)
+              </.custom_inline_code>
+              tracks whether "reading" is among the selected hobbies. If no user selection is found in the parameters, it defaults to checking the initial form data. This flexibility allows
+              <.custom_inline_code>checkbox_check</.custom_inline_code>
+              to support multiple checkbox options, adapting to dynamic data structures in real-time validations and preset values. See the module documentation for more configuration details.
+            </.cp>
+          </.custom_block>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              Note: While you can use checkbox fields individually in your forms, we created a group component to make handling them easier. This group simplifies management within the form, especially for validation and error handling. Otherwise, you can use the standalone checkbox component, but managing and handling errors will be up to the developer.
+            </.cp>
+          </.custom_block>
+
+          <.cp class="my-8">
+            Here is a real-world example provided for you.
+          </.cp>
+
+          <.custom_code_wrapper
+            class="mt-10"
+            code_class="text-xs"
+            elements_class="space-y-5"
+            code={@code_7}
+          >
+            <.flash variant="default" kind={:info} flash={@flash} />
+            <.form_wrapper
+              for={@form}
+              id="user-form"
+              phx-change="validate"
+              phx-submit="save"
+              space="large"
+            >
+              <.text_field size="small" label="Full name" field={@form[:fullname]} />
+
+              <.group_radio field={@form[:job]} space="small" variation="horizontal" color="base">
+                <:radio
+                  :for={item <- Ecto.Enum.values(User, :job)}
+                  value={"#{item}"}
+                  checked={radio_check(:list, {:job, "#{item}"}, @form)}
+                >
+                  {String.capitalize("#{item}")}
+                </:radio>
+              </.group_radio>
+
+              <.h3>What is your hobbies?</.h3>
+
+              <.group_checkbox variation="horizontal" field={@form[:hobbies]} color="base">
+                <:checkbox
+                  value="reading"
+                  checked={checkbox_check(:list, {:hobbies, "reading"}, @form)}
+                >
+                  Reading
+                </:checkbox>
+                <:checkbox
+                  value="programming"
+                  checked={checkbox_check(:list, {:hobbies, "programming"}, @form)}
+                >
+                  Programming
+                </:checkbox>
+                <:checkbox
+                  value="photography"
+                  checked={checkbox_check(:list, {:hobbies, "photography"}, @form)}
+                >
+                  Photography
+                </:checkbox>
+              </.group_checkbox>
+
+              <.toggle_field
+                field={@form[:accepted_terms]}
+                label="Terms"
+                checked={toggle_check(:accepted_terms, @form)}
+                color="primary"
+                phx-debounce="300"
+              />
+
+              <:actions>
+                <.button
+                  color="natural"
+                  variant="outline"
+                  size="small"
+                  phx-disable-with="Saving..."
+                >
+                  Save User
+                </.button>
+              </:actions>
+            </.form_wrapper>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Checkbox Component Props</h2>
+
+            <.custom_table id="checkbox-field-props">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines the color theme (default is "primary").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines border style (default is "extra_small").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines the border radius (default is "small").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Space between items (default is "medium").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>label_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for the label styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines overall size (default is "extra_large").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>ring</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines if a ring border is shown on focused input (default is true).
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>reverse</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Switches the order of the element and label (default is false).
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>checked</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Specifies if the element is checked by default (default is false).
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>error_icon</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Icon displayed alongside error messages.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>label</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Specifies text for the label.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>errors</.table_td>
+
+                <.table_td>list</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>List of error messages to display.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>name</.table_td>
+
+                <.table_td>any</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Name of the input.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>value</.table_td>
+
+                <.table_td>any</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Value of the input.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>field</.table_td>
+
+                <.table_td>Phoenix.HTML.FormField</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>A form field struct retrieved from the form.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Group Checkbox Component Props</h2>
+
+            <.custom_table id="group-checkbox-props">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines color theme (default is "primary").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines border style (default is "extra_small").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines the border radius (default is "small").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Space between items (default is "medium").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variation</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Defines the layout orientation of the component (default is "vertical").
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines the overall size (default is "extra_large").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>label_class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for the label styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>ring</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines if a ring border is shown on focused input (default is true).
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>reverse</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Switches the order of the element and label (default is false).
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>error_icon</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Icon displayed alongside error messages.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>errors</.table_td>
+
+                <.table_td>list</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>List of error messages to display.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>name</.table_td>
+
+                <.table_td>any</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Name of the input.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>value</.table_td>
+
+                <.table_td>any</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Value of the input.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>checkbox</.table_td>
+
+                <.table_td>slot</.table_td>
+
+                <.table_td>Yes</.table_td>
+
+                <.table_td>
+                  Slot for individual checkboxes with attributes: value (required), checked (optional), space (optional).
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/forms/checkbox-field/#form-checkbox-field"}
+            title="Checkbox component"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/checkbox-field/#form-checbox-label-class"}
+            title="Checkbox label class prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/checkbox-field/#form-checbox-reverse"}
+            title="Checkbox reverse prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/checkbox-field/#form-checbox-checked"}
+            title="Checkbox checked prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/checkbox-field/#form-checbox-multiple"}
+            title="Checkbox multiple prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/checkbox-field/#form-checbox-group"}
+            title="Checkbox group component"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/checkbox-field/#form-checkbox-checkbox-check-helper"}
+            title="checkbox_check helper"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

@@ -1,0 +1,444 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-native-select" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Native Select Field"
+        description="Native select component for Phoenix and Phoenix LiveView with seamless dropdown selection."
+        mix="mix mishka.ui.gen.component native_select"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/native_select.eex"
+        tags={["Component", "Stateless"]}
+      />
+      <.custom_tab id="chelekom-native-select-tab">
+        <:documentation_panel>
+          <.heading2 margin="my-5" id="form-native-select">
+            <.link patch={~p"/chelekom/docs/forms/native-select/#form-native-select"}>
+              Native select
+            </.link>
+          </.heading2>
+          <.custom_block position="left" color="danger" class="my-8" border="medium">
+            <.cp>
+              Certain props are shared across all form-related components, and you can find them in the <.link
+                class="font-bold"
+                title="Mishka chelekom form component"
+                patch={~p"/chelekom/docs/forms"}
+              >
+           form wrapper</.link>.
+            </.cp>
+          </.custom_block>
+
+          <.custom_code_wrapper elements_class="grid md:grid-cols-2 gap-5">
+            <.native_select
+              name="sample-1"
+              label="Native select"
+              variant="base"
+              size="small"
+              color="base"
+              id="sample-1"
+              space="small"
+            >
+              <:option value="" selected>
+                Choose one
+              </:option>
+
+              <:option value="v1">
+                Backend developer
+              </:option>
+
+              <:option value="v2">
+                Frontend developer
+              </:option>
+
+              <:option value="v3">
+                Full stack developer
+              </:option>
+            </.native_select>
+
+            <.native_select
+              name="sample-2"
+              variant="base"
+              description="Please choose a programming language"
+              size="small"
+              color="base"
+              id="sample-2"
+              space="small"
+            >
+              <:option value="" selected>
+                Select a language
+              </:option>
+
+              <:option value="v1">
+                Python
+              </:option>
+
+              <:option value="v2">
+                JavaScript
+              </:option>
+
+              <:option value="v3">
+                Elixir
+              </:option>
+            </.native_select>
+          </.custom_code_wrapper>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or
+              <strong>Tailwind CSS</strong>
+              classes to customize the appearance and behavior of the gallery, allowing for flexible design changes.
+            </.cp>
+          </.custom_block>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_1}>
+            <.native_select
+              name="countries1"
+              id="form-example-123"
+              description="Native select"
+              label="Label of native variant"
+              class="dark:text-[#282828]"
+              space="small"
+            >
+              <:option value="nl" selected>
+                NL
+              </:option>
+
+              <:option value="usa">
+                USA
+              </:option>
+
+              <:option value="uae">
+                UAE
+              </:option>
+            </.native_select>
+            <.native_select
+              name="countries1"
+              id="form-example-12223"
+              description="Native select shadow variant"
+              label="Label of natural color"
+              space="small"
+              variant="shadow"
+              color="natural"
+            >
+              <:option value="nl" selected>
+                NL
+              </:option>
+
+              <:option value="usa">
+                USA
+              </:option>
+
+              <:option value="uae">
+                UAE
+              </:option>
+            </.native_select>
+            <.native_select
+              name="countries1"
+              id="form-example-12213"
+              description="Native select default variant"
+              label="Label of natural"
+              space="small"
+              variant="default"
+              color="dawn"
+            >
+              <:option value="nl" selected>
+                NL
+              </:option>
+
+              <:option value="usa">
+                USA
+              </:option>
+
+              <:option value="uae">
+                UAE
+              </:option>
+            </.native_select>
+            <.native_select
+              name="countries1"
+              id="form-example-12333"
+              description="Native select bordered variant"
+              label="Label of natural color"
+              space="small"
+              variant="bordered"
+              color="misc"
+            >
+              <:option value="nl" selected>
+                NL
+              </:option>
+
+              <:option value="usa">
+                USA
+              </:option>
+
+              <:option value="uae">
+                UAE
+              </:option>
+            </.native_select>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="form-native-select-multiple-prop">
+            <.link patch={
+              ~p"/chelekom/docs/forms/native-select/#form-native-select-multiple-prop"
+            }>
+              Native select multiple props
+            </.link>
+          </.heading2>
+
+          <.custom_block position="left" color="danger" class="my-8" border="medium">
+            <.cp>
+              When selecting multiple options in a dropdown or list, you can hold down the
+              <.custom_inline_code>Shift</.custom_inline_code>
+              key to select a range of items or use the
+              <.custom_inline_code>Ctrl</.custom_inline_code>
+              key (or
+              <.custom_inline_code>Command</.custom_inline_code>
+              on Mac) to select individual items. For instance, if you select both
+              <.custom_inline_code>NL</.custom_inline_code>
+              and <.custom_inline_code>UAE</.custom_inline_code>, the output will appear as <.custom_inline_code>cars=nl&cars=uae</.custom_inline_code>. The output won’t give you an array; instead, each selection is added as a separate entry in the query string, separated by an <.custom_inline_code>&</.custom_inline_code>, making it easy to see all selected options in the final output. This format allows each selected value to be handled individually without grouping them into a single value or array.
+            </.cp>
+          </.custom_block>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_3}>
+            <.native_select
+              name="countries3"
+              space="small"
+              id="form-example-125"
+              description="Choose multiple items"
+              label="Label of multiple option select"
+              class="dark:text-[#282828]"
+              multiple
+            >
+              <:option value="nl" selected>
+                NL
+              </:option>
+
+              <:option value="usa">
+                USA
+              </:option>
+
+              <:option value="uae">
+                UAE
+              </:option>
+            </.native_select>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="form-native-select-option-slot">
+            <.link patch={~p"/chelekom/docs/forms/native-select/#form-native-select-option-slot"}>
+              Native select option slot
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>option</.custom_inline_code>
+            slot within a select element is used to define individual options for the dropdown. Each option in the select is created within this slot and has three key attributes. The
+            <.custom_inline_code>value</.custom_inline_code>
+            attribute represents the value associated with the option, which will be submitted when the option is selected. The
+            <.custom_inline_code>selected</.custom_inline_code>
+            attribute can be used to indicate which option is currently selected by default, providing a pre-selected choice when the form is rendered. The
+            <.custom_inline_code>disabled</.custom_inline_code>
+            attribute, when set, will disable the option, preventing users from selecting it. These attributes make it easy to manage and customize each option within a select field, ensuring flexibility in form handling.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_2}>
+            <.native_select
+              name="countries2"
+              space="small"
+              id="form-example-124"
+              color="misc"
+              variant="default"
+              description="This is description"
+              label="Label of"
+            >
+              <:option value="nl" selected>
+                NL
+              </:option>
+
+              <:option value="usa">
+                USA
+              </:option>
+
+              <:option value="uae">
+                UAE
+              </:option>
+            </.native_select>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Native Select Component Props</h2>
+
+            <.custom_table id="native-select-props">
+              <:header>
+                <.table_th>Name</.table_th>
+                <.table_th>Type</.table_th>
+                <.table_th>Required</.table_th>
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines color theme (default is "light").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines border style (default is "extra_small").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines the border radius (default is "small").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines the style (e.g., default, outline, transparent).</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>description</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines a short description.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Space between items (default is "medium").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>min_height</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines min height style.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines the overall size (default is "extra_large").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>ring</.table_td>
+                <.table_td>boolean</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines a ring border on focused input (default is true).
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>error_icon</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Icon displayed alongside error messages.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>label</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Specifies text for the label.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>multiple</.table_td>
+                <.table_td>boolean</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Specifies if the select input allows multiple selections (default is false).
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>errors</.table_td>
+                <.table_td>list</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>List of error messages to be displayed.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>name</.table_td>
+                <.table_td>any</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Name of the input.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>inner_block</.table_td>
+                <.table_td>slot</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Inner block that renders HEEx content.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>option</.table_td>
+                <.table_td>slot</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Defines options for the select element with value, selected, and disabled attributes.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>field</.table_td>
+                <.table_td>Phoenix.HTML.FormField</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>A form field struct retrieved from the form.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/forms/native-select/#form-native-select"}
+            title="Native select"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/native-select/#form-native-select-multiple-prop"}
+            title="Native select multiple prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/native-select/#form-native-select-option-slot"}
+            title="Native select option slot"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

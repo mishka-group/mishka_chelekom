@@ -1,0 +1,380 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-date-time" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Date time Field"
+        description="Date-time form component for Phoenix and Phoenix LiveView with floating labels and flexible input options."
+        mix="mix mishka.ui.gen.component date_time_field"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/date_time_field.eex"
+        tags={["Component", "Stateless"]}
+      />
+      <.custom_tab id="chelekom-checkbox-tab">
+        <:documentation_panel>
+          <.heading2 margin="my-5" id="form-date-time-component">
+            <.link patch={~p"/chelekom/docs/forms/date-time-field/#form-date-time-component"}>
+              Date Time component
+            </.link>
+          </.heading2>
+
+          <.custom_block position="left" color="danger" class="my-8" border="medium">
+            <.cp>
+              Certain props are shared across all form-related components, and you can find them in the <.link
+                class="font-bold"
+                title="Mishka chelekom form component"
+                patch={~p"/chelekom/docs/forms"}
+              >
+           form wrapper</.link>.
+            </.cp>
+          </.custom_block>
+
+          <.custom_code_wrapper elements_class="grid md:grid-cols-2 gap-5">
+            <.date_time_field
+              name="sample-1"
+              value=""
+              space="small"
+              label="Date time *"
+              id="sample-1"
+            />
+            <.date_time_field
+              name="sample-2"
+              description="Choose a date"
+              value=""
+              space="small"
+              floating="outer"
+              label="Date time *"
+              id="sample-2"
+            />
+          </.custom_code_wrapper>
+
+          <.custom_block position="left" color="warning" class="my-8" border="medium">
+            <.cp>
+              This component uses the browser's native date and time picker. The picker icon appearance may vary across browsers. Firefox does not currently support hiding its native picker icon via CSS, so the icon style depends on the browser. If you need a custom icon, use the
+              <.custom_inline_code>end_section</.custom_inline_code>
+              slot to add your own.
+            </.cp>
+          </.custom_block>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or
+              <strong>Tailwind CSS</strong>
+              classes to customize the appearance and behavior of the gallery, allowing for flexible design changes.
+            </.cp>
+          </.custom_block>
+
+          <.cp>
+            The date-time component is a built-in browser feature that provides a user-friendly date picker for selecting dates, times, or a combination of both. This component allows users to easily input date and time values without manually typing them, reducing errors and improving the overall user experience. When implemented using input types like <.custom_inline_code>date</.custom_inline_code>, <.custom_inline_code>time</.custom_inline_code>, or <.custom_inline_code>datetime-local</.custom_inline_code>, the browser automatically renders a native date or time picker. This simplifies form interactions and ensures consistent behavior across different devices and platforms, as it leverages the browser's built-in functionality for date and time selection.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_1}>
+            <.date_time_field
+              name="form-example-90"
+              value=""
+              space="small"
+              label="Date time"
+              id="form-example-90"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="form-date-time-type-prop">
+            <.link patch={~p"/chelekom/docs/forms/date-time-field/#form-date-time-type-prop"}>
+              Date Time type-prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>type</.custom_inline_code>
+            attribute is a string that determines the specific type of input field, allowing you to choose from options like <.custom_inline_code>date</.custom_inline_code>, <.custom_inline_code>datetime-local</.custom_inline_code>, <.custom_inline_code>time</.custom_inline_code>, <.custom_inline_code>week</.custom_inline_code>, and <.custom_inline_code>month</.custom_inline_code>. By setting the
+            <.custom_inline_code>type</.custom_inline_code>
+            attribute, you can customize the input to handle various types of data, such as selecting a specific date, time, or week. The default is <.custom_inline_code>date</.custom_inline_code>, but changing this attribute allows for more flexibility in capturing different types of time-related data from users, enhancing form functionality and user experience.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_2}>
+            <.date_time_field
+              name="form-example-1"
+              value=""
+              space="small"
+              label="Date time"
+              type="datetime-local"
+              id="form-example-1"
+            />
+            <.date_time_field
+              name="form-example-92"
+              value=""
+              space="small"
+              label="Date time"
+              type="time"
+              color="dawn"
+              variant="default"
+              id="form-example-92"
+            />
+            <.date_time_field
+              name="form-example-93"
+              value=""
+              space="small"
+              label="Date time"
+              variant="outline"
+              type="week"
+              color="warning"
+              id="form-example-93"
+            />
+            <.date_time_field
+              name="form-example-94"
+              value=""
+              space="small"
+              label="Date time"
+              variant="bordered"
+              color="danger"
+              type="month"
+              id="form-example-94"
+            />
+            <.date_time_field
+              name="form-example-95"
+              value=""
+              space="small"
+              label="Date time"
+              variant="transparent"
+              id="form-example-95"
+              color="misc"
+            />
+            <.date_time_field
+              name="form-example-9er5"
+              value=""
+              space="small"
+              label="Date time"
+              variant="shadow"
+              id="form-example-9er5"
+              color="primary"
+            />
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">DateTime Component Props</h2>
+
+            <.custom_table id="date-time-field-props">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines color theme (default is natural).</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>type</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines type of input (e.g., date, time, month).</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines border style (default is "extra_small").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines the border radius (default is "small").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines the style (e.g., outline, default).</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>description</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines a short description.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Space between items (default is "medium").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines the overall size (default is "extra_large").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>ring</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines a ring border on focused input.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>floating</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Controls floating label behavior (none, inner, outer).</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>error_icon</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Icon displayed alongside error messages.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>label</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Specifies text for the label.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>errors</.table_td>
+
+                <.table_td>list</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>List of error messages to be displayed.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>name</.table_td>
+
+                <.table_td>any</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Name of the input.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>value</.table_td>
+
+                <.table_td>any</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Value of the input (default is nil).</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>start_section</.table_td>
+
+                <.table_td>slot</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Renders content at the start of the element.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>end_section</.table_td>
+
+                <.table_td>slot</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Renders content at the end of the element.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/forms/date-time-field/#form-date-time-component"}
+            title="Date time component"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/date-time-field/#form-date-time-type-prop"}
+            title="Date Time type-prop"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

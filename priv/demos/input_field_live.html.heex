@@ -1,0 +1,189 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-input" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Input Field"
+        description="Built-in Phoenix LiveView input component offering a wide range of form field types, seamless real-time updates, and powerful validation features."
+        mix="mix mishka.ui.gen.component input_field"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/input_field.eex"
+        tags={["Component", "Stateless"]}
+      />
+      <.custom_tab id="chelekom-input-tab">
+        <:documentation_panel>
+          <.heading2 margin="my-5" id="form-inputs">
+            <.link patch={~p"/chelekom/docs/forms/#form-inputs"}>
+              Input component
+            </.link>
+          </.heading2>
+
+          <.custom_block position="left" color="danger" class="my-8" border="medium">
+            <.cp>
+              <strong>Important: 🚨</strong>
+              We do not recommend using this component. It is only provided for backward compatibility.
+              We have dedicated components for each field type.
+            </.cp>
+          </.custom_block>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or
+              <strong>Tailwind CSS</strong>
+              classes to customize the appearance and behavior of the gallery, allowing for flexible design changes.
+            </.cp>
+          </.custom_block>
+
+          <.cp>
+            The
+            <.custom_inline_code>input_field</.custom_inline_code>
+            is a built-in component in Phoenix's form system, providing a flexible input field that supports all standard HTML input types. It is part of Phoenix’s form components that can be placed in a single file, allowing you to handle various input types such as text, password, email, url, and more, with the default styling and behavior of Phoenix LiveView. This simplifies form creation by maintaining a consistent UI across different form fields while offering the flexibility to customize the input type as needed.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_1}>
+            <.input id="form-example-161" name="name" value="" type="text" label="Full Name" />
+            <.input id="form-example-162" name="add" value="" type="text" label="Address" />
+            <.input id="form-example-163" name="tel" value="" type="text" label="Phone" />
+            <.input id="form-example-164" name="zip" value="" type="text" label="Zipcode" />
+            <.input id="form-example-165" name="email" value="" label="Email" />
+            <.input
+              id="form-example-166"
+              name="job"
+              type="select"
+              label="Choose your Job"
+              value="true"
+              options={[{"foo", "foo"}, {"bar", "bar"}]}
+            />
+            <.input
+              id="form-example-167"
+              name="start-houre"
+              value=""
+              type="datetime-local"
+              label="Start office hour"
+            />
+            <.input
+              id="form-example-168"
+              name="start-day"
+              value=""
+              type="datetime-local"
+              label="Start office day"
+            />
+            <.input
+              id="form-example-169"
+              name="form-example-169"
+              value=""
+              type="checkbox"
+              label="Terms"
+            />
+            <.input id="form-example-170" name="sal" value="" type="range" label="Salary" />
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Input Field Component Props</h2>
+
+            <.custom_table id="input-field-props">
+              <:header>
+                <.table_th>Name</.table_th>
+                <.table_th>Type</.table_th>
+                <.table_th>Required</.table_th>
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+                <.table_td>any</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>name</.table_td>
+                <.table_td>any</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Name of the input.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>label</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Specifies the label for the input field.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>value</.table_td>
+                <.table_td>any</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Value of the input field.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>type</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines the type of input (default is "text").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>field</.table_td>
+                <.table_td>Phoenix.HTML.FormField</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>A form field struct retrieved from the form.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>errors</.table_td>
+                <.table_td>list</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>List of error messages to be displayed.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>checked</.table_td>
+                <.table_td>boolean</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Checked flag for checkbox inputs.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>prompt</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Prompt text for select inputs.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>options</.table_td>
+                <.table_td>list</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Options to pass to options_for_select/2.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>multiple</.table_td>
+                <.table_td>boolean</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Indicates whether multiple selections are allowed for select inputs.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/forms/input-field/#form-inputs"}
+            title="Input component"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

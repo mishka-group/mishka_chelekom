@@ -1,0 +1,569 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-radio" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Radio Field"
+        description="Form radio button component for Phoenix and Phoenix LiveView with floating labels and customizable selection options."
+        mix="mix mishka.ui.gen.component radio_field"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/radio_field.eex"
+        tags={["Component", "Stateless"]}
+      />
+      <.custom_tab id="chelekom-radio-tab">
+        <:documentation_panel>
+          <.heading2 margin="my-5" id="form-radio">
+            <.link patch={~p"/chelekom/docs/forms/radio-field/#form-radio"}>
+              Radio component
+            </.link>
+          </.heading2>
+
+          <.custom_block position="left" color="danger" class="my-8" border="medium">
+            <.cp>
+              Certain props are shared across all form-related components, and you can find them in the <.link
+                class="font-bold"
+                title="Mishka chelekom form component"
+                patch={~p"/chelekom/docs/forms"}
+              >
+           form wrapper</.link>.
+            </.cp>
+          </.custom_block>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or
+              <strong>Tailwind CSS</strong>
+              classes to customize the appearance and behavior of the gallery, allowing for flexible design changes.
+            </.cp>
+          </.custom_block>
+
+          <.cp>
+            The radio component lets users select one option from a group, with the
+            <.custom_inline_code>checked</.custom_inline_code>
+            prop determining which option is selected by default. Only one radio button can be selected at a time, making it ideal for choosing between mutually exclusive options like contact methods or shipping choices.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_1}>
+            <.radio_field
+              id="form-example-"
+              name="radio1"
+              value="radio1"
+              space="small"
+              color="base"
+              label="radio base"
+            />
+            <.radio_field
+              id="form-example-126"
+              name="radio1"
+              value="radio1"
+              space="small"
+              color="natural"
+              label="radio1"
+            />
+            <.radio_field
+              name="radio2"
+              id="form-example-1735"
+              value="radio2"
+              space="small"
+              color="primary"
+              label="radio2"
+              checked
+            />
+            <.radio_field
+              name="radio3"
+              id="form-example-17565"
+              value="radio3"
+              space="small"
+              color="secondary"
+              label="radio3"
+            />
+            <.radio_field
+              name="radio4"
+              id="form-example-145d75"
+              value="radio4"
+              space="small"
+              color="success"
+              label="radio4"
+            />
+            <.radio_field
+              name="radio5"
+              id="form-example-105"
+              value="radio5"
+              space="small"
+              color="warning"
+              label="radio5"
+            />
+            <.radio_field
+              name="radio6"
+              id="form-example-169"
+              value="radio6"
+              space="small"
+              color="danger"
+              label="radio6"
+            />
+            <.radio_field
+              name="radio7"
+              id="form-example-119"
+              value="radio7"
+              space="small"
+              color="info"
+              label="radio7"
+            />
+            <.radio_field
+              name="radio8"
+              id="form-example-129"
+              value="radio8"
+              space="small"
+              color="dawn"
+              label="radio8"
+            />
+            <.radio_field
+              name="radio9"
+              id="form-example-1e9"
+              value="radio9"
+              space="small"
+              color="misc"
+              label="radio9"
+            />
+            <.radio_field
+              name="radio10"
+              id="form-example-13"
+              value="radio10"
+              space="small"
+              color="dark"
+              label="radio10"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="form-radio-radio-group">
+            <.link patch={~p"/chelekom/docs/forms/radio-field/#form-radio-radio-group"}>
+              Radio group component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>radio_group</.custom_inline_code>
+            component is ideal for grouping related radio buttons in forms, where only one option can be selected. It enables organized layouts with customizable styling, spacing, and alignment (horizontal or vertical), ensuring a cohesive and user-friendly selection experience.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-10" code={@code_2}>
+            <.group_radio id="group_radio-1" name="form-radio-example-group-1" space="small">
+              <:radio value="option1">Option 1</:radio>
+              <:radio value="option2">Option 2</:radio>
+              <:radio value="option3">Option 3</:radio>
+              <:radio value="option4" checked>Option 4</:radio>
+            </.group_radio>
+
+            <.group_radio
+              variation="horizontal"
+              color="danger"
+              name="form-radio-example-group-1"
+              space="large"
+            >
+              <:radio value="option1">Option 1</:radio>
+              <:radio value="option2">Option 2</:radio>
+              <:radio value="option3">Option 3</:radio>
+              <:radio value="option4" checked>Option 4</:radio>
+            </.group_radio>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="form-radio-radio-check-helper">
+            <.link patch={~p"/chelekom/docs/forms/radio-field/#form-radio-radio-check-helper"}>
+              radio_check helper
+            </.link>
+          </.heading2>
+
+          <.custom_block position="left" color="danger" class="my-8" border="medium">
+            <.cp>
+              The
+              <.custom_inline_code>radio_check</.custom_inline_code>
+              function is designed to streamline the process of managing radio checkboxes with enhanced customization options. By using this function, developers can apply real-time validation on radio elements, ensuring they meet specific criteria before further actions are triggered. This function is particularly useful in complex forms where real-time server validation is essential. With <.custom_inline_code>radio_check</.custom_inline_code>, you can easily adapt the behavior of checkboxes according to dynamic user inputs, providing a seamless and responsive user experience.
+            </.cp>
+          </.custom_block>
+
+          <.custom_block position="left" color="warning" class="my-8" border="medium">
+            <.cp>
+              The
+              <.custom_inline_code>radio_check</.custom_inline_code>
+              function is designed to verify selected radio button values in forms by comparing user input against specified options. For list-based fields, like job roles, use <.custom_inline_code>
+              radio_check(:list, <%= "{" %>:job, "#<%= "{" %>item}"}, @form)
+            </.custom_inline_code>, which checks if the selected value matches the one in the form’s parameters. If the field is not found in parameters, it defaults to comparing with the initial data. This functionality makes
+              <.custom_inline_code>radio_check</.custom_inline_code>
+              adaptable for both real-time validations and pre-set values. For detailed usage, refer to the module documentation.
+            </.cp>
+          </.custom_block>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              Note: While you can use radio fields individually in your forms, we created a group component to make handling them easier. This group simplifies management within the form, especially for validation and error handling. Otherwise, you can use the standalone radio component, but managing and handling errors will be up to the developer.
+            </.cp>
+          </.custom_block>
+
+          <.cp class="my-8">
+            Here is a real-world example provided for you.
+          </.cp>
+
+          <.custom_code_wrapper
+            class="mt-10"
+            code_class="text-xs"
+            elements_class="space-y-5"
+            code={@code_3}
+          >
+            <.flash variant="default" kind={:info} flash={@flash} />
+
+            <.form_wrapper
+              for={@form}
+              id="user-form"
+              phx-change="validate"
+              phx-submit="save"
+              space="large"
+            >
+              <.text_field size="small" label="Full name" field={@form[:fullname]} />
+
+              <.group_radio field={@form[:job]} space="small" variation="horizontal" color="base">
+                <:radio
+                  :for={item <- Ecto.Enum.values(User, :job)}
+                  value={"#{item}"}
+                  checked={radio_check(:list, {:job, "#{item}"}, @form)}
+                >
+                  {String.capitalize("#{item}")}
+                </:radio>
+              </.group_radio>
+
+              <.h3>What is your hobbies?</.h3>
+
+              <.group_checkbox variation="horizontal" field={@form[:hobbies]} color="base">
+                <:checkbox
+                  value="reading"
+                  checked={checkbox_check(:list, {:hobbies, "reading"}, @form)}
+                >
+                  Reading
+                </:checkbox>
+                <:checkbox
+                  value="programming"
+                  checked={checkbox_check(:list, {:hobbies, "programming"}, @form)}
+                >
+                  Programming
+                </:checkbox>
+                <:checkbox
+                  value="photography"
+                  checked={checkbox_check(:list, {:hobbies, "photography"}, @form)}
+                >
+                  Photography
+                </:checkbox>
+              </.group_checkbox>
+
+              <.toggle_field
+                field={@form[:accepted_terms]}
+                label="Terms"
+                checked={toggle_check(:accepted_terms, @form)}
+                color="primary"
+                phx-debounce="300"
+              />
+
+              <.radio_field
+                field={@form[:subscribe]}
+                checked={radio_check(:boolean, :subscribe, @form)}
+                label="Subscribe?"
+                color="base"
+                value="true"
+              />
+
+              <:actions>
+                <.button variant="outline" color="info" size="small" phx-disable-with="Saving...">
+                  Save User
+                </.button>
+              </:actions>
+            </.form_wrapper>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Radio Field Component Props</h2>
+
+            <.custom_table id="radio-field-props">
+              <:header>
+                <.table_th>Name</.table_th>
+                <.table_th>Type</.table_th>
+                <.table_th>Required</.table_th>
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>label_class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Custom CSS class for the label styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines color theme (default is "primary").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines border style (default is "extra_small").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Space between items (default is "medium").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines the overall size (default is "extra_large").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>ring</.table_td>
+                <.table_td>boolean</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines a ring border on focused input (default is true).
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>reverse</.table_td>
+                <.table_td>boolean</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Switches the order of the element and label (default is false).
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>checked</.table_td>
+                <.table_td>boolean</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Specifies if the element is checked by default (default is false).
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>error_icon</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Icon to be displayed alongside error messages.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>label</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Specifies text for the label.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>errors</.table_td>
+                <.table_td>list</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>List of error messages to be displayed.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>name</.table_td>
+                <.table_td>any</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Name of the input.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>value</.table_td>
+                <.table_td>any</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Value of the input.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>field</.table_td>
+                <.table_td>Phoenix.HTML.FormField</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>A form field struct retrieved from the form.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Group Radio Component Props</h2>
+
+            <.custom_table id="group-radio-props">
+              <:header>
+                <.table_th>Name</.table_th>
+                <.table_th>Type</.table_th>
+                <.table_th>Required</.table_th>
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines color theme (default is "primary").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines border style (default is "extra_small").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Space between items (default is "medium").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variation</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Defines the layout orientation of the component (default is "vertical").
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>label_class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Custom CSS class for the label styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines the overall size (default is "extra_large").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>ring</.table_td>
+                <.table_td>boolean</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines a ring border on focused input (default is true).
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>reverse</.table_td>
+                <.table_td>boolean</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Switches the order of the element and label (default is false).
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>error_icon</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Icon to be displayed alongside error messages.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>errors</.table_td>
+                <.table_td>list</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>List of error messages to be displayed.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>name</.table_td>
+                <.table_td>any</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Name of input.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>value</.table_td>
+                <.table_td>any</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Value of input.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>field</.table_td>
+                <.table_td>Phoenix.HTML.FormField</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>A form field struct retrieved from the form.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>radio</.table_td>
+                <.table_td>slot</.table_td>
+                <.table_td>Yes</.table_td>
+                <.table_td>
+                  Slot for individual radio options, requires value attribute.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/forms/radio-field/#form-radio"}
+            title="Radio component"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/radio-field/#form-radio-radio-group"}
+            title="Radio group component"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/radio-field/#form-radio-radio-check-helper"}
+            title="radio_check helper"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

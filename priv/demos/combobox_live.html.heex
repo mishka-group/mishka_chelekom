@@ -1,0 +1,1090 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-combobox" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Combobox"
+        description="Interactive searchable combobox component for Phoenix LiveView with real-time filtering and keyboard navigation"
+        mix="mix mishka.ui.gen.component combobox"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/combobox.eex"
+        tags={["Component", "Stateless", "JS"]}
+      />
+      <.custom_tab id="chelekom-combobox-tab">
+        <:documentation_panel>
+          <.heading2 margin="my-5" id="overview">
+            <.link patch={~p"/chelekom/docs/forms/combobox/#overview"}>
+              Overview of combobox component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The <strong>Phoenix LiveView combobox component</strong>
+            provides a searchable dropdown select field that allows users to choose from a list of options. It combines the functionality of both an input field and a dropdown menu, making it ideal for selecting from large datasets. The component is built with a
+            <.link
+              class="transition-colors font-semibold text-[#448D96] hover:text-[#3d747b]"
+              title="Phoenix liveview Scroll Area component"
+              patch={~p"/chelekom/docs/scroll-area"}
+            >
+              Phoenix Scroll Area component
+            </.link>
+            inside to handle large option lists smoothly. It supports dynamic filtering of options as users type, keyboard navigation, and customizable styling through various props like color, size, and border radius.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="overflow-hidden">
+            <div class="grid gap-3 lg:grid-cols-2 mb-4">
+              <.combobox
+                id="color-select-1"
+                name="Colors"
+                placeholder="Choose a color"
+                searchable
+                multiple
+                class="[&_.combobox-trigger]:shadow-xs!"
+              >
+                <:option value="red">Red</:option>
+                <:option value="blue">Blue</:option>
+                <:option value="green">Green</:option>
+                <:option value="yellow">Yellow</:option>
+                <:option value="purple">Purple</:option>
+                <:option value="orange">Orange</:option>
+                <:option value="pink">Pink</:option>
+                <:option value="brown">Brown</:option>
+                <:option value="teal">Teal</:option>
+                <:option value="maroon">Maroon</:option>
+                <:option value="navy">Navy Blue</:option>
+                <:option value="olive">Olive Green</:option>
+                <:option value="magenta">Magenta</:option>
+                <:option value="coral">Coral</:option>
+                <:option value="indigo">Indigo</:option>
+                <:option value="turquoise">Turquoise</:option>
+                <:option value="violet">Violet</:option>
+                <:option value="crimson">Crimson</:option>
+              </.combobox>
+
+              <.combobox
+                id="date-select-13"
+                name="date"
+                placeholder="Choose a date"
+                class="[&_.combobox-trigger]:shadow-xs!"
+              >
+                <:start_section>
+                  <.icon name="hero-calendar" class="size-5" />
+                </:start_section>
+                <:option value="2025-01">January 2025</:option>
+                <:option value="2025-02">February 2025</:option>
+                <:option value="2025-03">March 2025</:option>
+                <:option value="2025-04">April 2025</:option>
+                <:option value="2025-05">May 2025</:option>
+                <:option value="2025-06">June 2025</:option>
+                <:option value="2025-07">July 2025</:option>
+                <:option value="2025-08">August 2025</:option>
+                <:option value="2025-09">September 2025</:option>
+                <:option value="2025-10">October 2025</:option>
+                <:option value="2025-11">November 2025</:option>
+                <:option value="2025-12">December 2025</:option>
+              </.combobox>
+
+              <.combobox
+                id="status-select-11"
+                name="status"
+                placeholder="Select a status"
+                size="medium"
+                height="h-fit"
+                class="[&_.combobox-trigger]:shadow-xs!"
+              >
+                <:option value="in_progress">
+                  <div class="flex items-center gap-2">
+                    <.indicator color="warning" size="extra_small" />
+                    <span>In Progress</span>
+                  </div>
+                </:option>
+                <:option value="success">
+                  <div class="flex items-center gap-2">
+                    <.indicator color="success" size="extra_small" />
+                    <span>Success</span>
+                  </div>
+                </:option>
+                <:option value="denied">
+                  <div class="flex items-center gap-2">
+                    <.indicator color="danger" size="extra_small" />
+                    <span>Denied</span>
+                  </div>
+                </:option>
+                <:option value="archived">
+                  <div class="flex items-center gap-2">
+                    <.indicator color="silver" size="extra_small" />
+                    <span>Archived</span>
+                  </div>
+                </:option>
+                <:option value="in_review">
+                  <div class="flex items-center gap-2">
+                    <.indicator color="info" size="extra_small" />
+                    <span>In review</span>
+                  </div>
+                </:option>
+              </.combobox>
+              <.combobox
+                id="example-select-12"
+                name="status"
+                placeholder="Select a country"
+                size="large"
+                height="h-fit"
+                searchable
+                class="[&_.combobox-trigger]:shadow-xs!"
+              >
+                <:start_section>
+                  <.icon name="hero-globe-alt" class="size-6" />
+                </:start_section>
+                <:option value="br">
+                  <div class="flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none">
+                      <g clip-path="url(#a)">
+                        <mask
+                          id="bdfasd"
+                          width="20"
+                          height="20"
+                          x="0"
+                          y="0"
+                          maskUnits="userSpaceOnUse"
+                        >
+                          <path fill="#fff" d="M0 0h20v20H0V0Z" />
+                        </mask>
+                        <g mask="url(#bdfasd)">
+                          <mask
+                            id="crewqrwe"
+                            width="20"
+                            height="20"
+                            x="0"
+                            y="0"
+                            maskUnits="userSpaceOnUse"
+                          >
+                            <path fill="#fff" d="M0 0h20v20H0V0Z" />
+                          </mask>
+                          <g mask="url(#crewqrwe)">
+                            <path
+                              fill="#6DA544"
+                              d="M10 20c5.523 0 10-4.477 10-10S15.523 0 10 0 0 4.477 0 10s4.477 10 10 10Z"
+                            /><path
+                              fill="#FFDA44"
+                              d="M10 3.913 18.26 10 10 16.087 1.74 10 10 3.913Z"
+                            /><path
+                              fill="#F0F0F0"
+                              d="M10 13.478a3.478 3.478 0 1 0 0-6.956 3.478 3.478 0 0 0 0 6.956Z"
+                            /><path
+                              fill="#0052B4"
+                              d="M8.26 9.782c-.604 0-1.188.092-1.737.263a3.477 3.477 0 0 0 6.325 1.95 5.862 5.862 0 0 0-4.587-2.213Zm5.154.884a3.478 3.478 0 0 0-6.61-2.039 7.174 7.174 0 0 1 6.61 2.04Z"
+                            />
+                          </g>
+                        </g>
+                      </g>
+                      <defs>
+                        <clipPath id="a"><path fill="#fff" d="M0 0h20v20H0z" /></clipPath>
+                      </defs>
+                    </svg>
+                    <span>Brazil</span>
+                  </div>
+                </:option>
+                <:option value="be">
+                  <div class="flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none">
+                      <g clip-path="url(#aa)">
+                        <mask
+                          id="b34b"
+                          width="20"
+                          height="20"
+                          x="0"
+                          y="0"
+                          maskUnits="userSpaceOnUse"
+                        >
+                          <path fill="#fff" d="M0 0h20v20H0V0Z" />
+                        </mask>
+                        <g mask="url(#b34b)">
+                          <mask
+                            id="c32432dcsc"
+                            width="20"
+                            height="20"
+                            x="0"
+                            y="0"
+                            maskUnits="userSpaceOnUse"
+                          >
+                            <path fill="#fff" d="M0 0h20v20H0V0Z" />
+                          </mask>
+                          <g mask="url(#c32432dcsc)">
+                            <path
+                              fill="#FFDA44"
+                              d="M13.478.622A9.978 9.978 0 0 0 10 0a9.98 9.98 0 0 0-3.478.622L5.652 10l.87 9.378A9.978 9.978 0 0 0 10 20a9.98 9.98 0 0 0 3.478-.622l.87-9.378-.87-9.378Z"
+                            /><path
+                              fill="#D80027"
+                              d="M20 10c0-4.3-2.714-7.965-6.522-9.378v18.756A10.003 10.003 0 0 0 20 10Z"
+                            /><path
+                              fill="#000"
+                              d="M0 10c0 4.3 2.714 7.965 6.522 9.378V.622A10.003 10.003 0 0 0 0 10Z"
+                            />
+                          </g>
+                        </g>
+                      </g>
+                      <defs>
+                        <clipPath id="aa"><path fill="#fff" d="M0 0h20v20H0z" /></clipPath>
+                      </defs>
+                    </svg>
+                    <span>Belgium</span>
+                  </div>
+                </:option>
+                <:option value="dk">
+                  <div class="flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none">
+                      <g clip-path="url(#aaa)">
+                        <mask
+                          id="fasdf43q"
+                          width="20"
+                          height="20"
+                          x="0"
+                          y="0"
+                          maskUnits="userSpaceOnUse"
+                        >
+                          <path fill="#fff" d="M0 0h20v20H0V0Z" />
+                        </mask>
+                        <g mask="url(#fasdf43q)">
+                          <path
+                            fill="#F0F0F0"
+                            d="M10 20c5.523 0 10-4.477 10-10S15.523 0 10 0 0 4.477 0 10s4.477 10 10 10Z"
+                          /><path
+                            fill="#D80027"
+                            d="M7.826 8.696h12.09C19.275 3.789 15.08 0 10 0c-.747 0-1.474.083-2.174.238v8.458Zm-2.609 0v-7.48a10.006 10.006 0 0 0-5.132 7.48h5.132Zm0 2.608H.085a10.006 10.006 0 0 0 5.132 7.48v-7.48Zm2.609 0v8.458c.7.155 1.427.238 2.174.238 5.08 0 9.276-3.79 9.915-8.696H7.826Z"
+                          />
+                        </g>
+                      </g>
+                      <defs>
+                        <clipPath id="aaa"><path fill="#fff" d="M0 0h20v20H0z" /></clipPath>
+                      </defs>
+                    </svg>
+                    <span>Denmark</span>
+                  </div>
+                </:option>
+                <:option value="no">
+                  <div class="flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none">
+                      <g clip-path="url(#aaaa)">
+                        <mask
+                          id="bbbb"
+                          width="20"
+                          height="20"
+                          x="0"
+                          y="0"
+                          maskUnits="userSpaceOnUse"
+                        >
+                          <path fill="#fff" d="M0 0h20v20H0V0Z" />
+                        </mask>
+                        <g mask="url(#bbbb)">
+                          <mask
+                            id="cccc"
+                            width="20"
+                            height="20"
+                            x="0"
+                            y="0"
+                            maskUnits="userSpaceOnUse"
+                          >
+                            <path fill="#fff" d="M0 0h20v20H0V0Z" />
+                          </mask>
+                          <g mask="url(#cccc)">
+                            <path
+                              fill="#F0F0F0"
+                              d="M10 20c5.523 0 10-4.477 10-10S15.523 0 10 0 0 4.477 0 10s4.477 10 10 10Z"
+                            /><path
+                              fill="#D80027"
+                              d="M.344 12.609a10.009 10.009 0 0 0 3.57 5.325v-5.326H.343Zm8.786 7.353c.287.025.577.038.87.038 4.62 0 8.508-3.134 9.656-7.391H9.13v7.353Zm10.526-12.57C18.508 3.133 14.62 0 10 0c-.293 0-.583.013-.87.038v7.353h10.526ZM3.913 2.065A10.008 10.008 0 0 0 .344 7.391h3.569V2.066Z"
+                            /><path
+                              fill="#0052B4"
+                              d="M19.915 8.696H7.826V.237a9.932 9.932 0 0 0-2.609.979v7.48H.085a10.085 10.085 0 0 0 0 2.608h5.133v7.48c.819.447 1.697.776 2.608.978v-8.458h12.09c.112-.866.112-1.743 0-2.609v.001Z"
+                            />
+                          </g>
+                        </g>
+                      </g>
+                      <defs>
+                        <clipPath id="aaaa"><path fill="#fff" d="M0 0h20v20H0z" /></clipPath>
+                      </defs>
+                    </svg>
+                    <span>Norway</span>
+                  </div>
+                </:option>
+                <:option value="au">
+                  <div class="flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none">
+                      <g clip-path="url(#aaaaa)">
+                        <mask
+                          id="bbbbb"
+                          width="20"
+                          height="20"
+                          x="0"
+                          y="0"
+                          maskUnits="userSpaceOnUse"
+                        >
+                          <path fill="#fff" d="M0 0h20v20H0V0Z" />
+                        </mask>
+                        <g mask="url(#bbbbb)">
+                          <mask
+                            id="ccccc"
+                            width="20"
+                            height="20"
+                            x="0"
+                            y="0"
+                            maskUnits="userSpaceOnUse"
+                          >
+                            <path fill="#fff" d="M0 0h20v20H0V0Z" />
+                          </mask>
+                          <g mask="url(#cccc)">
+                            <path
+                              fill="#F0F0F0"
+                              d="M19.378 13.478A9.978 9.978 0 0 0 20 10a9.98 9.98 0 0 0-.622-3.478L10 5.652l-9.378.87A9.979 9.979 0 0 0 0 10c0 1.223.22 2.395.622 3.478l9.378.87 9.378-.87Z"
+                            /><path
+                              fill="#D80027"
+                              d="M10 20c4.3 0 7.965-2.714 9.378-6.522H.622A10.003 10.003 0 0 0 10 20Zm0-20C5.7 0 2.035 2.714.622 6.522h18.756A10.003 10.003 0 0 0 10 0Z"
+                            />
+                          </g>
+                        </g>
+                      </g>
+                      <defs>
+                        <clipPath id="aaaaa"><path fill="#fff" d="M0 0h20v20H0z" /></clipPath>
+                      </defs>
+                    </svg>
+                    <span>Austria</span>
+                  </div>
+                </:option>
+              </.combobox>
+            </div>
+            <.combobox
+              id="pet-select"
+              name="pets"
+              placeholder="Select pets"
+              searchable
+              multiple
+              label="Choose Your Favorite Pets"
+              description="Select multiple pets from different categories"
+            >
+              <:option group="Dogs" value="labrador">Labrador Retriever</:option>
+              <:option group="Dogs" value="german_shepherd">German Shepherd</:option>
+              <:option group="Dogs" value="golden_retriever">Golden Retriever</:option>
+              <:option group="Dogs" value="bulldog">Bulldog</:option>
+
+              <:option group="Cats" value="persian">Persian Cat</:option>
+              <:option group="Cats" value="siamese">Siamese Cat</:option>
+              <:option group="Cats" value="maine_coon">Maine Coon</:option>
+              <:option group="Cats" value="ragdoll">Ragdoll</:option>
+
+              <:option group="Birds" value="parrot">Parrot</:option>
+              <:option group="Birds" value="canary">Canary</:option>
+              <:option group="Birds" value="parakeet">Parakeet</:option>
+              <:option group="Birds" value="cockatiel">Cockatiel</:option>
+
+              <:option group="Small Pets" value="hamster">Hamster</:option>
+              <:option group="Small Pets" value="rabbit">Rabbit</:option>
+              <:option group="Small Pets" value="guinea_pig">Guinea Pig</:option>
+              <:option group="Small Pets" value="ferret">Ferret</:option>
+            </.combobox>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="combobox-base">
+            <.link patch={~p"/chelekom/docs/forms/combobox/#combobox-base"}>
+              Base variant
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="lg:px-20" code={@code_1}>
+            <.combobox id="country-select-10" name="countries" placeholder="Select a country">
+              <:option value="ca">Canada</:option>
+              <:option value="us">United States</:option>
+              <:option value="mx">Mexico</:option>
+              <:option value="sp">Spain</:option>
+              <:option value="de">Germany</:option>
+              <:option value="jp">Japan</:option>
+              <:option value="ch">China</:option>
+              <:option value="sw">Sweden</:option>
+            </.combobox>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="combobox-default">
+            <.link patch={~p"/chelekom/docs/forms/combobox/#combobox-default"}>
+              Default variant
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="lg:px-20" code={@code_2}>
+            <.combobox
+              id="country-select-2"
+              name="country"
+              placeholder="Select a country"
+              variant="default"
+              color="misc"
+            >
+              <:option value="ca">Canada</:option>
+              <:option value="us">United States</:option>
+              <:option value="mx">Mexico</:option>
+              <:option value="sp">Spain</:option>
+              <:option value="de">Germany</:option>
+              <:option value="jp">Japan</:option>
+              <:option value="ch">China</:option>
+              <:option value="sw">Sweden</:option>
+            </.combobox>
+          </.custom_code_wrapper>
+          <.heading2 margin="my-5" id="combobox-bordred">
+            <.link patch={~p"/chelekom/docs/forms/combobox/#combobox-bordred"}>
+              Bordred variant
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="lg:px-20" code={@code_3}>
+            <.combobox
+              id="country-select-9"
+              name="country"
+              placeholder="Select a country"
+              variant="bordered"
+              color="dawn"
+              multiple
+            >
+              <:option value="ca">Canada</:option>
+              <:option value="us">United States</:option>
+              <:option value="mx">Mexico</:option>
+              <:option value="sp">Spain</:option>
+              <:option value="de">Germany</:option>
+              <:option value="jp">Japan</:option>
+              <:option value="ch">China</:option>
+              <:option value="sw">Sweden</:option>
+            </.combobox>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="combobox-label">
+            <.link patch={~p"/chelekom/docs/forms/combobox/#combobox-label"}>
+              Label prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            You can use the label prop to add custom title text above the combobox.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="lg:px-20" code={@code_4}>
+            <.combobox
+              id="country-select-3"
+              name="country"
+              placeholder="Select a country"
+              label="Origin Country"
+            >
+              <:option value="ca">Canada</:option>
+              <:option value="us">United States</:option>
+              <:option value="mx">Mexico</:option>
+              <:option value="sp">Spain</:option>
+              <:option value="de">Germany</:option>
+              <:option value="jp">Japan</:option>
+              <:option value="ch">China</:option>
+              <:option value="sw">Sweden</:option>
+            </.combobox>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="combobox-description">
+            <.link patch={~p"/chelekom/docs/forms/combobox/#combobox-description"}>
+              Description prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The description prop allows you to add explanatory text below the label for additional context about the combobox.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="lg:px-20" code={@code_5}>
+            <.combobox
+              id="country-select-4"
+              name="country"
+              placeholder="Select a country"
+              description="Description of filed"
+            >
+              <:option value="ca">Canada</:option>
+              <:option value="us">United States</:option>
+              <:option value="mx">Mexico</:option>
+              <:option value="sp">Spain</:option>
+              <:option value="de">Germany</:option>
+              <:option value="jp">Japan</:option>
+              <:option value="ch">China</:option>
+              <:option value="sw">Sweden</:option>
+            </.combobox>
+          </.custom_code_wrapper>
+          <.heading2 margin="my-5" id="combobox-rounded">
+            <.link patch={~p"/chelekom/docs/forms/combobox/#combobox-rounded"}>
+              Rounded prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The rounded prop offers values like <.custom_inline_code>"extra_small"</.custom_inline_code>, <.custom_inline_code>"small"</.custom_inline_code>, <.custom_inline_code>"medium"</.custom_inline_code>, <.custom_inline_code>"large"</.custom_inline_code>, and <.custom_inline_code>"extra_large"</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="lg:px-20" code={@code_6}>
+            <.combobox
+              id="country-select-5"
+              name="country"
+              placeholder="Select a country"
+              rounded="large"
+            >
+              <:option value="ca">Canada</:option>
+              <:option value="us">United States</:option>
+              <:option value="mx">Mexico</:option>
+              <:option value="sp">Spain</:option>
+              <:option value="de">Germany</:option>
+              <:option value="jp">Japan</:option>
+              <:option value="ch">China</:option>
+              <:option value="sw">Sweden</:option>
+            </.combobox>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="combobox-border">
+            <.link patch={~p"/chelekom/docs/forms/combobox/#combobox-border"}>
+              Border prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The border prop offers values like <.custom_inline_code>"extra_small"</.custom_inline_code>, <.custom_inline_code>"small"</.custom_inline_code>, <.custom_inline_code>"medium"</.custom_inline_code>, <.custom_inline_code>"large"</.custom_inline_code>, and <.custom_inline_code>"extra_large"</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="lg:px-20" code={@code_7}>
+            <.combobox
+              id="country-select-6"
+              name="country"
+              placeholder="Select a country"
+              border="medium"
+            >
+              <:option value="ca">Canada</:option>
+              <:option value="us">United States</:option>
+              <:option value="mx">Mexico</:option>
+              <:option value="sp">Spain</:option>
+              <:option value="de">Germany</:option>
+              <:option value="jp">Japan</:option>
+              <:option value="ch">China</:option>
+              <:option value="sw">Sweden</:option>
+            </.combobox>
+          </.custom_code_wrapper>
+          <.heading2 margin="my-5" id="combobox-padding">
+            <.link patch={~p"/chelekom/docs/forms/combobox/#combobox-padding"}>
+              Padding prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The padding prop offers values such as <.custom_inline_code>"extra_small"</.custom_inline_code>, <.custom_inline_code>"small"</.custom_inline_code>, <.custom_inline_code>"medium"</.custom_inline_code>, <.custom_inline_code>"large"</.custom_inline_code>, and <.custom_inline_code>"extra_large"</.custom_inline_code>. These values control the padding around the content inside the combobox.
+          </.cp>
+          <.custom_code_wrapper code_class="text-xs" elements_class="lg:px-20" code={@code_8}>
+            <.combobox
+              id="country-select-09"
+              name="country"
+              placeholder="Select a country"
+              padding="medium"
+            >
+              <:option value="ca">Canada</:option>
+              <:option value="us">United States</:option>
+              <:option value="mx">Mexico</:option>
+              <:option value="sp">Spain</:option>
+              <:option value="de">Germany</:option>
+              <:option value="jp">Japan</:option>
+              <:option value="ch">China</:option>
+              <:option value="sw">Sweden</:option>
+            </.combobox>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="combobox-space">
+            <.link patch={~p"/chelekom/docs/forms/combobox/#combobox-space"}>
+              Space prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The space prop offers values such as <.custom_inline_code>"extra_small"</.custom_inline_code>, <.custom_inline_code>"small"</.custom_inline_code>, <.custom_inline_code>"medium"</.custom_inline_code>, <.custom_inline_code>"large"</.custom_inline_code>, and <.custom_inline_code>"extra_large"</.custom_inline_code>.
+          </.cp>
+          <.custom_code_wrapper code_class="text-xs" elements_class="lg:px-20" code={@code_14}>
+            <.combobox
+              id="country-select-7"
+              name="country"
+              placeholder="Select a country"
+              space="medium"
+            >
+              <:option value="ca">Canada</:option>
+              <:option value="us">United States</:option>
+              <:option value="mx">Mexico</:option>
+              <:option value="sp">Spain</:option>
+              <:option value="de">Germany</:option>
+              <:option value="jp">Japan</:option>
+              <:option value="ch">China</:option>
+              <:option value="sw">Sweden</:option>
+            </.combobox>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="combobox-size">
+            <.link patch={~p"/chelekom/docs/forms/combobox/#combobox-size"}>
+              Size prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The size prop offers values such as <.custom_inline_code>"extra_small"</.custom_inline_code>, <.custom_inline_code>"small"</.custom_inline_code>, <.custom_inline_code>"medium"</.custom_inline_code>, <.custom_inline_code>"large"</.custom_inline_code>, and <.custom_inline_code>"extra_large"</.custom_inline_code>. These values control the padding around the content inside the combobox.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="lg:px-20" code={@code_9}>
+            <.combobox
+              id="country-select-8"
+              name="country"
+              size="large"
+              placeholder="Select a country"
+              padding="medium"
+            >
+              <:option value="ca">Canada</:option>
+              <:option value="us">United States</:option>
+              <:option value="mx">Mexico</:option>
+              <:option value="sp">Spain</:option>
+              <:option value="de">Germany</:option>
+              <:option value="jp">Japan</:option>
+              <:option value="ch">China</:option>
+              <:option value="sw">Sweden</:option>
+            </.combobox>
+          </.custom_code_wrapper>
+          <.heading2 margin="my-5" id="searchable-prop">
+            <.link patch={~p"/chelekom/docs/forms/combobox/#searchable-prop"}>
+              Searchable prop
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="lg:px-20" code={@code_10}>
+            <.combobox
+              id="country-select-14"
+              name="country"
+              size="large"
+              placeholder="Select a country"
+              padding="medium"
+              searchable
+            >
+              <:option value="ca">Canada</:option>
+              <:option value="us">United States</:option>
+              <:option value="mx">Mexico</:option>
+              <:option value="sp">Spain</:option>
+              <:option value="de">Germany</:option>
+              <:option value="jp">Japan</:option>
+              <:option value="ch">China</:option>
+              <:option value="sw">Sweden</:option>
+            </.combobox>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="searchplaceholder-prop">
+            <.link patch={~p"/chelekom/docs/forms/combobox/#searchplaceholder-prop"}>
+              Searchable prop
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="lg:px-20" code={@code_11}>
+            <.combobox
+              id="country-select-15"
+              name="country"
+              size="large"
+              placeholder="Select a country"
+              padding="medium"
+              searchable
+              search_placeholder="Search a country"
+            >
+              <:option value="ca">Canada</:option>
+              <:option value="us">United States</:option>
+              <:option value="mx">Mexico</:option>
+              <:option value="sp">Spain</:option>
+              <:option value="de">Germany</:option>
+              <:option value="jp">Japan</:option>
+              <:option value="ch">China</:option>
+              <:option value="sw">Sweden</:option>
+            </.combobox>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="group">
+            <.link patch={~p"/chelekom/docs/forms/combobox/#group"}>
+              Group Combobox
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="lg:px-20" code={@code_12}>
+            <.combobox id="vehicle-select" name="vehicles" placeholder="Select a vehicle">
+              <:option group="Cars" value="sedan">Sedan</:option>
+              <:option group="Cars" value="suv">SUV</:option>
+              <:option group="Cars" value="coupe">Sports Coupe</:option>
+              <:option group="Cars" value="hatchback">Hatchback</:option>
+
+              <:option group="Motorcycles" value="cruiser">Cruiser</:option>
+              <:option group="Motorcycles" value="sport">Sport Bike</:option>
+              <:option group="Motorcycles" value="touring">Touring</:option>
+              <:option group="Motorcycles" value="dirt">Dirt Bike</:option>
+
+              <:option group="Commercial" value="truck">Delivery Truck</:option>
+              <:option group="Commercial" value="van">Cargo Van</:option>
+              <:option group="Commercial" value="bus">Bus</:option>
+            </.combobox>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="multiple">
+            <.link patch={~p"/chelekom/docs/forms/combobox/#multiple"}>
+              Multi Select
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>multiple</.custom_inline_code>
+            prop is a boolean that enables multi-select functionality in the combobox. When enabled, users can select multiple options which will appear as tags in the input field.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="lg:px-20" code={@code_13}>
+            <.combobox id="fruits-select" name="fruits" placeholder="Select a fruits" multiple>
+              <:option group="Fruits" value="apple">Apple</:option>
+              <:option group="Fruits" value="banana">Banana</:option>
+              <:option group="Fruits" value="orange">Orange</:option>
+              <:option group="Fruits" value="mango">Mango</:option>
+
+              <:option group="Vegetables" value="carrot">Carrot</:option>
+              <:option group="Vegetables" value="potato">Potato</:option>
+              <:option group="Vegetables" value="tomato">Tomato</:option>
+              <:option group="Vegetables" value="cucumber">Cucumber</:option>
+
+              <:option group="Vegetables" value="rice">Rice</:option>
+              <:option group="Vegetables" value="wheat">Wheat</:option>
+              <:option group="Vegetables" value="corn">Corn</:option>
+            </.combobox>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="creatable-prop">
+            <.link patch={~p"/chelekom/docs/forms/combobox/#creatable-prop"}>
+              Creatable prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>creatable</.custom_inline_code>
+            prop enables users to add new options directly from the search input when no matching result is found.
+            This is useful for dynamic forms where predefined options may not cover all user needs, such as
+            tag management, category assignment, or custom field entries. When enabled, an
+            <strong>"Add '[typed text]'"</strong>
+            button appears in the dropdown, allowing inline option creation
+            without leaving the form. Use the
+            <.custom_inline_code>create_label</.custom_inline_code>
+            prop to
+            customize the button prefix and the
+            <.custom_inline_code>on_create</.custom_inline_code>
+            prop to
+            specify a server event that is pushed when a new option is created.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <strong>Note:</strong>
+            When using <.custom_inline_code>on_create</.custom_inline_code>,
+            your LiveView must reply instead of using <.custom_inline_code>:noreply</.custom_inline_code>.
+            Return
+            <.custom_inline_code>
+              {"{:reply, %{value: val, label: lbl}, socket}"}
+            </.custom_inline_code>
+            to accept the option, or
+            <.custom_inline_code>{"{:reply, %{error: \"reason\"}, socket}"}</.custom_inline_code>
+            to reject it and remove it from the dropdown.
+            Try typing <strong>"error"</strong>
+            in the example below to see the rejection in action.
+          </.custom_block>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="lg:px-20" code={@code_15}>
+            <.combobox
+              id="language-select"
+              options={@creatable_languages}
+              placeholder="Select a language"
+              searchable
+              creatable
+              create_label="Add"
+              on_create="add_language"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="real-world-example">
+            <.link patch={~p"/chelekom/docs/forms/checkbox-card/#real-world-example"}>
+              Real world example
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper class="mt-10" elements_class="space-y-5">
+            <.flash kind={:info} variant="default" padding="small" flash={@flash} />
+            <.form_wrapper
+              for={@form}
+              id="user-form"
+              phx-change="validate"
+              phx-submit="save"
+              space="medium"
+            >
+              <.h5>Full Name</.h5>
+              <.text_field size="small" field={@form[:fullname]} />
+
+              <.h5>Select your area of expertise</.h5>
+
+              <.combobox field={@form[:job]} id="job-select" placeholder="Jobs" searchable>
+                <:option :for={item <- Ecto.Enum.values(User, :job)} group="IT" value={"#{item}"}>
+                  {String.capitalize("#{item}")}
+                </:option>
+              </.combobox>
+
+              <.combobox
+                field={@form[:hobbies]}
+                id="hobbies-select"
+                placeholder="hobbiess"
+                searchable
+                multiple
+              >
+                <:option :for={item <- Ecto.Enum.values(User, :hobbies)} value={"#{item}"}>
+                  {String.capitalize("#{item}")}
+                </:option>
+              </.combobox>
+              <hr class="border-b border-[#E5E7EB] dark:border-gray-700" />
+
+              <.h5>Do you accept terms and conditions?</.h5>
+              <.toggle_field
+                field={@form[:accepted_terms]}
+                checked={toggle_check(:accepted_terms, @form)}
+                color="info"
+                phx-debounce="300"
+              />
+
+              <:actions>
+                <.button variant="outline" color="info" size="small" phx-disable-with="Saving...">
+                  Save User
+                </.button>
+              </:actions>
+            </.form_wrapper>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Combobox Component Props</h2>
+
+            <.custom_table id="combobox-field-props">
+              <:header>
+                <.table_th>Name</.table_th>
+                <.table_th>Type</.table_th>
+                <.table_th>Required</.table_th>
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>placeholder</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Placeholder text for the component.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines the color theme (default is "natural").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines the variant theme (default is "base").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines border style (default is "extra_small").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines the border radius (default is "medium").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>padding</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines padding size (default is "small").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>height</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Dropdown height (default is "h-40").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>label</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Specifies text for the label.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>description</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Short description for the component.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines overall size (default is "small").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>error_icon</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Icon displayed alongside error messages.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>errors</.table_td>
+                <.table_td>list</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>List of error messages to display.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>name</.table_td>
+                <.table_td>any</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Name of the input.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>value</.table_td>
+                <.table_td>any</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Value of the input.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>field</.table_td>
+                <.table_td>Phoenix.HTML.FormField</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>A form field struct retrieved from the form.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>searchable</.table_td>
+                <.table_td>boolean</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Add input search to dropdown of combobox</.table_td>
+              </:row>
+              <:row>
+                <.table_td>search_placeholder</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Add custom placholder to dropdown search input</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>creatable</.table_td>
+                <.table_td>boolean</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Enables creating new options from search input when no match is found.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>create_label</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Label prefix for the create option button (default is "Create").
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>on_create</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Event name pushed to the server when a new option is created.
+                </.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/forms/combobox/#overview"}
+            title="Overview of combobox component"
+          />
+          <:content link={~p"/chelekom/docs/forms/combobox/#combobox-base"} title="Base variant" />
+          <:content
+            link={~p"/chelekom/docs/forms/combobox/#combobox-default"}
+            title="Default variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/combobox/#combobox-bordred"}
+            title="Bordred variant"
+          />
+          <:content link={~p"/chelekom/docs/forms/combobox/#combobox-label"} title="Label prop" />
+          <:content
+            link={~p"/chelekom/docs/forms/combobox/#combobox-description"}
+            title="Description prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/combobox/#combobox-rounded"}
+            title="Rounded prop"
+          />
+          <:content link={~p"/chelekom/docs/forms/combobox/#combobox-border"} title="Border prop" />
+          <:content
+            link={~p"/chelekom/docs/forms/combobox/#combobox-padding"}
+            title="Padding prop"
+          />
+          <:content link={~p"/chelekom/docs/forms/combobox/#combobox-space"} title="Space prop" />
+          <:content link={~p"/chelekom/docs/forms/combobox/#combobox-size"} title="Size prop" />
+          <:content
+            link={~p"/chelekom/docs/forms/combobox/#searchable-prop"}
+            title="Searchable prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/combobox/#searchplaceholder-prop"}
+            title="Search placeholder prop"
+          />
+          <:content link={~p"/chelekom/docs/forms/combobox/#group"} title="Group" />
+          <:content link={~p"/chelekom/docs/forms/combobox/#multiple"} title="Multi Select" />
+          <:content
+            link={~p"/chelekom/docs/forms/combobox/#creatable-prop"}
+            title="Creatable prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/combobox/#real-world-example"}
+            title="Real world example"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

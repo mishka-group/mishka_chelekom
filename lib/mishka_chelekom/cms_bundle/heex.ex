@@ -118,19 +118,30 @@ defmodule MishkaChelekom.CmsBundle.Heex do
   Walk `text`, extract every top-level invocation whose tag name is in
   `kit_components`. Returns extractions in source order. Returns `[]`
   on parse failure.
-  """
-  @spec extract(String.t() | nil, sibling_set()) :: [extraction()]
-  def extract(nil, _kit), do: []
-  def extract("", _kit), do: []
 
-  def extract(text, kit_components) when is_binary(text) do
+  ## Options
+
+    * `:nested` — when `true`, also emit kit invocations that sit
+      *inside* another kit invocation. Off by default: a `<.card>` demo
+      would otherwise yield a separate row for each `<.card_title>` it
+      contains, duplicating the parent's own row. Turn it on to reach
+      the components that only ever appear nested (`card_title`, `td`,
+      `progress_section`), which have no top-level occurrence anywhere.
+  """
+  @spec extract(String.t() | nil, sibling_set(), keyword()) :: [extraction()]
+  def extract(text, kit_components, opts \\ [])
+  def extract(nil, _kit, _opts), do: []
+  def extract("", _kit, _opts), do: []
+
+  def extract(text, kit_components, opts) when is_binary(text) do
     if MapSet.size(kit_components) == 0 do
       []
     else
       case tokenize(text, file: "extractor") do
         {:ok, tokens} ->
           table = build_offset_table(text)
-          walk_extract(tokens, text, table, kit_components, [], [])
+          nested? = Keyword.get(opts, :nested, false)
+          walk_extract(tokens, text, table, kit_components, [], [], nested?)
 
         {:error, _msg} ->
           []
@@ -148,7 +159,7 @@ defmodule MishkaChelekom.CmsBundle.Heex do
   # the stack — i.e. nested kit calls inside an already-captured kit
   # call don't get a separate row.
 
-  defp walk_extract([], _src, _table, _kit, _stack, acc), do: Enum.reverse(acc)
+  defp walk_extract([], _src, _table, _kit, _stack, acc, _nested?), do: Enum.reverse(acc)
 
   defp walk_extract(
          [{:local_component, name, _attrs, %{closing: :self} = meta} | rest],
@@ -156,54 +167,78 @@ defmodule MishkaChelekom.CmsBundle.Heex do
          table,
          kit,
          stack,
-         acc
+         acc,
+         nested?
        ) do
-    if MapSet.member?(kit, name) and not inside_kit_component?(stack, kit) do
+    if MapSet.member?(kit, name) and emit?(stack, kit, nested?) do
       {from, to} = self_closing_bounds(meta)
       base = slice!(src, table, from: from, to: to)
       snippet = wrap_with_ancestors(base, stack)
 
-      walk_extract(rest, src, table, kit, stack, [
-        %{component: name, source: snippet, line: meta.line} | acc
-      ])
+      walk_extract(
+        rest,
+        src,
+        table,
+        kit,
+        stack,
+        [%{component: name, source: snippet, line: meta.line} | acc],
+        nested?
+      )
     else
-      walk_extract(rest, src, table, kit, stack, acc)
+      walk_extract(rest, src, table, kit, stack, acc, nested?)
     end
   end
 
-  defp walk_extract([{kind, name, attrs, meta} | rest], src, table, kit, stack, acc)
+  defp walk_extract([{kind, name, attrs, meta} | rest], src, table, kit, stack, acc, nested?)
        when kind in [:local_component, :remote_component, :tag, :slot] do
-    walk_extract(rest, src, table, kit, [{kind, name, attrs, meta} | stack], acc)
+    walk_extract(rest, src, table, kit, [{kind, name, attrs, meta} | stack], acc, nested?)
   end
 
-  defp walk_extract([{:close, kind, name, close_meta} | rest], src, table, kit, stack, acc)
+  defp walk_extract(
+         [{:close, kind, name, close_meta} | rest],
+         src,
+         table,
+         kit,
+         stack,
+         acc,
+         nested?
+       )
        when kind in [:local_component, :remote_component, :tag, :slot] do
     case pop_matching(stack, kind, name) do
       {{^kind, ^name, _attrs, open_meta}, rest_stack} ->
         cond do
           kind == :local_component and MapSet.member?(kit, name) and
-              not inside_kit_component?(rest_stack, kit) ->
+              emit?(rest_stack, kit, nested?) ->
             from = %{line: open_meta.line, column: open_meta.column}
             to = close_end(close_meta)
             base = slice!(src, table, from: from, to: to)
             snippet = wrap_with_ancestors(base, rest_stack)
 
-            walk_extract(rest, src, table, kit, rest_stack, [
-              %{component: name, source: snippet, line: open_meta.line} | acc
-            ])
+            walk_extract(
+              rest,
+              src,
+              table,
+              kit,
+              rest_stack,
+              [%{component: name, source: snippet, line: open_meta.line} | acc],
+              nested?
+            )
 
           true ->
-            walk_extract(rest, src, table, kit, rest_stack, acc)
+            walk_extract(rest, src, table, kit, rest_stack, acc, nested?)
         end
 
       :no_match ->
-        walk_extract(rest, src, table, kit, stack, acc)
+        walk_extract(rest, src, table, kit, stack, acc, nested?)
     end
   end
 
-  defp walk_extract([_other | rest], src, table, kit, stack, acc) do
-    walk_extract(rest, src, table, kit, stack, acc)
+  defp walk_extract([_other | rest], src, table, kit, stack, acc, nested?) do
+    walk_extract(rest, src, table, kit, stack, acc, nested?)
   end
+
+  defp emit?(_stack, _kit, true), do: true
+  defp emit?(stack, kit, false), do: not inside_kit_component?(stack, kit)
 
   defp inside_kit_component?(stack, kit) do
     Enum.any?(stack, fn

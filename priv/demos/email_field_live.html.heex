@@ -1,0 +1,294 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-email" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Email Field"
+        description="Form email input component for Phoenix and Phoenix LiveView with floating labels and real-time validation."
+        mix="mix mishka.ui.gen.component email_field"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/email_field.eex"
+        tags={["Component", "Stateless"]}
+      />
+      <.custom_tab id="chelekom-email-tab">
+        <:documentation_panel>
+          <.heading2 margin="my-5" id="form-email">
+            <.link patch={~p"/chelekom/docs/forms/email-field/#form-email"}>
+              Email component
+            </.link>
+          </.heading2>
+
+          <.custom_block position="left" color="danger" class="my-8" border="medium">
+            <.cp>
+              Certain props are shared across all form-related components, and you can find them in the <.link
+                class="font-bold"
+                title="Mishka chelekom form component"
+                patch={~p"/chelekom/docs/forms"}
+              >
+           form wrapper</.link>.
+            </.cp>
+          </.custom_block>
+
+          <.custom_code_wrapper elements_class="grid md:grid-cols-2 gap-5">
+            <.email_field
+              id="sample-1"
+              name="sample-1"
+              value=""
+              space="small"
+              placeholder="Enter your work email"
+              description="Please enter a valid work email address"
+              label="email"
+            />
+            <.email_field
+              id="sample-2"
+              name="sample-2"
+              value=""
+              space="small"
+              floating="outer"
+              class="mt-4"
+              placeholder="Enter an email"
+              description="Must a work email"
+              label="Email *"
+            />
+          </.custom_code_wrapper>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or
+              <strong>Tailwind CSS</strong>
+              classes to customize the appearance and behavior of the gallery, allowing for flexible design changes.
+            </.cp>
+          </.custom_block>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_1}>
+            <.email_field
+              id="form-example-1"
+              name="form-example-1"
+              value=""
+              space="small"
+              placeholder="Enter your work email"
+              label="email"
+            />
+            <.email_field
+              id="form-example-122"
+              name="form-example-122"
+              value=""
+              space="small"
+              placeholder="Enter your work email"
+              label="email"
+              color="misc"
+              variant="default"
+            />
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Email Field Component Props</h2>
+
+            <.custom_table id="email-field-props">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines color theme (default is "natural").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines border style (default is "extra_small").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines the border radius (default is "small").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines the style (e.g., outline, default).</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>description</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines a short description.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Space between items (default is "medium").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines the overall size (default is "extra_large").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>ring</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines a ring border on focused input.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>floating</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Controls floating label behavior (none, inner, outer).</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>error_icon</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Icon displayed alongside error messages.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>label</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Specifies text for the label.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>errors</.table_td>
+
+                <.table_td>list</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>List of error messages to be displayed.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>name</.table_td>
+
+                <.table_td>any</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Name of the input.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>value</.table_td>
+
+                <.table_td>any</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Value of the input (default is nil).</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>start_section</.table_td>
+
+                <.table_td>slot</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Renders content at the start of the element.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>end_section</.table_td>
+
+                <.table_td>slot</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Renders content at the end of the element.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel><.custom_cli_props config={component_config()} /></:cli_panel>
+
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/forms/email-field/#form-email"}
+            title="Email component"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

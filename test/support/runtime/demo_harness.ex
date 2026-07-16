@@ -376,11 +376,29 @@ defmodule MishkaChelekom.Test.Runtime.DemoHarness do
     |> Enum.into(%{}, fn {k, v} when is_binary(k) -> {String.to_atom(k), v} end)
     |> derive_title_from_name()
     |> derive_component_module()
+    |> derive_extra_params()
     |> normalize_format()
     |> normalize_helpers()
     |> normalize_attrs()
     |> normalize_slots()
   end
+
+  # `ComponentCompiler` reads `prelude`, `module_attributes` and `clauses`
+  # as TOP-LEVEL params, but the bundle carries them under `extra`. The
+  # CMS's `ModuleCompilerHandler.get_data_from_database_to_ast/1` lifts
+  # them out before calling the compiler; mirror that exactly, or this
+  # harness silently compiles every component with no prelude, no module
+  # attributes, and — worse — takes the single-clause path, rendering the
+  # FIRST clause's template for every call regardless of its guard.
+  # `build_module/1` atomizes recursively, so string keys are fine here.
+  defp derive_extra_params(%{extra: extra} = params) when is_map(extra) do
+    params
+    |> Map.put(:prelude, extra["prelude"] || extra[:prelude])
+    |> Map.put(:module_attributes, extra["module_attributes"] || extra[:module_attributes] || [])
+    |> Map.put(:clauses, extra["clauses"] || extra[:clauses] || [])
+  end
+
+  defp derive_extra_params(params), do: params
 
   defp derive_title_from_name(%{title: t} = params) when is_binary(t), do: params
 

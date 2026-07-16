@@ -1,0 +1,254 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-color" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Color Field"
+        description="Form color picker component for Phoenix and Phoenix LiveView with floating labels and customizable palette selection."
+        mix="mix mishka.ui.gen.component color_field"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/color_field.eex"
+        tags={["Component", "Stateless"]}
+      />
+      <.custom_tab id="chelekom-color-tab">
+        <:documentation_panel>
+          <.heading2 margin="my-5" id="form-color-component">
+            <.link patch={~p"/chelekom/docs/forms/color-field/#form-color-component"}>
+              Color picker component
+            </.link>
+          </.heading2>
+
+          <.custom_block position="left" color="danger" class="my-8" border="medium">
+            <.cp>
+              Certain props are shared across all form-related components, and you can find them in the <.link
+                class="font-bold"
+                title="Mishka chelekom form component"
+                patch={~p"/chelekom/docs/forms"}
+              >
+           form wrapper</.link>.
+            </.cp>
+          </.custom_block>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or
+              <strong>Tailwind CSS</strong>
+              classes to customize the appearance and behavior of the gallery, allowing for flexible design changes.
+            </.cp>
+          </.custom_block>
+
+          <.cp>
+            By setting a <.custom_inline_code>date</.custom_inline_code>, the color of the color picker will change dynamically.
+          </.cp>
+
+          <.custom_code_wrapper
+            code_class="text-xs"
+            elements_class="flex flex-wrap gap-10"
+            code={@code_1}
+          >
+            <.color_field
+              name="form-example-96"
+              value="#000000"
+              label="Color picker"
+              id="form-example-961"
+            />
+
+            <.color_field
+              name="form-example-96"
+              value="#f4566e"
+              label="Pink Color"
+              id="form-example-962"
+            />
+            <.color_field
+              name="form-example-96"
+              value="#6654ea"
+              label="Pick a color"
+              id="form-example-963"
+            />
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Color Field Component Props</h2>
+
+            <.custom_table id="color-field-props">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines color theme (default is "white").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines border style (default is "extra_small").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines the border radius (default is "small").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>description</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines a short description.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines the overall size (default is "extra_large").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>circle</.table_td>
+
+                <.table_td>boolean</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines if the color input should be displayed as a circle.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>error_icon</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Icon to be displayed alongside error messages.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>label</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Specifies text for the label.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>errors</.table_td>
+
+                <.table_td>list</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>List of error messages to be displayed.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>name</.table_td>
+
+                <.table_td>any</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Name of the input.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>value</.table_td>
+
+                <.table_td>any</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Value of the input (default is "#000000").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>start_section</.table_td>
+
+                <.table_td>slot</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Renders content at the start of the element.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>end_section</.table_td>
+
+                <.table_td>slot</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Renders content at the end of the element.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/forms/color-field/#form-color-component"}
+            title="Color picker component"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

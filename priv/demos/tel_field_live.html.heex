@@ -1,0 +1,250 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-tel" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Tel Field"
+        description="Telephone input field component for Phoenix and Phoenix LiveView with floating labels and validation for standardized phone number formats."
+        mix="mix mishka.ui.gen.component tel_field"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/tel_field.eex"
+        tags={["Component", "Stateless"]}
+      />
+      <.custom_tab id="chelekom-tel-tab">
+        <:documentation_panel>
+          <.heading2 margin="my-5" id="form-tel">
+            <.link patch={~p"/chelekom/docs/forms/tel-field/#form-tel"}>
+              Tel component
+            </.link>
+          </.heading2>
+          <.custom_block position="left" color="danger" class="my-8" border="medium">
+            <.cp>
+              Certain props are shared across all form-related components, and you can find them in the <.link
+                class="font-bold"
+                title="Mishka chelekom form component"
+                patch={~p"/chelekom/docs/forms/tel-field"}
+              >
+           form wrapper</.link>.
+            </.cp>
+          </.custom_block>
+
+          <.custom_code_wrapper elements_class="grid md:grid-cols-2 gap-5">
+            <.tel_field
+              name="sample-1"
+              space="small"
+              size="small"
+              value=""
+              label="Phone Number"
+              placeholder="Enter your phone number"
+            />
+            <.tel_field
+              name="sample-2"
+              space="small"
+              size="small"
+              floating="outer"
+              value=""
+              label="Contact Number"
+              placeholder="Enter mobile or landline number"
+              description="Format: +1 (555) 123-4567"
+            />
+          </.custom_code_wrapper>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or
+              <strong>Tailwind CSS</strong>
+              classes to customize the appearance and behavior of the gallery, allowing for flexible design changes.
+            </.cp>
+          </.custom_block>
+
+          <.cp>
+            The
+            <.custom_inline_code>search_button</.custom_inline_code>
+            attribute adds a button to the
+            <.custom_inline_code>search</.custom_inline_code>
+            component, allowing users to submit their search queries with a single click.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_1}>
+            <.tel_field
+              id="form-example-1"
+              name="form-example-1"
+              value=""
+              space="small"
+              label="Tel"
+              placeholder="Enter a telephone number"
+            />
+            <.tel_field
+              id="form-example-141"
+              name="form-example-141"
+              value=""
+              space="small"
+              variant="default"
+              color="secondary"
+              label="Tel"
+              placeholder="Enter a telephone number"
+            />
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Tel Field Component Props</h2>
+
+            <.custom_table id="tel-field-props">
+              <:header>
+                <.table_th>Name</.table_th>
+                <.table_th>Type</.table_th>
+                <.table_th>Required</.table_th>
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines color theme (default is "light").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines border style (default is "extra_small").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines the border radius (default is "small").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines the style (default is "outline").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>description</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines a short description.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Space between items (default is "medium").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines the overall size (default is "extra_large").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>ring</.table_td>
+                <.table_td>boolean</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines a ring border on focused input (default is true).
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>floating</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Controls floating label behavior (default is "none").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>error_icon</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Icon to be displayed alongside error messages.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>label</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Specifies text for the label.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>errors</.table_td>
+                <.table_td>list</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>List of error messages to be displayed.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>name</.table_td>
+                <.table_td>any</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Name of the input.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>value</.table_td>
+                <.table_td>any</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Value of the input.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>field</.table_td>
+                <.table_td>Phoenix.HTML.FormField</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>A form field struct retrieved from the form.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>start_section</.table_td>
+                <.table_td>slot</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Renders content at the start of the element.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>end_section</.table_td>
+                <.table_td>slot</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Renders content at the end of the element.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content link={~p"/chelekom/docs/forms/tel-field/#form-tel"} title="Tel component" />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

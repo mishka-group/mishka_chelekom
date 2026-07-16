@@ -97,6 +97,17 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
 
   alias MishkaChelekom.Generators.Core
 
+  # Base example plus one per distinct option value; deep enough that a
+  # narrowly-installed component still finds something it can render.
+  @max_examples 12
+
+  # Assigns the demos reference but `mount/3` never sets, because the
+  # framework supplies them (`csp_nonce` from the root layout, `flash`
+  # from the router). `DemoAssignsExtractor` can't see them, so without
+  # these every `<.progress_section csp_nonce={@csp_nonce} …>` snippet
+  # would look unresolvable and be dropped.
+  @ambient_assigns %{csp_nonce: nil, flash: %{}}
+
   @default_json_template """
   {
     "name": "something-new",
@@ -724,12 +735,14 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
     end)
   end
 
-  # Walk `<demos_dir>/*_live.html.heex`. For each demo, run the
-  # `HeexTagExtractor` to collect every top-level chelekom invocation,
-  # rewrite via `HeexTagRewriter` to the runtime `<.component>` form,
-  # and harvest the demo's companion `_live.ex` `mount/3` assigns.
-  # Group by component name and attach to the matching bundle component
-  # under `examples[]`.
+  # Walk `<demos_dir>/*_live.html.heex`. For each demo, collect every
+  # top-level chelekom invocation, rewrite it to the runtime
+  # `<.component>` form, and harvest the demo's companion `_live.ex`
+  # `mount/3` assigns. Group by component name and attach to the
+  # matching bundle component under `extra.demo_examples` (the
+  # `DemoHarness` renders these) — then hand all three example sources
+  # to `CmsBundle.Examples` to produce the shipped `examples` and their
+  # per-option metadata.
   #
   # Skips silently when `demos_dir` doesn't exist — kit author opted
   # out of demo verification (the bundle still ships, just with empty
@@ -737,22 +750,40 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
   @doc false
   def populate_examples(components, demos_dir, kit_component_set, kit_name) do
     if File.dir?(demos_dir) do
-      examples_by_component = collect_demo_examples(demos_dir, kit_component_set, kit_name)
+      index = collect_demo_examples(demos_dir, kit_component_set, kit_name)
 
       Enum.map(components, fn c ->
-        page = Path.join(demos_dir, "#{c["extra"]["component"]}_live.html.heex")
         fn_name = c["extra"]["function"]
+        demo = Map.get(index.by_component, fn_name, [])
+        page = Map.get(index.pages, c["extra"]["component"], [])
 
-        sources =
-          if File.exists?(page),
-            do: examples_from_page(page, fn_name, kit_component_set, kit_name),
-            else: []
+        groups = %{
+          docs:
+            Enum.map(
+              c["extra"]["doc_examples"] || [],
+              &%{source: &1, section: nil, label: nil, assigns: @ambient_assigns}
+            ),
+          page: page,
+          demo: Enum.map(demo, &Map.put(&1, :source, &1.raw_source))
+        }
 
-        demo_examples = Map.get(examples_by_component, fn_name, [])
-        new_extra = Map.put(c["extra"] || %{}, "demo_examples", demo_examples)
+        {examples, extra_examples} =
+          MishkaChelekom.CmsBundle.Examples.build(
+            c,
+            groups,
+            kit_component_set,
+            kit_name,
+            @max_examples
+          )
+
+        new_extra =
+          (c["extra"] || %{})
+          |> Map.delete("doc_examples")
+          |> Map.put("demo_examples", Enum.map(demo, &to_demo_json/1))
+          |> Map.put("examples", extra_examples)
 
         c
-        |> Map.put("examples", build_example_strings(sources))
+        |> Map.put("examples", examples)
         |> Map.put("extra", new_extra)
       end)
     else
@@ -760,39 +791,75 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
     end
   end
 
-  # Harvest every chelekom invocation across all demo pages (with the companion `_live.ex` `mount/3`
-  # assigns), rewritten to the runtime `<.component …/>` form, grouped by component function name.
-  # Each entry is a MAP the `DemoHarness` renders directly; see `extra.demo_examples` above.
+  # Two indexes off one pass over the demos dir:
+  #
+  #   * `:by_component` — every invocation found in the page markup,
+  #     keyed by function name. Carries the demo's `mount/3` assigns so
+  #     `{@posts.total}` can be resolved to a literal later.
+  #   * `:pages` — the page's curated `code_string/1` snippets, keyed by
+  #     page name and tagged with the docs section each sits under.
   defp collect_demo_examples(demos_dir, kit_component_set, kit_name) do
     demos_dir
     |> Path.join("*_live.html.heex")
     |> Path.wildcard()
-    |> Enum.flat_map(fn heex_path ->
+    |> Enum.reduce(%{by_component: %{}, pages: %{}}, fn heex_path, acc ->
+      page_name = Path.basename(heex_path, "_live.html.heex")
+
       ex_path =
         Path.join(Path.dirname(heex_path), Path.basename(heex_path, ".html.heex") <> ".ex")
 
-      {assigns, _skipped} = MishkaChelekom.DemoAssignsExtractor.extract_from_file(ex_path)
+      heex_source = File.read!(heex_path)
 
-      heex_path
-      |> File.read!()
-      |> MishkaChelekom.CmsBundle.Heex.extract(kit_component_set)
-      |> Enum.map(fn ext ->
-        translated =
-          ext.source
-          |> MishkaChelekom.CmsBundle.Heex.rewrite(kit_component_set, kit_name)
-          |> strip_route_sigils()
+      {mount_assigns, _skipped} = MishkaChelekom.DemoAssignsExtractor.extract_from_file(ex_path)
+      assigns = Map.merge(@ambient_assigns, mount_assigns)
 
-        %{
-          "component" => ext.component,
-          "source" => translated,
-          "raw_source" => ext.source,
-          "line" => ext.line,
-          "file" => Path.basename(heex_path),
-          "assigns" => stringify_assign_keys(assigns)
-        }
-      end)
+      invocations =
+        heex_source
+        |> MishkaChelekom.CmsBundle.Heex.extract(kit_component_set)
+        |> Enum.map(fn ext ->
+          %{
+            component: ext.component,
+            source:
+              ext.source
+              |> MishkaChelekom.CmsBundle.Heex.rewrite(kit_component_set, kit_name)
+              |> MishkaChelekom.CmsBundle.Sanitize.normalize(assigns),
+            raw_source: ext.source,
+            line: ext.line,
+            file: Path.basename(heex_path),
+            assigns: assigns
+          }
+        end)
+
+      curated =
+        case File.read(ex_path) do
+          {:ok, ex_source} ->
+            ex_source
+            |> MishkaChelekom.CmsBundle.DocsPage.examples(heex_source)
+            |> Enum.map(&Map.put(&1, :assigns, assigns))
+
+          {:error, _} ->
+            []
+        end
+
+      %{
+        by_component:
+          Map.merge(acc.by_component, Enum.group_by(invocations, & &1.component), fn _k, a, b ->
+            a ++ b
+          end),
+        pages: Map.put(acc.pages, page_name, curated)
+      }
     end)
-    |> Enum.group_by(& &1["component"])
+  end
+
+  defp to_demo_json(entry) do
+    %{
+      "component" => entry.component,
+      "source" => entry.source,
+      "raw_source" => entry.raw_source,
+      "line" => entry.line,
+      "file" => entry.file,
+      "assigns" => stringify_assign_keys(entry.assigns)
+    }
   end
 
   # Bundle JSON keys are strings; convert atom-keyed assigns map for safe JSON serialization. Atom
@@ -810,29 +877,6 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
 
   defp stringify_terms(other), do: other
 
-  # Extract THIS function's top-level invocations from its own docs page, rewritten to the runtime
-  # `<.component component_name="<kit>-X" …/>` form. The FULL kit set drives extract+rewrite (so a
-  # nested `<.icon/>` inside a button example is rewritten too), but only invocations of `fn_name`
-  # are kept. Returns a list of HEEx source strings.
-  defp examples_from_page(page, fn_name, kit_component_set, kit_name) do
-    page
-    |> File.read!()
-    |> MishkaChelekom.CmsBundle.Heex.extract(kit_component_set)
-    |> Enum.filter(fn ext -> to_string(ext.component) == to_string(fn_name) end)
-    |> Enum.map(fn ext ->
-      ext.source
-      |> MishkaChelekom.CmsBundle.Heex.rewrite(kit_component_set, kit_name)
-      |> strip_route_sigils()
-    end)
-  end
-
-  # At least 4–5 good examples per component is plenty.
-  @max_examples 5
-
-  # Turn the harvested invocation sources into a deduped list of clean, self-contained, renderable
-  # HEEx strings for the `examples` field: normalize `site` to `"Global"`, drop wrapper `:if`, collapse
-  # whitespace to single lines, and KEEP ONLY snippets whose every `{…}` interpolation is a safe
-  # literal (so the consumer always renders them with empty assigns).
   @doc false
   def build_example_strings(sources) do
     sources
@@ -843,200 +887,11 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
   end
 
   @doc false
-  def normalize_example_source(source) when is_binary(source) do
-    source
-    |> String.replace("site={assigns[:site]}", ~s(site="Global"))
-    |> String.replace("site={@site}", ~s(site="Global"))
-    |> String.replace("site={assigns.site}", ~s(site="Global"))
-    |> strip_if_attrs()
-    |> collapse_whitespace()
-    |> String.trim()
-  end
+  def normalize_example_source(source),
+    do: MishkaChelekom.CmsBundle.Sanitize.normalize(source, %{})
 
-  def normalize_example_source(_), do: ""
-
-  # Drop wrapper conditionals like `<div :if={true}>` left over from interactive demos.
-  defp strip_if_attrs(source), do: Regex.replace(~r/\s*:if=\{[^}]*\}/, source, "")
-
-  # Demo HEEx is heavily indented; collapse runs of whitespace so each example is one tidy line
-  # (whitespace between tags/attrs is insignificant in HEEx).
-  defp collapse_whitespace(source), do: Regex.replace(~r/\s+/, source, " ")
-
-  # True when every brace-balanced `{…}` expression in the snippet is a safe literal. Reuses the
-  # quote-aware `take_balanced_expr/3` so a `}` inside a string doesn't fool the scan.
   @doc false
-  def self_contained_example?(""), do: false
-  def self_contained_example?(source), do: all_exprs_literal?(source)
-
-  defp all_exprs_literal?(""), do: true
-
-  defp all_exprs_literal?("{" <> rest) do
-    case take_balanced_expr(rest, 1, []) do
-      {:ok, expr_iodata, rest_after} ->
-        literal_expr?(IO.iodata_to_binary(expr_iodata)) and all_exprs_literal?(rest_after)
-
-      :unbalanced ->
-        false
-    end
-  end
-
-  defp all_exprs_literal?(<<_char::utf8, rest::binary>>), do: all_exprs_literal?(rest)
-
-  defp literal_expr?(inner) do
-    inner = String.trim(inner)
-
-    Regex.match?(~r/^"[^"]*"$/, inner) or
-      Regex.match?(~r/^-?\d+(\.\d+)?$/, inner) or
-      inner in ["true", "false", "nil"] or
-      Regex.match?(~r/^:[a-z_][a-zA-Z0-9_]*$/, inner)
-  end
-
-  # Replace `~p"/some/path"` route sigils with the literal path string.
-  # Demos lean heavily on `Phoenix.VerifiedRoutes`, but the consumer
-  # (CMS test harness) doesn't carry router context. Translating the
-  # sigil to a plain string preserves the URL semantics for navigation
-  # attributes (`href`, `navigate`, `patch`) without requiring the
-  # consumer to import VerifiedRoutes.
-  #
-  # ## Implementation
-  #
-  # Hybrid: a brace-balanced HEEx scanner identifies each `{...}`
-  # expression span, then `Sourceror.parse_string/1` parses the inner
-  # Elixir, `Macro.prewalk/2` replaces every `:sigil_p` AST node with
-  # its literal path string, and `Sourceror.to_string/1` re-emits the
-  # Elixir source. The transformed expression is spliced back into
-  # the HEEx text.
-  #
-  # This handles heredoc `~p"""…"""`, escaped quotes, sigils nested
-  # inside other expressions (`if cond, do: ~p"/a", else: ~p"/b"`),
-  # and string interpolation around the sigil — none of which the
-  # prior char-by-char scanner handled correctly.
-  defp strip_route_sigils(text) when is_binary(text) do
-    walk_strip(text, [])
-    |> IO.iodata_to_binary()
-  end
-
-  defp walk_strip("", acc), do: Enum.reverse(acc)
-
-  # Skip EEx blocks — they're Elixir code but with their own sentinels;
-  # we don't need to rewrite them (chelekom demos use `<%= … %>` for
-  # docs scaffolding, not for runtime route helpers).
-  defp walk_strip("<%!" <> rest, acc), do: copy_until_delim(rest, "%>", "<%!", acc)
-  defp walk_strip("<%=" <> rest, acc), do: copy_until_delim(rest, "%>", "<%=", acc)
-  defp walk_strip("<%" <> rest, acc), do: copy_until_delim(rest, "%>", "<%", acc)
-
-  # `<!-- … -->` and attribute-string regions don't carry `~p` in
-  # practice. Scanning into them would require quote-state tracking
-  # that the brace-balance pass already gets right (curly braces inside
-  # an HTML attr string don't count as expression boundaries because
-  # we only enter expression-mode on `{` while `:text`-state).
-
-  # `{…}` HEEx expression — parse + transform + emit. We do brace-
-  # balanced extraction (track depth so `{%{a: {b, c}}}` returns the
-  # whole inner text).
-  defp walk_strip("{" <> rest, acc) do
-    case take_balanced_expr(rest, 1, []) do
-      {:ok, expr_iodata, rest_after} ->
-        original = IO.iodata_to_binary(expr_iodata)
-        rewritten = transform_expr(original)
-        walk_strip(rest_after, ["}", rewritten, "{" | acc])
-
-      :unbalanced ->
-        # Malformed input — fall through to char-by-char copy.
-        walk_strip(rest, ["{" | acc])
-    end
-  end
-
-  defp walk_strip(<<char::utf8, rest::binary>>, acc) do
-    walk_strip(rest, [<<char::utf8>> | acc])
-  end
-
-  defp copy_until_delim(rest, delim, prefix, acc) do
-    case :binary.split(rest, delim) do
-      [block, after_block] -> walk_strip(after_block, [delim, block, prefix | acc])
-      [_unsplit] -> walk_strip("", [rest, prefix | acc])
-    end
-  end
-
-  defp take_balanced_expr("", _depth, _acc), do: :unbalanced
-
-  # Honor double / single quoted string boundaries inside the
-  # expression so a literal `}` inside a string doesn't confuse the
-  # depth counter.
-  defp take_balanced_expr("\\" <> <<char::utf8, rest::binary>>, depth, acc) do
-    take_balanced_expr(rest, depth, [<<char::utf8>>, "\\" | acc])
-  end
-
-  defp take_balanced_expr("\"" <> rest, depth, acc) do
-    {str, after_str} = take_until_unescaped(rest, "\"", [])
-    take_balanced_expr(after_str, depth, ["\"", str, "\"" | acc])
-  end
-
-  defp take_balanced_expr("'" <> rest, depth, acc) do
-    {str, after_str} = take_until_unescaped(rest, "'", [])
-    take_balanced_expr(after_str, depth, ["'", str, "'" | acc])
-  end
-
-  defp take_balanced_expr("{" <> rest, depth, acc) do
-    take_balanced_expr(rest, depth + 1, ["{" | acc])
-  end
-
-  defp take_balanced_expr("}" <> rest, 1, acc) do
-    {:ok, Enum.reverse(acc), rest}
-  end
-
-  defp take_balanced_expr("}" <> rest, depth, acc) do
-    take_balanced_expr(rest, depth - 1, ["}" | acc])
-  end
-
-  defp take_balanced_expr(<<char::utf8, rest::binary>>, depth, acc) do
-    take_balanced_expr(rest, depth, [<<char::utf8>> | acc])
-  end
-
-  defp take_until_unescaped("", _delim, acc),
-    do: {Enum.reverse(acc) |> IO.iodata_to_binary(), ""}
-
-  defp take_until_unescaped("\\" <> <<char::utf8, rest::binary>>, delim, acc),
-    do: take_until_unescaped(rest, delim, [<<char::utf8>>, "\\" | acc])
-
-  defp take_until_unescaped(<<delim::utf8, rest::binary>>, <<delim::utf8>>, acc),
-    do: {Enum.reverse(acc) |> IO.iodata_to_binary(), rest}
-
-  defp take_until_unescaped(<<char::utf8, rest::binary>>, delim, acc),
-    do: take_until_unescaped(rest, delim, [<<char::utf8>> | acc])
-
-  # Parse one Elixir expression with Sourceror, walk its AST replacing
-  # every `~p"…"` (or heredoc / interpolated variant) with the literal
-  # path string, re-emit. Returns the original text on parse failure
-  # so we never corrupt input we can't understand.
-  defp transform_expr(code) when is_binary(code) do
-    case Sourceror.parse_string(code) do
-      {:ok, ast} ->
-        new_ast =
-          Macro.prewalk(ast, fn
-            # `~p"/path"` — the sigil's first arg is `{:<<>>, _, [path_string]}`
-            # when the path has no interpolation. We only inline the
-            # path when it's a single literal string; interpolated
-            # paths (`~p"/posts/#{id}"`) are left as-is because we
-            # can't know the value at export time.
-            {:sigil_p, _meta, [{:<<>>, _, [path]}, _modifiers]} when is_binary(path) ->
-              path
-
-            other ->
-              other
-          end)
-
-        if new_ast == ast do
-          # No `~p` to replace — return original to preserve formatting.
-          code
-        else
-          Sourceror.to_string(new_ast)
-        end
-
-      {:error, _reason} ->
-        code
-    end
-  rescue
-    _ -> code
-  end
+  defdelegate self_contained_example?(source),
+    to: MishkaChelekom.CmsBundle.Sanitize,
+    as: :self_contained?
 end

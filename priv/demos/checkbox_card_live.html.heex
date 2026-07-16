@@ -1,0 +1,1051 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-checkbox-card" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Checkbox Card"
+        description="Form checkbox card component for Phoenix LiveView forms. Features customizable styles, multiple variants, responsive design, and supports both single and group selections."
+        mix="mix mishka.ui.gen.component checkbox_card"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/checkbox_card.eex"
+        tags={["Component", "Stateless"]}
+      />
+      <.custom_tab id="chelekom-checkbox-tab">
+        <:documentation_panel>
+          <.heading2 margin="my-5" id="overview">
+            <.link patch={~p"/chelekom/docs/forms/checkbox-card/#overview"}>
+              Overview of checkbox card component
+            </.link>
+          </.heading2>
+
+          <.cp class="my-4">
+            <strong> Mishka Chelekom checkbox card</strong>
+            component is an interactive form component in
+            <stron>Phoenix LiveView</stron>
+            designed for user input selection.The component supports various configurations including grid layouts, descriptions, and custom styling through props. Use it when you need grouped checkbox options with richer visual presentation than traditional checkbox inputs.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="grid lg:grid-cols-2 gap-4">
+            <div class="space-y-4">
+              <div>
+                <h2 class="mb-4 font-medium text-xl">Choose Options</h2>
+                <.checkbox_card
+                  name="plan-selection"
+                  id="plan-selection"
+                  cols="three"
+                  padding="extra_small"
+                  checkbox_wrapper_class="!shadow-xs"
+                  size="text-[13px] [&_.checkbox-card-description]:text-[11px]"
+                >
+                  <:checkbox value="cloud" title="Storage" description="500GB storage">
+                  </:checkbox>
+                  <:checkbox value="backup" title="Auto Backup" description="Daily backups">
+                  </:checkbox>
+                  <:checkbox value="sync" title="Multi Sync" description="Access device">
+                  </:checkbox>
+                </.checkbox_card>
+              </div>
+              <div>
+                <h2 class="mb-4 font-medium text-xl">
+                  Choose Platform
+                </h2>
+
+                <.checkbox_card
+                  name="filters"
+                  id="filters"
+                  cols="two"
+                  multiple
+                  padding="py-2 px-3"
+                  size="[&_.checkbox-card-icon]:size-7 text-[14px]"
+                  class="text-center"
+                  border="none"
+                  variant="bg-[#F7F7F7] text-[#66737D] dark:bg-[#323840] dark:text-[#9db0c9] checked:[&_.checkbox-card-input]:text-[#bfbfbf] hover:bg-[#F3EAFB] dark:hover:bg-[#2c2136] hover:text-[#8337CF] dark:hover:text-[#9c6fc7] has-[:checked]:bg-[#F3EAFB] has-[:checked]:text-[#8337CF] dark:has-[:checked]:bg-[#2c2136] dark:has-[:checked]:text-[#9c6fc7]"
+                >
+                  <:checkbox value="cloud" checked title="Cloud" icon="hero-cloud"></:checkbox>
+                  <:checkbox value="mobile" checked title="Mobile" icon="hero-device-phone-mobile">
+                  </:checkbox>
+                  <:checkbox value="desktop" title="Desktop" icon="hero-computer-desktop">
+                  </:checkbox>
+                  <:checkbox value="tablet" title="Tablet" icon="hero-device-tablet"></:checkbox>
+                </.checkbox_card>
+              </div>
+            </div>
+            <div>
+              <h2 class="mb-3 font-medium text-xl">Familiarity with Phoenix LiveView</h2>
+              <.checkbox_card
+                name="phoenix-knowledge"
+                id="phoenix_knowledge"
+                show_checkbox
+                multiple
+                checkbox_wrapper_class="!shadow-xs"
+              >
+                <:checkbox
+                  value="backend"
+                  title="Backend Development"
+                  description="Experience with Phoenix controllers and contexts"
+                  checked
+                >
+                </:checkbox>
+                <:checkbox
+                  value="frontend"
+                  checked
+                  title="Frontend Integration"
+                  description="Knowledge of LiveView and JavaScript interop"
+                >
+                </:checkbox>
+                <:checkbox
+                  value="deployment"
+                  title="Deployment & Operations"
+                  description="Experience with releases and production setup"
+                >
+                </:checkbox>
+                <:checkbox
+                  value="testing"
+                  title="Testing Expertise"
+                  description="Proficiency in ExUnit and testing LiveView"
+                >
+                </:checkbox>
+              </.checkbox_card>
+            </div>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="base">
+            <.link patch={~p"/chelekom/docs/forms/checkbox-card/#base"}>
+              Base variant
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_1}>
+            <.checkbox_card
+              name="base-variant"
+              id="base-variant"
+              cols="two"
+              padding="medium"
+              size="medium"
+              class="text-center"
+            >
+              <:checkbox value="base1" title="8-core CPU" description="32 GB RAM"></:checkbox>
+              <:checkbox value="base2" title="6-core CPU" description="24 GB RAM"></:checkbox>
+              <:checkbox value="base3" title="4-core CPU" description="16 GB RAM"></:checkbox>
+            </.checkbox_card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="default">
+            <.link patch={~p"/chelekom/docs/forms/checkbox-card/#default"}>
+              Default variant
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_2}>
+            <.checkbox_card
+              name="default-variant"
+              cols="two"
+              id="default-variant"
+              padding="medium"
+              variant="default"
+              show_checkbox
+              color="silver"
+              size="medium"
+              class="text-center"
+            >
+              <:checkbox value="default-variant1" title="8-core CPU" description="32 GB RAM">
+              </:checkbox>
+              <:checkbox value="default-variant2" title="6-core CPU" description="24 GB RAM">
+              </:checkbox>
+              <:checkbox value="default-variant3" title="4-core CPU" description="16 GB RAM">
+              </:checkbox>
+            </.checkbox_card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="outline">
+            <.link patch={~p"/chelekom/docs/forms/checkbox-card/#outline"}>
+              Outline variant
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_3}>
+            <.checkbox_card
+              name="outline-variant"
+              cols="two"
+              id="outline-variant"
+              padding="medium"
+              variant="outline"
+              show_checkbox
+              color="misc"
+              size="medium"
+              class="text-center"
+            >
+              <:checkbox value="outline-variant1" title="8-core CPU" description="32 GB RAM">
+              </:checkbox>
+              <:checkbox value="outline-variant2" title="6-core CPU" description="24 GB RAM">
+              </:checkbox>
+              <:checkbox value="outline-variant3" title="4-core CPU" description="16 GB RAM">
+              </:checkbox>
+            </.checkbox_card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="shadow">
+            <.link patch={~p"/chelekom/docs/forms/checkbox-card/#shadow"}>
+              Shadow variant
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_4}>
+            <.checkbox_card
+              name="shadow-variant"
+              cols="two"
+              id="shadow-variant"
+              padding="medium"
+              variant="shadow"
+              show_checkbox
+              color="dawn"
+              size="medium"
+            >
+              <:checkbox value="shadow-variant1" title="8-core CPU" description="32 GB RAM">
+              </:checkbox>
+              <:checkbox value="shadow-variant2" title="6-core CPU" description="24 GB RAM">
+              </:checkbox>
+              <:checkbox value="shadow-variant3" title="4-core CPU" description="16 GB RAM">
+              </:checkbox>
+            </.checkbox_card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="bordered">
+            <.link patch={~p"/chelekom/docs/forms/checkbox-card/#bordered"}>
+              Bordered variant
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_5}>
+            <.checkbox_card
+              name="bordered-variant"
+              cols="three"
+              id="bordered-variant"
+              padding="medium"
+              variant="bordered"
+              show_checkbox
+              color="danger"
+              size="medium"
+            >
+              <:checkbox value="bordered-variant1" title="8-core CPU" description="32 GB RAM">
+              </:checkbox>
+              <:checkbox value="bordered-variant2" title="6-core CPU" description="24 GB RAM">
+              </:checkbox>
+              <:checkbox value="bordered-variant3" title="4-core CPU" description="16 GB RAM">
+              </:checkbox>
+            </.checkbox_card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="checkbox-card-label">
+            <.link patch={~p"/chelekom/docs/forms/checkbox-card/#checkbox-card-label"}>
+              Label prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            You can use the label prop to add custom title text above the checkbox card group.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_16}>
+            <.checkbox_card
+              name="checkbox-label"
+              cols="three"
+              id="checkbox-label"
+              label="Select Your Hosting Plan"
+            >
+              <:checkbox
+                value="clabel1"
+                title="Starter Plan"
+                description="Perfect for personal blogs"
+              >
+              </:checkbox>
+              <:checkbox value="clabel2" title="Pro Plan" description="Ideal for small businesses">
+              </:checkbox>
+              <:checkbox
+                value="clabel3"
+                title="Premium Plan"
+                description="Best for large enterprises"
+              >
+              </:checkbox>
+            </.checkbox_card>
+          </.custom_code_wrapper>
+          <.heading2 margin="my-5" id="checkbox-card-description">
+            <.link patch={~p"/chelekom/docs/forms/checkbox-card/#checkbox-card-description"}>
+              Description prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The description prop allows you to add explanatory text below the label for additional context about the checkbox card group.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_17}>
+            <.checkbox_card
+              name="checkbox-description"
+              cols="three"
+              id="checkbox-description"
+              description="Choose your hosting plan based on your website's needs and expected traffic volume"
+            >
+              <:checkbox
+                value="cdescription1"
+                title="Starter Plan"
+                description="Perfect for personal blogs"
+              >
+              </:checkbox>
+              <:checkbox
+                value="cdescription2"
+                title="Pro Plan"
+                description="Ideal for small businesses"
+              >
+              </:checkbox>
+              <:checkbox
+                value="cdescription3"
+                title="Premium Plan"
+                description="Best for large enterprises"
+              >
+              </:checkbox>
+            </.checkbox_card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="checkbox-card-rounded">
+            <.link patch={~p"/chelekom/docs/forms/checkbox-card/#checkbox-card-rounded"}>
+              Rounded prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The rounded prop offers values like <.custom_inline_code>"extra_small"</.custom_inline_code>, <.custom_inline_code>"small"</.custom_inline_code>, <.custom_inline_code>"medium"</.custom_inline_code>, <.custom_inline_code>"large"</.custom_inline_code>, and <.custom_inline_code>"extra_large"</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_6}>
+            <.checkbox_card name="rounded" cols="three" id="rounded" rounded="large">
+              <:checkbox
+                value="hosting1"
+                title="Starter Plan"
+                description="Perfect for personal blogs"
+              >
+              </:checkbox>
+              <:checkbox
+                value="hosting2"
+                title="Pro Plan"
+                description="Ideal for small businesses"
+              >
+              </:checkbox>
+              <:checkbox
+                value="hosting3"
+                title="Premium Plan"
+                description="Best for large enterprises"
+              >
+              </:checkbox>
+            </.checkbox_card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="checkbox-card-border">
+            <.link patch={~p"/chelekom/docs/forms/checkbox-card/#checkbox-card-border"}>
+              Border prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The border prop offers values like <.custom_inline_code>"extra_small"</.custom_inline_code>, <.custom_inline_code>"small"</.custom_inline_code>, <.custom_inline_code>"medium"</.custom_inline_code>, <.custom_inline_code>"large"</.custom_inline_code>, and <.custom_inline_code>"extra_large"</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_7}>
+            <.checkbox_card name="border" cols="three" id="border" border="large">
+              <:checkbox
+                value="hosting1"
+                title="Starter Plan"
+                description="Perfect for personal blogs"
+              >
+              </:checkbox>
+              <:checkbox
+                value="hosting2"
+                title="Pro Plan"
+                description="Ideal for small businesses"
+              >
+              </:checkbox>
+              <:checkbox
+                value="hosting3"
+                title="Premium Plan"
+                description="Best for large enterprises"
+              >
+              </:checkbox>
+            </.checkbox_card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="checkbox-card-space">
+            <.link patch={~p"/chelekom/docs/forms/checkbox-card/#checkbox-card-space"}>
+              Space prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The space prop offers values such as <.custom_inline_code>"extra_small"</.custom_inline_code>, <.custom_inline_code>"small"</.custom_inline_code>, <.custom_inline_code>"medium"</.custom_inline_code>, <.custom_inline_code>"large"</.custom_inline_code>, and <.custom_inline_code>"extra_large"</.custom_inline_code>. These values control the vertical spacing between elements within the checkbox cards.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_8}>
+            <.checkbox_card name="space" cols="three" id="space" space="large">
+              <:checkbox
+                value="hosting1"
+                title="Starter Plan"
+                description="Perfect for personal blogs"
+              >
+              </:checkbox>
+              <:checkbox
+                value="hosting2"
+                title="Pro Plan"
+                description="Ideal for small businesses"
+              >
+              </:checkbox>
+              <:checkbox
+                value="hosting3"
+                title="Premium Plan"
+                description="Best for large enterprises"
+              >
+              </:checkbox>
+            </.checkbox_card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="checkbox-card-padding">
+            <.link patch={~p"/chelekom/docs/forms/checkbox-card/#checkbox-card-padding"}>
+              Padding prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The padding prop offers values such as <.custom_inline_code>"extra_small"</.custom_inline_code>, <.custom_inline_code>"small"</.custom_inline_code>, <.custom_inline_code>"medium"</.custom_inline_code>, <.custom_inline_code>"large"</.custom_inline_code>, and <.custom_inline_code>"extra_large"</.custom_inline_code>. These values control the padding around the content inside the checkbox cards.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" code={@code_9}>
+            <.checkbox_card name="padding" cols="three" id="padding" padding="large">
+              <:checkbox
+                value="hosting1"
+                title="Starter Plan"
+                description="Perfect for personal blogs"
+              >
+              </:checkbox>
+              <:checkbox
+                value="hosting2"
+                title="Pro Plan"
+                description="Ideal for small businesses"
+              >
+              </:checkbox>
+              <:checkbox
+                value="hosting3"
+                title="Premium Plan"
+                description="Best for large enterprises"
+              >
+              </:checkbox>
+            </.checkbox_card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="checkbox-card-size">
+            <.link patch={~p"/chelekom/docs/forms/checkbox-card/#checkbox-card-size"}>
+              Size prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The size prop offers values such as <.custom_inline_code>"extra_small"</.custom_inline_code>, <.custom_inline_code>"small"</.custom_inline_code>, <.custom_inline_code>"medium"</.custom_inline_code>, <.custom_inline_code>"large"</.custom_inline_code>, and <.custom_inline_code>"extra_large"</.custom_inline_code>. These values control the padding around the content inside the checkbox cards.
+          </.cp>
+
+          <.custom_code_wrapper code={@code_10}>
+            <.checkbox_card name="size" cols="three" id="size" size="large">
+              <:checkbox
+                value="hosting1"
+                title="Starter Plan"
+                description="Perfect for personal blogs"
+              >
+              </:checkbox>
+              <:checkbox
+                value="hosting2"
+                title="Pro Plan"
+                description="Ideal for small businesses"
+              >
+              </:checkbox>
+              <:checkbox
+                value="hosting3"
+                title="Premium Plan"
+                description="Best for large enterprises"
+              >
+              </:checkbox>
+            </.checkbox_card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="checkbox-card-cols">
+            <.link patch={~p"/chelekom/docs/forms/checkbox-card/#checkbox-card-cols"}>
+              Cols prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The cols prop in the
+            <.link navigate={~p"/chelekom/docs/forms/checkbox-card"}>
+              Phoenix checkbox card component
+            </.link>
+            allows you to define the number of columns used to display media items. The values range from one to twelve, giving you flexibility to control how many columns appear in the grid. For example, setting it to
+            <.custom_inline_code>one</.custom_inline_code>
+            will display all items in a single column, while
+            <.custom_inline_code>two</.custom_inline_code>
+            will divide the items into two columns. As the number increases, more columns are introduced, such as <.custom_inline_code>three</.custom_inline_code>, <.custom_inline_code>four</.custom_inline_code>, or even up to <.custom_inline_code>twelve</.custom_inline_code>. When necessary, the columns can also adapt for different screen breakpoints, with values like
+            <.custom_inline_code>md</.custom_inline_code>
+            allowing for a responsive design that adjusts according to screen width.
+          </.cp>
+
+          <.custom_code_wrapper code={@code_11}>
+            <.checkbox_card name="cols" cols="four" id="cols" size="extra_small">
+              <:checkbox value="hosting1" title="Starter Plan"></:checkbox>
+              <:checkbox value="hosting2" title="Pro Plan"></:checkbox>
+              <:checkbox value="hosting3" title="Premium Plan"></:checkbox>
+            </.checkbox_card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="checkbox-card-cols-gap">
+            <.link patch={~p"/chelekom/docs/forms/checkbox-card/#checkbox-card-cols-gap"}>
+              Cols gap prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The cols gap prop in the checkbox card component controls the spacing between media items within the grid layout. It offers various values  like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code={@code_12}>
+            <.checkbox_card
+              name="cols-gap"
+              cols="three"
+              id="cols-gap"
+              cols_gap="large"
+              size="extra_small"
+            >
+              <:checkbox value="cols-gap1" title="Starter Plan"></:checkbox>
+              <:checkbox value="cols-gap2" title="Pro Plan"></:checkbox>
+              <:checkbox value="cols-gap3" title="Premium Plan"></:checkbox>
+            </.checkbox_card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="checkbox-card-show-checkbox">
+            <.link patch={~p"/chelekom/docs/forms/checkbox-card/#checkbox-card-show-checkbox"}>
+              Show checkbox prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The show checkbox prop is a boolean value that controls the visibility of checkbox buttons within checkbox cards. When set to <.custom_inline_code>true</.custom_inline_code>, checkbox buttons are displayed; when <.custom_inline_code>false</.custom_inline_code>, they remain hidden.
+          </.cp>
+
+          <.custom_code_wrapper code={@code_13} code_class="text-xs">
+            <.checkbox_card
+              name="show-checkbox-card"
+              cols="three"
+              id="show-checkbox-card"
+              cols_gap="extra_small"
+              size="extra_small"
+              show_checkbox
+            >
+              <:checkbox value="show-checkbox1" title="Starter Plan"></:checkbox>
+              <:checkbox value="show-checkbox2" title="Pro Plan"></:checkbox>
+              <:checkbox value="show-checkbox3" title="Premium Plan"></:checkbox>
+            </.checkbox_card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="checkbox-card-reverse">
+            <.link patch={~p"/chelekom/docs/forms/checkbox-card/#checkbox-card-reverse"}>
+              Reverse prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>reverse</.custom_inline_code>
+            prop in checkbox cards allows you to change the direction and order of content within the card, letting you swap the position of elements like title, description, and checkbox buttons.
+          </.cp>
+
+          <.custom_code_wrapper code={@code_14} code_class="text-xs">
+            <.checkbox_card
+              name="checkbox-card-reverse"
+              cols="three"
+              id="checkbox-card-reverse"
+              size="extra_small"
+              show_checkbox
+              reverse
+            >
+              <:checkbox value="reverse1" title="Starter Plan"></:checkbox>
+              <:checkbox value="reverse2" title="Pro Plan"></:checkbox>
+              <:checkbox value="reverse3" title="Premium Plan"></:checkbox>
+            </.checkbox_card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="checkbox-card-checkbox-slot">
+            <.link patch={~p"/chelekom/docs/forms/checkbox-card/#checkbox-card-checkbox-slot"}>
+              checkbox slot
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The checkbox slot in the checkbox card component allows you to define individual checkbox options with their associated content. Each checkbox slot requires a value and can include optional attributes like an icon, title, and description. The slot supports customization through <.custom_inline_code>icon_class</.custom_inline_code>, <.custom_inline_code>icon</.custom_inline_code>, <.custom_inline_code>value</.custom_inline_code>, <.custom_inline_code>checked</.custom_inline_code>, <.custom_inline_code>title</.custom_inline_code>,
+            <.custom_inline_code>description</.custom_inline_code>
+            and
+            <.custom_inline_code>content_class</.custom_inline_code>
+            properties for fine-tuned styling of each checkbox option.
+          </.cp>
+
+          <.custom_code_wrapper code={@code_15} code_class="text-xs">
+            <.checkbox_card
+              name="checkbox-card-checkbox-slot"
+              cols="two"
+              id="checkbox-card-checkbox-slot"
+              size="small"
+              class="text-center"
+            >
+              <:checkbox value="checkbox-slot1" checked icon="hero-cube" title="Package Storage">
+              </:checkbox>
+              <:checkbox
+                value="checkbox-slot2"
+                icon_class="size-4"
+                icon="hero-building-office"
+                title="Office Space"
+              >
+              </:checkbox>
+              <:checkbox value="checkbox-slot3" icon="hero-globe-alt" title="Global Network">
+              </:checkbox>
+              <:checkbox
+                value="checkbox-slot4"
+                icon="hero-adjustments-horizontal"
+                title="Custom Settings"
+              >
+              </:checkbox>
+              <:checkbox value="checkbox-slot6" icon="hero-code-bracket" title="Developer Tools">
+              </:checkbox>
+              <:checkbox
+                value="checkbox-slot5"
+                icon="hero-cpu-chip"
+                description="Access development tools and APIs for building applications"
+              >
+              </:checkbox>
+            </.checkbox_card>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="checkbox-card-example">
+            <.link patch={~p"/chelekom/docs/forms/checkbox-card/#checkbox-card-example"}>
+              Real world example
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper class="mt-10" elements_class="space-y-5">
+            <.flash kind={:info} flash={@flash} />
+            <.form_wrapper
+              for={@form}
+              id="user-form"
+              phx-change="validate"
+              phx-submit="save"
+              space="medium"
+            >
+              <.h5>Full Name</.h5>
+              <.text_field size="medium" field={@form[:fullname]} />
+
+              <.h5>Select your area of expertise</.h5>
+
+              <.radio_card field={@form[:job]} cols="three" size="extra_small" class="text-center">
+                <:radio
+                  :for={item <- Ecto.Enum.values(User, :job)}
+                  value={"#{item}"}
+                  checked={radio_check(:list, {:job, "#{item}"}, @form)}
+                  title={String.capitalize("#{item}")}
+                  icon={radio_card_icons("#{item}")}
+                >
+                </:radio>
+              </.radio_card>
+
+              <.h5>What is your hobbies?</.h5>
+
+              <.checkbox_card
+                field={@form[:hobbies]}
+                cols="three"
+                size="extra_small"
+                class="text-center"
+                variant="bordered"
+                color="natural"
+              >
+                <:checkbox
+                  value="reading"
+                  title="Reading"
+                  icon="hero-book-open"
+                  checked={checkbox_check(:list, {:hobbies, "reading"}, @form)}
+                >
+                </:checkbox>
+                <:checkbox
+                  value="programming"
+                  icon="hero-computer-desktop"
+                  title="Programming"
+                  checked={checkbox_check(:list, {:hobbies, "programming"}, @form)}
+                >
+                </:checkbox>
+                <:checkbox
+                  value="photography"
+                  icon="hero-camera"
+                  title="Photography"
+                  checked={checkbox_check(:list, {:hobbies, "photography"}, @form)}
+                >
+                </:checkbox>
+              </.checkbox_card>
+              <hr class="border-b h-[1px] border-[#E5E7EB] dark:border-gray-500" />
+
+              <.h5>Do you accept terms and conditions?</.h5>
+              <.toggle_field
+                field={@form[:accepted_terms]}
+                checked={toggle_check(:accepted_terms, @form)}
+                color="info"
+                phx-debounce="300"
+              />
+
+              <:actions>
+                <.button variant="outline" color="info" size="small" phx-disable-with="Saving...">
+                  Save User
+                </.button>
+              </:actions>
+            </.form_wrapper>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+
+          <div class="space-y-8 mt-8">
+            <h2 class="text-lg lg:text-2xl font-bold">checkbox Field Component Props</h2>
+
+            <.custom_table id="checkbox-card-props">
+              <:header>
+                <.table_th>Name</.table_th>
+                <.table_th>Type</.table_th>
+                <.table_th>Required</.table_th>
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines color theme (default is "natural").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines variant theme (default is "base").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines border style (default is "extra_small").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Radius size (default is "medium").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>padding</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Padding size (default is "small").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Space between elements (default is "small").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>cols</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines columns of elements (default is "one").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>cols_gap</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines gap between elements (default is "small").</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>error_icon_class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Custom classes for error Icon.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>content_wrapper_class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Custom classes for content wrapper.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>description_wrapper_class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Custom classes for description wrapper.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>description_class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Custom classes for description.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>checkbox_wrapper_class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Custom classes for checkbox main wrapper.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>reverse</.table_td>
+                <.table_td>boolean</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Switches the order of the element and label (default is false).
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>show_checkbox</.table_td>
+                <.table_td>boolean</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Boolean to show and hide checkbox (default is false).</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines the overall size of the elements, including padding, font size, and other items (default is "small").
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>error_icon</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Icon to be displayed alongside error messages.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>errors</.table_td>
+                <.table_td>list</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>List of error messages to be displayed.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>name</.table_td>
+                <.table_td>any</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Name of the input.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>value</.table_td>
+                <.table_td>any</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Value of the input.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>field</.table_td>
+                <.table_td>Phoenix.HTML.FormField</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>A form field struct retrieved from the form.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>checkbox</.table_td>
+                <.table_td>slot</.table_td>
+                <.table_td>Yes</.table_td>
+                <.table_td>The checkbox input slot.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>value</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>Yes</.table_td>
+                <.table_td>Value of the checkbox slot.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>checked</.table_td>
+                <.table_td>boolean</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Specifies if the checkbox slot is checked by default.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>icon</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Icon displayed alongside the checkbox slot.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>icon_class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Custom class for the checkbox slot icon.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>description_class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines custom class for the description of checkbox slot
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>title_class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Determines custom class for the title of checkbox slot</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>card_content_class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>
+                  Determines custom class for the card content of checkbox slot
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>content_class</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Custom class for the checkbox slot content.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>title</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Title of the checkbox slot.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>description</.table_td>
+                <.table_td>string</.table_td>
+                <.table_td>No</.table_td>
+                <.table_td>Description of the checkbox slot.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content
+            link={~p"/chelekom/docs/forms/checkbox-card/#overview"}
+            title="Overview of checkbox card component"
+          />
+          <:content link={~p"/chelekom/docs/forms/checkbox-card/#base"} title="Base variant" />
+          <:content
+            link={~p"/chelekom/docs/forms/checkbox-card/#default"}
+            title="Default variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/checkbox-card/#outline"}
+            title="Outline variant"
+          />
+          <:content link={~p"/chelekom/docs/forms/checkbox-card/#shadow"} title="Shadow variant" />
+          <:content
+            link={~p"/chelekom/docs/forms/checkbox-card/#bordered"}
+            title="Bordered variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/checkbox-card/#checkbox-card-label"}
+            title="Label prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/checkbox-card/#checkbox-card-description"}
+            title="Description prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/checkbox-card/#checkbox-card-rounded"}
+            title="Rounded prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/checkbox-card/#checkbox-card-border"}
+            title="Border prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/checkbox-card/#checkbox-card-space"}
+            title="Space prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/checkbox-card/#checkbox-card-padding"}
+            title="Padding prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/checkbox-card/#checkbox-card-size"}
+            title="Size prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/checkbox-card/#checkbox-card-cols"}
+            title="Cols prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/checkbox-card/#checkbox-card-cols-gap"}
+            title="Cols gap prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/checkbox-card/#checkbox-card-show-checkbox"}
+            title="Show checkbox prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/checkbox-card/#checkbox-card-reverse"}
+            title="Reverse prop"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/checkbox-card/#checkbox-card-checkbox-slot"}
+            title="checkbox slot"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/checkbox-card/#checkbox-card-example"}
+            title="Real world Example"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>

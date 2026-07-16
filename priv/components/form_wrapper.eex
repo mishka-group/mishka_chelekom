@@ -94,6 +94,22 @@ defmodule <%= @module %> do
     """
   end
 
+  @doc """
+  The `simple_form` component wraps `form_wrapper/1` with a sensible default layout and an
+  `actions` slot for submit buttons, so a form only has to declare its fields.
+
+  ## Examples
+
+  ```elixir
+  <.<%= @component_prefix %>simple_form for={%{}}>
+    <.<%= @component_prefix %>text_field name="name" label="Name" />
+    <.<%= @component_prefix %>email_field name="email" label="Email" />
+    <:actions>
+      <.<%= @component_prefix %>button type="submit">Save</.<%= @component_prefix %>button>
+    </:actions>
+  </.<%= @component_prefix %>simple_form>
+  ```
+  """
   @doc type: :component
   attr :id, :string,
     default: nil,

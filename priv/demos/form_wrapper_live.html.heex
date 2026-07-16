@@ -1,0 +1,1861 @@
+<Layouts.app flash={@flash}>
+  <div class="lg:grid lg:grid-cols-12 mt-5 max-w-5xl mx-auto">
+    <.custom_nav active="chelekom-docs-forms" />
+    <div class="lg:col-span-10">
+      <.custom_info
+        title="Form Wrapper"
+        description="Form components for Phoenix and Phoenix LiveView, featuring floating labels and various input styles."
+        mix="mix mishka.ui.gen.component form_wrapper"
+        github="https://github.com/mishka-group/mishka_chelekom/blob/master/priv/components/form_wrapper.eex"
+        tags={["Component", "Stateless", "JS-module"]}
+      />
+      <.custom_tab id="chelekom-forms-tab">
+        <:documentation_panel>
+          <.heading2 class="mb-5" id="overview">
+            <.link patch={~p"/chelekom/docs/forms/#overview"}>
+              Overview of the Phoenix and LiveView Form Component
+            </.link>
+          </.heading2>
+          <.cp>
+            The
+            <strong>
+              Mishka Chelekom form
+            </strong>
+            component is a <strong>Phoenix LiveView</strong>
+            component that allows developers to create consistent and customizable
+            <strong>forms</strong>
+            using various input types, including text, number, email, telephone, and textarea fields. Each of these input types shares the same design and style, ensuring a unified and polished look across the form.
+          </.cp>
+
+          <.custom_code_wrapper elements_class="grid lg:grid-cols-2 gap-5">
+            <div class="space-y-4">
+              <.text_field
+                name="sample-1"
+                space="small"
+                size="small"
+                floating="outer"
+                value=""
+                label="Text field"
+                placeholder="Text Input"
+                class="[&_.text-field-wrapper]:!shadow-xs"
+              />
+              <.email_field
+                name="sample-2"
+                space="small"
+                size="small"
+                description="Please insert a work email"
+                value=""
+                label="Email field"
+                placeholder="Email Input"
+                class="[&_.rmail-field-wrapper]:!shadow-xs"
+              />
+              <.number_field
+                name="sample-3"
+                space="small"
+                size="small"
+                value=""
+                label="Number field"
+                placeholder="Number Input"
+                error_icon="hero-shield-exclamation"
+                errors={["An error occured"]}
+                class="[&_.number-field-wrapper]:!shadow-xs"
+              />
+              <.date_time_field
+                name="sample-4"
+                space="small"
+                size="small"
+                value=""
+                label="date time field"
+                placeholder="date time Input"
+                class="[&_.date-time-field-wrapper]:!shadow-xs"
+              />
+              <.password_field
+                name="sample-5"
+                space="small"
+                size="small"
+                show_password
+                value=""
+                label="Password field"
+                placeholder="Password Input"
+                class="[&_.password-field-wrapper]:!shadow-xs"
+              />
+              <.search_field
+                name="sample-7"
+                space="small"
+                size="small"
+                value="Mishka chelekom"
+                label="Search field"
+                placeholder="Search Input"
+                class="[&_.search-field-wrapper]:!shadow-xs"
+              />
+              <.native_select
+                name="sample-8"
+                label="Native select"
+                variant="base"
+                size="small"
+                color="base"
+                id="sample-8"
+                space="small"
+                class="[&_.select-field]:!shadow-xs"
+              >
+                <:option value="" selected>
+                  Choose one
+                </:option>
+
+                <:option value="v1">
+                  Backend developer
+                </:option>
+
+                <:option value="v2">
+                  Frontend developer
+                </:option>
+
+                <:option value="v3">
+                  Full stack developer
+                </:option>
+              </.native_select>
+              <.tel_field
+                name="sample-5"
+                space="small"
+                size="small"
+                value=""
+                label="Tel field"
+                placeholder="Tel Input"
+                class="[&_.tel-field-wrapper]:!shadow-xs"
+              >
+                <:start_section>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="size-4"
+                  >
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                  </svg>
+                </:start_section>
+              </.tel_field>
+              <.url_field
+                name="sample-6"
+                space="small"
+                size="small"
+                value=""
+                label="Url field"
+                placeholder="Url Input"
+                class="[&_.url-field-wrapper]:!shadow-xs"
+              >
+                <:end_section>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="size-4"
+                  >
+                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" /><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+                  </svg>
+                </:end_section>
+              </.url_field>
+              <.textarea_field
+                name="sample-9"
+                description="Every field can have description"
+                space="extra_small"
+                floating="inner"
+                size="small"
+                value=""
+                label="Textarea field"
+                class="[&_textarea]:min-h-20 [&_.textarea-field-wrapper]:!shadow-xs"
+                rows="4"
+              />
+            </div>
+            <div class="space-y-6 bg-white shadow-lg border border-[#E5E7EB] dark:bg-[#323238] py-5 px-3 rounded-lg dark:border-[#454549] h-fit">
+              <.text_field
+                name="sample-10"
+                space="small"
+                size="medium"
+                rounded="large"
+                value=""
+                label="Name *"
+                placeholder="Enter your name"
+                class="[&_.text-field-wrapper]:!shadow-xs"
+              />
+              <.email_field
+                name="sample-11"
+                space="small"
+                size="medium"
+                rounded="large"
+                value=""
+                label="Email *"
+                placeholder="Enter your Email"
+                class="[&_.email-field-wrapper]:!shadow-xs"
+              />
+              <.password_field
+                name="sample-12"
+                space="small"
+                size="medium"
+                rounded="large"
+                value=""
+                label="Password *"
+                placeholder="Enter your password"
+                class="[&_.password-field-wrapper]:!shadow-xs"
+              />
+              <.native_select
+                name="sample-20"
+                space="small"
+                size="small"
+                rounded="large"
+                id="sample-20"
+                label="Country"
+                class="[&_.select-field]:!shadow-xs"
+              >
+                <:option value="" selected>
+                  Choose a country
+                </:option>
+
+                <:option value="nl">
+                  NL
+                </:option>
+
+                <:option value="usa">
+                  USA
+                </:option>
+
+                <:option value="uae">
+                  UAE
+                </:option>
+              </.native_select>
+              <.checkbox_field
+                name="sample-14"
+                value=""
+                space="small"
+                size="large"
+                label="I agree to the terms and conditions"
+                color="misc"
+                class="[&_label]:text-black dark:[&_label]:text-white"
+              />
+              <div class="flex items-center justify-between gap-5">
+                <.button
+                  size="leading-5 py-2 px-4"
+                  class="flex-1"
+                  variant="bg-violet-700 border-violet-600 hover:bg-violet-600 text-white dark:bg-violet-400 dark:hover:bg-violet-500 dark:border-violet-500"
+                >
+                  Submit
+                </.button>
+                <.button size="leading-5 py-2 px-5">Reset</.button>
+              </div>
+            </div>
+          </.custom_code_wrapper>
+
+          <.cp margin="mt-5">
+            This
+            <strong>
+              <.link
+                title="Phoenix LiveView form component"
+                class="transition-colors hover:text-[#448D96]"
+                navigate={~p"/chelekom"}
+              >
+                Phoenix LiveView form component
+              </.link>
+            </strong>
+            supports uniform styling for all form elements, including input fields, floating labels, and validation messages, providing a seamless user experience. Its responsive and flexible design makes it easy to apply across different input types while maintaining a consistent and professional appearance.
+          </.cp>
+
+          <.custom_block position="left" color="success" class="my-8" border="medium">
+            <.cp>
+              By using the class prop, you can apply custom classes or
+              <strong>Tailwind CSS</strong>
+              classes to customize the appearance and behavior of the gallery, allowing for flexible design changes.
+            </.cp>
+          </.custom_block>
+
+          <.heading2 margin="my-5" id="base-forms">
+            <.link patch={~p"/chelekom/docs/forms/#base-forms"}>
+              Base Variant
+            </.link>
+          </.heading2>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_1}>
+            <.text_field
+              id="form-example-88777"
+              name="form-example-88777"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+            />
+            <.email_field
+              id="form-example-3232"
+              name="form-example-3232"
+              space="small"
+              value=""
+              label="Email field"
+              placeholder="Mishka chelekom input"
+            />
+          </.custom_code_wrapper>
+          <.heading2 margin="my-5" id="outline-variant-forms">
+            <.link patch={~p"/chelekom/docs/forms/#outline-variant-forms"}>
+              Outline Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The outline style of the Mishka Chelekom forms features a border. Using a single setting, you can choose from various color variants to suit your design needs.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_1}>
+            <.text_field
+              id="form-example-0"
+              name="form-example-0"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              color="silver"
+              variant="outline"
+            />
+
+            <.text_field
+              id="form-example-172"
+              name="form-example-172"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              color="natural"
+              variant="outline"
+            />
+
+            <.text_field
+              id="form-example-2"
+              name="form-example-2"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              color="primary"
+              variant="outline"
+            />
+
+            <.text_field
+              id="form-example-3"
+              name="form-example-3"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              color="secondary"
+              variant="outline"
+            />
+
+            <.text_field
+              id="form-example-4"
+              name="form-example-4"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              color="natural"
+              variant="outline"
+            />
+
+            <.text_field
+              id="form-example-5"
+              name="form-example-5"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              color="success"
+              variant="outline"
+            />
+
+            <.text_field
+              id="form-example-6"
+              name="form-example-6"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              color="warning"
+              variant="outline"
+            />
+
+            <.text_field
+              id="form-example-7"
+              name="form-example-7"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              color="danger"
+              variant="outline"
+            />
+
+            <.text_field
+              id="form-example-8"
+              name="form-example-8"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              color="info"
+              variant="outline"
+            />
+
+            <.text_field
+              id="form-example-9"
+              name="form-example-9"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              color="silver"
+              variant="outline"
+            />
+
+            <.text_field
+              id="form-example-10"
+              name="form-example-10"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              color="misc"
+              variant="outline"
+            />
+
+            <.text_field
+              id="form-example-11"
+              name="form-example-11"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              color="dawn"
+              variant="outline"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="default-variant-forms">
+            <.link patch={~p"/chelekom/docs/forms/#default-variant-forms"}>
+              Default Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The default style of the Mishka Chelekom forms applies a solid background and border that change based on user interaction, making it perfect for delivering important notifications. With just a single setting, you can select from a range of color options, ensuring easy customization to match various design styles.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_2}>
+            <.text_field
+              id="form-example-133"
+              name="form-example-133"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="default"
+              color="white"
+            />
+            <.text_field
+              id="form-example-13"
+              name="form-example-13"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="default"
+              color="natural"
+            />
+
+            <.text_field
+              id="form-example-14"
+              name="form-example-14"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="default"
+              color="primary"
+            />
+
+            <.text_field
+              id="form-example-15"
+              name="form-example-15"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="default"
+              color="secondary"
+            />
+
+            <.text_field
+              id="form-example-16"
+              name="form-example-16"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="default"
+              color="dark"
+            />
+
+            <.text_field
+              id="form-example-17"
+              name="form-example-17"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="default"
+              color="success"
+            />
+
+            <.text_field
+              id="form-example-18"
+              name="form-example-18"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="default"
+              color="warning"
+            />
+
+            <.text_field
+              id="form-example-183"
+              name="form-example-183"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="default"
+              color="danger"
+            />
+
+            <.text_field
+              id="form-example-19"
+              name="form-example-19"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="default"
+              color="info"
+            />
+
+            <.text_field
+              id="form-example-20"
+              name="form-example-20"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="default"
+              color="silver"
+            />
+
+            <.text_field
+              id="form-example-21"
+              name="form-example-21"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="default"
+              color="misc"
+            />
+
+            <.text_field
+              id="form-example-22"
+              name="form-example-22"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="default"
+              color="dawn"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="shadow-variant-forms">
+            <.link patch={~p"/chelekom/docs/forms/#shadow-variant-forms"}>
+              Shadow Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The shadow variant of the Mishka Chelekom forms is similar to the default variant, but it also includes a subtle shadow along with a border and white background in light mode.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_3}>
+            <.text_field
+              id="form-example-24"
+              name="form-example-24"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="shadow"
+              color="primary"
+            />
+
+            <.text_field
+              id="form-example-25"
+              name="form-example-25"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="shadow"
+              color="secondary"
+            />
+
+            <.text_field
+              id="form-example-26"
+              name="form-example-26"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="shadow"
+              color="natural"
+            />
+
+            <.text_field
+              id="form-example-27"
+              name="form-example-27"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="shadow"
+              color="success"
+            />
+
+            <.text_field
+              id="form-example-28"
+              name="form-example-28"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="shadow"
+              color="warning"
+            />
+
+            <.text_field
+              id="form-example-29"
+              name="form-example-29"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="shadow"
+              color="danger"
+            />
+
+            <.text_field
+              id="form-example-30"
+              name="form-example-30"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="shadow"
+              color="info"
+            />
+
+            <.text_field
+              id="form-example-31"
+              name="form-example-31"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="shadow"
+              color="silver"
+            />
+
+            <.text_field
+              id="form-example-32"
+              name="form-example-32"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="shadow"
+              color="misc"
+            />
+
+            <.text_field
+              id="form-example-33"
+              name="form-example-33"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="shadow"
+              color="dawn"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="bordered-variant-forms">
+            <.link patch={~p"/chelekom/docs/forms/#bordered-variant-forms"}>
+              bordered Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The Bordered variant of the Mishka Chelekom form has lighter background and a border. Bordered variant have also white and dark colors which are the same colors in the dark and light mode.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_4}>
+            <.text_field
+              id="form-example-184"
+              name="form-example-184"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="bordered"
+              color="white"
+            />
+
+            <.text_field
+              id="form-example-185"
+              name="form-example-185"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="bordered"
+              color="primary"
+            />
+
+            <.text_field
+              id="form-example-186"
+              name="form-example-186"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="bordered"
+              color="secondary"
+            />
+
+            <.text_field
+              id="form-example-187"
+              name="form-example-187"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="bordered"
+              color="dark"
+            />
+
+            <.text_field
+              id="form-example-188"
+              name="form-example-188"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="bordered"
+              color="success"
+            />
+
+            <.text_field
+              id="form-example-189"
+              name="form-example-189"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="bordered"
+              color="warning"
+            />
+
+            <.text_field
+              id="form-example-190"
+              name="form-example-190"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="bordered"
+              color="danger"
+            />
+
+            <.text_field
+              id="form-example-191"
+              name="form-example-191"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="bordered"
+              color="info"
+            />
+
+            <.text_field
+              id="form-example-192"
+              name="form-example-192"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="bordered"
+              color="silver"
+            />
+
+            <.text_field
+              id="form-example-193"
+              name="form-example-193"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="bordered"
+              color="misc"
+            />
+
+            <.text_field
+              id="form-example-195"
+              name="form-example-195"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="bordered"
+              color="dawn"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="transparent-variant-forms">
+            <.link patch={~p"/chelekom/docs/forms/#transparent-variant-forms"}>
+              Transparent Variant
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The transparent variant of the Mishka Chelekom forms is similar to the default variant, but without border and background color.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_5}>
+            <.text_field
+              id="form-example-35"
+              name="form-example-35"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="transparent"
+              color="primary"
+            />
+
+            <.text_field
+              id="form-example-36"
+              name="form-example-36"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="transparent"
+              color="secondary"
+            />
+
+            <.text_field
+              id="form-example-37"
+              name="form-example-37"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="transparent"
+              color="natural"
+            />
+
+            <.text_field
+              id="form-example-38"
+              name="form-example-38"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="transparent"
+              color="success"
+            />
+
+            <.text_field
+              id="form-example-39"
+              name="form-example-39"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="transparent"
+              color="warning"
+            />
+
+            <.text_field
+              id="form-example-40"
+              name="form-example-40"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="transparent"
+              color="danger"
+            />
+
+            <.text_field
+              id="form-example-41"
+              name="form-example-41"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="transparent"
+              color="info"
+            />
+
+            <.text_field
+              id="form-example-42"
+              name="form-example-42"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="transparent"
+              color="silver"
+            />
+
+            <.text_field
+              id="form-example-43"
+              name="form-example-43"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="transparent"
+              color="misc"
+            />
+
+            <.text_field
+              id="form-example-44"
+              name="form-example-44"
+              space="small"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="transparent"
+              color="dawn"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="form-rounded">
+            <.link patch={~p"/chelekom/docs/forms/#form-rounded"}>
+              Rounded prop in Phoenix LiveView form Component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The rounded prop offers values like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These values control the border radius of the blcokquotes, allowing for different levels of rounding from subtle to more pronounced corners, depending on the design needs.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_6}>
+            <.text_field
+              id="form-example-45"
+              name="form-example-45"
+              space="small"
+              value=""
+              rounded="extra_small"
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="default"
+              color="silver"
+            />
+
+            <.text_field
+              id="form-example-46"
+              name="form-example-46"
+              space="small"
+              value=""
+              rounded="small"
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="default"
+              color="primary"
+            />
+
+            <.text_field
+              id="form-example-47"
+              name="form-example-47"
+              space="small"
+              value=""
+              rounded="medium"
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="default"
+              color="secondary"
+            />
+
+            <.text_field
+              id="form-example-48"
+              name="form-example-48"
+              space="small"
+              value=""
+              rounded="large"
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="default"
+              color="dawn"
+            />
+
+            <.text_field
+              id="form-example-49"
+              name="form-example-49"
+              space="small"
+              value=""
+              rounded="extra_large"
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="default"
+              color="success"
+            />
+
+            <.text_field
+              id="form-example-50"
+              name="form-example-50"
+              space="small"
+              value=""
+              rounded="full"
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="default"
+              color="danger"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="form-border">
+            <.link patch={~p"/chelekom/docs/forms/#form-border"}>
+              Border prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The border prop offers values like <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_7}>
+            <.text_field
+              id="form-example-51"
+              name="form-example-51"
+              space="small"
+              value=""
+              border="extra_small"
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="default"
+              color="silver"
+            />
+
+            <.text_field
+              id="form-example-52"
+              name="form-example-52"
+              space="small"
+              value=""
+              border="small"
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="default"
+              color="primary"
+            />
+
+            <.text_field
+              id="form-example-53"
+              name="form-example-53"
+              space="small"
+              value=""
+              border="medium"
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="default"
+              color="secondary"
+            />
+
+            <.text_field
+              id="form-example-54"
+              name="form-example-54"
+              space="small"
+              value=""
+              border="large"
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="default"
+              color="dawn"
+            />
+
+            <.text_field
+              id="form-example-55"
+              name="form-example-55"
+              space="small"
+              value=""
+              border="extra_large"
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="default"
+              color="success"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="form-size">
+            <.link patch={~p"/chelekom/docs/forms/#form-size"}>
+              Size prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The size prop offers values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These values control both the icon size and input height size within the forms.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_8}>
+            <.text_field
+              id="form-example-56"
+              name="form-example-56"
+              space="small"
+              value=""
+              size="extra_small"
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="default"
+              color="silver"
+            />
+
+            <.text_field
+              id="form-example-57"
+              name="form-example-57"
+              space="small"
+              value=""
+              size="small"
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="default"
+              color="primary"
+            />
+
+            <.text_field
+              id="form-example-58"
+              name="form-example-58"
+              space="small"
+              value=""
+              size="medium"
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="default"
+              color="secondary"
+            />
+
+            <.text_field
+              id="form-example-59"
+              name="form-example-59"
+              space="small"
+              value=""
+              size="large"
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="default"
+              color="dawn"
+            />
+
+            <.text_field
+              id="form-example-60"
+              name="form-example-60"
+              space="small"
+              value=""
+              size="extra_large"
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="default"
+              color="success"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="form-space">
+            <.link patch={~p"/chelekom/docs/forms/#form-space"}>
+              Space prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The space prop offers values such as <.custom_inline_code>extra_small</.custom_inline_code>, <.custom_inline_code>small</.custom_inline_code>, <.custom_inline_code>medium</.custom_inline_code>, <.custom_inline_code>large</.custom_inline_code>, and <.custom_inline_code>extra_large</.custom_inline_code>. These values control the vertical spacing between elements within the form labelas and descriptions and input.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_9}>
+            <.text_field
+              id="form-example-61"
+              name="form-example-61"
+              value=""
+              space="extra_small"
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="default"
+              color="silver"
+            />
+
+            <.text_field
+              id="form-example-62"
+              name="form-example-62"
+              value=""
+              space="small"
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="default"
+              color="primary"
+            />
+
+            <.text_field
+              id="form-example-63"
+              name="form-example-63"
+              value=""
+              space="medium"
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="default"
+              color="secondary"
+            />
+
+            <.text_field
+              id="form-example-64"
+              name="form-example-64"
+              value=""
+              space="large"
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="default"
+              color="dawn"
+            />
+
+            <.text_field
+              id="form-example-65"
+              name="form-example-65"
+              value=""
+              space="extra_large"
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="default"
+              color="success"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="form-ring">
+            <.link patch={~p"/chelekom/docs/forms/#form-ring"}>
+              Ring prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>ring</.custom_inline_code>
+            attribute is a boolean option, with a default value of true, that controls whether a ring border is applied to an input field when it is focused. This attribute allows you to add a visually distinct outline around focused form fields using utilities like box-shadows to create the ring effect. When set to true, the outline is applied automatically upon focus, improving user interaction and focus.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_10}>
+            <.text_field
+              id="form-example-66"
+              name="form-example-66"
+              value=""
+              label="Text field"
+              placeholder="Mishka chelekom input"
+              variant="default"
+              color="danger"
+              ring
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="form-floating">
+            <.link patch={~p"/chelekom/docs/forms/#form-floating"}>
+              Floating prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>floating</.custom_inline_code>
+            attribute is a string that determines the floating label behavior for an input field, with options for <.custom_inline_code>none</.custom_inline_code>, <.custom_inline_code>inner</.custom_inline_code>, and <.custom_inline_code>outer</.custom_inline_code>. By default, no floating label is applied (<.custom_inline_code>
+            none
+          </.custom_inline_code>), but if set to <.custom_inline_code>inner</.custom_inline_code>, the label appears inside the input wrapper and transitions upward when focused or filled. The
+            <.custom_inline_code>outer</.custom_inline_code>
+            option places the label on the border of the input, creating a transparent floating effect around the field. These options allow for flexible label positioning, enhancing the user's interaction with form fields.
+          </.cp>
+
+          <.custom_block position="left" color="warning" class="my-8" border="medium">
+            <.cp>
+              It is recommended not to use the
+              <.custom_inline_code>placeholder</.custom_inline_code>
+              attribute with floating labels, as the label itself serves this purpose and ensures a cleaner interface.
+            </.cp>
+          </.custom_block>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_11}>
+            <.text_field
+              id="form-example-67"
+              name="form-example-67"
+              value=""
+              label="Inner floating label"
+              color="silver"
+              floating="inner"
+              variant="outline"
+            />
+
+            <.text_field
+              id="form-example-68"
+              name="form-example-68"
+              value=""
+              label="Inner floating label"
+              variant="transparent"
+              color="info"
+              floating="inner"
+            />
+
+            <.text_field
+              id="form-example-69"
+              name="form-example-69"
+              value=""
+              label="Inner floating label"
+              variant="bordered"
+              color="primary"
+              floating="inner"
+            />
+
+            <.text_field
+              id="form-example-200"
+              name="form-example-200"
+              value=""
+              label="Inner floating label"
+              variant="default"
+              color="warning"
+              floating="inner"
+            />
+
+            <.text_field
+              id="form-example-71"
+              name="form-example-71"
+              value=""
+              label="Outer floating label"
+              color="dawn"
+              floating="outer"
+              variant="outline"
+            />
+
+            <.text_field
+              id="form-example-72"
+              name="form-example-72"
+              value=""
+              label="Outer floating label"
+              variant="transparent"
+              color="secondary"
+              floating="outer"
+            />
+
+            <.text_field
+              id="form-example-73"
+              name="form-example-73"
+              value=""
+              label="Outer floating label"
+              variant="bordered"
+              color="misc"
+              floating="outer"
+            />
+
+            <.text_field
+              id="form-example-74"
+              name="form-example-74"
+              value=""
+              label="Outer floating label"
+              variant="default"
+              color="success"
+              floating="outer"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="form-error_icon">
+            <.link patch={~p"/chelekom/docs/forms/#form-error_icon"}>
+              Error icon prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>error_icon</.custom_inline_code>
+            attribute is a string that specifies an icon to be displayed alongside error messages in a form field. By default, this attribute is set to <.custom_inline_code>nil</.custom_inline_code>, meaning no icon is shown unless specified. You can choose any icon from the Hero Icons library to enhance the visual feedback when an error occurs, helping users quickly identify and address form issues. This customization adds an extra layer of clarity and improves user experience by associating an icon with error states.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_12}>
+            <.email_field
+              id="form-example-197"
+              name="form-example-197"
+              value="infoo@mishka.tool"
+              label="Email"
+              placeholder="Mishka chelekom forms"
+              color="silver"
+              variant="default"
+              errors={["Enter a valid email"]}
+              error_icon="hero-shield-exclamation"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="form-label-prop">
+            <.link patch={~p"/chelekom/docs/forms/#form-label-prop"}>
+              Label prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>label</.custom_inline_code>
+            prop is a string that defines the text displayed as the label for an input field.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_13}>
+            <.email_field
+              id="form-example-182"
+              name="form-example-182"
+              value=""
+              label="Email"
+              placeholder="Email"
+              color="misc"
+              variant="default"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="form-description-prop">
+            <.link patch={~p"/chelekom/docs/forms/#form-description-prop"}>
+              Description prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>description</.custom_inline_code>
+            prop is a string that provides a small, helpful text displayed below the label. This description offers additional context or guidance for users about the input field, clarifying its purpose or instructions on what to enter.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_14}>
+            <.email_field
+              id="form-example-198"
+              name="form-example-198"
+              value=""
+              label="Email"
+              description="please insert your work email."
+              placeholder="Email"
+              color="misc"
+              variant="default"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="form-name-prop">
+            <.link patch={~p"/chelekom/docs/forms/#form-name-prop"}>
+              Name prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>name</.custom_inline_code>
+            prop represents the name attribute for an input field, serving as a key identifier when submitting form data. It links the input value to a specific field name in the form, allowing the backend or processing scripts to correctly handle the submitted information. The
+            <.custom_inline_code>name</.custom_inline_code>
+            prop is essential for form submissions, ensuring that data entered by the user is captured and processed accurately. Each input field should have a unique
+            <.custom_inline_code>name</.custom_inline_code>
+            to avoid conflicts and ensure the proper handling of form data.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_15}>
+            <.email_field
+              id="form-example-194"
+              name="form-example-194"
+              value=""
+              label="Email"
+              description="please insert your work email."
+              placeholder="Email"
+              variant="default"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="form-value-prop">
+            <.link patch={~p"/chelekom/docs/forms/#form-value-prop"}>
+              Value prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>value</.custom_inline_code>
+            attribute represents the data or content associated with the input field. It is flexible, accepting any type of value, such as strings, numbers, or other data types. The
+            <.custom_inline_code>value</.custom_inline_code>
+            attribute is essential for both capturing user input and pre-populating form fields with existing data. It allows the input to hold and display a specific value, ensuring that the input's state can be managed dynamically or passed along during form submissions.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_16}>
+            <.email_field
+              id="form-example-196"
+              name="form-example-196"
+              value="1@mail.com"
+              label="Email"
+              description="please insert your work email."
+              placeholder="Email"
+              color="misc"
+              variant="default"
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="form-errors-prop">
+            <.link patch={~p"/chelekom/docs/forms/#form-errors-prop"}>
+              Errors prop
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>errors</.custom_inline_code>
+            attribute is a list that holds error messages related to an input field. By default, it is an empty list, but when validation fails or other issues arise, you can populate this list with relevant error messages. These messages will be displayed to inform users of any issues with their input, providing clear feedback on how to correct the problem. The
+            <.custom_inline_code>errors</.custom_inline_code>
+            attribute enhances the form's user experience by ensuring that users receive immediate, understandable error notifications, helping them to complete the form accurately.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_17}>
+            <.email_field
+              id="form-example-179"
+              name="form-example-179"
+              value="1@mail.info"
+              label="Email"
+              description="please insert your work email."
+              placeholder="Email"
+              color="silver"
+              variant="default"
+              errors={["Invalid email"]}
+            />
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="form-start-end-section-slot">
+            <.link patch={~p"/chelekom/docs/forms/#form-start-end-section-slot"}>
+              start and end section slots
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>errors</.custom_inline_code>
+            attribute is a list that holds error messages related to an input field. By default, it is an empty list, but when validation fails or other issues arise, you can populate this list with relevant error messages. These messages will be displayed to inform users of any issues with their input, providing clear feedback on how to correct the problem. The
+            <.custom_inline_code>errors</.custom_inline_code>
+            attribute enhances the form's user experience by ensuring that users receive immediate, understandable error notifications, helping them to complete the form accurately.
+          </.cp>
+
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_18}>
+            <.tel_field
+              id="form-example-178"
+              name="form-example-178"
+              value=""
+              label="Phone"
+              placeholder="Enter your phone"
+              variant="default"
+            >
+              <:start_section>
+                +31
+              </:start_section>
+            </.tel_field>
+
+            <.text_field
+              id="form-example-75"
+              name="form-example-75"
+              value=""
+              label="Username"
+              placeholder="Enter your username"
+              color="dawn"
+              variant="default"
+            >
+              <:end_section>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.25"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M18 20a6 6 0 0 0-12 0" /><circle cx="12" cy="10" r="4" /><circle
+                    cx="12"
+                    cy="12"
+                    r="10"
+                  />
+                </svg>
+              </:end_section>
+            </.text_field>
+          </.custom_code_wrapper>
+
+          <.heading2 margin="my-5" id="form-form-wrapper">
+            <.link patch={~p"/chelekom/docs/forms/#form-form-wrapper"}>
+              Form wrapper component
+            </.link>
+          </.heading2>
+
+          <.cp>
+            The
+            <.custom_inline_code>form_wrapper</.custom_inline_code>
+            component in Phoenix LiveView is used to wrap form elements and manage form data. It has two key attributes that enhance its functionality. The
+            <.custom_inline_code>for</.custom_inline_code>
+            attribute is optional and represents the data structure that the form will bind to, allowing the form to be populated with existing data or updated dynamically. The
+            <.custom_inline_code>as</.custom_inline_code>
+            attribute allows you to group all form inputs under a specific server-side parameter, making it easier to handle the form data on submission. These attributes provide flexibility in how form data is structured and managed in LiveView applications.
+          </.cp>
+          <.custom_code_wrapper code_class="text-xs" elements_class="space-y-4" code={@code_19}>
+            <.form_wrapper for={%{}} space="large">
+              <.text_field name="name" value="" label="Full Name" size="small" />
+              <.text_field name="add" value="" label="Adress" size="small" />
+              <.text_field name="tel" value="" label="Phone" size="small" />
+              <.text_field name="zip" value="" label="Zipcode" size="small" />
+              <.email_field name="email" value="" label="Email" size="small" />
+
+              <.native_select name="job" label="Choose your Job" size="small">
+                <:option value="1">
+                  Backend developer
+                </:option>
+
+                <:option value="2">
+                  Front developer
+                </:option>
+              </.native_select>
+
+              <.date_time_field
+                size="small"
+                type="datetime-local"
+                name="form-example-90"
+                value=""
+                space="small"
+                label="Start office hour"
+                id="form-example-90"
+              />
+
+              <.date_time_field
+                size="small"
+                type="datetime-local"
+                name="form-example-91"
+                value=""
+                space="small"
+                label="Start office day"
+                id="form-example-91"
+              />
+
+              <.checkbox_field name="" value="" label="Terms" color="base" />
+
+              <.range_field name="sal" value="" label="Salary" color="base" />
+            </.form_wrapper>
+          </.custom_code_wrapper>
+        </:documentation_panel>
+
+        <:props_panel>
+          <.custom_search class="mb-16" />
+          <div class="space-y-8">
+            <h2 class="text-lg lg:text-2xl font-bold">Form Wrapper Component Props</h2>
+
+            <.custom_table id="form-wrapper-props">
+              <:header>
+                <.table_th>Name</.table_th>
+
+                <.table_th>Type</.table_th>
+
+                <.table_th>Required</.table_th>
+
+                <.table_th>Description</.table_th>
+              </:header>
+
+              <:row>
+                <.table_td>id</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>class</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Custom CSS class for additional styling.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>variant</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the style of the form. Supported values: <strong>default</strong>, <strong>outline</strong>, <strong>transparent</strong>, <strong>shadow</strong>, <strong>bordered</strong>.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>color</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the color theme of the form. Supported values: <strong>natural</strong>, <strong>primary</strong>, <strong>secondary</strong>, <strong>success</strong>, <strong>warning</strong>, <strong>danger</strong>, <strong>info</strong>, <strong>silver</strong>, <strong>misc</strong>, <strong>dawn</strong>. Default is <strong>natural</strong>.The
+                  <strong>default</strong>
+                  and <strong>bordered</strong>
+                  variants have extra color options: <strong>dark</strong>
+                  and <strong>white</strong>, which in both light mode and dark mode, these colors are always the same.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>border</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines the border style.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>rounded</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines the border radius.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>padding</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines padding for items within the form.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>space</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>Determines space between items.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>size</.table_td>
+
+                <.table_td>string</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>
+                  Determines the overall size of the elements, including padding and font size.
+                </.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>for</.table_td>
+
+                <.table_td>any</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>The data structure for the form.</.table_td>
+              </:row>
+
+              <:row>
+                <.table_td>as</.table_td>
+
+                <.table_td>any</.table_td>
+
+                <.table_td>No</.table_td>
+
+                <.table_td>The server-side parameter to collect all input under.</.table_td>
+              </:row>
+            </.custom_table>
+          </div>
+        </:props_panel>
+
+        <:cli_panel>
+          <.custom_cli_props config={component_config()} />
+        </:cli_panel>
+        <.custom_table_content>
+          <:content link={~p"/chelekom/docs/forms/#overview"} title="Overview of Form Component" />
+          <:content link={~p"/chelekom/docs/forms/#base-forms"} title="Base Variant" />
+          <:content
+            link={~p"/chelekom/docs/forms/#outline-variant-forms"}
+            title="Outline Variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/#default-variant-forms"}
+            title="Default Variant"
+          />
+          <:content link={~p"/chelekom/docs/forms/#shadow-variant-forms"} title="Shadow Variant" />
+          <:content
+            link={~p"/chelekom/docs/forms/#bordered-variant-forms"}
+            title="bordered Variant"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/#transparent-variant-forms"}
+            title="Transparent Variant"
+          />
+          <:content link={~p"/chelekom/docs/forms/#form-rounded"} title="Rounded prop" />
+          <:content link={~p"/chelekom/docs/forms/#form-border"} title="Border prop" />
+          <:content link={~p"/chelekom/docs/forms/#form-size"} title="Size prop" />
+          <:content link={~p"/chelekom/docs/forms/#form-space"} title="Space prop" />
+          <:content link={~p"/chelekom/docs/forms/#form-ring"} title="Ring prop" />
+          <:content link={~p"/chelekom/docs/forms/#form-floating"} title="Floating prop" />
+          <:content link={~p"/chelekom/docs/forms/#form-error_icon"} title="Error icon prop" />
+          <:content link={~p"/chelekom/docs/forms/#form-label-prop"} title="Label prop" />
+          <:content
+            link={~p"/chelekom/docs/forms/#form-description-prop"}
+            title="Description prop"
+          />
+          <:content link={~p"/chelekom/docs/forms/#form-name-prop"} title="Name prop" />
+          <:content link={~p"/chelekom/docs/forms/#form-value-prop"} title="Value prop" />
+          <:content link={~p"/chelekom/docs/forms/#form-errors-prop"} title="Errors prop" />
+          <:content
+            link={~p"/chelekom/docs/forms/#form-start-end-section-slot"}
+            title="Start and End Section Slots"
+          />
+          <:content
+            link={~p"/chelekom/docs/forms/#form-form-wrapper"}
+            title="Form wrapper component"
+          />
+        </.custom_table_content>
+      </.custom_tab>
+    </div>
+  </div>
+</Layouts.app>
