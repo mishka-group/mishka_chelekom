@@ -1,0 +1,96 @@
+defmodule DevelopmentWeb.Components.Headless.TagsInput do
+  @moduledoc """
+  Headless **tags input** — a control that renders a list of removable tokens and a
+  text field for adding more (Mantine TagsInput parity).
+
+  It is **stateless**: you own the `tags` list. Adding is done the LiveView way — wrap
+  the control in a `<.form phx-submit="add">` (Enter submits and the reset clears the
+  draft) or pass `on_add` as a `phx-keydown` handler; removing fires `on_remove` with
+  `phx-value-tag` on the clicked token. Clicking anywhere in the control focuses the
+  input via `JS.focus` — **no JS hook**. Each tag also renders a hidden `name` input so
+  the list submits with a surrounding form.
+
+  Ships **no** colors, spacing or shape — style via `chelekom-tags-input*` and the
+  `data-disabled` hook.
+
+  WAI-ARIA: a text field plus removable token buttons; each remove button is labelled
+  ("Remove <tag>"). For suggestions/autocomplete, compose with the `autocomplete` component.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/tags_input
+  """
+  use Phoenix.Component
+  alias Phoenix.LiveView.JS
+
+  @doc type: :component
+  attr :id, :string, required: true, doc: "Unique id; anchors the input for JS.focus"
+
+  attr :name, :string,
+    default: nil,
+    doc: "Name for the hidden list inputs — include the [] (e.g. \"user[tags][]\")"
+
+  attr :tags, :list, default: [], doc: "Current tags (list of strings)"
+  attr :placeholder, :string, default: nil, doc: "Placeholder for the draft input"
+  attr :disabled, :boolean, default: false, doc: "Disable the control (also sets data-disabled)"
+
+  attr :input_name, :string,
+    default: nil,
+    doc: "Name for the draft input (bind to a form field so a reset clears it)"
+
+  attr :input_value, :string, default: nil, doc: "Value for the draft input"
+
+  attr :on_add, :any,
+    default: nil,
+    doc: "phx-keydown handler fired on Enter (when not using a wrapping form)"
+
+  attr :on_remove, :any,
+    default: nil,
+    doc: "phx-click for a tag's remove button (payload carries phx-value-tag)"
+
+  attr :class, :any, default: nil, doc: "Extra classes for the control"
+  attr :tag_class, :any, default: nil, doc: "Extra classes for each tag"
+  attr :remove_class, :any, default: nil, doc: "Extra classes for each remove button"
+  attr :input_class, :any, default: nil, doc: "Extra classes for the draft input"
+  attr :rest, :global
+
+  def tags_input(assigns) do
+    ~H"""
+    <div
+      id={@id}
+      data-part="root"
+      data-disabled={@disabled}
+      phx-click={!@disabled && JS.focus(to: "##{@id}-input")}
+      class={["chelekom-tags-input", @class]}
+      {@rest}
+    >
+      <span :for={tag <- @tags} data-part="tag" class={["chelekom-tags-input__tag", @tag_class]}>
+        <span data-part="tag-label">{tag}</span>
+        <button
+          type="button"
+          data-part="remove"
+          aria-label={"Remove #{tag}"}
+          disabled={@disabled}
+          phx-click={@on_remove}
+          phx-value-tag={tag}
+          class={["chelekom-tags-input__remove", @remove_class]}
+        >
+          <span aria-hidden="true">×</span>
+        </button>
+        <input :if={@name} type="hidden" name={@name} value={tag} />
+      </span>
+      <input
+        id={"#{@id}-input"}
+        data-part="input"
+        type="text"
+        name={@input_name}
+        value={@input_value}
+        placeholder={@placeholder}
+        disabled={@disabled}
+        autocomplete="off"
+        phx-keydown={@on_add}
+        phx-key={@on_add && "Enter"}
+        class={["chelekom-tags-input__input", @input_class]}
+      />
+    </div>
+    """
+  end
+end

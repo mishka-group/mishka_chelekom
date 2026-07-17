@@ -9,6 +9,7 @@
 - Add headless `Burger` component (Mantine parity) — a hamburger navigation toggle with `aria-expanded`/`aria-controls` and `data-opened`
 - Add headless `Chip` component (Mantine parity) — a selectable pill backed by a native checkbox/radio input, checked styling via `:has(:checked)`
 - Add headless `Pill` component (Mantine parity) — a compact tag/token with an optional accessible remove button and `data-disabled`
+- Add headless `TagsInput` component (Mantine parity) — removable tokens plus a draft input; add via a form `phx-submit` or `on_add`, remove via `on_remove`, click-to-focus via `JS.focus`, no JS hook
 - Add `Mishka Tools` documentation button to headless component pages, and point `ARIA pattern` at the component's `spec_url` instead of its docs URL
 - Add per-option tagged, base-first `examples` to `mix mishka.ui.export --cms`: every component now ships at least one example, ordered base-first, with `extra.examples[]` carrying `label`/`section`/`base`/`requires` so a consumer can hide an example whose variant was not installed [Commit](https://github.com/mishka-group/mishka_chelekom/commit/65764c5e)
 - Add `## Examples` docs to `label/1`, `error/1`, `header/1` and `simple_form/1`, so every public component function documents its usage

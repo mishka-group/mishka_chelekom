@@ -126,6 +126,7 @@ defmodule DevelopmentWeb.Showcase.Meta do
     "slider" => "Range slider with one or more thumbs, keyboard and ARIA.",
     "switch" => "On/off toggle with switch role and keyboard.",
     "tabs" => "Tab list and panels with roving focus and ARIA.",
+    "tags_input" => "Removable tokens plus a text field for entering a list of values.",
     "toast" => "Live-region notification stack with timing and dismissal.",
     "toggle_group" => "A set of toggle buttons, single- or multiple-pressed.",
     "toggle" => "Two-state toggle button (aria-pressed).",

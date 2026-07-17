@@ -39,6 +39,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.Slider
   import DevelopmentWeb.Components.Headless.Switch
   import DevelopmentWeb.Components.Headless.Tabs
+  import DevelopmentWeb.Components.Headless.TagsInput
   import DevelopmentWeb.Components.Headless.Toast
   import DevelopmentWeb.Components.Headless.Toggle
   import DevelopmentWeb.Components.Headless.ToggleGroup
@@ -47,6 +48,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.Tree
 
   alias DevelopmentWeb.Showcase.ExampleSource
+  alias Phoenix.LiveView.JS
 
   def sections("collapsible"),
     do: [{"collapsible-hero", "Hero", "A panel controlled by a button."}]
@@ -373,6 +375,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
     do: [
       {"tabs-hero", "Hero",
        "A three-tab workspace switcher (Overview / Projects / Account) with an animated bordered indicator that slides under the active tab and a bordered panel area below."}
+    ]
+
+  def sections("tags_input"),
+    do: [
+      {"tags_input-hero", "Hero",
+       "A tags/keywords control: removable tokens and a growing input; click anywhere to focus it."}
     ]
 
   def sections("toast"),
@@ -1087,6 +1095,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
         class="relative inline-flex size-9 items-center justify-center rounded-md text-neutral-900 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-800 [&_[data-part=line]]:absolute [&_[data-part=line]]:h-0.5 [&_[data-part=line]]:w-5 [&_[data-part=line]]:rounded-full [&_[data-part=line]]:bg-current [&_[data-part=line]]:transition-all [&_[data-part=line]]:duration-200 [&_[data-part=line]:nth-child(1)]:-translate-y-1.5 [&_[data-part=line]:nth-child(3)]:translate-y-1.5 [&[data-opened]_[data-part=line]:nth-child(1)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(1)]:rotate-45 [&[data-opened]_[data-part=line]:nth-child(2)]:opacity-0 [&[data-opened]_[data-part=line]:nth-child(3)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(3)]:-rotate-45"
       />
     </div>
+    """
+  end
+
+  def example(%{section: "tags_input-hero"} = assigns) do
+    ~H"""
+    <.tags_input
+      id="baseui-tags-input"
+      tags={["Design", "Engineering", "Product"]}
+      placeholder="Add a tag…"
+      on_remove={JS.hide(to: {:closest, "[data-part=tag]"})}
+      class="flex w-80 flex-wrap items-center gap-1.5 rounded-lg border border-neutral-300 bg-white px-2 py-1.5 text-sm cursor-text focus-within:ring-2 focus-within:ring-neutral-400 dark:border-neutral-700 dark:bg-neutral-900 [&_[data-part=tag]]:inline-flex [&_[data-part=tag]]:items-center [&_[data-part=tag]]:gap-1 [&_[data-part=tag]]:rounded [&_[data-part=tag]]:bg-neutral-100 [&_[data-part=tag]]:py-0.5 [&_[data-part=tag]]:pr-1 [&_[data-part=tag]]:pl-2 dark:[&_[data-part=tag]]:bg-neutral-800 [&_[data-part=remove]]:inline-flex [&_[data-part=remove]]:size-4 [&_[data-part=remove]]:items-center [&_[data-part=remove]]:justify-center [&_[data-part=remove]]:rounded-full [&_[data-part=remove]]:text-neutral-500 [&_[data-part=remove]]:hover:bg-neutral-200 dark:[&_[data-part=remove]]:hover:bg-neutral-700 [&_[data-part=input]]:min-w-24 [&_[data-part=input]]:flex-1 [&_[data-part=input]]:border-0 [&_[data-part=input]]:bg-transparent [&_[data-part=input]]:p-0.5 [&_[data-part=input]]:outline-none"
+    />
     """
   end
 

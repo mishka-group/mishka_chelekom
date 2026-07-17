@@ -37,6 +37,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.Slider
   import DevelopmentWeb.Components.Headless.Switch
   import DevelopmentWeb.Components.Headless.Tabs
+  import DevelopmentWeb.Components.Headless.TagsInput
   import DevelopmentWeb.Components.Headless.Toast
   import DevelopmentWeb.Components.Headless.Toggle
   import DevelopmentWeb.Components.Headless.ToggleGroup
@@ -47,6 +48,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.Radio
   import DevelopmentWeb.Components.Headless.OtpField
   import DevelopmentWeb.Showcase.UI, only: [code_block: 1]
+  alias Phoenix.LiveView.JS
 
   @btn "rounded-md border border-[var(--c-base-300)] px-3 py-1.5 text-sm"
 
@@ -397,6 +399,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         </button>
       </:actions>
     </.empty_state>
+    """
+  end
+
+  def show(%{component: "tags_input"} = assigns) do
+    ~H"""
+    <.tags_input
+      id={@id}
+      tags={["design", "phoenix", "elixir"]}
+      placeholder="Add a tag…"
+      on_remove={JS.hide(to: {:closest, "[data-part=tag]"})}
+      class={tags_input_class()}
+    />
     """
   end
 
@@ -1633,6 +1647,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   def has_examples?("alert_dialog"), do: true
   def has_examples?("tree"), do: true
   def has_examples?("empty_state"), do: true
+  def has_examples?("tags_input"), do: true
   def has_examples?(_), do: false
 
   def examples(%{component: "empty_state"} = assigns) do
@@ -1800,6 +1815,27 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
               </svg>
             </:indicator>
           </.empty_state>
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "tags_input"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — add on Enter, remove with ✕ (submits as a list)
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          Fully server-driven, no JS hook: a <code>&lt;.form phx-submit&gt;</code>
+          adds the tag and its reset clears the draft, each ✕ pushes <code>remove</code>, and clicking
+          the control focuses the input via <code>JS.focus</code>. The tags submit as
+          <code>tags_demo[tags][]</code>.
+        </p>
+        <div class="mt-4 max-w-md">
+          <.live_component module={DevelopmentWeb.Showcase.TagsInputDemo} id={"#{@id}-form"} />
         </div>
       </details>
     </div>
@@ -2670,6 +2706,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-[var(--c-primary)]/40",
       "data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50",
       "[&_[data-part=input]]:sr-only"
+    ]
+  end
+
+  # Tags input: a bordered control wrapping tokens + a borderless growing input. Clicking anywhere
+  # focuses the input (JS.focus); each token has a ✕ remove.
+  defp tags_input_class do
+    [
+      "flex flex-wrap items-center gap-1.5 rounded-md border border-[var(--c-base-300)] bg-[var(--c-base-100)] px-2 py-1.5 text-sm cursor-text focus-within:ring-2 focus-within:ring-[var(--c-primary)]/30",
+      "[&_[data-part=tag]]:inline-flex [&_[data-part=tag]]:items-center [&_[data-part=tag]]:gap-1 [&_[data-part=tag]]:rounded [&_[data-part=tag]]:bg-[var(--c-base-200)] [&_[data-part=tag]]:py-0.5 [&_[data-part=tag]]:pr-1 [&_[data-part=tag]]:pl-2",
+      "[&_[data-part=remove]]:inline-flex [&_[data-part=remove]]:size-4 [&_[data-part=remove]]:items-center [&_[data-part=remove]]:justify-center [&_[data-part=remove]]:rounded-full [&_[data-part=remove]]:leading-none [&_[data-part=remove]]:text-[var(--c-base-content)]/50 [&_[data-part=remove]]:hover:bg-[var(--c-base-300)] [&_[data-part=remove]]:hover:text-[var(--c-base-content)]",
+      "[&_[data-part=input]]:min-w-24 [&_[data-part=input]]:flex-1 [&_[data-part=input]]:border-0 [&_[data-part=input]]:bg-transparent [&_[data-part=input]]:p-0.5 [&_[data-part=input]]:outline-none"
     ]
   end
 

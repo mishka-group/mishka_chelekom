@@ -9,6 +9,11 @@ behaviour is genuinely impossible with JS commands in the current LiveView (poin
 `scripts` field. Installation and hook registration are handled by our **Igniter JS installer + CLI**
 (`mix mishka.ui.gen.*`) — **not** manual `mishka_components.js` edits and **not** a colocated hook.
 
+Per-component requirements (per Sha):
+1. A **bottom-of-page Examples section** (`has_examples?/1` + `examples/1`) like Tree/EmptyState.
+2. If it is a **form control**, a **Phoenix `<.form>` example** in that Examples section.
+3. **Manually test every feature/state** in the browser at http://localhost:4002 before committing.
+
 ## ⏸ Deferred — revisit later (bigger subsystems, not single components)
 
 - Dates — Calendar, DatePicker, DateInput, DateTimePicker, Month/Year pickers, TimeInput/TimePicker — https://mantine.dev/dates/getting-started/
@@ -16,34 +21,39 @@ behaviour is genuinely impossible with JS commands in the current LiveView (poin
 - Spotlight — command palette — https://mantine.dev/x/spotlight/
 - Rich text editor — Tiptap-based — https://mantine.dev/x/tiptap/
 
-## 🔜 To build — needs interactivity (one at a time)
+## 🔜 To build — JS commands only (no hook)
 
-JS-commands-first; hook only where noted.
+- PillsInput — pills + input container; `JS.focus` on click — https://mantine.dev/core/pills-input/
+- Affix — fixed-position content; CSS `position: fixed` (+ optional scroll-reveal hook) — https://mantine.dev/core/affix/
+- Spoiler — show/hide long content; `JS.toggle` — https://mantine.dev/core/spoiler/
 
-- TagsInput — free-entry tags + suggestions — server events (`phx-keydown`/`phx-change`) + `JS`; likely no custom hook — https://mantine.dev/core/tags-input/
-- PillsInput — pills container + input — `JS.focus` on click; presentational; no hook — https://mantine.dev/core/pills-input/
-- Affix — fixed-position content — CSS `position: fixed` (no JS); optional scroll-reveal hook — https://mantine.dev/core/affix/
-- MaskInput — formatted input — hook (intercept input; JS commands can't mask) — https://mantine.dev/core/mask-input/
-- AngleSlider — pick 0–360° — hook (pointer angle math) — https://mantine.dev/core/angle-slider/
-- Splitter — resizable panes — hook (pointer drag) — https://mantine.dev/core/splitter/
-- OverflowList — hide items that don't fit — hook (`ResizeObserver`) — https://mantine.dev/core/overflow-list/
-- FloatingIndicator — indicator over active element — hook (measure + `ResizeObserver`) — https://mantine.dev/core/floating-indicator/
-- FloatingWindow — draggable floating area — hook (pointer drag) — https://mantine.dev/core/floating-window/
-- ColorPicker — saturation/hue/alpha — hook (pointer math; larger) — https://mantine.dev/core/color-picker/
-- RollingNumber — animated digits — hook or CSS animation — https://mantine.dev/core/rolling-number/
+## 🔜 To build — needs a separate JS-file engine (hook)
+
+- MaskInput — format-as-you-type — https://mantine.dev/core/mask-input/
+- AngleSlider — pick 0–360° (pointer math) — https://mantine.dev/core/angle-slider/
+- Splitter — resizable panes (pointer drag) — https://mantine.dev/core/splitter/
+- OverflowList — hide items that don't fit (`ResizeObserver`) — https://mantine.dev/core/overflow-list/
+- FloatingIndicator — indicator over active element (measure) — https://mantine.dev/core/floating-indicator/
+- FloatingWindow — draggable floating area — https://mantine.dev/core/floating-window/
+- Scroller — horizontal scroll + nav controls (scroll position) — https://mantine.dev/core/scroller/
+- RollingNumber — animated digits — https://mantine.dev/core/rolling-number/
+- ColorPicker — saturation/hue/alpha — https://mantine.dev/core/color-picker/
+- HueSlider — hue channel slider (0–360°) — https://mantine.dev/core/hue-slider/
+- AlphaSlider — alpha channel slider (0–1) — https://mantine.dev/core/alpha-slider/
+- ColorInput — input + color-picker popover — https://mantine.dev/core/color-input/
+- TreeSelect — tree inside a select/popover (compose `tree` + `select`/`popover`; may need a thin hook) — https://mantine.dev/core/tree-select/
 
 ## 🔜 To build — no JS (quick, same recipe as CloseButton/Burger/Chip/Pill)
 
-Highlight, Mark, Code, ColorSwatch, ThemeIcon, ActionIcon, Anchor, NavLink, SemiCircleProgress,
-NumberFormatter (render-time), Marquee (CSS animation).
+Highlight, Mark, Code, ColorSwatch (https://mantine.dev/core/color-swatch/), ThemeIcon, ActionIcon,
+Anchor, NavLink, SemiCircleProgress, NumberFormatter (render-time, https://mantine.dev/core/number-formatter/),
+Marquee (CSS animation, https://mantine.dev/core/marquee/), VisuallyHidden (https://mantine.dev/core/visually-hidden/).
 
 ## ✅ Done (headless)
 
-EmptyState, CloseButton, Burger, Chip, Pill (+ the pre-existing 37).
+EmptyState, CloseButton, Burger, Chip, Pill, TagsInput (+ the pre-existing 37).
 
-## ❌ Dropped — already covered or not a headless component
+## ❌ Dropped — not a headless component
 
-- Scroller → covered by `scroll_area` — https://mantine.dev/core/scroller/
-- TreeSelect → compose `tree` + `select` — https://mantine.dev/core/tree-select/
-- Layout primitives (styling wrappers, not behaviour): Box, Flex, Grid, Group, Stack, Center,
-  Container, SimpleGrid, Space, AspectRatio, Paper, BackgroundImage
+Layout primitives (styling wrappers, not behaviour): Box, Flex, Grid, Group, Stack, Center,
+Container, SimpleGrid, Space, AspectRatio, Paper, BackgroundImage.
