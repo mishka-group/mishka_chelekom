@@ -1,0 +1,28 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Headless **code** — render inline or block code (Mantine Code parity).
+
+  Inline it is a `<code>`; with `block` set it is a `<pre><code>` that preserves
+  whitespace. Semantics only — bring your own font, background and padding.
+
+  Ships **no** colors or spacing — style via `chelekom-code`.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/code
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, default: nil, doc: "Optional unique id"
+  attr :block, :boolean, default: false, doc: "Render a <pre><code> block instead of inline <code>"
+  attr :class, :any, default: nil, doc: "Extra classes"
+  attr :rest, :global
+
+  slot :inner_block, required: true, doc: "The code content"
+
+  def <%= @component_prefix %>code(assigns) do
+    ~H"""
+    <pre :if={@block} class={["chelekom-code", @class]} {@rest}><code>{render_slot(@inner_block)}</code></pre>
+    <code :if={!@block} class={["chelekom-code", @class]} {@rest}>{render_slot(@inner_block)}</code>
+    """
+  end
+end

@@ -15,6 +15,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.CheckboxGroup
   import DevelopmentWeb.Components.Headless.Chip
   import DevelopmentWeb.Components.Headless.CloseButton
+  import DevelopmentWeb.Components.Headless.Code
   import DevelopmentWeb.Components.Headless.ColorSwatch
   import DevelopmentWeb.Components.Headless.Combobox
   import DevelopmentWeb.Components.Headless.ContextMenu
@@ -129,6 +130,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
     do: [
       {"close_button-hero", "Hero",
        "A default close button (built-in ✕) and one with a custom icon, both with an accessible label."}
+    ]
+
+  def sections("code"),
+    do: [
+      {"code-hero", "Hero", "Inline code inside a sentence and a preformatted code block."}
     ]
 
   def sections("color_swatch"),
@@ -1298,6 +1304,20 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
         Granny Smith
       </:item>
     </.checkbox_group>
+    """
+  end
+
+  def example(%{section: "code-hero"} = assigns) do
+    ~H"""
+    <div class="w-80 space-y-3">
+      <p class="text-sm text-neutral-700 dark:text-neutral-300">
+        Run <.code class="rounded bg-neutral-100 px-1.5 py-0.5 font-mono text-[0.85em] text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100">npm install</.code> first.
+      </p>
+      <.code
+        block
+        class="overflow-x-auto rounded-lg bg-neutral-100 p-3 font-mono text-sm text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100"
+      >export const sum = (a, b) => a + b;</.code>
+    </div>
     """
   end
 

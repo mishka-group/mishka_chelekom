@@ -99,6 +99,7 @@ defmodule DevelopmentWeb.Showcase.Meta do
     "checkbox" => "Accessible checkbox supporting checked and indeterminate state.",
     "chip" => "Selectable pill backed by a native checkbox or radio input.",
     "close_button" => "Icon-only button with a required accessible label, for dismissing UI.",
+    "code" => "Inline or block code, semantics only.",
     "collapsible" => "A single trigger/panel pair that expands and collapses.",
     "color_swatch" => "Display a single color as a labelled swatch.",
     "combobox" => "Input plus popup listbox combining typing and selection.",

@@ -14,6 +14,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.CheckboxGroup
   import DevelopmentWeb.Components.Headless.Chip
   import DevelopmentWeb.Components.Headless.CloseButton
+  import DevelopmentWeb.Components.Headless.Code
   import DevelopmentWeb.Components.Headless.Collapsible
   import DevelopmentWeb.Components.Headless.ColorSwatch
   import DevelopmentWeb.Components.Headless.Combobox
@@ -401,6 +402,20 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         </button>
       </:actions>
     </.empty_state>
+    """
+  end
+
+  def show(%{component: "code"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <p class="text-sm text-[var(--c-base-content)]/80">
+        Install with <.code class="rounded bg-[var(--c-base-300)]/60 px-1.5 py-0.5 font-mono text-[0.85em]">mix mishka.ui.gen.headless code</.code> and go.
+      </p>
+      <.code
+        block
+        class="overflow-x-auto rounded-lg bg-[var(--c-base-300)]/50 p-3 font-mono text-sm"
+      >def hello, do: :world</.code>
+    </div>
     """
   end
 
