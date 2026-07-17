@@ -54,6 +54,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.VisuallyHidden
   import DevelopmentWeb.Components.Headless.ActionIcon
   import DevelopmentWeb.Components.Headless.Anchor
+  import DevelopmentWeb.Components.Headless.Marquee
 
   alias DevelopmentWeb.Showcase.ExampleSource
   alias Phoenix.LiveView.JS
@@ -136,6 +137,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       {"close_button-hero", "Hero",
        "A default close button (built-in ✕) and one with a custom icon, both with an accessible label."}
     ]
+
+  def sections("marquee"),
+    do: [{"marquee-hero", "Hero", "A row of words scrolling continuously; pure CSS, pauses on hover."}]
 
   def sections("action_icon"),
     do: [{"action_icon-hero", "Hero", "Icon-only edit and delete buttons, one disabled."}]
@@ -1324,6 +1328,27 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
         Granny Smith
       </:item>
     </.checkbox_group>
+    """
+  end
+
+  def example(%{section: "marquee-hero"} = assigns) do
+    ~H"""
+    <div class="w-80 overflow-hidden">
+      <style>
+        @keyframes chelekom-marquee-x { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+      </style>
+      <.marquee
+        class="overflow-hidden"
+        track_class="flex w-max animate-[chelekom-marquee-x_14s_linear_infinite] hover:[animation-play-state:paused]"
+        group_class="flex shrink-0 items-center gap-6 pr-6 text-sm font-medium text-neutral-700 dark:text-neutral-300"
+      >
+        <span>React</span>
+        <span>Vue</span>
+        <span>Svelte</span>
+        <span>Solid</span>
+        <span>Angular</span>
+      </.marquee>
+    </div>
     """
   end
 

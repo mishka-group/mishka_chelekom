@@ -55,6 +55,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.VisuallyHidden
   import DevelopmentWeb.Components.Headless.ActionIcon
   import DevelopmentWeb.Components.Headless.Anchor
+  import DevelopmentWeb.Components.Headless.Marquee
   import DevelopmentWeb.Showcase.UI, only: [code_block: 1]
   alias Phoenix.LiveView.JS
 
@@ -407,6 +408,27 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         </button>
       </:actions>
     </.empty_state>
+    """
+  end
+
+  def show(%{component: "marquee"} = assigns) do
+    ~H"""
+    <div class="w-full max-w-md">
+      <style>
+        @keyframes chelekom-marquee-x { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+      </style>
+      <.marquee
+        class="overflow-hidden rounded-md border border-[var(--c-base-300)] py-2"
+        track_class="flex w-max animate-[chelekom-marquee-x_16s_linear_infinite] hover:[animation-play-state:paused]"
+        group_class="flex shrink-0 items-center gap-8 pr-8 text-sm font-medium text-[var(--c-base-content)]/70"
+      >
+        <span>Phoenix</span>
+        <span>LiveView</span>
+        <span>Elixir</span>
+        <span>Mishka Chelekom</span>
+        <span>Headless</span>
+      </.marquee>
+    </div>
     """
   end
 

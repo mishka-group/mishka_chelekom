@@ -143,7 +143,8 @@ defmodule DevelopmentWeb.Showcase.Meta do
     "theme_icon" => "A container that wraps an icon, decorative or labelled.",
     "visually_hidden" => "Hidden visually but available to screen readers.",
     "action_icon" => "Icon-only action button with a required accessible label.",
-    "anchor" => "A plain, themeable link."
+    "anchor" => "A plain, themeable link.",
+    "marquee" => "Continuously scrolling row of content (pure CSS)."
   }
 
   @links %{
