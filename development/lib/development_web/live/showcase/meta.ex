@@ -101,6 +101,8 @@ defmodule DevelopmentWeb.Showcase.Meta do
     "context_menu" => "Right-click menu with roving focus and keyboard support.",
     "dialog" => "Modal dialog with focus trap, ARIA and paired-presence state.",
     "drawer" => "Edge panel with focus management and dismissal behaviour.",
+    "empty_state" =>
+      "Presentational placeholder for empty views — indicator, title, description and actions, unstyled.",
     "fieldset" => "Accessible grouping of form controls with a legend.",
     "field" => "Label, control, description and error wiring for one form field.",
     "menubar" => "Horizontal application menu bar with submenus and roving focus.",

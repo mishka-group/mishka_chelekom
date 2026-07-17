@@ -15,6 +15,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.Combobox
   import DevelopmentWeb.Components.Headless.ContextMenu
   import DevelopmentWeb.Components.Headless.Dialog
+  import DevelopmentWeb.Components.Headless.EmptyState
   import DevelopmentWeb.Components.Headless.Field
   import DevelopmentWeb.Components.Headless.Fieldset
   import DevelopmentWeb.Components.Headless.Menu
@@ -356,6 +357,42 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         <span class="text-[0.7rem] text-[var(--c-base-content)]/40">no image</span>
       </div>
     </div>
+    """
+  end
+
+  def show(%{component: "empty_state"} = assigns) do
+    ~H"""
+    <.empty_state
+      id={@id}
+      title="No results found"
+      description="Try adjusting your search or filters to find what you're looking for."
+      class={empty_state_class()}
+    >
+      <:indicator>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+          />
+        </svg>
+      </:indicator>
+      <:actions>
+        <button
+          type="button"
+          class="rounded-md border border-[var(--c-base-300)] px-3 py-1.5 text-sm hover:bg-[var(--c-base-200)]"
+        >
+          Clear filters
+        </button>
+      </:actions>
+    </.empty_state>
     """
   end
 
@@ -1518,7 +1555,179 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   def has_examples?("tabs"), do: true
   def has_examples?("alert_dialog"), do: true
   def has_examples?("tree"), do: true
+  def has_examples?("empty_state"), do: true
   def has_examples?(_), do: false
+
+  def examples(%{component: "empty_state"} = assigns) do
+    ~H"""
+    <div class="grid gap-3 sm:grid-cols-2">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">Left &amp; right alignment</summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          <code>data-align</code> flips the whole layout — indicator, text and actions — from CSS, with
+          no change to the markup.
+        </p>
+        <div class="mt-4 space-y-6">
+          <.empty_state
+            id={"#{@id}-left"}
+            align="left"
+            title="No messages"
+            description="Your inbox is empty."
+            class={empty_state_class()}
+          >
+            <:indicator>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="size-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
+                />
+              </svg>
+            </:indicator>
+          </.empty_state>
+          <.empty_state
+            id={"#{@id}-right"}
+            align="right"
+            title="No messages"
+            description="Your inbox is empty."
+            class={empty_state_class()}
+          >
+            <:indicator>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="size-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
+                />
+              </svg>
+            </:indicator>
+          </.empty_state>
+        </div>
+      </details>
+
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">Filled indicator</summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          A colored circular background behind the icon (Mantine's <code>filled</code>/<code>light</code>
+          variants) — pure CSS on the <code>indicator</code> part.
+        </p>
+        <div class="mt-4">
+          <.empty_state
+            id={"#{@id}-filled"}
+            title="All caught up"
+            description="You've read every notification."
+            class={empty_state_filled_class()}
+          >
+            <:indicator>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="size-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                />
+              </svg>
+            </:indicator>
+          </.empty_state>
+        </div>
+      </details>
+
+      <details class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">Error state with retry</summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          The same component doubles as a failure view — swap the icon and add a retry action.
+        </p>
+        <div class="mt-4">
+          <.empty_state
+            id={"#{@id}-error"}
+            title="Couldn't load data"
+            description="Something went wrong. Check your connection and try again."
+            class={empty_state_class()}
+          >
+            <:indicator>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="size-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"
+                />
+              </svg>
+            </:indicator>
+            <:actions>
+              <button
+                type="button"
+                class="rounded-md border border-[var(--c-base-300)] px-3 py-1.5 text-sm hover:bg-[var(--c-base-200)]"
+              >
+                Retry
+              </button>
+            </:actions>
+          </.empty_state>
+        </div>
+      </details>
+
+      <details class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">Announced dynamically</summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          When the empty state appears after a user action, pass <code>role="status"</code>
+          through <code>rest</code> so assistive tech announces it politely.
+        </p>
+        <div class="mt-4">
+          <.empty_state
+            id={"#{@id}-status"}
+            role="status"
+            title="No results"
+            description="No items match this filter."
+            class={empty_state_class()}
+          >
+            <:indicator>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="size-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+                />
+              </svg>
+            </:indicator>
+          </.empty_state>
+        </div>
+      </details>
+    </div>
+    """
+  end
 
   def examples(%{component: "toast"} = assigns) do
     ~H"""
@@ -2333,6 +2542,32 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "relative inline-flex size-12 items-center justify-center overflow-hidden rounded-full border border-[var(--c-base-300)] bg-[var(--c-base-200)] text-sm font-semibold text-[var(--c-base-content)]",
       "[&_[data-part=image]]:size-full [&_[data-part=image]]:object-cover",
       "[&_[data-part=fallback]]:absolute [&_[data-part=fallback]]:inset-0 [&_[data-part=fallback]]:flex [&_[data-part=fallback]]:items-center [&_[data-part=fallback]]:justify-center"
+    ]
+  end
+
+  # Empty state: a centered column — indicator (circle), title, description, then actions. data-align
+  # flips it to start/end (incl. the actions row). Appearance only; the component ships no layout.
+  defp empty_state_class do
+    [
+      "flex max-w-xs flex-col items-center gap-3 text-center",
+      "[&[data-align=left]]:items-start [&[data-align=left]]:text-left [&[data-align=right]]:items-end [&[data-align=right]]:text-right",
+      "[&_[data-part=indicator]]:flex [&_[data-part=indicator]]:size-12 [&_[data-part=indicator]]:items-center [&_[data-part=indicator]]:justify-center [&_[data-part=indicator]]:rounded-full [&_[data-part=indicator]]:bg-[var(--c-base-200)] [&_[data-part=indicator]]:text-[var(--c-base-content)]/60",
+      "[&_[data-part=body]]:flex [&_[data-part=body]]:flex-col [&_[data-part=body]]:gap-1",
+      "[&_[data-part=title]]:text-sm [&_[data-part=title]]:font-semibold",
+      "[&_[data-part=description]]:text-xs [&_[data-part=description]]:text-[var(--c-base-content)]/60",
+      "[&_[data-part=actions]]:mt-2 [&_[data-part=actions]]:flex [&_[data-part=actions]]:justify-center [&_[data-part=actions]]:gap-2 [&[data-align=left]_[data-part=actions]]:justify-start [&[data-align=right]_[data-part=actions]]:justify-end"
+    ]
+  end
+
+  # Empty state, "filled" variant: a tinted circular indicator (Mantine's filled/light look). Only the
+  # indicator background/color differs from empty_state_class.
+  defp empty_state_filled_class do
+    [
+      "flex max-w-xs flex-col items-center gap-3 text-center",
+      "[&_[data-part=indicator]]:flex [&_[data-part=indicator]]:size-12 [&_[data-part=indicator]]:items-center [&_[data-part=indicator]]:justify-center [&_[data-part=indicator]]:rounded-full [&_[data-part=indicator]]:bg-[var(--c-primary)]/15 [&_[data-part=indicator]]:text-[var(--c-primary)]",
+      "[&_[data-part=body]]:flex [&_[data-part=body]]:flex-col [&_[data-part=body]]:gap-1",
+      "[&_[data-part=title]]:text-sm [&_[data-part=title]]:font-semibold",
+      "[&_[data-part=description]]:text-xs [&_[data-part=description]]:text-[var(--c-base-content)]/60"
     ]
   end
 

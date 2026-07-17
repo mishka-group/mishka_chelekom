@@ -16,6 +16,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.ContextMenu
   import DevelopmentWeb.Components.Headless.Dialog
   import DevelopmentWeb.Components.Headless.Drawer
+  import DevelopmentWeb.Components.Headless.EmptyState
   import DevelopmentWeb.Components.Headless.Field
   import DevelopmentWeb.Components.Headless.Fieldset
   import DevelopmentWeb.Components.Headless.Menu
@@ -168,6 +169,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
        "A non-modal right drawer opened by swiping from a dashed edge swipe-area (\"Swipe here\") rather than a button."},
       {"drawer-uncontained", "Uncontained",
        "An iOS-style action sheet: an uncontained bottom drawer of separate action cards (Unfollow, Mute, etc.) plus a Block User card."}
+    ]
+
+  def sections("empty_state"),
+    do: [
+      {"empty_state-hero", "Hero",
+       "A centered 'no results' empty state: a search icon in a soft circular indicator, a title and a muted description."},
+      {"empty_state-actions", "With actions",
+       "A left-aligned empty state for a fresh project — indicator, title, description and an actions row with a primary and a subtle button."}
     ]
 
   def sections("field"),
@@ -952,6 +961,86 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
         LT
       </.avatar>
     </div>
+    """
+  end
+
+  def example(%{section: "empty_state-hero"} = assigns) do
+    ~H"""
+    <.empty_state
+      id="baseui-empty-state-hero"
+      title="No results found"
+      description="We couldn't find anything matching your search. Try a different keyword."
+      class="flex w-72 flex-col items-center gap-3 text-center"
+      indicator_class="flex size-12 items-center justify-center rounded-full bg-neutral-100 text-neutral-500 dark:bg-neutral-800 dark:text-neutral-400"
+      body_class="flex flex-col gap-1"
+      title_class="text-base font-semibold text-neutral-950 dark:text-white"
+      description_class="text-sm text-neutral-600 dark:text-neutral-400"
+    >
+      <:indicator>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+          />
+        </svg>
+      </:indicator>
+    </.empty_state>
+    """
+  end
+
+  def example(%{section: "empty_state-actions"} = assigns) do
+    ~H"""
+    <.empty_state
+      id="baseui-empty-state-actions"
+      align="left"
+      title="No projects yet"
+      description="Create your first project to get started — it only takes a minute."
+      class="flex w-80 flex-col items-start gap-3 text-left"
+      indicator_class="flex size-12 items-center justify-center rounded-full bg-neutral-100 text-neutral-500 dark:bg-neutral-800 dark:text-neutral-400"
+      body_class="flex flex-col gap-1"
+      title_class="text-base font-semibold text-neutral-950 dark:text-white"
+      description_class="text-sm text-neutral-600 dark:text-neutral-400"
+      actions_class="mt-2 flex gap-2"
+    >
+      <:indicator>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 10.5v6m3-3H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z"
+          />
+        </svg>
+      </:indicator>
+      <:actions>
+        <button
+          type="button"
+          class="rounded-md bg-neutral-950 px-3 py-1.5 text-sm font-medium text-white hover:bg-neutral-800 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200"
+        >
+          New project
+        </button>
+        <button
+          type="button"
+          class="rounded-md px-3 py-1.5 text-sm font-medium text-neutral-700 hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-800"
+        >
+          Import
+        </button>
+      </:actions>
+    </.empty_state>
     """
   end
 
