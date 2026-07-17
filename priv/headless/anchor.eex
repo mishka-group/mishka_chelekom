@@ -1,0 +1,27 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Headless **anchor** — a plain, themeable link (Mantine Anchor parity).
+
+  Renders an `<a>` with your `href` and any global attributes (`target`, `rel`, `phx-*`).
+  Semantics only — bring your own color and underline.
+
+  Ships **no** styling — style via `chelekom-anchor`.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/anchor
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, default: nil, doc: "Optional unique id"
+  attr :href, :string, default: nil, doc: "Link target"
+  attr :class, :any, default: nil, doc: "Extra classes"
+  attr :rest, :global, doc: "Any anchor/global attrs (target, rel, phx-*, …)"
+
+  slot :inner_block, required: true, doc: "The link text/content"
+
+  def <%= @component_prefix %>anchor(assigns) do
+    ~H"""
+    <a id={@id} href={@href} class={["chelekom-anchor", @class]} {@rest}>{render_slot(@inner_block)}</a>
+    """
+  end
+end
