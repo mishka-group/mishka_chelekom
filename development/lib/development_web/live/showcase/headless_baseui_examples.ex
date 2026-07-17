@@ -12,6 +12,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.Avatar
   import DevelopmentWeb.Components.Headless.Checkbox
   import DevelopmentWeb.Components.Headless.CheckboxGroup
+  import DevelopmentWeb.Components.Headless.CloseButton
   import DevelopmentWeb.Components.Headless.Combobox
   import DevelopmentWeb.Components.Headless.ContextMenu
   import DevelopmentWeb.Components.Headless.Dialog
@@ -103,6 +104,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
     do: [
       {"checkbox_group-hero", "Hero",
        "A labelled \"Apples\" checkbox group (Fuji/Gala/Granny Smith) with Fuji checked by default; each item is a small square box that fills in and shows a check icon when checked."}
+    ]
+
+  def sections("close_button"),
+    do: [
+      {"close_button-hero", "Hero",
+       "A default close button (built-in ✕) and one with a custom icon, both with an accessible label."}
     ]
 
   def sections("combobox"),
@@ -1041,6 +1048,34 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
         </button>
       </:actions>
     </.empty_state>
+    """
+  end
+
+  def example(%{section: "close_button-hero"} = assigns) do
+    ~H"""
+    <div class="flex items-center gap-4">
+      <.close_button
+        id="baseui-close-button-hero"
+        label="Close"
+        class="inline-flex size-8 items-center justify-center rounded-md text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-white"
+      />
+      <.close_button
+        id="baseui-close-button-custom"
+        label="Remove"
+        class="inline-flex size-8 items-center justify-center rounded-md text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-white"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-4"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+        </svg>
+      </.close_button>
+    </div>
     """
   end
 

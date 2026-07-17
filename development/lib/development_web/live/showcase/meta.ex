@@ -96,6 +96,7 @@ defmodule DevelopmentWeb.Showcase.Meta do
     "avatar" => "Image with loading and fallback states, unstyled.",
     "checkbox_group" => "Group of checkboxes sharing a label and state.",
     "checkbox" => "Accessible checkbox supporting checked and indeterminate state.",
+    "close_button" => "Icon-only button with a required accessible label, for dismissing UI.",
     "collapsible" => "A single trigger/panel pair that expands and collapses.",
     "combobox" => "Input plus popup listbox combining typing and selection.",
     "context_menu" => "Right-click menu with roving focus and keyboard support.",

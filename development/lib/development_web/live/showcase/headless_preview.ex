@@ -11,6 +11,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.Avatar
   import DevelopmentWeb.Components.Headless.Checkbox
   import DevelopmentWeb.Components.Headless.CheckboxGroup
+  import DevelopmentWeb.Components.Headless.CloseButton
   import DevelopmentWeb.Components.Headless.Collapsible
   import DevelopmentWeb.Components.Headless.Combobox
   import DevelopmentWeb.Components.Headless.ContextMenu
@@ -393,6 +394,29 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         </button>
       </:actions>
     </.empty_state>
+    """
+  end
+
+  def show(%{component: "close_button"} = assigns) do
+    ~H"""
+    <div class="flex items-center gap-4">
+      <.close_button
+        id={@id}
+        label="Close"
+        class="inline-flex size-8 items-center justify-center rounded-md text-[var(--c-base-content)]/60 hover:bg-[var(--c-base-200)] hover:text-[var(--c-base-content)] data-[disabled]:opacity-40"
+      />
+      <.close_button
+        id={"#{@id}-lg"}
+        label="Dismiss"
+        class="inline-flex size-10 items-center justify-center rounded-full text-lg text-[var(--c-base-content)]/60 hover:bg-[var(--c-base-200)] hover:text-[var(--c-base-content)]"
+      />
+      <.close_button
+        id={"#{@id}-disabled"}
+        label="Close"
+        disabled
+        class="inline-flex size-8 items-center justify-center rounded-md text-[var(--c-base-content)]/60 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-40"
+      />
+    </div>
     """
   end
 
