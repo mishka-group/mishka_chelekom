@@ -35,6 +35,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.Select
   import DevelopmentWeb.Components.Headless.Separator
   import DevelopmentWeb.Components.Headless.Slider
+  import DevelopmentWeb.Components.Headless.Spoiler
   import DevelopmentWeb.Components.Headless.Switch
   import DevelopmentWeb.Components.Headless.Tabs
   import DevelopmentWeb.Components.Headless.TagsInput
@@ -399,6 +400,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         </button>
       </:actions>
     </.empty_state>
+    """
+  end
+
+  def show(%{component: "spoiler"} = assigns) do
+    ~H"""
+    <.spoiler id={@id} class={spoiler_class()}>
+      Phoenix LiveView lets you build rich, real-time user experiences with server-rendered HTML —
+      form validation, live navigation and interactive components, with very little JavaScript. This
+      paragraph is deliberately long so the spoiler has something to clamp; expand it to read the
+      rest, then collapse it again.
+    </.spoiler>
     """
   end
 
@@ -1648,6 +1660,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   def has_examples?("tree"), do: true
   def has_examples?("empty_state"), do: true
   def has_examples?("tags_input"), do: true
+  def has_examples?("spoiler"), do: true
   def has_examples?(_), do: false
 
   def examples(%{component: "empty_state"} = assigns) do
@@ -1815,6 +1828,34 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
               </svg>
             </:indicator>
           </.empty_state>
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "spoiler"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          Custom labels &amp; taller clamp
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          The two control labels and the clamp height are yours — here it reads
+          <code>Read more</code>/<code>Read less</code>.
+        </p>
+        <div class="mt-4">
+          <.spoiler
+            id={"#{@id}-2"}
+            show_label="Read more"
+            hide_label="Read less"
+            class={spoiler_class()}
+          >
+            Mishka Chelekom ships finished components, accessible unstyled behaviour, and a Kit to
+            customize either. The spoiler keeps long descriptions like this one compact until the
+            reader chooses to expand them — handy for cards, comments and changelog entries.
+          </.spoiler>
         </div>
       </details>
     </div>
@@ -2706,6 +2747,20 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-[var(--c-primary)]/40",
       "data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50",
       "[&_[data-part=input]]:sr-only"
+    ]
+  end
+
+  # Spoiler: content clamped to a max-height while collapsed; the control swaps its two labels and the
+  # content reveals — all keyed on data-expanded (toggled client-side, no hook).
+  defp spoiler_class do
+    [
+      "max-w-md text-sm text-[var(--c-base-content)]/80",
+      "[&_[data-part=content]]:overflow-hidden [&_[data-part=content]]:transition-all",
+      "[&:not([data-expanded])_[data-part=content]]:max-h-12",
+      "[&[data-expanded]_[data-part=content]]:max-h-40",
+      "[&_[data-part=control]]:mt-1 [&_[data-part=control]]:text-sm [&_[data-part=control]]:font-medium [&_[data-part=control]]:text-[var(--c-primary)] [&_[data-part=control]]:hover:underline",
+      "[&[data-expanded]_[data-part=show-label]]:hidden",
+      "[&:not([data-expanded])_[data-part=hide-label]]:hidden"
     ]
   end
 

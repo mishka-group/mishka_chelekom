@@ -37,6 +37,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.Select
   import DevelopmentWeb.Components.Headless.Separator
   import DevelopmentWeb.Components.Headless.Slider
+  import DevelopmentWeb.Components.Headless.Spoiler
   import DevelopmentWeb.Components.Headless.Switch
   import DevelopmentWeb.Components.Headless.Tabs
   import DevelopmentWeb.Components.Headless.TagsInput
@@ -363,6 +364,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
        "A single-thumb slider whose thumb is edge-aligned so it stays within the track bounds at the extremes."},
       {"slider-vertical", "Vertical",
        "A single-thumb slider laid out vertically, with the track running top-to-bottom."}
+    ]
+
+  def sections("spoiler"),
+    do: [
+      {"spoiler-hero", "Hero",
+       "A paragraph clamped to a few lines with a Show more / Show less toggle (client-side)."}
     ]
 
   def sections("switch"),
@@ -1095,6 +1102,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
         class="relative inline-flex size-9 items-center justify-center rounded-md text-neutral-900 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-800 [&_[data-part=line]]:absolute [&_[data-part=line]]:h-0.5 [&_[data-part=line]]:w-5 [&_[data-part=line]]:rounded-full [&_[data-part=line]]:bg-current [&_[data-part=line]]:transition-all [&_[data-part=line]]:duration-200 [&_[data-part=line]:nth-child(1)]:-translate-y-1.5 [&_[data-part=line]:nth-child(3)]:translate-y-1.5 [&[data-opened]_[data-part=line]:nth-child(1)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(1)]:rotate-45 [&[data-opened]_[data-part=line]:nth-child(2)]:opacity-0 [&[data-opened]_[data-part=line]:nth-child(3)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(3)]:-rotate-45"
       />
     </div>
+    """
+  end
+
+  def example(%{section: "spoiler-hero"} = assigns) do
+    ~H"""
+    <.spoiler
+      id="baseui-spoiler"
+      class="max-w-sm text-sm text-neutral-700 dark:text-neutral-300 [&_[data-part=content]]:overflow-hidden [&_[data-part=content]]:transition-all [&:not([data-expanded])_[data-part=content]]:max-h-12 [&[data-expanded]_[data-part=content]]:max-h-40 [&_[data-part=control]]:mt-1 [&_[data-part=control]]:text-sm [&_[data-part=control]]:font-medium [&_[data-part=control]]:text-neutral-900 [&_[data-part=control]]:underline dark:[&_[data-part=control]]:text-white [&[data-expanded]_[data-part=show-label]]:hidden [&:not([data-expanded])_[data-part=hide-label]]:hidden"
+    >
+      Mantine's Spoiler hides long content behind a toggle. This copy is long enough to be clipped
+      when collapsed; press the control to reveal the rest, and press it again to hide it away.
+    </.spoiler>
     """
   end
 

@@ -124,6 +124,7 @@ defmodule DevelopmentWeb.Showcase.Meta do
     "select" => "Listbox select with typeahead and keyboard navigation.",
     "separator" => "Semantic divider (ARIA separator), horizontal or vertical.",
     "slider" => "Range slider with one or more thumbs, keyboard and ARIA.",
+    "spoiler" => "Clamp long content behind a Show more / Show less toggle.",
     "switch" => "On/off toggle with switch role and keyboard.",
     "tabs" => "Tab list and panels with roving focus and ARIA.",
     "tags_input" => "Removable tokens plus a text field for entering a list of values.",
