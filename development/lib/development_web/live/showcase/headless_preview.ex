@@ -9,6 +9,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.AlertDialog
   import DevelopmentWeb.Components.Headless.Autocomplete
   import DevelopmentWeb.Components.Headless.Avatar
+  import DevelopmentWeb.Components.Headless.Burger
   import DevelopmentWeb.Components.Headless.Checkbox
   import DevelopmentWeb.Components.Headless.CheckboxGroup
   import DevelopmentWeb.Components.Headless.CloseButton
@@ -394,6 +395,21 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         </button>
       </:actions>
     </.empty_state>
+    """
+  end
+
+  def show(%{component: "burger"} = assigns) do
+    ~H"""
+    <div class="flex items-center gap-6">
+      <div class="flex flex-col items-center gap-1">
+        <.burger id={@id} label="Open menu" class={burger_class()} />
+        <span class="text-[0.7rem] text-[var(--c-base-content)]/40">closed</span>
+      </div>
+      <div class="flex flex-col items-center gap-1">
+        <.burger id={"#{@id}-open"} opened label="Close menu" class={burger_class()} />
+        <span class="text-[0.7rem] text-[var(--c-base-content)]/40">opened</span>
+      </div>
+    </div>
     """
   end
 
@@ -2592,6 +2608,19 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "[&_[data-part=body]]:flex [&_[data-part=body]]:flex-col [&_[data-part=body]]:gap-1",
       "[&_[data-part=title]]:text-sm [&_[data-part=title]]:font-semibold",
       "[&_[data-part=description]]:text-xs [&_[data-part=description]]:text-[var(--c-base-content)]/60"
+    ]
+  end
+
+  # Burger: three bars that morph into an ✕ under data-opened (state you own). The showcase animates
+  # them; the component ships no styling.
+  defp burger_class do
+    [
+      "relative inline-flex size-9 items-center justify-center rounded-md hover:bg-[var(--c-base-200)] data-[disabled]:opacity-40",
+      "[&_[data-part=line]]:absolute [&_[data-part=line]]:h-0.5 [&_[data-part=line]]:w-5 [&_[data-part=line]]:rounded-full [&_[data-part=line]]:bg-[var(--c-base-content)] [&_[data-part=line]]:transition-all [&_[data-part=line]]:duration-200",
+      "[&_[data-part=line]:nth-child(1)]:-translate-y-1.5 [&_[data-part=line]:nth-child(3)]:translate-y-1.5",
+      "[&[data-opened]_[data-part=line]:nth-child(1)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(1)]:rotate-45",
+      "[&[data-opened]_[data-part=line]:nth-child(2)]:opacity-0",
+      "[&[data-opened]_[data-part=line]:nth-child(3)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(3)]:-rotate-45"
     ]
   end
 

@@ -94,6 +94,7 @@ defmodule DevelopmentWeb.Showcase.Meta do
     "alert_dialog" => "Modal dialog that interrupts to confirm a critical action; focus-trapped.",
     "autocomplete" => "Text input with an ARIA listbox of filtered suggestions.",
     "avatar" => "Image with loading and fallback states, unstyled.",
+    "burger" => "Hamburger navigation toggle with aria-expanded and an animated icon.",
     "checkbox_group" => "Group of checkboxes sharing a label and state.",
     "checkbox" => "Accessible checkbox supporting checked and indeterminate state.",
     "close_button" => "Icon-only button with a required accessible label, for dismissing UI.",

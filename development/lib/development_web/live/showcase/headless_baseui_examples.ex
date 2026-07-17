@@ -10,6 +10,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.AlertDialog
   import DevelopmentWeb.Components.Headless.Autocomplete
   import DevelopmentWeb.Components.Headless.Avatar
+  import DevelopmentWeb.Components.Headless.Burger
   import DevelopmentWeb.Components.Headless.Checkbox
   import DevelopmentWeb.Components.Headless.CheckboxGroup
   import DevelopmentWeb.Components.Headless.CloseButton
@@ -92,6 +93,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
     do: [
       {"avatar-hero", "Hero",
        "Two rounded avatars side by side: one loads a remote image with an \"LT\" fallback (600ms delay) and the other is a fallback-only avatar showing just the \"LT\" initials."}
+    ]
+
+  def sections("burger"),
+    do: [
+      {"burger-hero", "Hero",
+       "A closed and an opened burger toggle; the three bars animate into an ✕ under data-opened."}
     ]
 
   def sections("checkbox"),
@@ -1048,6 +1055,24 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
         </button>
       </:actions>
     </.empty_state>
+    """
+  end
+
+  def example(%{section: "burger-hero"} = assigns) do
+    ~H"""
+    <div class="flex items-center gap-6">
+      <.burger
+        id="baseui-burger-closed"
+        label="Open navigation"
+        class="relative inline-flex size-9 items-center justify-center rounded-md text-neutral-900 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-800 [&_[data-part=line]]:absolute [&_[data-part=line]]:h-0.5 [&_[data-part=line]]:w-5 [&_[data-part=line]]:rounded-full [&_[data-part=line]]:bg-current [&_[data-part=line]]:transition-all [&_[data-part=line]]:duration-200 [&_[data-part=line]:nth-child(1)]:-translate-y-1.5 [&_[data-part=line]:nth-child(3)]:translate-y-1.5 [&[data-opened]_[data-part=line]:nth-child(1)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(1)]:rotate-45 [&[data-opened]_[data-part=line]:nth-child(2)]:opacity-0 [&[data-opened]_[data-part=line]:nth-child(3)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(3)]:-rotate-45"
+      />
+      <.burger
+        id="baseui-burger-opened"
+        opened
+        label="Close navigation"
+        class="relative inline-flex size-9 items-center justify-center rounded-md text-neutral-900 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-800 [&_[data-part=line]]:absolute [&_[data-part=line]]:h-0.5 [&_[data-part=line]]:w-5 [&_[data-part=line]]:rounded-full [&_[data-part=line]]:bg-current [&_[data-part=line]]:transition-all [&_[data-part=line]]:duration-200 [&_[data-part=line]:nth-child(1)]:-translate-y-1.5 [&_[data-part=line]:nth-child(3)]:translate-y-1.5 [&[data-opened]_[data-part=line]:nth-child(1)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(1)]:rotate-45 [&[data-opened]_[data-part=line]:nth-child(2)]:opacity-0 [&[data-opened]_[data-part=line]:nth-child(3)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(3)]:-rotate-45"
+      />
+    </div>
     """
   end
 
