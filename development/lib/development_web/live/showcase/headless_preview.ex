@@ -26,6 +26,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.Meter
   import DevelopmentWeb.Components.Headless.NavigationMenu
   import DevelopmentWeb.Components.Headless.NumberField
+  import DevelopmentWeb.Components.Headless.Pill
   import DevelopmentWeb.Components.Headless.Popover
   import DevelopmentWeb.Components.Headless.PreviewCard
   import DevelopmentWeb.Components.Headless.Progress
@@ -396,6 +397,19 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         </button>
       </:actions>
     </.empty_state>
+    """
+  end
+
+  def show(%{component: "pill"} = assigns) do
+    ~H"""
+    <div class="flex flex-wrap items-center gap-2">
+      <.pill id={@id} class={pill_class()}>Default</.pill>
+      <.pill id={"#{@id}-2"} with_remove remove_label="Remove React" class={pill_class()}>React</.pill>
+      <.pill id={"#{@id}-3"} with_remove remove_label="Remove Phoenix" class={pill_class()}>
+        Phoenix
+      </.pill>
+      <.pill id={"#{@id}-4"} with_remove disabled class={pill_class()}>Disabled</.pill>
+    </div>
     """
   end
 
@@ -2656,6 +2670,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-[var(--c-primary)]/40",
       "data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50",
       "[&_[data-part=input]]:sr-only"
+    ]
+  end
+
+  # Pill: a token with an optional remove button. Padding tightens on the remove side; without a
+  # remove button the right padding is restored via :not(:has(...)).
+  defp pill_class do
+    [
+      "inline-flex items-center gap-1 rounded-full bg-[var(--c-base-200)] py-0.5 pr-1 pl-2.5 text-sm data-[disabled]:opacity-50",
+      "[&:not(:has([data-part=remove]))]:pr-2.5",
+      "[&_[data-part=label]]:leading-none",
+      "[&_[data-part=remove]]:inline-flex [&_[data-part=remove]]:size-4 [&_[data-part=remove]]:items-center [&_[data-part=remove]]:justify-center [&_[data-part=remove]]:rounded-full [&_[data-part=remove]]:leading-none [&_[data-part=remove]]:text-[var(--c-base-content)]/50 [&_[data-part=remove]]:hover:bg-[var(--c-base-300)] [&_[data-part=remove]]:hover:text-[var(--c-base-content)] [&_[data-part=remove]]:disabled:pointer-events-none"
     ]
   end
 

@@ -28,6 +28,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.NavigationMenu
   import DevelopmentWeb.Components.Headless.NumberField
   import DevelopmentWeb.Components.Headless.OtpField
+  import DevelopmentWeb.Components.Headless.Pill
   import DevelopmentWeb.Components.Headless.Popover
   import DevelopmentWeb.Components.Headless.PreviewCard
   import DevelopmentWeb.Components.Headless.Progress
@@ -276,6 +277,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
        "Per-slot placeholder dots that stay visible until the active slot is focused."},
       {"otp_field-grouped", "Grouped",
        "Two groups of three slots split by a horizontal separator line (group + separator)."}
+    ]
+
+  def sections("pill"),
+    do: [
+      {"pill-hero", "Hero",
+       "A read-only pill and removable tags, each with an accessible remove button."}
     ]
 
   def sections("popover"),
@@ -1079,6 +1086,35 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
         label="Close navigation"
         class="relative inline-flex size-9 items-center justify-center rounded-md text-neutral-900 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-800 [&_[data-part=line]]:absolute [&_[data-part=line]]:h-0.5 [&_[data-part=line]]:w-5 [&_[data-part=line]]:rounded-full [&_[data-part=line]]:bg-current [&_[data-part=line]]:transition-all [&_[data-part=line]]:duration-200 [&_[data-part=line]:nth-child(1)]:-translate-y-1.5 [&_[data-part=line]:nth-child(3)]:translate-y-1.5 [&[data-opened]_[data-part=line]:nth-child(1)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(1)]:rotate-45 [&[data-opened]_[data-part=line]:nth-child(2)]:opacity-0 [&[data-opened]_[data-part=line]:nth-child(3)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(3)]:-rotate-45"
       />
+    </div>
+    """
+  end
+
+  def example(%{section: "pill-hero"} = assigns) do
+    ~H"""
+    <div class="flex flex-wrap items-center gap-2">
+      <.pill
+        id="baseui-pill-design"
+        class="inline-flex items-center gap-1 rounded-full bg-neutral-100 px-2.5 py-0.5 text-sm text-neutral-800 dark:bg-neutral-800 dark:text-neutral-200"
+      >
+        Design
+      </.pill>
+      <.pill
+        id="baseui-pill-eng"
+        with_remove
+        remove_label="Remove Engineering"
+        class="inline-flex items-center gap-1 rounded-full bg-neutral-100 py-0.5 pr-1 pl-2.5 text-sm text-neutral-800 dark:bg-neutral-800 dark:text-neutral-200 [&_[data-part=remove]]:inline-flex [&_[data-part=remove]]:size-4 [&_[data-part=remove]]:items-center [&_[data-part=remove]]:justify-center [&_[data-part=remove]]:rounded-full [&_[data-part=remove]]:text-neutral-500 [&_[data-part=remove]]:hover:bg-neutral-200 dark:[&_[data-part=remove]]:hover:bg-neutral-700"
+      >
+        Engineering
+      </.pill>
+      <.pill
+        id="baseui-pill-product"
+        with_remove
+        remove_label="Remove Product"
+        class="inline-flex items-center gap-1 rounded-full bg-neutral-100 py-0.5 pr-1 pl-2.5 text-sm text-neutral-800 dark:bg-neutral-800 dark:text-neutral-200 [&_[data-part=remove]]:inline-flex [&_[data-part=remove]]:size-4 [&_[data-part=remove]]:items-center [&_[data-part=remove]]:justify-center [&_[data-part=remove]]:rounded-full [&_[data-part=remove]]:text-neutral-500 [&_[data-part=remove]]:hover:bg-neutral-200 dark:[&_[data-part=remove]]:hover:bg-neutral-700"
+      >
+        Product
+      </.pill>
     </div>
     """
   end

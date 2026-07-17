@@ -114,6 +114,7 @@ defmodule DevelopmentWeb.Showcase.Meta do
     "navigation_menu" => "Site navigation with disclosure submenus.",
     "number_field" => "Spinbutton input with increment/decrement and clamping.",
     "otp_field" => "Segmented one-time-code input with paste and keyboard handling.",
+    "pill" => "Compact tag/token with an optional accessible remove button.",
     "popover" => "Anchored floating panel with dismissal and focus return.",
     "preview_card" => "Hover/focus card that reveals a rich preview.",
     "progress" => "Determinate or indeterminate progress bar (ARIA progressbar).",
