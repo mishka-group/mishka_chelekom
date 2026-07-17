@@ -100,6 +100,7 @@ defmodule DevelopmentWeb.Showcase.Meta do
     "chip" => "Selectable pill backed by a native checkbox or radio input.",
     "close_button" => "Icon-only button with a required accessible label, for dismissing UI.",
     "collapsible" => "A single trigger/panel pair that expands and collapses.",
+    "color_swatch" => "Display a single color as a labelled swatch.",
     "combobox" => "Input plus popup listbox combining typing and selection.",
     "context_menu" => "Right-click menu with roving focus and keyboard support.",
     "dialog" => "Modal dialog with focus trap, ARIA and paired-presence state.",

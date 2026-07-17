@@ -15,6 +15,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.Chip
   import DevelopmentWeb.Components.Headless.CloseButton
   import DevelopmentWeb.Components.Headless.Collapsible
+  import DevelopmentWeb.Components.Headless.ColorSwatch
   import DevelopmentWeb.Components.Headless.Combobox
   import DevelopmentWeb.Components.Headless.ContextMenu
   import DevelopmentWeb.Components.Headless.Dialog
@@ -400,6 +401,29 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         </button>
       </:actions>
     </.empty_state>
+    """
+  end
+
+  def show(%{component: "color_swatch"} = assigns) do
+    ~H"""
+    <div class="flex items-center gap-3">
+      <.color_swatch color="#3b82f6" class="inline-block size-8 rounded-full ring-1 ring-black/10" />
+      <.color_swatch color="#ef4444" class="inline-block size-8 rounded-full ring-1 ring-black/10" />
+      <.color_swatch color="#22c55e" class="inline-block size-8 rounded-md ring-1 ring-black/10" />
+      <.color_swatch
+        color="#a855f7"
+        label="Selected purple"
+        class="inline-flex size-8 items-center justify-center rounded-full text-white ring-1 ring-black/10"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4">
+          <path
+            fill-rule="evenodd"
+            d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </.color_swatch>
+    </div>
     """
   end
 

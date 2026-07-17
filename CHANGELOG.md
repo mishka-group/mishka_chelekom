@@ -11,6 +11,7 @@
 - Add headless `Pill` component (Mantine parity) — a compact tag/token with an optional accessible remove button and `data-disabled`
 - Add headless `TagsInput` component (Mantine parity) — removable tokens plus a draft input; add via a form `phx-submit` or `on_add`, remove via `on_remove`, click-to-focus via `JS.focus`, no JS hook
 - Add headless `Spoiler` component (Mantine parity) — clamp long content behind a Show more / Show less toggle via `JS.toggle_attribute`, no JS hook
+- Add headless `ColorSwatch` component (Mantine parity) — display a single color as a labelled `role="img"` swatch with optional overlay
 - Add `Mishka Tools` documentation button to headless component pages, and point `ARIA pattern` at the component's `spec_url` instead of its docs URL
 - Add per-option tagged, base-first `examples` to `mix mishka.ui.export --cms`: every component now ships at least one example, ordered base-first, with `extra.examples[]` carrying `label`/`section`/`base`/`requires` so a consumer can hide an example whose variant was not installed [Commit](https://github.com/mishka-group/mishka_chelekom/commit/65764c5e)
 - Add `## Examples` docs to `label/1`, `error/1`, `header/1` and `simple_form/1`, so every public component function documents its usage

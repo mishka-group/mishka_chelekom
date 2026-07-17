@@ -15,6 +15,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.CheckboxGroup
   import DevelopmentWeb.Components.Headless.Chip
   import DevelopmentWeb.Components.Headless.CloseButton
+  import DevelopmentWeb.Components.Headless.ColorSwatch
   import DevelopmentWeb.Components.Headless.Combobox
   import DevelopmentWeb.Components.Headless.ContextMenu
   import DevelopmentWeb.Components.Headless.Dialog
@@ -128,6 +129,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
     do: [
       {"close_button-hero", "Hero",
        "A default close button (built-in ✕) and one with a custom icon, both with an accessible label."}
+    ]
+
+  def sections("color_swatch"),
+    do: [
+      {"color_swatch-hero", "Hero",
+       "Round and square swatches of different colors, one with a check overlay."}
     ]
 
   def sections("combobox"),
@@ -1291,6 +1298,29 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
         Granny Smith
       </:item>
     </.checkbox_group>
+    """
+  end
+
+  def example(%{section: "color_swatch-hero"} = assigns) do
+    ~H"""
+    <div class="flex items-center gap-3">
+      <.color_swatch color="#fa5252" class="inline-block size-9 rounded-full ring-1 ring-black/10" />
+      <.color_swatch color="#7048e8" class="inline-block size-9 rounded-full ring-1 ring-black/10" />
+      <.color_swatch color="#12b886" class="inline-block size-9 rounded-lg ring-1 ring-black/10" />
+      <.color_swatch
+        color="#1c7ed6"
+        label="Selected"
+        class="inline-flex size-9 items-center justify-center rounded-full text-white ring-1 ring-black/10"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4">
+          <path
+            fill-rule="evenodd"
+            d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </.color_swatch>
+    </div>
     """
   end
 
