@@ -110,6 +110,7 @@ defmodule DevelopmentWeb.Showcase.Meta do
       "Presentational placeholder for empty views — indicator, title, description and actions, unstyled.",
     "fieldset" => "Accessible grouping of form controls with a legend.",
     "field" => "Label, control, description and error wiring for one form field.",
+    "mark" => "Highlight an inline run of text with <mark>.",
     "menubar" => "Horizontal application menu bar with submenus and roving focus.",
     "menu" => "Popup menu of actions with roving tabindex and keyboard.",
     "meter" => "Static gauge reporting a value within a known range (ARIA meter).",

@@ -24,6 +24,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.EmptyState
   import DevelopmentWeb.Components.Headless.Field
   import DevelopmentWeb.Components.Headless.Fieldset
+  import DevelopmentWeb.Components.Headless.Mark
   import DevelopmentWeb.Components.Headless.Menu
   import DevelopmentWeb.Components.Headless.Menubar
   import DevelopmentWeb.Components.Headless.Meter
@@ -131,6 +132,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       {"close_button-hero", "Hero",
        "A default close button (built-in ✕) and one with a custom icon, both with an accessible label."}
     ]
+
+  def sections("mark"),
+    do: [{"mark-hero", "Hero", "A highlighted run of text inside a sentence."}]
 
   def sections("code"),
     do: [
@@ -1304,6 +1308,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
         Granny Smith
       </:item>
     </.checkbox_group>
+    """
+  end
+
+  def example(%{section: "mark-hero"} = assigns) do
+    ~H"""
+    <p class="max-w-sm text-sm text-neutral-700 dark:text-neutral-300">
+      The quick brown <.mark class="rounded bg-yellow-200 px-0.5 text-neutral-900">fox</.mark>
+      jumps over the lazy <.mark class="rounded bg-lime-200 px-0.5 text-neutral-900">dog</.mark>.
+    </p>
     """
   end
 

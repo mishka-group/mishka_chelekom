@@ -23,6 +23,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.EmptyState
   import DevelopmentWeb.Components.Headless.Field
   import DevelopmentWeb.Components.Headless.Fieldset
+  import DevelopmentWeb.Components.Headless.Mark
   import DevelopmentWeb.Components.Headless.Menu
   import DevelopmentWeb.Components.Headless.Menubar
   import DevelopmentWeb.Components.Headless.Meter
@@ -402,6 +403,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         </button>
       </:actions>
     </.empty_state>
+    """
+  end
+
+  def show(%{component: "mark"} = assigns) do
+    ~H"""
+    <p class="max-w-md text-sm text-[var(--c-base-content)]/80">
+      Search matched
+      <.mark class="rounded bg-yellow-200 px-0.5 text-neutral-900">Phoenix LiveView</.mark>
+      in this sentence — the highlight also carries meaning for assistive tech.
+    </p>
     """
   end
 
