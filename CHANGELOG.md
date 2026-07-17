@@ -1,3 +1,33 @@
+# Changelog for MishkaChelekom 0.0.10
+
+### Features:
+
+- Add headless `Tree` component — Mantine's Tree converted to a Phoenix headless component, with expand/collapse, single/multiple and shift-range selection, cascading checkboxes (with indeterminate) or `check_strictly`, WAI-ARIA treeview keyboard navigation, drag & drop, and server-driven async child loading
+- Add Base UI gallery example and live server-driven examples (controller, form, single event, async, drag & drop, search) for the `Tree` component
+- Add `Mishka Tools` documentation button to headless component pages, and point `ARIA pattern` at the component's `spec_url` instead of its docs URL
+- Add per-option tagged, base-first `examples` to `mix mishka.ui.export --cms`: every component now ships at least one example, ordered base-first, with `extra.examples[]` carrying `label`/`section`/`base`/`requires` so a consumer can hide an example whose variant was not installed [Commit](https://github.com/mishka-group/mishka_chelekom/commit/65764c5e)
+- Add `## Examples` docs to `label/1`, `error/1`, `header/1` and `simple_form/1`, so every public component function documents its usage
+
+### Refactors:
+
+- Refactor the `--cms` export example pipeline into `CmsBundle.{DocExamples, DocsPage, Examples, Sanitize}`, harvesting from each function's `@doc` fences and the docs pages' `code_string/1` snippets rather than the demo markup
+- Update `phoenix_live_view` to 1.2.7 [Commit](https://github.com/mishka-group/mishka_chelekom/commit/85d3bf5f)
+- Point `doc_url` at mishka.tools and preserve the specification URLs under `spec_url` [Commit](https://github.com/mishka-group/mishka_chelekom/commit/6e4db073)
+- Add the Headless section to the README [Commit](https://github.com/mishka-group/mishka_chelekom/commit/c23668dc)
+- Tighten all 116 usage rules, fix the Kit doc, bump versions and add the v0.0.9 roadmap [Commit](https://github.com/mishka-group/mishka_chelekom/commit/080e90fd)
+- Shorten every usage rule [Commit](https://github.com/mishka-group/mishka_chelekom/commit/f6f8594f)
+
+### Bugs:
+
+- Fix missing `component_prefix` in components [Commit](https://github.com/mishka-group/mishka_chelekom/commit/fc2e7edc)
+- Fix Tabs not showing a pointer cursor on hover over tab triggers [#491](https://github.com/mishka-group/mishka_chelekom/pull/491)
+- Fix avatar not forwarding standard `img` attributes (`alt`, `srcset`, `loading`, `width`…) via `:global` include [Commit](https://github.com/mishka-group/mishka_chelekom/commit/e08098c1)
+- Fix Elixir 1.20 type-checker warnings in stepper and table_content [Commit](https://github.com/mishka-group/mishka_chelekom/commit/bb94d8f8)
+- Fix dev harness headless CSS copy drifting from the `priv` source [Commit](https://github.com/mishka-group/mishka_chelekom/commit/9ccaf8d1)
+- Fix `--cms` export shipping no examples for 53 of 136 components: the form components' docs pages were never vendored, nested-only components (`card_title`, `td`, `progress_section`…) were skipped by the extractor, and the literal-only filter discarded every snippet that referenced a demo assign (`pagination` harvested 111 examples and shipped 0)
+- Fix `DemoHarness` not passing `extra.clauses`, `extra.prelude` and `extra.module_attributes` to the component compiler, so every multi-clause component was compiled from its first clause only and guarded clauses were never exercised
+- Fix component compiler dropping multi-clause guards, which made all nine form-field components raise `FunctionClauseError` on render with their default `floating` value
+
 # Changelog for MishkaChelekom 0.0.9
 
 ### Features:

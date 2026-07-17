@@ -52,6 +52,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessCatalog do
         hooks: hl[:hooks] || [],
         state: hl[:state_attributes] || [],
         doc_url: cfg[:doc_url],
+        spec_url: cfg[:spec_url],
         description: DevelopmentWeb.Showcase.Meta.headless_description(name),
         sibling: DevelopmentWeb.Showcase.Meta.styled_sibling(name)
       }

@@ -112,6 +112,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessLive do
                 :if={@component.doc_url}
                 href={@component.doc_url}
                 target="_blank"
+                class="inline-flex items-center gap-1 rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] px-2.5 py-1 font-medium shadow-sm hover:bg-[var(--c-base-200)]"
+              >
+                Mishka Tools ↗
+              </a>
+              <a
+                :if={@component.spec_url}
+                href={@component.spec_url}
+                target="_blank"
                 class="link link-primary"
               >
                 ARIA pattern ↗

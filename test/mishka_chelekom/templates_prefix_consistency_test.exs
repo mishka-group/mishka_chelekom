@@ -6,18 +6,18 @@ defmodule MishkaChelekom.TemplatesPrefixConsistencyTest do
   misplaced dot (`</<%= @component_prefix %>.th>`) — produces valid HEEx with an empty
   prefix but *unmatched closing tags* the moment any prefix is set, breaking generation.
 
-  This scans the real `priv/components/*.eex` templates and, for every component that is
-  referenced with a prefix, asserts that every open/close reference to that same component
-  is also prefixed and well-formed. It derives everything from the templates themselves —
-  no hardcoded component list or counts.
+  This scans the real `priv/components/*.eex` and `priv/headless/*.eex` templates and, for
+  every component that is referenced with a prefix, asserts that every open/close reference
+  to that same component is also prefixed and well-formed. It derives everything from the
+  templates themselves — no hardcoded component list or counts.
   """
   use ExUnit.Case, async: true
 
   @prefix_token "<%= @component_prefix %>"
-  @templates Path.wildcard("priv/components/*.eex")
+  @templates Path.wildcard("priv/{components,headless}/*.eex")
 
   test "there are component templates to check" do
-    assert @templates != [], "expected priv/components/*.eex templates to exist"
+    assert @templates != [], "expected priv/{components,headless}/*.eex templates to exist"
   end
 
   test "every prefixed component is opened and closed with a well-formed prefix" do

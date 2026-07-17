@@ -124,7 +124,11 @@ defmodule DevelopmentWeb.Showcase.Meta do
     "toggle_group" => "A set of toggle buttons, single- or multiple-pressed.",
     "toggle" => "Two-state toggle button (aria-pressed).",
     "toolbar" => "Group of controls sharing a roving tabindex.",
-    "tooltip" => "Hover/focus hint wired with aria-describedby."
+    "tooltip" => "Hover/focus hint wired with aria-describedby.",
+    "tree" =>
+      "Unstyled tree view — Mantine's Tree converted to a Phoenix headless component for Mishka " <>
+        "Chelekom: expand/collapse, selection, cascading checkboxes, keyboard nav, drag & drop and " <>
+        "async loading."
   }
 
   @links %{

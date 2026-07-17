@@ -37,6 +37,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.ToggleGroup
   import DevelopmentWeb.Components.Headless.Toolbar
   import DevelopmentWeb.Components.Headless.Tooltip
+  import DevelopmentWeb.Components.Headless.Tree
   import DevelopmentWeb.Components.Headless.Drawer
   import DevelopmentWeb.Components.Headless.Radio
   import DevelopmentWeb.Components.Headless.OtpField
@@ -1315,6 +1316,158 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     """
   end
 
+  def show(%{component: "tree"} = assigns) do
+    ~H"""
+    <div class="space-y-6">
+      <div class="space-y-1.5">
+        <p class="text-[0.7rem] uppercase tracking-wide text-[var(--c-base-content)]/40">
+          Files · click to select · ↑↓ to walk · ←→ to collapse/expand · the <code>:node</code>
+          slot draws the icons
+        </p>
+        <.tree
+          id={@id}
+          aria_label="Project files"
+          select_on_click
+          expanded={["src"]}
+          nodes={[
+            %{
+              label: "src",
+              value: "src",
+              children: [
+                %{
+                  label: "components",
+                  value: "src/components",
+                  children: [
+                    %{label: "Accordion.tsx", value: "src/components/Accordion.tsx"},
+                    %{label: "Tree.tsx", value: "src/components/Tree.tsx"}
+                  ]
+                },
+                %{label: "app.tsx", value: "src/app.tsx"}
+              ]
+            },
+            %{label: "package.json", value: "package.json"},
+            %{label: "tsconfig.json", value: "tsconfig.json"}
+          ]}
+          class={tree_class()}
+        >
+          <:expand_icon>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M6 12V4l4.5 4z" />
+            </svg>
+          </:expand_icon>
+          <:node :let={n}>
+            <svg
+              :if={n.has_children}
+              width="14"
+              height="14"
+              viewBox="0 0 16 16"
+              fill="none"
+              stroke="currentColor"
+              class="shrink-0 opacity-60"
+            >
+              <path d="M1.5 12.5v-9h4l1.5 2h7.5v7z" />
+            </svg>
+            <svg
+              :if={!n.has_children}
+              width="14"
+              height="14"
+              viewBox="0 0 16 16"
+              fill="none"
+              stroke="currentColor"
+              class="shrink-0 opacity-60"
+            >
+              <path d="M3.5 1.5h6l3 3v11h-9z" />
+              <path d="M9.5 1.5v3.5h3" />
+            </svg>
+            {n.node.label}
+          </:node>
+        </.tree>
+      </div>
+
+      <div class="space-y-1.5">
+        <p class="text-[0.7rem] uppercase tracking-wide text-[var(--c-base-content)]/40">
+          Multiple · shift-click a range · <code>expanded={:all}</code>
+        </p>
+        <.tree
+          id={"#{@id}-multi"}
+          aria_label="Team"
+          multiple
+          select_on_click
+          allow_range_selection
+          expanded={:all}
+          selected={["ana", "cleo"]}
+          nodes={[
+            %{
+              label: "Design",
+              value: "design",
+              children: [
+                %{label: "Ana", value: "ana"},
+                %{label: "Ben", value: "ben"}
+              ]
+            },
+            %{
+              label: "Engineering",
+              value: "eng",
+              children: [
+                %{label: "Cleo", value: "cleo"},
+                %{label: "Dev", value: "dev"}
+              ]
+            }
+          ]}
+          class={tree_class()}
+        >
+          <:expand_icon>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M6 12V4l4.5 4z" />
+            </svg>
+          </:expand_icon>
+        </.tree>
+      </div>
+
+      <div class="space-y-1.5">
+        <p class="text-[0.7rem] uppercase tracking-wide text-[var(--c-base-content)]/40">
+          Cascading checkboxes · a half-checked parent reports <code>aria-checked="mixed"</code>
+          · <code>name</code>
+          posts the leaves natively
+        </p>
+        <.tree
+          id={"#{@id}-checks"}
+          aria_label="Permissions"
+          with_checkboxes
+          name="permissions[]"
+          expanded={:all}
+          checked={["content:read", "billing:read", "billing:write"]}
+          nodes={[
+            %{
+              label: "Content",
+              value: "content",
+              children: [
+                %{label: "Read posts", value: "content:read"},
+                %{label: "Write posts", value: "content:write"}
+              ]
+            },
+            %{
+              label: "Billing",
+              value: "billing",
+              children: [
+                %{label: "View invoices", value: "billing:read"},
+                %{label: "Change plan", value: "billing:write"}
+              ]
+            }
+          ]}
+          class={tree_class()}
+        >
+          <:expand_icon>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M6 12V4l4.5 4z" />
+            </svg>
+          </:expand_icon>
+        </.tree>
+      </div>
+    </div>
+    """
+  end
+
   def show(assigns) do
     ~H"""
     <p class="text-sm text-[var(--c-base-content)]/60">No example for <code>{@component}</code>.</p>
@@ -1364,6 +1517,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   def has_examples?("navigation_menu"), do: true
   def has_examples?("tabs"), do: true
   def has_examples?("alert_dialog"), do: true
+  def has_examples?("tree"), do: true
   def has_examples?(_), do: false
 
   def examples(%{component: "toast"} = assigns) do
@@ -1570,6 +1724,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
           <.live_component module={DevelopmentWeb.Showcase.OtpFormDemo} id={"#{@id}-form"} />
         </div>
       </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "tree"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <p class="text-sm text-[var(--c-base-content)]/60">
+        Every server-driven situation, live. The tree only reports what happened — moving a node,
+        loading children and filtering are all the server's job.
+      </p>
+      <.live_component module={DevelopmentWeb.Showcase.TreeDemos} id={"#{@id}-demos"} />
     </div>
     """
   end
@@ -2023,6 +2189,53 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     [
       "[&_[data-part=trigger]]:cursor-help [&_[data-part=trigger]]:underline [&_[data-part=trigger]]:decoration-dotted [&_[data-part=trigger]]:underline-offset-4 [&_[data-part=trigger]]:text-sm [&_[data-part=trigger]]:outline-none",
       "[&_[data-part=popup]]:max-w-48 [&_[data-part=popup]]:rounded-md [&_[data-part=popup]]:bg-[var(--c-base-content)] [&_[data-part=popup]]:px-2 [&_[data-part=popup]]:py-1 [&_[data-part=popup]]:text-xs [&_[data-part=popup]]:text-[var(--c-base-100)] [&_[data-part=popup]]:shadow-lg [&_[data-part=popup]]:transition [&_[data-part=popup]]:duration-100 [&_[data-part=popup][data-starting-style]]:opacity-0 [&_[data-part=popup][data-starting-style]]:scale-95 [&_[data-part=popup][data-side=top]]:origin-bottom [&_[data-part=popup][data-side=bottom]]:origin-top"
+    ]
+  end
+
+  # File-explorer look. The indent is the component's only structural style: every node publishes
+  # `--label-offset`, and nothing consumes it until the label pads itself by it. A collapsed subtree
+  # is hidden by the `hidden` attribute the hook toggles, so the subtree must never take a display
+  # utility. The chevron reads its own node's state — matching on `[data-expanded=true] >` and not a
+  # descendant keeps a leaf's chevron from rotating inside an open parent.
+  @doc "Showcase skin for the headless tree — shared with `TreeDemos`."
+  def tree_class do
+    [
+      "w-64 select-none text-sm",
+      "[&_[data-part=label]]:flex [&_[data-part=label]]:items-center [&_[data-part=label]]:gap-1.5 [&_[data-part=label]]:rounded [&_[data-part=label]]:py-1 [&_[data-part=label]]:pr-2 [&_[data-part=label]]:pl-[calc(var(--label-offset)+0.375rem)] [&_[data-part=label]:hover]:bg-[var(--c-base-200)]",
+      "[&_[data-part=label][data-selected]]:bg-[var(--c-primary)]/15 [&_[data-part=label][data-selected]]:font-medium",
+      "[&_[data-part=expand-icon]]:grid [&_[data-part=expand-icon]]:size-4 [&_[data-part=expand-icon]]:shrink-0 [&_[data-part=expand-icon]]:place-items-center [&_[data-part=expand-icon]]:text-[var(--c-base-content)]/40 [&_[data-part=expand-icon]]:transition-transform [&_[data-part=expand-icon]]:duration-100",
+      "[&_[data-expanded=true]>[data-part=label]>[data-part=expand-icon]]:rotate-90",
+      "[&_[data-part=label-text]]:inline-flex [&_[data-part=label-text]]:items-center [&_[data-part=label-text]]:gap-1.5",
+      "[&_[data-part=checkbox]]:size-3.5 [&_[data-part=checkbox]]:shrink-0 [&_[data-part=checkbox]]:accent-[var(--c-primary)]",
+      "[&_li]:outline-none [&_li:focus-visible>[data-part=label]]:ring-2 [&_li:focus-visible>[data-part=label]]:ring-[var(--c-primary)]/40",
+      "[&_li[data-disabled]]:opacity-40",
+      # Drag & drop feedback. The hook only sets `data-dragging` / `data-drag-over=before|after|
+      # inside`; headless ships no CSS, so without these the drop is invisible and you cannot
+      # tell whether you are landing above, below, or inside a row.
+      "[&_[data-part=label]]:relative",
+      "[&_[data-part=label][data-dragging]]:opacity-40",
+      "[&_[data-part=label][data-drag-over=inside]]:bg-[var(--c-primary)]/25",
+      "[&_[data-part=label][data-drag-over=inside]]:ring-1 [&_[data-part=label][data-drag-over=inside]]:ring-[var(--c-primary)]",
+      # before/after are a 2px insertion line at the row's edge, inset to the node's own depth so
+      # it reads as "between these two siblings" rather than spanning the whole tree.
+      "[&_[data-part=label][data-drag-over=before]]:before:content-['']",
+      "[&_[data-part=label][data-drag-over=before]]:before:absolute",
+      "[&_[data-part=label][data-drag-over=before]]:before:-top-px",
+      "[&_[data-part=label][data-drag-over=before]]:before:left-[var(--label-offset)]",
+      "[&_[data-part=label][data-drag-over=before]]:before:right-0",
+      "[&_[data-part=label][data-drag-over=before]]:before:h-0.5",
+      "[&_[data-part=label][data-drag-over=before]]:before:rounded-full",
+      "[&_[data-part=label][data-drag-over=before]]:before:bg-[var(--c-primary)]",
+      "[&_[data-part=label][data-drag-over=after]]:after:content-['']",
+      "[&_[data-part=label][data-drag-over=after]]:after:absolute",
+      "[&_[data-part=label][data-drag-over=after]]:after:-bottom-px",
+      "[&_[data-part=label][data-drag-over=after]]:after:left-[var(--label-offset)]",
+      "[&_[data-part=label][data-drag-over=after]]:after:right-0",
+      "[&_[data-part=label][data-drag-over=after]]:after:h-0.5",
+      "[&_[data-part=label][data-drag-over=after]]:after:rounded-full",
+      "[&_[data-part=label][data-drag-over=after]]:after:bg-[var(--c-primary)]",
+      "[&_[data-part=drag-handle]]:cursor-grab [&_[data-part=drag-handle]]:opacity-40",
+      "[&_[data-part=drag-handle]:hover]:opacity-100"
     ]
   end
 

@@ -39,6 +39,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.ToggleGroup
   import DevelopmentWeb.Components.Headless.Toolbar
   import DevelopmentWeb.Components.Headless.Tooltip
+  import DevelopmentWeb.Components.Headless.Tree
 
   alias DevelopmentWeb.Showcase.ExampleSource
 
@@ -377,6 +378,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
        "A group of icon-button triggers (headphones, stopwatch, trash) plus a button, each showing a Controlled tooltip; the shared-handle/programmatic-open behavior is approximated with per-trigger tooltips."},
       {"tooltip-detached-triggers-full", "Detached Triggers Full",
        "A group of icon-button triggers each carrying its own descriptive payload text as the tooltip content (audio preview, set a timer, delete warning)."}
+    ]
+
+  def sections("tree"),
+    do: [
+      {"tree-hero", "Hero",
+       "Base UI ships no Tree, so this is the one it would: a bordered file explorer whose folders carry a caret that rotates a quarter turn when open, rows that highlight on hover and invert to solid on select, and files/folders drawn with outline icons."}
     ]
 
   def sections(_), do: []
@@ -5320,6 +5327,78 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
         {payload}
       </.tooltip>
     </div>
+    """
+  end
+
+  def example(%{section: "tree-hero"} = assigns) do
+    ~H"""
+    <.tree
+      id="baseui-tree-hero"
+      aria_label="Project files"
+      select_on_click
+      expanded={["app", "app/components"]}
+      selected={["app/components/Menu.tsx"]}
+      nodes={[
+        %{
+          label: "app",
+          value: "app",
+          children: [
+            %{
+              label: "components",
+              value: "app/components",
+              children: [
+                %{label: "Accordion.tsx", value: "app/components/Accordion.tsx"},
+                %{label: "Menu.tsx", value: "app/components/Menu.tsx"}
+              ]
+            },
+            %{label: "page.tsx", value: "app/page.tsx"}
+          ]
+        },
+        %{label: "package.json", value: "package.json"},
+        %{label: "tsconfig.json", value: "tsconfig.json"}
+      ]}
+      class="w-56 border border-neutral-950 bg-white py-1 text-neutral-950 select-none dark:border-white dark:bg-neutral-950 dark:text-white"
+      node_class="outline-none [&:focus-visible>[data-part=label]]:outline-2 [&:focus-visible>[data-part=label]]:-outline-offset-1 [&:focus-visible>[data-part=label]]:outline-neutral-950 dark:[&:focus-visible>[data-part=label]]:outline-white"
+      label_class="flex h-8 cursor-default items-center gap-1.5 pr-3 pl-[calc(var(--label-offset)+0.5rem)] text-sm leading-none whitespace-nowrap hover:not-data-[selected]:bg-neutral-100 data-[selected]:bg-neutral-950 data-[selected]:text-white dark:hover:not-data-[selected]:bg-neutral-800 dark:data-[selected]:bg-white dark:data-[selected]:text-neutral-950"
+      expand_icon_class="grid size-4 shrink-0 place-items-center transition-transform duration-100 ease-[ease-out] [[data-expanded=true]>[data-part=label]>&]:rotate-90"
+      label_text_class="inline-flex items-center gap-2 truncate"
+    >
+      <:expand_icon>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="display: block">
+          <path d="M6 12V4l4.5 4z" />
+        </svg>
+      </:expand_icon>
+      <:node :let={n}>
+        <svg
+          :if={n.has_children}
+          width="14"
+          height="14"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="square"
+          stroke-linejoin="round"
+          class="block shrink-0"
+        >
+          <path d="M1.5 12.5v-9h4l1.5 2h7.5v7z" />
+        </svg>
+        <svg
+          :if={!n.has_children}
+          width="14"
+          height="14"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="square"
+          stroke-linejoin="round"
+          class="block shrink-0"
+        >
+          <path d="M3.5 1.5h6l3 3v11h-9z" />
+          <path d="M9.5 1.5v3.5h3" />
+        </svg>
+        {n.node.label}
+      </:node>
+    </.tree>
     """
   end
 

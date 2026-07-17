@@ -33,6 +33,7 @@ import Menu from "./menu.js";
 import Popover from "./popover.js";
 import PreviewCard from "./preview_card.js";
 import Tooltip from "./tooltip.js";
+import Tree from "./tree.js";
 const Components = {
   Tooltip,
   PreviewCard,
@@ -69,5 +70,6 @@ const Components = {
   Tabs,
   Toolbar,
   ToggleGroup,
+  Tree,
 };
 export default Components;
