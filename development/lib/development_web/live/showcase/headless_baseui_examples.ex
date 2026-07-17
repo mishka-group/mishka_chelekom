@@ -52,6 +52,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.Tree
   import DevelopmentWeb.Components.Headless.ThemeIcon
   import DevelopmentWeb.Components.Headless.VisuallyHidden
+  import DevelopmentWeb.Components.Headless.ActionIcon
+  import DevelopmentWeb.Components.Headless.Anchor
 
   alias DevelopmentWeb.Showcase.ExampleSource
   alias Phoenix.LiveView.JS
@@ -134,6 +136,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       {"close_button-hero", "Hero",
        "A default close button (built-in ✕) and one with a custom icon, both with an accessible label."}
     ]
+
+  def sections("action_icon"),
+    do: [{"action_icon-hero", "Hero", "Icon-only edit and delete buttons, one disabled."}]
+
+  def sections("anchor"),
+    do: [{"anchor-hero", "Hero", "A themed inline link inside a sentence."}]
 
   def sections("theme_icon"),
     do: [{"theme_icon-hero", "Hero", "Icons inside colored, rounded containers."}]
@@ -1316,6 +1324,65 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
         Granny Smith
       </:item>
     </.checkbox_group>
+    """
+  end
+
+  def example(%{section: "action_icon-hero"} = assigns) do
+    ~H"""
+    <div class="flex items-center gap-3">
+      <.action_icon
+        label="Edit"
+        class="inline-flex size-9 items-center justify-center rounded-md text-neutral-700 hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-800"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-5"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Z"
+          />
+        </svg>
+      </.action_icon>
+      <.action_icon
+        label="Delete"
+        disabled
+        class="inline-flex size-9 items-center justify-center rounded-md text-neutral-700 data-[disabled]:opacity-40 dark:text-neutral-300"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-5"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397"
+          />
+        </svg>
+      </.action_icon>
+    </div>
+    """
+  end
+
+  def example(%{section: "anchor-hero"} = assigns) do
+    ~H"""
+    <p class="text-sm text-neutral-700 dark:text-neutral-300">
+      Built with
+      <.anchor
+        href="https://phoenixframework.org"
+        target="_blank"
+        class="font-medium text-blue-600 underline underline-offset-2 hover:no-underline dark:text-blue-400"
+      >Phoenix</.anchor>.
+    </p>
     """
   end
 

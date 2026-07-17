@@ -53,6 +53,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.OtpField
   import DevelopmentWeb.Components.Headless.ThemeIcon
   import DevelopmentWeb.Components.Headless.VisuallyHidden
+  import DevelopmentWeb.Components.Headless.ActionIcon
+  import DevelopmentWeb.Components.Headless.Anchor
   import DevelopmentWeb.Showcase.UI, only: [code_block: 1]
   alias Phoenix.LiveView.JS
 
@@ -405,6 +407,66 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         </button>
       </:actions>
     </.empty_state>
+    """
+  end
+
+  def show(%{component: "action_icon"} = assigns) do
+    ~H"""
+    <div class="flex items-center gap-3">
+      <.action_icon
+        label="Edit"
+        class="inline-flex size-9 items-center justify-center rounded-md border border-[var(--c-base-300)] text-[var(--c-base-content)]/70 hover:bg-[var(--c-base-200)] hover:text-[var(--c-base-content)]"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-5"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Z"
+          />
+        </svg>
+      </.action_icon>
+      <.action_icon
+        label="Delete"
+        disabled
+        class="inline-flex size-9 items-center justify-center rounded-md border border-[var(--c-base-300)] text-[var(--c-base-content)]/70 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-40"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-5"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12.56.157c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397"
+          />
+        </svg>
+      </.action_icon>
+    </div>
+    """
+  end
+
+  def show(%{component: "anchor"} = assigns) do
+    ~H"""
+    <p class="text-sm text-[var(--c-base-content)]/80">
+      Read the
+      <.anchor
+        href="https://mishka.tools/chelekom"
+        target="_blank"
+        class="text-[var(--c-primary)] underline underline-offset-2 hover:no-underline"
+      >Mishka Chelekom docs</.anchor>
+      to get started.
+    </p>
     """
   end
 

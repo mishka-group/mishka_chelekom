@@ -141,7 +141,9 @@ defmodule DevelopmentWeb.Showcase.Meta do
         "Chelekom: expand/collapse, selection, cascading checkboxes, keyboard nav, drag & drop and " <>
         "async loading.",
     "theme_icon" => "A container that wraps an icon, decorative or labelled.",
-    "visually_hidden" => "Hidden visually but available to screen readers."
+    "visually_hidden" => "Hidden visually but available to screen readers.",
+    "action_icon" => "Icon-only action button with a required accessible label.",
+    "anchor" => "A plain, themeable link."
   }
 
   @links %{
