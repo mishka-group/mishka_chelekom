@@ -50,6 +50,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.Toolbar
   import DevelopmentWeb.Components.Headless.Tooltip
   import DevelopmentWeb.Components.Headless.Tree
+  import DevelopmentWeb.Components.Headless.ThemeIcon
+  import DevelopmentWeb.Components.Headless.VisuallyHidden
 
   alias DevelopmentWeb.Showcase.ExampleSource
   alias Phoenix.LiveView.JS
@@ -132,6 +134,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       {"close_button-hero", "Hero",
        "A default close button (built-in ✕) and one with a custom icon, both with an accessible label."}
     ]
+
+  def sections("theme_icon"),
+    do: [{"theme_icon-hero", "Hero", "Icons inside colored, rounded containers."}]
+
+  def sections("visually_hidden"),
+    do: [{"visually_hidden-hero", "Hero", "A button whose text label is screen-reader-only."}]
 
   def sections("mark"),
     do: [{"mark-hero", "Hero", "A highlighted run of text inside a sentence."}]
@@ -1308,6 +1316,44 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
         Granny Smith
       </:item>
     </.checkbox_group>
+    """
+  end
+
+  def example(%{section: "theme_icon-hero"} = assigns) do
+    ~H"""
+    <div class="flex items-center gap-3">
+      <.theme_icon
+        label="Success"
+        class="inline-flex size-9 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="2"
+          stroke="currentColor"
+          class="size-5"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+        </svg>
+      </.theme_icon>
+      <.theme_icon class="inline-flex size-9 items-center justify-center rounded-full bg-violet-100 text-violet-700 dark:bg-violet-500/20 dark:text-violet-300">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+          <path d="M11.983 1.907a.75.75 0 0 0-1.292-.657l-8.5 9.5A.75.75 0 0 0 2.75 12h6.572l-1.305 6.093a.75.75 0 0 0 1.292.657l8.5-9.5A.75.75 0 0 0 18.25 8h-6.572l1.305-6.093Z" />
+        </svg>
+      </.theme_icon>
+    </div>
+    """
+  end
+
+  def example(%{section: "visually_hidden-hero"} = assigns) do
+    ~H"""
+    <button
+      type="button"
+      class="rounded-md border border-neutral-300 px-3 py-1.5 text-sm text-neutral-800 hover:bg-neutral-100 dark:border-neutral-700 dark:text-neutral-200 dark:hover:bg-neutral-800"
+    >
+      ★ <.visually_hidden>Add to favorites</.visually_hidden>
+    </button>
     """
   end
 

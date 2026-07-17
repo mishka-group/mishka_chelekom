@@ -14,6 +14,8 @@
 - Add headless `ColorSwatch` component (Mantine parity) — display a single color as a labelled `role="img"` swatch with optional overlay
 - Add headless `Code` component (Mantine parity) — inline `<code>` or a `<pre><code>` block
 - Add headless `Mark` component (Mantine parity) — highlight an inline run of text with `<mark>`
+- Add headless `VisuallyHidden` component (Mantine parity) — hide content visually while keeping it available to screen readers
+- Add headless `ThemeIcon` component (Mantine parity) — a container that wraps an icon, decorative or labelled
 - Add `Mishka Tools` documentation button to headless component pages, and point `ARIA pattern` at the component's `spec_url` instead of its docs URL
 - Add per-option tagged, base-first `examples` to `mix mishka.ui.export --cms`: every component now ships at least one example, ordered base-first, with `extra.examples[]` carrying `label`/`section`/`base`/`requires` so a consumer can hide an example whose variant was not installed [Commit](https://github.com/mishka-group/mishka_chelekom/commit/65764c5e)
 - Add `## Examples` docs to `label/1`, `error/1`, `header/1` and `simple_form/1`, so every public component function documents its usage

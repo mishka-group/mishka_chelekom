@@ -139,7 +139,9 @@ defmodule DevelopmentWeb.Showcase.Meta do
     "tree" =>
       "Unstyled tree view — Mantine's Tree converted to a Phoenix headless component for Mishka " <>
         "Chelekom: expand/collapse, selection, cascading checkboxes, keyboard nav, drag & drop and " <>
-        "async loading."
+        "async loading.",
+    "theme_icon" => "A container that wraps an icon, decorative or labelled.",
+    "visually_hidden" => "Hidden visually but available to screen readers."
   }
 
   @links %{

@@ -51,6 +51,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.Drawer
   import DevelopmentWeb.Components.Headless.Radio
   import DevelopmentWeb.Components.Headless.OtpField
+  import DevelopmentWeb.Components.Headless.ThemeIcon
+  import DevelopmentWeb.Components.Headless.VisuallyHidden
   import DevelopmentWeb.Showcase.UI, only: [code_block: 1]
   alias Phoenix.LiveView.JS
 
@@ -403,6 +405,50 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         </button>
       </:actions>
     </.empty_state>
+    """
+  end
+
+  def show(%{component: "theme_icon"} = assigns) do
+    ~H"""
+    <div class="flex items-center gap-3">
+      <.theme_icon
+        label="Success"
+        class="inline-flex size-9 items-center justify-center rounded-lg bg-[var(--c-success)]/15 text-[var(--c-success)]"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="2"
+          stroke="currentColor"
+          class="size-5"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+        </svg>
+      </.theme_icon>
+      <.theme_icon class="inline-flex size-9 items-center justify-center rounded-full bg-[var(--c-primary)]/15 text-[var(--c-primary)]">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+          <path d="M11.983 1.907a.75.75 0 0 0-1.292-.657l-8.5 9.5A.75.75 0 0 0 2.75 12h6.572l-1.305 6.093a.75.75 0 0 0 1.292.657l8.5-9.5A.75.75 0 0 0 18.25 8h-6.572l1.305-6.093Z" />
+        </svg>
+      </.theme_icon>
+    </div>
+    """
+  end
+
+  def show(%{component: "visually_hidden"} = assigns) do
+    ~H"""
+    <div class="max-w-md">
+      <button
+        type="button"
+        class="rounded-md border border-[var(--c-base-300)] px-3 py-1.5 text-sm hover:bg-[var(--c-base-200)]"
+      >
+        ★ <.visually_hidden>Add to favorites</.visually_hidden>
+      </button>
+      <p class="mt-2 text-xs text-[var(--c-base-content)]/50">
+        The star button carries a screen-reader-only label — invisible, but announced as
+        "Add to favorites".
+      </p>
+    </div>
     """
   end
 
