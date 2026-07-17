@@ -12,6 +12,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.Burger
   import DevelopmentWeb.Components.Headless.Checkbox
   import DevelopmentWeb.Components.Headless.CheckboxGroup
+  import DevelopmentWeb.Components.Headless.Chip
   import DevelopmentWeb.Components.Headless.CloseButton
   import DevelopmentWeb.Components.Headless.Collapsible
   import DevelopmentWeb.Components.Headless.Combobox
@@ -395,6 +396,28 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         </button>
       </:actions>
     </.empty_state>
+    """
+  end
+
+  def show(%{component: "chip"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <div class="flex flex-wrap gap-2">
+        <.chip id={@id} name="chip-fruits[]" value="apple" checked class={chip_class()}>Apple</.chip>
+        <.chip id={"#{@id}-2"} name="chip-fruits[]" value="banana" class={chip_class()}>Banana</.chip>
+        <.chip id={"#{@id}-3"} name="chip-fruits[]" value="cherry" class={chip_class()}>Cherry</.chip>
+        <.chip id={"#{@id}-4"} name="chip-fruits[]" value="date" disabled class={chip_class()}>
+          Date
+        </.chip>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <.chip id={"#{@id}-r1"} type="radio" name="chip-size" value="s" class={chip_class()}>S</.chip>
+        <.chip id={"#{@id}-r2"} type="radio" name="chip-size" value="m" checked class={chip_class()}>
+          M
+        </.chip>
+        <.chip id={"#{@id}-r3"} type="radio" name="chip-size" value="l" class={chip_class()}>L</.chip>
+      </div>
+    </div>
     """
   end
 
@@ -2621,6 +2644,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "[&[data-opened]_[data-part=line]:nth-child(1)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(1)]:rotate-45",
       "[&[data-opened]_[data-part=line]:nth-child(2)]:opacity-0",
       "[&[data-opened]_[data-part=line]:nth-child(3)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(3)]:-rotate-45"
+    ]
+  end
+
+  # Chip: a pill whose look flips on the wrapped input's :checked (no JS). The input is visually
+  # hidden but focusable; data-disabled dims it.
+  defp chip_class do
+    [
+      "inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-[var(--c-base-300)] px-3 py-1 text-sm select-none",
+      "has-[:checked]:border-[var(--c-primary)] has-[:checked]:bg-[var(--c-primary)]/10 has-[:checked]:text-[var(--c-primary)]",
+      "has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-[var(--c-primary)]/40",
+      "data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50",
+      "[&_[data-part=input]]:sr-only"
     ]
   end
 

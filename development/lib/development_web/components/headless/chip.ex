@@ -1,0 +1,60 @@
+defmodule DevelopmentWeb.Components.Headless.Chip do
+  @moduledoc """
+  Headless **chip** — a selectable pill built on a real checkbox or radio input
+  (Mantine Chip parity).
+
+  Renders a `<label>` wrapping a native `<input type="checkbox">` (multiple) or
+  `<input type="radio">` (single, share a `name`) plus a visible `label`. Because the
+  input is real, selection, form submission and keyboard (Space to toggle) are all
+  native — **no JS**. Visually hide the input and reflect its state with the CSS
+  `:has(:checked)` selector; `disabled` reflects to `data-disabled` on the root.
+
+  Ships **no** colors, spacing or the checked look — style via `chelekom-chip*`, the
+  `:has(:checked)` state and the `data-disabled` hook.
+
+  WAI-ARIA APG: Checkbox / Radio (the native input carries the semantics).
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/chip
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, default: nil, doc: "Optional id for the input"
+  attr :name, :string, default: nil, doc: "Form field name (share it across radio chips)"
+  attr :value, :string, default: nil, doc: "Submitted value when checked"
+
+  attr :type, :string,
+    default: "checkbox",
+    values: ["checkbox", "radio"],
+    doc: "Underlying input type"
+
+  attr :checked, :boolean, default: false, doc: "Whether the chip is selected"
+  attr :disabled, :boolean, default: false, doc: "Disable the chip (also sets data-disabled)"
+  attr :class, :any, default: nil, doc: "Extra classes for the root label"
+  attr :input_class, :any, default: nil, doc: "Extra classes for the hidden input"
+  attr :label_class, :any, default: nil, doc: "Extra classes for the visible label"
+  attr :rest, :global, doc: "Any input/global attrs, e.g. phx-change, required"
+
+  slot :inner_block, required: true, doc: "The chip label"
+
+  def chip(assigns) do
+    ~H"""
+    <label data-part="root" data-disabled={@disabled} class={["chelekom-chip", @class]}>
+      <input
+        id={@id}
+        type={@type}
+        name={@name}
+        value={@value}
+        checked={@checked}
+        disabled={@disabled}
+        data-part="input"
+        class={["chelekom-chip__input", @input_class]}
+        {@rest}
+      />
+      <span data-part="label" class={["chelekom-chip__label", @label_class]}>
+        {render_slot(@inner_block)}
+      </span>
+    </label>
+    """
+  end
+end

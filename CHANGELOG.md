@@ -7,6 +7,7 @@
 - Add headless `EmptyState` component — Mantine's EmptyState converted to a Phoenix headless component: an optional indicator, `title`/`description` shorthands, extra body content and an actions row, aligned via `data-align` (left/center/right); ships no colors, spacing or role (presentational — add `role="status"` for dynamically shown states)
 - Add headless `CloseButton` component (Mantine parity) — an icon-only button with a required `aria-label`, custom-icon slot and `data-disabled`
 - Add headless `Burger` component (Mantine parity) — a hamburger navigation toggle with `aria-expanded`/`aria-controls` and `data-opened`
+- Add headless `Chip` component (Mantine parity) — a selectable pill backed by a native checkbox/radio input, checked styling via `:has(:checked)`
 - Add `Mishka Tools` documentation button to headless component pages, and point `ARIA pattern` at the component's `spec_url` instead of its docs URL
 - Add per-option tagged, base-first `examples` to `mix mishka.ui.export --cms`: every component now ships at least one example, ordered base-first, with `extra.examples[]` carrying `label`/`section`/`base`/`requires` so a consumer can hide an example whose variant was not installed [Commit](https://github.com/mishka-group/mishka_chelekom/commit/65764c5e)
 - Add `## Examples` docs to `label/1`, `error/1`, `header/1` and `simple_form/1`, so every public component function documents its usage

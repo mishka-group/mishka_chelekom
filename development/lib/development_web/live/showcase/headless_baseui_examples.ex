@@ -13,6 +13,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.Burger
   import DevelopmentWeb.Components.Headless.Checkbox
   import DevelopmentWeb.Components.Headless.CheckboxGroup
+  import DevelopmentWeb.Components.Headless.Chip
   import DevelopmentWeb.Components.Headless.CloseButton
   import DevelopmentWeb.Components.Headless.Combobox
   import DevelopmentWeb.Components.Headless.ContextMenu
@@ -111,6 +112,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
     do: [
       {"checkbox_group-hero", "Hero",
        "A labelled \"Apples\" checkbox group (Fuji/Gala/Granny Smith) with Fuji checked by default; each item is a small square box that fills in and shows a check icon when checked."}
+    ]
+
+  def sections("chip"),
+    do: [
+      {"chip-hero", "Hero",
+       "Multi-select filter chips (checkbox) and a single-select size row (radio); the checked look is pure CSS on :has(:checked)."}
     ]
 
   def sections("close_button"),
@@ -1072,6 +1079,38 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
         label="Close navigation"
         class="relative inline-flex size-9 items-center justify-center rounded-md text-neutral-900 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-800 [&_[data-part=line]]:absolute [&_[data-part=line]]:h-0.5 [&_[data-part=line]]:w-5 [&_[data-part=line]]:rounded-full [&_[data-part=line]]:bg-current [&_[data-part=line]]:transition-all [&_[data-part=line]]:duration-200 [&_[data-part=line]:nth-child(1)]:-translate-y-1.5 [&_[data-part=line]:nth-child(3)]:translate-y-1.5 [&[data-opened]_[data-part=line]:nth-child(1)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(1)]:rotate-45 [&[data-opened]_[data-part=line]:nth-child(2)]:opacity-0 [&[data-opened]_[data-part=line]:nth-child(3)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(3)]:-rotate-45"
       />
+    </div>
+    """
+  end
+
+  def example(%{section: "chip-hero"} = assigns) do
+    ~H"""
+    <div class="flex flex-wrap gap-2">
+      <.chip
+        id="baseui-chip-react"
+        name="baseui-chip[]"
+        value="react"
+        checked
+        class="inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-neutral-300 px-3 py-1 text-sm text-neutral-800 select-none has-[:checked]:border-neutral-900 has-[:checked]:bg-neutral-900 has-[:checked]:text-white has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-neutral-400 dark:border-neutral-700 dark:text-neutral-200 dark:has-[:checked]:border-white dark:has-[:checked]:bg-white dark:has-[:checked]:text-neutral-900 [&_[data-part=input]]:sr-only"
+      >
+        React
+      </.chip>
+      <.chip
+        id="baseui-chip-vue"
+        name="baseui-chip[]"
+        value="vue"
+        class="inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-neutral-300 px-3 py-1 text-sm text-neutral-800 select-none has-[:checked]:border-neutral-900 has-[:checked]:bg-neutral-900 has-[:checked]:text-white has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-neutral-400 dark:border-neutral-700 dark:text-neutral-200 dark:has-[:checked]:border-white dark:has-[:checked]:bg-white dark:has-[:checked]:text-neutral-900 [&_[data-part=input]]:sr-only"
+      >
+        Vue
+      </.chip>
+      <.chip
+        id="baseui-chip-svelte"
+        name="baseui-chip[]"
+        value="svelte"
+        class="inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-neutral-300 px-3 py-1 text-sm text-neutral-800 select-none has-[:checked]:border-neutral-900 has-[:checked]:bg-neutral-900 has-[:checked]:text-white has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-neutral-400 dark:border-neutral-700 dark:text-neutral-200 dark:has-[:checked]:border-white dark:has-[:checked]:bg-white dark:has-[:checked]:text-neutral-900 [&_[data-part=input]]:sr-only"
+      >
+        Svelte
+      </.chip>
     </div>
     """
   end

@@ -97,6 +97,7 @@ defmodule DevelopmentWeb.Showcase.Meta do
     "burger" => "Hamburger navigation toggle with aria-expanded and an animated icon.",
     "checkbox_group" => "Group of checkboxes sharing a label and state.",
     "checkbox" => "Accessible checkbox supporting checked and indeterminate state.",
+    "chip" => "Selectable pill backed by a native checkbox or radio input.",
     "close_button" => "Icon-only button with a required accessible label, for dismissing UI.",
     "collapsible" => "A single trigger/panel pair that expands and collapses.",
     "combobox" => "Input plus popup listbox combining typing and selection.",
