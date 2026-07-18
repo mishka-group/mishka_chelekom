@@ -120,6 +120,7 @@ defmodule DevelopmentWeb.Showcase.Meta do
     "alpha_slider" => "Pick an opacity (0–100) over a checkerboard (reuses Slider).",
     "splitter" => "Two resizable panes with a draggable, keyboard-friendly divider.",
     "scroller" => "Horizontal scroll row with prev/next controls.",
+    "semi_circle_progress" => "Half-circle progress gauge (SVG, no JS).",
     "rolling_number" => "Animate a number rolling to its value.",
     "color_picker" => "Saturation/value area with a hue slider and preview.",
     "menubar" => "Horizontal application menu bar with submenus and roving focus.",

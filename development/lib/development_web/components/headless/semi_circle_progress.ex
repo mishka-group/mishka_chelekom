@@ -1,0 +1,83 @@
+defmodule DevelopmentWeb.Components.Headless.SemiCircleProgress do
+  @moduledoc """
+  Headless **semi-circle progress** — a half-circle gauge (Mantine SemiCircleProgress parity).
+
+  Renders a `role="progressbar"` with an SVG semicircle; the filled arc is computed at **render
+  time** from `value` (via `stroke-dasharray`/`stroke-dashoffset`) — no JS. Set the arc colors and
+  thickness with `stroke`/`stroke-width` on the `track`/`indicator` parts; put a readout in the slot.
+
+  Ships **no** styling — style via `chelekom-semi-circle-progress*`.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/semi_circle_progress
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, default: nil, doc: "Optional unique id"
+  attr :value, :any, default: 0, doc: "Current value"
+  attr :min, :integer, default: 0, doc: "Minimum value"
+  attr :max, :integer, default: 100, doc: "Maximum value"
+  attr :label, :string, default: nil, doc: "Accessible label (aria-label)"
+  attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :track_class, :any, default: nil, doc: "Extra classes for the background arc"
+  attr :indicator_class, :any, default: nil, doc: "Extra classes for the filled arc"
+  attr :label_class, :any, default: nil, doc: "Extra classes for the readout"
+  attr :rest, :global
+
+  slot :inner_block, doc: "Optional centered readout"
+
+  def semi_circle_progress(assigns) do
+    value = to_num(assigns.value)
+    span = max(assigns.max - assigns.min, 1)
+    frac = min(max(value - assigns.min, 0), span) / span
+    circ = Float.round(:math.pi() * 90, 3)
+    assigns = assign(assigns, value: value, circ: circ, offset: Float.round(circ * (1 - frac), 3))
+
+    ~H"""
+    <div
+      id={@id}
+      role="progressbar"
+      aria-valuemin={@min}
+      aria-valuemax={@max}
+      aria-valuenow={@value}
+      aria-label={@label}
+      class={["chelekom-semi-circle-progress", @class]}
+      {@rest}
+    >
+      <svg viewBox="0 0 200 108" fill="none" class="w-full">
+        <path
+          data-part="track"
+          d="M 10 100 A 90 90 0 0 1 190 100"
+          class={["chelekom-semi-circle-progress__track", @track_class]}
+        />
+        <path
+          data-part="indicator"
+          d="M 10 100 A 90 90 0 0 1 190 100"
+          stroke-dasharray={@circ}
+          stroke-dashoffset={@offset}
+          stroke-linecap="round"
+          class={["chelekom-semi-circle-progress__indicator", @indicator_class]}
+        />
+      </svg>
+      <div
+        :if={@inner_block != []}
+        data-part="label"
+        class={["chelekom-semi-circle-progress__label", @label_class]}
+      >
+        {render_slot(@inner_block)}
+      </div>
+    </div>
+    """
+  end
+
+  defp to_num(v) when is_number(v), do: v
+
+  defp to_num(v) when is_binary(v) do
+    case Float.parse(v) do
+      {f, _} -> f
+      :error -> 0
+    end
+  end
+
+  defp to_num(_), do: 0
+end

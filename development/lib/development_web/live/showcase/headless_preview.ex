@@ -49,6 +49,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.ScrollArea
   import DevelopmentWeb.Components.Headless.Scroller
   import DevelopmentWeb.Components.Headless.Select
+  import DevelopmentWeb.Components.Headless.SemiCircleProgress
   import DevelopmentWeb.Components.Headless.Separator
   import DevelopmentWeb.Components.Headless.Slider
   import DevelopmentWeb.Components.Headless.Splitter
@@ -697,6 +698,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         Item {n}
       </div>
     </.scroller>
+    """
+  end
+
+  def show(%{component: "semi_circle_progress"} = assigns) do
+    ~H"""
+    <.semi_circle_progress value={68} label="Storage used" class={scp_class()}>
+      <span class="text-2xl font-bold">68%</span>
+      <span class="text-xs text-[var(--c-base-content)]/50">used</span>
+    </.semi_circle_progress>
     """
   end
 
@@ -3303,6 +3313,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "flex w-full max-w-md items-center gap-2",
       "[&_[data-part=control]]:grid [&_[data-part=control]]:size-8 [&_[data-part=control]]:shrink-0 [&_[data-part=control]]:place-items-center [&_[data-part=control]]:rounded-full [&_[data-part=control]]:border [&_[data-part=control]]:border-[var(--c-base-300)] [&_[data-part=control]]:bg-[var(--c-base-100)] [&_[data-part=control]]:text-lg [&_[data-part=control]]:leading-none [&_[data-part=control]:hover]:bg-[var(--c-base-200)] [&_[data-part=control][data-disabled]]:opacity-30",
       "[&_[data-part=viewport]]:flex [&_[data-part=viewport]]:gap-3 [&_[data-part=viewport]]:overflow-x-auto [&_[data-part=viewport]]:scroll-smooth [&_[data-part=viewport]]:pb-1"
+    ]
+  end
+
+  # Semi-circle progress: an SVG half-gauge; stroke the track/indicator and center the readout.
+  defp scp_class do
+    [
+      "relative inline-block w-48",
+      "[&_[data-part=track]]:[stroke:var(--c-base-300)] [&_[data-part=track]]:[stroke-width:12]",
+      "[&_[data-part=indicator]]:[stroke:var(--c-primary)] [&_[data-part=indicator]]:[stroke-width:12] [&_[data-part=indicator]]:transition-[stroke-dashoffset] [&_[data-part=indicator]]:duration-500",
+      "[&_[data-part=label]]:absolute [&_[data-part=label]]:inset-x-0 [&_[data-part=label]]:bottom-1 [&_[data-part=label]]:flex [&_[data-part=label]]:flex-col [&_[data-part=label]]:items-center"
     ]
   end
 

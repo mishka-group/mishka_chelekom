@@ -48,6 +48,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.ScrollArea
   import DevelopmentWeb.Components.Headless.Scroller
   import DevelopmentWeb.Components.Headless.Select
+  import DevelopmentWeb.Components.Headless.SemiCircleProgress
   import DevelopmentWeb.Components.Headless.Separator
   import DevelopmentWeb.Components.Headless.Slider
   import DevelopmentWeb.Components.Headless.Splitter
@@ -440,6 +441,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
     do: [
       {"scroller-hero", "Hero", "A row of cards with prev/next buttons that disable at the ends."}
     ]
+
+  def sections("semi_circle_progress"),
+    do: [{"semi_circle_progress-hero", "Hero", "A half-circle gauge with a centered readout."}]
 
   def sections("splitter"),
     do: [{"splitter-hero", "Hero", "Two panes with a draggable divider; keyboard-resizable too."}]
@@ -1230,6 +1234,19 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
         {n}
       </div>
     </.scroller>
+    """
+  end
+
+  def example(%{section: "semi_circle_progress-hero"} = assigns) do
+    ~H"""
+    <.semi_circle_progress
+      value={72}
+      label="Score"
+      class="relative inline-block w-48 [&_[data-part=track]]:[stroke:#e5e5e5] [&_[data-part=track]]:[stroke-width:12] [&_[data-part=indicator]]:[stroke:#f97316] [&_[data-part=indicator]]:[stroke-width:12] dark:[&_[data-part=track]]:[stroke:#404040] [&_[data-part=label]]:absolute [&_[data-part=label]]:inset-x-0 [&_[data-part=label]]:bottom-1 [&_[data-part=label]]:flex [&_[data-part=label]]:flex-col [&_[data-part=label]]:items-center [&_[data-part=label]]:text-neutral-900 dark:[&_[data-part=label]]:text-white"
+    >
+      <span class="text-2xl font-bold">72</span>
+      <span class="text-xs text-neutral-500">score</span>
+    </.semi_circle_progress>
     """
   end
 
