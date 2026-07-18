@@ -19,7 +19,10 @@
           required: true
         ],
         parts: [
-          item: [element: "span", note: "one list item; gets data-hidden when it overflows"],
+          item: [
+            element: "span",
+            note: "one list item; overflow sets data-hidden + inert (out of tab order and a11y tree)"
+          ],
           counter: [element: "span", note: "the '+N' element; gets data-hidden when nothing overflows"],
           "counter-value": [element: "span", note: "receives the hidden count as text"]
         ]

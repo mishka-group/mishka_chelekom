@@ -1,9 +1,10 @@
 // OverflowList — show as many items as fit on one row and collapse the rest into a "+N" counter.
 //
 // A `ResizeObserver` re-runs the layout whenever the container resizes. Items that don't fit get
-// `data-hidden` (hide them with CSS); the counter element is revealed and its `[data-part=
-// "counter-value"]` is set to the number hidden. At least `data-min-visible` items are always kept.
-// If `data-on-change` names an event, the hidden count is pushed to the server when it changes.
+// `data-hidden` + `inert` (hide them with CSS; inert already removes them from the tab order and
+// the accessibility tree, so fading them out is safe); the counter element is revealed and its
+// `[data-part="counter-value"]` is set to the number hidden. At least `data-min-visible` items are
+// always kept. If `data-on-change` names an event, the hidden count is pushed when it changes.
 //
 // Element contract:
 //   root                          — carries the hook; data-min-visible, data-on-change
@@ -38,7 +39,10 @@ const OverflowList = {
     const gap = this.gap();
 
     // Reveal everything so we can measure natural widths.
-    items.forEach((it) => it.removeAttribute("data-hidden"));
+    items.forEach((it) => {
+      it.removeAttribute("data-hidden");
+      it.removeAttribute("inert");
+    });
     if (this.counter) this.counter.removeAttribute("data-hidden");
 
     const avail = this.el.clientWidth;
@@ -70,8 +74,13 @@ const OverflowList = {
 
     const hidden = items.length - visible;
     items.forEach((it, i) => {
-      if (i < visible) it.removeAttribute("data-hidden");
-      else it.setAttribute("data-hidden", "");
+      if (i < visible) {
+        it.removeAttribute("data-hidden");
+        it.removeAttribute("inert");
+      } else {
+        it.setAttribute("data-hidden", "");
+        it.setAttribute("inert", "");
+      }
     });
 
     if (this.counter) {

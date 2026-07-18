@@ -4,7 +4,8 @@ defmodule DevelopmentWeb.Components.Headless.OverflowList do
   into a `+N` counter.
 
   The `OverflowList` JS hook watches the container with a `ResizeObserver`: overflowing `item` parts
-  get `data-hidden` and the `counter` is revealed with the hidden count written into
+  get `data-hidden` **and `inert`** — they leave the tab order and the accessibility tree even if
+  you only fade them out — and the `counter` is revealed with the hidden count written into
   `counter-value`. At least `min_visible` items are always kept. Provide `on_change` to receive the
   hidden count on the server whenever it changes.
 
