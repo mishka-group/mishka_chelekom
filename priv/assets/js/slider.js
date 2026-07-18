@@ -228,7 +228,7 @@ const Slider = {
     }
 
     this.render();
-    if (this.onChange) this.pushEvent(this.onChange, { value: n === 1 ? this.values[0] : this.values.slice() });
+    if (this.onChange) this.pushEventTo(this.el, this.onChange, { value: n === 1 ? this.values[0] : this.values.slice() });
   },
 
   commit() {
@@ -236,7 +236,7 @@ const Slider = {
     // inputs are set programmatically every render, but we only dispatch the event on commit.
     const anyInput = this.el.querySelector('[data-part="input"]');
     if (anyInput) anyInput.dispatchEvent(new Event("input", { bubbles: true }));
-    if (this.onCommit) this.pushEvent(this.onCommit, { value: this.values.length === 1 ? this.values[0] : this.values.slice() });
+    if (this.onCommit) this.pushEventTo(this.el, this.onCommit, { value: this.values.length === 1 ? this.values[0] : this.values.slice() });
   },
 
   // ---- render ---------------------------------------------------------------
