@@ -16,9 +16,18 @@ defmodule DevelopmentWeb.Components.Headless.ActionIcon do
   @doc type: :component
   attr :id, :string, default: nil, doc: "Optional unique id"
   attr :label, :string, required: true, doc: "Accessible label (aria-label)"
+
+  attr :type, :string,
+    default: "button",
+    values: ["button", "submit", "reset"],
+    doc: "Button type (submit to act as a form's submit button)"
+
   attr :disabled, :boolean, default: false, doc: "Disable the button (also sets data-disabled)"
   attr :class, :any, default: nil, doc: "Extra classes"
-  attr :rest, :global
+
+  attr :rest, :global,
+    include: ~w(form name value),
+    doc: "Any button/global attrs, e.g. phx-click"
 
   slot :inner_block, required: true, doc: "The icon (SVG or glyph)"
 
@@ -26,7 +35,7 @@ defmodule DevelopmentWeb.Components.Headless.ActionIcon do
     ~H"""
     <button
       id={@id}
-      type="button"
+      type={@type}
       aria-label={@label}
       disabled={@disabled}
       data-disabled={@disabled}

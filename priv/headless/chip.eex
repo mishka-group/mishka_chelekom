@@ -28,7 +28,9 @@ defmodule <%= @module %> do
   attr :class, :any, default: nil, doc: "Extra classes for the root label"
   attr :input_class, :any, default: nil, doc: "Extra classes for the hidden input"
   attr :label_class, :any, default: nil, doc: "Extra classes for the visible label"
-  attr :rest, :global, doc: "Any input/global attrs, e.g. phx-change, required"
+  attr :rest, :global,
+    include: ~w(required form),
+    doc: "Any input/global attrs, e.g. phx-change, required"
 
   slot :inner_block, required: true, doc: "The chip label"
 
