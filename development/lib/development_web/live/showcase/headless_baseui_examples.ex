@@ -30,6 +30,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.Field
   import DevelopmentWeb.Components.Headless.Fieldset
   import DevelopmentWeb.Components.Headless.FloatingIndicator
+  import DevelopmentWeb.Components.Headless.FloatingWindow
   import DevelopmentWeb.Components.Headless.Highlight
   import DevelopmentWeb.Components.Headless.HueSlider
   import DevelopmentWeb.Components.Headless.JsonInput
@@ -258,6 +259,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       {"fieldset-hero", "Hero",
        "A 'Billing details' fieldset with a bold underlined legend grouping two labeled text inputs (Company and Tax ID), each built from our field component."}
     ]
+
+  def sections("floating_window"),
+    do: [{"floating_window-hero", "Hero", "A draggable panel; grab the title bar to move it."}]
 
   def sections("floating_indicator"),
     do: [{"floating_indicator-hero", "Hero", "A segmented switch whose highlight slides to the active item."}]
@@ -1700,6 +1704,28 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       ★
       <.visually_hidden>Add to favorites</.visually_hidden>
     </button>
+    """
+  end
+
+  def example(%{section: "floating_window-hero"} = assigns) do
+    ~H"""
+    <div
+      class="relative h-56 w-full overflow-hidden rounded-lg border border-neutral-200 bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-900"
+      style="background-image: radial-gradient(rgba(120,120,120,0.25) 1px, transparent 0); background-size: 16px 16px;"
+    >
+      <.floating_window
+        id="baseui-floating-window"
+        x={24}
+        y={24}
+        label="Window"
+        class="absolute w-52 rounded-lg border border-neutral-200 bg-white shadow-lg dark:border-neutral-700 dark:bg-neutral-800"
+        handle_class="cursor-grab rounded-t-lg border-b border-neutral-200 bg-neutral-100 px-3 py-1.5 text-sm font-medium text-neutral-700 active:cursor-grabbing dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200"
+        body_class="p-3 text-sm text-neutral-500 dark:text-neutral-400"
+      >
+        <:handle>Drag me</:handle>
+        Grab the title bar to move this panel within the box.
+      </.floating_window>
+    </div>
     """
   end
 

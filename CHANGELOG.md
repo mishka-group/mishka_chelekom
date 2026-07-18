@@ -37,6 +37,7 @@
 - Add headless `AngleSlider` component (Mantine parity) — circular 0–360° dial driven by an `AngleSlider` JS engine (pointer + arrow keys, `--angle` fill var), with a Phoenix form demo
 - Add headless `OverflowList` component — single-row list that collapses overflow into a `+N` counter via an `OverflowList` `ResizeObserver` engine, with an `on_change` server round-trip demo
 - Add headless `FloatingIndicator` component (Mantine parity) — a highlight box that measures and slides over the active target via a `FloatingIndicator` JS engine, with an `on_change` server round-trip demo
+- Add headless `FloatingWindow` component (Mantine parity) — a draggable, clamped panel via a `FloatingWindow` JS engine (`on_move` server round-trip, non-drag handle controls), with a demo
 - Add `Mishka Tools` documentation button to headless component pages, and point `ARIA pattern` at the component's `spec_url` instead of its docs URL
 - Add per-option tagged, base-first `examples` to `mix mishka.ui.export --cms`: every component now ships at least one example, ordered base-first, with `extra.examples[]` carrying `label`/`section`/`base`/`requires` so a consumer can hide an example whose variant was not installed [Commit](https://github.com/mishka-group/mishka_chelekom/commit/65764c5e)
 - Add `## Examples` docs to `label/1`, `error/1`, `header/1` and `simple_form/1`, so every public component function documents its usage

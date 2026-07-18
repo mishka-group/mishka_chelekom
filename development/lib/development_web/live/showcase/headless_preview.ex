@@ -30,6 +30,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.Field
   import DevelopmentWeb.Components.Headless.Fieldset
   import DevelopmentWeb.Components.Headless.FloatingIndicator
+  import DevelopmentWeb.Components.Headless.FloatingWindow
   import DevelopmentWeb.Components.Headless.Highlight
   import DevelopmentWeb.Components.Headless.HueSlider
   import DevelopmentWeb.Components.Headless.JsonInput
@@ -707,6 +708,28 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         Item {n}
       </div>
     </.scroller>
+    """
+  end
+
+  def show(%{component: "floating_window"} = assigns) do
+    ~H"""
+    <div
+      class="relative h-56 w-full overflow-hidden rounded-lg border border-[var(--c-base-300)]"
+      style="background-image: radial-gradient(var(--c-base-300) 1px, transparent 0); background-size: 16px 16px;"
+    >
+      <.floating_window
+        id={@id}
+        x={20}
+        y={20}
+        label="Window"
+        class="absolute w-52 rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] shadow-lg"
+        handle_class="cursor-grab rounded-t-lg border-b border-[var(--c-base-300)] bg-[var(--c-base-200)] px-3 py-1.5 text-sm font-medium active:cursor-grabbing"
+        body_class="p-3 text-sm text-[var(--c-base-content)]/80"
+      >
+        <:handle>Drag me</:handle>
+        Grab the title bar to move this panel within the box.
+      </.floating_window>
+    </div>
     """
   end
 
@@ -2176,6 +2199,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   def has_examples?("angle_slider"), do: true
   def has_examples?("overflow_list"), do: true
   def has_examples?("floating_indicator"), do: true
+  def has_examples?("floating_window"), do: true
   def has_examples?("mask_input"), do: true
   def has_examples?("pills_input"), do: true
   def has_examples?(_), do: false
@@ -2433,6 +2457,25 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
             id={"#{@id}-form"}
             variant={:alpha}
           />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "floating_window"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          Drag to move — push the coordinates on release (handle_event) + close with JS.hide
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          The hook clamps the window to the stage and pushes <code>%{x, y}</code> on release via
+          <code>on_move</code>; the ✕ closes it client-side without dragging.
+        </p>
+        <div class="mt-4">
+          <.live_component module={DevelopmentWeb.Showcase.FloatingWindowDemo} id={"#{@id}-demo"} />
         </div>
       </details>
     </div>
