@@ -3895,8 +3895,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   defp splitter_class do
     [
       "flex h-40 w-full overflow-hidden rounded-lg border border-[var(--c-base-300)]",
-      "[&_[data-part=panel][data-index=0]]:w-[var(--chelekom-splitter-pos)] [&_[data-part=panel][data-index=0]]:shrink-0 [&_[data-part=panel][data-index=0]]:overflow-auto [&_[data-part=panel][data-index=0]]:bg-[var(--c-base-100)]",
-      "[&_[data-part=panel][data-index=1]]:flex-1 [&_[data-part=panel][data-index=1]]:overflow-auto [&_[data-part=panel][data-index=1]]:bg-[var(--c-base-200)]",
+      "[&_[data-part=panel][data-index='0']]:w-[var(--chelekom-splitter-pos)] [&_[data-part=panel][data-index='0']]:shrink-0 [&_[data-part=panel][data-index='0']]:overflow-auto [&_[data-part=panel][data-index='0']]:bg-[var(--c-base-100)]",
+      "[&_[data-part=panel][data-index='1']]:flex-1 [&_[data-part=panel][data-index='1']]:overflow-auto [&_[data-part=panel][data-index='1']]:bg-[var(--c-base-200)]",
       "[&_[data-part=resizer]]:w-2.5 [&_[data-part=resizer]]:shrink-0 [&_[data-part=resizer]]:cursor-col-resize [&_[data-part=resizer]]:outline-none [&_[data-part=resizer]]:bg-[var(--c-base-300)] [&_[data-part=resizer]]:bg-clip-content [&_[data-part=resizer]]:px-[3px] [&_[data-part=resizer]:hover]:bg-[var(--c-primary)]/40 [&_[data-part=resizer]:focus-visible]:bg-[var(--c-primary)]",
       "[&[data-dragging]_[data-part=resizer]]:bg-[var(--c-primary)]"
     ]

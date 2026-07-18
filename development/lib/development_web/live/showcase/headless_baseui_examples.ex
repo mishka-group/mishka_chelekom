@@ -1353,7 +1353,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
     <.splitter
       id="baseui-splitter"
       default_size={45}
-      class="flex h-40 w-80 overflow-hidden rounded-lg border border-neutral-300 dark:border-neutral-700 [&_[data-part=panel][data-index=0]]:w-[var(--chelekom-splitter-pos)] [&_[data-part=panel][data-index=0]]:shrink-0 [&_[data-part=panel][data-index=0]]:overflow-auto [&_[data-part=panel][data-index=1]]:flex-1 [&_[data-part=panel][data-index=1]]:overflow-auto [&_[data-part=panel][data-index=1]]:bg-neutral-50 dark:[&_[data-part=panel][data-index=1]]:bg-neutral-800 [&_[data-part=resizer]]:w-1.5 [&_[data-part=resizer]]:shrink-0 [&_[data-part=resizer]]:cursor-col-resize [&_[data-part=resizer]]:bg-neutral-200 dark:[&_[data-part=resizer]]:bg-neutral-700 [&_[data-part=resizer]:hover]:bg-neutral-400 [&_[data-part=resizer]]:outline-none"
+      class="flex h-40 w-80 overflow-hidden rounded-lg border border-neutral-300 dark:border-neutral-700 [&_[data-part=panel][data-index='0']]:w-[var(--chelekom-splitter-pos)] [&_[data-part=panel][data-index='0']]:shrink-0 [&_[data-part=panel][data-index='0']]:overflow-auto [&_[data-part=panel][data-index='1']]:flex-1 [&_[data-part=panel][data-index='1']]:overflow-auto [&_[data-part=panel][data-index='1']]:bg-neutral-50 dark:[&_[data-part=panel][data-index='1']]:bg-neutral-800 [&_[data-part=resizer]]:w-1.5 [&_[data-part=resizer]]:shrink-0 [&_[data-part=resizer]]:cursor-col-resize [&_[data-part=resizer]]:bg-neutral-200 dark:[&_[data-part=resizer]]:bg-neutral-700 [&_[data-part=resizer]:hover]:bg-neutral-400 [&_[data-part=resizer]]:outline-none"
     >
       <:first>
         <div class="p-3 text-sm text-neutral-700 dark:text-neutral-300">Files</div>

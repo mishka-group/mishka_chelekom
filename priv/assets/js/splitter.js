@@ -21,6 +21,7 @@ const Splitter = {
 
     const setPos = (pct) => {
       pct = clamp(pct);
+      this._pos = pct;
       root.style.setProperty("--chelekom-splitter-pos", pct + "%");
       resizer.setAttribute("aria-valuenow", String(Math.round(pct)));
       const on = root.getAttribute("data-on-change");
@@ -80,6 +81,14 @@ const Splitter = {
     resizer.addEventListener("pointerdown", this._down);
     resizer.addEventListener("keydown", this._key);
     this._resizer = resizer;
+  },
+
+  // A server patch (e.g. the on_change echo re-rendering the component) resets the root's
+  // inline style to the server-rendered default — re-apply the client's position.
+  updated() {
+    if (this._pos == null) return;
+    this.el.style.setProperty("--chelekom-splitter-pos", this._pos + "%");
+    if (this._resizer) this._resizer.setAttribute("aria-valuenow", String(Math.round(this._pos)));
   },
 
   destroyed() {
