@@ -46,8 +46,7 @@ defmodule DevelopmentWeb.Showcase.ColorPickerFormDemo do
           <span
             class="inline-block size-6 rounded-full ring-1 ring-black/10"
             style={"background-color: #{@color}"}
-          >
-          </span>
+          ></span>
           <code class="text-sm">{@color}</code>
           <button
             type="submit"

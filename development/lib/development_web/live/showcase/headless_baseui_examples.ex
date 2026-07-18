@@ -422,13 +422,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
     ]
 
   def sections("color_picker"),
-    do: [{"color_picker-hero", "Hero", "A saturation/value area with a hue slider and live preview."}]
+    do: [
+      {"color_picker-hero", "Hero", "A saturation/value area with a hue slider and live preview."}
+    ]
 
   def sections("rolling_number"),
     do: [{"rolling_number-hero", "Hero", "Numbers that roll up from zero on mount (ease-out)."}]
 
   def sections("scroller"),
-    do: [{"scroller-hero", "Hero", "A row of cards with prev/next buttons that disable at the ends."}]
+    do: [
+      {"scroller-hero", "Hero", "A row of cards with prev/next buttons that disable at the ends."}
+    ]
 
   def sections("splitter"),
     do: [{"splitter-hero", "Hero", "Two panes with a draggable divider; keyboard-resizable too."}]
@@ -1191,7 +1195,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   def example(%{section: "rolling_number-hero"} = assigns) do
     ~H"""
     <div class="flex gap-8 text-neutral-900 dark:text-white">
-      <.rolling_number id="baseui-rolling-number-1" value={2048} class="text-3xl font-bold tabular-nums" />
+      <.rolling_number
+        id="baseui-rolling-number-1"
+        value={2048}
+        class="text-3xl font-bold tabular-nums"
+      />
       <.rolling_number
         id="baseui-rolling-number-2"
         value={1_000_000}

@@ -57,8 +57,7 @@ defmodule DevelopmentWeb.Showcase.SliderColorFormDemo do
           <span
             class="inline-block size-6 rounded-full ring-1 ring-black/10"
             style={swatch_style(@variant, @value)}
-          >
-          </span>
+          ></span>
           <code class="text-sm">{@value}{(@variant == :alpha && "%") || "°"}</code>
           <button
             type="submit"

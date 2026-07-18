@@ -2153,8 +2153,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
           Server-driven — a button changes the value and it re-animates (handle_event)
         </summary>
         <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
-          Clicking pushes <code>randomize</code> to the server; the re-render triggers the hook's
-          <code>updated()</code> so the number rolls to the new target.
+          Clicking pushes <code>randomize</code>
+          to the server; the re-render triggers the hook's <code>updated()</code>
+          so the number rolls to the new target.
         </p>
         <div class="mt-4">
           <.live_component module={DevelopmentWeb.Showcase.RollingNumberDemo} id={"#{@id}-form"} />
