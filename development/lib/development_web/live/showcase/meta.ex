@@ -55,6 +55,7 @@ defmodule DevelopmentWeb.Showcase.Meta do
     "native_select" => "Styled wrapper around a native <select> element.",
     "navbar" => "Top navigation bar with brand, links and a responsive menu.",
     "number_field" => "Form input for numeric values with min, max and step.",
+    "overflow_list" => "Single-row list that collapses overflow into a +N counter.",
     "overlay" => "Dimmed backdrop layer used behind modals and drawers.",
     "pagination" => "Page navigation controls for paged lists and tables.",
     "password_field" => "Form input for passwords with a reveal toggle and states.",

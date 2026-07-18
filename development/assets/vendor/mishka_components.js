@@ -40,6 +40,7 @@ import RollingNumber from "./rolling_number.js";
 import ColorPicker from "./color_picker.js";
 import MaskInput from "./mask_input.js";
 import AngleSlider from "./angle_slider.js";
+import OverflowList from "./overflow_list.js";
 const Components = {
   Tooltip,
   PreviewCard,
@@ -83,5 +84,6 @@ const Components = {
   ColorPicker,
   MaskInput,
   AngleSlider,
+  OverflowList,
 };
 export default Components;

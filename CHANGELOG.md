@@ -35,6 +35,7 @@
 - Add headless `PillsInput` component (Mantine parity) — an input-shaped container for pills + a text field, click-to-focus via `JS.focus`, no JS hook
 - Add headless `MaskInput` component (Mantine parity) — format-as-you-type text field driven by a `MaskInput` JS engine (`9`/`a`/`*` pattern), with a Phoenix form demo
 - Add headless `AngleSlider` component (Mantine parity) — circular 0–360° dial driven by an `AngleSlider` JS engine (pointer + arrow keys, `--angle` fill var), with a Phoenix form demo
+- Add headless `OverflowList` component — single-row list that collapses overflow into a `+N` counter via an `OverflowList` `ResizeObserver` engine, with an `on_change` server round-trip demo
 - Add `Mishka Tools` documentation button to headless component pages, and point `ARIA pattern` at the component's `spec_url` instead of its docs URL
 - Add per-option tagged, base-first `examples` to `mix mishka.ui.export --cms`: every component now ships at least one example, ordered base-first, with `extra.examples[]` carrying `label`/`section`/`base`/`requires` so a consumer can hide an example whose variant was not installed [Commit](https://github.com/mishka-group/mishka_chelekom/commit/65764c5e)
 - Add `## Examples` docs to `label/1`, `error/1`, `header/1` and `simple_form/1`, so every public component function documents its usage

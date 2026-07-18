@@ -44,6 +44,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.NumberField
   import DevelopmentWeb.Components.Headless.NumberFormatter
   import DevelopmentWeb.Components.Headless.OtpField
+  import DevelopmentWeb.Components.Headless.OverflowList
   import DevelopmentWeb.Components.Headless.Pill
   import DevelopmentWeb.Components.Headless.PillsInput
   import DevelopmentWeb.Components.Headless.Popover
@@ -705,6 +706,27 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         Item {n}
       </div>
     </.scroller>
+    """
+  end
+
+  def show(%{component: "overflow_list"} = assigns) do
+    ~H"""
+    <div class="max-w-sm rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-2">
+      <.overflow_list
+        id={@id}
+        min_visible={1}
+        class={overflow_list_class()}
+        item_class="whitespace-nowrap rounded-full bg-[var(--c-base-200)] px-2.5 py-0.5 text-sm"
+      >
+        <:item>Design</:item>
+        <:item>Phoenix</:item>
+        <:item>Elixir</:item>
+        <:item>LiveView</:item>
+        <:item>Tailwind</:item>
+        <:item>Headless</:item>
+        <:item>Accessibility</:item>
+      </.overflow_list>
+    </div>
     """
   end
 
@@ -2134,6 +2156,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   def has_examples?("segmented_control"), do: true
   def has_examples?("loading_overlay"), do: true
   def has_examples?("angle_slider"), do: true
+  def has_examples?("overflow_list"), do: true
   def has_examples?("mask_input"), do: true
   def has_examples?("pills_input"), do: true
   def has_examples?(_), do: false
@@ -2391,6 +2414,25 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
             id={"#{@id}-form"}
             variant={:alpha}
           />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "overflow_list"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          Resizable — collapse overflow into +N, push the hidden count to the server (handle_event)
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          A <code>ResizeObserver</code> re-lays out on resize; <code>on_change</code> pushes the hidden
+          count so the server can react.
+        </p>
+        <div class="mt-4">
+          <.live_component module={DevelopmentWeb.Showcase.OverflowListDemo} id={"#{@id}-demo"} />
         </div>
       </details>
     </div>
@@ -3567,6 +3609,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "[&_[data-part=control]]:grid [&_[data-part=control]]:size-8 [&_[data-part=control]]:shrink-0 [&_[data-part=control]]:place-items-center [&_[data-part=control]]:rounded-full [&_[data-part=control]]:border [&_[data-part=control]]:border-[var(--c-base-300)] [&_[data-part=control]]:bg-[var(--c-base-100)] [&_[data-part=control]]:text-lg [&_[data-part=control]]:leading-none [&_[data-part=control]:hover]:bg-[var(--c-base-200)] [&_[data-part=control][data-disabled]]:opacity-30",
       "[&_[data-part=viewport]]:flex [&_[data-part=viewport]]:gap-3 [&_[data-part=viewport]]:overflow-x-auto [&_[data-part=viewport]]:scroll-smooth [&_[data-part=viewport]]:pb-1"
     ]
+  end
+
+  # Overflow list: single row; hide overflowing items and style the +N counter via variants.
+  defp overflow_list_class do
+    "flex items-center gap-2 overflow-hidden " <>
+      "[&_[data-part=item][data-hidden]]:hidden [&_[data-part=item]]:shrink-0 " <>
+      "[&_[data-part=counter][data-hidden]]:hidden [&_[data-part=counter]]:shrink-0 [&_[data-part=counter]]:whitespace-nowrap [&_[data-part=counter]]:rounded-full [&_[data-part=counter]]:bg-[var(--c-primary)]/10 [&_[data-part=counter]]:px-2.5 [&_[data-part=counter]]:py-0.5 [&_[data-part=counter]]:text-sm [&_[data-part=counter]]:font-medium [&_[data-part=counter]]:text-[var(--c-primary)]"
   end
 
   # Angle slider: a circular dial; parts positioned via arbitrary variants on the root.

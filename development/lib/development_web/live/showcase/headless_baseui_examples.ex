@@ -44,6 +44,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.NumberField
   import DevelopmentWeb.Components.Headless.NumberFormatter
   import DevelopmentWeb.Components.Headless.OtpField
+  import DevelopmentWeb.Components.Headless.OverflowList
   import DevelopmentWeb.Components.Headless.Pill
   import DevelopmentWeb.Components.Headless.PillsInput
   import DevelopmentWeb.Components.Headless.Popover
@@ -256,6 +257,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       {"fieldset-hero", "Hero",
        "A 'Billing details' fieldset with a bold underlined legend grouping two labeled text inputs (Company and Tax ID), each built from our field component."}
     ]
+
+  def sections("overflow_list"),
+    do: [{"overflow_list-hero", "Hero", "A single row of tags that collapses overflow into +N."}]
 
   def sections("angle_slider"),
     do: [{"angle_slider-hero", "Hero", "A circular dial; drag or use arrow keys to set the angle."}]
@@ -1692,6 +1696,30 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       ★
       <.visually_hidden>Add to favorites</.visually_hidden>
     </button>
+    """
+  end
+
+  def example(%{section: "overflow_list-hero"} = assigns) do
+    ~H"""
+    <div class="w-72 rounded-lg border border-neutral-300 bg-white p-2 dark:border-neutral-700 dark:bg-neutral-900">
+      <.overflow_list
+        id="baseui-overflow-list"
+        min_visible={1}
+        class={
+          "flex items-center gap-2 overflow-hidden " <>
+            "[&_[data-part=item][data-hidden]]:hidden [&_[data-part=item]]:shrink-0 " <>
+            "[&_[data-part=counter][data-hidden]]:hidden [&_[data-part=counter]]:shrink-0 [&_[data-part=counter]]:whitespace-nowrap [&_[data-part=counter]]:rounded-full [&_[data-part=counter]]:bg-neutral-100 [&_[data-part=counter]]:px-2.5 [&_[data-part=counter]]:py-0.5 [&_[data-part=counter]]:text-sm [&_[data-part=counter]]:font-medium [&_[data-part=counter]]:text-neutral-600 dark:[&_[data-part=counter]]:bg-neutral-800 dark:[&_[data-part=counter]]:text-neutral-300"
+        }
+        item_class="whitespace-nowrap rounded-full bg-neutral-100 px-2.5 py-0.5 text-sm text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200"
+      >
+        <:item>Design</:item>
+        <:item>Phoenix</:item>
+        <:item>Elixir</:item>
+        <:item>LiveView</:item>
+        <:item>Tailwind</:item>
+        <:item>Headless</:item>
+      </.overflow_list>
+    </div>
     """
   end
 
