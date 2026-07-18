@@ -40,7 +40,7 @@ Per-component checklist (every item):
 - [x] 4 JsonInput
 - [x] 5 SegmentedControl
 - [x] 6 LoadingOverlay
-- [ ] 7 PillsInput
+- [x] 7 PillsInput
 - [ ] 8 MaskInput
 - [ ] 9 AngleSlider
 - [ ] 10 OverflowList

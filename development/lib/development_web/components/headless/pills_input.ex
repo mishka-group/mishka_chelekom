@@ -1,0 +1,58 @@
+defmodule DevelopmentWeb.Components.Headless.PillsInput do
+  @moduledoc """
+  Headless **pills input** — an input-shaped container that holds pills plus a text field (Mantine
+  PillsInput parity). The base for tags / multi-select inputs.
+
+  Clicking anywhere in the control focuses the input via `JS.focus` — **no JS hook**. Render your
+  tokens (e.g. the `pill` component) in the `pills` slot; the trailing input takes
+  `input_name`/`input_value` so it binds to a form field, plus `on_add` (a `phx-keydown` on Enter) to
+  add from the keyboard.
+
+  Ships **no** styling — style via `chelekom-pills-input*` and the `data-disabled` hook.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/pills_input
+  """
+  use Phoenix.Component
+  alias Phoenix.LiveView.JS
+
+  @doc type: :component
+  attr :id, :string, required: true, doc: "Unique id; anchors the input for JS.focus"
+  attr :input_name, :string, default: nil, doc: "Name for the text input"
+  attr :input_value, :string, default: nil, doc: "Value for the text input"
+  attr :placeholder, :string, default: nil, doc: "Placeholder for the text input"
+  attr :disabled, :boolean, default: false, doc: "Disable the control"
+  attr :on_add, :any, default: nil, doc: "phx-keydown handler fired on Enter"
+  attr :class, :any, default: nil, doc: "Extra classes for the control"
+  attr :input_class, :any, default: nil, doc: "Extra classes for the text input"
+  attr :rest, :global
+
+  slot :pills, doc: "The pills / tokens (e.g. the `pill` component)"
+
+  def pills_input(assigns) do
+    ~H"""
+    <div
+      id={@id}
+      data-part="control"
+      phx-click={!@disabled && JS.focus(to: "##{@id}-input")}
+      data-disabled={@disabled}
+      class={["chelekom-pills-input", @class]}
+      {@rest}
+    >
+      {render_slot(@pills)}
+      <input
+        id={"#{@id}-input"}
+        data-part="input"
+        type="text"
+        name={@input_name}
+        value={@input_value}
+        placeholder={@placeholder}
+        disabled={@disabled}
+        autocomplete="off"
+        phx-keydown={@on_add}
+        phx-key={@on_add && "Enter"}
+        class={["chelekom-pills-input__input", @input_class]}
+      />
+    </div>
+    """
+  end
+end

@@ -43,6 +43,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.NumberFormatter
   import DevelopmentWeb.Components.Headless.OtpField
   import DevelopmentWeb.Components.Headless.Pill
+  import DevelopmentWeb.Components.Headless.PillsInput
   import DevelopmentWeb.Components.Headless.Popover
   import DevelopmentWeb.Components.Headless.PreviewCard
   import DevelopmentWeb.Components.Headless.Progress
@@ -253,6 +254,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       {"fieldset-hero", "Hero",
        "A 'Billing details' fieldset with a bold underlined legend grouping two labeled text inputs (Company and Tax ID), each built from our field component."}
     ]
+
+  def sections("pills_input"),
+    do: [{"pills_input-hero", "Hero", "An input-shaped control holding pills; click anywhere to focus."}]
 
   def sections("loading_overlay"),
     do: [{"loading_overlay-hero", "Hero", "A card covered by a centered loader overlay."}]
@@ -1680,6 +1684,35 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       ★
       <.visually_hidden>Add to favorites</.visually_hidden>
     </button>
+    """
+  end
+
+  def example(%{section: "pills_input-hero"} = assigns) do
+    ~H"""
+    <.pills_input
+      id="baseui-pills-input"
+      placeholder="Add a tag…"
+      class="flex w-80 flex-wrap items-center gap-1.5 rounded-lg border border-neutral-300 bg-white px-2 py-1.5 text-sm cursor-text focus-within:ring-2 focus-within:ring-neutral-400 dark:border-neutral-700 dark:bg-neutral-900 [&_[data-part=input]]:min-w-24 [&_[data-part=input]]:flex-1 [&_[data-part=input]]:border-0 [&_[data-part=input]]:bg-transparent [&_[data-part=input]]:p-0.5 [&_[data-part=input]]:outline-none"
+    >
+      <:pills>
+        <.pill
+          with_remove
+          remove_label="Remove ui"
+          on_remove={JS.hide(to: {:closest, "[data-part=root]"})}
+          class="inline-flex items-center gap-1 rounded-full bg-neutral-100 py-0.5 pr-1 pl-2 dark:bg-neutral-800 [&_[data-part=remove]]:inline-flex [&_[data-part=remove]]:size-4 [&_[data-part=remove]]:items-center [&_[data-part=remove]]:justify-center [&_[data-part=remove]]:rounded-full [&_[data-part=remove]]:text-neutral-500 [&_[data-part=remove]]:hover:bg-neutral-200 dark:[&_[data-part=remove]]:hover:bg-neutral-700"
+        >
+          ui
+        </.pill>
+        <.pill
+          with_remove
+          remove_label="Remove phoenix"
+          on_remove={JS.hide(to: {:closest, "[data-part=root]"})}
+          class="inline-flex items-center gap-1 rounded-full bg-neutral-100 py-0.5 pr-1 pl-2 dark:bg-neutral-800 [&_[data-part=remove]]:inline-flex [&_[data-part=remove]]:size-4 [&_[data-part=remove]]:items-center [&_[data-part=remove]]:justify-center [&_[data-part=remove]]:rounded-full [&_[data-part=remove]]:text-neutral-500 [&_[data-part=remove]]:hover:bg-neutral-200 dark:[&_[data-part=remove]]:hover:bg-neutral-700"
+        >
+          phoenix
+        </.pill>
+      </:pills>
+    </.pills_input>
     """
   end
 

@@ -133,6 +133,7 @@ defmodule DevelopmentWeb.Showcase.Meta do
     "number_field" => "Spinbutton input with increment/decrement and clamping.",
     "otp_field" => "Segmented one-time-code input with paste and keyboard handling.",
     "pill" => "Compact tag/token with an optional accessible remove button.",
+    "pills_input" => "Input-shaped container for pills plus a text field.",
     "popover" => "Anchored floating panel with dismissal and focus return.",
     "preview_card" => "Hover/focus card that reveals a rich preview.",
     "progress" => "Determinate or indeterminate progress bar (ARIA progressbar).",

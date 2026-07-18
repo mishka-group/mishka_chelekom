@@ -43,6 +43,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.NumberFormatter
   import DevelopmentWeb.Components.Headless.OtpField
   import DevelopmentWeb.Components.Headless.Pill
+  import DevelopmentWeb.Components.Headless.PillsInput
   import DevelopmentWeb.Components.Headless.Popover
   import DevelopmentWeb.Components.Headless.PreviewCard
   import DevelopmentWeb.Components.Headless.Progress
@@ -702,6 +703,31 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         Item {n}
       </div>
     </.scroller>
+    """
+  end
+
+  def show(%{component: "pills_input"} = assigns) do
+    ~H"""
+    <.pills_input id={@id} placeholder="Add a tag…" class={pills_input_class()}>
+      <:pills>
+        <.pill
+          with_remove
+          remove_label="Remove Design"
+          on_remove={JS.hide(to: {:closest, "[data-part=root]"})}
+          class={pills_input_pill_class()}
+        >
+          Design
+        </.pill>
+        <.pill
+          with_remove
+          remove_label="Remove Phoenix"
+          on_remove={JS.hide(to: {:closest, "[data-part=root]"})}
+          class={pills_input_pill_class()}
+        >
+          Phoenix
+        </.pill>
+      </:pills>
+    </.pills_input>
     """
   end
 
@@ -2062,6 +2088,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   def has_examples?("json_input"), do: true
   def has_examples?("segmented_control"), do: true
   def has_examples?("loading_overlay"), do: true
+  def has_examples?("pills_input"), do: true
   def has_examples?(_), do: false
 
   def examples(%{component: "empty_state"} = assigns) do
@@ -2317,6 +2344,25 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
             id={"#{@id}-form"}
             variant={:alpha}
           />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "pills_input"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — add recipients (composes pill), submits as a list (handle_event)
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          Click anywhere to focus (<code>JS.focus</code>); Enter adds via a form submit; each ✕
+          removes. Submits as <code>pills_demo[emails][]</code>.
+        </p>
+        <div class="mt-4">
+          <.live_component module={DevelopmentWeb.Showcase.PillsInputFormDemo} id={"#{@id}-form"} />
         </div>
       </details>
     </div>
@@ -3436,6 +3482,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "[&_[data-part=control]]:grid [&_[data-part=control]]:size-8 [&_[data-part=control]]:shrink-0 [&_[data-part=control]]:place-items-center [&_[data-part=control]]:rounded-full [&_[data-part=control]]:border [&_[data-part=control]]:border-[var(--c-base-300)] [&_[data-part=control]]:bg-[var(--c-base-100)] [&_[data-part=control]]:text-lg [&_[data-part=control]]:leading-none [&_[data-part=control]:hover]:bg-[var(--c-base-200)] [&_[data-part=control][data-disabled]]:opacity-30",
       "[&_[data-part=viewport]]:flex [&_[data-part=viewport]]:gap-3 [&_[data-part=viewport]]:overflow-x-auto [&_[data-part=viewport]]:scroll-smooth [&_[data-part=viewport]]:pb-1"
     ]
+  end
+
+  # Pills input: input-shaped control holding pills + a growing input; click anywhere to focus.
+  defp pills_input_class do
+    "flex flex-wrap items-center gap-1.5 rounded-md border border-[var(--c-base-300)] bg-[var(--c-base-100)] px-2 py-1.5 text-sm cursor-text focus-within:ring-2 focus-within:ring-[var(--c-primary)]/30 [&_[data-part=input]]:min-w-24 [&_[data-part=input]]:flex-1 [&_[data-part=input]]:border-0 [&_[data-part=input]]:bg-transparent [&_[data-part=input]]:p-0.5 [&_[data-part=input]]:outline-none"
+  end
+
+  defp pills_input_pill_class do
+    "inline-flex items-center gap-1 rounded-full bg-[var(--c-base-200)] py-0.5 pr-1 pl-2 [&_[data-part=remove]]:inline-flex [&_[data-part=remove]]:size-4 [&_[data-part=remove]]:items-center [&_[data-part=remove]]:justify-center [&_[data-part=remove]]:rounded-full [&_[data-part=remove]]:leading-none [&_[data-part=remove]]:text-[var(--c-base-content)]/50 [&_[data-part=remove]]:hover:bg-[var(--c-base-300)] [&_[data-part=remove]]:hover:text-[var(--c-base-content)]"
   end
 
   # Loading overlay: absolute cover with a centered loader; fades out when not [data-visible].
