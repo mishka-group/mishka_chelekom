@@ -46,7 +46,8 @@ defmodule DevelopmentWeb.Showcase.TagsInputDemo do
         />
       </.form>
       <p class="mt-2 text-xs text-[var(--c-base-content)]/50">
-        Submits as <code>tags_demo[tags][]</code> — {(@tags == [] && "none") || Enum.join(@tags, ", ")}
+        Submits as <code>tags_demo[tags][]</code>
+        — {(@tags == [] && "none") || Enum.join(@tags, ", ")}
       </p>
     </div>
     """

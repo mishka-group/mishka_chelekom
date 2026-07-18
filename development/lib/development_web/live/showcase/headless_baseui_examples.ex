@@ -139,7 +139,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
     ]
 
   def sections("marquee"),
-    do: [{"marquee-hero", "Hero", "A row of words scrolling continuously; pure CSS, pauses on hover."}]
+    do: [
+      {"marquee-hero", "Hero",
+       "A row of words scrolling continuously; pure CSS, pauses on hover."}
+    ]
 
   def sections("action_icon"),
     do: [{"action_icon-hero", "Hero", "Icon-only edit and delete buttons, one disabled."}]
@@ -1401,8 +1404,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   def example(%{section: "anchor-hero"} = assigns) do
     ~H"""
     <p class="text-sm text-neutral-700 dark:text-neutral-300">
-      Built with
-      <.anchor
+      Built with <.anchor
         href="https://phoenixframework.org"
         target="_blank"
         class="font-medium text-blue-600 underline underline-offset-2 hover:no-underline dark:text-blue-400"
@@ -1444,7 +1446,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       type="button"
       class="rounded-md border border-neutral-300 px-3 py-1.5 text-sm text-neutral-800 hover:bg-neutral-100 dark:border-neutral-700 dark:text-neutral-200 dark:hover:bg-neutral-800"
     >
-      ★ <.visually_hidden>Add to favorites</.visually_hidden>
+      ★
+      <.visually_hidden>Add to favorites</.visually_hidden>
     </button>
     """
   end
@@ -1452,7 +1455,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   def example(%{section: "mark-hero"} = assigns) do
     ~H"""
     <p class="max-w-sm text-sm text-neutral-700 dark:text-neutral-300">
-      The quick brown <.mark class="rounded bg-yellow-200 px-0.5 text-neutral-900">fox</.mark>
+      The quick brown
+      <.mark class="rounded bg-yellow-200 px-0.5 text-neutral-900">fox</.mark>
       jumps over the lazy <.mark class="rounded bg-lime-200 px-0.5 text-neutral-900">dog</.mark>.
     </p>
     """
@@ -1462,12 +1466,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
     ~H"""
     <div class="w-80 space-y-3">
       <p class="text-sm text-neutral-700 dark:text-neutral-300">
-        Run <.code class="rounded bg-neutral-100 px-1.5 py-0.5 font-mono text-[0.85em] text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100">npm install</.code> first.
+        Run
+        <.code class="rounded bg-neutral-100 px-1.5 py-0.5 font-mono text-[0.85em] text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100">
+          npm install
+        </.code>
+        first.
       </p>
       <.code
         block
         class="overflow-x-auto rounded-lg bg-neutral-100 p-3 font-mono text-sm text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100"
-      >export const sum = (a, b) => a + b;</.code>
+      >
+        export const sum = (a, b) => a + b;
+      </.code>
     </div>
     """
   end

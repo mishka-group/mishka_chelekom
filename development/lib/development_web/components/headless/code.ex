@@ -13,7 +13,11 @@ defmodule DevelopmentWeb.Components.Headless.Code do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: "Optional unique id"
-  attr :block, :boolean, default: false, doc: "Render a <pre><code> block instead of inline <code>"
+
+  attr :block, :boolean,
+    default: false,
+    doc: "Render a <pre><code> block instead of inline <code>"
+
   attr :class, :any, default: nil, doc: "Extra classes"
   attr :rest, :global
 

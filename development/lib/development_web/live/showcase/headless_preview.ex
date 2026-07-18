@@ -486,7 +486,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         href="https://mishka.tools/chelekom"
         target="_blank"
         class="text-[var(--c-primary)] underline underline-offset-2 hover:no-underline"
-      >Mishka Chelekom docs</.anchor>
+      >
+        Mishka Chelekom docs
+      </.anchor>
       to get started.
     </p>
     """
@@ -526,7 +528,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         type="button"
         class="rounded-md border border-[var(--c-base-300)] px-3 py-1.5 text-sm hover:bg-[var(--c-base-200)]"
       >
-        ★ <.visually_hidden>Add to favorites</.visually_hidden>
+        ★
+        <.visually_hidden>Add to favorites</.visually_hidden>
       </button>
       <p class="mt-2 text-xs text-[var(--c-base-content)]/50">
         The star button carries a screen-reader-only label — invisible, but announced as
@@ -550,12 +553,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     ~H"""
     <div class="space-y-3">
       <p class="text-sm text-[var(--c-base-content)]/80">
-        Install with <.code class="rounded bg-[var(--c-base-300)]/60 px-1.5 py-0.5 font-mono text-[0.85em]">mix mishka.ui.gen.headless code</.code> and go.
+        Install with
+        <.code class="rounded bg-[var(--c-base-300)]/60 px-1.5 py-0.5 font-mono text-[0.85em]">
+          mix mishka.ui.gen.headless code
+        </.code>
+        and go.
       </p>
       <.code
         block
         class="overflow-x-auto rounded-lg bg-[var(--c-base-300)]/50 p-3 font-mono text-sm"
-      >def hello, do: :world</.code>
+      >
+        def hello, do: :world
+      </.code>
     </div>
     """
   end
@@ -610,7 +619,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     ~H"""
     <div class="flex flex-wrap items-center gap-2">
       <.pill id={@id} class={pill_class()}>Default</.pill>
-      <.pill id={"#{@id}-2"} with_remove remove_label="Remove React" class={pill_class()}>React</.pill>
+      <.pill id={"#{@id}-2"} with_remove remove_label="Remove React" class={pill_class()}>
+        React
+      </.pill>
       <.pill id={"#{@id}-3"} with_remove remove_label="Remove Phoenix" class={pill_class()}>
         Phoenix
       </.pill>
@@ -1849,7 +1860,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
         <summary class="cursor-pointer select-none font-medium">Left &amp; right alignment</summary>
         <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
-          <code>data-align</code> flips the whole layout — indicator, text and actions — from CSS, with
+          <code>data-align</code>
+          flips the whole layout — indicator, text and actions — from CSS, with
           no change to the markup.
         </p>
         <div class="mt-4 space-y-6">
@@ -1908,7 +1920,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         <summary class="cursor-pointer select-none font-medium">Filled indicator</summary>
         <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
           A colored circular background behind the icon (Mantine's <code>filled</code>/<code>light</code>
-          variants) — pure CSS on the <code>indicator</code> part.
+          variants) — pure CSS on the <code>indicator</code>
+          part.
         </p>
         <div class="mt-4">
           <.empty_state
@@ -1981,7 +1994,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         <summary class="cursor-pointer select-none font-medium">Announced dynamically</summary>
         <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
           When the empty state appears after a user action, pass <code>role="status"</code>
-          through <code>rest</code> so assistive tech announces it politely.
+          through <code>rest</code>
+          so assistive tech announces it politely.
         </p>
         <div class="mt-4">
           <.empty_state
@@ -2022,8 +2036,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
           Custom labels &amp; taller clamp
         </summary>
         <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
-          The two control labels and the clamp height are yours — here it reads
-          <code>Read more</code>/<code>Read less</code>.
+          The two control labels and the clamp height are yours — here it reads <code>Read more</code>/<code>Read less</code>.
         </p>
         <div class="mt-4">
           <.spoiler
@@ -2052,8 +2065,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
           Fully server-driven, no JS hook: a <code>&lt;.form phx-submit&gt;</code>
           adds the tag and its reset clears the draft, each ✕ pushes <code>remove</code>, and clicking
-          the control focuses the input via <code>JS.focus</code>. The tags submit as
-          <code>tags_demo[tags][]</code>.
+          the control focuses the input via <code>JS.focus</code>. The tags submit as <code>tags_demo[tags][]</code>.
         </p>
         <div class="mt-4 max-w-md">
           <.live_component module={DevelopmentWeb.Showcase.TagsInputDemo} id={"#{@id}-form"} />

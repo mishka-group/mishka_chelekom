@@ -63,7 +63,11 @@ defmodule DevelopmentWeb.Components.Headless.EmptyState do
         data-part="body"
         class={["chelekom-empty-state__body", @body_class]}
       >
-        <div :if={@title} data-part="title" class={["chelekom-empty-state__title", @title_class]}>
+        <div
+          :if={@title}
+          data-part="title"
+          class={["chelekom-empty-state__title", @title_class]}
+        >
           {@title}
         </div>
         <div
