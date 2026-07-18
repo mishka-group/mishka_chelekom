@@ -26,6 +26,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.EmptyState
   import DevelopmentWeb.Components.Headless.Field
   import DevelopmentWeb.Components.Headless.Fieldset
+  import DevelopmentWeb.Components.Headless.HueSlider
   import DevelopmentWeb.Components.Headless.Mark
   import DevelopmentWeb.Components.Headless.Marquee
   import DevelopmentWeb.Components.Headless.Menu
@@ -409,6 +410,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         </button>
       </:actions>
     </.empty_state>
+    """
+  end
+
+  def show(%{component: "hue_slider"} = assigns) do
+    ~H"""
+    <div class="w-64">
+      <.hue_slider id={@id} value={200} class={hue_slider_class()} />
+    </div>
     """
   end
 
@@ -3098,6 +3107,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "[&_[data-part=control]]:mt-1 [&_[data-part=control]]:text-sm [&_[data-part=control]]:font-medium [&_[data-part=control]]:text-[var(--c-primary)] [&_[data-part=control]]:hover:underline",
       "[&[data-expanded]_[data-part=show-label]]:hidden",
       "[&:not([data-expanded])_[data-part=hide-label]]:hidden"
+    ]
+  end
+
+  # Hue slider: reuses the Slider engine (it sets the thumb's absolute position), so we only style
+  # appearance — a rainbow track and a white ring handle; the fill indicator is hidden.
+  defp hue_slider_class do
+    [
+      "block w-full [&[data-disabled]]:opacity-50",
+      "[&_[data-part=control]]:relative [&_[data-part=control]]:flex [&_[data-part=control]]:h-4 [&_[data-part=control]]:cursor-pointer [&_[data-part=control]]:items-center",
+      "[&_[data-part=track]]:relative [&_[data-part=track]]:h-3 [&_[data-part=track]]:w-full [&_[data-part=track]]:rounded-full [&_[data-part=track]]:[background:linear-gradient(to_right,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)]",
+      "[&_[data-part=indicator]]:hidden",
+      "[&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border-2 [&_[data-part=thumb]]:border-white [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:ring-1 [&_[data-part=thumb]]:ring-black/30 [&_[data-part=thumb]]:outline-none [&_[data-part=thumb]:focus-visible]:ring-2 [&_[data-part=thumb]:focus-visible]:ring-[var(--c-primary)]"
     ]
   end
 

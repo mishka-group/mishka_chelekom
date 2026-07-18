@@ -26,6 +26,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.EmptyState
   import DevelopmentWeb.Components.Headless.Field
   import DevelopmentWeb.Components.Headless.Fieldset
+  import DevelopmentWeb.Components.Headless.HueSlider
   import DevelopmentWeb.Components.Headless.Mark
   import DevelopmentWeb.Components.Headless.Marquee
   import DevelopmentWeb.Components.Headless.Menu
@@ -244,6 +245,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
 
   def sections("mark"),
     do: [{"mark-hero", "Hero", "A highlighted run of text inside a sentence."}]
+
+  def sections("hue_slider"),
+    do: [{"hue_slider-hero", "Hero", "Pick a hue on a rainbow track (reuses the Slider engine)."}]
 
   def sections("number_formatter"),
     do: [
@@ -1337,6 +1341,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
         Granny Smith
       </:item>
     </.checkbox_group>
+    """
+  end
+
+  def example(%{section: "hue_slider-hero"} = assigns) do
+    ~H"""
+    <div class="w-64">
+      <.hue_slider
+        id="baseui-hue-slider"
+        value={140}
+        class="block w-full [&_[data-part=control]]:relative [&_[data-part=control]]:flex [&_[data-part=control]]:h-4 [&_[data-part=control]]:cursor-pointer [&_[data-part=control]]:items-center [&_[data-part=track]]:relative [&_[data-part=track]]:h-3 [&_[data-part=track]]:w-full [&_[data-part=track]]:rounded-full [&_[data-part=track]]:[background:linear-gradient(to_right,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)] [&_[data-part=indicator]]:hidden [&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border-2 [&_[data-part=thumb]]:border-white [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:ring-1 [&_[data-part=thumb]]:ring-black/30 [&_[data-part=thumb]]:outline-none"
+      />
+    </div>
     """
   end
 
