@@ -49,6 +49,6 @@ defmodule DevelopmentWeb.Showcase.FloatingIndicatorDemo do
   end
 
   defp target do
-    "relative z-10 rounded-md px-3 py-1.5 text-sm font-medium text-[var(--c-base-content)]/70 transition-colors outline-none aria-selected:text-primary-content"
+    "relative z-10 rounded-md px-3 py-1.5 text-sm font-medium text-[var(--c-base-content)]/70 transition-colors outline-none aria-pressed:text-primary-content"
   end
 end

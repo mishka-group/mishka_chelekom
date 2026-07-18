@@ -1817,7 +1817,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
           "[&_[data-part=indicator]]:absolute [&_[data-part=indicator]]:left-0 [&_[data-part=indicator]]:top-0 [&_[data-part=indicator]]:transition-all [&_[data-part=indicator]]:duration-200 [&_[data-part=indicator]]:ease-out"
       }
       indicator_class="rounded-md bg-white shadow dark:bg-neutral-600"
-      target_class="relative z-10 rounded-md px-3 py-1.5 text-sm font-medium text-neutral-500 transition-colors outline-none aria-selected:text-neutral-900 dark:aria-selected:text-white"
+      target_class="relative z-10 rounded-md px-3 py-1.5 text-sm font-medium text-neutral-500 transition-colors outline-none aria-pressed:text-neutral-900 dark:aria-pressed:text-white"
     >
       <:target value="day">Day</:target>
       <:target value="week">Week</:target>

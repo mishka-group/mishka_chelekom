@@ -5,7 +5,7 @@ defmodule <%= @module %> do
 
   Each `target` carries a `value`; the active one is whichever matches `active`. The
   `FloatingIndicator` JS hook moves the `indicator` over the active target, updates `data-active` /
-  `aria-selected`, and (when `on_change` is set) pushes the new value to the server on click. A
+  `aria-pressed`, and (when `on_change` is set) pushes the new value to the server on click. A
   `ResizeObserver` keeps everything aligned on resize.
 
   Ships **no** styling — style via `chelekom-floating-indicator` and its parts.
@@ -50,7 +50,7 @@ defmodule <%= @module %> do
         type="button"
         data-part="target"
         data-value={target.value}
-        aria-selected={to_string(target.value == @active)}
+        aria-pressed={to_string(target.value == @active)}
         class={["chelekom-floating-indicator__target", @target_class]}
       >{render_slot(target)}</button>
     </div>

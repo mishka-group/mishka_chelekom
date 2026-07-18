@@ -20,10 +20,17 @@
         ],
         parts: [
           indicator: [element: "span", note: "the moving highlight; engine sets transform + size"],
-          target: [element: "button", note: "an option; needs data-value; gets data-active when selected"]
+          target: [
+            element: "button",
+            aria: ["aria-pressed"],
+            note: "an option; needs data-value; gets data-active + aria-pressed when selected"
+          ]
         ]
       ],
-      aria_pattern: [pattern: "Floating indicator (no formal APG pattern)", keyboard: []],
+      aria_pattern: [
+        pattern: "Floating indicator (toggle buttons, no formal APG pattern)",
+        keyboard: ["Tab — between targets", "Enter / Space — select"]
+      ],
       state_attributes: ["data-active"],
       hooks: ["FloatingIndicator"]
     ]

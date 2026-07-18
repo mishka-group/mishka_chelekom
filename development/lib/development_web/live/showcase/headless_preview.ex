@@ -790,7 +790,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       label="View"
       class={floating_indicator_class()}
       indicator_class="rounded-md bg-[var(--c-primary)] shadow"
-      target_class="relative z-10 rounded-md px-3 py-1.5 text-sm font-medium text-[var(--c-base-content)]/70 transition-colors outline-none aria-selected:text-primary-content"
+      target_class="relative z-10 rounded-md px-3 py-1.5 text-sm font-medium text-[var(--c-base-content)]/70 transition-colors outline-none aria-pressed:text-primary-content"
     >
       <:target value="list">List</:target>
       <:target value="board">Board</:target>

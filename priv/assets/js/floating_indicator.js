@@ -50,7 +50,7 @@ const FloatingIndicator = {
     this.targets().forEach((t) => {
       const on = t === at;
       t.toggleAttribute("data-active", on);
-      t.setAttribute("aria-selected", on ? "true" : "false");
+      t.setAttribute("aria-pressed", on ? "true" : "false");
     });
     if (at) this.el.setAttribute("data-active", at.getAttribute("data-value"));
     this.move();
