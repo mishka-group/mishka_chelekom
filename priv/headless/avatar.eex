@@ -27,8 +27,15 @@ defmodule <%= @module %> do
   attr :height, :any, default: nil, doc: "Image height attribute"
   attr :referrer_policy, :string, default: nil, doc: "referrerpolicy for the <img>"
   attr :crossorigin, :string, default: nil, doc: "crossorigin for the <img>"
-  attr :delay, :integer, default: nil, doc: "ms to wait before showing the fallback (avoids a flash)"
-  attr :on_loading_status_change, :string, default: nil, doc: "LiveView event pushed on status change ({status})"
+
+  attr :delay, :integer,
+    default: nil,
+    doc: "ms to wait before showing the fallback (avoids a flash)"
+
+  attr :on_loading_status_change, :string,
+    default: nil,
+    doc: "LiveView event pushed on status change ({status})"
+
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :image_class, :any, default: nil, doc: "Extra classes for the image part"
   attr :fallback_class, :any, default: nil, doc: "Extra classes for the fallback part"

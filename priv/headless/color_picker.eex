@@ -46,8 +46,7 @@ defmodule <%= @module %> do
           role="img"
           aria-label={"Selected color #{@value}"}
           class={["chelekom-color-picker__preview", @preview_class]}
-        >
-        </span>
+        ></span>
         <input
           data-part="hue"
           type="range"

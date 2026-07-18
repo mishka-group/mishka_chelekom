@@ -40,7 +40,11 @@ defmodule <%= @module %> do
         aria-controls={"#{@id}-panel"}
         class={["chelekom-tree-select__trigger", @trigger_class]}
       >
-        <span data-part="value" data-placeholder={@label in [nil, ""] && "true"} class={["chelekom-tree-select__value", @value_class]}>
+        <span
+          data-part="value"
+          data-placeholder={@label in [nil, ""] && "true"}
+          class={["chelekom-tree-select__value", @value_class]}
+        >
           {(@label not in [nil, ""] && @label) || @placeholder}
         </span>
         <span data-part="caret" aria-hidden="true">▾</span>

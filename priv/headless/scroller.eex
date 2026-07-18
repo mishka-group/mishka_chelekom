@@ -15,7 +15,11 @@ defmodule <%= @module %> do
 
   @doc type: :component
   attr :id, :string, required: true, doc: "Unique id (carries the Scroller hook)"
-  attr :scroll_by, :integer, default: nil, doc: "px to scroll per click (default ~80% of the viewport)"
+
+  attr :scroll_by, :integer,
+    default: nil,
+    doc: "px to scroll per click (default ~80% of the viewport)"
+
   attr :prev_label, :string, default: "Scroll left", doc: "aria-label for the back button"
   attr :next_label, :string, default: "Scroll right", doc: "aria-label for the forward button"
   attr :class, :any, default: nil, doc: "Extra classes for the root"

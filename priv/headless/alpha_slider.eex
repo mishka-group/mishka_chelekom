@@ -61,7 +61,11 @@ defmodule <%= @module %> do
           data-orientation="horizontal"
           class={["chelekom-alpha-slider__track", @track_class]}
         >
-          <div data-part="indicator" data-orientation="horizontal" class="chelekom-alpha-slider__indicator">
+          <div
+            data-part="indicator"
+            data-orientation="horizontal"
+            class="chelekom-alpha-slider__indicator"
+          >
           </div>
           <span
             data-part="thumb"
@@ -78,7 +82,14 @@ defmodule <%= @module %> do
             tabindex={if @disabled, do: "-1", else: "0"}
             class={["chelekom-alpha-slider__thumb", @thumb_class]}
           >
-            <input :if={@name} type="hidden" name={@name} value={@value} form={@form} data-part="input" />
+            <input
+              :if={@name}
+              type="hidden"
+              name={@name}
+              value={@value}
+              form={@form}
+              data-part="input"
+            />
           </span>
         </div>
       </div>

@@ -21,11 +21,15 @@ defmodule <%= @module %> do
   attr :value, :integer, default: nil, doc: "Current value in [min, max]; nil = indeterminate"
   attr :min, :integer, default: 0, doc: "Lower bound of the range"
   attr :max, :integer, default: 100, doc: "Upper bound of the range"
-  attr :label, :string, default: nil, doc: "Accessible label (rendered + wired to aria-labelledby)"
+
+  attr :label, :string,
+    default: nil,
+    doc: "Accessible label (rendered + wired to aria-labelledby)"
 
   attr :value_text, :string,
     default: nil,
-    doc: ~s|Human value for aria-valuetext + readout (defaults to a percent; "Indeterminate" when nil)|
+    doc:
+      ~s|Human value for aria-valuetext + readout (defaults to a percent; "Indeterminate" when nil)|
 
   attr :show_value, :boolean, default: false, doc: ~s|Render a `data-part="value"` readout|
   attr :class, :any, default: nil, doc: "Extra classes for the root"
@@ -98,7 +102,10 @@ defmodule <%= @module %> do
       >
         <div
           data-part="indicator"
-          style={@ratio && "--chelekom-progress: #{@ratio}; width: calc(var(--chelekom-progress) * 100%); height: 100%;"}
+          style={
+            @ratio &&
+              "--chelekom-progress: #{@ratio}; width: calc(var(--chelekom-progress) * 100%); height: 100%;"
+          }
           class={["chelekom-progress__indicator", @indicator_class]}
           {status_data(@status)}
         >

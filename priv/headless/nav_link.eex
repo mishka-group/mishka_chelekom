@@ -19,7 +19,11 @@ defmodule <%= @module %> do
   attr :href, :string, default: nil, doc: "Leaf link href"
   attr :navigate, :string, default: nil, doc: "LiveView navigate"
   attr :patch, :string, default: nil, doc: "LiveView patch"
-  attr :active, :boolean, default: false, doc: "Marks the item current (data-active + aria-current)"
+
+  attr :active, :boolean,
+    default: false,
+    doc: "Marks the item current (data-active + aria-current)"
+
   attr :default_opened, :boolean, default: false, doc: "Open nested children initially"
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :label_class, :any, default: nil, doc: "Extra classes for the label row"

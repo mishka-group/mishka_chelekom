@@ -50,7 +50,9 @@ defmodule <%= @module %> do
 
   slot :icon, doc: "Custom icon rendered inside every dropdown trigger (e.g. a caret svg)"
 
-  slot :item, required: true, doc: "A nav item: a plain link, or a dropdown if it has body content" do
+  slot :item,
+    required: true,
+    doc: "A nav item: a plain link, or a dropdown if it has body content" do
     attr :label, :string, required: true
     attr :href, :string
     attr :value, :string, doc: "Stable id for this item (defaults to a generated one)"
@@ -108,7 +110,11 @@ defmodule <%= @module %> do
             class={["chelekom-navigation_menu__trigger", @trigger_class]}
           >
             {item.label}
-            <span data-part="icon" aria-hidden="true" class={["chelekom-navigation_menu__icon", @icon_class]}>{if @icon != [], do: render_slot(@icon), else: "▾"}</span>
+            <span
+              data-part="icon"
+              aria-hidden="true"
+              class={["chelekom-navigation_menu__icon", @icon_class]}
+            >{if @icon != [], do: render_slot(@icon), else: "▾"}</span>
           </button>
 
           <div
@@ -123,10 +129,27 @@ defmodule <%= @module %> do
         </li>
       </ul>
 
-      <div data-part="positioner" data-closed class={["chelekom-navigation_menu__positioner", @positioner_class]}>
-        <nav data-part="popup" id={"#{@id}-popup"} tabindex="-1" data-closed class={["chelekom-navigation_menu__popup", @popup_class]}>
-          <div data-part="viewport" class={["chelekom-navigation_menu__viewport", @viewport_class]}></div>
-          <div :if={@arrow} data-part="arrow" aria-hidden="true" class={["chelekom-navigation_menu__arrow", @arrow_class]}></div>
+      <div
+        data-part="positioner"
+        data-closed
+        class={["chelekom-navigation_menu__positioner", @positioner_class]}
+      >
+        <nav
+          data-part="popup"
+          id={"#{@id}-popup"}
+          tabindex="-1"
+          data-closed
+          class={["chelekom-navigation_menu__popup", @popup_class]}
+        >
+          <div data-part="viewport" class={["chelekom-navigation_menu__viewport", @viewport_class]}>
+          </div>
+          <div
+            :if={@arrow}
+            data-part="arrow"
+            aria-hidden="true"
+            class={["chelekom-navigation_menu__arrow", @arrow_class]}
+          >
+          </div>
         </nav>
       </div>
     </nav>

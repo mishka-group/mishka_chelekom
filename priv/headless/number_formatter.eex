@@ -13,7 +13,11 @@ defmodule <%= @module %> do
 
   @doc type: :component
   attr :value, :any, required: true, doc: "The number (or numeric string) to format"
-  attr :thousand_separator, :any, default: ",", doc: "Grouping separator (string, or false to disable)"
+
+  attr :thousand_separator, :any,
+    default: ",",
+    doc: "Grouping separator (string, or false to disable)"
+
   attr :decimal_separator, :string, default: ".", doc: "Decimal separator"
   attr :decimal_scale, :integer, default: nil, doc: "Fixed number of decimal places"
   attr :prefix, :string, default: nil, doc: "Text before the number (e.g. \"$\")"

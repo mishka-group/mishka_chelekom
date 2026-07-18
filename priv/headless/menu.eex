@@ -33,9 +33,21 @@ defmodule <%= @module %> do
   attr :id, :string, required: true, doc: "Unique id (anchors aria relationships)"
   attr :disabled, :boolean, default: false, doc: "Disable all interaction"
   attr :on_open_change, :string, default: nil, doc: "LiveView event pushed on open/close ({open})"
-  attr :on_open_change_target, :string, default: nil, doc: "Optional pushEventTo target for on_open_change"
-  attr :side, :string, default: "bottom", values: ~w(top right bottom left), doc: "Preferred side to anchor the popup"
-  attr :align, :string, default: "start", values: ~w(start center end), doc: "Alignment along the side"
+
+  attr :on_open_change_target, :string,
+    default: nil,
+    doc: "Optional pushEventTo target for on_open_change"
+
+  attr :side, :string,
+    default: "bottom",
+    values: ~w(top right bottom left),
+    doc: "Preferred side to anchor the popup"
+
+  attr :align, :string,
+    default: "start",
+    values: ~w(start center end),
+    doc: "Alignment along the side"
+
   attr :side_offset, :integer, default: 4, doc: "Gap between the trigger and popup (px)"
   attr :align_offset, :integer, default: 0, doc: "Offset along the alignment axis (px)"
   attr :open_on_hover, :boolean, default: false, doc: "Open on trigger hover (with delay)"
@@ -50,7 +62,8 @@ defmodule <%= @module %> do
   slot :trigger, required: true, doc: "The button that opens the menu"
 
   slot :check_icon,
-    doc: "Shared glyph rendered inside every checkbox/radio item indicator (overrides the default ✓/●)"
+    doc:
+      "Shared glyph rendered inside every checkbox/radio item indicator (overrides the default ✓/●)"
 
   slot :item, doc: "A menu row (idiomatic slot API)" do
     attr :type, :string, doc: "item (default) | checkbox | radio | link | separator | label"
@@ -114,8 +127,23 @@ defmodule <%= @module %> do
       >
         {render_slot(@inner_block)}
         <div :for={it <- @item} style="display: contents">
-          <div :if={it[:type] == "separator"} role="separator" data-part="separator" data-orientation="horizontal" aria-orientation="horizontal" class={["chelekom-menu__separator", it[:class]]}></div>
-          <div :if={it[:type] == "label"} role="presentation" data-part="group-label" class={["chelekom-menu__group-label", it[:class]]}>{render_slot(it)}</div>
+          <div
+            :if={it[:type] == "separator"}
+            role="separator"
+            data-part="separator"
+            data-orientation="horizontal"
+            aria-orientation="horizontal"
+            class={["chelekom-menu__separator", it[:class]]}
+          >
+          </div>
+          <div
+            :if={it[:type] == "label"}
+            role="presentation"
+            data-part="group-label"
+            class={["chelekom-menu__group-label", it[:class]]}
+          >
+            {render_slot(it)}
+          </div>
           <button
             :if={it[:type] == "checkbox"}
             type="button"
@@ -131,7 +159,13 @@ defmodule <%= @module %> do
             tabindex="-1"
             class={["chelekom-menu__checkbox-item", it[:class]]}
           >
-            <span data-part="checkbox-item-indicator" aria-hidden="true" data-checked={it[:checked] == true} data-unchecked={it[:checked] != true} class={["chelekom-menu__indicator", it[:indicator_class]]}>{if @check_icon != [], do: render_slot(@check_icon), else: "✓"}</span>
+            <span
+              data-part="checkbox-item-indicator"
+              aria-hidden="true"
+              data-checked={it[:checked] == true}
+              data-unchecked={it[:checked] != true}
+              class={["chelekom-menu__indicator", it[:indicator_class]]}
+            >{if @check_icon != [], do: render_slot(@check_icon), else: "✓"}</span>
             {render_slot(it)}
           </button>
           <button
@@ -151,10 +185,24 @@ defmodule <%= @module %> do
             tabindex="-1"
             class={["chelekom-menu__radio-item", it[:class]]}
           >
-            <span data-part="radio-item-indicator" aria-hidden="true" data-checked={it[:checked] == true} data-unchecked={it[:checked] != true} class={["chelekom-menu__indicator", it[:indicator_class]]}>{if @check_icon != [], do: render_slot(@check_icon), else: "●"}</span>
+            <span
+              data-part="radio-item-indicator"
+              aria-hidden="true"
+              data-checked={it[:checked] == true}
+              data-unchecked={it[:checked] != true}
+              class={["chelekom-menu__indicator", it[:indicator_class]]}
+            >{if @check_icon != [], do: render_slot(@check_icon), else: "●"}</span>
             {render_slot(it)}
           </button>
-          <a :if={it[:type] == "link"} href={it[:href]} role="menuitem" data-part="link-item" data-label={it[:label]} tabindex="-1" class={["chelekom-menu__link-item", it[:class]]}>{render_slot(it)}</a>
+          <a
+            :if={it[:type] == "link"}
+            href={it[:href]}
+            role="menuitem"
+            data-part="link-item"
+            data-label={it[:label]}
+            tabindex="-1"
+            class={["chelekom-menu__link-item", it[:class]]}
+          >{render_slot(it)}</a>
           <button
             :if={it[:type] in [nil, "item"]}
             type="button"
@@ -309,7 +357,12 @@ defmodule <%= @module %> do
 
   @doc type: :component
   attr :value, :string, required: true
-  attr :name, :string, default: nil, doc: "Radio group name (single-selects items sharing it; alternative to a radio_group wrapper)"
+
+  attr :name, :string,
+    default: nil,
+    doc:
+      "Radio group name (single-selects items sharing it; alternative to a radio_group wrapper)"
+
   attr :checked, :boolean, default: false
   attr :disabled, :boolean, default: false
   attr :label, :string, default: nil
@@ -457,7 +510,11 @@ defmodule <%= @module %> do
         class={["chelekom-menu__submenu-trigger", @trigger_class]}
       >
         {@label}
-        <span data-part="submenu-chevron" aria-hidden="true" class={["chelekom-menu__chevron", @chevron_class]}>{if @chevron != [], do: render_slot(@chevron), else: "›"}</span>
+        <span
+          data-part="submenu-chevron"
+          aria-hidden="true"
+          class={["chelekom-menu__chevron", @chevron_class]}
+        >{if @chevron != [], do: render_slot(@chevron), else: "›"}</span>
       </button>
       <div
         id={"#{@id}-sub"}

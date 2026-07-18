@@ -41,7 +41,8 @@ defmodule <%= @module %> do
 
   attr :level_offset, :string,
     default: "1rem",
-    doc: "Horizontal indentation of each subtree level; any CSS length (emitted as --level-offset)"
+    doc:
+      "Horizontal indentation of each subtree level; any CSS length (emitted as --level-offset)"
 
   attr :expanded, :any, default: [], doc: "Values expanded on first render, or `:all`"
   attr :selected, :list, default: [], doc: "Values selected on first render"
@@ -125,7 +126,9 @@ defmodule <%= @module %> do
   attr :loader_class, :any, default: nil, doc: "Extra classes for each loader"
   attr :rest, :global
 
-  slot :expand_icon, doc: "Shared icon rendered inside every parent node's expand-icon (e.g. a chevron)"
+  slot :expand_icon,
+    doc: "Shared icon rendered inside every parent node's expand-icon (e.g. a chevron)"
+
   slot :drag_icon, doc: "Shared icon rendered inside every drag handle"
   slot :loader, doc: "Shared busy indicator, revealed on a node's `data-loading`"
 
@@ -310,13 +313,13 @@ defmodule <%= @module %> do
           aria-hidden="true"
           class={["chelekom-tree__expand-icon", @expand_icon_class]}
         >
-          <%%= if @has_children do %>
+          <%= if @has_children do %>
             {render_slot(@expand_icon)}
-          <%% end %>
+          <% end %>
         </span>
 
         <span data-part="label-text" class={["chelekom-tree__label-text", @label_text_class]}>
-          <%%= if @node_slot != [] do %>
+          <%= if @node_slot != [] do %>
             {render_slot(@node_slot, %{
               node: @node,
               icon: Map.get(@node, :icon),
@@ -328,9 +331,9 @@ defmodule <%= @module %> do
               has_children: @has_children,
               is_root: @level == 1
             })}
-          <%% else %>
+          <% else %>
             {label_text(@node)}
-          <%% end %>
+          <% end %>
         </span>
 
         <span data-part="loader" class={["chelekom-tree__loader", @loader_class]}>

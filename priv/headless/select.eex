@@ -28,13 +28,30 @@ defmodule <%= @module %> do
   @doc type: :component
   attr :id, :string, required: true
   attr :name, :string, default: nil, doc: "Name for the hidden form input(s)"
-  attr :value, :any, default: nil, doc: "Selected value (string), or a list of values when multiple"
-  attr :placeholder, :string, default: "Select…", doc: "Shown (with data-placeholder) when nothing is selected"
-  attr :label, :string, default: nil, doc: "Accessible label (a <label> wired via aria-labelledby)"
-  attr :multiple, :boolean, default: false, doc: "Allow selecting several options (stays open; submits name[])"
+
+  attr :value, :any,
+    default: nil,
+    doc: "Selected value (string), or a list of values when multiple"
+
+  attr :placeholder, :string,
+    default: "Select…",
+    doc: "Shown (with data-placeholder) when nothing is selected"
+
+  attr :label, :string,
+    default: nil,
+    doc: "Accessible label (a <label> wired via aria-labelledby)"
+
+  attr :multiple, :boolean,
+    default: false,
+    doc: "Allow selecting several options (stays open; submits name[])"
+
   attr :disabled, :boolean, default: false, doc: "Disable the select (data-disabled)"
   attr :readonly, :boolean, default: false, doc: "Block changing the selection (data-readonly)"
-  attr :required, :boolean, default: false, doc: "Require a selection for form submit (data-required)"
+
+  attr :required, :boolean,
+    default: false,
+    doc: "Require a selection for form submit (data-required)"
+
   attr :form, :string, default: nil, doc: "Form id owning the hidden input(s)"
   attr :side, :string, default: "bottom", doc: "Popup side: bottom | top | left | right"
   attr :highlight_on_hover, :boolean, default: true, doc: "Highlight items on pointer hover"
@@ -53,7 +70,11 @@ defmodule <%= @module %> do
   attr :group_class, :any, default: nil, doc: "Extra classes for each group part"
   attr :group_label_class, :any, default: nil, doc: "Extra classes for each group-label part"
   attr :item_class, :any, default: nil, doc: "Extra classes for each item part"
-  attr :item_indicator_class, :any, default: nil, doc: "Extra classes for each item-indicator part"
+
+  attr :item_indicator_class, :any,
+    default: nil,
+    doc: "Extra classes for each item-indicator part"
+
   attr :item_text_class, :any, default: nil, doc: "Extra classes for each item-text part"
 
   attr :rest, :global
@@ -101,15 +122,32 @@ defmodule <%= @module %> do
       class={["chelekom-select", @class]}
       {@rest}
     >
-      <label :if={@label} id={"#{@id}-label"} data-part="label" class={["chelekom-select__label", @label_class]}>
+      <label
+        :if={@label}
+        id={"#{@id}-label"}
+        data-part="label"
+        class={["chelekom-select__label", @label_class]}
+      >
         {@label}
       </label>
 
       <span data-part="value-inputs" class="chelekom-sr-only">
-        <%%= for v <- @values do %>
-          <input :if={@name} type="hidden" name={if @multiple, do: "#{@name}[]", else: @name} value={v} form={@form} />
-        <%% end %>
-        <input :if={@name && @values == [] && !@multiple} type="hidden" name={@name} value="" form={@form} />
+        <%= for v <- @values do %>
+          <input
+            :if={@name}
+            type="hidden"
+            name={if @multiple, do: "#{@name}[]", else: @name}
+            value={v}
+            form={@form}
+          />
+        <% end %>
+        <input
+          :if={@name && @values == [] && !@multiple}
+          type="hidden"
+          name={@name}
+          value=""
+          form={@form}
+        />
       </span>
 
       <button
@@ -129,15 +167,28 @@ defmodule <%= @module %> do
         data-placeholder={@values == []}
         class={["chelekom-select__trigger", @trigger_class]}
       >
-        <span data-part="value" data-placeholder={@values == []} class={["chelekom-select__value", @value_class]}>
-          <%%= if @selected_opts == [] do %>
+        <span
+          data-part="value"
+          data-placeholder={@values == []}
+          class={["chelekom-select__value", @value_class]}
+        >
+          <%= if @selected_opts == [] do %>
             {@placeholder}
-          <%% else %>
-            <%%= for {opt, idx} <- Enum.with_index(@selected_opts) do %><%%= if idx > 0 do %>, <%% end %>{render_slot(opt)}<%% end %>
-          <%% end %>
+          <% else %>
+            <%= for {opt, idx} <- Enum.with_index(@selected_opts) do %>
+              <%= if idx > 0 do %>
+                ,
+              <% end %>
+              {render_slot(opt)}
+            <% end %>
+          <% end %>
         </span>
         <span data-part="icon" aria-hidden="true" class={["chelekom-select__icon", @icon_class]}>
-          <%%= if @icon != [] do %>{render_slot(@icon)}<%% else %>▾<%% end %>
+          <%= if @icon != [] do %>
+            {render_slot(@icon)}
+          <% else %>
+            ▾
+          <% end %>
         </span>
       </button>
 
@@ -150,20 +201,45 @@ defmodule <%= @module %> do
           data-closed
           class={["chelekom-select__popup", @popup_class]}
         >
-          <%%= for {grp, gi} <- Enum.with_index(@groups) do %>
-            <%%= if grp.label do %>
-              <li role="group" aria-labelledby={"#{@id}-grp-#{gi}"} data-part="group" class={["chelekom-select__group", @group_class]}>
-                <span id={"#{@id}-grp-#{gi}"} data-part="group-label" class={["chelekom-select__group-label", @group_label_class]}>
+          <%= for {grp, gi} <- Enum.with_index(@groups) do %>
+            <%= if grp.label do %>
+              <li
+                role="group"
+                aria-labelledby={"#{@id}-grp-#{gi}"}
+                data-part="group"
+                class={["chelekom-select__group", @group_class]}
+              >
+                <span
+                  id={"#{@id}-grp-#{gi}"}
+                  data-part="group-label"
+                  class={["chelekom-select__group-label", @group_label_class]}
+                >
                   {grp.label}
                 </span>
                 <ul role="presentation" class="chelekom-select__group-list">
-                  <.option :for={opt <- grp.options} opt={opt} values={@values} item_class={@item_class} item_indicator_class={@item_indicator_class} item_text_class={@item_text_class} item_indicator={@item_indicator} />
+                  <.option
+                    :for={opt <- grp.options}
+                    opt={opt}
+                    values={@values}
+                    item_class={@item_class}
+                    item_indicator_class={@item_indicator_class}
+                    item_text_class={@item_text_class}
+                    item_indicator={@item_indicator}
+                  />
                 </ul>
               </li>
-            <%% else %>
-              <.option :for={opt <- grp.options} opt={opt} values={@values} item_class={@item_class} item_indicator_class={@item_indicator_class} item_text_class={@item_text_class} item_indicator={@item_indicator} />
-            <%% end %>
-          <%% end %>
+            <% else %>
+              <.option
+                :for={opt <- grp.options}
+                opt={opt}
+                values={@values}
+                item_class={@item_class}
+                item_indicator_class={@item_indicator_class}
+                item_text_class={@item_text_class}
+                item_indicator={@item_indicator}
+              />
+            <% end %>
+          <% end %>
         </ul>
       </div>
     </div>
@@ -189,10 +265,21 @@ defmodule <%= @module %> do
       tabindex="-1"
       class={["chelekom-select__option", @item_class, @opt[:class]]}
     >
-      <span data-part="item-indicator" aria-hidden="true" class={["chelekom-select__indicator", @item_indicator_class]}>
-        <%%= if @item_indicator != [] do %>{render_slot(@item_indicator)}<%% else %>✓<%% end %>
+      <span
+        data-part="item-indicator"
+        aria-hidden="true"
+        class={["chelekom-select__indicator", @item_indicator_class]}
+      >
+        <%= if @item_indicator != [] do %>
+          {render_slot(@item_indicator)}
+        <% else %>
+          ✓
+        <% end %>
       </span>
-      <span data-part="item-text" class={["chelekom-select__text", @item_text_class, @opt[:text_class]]}>{render_slot(@opt)}</span>
+      <span
+        data-part="item-text"
+        class={["chelekom-select__text", @item_text_class, @opt[:text_class]]}
+      >{render_slot(@opt)}</span>
     </li>
     """
   end

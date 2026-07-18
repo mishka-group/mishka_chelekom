@@ -39,7 +39,11 @@ defmodule <%= @module %> do
 
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :trigger_class, :any, default: nil, doc: "Extra classes for the trigger button part"
-  attr :viewport_class, :any, default: nil, doc: "Extra classes for the viewport part (the live region)"
+
+  attr :viewport_class, :any,
+    default: nil,
+    doc: "Extra classes for the viewport part (the live region)"
+
   attr :toast_class, :any, default: nil, doc: "Extra classes for every toast part (the `<li>`)"
   attr :content_class, :any, default: nil, doc: "Extra classes for every toast content part"
   attr :close_class, :any, default: nil, doc: "Extra classes for every close button part"
@@ -49,7 +53,8 @@ defmodule <%= @module %> do
   slot :trigger, doc: "A button that creates a toast from the template on click"
 
   slot :close,
-    doc: "Custom content for the close button (defaults to a × glyph; e.g. a Base UI 'Dismiss' label)"
+    doc:
+      "Custom content for the close button (defaults to a × glyph; e.g. a Base UI 'Dismiss' label)"
 
   slot :template,
     doc: "Content for a dynamically-created toast (use `data-toast-count` for a running number)"
@@ -99,7 +104,7 @@ defmodule <%= @module %> do
               aria-label={@close_label}
               class={["chelekom-toast__close", @close_class]}
             >
-              <%%= if @close != [], do: render_slot(@close), else: "×" %>
+              {if @close != [], do: render_slot(@close), else: "×"}
             </button>
           </div>
         </li>
@@ -121,7 +126,7 @@ defmodule <%= @module %> do
               aria-label={@close_label}
               class={["chelekom-toast__close", @close_class]}
             >
-              <%%= if @close != [], do: render_slot(@close), else: "×" %>
+              {if @close != [], do: render_slot(@close), else: "×"}
             </button>
           </div>
         </li>

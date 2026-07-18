@@ -25,7 +25,11 @@ defmodule <%= @module %> do
   attr :orientation, :string, default: "horizontal", values: ~w(horizontal vertical)
   attr :loop, :boolean, default: true, doc: "Loop arrow-key focus past the ends"
   attr :disabled, :boolean, default: false, doc: "Disable the whole toolbar (data-disabled)"
-  attr :focusable_when_disabled, :boolean, default: true, doc: "Keep disabled items in the roving order"
+
+  attr :focusable_when_disabled, :boolean,
+    default: true,
+    doc: "Keep disabled items in the roving order"
+
   attr :class, :any, default: nil
   attr :rest, :global
 
@@ -44,7 +48,8 @@ defmodule <%= @module %> do
   def <%= @component_prefix %>toolbar(assigns) do
     first =
       Enum.find(assigns.item, fn it ->
-        (it[:type] || "button") in ~w(button link input) and not (it[:disabled] || assigns.disabled)
+        (it[:type] || "button") in ~w(button link input) and
+          not (it[:disabled] || assigns.disabled)
       end)
 
     assigns = assign(assigns, groups: group_items(assigns.item), first: first)
@@ -63,8 +68,8 @@ defmodule <%= @module %> do
       class={["chelekom-toolbar", @class]}
       {@rest}
     >
-      <%%= for {grp, gi} <- Enum.with_index(@groups) do %>
-        <%%= if grp.label do %>
+      <%= for {grp, gi} <- Enum.with_index(@groups) do %>
+        <%= if grp.label do %>
           <div
             data-part="group"
             role="group"
@@ -81,7 +86,7 @@ defmodule <%= @module %> do
               first={@first}
             />
           </div>
-        <%% else %>
+        <% else %>
           <.toolbar_item
             :for={item <- grp.items}
             item={item}
@@ -89,8 +94,8 @@ defmodule <%= @module %> do
             disabled={@disabled}
             first={@first}
           />
-        <%% end %>
-      <%% end %>
+        <% end %>
+      <% end %>
     </div>
     """
   end

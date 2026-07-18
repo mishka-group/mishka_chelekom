@@ -12,7 +12,11 @@ defmodule <%= @module %> do
 
   @doc type: :component
   attr :text, :string, required: true, doc: "The full text"
-  attr :highlight, :any, required: true, doc: "Substring(s) to highlight — a string or a list of strings"
+
+  attr :highlight, :any,
+    required: true,
+    doc: "Substring(s) to highlight — a string or a list of strings"
+
   attr :class, :any, default: nil, doc: "Extra classes for the wrapper"
   attr :mark_class, :any, default: nil, doc: "Extra classes for each <mark>"
   attr :rest, :global
@@ -21,7 +25,11 @@ defmodule <%= @module %> do
     assigns = assign(assigns, :parts, highlight_parts(assigns.text, List.wrap(assigns.highlight)))
 
     ~H"""
-    <span class={["chelekom-highlight", @class]} {@rest}><.hl_part :for={p <- @parts} part={p} mark_class={@mark_class} /></span>
+    <span class={["chelekom-highlight", @class]} {@rest}><.hl_part
+      :for={p <- @parts}
+      part={p}
+      mark_class={@mark_class}
+    /></span>
     """
   end
 

@@ -38,7 +38,11 @@ defmodule <%= @module %> do
 
   attr :clear, :boolean, default: false, doc: "Render a clear button"
   attr :trigger, :boolean, default: false, doc: "Render a button that opens/closes the popup"
-  attr :creatable, :boolean, default: false, doc: "Offer to create the typed query as a new option"
+
+  attr :creatable, :boolean,
+    default: false,
+    doc: "Offer to create the typed query as a new option"
+
   attr :on_create, :string, default: nil, doc: "LiveView event pushed to create ({value})"
   attr :on_change, :string, default: nil, doc: "LiveView event pushed on selection ({value})"
   attr :class, :any, default: nil
@@ -108,7 +112,12 @@ defmodule <%= @module %> do
             class={["chelekom-combobox__chip", @chip_class]}
           >
             <span data-chip-label>{render_slot(opt)}</span>
-            <button type="button" data-part="chip-remove" aria-label="Remove" class={["chelekom-combobox__chip-remove", @chip_remove_class]}>
+            <button
+              type="button"
+              data-part="chip-remove"
+              aria-label="Remove"
+              class={["chelekom-combobox__chip-remove", @chip_remove_class]}
+            >
               {if @chip_remove_icon != [], do: render_slot(@chip_remove_icon), else: "×"}
             </button>
             <input :if={@name} type="hidden" name={"#{@name}[]"} value={opt.value} data-chip-input />
@@ -157,7 +166,12 @@ defmodule <%= @module %> do
       <template :if={@multiple} data-part="chip-template">
         <span data-part="chip" class={["chelekom-combobox__chip", @chip_class]}>
           <span data-chip-label></span>
-          <button type="button" data-part="chip-remove" aria-label="Remove" class={["chelekom-combobox__chip-remove", @chip_remove_class]}>
+          <button
+            type="button"
+            data-part="chip-remove"
+            aria-label="Remove"
+            class={["chelekom-combobox__chip-remove", @chip_remove_class]}
+          >
             {if @chip_remove_icon != [], do: render_slot(@chip_remove_icon), else: "×"}
           </button>
           <input type="hidden" data-chip-input />
@@ -172,26 +186,71 @@ defmodule <%= @module %> do
         data-closed
         class={["chelekom-combobox__popup", @popup_class]}
       >
-        <%%= for {grp, gi} <- Enum.with_index(@groups) do %>
-          <%%= if grp.label do %>
-            <li role="group" aria-labelledby={"#{@id}-grp-#{gi}"} data-part="group" class={["chelekom-combobox__group", @group_class]}>
-              <span id={"#{@id}-grp-#{gi}"} data-part="group-label" class={["chelekom-combobox__group-label", @group_label_class]}>
+        <%= for {grp, gi} <- Enum.with_index(@groups) do %>
+          <%= if grp.label do %>
+            <li
+              role="group"
+              aria-labelledby={"#{@id}-grp-#{gi}"}
+              data-part="group"
+              class={["chelekom-combobox__group", @group_class]}
+            >
+              <span
+                id={"#{@id}-grp-#{gi}"}
+                data-part="group-label"
+                class={["chelekom-combobox__group-label", @group_label_class]}
+              >
                 {grp.label}
               </span>
               <ul role="presentation" class="chelekom-combobox__group-list">
-                <.option :for={opt <- grp.options} opt={opt} id={@id} value={@value} multiple={@multiple} item_class={@item_class} indicator_class={@indicator_class} item_indicator={@item_indicator} />
+                <.option
+                  :for={opt <- grp.options}
+                  opt={opt}
+                  id={@id}
+                  value={@value}
+                  multiple={@multiple}
+                  item_class={@item_class}
+                  indicator_class={@indicator_class}
+                  item_indicator={@item_indicator}
+                />
               </ul>
             </li>
-          <%% else %>
-            <.option :for={opt <- grp.options} opt={opt} id={@id} value={@value} multiple={@multiple} item_class={@item_class} indicator_class={@indicator_class} item_indicator={@item_indicator} />
-          <%% end %>
-        <%% end %>
+          <% else %>
+            <.option
+              :for={opt <- grp.options}
+              opt={opt}
+              id={@id}
+              value={@value}
+              multiple={@multiple}
+              item_class={@item_class}
+              indicator_class={@indicator_class}
+              item_indicator={@item_indicator}
+            />
+          <% end %>
+        <% end %>
 
-        <li :if={@empty != []} data-part="empty" data-hidden role="presentation" class={["chelekom-combobox__empty", @empty_class]}>
+        <li
+          :if={@empty != []}
+          data-part="empty"
+          data-hidden
+          role="presentation"
+          class={["chelekom-combobox__empty", @empty_class]}
+        >
           {render_slot(@empty)}
         </li>
-        <li :if={@creatable} data-part="create" data-hidden class={["chelekom-combobox__create", @create_class]}>
-          {render_slot(@create_icon)}<span :if={@create_icon != []} data-part="create-label" class={["chelekom-combobox__create-label", @create_label_class]}>Create “<span data-create-label></span>”</span><span :if={@create_icon == []}>Create “</span><span :if={@create_icon == []} data-create-label></span><span :if={@create_icon == []}>”</span>
+        <li
+          :if={@creatable}
+          data-part="create"
+          data-hidden
+          class={["chelekom-combobox__create", @create_class]}
+        >
+          {render_slot(@create_icon)}<span
+            :if={@create_icon != []}
+            data-part="create-label"
+            class={["chelekom-combobox__create-label", @create_label_class]}
+          >Create “<span data-create-label></span>”</span><span :if={@create_icon == []}>Create “</span><span
+            :if={@create_icon == []}
+            data-create-label
+          ></span><span :if={@create_icon == []}>”</span>
         </li>
       </ul>
     </div>
@@ -226,7 +285,11 @@ defmodule <%= @module %> do
       aria-disabled={(@opt[:disabled] && "true") || nil}
       class={["chelekom-combobox__item", @item_class, @opt[:class]]}
     >
-      <span data-part="indicator" aria-hidden="true" class={["chelekom-combobox__indicator", @indicator_class]}>{render_slot(@item_indicator)}</span>
+      <span
+        data-part="indicator"
+        aria-hidden="true"
+        class={["chelekom-combobox__indicator", @indicator_class]}
+      >{render_slot(@item_indicator)}</span>
       {render_slot(@opt)}
     </li>
     """
@@ -237,7 +300,10 @@ defmodule <%= @module %> do
     |> Enum.with_index()
     |> Enum.chunk_by(fn {opt, _i} -> opt[:group] end)
     |> Enum.map(fn [{first, _} | _] = chunk ->
-      %{label: first[:group], options: Enum.map(chunk, fn {opt, i} -> Map.put(opt, :__i__, i) end)}
+      %{
+        label: first[:group],
+        options: Enum.map(chunk, fn {opt, i} -> Map.put(opt, :__i__, i) end)
+      }
     end)
   end
 

@@ -17,7 +17,11 @@ defmodule <%= @module %> do
   @doc type: :component
   attr :id, :string, required: true, doc: "Unique id (carries the OverflowList hook)"
   attr :min_visible, :integer, default: 1, doc: "Minimum items to always keep visible"
-  attr :on_change, :string, default: nil, doc: "Event pushed with %{hidden: n} when the count changes"
+
+  attr :on_change, :string,
+    default: nil,
+    doc: "Event pushed with %{hidden: n} when the count changes"
+
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :item_class, :any, default: nil, doc: "Extra classes for each item"
   attr :counter_class, :any, default: nil, doc: "Extra classes for the counter"
@@ -40,7 +44,11 @@ defmodule <%= @module %> do
         data-part="item"
         class={["chelekom-overflow-list__item", @item_class]}
       >{render_slot(item)}</span>
-      <span data-part="counter" data-hidden="" class={["chelekom-overflow-list__counter", @counter_class]}>
+      <span
+        data-part="counter"
+        data-hidden=""
+        class={["chelekom-overflow-list__counter", @counter_class]}
+      >
         +<span data-part="counter-value">0</span>
       </span>
     </div>
