@@ -46,7 +46,7 @@ defmodule DevelopmentWeb.Components.Headless.NavLink do
 
   slot :icon, doc: "Leading icon"
   slot :trailing, doc: "Trailing content (e.g. a chevron)"
-  slot :inner_block, doc: "Label content (overrides the label attr)"
+  slot :inner_block, doc: "Label content, used when the label attr is not set"
   slot :children, doc: "Nested nav links — when present, the item becomes a disclosure"
 
   def nav_link(assigns) do
@@ -66,7 +66,7 @@ defmodule DevelopmentWeb.Components.Headless.NavLink do
         class={["chelekom-nav-link__control", @label_class]}
       >
         <span :if={@icon != []} data-part="icon">{render_slot(@icon)}</span>
-        <span data-part="label">{(@inner_block != [] && render_slot(@inner_block)) || @label}</span>
+        <span data-part="label">{@label || render_slot(@inner_block)}</span>
         <span :if={@trailing != []} data-part="trailing">{render_slot(@trailing)}</span>
       </summary>
       <div data-part="children" class={["chelekom-nav-link__children", @children_class]}>
@@ -86,7 +86,7 @@ defmodule DevelopmentWeb.Components.Headless.NavLink do
       {@rest}
     >
       <span :if={@icon != []} data-part="icon">{render_slot(@icon)}</span>
-      <span data-part="label">{(@inner_block != [] && render_slot(@inner_block)) || @label}</span>
+      <span data-part="label">{@label || render_slot(@inner_block)}</span>
       <span :if={@trailing != []} data-part="trailing">{render_slot(@trailing)}</span>
     </.link>
     """
