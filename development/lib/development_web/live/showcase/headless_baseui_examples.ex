@@ -29,6 +29,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.EmptyState
   import DevelopmentWeb.Components.Headless.Field
   import DevelopmentWeb.Components.Headless.Fieldset
+  import DevelopmentWeb.Components.Headless.FloatingIndicator
   import DevelopmentWeb.Components.Headless.Highlight
   import DevelopmentWeb.Components.Headless.HueSlider
   import DevelopmentWeb.Components.Headless.JsonInput
@@ -257,6 +258,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       {"fieldset-hero", "Hero",
        "A 'Billing details' fieldset with a bold underlined legend grouping two labeled text inputs (Company and Tax ID), each built from our field component."}
     ]
+
+  def sections("floating_indicator"),
+    do: [{"floating_indicator-hero", "Hero", "A segmented switch whose highlight slides to the active item."}]
 
   def sections("overflow_list"),
     do: [{"overflow_list-hero", "Hero", "A single row of tags that collapses overflow into +N."}]
@@ -1696,6 +1700,26 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       ★
       <.visually_hidden>Add to favorites</.visually_hidden>
     </button>
+    """
+  end
+
+  def example(%{section: "floating_indicator-hero"} = assigns) do
+    ~H"""
+    <.floating_indicator
+      id="baseui-floating-indicator"
+      active="day"
+      label="Range"
+      class={
+        "relative inline-flex gap-1 rounded-lg bg-neutral-100 p-1 dark:bg-neutral-800 " <>
+          "[&_[data-part=indicator]]:absolute [&_[data-part=indicator]]:left-0 [&_[data-part=indicator]]:top-0 [&_[data-part=indicator]]:transition-all [&_[data-part=indicator]]:duration-200 [&_[data-part=indicator]]:ease-out"
+      }
+      indicator_class="rounded-md bg-white shadow dark:bg-neutral-600"
+      target_class="relative z-10 rounded-md px-3 py-1.5 text-sm font-medium text-neutral-500 transition-colors outline-none aria-selected:text-neutral-900 dark:aria-selected:text-white"
+    >
+      <:target value="day">Day</:target>
+      <:target value="week">Week</:target>
+      <:target value="month">Month</:target>
+    </.floating_indicator>
     """
   end
 

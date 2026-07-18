@@ -29,6 +29,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.EmptyState
   import DevelopmentWeb.Components.Headless.Field
   import DevelopmentWeb.Components.Headless.Fieldset
+  import DevelopmentWeb.Components.Headless.FloatingIndicator
   import DevelopmentWeb.Components.Headless.Highlight
   import DevelopmentWeb.Components.Headless.HueSlider
   import DevelopmentWeb.Components.Headless.JsonInput
@@ -706,6 +707,23 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         Item {n}
       </div>
     </.scroller>
+    """
+  end
+
+  def show(%{component: "floating_indicator"} = assigns) do
+    ~H"""
+    <.floating_indicator
+      id={@id}
+      active="list"
+      label="View"
+      class={floating_indicator_class()}
+      indicator_class="rounded-md bg-[var(--c-primary)] shadow"
+      target_class="relative z-10 rounded-md px-3 py-1.5 text-sm font-medium text-[var(--c-base-content)]/70 transition-colors outline-none aria-selected:text-primary-content"
+    >
+      <:target value="list">List</:target>
+      <:target value="board">Board</:target>
+      <:target value="calendar">Calendar</:target>
+    </.floating_indicator>
     """
   end
 
@@ -2157,6 +2175,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   def has_examples?("loading_overlay"), do: true
   def has_examples?("angle_slider"), do: true
   def has_examples?("overflow_list"), do: true
+  def has_examples?("floating_indicator"), do: true
   def has_examples?("mask_input"), do: true
   def has_examples?("pills_input"), do: true
   def has_examples?(_), do: false
@@ -2414,6 +2433,25 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
             id={"#{@id}-form"}
             variant={:alpha}
           />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "floating_indicator"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          As a segmented switch — slide the indicator and push the selection (handle_event)
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          Clicking a target moves the indicator on the client and pushes the value via
+          <code>on_change</code> so the server tracks the active section.
+        </p>
+        <div class="mt-4">
+          <.live_component module={DevelopmentWeb.Showcase.FloatingIndicatorDemo} id={"#{@id}-demo"} />
         </div>
       </details>
     </div>
@@ -3609,6 +3647,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "[&_[data-part=control]]:grid [&_[data-part=control]]:size-8 [&_[data-part=control]]:shrink-0 [&_[data-part=control]]:place-items-center [&_[data-part=control]]:rounded-full [&_[data-part=control]]:border [&_[data-part=control]]:border-[var(--c-base-300)] [&_[data-part=control]]:bg-[var(--c-base-100)] [&_[data-part=control]]:text-lg [&_[data-part=control]]:leading-none [&_[data-part=control]:hover]:bg-[var(--c-base-200)] [&_[data-part=control][data-disabled]]:opacity-30",
       "[&_[data-part=viewport]]:flex [&_[data-part=viewport]]:gap-3 [&_[data-part=viewport]]:overflow-x-auto [&_[data-part=viewport]]:scroll-smooth [&_[data-part=viewport]]:pb-1"
     ]
+  end
+
+  # Floating indicator: a positioned rail; the indicator part is absolutely placed and animated.
+  defp floating_indicator_class do
+    "relative inline-flex gap-1 rounded-lg bg-[var(--c-base-200)] p-1 " <>
+      "[&_[data-part=indicator]]:absolute [&_[data-part=indicator]]:left-0 [&_[data-part=indicator]]:top-0 [&_[data-part=indicator]]:transition-all [&_[data-part=indicator]]:duration-200 [&_[data-part=indicator]]:ease-out"
   end
 
   # Overflow list: single row; hide overflowing items and style the +N counter via variants.

@@ -116,6 +116,7 @@ defmodule DevelopmentWeb.Showcase.Meta do
     "field" => "Label, control, description and error wiring for one form field.",
     "mark" => "Highlight an inline run of text with <mark>.",
     "mask_input" => "Text field that formats itself to a pattern as you type.",
+    "floating_indicator" => "Highlight box that slides over the active target.",
     "highlight" => "Wrap case-insensitive matches of query terms in <mark>.",
     "json_input" => "Textarea for JSON with a server-validated error state.",
     "loading_overlay" => "Cover a container with a centered loader (toggle via visible).",

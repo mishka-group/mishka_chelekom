@@ -41,6 +41,7 @@ import ColorPicker from "./color_picker.js";
 import MaskInput from "./mask_input.js";
 import AngleSlider from "./angle_slider.js";
 import OverflowList from "./overflow_list.js";
+import FloatingIndicator from "./floating_indicator.js";
 const Components = {
   Tooltip,
   PreviewCard,
@@ -85,5 +86,6 @@ const Components = {
   MaskInput,
   AngleSlider,
   OverflowList,
+  FloatingIndicator,
 };
 export default Components;
