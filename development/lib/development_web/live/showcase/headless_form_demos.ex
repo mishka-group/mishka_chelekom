@@ -48,7 +48,14 @@ defmodule DevelopmentWeb.Showcase.NumberFieldFormDemo do
   def render(assigns) do
     ~H"""
     <div>
-      <.form :let={f} for={@form} phx-target={@myself} phx-submit="save" class="space-y-3">
+      <.form
+        :let={f}
+        for={@form}
+        id={"#{@id}-form"}
+        phx-target={@myself}
+        phx-submit="save"
+        class="space-y-3"
+      >
         <label class="block text-sm font-medium">Quantity (1–10)</label>
         <NumberField.number_field
           id={"#{@id}-qty"}
@@ -119,7 +126,14 @@ defmodule DevelopmentWeb.Showcase.ComboboxFormDemo do
   def render(assigns) do
     ~H"""
     <div>
-      <.form :let={f} for={@form} phx-target={@myself} phx-submit="save" class="space-y-3">
+      <.form
+        :let={f}
+        for={@form}
+        id={"#{@id}-form"}
+        phx-target={@myself}
+        phx-submit="save"
+        class="space-y-3"
+      >
         <label class="block text-sm font-medium">Favorite fruit (required)</label>
         <Combobox.combobox
           id={"#{@id}-fruit"}
@@ -205,7 +219,14 @@ defmodule DevelopmentWeb.Showcase.CheckboxGroupFormDemo do
   def render(assigns) do
     ~H"""
     <div>
-      <.form :let={f} for={@form} phx-target={@myself} phx-submit="save" class="space-y-3">
+      <.form
+        :let={f}
+        for={@form}
+        id={"#{@id}-form"}
+        phx-target={@myself}
+        phx-submit="save"
+        class="space-y-3"
+      >
         <CheckboxGroup.checkbox_group
           id={"#{@id}-toppings"}
           name={f[:toppings].name}
@@ -290,7 +311,14 @@ defmodule DevelopmentWeb.Showcase.CheckboxFormDemo do
   def render(assigns) do
     ~H"""
     <div>
-      <.form :let={f} for={@form} phx-target={@myself} phx-submit="save" class="space-y-3">
+      <.form
+        :let={f}
+        for={@form}
+        id={"#{@id}-form"}
+        phx-target={@myself}
+        phx-submit="save"
+        class="space-y-3"
+      >
         <div class="flex items-start gap-2">
           <input type="hidden" name={f[:terms].name} value="false" />
           <Checkbox.checkbox
@@ -371,7 +399,14 @@ defmodule DevelopmentWeb.Showcase.AutocompleteFormDemo do
   def render(assigns) do
     ~H"""
     <div>
-      <.form :let={f} for={@form} phx-target={@myself} phx-submit="save" class="space-y-3">
+      <.form
+        :let={f}
+        for={@form}
+        id={"#{@id}-form"}
+        phx-target={@myself}
+        phx-submit="save"
+        class="space-y-3"
+      >
         <label class="block text-sm font-medium">City (required)</label>
         <Autocomplete.autocomplete
           id={"#{@id}-city"}
@@ -463,6 +498,7 @@ defmodule DevelopmentWeb.Showcase.FieldsetFormDemo do
       <.form
         :let={f}
         for={@form}
+        id={"#{@id}-form"}
         phx-target={@myself}
         phx-change="validate"
         phx-submit="save"
@@ -570,7 +606,14 @@ defmodule DevelopmentWeb.Showcase.RadioFormDemo do
   def render(assigns) do
     ~H"""
     <div>
-      <.form :let={f} for={@form} phx-target={@myself} phx-submit="save" class="space-y-3">
+      <.form
+        :let={f}
+        for={@form}
+        id={"#{@id}-form"}
+        phx-target={@myself}
+        phx-submit="save"
+        class="space-y-3"
+      >
         <fieldset class="flex flex-col gap-2">
           <legend class="mb-1 text-sm font-medium">Plan (required)</legend>
           <Radio.radio
@@ -655,7 +698,14 @@ defmodule DevelopmentWeb.Showcase.RadioGroupFormDemo do
   def render(assigns) do
     ~H"""
     <div>
-      <.form :let={f} for={@form} phx-target={@myself} phx-submit="save" class="space-y-3">
+      <.form
+        :let={f}
+        for={@form}
+        id={"#{@id}-form"}
+        phx-target={@myself}
+        phx-submit="save"
+        class="space-y-3"
+      >
         <span class="block text-sm font-medium">Plan (required)</span>
         <RadioGroup.radio_group
           id={"#{@id}-plan"}
@@ -741,7 +791,14 @@ defmodule DevelopmentWeb.Showcase.SelectFormDemo do
   def render(assigns) do
     ~H"""
     <div>
-      <.form :let={f} for={@form} phx-target={@myself} phx-submit="save" class="space-y-3">
+      <.form
+        :let={f}
+        for={@form}
+        id={"#{@id}-form"}
+        phx-target={@myself}
+        phx-submit="save"
+        class="space-y-3"
+      >
         <label class="block text-sm font-medium">Ship to (required)</label>
         <Select.select
           id={"#{@id}-country"}
@@ -829,7 +886,14 @@ defmodule DevelopmentWeb.Showcase.SliderFormDemo do
   def render(assigns) do
     ~H"""
     <div>
-      <.form :let={f} for={@form} phx-target={@myself} phx-submit="save" class="space-y-4">
+      <.form
+        :let={f}
+        for={@form}
+        id={"#{@id}-form"}
+        phx-target={@myself}
+        phx-submit="save"
+        class="space-y-4"
+      >
         <div>
           <label class="mb-2 block text-sm font-medium">Monthly budget (10–80, multiples of 5)</label>
           <Slider.slider
@@ -922,7 +986,14 @@ defmodule DevelopmentWeb.Showcase.SliderRangeFormDemo do
   def render(assigns) do
     ~H"""
     <div>
-      <.form :let={f} for={@form} phx-target={@myself} phx-submit="save" class="space-y-4">
+      <.form
+        :let={f}
+        for={@form}
+        id={"#{@id}-form"}
+        phx-target={@myself}
+        phx-submit="save"
+        class="space-y-4"
+      >
         <label class="block text-sm font-medium">Price range ($0–$100, two thumbs)</label>
         <Slider.slider
           id={"#{@id}-price"}
@@ -1026,7 +1097,14 @@ defmodule DevelopmentWeb.Showcase.SwitchFormDemo do
   def render(assigns) do
     ~H"""
     <div>
-      <.form :let={f} for={@form} phx-target={@myself} phx-submit="save" class="space-y-4">
+      <.form
+        :let={f}
+        for={@form}
+        id={"#{@id}-form"}
+        phx-target={@myself}
+        phx-submit="save"
+        class="space-y-4"
+      >
         <div class="flex items-center gap-3">
           <Switch.switch
             id={"#{@id}-notify"}
@@ -1128,6 +1206,7 @@ defmodule DevelopmentWeb.Showcase.ToggleFormDemo do
       <.form
         :let={f}
         for={@form}
+        id={"#{@id}-form"}
         phx-target={@myself}
         phx-change="validate"
         phx-submit="save"
@@ -1219,6 +1298,7 @@ defmodule DevelopmentWeb.Showcase.ToggleGroupFormDemo do
       <.form
         :let={f}
         for={@form}
+        id={"#{@id}-form"}
         phx-target={@myself}
         phx-change="validate"
         phx-submit="save"
