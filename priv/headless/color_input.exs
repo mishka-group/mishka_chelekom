@@ -3,7 +3,7 @@
     name: "color_input",
     category: "forms",
     doc_url: "https://mishka.tools/chelekom/docs/headless/color_input",
-    spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/",
+    spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/",
     args: [type: ["color_input"], only: ["color_input"], helpers: [], module: ""],
     optional: [],
     necessary: [],
@@ -22,8 +22,16 @@
           control: [element: "div", note: "the always-visible row: swatch + hex field + trigger"],
           preview: [element: "span", role: "img", note: "current color swatch"],
           text: [element: "input", note: "editable hex field (two-way with the picker)"],
-          trigger: [element: "button", note: "toggles the panel via JS.toggle"],
-          panel: [element: "div", note: "popover holding the picker area + hue"],
+          trigger: [
+            element: "button",
+            aria: ["aria-haspopup", "aria-expanded", "aria-controls"],
+            note: "toggles the panel via JS commands; aria-expanded tracks it"
+          ],
+          panel: [
+            element: "div",
+            role: "dialog",
+            note: "popover holding the picker area + hue; closes on outside click / Escape"
+          ],
           area: [element: "div", note: "saturation/value area"],
           "area-thumb": [element: "span", note: "draggable handle"],
           hue: [element: "input", note: "native range (0–360)"],
@@ -31,8 +39,12 @@
         ]
       ],
       aria_pattern: [
-        pattern: "Text field + color picker in a popover",
-        keyboard: ["Hue: Arrow keys (native range)", "Type a hex in the text field"]
+        pattern: "Text field + color picker in a popover (disclosure)",
+        keyboard: [
+          "Hue: Arrow keys (native range)",
+          "Type a hex in the text field",
+          "Escape / outside click — close the panel"
+        ]
       ],
       state_attributes: ["data-value", "data-dragging"],
       hooks: ["ColorPicker"]

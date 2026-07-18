@@ -4,9 +4,11 @@ defmodule DevelopmentWeb.Components.Headless.ColorInput do
   (Mantine ColorInput parity).
 
   Reuses the `ColorPicker` engine: the `area` + `hue` live in a `panel` toggled by JS commands (no
-  extra hook), the `preview` swatch and editable `text` field stay in the always-visible `control`
-  row, and a hidden `input` carries the hex for form submission. Typing a valid hex updates the
-  picker and vice-versa; `on_change` pushes `{value}` to the server.
+  extra hook) — the trigger keeps `aria-expanded` in sync, clicking outside or pressing Escape
+  closes the panel — the `preview` swatch and editable `text` field stay in the always-visible
+  `control` row, and a hidden `input` carries the hex for form submission (it fires `input`, so a
+  wrapping `<.form phx-change>` sees every change). Typing a valid hex updates the picker and
+  vice-versa; `on_change` pushes `{value}` to the server.
 
   Ships **no** styling — style via `chelekom-color-input*`.
 
@@ -41,6 +43,9 @@ defmodule DevelopmentWeb.Components.Headless.ColorInput do
       data-part="root"
       data-value={@value}
       data-on-change={@on_change}
+      phx-click-away={close_panel(@id)}
+      phx-window-keydown={close_panel(@id)}
+      phx-key="escape"
       class={["chelekom-color-input", @class]}
       {@rest}
     >
@@ -64,8 +69,12 @@ defmodule DevelopmentWeb.Components.Headless.ColorInput do
         <button
           type="button"
           data-part="trigger"
-          phx-click={JS.toggle(to: "##{@id}-panel")}
+          phx-click={
+            JS.toggle(to: "##{@id}-panel") |> JS.toggle_attribute({"aria-expanded", "true", "false"})
+          }
           aria-haspopup="dialog"
+          aria-expanded="false"
+          aria-controls={"#{@id}-panel"}
           aria-label="Open color picker"
           class={["chelekom-color-input__trigger", @trigger_class]}
         >
@@ -96,5 +105,10 @@ defmodule DevelopmentWeb.Components.Headless.ColorInput do
       <input :if={@name} data-part="input" type="hidden" name={@name} value={@value} form={@form} />
     </div>
     """
+  end
+
+  defp close_panel(id) do
+    JS.hide(to: "##{id}-panel")
+    |> JS.set_attribute({"aria-expanded", "false"}, to: "##{id} [data-part=trigger]")
   end
 end

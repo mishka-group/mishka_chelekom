@@ -33,6 +33,7 @@ defmodule DevelopmentWeb.Showcase.ColorInputFormDemo do
     <div class="max-w-sm space-y-3">
       <.form
         for={to_form(%{"color" => @color}, as: :color_demo)}
+        id={"#{@id}-ci-form"}
         phx-target={@myself}
         phx-change="validate"
         phx-submit="save"
