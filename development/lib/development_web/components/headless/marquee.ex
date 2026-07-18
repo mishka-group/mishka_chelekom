@@ -4,7 +4,9 @@ defmodule DevelopmentWeb.Components.Headless.Marquee do
 
   The content is rendered **twice** (the second copy `aria-hidden`) inside a `track`, so a
   simple `translateX(-50%)` CSS animation loops seamlessly — **pure CSS, no JS hook**. You
-  own the keyframes, speed and direction; clip the overflow on the root.
+  own the keyframes, speed and direction; clip the overflow on the root. Because the slot
+  renders twice, avoid `id`s inside it, and prefer a `motion-safe:` animation so
+  `prefers-reduced-motion` users get a static row.
 
   Ships **no** styling or animation — style via `chelekom-marquee*`.
 

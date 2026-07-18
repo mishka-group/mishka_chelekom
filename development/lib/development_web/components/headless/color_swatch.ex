@@ -5,6 +5,8 @@ defmodule DevelopmentWeb.Components.Headless.ColorSwatch do
   Renders a `<span role="img">` whose background is the given `color` (any CSS color).
   It is labelled for assistive tech (`aria-label`, defaulting to the color) and can hold
   overlay content (e.g. a ✓) in the default slot. Size, shape and border are yours.
+  The value lands in an inline `style` — only pass trusted (developer-chosen) colors;
+  raw user input could smuggle extra CSS declarations in.
 
   Ships **no** sizing or shape — style via `chelekom-color-swatch`.
 

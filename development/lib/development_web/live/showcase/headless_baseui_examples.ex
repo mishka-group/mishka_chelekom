@@ -1342,7 +1342,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       </style>
       <.marquee
         class="overflow-hidden"
-        track_class="flex w-max animate-[chelekom-marquee-x_14s_linear_infinite] hover:[animation-play-state:paused]"
+        track_class="flex w-max motion-safe:animate-[chelekom-marquee-x_14s_linear_infinite] hover:[animation-play-state:paused]"
         group_class="flex shrink-0 items-center gap-6 pr-6 text-sm font-medium text-neutral-700 dark:text-neutral-300"
       >
         <span>React</span>

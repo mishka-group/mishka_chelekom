@@ -419,7 +419,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       </style>
       <.marquee
         class="overflow-hidden rounded-md border border-[var(--c-base-300)] py-2"
-        track_class="flex w-max animate-[chelekom-marquee-x_16s_linear_infinite] hover:[animation-play-state:paused]"
+        track_class="flex w-max motion-safe:animate-[chelekom-marquee-x_16s_linear_infinite] hover:[animation-play-state:paused]"
         group_class="flex shrink-0 items-center gap-8 pr-8 text-sm font-medium text-[var(--c-base-content)]/70"
       >
         <span>Phoenix</span>
