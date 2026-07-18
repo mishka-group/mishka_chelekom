@@ -1967,6 +1967,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   def has_examples?("color_picker"), do: true
   def has_examples?("hue_slider"), do: true
   def has_examples?("alpha_slider"), do: true
+  def has_examples?("rolling_number"), do: true
+  def has_examples?("splitter"), do: true
   def has_examples?(_), do: false
 
   def examples(%{component: "empty_state"} = assigns) do
@@ -2137,6 +2139,44 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
               </svg>
             </:indicator>
           </.empty_state>
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "rolling_number"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          Server-driven — a button changes the value and it re-animates (handle_event)
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          Clicking pushes <code>randomize</code> to the server; the re-render triggers the hook's
+          <code>updated()</code> so the number rolls to the new target.
+        </p>
+        <div class="mt-4">
+          <.live_component module={DevelopmentWeb.Showcase.RollingNumberDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "splitter"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          Server-aware — drag reports the size to the server (on_change → handle_event)
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          Each drag pushes <code>resize</code> with the new percentage; the server keeps it in sync
+          and echoes it below the panes.
+        </p>
+        <div class="mt-4">
+          <.live_component module={DevelopmentWeb.Showcase.SplitterDemo} id={"#{@id}-form"} />
         </div>
       </details>
     </div>
