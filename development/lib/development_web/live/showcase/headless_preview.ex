@@ -33,6 +33,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.Meter
   import DevelopmentWeb.Components.Headless.NavigationMenu
   import DevelopmentWeb.Components.Headless.NumberField
+  import DevelopmentWeb.Components.Headless.NumberFormatter
   import DevelopmentWeb.Components.Headless.OtpField
   import DevelopmentWeb.Components.Headless.Pill
   import DevelopmentWeb.Components.Headless.Popover
@@ -408,6 +409,40 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         </button>
       </:actions>
     </.empty_state>
+    """
+  end
+
+  def show(%{component: "number_formatter"} = assigns) do
+    ~H"""
+    <div class="space-y-1 text-sm text-[var(--c-base-content)]/80">
+      <p>
+        Revenue:
+        <.number_formatter
+          value={1_234_567.89}
+          prefix="$"
+          decimal_scale={2}
+          class="font-semibold tabular-nums"
+        />
+      </p>
+      <p>Users: <.number_formatter value={1_048_576} class="font-semibold tabular-nums" /></p>
+      <p>
+        Growth:
+        <.number_formatter
+          value={42.5}
+          suffix="%"
+          decimal_scale={1}
+          class="font-semibold tabular-nums"
+        />
+      </p>
+      <p>
+        Spaced:
+        <.number_formatter
+          value={9_876_543}
+          thousand_separator=" "
+          class="font-semibold tabular-nums"
+        />
+      </p>
+    </div>
     """
   end
 

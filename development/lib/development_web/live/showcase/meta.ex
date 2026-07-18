@@ -114,6 +114,7 @@ defmodule DevelopmentWeb.Showcase.Meta do
     "field" => "Label, control, description and error wiring for one form field.",
     "mark" => "Highlight an inline run of text with <mark>.",
     "marquee" => "Continuously scrolling row of content (pure CSS).",
+    "number_formatter" => "Render a number with separators, prefix and suffix.",
     "menubar" => "Horizontal application menu bar with submenus and roving focus.",
     "menu" => "Popup menu of actions with roving tabindex and keyboard.",
     "meter" => "Static gauge reporting a value within a known range (ARIA meter).",

@@ -33,6 +33,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.Meter
   import DevelopmentWeb.Components.Headless.NavigationMenu
   import DevelopmentWeb.Components.Headless.NumberField
+  import DevelopmentWeb.Components.Headless.NumberFormatter
   import DevelopmentWeb.Components.Headless.OtpField
   import DevelopmentWeb.Components.Headless.Pill
   import DevelopmentWeb.Components.Headless.Popover
@@ -243,6 +244,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
 
   def sections("mark"),
     do: [{"mark-hero", "Hero", "A highlighted run of text inside a sentence."}]
+
+  def sections("number_formatter"),
+    do: [
+      {"number_formatter-hero", "Hero", "Currency, plain, percentage and space-grouped numbers."}
+    ]
 
   def sections("marquee"),
     do: [
@@ -1331,6 +1337,30 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
         Granny Smith
       </:item>
     </.checkbox_group>
+    """
+  end
+
+  def example(%{section: "number_formatter-hero"} = assigns) do
+    ~H"""
+    <div class="space-y-1 text-sm text-neutral-700 dark:text-neutral-300">
+      <p>
+        Revenue:
+        <.number_formatter
+          value={1_234_567.89}
+          prefix="$"
+          decimal_scale={2}
+          class="font-semibold tabular-nums text-neutral-900 dark:text-white"
+        />
+      </p>
+      <p>
+        Downloads:
+        <.number_formatter
+          value={9_876_543}
+          thousand_separator=" "
+          class="font-semibold tabular-nums text-neutral-900 dark:text-white"
+        />
+      </p>
+    </div>
     """
   end
 
