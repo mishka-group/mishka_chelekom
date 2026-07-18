@@ -9,34 +9,138 @@ defmodule MishkaChelekom.Generators.Assets do
   alias IgniterJs.Parsers.Javascript.Parser, as: JsParser
   alias IgniterJs.Parsers.Javascript.Formatter, as: JsFormatter
   alias MishkaChelekom.Generators.Core
+  alias MishkaChelekom.Generators.Npm
   alias MishkaChelekom.Config
   alias MishkaChelekom.SimpleCSSUtilities
 
   @doc """
-  Copies a component's JS engine files into `assets/vendor/` and wires their imports/hooks into
-  `mishka_components.js` and `app.js`. No-op when the catalog declares no `:scripts`.
+  Copies a component's JS engine files into `assets/vendor/`, wires their imports/hooks into
+  `mishka_components.js` and `app.js`, and installs any npm packages the catalog declares.
+
+  No-op when the catalog declares neither `:scripts` nor `:npm`. `options` carries the generator's
+  CLI flags (`--no-npm`, `--npm`/`--bun`/`--yarn`/`--mix-bun`); it is threaded explicitly rather
+  than read from `igniter.args`, because `compose_task/3` restores `:args` on the way out and the
+  batch generators run children with different flags than the parent.
   """
-  @spec wire_scripts(Igniter.t(), keyword()) :: Igniter.t()
-  def wire_scripts(igniter, config) do
-    if Keyword.get(config, :scripts, []) != [] do
+  @spec wire_scripts(Igniter.t(), keyword(), keyword()) :: Igniter.t()
+  def wire_scripts(igniter, config, options \\ []) do
+    scripts = Keyword.get(config, :scripts, [])
+    npm = npm_packages(config)
+
+    if scripts == [] and npm == [] do
       igniter
-      |> check_package_json(config)
-      |> update_js_files(config)
     else
       igniter
+      |> check_package_json(npm, options)
+      |> update_js_files(config)
     end
   end
 
-  defp check_package_json(igniter, _) do
-    # TODO: for now we have no plan for it, it needs some way to handle npm, \
-    # bun or etc and create init files like
-    # TODO: package.json. why we need this? for example, add DOMPurify \
-    # to sanitizer client side input or adding js project
-    igniter
+  @doc """
+  The npm packages a catalog declares, as `"name@version"` strings.
+
+  Reads the top-level `:npm` key, falling back to the default entry of `:libs` (the multi-engine
+  shape, where each library pins its own packages but they all share one hook name).
+  """
+  @spec npm_packages(keyword()) :: [String.t()]
+  def npm_packages(config) do
+    config
+    |> Keyword.get(:npm, default_lib_npm(config))
+    |> Enum.map(fn
+      %{name: name, version: version} -> "#{name}@#{version}"
+      %{name: name} -> name
+      dep when is_binary(dep) -> dep
+    end)
+  end
+
+  defp default_lib_npm(config) do
+    case Keyword.get(config, :libs, []) do
+      [] ->
+        []
+
+      libs ->
+        {_name, lib} =
+          Enum.find(libs, List.first(libs), fn {_name, lib} ->
+            Keyword.get(lib, :default, false)
+          end)
+
+        Keyword.get(lib, :npm, [])
+    end
+  end
+
+  # Installs the catalog's npm packages and makes the project able to BUILD with them: the
+  # dependency itself is useless if `mix assets.deploy` in CI/Docker bundles before installing,
+  # or if `assets/node_modules` lands in the user's next commit.
+  defp check_package_json(igniter, [], _options), do: igniter
+
+  defp check_package_json(igniter, npm, options) do
+    if Igniter.exists?(igniter, "assets/js/app.js") do
+      igniter
+      |> Npm.install(npm, options)
+      |> ignore_node_modules()
+      |> wire_install_aliases()
+    else
+      Igniter.add_notice(igniter, """
+      Note:
+      This component needs the npm packages #{Enum.join(npm, ", ")}, but no assets/js/app.js was
+      found — skipping the install because this project has no JS build pipeline.
+      """)
+    end
+  end
+
+  # Stock Phoenix 1.8 does NOT gitignore assets/node_modules (it ships no node_modules pipeline),
+  # so without this the user's first `git status` after generating shows thousands of files.
+  defp ignore_node_modules(igniter) do
+    entry = "/assets/node_modules/"
+
+    Igniter.create_or_update_file(igniter, ".gitignore", "#{entry}\n", fn source ->
+      content = Rewrite.Source.get(source, :content)
+
+      if String.contains?(content, entry) do
+        source
+      else
+        Rewrite.Source.update(
+          source,
+          :content,
+          String.trim_trailing(content) <>
+            "\n\n# JS dependencies of generated components\n#{entry}\n"
+        )
+      end
+    end)
+  end
+
+  # `mix assets.deploy` runs esbuild, which fails with `Could not resolve "<pkg>"` unless the
+  # packages are installed first — and Phoenix's release Dockerfile both installs no Node and
+  # .dockerignores assets/node_modules, so committing them does not help. Prepend (never append)
+  # so the install happens before esbuild/tailwind in the same alias.
+  defp wire_install_aliases(igniter) do
+    # `add_alias/4` is not idempotent for our purposes: on an alias it already wired it either
+    # duplicates the entry (existing list) or rewrites a bare string into a list — both show up as
+    # a mix.exs diff on every regeneration. The task name is ours, so its presence means we ran.
+    if mix_exs_wires_install?(igniter) do
+      igniter
+    else
+      Enum.reduce(["assets.setup", "assets.build", "assets.deploy"], igniter, fn alias_name,
+                                                                                 acc ->
+        Igniter.Project.TaskAliases.add_alias(acc, alias_name, "mishka.assets.install",
+          if_exists: :prepend
+        )
+      end)
+    end
+  end
+
+  defp mix_exs_wires_install?(igniter) do
+    content =
+      case igniter.rewrite.sources["mix.exs"] do
+        nil -> File.read("mix.exs")
+        source -> {:ok, Rewrite.Source.get(source, :content)}
+      end
+
+    match?({:ok, _}, content) and String.contains?(elem(content, 1), "mishka.assets.install")
   end
 
   defp update_js_files(igniter, template_config) do
-    files = Keyword.get(template_config, :scripts) |> Enum.filter(&(&1.type == "file"))
+    files = Keyword.get(template_config, :scripts, []) |> Enum.filter(&(&1.type == "file"))
 
     if files != [] do
       igniter =
@@ -58,14 +162,10 @@ defmodule MishkaChelekom.Generators.Assets do
             end
 
           if !is_nil(content) do
-            caller_js =
-              case File.read("assets/vendor/mishka_components.js") do
-                {:ok, content} ->
-                  content
-
-                _ ->
-                  File.read!(Core.lib_priv("assets/js/mishka_components.js"))
-              end
+            # `create_or_update_file/4` only uses this when the file is absent, and it reads an
+            # existing one through the rewrite — so never touch the real filesystem here, or the
+            # whole wiring step becomes untestable (and wrong under `Igniter.Test`).
+            caller_js = File.read!(Core.lib_priv("assets/js/mishka_components.js"))
 
             acc
             |> Igniter.create_or_update_file("assets/vendor/#{item.file}", content, fn source ->
@@ -108,32 +208,34 @@ defmodule MishkaChelekom.Generators.Assets do
 
       app_js = "assets/js/app.js"
 
-      case File.read(app_js) do
-        {:ok, content} ->
-          igniter
-          |> Igniter.create_or_update_file(app_js, content, fn source ->
-            imports = """
-            import MishkaComponents from "../vendor/mishka_components.js";
-            """
-
-            with original_content <- Rewrite.Source.get(source, :content),
-                 {:ok, _, imported} <- JsParser.insert_imports(original_content, imports),
-                 {:ok, _, output} <- JsParser.extend_hook_object(imported, "...MishkaComponents"),
-                 {:ok, _, formatted} <- JsFormatter.format(output) do
-              Rewrite.Source.update(source, :content, formatted)
-            else
-              {:error, _, error} ->
-                Igniter.add_issue(igniter, "#{inspect(error)}")
-            end
-          end)
-
-        _ ->
-          msg = """
-          Note:
-          Unfortunately, we couldn't find the assets/js/app.js file in your project path.
+      # Read through Igniter, never `File.read/1`: the rewrite is the source of truth, so this
+      # works under `Igniter.Test` (where the project is virtual) and picks up an app.js that an
+      # earlier step in the same run created.
+      if Igniter.exists?(igniter, app_js) do
+        Igniter.update_file(igniter, app_js, fn source ->
+          imports = """
+          import MishkaComponents from "../vendor/mishka_components.js";
           """
 
-          Igniter.add_issue(igniter, msg)
+          with original_content <- Rewrite.Source.get(source, :content),
+               {:ok, _, imported} <- JsParser.insert_imports(original_content, imports),
+               {:ok, _, output} <- JsParser.extend_hook_object(imported, "...MishkaComponents"),
+               {:ok, _, formatted} <- JsFormatter.format(output) do
+            Rewrite.Source.update(source, :content, formatted)
+          else
+            {:error, _, error} ->
+              Rewrite.Source.add_issue(source, "#{inspect(error)}")
+          end
+        end)
+      else
+        Igniter.add_notice(igniter, """
+        Note:
+        Unfortunately, we couldn't find the assets/js/app.js file in your project path.
+        Register the hooks yourself:
+
+            import MishkaComponents from "../vendor/mishka_components.js";
+            // ...then spread ...MishkaComponents into your LiveSocket hooks
+        """)
       end
     else
       igniter

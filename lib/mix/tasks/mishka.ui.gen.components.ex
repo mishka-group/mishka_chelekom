@@ -61,6 +61,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
         component_prefix: :string,
         module_prefix: :string,
         no_save: :boolean,
+        no_npm: :boolean,
         sub: :boolean
       ],
       # CLI aliases
@@ -87,6 +88,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
       ["--no-deps", "--sub", "--yes"]
       |> Core.append_arg("--component-prefix", options[:component_prefix])
       |> Core.append_arg("--module-prefix", options[:module_prefix])
+      |> then(&if(options[:no_npm], do: &1 ++ ["--no-npm"], else: &1))
 
     igniter =
       igniter

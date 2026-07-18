@@ -34,6 +34,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless do
   * `--module-prefix` - Prefix for the module name
   * `--sub` - Marks this as a dependency sub-generation
   * `--no-save` - Use prefixes without saving them to config
+  * `--no-npm` - Write everything but skip installing the component's npm packages
   * `--yes` - Apply without prompts
   """
 
@@ -47,7 +48,8 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless do
         component_prefix: :string,
         module_prefix: :string,
         sub: :boolean,
-        no_save: :boolean
+        no_save: :boolean,
+        no_npm: :boolean
       ],
       aliases: [m: :module]
     }
@@ -174,7 +176,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless do
   defp write_component(igniter), do: igniter
 
   defp wire_scripts(%{assigns: %{eex_assigns: _}} = igniter),
-    do: Assets.wire_scripts(igniter, igniter.assigns.template_config)
+    do: Assets.wire_scripts(igniter, igniter.assigns.template_config, igniter.args.options)
 
   defp wire_scripts(igniter), do: igniter
 

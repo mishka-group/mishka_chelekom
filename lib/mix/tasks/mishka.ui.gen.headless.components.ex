@@ -37,7 +37,8 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless.Components do
         exclude: :csv,
         component_prefix: :string,
         module_prefix: :string,
-        no_save: :boolean
+        no_save: :boolean,
+        no_npm: :boolean
       ],
       aliases: [e: :exclude]
     }
@@ -61,6 +62,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless.Components do
       ["--sub", "--yes"]
       |> Core.append_arg("--component-prefix", options[:component_prefix])
       |> Core.append_arg("--module-prefix", options[:module_prefix])
+      |> then(&if(options[:no_npm], do: &1 ++ ["--no-npm"], else: &1))
 
     igniter =
       igniter

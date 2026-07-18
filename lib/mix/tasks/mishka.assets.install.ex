@@ -61,6 +61,17 @@ defmodule Mix.Tasks.Mishka.Assets.Install do
     run([package_manager, "pkg", "install"])
   end
 
+  # No arguments: re-detect the package manager at BUILD time. This is the form wired into the
+  # `assets.setup`/`assets.build`/`assets.deploy` aliases, because the manager available when a
+  # component was generated is not necessarily the one available when the project is built
+  # (CI and Docker images routinely differ from the developer's machine).
+  def run([]) do
+    case MishkaChelekom.Generators.Npm.detect([]) do
+      nil -> run(["bun", "mix", "install"])
+      manager -> run([Atom.to_string(manager), "pkg", "install"])
+    end
+  end
+
   defp get_package_manager_command(package_manager, command) do
     case {package_manager, command} do
       {"yarn", "install"} -> "add"
