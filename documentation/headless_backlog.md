@@ -11,10 +11,11 @@ behaviour is genuinely impossible with JS commands in the current LiveView (poin
 
 Per-component requirements (per Sha):
 1. A **bottom-of-page Examples section** (`has_examples?/1` + `examples/1`) like Tree/EmptyState —
-   required for every component with **behaviour** (state, events, form participation). Static
-   presentational components (Mark, Code, ColorSwatch, ThemeIcon, VisuallyHidden, Anchor,
-   ActionIcon, CloseButton, Marquee, Pill) are exempt when the hero preview already shows every
-   state they have.
+   required for every component with **behaviour** (state, events, form participation) **and for
+   any component whose purpose is not obvious from the hero alone**: if a reader can look at the
+   preview and ask "what is this for?", it needs an example that answers it (ColorSwatch and Pill
+   both did). Only genuinely self-evident inline primitives (Mark, Code, ThemeIcon,
+   VisuallyHidden, Anchor, ActionIcon, CloseButton, Marquee) are exempt.
 2. If it is a **form control**, a **Phoenix `<.form>` example** in that Examples section.
 3. **Manually test every feature/state** in the browser at http://localhost:4002 before committing.
 
