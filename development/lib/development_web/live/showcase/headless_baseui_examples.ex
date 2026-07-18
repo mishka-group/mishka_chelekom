@@ -42,6 +42,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.PreviewCard
   import DevelopmentWeb.Components.Headless.Progress
   import DevelopmentWeb.Components.Headless.Radio
+  import DevelopmentWeb.Components.Headless.RollingNumber
   import DevelopmentWeb.Components.Headless.ScrollArea
   import DevelopmentWeb.Components.Headless.Scroller
   import DevelopmentWeb.Components.Headless.Select
@@ -418,6 +419,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       {"slider-vertical", "Vertical",
        "A single-thumb slider laid out vertically, with the track running top-to-bottom."}
     ]
+
+  def sections("rolling_number"),
+    do: [{"rolling_number-hero", "Hero", "Numbers that roll up from zero on mount (ease-out)."}]
 
   def sections("scroller"),
     do: [{"scroller-hero", "Hero", "A row of cards with prev/next buttons that disable at the ends."}]
@@ -1166,6 +1170,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
         label="Close navigation"
         class="relative inline-flex size-9 items-center justify-center rounded-md text-neutral-900 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-800 [&_[data-part=line]]:absolute [&_[data-part=line]]:h-0.5 [&_[data-part=line]]:w-5 [&_[data-part=line]]:rounded-full [&_[data-part=line]]:bg-current [&_[data-part=line]]:transition-all [&_[data-part=line]]:duration-200 [&_[data-part=line]:nth-child(1)]:-translate-y-1.5 [&_[data-part=line]:nth-child(3)]:translate-y-1.5 [&[data-opened]_[data-part=line]:nth-child(1)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(1)]:rotate-45 [&[data-opened]_[data-part=line]:nth-child(2)]:opacity-0 [&[data-opened]_[data-part=line]:nth-child(3)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(3)]:-rotate-45"
       />
+    </div>
+    """
+  end
+
+  def example(%{section: "rolling_number-hero"} = assigns) do
+    ~H"""
+    <div class="flex gap-8 text-neutral-900 dark:text-white">
+      <.rolling_number value={2048} class="text-3xl font-bold tabular-nums" />
+      <.rolling_number value={1_000_000} duration={1400} class="text-3xl font-bold tabular-nums" />
     </div>
     """
   end

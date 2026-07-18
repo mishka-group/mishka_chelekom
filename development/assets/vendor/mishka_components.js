@@ -36,6 +36,7 @@ import Tooltip from "./tooltip.js";
 import Tree from "./tree.js";
 import Splitter from "./splitter.js";
 import Scroller from "./scroller.js";
+import RollingNumber from "./rolling_number.js";
 const Components = {
   Tooltip,
   PreviewCard,
@@ -75,5 +76,6 @@ const Components = {
   Tree,
   Splitter,
   Scroller,
+  RollingNumber,
 };
 export default Components;

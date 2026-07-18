@@ -43,6 +43,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.Progress
   import DevelopmentWeb.Components.Headless.Radio
   import DevelopmentWeb.Components.Headless.RadioGroup
+  import DevelopmentWeb.Components.Headless.RollingNumber
   import DevelopmentWeb.Components.Headless.ScrollArea
   import DevelopmentWeb.Components.Headless.Scroller
   import DevelopmentWeb.Components.Headless.Select
@@ -642,6 +643,21 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
           />
         </svg>
       </.color_swatch>
+    </div>
+    """
+  end
+
+  def show(%{component: "rolling_number"} = assigns) do
+    ~H"""
+    <div class="flex gap-8">
+      <div class="text-center">
+        <.rolling_number value={1284} class="text-3xl font-bold tabular-nums" />
+        <div class="text-xs text-[var(--c-base-content)]/50">Stars</div>
+      </div>
+      <div class="text-center">
+        <.rolling_number value={98_765} duration={1200} class="text-3xl font-bold tabular-nums" />
+        <div class="text-xs text-[var(--c-base-content)]/50">Downloads</div>
+      </div>
     </div>
     """
   end
