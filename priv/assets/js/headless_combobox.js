@@ -288,7 +288,7 @@ const HeadlessCombobox = {
     const q = this.input.value.trim();
     if (!q) return;
     const ev = this.el.getAttribute("data-on-create");
-    if (ev) this.pushEvent(ev, { value: q });
+    if (ev) this.pushEventTo(this.el, ev, { value: q });
     this.input.value = "";
     this.filter();
   },
@@ -307,10 +307,10 @@ const HeadlessCombobox = {
       const value = this.items()
         .filter((i) => i.getAttribute("aria-selected") === "true")
         .map((i) => this.valueOf(i));
-      this.pushEvent(ev, { value });
+      this.pushEventTo(this.el, ev, { value });
     } else {
       const sel = this.items().find((i) => i.getAttribute("aria-selected") === "true");
-      this.pushEvent(ev, { value: sel ? this.valueOf(sel) : null });
+      this.pushEventTo(this.el, ev, { value: sel ? this.valueOf(sel) : null });
     }
   },
 };

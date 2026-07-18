@@ -175,7 +175,7 @@ const Popover = {
   emitOpenChange(open) {
     if (!this.onOpenChange) return;
     if (this.onOpenChangeTarget) this.pushEventTo(this.onOpenChangeTarget, this.onOpenChange, { open });
-    else this.pushEvent(this.onOpenChange, { open });
+    else this.pushEventTo(this.el, this.onOpenChange, { open });
   },
 
   // ---- anchored positioning (fixed; flip on the main axis + clamp) --------

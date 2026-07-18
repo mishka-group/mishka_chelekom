@@ -61,7 +61,7 @@ const Toggle = {
     // Payload is semantic: {checked} for switch/checkbox, {pressed} for toggle buttons.
     const onChange = this.el.getAttribute("data-on-change");
     if (onChange && on !== prev) {
-      this.pushEvent(onChange, this.attr === "aria-checked" ? { checked: on } : { pressed: on });
+      this.pushEventTo(this.el, onChange, this.attr === "aria-checked" ? { checked: on } : { pressed: on });
     }
 
     // Notify any group coordinator (CheckboxGroup) — covers BOTH click and keyboard toggles.

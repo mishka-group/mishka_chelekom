@@ -863,7 +863,7 @@ let Combobox = {
     this.lastNavigatedValue = trimmed;
 
     if (this.onCreateEvent) {
-      this.pushEvent(
+      this.pushEventTo(this.el, 
         this.onCreateEvent,
         { id: this.el.id.replace(/-combo$/, ""), value: trimmed },
         (reply) => this.handleCreateReply(reply, selectOpt, optionEl),

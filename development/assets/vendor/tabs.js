@@ -116,7 +116,7 @@ const Tabs = {
 
     if (user && this.onChange) {
       if (this.onChangeTarget) this.pushEventTo(this.onChangeTarget, this.onChange, { value });
-      else this.pushEvent(this.onChange, { value });
+      else this.pushEventTo(this.el, this.onChange, { value });
     }
   },
 

@@ -193,7 +193,7 @@ const Drawer = {
   emitOpenChange(open) {
     if (!this.onOpenChange) return;
     if (this.onOpenChangeTarget) this.pushEventTo(this.onOpenChangeTarget, this.onOpenChange, { open });
-    else this.pushEvent(this.onOpenChange, { open });
+    else this.pushEventTo(this.el, this.onOpenChange, { open });
   },
 
   activate() {
@@ -335,7 +335,7 @@ const Drawer = {
     this.popup.toggleAttribute("data-expanded", expanded);
     if (emit && this.onSnap) {
       if (this.onSnapTarget) this.pushEventTo(this.onSnapTarget, this.onSnap, { value: snap.value });
-      else this.pushEvent(this.onSnap, { value: snap.value });
+      else this.pushEventTo(this.el, this.onSnap, { value: snap.value });
     }
   },
 

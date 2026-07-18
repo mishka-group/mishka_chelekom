@@ -631,6 +631,6 @@ export default {
     const event = this.el.getAttribute(`data-on-${name.replace(/_/g, "-")}`);
     if (!event) return;
     const target = this.el.getAttribute("data-on-target");
-    target ? this.pushEventTo(target, event, payload) : this.pushEvent(event, payload);
+    target ? this.pushEventTo(target, event, payload) : this.pushEventTo(this.el, event, payload);
   },
 };

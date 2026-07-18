@@ -264,9 +264,9 @@ const Collapsible = {
     };
 
     if (this.config.eventHandler) {
-      this.pushEvent(this.config.eventHandler, payload);
+      this.pushEventTo(this.el, this.config.eventHandler, payload);
     } else {
-      this.pushEvent(event, payload);
+      this.pushEventTo(this.el, event, payload);
     }
   },
 
