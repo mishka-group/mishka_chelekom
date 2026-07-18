@@ -635,7 +635,12 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
                 |> Map.merge(%{helpers: Enum.into(config[:args][:helpers] || [], %{})}),
               optional: config[:optional] || [],
               necessary: config[:necessary] || [],
-              scripts: config[:scripts] || []
+              scripts: config[:scripts] || [],
+              # Without these the export -> add round trip drops them silently, producing a
+              # component that installs its JS engine with no package and fails at runtime on
+              # an unresolved bare import.
+              npm: config[:npm] || [],
+              license: config[:license] || []
             }
 
           [converted | acc]

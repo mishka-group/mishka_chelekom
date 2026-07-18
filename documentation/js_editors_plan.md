@@ -246,12 +246,13 @@ edit the user's tsconfig**; at most we print a notice pointing at Phoenix's own 
 
 ## 8. Roadmap
 
-- [ ] **Phase 0 — pipeline only, no editor.** Fill `check_package_json/2`; add `:npm` / `:license` /
+- [x] **Phase 0 — pipeline only, no editor.** *(done)* Fill `check_package_json/2`; add `:npm` / `:license` /
       `:libs` keys; alias wiring; `:npm` refcount in uninstall; bun pin review. Prove with an
       integration test that generates a throwaway one-package catalog into `development/`, asserts the
       exact file diff, then runs `mix assets.build` and asserts exit 0. *De-risks deployment before any
       114 KB dependency exists.*
-- [ ] **Phase 1 — `editor` (TipTap 3).** The HTML editor, first. Everything lands here: the hook
+- [x] **Phase 1 — `editor` (TipTap 3).** *(done — shipped with uninstall support, round-trip
+      keys and CI-run JS tests; `--lib` deliberately still deferred)* The HTML editor, first. Everything lands here: the hook
       contract in §6, the typography section in `mishka_chelekom_headless.css`, `hex_deps` +
       generated `html_sanitize_ex` scrubber, and the JSON-by-default / HTML-opt-in storage decision.
       Toolbar = HEEx slots reusing our existing headless `toolbar` component. Ships with the

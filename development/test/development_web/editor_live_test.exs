@@ -13,7 +13,9 @@ defmodule DevelopmentWeb.EditorLiveTest do
   @path "/showcase/headless/editor"
 
   defp query(html, selector), do: html |> LazyHTML.from_document() |> LazyHTML.query(selector)
-  defp attr(html, selector, name), do: html |> query(selector) |> LazyHTML.attribute(name) |> List.first()
+
+  defp attr(html, selector, name),
+    do: html |> query(selector) |> LazyHTML.attribute(name) |> List.first()
 
   describe "the ignore boundary" do
     test "the hook sits on an INNER surface, never on the root", %{conn: conn} do
@@ -40,6 +42,7 @@ defmodule DevelopmentWeb.EditorLiveTest do
       surface_id = attr(html, "[data-part=surface]", "id")
 
       assert root_id
+
       assert surface_id == "#{root_id}-surface",
              "a changed id makes morphdom replace the node, destroying the editor and its undo history"
 
@@ -47,7 +50,9 @@ defmodule DevelopmentWeb.EditorLiveTest do
       assert attr(html, "[data-part=surface]", "data-root-id") == root_id
     end
 
-    test "all live config is on the surface, the only channel that crosses the boundary", %{conn: conn} do
+    test "all live config is on the surface, the only channel that crosses the boundary", %{
+      conn: conn
+    } do
       {:ok, _view, html} = live(conn, @path)
 
       for name <- ~w(data-format data-editable data-debounce data-value-id) do
@@ -76,7 +81,8 @@ defmodule DevelopmentWeb.EditorLiveTest do
     test "the server receives the document through an ordinary phx-change", %{conn: conn} do
       {:ok, view, _html} = live(conn, @path)
 
-      doc = ~s({"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"hello"}]}]})
+      doc =
+        ~s({"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"hello"}]}]})
 
       html =
         view
@@ -118,7 +124,8 @@ defmodule DevelopmentWeb.EditorLiveTest do
            code_block horizontal_rule undo redo)
 
       for command <- LazyHTML.attribute(buttons, "data-editor-command") do
-        assert command in known, "unknown toolbar command #{inspect(command)} — the engine ignores it"
+        assert command in known,
+               "unknown toolbar command #{inspect(command)} — the engine ignores it"
       end
     end
 

@@ -113,6 +113,22 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
         )
       end
 
+      conditional_field(:npm, list(String.t()),
+        structs: true,
+        derives: "validate(list)",
+        default: []
+      ) do
+        field(:npm, map(), derives: "validate(map)")
+      end
+
+      conditional_field(:license, list(String.t()),
+        structs: true,
+        derives: "validate(list)",
+        default: []
+      ) do
+        field(:license, map(), derives: "validate(map)")
+      end
+
       conditional_field(:scripts, list(String.t()),
         structs: true,
         derives: "validate(list)",
@@ -475,7 +491,9 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
                args: args,
                optional: item.optional,
                necessary: item.necessary,
-               scripts: item.scripts
+               scripts: item.scripts,
+               npm: item.npm || [],
+               license: item.license || []
              ]}
           ]
           |> Enum.into([])

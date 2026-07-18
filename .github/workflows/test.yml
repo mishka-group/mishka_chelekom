@@ -69,6 +69,12 @@ jobs:
           MIX_ENV: test
         run: mix test --trace
 
+      # The JS engines' pure-function tests. Node ships on ubuntu-latest; these need no
+      # node_modules because the tested functions have no dependencies.
+      - name: Run JS engine tests
+        working-directory: priv/assets/js
+        run: node --test
+
   idempotency:
     name: Generators are idempotent (development harness)
     runs-on: ubuntu-latest
