@@ -30,6 +30,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.Fieldset
   import DevelopmentWeb.Components.Headless.Highlight
   import DevelopmentWeb.Components.Headless.HueSlider
+  import DevelopmentWeb.Components.Headless.JsonInput
   import DevelopmentWeb.Components.Headless.Mark
   import DevelopmentWeb.Components.Headless.Marquee
   import DevelopmentWeb.Components.Headless.Menu
@@ -699,6 +700,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         Item {n}
       </div>
     </.scroller>
+    """
+  end
+
+  def show(%{component: "json_input"} = assigns) do
+    ~H"""
+    <.json_input
+      id={@id}
+      value={~s({\n  "framework": "Phoenix",\n  "language": "Elixir"\n})}
+      rows={4}
+      class={json_input_class()}
+    />
     """
   end
 
@@ -2020,6 +2032,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   def has_examples?("alpha_slider"), do: true
   def has_examples?("rolling_number"), do: true
   def has_examples?("splitter"), do: true
+  def has_examples?("json_input"), do: true
   def has_examples?(_), do: false
 
   def examples(%{component: "empty_state"} = assigns) do
@@ -2275,6 +2288,25 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
             id={"#{@id}-form"}
             variant={:alpha}
           />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "json_input"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — validate &amp; pretty-print on the server (handle_event + Jason)
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          Submit parses the JSON with <code>Jason.decode/1</code>; valid input is formatted back into
+          the field, invalid input flags <code>data-invalid</code> and shows the error.
+        </p>
+        <div class="mt-4">
+          <.live_component module={DevelopmentWeb.Showcase.JsonInputFormDemo} id={"#{@id}-form"} />
         </div>
       </details>
     </div>
@@ -3342,6 +3374,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "[&_[data-part=control]]:grid [&_[data-part=control]]:size-8 [&_[data-part=control]]:shrink-0 [&_[data-part=control]]:place-items-center [&_[data-part=control]]:rounded-full [&_[data-part=control]]:border [&_[data-part=control]]:border-[var(--c-base-300)] [&_[data-part=control]]:bg-[var(--c-base-100)] [&_[data-part=control]]:text-lg [&_[data-part=control]]:leading-none [&_[data-part=control]:hover]:bg-[var(--c-base-200)] [&_[data-part=control][data-disabled]]:opacity-30",
       "[&_[data-part=viewport]]:flex [&_[data-part=viewport]]:gap-3 [&_[data-part=viewport]]:overflow-x-auto [&_[data-part=viewport]]:scroll-smooth [&_[data-part=viewport]]:pb-1"
     ]
+  end
+
+  # Json input: a monospace textarea; validate on the server and flag data-invalid.
+  defp json_input_class do
+    "w-full max-w-md rounded-md border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-2 font-mono text-sm outline-none focus:ring-2 focus:ring-[var(--c-primary)]/30 data-[invalid]:border-[var(--c-error)]"
   end
 
   # Nav link: a leaf link ([data-part=link]) or a <details> group (summary=[data-part=control]); the

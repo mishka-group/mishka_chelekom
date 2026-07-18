@@ -30,6 +30,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.Fieldset
   import DevelopmentWeb.Components.Headless.Highlight
   import DevelopmentWeb.Components.Headless.HueSlider
+  import DevelopmentWeb.Components.Headless.JsonInput
   import DevelopmentWeb.Components.Headless.Mark
   import DevelopmentWeb.Components.Headless.Marquee
   import DevelopmentWeb.Components.Headless.Menu
@@ -250,6 +251,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       {"fieldset-hero", "Hero",
        "A 'Billing details' fieldset with a bold underlined legend grouping two labeled text inputs (Company and Tax ID), each built from our field component."}
     ]
+
+  def sections("json_input"),
+    do: [{"json_input-hero", "Hero", "A monospace JSON textarea (validated on the server)."}]
 
   def sections("highlight"),
     do: [
@@ -1665,6 +1669,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       ★
       <.visually_hidden>Add to favorites</.visually_hidden>
     </button>
+    """
+  end
+
+  def example(%{section: "json_input-hero"} = assigns) do
+    ~H"""
+    <.json_input
+      id="baseui-json-input"
+      value={~s({\n  "name": "Mantine",\n  "ok": true\n})}
+      rows={4}
+      class="w-72 rounded-md border border-neutral-300 bg-white p-2 font-mono text-sm text-neutral-900 outline-none focus:ring-2 focus:ring-neutral-400 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
+    />
     """
   end
 
