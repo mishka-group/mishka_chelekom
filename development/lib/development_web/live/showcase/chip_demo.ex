@@ -25,7 +25,13 @@ defmodule DevelopmentWeb.Showcase.ChipDemo do
   def render(assigns) do
     ~H"""
     <div>
-      <.form for={%{}} as={:chip_demo} phx-target={@myself} phx-change="change">
+      <.form
+        for={%{}}
+        as={:chip_demo}
+        id={"#{@id}-chip-form"}
+        phx-target={@myself}
+        phx-change="change"
+      >
         <div class="flex flex-wrap gap-2">
           <.chip
             :for={topic <- ~w(design elixir phoenix liveview)}

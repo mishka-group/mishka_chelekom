@@ -33,7 +33,7 @@ defmodule DevelopmentWeb.Showcase.TagsInputDemo do
   def render(assigns) do
     ~H"""
     <div>
-      <.form for={@form} phx-target={@myself} phx-submit="add">
+      <.form for={@form} id={"#{@id}-tags-form"} phx-target={@myself} phx-submit="add">
         <.tags_input
           id={"#{@id}-ti"}
           name="tags_demo[tags][]"
