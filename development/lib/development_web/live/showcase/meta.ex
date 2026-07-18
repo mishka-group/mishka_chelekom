@@ -118,6 +118,7 @@ defmodule DevelopmentWeb.Showcase.Meta do
     "hue_slider" => "Pick a hue (0–360°) on a rainbow track (reuses Slider).",
     "alpha_slider" => "Pick an opacity (0–100) over a checkerboard (reuses Slider).",
     "splitter" => "Two resizable panes with a draggable, keyboard-friendly divider.",
+    "scroller" => "Horizontal scroll row with prev/next controls.",
     "menubar" => "Horizontal application menu bar with submenus and roving focus.",
     "menu" => "Popup menu of actions with roving tabindex and keyboard.",
     "meter" => "Static gauge reporting a value within a known range (ARIA meter).",

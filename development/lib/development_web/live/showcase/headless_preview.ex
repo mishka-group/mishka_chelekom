@@ -44,6 +44,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.Radio
   import DevelopmentWeb.Components.Headless.RadioGroup
   import DevelopmentWeb.Components.Headless.ScrollArea
+  import DevelopmentWeb.Components.Headless.Scroller
   import DevelopmentWeb.Components.Headless.Select
   import DevelopmentWeb.Components.Headless.Separator
   import DevelopmentWeb.Components.Headless.Slider
@@ -642,6 +643,19 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         </svg>
       </.color_swatch>
     </div>
+    """
+  end
+
+  def show(%{component: "scroller"} = assigns) do
+    ~H"""
+    <.scroller id={@id} class={scroller_class()}>
+      <div
+        :for={n <- 1..12}
+        class="grid size-20 shrink-0 place-items-center rounded-lg bg-[var(--c-base-200)] text-sm font-medium"
+      >
+        Item {n}
+      </div>
+    </.scroller>
     """
   end
 
@@ -3116,6 +3130,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-[var(--c-primary)]/40",
       "data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50",
       "[&_[data-part=input]]:sr-only"
+    ]
+  end
+
+  # Scroller: prev/next buttons + a horizontally scrollable viewport; buttons dim (data-disabled) at
+  # the ends. The engine handles the smooth scroll and end-detection.
+  defp scroller_class do
+    [
+      "flex w-full max-w-md items-center gap-2",
+      "[&_[data-part=control]]:grid [&_[data-part=control]]:size-8 [&_[data-part=control]]:shrink-0 [&_[data-part=control]]:place-items-center [&_[data-part=control]]:rounded-full [&_[data-part=control]]:border [&_[data-part=control]]:border-[var(--c-base-300)] [&_[data-part=control]]:bg-[var(--c-base-100)] [&_[data-part=control]]:text-lg [&_[data-part=control]]:leading-none [&_[data-part=control]:hover]:bg-[var(--c-base-200)] [&_[data-part=control][data-disabled]]:opacity-30",
+      "[&_[data-part=viewport]]:flex [&_[data-part=viewport]]:gap-3 [&_[data-part=viewport]]:overflow-x-auto [&_[data-part=viewport]]:scroll-smooth [&_[data-part=viewport]]:pb-1"
     ]
   end
 

@@ -35,6 +35,7 @@ import PreviewCard from "./preview_card.js";
 import Tooltip from "./tooltip.js";
 import Tree from "./tree.js";
 import Splitter from "./splitter.js";
+import Scroller from "./scroller.js";
 const Components = {
   Tooltip,
   PreviewCard,
@@ -73,5 +74,6 @@ const Components = {
   ToggleGroup,
   Tree,
   Splitter,
+  Scroller,
 };
 export default Components;

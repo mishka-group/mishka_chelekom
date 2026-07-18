@@ -43,6 +43,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.Progress
   import DevelopmentWeb.Components.Headless.Radio
   import DevelopmentWeb.Components.Headless.ScrollArea
+  import DevelopmentWeb.Components.Headless.Scroller
   import DevelopmentWeb.Components.Headless.Select
   import DevelopmentWeb.Components.Headless.Separator
   import DevelopmentWeb.Components.Headless.Slider
@@ -417,6 +418,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       {"slider-vertical", "Vertical",
        "A single-thumb slider laid out vertically, with the track running top-to-bottom."}
     ]
+
+  def sections("scroller"),
+    do: [{"scroller-hero", "Hero", "A row of cards with prev/next buttons that disable at the ends."}]
 
   def sections("splitter"),
     do: [{"splitter-hero", "Hero", "Two panes with a draggable divider; keyboard-resizable too."}]
@@ -1163,6 +1167,22 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
         class="relative inline-flex size-9 items-center justify-center rounded-md text-neutral-900 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-800 [&_[data-part=line]]:absolute [&_[data-part=line]]:h-0.5 [&_[data-part=line]]:w-5 [&_[data-part=line]]:rounded-full [&_[data-part=line]]:bg-current [&_[data-part=line]]:transition-all [&_[data-part=line]]:duration-200 [&_[data-part=line]:nth-child(1)]:-translate-y-1.5 [&_[data-part=line]:nth-child(3)]:translate-y-1.5 [&[data-opened]_[data-part=line]:nth-child(1)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(1)]:rotate-45 [&[data-opened]_[data-part=line]:nth-child(2)]:opacity-0 [&[data-opened]_[data-part=line]:nth-child(3)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(3)]:-rotate-45"
       />
     </div>
+    """
+  end
+
+  def example(%{section: "scroller-hero"} = assigns) do
+    ~H"""
+    <.scroller
+      id="baseui-scroller"
+      class="flex w-80 items-center gap-2 [&_[data-part=control]]:grid [&_[data-part=control]]:size-8 [&_[data-part=control]]:shrink-0 [&_[data-part=control]]:place-items-center [&_[data-part=control]]:rounded-full [&_[data-part=control]]:border [&_[data-part=control]]:border-neutral-300 [&_[data-part=control]]:bg-white [&_[data-part=control]]:text-lg [&_[data-part=control][data-disabled]]:opacity-30 dark:[&_[data-part=control]]:border-neutral-700 dark:[&_[data-part=control]]:bg-neutral-900 [&_[data-part=viewport]]:flex [&_[data-part=viewport]]:gap-3 [&_[data-part=viewport]]:overflow-x-auto [&_[data-part=viewport]]:scroll-smooth [&_[data-part=viewport]]:pb-1"
+    >
+      <div
+        :for={n <- 1..10}
+        class="grid size-16 shrink-0 place-items-center rounded-lg bg-neutral-100 text-sm font-medium text-neutral-800 dark:bg-neutral-800 dark:text-neutral-200"
+      >
+        {n}
+      </div>
+    </.scroller>
     """
   end
 
