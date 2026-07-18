@@ -1,10 +1,11 @@
 // FloatingWindow — a draggable panel positioned inside its nearest positioned ancestor (Mantine
 // FloatingWindow parity).
 //
-// Drag the `handle` to move the window; it is clamped to stay inside its offset parent. Position is
-// mirrored into `data-x` / `data-y` and, if `data-on-move` names an event, pushed to the server on
-// release. Clicks on interactive controls inside the handle (buttons, links, inputs) do not start a
-// drag, so a close button in the title bar keeps working.
+// Drag the `handle` to move the window — or focus it and use the arrow keys (10px, 1px with
+// Shift), the WCAG 2.5.7 alternative to dragging. The window is clamped to stay inside its offset
+// parent. Position is mirrored into `data-x` / `data-y` and, if `data-on-move` names an event,
+// pushed to the server on release / key move. Clicks on interactive controls inside the handle
+// (buttons, links, inputs) do not start a drag, so a close button in the title bar keeps working.
 //
 // Element contract:
 //   root [data-part="window"] — carries the hook; must be positioned (absolute/fixed); data-x/data-y
@@ -53,7 +54,25 @@ const FloatingWindow = {
       if (this.on) this.pushEventTo(this.el, this.on, { x: Math.round(this.x), y: Math.round(this.y) });
     };
 
+    this._onKey = (e) => {
+      const step = e.shiftKey ? 1 : 10;
+      let dx = 0;
+      let dy = 0;
+      if (e.key === "ArrowLeft") dx = -step;
+      else if (e.key === "ArrowRight") dx = step;
+      else if (e.key === "ArrowUp") dy = -step;
+      else if (e.key === "ArrowDown") dy = step;
+      else return;
+      e.preventDefault();
+      this.x += dx;
+      this.y += dy;
+      this.clamp();
+      this.apply();
+      if (this.on) this.pushEventTo(this.el, this.on, { x: Math.round(this.x), y: Math.round(this.y) });
+    };
+
     this.handle.addEventListener("pointerdown", this._onDown);
+    this.handle.addEventListener("keydown", this._onKey);
   },
 
   parent() {
@@ -85,6 +104,7 @@ const FloatingWindow = {
 
   destroyed() {
     this.handle.removeEventListener("pointerdown", this._onDown);
+    this.handle.removeEventListener("keydown", this._onKey);
     window.removeEventListener("pointermove", this._onMove);
     window.removeEventListener("pointerup", this._onUp);
   },
