@@ -27,7 +27,12 @@ defmodule DevelopmentWeb.Showcase.MaskInputFormDemo do
   def render(assigns) do
     ~H"""
     <div class="max-w-md">
-      <.form for={to_form(%{}, as: :mask_demo)} phx-target={@myself} phx-submit="save" class="space-y-3">
+      <.form
+        for={to_form(%{}, as: :mask_demo)}
+        phx-target={@myself}
+        phx-submit="save"
+        class="space-y-3"
+      >
         <label class="block">
           <span class="mb-1 block text-sm font-medium">Phone</span>
           <.mask_input

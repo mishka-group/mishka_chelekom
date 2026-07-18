@@ -18,7 +18,11 @@ defmodule DevelopmentWeb.Components.Headless.MaskInput do
   attr :id, :string, required: true, doc: "Unique id (carries the MaskInput hook)"
   attr :name, :string, default: nil, doc: "Form field name"
   attr :value, :string, default: "", doc: "Current value (already masked)"
-  attr :mask, :string, required: true, doc: "Mask pattern: 9=digit, a=letter, *=alnum, others literal"
+
+  attr :mask, :string,
+    required: true,
+    doc: "Mask pattern: 9=digit, a=letter, *=alnum, others literal"
+
   attr :placeholder, :string, default: nil, doc: "Placeholder"
   attr :inputmode, :string, default: nil, doc: "Hint for on-screen keyboards, e.g. \"numeric\""
   attr :disabled, :boolean, default: false, doc: "Disable input"

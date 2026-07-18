@@ -28,8 +28,7 @@ defmodule DevelopmentWeb.Showcase.LoadingOverlayDemo do
           Revenue is up 12% and churn is down — the numbers keep loading behind this overlay.
         </p>
         <.loading_overlay visible={@loading} label="Loading report" class={loc()}>
-          <span class="size-6 animate-spin rounded-full border-2 border-[var(--c-base-300)] border-t-[var(--c-primary)]">
-          </span>
+          <span class="size-6 animate-spin rounded-full border-2 border-[var(--c-base-300)] border-t-[var(--c-primary)]"></span>
         </.loading_overlay>
       </div>
       <button

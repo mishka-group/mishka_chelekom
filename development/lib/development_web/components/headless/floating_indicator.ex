@@ -40,7 +40,11 @@ defmodule DevelopmentWeb.Components.Headless.FloatingIndicator do
       class={["chelekom-floating-indicator", @class]}
       {@rest}
     >
-      <span data-part="indicator" aria-hidden="true" class={["chelekom-floating-indicator__indicator", @indicator_class]}></span>
+      <span
+        data-part="indicator"
+        aria-hidden="true"
+        class={["chelekom-floating-indicator__indicator", @indicator_class]}
+      ></span>
       <button
         :for={target <- @target}
         type="button"

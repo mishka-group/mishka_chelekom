@@ -21,7 +21,8 @@ defmodule DevelopmentWeb.Showcase.JsonInputFormDemo do
   def handle_event("format", %{"json_demo" => %{"json" => json}}, socket) do
     case Jason.decode(json) do
       {:ok, data} ->
-        {:noreply, assign(socket, value: Jason.encode!(data, pretty: true), result: {:ok, "Valid JSON"})}
+        {:noreply,
+         assign(socket, value: Jason.encode!(data, pretty: true), result: {:ok, "Valid JSON"})}
 
       {:error, error} ->
         {:noreply, assign(socket, value: json, result: {:error, Exception.message(error)})}

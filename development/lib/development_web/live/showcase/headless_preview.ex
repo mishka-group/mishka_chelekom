@@ -893,8 +893,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     <div class="relative h-32 w-64 overflow-hidden rounded-lg border border-[var(--c-base-300)] p-4 text-sm">
       <p class="text-[var(--c-base-content)]/70">Content sits behind the overlay while it loads…</p>
       <.loading_overlay visible label="Loading" class={loading_overlay_class()}>
-        <span class="size-6 animate-spin rounded-full border-2 border-[var(--c-base-300)] border-t-[var(--c-primary)]">
-        </span>
+        <span class="size-6 animate-spin rounded-full border-2 border-[var(--c-base-300)] border-t-[var(--c-primary)]"></span>
       </.loading_overlay>
     </div>
     """
@@ -2542,7 +2541,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         </summary>
         <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
           The picker mirrors the hex into a hidden input and dispatches <code>input</code>, so
-          <code>&lt;.form phx-change&gt;</code> fires on drag, hue, or typing; Save stores it.
+          <code>&lt;.form phx-change&gt;</code>
+          fires on drag, hue, or typing; Save stores it.
         </p>
         <div class="mt-4">
           <.live_component module={DevelopmentWeb.Showcase.ColorInputFormDemo} id={"#{@id}-form"} />
@@ -2560,8 +2560,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
           Drag to move — push the coordinates on release (handle_event) + close with JS.hide
         </summary>
         <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
-          The hook clamps the window to the stage and pushes the x/y coordinates on release via
-          <code>on_move</code>; the ✕ closes it client-side without dragging.
+          The hook clamps the window to the stage and pushes the x/y coordinates on release via <code>on_move</code>; the ✕ closes it client-side without dragging.
         </p>
         <div class="mt-4">
           <.live_component module={DevelopmentWeb.Showcase.FloatingWindowDemo} id={"#{@id}-demo"} />
@@ -2580,7 +2579,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         </summary>
         <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
           Clicking a target moves the indicator on the client and pushes the value via
-          <code>on_change</code> so the server tracks the active section.
+          <code>on_change</code>
+          so the server tracks the active section.
         </p>
         <div class="mt-4">
           <.live_component module={DevelopmentWeb.Showcase.FloatingIndicatorDemo} id={"#{@id}-demo"} />
@@ -2598,7 +2598,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
           Resizable — collapse overflow into +N, push the hidden count to the server (handle_event)
         </summary>
         <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
-          A <code>ResizeObserver</code> re-lays out on resize; <code>on_change</code> pushes the hidden
+          A <code>ResizeObserver</code>
+          re-lays out on resize; <code>on_change</code>
+          pushes the hidden
           count so the server can react.
         </p>
         <div class="mt-4">

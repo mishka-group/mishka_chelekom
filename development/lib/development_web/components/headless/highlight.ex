@@ -25,7 +25,11 @@ defmodule DevelopmentWeb.Components.Headless.Highlight do
     assigns = assign(assigns, :parts, highlight_parts(assigns.text, List.wrap(assigns.highlight)))
 
     ~H"""
-    <span class={["chelekom-highlight", @class]} {@rest}><.hl_part :for={p <- @parts} part={p} mark_class={@mark_class} /></span>
+    <span class={["chelekom-highlight", @class]} {@rest}><.hl_part
+      :for={p <- @parts}
+      part={p}
+      mark_class={@mark_class}
+    /></span>
     """
   end
 

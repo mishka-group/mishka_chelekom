@@ -272,19 +272,27 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
     do: [{"floating_window-hero", "Hero", "A draggable panel; grab the title bar to move it."}]
 
   def sections("floating_indicator"),
-    do: [{"floating_indicator-hero", "Hero", "A segmented switch whose highlight slides to the active item."}]
+    do: [
+      {"floating_indicator-hero", "Hero",
+       "A segmented switch whose highlight slides to the active item."}
+    ]
 
   def sections("overflow_list"),
     do: [{"overflow_list-hero", "Hero", "A single row of tags that collapses overflow into +N."}]
 
   def sections("angle_slider"),
-    do: [{"angle_slider-hero", "Hero", "A circular dial; drag or use arrow keys to set the angle."}]
+    do: [
+      {"angle_slider-hero", "Hero", "A circular dial; drag or use arrow keys to set the angle."}
+    ]
 
   def sections("mask_input"),
     do: [{"mask_input-hero", "Hero", "A phone-number field that formats itself as you type."}]
 
   def sections("pills_input"),
-    do: [{"pills_input-hero", "Hero", "An input-shaped control holding pills; click anywhere to focus."}]
+    do: [
+      {"pills_input-hero", "Hero",
+       "An input-shaped control holding pills; click anywhere to focus."}
+    ]
 
   def sections("loading_overlay"),
     do: [{"loading_overlay-hero", "Hero", "A card covered by a centered loader overlay."}]
@@ -1909,8 +1917,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
         label="Loading"
         class="absolute inset-0 flex items-center justify-center bg-white/70 backdrop-blur-sm dark:bg-neutral-900/70 [&:not([data-visible])]:pointer-events-none [&:not([data-visible])]:opacity-0"
       >
-        <span class="size-6 animate-spin rounded-full border-2 border-neutral-300 border-t-neutral-900 dark:border-neutral-600 dark:border-t-white">
-        </span>
+        <span class="size-6 animate-spin rounded-full border-2 border-neutral-300 border-t-neutral-900 dark:border-neutral-600 dark:border-t-white"></span>
       </.loading_overlay>
     </div>
     """

@@ -53,7 +53,10 @@ defmodule DevelopmentWeb.Showcase.AngleSliderFormDemo do
 
       <div class="space-y-2">
         <div class="grid size-24 place-items-center rounded-xl border border-[var(--c-base-300)] bg-[var(--c-base-100)]">
-          <div class="text-3xl leading-none transition-transform" style={"transform: rotate(#{@angle}deg)"}>
+          <div
+            class="text-3xl leading-none transition-transform"
+            style={"transform: rotate(#{@angle}deg)"}
+          >
             ↑
           </div>
         </div>
