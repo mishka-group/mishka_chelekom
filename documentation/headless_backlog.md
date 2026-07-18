@@ -10,7 +10,11 @@ behaviour is genuinely impossible with JS commands in the current LiveView (poin
 (`mix mishka.ui.gen.*`) — **not** manual `mishka_components.js` edits and **not** a colocated hook.
 
 Per-component requirements (per Sha):
-1. A **bottom-of-page Examples section** (`has_examples?/1` + `examples/1`) like Tree/EmptyState.
+1. A **bottom-of-page Examples section** (`has_examples?/1` + `examples/1`) like Tree/EmptyState —
+   required for every component with **behaviour** (state, events, form participation). Static
+   presentational components (Mark, Code, ColorSwatch, ThemeIcon, VisuallyHidden, Anchor,
+   ActionIcon, CloseButton, Marquee, Pill) are exempt when the hero preview already shows every
+   state they have.
 2. If it is a **form control**, a **Phoenix `<.form>` example** in that Examples section.
 3. **Manually test every feature/state** in the browser at http://localhost:4002 before committing.
 
@@ -25,7 +29,6 @@ Per-component requirements (per Sha):
 
 - PillsInput — pills + input container; `JS.focus` on click — https://mantine.dev/core/pills-input/
 - Affix — fixed-position content; CSS `position: fixed` (+ optional scroll-reveal hook) — https://mantine.dev/core/affix/
-- Spoiler — show/hide long content; `JS.toggle` — https://mantine.dev/core/spoiler/
 
 ## 🔜 To build — needs a separate JS-file engine (hook)
 
@@ -45,13 +48,13 @@ Per-component requirements (per Sha):
 
 ## 🔜 To build — no JS (quick, same recipe as CloseButton/Burger/Chip/Pill)
 
-Highlight, Mark, Code, ColorSwatch (https://mantine.dev/core/color-swatch/), ThemeIcon, ActionIcon,
-Anchor, NavLink, SemiCircleProgress, NumberFormatter (render-time, https://mantine.dev/core/number-formatter/),
-Marquee (CSS animation, https://mantine.dev/core/marquee/), VisuallyHidden (https://mantine.dev/core/visually-hidden/).
+Highlight, NavLink, SemiCircleProgress,
+NumberFormatter (render-time, https://mantine.dev/core/number-formatter/).
 
 ## ✅ Done (headless)
 
-EmptyState, CloseButton, Burger, Chip, Pill, TagsInput (+ the pre-existing 37).
+EmptyState, CloseButton, Burger, Chip, Pill, TagsInput, Spoiler, ColorSwatch, Code, Mark,
+VisuallyHidden, ThemeIcon, Anchor, ActionIcon, Marquee (+ the pre-existing 37).
 
 ## ❌ Dropped — not a headless component
 
