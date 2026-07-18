@@ -42,7 +42,7 @@ Per-component checklist (every item):
 - [x] 6 LoadingOverlay
 - [x] 7 PillsInput
 - [x] 8 MaskInput
-- [ ] 9 AngleSlider
+- [x] 9 AngleSlider
 - [ ] 10 OverflowList
 - [ ] 11 FloatingIndicator
 - [ ] 12 FloatingWindow

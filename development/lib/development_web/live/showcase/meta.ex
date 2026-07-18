@@ -94,6 +94,7 @@ defmodule DevelopmentWeb.Showcase.Meta do
     "action_icon" => "Icon-only action button with a required accessible label.",
     "alert_dialog" => "Modal dialog that interrupts to confirm a critical action; focus-trapped.",
     "anchor" => "A plain, themeable link.",
+    "angle_slider" => "Circular dial for choosing an angle from 0–360°.",
     "autocomplete" => "Text input with an ARIA listbox of filtered suggestions.",
     "avatar" => "Image with loading and fallback states, unstyled.",
     "burger" => "Hamburger navigation toggle with aria-expanded and an animated icon.",

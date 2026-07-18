@@ -10,6 +10,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.AlertDialog
   import DevelopmentWeb.Components.Headless.AlphaSlider
   import DevelopmentWeb.Components.Headless.Anchor
+  import DevelopmentWeb.Components.Headless.AngleSlider
   import DevelopmentWeb.Components.Headless.Autocomplete
   import DevelopmentWeb.Components.Headless.Avatar
   import DevelopmentWeb.Components.Headless.Burger
@@ -704,6 +705,21 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         Item {n}
       </div>
     </.scroller>
+    """
+  end
+
+  def show(%{component: "angle_slider"} = assigns) do
+    ~H"""
+    <div class="flex flex-wrap items-center gap-6">
+      <.angle_slider id={@id} value={45} step={1} label="Angle A" class={angle_slider_class()} />
+      <.angle_slider
+        id={"#{@id}-b"}
+        value={200}
+        step={15}
+        label="Angle B (15° steps)"
+        class={angle_slider_class()}
+      />
+    </div>
     """
   end
 
@@ -2117,6 +2133,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   def has_examples?("json_input"), do: true
   def has_examples?("segmented_control"), do: true
   def has_examples?("loading_overlay"), do: true
+  def has_examples?("angle_slider"), do: true
   def has_examples?("mask_input"), do: true
   def has_examples?("pills_input"), do: true
   def has_examples?(_), do: false
@@ -2374,6 +2391,25 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
             id={"#{@id}-form"}
             variant={:alpha}
           />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "angle_slider"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — drag the dial, push on release (on_change) + submit the value (handle_event)
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          The dial updates live on the client; releasing pushes the angle to the server (rotating the
+          preview) and Save submits the hidden field.
+        </p>
+        <div class="mt-4">
+          <.live_component module={DevelopmentWeb.Showcase.AngleSliderFormDemo} id={"#{@id}-form"} />
         </div>
       </details>
     </div>
@@ -3531,6 +3567,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "[&_[data-part=control]]:grid [&_[data-part=control]]:size-8 [&_[data-part=control]]:shrink-0 [&_[data-part=control]]:place-items-center [&_[data-part=control]]:rounded-full [&_[data-part=control]]:border [&_[data-part=control]]:border-[var(--c-base-300)] [&_[data-part=control]]:bg-[var(--c-base-100)] [&_[data-part=control]]:text-lg [&_[data-part=control]]:leading-none [&_[data-part=control]:hover]:bg-[var(--c-base-200)] [&_[data-part=control][data-disabled]]:opacity-30",
       "[&_[data-part=viewport]]:flex [&_[data-part=viewport]]:gap-3 [&_[data-part=viewport]]:overflow-x-auto [&_[data-part=viewport]]:scroll-smooth [&_[data-part=viewport]]:pb-1"
     ]
+  end
+
+  # Angle slider: a circular dial; parts positioned via arbitrary variants on the root.
+  defp angle_slider_class do
+    "relative block size-28 rounded-full border-2 border-[var(--c-base-300)] bg-[var(--c-base-100)] outline-none cursor-grab focus:ring-2 focus:ring-[var(--c-primary)]/40 data-[dragging]:cursor-grabbing " <>
+      "[&_[data-part=thumb-layer]]:absolute [&_[data-part=thumb-layer]]:inset-0 " <>
+      "[&_[data-part=thumb]]:absolute [&_[data-part=thumb]]:left-1/2 [&_[data-part=thumb]]:top-0 [&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:-translate-x-1/2 [&_[data-part=thumb]]:-translate-y-1/2 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:bg-[var(--c-primary)] [&_[data-part=thumb]]:shadow " <>
+      "[&_[data-part=value]]:absolute [&_[data-part=value]]:inset-0 [&_[data-part=value]]:grid [&_[data-part=value]]:place-items-center [&_[data-part=value]]:text-sm [&_[data-part=value]]:font-medium [&_[data-part=value]]:text-[var(--c-base-content)]"
   end
 
   # Mask input: a plain text field; the MaskInput hook does the formatting.

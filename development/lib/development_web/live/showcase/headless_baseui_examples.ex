@@ -10,6 +10,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.AlertDialog
   import DevelopmentWeb.Components.Headless.AlphaSlider
   import DevelopmentWeb.Components.Headless.Anchor
+  import DevelopmentWeb.Components.Headless.AngleSlider
   import DevelopmentWeb.Components.Headless.Autocomplete
   import DevelopmentWeb.Components.Headless.Avatar
   import DevelopmentWeb.Components.Headless.Burger
@@ -255,6 +256,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       {"fieldset-hero", "Hero",
        "A 'Billing details' fieldset with a bold underlined legend grouping two labeled text inputs (Company and Tax ID), each built from our field component."}
     ]
+
+  def sections("angle_slider"),
+    do: [{"angle_slider-hero", "Hero", "A circular dial; drag or use arrow keys to set the angle."}]
 
   def sections("mask_input"),
     do: [{"mask_input-hero", "Hero", "A phone-number field that formats itself as you type."}]
@@ -1688,6 +1692,23 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       ★
       <.visually_hidden>Add to favorites</.visually_hidden>
     </button>
+    """
+  end
+
+  def example(%{section: "angle_slider-hero"} = assigns) do
+    ~H"""
+    <.angle_slider
+      id="baseui-angle-slider"
+      value={135}
+      step={5}
+      label="Angle"
+      class={
+        "relative block size-28 rounded-full border-2 border-neutral-300 bg-white outline-none cursor-grab focus:ring-2 focus:ring-neutral-400 data-[dragging]:cursor-grabbing dark:border-neutral-700 dark:bg-neutral-900 " <>
+          "[&_[data-part=thumb-layer]]:absolute [&_[data-part=thumb-layer]]:inset-0 " <>
+          "[&_[data-part=thumb]]:absolute [&_[data-part=thumb]]:left-1/2 [&_[data-part=thumb]]:top-0 [&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:-translate-x-1/2 [&_[data-part=thumb]]:-translate-y-1/2 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:bg-neutral-900 [&_[data-part=thumb]]:dark:bg-neutral-100 " <>
+          "[&_[data-part=value]]:absolute [&_[data-part=value]]:inset-0 [&_[data-part=value]]:grid [&_[data-part=value]]:place-items-center [&_[data-part=value]]:text-sm [&_[data-part=value]]:font-medium [&_[data-part=value]]:text-neutral-700 [&_[data-part=value]]:dark:text-neutral-200"
+      }
+    />
     """
   end
 
