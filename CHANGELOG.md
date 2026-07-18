@@ -30,6 +30,7 @@
 - Add headless `SemiCircleProgress` component (Mantine parity) — a half-circle SVG gauge (`role="progressbar"`) computed at render time, no JS
 - Add headless `NavLink` component (Mantine parity) — a nav item that's a `<.link>` leaf or a native `<details>` disclosure with nested children (`data-active`/`aria-current`), no JS
 - Add headless `JsonInput` component (Mantine parity) — a JSON textarea with a server-validated `data-invalid` state (parse/format via `Jason` in LiveView), no JS
+- Add headless `SegmentedControl` component (Mantine parity) — a row of native radios with `:has(:checked)` selection and Arrow-key navigation, no JS
 - Add `Mishka Tools` documentation button to headless component pages, and point `ARIA pattern` at the component's `spec_url` instead of its docs URL
 - Add per-option tagged, base-first `examples` to `mix mishka.ui.export --cms`: every component now ships at least one example, ordered base-first, with `extra.examples[]` carrying `label`/`section`/`base`/`requires` so a consumer can hide an example whose variant was not installed [Commit](https://github.com/mishka-group/mishka_chelekom/commit/65764c5e)
 - Add `## Examples` docs to `label/1`, `error/1`, `header/1` and `simple_form/1`, so every public component function documents its usage

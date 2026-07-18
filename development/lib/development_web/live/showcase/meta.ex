@@ -139,6 +139,7 @@ defmodule DevelopmentWeb.Showcase.Meta do
     "radio" => "A single accessible radio control.",
     "scroll_area" => "Scrollable region with accessible custom scrollbars.",
     "select" => "Listbox select with typeahead and keyboard navigation.",
+    "segmented_control" => "Row of mutually-exclusive segments (native radios).",
     "separator" => "Semantic divider (ARIA separator), horizontal or vertical.",
     "slider" => "Range slider with one or more thumbs, keyboard and ARIA.",
     "spoiler" => "Clamp long content behind a Show more / Show less toggle.",

@@ -1,0 +1,64 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Headless **segmented control** — a row of mutually-exclusive segments (Mantine SegmentedControl
+  parity).
+
+  Built on native radio inputs sharing a `name`, so selection, form submission and keyboard (Arrow
+  keys) are all native — **no JS**. Visually hide the radios and show the selected segment with the
+  CSS `:has(:checked)` selector. `options` is a list of values (strings) or `{label, value}` tuples.
+
+  Ships **no** styling — style via `chelekom-segmented-control*`, `:has(:checked)` and `data-disabled`.
+
+  WAI-ARIA APG: Radio group (the native radios carry the semantics).
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/segmented_control
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, default: nil, doc: "Optional unique id"
+  attr :name, :string, default: nil, doc: "Form field name (shared across segments)"
+  attr :value, :any, default: nil, doc: "Selected value"
+  attr :options, :list, required: true, doc: "List of values (strings) or {label, value} tuples"
+  attr :label, :string, default: nil, doc: "Accessible group label (aria-label)"
+  attr :disabled, :boolean, default: false, doc: "Disable the whole control"
+  attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :item_class, :any, default: nil, doc: "Extra classes for each segment"
+  attr :rest, :global
+
+  def <%= @component_prefix %>segmented_control(assigns) do
+    ~H"""
+    <div
+      id={@id}
+      data-part="root"
+      role="radiogroup"
+      aria-label={@label}
+      data-disabled={@disabled}
+      class={["chelekom-segmented-control", @class]}
+      {@rest}
+    >
+      <label
+        :for={opt <- @options}
+        data-part="item"
+        class={["chelekom-segmented-control__item", @item_class]}
+      >
+        <input
+          type="radio"
+          name={@name}
+          value={sc_value(opt)}
+          checked={to_string(sc_value(opt)) == to_string(@value)}
+          disabled={@disabled}
+          data-part="input"
+          class="sr-only"
+        />
+        <span data-part="label">{sc_label(opt)}</span>
+      </label>
+    </div>
+    """
+  end
+
+  defp sc_value({_label, value}), do: value
+  defp sc_value(value), do: value
+  defp sc_label({label, _value}), do: label
+  defp sc_label(value), do: value
+end

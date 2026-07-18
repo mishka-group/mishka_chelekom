@@ -49,6 +49,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.RollingNumber
   import DevelopmentWeb.Components.Headless.ScrollArea
   import DevelopmentWeb.Components.Headless.Scroller
+  import DevelopmentWeb.Components.Headless.SegmentedControl
   import DevelopmentWeb.Components.Headless.Select
   import DevelopmentWeb.Components.Headless.SemiCircleProgress
   import DevelopmentWeb.Components.Headless.Separator
@@ -250,6 +251,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
     do: [
       {"fieldset-hero", "Hero",
        "A 'Billing details' fieldset with a bold underlined legend grouping two labeled text inputs (Company and Tax ID), each built from our field component."}
+    ]
+
+  def sections("segmented_control"),
+    do: [
+      {"segmented_control-hero", "Hero",
+       "A three-segment switcher; the active segment lifts (native radios)."}
     ]
 
   def sections("json_input"),
@@ -1669,6 +1676,19 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       ★
       <.visually_hidden>Add to favorites</.visually_hidden>
     </button>
+    """
+  end
+
+  def example(%{section: "segmented_control-hero"} = assigns) do
+    ~H"""
+    <.segmented_control
+      id="baseui-segmented-control"
+      name="baseui-sc"
+      value="react"
+      options={[{"React", "react"}, {"Vue", "vue"}, {"Svelte", "svelte"}]}
+      label="Framework"
+      class="inline-flex rounded-lg bg-neutral-100 p-1 dark:bg-neutral-800 [&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:rounded-md [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1 [&_[data-part=item]]:text-sm [&_[data-part=item]]:text-neutral-600 dark:[&_[data-part=item]]:text-neutral-400 [&_[data-part=item]:has(:checked)]:bg-white [&_[data-part=item]:has(:checked)]:font-medium [&_[data-part=item]:has(:checked)]:text-neutral-900 [&_[data-part=item]:has(:checked)]:shadow-sm dark:[&_[data-part=item]:has(:checked)]:bg-neutral-950 dark:[&_[data-part=item]:has(:checked)]:text-white"
+    />
     """
   end
 

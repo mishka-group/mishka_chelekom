@@ -50,6 +50,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.RollingNumber
   import DevelopmentWeb.Components.Headless.ScrollArea
   import DevelopmentWeb.Components.Headless.Scroller
+  import DevelopmentWeb.Components.Headless.SegmentedControl
   import DevelopmentWeb.Components.Headless.Select
   import DevelopmentWeb.Components.Headless.SemiCircleProgress
   import DevelopmentWeb.Components.Headless.Separator
@@ -700,6 +701,19 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         Item {n}
       </div>
     </.scroller>
+    """
+  end
+
+  def show(%{component: "segmented_control"} = assigns) do
+    ~H"""
+    <.segmented_control
+      id={@id}
+      name="sc-preview"
+      value="week"
+      options={[{"Day", "day"}, {"Week", "week"}, {"Month", "month"}]}
+      label="Range"
+      class={segmented_control_class()}
+    />
     """
   end
 
@@ -2033,6 +2047,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   def has_examples?("rolling_number"), do: true
   def has_examples?("splitter"), do: true
   def has_examples?("json_input"), do: true
+  def has_examples?("segmented_control"), do: true
   def has_examples?(_), do: false
 
   def examples(%{component: "empty_state"} = assigns) do
@@ -2287,6 +2302,24 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
             module={DevelopmentWeb.Showcase.SliderColorFormDemo}
             id={"#{@id}-form"}
             variant={:alpha}
+          />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "segmented_control"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — the selection reaches the server (phx-change + handle_event)
+        </summary>
+        <div class="mt-4">
+          <.live_component
+            module={DevelopmentWeb.Showcase.SegmentedControlFormDemo}
+            id={"#{@id}-form"}
           />
         </div>
       </details>
@@ -3373,6 +3406,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "flex w-full max-w-md items-center gap-2",
       "[&_[data-part=control]]:grid [&_[data-part=control]]:size-8 [&_[data-part=control]]:shrink-0 [&_[data-part=control]]:place-items-center [&_[data-part=control]]:rounded-full [&_[data-part=control]]:border [&_[data-part=control]]:border-[var(--c-base-300)] [&_[data-part=control]]:bg-[var(--c-base-100)] [&_[data-part=control]]:text-lg [&_[data-part=control]]:leading-none [&_[data-part=control]:hover]:bg-[var(--c-base-200)] [&_[data-part=control][data-disabled]]:opacity-30",
       "[&_[data-part=viewport]]:flex [&_[data-part=viewport]]:gap-3 [&_[data-part=viewport]]:overflow-x-auto [&_[data-part=viewport]]:scroll-smooth [&_[data-part=viewport]]:pb-1"
+    ]
+  end
+
+  # Segmented control: a pill row of radios; the selected segment lifts via :has(:checked).
+  defp segmented_control_class do
+    [
+      "inline-flex rounded-lg bg-[var(--c-base-200)] p-1 data-[disabled]:opacity-50",
+      "[&_[data-part=item]]:relative [&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:rounded-md [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1 [&_[data-part=item]]:text-sm [&_[data-part=item]]:text-[var(--c-base-content)]/70",
+      "[&_[data-part=item]:has(:checked)]:bg-[var(--c-base-100)] [&_[data-part=item]:has(:checked)]:font-medium [&_[data-part=item]:has(:checked)]:text-[var(--c-base-content)] [&_[data-part=item]:has(:checked)]:shadow-sm",
+      "[&_[data-part=item]:has(:focus-visible)]:ring-2 [&_[data-part=item]:has(:focus-visible)]:ring-[var(--c-primary)]/40"
     ]
   end
 
