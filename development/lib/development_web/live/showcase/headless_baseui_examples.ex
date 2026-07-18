@@ -1475,9 +1475,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       <.code
         block
         class="overflow-x-auto rounded-lg bg-neutral-100 p-3 font-mono text-sm text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100"
-      >
-        export const sum = (a, b) => a + b;
-      </.code>
+        phx-no-format
+      >export const sum = (a, b) => a + b;</.code>
     </div>
     """
   end

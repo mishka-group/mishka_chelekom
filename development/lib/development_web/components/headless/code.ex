@@ -3,7 +3,9 @@ defmodule DevelopmentWeb.Components.Headless.Code do
   Headless **code** — render inline or block code (Mantine Code parity).
 
   Inline it is a `<code>`; with `block` set it is a `<pre><code>` that preserves
-  whitespace. Semantics only — bring your own font, background and padding.
+  whitespace — keep the slot content flush against the tags (any template indentation
+  is rendered verbatim; use `phx-no-format` to keep the formatter away). Semantics
+  only — bring your own font, background and padding.
 
   Ships **no** colors or spacing — style via `chelekom-code`.
 
@@ -25,8 +27,8 @@ defmodule DevelopmentWeb.Components.Headless.Code do
 
   def code(assigns) do
     ~H"""
-    <pre :if={@block} class={["chelekom-code", @class]} {@rest}><code>{render_slot(@inner_block)}</code></pre>
-    <code :if={!@block} class={["chelekom-code", @class]} {@rest}>{render_slot(@inner_block)}</code>
+    <pre :if={@block} id={@id} class={["chelekom-code", @class]} {@rest}><code>{render_slot(@inner_block)}</code></pre>
+    <code :if={!@block} id={@id} class={["chelekom-code", @class]} {@rest}>{render_slot(@inner_block)}</code>
     """
   end
 end

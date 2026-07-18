@@ -562,9 +562,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       <.code
         block
         class="overflow-x-auto rounded-lg bg-[var(--c-base-300)]/50 p-3 font-mono text-sm"
-      >
-        def hello, do: :world
-      </.code>
+        phx-no-format
+      >def hello, do: :world</.code>
     </div>
     """
   end
