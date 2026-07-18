@@ -1965,6 +1965,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   def has_examples?("color_swatch"), do: true
   def has_examples?("pill"), do: true
   def has_examples?("color_picker"), do: true
+  def has_examples?("hue_slider"), do: true
+  def has_examples?("alpha_slider"), do: true
   def has_examples?(_), do: false
 
   def examples(%{component: "empty_state"} = assigns) do
@@ -2135,6 +2137,52 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
               </svg>
             </:indicator>
           </.empty_state>
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "hue_slider"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — drag the hue and submit it (handle_event + hidden input)
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          <code>on_change</code>
+          pushes the live value to the server; the hidden input submits as <code>slider_demo[v]</code>.
+        </p>
+        <div class="mt-4">
+          <.live_component
+            module={DevelopmentWeb.Showcase.SliderColorFormDemo}
+            id={"#{@id}-form"}
+            variant={:hue}
+          />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "alpha_slider"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — drag the opacity and submit it (handle_event + hidden input)
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          <code>on_change</code>
+          pushes the live value to the server; the hidden input submits as <code>slider_demo[v]</code>.
+        </p>
+        <div class="mt-4">
+          <.live_component
+            module={DevelopmentWeb.Showcase.SliderColorFormDemo}
+            id={"#{@id}-form"}
+            variant={:alpha}
+          />
         </div>
       </details>
     </div>
