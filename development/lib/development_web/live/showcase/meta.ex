@@ -91,7 +91,9 @@ defmodule DevelopmentWeb.Showcase.Meta do
   @headless %{
     "accordion" =>
       "Disclosure group where each header toggles its panel — full ARIA and keyboard.",
+    "action_icon" => "Icon-only action button with a required accessible label.",
     "alert_dialog" => "Modal dialog that interrupts to confirm a critical action; focus-trapped.",
+    "anchor" => "A plain, themeable link.",
     "autocomplete" => "Text input with an ARIA listbox of filtered suggestions.",
     "avatar" => "Image with loading and fallback states, unstyled.",
     "burger" => "Hamburger navigation toggle with aria-expanded and an animated icon.",
@@ -111,6 +113,7 @@ defmodule DevelopmentWeb.Showcase.Meta do
     "fieldset" => "Accessible grouping of form controls with a legend.",
     "field" => "Label, control, description and error wiring for one form field.",
     "mark" => "Highlight an inline run of text with <mark>.",
+    "marquee" => "Continuously scrolling row of content (pure CSS).",
     "menubar" => "Horizontal application menu bar with submenus and roving focus.",
     "menu" => "Popup menu of actions with roving tabindex and keyboard.",
     "meter" => "Static gauge reporting a value within a known range (ARIA meter).",
@@ -131,6 +134,7 @@ defmodule DevelopmentWeb.Showcase.Meta do
     "switch" => "On/off toggle with switch role and keyboard.",
     "tabs" => "Tab list and panels with roving focus and ARIA.",
     "tags_input" => "Removable tokens plus a text field for entering a list of values.",
+    "theme_icon" => "A container that wraps an icon, decorative or labelled.",
     "toast" => "Live-region notification stack with timing and dismissal.",
     "toggle_group" => "A set of toggle buttons, single- or multiple-pressed.",
     "toggle" => "Two-state toggle button (aria-pressed).",
@@ -140,11 +144,7 @@ defmodule DevelopmentWeb.Showcase.Meta do
       "Unstyled tree view — Mantine's Tree converted to a Phoenix headless component for Mishka " <>
         "Chelekom: expand/collapse, selection, cascading checkboxes, keyboard nav, drag & drop and " <>
         "async loading.",
-    "theme_icon" => "A container that wraps an icon, decorative or labelled.",
-    "visually_hidden" => "Hidden visually but available to screen readers.",
-    "action_icon" => "Icon-only action button with a required accessible label.",
-    "anchor" => "A plain, themeable link.",
-    "marquee" => "Continuously scrolling row of content (pure CSS)."
+    "visually_hidden" => "Hidden visually but available to screen readers."
   }
 
   @links %{

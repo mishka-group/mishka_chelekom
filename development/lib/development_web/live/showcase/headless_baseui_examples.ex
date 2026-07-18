@@ -5,9 +5,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   """
   use Phoenix.Component
 
-  import DevelopmentWeb.Components.Headless.Collapsible
   import DevelopmentWeb.Components.Headless.Accordion
+  import DevelopmentWeb.Components.Headless.ActionIcon
   import DevelopmentWeb.Components.Headless.AlertDialog
+  import DevelopmentWeb.Components.Headless.Anchor
   import DevelopmentWeb.Components.Headless.Autocomplete
   import DevelopmentWeb.Components.Headless.Avatar
   import DevelopmentWeb.Components.Headless.Burger
@@ -16,6 +17,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.Chip
   import DevelopmentWeb.Components.Headless.CloseButton
   import DevelopmentWeb.Components.Headless.Code
+  import DevelopmentWeb.Components.Headless.Collapsible
   import DevelopmentWeb.Components.Headless.ColorSwatch
   import DevelopmentWeb.Components.Headless.Combobox
   import DevelopmentWeb.Components.Headless.ContextMenu
@@ -25,6 +27,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.Field
   import DevelopmentWeb.Components.Headless.Fieldset
   import DevelopmentWeb.Components.Headless.Mark
+  import DevelopmentWeb.Components.Headless.Marquee
   import DevelopmentWeb.Components.Headless.Menu
   import DevelopmentWeb.Components.Headless.Menubar
   import DevelopmentWeb.Components.Headless.Meter
@@ -44,17 +47,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.Switch
   import DevelopmentWeb.Components.Headless.Tabs
   import DevelopmentWeb.Components.Headless.TagsInput
+  import DevelopmentWeb.Components.Headless.ThemeIcon
   import DevelopmentWeb.Components.Headless.Toast
   import DevelopmentWeb.Components.Headless.Toggle
   import DevelopmentWeb.Components.Headless.ToggleGroup
   import DevelopmentWeb.Components.Headless.Toolbar
   import DevelopmentWeb.Components.Headless.Tooltip
   import DevelopmentWeb.Components.Headless.Tree
-  import DevelopmentWeb.Components.Headless.ThemeIcon
   import DevelopmentWeb.Components.Headless.VisuallyHidden
-  import DevelopmentWeb.Components.Headless.ActionIcon
-  import DevelopmentWeb.Components.Headless.Anchor
-  import DevelopmentWeb.Components.Headless.Marquee
 
   alias DevelopmentWeb.Showcase.ExampleSource
   alias Phoenix.LiveView.JS
@@ -70,6 +70,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
        "Same FAQ accordion but with multiple panels allowed open at once (multiple), each panel animating its height open/closed and the trigger icon rotating when open."}
     ]
 
+  def sections("action_icon"),
+    do: [{"action_icon-hero", "Hero", "Icon-only edit and delete buttons, one disabled."}]
+
   def sections("alert_dialog"),
     do: [
       {"alert_dialog-hero", "Hero",
@@ -79,6 +82,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       {"alert_dialog-detached-triggers-controlled", "Detached Triggers Controlled",
        "Base UI drives multiple detached triggers with per-trigger payloads and programmatic open; ported as a single controlled-style confirmation since our component renders one trigger/message."}
     ]
+
+  def sections("anchor"),
+    do: [{"anchor-hero", "Hero", "A themed inline link inside a sentence."}]
 
   def sections("autocomplete"),
     do: [
@@ -137,27 +143,6 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       {"close_button-hero", "Hero",
        "A default close button (built-in ✕) and one with a custom icon, both with an accessible label."}
     ]
-
-  def sections("marquee"),
-    do: [
-      {"marquee-hero", "Hero",
-       "A row of words scrolling continuously; pure CSS, pauses on hover."}
-    ]
-
-  def sections("action_icon"),
-    do: [{"action_icon-hero", "Hero", "Icon-only edit and delete buttons, one disabled."}]
-
-  def sections("anchor"),
-    do: [{"anchor-hero", "Hero", "A themed inline link inside a sentence."}]
-
-  def sections("theme_icon"),
-    do: [{"theme_icon-hero", "Hero", "Icons inside colored, rounded containers."}]
-
-  def sections("visually_hidden"),
-    do: [{"visually_hidden-hero", "Hero", "A button whose text label is screen-reader-only."}]
-
-  def sections("mark"),
-    do: [{"mark-hero", "Hero", "A highlighted run of text inside a sentence."}]
 
   def sections("code"),
     do: [
@@ -254,6 +239,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
     do: [
       {"fieldset-hero", "Hero",
        "A 'Billing details' fieldset with a bold underlined legend grouping two labeled text inputs (Company and Tax ID), each built from our field component."}
+    ]
+
+  def sections("mark"),
+    do: [{"mark-hero", "Hero", "A highlighted run of text inside a sentence."}]
+
+  def sections("marquee"),
+    do: [
+      {"marquee-hero", "Hero",
+       "A row of words scrolling continuously; pure CSS, pauses on hover."}
     ]
 
   def sections("menu"),
@@ -430,6 +424,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
        "A tags/keywords control: removable tokens and a growing input; click anywhere to focus it."}
     ]
 
+  def sections("theme_icon"),
+    do: [{"theme_icon-hero", "Hero", "Icons inside colored, rounded containers."}]
+
   def sections("toast"),
     do: [
       {"toast-hero", "Hero",
@@ -477,6 +474,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       {"tree-hero", "Hero",
        "Base UI ships no Tree, so this is the one it would: a bordered file explorer whose folders carry a caret that rotates a quarter turn when open, rows that highlight on hover and invert to solid on select, and files/folders drawn with outline icons."}
     ]
+
+  def sections("visually_hidden"),
+    do: [{"visually_hidden-hero", "Hero", "A button whose text label is screen-reader-only."}]
 
   def sections(_), do: []
 

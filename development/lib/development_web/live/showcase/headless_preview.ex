@@ -6,7 +6,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   use Phoenix.Component
 
   import DevelopmentWeb.Components.Headless.Accordion
+  import DevelopmentWeb.Components.Headless.ActionIcon
   import DevelopmentWeb.Components.Headless.AlertDialog
+  import DevelopmentWeb.Components.Headless.Anchor
   import DevelopmentWeb.Components.Headless.Autocomplete
   import DevelopmentWeb.Components.Headless.Avatar
   import DevelopmentWeb.Components.Headless.Burger
@@ -20,19 +22,23 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.Combobox
   import DevelopmentWeb.Components.Headless.ContextMenu
   import DevelopmentWeb.Components.Headless.Dialog
+  import DevelopmentWeb.Components.Headless.Drawer
   import DevelopmentWeb.Components.Headless.EmptyState
   import DevelopmentWeb.Components.Headless.Field
   import DevelopmentWeb.Components.Headless.Fieldset
   import DevelopmentWeb.Components.Headless.Mark
+  import DevelopmentWeb.Components.Headless.Marquee
   import DevelopmentWeb.Components.Headless.Menu
   import DevelopmentWeb.Components.Headless.Menubar
   import DevelopmentWeb.Components.Headless.Meter
   import DevelopmentWeb.Components.Headless.NavigationMenu
   import DevelopmentWeb.Components.Headless.NumberField
+  import DevelopmentWeb.Components.Headless.OtpField
   import DevelopmentWeb.Components.Headless.Pill
   import DevelopmentWeb.Components.Headless.Popover
   import DevelopmentWeb.Components.Headless.PreviewCard
   import DevelopmentWeb.Components.Headless.Progress
+  import DevelopmentWeb.Components.Headless.Radio
   import DevelopmentWeb.Components.Headless.RadioGroup
   import DevelopmentWeb.Components.Headless.ScrollArea
   import DevelopmentWeb.Components.Headless.Select
@@ -42,20 +48,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.Switch
   import DevelopmentWeb.Components.Headless.Tabs
   import DevelopmentWeb.Components.Headless.TagsInput
+  import DevelopmentWeb.Components.Headless.ThemeIcon
   import DevelopmentWeb.Components.Headless.Toast
   import DevelopmentWeb.Components.Headless.Toggle
   import DevelopmentWeb.Components.Headless.ToggleGroup
   import DevelopmentWeb.Components.Headless.Toolbar
   import DevelopmentWeb.Components.Headless.Tooltip
   import DevelopmentWeb.Components.Headless.Tree
-  import DevelopmentWeb.Components.Headless.Drawer
-  import DevelopmentWeb.Components.Headless.Radio
-  import DevelopmentWeb.Components.Headless.OtpField
-  import DevelopmentWeb.Components.Headless.ThemeIcon
   import DevelopmentWeb.Components.Headless.VisuallyHidden
-  import DevelopmentWeb.Components.Headless.ActionIcon
-  import DevelopmentWeb.Components.Headless.Anchor
-  import DevelopmentWeb.Components.Headless.Marquee
   import DevelopmentWeb.Showcase.UI, only: [code_block: 1]
   alias Phoenix.LiveView.JS
 
