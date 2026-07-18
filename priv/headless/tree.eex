@@ -313,13 +313,13 @@ defmodule <%= @module %> do
           aria-hidden="true"
           class={["chelekom-tree__expand-icon", @expand_icon_class]}
         >
-          <%= if @has_children do %>
+          <%%= if @has_children do %>
             {render_slot(@expand_icon)}
-          <% end %>
+          <%% end %>
         </span>
 
         <span data-part="label-text" class={["chelekom-tree__label-text", @label_text_class]}>
-          <%= if @node_slot != [] do %>
+          <%%= if @node_slot != [] do %>
             {render_slot(@node_slot, %{
               node: @node,
               icon: Map.get(@node, :icon),
@@ -331,9 +331,9 @@ defmodule <%= @module %> do
               has_children: @has_children,
               is_root: @level == 1
             })}
-          <% else %>
+          <%% else %>
             {label_text(@node)}
-          <% end %>
+          <%% end %>
         </span>
 
         <span data-part="loader" class={["chelekom-tree__loader", @loader_class]}>

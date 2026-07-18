@@ -186,8 +186,8 @@ defmodule <%= @module %> do
         data-closed
         class={["chelekom-combobox__popup", @popup_class]}
       >
-        <%= for {grp, gi} <- Enum.with_index(@groups) do %>
-          <%= if grp.label do %>
+        <%%= for {grp, gi} <- Enum.with_index(@groups) do %>
+          <%%= if grp.label do %>
             <li
               role="group"
               aria-labelledby={"#{@id}-grp-#{gi}"}
@@ -214,7 +214,7 @@ defmodule <%= @module %> do
                 />
               </ul>
             </li>
-          <% else %>
+          <%% else %>
             <.option
               :for={opt <- grp.options}
               opt={opt}
@@ -225,8 +225,8 @@ defmodule <%= @module %> do
               indicator_class={@indicator_class}
               item_indicator={@item_indicator}
             />
-          <% end %>
-        <% end %>
+          <%% end %>
+        <%% end %>
 
         <li
           :if={@empty != []}

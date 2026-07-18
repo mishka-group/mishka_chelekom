@@ -68,8 +68,8 @@ defmodule <%= @module %> do
       class={["chelekom-toolbar", @class]}
       {@rest}
     >
-      <%= for {grp, gi} <- Enum.with_index(@groups) do %>
-        <%= if grp.label do %>
+      <%%= for {grp, gi} <- Enum.with_index(@groups) do %>
+        <%%= if grp.label do %>
           <div
             data-part="group"
             role="group"
@@ -86,7 +86,7 @@ defmodule <%= @module %> do
               first={@first}
             />
           </div>
-        <% else %>
+        <%% else %>
           <.toolbar_item
             :for={item <- grp.items}
             item={item}
@@ -94,8 +94,8 @@ defmodule <%= @module %> do
             disabled={@disabled}
             first={@first}
           />
-        <% end %>
-      <% end %>
+        <%% end %>
+      <%% end %>
     </div>
     """
   end

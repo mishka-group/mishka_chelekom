@@ -141,8 +141,8 @@ defmodule <%= @module %> do
         data-closed={!@inline}
         class={[!@inline && "chelekom-autocomplete__popup", @popup_class]}
       >
-        <%= for {grp, gi} <- Enum.with_index(@groups) do %>
-          <%= if grp.label do %>
+        <%%= for {grp, gi} <- Enum.with_index(@groups) do %>
+          <%%= if grp.label do %>
             <li
               role="group"
               aria-labelledby={"#{@id}-grp-#{gi}"}
@@ -175,7 +175,7 @@ defmodule <%= @module %> do
                 </li>
               </ul>
             </li>
-          <% else %>
+          <%% else %>
             <li
               :for={opt <- grp.options}
               id={"#{@id}-opt-#{opt.__i__}"}
@@ -188,8 +188,8 @@ defmodule <%= @module %> do
             >
               {render_slot(opt)}
             </li>
-          <% end %>
-        <% end %>
+          <%% end %>
+        <%% end %>
         <li
           :if={@empty != []}
           data-part="empty"

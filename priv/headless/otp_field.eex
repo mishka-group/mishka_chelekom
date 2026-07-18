@@ -137,7 +137,7 @@ defmodule <%= @module %> do
         class={["chelekom-otp_field__value", @value_class]}
       />
 
-      <%= for i <- 1..@length do %>
+      <%%= for i <- 1..@length do %>
         <input
           type="text"
           style={@mask && "-webkit-text-security: disc"}
@@ -159,7 +159,7 @@ defmodule <%= @module %> do
           placeholder={@placeholder}
           class={["chelekom-otp_field__input", @input_class]}
         />
-        <%= if @separator && @group && rem(i, @group) == 0 && i < @length do %>
+        <%%= if @separator && @group && rem(i, @group) == 0 && i < @length do %>
           <span
             data-part="separator"
             aria-hidden="true"
@@ -167,8 +167,8 @@ defmodule <%= @module %> do
           >
             {@separator}
           </span>
-        <% end %>
-      <% end %>
+        <%% end %>
+      <%% end %>
     </div>
     """
   end

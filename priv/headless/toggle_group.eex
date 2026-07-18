@@ -83,7 +83,7 @@ defmodule <%= @module %> do
       {@rest}
     >
       <span data-part="value-inputs" class="chelekom-sr-only">
-        <%= for v <- @values do %>
+        <%%= for v <- @values do %>
           <input
             :if={@name}
             type="hidden"
@@ -91,7 +91,7 @@ defmodule <%= @module %> do
             value={v}
             form={@form}
           />
-        <% end %>
+        <%% end %>
         <input
           :if={@name && @values == [] && !@multiple}
           type="hidden"
