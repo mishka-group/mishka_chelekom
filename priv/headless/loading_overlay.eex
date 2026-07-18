@@ -5,7 +5,9 @@ defmodule <%= @module %> do
 
   Renders an absolutely-positioned `role="status"` region (put `position: relative` on the parent);
   `visible` reflects to `data-visible` so you fade it in/out from CSS — **no JS**. Provide the loader
-  (a spinner, text…) in the default slot. When hidden it's `aria-hidden` and non-interactive.
+  (a spinner, text…) in the default slot. When hidden it's `aria-hidden="true"` and gets an inline
+  `pointer-events: none`, so a faded-out overlay never blocks clicks on the content beneath — your
+  CSS only owns the visuals (e.g. `opacity-0` without `data-visible`).
 
   Ships **no** styling — style via `chelekom-loading-overlay` and the `data-visible` hook.
 
@@ -31,7 +33,8 @@ defmodule <%= @module %> do
       role="status"
       aria-live="polite"
       aria-label={@label}
-      aria-hidden={!@visible}
+      aria-hidden={!@visible && "true"}
+      style={!@visible && "pointer-events: none"}
       class={["chelekom-loading-overlay", @class]}
       {@rest}
     >

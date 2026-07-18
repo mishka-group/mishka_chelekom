@@ -14,7 +14,9 @@
           role: "status",
           aria: ["aria-live", "aria-label", "aria-hidden"],
           data_attributes: ["data-visible"],
-          note: "absolute overlay for a relative parent; toggled by `visible` (CSS opacity, no JS)",
+          note:
+            "absolute overlay for a relative parent; toggled by `visible` (CSS opacity, no JS); " <>
+              "hidden = aria-hidden + inline pointer-events:none so it never blocks clicks",
           required: true
         ],
         parts: []
