@@ -731,6 +731,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         multiple={false}
         aria_label="Categories"
         class="text-sm select-none"
+        node_class="[&[data-selectable=false]>[data-part=label]]:font-medium [&[data-selectable=false]>[data-part=label]]:text-[var(--c-base-content)]/60"
         label_class="flex items-center gap-1 rounded px-2 py-1 cursor-pointer [padding-left:calc(var(--label-offset)+0.5rem)] hover:bg-[var(--c-base-200)] data-[selected]:bg-[var(--c-primary)]/10 data-[selected]:font-medium data-[selected]:text-[var(--c-primary)]"
         label_text_class="truncate"
         expand_icon_class="inline-block w-3 text-center text-[var(--c-base-content)]/50"
@@ -3790,6 +3791,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       %{
         label: "Design",
         value: "design",
+        selectable: false,
         children: [
           %{label: "Wireframes", value: "wireframes"},
           %{label: "Mockups", value: "mockups"}
@@ -3798,6 +3800,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       %{
         label: "Engineering",
         value: "engineering",
+        selectable: false,
         children: [
           %{label: "Frontend", value: "frontend"},
           %{label: "Backend", value: "backend"}
@@ -3894,7 +3897,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "flex h-40 w-full overflow-hidden rounded-lg border border-[var(--c-base-300)]",
       "[&_[data-part=panel][data-index=0]]:w-[var(--chelekom-splitter-pos)] [&_[data-part=panel][data-index=0]]:shrink-0 [&_[data-part=panel][data-index=0]]:overflow-auto [&_[data-part=panel][data-index=0]]:bg-[var(--c-base-100)]",
       "[&_[data-part=panel][data-index=1]]:flex-1 [&_[data-part=panel][data-index=1]]:overflow-auto [&_[data-part=panel][data-index=1]]:bg-[var(--c-base-200)]",
-      "[&_[data-part=resizer]]:w-1.5 [&_[data-part=resizer]]:shrink-0 [&_[data-part=resizer]]:cursor-col-resize [&_[data-part=resizer]]:bg-[var(--c-base-300)] [&_[data-part=resizer]]:outline-none [&_[data-part=resizer]:hover]:bg-[var(--c-primary)]/40 [&_[data-part=resizer]:focus-visible]:bg-[var(--c-primary)]",
+      "[&_[data-part=resizer]]:w-2.5 [&_[data-part=resizer]]:shrink-0 [&_[data-part=resizer]]:cursor-col-resize [&_[data-part=resizer]]:outline-none [&_[data-part=resizer]]:bg-[var(--c-base-300)] [&_[data-part=resizer]]:bg-clip-content [&_[data-part=resizer]]:px-[3px] [&_[data-part=resizer]:hover]:bg-[var(--c-primary)]/40 [&_[data-part=resizer]:focus-visible]:bg-[var(--c-primary)]",
       "[&[data-dragging]_[data-part=resizer]]:bg-[var(--c-primary)]"
     ]
   end

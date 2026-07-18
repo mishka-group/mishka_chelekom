@@ -11,6 +11,7 @@ const Splitter = {
     const resizer = root.querySelector('[data-part="resizer"]');
     if (!resizer) return;
 
+    resizer.style.touchAction = "none";
     const horizontal = root.getAttribute("data-orientation") !== "vertical";
     const min = Number(root.getAttribute("data-min")) || 0;
     const max = Number(root.getAttribute("data-max") || 100);
@@ -47,6 +48,9 @@ const Splitter = {
     this._down = (e) => {
       if (disabled()) return;
       root.setAttribute("data-dragging", "");
+      try {
+        resizer.setPointerCapture(e.pointerId);
+      } catch (_e) {}
       window.addEventListener("pointermove", onMove);
       window.addEventListener("pointerup", onUp);
       e.preventDefault();
