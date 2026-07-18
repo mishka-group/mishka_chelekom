@@ -1,6 +1,8 @@
 # Changelog for MishkaChelekom 0.0.10
 
 ### Features:
+- Add headless `Editor` component (TipTap 3 parity) — rich-text editing via an `Editor` JS engine (hook on an inner `phx-update="ignore"` surface, hidden textarea mirror so it submits as an ordinary form field, toolbar buttons wired by `data-editor-command`), with a Phoenix form demo
+- Add npm dependency support to the generators — a component can declare `npm:` in its catalog and `mix mishka.ui.gen.headless <name>` installs it (npm/bun/yarn auto-detected, falling back to the `{:bun, ...}` hex binary so no system Node is required), gitignores `assets/node_modules` and prepends the install to the `assets.setup`/`build`/`deploy` aliases so CI and Docker builds work. `--no-npm` skips the install; npm-backed components are excluded from `mix mishka.ui.gen.*.components` unless named explicitly or `--with-npm` is passed
 
 - Add headless `Tree` component — Mantine's Tree converted to a Phoenix headless component, with expand/collapse, single/multiple and shift-range selection, cascading checkboxes (with indeterminate) or `check_strictly`, WAI-ARIA treeview keyboard navigation, drag & drop, and server-driven async child loading
 - Add Base UI gallery example and live server-driven examples (controller, form, single event, async, drag & drop, search) for the `Tree` component

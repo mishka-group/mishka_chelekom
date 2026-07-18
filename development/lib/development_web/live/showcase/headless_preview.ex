@@ -27,6 +27,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.ContextMenu
   import DevelopmentWeb.Components.Headless.Dialog
   import DevelopmentWeb.Components.Headless.Drawer
+  import DevelopmentWeb.Components.Headless.Editor
   import DevelopmentWeb.Components.Headless.EmptyState
   import DevelopmentWeb.Components.Headless.Field
   import DevelopmentWeb.Components.Headless.Fieldset
@@ -1008,6 +1009,27 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       </.pill>
       <.pill id={"#{@id}-4"} with_remove disabled class={pill_class()}>Disabled</.pill>
     </div>
+    """
+  end
+
+  def show(%{component: "editor"} = assigns) do
+    ~H"""
+    <.editor
+      id={@id}
+      placeholder="Write something…"
+      class={editor_class()}
+      toolbar_class={editor_toolbar_class()}
+      surface_class={editor_surface_class()}
+    >
+      <:toolbar>
+        <button type="button" data-editor-command="bold">B</button>
+        <button type="button" data-editor-command="italic">I</button>
+        <button type="button" data-editor-command="strike">S</button>
+        <button type="button" data-editor-command="h2">H2</button>
+        <button type="button" data-editor-command="bullet_list">• List</button>
+        <button type="button" data-editor-command="blockquote">❝</button>
+      </:toolbar>
+    </.editor>
     """
   end
 
@@ -2233,6 +2255,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   def has_examples?("empty_state"), do: true
   def has_examples?("tags_input"), do: true
   def has_examples?("spoiler"), do: true
+  def has_examples?("editor"), do: true
   def has_examples?("chip"), do: true
   def has_examples?("burger"), do: true
   def has_examples?("color_swatch"), do: true
@@ -2781,6 +2804,30 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         </p>
         <div class="mt-4 max-w-md">
           <.live_component module={DevelopmentWeb.Showcase.TagsInputDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "editor"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — the document submits as an ordinary field
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          The engine mirrors the document into a hidden <code>textarea</code>
+          and dispatches <code>input</code>, so <code>phx-change</code>
+          fires as you type (debounced in the engine, since <code>phx-debounce="blur"</code>
+          is a no-op on a hidden input) and Save submits it as <code>post[body]</code>.
+          Storage is <code>json</code>
+          — the ProseMirror document, which is never rendered as
+          markup, so it cannot become an XSS vector.
+        </p>
+        <div class="mt-4">
+          <.live_component module={DevelopmentWeb.Showcase.EditorFormDemo} id={"#{@id}-form"} />
         </div>
       </details>
     </div>
@@ -3746,6 +3793,39 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "[&[data-opened]_[data-part=line]:nth-child(1)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(1)]:rotate-45",
       "[&[data-opened]_[data-part=line]:nth-child(2)]:opacity-0",
       "[&[data-opened]_[data-part=line]:nth-child(3)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(3)]:-rotate-45"
+    ]
+  end
+
+  # Editor: the component ships no typography (the headless CSS is functional-only), so the
+  # surface styles headings/lists/quotes here — under Tailwind Preflight they render flat
+  # otherwise. Toolbar buttons get their active look from data-active, which the engine writes.
+  defp editor_class do
+    [
+      "w-full max-w-2xl rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)]",
+      "data-[focused]:ring-2 data-[focused]:ring-[var(--c-primary)]/30"
+    ]
+  end
+
+  defp editor_toolbar_class do
+    [
+      "flex flex-wrap items-center gap-1 border-b border-[var(--c-base-300)] p-1.5",
+      "[&>button]:rounded [&>button]:px-2 [&>button]:py-1 [&>button]:text-sm [&>button]:text-[var(--c-base-content)]/70",
+      "[&>button:hover]:bg-[var(--c-base-200)]",
+      "[&>button[data-active]]:bg-[var(--c-primary)]/10 [&>button[data-active]]:font-semibold [&>button[data-active]]:text-[var(--c-primary)]"
+    ]
+  end
+
+  defp editor_surface_class do
+    [
+      "min-h-40 p-3 text-sm leading-6 outline-none before:text-[var(--c-base-content)]/40",
+      "[&_h1]:mt-2 [&_h1]:mb-1 [&_h1]:text-2xl [&_h1]:font-bold",
+      "[&_h2]:mt-2 [&_h2]:mb-1 [&_h2]:text-xl [&_h2]:font-semibold",
+      "[&_p]:my-1",
+      "[&_ul]:my-1 [&_ul]:list-disc [&_ul]:pl-6",
+      "[&_ol]:my-1 [&_ol]:list-decimal [&_ol]:pl-6",
+      "[&_blockquote]:my-2 [&_blockquote]:border-l-2 [&_blockquote]:border-[var(--c-base-300)] [&_blockquote]:pl-3 [&_blockquote]:text-[var(--c-base-content)]/70",
+      "[&_code]:rounded [&_code]:bg-[var(--c-base-200)] [&_code]:px-1 [&_code]:font-mono [&_code]:text-[0.85em]",
+      "[&_pre]:my-2 [&_pre]:overflow-x-auto [&_pre]:rounded [&_pre]:bg-[var(--c-base-200)] [&_pre]:p-2"
     ]
   end
 

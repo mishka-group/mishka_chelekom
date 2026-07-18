@@ -1,0 +1,132 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Headless **editor** — a rich-text (HTML) editor built on TipTap 3 / ProseMirror.
+
+  The `Editor` engine owns the editing surface; the server owns the document. Content round-trips
+  through a hidden `value` textarea, so the editor submits with an ordinary `<.form>` and needs no
+  JS glue: the engine writes the mirror and dispatches `input`, which is what makes `phx-change`
+  fire. Put toolbar buttons in the `toolbar` slot and tag them `data-editor-command="bold"` — the
+  engine wires them (and marks the active ones with `data-active`) with no extra code.
+
+  Storage `format` defaults to **`"json"`** (the ProseMirror document). Prefer it: JSON is never
+  rendered as markup, so a stored document cannot become an XSS vector. Choose `"html"` only if you
+  must, and sanitize server-side before you ever pass it through `raw/1`.
+
+  This is the first component whose hook is **not** on the root: the `surface` is
+  `phx-update="ignore"` because TipTap owns that subtree, and LiveView merges only `data-*` on an
+  ignored element — `class`/`style` there would freeze at first render. So the root keeps your
+  live `class`, and every live knob (`editable`, `on_change`, …) is a `data-*` on the surface.
+
+  Needs an npm package (installed for you by the generator): `@tiptap/core`, `@tiptap/pm` and
+  `@tiptap/starter-kit`, all MIT.
+
+  Ships **no** colors, spacing or typography — style via `chelekom-editor*`, the `data-empty` /
+  `data-focused` state, and `data-active` on toolbar buttons. Under Tailwind Preflight, headings
+  and lists render flat until you style them; that is deliberate, and the showcase demo shows one
+  way to do it.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/editor
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, required: true, doc: "Unique id; the surface derives `<id>-surface`"
+  attr :name, :string, default: nil, doc: "Form field name for the hidden mirror (omit = no form)"
+  attr :value, :string, default: nil, doc: "Initial document, in `format`"
+
+  attr :format, :string,
+    default: "json",
+    values: ["json", "html"],
+    doc: "Storage format. `json` is the safe default; `html` needs server-side sanitizing"
+
+  attr :placeholder, :string, default: nil, doc: "Empty-state text (rendered by your CSS)"
+  attr :editable, :boolean, default: true, doc: "Whether the document can be edited (live)"
+  attr :disabled, :boolean, default: false, doc: "Disable the control (also sets data-disabled)"
+  attr :readonly, :boolean, default: false, doc: "Render read-only (also sets data-readonly)"
+  attr :required, :boolean, default: false, doc: "Mark the hidden mirror required"
+  attr :form, :string, default: nil, doc: "Form id owning the hidden mirror"
+
+  attr :debounce, :integer,
+    default: 300,
+    doc:
+      "Milliseconds before an edit is committed to the mirror. Debounce lives in the engine — " <>
+        "`phx-debounce=\"blur\"` is a no-op on a hidden input, which never blurs"
+
+  attr :label_id, :string, default: nil, doc: "id of the element labelling the surface"
+  attr :describedby_id, :string, default: nil, doc: "id of the element describing the surface"
+  attr :on_change, :string, default: nil, doc: "Event pushed with %{value: doc} after each commit"
+  attr :on_focus, :string, default: nil, doc: "Event pushed when the surface gains focus"
+  attr :on_blur, :string, default: nil, doc: "Event pushed when the surface loses focus"
+  attr :class, :any, default: nil, doc: "Extra classes for the root (stays live)"
+
+  attr :toolbar_class, :any, default: nil, doc: "Extra classes for the toolbar"
+
+  attr :surface_class, :any,
+    default: nil,
+    doc: "Extra classes for the editing surface. Frozen after first render (it is ignored)"
+
+  attr :value_class, :any, default: nil, doc: "Extra classes for the hidden mirror"
+  attr :rest, :global
+
+  slot :toolbar, doc: "Toolbar controls; tag buttons with `data-editor-command`"
+
+  def <%= @component_prefix %>editor(assigns) do
+    ~H"""
+    <div
+      id={@id}
+      data-part="root"
+      data-disabled={@disabled}
+      data-readonly={@readonly}
+      class={["chelekom-editor", @class]}
+      {@rest}
+    >
+      <div
+        :if={@toolbar != []}
+        data-part="toolbar"
+        role="toolbar"
+        aria-label="Formatting"
+        aria-controls={"#{@id}-surface"}
+        class={["chelekom-editor__toolbar", @toolbar_class]}
+      >
+        {render_slot(@toolbar)}
+      </div>
+
+      <textarea
+        :if={@name}
+        id={"#{@id}-value"}
+        data-part="value"
+        name={@name}
+        form={@form}
+        required={@required}
+        disabled={@disabled}
+        hidden
+        class={["chelekom-editor__value", @value_class]}
+      ><%%= @value %></textarea>
+
+      <div
+        id={"#{@id}-surface"}
+        phx-hook="Editor"
+        phx-update="ignore"
+        data-part="surface"
+        data-root-id={@id}
+        data-value-id={"#{@id}-value"}
+        data-format={@format}
+        data-value={@value}
+        data-placeholder={@placeholder}
+        data-editable={to_string(@editable && !@disabled && !@readonly)}
+        data-debounce={@debounce}
+        data-on-change={@on_change}
+        data-on-focus={@on_focus}
+        data-on-blur={@on_blur}
+        role="textbox"
+        aria-multiline="true"
+        aria-label={(is_nil(@label_id) && "Rich text editor") || nil}
+        aria-labelledby={@label_id}
+        aria-describedby={@describedby_id}
+        class={["chelekom-editor__surface", @surface_class]}
+      >
+      </div>
+    </div>
+    """
+  end
+end

@@ -455,3 +455,30 @@
 [data-part="scrub-area-cursor"]:not([data-scrubbing]) {
     display: none;
 }
+
+/* Editor: the contenteditable surface. Functional only — the browser's focus ring on a
+ * contenteditable is removed in favour of the consumer styling [data-focused] on the root, the
+ * surface must accept a caret and wrap, and the placeholder is drawn from the root's data-empty
+ * (the engine writes it) so an empty document is not a blank box.
+ *
+ * Deliberately NOT here: typography. Under Tailwind Preflight the editor's headings, lists and
+ * blockquotes render flat, and styling them is the consuming app's job — see the showcase demo. */
+.chelekom-editor__surface {
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.chelekom-editor__surface:focus,
+.chelekom-editor__surface .ProseMirror:focus {
+    outline: none;
+}
+
+/* `attr()` reads from the element the pseudo-element belongs to, so the placeholder must be drawn
+ * on the surface itself (which carries data-placeholder) — not on the inner paragraph. Floating it
+ * with zero height overlays it on the first line instead of pushing the caret down. */
+.chelekom-editor[data-empty] .chelekom-editor__surface::before {
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+}

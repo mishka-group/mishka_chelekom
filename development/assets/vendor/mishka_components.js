@@ -43,6 +43,7 @@ import AngleSlider from "./angle_slider.js";
 import OverflowList from "./overflow_list.js";
 import FloatingIndicator from "./floating_indicator.js";
 import FloatingWindow from "./floating_window.js";
+import Editor from "./editor_tiptap.js";
 const Components = {
   Tooltip,
   PreviewCard,
@@ -89,5 +90,6 @@ const Components = {
   OverflowList,
   FloatingIndicator,
   FloatingWindow,
+  Editor,
 };
 export default Components;

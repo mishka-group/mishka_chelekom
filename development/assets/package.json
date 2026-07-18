@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "@tiptap/core": "3.28.0",
+    "@tiptap/pm": "3.28.0",
+    "@tiptap/starter-kit": "3.28.0"
+  },
+  "description": "Assets for development Phoenix application",
+  "devDependencies": {},
+  "name": "development",
+  "version": "1.0.0"
+}

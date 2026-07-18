@@ -110,6 +110,7 @@ defmodule DevelopmentWeb.Showcase.Meta do
     "context_menu" => "Right-click menu with roving focus and keyboard support.",
     "dialog" => "Modal dialog with focus trap, ARIA and paired-presence state.",
     "drawer" => "Edge panel with focus management and dismissal behaviour.",
+    "editor" => "Rich-text editor (TipTap) with a toolbar; submits as an ordinary form field.",
     "empty_state" =>
       "Presentational placeholder for empty views — indicator, title, description and actions, unstyled.",
     "fieldset" => "Accessible grouping of form controls with a legend.",
