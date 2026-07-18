@@ -38,6 +38,7 @@ import Splitter from "./splitter.js";
 import Scroller from "./scroller.js";
 import RollingNumber from "./rolling_number.js";
 import ColorPicker from "./color_picker.js";
+import MaskInput from "./mask_input.js";
 const Components = {
   Tooltip,
   PreviewCard,
@@ -79,5 +80,6 @@ const Components = {
   Scroller,
   RollingNumber,
   ColorPicker,
+  MaskInput,
 };
 export default Components;

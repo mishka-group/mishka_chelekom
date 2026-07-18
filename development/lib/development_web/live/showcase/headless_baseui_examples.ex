@@ -34,6 +34,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.LoadingOverlay
   import DevelopmentWeb.Components.Headless.Mark
   import DevelopmentWeb.Components.Headless.Marquee
+  import DevelopmentWeb.Components.Headless.MaskInput
   import DevelopmentWeb.Components.Headless.Menu
   import DevelopmentWeb.Components.Headless.Menubar
   import DevelopmentWeb.Components.Headless.Meter
@@ -254,6 +255,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       {"fieldset-hero", "Hero",
        "A 'Billing details' fieldset with a bold underlined legend grouping two labeled text inputs (Company and Tax ID), each built from our field component."}
     ]
+
+  def sections("mask_input"),
+    do: [{"mask_input-hero", "Hero", "A phone-number field that formats itself as you type."}]
 
   def sections("pills_input"),
     do: [{"pills_input-hero", "Hero", "An input-shaped control holding pills; click anywhere to focus."}]
@@ -1684,6 +1688,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       ★
       <.visually_hidden>Add to favorites</.visually_hidden>
     </button>
+    """
+  end
+
+  def example(%{section: "mask_input-hero"} = assigns) do
+    ~H"""
+    <.mask_input
+      id="baseui-mask-input"
+      mask="(999) 999-9999"
+      placeholder="(___) ___-____"
+      inputmode="numeric"
+      class="w-72 rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 outline-none focus:ring-2 focus:ring-neutral-400 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
+    />
     """
   end
 

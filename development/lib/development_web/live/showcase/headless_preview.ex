@@ -34,6 +34,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.LoadingOverlay
   import DevelopmentWeb.Components.Headless.Mark
   import DevelopmentWeb.Components.Headless.Marquee
+  import DevelopmentWeb.Components.Headless.MaskInput
   import DevelopmentWeb.Components.Headless.Menu
   import DevelopmentWeb.Components.Headless.Menubar
   import DevelopmentWeb.Components.Headless.Meter
@@ -703,6 +704,34 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         Item {n}
       </div>
     </.scroller>
+    """
+  end
+
+  def show(%{component: "mask_input"} = assigns) do
+    ~H"""
+    <div class="grid max-w-sm gap-3">
+      <.mask_input
+        id={@id}
+        mask="(999) 999-9999"
+        placeholder="(___) ___-____"
+        inputmode="numeric"
+        class={mask_input_class()}
+      />
+      <.mask_input
+        id={"#{@id}-date"}
+        mask="99/99/9999"
+        placeholder="MM/DD/YYYY"
+        inputmode="numeric"
+        class={mask_input_class()}
+      />
+      <.mask_input
+        id={"#{@id}-card"}
+        mask="9999 9999 9999 9999"
+        placeholder="Card number"
+        inputmode="numeric"
+        class={mask_input_class()}
+      />
+    </div>
     """
   end
 
@@ -2088,6 +2117,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   def has_examples?("json_input"), do: true
   def has_examples?("segmented_control"), do: true
   def has_examples?("loading_overlay"), do: true
+  def has_examples?("mask_input"), do: true
   def has_examples?("pills_input"), do: true
   def has_examples?(_), do: false
 
@@ -2344,6 +2374,25 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
             id={"#{@id}-form"}
             variant={:alpha}
           />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "mask_input"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — masked phone + card expiry, submitted to the server (handle_event)
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          The <code>MaskInput</code> hook formats each field as you type; Save submits the
+          already-masked values via a form submit.
+        </p>
+        <div class="mt-4">
+          <.live_component module={DevelopmentWeb.Showcase.MaskInputFormDemo} id={"#{@id}-form"} />
         </div>
       </details>
     </div>
@@ -3482,6 +3531,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "[&_[data-part=control]]:grid [&_[data-part=control]]:size-8 [&_[data-part=control]]:shrink-0 [&_[data-part=control]]:place-items-center [&_[data-part=control]]:rounded-full [&_[data-part=control]]:border [&_[data-part=control]]:border-[var(--c-base-300)] [&_[data-part=control]]:bg-[var(--c-base-100)] [&_[data-part=control]]:text-lg [&_[data-part=control]]:leading-none [&_[data-part=control]:hover]:bg-[var(--c-base-200)] [&_[data-part=control][data-disabled]]:opacity-30",
       "[&_[data-part=viewport]]:flex [&_[data-part=viewport]]:gap-3 [&_[data-part=viewport]]:overflow-x-auto [&_[data-part=viewport]]:scroll-smooth [&_[data-part=viewport]]:pb-1"
     ]
+  end
+
+  # Mask input: a plain text field; the MaskInput hook does the formatting.
+  defp mask_input_class do
+    "w-full rounded-md border border-[var(--c-base-300)] bg-[var(--c-base-100)] px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-[var(--c-primary)]/30"
   end
 
   # Pills input: input-shaped control holding pills + a growing input; click anywhere to focus.
