@@ -1851,6 +1851,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   def has_examples?("empty_state"), do: true
   def has_examples?("tags_input"), do: true
   def has_examples?("spoiler"), do: true
+  def has_examples?("chip"), do: true
+  def has_examples?("burger"), do: true
   def has_examples?(_), do: false
 
   def examples(%{component: "empty_state"} = assigns) do
@@ -2068,6 +2070,67 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         </p>
         <div class="mt-4 max-w-md">
           <.live_component module={DevelopmentWeb.Showcase.TagsInputDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "chip"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — native checkboxes drive <code>phx-change</code>
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          The chips are real inputs inside a <code>&lt;.form phx-change&gt;</code>, so toggling one
+          reaches the server with no JS, and the server's <code>checked</code>
+          is what re-renders — the selection survives any patch. The disabled chip never submits.
+          The list posts as <code>chip_demo[topics][]</code>.
+        </p>
+        <div class="mt-4 max-w-md">
+          <.live_component module={DevelopmentWeb.Showcase.ChipDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "burger"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          Wired to a menu — JS commands only
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          One <code>phx-click</code>
+          pipeline toggles <code>data-opened</code>
+          (the bars morph into an ✕), flips <code>aria-expanded</code>
+          and shows/hides the controlled nav — no server round-trip, no hook.
+        </p>
+        <div class="mt-4">
+          <.burger
+            id={"#{@id}-live"}
+            controls={"#{@id}-nav"}
+            label="Toggle navigation"
+            phx-click={
+              JS.toggle_attribute({"data-opened", "true"}, to: "##{@id}-live")
+              |> JS.toggle_attribute({"aria-expanded", "true", "false"})
+              |> JS.toggle(to: "##{@id}-nav")
+            }
+            class={burger_class()}
+          />
+          <nav
+            id={"#{@id}-nav"}
+            style="display:none"
+            class="mt-2 w-48 rounded-md border border-[var(--c-base-300)] p-2 text-sm"
+          >
+            <a href="#" class="block rounded px-2 py-1 hover:bg-[var(--c-base-200)]">Home</a>
+            <a href="#" class="block rounded px-2 py-1 hover:bg-[var(--c-base-200)]">Projects</a>
+            <a href="#" class="block rounded px-2 py-1 hover:bg-[var(--c-base-200)]">Settings</a>
+          </nav>
         </div>
       </details>
     </div>
