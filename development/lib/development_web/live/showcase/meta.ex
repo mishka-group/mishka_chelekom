@@ -113,6 +113,7 @@ defmodule DevelopmentWeb.Showcase.Meta do
     "fieldset" => "Accessible grouping of form controls with a legend.",
     "field" => "Label, control, description and error wiring for one form field.",
     "mark" => "Highlight an inline run of text with <mark>.",
+    "highlight" => "Wrap case-insensitive matches of query terms in <mark>.",
     "marquee" => "Continuously scrolling row of content (pure CSS).",
     "number_formatter" => "Render a number with separators, prefix and suffix.",
     "hue_slider" => "Pick a hue (0–360°) on a rainbow track (reuses Slider).",

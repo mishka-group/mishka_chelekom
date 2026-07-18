@@ -26,6 +26,7 @@
 - Add headless `Scroller` component (Mantine parity) — horizontal scroll row with prev/next controls via a `Scroller` JS engine (ResizeObserver end-detection)
 - Add headless `RollingNumber` component (Mantine parity) — animate a number to its value via a `RollingNumber` JS engine (rAF, reduced-motion aware)
 - Add headless `ColorPicker` component (Mantine parity) — saturation/value drag area + hue slider via a `ColorPicker` JS engine (HSV↔hex, hidden input for forms)
+- Add headless `Highlight` component (Mantine parity) — wrap case-insensitive matches of one or more query terms in `<mark>` at render time, no JS
 - Add `Mishka Tools` documentation button to headless component pages, and point `ARIA pattern` at the component's `spec_url` instead of its docs URL
 - Add per-option tagged, base-first `examples` to `mix mishka.ui.export --cms`: every component now ships at least one example, ordered base-first, with `extra.examples[]` carrying `label`/`section`/`base`/`requires` so a consumer can hide an example whose variant was not installed [Commit](https://github.com/mishka-group/mishka_chelekom/commit/65764c5e)
 - Add `## Examples` docs to `label/1`, `error/1`, `header/1` and `simple_form/1`, so every public component function documents its usage

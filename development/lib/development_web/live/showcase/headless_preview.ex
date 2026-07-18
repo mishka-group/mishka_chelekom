@@ -28,6 +28,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.EmptyState
   import DevelopmentWeb.Components.Headless.Field
   import DevelopmentWeb.Components.Headless.Fieldset
+  import DevelopmentWeb.Components.Headless.Highlight
   import DevelopmentWeb.Components.Headless.HueSlider
   import DevelopmentWeb.Components.Headless.Mark
   import DevelopmentWeb.Components.Headless.Marquee
@@ -593,6 +594,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         "Add to favorites".
       </p>
     </div>
+    """
+  end
+
+  def show(%{component: "highlight"} = assigns) do
+    ~H"""
+    <p class="max-w-md text-sm text-[var(--c-base-content)]/80">
+      <.highlight
+        text="Phoenix LiveView builds rich, real-time apps — and LiveView needs little JavaScript."
+        highlight={["LiveView", "real-time"]}
+        mark_class="rounded bg-yellow-200 px-0.5 text-neutral-900"
+      />
+    </p>
     """
   end
 

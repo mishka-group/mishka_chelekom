@@ -28,6 +28,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.EmptyState
   import DevelopmentWeb.Components.Headless.Field
   import DevelopmentWeb.Components.Headless.Fieldset
+  import DevelopmentWeb.Components.Headless.Highlight
   import DevelopmentWeb.Components.Headless.HueSlider
   import DevelopmentWeb.Components.Headless.Mark
   import DevelopmentWeb.Components.Headless.Marquee
@@ -246,6 +247,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
     do: [
       {"fieldset-hero", "Hero",
        "A 'Billing details' fieldset with a bold underlined legend grouping two labeled text inputs (Company and Tax ID), each built from our field component."}
+    ]
+
+  def sections("highlight"),
+    do: [
+      {"highlight-hero", "Hero",
+       "Highlight one or more query terms inside a sentence (case-insensitive)."}
     ]
 
   def sections("mark"),
@@ -1598,6 +1605,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       ★
       <.visually_hidden>Add to favorites</.visually_hidden>
     </button>
+    """
+  end
+
+  def example(%{section: "highlight-hero"} = assigns) do
+    ~H"""
+    <p class="max-w-sm text-sm text-neutral-700 dark:text-neutral-300">
+      <.highlight
+        text="Search results for phoenix — the Phoenix framework is fast."
+        highlight="phoenix"
+        mark_class="rounded bg-lime-200 px-0.5 text-neutral-900"
+      />
+    </p>
     """
   end
 
