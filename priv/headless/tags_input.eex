@@ -23,14 +23,29 @@ defmodule <%= @module %> do
 
   @doc type: :component
   attr :id, :string, required: true, doc: "Unique id; anchors the input for JS.focus"
-  attr :name, :string, default: nil, doc: "Name for the hidden list inputs — include the [] (e.g. \"user[tags][]\")"
+
+  attr :name, :string,
+    default: nil,
+    doc: "Name for the hidden list inputs — include the [] (e.g. \"user[tags][]\")"
+
   attr :tags, :list, default: [], doc: "Current tags (list of strings)"
   attr :placeholder, :string, default: nil, doc: "Placeholder for the draft input"
   attr :disabled, :boolean, default: false, doc: "Disable the control (also sets data-disabled)"
-  attr :input_name, :string, default: nil, doc: "Name for the draft input (bind to a form field so a reset clears it)"
+
+  attr :input_name, :string,
+    default: nil,
+    doc: "Name for the draft input (bind to a form field so a reset clears it)"
+
   attr :input_value, :string, default: nil, doc: "Value for the draft input"
-  attr :on_add, :any, default: nil, doc: "phx-keydown handler fired on Enter (when not using a wrapping form)"
-  attr :on_remove, :any, default: nil, doc: "phx-click for a tag's remove button (payload carries phx-value-tag)"
+
+  attr :on_add, :any,
+    default: nil,
+    doc: "phx-keydown handler fired on Enter (when not using a wrapping form)"
+
+  attr :on_remove, :any,
+    default: nil,
+    doc: "phx-click for a tag's remove button (payload carries phx-value-tag)"
+
   attr :class, :any, default: nil, doc: "Extra classes for the control"
   attr :tag_class, :any, default: nil, doc: "Extra classes for each tag"
   attr :remove_class, :any, default: nil, doc: "Extra classes for each remove button"

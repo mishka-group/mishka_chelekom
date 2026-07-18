@@ -22,12 +22,18 @@ defmodule <%= @module %> do
   attr :id, :string, default: nil, doc: "Optional id for the input"
   attr :name, :string, default: nil, doc: "Form field name (share it across radio chips)"
   attr :value, :string, default: nil, doc: "Submitted value when checked"
-  attr :type, :string, default: "checkbox", values: ["checkbox", "radio"], doc: "Underlying input type"
+
+  attr :type, :string,
+    default: "checkbox",
+    values: ["checkbox", "radio"],
+    doc: "Underlying input type"
+
   attr :checked, :boolean, default: false, doc: "Whether the chip is selected"
   attr :disabled, :boolean, default: false, doc: "Disable the chip (also sets data-disabled)"
   attr :class, :any, default: nil, doc: "Extra classes for the root label"
   attr :input_class, :any, default: nil, doc: "Extra classes for the hidden input"
   attr :label_class, :any, default: nil, doc: "Extra classes for the visible label"
+
   attr :rest, :global,
     include: ~w(required form),
     doc: "Any input/global attrs, e.g. phx-change, required"
