@@ -2,7 +2,9 @@ defmodule DevelopmentWeb.Showcase.TreeSelectFormDemo do
   @moduledoc """
   `tree_select` composing a `tree` in a popover. Selecting a node pushes the tree's `on_select`
   (`handle_event "select"`), which updates the shown label and a hidden form field; Save submits the
-  chosen value (`handle_event "save"`). Nothing is persisted.
+  chosen value (`handle_event "save"`). Design and Engineering are `selectable: false` category
+  headers — clicking them toggles the branch, only real options join the selection. Nothing is
+  persisted.
   """
   use DevelopmentWeb, :live_component
 
@@ -13,6 +15,7 @@ defmodule DevelopmentWeb.Showcase.TreeSelectFormDemo do
     %{
       label: "Design",
       value: "design",
+      selectable: false,
       children: [
         %{label: "Wireframes", value: "wireframes"},
         %{label: "Mockups", value: "mockups"}
@@ -21,6 +24,7 @@ defmodule DevelopmentWeb.Showcase.TreeSelectFormDemo do
     %{
       label: "Engineering",
       value: "engineering",
+      selectable: false,
       children: [
         %{
           label: "Frontend",
@@ -94,6 +98,7 @@ defmodule DevelopmentWeb.Showcase.TreeSelectFormDemo do
             on_target={@myself}
             aria_label="Categories"
             class="text-sm select-none"
+            node_class="[&[data-selectable=false]>[data-part=label]]:font-medium [&[data-selectable=false]>[data-part=label]]:text-[var(--c-base-content)]/60"
             label_class="flex items-center gap-1 rounded px-2 py-1 cursor-pointer [padding-left:calc(var(--label-offset)+0.5rem)] hover:bg-[var(--c-base-200)] data-[selected]:bg-[var(--c-primary)]/10 data-[selected]:font-medium data-[selected]:text-[var(--c-primary)]"
             label_text_class="truncate"
             expand_icon_class="inline-block w-3 text-center text-[var(--c-base-content)]/50"

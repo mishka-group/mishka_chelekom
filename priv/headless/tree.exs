@@ -49,12 +49,14 @@
               "data-checked",
               "data-indeterminate",
               "data-disabled",
+              "data-selectable",
               "data-loading",
               "data-focus-ring"
             ],
             css_vars: ["--label-offset"],
             note:
-              "roving tabindex (one node in the tab order); `aria-selected` and `aria-checked` are mutually exclusive per the APG"
+              "roving tabindex (one node in the tab order); `aria-selected` and `aria-checked` are mutually exclusive per the APG; " <>
+                "`selectable: false` nodes (category headers) omit aria-selected — click/Enter toggles the branch instead"
           ],
           label: [
             element: "div",

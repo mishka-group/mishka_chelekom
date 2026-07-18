@@ -11,7 +11,9 @@ defmodule DevelopmentWeb.Components.Headless.Tree do
   async child loading.
 
   Every node is a map with `:label` and `:value`, optionally `:children`, `:has_children` (async
-  loading), `:icon` and `:disabled`. Headless ships **no icon component**, so a node's `:icon` is
+  loading), `:icon`, `:disabled` and `:selectable` (default true — set `selectable: false` on a
+  category parent to keep it expandable but never selected; clicking or pressing Enter on it
+  toggles the branch instead). Headless ships **no icon component**, so a node's `:icon` is
   handed to the `<:node>` slot (as `icon`, alongside the whole `node` map) for the consumer to
   render; the chevron and drag glyphs come from the `<:expand_icon>` / `<:drag_icon>` slots.
 
@@ -37,7 +39,8 @@ defmodule DevelopmentWeb.Components.Headless.Tree do
 
   attr :nodes, :list,
     required: true,
-    doc: "Nested list of node maps: label, value, children, has_children, icon, disabled"
+    doc:
+      "Nested list of node maps: label, value, children, has_children, icon, disabled, selectable"
 
   attr :level_offset, :string,
     default: "1rem",
@@ -255,6 +258,7 @@ defmodule DevelopmentWeb.Components.Headless.Tree do
       |> assign(:checked, checked?(node, children, assigns.checked_set))
       |> assign(:indeterminate, indeterminate?(node, children, assigns.checked_set))
       |> assign(:disabled, Map.get(node, :disabled, false))
+      |> assign(:selectable, Map.get(node, :selectable, true))
 
     ~H"""
     <li
@@ -267,12 +271,13 @@ defmodule DevelopmentWeb.Components.Headless.Tree do
       data-checked={@with_checkboxes && to_string(@checked)}
       data-indeterminate={@indeterminate && "true"}
       data-disabled={@disabled && "true"}
+      data-selectable={!@selectable && "false"}
       aria-disabled={@disabled && "true"}
       aria-level={@level}
       aria-setsize={@setsize}
       aria-posinset={@posinset}
       aria-expanded={@has_children && to_string(@expanded)}
-      {aria_state(@with_checkboxes, @selected, @checked, @indeterminate)}
+      {aria_state(@with_checkboxes, @selectable, @selected, @checked, @indeterminate)}
       tabindex={if(@root_index == 0, do: "0", else: "-1")}
       style={"--label-offset: calc(var(--level-offset) * #{@level - 1});"}
       class={["chelekom-tree__node", @node_class]}
@@ -386,11 +391,13 @@ defmodule DevelopmentWeb.Components.Headless.Tree do
   # The APG is explicit that the two selection models are exclusive: "If the selection state is
   # indicated with `aria-selected`, then `aria-checked` is not specified for any nodes." So a
   # checkbox tree reports `aria-checked` (with "mixed" for a partial parent) and nothing else.
-  defp aria_state(true, _selected, checked, indeterminate) do
+  defp aria_state(true, _selectable, _selected, checked, indeterminate) do
     %{"aria-checked" => if(indeterminate, do: "mixed", else: to_string(checked))}
   end
 
-  defp aria_state(false, selected, _checked, _indeterminate) do
+  defp aria_state(false, false, _selected, _checked, _indeterminate), do: %{}
+
+  defp aria_state(false, true, selected, _checked, _indeterminate) do
     %{"aria-selected" => to_string(selected)}
   end
 
