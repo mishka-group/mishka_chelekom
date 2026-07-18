@@ -61,6 +61,7 @@ const ColorPicker = {
     this.hueInput = root.querySelector('[data-part="hue"]');
     this.preview = root.querySelector('[data-part="preview"]');
     this.input = root.querySelector('[data-part="input"]');
+    this.text = root.querySelector('[data-part="text"]');
     if (!this.area || !this.hueInput) return;
 
     const init = hexToHsv(root.getAttribute("data-value") || "#3b82f6");
@@ -98,9 +99,21 @@ const ColorPicker = {
       this.h = Number(this.hueInput.value);
       this.commit();
     };
+    // Optional editable hex field ([data-part="text"]): parse a valid hex and adopt it.
+    this._textInput = () => {
+      const val = this.text.value.trim();
+      if (!/^#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(val)) return;
+      const hsv = hexToHsv(val);
+      this.h = hsv.h;
+      this.s = hsv.s;
+      this.v = hsv.v;
+      this.hueInput.value = String(Math.round(this.h));
+      this.commit();
+    };
 
     this.area.addEventListener("pointerdown", this._areaDown);
     this.hueInput.addEventListener("input", this._hueInput);
+    if (this.text) this.text.addEventListener("input", this._textInput);
     this.render();
   },
 
@@ -134,6 +147,13 @@ const ColorPicker = {
       this.input.value = hex;
       this.input.dispatchEvent(new Event("input", { bubbles: true }));
     }
+    if (
+      this.text &&
+      document.activeElement !== this.text &&
+      this.text.value.toLowerCase() !== hex.toLowerCase()
+    ) {
+      this.text.value = hex;
+    }
     this.el.setAttribute("data-value", hex);
     return hex;
   },
@@ -149,6 +169,7 @@ const ColorPicker = {
   destroyed() {
     if (this.area) this.area.removeEventListener("pointerdown", this._areaDown);
     if (this.hueInput) this.hueInput.removeEventListener("input", this._hueInput);
+    if (this.text) this.text.removeEventListener("input", this._textInput);
   },
 };
 

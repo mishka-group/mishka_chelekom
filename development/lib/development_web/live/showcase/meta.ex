@@ -129,6 +129,7 @@ defmodule DevelopmentWeb.Showcase.Meta do
     "scroller" => "Horizontal scroll row with prev/next controls.",
     "semi_circle_progress" => "Half-circle progress gauge (SVG, no JS).",
     "rolling_number" => "Animate a number rolling to its value.",
+    "color_input" => "Hex field + swatch that opens a color picker in a popover.",
     "color_picker" => "Saturation/value area with a hue slider and preview.",
     "menubar" => "Horizontal application menu bar with submenus and roving focus.",
     "menu" => "Popup menu of actions with roving tabindex and keyboard.",

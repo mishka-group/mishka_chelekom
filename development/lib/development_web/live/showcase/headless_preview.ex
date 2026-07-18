@@ -20,6 +20,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.CloseButton
   import DevelopmentWeb.Components.Headless.Code
   import DevelopmentWeb.Components.Headless.Collapsible
+  import DevelopmentWeb.Components.Headless.ColorInput
   import DevelopmentWeb.Components.Headless.ColorPicker
   import DevelopmentWeb.Components.Headless.ColorSwatch
   import DevelopmentWeb.Components.Headless.Combobox
@@ -708,6 +709,25 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         Item {n}
       </div>
     </.scroller>
+    """
+  end
+
+  def show(%{component: "color_input"} = assigns) do
+    ~H"""
+    <.color_input
+      id={@id}
+      value="#8b5cf6"
+      label="Color"
+      class="relative inline-block w-56"
+      control_class="flex items-center gap-2 rounded-md border border-[var(--c-base-300)] bg-[var(--c-base-100)] px-2 py-1.5 focus-within:ring-2 focus-within:ring-[var(--c-primary)]/30"
+      preview_class="size-5 shrink-0 rounded border border-[var(--c-base-300)]"
+      text_class="w-24 bg-transparent font-mono text-sm outline-none"
+      trigger_class="ml-auto rounded p-1 text-[var(--c-base-content)]/50 hover:bg-[var(--c-base-200)]"
+      panel_class="absolute left-0 z-20 mt-2 w-56 rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-3 shadow-lg"
+      area_class="relative h-36 w-full cursor-crosshair rounded-md"
+      thumb_class="block size-3 rounded-full border-2 border-white shadow"
+      hue_class="mt-3 w-full"
+    />
     """
   end
 
@@ -2200,6 +2220,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   def has_examples?("overflow_list"), do: true
   def has_examples?("floating_indicator"), do: true
   def has_examples?("floating_window"), do: true
+  def has_examples?("color_input"), do: true
   def has_examples?("mask_input"), do: true
   def has_examples?("pills_input"), do: true
   def has_examples?(_), do: false
@@ -2457,6 +2478,25 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
             id={"#{@id}-form"}
             variant={:alpha}
           />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "color_input"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — pick or type a hex; every change fires phx-change (handle_event)
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          The picker mirrors the hex into a hidden input and dispatches <code>input</code>, so
+          <code>&lt;.form phx-change&gt;</code> fires on drag, hue, or typing; Save stores it.
+        </p>
+        <div class="mt-4">
+          <.live_component module={DevelopmentWeb.Showcase.ColorInputFormDemo} id={"#{@id}-form"} />
         </div>
       </details>
     </div>

@@ -20,6 +20,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.CloseButton
   import DevelopmentWeb.Components.Headless.Code
   import DevelopmentWeb.Components.Headless.Collapsible
+  import DevelopmentWeb.Components.Headless.ColorInput
   import DevelopmentWeb.Components.Headless.ColorPicker
   import DevelopmentWeb.Components.Headless.ColorSwatch
   import DevelopmentWeb.Components.Headless.Combobox
@@ -259,6 +260,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       {"fieldset-hero", "Hero",
        "A 'Billing details' fieldset with a bold underlined legend grouping two labeled text inputs (Company and Tax ID), each built from our field component."}
     ]
+
+  def sections("color_input"),
+    do: [{"color_input-hero", "Hero", "A hex field with a swatch that opens a color picker."}]
 
   def sections("floating_window"),
     do: [{"floating_window-hero", "Hero", "A draggable panel; grab the title bar to move it."}]
@@ -1704,6 +1708,25 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       ★
       <.visually_hidden>Add to favorites</.visually_hidden>
     </button>
+    """
+  end
+
+  def example(%{section: "color_input-hero"} = assigns) do
+    ~H"""
+    <.color_input
+      id="baseui-color-input"
+      value="#0ea5e9"
+      label="Color"
+      class="relative inline-block w-56"
+      control_class="flex items-center gap-2 rounded-lg border border-neutral-300 bg-white px-2 py-1.5 focus-within:ring-2 focus-within:ring-neutral-400 dark:border-neutral-700 dark:bg-neutral-900"
+      preview_class="size-5 shrink-0 rounded border border-neutral-300 dark:border-neutral-600"
+      text_class="w-24 bg-transparent font-mono text-sm text-neutral-900 outline-none dark:text-neutral-100"
+      trigger_class="ml-auto rounded p-1 text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800"
+      panel_class="absolute left-0 z-20 mt-2 w-56 rounded-lg border border-neutral-200 bg-white p-3 shadow-lg dark:border-neutral-700 dark:bg-neutral-800"
+      area_class="relative h-36 w-full cursor-crosshair rounded-md"
+      thumb_class="block size-3 rounded-full border-2 border-white shadow"
+      hue_class="mt-3 w-full"
+    />
     """
   end
 
