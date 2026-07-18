@@ -1191,8 +1191,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   def example(%{section: "rolling_number-hero"} = assigns) do
     ~H"""
     <div class="flex gap-8 text-neutral-900 dark:text-white">
-      <.rolling_number value={2048} class="text-3xl font-bold tabular-nums" />
-      <.rolling_number value={1_000_000} duration={1400} class="text-3xl font-bold tabular-nums" />
+      <.rolling_number id="baseui-rolling-number-1" value={2048} class="text-3xl font-bold tabular-nums" />
+      <.rolling_number
+        id="baseui-rolling-number-2"
+        value={1_000_000}
+        duration={1400}
+        class="text-3xl font-bold tabular-nums"
+      />
     </div>
     """
   end

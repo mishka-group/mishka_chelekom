@@ -658,11 +658,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     ~H"""
     <div class="flex gap-8">
       <div class="text-center">
-        <.rolling_number value={1284} class="text-3xl font-bold tabular-nums" />
+        <.rolling_number id={@id} value={1284} class="text-3xl font-bold tabular-nums" />
         <div class="text-xs text-[var(--c-base-content)]/50">Stars</div>
       </div>
       <div class="text-center">
-        <.rolling_number value={98_765} duration={1200} class="text-3xl font-bold tabular-nums" />
+        <.rolling_number
+          id={"#{@id}-downloads"}
+          value={98_765}
+          duration={1200}
+          class="text-3xl font-bold tabular-nums"
+        />
         <div class="text-xs text-[var(--c-base-content)]/50">Downloads</div>
       </div>
     </div>
