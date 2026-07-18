@@ -35,6 +35,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.Menu
   import DevelopmentWeb.Components.Headless.Menubar
   import DevelopmentWeb.Components.Headless.Meter
+  import DevelopmentWeb.Components.Headless.NavLink
   import DevelopmentWeb.Components.Headless.NavigationMenu
   import DevelopmentWeb.Components.Headless.NumberField
   import DevelopmentWeb.Components.Headless.NumberFormatter
@@ -440,6 +441,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   def sections("scroller"),
     do: [
       {"scroller-hero", "Hero", "A row of cards with prev/next buttons that disable at the ends."}
+    ]
+
+  def sections("nav_link"),
+    do: [
+      {"nav_link-hero", "Hero",
+       "A sidebar nav with an active leaf and a collapsible group (native <details>)."}
     ]
 
   def sections("semi_circle_progress"),
@@ -1234,6 +1241,42 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
         {n}
       </div>
     </.scroller>
+    """
+  end
+
+  def example(%{section: "nav_link-hero"} = assigns) do
+    assigns =
+      assign(assigns, :nlc, [
+        "block rounded-md text-sm",
+        "[&[data-part=link]]:flex [&[data-part=link]]:items-center [&[data-part=link]]:gap-2 [&[data-part=link]]:px-3 [&[data-part=link]]:py-1.5 [&[data-part=link]:hover]:bg-neutral-100 dark:[&[data-part=link]:hover]:bg-neutral-800 [&[data-part=link][data-active]]:bg-neutral-900 [&[data-part=link][data-active]]:text-white dark:[&[data-part=link][data-active]]:bg-white dark:[&[data-part=link][data-active]]:text-neutral-900",
+        "[&_[data-part=control]]:flex [&_[data-part=control]]:cursor-pointer [&_[data-part=control]]:list-none [&_[data-part=control]]:items-center [&_[data-part=control]]:gap-2 [&_[data-part=control]]:rounded-md [&_[data-part=control]]:px-3 [&_[data-part=control]]:py-1.5 [&_[data-part=control]:hover]:bg-neutral-100 dark:[&_[data-part=control]:hover]:bg-neutral-800",
+        "[&_[data-part=label]]:flex-1 [&_[data-part=trailing]]:transition-transform [&[open]_[data-part=trailing]]:rotate-90",
+        "[&_[data-part=children]]:mt-1 [&_[data-part=children]]:ml-4 [&_[data-part=children]]:space-y-1 [&_[data-part=children]]:border-l [&_[data-part=children]]:border-neutral-200 dark:[&_[data-part=children]]:border-neutral-700 [&_[data-part=children]]:pl-2"
+      ])
+
+    ~H"""
+    <nav class="w-56 space-y-1 text-neutral-700 dark:text-neutral-300">
+      <.nav_link label="Home" href="#" active class={@nlc} />
+      <.nav_link label="Projects" class={@nlc}>
+        <:trailing>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            class="size-4"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+          </svg>
+        </:trailing>
+        <:children>
+          <.nav_link label="Active" href="#" class={@nlc} />
+          <.nav_link label="Archived" href="#" class={@nlc} />
+        </:children>
+      </.nav_link>
+      <.nav_link label="Team" href="#" class={@nlc} />
+    </nav>
     """
   end
 

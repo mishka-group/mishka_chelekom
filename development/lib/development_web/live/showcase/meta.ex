@@ -127,6 +127,7 @@ defmodule DevelopmentWeb.Showcase.Meta do
     "menu" => "Popup menu of actions with roving tabindex and keyboard.",
     "meter" => "Static gauge reporting a value within a known range (ARIA meter).",
     "navigation_menu" => "Site navigation with disclosure submenus.",
+    "nav_link" => "Navigation item; a link, or a disclosure with nested links.",
     "number_field" => "Spinbutton input with increment/decrement and clamping.",
     "otp_field" => "Segmented one-time-code input with paste and keyboard handling.",
     "pill" => "Compact tag/token with an optional accessible remove button.",

@@ -36,7 +36,7 @@ Per-component checklist (every item):
 
 - [x] 1 Highlight
 - [x] 2 SemiCircleProgress
-- [ ] 3 NavLink
+- [x] 3 NavLink
 - [ ] 4 JsonInput
 - [ ] 5 SegmentedControl
 - [ ] 6 LoadingOverlay

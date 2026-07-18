@@ -35,6 +35,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.Menu
   import DevelopmentWeb.Components.Headless.Menubar
   import DevelopmentWeb.Components.Headless.Meter
+  import DevelopmentWeb.Components.Headless.NavLink
   import DevelopmentWeb.Components.Headless.NavigationMenu
   import DevelopmentWeb.Components.Headless.NumberField
   import DevelopmentWeb.Components.Headless.NumberFormatter
@@ -698,6 +699,33 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         Item {n}
       </div>
     </.scroller>
+    """
+  end
+
+  def show(%{component: "nav_link"} = assigns) do
+    ~H"""
+    <nav class="w-56 space-y-1">
+      <.nav_link label="Dashboard" href="#" active class={nav_link_class()} />
+      <.nav_link label="Settings" class={nav_link_class()}>
+        <:trailing>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            class="size-4"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+          </svg>
+        </:trailing>
+        <:children>
+          <.nav_link label="Profile" href="#" class={nav_link_class()} />
+          <.nav_link label="Security" href="#" active class={nav_link_class()} />
+        </:children>
+      </.nav_link>
+      <.nav_link label="Log out" href="#" class={nav_link_class()} />
+    </nav>
     """
   end
 
@@ -3313,6 +3341,19 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "flex w-full max-w-md items-center gap-2",
       "[&_[data-part=control]]:grid [&_[data-part=control]]:size-8 [&_[data-part=control]]:shrink-0 [&_[data-part=control]]:place-items-center [&_[data-part=control]]:rounded-full [&_[data-part=control]]:border [&_[data-part=control]]:border-[var(--c-base-300)] [&_[data-part=control]]:bg-[var(--c-base-100)] [&_[data-part=control]]:text-lg [&_[data-part=control]]:leading-none [&_[data-part=control]:hover]:bg-[var(--c-base-200)] [&_[data-part=control][data-disabled]]:opacity-30",
       "[&_[data-part=viewport]]:flex [&_[data-part=viewport]]:gap-3 [&_[data-part=viewport]]:overflow-x-auto [&_[data-part=viewport]]:scroll-smooth [&_[data-part=viewport]]:pb-1"
+    ]
+  end
+
+  # Nav link: a leaf link ([data-part=link]) or a <details> group (summary=[data-part=control]); the
+  # trailing chevron rotates when the group is [open].
+  defp nav_link_class do
+    [
+      "block rounded-md text-sm text-[var(--c-base-content)]/80",
+      "[&[data-part=link]]:flex [&[data-part=link]]:items-center [&[data-part=link]]:gap-2 [&[data-part=link]]:px-3 [&[data-part=link]]:py-1.5 [&[data-part=link]:hover]:bg-[var(--c-base-200)] [&[data-part=link][data-active]]:bg-[var(--c-primary)]/10 [&[data-part=link][data-active]]:font-medium [&[data-part=link][data-active]]:text-[var(--c-primary)]",
+      "[&_[data-part=control]]:flex [&_[data-part=control]]:cursor-pointer [&_[data-part=control]]:list-none [&_[data-part=control]]:items-center [&_[data-part=control]]:gap-2 [&_[data-part=control]]:rounded-md [&_[data-part=control]]:px-3 [&_[data-part=control]]:py-1.5 [&_[data-part=control]:hover]:bg-[var(--c-base-200)]",
+      "[&_[data-part=label]]:flex-1",
+      "[&_[data-part=trailing]]:transition-transform [&[open]_[data-part=trailing]]:rotate-90",
+      "[&_[data-part=children]]:mt-1 [&_[data-part=children]]:ml-4 [&_[data-part=children]]:space-y-1 [&_[data-part=children]]:border-l [&_[data-part=children]]:border-[var(--c-base-300)] [&_[data-part=children]]:pl-2"
     ]
   end
 
