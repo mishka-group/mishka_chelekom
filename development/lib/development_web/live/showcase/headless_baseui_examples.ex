@@ -1931,7 +1931,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       value="react"
       options={[{"React", "react"}, {"Vue", "vue"}, {"Svelte", "svelte"}]}
       label="Framework"
-      class="inline-flex rounded-lg bg-neutral-100 p-1 dark:bg-neutral-800 [&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:rounded-md [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1 [&_[data-part=item]]:text-sm [&_[data-part=item]]:text-neutral-600 dark:[&_[data-part=item]]:text-neutral-400 [&_[data-part=item]:has(:checked)]:bg-white [&_[data-part=item]:has(:checked)]:font-medium [&_[data-part=item]:has(:checked)]:text-neutral-900 [&_[data-part=item]:has(:checked)]:shadow-sm dark:[&_[data-part=item]:has(:checked)]:bg-neutral-950 dark:[&_[data-part=item]:has(:checked)]:text-white"
+      class="inline-flex rounded-lg bg-neutral-100 p-1 dark:bg-neutral-800 [&_[data-part=input]]:sr-only [&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:rounded-md [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1 [&_[data-part=item]]:text-sm [&_[data-part=item]]:text-neutral-600 dark:[&_[data-part=item]]:text-neutral-400 [&_[data-part=item]:has(:checked)]:bg-white [&_[data-part=item]:has(:checked)]:font-medium [&_[data-part=item]:has(:checked)]:text-neutral-900 [&_[data-part=item]:has(:checked)]:shadow-sm dark:[&_[data-part=item]:has(:checked)]:bg-neutral-950 dark:[&_[data-part=item]:has(:checked)]:text-white"
     />
     """
   end

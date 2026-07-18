@@ -22,7 +22,12 @@ defmodule DevelopmentWeb.Showcase.SegmentedControlFormDemo do
   def render(assigns) do
     ~H"""
     <div>
-      <.form for={to_form(%{"view" => @value}, as: :sc_demo)} phx-target={@myself} phx-change="pick">
+      <.form
+        for={to_form(%{"view" => @value}, as: :sc_demo)}
+        id={"#{@id}-sc-form"}
+        phx-target={@myself}
+        phx-change="pick"
+      >
         <.segmented_control
           id={"#{@id}-sc"}
           name="sc_demo[view]"
@@ -41,7 +46,7 @@ defmodule DevelopmentWeb.Showcase.SegmentedControlFormDemo do
 
   defp scc do
     [
-      "inline-flex rounded-lg bg-[var(--c-base-200)] p-1",
+      "inline-flex rounded-lg bg-[var(--c-base-200)] p-1 [&_[data-part=input]]:sr-only",
       "[&_[data-part=item]]:relative [&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:rounded-md [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1 [&_[data-part=item]]:text-sm [&_[data-part=item]]:text-[var(--c-base-content)]/70",
       "[&_[data-part=item]:has(:checked)]:bg-[var(--c-base-100)] [&_[data-part=item]:has(:checked)]:font-medium [&_[data-part=item]:has(:checked)]:text-[var(--c-base-content)] [&_[data-part=item]:has(:checked)]:shadow-sm",
       "[&_[data-part=item]:has(:focus-visible)]:ring-2 [&_[data-part=item]:has(:focus-visible)]:ring-[var(--c-primary)]/40"

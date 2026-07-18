@@ -18,8 +18,15 @@
           required: true
         ],
         parts: [
-          item: [element: "label", note: "one segment, wraps a visually-hidden radio"],
-          input: [element: "input", note: "the native radio (Tab/Arrow keys select natively)"],
+          item: [
+            element: "label",
+            data_attributes: ["data-disabled"],
+            note: "one segment, wraps the radio; per-segment disable via {label, value, disabled}"
+          ],
+          input: [
+            element: "input",
+            note: "the native radio (Tab/Arrow keys select natively) — visually hide it, e.g. sr-only"
+          ],
           label: [element: "span", note: "the visible segment label"]
         ]
       ],

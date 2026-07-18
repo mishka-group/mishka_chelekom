@@ -3852,7 +3852,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   # Segmented control: a pill row of radios; the selected segment lifts via :has(:checked).
   defp segmented_control_class do
     [
-      "inline-flex rounded-lg bg-[var(--c-base-200)] p-1 data-[disabled]:opacity-50",
+      "inline-flex rounded-lg bg-[var(--c-base-200)] p-1 data-[disabled]:opacity-50 [&_[data-part=input]]:sr-only",
+      "[&_[data-part=item][data-disabled]]:cursor-not-allowed [&_[data-part=item][data-disabled]]:opacity-50",
       "[&_[data-part=item]]:relative [&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:rounded-md [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1 [&_[data-part=item]]:text-sm [&_[data-part=item]]:text-[var(--c-base-content)]/70",
       "[&_[data-part=item]:has(:checked)]:bg-[var(--c-base-100)] [&_[data-part=item]:has(:checked)]:font-medium [&_[data-part=item]:has(:checked)]:text-[var(--c-base-content)] [&_[data-part=item]:has(:checked)]:shadow-sm",
       "[&_[data-part=item]:has(:focus-visible)]:ring-2 [&_[data-part=item]:has(:focus-visible)]:ring-[var(--c-primary)]/40"

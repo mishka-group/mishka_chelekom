@@ -4,8 +4,10 @@ defmodule <%= @module %> do
   parity).
 
   Built on native radio inputs sharing a `name`, so selection, form submission and keyboard (Arrow
-  keys) are all native — **no JS**. Visually hide the radios and show the selected segment with the
-  CSS `:has(:checked)` selector. `options` is a list of values (strings) or `{label, value}` tuples.
+  keys) are all native — **no JS**. Visually hide the radios (style the `input` part, e.g.
+  `sr-only`) and show the selected segment with the CSS `:has(:checked)` selector. `options` is a
+  list of values (strings), `{label, value}` tuples, or `{label, value, disabled}` tuples for
+  per-segment disabling.
 
   Ships **no** styling — style via `chelekom-segmented-control*`, `:has(:checked)` and `data-disabled`.
 
@@ -19,11 +21,16 @@ defmodule <%= @module %> do
   attr :id, :string, default: nil, doc: "Optional unique id"
   attr :name, :string, default: nil, doc: "Form field name (shared across segments)"
   attr :value, :any, default: nil, doc: "Selected value"
-  attr :options, :list, required: true, doc: "List of values (strings) or {label, value} tuples"
+
+  attr :options, :list,
+    required: true,
+    doc: "List of values (strings), {label, value} or {label, value, disabled} tuples"
+
   attr :label, :string, default: nil, doc: "Accessible group label (aria-label)"
   attr :disabled, :boolean, default: false, doc: "Disable the whole control"
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :item_class, :any, default: nil, doc: "Extra classes for each segment"
+  attr :input_class, :any, default: nil, doc: "Extra classes for the hidden radios (e.g. sr-only)"
   attr :rest, :global
 
   def <%= @component_prefix %>segmented_control(assigns) do
@@ -40,6 +47,7 @@ defmodule <%= @module %> do
       <label
         :for={opt <- @options}
         data-part="item"
+        data-disabled={@disabled || sc_disabled(opt)}
         class={["chelekom-segmented-control__item", @item_class]}
       >
         <input
@@ -47,9 +55,9 @@ defmodule <%= @module %> do
           name={@name}
           value={sc_value(opt)}
           checked={to_string(sc_value(opt)) == to_string(@value)}
-          disabled={@disabled}
+          disabled={@disabled || sc_disabled(opt)}
           data-part="input"
-          class="sr-only"
+          class={["chelekom-segmented-control__input", @input_class]}
         />
         <span data-part="label">{sc_label(opt)}</span>
       </label>
@@ -57,8 +65,12 @@ defmodule <%= @module %> do
     """
   end
 
+  defp sc_value({_label, value, _disabled}), do: value
   defp sc_value({_label, value}), do: value
   defp sc_value(value), do: value
+  defp sc_label({label, _value, _disabled}), do: label
   defp sc_label({label, _value}), do: label
   defp sc_label(value), do: value
+  defp sc_disabled({_label, _value, disabled}), do: disabled
+  defp sc_disabled(_), do: false
 end
