@@ -11,6 +11,7 @@ defmodule DevelopmentWeb.Components.Headless.Highlight do
   use Phoenix.Component
 
   @doc type: :component
+  attr :id, :string, default: nil, doc: "Optional unique id"
   attr :text, :string, required: true, doc: "The full text"
 
   attr :highlight, :any,
@@ -25,7 +26,7 @@ defmodule DevelopmentWeb.Components.Headless.Highlight do
     assigns = assign(assigns, :parts, highlight_parts(assigns.text, List.wrap(assigns.highlight)))
 
     ~H"""
-    <span class={["chelekom-highlight", @class]} {@rest}><.hl_part
+    <span id={@id} class={["chelekom-highlight", @class]} {@rest}><.hl_part
       :for={p <- @parts}
       part={p}
       mark_class={@mark_class}
