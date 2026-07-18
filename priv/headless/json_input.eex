@@ -20,9 +20,16 @@ defmodule <%= @module %> do
   attr :placeholder, :string, default: nil, doc: "Placeholder"
   attr :rows, :integer, default: 6, doc: "Visible rows"
   attr :disabled, :boolean, default: false, doc: "Disable input"
-  attr :invalid, :boolean, default: false, doc: "Reflects data-invalid for error styling"
+
+  attr :invalid, :boolean,
+    default: false,
+    doc: "Reflects aria-invalid + data-invalid for error styling"
+
   attr :class, :any, default: nil, doc: "Extra classes"
-  attr :rest, :global
+
+  attr :rest, :global,
+    include: ~w(autocomplete cols form maxlength minlength readonly required wrap),
+    doc: "Any textarea/global attrs, e.g. phx-change, required"
 
   def <%= @component_prefix %>json_input(assigns) do
     ~H"""
@@ -32,11 +39,12 @@ defmodule <%= @module %> do
       rows={@rows}
       placeholder={@placeholder}
       disabled={@disabled}
+      aria-invalid={@invalid && "true"}
       data-invalid={@invalid}
       spellcheck="false"
       class={["chelekom-json-input", @class]}
       {@rest}
-    >{@value}</textarea>
+    >{Phoenix.HTML.Form.normalize_value("textarea", @value)}</textarea>
     """
   end
 end

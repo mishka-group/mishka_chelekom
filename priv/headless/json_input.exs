@@ -11,6 +11,7 @@
       anatomy: [
         root: [
           element: "textarea",
+          aria: ["aria-invalid"],
           data_attributes: ["data-invalid"],
           note: "a plain textarea; validate/format JSON on the server (no JS)",
           required: true
