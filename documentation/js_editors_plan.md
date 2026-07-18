@@ -5,32 +5,61 @@ the promise: *the developer runs one `mix` task and has a working editor — no 
 
 ## TL;DR
 
-1. **No new mix command.** `mix mishka.ui.gen.headless code_editor` stays the entry point. The npm
-   install is an implementation detail of the catalog.
+1. **No new mix command.** `mix mishka.ui.gen.headless editor` is the entry point. The npm install
+   is an implementation detail of the catalog. ✅ *shipped*
 2. **We already own the whole install path** — `mishka.assets.deps` + `mishka.assets.install` detect
    npm/bun/yarn and fall back to the `{:bun, ...}` hex binary when the machine has no Node. We call
-   it; we do not rebuild it.
-3. **Ship two editors:** `code_editor` (CodeMirror 6) first, then `editor` (TipTap 3). Both MIT, both
-   headless, both ship **zero CSS files** — that last one is what makes zero-config possible.
+   its functions directly (never `compose_task` — both drive an `Owl.Spinner` under the same id).
+   ✅ *shipped*
+3. **One `editor` component, engine chosen by `--lib`** (tiptap ✅ shipped; lexical / code_mirror /
+   milk_down are data + one engine file each, once `--lib` lands — see §1).
+4. **Still open:** how a developer adds TipTap extensions without hand-editing a generated file —
+   see §3a.
 
 ## 1. What editors we can have
 
-### Naming — capability first, library is an implementation detail
+### Naming — ONE `editor` component, the library chosen by `--lib`
 
-We name components by *what they do*, like the rest of the library (`select`, not `downshift_select`):
+There is a single `editor` component. Which external library backs it is an install-time choice,
+not a different component name — the developer's markup, attrs and `data-part` contract are
+identical whichever engine they pick:
 
-| Component | What it is | Engine |
-|---|---|---|
-| **`editor`** | **HTML / rich text (WYSIWYG)** — the one people mean by "an editor" | TipTap 3 |
-| `markdown_editor` | markdown source in, markdown out | Milkdown 7 |
-| `code_editor` | syntax-highlighted **code** (JSON/SQL/config field) — *not* HTML | CodeMirror 6 |
+```bash
+mix mishka.ui.gen.headless editor                    # default engine (tiptap)
+mix mishka.ui.gen.headless editor --lib tiptap       # HTML / rich text
+mix mishka.ui.gen.headless editor --lib lexical      # HTML / rich text, Meta's engine
+mix mishka.ui.gen.headless editor --lib code_mirror  # code / syntax highlighting
+mix mishka.ui.gen.headless editor --lib milk_down    # markdown source
+```
 
-### Tier 1 — ship these, `editor` first
+`--lib` takes the **external library's name**, so it reads as what it is. The catalog's `libs:` map
+holds one entry per engine; every entry pins its own npm packages and its own engine file, and all
+of them must register the **same hook module** so the template never branches (asserted by
+`catalog_integrity_test.exs`).
 
-| Component | Library | npm packages | License | Size (gz) | Why |
-|---|---|---|---|---|---|
-| **`editor`** | **TipTap 3** (`3.28.0`) | `@tiptap/core`, `@tiptap/pm`, `@tiptap/starter-kit` | MIT | **114 KB (measured here)** | Genuinely headless (zero UI), `new Editor()` / `editor.destroy()` maps 1:1 onto a hook lifecycle, no `.css` file — injects functional CSS at runtime |
-| `code_editor` | **CodeMirror 6** | `@codemirror/state`, `@codemirror/view`, `@codemirror/commands`, one `@codemirror/lang-*` | MIT | ~89 KB min / ~162 KB w/ basicSetup | Real `destroy()`, `Compartment` for live readonly, plain-string content, best a11y, injects its own styles |
+```elixir
+libs: [
+  tiptap:      [default: true, npm: [...], scripts: [%{module: "Editor", file: "editor_tiptap.js", ...}]],
+  lexical:     [npm: [...], scripts: [%{module: "Editor", file: "editor_lexical.js", ...}]],
+  code_mirror: [npm: [...], scripts: [%{module: "Editor", file: "editor_code_mirror.js", ...}]],
+  milk_down:   [npm: [...], scripts: [%{module: "Editor", file: "editor_milk_down.js", ...}]]
+]
+```
+
+**Status:** the `libs:` map ships and `tiptap` is populated; the `--lib` flag itself is **not yet
+implemented**. Two things must be solved first, and they are the real work:
+
+1. **Content format.** `format` is `json | html` today. CodeMirror's document is a plain string and
+   Milkdown's is markdown, so the attr grows a `text` / `markdown` value and each engine declares
+   which formats it supports. The catalog test should reject a `format` an engine cannot produce.
+2. **The orphan-package bug.** Re-running without `--lib` after choosing a non-default engine would
+   swap the engine file back while leaving the previous library's packages stranded in
+   `package.json`. The chosen lib must be persisted (`priv/mishka_chelekom/config.exs`, next to
+   `component_prefix` / `module_prefix`) and a switch must remove the old library's packages via the
+   refcount path that `mix mishka.ui.uninstall --include-npm` already uses.
+
+Engine-specific attrs (`language` for CodeMirror, toolbar command sets) stay optional and are simply
+ignored by engines that do not use them.
 
 ### Every free HTML/rich-text library, and what we do with it
 
@@ -47,28 +76,6 @@ market (TinyMCE, CKEditor, Froala) is GPL or commercial.
 | **ProseMirror (raw)** | MIT | yes | Skip: TipTap *is* the MIT ProseMirror layer; using it raw means rebuilding TipTap |
 
 Markdown side: **Milkdown 7** (MIT) is the pick; Toast UI and EasyMDE are MIT but lower ceiling.
-
-### How the user creates one
-
-```bash
-mix mishka.ui.gen.headless editor                 # HTML editor, TipTap (default)
-mix mishka.ui.gen.headless editor --lib lexical   # same component, different engine (later)
-mix mishka.ui.gen.headless markdown_editor        # Milkdown
-mix mishka.ui.gen.headless code_editor --language elixir
-```
-
-One component name, engine chosen by `--lib`. The catalog carries a `libs:` map from day one so a
-second engine is **data, not a refactor**:
-
-```elixir
-libs: [
-  tiptap:  [default: true, npm: [...], engine: "editor_tiptap.js"],
-  lexical: [npm: [...], engine: "editor_lexical.js"]
-]
-```
-
-Only `tiptap` is populated for v1 — the flag exists so adding Lexical later costs one catalog entry
-plus one engine file, with no change to the component's public API or the developer's markup.
 
 ### Rejected — and why
 
@@ -116,14 +123,20 @@ defp check_package_json(igniter, _) do
 end
 ```
 
-It is already called by `wire_scripts/2` on every scripts-bearing generation. **Fill this body** — read
-the catalog's npm deps and `Igniter.add_task("mishka.assets.deps", [...])`. That is the feature.
+✅ **Done.** `check_package_json/3` now resolves the catalog's `npm:` and calls
+`MishkaChelekom.Generators.Npm` directly, then gitignores `assets/node_modules` and prepends
+`mishka.assets.install` to the `assets.setup`/`build`/`deploy` aliases so CI and Docker builds work.
 
-Public API delta: two optional flags on the existing generators.
+Public API delta, as shipped:
 
-- `--pm npm|bun|yarn|mix-bun` — passthrough (default `mix-bun`: it's the only option that keeps
-  Phoenix's "no Node required" promise, including in Docker).
-- `--no-npm` — write everything, skip the install, print the exact command (air-gapped / CI).
+- `--no-npm` — write everything, skip the install (air-gapped/CI; also keeps `igniter.tasks` empty,
+  so Igniter never shells out to `mix deps.get`).
+- `--with-npm` on the **batch** generators — npm-backed components are skipped by
+  `mix mishka.ui.gen.headless.components` by default, because "generate everything" must not
+  silently pull a third-party dependency and edit `mix.exs`. Naming the component also works.
+- `--include-npm` on `mix mishka.ui.uninstall` — off by default; even then a package is removed only
+  when the manifest still pins the exact version we declared, since `package.json` is the user's file.
+- No `--pm` flag: the existing auto-detect + bun fallback is used unchanged.
 
 ## 3. Catalog keys to add
 
@@ -160,6 +173,47 @@ Public API delta: two optional flags on the existing generators.
 
 TipTap's catalog additionally wants `hex_deps: [%{name: "html_sanitize_ex", version: "~> 1.5"}]` (see Risks).
 
+## 3a. Extensions / plugins — configuring the editor WITHOUT the CLI
+
+Open question the first release does not answer. TipTap's value is its extension ecosystem
+(tables, images, links, mentions, task lists, collaboration…), and the generated engine hardcodes
+`extensions: [StarterKit]`. Today a developer who wants `@tiptap/extension-table` has to npm-install
+it and hand-edit `assets/vendor/editor_tiptap.js` — a **generated file that the next
+`mix mishka.ui.gen.headless editor` overwrites**. That is the single worst papercut in the current
+design and must be fixed before the component is widely used.
+
+**Recommended: a user-owned config file the generator writes once and never touches again.**
+
+- The generator creates `assets/vendor/editor_extensions.js` with `on_exists: :skip` (the same
+  never-clobber treatment `priv/mishka_chelekom/config.exs` already gets), containing a documented
+  stub:
+
+  ```js
+  // Your editor extensions. Chelekom created this file once and will never overwrite it.
+  // Install the package yourself (mix mishka.assets.deps @tiptap/extension-table@3.28.0)
+  // and add it here; the engine merges these after StarterKit.
+  export default [];
+  ```
+
+- The engine imports it and merges: `extensions: [StarterKit, ...userExtensions]`. A missing file is
+  not possible (the generator wrote it), and an empty array is the default.
+- Extension **npm packages** are installed with the facility that already exists —
+  `mix mishka.assets.deps @tiptap/extension-table@3.28.0` — so no new command is needed for that
+  either. The catalog only pins the packages the engine itself imports.
+
+Why not the alternatives:
+
+- **CLI flags** (`--with table,image`) — the maintainer's requirement is configuration *without* the
+  CLI, and it would put an unbounded list of every library's extensions into our schema.
+- **`data-*` allowlist on the component** — limits users to extensions we thought of, and pulls
+  their npm packages into our catalog whether or not they are used.
+- **Editing the generated engine** — works until the next regeneration silently reverts it.
+
+Two related items to settle at the same time: StarterKit's own options (heading levels, history
+depth) want the same treatment (a second export from that file, merged into the constructor), and
+extensions that ship required CSS collide with the "no required stylesheet" admission rule — the
+docs must say that styling an extension's DOM is the consumer's job.
+
 ## 3b. Where things live
 
 **Not a new category — editors are headless components**, generated by the existing
@@ -181,7 +235,7 @@ in the `.exs` only groups them in the showcase sidebar.
 The mechanism is **library-agnostic**: `:npm` + `check_package_json/2` is the generic external-JS
 path. Editors are only its first consumer — chart libs, DOMPurify, anything else uses the same road.
 
-## 4. End-to-end: what `mix mishka.ui.gen.headless code_editor` does
+## 4. End-to-end: what `mix mishka.ui.gen.headless editor` does
 
 Existing steps unchanged; **NEW** marks additions.
 

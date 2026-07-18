@@ -154,6 +154,22 @@ const Editor = {
     this.root.addEventListener("click", this._onToolbar);
     this.root.addEventListener("mousedown", this._onToolbarDown);
 
+    // The editable node is stretched by CSS, but the surface can still carry padding of its own.
+    // A click there is a click on a non-editable box, so place the caret explicitly instead of
+    // making the user aim at the text.
+    this._onSurfaceDown = (event) => {
+      if (!this.editor || event.target.closest(".ProseMirror")) return;
+      this.editor.commands.focus("end");
+    };
+
+    el.addEventListener("mousedown", this._onSurfaceDown);
+
+    // `attr()` can only read from the element the pseudo-element is on, and the placeholder CSS
+    // lives on `.ProseMirror` (the stretched child), so mirror it there.
+    const view = el.querySelector(".ProseMirror");
+    const placeholder = el.getAttribute("data-placeholder");
+    if (view && placeholder) view.setAttribute("data-placeholder", placeholder);
+
     this.setRef = this.handleEvent("chelekom:editor", (payload) => {
       if (!payload || (payload.id && payload.id !== this.rootId)) return;
       this.applyRemote(payload.value ?? "");
@@ -181,6 +197,7 @@ const Editor = {
       this.root.removeEventListener("click", this._onToolbar);
       this.root.removeEventListener("mousedown", this._onToolbarDown);
     }
+    this.el.removeEventListener("mousedown", this._onSurfaceDown);
     // The single biggest leak: without this the ProseMirror view, its plugins and its DOM
     // listeners outlive every LiveView navigation.
     if (this.editor) this.editor.destroy();

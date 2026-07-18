@@ -456,27 +456,30 @@
     display: none;
 }
 
-/* Editor: the contenteditable surface. Functional only — the browser's focus ring on a
- * contenteditable is removed in favour of the consumer styling [data-focused] on the root, the
- * surface must accept a caret and wrap, and the placeholder is drawn from the root's data-empty
- * (the engine writes it) so an empty document is not a blank box.
+/* Editor: the contenteditable surface. Functional only — the editable area must FILL the surface,
+ * the caret must not be boxed in, and an empty document must still show its placeholder.
  *
  * Deliberately NOT here: typography. Under Tailwind Preflight the editor's headings, lists and
  * blockquotes render flat, and styling them is the consuming app's job — see the showcase demo. */
 .chelekom-editor__surface {
-    white-space: pre-wrap;
-    word-break: break-word;
+    display: flex;
+    flex-direction: column;
 }
 
-.chelekom-editor__surface:focus,
-.chelekom-editor__surface .ProseMirror:focus {
+/* TipTap renders `.ProseMirror` as a child, sized to its content. Without stretching it, every
+ * click below the last line hits the surface instead of the editable node and no caret appears —
+ * the user has to aim at the text itself. */
+.chelekom-editor__surface > .ProseMirror {
+    flex: 1 1 auto;
+    white-space: pre-wrap;
+    word-break: break-word;
     outline: none;
 }
 
-/* `attr()` reads from the element the pseudo-element belongs to, so the placeholder must be drawn
- * on the surface itself (which carries data-placeholder) — not on the inner paragraph. Floating it
- * with zero height overlays it on the first line instead of pushing the caret down. */
-.chelekom-editor[data-empty] .chelekom-editor__surface::before {
+/* `attr()` reads from the element the pseudo-element belongs to, so the engine mirrors
+ * data-placeholder onto `.ProseMirror`. Floating it with zero height overlays the text on the
+ * first line instead of pushing the caret down. */
+.chelekom-editor[data-empty] .chelekom-editor__surface > .ProseMirror::before {
     content: attr(data-placeholder);
     float: left;
     height: 0;
