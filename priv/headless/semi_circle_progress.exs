@@ -17,6 +17,7 @@
           required: true
         ],
         parts: [
+          svg: [element: "svg", note: "the drawing surface — unsized, give it a width (e.g. w-full)"],
           track: [element: "path", note: "the background arc"],
           indicator: [element: "path", note: "the filled arc (stroke-dashoffset from value)"],
           label: [element: "div", note: "optional centered readout"]

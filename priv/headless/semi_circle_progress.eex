@@ -4,7 +4,8 @@ defmodule <%= @module %> do
 
   Renders a `role="progressbar"` with an SVG semicircle; the filled arc is computed at **render
   time** from `value` (via `stroke-dasharray`/`stroke-dashoffset`) — no JS. Set the arc colors and
-  thickness with `stroke`/`stroke-width` on the `track`/`indicator` parts; put a readout in the slot.
+  thickness with `stroke`/`stroke-width` on the `track`/`indicator` parts; size the `svg` part
+  yourself (e.g. `w-full`); put a readout in the slot.
 
   Ships **no** styling — style via `chelekom-semi-circle-progress*`.
 
@@ -19,6 +20,11 @@ defmodule <%= @module %> do
   attr :max, :integer, default: 100, doc: "Maximum value"
   attr :label, :string, default: nil, doc: "Accessible label (aria-label)"
   attr :class, :any, default: nil, doc: "Extra classes for the root"
+
+  attr :svg_class, :any,
+    default: nil,
+    doc: "Extra classes for the svg (size it here, e.g. w-full)"
+
   attr :track_class, :any, default: nil, doc: "Extra classes for the background arc"
   attr :indicator_class, :any, default: nil, doc: "Extra classes for the filled arc"
   attr :label_class, :any, default: nil, doc: "Extra classes for the readout"
@@ -44,7 +50,12 @@ defmodule <%= @module %> do
       class={["chelekom-semi-circle-progress", @class]}
       {@rest}
     >
-      <svg viewBox="0 0 200 108" fill="none" class="w-full">
+      <svg
+        data-part="svg"
+        viewBox="0 0 200 108"
+        fill="none"
+        class={["chelekom-semi-circle-progress__svg", @svg_class]}
+      >
         <path
           data-part="track"
           d="M 10 100 A 90 90 0 0 1 190 100"

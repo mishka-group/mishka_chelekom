@@ -3880,7 +3880,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   # Semi-circle progress: an SVG half-gauge; stroke the track/indicator and center the readout.
   defp scp_class do
     [
-      "relative inline-block w-48",
+      "relative inline-block w-48 [&_[data-part=svg]]:w-full",
       "[&_[data-part=track]]:[stroke:var(--c-base-300)] [&_[data-part=track]]:[stroke-width:12]",
       "[&_[data-part=indicator]]:[stroke:var(--c-primary)] [&_[data-part=indicator]]:[stroke-width:12] [&_[data-part=indicator]]:transition-[stroke-dashoffset] [&_[data-part=indicator]]:duration-500",
       "[&_[data-part=label]]:absolute [&_[data-part=label]]:inset-x-0 [&_[data-part=label]]:bottom-1 [&_[data-part=label]]:flex [&_[data-part=label]]:flex-col [&_[data-part=label]]:items-center"

@@ -1340,7 +1340,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
     <.semi_circle_progress
       value={72}
       label="Score"
-      class="relative inline-block w-48 [&_[data-part=track]]:[stroke:#e5e5e5] [&_[data-part=track]]:[stroke-width:12] [&_[data-part=indicator]]:[stroke:#f97316] [&_[data-part=indicator]]:[stroke-width:12] dark:[&_[data-part=track]]:[stroke:#404040] [&_[data-part=label]]:absolute [&_[data-part=label]]:inset-x-0 [&_[data-part=label]]:bottom-1 [&_[data-part=label]]:flex [&_[data-part=label]]:flex-col [&_[data-part=label]]:items-center [&_[data-part=label]]:text-neutral-900 dark:[&_[data-part=label]]:text-white"
+      class="relative inline-block w-48 [&_[data-part=svg]]:w-full [&_[data-part=track]]:[stroke:#e5e5e5] [&_[data-part=track]]:[stroke-width:12] [&_[data-part=indicator]]:[stroke:#f97316] [&_[data-part=indicator]]:[stroke-width:12] dark:[&_[data-part=track]]:[stroke:#404040] [&_[data-part=label]]:absolute [&_[data-part=label]]:inset-x-0 [&_[data-part=label]]:bottom-1 [&_[data-part=label]]:flex [&_[data-part=label]]:flex-col [&_[data-part=label]]:items-center [&_[data-part=label]]:text-neutral-900 dark:[&_[data-part=label]]:text-white"
     >
       <span class="text-2xl font-bold">72</span>
       <span class="text-xs text-neutral-500">score</span>
