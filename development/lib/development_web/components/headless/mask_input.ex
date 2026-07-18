@@ -27,7 +27,10 @@ defmodule DevelopmentWeb.Components.Headless.MaskInput do
   attr :inputmode, :string, default: nil, doc: "Hint for on-screen keyboards, e.g. \"numeric\""
   attr :disabled, :boolean, default: false, doc: "Disable input"
   attr :class, :any, default: nil, doc: "Extra classes"
-  attr :rest, :global
+
+  attr :rest, :global,
+    include: ~w(form maxlength minlength readonly required),
+    doc: "Any input/global attrs, e.g. phx-change, required"
 
   def mask_input(assigns) do
     ~H"""

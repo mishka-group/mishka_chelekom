@@ -2,8 +2,10 @@
 //
 // `data-mask` is a pattern where `9` = digit, `a` = letter, `*` = alphanumeric, and every other
 // character is a literal that is inserted automatically (e.g. `(999) 999-9999`, `99/99/9999`). On
-// each input the value is re-masked; literals never block typing and trailing literals aren't shown
-// until there is input to place after them. The masked value is what submits with the form.
+// each input the value is re-masked; literals never block typing, and a separator is auto-inserted
+// as soon as the group before it completes. The masked value is what submits with the form. The
+// masking runs in the element's own `input` listener, so LiveView's delegated phx-change handler
+// always reads the already-masked value.
 
 function applyMask(value, mask) {
   const fillable = (value || "").replace(/[^a-zA-Z0-9]/g, "");
@@ -58,6 +60,7 @@ const MaskInput = {
   },
 
   updated() {
+    this.mask = this.el.getAttribute("data-mask") || this.mask;
     if (this.el.value) this.el.value = applyMask(this.el.value, this.mask);
   },
 

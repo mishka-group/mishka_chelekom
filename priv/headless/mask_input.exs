@@ -3,7 +3,7 @@
     name: "mask_input",
     category: "forms",
     doc_url: "https://mishka.tools/chelekom/docs/headless/mask_input",
-    spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/spinbutton/",
+    spec_url: "https://www.w3.org/WAI/ARIA/apg/",
     args: [type: ["mask_input"], only: ["mask_input"], helpers: [], module: ""],
     optional: [],
     necessary: [],
