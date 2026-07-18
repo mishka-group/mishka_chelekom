@@ -112,11 +112,13 @@ const AngleSlider = {
     this.el.style.setProperty("--angle", `${deg}deg`);
     this.el.setAttribute("data-value", String(deg));
     this.el.setAttribute("aria-valuenow", String(Math.round(deg)));
+    this.el.setAttribute("aria-valuetext", `${Math.round(deg)} degrees`);
     if (this.input) this.input.value = String(deg);
     if (this.valueEl) this.valueEl.textContent = `${Math.round(deg)}°`;
   },
 
   commit() {
+    if (this.input) this.input.dispatchEvent(new Event("input", { bubbles: true }));
     if (this.on) this.pushEventTo(this.el, this.on, { value: Math.round(this._value) });
   },
 

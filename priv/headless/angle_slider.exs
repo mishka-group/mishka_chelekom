@@ -15,6 +15,7 @@
         root: [
           element: "div",
           role: "slider",
+          aria: ["aria-valuemin", "aria-valuemax", "aria-valuenow", "aria-valuetext", "aria-label"],
           data_attributes: ["data-value", "data-step", "data-disabled", "data-dragging", "data-on-change"],
           note: "carries the AngleSlider hook; exposes --angle for an optional conic-gradient fill",
           required: true

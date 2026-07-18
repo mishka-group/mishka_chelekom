@@ -6,8 +6,9 @@ defmodule <%= @module %> do
   0° points up and the value increases clockwise. The `AngleSlider` JS hook handles pointer drag and
   arrow-key nudging, rotates the `thumb-layer` so the handle sits on the circle, and exposes an
   `--angle` custom property you can feed to a `conic-gradient` fill. Give it a `name` to submit the
-  value with a form, and/or an `on_change` event name to receive it on the server (pushed on release
-  and on each key change).
+  value with a form — the hidden input fires `input` on each commit, so a wrapping
+  `<.form phx-change>` sees every change — and/or an `on_change` event name to receive it on the
+  server (pushed on release and on each key change).
 
   Ships **no** styling — style via `chelekom-angle-slider` and its parts.
 
@@ -38,6 +39,7 @@ defmodule <%= @module %> do
       aria-valuemin="0"
       aria-valuemax="360"
       aria-valuenow={@value}
+      aria-valuetext={"#{@value} degrees"}
       aria-label={@label}
       data-value={@value}
       data-step={@step}
