@@ -75,7 +75,7 @@ const ColorPicker = {
       const r = this.area.getBoundingClientRect();
       this.s = clamp(((e.clientX - r.left) / r.width) * 100);
       this.v = clamp(100 - ((e.clientY - r.top) / r.height) * 100);
-      this.render();
+      this.commit();
     };
 
     const onMove = (e) => {
@@ -96,11 +96,26 @@ const ColorPicker = {
     };
     this._hueInput = () => {
       this.h = Number(this.hueInput.value);
-      this.render();
+      this.commit();
     };
 
     this.area.addEventListener("pointerdown", this._areaDown);
     this.hueInput.addEventListener("input", this._hueInput);
+    this.render();
+  },
+
+  updated() {
+    // LiveView just patched this subtree, stripping the inline styles the engine set. Adopt the
+    // value if the server changed it externally, then re-apply everything.
+    const serverHex = this.el.getAttribute("data-value");
+    const [r, g, b] = hsvToRgb(this.h, this.s, this.v);
+    if (serverHex && serverHex.toLowerCase() !== toHex(r, g, b).toLowerCase()) {
+      const hsv = hexToHsv(serverHex);
+      this.h = hsv.h;
+      this.s = hsv.s;
+      this.v = hsv.v;
+      if (this.hueInput) this.hueInput.value = String(Math.round(this.h));
+    }
     this.render();
   },
 
@@ -120,6 +135,13 @@ const ColorPicker = {
       this.input.dispatchEvent(new Event("input", { bubbles: true }));
     }
     this.el.setAttribute("data-value", hex);
+    return hex;
+  },
+
+  // Apply visuals AND notify the server. Called only from user interaction (not from updated()), so
+  // there is no render→push→updated→render loop.
+  commit() {
+    const hex = this.render();
     const on = this.el.getAttribute("data-on-change");
     if (on) this.pushEventTo(this.el, on, { value: hex });
   },
