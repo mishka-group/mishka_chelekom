@@ -116,6 +116,7 @@ defmodule DevelopmentWeb.Showcase.Meta do
     "marquee" => "Continuously scrolling row of content (pure CSS).",
     "number_formatter" => "Render a number with separators, prefix and suffix.",
     "hue_slider" => "Pick a hue (0–360°) on a rainbow track (reuses Slider).",
+    "alpha_slider" => "Pick an opacity (0–100) over a checkerboard (reuses Slider).",
     "menubar" => "Horizontal application menu bar with submenus and roving focus.",
     "menu" => "Popup menu of actions with roving tabindex and keyboard.",
     "meter" => "Static gauge reporting a value within a known range (ARIA meter).",

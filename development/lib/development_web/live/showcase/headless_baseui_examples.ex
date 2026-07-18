@@ -8,6 +8,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.Accordion
   import DevelopmentWeb.Components.Headless.ActionIcon
   import DevelopmentWeb.Components.Headless.AlertDialog
+  import DevelopmentWeb.Components.Headless.AlphaSlider
   import DevelopmentWeb.Components.Headless.Anchor
   import DevelopmentWeb.Components.Headless.Autocomplete
   import DevelopmentWeb.Components.Headless.Avatar
@@ -245,6 +246,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
 
   def sections("mark"),
     do: [{"mark-hero", "Hero", "A highlighted run of text inside a sentence."}]
+
+  def sections("alpha_slider"),
+    do: [
+      {"alpha_slider-hero", "Hero",
+       "Pick opacity over a checkerboard + color gradient (reuses Slider)."}
+    ]
 
   def sections("hue_slider"),
     do: [{"hue_slider-hero", "Hero", "Pick a hue on a rainbow track (reuses the Slider engine)."}]
@@ -1341,6 +1348,19 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
         Granny Smith
       </:item>
     </.checkbox_group>
+    """
+  end
+
+  def example(%{section: "alpha_slider-hero"} = assigns) do
+    ~H"""
+    <div class="w-64">
+      <.alpha_slider
+        id="baseui-alpha-slider"
+        value={50}
+        color="#e8590c"
+        class="block w-full [&_[data-part=control]]:relative [&_[data-part=control]]:flex [&_[data-part=control]]:h-4 [&_[data-part=control]]:cursor-pointer [&_[data-part=control]]:items-center [&_[data-part=track]]:relative [&_[data-part=track]]:h-3 [&_[data-part=track]]:w-full [&_[data-part=track]]:overflow-hidden [&_[data-part=track]]:rounded-full [&_[data-part=track]]:[background-image:linear-gradient(to_right,transparent,var(--chelekom-alpha-color)),conic-gradient(#ccc_25%,#fff_0_50%,#ccc_0_75%,#fff_0)] [&_[data-part=track]]:[background-size:100%_100%,10px_10px] [&_[data-part=indicator]]:hidden [&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border-2 [&_[data-part=thumb]]:border-white [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:ring-1 [&_[data-part=thumb]]:ring-black/30 [&_[data-part=thumb]]:outline-none"
+      />
+    </div>
     """
   end
 

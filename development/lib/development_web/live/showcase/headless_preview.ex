@@ -8,6 +8,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.Accordion
   import DevelopmentWeb.Components.Headless.ActionIcon
   import DevelopmentWeb.Components.Headless.AlertDialog
+  import DevelopmentWeb.Components.Headless.AlphaSlider
   import DevelopmentWeb.Components.Headless.Anchor
   import DevelopmentWeb.Components.Headless.Autocomplete
   import DevelopmentWeb.Components.Headless.Avatar
@@ -410,6 +411,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         </button>
       </:actions>
     </.empty_state>
+    """
+  end
+
+  def show(%{component: "alpha_slider"} = assigns) do
+    ~H"""
+    <div class="w-64">
+      <.alpha_slider id={@id} value={60} color="#6d28d9" class={alpha_slider_class()} />
+    </div>
     """
   end
 
@@ -3107,6 +3116,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "[&_[data-part=control]]:mt-1 [&_[data-part=control]]:text-sm [&_[data-part=control]]:font-medium [&_[data-part=control]]:text-[var(--c-primary)] [&_[data-part=control]]:hover:underline",
       "[&[data-expanded]_[data-part=show-label]]:hidden",
       "[&:not([data-expanded])_[data-part=hide-label]]:hidden"
+    ]
+  end
+
+  # Alpha slider: reuses the Slider engine; track is a transparent→color gradient (via the
+  # --chelekom-alpha-color var the component sets) layered over a checkerboard.
+  defp alpha_slider_class do
+    [
+      "block w-full [&[data-disabled]]:opacity-50",
+      "[&_[data-part=control]]:relative [&_[data-part=control]]:flex [&_[data-part=control]]:h-4 [&_[data-part=control]]:cursor-pointer [&_[data-part=control]]:items-center",
+      "[&_[data-part=track]]:relative [&_[data-part=track]]:h-3 [&_[data-part=track]]:w-full [&_[data-part=track]]:overflow-hidden [&_[data-part=track]]:rounded-full [&_[data-part=track]]:[background-image:linear-gradient(to_right,transparent,var(--chelekom-alpha-color)),conic-gradient(#ccc_25%,#fff_0_50%,#ccc_0_75%,#fff_0)] [&_[data-part=track]]:[background-size:100%_100%,10px_10px]",
+      "[&_[data-part=indicator]]:hidden",
+      "[&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border-2 [&_[data-part=thumb]]:border-white [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:ring-1 [&_[data-part=thumb]]:ring-black/30 [&_[data-part=thumb]]:outline-none [&_[data-part=thumb]:focus-visible]:ring-2 [&_[data-part=thumb]:focus-visible]:ring-[var(--c-primary)]"
     ]
   end
 

@@ -21,6 +21,7 @@
 - Add headless `Marquee` component (Mantine parity) — seamless CSS-only scrolling row (content duplicated, second copy `aria-hidden`), no JS hook
 - Add headless `NumberFormatter` component (Mantine parity) — render-time number formatting with thousands/decimal separators and prefix/suffix, no JS
 - Add headless `HueSlider` component (Mantine parity) — a 0–360° hue picker reusing the shared `Slider` engine, no new JS
+- Add headless `AlphaSlider` component (Mantine parity) — a 0–100 opacity picker reusing the shared `Slider` engine, no new JS
 - Add `Mishka Tools` documentation button to headless component pages, and point `ARIA pattern` at the component's `spec_url` instead of its docs URL
 - Add per-option tagged, base-first `examples` to `mix mishka.ui.export --cms`: every component now ships at least one example, ordered base-first, with `extra.examples[]` carrying `label`/`section`/`base`/`requires` so a consumer can hide an example whose variant was not installed [Commit](https://github.com/mishka-group/mishka_chelekom/commit/65764c5e)
 - Add `## Examples` docs to `label/1`, `error/1`, `header/1` and `simple_form/1`, so every public component function documents its usage
