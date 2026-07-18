@@ -32,7 +32,7 @@ defmodule DevelopmentWeb.Components.Headless.PillsInput do
     ~H"""
     <div
       id={@id}
-      data-part="control"
+      data-part="root"
       phx-click={!@disabled && JS.focus(to: "##{@id}-input")}
       data-disabled={@disabled}
       class={["chelekom-pills-input", @class]}
