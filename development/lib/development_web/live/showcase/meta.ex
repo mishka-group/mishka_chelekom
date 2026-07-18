@@ -120,6 +120,7 @@ defmodule DevelopmentWeb.Showcase.Meta do
     "splitter" => "Two resizable panes with a draggable, keyboard-friendly divider.",
     "scroller" => "Horizontal scroll row with prev/next controls.",
     "rolling_number" => "Animate a number rolling to its value.",
+    "color_picker" => "Saturation/value area with a hue slider and preview.",
     "menubar" => "Horizontal application menu bar with submenus and roving focus.",
     "menu" => "Popup menu of actions with roving tabindex and keyboard.",
     "meter" => "Static gauge reporting a value within a known range (ARIA meter).",

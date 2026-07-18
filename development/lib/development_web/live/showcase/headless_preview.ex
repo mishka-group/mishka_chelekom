@@ -19,6 +19,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.CloseButton
   import DevelopmentWeb.Components.Headless.Code
   import DevelopmentWeb.Components.Headless.Collapsible
+  import DevelopmentWeb.Components.Headless.ColorPicker
   import DevelopmentWeb.Components.Headless.ColorSwatch
   import DevelopmentWeb.Components.Headless.Combobox
   import DevelopmentWeb.Components.Headless.ContextMenu
@@ -644,6 +645,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         </svg>
       </.color_swatch>
     </div>
+    """
+  end
+
+  def show(%{component: "color_picker"} = assigns) do
+    ~H"""
+    <.color_picker id={@id} value="#8b5cf6" class={color_picker_class()} />
     """
   end
 
@@ -3146,6 +3153,19 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-[var(--c-primary)]/40",
       "data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50",
       "[&_[data-part=input]]:sr-only"
+    ]
+  end
+
+  # Color picker: a 2D saturation/value area (the engine paints its background + moves the thumb) plus
+  # a native range hue input with a rainbow track, and a preview swatch.
+  defp color_picker_class do
+    [
+      "w-56 space-y-3",
+      "[&_[data-part=area]]:relative [&_[data-part=area]]:h-36 [&_[data-part=area]]:w-full [&_[data-part=area]]:cursor-crosshair [&_[data-part=area]]:rounded-lg [&_[data-part=area]]:ring-1 [&_[data-part=area]]:ring-black/10",
+      "[&_[data-part=area-thumb]]:size-3.5 [&_[data-part=area-thumb]]:rounded-full [&_[data-part=area-thumb]]:border-2 [&_[data-part=area-thumb]]:border-white [&_[data-part=area-thumb]]:shadow [&_[data-part=area-thumb]]:ring-1 [&_[data-part=area-thumb]]:ring-black/30",
+      "[&_[data-part=controls]]:flex [&_[data-part=controls]]:items-center [&_[data-part=controls]]:gap-3",
+      "[&_[data-part=preview]]:size-8 [&_[data-part=preview]]:shrink-0 [&_[data-part=preview]]:rounded-full [&_[data-part=preview]]:ring-1 [&_[data-part=preview]]:ring-black/10",
+      "[&_[data-part=hue]]:h-3 [&_[data-part=hue]]:w-full [&_[data-part=hue]]:cursor-pointer [&_[data-part=hue]]:appearance-none [&_[data-part=hue]]:rounded-full [&_[data-part=hue]]:[background:linear-gradient(to_right,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)]"
     ]
   end
 
