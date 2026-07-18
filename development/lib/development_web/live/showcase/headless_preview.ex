@@ -1853,6 +1853,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   def has_examples?("spoiler"), do: true
   def has_examples?("chip"), do: true
   def has_examples?("burger"), do: true
+  def has_examples?("color_swatch"), do: true
+  def has_examples?("pill"), do: true
   def has_examples?(_), do: false
 
   def examples(%{component: "empty_state"} = assigns) do
@@ -2091,6 +2093,52 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         </p>
         <div class="mt-4 max-w-md">
           <.live_component module={DevelopmentWeb.Showcase.ChipDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "color_swatch"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — a palette picker (what a swatch is for)
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          On its own a swatch is just a labelled color; it earns its keep as the visible half of a
+          choice. Each one sits in a <code>&lt;label&gt;</code>
+          around a visually-hidden native radio, so this is an ordinary form: the ring and the ✓ are
+          pure CSS on <code>:has(:checked)</code>
+          (instant, no round-trip) and <code>phx-change</code>
+          hands the value to the server. Posts as <code>swatch_demo[color]</code>.
+        </p>
+        <div class="mt-4">
+          <.live_component module={DevelopmentWeb.Showcase.ColorSwatchDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "pill"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — pills as the chosen values, submitted as a list
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          A pill shows a value that is already chosen, so the form plumbing rides along inside it:
+          each pill's slot carries a hidden <code>pill_demo[labels][]</code>
+          input and the whole selection posts on submit. The ✕ pushes <code>remove</code>
+          with the tag via <code>JS.push(value:)</code>
+          — the remove button forwards <code>on_remove</code>
+          only, so the caller names the payload.
+        </p>
+        <div class="mt-4 max-w-md">
+          <.live_component module={DevelopmentWeb.Showcase.PillDemo} id={"#{@id}-form"} />
         </div>
       </details>
     </div>
