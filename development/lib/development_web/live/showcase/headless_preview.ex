@@ -47,6 +47,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.Select
   import DevelopmentWeb.Components.Headless.Separator
   import DevelopmentWeb.Components.Headless.Slider
+  import DevelopmentWeb.Components.Headless.Splitter
   import DevelopmentWeb.Components.Headless.Spoiler
   import DevelopmentWeb.Components.Headless.Switch
   import DevelopmentWeb.Components.Headless.Tabs
@@ -641,6 +642,19 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         </svg>
       </.color_swatch>
     </div>
+    """
+  end
+
+  def show(%{component: "splitter"} = assigns) do
+    ~H"""
+    <.splitter id={@id} default_size={40} class={splitter_class()}>
+      <:first>
+        <div class="p-3 text-sm">Sidebar — drag the divider →</div>
+      </:first>
+      <:second>
+        <div class="p-3 text-sm">Main content. Focus the divider and use ← → arrow keys too.</div>
+      </:second>
+    </.splitter>
     """
   end
 
@@ -3102,6 +3116,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-[var(--c-primary)]/40",
       "data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50",
       "[&_[data-part=input]]:sr-only"
+    ]
+  end
+
+  # Splitter: two panes; the first is sized by --chelekom-splitter-pos (the engine updates it on drag).
+  defp splitter_class do
+    [
+      "flex h-40 w-full overflow-hidden rounded-lg border border-[var(--c-base-300)]",
+      "[&_[data-part=panel][data-index=0]]:w-[var(--chelekom-splitter-pos)] [&_[data-part=panel][data-index=0]]:shrink-0 [&_[data-part=panel][data-index=0]]:overflow-auto [&_[data-part=panel][data-index=0]]:bg-[var(--c-base-100)]",
+      "[&_[data-part=panel][data-index=1]]:flex-1 [&_[data-part=panel][data-index=1]]:overflow-auto [&_[data-part=panel][data-index=1]]:bg-[var(--c-base-200)]",
+      "[&_[data-part=resizer]]:w-1.5 [&_[data-part=resizer]]:shrink-0 [&_[data-part=resizer]]:cursor-col-resize [&_[data-part=resizer]]:bg-[var(--c-base-300)] [&_[data-part=resizer]]:outline-none [&_[data-part=resizer]:hover]:bg-[var(--c-primary)]/40 [&_[data-part=resizer]:focus-visible]:bg-[var(--c-primary)]",
+      "[&[data-dragging]_[data-part=resizer]]:bg-[var(--c-primary)]"
     ]
   end
 

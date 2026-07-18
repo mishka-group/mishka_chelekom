@@ -34,6 +34,7 @@ import Popover from "./popover.js";
 import PreviewCard from "./preview_card.js";
 import Tooltip from "./tooltip.js";
 import Tree from "./tree.js";
+import Splitter from "./splitter.js";
 const Components = {
   Tooltip,
   PreviewCard,
@@ -71,5 +72,6 @@ const Components = {
   Toolbar,
   ToggleGroup,
   Tree,
+  Splitter,
 };
 export default Components;

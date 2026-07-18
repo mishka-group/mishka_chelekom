@@ -46,6 +46,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.Select
   import DevelopmentWeb.Components.Headless.Separator
   import DevelopmentWeb.Components.Headless.Slider
+  import DevelopmentWeb.Components.Headless.Splitter
   import DevelopmentWeb.Components.Headless.Spoiler
   import DevelopmentWeb.Components.Headless.Switch
   import DevelopmentWeb.Components.Headless.Tabs
@@ -416,6 +417,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       {"slider-vertical", "Vertical",
        "A single-thumb slider laid out vertically, with the track running top-to-bottom."}
     ]
+
+  def sections("splitter"),
+    do: [{"splitter-hero", "Hero", "Two panes with a draggable divider; keyboard-resizable too."}]
 
   def sections("spoiler"),
     do: [
@@ -1159,6 +1163,25 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
         class="relative inline-flex size-9 items-center justify-center rounded-md text-neutral-900 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-800 [&_[data-part=line]]:absolute [&_[data-part=line]]:h-0.5 [&_[data-part=line]]:w-5 [&_[data-part=line]]:rounded-full [&_[data-part=line]]:bg-current [&_[data-part=line]]:transition-all [&_[data-part=line]]:duration-200 [&_[data-part=line]:nth-child(1)]:-translate-y-1.5 [&_[data-part=line]:nth-child(3)]:translate-y-1.5 [&[data-opened]_[data-part=line]:nth-child(1)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(1)]:rotate-45 [&[data-opened]_[data-part=line]:nth-child(2)]:opacity-0 [&[data-opened]_[data-part=line]:nth-child(3)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(3)]:-rotate-45"
       />
     </div>
+    """
+  end
+
+  def example(%{section: "splitter-hero"} = assigns) do
+    ~H"""
+    <.splitter
+      id="baseui-splitter"
+      default_size={45}
+      class="flex h-40 w-80 overflow-hidden rounded-lg border border-neutral-300 dark:border-neutral-700 [&_[data-part=panel][data-index=0]]:w-[var(--chelekom-splitter-pos)] [&_[data-part=panel][data-index=0]]:shrink-0 [&_[data-part=panel][data-index=0]]:overflow-auto [&_[data-part=panel][data-index=1]]:flex-1 [&_[data-part=panel][data-index=1]]:overflow-auto [&_[data-part=panel][data-index=1]]:bg-neutral-50 dark:[&_[data-part=panel][data-index=1]]:bg-neutral-800 [&_[data-part=resizer]]:w-1.5 [&_[data-part=resizer]]:shrink-0 [&_[data-part=resizer]]:cursor-col-resize [&_[data-part=resizer]]:bg-neutral-200 dark:[&_[data-part=resizer]]:bg-neutral-700 [&_[data-part=resizer]:hover]:bg-neutral-400 [&_[data-part=resizer]]:outline-none"
+    >
+      <:first>
+        <div class="p-3 text-sm text-neutral-700 dark:text-neutral-300">Files</div>
+      </:first>
+      <:second>
+        <div class="p-3 text-sm text-neutral-700 dark:text-neutral-300">
+          Editor — drag the divider or focus it and use arrow keys.
+        </div>
+      </:second>
+    </.splitter>
     """
   end
 

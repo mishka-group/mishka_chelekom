@@ -1,0 +1,76 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Headless **splitter** — two resizable panes with a draggable divider (Mantine Splitter parity).
+
+  The `Splitter` engine handles pointer drag + keyboard on the `resizer` (a `role="separator"`) and
+  writes the split to the `--chelekom-splitter-pos` CSS variable (a percentage) on the root — size the
+  first panel from that variable in your CSS. Arrow keys move the divider (Shift = ×10), Home/End jump
+  to `min`/`max`; `data-dragging` is set while dragging. `on_change` pushes `{value}` to LiveView.
+
+  Ships **no** styling — style via `chelekom-splitter*` and the `data-*` hooks.
+
+  WAI-ARIA APG: Window Splitter pattern.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/splitter
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, required: true, doc: "Unique id (carries the Splitter hook)"
+
+  attr :orientation, :string,
+    default: "horizontal",
+    values: ["horizontal", "vertical"],
+    doc: "Split axis"
+
+  attr :default_size, :integer, default: 50, doc: "Initial size of the first panel (percent)"
+  attr :min, :integer, default: 10, doc: "Minimum first-panel size (percent)"
+  attr :max, :integer, default: 90, doc: "Maximum first-panel size (percent)"
+  attr :disabled, :boolean, default: false, doc: "Disable resizing (data-disabled)"
+  attr :label, :string, default: "Resize panels", doc: "Accessible label for the resizer"
+  attr :on_change, :string, default: nil, doc: "LiveView event pushed on resize ({value})"
+  attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :panel_class, :any, default: nil, doc: "Extra classes for each panel"
+  attr :resizer_class, :any, default: nil, doc: "Extra classes for the resizer"
+  attr :rest, :global
+
+  slot :first, required: true, doc: "The first (leading) panel"
+  slot :second, required: true, doc: "The second (trailing) panel"
+
+  def <%= @component_prefix %>splitter(assigns) do
+    ~H"""
+    <div
+      id={@id}
+      phx-hook="Splitter"
+      data-part="root"
+      data-orientation={@orientation}
+      data-disabled={@disabled}
+      data-min={@min}
+      data-max={@max}
+      data-on-change={@on_change}
+      style={"--chelekom-splitter-pos: #{@default_size}%"}
+      class={["chelekom-splitter", @class]}
+      {@rest}
+    >
+      <div data-part="panel" data-index="0" class={["chelekom-splitter__panel", @panel_class]}>
+        {render_slot(@first)}
+      </div>
+      <div
+        data-part="resizer"
+        role="separator"
+        aria-orientation={if @orientation == "horizontal", do: "vertical", else: "horizontal"}
+        aria-valuemin={@min}
+        aria-valuemax={@max}
+        aria-valuenow={@default_size}
+        aria-label={@label}
+        tabindex={if @disabled, do: "-1", else: "0"}
+        class={["chelekom-splitter__resizer", @resizer_class]}
+      >
+      </div>
+      <div data-part="panel" data-index="1" class={["chelekom-splitter__panel", @panel_class]}>
+        {render_slot(@second)}
+      </div>
+    </div>
+    """
+  end
+end
