@@ -74,6 +74,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.Toolbar
   import DevelopmentWeb.Components.Headless.Tooltip
   import DevelopmentWeb.Components.Headless.Tree
+  import DevelopmentWeb.Components.Headless.TreeSelect
   import DevelopmentWeb.Components.Headless.VisuallyHidden
 
   alias DevelopmentWeb.Showcase.ExampleSource
@@ -260,6 +261,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       {"fieldset-hero", "Hero",
        "A 'Billing details' fieldset with a bold underlined legend grouping two labeled text inputs (Company and Tax ID), each built from our field component."}
     ]
+
+  def sections("tree_select"),
+    do: [{"tree_select-hero", "Hero", "A field that opens a tree in a popover to pick a value."}]
 
   def sections("color_input"),
     do: [{"color_input-hero", "Hero", "A hex field with a swatch that opens a color picker."}]
@@ -1708,6 +1712,48 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       ★
       <.visually_hidden>Add to favorites</.visually_hidden>
     </button>
+    """
+  end
+
+  def example(%{section: "tree_select-hero"} = assigns) do
+    ~H"""
+    <.tree_select
+      id="baseui-tree-select"
+      placeholder="Choose a category…"
+      class="relative inline-block w-64"
+      trigger_class="flex w-full items-center justify-between gap-2 rounded-lg border border-neutral-300 bg-white px-3 py-1.5 text-sm text-neutral-900 hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:hover:bg-neutral-800"
+      value_class="truncate data-[placeholder]:text-neutral-400"
+      panel_class="absolute left-0 z-20 mt-2 max-h-64 w-64 overflow-auto rounded-lg border border-neutral-200 bg-white p-2 shadow-lg dark:border-neutral-700 dark:bg-neutral-800"
+    >
+      <.tree
+        id="baseui-tree-select-tree"
+        nodes={[
+          %{
+            label: "Design",
+            value: "design",
+            children: [
+              %{label: "Wireframes", value: "wireframes"},
+              %{label: "Mockups", value: "mockups"}
+            ]
+          },
+          %{
+            label: "Engineering",
+            value: "engineering",
+            children: [%{label: "Frontend", value: "frontend"}, %{label: "Backend", value: "backend"}]
+          }
+        ]}
+        expanded={:all}
+        select_on_click
+        multiple={false}
+        aria_label="Categories"
+        class="text-sm select-none"
+        label_class="flex items-center gap-1 rounded px-2 py-1 cursor-pointer [padding-left:calc(var(--label-offset)+0.5rem)] hover:bg-neutral-100 data-[selected]:bg-neutral-900/5 data-[selected]:font-medium dark:hover:bg-neutral-700 dark:data-[selected]:bg-white/10"
+        label_text_class="truncate"
+        expand_icon_class="inline-block w-3 text-center text-neutral-400"
+      >
+        <:expand_icon>▸</:expand_icon>
+      </.tree>
+    </.tree_select>
     """
   end
 

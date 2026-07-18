@@ -47,4 +47,4 @@ Per-component checklist (every item):
 - [x] 11 FloatingIndicator
 - [x] 12 FloatingWindow
 - [x] 13 ColorInput
-- [ ] 14 TreeSelect
+- [x] 14 TreeSelect

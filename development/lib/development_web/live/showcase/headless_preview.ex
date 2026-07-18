@@ -75,6 +75,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.Toolbar
   import DevelopmentWeb.Components.Headless.Tooltip
   import DevelopmentWeb.Components.Headless.Tree
+  import DevelopmentWeb.Components.Headless.TreeSelect
   import DevelopmentWeb.Components.Headless.VisuallyHidden
   import DevelopmentWeb.Showcase.UI, only: [code_block: 1]
   alias Phoenix.LiveView.JS
@@ -709,6 +710,34 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         Item {n}
       </div>
     </.scroller>
+    """
+  end
+
+  def show(%{component: "tree_select"} = assigns) do
+    ~H"""
+    <.tree_select
+      id={@id}
+      placeholder="Choose a category…"
+      class="relative inline-block w-64"
+      trigger_class="flex w-full items-center justify-between gap-2 rounded-md border border-[var(--c-base-300)] bg-[var(--c-base-100)] px-3 py-1.5 text-sm hover:bg-[var(--c-base-200)]"
+      value_class="truncate data-[placeholder]:text-[var(--c-base-content)]/50"
+      panel_class="absolute left-0 z-20 mt-2 max-h-64 w-64 overflow-auto rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-2 shadow-lg"
+    >
+      <.tree
+        id={"#{@id}-tree"}
+        nodes={tree_select_nodes()}
+        expanded={:all}
+        select_on_click
+        multiple={false}
+        aria_label="Categories"
+        class="text-sm select-none"
+        label_class="flex items-center gap-1 rounded px-2 py-1 cursor-pointer [padding-left:calc(var(--label-offset)+0.5rem)] hover:bg-[var(--c-base-200)] data-[selected]:bg-[var(--c-primary)]/10 data-[selected]:font-medium data-[selected]:text-[var(--c-primary)]"
+        label_text_class="truncate"
+        expand_icon_class="inline-block w-3 text-center text-[var(--c-base-content)]/50"
+      >
+        <:expand_icon>▸</:expand_icon>
+      </.tree>
+    </.tree_select>
     """
   end
 
@@ -2221,6 +2250,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   def has_examples?("floating_indicator"), do: true
   def has_examples?("floating_window"), do: true
   def has_examples?("color_input"), do: true
+  def has_examples?("tree_select"), do: true
   def has_examples?("mask_input"), do: true
   def has_examples?("pills_input"), do: true
   def has_examples?(_), do: false
@@ -2484,6 +2514,25 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     """
   end
 
+  def examples(%{component: "tree_select"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — open the tree, pick a node (handle_event), submit the value
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          The tree's <code>on_select</code> updates the shown label and a hidden field; Save submits
+          the chosen value.
+        </p>
+        <div class="mt-4">
+          <.live_component module={DevelopmentWeb.Showcase.TreeSelectFormDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
   def examples(%{component: "color_input"} = assigns) do
     ~H"""
     <div class="space-y-3">
@@ -2511,7 +2560,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
           Drag to move — push the coordinates on release (handle_event) + close with JS.hide
         </summary>
         <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
-          The hook clamps the window to the stage and pushes <code>%{x, y}</code> on release via
+          The hook clamps the window to the stage and pushes the x/y coordinates on release via
           <code>on_move</code>; the ✕ closes it client-side without dragging.
         </p>
         <div class="mt-4">
@@ -3733,6 +3782,29 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   end
 
   # Floating indicator: a positioned rail; the indicator part is absolutely placed and animated.
+  # Tree select: sample hierarchy for the disclosure preview.
+  defp tree_select_nodes do
+    [
+      %{
+        label: "Design",
+        value: "design",
+        children: [
+          %{label: "Wireframes", value: "wireframes"},
+          %{label: "Mockups", value: "mockups"}
+        ]
+      },
+      %{
+        label: "Engineering",
+        value: "engineering",
+        children: [
+          %{label: "Frontend", value: "frontend"},
+          %{label: "Backend", value: "backend"}
+        ]
+      },
+      %{label: "Docs", value: "docs"}
+    ]
+  end
+
   defp floating_indicator_class do
     "relative inline-flex gap-1 rounded-lg bg-[var(--c-base-200)] p-1 " <>
       "[&_[data-part=indicator]]:absolute [&_[data-part=indicator]]:left-0 [&_[data-part=indicator]]:top-0 [&_[data-part=indicator]]:transition-all [&_[data-part=indicator]]:duration-200 [&_[data-part=indicator]]:ease-out"
