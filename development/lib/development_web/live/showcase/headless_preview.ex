@@ -31,6 +31,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.Highlight
   import DevelopmentWeb.Components.Headless.HueSlider
   import DevelopmentWeb.Components.Headless.JsonInput
+  import DevelopmentWeb.Components.Headless.LoadingOverlay
   import DevelopmentWeb.Components.Headless.Mark
   import DevelopmentWeb.Components.Headless.Marquee
   import DevelopmentWeb.Components.Headless.Menu
@@ -701,6 +702,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         Item {n}
       </div>
     </.scroller>
+    """
+  end
+
+  def show(%{component: "loading_overlay"} = assigns) do
+    ~H"""
+    <div class="relative h-32 w-64 overflow-hidden rounded-lg border border-[var(--c-base-300)] p-4 text-sm">
+      <p class="text-[var(--c-base-content)]/70">Content sits behind the overlay while it loads…</p>
+      <.loading_overlay visible label="Loading" class={loading_overlay_class()}>
+        <span class="size-6 animate-spin rounded-full border-2 border-[var(--c-base-300)] border-t-[var(--c-primary)]">
+        </span>
+      </.loading_overlay>
+    </div>
     """
   end
 
@@ -2048,6 +2061,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   def has_examples?("splitter"), do: true
   def has_examples?("json_input"), do: true
   def has_examples?("segmented_control"), do: true
+  def has_examples?("loading_overlay"), do: true
   def has_examples?(_), do: false
 
   def examples(%{component: "empty_state"} = assigns) do
@@ -2303,6 +2317,21 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
             id={"#{@id}-form"}
             variant={:alpha}
           />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "loading_overlay"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          Server-driven — toggle the overlay from the server (handle_event)
+        </summary>
+        <div class="mt-4">
+          <.live_component module={DevelopmentWeb.Showcase.LoadingOverlayDemo} id={"#{@id}-form"} />
         </div>
       </details>
     </div>
@@ -3406,6 +3435,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "flex w-full max-w-md items-center gap-2",
       "[&_[data-part=control]]:grid [&_[data-part=control]]:size-8 [&_[data-part=control]]:shrink-0 [&_[data-part=control]]:place-items-center [&_[data-part=control]]:rounded-full [&_[data-part=control]]:border [&_[data-part=control]]:border-[var(--c-base-300)] [&_[data-part=control]]:bg-[var(--c-base-100)] [&_[data-part=control]]:text-lg [&_[data-part=control]]:leading-none [&_[data-part=control]:hover]:bg-[var(--c-base-200)] [&_[data-part=control][data-disabled]]:opacity-30",
       "[&_[data-part=viewport]]:flex [&_[data-part=viewport]]:gap-3 [&_[data-part=viewport]]:overflow-x-auto [&_[data-part=viewport]]:scroll-smooth [&_[data-part=viewport]]:pb-1"
+    ]
+  end
+
+  # Loading overlay: absolute cover with a centered loader; fades out when not [data-visible].
+  defp loading_overlay_class do
+    [
+      "absolute inset-0 flex items-center justify-center bg-[var(--c-base-100)]/70 backdrop-blur-sm transition-opacity duration-200",
+      "[&:not([data-visible])]:pointer-events-none [&:not([data-visible])]:opacity-0"
     ]
   end
 

@@ -1,0 +1,42 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Headless **loading overlay** — cover a container with a centered loader (Mantine LoadingOverlay
+  parity).
+
+  Renders an absolutely-positioned `role="status"` region (put `position: relative` on the parent);
+  `visible` reflects to `data-visible` so you fade it in/out from CSS — **no JS**. Provide the loader
+  (a spinner, text…) in the default slot. When hidden it's `aria-hidden` and non-interactive.
+
+  Ships **no** styling — style via `chelekom-loading-overlay` and the `data-visible` hook.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/loading_overlay
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, default: nil, doc: "Optional unique id"
+  attr :visible, :boolean, default: false, doc: "Whether the overlay is shown (sets data-visible)"
+  attr :label, :string, default: "Loading", doc: "Accessible label (aria-label)"
+  attr :class, :any, default: nil, doc: "Extra classes"
+  attr :rest, :global
+
+  slot :inner_block, doc: "The loader content (spinner, text, …)"
+
+  def <%= @component_prefix %>loading_overlay(assigns) do
+    ~H"""
+    <div
+      id={@id}
+      data-part="root"
+      data-visible={@visible}
+      role="status"
+      aria-live="polite"
+      aria-label={@label}
+      aria-hidden={!@visible}
+      class={["chelekom-loading-overlay", @class]}
+      {@rest}
+    >
+      {render_slot(@inner_block)}
+    </div>
+    """
+  end
+end

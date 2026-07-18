@@ -31,6 +31,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.Highlight
   import DevelopmentWeb.Components.Headless.HueSlider
   import DevelopmentWeb.Components.Headless.JsonInput
+  import DevelopmentWeb.Components.Headless.LoadingOverlay
   import DevelopmentWeb.Components.Headless.Mark
   import DevelopmentWeb.Components.Headless.Marquee
   import DevelopmentWeb.Components.Headless.Menu
@@ -252,6 +253,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       {"fieldset-hero", "Hero",
        "A 'Billing details' fieldset with a bold underlined legend grouping two labeled text inputs (Company and Tax ID), each built from our field component."}
     ]
+
+  def sections("loading_overlay"),
+    do: [{"loading_overlay-hero", "Hero", "A card covered by a centered loader overlay."}]
 
   def sections("segmented_control"),
     do: [
@@ -1676,6 +1680,22 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       ★
       <.visually_hidden>Add to favorites</.visually_hidden>
     </button>
+    """
+  end
+
+  def example(%{section: "loading_overlay-hero"} = assigns) do
+    ~H"""
+    <div class="relative h-32 w-64 overflow-hidden rounded-lg border border-neutral-300 p-4 text-sm text-neutral-700 dark:border-neutral-700 dark:text-neutral-300">
+      <p>Content behind the overlay…</p>
+      <.loading_overlay
+        visible
+        label="Loading"
+        class="absolute inset-0 flex items-center justify-center bg-white/70 backdrop-blur-sm dark:bg-neutral-900/70 [&:not([data-visible])]:pointer-events-none [&:not([data-visible])]:opacity-0"
+      >
+        <span class="size-6 animate-spin rounded-full border-2 border-neutral-300 border-t-neutral-900 dark:border-neutral-600 dark:border-t-white">
+        </span>
+      </.loading_overlay>
+    </div>
     """
   end
 
