@@ -36,6 +36,8 @@
 
 import { Editor as TipTapEditor } from "@tiptap/core";
 import StarterKit from "@tiptap/starter-kit";
+// Developer-owned, created once by the generator and never regenerated. See its header.
+import userConfig from "./editor_extensions.js";
 
 // Commands a toolbar button may request via [data-editor-command]. Each maps to a TipTap chain.
 const COMMANDS = {
@@ -115,9 +117,11 @@ const Editor = {
     this.timer = null;
     this.remote = false;
 
+    const config = userConfig || {};
+
     this.editor = new TipTapEditor({
       element: el,
-      extensions: [StarterKit],
+      extensions: [StarterKit.configure(config.starterKit || {}), ...(config.extensions || [])],
       content: parseInitial(el.getAttribute("data-value"), this.format),
       editable: el.getAttribute("data-editable") !== "false",
       onUpdate: () => this.schedule(),

@@ -78,6 +78,29 @@ defmodule MishkaChelekom.CatalogIntegrityTest do
     end
   end
 
+  describe "developer-owned files" do
+    test "every declared user file exists in priv/assets/js" do
+      missing =
+        for {name, cfg} <- configs_with(:user_files),
+            item <- cfg[:user_files],
+            item.file not in @engines,
+            do: "#{name} -> #{item.file}"
+
+      assert missing == [], "catalogs declare user files that do not exist: #{inspect(missing)}"
+    end
+
+    test "a user file is never also a script (it must never be regenerated)" do
+      for {name, cfg} <- configs_with(:user_files) do
+        scripts = cfg |> Keyword.get(:scripts, []) |> Enum.map(& &1.file)
+        users = cfg[:user_files] |> Enum.map(& &1.file)
+
+        assert users -- scripts == users,
+               "#{name}: #{inspect(users -- (users -- scripts))} is declared as BOTH a script and " <>
+                 "a user file — it would be overwritten on every regeneration"
+      end
+    end
+  end
+
   describe "npm-backed components" do
     test "every npm entry pins an exact version" do
       bad =

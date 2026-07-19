@@ -182,6 +182,51 @@ defmodule MishkaChelekom.Generators.AssetsNpmTest do
     end
   end
 
+  describe "developer-owned config files" do
+    test "creates the user file once and never overwrites the developer's edits" do
+      cfg =
+        config(
+          npm: [%{name: "left-pad", version: "1.3.0"}],
+          user_files: [%{file: "editor_extensions.js"}]
+        )
+
+      first = project_with_assets() |> Assets.wire_scripts(cfg)
+
+      assert source_content(first, "assets/vendor/editor_extensions.js") =~ "THIS FILE IS YOURS"
+
+      # Now the developer configures it, and regenerates.
+      mine = "export default { extensions: [MyTable] };\n"
+
+      second =
+        project_with_assets(%{"assets/vendor/editor_extensions.js" => mine})
+        |> Assets.wire_scripts(cfg)
+
+      assert source_content(second, "assets/vendor/editor_extensions.js") == mine,
+             "regenerating a component must never clobber the developer's configuration — that " <>
+               "is the whole reason this file is separate from the engine"
+    end
+
+    test "the engine beside it IS regenerated" do
+      cfg =
+        config(
+          scripts: [
+            %{
+              module: "Editor",
+              type: "file",
+              file: "editor_tiptap.js",
+              imports: "import Editor from \"./editor_tiptap.js\";"
+            }
+          ]
+        )
+
+      igniter =
+        project_with_assets(%{"assets/vendor/editor_tiptap.js" => "// stale\n"})
+        |> Assets.wire_scripts(cfg)
+
+      refute source_content(igniter, "assets/vendor/editor_tiptap.js") == "// stale\n"
+    end
+  end
+
   describe "projects without a JS pipeline" do
     test "an API-only app gets a notice instead of a stray package.json" do
       igniter =

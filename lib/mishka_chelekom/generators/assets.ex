@@ -33,7 +33,27 @@ defmodule MishkaChelekom.Generators.Assets do
       igniter
       |> check_package_json(npm, options)
       |> update_js_files(config)
+      |> copy_user_files(config)
     end
+  end
+
+  # Files the component needs but the DEVELOPER owns: written once, never touched again, so
+  # configuration survives regeneration. The engine beside them is regenerated every time, which is
+  # exactly why user config cannot live in it.
+  defp copy_user_files(igniter, config) do
+    config
+    |> Keyword.get(:user_files, [])
+    |> Enum.reduce(igniter, fn item, acc ->
+      source = Core.lib_priv("assets/js/#{item.file}")
+
+      if File.exists?(source) do
+        Igniter.create_new_file(acc, "assets/vendor/#{item.file}", File.read!(source),
+          on_exists: :skip
+        )
+      else
+        Igniter.add_issue(acc, "The user file #{item.file} does not exist in the library.")
+      end
+    end)
   end
 
   @doc """

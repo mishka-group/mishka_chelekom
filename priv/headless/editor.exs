@@ -46,6 +46,9 @@
         ]
       ]
     ],
+    # Written once into assets/vendor/ and never overwritten, so a developer's extension config
+    # survives regeneration. The engine itself IS regenerated, which is why config cannot live there.
+    user_files: [%{file: "editor_extensions.js"}],
     scripts: [
       %{
         module: "Editor",
