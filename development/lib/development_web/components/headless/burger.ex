@@ -1,0 +1,56 @@
+defmodule DevelopmentWeb.Components.Headless.Burger do
+  @moduledoc """
+  Headless **burger** — the open/close navigation toggle (hamburger) button
+  (Mantine Burger parity).
+
+  Renders a `<button>` with three `line` bars and the disclosure ARIA wiring:
+  `aria-expanded` reflects `opened`, `aria-controls` points at the menu it toggles,
+  and `aria-label` names it (default "Toggle navigation") since it has no text.
+  `opened` also reflects to `data-opened`, so you animate the bars into an ✕ purely
+  from CSS (target the bars with `:nth-child` under `[data-opened]`).
+
+  You own the state: toggle `opened` from your LiveView/JS and wire the click via the
+  global attributes (`phx-click`, `JS.toggle`, …). Ships **no** colors, sizing or
+  animation — style via `chelekom-burger*` and the `data-opened`/`data-disabled` hooks.
+
+  WAI-ARIA APG: Disclosure pattern (a button that shows/hides a region).
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/burger
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, default: nil, doc: "Optional unique id"
+
+  attr :opened, :boolean,
+    default: false,
+    doc: "Whether the target is open (sets aria-expanded + data-opened)"
+
+  attr :label, :string, default: "Toggle navigation", doc: "Accessible label (aria-label)"
+  attr :controls, :string, default: nil, doc: "id of the region this toggles (aria-controls)"
+  attr :disabled, :boolean, default: false, doc: "Disable the button (also sets data-disabled)"
+  attr :class, :any, default: nil, doc: "Extra classes for the button"
+  attr :line_class, :any, default: nil, doc: "Extra classes for each bar"
+  attr :rest, :global, doc: "Any button/global attrs, e.g. phx-click"
+
+  def burger(assigns) do
+    ~H"""
+    <button
+      id={@id}
+      type="button"
+      aria-expanded={to_string(@opened)}
+      aria-controls={@controls}
+      aria-label={@label}
+      data-opened={@opened}
+      disabled={@disabled}
+      data-disabled={@disabled}
+      class={["chelekom-burger", @class]}
+      {@rest}
+    >
+      <span data-part="line" class={["chelekom-burger__line", @line_class]}></span>
+      <span data-part="line" class={["chelekom-burger__line", @line_class]}></span>
+      <span data-part="line" class={["chelekom-burger__line", @line_class]}></span>
+    </button>
+    """
+  end
+end

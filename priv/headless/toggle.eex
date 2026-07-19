@@ -24,10 +24,23 @@ defmodule <%= @module %> do
   attr :id, :string, default: nil, doc: "Unique id for the button"
   attr :pressed, :boolean, default: false, doc: "Initial/controlled pressed state"
   attr :disabled, :boolean, default: false, doc: "Ignore interaction (data-disabled)"
-  attr :value, :string, default: nil, doc: "The toggle's value — its group identity and (with name) the value submitted when on"
-  attr :name, :string, default: nil, doc: "Optional: submit the toggle as a form field (hidden checkbox)"
-  attr :unchecked_value, :string, default: nil, doc: "Value submitted when off (adds a companion hidden input)"
-  attr :form, :string, default: nil, doc: "Form id owning the hidden input (when rendered outside the form)"
+
+  attr :value, :string,
+    default: nil,
+    doc: "The toggle's value — its group identity and (with name) the value submitted when on"
+
+  attr :name, :string,
+    default: nil,
+    doc: "Optional: submit the toggle as a form field (hidden checkbox)"
+
+  attr :unchecked_value, :string,
+    default: nil,
+    doc: "Value submitted when off (adds a companion hidden input)"
+
+  attr :form, :string,
+    default: nil,
+    doc: "Form id owning the hidden input (when rendered outside the form)"
+
   attr :on_change, :string, default: nil, doc: "LiveView event pushed on toggle ({pressed})"
   attr :class, :any, default: nil, doc: "Extra classes for the root button"
   attr :rest, :global

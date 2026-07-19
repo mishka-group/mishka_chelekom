@@ -1,10 +1,47 @@
 # Changelog for MishkaChelekom 0.0.10
 
 ### Features:
+- Add headless `Editor` component (TipTap 3 parity) — rich-text editing via an `Editor` JS engine (hook on an inner `phx-update="ignore"` surface, hidden textarea mirror so it submits as an ordinary form field, toolbar buttons wired by `data-editor-command`), with a Phoenix form demo
+- Add npm dependency support to the generators — a component can declare `npm:` in its catalog and `mix mishka.ui.gen.headless <name>` installs it (npm/bun/yarn auto-detected, falling back to the `{:bun, ...}` hex binary so no system Node is required), gitignores `assets/node_modules` and prepends the install to the `assets.setup`/`build`/`deploy` aliases so CI and Docker builds work. `--no-npm` skips the install; npm-backed components are excluded from `mix mishka.ui.gen.*.components` unless named explicitly or `--with-npm` is passed
 
 - Add headless `Tree` component — Mantine's Tree converted to a Phoenix headless component, with expand/collapse, single/multiple and shift-range selection, cascading checkboxes (with indeterminate) or `check_strictly`, WAI-ARIA treeview keyboard navigation, drag & drop, and server-driven async child loading
 - Add Base UI gallery example and live server-driven examples (controller, form, single event, async, drag & drop, search) for the `Tree` component
 - Add headless `EmptyState` component — Mantine's EmptyState converted to a Phoenix headless component: an optional indicator, `title`/`description` shorthands, extra body content and an actions row, aligned via `data-align` (left/center/right); ships no colors, spacing or role (presentational — add `role="status"` for dynamically shown states)
+- Add headless `CloseButton` component (Mantine parity) — an icon-only button with a required `aria-label`, custom-icon slot and `data-disabled`
+- Add headless `Burger` component (Mantine parity) — a hamburger navigation toggle with `aria-expanded`/`aria-controls` and `data-opened`
+- Add headless `Chip` component (Mantine parity) — a selectable pill backed by a native checkbox/radio input, checked styling via `:has(:checked)`
+- Add headless `Pill` component (Mantine parity) — a compact tag/token with an optional accessible remove button and `data-disabled`
+- Add headless `TagsInput` component (Mantine parity) — removable tokens plus a draft input; add via a form `phx-submit` or `on_add`, remove via `on_remove`, click-to-focus via `JS.focus`, no JS hook
+- Add headless `Spoiler` component (Mantine parity) — clamp long content behind a Show more / Show less toggle via `JS.toggle_attribute`, no JS hook
+- Add headless `ColorSwatch` component (Mantine parity) — display a single color as a labelled `role="img"` swatch with optional overlay
+- Add headless `Code` component (Mantine parity) — inline `<code>` or a `<pre><code>` block
+- Add headless `Mark` component (Mantine parity) — highlight an inline run of text with `<mark>`
+- Add headless `VisuallyHidden` component (Mantine parity) — hide content visually while keeping it available to screen readers
+- Add headless `ThemeIcon` component (Mantine parity) — a container that wraps an icon, decorative or labelled
+- Add headless `ActionIcon` component (Mantine parity) — an icon-only action button with a required accessible label
+- Add headless `Anchor` component (Mantine parity) — a plain, themeable link
+- Add headless `Marquee` component (Mantine parity) — seamless CSS-only scrolling row (content duplicated, second copy `aria-hidden`), no JS hook
+- Add headless `NumberFormatter` component (Mantine parity) — render-time number formatting with thousands/decimal separators and prefix/suffix, no JS
+- Add headless `HueSlider` component (Mantine parity) — a 0–360° hue picker reusing the shared `Slider` engine, no new JS
+- Add headless `AlphaSlider` component (Mantine parity) — a 0–100 opacity picker reusing the shared `Slider` engine, no new JS
+- Add headless `Splitter` component (Mantine parity) — two resizable panes via a `Splitter` JS engine (pointer drag + keyboard, `role="separator"`)
+- Add headless `Scroller` component (Mantine parity) — horizontal scroll row with prev/next controls via a `Scroller` JS engine (ResizeObserver end-detection)
+- Add headless `RollingNumber` component (Mantine parity) — animate a number to its value via a `RollingNumber` JS engine (rAF, reduced-motion aware)
+- Add headless `ColorPicker` component (Mantine parity) — saturation/value drag area + hue slider via a `ColorPicker` JS engine (HSV↔hex, hidden input for forms)
+- Add headless `Highlight` component (Mantine parity) — wrap case-insensitive matches of one or more query terms in `<mark>` at render time, no JS
+- Add headless `SemiCircleProgress` component (Mantine parity) — a half-circle SVG gauge (`role="progressbar"`) computed at render time, no JS
+- Add headless `NavLink` component (Mantine parity) — a nav item that's a `<.link>` leaf or a native `<details>` disclosure with nested children (`data-active`/`aria-current`), no JS
+- Add headless `JsonInput` component (Mantine parity) — a JSON textarea with a server-validated `data-invalid` state (parse/format via `Jason` in LiveView), no JS
+- Add headless `SegmentedControl` component (Mantine parity) — a row of native radios with `:has(:checked)` selection and Arrow-key navigation, no JS
+- Add headless `LoadingOverlay` component (Mantine parity) — an absolute `role="status"` loader overlay toggled by `visible` (CSS fade), no JS
+- Add headless `PillsInput` component (Mantine parity) — an input-shaped container for pills + a text field, click-to-focus via `JS.focus`, no JS hook
+- Add headless `MaskInput` component (Mantine parity) — format-as-you-type text field driven by a `MaskInput` JS engine (`9`/`a`/`*` pattern), with a Phoenix form demo
+- Add headless `AngleSlider` component (Mantine parity) — circular 0–360° dial driven by an `AngleSlider` JS engine (pointer + arrow keys, `--angle` fill var), with a Phoenix form demo
+- Add headless `OverflowList` component — single-row list that collapses overflow into a `+N` counter via an `OverflowList` `ResizeObserver` engine, with an `on_change` server round-trip demo
+- Add headless `FloatingIndicator` component (Mantine parity) — a highlight box that measures and slides over the active target via a `FloatingIndicator` JS engine, with an `on_change` server round-trip demo
+- Add headless `FloatingWindow` component (Mantine parity) — a draggable, clamped panel via a `FloatingWindow` JS engine (`on_move` server round-trip, non-drag handle controls), with a demo
+- Add headless `ColorInput` component (Mantine parity) — hex field + swatch opening a color picker popover (reuses the `ColorPicker` engine with two-way hex editing, JS-command popover), with a Phoenix form demo
+- Add headless `TreeSelect` component (Mantine parity) — a JS-command disclosure that opens a `tree` in a popover to pick a value, with a Phoenix form demo wiring the tree's `on_select`
 - Add `Mishka Tools` documentation button to headless component pages, and point `ARIA pattern` at the component's `spec_url` instead of its docs URL
 - Add per-option tagged, base-first `examples` to `mix mishka.ui.export --cms`: every component now ships at least one example, ordered base-first, with `extra.examples[]` carrying `label`/`section`/`base`/`requires` so a consumer can hide an example whose variant was not installed [Commit](https://github.com/mishka-group/mishka_chelekom/commit/65764c5e)
 - Add `## Examples` docs to `label/1`, `error/1`, `header/1` and `simple_form/1`, so every public component function documents its usage

@@ -23,7 +23,10 @@ defmodule <%= @module %> do
   @doc type: :component
   attr :id, :string, required: true, doc: "Unique id (anchors the group label + item ids)"
   attr :name, :string, default: nil, doc: "Base form name; items submit as `name[]`"
-  attr :disabled, :boolean, default: false, doc: "Disable the whole group (cascades to every item)"
+
+  attr :disabled, :boolean,
+    default: false,
+    doc: "Disable the whole group (cascades to every item)"
 
   attr :on_change, :string,
     default: nil,
@@ -33,10 +36,13 @@ defmodule <%= @module %> do
   attr :label_class, :any, default: nil, doc: "Extra classes for the group label"
   attr :rest, :global
 
-  slot :indicator_icon, doc: "Shared icon rendered inside every item's indicator box (e.g. a check)"
+  slot :indicator_icon,
+    doc: "Shared icon rendered inside every item's indicator box (e.g. a check)"
+
   slot :label, doc: "Accessible group label (wired to aria-labelledby)"
 
-  slot :select_all, doc: "Optional tristate \"select all\" parent (reflects + toggles all items)" do
+  slot :select_all,
+    doc: "Optional tristate \"select all\" parent (reflects + toggles all items)" do
     attr :item_class, :any, doc: "Extra classes for the parent's item button (label row)"
     attr :indicator_class, :any, doc: "Extra classes for the parent's indicator box"
   end
@@ -53,7 +59,9 @@ defmodule <%= @module %> do
     # Derive the parent's initial state from the items (all → checked · none → unchecked · some →
     # mixed) so the server-rendered "select all" already matches its children (no hydration flash).
     {parent_checked, parent_indeterminate} = parent_state(assigns.item)
-    assigns = assign(assigns, parent_checked: parent_checked, parent_indeterminate: parent_indeterminate)
+
+    assigns =
+      assign(assigns, parent_checked: parent_checked, parent_indeterminate: parent_indeterminate)
 
     ~H"""
     <div

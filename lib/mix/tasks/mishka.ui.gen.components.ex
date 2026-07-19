@@ -30,6 +30,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
   * `--component-prefix` - Prefix for all component function names (e.g., `--component-prefix mishka_`)
   * `--module-prefix` - Prefix for module names (e.g., `--module-prefix mishka_` makes Chat become MishkaChat)
   * `--no-save` - Use prefixes without saving them to config file
+  * `--with-npm` - Also generate components that install npm packages (skipped by default)
   * `--yes` - Makes directly without questions
   """
 
@@ -61,6 +62,8 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
         component_prefix: :string,
         module_prefix: :string,
         no_save: :boolean,
+        no_npm: :boolean,
+        with_npm: :boolean,
         sub: :boolean
       ],
       # CLI aliases
@@ -81,12 +84,16 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Components do
     tty? = IO.ANSI.enabled?()
     if tty?, do: Owl.Spinner.start(id: :my_spinner, labels: [processing: "Please wait..."])
 
-    list = Core.resolve_components(igniter, components, :styled, user_config, options[:exclude])
+    list =
+      Core.resolve_components(igniter, components, :styled, user_config, options[:exclude],
+        with_npm: options[:with_npm]
+      )
 
     child_args =
       ["--no-deps", "--sub", "--yes"]
       |> Core.append_arg("--component-prefix", options[:component_prefix])
       |> Core.append_arg("--module-prefix", options[:module_prefix])
+      |> then(&if(options[:no_npm], do: &1 ++ ["--no-npm"], else: &1))
 
     igniter =
       igniter

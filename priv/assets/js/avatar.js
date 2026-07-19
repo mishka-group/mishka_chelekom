@@ -55,7 +55,7 @@ const Avatar = {
     if (this.status === status) return;
     this.status = status;
     this.el.setAttribute("data-status", status);
-    if (this.onChange) this.pushEvent(this.onChange, { status });
+    if (this.onChange) this.pushEventTo(this.el, this.onChange, { status });
     this.apply();
   },
 

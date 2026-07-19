@@ -34,6 +34,19 @@ import Popover from "./popover.js";
 import PreviewCard from "./preview_card.js";
 import Tooltip from "./tooltip.js";
 import Tree from "./tree.js";
+import Splitter from "./splitter.js";
+import Scroller from "./scroller.js";
+import RollingNumber from "./rolling_number.js";
+import ColorPicker from "./color_picker.js";
+import MaskInput from "./mask_input.js";
+import AngleSlider from "./angle_slider.js";
+import OverflowList from "./overflow_list.js";
+import FloatingIndicator from "./floating_indicator.js";
+import FloatingWindow from "./floating_window.js";
+import Editor from "./editor.js";
+import EditorLexical from "./editor_lexical.js";
+import EditorMilkDown from "./editor_milk_down.js";
+import EditorCodeMirror from "./editor_code_mirror.js";
 const Components = {
   Tooltip,
   PreviewCard,
@@ -71,5 +84,18 @@ const Components = {
   Toolbar,
   ToggleGroup,
   Tree,
+  Splitter,
+  Scroller,
+  RollingNumber,
+  ColorPicker,
+  MaskInput,
+  AngleSlider,
+  OverflowList,
+  FloatingIndicator,
+  FloatingWindow,
+  Editor,
+  EditorLexical,
+  EditorMilkDown,
+  EditorCodeMirror,
 };
 export default Components;

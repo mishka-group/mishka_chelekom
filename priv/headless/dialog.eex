@@ -27,13 +27,24 @@ defmodule <%= @module %> do
   @doc type: :component
   attr :id, :string, required: true, doc: "Unique id (anchors aria relationships)"
   attr :open, :boolean, default: false, doc: "Initial/controlled open state"
-  attr :modal, :any, default: true, doc: "true | false | \"trap-focus\" — focus trap / scroll lock / backdrop"
+
+  attr :modal, :any,
+    default: true,
+    doc: "true | false | \"trap-focus\" — focus trap / scroll lock / backdrop"
+
   attr :dismissible, :boolean, default: true, doc: "Whether an outside click dismisses"
   attr :close_on_escape, :boolean, default: true, doc: "Whether Escape closes"
   attr :disabled, :boolean, default: false, doc: "Disable the trigger (data-disabled)"
   attr :on_open_change, :string, default: nil, doc: "LiveView event pushed on open/close ({open})"
-  attr :on_open_change_target, :string, default: nil, doc: "Optional pushEventTo target for on_open_change"
-  attr :initial_focus, :string, default: nil, doc: "Selector focused on open (default: first focusable)"
+
+  attr :on_open_change_target, :string,
+    default: nil,
+    doc: "Optional pushEventTo target for on_open_change"
+
+  attr :initial_focus, :string,
+    default: nil,
+    doc: "Selector focused on open (default: first focusable)"
+
   attr :final_focus, :string, default: nil, doc: "Selector focused on close (default: the opener)"
   attr :labelledby, :string, default: nil, doc: "Override aria-labelledby"
   attr :describedby, :string, default: nil, doc: "Override aria-describedby"

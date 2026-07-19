@@ -82,9 +82,19 @@ defmodule Development.MixProject do
   defp aliases do
     [
       setup: ["deps.get", "assets.setup", "assets.build"],
-      "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
-      "assets.build": ["compile", "tailwind development", "esbuild development"],
+      "assets.setup": [
+        "mishka.assets.install",
+        "tailwind.install --if-missing",
+        "esbuild.install --if-missing"
+      ],
+      "assets.build": [
+        "mishka.assets.install",
+        "compile",
+        "tailwind development",
+        "esbuild development"
+      ],
       "assets.deploy": [
+        "mishka.assets.install",
         "tailwind development --minify",
         "esbuild development --minify",
         "phx.digest"

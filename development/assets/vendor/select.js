@@ -122,7 +122,7 @@ const Select = {
         start.scrollIntoView({ block: "nearest" });
       });
     }
-    if (this.onOpenChange) this.pushEvent(this.onOpenChange, { open: true });
+    if (this.onOpenChange) this.pushEventTo(this.el, this.onOpenChange, { open: true });
   },
 
   close(focusTrigger = false) {
@@ -136,7 +136,7 @@ const Select = {
     if (this.icon) this.icon.removeAttribute("data-popup-open");
     document.removeEventListener("click", this.boundOutside, true);
     if (focusTrigger && this.trigger) this.trigger.focus();
-    if (this.onOpenChange) this.pushEvent(this.onOpenChange, { open: false });
+    if (this.onOpenChange) this.pushEventTo(this.el, this.onOpenChange, { open: false });
   },
 
   position() {
@@ -248,7 +248,7 @@ const Select = {
 
     this.syncValue();
     if (this.onChange) {
-      this.pushEvent(this.onChange, { value: this.multiple ? Array.from(this.selected) : value });
+      this.pushEventTo(this.el, this.onChange, { value: this.multiple ? Array.from(this.selected) : value });
     }
   },
 

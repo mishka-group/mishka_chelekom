@@ -25,6 +25,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless.Components do
   * `--component-prefix` - Prefix for public function names
   * `--module-prefix` - Prefix for module names
   * `--no-save` - Use prefixes without saving them to config
+  * `--with-npm` - Also generate components that install npm packages (skipped by default)
   """
 
   def info(_argv, _composing_task) do
@@ -37,7 +38,9 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless.Components do
         exclude: :csv,
         component_prefix: :string,
         module_prefix: :string,
-        no_save: :boolean
+        no_save: :boolean,
+        no_npm: :boolean,
+        with_npm: :boolean
       ],
       aliases: [e: :exclude]
     }
@@ -55,12 +58,16 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless.Components do
     tty? = IO.ANSI.enabled?()
     if tty?, do: Owl.Spinner.start(id: :my_spinner, labels: [processing: "Please wait..."])
 
-    list = Core.resolve_components(igniter, components, :headless, user_config, options[:exclude])
+    list =
+      Core.resolve_components(igniter, components, :headless, user_config, options[:exclude],
+        with_npm: options[:with_npm]
+      )
 
     child_args =
       ["--sub", "--yes"]
       |> Core.append_arg("--component-prefix", options[:component_prefix])
       |> Core.append_arg("--module-prefix", options[:module_prefix])
+      |> then(&if(options[:no_npm], do: &1 ++ ["--no-npm"], else: &1))
 
     igniter =
       igniter

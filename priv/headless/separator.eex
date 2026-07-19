@@ -16,8 +16,16 @@ defmodule <%= @module %> do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: "Optional id"
-  attr :orientation, :string, default: "horizontal", values: ~w(horizontal vertical), doc: "Axis of the separator"
-  attr :decorative, :boolean, default: false, doc: "If true, the separator is purely visual (role=none)"
+
+  attr :orientation, :string,
+    default: "horizontal",
+    values: ~w(horizontal vertical),
+    doc: "Axis of the separator"
+
+  attr :decorative, :boolean,
+    default: false,
+    doc: "If true, the separator is purely visual (role=none)"
+
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :rest, :global
 
@@ -28,7 +36,7 @@ defmodule <%= @module %> do
     <div
       id={@id}
       role={if @decorative, do: "none", else: "separator"}
-      aria-orientation={!@decorative && @orientation || nil}
+      aria-orientation={(!@decorative && @orientation) || nil}
       data-orientation={@orientation}
       class={["chelekom-separator", @class]}
       {@rest}

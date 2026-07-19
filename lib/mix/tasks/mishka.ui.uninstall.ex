@@ -47,9 +47,11 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
       extra_args?: false,
       only: nil,
       positional: [{:components, optional: true}],
+      group: :mishka_chelekom,
       composes: [],
       schema: [
         all: :boolean,
+        include_npm: :boolean,
         headless: :boolean,
         dry_run: :boolean,
         force: :boolean,
@@ -305,6 +307,7 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
       igniter
       |> remove_component_files()
       |> remove_js_files()
+      |> remove_npm_deps()
       |> update_mishka_components_js()
       |> maybe_remove_mishka_components_js()
       |> update_app_js()
@@ -347,6 +350,12 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     js_still_needed = extract_js_files(configs_remaining)
     js_to_remove = js_to_consider -- js_still_needed
 
+    # Same refcount for npm packages — but assets/package.json is the USER's file, so a package is
+    # only ever removed when no remaining component declares it AND the pinned version still
+    # matches ours (see removable_npm/1).
+    npm_to_consider = extract_npm_deps(configs_to_remove)
+    npm_to_remove = npm_to_consider -- extract_npm_deps(configs_remaining)
+
     {igniter, component_files} =
       resolve_component_files(igniter, components, web_module, module_prefix)
 
@@ -357,6 +366,8 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
       js_to_remove: js_to_remove,
       js_preserved: js_to_consider -- js_to_remove,
       js_modules_to_remove: extract_js_modules(configs_to_remove, js_to_remove),
+      npm_to_remove: npm_to_remove,
+      npm_preserved: npm_to_consider -- npm_to_remove,
       remaining: remaining,
       warnings: find_dependency_warnings(configs_remaining, components),
       web_module: web_module,
@@ -414,6 +425,16 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
       :headless -> Path.join(base, "headless")
       _ -> base
     end
+  end
+
+  defp extract_npm_deps(configs) do
+    configs
+    |> Enum.flat_map(fn
+      {_, nil} -> []
+      {_, config} -> Keyword.get(config, :npm, [])
+    end)
+    |> Enum.map(&{&1.name, &1.version})
+    |> Enum.uniq()
   end
 
   defp extract_js_files(configs) do
@@ -550,6 +571,71 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   defp do_remove_component({_, path, false, module}, igniter) do
     verbose_log(igniter, "  Skipping (not found): #{path || "unknown"} (#{inspect(module)})")
     igniter
+  end
+
+  # assets/package.json belongs to the user: they may have added the same package themselves, or
+  # pinned a different version deliberately. So a package is removed only when this run drops the
+  # last component declaring it AND the manifest still holds exactly the version we pinned —
+  # anything else is reported, never touched. Opt in with --include-npm.
+  defp remove_npm_deps(igniter) do
+    plan = igniter.assigns.plan
+    candidates = Map.get(plan, :npm_to_remove, [])
+
+    cond do
+      candidates == [] ->
+        igniter
+
+      !igniter.args.options[:include_npm] ->
+        Igniter.add_notice(igniter, """
+        These npm packages are no longer used by any installed component:
+
+            #{candidates |> Enum.map(fn {name, version} -> "#{name}@#{version}" end) |> Enum.join(", ")}
+
+        They were left in assets/package.json. Remove them with --include-npm, or by hand.
+        """)
+
+      true ->
+        {removable, kept} = Enum.split_with(candidates, &pinned_by_us?(igniter, &1))
+
+        igniter
+        |> maybe_report_kept(kept)
+        |> maybe_remove_npm(removable)
+    end
+  end
+
+  defp maybe_report_kept(igniter, []), do: igniter
+
+  defp maybe_report_kept(igniter, kept) do
+    Igniter.add_notice(igniter, """
+    Left these in assets/package.json — the pinned version no longer matches the one this
+    component declared, so the project depends on them for another reason:
+
+        #{kept |> Enum.map(fn {name, version} -> "#{name} (expected #{version})" end) |> Enum.join(", ")}
+    """)
+  end
+
+  defp maybe_remove_npm(igniter, []), do: igniter
+
+  defp maybe_remove_npm(igniter, removable) do
+    MishkaChelekom.Generators.Npm.remove_deps(igniter, Enum.map(removable, &elem(&1, 0)))
+    |> MishkaChelekom.Generators.Npm.run_command(remove: true)
+  end
+
+  # Read through the rewrite, not File.read/1: the manifest may have been staged earlier in this
+  # same run, and under Igniter.Test there is no real file at all.
+  defp pinned_by_us?(igniter, {name, version}) do
+    content =
+      case igniter.rewrite.sources["assets/package.json"] do
+        nil -> File.read("assets/package.json")
+        source -> {:ok, Rewrite.Source.get(source, :content)}
+      end
+
+    with {:ok, raw} <- content,
+         {:ok, json} <- Jason.decode(raw) do
+      get_in(json, ["dependencies", name]) == version
+    else
+      _ -> false
+    end
   end
 
   defp remove_js_files(%{assigns: %{opts: %{keep_js: true}}} = igniter), do: igniter

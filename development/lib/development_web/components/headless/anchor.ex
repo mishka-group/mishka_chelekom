@@ -1,0 +1,49 @@
+defmodule DevelopmentWeb.Components.Headless.Anchor do
+  @moduledoc """
+  Headless **anchor** — a plain, themeable link (Mantine Anchor parity).
+
+  Renders an `<a>` with your `href`, or a LiveView link when given `navigate`/`patch`.
+  Anchor attributes (`target`, `rel`, `download`, …) and `phx-*` bindings pass through.
+  Semantics only — bring your own color and underline.
+
+  Ships **no** styling — style via `chelekom-anchor`.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/anchor
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, default: nil, doc: "Optional unique id"
+  attr :navigate, :string, doc: "Navigates to another LiveView"
+  attr :patch, :string, doc: "Patches the current LiveView"
+  attr :href, :string, default: nil, doc: "Link target"
+  attr :class, :any, default: nil, doc: "Extra classes"
+
+  attr :rest, :global,
+    include: ~w(download hreflang referrerpolicy rel replace target type),
+    doc: "Any anchor/global attrs (target, rel, phx-*, …)"
+
+  slot :inner_block, required: true, doc: "The link text/content"
+
+  def anchor(%{navigate: _navigate} = assigns) do
+    ~H"""
+    <.link navigate={@navigate} id={@id} class={["chelekom-anchor", @class]} {@rest}>{render_slot(
+      @inner_block
+    )}</.link>
+    """
+  end
+
+  def anchor(%{patch: _patch} = assigns) do
+    ~H"""
+    <.link patch={@patch} id={@id} class={["chelekom-anchor", @class]} {@rest}>{render_slot(
+      @inner_block
+    )}</.link>
+    """
+  end
+
+  def anchor(assigns) do
+    ~H"""
+    <a id={@id} href={@href} class={["chelekom-anchor", @class]} {@rest}>{render_slot(@inner_block)}</a>
+    """
+  end
+end

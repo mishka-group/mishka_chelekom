@@ -1,0 +1,64 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Headless **scroller** — a horizontally scrollable row with prev/next controls (Mantine
+  Scroller parity).
+
+  The `Scroller` engine scrolls the `viewport` by ~80% of its width (or `scroll_by` px) when the
+  `prev`/`next` buttons are pressed, and marks each button `data-disabled` at the ends (a
+  `ResizeObserver` keeps it correct). The viewport itself stays natively scrollable/swipeable.
+
+  Ships **no** styling — style via `chelekom-scroller*` and the `data-disabled` hooks.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/scroller
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, required: true, doc: "Unique id (carries the Scroller hook)"
+
+  attr :scroll_by, :integer,
+    default: nil,
+    doc: "px to scroll per click (default ~80% of the viewport)"
+
+  attr :prev_label, :string, default: "Scroll left", doc: "aria-label for the back button"
+  attr :next_label, :string, default: "Scroll right", doc: "aria-label for the forward button"
+  attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :viewport_class, :any, default: nil, doc: "Extra classes for the scroll viewport"
+  attr :control_class, :any, default: nil, doc: "Extra classes for the prev/next buttons"
+  attr :rest, :global
+
+  slot :inner_block, required: true, doc: "The scrollable items (place them in a row)"
+
+  def <%= @component_prefix %>scroller(assigns) do
+    ~H"""
+    <div
+      id={@id}
+      phx-hook="Scroller"
+      data-part="root"
+      data-scroll-by={@scroll_by}
+      class={["chelekom-scroller", @class]}
+      {@rest}
+    >
+      <button
+        type="button"
+        data-part="prev"
+        aria-label={@prev_label}
+        class={["chelekom-scroller__control", @control_class]}
+      >
+        <span aria-hidden="true">‹</span>
+      </button>
+      <div data-part="viewport" class={["chelekom-scroller__viewport", @viewport_class]}>
+        {render_slot(@inner_block)}
+      </div>
+      <button
+        type="button"
+        data-part="next"
+        aria-label={@next_label}
+        class={["chelekom-scroller__control", @control_class]}
+      >
+        <span aria-hidden="true">›</span>
+      </button>
+    </div>
+    """
+  end
+end

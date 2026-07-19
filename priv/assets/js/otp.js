@@ -135,7 +135,7 @@ const Otp = {
   },
 
   fire(event, value) {
-    if (event) this.pushEvent(event, { value });
+    if (event) this.pushEventTo(this.el, event, { value });
   },
 
   setValue(next, reason) {

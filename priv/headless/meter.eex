@@ -29,14 +29,19 @@ defmodule <%= @module %> do
 
   attr :value_text, :string,
     default: nil,
-    doc: ~s|Human-readable value for `aria-valuetext` + the readout (defaults to a percent, e.g. "72%")|
+    doc:
+      ~s|Human-readable value for `aria-valuetext` + the readout (defaults to a percent, e.g. "72%")|
 
   attr :show_value, :boolean, default: false, doc: ~s|Render a `data-part="value"` text readout|
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :label_class, :any, default: nil, doc: ~s|Extra classes for the `data-part="label"`|
   attr :value_class, :any, default: nil, doc: ~s|Extra classes for the `data-part="value"`|
   attr :track_class, :any, default: nil, doc: ~s|Extra classes for the `data-part="track"`|
-  attr :indicator_class, :any, default: nil, doc: ~s|Extra classes for the `data-part="indicator"`|
+
+  attr :indicator_class, :any,
+    default: nil,
+    doc: ~s|Extra classes for the `data-part="indicator"`|
+
   attr :rest, :global
 
   def <%= @component_prefix %>meter(assigns) do

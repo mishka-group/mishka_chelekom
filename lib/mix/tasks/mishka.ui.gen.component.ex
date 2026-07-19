@@ -42,6 +42,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
   * `--sub` - Specifies this task is a sub task
   * `--no-deps` - Specifies this task is created without sub task
   * `--no-save` - Use prefixes without saving them to config file
+  * `--no-npm` - Write everything but skip installing the component's npm packages
   * `--yes` - Makes directly without questions
   """
 
@@ -79,7 +80,8 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
         sub: :boolean,
         no_deps: :boolean,
         no_sub_config: :boolean,
-        no_save: :boolean
+        no_save: :boolean,
+        no_npm: :boolean
       ],
       # CLI aliases
       aliases: [
@@ -471,7 +473,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
   end
 
   defp wire_scripts(%{assigns: %{eex_assigns: _}} = igniter),
-    do: Assets.wire_scripts(igniter, igniter.assigns.template_config)
+    do: Assets.wire_scripts(igniter, igniter.assigns.template_config, igniter.args.options)
 
   defp wire_scripts(igniter), do: igniter
 

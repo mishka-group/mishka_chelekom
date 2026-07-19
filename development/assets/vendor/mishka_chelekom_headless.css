@@ -455,3 +455,51 @@
 [data-part="scrub-area-cursor"]:not([data-scrubbing]) {
     display: none;
 }
+
+/* Editor: the editing surface. Functional only — the editable area must FILL the surface, the
+ * caret must not be boxed in, and an empty document must still show its placeholder.
+ *
+ * Every engine nests its editable node differently: TipTap renders `.ProseMirror` directly,
+ * Milkdown wraps it in `.milkdown`, CodeMirror builds `.cm-editor > .cm-scroller`. Each wrapper
+ * has to stretch, or a click below the last line lands on a non-editable box and no caret
+ * appears — the user has to aim at the text itself.
+ *
+ * Deliberately NOT here: typography. Under Tailwind Preflight the editor's headings, lists and
+ * blockquotes render flat, and styling them is the consuming app's job — see the showcase demo. */
+.chelekom-editor__surface {
+    display: flex;
+    flex-direction: column;
+}
+
+.chelekom-editor__surface > *,
+.chelekom-editor__surface .milkdown {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.chelekom-editor__surface .milkdown {
+    display: flex;
+    flex-direction: column;
+}
+
+.chelekom-editor__surface .ProseMirror,
+.chelekom-editor__surface .cm-editor {
+    flex: 1 1 auto;
+    outline: none;
+}
+
+.chelekom-editor__surface .ProseMirror {
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* `attr()` reads from the element the pseudo-element belongs to, so each engine mirrors
+ * data-placeholder onto its own editable node. Floating it with zero height overlays it on the
+ * first line instead of pushing the caret down. */
+.chelekom-editor[data-empty] .chelekom-editor__surface .ProseMirror::before,
+.chelekom-editor[data-empty] .chelekom-editor__surface [data-part="lexical-content"]::before {
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+}

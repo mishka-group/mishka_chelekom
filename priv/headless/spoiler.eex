@@ -1,0 +1,67 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Headless **spoiler** — hide a long section of content behind a "Show more" toggle
+  (Mantine Spoiler parity).
+
+  Collapsed, the `content` is clamped to a max-height (overflow hidden) from your CSS.
+  The `control` toggles `data-expanded` on the root with `JS.toggle_attribute` — **no
+  server round-trip and no JS hook**. Reveal the full content and swap the control's two
+  labels from CSS keyed on `[data-expanded]`. `aria-expanded`/`aria-controls` wire the
+  disclosure for assistive tech.
+
+  Ships **no** colors, spacing or the clamp height — style via `chelekom-spoiler*` and
+  the `data-expanded` hook.
+
+  WAI-ARIA APG: Disclosure pattern.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/spoiler
+  """
+  use Phoenix.Component
+  alias Phoenix.LiveView.JS
+
+  @doc type: :component
+  attr :id, :string, required: true, doc: "Unique id; anchors the content for aria-controls"
+  attr :expanded, :boolean, default: false, doc: "Initial expanded state"
+  attr :show_label, :string, default: "Show more", doc: "Control label while collapsed"
+  attr :hide_label, :string, default: "Show less", doc: "Control label while expanded"
+  attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :content_class, :any, default: nil, doc: "Extra classes for the content region"
+  attr :control_class, :any, default: nil, doc: "Extra classes for the toggle"
+  attr :rest, :global
+
+  slot :inner_block, required: true, doc: "The (possibly long) content"
+
+  def <%= @component_prefix %>spoiler(assigns) do
+    ~H"""
+    <div
+      id={@id}
+      data-part="root"
+      data-expanded={@expanded}
+      class={["chelekom-spoiler", @class]}
+      {@rest}
+    >
+      <div
+        id={"#{@id}-content"}
+        data-part="content"
+        class={["chelekom-spoiler__content", @content_class]}
+      >
+        {render_slot(@inner_block)}
+      </div>
+      <button
+        type="button"
+        data-part="control"
+        aria-expanded={to_string(@expanded)}
+        aria-controls={"#{@id}-content"}
+        phx-click={
+          JS.toggle_attribute({"data-expanded", "true"}, to: "##{@id}")
+          |> JS.toggle_attribute({"aria-expanded", "true", "false"})
+        }
+        class={["chelekom-spoiler__control", @control_class]}
+      >
+        <span data-part="show-label">{@show_label}</span>
+        <span data-part="hide-label">{@hide_label}</span>
+      </button>
+    </div>
+    """
+  end
+end

@@ -39,10 +39,10 @@ if Code.ensure_loaded?(Igniter) do
   defmodule Mix.Tasks.Mishka.Assets.Deps do
     @shortdoc "#{__MODULE__.Docs.short_doc()}"
     @moduledoc __MODULE__.Docs.long_doc()
-    @pkgs [:npm, :bun, :yarn]
     use Igniter.Mix.Task
 
     alias MishkaChelekom.Generators.Core
+    alias MishkaChelekom.Generators.Npm
 
     @impl Igniter.Mix.Task
     def info(_argv, _composing_task) do
@@ -75,14 +75,7 @@ if Code.ensure_loaded?(Igniter) do
       %Igniter.Mix.Task.Args{positional: %{deps: deps}} = igniter.args
       options = igniter.args.options
 
-      package_manager =
-        cond do
-          options[:bun] -> :bun
-          options[:npm] -> :npm
-          options[:yarn] -> :yarn
-          options[:mix_bun] -> nil
-          true -> Enum.find(@pkgs, &(!is_nil(System.find_executable(Atom.to_string(&1)))))
-        end
+      package_manager = Npm.detect(options)
 
       if !options[:test], do: Core.banner(IO.ANSI.light_yellow(), "Assets")
 
@@ -92,10 +85,10 @@ if Code.ensure_loaded?(Igniter) do
 
       final =
         igniter
-        |> ensure_package_json_exists()
+        |> Npm.ensure_package_json_exists()
         |> handle_deps(String.split(deps, ","), options)
-        |> check_package_manager(package_manager)
-        |> run_command(options)
+        |> Npm.check_package_manager(package_manager)
+        |> Npm.run_command(options)
 
       if spin? do
         if Map.get(final, :issues, []) == [],
@@ -108,251 +101,19 @@ if Code.ensure_loaded?(Igniter) do
 
     defp handle_deps(igniter, deps, options) do
       if options[:remove] do
-        remove_package_json_deps(igniter, deps, options)
+        Npm.remove_deps(igniter, deps, options)
       else
-        update_package_json_deps(igniter, deps, options)
+        Npm.add_deps(igniter, deps, options)
       end
     end
 
-    def check_package_manager(igniter, manager) when manager in @pkgs do
-      if Igniter.has_changes?(igniter) do
-        new_igniter =
-          case System.find_executable(Atom.to_string(manager)) do
-            nil ->
-              igniter
-              |> Igniter.add_warning("""
-              Note:
-              #{manager} not found.
-              Please install it or let us to use binary Bun that does not need to be installed.
-              """)
-              |> check_package_manager(nil)
-
-            _path ->
-              igniter
-              |> Igniter.assign(:package_manager, manager)
-          end
-
-        new_igniter
-      else
-        igniter
-      end
-    end
-
-    def check_package_manager(igniter, nil) do
-      if Igniter.has_changes?(igniter) do
-        install_config_ast =
-          quote do
-            [args: ["install"], cd: Path.expand("../assets", __DIR__)]
-          end
-
-        uninstall_config_ast =
-          quote do
-            [args: ["remove"], cd: Path.expand("../assets", __DIR__)]
-          end
-
-        dep_ast =
-          quote do
-            [runtime: Mix.env() == :dev]
-          end
-
-        igniter =
-          igniter
-          |> Igniter.add_warning("""
-          No package manager found. We can install bun as a mix dependency.
-          This will add {:bun, "~> 1.0"} to your mix.exs and make bun available.
-          """)
-
-        case Igniter.Project.Deps.get_dep(igniter, :bun) do
-          {:ok, dep} when not is_nil(dep) ->
-            igniter
-
-          _ ->
-            igniter
-            |> Igniter.Project.Deps.add_dep({:bun, "~> 1.0", dep_ast})
-        end
-        |> Igniter.Project.Config.configure_new("config.exs", :bun, [:version], "1.2.14")
-        |> Igniter.Project.Config.configure_new(
-          "config.exs",
-          :bun,
-          [:install],
-          {:code, install_config_ast}
-        )
-        |> Igniter.Project.Config.configure_new(
-          "config.exs",
-          :bun,
-          [:uninstall],
-          {:code, uninstall_config_ast}
-        )
-        |> Igniter.assign(:package_manager, :bun)
-        |> Igniter.assign(:package_manager_type, "mix")
-      else
-        igniter
-      end
-    end
-
-    def ensure_package_json_exists(igniter) do
-      package_json_path = "assets/package.json"
-
-      if Igniter.exists?(igniter, package_json_path) do
-        igniter
-      else
-        default_package_json = """
-        {
-          "name": "#{Igniter.Project.Application.app_name(igniter)}",
-          "version": "1.0.0",
-          "description": "Assets for #{Igniter.Project.Application.app_name(igniter)} Phoenix application",
-          "dependencies": {},
-          "devDependencies": {}
-        }
-        """
-
-        igniter
-        |> Igniter.create_new_file(package_json_path, default_package_json)
-        |> Igniter.add_notice("""
-        Created package.json in assets directory.
-        You may want to customize the name, description, and etc for your project.
-        """)
-      end
-    end
-
-    def update_package_json_deps(igniter, deps, options \\ []) do
-      package_json_path = "assets/package.json"
-      parsed_deps = parse_deps(deps)
-      deps_key = if options[:dev], do: "devDependencies", else: "dependencies"
-
-      new_igniter =
-        igniter
-        |> Igniter.update_file(package_json_path, fn source ->
-          original_content = Rewrite.Source.get(source, :content)
-
-          case Jason.decode(original_content) do
-            {:ok, json} ->
-              existing_deps = Map.get(json, deps_key, %{})
-
-              formatted =
-                Enum.reduce(parsed_deps, existing_deps, fn {name, version}, acc ->
-                  Map.put(acc, name, version)
-                end)
-                |> then(&Map.put(json, deps_key, &1))
-                |> Jason.encode!(pretty: true)
-                |> Kernel.<>("\n")
-
-              Rewrite.Source.update(source, :content, formatted)
-
-            {:error, _} ->
-              source
-              |> Rewrite.Source.add_issue(
-                "Failed to parse package.json. Ensure it contains valid JSON."
-              )
-          end
-        end)
-
-      new_igniter
-    end
-
-    def remove_package_json_deps(igniter, deps, options \\ []) do
-      package_json_path = "assets/package.json"
-      deps_to_remove = parse_deps(deps) |> Enum.map(&elem(&1, 0))
-      deps_key = if options[:dev], do: "devDependencies", else: "dependencies"
-
-      new_igniter =
-        igniter
-        |> Igniter.assign(:deps_to_remove, deps_to_remove)
-        |> Igniter.update_file(package_json_path, fn source ->
-          original_content = Rewrite.Source.get(source, :content)
-
-          case Jason.decode(original_content) do
-            {:ok, json} ->
-              {_removed, remaining} = Map.get(json, deps_key, %{}) |> Map.split(deps_to_remove)
-
-              formatted =
-                json
-                |> Map.put(deps_key, remaining)
-                |> Jason.encode!(pretty: true)
-                |> Kernel.<>("\n")
-
-              Rewrite.Source.update(source, :content, formatted)
-
-            {:error, _} ->
-              source
-              |> Rewrite.Source.add_issue(
-                "Failed to parse package.json. Ensure it contains valid JSON."
-              )
-          end
-        end)
-
-      new_igniter
-    end
-
-    def run_command(igniter, options) do
-      if Igniter.has_changes?(igniter) do
-        package_manager = Map.get(igniter.assigns, :package_manager, :npm)
-        pkg_type = Map.get(igniter.assigns, :package_manager_type, "pkg")
-
-        command = if options[:remove], do: "remove", else: "install"
-
-        task_args =
-          if options[:remove] do
-            deps_to_remove = Map.get(igniter.assigns, :deps_to_remove, [])
-            [Atom.to_string(package_manager), pkg_type, command | deps_to_remove]
-          else
-            [Atom.to_string(package_manager), pkg_type, command]
-          end
-
-        igniter
-        |> Igniter.add_task("mishka.assets.install", task_args)
-        |> add_final_notice(options)
-      else
-        igniter
-      end
-    end
-
-    defp add_final_notice(igniter, options) do
-      if options[:remove] do
-        igniter
-        |> Igniter.add_notice(
-          IO.ANSI.green() <>
-            """
-            Dependencies have been removed from package.json.
-            The package manager will update the lockfile and node_modules accordingly.
-            """ <> IO.ANSI.reset()
-        )
-      else
-        igniter
-        |> Igniter.add_notice(
-          IO.ANSI.yellow() <>
-            """
-            Note:
-            Unfortunately, JavaScript has developed a problematic ecosystem over several years.
-            For this reason, even if we check many things, errors still occur during the download
-            and installation of packages, which are very difficult to manage in scripts.
-
-            Therefore, in case of errors, you need to manage them manually.
-            However, in the past year, we've had a very good experience with Bun and highly recommend it.
-            It's worth mentioning that if you're using Docker, you need to specify during build time
-            that you have JS packages that need to be built.
-            """ <> IO.ANSI.reset()
-        )
-      end
-    end
-
-    defp parse_deps(deps) when is_list(deps) do
-      Enum.map(deps, fn dep ->
-        case String.split(dep, "@", parts: 2) do
-          [name] ->
-            {name, "latest"}
-
-          ["", scoped_rest] ->
-            case String.split(scoped_rest, "@", parts: 2) do
-              [scoped_name] -> {"@#{scoped_name}", "latest"}
-              [scoped_name, version] -> {"@#{scoped_name}", version}
-            end
-
-          [name, version] ->
-            {name, version}
-        end
-      end)
-    end
+    # Kept as thin delegations: these were this task's public API before the shared
+    # MishkaChelekom.Generators.Npm module existed, and other call sites may rely on them.
+    defdelegate ensure_package_json_exists(igniter), to: Npm
+    defdelegate update_package_json_deps(igniter, deps, options \\ []), to: Npm, as: :add_deps
+    defdelegate remove_package_json_deps(igniter, deps, options \\ []), to: Npm, as: :remove_deps
+    defdelegate check_package_manager(igniter, manager), to: Npm
+    defdelegate run_command(igniter, options), to: Npm
   end
 else
   defmodule Mix.Tasks.Mishka.Assets.Deps.Install do

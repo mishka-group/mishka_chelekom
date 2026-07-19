@@ -1,0 +1,214 @@
+// Editor (Milkdown 7) — markdown engine for the headless `editor` component.
+//
+// Same element contract and same hook name as every other editor engine, so the component's
+// markup never changes when you switch `--lib`. See editor_tiptap.js for the full contract table.
+//
+// Format: this engine stores MARKDOWN SOURCE (`format="markdown"`).
+//
+// The teardown here is deliberately defensive. Milkdown's `create()` and `destroy()` are BOTH
+// async, and `destroy()` called while the editor is still creating returns a promise that
+// re-polls every 50ms until creation finishes. LiveView's destroyed() does not await anything, so
+// on fast navigation the editor would finish constructing into a detached node and only then tear
+// down — stacking live editors, each still holding its ProseMirror DOM handlers. Every teardown is
+// therefore chained off the create promise and guarded by a disposed flag.
+
+import { Editor as MilkdownEditor, rootCtx, defaultValueCtx, editorViewOptionsCtx } from "@milkdown/kit/core";
+import { commonmark } from "@milkdown/kit/preset/commonmark";
+import { gfm } from "@milkdown/kit/preset/gfm";
+import { history } from "@milkdown/kit/plugin/history";
+import { listener, listenerCtx } from "@milkdown/kit/plugin/listener";
+import { getMarkdown, replaceAll, $inputRule } from "@milkdown/kit/utils";
+import { markRule } from "@milkdown/kit/prose";
+import { linkSchema } from "@milkdown/kit/preset/commonmark";
+import userConfig from "./editor_extensions.js";
+
+// Milkdown's commonmark preset ships input rules for headings, lists, blockquote, code and
+// emphasis — but NOT for links. So a link typed as [text](url) stays literal, even though the
+// identical text becomes a link when it arrives in the initial document (that path goes through
+// the markdown PARSER, not input rules). This closes the gap, firing on the closing paren.
+//
+// `markRule` marks its LAST capture group and deletes the rest of the match, so the label — not
+// the href — has to end up in `group`. The href is captured second, which makes it last, so
+// `updateCaptured` re-points `group` at the label and `getAttr` reads the href from the match.
+const LINK_RE = /\[([^\]]+)\]\(([^)\s]+)\)$/;
+
+const linkInputRule = $inputRule((ctx) =>
+  markRule(LINK_RE, linkSchema.type(ctx), {
+    updateCaptured: ({ fullMatch }) => {
+      const parts = LINK_RE.exec(fullMatch);
+      return parts ? { group: parts[1] } : {};
+    },
+    getAttr: (match) => ({ href: match[2] }),
+  }),
+);
+
+function toggle(el, attr, on) {
+  if (!el) return;
+  if (on) el.setAttribute(attr, "");
+  else el.removeAttribute(attr);
+}
+
+const Editor = {
+  mounted() {
+    const el = this.el;
+
+    this.rootId = el.getAttribute("data-root-id");
+    this.root = document.getElementById(this.rootId) || el.parentElement;
+    this.hidden = document.getElementById(el.getAttribute("data-value-id"));
+    this.debounceMs = parseInt(el.getAttribute("data-debounce"), 10) || 300;
+    this.onChange = el.getAttribute("data-on-change");
+    this.timer = null;
+    this.remote = false;
+    this.disposed = false;
+
+    const config = userConfig || {};
+    const editable = el.getAttribute("data-editable") !== "false";
+
+    this.ready = MilkdownEditor.make()
+      .config((ctx) => {
+        ctx.set(rootCtx, el);
+        ctx.set(defaultValueCtx, el.getAttribute("data-value") || "");
+        ctx.update(editorViewOptionsCtx, (prev) => ({ ...prev, editable: () => this.editable }));
+
+        ctx.get(listenerCtx).markdownUpdated((_ctx, markdown) => this.schedule(markdown));
+        ctx.get(listenerCtx).focus(() => this.render());
+        ctx.get(listenerCtx).blur(() => {
+          this.render();
+          this.commit();
+        });
+      })
+      .use(commonmark)
+      .use(gfm)
+      .use(history)
+      .use(listener)
+      .use(linkInputRule)
+      .use(config.extensions || [])
+      .create()
+      .then((editor) => {
+        // The hook may already have been destroyed while this was in flight; if so tear the
+        // finished editor down immediately instead of leaving it attached to a detached node.
+        if (this.disposed) {
+          editor.destroy();
+          return null;
+        }
+
+        this.editor = editor;
+        // .ProseMirror only exists once create() resolves.
+        this.mirrorPlaceholder();
+        this.render();
+        return editor;
+      })
+      .catch(() => null);
+
+    this.editable = editable;
+
+    this.bindSurfaceFocus();
+
+    this.setRef = this.handleEvent("chelekom:editor", (payload) => {
+      if (!payload || (payload.id && payload.id !== this.rootId)) return;
+      this.applyRemote(payload.value ?? "");
+    });
+  },
+
+  updated() {
+    const editable = this.el.getAttribute("data-editable") !== "false";
+    if (editable === this.editable) return;
+
+    this.editable = editable;
+    // editorViewOptionsCtx reads `editable` through the closure above, so the view only needs a
+    // nudge to re-evaluate it — never rebuild, that would lose the cursor and history.
+    this.editor?.action((ctx) => {
+      ctx.update(editorViewOptionsCtx, (prev) => ({ ...prev }));
+    });
+    this.render();
+  },
+
+
+  // The editable node is stretched by CSS, but the surface can still carry padding of its own, and
+  // every engine nests its node differently. A click there is a click on a non-editable box, so
+  // place the caret explicitly instead of making the user aim at the text.
+  bindSurfaceFocus() {
+    this._onSurfaceDown = (event) => {
+      if (event.target.closest(".ProseMirror, .cm-editor, [data-part=\"lexical-content\"]")) return;
+      this.el.querySelector(".ProseMirror")?.focus();
+    };
+
+    this.el.addEventListener("mousedown", this._onSurfaceDown);
+  },
+
+  // `attr()` can only read from the element the pseudo-element is on, so the placeholder text has
+  // to live on the editable node itself, wherever the engine put it.
+  mirrorPlaceholder() {
+    const placeholder = this.el.getAttribute("data-placeholder");
+    if (!placeholder) return;
+    const node = this.el.querySelector(".ProseMirror");
+    if (node) node.setAttribute("data-placeholder", placeholder);
+  },
+
+  destroyed() {
+    this.el.removeEventListener("mousedown", this._onSurfaceDown);
+    this.disposed = true;
+    if (this.timer) clearTimeout(this.timer);
+    if (this.setRef) this.removeHandleEvent(this.setRef);
+
+    // Chain off the create promise: calling destroy() mid-creation would otherwise enter
+    // Milkdown's 50ms re-poll loop that nothing here can await.
+    this.ready = (this.ready || Promise.resolve())
+      .then((editor) => editor?.destroy())
+      .catch(() => null);
+
+    this.editor = null;
+  },
+
+  render() {
+    if (!this.editor) return;
+    const markdown = this.markdown();
+    toggle(this.root, "data-empty", !markdown || markdown.trim() === "");
+  },
+
+  markdown() {
+    try {
+      return this.editor?.action(getMarkdown()) ?? "";
+    } catch (_e) {
+      return "";
+    }
+  },
+
+  schedule(markdown) {
+    if (this.remote) return;
+    if (this.timer) clearTimeout(this.timer);
+    this.timer = setTimeout(() => this.commit(markdown), this.debounceMs);
+  },
+
+  commit(markdown) {
+    if (!this.hidden) return;
+
+    const next = markdown ?? this.markdown();
+    if (this.hidden.value === next) return;
+
+    this.hidden.value = next;
+    this.hidden.dispatchEvent(new Event("input", { bubbles: true }));
+    this.push(this.onChange, next);
+    this.render();
+  },
+
+  applyRemote(value) {
+    if (!this.editor) return;
+    this.remote = true;
+
+    try {
+      this.editor.action(replaceAll(value));
+      if (this.hidden) this.hidden.value = value;
+      this.render();
+    } finally {
+      this.remote = false;
+    }
+  },
+
+  push(event, value) {
+    if (!event) return;
+    this.pushEventTo(this.el, event, { value: value ?? this.markdown() });
+  },
+};
+
+export default Editor;

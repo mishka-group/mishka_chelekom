@@ -64,6 +64,72 @@ defmodule Mix.Tasks.Mishka.Ui.UninstallTest do
     end
   end
 
+  describe "npm packages (assets/package.json is the user's file)" do
+    defp with_editor(files \\ %{}) do
+      test_project_with_formatter(
+        files:
+          Map.merge(
+            %{
+              "lib/test_web/components/headless/editor.ex" =>
+                "defmodule TestWeb.Components.Headless.Editor do\nend\n"
+            },
+            files
+          )
+      )
+    end
+
+    test "reports the orphaned packages instead of removing them by default" do
+      igniter =
+        with_editor()
+        |> Igniter.compose_task(Uninstall, ["editor", "--headless", "--yes"])
+
+      notices = Enum.join(igniter.notices, " ")
+
+      assert notices =~ "@tiptap/core",
+             "an uninstall must say which npm packages are now unused"
+
+      assert notices =~ "--include-npm", "it must say how to actually remove them"
+
+      refute Igniter.has_changes?(igniter, ["assets/package.json"]),
+             "package.json must never be touched without --include-npm"
+    end
+
+    test "--include-npm removes only packages still pinned at the version we declared" do
+      manifest =
+        Jason.encode!(
+          %{
+            "name" => "test",
+            "dependencies" => %{
+              # ours, untouched since we wrote it -> removable
+              "@tiptap/core" => "3.28.0",
+              "@tiptap/pm" => "3.28.0",
+              # the project pinned its own version -> must survive
+              "@tiptap/starter-kit" => "9.9.9"
+            }
+          },
+          pretty: true
+        ) <> "\n"
+
+      igniter =
+        with_editor(%{"assets/package.json" => manifest})
+        |> Igniter.compose_task(Uninstall, ["editor", "--headless", "--include-npm", "--yes"])
+
+      deps =
+        igniter.rewrite.sources["assets/package.json"]
+        |> Rewrite.Source.get(:content)
+        |> Jason.decode!()
+        |> Map.get("dependencies")
+
+      refute Map.has_key?(deps, "@tiptap/core")
+      refute Map.has_key?(deps, "@tiptap/pm")
+
+      assert deps["@tiptap/starter-kit"] == "9.9.9",
+             "a version the project changed is theirs now — removing it would break their build"
+
+      assert Enum.join(igniter.notices, " ") =~ "@tiptap/starter-kit"
+    end
+  end
+
   describe "component file removal" do
     test "removes component file when it exists" do
       igniter =

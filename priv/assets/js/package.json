@@ -1,0 +1,8 @@
+{
+  "type": "module",
+  "private": true,
+  "description": "Headless component engines (ESM). Run the pure-function tests with: node --test",
+  "scripts": {
+    "test": "node --test"
+  }
+}

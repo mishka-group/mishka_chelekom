@@ -5,13 +5,24 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   """
   use Phoenix.Component
 
-  import DevelopmentWeb.Components.Headless.Collapsible
   import DevelopmentWeb.Components.Headless.Accordion
+  import DevelopmentWeb.Components.Headless.ActionIcon
   import DevelopmentWeb.Components.Headless.AlertDialog
+  import DevelopmentWeb.Components.Headless.AlphaSlider
+  import DevelopmentWeb.Components.Headless.Anchor
+  import DevelopmentWeb.Components.Headless.AngleSlider
   import DevelopmentWeb.Components.Headless.Autocomplete
   import DevelopmentWeb.Components.Headless.Avatar
+  import DevelopmentWeb.Components.Headless.Burger
   import DevelopmentWeb.Components.Headless.Checkbox
   import DevelopmentWeb.Components.Headless.CheckboxGroup
+  import DevelopmentWeb.Components.Headless.Chip
+  import DevelopmentWeb.Components.Headless.CloseButton
+  import DevelopmentWeb.Components.Headless.Code
+  import DevelopmentWeb.Components.Headless.Collapsible
+  import DevelopmentWeb.Components.Headless.ColorInput
+  import DevelopmentWeb.Components.Headless.ColorPicker
+  import DevelopmentWeb.Components.Headless.ColorSwatch
   import DevelopmentWeb.Components.Headless.Combobox
   import DevelopmentWeb.Components.Headless.ContextMenu
   import DevelopmentWeb.Components.Headless.Dialog
@@ -19,30 +30,55 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.EmptyState
   import DevelopmentWeb.Components.Headless.Field
   import DevelopmentWeb.Components.Headless.Fieldset
+  import DevelopmentWeb.Components.Headless.FloatingIndicator
+  import DevelopmentWeb.Components.Headless.FloatingWindow
+  import DevelopmentWeb.Components.Headless.Highlight
+  import DevelopmentWeb.Components.Headless.HueSlider
+  import DevelopmentWeb.Components.Headless.JsonInput
+  import DevelopmentWeb.Components.Headless.LoadingOverlay
+  import DevelopmentWeb.Components.Headless.Mark
+  import DevelopmentWeb.Components.Headless.Marquee
+  import DevelopmentWeb.Components.Headless.MaskInput
   import DevelopmentWeb.Components.Headless.Menu
   import DevelopmentWeb.Components.Headless.Menubar
   import DevelopmentWeb.Components.Headless.Meter
+  import DevelopmentWeb.Components.Headless.NavLink
   import DevelopmentWeb.Components.Headless.NavigationMenu
   import DevelopmentWeb.Components.Headless.NumberField
+  import DevelopmentWeb.Components.Headless.NumberFormatter
   import DevelopmentWeb.Components.Headless.OtpField
+  import DevelopmentWeb.Components.Headless.OverflowList
+  import DevelopmentWeb.Components.Headless.Pill
+  import DevelopmentWeb.Components.Headless.PillsInput
   import DevelopmentWeb.Components.Headless.Popover
   import DevelopmentWeb.Components.Headless.PreviewCard
   import DevelopmentWeb.Components.Headless.Progress
   import DevelopmentWeb.Components.Headless.Radio
+  import DevelopmentWeb.Components.Headless.RollingNumber
   import DevelopmentWeb.Components.Headless.ScrollArea
+  import DevelopmentWeb.Components.Headless.Scroller
+  import DevelopmentWeb.Components.Headless.SegmentedControl
   import DevelopmentWeb.Components.Headless.Select
+  import DevelopmentWeb.Components.Headless.SemiCircleProgress
   import DevelopmentWeb.Components.Headless.Separator
   import DevelopmentWeb.Components.Headless.Slider
+  import DevelopmentWeb.Components.Headless.Splitter
+  import DevelopmentWeb.Components.Headless.Spoiler
   import DevelopmentWeb.Components.Headless.Switch
   import DevelopmentWeb.Components.Headless.Tabs
+  import DevelopmentWeb.Components.Headless.TagsInput
+  import DevelopmentWeb.Components.Headless.ThemeIcon
   import DevelopmentWeb.Components.Headless.Toast
   import DevelopmentWeb.Components.Headless.Toggle
   import DevelopmentWeb.Components.Headless.ToggleGroup
   import DevelopmentWeb.Components.Headless.Toolbar
   import DevelopmentWeb.Components.Headless.Tooltip
   import DevelopmentWeb.Components.Headless.Tree
+  import DevelopmentWeb.Components.Headless.TreeSelect
+  import DevelopmentWeb.Components.Headless.VisuallyHidden
 
   alias DevelopmentWeb.Showcase.ExampleSource
+  alias Phoenix.LiveView.JS
 
   def sections("collapsible"),
     do: [{"collapsible-hero", "Hero", "A panel controlled by a button."}]
@@ -55,6 +91,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
        "Same FAQ accordion but with multiple panels allowed open at once (multiple), each panel animating its height open/closed and the trigger icon rotating when open."}
     ]
 
+  def sections("action_icon"),
+    do: [{"action_icon-hero", "Hero", "Icon-only edit and delete buttons, one disabled."}]
+
   def sections("alert_dialog"),
     do: [
       {"alert_dialog-hero", "Hero",
@@ -64,6 +103,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       {"alert_dialog-detached-triggers-controlled", "Detached Triggers Controlled",
        "Base UI drives multiple detached triggers with per-trigger payloads and programmatic open; ported as a single controlled-style confirmation since our component renders one trigger/message."}
     ]
+
+  def sections("anchor"),
+    do: [{"anchor-hero", "Hero", "A themed inline link inside a sentence."}]
 
   def sections("autocomplete"),
     do: [
@@ -93,6 +135,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
        "Two rounded avatars side by side: one loads a remote image with an \"LT\" fallback (600ms delay) and the other is a fallback-only avatar showing just the \"LT\" initials."}
     ]
 
+  def sections("burger"),
+    do: [
+      {"burger-hero", "Hero",
+       "A closed and an opened burger toggle; the three bars animate into an ✕ under data-opened."}
+    ]
+
   def sections("checkbox"),
     do: [
       {"checkbox-hero", "Hero",
@@ -103,6 +151,29 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
     do: [
       {"checkbox_group-hero", "Hero",
        "A labelled \"Apples\" checkbox group (Fuji/Gala/Granny Smith) with Fuji checked by default; each item is a small square box that fills in and shows a check icon when checked."}
+    ]
+
+  def sections("chip"),
+    do: [
+      {"chip-hero", "Hero",
+       "Multi-select filter chips (checkbox) and a single-select size row (radio); the checked look is pure CSS on :has(:checked)."}
+    ]
+
+  def sections("close_button"),
+    do: [
+      {"close_button-hero", "Hero",
+       "A default close button (built-in ✕) and one with a custom icon, both with an accessible label."}
+    ]
+
+  def sections("code"),
+    do: [
+      {"code-hero", "Hero", "Inline code inside a sentence and a preformatted code block."}
+    ]
+
+  def sections("color_swatch"),
+    do: [
+      {"color_swatch-hero", "Hero",
+       "Round and square swatches of different colors, one with a check overlay."}
     ]
 
   def sections("combobox"),
@@ -191,6 +262,79 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
        "A 'Billing details' fieldset with a bold underlined legend grouping two labeled text inputs (Company and Tax ID), each built from our field component."}
     ]
 
+  def sections("tree_select"),
+    do: [{"tree_select-hero", "Hero", "A field that opens a tree in a popover to pick a value."}]
+
+  def sections("color_input"),
+    do: [{"color_input-hero", "Hero", "A hex field with a swatch that opens a color picker."}]
+
+  def sections("floating_window"),
+    do: [{"floating_window-hero", "Hero", "A draggable panel; grab the title bar to move it."}]
+
+  def sections("floating_indicator"),
+    do: [
+      {"floating_indicator-hero", "Hero",
+       "A segmented switch whose highlight slides to the active item."}
+    ]
+
+  def sections("overflow_list"),
+    do: [{"overflow_list-hero", "Hero", "A single row of tags that collapses overflow into +N."}]
+
+  def sections("angle_slider"),
+    do: [
+      {"angle_slider-hero", "Hero", "A circular dial; drag or use arrow keys to set the angle."}
+    ]
+
+  def sections("mask_input"),
+    do: [{"mask_input-hero", "Hero", "A phone-number field that formats itself as you type."}]
+
+  def sections("pills_input"),
+    do: [
+      {"pills_input-hero", "Hero",
+       "An input-shaped control holding pills; click anywhere to focus."}
+    ]
+
+  def sections("loading_overlay"),
+    do: [{"loading_overlay-hero", "Hero", "A card covered by a centered loader overlay."}]
+
+  def sections("segmented_control"),
+    do: [
+      {"segmented_control-hero", "Hero",
+       "A three-segment switcher; the active segment lifts (native radios)."}
+    ]
+
+  def sections("json_input"),
+    do: [{"json_input-hero", "Hero", "A monospace JSON textarea (validated on the server)."}]
+
+  def sections("highlight"),
+    do: [
+      {"highlight-hero", "Hero",
+       "Highlight one or more query terms inside a sentence (case-insensitive)."}
+    ]
+
+  def sections("mark"),
+    do: [{"mark-hero", "Hero", "A highlighted run of text inside a sentence."}]
+
+  def sections("alpha_slider"),
+    do: [
+      {"alpha_slider-hero", "Hero",
+       "Pick opacity over a checkerboard + color gradient (reuses Slider)."}
+    ]
+
+  def sections("hue_slider"),
+    do: [{"hue_slider-hero", "Hero", "Pick a hue on a rainbow track (reuses the Slider engine)."}]
+
+  def sections("number_formatter"),
+    do: [
+      {"number_formatter-hero", "Hero", "Currency, plain, percentage and space-grouped numbers."}
+    ]
+
+  def sections("marquee"),
+    do: [
+      {"marquee-hero", "Hero",
+       "A row of words scrolling continuously; pure CSS, pauses on hover."}
+    ]
+
   def sections("menu"),
     do: [
       {"menu-hero", "Hero",
@@ -255,6 +399,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
        "Per-slot placeholder dots that stay visible until the active slot is focused."},
       {"otp_field-grouped", "Grouped",
        "Two groups of three slots split by a horizontal separator line (group + separator)."}
+    ]
+
+  def sections("pill"),
+    do: [
+      {"pill-hero", "Hero",
+       "A read-only pill and removable tags, each with an accessible remove button."}
     ]
 
   def sections("popover"),
@@ -335,6 +485,37 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
        "A single-thumb slider laid out vertically, with the track running top-to-bottom."}
     ]
 
+  def sections("color_picker"),
+    do: [
+      {"color_picker-hero", "Hero", "A saturation/value area with a hue slider and live preview."}
+    ]
+
+  def sections("rolling_number"),
+    do: [{"rolling_number-hero", "Hero", "Numbers that roll up from zero on mount (ease-out)."}]
+
+  def sections("scroller"),
+    do: [
+      {"scroller-hero", "Hero", "A row of cards with prev/next buttons that disable at the ends."}
+    ]
+
+  def sections("nav_link"),
+    do: [
+      {"nav_link-hero", "Hero",
+       "A sidebar nav with an active leaf and a collapsible group (native <details>)."}
+    ]
+
+  def sections("semi_circle_progress"),
+    do: [{"semi_circle_progress-hero", "Hero", "A half-circle gauge with a centered readout."}]
+
+  def sections("splitter"),
+    do: [{"splitter-hero", "Hero", "Two panes with a draggable divider; keyboard-resizable too."}]
+
+  def sections("spoiler"),
+    do: [
+      {"spoiler-hero", "Hero",
+       "A paragraph clamped to a few lines with a Show more / Show less toggle (client-side)."}
+    ]
+
   def sections("switch"),
     do: [
       {"switch-hero", "Hero",
@@ -346,6 +527,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       {"tabs-hero", "Hero",
        "A three-tab workspace switcher (Overview / Projects / Account) with an animated bordered indicator that slides under the active tab and a bordered panel area below."}
     ]
+
+  def sections("tags_input"),
+    do: [
+      {"tags_input-hero", "Hero",
+       "A tags/keywords control: removable tokens and a growing input; click anywhere to focus it."}
+    ]
+
+  def sections("theme_icon"),
+    do: [{"theme_icon-hero", "Hero", "Icons inside colored, rounded containers."}]
 
   def sections("toast"),
     do: [
@@ -394,6 +584,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       {"tree-hero", "Hero",
        "Base UI ships no Tree, so this is the one it would: a bordered file explorer whose folders carry a caret that rotates a quarter turn when open, rows that highlight on hover and invert to solid on select, and files/folders drawn with outline icons."}
     ]
+
+  def sections("visually_hidden"),
+    do: [{"visually_hidden-hero", "Hero", "A button whose text label is screen-reader-only."}]
 
   def sections(_), do: []
 
@@ -1044,6 +1237,249 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
     """
   end
 
+  def example(%{section: "burger-hero"} = assigns) do
+    ~H"""
+    <div class="flex items-center gap-6">
+      <.burger
+        id="baseui-burger-closed"
+        label="Open navigation"
+        class="relative inline-flex size-9 items-center justify-center rounded-md text-neutral-900 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-800 [&_[data-part=line]]:absolute [&_[data-part=line]]:h-0.5 [&_[data-part=line]]:w-5 [&_[data-part=line]]:rounded-full [&_[data-part=line]]:bg-current [&_[data-part=line]]:transition-all [&_[data-part=line]]:duration-200 [&_[data-part=line]:nth-child(1)]:-translate-y-1.5 [&_[data-part=line]:nth-child(3)]:translate-y-1.5 [&[data-opened]_[data-part=line]:nth-child(1)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(1)]:rotate-45 [&[data-opened]_[data-part=line]:nth-child(2)]:opacity-0 [&[data-opened]_[data-part=line]:nth-child(3)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(3)]:-rotate-45"
+      />
+      <.burger
+        id="baseui-burger-opened"
+        opened
+        label="Close navigation"
+        class="relative inline-flex size-9 items-center justify-center rounded-md text-neutral-900 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-800 [&_[data-part=line]]:absolute [&_[data-part=line]]:h-0.5 [&_[data-part=line]]:w-5 [&_[data-part=line]]:rounded-full [&_[data-part=line]]:bg-current [&_[data-part=line]]:transition-all [&_[data-part=line]]:duration-200 [&_[data-part=line]:nth-child(1)]:-translate-y-1.5 [&_[data-part=line]:nth-child(3)]:translate-y-1.5 [&[data-opened]_[data-part=line]:nth-child(1)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(1)]:rotate-45 [&[data-opened]_[data-part=line]:nth-child(2)]:opacity-0 [&[data-opened]_[data-part=line]:nth-child(3)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(3)]:-rotate-45"
+      />
+    </div>
+    """
+  end
+
+  def example(%{section: "color_picker-hero"} = assigns) do
+    ~H"""
+    <.color_picker
+      id="baseui-color-picker"
+      value="#e8590c"
+      class="w-56 space-y-3 [&_[data-part=area]]:relative [&_[data-part=area]]:h-36 [&_[data-part=area]]:w-full [&_[data-part=area]]:cursor-crosshair [&_[data-part=area]]:rounded-lg [&_[data-part=area]]:ring-1 [&_[data-part=area]]:ring-black/10 [&_[data-part=area-thumb]]:size-3.5 [&_[data-part=area-thumb]]:rounded-full [&_[data-part=area-thumb]]:border-2 [&_[data-part=area-thumb]]:border-white [&_[data-part=area-thumb]]:shadow [&_[data-part=area-thumb]]:ring-1 [&_[data-part=area-thumb]]:ring-black/30 [&_[data-part=controls]]:flex [&_[data-part=controls]]:items-center [&_[data-part=controls]]:gap-3 [&_[data-part=preview]]:size-8 [&_[data-part=preview]]:shrink-0 [&_[data-part=preview]]:rounded-full [&_[data-part=preview]]:ring-1 [&_[data-part=preview]]:ring-black/10 [&_[data-part=hue]]:h-3 [&_[data-part=hue]]:w-full [&_[data-part=hue]]:cursor-pointer [&_[data-part=hue]]:appearance-none [&_[data-part=hue]]:rounded-full [&_[data-part=hue]]:[background:linear-gradient(to_right,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)]"
+    />
+    """
+  end
+
+  def example(%{section: "rolling_number-hero"} = assigns) do
+    ~H"""
+    <div class="flex gap-8 text-neutral-900 dark:text-white">
+      <.rolling_number
+        id="baseui-rolling-number-1"
+        value={2048}
+        class="text-3xl font-bold tabular-nums"
+      />
+      <.rolling_number
+        id="baseui-rolling-number-2"
+        value={1_000_000}
+        duration={1400}
+        class="text-3xl font-bold tabular-nums"
+      />
+    </div>
+    """
+  end
+
+  def example(%{section: "scroller-hero"} = assigns) do
+    ~H"""
+    <.scroller
+      id="baseui-scroller"
+      class="flex w-80 items-center gap-2 [&_[data-part=control]]:grid [&_[data-part=control]]:size-8 [&_[data-part=control]]:shrink-0 [&_[data-part=control]]:place-items-center [&_[data-part=control]]:rounded-full [&_[data-part=control]]:border [&_[data-part=control]]:border-neutral-300 [&_[data-part=control]]:bg-white [&_[data-part=control]]:text-lg [&_[data-part=control][data-disabled]]:opacity-30 dark:[&_[data-part=control]]:border-neutral-700 dark:[&_[data-part=control]]:bg-neutral-900 [&_[data-part=viewport]]:flex [&_[data-part=viewport]]:gap-3 [&_[data-part=viewport]]:overflow-x-auto [&_[data-part=viewport]]:scroll-smooth [&_[data-part=viewport]]:pb-1"
+    >
+      <div
+        :for={n <- 1..10}
+        class="grid size-16 shrink-0 place-items-center rounded-lg bg-neutral-100 text-sm font-medium text-neutral-800 dark:bg-neutral-800 dark:text-neutral-200"
+      >
+        {n}
+      </div>
+    </.scroller>
+    """
+  end
+
+  def example(%{section: "nav_link-hero"} = assigns) do
+    assigns =
+      assign(assigns, :nlc, [
+        "block rounded-md text-sm",
+        "[&[data-part=link]]:flex [&[data-part=link]]:items-center [&[data-part=link]]:gap-2 [&[data-part=link]]:px-3 [&[data-part=link]]:py-1.5 [&[data-part=link]:hover]:bg-neutral-100 dark:[&[data-part=link]:hover]:bg-neutral-800 [&[data-part=link][data-active]]:bg-neutral-900 [&[data-part=link][data-active]]:text-white dark:[&[data-part=link][data-active]]:bg-white dark:[&[data-part=link][data-active]]:text-neutral-900",
+        "[&_[data-part=control]]:flex [&_[data-part=control]]:cursor-pointer [&_[data-part=control]]:list-none [&_[data-part=control]]:items-center [&_[data-part=control]]:gap-2 [&_[data-part=control]]:rounded-md [&_[data-part=control]]:px-3 [&_[data-part=control]]:py-1.5 [&_[data-part=control]:hover]:bg-neutral-100 dark:[&_[data-part=control]:hover]:bg-neutral-800",
+        "[&_[data-part=label]]:flex-1 [&_[data-part=trailing]]:transition-transform [&[open]_[data-part=trailing]]:rotate-90",
+        "[&_[data-part=children]]:mt-1 [&_[data-part=children]]:ml-4 [&_[data-part=children]]:space-y-1 [&_[data-part=children]]:border-l [&_[data-part=children]]:border-neutral-200 dark:[&_[data-part=children]]:border-neutral-700 [&_[data-part=children]]:pl-2"
+      ])
+
+    ~H"""
+    <nav class="w-56 space-y-1 text-neutral-700 dark:text-neutral-300">
+      <.nav_link label="Home" href="#" active class={@nlc} />
+      <.nav_link label="Projects" class={@nlc}>
+        <:trailing>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            class="size-4"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+          </svg>
+        </:trailing>
+        <:children>
+          <.nav_link label="Active" href="#" class={@nlc} />
+          <.nav_link label="Archived" href="#" class={@nlc} />
+        </:children>
+      </.nav_link>
+      <.nav_link label="Team" href="#" class={@nlc} />
+    </nav>
+    """
+  end
+
+  def example(%{section: "semi_circle_progress-hero"} = assigns) do
+    ~H"""
+    <.semi_circle_progress
+      value={72}
+      label="Score"
+      class="relative inline-block w-48 [&_[data-part=svg]]:w-full [&_[data-part=track]]:[stroke:#e5e5e5] [&_[data-part=track]]:[stroke-width:12] [&_[data-part=indicator]]:[stroke:#f97316] [&_[data-part=indicator]]:[stroke-width:12] dark:[&_[data-part=track]]:[stroke:#404040] [&_[data-part=label]]:absolute [&_[data-part=label]]:inset-x-0 [&_[data-part=label]]:bottom-1 [&_[data-part=label]]:flex [&_[data-part=label]]:flex-col [&_[data-part=label]]:items-center [&_[data-part=label]]:text-neutral-900 dark:[&_[data-part=label]]:text-white"
+    >
+      <span class="text-2xl font-bold">72</span>
+      <span class="text-xs text-neutral-500">score</span>
+    </.semi_circle_progress>
+    """
+  end
+
+  def example(%{section: "splitter-hero"} = assigns) do
+    ~H"""
+    <.splitter
+      id="baseui-splitter"
+      default_size={45}
+      class="flex h-40 w-80 overflow-hidden rounded-lg border border-neutral-300 dark:border-neutral-700 [&_[data-part=panel][data-index='0']]:w-[var(--chelekom-splitter-pos)] [&_[data-part=panel][data-index='0']]:shrink-0 [&_[data-part=panel][data-index='0']]:overflow-auto [&_[data-part=panel][data-index='1']]:flex-1 [&_[data-part=panel][data-index='1']]:overflow-auto [&_[data-part=panel][data-index='1']]:bg-neutral-50 dark:[&_[data-part=panel][data-index='1']]:bg-neutral-800 [&_[data-part=resizer]]:w-1.5 [&_[data-part=resizer]]:shrink-0 [&_[data-part=resizer]]:cursor-col-resize [&_[data-part=resizer]]:bg-neutral-200 dark:[&_[data-part=resizer]]:bg-neutral-700 [&_[data-part=resizer]:hover]:bg-neutral-400 [&_[data-part=resizer]]:outline-none"
+    >
+      <:first>
+        <div class="p-3 text-sm text-neutral-700 dark:text-neutral-300">Files</div>
+      </:first>
+      <:second>
+        <div class="p-3 text-sm text-neutral-700 dark:text-neutral-300">
+          Editor — drag the divider or focus it and use arrow keys.
+        </div>
+      </:second>
+    </.splitter>
+    """
+  end
+
+  def example(%{section: "spoiler-hero"} = assigns) do
+    ~H"""
+    <.spoiler
+      id="baseui-spoiler"
+      class="max-w-sm text-sm text-neutral-700 dark:text-neutral-300 [&_[data-part=content]]:overflow-hidden [&_[data-part=content]]:transition-all [&:not([data-expanded])_[data-part=content]]:max-h-12 [&[data-expanded]_[data-part=content]]:max-h-40 [&_[data-part=control]]:mt-1 [&_[data-part=control]]:text-sm [&_[data-part=control]]:font-medium [&_[data-part=control]]:text-neutral-900 [&_[data-part=control]]:underline dark:[&_[data-part=control]]:text-white [&[data-expanded]_[data-part=show-label]]:hidden [&:not([data-expanded])_[data-part=hide-label]]:hidden"
+    >
+      Mantine's Spoiler hides long content behind a toggle. This copy is long enough to be clipped
+      when collapsed; press the control to reveal the rest, and press it again to hide it away.
+    </.spoiler>
+    """
+  end
+
+  def example(%{section: "tags_input-hero"} = assigns) do
+    ~H"""
+    <.tags_input
+      id="baseui-tags-input"
+      tags={["Design", "Engineering", "Product"]}
+      placeholder="Add a tag…"
+      on_remove={JS.hide(to: {:closest, "[data-part=tag]"})}
+      class="flex w-80 flex-wrap items-center gap-1.5 rounded-lg border border-neutral-300 bg-white px-2 py-1.5 text-sm cursor-text focus-within:ring-2 focus-within:ring-neutral-400 dark:border-neutral-700 dark:bg-neutral-900 [&_[data-part=tag]]:inline-flex [&_[data-part=tag]]:items-center [&_[data-part=tag]]:gap-1 [&_[data-part=tag]]:rounded [&_[data-part=tag]]:bg-neutral-100 [&_[data-part=tag]]:py-0.5 [&_[data-part=tag]]:pr-1 [&_[data-part=tag]]:pl-2 dark:[&_[data-part=tag]]:bg-neutral-800 [&_[data-part=remove]]:inline-flex [&_[data-part=remove]]:size-4 [&_[data-part=remove]]:items-center [&_[data-part=remove]]:justify-center [&_[data-part=remove]]:rounded-full [&_[data-part=remove]]:text-neutral-500 [&_[data-part=remove]]:hover:bg-neutral-200 dark:[&_[data-part=remove]]:hover:bg-neutral-700 [&_[data-part=input]]:min-w-24 [&_[data-part=input]]:flex-1 [&_[data-part=input]]:border-0 [&_[data-part=input]]:bg-transparent [&_[data-part=input]]:p-0.5 [&_[data-part=input]]:outline-none"
+    />
+    """
+  end
+
+  def example(%{section: "pill-hero"} = assigns) do
+    ~H"""
+    <div class="flex flex-wrap items-center gap-2">
+      <.pill
+        id="baseui-pill-design"
+        class="inline-flex items-center gap-1 rounded-full bg-neutral-100 px-2.5 py-0.5 text-sm text-neutral-800 dark:bg-neutral-800 dark:text-neutral-200"
+      >
+        Design
+      </.pill>
+      <.pill
+        id="baseui-pill-eng"
+        with_remove
+        remove_label="Remove Engineering"
+        class="inline-flex items-center gap-1 rounded-full bg-neutral-100 py-0.5 pr-1 pl-2.5 text-sm text-neutral-800 dark:bg-neutral-800 dark:text-neutral-200 [&_[data-part=remove]]:inline-flex [&_[data-part=remove]]:size-4 [&_[data-part=remove]]:items-center [&_[data-part=remove]]:justify-center [&_[data-part=remove]]:rounded-full [&_[data-part=remove]]:text-neutral-500 [&_[data-part=remove]]:hover:bg-neutral-200 dark:[&_[data-part=remove]]:hover:bg-neutral-700"
+      >
+        Engineering
+      </.pill>
+      <.pill
+        id="baseui-pill-product"
+        with_remove
+        remove_label="Remove Product"
+        class="inline-flex items-center gap-1 rounded-full bg-neutral-100 py-0.5 pr-1 pl-2.5 text-sm text-neutral-800 dark:bg-neutral-800 dark:text-neutral-200 [&_[data-part=remove]]:inline-flex [&_[data-part=remove]]:size-4 [&_[data-part=remove]]:items-center [&_[data-part=remove]]:justify-center [&_[data-part=remove]]:rounded-full [&_[data-part=remove]]:text-neutral-500 [&_[data-part=remove]]:hover:bg-neutral-200 dark:[&_[data-part=remove]]:hover:bg-neutral-700"
+      >
+        Product
+      </.pill>
+    </div>
+    """
+  end
+
+  def example(%{section: "chip-hero"} = assigns) do
+    ~H"""
+    <div class="flex flex-wrap gap-2">
+      <.chip
+        id="baseui-chip-react"
+        name="baseui-chip[]"
+        value="react"
+        checked
+        class="inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-neutral-300 px-3 py-1 text-sm text-neutral-800 select-none has-[:checked]:border-neutral-900 has-[:checked]:bg-neutral-900 has-[:checked]:text-white has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-neutral-400 dark:border-neutral-700 dark:text-neutral-200 dark:has-[:checked]:border-white dark:has-[:checked]:bg-white dark:has-[:checked]:text-neutral-900 [&_[data-part=input]]:sr-only"
+      >
+        React
+      </.chip>
+      <.chip
+        id="baseui-chip-vue"
+        name="baseui-chip[]"
+        value="vue"
+        class="inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-neutral-300 px-3 py-1 text-sm text-neutral-800 select-none has-[:checked]:border-neutral-900 has-[:checked]:bg-neutral-900 has-[:checked]:text-white has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-neutral-400 dark:border-neutral-700 dark:text-neutral-200 dark:has-[:checked]:border-white dark:has-[:checked]:bg-white dark:has-[:checked]:text-neutral-900 [&_[data-part=input]]:sr-only"
+      >
+        Vue
+      </.chip>
+      <.chip
+        id="baseui-chip-svelte"
+        name="baseui-chip[]"
+        value="svelte"
+        class="inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-neutral-300 px-3 py-1 text-sm text-neutral-800 select-none has-[:checked]:border-neutral-900 has-[:checked]:bg-neutral-900 has-[:checked]:text-white has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-neutral-400 dark:border-neutral-700 dark:text-neutral-200 dark:has-[:checked]:border-white dark:has-[:checked]:bg-white dark:has-[:checked]:text-neutral-900 [&_[data-part=input]]:sr-only"
+      >
+        Svelte
+      </.chip>
+    </div>
+    """
+  end
+
+  def example(%{section: "close_button-hero"} = assigns) do
+    ~H"""
+    <div class="flex items-center gap-4">
+      <.close_button
+        id="baseui-close-button-hero"
+        label="Close"
+        class="inline-flex size-8 items-center justify-center rounded-md text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-white"
+      />
+      <.close_button
+        id="baseui-close-button-custom"
+        label="Remove"
+        class="inline-flex size-8 items-center justify-center rounded-md text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-white"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-4"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+        </svg>
+      </.close_button>
+    </div>
+    """
+  end
+
   def example(%{section: "checkbox-hero"} = assigns) do
     ~H"""
     <.checkbox
@@ -1117,6 +1553,461 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
         Granny Smith
       </:item>
     </.checkbox_group>
+    """
+  end
+
+  def example(%{section: "alpha_slider-hero"} = assigns) do
+    ~H"""
+    <div class="w-64">
+      <.alpha_slider
+        id="baseui-alpha-slider"
+        value={50}
+        color="#e8590c"
+        class="block w-full [&_[data-part=control]]:relative [&_[data-part=control]]:flex [&_[data-part=control]]:h-4 [&_[data-part=control]]:cursor-pointer [&_[data-part=control]]:items-center [&_[data-part=track]]:relative [&_[data-part=track]]:h-3 [&_[data-part=track]]:w-full [&_[data-part=track]]:overflow-hidden [&_[data-part=track]]:rounded-full [&_[data-part=track]]:[background-image:linear-gradient(to_right,transparent,var(--chelekom-alpha-color)),conic-gradient(#ccc_25%,#fff_0_50%,#ccc_0_75%,#fff_0)] [&_[data-part=track]]:[background-size:100%_100%,10px_10px] [&_[data-part=indicator]]:hidden [&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border-2 [&_[data-part=thumb]]:border-white [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:ring-1 [&_[data-part=thumb]]:ring-black/30 [&_[data-part=thumb]]:outline-none"
+      />
+    </div>
+    """
+  end
+
+  def example(%{section: "hue_slider-hero"} = assigns) do
+    ~H"""
+    <div class="w-64">
+      <.hue_slider
+        id="baseui-hue-slider"
+        value={140}
+        class="block w-full [&_[data-part=control]]:relative [&_[data-part=control]]:flex [&_[data-part=control]]:h-4 [&_[data-part=control]]:cursor-pointer [&_[data-part=control]]:items-center [&_[data-part=track]]:relative [&_[data-part=track]]:h-3 [&_[data-part=track]]:w-full [&_[data-part=track]]:rounded-full [&_[data-part=track]]:[background:linear-gradient(to_right,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)] [&_[data-part=indicator]]:hidden [&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border-2 [&_[data-part=thumb]]:border-white [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:ring-1 [&_[data-part=thumb]]:ring-black/30 [&_[data-part=thumb]]:outline-none"
+      />
+    </div>
+    """
+  end
+
+  def example(%{section: "number_formatter-hero"} = assigns) do
+    ~H"""
+    <div class="space-y-1 text-sm text-neutral-700 dark:text-neutral-300">
+      <p>
+        Revenue:
+        <.number_formatter
+          value={1_234_567.89}
+          prefix="$"
+          decimal_scale={2}
+          class="font-semibold tabular-nums text-neutral-900 dark:text-white"
+        />
+      </p>
+      <p>
+        Downloads:
+        <.number_formatter
+          value={9_876_543}
+          thousand_separator=" "
+          class="font-semibold tabular-nums text-neutral-900 dark:text-white"
+        />
+      </p>
+    </div>
+    """
+  end
+
+  def example(%{section: "marquee-hero"} = assigns) do
+    ~H"""
+    <div class="w-80 overflow-hidden">
+      <style>
+        @keyframes chelekom-marquee-x { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+      </style>
+      <.marquee
+        class="overflow-hidden"
+        track_class="flex w-max motion-safe:animate-[chelekom-marquee-x_14s_linear_infinite] hover:[animation-play-state:paused]"
+        group_class="flex shrink-0 items-center gap-6 pr-6 text-sm font-medium text-neutral-700 dark:text-neutral-300"
+      >
+        <span>React</span>
+        <span>Vue</span>
+        <span>Svelte</span>
+        <span>Solid</span>
+        <span>Angular</span>
+      </.marquee>
+    </div>
+    """
+  end
+
+  def example(%{section: "action_icon-hero"} = assigns) do
+    ~H"""
+    <div class="flex items-center gap-3">
+      <.action_icon
+        label="Edit"
+        class="inline-flex size-9 items-center justify-center rounded-md text-neutral-700 hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-800"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-5"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Z"
+          />
+        </svg>
+      </.action_icon>
+      <.action_icon
+        label="Delete"
+        disabled
+        class="inline-flex size-9 items-center justify-center rounded-md text-neutral-700 data-[disabled]:opacity-40 dark:text-neutral-300"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-5"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397"
+          />
+        </svg>
+      </.action_icon>
+    </div>
+    """
+  end
+
+  def example(%{section: "anchor-hero"} = assigns) do
+    ~H"""
+    <p class="text-sm text-neutral-700 dark:text-neutral-300">
+      Built with <.anchor
+        href="https://phoenixframework.org"
+        target="_blank"
+        class="font-medium text-blue-600 underline underline-offset-2 hover:no-underline dark:text-blue-400"
+      >Phoenix</.anchor>.
+    </p>
+    """
+  end
+
+  def example(%{section: "theme_icon-hero"} = assigns) do
+    ~H"""
+    <div class="flex items-center gap-3">
+      <.theme_icon
+        label="Success"
+        class="inline-flex size-9 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="2"
+          stroke="currentColor"
+          class="size-5"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+        </svg>
+      </.theme_icon>
+      <.theme_icon class="inline-flex size-9 items-center justify-center rounded-full bg-violet-100 text-violet-700 dark:bg-violet-500/20 dark:text-violet-300">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+          <path d="M11.983 1.907a.75.75 0 0 0-1.292-.657l-8.5 9.5A.75.75 0 0 0 2.75 12h6.572l-1.305 6.093a.75.75 0 0 0 1.292.657l8.5-9.5A.75.75 0 0 0 18.25 8h-6.572l1.305-6.093Z" />
+        </svg>
+      </.theme_icon>
+    </div>
+    """
+  end
+
+  def example(%{section: "visually_hidden-hero"} = assigns) do
+    ~H"""
+    <button
+      type="button"
+      class="rounded-md border border-neutral-300 px-3 py-1.5 text-sm text-neutral-800 hover:bg-neutral-100 dark:border-neutral-700 dark:text-neutral-200 dark:hover:bg-neutral-800"
+    >
+      ★
+      <.visually_hidden>Add to favorites</.visually_hidden>
+    </button>
+    """
+  end
+
+  def example(%{section: "tree_select-hero"} = assigns) do
+    ~H"""
+    <.tree_select
+      id="baseui-tree-select"
+      placeholder="Choose a category…"
+      class="relative inline-block w-64"
+      trigger_class="flex w-full items-center justify-between gap-2 rounded-lg border border-neutral-300 bg-white px-3 py-1.5 text-sm text-neutral-900 hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:hover:bg-neutral-800"
+      value_class="truncate data-[placeholder]:text-neutral-400"
+      panel_class="absolute left-0 z-20 mt-2 max-h-64 w-64 overflow-auto rounded-lg border border-neutral-200 bg-white p-2 shadow-lg dark:border-neutral-700 dark:bg-neutral-800"
+    >
+      <.tree
+        id="baseui-tree-select-tree"
+        nodes={[
+          %{
+            label: "Design",
+            value: "design",
+            children: [
+              %{label: "Wireframes", value: "wireframes"},
+              %{label: "Mockups", value: "mockups"}
+            ]
+          },
+          %{
+            label: "Engineering",
+            value: "engineering",
+            children: [%{label: "Frontend", value: "frontend"}, %{label: "Backend", value: "backend"}]
+          }
+        ]}
+        expanded={:all}
+        select_on_click
+        multiple={false}
+        aria_label="Categories"
+        class="text-sm select-none"
+        label_class="flex items-center gap-1 rounded px-2 py-1 cursor-pointer [padding-left:calc(var(--label-offset)+0.5rem)] hover:bg-neutral-100 data-[selected]:bg-neutral-900/5 data-[selected]:font-medium dark:hover:bg-neutral-700 dark:data-[selected]:bg-white/10"
+        label_text_class="truncate"
+        expand_icon_class="inline-block w-3 text-center text-neutral-400"
+      >
+        <:expand_icon>▸</:expand_icon>
+      </.tree>
+    </.tree_select>
+    """
+  end
+
+  def example(%{section: "color_input-hero"} = assigns) do
+    ~H"""
+    <.color_input
+      id="baseui-color-input"
+      value="#0ea5e9"
+      label="Color"
+      class="relative inline-block w-56"
+      control_class="flex items-center gap-2 rounded-lg border border-neutral-300 bg-white px-2 py-1.5 focus-within:ring-2 focus-within:ring-neutral-400 dark:border-neutral-700 dark:bg-neutral-900"
+      preview_class="size-5 shrink-0 rounded border border-neutral-300 dark:border-neutral-600"
+      text_class="w-24 bg-transparent font-mono text-sm text-neutral-900 outline-none dark:text-neutral-100"
+      trigger_class="ml-auto rounded p-1 text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800"
+      panel_class="absolute left-0 z-20 mt-2 w-56 rounded-lg border border-neutral-200 bg-white p-3 shadow-lg dark:border-neutral-700 dark:bg-neutral-800"
+      area_class="relative h-36 w-full cursor-crosshair rounded-md"
+      thumb_class="block size-3 rounded-full border-2 border-white shadow"
+      hue_class="mt-3 w-full"
+    />
+    """
+  end
+
+  def example(%{section: "floating_window-hero"} = assigns) do
+    ~H"""
+    <div
+      class="relative h-56 w-full overflow-hidden rounded-lg border border-neutral-200 bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-900"
+      style="background-image: radial-gradient(rgba(120,120,120,0.25) 1px, transparent 0); background-size: 16px 16px;"
+    >
+      <.floating_window
+        id="baseui-floating-window"
+        x={24}
+        y={24}
+        label="Window"
+        class="absolute w-52 rounded-lg border border-neutral-200 bg-white shadow-lg dark:border-neutral-700 dark:bg-neutral-800"
+        handle_class="cursor-grab rounded-t-lg border-b border-neutral-200 bg-neutral-100 px-3 py-1.5 text-sm font-medium text-neutral-700 active:cursor-grabbing dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200"
+        body_class="p-3 text-sm text-neutral-500 dark:text-neutral-400"
+      >
+        <:handle>Drag me</:handle>
+        Grab the title bar to move this panel within the box.
+      </.floating_window>
+    </div>
+    """
+  end
+
+  def example(%{section: "floating_indicator-hero"} = assigns) do
+    ~H"""
+    <.floating_indicator
+      id="baseui-floating-indicator"
+      active="day"
+      label="Range"
+      class={
+        "relative inline-flex gap-1 rounded-lg bg-neutral-100 p-1 dark:bg-neutral-800 " <>
+          "[&_[data-part=indicator]]:absolute [&_[data-part=indicator]]:left-0 [&_[data-part=indicator]]:top-0 [&_[data-part=indicator]]:transition-all [&_[data-part=indicator]]:duration-200 [&_[data-part=indicator]]:ease-out"
+      }
+      indicator_class="rounded-md bg-white shadow dark:bg-neutral-600"
+      target_class="relative z-10 rounded-md px-3 py-1.5 text-sm font-medium text-neutral-500 transition-colors outline-none aria-pressed:text-neutral-900 dark:aria-pressed:text-white"
+    >
+      <:target value="day">Day</:target>
+      <:target value="week">Week</:target>
+      <:target value="month">Month</:target>
+    </.floating_indicator>
+    """
+  end
+
+  def example(%{section: "overflow_list-hero"} = assigns) do
+    ~H"""
+    <div class="w-72 rounded-lg border border-neutral-300 bg-white p-2 dark:border-neutral-700 dark:bg-neutral-900">
+      <.overflow_list
+        id="baseui-overflow-list"
+        min_visible={1}
+        class={
+          "flex items-center gap-2 overflow-hidden " <>
+            "[&_[data-part=item][data-hidden]]:hidden [&_[data-part=item]]:shrink-0 " <>
+            "[&_[data-part=counter][data-hidden]]:hidden [&_[data-part=counter]]:shrink-0 [&_[data-part=counter]]:whitespace-nowrap [&_[data-part=counter]]:rounded-full [&_[data-part=counter]]:bg-neutral-100 [&_[data-part=counter]]:px-2.5 [&_[data-part=counter]]:py-0.5 [&_[data-part=counter]]:text-sm [&_[data-part=counter]]:font-medium [&_[data-part=counter]]:text-neutral-600 dark:[&_[data-part=counter]]:bg-neutral-800 dark:[&_[data-part=counter]]:text-neutral-300"
+        }
+        item_class="whitespace-nowrap rounded-full bg-neutral-100 px-2.5 py-0.5 text-sm text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200"
+      >
+        <:item>Design</:item>
+        <:item>Phoenix</:item>
+        <:item>Elixir</:item>
+        <:item>LiveView</:item>
+        <:item>Tailwind</:item>
+        <:item>Headless</:item>
+      </.overflow_list>
+    </div>
+    """
+  end
+
+  def example(%{section: "angle_slider-hero"} = assigns) do
+    ~H"""
+    <.angle_slider
+      id="baseui-angle-slider"
+      value={135}
+      step={5}
+      label="Angle"
+      class={
+        "relative block size-28 rounded-full border-2 border-neutral-300 bg-white outline-none cursor-grab focus:ring-2 focus:ring-neutral-400 data-[dragging]:cursor-grabbing dark:border-neutral-700 dark:bg-neutral-900 " <>
+          "[&_[data-part=thumb-layer]]:absolute [&_[data-part=thumb-layer]]:inset-0 " <>
+          "[&_[data-part=thumb]]:absolute [&_[data-part=thumb]]:left-1/2 [&_[data-part=thumb]]:top-0 [&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:-translate-x-1/2 [&_[data-part=thumb]]:-translate-y-1/2 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:bg-neutral-900 [&_[data-part=thumb]]:dark:bg-neutral-100 " <>
+          "[&_[data-part=value]]:absolute [&_[data-part=value]]:inset-0 [&_[data-part=value]]:grid [&_[data-part=value]]:place-items-center [&_[data-part=value]]:text-sm [&_[data-part=value]]:font-medium [&_[data-part=value]]:text-neutral-700 [&_[data-part=value]]:dark:text-neutral-200"
+      }
+    />
+    """
+  end
+
+  def example(%{section: "mask_input-hero"} = assigns) do
+    ~H"""
+    <.mask_input
+      id="baseui-mask-input"
+      mask="(999) 999-9999"
+      placeholder="(___) ___-____"
+      inputmode="numeric"
+      class="w-72 rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 outline-none focus:ring-2 focus:ring-neutral-400 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
+    />
+    """
+  end
+
+  def example(%{section: "pills_input-hero"} = assigns) do
+    ~H"""
+    <.pills_input
+      id="baseui-pills-input"
+      placeholder="Add a tag…"
+      class="flex w-80 flex-wrap items-center gap-1.5 rounded-lg border border-neutral-300 bg-white px-2 py-1.5 text-sm cursor-text focus-within:ring-2 focus-within:ring-neutral-400 dark:border-neutral-700 dark:bg-neutral-900 [&_[data-part=input]]:min-w-24 [&_[data-part=input]]:flex-1 [&_[data-part=input]]:border-0 [&_[data-part=input]]:bg-transparent [&_[data-part=input]]:p-0.5 [&_[data-part=input]]:outline-none"
+    >
+      <:pills>
+        <.pill
+          with_remove
+          remove_label="Remove ui"
+          on_remove={JS.hide(to: {:closest, "[data-part=root]"})}
+          class="inline-flex items-center gap-1 rounded-full bg-neutral-100 py-0.5 pr-1 pl-2 dark:bg-neutral-800 [&_[data-part=remove]]:inline-flex [&_[data-part=remove]]:size-4 [&_[data-part=remove]]:items-center [&_[data-part=remove]]:justify-center [&_[data-part=remove]]:rounded-full [&_[data-part=remove]]:text-neutral-500 [&_[data-part=remove]]:hover:bg-neutral-200 dark:[&_[data-part=remove]]:hover:bg-neutral-700"
+        >
+          ui
+        </.pill>
+        <.pill
+          with_remove
+          remove_label="Remove phoenix"
+          on_remove={JS.hide(to: {:closest, "[data-part=root]"})}
+          class="inline-flex items-center gap-1 rounded-full bg-neutral-100 py-0.5 pr-1 pl-2 dark:bg-neutral-800 [&_[data-part=remove]]:inline-flex [&_[data-part=remove]]:size-4 [&_[data-part=remove]]:items-center [&_[data-part=remove]]:justify-center [&_[data-part=remove]]:rounded-full [&_[data-part=remove]]:text-neutral-500 [&_[data-part=remove]]:hover:bg-neutral-200 dark:[&_[data-part=remove]]:hover:bg-neutral-700"
+        >
+          phoenix
+        </.pill>
+      </:pills>
+    </.pills_input>
+    """
+  end
+
+  def example(%{section: "loading_overlay-hero"} = assigns) do
+    ~H"""
+    <div class="relative h-32 w-64 overflow-hidden rounded-lg border border-neutral-300 p-4 text-sm text-neutral-700 dark:border-neutral-700 dark:text-neutral-300">
+      <p>Content behind the overlay…</p>
+      <.loading_overlay
+        visible
+        label="Loading"
+        class="absolute inset-0 flex items-center justify-center bg-white/70 backdrop-blur-sm dark:bg-neutral-900/70 [&:not([data-visible])]:pointer-events-none [&:not([data-visible])]:opacity-0"
+      >
+        <span class="size-6 animate-spin rounded-full border-2 border-neutral-300 border-t-neutral-900 dark:border-neutral-600 dark:border-t-white"></span>
+      </.loading_overlay>
+    </div>
+    """
+  end
+
+  def example(%{section: "segmented_control-hero"} = assigns) do
+    ~H"""
+    <.segmented_control
+      id="baseui-segmented-control"
+      name="baseui-sc"
+      value="react"
+      options={[{"React", "react"}, {"Vue", "vue"}, {"Svelte", "svelte"}]}
+      label="Framework"
+      class="inline-flex rounded-lg bg-neutral-100 p-1 dark:bg-neutral-800 [&_[data-part=input]]:sr-only [&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:rounded-md [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1 [&_[data-part=item]]:text-sm [&_[data-part=item]]:text-neutral-600 dark:[&_[data-part=item]]:text-neutral-400 [&_[data-part=item]:has(:checked)]:bg-white [&_[data-part=item]:has(:checked)]:font-medium [&_[data-part=item]:has(:checked)]:text-neutral-900 [&_[data-part=item]:has(:checked)]:shadow-sm dark:[&_[data-part=item]:has(:checked)]:bg-neutral-950 dark:[&_[data-part=item]:has(:checked)]:text-white"
+    />
+    """
+  end
+
+  def example(%{section: "json_input-hero"} = assigns) do
+    ~H"""
+    <.json_input
+      id="baseui-json-input"
+      value={~s({\n  "name": "Mantine",\n  "ok": true\n})}
+      rows={4}
+      class="w-72 rounded-md border border-neutral-300 bg-white p-2 font-mono text-sm text-neutral-900 outline-none focus:ring-2 focus:ring-neutral-400 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
+    />
+    """
+  end
+
+  def example(%{section: "highlight-hero"} = assigns) do
+    ~H"""
+    <p class="max-w-sm text-sm text-neutral-700 dark:text-neutral-300">
+      <.highlight
+        text="Search results for phoenix — the Phoenix framework is fast."
+        highlight="phoenix"
+        mark_class="rounded bg-lime-200 px-0.5 text-neutral-900"
+      />
+    </p>
+    """
+  end
+
+  def example(%{section: "mark-hero"} = assigns) do
+    ~H"""
+    <p class="max-w-sm text-sm text-neutral-700 dark:text-neutral-300">
+      The quick brown
+      <.mark class="rounded bg-yellow-200 px-0.5 text-neutral-900">fox</.mark>
+      jumps over the lazy <.mark class="rounded bg-lime-200 px-0.5 text-neutral-900">dog</.mark>.
+    </p>
+    """
+  end
+
+  def example(%{section: "code-hero"} = assigns) do
+    ~H"""
+    <div class="w-80 space-y-3">
+      <p class="text-sm text-neutral-700 dark:text-neutral-300">
+        Run
+        <.code class="rounded bg-neutral-100 px-1.5 py-0.5 font-mono text-[0.85em] text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100">
+          npm install
+        </.code>
+        first.
+      </p>
+      <.code
+        block
+        class="overflow-x-auto rounded-lg bg-neutral-100 p-3 font-mono text-sm text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100"
+        phx-no-format
+      >export const sum = (a, b) => a + b;</.code>
+    </div>
+    """
+  end
+
+  def example(%{section: "color_swatch-hero"} = assigns) do
+    ~H"""
+    <div class="flex items-center gap-3">
+      <.color_swatch color="#fa5252" class="inline-block size-9 rounded-full ring-1 ring-black/10" />
+      <.color_swatch color="#7048e8" class="inline-block size-9 rounded-full ring-1 ring-black/10" />
+      <.color_swatch color="#12b886" class="inline-block size-9 rounded-lg ring-1 ring-black/10" />
+      <.color_swatch
+        color="#1c7ed6"
+        label="Selected"
+        class="inline-flex size-9 items-center justify-center rounded-full text-white ring-1 ring-black/10"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4">
+          <path
+            fill-rule="evenodd"
+            d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </.color_swatch>
+    </div>
     """
   end
 

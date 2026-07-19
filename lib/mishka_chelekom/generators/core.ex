@@ -442,17 +442,57 @@ defmodule MishkaChelekom.Generators.Core do
           map(),
           [String.t()] | nil
         ) :: [String.t()]
-  def resolve_components(igniter, requested_csv, layer, user_config, cli_exclude) do
+  def resolve_components(igniter, requested_csv, layer, user_config, cli_exclude, opts \\ []) do
     requested = String.split(requested_csv || "", ",", trim: true)
+    explicit? = requested != [] and "all" not in requested
 
-    list =
-      if requested == [] or "all" in requested,
-        do: all_component_names(igniter, layer),
-        else: requested
+    list = if explicit?, do: requested, else: all_component_names(igniter, layer)
 
     excluded = Enum.uniq((user_config[:exclude_components] || []) ++ (cli_exclude || []))
-    Enum.reject(list, &(&1 in excluded))
+
+    list
+    |> Enum.reject(&(&1 in excluded))
+    |> reject_npm_backed(igniter, layer, explicit? or opts[:with_npm])
   end
+
+  @doc """
+  The components in `list` whose catalog declares npm packages.
+  """
+  @spec npm_backed(Igniter.t(), [String.t()], :styled | :headless) :: [String.t()]
+  def npm_backed(igniter, list, layer) do
+    Enum.filter(list, fn name ->
+      case fetch_catalog(igniter, name, layer) do
+        {:ok, %{config: config}} -> Keyword.get(config, :npm, []) != []
+        _ -> false
+      end
+    end)
+  end
+
+  # "Generate everything" must not silently pull a third-party npm package, run an install, and
+  # edit the project's mix.exs — someone asking for the whole catalog is evaluating the library,
+  # not opting into a dependency. Naming the component (or passing --with-npm) is the opt-in.
+  defp reject_npm_backed(list, _igniter, _layer, true), do: list
+
+  defp reject_npm_backed(list, igniter, layer, _) do
+    case npm_backed(igniter, list, layer) do
+      [] ->
+        list
+
+      skipped ->
+        Mix.shell().info([
+          :yellow,
+          "\nSkipped #{Enum.join(skipped, ", ")} — they install npm packages.\n",
+          "Generate one explicitly (mix mishka.ui.gen.#{layer_task(layer)} #{hd(skipped)}) ",
+          "or pass --with-npm to include them here.\n",
+          :reset
+        ])
+
+        list -- skipped
+    end
+  end
+
+  defp layer_task(:headless), do: "headless"
+  defp layer_task(_), do: "component"
 
   @doc """
   Composes `task` once per component in `list`, prepending each name to `extra_args`.

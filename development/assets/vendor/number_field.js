@@ -217,7 +217,7 @@ const NumberField = {
 
     // Notify any enclosing <.form phx-change> — the hidden input is set programmatically.
     if (changed && this.hidden) this.hidden.dispatchEvent(new Event("input", { bubbles: true }));
-    if (changed && this.onChange) this.pushEvent(this.onChange, { value: validated });
+    if (changed && this.onChange) this.pushEventTo(this.el, this.onChange, { value: validated });
     return validated;
   },
 
@@ -229,7 +229,7 @@ const NumberField = {
 
   // Fired when an interaction finalizes a value (blur / keyboard / pointer release).
   commit() {
-    if (this.onCommit) this.pushEvent(this.onCommit, { value: this.value });
+    if (this.onCommit) this.pushEventTo(this.el, this.onCommit, { value: this.value });
   },
 
   setDisplay(text) {

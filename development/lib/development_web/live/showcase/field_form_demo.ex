@@ -96,6 +96,7 @@ defmodule DevelopmentWeb.Showcase.FieldFormDemo do
     <div>
       <.form
         for={@form}
+        id={"#{@id}-field-form"}
         phx-target={@myself}
         phx-change="validate"
         phx-submit="save"

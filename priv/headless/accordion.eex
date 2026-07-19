@@ -23,7 +23,11 @@ defmodule <%= @module %> do
 
   @doc type: :component
   attr :id, :string, required: true
-  attr :multiple, :boolean, default: false, doc: "Allow multiple panels open at once (one-at-a-time when false)"
+
+  attr :multiple, :boolean,
+    default: false,
+    doc: "Allow multiple panels open at once (one-at-a-time when false)"
+
   attr :collapsible, :boolean, default: true, doc: "Allow the open item to be closed"
   attr :disabled, :boolean, default: false, doc: "Disable the whole accordion"
 
@@ -41,7 +45,11 @@ defmodule <%= @module %> do
 
   attr :value, :list, default: nil, doc: "Controlled: the list of open item values"
   attr :initial_open, :list, default: nil, doc: "Uncontrolled: initially open item values"
-  attr :on_value_change, :string, default: nil, doc: "LiveView event pushed when the open set changes"
+
+  attr :on_value_change, :string,
+    default: nil,
+    doc: "LiveView event pushed when the open set changes"
+
   attr :class, :any, default: nil
   attr :rest, :global
 
@@ -53,7 +61,9 @@ defmodule <%= @module %> do
     attr :on_open_change, :string, doc: "LiveView event pushed when THIS item toggles"
     attr :class, :any, doc: "Additional CSS classes for this item's wrapper (data-part=item)"
     attr :trigger_class, :any, doc: "Additional CSS classes for this item's trigger button"
-    attr :content_class, :any, doc: "Additional CSS classes for this item's panel (data-part=panel)"
+
+    attr :content_class, :any,
+      doc: "Additional CSS classes for this item's panel (data-part=panel)"
   end
 
   slot :trigger_icon,

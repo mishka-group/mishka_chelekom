@@ -44,10 +44,22 @@ defmodule <%= @module %> do
 
   attr :clear, :boolean, default: false, doc: "Render a `data-part=\"clear\"` button"
   attr :class, :any, default: nil
-  attr :input_class, :any, default: nil, doc: "Extra classes for the `data-part=\"input\"` element"
-  attr :popup_class, :any, default: nil, doc: "Extra classes for the `data-part=\"popup\"` listbox"
-  attr :status_class, :any, default: nil, doc: "Extra classes for the `data-part=\"status\"` live region"
-  attr :empty_class, :any, default: nil, doc: "Extra classes for the `data-part=\"empty\"` wrapper"
+
+  attr :input_class, :any,
+    default: nil,
+    doc: "Extra classes for the `data-part=\"input\"` element"
+
+  attr :popup_class, :any,
+    default: nil,
+    doc: "Extra classes for the `data-part=\"popup\"` listbox"
+
+  attr :status_class, :any,
+    default: nil,
+    doc: "Extra classes for the `data-part=\"status\"` live region"
+
+  attr :empty_class, :any,
+    default: nil,
+    doc: "Extra classes for the `data-part=\"empty\"` wrapper"
 
   attr :inline, :boolean,
     default: false,
@@ -60,11 +72,14 @@ defmodule <%= @module %> do
     attr :value, :string, required: true
 
     attr :label, :string,
-      doc: "Display string shown in the input/chip when selected (defaults to `value`); the option's inner content can be richer"
+      doc:
+        "Display string shown in the input/chip when selected (defaults to `value`); the option's inner content can be richer"
 
     attr :group, :string, doc: "Optional group label (consecutive same-group options are grouped)"
     attr :class, :any, doc: "Extra classes for this option's `data-part=\"item\"`"
-    attr :group_class, :any, doc: "Extra classes for the `data-part=\"group\"` wrapper (first option of a group)"
+
+    attr :group_class, :any,
+      doc: "Extra classes for the `data-part=\"group\"` wrapper (first option of a group)"
 
     attr :group_label_class, :any,
       doc: "Extra classes for the `data-part=\"group-label\"` (first option of a group)"

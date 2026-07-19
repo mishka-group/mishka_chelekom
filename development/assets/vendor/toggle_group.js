@@ -81,7 +81,7 @@ const ToggleGroup = {
 
     this.render();
     this.focusItem(item);
-    if (this.onChange) this.pushEvent(this.onChange, { value: Array.from(this.pressed) });
+    if (this.onChange) this.pushEventTo(this.el, this.onChange, { value: Array.from(this.pressed) });
   },
 
   render() {

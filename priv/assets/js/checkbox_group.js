@@ -153,7 +153,7 @@ const CheckboxGroup = {
         return input ? input.value : null;
       })
       .filter((v) => v != null);
-    this.pushEvent(onChange, { value });
+    this.pushEventTo(this.el, onChange, { value });
   },
 };
 

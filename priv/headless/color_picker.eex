@@ -1,0 +1,63 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Headless **color picker** — a saturation/value area plus a hue slider (Mantine ColorPicker parity).
+
+  The `ColorPicker` engine handles the 2D `area` drag (saturation on X, value on Y) and the native
+  range `hue` input, converts HSV→hex, paints the `preview` swatch and mirrors the hex into a hidden
+  `input` (dispatching `input` so `<.form phx-change>` fires). `on_change` pushes `{value}`.
+
+  Ships **no** styling — style via `chelekom-color-picker*`.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/color_picker
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, required: true, doc: "Unique id (carries the ColorPicker hook)"
+  attr :name, :string, default: nil, doc: "Name for the hidden hex input"
+  attr :value, :string, default: "#3b82f6", doc: "Initial color (hex)"
+  attr :form, :string, default: nil, doc: "Form id owning the hidden input"
+  attr :on_change, :string, default: nil, doc: "LiveView event pushed on change ({value})"
+  attr :class, :any, default: nil
+  attr :area_class, :any, default: nil
+  attr :thumb_class, :any, default: nil
+  attr :controls_class, :any, default: nil
+  attr :preview_class, :any, default: nil
+  attr :hue_class, :any, default: nil
+  attr :rest, :global
+
+  def <%= @component_prefix %>color_picker(assigns) do
+    ~H"""
+    <div
+      id={@id}
+      phx-hook="ColorPicker"
+      data-part="root"
+      data-value={@value}
+      data-on-change={@on_change}
+      class={["chelekom-color-picker", @class]}
+      {@rest}
+    >
+      <div data-part="area" class={["chelekom-color-picker__area", @area_class]}>
+        <span data-part="area-thumb" class={["chelekom-color-picker__thumb", @thumb_class]}></span>
+      </div>
+      <div data-part="controls" class={["chelekom-color-picker__controls", @controls_class]}>
+        <span
+          data-part="preview"
+          role="img"
+          aria-label={"Selected color #{@value}"}
+          class={["chelekom-color-picker__preview", @preview_class]}
+        ></span>
+        <input
+          data-part="hue"
+          type="range"
+          min="0"
+          max="360"
+          aria-label="Hue"
+          class={["chelekom-color-picker__hue", @hue_class]}
+        />
+      </div>
+      <input :if={@name} data-part="input" type="hidden" name={@name} value={@value} form={@form} />
+    </div>
+    """
+  end
+end

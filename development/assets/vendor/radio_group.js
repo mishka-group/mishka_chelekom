@@ -110,7 +110,7 @@ const RadioGroup = {
       // Notify any enclosing <.form phx-change> — the hidden input is set programmatically.
       this.hidden.dispatchEvent(new Event("input", { bubbles: true }));
     }
-    if (this.onChange) this.pushEvent(this.onChange, { value });
+    if (this.onChange) this.pushEventTo(this.el, this.onChange, { value });
   },
 };
 

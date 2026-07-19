@@ -34,6 +34,8 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless do
   * `--module-prefix` - Prefix for the module name
   * `--sub` - Marks this as a dependency sub-generation
   * `--no-save` - Use prefixes without saving them to config
+  * `--no-npm` - Write everything but skip installing the component's npm packages
+  * `--lib` - For components with several engines, which external library to use (e.g. `--lib tiptap`)
   * `--yes` - Apply without prompts
   """
 
@@ -47,7 +49,9 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless do
         component_prefix: :string,
         module_prefix: :string,
         sub: :boolean,
-        no_save: :boolean
+        no_save: :boolean,
+        no_npm: :boolean,
+        lib: :string
       ],
       aliases: [m: :module]
     }
@@ -70,6 +74,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless do
       |> Igniter.assign(:mishka_user_config, Config.load_user_config(igniter))
       |> Core.check_dependencies()
       |> resolve_template(component)
+      |> validate_lib()
       |> compute_location()
       |> build_eex_assigns()
       |> write_component()
@@ -110,6 +115,34 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless do
         Igniter.add_issue(igniter, "Invalid headless catalog for #{component}: #{reason}")
     end
   end
+
+  defp validate_lib(%{assigns: %{template_config: config}} = igniter) do
+    requested = igniter.args.options[:lib]
+    known = Assets.lib_names(config)
+
+    cond do
+      is_nil(requested) ->
+        igniter
+
+      known == [] ->
+        Igniter.add_issue(
+          igniter,
+          "--lib was given but #{igniter.assigns.component_name} has a single engine."
+        )
+
+      requested in known ->
+        igniter
+
+      true ->
+        Igniter.add_issue(
+          igniter,
+          "Unknown --lib #{inspect(requested)}. #{igniter.assigns.component_name} supports: " <>
+            Enum.join(known, ", ")
+        )
+    end
+  end
+
+  defp validate_lib(igniter), do: igniter
 
   defp compute_location(%{assigns: %{component_name: _}} = igniter) do
     options = igniter.args.options
@@ -174,7 +207,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless do
   defp write_component(igniter), do: igniter
 
   defp wire_scripts(%{assigns: %{eex_assigns: _}} = igniter),
-    do: Assets.wire_scripts(igniter, igniter.assigns.template_config)
+    do: Assets.wire_scripts(igniter, igniter.assigns.template_config, igniter.args.options)
 
   defp wire_scripts(igniter), do: igniter
 

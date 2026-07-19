@@ -202,7 +202,7 @@ const ContextMenu = {
   emitOpenChange(open) {
     if (!this.onOpenChange) return;
     if (this.onOpenChangeTarget) this.pushEventTo(this.onOpenChangeTarget, this.onOpenChange, { open });
-    else this.pushEvent(this.onOpenChange, { open });
+    else this.pushEventTo(this.el, this.onOpenChange, { open });
   },
 
   handleOutside(e) {
@@ -362,7 +362,7 @@ const ContextMenu = {
     if (!ev) return;
     const target = item.getAttribute("data-on-change-target");
     if (target) this.pushEventTo(target, ev, payload);
-    else this.pushEvent(ev, payload);
+    else this.pushEventTo(this.el, ev, payload);
   },
 
   // ---- keyboard ----------------------------------------------------------

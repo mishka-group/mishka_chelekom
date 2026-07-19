@@ -6,43 +6,80 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   use Phoenix.Component
 
   import DevelopmentWeb.Components.Headless.Accordion
+  import DevelopmentWeb.Components.Headless.ActionIcon
   import DevelopmentWeb.Components.Headless.AlertDialog
+  import DevelopmentWeb.Components.Headless.AlphaSlider
+  import DevelopmentWeb.Components.Headless.Anchor
+  import DevelopmentWeb.Components.Headless.AngleSlider
   import DevelopmentWeb.Components.Headless.Autocomplete
   import DevelopmentWeb.Components.Headless.Avatar
+  import DevelopmentWeb.Components.Headless.Burger
   import DevelopmentWeb.Components.Headless.Checkbox
   import DevelopmentWeb.Components.Headless.CheckboxGroup
+  import DevelopmentWeb.Components.Headless.Chip
+  import DevelopmentWeb.Components.Headless.CloseButton
+  import DevelopmentWeb.Components.Headless.Code
   import DevelopmentWeb.Components.Headless.Collapsible
+  import DevelopmentWeb.Components.Headless.ColorInput
+  import DevelopmentWeb.Components.Headless.ColorPicker
+  import DevelopmentWeb.Components.Headless.ColorSwatch
   import DevelopmentWeb.Components.Headless.Combobox
   import DevelopmentWeb.Components.Headless.ContextMenu
   import DevelopmentWeb.Components.Headless.Dialog
+  import DevelopmentWeb.Components.Headless.Drawer
+  import DevelopmentWeb.Components.Headless.Editor
   import DevelopmentWeb.Components.Headless.EmptyState
   import DevelopmentWeb.Components.Headless.Field
   import DevelopmentWeb.Components.Headless.Fieldset
+  import DevelopmentWeb.Components.Headless.FloatingIndicator
+  import DevelopmentWeb.Components.Headless.FloatingWindow
+  import DevelopmentWeb.Components.Headless.Highlight
+  import DevelopmentWeb.Components.Headless.HueSlider
+  import DevelopmentWeb.Components.Headless.JsonInput
+  import DevelopmentWeb.Components.Headless.LoadingOverlay
+  import DevelopmentWeb.Components.Headless.Mark
+  import DevelopmentWeb.Components.Headless.Marquee
+  import DevelopmentWeb.Components.Headless.MaskInput
   import DevelopmentWeb.Components.Headless.Menu
   import DevelopmentWeb.Components.Headless.Menubar
   import DevelopmentWeb.Components.Headless.Meter
+  import DevelopmentWeb.Components.Headless.NavLink
   import DevelopmentWeb.Components.Headless.NavigationMenu
   import DevelopmentWeb.Components.Headless.NumberField
+  import DevelopmentWeb.Components.Headless.NumberFormatter
+  import DevelopmentWeb.Components.Headless.OtpField
+  import DevelopmentWeb.Components.Headless.OverflowList
+  import DevelopmentWeb.Components.Headless.Pill
+  import DevelopmentWeb.Components.Headless.PillsInput
   import DevelopmentWeb.Components.Headless.Popover
   import DevelopmentWeb.Components.Headless.PreviewCard
   import DevelopmentWeb.Components.Headless.Progress
+  import DevelopmentWeb.Components.Headless.Radio
   import DevelopmentWeb.Components.Headless.RadioGroup
+  import DevelopmentWeb.Components.Headless.RollingNumber
   import DevelopmentWeb.Components.Headless.ScrollArea
+  import DevelopmentWeb.Components.Headless.Scroller
+  import DevelopmentWeb.Components.Headless.SegmentedControl
   import DevelopmentWeb.Components.Headless.Select
+  import DevelopmentWeb.Components.Headless.SemiCircleProgress
   import DevelopmentWeb.Components.Headless.Separator
   import DevelopmentWeb.Components.Headless.Slider
+  import DevelopmentWeb.Components.Headless.Splitter
+  import DevelopmentWeb.Components.Headless.Spoiler
   import DevelopmentWeb.Components.Headless.Switch
   import DevelopmentWeb.Components.Headless.Tabs
+  import DevelopmentWeb.Components.Headless.TagsInput
+  import DevelopmentWeb.Components.Headless.ThemeIcon
   import DevelopmentWeb.Components.Headless.Toast
   import DevelopmentWeb.Components.Headless.Toggle
   import DevelopmentWeb.Components.Headless.ToggleGroup
   import DevelopmentWeb.Components.Headless.Toolbar
   import DevelopmentWeb.Components.Headless.Tooltip
   import DevelopmentWeb.Components.Headless.Tree
-  import DevelopmentWeb.Components.Headless.Drawer
-  import DevelopmentWeb.Components.Headless.Radio
-  import DevelopmentWeb.Components.Headless.OtpField
+  import DevelopmentWeb.Components.Headless.TreeSelect
+  import DevelopmentWeb.Components.Headless.VisuallyHidden
   import DevelopmentWeb.Showcase.UI, only: [code_block: 1]
+  alias Phoenix.LiveView.JS
 
   @btn "rounded-md border border-[var(--c-base-300)] px-3 py-1.5 text-sm"
 
@@ -393,6 +430,666 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         </button>
       </:actions>
     </.empty_state>
+    """
+  end
+
+  def show(%{component: "alpha_slider"} = assigns) do
+    ~H"""
+    <div class="w-64">
+      <.alpha_slider id={@id} value={60} color="#6d28d9" class={alpha_slider_class()} />
+    </div>
+    """
+  end
+
+  def show(%{component: "hue_slider"} = assigns) do
+    ~H"""
+    <div class="w-64">
+      <.hue_slider id={@id} value={200} class={hue_slider_class()} />
+    </div>
+    """
+  end
+
+  def show(%{component: "number_formatter"} = assigns) do
+    ~H"""
+    <div class="space-y-1 text-sm text-[var(--c-base-content)]/80">
+      <p>
+        Revenue:
+        <.number_formatter
+          value={1_234_567.89}
+          prefix="$"
+          decimal_scale={2}
+          class="font-semibold tabular-nums"
+        />
+      </p>
+      <p>Users: <.number_formatter value={1_048_576} class="font-semibold tabular-nums" /></p>
+      <p>
+        Growth:
+        <.number_formatter
+          value={42.5}
+          suffix="%"
+          decimal_scale={1}
+          class="font-semibold tabular-nums"
+        />
+      </p>
+      <p>
+        Spaced:
+        <.number_formatter
+          value={9_876_543}
+          thousand_separator=" "
+          class="font-semibold tabular-nums"
+        />
+      </p>
+    </div>
+    """
+  end
+
+  def show(%{component: "marquee"} = assigns) do
+    ~H"""
+    <div class="w-full max-w-md">
+      <style>
+        @keyframes chelekom-marquee-x { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+      </style>
+      <.marquee
+        class="overflow-hidden rounded-md border border-[var(--c-base-300)] py-2"
+        track_class="flex w-max motion-safe:animate-[chelekom-marquee-x_16s_linear_infinite] hover:[animation-play-state:paused]"
+        group_class="flex shrink-0 items-center gap-8 pr-8 text-sm font-medium text-[var(--c-base-content)]/70"
+      >
+        <span>Phoenix</span>
+        <span>LiveView</span>
+        <span>Elixir</span>
+        <span>Mishka Chelekom</span>
+        <span>Headless</span>
+      </.marquee>
+    </div>
+    """
+  end
+
+  def show(%{component: "action_icon"} = assigns) do
+    ~H"""
+    <div class="flex items-center gap-3">
+      <.action_icon
+        label="Edit"
+        class="inline-flex size-9 items-center justify-center rounded-md border border-[var(--c-base-300)] text-[var(--c-base-content)]/70 hover:bg-[var(--c-base-200)] hover:text-[var(--c-base-content)]"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-5"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Z"
+          />
+        </svg>
+      </.action_icon>
+      <.action_icon
+        label="Delete"
+        disabled
+        class="inline-flex size-9 items-center justify-center rounded-md border border-[var(--c-base-300)] text-[var(--c-base-content)]/70 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-40"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-5"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12.56.157c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397"
+          />
+        </svg>
+      </.action_icon>
+    </div>
+    """
+  end
+
+  def show(%{component: "anchor"} = assigns) do
+    ~H"""
+    <p class="text-sm text-[var(--c-base-content)]/80">
+      Read the
+      <.anchor
+        href="https://mishka.tools/chelekom"
+        target="_blank"
+        class="text-[var(--c-primary)] underline underline-offset-2 hover:no-underline"
+      >
+        Mishka Chelekom docs
+      </.anchor>
+      to get started.
+    </p>
+    """
+  end
+
+  def show(%{component: "theme_icon"} = assigns) do
+    ~H"""
+    <div class="flex items-center gap-3">
+      <.theme_icon
+        label="Success"
+        class="inline-flex size-9 items-center justify-center rounded-lg bg-[var(--c-success)]/15 text-[var(--c-success)]"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="2"
+          stroke="currentColor"
+          class="size-5"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+        </svg>
+      </.theme_icon>
+      <.theme_icon class="inline-flex size-9 items-center justify-center rounded-full bg-[var(--c-primary)]/15 text-[var(--c-primary)]">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
+          <path d="M11.983 1.907a.75.75 0 0 0-1.292-.657l-8.5 9.5A.75.75 0 0 0 2.75 12h6.572l-1.305 6.093a.75.75 0 0 0 1.292.657l8.5-9.5A.75.75 0 0 0 18.25 8h-6.572l1.305-6.093Z" />
+        </svg>
+      </.theme_icon>
+    </div>
+    """
+  end
+
+  def show(%{component: "visually_hidden"} = assigns) do
+    ~H"""
+    <div class="max-w-md">
+      <button
+        type="button"
+        class="rounded-md border border-[var(--c-base-300)] px-3 py-1.5 text-sm hover:bg-[var(--c-base-200)]"
+      >
+        ★
+        <.visually_hidden>Add to favorites</.visually_hidden>
+      </button>
+      <p class="mt-2 text-xs text-[var(--c-base-content)]/50">
+        The star button carries a screen-reader-only label — invisible, but announced as
+        "Add to favorites".
+      </p>
+    </div>
+    """
+  end
+
+  def show(%{component: "highlight"} = assigns) do
+    ~H"""
+    <p class="max-w-md text-sm text-[var(--c-base-content)]/80">
+      <.highlight
+        text="Phoenix LiveView builds rich, real-time apps — and LiveView needs little JavaScript."
+        highlight={["LiveView", "real-time"]}
+        mark_class="rounded bg-yellow-200 px-0.5 text-neutral-900"
+      />
+    </p>
+    """
+  end
+
+  def show(%{component: "mark"} = assigns) do
+    ~H"""
+    <p class="max-w-md text-sm text-[var(--c-base-content)]/80">
+      Search matched
+      <.mark class="rounded bg-yellow-200 px-0.5 text-neutral-900">Phoenix LiveView</.mark>
+      in this sentence — the highlight also carries meaning for assistive tech.
+    </p>
+    """
+  end
+
+  def show(%{component: "code"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <p class="text-sm text-[var(--c-base-content)]/80">
+        Install with
+        <.code class="rounded bg-[var(--c-base-300)]/60 px-1.5 py-0.5 font-mono text-[0.85em]">
+          mix mishka.ui.gen.headless code
+        </.code>
+        and go.
+      </p>
+      <.code
+        block
+        class="overflow-x-auto rounded-lg bg-[var(--c-base-300)]/50 p-3 font-mono text-sm"
+        phx-no-format
+      >def hello, do: :world</.code>
+    </div>
+    """
+  end
+
+  def show(%{component: "color_swatch"} = assigns) do
+    ~H"""
+    <div class="flex items-center gap-3">
+      <.color_swatch color="#3b82f6" class="inline-block size-8 rounded-full ring-1 ring-black/10" />
+      <.color_swatch color="#ef4444" class="inline-block size-8 rounded-full ring-1 ring-black/10" />
+      <.color_swatch color="#22c55e" class="inline-block size-8 rounded-md ring-1 ring-black/10" />
+      <.color_swatch
+        color="#a855f7"
+        label="Selected purple"
+        class="inline-flex size-8 items-center justify-center rounded-full text-white ring-1 ring-black/10"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4">
+          <path
+            fill-rule="evenodd"
+            d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </.color_swatch>
+    </div>
+    """
+  end
+
+  def show(%{component: "color_picker"} = assigns) do
+    ~H"""
+    <.color_picker id={@id} value="#8b5cf6" class={color_picker_class()} />
+    """
+  end
+
+  def show(%{component: "rolling_number"} = assigns) do
+    ~H"""
+    <div class="flex gap-8">
+      <div class="text-center">
+        <.rolling_number id={@id} value={1284} class="text-3xl font-bold tabular-nums" />
+        <div class="text-xs text-[var(--c-base-content)]/50">Stars</div>
+      </div>
+      <div class="text-center">
+        <.rolling_number
+          id={"#{@id}-downloads"}
+          value={98_765}
+          duration={1200}
+          class="text-3xl font-bold tabular-nums"
+        />
+        <div class="text-xs text-[var(--c-base-content)]/50">Downloads</div>
+      </div>
+    </div>
+    """
+  end
+
+  def show(%{component: "scroller"} = assigns) do
+    ~H"""
+    <.scroller id={@id} class={scroller_class()}>
+      <div
+        :for={n <- 1..12}
+        class="grid size-20 shrink-0 place-items-center rounded-lg bg-[var(--c-base-200)] text-sm font-medium"
+      >
+        Item {n}
+      </div>
+    </.scroller>
+    """
+  end
+
+  def show(%{component: "tree_select"} = assigns) do
+    ~H"""
+    <.tree_select
+      id={@id}
+      placeholder="Choose a category…"
+      class="relative inline-block w-64"
+      trigger_class="flex w-full items-center justify-between gap-2 rounded-md border border-[var(--c-base-300)] bg-[var(--c-base-100)] px-3 py-1.5 text-sm hover:bg-[var(--c-base-200)]"
+      value_class="truncate data-[placeholder]:text-[var(--c-base-content)]/50"
+      panel_class="absolute left-0 z-20 mt-2 max-h-64 w-64 overflow-auto rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-2 shadow-lg"
+    >
+      <.tree
+        id={"#{@id}-tree"}
+        nodes={tree_select_nodes()}
+        expanded={:all}
+        select_on_click
+        multiple={false}
+        aria_label="Categories"
+        class="text-sm select-none"
+        node_class="[&[data-selectable=false]>[data-part=label]]:font-medium [&[data-selectable=false]>[data-part=label]]:text-[var(--c-base-content)]/60"
+        label_class="flex items-center gap-1 rounded px-2 py-1 cursor-pointer [padding-left:calc(var(--label-offset)+0.5rem)] hover:bg-[var(--c-base-200)] data-[selected]:bg-[var(--c-primary)]/10 data-[selected]:font-medium data-[selected]:text-[var(--c-primary)]"
+        label_text_class="truncate"
+        expand_icon_class="inline-block w-3 text-center text-[var(--c-base-content)]/50"
+      >
+        <:expand_icon>▸</:expand_icon>
+      </.tree>
+    </.tree_select>
+    """
+  end
+
+  def show(%{component: "color_input"} = assigns) do
+    ~H"""
+    <.color_input
+      id={@id}
+      value="#8b5cf6"
+      label="Color"
+      class="relative inline-block w-56"
+      control_class="flex items-center gap-2 rounded-md border border-[var(--c-base-300)] bg-[var(--c-base-100)] px-2 py-1.5 focus-within:ring-2 focus-within:ring-[var(--c-primary)]/30"
+      preview_class="size-5 shrink-0 rounded border border-[var(--c-base-300)]"
+      text_class="w-24 bg-transparent font-mono text-sm outline-none"
+      trigger_class="ml-auto rounded p-1 text-[var(--c-base-content)]/50 hover:bg-[var(--c-base-200)]"
+      panel_class="absolute left-0 z-20 mt-2 w-56 rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-3 shadow-lg"
+      area_class="relative h-36 w-full cursor-crosshair rounded-md"
+      thumb_class="block size-3 rounded-full border-2 border-white shadow"
+      hue_class="mt-3 w-full"
+    />
+    """
+  end
+
+  def show(%{component: "floating_window"} = assigns) do
+    ~H"""
+    <div
+      class="relative h-56 w-full overflow-hidden rounded-lg border border-[var(--c-base-300)]"
+      style="background-image: radial-gradient(var(--c-base-300) 1px, transparent 0); background-size: 16px 16px;"
+    >
+      <.floating_window
+        id={@id}
+        x={20}
+        y={20}
+        label="Window"
+        class="absolute w-52 rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] shadow-lg"
+        handle_class="cursor-grab rounded-t-lg border-b border-[var(--c-base-300)] bg-[var(--c-base-200)] px-3 py-1.5 text-sm font-medium active:cursor-grabbing"
+        body_class="p-3 text-sm text-[var(--c-base-content)]/80"
+      >
+        <:handle>Drag me</:handle>
+        Grab the title bar to move this panel within the box.
+      </.floating_window>
+    </div>
+    """
+  end
+
+  def show(%{component: "floating_indicator"} = assigns) do
+    ~H"""
+    <.floating_indicator
+      id={@id}
+      active="list"
+      label="View"
+      class={floating_indicator_class()}
+      indicator_class="rounded-md bg-[var(--c-primary)] shadow"
+      target_class="relative z-10 rounded-md px-3 py-1.5 text-sm font-medium text-[var(--c-base-content)]/70 transition-colors outline-none aria-pressed:text-primary-content"
+    >
+      <:target value="list">List</:target>
+      <:target value="board">Board</:target>
+      <:target value="calendar">Calendar</:target>
+    </.floating_indicator>
+    """
+  end
+
+  def show(%{component: "overflow_list"} = assigns) do
+    ~H"""
+    <div class="max-w-sm rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-2">
+      <.overflow_list
+        id={@id}
+        min_visible={1}
+        class={overflow_list_class()}
+        item_class="whitespace-nowrap rounded-full bg-[var(--c-base-200)] px-2.5 py-0.5 text-sm"
+      >
+        <:item>Design</:item>
+        <:item>Phoenix</:item>
+        <:item>Elixir</:item>
+        <:item>LiveView</:item>
+        <:item>Tailwind</:item>
+        <:item>Headless</:item>
+        <:item>Accessibility</:item>
+      </.overflow_list>
+    </div>
+    """
+  end
+
+  def show(%{component: "angle_slider"} = assigns) do
+    ~H"""
+    <div class="flex flex-wrap items-center gap-6">
+      <.angle_slider id={@id} value={45} step={1} label="Angle A" class={angle_slider_class()} />
+      <.angle_slider
+        id={"#{@id}-b"}
+        value={200}
+        step={15}
+        label="Angle B (15° steps)"
+        class={angle_slider_class()}
+      />
+    </div>
+    """
+  end
+
+  def show(%{component: "mask_input"} = assigns) do
+    ~H"""
+    <div class="grid max-w-sm gap-3">
+      <.mask_input
+        id={@id}
+        mask="(999) 999-9999"
+        placeholder="(___) ___-____"
+        inputmode="numeric"
+        class={mask_input_class()}
+      />
+      <.mask_input
+        id={"#{@id}-date"}
+        mask="99/99/9999"
+        placeholder="MM/DD/YYYY"
+        inputmode="numeric"
+        class={mask_input_class()}
+      />
+      <.mask_input
+        id={"#{@id}-card"}
+        mask="9999 9999 9999 9999"
+        placeholder="Card number"
+        inputmode="numeric"
+        class={mask_input_class()}
+      />
+    </div>
+    """
+  end
+
+  def show(%{component: "pills_input"} = assigns) do
+    ~H"""
+    <.pills_input id={@id} placeholder="Add a tag…" class={pills_input_class()}>
+      <:pills>
+        <.pill
+          with_remove
+          remove_label="Remove Design"
+          on_remove={JS.hide(to: {:closest, "[data-part=root]"})}
+          class={pills_input_pill_class()}
+        >
+          Design
+        </.pill>
+        <.pill
+          with_remove
+          remove_label="Remove Phoenix"
+          on_remove={JS.hide(to: {:closest, "[data-part=root]"})}
+          class={pills_input_pill_class()}
+        >
+          Phoenix
+        </.pill>
+      </:pills>
+    </.pills_input>
+    """
+  end
+
+  def show(%{component: "loading_overlay"} = assigns) do
+    ~H"""
+    <div class="relative h-32 w-64 overflow-hidden rounded-lg border border-[var(--c-base-300)] p-4 text-sm">
+      <p class="text-[var(--c-base-content)]/70">Content sits behind the overlay while it loads…</p>
+      <.loading_overlay visible label="Loading" class={loading_overlay_class()}>
+        <span class="size-6 animate-spin rounded-full border-2 border-[var(--c-base-300)] border-t-[var(--c-primary)]"></span>
+      </.loading_overlay>
+    </div>
+    """
+  end
+
+  def show(%{component: "segmented_control"} = assigns) do
+    ~H"""
+    <.segmented_control
+      id={@id}
+      name="sc-preview"
+      value="week"
+      options={[{"Day", "day"}, {"Week", "week"}, {"Month", "month"}]}
+      label="Range"
+      class={segmented_control_class()}
+    />
+    """
+  end
+
+  def show(%{component: "json_input"} = assigns) do
+    ~H"""
+    <.json_input
+      id={@id}
+      value={~s({\n  "framework": "Phoenix",\n  "language": "Elixir"\n})}
+      rows={4}
+      class={json_input_class()}
+    />
+    """
+  end
+
+  def show(%{component: "nav_link"} = assigns) do
+    ~H"""
+    <nav class="w-56 space-y-1">
+      <.nav_link label="Dashboard" href="#" active class={nav_link_class()} />
+      <.nav_link label="Settings" class={nav_link_class()}>
+        <:trailing>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            class="size-4"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+          </svg>
+        </:trailing>
+        <:children>
+          <.nav_link label="Profile" href="#" class={nav_link_class()} />
+          <.nav_link label="Security" href="#" active class={nav_link_class()} />
+        </:children>
+      </.nav_link>
+      <.nav_link label="Log out" href="#" class={nav_link_class()} />
+    </nav>
+    """
+  end
+
+  def show(%{component: "semi_circle_progress"} = assigns) do
+    ~H"""
+    <.semi_circle_progress value={68} label="Storage used" class={scp_class()}>
+      <span class="text-2xl font-bold">68%</span>
+      <span class="text-xs text-[var(--c-base-content)]/50">used</span>
+    </.semi_circle_progress>
+    """
+  end
+
+  def show(%{component: "splitter"} = assigns) do
+    ~H"""
+    <.splitter id={@id} default_size={40} class={splitter_class()}>
+      <:first>
+        <div class="p-3 text-sm">Sidebar — drag the divider →</div>
+      </:first>
+      <:second>
+        <div class="p-3 text-sm">Main content. Focus the divider and use ← → arrow keys too.</div>
+      </:second>
+    </.splitter>
+    """
+  end
+
+  def show(%{component: "spoiler"} = assigns) do
+    ~H"""
+    <.spoiler id={@id} class={spoiler_class()}>
+      Phoenix LiveView lets you build rich, real-time user experiences with server-rendered HTML —
+      form validation, live navigation and interactive components, with very little JavaScript. This
+      paragraph is deliberately long so the spoiler has something to clamp; expand it to read the
+      rest, then collapse it again.
+    </.spoiler>
+    """
+  end
+
+  def show(%{component: "tags_input"} = assigns) do
+    ~H"""
+    <.tags_input
+      id={@id}
+      tags={["design", "phoenix", "elixir"]}
+      placeholder="Add a tag…"
+      on_remove={JS.hide(to: {:closest, "[data-part=tag]"})}
+      class={tags_input_class()}
+    />
+    """
+  end
+
+  def show(%{component: "pill"} = assigns) do
+    ~H"""
+    <div class="flex flex-wrap items-center gap-2">
+      <.pill id={@id} class={pill_class()}>Default</.pill>
+      <.pill id={"#{@id}-2"} with_remove remove_label="Remove React" class={pill_class()}>
+        React
+      </.pill>
+      <.pill id={"#{@id}-3"} with_remove remove_label="Remove Phoenix" class={pill_class()}>
+        Phoenix
+      </.pill>
+      <.pill id={"#{@id}-4"} with_remove disabled class={pill_class()}>Disabled</.pill>
+    </div>
+    """
+  end
+
+  def show(%{component: "editor"} = assigns) do
+    ~H"""
+    <.editor
+      id={@id}
+      placeholder="Write something…"
+      class={editor_class()}
+      toolbar_class={editor_toolbar_class()}
+      surface_class={editor_surface_class()}
+    >
+      <:toolbar>
+        <button type="button" data-editor-command="bold">B</button>
+        <button type="button" data-editor-command="italic">I</button>
+        <button type="button" data-editor-command="strike">S</button>
+        <button type="button" data-editor-command="h2">H2</button>
+        <button type="button" data-editor-command="bullet_list">• List</button>
+        <button type="button" data-editor-command="blockquote">❝</button>
+      </:toolbar>
+    </.editor>
+    """
+  end
+
+  def show(%{component: "chip"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <div class="flex flex-wrap gap-2">
+        <.chip id={@id} name="chip-fruits[]" value="apple" checked class={chip_class()}>Apple</.chip>
+        <.chip id={"#{@id}-2"} name="chip-fruits[]" value="banana" class={chip_class()}>Banana</.chip>
+        <.chip id={"#{@id}-3"} name="chip-fruits[]" value="cherry" class={chip_class()}>Cherry</.chip>
+        <.chip id={"#{@id}-4"} name="chip-fruits[]" value="date" disabled class={chip_class()}>
+          Date
+        </.chip>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <.chip id={"#{@id}-r1"} type="radio" name="chip-size" value="s" class={chip_class()}>S</.chip>
+        <.chip id={"#{@id}-r2"} type="radio" name="chip-size" value="m" checked class={chip_class()}>
+          M
+        </.chip>
+        <.chip id={"#{@id}-r3"} type="radio" name="chip-size" value="l" class={chip_class()}>L</.chip>
+      </div>
+    </div>
+    """
+  end
+
+  def show(%{component: "burger"} = assigns) do
+    ~H"""
+    <div class="flex items-center gap-6">
+      <div class="flex flex-col items-center gap-1">
+        <.burger id={@id} label="Open menu" class={burger_class()} />
+        <span class="text-[0.7rem] text-[var(--c-base-content)]/40">closed</span>
+      </div>
+      <div class="flex flex-col items-center gap-1">
+        <.burger id={"#{@id}-open"} opened label="Close menu" class={burger_class()} />
+        <span class="text-[0.7rem] text-[var(--c-base-content)]/40">opened</span>
+      </div>
+    </div>
+    """
+  end
+
+  def show(%{component: "close_button"} = assigns) do
+    ~H"""
+    <div class="flex items-center gap-4">
+      <.close_button
+        id={@id}
+        label="Close"
+        class="inline-flex size-8 items-center justify-center rounded-md text-[var(--c-base-content)]/60 hover:bg-[var(--c-base-200)] hover:text-[var(--c-base-content)] data-[disabled]:opacity-40"
+      />
+      <.close_button
+        id={"#{@id}-lg"}
+        label="Dismiss"
+        class="inline-flex size-10 items-center justify-center rounded-full text-lg text-[var(--c-base-content)]/60 hover:bg-[var(--c-base-200)] hover:text-[var(--c-base-content)]"
+      />
+      <.close_button
+        id={"#{@id}-disabled"}
+        label="Close"
+        disabled
+        class="inline-flex size-8 items-center justify-center rounded-md text-[var(--c-base-content)]/60 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-40"
+      />
+    </div>
     """
   end
 
@@ -1556,6 +2253,29 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   def has_examples?("alert_dialog"), do: true
   def has_examples?("tree"), do: true
   def has_examples?("empty_state"), do: true
+  def has_examples?("tags_input"), do: true
+  def has_examples?("spoiler"), do: true
+  def has_examples?("editor"), do: true
+  def has_examples?("chip"), do: true
+  def has_examples?("burger"), do: true
+  def has_examples?("color_swatch"), do: true
+  def has_examples?("pill"), do: true
+  def has_examples?("color_picker"), do: true
+  def has_examples?("hue_slider"), do: true
+  def has_examples?("alpha_slider"), do: true
+  def has_examples?("rolling_number"), do: true
+  def has_examples?("splitter"), do: true
+  def has_examples?("json_input"), do: true
+  def has_examples?("segmented_control"), do: true
+  def has_examples?("loading_overlay"), do: true
+  def has_examples?("angle_slider"), do: true
+  def has_examples?("overflow_list"), do: true
+  def has_examples?("floating_indicator"), do: true
+  def has_examples?("floating_window"), do: true
+  def has_examples?("color_input"), do: true
+  def has_examples?("tree_select"), do: true
+  def has_examples?("mask_input"), do: true
+  def has_examples?("pills_input"), do: true
   def has_examples?(_), do: false
 
   def examples(%{component: "empty_state"} = assigns) do
@@ -1564,7 +2284,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
         <summary class="cursor-pointer select-none font-medium">Left &amp; right alignment</summary>
         <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
-          <code>data-align</code> flips the whole layout — indicator, text and actions — from CSS, with
+          <code>data-align</code>
+          flips the whole layout — indicator, text and actions — from CSS, with
           no change to the markup.
         </p>
         <div class="mt-4 space-y-6">
@@ -1623,7 +2344,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         <summary class="cursor-pointer select-none font-medium">Filled indicator</summary>
         <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
           A colored circular background behind the icon (Mantine's <code>filled</code>/<code>light</code>
-          variants) — pure CSS on the <code>indicator</code> part.
+          variants) — pure CSS on the <code>indicator</code>
+          part.
         </p>
         <div class="mt-4">
           <.empty_state
@@ -1696,7 +2418,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         <summary class="cursor-pointer select-none font-medium">Announced dynamically</summary>
         <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
           When the empty state appears after a user action, pass <code>role="status"</code>
-          through <code>rest</code> so assistive tech announces it politely.
+          through <code>rest</code>
+          so assistive tech announces it politely.
         </p>
         <div class="mt-4">
           <.empty_state
@@ -1723,6 +2446,605 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
               </svg>
             </:indicator>
           </.empty_state>
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "rolling_number"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          Server-driven — a button changes the value and it re-animates (handle_event)
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          Clicking pushes <code>randomize</code>
+          to the server; the re-render triggers the hook's <code>updated()</code>
+          so the number rolls to the new target.
+        </p>
+        <div class="mt-4">
+          <.live_component module={DevelopmentWeb.Showcase.RollingNumberDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "splitter"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          Server-aware — drag reports the size to the server (on_change → handle_event)
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          Each drag pushes <code>resize</code> with the new percentage; the server keeps it in sync
+          and echoes it below the panes.
+        </p>
+        <div class="mt-4">
+          <.live_component module={DevelopmentWeb.Showcase.SplitterDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "hue_slider"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — drag the hue and submit it (handle_event + hidden input)
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          <code>on_change</code>
+          pushes the live value to the server; the hidden input submits as <code>slider_demo[v]</code>.
+        </p>
+        <div class="mt-4">
+          <.live_component
+            module={DevelopmentWeb.Showcase.SliderColorFormDemo}
+            id={"#{@id}-form"}
+            variant={:hue}
+          />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "alpha_slider"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — drag the opacity and submit it (handle_event + hidden input)
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          <code>on_change</code>
+          pushes the live value to the server; the hidden input submits as <code>slider_demo[v]</code>.
+        </p>
+        <div class="mt-4">
+          <.live_component
+            module={DevelopmentWeb.Showcase.SliderColorFormDemo}
+            id={"#{@id}-form"}
+            variant={:alpha}
+          />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "tree_select"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — open the tree, pick a node (handle_event), submit the value
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          The tree's <code>on_select</code> updates the shown label and a hidden field; Save submits
+          the chosen value.
+        </p>
+        <div class="mt-4">
+          <.live_component module={DevelopmentWeb.Showcase.TreeSelectFormDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "color_input"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — pick or type a hex; every change fires phx-change (handle_event)
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          The picker mirrors the hex into a hidden input and dispatches <code>input</code>, so
+          <code>&lt;.form phx-change&gt;</code>
+          fires on drag, hue, or typing; Save stores it.
+        </p>
+        <div class="mt-4">
+          <.live_component module={DevelopmentWeb.Showcase.ColorInputFormDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "floating_window"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          Drag to move — push the coordinates on release (handle_event) + close with JS.hide
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          The hook clamps the window to the stage and pushes the x/y coordinates on release via <code>on_move</code>; the ✕ closes it client-side without dragging.
+        </p>
+        <div class="mt-4">
+          <.live_component module={DevelopmentWeb.Showcase.FloatingWindowDemo} id={"#{@id}-demo"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "floating_indicator"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          As a segmented switch — slide the indicator and push the selection (handle_event)
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          Clicking a target moves the indicator on the client and pushes the value via
+          <code>on_change</code>
+          so the server tracks the active section.
+        </p>
+        <div class="mt-4">
+          <.live_component module={DevelopmentWeb.Showcase.FloatingIndicatorDemo} id={"#{@id}-demo"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "overflow_list"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          Resizable — collapse overflow into +N, push the hidden count to the server (handle_event)
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          A <code>ResizeObserver</code>
+          re-lays out on resize; <code>on_change</code>
+          pushes the hidden
+          count so the server can react.
+        </p>
+        <div class="mt-4">
+          <.live_component module={DevelopmentWeb.Showcase.OverflowListDemo} id={"#{@id}-demo"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "angle_slider"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — drag the dial, push on release (on_change) + submit the value (handle_event)
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          The dial updates live on the client; releasing pushes the angle to the server (rotating the
+          preview) and Save submits the hidden field.
+        </p>
+        <div class="mt-4">
+          <.live_component module={DevelopmentWeb.Showcase.AngleSliderFormDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "mask_input"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — masked phone + card expiry, submitted to the server (handle_event)
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          The <code>MaskInput</code> hook formats each field as you type; Save submits the
+          already-masked values via a form submit.
+        </p>
+        <div class="mt-4">
+          <.live_component module={DevelopmentWeb.Showcase.MaskInputFormDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "pills_input"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — add recipients (composes pill), submits as a list (handle_event)
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          Click anywhere to focus (<code>JS.focus</code>); Enter adds via a form submit; each ✕
+          removes. Submits as <code>pills_demo[emails][]</code>.
+        </p>
+        <div class="mt-4">
+          <.live_component module={DevelopmentWeb.Showcase.PillsInputFormDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "loading_overlay"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          Server-driven — toggle the overlay from the server (handle_event)
+        </summary>
+        <div class="mt-4">
+          <.live_component module={DevelopmentWeb.Showcase.LoadingOverlayDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "segmented_control"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — the selection reaches the server (phx-change + handle_event)
+        </summary>
+        <div class="mt-4">
+          <.live_component
+            module={DevelopmentWeb.Showcase.SegmentedControlFormDemo}
+            id={"#{@id}-form"}
+          />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "json_input"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — validate &amp; pretty-print on the server (handle_event + Jason)
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          Submit parses the JSON with <code>Jason.decode/1</code>; valid input is formatted back into
+          the field, invalid input flags <code>data-invalid</code> and shows the error.
+        </p>
+        <div class="mt-4">
+          <.live_component module={DevelopmentWeb.Showcase.JsonInputFormDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "color_picker"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — pick a color and submit it (handle_event + hidden input)
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          The picker's <code>on_change</code> pushes the live hex to the server; the hidden input
+          submits it as <code>picker_demo[color]</code> when you press Save.
+        </p>
+        <div class="mt-4">
+          <.live_component module={DevelopmentWeb.Showcase.ColorPickerFormDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "spoiler"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          Custom labels &amp; taller clamp
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          The two control labels and the clamp height are yours — here it reads <code>Read more</code>/<code>Read less</code>.
+        </p>
+        <div class="mt-4">
+          <.spoiler
+            id={"#{@id}-2"}
+            show_label="Read more"
+            hide_label="Read less"
+            class={spoiler_class()}
+          >
+            Mishka Chelekom ships finished components, accessible unstyled behaviour, and a Kit to
+            customize either. The spoiler keeps long descriptions like this one compact until the
+            reader chooses to expand them — handy for cards, comments and changelog entries.
+          </.spoiler>
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "tags_input"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — add on Enter, remove with ✕ (submits as a list)
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          Fully server-driven, no JS hook: a <code>&lt;.form phx-submit&gt;</code>
+          adds the tag and its reset clears the draft, each ✕ pushes <code>remove</code>, and clicking
+          the control focuses the input via <code>JS.focus</code>. The tags submit as <code>tags_demo[tags][]</code>.
+        </p>
+        <div class="mt-4 max-w-md">
+          <.live_component module={DevelopmentWeb.Showcase.TagsInputDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "editor"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — the document submits as an ordinary field
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          The engine mirrors the document into a hidden <code>textarea</code>
+          and dispatches <code>input</code>, so <code>phx-change</code>
+          fires as you type (debounced in the engine, since <code>phx-debounce="blur"</code>
+          is a no-op on a hidden input) and Save submits it as <code>post[body]</code>.
+          Storage is <code>json</code>
+          — the ProseMirror document, which is never rendered as
+          markup, so it cannot become an XSS vector.
+        </p>
+        <div class="mt-4">
+          <.live_component module={DevelopmentWeb.Showcase.EditorFormDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+
+      <details class="rounded-lg border border-[var(--c-error)]/40 bg-[var(--c-error)]/5 p-4">
+        <summary class="cursor-pointer select-none font-medium text-[var(--c-error)]">
+          Security — sanitize before you render (read this before storing HTML)
+        </summary>
+
+        <p class="mt-2 text-sm text-[var(--c-base-content)]/70">
+          An editor takes input from a user and hands it to your app. Whatever you store, treat it
+          as hostile: the hidden mirror is a plain form field, so an attacker never has to use the
+          editor at all — they can POST any string straight at the socket. That single fact decides
+          everything below.
+        </p>
+
+        <h5 class="mt-4 text-sm font-semibold">1. The safe default: store JSON, never render it</h5>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/70">
+          <code>format="json"</code>
+          (the default) stores the ProseMirror document. It is data, not markup — nothing renders it
+          as HTML, so there is no XSS surface at all. Keep it unless you have a concrete reason not
+          to, and convert to HTML at render time from the trusted document rather than storing HTML.
+        </p>
+
+        <h5 class="mt-4 text-sm font-semibold">
+          2. If you store HTML, server-side sanitizing is mandatory
+        </h5>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/70">
+          <code>format="html"</code>
+          plus <code>raw/1</code>
+          is a stored-XSS vector. Sanitize on the server, on the way IN and again before rendering.
+          Neither built-in scrubber fits an editor: <code>basic_html</code>
+          strips the attributes your editor legitimately emits (alignment, code-block language,
+          table <code>colspan</code>), and <code>html5</code>
+          allows <code>iframe</code>, <code>object</code>
+          and <code>meta</code>. Because you own the editor you know its finite output, so
+          allowlist exactly that:
+        </p>
+        <.code_block code={editor_scrubber_snippet()} class="mt-3" />
+
+        <h5 class="mt-4 text-sm font-semibold">
+          3. Client-side sanitizing is defense in depth, never the control
+        </h5>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/70">
+          DOMPurify in the browser has zero authority over what reaches your database — it is
+          trivially bypassed by posting directly. It is worth adding only for content you did not
+          author and are about to inject client-side. Do not let it substitute for step 2.
+        </p>
+
+        <h5 class="mt-4 text-sm font-semibold">4. Markdown is not automatically safe</h5>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/70">
+          With <code>--lib milk_down</code>
+          you store markdown, which permits raw HTML by default. Render with your converter's
+          escaping on, then sanitize the result the same way — the markdown step is not a
+          sanitizer.
+        </p>
+        <.code_block code={markdown_render_snippet()} class="mt-3" />
+
+        <p class="mt-4 text-sm text-[var(--c-base-content)]/70">
+          Finally, add a Content-Security-Policy. Sanitizers parse HTML with a non-HTML5-spec
+          parser, so a CSP that forbids inline script is the layer that catches what a parser
+          differential slips through.
+        </p>
+      </details>
+
+      <details class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          Every engine — one component, <code>--lib</code> picks the library
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          The same component backed by all four engines. Your app generates ONE
+          (<code>mix mishka.ui.gen.headless editor --lib code_mirror</code>) and it installs as
+          <code>editor.js</code>
+          under the <code>Editor</code>
+          hook — the harness vendors all four side by side only so they can be compared. Notice the
+          markup, attrs and form wiring never change; only <code>format</code>
+          does, because each engine produces a different document.
+        </p>
+        <div class="mt-4">
+          <.live_component module={DevelopmentWeb.Showcase.EditorEnginesDemo} id={"#{@id}-engines"} />
+        </div>
+      </details>
+
+      <details class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          Server-driven — setting content and locking an ignored editor
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          The surface is <code>phx-update="ignore"</code>, so re-rendering <code>value</code>
+          cannot reach it: content is pushed with a <code>push_event("chelekom:editor", ...)</code>
+          carrying an id and a value — a global event name, filtered by id in the payload. Toggling
+          <code>editable</code>
+          works differently — <code>data-*</code>
+          IS merged on an ignored element, so the engine reconfigures in place and the document,
+          cursor and undo history all survive.
+        </p>
+        <div class="mt-4">
+          <.live_component module={DevelopmentWeb.Showcase.EditorControlDemo} id={"#{@id}-control"} />
+        </div>
+      </details>
+
+      <details class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          Adding plugins — configuration that survives regeneration
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          The engine file is regenerated every time, so editing it to add an extension would be
+          reverted by the next <code>mix mishka.ui.gen.headless editor</code>. The generator also
+          writes <code>assets/vendor/editor_extensions.js</code>
+          once and never touches it again — put your extensions there.
+        </p>
+        <.code_block code={editor_extensions_snippet()} class="mt-3" />
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "chip"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — native checkboxes drive <code>phx-change</code>
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          The chips are real inputs inside a <code>&lt;.form phx-change&gt;</code>, so toggling one
+          reaches the server with no JS, and the server's <code>checked</code>
+          is what re-renders — the selection survives any patch. The disabled chip never submits.
+          The list posts as <code>chip_demo[topics][]</code>.
+        </p>
+        <div class="mt-4 max-w-md">
+          <.live_component module={DevelopmentWeb.Showcase.ChipDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "color_swatch"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — a palette picker (what a swatch is for)
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          On its own a swatch is just a labelled color; it earns its keep as the visible half of a
+          choice. Each one sits in a <code>&lt;label&gt;</code>
+          around a visually-hidden native radio, so this is an ordinary form: the ring and the ✓ are
+          pure CSS on <code>:has(:checked)</code>
+          (instant, no round-trip) and <code>phx-change</code>
+          hands the value to the server. Posts as <code>swatch_demo[color]</code>.
+        </p>
+        <div class="mt-4">
+          <.live_component module={DevelopmentWeb.Showcase.ColorSwatchDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "pill"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          In a form — pills as the chosen values, submitted as a list
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          A pill shows a value that is already chosen, so the form plumbing rides along inside it:
+          each pill's slot carries a hidden <code>pill_demo[labels][]</code>
+          input and the whole selection posts on submit. The ✕ pushes <code>remove</code>
+          with the tag via <code>JS.push(value:)</code>
+          — the remove button forwards <code>on_remove</code>
+          only, so the caller names the payload.
+        </p>
+        <div class="mt-4 max-w-md">
+          <.live_component module={DevelopmentWeb.Showcase.PillDemo} id={"#{@id}-form"} />
+        </div>
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "burger"} = assigns) do
+    ~H"""
+    <div class="space-y-3">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          Wired to a menu — JS commands only
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          One <code>phx-click</code>
+          pipeline toggles <code>data-opened</code>
+          (the bars morph into an ✕), flips <code>aria-expanded</code>
+          and shows/hides the controlled nav — no server round-trip, no hook.
+        </p>
+        <div class="mt-4">
+          <.burger
+            id={"#{@id}-live"}
+            controls={"#{@id}-nav"}
+            label="Toggle navigation"
+            phx-click={
+              JS.toggle_attribute({"data-opened", "true"}, to: "##{@id}-live")
+              |> JS.toggle_attribute({"aria-expanded", "true", "false"})
+              |> JS.toggle(to: "##{@id}-nav")
+            }
+            class={burger_class()}
+          />
+          <nav
+            id={"#{@id}-nav"}
+            style="display:none"
+            class="mt-2 w-48 rounded-md border border-[var(--c-base-300)] p-2 text-sm"
+          >
+            <a href="#" class="block rounded px-2 py-1 hover:bg-[var(--c-base-200)]">Home</a>
+            <a href="#" class="block rounded px-2 py-1 hover:bg-[var(--c-base-200)]">Projects</a>
+            <a href="#" class="block rounded px-2 py-1 hover:bg-[var(--c-base-200)]">Settings</a>
+          </nav>
         </div>
       </details>
     </div>
@@ -2568,6 +3890,336 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "[&_[data-part=body]]:flex [&_[data-part=body]]:flex-col [&_[data-part=body]]:gap-1",
       "[&_[data-part=title]]:text-sm [&_[data-part=title]]:font-semibold",
       "[&_[data-part=description]]:text-xs [&_[data-part=description]]:text-[var(--c-base-content)]/60"
+    ]
+  end
+
+  # Burger: three bars that morph into an ✕ under data-opened (state you own). The showcase animates
+  # them; the component ships no styling.
+  defp burger_class do
+    [
+      "relative inline-flex size-9 items-center justify-center rounded-md hover:bg-[var(--c-base-200)] data-[disabled]:opacity-40",
+      "[&_[data-part=line]]:absolute [&_[data-part=line]]:h-0.5 [&_[data-part=line]]:w-5 [&_[data-part=line]]:rounded-full [&_[data-part=line]]:bg-[var(--c-base-content)] [&_[data-part=line]]:transition-all [&_[data-part=line]]:duration-200",
+      "[&_[data-part=line]:nth-child(1)]:-translate-y-1.5 [&_[data-part=line]:nth-child(3)]:translate-y-1.5",
+      "[&[data-opened]_[data-part=line]:nth-child(1)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(1)]:rotate-45",
+      "[&[data-opened]_[data-part=line]:nth-child(2)]:opacity-0",
+      "[&[data-opened]_[data-part=line]:nth-child(3)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(3)]:-rotate-45"
+    ]
+  end
+
+  defp editor_scrubber_snippet do
+    """
+    # mix.exs — the maintained Elixir sanitizer
+    {:html_sanitize_ex, "~> 1.5"}
+
+    # lib/my_app/editor_scrubber.ex — allowlist exactly what YOUR editor emits
+    defmodule MyApp.EditorScrubber do
+      require HtmlSanitizeEx.Scrubber.Meta
+      alias HtmlSanitizeEx.Scrubber.Meta
+
+      Meta.remove_cdata_sections_before_scrub()
+      Meta.strip_comments()
+
+      Meta.allow_tag_with_these_attributes("p", [])
+      Meta.allow_tag_with_these_attributes("br", [])
+      Meta.allow_tag_with_these_attributes("strong", [])
+      Meta.allow_tag_with_these_attributes("em", [])
+      Meta.allow_tag_with_these_attributes("s", [])
+      Meta.allow_tag_with_these_attributes("blockquote", [])
+      Meta.allow_tag_with_these_attributes("ul", [])
+      Meta.allow_tag_with_these_attributes("ol", [])
+      Meta.allow_tag_with_these_attributes("li", [])
+      Meta.allow_tag_with_these_attributes("h1", [])
+      Meta.allow_tag_with_these_attributes("h2", [])
+      Meta.allow_tag_with_these_attributes("h3", [])
+      Meta.allow_tag_with_these_attributes("code", ["class"])
+      Meta.allow_tag_with_these_attributes("pre", [])
+
+      # Anchors need a SCHEME allowlist, or javascript:/data: URLs survive.
+      Meta.allow_tag_with_uri_attributes("a", ["href"], ["http", "https", "mailto"])
+      Meta.allow_tag_with_these_attributes("a", ["title"])
+
+      Meta.strip_everything_not_covered()
+    end
+
+    # on the way in
+    def handle_event("save", %{"post" => %{"body" => body}}, socket) do
+      clean = HtmlSanitizeEx.Scrubber.scrub(body, MyApp.EditorScrubber)
+      # ...persist `clean`, never `body`
+    end
+
+    # and again at render time, because old rows predate today's rules
+    <div>{raw(HtmlSanitizeEx.Scrubber.scrub(@post.body, MyApp.EditorScrubber))}</div>
+    """
+  end
+
+  defp markdown_render_snippet do
+    """
+    # Markdown permits raw HTML — escape during conversion AND scrub the output.
+    @post.body
+    |> Earmark.as_html!(escape: true)
+    |> HtmlSanitizeEx.Scrubber.scrub(MyApp.EditorScrubber)
+    |> raw()
+    """
+  end
+
+  defp editor_extensions_snippet do
+    """
+    # 1. install the package with the tool you already have
+    mix mishka.assets.deps @tiptap/extension-table@3.28.0
+
+    # 2. register it in assets/vendor/editor_extensions.js — YOUR file, never overwritten
+    import Table from "@tiptap/extension-table";
+
+    export default {
+      extensions: [Table.configure({ resizable: true })],
+      starterKit: { heading: { levels: [1, 2, 3] } },
+    };
+    """
+  end
+
+  # Editor: the component ships no typography (the headless CSS is functional-only), so the
+  # surface styles headings/lists/quotes here — under Tailwind Preflight they render flat
+  # otherwise. Toolbar buttons get their active look from data-active, which the engine writes.
+  defp editor_class do
+    [
+      "w-full max-w-2xl rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)]",
+      "data-[focused]:ring-2 data-[focused]:ring-[var(--c-primary)]/30"
+    ]
+  end
+
+  defp editor_toolbar_class do
+    [
+      "flex flex-wrap items-center gap-1 border-b border-[var(--c-base-300)] p-1.5",
+      "[&>button]:rounded [&>button]:px-2 [&>button]:py-1 [&>button]:text-sm [&>button]:text-[var(--c-base-content)]/70",
+      "[&>button:hover]:bg-[var(--c-base-200)]",
+      "[&>button[data-active]]:bg-[var(--c-primary)]/10 [&>button[data-active]]:font-semibold [&>button[data-active]]:text-[var(--c-primary)]"
+    ]
+  end
+
+  defp editor_surface_class do
+    [
+      "min-h-40 p-3 text-sm leading-6 outline-none before:text-[var(--c-base-content)]/40",
+      "[&_h1]:mt-2 [&_h1]:mb-1 [&_h1]:text-2xl [&_h1]:font-bold",
+      "[&_h2]:mt-2 [&_h2]:mb-1 [&_h2]:text-xl [&_h2]:font-semibold",
+      "[&_p]:my-1",
+      "[&_ul]:my-1 [&_ul]:list-disc [&_ul]:pl-6",
+      "[&_ol]:my-1 [&_ol]:list-decimal [&_ol]:pl-6",
+      "[&_blockquote]:my-2 [&_blockquote]:border-l-2 [&_blockquote]:border-[var(--c-base-300)] [&_blockquote]:pl-3 [&_blockquote]:text-[var(--c-base-content)]/70",
+      "[&_code]:rounded [&_code]:bg-[var(--c-base-200)] [&_code]:px-1 [&_code]:font-mono [&_code]:text-[0.85em]",
+      "[&_pre]:my-2 [&_pre]:overflow-x-auto [&_pre]:rounded [&_pre]:bg-[var(--c-base-200)] [&_pre]:p-2"
+    ]
+  end
+
+  # Chip: a pill whose look flips on the wrapped input's :checked (no JS). The input is visually
+  # hidden but focusable; data-disabled dims it.
+  defp chip_class do
+    [
+      "inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-[var(--c-base-300)] px-3 py-1 text-sm select-none",
+      "has-[:checked]:border-[var(--c-primary)] has-[:checked]:bg-[var(--c-primary)]/10 has-[:checked]:text-[var(--c-primary)]",
+      "has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-[var(--c-primary)]/40",
+      "data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50",
+      "[&_[data-part=input]]:sr-only"
+    ]
+  end
+
+  # Color picker: a 2D saturation/value area (the engine paints its background + moves the thumb) plus
+  # a native range hue input with a rainbow track, and a preview swatch.
+  defp color_picker_class do
+    [
+      "w-56 space-y-3",
+      "[&_[data-part=area]]:relative [&_[data-part=area]]:h-36 [&_[data-part=area]]:w-full [&_[data-part=area]]:cursor-crosshair [&_[data-part=area]]:rounded-lg [&_[data-part=area]]:ring-1 [&_[data-part=area]]:ring-black/10",
+      "[&_[data-part=area-thumb]]:size-3.5 [&_[data-part=area-thumb]]:rounded-full [&_[data-part=area-thumb]]:border-2 [&_[data-part=area-thumb]]:border-white [&_[data-part=area-thumb]]:shadow [&_[data-part=area-thumb]]:ring-1 [&_[data-part=area-thumb]]:ring-black/30",
+      "[&_[data-part=controls]]:flex [&_[data-part=controls]]:items-center [&_[data-part=controls]]:gap-3",
+      "[&_[data-part=preview]]:size-8 [&_[data-part=preview]]:shrink-0 [&_[data-part=preview]]:rounded-full [&_[data-part=preview]]:ring-1 [&_[data-part=preview]]:ring-black/10",
+      "[&_[data-part=hue]]:h-3 [&_[data-part=hue]]:w-full [&_[data-part=hue]]:cursor-pointer [&_[data-part=hue]]:appearance-none [&_[data-part=hue]]:rounded-full [&_[data-part=hue]]:[background:linear-gradient(to_right,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)]"
+    ]
+  end
+
+  # Scroller: prev/next buttons + a horizontally scrollable viewport; buttons dim (data-disabled) at
+  # the ends. The engine handles the smooth scroll and end-detection.
+  defp scroller_class do
+    [
+      "flex w-full max-w-md items-center gap-2",
+      "[&_[data-part=control]]:grid [&_[data-part=control]]:size-8 [&_[data-part=control]]:shrink-0 [&_[data-part=control]]:place-items-center [&_[data-part=control]]:rounded-full [&_[data-part=control]]:border [&_[data-part=control]]:border-[var(--c-base-300)] [&_[data-part=control]]:bg-[var(--c-base-100)] [&_[data-part=control]]:text-lg [&_[data-part=control]]:leading-none [&_[data-part=control]:hover]:bg-[var(--c-base-200)] [&_[data-part=control][data-disabled]]:opacity-30",
+      "[&_[data-part=viewport]]:flex [&_[data-part=viewport]]:gap-3 [&_[data-part=viewport]]:overflow-x-auto [&_[data-part=viewport]]:scroll-smooth [&_[data-part=viewport]]:pb-1"
+    ]
+  end
+
+  # Floating indicator: a positioned rail; the indicator part is absolutely placed and animated.
+  # Tree select: sample hierarchy for the disclosure preview.
+  defp tree_select_nodes do
+    [
+      %{
+        label: "Design",
+        value: "design",
+        selectable: false,
+        children: [
+          %{label: "Wireframes", value: "wireframes"},
+          %{label: "Mockups", value: "mockups"}
+        ]
+      },
+      %{
+        label: "Engineering",
+        value: "engineering",
+        selectable: false,
+        children: [
+          %{label: "Frontend", value: "frontend"},
+          %{label: "Backend", value: "backend"}
+        ]
+      },
+      %{label: "Docs", value: "docs"}
+    ]
+  end
+
+  defp floating_indicator_class do
+    "relative inline-flex gap-1 rounded-lg bg-[var(--c-base-200)] p-1 " <>
+      "[&_[data-part=indicator]]:absolute [&_[data-part=indicator]]:left-0 [&_[data-part=indicator]]:top-0 [&_[data-part=indicator]]:transition-all [&_[data-part=indicator]]:duration-200 [&_[data-part=indicator]]:ease-out"
+  end
+
+  # Overflow list: single row; hide overflowing items and style the +N counter via variants.
+  defp overflow_list_class do
+    "flex items-center gap-2 overflow-hidden " <>
+      "[&_[data-part=item][data-hidden]]:hidden [&_[data-part=item]]:shrink-0 " <>
+      "[&_[data-part=counter][data-hidden]]:hidden [&_[data-part=counter]]:shrink-0 [&_[data-part=counter]]:whitespace-nowrap [&_[data-part=counter]]:rounded-full [&_[data-part=counter]]:bg-[var(--c-primary)]/10 [&_[data-part=counter]]:px-2.5 [&_[data-part=counter]]:py-0.5 [&_[data-part=counter]]:text-sm [&_[data-part=counter]]:font-medium [&_[data-part=counter]]:text-[var(--c-primary)]"
+  end
+
+  # Angle slider: a circular dial; parts positioned via arbitrary variants on the root.
+  defp angle_slider_class do
+    "relative block size-28 rounded-full border-2 border-[var(--c-base-300)] bg-[var(--c-base-100)] outline-none cursor-grab focus:ring-2 focus:ring-[var(--c-primary)]/40 data-[dragging]:cursor-grabbing " <>
+      "[&_[data-part=thumb-layer]]:absolute [&_[data-part=thumb-layer]]:inset-0 " <>
+      "[&_[data-part=thumb]]:absolute [&_[data-part=thumb]]:left-1/2 [&_[data-part=thumb]]:top-0 [&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:-translate-x-1/2 [&_[data-part=thumb]]:-translate-y-1/2 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:bg-[var(--c-primary)] [&_[data-part=thumb]]:shadow " <>
+      "[&_[data-part=value]]:absolute [&_[data-part=value]]:inset-0 [&_[data-part=value]]:grid [&_[data-part=value]]:place-items-center [&_[data-part=value]]:text-sm [&_[data-part=value]]:font-medium [&_[data-part=value]]:text-[var(--c-base-content)]"
+  end
+
+  # Mask input: a plain text field; the MaskInput hook does the formatting.
+  defp mask_input_class do
+    "w-full rounded-md border border-[var(--c-base-300)] bg-[var(--c-base-100)] px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-[var(--c-primary)]/30"
+  end
+
+  # Pills input: input-shaped control holding pills + a growing input; click anywhere to focus.
+  defp pills_input_class do
+    "flex flex-wrap items-center gap-1.5 rounded-md border border-[var(--c-base-300)] bg-[var(--c-base-100)] px-2 py-1.5 text-sm cursor-text focus-within:ring-2 focus-within:ring-[var(--c-primary)]/30 [&_[data-part=input]]:min-w-24 [&_[data-part=input]]:flex-1 [&_[data-part=input]]:border-0 [&_[data-part=input]]:bg-transparent [&_[data-part=input]]:p-0.5 [&_[data-part=input]]:outline-none"
+  end
+
+  defp pills_input_pill_class do
+    "inline-flex items-center gap-1 rounded-full bg-[var(--c-base-200)] py-0.5 pr-1 pl-2 [&_[data-part=remove]]:inline-flex [&_[data-part=remove]]:size-4 [&_[data-part=remove]]:items-center [&_[data-part=remove]]:justify-center [&_[data-part=remove]]:rounded-full [&_[data-part=remove]]:leading-none [&_[data-part=remove]]:text-[var(--c-base-content)]/50 [&_[data-part=remove]]:hover:bg-[var(--c-base-300)] [&_[data-part=remove]]:hover:text-[var(--c-base-content)]"
+  end
+
+  # Loading overlay: absolute cover with a centered loader; fades out when not [data-visible].
+  defp loading_overlay_class do
+    [
+      "absolute inset-0 flex items-center justify-center bg-[var(--c-base-100)]/70 backdrop-blur-sm transition-opacity duration-200",
+      "[&:not([data-visible])]:pointer-events-none [&:not([data-visible])]:opacity-0"
+    ]
+  end
+
+  # Segmented control: a pill row of radios; the selected segment lifts via :has(:checked).
+  defp segmented_control_class do
+    [
+      "inline-flex rounded-lg bg-[var(--c-base-200)] p-1 data-[disabled]:opacity-50 [&_[data-part=input]]:sr-only",
+      "[&_[data-part=item][data-disabled]]:cursor-not-allowed [&_[data-part=item][data-disabled]]:opacity-50",
+      "[&_[data-part=item]]:relative [&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:rounded-md [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1 [&_[data-part=item]]:text-sm [&_[data-part=item]]:text-[var(--c-base-content)]/70",
+      "[&_[data-part=item]:has(:checked)]:bg-[var(--c-base-100)] [&_[data-part=item]:has(:checked)]:font-medium [&_[data-part=item]:has(:checked)]:text-[var(--c-base-content)] [&_[data-part=item]:has(:checked)]:shadow-sm",
+      "[&_[data-part=item]:has(:focus-visible)]:ring-2 [&_[data-part=item]:has(:focus-visible)]:ring-[var(--c-primary)]/40"
+    ]
+  end
+
+  # Json input: a monospace textarea; validate on the server and flag data-invalid.
+  defp json_input_class do
+    "w-full max-w-md rounded-md border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-2 font-mono text-sm outline-none focus:ring-2 focus:ring-[var(--c-primary)]/30 data-[invalid]:border-[var(--c-error)]"
+  end
+
+  # Nav link: a leaf link ([data-part=link]) or a <details> group (summary=[data-part=control]); the
+  # trailing chevron rotates when the group is [open].
+  defp nav_link_class do
+    [
+      "block rounded-md text-sm text-[var(--c-base-content)]/80",
+      "[&[data-part=link]]:flex [&[data-part=link]]:items-center [&[data-part=link]]:gap-2 [&[data-part=link]]:px-3 [&[data-part=link]]:py-1.5 [&[data-part=link]:hover]:bg-[var(--c-base-200)] [&[data-part=link][data-active]]:bg-[var(--c-primary)]/10 [&[data-part=link][data-active]]:font-medium [&[data-part=link][data-active]]:text-[var(--c-primary)]",
+      "[&_[data-part=control]]:flex [&_[data-part=control]]:cursor-pointer [&_[data-part=control]]:list-none [&_[data-part=control]]:items-center [&_[data-part=control]]:gap-2 [&_[data-part=control]]:rounded-md [&_[data-part=control]]:px-3 [&_[data-part=control]]:py-1.5 [&_[data-part=control]:hover]:bg-[var(--c-base-200)]",
+      "[&_[data-part=label]]:flex-1",
+      "[&_[data-part=trailing]]:transition-transform [&[open]_[data-part=trailing]]:rotate-90",
+      "[&_[data-part=children]]:mt-1 [&_[data-part=children]]:ml-4 [&_[data-part=children]]:space-y-1 [&_[data-part=children]]:border-l [&_[data-part=children]]:border-[var(--c-base-300)] [&_[data-part=children]]:pl-2"
+    ]
+  end
+
+  # Semi-circle progress: an SVG half-gauge; stroke the track/indicator and center the readout.
+  defp scp_class do
+    [
+      "relative inline-block w-48 [&_[data-part=svg]]:w-full",
+      "[&_[data-part=track]]:[stroke:var(--c-base-300)] [&_[data-part=track]]:[stroke-width:12]",
+      "[&_[data-part=indicator]]:[stroke:var(--c-primary)] [&_[data-part=indicator]]:[stroke-width:12] [&_[data-part=indicator]]:transition-[stroke-dashoffset] [&_[data-part=indicator]]:duration-500",
+      "[&_[data-part=label]]:absolute [&_[data-part=label]]:inset-x-0 [&_[data-part=label]]:bottom-1 [&_[data-part=label]]:flex [&_[data-part=label]]:flex-col [&_[data-part=label]]:items-center"
+    ]
+  end
+
+  # Splitter: two panes; the first is sized by --chelekom-splitter-pos (the engine updates it on drag).
+  defp splitter_class do
+    [
+      "flex h-40 w-full overflow-hidden rounded-lg border border-[var(--c-base-300)]",
+      "[&_[data-part=panel][data-index='0']]:w-[var(--chelekom-splitter-pos)] [&_[data-part=panel][data-index='0']]:shrink-0 [&_[data-part=panel][data-index='0']]:overflow-auto [&_[data-part=panel][data-index='0']]:bg-[var(--c-base-100)]",
+      "[&_[data-part=panel][data-index='1']]:flex-1 [&_[data-part=panel][data-index='1']]:overflow-auto [&_[data-part=panel][data-index='1']]:bg-[var(--c-base-200)]",
+      "[&_[data-part=resizer]]:w-2.5 [&_[data-part=resizer]]:shrink-0 [&_[data-part=resizer]]:cursor-col-resize [&_[data-part=resizer]]:outline-none [&_[data-part=resizer]]:bg-[var(--c-base-300)] [&_[data-part=resizer]]:bg-clip-content [&_[data-part=resizer]]:px-[3px] [&_[data-part=resizer]:hover]:bg-[var(--c-primary)]/40 [&_[data-part=resizer]:focus-visible]:bg-[var(--c-primary)]",
+      "[&[data-dragging]_[data-part=resizer]]:bg-[var(--c-primary)]"
+    ]
+  end
+
+  # Spoiler: content clamped to a max-height while collapsed; the control swaps its two labels and the
+  # content reveals — all keyed on data-expanded (toggled client-side, no hook).
+  defp spoiler_class do
+    [
+      "max-w-md text-sm text-[var(--c-base-content)]/80",
+      "[&_[data-part=content]]:overflow-hidden [&_[data-part=content]]:transition-all",
+      "[&:not([data-expanded])_[data-part=content]]:max-h-12",
+      "[&[data-expanded]_[data-part=content]]:max-h-40",
+      "[&_[data-part=control]]:mt-1 [&_[data-part=control]]:text-sm [&_[data-part=control]]:font-medium [&_[data-part=control]]:text-[var(--c-primary)] [&_[data-part=control]]:hover:underline",
+      "[&[data-expanded]_[data-part=show-label]]:hidden",
+      "[&:not([data-expanded])_[data-part=hide-label]]:hidden"
+    ]
+  end
+
+  # Alpha slider: reuses the Slider engine; track is a transparent→color gradient (via the
+  # --chelekom-alpha-color var the component sets) layered over a checkerboard.
+  defp alpha_slider_class do
+    [
+      "block w-full [&[data-disabled]]:opacity-50",
+      "[&_[data-part=control]]:relative [&_[data-part=control]]:flex [&_[data-part=control]]:h-4 [&_[data-part=control]]:cursor-pointer [&_[data-part=control]]:items-center",
+      "[&_[data-part=track]]:relative [&_[data-part=track]]:h-3 [&_[data-part=track]]:w-full [&_[data-part=track]]:overflow-hidden [&_[data-part=track]]:rounded-full [&_[data-part=track]]:[background-image:linear-gradient(to_right,transparent,var(--chelekom-alpha-color)),conic-gradient(#ccc_25%,#fff_0_50%,#ccc_0_75%,#fff_0)] [&_[data-part=track]]:[background-size:100%_100%,10px_10px]",
+      "[&_[data-part=indicator]]:hidden",
+      "[&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border-2 [&_[data-part=thumb]]:border-white [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:ring-1 [&_[data-part=thumb]]:ring-black/30 [&_[data-part=thumb]]:outline-none [&_[data-part=thumb]:focus-visible]:ring-2 [&_[data-part=thumb]:focus-visible]:ring-[var(--c-primary)]"
+    ]
+  end
+
+  # Hue slider: reuses the Slider engine (it sets the thumb's absolute position), so we only style
+  # appearance — a rainbow track and a white ring handle; the fill indicator is hidden.
+  defp hue_slider_class do
+    [
+      "block w-full [&[data-disabled]]:opacity-50",
+      "[&_[data-part=control]]:relative [&_[data-part=control]]:flex [&_[data-part=control]]:h-4 [&_[data-part=control]]:cursor-pointer [&_[data-part=control]]:items-center",
+      "[&_[data-part=track]]:relative [&_[data-part=track]]:h-3 [&_[data-part=track]]:w-full [&_[data-part=track]]:rounded-full [&_[data-part=track]]:[background:linear-gradient(to_right,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)]",
+      "[&_[data-part=indicator]]:hidden",
+      "[&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border-2 [&_[data-part=thumb]]:border-white [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:ring-1 [&_[data-part=thumb]]:ring-black/30 [&_[data-part=thumb]]:outline-none [&_[data-part=thumb]:focus-visible]:ring-2 [&_[data-part=thumb]:focus-visible]:ring-[var(--c-primary)]"
+    ]
+  end
+
+  # Tags input: a bordered control wrapping tokens + a borderless growing input. Clicking anywhere
+  # focuses the input (JS.focus); each token has a ✕ remove.
+  defp tags_input_class do
+    [
+      "flex flex-wrap items-center gap-1.5 rounded-md border border-[var(--c-base-300)] bg-[var(--c-base-100)] px-2 py-1.5 text-sm cursor-text focus-within:ring-2 focus-within:ring-[var(--c-primary)]/30",
+      "[&_[data-part=tag]]:inline-flex [&_[data-part=tag]]:items-center [&_[data-part=tag]]:gap-1 [&_[data-part=tag]]:rounded [&_[data-part=tag]]:bg-[var(--c-base-200)] [&_[data-part=tag]]:py-0.5 [&_[data-part=tag]]:pr-1 [&_[data-part=tag]]:pl-2",
+      "[&_[data-part=remove]]:inline-flex [&_[data-part=remove]]:size-4 [&_[data-part=remove]]:items-center [&_[data-part=remove]]:justify-center [&_[data-part=remove]]:rounded-full [&_[data-part=remove]]:leading-none [&_[data-part=remove]]:text-[var(--c-base-content)]/50 [&_[data-part=remove]]:hover:bg-[var(--c-base-300)] [&_[data-part=remove]]:hover:text-[var(--c-base-content)]",
+      "[&_[data-part=input]]:min-w-24 [&_[data-part=input]]:flex-1 [&_[data-part=input]]:border-0 [&_[data-part=input]]:bg-transparent [&_[data-part=input]]:p-0.5 [&_[data-part=input]]:outline-none"
+    ]
+  end
+
+  # Pill: a token with an optional remove button. Padding tightens on the remove side; without a
+  # remove button the right padding is restored via :not(:has(...)).
+  defp pill_class do
+    [
+      "inline-flex items-center gap-1 rounded-full bg-[var(--c-base-200)] py-0.5 pr-1 pl-2.5 text-sm data-[disabled]:opacity-50",
+      "[&:not(:has([data-part=remove]))]:pr-2.5",
+      "[&_[data-part=label]]:leading-none",
+      "[&_[data-part=remove]]:inline-flex [&_[data-part=remove]]:size-4 [&_[data-part=remove]]:items-center [&_[data-part=remove]]:justify-center [&_[data-part=remove]]:rounded-full [&_[data-part=remove]]:leading-none [&_[data-part=remove]]:text-[var(--c-base-content)]/50 [&_[data-part=remove]]:hover:bg-[var(--c-base-300)] [&_[data-part=remove]]:hover:text-[var(--c-base-content)] [&_[data-part=remove]]:disabled:pointer-events-none"
     ]
   end
 

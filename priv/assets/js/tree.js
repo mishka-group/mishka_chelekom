@@ -220,6 +220,10 @@ export default {
   paintSelection() {
     const set = this.selected;
     this.items().forEach((item) => {
+      if (!this.selectable(item)) {
+        item.removeAttribute("aria-selected");
+        return;
+      }
       const on = set.has(this.valueOf(item));
       item.setAttribute("aria-selected", String(on));
       if (on) {
@@ -242,6 +246,7 @@ export default {
   },
 
   select(item) {
+    if (!this.selectable(item)) return;
     const value = this.valueOf(item);
     this.anchor = value;
     this.applySelection(
@@ -251,12 +256,19 @@ export default {
 
   // Shift-click / shift-arrow selects the inclusive slice between the anchor and the
   // target, in the tree's flattened visible order — matching Mantine's getValuesRange.
+  // Non-selectable nodes inside the range are skipped.
   selectRange(target) {
-    const order = this.visibleItems().map((i) => this.valueOf(i));
+    const items = this.visibleItems();
+    const order = items.map((i) => this.valueOf(i));
     const a = order.indexOf(this.anchor);
     const b = order.indexOf(this.valueOf(target));
     if (a === -1 || b === -1) return this.select(target);
-    this.applySelection(order.slice(Math.min(a, b), Math.max(a, b) + 1));
+    this.applySelection(
+      items
+        .slice(Math.min(a, b), Math.max(a, b) + 1)
+        .filter((i) => this.selectable(i))
+        .map((i) => this.valueOf(i))
+    );
   },
 
   // ── checkboxes ────────────────────────────────────────────────────────────
@@ -292,6 +304,10 @@ export default {
 
   disabled(item) {
     return item.getAttribute("data-disabled") === "true";
+  },
+
+  selectable(item) {
+    return item.getAttribute("data-selectable") !== "false";
   },
 
   markChecked(item, checked) {
@@ -370,6 +386,14 @@ export default {
     if (icon && icon.closest(SELECT.item) === item && this.hasChildren(item)) {
       event.stopPropagation();
       this.toggleExpanded(item);
+      this.focus(item);
+      return;
+    }
+
+    // A non-selectable node (a category header) treats the whole row like its chevron:
+    // the click toggles the branch and can never join the selection.
+    if (!this.selectable(item)) {
+      if (this.hasChildren(item)) this.toggleExpanded(item);
       this.focus(item);
       return;
     }
@@ -465,7 +489,12 @@ export default {
 
       case "Enter": {
         event.preventDefault();
-        if (!disabled) this.select(item);
+        if (disabled) break;
+        if (!this.selectable(item)) {
+          if (this.hasChildren(item)) this.toggleExpanded(item);
+          break;
+        }
+        this.select(item);
         break;
       }
 
@@ -631,6 +660,6 @@ export default {
     const event = this.el.getAttribute(`data-on-${name.replace(/_/g, "-")}`);
     if (!event) return;
     const target = this.el.getAttribute("data-on-target");
-    target ? this.pushEventTo(target, event, payload) : this.pushEvent(event, payload);
+    target ? this.pushEventTo(target, event, payload) : this.pushEventTo(this.el, event, payload);
   },
 };

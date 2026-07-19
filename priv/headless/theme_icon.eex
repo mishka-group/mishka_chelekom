@@ -1,0 +1,40 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Headless **theme icon** — a container that wraps an icon (Mantine ThemeIcon parity).
+
+  Decorative by default (`aria-hidden`); pass `label` when the icon conveys meaning and it
+  becomes `role="img"` with that `aria-label`. Size, color and shape are yours.
+
+  Ships **no** styling — style via `chelekom-theme-icon`.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/theme_icon
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, default: nil, doc: "Optional unique id"
+
+  attr :label, :string,
+    default: nil,
+    doc: "Accessible label; when set the icon is meaningful (role=img)"
+
+  attr :class, :any, default: nil, doc: "Extra classes"
+  attr :rest, :global
+
+  slot :inner_block, required: true, doc: "The icon (SVG or glyph)"
+
+  def <%= @component_prefix %>theme_icon(assigns) do
+    ~H"""
+    <span
+      id={@id}
+      role={@label && "img"}
+      aria-label={@label}
+      aria-hidden={!@label && "true"}
+      class={["chelekom-theme-icon", @class]}
+      {@rest}
+    >
+      {render_slot(@inner_block)}
+    </span>
+    """
+  end
+end

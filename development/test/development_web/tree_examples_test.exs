@@ -40,7 +40,7 @@ defmodule DevelopmentWeb.TreeExamplesTest do
           {"dnd", "drag & drop"},
           {"search", "search"}
         ] do
-      assert html |> query(~s(#hl-ex-tree-demos-#{id})) |> Enum.any?(), "missing demo: #{what}"
+      assert html |> query("##{demos(id)}") |> Enum.any?(), "missing demo: #{what}"
     end
   end
 
@@ -60,7 +60,7 @@ defmodule DevelopmentWeb.TreeExamplesTest do
 
   test "the form starts pre-checked, cascades, and skips the disabled node", %{conn: conn} do
     {:ok, view, html} = live(conn, @path)
-    form = "hl-ex-tree-demos-form"
+    form = demos("form")
 
     assert node_attr(html, form, "content:read", "data-checked") == "true"
     assert node_attr(html, form, "billing:read", "data-checked") == "true"
@@ -81,7 +81,7 @@ defmodule DevelopmentWeb.TreeExamplesTest do
 
     html =
       view
-      |> form("#hl-ex-tree-demos-permissions-form", %{
+      |> form("##{demos("permissions-form")}", %{
         "permissions" => ["content:read", "users:invite"]
       })
       |> render_submit()
@@ -91,11 +91,11 @@ defmodule DevelopmentWeb.TreeExamplesTest do
 
   test "checking every leaf of a group checks the group", %{conn: conn} do
     {:ok, view, _html} = live(conn, @path)
-    form = "hl-ex-tree-demos-form"
+    form = demos("form")
 
     html =
       view
-      |> element("#hl-ex-tree-demos-form")
+      |> element("##{form}")
       |> render_hook("form_checked", %{"values" => ["billing:read", "billing:write"]})
 
     assert node_attr(html, form, "billing", "aria-checked") == "true"
@@ -108,7 +108,7 @@ defmodule DevelopmentWeb.TreeExamplesTest do
 
     html =
       view
-      |> element("#hl-ex-tree-demos-click")
+      |> element("##{demos("click")}")
       |> render_hook("opened", %{"values" => ["src/components/Tree.tsx"]})
 
     refute html =~ "Click a file…"
@@ -117,13 +117,13 @@ defmodule DevelopmentWeb.TreeExamplesTest do
 
   test "drag and drop moves a node in the server's data", %{conn: conn} do
     {:ok, view, html} = live(conn, @path)
-    dnd = "hl-ex-tree-demos-dnd"
+    dnd = demos("dnd")
 
     assert node_attr(html, dnd, "tsconfig.json", "data-level") == "1"
 
     html =
       view
-      |> element("#hl-ex-tree-demos-dnd")
+      |> element("##{dnd}")
       |> render_hook("dropped", %{
         "dragged" => "tsconfig.json",
         "target" => "src",
@@ -135,11 +135,11 @@ defmodule DevelopmentWeb.TreeExamplesTest do
 
   test "a node cannot be dropped into its own descendant", %{conn: conn} do
     {:ok, view, _html} = live(conn, @path)
-    dnd = "hl-ex-tree-demos-dnd"
+    dnd = demos("dnd")
 
     html =
       view
-      |> element("#hl-ex-tree-demos-dnd")
+      |> element("##{dnd}")
       |> render_hook("dropped", %{
         "dragged" => "src",
         "target" => "src/components",
@@ -152,17 +152,18 @@ defmodule DevelopmentWeb.TreeExamplesTest do
 
   test "async children arrive via send_update and are pushed to the hook", %{conn: conn} do
     {:ok, view, html} = live(conn, @path)
-    async = "hl-ex-tree-demos-async"
+    async = demos("async")
 
     assert node_attr(html, async, "async/lazy", "data-has-children") == "true"
     refute node?(html, async, "async/lazy/a.txt")
 
     view
-    |> element("#hl-ex-tree-demos-async")
+    |> element("##{async}")
     |> render_hook("load_children", %{"value" => "async/lazy"})
 
     # The LiveComponent answers from a Task via send_update/3 — no parent handle_info involved.
-    assert_push_event(view, "tree:hl-ex-tree-demos-async:children", %{value: "async/lazy"}, 3000)
+    children_event = "tree:#{async}:children"
+    assert_push_event(view, ^children_event, %{value: "async/lazy"}, 3000)
 
     html = render(view)
     assert node?(html, async, "async/lazy/a.txt")
@@ -171,10 +172,10 @@ defmodule DevelopmentWeb.TreeExamplesTest do
 
   test "search keeps matches and their ancestors", %{conn: conn} do
     {:ok, view, _html} = live(conn, @path)
-    search = "hl-ex-tree-demos-search"
+    search = demos("search")
 
     html =
-      view |> form("#hl-ex-tree-demos-search-form", %{query: "Accordion"}) |> render_change()
+      view |> form("##{demos("search-form")}", %{query: "Accordion"}) |> render_change()
 
     assert node?(html, search, "src")
     assert node?(html, search, "src/components/Accordion.tsx")
@@ -183,7 +184,7 @@ defmodule DevelopmentWeb.TreeExamplesTest do
 
   test "the server can take expansion back (collapse all is not a no-op)", %{conn: conn} do
     {:ok, view, html} = live(conn, @path)
-    controller = "hl-ex-tree-demos-controller"
+    controller = demos("controller")
 
     # data-expanded-values is the server's unambiguous statement of intent; the hook diffs it.
     assert html |> query("##{controller}") |> LazyHTML.attribute("data-expanded-values") == [
@@ -241,14 +242,14 @@ defmodule DevelopmentWeb.TreeExamplesTest do
       # The hook writes data-selected/data-checked; the server never renders them per-node, so
       # morphdom strips them on any patch. These attributes are what lets the hook restore them.
       for attr <- ~w(data-expanded-values data-selected-values data-checked-values) do
-        assert html |> query("#hl-ex-tree-demos-controller") |> LazyHTML.attribute(attr) != [],
+        assert html |> query("##{demos("controller")}") |> LazyHTML.attribute(attr) != [],
                "root does not publish #{attr}"
       end
     end
 
     test "checked state survives an unrelated re-render", %{conn: conn} do
       {:ok, view, _html} = live(conn, @path)
-      form = "hl-ex-tree-demos-form"
+      form = demos("form")
 
       # Something unrelated re-renders the page…
       view |> element("#hl-ex-tree-demos button[phx-click=expand_all]") |> render_click()
@@ -304,7 +305,7 @@ defmodule DevelopmentWeb.TreeExamplesTest do
 
     # Headless ships no CSS: the hook writes data-drag-over/data-dragging, but if the consumer's
     # classes don't paint them the drop is invisible and you can't tell where the node will land.
-    [classes] = html |> query("#hl-ex-tree-demos-dnd") |> LazyHTML.attribute("class")
+    [classes] = html |> query("##{demos("dnd")}") |> LazyHTML.attribute("class")
 
     for marker <-
           ~w(data-drag-over=before data-drag-over=after data-drag-over=inside data-dragging) do

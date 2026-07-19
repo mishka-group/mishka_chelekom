@@ -1,0 +1,59 @@
+defmodule DevelopmentWeb.Components.Headless.FloatingIndicator do
+  @moduledoc """
+  Headless **floating indicator** — a single highlight box that measures the active target and slides
+  over it (Mantine FloatingIndicator parity).
+
+  Each `target` carries a `value`; the active one is whichever matches `active`. The
+  `FloatingIndicator` JS hook moves the `indicator` over the active target, updates `data-active` /
+  `aria-pressed`, and (when `on_change` is set) pushes the new value to the server on click. A
+  `ResizeObserver` keeps everything aligned on resize.
+
+  Ships **no** styling — style via `chelekom-floating-indicator` and its parts.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/floating_indicator
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, required: true, doc: "Unique id (carries the FloatingIndicator hook)"
+  attr :active, :string, default: nil, doc: "Value of the initially active target"
+  attr :on_change, :string, default: nil, doc: "Event pushed with %{value: v} on selection"
+  attr :label, :string, default: nil, doc: "Accessible label for the group"
+  attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :indicator_class, :any, default: nil, doc: "Extra classes for the indicator"
+  attr :target_class, :any, default: nil, doc: "Extra classes for each target"
+  attr :rest, :global
+
+  slot :target, required: true, doc: "One entry per option" do
+    attr :value, :string, required: true
+  end
+
+  def floating_indicator(assigns) do
+    ~H"""
+    <div
+      id={@id}
+      phx-hook="FloatingIndicator"
+      role="group"
+      aria-label={@label}
+      data-active={@active}
+      data-on-change={@on_change}
+      class={["chelekom-floating-indicator", @class]}
+      {@rest}
+    >
+      <span
+        data-part="indicator"
+        aria-hidden="true"
+        class={["chelekom-floating-indicator__indicator", @indicator_class]}
+      ></span>
+      <button
+        :for={target <- @target}
+        type="button"
+        data-part="target"
+        data-value={target.value}
+        aria-pressed={to_string(target.value == @active)}
+        class={["chelekom-floating-indicator__target", @target_class]}
+      >{render_slot(target)}</button>
+    </div>
+    """
+  end
+end

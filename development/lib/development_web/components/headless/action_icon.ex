@@ -1,0 +1,49 @@
+defmodule DevelopmentWeb.Components.Headless.ActionIcon do
+  @moduledoc """
+  Headless **action icon** — an icon-only action button (Mantine ActionIcon parity).
+
+  Always carries an accessible `aria-label` since it has no text; `disabled` reflects to
+  `data-disabled`. Wire the click through the global attributes (`phx-click`, `JS`, …).
+
+  Ships **no** styling — style via `chelekom-action-icon` and the `data-disabled` hook.
+
+  WAI-ARIA APG: Button pattern.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/action_icon
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, default: nil, doc: "Optional unique id"
+  attr :label, :string, required: true, doc: "Accessible label (aria-label)"
+
+  attr :type, :string,
+    default: "button",
+    values: ["button", "submit", "reset"],
+    doc: "Button type (submit to act as a form's submit button)"
+
+  attr :disabled, :boolean, default: false, doc: "Disable the button (also sets data-disabled)"
+  attr :class, :any, default: nil, doc: "Extra classes"
+
+  attr :rest, :global,
+    include: ~w(form name value),
+    doc: "Any button/global attrs, e.g. phx-click"
+
+  slot :inner_block, required: true, doc: "The icon (SVG or glyph)"
+
+  def action_icon(assigns) do
+    ~H"""
+    <button
+      id={@id}
+      type={@type}
+      aria-label={@label}
+      disabled={@disabled}
+      data-disabled={@disabled}
+      class={["chelekom-action-icon", @class]}
+      {@rest}
+    >
+      {render_slot(@inner_block)}
+    </button>
+    """
+  end
+end

@@ -196,13 +196,13 @@ const Disclosure = {
 
   emit(pair, open) {
     const itemEvent = pair.item && pair.item.getAttribute("data-on-open-change");
-    if (itemEvent) this.pushEvent(itemEvent, { value: pair.value, open });
+    if (itemEvent) this.pushEventTo(this.el, itemEvent, { value: pair.value, open });
     if (this.onValueChange) {
       const value = this.pairs
         .filter((p) => p.panel && p.panel.hasAttribute("data-open"))
         .map((p) => p.value)
         .filter((v) => v != null);
-      this.pushEvent(this.onValueChange, { value });
+      this.pushEventTo(this.el, this.onValueChange, { value });
     }
   },
 };

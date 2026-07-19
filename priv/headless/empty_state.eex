@@ -24,8 +24,16 @@ defmodule <%= @module %> do
 
   @doc type: :component
   attr :id, :string, default: nil, doc: "Optional unique id for the root element"
-  attr :align, :string, default: "center", values: ["left", "center", "right"], doc: "Content alignment; exposed as data-align"
-  attr :title, :string, default: nil, doc: "Heading text (shorthand); omit to use the body slot instead"
+
+  attr :align, :string,
+    default: "center",
+    values: ["left", "center", "right"],
+    doc: "Content alignment; exposed as data-align"
+
+  attr :title, :string,
+    default: nil,
+    doc: "Heading text (shorthand); omit to use the body slot instead"
+
   attr :description, :string, default: nil, doc: "Supporting text (shorthand)"
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :indicator_class, :any, default: nil, doc: "Extra classes for the indicator part"

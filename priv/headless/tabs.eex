@@ -26,14 +26,29 @@ defmodule <%= @module %> do
   attr :value, :string, default: nil, doc: "Active tab value (controlled by the server)"
   attr :default_value, :string, default: nil, doc: "Initial active tab value (uncontrolled)"
   attr :orientation, :string, default: "horizontal", values: ~w(horizontal vertical)
-  attr :activate_on_focus, :boolean, default: true, doc: "Activate a tab when it receives focus (automatic)"
+
+  attr :activate_on_focus, :boolean,
+    default: true,
+    doc: "Activate a tab when it receives focus (automatic)"
+
   attr :indicator, :boolean, default: true, doc: "Render the animated indicator element"
   attr :on_change, :string, default: nil, doc: "LiveView event pushed on user switch ({value})"
-  attr :on_change_target, :string, default: nil, doc: "Optional pushEventTo target (e.g. a LiveComponent selector)"
+
+  attr :on_change_target, :string,
+    default: nil,
+    doc: "Optional pushEventTo target (e.g. a LiveComponent selector)"
+
   attr :class, :any, default: nil
   attr :list_class, :any, default: nil, doc: ~s|Extra classes for the `data-part="tablist"` row|
-  attr :indicator_class, :any, default: nil, doc: ~s|Extra classes for the `data-part="indicator"`|
-  attr :panels_class, :any, default: nil, doc: ~s|Extra classes for the wrapper around all panels (`data-part="panels"`)|
+
+  attr :indicator_class, :any,
+    default: nil,
+    doc: ~s|Extra classes for the `data-part="indicator"`|
+
+  attr :panels_class, :any,
+    default: nil,
+    doc: ~s|Extra classes for the wrapper around all panels (`data-part="panels"`)|
+
   attr :rest, :global
 
   slot :tab, required: true, doc: "A tab label" do
@@ -52,13 +67,13 @@ defmodule <%= @module %> do
 
     active =
       assigns.value || assigns.default_value ||
-        (assigns.tab
-         |> Enum.with_index()
-         |> Enum.find(fn {t, _} -> !t[:disabled] end)
-         |> case do
-           {t, i} -> tab_value.(t, i)
-           _ -> "#{assigns.id}-0"
-         end)
+        assigns.tab
+        |> Enum.with_index()
+        |> Enum.find(fn {t, _} -> !t[:disabled] end)
+        |> case do
+          {t, i} -> tab_value.(t, i)
+          _ -> "#{assigns.id}-0"
+        end
 
     assigns = assign(assigns, active: active, tab_value: tab_value)
 
@@ -75,7 +90,12 @@ defmodule <%= @module %> do
       class={["chelekom-tabs", @class]}
       {@rest}
     >
-      <div role="tablist" data-part="tablist" aria-orientation={@orientation} class={["chelekom-tabs__list", @list_class]}>
+      <div
+        role="tablist"
+        data-part="tablist"
+        aria-orientation={@orientation}
+        class={["chelekom-tabs__list", @list_class]}
+      >
         <button
           :for={{tab, i} <- Enum.with_index(@tab)}
           type="button"
