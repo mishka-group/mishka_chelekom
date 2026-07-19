@@ -3,8 +3,8 @@ defmodule MishkaChelekom.Generators.Npm do
   JS package-dependency handling shared by `mix mishka.assets.deps` and the component generators.
 
   Owns `assets/package.json`: creating it, merging or removing pinned dependencies, choosing a
-  package manager (npm/bun/yarn on `PATH`, else the `{:bun, ...}` hex binary, which needs no
-  system Node) and queueing the actual install.
+  package manager (bun/npm/yarn on `PATH`, preferring bun; else the `{:bun, ...}` hex binary,
+  which needs no system Node) and queueing the actual install.
 
   Generators call `install/3` **directly** rather than composing `mix mishka.assets.deps`: both
   that task and the generators drive an `Owl.Spinner` registered under `id: :my_spinner`, so
@@ -14,7 +14,13 @@ defmodule MishkaChelekom.Generators.Npm do
   """
 
   @package_json "assets/package.json"
-  @pkgs [:npm, :bun, :yarn]
+
+  # Preference order when several are installed. Bun first, deliberately: it is what this library
+  # recommends (see the notice in add_final_notice/2), it is dramatically faster, and it is the
+  # same runtime as the {:bun, ...} hex fallback used when the machine has no package manager at
+  # all — so the tool that installs is the same one whether or not the developer has Node.
+  # An explicit --npm / --bun / --yarn always wins over this.
+  @pkgs [:bun, :npm, :yarn]
 
   @doc "Path of the managed manifest, relative to the project root."
   @spec package_json_path() :: String.t()
