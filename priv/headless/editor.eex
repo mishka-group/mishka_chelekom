@@ -36,8 +36,12 @@ defmodule <%= @module %> do
 
   attr :format, :string,
     default: "json",
-    values: ["json", "html"],
-    doc: "Storage format. `json` is the safe default; `html` needs server-side sanitizing"
+    values: ["json", "html", "text", "markdown"],
+    doc:
+      "Storage format, and it must be one the chosen engine produces: tiptap `json`/`html`, " <>
+        "lexical `json`, code_mirror `text`, milk_down `markdown`. `json` is the safe default — " <>
+        "it is never rendered as markup, so a stored document cannot become an XSS vector; " <>
+        "`html` needs server-side sanitizing"
 
   attr :placeholder, :string, default: nil, doc: "Empty-state text (rendered by your CSS)"
   attr :editable, :boolean, default: true, doc: "Whether the document can be edited (live)"
@@ -66,6 +70,13 @@ defmodule <%= @module %> do
     doc: "Extra classes for the editing surface. Frozen after first render (it is ignored)"
 
   attr :value_class, :any, default: nil, doc: "Extra classes for the hidden mirror"
+
+  attr :hook, :string,
+    default: "Editor",
+    doc:
+      "Advanced: the JS hook to mount. Every engine registers `Editor`, so this only matters if " <>
+        "you have hand-vendored a second engine under another name"
+
   attr :rest, :global
 
   slot :toolbar, doc: "Toolbar controls; tag buttons with `data-editor-command`"
@@ -105,7 +116,7 @@ defmodule <%= @module %> do
 
       <div
         id={"#{@id}-surface"}
-        phx-hook="Editor"
+        phx-hook={@hook}
         phx-update="ignore"
         data-part="surface"
         data-root-id={@id}

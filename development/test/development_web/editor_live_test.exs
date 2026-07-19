@@ -153,15 +153,83 @@ defmodule DevelopmentWeb.EditorLiveTest do
     end
   end
 
+  describe "every engine, one component" do
+    test "all four engines render with the same contract, differing only in format", %{conn: conn} do
+      {:ok, _view, html} = live(conn, @path)
+
+      expected = %{
+        "tiptap" => {"Editor", "json"},
+        "lexical" => {"EditorLexical", "json"},
+        "code_mirror" => {"EditorCodeMirror", "text"},
+        "milk_down" => {"EditorMilkDown", "markdown"}
+      }
+
+      for {lib, {hook, format}} <- expected do
+        surface = query(html, ~s([id$="-#{lib}-surface"]))
+
+        assert Enum.any?(surface), "no editor rendered for --lib #{lib}"
+        assert LazyHTML.attribute(surface, "phx-hook") |> List.first() == hook
+        assert LazyHTML.attribute(surface, "data-format") |> List.first() == format
+
+        # The contract is identical regardless of engine — that is the whole point of --lib.
+        assert LazyHTML.attribute(surface, "phx-update") |> List.first() == "ignore"
+        assert LazyHTML.attribute(surface, "data-value-id") |> List.first()
+      end
+    end
+
+    test "each engine's document posts through its own hidden mirror", %{conn: conn} do
+      {:ok, _view, html} = live(conn, @path)
+
+      mirrors = query(html, ~s(textarea[data-part=value][name="engine[value]"]))
+
+      assert Enum.count(mirrors) == 4, "every engine demo must participate in a form"
+
+      for phx_change <- LazyHTML.attribute(mirrors, "phx-change") do
+        refute phx_change, "a mirror with phx-change is skipped by LiveView's form recovery"
+      end
+    end
+  end
+
+  describe "server-driven control" do
+    test "toggling editable flows through data-editable, the one live channel", %{conn: conn} do
+      {:ok, view, html} = live(conn, @path)
+
+      surface = ~s([id$="-control-ed-surface"])
+      assert attr(html, surface, "data-editable") == "true"
+
+      html =
+        view
+        |> element(~s(button[phx-click="toggle_editable"]))
+        |> render_click()
+
+      assert attr(html, surface, "data-editable") == "false",
+             "editable must re-render through to the surface as data-*, since class/style freeze " <>
+               "on an ignored element"
+    end
+
+    test "pushing content targets one editor by id", %{conn: conn} do
+      {:ok, view, _html} = live(conn, @path)
+
+      view |> element(~s(button[phx-value-sample="hello"])) |> render_click()
+
+      assert_push_event(view, "chelekom:editor", %{id: id, value: value})
+
+      assert String.ends_with?(id, "-control-ed"),
+             "the payload must carry the ROOT id the engine filters on"
+
+      assert value =~ "Pushed from the server"
+    end
+  end
+
   describe "the npm dependency is really wired" do
     test "the engine is vendored and registered as a hook", %{conn: _conn} do
-      engine = File.read!("assets/vendor/editor_tiptap.js")
+      engine = File.read!("assets/vendor/editor.js")
 
       assert engine =~ ~s(from "@tiptap/core"),
              "the engine must import the npm package, not a vendored copy"
 
       registry = File.read!("assets/vendor/mishka_components.js")
-      assert registry =~ ~s(import Editor from "./editor_tiptap.js")
+      assert registry =~ ~s(import Editor from "./editor.js")
       assert registry =~ "Editor,"
     end
 

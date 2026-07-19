@@ -1,8 +1,18 @@
 {
   "dependencies": {
+    "@codemirror/commands": "6.10.4",
+    "@codemirror/lang-javascript": "6.2.5",
+    "@codemirror/language": "6.12.4",
+    "@codemirror/state": "6.7.1",
+    "@codemirror/view": "6.43.6",
+    "@lexical/history": "0.48.0",
+    "@lexical/rich-text": "0.48.0",
+    "@lexical/utils": "0.48.0",
+    "@milkdown/kit": "7.21.3",
     "@tiptap/core": "3.28.0",
     "@tiptap/pm": "3.28.0",
-    "@tiptap/starter-kit": "3.28.0"
+    "@tiptap/starter-kit": "3.28.0",
+    "lexical": "0.48.0"
   },
   "description": "Assets for development Phoenix application",
   "devDependencies": {},

@@ -24,16 +24,58 @@ defmodule MishkaChelekom.Generators.Assets do
   """
   @spec wire_scripts(Igniter.t(), keyword(), keyword()) :: Igniter.t()
   def wire_scripts(igniter, config, options \\ []) do
-    scripts = Keyword.get(config, :scripts, [])
-    npm = npm_packages(config)
+    lib = resolve_lib(config, options)
+    scripts = scripts(config, lib)
+    npm = npm_packages(config, lib)
 
     if scripts == [] and npm == [] do
       igniter
     else
       igniter
       |> check_package_json(npm, options)
-      |> update_js_files(config)
+      |> prune_other_libs(config, lib, options)
+      |> update_js_files(config, scripts)
       |> copy_user_files(config)
+    end
+  end
+
+  @doc """
+  The `:libs` entry this run should install: the `--lib` choice, else the one marked `default: true`.
+
+  Returns `nil` for a component with no `:libs` (the common case — its top-level `:scripts` and
+  `:npm` are used directly).
+  """
+  @spec resolve_lib(keyword(), keyword()) :: {atom(), keyword()} | nil
+  def resolve_lib(config, options \\ []) do
+    libs = Keyword.get(config, :libs, [])
+    requested = options[:lib]
+
+    cond do
+      libs == [] ->
+        nil
+
+      is_binary(requested) ->
+        Enum.find(libs, fn {name, _} -> Atom.to_string(name) == requested end)
+
+      true ->
+        Enum.find(libs, List.first(libs), fn {_name, lib} -> Keyword.get(lib, :default, false) end)
+    end
+  end
+
+  @doc "Known `:libs` names, for error messages and validation."
+  @spec lib_names(keyword()) :: [String.t()]
+  def lib_names(config) do
+    config |> Keyword.get(:libs, []) |> Enum.map(fn {name, _} -> Atom.to_string(name) end)
+  end
+
+  @doc "The scripts to install: the chosen lib's, else the catalog's top-level ones."
+  @spec scripts(keyword(), {atom(), keyword()} | nil) :: [map()]
+  def scripts(config, nil), do: Keyword.get(config, :scripts, [])
+
+  def scripts(config, {_name, lib}) do
+    case Keyword.get(lib, :scripts, []) do
+      [] -> Keyword.get(config, :scripts, [])
+      scripts -> scripts
     end
   end
 
@@ -62,30 +104,50 @@ defmodule MishkaChelekom.Generators.Assets do
   Reads the top-level `:npm` key, falling back to the default entry of `:libs` (the multi-engine
   shape, where each library pins its own packages but they all share one hook name).
   """
-  @spec npm_packages(keyword()) :: [String.t()]
-  def npm_packages(config) do
-    config
-    |> Keyword.get(:npm, default_lib_npm(config))
-    |> Enum.map(fn
+  @spec npm_packages(keyword(), {atom(), keyword()} | nil) :: [String.t()]
+  def npm_packages(config, lib \\ :__default__)
+
+  def npm_packages(config, :__default__), do: npm_packages(config, resolve_lib(config, []))
+
+  def npm_packages(config, nil), do: config |> Keyword.get(:npm, []) |> to_dep_strings()
+
+  def npm_packages(config, {_name, lib}) do
+    case Keyword.get(lib, :npm, []) do
+      [] -> npm_packages(config, nil)
+      npm -> to_dep_strings(npm)
+    end
+  end
+
+  defp to_dep_strings(deps) do
+    Enum.map(deps, fn
       %{name: name, version: version} -> "#{name}@#{version}"
       %{name: name} -> name
       dep when is_binary(dep) -> dep
     end)
   end
 
-  defp default_lib_npm(config) do
-    case Keyword.get(config, :libs, []) do
-      [] ->
-        []
+  # Switching engines must not strand the previous one's packages in package.json. Every other
+  # lib's packages are pruned — but only the ones still pinned at exactly the version we wrote, so
+  # a package the project also uses (or re-pinned) is never touched.
+  defp prune_other_libs(igniter, _config, nil, _options), do: igniter
 
-      libs ->
-        {_name, lib} =
-          Enum.find(libs, List.first(libs), fn {_name, lib} ->
-            Keyword.get(lib, :default, false)
-          end)
+  defp prune_other_libs(igniter, config, {chosen, _}, options) do
+    keep = config |> npm_packages(resolve_lib(config, [])) |> MapSet.new()
 
-        Keyword.get(lib, :npm, [])
-    end
+    chosen_deps =
+      config |> Keyword.get(:libs, []) |> Keyword.get(chosen, []) |> Keyword.get(:npm, [])
+
+    keep = MapSet.union(keep, MapSet.new(to_dep_strings(chosen_deps)))
+
+    others =
+      config
+      |> Keyword.get(:libs, [])
+      |> Enum.reject(fn {name, _} -> name == chosen end)
+      |> Enum.flat_map(fn {_name, lib} -> to_dep_strings(Keyword.get(lib, :npm, [])) end)
+      |> Enum.uniq()
+      |> Enum.reject(&MapSet.member?(keep, &1))
+
+    Npm.prune(igniter, others, options)
   end
 
   # Installs the catalog's npm packages and makes the project able to BUILD with them: the
@@ -159,8 +221,8 @@ defmodule MishkaChelekom.Generators.Assets do
     match?({:ok, _}, content) and String.contains?(elem(content, 1), "mishka.assets.install")
   end
 
-  defp update_js_files(igniter, template_config) do
-    files = Keyword.get(template_config, :scripts, []) |> Enum.filter(&(&1.type == "file"))
+  defp update_js_files(igniter, _template_config, scripts) do
+    files = Enum.filter(scripts, &(&1.type == "file"))
 
     if files != [] do
       igniter =
@@ -181,6 +243,11 @@ defmodule MishkaChelekom.Generators.Assets do
               true -> nil
             end
 
+          # The INSTALLED name may differ from the source name (`as:`), so two engines for the
+          # same component land on one file — switching engines then overwrites instead of leaving
+          # a stale file that still imports the packages we just removed.
+          installed = Map.get(item, :as, item.file)
+
           if !is_nil(content) do
             # `create_or_update_file/4` only uses this when the file is absent, and it reads an
             # existing one through the rewrite — so never touch the real filesystem here, or the
@@ -188,7 +255,7 @@ defmodule MishkaChelekom.Generators.Assets do
             caller_js = File.read!(Core.lib_priv("assets/js/mishka_components.js"))
 
             acc
-            |> Igniter.create_or_update_file("assets/vendor/#{item.file}", content, fn source ->
+            |> Igniter.create_or_update_file("assets/vendor/#{installed}", content, fn source ->
               Rewrite.Source.update(source, :content, content)
             end)
             |> Igniter.create_or_update_file(

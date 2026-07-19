@@ -2830,6 +2830,55 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
           <.live_component module={DevelopmentWeb.Showcase.EditorFormDemo} id={"#{@id}-form"} />
         </div>
       </details>
+
+      <details class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          Every engine — one component, <code>--lib</code> picks the library
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          The same component backed by all four engines. Your app generates ONE
+          (<code>mix mishka.ui.gen.headless editor --lib code_mirror</code>) and it installs as
+          <code>editor.js</code>
+          under the <code>Editor</code>
+          hook — the harness vendors all four side by side only so they can be compared. Notice the
+          markup, attrs and form wiring never change; only <code>format</code>
+          does, because each engine produces a different document.
+        </p>
+        <div class="mt-4">
+          <.live_component module={DevelopmentWeb.Showcase.EditorEnginesDemo} id={"#{@id}-engines"} />
+        </div>
+      </details>
+
+      <details class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          Server-driven — setting content and locking an ignored editor
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          The surface is <code>phx-update="ignore"</code>, so re-rendering <code>value</code>
+          cannot reach it: content is pushed with a <code>push_event("chelekom:editor", ...)</code>
+          carrying an id and a value — a global event name, filtered by id in the payload. Toggling
+          <code>editable</code>
+          works differently — <code>data-*</code>
+          IS merged on an ignored element, so the engine reconfigures in place and the document,
+          cursor and undo history all survive.
+        </p>
+        <div class="mt-4">
+          <.live_component module={DevelopmentWeb.Showcase.EditorControlDemo} id={"#{@id}-control"} />
+        </div>
+      </details>
+
+      <details class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">
+          Adding plugins — configuration that survives regeneration
+        </summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          The engine file is regenerated every time, so editing it to add an extension would be
+          reverted by the next <code>mix mishka.ui.gen.headless editor</code>. The generator also
+          writes <code>assets/vendor/editor_extensions.js</code>
+          once and never touches it again — put your extensions there.
+        </p>
+        <.code_block code={editor_extensions_snippet()} class="mt-3" />
+      </details>
     </div>
     """
   end
@@ -3794,6 +3843,21 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "[&[data-opened]_[data-part=line]:nth-child(2)]:opacity-0",
       "[&[data-opened]_[data-part=line]:nth-child(3)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(3)]:-rotate-45"
     ]
+  end
+
+  defp editor_extensions_snippet do
+    """
+    # 1. install the package with the tool you already have
+    mix mishka.assets.deps @tiptap/extension-table@3.28.0
+
+    # 2. register it in assets/vendor/editor_extensions.js — YOUR file, never overwritten
+    import Table from "@tiptap/extension-table";
+
+    export default {
+      extensions: [Table.configure({ resizable: true })],
+      starterKit: { heading: { levels: [1, 2, 3] } },
+    };
+    """
   end
 
   # Editor: the component ships no typography (the headless CSS is functional-only), so the

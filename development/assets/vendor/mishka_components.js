@@ -43,7 +43,10 @@ import AngleSlider from "./angle_slider.js";
 import OverflowList from "./overflow_list.js";
 import FloatingIndicator from "./floating_indicator.js";
 import FloatingWindow from "./floating_window.js";
-import Editor from "./editor_tiptap.js";
+import Editor from "./editor.js";
+import EditorLexical from "./editor_lexical.js";
+import EditorMilkDown from "./editor_milk_down.js";
+import EditorCodeMirror from "./editor_code_mirror.js";
 const Components = {
   Tooltip,
   PreviewCard,
@@ -91,5 +94,8 @@ const Components = {
   FloatingIndicator,
   FloatingWindow,
   Editor,
+  EditorLexical,
+  EditorMilkDown,
+  EditorCodeMirror,
 };
 export default Components;

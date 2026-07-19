@@ -123,6 +123,45 @@ defmodule MishkaChelekom.Generators.Npm do
     end)
   end
 
+  @doc """
+  Removes only those `deps` the manifest still pins at exactly the version given — packages we
+  wrote and nobody has changed since.
+
+  Used when switching a component's engine: the previous engine's packages must not be stranded,
+  but a package the project also depends on (or deliberately re-pinned) is left alone.
+  """
+  @spec prune(Igniter.t(), [String.t()], keyword()) :: Igniter.t()
+  def prune(igniter, [], _options), do: igniter
+
+  def prune(igniter, deps, options) do
+    ours =
+      deps
+      |> parse_deps()
+      |> Enum.filter(fn {name, version} -> pinned?(igniter, name, version) end)
+      |> Enum.map(fn {name, _version} -> name end)
+
+    if ours == [] do
+      igniter
+    else
+      igniter
+      |> Igniter.add_notice("""
+      Removed #{Enum.join(ours, ", ")} from #{@package_json} — the engine that needed them was
+      replaced. Anything you had re-pinned yourself was left untouched.
+      """)
+      |> remove_deps(ours, options)
+      |> run_command(Keyword.put(options, :remove, true))
+    end
+  end
+
+  defp pinned?(igniter, name, version) do
+    with {:ok, raw} <- read_manifest(igniter),
+         {:ok, json} <- Jason.decode(raw) do
+      get_in(json, ["dependencies", name]) == version
+    else
+      _ -> false
+    end
+  end
+
   @doc "Removes dependencies from `assets/package.json` and records them for the uninstall command."
   @spec remove_deps(Igniter.t(), [String.t() | map()], keyword()) :: Igniter.t()
   def remove_deps(igniter, deps, options \\ []) do

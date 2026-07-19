@@ -11,10 +11,10 @@ the promise: *the developer runs one `mix` task and has a working editor — no 
    npm/bun/yarn and fall back to the `{:bun, ...}` hex binary when the machine has no Node. We call
    its functions directly (never `compose_task` — both drive an `Owl.Spinner` under the same id).
    ✅ *shipped*
-3. **One `editor` component, engine chosen by `--lib`** (tiptap ✅ shipped; lexical / code_mirror /
-   milk_down are data + one engine file each, once `--lib` lands — see §1).
-4. **Still open:** how a developer adds TipTap extensions without hand-editing a generated file —
-   see §3a.
+3. **One `editor` component, engine chosen by `--lib`** — tiptap, lexical, code_mirror and
+   milk_down all ✅ *shipped*.
+4. **Extensions** are configured in `assets/vendor/editor_extensions.js`, written once and never
+   overwritten ✅ *shipped* — see §3a.
 
 ## 1. What editors we can have
 
@@ -46,17 +46,16 @@ libs: [
 ]
 ```
 
-**Status:** the `libs:` map ships and `tiptap` is populated; the `--lib` flag itself is **not yet
-implemented**. Two things must be solved first, and they are the real work:
+**Status: shipped.** Both blockers were solved, and neither the way this section first proposed:
 
-1. **Content format.** `format` is `json | html` today. CodeMirror's document is a plain string and
-   Milkdown's is markdown, so the attr grows a `text` / `markdown` value and each engine declares
-   which formats it supports. The catalog test should reject a `format` an engine cannot produce.
-2. **The orphan-package bug.** Re-running without `--lib` after choosing a non-default engine would
-   swap the engine file back while leaving the previous library's packages stranded in
-   `package.json`. The chosen lib must be persisted (`priv/mishka_chelekom/config.exs`, next to
-   `component_prefix` / `module_prefix`) and a switch must remove the old library's packages via the
-   refcount path that `mix mishka.ui.uninstall --include-npm` already uses.
+1. **Content format** — `format` now takes `json | html | text | markdown`, and each `libs:` entry
+   declares the `formats:` it can produce (tiptap `json`/`html`, lexical `json`, code_mirror
+   `text`, milk_down `markdown`).
+2. **The orphan-package problem** needed no config persistence at all. Every engine installs as one
+   file, `editor.js`, under the one `Editor` hook, so switching **overwrites** rather than leaving a
+   stale engine and a stale hook registration behind. Switching additionally prunes the previous
+   engine's packages — but only those still pinned at exactly the version we wrote, so anything the
+   project re-pinned is left alone.
 
 Engine-specific attrs (`language` for CodeMirror, toolbar command sets) stay optional and are simply
 ignored by engines that do not use them.
@@ -69,7 +68,7 @@ market (TinyMCE, CKEditor, Froala) is GPL or commercial.
 | Library | License | Headless | Verdict |
 |---|---|---|---|
 | **TipTap 3** | MIT | yes | **Default `editor` engine.** The only one that is MIT *and* headless *and* has a clean destroy |
-| **Lexical** | MIT | yes | Second engine, when it hits 1.0 — still 0.x with routine breaking changes, and we pin versions into the user's `package.json` |
+| **Lexical 0.48** | MIT | yes | ✅ Shipped as `--lib lexical`. Still 0.x with real churn, but every breaking change in the last six months hit TypeScript generics, React bindings or the markdown/code extensions — never the imperative core this engine uses. Exact pins mean churn costs us at upgrade time, not users at runtime |
 | **Quill 2** | BSD-3 | no | Skip: **no `destroy()`** at all → leaks on every LiveView navigation. License is fine, the lifecycle is not |
 | **Trix** | MIT | no | Skip: ships its own toolbar/UI, fights a headless library. Fine choice for someone who wants batteries-included, but that isn't us |
 | **Squire** | MIT | yes-ish | Tiny contenteditable core. Possible ultra-light alternative if TipTap's 114 KB is ever a blocker |
@@ -94,8 +93,11 @@ Markdown side: **Milkdown 7** (MIT) is the pick; Toast UI and EasyMDE are MIT bu
 1. **Permissive license only** — MIT / Apache-2.0 / BSD / ISC. No GPL/copyleft, no license-key gate,
    no private registry, no paid tier required to run. Declared in the catalog's `:license` key and
    asserted by a catalog test.
-2. **The library must ship no required stylesheet.** A JS `import "pkg/dist/x.css"` silently emits
-   `priv/static/assets/js/app.css`, which no layout links — an instant manual-config bug.
+2. **The library must not need a stylesheet imported from JS.** Not because esbuild lacks a CSS
+   loader (it has one — that earlier claim was wrong), but because the emitted
+   `priv/static/assets/js/app.css` is not linked by any layout, and because such CSS often
+   `@import`s fonts, which genuinely *does* break the build (Milkdown's Crepe theme pulls KaTeX
+   `.woff2`/`.ttf` and fails with "No loader is configured"). Themeless Milkdown avoids it.
 3. **Any CSS we need is ours**, hand-written into the existing global stylesheets (see "Where things
    live"), never a per-component vendored file.
 
@@ -298,23 +300,37 @@ edit the user's tsconfig**; at most we print a notice pointing at Phoenix's own 
 | **XSS** | Default TipTap to **JSON storage** (`getJSON()`), never `raw/1` on stored HTML. For HTML users, generate an `html_sanitize_ex ~> 1.5` scrubber **matched to the editor's own schema** (built-in `basic_html` strips alignment/colors/colspan; `html5` allows `iframe`/`object`). Don't add DOMPurify — client-side sanitization has no authority over what's POSTed at the socket |
 | **Uninstall** | Extend the existing `:scripts` refcount fold to `:npm`, emit `mishka.assets.deps <pkgs> --remove` **only for packages no remaining component declares**. Never delete `package.json`, never strip aliases |
 
-## 8. Roadmap
+## 8. Roadmap — all phases shipped
 
-- [x] **Phase 0 — pipeline only, no editor.** *(done)* Fill `check_package_json/2`; add `:npm` / `:license` /
-      `:libs` keys; alias wiring; `:npm` refcount in uninstall; bun pin review. Prove with an
-      integration test that generates a throwaway one-package catalog into `development/`, asserts the
-      exact file diff, then runs `mix assets.build` and asserts exit 0. *De-risks deployment before any
-      114 KB dependency exists.*
-- [x] **Phase 1 — `editor` (TipTap 3).** *(done — shipped with uninstall support, round-trip
-      keys and CI-run JS tests; `--lib` deliberately still deferred)* The HTML editor, first. Everything lands here: the hook
-      contract in §6, the typography section in `mishka_chelekom_headless.css`, `hex_deps` +
-      generated `html_sanitize_ex` scrubber, and the JSON-by-default / HTML-opt-in storage decision.
-      Toolbar = HEEx slots reusing our existing headless `toolbar` component. Ships with the
-      `libs:` map in place but only `tiptap` populated.
-- [ ] **Phase 2 — `code_editor` (CodeMirror 6).** Cheap after Phase 1 — same pipeline, plain-string
-      content, no sanitization, no typography CSS. Flags `--minimal`, `--language`.
-- [ ] **Phase 3 — breadth, no new deps.** CodeMirror: readonly viewer, diff, more `lang-*` (note
-      `codemirror-lang-elixir` is Apache-2.0, not MIT). TipTap: bubble/floating menu (adds
-      `@floating-ui/dom`), list + table extension packs.
-- [ ] **Phase 4 — on demand.** `markdown_editor` (Milkdown). Re-evaluate Lexical at 1.0. Monaco stays
-      rejected → point at `live_monaco_editor`.
+- [x] **Phase 0 — pipeline.** `check_package_json/3` fills the old TODO; `:npm` / `:license` /
+      `:libs` / `:user_files` catalog keys; `.gitignore` + `assets.setup`/`build`/`deploy` alias
+      wiring; `--no-npm`; npm refcounting in uninstall; idempotency guarded by tests.
+- [x] **Phase 1 — `editor` (TipTap 3).** Hidden-mirror form participation, toolbar via
+      `data-editor-command`, JSON-by-default storage, functional-only CSS.
+- [x] **Phase 2 — `--lib` + CodeMirror 6.** `--lib code_mirror`, `format="text"`. Every engine
+      installs as one `editor.js` under one `Editor` hook, so switching overwrites rather than
+      stranding a stale file; the previous engine's packages are pruned when still pinned by us.
+- [x] **Phase 3 — extension configuration.** `assets/vendor/editor_extensions.js`, written once
+      with `on_exists: :skip` and merged by every engine, so config survives regeneration.
+      Extension packages install through the existing `mix mishka.assets.deps`.
+- [x] **Phase 4 — Milkdown + Lexical.** `--lib milk_down` (`format="markdown"`) and
+      `--lib lexical` (`format="json"`). Lexical was re-evaluated rather than deferred: it is
+      still 0.x with real churn, but every breaking change in the last six months landed in
+      TypeScript generics, React bindings or the markdown/code extensions — never in the
+      imperative core this engine uses (`createEditor`, `setRootElement`, `registerRichText`,
+      `parseEditorState`). Exact pins freeze the user's build, so churn costs us at upgrade time,
+      not them at runtime.
+
+### Engine notes worth keeping
+
+| Engine | Format | Teardown reality |
+|---|---|---|
+| TipTap 3 | `json` / `html` | `editor.destroy()`, synchronous |
+| Lexical 0.48 | `json` | **No destroy exists.** Unregister every listener, then `setRootElement(null)` — the only thing that decrements the reference-counted document `selectionchange` listener |
+| CodeMirror 6 | `text` | `view.destroy()` is synchronous and complete. A `dispatch` after destroy silently no-ops, so null the ref |
+| Milkdown 7 | `markdown` | `destroy()` is **async**, and mid-creation it re-polls every 50ms — LiveView never awaits it, so teardown must chain off the create promise or fast navigation stacks live editors |
+
+**Correction to §5:** esbuild *does* have a built-in CSS loader — a JS→CSS import bundles fine and
+emits a sibling `.css`. The real build-breaker is fonts: Milkdown's Crepe theme `@import`s KaTeX,
+which pulls `.woff2`/`.ttf` and fails with "No loader is configured". Themeless Milkdown
+(`@milkdown/kit`) avoids it entirely, which is what we ship.

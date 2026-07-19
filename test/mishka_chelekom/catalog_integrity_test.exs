@@ -71,8 +71,9 @@ defmodule MishkaChelekom.CatalogIntegrityTest do
       wrong =
         for {name, cfg} <- configs(),
             script <- Keyword.get(cfg, :scripts, []),
-            not String.contains?(script.imports, script.file),
-            do: "#{name}: imports #{inspect(script.imports)} but file is #{script.file}"
+            installed = Map.get(script, :as, script.file),
+            not String.contains?(script.imports, installed),
+            do: "#{name}: imports #{inspect(script.imports)} but installs as #{installed}"
 
       assert wrong == [], Enum.join(wrong, "\n")
     end

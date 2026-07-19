@@ -31,6 +31,7 @@
     libs: [
       tiptap: [
         default: true,
+        formats: ["json", "html"],
         npm: [
           %{name: "@tiptap/core", version: "3.28.0"},
           %{name: "@tiptap/pm", version: "3.28.0"},
@@ -41,7 +42,60 @@
             module: "Editor",
             type: "file",
             file: "editor_tiptap.js",
-            imports: "import Editor from \"./editor_tiptap.js\";"
+            # Every engine installs under ONE name, so switching engines overwrites the file
+            # instead of leaving a stale one that still imports the packages we removed.
+            as: "editor.js",
+            imports: "import Editor from \"./editor.js\";"
+          }
+        ]
+      ],
+      code_mirror: [
+        formats: ["text"],
+        npm: [
+          %{name: "@codemirror/state", version: "6.7.1"},
+          %{name: "@codemirror/view", version: "6.43.6"},
+          %{name: "@codemirror/commands", version: "6.10.4"},
+          %{name: "@codemirror/language", version: "6.12.4"},
+          %{name: "@codemirror/lang-javascript", version: "6.2.5"}
+        ],
+        scripts: [
+          %{
+            module: "Editor",
+            type: "file",
+            file: "editor_code_mirror.js",
+            as: "editor.js",
+            imports: "import Editor from \"./editor.js\";"
+          }
+        ]
+      ],
+      milk_down: [
+        formats: ["markdown"],
+        npm: [%{name: "@milkdown/kit", version: "7.21.3"}],
+        scripts: [
+          %{
+            module: "Editor",
+            type: "file",
+            file: "editor_milk_down.js",
+            as: "editor.js",
+            imports: "import Editor from \"./editor.js\";"
+          }
+        ]
+      ],
+      lexical: [
+        formats: ["json"],
+        npm: [
+          %{name: "lexical", version: "0.48.0"},
+          %{name: "@lexical/rich-text", version: "0.48.0"},
+          %{name: "@lexical/history", version: "0.48.0"},
+          %{name: "@lexical/utils", version: "0.48.0"}
+        ],
+        scripts: [
+          %{
+            module: "Editor",
+            type: "file",
+            file: "editor_lexical.js",
+            as: "editor.js",
+            imports: "import Editor from \"./editor.js\";"
           }
         ]
       ]
@@ -54,7 +108,8 @@
         module: "Editor",
         type: "file",
         file: "editor_tiptap.js",
-        imports: "import Editor from \"./editor_tiptap.js\";"
+        as: "editor.js",
+        imports: "import Editor from \"./editor.js\";"
       }
     ],
     headless: [
