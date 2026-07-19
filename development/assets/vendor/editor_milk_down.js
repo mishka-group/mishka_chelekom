@@ -70,12 +70,16 @@ const Editor = {
         }
 
         this.editor = editor;
+        // .ProseMirror only exists once create() resolves.
+        this.mirrorPlaceholder();
         this.render();
         return editor;
       })
       .catch(() => null);
 
     this.editable = editable;
+
+    this.bindSurfaceFocus();
 
     this.setRef = this.handleEvent("chelekom:editor", (payload) => {
       if (!payload || (payload.id && payload.id !== this.rootId)) return;
@@ -96,7 +100,30 @@ const Editor = {
     this.render();
   },
 
+
+  // The editable node is stretched by CSS, but the surface can still carry padding of its own, and
+  // every engine nests its node differently. A click there is a click on a non-editable box, so
+  // place the caret explicitly instead of making the user aim at the text.
+  bindSurfaceFocus() {
+    this._onSurfaceDown = (event) => {
+      if (event.target.closest(".ProseMirror, .cm-editor, [data-part=\"lexical-content\"]")) return;
+      this.el.querySelector(".ProseMirror")?.focus();
+    };
+
+    this.el.addEventListener("mousedown", this._onSurfaceDown);
+  },
+
+  // `attr()` can only read from the element the pseudo-element is on, so the placeholder text has
+  // to live on the editable node itself, wherever the engine put it.
+  mirrorPlaceholder() {
+    const placeholder = this.el.getAttribute("data-placeholder");
+    if (!placeholder) return;
+    const node = this.el.querySelector(".ProseMirror");
+    if (node) node.setAttribute("data-placeholder", placeholder);
+  },
+
   destroyed() {
+    this.el.removeEventListener("mousedown", this._onSurfaceDown);
     this.disposed = true;
     if (this.timer) clearTimeout(this.timer);
     if (this.setRef) this.removeHandleEvent(this.setRef);
@@ -162,4 +189,3 @@ const Editor = {
 };
 
 export default Editor;
-

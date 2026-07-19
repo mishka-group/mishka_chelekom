@@ -456,8 +456,13 @@
     display: none;
 }
 
-/* Editor: the contenteditable surface. Functional only — the editable area must FILL the surface,
- * the caret must not be boxed in, and an empty document must still show its placeholder.
+/* Editor: the editing surface. Functional only — the editable area must FILL the surface, the
+ * caret must not be boxed in, and an empty document must still show its placeholder.
+ *
+ * Every engine nests its editable node differently: TipTap renders `.ProseMirror` directly,
+ * Milkdown wraps it in `.milkdown`, CodeMirror builds `.cm-editor > .cm-scroller`. Each wrapper
+ * has to stretch, or a click below the last line lands on a non-editable box and no caret
+ * appears — the user has to aim at the text itself.
  *
  * Deliberately NOT here: typography. Under Tailwind Preflight the editor's headings, lists and
  * blockquotes render flat, and styling them is the consuming app's job — see the showcase demo. */
@@ -466,20 +471,33 @@
     flex-direction: column;
 }
 
-/* TipTap renders `.ProseMirror` as a child, sized to its content. Without stretching it, every
- * click below the last line hits the surface instead of the editable node and no caret appears —
- * the user has to aim at the text itself. */
-.chelekom-editor__surface > .ProseMirror {
+.chelekom-editor__surface > *,
+.chelekom-editor__surface .milkdown {
     flex: 1 1 auto;
-    white-space: pre-wrap;
-    word-break: break-word;
+    min-width: 0;
+}
+
+.chelekom-editor__surface .milkdown {
+    display: flex;
+    flex-direction: column;
+}
+
+.chelekom-editor__surface .ProseMirror,
+.chelekom-editor__surface .cm-editor {
+    flex: 1 1 auto;
     outline: none;
 }
 
-/* `attr()` reads from the element the pseudo-element belongs to, so the engine mirrors
- * data-placeholder onto `.ProseMirror`. Floating it with zero height overlays the text on the
+.chelekom-editor__surface .ProseMirror {
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* `attr()` reads from the element the pseudo-element belongs to, so each engine mirrors
+ * data-placeholder onto its own editable node. Floating it with zero height overlays it on the
  * first line instead of pushing the caret down. */
-.chelekom-editor[data-empty] .chelekom-editor__surface > .ProseMirror::before {
+.chelekom-editor[data-empty] .chelekom-editor__surface .ProseMirror::before,
+.chelekom-editor[data-empty] .chelekom-editor__surface [data-part="lexical-content"]::before {
     content: attr(data-placeholder);
     float: left;
     height: 0;

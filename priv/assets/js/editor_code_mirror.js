@@ -101,6 +101,8 @@ const Editor = {
       this.applyRemote(payload.value ?? "");
     });
 
+    this.bindSurfaceFocus();
+    this.mirrorPlaceholder();
     this.render();
   },
 
@@ -119,7 +121,30 @@ const Editor = {
     this.render();
   },
 
+
+  // The editable node is stretched by CSS, but the surface can still carry padding of its own, and
+  // every engine nests its node differently. A click there is a click on a non-editable box, so
+  // place the caret explicitly instead of making the user aim at the text.
+  bindSurfaceFocus() {
+    this._onSurfaceDown = (event) => {
+      if (event.target.closest(".ProseMirror, .cm-editor, [data-part=\"lexical-content\"]")) return;
+      this.view?.focus();
+    };
+
+    this.el.addEventListener("mousedown", this._onSurfaceDown);
+  },
+
+  // `attr()` can only read from the element the pseudo-element is on, so the placeholder text has
+  // to live on the editable node itself, wherever the engine put it.
+  mirrorPlaceholder() {
+    const placeholder = this.el.getAttribute("data-placeholder");
+    if (!placeholder) return;
+    const node = this.el.querySelector(".cm-content");
+    if (node) node.setAttribute("data-placeholder", placeholder);
+  },
+
   destroyed() {
+    this.el.removeEventListener("mousedown", this._onSurfaceDown);
     if (this.timer) clearTimeout(this.timer);
     if (this.setRef) this.removeHandleEvent(this.setRef);
     // Synchronous and complete: removes the DOM, unregisters handlers, notifies plugins.
