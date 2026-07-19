@@ -221,6 +221,35 @@ defmodule DevelopmentWeb.EditorLiveTest do
     end
   end
 
+  describe "security guidance" do
+    # An editor hands user input to the app, so the page must not teach storing content without
+    # teaching how to render it safely. Pinned here so the guidance cannot quietly disappear.
+    test "the page documents server-side sanitizing and why client-side is not enough", %{
+      conn: conn
+    } do
+      {:ok, _view, html} = live(conn, @path)
+
+      assert html =~ "Security", "the editor page must carry a security section"
+      assert html =~ "html_sanitize_ex", "it must name the maintained Elixir sanitizer"
+      assert html =~ "strip_everything_not_covered", "it must show a real allowlist scrubber"
+
+      assert html =~ "allow_tag_with_uri_attributes",
+             "it must show scheme-restricted hrefs — otherwise javascript: URLs survive"
+
+      assert html =~ "POST", "it must say an attacker can post straight at the socket"
+      assert html =~ "Content-Security-Policy", "it must recommend CSP as the second layer"
+    end
+
+    test "it recommends JSON storage as the default that has no XSS surface", %{conn: conn} do
+      {:ok, _view, html} = live(conn, @path)
+
+      assert html =~ "store JSON"
+
+      assert attr(html, ~s([id$="-form-ed-surface"]), "data-format") == "json",
+             "the form demo must practise what the guidance preaches"
+    end
+  end
+
   describe "the npm dependency is really wired" do
     test "the engine is vendored and registered as a hook", %{conn: _conn} do
       engine = File.read!("assets/vendor/editor.js")

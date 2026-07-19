@@ -2831,6 +2831,67 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         </div>
       </details>
 
+      <details class="rounded-lg border border-[var(--c-error)]/40 bg-[var(--c-error)]/5 p-4">
+        <summary class="cursor-pointer select-none font-medium text-[var(--c-error)]">
+          Security — sanitize before you render (read this before storing HTML)
+        </summary>
+
+        <p class="mt-2 text-sm text-[var(--c-base-content)]/70">
+          An editor takes input from a user and hands it to your app. Whatever you store, treat it
+          as hostile: the hidden mirror is a plain form field, so an attacker never has to use the
+          editor at all — they can POST any string straight at the socket. That single fact decides
+          everything below.
+        </p>
+
+        <h5 class="mt-4 text-sm font-semibold">1. The safe default: store JSON, never render it</h5>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/70">
+          <code>format="json"</code>
+          (the default) stores the ProseMirror document. It is data, not markup — nothing renders it
+          as HTML, so there is no XSS surface at all. Keep it unless you have a concrete reason not
+          to, and convert to HTML at render time from the trusted document rather than storing HTML.
+        </p>
+
+        <h5 class="mt-4 text-sm font-semibold">
+          2. If you store HTML, server-side sanitizing is mandatory
+        </h5>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/70">
+          <code>format="html"</code>
+          plus <code>raw/1</code>
+          is a stored-XSS vector. Sanitize on the server, on the way IN and again before rendering.
+          Neither built-in scrubber fits an editor: <code>basic_html</code>
+          strips the attributes your editor legitimately emits (alignment, code-block language,
+          table <code>colspan</code>), and <code>html5</code>
+          allows <code>iframe</code>, <code>object</code>
+          and <code>meta</code>. Because you own the editor you know its finite output, so
+          allowlist exactly that:
+        </p>
+        <.code_block code={editor_scrubber_snippet()} class="mt-3" />
+
+        <h5 class="mt-4 text-sm font-semibold">
+          3. Client-side sanitizing is defense in depth, never the control
+        </h5>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/70">
+          DOMPurify in the browser has zero authority over what reaches your database — it is
+          trivially bypassed by posting directly. It is worth adding only for content you did not
+          author and are about to inject client-side. Do not let it substitute for step 2.
+        </p>
+
+        <h5 class="mt-4 text-sm font-semibold">4. Markdown is not automatically safe</h5>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/70">
+          With <code>--lib milk_down</code>
+          you store markdown, which permits raw HTML by default. Render with your converter's
+          escaping on, then sanitize the result the same way — the markdown step is not a
+          sanitizer.
+        </p>
+        <.code_block code={markdown_render_snippet()} class="mt-3" />
+
+        <p class="mt-4 text-sm text-[var(--c-base-content)]/70">
+          Finally, add a Content-Security-Policy. Sanitizers parse HTML with a non-HTML5-spec
+          parser, so a CSP that forbids inline script is the layer that catches what a parser
+          differential slips through.
+        </p>
+      </details>
+
       <details class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
         <summary class="cursor-pointer select-none font-medium">
           Every engine — one component, <code>--lib</code> picks the library
@@ -3843,6 +3904,62 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "[&[data-opened]_[data-part=line]:nth-child(2)]:opacity-0",
       "[&[data-opened]_[data-part=line]:nth-child(3)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(3)]:-rotate-45"
     ]
+  end
+
+  defp editor_scrubber_snippet do
+    """
+    # mix.exs — the maintained Elixir sanitizer
+    {:html_sanitize_ex, "~> 1.5"}
+
+    # lib/my_app/editor_scrubber.ex — allowlist exactly what YOUR editor emits
+    defmodule MyApp.EditorScrubber do
+      require HtmlSanitizeEx.Scrubber.Meta
+      alias HtmlSanitizeEx.Scrubber.Meta
+
+      Meta.remove_cdata_sections_before_scrub()
+      Meta.strip_comments()
+
+      Meta.allow_tag_with_these_attributes("p", [])
+      Meta.allow_tag_with_these_attributes("br", [])
+      Meta.allow_tag_with_these_attributes("strong", [])
+      Meta.allow_tag_with_these_attributes("em", [])
+      Meta.allow_tag_with_these_attributes("s", [])
+      Meta.allow_tag_with_these_attributes("blockquote", [])
+      Meta.allow_tag_with_these_attributes("ul", [])
+      Meta.allow_tag_with_these_attributes("ol", [])
+      Meta.allow_tag_with_these_attributes("li", [])
+      Meta.allow_tag_with_these_attributes("h1", [])
+      Meta.allow_tag_with_these_attributes("h2", [])
+      Meta.allow_tag_with_these_attributes("h3", [])
+      Meta.allow_tag_with_these_attributes("code", ["class"])
+      Meta.allow_tag_with_these_attributes("pre", [])
+
+      # Anchors need a SCHEME allowlist, or javascript:/data: URLs survive.
+      Meta.allow_tag_with_uri_attributes("a", ["href"], ["http", "https", "mailto"])
+      Meta.allow_tag_with_these_attributes("a", ["title"])
+
+      Meta.strip_everything_not_covered()
+    end
+
+    # on the way in
+    def handle_event("save", %{"post" => %{"body" => body}}, socket) do
+      clean = HtmlSanitizeEx.Scrubber.scrub(body, MyApp.EditorScrubber)
+      # ...persist `clean`, never `body`
+    end
+
+    # and again at render time, because old rows predate today's rules
+    <div>{raw(HtmlSanitizeEx.Scrubber.scrub(@post.body, MyApp.EditorScrubber))}</div>
+    """
+  end
+
+  defp markdown_render_snippet do
+    """
+    # Markdown permits raw HTML — escape during conversion AND scrub the output.
+    @post.body
+    |> Earmark.as_html!(escape: true)
+    |> HtmlSanitizeEx.Scrubber.scrub(MyApp.EditorScrubber)
+    |> raw()
+    """
   end
 
   defp editor_extensions_snippet do
