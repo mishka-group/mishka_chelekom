@@ -1,0 +1,168 @@
+<!doctype html>
+<meta charset="utf-8" />
+<title>chelekom segment</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;600&family=JetBrains+Mono:wght@400;700&display=swap"
+  rel="stylesheet"
+/>
+
+<!--
+  Segment card. 1.4s.
+
+  Separates the parts of a component's video — headless, Base UI styling,
+  examples. Deliberately quieter than the intro: it is punctuation, not a title
+  sequence, and it appears two or three times per video. The only motion is the
+  same left-to-right rule as the intro slots and the outro underline, so all
+  three card types read as one gesture.
+
+  Values are injected as window.__SEGMENT before capture.
+-->
+
+<style>
+  :root {
+    --ink: #17131f;
+    --paper: #f2ecf7;
+    --signal: #b48ead;
+    --live: #7bdcb5;
+    --dim: #5c5170;
+    --display: "Inter Tight", system-ui, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, monospace;
+  }
+
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    width: 1280px;
+    height: 720px;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--display);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+  }
+
+  .seg {
+    display: grid;
+    justify-items: start;
+    gap: 16px;
+    /* Left-aligned to the same 80px margin the captions use, so the card and
+       the captions share one optical edge. */
+    margin-left: 80px;
+    justify-self: start;
+  }
+
+  .seg-index {
+    font-family: var(--mono);
+    font-size: 14px;
+    letter-spacing: 0.18em;
+    color: var(--signal);
+    opacity: 0;
+    animation: rise 0.4s ease-out 0.1s forwards;
+  }
+
+  .seg-title {
+    position: relative;
+    font-size: 54px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    padding-bottom: 14px;
+    opacity: 0;
+    animation: rise 0.45s cubic-bezier(0.2, 0.8, 0.3, 1) 0.22s forwards;
+  }
+
+  .seg-title::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 0;
+    background: var(--live);
+    animation: draw 0.6s cubic-bezier(0.3, 0.7, 0.2, 1) 0.5s forwards;
+  }
+
+  .seg-sub {
+    font-size: 20px;
+    color: var(--dim);
+    opacity: 0;
+    animation: rise 0.4s ease-out 0.62s forwards;
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes draw {
+    to {
+      width: 100%;
+    }
+  }
+
+  /* Corner mark: the wordless logo, no URL — this is a copyright, not a CTA. */
+  .hf-mark {
+    position: absolute;
+    top: 44px;
+    left: 44px;
+    width: 38px;
+    height: 38px;
+    color: var(--paper);
+    opacity: 0.38;
+  }
+  .hf-mark svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+</style>
+
+<div class="hf-mark" id="mark"></div>
+
+<div class="seg">
+  <div class="seg-index" id="idx">01 / 03</div>
+  <div class="seg-title" id="title">Headless</div>
+  <div class="seg-sub" id="sub">Ships zero styling</div>
+</div>
+
+<script>
+  // The card is authored in a fixed 1280x720 coordinate space; scale it to the
+  // recording viewport so one set of type sizes serves any output resolution.
+  if (window.__SCALE) document.documentElement.style.zoom = String(window.__SCALE);
+
+  const seg = window.__SEGMENT ?? {
+    index: 0,
+    total: 3,
+    title: "Headless",
+    subtitle: "Ships zero styling",
+    component: "otp_field",
+  };
+
+  const pad = (n) => String(n).padStart(2, "0");
+  idx.textContent = `${pad(seg.index + 1)} / ${pad(seg.total)}  ·  ${seg.component ?? ""}`.trim();
+  title.textContent = seg.title;
+  sub.textContent = seg.subtitle ?? "";
+  if (!seg.subtitle) sub.remove();
+
+  // Gate the recorder until webfonts are rasterised, else the first frames
+  // capture the fallback stack.
+  // The logo arrives as window.__LOGO from render-cards.mjs (inlined, so the
+  // cards never hit the network) and is recoloured by CSS via currentColor.
+  if (window.__LOGO && typeof mark !== "undefined") {
+    mark.innerHTML =
+      `<svg viewBox="${window.__LOGO.viewBox}" fill="currentColor" aria-hidden="true">${window.__LOGO.paths}</svg>`;
+  }
+
+  document.fonts.ready.then(() => document.body.setAttribute("data-ready", "1"));
+</script>

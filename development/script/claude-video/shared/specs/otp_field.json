@@ -1,0 +1,127 @@
+{
+  "component": "otp_field",
+  "title": "OTP Field",
+  "tagline": "Segmented one-time code input",
+  "signature": "segments",
+  "scheme": "dark",
+  "hero": true,
+  "needs_markup": false,
+  "narration": "The OTP field renders a segmented code input. Focus advances automatically as digits are entered, and pasting a full code distributes it across every slot. The same component takes any styling you give it.",
+  "segments": [
+    {
+      "title": "Headless",
+      "subtitle": "Ships zero styling \u2014 your classes, your tokens",
+      "route": "/showcase/headless/otp_field",
+      "beats": [
+        {
+          "caption": "Each digit advances the caret",
+          "selector": "#hl-otp_field",
+          "action": "type",
+          "value": "428",
+          "charDelay": 170,
+          "hold": 500
+        },
+        {
+          "caption": "Paste fills every slot at once",
+          "selector": "#hl-otp_field",
+          "action": "paste",
+          "value": "428913",
+          "hold": 1100,
+          "accent": true
+        },
+        {
+          "caption": "Alphanumeric, uppercased and grouped",
+          "selector": "#hl-otp_field-an",
+          "action": "type",
+          "value": "a1b2c3",
+          "charDelay": 150,
+          "hold": 900
+        },
+        {
+          "caption": "Masked entry for PINs",
+          "selector": "#hl-otp_field-pin",
+          "action": "type",
+          "value": "9042",
+          "charDelay": 160,
+          "hold": 800
+        },
+        {
+          "caption": "Same markup in light and dark",
+          "action": "theme",
+          "value": "light",
+          "hold": 1500
+        },
+        {
+          "caption": "Theme is a token swap, not a rewrite",
+          "action": "theme",
+          "value": "dark",
+          "hold": 1200
+        }
+      ]
+    },
+    {
+      "title": "Base UI styling",
+      "subtitle": "Same component, a different look",
+      "route": "/showcase/headless-baseui/otp_field",
+      "beats": [
+        {
+          "caption": "Base UI defaults, zero config",
+          "selector": "#baseui-otp_field-hero",
+          "action": "type",
+          "value": "731",
+          "charDelay": 170,
+          "hold": 700
+        },
+        {
+          "caption": "Password mode hides every slot",
+          "selector": "#baseui-otp_field-password",
+          "action": "type",
+          "value": "8134",
+          "charDelay": 160,
+          "hold": 800
+        },
+        {
+          "caption": "Grouped slots with a separator",
+          "selector": "#baseui-otp_field-grouped",
+          "action": "type",
+          "value": "550142",
+          "charDelay": 150,
+          "hold": 1000
+        },
+        {
+          "caption": "And the same in light",
+          "action": "theme",
+          "value": "light",
+          "hold": 1500
+        }
+      ]
+    },
+    {
+      "title": "Examples",
+      "subtitle": "Real Phoenix form integration",
+      "route": "/showcase/headless/otp_field",
+      "beats": [
+        {
+          "caption": "Examples, further down the page",
+          "selector": "h2:text-is('Examples')",
+          "action": "settle",
+          "hold": 1000
+        },
+        {
+          "caption": "Wired into a real Phoenix form",
+          "selector": "#hl-ex-otp_field-form-code",
+          "action": "settle",
+          "hold": 900
+        },
+        {
+          "caption": "The value posts like any input",
+          "selector": "#hl-ex-otp_field-form-code",
+          "action": "type",
+          "value": "246810",
+          "charDelay": 150,
+          "hold": 1600
+        }
+      ]
+    }
+  ]
+}

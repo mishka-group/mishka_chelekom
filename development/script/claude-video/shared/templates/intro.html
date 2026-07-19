@@ -1,0 +1,314 @@
+<!doctype html>
+<meta charset="utf-8" />
+<title>chelekom intro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;600&family=JetBrains+Mono:wght@400;700&display=swap"
+  rel="stylesheet"
+/>
+
+<!--
+  Intro card. 3.2s. Read by HyperFrames frame-by-frame at 30fps.
+
+  The card is not a generic title slide: it is the component performing itself.
+  For otp_field the signature is `segments` — six slots fill one character at a
+  time, the last lands in mint, then the row resolves into the component name in
+  the same tabular position. One orchestrated moment, nothing else moves.
+
+  Values are injected as window.__SPEC before capture; the defaults below let
+  you open this file directly during `npx hyperframes preview`.
+-->
+
+<style>
+  :root {
+    --ink: #17131f;
+    --paper: #f2ecf7;
+    --signal: #b48ead;
+    --live: #7bdcb5;
+    --dim: #5c5170;
+    --display: "Inter Tight", system-ui, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, monospace;
+
+    --t-slot: 0.16s; /* gap between slot fills */
+    --t-resolve: 2.1s; /* when slots hand off to the title */
+  }
+
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    width: 1280px;
+    height: 720px;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--display);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+  }
+
+  /* A single hairline grid, very low contrast — gives the flat ink some depth
+     without reading as decoration. */
+  .hf-field {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(var(--dim) 1px, transparent 1px),
+      linear-gradient(90deg, var(--dim) 1px, transparent 1px);
+    background-size: 64px 64px;
+    opacity: 0.07;
+  }
+
+  .hf-stage {
+    position: relative;
+    display: grid;
+    place-items: center;
+    gap: 28px;
+  }
+
+  /* ---- signature: segments ---- */
+
+  .hf-slots {
+    display: flex;
+    gap: 14px;
+  }
+
+  .hf-slot {
+    width: 76px;
+    height: 96px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--dim);
+    border-radius: 10px;
+    font-family: var(--mono);
+    font-size: 44px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--paper);
+    opacity: 0;
+    transform: translateY(10px);
+    animation: slotIn 0.34s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+  }
+
+  .hf-slot > span {
+    opacity: 0;
+    animation: charIn 0.22s ease-out forwards;
+  }
+
+  /* Only the final slot gets mint, and only for a moment. That restraint is
+     what makes it read as "accepted" rather than as a brand color. */
+  .hf-slot[data-last="true"] {
+    animation: slotIn 0.34s cubic-bezier(0.2, 0.8, 0.3, 1) forwards,
+      slotAccept 0.5s ease-out forwards;
+  }
+
+  .hf-slots[data-resolving="true"] .hf-slot {
+    animation: slotOut 0.42s cubic-bezier(0.6, 0, 0.8, 0.2) forwards;
+  }
+
+  @keyframes slotIn {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes charIn {
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes slotAccept {
+    40% {
+      border-color: var(--live);
+      color: var(--live);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--live) 18%, transparent);
+    }
+    100% {
+      border-color: var(--live);
+      color: var(--live);
+      box-shadow: 0 0 0 0 transparent;
+    }
+  }
+  @keyframes slotOut {
+    to {
+      opacity: 0;
+      transform: translateY(-14px) scale(0.94);
+    }
+  }
+
+  /* ---- title, lands in the slot row's own position ---- */
+
+  .hf-title {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    translate: -50% 0;
+    height: 96px;
+    display: grid;
+    place-items: center;
+    font-size: 62px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+    opacity: 0;
+    animation: titleIn 0.5s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+    animation-delay: var(--t-resolve);
+  }
+
+  @keyframes titleIn {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hf-meta {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-family: var(--mono);
+    font-size: 15px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--signal);
+    opacity: 0;
+    animation: titleIn 0.5s ease-out forwards;
+    animation-delay: calc(var(--t-resolve) + 0.18s);
+  }
+
+  .hf-meta i {
+    width: 44px;
+    height: 1px;
+    background: var(--dim);
+    font-style: normal;
+  }
+
+  .hf-tagline {
+    font-size: 21px;
+    color: var(--dim);
+    opacity: 0;
+    animation: titleIn 0.5s ease-out forwards;
+    animation-delay: calc(var(--t-resolve) + 0.3s);
+  }
+
+  /* ---- fallback signatures ---- */
+
+  body[data-signature="plain"] .hf-slots,
+  body[data-signature="unfold"] .hf-slots,
+  body[data-signature="lift"] .hf-slots,
+  body[data-signature="trace"] .hf-slots {
+    display: none;
+  }
+  body:not([data-signature="segments"]) .hf-title,
+  body:not([data-signature="segments"]) .hf-meta,
+  body:not([data-signature="segments"]) .hf-tagline {
+    animation-delay: 0.2s;
+  }
+  body:not([data-signature="segments"]) .hf-title {
+    position: static;
+    translate: none;
+  }
+
+  /* Lockup: the mark, then the address under it. Intro only — every other card
+     gets the small corner mark instead, so the URL lands once per video. */
+  .hf-lockup {
+    position: absolute;
+    left: 50%;
+    bottom: 64px;
+    translate: -50% 0;
+    display: grid;
+    justify-items: center;
+    gap: 12px;
+    opacity: 0;
+    animation: rise 0.5s ease-out forwards;
+    animation-delay: calc(var(--t-resolve) + 0.42s);
+  }
+  .hf-lockup svg {
+    width: 46px;
+    height: 46px;
+    display: block;
+    color: var(--paper);
+    opacity: 0.9;
+  }
+  .hf-lockup .addr {
+    font-family: var(--mono);
+    font-size: 15px;
+    letter-spacing: 0.08em;
+    color: var(--signal);
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
+<div class="hf-field"></div>
+
+<div class="hf-lockup" id="lockup">
+  <div id="logo"></div>
+  <div class="addr">mishka.tools</div>
+</div>
+
+<div class="hf-stage">
+  <div class="hf-slots" id="slots"></div>
+  <div class="hf-title" id="title">OTP Field</div>
+  <div class="hf-meta">
+    <span id="variant">headless</span><i></i><span>mishka chelekom</span>
+  </div>
+  <div class="hf-tagline" id="tagline">Segmented one-time code input</div>
+</div>
+
+<script>
+  // The card is authored in a fixed 1280x720 coordinate space; scale it to the
+  // recording viewport so one set of type sizes serves any output resolution.
+  if (window.__SCALE) document.documentElement.style.zoom = String(window.__SCALE);
+
+  const spec = window.__SPEC ?? {
+    title: "OTP Field",
+    tagline: "Segmented one-time code input",
+    variant: "headless",
+    signature: "segments",
+    code: "428913",
+  };
+
+  document.body.dataset.signature = spec.signature ?? "plain";
+  title.textContent = spec.title;
+  tagline.textContent = spec.tagline ?? "";
+  variant.textContent = spec.variant ?? "";
+
+  if (spec.signature === "segments") {
+    const chars = [...(spec.code ?? "428913")];
+    chars.forEach((c, i) => {
+      const slot = document.createElement("div");
+      slot.className = "hf-slot";
+      slot.style.animationDelay = `${0.25 + i * 0.16}s`;
+      if (i === chars.length - 1) slot.dataset.last = "true";
+      const s = document.createElement("span");
+      s.textContent = c;
+      s.style.animationDelay = `${0.34 + i * 0.16}s`;
+      slot.append(s);
+      slots.append(slot);
+    });
+    // Hand off to the title.
+    setTimeout(() => (slots.dataset.resolving = "true"), 2000);
+  }
+
+  // Gate the recorder until webfonts are actually rasterised, otherwise the
+  // first ~15 frames capture the fallback stack.
+  // The logo arrives as window.__LOGO from render-cards.mjs (inlined, so the
+  // cards never hit the network) and is recoloured by CSS via currentColor.
+  if (window.__LOGO && typeof logo !== "undefined") {
+    logo.innerHTML =
+      `<svg viewBox="${window.__LOGO.viewBox}" fill="currentColor" aria-hidden="true">${window.__LOGO.paths}</svg>`;
+  }
+
+  document.fonts.ready.then(() => document.body.setAttribute("data-ready", "1"));
+</script>

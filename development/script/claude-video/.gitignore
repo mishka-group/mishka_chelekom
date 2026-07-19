@@ -1,0 +1,16 @@
+# Generated video output. Never committed — specs are the reviewable source of
+# truth, the mp4s are derived from them.
+out/
+
+# Real credentials. .env.example carries the empty shape and IS committed.
+.env
+
+# Playwright and its chromium download live here rather than in the harness's
+# assets/ tree, so this pipeline cannot perturb the showcase's own node_modules.
+node_modules/
+.chromium-ok
+package-lock.json
+bun.lock
+
+# Project-local playwright browser download (see shared/preflight.sh).
+.playwright/
