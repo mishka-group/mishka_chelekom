@@ -17,8 +17,30 @@ import { commonmark } from "@milkdown/kit/preset/commonmark";
 import { gfm } from "@milkdown/kit/preset/gfm";
 import { history } from "@milkdown/kit/plugin/history";
 import { listener, listenerCtx } from "@milkdown/kit/plugin/listener";
-import { getMarkdown, replaceAll } from "@milkdown/kit/utils";
+import { getMarkdown, replaceAll, $inputRule } from "@milkdown/kit/utils";
+import { markRule } from "@milkdown/kit/prose";
+import { linkSchema } from "@milkdown/kit/preset/commonmark";
 import userConfig from "./editor_extensions.js";
+
+// Milkdown's commonmark preset ships input rules for headings, lists, blockquote, code and
+// emphasis — but NOT for links. So a link typed as [text](url) stays literal, even though the
+// identical text becomes a link when it arrives in the initial document (that path goes through
+// the markdown PARSER, not input rules). This closes the gap, firing on the closing paren.
+//
+// `markRule` marks its LAST capture group and deletes the rest of the match, so the label — not
+// the href — has to end up in `group`. The href is captured second, which makes it last, so
+// `updateCaptured` re-points `group` at the label and `getAttr` reads the href from the match.
+const LINK_RE = /\[([^\]]+)\]\(([^)\s]+)\)$/;
+
+const linkInputRule = $inputRule((ctx) =>
+  markRule(LINK_RE, linkSchema.type(ctx), {
+    updateCaptured: ({ fullMatch }) => {
+      const parts = LINK_RE.exec(fullMatch);
+      return parts ? { group: parts[1] } : {};
+    },
+    getAttr: (match) => ({ href: match[2] }),
+  }),
+);
 
 function toggle(el, attr, on) {
   if (!el) return;
@@ -59,6 +81,7 @@ const Editor = {
       .use(gfm)
       .use(history)
       .use(listener)
+      .use(linkInputRule)
       .use(config.extensions || [])
       .create()
       .then((editor) => {
