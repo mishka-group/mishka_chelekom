@@ -138,7 +138,9 @@ defmodule MishkaMob.Showcase do
      MishkaMob.Components.MishkaHighlight},
     {MishkaMob.Showcase.Components.Checkbox, :mishka_checkbox,
      MishkaMob.Components.MishkaCheckbox},
-    {MishkaMob.Showcase.Components.Radio, :mishka_radio, MishkaMob.Components.MishkaRadio}
+    {MishkaMob.Showcase.Components.Radio, :mishka_radio, MishkaMob.Components.MishkaRadio},
+    {MishkaMob.Showcase.Components.RadioGroup, :mishka_radio_group,
+     MishkaMob.Components.MishkaRadioGroup}
   ]
 
   @doc "Every showcase component module, in catalog order."
