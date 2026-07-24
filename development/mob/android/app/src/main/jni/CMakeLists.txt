@@ -1,0 +1,187 @@
+cmake_minimum_required(VERSION 3.22.1)
+project(mishka_mob)
+
+# Paths injected by build.gradle (read from android/local.properties or env vars).
+# OTP_RELEASE (arm64), OTP_RELEASE_ARM32, OTP_RELEASE_X86_64, ERTS_VSN, MOB_DIR are set via -D flags.
+
+# Select OTP path based on target ABI.
+if(ANDROID_ABI STREQUAL "armeabi-v7a")
+    set(OTP_DIR "${OTP_RELEASE_ARM32}")
+elseif(ANDROID_ABI STREQUAL "x86_64")
+    set(OTP_DIR "${OTP_RELEASE_X86_64}")
+else()
+    set(OTP_DIR "${OTP_RELEASE}")
+endif()
+
+# Project root is 5 directories above this CMakeLists.txt
+# (android/app/src/main/jni → ../../../../../). Used to locate deps/.
+set(MOB_DEPS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../../../../deps")
+
+set(_PROJECT_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../../../../../")
+
+# Phase 2 of the build-system migration: build.zig owns the entire native
+# pipeline for libmishka_mob.so when Mix runs the build (compile + link
+# both happen in zig). The .so is dropped into jniLibs/<abi>/ where
+# Gradle's default jniLibs.srcDirs scan picks it up — no add_library
+# target needed in that case.
+#
+# Three fallbacks for non-Mix invocations (Android Studio "Sync Project",
+# `./gradlew assembleDebug` standalone, etc.):
+#   1. zig-built lib<app>.so in jniLibs/  →  CMake skips main library
+#   2. zig-built .o files in zig-out/    →  CMake links them via NDK clang
+#   3. .c sources                          →  NDK clang compiles + links
+set(ZIG_OUT_DIR "${_PROJECT_ROOT}/android/app/build/zig-out/${ANDROID_ABI}")
+set(ZIG_LIB_SO "${_PROJECT_ROOT}/android/app/src/main/jniLibs/${ANDROID_ABI}/libmishka_mob.so")
+
+if(EXISTS "${ZIG_LIB_SO}")
+    # build.zig already produced the .so. Gradle picks it up from jniLibs/.
+    # Declare it as an IMPORTED target so other targets in this CMakeLists
+    # (notably sqlite3_nif's target_link_libraries) can still reference it.
+    # IMPORTED_SONAME pins the DT_NEEDED entry to the SONAME (lib<app>.so);
+    # without it the linker bakes the absolute IMPORTED_LOCATION path into
+    # sqlite3_nif.so's needed-libraries list and Android's dlopen can't find
+    # it at runtime ("library "/.../jniLibs/.../lib<app>.so" not found").
+    add_library(mishka_mob SHARED IMPORTED GLOBAL)
+    set_target_properties(mishka_mob PROPERTIES
+        IMPORTED_LOCATION "${ZIG_LIB_SO}"
+        IMPORTED_SONAME "libmishka_mob.so"
+    )
+elseif(EXISTS "${ZIG_OUT_DIR}/driver_tab_android.o")
+    add_library(mishka_mob SHARED
+        ${ZIG_OUT_DIR}/beam_jni.o
+        ${ZIG_OUT_DIR}/mob_nif.o
+        ${ZIG_OUT_DIR}/mob_beam.o
+        ${ZIG_OUT_DIR}/driver_tab_android.o
+    )
+    # CMake can't infer linker language from .o files alone — pin it to C
+    # so it picks clang's C driver.
+    set_target_properties(mishka_mob PROPERTIES LINKER_LANGUAGE C)
+else()
+    if(EXISTS "${_PROJECT_ROOT}/priv/generated/driver_tab_android.c")
+        set(DRIVER_TAB_ANDROID "${_PROJECT_ROOT}/priv/generated/driver_tab_android.c")
+    else()
+        set(DRIVER_TAB_ANDROID "${MOB_DIR}/android/jni/driver_tab_android.c")
+    endif()
+
+    # Project-side C NIFs (auto-wired from mob.exs :static_nifs). Picked
+    # up by GLOB so this CMakeLists doesn't need to be regenerated every
+    # time a NIF is added/removed — `mix mob.add_nif --type c` drops the
+    # source at c_src/<name>.c and that's enough.
+    #
+    # This fallback only fires when neither the zig-built .so nor the
+    # zig-out/<abi>/ .o files exist (Android Studio "Sync Project" or a
+    # standalone `./gradlew assembleDebug` without Mix). The Mix-driven
+    # path (zig build) handles project NIFs via the build.zig template's
+    # `project_c_nifs` flag — see jni/build.zig.
+    file(GLOB PROJECT_NIF_C_SRCS "${_PROJECT_ROOT}/c_src/*.c")
+
+    add_library(mishka_mob SHARED
+        beam_jni.c
+        ${MOB_DIR}/android/jni/mob_nif.c
+        ${MOB_DIR}/android/jni/mob_beam.c
+        ${DRIVER_TAB_ANDROID}
+        ${PROJECT_NIF_C_SRCS}
+    )
+
+    # Per-NIF -DSTATIC_ERLANG_NIF_LIBNAME=<name>. The base STATIC_ERLANG_NIF
+    # define is added below as a target-level compile definition; this
+    # adds the per-source libname so ERL_NIF_INIT emits `<name>_nif_init`
+    # (matching the driver_tab declaration) rather than mangling the BEAM
+    # module name (e.g. `Elixir.App.Nifs.Foo`) into a C identifier.
+    foreach(_nif_src IN LISTS PROJECT_NIF_C_SRCS)
+        get_filename_component(_nif_name "${_nif_src}" NAME_WE)
+        set_property(
+            SOURCE "${_nif_src}"
+            APPEND PROPERTY COMPILE_DEFINITIONS
+            "STATIC_ERLANG_NIF_LIBNAME=${_nif_name}"
+        )
+    endforeach()
+endif()
+
+# Everything below applies only to CMake-built main library targets. When
+# build.zig produced libmishka_mob.so already (Phase 2 iter 10),
+# the target is IMPORTED — skip these blocks since target_compile_options
+# / target_link_libraries can't be applied to imported targets, and the
+# zig-built .so already has them baked in.
+if(NOT EXISTS "${ZIG_LIB_SO}")
+
+    # enif_keepalive.c is generated by `mix mob.deploy --native` when the
+    # project depends on Pythonx (or any other dlopen'd dynamic NIF). The
+    # file references all enif_* symbols so --gc-sections doesn't strip
+    # them from the final binary; dlopen'd NIFs need them at runtime.
+    # No-op when absent (vanilla projects without dynamic NIFs).
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/enif_keepalive.c")
+        target_sources(mishka_mob PRIVATE enif_keepalive.c)
+    endif()
+
+    target_include_directories(mishka_mob PRIVATE
+        ${MOB_DIR}/android/jni
+        ${OTP_DIR}/${ERTS_VSN}/include
+    )
+
+    target_compile_definitions(mishka_mob PRIVATE STATIC_ERLANG_NIF)
+
+    # -Os + per-function/data sections — same flags build.zig uses, so the
+    # CMake fallback path produces equivalent code.
+    target_compile_options(mishka_mob PRIVATE
+        -Os -ffunction-sections -fdata-sections
+    )
+
+    target_link_libraries(mishka_mob
+        PRIVATE
+        -Wl,--gc-sections
+        -Wl,--allow-multiple-definition
+        -Wl,--whole-archive
+        ${OTP_DIR}/${ERTS_VSN}/lib/libbeam.a
+        ${OTP_DIR}/${ERTS_VSN}/lib/internal/liberts_internal_r.a
+        ${OTP_DIR}/${ERTS_VSN}/lib/internal/libethread.a
+        ${OTP_DIR}/${ERTS_VSN}/lib/libzstd.a
+        ${OTP_DIR}/${ERTS_VSN}/lib/libepcre.a
+        ${OTP_DIR}/${ERTS_VSN}/lib/libryu.a
+        ${OTP_DIR}/${ERTS_VSN}/lib/asn1rt_nif.a
+        # crypto NIF + OpenSSL, statically linked. crypto_nif_init is exported
+        # by crypto.a and resolved at on_load time via STATIC_ERLANG_NIF (see
+        # mob/android/jni/driver_tab_android.c). libcrypto.a is OpenSSL 3.x
+        # built with no-shared. No separate crypto.so ships in the APK.
+        ${OTP_DIR}/${ERTS_VSN}/lib/crypto.a
+        -Wl,--no-whole-archive
+        ${OTP_DIR}/${ERTS_VSN}/lib/libcrypto.a
+        android
+        log
+        z
+        c++_static
+        # NDK 27 / clang 18 split libc++: __cxa_* and exception/RTTI ABI
+        # symbols moved out of libc++_static.a into libc++abi.a. Without this,
+        # libbeam.a's C++ exception code fails to link.
+        c++abi
+    )
+
+endif()  # NOT EXISTS ZIG_LIB_SO
+
+# ── exqlite / SQLite NIF ──────────────────────────────────────────────────────
+# As of Phase 2 iter 11, build.zig owns sqlite3_nif's compile + link
+# (mirrors libsqlite3_nif.so into jniLibs/<abi>/ alongside lib<app>.so).
+# CMake only takes over when build.zig didn't run — same fallback logic
+# as the main library above.
+set(ZIG_SQLITE_SO "${_PROJECT_ROOT}/android/app/src/main/jniLibs/${ANDROID_ABI}/libsqlite3_nif.so")
+if(NOT EXISTS "${ZIG_SQLITE_SO}")
+    add_library(sqlite3_nif SHARED
+        ${MOB_DEPS_DIR}/exqlite/c_src/sqlite3_nif.c
+        ${MOB_DEPS_DIR}/exqlite/c_src/sqlite3.c
+    )
+
+    target_include_directories(sqlite3_nif PRIVATE
+        ${MOB_DEPS_DIR}/exqlite/c_src
+        ${OTP_DIR}/${ERTS_VSN}/include
+    )
+
+    target_compile_definitions(sqlite3_nif PRIVATE
+        SQLITE_THREADSAFE=1
+    )
+
+    target_link_libraries(sqlite3_nif
+        mishka_mob
+        android
+        log
+    )
+endif()  # NOT EXISTS ZIG_SQLITE_SO

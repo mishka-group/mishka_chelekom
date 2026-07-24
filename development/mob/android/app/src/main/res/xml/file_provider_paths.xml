@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!-- Camera capture temp files (mob_cam_*.jpg / mob_cam_*.mp4) -->
+    <cache-path name="mob_camera" path="." />
+    <!-- Audio recording temp files -->
+    <cache-path name="mob_audio" path="." />
+</paths>

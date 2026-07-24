@@ -1,0 +1,29 @@
+/_build/
+/deps/
+/doc/
+/.fetch
+*.ez
+*.beam
+*.o
+*.so
+*.a
+erl_crash.dump
+mob.exs
+
+# Signing secrets — NEVER commit
+android/keystore.properties
+android/*.keystore
+
+# Native build caches / outputs
+android/app/src/main/assets/otp.zip
+android/local.properties
+android/.gradle/
+android/app/build/
+android/app/.cxx/
+ios/zig-out/
+ios/.zig-cache/
+**/.zig-cache/
+_build/mob_release/
+
+# macOS
+.DS_Store

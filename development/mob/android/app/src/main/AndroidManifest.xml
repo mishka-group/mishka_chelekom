@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.mishka_mob">
+
+    <!-- Network -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Read connectivity state for Mob.Device.network_state/0 + :network events.
+         Normal (install-time) permission; no runtime request needed. -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- Microphone (audio recording). CAMERA + the camera uses-features are
+         declared by the mob_camera plugin's manifest and merged at build. -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <!-- USB host (Mob.Peripheral.VendorUsb). required=false so the Play Store
+         doesn't filter the app off devices without USB host support; apps
+         degrade via Mob.Peripheral.capabilities/0. No uses-permission needed —
+         per-device access is gated by the runtime ACTION_USB_PERMISSION dialog. -->
+    <uses-feature android:name="android.hardware.usb.host" android:required="false" />
+
+    <!-- Torch / flashlight (Mob.Torch). required=false so the Play Store doesn't
+         filter the app off flash-less devices; Mob.Torch is a no-op there. No
+         permission needed — CameraManager.setTorchMode works without one. -->
+    <uses-feature android:name="android.hardware.camera.flash" android:required="false" />
+
+    <!-- Media-library read permissions moved to the mob_photos plugin manifest
+         (READ_MEDIA_IMAGES / READ_MEDIA_VIDEO / READ_EXTERNAL_STORAGE). NOTE the
+         plugin's plain-string permission list can't express maxSdkVersion="32"
+         on the legacy one — harmless (no-op on API 33+). -->
+
+    <!-- POST_NOTIFICATIONS moved to the mob_notify plugin manifest. -->
+
+    <!-- AlarmManager for scheduled local notifications -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"
+        android:minSdkVersion="31" />
+
+    <!-- Haptic feedback -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!-- Package visibility (API 30+): apps we want to launch via Mob.Device.open_url. -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="mailto" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="http" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="tel" />
+        </intent>
+    </queries>
+
+    <application
+        android:label="MishkaMob"
+        android:icon="@mipmap/ic_launcher"
+        android:allowBackup="false"
+        android:extractNativeLibs="true"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:theme="@style/AppTheme">
+
+        <!-- Main activity -->
+        <activity android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustResize"
+            android:configChanges="orientation|screenSize|screenLayout|keyboard|keyboardHidden|navigation|uiMode|fontScale|density">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+    <!-- The QR-scanner <activity> moved to the mob_scanner plugin
+         (io.mob.scanner.MobScannerActivity; see its host_requirements). -->
+
+        <!-- Scheduled local notification delivery -->
+        <receiver android:name=".NotificationReceiver"
+            android:exported="false" />
+
+        <!-- FileProvider for camera temp files (photo / video capture) -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_provider_paths" />
+        </provider>
+
+    </application>
+</manifest>
