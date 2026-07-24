@@ -8,7 +8,7 @@
     necessary: ["radio"],
     scripts: [],
     mob: [
-      composite_tag: "mishka_radio_group",
+      composite_tag: "radio_group",
       function: "radio_group",
       kit: []
     ]

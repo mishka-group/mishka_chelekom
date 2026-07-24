@@ -8,7 +8,7 @@
     necessary: [],
     scripts: [],
     mob: [
-      composite_tag: "mishka_action_icon",
+      composite_tag: "action_icon",
       function: "action_icon",
       kit: ["event"]
     ]

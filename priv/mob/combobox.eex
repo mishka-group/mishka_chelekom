@@ -47,7 +47,7 @@ defmodule <%= @module %> do
 
   alias <%= @namespace %>.{Event, <%= @module_prefix_camel %>Menu, <%= @module_prefix_camel %>Select}
 
-  @doc "Composite expander (`<MishkaCombobox>`). Children are options."
+  @doc "Composite expander (`<<%= @module_prefix_camel %>Combobox>`). Children are options."
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, children, _ctx), do: <%= @component_prefix %>combobox(props, children)
 

@@ -36,7 +36,7 @@ defmodule <%= @module %> do
   @band 4
   @check 8
 
-  @doc "Composite expander (`<MishkaAlphaSlider />`). Delegates to `alpha_slider/1`."
+  @doc "Composite expander (`<<%= @module_prefix_camel %>AlphaSlider />`). Delegates to `alpha_slider/1`."
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, _children, _ctx), do: <%= @component_prefix %>alpha_slider(props)
 

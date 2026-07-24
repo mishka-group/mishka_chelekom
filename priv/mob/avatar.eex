@@ -40,7 +40,7 @@ defmodule <%= @module %> do
   import Mob.Sigil
 
   @doc """
-  Composite expander (`<MishkaAvatar />`). Any children become the fallback,
+  Composite expander (`<<%= @module_prefix_camel %>Avatar />`). Any children become the fallback,
   replacing `initials`.
   """
   @spec expand(map(), [map()], map()) :: map()

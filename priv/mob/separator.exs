@@ -8,7 +8,7 @@
     necessary: [],
     scripts: [],
     mob: [
-      composite_tag: "mishka_separator",
+      composite_tag: "separator",
       function: "separator",
       kit: []
     ]

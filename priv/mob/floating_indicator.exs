@@ -8,7 +8,7 @@
     necessary: [],
     scripts: [],
     mob: [
-      composite_tag: "mishka_floating_indicator",
+      composite_tag: "floating_indicator",
       function: "floating_indicator",
       kit: ["event"]
     ]

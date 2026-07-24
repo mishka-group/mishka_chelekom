@@ -8,7 +8,7 @@
     necessary: ["checkbox"],
     scripts: [],
     mob: [
-      composite_tag: "mishka_checkbox_group",
+      composite_tag: "checkbox_group",
       function: "checkbox_group",
       kit: []
     ]

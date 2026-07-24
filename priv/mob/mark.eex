@@ -28,7 +28,7 @@ defmodule <%= @module %> do
   @fill 0xFF_FD_E6_8A
   @ink 0xFF_11_18_27
 
-  @doc "Composite expander (`<MishkaMark />`). Delegates to `mark/1`."
+  @doc "Composite expander (`<<%= @module_prefix_camel %>Mark />`). Delegates to `mark/1`."
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, _children, _ctx), do: <%= @component_prefix %>mark(props)
 

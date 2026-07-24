@@ -45,7 +45,7 @@ defmodule <%= @module %> do
   @label :mishka_menu_label
   @danger 0xFF_DC_26_26
 
-  @doc "Composite expander (`<MishkaMenu>`). Children are items."
+  @doc "Composite expander (`<<%= @module_prefix_camel %>Menu>`). Children are items."
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, children, _ctx), do: <%= @component_prefix %>menu(props, children)
 

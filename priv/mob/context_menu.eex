@@ -33,7 +33,7 @@ defmodule <%= @module %> do
 
   alias <%= @namespace %>.<%= @module_prefix_camel %>Menu
 
-  @doc "Composite expander (`<MishkaContextMenu>`). Children are menu items."
+  @doc "Composite expander (`<<%= @module_prefix_camel %>ContextMenu>`). Children are menu items."
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, children, _ctx), do: <%= @component_prefix %>context_menu(props, children)
 

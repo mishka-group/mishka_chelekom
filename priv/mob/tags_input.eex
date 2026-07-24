@@ -43,7 +43,7 @@ defmodule <%= @module %> do
 
   alias <%= @namespace %>.{Event, <%= @module_prefix_camel %>Pill}
 
-  @doc "Composite expander (`<MishkaTagsInput />`)."
+  @doc "Composite expander (`<<%= @module_prefix_camel %>TagsInput />`)."
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, _children, _ctx), do: <%= @component_prefix %>tags_input(props)
 

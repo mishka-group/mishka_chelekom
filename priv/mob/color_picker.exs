@@ -8,7 +8,7 @@
     necessary: ["hue_slider"],
     scripts: [],
     mob: [
-      composite_tag: "mishka_color_picker",
+      composite_tag: "color_picker",
       function: "color_picker",
       kit: ["color", "event"]
     ]

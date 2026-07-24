@@ -8,7 +8,7 @@
     necessary: ["combobox"],
     scripts: [],
     mob: [
-      composite_tag: "mishka_autocomplete",
+      composite_tag: "autocomplete",
       function: "autocomplete",
       kit: []
     ]

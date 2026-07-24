@@ -53,7 +53,7 @@ defmodule <%= @module %> do
   @sat_band 4
   @val_band 4
 
-  @doc "Composite expander (`<MishkaColorPicker />`). Delegates to `color_picker/1`."
+  @doc "Composite expander (`<<%= @module_prefix_camel %>ColorPicker />`). Delegates to `color_picker/1`."
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, _children, _ctx), do: <%= @component_prefix %>color_picker(props)
 

@@ -8,7 +8,7 @@
     necessary: ["mark"],
     scripts: [],
     mob: [
-      composite_tag: "mishka_highlight",
+      composite_tag: "highlight",
       function: "highlight",
       kit: []
     ]

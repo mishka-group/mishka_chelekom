@@ -126,8 +126,8 @@ defmodule Mix.Tasks.Mishka.Ui.UninstallMobTest do
 
       # Leaving :mishka_chip behind would name a module that no longer exists and
       # the app would stop compiling.
-      refute registry =~ ":mishka_chip,"
-      assert registry =~ "{:mishka_pill, Test.Components.Pill}"
+      refute registry =~ "{:chip,"
+      assert registry =~ "{:pill, Test.Components.Pill}"
     end
 
     test "is deleted when the last mob component goes" do
@@ -145,7 +145,7 @@ defmodule Mix.Tasks.Mishka.Ui.UninstallMobTest do
         |> Igniter.compose_task(GenMob, ["chip", "--yes"])
         |> Igniter.compose_task(Uninstall, ["accordion", "--headless", "--yes"])
 
-      assert content(igniter, "lib/test/components.ex") =~ "{:mishka_chip,"
+      assert content(igniter, "lib/test/components.ex") =~ "{:chip,"
     end
 
     test "survives a partial --all --mob with a prefix" do
@@ -161,7 +161,7 @@ defmodule Mix.Tasks.Mishka.Ui.UninstallMobTest do
 
       registry = content(igniter, "lib/test/components.ex")
 
-      refute registry =~ ":mishka_chip,"
+      refute registry =~ "{:mishka_chip,"
       assert registry =~ "{:mishka_pill, Test.Components.MishkaPill}"
     end
   end

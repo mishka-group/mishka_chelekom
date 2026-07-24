@@ -8,7 +8,7 @@
     necessary: [],
     scripts: [],
     mob: [
-      composite_tag: "mishka_number_field",
+      composite_tag: "number_field",
       function: "number_field",
       kit: ["event"]
     ]

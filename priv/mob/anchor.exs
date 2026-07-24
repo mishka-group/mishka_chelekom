@@ -8,7 +8,7 @@
     necessary: [],
     scripts: [],
     mob: [
-      composite_tag: "mishka_anchor",
+      composite_tag: "anchor",
       function: "anchor",
       kit: ["event"]
     ]

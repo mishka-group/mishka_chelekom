@@ -39,7 +39,7 @@ defmodule <%= @module %> do
 
   @danger 0xFF_DC_26_26
 
-  @doc "Composite expander (`<MishkaField>`). Children are the control."
+  @doc "Composite expander (`<<%= @module_prefix_camel %>Field>`). Children are the control."
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, children, _ctx), do: <%= @component_prefix %>field(props, children)
 

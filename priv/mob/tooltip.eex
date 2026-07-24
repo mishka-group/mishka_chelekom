@@ -43,7 +43,7 @@ defmodule <%= @module %> do
   @fill 0xFF_11_18_27
   @ink 0xFF_FF_FF_FF
 
-  @doc "Composite expander (`<MishkaTooltip />`). Delegates to `tooltip/1`."
+  @doc "Composite expander (`<<%= @module_prefix_camel %>Tooltip />`). Delegates to `tooltip/1`."
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, _children, _ctx), do: <%= @component_prefix %>tooltip(props)
 

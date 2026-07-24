@@ -10,7 +10,7 @@ defmodule <%= @namespace %>.Event do
   human taps it.
 
   `Mob.Composite` performs this widening for tag props automatically, so
-  `<MishkaDrawer on_close={:close} />` works. Calling a component as a plain
+  `<<%= @module_prefix_camel %>Drawer on_close={:close} />` works. Calling a component as a plain
   function skips that machinery, so components route their handler props through
   `handler/1` to get the same result:
 

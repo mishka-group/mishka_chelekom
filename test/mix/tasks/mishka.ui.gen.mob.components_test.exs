@@ -162,20 +162,20 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob.ComponentsTest do
 
       registry = content(igniter, "lib/test/components.ex")
 
-      assert registry =~ "{:mishka_chip, Test.Components.Chip}"
-      assert registry =~ "{:mishka_pill, Test.Components.Pill}"
+      assert registry =~ "{:chip, Test.Components.Chip}"
+      assert registry =~ "{:pill, Test.Components.Pill}"
     end
 
     test "a whole-catalog run registers all 72, and no kit module" do
       igniter = test_project_with_formatter() |> Igniter.compose_task(MobComponents, ["--yes"])
 
       registry = content(igniter, "lib/test/components.ex")
-      tags = Regex.scan(~r/\{:(mishka_\w+),/, registry) |> Enum.map(&List.last/1)
+      tags = Regex.scan(~r/\{:(\w+), Test/, registry) |> Enum.map(&List.last/1)
 
       assert length(tags) == 72
       assert Enum.uniq(tags) == tags, "a tag was registered twice"
-      refute "mishka_event" in tags
-      refute "mishka_color" in tags
+      refute "event" in tags
+      refute "color" in tags
     end
 
     test "honours --module-prefix for the modules while keeping tags stable" do

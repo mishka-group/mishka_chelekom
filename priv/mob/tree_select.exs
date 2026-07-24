@@ -8,7 +8,7 @@
     necessary: [],
     scripts: [],
     mob: [
-      composite_tag: "mishka_tree_select",
+      composite_tag: "tree_select",
       function: "tree_select",
       kit: ["event"]
     ]

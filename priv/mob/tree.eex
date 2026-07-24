@@ -65,7 +65,7 @@ defmodule <%= @module %> do
 
   @indent 18
 
-  @doc "Composite expander (`<MishkaTree />`). Delegates to `tree/1`."
+  @doc "Composite expander (`<<%= @module_prefix_camel %>Tree />`). Delegates to `tree/1`."
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, _children, _ctx), do: <%= @component_prefix %>tree(props)
 

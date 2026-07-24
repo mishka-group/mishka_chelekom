@@ -40,7 +40,7 @@ defmodule <%= @module %> do
 
   import Mob.Sigil
 
-  @doc "Composite expander (`<MishkaRollingNumber />`)."
+  @doc "Composite expander (`<<%= @module_prefix_camel %>RollingNumber />`)."
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, _children, _ctx), do: <%= @component_prefix %>rolling_number(props)
 

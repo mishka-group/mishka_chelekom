@@ -73,11 +73,14 @@ defmodule MishkaChelekom.Generators.MobTest do
       end
     end
 
-    test "the composite tag is derived from the component name, and stays stable" do
+    test "the composite tag is the UNPREFIXED base — the run supplies the prefix" do
+      # The catalog is written at sync time, long before any consumer's prefix is
+      # known, so it can only record the base. `--module-prefix acme_` then
+      # registers :acme_chip.
       for path <- @catalogs do
         {name, config} = config(path)
 
-        assert get_in(config, [:mob, :composite_tag]) == "mishka_#{name}"
+        assert get_in(config, [:mob, :composite_tag]) == name
       end
     end
 
@@ -133,10 +136,16 @@ defmodule MishkaChelekom.Generators.MobTest do
       end
     end
 
-    test "kit modules are never module-prefixed" do
+    test "kit modules define an unprefixed module, even though their docs are prefixed" do
+      # Event and Color are shared, so the modules themselves are never prefixed.
+      # Their moduledocs do name components (`<MishkaDrawer />`), and those tags
+      # follow the run's prefix like everything else.
       for path <- Path.wildcard("priv/mob/kit/*.eex") do
-        refute File.read!(path) =~ "@module_prefix_camel",
-               "#{Path.basename(path)} would be prefixed; kit modules are shared"
+        source = File.read!(path)
+        name = Path.basename(path, ".eex")
+
+        assert source =~ "defmodule <%= @namespace %>.#{Macro.camelize(name)} do",
+               "#{Path.basename(path)} should define an unprefixed module"
       end
     end
   end
@@ -186,9 +195,10 @@ defmodule MishkaChelekom.Generators.MobTest do
       refute template =~ "MishkaMob"
     end
 
-    test "leaves a composite tag in the docs alone" do
-      # `<MishkaChip />` is markup, not a module: the tag stays mishka_* whatever
-      # the module prefix, because that is what the registry registers.
+    test "a composite tag in the docs follows the prefix, like every other name" do
+      # `<MishkaChip />` is markup, and the tag it names is prefixed with the same
+      # `--module-prefix` as the module — so the doc has to move with it, or it
+      # documents a tag the app never registers.
       source = """
       defmodule MishkaMob.Components.MishkaChip do
         @doc "Composite expander (`<MishkaChip />`)."
@@ -196,7 +206,8 @@ defmodule MishkaChelekom.Generators.MobTest do
       end
       """
 
-      assert Mob.templatize(source, component: "chip") =~ "`<MishkaChip />`"
+      assert Mob.templatize(source, component: "chip") =~
+               "`<<%= @module_prefix_camel %>Chip />`"
     end
 
     test "appends a companion module into the same file" do

@@ -8,7 +8,7 @@
     necessary: ["menu"],
     scripts: [],
     mob: [
-      composite_tag: "mishka_context_menu",
+      composite_tag: "context_menu",
       function: "context_menu",
       kit: []
     ]

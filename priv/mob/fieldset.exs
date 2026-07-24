@@ -8,7 +8,7 @@
     necessary: [],
     scripts: [],
     mob: [
-      composite_tag: "mishka_fieldset",
+      composite_tag: "fieldset",
       function: "fieldset",
       kit: []
     ]

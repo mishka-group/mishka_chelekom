@@ -32,7 +32,7 @@ defmodule <%= @module %> do
 
   alias <%= @namespace %>.Event
 
-  @doc "Composite expander (`<MishkaBurger />`). Delegates to `burger/1`."
+  @doc "Composite expander (`<<%= @module_prefix_camel %>Burger />`). Delegates to `burger/1`."
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, _children, _ctx), do: <%= @component_prefix %>burger(props)
 

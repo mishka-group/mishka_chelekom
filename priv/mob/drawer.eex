@@ -2,7 +2,7 @@ defmodule <%= @module %> do
   @moduledoc """
   Native Mob port of Mishka Chelekom's **Drawer** — an edge-anchored panel
   that slides in over a dimmed backdrop. Built as a pure-Elixir
-  `Mob.Composite` (a custom `<MishkaDrawer>` tag), so it ships **no native
+  `Mob.Composite` (a custom `<<%= @module_prefix_camel %>Drawer>` tag), so it ships **no native
   Swift/Kotlin** — it expands into Mob's built-in `Box`/`Row`/`Column`
   widgets at render time.
 

@@ -43,7 +43,7 @@ defmodule <%= @module %> do
 
   @extent 320
 
-  @doc "Composite expander (`<MishkaSplitter>`). The first two children are the panes."
+  @doc "Composite expander (`<<%= @module_prefix_camel %>Splitter>`). The first two children are the panes."
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, children, _ctx), do: <%= @component_prefix %>splitter(props, children)
 

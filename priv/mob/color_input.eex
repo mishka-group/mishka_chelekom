@@ -57,7 +57,7 @@ defmodule <%= @module %> do
 
   @default "#3b82f6"
 
-  @doc "Composite expander (`<MishkaColorInput />`). Delegates to `color_input/1`."
+  @doc "Composite expander (`<<%= @module_prefix_camel %>ColorInput />`). Delegates to `color_input/1`."
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, _children, _ctx), do: <%= @component_prefix %>color_input(props)
 

@@ -36,7 +36,7 @@ defmodule <%= @module %> do
 
   alias <%= @namespace %>.Event
 
-  @doc "Composite expander (`<MishkaActionIcon>`). Children override the glyph."
+  @doc "Composite expander (`<<%= @module_prefix_camel %>ActionIcon>`). Children override the glyph."
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, children, _ctx), do: <%= @component_prefix %>action_icon(props, children)
 

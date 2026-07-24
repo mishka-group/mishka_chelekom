@@ -8,7 +8,7 @@
     necessary: [],
     scripts: [],
     mob: [
-      composite_tag: "mishka_number_formatter",
+      composite_tag: "number_formatter",
       function: "number_formatter",
       kit: []
     ]

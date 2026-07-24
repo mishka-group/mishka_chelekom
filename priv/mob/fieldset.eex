@@ -27,7 +27,7 @@ defmodule <%= @module %> do
 
   import Mob.Sigil
 
-  @doc "Composite expander (`<MishkaFieldset>`). Children are the controls."
+  @doc "Composite expander (`<<%= @module_prefix_camel %>Fieldset>`). Children are the controls."
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, children, _ctx), do: <%= @component_prefix %>fieldset(props, children)
 

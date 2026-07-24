@@ -32,7 +32,7 @@ defmodule <%= @module %> do
 
   alias <%= @namespace %>.Event
 
-  @doc "Composite expander (`<MishkaTreeSelect>`). Children become the panel."
+  @doc "Composite expander (`<<%= @module_prefix_camel %>TreeSelect>`). Children become the panel."
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, children, _ctx), do: <%= @component_prefix %>tree_select(props, children)
 

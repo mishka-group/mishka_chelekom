@@ -8,7 +8,7 @@
     necessary: ["action_icon", "scroll_area"],
     scripts: [],
     mob: [
-      composite_tag: "mishka_scroller",
+      composite_tag: "scroller",
       function: "scroller",
       kit: []
     ]

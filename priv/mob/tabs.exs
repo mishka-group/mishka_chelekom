@@ -8,7 +8,7 @@
     necessary: [],
     scripts: [],
     mob: [
-      composite_tag: "mishka_tabs",
+      composite_tag: "tabs",
       function: "tabs",
       kit: ["event"]
     ]

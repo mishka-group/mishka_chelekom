@@ -8,7 +8,7 @@
     necessary: [],
     scripts: [],
     mob: [
-      composite_tag: "mishka_angle_slider",
+      composite_tag: "angle_slider",
       function: "angle_slider",
       kit: ["color", "event"]
     ]

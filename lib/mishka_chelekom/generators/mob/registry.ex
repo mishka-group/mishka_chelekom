@@ -4,8 +4,13 @@ defmodule MishkaChelekom.Generators.Mob.Registry do
   component as a `Mob.Composite` tag.
 
   Without registration a component still works when called as a function, but
-  `<MishkaDrawer>` in `~MOB` markup does not resolve. Registering is one line per
+  `<Drawer>` in `~MOB` markup does not resolve. Registering is one line per
   component, and forgetting it produces markup that renders nothing with no error.
+
+  The tag follows the run's `--module-prefix`: none gives `:drawer`,
+  `--module-prefix acme_` gives `:acme_drawer`. Tags are global to
+  `Mob.Composite`, so prefixing is also how an app avoids colliding with a
+  composite it already owns.
 
   ## Rebuilt, not appended
 
@@ -60,12 +65,13 @@ defmodule MishkaChelekom.Generators.Mob.Registry do
     # What this run created wins over what the directory implies: it carries the
     # real module, including a custom --module, which no filename can express.
     recorded = Map.get(igniter.assigns, :mob_registered, [])
+    prefix = Map.get(igniter.assigns, :module_prefix, "")
 
     from_disk = scanned_entries(igniter, known)
 
     recorded
     |> Enum.filter(fn {component, _module} -> MapSet.member?(known, component) end)
-    |> Enum.map(fn {component, module} -> {tag(component), module} end)
+    |> Enum.map(fn {component, module} -> {tag(component, prefix), module} end)
     |> Enum.concat(from_disk)
     |> Enum.uniq_by(&elem(&1, 0))
     |> Enum.sort()
@@ -87,7 +93,7 @@ defmodule MishkaChelekom.Generators.Mob.Registry do
           []
 
         component ->
-          [{tag(component), Core.module_atom("#{igniter.assigns.mob_namespace}.#{file}")}]
+          [{tag(component, prefix), Core.module_atom("#{igniter.assigns.mob_namespace}.#{file}")}]
       end
     end)
   end
@@ -102,7 +108,12 @@ defmodule MishkaChelekom.Generators.Mob.Registry do
     end
   end
 
-  defp tag(component), do: String.to_atom("mishka_#{component}")
+  # The tag follows `--module-prefix`, so `<AcmeChip />` renders AcmeChip and
+  # `<Chip />` renders Chip. With no prefix the tag is the bare component name,
+  # which can collide with a composite the app already registered under that
+  # name — Mob.Composite's table is global. That is the trade the flag exists
+  # for: prefix your components and the tags are namespaced with them.
+  defp tag(component, prefix), do: String.to_atom("#{prefix}#{component}")
 
   defp pending(igniter, dir) do
     igniter.rewrite.sources

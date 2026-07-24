@@ -38,7 +38,7 @@ defmodule <%= @module %> do
 
   alias <%= @namespace %>.<%= @module_prefix_camel %>Progress
 
-  @doc "Composite expander (`<MishkaSemiCircleProgress />`)."
+  @doc "Composite expander (`<<%= @module_prefix_camel %>SemiCircleProgress />`)."
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, _children, _ctx), do: <%= @component_prefix %>semi_circle_progress(props)
 

@@ -43,7 +43,7 @@ defmodule <%= @module %> do
 
   @item_type :mishka_toggle_item
 
-  @doc "Composite expander (`<MishkaToggleGroup>`). Children are items."
+  @doc "Composite expander (`<<%= @module_prefix_camel %>ToggleGroup>`). Children are items."
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, children, _ctx), do: <%= @component_prefix %>toggle_group(props, children)
 

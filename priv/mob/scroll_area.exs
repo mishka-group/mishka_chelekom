@@ -8,7 +8,7 @@
     necessary: [],
     scripts: [],
     mob: [
-      composite_tag: "mishka_scroll_area",
+      composite_tag: "scroll_area",
       function: "scroll_area",
       kit: []
     ]

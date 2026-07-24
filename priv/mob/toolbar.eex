@@ -37,7 +37,7 @@ defmodule <%= @module %> do
 
   @sep :mishka_toolbar_separator
 
-  @doc "Composite expander (`<MishkaToolbar>`). Children are the controls."
+  @doc "Composite expander (`<<%= @module_prefix_camel %>Toolbar>`). Children are the controls."
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, children, _ctx), do: <%= @component_prefix %>toolbar(props, children)
 

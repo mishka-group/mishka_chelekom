@@ -8,7 +8,7 @@
     necessary: [],
     scripts: [],
     mob: [
-      composite_tag: "mishka_slider",
+      composite_tag: "slider",
       function: "slider",
       kit: ["event"]
     ]

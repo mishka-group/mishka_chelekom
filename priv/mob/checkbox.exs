@@ -8,7 +8,7 @@
     necessary: [],
     scripts: [],
     mob: [
-      composite_tag: "mishka_checkbox",
+      composite_tag: "checkbox",
       function: "checkbox",
       kit: ["event"]
     ]

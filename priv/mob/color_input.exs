@@ -8,7 +8,7 @@
     necessary: ["color_picker"],
     scripts: [],
     mob: [
-      composite_tag: "mishka_color_input",
+      composite_tag: "color_input",
       function: "color_input",
       kit: ["color", "event"]
     ]

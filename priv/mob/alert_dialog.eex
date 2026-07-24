@@ -38,7 +38,7 @@ defmodule <%= @module %> do
   alias <%= @namespace %>.<%= @module_prefix_camel %>Dialog
 
   @doc """
-  Composite expander (`<MishkaAlertDialog>`). The tag's children are the body.
+  Composite expander (`<<%= @module_prefix_camel %>AlertDialog>`). The tag's children are the body.
   """
   @spec expand(map(), [map()], %{screen: pid()}) :: map()
   def expand(props, children, ctx), do: <%= @component_prefix %>alert_dialog(props, children, [], ctx)

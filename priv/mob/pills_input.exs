@@ -8,7 +8,7 @@
     necessary: [],
     scripts: [],
     mob: [
-      composite_tag: "mishka_pills_input",
+      composite_tag: "pills_input",
       function: "pills_input",
       kit: ["event"]
     ]

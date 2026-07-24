@@ -8,7 +8,7 @@
     necessary: ["action_icon"],
     scripts: [],
     mob: [
-      composite_tag: "mishka_toast",
+      composite_tag: "toast",
       function: "toast",
       kit: ["event"]
     ]

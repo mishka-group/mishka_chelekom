@@ -8,7 +8,7 @@
     necessary: [],
     scripts: [],
     mob: [
-      composite_tag: "mishka_switch",
+      composite_tag: "switch",
       function: "switch",
       kit: ["event"]
     ]

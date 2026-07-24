@@ -8,7 +8,7 @@
     necessary: [],
     scripts: [],
     mob: [
-      composite_tag: "mishka_alpha_slider",
+      composite_tag: "alpha_slider",
       function: "alpha_slider",
       kit: ["color", "event"]
     ]

@@ -61,7 +61,7 @@ defmodule <%= @module %> do
   @scrim 0x99_00_00_00
 
   @doc """
-  Composite expander (`<MishkaDialog>`). The tag's children are the dialog body.
+  Composite expander (`<<%= @module_prefix_camel %>Dialog>`). The tag's children are the dialog body.
   """
   @spec expand(map(), [map()], %{screen: pid()}) :: map()
   def expand(props, children, ctx), do: <%= @component_prefix %>dialog(props, children, [], ctx)

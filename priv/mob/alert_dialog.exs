@@ -8,7 +8,7 @@
     necessary: ["dialog"],
     scripts: [],
     mob: [
-      composite_tag: "mishka_alert_dialog",
+      composite_tag: "alert_dialog",
       function: "alert_dialog",
       kit: []
     ]

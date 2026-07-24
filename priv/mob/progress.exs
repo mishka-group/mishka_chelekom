@@ -8,7 +8,7 @@
     necessary: [],
     scripts: [],
     mob: [
-      composite_tag: "mishka_progress",
+      composite_tag: "progress",
       function: "progress",
       kit: []
     ]

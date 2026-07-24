@@ -47,7 +47,7 @@ defmodule <%= @module %> do
   alias <%= @namespace %>.Event
 
   @doc """
-  Composite expander (`<MishkaCollapsible>`). The tag's children are the
+  Composite expander (`<<%= @module_prefix_camel %>Collapsible>`). The tag's children are the
   collapsible region.
   """
   @spec expand(map(), [map()], map()) :: map()

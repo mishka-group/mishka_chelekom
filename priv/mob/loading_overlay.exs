@@ -8,7 +8,7 @@
     necessary: [],
     scripts: [],
     mob: [
-      composite_tag: "mishka_loading_overlay",
+      composite_tag: "loading_overlay",
       function: "loading_overlay",
       kit: []
     ]

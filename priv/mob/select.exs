@@ -8,7 +8,7 @@
     necessary: ["menu"],
     scripts: [],
     mob: [
-      composite_tag: "mishka_select",
+      composite_tag: "select",
       function: "select",
       kit: ["event"]
     ]

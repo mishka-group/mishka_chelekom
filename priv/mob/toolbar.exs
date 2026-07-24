@@ -8,7 +8,7 @@
     necessary: [],
     scripts: [],
     mob: [
-      composite_tag: "mishka_toolbar",
+      composite_tag: "toolbar",
       function: "toolbar",
       kit: []
     ]

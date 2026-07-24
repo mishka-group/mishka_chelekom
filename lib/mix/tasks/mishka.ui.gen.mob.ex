@@ -31,8 +31,14 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob do
       -time one — an alias and a call — so declining it would leave a module
       that cannot compile.
     * **the composite registry is maintained** in `lib/<app>/components.ex`, so
-      `<MishkaDrawer>` works in `~MOB` markup. Registration is idempotent — the
-      registry is rebuilt from the components present, not appended to.
+      `<Drawer>` works in `~MOB` markup. The tag follows `--module-prefix` like
+      every other generated name — no prefix gives `:drawer`, `--module-prefix
+      acme_` gives `:acme_drawer` and `<AcmeDrawer>`. Registration is idempotent:
+      the registry is rebuilt from the components present, not appended to.
+
+  Note that `Mob.Composite`'s table is global, so an unprefixed `:drawer` can
+  collide with a composite the app already registered under that name. That is
+  what `--module-prefix` is for.
 
   The shared `Event`/`Color` modules are vendored automatically when a component
   needs them (see `mix mishka.ui.gen.mob.kit`).
@@ -219,12 +225,11 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob do
     if igniter.args.options[:no_kit] || kit == [] do
       igniter
     else
-      Igniter.compose_task(igniter, "mishka.ui.gen.mob.kit", [
-        "--only",
-        Enum.join(kit, ","),
-        "--sub",
-        "--yes"
-      ])
+      args =
+        ["--only", Enum.join(kit, ","), "--sub", "--yes"]
+        |> Core.append_arg("--module-prefix", igniter.assigns.module_prefix)
+
+      Igniter.compose_task(igniter, "mishka.ui.gen.mob.kit", args)
     end
   end
 

@@ -34,6 +34,8 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob.Kit do
   ## Options
 
   * `--only` - Comma-separated kit modules, instead of all of them
+  * `--module-prefix` - Not applied to the kit modules themselves, but their docs
+    reference components, and those follow the prefix
   * `--yes` - Apply without prompts
   """
 
@@ -41,7 +43,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob.Kit do
     %Igniter.Mix.Task.Info{
       example: @example,
       group: :mishka_chelekom,
-      schema: [only: :csv, sub: :boolean]
+      schema: [only: :csv, sub: :boolean, module_prefix: :string]
     }
   end
 
@@ -98,12 +100,16 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob.Kit do
       if File.exists?(template) do
         namespace = acc.assigns.mob_namespace
 
+        # Core.module_atom, not Module.concat: the latter yields an
+        # `Elixir.`-prefixed atom that a template would interpolate verbatim.
+        module = Core.module_atom("#{namespace}.#{kit}")
+
         acc
         |> Core.track_generated_file(Mob.Locations.kit_path(acc, kit))
         |> Igniter.copy_template(
           template,
           Mob.Locations.kit_path(acc, kit),
-          Mob.eex_assigns(Module.concat([namespace, Macro.camelize(kit)]), namespace),
+          Mob.eex_assigns(module, namespace, module_prefix_camel: kit_prefix_camel(acc)),
           on_exists: :overwrite
         )
       else
@@ -113,4 +119,13 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob.Kit do
   end
 
   defp write_kit_modules(igniter), do: igniter
+
+  # The kit modules are never prefixed themselves, but their moduledocs name
+  # components (`<MishkaDrawer />`), and those tags follow the run's prefix.
+  defp kit_prefix_camel(igniter) do
+    igniter.args.options[:module_prefix]
+    |> Mob.Locations.normalize_prefix()
+    |> String.trim_trailing("_")
+    |> Macro.camelize()
+  end
 end

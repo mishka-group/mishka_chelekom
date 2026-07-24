@@ -8,7 +8,7 @@
     necessary: [],
     scripts: [],
     mob: [
-      composite_tag: "mishka_color_swatch",
+      composite_tag: "color_swatch",
       function: "color_swatch",
       kit: ["event"]
     ]

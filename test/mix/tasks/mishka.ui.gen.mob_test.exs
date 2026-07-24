@@ -193,31 +193,42 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.MobTest do
       registry = content(igniter, "lib/test/components.ex")
 
       assert registry =~ "defmodule Test.Components do"
-      assert registry =~ "{:mishka_chip, Test.Components.Chip}"
+      assert registry =~ "{:chip, Test.Components.Chip}"
       assert registry =~ "Mob.Composite.register(tag, {module, :expand})"
     end
 
     test "includes siblings pulled in during the same run" do
       registry = gen(["close_button", "--yes"]) |> content("lib/test/components.ex")
 
-      assert registry =~ "{:mishka_action_icon,"
-      assert registry =~ "{:mishka_close_button,"
+      assert registry =~ "{:action_icon,"
+      assert registry =~ "{:close_button,"
     end
 
-    test "the tag stays mishka_* even when the module is prefixed" do
-      # The tag is the markup API; rewriting it would document a tag the app
-      # never registers.
-      registry =
+    test "the tag follows --module-prefix, exactly like the module does" do
+      bare = gen(["chip", "--yes"]) |> content("lib/test/components.ex")
+
+      mishka =
         gen(["chip", "--module-prefix", "mishka_", "--yes"]) |> content("lib/test/components.ex")
 
-      assert registry =~ "{:mishka_chip, Test.Components.MishkaChip}"
+      acme =
+        gen(["chip", "--module-prefix", "acme_", "--yes"]) |> content("lib/test/components.ex")
+
+      assert bare =~ "{:chip, Test.Components.Chip}"
+      assert mishka =~ "{:mishka_chip, Test.Components.MishkaChip}"
+      assert acme =~ "{:acme_chip, Test.Components.AcmeChip}"
+    end
+
+    test "the generated docs name the tag the app actually registers" do
+      acme = gen(["chip", "--module-prefix", "acme_", "--yes"])
+
+      assert content(acme, "lib/test/components/acme_chip.ex") =~ "`<AcmeChip />`"
     end
 
     test "never lists the kit modules as components" do
       registry = gen(["hue_slider", "--yes"]) |> content("lib/test/components.ex")
 
-      refute registry =~ ":mishka_event"
-      refute registry =~ ":mishka_color,"
+      refute registry =~ ":event,"
+      refute registry =~ ":color,"
     end
 
     test "names the module --module actually created, not one guessed from the filename" do
@@ -225,8 +236,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.MobTest do
       # --module produced an entry pointing at a module that does not exist.
       igniter = gen(["chip", "--module", "my_app.widgets.chip", "--yes"])
 
-      assert content(igniter, "lib/test/components.ex") =~
-               "{:mishka_chip, MyApp.Widgets.Chip}"
+      assert content(igniter, "lib/test/components.ex") =~ "{:chip, MyApp.Widgets.Chip}"
     end
 
     test "--no-register leaves it alone" do

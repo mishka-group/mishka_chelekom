@@ -48,7 +48,7 @@ defmodule <%= @module %> do
 
   @option :mishka_select_option
 
-  @doc "Composite expander (`<MishkaSelect>`). Children are options."
+  @doc "Composite expander (`<<%= @module_prefix_camel %>Select>`). Children are options."
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, children, _ctx), do: <%= @component_prefix %>select(props, children)
 

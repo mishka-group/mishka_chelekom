@@ -20,7 +20,7 @@ defmodule <%= @module %> do
 
   alias <%= @namespace %>.<%= @module_prefix_camel %>ActionIcon
 
-  @doc "Composite expander (`<MishkaCloseButton />`). Children override the ✕."
+  @doc "Composite expander (`<<%= @module_prefix_camel %>CloseButton />`). Children override the ✕."
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, children, _ctx), do: <%= @component_prefix %>close_button(props, children)
 

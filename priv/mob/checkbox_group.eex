@@ -46,7 +46,7 @@ defmodule <%= @module %> do
 
   @item_type :mishka_checkbox_item
 
-  @doc "Composite expander (`<MishkaCheckboxGroup>`). Children are items."
+  @doc "Composite expander (`<<%= @module_prefix_camel %>CheckboxGroup>`). Children are items."
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, children, _ctx), do: <%= @component_prefix %>checkbox_group(props, children)
 

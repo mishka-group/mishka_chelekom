@@ -8,7 +8,7 @@
     necessary: ["action_icon"],
     scripts: [],
     mob: [
-      composite_tag: "mishka_close_button",
+      composite_tag: "close_button",
       function: "close_button",
       kit: []
     ]

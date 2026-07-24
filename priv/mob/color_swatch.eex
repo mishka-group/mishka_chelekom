@@ -33,7 +33,7 @@ defmodule <%= @module %> do
   @light 0xFF_E5_E7_EB
   @dark 0xFF_9C_A3_AF
 
-  @doc "Composite expander (`<MishkaColorSwatch>`). Children overlay the swatch."
+  @doc "Composite expander (`<<%= @module_prefix_camel %>ColorSwatch>`). Children overlay the swatch."
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, children, _ctx), do: <%= @component_prefix %>color_swatch(props, children)
 

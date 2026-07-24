@@ -35,7 +35,7 @@ defmodule <%= @module %> do
 
   alias <%= @namespace %>.Event
 
-  @doc "Composite expander (`<MishkaJsonInput />`). Delegates to `json_input/1`."
+  @doc "Composite expander (`<<%= @module_prefix_camel %>JsonInput />`). Delegates to `json_input/1`."
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, _children, _ctx), do: <%= @component_prefix %>json_input(props)
 

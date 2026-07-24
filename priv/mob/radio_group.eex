@@ -45,7 +45,7 @@ defmodule <%= @module %> do
 
   @option_type :mishka_radio_option
 
-  @doc "Composite expander (`<MishkaRadioGroup>`). Children are options."
+  @doc "Composite expander (`<<%= @module_prefix_camel %>RadioGroup>`). Children are options."
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, children, _ctx), do: <%= @component_prefix %>radio_group(props, children)
 

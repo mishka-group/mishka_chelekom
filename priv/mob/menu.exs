@@ -8,7 +8,7 @@
     necessary: ["popover"],
     scripts: [],
     mob: [
-      composite_tag: "mishka_menu",
+      composite_tag: "menu",
       function: "menu",
       kit: ["event"]
     ]

@@ -13,7 +13,7 @@
     necessary: ["progress"],
     scripts: [],
     mob: [
-      composite_tag: "mishka_semi_circle_progress",
+      composite_tag: "semi_circle_progress",
       function: "semi_circle_progress",
       kit: []
     ]

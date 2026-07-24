@@ -8,7 +8,7 @@
     necessary: [],
     scripts: [],
     mob: [
-      composite_tag: "mishka_collapsible",
+      composite_tag: "collapsible",
       function: "collapsible",
       kit: ["event"]
     ]

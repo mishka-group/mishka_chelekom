@@ -35,7 +35,7 @@ defmodule <%= @module %> do
   @absorb :__mishka_loading_ignore
   @scrim 0xCC_FF_FF_FF
 
-  @doc "Composite expander (`<MishkaLoadingOverlay>`). Children replace the indicator."
+  @doc "Composite expander (`<<%= @module_prefix_camel %>LoadingOverlay>`). Children replace the indicator."
   @spec expand(map(), [map()], %{screen: pid()}) :: map()
   def expand(props, children, ctx), do: <%= @component_prefix %>loading_overlay(props, children, ctx)
 

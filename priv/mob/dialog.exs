@@ -8,7 +8,7 @@
     necessary: [],
     scripts: [],
     mob: [
-      composite_tag: "mishka_dialog",
+      composite_tag: "dialog",
       function: "dialog",
       kit: ["event"]
     ]

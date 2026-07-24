@@ -8,7 +8,7 @@
     necessary: [],
     scripts: [],
     mob: [
-      composite_tag: "mishka_visually_hidden",
+      composite_tag: "visually_hidden",
       function: "visually_hidden",
       kit: []
     ]

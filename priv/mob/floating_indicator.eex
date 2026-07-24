@@ -36,7 +36,7 @@ defmodule <%= @module %> do
 
   alias <%= @namespace %>.Event
 
-  @doc "Composite expander (`<MishkaFloatingIndicator />`). Delegates to `floating_indicator/1`."
+  @doc "Composite expander (`<<%= @module_prefix_camel %>FloatingIndicator />`). Delegates to `floating_indicator/1`."
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, _children, _ctx), do: <%= @component_prefix %>floating_indicator(props)
 

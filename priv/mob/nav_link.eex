@@ -32,7 +32,7 @@ defmodule <%= @module %> do
 
   alias <%= @namespace %>.Event
 
-  @doc "Composite expander (`<MishkaNavLink>`). Children are the nested links."
+  @doc "Composite expander (`<<%= @module_prefix_camel %>NavLink>`). Children are the nested links."
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, children, _ctx), do: <%= @component_prefix %>nav_link(props, children)
 

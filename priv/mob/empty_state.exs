@@ -8,7 +8,7 @@
     necessary: [],
     scripts: [],
     mob: [
-      composite_tag: "mishka_empty_state",
+      composite_tag: "empty_state",
       function: "empty_state",
       kit: []
     ]

@@ -45,7 +45,7 @@ defmodule <%= @module %> do
 
   @option_type :mishka_segment
 
-  @doc "Composite expander (`<MishkaSegmentedControl>`). Children are options."
+  @doc "Composite expander (`<<%= @module_prefix_camel %>SegmentedControl>`). Children are options."
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, children, _ctx), do: <%= @component_prefix %>segmented_control(props, children)
 

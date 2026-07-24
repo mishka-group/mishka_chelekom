@@ -40,7 +40,7 @@ defmodule <%= @module %> do
 
   alias <%= @namespace %>.Event
 
-  @doc "Composite expander (`<MishkaNumberField />`)."
+  @doc "Composite expander (`<<%= @module_prefix_camel %>NumberField />`)."
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, _children, _ctx), do: <%= @component_prefix %>number_field(props)
 

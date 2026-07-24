@@ -62,7 +62,7 @@ defmodule <%= @module %> do
   @tab_type :mishka_tab
 
   @doc """
-  Composite expander (`<MishkaTabs>`). Children are `:mishka_tab` nodes.
+  Composite expander (`<<%= @module_prefix_camel %>Tabs>`). Children are `:mishka_tab` nodes.
   """
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, children, _ctx), do: <%= @component_prefix %>tabs(props, children)

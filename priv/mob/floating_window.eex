@@ -40,7 +40,7 @@ defmodule <%= @module %> do
 
   alias <%= @namespace %>.{Color, Event}
 
-  @doc "Composite expander (`<MishkaFloatingWindow>`). Children are the body."
+  @doc "Composite expander (`<<%= @module_prefix_camel %>FloatingWindow>`). Children are the body."
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, children, _ctx), do: <%= @component_prefix %>floating_window(props, children)
 

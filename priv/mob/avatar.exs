@@ -8,7 +8,7 @@
     necessary: [],
     scripts: [],
     mob: [
-      composite_tag: "mishka_avatar",
+      composite_tag: "avatar",
       function: "avatar",
       kit: []
     ]

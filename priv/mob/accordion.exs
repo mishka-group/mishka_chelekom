@@ -8,7 +8,7 @@
     necessary: [],
     scripts: [],
     mob: [
-      composite_tag: "mishka_accordion",
+      composite_tag: "accordion",
       function: nil,
       kit: []
     ]

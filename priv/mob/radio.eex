@@ -38,7 +38,7 @@ defmodule <%= @module %> do
 
   alias <%= @namespace %>.Event
 
-  @doc "Composite expander (`<MishkaRadio />`). Delegates to `radio/1`."
+  @doc "Composite expander (`<<%= @module_prefix_camel %>Radio />`). Delegates to `radio/1`."
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, _children, _ctx), do: <%= @component_prefix %>radio(props)
 

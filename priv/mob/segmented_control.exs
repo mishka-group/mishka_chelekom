@@ -8,7 +8,7 @@
     necessary: [],
     scripts: [],
     mob: [
-      composite_tag: "mishka_segmented_control",
+      composite_tag: "segmented_control",
       function: "segmented_control",
       kit: ["event"]
     ]

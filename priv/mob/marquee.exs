@@ -8,7 +8,7 @@
     necessary: ["scroll_area"],
     scripts: [],
     mob: [
-      composite_tag: "mishka_marquee",
+      composite_tag: "marquee",
       function: "marquee",
       kit: []
     ]

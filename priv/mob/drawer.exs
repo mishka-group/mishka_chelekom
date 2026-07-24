@@ -8,7 +8,7 @@
     necessary: [],
     scripts: [],
     mob: [
-      composite_tag: "mishka_drawer",
+      composite_tag: "drawer",
       function: nil,
       kit: []
     ]

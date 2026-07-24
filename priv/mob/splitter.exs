@@ -8,7 +8,7 @@
     necessary: [],
     scripts: [],
     mob: [
-      composite_tag: "mishka_splitter",
+      composite_tag: "splitter",
       function: "splitter",
       kit: ["color", "event"]
     ]

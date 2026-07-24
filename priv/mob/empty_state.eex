@@ -34,7 +34,7 @@ defmodule <%= @module %> do
   import Mob.Sigil
 
   @doc """
-  Composite expander (`<MishkaEmptyState>`). Children become the actions row.
+  Composite expander (`<<%= @module_prefix_camel %>EmptyState>`). Children become the actions row.
   """
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, children, _ctx), do: <%= @component_prefix %>empty_state(props, [], children)

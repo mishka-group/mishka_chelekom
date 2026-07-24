@@ -241,16 +241,13 @@ defmodule MishkaChelekom.Generators.Mob do
   # Alias-local names (`MishkaActionIcon.action_icon(...)`) and any remaining
   # bare reference. `MishkaMob` is already gone by here.
   #
-  # The lookbehind protects `<MishkaCloseButton />` in the docs: that is a
-  # **composite tag**, not a module. Tags stay `mishka_*` whatever the module
-  # prefix, because the tag is the markup API and the catalog registers it by
-  # that name — rewriting it would document a tag the app never registers.
+  # Composite tags in the docs (`<MishkaCloseButton />`) are rewritten too, and
+  # deliberately: the tag follows the module prefix, exactly like every other
+  # generated name. A run with `--module-prefix acme_` registers
+  # `:acme_close_button` and its docs have to say `<AcmeCloseButton />`; a run
+  # with no prefix registers `:close_button` and says `<CloseButton />`.
   defp rewrite_bare_modules(source) do
-    String.replace(
-      source,
-      ~r/(?<![<\w])Mishka([A-Z][A-Za-z0-9]*)/,
-      "<%= @module_prefix_camel %>\\1"
-    )
+    String.replace(source, ~r/\bMishka([A-Z][A-Za-z0-9]*)/, "<%= @module_prefix_camel %>\\1")
   end
 
   defp rewrite_own_function(source, _component, nil), do: source
@@ -278,6 +275,10 @@ defmodule MishkaChelekom.Generators.Mob do
   @doc """
   Build the `.exs` catalog for a component.
 
+  `composite_tag` is the **unprefixed** base. The tag an app actually registers
+  is the run's module prefix plus this — `:chip`, `:mishka_chip`, `:acme_chip` —
+  and the catalog is written once at sync time, long before any prefix is known.
+
   `category` and `doc_url` are lifted from the matching headless catalog when one
   exists, so the two layers cannot describe the same component differently.
   """
@@ -299,7 +300,7 @@ defmodule MishkaChelekom.Generators.Mob do
         necessary: #{inspect(necessary)},
         scripts: [],
         mob: [
-          composite_tag: "mishka_#{component}",
+          composite_tag: "#{component}",
           function: #{inspect(function)},
           kit: #{inspect(kit)}
         ]

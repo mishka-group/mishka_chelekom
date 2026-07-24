@@ -8,7 +8,7 @@
     necessary: ["avatar", "popover"],
     scripts: [],
     mob: [
-      composite_tag: "mishka_preview_card",
+      composite_tag: "preview_card",
       function: "preview_card",
       kit: []
     ]

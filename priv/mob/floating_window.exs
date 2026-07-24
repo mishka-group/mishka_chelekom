@@ -8,7 +8,7 @@
     necessary: [],
     scripts: [],
     mob: [
-      composite_tag: "mishka_floating_window",
+      composite_tag: "floating_window",
       function: "floating_window",
       kit: ["color", "event"]
     ]

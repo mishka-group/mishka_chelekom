@@ -8,7 +8,7 @@
     necessary: [],
     scripts: [],
     mob: [
-      composite_tag: "mishka_json_input",
+      composite_tag: "json_input",
       function: "json_input",
       kit: ["event"]
     ]

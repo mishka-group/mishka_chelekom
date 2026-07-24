@@ -8,7 +8,7 @@
     necessary: [],
     scripts: [],
     mob: [
-      composite_tag: "mishka_overflow_list",
+      composite_tag: "overflow_list",
       function: "overflow_list",
       kit: ["event"]
     ]
