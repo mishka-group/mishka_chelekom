@@ -1,0 +1,161 @@
+defmodule MishkaMob.Components.MishkaMenu do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Menu** — a list of actions
+  revealed from a trigger.
+
+  Builds on `MishkaMob.Components.MishkaPopover.panel/2`, so a menu and a popover
+  are the same surface with the same radius, border and padding; the menu adds
+  the item list, separators and labels.
+
+  Positioning carries the Popover's limitation: Mob cannot anchor a floating
+  panel to a measured trigger, so the menu is **placed by the caller** — under
+  its trigger in a `Column` for a dropdown, or inside a
+  `MishkaMob.Components.MishkaDrawer` for a bottom-sheet action list, which is
+  often the better phone idiom anyway.
+
+  ## Items are children, and rows are left-aligned
+
+  `item/3`, `separator/0` and `label/1` build the children. Rows are tappable
+  boxes rather than Buttons for the reason the Drawer and Accordion document: a
+  Material Button centres its label, and a menu reads from the leading edge.
+
+  A `danger: true` item is tinted so a destructive action does not look like the
+  rest — the one visual distinction a menu genuinely needs.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `open` | boolean | `false` | Whether the menu is shown. |
+  | `on_select` | event tag (atom) | — | Sent as `{:tap, {tag, item_id}}`. |
+  | `width` | number | `nil` | Panel width. |
+  | `danger_color` | color token / ARGB int | `0xFFDC2626` | Destructive item colour. |
+  | plus everything `MishkaMob.Components.MishkaPopover` accepts | | | |
+
+  Not ported: `side`, `align`, offsets, `open_on_hover`, `delay` (no hover, no
+  anchoring) and the `id` / `*_class` attrs.
+  """
+
+  import Mob.Sigil
+
+  alias MishkaMob.Components.{Event, MishkaPopover}
+
+  @item :mishka_menu_item
+  @sep :mishka_menu_separator
+  @label :mishka_menu_label
+  @danger 0xFF_DC_26_26
+
+  @doc "Composite expander (`<MishkaMenu>`). Children are items."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, children, _ctx), do: menu(props, children)
+
+  @doc "Build one action row. Options: `:disabled`, `:danger`, `:icon`."
+  @spec item(term(), String.t(), keyword()) :: map()
+  def item(id, label, opts \\ []) do
+    %{
+      type: @item,
+      props: %{
+        id: id,
+        label: label,
+        icon: Keyword.get(opts, :icon),
+        disabled: Keyword.get(opts, :disabled, false),
+        danger: Keyword.get(opts, :danger, false)
+      },
+      children: []
+    }
+  end
+
+  @doc "A divider between groups of items."
+  @spec separator() :: map()
+  def separator, do: %{type: @sep, props: %{}, children: []}
+
+  @doc "A small heading above a group of items."
+  @spec label(String.t()) :: map()
+  def label(text), do: %{type: @label, props: %{text: text}, children: []}
+
+  @doc """
+  The menu node. Renders nothing when closed.
+
+      {menu([open: @open?, on_select: :pick], [
+        item(:edit, "Edit"),
+        separator(),
+        item(:delete, "Delete", danger: true)
+      ])}
+  """
+  @spec menu(map() | keyword(), [map()]) :: map()
+  def menu(props \\ %{}, children \\ []) do
+    props = Map.new(props)
+
+    if truthy?(Map.get(props, :open, false)) do
+      MishkaPopover.panel(Map.put_new(props, :padding, 6), rows(children, props))
+    else
+      ~MOB(<Column />)
+    end
+  end
+
+  defp rows(children, props) do
+    Enum.map(children, &row(&1, props))
+  end
+
+  defp row(%{type: @sep}, _props) do
+    ~MOB"""
+    <Column fill_width={true}>
+      <Spacer size={6} />
+      <Box fill_width={true} height={1} background={:border} />
+      <Spacer size={6} />
+    </Column>
+    """
+  end
+
+  defp row(%{type: @label, props: p}, _props) do
+    text = Map.get(p, :text)
+
+    ~MOB"""
+    <Box fill_width={true} padding={8}>
+      <Text text={text} text_size={:xs} text_color={:muted} />
+    </Box>
+    """
+  end
+
+  defp row(%{type: @item, props: item}, props) do
+    disabled? = truthy?(Map.get(item, :disabled, false))
+    icon = Map.get(item, :icon)
+
+    color =
+      cond do
+        disabled? -> :muted
+        truthy?(Map.get(item, :danger, false)) -> Map.get(props, :danger_color, @danger)
+        true -> :on_surface
+      end
+
+    node = ~MOB"""
+    <Box fill_width={true} padding={:space_sm} corner_radius={:radius_sm}>
+      <Row fill_width={true}>
+        <Text text={icon} text_size={:base} text_color={color} :if={is_binary(icon)} />
+        <Spacer size={10} :if={is_binary(icon)} />
+        <Text text={Map.get(item, :label)} text_size={:base} text_color={color} />
+      </Row>
+    </Box>
+    """
+
+    case tap(props, item, disabled?) do
+      nil -> node
+      handler -> %{node | props: Map.put(node.props, :on_tap, handler)}
+    end
+  end
+
+  defp row(other, _props), do: other
+
+  defp tap(_props, _item, true), do: nil
+
+  defp tap(props, item, _disabled) do
+    case Event.handler(Map.get(props, :on_select)) do
+      nil -> nil
+      {pid, tag} -> {pid, {tag, Map.get(item, :id)}}
+    end
+  end
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
+end
