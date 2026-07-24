@@ -22,10 +22,15 @@ defmodule MishkaChelekom.Generators.Mob.Registry do
   @doc """
   Write the registry for whatever components exist, on disk or pending in this
   Igniter run.
+
+  `:only` restricts it to the given component names. Uninstall needs that:
+  `Path.wildcard/1` reads the real filesystem, so a file Igniter is about to
+  delete is still there, and a registry built from the directory alone would
+  keep naming it.
   """
-  @spec write(Igniter.t()) :: Igniter.t()
-  def write(igniter) do
-    case entries(igniter) do
+  @spec write(Igniter.t(), keyword()) :: Igniter.t()
+  def write(igniter, opts \\ []) do
+    case entries(igniter, opts) do
       [] ->
         igniter
 
@@ -45,11 +50,16 @@ defmodule MishkaChelekom.Generators.Mob.Registry do
   run — a single `mix mishka.ui.gen.mob dialog` that pulls in siblings has to
   register all of them, and none of those exist on disk yet.
   """
-  @spec entries(Igniter.t()) :: [{atom(), module()}]
-  def entries(igniter) do
+  @spec entries(Igniter.t(), keyword()) :: [{atom(), module()}]
+  def entries(igniter, opts \\ []) do
     dir = Locations.components_dir(igniter)
-    known = MapSet.new(Core.all_component_names(igniter, :mob))
     prefix = Map.get(igniter.assigns, :module_prefix, "")
+
+    known =
+      case Keyword.get(opts, :only) do
+        nil -> MapSet.new(Core.all_component_names(igniter, :mob))
+        only -> MapSet.new(only)
+      end
 
     (Path.wildcard("#{dir}/*.ex") ++ pending(igniter, dir))
     |> Enum.map(&Path.basename(&1, ".ex"))

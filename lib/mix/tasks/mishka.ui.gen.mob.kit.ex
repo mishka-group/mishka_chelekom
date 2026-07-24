@@ -41,13 +41,18 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob.Kit do
     %Igniter.Mix.Task.Info{
       example: @example,
       group: :mishka_chelekom,
-      schema: [only: :string, sub: :boolean]
+      schema: [only: :csv, sub: :boolean]
     }
   end
 
   def supports_umbrella?(), do: false
 
   def igniter(igniter) do
+    Application.ensure_all_started(:owl)
+
+    if !igniter.args.options[:sub] and Mix.env() != :test,
+      do: Core.banner(IO.ANSI.magenta(), "Mob Kit")
+
     igniter
     |> Mob.Locations.assign_namespace()
     |> assign_requested_modules()
@@ -55,16 +60,12 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob.Kit do
   end
 
   defp assign_requested_modules(igniter) do
+    # A :csv option is `[]` when absent, not nil — matching only on nil would
+    # make a bare invocation filter down to nothing.
     requested =
       case igniter.args.options[:only] do
-        nil ->
-          Mob.kit_modules()
-
-        list ->
-          list
-          |> String.split(",", trim: true)
-          |> Enum.map(&String.trim/1)
-          |> Enum.filter(&(&1 in Mob.kit_modules()))
+        empty when empty in [nil, []] -> Mob.kit_modules()
+        list -> Enum.filter(list, &(&1 in Mob.kit_modules()))
       end
 
     case requested do

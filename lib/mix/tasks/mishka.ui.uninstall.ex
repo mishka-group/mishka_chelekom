@@ -4,6 +4,8 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   alias IgniterJs.Parsers.Javascript.Formatter, as: JsFormatter
   alias MishkaChelekom.Generators.Core
   alias MishkaChelekom.Config
+  alias MishkaChelekom.Generators.Mob.Locations, as: MobLocations
+  alias MishkaChelekom.Generators.Mob.Registry, as: MobRegistry
 
   @example "mix mishka.ui.uninstall accordion"
   @shortdoc "A Mix Task for uninstalling Mishka Chelekom components"
@@ -25,11 +27,16 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
 
   ## Options
 
-  * `--all` or `-a` - Remove all installed Mishka components. Without `--headless` this
-    removes **both** styled and headless components; combine with `--headless` to remove
-    only headless ones.
+  * `--all` or `-a` - Remove all installed Mishka components. Without `--headless` or
+    `--mob` this removes **both** styled and headless components; combine with either flag
+    to remove only that kind.
   * `--headless` - Target headless components (`lib/<app>_web/components/headless/`) instead
     of styled ones, e.g. `mix mishka.ui.uninstall accordion --headless`.
+  * `--mob` - Target native Mob components (`lib/<app>/components/`), e.g.
+    `mix mishka.ui.uninstall drawer --mob`. A Mob app has no `_web` namespace, no JS hooks
+    and no stylesheet, so the JS, npm, CSS and import-macro steps are skipped; instead the
+    composite-tag registry (`lib/<app>/components.ex`) is rewritten so it never names a
+    module that was just deleted.
   * `--dry-run` or `-d` - Preview what would be removed without making changes
   * `--yes` - Skip confirmation prompts
   * `--force` or `-f` - Force removal even if other components depend on it
@@ -53,6 +60,7 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
         all: :boolean,
         include_npm: :boolean,
         headless: :boolean,
+        mob: :boolean,
         dry_run: :boolean,
         force: :boolean,
         include_css: :boolean,
@@ -99,24 +107,31 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
       force: options[:force] == true,
       all: options[:all] == true,
       headless: options[:headless] == true,
+      mob: options[:mob] == true,
       keep_js: options[:keep_js] == true,
       include_css: options[:include_css] == true,
       include_config: options[:include_config] == true
     }
   end
 
-  # `--all` gathers every installed component. Without `--headless` that spans both
-  # styled and headless; with it, only headless.
+  # `--all` gathers every installed component. Without a kind flag that spans both styled
+  # and headless — not mob, because a Phoenix app has no mob components and a Mob app has
+  # no styled ones, so sweeping all three would only ever surprise someone.
   defp parse_components(%{assigns: %{opts: %{all: true} = opts}} = igniter, _arg) do
-    kinds = if opts.headless, do: [:headless], else: [:styled, :headless]
+    kinds =
+      case target_kind(opts) do
+        :styled -> [:styled, :headless]
+        kind -> [kind]
+      end
+
     components = Enum.flat_map(kinds, &list_installed_components(igniter, &1))
     Igniter.assign(igniter, :components, components)
   end
 
-  # Named components are tagged with the kind chosen by `--headless`.
+  # Named components are tagged with the kind chosen by `--headless` / `--mob`.
   defp parse_components(%{assigns: %{opts: opts}} = igniter, arg)
        when is_binary(arg) and arg != "" do
-    kind = if opts.headless, do: :headless, else: :styled
+    kind = target_kind(opts)
     components = arg |> String.split(",", trim: true) |> Enum.map(&{&1, kind})
     Igniter.assign(igniter, :components, components)
   end
@@ -129,9 +144,16 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
       mix mishka.ui.uninstall accordion
       mix mishka.ui.uninstall accordion,button,alert
       mix mishka.ui.uninstall accordion --headless
+      mix mishka.ui.uninstall drawer --mob
       mix mishka.ui.uninstall --all
     """)
   end
+
+  # The flags are mutually exclusive; mob wins if both are given, which only happens by
+  # mistake and is better than silently targeting neither.
+  defp target_kind(%{mob: true}), do: :mob
+  defp target_kind(%{headless: true}), do: :headless
+  defp target_kind(_), do: :styled
 
   defp handle_uninstall(%{issues: issues} = igniter) when issues != [], do: igniter
 
@@ -145,7 +167,7 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   defp print_banner, do: Core.banner(IO.ANSI.magenta(), "Uninstall")
 
   defp all_installed_components(igniter) do
-    Enum.flat_map([:styled, :headless], &list_installed_components(igniter, &1))
+    Enum.flat_map([:styled, :headless, :mob], &list_installed_components(igniter, &1))
   end
 
   defp list_installed_components(igniter, kind) do
@@ -306,6 +328,7 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     if should_proceed?(igniter.assigns.opts) do
       igniter
       |> remove_component_files()
+      |> refresh_mob_registry()
       |> remove_js_files()
       |> remove_npm_deps()
       |> update_mishka_components_js()
@@ -378,7 +401,7 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   end
 
   defp load_all_configs do
-    Enum.reduce([:styled, :headless], %{}, fn kind, acc ->
+    Enum.reduce([:styled, :headless, :mob], %{}, fn kind, acc ->
       config_paths(kind)
       |> Enum.flat_map(&Path.wildcard(Path.join(&1, "*.exs")))
       |> Enum.reduce(acc, fn path, acc2 ->
@@ -395,6 +418,12 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   # `Core.lib_priv/1` resolves the library catalogs via `:code.priv_dir/1`, which works for
   # hex deps, path deps, and umbrellas — the bare `deps/mishka_chelekom/priv/*` string only
   # works for a vanilla hex install. `priv/*` picks up host-app custom catalogs.
+  defp config_paths(:mob) do
+    ["deps/mishka_chelekom/priv/mob", Core.lib_priv("mob"), "priv/mob"]
+    |> Enum.filter(&File.dir?/1)
+    |> Enum.uniq()
+  end
+
   defp config_paths(:headless) do
     ["deps/mishka_chelekom/priv/headless", Core.lib_priv("headless"), "priv/headless"]
     |> Enum.filter(&File.dir?/1)
@@ -414,6 +443,8 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     _ -> nil
   end
 
+  defp get_components_dir(igniter, _web_module, :mob), do: mob_components_dir(igniter)
+
   defp get_components_dir(igniter, web_module, kind) do
     base =
       [web_module, "Components", "Placeholder"]
@@ -426,6 +457,9 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
       _ -> base
     end
   end
+
+  # A Mob app is a plain OTP application: `lib/<app>/components`, no `_web` anywhere.
+  defp mob_components_dir(igniter), do: MobLocations.components_dir(igniter)
 
   defp extract_npm_deps(configs) do
     configs
@@ -465,7 +499,7 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
 
   defp resolve_component_files(igniter, components, web_module, module_prefix) do
     Enum.reduce(components, {igniter, []}, fn {name, kind} = component, {ig, files} ->
-      module = build_module_name(web_module, name, module_prefix, kind)
+      module = build_module_name(ig, web_module, name, module_prefix, kind)
 
       case Igniter.Project.Module.find_module(ig, module) do
         {:ok, {ig, source, _}} ->
@@ -477,6 +511,42 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
       end
     end)
     |> then(fn {ig, files} -> {ig, Enum.reverse(files)} end)
+  end
+
+  # The composite registry names every generated Mob component. Leaving it alone after a
+  # removal is not a cosmetic problem: it would name a module that no longer exists, and the
+  # app would stop compiling. So it is rebuilt from what survives, or deleted when nothing
+  # does — the same rebuild-not-edit rule the generator follows.
+  defp refresh_mob_registry(%{assigns: %{plan: plan}} = igniter) do
+    if Enum.any?(plan.components, &match?({_, :mob}, &1)) do
+      surviving = for {name, :mob} <- plan.remaining, do: name
+
+      do_refresh_mob_registry(igniter, surviving, plan.module_prefix)
+    else
+      igniter
+    end
+  end
+
+  defp refresh_mob_registry(igniter), do: igniter
+
+  defp do_refresh_mob_registry(igniter, [], _module_prefix) do
+    path = MobLocations.registry_path(igniter)
+
+    if Igniter.exists?(igniter, path) do
+      verbose_log(igniter, "  Removing composite registry: #{path}")
+      Igniter.rm(igniter, path)
+    else
+      igniter
+    end
+  end
+
+  defp do_refresh_mob_registry(igniter, surviving, module_prefix) do
+    verbose_log(igniter, "  Rewriting composite registry for #{length(surviving)} component(s)")
+
+    igniter
+    |> MobLocations.assign_namespace()
+    |> Igniter.assign(:module_prefix, module_prefix || "")
+    |> MobRegistry.write(only: surviving)
   end
 
   defp find_dependency_warnings(configs_remaining, removing) do
@@ -502,7 +572,17 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     end)
   end
 
-  defp build_module_name(web_module, component, prefix, kind) do
+  # Module.concat, not Core.module_atom: this name is handed to
+  # Igniter.Project.Module.find_module/2, which needs a real (Elixir-prefixed)
+  # module. Core.module_atom builds the un-prefixed atom that templates
+  # interpolate as text, and find_module rejects it outright.
+  defp build_module_name(igniter, _web_module, component, prefix, :mob) do
+    name = if prefix && prefix != "", do: "#{prefix}#{component}", else: component
+
+    Module.concat([MobLocations.base_module(igniter), "Components", Core.module_atom(name)])
+  end
+
+  defp build_module_name(_igniter, web_module, component, prefix, kind) do
     name = if prefix && prefix != "", do: "#{prefix}#{component}", else: component
 
     segments =
@@ -517,6 +597,7 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   # Human label for a `{name, kind}` target — headless ones are tagged so the plan/output
   # can't be confused with a same-named styled component.
   defp label({name, :headless}), do: "#{name} (headless)"
+  defp label({name, :mob}), do: "#{name} (mob)"
   defp label({name, _}), do: name
 
   defp show_removal_plan(plan, dry_run) do
@@ -771,7 +852,7 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   defp do_update_import_macro(igniter, _path, plan, module_prefix, web_module) do
     modules_to_remove =
       Enum.map(plan.components, fn {name, kind} ->
-        build_module_name(web_module, name, module_prefix, kind)
+        build_module_name(igniter, web_module, name, module_prefix, kind)
       end)
 
     Igniter.Project.Module.find_and_update_module!(
@@ -834,7 +915,17 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
        when r != [],
        do: igniter
 
-  defp maybe_cleanup_global_import(igniter) do
+  # A Mob app has no CoreComponents and no html_helpers to clean up.
+  defp maybe_cleanup_global_import(%{assigns: %{plan: %{components: components}}} = igniter)
+       when components != [] do
+    if Enum.all?(components, &match?({_, :mob}, &1)),
+      do: igniter,
+      else: do_cleanup_global_import(igniter)
+  end
+
+  defp maybe_cleanup_global_import(igniter), do: do_cleanup_global_import(igniter)
+
+  defp do_cleanup_global_import(igniter) do
     web_module = Igniter.Libs.Phoenix.web_module(igniter)
 
     core_components_module =

@@ -57,6 +57,25 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob.ComponentsTest do
       refute igniter.rewrite.sources["lib/test/components/color.ex"]
     end
 
+    test "--only takes a comma-separated list, like every other option of its kind" do
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.compose_task(MobKit, ["--only", "event,color", "--yes"])
+
+      assert content(igniter, "lib/test/components/event.ex")
+      assert content(igniter, "lib/test/components/color.ex")
+    end
+
+    test "a bare invocation vendors everything" do
+      # A :csv option arrives as [] rather than nil when absent, so matching only
+      # on nil silently filtered the list down to nothing.
+      igniter = test_project_with_formatter() |> Igniter.compose_task(MobKit, ["--yes"])
+
+      for kit <- ~w(event color) do
+        assert content(igniter, "lib/test/components/#{kit}.ex"), "#{kit} was not vendored"
+      end
+    end
+
     test "an unknown kit module is an issue rather than a silent no-op" do
       igniter =
         test_project_with_formatter() |> Igniter.compose_task(MobKit, ["--only", "nope", "--yes"])

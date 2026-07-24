@@ -27,8 +27,9 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob do
   things happen here:
 
     * **`necessary:` does real work.** ~20 components depend on a sibling, and
-      the task offers to generate them rather than emitting code that will not
-      compile.
+      the task generates them too. It does not ask: the dependency is a compile
+      -time one — an alias and a call — so declining it would leave a module
+      that cannot compile.
     * **the composite registry is maintained** in `lib/<app>/components.ex`, so
       `<MishkaDrawer>` works in `~MOB` markup. Registration is idempotent — the
       registry is rebuilt from the components present, not appended to.
@@ -60,6 +61,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob do
       example: @example,
       positional: [:component],
       group: :mishka_chelekom,
+      composes: ["mishka.ui.gen.mob", "mishka.ui.gen.mob.kit"],
       schema: [
         module: :string,
         component_prefix: :string,
@@ -76,6 +78,10 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob do
   def supports_umbrella?(), do: false
 
   def igniter(igniter) do
+    # Owl's widget supervisor is not running under a bare `mix` invocation, so
+    # Owl.Spinner.start/1 exits with :noproc. Every Owl-using task in this repo
+    # starts it first; the tests never caught it because their setup does.
+    Application.ensure_all_started(:owl)
     %Igniter.Mix.Task.Args{positional: %{component: component}, options: options} = igniter.args
 
     print_banner(options)

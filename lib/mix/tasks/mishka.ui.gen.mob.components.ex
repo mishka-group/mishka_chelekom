@@ -42,6 +42,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob.Components do
       positional: [{:components, optional: true}],
       group: :mishka_chelekom,
       composes: ["mishka.ui.gen.mob"],
+      aliases: [e: :exclude],
       schema: [
         exclude: :csv,
         component_prefix: :string,
@@ -55,6 +56,8 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob.Components do
   def supports_umbrella?(), do: false
 
   def igniter(igniter) do
+    # See mishka.ui.gen.mob — Owl.Spinner needs its supervisor started.
+    Application.ensure_all_started(:owl)
     %Igniter.Mix.Task.Args{positional: %{components: components}, options: options} = igniter.args
 
     print_banner()
