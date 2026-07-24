@@ -1,0 +1,111 @@
+defmodule MishkaMob.Components.MishkaThemeIcon do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Theme Icon** — the light/dark
+  switcher.
+
+  The web component is only a labelled icon button; the *theming* is the app's.
+  Here it is worth a little more, because Mob has a real theme registry
+  (`Mob.Theme.set/1`), so the component knows the vocabulary: it renders one
+  option per theme and marks the active one.
+
+  Selection is still the screen's — it holds the current theme and calls
+  `Mob.Theme.set/1` — but `themes/0` and the glyphs live here so every app spells
+  "light / dark / system" the same way.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `active` | theme key | `nil` | Which option reads as current. |
+  | `options` | list of `{key, glyph, label}` | `themes/0` | The themes offered. |
+  | `on_select` | event tag (atom) | — | Sent as `{:tap, {tag, key}}`. |
+  | `show_labels` | boolean | `true` | Show the text under each glyph. |
+  | `color` | color token / ARGB int | `:primary` | Active option's tint. |
+
+  Not ported: `label` (an `aria-label`) and `id` / `*_class`.
+  """
+
+  import Mob.Sigil
+
+  alias MishkaMob.Components.Event
+
+  @themes [
+    {:light, "☀️", "Light"},
+    {:dark, "🌙", "Dark"},
+    {:system, "🖥", "System"}
+  ]
+
+  @doc "Composite expander (`<MishkaThemeIcon />`)."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, _children, _ctx), do: theme_icon(props)
+
+  @doc "The default set of themes: `{key, glyph, label}`."
+  @spec themes() :: [{atom(), String.t(), String.t()}]
+  def themes, do: @themes
+
+  @doc """
+  The theme switcher node.
+
+      theme_icon(active: @theme, on_select: :set_theme)
+  """
+  @spec theme_icon(map() | keyword()) :: map()
+  def theme_icon(props \\ %{}) do
+    props = Map.new(props)
+    active = Map.get(props, :active)
+    options = Map.get(props, :options, @themes)
+
+    chips =
+      options
+      |> Enum.map(&option(&1, props, active))
+      |> Enum.intersperse(~MOB(<Spacer size={8} />))
+
+    ~MOB"""
+    <Row fill_width={true}>
+      {chips}
+    </Row>
+    """
+  end
+
+  defp option({key, glyph, label}, props, active) do
+    on? = key == active
+    accent = Map.get(props, :color, :primary)
+    labels? = truthy?(Map.get(props, :show_labels, true))
+
+    node = ~MOB"""
+    <Box
+      weight={1}
+      background={if(on?, do: accent, else: :surface_raised)}
+      corner_radius={:radius_md}
+      padding={:space_sm}
+      align={:center}
+    >
+      <Column align={:center}>
+        <Text text={glyph} text_size={:lg} />
+        <Spacer size={4} :if={labels?} />
+        <Text
+          text={label}
+          text_size={:xs}
+          text_color={if(on?, do: :on_primary, else: :on_surface)}
+          :if={labels?}
+        />
+      </Column>
+    </Box>
+    """
+
+    case tap_target(props, key) do
+      nil -> node
+      handler -> %{node | props: Map.put(node.props, :on_tap, handler)}
+    end
+  end
+
+  defp tap_target(props, key) do
+    case Event.handler(Map.get(props, :on_select)) do
+      nil -> nil
+      {pid, tag} -> {pid, {tag, key}}
+    end
+  end
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
+end
