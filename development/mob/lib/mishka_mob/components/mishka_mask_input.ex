@@ -1,0 +1,156 @@
+defmodule MishkaMob.Components.MishkaMaskInput do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Mask Input** — a text field
+  that formats itself to a pattern as you type.
+
+  Pattern tokens match the web component: `9` a digit, `a` a letter, `*` an
+  alphanumeric, and **every other character is a literal** inserted
+  automatically — `(999) 999-9999`, `99/99/9999`, `aaa-9999`.
+
+  ## The mask is a pure function, and that is the whole component
+
+  The web version re-formats on every keystroke inside a JS hook. Here
+  `apply_mask/2` does it, and the screen calls it from `handle_change/3`:
+
+      def handle_info({:change, :phone, raw}, socket) do
+        {:noreply, Mob.Socket.assign(socket, :phone, MishkaMaskInput.apply_mask(raw, "(999) 999-9999"))}
+      end
+
+  That keeps the formatting testable — and it has to be, because the awkward
+  cases are the point: a user deleting back through a literal must not have it
+  re-inserted ahead of them, and pasting an already-formatted value must not
+  double its punctuation. `apply_mask/2` therefore works from the input's
+  **significant characters only**, discarding literals before re-laying them out,
+  so formatting is idempotent.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `value` | string | `""` | The masked value. |
+  | `mask` | string | `nil` | The pattern. Without one it is a plain field. |
+  | `placeholder` | string | the mask | Shown while empty. |
+  | `keyboard` | string | derived | `"number"` when the mask is all digits. |
+  | `disabled` | boolean | `false` | Mutes and unwires. |
+  | `on_change` | event tag (atom) | — | `{:change, tag, text}` with the RAW text — mask it in the handler. |
+
+  Not ported: `name` (form plumbing), `inputmode` (derived here) and
+  `id` / `class`.
+  """
+
+  import Mob.Sigil
+
+  alias MishkaMob.Components.Event
+
+  @doc "Composite expander (`<MishkaMaskInput />`)."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, _children, _ctx), do: mask_input(props)
+
+  @doc """
+  Format `input` to `mask`.
+
+  Literals are re-derived rather than preserved, so applying a mask to an
+  already-masked value is a no-op and deleting through a literal does not fight
+  the user.
+
+      iex> MishkaMob.Components.MishkaMaskInput.apply_mask("5551234567", "(999) 999-9999")
+      "(555) 123-4567"
+
+      iex> MishkaMob.Components.MishkaMaskInput.apply_mask("(555) 123-4567", "(999) 999-9999")
+      "(555) 123-4567"
+
+      iex> MishkaMob.Components.MishkaMaskInput.apply_mask("555", "(999) 999-9999")
+      "(555"
+
+      iex> MishkaMob.Components.MishkaMaskInput.apply_mask("abc1234", "aaa-9999")
+      "abc-1234"
+
+      iex> MishkaMob.Components.MishkaMaskInput.apply_mask("", "99/99")
+      ""
+  """
+  @spec apply_mask(String.t() | nil, String.t() | nil) :: String.t()
+  def apply_mask(nil, _mask), do: ""
+  def apply_mask(input, nil), do: input
+  def apply_mask(input, ""), do: input
+
+  def apply_mask(input, mask) do
+    # Work from significant characters only: literals in the input are dropped
+    # and re-inserted from the mask, which makes the operation idempotent.
+    significant = input |> String.graphemes() |> Enum.filter(&significant?/1)
+
+    mask
+    |> String.graphemes()
+    |> consume(significant, [])
+    |> Enum.reverse()
+    |> Enum.join()
+  end
+
+  @doc """
+  The characters a mask would keep from a value — the unformatted payload.
+
+      iex> MishkaMob.Components.MishkaMaskInput.strip("(555) 123-4567")
+      "5551234567"
+  """
+  @spec strip(String.t() | nil) :: String.t()
+  def strip(nil), do: ""
+  def strip(value), do: value |> String.graphemes() |> Enum.filter(&significant?/1) |> Enum.join()
+
+  @doc "The mask-input node."
+  @spec mask_input(map() | keyword()) :: map()
+  def mask_input(props \\ %{}) do
+    props = Map.new(props)
+    mask = Map.get(props, :mask)
+    disabled? = truthy?(Map.get(props, :disabled, false))
+
+    node = ~MOB"""
+    <TextField
+      value={Map.get(props, :value, "")}
+      placeholder={Map.get(props, :placeholder) || mask || ""}
+      keyboard={Map.get(props, :keyboard) || keyboard_for(mask)}
+      fill_width={true}
+      background={:surface}
+      corner_radius={:radius_sm}
+      padding={:space_sm}
+      border_color={:border}
+      border_width={1}
+    />
+    """
+
+    case handler(props, disabled?) do
+      nil -> node
+      tap -> %{node | props: Map.put(node.props, :on_change, tap)}
+    end
+  end
+
+  # Walk the mask; literals are emitted while characters remain, tokens consume.
+  defp consume(_mask, [], acc), do: acc
+  defp consume([], _chars, acc), do: acc
+
+  defp consume([token | mask], [char | rest] = chars, acc) do
+    cond do
+      token in ["9", "a", "*"] and matches?(char, token) -> consume(mask, rest, [char | acc])
+      token in ["9", "a", "*"] -> consume([token | mask], rest, acc)
+      true -> consume(mask, chars, [token | acc])
+    end
+  end
+
+  defp matches?(char, "9"), do: char =~ ~r/^[0-9]$/
+  defp matches?(char, "a"), do: char =~ ~r/^[A-Za-z]$/
+  defp matches?(char, _star), do: char =~ ~r/^[A-Za-z0-9]$/
+
+  defp significant?(char), do: char =~ ~r/^[A-Za-z0-9]$/
+
+  defp keyboard_for(nil), do: "text"
+
+  defp keyboard_for(mask) do
+    tokens = mask |> String.graphemes() |> Enum.filter(&(&1 in ["9", "a", "*"]))
+    if tokens != [] and Enum.all?(tokens, &(&1 == "9")), do: "number", else: "text"
+  end
+
+  defp handler(_props, true), do: nil
+  defp handler(props, _), do: Event.handler(Map.get(props, :on_change))
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
+end

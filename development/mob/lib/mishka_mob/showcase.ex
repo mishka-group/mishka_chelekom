@@ -173,7 +173,9 @@ defmodule MishkaMob.Showcase do
      MishkaMob.Components.MishkaThemeIcon},
     {MishkaMob.Showcase.Components.Field, :mishka_field, MishkaMob.Components.MishkaField},
     {MishkaMob.Showcase.Components.NumberField, :mishka_number_field,
-     MishkaMob.Components.MishkaNumberField}
+     MishkaMob.Components.MishkaNumberField},
+    {MishkaMob.Showcase.Components.OtpField, :mishka_otp_field,
+     MishkaMob.Components.MishkaOtpField}
   ]
 
   @doc "Every showcase component module, in catalog order."
