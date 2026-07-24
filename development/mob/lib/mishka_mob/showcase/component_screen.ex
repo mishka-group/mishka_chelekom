@@ -101,6 +101,14 @@ defmodule MishkaMob.Showcase.ComponentScreen do
     end
   end
 
+  # A submit (return key) carries no payload — route it like a tap.
+  def handle_info({:submit, tag}, socket) do
+    case socket.assigns.entry do
+      nil -> {:noreply, socket}
+      entry -> {:noreply, entry.module.handle(tag, socket)}
+    end
+  end
+
   # Value-carrying events from Toggle / Slider / TextField widgets.
   def handle_info({:change, tag, value}, socket) do
     case socket.assigns.entry do

@@ -175,7 +175,9 @@ defmodule MishkaMob.Showcase do
     {MishkaMob.Showcase.Components.NumberField, :mishka_number_field,
      MishkaMob.Components.MishkaNumberField},
     {MishkaMob.Showcase.Components.OtpField, :mishka_otp_field,
-     MishkaMob.Components.MishkaOtpField}
+     MishkaMob.Components.MishkaOtpField},
+    {MishkaMob.Showcase.Components.TagsInput, :mishka_tags_input,
+     MishkaMob.Components.MishkaTagsInput}
   ]
 
   @doc "Every showcase component module, in catalog order."
