@@ -38,7 +38,14 @@ defmodule MishkaMob.Components.MishkaSwitchTest do
 
       assert props.label == "Wi-Fi"
       assert props.color == 0xFF7C3AED
-      assert props.on_change == :wifi
+    end
+
+    test "a bare tag is widened to {pid, tag} — a bare atom never registers" do
+      assert MishkaSwitch.switch(on_change: :wifi).props.on_change == {self(), :wifi}
+    end
+
+    test "an already-wired handler is left alone" do
+      assert MishkaSwitch.switch(on_change: {self(), :wifi}).props.on_change == {self(), :wifi}
     end
   end
 
@@ -53,7 +60,7 @@ defmodule MishkaMob.Components.MishkaSwitchTest do
     end
 
     test "disabled: false keeps the handler" do
-      assert MishkaSwitch.switch(on_change: :x, disabled: false).props.on_change == :x
+      assert MishkaSwitch.switch(on_change: :x, disabled: false).props.on_change == {self(), :x}
     end
   end
 

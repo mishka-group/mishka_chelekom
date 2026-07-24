@@ -29,8 +29,15 @@ defmodule MishkaMob.ShowcaseTest do
       categories = Enum.map(grouped, fn {category, _} -> category end)
 
       assert categories == Enum.sort(categories)
-      assert Enum.any?(grouped, &match?({"Disclosure", [%{slug: :accordion}]}, &1))
-      assert Enum.any?(grouped, &match?({"Overlays", [%{slug: :drawer}]}, &1))
+
+      # each component lands under the category its own entry declares
+      for module <- Showcase.modules() do
+        entry = module.entry()
+        {_category, entries} = Enum.find(grouped, fn {c, _} -> c == entry.category end)
+
+        assert Enum.any?(entries, &(&1.slug == entry.slug)),
+               "#{inspect(module)} is missing from #{entry.category}"
+      end
 
       # every registered component lands in exactly one group
       slugs = Enum.flat_map(grouped, fn {_, entries} -> Enum.map(entries, & &1.slug) end)

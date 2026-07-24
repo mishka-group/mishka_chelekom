@@ -46,6 +46,8 @@ defmodule MishkaMob.Components.MishkaSwitch do
 
   import Mob.Sigil
 
+  alias MishkaMob.Components.Event
+
   @doc "Composite expander (`<MishkaSwitch />`). Delegates to `switch/1`."
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, _children, _ctx), do: switch(props)
@@ -70,8 +72,13 @@ defmodule MishkaMob.Components.MishkaSwitch do
 
   # A disabled switch keeps its handler off, which is what makes it inert:
   # `Toggle` is controlled, so with nothing listening the thumb cannot move.
+  # Everything else is widened to {pid, tag} — see MishkaMob.Components.Event.
   defp handler(props) do
-    if truthy?(Map.get(props, :disabled, false)), do: nil, else: Map.get(props, :on_change)
+    if truthy?(Map.get(props, :disabled, false)) do
+      nil
+    else
+      Event.handler(Map.get(props, :on_change))
+    end
   end
 
   defp put_prop(node, _key, nil), do: node
