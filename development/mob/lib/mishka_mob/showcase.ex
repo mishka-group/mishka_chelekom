@@ -119,7 +119,9 @@ defmodule MishkaMob.Showcase do
      MishkaMob.Components.MishkaAccordion},
     {MishkaMob.Showcase.Components.Separator, :mishka_separator,
      MishkaMob.Components.MishkaSeparator},
-    {MishkaMob.Showcase.Components.Switch, :mishka_switch, MishkaMob.Components.MishkaSwitch}
+    {MishkaMob.Showcase.Components.Switch, :mishka_switch, MishkaMob.Components.MishkaSwitch},
+    {MishkaMob.Showcase.Components.Progress, :mishka_progress,
+     MishkaMob.Components.MishkaProgress}
   ]
 
   @doc "Every showcase component module, in catalog order."
