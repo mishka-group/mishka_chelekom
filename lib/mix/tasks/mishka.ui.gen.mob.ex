@@ -76,20 +76,40 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob do
   def supports_umbrella?(), do: false
 
   def igniter(igniter) do
-    %Igniter.Mix.Task.Args{positional: %{component: component}} = igniter.args
+    %Igniter.Mix.Task.Args{positional: %{component: component}, options: options} = igniter.args
 
-    igniter
-    |> Igniter.assign(:mishka_user_config, Config.load_user_config(igniter))
-    |> Registry.check_dependency()
-    |> Locations.assign_namespace()
-    |> resolve_template(component)
-    |> compute_location()
-    |> build_eex_assigns()
-    |> write_component()
-    |> vendor_kit()
-    |> generate_necessary()
-    |> register_composites()
-    |> maybe_save_prefixes()
+    print_banner(options)
+
+    tty? = IO.ANSI.enabled?()
+    spin? = !options[:sub] and Mix.env() != :test and tty?
+    if spin?, do: Owl.Spinner.start(id: :my_spinner, labels: [processing: "Please wait..."])
+
+    final =
+      igniter
+      |> Igniter.assign(:mishka_user_config, Config.load_user_config(igniter))
+      |> Registry.check_dependency()
+      |> Locations.assign_namespace()
+      |> resolve_template(component)
+      |> compute_location()
+      |> build_eex_assigns()
+      |> write_component()
+      |> vendor_kit()
+      |> generate_necessary()
+      |> register_composites()
+      |> maybe_save_prefixes()
+
+    if spin? do
+      if Map.get(final, :issues, []) == [],
+        do: Owl.Spinner.stop(id: :my_spinner, resolution: :ok, label: "Done"),
+        else: Owl.Spinner.stop(id: :my_spinner, resolution: :error, label: "Error")
+    end
+
+    final
+  end
+
+  defp print_banner(options) do
+    if !options[:sub] and Mix.env() != :test, do: Core.banner(IO.ANSI.magenta(), "Mob")
+    :ok
   end
 
   defp resolve_template(igniter, component) do
@@ -224,12 +244,9 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob do
     options = igniter.args.options
 
     ["--sub", "--yes", "--no-register"]
-    |> prepend_flag("--module-prefix", igniter.assigns.module_prefix)
-    |> prepend_flag("--component-prefix", options[:component_prefix])
+    |> Core.append_arg("--module-prefix", igniter.assigns.module_prefix)
+    |> Core.append_arg("--component-prefix", options[:component_prefix])
   end
-
-  defp prepend_flag(flags, _name, value) when value in [nil, ""], do: flags
-  defp prepend_flag(flags, name, value), do: [name, value | flags]
 
   # Rebuilt from what is on disk rather than appended to, so re-running a
   # generator cannot register the same tag twice or leave a stale one behind.

@@ -77,9 +77,9 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob.ComponentsTest do
       assert "switch" in generated(igniter)
     end
 
-    test "--all generates the whole catalog" do
-      igniter =
-        test_project_with_formatter() |> Igniter.compose_task(MobComponents, ["--all", "--yes"])
+    test "a bare invocation generates the whole catalog" do
+      # The convention the other plural tasks set: no argument means all of them.
+      igniter = test_project_with_formatter() |> Igniter.compose_task(MobComponents, ["--yes"])
 
       names = generated(igniter)
 
@@ -89,10 +89,19 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob.ComponentsTest do
       assert "event" in names
     end
 
-    test "--exclude drops names from --all" do
+    test "the literal name `all` means the same thing" do
+      bare = test_project_with_formatter() |> Igniter.compose_task(MobComponents, ["--yes"])
+
+      explicit =
+        test_project_with_formatter() |> Igniter.compose_task(MobComponents, ["all", "--yes"])
+
+      assert generated(bare) == generated(explicit)
+    end
+
+    test "--exclude drops names from a whole-catalog run" do
       igniter =
         test_project_with_formatter()
-        |> Igniter.compose_task(MobComponents, ["--all", "--exclude", "drawer", "--yes"])
+        |> Igniter.compose_task(MobComponents, ["--exclude", "drawer", "--yes"])
 
       names = generated(igniter)
 
@@ -115,20 +124,14 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob.ComponentsTest do
       assert "dialog" in names
     end
 
-    test "an unknown name is an issue, and names the offender" do
+    test "an unknown name surfaces as an issue from the single-component task" do
       igniter =
         test_project_with_formatter()
         |> Igniter.compose_task(MobComponents, ["chip,nope", "--yes"])
 
-      assert [issue] = igniter.issues
-      assert issue =~ "Unknown Mob component(s): nope"
-    end
-
-    test "no names and no --all is an issue rather than a silent success" do
-      igniter = test_project_with_formatter() |> Igniter.compose_task(MobComponents, ["--yes"])
-
-      assert [issue] = igniter.issues
-      assert issue =~ "Name at least one component"
+      assert Enum.any?(igniter.issues, &(&1 =~ "not found in priv/mob/"))
+      # the valid one is still generated
+      assert "chip" in generated(igniter)
     end
   end
 
@@ -145,8 +148,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob.ComponentsTest do
     end
 
     test "a whole-catalog run registers all 72, and no kit module" do
-      igniter =
-        test_project_with_formatter() |> Igniter.compose_task(MobComponents, ["--all", "--yes"])
+      igniter = test_project_with_formatter() |> Igniter.compose_task(MobComponents, ["--yes"])
 
       registry = content(igniter, "lib/test/components.ex")
       tags = Regex.scan(~r/\{:(mishka_\w+),/, registry) |> Enum.map(&List.last/1)
@@ -178,8 +180,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob.ComponentsTest do
 
   describe "a whole-catalog generation" do
     setup do
-      igniter =
-        test_project_with_formatter() |> Igniter.compose_task(MobComponents, ["--all", "--yes"])
+      igniter = test_project_with_formatter() |> Igniter.compose_task(MobComponents, ["--yes"])
 
       %{igniter: igniter}
     end

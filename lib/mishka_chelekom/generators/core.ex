@@ -452,7 +452,7 @@ defmodule MishkaChelekom.Generators.Core do
   @spec resolve_components(
           Igniter.t(),
           String.t() | nil,
-          :styled | :headless,
+          layer(),
           map(),
           [String.t()] | nil
         ) :: [String.t()]
@@ -472,7 +472,7 @@ defmodule MishkaChelekom.Generators.Core do
   @doc """
   The components in `list` whose catalog declares npm packages.
   """
-  @spec npm_backed(Igniter.t(), [String.t()], :styled | :headless) :: [String.t()]
+  @spec npm_backed(Igniter.t(), [String.t()], layer()) :: [String.t()]
   def npm_backed(igniter, list, layer) do
     Enum.filter(list, fn name ->
       case fetch_catalog(igniter, name, layer) do
@@ -506,6 +506,7 @@ defmodule MishkaChelekom.Generators.Core do
   end
 
   defp layer_task(:headless), do: "headless"
+  defp layer_task(:mob), do: "mob"
   defp layer_task(_), do: "component"
 
   @doc """
