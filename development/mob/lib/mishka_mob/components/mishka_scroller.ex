@@ -1,0 +1,90 @@
+defmodule MishkaMob.Components.MishkaScroller do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Scroller** — a horizontal rail
+  of items with prev/next controls.
+
+  ## The controls are the whole component, and they need a screen
+
+  The scrolling itself is `MishkaMob.Components.MishkaScrollArea` (Mob's native
+  `Scroll`, which already has momentum and a scrollbar). What this adds is the
+  pair of buttons — and those cannot work from a render function alone: nudging
+  a scroller means calling `Mob.Test.scroll_to/2`-style APIs against a **live**
+  widget, which is a side effect the screen performs, not something a node tree
+  can express.
+
+  So the port renders the rail and its controls, gives the scroller an `id` so
+  it is addressable, and emits `on_prev` / `on_next` for the screen to act on.
+  Wiring an inert pair of arrows would have looked complete and done nothing.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `id` | string | `nil` | Registers the scroller so it can be addressed. |
+  | `on_prev` / `on_next` | event tag (atom) | — | Sent as `{:tap, tag}` from the arrows. |
+  | `controls` | boolean | `true` | Show the arrows at all. |
+  | `height` | number | `nil` | Rail height. |
+  | `space` | number | `8` | Gap between the rail and the controls. |
+
+  Children are the rail's items — put them in a `Row`.
+
+  Not ported: `scroll_by` (the pixel step belongs with the screen's scroll call),
+  `prev_label` / `next_label` (aria-labels) and `id` / `*_class`.
+  """
+
+  import Mob.Sigil
+
+  alias MishkaMob.Components.{MishkaActionIcon, MishkaScrollArea}
+
+  @doc "Composite expander (`<MishkaScroller>`). Children are the rail items."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, children, _ctx), do: scroller(props, children)
+
+  @doc """
+  The scroller node.
+
+      {scroller([id: "gallery", on_prev: :back, on_next: :fwd], [rail()])}
+  """
+  @spec scroller(map() | keyword(), [map()]) :: map()
+  def scroller(props \\ %{}, content \\ []) do
+    props = Map.new(props)
+
+    rail =
+      MishkaScrollArea.scroll_area(
+        [orientation: :horizontal]
+        |> maybe(:id, Map.get(props, :id))
+        |> maybe(:height, Map.get(props, :height)),
+        content
+      )
+
+    if truthy?(Map.get(props, :controls, true)) do
+      ~MOB"""
+      <Column fill_width={true}>
+        {rail}
+        <Spacer size={Map.get(props, :space, 8)} />
+        <Row fill_width={true}>
+          <Spacer weight={1} />
+          {arrow("‹", Map.get(props, :on_prev))}
+          <Spacer size={8} />
+          {arrow("›", Map.get(props, :on_next))}
+        </Row>
+      </Column>
+      """
+    else
+      rail
+    end
+  end
+
+  defp arrow(glyph, nil),
+    do: MishkaActionIcon.action_icon(icon: glyph, variant: :filled, disabled: true)
+
+  defp arrow(glyph, tag),
+    do: MishkaActionIcon.action_icon(icon: glyph, variant: :filled, on_tap: tag)
+
+  defp maybe(opts, _key, nil), do: opts
+  defp maybe(opts, key, value), do: Keyword.put(opts, key, value)
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
+end
