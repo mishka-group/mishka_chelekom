@@ -121,7 +121,8 @@ defmodule MishkaMob.Showcase do
      MishkaMob.Components.MishkaSeparator},
     {MishkaMob.Showcase.Components.Switch, :mishka_switch, MishkaMob.Components.MishkaSwitch},
     {MishkaMob.Showcase.Components.Progress, :mishka_progress,
-     MishkaMob.Components.MishkaProgress}
+     MishkaMob.Components.MishkaProgress},
+    {MishkaMob.Showcase.Components.Meter, :mishka_meter, MishkaMob.Components.MishkaMeter}
   ]
 
   @doc "Every showcase component module, in catalog order."
