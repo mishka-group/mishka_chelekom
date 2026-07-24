@@ -35,7 +35,9 @@ defmodule MishkaMob.MixProject do
       # Code quality — Credo + ex_slop (catches AI-generated patterns
       # like blanket rescue, narrator docs, redundant Enum chains, etc).
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
-      {:ex_slop, "~> 0.4.2", only: [:dev, :test], runtime: false}
+      {:ex_slop, "~> 0.4.2", only: [:dev, :test], runtime: false},
+      {:mix_audit, "~> 2.1", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.4", only: [:dev], runtime: false}
     ]
   end
 
@@ -44,6 +46,21 @@ defmodule MishkaMob.MixProject do
   # --device <udid>` works as expected.
   defp aliases do
     [
+      # The quality gate — the agent runs `mix precommit` before finishing and
+      # CI runs it on the way in. NO Sobelow here: it scans Phoenix web surfaces
+      # (XSS/CSRF/SQLi in controllers + HEEx), and this is a native Mob app with
+      # no web endpoint. Dialyzer runs on its own (slow) via `mix dialyzer`; add
+      # :boundary once contexts are annotated.
+      precommit: [
+        "compile --warnings-as-errors",
+        "deps.unlock --check-unused",
+        "format --check-formatted",
+        "deps.audit",
+        "hex.audit",
+        "credo --strict",
+        "xref graph --label compile-connected --fail-above 0",
+        "test --warnings-as-errors"
+      ],
       connect: ["mob.connect"],
       deploy: ["mob.deploy"],
       watch: ["mob.watch"],

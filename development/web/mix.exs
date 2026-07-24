@@ -66,10 +66,15 @@ defmodule Development.MixProject do
       {:dns_cluster, "~> 0.2.0"},
       {:bandit, "~> 1.5"},
       # Mishka Chelekom dev harness: consume the in-repo library as a path dep so
-      # editing templates/JS/CSS in ../priv reflects live when regenerating here.
-      # See development/README.md.
-      {:mishka_chelekom, path: "../", only: [:dev, :test]},
-      {:igniter, "~> 0.7", only: [:dev, :test]}
+      # editing templates/JS/CSS in ../../priv reflects live when regenerating here.
+      # See README.md. (Path is ../../ since this app moved under development/web/.)
+      {:mishka_chelekom, path: "../../", only: [:dev, :test]},
+      {:igniter, "~> 0.7", only: [:dev, :test]},
+      # Quality gate — see `mix precommit` and CLAUDE.md. Latest versions.
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:sobelow, "~> 0.14", only: [:dev, :test], runtime: false},
+      {:mix_audit, "~> 2.1", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.4", only: [:dev], runtime: false}
     ]
   end
 
@@ -99,7 +104,20 @@ defmodule Development.MixProject do
         "esbuild development --minify",
         "phx.digest"
       ],
-      precommit: ["compile --warnings-as-errors", "deps.unlock --unused", "format", "test"]
+      # Quality gate — the agent runs `mix precommit` before finishing and CI runs
+      # it inbound. Sobelow stays here (this is a Phoenix web surface — HEEx,
+      # controllers); the native Mob app (../mob) omits it. Dialyzer runs on its
+      # own (slow); add :boundary once contexts are annotated.
+      precommit: [
+        "compile --warnings-as-errors",
+        "deps.unlock --check-unused",
+        "format --check-formatted",
+        "deps.audit",
+        "hex.audit",
+        "credo --strict",
+        "sobelow --config",
+        "test --warnings-as-errors"
+      ]
     ]
   end
 end
