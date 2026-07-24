@@ -1,0 +1,74 @@
+defmodule MishkaMob.Components.MishkaAlertDialog do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Alert Dialog** — a
+  confirmation modal that demands an explicit choice.
+
+  ## What makes it an *alert* dialog
+
+  The web component hardcodes `data-close-on-outside="false"`: a backdrop click
+  does **not** dismiss it. That single rule is the whole difference from a plain
+  dialog, so this port is a thin, deliberate wrapper over
+  `MishkaMob.Components.MishkaDialog` that forces `dismissible: false` rather
+  than a second copy of the overlay, scrim and panel machinery.
+
+  Because `dismissible` is forced, passing it has no effect — an alert dialog
+  that could be dismissed by tapping outside would just be a dialog.
+
+  The web version also marks `title`, `description` and `actions` as required.
+  Here they are enforced where it helps rather than by crashing a screen mid
+  render: `alert_dialog/3` logs a warning when it is opened with no actions,
+  because a forced-choice modal with nothing to choose is a dead end the user
+  cannot escape.
+
+  ## Usage
+
+      {alert_dialog([open: @confirming?, title: "Discard changes?",
+                     description: "Your edits will be lost.",
+                     on_close: :cancel], [], actions)}
+
+  ## Props
+
+  Everything `MishkaMob.Components.MishkaDialog` accepts, except `dismissible`,
+  which is always `false`. `on_close` is still useful — it is what a Cancel
+  action calls — it simply is not wired to the backdrop.
+  """
+
+  require Logger
+
+  alias MishkaMob.Components.MishkaDialog
+
+  @doc """
+  Composite expander (`<MishkaAlertDialog>`). The tag's children are the body.
+  """
+  @spec expand(map(), [map()], %{screen: pid()}) :: map()
+  def expand(props, children, ctx), do: alert_dialog(props, children, [], ctx)
+
+  @doc """
+  The alert dialog node. `body` is the content; `actions` are the footer
+  buttons the user must choose between.
+  """
+  @spec alert_dialog(map() | keyword(), [map()], [map()], map()) :: map()
+  def alert_dialog(props \\ %{}, body \\ [], actions \\ [], ctx \\ %{}) do
+    props = Map.new(props)
+    warn_if_inescapable(props, actions)
+
+    props
+    |> Map.put(:dismissible, false)
+    |> MishkaDialog.dialog(body, actions, ctx)
+  end
+
+  defp warn_if_inescapable(props, []) do
+    if truthy?(Map.get(props, :open, false)) do
+      Logger.warning(
+        "[MishkaAlertDialog] open with no actions — the backdrop cannot dismiss an alert " <>
+          "dialog, so there is no way out of it. Pass at least one action (e.g. Cancel)."
+      )
+    end
+  end
+
+  defp warn_if_inescapable(_props, _actions), do: :ok
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
+end
