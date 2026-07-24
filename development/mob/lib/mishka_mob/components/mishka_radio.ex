@@ -1,0 +1,100 @@
+defmodule MishkaMob.Components.MishkaRadio do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Radio** — one option in a
+  mutually exclusive set.
+
+  Same row shape as `MishkaMob.Components.MishkaCheckbox`, with the one visual
+  difference that carries the meaning: a **circle with a centre dot** rather than
+  a square with a tick. That distinction is the whole convention for "pick one"
+  versus "pick any", so it is drawn rather than left to colour.
+
+  ## Exclusivity lives in the screen
+
+  On the web a shared `name` makes the browser enforce that only one radio in a
+  group is selected. There is no form and no browser here, so exclusivity is one
+  line in the handler — assign the tapped id — and a radio is simply told whether
+  it is `checked`. That is why `name` is not a prop: it would describe a
+  behaviour this component does not perform.
+
+  A group of these is `MishkaMob.Components.MishkaRadioGroup`'s job; a single
+  radio stays a single radio.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `label` | string | `nil` | Text beside the dot. |
+  | `checked` | boolean | `false` | Whether this option is selected. |
+  | `disabled` | boolean | `false` | Wires no handler and mutes the row. |
+  | `on_select` | event tag (atom) | — | Sent as `{:tap, tag}`. |
+  | `color` | color token / ARGB int | `:primary` | Ring and dot when selected. |
+  | `size` | number | `22` | Outer circle diameter. |
+
+  Not ported: `name`, `value`, `required` (form plumbing), `id` / `*_class`.
+  `readonly` collapses into `disabled` — both omit the handler.
+  """
+
+  import Mob.Sigil
+
+  alias MishkaMob.Components.Event
+
+  @doc "Composite expander (`<MishkaRadio />`). Delegates to `radio/1`."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, _children, _ctx), do: radio(props)
+
+  @doc """
+  The radio node.
+
+      radio(label: "Small", checked: @size == :s, on_select: {:size, :s})
+  """
+  @spec radio(map() | keyword()) :: map()
+  def radio(props \\ %{}) do
+    props = Map.new(props)
+    disabled? = truthy?(Map.get(props, :disabled, false))
+    checked? = truthy?(Map.get(props, :checked, false))
+    label = Map.get(props, :label)
+    label_color = if disabled?, do: :muted, else: :on_surface
+
+    node = ~MOB"""
+    <Row fill_width={true}>
+      {indicator(props, checked?, disabled?)}
+      <Spacer size={10} :if={is_binary(label)} />
+      <Text text={label} text_size={:base} text_color={label_color} :if={is_binary(label)} />
+    </Row>
+    """
+
+    case handler(props, disabled?) do
+      nil -> node
+      tap -> %{node | props: Map.put(node.props, :on_tap, tap)}
+    end
+  end
+
+  # An exact size/2 radius keeps it a circle at any size — the same rule the
+  # Avatar uses, and the reason a radius token is not good enough here.
+  defp indicator(props, checked?, disabled?) do
+    size = Map.get(props, :size, 22)
+    accent = if disabled?, do: :muted, else: Map.get(props, :color, :primary)
+    dot = max(round(size / 2.4), 6)
+
+    ~MOB"""
+    <Box
+      width={size}
+      height={size}
+      corner_radius={size / 2}
+      background={:surface_raised}
+      border_color={if(checked?, do: accent, else: :border)}
+      border_width={if(checked?, do: 2, else: 1)}
+      align={:center}
+    >
+      <Box width={dot} height={dot} corner_radius={dot / 2} background={accent} :if={checked?} />
+    </Box>
+    """
+  end
+
+  defp handler(_props, true), do: nil
+  defp handler(props, _), do: Event.handler(Map.get(props, :on_select))
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
+end
