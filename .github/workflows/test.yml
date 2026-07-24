@@ -4,7 +4,7 @@ permissions:
 
 on:
   push:
-    branches: [master]
+    branches: [master, mob-showcase]
   pull_request:
     branches: [master]
 
