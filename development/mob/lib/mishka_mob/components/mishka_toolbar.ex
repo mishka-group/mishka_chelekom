@@ -1,0 +1,100 @@
+defmodule MishkaMob.Components.MishkaToolbar do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Toolbar** — a strip of related
+  controls with separators between groups.
+
+  ## What a toolbar is, once the keyboard is gone
+
+  On the web a toolbar is mostly a *keyboard* construct: it makes a row of
+  controls one tab stop and moves focus between them with the arrow keys
+  (`loop`, `focusable_when_disabled`). None of that exists on a phone — there is
+  no roving tabindex and no arrow keys — so what remains is the layout and the
+  grouping: a bounded strip, evenly spaced, with separators marking groups.
+
+  That is genuinely useful, and it is all this component claims to be. It holds
+  whatever controls you put in it — `MishkaToggle`, `MishkaActionIcon`,
+  `MishkaToggleGroup` — rather than inventing its own button type.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `orientation` | `:horizontal` `:vertical` | `:horizontal` | Layout axis. |
+  | `space` | number | `8` | Gap between items. |
+  | `background` | color token / ARGB int | `:surface_raised` | Strip fill. |
+  | `corner_radius` | radius token / number | `:radius_md` | Strip corners. |
+  | `padding` | spacing token / number | `:space_sm` | Padding inside the strip. |
+
+  Children are the controls. `separator/0` puts a divider between groups; it
+  orients itself to match the toolbar.
+
+  Not ported: `loop`, `focusable_when_disabled` (keyboard focus), `disabled` —
+  a toolbar has no interaction of its own, so disabling belongs on the controls
+  it holds — and `id` / `*_class`.
+  """
+
+  import Mob.Sigil
+
+  @sep :mishka_toolbar_separator
+
+  @doc "Composite expander (`<MishkaToolbar>`). Children are the controls."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, children, _ctx), do: toolbar(props, children)
+
+  @doc "A divider between groups. Orients itself to the toolbar."
+  @spec separator() :: map()
+  def separator, do: %{type: @sep, props: %{}, children: []}
+
+  @doc """
+  The toolbar node.
+
+      {toolbar([], [bold_toggle(), italic_toggle(), separator(), align_group()])}
+  """
+  @spec toolbar(map() | keyword(), [map()]) :: map()
+  def toolbar(props \\ %{}, children \\ []) do
+    props = Map.new(props)
+    vertical? = Map.get(props, :orientation, :horizontal) == :vertical
+    space = Map.get(props, :space, 8)
+
+    items =
+      children
+      |> Enum.map(&resolve(&1, vertical?))
+      |> Enum.intersperse(~MOB(<Spacer size={space} />))
+
+    strip = if vertical?, do: column(items), else: row(items)
+
+    ~MOB"""
+    <Box
+      background={Map.get(props, :background, :surface_raised)}
+      corner_radius={Map.get(props, :corner_radius, :radius_md)}
+      padding={Map.get(props, :padding, :space_sm)}
+      fill_width={vertical? == false}
+    >
+      {strip}
+    </Box>
+    """
+  end
+
+  # A separator in a horizontal toolbar is a vertical hairline, and vice versa —
+  # the axis is the toolbar's, not the caller's to remember.
+  defp resolve(%{type: @sep}, true) do
+    ~MOB"""
+    <Box fill_width={true} height={1} background={:border} />
+    """
+  end
+
+  defp resolve(%{type: @sep}, _horizontal) do
+    ~MOB"""
+    <Box width={1} height={22} background={:border} />
+    """
+  end
+
+  defp resolve(node, _vertical?), do: node
+
+  defp row(items), do: ~MOB(<Row>
+  {items}
+</Row>)
+  defp column(items), do: ~MOB(<Column>
+  {items}
+</Column>)
+end
