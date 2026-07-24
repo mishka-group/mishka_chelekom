@@ -58,6 +58,11 @@
         </intent>
     </queries>
 
+    <!-- mob:plugin-permissions BEGIN (managed — regenerated each build; do not edit) -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- mob:plugin-permissions END -->
     <application
         android:label="MishkaMob"
         android:icon="@mipmap/ic_launcher"
