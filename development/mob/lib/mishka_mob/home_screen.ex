@@ -81,11 +81,7 @@ defmodule MishkaMob.HomeScreen do
       type: :row,
       props: %{fill_width: true},
       children: [
-        %{
-          type: :image,
-          props: %{src: logo_src(theme), width: 36, height: 36, content_mode: "fit"},
-          children: []
-        },
+        logo(theme),
         %{type: :spacer, props: %{size: 10}, children: []},
         %{
           type: :text,
@@ -148,12 +144,55 @@ defmodule MishkaMob.HomeScreen do
 
   defp gap(size), do: %{type: :spacer, props: %{size: size}, children: []}
 
+  # The Mishka mark on a white badge, so the dark logo reads on any theme. Falls
+  # back to the framework logo if the priv asset didn't reach the device.
+  defp logo(theme) do
+    case mishka_logo_path() do
+      nil ->
+        %{
+          type: :image,
+          props: %{src: mob_logo_src(theme), width: 36, height: 36, content_mode: "fit"},
+          children: []
+        }
+
+      path ->
+        %{
+          type: :box,
+          props: %{
+            width: 40,
+            height: 40,
+            background: 0xFFFFFFFF,
+            corner_radius: :radius_md,
+            padding: 4
+          },
+          children: [
+            %{
+              type: :image,
+              props: %{src: path, width: 32, height: 32, content_mode: "fit"},
+              children: []
+            }
+          ]
+        }
+    end
+  end
+
+  defp mishka_logo_path do
+    case :code.priv_dir(:mishka_mob) do
+      {:error, _} ->
+        nil
+
+      dir ->
+        path = Path.join([to_string(dir), "images", "mishka_logo.png"])
+        if File.exists?(path), do: path, else: nil
+    end
+  end
+
   # mob_logo_dark.png is the dark-on-light logo (for light backgrounds);
   # mob_logo_light.png is light-on-dark. Material 3's baseline is a light
   # surface, so it uses the dark logo like :light.
-  defp logo_src(:light), do: Path.join(rootdir(), "mob_logo_dark.png")
-  defp logo_src(:material3), do: Path.join(rootdir(), "mob_logo_dark.png")
-  defp logo_src(_), do: Path.join(rootdir(), "mob_logo_light.png")
+  defp mob_logo_src(:light), do: Path.join(rootdir(), "mob_logo_dark.png")
+  defp mob_logo_src(:material3), do: Path.join(rootdir(), "mob_logo_dark.png")
+  defp mob_logo_src(_), do: Path.join(rootdir(), "mob_logo_light.png")
 
   defp rootdir do
     case System.get_env("ROOTDIR") do
