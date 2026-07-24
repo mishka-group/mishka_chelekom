@@ -253,6 +253,41 @@ defmodule MishkaMob.ShowcaseTest do
       refute Enum.any?(taps, &match?({_pid, {:toggle_disabled, :nope}}, &1))
     end
 
+    test "a change event round-trips through handle_change/3" do
+      view = mount_screen(ComponentScreen, %{slug: :switch})
+      assert assigns(view).sw_bluetooth == false
+
+      view = render_info(view, {:change, :bluetooth, true})
+      assert assigns(view).sw_bluetooth == true
+
+      # the switch now renders in its new state
+      toggles =
+        expanded(view) |> find_all(:toggle) |> Enum.filter(&(&1.props[:on_change] == :bluetooth))
+
+      assert Enum.all?(toggles, &(&1.props.value == true))
+    end
+
+    test "an unknown change tag is ignored rather than crashing the screen" do
+      view = mount_screen(ComponentScreen, %{slug: :switch})
+      before = assigns(view)
+
+      view = render_info(view, {:change, :nope, true})
+
+      assert assigns(view).sw_wifi == before.sw_wifi
+      assert assigns(view).sw_bluetooth == before.sw_bluetooth
+    end
+
+    test "the disabled switch example wires no handler" do
+      view = mount_screen(ComponentScreen, %{slug: :switch})
+
+      disabled =
+        expanded(view) |> find_all(:toggle) |> Enum.reject(&Map.has_key?(&1.props, :on_change))
+
+      # the two "Locked" switches, and they keep their rendered state
+      assert length(disabled) == 2
+      assert Enum.map(disabled, & &1.props.value) == [true, false]
+    end
+
     test "unknown slug renders a not-found page (still renderable)" do
       view = mount_screen(ComponentScreen, %{slug: :ghost})
 

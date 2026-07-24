@@ -101,5 +101,13 @@ defmodule MishkaMob.Showcase.ComponentScreen do
     end
   end
 
+  # Value-carrying events from Toggle / Slider / TextField widgets.
+  def handle_info({:change, tag, value}, socket) do
+    case socket.assigns.entry do
+      nil -> {:noreply, socket}
+      entry -> {:noreply, entry.module.handle_change(tag, value, socket)}
+    end
+  end
+
   def handle_info(_message, socket), do: {:noreply, socket}
 end

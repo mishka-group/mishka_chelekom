@@ -84,7 +84,17 @@ defmodule MishkaMob.Showcase do
   @callback overlay(assigns :: map()) :: map() | nil
   @callback card_preview() :: map()
   @callback props() :: [%{required(:name) => String.t(), optional(atom()) => String.t()}]
-  @optional_callbacks mount: 1, handle: 2, overlay: 1, card_preview: 0, props: 0
+  @doc """
+  Handle a value-carrying event — `{:change, tag, value}` from a Toggle, Slider,
+  TextField, … — as opposed to `handle/2`'s bare taps.
+  """
+  @callback handle_change(tag :: term(), value :: term(), socket :: term()) :: term()
+  @optional_callbacks mount: 1,
+                      handle: 2,
+                      handle_change: 3,
+                      overlay: 1,
+                      card_preview: 0,
+                      props: 0
 
   @doc "Register a showcase component module. Overwrites any prior registration for its slug."
   @spec register(module()) :: :ok
@@ -108,7 +118,8 @@ defmodule MishkaMob.Showcase do
     {MishkaMob.Showcase.Components.Accordion, :mishka_accordion,
      MishkaMob.Components.MishkaAccordion},
     {MishkaMob.Showcase.Components.Separator, :mishka_separator,
-     MishkaMob.Components.MishkaSeparator}
+     MishkaMob.Components.MishkaSeparator},
+    {MishkaMob.Showcase.Components.Switch, :mishka_switch, MishkaMob.Components.MishkaSwitch}
   ]
 
   @doc "Every showcase component module, in catalog order."
@@ -182,8 +193,15 @@ defmodule MishkaMob.Showcase do
       def card_preview, do: unquote(Kit).skeleton_preview()
       @impl true
       def props, do: []
+      @impl true
+      def handle_change(_tag, _value, socket), do: socket
 
-      defoverridable mount: 1, handle: 2, overlay: 1, card_preview: 0, props: 0
+      defoverridable mount: 1,
+                     handle: 2,
+                     handle_change: 3,
+                     overlay: 1,
+                     card_preview: 0,
+                     props: 0
     end
   end
 end
