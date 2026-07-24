@@ -113,6 +113,13 @@ defmodule MishkaMob.Showcase do
   # The composite tag is what lets an app write `<MishkaDrawer>` in `~MOB`.
   # Our own code calls the component's function instead, because a tag outside
   # Mob's whitelist warns and `--warnings-as-errors` treats that as a failure.
+  #
+  # An entry is `{showcase, tag, component}`, or `{showcase, tag, component,
+  # extras}` where `extras` is a `[{tag, component}]` list. Several Chelekom
+  # components are close enough to share one gallery page — a close button is an
+  # action icon with a ✕, a burger is a toolbar control — but each is still its
+  # own module and still deserves its own tag, so the fourth element registers
+  # the companions the page documents.
   @catalog [
     {MishkaMob.Showcase.Components.Drawer, :mishka_drawer, MishkaMob.Components.MishkaDrawer},
     {MishkaMob.Showcase.Components.Accordion, :mishka_accordion,
@@ -152,7 +159,8 @@ defmodule MishkaMob.Showcase do
      MishkaMob.Components.MishkaEmptyState},
     {MishkaMob.Showcase.Components.Spoiler, :mishka_spoiler, MishkaMob.Components.MishkaSpoiler},
     {MishkaMob.Showcase.Components.ActionIcon, :mishka_action_icon,
-     MishkaMob.Components.MishkaActionIcon},
+     MishkaMob.Components.MishkaActionIcon,
+     [mishka_close_button: MishkaMob.Components.MishkaCloseButton]},
     {MishkaMob.Showcase.Components.ScrollArea, :mishka_scroll_area,
      MishkaMob.Components.MishkaScrollArea},
     {MishkaMob.Showcase.Components.Code, :mishka_code, MishkaMob.Components.MishkaCode},
@@ -162,36 +170,56 @@ defmodule MishkaMob.Showcase do
     {MishkaMob.Showcase.Components.Tooltip, :mishka_tooltip, MishkaMob.Components.MishkaTooltip},
     {MishkaMob.Showcase.Components.ContextMenu, :mishka_context_menu,
      MishkaMob.Components.MishkaContextMenu},
-    {MishkaMob.Showcase.Components.Toolbar, :mishka_toolbar, MishkaMob.Components.MishkaToolbar},
+    {MishkaMob.Showcase.Components.Toolbar, :mishka_toolbar, MishkaMob.Components.MishkaToolbar,
+     [mishka_burger: MishkaMob.Components.MishkaBurger]},
     {MishkaMob.Showcase.Components.ColorSwatch, :mishka_color_swatch,
-     MishkaMob.Components.MishkaColorSwatch},
+     MishkaMob.Components.MishkaColorSwatch,
+     [mishka_loading_overlay: MishkaMob.Components.MishkaLoadingOverlay]},
     {MishkaMob.Showcase.Components.SemiCircleProgress, :mishka_semi_circle_progress,
-     MishkaMob.Components.MishkaSemiCircleProgress},
+     MishkaMob.Components.MishkaSemiCircleProgress,
+     [mishka_rolling_number: MishkaMob.Components.MishkaRollingNumber]},
     {MishkaMob.Showcase.Components.PreviewCard, :mishka_preview_card,
-     MishkaMob.Components.MishkaPreviewCard},
+     MishkaMob.Components.MishkaPreviewCard,
+     [mishka_scroller: MishkaMob.Components.MishkaScroller]},
     {MishkaMob.Showcase.Components.ThemeIcon, :mishka_theme_icon,
-     MishkaMob.Components.MishkaThemeIcon},
-    {MishkaMob.Showcase.Components.Field, :mishka_field, MishkaMob.Components.MishkaField},
+     MishkaMob.Components.MishkaThemeIcon, [mishka_marquee: MishkaMob.Components.MishkaMarquee]},
+    {MishkaMob.Showcase.Components.Field, :mishka_field, MishkaMob.Components.MishkaField,
+     [mishka_fieldset: MishkaMob.Components.MishkaFieldset]},
     {MishkaMob.Showcase.Components.NumberField, :mishka_number_field,
      MishkaMob.Components.MishkaNumberField},
     {MishkaMob.Showcase.Components.OtpField, :mishka_otp_field,
-     MishkaMob.Components.MishkaOtpField},
+     MishkaMob.Components.MishkaOtpField,
+     [mishka_mask_input: MishkaMob.Components.MishkaMaskInput]},
     {MishkaMob.Showcase.Components.TagsInput, :mishka_tags_input,
      MishkaMob.Components.MishkaTagsInput},
     {MishkaMob.Showcase.Components.Select, :mishka_select, MishkaMob.Components.MishkaSelect},
     {MishkaMob.Showcase.Components.Combobox, :mishka_combobox,
      MishkaMob.Components.MishkaCombobox},
     {MishkaMob.Showcase.Components.Autocomplete, :mishka_autocomplete,
-     MishkaMob.Components.MishkaAutocomplete}
+     MishkaMob.Components.MishkaAutocomplete,
+     [mishka_pills_input: MishkaMob.Components.MishkaPillsInput]},
+    {MishkaMob.Showcase.Components.HueSlider, :mishka_hue_slider,
+     MishkaMob.Components.MishkaHueSlider},
+    {MishkaMob.Showcase.Components.AlphaSlider, :mishka_alpha_slider,
+     MishkaMob.Components.MishkaAlphaSlider},
+    {MishkaMob.Showcase.Components.AngleSlider, :mishka_angle_slider,
+     MishkaMob.Components.MishkaAngleSlider},
+    {MishkaMob.Showcase.Components.ColorPicker, :mishka_color_picker,
+     MishkaMob.Components.MishkaColorPicker},
+    {MishkaMob.Showcase.Components.ColorInput, :mishka_color_input,
+     MishkaMob.Components.MishkaColorInput}
   ]
 
   @doc "Every showcase component module, in catalog order."
   @spec modules() :: [module()]
-  def modules, do: Enum.map(@catalog, fn {showcase, _tag, _component} -> showcase end)
+  def modules, do: Enum.map(@catalog, &elem(&1, 0))
 
   @doc "Every `{tag, module}` composite pairing, for `Mob.Composite.register/2`."
   @spec composites() :: [{atom(), module()}]
-  def composites, do: Enum.map(@catalog, fn {_showcase, tag, component} -> {tag, component} end)
+  def composites, do: Enum.flat_map(@catalog, &entry_composites/1)
+
+  defp entry_composites({_showcase, tag, component}), do: [{tag, component}]
+  defp entry_composites({_showcase, tag, component, extras}), do: [{tag, component} | extras]
 
   @doc """
   Register every composite tag and gallery entry. Called from

@@ -46,12 +46,50 @@ defmodule MishkaMob.ShowcaseTest do
     end
 
     test "the catalog registers a composite tag for every gallery entry" do
-      assert length(Showcase.composites()) == length(Showcase.modules())
+      # A page may document several components (a close button IS an action
+      # icon), so tags outnumber pages — but no page may have none.
+      assert length(Showcase.composites()) >= length(Showcase.modules())
 
-      # each component module actually exports the expander the catalog names
+      # each component module actually exports the expander the catalog names.
+      # ensure_loaded? first: function_exported?/3 answers false for a module
+      # that simply has not been loaded yet, which made this assertion depend on
+      # whichever earlier test happened to reference the module.
       for {_tag, module} <- Showcase.composites() do
+        assert Code.ensure_loaded?(module), "#{inspect(module)} does not exist"
         assert function_exported?(module, :expand, 3), "#{inspect(module)} is missing expand/3"
       end
+    end
+
+    test "composite tags and their components are each registered once" do
+      {tags, modules} = Enum.unzip(Showcase.composites())
+
+      assert Enum.uniq(tags) == tags,
+             "duplicate composite tag: #{inspect(tags -- Enum.uniq(tags))}"
+
+      assert Enum.uniq(modules) == modules,
+             "component registered twice: #{inspect(modules -- Enum.uniq(modules))}"
+    end
+
+    test "every component module with an expander is in the catalog" do
+      # The gap this closes: a companion component (Burger, CloseButton,
+      # PillsInput…) is easy to write, test and ship without ever giving it a
+      # tag, leaving it unusable from `~MOB` markup. This fails when that
+      # happens instead of leaving it to be noticed by an app author.
+      registered = Showcase.composites() |> Enum.map(&elem(&1, 1)) |> MapSet.new()
+
+      unregistered =
+        "lib/mishka_mob/components/*.ex"
+        |> Path.wildcard()
+        |> Enum.map(fn path ->
+          Module.concat([
+            "MishkaMob.Components",
+            path |> Path.basename(".ex") |> Macro.camelize()
+          ])
+        end)
+        |> Enum.filter(&(Code.ensure_loaded?(&1) and function_exported?(&1, :expand, 3)))
+        |> Enum.reject(&MapSet.member?(registered, &1))
+
+      assert unregistered == [], "not in the catalog: #{inspect(unregistered)}"
     end
 
     test "every catalog entry renders its own gallery page" do
@@ -60,7 +98,11 @@ defmodule MishkaMob.ShowcaseTest do
         view = mount_screen(ComponentScreen, %{slug: slug})
 
         assert assigns(view).entry.slug == slug
-        assert_renderable(expanded(view))
+        # :canvas is missing from mob 0.7.20's priv/tags whitelist, but both
+        # bridges render it (MobBridge.kt "canvas" -> MobCanvas, and the same
+        # branch in mob's ios/mob_nif.m) and Mob.UI.canvas/1 is a public API.
+        # The whitelist is stale, not the node.
+        assert_renderable(expanded(view), extra: [:canvas])
         refute Enum.empty?(module.examples()), "#{inspect(module)} has no examples"
       end
     end
