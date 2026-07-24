@@ -4,7 +4,7 @@ defmodule MishkaMob.Showcase.Components.Drawer do
 
   Interactive: the example cards show inline "Open" buttons; the actual drawer
   is rendered by `overlay/1` at the screen root so it stacks over the page. A
-  single shared drawer takes on the props of whichever example opened it
+  single shared drawer takes on the props + body of whichever example opened it
   (tracked by `:drawer_variant`).
   """
   use MishkaMob.Showcase
@@ -54,12 +54,26 @@ defmodule MishkaMob.Showcase.Components.Drawer do
         render: fn _assigns -> full_button("Open bottom sheet", {:open, :bottom, :sheet}) end
       },
       %Example{
+        title: "Custom colors",
+        description: "Tint the panel and the backdrop with `background` + `scrim_color`.",
+        code: ~S"""
+        <MishkaDrawer open={@open} side={:left} title="Account"
+                      background={0xFF7C3AED} scrim_color={0x992E1065}
+                      corner_radius={:radius_lg} on_close={:close} />
+        """,
+        render: fn _assigns -> full_button("Open colored drawer", {:open, :left, :colors}) end
+      },
+      %Example{
         title: "Custom chrome (header: false)",
-        description: "Suppress the built-in title/✕ and style the panel via props.",
+        description: "Turn off the built-in title/✕ and supply your own header + body.",
         code: ~S"""
         <MishkaDrawer open={@open} side={:left} header={false}
-                      background={:surface_raised} scrim_color={0x66000000}
-                      on_close={:close} />
+                      background={:surface_raised} corner_radius={:radius_lg}
+                      scrim_color={0x66000000} on_close={:close}>
+          {account_header()}
+          {menu_item("Profile")}
+          {menu_item("Sign out")}
+        </MishkaDrawer>
         """,
         render: fn _assigns -> full_button("Open custom drawer", {:open, :left, :custom}) end
       }
@@ -67,9 +81,80 @@ defmodule MishkaMob.Showcase.Components.Drawer do
   end
 
   @impl true
+  def props do
+    [
+      %{
+        name: "open",
+        type: "boolean",
+        default: "false",
+        description:
+          "Whether the drawer is shown. Lives in the screen — composites are stateless."
+      },
+      %{
+        name: "side",
+        type: ":left · :right · :top · :bottom",
+        default: ":right",
+        description: "Edge the panel is pinned to."
+      },
+      %{
+        name: "size",
+        type: ":xs :sm :md :lg :xl",
+        default: ":lg",
+        description: "Panel width for left/right (240–384). Ignored for top/bottom sheets."
+      },
+      %{
+        name: "title",
+        type: "string",
+        default: "nil",
+        description: "Header title, shown with a ✕ button when header is on."
+      },
+      %{
+        name: "header",
+        type: "boolean",
+        default: "true",
+        description: "Render the built-in title + ✕. Set false to supply your own chrome."
+      },
+      %{
+        name: "scrim",
+        type: "boolean",
+        default: "true",
+        description: "Dim the background and dismiss on backdrop tap."
+      },
+      %{
+        name: "scrim_color",
+        type: "ARGB / token",
+        default: "0x99000000",
+        description: "Backdrop fill (alpha-first ARGB). Default is 60% black."
+      },
+      %{
+        name: "background",
+        type: "color / ARGB",
+        default: ":surface",
+        description: "Panel background."
+      },
+      %{
+        name: "padding",
+        type: "spacing / number",
+        default: ":space_lg",
+        description: "Padding inside the panel around your content."
+      },
+      %{
+        name: "corner_radius",
+        type: "radius / number",
+        default: "none",
+        description: "Rounds the panel corners, e.g. :radius_lg for a sheet."
+      },
+      %{
+        name: "on_close",
+        type: "event tag",
+        default: "—",
+        description: "Sent on backdrop / ✕ tap. Provide it for tap-to-dismiss."
+      }
+    ]
+  end
+
+  @impl true
   def card_preview do
-    # A mini "drawer face": a window frame with a side panel (a few lines) and a
-    # content area — so the card reads as a drawer at a glance.
     dots = %{type: :row, props: %{}, children: [dot(), sp_h(4), dot(), sp_h(4), dot()]}
 
     panel = %{
@@ -98,10 +183,12 @@ defmodule MishkaMob.Showcase.Components.Drawer do
 
   @impl true
   def overlay(assigns) do
+    variant = assigns.drawer_variant
+
     %{
       type: :mishka_drawer,
-      props: drawer_props(assigns.drawer_variant, assigns.drawer_side, assigns.drawer_open?),
-      children: menu_items()
+      props: drawer_props(variant, assigns.drawer_side, assigns.drawer_open?),
+      children: drawer_body(variant)
     }
   end
 
@@ -116,12 +203,24 @@ defmodule MishkaMob.Showcase.Components.Drawer do
   def handle(:close_drawer, socket), do: Mob.Socket.assign(socket, :drawer_open?, false)
   def handle(_tag, socket), do: socket
 
-  # ── drawer props per opened variant ──
+  # ── props per opened variant ──
   defp drawer_props(:sheet, _side, open?) do
     %{
       open: open?,
       side: :bottom,
       title: "Menu",
+      corner_radius: :radius_lg,
+      on_close: :close_drawer
+    }
+  end
+
+  defp drawer_props(:colors, _side, open?) do
+    %{
+      open: open?,
+      side: :left,
+      title: "Account",
+      background: 0xFF_7C_3A_ED,
+      scrim_color: 0x99_2E_10_65,
       corner_radius: :radius_lg,
       on_close: :close_drawer
     }
@@ -133,6 +232,7 @@ defmodule MishkaMob.Showcase.Components.Drawer do
       side: :left,
       header: false,
       background: :surface_raised,
+      corner_radius: :radius_lg,
       scrim_color: 0x66_00_00_00,
       on_close: :close_drawer
     }
@@ -141,6 +241,11 @@ defmodule MishkaMob.Showcase.Components.Drawer do
   defp drawer_props(_default, side, open?) do
     %{open: open?, side: side, title: "Menu", on_close: :close_drawer}
   end
+
+  # ── body per opened variant ──
+  defp drawer_body(:colors), do: colored_items()
+  defp drawer_body(:custom), do: custom_body()
+  defp drawer_body(_default), do: menu_items()
 
   # ── inline previews (rendered inside the example card) ──
   defp sides_preview do
@@ -175,7 +280,7 @@ defmodule MishkaMob.Showcase.Components.Drawer do
     }
   end
 
-  # ── drawer body ──
+  # ── drawer bodies ──
   defp menu_items do
     [menu_item("👤  Profile"), gap(8), menu_item("⚙️  Settings"), gap(8), menu_item("ℹ️  About")]
   end
@@ -194,6 +299,94 @@ defmodule MishkaMob.Showcase.Components.Drawer do
       },
       children: []
     }
+  end
+
+  # Items styled to sit on the violet panel of the "Custom colors" example.
+  defp colored_items do
+    [
+      colored_item("👤  Profile"),
+      gap(8),
+      colored_item("⚙️  Settings"),
+      gap(8),
+      colored_item("ℹ️  About")
+    ]
+  end
+
+  defp colored_item(label) do
+    %{
+      type: :button,
+      props: %{
+        text: label,
+        background: 0x33_FF_FF_FF,
+        text_color: 0xFF_FF_FF_FF,
+        text_size: :lg,
+        padding: :space_md,
+        fill_width: true,
+        on_tap: {self(), :close_drawer}
+      },
+      children: []
+    }
+  end
+
+  # A polished custom body: an account header (avatar + name/email), a divider,
+  # then items — the kind of thing `header: false` is for.
+  defp custom_body do
+    [
+      account_header(),
+      gap(16),
+      %{type: :box, props: %{fill_width: true, height: 1, background: :border}, children: []},
+      gap(16),
+      menu_item("👤  Profile"),
+      gap(8),
+      menu_item("🚪  Sign out")
+    ]
+  end
+
+  defp account_header do
+    avatar = %{
+      type: :box,
+      props: %{
+        width: 52,
+        height: 52,
+        background: :primary,
+        corner_radius: :radius_pill,
+        padding: 13
+      },
+      children: [
+        %{
+          type: :text,
+          props: %{
+            text: "SH",
+            text_size: :lg,
+            text_color: :on_primary,
+            fill_width: true,
+            text_align: :center
+          },
+          children: []
+        }
+      ]
+    }
+
+    info =
+      %{
+        type: :column,
+        props: %{fill_width: true},
+        children: [
+          %{
+            type: :text,
+            props: %{text: "Shahryar", text_size: :lg, text_color: :on_surface},
+            children: []
+          },
+          gap(2),
+          %{
+            type: :text,
+            props: %{text: "shahryar@mishka.tools", text_size: :sm, text_color: :muted},
+            children: []
+          }
+        ]
+      }
+
+    %{type: :row, props: %{fill_width: true}, children: [avatar, gap(12), info]}
   end
 
   # A full-width trigger — use for a standalone example button. (A `weight: 1`

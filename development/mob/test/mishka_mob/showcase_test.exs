@@ -89,6 +89,34 @@ defmodule MishkaMob.ShowcaseTest do
       assert custom.props.open == true
       assert custom.props.side == :left
       assert custom.props.header == false
+
+      colors = base |> render_info({:tap, {:open, :left, :colors}}) |> drawer_node()
+      assert colors.props.open == true
+      assert colors.props.background == 0xFF7C3AED
+      assert colors.props.scrim_color == 0x992E1065
+    end
+
+    test "the custom-chrome variant supplies its own account header (header: false)" do
+      view =
+        ComponentScreen
+        |> mount_screen(%{slug: :drawer})
+        |> render_info({:tap, {:open, :left, :custom}})
+
+      # the built-in title/✕ is off; a bespoke account header is rendered instead
+      assert drawer_node(view).props.header == false
+      assert text(expanded(view)) =~ "Shahryar"
+    end
+
+    test "declares a props reference that the ComponentScreen renders" do
+      props = MishkaMob.Showcase.Components.Drawer.props()
+      assert length(props) >= 8
+      assert Enum.all?(props, &is_binary(&1.name))
+      assert Enum.any?(props, &(&1.name == "side"))
+
+      view = mount_screen(ComponentScreen, %{slug: :drawer})
+      assert text(view) =~ "Props"
+      assert text(view) =~ "scrim_color"
+      assert text(view) =~ "on_close"
     end
 
     test "standalone example triggers are full-width, not weight (so they don't collapse)" do
