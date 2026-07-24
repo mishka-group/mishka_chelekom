@@ -59,6 +59,33 @@ defmodule MishkaChelekom.Generators.Mob.Locations do
   def registry_path(igniter), do: "lib/#{IAPP.app_name(igniter)}/components.ex"
 
   @doc """
+  Normalise a module prefix so it ends in `_`.
+
+  This is load-bearing, not tidiness. A component's module is
+  `Macro.camelize(prefix <> name)`, while every *sibling reference* in a template
+  is `camelize(prefix) <> camelize(sibling)` — two derivations that agree only
+  when the prefix ends in an underscore. Given `--module-prefix mishka`, the file
+  becomes `mishkaclose_button.ex` defining `MishkacloseButton`, and it aliases
+  `MishkaActionIcon` while the sibling actually defines `MishkaactionIcon`. The
+  generated code does not compile.
+
+      iex> MishkaChelekom.Generators.Mob.Locations.normalize_prefix("mishka")
+      "mishka_"
+
+      iex> MishkaChelekom.Generators.Mob.Locations.normalize_prefix("mishka_")
+      "mishka_"
+
+      iex> MishkaChelekom.Generators.Mob.Locations.normalize_prefix(nil)
+      ""
+  """
+  @spec normalize_prefix(String.t() | nil) :: String.t()
+  def normalize_prefix(prefix) when is_binary(prefix) and prefix != "" do
+    if String.ends_with?(prefix, "_"), do: prefix, else: prefix <> "_"
+  end
+
+  def normalize_prefix(_), do: ""
+
+  @doc """
   The file basename and module for a component, honouring `--module-prefix` and
   an explicit `--module`.
 
@@ -66,7 +93,7 @@ defmodule MishkaChelekom.Generators.Mob.Locations do
   """
   @spec resolve(Igniter.t(), String.t(), keyword()) :: {String.t(), module()}
   def resolve(igniter, component, opts) do
-    module_prefix = opts[:module_prefix] || ""
+    module_prefix = normalize_prefix(opts[:module_prefix])
     name_part = if module_prefix == "", do: component, else: "#{module_prefix}#{component}"
 
     module =

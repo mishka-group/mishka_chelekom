@@ -49,14 +49,25 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob.Kit do
 
   def igniter(igniter) do
     Application.ensure_all_started(:owl)
+    sub? = igniter.args.options[:sub] == true
+    spin? = !sub? and Mix.env() != :test and IO.ANSI.enabled?()
 
-    if !igniter.args.options[:sub] and Mix.env() != :test,
-      do: Core.banner(IO.ANSI.magenta(), "Mob Kit")
+    if !sub? and Mix.env() != :test, do: Core.banner(IO.ANSI.magenta(), "Mob Kit")
+    if spin?, do: Owl.Spinner.start(id: :my_spinner, labels: [processing: "Please wait..."])
 
-    igniter
-    |> Mob.Locations.assign_namespace()
-    |> assign_requested_modules()
-    |> write_kit_modules()
+    final =
+      igniter
+      |> Mob.Locations.assign_namespace()
+      |> assign_requested_modules()
+      |> write_kit_modules()
+
+    if spin? do
+      if Map.get(final, :issues, []) == [],
+        do: Owl.Spinner.stop(id: :my_spinner, resolution: :ok, label: "Done"),
+        else: Owl.Spinner.stop(id: :my_spinner, resolution: :error, label: "Error")
+    end
+
+    final
   end
 
   defp assign_requested_modules(igniter) do

@@ -163,6 +163,30 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.MobTest do
     end
   end
 
+  describe "module prefixes that do not end in an underscore" do
+    test "are normalised, so a component and its sibling agree on the module name" do
+      # `--module-prefix mishka` used to yield MishkacloseButton aliasing
+      # MishkaActionIcon while the sibling defined MishkaactionIcon — code that
+      # does not compile. The prefix is normalised to `mishka_` instead.
+      igniter = gen(["close_button", "--module-prefix", "mishka", "--yes"])
+
+      generated = content(igniter, "lib/test/components/mishka_close_button.ex")
+      sibling = content(igniter, "lib/test/components/mishka_action_icon.ex")
+
+      assert generated =~ "defmodule Test.Components.MishkaCloseButton do"
+      assert sibling =~ "defmodule Test.Components.MishkaActionIcon do"
+      assert generated =~ "alias Test.Components.MishkaActionIcon"
+    end
+
+    test "an already-underscored prefix is unchanged" do
+      with_underscore = gen(["chip", "--module-prefix", "mishka_", "--yes"])
+      without = gen(["chip", "--module-prefix", "mishka", "--yes"])
+
+      assert content(with_underscore, "lib/test/components/mishka_chip.ex") ==
+               content(without, "lib/test/components/mishka_chip.ex")
+    end
+  end
+
   describe "the composite registry" do
     test "is written, and registers the generated tag" do
       igniter = gen(["chip", "--yes"])
@@ -194,6 +218,15 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.MobTest do
 
       refute registry =~ ":mishka_event"
       refute registry =~ ":mishka_color,"
+    end
+
+    test "names the module --module actually created, not one guessed from the filename" do
+      # The registry used to derive the module from the file name, so a custom
+      # --module produced an entry pointing at a module that does not exist.
+      igniter = gen(["chip", "--module", "my_app.widgets.chip", "--yes"])
+
+      assert content(igniter, "lib/test/components.ex") =~
+               "{:mishka_chip, MyApp.Widgets.Chip}"
     end
 
     test "--no-register leaves it alone" do

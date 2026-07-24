@@ -42,7 +42,7 @@ defmodule Mix.Tasks.Mishka.Mob.Sync do
     %Igniter.Mix.Task.Info{
       example: @example,
       group: :mishka_chelekom,
-      schema: [source: :string, only: :string]
+      schema: [source: :string, only: :csv]
     }
   end
 
@@ -68,10 +68,11 @@ defmodule Mix.Tasks.Mishka.Mob.Sync do
   end
 
   defp discover_components(%{assigns: %{mob_source: source}} = igniter) do
+    # A :csv option arrives as [] when absent, never nil.
     requested =
       case igniter.args.options[:only] do
-        nil -> nil
-        list -> list |> String.split(",", trim: true) |> Enum.map(&String.trim/1) |> MapSet.new()
+        empty when empty in [nil, []] -> nil
+        list -> MapSet.new(list)
       end
 
     components =

@@ -15,7 +15,6 @@ defmodule MishkaChelekom.Generators.Mob.Registry do
   rebuild is idempotent by construction.
   """
 
-  alias Igniter.Project.Application, as: IAPP
   alias MishkaChelekom.Generators.Core
   alias MishkaChelekom.Generators.Mob.Locations
 
@@ -52,27 +51,58 @@ defmodule MishkaChelekom.Generators.Mob.Registry do
   """
   @spec entries(Igniter.t(), keyword()) :: [{atom(), module()}]
   def entries(igniter, opts \\ []) do
-    dir = Locations.components_dir(igniter)
-    prefix = Map.get(igniter.assigns, :module_prefix, "")
-
     known =
       case Keyword.get(opts, :only) do
         nil -> MapSet.new(Core.all_component_names(igniter, :mob))
         only -> MapSet.new(only)
       end
 
+    # What this run created wins over what the directory implies: it carries the
+    # real module, including a custom --module, which no filename can express.
+    recorded = Map.get(igniter.assigns, :mob_registered, [])
+
+    from_disk = scanned_entries(igniter, known)
+
+    recorded
+    |> Enum.filter(fn {component, _module} -> MapSet.member?(known, component) end)
+    |> Enum.map(fn {component, module} -> {tag(component), module} end)
+    |> Enum.concat(from_disk)
+    |> Enum.uniq_by(&elem(&1, 0))
+    |> Enum.sort()
+  end
+
+  # A file is matched against the catalog with the prefix stripped AND as-is, so
+  # a component generated under a different prefix in an earlier run is still
+  # found rather than silently dropped from the registry.
+  defp scanned_entries(igniter, known) do
+    dir = Locations.components_dir(igniter)
+    prefix = Map.get(igniter.assigns, :module_prefix, "")
+
     (Path.wildcard("#{dir}/*.ex") ++ pending(igniter, dir))
     |> Enum.map(&Path.basename(&1, ".ex"))
     |> Enum.uniq()
-    |> Enum.map(&{&1, String.replace_prefix(&1, prefix, "")})
-    |> Enum.filter(fn {_file, component} -> MapSet.member?(known, component) end)
-    |> Enum.map(fn {file, component} ->
-      {String.to_atom("mishka_#{component}"),
-       Core.module_atom("#{igniter.assigns.mob_namespace}.#{file}")}
+    |> Enum.flat_map(fn file ->
+      case component_for(file, prefix, known) do
+        nil ->
+          []
+
+        component ->
+          [{tag(component), Core.module_atom("#{igniter.assigns.mob_namespace}.#{file}")}]
+      end
     end)
-    |> Enum.uniq()
-    |> Enum.sort()
   end
+
+  defp component_for(file, prefix, known) do
+    stripped = String.replace_prefix(file, prefix, "")
+
+    cond do
+      MapSet.member?(known, stripped) -> stripped
+      MapSet.member?(known, file) -> file
+      true -> nil
+    end
+  end
+
+  defp tag(component), do: String.to_atom("mishka_#{component}")
 
   defp pending(igniter, dir) do
     igniter.rewrite.sources
@@ -154,8 +184,4 @@ defmodule MishkaChelekom.Generators.Mob.Registry do
         igniter
     end
   end
-
-  @doc false
-  @spec app_name(Igniter.t()) :: atom()
-  def app_name(igniter), do: IAPP.app_name(igniter)
 end

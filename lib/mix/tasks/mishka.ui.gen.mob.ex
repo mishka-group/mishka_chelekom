@@ -142,8 +142,9 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob do
     options = igniter.args.options
 
     module_prefix =
-      options[:module_prefix] || get_in(igniter.assigns, [:mishka_user_config, :module_prefix]) ||
-        ""
+      Locations.normalize_prefix(
+        options[:module_prefix] || get_in(igniter.assigns, [:mishka_user_config, :module_prefix])
+      )
 
     {name_part, module} =
       Locations.resolve(igniter, component,
@@ -158,9 +159,19 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob do
     |> Igniter.assign(:module_prefix, module_prefix)
     |> Igniter.assign(:component_module, module)
     |> Igniter.assign(:proper_location, location)
+    |> record_registration(component, module)
   end
 
   defp compute_location(igniter), do: igniter
+
+  # The registry cannot recover a custom --module from a filename, and guessing
+  # from the prefix breaks as soon as one run uses a different one. So each run
+  # records the pairing it actually created.
+  defp record_registration(igniter, component, module) do
+    Igniter.update_assign(igniter, :mob_registered, [{component, module}], fn existing ->
+      Enum.uniq([{component, module} | existing])
+    end)
+  end
 
   defp build_eex_assigns(%{assigns: %{component_module: module}} = igniter) do
     options = igniter.args.options
@@ -180,6 +191,8 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob do
 
   defp build_eex_assigns(igniter), do: igniter
 
+  # The prefix is normalised to end in "_" by Locations.normalize_prefix/1, so
+  # trimming it here yields exactly the camel case the file name will produce.
   defp camelize_prefix(prefix) when is_binary(prefix) and prefix != "",
     do: prefix |> String.trim_trailing("_") |> Macro.camelize()
 

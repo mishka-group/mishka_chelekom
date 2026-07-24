@@ -30,6 +30,8 @@ defmodule MishkaChelekom.Generators.Mob do
   into a call that does not exist.
   """
 
+  alias MishkaChelekom.Generators.Core
+
   @source_namespace "MishkaMob.Components"
 
   # Shared support modules. They are not Chelekom components — nobody generates
@@ -306,8 +308,11 @@ defmodule MishkaChelekom.Generators.Mob do
     """
   end
 
+  # Core.lib_priv/1 resolves via :code.priv_dir/1, which is correct for a hex
+  # dep, a path dep and an umbrella alike; File.cwd!() is only right when the
+  # task happens to be run from the library root.
   defp headless_metadata(component) do
-    path = Path.join([File.cwd!(), "priv", "headless", "#{component}.exs"])
+    path = Core.lib_priv("headless/#{component}.exs")
 
     with true <- File.exists?(path),
          config when is_list(config) <- Config.Reader.read!(path)[String.to_atom(component)] do
