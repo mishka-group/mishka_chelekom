@@ -1,0 +1,212 @@
+defmodule MishkaMob.Components.MishkaSplitter do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Splitter** — two panes sharing
+  an extent, with a control that changes the split.
+
+  ## Panes are sized, not weighted
+
+  Compose has `weight` and SwiftUI does not, so a proportional split built from
+  weighted boxes would work on Android and collapse on iOS. Instead the splitter
+  takes an explicit `extent` — the total width (or height) it has to divide —
+  and computes each pane in dp from the percentage. `sizes/1` does that
+  arithmetic and is public, so a screen that knows its own dimensions can ask
+  for the numbers without rendering.
+
+  ## The divider does not drag
+
+  Mob delivers no pointer coordinates to `render/1`, so nothing can follow a
+  finger along the divider. The divider is drawn where the split actually is,
+  and a native `Slider` moves it — the same trade the colour controls make, and
+  for the same reason. Both read one percentage, so the divider cannot end up
+  somewhere the slider disagrees with.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `value` | 0–100 | `50` | First pane's share, as a percentage. |
+  | `orientation` | `:horizontal` · `:vertical` | `:horizontal` | Side by side, or stacked. |
+  | `extent` | number | `320` | Total dp to divide. |
+  | `min` / `max` | 0–100 | `10` / `90` | Bounds the split. |
+  | `disabled` | boolean | `false` | Hides the control; the panes keep their sizes. |
+  | `show_control` | boolean | `true` | Render the resize slider. |
+  | `on_change` | event tag (atom) | — | `{:change, tag, float}` as the split moves. |
+
+  Children are the two panes; anything past the second is ignored.
+
+  Not ported: keyboard resizing, `id` / `*_class`.
+  """
+
+  import Mob.Sigil
+
+  alias MishkaMob.Components.{Color, Event}
+
+  @extent 320
+
+  @doc "Composite expander (`<MishkaSplitter>`). The first two children are the panes."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, children, _ctx), do: splitter(props, children)
+
+  @doc """
+  The splitter.
+
+      {splitter([value: @split, extent: 340, on_change: :split], [left_pane(), right_pane()])}
+  """
+  @spec splitter(map() | keyword(), [map()]) :: map()
+  def splitter(props \\ %{}, panes \\ []) do
+    props = Map.new(props)
+    {first_size, second_size} = sizes(props)
+    [first, second] = two(panes)
+
+    body =
+      case orientation(props) do
+        :vertical -> stacked(first, second, first_size, second_size, props)
+        :horizontal -> side_by_side(first, second, first_size, second_size, props)
+      end
+
+    ~MOB"""
+    <Column fill_width={true}>
+      {body}
+      {control(props)}
+    </Column>
+    """
+  end
+
+  @doc """
+  The two pane sizes in dp, clamped into `min..max` so a pane can never vanish.
+
+      iex> MishkaMob.Components.MishkaSplitter.sizes(%{value: 50, extent: 300})
+      {150.0, 150.0}
+
+      iex> MishkaMob.Components.MishkaSplitter.sizes(%{value: 25, extent: 400})
+      {100.0, 300.0}
+
+  A value outside the bounds is pulled back inside them, not honoured:
+
+      iex> MishkaMob.Components.MishkaSplitter.sizes(%{value: 0, extent: 300, min: 20})
+      {60.0, 240.0}
+  """
+  @spec sizes(map() | keyword()) :: {float(), float()}
+  def sizes(props) do
+    props = Map.new(props)
+    extent = Map.get(props, :extent, @extent)
+    percent = split(props)
+    first = extent * percent / 100
+
+    {first * 1.0, (extent - first) * 1.0}
+  end
+
+  @doc """
+  The split percentage after clamping — what the control and the panes agree on.
+
+      iex> MishkaMob.Components.MishkaSplitter.split(%{value: 95, max: 90})
+      90
+  """
+  @spec split(map() | keyword()) :: number()
+  def split(props) do
+    props = Map.new(props)
+
+    Color.clamp(
+      Map.get(props, :value, 50),
+      Map.get(props, :min, 10),
+      Map.get(props, :max, 90)
+    )
+  end
+
+  defp side_by_side(first, second, first_size, second_size, props) do
+    ~MOB"""
+    <Row fill_width={true}>
+      <Box width={first_size} background={:surface} corner_radius={:radius_sm}>
+        {first}
+      </Box>
+      {divider(props, :vertical)}
+      <Box width={second_size} background={:surface} corner_radius={:radius_sm}>
+        {second}
+      </Box>
+    </Row>
+    """
+  end
+
+  defp stacked(first, second, first_size, second_size, props) do
+    ~MOB"""
+    <Column fill_width={true}>
+      <Box fill_width={true} height={first_size} background={:surface} corner_radius={:radius_sm}>
+        {first}
+      </Box>
+      {divider(props, :horizontal)}
+      <Box fill_width={true} height={second_size} background={:surface} corner_radius={:radius_sm}>
+        {second}
+      </Box>
+    </Column>
+    """
+  end
+
+  # The grip is drawn where the split is, so the layout reads as one control
+  # even though the slider is what moves it.
+  defp divider(props, :vertical) do
+    ink = grip_ink(props)
+
+    ~MOB"""
+    <Box width={10} fill_height={true} align={:center}>
+      <Box width={3} height={28} background={ink} corner_radius={:radius_pill} />
+    </Box>
+    """
+  end
+
+  defp divider(props, :horizontal) do
+    ink = grip_ink(props)
+
+    ~MOB"""
+    <Box fill_width={true} height={10} align={:center}>
+      <Box width={28} height={3} background={ink} corner_radius={:radius_pill} />
+    </Box>
+    """
+  end
+
+  defp grip_ink(props), do: if(disabled?(props), do: :border, else: :muted)
+
+  defp control(props) do
+    if truthy?(Map.get(props, :show_control, true)) and not disabled?(props) do
+      slider =
+        ~MOB"""
+        <Slider min={Map.get(props, :min, 10)} max={Map.get(props, :max, 90)} value={split(props)} />
+        """
+        |> put(:on_change, Event.handler(Map.get(props, :on_change)))
+
+      ~MOB"""
+      <Column fill_width={true}>
+        <Spacer size={6} />
+        {slider}
+      </Column>
+      """
+    end
+  end
+
+  defp orientation(props) do
+    case Map.get(props, :orientation, :horizontal) do
+      :vertical -> :vertical
+      "vertical" -> :vertical
+      _ -> :horizontal
+    end
+  end
+
+  # Missing panes render as empty boxes rather than crashing a screen mid-edit.
+  defp two(panes) do
+    case List.wrap(panes) do
+      [first, second | _] -> [first, second]
+      [first] -> [first, blank()]
+      [] -> [blank(), blank()]
+    end
+  end
+
+  defp blank, do: ~MOB(<Spacer size={0} />)
+
+  defp disabled?(props), do: truthy?(Map.get(props, :disabled, false))
+
+  defp put(node, _key, nil), do: node
+  defp put(node, key, value), do: %{node | props: Map.put(node.props, key, value)}
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
+end
