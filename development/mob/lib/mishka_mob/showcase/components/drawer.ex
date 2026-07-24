@@ -38,8 +38,8 @@ defmodule MishkaMob.Showcase.Components.Drawer do
         description: "Set `side` to :left, :right, :top, or :bottom.",
         code: ~S"""
         <MishkaDrawer open={@open} side={:right} title="Menu" on_close={:close}>
-          {menu_item("Profile")}
-          {menu_item("Settings")}
+          {menu_item("👤", "Profile")}
+          {menu_item("⚙️", "Settings")}
         </MishkaDrawer>
         """,
         render: fn _assigns -> sides_preview() end
@@ -65,14 +65,18 @@ defmodule MishkaMob.Showcase.Components.Drawer do
       },
       %Example{
         title: "Custom chrome (header: false)",
-        description: "Turn off the built-in title/✕ and supply your own header + body.",
+        description:
+          "Drop the built-in title/✕ and supply your own: a branded account " <>
+            "card, a section label, and a highlighted current row.",
         code: ~S"""
         <MishkaDrawer open={@open} side={:left} header={false}
-                      background={:surface_raised} corner_radius={:radius_lg}
-                      scrim_color={0x66000000} on_close={:close}>
-          {account_header()}
-          {menu_item("Profile")}
-          {menu_item("Sign out")}
+                      corner_radius={:radius_lg} scrim_color={0x66000000}
+                      on_close={:close}>
+          {account_card()}              # avatar + name + email, on brand violet
+          {section_label("MENU")}
+          {active_item("🏠", "Home")}    # highlighted "you are here" row
+          {menu_item("👤", "Profile")}
+          {menu_item("🚪", "Sign out")}
         </MishkaDrawer>
         """,
         render: fn _assigns -> full_button("Open custom drawer", {:open, :left, :custom}) end
@@ -226,12 +230,14 @@ defmodule MishkaMob.Showcase.Components.Drawer do
     }
   end
 
+  # Note the panel keeps the default :surface background — tinting it
+  # :surface_raised made the (also :surface_raised) rows invisible, so the
+  # custom drawer read as bare floating text.
   defp drawer_props(:custom, _side, open?) do
     %{
       open: open?,
       side: :left,
       header: false,
-      background: :surface_raised,
       corner_radius: :radius_lg,
       scrim_color: 0x66_00_00_00,
       on_close: :close_drawer
@@ -281,76 +287,96 @@ defmodule MishkaMob.Showcase.Components.Drawer do
   end
 
   # ── drawer bodies ──
+  #
+  # Rows are tappable *boxes*, not buttons: a Material Button centres its label
+  # (MobBridge.kt renders "button" -> MobButton), which read as floating centred
+  # text. `on_tap` is wired as a clickable modifier for every node type except
+  # button, so a Box gives the same tap with a left-aligned icon + label.
   defp menu_items do
-    [menu_item("👤  Profile"), gap(8), menu_item("⚙️  Settings"), gap(8), menu_item("ℹ️  About")]
+    [
+      menu_item("👤", "Profile"),
+      gap(8),
+      menu_item("⚙️", "Settings"),
+      gap(8),
+      menu_item("ℹ️", "About")
+    ]
   end
 
-  defp menu_item(label) do
-    %{
-      type: :button,
-      props: %{
-        text: label,
-        background: :surface_raised,
-        text_color: :on_surface,
-        text_size: :lg,
-        padding: :space_md,
-        fill_width: true,
-        on_tap: {self(), :close_drawer}
-      },
-      children: []
-    }
+  defp menu_item(icon, label) do
+    row_item(icon, label, :surface_raised, :on_surface)
   end
 
   # Items styled to sit on the violet panel of the "Custom colors" example.
   defp colored_items do
     [
-      colored_item("👤  Profile"),
+      colored_item("👤", "Profile"),
       gap(8),
-      colored_item("⚙️  Settings"),
+      colored_item("⚙️", "Settings"),
       gap(8),
-      colored_item("ℹ️  About")
+      colored_item("ℹ️", "About")
     ]
   end
 
-  defp colored_item(label) do
+  defp colored_item(icon, label) do
+    row_item(icon, label, 0x33_FF_FF_FF, 0xFF_FF_FF_FF)
+  end
+
+  # One left-aligned, full-width, tappable row: [icon] [label].
+  defp row_item(icon, label, background, text_color) do
     %{
-      type: :button,
+      type: :box,
       props: %{
-        text: label,
-        background: 0x33_FF_FF_FF,
-        text_color: 0xFF_FF_FF_FF,
-        text_size: :lg,
-        padding: :space_md,
         fill_width: true,
+        background: background,
+        corner_radius: :radius_md,
+        padding: :space_md,
         on_tap: {self(), :close_drawer}
       },
-      children: []
+      children: [
+        row([
+          %{type: :text, props: %{text: icon, text_size: :lg}, children: []},
+          gap(12),
+          %{
+            type: :text,
+            props: %{text: label, text_size: :lg, text_color: text_color},
+            children: []
+          }
+        ])
+      ]
     }
   end
 
-  # A polished custom body: an account header (avatar + name/email), a divider,
-  # then items — the kind of thing `header: false` is for.
+  # What `header: false` is actually for: chrome you cannot get from the built-in
+  # title + ✕ — a branded account card, a section label, and a highlighted
+  # "current page" row.
   defp custom_body do
     [
-      account_header(),
+      account_card(),
+      gap(18),
+      %{type: :text, props: %{text: "MENU", text_size: :xs, text_color: :muted}, children: []},
+      gap(8),
+      active_item("🏠", "Home"),
+      gap(8),
+      menu_item("👤", "Profile"),
+      gap(8),
+      menu_item("⚙️", "Settings"),
       gap(16),
       %{type: :box, props: %{fill_width: true, height: 1, background: :border}, children: []},
       gap(16),
-      menu_item("👤  Profile"),
-      gap(8),
-      menu_item("🚪  Sign out")
+      menu_item("🚪", "Sign out")
     ]
   end
 
-  defp account_header do
+  # A brand-coloured header card: avatar + name + email on violet.
+  defp account_card do
     avatar = %{
       type: :box,
       props: %{
-        width: 52,
-        height: 52,
-        background: :primary,
+        width: 48,
+        height: 48,
+        background: 0x33_FF_FF_FF,
         corner_radius: :radius_pill,
-        padding: 13
+        padding: 11
       },
       children: [
         %{
@@ -358,7 +384,7 @@ defmodule MishkaMob.Showcase.Components.Drawer do
           props: %{
             text: "SH",
             text_size: :lg,
-            text_color: :on_primary,
+            text_color: 0xFF_FF_FF_FF,
             fill_width: true,
             text_align: :center
           },
@@ -368,25 +394,36 @@ defmodule MishkaMob.Showcase.Components.Drawer do
     }
 
     info =
-      %{
-        type: :column,
-        props: %{fill_width: true},
-        children: [
-          %{
-            type: :text,
-            props: %{text: "Shahryar", text_size: :lg, text_color: :on_surface},
-            children: []
-          },
-          gap(2),
-          %{
-            type: :text,
-            props: %{text: "shahryar@mishka.tools", text_size: :sm, text_color: :muted},
-            children: []
-          }
-        ]
-      }
+      column([
+        %{
+          type: :text,
+          props: %{text: "Shahryar", text_size: :lg, text_color: 0xFF_FF_FF_FF},
+          children: []
+        },
+        gap(2),
+        %{
+          type: :text,
+          props: %{text: "shahryar@mishka.tools", text_size: :sm, text_color: 0xCC_FF_FF_FF},
+          children: []
+        }
+      ])
 
-    %{type: :row, props: %{fill_width: true}, children: [avatar, gap(12), info]}
+    %{
+      type: :box,
+      props: %{
+        fill_width: true,
+        background: 0xFF_7C_3A_ED,
+        corner_radius: :radius_lg,
+        padding: :space_md
+      },
+      children: [row([avatar, gap(12), info])]
+    }
+  end
+
+  # The "you are here" row — a tinted background + coloured label, the sort of
+  # state a drawer owns and the built-in chrome has no concept of.
+  defp active_item(icon, label) do
+    row_item(icon, label, 0x1A_7C_3A_ED, 0xFF_7C_3A_ED)
   end
 
   # A full-width trigger — use for a standalone example button. (A `weight: 1`

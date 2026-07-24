@@ -67,9 +67,27 @@ defmodule MishkaMob.ShowcaseTest do
       assert assigns(view).drawer_open? == true
       assert assigns(view).drawer_side == :right
 
-      labels = expanded(view) |> find_all(:button) |> Enum.map(& &1.props[:text])
-      assert Enum.any?(labels, &(&1 =~ "Profile"))
+      # "About" appears only in the drawer body — every other menu label also
+      # shows up in an example's code block, so it would not prove the overlay.
+      assert text(expanded(view)) =~ "About"
       assert_renderable(expanded(view))
+    end
+
+    test "menu rows are left-aligned tappable boxes, not centred buttons" do
+      view =
+        ComponentScreen
+        |> mount_screen(%{slug: :drawer})
+        |> render_info({:tap, {:open, :right, :default}})
+
+      children = drawer_node(view).children
+      rows = Enum.filter(children, &(&1.type == :box))
+
+      # A Material Button centres its label; a tappable Box lets the row lay the
+      # icon + label out from the leading edge.
+      refute Enum.any?(children, &(&1.type == :button))
+      assert length(rows) == 3
+      assert Enum.all?(rows, &(&1.props[:on_tap] != nil))
+      assert Enum.all?(rows, &(&1.props[:fill_width] == true))
     end
 
     test "every example opens a distinct, visible drawer variant" do
@@ -102,9 +120,14 @@ defmodule MishkaMob.ShowcaseTest do
         |> mount_screen(%{slug: :drawer})
         |> render_info({:tap, {:open, :left, :custom}})
 
-      # the built-in title/✕ is off; a bespoke account header is rendered instead
+      # the built-in title/✕ is off; a bespoke account card is rendered instead
       assert drawer_node(view).props.header == false
       assert text(expanded(view)) =~ "Shahryar"
+      assert text(expanded(view)) =~ "shahryar@mishka.tools"
+
+      # the panel must keep the default :surface background — tinting it
+      # :surface_raised matched the rows and made them invisible
+      refute Map.has_key?(drawer_node(view).props, :background)
     end
 
     test "declares a props reference that the ComponentScreen renders" do
@@ -142,8 +165,7 @@ defmodule MishkaMob.ShowcaseTest do
         |> render_info({:tap, :close_drawer})
 
       assert assigns(view).drawer_open? == false
-      labels = expanded(view) |> find_all(:button) |> Enum.map(& &1.props[:text])
-      refute Enum.any?(labels, &(&1 =~ "Profile"))
+      refute text(expanded(view)) =~ "About"
     end
 
     test "unknown slug renders a not-found page (still renderable)" do
