@@ -1,0 +1,122 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Rolling Number** — a number
+  that counts up to its value.
+
+  ## The roll is the screen's, not the component's
+
+  The web version runs a JS hook that tweens from the old value to the new one
+  over `duration`. A Mob component is a pure function of its props and cannot
+  animate itself; a component that started a timer would fire one per render.
+  So the port renders **whatever number it is given**, formatted, and
+  `steps/3` produces the sequence of intermediate values a screen can walk with
+  `Process.send_after/3`:
+
+      def handle_info({:roll, [next | rest]}, socket) do
+        if rest != [], do: Process.send_after(self(), {:roll, rest}, 16)
+        {:noreply, Mob.Socket.assign(socket, :count, next)}
+      end
+
+  That keeps the timer where timers belong and makes the easing testable.
+
+  ## Grouping
+
+  `locale`-aware grouping is not ported — Elixir has no `Intl.NumberFormat` and
+  guessing a locale's separators would be worse than not trying. `separator`
+  takes the character to group thousands with, defaulting to `","`; pass `""`
+  for none.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `value` | integer | `0` | The number shown. |
+  | `separator` | string | `","` | Thousands separator. `""` disables grouping. |
+  | `text_size` | size token | `:"2xl"` | Number size. |
+  | `color` | color token / ARGB int | `:on_surface` | Number colour. |
+
+  Not ported: `duration` and `locale` (see above), and `id` / `*_class`.
+  """
+
+  import Mob.Sigil
+
+  @doc "Composite expander (`<MishkaRollingNumber />`)."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, _children, _ctx), do: <%= @component_prefix %>rolling_number(props)
+
+  @doc """
+  The number node.
+
+      <%= @component_prefix %>rolling_number(value: 1_234)
+  """
+  @spec <%= @component_prefix %>rolling_number(map() | keyword()) :: map()
+  def <%= @component_prefix %>rolling_number(props \\ %{}) do
+    props = Map.new(props)
+    text = format(Map.get(props, :value, 0), Map.get(props, :separator, ","))
+    size = Map.get(props, :text_size, :"2xl")
+    color = Map.get(props, :color, :on_surface)
+
+    ~MOB"""
+    <Text text={text} text_size={size} text_color={color} />
+    """
+  end
+
+  @doc """
+  Group a number's thousands.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>RollingNumber.format(1234567, ",")
+      "1,234,567"
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>RollingNumber.format(-1234, ",")
+      "-1,234"
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>RollingNumber.format(999, ",")
+      "999"
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>RollingNumber.format(1234, "")
+      "1234"
+  """
+  @spec format(integer(), String.t()) :: String.t()
+  def format(value, separator \\ ",") when is_integer(value) do
+    sign = if value < 0, do: "-", else: ""
+    digits = value |> abs() |> Integer.to_string()
+
+    grouped =
+      if separator == "" do
+        digits
+      else
+        # Group from the RIGHT: reverse, chunk in threes, join, reverse back.
+        # Reversing the chunks *as well* would scramble the digits — it did.
+        digits
+        |> String.reverse()
+        |> String.graphemes()
+        |> Enum.chunk_every(3)
+        |> Enum.map_join(separator, &Enum.join/1)
+        |> String.reverse()
+      end
+
+    sign <> grouped
+  end
+
+  @doc """
+  The intermediate values between `from` and `to`, for a screen to walk on a
+  timer. Eased so the count decelerates rather than marching linearly.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>RollingNumber.steps(0, 10, 5)
+      [5, 8, 9, 10, 10]
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>RollingNumber.steps(5, 5, 3)
+      [5, 5, 5]
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>RollingNumber.steps(0, 3, 0)
+      [3]
+  """
+  @spec steps(integer(), integer(), non_neg_integer()) :: [integer()]
+  def steps(_from, to, count) when count <= 0, do: [to]
+
+  def steps(from, to, count) do
+    Enum.map(1..count, fn i ->
+      # ease-out cubic: fast at first, settling onto the target
+      t = i / count
+      eased = 1 - :math.pow(1 - t, 3)
+      from + round((to - from) * eased)
+    end)
+  end
+end

@@ -1,0 +1,16 @@
+[
+  radio: [
+    name: "radio",
+    category: "forms",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/radio",
+    args: [type: ["radio"], only: ["radio"], helpers: [], module: ""],
+    optional: [],
+    necessary: [],
+    scripts: [],
+    mob: [
+      composite_tag: "mishka_radio",
+      function: "radio",
+      kit: ["event"]
+    ]
+  ]
+]

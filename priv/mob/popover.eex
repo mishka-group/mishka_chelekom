@@ -1,0 +1,94 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Popover** — a small panel of
+  content revealed next to whatever opened it.
+
+  ## Anchored positioning does not port, and pretending otherwise would be worse
+
+  The web component floats its panel beside the trigger using `side`, `align`,
+  `side_offset` and `align_offset`. That needs the trigger's measured on-screen
+  rectangle, and Mob gives a render function no way to obtain one: there is no
+  `Popup` or `DropdownMenu` widget, no anchor primitive, and no measurement fed
+  back into `render/1`. A `:box` stacks over the *whole* area, not beside a
+  sibling.
+
+  So the panel is **placed by the caller**, in flow — normally in the same
+  `Column` directly under its trigger, which is how native dropdowns are built
+  and is stable on both platforms. `offset_x` / `offset_y` are exposed as an
+  escape hatch for nudging (Mob applies them to any node), but they are a static
+  displacement in dp, not anchoring.
+
+  `open_on_hover`, `delay` and `close_delay` are dropped for a simpler reason:
+  a phone has no hover.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `open` | boolean | `false` | Whether the panel is shown. Lives in the screen. |
+  | `width` | number | `nil` | Panel width. Omit to fill the parent. |
+  | `background` | color token / ARGB int | `:surface` | Panel fill. |
+  | `corner_radius` | radius token / number | `:radius_md` | Panel corners. |
+  | `padding` | spacing token / number | `:space_md` | Padding inside the panel. |
+  | `border_color` / `border_width` | color / number | `:border` / `1` | The edge that separates it from the content beneath. |
+  | `offset_x` / `offset_y` | number | `nil` | Static nudge in dp. |
+
+  Not ported: `side`, `align`, `side_offset`, `align_offset`, `open_on_hover`,
+  `delay`, `close_delay`, `modal`, and the `id` / `*_class` attrs.
+  """
+
+  import Mob.Sigil
+
+  @doc "Composite expander (`<MishkaPopover>`). Children are the panel content."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, children, _ctx), do: <%= @component_prefix %>popover(props, children)
+
+  @doc """
+  The popover node. Renders nothing when closed.
+
+      {<%= @component_prefix %>popover([open: @open?], content)}
+  """
+  @spec <%= @component_prefix %>popover(map() | keyword(), [map()]) :: map()
+  def <%= @component_prefix %>popover(props \\ %{}, content \\ []) do
+    props = Map.new(props)
+
+    if truthy?(Map.get(props, :open, false)), do: panel(props, content), else: ~MOB(<Column />)
+  end
+
+  @doc """
+  The panel shell without the `open` gate — the surface `<%= @module_prefix_camel %>Menu` and
+  `<%= @module_prefix_camel %>Tooltip` build on, so all three agree on radius, border and padding.
+  """
+  @spec panel(map() | keyword(), [map()]) :: map()
+  def panel(props \\ %{}, content \\ []) do
+    props = Map.new(props)
+
+    node =
+      ~MOB"""
+      <Box
+        background={Map.get(props, :background, :surface)}
+        corner_radius={Map.get(props, :corner_radius, :radius_md)}
+        padding={Map.get(props, :padding, :space_md)}
+        border_color={Map.get(props, :border_color, :border)}
+        border_width={Map.get(props, :border_width, 1)}
+      >
+        <Column fill_width={true}>
+          {content}
+        </Column>
+      </Box>
+      """
+
+    node
+    |> put(:width, Map.get(props, :width))
+    |> put(:fill_width, if(Map.get(props, :width), do: nil, else: true))
+    |> put(:offset_x, Map.get(props, :offset_x))
+    |> put(:offset_y, Map.get(props, :offset_y))
+  end
+
+  defp put(node, _key, nil), do: node
+  defp put(node, key, value), do: %{node | props: Map.put(node.props, key, value)}
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
+end

@@ -1,0 +1,79 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Semi Circle Progress** — a
+  gauge drawn as a half-circle arc.
+
+  ## The arc cannot be drawn, and the port says so
+
+  The web component draws an SVG arc with a `stroke-dasharray`. Mob's widget set
+  has no canvas, no path and no rotation: `Box`, `Row`, `Column`, `Divider`,
+  `Progress`. There is no honest way to render a half-circle here, and faking
+  one with a stack of rotated boxes is not available either.
+
+  So this port renders the **same reading in the form Mob can draw well** — a
+  bounded track with a proportional fill and a large centred readout — and names
+  the limitation rather than shipping a lumpy approximation of an arc. It shares
+  `<%= @namespace %>.<%= @module_prefix_camel %>Progress.fraction/1`, so the range maths, clamping
+  and degenerate-range handling are identical to every other gauge here.
+
+  If a true arc matters, it needs a `Canvas`/`Path` widget in Mob; that is a
+  framework change, not something this layer can paper over.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `value` | number | `min` | The measurement. |
+  | `min` / `max` | number | `0` / `100` | The range. |
+  | `label` | string | `nil` | Caption under the readout. |
+  | `value_text` | string | `nil` | Overrides the readout (default is a rounded percentage). |
+  | `color` | color token / ARGB int | `:primary` | Fill colour. |
+  | `size` | number | `140` | Track width. |
+
+  Not ported: the SVG arc geometry, `svg_class`, `track_class`,
+  `indicator_class`, `label_class` and `id`.
+  """
+
+  import Mob.Sigil
+
+  alias <%= @namespace %>.<%= @module_prefix_camel %>Progress
+
+  @doc "Composite expander (`<MishkaSemiCircleProgress />`)."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, _children, _ctx), do: <%= @component_prefix %>semi_circle_progress(props)
+
+  @doc """
+  The gauge node.
+
+      <%= @component_prefix %>semi_circle_progress(value: 72, label: "Battery")
+  """
+  @spec <%= @component_prefix %>semi_circle_progress(map() | keyword()) :: map()
+  def <%= @component_prefix %>semi_circle_progress(props \\ %{}) do
+    props = Map.new(props)
+    min = Map.get(props, :min, 0)
+    fraction = <%= @module_prefix_camel %>Progress.fraction(Map.put_new(props, :value, min)) || 0.0
+    color = Map.get(props, :color, :primary)
+    size = Map.get(props, :size, 140)
+    label = Map.get(props, :label)
+    readout = readout(props, fraction)
+
+    ~MOB"""
+    <Column fill_width={true} align={:center}>
+      <Text text={readout} text_size={:"2xl"} text_color={:on_surface} />
+      <Spacer size={8} />
+      <Box width={size} height={8} background={:surface_raised} corner_radius={:radius_pill}>
+        <Progress value={fraction} color={color} />
+      </Box>
+      <Spacer size={8} :if={is_binary(label)} />
+      <Text text={label} text_size={:sm} text_color={:muted} :if={is_binary(label)} />
+    </Column>
+    """
+  end
+
+  defp readout(props, fraction) do
+    case Map.get(props, :value_text) do
+      text when is_binary(text) -> text
+      _ -> "#{round(fraction * 100)}%"
+    end
+  end
+end

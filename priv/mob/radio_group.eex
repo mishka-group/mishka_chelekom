@@ -1,0 +1,139 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Radio Group** — a labelled set
+  of mutually exclusive options.
+
+  Composes `<%= @namespace %>.<%= @module_prefix_camel %>Radio` rather than redrawing the circle,
+  so a single radio and a grouped one are the same control. What the group adds
+  is the three things a lone radio cannot know about itself:
+
+    * which option is selected (`value`), so exactly one is checked,
+    * a group label,
+    * a group-wide `disabled` that cascades to every option.
+
+  ## The selection reducer is the point
+
+  On the web a shared `name` makes the browser enforce exclusivity. Here the
+  group does it: every option reports the same `on_change` tag widened with its
+  own id, and `select/2` is the (one-line, but easy to get subtly wrong) rule for
+  what the next value is — including that tapping the already-selected option
+  leaves it selected rather than clearing the group, which is how radios differ
+  from checkboxes.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `value` | option id | `nil` | The selected option. |
+  | `label` | string | `nil` | Group heading. |
+  | `disabled` | boolean | `false` | Disables every option. |
+  | `on_change` | event tag (atom) | — | Sent as `{:tap, {tag, option_id}}`. |
+  | `orientation` | `:vertical` `:horizontal` | `:vertical` | Layout axis. |
+  | `space` | number | `12` | Gap between options. |
+  | `color` / `size` | see Radio | — | Passed to every option. |
+
+  Options are children built with `option/3`, carrying `id`, `label` and an
+  optional `disabled`.
+
+  Not ported: `name`, `required`, `form` (HTML form plumbing) and `id` /
+  `*_class`. `readonly` collapses into `disabled`.
+  """
+
+  import Mob.Sigil
+
+  alias <%= @namespace %>.<%= @module_prefix_camel %>Radio
+
+  @option_type :mishka_radio_option
+
+  @doc "Composite expander (`<MishkaRadioGroup>`). Children are options."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, children, _ctx), do: <%= @component_prefix %>radio_group(props, children)
+
+  @doc "Build one option node."
+  @spec option(term(), String.t(), keyword()) :: map()
+  def option(id, label, opts \\ []) do
+    %{
+      type: @option_type,
+      props: %{id: id, label: label, disabled: Keyword.get(opts, :disabled, false)},
+      children: []
+    }
+  end
+
+  @doc """
+  The next selected value for a tap on `id`.
+
+  Tapping the selected option keeps it selected — a radio group cannot be
+  cleared by re-tapping, which is exactly where it differs from a checkbox.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>RadioGroup.select(:a, :b)
+      :b
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>RadioGroup.select(:a, :a)
+      :a
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>RadioGroup.select(nil, :a)
+      :a
+  """
+  @spec select(term(), term()) :: term()
+  def select(_current, tapped), do: tapped
+
+  @doc "The group node: an optional label above its options."
+  @spec <%= @component_prefix %>radio_group(map() | keyword(), [map()]) :: map()
+  def <%= @component_prefix %>radio_group(props \\ %{}, children \\ []) do
+    props = Map.new(props)
+    label = Map.get(props, :label)
+    options = options(children, props)
+
+    ~MOB"""
+    <Column fill_width={true}>
+      <Text text={label} text_size={:sm} text_color={:muted} :if={is_binary(label)} />
+      <Spacer size={10} :if={is_binary(label)} />
+      {layout(options, props)}
+    </Column>
+    """
+  end
+
+  defp options(children, props) do
+    group_disabled? = truthy?(Map.get(props, :disabled, false))
+    value = Map.get(props, :value)
+
+    children
+    |> Enum.filter(&match?(%{type: @option_type}, &1))
+    |> Enum.map(fn %{props: option} ->
+      <%= @module_prefix_camel %>Radio.<%= @component_prefix %>radio(
+        label: Map.get(option, :label),
+        checked: Map.get(option, :id) == value,
+        disabled: group_disabled? or truthy?(Map.get(option, :disabled, false)),
+        on_select: option_tag(props, Map.get(option, :id)),
+        color: Map.get(props, :color, :primary),
+        size: Map.get(props, :size, 22)
+      )
+    end)
+  end
+
+  # Every option reports the same tag widened with its own id, so one handler
+  # serves the group — this is what replaces the browser's shared `name`.
+  defp option_tag(props, id) do
+    case Map.get(props, :on_change) do
+      nil -> nil
+      tag -> {tag, id}
+    end
+  end
+
+  defp layout(options, props) do
+    space = Map.get(props, :space, 12)
+    spaced = Enum.intersperse(options, ~MOB(<Spacer size={space} />))
+
+    if Map.get(props, :orientation, :vertical) == :horizontal do
+      ~MOB(<Row fill_width={true}>
+  {spaced}
+</Row>)
+    else
+      ~MOB(<Column fill_width={true}>
+  {spaced}
+</Column>)
+    end
+  end
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
+end

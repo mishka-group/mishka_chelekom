@@ -1,0 +1,250 @@
+defmodule Mix.Tasks.Mishka.Ui.Gen.Mob do
+  use Igniter.Mix.Task
+
+  alias MishkaChelekom.Config
+  alias MishkaChelekom.Generators.{Core, Mob}
+  alias MishkaChelekom.Generators.Mob.{Locations, Registry}
+
+  @example "mix mishka.ui.gen.mob drawer"
+  @shortdoc "Generate a native Mob component for a BEAM-on-device app"
+  @moduledoc """
+  #{@shortdoc}
+
+  Mob components are **native**: they build a node tree of platform widgets
+  (`Box`, `Row`, `Text`, `Slider`, `Canvas`, …) that Compose and SwiftUI render
+  directly. There is no HTML, no JS engine and no CSS, so unlike
+  `mix mishka.ui.gen.headless` this task installs no npm packages and touches no
+  stylesheet.
+
+  Output goes to `lib/<app>/components/<name>.ex` (module
+  `<App>.Components.<Name>`) — a Mob app is a plain OTP application with no
+  `_web` namespace.
+
+  ## What it does that the headless generator does not
+
+  Headless components never reference each other in code; you compose them in
+  HEEx. Mob components *do* — a close button calls an action icon — so two extra
+  things happen here:
+
+    * **`necessary:` does real work.** ~20 components depend on a sibling, and
+      the task offers to generate them rather than emitting code that will not
+      compile.
+    * **the composite registry is maintained** in `lib/<app>/components.ex`, so
+      `<MishkaDrawer>` works in `~MOB` markup. Registration is idempotent — the
+      registry is rebuilt from the components present, not appended to.
+
+  The shared `Event`/`Color` modules are vendored automatically when a component
+  needs them (see `mix mishka.ui.gen.mob.kit`).
+
+  ## Example
+
+  ```bash
+  #{@example}
+  mix mishka.ui.gen.mob color_picker --module-prefix mishka_
+  ```
+
+  ## Options
+
+  * `--module` or `-m` - Custom module name for the component
+  * `--component-prefix` - Prefix for the public function name
+  * `--module-prefix` - Prefix for the module name
+  * `--sub` - Marks this as a dependency sub-generation
+  * `--no-save` - Use prefixes without saving them to config
+  * `--no-register` - Do not touch the composite-tag registry
+  * `--no-kit` - Do not vendor the shared support modules
+  * `--yes` - Apply without prompts
+  """
+
+  def info(_argv, _composing_task) do
+    %Igniter.Mix.Task.Info{
+      example: @example,
+      positional: [:component],
+      group: :mishka_chelekom,
+      schema: [
+        module: :string,
+        component_prefix: :string,
+        module_prefix: :string,
+        sub: :boolean,
+        no_save: :boolean,
+        no_register: :boolean,
+        no_kit: :boolean
+      ],
+      aliases: [m: :module]
+    }
+  end
+
+  def supports_umbrella?(), do: false
+
+  def igniter(igniter) do
+    %Igniter.Mix.Task.Args{positional: %{component: component}} = igniter.args
+
+    igniter
+    |> Igniter.assign(:mishka_user_config, Config.load_user_config(igniter))
+    |> Registry.check_dependency()
+    |> Locations.assign_namespace()
+    |> resolve_template(component)
+    |> compute_location()
+    |> build_eex_assigns()
+    |> write_component()
+    |> vendor_kit()
+    |> generate_necessary()
+    |> register_composites()
+    |> maybe_save_prefixes()
+  end
+
+  defp resolve_template(igniter, component) do
+    case Core.fetch_catalog(igniter, component, :mob) do
+      {:ok, template} ->
+        igniter
+        |> Igniter.assign(:component_name, template.component)
+        |> Igniter.assign(:template_path, template.path)
+        |> Igniter.assign(:template_config, template.config)
+
+      {:error, {:not_found, _path}} ->
+        Igniter.add_issue(
+          igniter,
+          "Mob component #{inspect(component)} not found in priv/mob/. Available: " <>
+            Enum.join(Core.all_component_names(igniter, :mob), ", ")
+        )
+
+      {:error, {:bad_catalog, reason, _config_path}} ->
+        Igniter.add_issue(igniter, "Invalid Mob catalog for #{component}: #{reason}")
+    end
+  end
+
+  defp compute_location(%{assigns: %{component_name: component}} = igniter) do
+    options = igniter.args.options
+
+    module_prefix =
+      options[:module_prefix] || get_in(igniter.assigns, [:mishka_user_config, :module_prefix]) ||
+        ""
+
+    {name_part, module} =
+      Locations.resolve(igniter, component,
+        module_prefix: module_prefix,
+        module: options[:module]
+      )
+
+    location = Locations.component_path(igniter, name_part)
+
+    igniter
+    |> Core.track_generated_file(location)
+    |> Igniter.assign(:module_prefix, module_prefix)
+    |> Igniter.assign(:component_module, module)
+    |> Igniter.assign(:proper_location, location)
+  end
+
+  defp compute_location(igniter), do: igniter
+
+  defp build_eex_assigns(%{assigns: %{component_module: module}} = igniter) do
+    options = igniter.args.options
+
+    component_prefix =
+      options[:component_prefix] ||
+        get_in(igniter.assigns, [:mishka_user_config, :component_prefix]) || ""
+
+    assigns =
+      Mob.eex_assigns(module, igniter.assigns.mob_namespace,
+        component_prefix: component_prefix,
+        module_prefix_camel: camelize_prefix(igniter.assigns.module_prefix)
+      )
+
+    Igniter.assign(igniter, :eex_assigns, assigns)
+  end
+
+  defp build_eex_assigns(igniter), do: igniter
+
+  defp camelize_prefix(prefix) when is_binary(prefix) and prefix != "",
+    do: prefix |> String.trim_trailing("_") |> Macro.camelize()
+
+  defp camelize_prefix(_), do: ""
+
+  defp write_component(%{assigns: %{eex_assigns: assigns}} = igniter) do
+    Igniter.copy_template(
+      igniter,
+      igniter.assigns.template_path,
+      igniter.assigns.proper_location,
+      assigns,
+      on_exists: :overwrite
+    )
+  end
+
+  defp write_component(igniter), do: igniter
+
+  # The kit is not optional in practice: 41 of the 72 components alias `Event`.
+  # Composing the task rather than duplicating the copy keeps one definition of
+  # where those modules live.
+  defp vendor_kit(%{assigns: %{template_config: config}} = igniter) do
+    kit = get_in(config, [:mob, :kit]) || []
+
+    if igniter.args.options[:no_kit] || kit == [] do
+      igniter
+    else
+      Igniter.compose_task(igniter, "mishka.ui.gen.mob.kit", [
+        "--only",
+        Enum.join(kit, ","),
+        "--sub",
+        "--yes"
+      ])
+    end
+  end
+
+  defp vendor_kit(igniter), do: igniter
+
+  # A sibling that is missing does not fail loudly at generation time — it fails
+  # at compile time in the consumer's app, with an error about a module they
+  # never asked for. So they are generated with the same prefixes.
+  defp generate_necessary(%{assigns: %{template_config: config}} = igniter) do
+    necessary = Keyword.get(config, :necessary, [])
+
+    Enum.reduce(necessary, igniter, fn sibling, acc ->
+      if already_generated?(acc, sibling) do
+        acc
+      else
+        Igniter.compose_task(acc, "mishka.ui.gen.mob", [sibling | inherited_flags(acc)])
+      end
+    end)
+  end
+
+  defp generate_necessary(igniter), do: igniter
+
+  defp already_generated?(igniter, sibling) do
+    name_part =
+      case igniter.assigns.module_prefix do
+        "" -> sibling
+        prefix -> "#{prefix}#{sibling}"
+      end
+
+    path = Locations.component_path(igniter, name_part)
+
+    Map.has_key?(igniter.rewrite.sources, path) or File.exists?(path)
+  end
+
+  defp inherited_flags(igniter) do
+    options = igniter.args.options
+
+    ["--sub", "--yes", "--no-register"]
+    |> prepend_flag("--module-prefix", igniter.assigns.module_prefix)
+    |> prepend_flag("--component-prefix", options[:component_prefix])
+  end
+
+  defp prepend_flag(flags, _name, value) when value in [nil, ""], do: flags
+  defp prepend_flag(flags, name, value), do: [name, value | flags]
+
+  # Rebuilt from what is on disk rather than appended to, so re-running a
+  # generator cannot register the same tag twice or leave a stale one behind.
+  defp register_composites(%{assigns: %{proper_location: _}} = igniter) do
+    if igniter.args.options[:no_register] do
+      igniter
+    else
+      Registry.write(igniter)
+    end
+  end
+
+  defp register_composites(igniter), do: igniter
+
+  defp maybe_save_prefixes(%{assigns: %{eex_assigns: _}} = igniter),
+    do: Core.maybe_save_prefixes(igniter, igniter.args.options)
+
+  defp maybe_save_prefixes(igniter), do: igniter
+end

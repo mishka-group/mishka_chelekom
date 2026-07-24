@@ -1,0 +1,189 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless JSON Input** — a multi-line
+  field for JSON with a validated error state.
+
+  The web component is explicit that parsing is the *server's* job and there is
+  no JS involved, which makes it one of the most faithful ports here: the same
+  division of labour, with `Jason` on the same side of the wire.
+
+  ## Multi-line
+
+  Mob's `TextField` was single-line only; this component needed a textarea, so
+  the bridge grew a `lines` prop (`singleLine = false` plus `minLines`/`maxLines`
+  when `lines > 1`). Note that the return key then inserts a newline rather than
+  submitting, which is the correct behaviour for a textarea and means `on_submit`
+  is only meaningful on a single-line field.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `value` | string | `""` | The raw text. Never reformatted as you type. |
+  | `lines` | integer | `6` | Height of the field, in rows. |
+  | `placeholder` | string | `"{ }"` | Empty-state hint. |
+  | `invalid` | boolean | derived | Force the error state; otherwise `validate/1` decides. |
+  | `error_text` | string | the parser's message | What to show under the field. |
+  | `show_error` | boolean | `true` | Render the message at all. |
+  | `disabled` | boolean | `false` | Mutes and unwires. |
+  | `on_change` | event tag (atom) | — | `{:change, tag, text}` per keystroke. |
+
+  Not ported: `name` / `form` / `id`.
+  """
+
+  import Mob.Sigil
+
+  alias <%= @namespace %>.Event
+
+  @doc "Composite expander (`<MishkaJsonInput />`). Delegates to `json_input/1`."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, _children, _ctx), do: <%= @component_prefix %>json_input(props)
+
+  @doc """
+  The JSON field.
+
+      <%= @component_prefix %>json_input(value: @draft, on_change: :draft)
+  """
+  @spec <%= @component_prefix %>json_input(map() | keyword()) :: map()
+  def <%= @component_prefix %>json_input(props \\ %{}) do
+    props = Map.new(props)
+    disabled? = truthy?(Map.get(props, :disabled, false))
+    text = Map.get(props, :value, "")
+    result = validate(text)
+    invalid? = invalid?(props, result)
+
+    field =
+      ~MOB"""
+      <TextField
+        value={text}
+        placeholder={Map.get(props, :placeholder, "{ }")}
+        lines={Map.get(props, :lines, 6)}
+        fill_width={true}
+        background={:surface}
+        padding={:space_sm}
+        border_color={if(invalid?, do: :danger, else: :border)}
+        border_width={1}
+      />
+      """
+      |> put(:on_change, if(disabled?, do: nil, else: Event.handler(Map.get(props, :on_change))))
+
+    ~MOB"""
+    <Column fill_width={true}>
+      {field}
+      {message(props, result, invalid?)}
+    </Column>
+    """
+  end
+
+  @doc """
+  Validate the text.
+
+  Blank is `:empty` rather than an error — an untouched field is not a mistake,
+  and the web component does not paint one red either.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>JsonInput.validate(~s({"a": 1}))
+      {:ok, %{"a" => 1}}
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>JsonInput.validate("   ")
+      :empty
+
+      iex> match?({:error, _}, <%= @namespace %>.<%= @module_prefix_camel %>JsonInput.validate("{oops}"))
+      true
+
+  A bare scalar is valid JSON, and treating it as an error would be wrong:
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>JsonInput.validate("42")
+      {:ok, 42}
+  """
+  @spec validate(String.t() | nil) :: {:ok, term()} | {:error, String.t()} | :empty
+  def validate(text) when is_binary(text) do
+    if String.trim(text) == "" do
+      :empty
+    else
+      case Jason.decode(text) do
+        {:ok, decoded} -> {:ok, decoded}
+        {:error, error} -> {:error, describe(error)}
+      end
+    end
+  end
+
+  def validate(_), do: :empty
+
+  @doc """
+  Pretty-print the text, or return it untouched when it will not parse.
+
+  Formatting is a deliberate action — a button, a blur — never a keystroke:
+  reformatting as someone types would move the cursor out from under them.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>JsonInput.format(~s({"a":1}))
+      "{\\n  \\"a\\": 1\\n}"
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>JsonInput.format("{oops}")
+      "{oops}"
+  """
+  @spec format(String.t() | nil) :: String.t()
+  def format(text) do
+    case validate(text) do
+      {:ok, decoded} -> Jason.encode!(decoded, pretty: true)
+      _ -> text || ""
+    end
+  end
+
+  @doc """
+  Whether the field should show its error state — explicit `invalid` wins,
+  otherwise the parse decides.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>JsonInput.invalid?(%{}, {:error, "nope"})
+      true
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>JsonInput.invalid?(%{}, :empty)
+      false
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>JsonInput.invalid?(%{invalid: true}, {:ok, 1})
+      true
+  """
+  @spec invalid?(map() | keyword(), {:ok, term()} | {:error, String.t()} | :empty) :: boolean()
+  def invalid?(props, result) do
+    case Map.get(Map.new(props), :invalid) do
+      nil -> match?({:error, _}, result)
+      forced -> truthy?(forced)
+    end
+  end
+
+  defp message(props, result, invalid?) do
+    with true <- truthy?(Map.get(props, :show_error, true)),
+         true <- invalid?,
+         text when is_binary(text) <- error_text(props, result) do
+      ~MOB"""
+      <Column fill_width={true}>
+        <Spacer size={6} />
+        <Text text={text} text_size={:sm} text_color={:danger} />
+      </Column>
+      """
+    else
+      _ -> nil
+    end
+  end
+
+  defp error_text(props, result) do
+    case Map.get(props, :error_text) do
+      text when is_binary(text) -> text
+      _ -> from_result(result)
+    end
+  end
+
+  defp from_result({:error, reason}), do: reason
+  defp from_result(_), do: "Invalid JSON"
+
+  # Jason's exceptions carry position information; the message alone is more
+  # use in a 30-point-tall error line than the struct's inspect output.
+  defp describe(%Jason.DecodeError{} = error), do: Exception.message(error)
+  defp describe(other), do: inspect(other)
+
+  defp put(node, _key, nil), do: node
+  defp put(node, key, value), do: %{node | props: Map.put(node.props, key, value)}
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
+end

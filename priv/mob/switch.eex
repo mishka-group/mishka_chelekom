@@ -1,0 +1,90 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Switch** — an on/off control.
+
+  Unlike the Drawer and Accordion, this one is a thin wrapper: Mob ships a real
+  `Toggle` widget (a Compose `Switch` / SwiftUI `Toggle`), so the port maps the
+  Chelekom API onto it rather than rebuilding a track and thumb out of boxes.
+  That means the control animates, reports accessibility state, and follows the
+  platform's own switch metrics for free.
+
+  ## Controlled, like every Mob widget
+
+  `Toggle` is controlled: it renders whatever `checked` says and reports
+  intent through `on_change`. Nothing moves until the screen writes the new
+  value back, which arrives as `{:change, tag, boolean}`:
+
+      {<%= @component_prefix %>switch(label: "Wi-Fi", checked: @wifi?, on_change: :wifi_changed)}
+
+      def handle_info({:change, :wifi_changed, on?}, socket) do
+        {:noreply, Mob.Socket.assign(socket, :wifi?, on?)}
+      end
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `checked` | boolean | `false` | The on state. |
+  | `label` | string | `nil` | Leading label; the switch sits at the trailing edge. |
+  | `on_change` | event tag (atom) | — | Sent as `{:change, tag, boolean}`. Omit for a read-only switch. |
+  | `color` | color token / ARGB int | platform default | Thumb colour when on. |
+  | `disabled` | boolean | `false` | Wires no handler, so the control cannot move. |
+
+  ## What is deliberately not ported
+
+  The web attrs that exist only to make an `<input>` submit inside an HTML form
+  — `name`, `value`, `unchecked_value`, `form`, `required` — have no meaning on
+  a phone: there is no form post, and the screen already holds the value. `id`
+  is dropped too (it exists to anchor `aria-*` relationships in the DOM).
+
+  `readonly` and `disabled` collapse into one thing here: both simply omit the
+  handler. Note the platform still paints an *enabled-looking* switch — Mob's
+  `Toggle` bridge does not forward Compose's `enabled` flag — so a disabled
+  switch looks normal but cannot be moved. Pair it with a muted label when that
+  distinction matters.
+  """
+
+  import Mob.Sigil
+
+  alias <%= @namespace %>.Event
+
+  @doc "Composite expander (`<MishkaSwitch />`). Delegates to `switch/1`."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, _children, _ctx), do: <%= @component_prefix %>switch(props)
+
+  @doc """
+  The switch node. Accepts a map or keyword list.
+
+      <%= @component_prefix %>switch(label: "Wi-Fi", checked: true, on_change: :wifi)
+  """
+  @spec <%= @component_prefix %>switch(map() | keyword()) :: map()
+  def <%= @component_prefix %>switch(props \\ %{}) do
+    props = Map.new(props)
+    checked = truthy?(Map.get(props, :checked, false))
+
+    node = ~MOB(<Toggle value={checked} />)
+
+    node
+    |> put_prop(:label, Map.get(props, :label))
+    |> put_prop(:color, Map.get(props, :color))
+    |> put_prop(:on_change, handler(props))
+  end
+
+  # A disabled switch keeps its handler off, which is what makes it inert:
+  # `Toggle` is controlled, so with nothing listening the thumb cannot move.
+  # Everything else is widened to {pid, tag} — see <%= @namespace %>.Event.
+  defp handler(props) do
+    if truthy?(Map.get(props, :disabled, false)) do
+      nil
+    else
+      Event.handler(Map.get(props, :on_change))
+    end
+  end
+
+  defp put_prop(node, _key, nil), do: node
+  defp put_prop(node, key, value), do: %{node | props: Map.put(node.props, key, value)}
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
+end

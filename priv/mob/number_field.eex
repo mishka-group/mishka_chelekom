@@ -1,0 +1,239 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Number Field** — a numeric
+  input with decrement/increment buttons.
+
+  The text side is Mob's native `TextField` with a numeric keyboard, so the
+  platform brings the right keypad; the steppers are tappable boxes either side.
+
+  ## Parsing is the component, not the markup
+
+  A numeric input's real work is turning whatever the user typed into a number:
+  partial input while typing (`"-"`, `"1."`, `""`), values outside the range, and
+  the step arithmetic that must not drift into floating-point noise. Those live
+  in `parse/2` and `step/3` as pure functions, so a screen gets the same
+  behaviour as the buttons without re-deriving it — and so the awkward cases are
+  tested rather than discovered.
+
+  `step/3` clamps into `[min, max]` and rounds to the step's own precision, so
+  stepping `0.1` from `0.3` gives `0.4` rather than `0.4000000000000001`.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `value` | number or `nil` | `nil` | Current value. |
+  | `min` / `max` | number or `nil` | `nil` | Bounds. Unbounded when absent. |
+  | `step` | number | `1` | Amount the buttons move. |
+  | `placeholder` | string | `nil` | Shown while empty. |
+  | `disabled` | boolean | `false` | Mutes and unwires everything. |
+  | `on_change` | event tag (atom) | — | `{:change, tag, text}` from the field. |
+  | `on_step` | event tag (atom) | — | `{:tap, {tag, :up \\| :down}}` from the buttons. |
+  | `decimals` | integer | derived from `step` | How the value is rendered. |
+
+  Not ported: `name` (form plumbing), `small_step` / `large_step` (modifier keys),
+  `snap_on_step`, `allow_out_of_range` (the port always clamps), scrub-to-change
+  (a pointer gesture), and `id` / `*_class`.
+  """
+
+  import Mob.Sigil
+
+  alias <%= @namespace %>.Event
+
+  @doc "Composite expander (`<MishkaNumberField />`)."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, _children, _ctx), do: <%= @component_prefix %>number_field(props)
+
+  @doc """
+  Parse user input into a number, or `nil` when it is not (yet) one.
+
+  Partial input while typing must not blow up or snap to zero: a lone `"-"` or a
+  trailing `"."` is "not a number yet", not an error.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>NumberField.parse("42")
+      42
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>NumberField.parse("4.5")
+      4.5
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>NumberField.parse("-")
+      nil
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>NumberField.parse("")
+      nil
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>NumberField.parse("abc")
+      nil
+  """
+  @spec parse(String.t() | number() | nil, keyword()) :: number() | nil
+  def parse(input, opts \\ [])
+  def parse(value, opts) when is_number(value), do: clamp(value, opts)
+  def parse(nil, _opts), do: nil
+
+  def parse(text, opts) when is_binary(text) do
+    trimmed = String.trim(text)
+
+    cond do
+      trimmed in ["", "-", "+", ".", "-.", "+."] ->
+        nil
+
+      true ->
+        case Float.parse(trimmed) do
+          {float, ""} -> clamp(maybe_integer(float, trimmed), opts)
+          _ -> nil
+        end
+    end
+  end
+
+  @doc """
+  Move `value` by one `step` in `direction`, clamped into the range.
+
+  Rounds to the step's own precision so repeated stepping does not accumulate
+  floating-point noise.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>NumberField.step(1, :up, step: 1)
+      2
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>NumberField.step(0.3, :up, step: 0.1)
+      0.4
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>NumberField.step(nil, :up, step: 1, min: 5)
+      5
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>NumberField.step(10, :up, step: 1, max: 10)
+      10
+  """
+  @spec step(number() | nil, :up | :down, keyword()) :: number()
+  def step(value, direction, opts \\ [])
+
+  def step(nil, _direction, opts) do
+    # No current value: the first press establishes the starting point rather
+    # than jumping a step past it. Stepping up from empty with min: 5 lands on
+    # 5, not 6.
+    (Keyword.get(opts, :min) || 0) |> clamp(opts)
+  end
+
+  def step(value, direction, opts) do
+    amount = Keyword.get(opts, :step, 1)
+    moved = if direction == :down, do: value - amount, else: value + amount
+
+    moved
+    |> round_to(amount)
+    |> clamp(opts)
+  end
+
+  @doc """
+  Render a value for display, at the precision implied by the step.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>NumberField.to_text(4, 0)
+      "4"
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>NumberField.to_text(4.5, 1)
+      "4.5"
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>NumberField.to_text(nil, 0)
+      ""
+  """
+  @spec to_text(number() | nil, non_neg_integer()) :: String.t()
+  def to_text(nil, _decimals), do: ""
+  def to_text(value, 0) when is_integer(value), do: Integer.to_string(value)
+  def to_text(value, 0), do: value |> round() |> Integer.to_string()
+  def to_text(value, decimals), do: :erlang.float_to_binary(value * 1.0, decimals: decimals)
+
+  @doc """
+  The number of decimals a step implies.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>NumberField.decimals_for(1)
+      0
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>NumberField.decimals_for(0.25)
+      2
+  """
+  @spec decimals_for(number()) :: non_neg_integer()
+  def decimals_for(step) when is_integer(step), do: 0
+
+  def decimals_for(step) do
+    case step |> Float.to_string() |> String.split(".") do
+      [_, frac] -> frac |> String.trim_trailing("0") |> String.length()
+      _ -> 0
+    end
+  end
+
+  @doc "The number-field node."
+  @spec <%= @component_prefix %>number_field(map() | keyword()) :: map()
+  def <%= @component_prefix %>number_field(props \\ %{}) do
+    props = Map.new(props)
+    disabled? = truthy?(Map.get(props, :disabled, false))
+    amount = Map.get(props, :step, 1)
+    decimals = Map.get(props, :decimals, decimals_for(amount))
+    text = to_text(Map.get(props, :value), decimals)
+
+    ~MOB"""
+    <Row fill_width={true}>
+      {stepper("−", :down, props, disabled?)}
+      <Spacer size={8} />
+      <Box weight={1}>
+        {input(props, text, disabled?)}
+      </Box>
+      <Spacer size={8} />
+      {stepper("+", :up, props, disabled?)}
+    </Row>
+    """
+  end
+
+  defp input(props, text, disabled?) do
+    node = ~MOB"""
+    <TextField
+      value={text}
+      placeholder={Map.get(props, :placeholder, "")}
+      keyboard={if(Map.get(props, :step, 1) == trunc(Map.get(props, :step, 1)), do: "number", else: "decimal")}
+      fill_width={true}
+      background={:surface}
+      corner_radius={:radius_sm}
+      padding={:space_sm}
+      border_color={:border}
+      border_width={1}
+    />
+    """
+
+    case handler(props, :on_change, disabled?) do
+      nil -> node
+      tap -> %{node | props: Map.put(node.props, :on_change, tap)}
+    end
+  end
+
+  defp stepper(glyph, direction, props, disabled?) do
+    color = if disabled?, do: :muted, else: :on_surface
+
+    node = ~MOB"""
+    <Box
+      width={40}
+      height={40}
+      align={:center}
+      background={:surface_raised}
+      corner_radius={:radius_sm}
+    >
+      <Text text={glyph} text_size={:lg} text_color={color} />
+    </Box>
+    """
+
+    case handler(props, :on_step, disabled?) do
+      nil -> node
+      {pid, tag} -> %{node | props: Map.put(node.props, :on_tap, {pid, {tag, direction}})}
+    end
+  end
+
+  defp handler(_props, _key, true), do: nil
+  defp handler(props, key, _), do: Event.handler(Map.get(props, key))
+
+  defp clamp(value, opts) do
+    value
+    |> then(fn v -> if (min = Keyword.get(opts, :min)) && v < min, do: min, else: v end)
+    |> then(fn v -> if (max = Keyword.get(opts, :max)) && v > max, do: max, else: v end)
+  end
+
+  # Keep integers integral: "42" should not become 42.0.
+  defp maybe_integer(float, text) do
+    if String.contains?(text, "."), do: float, else: trunc(float)
+  end
+
+  defp round_to(value, amount) when is_integer(amount), do: round(value)
+
+  # Round to the step's own precision so repeated stepping does not accumulate
+  # floating-point noise (0.3 + 0.1 must be 0.4, not 0.4000000000000001).
+  defp round_to(value, amount), do: Float.round(value * 1.0, decimals_for(amount))
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
+end

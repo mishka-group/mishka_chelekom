@@ -1,0 +1,186 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless OTP Field** — the segmented
+  one-time-code input.
+
+  ## One input, many boxes
+
+  The web version renders one `<input>` per slot and moves focus between them.
+  That focus choreography is exactly what makes OTP inputs miserable — losing a
+  digit on backspace, fighting autofill — and Mob has no focus control to
+  reproduce it with anyway.
+
+  So this is **one `TextField` for the whole code**, drawn as separate slot
+  boxes. The field carries the value; the boxes are a display of it. Paste,
+  autofill and backspace all behave the way the platform's own keyboard expects,
+  because there is only ever one input.
+
+  ## Validation belongs to the value
+
+  `sanitize/2` drops anything the `validation_type` disallows and truncates to
+  `length`, so a pasted `"12-34-56"` becomes `"123456"` rather than being
+  rejected. `complete?/2` says when the code is full, which is what a screen
+  needs for auto-submit.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `value` | string | `""` | The code so far. |
+  | `length` | integer | `6` | Number of slots. |
+  | `validation_type` | `:numeric` `:alpha` `:alphanumeric` `:none` | `:numeric` | What is allowed. |
+  | `mask` | boolean | `false` | Render `•` instead of the character. |
+  | `disabled` | boolean | `false` | Mutes and unwires. |
+  | `on_change` | event tag (atom) | — | `{:change, tag, text}`. |
+  | `color` | color token / ARGB int | `:primary` | Border of filled slots. |
+
+  Not ported: `name` (form plumbing), `auto_complete` / `input_mode` (browser
+  hints), `transform`, `auto_submit` (the screen decides, using `complete?/2`),
+  and `id` / `*_class`.
+  """
+
+  import Mob.Sigil
+
+  alias <%= @namespace %>.Event
+
+  @doc "Composite expander (`<MishkaOtpField />`)."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, _children, _ctx), do: <%= @component_prefix %>otp_field(props)
+
+  @doc """
+  Keep only the characters `validation_type` allows, then truncate to `length`.
+
+  A pasted code with separators should still work, so the disallowed characters
+  are dropped rather than the whole paste rejected.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>OtpField.sanitize("12-34-56", length: 6)
+      "123456"
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>OtpField.sanitize("1234567890", length: 4)
+      "1234"
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>OtpField.sanitize("a1b2", validation_type: :alpha)
+      "ab"
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>OtpField.sanitize("a1-b2", validation_type: :alphanumeric)
+      "a1b2"
+  """
+  @spec sanitize(String.t() | nil, keyword()) :: String.t()
+  def sanitize(nil, _opts), do: ""
+
+  def sanitize(text, opts) do
+    length = Keyword.get(opts, :length, 6)
+    kind = Keyword.get(opts, :validation_type, :numeric)
+
+    text
+    |> String.graphemes()
+    |> Enum.filter(&allowed?(&1, kind))
+    |> Enum.take(length)
+    |> Enum.join()
+  end
+
+  @doc """
+  Whether the code fills every slot — what a screen checks before auto-submitting.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>OtpField.complete?("123456", length: 6)
+      true
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>OtpField.complete?("123", length: 6)
+      false
+  """
+  @spec complete?(String.t() | nil, keyword()) :: boolean()
+  def complete?(value, opts \\ []) do
+    String.length(value || "") == Keyword.get(opts, :length, 6)
+  end
+
+  @doc "The OTP field node."
+  @spec <%= @component_prefix %>otp_field(map() | keyword()) :: map()
+  def <%= @component_prefix %>otp_field(props \\ %{}) do
+    props = Map.new(props)
+    length = Map.get(props, :length, 6)
+    value = Map.get(props, :value, "")
+    disabled? = truthy?(Map.get(props, :disabled, false))
+    chars = String.graphemes(value)
+
+    slots =
+      0..(length - 1)
+      |> Enum.map(&slot(Enum.at(chars, &1), props, disabled?))
+      |> Enum.intersperse(~MOB(<Spacer size={8} />))
+
+    ~MOB"""
+    <Column fill_width={true}>
+      <Row fill_width={true}>
+        {slots}
+      </Row>
+      <Spacer size={10} />
+      {input(props, value, disabled?)}
+    </Column>
+    """
+  end
+
+  # One field for the whole code: the slots above are a display of its value, so
+  # paste and backspace behave the way the platform keyboard expects.
+  defp input(props, value, disabled?) do
+    node = ~MOB"""
+    <TextField
+      value={value}
+      placeholder={Map.get(props, :placeholder, "Enter code")}
+      keyboard={keyboard(Map.get(props, :validation_type, :numeric))}
+      fill_width={true}
+      background={:surface}
+      corner_radius={:radius_sm}
+      padding={:space_sm}
+      border_color={:border}
+      border_width={1}
+    />
+    """
+
+    case handler(props, disabled?) do
+      nil -> node
+      tap -> %{node | props: Map.put(node.props, :on_change, tap)}
+    end
+  end
+
+  defp slot(nil, props, disabled?), do: slot_box("", false, props, disabled?)
+
+  defp slot(char, props, disabled?) do
+    shown = if truthy?(Map.get(props, :mask, false)), do: "•", else: char
+    slot_box(shown, true, props, disabled?)
+  end
+
+  defp slot_box(text, filled?, props, disabled?) do
+    accent = Map.get(props, :color, :primary)
+
+    border =
+      cond do
+        disabled? -> :border
+        filled? -> accent
+        true -> :border
+      end
+
+    ~MOB"""
+    <Box
+      weight={1}
+      height={48}
+      align={:center}
+      background={:surface}
+      corner_radius={:radius_sm}
+      border_color={border}
+      border_width={if(filled?, do: 2, else: 1)}
+    >
+      <Text text={text} text_size={:xl} text_color={if(disabled?, do: :muted, else: :on_surface)} />
+    </Box>
+    """
+  end
+
+  defp keyboard(:numeric), do: "number"
+  defp keyboard(_kind), do: "text"
+
+  defp allowed?(_char, :none), do: true
+  defp allowed?(char, :numeric), do: char =~ ~r/^[0-9]$/
+  defp allowed?(char, :alpha), do: char =~ ~r/^[A-Za-z]$/
+  defp allowed?(char, _alphanumeric), do: char =~ ~r/^[A-Za-z0-9]$/
+
+  defp handler(_props, true), do: nil
+  defp handler(props, _), do: Event.handler(Map.get(props, :on_change))
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
+end

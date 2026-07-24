@@ -1,0 +1,118 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Collapsible** — a trigger that
+  shows and hides one region (the WAI-ARIA disclosure pattern).
+
+  ## Why this is not "an Accordion with one item"
+
+  Structurally it is, and the rendered row is deliberately identical. What
+  differs is the **event shape**, and that is the reason this is its own
+  component rather than a thin call into
+  `<%= @namespace %>.<%= @module_prefix_camel %>Accordion`: an accordion widens its tag to
+  `{tag, item_id}` so one handler can serve many rows, which is noise when there
+  is only ever one region. A collapsible fires a bare `{:tap, tag}`:
+
+      {<%= @component_prefix %>collapsible([title: "Details", open: @open?, on_toggle: :toggle_details], body)}
+
+      def handle_info({:tap, :toggle_details}, socket) do
+        {:noreply, Mob.Socket.assign(socket, :open?, not socket.assigns.open?)}
+      end
+
+  Reusing the accordion would have leaked its multi-item event into a
+  single-item API.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `title` | string | `nil` | The trigger label. |
+  | `open` | boolean | `false` | Whether the region is shown. Lives in the screen. |
+  | `disabled` | boolean | `false` | Wires no handler, so the trigger is inert. |
+  | `on_toggle` | event tag (atom) | — | Sent as `{:tap, tag}`. |
+  | `chevron` | boolean | `true` | Show the ▸/▾ indicator. |
+  | `background` | color token / ARGB int | `:surface_raised` | Row background. |
+  | `corner_radius` | radius token / number | `:radius_md` | Rounds the row. |
+  | `padding` | spacing token / number | `:space_md` | Padding inside trigger and region. |
+
+  Not ported: `id` and the `*_class` attrs (DOM anchoring and styling), and
+  `hidden_until_found`, which exists so a browser's find-in-page can reveal
+  collapsed text — there is no find-in-page over native views.
+
+  Like the Accordion, the trigger is a tappable Box rather than a Button,
+  because a Material Button centres its label.
+  """
+
+  import Mob.Sigil
+
+  alias <%= @namespace %>.Event
+
+  @doc """
+  Composite expander (`<MishkaCollapsible>`). The tag's children are the
+  collapsible region.
+  """
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, children, _ctx), do: <%= @component_prefix %>collapsible(props, children)
+
+  @doc """
+  The collapsible node. `props` is a map or keyword list; `content` is the list
+  of nodes revealed when open.
+  """
+  @spec <%= @component_prefix %>collapsible(map() | keyword(), [map()]) :: map()
+  def <%= @component_prefix %>collapsible(props \\ %{}, content \\ []) do
+    props = Map.new(props)
+    open? = truthy?(Map.get(props, :open, false))
+    disabled? = truthy?(Map.get(props, :disabled, false))
+    padding = Map.get(props, :padding, :space_md)
+
+    ~MOB"""
+    <Box
+      fill_width={true}
+      background={Map.get(props, :background, :surface_raised)}
+      corner_radius={Map.get(props, :corner_radius, :radius_md)}
+    >
+      <Column fill_width={true}>
+        {trigger(props, open?, disabled?, padding)}
+        <Column fill_width={true} padding={padding} :if={open? and content != []}>
+          {content}
+        </Column>
+      </Column>
+    </Box>
+    """
+  end
+
+  # Label leading, state chevron trailing. A disabled trigger gets no handler at
+  # all, so it cannot fire.
+  defp trigger(props, open?, disabled?, padding) do
+    color = if disabled?, do: :muted, else: :on_surface
+
+    # Widened to {pid, tag}; a bare atom would serialise as an ordinary prop and
+    # the trigger would render fine but never fire.
+    tap =
+      if disabled?,
+        do: nil,
+        else: Event.handler(Map.get(props, :on_toggle))
+
+    chevron? = truthy?(Map.get(props, :chevron, true))
+
+    node = ~MOB"""
+    <Box fill_width={true} padding={padding}>
+      <Row fill_width={true}>
+        <Text text={Map.get(props, :title)} text_size={:lg} text_color={color} />
+        <Spacer weight={1} :if={chevron?} />
+        <Text
+          text={if(open?, do: "▾", else: "▸")}
+          text_size={:lg}
+          text_color={color}
+          :if={chevron?}
+        />
+      </Row>
+    </Box>
+    """
+
+    if tap, do: %{node | props: Map.put(node.props, :on_tap, tap)}, else: node
+  end
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
+end

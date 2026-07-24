@@ -1,0 +1,156 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Segmented Control** — a joined
+  strip of options where exactly one is always selected.
+
+  ## Why it is not a Toggle Group with different padding
+
+  It is drawn differently — one continuous track with the selection sitting
+  inside it, rather than separate buttons — and it behaves differently in the way
+  that matters: **the selection can never be empty**. Tapping the selected
+  segment does nothing, where a toggle group would clear and a radio group would
+  keep. That is why `select/2` exists and simply returns the tapped id: the rule
+  is "always something", and stating it beats each screen rediscovering it.
+
+  When an empty selection is meaningful, reach for
+  `<%= @namespace %>.<%= @module_prefix_camel %>ToggleGroup` instead.
+
+  ## Segments are content-sized
+
+  Equal-width segments would need `weight`, which Compose implements and Mob's
+  iOS mapping does not, so the strip would look right on Android and collapse on
+  iOS. Segments therefore size to their labels — the same compromise the Tabs
+  port makes, for the same reason.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `value` | option id | first option | The selected segment. |
+  | `label` | string | `nil` | Heading above the strip. |
+  | `disabled` | boolean | `false` | Disables every segment. |
+  | `on_change` | event tag (atom) | — | Sent as `{:tap, {tag, option_id}}`. |
+  | `color` | color token / ARGB int | `:primary` | Selected segment fill. |
+  | `text_color` | color token / ARGB int | `:on_primary` | Selected segment label. |
+  | `background` | color token / ARGB int | `:surface_raised` | The track. |
+
+  Options are children built with `option/3`.
+
+  Not ported: `name` (form plumbing) and `id` / `*_class`.
+  """
+
+  import Mob.Sigil
+
+  alias <%= @namespace %>.Event
+
+  @option_type :mishka_segment
+
+  @doc "Composite expander (`<MishkaSegmentedControl>`). Children are options."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, children, _ctx), do: <%= @component_prefix %>segmented_control(props, children)
+
+  @doc "Build one segment node."
+  @spec option(term(), String.t(), keyword()) :: map()
+  def option(id, label, opts \\ []) do
+    %{
+      type: @option_type,
+      props: %{id: id, label: label, disabled: Keyword.get(opts, :disabled, false)},
+      children: []
+    }
+  end
+
+  @doc """
+  The next value after tapping `id` — always the tapped one.
+
+  A segmented control cannot be cleared, so re-tapping the selection is a no-op
+  rather than an empty state.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>SegmentedControl.select(:a, :b)
+      :b
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>SegmentedControl.select(:a, :a)
+      :a
+  """
+  @spec select(term(), term()) :: term()
+  def select(_current, tapped), do: tapped
+
+  @doc "The control node."
+  @spec <%= @component_prefix %>segmented_control(map() | keyword(), [map()]) :: map()
+  def <%= @component_prefix %>segmented_control(props \\ %{}, children \\ []) do
+    props = Map.new(props)
+    label = Map.get(props, :label)
+
+    options =
+      children
+      |> Enum.filter(&match?(%{type: @option_type}, &1))
+      |> Enum.map(& &1.props)
+
+    selected = selected(props, options)
+    segments = Enum.map(options, &segment(&1, props, Map.get(&1, :id) == selected))
+
+    ~MOB"""
+    <Column fill_width={true}>
+      <Text text={label} text_size={:sm} text_color={:muted} :if={is_binary(label)} />
+      <Spacer size={10} :if={is_binary(label)} />
+      <Box
+        background={Map.get(props, :background, :surface_raised)}
+        corner_radius={:radius_md}
+        padding={3}
+      >
+        <Row>
+          {segments}
+        </Row>
+      </Box>
+    </Column>
+    """
+  end
+
+  @doc """
+  The selected id: the `value` prop when it names a real option, otherwise the
+  first — a segmented control always has a selection.
+  """
+  @spec selected(map() | keyword(), [map()]) :: term() | nil
+  def selected(props, options) do
+    ids = Enum.map(options, &Map.get(&1, :id))
+    wanted = props |> Map.new() |> Map.get(:value)
+
+    if wanted in ids, do: wanted, else: List.first(ids)
+  end
+
+  defp segment(option, props, selected?) do
+    disabled? =
+      truthy?(Map.get(props, :disabled, false)) or truthy?(Map.get(option, :disabled, false))
+
+    fill = if selected?, do: Map.get(props, :color, :primary), else: :transparent
+
+    text_color =
+      cond do
+        disabled? -> :muted
+        selected? -> Map.get(props, :text_color, :on_primary)
+        true -> :on_surface
+      end
+
+    node = ~MOB"""
+    <Box background={fill} corner_radius={:radius_sm} padding={:space_sm}>
+      <Text text={Map.get(option, :label)} text_size={:base} text_color={text_color} />
+    </Box>
+    """
+
+    case tap(props, option, disabled?) do
+      nil -> node
+      handler -> %{node | props: Map.put(node.props, :on_tap, handler)}
+    end
+  end
+
+  defp tap(_props, _option, true), do: nil
+
+  defp tap(props, option, _disabled) do
+    case Event.handler(Map.get(props, :on_change)) do
+      nil -> nil
+      {pid, tag} -> {pid, {tag, Map.get(option, :id)}}
+    end
+  end
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
+end

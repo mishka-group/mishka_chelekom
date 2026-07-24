@@ -1,0 +1,69 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Marquee** — content that
+  scrolls past continuously.
+
+  ## The continuous scroll is not ported, and nothing here pretends otherwise
+
+  A marquee is defined by an animation: a CSS `@keyframes` translation looping
+  forever. Mob exposes no animation primitive to a render function — no
+  transform, no keyframes, no per-frame driver — and a component cannot run its
+  own timer (it would fire once per render). Driving one from the screen would
+  mean re-rendering the whole tree every frame, which is the wrong trade for
+  decorative motion.
+
+  So this renders the **honest static form**: the content in a horizontal
+  scroller the user can flick, with the duplicated group the web version uses to
+  make the loop seamless. It is the same content, readable, and it moves — under
+  the user's finger instead of on its own.
+
+  A true marquee needs an animation primitive in Mob; that is a framework
+  change, not something this layer can fake.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `repeat` | integer | `2` | How many times the content is repeated. |
+  | `space` | number | `24` | Gap between repeats. |
+  | `height` | number | `nil` | Rail height. |
+  | `id` | string | `nil` | Registers the scroller so a screen can drive it. |
+
+  Not ported: the animation, `track_class`, `group_class` and `id` / `class`.
+  """
+
+  alias <%= @namespace %>.<%= @module_prefix_camel %>ScrollArea
+
+  @doc "Composite expander (`<MishkaMarquee>`). Children are the content."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, children, _ctx), do: <%= @component_prefix %>marquee(props, children)
+
+  @doc """
+  The marquee node.
+
+      {<%= @component_prefix %>marquee([repeat: 3], [ticker_row()])}
+  """
+  @spec <%= @component_prefix %>marquee(map() | keyword(), [map()]) :: map()
+  def <%= @component_prefix %>marquee(props \\ %{}, content \\ []) do
+    props = Map.new(props)
+    repeat = max(Map.get(props, :repeat, 2), 1)
+    space = Map.get(props, :space, 24)
+
+    groups =
+      1..repeat
+      |> Enum.flat_map(fn _ -> content ++ [gap(space)] end)
+      |> Enum.drop(-1)
+
+    <%= @module_prefix_camel %>ScrollArea.<%= @component_prefix %>scroll_area(
+      [orientation: :horizontal]
+      |> maybe(:id, Map.get(props, :id))
+      |> maybe(:height, Map.get(props, :height)),
+      [%{type: :row, props: %{}, children: groups}]
+    )
+  end
+
+  defp gap(size), do: %{type: :spacer, props: %{size: size}, children: []}
+
+  defp maybe(opts, _key, nil), do: opts
+  defp maybe(opts, key, value), do: Keyword.put(opts, key, value)
+end
