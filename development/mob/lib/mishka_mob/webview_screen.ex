@@ -16,8 +16,14 @@ defmodule MishkaMob.WebViewScreen do
   end
 
   defp status_row(%{last_msg: nil}) do
-    ~MOB(<Text text="Waiting for JS bridge event..." text_size={:sm} text_color={:muted} padding={:space_sm} />)
+    ~MOB(<Text
+  text="Waiting for JS bridge event..."
+  text_size={:sm}
+  text_color={:muted}
+  padding={:space_sm}
+/>)
   end
+
   defp status_row(%{last_msg: msg}) do
     text = "JS->Elixir: #{inspect(msg)}"
     ~MOB(<Text text={text} text_size={:sm} text_color={:primary} padding={:space_sm} />)

@@ -20,7 +20,7 @@ defmodule MishkaMob.MixProject do
 
   defp deps do
     [
-      {:mob,     "~> 0.7"},
+      {:mob, "~> 0.7"},
       {:mob_dev, "~> 0.6", only: :dev, runtime: false},
       {:ecto_sqlite3, "~> 0.18"},
       # Showcase plugins — each ships a demo screen the home auto-lists, so a

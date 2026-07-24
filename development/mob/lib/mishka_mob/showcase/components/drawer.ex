@@ -74,8 +74,16 @@ defmodule MishkaMob.Showcase.Components.Drawer do
 
     panel = %{
       type: :box,
-      props: %{width: 66, height: 56, background: :muted, corner_radius: :radius_sm, padding: :space_xs},
-      children: [%{type: :column, props: %{}, children: [line(30), gap(5), line(22), gap(5), line(26)]}]
+      props: %{
+        width: 66,
+        height: 56,
+        background: :muted,
+        corner_radius: :radius_sm,
+        padding: :space_xs
+      },
+      children: [
+        %{type: :column, props: %{}, children: [line(30), gap(5), line(22), gap(5), line(26)]}
+      ]
     }
 
     content = %{
@@ -110,7 +118,13 @@ defmodule MishkaMob.Showcase.Components.Drawer do
 
   # ── drawer props per opened variant ──
   defp drawer_props(:sheet, _side, open?) do
-    %{open: open?, side: :bottom, title: "Menu", corner_radius: :radius_lg, on_close: :close_drawer}
+    %{
+      open: open?,
+      side: :bottom,
+      title: "Menu",
+      corner_radius: :radius_lg,
+      on_close: :close_drawer
+    }
   end
 
   defp drawer_props(:custom, _side, open?) do
@@ -202,7 +216,11 @@ defmodule MishkaMob.Showcase.Components.Drawer do
 
   # ── card-face pieces ──
   defp dot,
-    do: %{type: :box, props: %{width: 6, height: 6, background: :muted, corner_radius: :radius_pill}, children: []}
+    do: %{
+      type: :box,
+      props: %{width: 6, height: 6, background: :muted, corner_radius: :radius_pill},
+      children: []
+    }
 
   defp line(width) do
     %{

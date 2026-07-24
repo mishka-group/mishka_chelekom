@@ -13,6 +13,7 @@ defmodule MishkaMob.DiceScreen do
       |> Mob.Socket.assign(:history, [])
       |> Mob.Socket.assign(:total_rolls, 0)
       |> Mob.Socket.assign(:total_pips, 0)
+
     {:ok, socket}
   end
 
@@ -85,7 +86,6 @@ defmodule MishkaMob.DiceScreen do
             }
           ]
         },
-
         %{type: :spacer, props: %{size: 24}, children: []},
 
         # ── Roll button ───────────────────────────────────────────────
@@ -101,7 +101,6 @@ defmodule MishkaMob.DiceScreen do
           },
           children: []
         },
-
         %{type: :spacer, props: %{size: 32}, children: []},
         %{type: :divider, props: %{color: :border}, children: []},
         %{type: :spacer, props: %{size: 16}, children: []},
@@ -116,24 +115,31 @@ defmodule MishkaMob.DiceScreen do
             stat("Average", avg_text)
           ]
         }
-      ] ++ history_section ++ [
-        %{type: :spacer, props: %{size: 32}, children: []},
-        back_button()
-      ]
+      ] ++
+        history_section ++
+        [
+          %{type: :spacer, props: %{size: 32}, children: []},
+          back_button()
+        ]
 
     %{
       type: :scroll,
       props: %{background: :background},
       children: [
-        %{type: :column, props: %{background: :background, padding: :space_md}, children: column_children}
+        %{
+          type: :column,
+          props: %{background: :background, padding: :space_md},
+          children: column_children
+        }
       ]
     }
   end
 
   def handle_info({:tap, :roll}, socket) do
-    value   = :rand.uniform(6)
-    face    = Map.fetch!(@faces, value)
+    value = :rand.uniform(6)
+    face = Map.fetch!(@faces, value)
     history = [value | socket.assigns.history] |> Enum.take(@history_max)
+
     socket =
       socket
       |> Mob.Socket.assign(:value, value)
@@ -141,6 +147,7 @@ defmodule MishkaMob.DiceScreen do
       |> Mob.Socket.assign(:history, history)
       |> Mob.Socket.assign(:total_rolls, socket.assigns.total_rolls + 1)
       |> Mob.Socket.assign(:total_pips, socket.assigns.total_pips + value)
+
     {:noreply, socket}
   end
 
@@ -157,8 +164,16 @@ defmodule MishkaMob.DiceScreen do
       type: :column,
       props: %{background: :surface_raised, padding: :space_md},
       children: [
-        %{type: :text, props: %{text: value, text_size: :xl, text_color: :primary, padding: 0}, children: []},
-        %{type: :text, props: %{text: label, text_size: :sm, text_color: :muted, padding: 0}, children: []}
+        %{
+          type: :text,
+          props: %{text: value, text_size: :xl, text_color: :primary, padding: 0},
+          children: []
+        },
+        %{
+          type: :text,
+          props: %{text: label, text_size: :sm, text_color: :muted, padding: 0},
+          children: []
+        }
       ]
     }
   end

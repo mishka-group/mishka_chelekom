@@ -2,9 +2,11 @@ defmodule MishkaMob.Round do
   use Ecto.Schema
 
   schema "rounds" do
-    field :user_choice,     :string   # "rock" | "paper" | "scissors"
-    field :computer_choice, :string
-    field :result,          :string   # "win" | "loss" | "draw"
+    # "rock" | "paper" | "scissors"
+    field(:user_choice, :string)
+    field(:computer_choice, :string)
+    # "win" | "loss" | "draw"
+    field(:result, :string)
     timestamps()
   end
 end

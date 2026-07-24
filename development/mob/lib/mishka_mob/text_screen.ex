@@ -7,6 +7,7 @@ defmodule MishkaMob.TextScreen do
       socket
       |> Mob.Socket.assign(:text, Mob.State.get(:draft_text, ""))
       |> Mob.Socket.assign(:focused, false)
+
     {:ok, socket}
   end
 
@@ -33,8 +34,8 @@ defmodule MishkaMob.TextScreen do
                 keyboard: :default,
                 return_key: :done,
                 on_change: {self(), :text_changed},
-                on_focus:  {self(), :focused},
-                on_blur:   {self(), :blurred}
+                on_focus: {self(), :focused},
+                on_blur: {self(), :blurred}
               },
               children: []
             },
@@ -49,7 +50,6 @@ defmodule MishkaMob.TextScreen do
               },
               children: []
             },
-
             %{type: :spacer, props: %{size: 24}, children: []},
             %{type: :divider, props: %{color: :border}, children: []},
             %{type: :spacer, props: %{size: 16}, children: []},
@@ -67,7 +67,11 @@ defmodule MishkaMob.TextScreen do
                 %{
                   type: :text,
                   props: %{
-                    text: if(assigns.text == "", do: "Your text will appear here…", else: assigns.text),
+                    text:
+                      if(assigns.text == "",
+                        do: "Your text will appear here…",
+                        else: assigns.text
+                      ),
                     text_size: :lg,
                     text_color: if(assigns.text == "", do: :muted, else: :on_surface),
                     padding: 0
@@ -76,7 +80,6 @@ defmodule MishkaMob.TextScreen do
                 }
               ]
             },
-
             %{type: :spacer, props: %{size: 32}, children: []},
             back_button()
           ]

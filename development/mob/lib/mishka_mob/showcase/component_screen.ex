@@ -49,7 +49,10 @@ defmodule MishkaMob.Showcase.ComponentScreen do
               Kit.gap(20)
             ] ++
               Enum.flat_map(examples, fn ex ->
-                [Kit.example_block(ex.title, ex.description, ex.render.(assigns), ex.code), Kit.gap(16)]
+                [
+                  Kit.example_block(ex.title, ex.description, ex.render.(assigns), ex.code),
+                  Kit.gap(16)
+                ]
               end) ++
               [Kit.gap(8), Kit.back_button()]
         }

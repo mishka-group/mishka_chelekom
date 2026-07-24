@@ -48,8 +48,7 @@ defmodule MishkaMob.Showcase.GalleryScreen do
   def handle_info({:tap, {:set_theme, key}}, socket), do: {:noreply, ThemeBar.set(key, socket)}
 
   def handle_info({:tap, {:open, slug}}, socket) do
-    {:noreply,
-     Mob.Socket.push_screen(socket, MishkaMob.Showcase.ComponentScreen, %{slug: slug})}
+    {:noreply, Mob.Socket.push_screen(socket, MishkaMob.Showcase.ComponentScreen, %{slug: slug})}
   end
 
   def handle_info({:tap, :back}, socket), do: {:noreply, Mob.Socket.pop_screen(socket)}
