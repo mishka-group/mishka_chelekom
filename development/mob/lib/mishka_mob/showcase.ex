@@ -150,7 +150,9 @@ defmodule MishkaMob.Showcase do
      MishkaMob.Components.MishkaSegmentedControl},
     {MishkaMob.Showcase.Components.EmptyState, :mishka_empty_state,
      MishkaMob.Components.MishkaEmptyState},
-    {MishkaMob.Showcase.Components.Spoiler, :mishka_spoiler, MishkaMob.Components.MishkaSpoiler}
+    {MishkaMob.Showcase.Components.Spoiler, :mishka_spoiler, MishkaMob.Components.MishkaSpoiler},
+    {MishkaMob.Showcase.Components.ActionIcon, :mishka_action_icon,
+     MishkaMob.Components.MishkaActionIcon}
   ]
 
   @doc "Every showcase component module, in catalog order."

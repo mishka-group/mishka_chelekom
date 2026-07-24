@@ -1,0 +1,114 @@
+defmodule MishkaMob.Components.MishkaActionIcon do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Action Icon** — a compact
+  icon-only button (the ✕ on a card, the ⋯ on a row, the ← in a header).
+
+  A square tap target holding a glyph or nodes. `MishkaMob.Components.MishkaCloseButton`
+  is this component with a fixed ✕ and a `:radius_pill` shape, which is why it
+  is a wrapper rather than a copy.
+
+  ## Tap targets stay finger-sized
+
+  `size` defaults to **40**, not to the glyph's own size. An icon button drawn to
+  fit its glyph is a ~16 dp target, well under the ~44 dp both platforms'
+  guidelines ask for, and it is the single most common way icon buttons end up
+  frustrating on a phone. Shrink it deliberately if a design needs it; the
+  default will not do it for you.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `icon` | string | `nil` | The glyph. Children override it. |
+  | `on_tap` | event tag (atom) | — | Sent as `{:tap, tag}`. |
+  | `disabled` | boolean | `false` | Wires no handler and mutes the glyph. |
+  | `size` | number | `40` | Tap-target edge, not the glyph size. |
+  | `variant` | `:plain` `:filled` | `:plain` | Transparent, or on a raised surface. |
+  | `shape` | `:rounded` `:circle` | `:rounded` | `:circle` uses an exact `size / 2` radius. |
+  | `color` | color token / ARGB int | `:on_surface` | Glyph colour. |
+  | `background` | color token / ARGB int | `:surface_raised` | Fill when `variant: :filled`. |
+
+  `label` is not ported: it is an `aria-label`, and Mob exposes no accessible
+  name on a box. `type` (submit/reset) is form plumbing.
+  """
+
+  import Mob.Sigil
+
+  alias MishkaMob.Components.Event
+
+  @doc "Composite expander (`<MishkaActionIcon>`). Children override the glyph."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, children, _ctx), do: action_icon(props, children)
+
+  @doc """
+  The action-icon node.
+
+      action_icon(icon: "⋯", on_tap: :menu)
+      action_icon(icon: "←", variant: :filled, shape: :circle, on_tap: :back)
+  """
+  @spec action_icon(map() | keyword(), [map()]) :: map()
+  def action_icon(props \\ %{}, content \\ []) do
+    props = Map.new(props)
+    disabled? = truthy?(Map.get(props, :disabled, false))
+    size = Map.get(props, :size, 40)
+
+    node = ~MOB"""
+    <Box
+      width={size}
+      height={size}
+      align={:center}
+      corner_radius={radius(Map.get(props, :shape, :rounded), size)}
+      background={background(props, disabled?)}
+    >
+      {glyph(props, content, disabled?)}
+    </Box>
+    """
+
+    case handler(props, disabled?) do
+      nil -> node
+      tap -> %{node | props: Map.put(node.props, :on_tap, tap)}
+    end
+  end
+
+  @doc """
+  The corner radius for a shape — a circle is `size / 2` so it stays round at
+  any size.
+
+      iex> MishkaMob.Components.MishkaActionIcon.radius(:circle, 40)
+      20.0
+      iex> MishkaMob.Components.MishkaActionIcon.radius(:rounded, 40)
+      :radius_md
+  """
+  @spec radius(atom(), number()) :: number() | atom()
+  def radius(:circle, size), do: size / 2
+  def radius(_rounded, _size), do: :radius_md
+
+  # Locals, not inline Map.get/3: inside the parenthesised ~MOB(...) form the
+  # first `)` closes the sigil, so a call with arguments cannot be interpolated
+  # there.
+  defp glyph(props, [], disabled?) do
+    color = if disabled?, do: :muted, else: Map.get(props, :color, :on_surface)
+    icon = Map.get(props, :icon)
+
+    ~MOB"""
+    <Text text={icon} text_size={:lg} text_color={color} />
+    """
+  end
+
+  defp glyph(_props, content, _disabled?), do: ~MOB(<Row>
+  {content}
+</Row>)
+
+  defp background(props, _disabled?) do
+    if Map.get(props, :variant, :plain) == :filled,
+      do: Map.get(props, :background, :surface_raised),
+      else: :transparent
+  end
+
+  defp handler(_props, true), do: nil
+  defp handler(props, _), do: Event.handler(Map.get(props, :on_tap))
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
+end
