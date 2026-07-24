@@ -131,7 +131,8 @@ defmodule MishkaMob.Showcase do
     {MishkaMob.Showcase.Components.AlertDialog, :mishka_alert_dialog,
      MishkaMob.Components.MishkaAlertDialog},
     {MishkaMob.Showcase.Components.Tabs, :mishka_tabs, MishkaMob.Components.MishkaTabs},
-    {MishkaMob.Showcase.Components.Chip, :mishka_chip, MishkaMob.Components.MishkaChip}
+    {MishkaMob.Showcase.Components.Chip, :mishka_chip, MishkaMob.Components.MishkaChip},
+    {MishkaMob.Showcase.Components.Pill, :mishka_pill, MishkaMob.Components.MishkaPill}
   ]
 
   @doc "Every showcase component module, in catalog order."
