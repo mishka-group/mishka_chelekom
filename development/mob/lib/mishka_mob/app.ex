@@ -32,6 +32,10 @@ defmodule MishkaMob.App do
     # built-in nodes). No native code, no mob.exs entry.
     Mob.Composite.register(:mishka_drawer, {MishkaMob.Components.MishkaDrawer, :expand})
 
+    # Register components into the gallery (see MishkaMob.Showcase). One line per
+    # component — the generic gallery/component screens do the rest.
+    MishkaMob.Showcase.register(MishkaMob.Showcase.Components.Drawer)
+
     Mob.Screen.start_root(MishkaMob.HomeScreen)
     Mob.Dist.ensure_started(node: :"mishka_mob_android@127.0.0.1", cookie: :mob_secret)
   end
