@@ -8,3 +8,7 @@
 erlang 29.0
 elixir 1.20.0-otp-29
 java temurin-17.0.18
+# Native build (mob_dev's `zig build` for Android + iOS). The mob.new scaffold
+# omits this; without it the native build fails "No version is set for command
+# zig" (exit 126). Matches mob_dev's doctor (zig 0.15.x).
+zig 0.15.2
