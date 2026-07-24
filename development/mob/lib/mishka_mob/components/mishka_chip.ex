@@ -1,0 +1,98 @@
+defmodule MishkaMob.Components.MishkaChip do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Chip** — a compact, selectable
+  label (a filter chip).
+
+  On the web a chip is a `<label>` wrapping a hidden checkbox or radio, so the
+  browser handles selection and form submission. Natively there is no hidden
+  input and no form post: the chip is a tappable pill whose `checked` state
+  comes from the screen, exactly like every other controlled Mob widget.
+
+  That also means `type: "checkbox" | "radio"` does not port as a prop. The
+  difference between the two is entirely in how the *screen* updates state —
+  toggle one id, or replace the selection — so it belongs in the handler. Both
+  shapes are one line:
+
+      # checkbox chips: toggle membership
+      selected = if id in selected, do: List.delete(selected, id), else: [id | selected]
+
+      # radio chips: replace
+      selected = [id]
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `label` | string | `nil` | The chip's text. |
+  | `checked` | boolean | `false` | Whether it reads as selected. |
+  | `disabled` | boolean | `false` | Wires no handler and mutes the chip. |
+  | `on_toggle` | event tag (atom) | — | Sent as `{:tap, tag}`. |
+  | `color` | color token / ARGB int | `:primary` | Fill when checked. |
+  | `text_color` | color token / ARGB int | `:on_primary` | Label colour when checked. |
+
+  Not ported: `name`, `value` and `type` (HTML form plumbing) and the `id` /
+  `*_class` attrs.
+  """
+
+  import Mob.Sigil
+
+  alias MishkaMob.Components.Event
+
+  @doc "Composite expander (`<MishkaChip />`). Delegates to `chip/1`."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, _children, _ctx), do: chip(props)
+
+  @doc """
+  The chip node.
+
+      chip(label: "Elixir", checked: true, on_toggle: :pick_elixir)
+  """
+  @spec chip(map() | keyword()) :: map()
+  def chip(props \\ %{}) do
+    props = Map.new(props)
+    checked? = truthy?(Map.get(props, :checked, false))
+    disabled? = truthy?(Map.get(props, :disabled, false))
+
+    node = ~MOB"""
+    <Box
+      background={background(props, checked?, disabled?)}
+      corner_radius={:radius_pill}
+      padding={:space_sm}
+    >
+      <Text
+        text={Map.get(props, :label)}
+        text_size={:base}
+        text_color={text_color(props, checked?, disabled?)}
+      />
+    </Box>
+    """
+
+    case handler(props, disabled?) do
+      nil -> node
+      tap -> %{node | props: Map.put(node.props, :on_tap, tap)}
+    end
+  end
+
+  defp background(props, checked?, disabled?) do
+    cond do
+      disabled? -> :surface_raised
+      checked? -> Map.get(props, :color, :primary)
+      true -> :surface_raised
+    end
+  end
+
+  defp text_color(props, checked?, disabled?) do
+    cond do
+      disabled? -> :muted
+      checked? -> Map.get(props, :text_color, :on_primary)
+      true -> :on_surface
+    end
+  end
+
+  defp handler(_props, true), do: nil
+  defp handler(props, _disabled), do: Event.handler(Map.get(props, :on_toggle))
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
+end
