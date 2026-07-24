@@ -1,0 +1,86 @@
+defmodule MishkaMob.Components.MishkaTooltip do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Tooltip** — a short hint about
+  the control beside it.
+
+  ## A tooltip is the hardest of the three to port honestly
+
+  The web tooltip is defined by two things Mob does not have: it **floats
+  anchored** to its trigger, and it opens on **hover** after a delay. There is no
+  hover on a phone, and no anchoring (see
+  `MishkaMob.Components.MishkaPopover` for why). Neither can be faked at this
+  layer.
+
+  What survives is still worth having: a compact, high-contrast hint that the
+  screen shows next to a control while `open` is true. On a phone the trigger is
+  a tap or a long press, which is the caller's to wire — so `delay`,
+  `close_delay`, `hoverable`, `group` and `track_cursor_axis` are dropped rather
+  than accepted and ignored.
+
+  ## It is deliberately not the Popover shell
+
+  A tooltip is a *hint*, not a panel: dark, tight, no border, small text. Using
+  the Popover's surface would make it read as a menu. It is small enough to draw
+  directly.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `text` | string | `nil` | The hint. |
+  | `open` | boolean | `false` | Whether it is shown. |
+  | `background` | color token / ARGB int | `0xFF111827` | Bubble fill — dark by default so it reads over any surface. |
+  | `color` | color token / ARGB int | `0xFFFFFFFF` | Hint colour. |
+  | `text_size` | size token | `:sm` | Hint size. |
+  | `offset_x` / `offset_y` | number | `nil` | Static nudge in dp. |
+
+  Not ported: `side`, `align`, offsets-to-trigger, `delay`, `close_delay`,
+  `hoverable`, `group`, `track_cursor_axis`, and `id` / `*_class`.
+  """
+
+  import Mob.Sigil
+
+  @fill 0xFF_11_18_27
+  @ink 0xFF_FF_FF_FF
+
+  @doc "Composite expander (`<MishkaTooltip />`). Delegates to `tooltip/1`."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, _children, _ctx), do: tooltip(props)
+
+  @doc """
+  The tooltip node. Renders nothing when closed.
+
+      {tooltip(text: "Copy to clipboard", open: @hint?)}
+  """
+  @spec tooltip(map() | keyword()) :: map()
+  def tooltip(props \\ %{}) do
+    props = Map.new(props)
+
+    if truthy?(Map.get(props, :open, false)), do: bubble(props), else: ~MOB(<Column />)
+  end
+
+  defp bubble(props) do
+    text = Map.get(props, :text)
+    fill = Map.get(props, :background, @fill)
+    ink = Map.get(props, :color, @ink)
+    size = Map.get(props, :text_size, :sm)
+
+    node =
+      ~MOB"""
+      <Box background={fill} corner_radius={:radius_sm} padding={8}>
+        <Text text={text} text_size={size} text_color={ink} />
+      </Box>
+      """
+
+    node
+    |> put(:offset_x, Map.get(props, :offset_x))
+    |> put(:offset_y, Map.get(props, :offset_y))
+  end
+
+  defp put(node, _key, nil), do: node
+  defp put(node, key, value), do: %{node | props: Map.put(node.props, key, value)}
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
+end
