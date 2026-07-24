@@ -1,0 +1,212 @@
+defmodule MishkaMob.Components.MishkaColorInput do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Color Input** — a hex field
+  with a swatch, and a picker that opens beneath it.
+
+  ## The panel is in flow, not floating
+
+  On the web the picker lives in a popover anchored to the field. Mob has no
+  anchored-overlay primitive (the same constraint that shapes
+  `MishkaMob.Components.MishkaPopover`), so an open panel is rendered **in the
+  layout**, directly under the control row. On a phone that is the better shape
+  anyway: a picker floating over a 390-point-wide screen would cover the field
+  it belongs to.
+
+  ## Typing and picking stay in sync
+
+  The field is the source of truth for the *text*; the picker is the source of
+  truth for `{h, s, v}`. Keeping both is deliberate — round-tripping the typed
+  hex through HSV on every keystroke would rewrite what the user is halfway
+  through typing (see the note on `MishkaMob.Components.Color.hsv_to_hex/3`).
+  So the screen holds the draft text, and `commit/2` decides when it becomes a
+  colour:
+
+      def handle_change(:hex, text, socket) do
+        socket = assign(socket, :hex, text)
+
+        case MishkaColorInput.commit(text, socket.assigns) do
+          {:ok, hsv} -> assign_hsv(socket, hsv)
+          :incomplete -> socket
+        end
+      end
+
+  A half-typed `#3b82` is simply not committed; nothing flickers and nothing
+  is lost. (`#3b8` *is* committed — three digits is valid CSS shorthand, so it
+  names a real colour.)
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `value` | hex string | `"#3b82f6"` | The field's text. |
+  | `open` | boolean | `false` | Whether the picker panel is shown. |
+  | `label` | string | `nil` | Caption above the control. |
+  | `hue` / `saturation` / `value_pct` | numbers | derived from `value` | Picker position. |
+  | `disabled` | boolean | `false` | Mutes and unwires. |
+  | `on_change` | event tag | — | `{:change, tag, text}` as the hex is typed. |
+  | `on_toggle` | event tag | — | `{:tap, tag}` on the ▾ trigger. |
+  | `on_hue` / `on_saturation` / `on_value` | event tags | — | Forwarded to the picker. |
+
+  Not ported: `name`/`form`/`id`, and `phx-click-away` / Escape dismissal — a
+  panel in flow has nothing to click away from.
+  """
+
+  import Mob.Sigil
+
+  alias MishkaMob.Components.{Color, Event, MishkaColorPicker}
+
+  @default "#3b82f6"
+
+  @doc "Composite expander (`<MishkaColorInput />`). Delegates to `color_input/1`."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, _children, _ctx), do: color_input(props)
+
+  @doc """
+  The colour input.
+
+      color_input(value: @hex, open: @open, on_change: :hex, on_toggle: :toggle)
+  """
+  @spec color_input(map() | keyword()) :: map()
+  def color_input(props \\ %{}) do
+    props = Map.new(props)
+    disabled? = truthy?(Map.get(props, :disabled, false))
+    text = Map.get(props, :value, @default)
+    swatch = swatch_argb(text)
+
+    field =
+      ~MOB"""
+      <TextField
+        value={text}
+        placeholder="#rrggbb"
+        fill_width={true}
+        background={:surface}
+        padding={:space_sm}
+      />
+      """
+      |> put(:on_change, if(disabled?, do: nil, else: Event.handler(Map.get(props, :on_change))))
+
+    ~MOB"""
+    <Column fill_width={true}>
+      {label(Map.get(props, :label))}
+      <Row fill_width={true} align={:center}>
+        <Box
+          width={30}
+          height={30}
+          background={swatch}
+          corner_radius={:radius_sm}
+          border_color={:border}
+          border_width={1}
+        />
+        <Spacer size={8} />
+        {field}
+        <Spacer size={8} />
+        {trigger(props, disabled?)}
+      </Row>
+      {panel(props)}
+    </Column>
+    """
+  end
+
+  defp trigger(props, disabled?) do
+    handler = if disabled?, do: nil, else: Event.handler(Map.get(props, :on_toggle))
+    glyph = if truthy?(Map.get(props, :open, false)), do: "▴", else: "▾"
+    ink = if disabled?, do: :muted, else: :on_surface
+
+    ~MOB"""
+    <Box background={:surface_raised} corner_radius={:radius_sm} padding={:space_sm}>
+      <Text text={glyph} text_size={:sm} text_color={ink} />
+    </Box>
+    """
+    |> put(:on_tap, handler)
+  end
+
+  defp panel(props) do
+    if truthy?(Map.get(props, :open, false)) do
+      {h, s, v} = picker_hsv(props)
+
+      picker =
+        MishkaColorPicker.color_picker(
+          hue: h,
+          saturation: s,
+          value: v,
+          show_preview: false,
+          on_hue: Map.get(props, :on_hue),
+          on_saturation: Map.get(props, :on_saturation),
+          on_value: Map.get(props, :on_value)
+        )
+
+      ~MOB"""
+      <Column fill_width={true}>
+        <Spacer size={10} />
+        <Box
+          fill_width={true}
+          background={:surface}
+          corner_radius={:radius_md}
+          padding={:space_md}
+          border_color={:border}
+          border_width={1}
+        >
+          {picker}
+        </Box>
+      </Column>
+      """
+    end
+  end
+
+  defp label(nil), do: nil
+
+  defp label(text) do
+    ~MOB"""
+    <Column>
+      <Text text={text} text_size={:sm} text_color={:on_surface} />
+      <Spacer size={6} />
+    </Column>
+    """
+  end
+
+  @doc """
+  Whether a typed hex is complete enough to become the picker's colour.
+
+  Returns `{:ok, {h, s, v}}` once the text parses, and `:incomplete` while it
+  does not — which is the normal state for most of the time someone is typing.
+
+      iex> MishkaMob.Components.MishkaColorInput.commit("#ff0000")
+      {:ok, {0, 100, 100}}
+
+      iex> MishkaMob.Components.MishkaColorInput.commit("#ff00")
+      :incomplete
+  """
+  @spec commit(String.t() | nil, map()) :: {:ok, {integer(), integer(), integer()}} | :incomplete
+  def commit(text, _assigns \\ %{}) do
+    case Color.parse(text) do
+      {:ok, rgb} -> {:ok, Color.rgb_to_hsv(rgb)}
+      :error -> :incomplete
+    end
+  end
+
+  # The picker's position: explicit props win, otherwise it follows the field.
+  defp picker_hsv(props) do
+    {dh, ds, dv} = Color.hex_to_hsv(Map.get(props, :value, @default), {210, 76, 96})
+
+    {
+      Map.get(props, :hue, dh),
+      Map.get(props, :saturation, ds),
+      Map.get(props, :value_pct, dv)
+    }
+  end
+
+  defp swatch_argb(text) do
+    case Color.parse(text) do
+      {:ok, rgb} -> Color.argb(rgb)
+      # Nothing parseable yet — show the surface rather than a misleading colour.
+      :error -> :surface_raised
+    end
+  end
+
+  defp put(node, _key, nil), do: node
+  defp put(node, key, value), do: %{node | props: Map.put(node.props, key, value)}
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
+end
