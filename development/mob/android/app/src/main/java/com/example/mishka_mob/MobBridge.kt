@@ -49,6 +49,7 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import android.graphics.Bitmap
@@ -2761,7 +2762,27 @@ private fun MobCanvas(node: MobNode, modifier: Modifier) {
     }
 
     Canvas(modifier = sized) {
-        ops.forEach { op -> drawCanvasOp(op) }
+        // Mob.Canvas coordinates are canvas-LOCAL logical units: an op at
+        // (width / 2, height / 2) must land dead centre whatever the canvas
+        // actually measures. canvasFloat treats a unit as one dp, which is
+        // exact while the canvas gets the dp size it asked for — but a parent
+        // constraint (or an omitted width/height) can hand us a different box,
+        // and then every op silently draws to the wrong place. Scaling by the
+        // measured/declared ratio restores the contract in that case and is a
+        // no-op in the common one.
+        val declaredW = width.dp.toPx()
+        val declaredH = height.dp.toPx()
+        val sx = if (declaredW > 0f) size.width / declaredW else 1f
+        val sy = if (declaredH > 0f) size.height / declaredH else 1f
+
+        if (sx == 1f && sy == 1f) {
+            ops.forEach { op -> drawCanvasOp(op) }
+        } else {
+            // Pivot at the origin: Mob canvases are top-left based, not centred.
+            scale(sx, sy, pivot = Offset.Zero) {
+                ops.forEach { op -> drawCanvasOp(op) }
+            }
+        }
     }
 }
 
