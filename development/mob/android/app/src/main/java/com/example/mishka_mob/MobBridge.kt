@@ -2372,6 +2372,12 @@ private fun MobTextField(node: MobNode, modifier: Modifier) {
     val fillWidth = boolProp(node.props, "fill_width") ?: false
     val tfModifier = if (fillWidth) modifier.fillMaxWidth() else modifier
 
+    // `lines: n` makes the field multi-line and n rows tall — a textarea. The
+    // return key then inserts a newline instead of submitting, which is what a
+    // multi-line field has to do, so on_submit is only meaningful single-line.
+    val lines = intProp(node.props, "lines") ?: 0
+    val multiline = lines > 1
+
     TextField(
         value         = localValue,
         onValueChange = { new ->
@@ -2384,7 +2390,9 @@ private fun MobTextField(node: MobNode, modifier: Modifier) {
                 if (state.isFocused) focusHandle?.let { MobBridge.nativeSendFocus(it) }
                 else                 blurHandle?.let  { MobBridge.nativeSendBlur(it)  }
             },
-        singleLine      = true,
+        singleLine      = !multiline,
+        minLines        = if (multiline) lines else 1,
+        maxLines        = if (multiline) lines else 1,
         visualTransformation =
             if (isSecure) PasswordVisualTransformation() else VisualTransformation.None,
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = imeAction),
