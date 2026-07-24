@@ -180,7 +180,9 @@ defmodule MishkaMob.Showcase do
      MishkaMob.Components.MishkaTagsInput},
     {MishkaMob.Showcase.Components.Select, :mishka_select, MishkaMob.Components.MishkaSelect},
     {MishkaMob.Showcase.Components.Combobox, :mishka_combobox,
-     MishkaMob.Components.MishkaCombobox}
+     MishkaMob.Components.MishkaCombobox},
+    {MishkaMob.Showcase.Components.Autocomplete, :mishka_autocomplete,
+     MishkaMob.Components.MishkaAutocomplete}
   ]
 
   @doc "Every showcase component module, in catalog order."
