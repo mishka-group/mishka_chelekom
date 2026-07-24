@@ -164,7 +164,9 @@ defmodule MishkaMob.Showcase do
      MishkaMob.Components.MishkaContextMenu},
     {MishkaMob.Showcase.Components.Toolbar, :mishka_toolbar, MishkaMob.Components.MishkaToolbar},
     {MishkaMob.Showcase.Components.ColorSwatch, :mishka_color_swatch,
-     MishkaMob.Components.MishkaColorSwatch}
+     MishkaMob.Components.MishkaColorSwatch},
+    {MishkaMob.Showcase.Components.SemiCircleProgress, :mishka_semi_circle_progress,
+     MishkaMob.Components.MishkaSemiCircleProgress}
   ]
 
   @doc "Every showcase component module, in catalog order."
