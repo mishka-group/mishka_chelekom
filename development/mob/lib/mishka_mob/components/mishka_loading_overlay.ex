@@ -1,0 +1,107 @@
+defmodule MishkaMob.Components.MishkaLoadingOverlay do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Loading Overlay** — a scrim
+  over a region while it is busy.
+
+  Two things make it an overlay rather than a spinner:
+
+    * it **covers** its region, so the stale content underneath is visibly
+      inert rather than half-usable, and
+    * it **absorbs taps**, so a double submit is impossible while the work is in
+      flight. That is the part a bare spinner cannot give you, and it is why the
+      scrim carries a no-op handler (the same trick the Drawer's panel uses).
+
+  The busy indicator itself is Mob's native indeterminate `Progress`, which
+  animates on its own.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `visible` | boolean | `false` | Whether the overlay is shown. |
+  | `label` | string | `nil` | Text under the indicator. |
+  | `scrim_color` | ARGB int / token | `0xCCFFFFFF` on light surfaces | Scrim fill. |
+  | `color` | color token / ARGB int | `:primary` | Indicator colour. |
+  | `corner_radius` | radius token / number | `nil` | Match the region it covers. |
+
+  Not ported: `label` as an `aria-label` (it renders as visible text instead) and
+  `id` / `*_class`.
+  """
+
+  import Mob.Sigil
+
+  # A no-op the host screen's catch-all handle_info/2 swallows; its only job is
+  # to give the scrim a hit-test shape so taps cannot reach what is underneath.
+  @absorb :__mishka_loading_ignore
+  @scrim 0xCC_FF_FF_FF
+
+  @doc "Composite expander (`<MishkaLoadingOverlay>`). Children replace the indicator."
+  @spec expand(map(), [map()], %{screen: pid()}) :: map()
+  def expand(props, children, ctx), do: loading_overlay(props, children, ctx)
+
+  @doc """
+  The overlay node. Renders nothing when not visible.
+
+      <Box>
+        {content}
+        {loading_overlay(visible: @saving?)}
+      </Box>
+  """
+  @spec loading_overlay(map() | keyword(), [map()], map()) :: map()
+  def loading_overlay(props \\ %{}, content \\ [], ctx \\ %{}) do
+    props = Map.new(props)
+
+    if truthy?(Map.get(props, :visible, false)) do
+      scrim(props, content, ctx)
+    else
+      ~MOB(<Column />)
+    end
+  end
+
+  defp scrim(props, content, ctx) do
+    # Local, not `@scrim`: a module attribute inside a ~MOB expression is
+    # rewritten to `assigns.scrim`.
+    fill = Map.get(props, :scrim_color, @scrim)
+    radius = Map.get(props, :corner_radius)
+
+    node = ~MOB"""
+    <Box
+      fill_width={true}
+      fill_height={true}
+      align={:center}
+      background={fill}
+      corner_radius={radius}
+    >
+      {body(props, content)}
+    </Box>
+    """
+
+    %{node | props: Map.put(node.props, :on_tap, absorb(ctx))}
+  end
+
+  defp body(props, []) do
+    label = Map.get(props, :label)
+    color = Map.get(props, :color, :primary)
+
+    ~MOB"""
+    <Column fill_width={false}>
+      <Box width={140}>
+        <Progress color={color} />
+      </Box>
+      <Spacer size={10} :if={is_binary(label)} />
+      <Text text={label} text_size={:sm} text_color={:muted} :if={is_binary(label)} />
+    </Column>
+    """
+  end
+
+  defp body(_props, content), do: ~MOB(<Column>
+  {content}
+</Column>)
+
+  defp absorb(%{screen: pid}) when is_pid(pid), do: {pid, @absorb}
+  defp absorb(_ctx), do: {self(), @absorb}
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
+end
