@@ -2,16 +2,13 @@ defmodule MishkaMob.ShowcaseTest do
   # async: false — the registry and composite registry are global (persistent_term).
   use Mob.ScreenCase, async: false
 
-  alias MishkaMob.Components.MishkaDrawer
   alias MishkaMob.Showcase
   alias MishkaMob.Showcase.{ComponentScreen, GalleryScreen}
 
   setup do
-    Mob.Composite.register(:mishka_drawer, {MishkaDrawer, :expand})
-    Mob.Composite.register(:mishka_accordion, {MishkaMob.Components.MishkaAccordion, :expand})
+    # Exactly what the app registers at boot — one catalog, no drift.
     Showcase.reset()
-    Showcase.register(MishkaMob.Showcase.Components.Drawer)
-    Showcase.register(MishkaMob.Showcase.Components.Accordion)
+    Showcase.register_all()
     :ok
   end
 
@@ -27,11 +24,38 @@ defmodule MishkaMob.ShowcaseTest do
       assert entry.module == MishkaMob.Showcase.Components.Drawer
     end
 
-    test "by_category groups and sorts categories alphabetically" do
-      assert [
-               {"Disclosure", [%{slug: :accordion}]},
-               {"Overlays", [%{slug: :drawer}]}
-             ] = Showcase.by_category()
+    test "by_category groups every catalog entry, categories alphabetical" do
+      grouped = Showcase.by_category()
+      categories = Enum.map(grouped, fn {category, _} -> category end)
+
+      assert categories == Enum.sort(categories)
+      assert Enum.any?(grouped, &match?({"Disclosure", [%{slug: :accordion}]}, &1))
+      assert Enum.any?(grouped, &match?({"Overlays", [%{slug: :drawer}]}, &1))
+
+      # every registered component lands in exactly one group
+      slugs = Enum.flat_map(grouped, fn {_, entries} -> Enum.map(entries, & &1.slug) end)
+      assert length(slugs) == length(Showcase.modules())
+      assert Enum.uniq(slugs) == slugs
+    end
+
+    test "the catalog registers a composite tag for every gallery entry" do
+      assert length(Showcase.composites()) == length(Showcase.modules())
+
+      # each component module actually exports the expander the catalog names
+      for {_tag, module} <- Showcase.composites() do
+        assert function_exported?(module, :expand, 3), "#{inspect(module)} is missing expand/3"
+      end
+    end
+
+    test "every catalog entry renders its own gallery page" do
+      for module <- Showcase.modules() do
+        slug = module.entry().slug
+        view = mount_screen(ComponentScreen, %{slug: slug})
+
+        assert assigns(view).entry.slug == slug
+        assert_renderable(expanded(view))
+        refute Enum.empty?(module.examples()), "#{inspect(module)} has no examples"
+      end
     end
 
     test "unknown slug returns nil" do

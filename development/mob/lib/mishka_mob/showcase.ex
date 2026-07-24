@@ -94,6 +94,44 @@ defmodule MishkaMob.Showcase do
     :ok
   end
 
+  # ── The catalog ─────────────────────────────────────────────────────────────
+  #
+  # One entry per ported Chelekom component, and the single place that grows as
+  # the port advances: `MishkaMob.App.on_start/0` and the test suite both call
+  # `register_all/0`, so neither can drift from the other.
+  #
+  # The composite tag is what lets an app write `<MishkaDrawer>` in `~MOB`.
+  # Our own code calls the component's function instead, because a tag outside
+  # Mob's whitelist warns and `--warnings-as-errors` treats that as a failure.
+  @catalog [
+    {MishkaMob.Showcase.Components.Drawer, :mishka_drawer, MishkaMob.Components.MishkaDrawer},
+    {MishkaMob.Showcase.Components.Accordion, :mishka_accordion,
+     MishkaMob.Components.MishkaAccordion},
+    {MishkaMob.Showcase.Components.Separator, :mishka_separator,
+     MishkaMob.Components.MishkaSeparator}
+  ]
+
+  @doc "Every showcase component module, in catalog order."
+  @spec modules() :: [module()]
+  def modules, do: Enum.map(@catalog, fn {showcase, _tag, _component} -> showcase end)
+
+  @doc "Every `{tag, module}` composite pairing, for `Mob.Composite.register/2`."
+  @spec composites() :: [{atom(), module()}]
+  def composites, do: Enum.map(@catalog, fn {_showcase, tag, component} -> {tag, component} end)
+
+  @doc """
+  Register every composite tag and gallery entry. Called from
+  `MishkaMob.App.on_start/0` at boot and from the tests.
+  """
+  @spec register_all() :: :ok
+  def register_all do
+    Enum.each(composites(), fn {tag, module} ->
+      Mob.Composite.register(tag, {module, :expand})
+    end)
+
+    Enum.each(modules(), &register/1)
+  end
+
   @doc "The raw `%{slug => module}` registry."
   @spec components() :: %{atom() => module()}
   def components, do: :persistent_term.get(@pt_key, %{})

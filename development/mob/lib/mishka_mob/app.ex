@@ -29,15 +29,11 @@ defmodule MishkaMob.App do
       Ecto.Migrator.run(repo, migrations_dir(), :up, all: true)
     end)
 
-    # Register pure-Elixir UI composites (custom `<Tag>` widgets that expand to
-    # built-in nodes). No native code, no mob.exs entry.
-    Mob.Composite.register(:mishka_drawer, {MishkaMob.Components.MishkaDrawer, :expand})
-    Mob.Composite.register(:mishka_accordion, {MishkaMob.Components.MishkaAccordion, :expand})
-
-    # Register components into the gallery (see MishkaMob.Showcase). One line per
-    # component — the generic gallery/component screens do the rest.
-    MishkaMob.Showcase.register(MishkaMob.Showcase.Components.Drawer)
-    MishkaMob.Showcase.register(MishkaMob.Showcase.Components.Accordion)
+    # Register every pure-Elixir UI composite (custom `<Tag>` widgets that expand
+    # to built-in nodes — no native code, no mob.exs entry) and every gallery
+    # entry. The catalog lives in MishkaMob.Showcase so the app and the tests
+    # cannot drift apart; porting a component adds one line there.
+    MishkaMob.Showcase.register_all()
 
     Mob.Screen.start_root(MishkaMob.HomeScreen)
     Mob.Dist.ensure_started(node: :"mishka_mob_android@127.0.0.1", cookie: :mob_secret)
