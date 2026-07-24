@@ -207,7 +207,9 @@ defmodule MishkaMob.Showcase do
     {MishkaMob.Showcase.Components.ColorPicker, :mishka_color_picker,
      MishkaMob.Components.MishkaColorPicker},
     {MishkaMob.Showcase.Components.ColorInput, :mishka_color_input,
-     MishkaMob.Components.MishkaColorInput}
+     MishkaMob.Components.MishkaColorInput},
+    {MishkaMob.Showcase.Components.Tree, :mishka_tree, MishkaMob.Components.MishkaTree,
+     [mishka_tree_select: MishkaMob.Components.MishkaTreeSelect]}
   ]
 
   @doc "Every showcase component module, in catalog order."
