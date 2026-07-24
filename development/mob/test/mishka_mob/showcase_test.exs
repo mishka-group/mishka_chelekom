@@ -8,8 +8,10 @@ defmodule MishkaMob.ShowcaseTest do
 
   setup do
     Mob.Composite.register(:mishka_drawer, {MishkaDrawer, :expand})
+    Mob.Composite.register(:mishka_accordion, {MishkaMob.Components.MishkaAccordion, :expand})
     Showcase.reset()
     Showcase.register(MishkaMob.Showcase.Components.Drawer)
+    Showcase.register(MishkaMob.Showcase.Components.Accordion)
     :ok
   end
 
@@ -25,8 +27,11 @@ defmodule MishkaMob.ShowcaseTest do
       assert entry.module == MishkaMob.Showcase.Components.Drawer
     end
 
-    test "by_category groups and sorts" do
-      assert [{"Overlays", [%{slug: :drawer}]}] = Showcase.by_category()
+    test "by_category groups and sorts categories alphabetically" do
+      assert [
+               {"Disclosure", [%{slug: :accordion}]},
+               {"Overlays", [%{slug: :drawer}]}
+             ] = Showcase.by_category()
     end
 
     test "unknown slug returns nil" do
@@ -166,6 +171,62 @@ defmodule MishkaMob.ShowcaseTest do
 
       assert assigns(view).drawer_open? == false
       refute text(expanded(view)) =~ "About"
+    end
+
+    test "the Accordion page renders its examples, panels and props" do
+      view = mount_screen(ComponentScreen, %{slug: :accordion})
+
+      assert assigns(view).entry.slug == :accordion
+      assert_renderable(expanded(view))
+      assert text(view) =~ "One at a time"
+      assert text(view) =~ "Multiple open"
+      assert text(view) =~ "Props"
+      # the seeded open panel's body is visible; a closed one's is not
+      assert text(expanded(view)) =~ "A component library for Phoenix"
+      refute text(expanded(view)) =~ "expands to SwiftUI"
+    end
+
+    test "each Accordion example keeps an independent open set" do
+      view = mount_screen(ComponentScreen, %{slug: :accordion})
+      multi_before = assigns(view).acc_multi
+      locked_before = assigns(view).acc_locked
+
+      view = render_info(view, {:tap, {:toggle_faq, :styled}})
+
+      # single-open mode replaced the seeded panel …
+      assert assigns(view).acc_faq == [:styled]
+      # … and left every other example alone
+      assert assigns(view).acc_multi == multi_before
+      assert assigns(view).acc_locked == locked_before
+    end
+
+    test "the Accordion examples apply their own multiple / collapsible modes" do
+      base = mount_screen(ComponentScreen, %{slug: :accordion})
+
+      multi = render_info(base, {:tap, {:toggle_multi, :hot}})
+      assert assigns(multi).acc_multi == [:beam, :native, :hot]
+
+      # collapsible: false — tapping the only open panel must not close it
+      locked = render_info(base, {:tap, {:toggle_locked, :always}})
+      assert assigns(locked).acc_locked == [:always]
+
+      # …but another item still takes the slot
+      moved = render_info(base, {:tap, {:toggle_locked, :other}})
+      assert assigns(moved).acc_locked == [:other]
+    end
+
+    test "the disabled Accordion item renders but wires no tap" do
+      view = mount_screen(ComponentScreen, %{slug: :accordion})
+
+      taps =
+        expanded(view)
+        |> find_all(:box)
+        |> Enum.map(& &1.props[:on_tap])
+        |> Enum.reject(&is_nil/1)
+
+      assert text(view) =~ "I am disabled"
+      assert Enum.any?(taps, &match?({_pid, {:toggle_disabled, :ok}}, &1))
+      refute Enum.any?(taps, &match?({_pid, {:toggle_disabled, :nope}}, &1))
     end
 
     test "unknown slug renders a not-found page (still renderable)" do
