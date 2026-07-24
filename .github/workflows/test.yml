@@ -94,11 +94,47 @@ jobs:
           mix local.rebar --force
 
       - name: Install development harness deps
-        working-directory: development
+        working-directory: development/web
         run: mix deps.get
 
       - name: Generators must produce no changes on re-run
-        working-directory: development
+        working-directory: development/web
         env:
           MIX_ENV: dev
         run: mix run --no-start idempotency_check.exs
+
+  mob:
+    name: Mob showcase app (development/mob)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1.20.4
+        with:
+          elixir-version: "1.20.2"
+          otp-version: "29.0.2"
+
+      - name: Install Hex and Rebar
+        run: |
+          mix local.hex --force
+          mix local.rebar --force
+
+      - name: Install dependencies
+        working-directory: development/mob
+        run: mix deps.get
+
+      - name: Compile project
+        working-directory: development/mob
+        run: mix compile --warnings-as-errors
+
+      - name: Check formatting
+        working-directory: development/mob
+        run: mix format --check-formatted
+
+      - name: Run tests
+        working-directory: development/mob
+        env:
+          MIX_ENV: test
+        run: mix test
