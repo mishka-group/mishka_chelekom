@@ -6,7 +6,10 @@ defmodule MishkaMob.HomeScreenTest do
 
   test "mounts and renders a tree the native layer can draw" do
     view = mount_screen(HomeScreen)
-    assert_renderable(view)
+
+    # :canvas is missing from mob 0.7.20's priv/tags whitelist, but both bridges
+    # render it; the whitelist is stale, not the node. See MishkaMob.ShowcaseTest.
+    assert_renderable(view, extra: [:canvas])
   end
 
   test "shows the Mishka section and the compact demos section" do

@@ -212,7 +212,20 @@ defmodule MishkaMob.Showcase do
      [mishka_tree_select: MishkaMob.Components.MishkaTreeSelect]},
     {MishkaMob.Showcase.Components.Splitter, :mishka_splitter,
      MishkaMob.Components.MishkaSplitter,
-     [mishka_overflow_list: MishkaMob.Components.MishkaOverflowList]}
+     [mishka_overflow_list: MishkaMob.Components.MishkaOverflowList]},
+    {MishkaMob.Showcase.Components.JsonInput, :mishka_json_input,
+     MishkaMob.Components.MishkaJsonInput,
+     [mishka_number_formatter: MishkaMob.Components.MishkaNumberFormatter]},
+    {MishkaMob.Showcase.Components.NavLink, :mishka_nav_link, MishkaMob.Components.MishkaNavLink,
+     [
+       mishka_anchor: MishkaMob.Components.MishkaAnchor,
+       mishka_menubar: MishkaMob.Components.MishkaMenubar,
+       mishka_navigation_menu: MishkaMob.Components.MishkaNavigationMenu,
+       mishka_visually_hidden: MishkaMob.Components.MishkaVisuallyHidden
+     ]},
+    {MishkaMob.Showcase.Components.FloatingWindow, :mishka_floating_window,
+     MishkaMob.Components.MishkaFloatingWindow,
+     [mishka_floating_indicator: MishkaMob.Components.MishkaFloatingIndicator]}
   ]
 
   @doc "Every showcase component module, in catalog order."

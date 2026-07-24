@@ -116,7 +116,8 @@ defmodule MishkaMob.ShowcaseTest do
     test "lists registered components and is renderable" do
       view = mount_screen(GalleryScreen)
 
-      assert_renderable(view)
+      # Card previews may draw on a canvas — see the note above.
+      assert_renderable(view, extra: [:canvas])
       assert text(view) =~ "Components"
       # a tappable row per component, labelled by name
       assert find(view, :button, text: "Drawer")

@@ -1,0 +1,188 @@
+defmodule MishkaMob.Components.MishkaFloatingWindow do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Floating Window** — a titled
+  panel that floats over the screen at a given position.
+
+  ## Positioned, not dragged
+
+  The web component is dragged by its handle, and offers arrow-key movement as
+  the keyboard alternative WCAG 2.5.7 asks for. Mob delivers no pointer
+  coordinates to `render/1`, so the drag cannot be ported — but the *position*
+  can: `offset_x` / `offset_y` place the window inside its parent, and `x` / `y`
+  are ordinary props the screen owns.
+
+  So the keyboard alternative becomes the primary interaction rather than a
+  fallback: the handle carries nudge controls, `nudge/4` computes the new
+  position with clamping, and the window moves. That is a real, usable floating
+  window; what it is not is a drag.
+
+  Put it in a `Box` with the page beneath it, exactly like a
+  `MishkaMob.Components.MishkaDialog` — the last child of a stacking Box is on
+  top.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `x` / `y` | number | `0` | Position inside the parent. |
+  | `width` | number | `260` | Window width. |
+  | `label` | string | `nil` | Title shown in the handle. |
+  | `bounds` | `{w, h}` | `nil` | Clamps `nudge/4`; without it, movement is unbounded. |
+  | `step` | number | `20` | How far one nudge moves. |
+  | `show_nudges` | boolean | `true` | Render the arrow controls. |
+  | `on_move` | event tag (atom) | — | `{:tap, {tag, direction}}` — `:up`/`:down`/`:left`/`:right`. |
+  | `on_close` | event tag (atom) | — | `{:tap, tag}` on the ✕. |
+
+  Children are the window's body.
+  """
+
+  import Mob.Sigil
+
+  alias MishkaMob.Components.{Color, Event}
+
+  @doc "Composite expander (`<MishkaFloatingWindow>`). Children are the body."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, children, _ctx), do: floating_window(props, children)
+
+  @doc """
+  The window.
+
+      {floating_window([x: @x, y: @y, label: "Inspector", on_move: :move], [body()])}
+  """
+  @spec floating_window(map() | keyword(), [map()]) :: map()
+  def floating_window(props \\ %{}, children \\ []) do
+    props = Map.new(props)
+
+    ~MOB"""
+    <Box
+      offset_x={Map.get(props, :x, 0)}
+      offset_y={Map.get(props, :y, 0)}
+      width={Map.get(props, :width, 260)}
+      background={:surface}
+      corner_radius={:radius_md}
+      padding={0}
+      border_color={:border}
+      border_width={1}
+    >
+      <Column fill_width={true}>
+        {handle(props)}
+        <Column fill_width={true} padding={:space_md}>
+          {children}
+        </Column>
+      </Column>
+    </Box>
+    """
+  end
+
+  @doc """
+  The position after a nudge, clamped inside `bounds` when given.
+
+  Screen coordinates put y downwards, so `:up` **subtracts** — the sign that is
+  easy to get backwards.
+
+      iex> MishkaMob.Components.MishkaFloatingWindow.nudge({40, 40}, :up, 10)
+      {40, 30}
+
+      iex> MishkaMob.Components.MishkaFloatingWindow.nudge({40, 40}, :right, 10)
+      {50, 40}
+
+  Clamping keeps the window on screen:
+
+      iex> MishkaMob.Components.MishkaFloatingWindow.nudge({0, 0}, :left, 10, {200, 200})
+      {0, 0}
+
+      iex> MishkaMob.Components.MishkaFloatingWindow.nudge({195, 0}, :right, 10, {200, 200})
+      {200, 0}
+  """
+  @spec nudge(
+          {number(), number()},
+          :up | :down | :left | :right,
+          number(),
+          {number(), number()} | nil
+        ) ::
+          {number(), number()}
+  def nudge(position, direction, step \\ 20, bounds \\ nil)
+
+  def nudge({x, y}, direction, step, bounds) do
+    {nx, ny} =
+      case direction do
+        :up -> {x, y - step}
+        :down -> {x, y + step}
+        :left -> {x - step, y}
+        :right -> {x + step, y}
+        _ -> {x, y}
+      end
+
+    clamp(nx, ny, bounds)
+  end
+
+  defp clamp(x, y, nil), do: {x, y}
+
+  defp clamp(x, y, {width, height}) do
+    {Color.clamp(x, 0, width), Color.clamp(y, 0, height)}
+  end
+
+  defp handle(props) do
+    label = Map.get(props, :label) || ""
+
+    ~MOB"""
+    <Box fill_width={true} background={:surface_raised} padding={:space_sm}>
+      <Row fill_width={true} align={:center}>
+        <Text text={label} text_size={:sm} text_color={:on_surface} weight={:semibold} />
+        <Spacer weight={1} />
+        {nudges(props)}
+        {close(props)}
+      </Row>
+    </Box>
+    """
+  end
+
+  defp nudges(props) do
+    if truthy?(Map.get(props, :show_nudges, true)) do
+      arrows =
+        Enum.map([{:left, "←"}, {:up, "↑"}, {:down, "↓"}, {:right, "→"}], fn {dir, glyph} ->
+          ~MOB"""
+          <Box padding={4}>
+            <Text text={glyph} text_size={:sm} text_color={:muted} />
+          </Box>
+          """
+          |> put(:on_tap, tag_handler(props, :on_move, dir))
+        end)
+
+      ~MOB"""
+      <Row align={:center}>
+        {arrows}
+      </Row>
+      """
+    end
+  end
+
+  defp close(props) do
+    case Map.get(props, :on_close) do
+      nil ->
+        nil
+
+      tag ->
+        ~MOB"""
+        <Box padding={4}>
+          <Text text="✕" text_size={:sm} text_color={:muted} />
+        </Box>
+        """
+        |> put(:on_tap, Event.handler(tag))
+    end
+  end
+
+  defp tag_handler(props, key, value) do
+    case Map.get(props, key) do
+      nil -> nil
+      tag -> Event.handler({tag, value})
+    end
+  end
+
+  defp put(node, _key, nil), do: node
+  defp put(node, key, value), do: %{node | props: Map.put(node.props, key, value)}
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
+end
