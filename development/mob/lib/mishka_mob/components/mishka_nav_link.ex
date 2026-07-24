@@ -1,0 +1,177 @@
+defmodule MishkaMob.Components.MishkaNavLink do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Nav Link** — a navigation row
+  that is either a leaf or a disclosure holding nested links.
+
+  This one ports almost exactly. The web version leans on `<details>` so a
+  nested group works without JS, and then warns that `<details open>` is
+  uncontrolled DOM state which LiveView resets on every patch. Here there is no
+  such trap: `opened` is a prop, the screen owns it, and re-rendering cannot
+  lose it.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `label` | string | `nil` | The row's text. |
+  | `description` | string | `nil` | A second line under the label. |
+  | `icon` | string | `nil` | Leading glyph. |
+  | `trailing` | string | `nil` | Trailing glyph. Replaced by the chevron when it has children. |
+  | `active` | boolean | `false` | Current-page styling. |
+  | `opened` | boolean | `false` | Whether the nested group is expanded. |
+  | `disabled` | boolean | `false` | Mutes and unwires. |
+  | `href` | string | `nil` | Rides along with `on_tap`, as in `MishkaMob.Components.MishkaAnchor`. |
+  | `indent` | number | `16` | Indent applied to the children. |
+  | `on_tap` | event tag (atom) | — | Tapping a leaf. |
+  | `on_toggle` | event tag (atom) | — | Tapping a parent's row. Falls back to `on_tap`. |
+
+  Children are the nested links, shown when `opened`.
+  """
+
+  import Mob.Sigil
+
+  alias MishkaMob.Components.Event
+
+  @doc "Composite expander (`<MishkaNavLink>`). Children are the nested links."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, children, _ctx), do: nav_link(props, children)
+
+  @doc """
+  The nav link.
+
+      {nav_link([label: "Settings", icon: "⚙", active: true, on_tap: :go], [])}
+  """
+  @spec nav_link(map() | keyword(), [map()]) :: map()
+  def nav_link(props \\ %{}, children \\ []) do
+    props = Map.new(props)
+    children = List.wrap(children)
+    parent? = children != []
+    disabled? = truthy?(Map.get(props, :disabled, false))
+    opened? = parent? and truthy?(Map.get(props, :opened, false))
+
+    ~MOB"""
+    <Column fill_width={true}>
+      {row(props, parent?, opened?, disabled?)}
+      {nested(children, opened?, props)}
+    </Column>
+    """
+  end
+
+  defp row(props, parent?, opened?, disabled?) do
+    active? = truthy?(Map.get(props, :active, false))
+
+    ~MOB"""
+    <Box
+      fill_width={true}
+      background={if(active?, do: :surface_raised, else: :transparent)}
+      corner_radius={:radius_sm}
+      padding={:space_sm}
+    >
+      <Row fill_width={true} align={:center}>
+        {leading(props)}
+        {labels(props, active?, disabled?)}
+        <Spacer weight={1} />
+        {trailing(props, parent?, opened?)}
+      </Row>
+    </Box>
+    """
+    |> put(:on_tap, handler(props, parent?, disabled?))
+  end
+
+  defp leading(props) do
+    case Map.get(props, :icon) do
+      nil ->
+        nil
+
+      glyph ->
+        ~MOB"""
+        <Row>
+          <Text text={glyph} text_size={:base} text_color={:muted} />
+          <Spacer size={10} />
+        </Row>
+        """
+    end
+  end
+
+  defp labels(props, active?, disabled?) do
+    ink =
+      cond do
+        disabled? -> :muted
+        active? -> :primary
+        true -> :on_surface
+      end
+
+    weight = if active?, do: :semibold, else: :regular
+    label = Map.get(props, :label, "")
+
+    case Map.get(props, :description) do
+      nil ->
+        ~MOB(<Text text={label} text_size={:base} text_color={ink} weight={weight} />)
+
+      description ->
+        ~MOB"""
+        <Column>
+          <Text text={label} text_size={:base} text_color={ink} weight={weight} />
+          <Spacer size={2} />
+          <Text text={description} text_size={:sm} text_color={:muted} />
+        </Column>
+        """
+    end
+  end
+
+  # A parent's chevron always wins over a custom trailing glyph: it is the one
+  # thing telling the user the row expands rather than navigates.
+  defp trailing(_props, true, opened?) do
+    glyph = if opened?, do: "▾", else: "▸"
+
+    ~MOB(<Text text={glyph} text_size={:sm} text_color={:muted} />)
+  end
+
+  defp trailing(props, _parent?, _opened?) do
+    case Map.get(props, :trailing) do
+      nil -> nil
+      glyph -> ~MOB(<Text text={glyph} text_size={:sm} text_color={:muted} />)
+    end
+  end
+
+  defp nested(_children, false, _props), do: nil
+
+  defp nested(children, true, props) do
+    indent = Map.get(props, :indent, 16)
+
+    ~MOB"""
+    <Row fill_width={true}>
+      <Spacer size={indent} />
+      <Column fill_width={true}>
+        {children}
+      </Column>
+    </Row>
+    """
+  end
+
+  defp handler(_props, _parent?, true), do: nil
+
+  defp handler(props, true, _disabled?) do
+    tag = Map.get(props, :on_toggle) || Map.get(props, :on_tap)
+
+    with_href(tag, props)
+  end
+
+  defp handler(props, _parent?, _disabled?), do: with_href(Map.get(props, :on_tap), props)
+
+  defp with_href(nil, _props), do: nil
+
+  defp with_href(tag, props) do
+    case Map.get(props, :href) do
+      nil -> Event.handler(tag)
+      href -> Event.handler({tag, href})
+    end
+  end
+
+  defp put(node, _key, nil), do: node
+  defp put(node, key, value), do: %{node | props: Map.put(node.props, key, value)}
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
+end
