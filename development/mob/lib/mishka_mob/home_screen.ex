@@ -144,60 +144,26 @@ defmodule MishkaMob.HomeScreen do
 
   defp gap(size), do: %{type: :spacer, props: %{size: size}, children: []}
 
-  # The Mishka mark on a white badge, so the dark logo reads on any theme. Falls
-  # back to the framework logo if the priv asset didn't reach the device.
   defp logo(theme) do
-    case mishka_logo_path() do
-      nil ->
-        %{
-          type: :image,
-          props: %{src: mob_logo_src(theme), width: 36, height: 36, content_mode: "fit"},
-          children: []
-        }
-
-      path ->
-        %{
-          type: :box,
-          props: %{
-            width: 40,
-            height: 40,
-            background: 0xFFFFFFFF,
-            corner_radius: :radius_md,
-            padding: 4
-          },
-          children: [
-            %{
-              type: :image,
-              props: %{src: path, width: 32, height: 32, content_mode: "fit"},
-              children: []
-            }
-          ]
-        }
-    end
+    %{
+      type: :image,
+      props: %{src: logo_src(theme), width: 36, height: 36, content_mode: "fit"},
+      children: []
+    }
   end
 
-  defp mishka_logo_path do
+  # The Mishka mark ships as a transparent PNG in two tints, so it reads on
+  # whatever surface the active theme paints: the dark mark on light surfaces
+  # (:light, and Material 3 whose baseline is light), the light one on dark
+  # surfaces (:dark, :glass).
+  defp logo_src(:light), do: priv_image("mishka_logo_dark.png")
+  defp logo_src(:material3), do: priv_image("mishka_logo_dark.png")
+  defp logo_src(_), do: priv_image("mishka_logo_light.png")
+
+  defp priv_image(name) do
     case :code.priv_dir(:mishka_mob) do
-      {:error, _} ->
-        nil
-
-      dir ->
-        path = Path.join([to_string(dir), "images", "mishka_logo.png"])
-        if File.exists?(path), do: path, else: nil
-    end
-  end
-
-  # mob_logo_dark.png is the dark-on-light logo (for light backgrounds);
-  # mob_logo_light.png is light-on-dark. Material 3's baseline is a light
-  # surface, so it uses the dark logo like :light.
-  defp mob_logo_src(:light), do: Path.join(rootdir(), "mob_logo_dark.png")
-  defp mob_logo_src(:material3), do: Path.join(rootdir(), "mob_logo_dark.png")
-  defp mob_logo_src(_), do: Path.join(rootdir(), "mob_logo_light.png")
-
-  defp rootdir do
-    case System.get_env("ROOTDIR") do
-      nil -> Path.expand("~/.mob/runtime/ios-sim")
-      val -> val
+      {:error, _} -> name
+      dir -> Path.join([to_string(dir), "images", name])
     end
   end
 end
