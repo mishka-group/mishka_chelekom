@@ -1,0 +1,200 @@
+defmodule MishkaMob.Components.MishkaTabs do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Tabs** — a tab strip with one
+  visible panel.
+
+  ## Why this is not Mob's `TabBar`
+
+  Mob ships a `TabBar` tag and it is tempting to map onto it, but it is a
+  different component: `MobTabBar` renders a `Scaffold` with a Material
+  `NavigationBar` pinned to the **bottom** of the screen, each item requiring an
+  icon. That is app-level navigation, not an inline tab strip — dropping it into
+  a card would move the tabs to the bottom of the phone and take over the
+  layout.
+
+  Chelekom's tabs are a strip above their panel, so this port builds that from
+  `Row` / `Box` / `Text` instead. When you *do* want bottom navigation, use
+  `TabBar` directly; it is the right widget for that job.
+
+  ## Tabs are children, like Chelekom's `<:tab>` slots
+
+  Each child is a `:mishka_tab` node carrying `id` + `label`, whose own children
+  are that tab's panel — so a tab and its panel are declared together instead of
+  being matched up by position:
+
+      {tabs([active: @tab, on_change: :pick_tab], [
+        tab(:overview, "Overview", overview_body()),
+        tab(:specs, "Specs", specs_body())
+      ])}
+
+      def handle_info({:tap, {:pick_tab, id}}, socket) do
+        {:noreply, Mob.Socket.assign(socket, :tab, id)}
+      end
+
+  ## Sizing
+
+  Tabs are content-sized and laid out in a row, not stretched to equal widths.
+  Equal widths would need `weight`, which Compose implements and Mob's iOS
+  mapping does not, so the strip would look right on Android and collapse on
+  iOS.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `active` | tab id | first tab | Which tab is selected. Lives in the screen. |
+  | `on_change` | event tag (atom) | — | Sent as `{:tap, {tag, tab_id}}`. |
+  | `indicator` | boolean | `true` | Underline the active tab. |
+  | `color` | color token / ARGB int | `:primary` | Active label and indicator. |
+  | `space` | number | `18` | Gap between tabs. |
+
+  Per tab (`:mishka_tab` props): `id`, `label`, `disabled`.
+
+  Not ported: `orientation: "vertical"`, `activate_on_focus` (there is no focus
+  ring to follow), `default_value` (the screen holds state, so "uncontrolled"
+  has no meaning here) and the `*_class` attrs.
+  """
+
+  import Mob.Sigil
+
+  alias MishkaMob.Components.Event
+
+  @tab_type :mishka_tab
+
+  @doc """
+  Composite expander (`<MishkaTabs>`). Children are `:mishka_tab` nodes.
+  """
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, children, _ctx), do: tabs(props, children)
+
+  @doc "Build one tab node: its label and its panel, declared together."
+  @spec tab(term(), String.t(), [map()], keyword()) :: map()
+  def tab(id, label, panel \\ [], opts \\ []) do
+    %{
+      type: @tab_type,
+      props: %{id: id, label: label, disabled: Keyword.get(opts, :disabled, false)},
+      children: panel
+    }
+  end
+
+  @doc """
+  The tabs node: a strip of labels above the active tab's panel.
+  """
+  @spec tabs(map() | keyword(), [map()]) :: map()
+  def tabs(props \\ %{}, children \\ []) do
+    props = Map.new(props)
+    items = items(children)
+    active = active(props, items)
+
+    ~MOB"""
+    <Column fill_width={true}>
+      {strip(items, props, active)}
+      {panel(items, active)}
+    </Column>
+    """
+  end
+
+  @doc """
+  Which tab is active: the `active` prop when it names a real tab, otherwise the
+  first one — so a stale or missing id still shows something rather than an
+  empty panel.
+  """
+  @spec active(map() | keyword(), [map()]) :: term() | nil
+  def active(props, items) do
+    ids = Enum.map(items, & &1.id)
+    wanted = props |> Map.new() |> Map.get(:active)
+
+    if wanted in ids, do: wanted, else: List.first(ids)
+  end
+
+  defp items(children) do
+    children
+    |> Enum.filter(&match?(%{type: @tab_type}, &1))
+    |> Enum.with_index()
+    |> Enum.map(fn {tab, index} ->
+      props = Map.get(tab, :props, %{})
+
+      %{
+        id: Map.get(props, :id, index),
+        label: Map.get(props, :label),
+        disabled: truthy?(Map.get(props, :disabled, false)),
+        panel: Map.get(tab, :children, [])
+      }
+    end)
+  end
+
+  defp strip(items, props, active) do
+    space = Map.get(props, :space, 18)
+
+    triggers =
+      items
+      |> Enum.map(&trigger(&1, props, &1.id == active))
+      |> Enum.intersperse(~MOB(<Spacer size={space} />))
+
+    ~MOB"""
+    <Row fill_width={true}>
+      {triggers}
+    </Row>
+    """
+  end
+
+  # A tappable Box, not a Button: a Material Button centres and boxes its label,
+  # which is wrong for a tab strip.
+  defp trigger(item, props, active?) do
+    color = Map.get(props, :color, :primary)
+
+    text_color =
+      cond do
+        item.disabled -> :muted
+        active? -> color
+        true -> :on_surface
+      end
+
+    node = ~MOB"""
+    <Column>
+      <Text text={item.label} text_size={:base} text_color={text_color} />
+      <Spacer size={6} />
+      <Box
+        fill_width={true}
+        height={2}
+        background={color}
+        corner_radius={:radius_sm}
+        :if={active? and truthy?(Map.get(props, :indicator, true))}
+      />
+    </Column>
+    """
+
+    case tap_target(props, item) do
+      nil -> node
+      target -> %{node | props: Map.put(node.props, :on_tap, target)}
+    end
+  end
+
+  defp tap_target(_props, %{disabled: true}), do: nil
+
+  defp tap_target(props, item) do
+    case Event.handler(Map.get(props, :on_change)) do
+      nil -> nil
+      {pid, tag} -> {pid, {tag, item.id}}
+    end
+  end
+
+  defp panel(items, active) do
+    body =
+      case Enum.find(items, &(&1.id == active)) do
+        nil -> []
+        item -> item.panel
+      end
+
+    ~MOB"""
+    <Column fill_width={true} :if={body != []}>
+      <Spacer size={14} />
+      {body}
+    </Column>
+    """
+  end
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
+end
