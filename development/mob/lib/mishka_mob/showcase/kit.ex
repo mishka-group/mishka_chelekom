@@ -212,6 +212,50 @@ defmodule MishkaMob.Showcase.Kit do
     %{type: :text, props: %{text: text, text_size: :sm, text_color: :muted}, children: []}
   end
 
+  @doc """
+  A props reference: one bordered row per prop — name (left) + type/default
+  (right) + description below. Mirrors the web showcase's attribute table. Each
+  prop is `%{name:, type:, default:, description:}` (all but `name` optional).
+  """
+  def props_table(props) do
+    props
+    |> Enum.map(&prop_row/1)
+    |> Enum.intersperse(gap(8))
+    |> column()
+  end
+
+  defp prop_row(p) do
+    meta =
+      [Map.get(p, :type), Map.get(p, :default) && "default #{p.default}"]
+      |> Enum.reject(&is_nil/1)
+      |> Enum.join("   ·   ")
+
+    header =
+      row([
+        %{
+          type: :text,
+          props: %{text: p.name, text_size: :base, text_color: :on_surface},
+          children: []
+        },
+        flex_slot(),
+        %{type: :text, props: %{text: meta, text_size: :xs, text_color: :muted}, children: []}
+      ])
+
+    body = [header] ++ if(Map.get(p, :description), do: [gap(4), muted(p.description)], else: [])
+
+    %{
+      type: :box,
+      props: %{
+        background: :surface_raised,
+        padding: :space_sm,
+        corner_radius: :radius_sm,
+        border_color: :border,
+        border_width: 1
+      },
+      children: [column(body)]
+    }
+  end
+
   # A skeleton placeholder bar (fixed size renders reliably on both platforms).
   defp skeleton_bar(width) do
     %{

@@ -83,7 +83,8 @@ defmodule MishkaMob.Showcase do
   @callback handle(tag :: term(), socket :: term()) :: term()
   @callback overlay(assigns :: map()) :: map() | nil
   @callback card_preview() :: map()
-  @optional_callbacks mount: 1, handle: 2, overlay: 1, card_preview: 0
+  @callback props() :: [%{required(:name) => String.t(), optional(atom()) => String.t()}]
+  @optional_callbacks mount: 1, handle: 2, overlay: 1, card_preview: 0, props: 0
 
   @doc "Register a showcase component module. Overwrites any prior registration for its slug."
   @spec register(module()) :: :ok
@@ -141,8 +142,10 @@ defmodule MishkaMob.Showcase do
       def overlay(_assigns), do: nil
       @impl true
       def card_preview, do: unquote(Kit).skeleton_preview()
+      @impl true
+      def props, do: []
 
-      defoverridable mount: 1, handle: 2, overlay: 1, card_preview: 0
+      defoverridable mount: 1, handle: 2, overlay: 1, card_preview: 0, props: 0
     end
   end
 end

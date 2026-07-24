@@ -54,6 +54,7 @@ defmodule MishkaMob.Showcase.ComponentScreen do
                   Kit.gap(16)
                 ]
               end) ++
+              props_section(entry) ++
               [Kit.gap(8), Kit.back_button()]
         }
       ]
@@ -71,6 +72,14 @@ defmodule MishkaMob.Showcase.ComponentScreen do
       props: %{fill_width: true, fill_height: true, background: :background},
       children: children
     }
+  end
+
+  # A "Props" reference section, when the component declares one.
+  defp props_section(entry) do
+    case entry.module.props() do
+      [] -> []
+      props -> [Kit.section_header("Props"), Kit.gap(12), Kit.props_table(props), Kit.gap(8)]
+    end
   end
 
   defp not_found do
