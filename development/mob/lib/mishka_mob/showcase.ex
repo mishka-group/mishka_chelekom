@@ -154,7 +154,8 @@ defmodule MishkaMob.Showcase do
     {MishkaMob.Showcase.Components.ActionIcon, :mishka_action_icon,
      MishkaMob.Components.MishkaActionIcon},
     {MishkaMob.Showcase.Components.ScrollArea, :mishka_scroll_area,
-     MishkaMob.Components.MishkaScrollArea}
+     MishkaMob.Components.MishkaScrollArea},
+    {MishkaMob.Showcase.Components.Code, :mishka_code, MishkaMob.Components.MishkaCode}
   ]
 
   @doc "Every showcase component module, in catalog order."
