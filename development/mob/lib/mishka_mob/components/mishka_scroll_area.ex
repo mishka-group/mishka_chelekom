@@ -1,0 +1,96 @@
+defmodule MishkaMob.Components.MishkaScrollArea do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Scroll Area** — a bounded
+  region whose content scrolls.
+
+  Wraps Mob's native `Scroll`, so the platform supplies momentum, overscroll,
+  rubber-banding and the scrollbar. The web component exists mainly to *replace*
+  the browser's scrollbar with a styled one; there is nothing to replace here,
+  and a hand-drawn scrollbar would be worse than the real one.
+
+  ## A scroll area needs a bound
+
+  Content only scrolls if the viewport is smaller than it, so a vertical scroll
+  area inside an already-scrolling page needs a `height`. Without one it simply
+  grows to fit its content and never scrolls — which looks like the component is
+  broken when it is doing exactly what it was told. `height` is therefore a
+  first-class prop and the showcase always sets it.
+
+  ## `orientation: "both"` is not ported
+
+  Compose's `Scroll` scrolls one axis; nesting a horizontal scroller inside a
+  vertical one is what two-axis content actually needs, and that is the caller's
+  composition rather than a prop. The web component's third value is dropped
+  rather than silently behaving like `:vertical`.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `orientation` | `:vertical` `:horizontal` | `:vertical` | Scroll axis. |
+  | `height` | number | `nil` | Viewport height. Required for a vertical scroller to scroll at all. |
+  | `id` | string | `nil` | Registers the scroller so `Mob.Test.scroll_to/2` can address it. |
+  | `background` | color token / ARGB int | `nil` | Viewport fill. |
+  | `padding` | spacing token / number | `nil` | Padding inside the viewport. |
+  | `corner_radius` | radius token / number | `nil` | Rounds the viewport. |
+
+  Not ported: the `*_class` attrs, which style a scrollbar the platform owns.
+  """
+
+  import Mob.Sigil
+
+  @doc "Composite expander (`<MishkaScrollArea>`). Children are the content."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, children, _ctx), do: scroll_area(props, children)
+
+  @doc """
+  The scroll-area node.
+
+      scroll_area([height: 220], long_list())
+      scroll_area([orientation: :horizontal], wide_row())
+  """
+  @spec scroll_area(map() | keyword(), [map()]) :: map()
+  def scroll_area(props \\ %{}, content \\ []) do
+    props = Map.new(props)
+    axis = if Map.get(props, :orientation, :vertical) == :horizontal, do: "horizontal", else: nil
+
+    scroller =
+      ~MOB"""
+      <Scroll>
+        {content}
+      </Scroll>
+      """
+      |> put(:axis, axis)
+      |> put(:id, Map.get(props, :id))
+
+    wrap(scroller, props)
+  end
+
+  # The Scroll itself takes no size or decoration, so a bounded, decorated area
+  # is a Box around it. Skipped entirely when nothing was asked for, so the
+  # common case stays a single node.
+  defp wrap(scroller, props) do
+    box_props =
+      %{}
+      |> maybe(:height, Map.get(props, :height))
+      |> maybe(:background, Map.get(props, :background))
+      |> maybe(:padding, Map.get(props, :padding))
+      |> maybe(:corner_radius, Map.get(props, :corner_radius))
+
+    if box_props == %{} do
+      scroller
+    else
+      %{
+        type: :box,
+        props: Map.put(box_props, :fill_width, true),
+        children: [scroller]
+      }
+    end
+  end
+
+  defp put(node, _key, nil), do: node
+  defp put(node, key, value), do: %{node | props: Map.put(node.props, key, value)}
+
+  defp maybe(map, _key, nil), do: map
+  defp maybe(map, key, value), do: Map.put(map, key, value)
+end
