@@ -108,6 +108,7 @@ defmodule <%= @module %> do
       placeholder={Map.get(props, :placeholder) || mask || ""}
       keyboard={Map.get(props, :keyboard) || keyboard_for(mask)}
       max_length={max_length(mask)}
+      enabled={not disabled?}
       fill_width={true}
       background={:surface}
       corner_radius={:radius_sm}

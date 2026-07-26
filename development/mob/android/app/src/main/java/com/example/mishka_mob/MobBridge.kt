@@ -2437,6 +2437,11 @@ private fun MobTextField(node: MobNode, modifier: Modifier) {
     // Style props used to be serialised and silently ignored: this composable
     // passed no `colors`, `shape` or `textStyle` at all, so every background,
     // text_color and border_color a component set on a TextField did nothing.
+    // Components signalled `disabled` by withholding the change handler, which
+    // stopped the BEAM hearing about edits but left the field editable and
+    // focusable — it looked live and quietly went nowhere.
+    val enabled = boolProp(node.props, "enabled") ?: true
+
     val fieldColors = TextFieldDefaults.colors(
         focusedTextColor        = colorProp(node.props, "text_color"),
         unfocusedTextColor      = colorProp(node.props, "text_color"),
@@ -2444,7 +2449,13 @@ private fun MobTextField(node: MobNode, modifier: Modifier) {
         focusedContainerColor   = colorProp(node.props, "background"),
         unfocusedContainerColor = colorProp(node.props, "background"),
         disabledContainerColor  = colorProp(node.props, "background"),
-        cursorColor             = colorProp(node.props, "caret_color"),
+        // The renderer only resolves colour tokens for a fixed set of prop
+        // names (@color_props) and caret_color is not among them, so asking
+        // for one here would always land on Unspecified. Following the text
+        // colour is the useful behaviour anyway: a field whose text is
+        // transparent — the OTP overlay — must not blink a cursor over the
+        // boxes it is hiding behind.
+        cursorColor             = colorProp(node.props, "text_color"),
         focusedIndicatorColor   = colorProp(node.props, "border_color"),
         unfocusedIndicatorColor = colorProp(node.props, "border_color"),
         disabledIndicatorColor  = colorProp(node.props, "border_color"),
@@ -2494,6 +2505,7 @@ private fun MobTextField(node: MobNode, modifier: Modifier) {
             // dismiss for terminal actions; Next intentionally keeps keyboard open
             if (imeAction != ImeAction.Next) keyboardController?.hide()
         }),
+        enabled   = enabled,
         colors    = fieldColors,
         textStyle = fieldStyle,
     )

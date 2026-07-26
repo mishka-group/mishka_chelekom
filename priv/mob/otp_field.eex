@@ -128,12 +128,16 @@ defmodule <%= @module %> do
   # Stacked over the slots and invisible: the boxes are what the user sees and
   # taps, this is what the keyboard talks to. It is the last child of the Box, so
   # it sits on top and takes the touches.
-  defp input(props, value, length, disabled?) do
+  #
+  # Deliberately NOT capped with `max_length`. A pasted "123-456" is seven
+  # characters and would be refused whole, where `sanitize/2` turns it into the
+  # code the user meant. Over-typing is corrected on the way back instead.
+  defp input(props, value, _length, disabled?) do
     node = ~MOB"""
     <TextField
       value={value}
       placeholder=""
-      max_length={length}
+      enabled={not disabled?}
       keyboard={keyboard(Map.get(props, :validation_type, :numeric))}
       fill_width={true}
       background={:transparent}

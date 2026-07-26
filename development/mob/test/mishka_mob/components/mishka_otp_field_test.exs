@@ -101,14 +101,30 @@ defmodule MishkaMob.Components.MishkaOtpFieldTest do
       assert field.props.border_color == :transparent
     end
 
-    test "the field refuses a character past the last slot" do
-      # max_length is enforced natively, so the keystroke past the last slot is
-      # refused outright instead of accepted and corrected a round trip later.
-      assert find(MishkaOtpField.otp_field(value: "", length: 6), :text_field).props.max_length ==
-               6
+    test "the field is NOT length-capped natively, so a formatted paste survives" do
+      # A pasted "123-456" is seven characters. Capping the field at six would
+      # refuse the whole paste, where sanitize/2 turns it into the code meant.
+      field = find(MishkaOtpField.otp_field(value: "", length: 6), :text_field)
 
-      assert find(MishkaOtpField.otp_field(value: "", length: 4), :text_field).props.max_length ==
-               4
+      refute Map.has_key?(field.props, :max_length)
+      assert MishkaOtpField.sanitize("123-456", length: 6) == "123456"
+    end
+
+    test "disabled actually disables the field, not just its handler" do
+      # Withholding the handler alone left the field editable and focusable: it
+      # looked live and quietly went nowhere.
+      assert find(MishkaOtpField.otp_field(value: "1", disabled: true), :text_field).props.enabled ==
+               false
+
+      assert find(MishkaOtpField.otp_field(value: "1"), :text_field).props.enabled == true
+    end
+
+    test "the overlay hides its cursor by way of a transparent text colour" do
+      # caret_color is not one of the renderer's colour props, so it would never
+      # resolve; the bridge takes the cursor from text_color instead.
+      field = find(MishkaOtpField.otp_field(value: "1"), :text_field)
+
+      assert field.props.text_color == :transparent
     end
 
     test "slots are a fixed width, because weight is Compose-only" do
