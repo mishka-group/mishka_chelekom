@@ -102,9 +102,8 @@ defmodule MishkaMob.Components.MishkaOtpFieldTest do
     end
 
     test "the field refuses a character past the last slot" do
-      # max_length is enforced natively. Truncating only in sanitize/2 is not
-      # enough: the truncated value equals the previous one, so no new tree is
-      # pushed and the native field keeps showing what Elixir threw away.
+      # max_length is enforced natively, so the keystroke past the last slot is
+      # refused outright instead of accepted and corrected a round trip later.
       assert find(MishkaOtpField.otp_field(value: "", length: 6), :text_field).props.max_length ==
                6
 

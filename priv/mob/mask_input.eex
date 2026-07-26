@@ -134,10 +134,11 @@ defmodule <%= @module %> do
       0
 
   This is handed to the field as `max_length` so the keystroke past the end is
-  refused where it happens. Doing it only in `apply_mask/2` is not enough: the
-  truncated value equals the previous one, so no new tree is pushed and the
-  native field keeps showing the digits Elixir discarded — which is how a date
-  mask came to accept a nine-digit year.
+  refused where it happens, rather than accepted and corrected a round trip
+  later. `apply_mask/2` still truncates — the two are complementary — but a mask
+  that only truncated let a date field accept a nine-digit year, because the
+  corrected value was equal to the previous one and the native side treated it
+  as nothing to redraw.
   """
   @spec max_length(String.t() | nil) :: non_neg_integer()
   def max_length(nil), do: 0

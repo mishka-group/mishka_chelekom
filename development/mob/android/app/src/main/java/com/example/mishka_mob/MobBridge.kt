@@ -52,6 +52,10 @@ import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.LocalTextStyle
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import android.graphics.Bitmap
@@ -217,7 +221,25 @@ import androidx.lifecycle.LifecycleOwner
  * same-screen BEAM re-renders (transition == "none") recompose the existing
  * composable in place — no content swap, no focus loss, no keyboard dismissal.
  */
-data class RootState(val navKey: Int, val transition: String, val node: MobNode?)
+data class RootState(
+    val navKey: Int,
+    val transition: String,
+    val node: MobNode?,
+    /**
+     * Bumped once per push from the BEAM.
+     *
+     * Two things depend on it. `mutableStateOf` compares structurally and
+     * `RootState`/`MobNode` are data classes, so re-rendering a tree that
+     * happens to be identical would otherwise be swallowed before Compose ever
+     * saw it. And a widget holding local editing state needs to know when the
+     * BEAM has spoken, as distinct from a recomposition caused by its own
+     * typing — the epoch is that signal.
+     */
+    val epoch: Int = 0,
+)
+
+/** The current [RootState.epoch], readable from any widget composable. */
+val LocalRenderEpoch = compositionLocalOf { -1 }
 
 object MobBridge {
 
@@ -638,7 +660,8 @@ object MobBridge {
         } else {
             _rootState.value.navKey
         }
-        _rootState.value = RootState(newKey, transition, JSONObject(json).toMobNode())
+        _rootState.value =
+            RootState(newKey, transition, JSONObject(json).toMobNode(), _rootState.value.epoch + 1)
     }
 
     /** Called from Compose onClick — routes tap back to BEAM via C. */
@@ -2363,8 +2386,31 @@ private fun MobTextField(node: MobNode, modifier: Modifier) {
         else     -> ImeAction.Done
     }
 
-    var localValue by remember(node.props["value"]) {
-        mutableStateOf(node.props["value"] as? String ?: "")
+    // Elixir owns this value; the local copy exists only so typing feels instant.
+    //
+    // It used to be seeded with `remember(node.props["value"])`, which re-keys
+    // only when that string CHANGES — so a keystroke Elixir rejected was
+    // invisible, because the corrected value equalled the previous one and the
+    // field went on showing what the BEAM had already discarded. Clamping a
+    // number field to its max, or snapping a slider, both land there.
+    //
+    // Adopting `incoming` on every recomposition is not the fix either: a
+    // recomposition caused by local typing still carries the PREVIOUS tree's
+    // props, so that would erase the keystroke that triggered it. The epoch
+    // advances exactly once per push from the BEAM, which is precisely when its
+    // value became newer than ours.
+    val incoming = node.props["value"] as? String ?: ""
+    val epoch = LocalRenderEpoch.current
+    var field by remember { mutableStateOf(TextFieldValue(incoming, TextRange(incoming.length))) }
+    var seenEpoch by remember { mutableStateOf(-1) }
+
+    if (epoch != seenEpoch) {
+        seenEpoch = epoch
+        // Only when it disagrees with what is on screen: an echo of our own text
+        // must not move the caret, or editing mid-string would be impossible.
+        if (incoming != field.text) {
+            field = TextFieldValue(incoming, TextRange(incoming.length))
+        }
     }
 
     // Only fill width when explicitly asked. The unconditional fillMaxWidth
@@ -2419,14 +2465,16 @@ private fun MobTextField(node: MobNode, modifier: Modifier) {
     )
 
     TextField(
-        value         = localValue,
+        value         = field,
         onValueChange = { new ->
             // Over-long input is dropped outright rather than accepted and
-            // corrected later: leaving localValue untouched makes the controlled
-            // TextField snap back, which is what a web input with maxlength does.
-            if (maxLength <= 0 || new.length <= maxLength) {
-                localValue = new
-                changeHandle?.let { MobBridge.nativeSendChangeStr(it, new) }
+            // corrected later, which is what a web input with maxlength does.
+            if (maxLength <= 0 || new.text.length <= maxLength) {
+                val textChanged = new.text != field.text
+                field = new
+                // A bare caret move is not a change; reporting one would spin
+                // the BEAM on every tap into the field.
+                if (textChanged) changeHandle?.let { MobBridge.nativeSendChangeStr(it, new.text) }
             }
         },
         placeholder   = { Text(placeholder) },
@@ -2477,9 +2525,19 @@ private fun MobSlider(node: MobNode, modifier: Modifier) {
     val minVal   = floatProp(node.props, "min") ?: 0f
     val maxVal   = floatProp(node.props, "max") ?: 1f
     val color    = colorProp(node.props, "color")
-    var localVal by remember(node.props["value"]) {
-        mutableStateOf(floatProp(node.props, "value") ?: minVal)
+    // Same rule as MobTextField: a snapped or clamped value comes back equal to
+    // the last one, so keying on it left the thumb resting where the finger let
+    // go while the readout beside it showed the snapped number.
+    val incomingVal = floatProp(node.props, "value") ?: minVal
+    val epoch = LocalRenderEpoch.current
+    var localVal by remember { mutableStateOf(incomingVal) }
+    var seenEpoch by remember { mutableStateOf(-1) }
+
+    if (epoch != seenEpoch) {
+        seenEpoch = epoch
+        if (incomingVal != localVal) localVal = incomingVal
     }
+
     Slider(
         value         = localVal,
         onValueChange = { new ->

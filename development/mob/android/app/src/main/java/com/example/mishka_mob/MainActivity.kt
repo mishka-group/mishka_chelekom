@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -210,6 +211,10 @@ class MainActivity : ComponentActivity() {
                 )
             } ?: darkColorScheme()
 
+            // Every widget below can see which BEAM render it is looking at,
+            // which is how a field tells "Elixir changed my value" apart from
+            // "I recomposed because the user typed".
+            CompositionLocalProvider(LocalRenderEpoch provides state.epoch) {
             MaterialTheme(colorScheme = colorScheme) {
                 AnimatedContent(
                     targetState   = state,
@@ -233,6 +238,7 @@ class MainActivity : ComponentActivity() {
                 ) { s ->
                     s.node?.let { RenderNode(it, modifier = Modifier.fillMaxSize().safeDrawingPadding()) }
                 }
+            }
             }
         }
 
