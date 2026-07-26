@@ -50,6 +50,8 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.drawscope.scale
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import android.graphics.Bitmap
@@ -2378,11 +2380,54 @@ private fun MobTextField(node: MobNode, modifier: Modifier) {
     val lines = intProp(node.props, "lines") ?: 0
     val multiline = lines > 1
 
+    // `max_length` is the web's `maxlength`, and rejecting here rather than in
+    // Elixir is not an optimisation — it is the only place a rejection can be
+    // seen. When Elixir truncates an over-long value the result EQUALS the
+    // previous value, so no new tree is pushed, `remember(props["value"])` does
+    // not re-key, and the field goes on showing characters the BEAM discarded.
+    // That is exactly how a 99/99/9999 date mask came to accept 999999999.
+    val maxLength = intProp(node.props, "max_length") ?: 0
+
+    // Style props used to be serialised and silently ignored: this composable
+    // passed no `colors`, `shape` or `textStyle` at all, so every background,
+    // text_color and border_color a component set on a TextField did nothing.
+    val fieldColors = TextFieldDefaults.colors(
+        focusedTextColor        = colorProp(node.props, "text_color"),
+        unfocusedTextColor      = colorProp(node.props, "text_color"),
+        disabledTextColor       = colorProp(node.props, "text_color"),
+        focusedContainerColor   = colorProp(node.props, "background"),
+        unfocusedContainerColor = colorProp(node.props, "background"),
+        disabledContainerColor  = colorProp(node.props, "background"),
+        cursorColor             = colorProp(node.props, "caret_color"),
+        focusedIndicatorColor   = colorProp(node.props, "border_color"),
+        unfocusedIndicatorColor = colorProp(node.props, "border_color"),
+        disabledIndicatorColor  = colorProp(node.props, "border_color"),
+    )
+
+    val alignment = when (node.props["text_align"] as? String) {
+        "center" -> TextAlign.Center
+        "end", "right" -> TextAlign.End
+        else -> TextAlign.Start
+    }
+
+    val baseStyle = LocalTextStyle.current
+    val fieldStyle = baseStyle.copy(
+        textAlign = alignment,
+        fontSize = sizeProp(node.props, "text_size").takeIf { it != TextUnit.Unspecified }
+            ?: baseStyle.fontSize,
+        color = colorProp(node.props, "text_color"),
+    )
+
     TextField(
         value         = localValue,
         onValueChange = { new ->
-            localValue = new
-            changeHandle?.let { MobBridge.nativeSendChangeStr(it, new) }
+            // Over-long input is dropped outright rather than accepted and
+            // corrected later: leaving localValue untouched makes the controlled
+            // TextField snap back, which is what a web input with maxlength does.
+            if (maxLength <= 0 || new.length <= maxLength) {
+                localValue = new
+                changeHandle?.let { MobBridge.nativeSendChangeStr(it, new) }
+            }
         },
         placeholder   = { Text(placeholder) },
         modifier      = tfModifier
@@ -2401,6 +2446,8 @@ private fun MobTextField(node: MobNode, modifier: Modifier) {
             // dismiss for terminal actions; Next intentionally keeps keyboard open
             if (imeAction != ImeAction.Next) keyboardController?.hide()
         }),
+        colors    = fieldColors,
+        textStyle = fieldStyle,
     )
 }
 

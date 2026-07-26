@@ -3,17 +3,25 @@ defmodule MishkaMob.Components.MishkaOtpField do
   Native Mob port of Mishka Chelekom's **headless OTP Field** — the segmented
   one-time-code input.
 
-  ## One input, many boxes
+  ## The boxes are the input
 
-  The web version renders one `<input>` per slot and moves focus between them.
-  That focus choreography is exactly what makes OTP inputs miserable — losing a
-  digit on backspace, fighting autofill — and Mob has no focus control to
-  reproduce it with anyway.
+  The web version renders one `<input>` per slot, the first with
+  `maxlength={@length}` so a paste fills the lot, and moves focus between them.
+  You type into the boxes; there is no other field.
 
-  So this is **one `TextField` for the whole code**, drawn as separate slot
-  boxes. The field carries the value; the boxes are a display of it. Paste,
-  autofill and backspace all behave the way the platform's own keyboard expects,
-  because there is only ever one input.
+  This does the same thing from the user's side. The slots are drawn, and an
+  **invisible `TextField` is stacked over them** — transparent background, text,
+  caret and indicator — so tapping the boxes opens the keyboard and typing fills
+  them left to right. It carries `max_length`, which the bridge enforces
+  synchronously, so a seventh digit in a six-slot code is refused outright rather
+  than accepted and quietly dropped.
+
+  An earlier version put a visible `TextField` *underneath* the boxes and made
+  the boxes a read-only display of it. That is not what the web component does
+  and it looked like a bug, because it was one.
+
+  Mob has no focus control, so the active slot cannot come from focus — it is
+  derived from the value's length, which is the same answer.
 
   ## Validation belongs to the value
 
@@ -32,7 +40,8 @@ defmodule MishkaMob.Components.MishkaOtpField do
   | `mask` | boolean | `false` | Render `•` instead of the character. |
   | `disabled` | boolean | `false` | Mutes and unwires. |
   | `on_change` | event tag (atom) | — | `{:change, tag, text}`. |
-  | `color` | color token / ARGB int | `:primary` | Border of filled slots. |
+  | `color` | color token / ARGB int | `:primary` | Border of filled and active slots. |
+  | `slot_width` | number | `44` | Width of one slot. |
 
   Not ported: `name` (form plumbing), `auto_complete` / `input_mode` (browser
   hints), `transform`, `auto_submit` (the screen decides, using `complete?/2`),
@@ -97,37 +106,41 @@ defmodule MishkaMob.Components.MishkaOtpField do
     value = Map.get(props, :value, "")
     disabled? = truthy?(Map.get(props, :disabled, false))
     chars = String.graphemes(value)
+    # The slot the next character lands in. Focus would tell us on the web; here
+    # the value's own length is the same answer and needs no focus API.
+    active = min(String.length(value), length - 1)
 
     slots =
       0..(length - 1)
-      |> Enum.map(&slot(Enum.at(chars, &1), props, disabled?))
+      |> Enum.map(&slot(Enum.at(chars, &1), &1 == active, props, disabled?))
       |> Enum.intersperse(~MOB(<Spacer size={8} />))
 
     ~MOB"""
-    <Column fill_width={true}>
-      <Row fill_width={true}>
+    <Box fill_width={true} align={:center}>
+      <Row>
         {slots}
       </Row>
-      <Spacer size={10} />
-      {input(props, value, disabled?)}
-    </Column>
+      {input(props, value, length, disabled?)}
+    </Box>
     """
   end
 
-  # One field for the whole code: the slots above are a display of its value, so
-  # paste and backspace behave the way the platform keyboard expects.
-  defp input(props, value, disabled?) do
+  # Stacked over the slots and invisible: the boxes are what the user sees and
+  # taps, this is what the keyboard talks to. It is the last child of the Box, so
+  # it sits on top and takes the touches.
+  defp input(props, value, length, disabled?) do
     node = ~MOB"""
     <TextField
       value={value}
-      placeholder={Map.get(props, :placeholder, "Enter code")}
+      placeholder=""
+      max_length={length}
       keyboard={keyboard(Map.get(props, :validation_type, :numeric))}
       fill_width={true}
-      background={:surface}
-      corner_radius={:radius_sm}
-      padding={:space_sm}
-      border_color={:border}
-      border_width={1}
+      background={:transparent}
+      text_color={:transparent}
+      caret_color={:transparent}
+      border_color={:transparent}
+      text_align={:center}
     />
     """
 
@@ -137,32 +150,36 @@ defmodule MishkaMob.Components.MishkaOtpField do
     end
   end
 
-  defp slot(nil, props, disabled?), do: slot_box("", false, props, disabled?)
+  defp slot(nil, active?, props, disabled?), do: slot_box("", false, active?, props, disabled?)
 
-  defp slot(char, props, disabled?) do
+  defp slot(char, active?, props, disabled?) do
     shown = if truthy?(Map.get(props, :mask, false)), do: "•", else: char
-    slot_box(shown, true, props, disabled?)
+    slot_box(shown, true, active?, props, disabled?)
   end
 
-  defp slot_box(text, filled?, props, disabled?) do
+  defp slot_box(text, filled?, active?, props, disabled?) do
     accent = Map.get(props, :color, :primary)
+
+    # A fixed width, not `weight: 1`: weight is Compose-only and iOS ignores it,
+    # which would leave the slots sized to their content there.
+    width = Map.get(props, :slot_width, 44)
 
     border =
       cond do
         disabled? -> :border
-        filled? -> accent
+        filled? or active? -> accent
         true -> :border
       end
 
     ~MOB"""
     <Box
-      weight={1}
+      width={width}
       height={48}
       align={:center}
       background={:surface}
       corner_radius={:radius_sm}
       border_color={border}
-      border_width={if(filled?, do: 2, else: 1)}
+      border_width={if(filled? or active?, do: 2, else: 1)}
     >
       <Text text={text} text_size={:xl} text_color={if(disabled?, do: :muted, else: :on_surface)} />
     </Box>

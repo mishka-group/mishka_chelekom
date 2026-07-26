@@ -52,9 +52,74 @@ defmodule MishkaMob.Components.MishkaOtpFieldTest do
       tree = MishkaOtpField.otp_field(value: "12", length: 4)
       slots = tree |> find_all(:box) |> Enum.filter(&(&1.props[:height] == 48))
 
-      assert Enum.map(slots, & &1.props.border_width) == [2, 2, 1, 1]
+      # Two filled, then the ACTIVE slot — where the next character lands. The
+      # web gets that from focus; there is no focus API here, so it comes from
+      # the value's length, which is the same answer.
+      assert Enum.map(slots, & &1.props.border_width) == [2, 2, 2, 1]
       assert text(tree) =~ "1"
       assert text(tree) =~ "2"
+    end
+
+    test "the active slot is the one the next character lands in" do
+      borders = fn value ->
+        MishkaOtpField.otp_field(value: value, length: 4)
+        |> find_all(:box)
+        |> Enum.filter(&(&1.props[:height] == 48))
+        |> Enum.map(& &1.props.border_width)
+      end
+
+      # An empty code still marks slot 0, so there is somewhere to look before
+      # typing anything. Filled and active share the accent, which is what makes
+      # the run of 2s grow by one from the left.
+      assert borders.("") == [2, 1, 1, 1]
+      assert borders.("1") == [2, 2, 1, 1]
+      assert borders.("12") == [2, 2, 2, 1]
+    end
+
+    test "a full code has no slot left to be active" do
+      slots =
+        MishkaOtpField.otp_field(value: "1234", length: 4)
+        |> find_all(:box)
+        |> Enum.filter(&(&1.props[:height] == 48))
+
+      assert Enum.map(slots, & &1.props.border_width) == [2, 2, 2, 2]
+    end
+
+    test "the boxes ARE the input: the field over them is invisible" do
+      # The first version drew a visible TextField UNDER the boxes and made the
+      # boxes a read-only display of it — two places to look, and not what the
+      # web component does. The field is now stacked over the slots and
+      # transparent, so the boxes are what you see and tap.
+      tree = MishkaOtpField.otp_field(value: "12", length: 6)
+      field = find(tree, :text_field)
+
+      assert tree.type == :box
+      assert Enum.map(tree.children, & &1.type) == [:row, :text_field]
+      assert field.props.background == :transparent
+      assert field.props.text_color == :transparent
+      assert field.props.caret_color == :transparent
+      assert field.props.border_color == :transparent
+    end
+
+    test "the field refuses a character past the last slot" do
+      # max_length is enforced natively. Truncating only in sanitize/2 is not
+      # enough: the truncated value equals the previous one, so no new tree is
+      # pushed and the native field keeps showing what Elixir threw away.
+      assert find(MishkaOtpField.otp_field(value: "", length: 6), :text_field).props.max_length ==
+               6
+
+      assert find(MishkaOtpField.otp_field(value: "", length: 4), :text_field).props.max_length ==
+               4
+    end
+
+    test "slots are a fixed width, because weight is Compose-only" do
+      slots =
+        MishkaOtpField.otp_field(value: "", length: 4)
+        |> find_all(:box)
+        |> Enum.filter(&(&1.props[:height] == 48))
+
+      assert Enum.all?(slots, &(&1.props[:width] == 44))
+      refute Enum.any?(slots, &Map.has_key?(&1.props, :weight))
     end
 
     test "mask renders bullets instead of the digits" do

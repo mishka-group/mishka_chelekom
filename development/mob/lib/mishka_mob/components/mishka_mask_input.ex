@@ -107,6 +107,7 @@ defmodule MishkaMob.Components.MishkaMaskInput do
       value={Map.get(props, :value, "")}
       placeholder={Map.get(props, :placeholder) || mask || ""}
       keyboard={Map.get(props, :keyboard) || keyboard_for(mask)}
+      max_length={max_length(mask)}
       fill_width={true}
       background={:surface}
       corner_radius={:radius_sm}
@@ -121,6 +122,26 @@ defmodule MishkaMob.Components.MishkaMaskInput do
       tap -> %{node | props: Map.put(node.props, :on_change, tap)}
     end
   end
+
+  @doc """
+  How many characters a fully-formatted value can hold — the mask's own length,
+  literals included, since that is what the field displays.
+
+      iex> MishkaMob.Components.MishkaMaskInput.max_length("99/99/9999")
+      10
+
+      iex> MishkaMob.Components.MishkaMaskInput.max_length(nil)
+      0
+
+  This is handed to the field as `max_length` so the keystroke past the end is
+  refused where it happens. Doing it only in `apply_mask/2` is not enough: the
+  truncated value equals the previous one, so no new tree is pushed and the
+  native field keeps showing the digits Elixir discarded — which is how a date
+  mask came to accept a nine-digit year.
+  """
+  @spec max_length(String.t() | nil) :: non_neg_integer()
+  def max_length(nil), do: 0
+  def max_length(mask), do: String.length(mask)
 
   # Walk the mask; literals are emitted while characters remain, tokens consume.
   defp consume(_mask, [], acc), do: acc
