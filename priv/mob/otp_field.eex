@@ -52,7 +52,7 @@ defmodule <%= @module %> do
   | `separator` | string | `nil` | What to draw between groups. Both props are required. |
   | `id` | string | `nil` | Sets a native testTag on the input, for end-to-end tests. |
   | `focused` | boolean | `false` | Draws a caret in the active slot. Track it with `on_focus`/`on_blur`. |
-  | `on_focus` / `on_blur` | event tags | — | `{:tap, tag}` when the field gains or loses focus. |
+  | `on_focus` / `on_blur` | event tags | — | `{:focus, tag}` / `{:blur, tag}`. NOT taps. |
 
   Not ported: `name` (form plumbing), `auto_complete` / `input_mode` (browser
   hints), `transform`, `auto_submit` (the screen decides, using `complete?/2`),
