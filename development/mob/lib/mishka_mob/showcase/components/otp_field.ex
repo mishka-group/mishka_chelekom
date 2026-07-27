@@ -59,11 +59,11 @@ defmodule MishkaMob.Showcase.Components.OtpField do
           {:noreply, assign(socket, :code, MishkaOtpField.sanitize(raw, length: 6))}
         end
 
-        # The same thing as a function call. Identical output — but no compile
-        # warning, because ~MOB validates tag names against Mob's own whitelist
-        # and ours are not in it:
+        # The function form is still there and gives identical output, for
+        # anything a tag cannot express:
         #
-        #        #   <MishkaOtpField value={@code} length={6} on_change={:code} />
+        #   import MishkaMob.Components.MishkaOtpField, only: [otp_field: 1]
+        #   {otp_field(value: @code, length: 6, on_change: :code)}
         ''',
         render: fn assigns ->
           ~MOB"""

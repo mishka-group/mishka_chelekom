@@ -23,15 +23,17 @@ defmodule MishkaMob.Components.MishkaSeparator do
       Mob.Composite.register(:mishka_separator, {#{inspect(__MODULE__)}, :expand})
       # <MishkaSeparator label="or" />
 
-  ### Why not a custom tag everywhere
+  ### The tag, and the warning behind it
 
   `~MOB` validates tags against Mob's whitelist (`priv/tags/*.txt` in the `mob`
-  dep, baked in at compile time with no extension point). A custom tag still
-  works — it passes through as `:mishka_separator` — but it emits
-  `"<MishkaSeparator> is not in the Mob tag whitelist"`, which
-  `mix compile --warnings-as-errors` turns into a build failure. Interpolating a
-  function is the same thing HEEx does for function components (`<.separator />`
-  vs `<div>`), so the sigil is still doing the work.
+  dep, baked in at Mob's compile time). A composite registers at *runtime*, which
+  that check cannot see, so an unlisted tag emits
+  `"<MishkaSeparator> is not in the Mob tag whitelist"` — harmless in itself, and
+  fatal under `--warnings-as-errors`.
+
+  `mix mishka.ui.gen.mob` adds the tags it generates to that list, so the tag
+  form is the one to write. The function form remains for anything a tag cannot
+  express — two child slots, mostly.
 
   ## Props
 
