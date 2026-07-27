@@ -113,6 +113,46 @@ defmodule MishkaMob.Components.MishkaAngleSlider do
     end
   end
 
+  @doc """
+  The angle a drag should settle on, given where it currently is.
+
+  `angle_at/3` is circular, so dragging clockwise past twelve o'clock takes 359°
+  straight to 0° and the ring empties in one frame. That is true of an angle and
+  wrong as a gesture: the finger moved a few pixels, so the value should not
+  travel most of a turn.
+
+  A jump of more than half a turn is therefore read as crossing the seam, and the
+  value pins to the end it was heading for. A full ring stays full until you drag
+  back the other way.
+
+      iex> alias MishkaMob.Components.MishkaAngleSlider, as: A
+      iex> A.follow(350.0, 10.0)
+      360.0
+
+      iex> alias MishkaMob.Components.MishkaAngleSlider, as: A
+      iex> A.follow(10.0, 350.0)
+      0.0
+
+      iex> alias MishkaMob.Components.MishkaAngleSlider, as: A
+      iex> A.follow(90.0, 120.0)
+      120.0
+
+  Pass `:dead` straight through — there was no angle to follow.
+
+      iex> MishkaMob.Components.MishkaAngleSlider.follow(90.0, :dead)
+      90.0
+  """
+  @spec follow(number(), number() | :dead) :: float()
+  def follow(current, :dead), do: current * 1.0
+
+  def follow(current, new) do
+    cond do
+      abs(new - current) <= 180 -> new * 1.0
+      new < current -> 360.0
+      true -> 0.0
+    end
+  end
+
   # Mob.UI.canvas/1 is Map.take(props, [:width, :height, :draw]) — it drops any
   # handler, which is the "renders perfectly and does nothing" failure. Built
   # literally so on_drag reaches the renderer.

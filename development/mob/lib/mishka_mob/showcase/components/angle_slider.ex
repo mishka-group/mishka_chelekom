@@ -111,20 +111,18 @@ defmodule MishkaMob.Showcase.Components.AngleSlider do
   # units. angle_at/3 returns :dead near the centre, where no angle was meant —
   # ignoring it is what stops a fingertip in the middle spinning the dial.
   def handle_change(:angle, %{x: x, y: y}, socket) do
-    case MishkaAngleSlider.angle_at(x, y, 160) do
-      :dead -> socket
-      angle -> Mob.Socket.assign(socket, :angle, angle)
-    end
+    next = MishkaAngleSlider.follow(socket.assigns.angle, MishkaAngleSlider.angle_at(x, y, 160))
+
+    Mob.Socket.assign(socket, :angle, next)
   end
 
   def handle_change(:angle, value, socket) when is_number(value),
     do: Mob.Socket.assign(socket, :angle, value)
 
   def handle_change(:snapped, %{x: x, y: y}, socket) do
-    case MishkaAngleSlider.angle_at(x, y, 130) do
-      :dead -> socket
-      angle -> Mob.Socket.assign(socket, :snapped, MishkaSlider.snap(angle, step: 15, max: 360))
-    end
+    next = MishkaAngleSlider.follow(socket.assigns.snapped, MishkaAngleSlider.angle_at(x, y, 130))
+
+    Mob.Socket.assign(socket, :snapped, MishkaSlider.snap(next, step: 15, max: 360))
   end
 
   def handle_change(:snapped, value, socket) when is_number(value) do
