@@ -5,7 +5,7 @@ defmodule MishkaMob.Showcase.Components.Tabs do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaTabs, only: [tabs: 2, tab: 3, tab: 4]
+  import MishkaMob.Components.MishkaTabs, only: [tab: 3, tab: 4]
 
   alias MishkaMob.Showcase.Example
 
@@ -34,10 +34,13 @@ defmodule MishkaMob.Showcase.Components.Tabs do
         title: "A tab strip",
         description: "Each tab declares its own panel; only the active one renders.",
         code: ~S"""
-        {tabs([active: @tab, on_change: :pick], [
+        <MishkaTabs
+          active={@tab}
+          on_change={:pick}
+        >{[
           tab(:overview, "Overview", overview_body()),
           tab(:specs, "Specs", specs_body())
-        ])}
+        ]}</MishkaTabs>
 
         def handle_info({:tap, {:pick, id}}, socket) do
           {:noreply, assign(socket, :tab, id)}
@@ -46,11 +49,13 @@ defmodule MishkaMob.Showcase.Components.Tabs do
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {tabs([active: @tb_main, on_change: :tb_main], [
+            <MishkaTabs active={@tb_main} on_change={:tb_main}>
+              {[
               tab(:overview, "Overview", para("A native tab strip built from Row, Box and Text.")),
               tab(:specs, "Specs", para("Content-sized tabs, so the strip works on both platforms.")),
               tab(:support, "Support", para("Each panel is the tab's own children."))
-            ])}
+            ]}
+            </MishkaTabs>
           </Column>
           """
         end
@@ -59,15 +64,17 @@ defmodule MishkaMob.Showcase.Components.Tabs do
         title: "Without the indicator",
         description: "indicator: false drops the underline; colour still marks the active tab.",
         code: ~S"""
-        {tabs([active: @tab, indicator: false, on_change: :pick], tabs_list)}
+        <MishkaTabs active={@tab} indicator={false} on_change={:pick}>{tabs_list}</MishkaTabs>
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {tabs([active: @tb_plain, indicator: false, on_change: :tb_plain], [
+            <MishkaTabs active={@tb_plain} indicator={false} on_change={:tb_plain}>
+              {[
               tab(:one, "First", para("No underline here.")),
               tab(:two, "Second", para("Just the active colour."))
-            ])}
+            ]}
+            </MishkaTabs>
           </Column>
           """
         end
@@ -81,11 +88,13 @@ defmodule MishkaMob.Showcase.Components.Tabs do
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {tabs([active: @tb_main, on_change: :tb_main], [
+            <MishkaTabs active={@tb_main} on_change={:tb_main}>
+              {[
               tab(:overview, "Overview", para("Tap the tabs — Locked will not respond.")),
               tab(:locked, "Locked", para("Unreachable."), disabled: true),
               tab(:specs, "Specs", para("This one works."))
-            ])}
+            ]}
+            </MishkaTabs>
           </Column>
           """
         end
@@ -94,15 +103,22 @@ defmodule MishkaMob.Showcase.Components.Tabs do
         title: "Colour and spacing",
         description: "color tints the active label and its underline; space sets the gap.",
         code: ~S"""
-        {tabs([active: @tab, color: 0xFF7C3AED, space: 26, on_change: :pick], tabs_list)}
+        <MishkaTabs
+          active={@tab}
+          color={0xFF7C3AED}
+          space={26}
+          on_change={:pick}
+        >{tabs_list}</MishkaTabs>
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {tabs([active: @tb_plain, color: 0xFF7C3AED, space: 26, on_change: :tb_plain], [
+            <MishkaTabs active={@tb_plain} color={0xFF7C3AED} space={26} on_change={:tb_plain}>
+              {[
               tab(:one, "Violet", para("A brand-tinted strip.")),
               tab(:two, "Spaced", para("With a wider gap between tabs."))
-            ])}
+            ]}
+            </MishkaTabs>
           </Column>
           """
         end

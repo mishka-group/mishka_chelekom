@@ -6,8 +6,6 @@ defmodule MishkaMob.Showcase.Components.Autocomplete do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaAutocomplete, only: [autocomplete: 1]
-  import MishkaMob.Components.MishkaPillsInput, only: [pills_input: 2]
   import MishkaMob.Components.MishkaPill, only: [pill: 1]
 
   alias MishkaMob.Showcase.Example
@@ -41,8 +39,13 @@ defmodule MishkaMob.Showcase.Components.Autocomplete do
         description:
           "Prefix matching by default — and suggestions vanish once you match exactly.",
         code: ~S"""
-        {autocomplete(query: @query, suggestions: @cities, open: true,
-                      on_query: :query, on_select: :choose)}
+        <MishkaAutocomplete
+          query={@query}
+          suggestions={@cities}
+          open={true}
+          on_query={:query}
+          on_select={:choose}
+        />
 
         # the chosen suggestion IS the text
         def handle_info({:tap, {:choose, text}}, socket), do: assign(socket, :query, text)
@@ -50,11 +53,16 @@ defmodule MishkaMob.Showcase.Components.Autocomplete do
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {autocomplete(
-               query: @ac_query, suggestions: cities(), open: true, clear: true,
-               placeholder: "Type a city…",
-               on_query: :ac_query, on_select: :ac_choose, on_clear: :ac_clear
-             )}
+            <MishkaAutocomplete
+              query={@ac_query}
+              suggestions={cities()}
+              open={true}
+              clear={true}
+              placeholder="Type a city…"
+              on_query={:ac_query}
+              on_select={:ac_choose}
+              on_clear={:ac_clear}
+            />
             <Spacer size={10} />
             <Text text={"Value: " <> inspect(@ac_query)} text_size={:sm} text_color={:muted} />
           </Column>
@@ -65,15 +73,20 @@ defmodule MishkaMob.Showcase.Components.Autocomplete do
         title: "Contains matching",
         description: "filter: :contains matches anywhere instead of the prefix.",
         code: ~S"""
-        {autocomplete(query: @query, suggestions: @cities, filter: :contains)}
+        <MishkaAutocomplete query={@query} suggestions={@cities} filter={:contains} />
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {autocomplete(
-               query: @ac_query, suggestions: cities(), open: true, filter: :contains,
-               placeholder: "Matches anywhere…", on_query: :ac_query, on_select: :ac_choose
-             )}
+            <MishkaAutocomplete
+              query={@ac_query}
+              suggestions={cities()}
+              open={true}
+              filter={:contains}
+              placeholder="Matches anywhere…"
+              on_query={:ac_query}
+              on_select={:ac_choose}
+            />
           </Column>
           """
         end
@@ -82,16 +95,23 @@ defmodule MishkaMob.Showcase.Components.Autocomplete do
         title: "Pills input",
         description: "The caller owns the pills — they can be anything, not just strings.",
         code: ~S"""
-        {pills_input([draft: @draft, on_draft: :typed, on_add: :commit], recipient_pills())}
+        <MishkaPillsInput
+          draft={@draft}
+          on_draft={:typed}
+          on_add={:commit}
+        >{recipient_pills()}</MishkaPillsInput>
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {pills_input(
-               [draft: @ac_draft, placeholder: "Add a recipient…",
-                on_draft: :ac_draft, on_add: :ac_add],
-               recipient_pills(@ac_recipients)
-             )}
+            <MishkaPillsInput
+              draft={@ac_draft}
+              placeholder="Add a recipient…"
+              on_draft={:ac_draft}
+              on_add={:ac_add}
+            >
+              {recipient_pills(@ac_recipients)}
+            </MishkaPillsInput>
             <Spacer size={10} />
             <Text text="Press return to add; tap a ✕ to remove." text_size={:sm} text_color={:muted} />
           </Column>

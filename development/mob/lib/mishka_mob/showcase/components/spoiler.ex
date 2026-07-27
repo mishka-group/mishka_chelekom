@@ -5,7 +5,6 @@ defmodule MishkaMob.Showcase.Components.Spoiler do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaSpoiler, only: [spoiler: 2]
 
   alias MishkaMob.Showcase.Example
 
@@ -37,12 +36,18 @@ defmodule MishkaMob.Showcase.Components.Spoiler do
         title: "Show more",
         description: "The control sits under the content and changes label as it works.",
         code: ~S"""
-        {spoiler([expanded: @open?, preview: preview(), on_toggle: :more], full_text())}
+        <MishkaSpoiler
+          expanded={@open?}
+          preview={preview()}
+          on_toggle={:more}
+        >{full_text()}</MishkaSpoiler>
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {spoiler([expanded: @sp_open, preview: para(short()), on_toggle: :sp_open], para(long()))}
+            <MishkaSpoiler expanded={@sp_open} preview={para(short())} on_toggle={:sp_open}>
+              {para(long())}
+            </MishkaSpoiler>
           </Column>
           """
         end
@@ -51,13 +56,22 @@ defmodule MishkaMob.Showcase.Components.Spoiler do
         title: "Custom labels",
         description: "show_label and hide_label replace the defaults.",
         code: ~S"""
-        {spoiler([show_label: "Read the rest", hide_label: "Collapse"], content)}
+        <MishkaSpoiler
+          show_label="Read the rest"
+          hide_label="Collapse"
+        >{content}</MishkaSpoiler>
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {spoiler([expanded: @sp_plain, show_label: "Read the rest", hide_label: "Collapse",
-                      on_toggle: :sp_plain], para(long()))}
+            <MishkaSpoiler
+              expanded={@sp_plain}
+              show_label="Read the rest"
+              hide_label="Collapse"
+              on_toggle={:sp_plain}
+            >
+              {para(long())}
+            </MishkaSpoiler>
           </Column>
           """
         end
@@ -66,12 +80,14 @@ defmodule MishkaMob.Showcase.Components.Spoiler do
         title: "No preview",
         description: "Without a preview the control stands alone until it is opened.",
         code: ~S"""
-        {spoiler([expanded: @open?, on_toggle: :more], content)}
+        <MishkaSpoiler expanded={@open?} on_toggle={:more}>{content}</MishkaSpoiler>
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {spoiler([expanded: @sp_plain, on_toggle: :sp_plain], para("Surprise — this was hidden."))}
+            <MishkaSpoiler expanded={@sp_plain} on_toggle={:sp_plain}>
+              {para("Surprise — this was hidden.")}
+            </MishkaSpoiler>
           </Column>
           """
         end

@@ -7,7 +7,6 @@ defmodule MishkaMob.Showcase.Components.Tree do
 
   import Mob.Sigil
   import MishkaMob.Components.MishkaTree, only: [tree: 1]
-  import MishkaMob.Components.MishkaTreeSelect, only: [tree_select: 2]
 
   alias MishkaMob.Components.MishkaTree
   alias MishkaMob.Showcase.Example
@@ -70,16 +69,27 @@ defmodule MishkaMob.Showcase.Components.Tree do
           "Only the rows on screen are built — a collapsed branch costs one row, not a " <>
             "hidden layout tree.",
         code: ~S"""
-        {tree(nodes: @nodes, expanded: @expanded, selected: @selected,
-              on_expand: :open, on_collapse: :close, on_select: :pick)}
+        <MishkaTree
+          nodes={@nodes}
+          expanded={@expanded}
+          selected={@selected}
+          on_expand={:open}
+          on_collapse={:close}
+          on_select={:pick}
+        />
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {tree(
-               nodes: nodes(), expanded: @expanded, selected: @selected, with_lines: true,
-               on_expand: :open, on_collapse: :close, on_select: :pick
-             )}
+            <MishkaTree
+              nodes={nodes()}
+              expanded={@expanded}
+              selected={@selected}
+              with_lines={true}
+              on_expand={:open}
+              on_collapse={:close}
+              on_select={:pick}
+            />
           </Column>
           """
         end
@@ -88,7 +98,12 @@ defmodule MishkaMob.Showcase.Components.Tree do
         title: "Checkboxes cascade",
         description: "A parent is indeterminate when only some of its descendants are checked.",
         code: ~S"""
-        {tree(nodes: @nodes, checked: @checked, with_checkboxes: true, on_check: :check)}
+        <MishkaTree
+          nodes={@nodes}
+          checked={@checked}
+          with_checkboxes={true}
+          on_check={:check}
+        />
 
         def handle({:check, value}, socket),
           do: assign(socket, :checked, MishkaTree.toggle_check(nodes(), value, socket.assigns.checked))
@@ -96,11 +111,16 @@ defmodule MishkaMob.Showcase.Components.Tree do
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {tree(
-               nodes: nodes(), expanded: @expanded, checked: @checked,
-               with_checkboxes: true, with_expand_icon: true,
-               on_expand: :open, on_collapse: :close, on_check: :check
-             )}
+            <MishkaTree
+              nodes={nodes()}
+              expanded={@expanded}
+              checked={@checked}
+              with_checkboxes={true}
+              with_expand_icon={true}
+              on_expand={:open}
+              on_collapse={:close}
+              on_check={:check}
+            />
             <Spacer size={10} />
             <Text text={"Checked: " <> summary(@checked)} text_size={:sm} text_color={:muted} />
           </Column>
@@ -111,22 +131,28 @@ defmodule MishkaMob.Showcase.Components.Tree do
         title: "Tree select",
         description: "A trigger showing the selection, with the tree in a panel beneath it.",
         code: ~S"""
-        {tree_select([label: @picked, open: @open, on_toggle: :ts_toggle],
-                     [tree(nodes: @nodes, on_select: :ts_pick)])}
+        <MishkaTreeSelect
+          label={@picked}
+          open={@open}
+          on_toggle={:ts_toggle}
+        >{[tree(nodes: @nodes, on_select: :ts_pick)]}</MishkaTreeSelect>
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {tree_select(
-               [label: @ts_label, placeholder: "Choose a file…", open: @ts_open,
-                on_toggle: :ts_toggle],
-               [
+            <MishkaTreeSelect
+              label={@ts_label}
+              placeholder="Choose a file…"
+              open={@ts_open}
+              on_toggle={:ts_toggle}
+            >
+              {[
                  tree(
                    nodes: nodes(), expanded: @ts_expanded,
                    on_expand: :ts_open_node, on_collapse: :ts_close_node, on_select: :ts_pick
                  )
-               ]
-             )}
+               ]}
+            </MishkaTreeSelect>
           </Column>
           """
         end

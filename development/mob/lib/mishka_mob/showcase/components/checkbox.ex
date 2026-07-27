@@ -39,14 +39,14 @@ defmodule MishkaMob.Showcase.Components.Checkbox do
         title: "Checked and unchecked",
         description: "One tappable row: indicator plus label.",
         code: ~S"""
-        {checkbox(label: "Remember me", checked: @remember?, on_toggle: :remember)}
+        <MishkaCheckbox label="Remember me" checked={@remember?} on_toggle={:remember} />
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {checkbox(label: "Remember me", checked: @cb_remember, on_toggle: :cb_remember)}
+            <MishkaCheckbox label="Remember me" checked={@cb_remember} on_toggle={:cb_remember} />
             <Spacer size={12} />
-            {checkbox(label: "Unchecked", checked: false)}
+            <MishkaCheckbox label="Unchecked" checked={false} />
           </Column>
           """
         end
@@ -55,7 +55,7 @@ defmodule MishkaMob.Showcase.Components.Checkbox do
         title: "Select all (indeterminate)",
         description: "The parent goes mixed when only some children are checked.",
         code: ~S"""
-        {checkbox(label: "All", checked: all?, indeterminate: some?, on_toggle: :all)}
+        <MishkaCheckbox label="All" checked={all?} indeterminate={some?} on_toggle={:all} />
 
         # tapping a mixed parent selects everything
         {checked?, _} = MishkaCheckbox.toggle(%{indeterminate: true})
@@ -63,8 +63,12 @@ defmodule MishkaMob.Showcase.Components.Checkbox do
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {checkbox(label: "All languages", checked: all?(@cb_picked),
-                      indeterminate: some?(@cb_picked), on_toggle: :cb_all)}
+            <MishkaCheckbox
+              label="All languages"
+              checked={all?(@cb_picked)}
+              indeterminate={some?(@cb_picked)}
+              on_toggle={:cb_all}
+            />
             <Spacer size={10} />
             <Box fill_width={true} height={1} background={:border} />
             <Spacer size={10} />
@@ -77,14 +81,14 @@ defmodule MishkaMob.Showcase.Components.Checkbox do
         title: "Disabled",
         description: "Muted and inert, in any state.",
         code: ~S"""
-        {checkbox(label: "Locked", checked: true, disabled: true)}
+        <MishkaCheckbox label="Locked" checked={true} disabled={true} />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {checkbox(label: "Locked on", checked: true, disabled: true)}
+            <MishkaCheckbox label="Locked on" checked={true} disabled={true} />
             <Spacer size={12} />
-            {checkbox(label: "Locked off", disabled: true)}
+            <MishkaCheckbox label="Locked off" disabled={true} />
           </Column>
           """
         end
@@ -93,14 +97,14 @@ defmodule MishkaMob.Showcase.Components.Checkbox do
         title: "Colour and size",
         description: "color fills the box when checked; size sets its edge.",
         code: ~S"""
-        {checkbox(label: "Violet", checked: true, color: 0xFF7C3AED, size: 26)}
+        <MishkaCheckbox label="Violet" checked={true} color={0xFF7C3AED} size={26} />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {checkbox(label: "Violet, larger", checked: true, color: 0xFF7C3AED, size: 26)}
+            <MishkaCheckbox label="Violet, larger" checked={true} color={0xFF7C3AED} size={26} />
             <Spacer size={12} />
-            {checkbox(label: "Small", checked: true, size: 16)}
+            <MishkaCheckbox label="Small" checked={true} size={16} />
           </Column>
           """
         end

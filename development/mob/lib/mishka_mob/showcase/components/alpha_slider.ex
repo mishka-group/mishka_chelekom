@@ -3,7 +3,6 @@ defmodule MishkaMob.Showcase.Components.AlphaSlider do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaAlphaSlider, only: [alpha_slider: 1]
 
   alias MishkaMob.Components.MishkaAlphaSlider
   alias MishkaMob.Showcase.Example
@@ -30,15 +29,23 @@ defmodule MishkaMob.Showcase.Components.AlphaSlider do
         description:
           "The canvas composites for real, so the squares show through the translucent end.",
         code: ~S"""
-        {alpha_slider(value: @alpha, color: "#3b82f6", show_value: true, on_change: :alpha)}
+        <MishkaAlphaSlider
+          value={@alpha}
+          color={"#3b82f6"}
+          show_value={true}
+          on_change={:alpha}
+        />
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {alpha_slider(
-               value: @alpha, color: "#3b82f6", label: "Opacity",
-               show_value: true, on_change: :alpha
-             )}
+            <MishkaAlphaSlider
+              value={@alpha}
+              color={"#3b82f6"}
+              label="Opacity"
+              show_value={true}
+              on_change={:alpha}
+            />
           </Column>
           """
         end
@@ -47,14 +54,14 @@ defmodule MishkaMob.Showcase.Components.AlphaSlider do
         title: "Any base colour",
         description: "The track fades in whatever colour you hand it.",
         code: ~S"""
-        {alpha_slider(value: @alpha, color: "#dc2626")}
+        <MishkaAlphaSlider value={@alpha} color={"#dc2626"} />
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {alpha_slider(value: @alpha, color: "#dc2626", on_change: :alpha)}
+            <MishkaAlphaSlider value={@alpha} color={"#dc2626"} on_change={:alpha} />
             <Spacer size={8} />
-            {alpha_slider(value: @alpha, color: "#16a34a", on_change: :alpha)}
+            <MishkaAlphaSlider value={@alpha} color={"#16a34a"} on_change={:alpha} />
           </Column>
           """
         end

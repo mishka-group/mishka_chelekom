@@ -32,9 +32,13 @@ defmodule MishkaMob.Showcase.Components.AlertDialog do
         title: "Confirm or cancel",
         description: "Tapping the backdrop does nothing — the choice is the only way out.",
         code: ~S"""
-        {alert_dialog([open: @open?, title: "Discard changes?",
-                       description: "Your edits will be lost.",
-                       on_close: :cancel], [], actions)}
+        <MishkaAlertDialog
+          open={@open?}
+          title="Discard changes?"
+          description="Your edits will be lost."
+          on_close={:cancel}
+          actions={actions}
+        />
         """,
         render: fn _assigns -> trigger("Discard changes?", :discard) end
       },
@@ -43,7 +47,7 @@ defmodule MishkaMob.Showcase.Components.AlertDialog do
         description: "The confirming action carries the weight, so colour it.",
         code: ~S"""
         # a red confirm button in the actions list
-        {alert_dialog(props, [], [cancel_button(), delete_button()])}
+        <MishkaAlertDialog actions={[cancel_button(), delete_button()]} … />
         """,
         render: fn _assigns -> trigger("Delete account", :delete) end
       },
@@ -52,8 +56,8 @@ defmodule MishkaMob.Showcase.Components.AlertDialog do
         description: "dismissible is forced to false — passing it changes nothing.",
         code: ~S"""
         # both of these are identical: the backdrop stays inert
-        {alert_dialog([open: true, dismissible: true], [], actions)}
-        {alert_dialog([open: true], [], actions)}
+        <MishkaAlertDialog open={true} dismissible={true} actions={actions} />
+        <MishkaAlertDialog open={true} actions={actions} />
         """,
         render: fn _assigns -> trigger("Try to dismiss it", :stubborn) end
       }

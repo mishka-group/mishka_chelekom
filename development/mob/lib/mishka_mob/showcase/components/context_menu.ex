@@ -5,9 +5,7 @@ defmodule MishkaMob.Showcase.Components.ContextMenu do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaContextMenu, only: [context_menu: 2]
   import MishkaMob.Components.MishkaMenu, only: [item: 3, separator: 0]
-  import MishkaMob.Components.MishkaActionIcon, only: [action_icon: 1]
 
   alias MishkaMob.Showcase.Example
 
@@ -38,10 +36,14 @@ defmodule MishkaMob.Showcase.Components.ContextMenu do
         title: "Per-row actions",
         description: "The ⋯ opens it, and for_label makes the subject unambiguous.",
         code: ~S"""
-        {context_menu([open: @open?, for_label: "report.pdf", on_select: :act], [
+        <MishkaContextMenu
+          open={@open?}
+          for_label="report.pdf"
+          on_select={:act}
+        >{[
           item(:rename, "Rename"),
           item(:delete, "Delete", danger: true)
-        ])}
+        ]}</MishkaContextMenu>
         """,
         render: fn assigns ->
           ~MOB"""
@@ -57,17 +59,19 @@ defmodule MishkaMob.Showcase.Components.ContextMenu do
         title: "Without a subject",
         description: "Drop for_label and it is exactly a Menu.",
         code: ~S"""
-        {context_menu([open: true, on_select: :act], items)}
+        <MishkaContextMenu open={true} on_select={:act}>{items}</MishkaContextMenu>
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {context_menu([open: true, on_select: :cm_pick, width: 220], [
+            <MishkaContextMenu open={true} on_select={:cm_pick} width={220}>
+              {[
               item(:open, "Open", icon: "↗"),
               item(:rename, "Rename", icon: "✎"),
               separator(),
               item(:delete, "Delete", icon: "🗑", danger: true)
-            ])}
+            ]}
+            </MishkaContextMenu>
           </Column>
           """
         end
@@ -131,18 +135,17 @@ defmodule MishkaMob.Showcase.Components.ContextMenu do
       <Row fill_width={true}>
         <Text text={name} text_size={:base} text_color={:on_surface} />
         <Spacer weight={1} />
-        {action_icon(icon: "⋯", on_tap: {:cm_open, id})}
+        <MishkaActionIcon icon="⋯" on_tap={{:cm_open, id}} />
       </Row>
       <Spacer size={6} :if={open_for == id} />
-      {context_menu(
-         [open: open_for == id, for_label: name, on_select: :cm_pick],
-         [
+      <MishkaContextMenu open={open_for == id} for_label={name} on_select={:cm_pick}>
+        {[
            item(:rename, "Rename", icon: "✎"),
            item(:duplicate, "Duplicate", icon: "⧉"),
            separator(),
            item(:delete, "Delete", icon: "🗑", danger: true)
-         ]
-       )}
+         ]}
+      </MishkaContextMenu>
     </Column>
     """
   end

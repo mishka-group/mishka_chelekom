@@ -8,7 +8,6 @@ defmodule MishkaMob.Showcase.Components.ColorSwatch do
 
   import Mob.Sigil
   import MishkaMob.Components.MishkaColorSwatch, only: [color_swatch: 1]
-  import MishkaMob.Components.MishkaLoadingOverlay, only: [loading_overlay: 1]
 
   alias MishkaMob.Showcase.Example
 
@@ -45,7 +44,11 @@ defmodule MishkaMob.Showcase.Components.ColorSwatch do
         title: "A palette",
         description: "Selection draws a ring and a ✓.",
         code: ~S"""
-        {color_swatch(color: 0xFF7C3AED, selected: @picked == :violet, on_tap: {:pick, :violet})}
+        <MishkaColorSwatch
+          color={0xFF7C3AED}
+          selected={@picked == :violet}
+          on_tap={{:pick, :violet}}
+        />
         """,
         render: fn assigns ->
           ~MOB"""
@@ -59,20 +62,20 @@ defmodule MishkaMob.Showcase.Components.ColorSwatch do
         title: "Transparency",
         description: "A translucent colour is drawn over a checkerboard — otherwise it lies.",
         code: ~S"""
-        {color_swatch(color: 0x807C3AED)}   # checkerboard appears automatically
+        <MishkaColorSwatch color={0x807C3AED} />   # checkerboard appears automatically
         """,
         render: fn _assigns ->
           ~MOB"""
           <Row fill_width={true}>
-            {color_swatch(color: 0xFF7C3AED)}
+            <MishkaColorSwatch color={0xFF7C3AED} />
             <Spacer size={10} />
-            {color_swatch(color: 0xCC7C3AED)}
+            <MishkaColorSwatch color={0xCC7C3AED} />
             <Spacer size={10} />
-            {color_swatch(color: 0x807C3AED)}
+            <MishkaColorSwatch color={0x807C3AED} />
             <Spacer size={10} />
-            {color_swatch(color: 0x337C3AED)}
+            <MishkaColorSwatch color={0x337C3AED} />
             <Spacer size={10} />
-            {color_swatch(color: 0x00000000)}
+            <MishkaColorSwatch color={0x00000000} />
           </Row>
           """
         end
@@ -81,16 +84,16 @@ defmodule MishkaMob.Showcase.Components.ColorSwatch do
         title: "Shapes and sizes",
         description: "A circle uses an exact size/2 radius.",
         code: ~S"""
-        {color_swatch(color: 0xFF10B981, shape: :circle, size: 48)}
+        <MishkaColorSwatch color={0xFF10B981} shape={:circle} size={48} />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Row fill_width={true}>
-            {color_swatch(color: 0xFF10B981, shape: :circle, size: 48)}
+            <MishkaColorSwatch color={0xFF10B981} shape={:circle} size={48} />
             <Spacer size={10} />
-            {color_swatch(color: 0xFF10B981, shape: :rounded)}
+            <MishkaColorSwatch color={0xFF10B981} shape={:rounded} />
             <Spacer size={10} />
-            {color_swatch(color: 0xFF10B981, shape: :square, size: 28)}
+            <MishkaColorSwatch color={0xFF10B981} shape={:square} size={28} />
           </Row>
           """
         end
@@ -101,7 +104,7 @@ defmodule MishkaMob.Showcase.Components.ColorSwatch do
         code: ~S"""
         <Box>
           {content}
-          {loading_overlay(visible: @saving?, label: "Saving…")}
+          <MishkaLoadingOverlay visible={@saving?} label="Saving…" />
         </Box>
         """,
         render: fn assigns ->
@@ -113,7 +116,7 @@ defmodule MishkaMob.Showcase.Components.ColorSwatch do
                 <Spacer size={6} />
                 <Text text="Tap Save to see the overlay cover this." text_size={:sm} text_color={:muted} />
               </Column>
-              {loading_overlay(visible: @sw_busy, label: "Saving…", corner_radius: :radius_md)}
+              <MishkaLoadingOverlay visible={@sw_busy} label="Saving…" corner_radius={:radius_md} />
             </Box>
             <Spacer size={12} />
             <Button

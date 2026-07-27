@@ -7,7 +7,6 @@ defmodule MishkaMob.Showcase.Components.TagsInput do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaTagsInput, only: [tags_input: 1]
 
   alias MishkaMob.Components.MishkaTagsInput
   alias MishkaMob.Showcase.Example
@@ -37,8 +36,13 @@ defmodule MishkaMob.Showcase.Components.TagsInput do
         title: "Add and remove",
         description: "Press return to commit the draft; each token's ✕ removes it.",
         code: ~S"""
-        {tags_input(tags: @tags, draft: @draft, on_draft: :draft,
-                    on_add: :add, on_remove: :remove)}
+        <MishkaTagsInput
+          tags={@tags}
+          draft={@draft}
+          on_draft={:draft}
+          on_add={:add}
+          on_remove={:remove}
+        />
 
         # submit carries no text — commit the draft you already hold
         def handle_info({:submit, :add}, socket) do
@@ -50,8 +54,14 @@ defmodule MishkaMob.Showcase.Components.TagsInput do
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {tags_input(tags: @ti_tags, draft: @ti_draft, placeholder: "Add a tag…",
-                        on_draft: :ti_draft, on_add: :ti_add, on_remove: :ti_remove)}
+            <MishkaTagsInput
+              tags={@ti_tags}
+              draft={@ti_draft}
+              placeholder="Add a tag…"
+              on_draft={:ti_draft}
+              on_add={:ti_add}
+              on_remove={:ti_remove}
+            />
             <Spacer size={10} />
             <Text text={summary(@ti_tags)} text_size={:sm} text_color={:muted} />
           </Column>
@@ -74,8 +84,13 @@ defmodule MishkaMob.Showcase.Components.TagsInput do
               text_color={:muted}
             />
             <Spacer size={10} />
-            {tags_input(tags: @ti_tags, draft: @ti_draft,
-                        on_draft: :ti_draft, on_add: :ti_add, on_remove: :ti_remove)}
+            <MishkaTagsInput
+              tags={@ti_tags}
+              draft={@ti_draft}
+              on_draft={:ti_draft}
+              on_add={:ti_add}
+              on_remove={:ti_remove}
+            />
           </Column>
           """
         end
@@ -84,15 +99,15 @@ defmodule MishkaMob.Showcase.Components.TagsInput do
         title: "Empty and disabled",
         description: "With no tags the control is just its draft field.",
         code: ~S"""
-        {tags_input(tags: [], placeholder: "Nothing yet")}
-        {tags_input(tags: ["locked"], disabled: true)}
+        <MishkaTagsInput tags={[]} placeholder="Nothing yet" />
+        <MishkaTagsInput tags={["locked"]} disabled={true} />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {tags_input(tags: [], placeholder: "Nothing yet…")}
+            <MishkaTagsInput tags={[]} placeholder="Nothing yet…" />
             <Spacer size={12} />
-            {tags_input(tags: ["locked", "readonly"], disabled: true, placeholder: "Disabled")}
+            <MishkaTagsInput tags={["locked", "readonly"]} disabled={true} placeholder="Disabled" />
           </Column>
           """
         end

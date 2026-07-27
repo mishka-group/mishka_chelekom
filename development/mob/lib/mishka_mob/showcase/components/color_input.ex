@@ -3,7 +3,6 @@ defmodule MishkaMob.Showcase.Components.ColorInput do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaColorInput, only: [color_input: 1]
 
   alias MishkaMob.Components.{Color, MishkaColorInput}
   alias MishkaMob.Showcase.Example
@@ -38,18 +37,32 @@ defmodule MishkaMob.Showcase.Components.ColorInput do
           "A half-typed #3b82 is simply not committed — the picker waits rather than " <>
             "rewriting what you are in the middle of typing.",
         code: ~S"""
-        {color_input(value: @hex, open: @open, on_change: :hex, on_toggle: :toggle,
-                     hue: @hue, saturation: @sat, value_pct: @val)}
+        <MishkaColorInput
+          value={@hex}
+          open={@open}
+          on_change={:hex}
+          on_toggle={:toggle}
+          hue={@hue}
+          saturation={@sat}
+          value_pct={@val}
+        />
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {color_input(
-               value: @hex, open: @open, label: "Brand colour",
-               hue: @ci_hue, saturation: @ci_sat, value_pct: @ci_val,
-               on_change: :hex, on_toggle: :toggle,
-               on_hue: :ci_hue, on_saturation: :ci_sat, on_value: :ci_val
-             )}
+            <MishkaColorInput
+              value={@hex}
+              open={@open}
+              label="Brand colour"
+              hue={@ci_hue}
+              saturation={@ci_sat}
+              value_pct={@ci_val}
+              on_change={:hex}
+              on_toggle={:toggle}
+              on_hue={:ci_hue}
+              on_saturation={:ci_sat}
+              on_value={:ci_val}
+            />
           </Column>
           """
         end
@@ -58,12 +71,12 @@ defmodule MishkaMob.Showcase.Components.ColorInput do
         title: "Disabled",
         description: "Muted trigger, no handlers attached.",
         code: ~S"""
-        {color_input(value: "#64748b", disabled: true)}
+        <MishkaColorInput value={"#64748b"} disabled={true} />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {color_input(value: "#64748b", disabled: true)}
+            <MishkaColorInput value={"#64748b"} disabled={true} />
           </Column>
           """
         end

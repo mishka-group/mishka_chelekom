@@ -6,8 +6,6 @@ defmodule MishkaMob.Showcase.Components.PreviewCard do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaPreviewCard, only: [preview_card: 1, preview_card: 2]
-  import MishkaMob.Components.MishkaScroller, only: [scroller: 2]
 
   alias MishkaMob.Showcase.Example
 
@@ -36,8 +34,13 @@ defmodule MishkaMob.Showcase.Components.PreviewCard do
         title: "A profile preview",
         description: "Avatar, name, context and a footer for actions.",
         code: ~S"""
-        {preview_card([open: @open?, title: "Shahryar", subtitle: "@shahryar",
-                       initials: "SH", description: "…"], [follow_button()])}
+        <MishkaPreviewCard
+          open={@open?}
+          title="Shahryar"
+          subtitle="@shahryar"
+          initials="SH"
+          description="…"
+        >{[follow_button()]}</MishkaPreviewCard>
         """,
         render: fn assigns ->
           ~MOB"""
@@ -51,12 +54,16 @@ defmodule MishkaMob.Showcase.Components.PreviewCard do
               on_tap={{self(), :pc_toggle}}
             />
             <Spacer size={10} />
-            {preview_card(
-               [open: @pc_open, title: "Shahryar", subtitle: "@shahryar · Mishka",
-                initials: "SH", avatar_color: 0xFF7C3AED,
-                description: "Builds Mishka Chelekom, and now its native Mob port."],
-               [follow(), gap(), message()]
-             )}
+            <MishkaPreviewCard
+              open={@pc_open}
+              title="Shahryar"
+              subtitle="@shahryar · Mishka"
+              initials="SH"
+              avatar_color={0xFF7C3AED}
+              description="Builds Mishka Chelekom, and now its native Mob port."
+            >
+              {[follow(), gap(), message()]}
+            </MishkaPreviewCard>
           </Column>
           """
         end
@@ -65,13 +72,18 @@ defmodule MishkaMob.Showcase.Components.PreviewCard do
         title: "Without a footer",
         description: "Every part is optional.",
         code: ~S"""
-        {preview_card(open: true, title: "Ecto", description: "A database wrapper.")}
+        <MishkaPreviewCard open={true} title="Ecto" description="A database wrapper." />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {preview_card(open: true, title: "Ecto", subtitle: "elixir-ecto/ecto",
-                          initials: "E", description: "A toolkit for data mapping and queries.")}
+            <MishkaPreviewCard
+              open={true}
+              title="Ecto"
+              subtitle="elixir-ecto/ecto"
+              initials="E"
+              description="A toolkit for data mapping and queries."
+            />
           </Column>
           """
         end
@@ -80,12 +92,14 @@ defmodule MishkaMob.Showcase.Components.PreviewCard do
         title: "Scroller",
         description: "A horizontal rail; the arrows emit events the screen acts on.",
         code: ~S"""
-        {scroller([id: "gallery", on_prev: :back, on_next: :fwd], [rail()])}
+        <MishkaScroller id="gallery" on_prev={:back} on_next={:fwd}>{[rail()]}</MishkaScroller>
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {scroller([id: "gallery", on_prev: :pc_prev, on_next: :pc_next, height: 76], [rail()])}
+            <MishkaScroller id="gallery" on_prev={:pc_prev} on_next={:pc_next} height={76}>
+              {[rail()]}
+            </MishkaScroller>
             <Spacer size={8} />
             <Text
               text={"Arrow taps: " <> Integer.to_string(@pc_nudges)}

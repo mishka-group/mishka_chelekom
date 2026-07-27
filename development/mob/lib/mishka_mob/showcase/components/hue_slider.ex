@@ -3,7 +3,6 @@ defmodule MishkaMob.Showcase.Components.HueSlider do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaHueSlider, only: [hue_slider: 1]
 
   alias MishkaMob.Components.{Color, MishkaHueSlider}
   alias MishkaMob.Showcase.Example
@@ -29,12 +28,12 @@ defmodule MishkaMob.Showcase.Components.HueSlider do
         title: "The spectrum is drawn, not faked",
         description: "150 canvas bands, one per two units of width — a real gradient.",
         code: ~S"""
-        {hue_slider(value: @hue, label: "Hue", show_value: true, on_change: :hue)}
+        <MishkaHueSlider value={@hue} label="Hue" show_value={true} on_change={:hue} />
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {hue_slider(value: @hue, label: "Hue", show_value: true, on_change: :hue)}
+            <MishkaHueSlider value={@hue} label="Hue" show_value={true} on_change={:hue} />
             <Spacer size={12} />
             {swatch(@hue)}
           </Column>

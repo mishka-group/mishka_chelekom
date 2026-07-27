@@ -7,7 +7,6 @@ defmodule MishkaMob.Showcase.Components.Field do
 
   import Mob.Sigil
   import MishkaMob.Components.MishkaField, only: [field: 2]
-  import MishkaMob.Components.MishkaFieldset, only: [fieldset: 2]
 
   alias MishkaMob.Showcase.Example
 
@@ -36,15 +35,14 @@ defmodule MishkaMob.Showcase.Components.Field do
         title: "Label and hint",
         description: "The label sits above the control, the hint below it.",
         code: ~S"""
-        {field([label: "Email", description: "We'll never share it."], [input()])}
+        <MishkaField label="Email" description="We'll never share it.">{[input()]}</MishkaField>
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {field(
-               [label: "Email", description: "We'll never share it.", required: true],
-               [input(@fld_email, "you@example.com", :fld_email, invalid?(@fld_email))]
-             )}
+            <MishkaField label="Email" description="We'll never share it." required={true}>
+              {[input(@fld_email, "you@example.com", :fld_email, invalid?(@fld_email))]}
+            </MishkaField>
           </Column>
           """
         end
@@ -53,15 +51,14 @@ defmodule MishkaMob.Showcase.Components.Field do
         title: "Errors replace the hint",
         description: "Type something without an @ — the hint gives way to the error.",
         code: ~S"""
-        {field([label: "Email", description: "…", errors: @errors], [input()])}
+        <MishkaField label="Email" description="…" errors={@errors}>{[input()]}</MishkaField>
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {field(
-               [label: "Email", description: "We'll never share it.", errors: errors(@fld_email)],
-               [input(@fld_email, "you@example.com", :fld_email, invalid?(@fld_email))]
-             )}
+            <MishkaField label="Email" description="We'll never share it." errors={errors(@fld_email)}>
+              {[input(@fld_email, "you@example.com", :fld_email, invalid?(@fld_email))]}
+            </MishkaField>
           </Column>
           """
         end
@@ -70,13 +67,14 @@ defmodule MishkaMob.Showcase.Components.Field do
         title: "Disabled",
         description: "Label and hint go muted.",
         code: ~S"""
-        {field([label: "Locked", description: "…", disabled: true], [input()])}
+        <MishkaField label="Locked" description="…" disabled={true}>{[input()]}</MishkaField>
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {field([label: "Account id", description: "Assigned when you signed up.", disabled: true],
-                   [input("mishka-4821", "", nil, false)])}
+            <MishkaField label="Account id" description="Assigned when you signed up." disabled={true}>
+              {[input("mishka-4821", "", nil, false)]}
+            </MishkaField>
           </Column>
           """
         end
@@ -86,21 +84,24 @@ defmodule MishkaMob.Showcase.Components.Field do
         description:
           "A legend over a group. disabled dims it but does NOT cascade — see the docs.",
         code: ~S"""
-        {fieldset([legend: "Billing address"], [line1(), city()])}
+        <MishkaFieldset legend="Billing address">{[line1(), city()]}</MishkaFieldset>
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {fieldset(
-               [legend: "Your details", background: :surface_raised,
-                padding: :space_md, corner_radius: :radius_md],
-               [
+            <MishkaFieldset
+              legend="Your details"
+              background={:surface_raised}
+              padding={:space_md}
+              corner_radius={:radius_md}
+            >
+              {[
                  field([label: "Name"], [input(@fld_name, "Ada Lovelace", :fld_name, false)]),
                  %{type: :spacer, props: %{size: 14}, children: []},
                  field([label: "Email", errors: errors(@fld_email)],
                        [input(@fld_email, "you@example.com", :fld_email, invalid?(@fld_email))])
-               ]
-             )}
+               ]}
+            </MishkaFieldset>
           </Column>
           """
         end

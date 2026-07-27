@@ -5,7 +5,7 @@ defmodule MishkaMob.Showcase.Components.CheckboxGroup do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaCheckboxGroup, only: [checkbox_group: 2, item: 2, item: 3]
+  import MishkaMob.Components.MishkaCheckboxGroup, only: [item: 2, item: 3]
 
   alias MishkaMob.Components.MishkaCheckboxGroup
   alias MishkaMob.Showcase.Example
@@ -33,8 +33,12 @@ defmodule MishkaMob.Showcase.Components.CheckboxGroup do
         title: "Select all",
         description: "The parent is an ordinary checkbox whose mixed state is derived.",
         code: ~S"""
-        {checkbox_group([value: @value, select_all: true,
-                         on_change: :item, on_select_all: :all], items)}
+        <MishkaCheckboxGroup
+          value={@value}
+          select_all={true}
+          on_change={:item}
+          on_select_all={:all}
+        >{items}</MishkaCheckboxGroup>
 
         def handle_info({:tap, {:item, id}}, socket),
           do: {:noreply, assign(socket, :value, MishkaCheckboxGroup.toggle(socket.assigns.value, id))}
@@ -42,8 +46,15 @@ defmodule MishkaMob.Showcase.Components.CheckboxGroup do
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {checkbox_group([label: "LIBRARIES", value: @cg_value, select_all: true,
-                             on_change: :cg_item, on_select_all: :cg_all], lang_items())}
+            <MishkaCheckboxGroup
+              label="LIBRARIES"
+              value={@cg_value}
+              select_all={true}
+              on_change={:cg_item}
+              on_select_all={:cg_all}
+            >
+              {lang_items()}
+            </MishkaCheckboxGroup>
             <Spacer size={12} />
             <Text text={summary(@cg_value)} text_size={:sm} text_color={:muted} />
           </Column>
@@ -54,12 +65,14 @@ defmodule MishkaMob.Showcase.Components.CheckboxGroup do
         title: "Without a parent",
         description: "Leave select_all off for a plain group.",
         code: ~S"""
-        {checkbox_group([value: @value, on_change: :item], items)}
+        <MishkaCheckboxGroup value={@value} on_change={:item}>{items}</MishkaCheckboxGroup>
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {checkbox_group([value: @cg_value, on_change: :cg_item], lang_items())}
+            <MishkaCheckboxGroup value={@cg_value} on_change={:cg_item}>
+              {lang_items()}
+            </MishkaCheckboxGroup>
           </Column>
           """
         end
@@ -69,18 +82,26 @@ defmodule MishkaMob.Showcase.Components.CheckboxGroup do
         description: "One item, or the whole group including its parent.",
         code: ~S"""
         item(:ecto, "Ecto", disabled: true)
-        {checkbox_group([disabled: true, select_all: true], items)}
+        <MishkaCheckboxGroup disabled={true} select_all={true}>{items}</MishkaCheckboxGroup>
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {checkbox_group([label: "ONE ITEM OFF", value: @cg_value, on_change: :cg_item], [
+            <MishkaCheckboxGroup label="ONE ITEM OFF" value={@cg_value} on_change={:cg_item}>
+              {[
               item(:beam, "BEAM"),
               item(:ecto, "Ecto (unavailable)", disabled: true)
-            ])}
+            ]}
+            </MishkaCheckboxGroup>
             <Spacer size={16} />
-            {checkbox_group([label: "WHOLE GROUP OFF", value: @cg_value,
-                             select_all: true, disabled: true], lang_items())}
+            <MishkaCheckboxGroup
+              label="WHOLE GROUP OFF"
+              value={@cg_value}
+              select_all={true}
+              disabled={true}
+            >
+              {lang_items()}
+            </MishkaCheckboxGroup>
           </Column>
           """
         end

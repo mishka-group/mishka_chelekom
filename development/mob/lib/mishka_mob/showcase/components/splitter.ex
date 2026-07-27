@@ -6,9 +6,7 @@ defmodule MishkaMob.Showcase.Components.Splitter do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaOverflowList, only: [overflow_list: 2]
   import MishkaMob.Components.MishkaPill, only: [pill: 1]
-  import MishkaMob.Components.MishkaSplitter, only: [splitter: 2]
 
   alias MishkaMob.Showcase.Example
 
@@ -42,15 +40,18 @@ defmodule MishkaMob.Showcase.Components.Splitter do
           "Panes are sized in dp from the percentage, because weight is Compose-only and " <>
             "would collapse on iOS.",
         code: ~S"""
-        {splitter([value: @split, extent: 320, on_change: :split], [left(), right()])}
+        <MishkaSplitter
+          value={@split}
+          extent={320}
+          on_change={:split}
+        >{[left(), right()]}</MishkaSplitter>
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {splitter(
-               [value: @split, extent: 300, on_change: :split],
-               [pane("Editor", :primary), pane("Preview", :muted)]
-             )}
+            <MishkaSplitter value={@split} extent={300} on_change={:split}>
+              {[pane("Editor", :primary), pane("Preview", :muted)]}
+            </MishkaSplitter>
           </Column>
           """
         end
@@ -59,15 +60,18 @@ defmodule MishkaMob.Showcase.Components.Splitter do
         title: "Stacked",
         description: "The same control, dividing height instead of width.",
         code: ~S"""
-        {splitter([value: @split, orientation: :vertical, extent: 220], [top(), bottom()])}
+        <MishkaSplitter
+          value={@split}
+          orientation={:vertical}
+          extent={220}
+        >{[top(), bottom()]}</MishkaSplitter>
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {splitter(
-               [value: @vsplit, orientation: :vertical, extent: 200, on_change: :vsplit],
-               [pane("Output", :primary), pane("Console", :muted)]
-             )}
+            <MishkaSplitter value={@vsplit} orientation={:vertical} extent={200} on_change={:vsplit}>
+              {[pane("Output", :primary), pane("Console", :muted)]}
+            </MishkaSplitter>
           </Column>
           """
         end
@@ -78,12 +82,17 @@ defmodule MishkaMob.Showcase.Components.Splitter do
           "How many fit is declared rather than measured — Mob reports no geometry back " <>
             "to render/1.",
         code: ~S"""
-        {overflow_list([visible: 3, on_counter: :show_all], tag_pills())}
+        <MishkaOverflowList
+          visible={3}
+          on_counter={:show_all}
+        >{tag_pills()}</MishkaOverflowList>
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {overflow_list([visible: @visible, on_counter: :more], tag_pills())}
+            <MishkaOverflowList visible={@visible} on_counter={:more}>
+              {tag_pills()}
+            </MishkaOverflowList>
             <Spacer size={10} />
             <Text text="Tap +N to reveal one more." text_size={:sm} text_color={:muted} />
           </Column>

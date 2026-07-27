@@ -5,7 +5,6 @@ defmodule MishkaMob.Showcase.Components.Avatar do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaAvatar, only: [avatar: 1]
 
   alias MishkaMob.Showcase.Example
 
@@ -27,16 +26,16 @@ defmodule MishkaMob.Showcase.Components.Avatar do
         title: "Initials",
         description: "With no src, the fallback is the avatar.",
         code: ~S"""
-        {avatar(initials: "SH")}
+        <MishkaAvatar initials="SH" />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Row fill_width={true}>
-            {avatar(initials: "SH")}
+            <MishkaAvatar initials="SH" />
             <Spacer size={12} />
-            {avatar(initials: "MK", background: 0xFF7C3AED, color: 0xFFFFFFFF)}
+            <MishkaAvatar initials="MK" background={0xFF7C3AED} color={0xFFFFFFFF} />
             <Spacer size={12} />
-            {avatar(initials: "AB", background: :primary, color: :on_primary)}
+            <MishkaAvatar initials="AB" background={:primary} color={:on_primary} />
           </Row>
           """
         end
@@ -45,18 +44,18 @@ defmodule MishkaMob.Showcase.Components.Avatar do
         title: "Shapes",
         description: "A circle uses an exact size/2 radius, so it stays round at any size.",
         code: ~S"""
-        {avatar(initials: "SH", shape: :circle)}
-        {avatar(initials: "SH", shape: :rounded)}
-        {avatar(initials: "SH", shape: :square)}
+        <MishkaAvatar initials="SH" shape={:circle} />
+        <MishkaAvatar initials="SH" shape={:rounded} />
+        <MishkaAvatar initials="SH" shape={:square} />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Row fill_width={true}>
-            {avatar(initials: "CI", shape: :circle, background: :primary, color: :on_primary)}
+            <MishkaAvatar initials="CI" shape={:circle} background={:primary} color={:on_primary} />
             <Spacer size={12} />
-            {avatar(initials: "RO", shape: :rounded, background: :primary, color: :on_primary)}
+            <MishkaAvatar initials="RO" shape={:rounded} background={:primary} color={:on_primary} />
             <Spacer size={12} />
-            {avatar(initials: "SQ", shape: :square, background: :primary, color: :on_primary)}
+            <MishkaAvatar initials="SQ" shape={:square} background={:primary} color={:on_primary} />
           </Row>
           """
         end
@@ -65,17 +64,17 @@ defmodule MishkaMob.Showcase.Components.Avatar do
         title: "Sizes",
         description: "size sets both dimensions; the circle radius follows it.",
         code: ~S"""
-        {avatar(initials: "SH", size: 28)}
-        {avatar(initials: "SH", size: 64, text_size: :xl)}
+        <MishkaAvatar initials="SH" size={28} />
+        <MishkaAvatar initials="SH" size={64} text_size={:xl} />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Row fill_width={true} align={:bottom}>
-            {avatar(initials: "S", size: 28, text_size: :sm)}
+            <MishkaAvatar initials="S" size={28} text_size={:sm} />
             <Spacer size={12} />
-            {avatar(initials: "SH", size: 44)}
+            <MishkaAvatar initials="SH" size={44} />
             <Spacer size={12} />
-            {avatar(initials: "SH", size: 64, text_size: :xl)}
+            <MishkaAvatar initials="SH" size={64} text_size={:xl} />
           </Row>
           """
         end
@@ -85,7 +84,7 @@ defmodule MishkaMob.Showcase.Components.Avatar do
         description: "The usual home for an avatar — beside a name.",
         code: ~S"""
         <Row>
-          {avatar(initials: "SH", background: 0xFF7C3AED, color: 0xFFFFFFFF)}
+          <MishkaAvatar initials="SH" background={0xFF7C3AED} color={0xFFFFFFFF} />
           <Column>
             <Text text="Shahryar" />
             <Text text="shahryar@mishka.tools" />
@@ -95,7 +94,7 @@ defmodule MishkaMob.Showcase.Components.Avatar do
         render: fn _assigns ->
           ~MOB"""
           <Row fill_width={true}>
-            {avatar(initials: "SH", background: 0xFF7C3AED, color: 0xFFFFFFFF)}
+            <MishkaAvatar initials="SH" background={0xFF7C3AED} color={0xFFFFFFFF} />
             <Spacer size={12} />
             <Column fill_width={true}>
               <Text text="Shahryar" text_size={:lg} text_color={:on_surface} />
@@ -151,11 +150,24 @@ defmodule MishkaMob.Showcase.Components.Avatar do
   def card_preview do
     ~MOB"""
     <Row fill_width={true}>
-      {avatar(initials: "M", size: 34, background: :primary, color: :on_primary, text_size: :sm)}
+      <MishkaAvatar
+        initials="M"
+        size={34}
+        background={:primary}
+        color={:on_primary}
+        text_size={:sm}
+      />
       <Spacer size={8} />
-      {avatar(initials: "O", size: 34, background: :muted, color: :on_surface, text_size: :sm)}
+      <MishkaAvatar initials="O" size={34} background={:muted} color={:on_surface} text_size={:sm} />
       <Spacer size={8} />
-      {avatar(initials: "B", size: 34, shape: :rounded, background: :surface_raised, color: :on_surface, text_size: :sm)}
+      <MishkaAvatar
+        initials="B"
+        size={34}
+        shape={:rounded}
+        background={:surface_raised}
+        color={:on_surface}
+        text_size={:sm}
+      />
     </Row>
     """
   end

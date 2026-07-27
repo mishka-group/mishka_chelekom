@@ -8,9 +8,6 @@ defmodule MishkaMob.Showcase.Components.NavLink do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaAnchor, only: [anchor: 1]
-  import MishkaMob.Components.MishkaMenubar, only: [menubar: 1]
-  import MishkaMob.Components.MishkaNavigationMenu, only: [navigation_menu: 1]
   import MishkaMob.Components.MishkaNavLink, only: [nav_link: 2]
 
   alias MishkaMob.Components.{MishkaAnchor, MishkaMenubar, MishkaNavigationMenu}
@@ -65,22 +62,29 @@ defmodule MishkaMob.Showcase.Components.NavLink do
           "The web version uses <details>, then warns that LiveView resets it on patch. " <>
             "Here `opened` is a prop the screen owns, so it survives every render.",
         code: ~S"""
-        {nav_link([label: "Mail", icon: "✉", opened: @opened, on_toggle: :toggle],
-                  [nav_link([label: "Inbox", active: true, on_tap: :go], [])])}
+        <MishkaNavLink
+          label="Mail"
+          icon="✉"
+          opened={@opened}
+          on_toggle={:toggle}
+        >{[nav_link([label: "Inbox", active: true, on_tap: :go], [])]}</MishkaNavLink>
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {nav_link([label: "Dashboard", icon: "◱", active: @active == :dash, on_tap: :dash], [])}
-            {nav_link(
-               [label: "Mail", icon: "✉", opened: @opened, on_toggle: :toggle],
-               [
+            <MishkaNavLink label="Dashboard" icon="◱" active={@active == :dash} on_tap={:dash}>
+              {[]}
+            </MishkaNavLink>
+            <MishkaNavLink label="Mail" icon="✉" opened={@opened} on_toggle={:toggle}>
+              {[
                  nav_link([label: "Inbox", active: @active == :inbox, on_tap: :inbox], []),
                  nav_link([label: "Drafts", description: "3 unsent",
                            active: @active == :drafts, on_tap: :drafts], [])
-               ]
-             )}
-            {nav_link([label: "Archive", icon: "▤", disabled: true], [])}
+               ]}
+            </MishkaNavLink>
+            <MishkaNavLink label="Archive" icon="▤" disabled={true}>
+              {[]}
+            </MishkaNavLink>
           </Column>
           """
         end
@@ -91,17 +95,21 @@ defmodule MishkaMob.Showcase.Components.NavLink do
           "A link is a tap plus a destination. The component never opens the URL itself — " <>
             "the screen does, via MishkaAnchor.open/1.",
         code: ~S"""
-        {anchor(label: "mishka.tools", href: "https://mishka.tools", on_tap: :open)}
+        <MishkaAnchor label="mishka.tools" href="https://mishka.tools" on_tap={:open} />
 
         def handle({:open, href}, socket), do: (MishkaAnchor.open(href); socket)
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {anchor(label: "mishka.tools", href: "https://mishka.tools", on_tap: :visit)}
+            <MishkaAnchor label="mishka.tools" href="https://mishka.tools" on_tap={:visit} />
             <Spacer size={10} />
-            {anchor(label: "No underline", href: "https://elixir-lang.org",
-                    underline: false, on_tap: :visit)}
+            <MishkaAnchor
+              label="No underline"
+              href="https://elixir-lang.org"
+              underline={false}
+              on_tap={:visit}
+            />
             <Spacer size={10} />
             <Text text={"Last tapped: " <> @last} text_size={:sm} text_color={:muted} />
           </Column>
@@ -113,7 +121,7 @@ defmodule MishkaMob.Showcase.Components.NavLink do
         description:
           "Opening a menu closes the one before it — exclusivity, which ports exactly.",
         code: ~S"""
-        {menubar(menus: @menus, open: @open, on_open: :open, on_select: :pick)}
+        <MishkaMenubar menus={@menus} open={@open} on_open={:open} on_select={:pick} />
 
         def handle({:open, value}, socket),
           do: assign(socket, :open, MishkaMenubar.open_menu(value, socket.assigns.open))
@@ -121,7 +129,7 @@ defmodule MishkaMob.Showcase.Components.NavLink do
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {menubar(menus: menus(), open: @menu, on_open: :menu, on_select: :pick)}
+            <MishkaMenubar menus={menus()} open={@menu} on_open={:menu} on_select={:pick} />
           </Column>
           """
         end
@@ -132,12 +140,12 @@ defmodule MishkaMob.Showcase.Components.NavLink do
           "Site nav, not commands: some items are plain links, and every panel shares one " <>
             "viewport so two can never render at once.",
         code: ~S"""
-        {navigation_menu(items: @items, value: @open, on_open: :open, on_link: :go)}
+        <MishkaNavigationMenu items={@items} value={@open} on_open={:open} on_link={:go} />
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {navigation_menu(items: nav_items(), value: @nav, on_open: :nav, on_link: :visit_item)}
+            <MishkaNavigationMenu items={nav_items()} value={@nav} on_open={:nav} on_link={:visit_item} />
           </Column>
           """
         end

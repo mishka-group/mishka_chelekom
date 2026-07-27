@@ -138,14 +138,31 @@ defmodule MishkaMob.MixProject do
 
     if names == [], do: Mix.raise("no composite tags found in #{@catalog}")
 
-    # Mob is recompiled only when the set actually changes: @known_tags is baked
-    # at MOB's compile time, so an untouched dep keeps serving the old list.
-    if Enum.any?(Enum.map(@tag_files, &sync_tags(&1, names))) do
+    # Mob is recompiled when the set changes — @known_tags is baked at MOB's
+    # compile time, so an untouched dep keeps serving the old list — and also
+    # when THIS env's build predates the file. Each env has its own
+    # _build/<env>/lib/mob, but they share one deps/ copy of the whitelist, so
+    # writing it under `mix compile` leaves the test build stale and every tag
+    # warns again the moment `mix test` runs.
+    if Enum.any?(Enum.map(@tag_files, &sync_tags(&1, names))) or stale_build?() do
       Mix.shell().info("whitelisting #{length(names)} composite tags — recompiling :mob")
       Mix.Task.run("deps.compile", ["mob", "--force"])
     end
 
     :ok
+  end
+
+  # Mix tracks a dependency's staleness by its source, and priv/ is not source —
+  # so a whitelist written while another env was building is invisible here.
+  # Mob.Sigil is the module that bakes the list in, which makes its beam the
+  # thing to compare against.
+  defp stale_build? do
+    beam = Path.join(["_build", to_string(Mix.env()), "lib/mob/ebin/Elixir.Mob.Sigil.beam"])
+
+    case {File.stat(beam), File.stat("deps/mob/priv/tags/android.txt")} do
+      {{:ok, built}, {:ok, tags}} -> tags.mtime > built.mtime
+      _ -> false
+    end
   end
 
   defp sync_tags(platform, names) do

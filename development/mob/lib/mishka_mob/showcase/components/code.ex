@@ -5,7 +5,6 @@ defmodule MishkaMob.Showcase.Components.Code do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaCode, only: [code: 1]
 
   alias MishkaMob.Showcase.Example
 
@@ -27,13 +26,13 @@ defmodule MishkaMob.Showcase.Components.Code do
         title: "Inline",
         description: "Hugs its text and sits in a sentence.",
         code: ~S"""
-        {code(text: "mix mob.deploy")}
+        <MishkaCode text="mix mob.deploy" />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Row fill_width={true}>
             <Text text="Run " text_size={:base} text_color={:on_surface} />
-            {code(text: "mix mob.deploy")}
+            <MishkaCode text="mix mob.deploy" />
             <Text text=" to push." text_size={:base} text_color={:on_surface} />
           </Row>
           """
@@ -43,14 +42,17 @@ defmodule MishkaMob.Showcase.Components.Code do
         title: "Block",
         description: "Fills the width, padded, and scrolls horizontally — code does not wrap.",
         code: ~S"""
-        {code(text: "…", block: true)}
+        <MishkaCode text="…" block={true} />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {code(block: true, text: "def render(assigns), do: ~MOB(<Text text={@title} />)")}
+            <MishkaCode block={true} text="def render(assigns), do: ~MOB(<Text text={@title} />)" />
             <Spacer size={12} />
-            {code(block: true, text: "Mob.Composite.register(:mishka_code, {MishkaMob.Components.MishkaCode, :expand})")}
+            <MishkaCode
+              block={true}
+              text="Mob.Composite.register(:mishka_code, {MishkaMob.Components.MishkaCode, :expand})"
+            />
           </Column>
           """
         end
@@ -59,12 +61,16 @@ defmodule MishkaMob.Showcase.Components.Code do
         title: "Without the scroller",
         description: "scroll: false lets a long line be clipped instead.",
         code: ~S"""
-        {code(text: "…", block: true, scroll: false)}
+        <MishkaCode text="…" block={true} scroll={false} />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {code(block: true, scroll: false, text: "a long line that will simply be clipped at the edge of the block")}
+            <MishkaCode
+              block={true}
+              scroll={false}
+              text="a long line that will simply be clipped at the edge of the block"
+            />
           </Column>
           """
         end
@@ -73,13 +79,17 @@ defmodule MishkaMob.Showcase.Components.Code do
         title: "Colours",
         description: "background and color are props — a dark block in any theme.",
         code: ~S"""
-        {code(text: "…", block: true, background: 0xFF0B1020, color: 0xFF93C5FD)}
+        <MishkaCode text="…" block={true} background={0xFF0B1020} color={0xFF93C5FD} />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {code(block: true, background: 0xFF0B1020, color: 0xFF93C5FD,
-                  text: "iex> Mob.Test.screen(node)")}
+            <MishkaCode
+              block={true}
+              background={0xFF0B1020}
+              color={0xFF93C5FD}
+              text="iex> Mob.Test.screen(node)"
+            />
           </Column>
           """
         end

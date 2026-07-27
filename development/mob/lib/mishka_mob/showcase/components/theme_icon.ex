@@ -6,8 +6,6 @@ defmodule MishkaMob.Showcase.Components.ThemeIcon do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaThemeIcon, only: [theme_icon: 1]
-  import MishkaMob.Components.MishkaMarquee, only: [marquee: 2]
 
   alias MishkaMob.Showcase.Example
 
@@ -32,7 +30,7 @@ defmodule MishkaMob.Showcase.Components.ThemeIcon do
         title: "Theme switcher",
         description: "One option per theme; the active one is tinted.",
         code: ~S"""
-        {theme_icon(active: @theme, on_select: :set_theme)}
+        <MishkaThemeIcon active={@theme} on_select={:set_theme} />
 
         def handle_info({:tap, {:set_theme, key}}, socket) do
           Mob.Theme.set(module_for(key))
@@ -42,7 +40,7 @@ defmodule MishkaMob.Showcase.Components.ThemeIcon do
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {theme_icon(active: @ti_theme, on_select: :ti_set)}
+            <MishkaThemeIcon active={@ti_theme} on_select={:ti_set} />
             <Spacer size={10} />
             <Text text={"Selected: " <> to_string(@ti_theme)} text_size={:sm} text_color={:muted} />
           </Column>
@@ -53,12 +51,12 @@ defmodule MishkaMob.Showcase.Components.ThemeIcon do
         title: "Glyphs only",
         description: "show_labels: false for a compact strip.",
         code: ~S"""
-        {theme_icon(active: @theme, show_labels: false, on_select: :set_theme)}
+        <MishkaThemeIcon active={@theme} show_labels={false} on_select={:set_theme} />
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {theme_icon(active: @ti_theme, show_labels: false, on_select: :ti_set)}
+            <MishkaThemeIcon active={@ti_theme} show_labels={false} on_select={:ti_set} />
           </Column>
           """
         end
@@ -67,12 +65,14 @@ defmodule MishkaMob.Showcase.Components.ThemeIcon do
         title: "Marquee",
         description: "The continuous animation is not ported — this is the honest static form.",
         code: ~S"""
-        {marquee([repeat: 3], [ticker()])}
+        <MishkaMarquee repeat={3}>{[ticker()]}</MishkaMarquee>
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {marquee([repeat: 3, height: 32], [ticker()])}
+            <MishkaMarquee repeat={3} height={32}>
+              {[ticker()]}
+            </MishkaMarquee>
             <Spacer size={8} />
             <Text
               text="Flick it — Mob exposes no animation primitive, so it moves under your finger."

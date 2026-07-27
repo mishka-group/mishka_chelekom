@@ -5,8 +5,6 @@ defmodule MishkaMob.Showcase.Components.Tooltip do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaTooltip, only: [tooltip: 1]
-  import MishkaMob.Components.MishkaActionIcon, only: [action_icon: 1]
 
   alias MishkaMob.Showcase.Example
 
@@ -32,22 +30,22 @@ defmodule MishkaMob.Showcase.Components.Tooltip do
         description: "There is no hover on a phone, so the trigger is a tap you wire.",
         code: ~S"""
         <Row>
-          {action_icon(icon: "⧉", on_tap: :hint_copy)}
-          {tooltip(text: "Copy", open: @tip == :copy)}
+          <MishkaActionIcon icon="⧉" on_tap={:hint_copy} />
+          <MishkaTooltip text="Copy" open={@tip == :copy} />
         </Row>
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
             <Row fill_width={true}>
-              {action_icon(icon: "⧉", variant: :filled, on_tap: {:tip, :copy})}
+              <MishkaActionIcon icon="⧉" variant={:filled} on_tap={{:tip, :copy}} />
               <Spacer size={8} />
-              {action_icon(icon: "↗", variant: :filled, on_tap: {:tip, :share})}
+              <MishkaActionIcon icon="↗" variant={:filled} on_tap={{:tip, :share}} />
               <Spacer size={8} />
-              {action_icon(icon: "🗑", variant: :filled, on_tap: {:tip, :delete})}
+              <MishkaActionIcon icon="🗑" variant={:filled} on_tap={{:tip, :delete}} />
             </Row>
             <Spacer size={10} />
-            {tooltip(text: hint(@tip), open: @tip != nil)}
+            <MishkaTooltip text={hint(@tip)} open={@tip != nil} />
           </Column>
           """
         end
@@ -56,14 +54,14 @@ defmodule MishkaMob.Showcase.Components.Tooltip do
         title: "Dark by default",
         description: "A hint, not a panel — it reads over any surface.",
         code: ~S"""
-        {tooltip(text: "Saved to your library", open: true)}
+        <MishkaTooltip text="Saved to your library" open={true} />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {tooltip(text: "Saved to your library", open: true)}
+            <MishkaTooltip text="Saved to your library" open={true} />
             <Spacer size={10} />
-            {tooltip(text: "Custom colours", open: true, background: 0xFF7C3AED)}
+            <MishkaTooltip text="Custom colours" open={true} background={0xFF7C3AED} />
           </Column>
           """
         end
@@ -72,7 +70,7 @@ defmodule MishkaMob.Showcase.Components.Tooltip do
         title: "Closed",
         description: "Renders nothing at all, so it takes no space in the layout.",
         code: ~S"""
-        {tooltip(text: "Hidden", open: false)}
+        <MishkaTooltip text="Hidden" open={false} />
         """,
         render: fn _assigns ->
           ~MOB"""
@@ -83,7 +81,7 @@ defmodule MishkaMob.Showcase.Components.Tooltip do
               text_color={:muted}
             />
             <Spacer size={8} />
-            {tooltip(text: "You cannot see me", open: false)}
+            <MishkaTooltip text="You cannot see me" open={false} />
             <Box fill_width={true} height={28} background={:surface_raised} corner_radius={:radius_sm} />
           </Column>
           """

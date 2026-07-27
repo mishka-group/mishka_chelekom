@@ -41,7 +41,7 @@ defmodule MishkaMob.Showcase.Components.Chip do
         title: "Multi-select",
         description: "Checkbox chips: the handler toggles membership.",
         code: ~S"""
-        {chip(label: "Elixir", checked: :elixir in @tags, on_toggle: {:tag, :elixir})}
+        <MishkaChip label="Elixir" checked={:elixir in @tags} on_toggle={{:tag, :elixir}} />
 
         # toggle membership
         tags = if id in tags, do: List.delete(tags, id), else: [id | tags]
@@ -77,14 +77,14 @@ defmodule MishkaMob.Showcase.Components.Chip do
         title: "Disabled",
         description: "Muted and inert, whether or not it is checked.",
         code: ~S"""
-        {chip(label: "Locked", checked: true, disabled: true)}
+        <MishkaChip label="Locked" checked={true} disabled={true} />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Row fill_width={true}>
-            {chip(label: "Locked on", checked: true, disabled: true)}
+            <MishkaChip label="Locked on" checked={true} disabled={true} />
             <Spacer size={8} />
-            {chip(label: "Locked off", disabled: true)}
+            <MishkaChip label="Locked off" disabled={true} />
           </Row>
           """
         end
@@ -93,16 +93,16 @@ defmodule MishkaMob.Showcase.Components.Chip do
         title: "Colour",
         description: "color fills the chip when checked; text_color labels it.",
         code: ~S"""
-        {chip(label: "Violet", checked: true, color: 0xFF7C3AED, text_color: 0xFFFFFFFF)}
+        <MishkaChip label="Violet" checked={true} color={0xFF7C3AED} text_color={0xFFFFFFFF} />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Row fill_width={true}>
-            {chip(label: "Violet", checked: true, color: 0xFF7C3AED, text_color: 0xFFFFFFFF)}
+            <MishkaChip label="Violet" checked={true} color={0xFF7C3AED} text_color={0xFFFFFFFF} />
             <Spacer size={8} />
-            {chip(label: "Danger", checked: true, color: 0xFFDC2626, text_color: 0xFFFFFFFF)}
+            <MishkaChip label="Danger" checked={true} color={0xFFDC2626} text_color={0xFFFFFFFF} />
             <Spacer size={8} />
-            {chip(label: "Default", checked: true)}
+            <MishkaChip label="Default" checked={true} />
           </Row>
           """
         end

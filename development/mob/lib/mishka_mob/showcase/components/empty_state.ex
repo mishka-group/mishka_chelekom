@@ -5,7 +5,6 @@ defmodule MishkaMob.Showcase.Components.EmptyState do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaEmptyState, only: [empty_state: 1, empty_state: 3]
 
   alias MishkaMob.Showcase.Example
 
@@ -27,14 +26,20 @@ defmodule MishkaMob.Showcase.Components.EmptyState do
         title: "Centred",
         description: "Fills a blank screen: indicator above the text.",
         code: ~S"""
-        {empty_state(indicator: "📭", title: "No messages",
-                     description: "Anything you receive lands here.")}
+        <MishkaEmptyState
+          indicator="📭"
+          title="No messages"
+          description="Anything you receive lands here."
+        />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Box fill_width={true} background={:surface_raised} corner_radius={:radius_md}>
-            {empty_state(indicator: "📭", title: "No messages",
-                         description: "Anything you receive lands here.")}
+            <MishkaEmptyState
+              indicator="📭"
+              title="No messages"
+              description="Anything you receive lands here."
+            />
           </Box>
           """
         end
@@ -43,7 +48,7 @@ defmodule MishkaMob.Showcase.Components.EmptyState do
         title: "Leading",
         description: "Sits inside a card without looking like the screen has failed.",
         code: ~S"""
-        {empty_state(align: :leading, indicator: "🔍", title: "No results")}
+        <MishkaEmptyState align={:leading} indicator="🔍" title="No results" />
         """,
         render: fn _assigns ->
           ~MOB"""
@@ -53,8 +58,12 @@ defmodule MishkaMob.Showcase.Components.EmptyState do
             corner_radius={:radius_md}
             padding={:space_md}
           >
-            {empty_state(align: :leading, indicator: "🔍", title: "No results",
-                         description: "Try a different search term.")}
+            <MishkaEmptyState
+              align={:leading}
+              indicator="🔍"
+              title="No results"
+              description="Try a different search term."
+            />
           </Box>
           """
         end
@@ -63,17 +72,21 @@ defmodule MishkaMob.Showcase.Components.EmptyState do
         title: "With actions",
         description: "Actions are laid out in a row beneath the text.",
         code: ~S"""
-        {empty_state(props, [], [primary_button(), secondary_button()])}
+        <MishkaEmptyState actions={[primary_button(), secondary_button()]} … />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Box fill_width={true} background={:surface_raised} corner_radius={:radius_md}>
-            {empty_state(
-               [indicator: "📁", title: "No projects yet",
-                description: "Create one to get started."],
-               [],
-               [button("New project", :primary, :on_primary), gap(), button("Import", :surface, :on_surface)]
-             )}
+            <MishkaEmptyState
+              indicator="📁"
+              title="No projects yet"
+              description="Create one to get started."
+              actions={[
+                button("New project", :primary, :on_primary),
+                gap(),
+                button("Import", :surface, :on_surface)
+              ]}
+            />
           </Box>
           """
         end
@@ -82,12 +95,12 @@ defmodule MishkaMob.Showcase.Components.EmptyState do
         title: "Text only",
         description: "Every part is optional.",
         code: ~S"""
-        {empty_state(title: "Nothing here")}
+        <MishkaEmptyState title="Nothing here" />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Box fill_width={true} background={:surface_raised} corner_radius={:radius_md}>
-            {empty_state(title: "Nothing here")}
+            <MishkaEmptyState title="Nothing here" />
           </Box>
           """
         end

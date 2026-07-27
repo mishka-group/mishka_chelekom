@@ -6,10 +6,9 @@ defmodule MishkaMob.Showcase.Components.Toolbar do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaToolbar, only: [toolbar: 2, separator: 0]
+  import MishkaMob.Components.MishkaToolbar, only: [separator: 0]
   import MishkaMob.Components.MishkaToggle, only: [toggle: 1]
   import MishkaMob.Components.MishkaActionIcon, only: [action_icon: 1]
-  import MishkaMob.Components.MishkaBurger, only: [burger: 1]
 
   alias MishkaMob.Showcase.Example
 
@@ -39,23 +38,27 @@ defmodule MishkaMob.Showcase.Components.Toolbar do
         title: "A formatting strip",
         description: "It holds your controls — toggles, icons — rather than inventing its own.",
         code: ~S"""
-        {toolbar([], [
+        <MishkaToolbar
+
+        >{[
           toggle(label: "B", pressed: @bold?, on_change: :bold),
           toggle(label: "I", pressed: @italic?, on_change: :italic),
           separator(),
           action_icon(icon: "↺", on_tap: :undo)
-        ])}
+        ]}</MishkaToolbar>
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {toolbar([], [
+            <MishkaToolbar>
+              {[
               toggle(label: " B ", pressed: @tb_bold, on_change: :tb_bold),
               toggle(label: " I ", pressed: @tb_italic, on_change: :tb_italic),
               separator(),
               action_icon(icon: "↺", on_tap: :tb_noop),
               action_icon(icon: "↻", on_tap: :tb_noop)
-            ])}
+            ]}
+            </MishkaToolbar>
           </Column>
           """
         end
@@ -64,17 +67,19 @@ defmodule MishkaMob.Showcase.Components.Toolbar do
         title: "Vertical",
         description: "The separator orients itself to the toolbar's axis.",
         code: ~S"""
-        {toolbar([orientation: :vertical], items)}
+        <MishkaToolbar orientation={:vertical}>{items}</MishkaToolbar>
         """,
         render: fn _assigns ->
           ~MOB"""
           <Row fill_width={true}>
-            {toolbar([orientation: :vertical], [
+            <MishkaToolbar orientation={:vertical}>
+              {[
               action_icon(icon: "✎", on_tap: :tb_noop),
               action_icon(icon: "⧉", on_tap: :tb_noop),
               separator(),
               action_icon(icon: "🗑", on_tap: :tb_noop)
-            ])}
+            ]}
+            </MishkaToolbar>
           </Row>
           """
         end
@@ -83,17 +88,17 @@ defmodule MishkaMob.Showcase.Components.Toolbar do
         title: "Burger",
         description: "Three bars, and a ✕ when open — one control, one tap target.",
         code: ~S"""
-        {burger(opened: @nav_open?, on_toggle: :toggle_nav)}
+        <MishkaBurger opened={@nav_open?} on_toggle={:toggle_nav} />
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
             <Row fill_width={true}>
-              {burger(opened: @tb_nav, on_toggle: :tb_nav)}
+              <MishkaBurger opened={@tb_nav} on_toggle={:tb_nav} />
               <Spacer size={12} />
-              {burger(opened: @tb_nav, on_toggle: :tb_nav, color: :primary)}
+              <MishkaBurger opened={@tb_nav} on_toggle={:tb_nav} color={:primary} />
               <Spacer size={12} />
-              {burger(disabled: true)}
+              <MishkaBurger disabled={true} />
             </Row>
             <Spacer size={10} />
             <Text

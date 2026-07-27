@@ -32,7 +32,7 @@ defmodule MishkaMob.Showcase.Components.Radio do
         title: "Pick one",
         description: "Exclusivity is one line in the handler — assign the tapped id.",
         code: ~S"""
-        {radio(label: "Pro", checked: @plan == :pro, on_select: {:plan, :pro})}
+        <MishkaRadio label="Pro" checked={@plan == :pro} on_select={{:plan, :pro}} />
 
         def handle_info({:tap, {:plan, id}}, socket) do
           {:noreply, assign(socket, :plan, id)}
@@ -52,15 +52,15 @@ defmodule MishkaMob.Showcase.Components.Radio do
         title: "Circle, not a tick",
         description: "The shape carries the meaning: pick one, versus a checkbox's pick any.",
         code: ~S"""
-        {radio(label: "Selected", checked: true)}
-        {radio(label: "Not selected")}
+        <MishkaRadio label="Selected" checked={true} />
+        <MishkaRadio label="Not selected" />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {radio(label: "Selected", checked: true)}
+            <MishkaRadio label="Selected" checked={true} />
             <Spacer size={12} />
-            {radio(label: "Not selected")}
+            <MishkaRadio label="Not selected" />
           </Column>
           """
         end
@@ -69,14 +69,14 @@ defmodule MishkaMob.Showcase.Components.Radio do
         title: "Disabled",
         description: "Muted and inert, selected or not.",
         code: ~S"""
-        {radio(label: "Locked", checked: true, disabled: true)}
+        <MishkaRadio label="Locked" checked={true} disabled={true} />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {radio(label: "Locked on", checked: true, disabled: true)}
+            <MishkaRadio label="Locked on" checked={true} disabled={true} />
             <Spacer size={12} />
-            {radio(label: "Locked off", disabled: true)}
+            <MishkaRadio label="Locked off" disabled={true} />
           </Column>
           """
         end
@@ -85,14 +85,14 @@ defmodule MishkaMob.Showcase.Components.Radio do
         title: "Colour and size",
         description: "The dot scales with size, and the circle stays round at any size.",
         code: ~S"""
-        {radio(label: "Violet", checked: true, color: 0xFF7C3AED, size: 28)}
+        <MishkaRadio label="Violet" checked={true} color={0xFF7C3AED} size={28} />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {radio(label: "Large violet", checked: true, color: 0xFF7C3AED, size: 28)}
+            <MishkaRadio label="Large violet" checked={true} color={0xFF7C3AED} size={28} />
             <Spacer size={12} />
-            {radio(label: "Small", checked: true, size: 16)}
+            <MishkaRadio label="Small" checked={true} size={16} />
           </Column>
           """
         end

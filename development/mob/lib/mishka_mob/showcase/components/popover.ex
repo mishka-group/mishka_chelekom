@@ -5,7 +5,6 @@ defmodule MishkaMob.Showcase.Components.Popover do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaPopover, only: [popover: 2]
 
   alias MishkaMob.Showcase.Example
 
@@ -36,7 +35,7 @@ defmodule MishkaMob.Showcase.Components.Popover do
         code: ~S"""
         <Column>
           <Button text="Details" on_tap={{self(), :toggle}} />
-          {popover([open: @open?], content)}
+          <MishkaPopover open={@open?}>{content}</MishkaPopover>
         </Column>
         """,
         render: fn assigns ->
@@ -51,7 +50,9 @@ defmodule MishkaMob.Showcase.Components.Popover do
               on_tap={{self(), :pop_toggle}}
             />
             <Spacer size={8} />
-            {popover([open: @pop_open], body())}
+            <MishkaPopover open={@pop_open}>
+              {body()}
+            </MishkaPopover>
           </Column>
           """
         end
@@ -60,7 +61,7 @@ defmodule MishkaMob.Showcase.Components.Popover do
         title: "Fixed width",
         description: "width pins the panel; omit it to fill the parent.",
         code: ~S"""
-        {popover([open: @open?, width: 240], content)}
+        <MishkaPopover open={@open?} width={240}>{content}</MishkaPopover>
         """,
         render: fn assigns ->
           ~MOB"""
@@ -74,7 +75,9 @@ defmodule MishkaMob.Showcase.Components.Popover do
               on_tap={{self(), :pop_wide}}
             />
             <Spacer size={8} />
-            {popover([open: @pop_wide, width: 240], body())}
+            <MishkaPopover open={@pop_wide} width={240}>
+              {body()}
+            </MishkaPopover>
           </Column>
           """
         end
@@ -83,13 +86,18 @@ defmodule MishkaMob.Showcase.Components.Popover do
         title: "Chrome",
         description: "background, corner_radius, padding and the border are props.",
         code: ~S"""
-        {popover([open: true, background: 0xFF1E1B4B, border_width: 0], content)}
+        <MishkaPopover
+          open={true}
+          background={0xFF1E1B4B}
+          border_width={0}
+        >{content}</MishkaPopover>
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {popover([open: true, background: 0xFF1E1B4B, border_width: 0,
-                      corner_radius: :radius_lg], tinted_body())}
+            <MishkaPopover open={true} background={0xFF1E1B4B} border_width={0} corner_radius={:radius_lg}>
+              {tinted_body()}
+            </MishkaPopover>
           </Column>
           """
         end

@@ -6,8 +6,7 @@ defmodule MishkaMob.Showcase.Components.Menu do
 
   import Mob.Sigil
 
-  import MishkaMob.Components.MishkaMenu,
-    only: [menu: 2, item: 2, item: 3, separator: 0, label: 1]
+  import MishkaMob.Components.MishkaMenu, only: [item: 2, item: 3, separator: 0, label: 1]
 
   alias MishkaMob.Showcase.Example
 
@@ -36,13 +35,16 @@ defmodule MishkaMob.Showcase.Components.Menu do
         title: "A dropdown",
         description: "Placed under its trigger — labels, separators and a destructive item.",
         code: ~S"""
-        {menu([open: @open?, on_select: :pick], [
+        <MishkaMenu
+          open={@open?}
+          on_select={:pick}
+        >{[
           label("MANAGE"),
           item(:edit, "Edit", icon: "✎"),
           item(:dup, "Duplicate", icon: "⧉"),
           separator(),
           item(:delete, "Delete", icon: "🗑", danger: true)
-        ])}
+        ]}</MishkaMenu>
         """,
         render: fn assigns ->
           ~MOB"""
@@ -56,14 +58,16 @@ defmodule MishkaMob.Showcase.Components.Menu do
               on_tap={{self(), :menu_toggle}}
             />
             <Spacer size={8} />
-            {menu([open: @menu_open, on_select: :menu_pick], [
+            <MishkaMenu open={@menu_open} on_select={:menu_pick}>
+              {[
               label("MANAGE"),
               item(:edit, "Edit", icon: "✎"),
               item(:dup, "Duplicate", icon: "⧉"),
               item(:archive, "Archive", icon: "📦", disabled: true),
               separator(),
               item(:delete, "Delete", icon: "🗑", danger: true)
-            ])}
+            ]}
+            </MishkaMenu>
             <Spacer size={10} />
             <Text text={picked(@menu_last)} text_size={:sm} text_color={:muted} />
           </Column>
@@ -74,16 +78,21 @@ defmodule MishkaMob.Showcase.Components.Menu do
         title: "Plain actions",
         description: "No icons, no groups — just rows.",
         code: ~S"""
-        {menu([open: true, on_select: :pick], [item(:a, "One"), item(:b, "Two")])}
+        <MishkaMenu
+          open={true}
+          on_select={:pick}
+        >{[item(:a, "One"), item(:b, "Two")]}</MishkaMenu>
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {menu([open: true, on_select: :menu_pick, width: 200], [
+            <MishkaMenu open={true} on_select={:menu_pick} width={200}>
+              {[
               item(:one, "First action"),
               item(:two, "Second action"),
               item(:three, "Third action")
-            ])}
+            ]}
+            </MishkaMenu>
           </Column>
           """
         end
@@ -93,7 +102,7 @@ defmodule MishkaMob.Showcase.Components.Menu do
         description: "On a phone an action list often belongs in a Drawer instead.",
         code: ~S"""
         # the same menu, rendered inside a bottom Drawer
-        <MishkaDrawer side={:bottom}>{menu(...)}</MishkaDrawer>
+        <MishkaDrawer side={:bottom}><MishkaMenu open={true} …>{items}</MishkaMenu></MishkaDrawer>
         """,
         render: fn _assigns ->
           ~MOB"""
@@ -104,12 +113,14 @@ defmodule MishkaMob.Showcase.Components.Menu do
               text_color={:muted}
             />
             <Spacer size={10} />
-            {menu([open: true, on_select: :menu_pick], [
+            <MishkaMenu open={true} on_select={:menu_pick}>
+              {[
               item(:share, "Share", icon: "↗"),
               item(:copy, "Copy link", icon: "🔗"),
               separator(),
               item(:report, "Report", icon: "⚑", danger: true)
-            ])}
+            ]}
+            </MishkaMenu>
           </Column>
           """
         end

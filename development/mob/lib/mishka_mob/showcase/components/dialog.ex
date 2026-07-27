@@ -34,9 +34,13 @@ defmodule MishkaMob.Showcase.Components.Dialog do
         title: "A dialog",
         description: "Title, description, body and footer actions.",
         code: ~S"""
-        {dialog([open: @open?, title: "Delete file?",
-                 description: "This cannot be undone.",
-                 on_close: :close], body, actions)}
+        <MishkaDialog
+          open={@open?}
+          title="Delete file?"
+          description="This cannot be undone."
+          on_close={:close}
+          actions={actions}
+        >{body}</MishkaDialog>
         """,
         render: fn _assigns -> trigger("Open dialog", :basic) end
       },
@@ -44,7 +48,7 @@ defmodule MishkaMob.Showcase.Components.Dialog do
         title: "Tap outside to dismiss",
         description: "dismissible is true by default — the backdrop closes it.",
         code: ~S"""
-        {dialog([open: @open?, dismissible: true, on_close: :close], body)}
+        <MishkaDialog open={@open?} dismissible={true} on_close={:close}>{body}</MishkaDialog>
         """,
         render: fn _assigns -> trigger("Open dismissible", :dismissible) end
       },
@@ -52,7 +56,9 @@ defmodule MishkaMob.Showcase.Components.Dialog do
         title: "Forced choice",
         description: "dismissible: false leaves the backdrop inert — pick an action.",
         code: ~S"""
-        {dialog([open: @open?, dismissible: false, on_close: :close], body, actions)}
+        <MishkaDialog open={@open?} dismissible={false} on_close={:close} actions={actions}>
+          {body}
+        </MishkaDialog>
         """,
         render: fn _assigns -> trigger("Open non-dismissible", :forced) end
       },
@@ -60,8 +66,13 @@ defmodule MishkaMob.Showcase.Components.Dialog do
         title: "Custom chrome",
         description: "width, background, corner_radius and scrim_color are props.",
         code: ~S"""
-        {dialog([open: @open?, width: 280, background: 0xFF1E1B4B,
-                 corner_radius: :radius_xl, scrim_color: 0x992E1065], body)}
+        <MishkaDialog
+          open={@open?}
+          width={280}
+          background={0xFF1E1B4B}
+          corner_radius={:radius_xl}
+          scrim_color={0x992E1065}
+        >{body}</MishkaDialog>
         """,
         render: fn _assigns -> trigger("Open tinted", :tinted) end
       }

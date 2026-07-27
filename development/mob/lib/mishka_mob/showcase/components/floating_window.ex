@@ -6,7 +6,6 @@ defmodule MishkaMob.Showcase.Components.FloatingWindow do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaFloatingIndicator, only: [floating_indicator: 1]
   import MishkaMob.Components.MishkaFloatingWindow, only: [floating_window: 2]
 
   alias MishkaMob.Components.MishkaFloatingWindow
@@ -41,7 +40,12 @@ defmodule MishkaMob.Showcase.Components.FloatingWindow do
           "Mob delivers no pointer coordinates, so the keyboard alternative WCAG asks for " <>
             "becomes the primary interaction. nudge/4 clamps it inside the stage.",
         code: ~S"""
-        {floating_window([x: @x, y: @y, label: "Inspector", on_move: :move], [body()])}
+        <MishkaFloatingWindow
+          x={@x}
+          y={@y}
+          label="Inspector"
+          on_move={:move}
+        >{[body()]}</MishkaFloatingWindow>
 
         def handle({:move, dir}, socket),
           do: assign(socket, :pos, MishkaFloatingWindow.nudge(socket.assigns.pos, dir, 20, {120, 90}))
@@ -60,20 +64,16 @@ defmodule MishkaMob.Showcase.Components.FloatingWindow do
           "The web version measures the active target and slides a box over it. Here the " <>
             "active target draws its own highlight — no measurement needed, and still exactly one.",
         code: ~S"""
-        {floating_indicator(targets: @tabs, active: @tab, on_change: :pick)}
+        <MishkaFloatingIndicator targets={@tabs} active={@tab} on_change={:pick} />
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {floating_indicator(
-               targets: [
-                 %{label: "Day", value: :day},
-                 %{label: "Week", value: :week},
-                 %{label: "Month", value: :month}
-               ],
-               active: @tab,
-               on_change: :tab
-             )}
+            <MishkaFloatingIndicator
+              targets={[ %{label: "Day", value: :day}, %{label: "Week", value: :week}, %{label: "Month", value: :month} ]}
+              active={@tab}
+              on_change={:tab}
+            />
             <Spacer size={10} />
             <Text text={"Showing: " <> to_string(@tab)} text_size={:sm} text_color={:muted} />
           </Column>
@@ -84,21 +84,17 @@ defmodule MishkaMob.Showcase.Components.FloatingWindow do
         title: "Stacked indicator",
         description: "The same component as a vertical group.",
         code: ~S"""
-        {floating_indicator(targets: @targets, active: @tab, orientation: :vertical)}
+        <MishkaFloatingIndicator targets={@targets} active={@tab} orientation={:vertical} />
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {floating_indicator(
-               targets: [
-                 %{label: "Day", value: :day},
-                 %{label: "Week", value: :week},
-                 %{label: "Archived", value: :archived, disabled: true}
-               ],
-               active: @tab,
-               orientation: :vertical,
-               on_change: :tab
-             )}
+            <MishkaFloatingIndicator
+              targets={[ %{label: "Day", value: :day}, %{label: "Week", value: :week}, %{label: "Archived", value: :archived, disabled: true} ]}
+              active={@tab}
+              orientation={:vertical}
+              on_change={:tab}
+            />
           </Column>
           """
         end

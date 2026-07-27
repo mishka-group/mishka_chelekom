@@ -6,8 +6,6 @@ defmodule MishkaMob.Showcase.Components.JsonInput do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaJsonInput, only: [json_input: 1]
-  import MishkaMob.Components.MishkaNumberFormatter, only: [number_formatter: 1]
 
   alias MishkaMob.Components.MishkaJsonInput
   alias MishkaMob.Showcase.Example
@@ -38,14 +36,14 @@ defmodule MishkaMob.Showcase.Components.JsonInput do
         description:
           "Parsing is Jason's job — the same division of labour the web version keeps.",
         code: ~S"""
-        {json_input(value: @json, on_change: :json)}
+        <MishkaJsonInput value={@json} on_change={:json} />
 
         MishkaJsonInput.validate(@json)  #=> {:ok, %{"name" => "mishka"}}
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {json_input(value: @json, lines: 5, on_change: :json)}
+            <MishkaJsonInput value={@json} lines={5} on_change={:json} />
             <Spacer size={8} />
             <Text
               text={"Parses: " <> inspect(match?({:ok, _}, MishkaJsonInput.validate(@json)))}
@@ -60,12 +58,12 @@ defmodule MishkaMob.Showcase.Components.JsonInput do
         title: "Invalid shows the parser's own message",
         description: "Blank is not an error — an untouched field is not a mistake.",
         code: ~S"""
-        {json_input(value: ~s({"name": mishka}))}
+        <MishkaJsonInput value={~s({"name": mishka})} />
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {json_input(value: @broken, lines: 3, on_change: :broken)}
+            <MishkaJsonInput value={@broken} lines={3} on_change={:broken} />
           </Column>
           """
         end
@@ -80,11 +78,17 @@ defmodule MishkaMob.Showcase.Components.JsonInput do
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {number_formatter(value: 1_234_567.5, decimals: 2, prefix: "$", weight: :semibold)}
+            <MishkaNumberFormatter value={1_234_567.5} decimals={2} prefix="$" weight={:semibold} />
             <Spacer size={6} />
-            {number_formatter(value: 1_234.5, decimals: 2, thousand_separator: ".", decimal_separator: ",", suffix: " €")}
+            <MishkaNumberFormatter
+              value={1_234.5}
+              decimals={2}
+              thousand_separator="."
+              decimal_separator=","
+              suffix=" €"
+            />
             <Spacer size={6} />
-            {number_formatter(value: -98_765, text_color: :danger)}
+            <MishkaNumberFormatter value={-98_765} text_color={:danger} />
           </Column>
           """
         end

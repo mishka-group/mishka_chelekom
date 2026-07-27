@@ -6,8 +6,6 @@ defmodule MishkaMob.Showcase.Components.OtpField do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaOtpField, only: [otp_field: 1]
-  import MishkaMob.Components.MishkaMaskInput, only: [mask_input: 1]
 
   alias MishkaMob.Components.{MishkaMaskInput, MishkaOtpField}
   alias MishkaMob.Showcase.Example
@@ -65,14 +63,20 @@ defmodule MishkaMob.Showcase.Components.OtpField do
         # warning, because ~MOB validates tag names against Mob's own whitelist
         # and ours are not in it:
         #
-        #   import MishkaMob.Components.MishkaOtpField, only: [otp_field: 1]
-        #   {otp_field(value: @code, length: 6, on_change: :code)}
+        #        #   <MishkaOtpField value={@code} length={6} on_change={:code} />
         ''',
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {otp_field(id: "otp-code", value: @otp_code, length: 6, focused: @otp_focused,
-                       on_change: :otp_code, on_focus: :otp_focus, on_blur: :otp_blur)}
+            <MishkaOtpField
+              id="otp-code"
+              value={@otp_code}
+              length={6}
+              focused={@otp_focused}
+              on_change={:otp_code}
+              on_focus={:otp_focus}
+              on_blur={:otp_blur}
+            />
             <Spacer size={10} />
             <Text text={status(@otp_code)} text_size={:sm} text_color={:muted} />
           </Column>
@@ -92,11 +96,16 @@ defmodule MishkaMob.Showcase.Components.OtpField do
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {otp_field(
-               id: "otp-masked", value: @otp_code, length: 4, mask: true,
-               focused: @otp_masked_focused, on_change: :otp_code,
-               on_focus: :otp_masked_focus, on_blur: :otp_masked_blur
-             )}
+            <MishkaOtpField
+              id="otp-masked"
+              value={@otp_code}
+              length={4}
+              mask={true}
+              focused={@otp_masked_focused}
+              on_change={:otp_code}
+              on_focus={:otp_masked_focus}
+              on_blur={:otp_masked_blur}
+            />
           </Column>
           """
         end
@@ -120,11 +129,18 @@ defmodule MishkaMob.Showcase.Components.OtpField do
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {otp_field(
-               id: "otp-ref", value: @otp_ref, length: 6, group: [2, 4], separator: "-",
-               validation_type: :alphanumeric, focused: @otp_ref_focused,
-               on_change: :otp_ref, on_focus: :otp_ref_focus, on_blur: :otp_ref_blur
-             )}
+            <MishkaOtpField
+              id="otp-ref"
+              value={@otp_ref}
+              length={6}
+              group={[2, 4]}
+              separator="-"
+              validation_type={:alphanumeric}
+              focused={@otp_ref_focused}
+              on_change={:otp_ref}
+              on_focus={:otp_ref_focus}
+              on_blur={:otp_ref_blur}
+            />
             <Spacer size={10} />
             <Text text="Letters and digits — try Ab5563" text_size={:sm} text_color={:muted} />
           </Column>
@@ -149,7 +165,7 @@ defmodule MishkaMob.Showcase.Components.OtpField do
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {mask_input(value: @otp_phone, mask: "(999) 999-9999", on_change: :otp_phone)}
+            <MishkaMaskInput value={@otp_phone} mask="(999) 999-9999" on_change={:otp_phone} />
             <Spacer size={10} />
             <Text
               text={"Unformatted: " <> MishkaMaskInput.strip(@otp_phone)}
@@ -174,8 +190,12 @@ defmodule MishkaMob.Showcase.Components.OtpField do
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {mask_input(value: @otp_date, mask: "99/99/9999", placeholder: "DD/MM/YYYY",
-                        on_change: :otp_date)}
+            <MishkaMaskInput
+              value={@otp_date}
+              mask="99/99/9999"
+              placeholder="DD/MM/YYYY"
+              on_change={:otp_date}
+            />
           </Column>
           """
         end

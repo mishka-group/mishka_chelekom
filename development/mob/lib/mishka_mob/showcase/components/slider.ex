@@ -8,7 +8,6 @@ defmodule MishkaMob.Showcase.Components.Slider do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaSlider, only: [slider: 1]
 
   alias MishkaMob.Components.MishkaSlider
   alias MishkaMob.Showcase.Example
@@ -39,7 +38,7 @@ defmodule MishkaMob.Showcase.Components.Slider do
         title: "Continuous",
         description: "Drag it; the screen owns the value.",
         code: ~S"""
-        {slider(value: @volume, label: "Volume", show_value: true, on_change: :volume)}
+        <MishkaSlider value={@volume} label="Volume" show_value={true} on_change={:volume} />
 
         def handle_info({:change, :volume, v}, socket) do
           {:noreply, assign(socket, :volume, round(v))}
@@ -48,7 +47,7 @@ defmodule MishkaMob.Showcase.Components.Slider do
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {slider(value: @sl_volume, label: "Volume", show_value: true, on_change: :volume)}
+            <MishkaSlider value={@sl_volume} label="Volume" show_value={true} on_change={:volume} />
           </Column>
           """
         end
@@ -57,7 +56,7 @@ defmodule MishkaMob.Showcase.Components.Slider do
         title: "Stepped",
         description: "step is applied by snap/2 in the handler — the native track is continuous.",
         code: ~S"""
-        {slider(value: @v, step: 10, on_change: :stepped)}
+        <MishkaSlider value={@v} step={10} on_change={:stepped} />
 
         def handle_info({:change, :stepped, raw}, socket) do
           {:noreply, assign(socket, :v, MishkaSlider.snap(raw, step: 10))}
@@ -66,7 +65,7 @@ defmodule MishkaMob.Showcase.Components.Slider do
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {slider(value: @sl_stepped, label: "Steps of 10", show_value: true, on_change: :stepped)}
+            <MishkaSlider value={@sl_stepped} label="Steps of 10" show_value={true} on_change={:stepped} />
             <Spacer size={6} />
             <Text
               text="Release the thumb — it lands on a multiple of 10."
@@ -81,13 +80,20 @@ defmodule MishkaMob.Showcase.Components.Slider do
         title: "Custom range and readout",
         description: "min/max set the scale; value_text replaces the number.",
         code: ~S"""
-        {slider(value: @r, min: 1, max: 5, value_text: "#{@r} of 5", show_value: true)}
+        <MishkaSlider value={@r} min={1} max={5} value_text={"#{@r} of 5"} show_value={true} />
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {slider(value: @sl_rating, min: 1, max: 5, label: "Rating",
-                    value_text: stars(@sl_rating), show_value: true, on_change: :rating)}
+            <MishkaSlider
+              value={@sl_rating}
+              min={1}
+              max={5}
+              label="Rating"
+              value_text={stars(@sl_rating)}
+              show_value={true}
+              on_change={:rating}
+            />
           </Column>
           """
         end
@@ -96,14 +102,14 @@ defmodule MishkaMob.Showcase.Components.Slider do
         title: "Colour",
         description: "Tints the thumb and the active track.",
         code: ~S"""
-        {slider(value: 70, color: 0xFF7C3AED)}
+        <MishkaSlider value={70} color={0xFF7C3AED} />
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {slider(value: @sl_volume, color: 0xFF7C3AED, on_change: :volume)}
+            <MishkaSlider value={@sl_volume} color={0xFF7C3AED} on_change={:volume} />
             <Spacer size={12} />
-            {slider(value: @sl_volume, color: :primary, on_change: :volume)}
+            <MishkaSlider value={@sl_volume} color={:primary} on_change={:volume} />
           </Column>
           """
         end

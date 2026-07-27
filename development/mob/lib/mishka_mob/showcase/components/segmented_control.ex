@@ -6,8 +6,7 @@ defmodule MishkaMob.Showcase.Components.SegmentedControl do
 
   import Mob.Sigil
 
-  import MishkaMob.Components.MishkaSegmentedControl,
-    only: [segmented_control: 2, option: 2, option: 3]
+  import MishkaMob.Components.MishkaSegmentedControl, only: [option: 2, option: 3]
 
   alias MishkaMob.Showcase.Example
 
@@ -36,18 +35,23 @@ defmodule MishkaMob.Showcase.Components.SegmentedControl do
         title: "Always one selected",
         description: "Re-tapping the selected segment is a no-op — it cannot be cleared.",
         code: ~S"""
-        {segmented_control([value: @view, on_change: :view], [
+        <MishkaSegmentedControl
+          value={@view}
+          on_change={:view}
+        >{[
           option(:day, "Day"), option(:week, "Week"), option(:month, "Month")
-        ])}
+        ]}</MishkaSegmentedControl>
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {segmented_control([value: @sc_view, on_change: :sc_view], [
+            <MishkaSegmentedControl value={@sc_view} on_change={:sc_view}>
+              {[
               option(:day, "Day"),
               option(:week, "Week"),
               option(:month, "Month")
-            ])}
+            ]}
+            </MishkaSegmentedControl>
             <Spacer size={12} />
             <Text text={"Value: " <> to_string(@sc_view)} text_size={:sm} text_color={:muted} />
           </Column>
@@ -58,16 +62,22 @@ defmodule MishkaMob.Showcase.Components.SegmentedControl do
         title: "With a label",
         description: "A heading above the strip.",
         code: ~S"""
-        {segmented_control([label: "THEME", value: @theme, on_change: :theme], opts)}
+        <MishkaSegmentedControl
+          label="THEME"
+          value={@theme}
+          on_change={:theme}
+        >{opts}</MishkaSegmentedControl>
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {segmented_control([label: "THEME", value: @sc_theme, on_change: :sc_theme], [
+            <MishkaSegmentedControl label="THEME" value={@sc_theme} on_change={:sc_theme}>
+              {[
               option(:light, "Light"),
               option(:dark, "Dark"),
               option(:system, "System")
-            ])}
+            ]}
+            </MishkaSegmentedControl>
           </Column>
           """
         end
@@ -77,20 +87,24 @@ defmodule MishkaMob.Showcase.Components.SegmentedControl do
         description: "One segment, or the whole control.",
         code: ~S"""
         option(:month, "Month", disabled: true)
-        {segmented_control([disabled: true], opts)}
+        <MishkaSegmentedControl disabled={true}>{opts}</MishkaSegmentedControl>
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {segmented_control([value: @sc_view, on_change: :sc_view], [
+            <MishkaSegmentedControl value={@sc_view} on_change={:sc_view}>
+              {[
               option(:day, "Day"),
               option(:month, "Month (off)", disabled: true)
-            ])}
+            ]}
+            </MishkaSegmentedControl>
             <Spacer size={16} />
-            {segmented_control([value: @sc_view, disabled: true], [
+            <MishkaSegmentedControl value={@sc_view} disabled={true}>
+              {[
               option(:day, "Whole"),
               option(:week, "control off")
-            ])}
+            ]}
+            </MishkaSegmentedControl>
           </Column>
           """
         end
@@ -99,16 +113,26 @@ defmodule MishkaMob.Showcase.Components.SegmentedControl do
         title: "Colour",
         description: "color fills the selection; background is the track.",
         code: ~S"""
-        {segmented_control([value: @v, color: 0xFF7C3AED, text_color: 0xFFFFFFFF], opts)}
+        <MishkaSegmentedControl
+          value={@v}
+          color={0xFF7C3AED}
+          text_color={0xFFFFFFFF}
+        >{opts}</MishkaSegmentedControl>
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {segmented_control([value: @sc_view, color: 0xFF7C3AED, text_color: 0xFFFFFFFF,
-                                on_change: :sc_view], [
+            <MishkaSegmentedControl
+              value={@sc_view}
+              color={0xFF7C3AED}
+              text_color={0xFFFFFFFF}
+              on_change={:sc_view}
+            >
+              {[
               option(:day, "Day"),
               option(:week, "Week")
-            ])}
+            ]}
+            </MishkaSegmentedControl>
           </Column>
           """
         end

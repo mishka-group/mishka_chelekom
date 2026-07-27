@@ -9,8 +9,6 @@ defmodule MishkaMob.Showcase.Components.Meter do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaMeter, only: [meter: 1]
-  import MishkaMob.Components.MishkaSeparator, only: [separator: 1]
 
   alias MishkaMob.Showcase.Example
 
@@ -35,12 +33,12 @@ defmodule MishkaMob.Showcase.Components.Meter do
         title: "A gauge",
         description: "A measurement with its own readout. Tap to fill it.",
         code: ~S"""
-        {meter(value: @used, label: "Storage", show_value: true)}
+        <MishkaMeter value={@used} label="Storage" show_value={true} />
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {meter(value: @mt_used, label: "Storage used", show_value: true)}
+            <MishkaMeter value={@mt_used} label="Storage used" show_value={true} />
             <Spacer size={14} />
             <Row fill_width={true}>
               <Button
@@ -69,14 +67,27 @@ defmodule MishkaMob.Showcase.Components.Meter do
         title: "Any range",
         description: "min/max map the scale; value_text replaces the percentage.",
         code: ~S"""
-        {meter(value: 3, max: 5, label: "Signal", value_text: "3 of 5 bars", show_value: true)}
+        <MishkaMeter
+          value={3}
+          max={5}
+          label="Signal"
+          value_text="3 of 5 bars"
+          show_value={true}
+        />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {meter(value: 3, max: 5, label: "Signal", value_text: "3 of 5 bars", show_value: true)}
+            <MishkaMeter value={3} max={5} label="Signal" value_text="3 of 5 bars" show_value={true} />
             <Spacer size={16} />
-            {meter(value: 37, min: 20, max: 40, label: "Temperature", value_text: "37 °C", show_value: true)}
+            <MishkaMeter
+              value={37}
+              min={20}
+              max={40}
+              label="Temperature"
+              value_text="37 °C"
+              show_value={true}
+            />
           </Column>
           """
         end
@@ -85,19 +96,19 @@ defmodule MishkaMob.Showcase.Components.Meter do
         title: "Clamped, never overshooting",
         description: "Values outside the range read as full or empty.",
         code: ~S"""
-        {meter(value: 250)}   # renders full
-        {meter(value: -40)}   # renders empty
+        <MishkaMeter value={250} />   # renders full
+        <MishkaMeter value={-40} />   # renders empty
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {meter(value: 250, label: "Over the top", show_value: true)}
+            <MishkaMeter value={250} label="Over the top" show_value={true} />
             <Spacer size={16} />
-            {meter(value: -40, label: "Below the floor", show_value: true)}
+            <MishkaMeter value={-40} label="Below the floor" show_value={true} />
             <Spacer size={16} />
-            {separator(label: "a meter with no value reads empty")}
+            <MishkaSeparator label="a meter with no value reads empty" />
             <Spacer size={16} />
-            {meter(label: "Unknown", show_value: true)}
+            <MishkaMeter label="Unknown" show_value={true} />
           </Column>
           """
         end
@@ -106,14 +117,14 @@ defmodule MishkaMob.Showcase.Components.Meter do
         title: "Colour",
         description: "Tint the fill, e.g. to warn as a gauge approaches its limit.",
         code: ~S"""
-        {meter(value: 91, color: 0xFFDC2626)}
+        <MishkaMeter value={91} color={0xFFDC2626} />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {meter(value: 22, label: "Comfortable", color: :primary, show_value: true)}
+            <MishkaMeter value={22} label="Comfortable" color={:primary} show_value={true} />
             <Spacer size={16} />
-            {meter(value: 91, label: "Nearly full", color: 0xFFDC2626, show_value: true)}
+            <MishkaMeter value={91} label="Nearly full" color={0xFFDC2626} show_value={true} />
           </Column>
           """
         end

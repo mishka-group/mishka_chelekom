@@ -5,7 +5,6 @@ defmodule MishkaMob.Showcase.Components.Mark do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaMark, only: [mark: 1]
 
   alias MishkaMob.Showcase.Example
 
@@ -28,14 +27,14 @@ defmodule MishkaMob.Showcase.Components.Mark do
         description:
           "A Text cannot carry its own background, so a mark is a Text in a tinted Box.",
         code: ~S"""
-        {mark(text: "BEAM")}
+        <MishkaMark text="BEAM" />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Row fill_width={true}>
-            {mark(text: "BEAM")}
+            <MishkaMark text="BEAM" />
             <Spacer size={8} />
-            {mark(text: "on device")}
+            <MishkaMark text="on device" />
           </Row>
           """
         end
@@ -46,7 +45,7 @@ defmodule MishkaMob.Showcase.Components.Mark do
         code: ~S"""
         <Row>
           <Text text="Runs on the " />
-          {mark(text: "BEAM")}
+          <MishkaMark text="BEAM" />
           <Text text=" itself." />
         </Row>
         """,
@@ -54,7 +53,7 @@ defmodule MishkaMob.Showcase.Components.Mark do
           ~MOB"""
           <Row fill_width={true}>
             <Text text="Runs on the " text_size={:base} text_color={:on_surface} />
-            {mark(text: "BEAM")}
+            <MishkaMark text="BEAM" />
             <Text text=" itself." text_size={:base} text_color={:on_surface} />
           </Row>
           """
@@ -64,18 +63,18 @@ defmodule MishkaMob.Showcase.Components.Mark do
         title: "Colours",
         description: "The default pairs a light fill with dark ink so it reads in either theme.",
         code: ~S"""
-        {mark(text: "shipped", background: 0xFFBBF7D0)}
+        <MishkaMark text="shipped" background={0xFFBBF7D0} />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Row fill_width={true}>
-            {mark(text: "amber")}
+            <MishkaMark text="amber" />
             <Spacer size={8} />
-            {mark(text: "green", background: 0xFFBBF7D0)}
+            <MishkaMark text="green" background={0xFFBBF7D0} />
             <Spacer size={8} />
-            {mark(text: "rose", background: 0xFFFECDD3)}
+            <MishkaMark text="rose" background={0xFFFECDD3} />
             <Spacer size={8} />
-            {mark(text: "violet", background: 0xFFDDD6FE)}
+            <MishkaMark text="violet" background={0xFFDDD6FE} />
           </Row>
           """
         end

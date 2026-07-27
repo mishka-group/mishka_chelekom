@@ -6,8 +6,6 @@ defmodule MishkaMob.Showcase.Components.ActionIcon do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaActionIcon, only: [action_icon: 1]
-  import MishkaMob.Components.MishkaCloseButton, only: [close_button: 1]
 
   alias MishkaMob.Showcase.Example
 
@@ -32,20 +30,20 @@ defmodule MishkaMob.Showcase.Components.ActionIcon do
         title: "Icon buttons",
         description: "Plain by default; filled puts it on a raised surface.",
         code: ~S"""
-        {action_icon(icon: "⋯", on_tap: :menu)}
-        {action_icon(icon: "←", variant: :filled, shape: :circle, on_tap: :back)}
+        <MishkaActionIcon icon="⋯" on_tap={:menu} />
+        <MishkaActionIcon icon="←" variant={:filled} shape={:circle} on_tap={:back} />
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
             <Row fill_width={true}>
-              {action_icon(icon: "⋯", on_tap: :ai_tap)}
+              <MishkaActionIcon icon="⋯" on_tap={:ai_tap} />
               <Spacer size={8} />
-              {action_icon(icon: "←", variant: :filled, on_tap: :ai_tap)}
+              <MishkaActionIcon icon="←" variant={:filled} on_tap={:ai_tap} />
               <Spacer size={8} />
-              {action_icon(icon: "★", variant: :filled, shape: :circle, on_tap: :ai_tap)}
+              <MishkaActionIcon icon="★" variant={:filled} shape={:circle} on_tap={:ai_tap} />
               <Spacer size={8} />
-              {action_icon(icon: "⚙", color: :primary, on_tap: :ai_tap)}
+              <MishkaActionIcon icon="⚙" color={:primary} on_tap={:ai_tap} />
             </Row>
             <Spacer size={12} />
             <Text
@@ -61,16 +59,16 @@ defmodule MishkaMob.Showcase.Components.ActionIcon do
         title: "Close button",
         description: "The ✕ wrapper — same component, one spelling for close.",
         code: ~S"""
-        {close_button(on_tap: :dismiss)}
+        <MishkaCloseButton on_tap={:dismiss} />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Row fill_width={true}>
-            {close_button(on_tap: :ai_tap)}
+            <MishkaCloseButton on_tap={:ai_tap} />
             <Spacer size={8} />
-            {close_button(variant: :filled, on_tap: :ai_tap)}
+            <MishkaCloseButton variant={:filled} on_tap={:ai_tap} />
             <Spacer size={8} />
-            {close_button(disabled: true)}
+            <MishkaCloseButton disabled={true} />
           </Row>
           """
         end
@@ -79,17 +77,17 @@ defmodule MishkaMob.Showcase.Components.ActionIcon do
         title: "Tap targets stay finger-sized",
         description: "size is the target, not the glyph — 40 by default, not ~16.",
         code: ~S"""
-        {action_icon(icon: "✕", size: 40)}   # default
-        {action_icon(icon: "✕", size: 28)}   # deliberately smaller
+        <MishkaActionIcon icon="✕" size={40} />   # default
+        <MishkaActionIcon icon="✕" size={28} />   # deliberately smaller
         """,
         render: fn _assigns ->
           ~MOB"""
           <Row fill_width={true}>
-            {action_icon(icon: "✕", variant: :filled, size: 48, on_tap: :ai_tap)}
+            <MishkaActionIcon icon="✕" variant={:filled} size={48} on_tap={:ai_tap} />
             <Spacer size={8} />
-            {action_icon(icon: "✕", variant: :filled, on_tap: :ai_tap)}
+            <MishkaActionIcon icon="✕" variant={:filled} on_tap={:ai_tap} />
             <Spacer size={8} />
-            {action_icon(icon: "✕", variant: :filled, size: 28, on_tap: :ai_tap)}
+            <MishkaActionIcon icon="✕" variant={:filled} size={28} on_tap={:ai_tap} />
           </Row>
           """
         end
@@ -98,14 +96,14 @@ defmodule MishkaMob.Showcase.Components.ActionIcon do
         title: "Disabled",
         description: "Muted and inert.",
         code: ~S"""
-        {action_icon(icon: "⋯", disabled: true)}
+        <MishkaActionIcon icon="⋯" disabled={true} />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Row fill_width={true}>
-            {action_icon(icon: "⋯", disabled: true)}
+            <MishkaActionIcon icon="⋯" disabled={true} />
             <Spacer size={8} />
-            {action_icon(icon: "⋯", variant: :filled, disabled: true)}
+            <MishkaActionIcon icon="⋯" variant={:filled} disabled={true} />
           </Row>
           """
         end

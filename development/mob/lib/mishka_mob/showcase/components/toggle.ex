@@ -5,7 +5,6 @@ defmodule MishkaMob.Showcase.Components.Toggle do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaToggle, only: [toggle: 1]
 
   alias MishkaMob.Showcase.Example
 
@@ -35,17 +34,17 @@ defmodule MishkaMob.Showcase.Components.Toggle do
         title: "A toolbar",
         description: "Each button holds its own pressed state.",
         code: ~S"""
-        {toggle(label: "B", pressed: @bold?, on_change: :bold)}
+        <MishkaToggle label="B" pressed={@bold?} on_change={:bold} />
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
             <Row fill_width={true}>
-              {toggle(label: "  B  ", pressed: @tg_bold, on_change: :tg_bold)}
+              <MishkaToggle label=" B " pressed={@tg_bold} on_change={:tg_bold} />
               <Spacer size={8} />
-              {toggle(label: "  I  ", pressed: @tg_italic, on_change: :tg_italic)}
+              <MishkaToggle label=" I " pressed={@tg_italic} on_change={:tg_italic} />
               <Spacer size={8} />
-              {toggle(label: "  U  ", pressed: @tg_under, on_change: :tg_under)}
+              <MishkaToggle label=" U " pressed={@tg_under} on_change={:tg_under} />
             </Row>
             <Spacer size={12} />
             <Text text={summary(@tg_bold, @tg_italic, @tg_under)} text_size={:sm} text_color={:muted} />
@@ -57,15 +56,15 @@ defmodule MishkaMob.Showcase.Components.Toggle do
         title: "Not a switch, not a chip",
         description: "A switch is a setting, a chip is a filter, a toggle is a pressed button.",
         code: ~S"""
-        {toggle(label: "Pressed", pressed: true)}
-        {toggle(label: "Not pressed")}
+        <MishkaToggle label="Pressed" pressed={true} />
+        <MishkaToggle label="Not pressed" />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Row fill_width={true}>
-            {toggle(label: "Pressed", pressed: true)}
+            <MishkaToggle label="Pressed" pressed={true} />
             <Spacer size={8} />
-            {toggle(label: "Not pressed")}
+            <MishkaToggle label="Not pressed" />
           </Row>
           """
         end
@@ -74,14 +73,14 @@ defmodule MishkaMob.Showcase.Components.Toggle do
         title: "Disabled",
         description: "Muted and inert, pressed or not.",
         code: ~S"""
-        {toggle(label: "Locked", pressed: true, disabled: true)}
+        <MishkaToggle label="Locked" pressed={true} disabled={true} />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Row fill_width={true}>
-            {toggle(label: "Locked on", pressed: true, disabled: true)}
+            <MishkaToggle label="Locked on" pressed={true} disabled={true} />
             <Spacer size={8} />
-            {toggle(label: "Locked off", disabled: true)}
+            <MishkaToggle label="Locked off" disabled={true} />
           </Row>
           """
         end
@@ -90,14 +89,19 @@ defmodule MishkaMob.Showcase.Components.Toggle do
         title: "Colour",
         description: "color fills it when pressed.",
         code: ~S"""
-        {toggle(label: "Violet", pressed: true, color: 0xFF7C3AED, text_color: 0xFFFFFFFF)}
+        <MishkaToggle
+          label="Violet"
+          pressed={true}
+          color={0xFF7C3AED}
+          text_color={0xFFFFFFFF}
+        />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Row fill_width={true}>
-            {toggle(label: "Violet", pressed: true, color: 0xFF7C3AED, text_color: 0xFFFFFFFF)}
+            <MishkaToggle label="Violet" pressed={true} color={0xFF7C3AED} text_color={0xFFFFFFFF} />
             <Spacer size={8} />
-            {toggle(label: "Default", pressed: true)}
+            <MishkaToggle label="Default" pressed={true} />
           </Row>
           """
         end

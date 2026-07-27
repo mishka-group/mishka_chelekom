@@ -9,7 +9,6 @@ defmodule MishkaMob.Showcase.Components.Separator do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaSeparator, only: [separator: 0, separator: 1]
 
   alias MishkaMob.Showcase.Example
 
@@ -33,7 +32,7 @@ defmodule MishkaMob.Showcase.Components.Separator do
         code: ~S"""
         <Column fill_width={true}>
           <Text text="Section one" />
-          {separator()}
+          <MishkaSeparator />
           <Text text="Section two" />
         </Column>
         """,
@@ -42,7 +41,7 @@ defmodule MishkaMob.Showcase.Components.Separator do
           <Column fill_width={true}>
             <Text text="Section one" text_color={:on_surface} />
             <Spacer size={12} />
-            {separator()}
+            <MishkaSeparator />
             <Spacer size={12} />
             <Text text="Section two" text_color={:on_surface} />
           </Column>
@@ -53,14 +52,14 @@ defmodule MishkaMob.Showcase.Components.Separator do
         title: "Labelled",
         description: "A label centred between two rules — line — label — line.",
         code: ~S"""
-        {separator(label: "or continue with")}
+        <MishkaSeparator label="or continue with" />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {separator(label: "or continue with")}
+            <MishkaSeparator label="or continue with" />
             <Spacer size={16} />
-            {separator(label: "1994")}
+            <MishkaSeparator label="1994" />
           </Column>
           """
         end
@@ -69,16 +68,16 @@ defmodule MishkaMob.Showcase.Components.Separator do
         title: "Colour and thickness",
         description: "Any colour token or ARGB int, and a thicker rule.",
         code: ~S"""
-        {separator(color: 0xFF7C3AED, thickness: 3)}
+        <MishkaSeparator color={0xFF7C3AED} thickness={3} />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {separator(color: 0xFF7C3AED, thickness: 3)}
+            <MishkaSeparator color={0xFF7C3AED} thickness={3} />
             <Spacer size={14} />
-            {separator(color: :primary, thickness: 2)}
+            <MishkaSeparator color={:primary} thickness={2} />
             <Spacer size={14} />
-            {separator(color: :muted, label: "muted + thick", thickness: 2)}
+            <MishkaSeparator color={:muted} label="muted + thick" thickness={2} />
           </Column>
           """
         end
@@ -89,7 +88,7 @@ defmodule MishkaMob.Showcase.Components.Separator do
         code: ~S"""
         <Row>
           <Text text="Left" />
-          {separator(orientation: :vertical)}
+          <MishkaSeparator orientation={:vertical} />
           <Text text="Right" />
         </Row>
         """,
@@ -99,11 +98,11 @@ defmodule MishkaMob.Showcase.Components.Separator do
             <Row fill_width={true}>
               <Text text="Docs" text_color={:on_surface} />
               <Spacer size={12} />
-              {separator(orientation: :vertical)}
+              <MishkaSeparator orientation={:vertical} />
               <Spacer size={12} />
               <Text text="Guides" text_color={:on_surface} />
               <Spacer size={12} />
-              {separator(orientation: :vertical, color: :primary, thickness: 2)}
+              <MishkaSeparator orientation={:vertical} color={:primary} thickness={2} />
               <Spacer size={12} />
               <Text text="API" text_color={:on_surface} />
             </Row>
@@ -156,7 +155,7 @@ defmodule MishkaMob.Showcase.Components.Separator do
     <Column fill_width={true}>
       <Box fill_width={true} height={10} background={:muted} corner_radius={:radius_sm} />
       <Spacer size={10} />
-      {separator()}
+      <MishkaSeparator />
       <Spacer size={10} />
       <Box fill_width={true} height={10} background={:muted} corner_radius={:radius_sm} />
       <Spacer size={6} />

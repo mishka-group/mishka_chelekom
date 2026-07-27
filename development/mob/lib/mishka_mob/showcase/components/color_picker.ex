@@ -3,7 +3,6 @@ defmodule MishkaMob.Showcase.Components.ColorPicker do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaColorPicker, only: [color_picker: 1]
 
   alias MishkaMob.Components.{Color, MishkaColorPicker}
   alias MishkaMob.Showcase.Example
@@ -36,16 +35,26 @@ defmodule MishkaMob.Showcase.Components.ColorPicker do
           "Vertical strips step saturation, horizontal strips lay black over them — the same " <>
             "two gradients the web picker stacks, expressed as draw ops.",
         code: ~S"""
-        {color_picker(hue: @hue, saturation: @sat, value: @val,
-                      on_hue: :hue, on_saturation: :sat, on_value: :val)}
+        <MishkaColorPicker
+          hue={@hue}
+          saturation={@sat}
+          value={@val}
+          on_hue={:hue}
+          on_saturation={:sat}
+          on_value={:val}
+        />
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {color_picker(
-               hue: @hue, saturation: @sat, value: @val,
-               on_hue: :hue, on_saturation: :sat, on_value: :val
-             )}
+            <MishkaColorPicker
+              hue={@hue}
+              saturation={@sat}
+              value={@val}
+              on_hue={:hue}
+              on_saturation={:sat}
+              on_value={:val}
+            />
           </Column>
           """
         end

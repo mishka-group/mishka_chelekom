@@ -6,8 +6,6 @@ defmodule MishkaMob.Showcase.Components.SemiCircleProgress do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaSemiCircleProgress, only: [semi_circle_progress: 1]
-  import MishkaMob.Components.MishkaRollingNumber, only: [rolling_number: 1]
 
   alias MishkaMob.Components.MishkaRollingNumber
   alias MishkaMob.Showcase.Example
@@ -38,12 +36,12 @@ defmodule MishkaMob.Showcase.Components.SemiCircleProgress do
         description:
           "Mob has no canvas, so the arc is a track with a big readout — see the docs.",
         code: ~S"""
-        {semi_circle_progress(value: @value, label: "Battery")}
+        <MishkaSemiCircleProgress value={@value} label="Battery" />
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {semi_circle_progress(value: @sc_value, label: "BATTERY")}
+            <MishkaSemiCircleProgress value={@sc_value} label="BATTERY" />
             <Spacer size={14} />
             <Row fill_width={true}>
               <Button
@@ -72,13 +70,18 @@ defmodule MishkaMob.Showcase.Components.SemiCircleProgress do
         title: "Custom readout",
         description: "value_text replaces the percentage.",
         code: ~S"""
-        {semi_circle_progress(value: 3, max: 5, value_text: "3 / 5")}
+        <MishkaSemiCircleProgress value={3} max={5} value_text="3 / 5" />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {semi_circle_progress(value: 3, max: 5, value_text: "3 / 5", label: "STEPS",
-                                  color: 0xFF10B981)}
+            <MishkaSemiCircleProgress
+              value={3}
+              max={5}
+              value_text="3 / 5"
+              label="STEPS"
+              color={0xFF10B981}
+            />
           </Column>
           """
         end
@@ -87,7 +90,7 @@ defmodule MishkaMob.Showcase.Components.SemiCircleProgress do
         title: "Rolling number",
         description: "The component renders a number; the screen walks steps/3 on a timer.",
         code: ~S"""
-        {rolling_number(value: @count)}
+        <MishkaRollingNumber value={@count} />
 
         # in the handler
         [next | rest] = MishkaRollingNumber.steps(from, to, 20)
@@ -96,7 +99,7 @@ defmodule MishkaMob.Showcase.Components.SemiCircleProgress do
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true} align={:center}>
-            {rolling_number(value: @rn_value)}
+            <MishkaRollingNumber value={@rn_value} />
             <Spacer size={12} />
             <Row fill_width={true}>
               <Button
@@ -125,17 +128,17 @@ defmodule MishkaMob.Showcase.Components.SemiCircleProgress do
         title: "Grouping",
         description: "separator groups thousands; \"\" turns it off.",
         code: ~S"""
-        {rolling_number(value: 1234567)}
-        {rolling_number(value: 1234567, separator: "")}
+        <MishkaRollingNumber value={1234567} />
+        <MishkaRollingNumber value={1234567} separator="" />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {rolling_number(value: 1_234_567, text_size: :xl)}
+            <MishkaRollingNumber value={1_234_567} text_size={:xl} />
             <Spacer size={8} />
-            {rolling_number(value: 1_234_567, separator: " ", text_size: :xl)}
+            <MishkaRollingNumber value={1_234_567} separator=" " text_size={:xl} />
             <Spacer size={8} />
-            {rolling_number(value: -98_765, text_size: :xl, color: 0xFFDC2626)}
+            <MishkaRollingNumber value={-98_765} text_size={:xl} color={0xFFDC2626} />
           </Column>
           """
         end

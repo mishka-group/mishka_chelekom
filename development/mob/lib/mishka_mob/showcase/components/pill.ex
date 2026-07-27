@@ -35,7 +35,7 @@ defmodule MishkaMob.Showcase.Components.Pill do
         title: "Removable tokens",
         description: "The ✕ carries its own handler — tap it to drop a tag.",
         code: ~S"""
-        {pill(label: "elixir", with_remove: true, on_remove: {:drop, :elixir})}
+        <MishkaPill label="elixir" with_remove={true} on_remove={{:drop, :elixir}} />
 
         def handle_info({:tap, {:drop, id}}, socket) do
           {:noreply, assign(socket, :tags, List.delete(socket.assigns.tags, id))}
@@ -64,16 +64,16 @@ defmodule MishkaMob.Showcase.Components.Pill do
         title: "Plain",
         description: "Without with_remove it is just a label.",
         code: ~S"""
-        {pill(label: "read-only")}
+        <MishkaPill label="read-only" />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Row fill_width={true}>
-            {pill(label: "read-only")}
+            <MishkaPill label="read-only" />
             <Spacer size={8} />
-            {pill(label: "v1.0.0")}
+            <MishkaPill label="v1.0.0" />
             <Spacer size={8} />
-            {pill(label: "beta")}
+            <MishkaPill label="beta" />
           </Row>
           """
         end
@@ -82,16 +82,16 @@ defmodule MishkaMob.Showcase.Components.Pill do
         title: "Colour",
         description: "background and color are props.",
         code: ~S"""
-        {pill(label: "shipped", background: 0xFF7C3AED, color: 0xFFFFFFFF)}
+        <MishkaPill label="shipped" background={0xFF7C3AED} color={0xFFFFFFFF} />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Row fill_width={true}>
-            {pill(label: "shipped", background: 0xFF7C3AED, color: 0xFFFFFFFF, with_remove: true)}
+            <MishkaPill label="shipped" background={0xFF7C3AED} color={0xFFFFFFFF} with_remove={true} />
             <Spacer size={8} />
-            {pill(label: "failed", background: 0xFFDC2626, color: 0xFFFFFFFF)}
+            <MishkaPill label="failed" background={0xFFDC2626} color={0xFFFFFFFF} />
             <Spacer size={8} />
-            {pill(label: "queued", background: :primary, color: :on_primary)}
+            <MishkaPill label="queued" background={:primary} color={:on_primary} />
           </Row>
           """
         end
@@ -100,12 +100,12 @@ defmodule MishkaMob.Showcase.Components.Pill do
         title: "Disabled",
         description: "Muted, and neither the body nor the ✕ responds.",
         code: ~S"""
-        {pill(label: "locked", with_remove: true, disabled: true)}
+        <MishkaPill label="locked" with_remove={true} disabled={true} />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Row fill_width={true}>
-            {pill(label: "locked", with_remove: true, disabled: true, on_remove: :nope)}
+            <MishkaPill label="locked" with_remove={true} disabled={true} on_remove={:nope} />
           </Row>
           """
         end

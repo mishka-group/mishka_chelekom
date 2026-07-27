@@ -9,8 +9,6 @@ defmodule MishkaMob.Showcase.Components.Switch do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaSwitch, only: [switch: 1]
-  import MishkaMob.Components.MishkaSeparator, only: [separator: 0]
 
   alias MishkaMob.Showcase.Example
 
@@ -40,7 +38,7 @@ defmodule MishkaMob.Showcase.Components.Switch do
         title: "With a label",
         description: "The label leads; the switch sits at the trailing edge.",
         code: ~S"""
-        {switch(label: "Wi-Fi", checked: @wifi, on_change: :wifi_changed)}
+        <MishkaSwitch label="Wi-Fi" checked={@wifi} on_change={:wifi_changed} />
 
         def handle_info({:change, :wifi_changed, on?}, socket) do
           {:noreply, assign(socket, :wifi, on?)}
@@ -49,11 +47,11 @@ defmodule MishkaMob.Showcase.Components.Switch do
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {switch(label: "Wi-Fi", checked: @sw_wifi, on_change: :wifi)}
+            <MishkaSwitch label="Wi-Fi" checked={@sw_wifi} on_change={:wifi} />
             <Spacer size={4} />
-            {switch(label: "Bluetooth", checked: @sw_bluetooth, on_change: :bluetooth)}
+            <MishkaSwitch label="Bluetooth" checked={@sw_bluetooth} on_change={:bluetooth} />
             <Spacer size={12} />
-            {separator()}
+            <MishkaSeparator />
             <Spacer size={10} />
             <Text
               text={"Wi-Fi is " <> onoff(@sw_wifi) <> ", Bluetooth is " <> onoff(@sw_bluetooth)}
@@ -68,12 +66,17 @@ defmodule MishkaMob.Showcase.Components.Switch do
         title: "Custom colour",
         description: "Tint the thumb when the switch is on.",
         code: ~S"""
-        {switch(label: "Violet", checked: @on, color: 0xFF7C3AED, on_change: :tint)}
+        <MishkaSwitch label="Violet" checked={@on} color={0xFF7C3AED} on_change={:tint} />
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {switch(label: "Brand violet", checked: @sw_colored, color: 0xFF7C3AED, on_change: :colored)}
+            <MishkaSwitch
+              label="Brand violet"
+              checked={@sw_colored}
+              color={0xFF7C3AED}
+              on_change={:colored}
+            />
           </Column>
           """
         end
@@ -82,14 +85,14 @@ defmodule MishkaMob.Showcase.Components.Switch do
         title: "Disabled",
         description: "No handler is wired, so the control cannot move.",
         code: ~S"""
-        {switch(label: "Locked on", checked: true, disabled: true)}
+        <MishkaSwitch label="Locked on" checked={true} disabled={true} />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {switch(label: "Locked on", checked: true, disabled: true)}
+            <MishkaSwitch label="Locked on" checked={true} disabled={true} />
             <Spacer size={4} />
-            {switch(label: "Locked off", checked: false, disabled: true)}
+            <MishkaSwitch label="Locked off" checked={false} disabled={true} />
           </Column>
           """
         end
@@ -100,7 +103,7 @@ defmodule MishkaMob.Showcase.Components.Switch do
         code: ~S"""
         <Row>
           <Text text="Airplane mode" />
-          {switch(checked: @on, on_change: :airplane)}
+          <MishkaSwitch checked={@on} on_change={:airplane} />
         </Row>
         """,
         render: fn assigns ->
@@ -108,7 +111,7 @@ defmodule MishkaMob.Showcase.Components.Switch do
           <Row fill_width={true}>
             <Text text="Airplane mode" text_size={:lg} text_color={:on_surface} />
             <Spacer weight={1} />
-            {switch(checked: @sw_bluetooth, on_change: :bluetooth)}
+            <MishkaSwitch checked={@sw_bluetooth} on_change={:bluetooth} />
           </Row>
           """
         end

@@ -40,7 +40,7 @@ defmodule MishkaMob.Showcase.Components.Toast do
         description: "The viewport renders whatever list the screen holds.",
         code: ~S"""
         # in overlay/1
-        {toast(toasts: @toasts, on_dismiss: :drop)}
+        <MishkaToast toasts={@toasts} on_dismiss={:drop} />
 
         # in the handler
         Queue.push(@toasts, %{id: id, title: "Saved", variant: :success})
@@ -91,7 +91,7 @@ defmodule MishkaMob.Showcase.Components.Toast do
         title: "Position",
         description: "Stack against the top or the bottom edge.",
         code: ~S"""
-        {toast(toasts: @toasts, position: :top)}
+        <MishkaToast toasts={@toasts} position={:top} />
         """,
         render: fn _assigns ->
           ~MOB"""

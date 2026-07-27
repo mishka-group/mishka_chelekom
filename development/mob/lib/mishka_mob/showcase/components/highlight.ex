@@ -8,7 +8,6 @@ defmodule MishkaMob.Showcase.Components.Highlight do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaHighlight, only: [highlight: 1]
 
   alias MishkaMob.Showcase.Example
 
@@ -36,12 +35,12 @@ defmodule MishkaMob.Showcase.Components.Highlight do
         title: "Matching a query",
         description: "Case-insensitive; the match renders as it appears in the text.",
         code: ~S"""
-        {highlight(text: "Mishka Chelekom", highlight: @query)}
+        <MishkaHighlight text="Mishka Chelekom" highlight={@query} />
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {highlight(text: "Mishka Chelekom", highlight: @hl_query)}
+            <MishkaHighlight text="Mishka Chelekom" highlight={@hl_query} />
             <Spacer size={14} />
             <Row fill_width={true}>
               {query_buttons(@hl_query)}
@@ -54,14 +53,14 @@ defmodule MishkaMob.Showcase.Components.Highlight do
         title: "Several queries",
         description: "Pass a list to mark more than one substring.",
         code: ~S"""
-        {highlight(text: "one two three", highlight: ["one", "three"])}
+        <MishkaHighlight text="one two three" highlight={["one", "three"]} />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {highlight(text: "one two three", highlight: ["one", "three"])}
+            <MishkaHighlight text="one two three" highlight={["one", "three"]} />
             <Spacer size={10} />
-            {highlight(text: "BEAM on iOS and Android", highlight: ["iOS", "Android"])}
+            <MishkaHighlight text="BEAM on iOS and Android" highlight={["iOS", "Android"]} />
           </Column>
           """
         end
@@ -70,14 +69,14 @@ defmodule MishkaMob.Showcase.Components.Highlight do
         title: "No match, no marks",
         description: "An empty, nil or unmatched query leaves the text plain.",
         code: ~S"""
-        {highlight(text: "nothing to mark", highlight: "")}
+        <MishkaHighlight text="nothing to mark" highlight="" />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {highlight(text: "nothing to mark here", highlight: "")}
+            <MishkaHighlight text="nothing to mark here" highlight="" />
             <Spacer size={10} />
-            {highlight(text: "nothing to mark here", highlight: "zzz")}
+            <MishkaHighlight text="nothing to mark here" highlight="zzz" />
           </Column>
           """
         end
@@ -86,14 +85,14 @@ defmodule MishkaMob.Showcase.Components.Highlight do
         title: "Colours",
         description: "background and color tint the marks; text_color the rest.",
         code: ~S"""
-        {highlight(text: "…", highlight: "beam", background: 0xFFBBF7D0)}
+        <MishkaHighlight text="…" highlight="beam" background={0xFFBBF7D0} />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {highlight(text: "green on the BEAM", highlight: "beam", background: 0xFFBBF7D0)}
+            <MishkaHighlight text="green on the BEAM" highlight="beam" background={0xFFBBF7D0} />
             <Spacer size={10} />
-            {highlight(text: "violet on the BEAM", highlight: "beam", background: 0xFFDDD6FE)}
+            <MishkaHighlight text="violet on the BEAM" highlight="beam" background={0xFFDDD6FE} />
           </Column>
           """
         end

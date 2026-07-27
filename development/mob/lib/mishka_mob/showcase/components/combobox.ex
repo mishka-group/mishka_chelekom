@@ -7,7 +7,7 @@ defmodule MishkaMob.Showcase.Components.Combobox do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaCombobox, only: [combobox: 2, option: 2]
+  import MishkaMob.Components.MishkaCombobox, only: [option: 2]
 
   alias MishkaMob.Components.{MishkaCombobox, MishkaSelect}
   alias MishkaMob.Showcase.Example
@@ -48,20 +48,33 @@ defmodule MishkaMob.Showcase.Components.Combobox do
         title: "Filter and choose",
         description: "Type to narrow the list — matching ignores case AND accents.",
         code: ~S"""
-        {combobox([query: @query, value: @value, open: true, clear: true,
-                   on_query: :query, on_select: :pick, on_clear: :clear], options)}
+        <MishkaCombobox
+          query={@query}
+          value={@value}
+          open={true}
+          clear={true}
+          on_query={:query}
+          on_select={:pick}
+          on_clear={:clear}
+        >{options}</MishkaCombobox>
 
         MishkaCombobox.filter(pairs, query)   # "cafe" finds "Café"
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {combobox(
-               [query: @cb_query, value: @cb_value, open: true, clear: true,
-                placeholder: "Search countries…",
-                on_query: :cb_query, on_select: :cb_pick, on_clear: :cb_clear],
-               country_options()
-             )}
+            <MishkaCombobox
+              query={@cb_query}
+              value={@cb_value}
+              open={true}
+              clear={true}
+              placeholder="Search countries…"
+              on_query={:cb_query}
+              on_select={:cb_pick}
+              on_clear={:cb_clear}
+            >
+              {country_options()}
+            </MishkaCombobox>
             <Spacer size={10} />
             <Text text={chosen(@cb_value)} text_size={:sm} text_color={:muted} />
           </Column>
@@ -72,17 +85,22 @@ defmodule MishkaMob.Showcase.Components.Combobox do
         title: "Multiple",
         description: "Chosen options are ticked and the list stays open.",
         code: ~S"""
-        {combobox([multiple: true, value: @values, …], options)}
+        <MishkaCombobox multiple={true} value={@values} …>{options}</MishkaCombobox>
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {combobox(
-               [query: @cb_multi_query, value: @cb_multi, open: true, multiple: true,
-                placeholder: "Pick several…",
-                on_query: :cb_multi_query, on_select: :cb_multi_pick],
-               country_options()
-             )}
+            <MishkaCombobox
+              query={@cb_multi_query}
+              value={@cb_multi}
+              open={true}
+              multiple={true}
+              placeholder="Pick several…"
+              on_query={:cb_multi_query}
+              on_select={:cb_multi_pick}
+            >
+              {country_options()}
+            </MishkaCombobox>
           </Column>
           """
         end
@@ -91,13 +109,18 @@ defmodule MishkaMob.Showcase.Components.Combobox do
         title: "No matches",
         description: "An empty result says so rather than collapsing to nothing.",
         code: ~S"""
-        {combobox([query: "zzz", open: true, empty_text: "Nothing found"], options)}
+        <MishkaCombobox
+          query="zzz"
+          open={true}
+          empty_text="Nothing found"
+        >{options}</MishkaCombobox>
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {combobox([query: "zzz", open: true, empty_text: "No country matches that."],
-                      country_options())}
+            <MishkaCombobox query="zzz" open={true} empty_text="No country matches that.">
+              {country_options()}
+            </MishkaCombobox>
           </Column>
           """
         end
@@ -106,13 +129,14 @@ defmodule MishkaMob.Showcase.Components.Combobox do
         title: "starts_with",
         description: "The other filter mode the web component names.",
         code: ~S"""
-        {combobox([filter: :starts_with, query: "u", open: true], options)}
+        <MishkaCombobox filter={:starts_with} query="u" open={true}>{options}</MishkaCombobox>
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {combobox([filter: :starts_with, query: "u", open: true,
-                       placeholder: "starts_with \"u\""], country_options())}
+            <MishkaCombobox filter={:starts_with} query="u" open={true} placeholder={"starts_with \"u\""}>
+              {country_options()}
+            </MishkaCombobox>
           </Column>
           """
         end

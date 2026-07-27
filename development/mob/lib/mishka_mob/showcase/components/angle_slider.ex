@@ -3,7 +3,6 @@ defmodule MishkaMob.Showcase.Components.AngleSlider do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaAngleSlider, only: [angle_slider: 1]
 
   alias MishkaMob.Components.{MishkaAngleSlider, MishkaSlider}
   alias MishkaMob.Showcase.Example
@@ -35,12 +34,12 @@ defmodule MishkaMob.Showcase.Components.AngleSlider do
           "Ring, arc and handle are drawn on a canvas. The slider turns it, because Mob " <>
             "delivers no pointer coordinates to hit-test the ring with.",
         code: ~S"""
-        {angle_slider(value: @angle, on_change: :angle)}
+        <MishkaAngleSlider value={@angle} on_change={:angle} />
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {angle_slider(value: @angle, label: "Direction", on_change: :angle)}
+            <MishkaAngleSlider value={@angle} label="Direction" on_change={:angle} />
           </Column>
           """
         end
@@ -55,7 +54,7 @@ defmodule MishkaMob.Showcase.Components.AngleSlider do
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {angle_slider(value: @snapped, size: 130, color: 0xFF16A34A, on_change: :snapped)}
+            <MishkaAngleSlider value={@snapped} size={130} color={0xFF16A34A} on_change={:snapped} />
           </Column>
           """
         end

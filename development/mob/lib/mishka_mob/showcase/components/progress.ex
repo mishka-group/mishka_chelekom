@@ -9,7 +9,6 @@ defmodule MishkaMob.Showcase.Components.Progress do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaProgress, only: [progress: 0, progress: 1]
 
   alias MishkaMob.Showcase.Example
 
@@ -34,15 +33,15 @@ defmodule MishkaMob.Showcase.Components.Progress do
         title: "Determinate",
         description: "A value inside [min, max]. Tap to move it.",
         code: ~S"""
-        {progress(value: @value)}
-        {progress(value: @value, label: "Uploading", show_value: true)}
+        <MishkaProgress value={@value} />
+        <MishkaProgress value={@value} label="Uploading" show_value={true} />
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {progress(value: @pg_value)}
+            <MishkaProgress value={@pg_value} />
             <Spacer size={16} />
-            {progress(value: @pg_value, label: "Uploading", show_value: true)}
+            <MishkaProgress value={@pg_value} label="Uploading" show_value={true} />
             <Spacer size={14} />
             <Row fill_width={true}>
               <Button
@@ -71,14 +70,14 @@ defmodule MishkaMob.Showcase.Components.Progress do
         title: "Indeterminate",
         description: "Omit value when the total is unknown — the bar animates itself.",
         code: ~S"""
-        {progress()}
+        <MishkaProgress />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {progress()}
+            <MishkaProgress />
             <Spacer size={16} />
-            {progress(label: "Connecting…")}
+            <MishkaProgress label="Connecting…" />
           </Column>
           """
         end
@@ -87,14 +86,14 @@ defmodule MishkaMob.Showcase.Components.Progress do
         title: "Custom range and readout",
         description: "min/max map any scale onto the bar; value_text overrides the percentage.",
         code: ~S"""
-        {progress(value: 3, max: 5, label: "Step", value_text: "3 of 5", show_value: true)}
+        <MishkaProgress value={3} max={5} label="Step" value_text="3 of 5" show_value={true} />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {progress(value: 3, max: 5, label: "Step", value_text: "3 of 5", show_value: true)}
+            <MishkaProgress value={3} max={5} label="Step" value_text="3 of 5" show_value={true} />
             <Spacer size={16} />
-            {progress(value: 7, min: 5, max: 10, label: "Rating", show_value: true)}
+            <MishkaProgress value={7} min={5} max={10} label="Rating" show_value={true} />
           </Column>
           """
         end
@@ -103,14 +102,14 @@ defmodule MishkaMob.Showcase.Components.Progress do
         title: "Colour",
         description: "Tint the indicator.",
         code: ~S"""
-        {progress(value: 65, color: 0xFF7C3AED)}
+        <MishkaProgress value={65} color={0xFF7C3AED} />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {progress(value: 65, color: 0xFF7C3AED, show_value: true)}
+            <MishkaProgress value={65} color={0xFF7C3AED} show_value={true} />
             <Spacer size={16} />
-            {progress(value: 30, color: :primary, show_value: true)}
+            <MishkaProgress value={30} color={:primary} show_value={true} />
           </Column>
           """
         end

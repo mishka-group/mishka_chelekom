@@ -5,7 +5,7 @@ defmodule MishkaMob.Showcase.Components.RadioGroup do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaRadioGroup, only: [radio_group: 2, option: 2, option: 3]
+  import MishkaMob.Components.MishkaRadioGroup, only: [option: 2, option: 3]
 
   alias MishkaMob.Showcase.Example
 
@@ -34,11 +34,15 @@ defmodule MishkaMob.Showcase.Components.RadioGroup do
         title: "A labelled group",
         description: "One handler serves every option — the tag carries the id.",
         code: ~S"""
-        {radio_group([label: "Plan", value: @plan, on_change: :plan], [
+        <MishkaRadioGroup
+          label="Plan"
+          value={@plan}
+          on_change={:plan}
+        >{[
           option(:free, "Free"),
           option(:pro, "Pro"),
           option(:team, "Team")
-        ])}
+        ]}</MishkaRadioGroup>
 
         def handle_info({:tap, {:plan, id}}, socket) do
           {:noreply, assign(socket, :plan, MishkaRadioGroup.select(socket.assigns.plan, id))}
@@ -47,11 +51,13 @@ defmodule MishkaMob.Showcase.Components.RadioGroup do
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {radio_group([label: "PLAN", value: @rg_plan, on_change: :rg_plan], [
+            <MishkaRadioGroup label="PLAN" value={@rg_plan} on_change={:rg_plan}>
+              {[
               option(:free, "Free"),
               option(:pro, "Pro"),
               option(:team, "Team — 5 seats")
-            ])}
+            ]}
+            </MishkaRadioGroup>
           </Column>
           """
         end
@@ -60,17 +66,28 @@ defmodule MishkaMob.Showcase.Components.RadioGroup do
         title: "Horizontal",
         description: "orientation: :horizontal lays the options in a row.",
         code: ~S"""
-        {radio_group([value: @size, orientation: :horizontal, on_change: :size], opts)}
+        <MishkaRadioGroup
+          value={@size}
+          orientation={:horizontal}
+          on_change={:size}
+        >{opts}</MishkaRadioGroup>
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {radio_group([label: "SIZE", value: @rg_size, orientation: :horizontal,
-                          space: 18, on_change: :rg_size], [
+            <MishkaRadioGroup
+              label="SIZE"
+              value={@rg_size}
+              orientation={:horizontal}
+              space={18}
+              on_change={:rg_size}
+            >
+              {[
               option(:s, "S"),
               option(:m, "M"),
               option(:l, "L")
-            ])}
+            ]}
+            </MishkaRadioGroup>
           </Column>
           """
         end
@@ -80,20 +97,24 @@ defmodule MishkaMob.Showcase.Components.RadioGroup do
         description: "An option can be disabled on its own, or the whole group at once.",
         code: ~S"""
         option(:team, "Team", disabled: true)
-        {radio_group([disabled: true, value: @plan], opts)}
+        <MishkaRadioGroup disabled={true} value={@plan}>{opts}</MishkaRadioGroup>
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {radio_group([label: "ONE OPTION OFF", value: @rg_plan, on_change: :rg_plan], [
+            <MishkaRadioGroup label="ONE OPTION OFF" value={@rg_plan} on_change={:rg_plan}>
+              {[
               option(:free, "Free"),
               option(:team, "Team (unavailable)", disabled: true)
-            ])}
+            ]}
+            </MishkaRadioGroup>
             <Spacer size={16} />
-            {radio_group([label: "WHOLE GROUP OFF", value: @rg_plan, disabled: true], [
+            <MishkaRadioGroup label="WHOLE GROUP OFF" value={@rg_plan} disabled={true}>
+              {[
               option(:free, "Free"),
               option(:pro, "Pro")
-            ])}
+            ]}
+            </MishkaRadioGroup>
           </Column>
           """
         end
@@ -102,15 +123,17 @@ defmodule MishkaMob.Showcase.Components.RadioGroup do
         title: "Colour and size",
         description: "Passed through to every option.",
         code: ~S"""
-        {radio_group([value: @plan, color: 0xFF7C3AED, size: 26], opts)}
+        <MishkaRadioGroup value={@plan} color={0xFF7C3AED} size={26}>{opts}</MishkaRadioGroup>
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {radio_group([value: @rg_plan, color: 0xFF7C3AED, size: 26, on_change: :rg_plan], [
+            <MishkaRadioGroup value={@rg_plan} color={0xFF7C3AED} size={26} on_change={:rg_plan}>
+              {[
               option(:free, "Free"),
               option(:pro, "Pro")
-            ])}
+            ]}
+            </MishkaRadioGroup>
           </Column>
           """
         end

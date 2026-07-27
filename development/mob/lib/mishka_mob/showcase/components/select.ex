@@ -5,7 +5,7 @@ defmodule MishkaMob.Showcase.Components.Select do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaSelect, only: [select: 2, option: 2, option: 3]
+  import MishkaMob.Components.MishkaSelect, only: [option: 2, option: 3]
 
   alias MishkaMob.Components.MishkaSelect
   alias MishkaMob.Showcase.Example
@@ -44,22 +44,31 @@ defmodule MishkaMob.Showcase.Components.Select do
         title: "Single choice",
         description: "Picking replaces the value and closes the list.",
         code: ~S"""
-        {select([value: @country, open: @open?, on_toggle: :open, on_select: :pick], [
+        <MishkaSelect
+          value={@country}
+          open={@open?}
+          on_toggle={:open}
+          on_select={:pick}
+        >{[
           option(:uk, "United Kingdom"),
           option(:ir, "Iran")
-        ])}
+        ]}</MishkaSelect>
 
         {value, close?} = MishkaSelect.toggle(@country, id, false)
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {select(
-               [label: "COUNTRY", value: @sel_country, open: @sel_open,
-                placeholder: "Choose a country…",
-                on_toggle: :sel_open, on_select: :sel_pick],
-               country_options()
-             )}
+            <MishkaSelect
+              label="COUNTRY"
+              value={@sel_country}
+              open={@sel_open}
+              placeholder="Choose a country…"
+              on_toggle={:sel_open}
+              on_select={:sel_pick}
+            >
+              {country_options()}
+            </MishkaSelect>
           </Column>
           """
         end
@@ -68,19 +77,24 @@ defmodule MishkaMob.Showcase.Components.Select do
         title: "Multiple",
         description: "Picking accumulates and the list stays open — a chosen option is ticked.",
         code: ~S"""
-        {select([value: @langs, multiple: true, open: @open?, …], options)}
+        <MishkaSelect value={@langs} multiple={true} open={@open?} …>{options}</MishkaSelect>
 
         {value, close?} = MishkaSelect.toggle(@langs, id, true)
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {select(
-               [label: "LANGUAGES", value: @sel_langs, open: @sel_multi_open, multiple: true,
-                placeholder: "Choose any…",
-                on_toggle: :sel_multi_open, on_select: :sel_multi_pick],
-               lang_options()
-             )}
+            <MishkaSelect
+              label="LANGUAGES"
+              value={@sel_langs}
+              open={@sel_multi_open}
+              multiple={true}
+              placeholder="Choose any…"
+              on_toggle={:sel_multi_open}
+              on_select={:sel_multi_pick}
+            >
+              {lang_options()}
+            </MishkaSelect>
           </Column>
           """
         end
@@ -89,12 +103,14 @@ defmodule MishkaMob.Showcase.Components.Select do
         title: "Disabled",
         description: "The trigger is muted and cannot open.",
         code: ~S"""
-        {select([value: :uk, disabled: true], options)}
+        <MishkaSelect value={:uk} disabled={true}>{options}</MishkaSelect>
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {select([label: "LOCKED", value: :uk, disabled: true], country_options())}
+            <MishkaSelect label="LOCKED" value={:uk} disabled={true}>
+              {country_options()}
+            </MishkaSelect>
           </Column>
           """
         end

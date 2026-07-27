@@ -5,7 +5,6 @@ defmodule MishkaMob.Showcase.Components.ScrollArea do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaScrollArea, only: [scroll_area: 2]
 
   alias MishkaMob.Showcase.Example
 
@@ -27,16 +26,19 @@ defmodule MishkaMob.Showcase.Components.ScrollArea do
         title: "Vertical",
         description: "height bounds the viewport — without it, nothing scrolls.",
         code: ~S"""
-        {scroll_area([height: 200, background: :surface_raised], rows())}
+        <MishkaScrollArea height={200} background={:surface_raised}>{rows()}</MishkaScrollArea>
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {scroll_area(
-               [height: 200, background: :surface_raised, corner_radius: :radius_md,
-                padding: :space_md],
-               rows(12)
-             )}
+            <MishkaScrollArea
+              height={200}
+              background={:surface_raised}
+              corner_radius={:radius_md}
+              padding={:space_md}
+            >
+              {rows(12)}
+            </MishkaScrollArea>
           </Column>
           """
         end
@@ -45,16 +47,19 @@ defmodule MishkaMob.Showcase.Components.ScrollArea do
         title: "Horizontal",
         description: "orientation: :horizontal scrolls a wide row.",
         code: ~S"""
-        {scroll_area([orientation: :horizontal], wide_row())}
+        <MishkaScrollArea orientation={:horizontal}>{wide_row()}</MishkaScrollArea>
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {scroll_area(
-               [orientation: :horizontal, background: :surface_raised,
-                corner_radius: :radius_md, padding: :space_md],
-               [wide_row()]
-             )}
+            <MishkaScrollArea
+              orientation={:horizontal}
+              background={:surface_raised}
+              corner_radius={:radius_md}
+              padding={:space_md}
+            >
+              {[wide_row()]}
+            </MishkaScrollArea>
           </Column>
           """
         end
@@ -63,7 +68,7 @@ defmodule MishkaMob.Showcase.Components.ScrollArea do
         title: "Undecorated",
         description: "With no height or styling it is a single Scroll node.",
         code: ~S"""
-        {scroll_area([], content)}
+        <MishkaScrollArea>{content}</MishkaScrollArea>
         """,
         render: fn _assigns ->
           ~MOB"""
@@ -74,7 +79,9 @@ defmodule MishkaMob.Showcase.Components.ScrollArea do
             corner_radius={:radius_md}
             padding={:space_md}
           >
-            {scroll_area([], rows(8))}
+            <MishkaScrollArea>
+              {rows(8)}
+            </MishkaScrollArea>
           </Box>
           """
         end

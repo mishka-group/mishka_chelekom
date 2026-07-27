@@ -5,7 +5,6 @@ defmodule MishkaMob.Showcase.Components.NumberField do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaNumberField, only: [number_field: 1]
 
   alias MishkaMob.Components.MishkaNumberField
   alias MishkaMob.Showcase.Example
@@ -35,7 +34,7 @@ defmodule MishkaMob.Showcase.Components.NumberField do
         title: "Whole numbers",
         description: "A numeric keypad, and steppers that clamp into the range.",
         code: ~S"""
-        {number_field(value: @qty, min: 1, max: 10, on_change: :qty, on_step: :qty_step)}
+        <MishkaNumberField value={@qty} min={1} max={10} on_change={:qty} on_step={:qty_step} />
 
         def handle_info({:tap, {:qty_step, dir}}, socket) do
           {:noreply, assign(socket, :qty, MishkaNumberField.step(socket.assigns.qty, dir, min: 1, max: 10))}
@@ -44,7 +43,13 @@ defmodule MishkaMob.Showcase.Components.NumberField do
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {number_field(value: @nf_qty, min: 1, max: 10, on_change: :nf_qty, on_step: :nf_qty_step)}
+            <MishkaNumberField
+              value={@nf_qty}
+              min={1}
+              max={10}
+              on_change={:nf_qty}
+              on_step={:nf_qty_step}
+            />
             <Spacer size={10} />
             <Text
               text={"Quantity: " <> inspect(@nf_qty) <> " (1–10)"}
@@ -59,13 +64,19 @@ defmodule MishkaMob.Showcase.Components.NumberField do
         title: "Decimal steps",
         description: "step: 0.1 switches the keypad to decimal and keeps the precision clean.",
         code: ~S"""
-        {number_field(value: @rate, step: 0.1, min: 0, max: 1)}
+        <MishkaNumberField value={@rate} step={0.1} min={0} max={1} />
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {number_field(value: @nf_rate, step: 0.1, min: 0, max: 1,
-                          on_change: :nf_rate, on_step: :nf_rate_step)}
+            <MishkaNumberField
+              value={@nf_rate}
+              step={0.1}
+              min={0}
+              max={1}
+              on_change={:nf_rate}
+              on_step={:nf_rate_step}
+            />
             <Spacer size={10} />
             <Text
               text={"Rate: " <> inspect(@nf_rate) <> " — 0.3 + 0.1 is 0.4, not 0.4000000000000001"}
@@ -80,14 +91,14 @@ defmodule MishkaMob.Showcase.Components.NumberField do
         title: "Empty and disabled",
         description: "Tapping + on an empty field lands ON min, not a step past it.",
         code: ~S"""
-        {number_field(value: nil, min: 5, placeholder: "How many?")}
+        <MishkaNumberField value={nil} min={5} placeholder="How many?" />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {number_field(value: nil, min: 5, placeholder: "How many?")}
+            <MishkaNumberField value={nil} min={5} placeholder="How many?" />
             <Spacer size={12} />
-            {number_field(value: 3, disabled: true)}
+            <MishkaNumberField value={3} disabled={true} />
           </Column>
           """
         end

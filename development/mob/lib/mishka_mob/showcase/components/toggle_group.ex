@@ -5,7 +5,7 @@ defmodule MishkaMob.Showcase.Components.ToggleGroup do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaToggleGroup, only: [toggle_group: 2, item: 2, item: 3]
+  import MishkaMob.Components.MishkaToggleGroup, only: [item: 2, item: 3]
 
   alias MishkaMob.Components.MishkaToggleGroup
   alias MishkaMob.Showcase.Example
@@ -35,20 +35,25 @@ defmodule MishkaMob.Showcase.Components.ToggleGroup do
         title: "Single",
         description: "Pressing the pressed button clears the group — unlike a radio group.",
         code: ~S"""
-        {toggle_group([value: @align, on_change: :align], [
+        <MishkaToggleGroup
+          value={@align}
+          on_change={:align}
+        >{[
           item(:left, "Left"), item(:center, "Center"), item(:right, "Right")
-        ])}
+        ]}</MishkaToggleGroup>
 
         MishkaToggleGroup.press(@align, id, false)
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {toggle_group([value: @tgg_align, on_change: :tgg_align], [
+            <MishkaToggleGroup value={@tgg_align} on_change={:tgg_align}>
+              {[
               item(:left, " Left "),
               item(:center, " Center "),
               item(:right, " Right ")
-            ])}
+            ]}
+            </MishkaToggleGroup>
             <Spacer size={12} />
             <Text text={"Value: " <> inspect(@tgg_align)} text_size={:sm} text_color={:muted} />
           </Column>
@@ -59,16 +64,22 @@ defmodule MishkaMob.Showcase.Components.ToggleGroup do
         title: "Multiple",
         description: "multiple: true makes the value a set.",
         code: ~S"""
-        {toggle_group([value: @style, multiple: true, on_change: :style], items)}
+        <MishkaToggleGroup
+          value={@style}
+          multiple={true}
+          on_change={:style}
+        >{items}</MishkaToggleGroup>
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {toggle_group([value: @tgg_style, multiple: true, on_change: :tgg_style], [
+            <MishkaToggleGroup value={@tgg_style} multiple={true} on_change={:tgg_style}>
+              {[
               item(:bold, "  B  "),
               item(:italic, "  I  "),
               item(:under, "  U  ")
-            ])}
+            ]}
+            </MishkaToggleGroup>
             <Spacer size={12} />
             <Text text={"Value: " <> inspect(@tgg_style)} text_size={:sm} text_color={:muted} />
           </Column>
@@ -79,21 +90,25 @@ defmodule MishkaMob.Showcase.Components.ToggleGroup do
         title: "Vertical and disabled",
         description: "orientation stacks them; an item or the group can be disabled.",
         code: ~S"""
-        {toggle_group([orientation: :vertical, value: @align], items)}
+        <MishkaToggleGroup orientation={:vertical} value={@align}>{items}</MishkaToggleGroup>
         item(:right, "Right", disabled: true)
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            {toggle_group([value: @tgg_align, orientation: :vertical, on_change: :tgg_align], [
+            <MishkaToggleGroup value={@tgg_align} orientation={:vertical} on_change={:tgg_align}>
+              {[
               item(:left, " Left "),
               item(:right, " Right (off) ", disabled: true)
-            ])}
+            ]}
+            </MishkaToggleGroup>
             <Spacer size={16} />
-            {toggle_group([value: @tgg_align, disabled: true], [
+            <MishkaToggleGroup value={@tgg_align} disabled={true}>
+              {[
               item(:left, " Whole "),
               item(:center, " group off ")
-            ])}
+            ]}
+            </MishkaToggleGroup>
           </Column>
           """
         end
