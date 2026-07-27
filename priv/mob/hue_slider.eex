@@ -56,11 +56,13 @@ defmodule <%= @module %> do
     width = Map.get(props, :width, @width)
     height = Map.get(props, :height, @height)
 
-    strip = Mob.UI.canvas(width: width, height: height, draw: spectrum(width, height, hue))
-
-    control =
-      ~MOB(<Slider min={0} max={360} value={hue} />)
-      |> put(:on_change, Event.handler(Map.get(props, :on_change)))
+    strip =
+      canvas_node(
+        width,
+        height,
+        spectrum(width, height, hue),
+        Event.handler(Map.get(props, :on_change))
+      )
 
     head = header(props, hue)
 
@@ -68,9 +70,38 @@ defmodule <%= @module %> do
     <Column fill_width={true}>
       {head}
       {strip}
-      {control}
     </Column>
     """
+  end
+
+  @doc """
+  The hue a touch at `x` selects, `x` in canvas units from the strip's left edge.
+
+  The inverse of the marker, so finger and marker cannot separate.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>HueSlider.hue_at(150, 300)
+      180.0
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>HueSlider.hue_at(300, 300)
+      360.0
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>HueSlider.hue_at(-40, 300)
+      0.0
+  """
+  @spec hue_at(number(), number()) :: float()
+  def hue_at(x, width \\ @width)
+  def hue_at(_x, width) when not is_number(width) or width <= 0, do: 0.0
+  def hue_at(x, width), do: Color.clamp(x, 0, width) / width * 360
+
+  # Mob.UI.canvas/1 is Map.take(props, [:width, :height, :draw]) — it silently
+  # drops any handler, which is exactly the "renders perfectly and does nothing"
+  # failure Event warns about. Built literally so on_drag survives to the
+  # renderer, which registers it like any other handler.
+  defp canvas_node(width, height, ops, handler) do
+    props = %{width: width, height: height, draw: ops}
+    props = if handler, do: Map.put(props, :on_drag, handler), else: props
+
+    %{type: :canvas, props: props, children: []}
   end
 
   @doc """
@@ -150,9 +181,6 @@ defmodule <%= @module %> do
     </Row>
     """
   end
-
-  defp put(node, _key, nil), do: node
-  defp put(node, key, value), do: %{node | props: Map.put(node.props, key, value)}
 
   defp truthy?(nil), do: false
   defp truthy?(false), do: false

@@ -39,6 +39,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size as ComposeSize
 import androidx.compose.ui.graphics.Path
@@ -681,6 +684,12 @@ object MobBridge {
     @JvmStatic external fun nativeSendFocus(handle: Int)
     @JvmStatic external fun nativeSendBlur(handle: Int)
     @JvmStatic external fun nativeSendSubmit(handle: Int)
+
+    /** Routes a positioned drag on a canvas back to the BEAM. Mirrors what iOS
+     *  MobCanvasView already does; both land on mob_send_drag, so both produce
+     *  {:drag, tag, %{x:, y:, dx:, dy:, phase:}}. */
+    @JvmStatic
+    external fun nativeSendDrag(handle: Int, x: Float, y: Float, dx: Float, dy: Float, phase: String)
 
     /** Called from BackHandler in MainActivity when the system back gesture fires. */
     @JvmStatic external fun nativeHandleBack()
@@ -2904,6 +2913,71 @@ private fun MobWebView(node: MobNode, modifier: Modifier) {
 // Renders the node.props["draw"] list via Compose Canvas. Each op is a
 // Map<String, Any?> with an "op" key plus op-specific fields, pre-resolved
 // by the Elixir renderer (color tokens already converted to ARGB integers).
+// A drawn control can only be the control if the touch carries a position.
+// Mob's tap path (Modifier.clickable) reports none, which is why the hue strip,
+// alpha strip and angle dial each had to park a native <Slider> underneath to do
+// the actual driving.
+//
+// on_drag closes that using the event the framework already defines —
+// mob_send_drag -> {:drag, tag, %{x:, y:, dx:, dy:, phase:}} — which iOS has
+// emitted from MobCanvasView since 0.7. This is the Android half, matched to it
+// sample for sample.
+//
+// Deliberately not Modifier.draggable: draggable waits for touch slop, so a
+// plain tap on the strip would never move anything, and tapping the colour you
+// want is the whole point. awaitFirstDown fires on touch-down, which is also
+// what iOS's DragGesture(minimumDistance: 0) does.
+@Composable
+private fun canvasDragModifier(node: MobNode, declaredW: Float, declaredH: Float): Modifier {
+    val handle = intProp(node.props, "on_drag") ?: return Modifier
+
+    return Modifier.pointerInput(handle) {
+        awaitEachGesture {
+            // requireUnconsumed = false: an enclosing <Scroll> has already seen
+            // this down, and that must not stop the strip responding to it.
+            val down = awaitFirstDown(requireUnconsumed = false)
+
+            val wPx = size.width.toFloat()
+            val hPx = size.height.toFloat()
+            if (wPx <= 0f || hPx <= 0f) return@awaitEachGesture
+
+            // px -> canvas logical units. MobCanvas scales its ops by
+            // measured/declared, so dividing the touch by the SAME ratio puts the
+            // finger in exactly the space the ops were authored in. Comparing a
+            // pixel position against the dp `width` prop is the thing that must
+            // never happen here.
+            val ux = if (declaredW > 0f) declaredW / wPx else 1f
+            val uy = if (declaredH > 0f) declaredH / hPx else 1f
+
+            var last = down.position
+            MobBridge.nativeSendDrag(handle, down.position.x * ux, down.position.y * uy, 0f, 0f, "began")
+            down.consume()
+
+            var dragging = true
+            while (dragging) {
+                val event = awaitPointerEvent()
+                val change = event.changes.firstOrNull { it.id == down.id } ?: break
+
+                if (change.pressed) {
+                    val d = change.position - last
+                    last = change.position
+                    MobBridge.nativeSendDrag(
+                        handle, change.position.x * ux, change.position.y * uy,
+                        d.x * ux, d.y * uy, "dragging"
+                    )
+                    change.consume()
+                } else {
+                    MobBridge.nativeSendDrag(
+                        handle, change.position.x * ux, change.position.y * uy, 0f, 0f, "ended"
+                    )
+                    change.consume()
+                    dragging = false
+                }
+            }
+        }
+    }
+}
+
 @Composable
 private fun MobCanvas(node: MobNode, modifier: Modifier) {
     val width = floatProp(node.props, "width") ?: 0f
@@ -2919,7 +2993,7 @@ private fun MobCanvas(node: MobNode, modifier: Modifier) {
         modifier.size(width.dp, height.dp)
     } else {
         modifier
-    }
+    }.then(canvasDragModifier(node, width, height))
 
     Canvas(modifier = sized) {
         // Mob.Canvas coordinates are canvas-LOCAL logical units: an op at

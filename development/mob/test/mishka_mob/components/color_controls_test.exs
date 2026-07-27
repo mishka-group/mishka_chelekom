@@ -75,19 +75,31 @@ defmodule MishkaMob.Components.ColorControlsTest do
       assert MishkaAngleSlider.angle_slider(value: 360) |> ops_of(:arc) != []
     end
 
-    test "the slider spans the full wheel and reports changes" do
-      slider = MishkaHueSlider.hue_slider(value: 90, on_change: :hue) |> find(:slider)
+    test "the strip itself is the control — no separate slider under it" do
+      tree = MishkaHueSlider.hue_slider(value: 90, on_change: :hue)
+      strip = find(tree, :canvas)
 
-      assert slider.props.min == 0
-      assert slider.props.max == 360
-      assert slider.props.value == 90.0
-      assert slider.props.on_change == {self(), :hue}
+      # on_drag, not on_change: a drawn control needs the touch POSITION, and
+      # {:change, tag, value} carries none. The whole reason a native Slider used
+      # to sit underneath was that this handler had nowhere to come from.
+      assert strip.props.on_drag == {self(), :hue}
+      refute find(tree, :slider)
+    end
+
+    test "hue_at is the inverse of the marker, so finger and marker agree" do
+      for x <- [0, 75, 150, 225, 300] do
+        hue = MishkaHueSlider.hue_at(x, 300)
+        [marker | _] = MishkaHueSlider.hue_slider(value: hue, width: 300) |> ops_of(:line)
+
+        assert_in_delta marker.x1, x, 1.6
+      end
     end
 
     test "hues past 360 wrap rather than pinning the marker" do
-      wrapped = MishkaHueSlider.hue_slider(value: 380) |> find(:slider)
+      [wrapped | _] = MishkaHueSlider.hue_slider(value: 380, width: 300) |> ops_of(:line)
+      [at_20 | _] = MishkaHueSlider.hue_slider(value: 20, width: 300) |> ops_of(:line)
 
-      assert wrapped.props.value == 20.0
+      assert wrapped.x1 == at_20.x1
     end
 
     test "the header appears only when asked for" do
@@ -229,13 +241,21 @@ defmodule MishkaMob.Components.ColorControlsTest do
       assert cross.(50, 90).y < cross.(50, 10).y
     end
 
-    test "there is a slider per axis, because a 2D drag is not available" do
-      tree =
-        MishkaColorPicker.color_picker(on_hue: :h, on_saturation: :s, on_value: :v)
+    test "hue is dragged on its strip; saturation and value still need sliders" do
+      tree = MishkaColorPicker.color_picker(on_hue: :h, on_saturation: :s, on_value: :v)
 
-      tags = tree |> find_all(:slider) |> Enum.map(& &1.props[:on_change])
+      # The hue strip is 1-D, so a touch position maps straight to a value. The
+      # saturation/value square is 2-D and one gesture cannot emit two events,
+      # so those two keep their sliders until that is worth an API break.
+      # find/2 would return the saturation/value square — it is drawn first and
+      # carries no handler. The hue strip is the canvas that has one.
+      assert tree
+             |> find_all(:canvas)
+             |> Enum.map(& &1.props[:on_drag])
+             |> Enum.reject(&is_nil/1) == [{self(), :h}]
 
-      assert tags == [{self(), :h}, {self(), :s}, {self(), :v}]
+      assert tree |> find_all(:slider) |> Enum.map(& &1.props[:on_change]) ==
+               [{self(), :s}, {self(), :v}]
     end
 
     test "the preview reports the colour and stays legible over it" do

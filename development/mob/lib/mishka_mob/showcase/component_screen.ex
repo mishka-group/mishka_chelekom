@@ -124,6 +124,17 @@ defmodule MishkaMob.Showcase.ComponentScreen do
     end
   end
 
+  # A positioned drag on a canvas. Routed through handle_change/3 rather than a
+  # callback of its own: the payload is only meaningful once a component turns a
+  # coordinate into its own value (hue_at/2, alpha_at/2), so the page that knows
+  # the geometry is the page that should convert it.
+  def handle_info({:drag, tag, payload}, socket) do
+    case socket.assigns.entry do
+      nil -> {:noreply, socket}
+      entry -> {:noreply, entry.module.handle_change(tag, payload, socket)}
+    end
+  end
+
   def handle_info(_message, socket), do: {:noreply, socket}
 
   defp route(socket, tag) do

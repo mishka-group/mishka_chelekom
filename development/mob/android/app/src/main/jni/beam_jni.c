@@ -82,6 +82,24 @@ Java_com_example_mishka_1mob_MobBridge_nativeSendChangeFloat(JNIEnv* env, jclass
     mob_send_change_float((int)handle, (double)value);
 }
 
+// Called from MobCanvas's drag gesture when a finger lands on, moves across, or
+// leaves a canvas carrying on_drag. x/y/dx/dy arrive already converted to canvas
+// LOGICAL units (the same space the draw ops are authored in) — the C layer does
+// no unit work. phase is "began" | "dragging" | "ended".
+//
+// This is the Android half of a path the framework already had: mob_send_drag
+// builds {:drag, tag, %{x:, y:, dx:, dy:, phase:}}, and iOS has emitted it from
+// MobCanvasView since 0.7. Only this side was missing, which is why every drawn
+// control had to park a native Slider underneath to be operable.
+JNIEXPORT void JNICALL
+Java_com_example_mishka_1mob_MobBridge_nativeSendDrag(JNIEnv* env, jclass cls, jint handle,
+    jfloat x, jfloat y, jfloat dx, jfloat dy, jstring phase) {
+    const char* utf8 = phase ? (*env)->GetStringUTFChars(env, phase, NULL) : NULL;
+    mob_send_drag((int)handle, (double)x, (double)y, (double)dx, (double)dy,
+        utf8 ? utf8 : "dragging");
+    if (utf8) (*env)->ReleaseStringUTFChars(env, phase, utf8);
+}
+
 JNIEXPORT void JNICALL
 Java_com_example_mishka_1mob_MobBridge_nativeSendFocus(JNIEnv* env, jclass cls, jint handle) {
     mob_send_focus((int)handle);

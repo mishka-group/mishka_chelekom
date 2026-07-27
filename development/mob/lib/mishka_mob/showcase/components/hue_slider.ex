@@ -83,7 +83,15 @@ defmodule MishkaMob.Showcase.Components.HueSlider do
   end
 
   @impl true
-  def handle_change(:hue, value, socket), do: Mob.Socket.assign(socket, :hue, value)
+  # The strip IS the control now, so what arrives is a touch position in canvas
+  # units, not a number. hue_at/2 is the inverse of the marker, so the colour
+  # under the finger is the colour selected.
+  def handle_change(:hue, %{x: x}, socket),
+    do: Mob.Socket.assign(socket, :hue, MishkaHueSlider.hue_at(x))
+
+  def handle_change(:hue, value, socket) when is_number(value),
+    do: Mob.Socket.assign(socket, :hue, value)
+
   def handle_change(_tag, _value, socket), do: socket
 
   @impl true
