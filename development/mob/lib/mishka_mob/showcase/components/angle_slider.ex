@@ -31,10 +31,19 @@ defmodule MishkaMob.Showcase.Components.AngleSlider do
       %Example{
         title: "A real dial",
         description:
-          "Ring, arc and handle are drawn on a canvas. The slider turns it, because Mob " <>
-            "delivers no pointer coordinates to hit-test the ring with.",
+          "Ring, arc and handle are drawn on a canvas — and dragged directly. Touch " <>
+            "anywhere on the ring and the knob follows your finger.",
         code: ~S"""
         <MishkaAngleSlider value={@angle} on_change={:angle} />
+
+        # The ring is the control, so the event carries a touch POSITION.
+        # :dead means the finger was near the centre, where no angle was meant.
+        def handle_info({:drag, :angle, %{x: x, y: y}}, socket) do
+          case MishkaAngleSlider.angle_at(x, y) do
+            :dead -> {:noreply, socket}
+            deg -> {:noreply, Mob.Socket.assign(socket, :angle, deg)}
+          end
+        end
         """,
         render: fn assigns ->
           ~MOB"""
@@ -48,8 +57,15 @@ defmodule MishkaMob.Showcase.Components.AngleSlider do
         title: "Snapped to 15°",
         description: "Snapping happens where the value settles — in the screen.",
         code: ~S"""
-        def handle_change(:angle, raw, socket),
-          do: assign(socket, :angle, MishkaSlider.snap(raw, step: 15, max: 360))
+        # The ring is the control, so the event carries a touch POSITION.
+        # angle_at/3 inverts it; :dead means the finger was near the centre,
+        # where no angle was meant.
+        def handle_info({:drag, :angle, %{x: x, y: y}}, socket) do
+          case MishkaAngleSlider.angle_at(x, y, 130) do
+            :dead -> {:noreply, socket}
+            deg -> {:noreply, assign(socket, :angle, MishkaSlider.snap(deg, step: 15, max: 360))}
+          end
+        end
         """,
         render: fn assigns ->
           ~MOB"""
@@ -91,12 +107,28 @@ defmodule MishkaMob.Showcase.Components.AngleSlider do
   end
 
   @impl true
-  def handle_change(:angle, value, socket), do: Mob.Socket.assign(socket, :angle, value)
+  # The ring IS the control now, so what arrives is a touch position in canvas
+  # units. angle_at/3 returns :dead near the centre, where no angle was meant —
+  # ignoring it is what stops a fingertip in the middle spinning the dial.
+  def handle_change(:angle, %{x: x, y: y}, socket) do
+    case MishkaAngleSlider.angle_at(x, y, 160) do
+      :dead -> socket
+      angle -> Mob.Socket.assign(socket, :angle, angle)
+    end
+  end
 
-  def handle_change(:snapped, value, socket) do
-    snapped = MishkaSlider.snap(value, step: 15, min: 0, max: 360)
+  def handle_change(:angle, value, socket) when is_number(value),
+    do: Mob.Socket.assign(socket, :angle, value)
 
-    Mob.Socket.assign(socket, :snapped, snapped)
+  def handle_change(:snapped, %{x: x, y: y}, socket) do
+    case MishkaAngleSlider.angle_at(x, y, 130) do
+      :dead -> socket
+      angle -> Mob.Socket.assign(socket, :snapped, MishkaSlider.snap(angle, step: 15, max: 360))
+    end
+  end
+
+  def handle_change(:snapped, value, socket) when is_number(value) do
+    Mob.Socket.assign(socket, :snapped, MishkaSlider.snap(value, step: 15, min: 0, max: 360))
   end
 
   def handle_change(_tag, _value, socket), do: socket

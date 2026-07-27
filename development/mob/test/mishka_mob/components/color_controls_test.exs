@@ -223,11 +223,28 @@ defmodule MishkaMob.Components.ColorControlsTest do
       assert reading.text == "90°"
     end
 
-    test "the slider covers a full turn and reports changes" do
-      slider = MishkaAngleSlider.angle_slider(value: 45, on_change: :angle) |> find(:slider)
+    test "the ring itself is the control — no separate slider under it" do
+      tree = MishkaAngleSlider.angle_slider(value: 45, on_change: :angle)
 
-      assert {slider.props.min, slider.props.max} == {0, 360}
-      assert slider.props.on_change == {self(), :angle}
+      assert find(tree, :canvas).props.on_drag == {self(), :angle}
+      refute find(tree, :slider)
+    end
+
+    test "angle_at inverts point_on_dial, so the knob follows the finger" do
+      for deg <- [0, 45, 90, 180, 270, 315] do
+        {x, y} = MishkaAngleSlider.point_on_dial(80, 80, 70, deg)
+
+        assert_in_delta MishkaAngleSlider.angle_at(x, y, 160), deg, 0.001
+      end
+    end
+
+    # Near the centre the angle swings through a whole turn over a few pixels,
+    # so a fingertip resting there would spin the value. :dead is what a caller
+    # ignores rather than assigns.
+    test "a touch near the centre reports :dead rather than a wild angle" do
+      assert MishkaAngleSlider.angle_at(80, 80, 160) == :dead
+      assert MishkaAngleSlider.angle_at(84, 82, 160) == :dead
+      refute MishkaAngleSlider.angle_at(80, 20, 160) == :dead
     end
   end
 

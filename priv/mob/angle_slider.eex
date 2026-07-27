@@ -33,7 +33,7 @@ defmodule <%= @module %> do
   | `show_value` | boolean | `true` | Draw the `45°` reading in the centre. |
   | `label` | string | `nil` | Caption above the dial. |
   | `color` | ARGB int | `:primary`-ish blue | Arc and handle colour. |
-  | `on_change` | event tag (atom) | — | `{:change, tag, float}` while dragging. |
+  | `on_change` | event tag (atom) | — | `{:drag, tag, %{x:, y:, phase:}}` — a touch POSITION. Convert with `angle_at/3`, which returns `:dead` near the centre. |
 
   Not ported: `step` (keyboard nudging — snap in the screen with
   `<%= @namespace %>.<%= @module_prefix_camel %>Slider.snap/2`), `disabled`, and `name`/`form`/`id`.
@@ -67,11 +67,8 @@ defmodule <%= @module %> do
     angle = normalize_angle(Map.get(props, :value, 0))
     size = Map.get(props, :size, @size)
 
-    dial = Mob.UI.canvas(width: size, height: size, draw: dial(size, angle, props))
-
-    control =
-      ~MOB(<Slider min={0} max={360} value={angle} />)
-      |> put(:on_change, Event.handler(Map.get(props, :on_change)))
+    dial =
+      canvas_node(size, dial(size, angle, props), Event.handler(Map.get(props, :on_change)))
 
     head = header(Map.get(props, :label))
 
@@ -79,10 +76,51 @@ defmodule <%= @module %> do
     <Column fill_width={true} align={:center}>
       {head}
       {dial}
-      <Spacer size={4} />
-      {control}
     </Column>
     """
+  end
+
+  @doc """
+  The angle a touch at `{x, y}` selects on a dial of `size`, 0° up and increasing
+  clockwise — the inverse of `point_on_dial/4`.
+
+  Returns `:dead` inside the centre disc, where the angle is numerically wild and
+  no user meant anything by it. A fingertip resting near the middle would
+  otherwise spin the value through a full turn over a few pixels.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>AngleSlider.angle_at(80, 10, 160)
+      0.0
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>AngleSlider.angle_at(150, 80, 160)
+      90.0
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>AngleSlider.angle_at(80, 80, 160)
+      :dead
+  """
+  @spec angle_at(number(), number(), number()) :: float() | :dead
+  def angle_at(x, y, size \\ @size) do
+    center = size / 2
+    dx = x - center
+    dy = y - center
+
+    if :math.sqrt(dx * dx + dy * dy) < @ring do
+      :dead
+    else
+      # atan2 is 0 at three o'clock and the dial's 0 is twelve o'clock, so the
+      # quarter turn here is the exact inverse of point_on_dial/4's.
+      deg = :math.atan2(dy, dx) * 180 / :math.pi() + 90
+      Float.round(if(deg < 0, do: deg + 360.0, else: deg * 1.0), 6)
+    end
+  end
+
+  # Mob.UI.canvas/1 is Map.take(props, [:width, :height, :draw]) — it drops any
+  # handler, which is the "renders perfectly and does nothing" failure. Built
+  # literally so on_drag reaches the renderer.
+  defp canvas_node(size, ops, handler) do
+    props = %{width: size, height: size, draw: ops}
+    props = if handler, do: Map.put(props, :on_drag, handler), else: props
+
+    %{type: :canvas, props: props, children: []}
   end
 
   @doc """
@@ -187,9 +225,6 @@ defmodule <%= @module %> do
     </Column>
     """
   end
-
-  defp put(node, _key, nil), do: node
-  defp put(node, key, value), do: %{node | props: Map.put(node.props, key, value)}
 
   defp truthy?(nil), do: false
   defp truthy?(false), do: false
