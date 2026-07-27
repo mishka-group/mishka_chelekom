@@ -36,3 +36,9 @@ priv/generated/
 
 # macOS
 .DS_Store
+
+# Android Studio / IntelliJ project metadata. Created the moment the android/
+# tree is opened in the IDE, machine-specific, and nothing in the build reads it.
+android/.idea/
+android/local.properties
+android/.gradle/
