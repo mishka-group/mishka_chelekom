@@ -107,6 +107,35 @@ defmodule MishkaMob.ShowcaseTest do
       end
     end
 
+    test "focus and blur reach the component, and are NOT taps" do
+      # The bug this pins: mob_send_focus emits {:focus, tag}, not {:tap, tag}.
+      # Without clauses for the real shape both events fell through the catch-all
+      # and vanished, so a field that genuinely had focus never told the screen —
+      # and the OTP caret, which is drawn from that flag, never appeared.
+      view = mount_screen(ComponentScreen, %{slug: :otp_field})
+
+      refute assigns(view).otp_focused
+
+      focused = render_info(view, {:focus, :otp_focus})
+      assert assigns(focused).otp_focused
+
+      blurred = render_info(focused, {:blur, :otp_blur})
+      refute assigns(blurred).otp_focused
+    end
+
+    test "a focus event for one field does not light up another" do
+      # Each example holds its own flag; one shared flag would draw a caret in
+      # every OTP on the page as soon as any of them was tapped.
+      view =
+        ComponentScreen
+        |> mount_screen(%{slug: :otp_field})
+        |> render_info({:focus, :otp_masked_focus})
+
+      assert assigns(view).otp_masked_focused
+      refute assigns(view).otp_focused
+      refute assigns(view).otp_ref_focused
+    end
+
     test "unknown slug returns nil" do
       assert Showcase.get(:nope) == nil
     end

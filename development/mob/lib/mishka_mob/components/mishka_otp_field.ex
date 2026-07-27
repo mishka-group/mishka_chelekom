@@ -20,8 +20,14 @@ defmodule MishkaMob.Components.MishkaOtpField do
   the boxes a read-only display of it. That is not what the web component does
   and it looked like a bug, because it was one.
 
-  Mob has no focus control, so the active slot cannot come from focus — it is
-  derived from the value's length, which is the same answer.
+  Mob has no focus control, so *which* slot is active cannot come from focus — it
+  is derived from the value's length, which is the same answer.
+
+  Whether to draw a caret in it does need focus, though, and that part is
+  available: the field reports `on_focus` and `on_blur`, so a screen can hold a
+  `focused?` flag and hand it back. Without it there is no cursor at all — the
+  overlay's own is deliberately transparent, since it sits over the boxes rather
+  than in them — and a tapped field looks identical to an untapped one.
 
   ## Validation belongs to the value
 
@@ -42,10 +48,19 @@ defmodule MishkaMob.Components.MishkaOtpField do
   | `on_change` | event tag (atom) | — | `{:change, tag, text}`. |
   | `color` | color token / ARGB int | `:primary` | Border of filled and active slots. |
   | `slot_width` | number | `44` | Width of one slot. |
+  | `group` | integer or list | `nil` | `3` splits evenly (`123-456`); `[3, 4]` splits unevenly (`Abs-5563`). |
+  | `separator` | string | `nil` | What to draw between groups. Both props are required. |
+  | `id` | string | `nil` | Sets a native testTag on the input, for end-to-end tests. |
+  | `focused` | boolean | `false` | Draws a caret in the active slot. Track it with `on_focus`/`on_blur`. |
+  | `on_focus` / `on_blur` | event tags | — | `{:tap, tag}` when the field gains or loses focus. |
 
   Not ported: `name` (form plumbing), `auto_complete` / `input_mode` (browser
   hints), `transform`, `auto_submit` (the screen decides, using `complete?/2`),
-  and `id` / `*_class`.
+  and the `*_class` attrs.
+
+  `id` IS honoured, though not for the web's reason. The bridge turns an `:id`
+  into a Compose `testTag`, which is how an instrumented test gets hold of the
+  input — and the input here is invisible, so there is nothing else to match on.
   """
 
   import Mob.Sigil
@@ -112,8 +127,9 @@ defmodule MishkaMob.Components.MishkaOtpField do
 
     slots =
       0..(length - 1)
-      |> Enum.map(&slot(Enum.at(chars, &1), &1 == active, props, disabled?))
-      |> Enum.intersperse(~MOB(<Spacer size={8} />))
+      |> Enum.flat_map(fn i ->
+        [slot(Enum.at(chars, i), i == active, props, disabled?) | gap(i, length, props)]
+      end)
 
     ~MOB"""
     <Box fill_width={true} align={:center}>
@@ -122,6 +138,68 @@ defmodule MishkaMob.Components.MishkaOtpField do
       </Row>
       {input(props, value, length, disabled?)}
     </Box>
+    """
+  end
+
+  # What goes BETWEEN two slots: a separator on a group boundary, otherwise a
+  # plain gap. Both `group` and `separator` are required, and the last slot gets
+  # neither — the same rule the web component applies
+  # (`@separator && @group && rem(i, @group) == 0 && i < @length`).
+  defp gap(index, length, props) do
+    separator = Map.get(props, :separator)
+    boundaries = boundaries(Map.get(props, :group))
+
+    cond do
+      index + 1 >= length -> []
+      is_binary(separator) and (index + 1) in boundaries -> [separator_node(separator, props)]
+      true -> [~MOB(<Spacer size={8} />)]
+    end
+  end
+
+  @doc """
+  The slot offsets a separator follows.
+
+  An integer groups evenly, the way the web component's `group` does:
+
+      iex> MishkaMob.Components.MishkaOtpField.boundaries(3)
+      [3, 6, 9, 12, 15, 18]
+
+  A list groups unevenly, which the web cannot express — `Abs-5563` is three
+  then four, and an even `group: 3` over seven slots would give `Abs-556-3`:
+
+      iex> MishkaMob.Components.MishkaOtpField.boundaries([3, 4])
+      [3]
+
+      iex> MishkaMob.Components.MishkaOtpField.boundaries([2, 2, 2])
+      [2, 4]
+
+      iex> MishkaMob.Components.MishkaOtpField.boundaries(nil)
+      []
+  """
+  @spec boundaries(pos_integer() | [pos_integer()] | nil) :: [pos_integer()]
+  def boundaries(size) when is_integer(size) and size > 0 do
+    # A generous ceiling — anything past the slot count is never matched.
+    Enum.map(1..div(20, size)//1, &(&1 * size))
+  end
+
+  def boundaries(sizes) when is_list(sizes) do
+    sizes
+    |> Enum.filter(&(is_integer(&1) and &1 > 0))
+    |> Enum.scan(&(&1 + &2))
+    |> Enum.drop(-1)
+  end
+
+  def boundaries(_), do: []
+
+  defp separator_node(separator, props) do
+    ink = if truthy?(Map.get(props, :disabled, false)), do: :border, else: :muted
+
+    ~MOB"""
+    <Row align={:center}>
+      <Spacer size={6} />
+      <Text text={separator} text_size={:xl} text_color={ink} />
+      <Spacer size={6} />
+    </Row>
     """
   end
 
@@ -138,21 +216,28 @@ defmodule MishkaMob.Components.MishkaOtpField do
       value={value}
       placeholder=""
       enabled={not disabled?}
+      caret="end"
       keyboard={keyboard(Map.get(props, :validation_type, :numeric))}
       fill_width={true}
       background={:transparent}
       text_color={:transparent}
-      caret_color={:transparent}
       border_color={:transparent}
       text_align={:center}
     />
     """
 
-    case handler(props, disabled?) do
-      nil -> node
-      tap -> %{node | props: Map.put(node.props, :on_change, tap)}
-    end
+    node
+    |> put(:id, Map.get(props, :id))
+    |> put(:on_change, handler(props, disabled?))
+    |> put(:on_focus, tag_handler(props, :on_focus, disabled?))
+    |> put(:on_blur, tag_handler(props, :on_blur, disabled?))
   end
+
+  defp tag_handler(_props, _key, true), do: nil
+  defp tag_handler(props, key, _), do: Event.handler(Map.get(props, key))
+
+  defp put(node, _key, nil), do: node
+  defp put(node, key, value), do: %{node | props: Map.put(node.props, key, value)}
 
   defp slot(nil, active?, props, disabled?), do: slot_box("", false, active?, props, disabled?)
 
@@ -163,6 +248,11 @@ defmodule MishkaMob.Components.MishkaOtpField do
 
   defp slot_box(text, filled?, active?, props, disabled?) do
     accent = Map.get(props, :color, :primary)
+    # A caret only in the slot the next character lands in, and only while the
+    # field actually has focus — otherwise every OTP on a page would look live.
+    caret? =
+      active? and not filled? and not disabled? and
+        truthy?(Map.get(props, :focused, false))
 
     # A fixed width, not `weight: 1`: weight is Compose-only and iOS ignores it,
     # which would leave the slots sized to their content there.
@@ -185,9 +275,21 @@ defmodule MishkaMob.Components.MishkaOtpField do
       border_color={border}
       border_width={if(filled? or active?, do: 2, else: 1)}
     >
-      <Text text={text} text_size={:xl} text_color={if(disabled?, do: :muted, else: :on_surface)} />
+      {slot_content(text, caret?, accent, disabled?)}
     </Box>
     """
+  end
+
+  # Mob has no blink, so the caret is a steady bar. A blinking one would need a
+  # per-frame re-render of the whole screen, which is a bad trade for a cursor.
+  defp slot_content("", true, accent, _disabled?) do
+    ~MOB(<Box width={2} height={24} background={accent} corner_radius={:radius_sm} />)
+  end
+
+  defp slot_content(text, _caret?, _accent, disabled?) do
+    ink = if disabled?, do: :muted, else: :on_surface
+
+    ~MOB(<Text text={text} text_size={:xl} text_color={ink} />)
   end
 
   defp keyboard(:numeric), do: "number"

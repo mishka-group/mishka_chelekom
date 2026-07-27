@@ -37,6 +37,10 @@ class MainActivity : ComponentActivity() {
 
     companion object {
         private const val TAG = "MishkaMob"
+
+        /** Guards the one-per-process BEAM start; see onCreate. */
+        private val beamStarted = java.util.concurrent.atomic.AtomicBoolean(false)
+
         init { System.loadLibrary("mishka_mob") }
     }
 
@@ -249,9 +253,25 @@ class MainActivity : ComponentActivity() {
         // skip extraction once the marker file is present.
         extractPythonAssetsIfNeeded()
 
-        Log.i(TAG, "onCreate — handing off to BEAM")
         nativeSetActivity(this)
-        Thread({ nativeStartBeam() }, "beam-main").start()
+
+        // The BEAM can only be started ONCE per process: a second
+        // erl_start in the same address space aborts with "Failed to
+        // initialize thread library: Invalid argument (22)" and takes the
+        // process with it (SIGABRT on beam-main).
+        //
+        // onCreate can run more than once. `configChanges` covers rotation, but
+        // not a restart after the process is killed, not "Don't keep
+        // activities", and not an instrumented test — which is where this was
+        // found: relaunching MainActivity per test killed the app on the second
+        // one. The BEAM outlives the Activity by design, so re-attaching to the
+        // running one is the correct behaviour, not merely the safe one.
+        if (beamStarted.compareAndSet(false, true)) {
+            Log.i(TAG, "onCreate — handing off to BEAM")
+            Thread({ nativeStartBeam() }, "beam-main").start()
+        } else {
+            Log.i(TAG, "onCreate — BEAM already running, re-attaching")
+        }
     }
 
     private fun extractPythonAssetsIfNeeded() {

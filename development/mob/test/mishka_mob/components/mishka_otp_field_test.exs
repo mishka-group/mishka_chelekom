@@ -97,7 +97,6 @@ defmodule MishkaMob.Components.MishkaOtpFieldTest do
       assert Enum.map(tree.children, & &1.type) == [:row, :text_field]
       assert field.props.background == :transparent
       assert field.props.text_color == :transparent
-      assert field.props.caret_color == :transparent
       assert field.props.border_color == :transparent
     end
 
@@ -119,12 +118,84 @@ defmodule MishkaMob.Components.MishkaOtpFieldTest do
       assert find(MishkaOtpField.otp_field(value: "1"), :text_field).props.enabled == true
     end
 
-    test "the overlay hides its cursor by way of a transparent text colour" do
-      # caret_color is not one of the renderer's colour props, so it would never
-      # resolve; the bridge takes the cursor from text_color instead.
+    test "the overlay hides its own cursor and shows one in the active slot" do
+      # The overlay sits OVER the boxes, not in them, so its own caret would
+      # appear in the wrong place — it is transparent, and the slot draws the
+      # cursor instead. caret_color is not a renderer colour prop, so the bridge
+      # takes the cursor colour from text_color.
       field = find(MishkaOtpField.otp_field(value: "1"), :text_field)
 
       assert field.props.text_color == :transparent
+      refute Map.has_key?(field.props, :caret_color)
+    end
+
+    test "the caret is pinned to the end of the value" do
+      # Without this a tap on slot 1 puts the caret at index 0, and typing 23
+      # into a code reading 1 gives 231 while the highlight still points at the
+      # end. `caret: "end"` is what makes the two agree.
+      assert find(MishkaOtpField.otp_field(value: "1"), :text_field).props.caret == "end"
+    end
+
+    test "the caret appears only in the active slot, and only when focused" do
+      carets = fn props ->
+        MishkaOtpField.otp_field(props)
+        |> find_all(:box)
+        |> Enum.count(&(&1.props[:width] == 2))
+      end
+
+      # Without focus there is no cursor: otherwise every OTP on a page reads
+      # as live.
+      assert carets.(%{value: "", length: 6}) == 0
+      assert carets.(%{value: "", length: 6, focused: true}) == 1
+      assert carets.(%{value: "12", length: 6, focused: true}) == 1
+      # A full code has nothing left to fill.
+      assert carets.(%{value: "123456", length: 6, focused: true}) == 0
+      assert carets.(%{value: "", length: 6, focused: true, disabled: true}) == 0
+    end
+
+    test "focus and blur are reported so a screen can track them" do
+      field =
+        MishkaOtpField.otp_field(value: "", on_focus: :focus, on_blur: :blur)
+        |> find(:text_field)
+
+      assert field.props.on_focus == {self(), :focus}
+      assert field.props.on_blur == {self(), :blur}
+    end
+
+    test "group and separator split the slots, evenly or unevenly" do
+      shape = fn props ->
+        MishkaOtpField.otp_field(props)
+        |> then(& &1.children)
+        |> Enum.find(&(&1.type == :row))
+        |> Map.get(:children)
+        |> Enum.map(fn
+          %{type: :box} -> "[]"
+          %{type: :spacer} -> " "
+          %{type: :row} = r -> r |> find(:text) |> get_in([Access.key(:props), :text])
+        end)
+        |> Enum.join()
+      end
+
+      # An even split, as the web component does it.
+      assert shape.(%{value: "", length: 6, group: 3, separator: "-"}) == "[] [] []-[] [] []"
+
+      # An uneven one, which the web cannot express: `Abs-5563` is three then
+      # four, where an even group of 3 over seven slots gives `Abs-556-3`.
+      assert shape.(%{value: "", length: 7, group: [3, 4], separator: "-"}) ==
+               "[] [] []-[] [] [] []"
+    end
+
+    test "a separator needs BOTH group and separator, and never trails" do
+      plain = MishkaOtpField.otp_field(value: "", length: 6)
+      no_sep = MishkaOtpField.otp_field(value: "", length: 6, group: 3)
+      no_group = MishkaOtpField.otp_field(value: "", length: 6, separator: "-")
+
+      # One without the other is just a plain row — the web makes the same rule.
+      assert no_sep == plain
+      assert no_group == plain
+
+      # A group as wide as the field puts nothing after the last slot.
+      assert MishkaOtpField.otp_field(value: "", length: 6, group: 6, separator: "-") == plain
     end
 
     test "slots are a fixed width, because weight is Compose-only" do
@@ -159,6 +230,18 @@ defmodule MishkaMob.Components.MishkaOtpFieldTest do
   end
 
   describe "mask input" do
+    test "disabled disables the field natively, not just its handler" do
+      # Withholding the handler alone left the field editable and focusable: it
+      # looked live and quietly went nowhere.
+      alias MishkaMob.Components.MishkaMaskInput
+
+      assert find(MishkaMaskInput.mask_input(mask: "99/99"), :text_field).props.enabled == true
+
+      assert MishkaMaskInput.mask_input(mask: "99/99", disabled: true)
+             |> find(:text_field)
+             |> get_in([Access.key(:props), :enabled]) == false
+    end
+
     test "inserts literals as you type" do
       assert MishkaMaskInput.apply_mask("5551234567", "(999) 999-9999") == "(555) 123-4567"
       assert MishkaMaskInput.apply_mask("12252024", "99/99/9999") == "12/25/2024"

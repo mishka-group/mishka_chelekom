@@ -53,6 +53,8 @@ import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.foundation.text.selection.LocalTextSelectionColors
+import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
@@ -2434,6 +2436,15 @@ private fun MobTextField(node: MobNode, modifier: Modifier) {
     // That is exactly how a 99/99/9999 date mask came to accept 999999999.
     val maxLength = intProp(node.props, "max_length") ?: 0
 
+    // `caret: "end"` pins the insertion point to the end of the text, however
+    // the field is tapped. A segmented code input needs it: the slots are drawn
+    // from the value, so the highlighted slot is always the one after the last
+    // character — but a tap on slot 1 would drop the caret at index 0 and the
+    // next digits would land at the FRONT. Typing 23 into "1" gave "231" while
+    // the highlight still pointed at slot 2. Ordinary fields leave this unset
+    // and keep normal caret placement.
+    val caretAtEnd = (node.props["caret"] as? String) == "end"
+
     // Style props used to be serialised and silently ignored: this composable
     // passed no `colors`, `shape` or `textStyle` at all, so every background,
     // text_color and border_color a component set on a TextField did nothing.
@@ -2475,6 +2486,23 @@ private fun MobTextField(node: MobNode, modifier: Modifier) {
         color = colorProp(node.props, "text_color"),
     )
 
+    // Tapping a text field makes Compose draw a selection HANDLE — the teardrop
+    // below the caret — and that is drawn from LocalTextSelectionColors, which
+    // `cursorColor` does not cover. On a field whose caret is pinned to the end
+    // the handle is worse than ugly: it invites a drag that cannot do anything.
+    // So a segmented input hides the handle and the selection wash along with
+    // its cursor; every other field keeps the platform's own.
+    val selectionColors =
+        if (caretAtEnd) {
+            TextSelectionColors(
+                handleColor = Color.Transparent,
+                backgroundColor = Color.Transparent,
+            )
+        } else {
+            LocalTextSelectionColors.current
+        }
+
+    CompositionLocalProvider(LocalTextSelectionColors provides selectionColors) {
     TextField(
         value         = field,
         onValueChange = { new ->
@@ -2482,7 +2510,7 @@ private fun MobTextField(node: MobNode, modifier: Modifier) {
             // corrected later, which is what a web input with maxlength does.
             if (maxLength <= 0 || new.text.length <= maxLength) {
                 val textChanged = new.text != field.text
-                field = new
+                field = if (caretAtEnd) new.copy(selection = TextRange(new.text.length)) else new
                 // A bare caret move is not a change; reporting one would spin
                 // the BEAM on every tap into the field.
                 if (textChanged) changeHandle?.let { MobBridge.nativeSendChangeStr(it, new.text) }
@@ -2491,8 +2519,14 @@ private fun MobTextField(node: MobNode, modifier: Modifier) {
         placeholder   = { Text(placeholder) },
         modifier      = tfModifier
             .onFocusChanged { state ->
-                if (state.isFocused) focusHandle?.let { MobBridge.nativeSendFocus(it) }
-                else                 blurHandle?.let  { MobBridge.nativeSendBlur(it)  }
+                if (state.isFocused) {
+                    // Focus arrives from the tap that positioned the caret, so
+                    // the correction has to happen here too, not just on edit.
+                    if (caretAtEnd) field = field.copy(selection = TextRange(field.text.length))
+                    focusHandle?.let { MobBridge.nativeSendFocus(it) }
+                } else {
+                    blurHandle?.let { MobBridge.nativeSendBlur(it) }
+                }
             },
         singleLine      = !multiline,
         minLines        = if (multiline) lines else 1,
@@ -2509,6 +2543,7 @@ private fun MobTextField(node: MobNode, modifier: Modifier) {
         colors    = fieldColors,
         textStyle = fieldStyle,
     )
+    }
 }
 
 @Composable

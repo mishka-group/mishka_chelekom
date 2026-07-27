@@ -109,6 +109,13 @@ defmodule MishkaMob.Showcase.ComponentScreen do
     end
   end
 
+  # Focus and blur arrive as {:focus, tag} / {:blur, tag} — NOT as taps, even
+  # though the renderer registers them with register_tap/1. Without these clauses
+  # they fell through the catch-all below and vanished, which is why a field that
+  # was genuinely focused never told the screen so.
+  def handle_info({:focus, tag}, socket), do: {:noreply, route(socket, tag)}
+  def handle_info({:blur, tag}, socket), do: {:noreply, route(socket, tag)}
+
   # Value-carrying events from Toggle / Slider / TextField widgets.
   def handle_info({:change, tag, value}, socket) do
     case socket.assigns.entry do
@@ -118,4 +125,11 @@ defmodule MishkaMob.Showcase.ComponentScreen do
   end
 
   def handle_info(_message, socket), do: {:noreply, socket}
+
+  defp route(socket, tag) do
+    case socket.assigns.entry do
+      nil -> socket
+      entry -> entry.module.handle(tag, socket)
+    end
+  end
 end
