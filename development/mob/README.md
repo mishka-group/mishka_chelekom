@@ -92,14 +92,21 @@ mix deploy                               # then deploy as normal
 
 Two rules that are easy to get wrong and expensive to find later:
 
-**Our components are composite tags, and the whitelist warning is expected.**
-A registered composite is written `<MishkaChip … />` like any other tag, and
-`~MOB` warns that it is "not in the Mob tag whitelist" because registration
-happens at runtime and the sigil runs at compile time — Mob documents that
-warning as normal (CHANGELOG 0.7.13); an unregistered tag rendering *nothing* is
-the real failure to look for. This repo builds with `--warnings-as-errors`, so
-its own code calls the function (`{chip(...)}`) while the docs show the tag,
-which is what an app would actually write.
+**Our components are composite tags — write them as tags.** A registered
+composite is `<MishkaChip … />` like any other tag, and that is what the
+showcase, the code samples and the generated docs all use. Reach for the
+function form (`{chip(...)}`) only for something a tag cannot express.
+
+`~MOB` validates tag names at compile time against a list Mob bakes in from its
+own `priv/tags/`, and our composites register at runtime, so the sigil cannot
+know about them and warns. `mix.exs` adds them to that list on every compile
+(see `tags/1`) — which is why the tags compile quietly here even though the
+build treats warnings as errors. An unregistered tag renders *nothing* rather
+than failing, so that warning is worth keeping honest; `TAG_WHITELIST.md` is
+the write-up of the whole problem.
+
+Consumers get the same thing from the CLI: `mix mishka.ui.gen.mob` whitelists
+the tags it generates and wires `register_all/0` into the app's `on_start/0`.
 
 **Event props must go through `MishkaMob.Components.Event.handler/1`.** The
 renderer only registers a handler when the prop is `{screen_pid, tag}`; a bare
