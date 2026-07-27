@@ -66,7 +66,12 @@ defmodule MishkaMob.Showcase.Components.HueSlider do
   @impl true
   def props do
     [
-      %{name: "value", type: "0–360", default: "0", description: "Current hue. Wraps."},
+      %{
+        name: "value",
+        type: "0–360",
+        default: "0",
+        description: "Current hue. Out-of-range wraps; 360 stays at the far end."
+      },
       %{name: "width / height", type: "number", default: "300 / 16", description: "Track size."},
       %{name: "label", type: "string", default: "nil", description: "Caption above the track."},
       %{
@@ -79,7 +84,15 @@ defmodule MishkaMob.Showcase.Components.HueSlider do
         name: "on_change",
         type: "event tag",
         default: "—",
-        description: "{:change, tag, float} while dragging."
+        description:
+          "{:drag, tag, %{x:, y:, phase:}} — a touch POSITION, not a value. " <>
+            "Convert with hue_at/2."
+      },
+      %{
+        name: "hue_at/2",
+        type: "helper",
+        default: "—",
+        description: "Touch x → hue. The inverse of the marker."
       },
       %{
         name: "spectrum/3",

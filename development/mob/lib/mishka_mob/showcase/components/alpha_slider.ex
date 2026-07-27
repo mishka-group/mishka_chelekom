@@ -95,7 +95,20 @@ defmodule MishkaMob.Showcase.Components.AlphaSlider do
         description: "Render a 60% readout."
       },
       %{name: "label", type: "string", default: "nil", description: "Caption above the track."},
-      %{name: "on_change", type: "event tag", default: "—", description: "{:change, tag, float}."}
+      %{
+        name: "on_change",
+        type: "event tag",
+        default: "—",
+        description:
+          "{:drag, tag, %{x:, y:, phase:}} — a touch POSITION, not a value. " <>
+            "Convert with alpha_at/2."
+      },
+      %{
+        name: "alpha_at/2",
+        type: "helper",
+        default: "—",
+        description: "Touch x → opacity. The inverse of the marker."
+      }
     ]
   end
 
