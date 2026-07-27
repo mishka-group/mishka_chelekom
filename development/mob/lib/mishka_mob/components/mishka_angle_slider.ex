@@ -45,6 +45,10 @@ defmodule MishkaMob.Components.MishkaAngleSlider do
 
   @size 160
   @ring 10
+  @knob_stroke 3
+  # Barely proud of the @ring-wide track (63.5..76.5 against 65..75) — enough to
+  # read as a grabbable knob, not so much that it floats off the progress.
+  @knob 5
   @accent 0xFF_3B_82_F6
   @track 0xFF_D1_D5_DB
 
@@ -121,12 +125,16 @@ defmodule MishkaMob.Components.MishkaAngleSlider do
     ]
   end
 
+  # Sized to sit INSIDE the track, not to straddle it. The ring is @ring wide, so
+  # it occupies radius ± @ring/2; a knob of r + stroke/2 beyond that overhangs on
+  # both sides and reads as a circle floating off the progress rather than riding
+  # it. @knob is chosen so the outer edge lands exactly on the ring's outer edge.
   defp handle(center, radius, angle, accent) do
     {x, y} = point_on_dial(center, center, radius, angle)
 
     [
-      Mob.Canvas.circle(x, y, @ring - 1, color: 0xFF_FF_FF_FF, fill: true),
-      Mob.Canvas.circle(x, y, @ring - 1, color: accent, width: 3)
+      Mob.Canvas.circle(x, y, @knob, color: 0xFF_FF_FF_FF, fill: true),
+      Mob.Canvas.circle(x, y, @knob, color: accent, width: @knob_stroke)
     ]
   end
 

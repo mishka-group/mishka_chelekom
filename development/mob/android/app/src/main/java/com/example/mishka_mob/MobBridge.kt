@@ -3068,8 +3068,13 @@ private fun DrawScope.drawCanvasOp(op: Map<String, Any?>) {
             val cx = canvasFloat(op["x"])
             val cy = canvasFloat(op["y"])
             val r = canvasFloat(op["r"])
-            val startDeg = canvasFloat(op["start_deg"])
-            val endDeg = canvasFloat(op["end_deg"])
+            // Degrees are SCALARS — canvasFloat is a length converter (dp.toPx()),
+            // so running an angle through it multiplied it by the display density:
+            // -90 became -236 and a 45° sweep became 118°, which drew a long arc
+            // from the lower-left instead of a short one from the top. The radius
+            // and centre above are lengths and must keep the conversion.
+            val startDeg = rawFloat(op["start_deg"])
+            val endDeg = rawFloat(op["end_deg"])
             val sweep = endDeg - startDeg
             drawArc(
                 color = color,
@@ -3164,6 +3169,16 @@ private fun DrawScope.drawCanvasOp(op: Map<String, Any?>) {
 
 // Canvas coordinates from BEAM are in dp (matching the canvas's declared
 // width/height). Compose's DrawScope works in pixels, so convert dp→px here.
+// A number used as a number: angles, ratios, counts. Anything that is a LENGTH
+// goes through canvasFloat instead, which converts logical units to pixels.
+private fun rawFloat(v: Any?): Float = when (v) {
+    is Float  -> v
+    is Double -> v.toFloat()
+    is Int    -> v.toFloat()
+    is Long   -> v.toFloat()
+    else      -> 0f
+}
+
 private fun DrawScope.canvasFloat(v: Any?): Float {
     val dp = when (v) {
         is Float  -> v
