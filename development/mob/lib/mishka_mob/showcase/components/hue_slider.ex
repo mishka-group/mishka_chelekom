@@ -29,6 +29,14 @@ defmodule MishkaMob.Showcase.Components.HueSlider do
         description: "150 canvas bands, one per two units of width — a real gradient.",
         code: ~S"""
         <MishkaHueSlider value={@hue} label="Hue" show_value={true} on_change={:hue} />
+
+        # The strip IS the control, so the event carries a touch POSITION, not a
+        # value. hue_at/2 inverts the marker, so the colour under the finger is
+        # the colour selected. Matching {:change, ...} instead renders a perfect
+        # strip that does nothing.
+        def handle_info({:drag, :hue, %{x: x}}, socket) do
+          {:noreply, Mob.Socket.assign(socket, :hue, MishkaHueSlider.hue_at(x))}
+        end
         """,
         render: fn assigns ->
           ~MOB"""

@@ -35,6 +35,12 @@ defmodule MishkaMob.Showcase.Components.AlphaSlider do
           show_value={true}
           on_change={:alpha}
         />
+
+        # The track IS the control, so the event carries a touch POSITION, not a
+        # value. alpha_at/2 inverts the marker.
+        def handle_info({:drag, :alpha, %{x: x}}, socket) do
+          {:noreply, Mob.Socket.assign(socket, :alpha, MishkaAlphaSlider.alpha_at(x))}
+        end
         """,
         render: fn assigns ->
           ~MOB"""
@@ -54,6 +60,8 @@ defmodule MishkaMob.Showcase.Components.AlphaSlider do
         title: "Any base colour",
         description: "The track fades in whatever colour you hand it.",
         code: ~S"""
+        # No on_change: a read-only swatch of the current opacity. Touching it
+        # does nothing, which is the point here.
         <MishkaAlphaSlider value={@alpha} color={"#dc2626"} />
         """,
         render: fn assigns ->
