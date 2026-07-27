@@ -71,7 +71,57 @@ defmodule MishkaMob.MixProject do
       ios: ["mob.deploy --ios"],
       "ios.native": ["mob.deploy --native --ios"],
       android: ["mob.deploy --android"],
-      "android.native": ["mob.deploy --native --android"]
+      "android.native": ["mob.deploy --native --android"],
+
+      # Device tests. `mix test` covers the node trees; this covers what the
+      # screen actually does, which is the only place bridge behaviour shows up.
+      #
+      #     mix e2e                 # every device test
+      #     mix e2e OtpFieldTest    # one class
+      e2e: [&e2e/1]
     ]
+  end
+
+  @test_apk "android/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk"
+  @runner "com.example.mishka_mob.test/androidx.test.runner.AndroidJUnitRunner"
+
+  # Deliberately NOT `gradlew connectedDebugAndroidTest`. That reinstalls the app
+  # APK, and Android wipes the app's files/ directory on any reinstall — which is
+  # where the whole OTP release lives, so the BEAM dies with `cannot get
+  # bootfile` a second after onCreate. Installing only the TEST apk leaves the
+  # app package untouched.
+  defp e2e(args) do
+    filter =
+      case args do
+        [] -> []
+        names -> ["-e", "class", Enum.map_join(names, ",", &qualify/1)]
+      end
+
+    cmd!(Path.expand("android/gradlew"), ["assembleDebugAndroidTest"], "android")
+    cmd!("adb", ["install", "-r", @test_apk])
+
+    # `am instrument` exits 0 even when tests fail — the verdict is in its
+    # output, so a green exit code here would be a lie.
+    {out, _} = System.cmd("adb", ["shell", "am", "instrument", "-w"] ++ filter ++ [@runner])
+    IO.puts(out)
+
+    if String.contains?(out, "FAILURES!!!") or not String.contains?(out, "OK (") do
+      Mix.raise("device tests failed — see the output above")
+    end
+  end
+
+  defp qualify(name) do
+    if String.contains?(name, "."), do: name, else: "com.example.mishka_mob." <> name
+  end
+
+  # System.cmd resolves the binary against PATH, not against :cd — so the
+  # wrapper needs an absolute path even though it runs inside android/.
+  defp cmd!(bin, args, dir \\ ".") do
+    opts = [into: IO.stream(:stdio, :line), cd: dir]
+
+    case System.cmd(bin, args, opts) do
+      {_, 0} -> :ok
+      {_, code} -> Mix.raise("#{bin} #{Enum.join(args, " ")} failed with exit #{code}")
+    end
   end
 end

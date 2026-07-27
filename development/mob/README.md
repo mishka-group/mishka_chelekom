@@ -43,15 +43,13 @@ cd development/mob/android && ./gradlew assembleDebug
 cd development/mob && mix android.native
 
 # 4. run the e2e suite on the device
-cd development/mob/android && ./gradlew assembleDebugAndroidTest
-adb install -r app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
-adb shell am instrument -w \
-  com.example.mishka_mob.test/androidx.test.runner.AndroidJUnitRunner
+cd development/mob && mix e2e                 # all of them
+mix e2e OtpFieldTest                          # one class
 ```
 
-Installing the test APK directly with `adb install -r` leaves the app package
-alone. Anything that reinstalls the app itself takes the runtime with it (below),
-so after such a reinstall run `mix android.native` before the tests.
+`mix e2e` builds the test APK, installs **only** that (never the app package),
+and runs the instrumentation. It raises when tests fail, because `am instrument`
+exits 0 either way and the verdict is only in its output.
 
 **Not `./gradlew connectedDebugAndroidTest`.** That task reinstalls the app APK,
 and Android wipes `/data/user/0/<pkg>/files/` on any reinstall — which is where
@@ -113,7 +111,7 @@ does nothing.
 | | Where | Run with | What it can see |
 |---|---|---|---|
 | **Unit** | `test/mishka_mob/` | `mix test` | The node tree a component returns |
-| **E2E** | `android/app/src/androidTest/` | `am instrument` — see above | What the device actually draws and does |
+| **E2E** | `android/app/src/androidTest/` | `mix e2e` | What the device actually draws and does |
 
 Most coverage belongs in the unit tests: they are fast, they run everywhere, and
 `Mob.ScreenCase` asserts on the rendered tree far more precisely than a device
