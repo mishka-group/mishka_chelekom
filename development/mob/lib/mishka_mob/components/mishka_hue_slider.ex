@@ -20,12 +20,16 @@ defmodule MishkaMob.Components.MishkaHueSlider do
 
   | Prop | Values | Default | Meaning |
   |------|--------|---------|---------|
-  | `value` | number | `0` | Current hue in degrees. Wraps. |
+  | `value` | number | `0` | Current hue in degrees. Out-of-range values wrap; 360 stays at the far end. |
   | `width` | number | `300` | Track width in logical units. |
   | `height` | number | `16` | Track height. |
   | `show_value` | boolean | `false` | Render a `210°` readout. |
   | `label` | string | `nil` | Caption above the track. |
-  | `on_change` | event tag (atom) | — | `{:change, tag, float}` while dragging. |
+  | `on_change` | event tag (atom) | — | `{:drag, tag, %{x:, y:, dx:, dy:, phase:}}` — a touch POSITION, not a value. Convert with `hue_at/2`. |
+
+  The strip itself is the control: there is no `<Slider>` under it. `phase` is
+  `"began"` on touch-down (so a tap sets the hue), `"dragging"` while the finger
+  moves, `"ended"` on release.
 
   Not ported: `on_commit` (the bridge has no release event — see
   `MishkaMob.Components.MishkaSlider`), `step`/`large_step` (keyboard nudging),
