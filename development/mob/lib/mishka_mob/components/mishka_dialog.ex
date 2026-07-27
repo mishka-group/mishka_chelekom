@@ -64,7 +64,14 @@ defmodule MishkaMob.Components.MishkaDialog do
   Composite expander (`<MishkaDialog>`). The tag's children are the dialog body.
   """
   @spec expand(map(), [map()], %{screen: pid()}) :: map()
-  def expand(props, children, ctx), do: dialog(props, children, [], ctx)
+  # `actions` arrives as a prop rather than a second slot: a composite's
+  # expand/3 is handed ONE children list, so a footer would otherwise be
+  # unreachable from markup and `<MishkaDialog>` could never replace a
+  # dialog/4 call. Popped before the props reach the widget.
+  def expand(props, children, ctx) do
+    {actions, props} = Map.pop(Map.new(props), :actions, [])
+    dialog(props, children, List.wrap(actions), ctx)
+  end
 
   @doc """
   The dialog node. `body` is the content; `actions` are footer nodes laid out in

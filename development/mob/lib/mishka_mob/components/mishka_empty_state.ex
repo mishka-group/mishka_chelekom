@@ -37,7 +37,12 @@ defmodule MishkaMob.Components.MishkaEmptyState do
   Composite expander (`<MishkaEmptyState>`). Children become the actions row.
   """
   @spec expand(map(), [map()], map()) :: map()
-  def expand(props, children, _ctx), do: empty_state(props, [], children)
+  # Children are the indicator; `actions` is the prop. Mirrors
+  # MishkaDialog.expand/3, where a second slot cannot be expressed in markup.
+  def expand(props, children, _ctx) do
+    {actions, props} = Map.pop(Map.new(props), :actions, [])
+    empty_state(props, children, List.wrap(actions))
+  end
 
   @doc """
   The empty-state node.

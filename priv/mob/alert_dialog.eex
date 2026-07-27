@@ -41,7 +41,13 @@ defmodule <%= @module %> do
   Composite expander (`<<%= @module_prefix_camel %>AlertDialog>`). The tag's children are the body.
   """
   @spec expand(map(), [map()], %{screen: pid()}) :: map()
-  def expand(props, children, ctx), do: <%= @component_prefix %>alert_dialog(props, children, [], ctx)
+  # See <%= @module_prefix_camel %>Dialog.expand/3 — the footer travels as a prop because a
+  # composite gets one children list, and an alert with no actions has no
+  # way out of it at all.
+  def expand(props, children, ctx) do
+    {actions, props} = Map.pop(Map.new(props), :actions, [])
+    <%= @component_prefix %>alert_dialog(props, children, List.wrap(actions), ctx)
+  end
 
   @doc """
   The alert dialog node. `body` is the content; `actions` are the footer

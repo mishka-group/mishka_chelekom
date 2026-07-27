@@ -64,7 +64,14 @@ defmodule <%= @module %> do
   Composite expander (`<<%= @module_prefix_camel %>Dialog>`). The tag's children are the dialog body.
   """
   @spec expand(map(), [map()], %{screen: pid()}) :: map()
-  def expand(props, children, ctx), do: <%= @component_prefix %>dialog(props, children, [], ctx)
+  # `actions` arrives as a prop rather than a second slot: a composite's
+  # expand/3 is handed ONE children list, so a footer would otherwise be
+  # unreachable from markup and `<<%= @module_prefix_camel %>Dialog>` could never replace a
+  # dialog/4 call. Popped before the props reach the widget.
+  def expand(props, children, ctx) do
+    {actions, props} = Map.pop(Map.new(props), :actions, [])
+    <%= @component_prefix %>dialog(props, children, List.wrap(actions), ctx)
+  end
 
   @doc """
   The dialog node. `body` is the content; `actions` are footer nodes laid out in
