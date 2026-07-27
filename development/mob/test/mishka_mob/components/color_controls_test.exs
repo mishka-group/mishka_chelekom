@@ -277,21 +277,29 @@ defmodule MishkaMob.Components.ColorControlsTest do
       assert cross.(50, 90).y < cross.(50, 10).y
     end
 
-    test "hue is dragged on its strip; saturation and value still need sliders" do
-      tree = MishkaColorPicker.color_picker(on_hue: :h, on_saturation: :s, on_value: :v)
+    test "both axes are dragged on the square; no sliders inside the component" do
+      tree = MishkaColorPicker.color_picker(on_hue: :h, on_area: :area)
 
-      # The hue strip is 1-D, so a touch position maps straight to a value. The
-      # saturation/value square is 2-D and one gesture cannot emit two events,
-      # so those two keep their sliders until that is worth an API break.
-      # find/2 would return the saturation/value square — it is drawn first and
-      # carries no handler. The hue strip is the canvas that has one.
-      assert tree
-             |> find_all(:canvas)
-             |> Enum.map(& &1.props[:on_drag])
-             |> Enum.reject(&is_nil/1) == [{self(), :h}]
+      handlers =
+        tree |> find_all(:canvas) |> Enum.map(& &1.props[:on_drag]) |> Enum.reject(&is_nil/1)
 
-      assert tree |> find_all(:slider) |> Enum.map(& &1.props[:on_change]) ==
-               [{self(), :s}, {self(), :v}]
+      # The square first, then the hue strip nested inside it.
+      assert handlers == [{self(), :area}, {self(), :h}]
+
+      # A labelled slider per axis is a SCREEN's way of driving the picker, not
+      # part of the picker. One drag on the square already sets both.
+      refute find(tree, :slider)
+    end
+
+    test "sv_at inverts the area, so the ring lands under the finger" do
+      assert MishkaColorPicker.sv_at(0, 0, 260, 180) == {0.0, 100.0}
+      assert MishkaColorPicker.sv_at(260, 180, 260, 180) == {100.0, 0.0}
+      assert MishkaColorPicker.sv_at(130, 90, 260, 180) == {50.0, 50.0}
+    end
+
+    test "sv_at clamps a touch that leaves the square" do
+      assert MishkaColorPicker.sv_at(-50, -50, 260, 180) == {0.0, 100.0}
+      assert MishkaColorPicker.sv_at(999, 999, 260, 180) == {100.0, 0.0}
     end
 
     test "the preview reports the colour and stays legible over it" do

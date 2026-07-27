@@ -4,7 +4,7 @@ defmodule MishkaMob.Showcase.Components.ColorPicker do
 
   import Mob.Sigil
 
-  alias MishkaMob.Components.{Color, MishkaColorPicker}
+  alias MishkaMob.Components.{Color, Event, MishkaColorPicker, MishkaHueSlider}
   alias MishkaMob.Showcase.Example
 
   @impl true
@@ -40,21 +40,16 @@ defmodule MishkaMob.Showcase.Components.ColorPicker do
           saturation={@sat}
           value={@val}
           on_hue={:hue}
-          on_saturation={:sat}
-          on_value={:val}
+          on_area={:area}
         />
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaColorPicker
-              hue={@hue}
-              saturation={@sat}
-              value={@val}
-              on_hue={:hue}
-              on_saturation={:sat}
-              on_value={:val}
-            />
+            <MishkaColorPicker hue={@hue} saturation={@sat} value={@val} on_hue={:hue} on_area={:area} />
+            <Spacer size={10} />
+            {axis("Saturation", @sat, :sat)}
+            {axis("Brightness", @val, :val)}
           </Column>
           """
         end
@@ -108,10 +103,45 @@ defmodule MishkaMob.Showcase.Components.ColorPicker do
   end
 
   @impl true
+  # One gesture, two numbers: a drag on the square sets saturation AND
+  # brightness, which is why they arrive together as :area rather than as two
+  # events. The sliders below are this PAGE's, not the picker's — they exist to
+  # show each axis can also be driven on its own.
+  def handle_change(:area, %{x: x, y: y}, socket) do
+    {sat, val} = MishkaColorPicker.sv_at(x, y)
+
+    socket |> Mob.Socket.assign(:sat, sat) |> Mob.Socket.assign(:val, val)
+  end
+
+  def handle_change(:hue, %{x: x}, socket),
+    do: Mob.Socket.assign(socket, :hue, MishkaHueSlider.hue_at(x, 260))
+
   def handle_change(:hue, value, socket), do: Mob.Socket.assign(socket, :hue, value)
   def handle_change(:sat, value, socket), do: Mob.Socket.assign(socket, :sat, value)
   def handle_change(:val, value, socket), do: Mob.Socket.assign(socket, :val, value)
   def handle_change(_tag, _value, socket), do: socket
+
+  # Lives here, not in the picker: a labelled slider per axis is one way to drive
+  # the component, not part of what it is. The square already sets both at once.
+  defp axis(label, value, tag) do
+    slider =
+      ~MOB(<Slider min={0} max={100} value={value} />)
+      |> put(:on_change, Event.handler(tag))
+
+    ~MOB"""
+    <Column fill_width={true}>
+      <Row fill_width={true}>
+        <Text text={label} text_size={:sm} text_color={:on_surface} />
+        <Spacer weight={1} />
+        <Text text={"#{round(value)}%"} text_size={:sm} text_color={:muted} />
+      </Row>
+      {slider}
+    </Column>
+    """
+  end
+
+  defp put(node, _key, nil), do: node
+  defp put(node, key, value), do: %{node | props: Map.put(node.props, key, value)}
 
   @impl true
   def card_preview do

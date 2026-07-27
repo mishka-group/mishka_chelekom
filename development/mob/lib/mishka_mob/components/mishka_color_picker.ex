@@ -70,7 +70,8 @@ defmodule MishkaMob.Components.MishkaColorPicker do
     width = Map.get(props, :width, @width)
     height = Map.get(props, :height, @height)
 
-    area = Mob.UI.canvas(width: width, height: height, draw: area(width, height, h, s, v))
+    area =
+      canvas_node(width, height, area(width, height, h, s, v), Map.get(props, :on_area))
 
     hue_slider =
       MishkaHueSlider.hue_slider(
@@ -84,8 +85,6 @@ defmodule MishkaMob.Components.MishkaColorPicker do
       {area}
       <Spacer size={10} />
       {hue_slider}
-      {axis("Saturation", s, Map.get(props, :on_saturation))}
-      {axis("Brightness", v, Map.get(props, :on_value))}
       {preview(props, {h, s, v})}
     </Column>
     """
@@ -149,21 +148,37 @@ defmodule MishkaMob.Components.MishkaColorPicker do
     ]
   end
 
-  defp axis(label, value, tag) do
-    slider =
-      ~MOB(<Slider min={0} max={100} value={value} />)
-      |> put(:on_change, Event.handler(tag))
+  @doc """
+  The `{saturation, value}` a touch at `{x, y}` selects on an area of `w` x `h`.
 
-    ~MOB"""
-    <Column fill_width={true}>
-      <Row fill_width={true}>
-        <Text text={label} text_size={:sm} text_color={:on_surface} />
-        <Spacer weight={1} />
-        <Text text={"#{round(value)}%"} text_size={:sm} text_color={:muted} />
-      </Row>
-      {slider}
-    </Column>
-    """
+  Saturation runs left to right, brightness top to bottom — the inverse of what
+  the area paints, so the ring lands under the finger.
+
+      iex> MishkaMob.Components.MishkaColorPicker.sv_at(0, 0, 260, 180)
+      {0.0, 100.0}
+
+      iex> MishkaMob.Components.MishkaColorPicker.sv_at(260, 180, 260, 180)
+      {100.0, 0.0}
+
+      iex> MishkaMob.Components.MishkaColorPicker.sv_at(130, 90, 260, 180)
+      {50.0, 50.0}
+  """
+  @spec sv_at(number(), number(), number(), number()) :: {float(), float()}
+  def sv_at(x, y, w \\ @width, h \\ @height) do
+    {
+      if(w > 0, do: Color.clamp(x, 0, w) / w * 100, else: 0.0),
+      if(h > 0, do: 100 - Color.clamp(y, 0, h) / h * 100, else: 0.0)
+    }
+  end
+
+  # Mob.UI.canvas/1 drops handlers (Map.take of width/height/draw), so the node
+  # is built literally — otherwise the area renders perfectly and does nothing.
+  defp canvas_node(width, height, ops, tag) do
+    props = %{width: width, height: height, draw: ops}
+    handler = Event.handler(tag)
+    props = if handler, do: Map.put(props, :on_drag, handler), else: props
+
+    %{type: :canvas, props: props, children: []}
   end
 
   defp preview(props, {h, s, v}) do
@@ -218,9 +233,6 @@ defmodule MishkaMob.Components.MishkaColorPicker do
   # bottom and the strip's marker teleported. Wrap only what is out of range.
   defp normalize_hue(v) when is_number(v) and v >= 0 and v <= 360, do: v * 1.0
   defp normalize_hue(v), do: Color.wrap_hue(v)
-
-  defp put(node, _key, nil), do: node
-  defp put(node, key, value), do: %{node | props: Map.put(node.props, key, value)}
 
   defp truthy?(nil), do: false
   defp truthy?(false), do: false
