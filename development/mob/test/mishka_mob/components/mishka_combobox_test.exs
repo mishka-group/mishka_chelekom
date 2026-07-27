@@ -9,7 +9,7 @@ defmodule MishkaMob.Components.MishkaComboboxTest do
   defp pairs, do: [{:ir, "Iran"}, {:uk, "United Kingdom"}, {:de, "Germany"}, {:ca, "Café"}]
   defp opts, do: Enum.map(pairs(), fn {id, label} -> C.option(id, label) end)
 
-  defp build(props \\ %{}),
+  defp build(props),
     do: C.combobox(Map.merge(%{open: true, on_select: :pick}, props), opts())
 
   describe "fold/1" do

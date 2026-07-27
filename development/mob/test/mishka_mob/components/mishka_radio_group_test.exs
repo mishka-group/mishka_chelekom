@@ -14,7 +14,7 @@ defmodule MishkaMob.Components.MishkaRadioGroupTest do
     ]
   end
 
-  defp build(props \\ %{}),
+  defp build(props),
     do: MishkaRadioGroup.radio_group(Map.merge(%{on_change: :plan}, props), opts())
 
   # each option renders as a Radio row

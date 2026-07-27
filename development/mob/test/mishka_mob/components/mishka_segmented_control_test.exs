@@ -10,7 +10,7 @@ defmodule MishkaMob.Components.MishkaSegmentedControlTest do
     [SC.option(:day, "Day"), SC.option(:week, "Week"), SC.option(:month, "Month", disabled: true)]
   end
 
-  defp build(props \\ %{}),
+  defp build(props),
     do: SC.segmented_control(Map.merge(%{on_change: :pick}, props), opts())
 
   defp track(tree), do: find(tree, :box)

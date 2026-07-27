@@ -1,4 +1,19 @@
 defmodule MishkaMob.GeneratedComponentsTest do
+  # These modules are defined at RUNTIME by the test itself — each generated
+  # template is rendered and Code.compile_string'd inside the relevant test. The
+  # compiler is right that they do not exist yet at compile time, and wrong that
+  # it matters, so the warning is declared away rather than worked around.
+  @compile {:no_warn_undefined,
+            [
+              Generated.Live.Chip,
+              Generated.Live.CloseButton,
+              Generated.Live.Color,
+              Generated.Live.NumberFormatter,
+              Generated.Live.Toast.Queue,
+              Generated.Live.Tree,
+              Generated.Pfx.MishkaCloseButton
+            ]}
+
   @moduledoc """
   The round trip: every `priv/mob` template is rendered, compiled and **called**
   inside a real Mob application, and its output compared against the component

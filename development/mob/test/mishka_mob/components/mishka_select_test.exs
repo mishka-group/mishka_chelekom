@@ -14,7 +14,7 @@ defmodule MishkaMob.Components.MishkaSelectTest do
     ]
   end
 
-  defp build(props \\ %{}),
+  defp build(props),
     do: S.select(Map.merge(%{on_toggle: :open, on_select: :pick}, props), opts())
 
   describe "toggle/3" do

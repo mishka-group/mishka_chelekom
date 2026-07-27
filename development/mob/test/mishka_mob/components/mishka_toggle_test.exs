@@ -9,7 +9,9 @@ defmodule MishkaMob.Components.MishkaToggleTest do
 
     assert node.type == :box
     assert node.props.corner_radius == :radius_md
-    refute node.type == :toggle
+    # No `refute node.type == :toggle` — the assert above already pins it to
+    # :box, so the compiler proves that redundant. The tree-wide check is the
+    # one that carries meaning: nothing anywhere below is Mob's Toggle either.
     assert find_all(node, :toggle) == []
   end
 

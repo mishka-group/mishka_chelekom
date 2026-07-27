@@ -10,7 +10,7 @@ defmodule MishkaMob.Components.MishkaCheckboxGroupTest do
     [Group.item(:a, "Alpha"), Group.item(:b, "Beta"), Group.item(:c, "Gamma", disabled: true)]
   end
 
-  defp build(props \\ %{}),
+  defp build(props),
     do: Group.checkbox_group(Map.merge(%{on_change: :pick}, props), items())
 
   defp rows(tree), do: find_all(tree, :row) |> Enum.filter(&(text(&1) != ""))

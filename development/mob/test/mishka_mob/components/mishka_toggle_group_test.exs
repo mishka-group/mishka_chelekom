@@ -10,7 +10,7 @@ defmodule MishkaMob.Components.MishkaToggleGroupTest do
     [Group.item(:a, "A"), Group.item(:b, "B"), Group.item(:c, "C", disabled: true)]
   end
 
-  defp build(props \\ %{}), do: Group.toggle_group(Map.merge(%{on_change: :pick}, props), items())
+  defp build(props), do: Group.toggle_group(Map.merge(%{on_change: :pick}, props), items())
   defp buttons(tree), do: Enum.filter(tree.children, &(&1.type == :box))
 
   describe "press/3 in single mode" do
