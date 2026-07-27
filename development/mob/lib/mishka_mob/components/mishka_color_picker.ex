@@ -40,7 +40,6 @@ defmodule MishkaMob.Components.MishkaColorPicker do
   | `saturation` | 0–100 | `76` | Current saturation. |
   | `value` | 0–100 | `96` | Current value/brightness. |
   | `width` / `height` | number | `280` / `170` | Area size in logical units. |
-  | `show_preview` | boolean | `true` | Swatch + hex readout under the sliders. |
   | `on_area` | event tag | — | `{:drag, tag, %{x:, y:}}` from the square — ONE event for both axes. Convert with `sv_at/4`. |
   | `on_hue` | event tag | — | `{:drag, tag, %{x:}}` from the strip. Convert with `MishkaHueSlider.hue_at/2`. |
   """
@@ -84,9 +83,8 @@ defmodule MishkaMob.Components.MishkaColorPicker do
     ~MOB"""
     <Column fill_width={true}>
       {area}
-      <Spacer size={10} />
+      <Spacer size={6} />
       {hue_slider}
-      {preview(props, {h, s, v})}
     </Column>
     """
   end
@@ -182,24 +180,6 @@ defmodule MishkaMob.Components.MishkaColorPicker do
     %{type: :canvas, props: props, children: []}
   end
 
-  defp preview(props, {h, s, v}) do
-    if truthy?(Map.get(props, :show_preview, true)) do
-      rgb = Color.hsv_to_rgb(h, s, v)
-      fill = Color.argb(rgb)
-      ink = Color.ink_on(rgb)
-
-      ~MOB"""
-      <Box fill_width={true} background={fill} corner_radius={:radius_md} padding={:space_md}>
-        <Row fill_width={true}>
-          <Text text={Color.hex(rgb)} text_size={:base} text_color={ink} weight={:semibold} />
-          <Spacer weight={1} />
-          <Text text={"H #{round(h)}  S #{round(s)}  B #{round(v)}"} text_size={:sm} text_color={ink} />
-        </Row>
-      </Box>
-      """
-    end
-  end
-
   @doc """
   The `{h, s, v}` a props map describes, defaulted and clamped.
 
@@ -234,8 +214,4 @@ defmodule MishkaMob.Components.MishkaColorPicker do
   # bottom and the strip's marker teleported. Wrap only what is out of range.
   defp normalize_hue(v) when is_number(v) and v >= 0 and v <= 360, do: v * 1.0
   defp normalize_hue(v), do: Color.wrap_hue(v)
-
-  defp truthy?(nil), do: false
-  defp truthy?(false), do: false
-  defp truthy?(_), do: true
 end

@@ -57,7 +57,6 @@ Pass the picker's `width`/`height` to `sv_at/4` if you overrode them, and `width
 | `width` / `height` | number | `280` / `170` |
 | `on_area` | event tag | `{:drag, tag, %{x:, y:}}` → `sv_at/4` |
 | `on_hue` | event tag | `{:drag, tag, %{x:}}` → `hue_at/2` |
-| `show_preview` | boolean | `true` |
 
 Helpers: `sv_at(x, y, w \\ 280, h \\ 170)` → `{sat, val}`, `hex/1`.
 

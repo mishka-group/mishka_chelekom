@@ -48,6 +48,8 @@ defmodule MishkaMob.Showcase.Components.ColorPicker do
           <Column fill_width={true}>
             <MishkaColorPicker hue={@hue} saturation={@sat} value={@val} on_hue={:hue} on_area={:area} />
             <Spacer size={10} />
+            {preview(@hue, @sat, @val)}
+            <Spacer size={10} />
             {axis("Saturation", @sat, :sat)}
             {axis("Brightness", @val, :val)}
           </Column>
@@ -120,6 +122,24 @@ defmodule MishkaMob.Showcase.Components.ColorPicker do
   def handle_change(:sat, value, socket), do: Mob.Socket.assign(socket, :sat, value)
   def handle_change(:val, value, socket), do: Mob.Socket.assign(socket, :val, value)
   def handle_change(_tag, _value, socket), do: socket
+
+  # The swatch and hex live here, not in the picker: the component is the square
+  # and the strip, and what you DO with the colour is the screen's business.
+  defp preview(h, s, v) do
+    rgb = Color.hsv_to_rgb(h, s, v)
+    fill = Color.argb(rgb)
+    ink = Color.ink_on(rgb)
+
+    ~MOB"""
+    <Box fill_width={true} background={fill} corner_radius={:radius_md} padding={:space_md}>
+      <Row fill_width={true}>
+        <Text text={Color.hex(rgb)} text_size={:base} text_color={ink} weight={:semibold} />
+        <Spacer weight={1} />
+        <Text text={"H #{round(h)}  S #{round(s)}  B #{round(v)}"} text_size={:sm} text_color={ink} />
+      </Row>
+    </Box>
+    """
+  end
 
   # Lives here, not in the picker: a labelled slider per axis is one way to drive
   # the component, not part of what it is. The square already sets both at once.

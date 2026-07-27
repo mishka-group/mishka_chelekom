@@ -302,18 +302,21 @@ defmodule MishkaMob.Components.ColorControlsTest do
       assert MishkaColorPicker.sv_at(999, 999, 260, 180) == {100.0, 0.0}
     end
 
-    test "the preview reports the colour and stays legible over it" do
-      dark = MishkaColorPicker.color_picker(hue: 0, saturation: 100, value: 10)
-      light = MishkaColorPicker.color_picker(hue: 0, saturation: 0, value: 100)
+    test "the component is the square and the strip, and nothing else" do
+      tree = MishkaColorPicker.color_picker(hue: 210, saturation: 48, value: 58)
 
-      # find/2 returns the first text node, which is a slider's axis label — the
-      # readout is the one carrying a hex string.
-      readout = fn tree ->
-        tree |> find_all(:text) |> Enum.find(&String.starts_with?(&1.props.text, "#"))
-      end
+      # A swatch, a hex readout and a slider per axis are all things a SCREEN
+      # builds around the picker. The picker is the two canvases.
+      assert tree |> find_all(:canvas) |> length() == 2
+      refute find(tree, :slider)
+      refute tree |> find_all(:text) |> Enum.any?(&String.starts_with?(&1.props.text, "#"))
+    end
 
-      assert readout.(dark).props.text_color == 0xFFFFFFFF
-      assert readout.(light).props.text_color == 0xFF111827
+    test "ink_on keeps a readout legible over the colour it reports" do
+      # The showcase draws the swatch now, but the contrast choice is the
+      # library's and is what actually breaks if it regresses.
+      assert Color.ink_on(Color.hsv_to_rgb(0, 100, 10)) == 0xFFFFFFFF
+      assert Color.ink_on(Color.hsv_to_rgb(0, 0, 100)) == 0xFF111827
     end
 
     test "the preview can be hidden, for embedding in a panel" do
