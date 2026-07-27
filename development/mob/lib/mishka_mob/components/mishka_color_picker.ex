@@ -41,7 +41,8 @@ defmodule MishkaMob.Components.MishkaColorPicker do
   | `value` | 0–100 | `96` | Current value/brightness. |
   | `width` / `height` | number | `280` / `170` | Area size in logical units. |
   | `show_preview` | boolean | `true` | Swatch + hex readout under the sliders. |
-  | `on_hue` / `on_saturation` / `on_value` | event tags | — | `{:change, tag, float}`. |
+  | `on_area` | event tag | — | `{:drag, tag, %{x:, y:}}` from the square — ONE event for both axes. Convert with `sv_at/4`. |
+  | `on_hue` | event tag | — | `{:drag, tag, %{x:}}` from the strip. Convert with `MishkaHueSlider.hue_at/2`. |
   """
 
   import Mob.Sigil
@@ -61,7 +62,7 @@ defmodule MishkaMob.Components.MishkaColorPicker do
   The picker.
 
       color_picker(hue: @hue, saturation: @sat, value: @val,
-                   on_hue: :hue, on_saturation: :sat, on_value: :val)
+                   on_hue: :hue, on_area: :area)
   """
   @spec color_picker(map() | keyword()) :: map()
   def color_picker(props \\ %{}) do
