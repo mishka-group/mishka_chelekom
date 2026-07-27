@@ -140,16 +140,35 @@ defmodule MishkaMob.Components.ColorControlsTest do
       assert_draws(tree)
     end
 
-    test "runs 0..100, not 0..1" do
-      slider = MishkaAlphaSlider.alpha_slider(value: 60, on_change: :a) |> find(:slider)
+    test "the track itself is the control — no separate slider under it" do
+      tree = MishkaAlphaSlider.alpha_slider(value: 60, on_change: :a)
 
-      assert {slider.props.min, slider.props.max} == {0, 100}
-      assert slider.props.on_change == {self(), :a}
+      # on_drag, not on_change: a drawn control needs the touch POSITION, and
+      # {:change, tag, value} carries none.
+      assert find(tree, :canvas).props.on_drag == {self(), :a}
+      refute find(tree, :slider)
     end
 
-    test "clamps out-of-range opacity" do
-      assert MishkaAlphaSlider.alpha_slider(value: 300) |> find(:slider) |> then(& &1.props.value) ==
-               100
+    test "runs 0..100, not 0..1" do
+      assert MishkaAlphaSlider.alpha_at(300, 300) == 100.0
+      assert MishkaAlphaSlider.alpha_at(150, 300) == 50.0
+    end
+
+    test "clamps out-of-range opacity to the track's far end" do
+      [at_300 | _] = MishkaAlphaSlider.alpha_slider(value: 300, width: 300) |> ops_of(:line)
+      [at_100 | _] = MishkaAlphaSlider.alpha_slider(value: 100, width: 300) |> ops_of(:line)
+
+      assert at_300.x1 == at_100.x1
+      assert at_300.x1 > 290
+    end
+
+    test "alpha_at is the inverse of the marker, so finger and marker agree" do
+      for x <- [0, 75, 150, 225, 300] do
+        alpha = MishkaAlphaSlider.alpha_at(x, 300)
+        [marker | _] = MishkaAlphaSlider.alpha_slider(value: alpha, width: 300) |> ops_of(:line)
+
+        assert_in_delta marker.x1, x, 1.6
+      end
     end
 
     test "shows a percentage, not a fraction" do

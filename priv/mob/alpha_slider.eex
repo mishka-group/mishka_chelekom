@@ -21,7 +21,7 @@ defmodule <%= @module %> do
   | `width` / `height` | number | `300` / `16` | Track size in logical units. |
   | `show_value` | boolean | `false` | Render a `60%` readout. |
   | `label` | string | `nil` | Caption above the track. |
-  | `on_change` | event tag (atom) | — | `{:change, tag, float}` while dragging. |
+  | `on_change` | event tag (atom) | — | `{:drag, tag, %{x:, y:, dx:, dy:, phase:}}` — a touch POSITION, not a value. Convert with `alpha_at/2`. |
 
   Not ported: `on_commit`, `step`/`large_step`, `name`/`form`/`id` — see
   `<%= @namespace %>.<%= @module_prefix_camel %>Slider` for why.
@@ -43,7 +43,11 @@ defmodule <%= @module %> do
   @doc """
   The alpha slider.
 
-      <%= @component_prefix %>alpha_slider(value: @alpha, color: "#3b82f6", on_change: :alpha)
+      <<%= @module_prefix_camel %>AlphaSlider value={@alpha} color="#3b82f6" on_change={:alpha} />
+
+  The track itself is the control — there is no `<Slider>` under it. `phase` is
+  `"began"` on touch-down (so a tap sets the alpha), `"dragging"` while the
+  finger moves, `"ended"` on release.
   """
   @spec <%= @component_prefix %>alpha_slider(map() | keyword()) :: map()
   def <%= @component_prefix %>alpha_slider(props \\ %{}) do
@@ -53,11 +57,13 @@ defmodule <%= @module %> do
     height = Map.get(props, :height, @height)
     rgb = base_rgb(Map.get(props, :color, "#000000"))
 
-    strip = Mob.UI.canvas(width: width, height: height, draw: track(width, height, rgb, alpha))
-
-    control =
-      ~MOB(<Slider min={0} max={100} value={alpha} />)
-      |> put(:on_change, Event.handler(Map.get(props, :on_change)))
+    strip =
+      canvas_node(
+        width,
+        height,
+        track(width, height, rgb, alpha),
+        Event.handler(Map.get(props, :on_change))
+      )
 
     head = header(props, alpha)
 
@@ -65,9 +71,38 @@ defmodule <%= @module %> do
     <Column fill_width={true}>
       {head}
       {strip}
-      {control}
     </Column>
     """
+  end
+
+  @doc """
+  The alpha a touch at `x` selects, `x` in canvas units from the track's left edge.
+
+  The inverse of the marker, so finger and marker cannot separate.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>AlphaSlider.alpha_at(150, 300)
+      50.0
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>AlphaSlider.alpha_at(300, 300)
+      100.0
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>AlphaSlider.alpha_at(-40, 300)
+      0.0
+  """
+  @spec alpha_at(number(), number()) :: float()
+  def alpha_at(x, width \\ @width)
+  def alpha_at(_x, width) when not is_number(width) or width <= 0, do: 0.0
+  def alpha_at(x, width), do: Color.clamp(x, 0, width) / width * 100
+
+  # Mob.UI.canvas/1 is Map.take(props, [:width, :height, :draw]) — it silently
+  # drops any handler, which is exactly the "renders perfectly and does nothing"
+  # failure Event warns about. Built literally so on_drag survives to the
+  # renderer, which registers it like any other handler.
+  defp canvas_node(width, height, ops, handler) do
+    props = %{width: width, height: height, draw: ops}
+    props = if handler, do: Map.put(props, :on_drag, handler), else: props
+
+    %{type: :canvas, props: props, children: []}
   end
 
   @doc """
@@ -117,7 +152,9 @@ defmodule <%= @module %> do
   end
 
   defp marker(width, height, alpha) do
-    x = Color.clamp(alpha / 100 * width, 2, width - 2)
+    # Half the 3px stroke, not 2 — with a finger on the track the marker must
+    # not sit visibly short of the edge the user is aiming at.
+    x = Color.clamp(alpha / 100 * width, 1.5, width - 1.5)
 
     [
       Mob.Canvas.line(x, 0, x, height, color: 0xFF_FF_FF_FF, width: 3),
@@ -153,9 +190,6 @@ defmodule <%= @module %> do
     </Row>
     """
   end
-
-  defp put(node, _key, nil), do: node
-  defp put(node, key, value), do: %{node | props: Map.put(node.props, key, value)}
 
   defp truthy?(nil), do: false
   defp truthy?(false), do: false

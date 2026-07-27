@@ -92,7 +92,15 @@ defmodule MishkaMob.Showcase.Components.AlphaSlider do
   end
 
   @impl true
-  def handle_change(:alpha, value, socket), do: Mob.Socket.assign(socket, :alpha, value)
+  # The track IS the control now, so what arrives is a touch position in canvas
+  # units, not a number. alpha_at/2 is the inverse of the marker, so the opacity
+  # under the finger is the opacity selected.
+  def handle_change(:alpha, %{x: x}, socket),
+    do: Mob.Socket.assign(socket, :alpha, MishkaAlphaSlider.alpha_at(x))
+
+  def handle_change(:alpha, value, socket) when is_number(value),
+    do: Mob.Socket.assign(socket, :alpha, value)
+
   def handle_change(_tag, _value, socket), do: socket
 
   @impl true
