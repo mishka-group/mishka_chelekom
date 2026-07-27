@@ -40,6 +40,27 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob do
   collide with a composite the app already registered under that name. That is
   what `--module-prefix` is for.
 
+  ## Writing components as tags
+
+  Registering a composite makes `<Drawer>` *render*. It does not make it compile
+  quietly: `~MOB` validates tag names against a whitelist baked into Mob, and a
+  runtime registration is invisible to a compile-time check, so the sigil warns
+  that the tag is unknown. Mob documents that as expected — but on
+  `--warnings-as-errors` an expected warning is indistinguishable from a real
+  one, and the tag form becomes unusable.
+
+  So generating a component also adds its tag to that whitelist and recompiles
+  `:mob`, which is what lets you write
+
+      <AcmeDrawer open={@open} />
+
+  instead of `{drawer(open: @open)}`. The tags come from the registry above
+  rather than from filenames, so `--module-prefix` is carried through. The
+  change is a fenced block in `deps/mob/priv/tags/`, shown in the diff like any
+  other; `mix deps.get` discards it and re-running the generator restores it.
+
+  Pass `--no-tags` to leave Mob's whitelist alone and call the functions.
+
   The shared `Event`/`Color` modules are vendored automatically when a component
   needs them (see `mix mishka.ui.gen.mob.kit`).
 
@@ -58,6 +79,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob do
   * `--sub` - Marks this as a dependency sub-generation
   * `--no-save` - Use prefixes without saving them to config
   * `--no-register` - Do not touch the composite-tag registry
+  * `--no-tags` - Do not add the tags to Mob's `~MOB` whitelist
   * `--no-kit` - Do not vendor the shared support modules
   * `--yes` - Apply without prompts
   """
@@ -75,7 +97,8 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob do
         sub: :boolean,
         no_save: :boolean,
         no_register: :boolean,
-        no_kit: :boolean
+        no_kit: :boolean,
+        no_tags: :boolean
       ],
       aliases: [m: :module]
     }
@@ -108,6 +131,8 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob do
       |> vendor_kit()
       |> generate_necessary()
       |> register_composites()
+      |> wire_boot()
+      |> whitelist_tags()
       |> maybe_save_prefixes()
 
     if spin? do
@@ -283,6 +308,24 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob do
   end
 
   defp register_composites(igniter), do: igniter
+
+  # A registry nothing calls registers nothing, and an unregistered tag renders
+  # nothing rather than failing — so the call is wired in, not documented.
+  defp wire_boot(%{assigns: %{proper_location: _}} = igniter) do
+    if igniter.args.options[:no_register], do: igniter, else: Registry.wire_boot(igniter)
+  end
+
+  defp wire_boot(igniter), do: igniter
+
+  # Registering a composite makes `<Drawer>` render; whitelisting it is what
+  # makes it compile without a warning. Both are decided by the same list, and
+  # both happen here — the generator already knows the tags, so needing a second
+  # command afterwards to finish the job would just be a step to forget.
+  defp whitelist_tags(%{assigns: %{proper_location: _}} = igniter) do
+    if igniter.args.options[:no_tags], do: igniter, else: Registry.whitelist(igniter)
+  end
+
+  defp whitelist_tags(igniter), do: igniter
 
   defp maybe_save_prefixes(%{assigns: %{eex_assigns: _}} = igniter),
     do: Core.maybe_save_prefixes(igniter, igniter.args.options)

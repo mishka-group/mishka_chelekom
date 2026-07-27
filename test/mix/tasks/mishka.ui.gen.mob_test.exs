@@ -246,6 +246,129 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.MobTest do
     end
   end
 
+  describe "registering at boot" do
+    @app_ex "lib/test/app.ex"
+    @app_src """
+    defmodule Test.App do
+      use Mob.App
+
+      def on_start do
+        Mob.Nav.push(Test.HomeScreen)
+      end
+    end
+    """
+
+    defp gen_with_app(args) do
+      [files: %{@app_ex => @app_src}]
+      |> test_project_with_formatter()
+      |> Igniter.compose_task(Mob, args)
+    end
+
+    # A registry nothing calls registers nothing — and an unregistered tag does
+    # not fail, it renders nothing. Leaving this to the docs is leaving a step
+    # whose only symptom is a blank screen.
+    test "calls register_all/0 from the app's on_start/0" do
+      app = gen_with_app(["chip", "--yes"]) |> content(@app_ex)
+
+      assert app =~ "Test.Components.register_all()"
+      assert app =~ "Mob.Nav.push(Test.HomeScreen)"
+    end
+
+    test "is idempotent — a second component does not add the call twice" do
+      app =
+        [files: %{@app_ex => @app_src}]
+        |> test_project_with_formatter()
+        |> Igniter.compose_task(Mob, ["chip", "--yes"])
+        |> Igniter.compose_task(Mob, ["pill", "--yes"])
+        |> content(@app_ex)
+
+      assert app |> String.split("Test.Components.register_all()") |> length() == 2
+    end
+
+    test "--no-register leaves boot alone, there being no registry to call" do
+      refute gen_with_app(["chip", "--no-register", "--yes"]) |> content(@app_ex) =~
+               "register_all()"
+    end
+
+    test "says what to add when the app module is not where it is expected" do
+      igniter = gen(["chip", "--yes"])
+
+      assert Enum.any?(igniter.notices, &(&1 =~ "register_all()"))
+    end
+  end
+
+  describe "the ~MOB tag whitelist" do
+    @android "deps/mob/priv/tags/android.txt"
+    @ios "deps/mob/priv/tags/ios.txt"
+
+    # Stand in for the whitelist Mob ships. The generator only touches these
+    # when they are already there, so without them there is nothing to assert.
+    defp gen_with_tags(args) do
+      [files: %{@android => "Column\nText\n", @ios => "Column\nText\n"}]
+      |> test_project_with_formatter()
+      |> Igniter.compose_task(Mob, args)
+    end
+
+    # Registering a composite makes the tag render; it does not make it compile
+    # without a warning, and on --warnings-as-errors that difference is what
+    # decides whether the tag form can be used at all.
+    test "adds the generated tag, as ~MOB spells it" do
+      igniter = gen_with_tags(["chip", "--yes"])
+
+      assert content(igniter, @android) =~ "Chip"
+      assert content(igniter, @ios) =~ "Chip"
+    end
+
+    test "keeps Mob's own tags — the block is fenced, not a replacement" do
+      android = gen_with_tags(["chip", "--yes"]) |> content(@android)
+
+      assert android =~ "Column"
+      assert android =~ "Text"
+    end
+
+    test "carries --module-prefix, which is why it reads the registry not the files" do
+      android = gen_with_tags(["chip", "--module-prefix", "acme_", "--yes"]) |> content(@android)
+
+      assert android =~ "AcmeChip"
+    end
+
+    test "whitelists siblings pulled in during the same run" do
+      android = gen_with_tags(["close_button", "--yes"]) |> content(@android)
+
+      assert android =~ "CloseButton"
+      assert android =~ "ActionIcon"
+    end
+
+    # @known_tags is baked at MOB's compile time, so writing the file and
+    # stopping there would leave the sigil serving the old list.
+    test "recompiles :mob, without which the new file changes nothing" do
+      assert {"deps.compile", ["mob", "--force"]} in gen_with_tags(["chip", "--yes"]).tasks
+    end
+
+    test "--no-tags leaves Mob's whitelist alone" do
+      igniter = gen_with_tags(["chip", "--no-tags", "--yes"])
+
+      # The file is seeded, so it is present either way — untouched is the claim.
+      assert content(igniter, @android) == "Column\nText\n"
+      refute {"deps.compile", ["mob", "--force"]} in igniter.tasks
+    end
+
+    # Re-running a generator must not accumulate duplicate tags or leave stale
+    # ones behind, which is what appending to the block instead of rebuilding it
+    # would do.
+    test "is idempotent — generating twice yields the same block" do
+      once = gen_with_tags(["chip", "--yes"]) |> content(@android)
+
+      twice =
+        [files: %{@android => once, @ios => once}]
+        |> test_project_with_formatter()
+        |> Igniter.compose_task(Mob, ["chip", "--yes"])
+        |> content(@android)
+
+      assert twice == once
+    end
+  end
+
   describe "what it deliberately does not do" do
     test "installs no CSS and no npm packages" do
       igniter = gen(["chip", "--yes"])
