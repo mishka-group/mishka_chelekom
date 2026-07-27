@@ -7,7 +7,10 @@ import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.click
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTouchInput
+import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.performTextReplacement
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -48,53 +51,119 @@ import org.junit.runner.RunWith
  * the app — the screen stack is whatever the previous test left, so each test
  * navigates itself to a known place rather than assuming a fresh start.
  *
- *   ./gradlew connectedDebugAndroidTest
+ * Run with:
+ *
+ *   ./gradlew assembleDebugAndroidTest
+ *   adb install -r app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+ *   adb shell am instrument -w \
+ *     com.example.mishka_mob.test/androidx.test.runner.AndroidJUnitRunner
+ *
+ * NOT `./gradlew connectedDebugAndroidTest`: it reinstalls the app APK, and
+ * Android wipes the app's files/ directory on reinstall — which is where the
+ * whole OTP release lives, so the BEAM cannot boot at all.
  */
 @RunWith(AndroidJUnit4::class)
 class OtpFieldTest {
 
+    // `am instrument` restarts the target process, so each run starts with no
+    // Activity at all and the rule can create one cleanly. (An empty rule was
+    // tried first, on the theory that the app should be attached to rather than
+    // launched — but nothing then brings it to the foreground, and every query
+    // ran against the launcher.)
     @get:Rule
     val compose = createAndroidComposeRule<MainActivity>()
 
     /** testTag of the invisible input stacked over the slots (its `:id` prop). */
     private val otp = "otp-code"
 
+    /**
+     * Whether [text] is on screen — false, rather than an exception, when there
+     * is no composition at all yet.
+     *
+     * That distinction is the whole difficulty of testing this app. `am
+     * instrument` restarts the target process, so the BEAM boots from scratch and
+     * for several seconds there is no Activity, no setContent and no semantics
+     * tree; fetchSemanticsNodes throws IllegalStateException("No compose
+     * hierarchies found") for the entire window. Letting that escape kills
+     * waitUntil on its first poll, which is exactly the condition it exists to
+     * wait out.
+     */
     private fun showing(text: String): Boolean =
-        compose.onAllNodesWithText(text, substring = true).fetchSemanticsNodes().isNotEmpty()
+        try {
+            compose.onAllNodesWithText(text, substring = true).fetchSemanticsNodes().isNotEmpty()
+        } catch (_: IllegalStateException) {
+            false
+        }
 
     private fun awaitText(text: String, timeoutMs: Long = 60_000) =
         compose.waitUntil(timeoutMs) { showing(text) }
 
     private fun awaitTag(tag: String, timeoutMs: Long = 30_000) =
         compose.waitUntil(timeoutMs) {
-            compose.onAllNodesWithTag(tag).fetchSemanticsNodes().isNotEmpty()
+            try {
+                compose.onAllNodesWithTag(tag).fetchSemanticsNodes().isNotEmpty()
+            } catch (_: IllegalStateException) {
+                false
+            }
         }
 
     /** The caption under the slots, rendered from the same assign as the slots. */
     private fun awaitCount(n: Int) = awaitText("$n of 6 digits")
 
-    private fun pressBack() {
-        InstrumentationRegistry.getInstrumentation().uiAutomation
-            .performGlobalAction(AccessibilityService.GLOBAL_ACTION_BACK)
+    /**
+     * A FULL code does not say "6 of 6 digits" — the showcase swaps the caption
+     * for "Complete — a screen would auto-submit here.", which is the whole point
+     * of tracking completeness. Waiting on the count for a full code waits
+     * forever.
+     */
+    private fun awaitComplete() = awaitText("Complete")
+
+    /**
+     * Leave a component page using the showcase's OWN back button, not the
+     * system one.
+     *
+     * System back at the gallery pops the app's last screen and Android drops to
+     * the launcher — after which every query runs against the home screen and
+     * the failure reads as a timeout rather than as navigation having walked out
+     * of the app. The in-app button cannot do that.
+     */
+    private fun leavePage(): Boolean {
+        if (!showing("← Back")) return false
+
+        compose.onNodeWithText("← Back", substring = true).performScrollTo().performClick()
         compose.waitForIdle()
+        Thread.sleep(800)
+        return true
     }
 
     @Before
     fun openOtpScreen() {
         // Wait for the BEAM to push its first tree, whatever screen that is.
-        compose.waitUntil(60_000) { showing("Components") || showing("OTP Field") }
+        compose.waitUntil(90_000) { showing("Components") || showing("OTP Field") }
 
-        // Then walk to the OTP page from wherever the last test left off.
+        // Then reach the OTP page from wherever the last test left off.
+        //
+        // Back is only ever pressed from a component PAGE. Pressing it at the
+        // gallery pops the app's last screen and Android leaves the app
+        // entirely — the launcher becomes the resumed activity, every later
+        // query finds nothing, and the failure looks like a timeout rather than
+        // like the navigation mistake it is.
         var guard = 0
-        while (!showing("A 6-digit code") && guard++ < 10) {
-            if (showing("Components")) {
-                compose.onNodeWithText("OTP Field", substring = true).performClick()
-            } else {
-                pressBack()
-            }
-            compose.waitForIdle()
+
+        while (!showing("A 6-digit code") && !showing("Components") && guard++ < 3) {
+            if (!leavePage()) break
         }
-        awaitText("A 6-digit code")
+
+        if (!showing("A 6-digit code")) {
+            // Every card is in the semantics tree but most are off-screen, and a
+            // click on an off-screen node does nothing.
+            compose.onNodeWithText("OTP Field", substring = false)
+                .performScrollTo()
+                .performClick()
+
+            awaitText("A 6-digit code")
+        }
+
         awaitTag(otp)
 
         // Start from a known code — the screen is a live GenServer and keeps
@@ -119,12 +188,21 @@ class OtpFieldTest {
         // The regression this file was written for. Tap the FIRST slot — the one
         // already holding a digit — then type. Without `caret: "end"` the caret
         // lands at index 0 and "1" + "23" comes out as "231".
-        compose.onNodeWithText("1").performClick()
+        // Tap the FIRST slot. Not onNodeWithText("1") — the overlay's own
+        // EditableText is also "1", so that matches two nodes and dies. The
+        // overlay covers the boxes anyway, so its left edge IS the first slot,
+        // and clicking there is what a finger on that box actually does.
+        compose.onNodeWithTag(otp).performTouchInput { click(centerLeft) }
         compose.onNodeWithTag(otp).performTextInput("23")
 
+        // Appended, not prepended: 1-2-3, where the bug gave 2-3-1.
         awaitCount(3)
-        for (digit in listOf("1", "2", "3")) {
-            compose.onNodeWithText(digit).assertIsDisplayed()
+
+        for (digit in listOf("2", "3")) {
+            compose.onAllNodesWithText(digit, substring = false)
+                .fetchSemanticsNodes()
+                .isNotEmpty()
+                .let { require(it) { "slot showing $digit not found" } }
         }
     }
 
@@ -146,7 +224,7 @@ class OtpFieldTest {
         // natively — that would refuse a pasted "123-456" whole — so the
         // correction comes back from Elixir, and this proves it is visible.
         compose.onNodeWithTag(otp).performTextReplacement("1234567")
-        awaitCount(6)
+        awaitComplete()
     }
 
     @Test
@@ -154,7 +232,7 @@ class OtpFieldTest {
         // Seven characters against six slots: capping the field natively would
         // have refused the paste whole; sanitize/2 strips the separator.
         compose.onNodeWithTag(otp).performTextReplacement("123-456")
-        awaitCount(6)
+        awaitComplete()
     }
 
     @Test
@@ -167,20 +245,32 @@ class OtpFieldTest {
 
     @Test
     fun the_page_renders_every_example_and_the_props_table() {
+        // The page is a Scroll, so most of it is below the fold.
+        // assertIsDisplayed means "visible on screen right now", which is not the
+        // question here — scroll each heading into view before asking.
         for (heading in listOf(
             "A 6-digit code",
             "Masked and shorter",
+            "Grouped, with a separator",
             "Props",
         )) {
-            compose.onNodeWithText(heading, substring = true).assertIsDisplayed()
+            compose.onNodeWithText(heading, substring = true)
+                .performScrollTo()
+                .assertIsDisplayed()
         }
     }
 
     @Test
-    fun the_code_sample_shows_how_to_call_it_from_a_sigil() {
-        // The sample used to show a bare `{otp_field(...)}` with no indication of
-        // where it goes. It carries the ~MOB wrapper now.
-        compose.onNodeWithText("~MOB", substring = true).assertIsDisplayed()
+    fun the_code_samples_show_the_tag_inside_a_sigil() {
+        // Every example carries a ~MOB block now, so this matches several nodes —
+        // assertIsDisplayed wants exactly one. Count instead.
+        val sigils = compose.onAllNodesWithText("~MOB", substring = true).fetchSemanticsNodes()
+        require(sigils.isNotEmpty()) { "no ~MOB block found in any code sample" }
+
+        // And the samples show the composite tag, which is what an app writes.
+        val tags =
+            compose.onAllNodesWithText("<MishkaOtpField", substring = true).fetchSemanticsNodes()
+        require(tags.isNotEmpty()) { "no <MishkaOtpField … /> in the samples" }
     }
 
     /**

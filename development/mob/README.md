@@ -43,18 +43,21 @@ cd development/mob/android && ./gradlew assembleDebug
 cd development/mob && mix android.native
 
 # 4. run the e2e suite on the device
-cd development/mob/android && ./gradlew installDebugAndroidTest
-cd development/mob && mix android.native
+cd development/mob/android && ./gradlew assembleDebugAndroidTest
+adb install -r app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
 adb shell am instrument -w \
   com.example.mishka_mob.test/androidx.test.runner.AndroidJUnitRunner
 ```
 
-**Not `./gradlew connectedDebugAndroidTest`.** That task reinstalls the APK, and
-Android wipes `/data/user/0/<pkg>/files/` on any reinstall — which is where the
-entire OTP release lives. The BEAM then has no boot file and the app dies with
-`cannot get bootfile` about a second after `onCreate`. The order above installs
-first, deploys the release second, and runs the instrumentation directly so
-nothing reinstalls underneath it.
+Installing the test APK directly with `adb install -r` leaves the app package
+alone. Anything that reinstalls the app itself takes the runtime with it (below),
+so after such a reinstall run `mix android.native` before the tests.
+
+**Not `./gradlew connectedDebugAndroidTest`.** That task reinstalls the app APK,
+and Android wipes `/data/user/0/<pkg>/files/` on any reinstall — which is where
+the entire OTP release lives. The BEAM then has no boot file and the app dies
+with `cannot get bootfile` about a second after `onCreate`. Installing only the
+test APK avoids the whole problem.
 
 The same trap catches Android Studio's **Run** button: it installs the APK and
 leaves the app unable to boot until `mix android.native` re-pushes the release.
@@ -137,7 +140,7 @@ compose.onNodeWithTag("otp-code").performTextInput("123456")
 compose.onNodeWithText("6 of 6 digits").assertIsDisplayed()
 ```
 
-Three properties of this app shape every test you will write here:
+Four properties of this app shape every test you will write here:
 
 **The BEAM boots asynchronously.** Nothing is on screen when the Activity
 appears, so every entry point has to `waitUntil` for content rather than assume
@@ -149,7 +152,18 @@ navigate themselves to a known place and reset the state they depend on.
 
 **To target a widget, give it an `id`.** The bridge turns an `:id` prop into a
 Compose `testTag`. Without one there is often nothing to match on — the OTP
-input is invisible by design, so its `id` is the only handle it has.
+input is invisible by design, so its `id` is the only handle it has. Matching on
+text is also ambiguous more often than you would expect: a field's value shows up
+as `EditableText`, so `onNodeWithText("1")` can match both a slot and the input
+behind it, and Compose refuses ambiguous matches.
+
+**Never press system back.** Back at the gallery pops the app's root screen and
+Android leaves the app — the launcher becomes the resumed activity and every
+later query silently runs against the home screen, which reads as a timeout
+rather than as navigation walking out of the app. Use the showcase's own
+`← Back` button. And when a click seems to do nothing, check whether the node is
+off-screen: the gallery and each page are `Scroll`s, so most nodes exist in the
+semantics tree but need `performScrollTo()` first.
 
 ## Android Studio
 
