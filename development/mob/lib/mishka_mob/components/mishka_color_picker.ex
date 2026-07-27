@@ -195,7 +195,7 @@ defmodule MishkaMob.Components.MishkaColorPicker do
     props = Map.new(props)
 
     {
-      Color.wrap_hue(Map.get(props, :hue, 210)),
+      normalize_hue(Map.get(props, :hue, 210)),
       Color.clamp(Map.get(props, :saturation, 76), 0, 100),
       Color.clamp(Map.get(props, :value, 96), 0, 100)
     }
@@ -213,6 +213,11 @@ defmodule MishkaMob.Components.MishkaColorPicker do
 
     Color.hsv_to_hex(h, s, v)
   end
+
+  # fmod(360.0, 360.0) is 0.0, so a hue at the top of the range collapsed to the
+  # bottom and the strip's marker teleported. Wrap only what is out of range.
+  defp normalize_hue(v) when is_number(v) and v >= 0 and v <= 360, do: v * 1.0
+  defp normalize_hue(v), do: Color.wrap_hue(v)
 
   defp put(node, _key, nil), do: node
   defp put(node, key, value), do: %{node | props: Map.put(node.props, key, value)}

@@ -60,7 +60,7 @@ defmodule <%= @module %> do
   @spec <%= @component_prefix %>angle_slider(map() | keyword()) :: map()
   def <%= @component_prefix %>angle_slider(props \\ %{}) do
     props = Map.new(props)
-    angle = Color.wrap_hue(Map.get(props, :value, 0))
+    angle = normalize_angle(Map.get(props, :value, 0))
     size = Map.get(props, :size, @size)
 
     dial = Mob.UI.canvas(width: size, height: size, draw: dial(size, angle, props))
@@ -102,6 +102,13 @@ defmodule <%= @module %> do
   end
 
   # A zero-degree sweep still paints a cap-sized blob, so skip the arc entirely.
+  # 360° and 0° are the same angle but NOT the same position. wrap_hue/1 is fmod,
+  # and fmod(360.0, 360.0) is 0.0 — which sent a full sweep back to zero and, via
+  # the guard below, erased the dial entirely. Wrap only genuinely out-of-range
+  # input; Color.hsv_to_rgb/3 wraps for the colour maths anyway.
+  defp normalize_angle(v) when is_number(v) and v >= 0 and v <= 360, do: v * 1.0
+  defp normalize_angle(v), do: Color.wrap_hue(v)
+
   defp arc(_center, _radius, angle, _accent) when angle == 0, do: []
 
   defp arc(center, radius, angle, accent) do

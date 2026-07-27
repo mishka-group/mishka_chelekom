@@ -52,7 +52,7 @@ defmodule MishkaMob.Components.MishkaHueSlider do
   @spec hue_slider(map() | keyword()) :: map()
   def hue_slider(props \\ %{}) do
     props = Map.new(props)
-    hue = Color.wrap_hue(Map.get(props, :value, 0))
+    hue = normalize_hue(Map.get(props, :value, 0))
     width = Map.get(props, :width, @width)
     height = Map.get(props, :height, @height)
 
@@ -110,8 +110,18 @@ defmodule MishkaMob.Components.MishkaHueSlider do
     if span > 0, do: min(x / span, 1.0), else: 0.0
   end
 
+  # 360° and 0° are the same colour but NOT the same position. wrap_hue/1 is
+  # fmod, and fmod(360.0, 360.0) is 0.0 — so a finger at the right-hand end of
+  # the strip teleported the marker back to the left edge. Wrap only what is
+  # genuinely out of range; Color.hsv_to_rgb/3 wraps for the colour maths anyway.
+  defp normalize_hue(v) when is_number(v) and v >= 0 and v <= 360, do: v * 1.0
+  defp normalize_hue(v), do: Color.wrap_hue(v)
+
+  # Clamped to half the stroke, not to 2. With a slider thumb driving it nobody
+  # noticed the gap; with a finger on the strip the marker would sit visibly
+  # inside the edge the user is aiming at.
   defp marker(width, height, hue) do
-    x = Color.clamp(hue / 360 * width, 2, width - 2)
+    x = Color.clamp(hue / 360 * width, 1.5, width - 1.5)
 
     [
       Mob.Canvas.line(x, 0, x, height, color: 0xFF_FF_FF_FF, width: 3),

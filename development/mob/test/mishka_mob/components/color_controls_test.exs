@@ -51,8 +51,28 @@ defmodule MishkaMob.Components.ColorControlsTest do
       for hue <- [0, 360] do
         [marker | _] = MishkaHueSlider.hue_slider(value: hue, width: 300) |> ops_of(:line)
 
-        assert marker.x1 >= 2 and marker.x1 <= 298
+        # Half the 3px stroke, so the marker never clips and never sits visibly
+        # short of the edge the finger is aiming at.
+        assert marker.x1 >= 1.5 and marker.x1 <= 298.5
       end
+    end
+
+    # The bug this pins: hue is wrapped with fmod, and fmod(360.0, 360.0) is 0.0,
+    # so the far end of the strip teleported the marker back to the near end.
+    # "Inside the track" was true of both positions, which is why the test above
+    # stayed green through it — the assertion has to be about WHICH end.
+    test "360 sits at the far end of the strip, not back at the start" do
+      [at_360 | _] = MishkaHueSlider.hue_slider(value: 360, width: 300) |> ops_of(:line)
+      [at_0 | _] = MishkaHueSlider.hue_slider(value: 0, width: 300) |> ops_of(:line)
+
+      assert at_360.x1 > 290
+      assert at_0.x1 < 10
+    end
+
+    test "a full turn draws the dial's ring instead of erasing it" do
+      # arc/4 skips a zero sweep, and 360 collapsing to 0.0 met that guard — so
+      # the dial vanished at exactly the maximum.
+      assert MishkaAngleSlider.angle_slider(value: 360) |> ops_of(:arc) != []
     end
 
     test "the slider spans the full wheel and reports changes" do
