@@ -12,8 +12,8 @@ defmodule MishkaMob.Components.MishkaSeparator do
 
       ~MOB\"""
       <Column>
-        {separator()}
-        {separator(label: "or continue with")}
+        <MishkaSeparator />
+        <MishkaSeparator label="or continue with" />
       </Column>
       \"""
 

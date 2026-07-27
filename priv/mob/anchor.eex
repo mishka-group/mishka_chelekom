@@ -46,7 +46,7 @@ defmodule <%= @module %> do
   @doc """
   The anchor.
 
-      {<%= @component_prefix %>anchor(label: "mishka.tools", href: "https://mishka.tools", on_tap: :open)}
+      <<%= @module_prefix_camel %>Anchor label="mishka.tools" href="https://mishka.tools" on_tap={:open} />
   """
   @spec <%= @component_prefix %>anchor(map() | keyword(), [map()]) :: map()
   def <%= @component_prefix %>anchor(props \\ %{}, children \\ []) do

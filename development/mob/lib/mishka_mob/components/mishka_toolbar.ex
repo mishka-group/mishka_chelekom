@@ -48,7 +48,9 @@ defmodule MishkaMob.Components.MishkaToolbar do
   @doc """
   The toolbar node.
 
-      {toolbar([], [bold_toggle(), italic_toggle(), separator(), align_group()])}
+      <MishkaToolbar
+
+      >{[bold_toggle(), italic_toggle(), separator(), align_group()]}</MishkaToolbar>
   """
   @spec toolbar(map() | keyword(), [map()]) :: map()
   def toolbar(props \\ %{}, children \\ []) do

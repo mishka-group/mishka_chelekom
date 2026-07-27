@@ -46,7 +46,7 @@ defmodule MishkaMob.Components.MishkaField do
   @doc """
   The field node.
 
-      {field([label: "Email", errors: @errors], [email_input()])}
+      <MishkaField label="Email" errors={@errors}>{[email_input()]}</MishkaField>
   """
   @spec field(map() | keyword(), [map()]) :: map()
   def field(props \\ %{}, control \\ []) do

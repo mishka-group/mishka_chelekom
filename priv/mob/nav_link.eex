@@ -39,7 +39,7 @@ defmodule <%= @module %> do
   @doc """
   The nav link.
 
-      {<%= @component_prefix %>nav_link([label: "Settings", icon: "⚙", active: true, on_tap: :go], [])}
+      <<%= @module_prefix_camel %>NavLink label="Settings" icon="⚙" active={true} on_tap={:go}>{[]}</<%= @module_prefix_camel %>NavLink>
   """
   @spec <%= @component_prefix %>nav_link(map() | keyword(), [map()]) :: map()
   def <%= @component_prefix %>nav_link(props \\ %{}, children \\ []) do

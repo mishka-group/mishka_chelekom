@@ -39,7 +39,11 @@ defmodule MishkaMob.Components.MishkaTreeSelect do
   @doc """
   The tree select.
 
-      {tree_select([label: @picked, open: @open, on_toggle: :toggle], [tree(nodes: @nodes)])}
+      <MishkaTreeSelect
+        label={@picked}
+        open={@open}
+        on_toggle={:toggle}
+      >{[tree(nodes: @nodes)]}</MishkaTreeSelect>
   """
   @spec tree_select(map() | keyword(), [map()]) :: map()
   def tree_select(props \\ %{}, children \\ []) do

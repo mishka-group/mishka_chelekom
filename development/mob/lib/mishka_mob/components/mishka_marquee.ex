@@ -41,7 +41,7 @@ defmodule MishkaMob.Components.MishkaMarquee do
   @doc """
   The marquee node.
 
-      {marquee([repeat: 3], [ticker_row()])}
+      <MishkaMarquee repeat={3}>{[ticker_row()]}</MishkaMarquee>
   """
   @spec marquee(map() | keyword(), [map()]) :: map()
   def marquee(props \\ %{}, content \\ []) do

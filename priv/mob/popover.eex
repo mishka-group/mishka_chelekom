@@ -46,7 +46,7 @@ defmodule <%= @module %> do
   @doc """
   The popover node. Renders nothing when closed.
 
-      {<%= @component_prefix %>popover([open: @open?], content)}
+      <<%= @module_prefix_camel %>Popover open={@open?}>{content}</<%= @module_prefix_camel %>Popover>
   """
   @spec <%= @component_prefix %>popover(map() | keyword(), [map()]) :: map()
   def <%= @component_prefix %>popover(props \\ %{}, content \\ []) do

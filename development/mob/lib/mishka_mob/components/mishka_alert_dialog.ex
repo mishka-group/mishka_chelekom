@@ -22,9 +22,13 @@ defmodule MishkaMob.Components.MishkaAlertDialog do
 
   ## Usage
 
-      {alert_dialog([open: @confirming?, title: "Discard changes?",
-                     description: "Your edits will be lost.",
-                     on_close: :cancel], [], actions)}
+      <MishkaAlertDialog
+        open={@confirming?}
+        title="Discard changes?"
+        description="Your edits will be lost."
+        on_close={:cancel}
+        actions={actions}
+      />
 
   ## Props
 

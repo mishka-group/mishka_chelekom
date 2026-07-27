@@ -50,7 +50,7 @@ defmodule <%= @module %> do
   @doc """
   The tooltip node. Renders nothing when closed.
 
-      {<%= @component_prefix %>tooltip(text: "Copy to clipboard", open: @hint?)}
+      <<%= @module_prefix_camel %>Tooltip text="Copy to clipboard" open={@hint?} />
   """
   @spec <%= @component_prefix %>tooltip(map() | keyword()) :: map()
   def <%= @component_prefix %>tooltip(props \\ %{}) do

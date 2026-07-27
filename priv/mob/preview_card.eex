@@ -39,8 +39,12 @@ defmodule <%= @module %> do
   @doc """
   The preview-card node. Renders nothing when closed.
 
-      {<%= @component_prefix %>preview_card([open: @open?, title: "Shahryar", subtitle: "@shahryar",
-                     initials: "SH"], [follow_button()])}
+      <<%= @module_prefix_camel %>PreviewCard
+        open={@open?}
+        title="Shahryar"
+        subtitle="@shahryar"
+        initials="SH"
+      >{[follow_button()]}</<%= @module_prefix_camel %>PreviewCard>
   """
   @spec <%= @component_prefix %>preview_card(map() | keyword(), [map()]) :: map()
   def <%= @component_prefix %>preview_card(props \\ %{}, footer \\ []) do

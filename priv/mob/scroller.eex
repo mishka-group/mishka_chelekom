@@ -43,7 +43,7 @@ defmodule <%= @module %> do
   @doc """
   The scroller node.
 
-      {<%= @component_prefix %>scroller([id: "gallery", on_prev: :back, on_next: :fwd], [rail()])}
+      <<%= @module_prefix_camel %>Scroller id="gallery" on_prev={:back} on_next={:fwd}>{[rail()]}</<%= @module_prefix_camel %>Scroller>
   """
   @spec <%= @component_prefix %>scroller(map() | keyword(), [map()]) :: map()
   def <%= @component_prefix %>scroller(props \\ %{}, content \\ []) do

@@ -40,10 +40,14 @@ defmodule <%= @module %> do
   @doc """
   The context-menu node.
 
-      {<%= @component_prefix %>context_menu([open: @open?, for_label: "report.pdf", on_select: :act], [
+      <<%= @module_prefix_camel %>ContextMenu
+        open={@open?}
+        for_label="report.pdf"
+        on_select={:act}
+      >{[
         <%= @module_prefix_camel %>Menu.item(:rename, "Rename"),
         <%= @module_prefix_camel %>Menu.item(:delete, "Delete", danger: true)
-      ])}
+      ]}</<%= @module_prefix_camel %>ContextMenu>
   """
   @spec <%= @component_prefix %>context_menu(map() | keyword(), [map()]) :: map()
   def <%= @component_prefix %>context_menu(props \\ %{}, children \\ []) do

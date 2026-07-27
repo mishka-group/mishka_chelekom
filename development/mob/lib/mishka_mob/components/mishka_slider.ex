@@ -10,7 +10,7 @@ defmodule MishkaMob.Components.MishkaSlider do
   than pretend otherwise, `step` is honoured where the value actually settles —
   in the screen — via `snap/2`:
 
-      {slider(value: @volume, min: 0, max: 100, step: 5, on_change: :volume)}
+      <MishkaSlider value={@volume} min={0} max={100} step={5} on_change={:volume} />
 
       def handle_info({:change, :volume, raw}, socket) do
         {:noreply, Mob.Socket.assign(socket, :volume, MishkaSlider.snap(raw, step: 5))}

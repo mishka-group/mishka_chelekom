@@ -10,7 +10,7 @@ defmodule <%= @module %> do
   than pretend otherwise, `step` is honoured where the value actually settles —
   in the screen — via `snap/2`:
 
-      {<%= @component_prefix %>slider(value: @volume, min: 0, max: 100, step: 5, on_change: :volume)}
+      <<%= @module_prefix_camel %>Slider value={@volume} min={0} max={100} step={5} on_change={:volume} />
 
       def handle_info({:change, :volume, raw}, socket) do
         {:noreply, Mob.Socket.assign(socket, :volume, <%= @module_prefix_camel %>Slider.snap(raw, step: 5))}

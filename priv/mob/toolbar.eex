@@ -48,7 +48,9 @@ defmodule <%= @module %> do
   @doc """
   The toolbar node.
 
-      {<%= @component_prefix %>toolbar([], [bold_toggle(), italic_toggle(), separator(), align_group()])}
+      <<%= @module_prefix_camel %>Toolbar
+
+      >{[bold_toggle(), italic_toggle(), separator(), align_group()]}</<%= @module_prefix_camel %>Toolbar>
   """
   @spec <%= @component_prefix %>toolbar(map() | keyword(), [map()]) :: map()
   def <%= @component_prefix %>toolbar(props \\ %{}, children \\ []) do

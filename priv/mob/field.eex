@@ -46,7 +46,7 @@ defmodule <%= @module %> do
   @doc """
   The field node.
 
-      {<%= @component_prefix %>field([label: "Email", errors: @errors], [email_input()])}
+      <<%= @module_prefix_camel %>Field label="Email" errors={@errors}>{[email_input()]}</<%= @module_prefix_camel %>Field>
   """
   @spec <%= @component_prefix %>field(map() | keyword(), [map()]) :: map()
   def <%= @component_prefix %>field(props \\ %{}, control \\ []) do

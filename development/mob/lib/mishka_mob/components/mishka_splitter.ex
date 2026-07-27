@@ -50,7 +50,11 @@ defmodule MishkaMob.Components.MishkaSplitter do
   @doc """
   The splitter.
 
-      {splitter([value: @split, extent: 340, on_change: :split], [left_pane(), right_pane()])}
+      <MishkaSplitter
+        value={@split}
+        extent={340}
+        on_change={:split}
+      >{[left_pane(), right_pane()]}</MishkaSplitter>
   """
   @spec splitter(map() | keyword(), [map()]) :: map()
   def splitter(props \\ %{}, panes \\ []) do

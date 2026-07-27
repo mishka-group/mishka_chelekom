@@ -44,7 +44,7 @@ defmodule <%= @module %> do
 
       <Box>
         {content}
-        {<%= @component_prefix %>loading_overlay(visible: @saving?)}
+        <<%= @module_prefix_camel %>LoadingOverlay visible={@saving?} />
       </Box>
   """
   @spec <%= @component_prefix %>loading_overlay(map() | keyword(), [map()], map()) :: map()

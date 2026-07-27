@@ -47,7 +47,12 @@ defmodule MishkaMob.Components.MishkaFloatingWindow do
   @doc """
   The window.
 
-      {floating_window([x: @x, y: @y, label: "Inspector", on_move: :move], [body()])}
+      <MishkaFloatingWindow
+        x={@x}
+        y={@y}
+        label="Inspector"
+        on_move={:move}
+      >{[body()]}</MishkaFloatingWindow>
   """
   @spec floating_window(map() | keyword(), [map()]) :: map()
   def floating_window(props \\ %{}, children \\ []) do

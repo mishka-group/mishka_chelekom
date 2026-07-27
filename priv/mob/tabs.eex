@@ -22,10 +22,13 @@ defmodule <%= @module %> do
   are that tab's panel — so a tab and its panel are declared together instead of
   being matched up by position:
 
-      {<%= @component_prefix %>tabs([active: @tab, on_change: :pick_tab], [
+      <<%= @module_prefix_camel %>Tabs
+        active={@tab}
+        on_change={:pick_tab}
+      >{[
         tab(:overview, "Overview", overview_body()),
         tab(:specs, "Specs", specs_body())
-      ])}
+      ]}</<%= @module_prefix_camel %>Tabs>
 
       def handle_info({:tap, {:pick_tab, id}}, socket) do
         {:noreply, Mob.Socket.assign(socket, :tab, id)}

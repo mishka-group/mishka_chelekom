@@ -42,7 +42,11 @@ defmodule <%= @module %> do
   @doc """
   The pills-input node.
 
-      {<%= @component_prefix %>pills_input([draft: @draft, on_draft: :typed, on_add: :commit], recipient_pills())}
+      <<%= @module_prefix_camel %>PillsInput
+        draft={@draft}
+        on_draft={:typed}
+        on_add={:commit}
+      >{recipient_pills()}</<%= @module_prefix_camel %>PillsInput>
   """
   @spec <%= @component_prefix %>pills_input(map() | keyword(), [map()]) :: map()
   def <%= @component_prefix %>pills_input(props \\ %{}, pills \\ []) do

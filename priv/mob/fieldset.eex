@@ -34,7 +34,7 @@ defmodule <%= @module %> do
   @doc """
   The fieldset node.
 
-      {<%= @component_prefix %>fieldset([legend: "Billing address"], [line1(), city(), postcode()])}
+      <<%= @module_prefix_camel %>Fieldset legend="Billing address">{[line1(), city(), postcode()]}</<%= @module_prefix_camel %>Fieldset>
   """
   @spec <%= @component_prefix %>fieldset(map() | keyword(), [map()]) :: map()
   def <%= @component_prefix %>fieldset(props \\ %{}, children \\ []) do

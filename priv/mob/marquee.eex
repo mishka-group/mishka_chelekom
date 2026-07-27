@@ -41,7 +41,7 @@ defmodule <%= @module %> do
   @doc """
   The marquee node.
 
-      {<%= @component_prefix %>marquee([repeat: 3], [ticker_row()])}
+      <<%= @module_prefix_camel %>Marquee repeat={3}>{[ticker_row()]}</<%= @module_prefix_camel %>Marquee>
   """
   @spec <%= @component_prefix %>marquee(map() | keyword(), [map()]) :: map()
   def <%= @component_prefix %>marquee(props \\ %{}, content \\ []) do

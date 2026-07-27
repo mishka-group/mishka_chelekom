@@ -22,10 +22,13 @@ defmodule MishkaMob.Components.MishkaTabs do
   are that tab's panel — so a tab and its panel are declared together instead of
   being matched up by position:
 
-      {tabs([active: @tab, on_change: :pick_tab], [
+      <MishkaTabs
+        active={@tab}
+        on_change={:pick_tab}
+      >{[
         tab(:overview, "Overview", overview_body()),
         tab(:specs, "Specs", specs_body())
-      ])}
+      ]}</MishkaTabs>
 
       def handle_info({:tap, {:pick_tab, id}}, socket) do
         {:noreply, Mob.Socket.assign(socket, :tab, id)}

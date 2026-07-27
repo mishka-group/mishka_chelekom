@@ -40,10 +40,14 @@ defmodule MishkaMob.Components.MishkaContextMenu do
   @doc """
   The context-menu node.
 
-      {context_menu([open: @open?, for_label: "report.pdf", on_select: :act], [
+      <MishkaContextMenu
+        open={@open?}
+        for_label="report.pdf"
+        on_select={:act}
+      >{[
         MishkaMenu.item(:rename, "Rename"),
         MishkaMenu.item(:delete, "Delete", danger: true)
-      ])}
+      ]}</MishkaContextMenu>
   """
   @spec context_menu(map() | keyword(), [map()]) :: map()
   def context_menu(props \\ %{}, children \\ []) do

@@ -42,7 +42,11 @@ defmodule MishkaMob.Components.MishkaPillsInput do
   @doc """
   The pills-input node.
 
-      {pills_input([draft: @draft, on_draft: :typed, on_add: :commit], recipient_pills())}
+      <MishkaPillsInput
+        draft={@draft}
+        on_draft={:typed}
+        on_add={:commit}
+      >{recipient_pills()}</MishkaPillsInput>
   """
   @spec pills_input(map() | keyword(), [map()]) :: map()
   def pills_input(props \\ %{}, pills \\ []) do

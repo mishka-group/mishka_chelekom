@@ -41,7 +41,7 @@ defmodule MishkaMob.Components.MishkaOverflowList do
   @doc """
   The row.
 
-      {overflow_list([visible: 3, on_counter: :show_all], tag_pills())}
+      <MishkaOverflowList visible={3} on_counter={:show_all}>{tag_pills()}</MishkaOverflowList>
   """
   @spec overflow_list(map() | keyword(), [map()]) :: map()
   def overflow_list(props \\ %{}, items \\ []) do

@@ -39,8 +39,12 @@ defmodule MishkaMob.Components.MishkaPreviewCard do
   @doc """
   The preview-card node. Renders nothing when closed.
 
-      {preview_card([open: @open?, title: "Shahryar", subtitle: "@shahryar",
-                     initials: "SH"], [follow_button()])}
+      <MishkaPreviewCard
+        open={@open?}
+        title="Shahryar"
+        subtitle="@shahryar"
+        initials="SH"
+      >{[follow_button()]}</MishkaPreviewCard>
   """
   @spec preview_card(map() | keyword(), [map()]) :: map()
   def preview_card(props \\ %{}, footer \\ []) do

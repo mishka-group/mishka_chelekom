@@ -39,7 +39,11 @@ defmodule <%= @module %> do
   @doc """
   The tree select.
 
-      {<%= @component_prefix %>tree_select([label: @picked, open: @open, on_toggle: :toggle], [tree(nodes: @nodes)])}
+      <<%= @module_prefix_camel %>TreeSelect
+        label={@picked}
+        open={@open}
+        on_toggle={:toggle}
+      >{[tree(nodes: @nodes)]}</<%= @module_prefix_camel %>TreeSelect>
   """
   @spec <%= @component_prefix %>tree_select(map() | keyword(), [map()]) :: map()
   def <%= @component_prefix %>tree_select(props \\ %{}, children \\ []) do

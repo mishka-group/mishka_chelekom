@@ -19,9 +19,13 @@ defmodule MishkaMob.Components.MishkaDialog do
 
   ## Usage
 
-      {dialog([open: @open?, title: "Delete file?",
-               description: "This cannot be undone.",
-               on_close: :close_dialog], body, actions)}
+      <MishkaDialog
+        open={@open?}
+        title="Delete file?"
+        description="This cannot be undone."
+        on_close={:close_dialog}
+        actions={actions}
+      >{body}</MishkaDialog>
 
       def handle_info({:tap, :close_dialog}, socket) do
         {:noreply, Mob.Socket.assign(socket, :open?, false)}

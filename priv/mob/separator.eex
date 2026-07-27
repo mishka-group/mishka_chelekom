@@ -12,8 +12,8 @@ defmodule <%= @module %> do
 
       ~MOB\"""
       <Column>
-        {<%= @component_prefix %>separator()}
-        {<%= @component_prefix %>separator(label: "or continue with")}
+        <<%= @module_prefix_camel %>Separator />
+        <<%= @module_prefix_camel %>Separator label="or continue with" />
       </Column>
       \"""
 

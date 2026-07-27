@@ -12,7 +12,11 @@ defmodule <%= @module %> do
   `{tag, item_id}` so one handler can serve many rows, which is noise when there
   is only ever one region. A collapsible fires a bare `{:tap, tag}`:
 
-      {<%= @component_prefix %>collapsible([title: "Details", open: @open?, on_toggle: :toggle_details], body)}
+      <<%= @module_prefix_camel %>Collapsible
+        title="Details"
+        open={@open?}
+        on_toggle={:toggle_details}
+      >{body}</<%= @module_prefix_camel %>Collapsible>
 
       def handle_info({:tap, :toggle_details}, socket) do
         {:noreply, Mob.Socket.assign(socket, :open?, not socket.assigns.open?)}

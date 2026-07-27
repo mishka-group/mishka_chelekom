@@ -34,7 +34,7 @@ defmodule MishkaMob.Components.MishkaFieldset do
   @doc """
   The fieldset node.
 
-      {fieldset([legend: "Billing address"], [line1(), city(), postcode()])}
+      <MishkaFieldset legend="Billing address">{[line1(), city(), postcode()]}</MishkaFieldset>
   """
   @spec fieldset(map() | keyword(), [map()]) :: map()
   def fieldset(props \\ %{}, children \\ []) do

@@ -22,9 +22,13 @@ defmodule <%= @module %> do
 
   ## Usage
 
-      {<%= @component_prefix %>alert_dialog([open: @confirming?, title: "Discard changes?",
-                     description: "Your edits will be lost.",
-                     on_close: :cancel], [], actions)}
+      <<%= @module_prefix_camel %>AlertDialog
+        open={@confirming?}
+        title="Discard changes?"
+        description="Your edits will be lost."
+        on_close={:cancel}
+        actions={actions}
+      />
 
   ## Props
 

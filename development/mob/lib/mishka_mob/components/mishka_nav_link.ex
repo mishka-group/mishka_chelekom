@@ -39,7 +39,7 @@ defmodule MishkaMob.Components.MishkaNavLink do
   @doc """
   The nav link.
 
-      {nav_link([label: "Settings", icon: "⚙", active: true, on_tap: :go], [])}
+      <MishkaNavLink label="Settings" icon="⚙" active={true} on_tap={:go}>{[]}</MishkaNavLink>
   """
   @spec nav_link(map() | keyword(), [map()]) :: map()
   def nav_link(props \\ %{}, children \\ []) do

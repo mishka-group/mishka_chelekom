@@ -76,11 +76,14 @@ defmodule MishkaMob.Components.MishkaMenu do
   @doc """
   The menu node. Renders nothing when closed.
 
-      {menu([open: @open?, on_select: :pick], [
+      <MishkaMenu
+        open={@open?}
+        on_select={:pick}
+      >{[
         item(:edit, "Edit"),
         separator(),
         item(:delete, "Delete", danger: true)
-      ])}
+      ]}</MishkaMenu>
   """
   @spec menu(map() | keyword(), [map()]) :: map()
   def menu(props \\ %{}, children \\ []) do

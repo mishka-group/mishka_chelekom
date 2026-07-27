@@ -76,11 +76,14 @@ defmodule <%= @module %> do
   @doc """
   The menu node. Renders nothing when closed.
 
-      {<%= @component_prefix %>menu([open: @open?, on_select: :pick], [
+      <<%= @module_prefix_camel %>Menu
+        open={@open?}
+        on_select={:pick}
+      >{[
         item(:edit, "Edit"),
         separator(),
         item(:delete, "Delete", danger: true)
-      ])}
+      ]}</<%= @module_prefix_camel %>Menu>
   """
   @spec <%= @component_prefix %>menu(map() | keyword(), [map()]) :: map()
   def <%= @component_prefix %>menu(props \\ %{}, children \\ []) do

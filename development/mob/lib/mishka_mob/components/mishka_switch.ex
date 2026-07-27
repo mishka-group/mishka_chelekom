@@ -14,7 +14,7 @@ defmodule MishkaMob.Components.MishkaSwitch do
   intent through `on_change`. Nothing moves until the screen writes the new
   value back, which arrives as `{:change, tag, boolean}`:
 
-      {switch(label: "Wi-Fi", checked: @wifi?, on_change: :wifi_changed)}
+      <MishkaSwitch label="Wi-Fi" checked={@wifi?} on_change={:wifi_changed} />
 
       def handle_info({:change, :wifi_changed, on?}, socket) do
         {:noreply, Mob.Socket.assign(socket, :wifi?, on?)}

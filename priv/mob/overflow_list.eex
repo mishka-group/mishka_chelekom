@@ -41,7 +41,7 @@ defmodule <%= @module %> do
   @doc """
   The row.
 
-      {<%= @component_prefix %>overflow_list([visible: 3, on_counter: :show_all], tag_pills())}
+      <<%= @module_prefix_camel %>OverflowList visible={3} on_counter={:show_all}>{tag_pills()}</<%= @module_prefix_camel %>OverflowList>
   """
   @spec <%= @component_prefix %>overflow_list(map() | keyword(), [map()]) :: map()
   def <%= @component_prefix %>overflow_list(props \\ %{}, items \\ []) do

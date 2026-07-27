@@ -12,7 +12,11 @@ defmodule MishkaMob.Components.MishkaCollapsible do
   `{tag, item_id}` so one handler can serve many rows, which is noise when there
   is only ever one region. A collapsible fires a bare `{:tap, tag}`:
 
-      {collapsible([title: "Details", open: @open?, on_toggle: :toggle_details], body)}
+      <MishkaCollapsible
+        title="Details"
+        open={@open?}
+        on_toggle={:toggle_details}
+      >{body}</MishkaCollapsible>
 
       def handle_info({:tap, :toggle_details}, socket) do
         {:noreply, Mob.Socket.assign(socket, :open?, not socket.assigns.open?)}

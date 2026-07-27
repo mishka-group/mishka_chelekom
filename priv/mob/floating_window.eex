@@ -47,7 +47,12 @@ defmodule <%= @module %> do
   @doc """
   The window.
 
-      {<%= @component_prefix %>floating_window([x: @x, y: @y, label: "Inspector", on_move: :move], [body()])}
+      <<%= @module_prefix_camel %>FloatingWindow
+        x={@x}
+        y={@y}
+        label="Inspector"
+        on_move={:move}
+      >{[body()]}</<%= @module_prefix_camel %>FloatingWindow>
   """
   @spec <%= @component_prefix %>floating_window(map() | keyword(), [map()]) :: map()
   def <%= @component_prefix %>floating_window(props \\ %{}, children \\ []) do

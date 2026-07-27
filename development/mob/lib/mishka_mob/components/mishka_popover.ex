@@ -46,7 +46,7 @@ defmodule MishkaMob.Components.MishkaPopover do
   @doc """
   The popover node. Renders nothing when closed.
 
-      {popover([open: @open?], content)}
+      <MishkaPopover open={@open?}>{content}</MishkaPopover>
   """
   @spec popover(map() | keyword(), [map()]) :: map()
   def popover(props \\ %{}, content \\ []) do

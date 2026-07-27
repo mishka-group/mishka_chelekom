@@ -50,7 +50,11 @@ defmodule <%= @module %> do
   @doc """
   The splitter.
 
-      {<%= @component_prefix %>splitter([value: @split, extent: 340, on_change: :split], [left_pane(), right_pane()])}
+      <<%= @module_prefix_camel %>Splitter
+        value={@split}
+        extent={340}
+        on_change={:split}
+      >{[left_pane(), right_pane()]}</<%= @module_prefix_camel %>Splitter>
   """
   @spec <%= @component_prefix %>splitter(map() | keyword(), [map()]) :: map()
   def <%= @component_prefix %>splitter(props \\ %{}, panes \\ []) do

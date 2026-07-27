@@ -43,7 +43,7 @@ defmodule MishkaMob.Components.MishkaScroller do
   @doc """
   The scroller node.
 
-      {scroller([id: "gallery", on_prev: :back, on_next: :fwd], [rail()])}
+      <MishkaScroller id="gallery" on_prev={:back} on_next={:fwd}>{[rail()]}</MishkaScroller>
   """
   @spec scroller(map() | keyword(), [map()]) :: map()
   def scroller(props \\ %{}, content \\ []) do

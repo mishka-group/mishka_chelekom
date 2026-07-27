@@ -50,7 +50,7 @@ defmodule MishkaMob.Components.MishkaTooltip do
   @doc """
   The tooltip node. Renders nothing when closed.
 
-      {tooltip(text: "Copy to clipboard", open: @hint?)}
+      <MishkaTooltip text="Copy to clipboard" open={@hint?} />
   """
   @spec tooltip(map() | keyword()) :: map()
   def tooltip(props \\ %{}) do

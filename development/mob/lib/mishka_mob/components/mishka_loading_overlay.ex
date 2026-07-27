@@ -44,7 +44,7 @@ defmodule MishkaMob.Components.MishkaLoadingOverlay do
 
       <Box>
         {content}
-        {loading_overlay(visible: @saving?)}
+        <MishkaLoadingOverlay visible={@saving?} />
       </Box>
   """
   @spec loading_overlay(map() | keyword(), [map()], map()) :: map()

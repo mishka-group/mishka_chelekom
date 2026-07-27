@@ -46,7 +46,7 @@ defmodule MishkaMob.Components.MishkaAnchor do
   @doc """
   The anchor.
 
-      {anchor(label: "mishka.tools", href: "https://mishka.tools", on_tap: :open)}
+      <MishkaAnchor label="mishka.tools" href="https://mishka.tools" on_tap={:open} />
   """
   @spec anchor(map() | keyword(), [map()]) :: map()
   def anchor(props \\ %{}, children \\ []) do
