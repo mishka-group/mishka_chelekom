@@ -136,21 +136,32 @@ class OtpFieldTest {
         return true
     }
 
+    /** The home screen's subtitle — home lists the cards, the gallery is elsewhere. */
+    private val home = "Native component library"
+
     @Before
     fun openOtpScreen() {
         // Wait for the BEAM to push its first tree, whatever screen that is.
-        compose.waitUntil(90_000) { showing("Components") || showing("OTP Field") }
+        //
+        // "← Back" is in that list because it is the only thing common to every
+        // component PAGE. This waited on "OTP Field" and "Components" while it
+        // was the only test class, so it always started from home or from its
+        // own page; the moment another class ran first it sat on a third page
+        // where neither appears and timed out eight times over.
+        compose.waitUntil(90_000) {
+            showing(home) || showing("A 6-digit code") || showing("← Back")
+        }
 
         // Then reach the OTP page from wherever the last test left off.
         //
-        // Back is only ever pressed from a component PAGE. Pressing it at the
-        // gallery pops the app's last screen and Android leaves the app
-        // entirely — the launcher becomes the resumed activity, every later
-        // query finds nothing, and the failure looks like a timeout rather than
-        // like the navigation mistake it is.
+        // Back is only ever pressed from a component PAGE. Pressing it at home
+        // pops the app's last screen and Android leaves the app entirely — the
+        // launcher becomes the resumed activity, every later query finds
+        // nothing, and the failure looks like a timeout rather than like the
+        // navigation mistake it is.
         var guard = 0
 
-        while (!showing("A 6-digit code") && !showing("Components") && guard++ < 3) {
+        while (!showing("A 6-digit code") && !showing(home) && guard++ < 3) {
             if (!leavePage()) break
         }
 
