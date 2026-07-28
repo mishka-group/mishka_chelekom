@@ -25,7 +25,8 @@ defmodule MishkaMob.Showcase.Components.Mark do
       %Example{
         title: "Highlighted text",
         description:
-          "A Text cannot carry its own background, so a mark is a Text in a tinted Box.",
+          "A Text cannot carry its own background, so a mark is a Text in a tinted " <>
+            "Box — one that hugs the word rather than filling the line.",
         code: ~S"""
         <MishkaMark text="BEAM" />
         """,
@@ -36,6 +37,44 @@ defmodule MishkaMob.Showcase.Components.Mark do
             <Spacer size={8} />
             <MishkaMark text="on device" />
           </Row>
+          """
+        end
+      },
+      %Example{
+        title: "A colour per mark",
+        description:
+          "Highlight takes one fill for every match, so a line where each match " <>
+            "means something different is composed from marks directly.",
+        code: ~S"""
+        # This is what the mark exists for: Highlight's single background cannot
+        # say "red here, green there" — the web component has one mark_class too.
+        <Row>
+          <MishkaMark text="Error" background={0xFFFECACA} />
+          <Text text=": Invalid input. " />
+          <MishkaMark text="Warning" background={0xFFFDE68A} />
+          <Text text=": Check this field. " />
+          <MishkaMark text="Success" background={0xFFBBF7D0} />
+          <Text text=": All tests passed." />
+        </Row>
+        """,
+        render: fn _assigns ->
+          ~MOB"""
+          <Column fill_width={true}>
+            <Row>
+              <MishkaMark text="Error" background={0xFFFECACA} />
+              <Text text=": Invalid input." text_size={:base} text_color={:on_surface} />
+            </Row>
+            <Spacer size={8} />
+            <Row>
+              <MishkaMark text="Warning" background={0xFFFDE68A} />
+              <Text text=": Check this field." text_size={:base} text_color={:on_surface} />
+            </Row>
+            <Spacer size={8} />
+            <Row>
+              <MishkaMark text="Success" background={0xFFBBF7D0} />
+              <Text text=": All tests passed." text_size={:base} text_color={:on_surface} />
+            </Row>
+          </Column>
           """
         end
       },

@@ -2,6 +2,7 @@ defmodule MishkaMob.ShowcaseTest do
   # async: false — the registry and composite registry are global (persistent_term).
   use Mob.ScreenCase, async: false
 
+  alias MishkaMob.Components.MishkaMark
   alias MishkaMob.Showcase
   alias MishkaMob.Showcase.{ComponentScreen, GalleryScreen}
 
@@ -494,6 +495,69 @@ defmodule MishkaMob.ShowcaseTest do
       assert [pill] = disabled
       refute Map.has_key?(pill.props, :on_tap)
       assert Enum.all?(find_all(pill, :row), &(not Map.has_key?(&1.props, :on_tap)))
+    end
+
+    test "the Mark and Highlight pages render every example and their props" do
+      for {slug, headings} <- [
+            {:mark, ["Highlighted text", "A colour per mark", "In a sentence", "Colours"]},
+            {:highlight,
+             [
+               "Every occurrence",
+               "Case sensitivity",
+               "Matching a query",
+               "Several queries",
+               "Wrapping a sentence"
+             ]}
+          ] do
+        view = mount_screen(ComponentScreen, %{slug: slug})
+
+        assert_renderable(expanded(view))
+        for heading <- headings ++ ["Props"], do: assert(text(view) =~ heading)
+      end
+    end
+
+    test "no mark anywhere on either page fills its line" do
+      # The bug the pages showed: a mark rendered as a full-width bar, because a
+      # Box told neither width nor fill_width fills its parent. Every tinted Box
+      # on both pages is checked, not just the component in isolation.
+      for slug <- [:mark, :highlight] do
+        marks =
+          ComponentScreen
+          |> mount_screen(%{slug: slug})
+          |> expanded()
+          |> find_all(:box)
+          |> Enum.filter(&(&1.props[:background] == MishkaMark.default_fill()))
+
+        refute Enum.empty?(marks), "no marks found on the #{slug} page"
+        assert Enum.all?(marks, &(&1.props[:fill_width] == false))
+      end
+    end
+
+    test "the Highlight page's case-sensitivity example really differs" do
+      # Both halves show the same sentence and the same query; if case_sensitive
+      # were dropped in the forwarding they would render identically and the
+      # example would quietly claim something untrue.
+      marks =
+        ComponentScreen
+        |> mount_screen(%{slug: :highlight})
+        |> expanded()
+        |> find_all(:box)
+        |> Enum.filter(&(&1.props[:background] == MishkaMark.default_fill()))
+        |> Enum.map(&text/1)
+
+      assert "This" in marks
+      assert "THIS" in marks
+      # …and the sensitive half contributes only the lowercase one, so the
+      # uppercase forms appear fewer times than the lowercase.
+      assert Enum.count(marks, &(&1 == "this")) > Enum.count(marks, &(&1 == "THIS"))
+    end
+
+    test "the Highlight page's live query follows the tapped button" do
+      view = mount_screen(ComponentScreen, %{slug: :highlight})
+
+      assert assigns(view).hl_query == "che"
+      view = render_info(view, {:tap, {:hl_query, "beam"}})
+      assert assigns(view).hl_query == "beam"
     end
 
     test "unknown slug renders a not-found page (still renderable)" do
