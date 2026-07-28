@@ -8,6 +8,13 @@ defmodule <%= @module %> do
   because `<%= @namespace %>.<%= @module_prefix_camel %>Highlight` builds on it, and because a
   highlight colour that agrees across the app is worth having in one place.
 
+  ## It is as wide as its text
+
+  The Box passes `fill_width={false}`, without which it fills its parent and the
+  mark becomes a full-width bar rather than a highlighted word — which is the
+  opposite of what `<mark>` means. A Box given neither `width` nor `fill_width`
+  fills, so this is not optional.
+
   ## Props
 
   | Prop | Values | Default | Meaning |
@@ -51,7 +58,7 @@ defmodule <%= @module %> do
     text = Map.get(props, :text)
 
     ~MOB"""
-    <Box background={fill} corner_radius={:radius_sm} padding={2}>
+    <Box background={fill} corner_radius={:radius_sm} padding={2} fill_width={false}>
       <Text text={text} text_size={size} text_color={ink} />
     </Box>
     """

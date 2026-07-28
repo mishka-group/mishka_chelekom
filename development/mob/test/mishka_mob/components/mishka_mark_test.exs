@@ -12,6 +12,13 @@ defmodule MishkaMob.Components.MishkaMarkTest do
     assert [%{type: :text, props: %{text: "BEAM"}}] = node.children
   end
 
+  test "is as wide as its text, not as wide as the line" do
+    # A Box told neither width nor fill_width FILLS its parent, which turned
+    # every mark into a full-width bar — the opposite of what <mark> means, and
+    # invisible to a tree assertion that only looks at the text inside it.
+    assert MishkaMark.mark(text: "BEAM").props.fill_width == false
+  end
+
   test "pairs a light fill with dark ink so it reads in either theme" do
     node = MishkaMark.mark(text: "BEAM")
 
