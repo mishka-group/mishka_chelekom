@@ -100,6 +100,104 @@ defmodule MishkaMob.Components.MishkaHighlightTest do
 
       assert Enum.all?(find_all(tree, :text), &(&1.props.text_size == :sm))
     end
+
+    test "every mark hugs its word rather than filling the line" do
+      tree = MishkaHighlight.highlight(text: "Mishka Chelekom", highlight: "chel")
+
+      assert Enum.all?(find_all(tree, :box), &(&1.props.fill_width == false))
+    end
+  end
+
+  describe "case sensitivity" do
+    @sentence "Highlight This, definitely THIS and also this!"
+
+    test "insensitive by default — every casing is marked" do
+      marks = for {:mark, run} <- MishkaHighlight.split(@sentence, "this"), do: run
+
+      assert marks == ["This", "THIS", "this"]
+    end
+
+    test "case_sensitive marks only the exact casing" do
+      marks =
+        for {:mark, run} <- MishkaHighlight.split(@sentence, "this", case_sensitive: true),
+            do: run
+
+      assert marks == ["this"]
+    end
+
+    test "the prop reaches split/3 from the rendered component" do
+      # The trap this pins: an unknown prop is not an error. Rename or drop the
+      # forwarding and the component still renders a perfect line, silently
+      # case-insensitive.
+      sensitive =
+        MishkaHighlight.highlight(text: @sentence, highlight: "this", case_sensitive: true)
+
+      assert length(find_all(sensitive, :box)) == 1
+
+      assert length(find_all(MishkaHighlight.highlight(text: @sentence, highlight: "this"), :box)) ==
+               3
+    end
+  end
+
+  describe "wrapping" do
+    test "unset, it is a single Row that cannot wrap" do
+      tree = MishkaHighlight.highlight(text: "one two three", highlight: "two")
+
+      assert tree.type == :row
+    end
+
+    test "wrap_at packs the parts into Rows inside a Column" do
+      tree =
+        MishkaHighlight.highlight(
+          text: "Mishka Chelekom components, now running natively on the BEAM.",
+          highlight: ["BEAM", "natively"],
+          wrap_at: 30
+        )
+
+      assert tree.type == :column
+      rows = find_all(tree, :row)
+      assert length(rows) > 1
+
+      # No line is over budget, and none begins with a space — breaks land AFTER
+      # whitespace so a wrapped line is never indented by its separator.
+      for row <- rows do
+        line = row |> find_all(:text) |> Enum.map_join(& &1.props.text)
+        assert String.length(line) <= 30
+        refute String.starts_with?(line, " ")
+      end
+    end
+
+    test "a mark is never split across lines" do
+      tree =
+        MishkaHighlight.highlight(
+          text: "a supercalifragilistic word",
+          highlight: "supercalifragilistic",
+          wrap_at: 5
+        )
+
+      # Longer than the whole budget, so it takes a line to itself rather than
+      # being chopped in two or looping forever.
+      assert [box] = find_all(tree, :box)
+      assert find(box, :text).props.text == "supercalifragilistic"
+    end
+
+    test "the text survives the wrap intact" do
+      sentence = "Mishka Chelekom components, now running natively on the BEAM."
+
+      joined =
+        MishkaHighlight.highlight(text: sentence, highlight: "BEAM", wrap_at: 20)
+        |> find_all(:text)
+        |> Enum.map_join(& &1.props.text)
+
+      assert joined == sentence
+    end
+
+    test "a non-positive or nil budget falls back to one Row" do
+      for budget <- [nil, 0, -1, "30"] do
+        tree = MishkaHighlight.highlight(text: "one two", highlight: "two", wrap_at: budget)
+        assert tree.type == :row
+      end
+    end
   end
 
   test "expand/3 delegates to highlight/1" do

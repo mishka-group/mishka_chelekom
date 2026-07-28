@@ -6,21 +6,29 @@ defmodule <%= @module %> do
   Splits the text on its queries and renders the pieces in a `Row`: plain runs as
   `Text`, matched runs through `<%= @namespace %>.<%= @module_prefix_camel %>Mark`.
 
-  ## The wrapping limitation, stated plainly
+  ## Why a sentence is many nodes, and what that costs
 
   Mob's `Text` takes a single string and exposes no attributed-string or span
   API, so a partially highlighted sentence has to be several nodes laid out in a
-  `Row`. A `Row` does not wrap, so this is right for the short strings a
-  highlight is normally used on — a search result title, a filename, a label —
-  and will run off the edge on a long paragraph. Highlighting inside flowing
-  body text needs span support in the framework; nothing at this layer can fake
-  it, so the port does not pretend to.
+  `Row` — and a `Row` does not wrap. On its own that is fine for the short
+  strings a highlight is normally used on (a search result title, a filename, a
+  label) and runs straight off the edge on a sentence.
+
+  `wrap_at` is the way out: a **character budget per line**, which the parts are
+  packed into before rendering. It has to be declared rather than measured
+  because no geometry is reported back to `render/1` — the same trade
+  `<%= @namespace %>.<%= @module_prefix_camel %>OverflowList` makes with `visible`. Leave it unset
+  and you get today's single `Row`.
+
+  Breaks land after whitespace, so a wrapped line never begins with a space, and
+  a mark is never split across lines — it is one `Box`.
 
   ## Matching
 
-  `split/2` mirrors the web component: case-insensitive, multiple queries, empty
-  and `nil` queries ignored, and the matched text rendered as it appears in the
-  source rather than as it was typed.
+  `split/3` mirrors the web component: multiple queries, empty and `nil` queries
+  ignored, and the matched text rendered as it appears in the source rather than
+  as it was typed. Matching is case-insensitive unless `case_sensitive` says
+  otherwise (Mantine spells the same switch `caseInsensitive={false}`).
 
   ## Props
 
@@ -28,10 +36,18 @@ defmodule <%= @module %> do
   |------|--------|---------|---------|
   | `text` | string | `""` | The full text. |
   | `highlight` | string or list | `[]` | Substring(s) to mark. |
+  | `case_sensitive` | boolean | `false` | Match casing exactly. |
+  | `wrap_at` | integer or `nil` | `nil` | Characters per line; unset is one `Row`. |
+  | `line_space` | number | `4` | Gap between wrapped lines. |
   | `background` | color token / ARGB int | Mark's amber | Highlight fill. |
   | `color` | color token / ARGB int | Mark's ink | Marked text colour. |
   | `text_color` | color token / ARGB int | `:on_surface` | Unmarked text colour. |
   | `text_size` | size token | `:base` | Size for both. |
+
+  A single fill applies to every match. For a line where each match carries its
+  own colour — an `Error` in red beside a `Success` in green — compose
+  `<%= @namespace %>.<%= @module_prefix_camel %>Mark` and `Text` directly; that is what the mark is
+  for, and the web component draws the same line (it has one `mark_class`).
   """
 
   import Mob.Sigil
@@ -51,29 +67,61 @@ defmodule <%= @module %> do
   @spec <%= @component_prefix %>highlight(map() | keyword()) :: map()
   def <%= @component_prefix %>highlight(props \\ %{}) do
     props = Map.new(props)
-    size = Map.get(props, :text_size, :base)
-    plain = Map.get(props, :text_color, :on_surface)
 
     parts =
       props
       |> Map.get(:text, "")
-      |> split(Map.get(props, :highlight, []))
-      |> Enum.map(&part(&1, props, size, plain))
+      |> split(Map.get(props, :highlight, []),
+        case_sensitive: Map.get(props, :case_sensitive, false)
+      )
 
-    ~MOB"""
-    <Row>
-      {parts}
-    </Row>
-    """
+    case Map.get(props, :wrap_at) do
+      budget when is_integer(budget) and budget > 0 -> lines(parts, budget, props)
+      _ -> line(parts, props)
+    end
+  end
+
+  defp line(parts, props) do
+    size = Map.get(props, :text_size, :base)
+    plain = Map.get(props, :text_color, :on_surface)
+    nodes = Enum.map(parts, &part(&1, props, size, plain))
+
+    ~MOB"<Row>
+  {nodes}
+</Row>"
+  end
+
+  defp lines(parts, budget, props) do
+    space = Map.get(props, :line_space, 4)
+
+    rows =
+      parts
+      |> wrap(budget)
+      |> Enum.map(&line(&1, props))
+      |> Enum.intersperse(~MOB(<Spacer size={space} />))
+
+    ~MOB"<Column>
+  {rows}
+</Column>"
   end
 
   @doc """
-  Split `text` into `{:mark, run}` / `{:text, run}` parts, case-insensitively,
-  for one or many queries. Blank and nil queries are ignored; with no usable
-  query the whole string is a single plain run.
+  Split `text` into `{:mark, run}` / `{:text, run}` parts for one or many
+  queries. Blank and nil queries are ignored; with no usable query the whole
+  string is a single plain run.
+
+  Matching is case-insensitive unless `case_sensitive: true`, and the run is
+  always returned with the casing it has in `text`, never the casing that was
+  searched for.
 
       iex> <%= @namespace %>.<%= @module_prefix_camel %>Highlight.split("Mishka Chelekom", "chel")
       [{:text, "Mishka "}, {:mark, "Chel"}, {:text, "ekom"}]
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>Highlight.split("This and THIS", "this")
+      [{:mark, "This"}, {:text, " and "}, {:mark, "THIS"}]
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>Highlight.split("This and THIS", "this", case_sensitive: true)
+      [{:text, "This and THIS"}]
 
       iex> <%= @namespace %>.<%= @module_prefix_camel %>Highlight.split("one two", [])
       [{:text, "one two"}]
@@ -81,8 +129,10 @@ defmodule <%= @module %> do
       iex> <%= @namespace %>.<%= @module_prefix_camel %>Highlight.split("one two", ["", nil])
       [{:text, "one two"}]
   """
-  @spec split(String.t(), String.t() | [String.t() | nil]) :: [{:mark | :text, String.t()}]
-  def split(text, queries) do
+  @spec split(String.t(), String.t() | [String.t() | nil], keyword()) :: [
+          {:mark | :text, String.t()}
+        ]
+  def split(text, queries, opts \\ []) do
     queries =
       queries
       |> List.wrap()
@@ -91,9 +141,10 @@ defmodule <%= @module %> do
     if queries == [] do
       [{:text, text}]
     else
+      flags = if Keyword.get(opts, :case_sensitive, false), do: "u", else: "iu"
       pattern = Enum.map_join(queries, "|", &Regex.escape/1)
-      splitter = Regex.compile!("(" <> pattern <> ")", "iu")
-      whole = Regex.compile!("\\A(?:" <> pattern <> ")\\z", "iu")
+      splitter = Regex.compile!("(" <> pattern <> ")", flags)
+      whole = Regex.compile!("\\A(?:" <> pattern <> ")\\z", flags)
 
       splitter
       |> Regex.split(text, include_captures: true, trim: false)
@@ -103,6 +154,46 @@ defmodule <%= @module %> do
       end)
     end
   end
+
+  @doc """
+  Pack `parts` into lines of at most `budget` characters.
+
+  Plain runs break after whitespace, so a wrapped line never starts with a space.
+  A mark is never split — it is one `Box` — so a mark wider than the budget takes
+  a line to itself rather than looping forever.
+
+  The separating space stays at the END of the line it broke after, where it is
+  invisible, rather than being carried down as an indent.
+
+      iex> alias <%= @namespace %>.<%= @module_prefix_camel %>Highlight
+      iex> <%= @module_prefix_camel %>Highlight.wrap([{:text, "one "}, {:mark, "two"}, {:text, " three"}], 8)
+      [[{:text, "one "}, {:mark, "two"}, {:text, " "}], [{:text, "three"}]]
+  """
+  @spec wrap([{:mark | :text, String.t()}], pos_integer()) :: [[{:mark | :text, String.t()}]]
+  def wrap(parts, budget) do
+    parts
+    |> Enum.flat_map(&tokens/1)
+    |> Enum.reduce([[]], fn token, [line | done] ->
+      if line != [] and width(line) + width([token]) > budget do
+        [[token], line | done]
+      else
+        [line ++ [token] | done]
+      end
+    end)
+    |> Enum.reverse()
+    |> Enum.reject(&(&1 == []))
+  end
+
+  defp tokens({:mark, run}), do: [{:mark, run}]
+
+  defp tokens({:text, run}) do
+    ~r/(?<=\s)/
+    |> Regex.split(run)
+    |> Enum.reject(&(&1 == ""))
+    |> Enum.map(&{:text, &1})
+  end
+
+  defp width(parts), do: Enum.reduce(parts, 0, fn {_, run}, sum -> sum + String.length(run) end)
 
   defp part({:mark, run}, props, size, _plain) do
     <%= @module_prefix_camel %>Mark.<%= @component_prefix %>mark(
