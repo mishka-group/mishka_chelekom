@@ -120,6 +120,32 @@ defmodule MishkaMob.Components.MishkaAutocompleteTest do
       assert find_all(tree, :row) == []
     end
 
+    test "pills wrap onto a new row every per_row" do
+      # A single Row runs off the edge — Mob has no flow layout, and nothing
+      # clips or complains, so the seventh recipient simply vanished past the
+      # border. The tree was valid either way, which is why this is asserted.
+      tokens = for i <- 1..7, do: %{type: :text, props: %{text: "p#{i}"}, children: []}
+
+      assert row_widths(MishkaPillsInput.pills_input(%{}, tokens)) == [3, 3, 1]
+    end
+
+    test "per_row is a prop, and 0 does not divide the pills into nothing" do
+      tokens = for i <- 1..4, do: %{type: :text, props: %{text: "p#{i}"}, children: []}
+      widths = &row_widths(MishkaPillsInput.pills_input(%{per_row: &1}, tokens))
+
+      assert widths.(2) == [2, 2]
+      assert widths.(10) == [4]
+      # Enum.chunk_every/2 raises on 0 — one per row is the only sane reading.
+      assert widths.(0) == [1, 1, 1, 1]
+    end
+
+    defp row_widths(tree) do
+      tree
+      |> find_all(:row)
+      |> Enum.map(fn row -> Enum.count(row.children, &(&1.type == :text)) end)
+      |> Enum.reject(&(&1 == 0))
+    end
+
     test "typing and return report separately" do
       field =
         find(

@@ -159,6 +159,12 @@ defmodule MishkaMob.Showcase.Components.Autocomplete do
         type: "see MishkaPillsInput",
         default: "—",
         description: "A bordered control whose pills the caller supplies."
+      },
+      %{
+        name: "PillsInput: per_row",
+        type: "number",
+        default: "3",
+        description: "Pills before wrapping. Declared, not measured — Mob reports no geometry."
       }
     ]
   end

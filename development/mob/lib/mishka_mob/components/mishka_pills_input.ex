@@ -25,8 +25,19 @@ defmodule MishkaMob.Components.MishkaPillsInput do
   | `on_draft` | event tag (atom) | — | `{:change, tag, text}` as the draft is typed. |
   | `on_add` | event tag (atom) | — | Fired on return. Carries NO text — commit your own draft. |
   | `space` | number | `6` | Gap between pills. |
+  | `per_row` | number | `3` | Pills before wrapping to the next line. |
 
   Children are the pills.
+
+  ## Why `per_row` is a number and not a measurement
+
+  Mob has no flow layout, and a `Row` runs off the edge rather than onto a second
+  line. Nor is any geometry reported back to `render/1`, so nothing here can ask
+  how many pills fit — the count has to be **declared**. Three is a reasonable
+  default for short tokens; raise it for narrow ones, lower it for long names.
+
+  `MishkaMob.Components.MishkaOverflowList` takes a declared count for the same
+  reason.
 
   Not ported: `id` / `input_name` (form plumbing) and the `*_class` attrs.
   """
@@ -52,9 +63,6 @@ defmodule MishkaMob.Components.MishkaPillsInput do
   def pills_input(props \\ %{}, pills \\ []) do
     props = Map.new(props)
     disabled? = truthy?(Map.get(props, :disabled, false))
-    space = Map.get(props, :space, 6)
-
-    spaced = Enum.intersperse(pills, ~MOB(<Spacer size={space} />))
 
     ~MOB"""
     <Box
@@ -67,15 +75,41 @@ defmodule MishkaMob.Components.MishkaPillsInput do
     >
       <Column fill_width={true}>
         <Column fill_width={true} :if={pills != []}>
-          <Row fill_width={true}>
-            {spaced}
-          </Row>
+          {rows(pills, props)}
           <Spacer size={8} />
         </Column>
         {draft(props, disabled?)}
       </Column>
     </Box>
     """
+  end
+
+  # One Row per chunk, stacked. A single Row would run off the edge as soon as
+  # the pills outgrew the width — silently, since nothing clips or complains.
+  defp rows(pills, props) do
+    space = Map.get(props, :space, 6)
+    per_row = max(Map.get(props, :per_row, 3), 1)
+    gap = ~MOB(<Spacer size={space} />)
+
+    lines =
+      pills
+      |> Enum.chunk_every(per_row)
+      |> Enum.map(fn chunk ->
+        spaced = Enum.intersperse(chunk, gap)
+
+        ~MOB"""
+        <Column fill_width={true}>
+          <Row>
+            {spaced}
+          </Row>
+          <Spacer size={space} />
+        </Column>
+        """
+      end)
+
+    ~MOB(<Column fill_width={true}>
+  {lines}
+</Column>)
   end
 
   defp draft(props, disabled?) do
