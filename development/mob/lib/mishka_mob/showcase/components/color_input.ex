@@ -4,7 +4,7 @@ defmodule MishkaMob.Showcase.Components.ColorInput do
 
   import Mob.Sigil
 
-  alias MishkaMob.Components.{Color, MishkaColorInput}
+  alias MishkaMob.Components.{Color, MishkaColorInput, MishkaColorPicker, MishkaHueSlider}
   alias MishkaMob.Showcase.Example
 
   @impl true
@@ -60,8 +60,7 @@ defmodule MishkaMob.Showcase.Components.ColorInput do
               on_change={:hex}
               on_toggle={:toggle}
               on_hue={:ci_hue}
-              on_saturation={:ci_sat}
-              on_value={:ci_val}
+              on_area={:ci_area}
             />
           </Column>
           """
@@ -143,9 +142,21 @@ defmodule MishkaMob.Showcase.Components.ColorInput do
   end
 
   # Moving the picker rewrites the field — that direction is unambiguous.
-  def handle_change(:ci_hue, value, socket), do: sync(socket, :ci_hue, value)
-  def handle_change(:ci_sat, value, socket), do: sync(socket, :ci_sat, value)
-  def handle_change(:ci_val, value, socket), do: sync(socket, :ci_val, value)
+  # Both panel controls are dragged, so both deliver a touch position. The hex
+  # field and the picker read the same three assigns, so writing the hex back in
+  # sync/2 is what stops the text and the panel disagreeing.
+  def handle_change(:ci_hue, %{x: x}, socket),
+    do: sync(socket, :ci_hue, MishkaHueSlider.hue_at(x, 280))
+
+  def handle_change(:ci_area, %{x: x, y: y}, socket) do
+    {sat, val} = MishkaColorPicker.sv_at(x, y)
+
+    socket |> Mob.Socket.assign(:ci_sat, sat) |> sync(:ci_val, val)
+  end
+
+  def handle_change(:ci_hue, value, socket) when is_number(value),
+    do: sync(socket, :ci_hue, value)
+
   def handle_change(_tag, _value, socket), do: socket
 
   defp sync(socket, key, value) do

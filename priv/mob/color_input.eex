@@ -45,7 +45,8 @@ defmodule <%= @module %> do
   | `disabled` | boolean | `false` | Mutes and unwires. |
   | `on_change` | event tag | — | `{:change, tag, text}` as the hex is typed. |
   | `on_toggle` | event tag | — | `{:tap, tag}` on the ▾ trigger. |
-  | `on_hue` / `on_saturation` / `on_value` | event tags | — | Forwarded to the picker. |
+  | `on_hue` | event tag | — | Forwarded to the panel's hue strip: `{:drag, tag, %{x:}}`. Convert with `<%= @module_prefix_camel %>HueSlider.hue_at/2`. |
+  | `on_area` | event tag | — | Forwarded to the panel's square: `{:drag, tag, %{x:, y:}}`. Convert with `<%= @module_prefix_camel %>ColorPicker.sv_at/4`. |
 
   Not ported: `name`/`form`/`id`, and `phx-click-away` / Escape dismissal — a
   panel in flow has nothing to click away from.
@@ -129,10 +130,8 @@ defmodule <%= @module %> do
           hue: h,
           saturation: s,
           value: v,
-          show_preview: false,
           on_hue: Map.get(props, :on_hue),
-          on_saturation: Map.get(props, :on_saturation),
-          on_value: Map.get(props, :on_value)
+          on_area: Map.get(props, :on_area)
         )
 
       ~MOB"""

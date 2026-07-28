@@ -332,6 +332,24 @@ defmodule MishkaMob.Components.ColorControlsTest do
   end
 
   describe "color input" do
+    # The panel embeds a picker, so it has to forward the picker's OWN event
+    # props. When those were renamed, color_input kept passing the old ones —
+    # which is not an error: the square simply rendered and could not be
+    # dragged. Nothing failed, which is why this test exists.
+    test "the open panel forwards handlers to both of the picker's canvases" do
+      tree = MishkaColorInput.color_input(open: true, on_hue: :h, on_area: :area)
+
+      handlers =
+        tree |> find_all(:canvas) |> Enum.map(& &1.props[:on_drag]) |> Enum.reject(&is_nil/1)
+
+      assert {self(), :area} in handlers
+      assert {self(), :h} in handlers
+    end
+
+    test "a closed panel renders no picker at all" do
+      assert MishkaColorInput.color_input(open: false, on_area: :area) |> find_all(:canvas) == []
+    end
+
     test "the swatch shows the field's colour" do
       tree = MishkaColorInput.color_input(value: "#ff0000")
 
