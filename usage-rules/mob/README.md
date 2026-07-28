@@ -31,7 +31,7 @@ Components are `Mob.Composite`s, so they are tags inside `~MOB`:
 The function form (`{otp_field(value: @code)}`) is equivalent and used only for what a tag
 cannot express.
 
-## Three rules that are easy to get wrong
+## Four rules that are easy to get wrong
 
 **1. Event props must be handler-wrapped.** The renderer only registers a handler when the prop
 is `{screen_pid, tag}`. A bare atom serialises as an ordinary prop, and the control then renders
@@ -49,6 +49,12 @@ atom to a composite is enough — `expand/3` injects the target.
 
 **3. A screen needs a catch-all `handle_info/2`.** Components route stray events to ignored tags;
 without it the screen crashes.
+
+**4. There are three layouts — `Box`, `Column`, `Row` — and nothing wraps.** A `Row` runs off the
+edge rather than flowing onto a second line, and no geometry is reported back to `render/1`, so
+nothing can ask how many children fit: wrapping means chunking by a **declared** count (see
+[pill](pill.md)). And a `Box` with neither `width` nor `fill_width` **fills its parent** — pass
+`fill_width={false}` for anything meant to be as wide as its content.
 
 ## Screens
 
