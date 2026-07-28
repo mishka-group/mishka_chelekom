@@ -332,6 +332,24 @@ defmodule MishkaMob.Components.ColorControlsTest do
   end
 
   describe "color input" do
+    test "the swatch opens the panel, not just the trigger" do
+      tree = MishkaColorInput.color_input(value: "#3b82f6", on_toggle: :open)
+
+      taps = tree |> find_all(:box) |> Enum.map(& &1.props[:on_tap]) |> Enum.reject(&is_nil/1)
+
+      # Both the swatch and the ▾ trigger. The swatch is the most colour-like
+      # thing on the row, so it is what a finger reaches for first.
+      assert length(taps) == 2
+      assert Enum.all?(taps, &(&1 == {self(), :open}))
+    end
+
+    test "a disabled input wires neither of them" do
+      tree = MishkaColorInput.color_input(disabled: true, on_toggle: :open)
+
+      assert tree |> find_all(:box) |> Enum.map(& &1.props[:on_tap]) |> Enum.reject(&is_nil/1) ==
+               []
+    end
+
     # The panel embeds a picker, so it has to forward the picker's OWN event
     # props. When those were renamed, color_input kept passing the old ones —
     # which is not an error: the square simply rendered and could not be

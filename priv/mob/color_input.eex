@@ -44,7 +44,7 @@ defmodule <%= @module %> do
   | `hue` / `saturation` / `value_pct` | numbers | derived from `value` | Picker position. |
   | `disabled` | boolean | `false` | Mutes and unwires. |
   | `on_change` | event tag | — | `{:change, tag, text}` as the hex is typed. |
-  | `on_toggle` | event tag | — | `{:tap, tag}` on the ▾ trigger. |
+  | `on_toggle` | event tag | — | `{:tap, tag}` on the ▾ trigger **and on the swatch**. |
   | `on_hue` | event tag | — | Forwarded to the panel's hue strip: `{:drag, tag, %{x:}}`. Convert with `<%= @module_prefix_camel %>HueSlider.hue_at/2`. |
   | `on_area` | event tag | — | Forwarded to the panel's square: `{:drag, tag, %{x:, y:}}`. Convert with `<%= @module_prefix_camel %>ColorPicker.sv_at/4`. |
 
@@ -90,14 +90,7 @@ defmodule <%= @module %> do
     <Column fill_width={true}>
       {label(Map.get(props, :label))}
       <Row fill_width={true} align={:center}>
-        <Box
-          width={30}
-          height={30}
-          background={swatch}
-          corner_radius={:radius_sm}
-          border_color={:border}
-          border_width={1}
-        />
+        {swatch_box(swatch, props, disabled?)}
         <Spacer size={8} />
         {field}
         <Spacer size={8} />
@@ -119,6 +112,24 @@ defmodule <%= @module %> do
     </Box>
     """
     |> put(:on_tap, handler)
+  end
+
+  # The swatch opens the panel too. It is the most colour-like thing on the row,
+  # so it is what a finger goes for — leaving it inert meant the ▾ trigger was
+  # the only way in, and nothing about the swatch said so.
+  defp swatch_box(fill, props, disabled?) do
+    node = ~MOB"""
+    <Box
+      width={30}
+      height={30}
+      background={fill}
+      corner_radius={:radius_sm}
+      border_color={:border}
+      border_width={1}
+    />
+    """
+
+    put(node, :on_tap, if(disabled?, do: nil, else: Event.handler(Map.get(props, :on_toggle))))
   end
 
   defp panel(props) do

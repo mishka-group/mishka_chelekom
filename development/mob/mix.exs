@@ -144,7 +144,15 @@ defmodule MishkaMob.MixProject do
     # _build/<env>/lib/mob, but they share one deps/ copy of the whitelist, so
     # writing it under `mix compile` leaves the test build stale and every tag
     # warns again the moment `mix test` runs.
-    if Enum.any?(Enum.map(@tag_files, &sync_tags(&1, names))) or stale_build?() do
+    changed? = Enum.any?(Enum.map(@tag_files, &sync_tags(&1, names)))
+
+    # Only force a rebuild of an EXISTING build. On a fresh checkout :mob has not
+    # been compiled yet, and `deps.compile mob --force` compiles that one dep in
+    # isolation — before nimble_parsec, which Mob.Sigil imports, leaving CI with
+    # "module NimbleParsec is not loaded". Nothing needs forcing there anyway:
+    # the tags file is already written, so the ordinary compile that follows
+    # reads it.
+    if (changed? or stale_build?()) and File.dir?(mob_ebin()) do
       Mix.shell().info("whitelisting #{length(names)} composite tags — recompiling :mob")
       Mix.Task.run("deps.compile", ["mob", "--force"])
     end
@@ -156,8 +164,10 @@ defmodule MishkaMob.MixProject do
   # so a whitelist written while another env was building is invisible here.
   # Mob.Sigil is the module that bakes the list in, which makes its beam the
   # thing to compare against.
+  defp mob_ebin, do: Path.join(["_build", to_string(Mix.env()), "lib/mob/ebin"])
+
   defp stale_build? do
-    beam = Path.join(["_build", to_string(Mix.env()), "lib/mob/ebin/Elixir.Mob.Sigil.beam"])
+    beam = Path.join(mob_ebin(), "Elixir.Mob.Sigil.beam")
 
     case {File.stat(beam), File.stat("deps/mob/priv/tags/android.txt")} do
       {{:ok, built}, {:ok, tags}} -> tags.mtime > built.mtime
