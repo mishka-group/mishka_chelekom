@@ -15,6 +15,21 @@ defmodule MishkaMob.ShowcaseTest do
   defp expanded(view), do: Mob.Composite.expand(tree(view), self())
   defp drawer_node(view), do: find(view, :mishka_drawer)
 
+  # The "Inside inputs" token rows, as lists of the pills in each. A row here is
+  # a :row whose DIRECT children are pills — the wrapper Column and the outer
+  # example rows both contain pills through their descendants and would
+  # otherwise match too.
+  defp token_rows(tree) do
+    tree
+    |> find_all(:row)
+    |> Enum.map(fn row ->
+      Enum.filter(row.children, &(&1.props[:corner_radius] == :radius_pill))
+    end)
+    |> Enum.reject(fn pills ->
+      pills == [] or not Enum.all?(pills, &(text(&1) =~ "Item "))
+    end)
+  end
+
   describe "registry" do
     test "register + lookup augments the entry with its module" do
       entry = Showcase.get(:drawer)
@@ -365,6 +380,120 @@ defmodule MishkaMob.ShowcaseTest do
       # the two "Locked" switches, and they keep their rendered state
       assert length(disabled) == 2
       assert Enum.map(disabled, & &1.props.value) == [true, false]
+    end
+
+    test "the Pill page renders every example and its props" do
+      view = mount_screen(ComponentScreen, %{slug: :pill})
+
+      assert_renderable(expanded(view))
+
+      for heading <- ["Inside inputs", "Tappable", "Plain", "Colour", "Disabled", "Props"] do
+        assert text(view) =~ heading
+      end
+    end
+
+    test "every pill on the page hugs its label" do
+      # The bug that made the page unusable: MobBridge never read fill_width for
+      # a Box, so a pill filled the row and the "Inside inputs" example showed
+      # one token per line. Both halves were needed; this guards the Elixir one
+      # for EVERY pill on the page, including the ones inside examples.
+      pills =
+        ComponentScreen
+        |> mount_screen(%{slug: :pill})
+        |> expanded()
+        |> find_all(:box)
+        |> Enum.filter(&(&1.props[:corner_radius] == :radius_pill))
+
+      assert length(pills) > 10
+      assert Enum.all?(pills, &(&1.props[:fill_width] == false))
+    end
+
+    test "the tokens wrap into rows rather than one long line" do
+      view = mount_screen(ComponentScreen, %{slug: :pill})
+
+      # Ten tokens chunked three to a row — the wrap is declared, because Mob
+      # reports no geometry back and nothing can ask how many fit.
+      assert length(assigns(view).pill_tokens) == 10
+      assert text(expanded(view)) =~ "Item 0"
+      assert text(expanded(view)) =~ "Item 9"
+
+      assert Enum.map(token_rows(expanded(view)), &length/1) == [3, 3, 3, 1]
+    end
+
+    test "removing a token drops exactly that one" do
+      view =
+        ComponentScreen
+        |> mount_screen(%{slug: :pill})
+        |> render_info({:tap, {:token_drop, :item_3}})
+
+      refute :item_3 in assigns(view).pill_tokens
+      assert length(assigns(view).pill_tokens) == 9
+      refute text(expanded(view)) =~ "Item 3"
+      assert text(expanded(view)) =~ "Item 4"
+
+      # …and the rows reflow: 9 tokens is three full rows, not three-and-a-gap.
+      assert Enum.map(token_rows(expanded(view)), &length/1) == [3, 3, 3]
+    end
+
+    test "emptying the tokens leaves a message, not a blank box" do
+      view =
+        Enum.reduce(0..9, mount_screen(ComponentScreen, %{slug: :pill}), fn i, acc ->
+          render_info(acc, {:tap, {:token_drop, :"item_#{i}"}})
+        end)
+
+      assert assigns(view).pill_tokens == []
+      assert_renderable(expanded(view))
+      assert text(expanded(view)) =~ "No tags left"
+    end
+
+    test "reset brings every token back" do
+      view =
+        ComponentScreen
+        |> mount_screen(%{slug: :pill})
+        |> render_info({:tap, {:token_drop, :item_0}})
+        |> render_info({:tap, :token_reset})
+
+      assert length(assigns(view).pill_tokens) == 10
+      assert text(expanded(view)) =~ "Item 0"
+    end
+
+    test "tapping a pill body sends its tag and the screen renders the pick" do
+      view = mount_screen(ComponentScreen, %{slug: :pill})
+
+      assert assigns(view).pill_picked == nil
+      assert text(expanded(view)) =~ "Nothing picked yet"
+
+      view = render_info(view, {:tap, {:pill_pick, :elixir}})
+
+      assert assigns(view).pill_picked == :elixir
+      assert text(expanded(view)) =~ "Picked: elixir"
+
+      # Only the picked pill changes colour — a shared flag would light all three.
+      # Scoped to the Tappable example's own pills: the Colour example ships a
+      # deliberately :primary one, and the page chrome has more.
+      lit =
+        expanded(view)
+        |> find_all(:box)
+        |> Enum.filter(&(&1.props[:corner_radius] == :radius_pill))
+        |> Enum.filter(&Enum.any?(~w(React Elixir Swift), fn l -> text(&1) =~ l end))
+        |> Enum.filter(&(&1.props[:background] == :primary))
+
+      assert [elixir] = lit
+      assert text(elixir) =~ "Elixir"
+    end
+
+    test "the disabled pills wire no taps at all" do
+      view = mount_screen(ComponentScreen, %{slug: :pill})
+
+      disabled =
+        expanded(view)
+        |> find_all(:box)
+        |> Enum.filter(&(&1.props[:corner_radius] == :radius_pill and text(&1) =~ "locked"))
+
+      # on_tap AND on_remove are both passed in the example, and neither survives.
+      assert [pill] = disabled
+      refute Map.has_key?(pill.props, :on_tap)
+      assert Enum.all?(find_all(pill, :row), &(not Map.has_key?(&1.props, :on_tap)))
     end
 
     test "unknown slug renders a not-found page (still renderable)" do
