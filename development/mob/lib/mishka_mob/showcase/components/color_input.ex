@@ -42,10 +42,44 @@ defmodule MishkaMob.Showcase.Components.ColorInput do
           open={@open}
           on_change={:hex}
           on_toggle={:toggle}
+          on_hue={:hue}
+          on_area={:area}
           hue={@hue}
           saturation={@sat}
           value_pct={@val}
         />
+
+        # Typed text. Only accept it once it parses, or every keystroke on the
+        # way to "#3b82f6" would repaint the panel from a half-written colour.
+        def handle_info({:change, :hex, text}, socket) do
+          case Color.parse(text) do
+            {:ok, rgb} -> {:noreply, assign_hsv(socket, text, rgb)}
+            :error -> {:noreply, assign(socket, :hex, text)}
+          end
+        end
+
+        # The swatch and the ▾ trigger both send this.
+        def handle_info({:tap, :toggle}, socket) do
+          {:noreply, assign(socket, :open, not socket.assigns.open)}
+        end
+
+        # The panel's two canvases are dragged, so both carry a POSITION.
+        def handle_info({:drag, :hue, %{x: x}}, socket) do
+          {:noreply, sync(socket, :hue, MishkaHueSlider.hue_at(x, 280))}
+        end
+
+        def handle_info({:drag, :area, %{x: x, y: y}}, socket) do
+          {sat, val} = MishkaColorPicker.sv_at(x, y)
+          {:noreply, socket |> assign(:sat, sat) |> sync(:val, val)}
+        end
+
+        # hue/saturation/value_pct and the hex field are one colour in two
+        # notations — write the hex back or the text and the panel disagree.
+        defp sync(socket, key, value) do
+          socket = assign(socket, key, value)
+          %{hue: h, sat: s, val: v} = socket.assigns
+          assign(socket, :hex, Color.hsv_to_hex(h, s, v))
+        end
         """,
         render: fn assigns ->
           ~MOB"""
@@ -70,6 +104,8 @@ defmodule MishkaMob.Showcase.Components.ColorInput do
         title: "Disabled",
         description: "Muted trigger, no handlers attached.",
         code: ~S"""
+        # No handlers: disabled wires neither the field nor the two ways in
+        # (the swatch and the trigger), so there is nothing to receive.
         <MishkaColorInput value={"#64748b"} disabled={true} />
         """,
         render: fn _assigns ->
