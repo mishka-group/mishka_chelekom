@@ -28,9 +28,17 @@ defmodule <%= @module %> do
   | `disabled` | boolean | `false` | Mutes it and wires no handlers, including the ✕. |
   | `background` | color token / ARGB int | `:surface_raised` | Pill fill. |
   | `color` | color token / ARGB int | `:on_surface` | Label colour. |
+  | `disabled_color` | color token / ARGB int | `:muted` | Label colour while disabled. |
 
   Not ported: `remove_label` (an `aria-label` for the ✕ — Mob exposes no
   accessible name on a text node) and the `id` / `*_class` attrs.
+
+  ## It hugs its label
+
+  The root Box passes `fill_width={false}`, so a pill is exactly as wide as its
+  text plus padding. That is what lets several sit in one Row the way they do on
+  the web. It matters because a Box with neither `width` nor `fill_width` fills
+  its parent, which made every pill a full-width bar.
   """
 
   import Mob.Sigil
@@ -58,6 +66,7 @@ defmodule <%= @module %> do
       background={Map.get(props, :background, :surface_raised)}
       corner_radius={:radius_pill}
       padding={:space_sm}
+      fill_width={false}
     >
       <Row>
         {label(props, content, disabled?)}

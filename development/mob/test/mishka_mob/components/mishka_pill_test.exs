@@ -37,6 +37,14 @@ defmodule MishkaMob.Components.MishkaPillTest do
       assert node.props.background == 0xFF7C3AED
       assert find(node, :text).props.text_color == 0xFFFFFFFF
     end
+
+    test "hugs its label rather than filling the row" do
+      # The regression: a Box with neither width nor fill_width FILLS its parent,
+      # so every pill came out a full-width bar and only one fit per row. It is
+      # asserted here because a pill that fills is still a perfectly valid tree —
+      # nothing else in the suite can tell the two apart.
+      assert MishkaPill.pill(label: "elixir").props.fill_width == false
+    end
   end
 
   describe "the remove button" do
@@ -82,6 +90,18 @@ defmodule MishkaMob.Components.MishkaPillTest do
       refute Map.has_key?(node.props, :on_tap)
       refute Map.has_key?(remove_row(node).props, :on_tap)
       assert find(node, :text).props.text_color == :muted
+    end
+
+    test "disabled_color overrides the muted default" do
+      node = MishkaPill.pill(label: "e", disabled: true, disabled_color: 0xFF9CA3AF)
+
+      assert find(node, :text).props.text_color == 0xFF9CA3AF
+    end
+
+    test "disabled_color is ignored while enabled" do
+      node = MishkaPill.pill(label: "e", disabled_color: 0xFF9CA3AF)
+
+      assert find(node, :text).props.text_color == :on_surface
     end
   end
 

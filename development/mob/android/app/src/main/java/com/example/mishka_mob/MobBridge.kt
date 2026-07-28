@@ -2242,7 +2242,16 @@ private fun RenderNodeInner(node: MobNode, modifier: Modifier) {
         // "top_leading" / etc.) — defaults to TopStart for back-compat.
         "box" -> {
             val hasWidth = floatProp(node.props, "width") != null
-            val boxModifier = if (hasWidth) m else m.fillMaxWidth()
+            // fill_width was never read here, so a Box could only be told to STOP
+            // filling by pinning an exact width — which a pill cannot do, its
+            // width being however wide its label is. Honouring the prop lets a
+            // Box hug its content; the default stays fill, because every existing
+            // component was written against it.
+            val boxModifier = when (boolProp(node.props, "fill_width")) {
+                true -> m.fillMaxWidth()
+                false -> m
+                else -> if (hasWidth) m else m.fillMaxWidth()
+            }
             Box(modifier = boxModifier, contentAlignment = boxAlignProp(node.props)) {
                 node.children.forEach { RenderNode(it) }
             }
