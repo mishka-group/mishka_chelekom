@@ -18,7 +18,9 @@ defmodule MishkaMob.Showcase.Components.FloatingWindow do
     %{
       slug: :floating_window,
       name: "Floating Window",
-      category: "Overlay",
+      # "Overlays", not "Overlay" — by_category/0 groups on the raw string, so a
+      # singular here gave the gallery a second, one-item overlay section.
+      category: "Overlays",
       order: 7,
       description: "A positioned panel with nudge controls, plus a floating indicator."
     }
