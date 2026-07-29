@@ -41,7 +41,7 @@ defmodule MishkaMob.Showcase.Components.HueSlider do
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaHueSlider value={@hue} label="Hue" show_value={true} on_change={:hue} />
+            <MishkaHueSlider value={@hue} label="Hue" show_value={true} on_change={:hue} id="hue-strip" />
             <Spacer size={12} />
             {swatch(@hue)}
           </Column>

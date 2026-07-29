@@ -69,7 +69,14 @@ defmodule MishkaMob.Showcase.Components.ColorPicker do
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaColorPicker hue={@hue} saturation={@sat} value={@val} on_hue={:hue} on_area={:area} />
+            <MishkaColorPicker
+              hue={@hue}
+              saturation={@sat}
+              value={@val}
+              on_hue={:hue}
+              on_area={:area}
+              id="picker"
+            />
             <Spacer size={10} />
             {preview(@hue, @sat, @val)}
             <Spacer size={10} />

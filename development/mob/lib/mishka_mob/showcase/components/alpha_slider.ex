@@ -67,7 +67,7 @@ defmodule MishkaMob.Showcase.Components.AlphaSlider do
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaAlphaSlider value={@alpha} color={"#dc2626"} on_change={:alpha} />
+            <MishkaAlphaSlider value={@alpha} color={"#dc2626"} on_change={:alpha} id="alpha-track" />
             <Spacer size={8} />
             <MishkaAlphaSlider value={@alpha} color={"#16a34a"} on_change={:alpha} />
           </Column>

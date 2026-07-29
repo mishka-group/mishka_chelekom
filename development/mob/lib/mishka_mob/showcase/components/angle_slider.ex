@@ -48,7 +48,9 @@ defmodule MishkaMob.Showcase.Components.AngleSlider do
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaAngleSlider value={@angle} label="Direction" on_change={:angle} />
+            <MishkaAngleSlider value={@angle} label="Direction" on_change={:angle} id="angle-dial" />
+            <Spacer size={10} />
+            <Text text={"#{round(@angle)}°"} text_size={:sm} text_color={:muted} />
           </Column>
           """
         end
