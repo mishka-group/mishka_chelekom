@@ -33,13 +33,18 @@ import kotlin.math.abs
  * "Untitled" appears in the sample too. Assert on things only the render
  * produces — the reset button is the reliable one.
  *
- * NOT covered here: tapping the SECOND action. It could not be made to land
- * reliably — the button reports a (0, 0, 0, 0) rect and the click reaches
- * nothing, through several attempts at scrolling it into view first. The cause
- * is unknown, so rather than commit a flaky test the coverage sits in
- * ShowcaseTest, which drives {:tap, :es_import} directly and asserts the list
- * grows by two. What is lost is only the proof that the second button is
- * REACHABLE on a device — worth revisiting.
+ * [the_second_action_works_too] earns its place. The second button really was
+ * unreachable: a Row hands the first child every pixel it asks for and a Button
+ * asks for all of them, so "Import" was measured to zero width and parked at the
+ * right edge (l=912, r=912). It sat in the node tree the whole time, and the
+ * harness would happily "click" it — only a finger could tell the difference,
+ * which is exactly the class of bug a device test exists to catch. The component
+ * now tells its actions to hug, and this test measures the button rather than
+ * trusting the tree.
+ *
+ * Ordering trap, which cost several runs to see: a node outside the scroll
+ * viewport reports (0, 0, 0, 0) whatever its layout, so measuring before
+ * scrolling says nothing at all. Scroll first, then measure.
  *
  * Run with `mix e2e EmptyStateTest`.
  */
@@ -120,6 +125,43 @@ class EmptyStateTest {
 
         tap("Delete them all")
         compose.waitUntil(10_000) { !showing("Untitled 1") }
+    }
+
+    @Test
+    fun the_second_action_works_too() {
+        if (showing("Delete them all")) {
+            tap("Delete them all")
+            compose.waitUntil(10_000) { !showing("Delete them all") }
+        }
+
+        // Scroll to the button itself, then measure. A node outside the scroll
+        // viewport reports (0, 0, 0, 0) regardless of how it is laid out, so
+        // measuring before scrolling says nothing at all.
+        compose.onAllNodesWithText("Import", substring = false)[0].performScrollTo()
+        compose.waitForIdle()
+
+        // The regression this guards: the second action used to be measured to
+        // ZERO width and parked at the right edge (l=912, r=912) because the
+        // first button had taken the whole Row. It was in the tree, and the
+        // harness would happily "click" it, but no finger could ever reach it.
+        val rect = boundsOf("Import")
+        val first = boundsOf("New")
+        require(rect.width > 0f) { "\"Import\" has no width: $rect" }
+        require(rect.left >= first.right) { "the actions overlap: $rect vs $first" }
+
+        // And they stay centred. Mob maps Column to a bare Compose Column, which
+        // has no horizontalAlignment — the centred layout centres by letting this
+        // Row HUG inside an aligned Box, so anything that makes the row fill
+        // moves the actions to the left edge with nothing failing anywhere.
+        val title = boundsOf("No projects yet")
+        val actionsCentre = (first.left + rect.right) / 2f
+        require(abs(actionsCentre - title.center.x) < 40f) {
+            "the actions are not centred under the text: $actionsCentre vs ${title.center.x}"
+        }
+
+        tap("Import")
+        compose.waitUntil(10_000) { showing("Imported A") }
+        require(showing("Imported B")) { "Import added only one project" }
     }
 
     @Test

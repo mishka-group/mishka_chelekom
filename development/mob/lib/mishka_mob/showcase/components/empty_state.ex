@@ -78,14 +78,15 @@ defmodule MishkaMob.Showcase.Components.EmptyState do
             "empty state is what a list shows when it has nothing, so filling it " <>
             "is what makes the empty state go away.",
         code: ~S"""
-        # `actions` is a PROP, not a slot — the tag's children are the indicator,
-        # and a second slot cannot be expressed in ~MOB markup.
-        <MishkaEmptyState
-          indicator="📁"
-          title="No projects yet"
-          description="Create one to get started."
-          actions={[button("New", :es_new), button("Import", :es_import)]}
-        />
+        # Actions are a SLOT tag, like Chelekom's <:actions>. The component owns
+        # the row, so it puts the gaps in for you.
+        <MishkaEmptyState indicator="📁" title="No projects yet"
+                          description="Create one to get started.">
+          <MishkaEmptyStateActions>
+            <Button text="New" on_tap={{self(), :es_new}} />
+            <Button text="Import" on_tap={{self(), :es_import}} />
+          </MishkaEmptyStateActions>
+        </MishkaEmptyState>
 
         # The buttons are yours, so the handlers are the ordinary ones. An empty
         # state carries no events of its own.
@@ -147,7 +148,19 @@ defmodule MishkaMob.Showcase.Components.EmptyState do
         name: "actions",
         type: "list of nodes",
         default: "[]",
-        description: "A row beneath the text. A PROP, because the children are the indicator."
+        description: "A row beneath the text. Prefer the <MishkaEmptyStateActions> slot."
+      },
+      %{
+        name: "<MishkaEmptyStateIndicator>",
+        type: "slot",
+        default: "—",
+        description: "An illustration in place of the indicator glyph."
+      },
+      %{
+        name: "<MishkaEmptyStateActions>",
+        type: "slot",
+        default: "—",
+        description: "Buttons beneath the text; the component spaces them."
       }
     ]
   end
@@ -173,19 +186,24 @@ defmodule MishkaMob.Showcase.Components.EmptyState do
   # The whole point of the component: it is what a list shows INSTEAD of itself.
   defp projects_or_empty([]) do
     ~MOB"""
-    <MishkaEmptyState
-      indicator="📁"
-      title="No projects yet"
-      description="Create one to get started."
-      actions={[
-        # Short labels on purpose: the actions Row does not wrap, and two wide
-        # buttons inside :space_xl padding push the second one off the edge —
-        # where it is never laid out and cannot be tapped at all.
-        button("New", :primary, :on_primary, :es_new),
-        gap(),
-        button("Import", :surface, :on_surface, :es_import)
-      ]}
-    />
+    <MishkaEmptyState indicator="📁" title="No projects yet" description="Create one to get started.">
+      <MishkaEmptyStateActions>
+        <Button
+          text="New"
+          background={:primary}
+          text_color={:on_primary}
+          padding={:space_sm}
+          on_tap={{self(), :es_new}}
+        />
+        <Button
+          text="Import"
+          background={:surface}
+          text_color={:on_surface}
+          padding={:space_sm}
+          on_tap={{self(), :es_import}}
+        />
+      </MishkaEmptyStateActions>
+    </MishkaEmptyState>
     """
   end
 
@@ -217,22 +235,6 @@ defmodule MishkaMob.Showcase.Components.EmptyState do
     </Column>
     """
   end
-
-  defp button(label, background, text_color, tag) do
-    %{
-      type: :button,
-      props: %{
-        text: label,
-        background: background,
-        text_color: text_color,
-        padding: :space_sm,
-        on_tap: {self(), tag}
-      },
-      children: []
-    }
-  end
-
-  defp gap, do: %{type: :spacer, props: %{size: 8}, children: []}
 
   @impl true
   def card_preview do

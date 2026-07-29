@@ -33,8 +33,12 @@ if @projects == [] do
     indicator="📁"
     title="No projects yet"
     description="Create one to get started."
-    actions={[new_button(), import_button()]}
-  />
+  >
+    <MishkaEmptyStateActions>
+      <Button text="New" on_tap={{self(), :new_project}} />
+      <Button text="Import" on_tap={{self(), :import_projects}} />
+    </MishkaEmptyStateActions>
+  </MishkaEmptyState>
   """
 else
   project_list(@projects)
@@ -59,28 +63,40 @@ The component itself has **no events**. Everything tappable in it is a node you 
 | `align` | `:center` · `:leading` | `:center` |
 | `indicator` | string | `nil` — a glyph or emoji |
 | `padding` | spacing token / number | `:space_xl` |
-| `actions` | list of nodes | `[]` |
+| `actions` | list of nodes | `[]` — prefer the slot |
 
-Children (the tag's inner block) replace the `indicator` glyph with any nodes — an illustration,
-an avatar, a drawing.
+## Slots
+
+All three of the web component's slots are ported as tags:
+
+| Slot | Chelekom | Falls back to |
+|---|---|---|
+| `<MishkaEmptyStateIndicator>` | `<:indicator>` | the `indicator` glyph prop |
+| `<MishkaEmptyStateActions>` | `<:actions>` | the `actions` prop |
+| bare children | `<:inner_block>` | — rendered after the description |
+
+Slot tags are not in Mob's tag whitelist, so `~MOB` emits a "pass-through" warning for them. It is
+cosmetic — the tag still expands correctly — and `<MishkaAccordionItem>` has the same wrinkle.
 
 Not ported: `id` and the `*_class` attrs.
 
 ## Three things to know
 
-**`actions` is a prop, not a slot.** The tag's children are the *indicator*, and a second slot
-cannot be expressed in `~MOB` markup — so the actions row comes in as a list of nodes.
-`dialog` and `alert_dialog` make the same trade for the same reason.
+**Let the component own the actions row.** A `Row` gives the first child every pixel it asks for,
+and a control that has not been told to hug asks for all of them — so a hand-built row of two
+buttons lays the first across the full width and measures the second to **zero**, parked past the
+right edge. It stays in the node tree and a test harness will happily "click" it; only a finger can
+tell. The component sets `fill_width: false` on each action, which is the reason to pass them
+through the slot rather than assembling the row yourself.
+
+Not `weight`. Weights place the buttons too, but `weight` is `Modifier.weight` and Mob's iOS
+renderer has no equivalent — the row would divide evenly on Android and not on iOS. Hugging is
+honoured on both, and it is what an `HStack` does natively.
 
 **Every part is optional, including all of them.** No title, no description, no indicator and no
 actions renders an empty block rather than raising. That is deliberate — a caller assembling one
 from data should not have to guard each field — but it does mean a typo in a prop name shows up as
 a missing line rather than an error.
-
-**The actions row does not wrap.** It is a plain `Row`, and Mob has no flow layout — so two wide
-buttons inside the default `:space_xl` padding push the second one past the edge, where it is
-never laid out and cannot be tapped at all. Nothing clips or complains; the button is simply not
-there. Keep action labels short, or drop the padding.
 
 **Actions wired to nothing look identical to actions that work.** The buttons are yours, so
 nothing in this component can check them; a `on_tap` pointing at a tag no `handle_info` matches
