@@ -32,7 +32,10 @@ defmodule MishkaMob.Components.MishkaCode do
   | `padding` | spacing token / number | `:space_md` (block) / `4` (inline) | Padding. |
   | `scroll` | boolean | `true` for blocks | Scroll a block horizontally. |
 
-  Not ported: `id` and the `*_class` attrs. Syntax highlighting is not part of
+  | `id` | string | — | A native testTag, for finding a block whose text is long. |
+
+  Not ported: the `*_class` attrs. (`id` IS ported, but as a test handle rather
+  than a DOM id.) Syntax highlighting is not part of
   the headless component and would need per-token spans, which Mob's `Text` does
   not expose.
   """
@@ -52,9 +55,15 @@ defmodule MishkaMob.Components.MishkaCode do
   @spec code(map() | keyword()) :: map()
   def code(props \\ %{}) do
     props = Map.new(props)
+    node = if truthy?(Map.get(props, :block, false)), do: block(props), else: inline(props)
 
-    if truthy?(Map.get(props, :block, false)), do: block(props), else: inline(props)
+    with_id(node, Map.get(props, :id))
   end
+
+  # Mob turns :id into a native testTag — worth having on a block, whose text is
+  # long, multi-line and awkward to match on.
+  defp with_id(node, nil), do: node
+  defp with_id(node, id), do: %{node | props: Map.put(node.props, :id, id)}
 
   defp inline(props) do
     text = Map.get(props, :text)
@@ -63,8 +72,13 @@ defmodule MishkaMob.Components.MishkaCode do
     fill = Map.get(props, :background, :surface_raised)
     pad = Map.get(props, :padding, 4)
 
+    # fill_width={false} is what makes it INLINE. A Box given neither width nor
+    # fill_width fills its parent, so `<code>` in a sentence came out as a
+    # full-width bar — the exact opposite of "hugs its text" two doc sections
+    # above. Same line the pill, the mark, the tree's arrow and the colour
+    # input's ▾ trigger all needed.
     ~MOB"""
-    <Box background={fill} corner_radius={:radius_sm} padding={pad}>
+    <Box background={fill} corner_radius={:radius_sm} padding={pad} fill_width={false}>
       <Text text={text} text_size={size} text_color={color} font="monospace" />
     </Box>
     """

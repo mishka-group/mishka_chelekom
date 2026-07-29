@@ -12,13 +12,23 @@ defmodule MishkaMob.Components.MishkaCodeTest do
   end
 
   describe "inline" do
-    test "hugs its text — no fill_width, no scroller" do
+    test "hugs its text — fill_width FALSE, no scroller" do
+      # This asserted the ABSENCE of fill_width and called that hugging. Absence
+      # is the opposite: a Box told neither width nor fill_width fills its
+      # parent, so inline code rendered as a full-width bar while the test and
+      # the moduledoc both said it hugged.
       tree = MishkaCode.code(text: "mix test")
 
       assert tree.type == :box
-      refute Map.has_key?(tree.props, :fill_width)
+      assert tree.props.fill_width == false
       assert find_all(tree, :scroll) == []
       assert text(tree) =~ "mix test"
+    end
+
+    test "an id becomes a testTag on whichever variant is built" do
+      assert MishkaCode.code(text: "x", id: "snippet").props.id == "snippet"
+      assert MishkaCode.code(text: "x", block: true, id: "snippet").props.id == "snippet"
+      refute Map.has_key?(MishkaCode.code(text: "x").props, :id)
     end
 
     test "uses a tight default padding" do
