@@ -1,0 +1,203 @@
+defmodule MishkaMob.Components.MishkaSkeleton do
+  @moduledoc """
+  A placeholder for content that has not arrived — the grey blocks a list shows
+  while it loads.
+
+  ## It does not shimmer, and cannot
+
+  Every skeleton on the web pulses. Mob exposes no animation primitive at all:
+  there is no opacity, no alpha, no transition, and the only animated things the
+  bridge draws are Material's two progress indicators. So this is a **static**
+  placeholder, which is the honest version rather than a worse imitation of the
+  moving one.
+
+  If you need to signal "work is happening" rather than "content goes here", use
+  `MishkaMob.Components.MishkaProgress`, which really does animate — or
+  `MishkaMob.Components.MishkaLoadingOverlay` over the region.
+
+  ## Shapes
+
+      skeleton(shape: :text, lines: 3)   # three bars, the last one short
+      skeleton(shape: :circle, size: 48) # an avatar
+      skeleton(shape: :block, height: 120)
+
+  `:text` is the interesting one. Real paragraphs do not end flush with the
+  margin, so the last line is drawn at `last_line` of the width — and that is
+  done with Row **weights**, not a measurement, because no geometry is reported
+  back to `render/1` and nothing here can know how wide the parent is.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `shape` | `:block` `:text` `:circle` | `:block` | What is being stood in for. |
+  | `width` | number | fills | Exact width. Omit to fill the parent. |
+  | `height` | number | per shape | Bar/block height. Ignored by `:circle`. |
+  | `size` | number | `40` | `:circle` diameter — sets both axes. |
+  | `lines` | integer | `3` | `:text` only: how many bars. |
+  | `last_line` | 0.0–1.0 | `0.6` | `:text` only: the last bar's share of the width. |
+  | `gap` | number | `8` | `:text` only: space between bars. |
+  | `color` | color token / ARGB int | `:surface_raised` | Placeholder fill. |
+  | `corner_radius` | radius token / number | per shape | Override the shape's radius. |
+  | `id` | string | — | A native testTag. `:text` numbers its bars `id-0`, `id-1`, … |
+  """
+
+  import Mob.Sigil
+
+  @text_height 12
+  @block_height 80
+  @circle 40
+
+  @doc "Composite expander (`<MishkaSkeleton />`). Delegates to `skeleton/1`."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, _children, _ctx), do: skeleton(props)
+
+  @doc """
+  The skeleton node.
+
+      skeleton(shape: :text, lines: 2)
+      skeleton(shape: :circle, size: 56)
+  """
+  @spec skeleton(map() | keyword()) :: map()
+  def skeleton(props \\ %{}) do
+    props = Map.new(props)
+
+    case Map.get(props, :shape, :block) do
+      :text -> text_lines(props)
+      :circle -> circle(props)
+      _block -> block(props)
+    end
+  end
+
+  @doc """
+  The width share of each bar in a `:text` skeleton, first to last.
+
+  Every bar but the last is full width; the last is `last_line`, because a real
+  paragraph does not end flush with the margin.
+
+      iex> MishkaMob.Components.MishkaSkeleton.shares(3, 0.6)
+      [1.0, 1.0, 0.6]
+
+      iex> MishkaMob.Components.MishkaSkeleton.shares(1, 0.6)
+      [0.6]
+
+  A single full-width bar is `last_line: 1.0`:
+
+      iex> MishkaMob.Components.MishkaSkeleton.shares(1, 1.0)
+      [1.0]
+
+  Nonsense counts render nothing rather than raising:
+
+      iex> MishkaMob.Components.MishkaSkeleton.shares(0, 0.6)
+      []
+  """
+  @spec shares(integer(), number()) :: [float()]
+  def shares(lines, _last) when lines < 1, do: []
+
+  def shares(lines, last) do
+    last = last |> max(0.0) |> min(1.0) |> Kernel./(1)
+
+    List.duplicate(1.0, lines - 1) ++ [last * 1.0]
+  end
+
+  defp text_lines(props) do
+    height = Map.get(props, :height, @text_height)
+    gap = Map.get(props, :gap, 8)
+    color = Map.get(props, :color, :surface_raised)
+    radius = Map.get(props, :corner_radius, :radius_pill)
+
+    id = Map.get(props, :id)
+
+    bars =
+      props
+      |> Map.get(:lines, 3)
+      |> shares(Map.get(props, :last_line, 0.6))
+      |> Enum.with_index()
+      |> Enum.map(fn {share, i} ->
+        share |> bar(height, color, radius) |> tag_bar(id, i)
+      end)
+      |> Enum.intersperse(~MOB(<Spacer size={gap} />))
+
+    ~MOB"<Column fill_width={true}>
+  {bars}
+</Column>"
+  end
+
+  # Mob turns :id into a native testTag, and a placeholder has no text at all —
+  # so numbering the bars is the only way a device test can say which one it
+  # means, which is what proves the short last line really landed short.
+  defp tag_bar(row, nil, _index), do: row
+
+  defp tag_bar(row, id, index) do
+    # Map over the children rather than matching one: a SHORT bar's row holds a
+    # box AND the weighted spacer that pushes it in, so `[box] = children`
+    # matched the full-width rows and blew up on the last one.
+    children =
+      Enum.map(row.children, fn
+        %{type: :box} = box -> %{box | props: Map.put(box.props, :id, "#{id}-#{index}")}
+        other -> other
+      end)
+
+    %{row | children: children}
+  end
+
+  # Weights, not widths: a share of the parent is expressible without knowing
+  # what the parent measures, which is the only option here.
+  defp bar(share, height, color, radius) when share >= 1.0 do
+    ~MOB"""
+    <Row fill_width={true}>
+      <Box weight={1.0} height={height} background={color} corner_radius={radius} />
+    </Row>
+    """
+  end
+
+  defp bar(share, height, color, radius) do
+    rest = 1.0 - share
+
+    ~MOB"""
+    <Row fill_width={true}>
+      <Box weight={share} height={height} background={color} corner_radius={radius} />
+      <Spacer weight={rest} />
+    </Row>
+    """
+  end
+
+  defp circle(props) do
+    size = Map.get(props, :size, @circle)
+    color = Map.get(props, :color, :surface_raised)
+    radius = Map.get(props, :corner_radius, size / 2)
+
+    ~MOB"""
+    <Box width={size} height={size} background={color} corner_radius={radius} fill_width={false} />
+    """
+    |> with_id(props)
+  end
+
+  defp block(props) do
+    height = Map.get(props, :height, @block_height)
+    color = Map.get(props, :color, :surface_raised)
+    radius = Map.get(props, :corner_radius, :radius_md)
+
+    case Map.get(props, :width) do
+      nil ->
+        ~MOB"""
+        <Box fill_width={true} height={height} background={color} corner_radius={radius} />
+        """
+
+      width ->
+        # fill_width={false} alongside an exact width: a Box with neither fills
+        # its parent, and "80 wide" would silently become "as wide as the row".
+        ~MOB"""
+        <Box width={width} height={height} background={color} corner_radius={radius} fill_width={false} />
+        """
+    end
+    |> with_id(props)
+  end
+
+  defp with_id(node, props) do
+    case Map.get(props, :id) do
+      nil -> node
+      id -> %{node | props: Map.put(node.props, :id, id)}
+    end
+  end
+end

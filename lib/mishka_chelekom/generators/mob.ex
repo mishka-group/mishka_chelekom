@@ -357,10 +357,15 @@ defmodule MishkaChelekom.Generators.Mob do
     end
   end
 
+  # A component with no web counterpart still needs a real bucket. Falling back
+  # to "mob" put Skeleton in a category of one, which is the same defect as the
+  # gallery's singular "Overlay" — a heading with nothing under it.
+  @mob_only_categories %{"skeleton" => "feedback"}
+
   defp headless_metadata(component) do
     category =
       case headless_config(component) do
-        nil -> "mob"
+        nil -> Map.get(@mob_only_categories, component, "mob")
         config -> Keyword.get(config, :category, "mob")
       end
 
