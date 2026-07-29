@@ -108,4 +108,12 @@ defmodule MishkaMob.Components.MishkaAvatarTest do
       assert_renderable(MishkaAvatar.avatar(props, fallback))
     end
   end
+
+  test "an id becomes a testTag, with or without an image" do
+    # An avatar showing an IMAGE renders no text at all, so this is the only
+    # handle a device test has on it.
+    assert MishkaAvatar.avatar(initials: "SH", id: "me").props.id == "me"
+    assert MishkaAvatar.avatar(src: "u", initials: "SH", id: "me").props.id == "me"
+    refute Map.has_key?(MishkaAvatar.avatar(initials: "SH").props, :id)
+  end
 end
