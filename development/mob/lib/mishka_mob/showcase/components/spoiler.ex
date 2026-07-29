@@ -33,7 +33,7 @@ defmodule MishkaMob.Showcase.Components.Spoiler do
   def examples do
     [
       %Example{
-        title: "Show more",
+        title: "Revealing the rest",
         description: "The control sits under the content and changes label as it works.",
         code: ~S"""
         <MishkaSpoiler
@@ -41,6 +41,15 @@ defmodule MishkaMob.Showcase.Components.Spoiler do
           preview={preview()}
           on_toggle={:more}
         >{full_text()}</MishkaSpoiler>
+
+        # A bare tag: a spoiler has one region, so nothing needs identifying.
+        # The control's label follows the boolean — "Show more" becomes
+        # "Show less" — so the screen only ever flips it.
+        def handle_info({:tap, :more}, socket) do
+          {:noreply, Mob.Socket.assign(socket, :open?, not socket.assigns.open?)}
+        end
+
+        def handle_info(_msg, socket), do: {:noreply, socket}
         """,
         render: fn assigns ->
           ~MOB"""
@@ -123,6 +132,12 @@ defmodule MishkaMob.Showcase.Components.Spoiler do
         description: "What to show while collapsed, e.g. a truncated line."
       },
       %{name: "on_toggle", type: "event tag", default: "—", description: "Sent as {:tap, tag}."},
+      %{
+        name: "padding",
+        type: "number",
+        default: "10",
+        description: "Vertical padding around the control — it IS the tap target."
+      },
       %{
         name: "color",
         type: "color / ARGB",
