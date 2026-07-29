@@ -22,6 +22,7 @@ defmodule MishkaMob.Components.MishkaAlphaSlider do
   | `show_value` | boolean | `false` | Render a `60%` readout. |
   | `label` | string | `nil` | Caption above the track. |
   | `on_change` | event tag (atom) | — | `{:drag, tag, %{x:, y:, dx:, dy:, phase:}}` — a touch POSITION, not a value. Convert with `alpha_at/2`. |
+  | `id` | string | — | A native testTag. A canvas has no text to find it by. |
 
   Not ported: `on_commit`, `step`/`large_step`, `name`/`form`/`id` — see
   `MishkaMob.Components.MishkaSlider` for why.
@@ -62,7 +63,8 @@ defmodule MishkaMob.Components.MishkaAlphaSlider do
         width,
         height,
         track(width, height, rgb, alpha),
-        Event.handler(Map.get(props, :on_change))
+        Event.handler(Map.get(props, :on_change)),
+        Map.get(props, :id)
       )
 
     head = header(props, alpha)
@@ -98,9 +100,12 @@ defmodule MishkaMob.Components.MishkaAlphaSlider do
   # drops any handler, which is exactly the "renders perfectly and does nothing"
   # failure Event warns about. Built literally so on_drag survives to the
   # renderer, which registers it like any other handler.
-  defp canvas_node(width, height, ops, handler) do
+  defp canvas_node(width, height, ops, handler, id) do
     props = %{width: width, height: height, draw: ops}
     props = if handler, do: Map.put(props, :on_drag, handler), else: props
+    # Mob turns :id into a native testTag. A canvas is a drawing — no text, no
+    # label — so this is the only handle a device test has on it.
+    props = if id, do: Map.put(props, :id, id), else: props
 
     %{type: :canvas, props: props, children: []}
   end

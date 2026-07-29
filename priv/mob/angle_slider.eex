@@ -35,6 +35,7 @@ defmodule <%= @module %> do
   | `text_color` | color token / ARGB int | `:on_surface` | Colour of the centre reading. |
   | `color` | ARGB int | `:primary`-ish blue | Arc and handle colour. |
   | `on_change` | event tag (atom) | — | `{:drag, tag, %{x:, y:, phase:}}` — a touch POSITION. Convert with `angle_at/3`, which returns `:dead` near the centre. |
+  | `id` | string | — | A native testTag. A canvas has no text to find it by. |
 
   Not ported: `step` (keyboard nudging — snap in the screen with
   `<%= @namespace %>.<%= @module_prefix_camel %>Slider.snap/2`), `disabled`, and `name`/`form`/`id`.
@@ -69,7 +70,12 @@ defmodule <%= @module %> do
     size = Map.get(props, :size, @size)
 
     dial =
-      canvas_node(size, dial(size, angle, props), Event.handler(Map.get(props, :on_change)))
+      canvas_node(
+        size,
+        dial(size, angle, props),
+        Event.handler(Map.get(props, :on_change)),
+        Map.get(props, :id)
+      )
 
     head = header(Map.get(props, :label))
 
@@ -157,9 +163,12 @@ defmodule <%= @module %> do
   # Mob.UI.canvas/1 is Map.take(props, [:width, :height, :draw]) — it drops any
   # handler, which is the "renders perfectly and does nothing" failure. Built
   # literally so on_drag reaches the renderer.
-  defp canvas_node(size, ops, handler) do
+  defp canvas_node(size, ops, handler, id) do
     props = %{width: size, height: size, draw: ops}
     props = if handler, do: Map.put(props, :on_drag, handler), else: props
+    # Mob turns :id into a native testTag. A canvas is a drawing — no text, no
+    # label — so this is the only handle a device test has on it.
+    props = if id, do: Map.put(props, :id, id), else: props
 
     %{type: :canvas, props: props, children: []}
   end

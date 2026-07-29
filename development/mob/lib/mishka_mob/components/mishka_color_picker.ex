@@ -42,6 +42,7 @@ defmodule MishkaMob.Components.MishkaColorPicker do
   | `width` / `height` | number | `280` / `170` | Area size in logical units. |
   | `on_area` | event tag | — | `{:drag, tag, %{x:, y:}}` from the square — ONE event for both axes. Convert with `sv_at/4`. |
   | `on_hue` | event tag | — | `{:drag, tag, %{x:}}` from the strip. Convert with `MishkaHueSlider.hue_at/2`. |
+  | `id` | string | — | Native testTags: `<id>-area` on the square, `<id>-hue` on the strip. |
   """
 
   import Mob.Sigil
@@ -71,13 +72,20 @@ defmodule MishkaMob.Components.MishkaColorPicker do
     height = Map.get(props, :height, @height)
 
     area =
-      canvas_node(width, height, area(width, height, h, s, v), Map.get(props, :on_area))
+      canvas_node(
+        width,
+        height,
+        area(width, height, h, s, v),
+        Map.get(props, :on_area),
+        suffixed(Map.get(props, :id), "-area")
+      )
 
     hue_slider =
       MishkaHueSlider.hue_slider(
         value: h,
         width: width,
-        on_change: Map.get(props, :on_hue)
+        on_change: Map.get(props, :on_hue),
+        id: suffixed(Map.get(props, :id), "-hue")
       )
 
     ~MOB"""
@@ -172,13 +180,20 @@ defmodule MishkaMob.Components.MishkaColorPicker do
 
   # Mob.UI.canvas/1 drops handlers (Map.take of width/height/draw), so the node
   # is built literally — otherwise the area renders perfectly and does nothing.
-  defp canvas_node(width, height, ops, tag) do
+  defp canvas_node(width, height, ops, tag, id) do
     props = %{width: width, height: height, draw: ops}
     handler = Event.handler(tag)
     props = if handler, do: Map.put(props, :on_drag, handler), else: props
+    props = if id, do: Map.put(props, :id, id), else: props
 
     %{type: :canvas, props: props, children: []}
   end
+
+  # The picker owns two canvases, so a single :id would collide. The square gets
+  # "<id>-area" and the strip below it "<id>-hue" — which is also exactly what a
+  # device test needs in order to tell them apart.
+  defp suffixed(nil, _suffix), do: nil
+  defp suffixed(id, suffix), do: id <> suffix
 
   @doc """
   The `{h, s, v}` a props map describes, defaulted and clamped.

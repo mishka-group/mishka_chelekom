@@ -26,6 +26,7 @@ defmodule <%= @module %> do
   | `show_value` | boolean | `false` | Render a `210°` readout. |
   | `label` | string | `nil` | Caption above the track. |
   | `on_change` | event tag (atom) | — | `{:drag, tag, %{x:, y:, dx:, dy:, phase:}}` — a touch POSITION, not a value. Convert with `hue_at/2`. |
+  | `id` | string | — | A native testTag. A canvas has no text to find it by. |
 
   The strip itself is the control: there is no `<Slider>` under it. `phase` is
   `"began"` on touch-down (so a tap sets the hue), `"dragging"` while the finger
@@ -65,7 +66,8 @@ defmodule <%= @module %> do
         width,
         height,
         spectrum(width, height, hue),
-        Event.handler(Map.get(props, :on_change))
+        Event.handler(Map.get(props, :on_change)),
+        Map.get(props, :id)
       )
 
     head = header(props, hue)
@@ -101,9 +103,12 @@ defmodule <%= @module %> do
   # drops any handler, which is exactly the "renders perfectly and does nothing"
   # failure Event warns about. Built literally so on_drag survives to the
   # renderer, which registers it like any other handler.
-  defp canvas_node(width, height, ops, handler) do
+  defp canvas_node(width, height, ops, handler, id) do
     props = %{width: width, height: height, draw: ops}
     props = if handler, do: Map.put(props, :on_drag, handler), else: props
+    # Mob turns :id into a native testTag. A canvas is a drawing — no text, no
+    # label — so this is the only handle a device test has on it.
+    props = if id, do: Map.put(props, :id, id), else: props
 
     %{type: :canvas, props: props, children: []}
   end
