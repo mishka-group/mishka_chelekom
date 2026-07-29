@@ -106,8 +106,17 @@ defmodule <%= @module %> do
     glyph = if truthy?(Map.get(props, :open, false)), do: "▴", else: "▾"
     ink = if disabled?, do: :muted, else: :on_surface
 
+    # fill_width={false}: a Box given neither width nor fill_width fills its
+    # parent, and this trigger sits in a Row beside a filling TextField — the
+    # two then fight for the width. Same line the pill, the mark and the tree's
+    # disclosure arrow all needed.
     ~MOB"""
-    <Box background={:surface_raised} corner_radius={:radius_sm} padding={:space_sm}>
+    <Box
+      background={:surface_raised}
+      corner_radius={:radius_sm}
+      padding={:space_sm}
+      fill_width={false}
+    >
       <Text text={glyph} text_size={:sm} text_color={ink} />
     </Box>
     """
