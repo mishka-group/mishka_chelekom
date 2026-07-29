@@ -69,6 +69,30 @@ cd .. && cd .. && mix mishka.mob.sync --yes
 
 `priv/mob/<name>.exs` — `doc_url` (should be `/chelekom/docs/mob/<hyphenated>`), `necessary`, `category`, `mob: function/kit`. `mix test test/mishka_chelekom/generators/mob_test.exs` in the repo root covers the invariants.
 
+## Give text-less controls an `:id`
+
+Mob turns `:id` into a native testTag, and it is the **only** handle a device test has on a
+control that renders no text. Needed so far by the colour-swatch, the tree's disclosure arrows and
+checkboxes, the skeleton's bars, and all four colour canvases — so assume any new drawn or
+icon-only control needs one, and add it with the fix rather than when the test fails.
+
+Where a component owns more than one such control, suffix them (`<id>-area` / `<id>-hue`) so they
+cannot collide, and number repeated ones (`<id>-0`, `<id>-1`).
+
+```elixir
+props = if id, do: Map.put(props, :id, id), else: props
+```
+
+Document it in the props table as "A native testTag. A canvas has no text to find it by."
+
+## Assert on strings unique to the RENDER
+
+A showcase page displays its own code sample as text, so `showing("Saving…")` is true whether or
+not the overlay is up. This has cost a full device run three times — on the loading overlay, on
+the accordion's first panel body, and on the pill samples. Before asserting on a phrase, check it
+does not also appear in the `code:` block; prefer a button label or a caption that only the render
+produces.
+
 ## Two defect classes to check unprompted
 
 Both have bitten four or more components each — look for them even when unreported.
