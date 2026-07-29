@@ -670,6 +670,118 @@ defmodule MishkaMob.ShowcaseTest do
       assert checked > 200, "only #{checked} taps swept — the check is close to vacuous"
     end
 
+    test "picking a swatch reaches the screen and is rendered back" do
+      view = mount_screen(ComponentScreen, %{slug: :color_swatch})
+
+      assert assigns(view).sw_picked == :violet
+      view = render_info(view, {:tap, {:sw_pick, :green}})
+
+      assert assigns(view).sw_picked == :green
+      assert text(expanded(view)) =~ "Green"
+
+      # Exactly one swatch carries the selected ring — a shared flag would ring
+      # all five. The ring is a 2px border; the unselected ones are 1px.
+      rings =
+        expanded(view)
+        |> find_all(:box)
+        |> Enum.count(&(&1.props[:border_width] == 2))
+
+      assert rings == 1
+    end
+
+    test "the disabled swatches wire no handler, though one is given" do
+      # The two slate swatches are the Disabled example's, and the only ones on
+      # the page in those colours.
+      page = ComponentScreen |> mount_screen(%{slug: :color_swatch}) |> expanded()
+
+      assert 2 ==
+               Enum.count(
+                 find_all(page, :box),
+                 &(&1.props[:background] in [0xFF64748B, 0x8064748B])
+               )
+
+      # Five taps on the whole page: one per palette swatch. The two disabled
+      # ones wire none, and neither does the "Picked:" readout swatch — so any
+      # other number means disabled stopped dropping the handler.
+      taps =
+        page
+        |> find_all(:box)
+        |> Enum.map(& &1.props[:on_tap])
+        |> Enum.reject(&is_nil/1)
+        |> Enum.reject(&match?({_pid, {:set_theme, _}}, &1))
+
+      assert length(taps) == 5
+      assert Enum.all?(taps, &match?({_pid, {:sw_pick, _}}, &1))
+    end
+
+    test "the loading overlay has its own page, and the swatch page kept none of it" do
+      overlay = mount_screen(ComponentScreen, %{slug: :loading_overlay})
+      swatch = mount_screen(ComponentScreen, %{slug: :color_swatch})
+
+      assert assigns(overlay).entry.slug == :loading_overlay
+      assert_renderable(expanded(overlay))
+      refute text(swatch) =~ "Loading overlay"
+    end
+
+    test "the overlay covers its region only while visible" do
+      view = mount_screen(ComponentScreen, %{slug: :loading_overlay})
+
+      # Counted by the scrim NODE, not by its label: "Saving…" also appears in
+      # the example's own code sample, so a text match is true either way.
+      scrims = fn v ->
+        v |> expanded() |> find_all(:box) |> Enum.count(&(&1.props[:background] == 0xCCFFFFFF))
+      end
+
+      refute assigns(view).lo_busy
+      assert scrims.(view) == 0
+
+      busy = render_info(view, {:tap, :lo_busy})
+      assert assigns(busy).lo_busy
+      assert scrims.(busy) == 1
+    end
+
+    test "the scrim's no-op tag is swallowed rather than crashing the page" do
+      # The absorb tag is what stops taps reaching the content underneath. It
+      # arrives at the page's handle/2 like any other, and a page without a
+      # catch-all would die on it.
+      view =
+        ComponentScreen
+        |> mount_screen(%{slug: :loading_overlay})
+        |> render_info({:tap, :lo_busy})
+
+      after_absorb = render_info(view, {:tap, :__mishka_loading_ignore})
+
+      assert assigns(after_absorb).lo_busy
+      assert assigns(after_absorb).lo_hits == 0
+    end
+
+    test "the skeleton page swaps a placeholder for content of the same shape" do
+      view = mount_screen(ComponentScreen, %{slug: :skeleton})
+
+      refute assigns(view).sk_loaded
+      refute text(expanded(view)) =~ "Ada Lovelace"
+
+      loaded = render_info(view, {:tap, :sk_toggle})
+
+      assert assigns(loaded).sk_loaded
+      assert text(expanded(loaded)) =~ "Ada Lovelace"
+    end
+
+    test "nothing on the skeleton page is tappable — a placeholder is not a control" do
+      # The theme bar is page chrome and lives on every screen, so it is
+      # excluded; what is left is the examples, and none of it should respond.
+      taps =
+        ComponentScreen
+        |> mount_screen(%{slug: :skeleton})
+        |> expanded()
+        |> find_all(:box)
+        |> Enum.map(& &1.props[:on_tap])
+        |> Enum.reject(&is_nil/1)
+        |> Enum.reject(&match?({_pid, {:set_theme, _}}, &1))
+
+      assert taps == []
+    end
+
     test "unknown slug renders a not-found page (still renderable)" do
       view = mount_screen(ComponentScreen, %{slug: :ghost})
 
