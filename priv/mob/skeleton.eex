@@ -3,17 +3,33 @@ defmodule <%= @module %> do
   A placeholder for content that has not arrived — the grey blocks a list shows
   while it loads.
 
-  ## It does not shimmer, and cannot
+  ## It does not shimmer — and what it would cost to
 
-  Every skeleton on the web pulses. Mob exposes no animation primitive at all:
-  there is no opacity, no alpha, no transition, and the only animated things the
-  bridge draws are Material's two progress indicators. So this is a **static**
-  placeholder, which is the honest version rather than a worse imitation of the
-  moving one.
+  Every skeleton on the web pulses. This one does not, and the reason is worth
+  stating precisely rather than as "Mob cannot animate".
 
-  If you need to signal "work is happening" rather than "content goes here", use
-  `<%= @namespace %>.<%= @module_prefix_camel %>Progress`, which really does animate — or
-  `<%= @namespace %>.<%= @module_prefix_camel %>LoadingOverlay` over the region.
+  **Ordinary nodes cannot.** `Box`, `Text`, `Row` and `Column` expose no opacity,
+  no alpha and no transition, so nothing in this component's tree can fade. The
+  only self-animating things the bridge draws are Material's two progress
+  indicators, which `<%= @namespace %>.<%= @module_prefix_camel %>Progress` wraps.
+
+  **`Mob.UI.gpu_view/1` can.** It is a fragment-shader surface — GLES 3.0 on
+  Android, Metal on iOS — and it redraws continuously at the display's refresh
+  rate, so a shimmer is genuinely expressible as a shader. Two things make it the
+  wrong tool here. The host provides no time uniform, so animating means pushing
+  a new uniform from Elixir on **every frame** — a full render plus a NIF call at
+  60 Hz, per placeholder. And each one is a whole `GLSurfaceView`; a list showing
+  eight skeleton rows would allocate eight GL contexts to fade some grey boxes.
+
+  Neither is a reason a *shader-backed* skeleton could never exist — it is a
+  reason this one is static. If you want motion to say "work is happening"
+  rather than "content goes here", `<%= @module_prefix_camel %>Progress` and
+  `<%= @namespace %>.<%= @module_prefix_camel %>LoadingOverlay` already animate for free.
+
+  (There is no animation plugin to reach for either: as of mob 0.7 the published
+  `mob_*` packages are all capabilities — camera, location, biometric, scanner,
+  bluetooth, nfc, vision, video, notify, photos, touch, screencast, background,
+  audio_capture — plus `mob_themes`, `mob_ash` and `mob_push`.)
 
   ## Shapes
 

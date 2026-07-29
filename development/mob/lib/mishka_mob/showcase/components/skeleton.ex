@@ -126,12 +126,14 @@ defmodule MishkaMob.Showcase.Components.Skeleton do
       %Example{
         title: "It does not shimmer",
         description:
-          "Mob has no opacity, no alpha and no transition, so there is nothing to " <>
-            "pulse with. For 'work is happening' rather than 'content goes here', " <>
-            "use Progress or a Loading Overlay — those really do animate.",
+          "Box, Text, Row and Column expose no opacity or transition, so nothing " <>
+            "here can fade. A gpu_view shader could — it redraws every frame — but " <>
+            "it needs a uniform pushed from Elixir at 60 Hz and a GL surface per " <>
+            "placeholder, which is a lot to fade a grey box.",
         code: ~S"""
-        # A static placeholder is the honest version. This is the moving one:
+        # For motion that means "work is happening", these animate for free:
         <MishkaProgress />
+        <MishkaLoadingOverlay visible={@busy?} />
         """,
         render: fn _assigns ->
           # Deliberately NOT rendering a live Progress here. An indeterminate

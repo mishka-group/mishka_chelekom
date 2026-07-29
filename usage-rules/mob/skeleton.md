@@ -7,15 +7,32 @@ A placeholder for content that has not arrived — the grey blocks a list shows 
 `mix mishka.ui.gen.mob skeleton` → `lib/<app>/components/skeleton.ex`, tag `<Skeleton />`. With
 `--module-prefix mishka_` it is `<MishkaSkeleton />`.
 
-## It does not shimmer, and cannot
+## It does not shimmer — and what it would cost to
 
-Every skeleton on the web pulses. **Mob exposes no animation primitive at all** — no opacity, no
-alpha, no transition — and the only animated things the bridge draws are Material's two progress
-indicators. So this is a static placeholder, which is the honest version rather than a worse
-imitation of the moving one.
+Every skeleton on the web pulses. This one does not, for a reason worth stating precisely.
 
-If you want to say *work is happening* rather than *content goes here*, reach for
-[loading_overlay](loading_overlay.md) or `progress`. Those really do animate.
+**Ordinary nodes cannot animate.** `Box`, `Text`, `Row` and `Column` expose no opacity, no alpha
+and no transition, so nothing in this component's tree can fade. The only self-animating things
+the bridge draws are Material's two progress indicators, which `progress` wraps.
+
+**`Mob.UI.gpu_view/1` can.** It is a fragment-shader surface — GLES 3.0 on Android, Metal on iOS —
+redrawing continuously at the display's refresh rate, so a shimmer really is expressible as a
+shader. Two things make it the wrong tool here:
+
+- the host provides **no time uniform**, so animating means pushing a new uniform from Elixir on
+  every frame — a full render plus a NIF call at 60 Hz, per placeholder;
+- each one is a whole `GLSurfaceView`, so a list of eight skeleton rows would allocate eight GL
+  contexts to fade some grey boxes.
+
+That is a reason *this* skeleton is static, not a reason a shader-backed one could never exist.
+
+There is also no plugin to reach for: as of mob 0.7 every published `mob_*` package is a
+capability (camera, location, biometric, scanner, bluetooth, nfc, vision, video, notify, photos,
+touch, screencast, background, audio_capture) plus `mob_themes`, `mob_ash` and `mob_push`. None of
+them does motion.
+
+If you want movement to say *work is happening* rather than *content goes here*, reach for
+[loading_overlay](loading_overlay.md) or `progress`. Those animate for free.
 
 ## What it renders
 
