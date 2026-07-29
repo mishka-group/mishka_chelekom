@@ -27,6 +27,9 @@ defmodule MishkaMob.Showcase.Components.Collapsible do
     socket
     |> Mob.Socket.assign(:cl_basic, true)
     |> Mob.Socket.assign(:cl_plain, false)
+    # Its own flag, not :cl_basic. Two examples sharing one boolean meant
+    # opening either moved the other, which reads as a bug in the component.
+    |> Mob.Socket.assign(:cl_tinted, false)
   end
 
   @impl true
@@ -104,25 +107,34 @@ defmodule MishkaMob.Showcase.Components.Collapsible do
       },
       %Example{
         title: "Custom colours",
-        description: "background, corner_radius and padding are props.",
+        description:
+          "background, color, corner_radius and padding are props. Set color " <>
+            "whenever you set background — the default ink is the THEME's, and a " <>
+            "tinted panel is no longer a theme surface.",
         code: ~S"""
         <MishkaCollapsible
           title="Tinted"
           open={@open}
           background={0xFF7C3AED}
+          color={0xFFFFFFFF}
           corner_radius={:radius_lg}
           on_toggle={:t}
         >{body}</MishkaCollapsible>
+
+        def handle_info({:tap, :t}, socket) do
+          {:noreply, Mob.Socket.assign(socket, :open, not socket.assigns.open)}
+        end
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
             <MishkaCollapsible
               title="Tinted panel"
-              open={@cl_basic}
+              open={@cl_tinted}
               background={0xFF7C3AED}
+              color={0xFFFFFFFF}
               corner_radius={:radius_lg}
-              on_toggle={:cl_basic}
+              on_toggle={:cl_tinted}
             >
               {[%{type: :text,
                  props: %{text: "Any colour token or ARGB int works here.",
@@ -165,6 +177,12 @@ defmodule MishkaMob.Showcase.Components.Collapsible do
         description: "Show the ▸/▾ indicator."
       },
       %{
+        name: "color",
+        type: "color / ARGB",
+        default: ":on_surface",
+        description: "Title and chevron. Set it whenever you set background."
+      },
+      %{
         name: "background",
         type: "color / ARGB",
         default: ":surface_raised",
@@ -188,6 +206,7 @@ defmodule MishkaMob.Showcase.Components.Collapsible do
   @impl true
   def handle(:cl_basic, socket), do: flip(socket, :cl_basic)
   def handle(:cl_plain, socket), do: flip(socket, :cl_plain)
+  def handle(:cl_tinted, socket), do: flip(socket, :cl_tinted)
   def handle(_tag, socket), do: socket
 
   defp flip(socket, key),

@@ -251,6 +251,12 @@ defmodule MishkaMob.Showcase.Components.Accordion do
         description: "Gap between items. Use 0 to join them into one block."
       },
       %{
+        name: "color",
+        type: "color / ARGB",
+        default: ":on_surface",
+        description: "Item title and chevron. Set it whenever you set background."
+      },
+      %{
         name: "on_open_change",
         type: "event tag",
         default: "—",
