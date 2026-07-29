@@ -30,6 +30,7 @@ defmodule MishkaMob.Components.MishkaProgress do
   | `show_value` | boolean | `false` | Render a readout beside the label. |
   | `value_text` | string | `nil` | Overrides the readout (default is a rounded percentage). |
   | `color` | color token / ARGB int | platform default | Indicator colour. |
+  | `height` | number | platform default (~4) | Bar thickness. |
 
   The web component's `id` and the `*_class` attrs are not ported: they exist to
   anchor `aria-labelledby` and to style DOM parts.
@@ -53,10 +54,15 @@ defmodule MishkaMob.Components.MishkaProgress do
     props = Map.new(props)
     fraction = fraction(props)
 
+    # height is a generic node prop the bridge turns into a Modifier.height, so
+    # the native indicator honours it — but only if it is forwarded. It was not,
+    # so the one dimension of the bar a caller might reasonably want to change
+    # was silently dropped on the way in.
     bar =
       ~MOB(<Progress />)
       |> put_prop(:value, fraction)
       |> put_prop(:color, Map.get(props, :color))
+      |> put_prop(:height, Map.get(props, :height))
 
     case header(props, fraction) do
       nil ->

@@ -126,4 +126,22 @@ defmodule MishkaMob.Components.MishkaProgressTest do
       assert_renderable(MishkaProgress.progress(props))
     end
   end
+
+  describe "height" do
+    test "is forwarded to the native bar" do
+      # The bridge turns height into a Modifier.height, so the indicator honours
+      # it — but only if the component passes it through, which it did not.
+      assert MishkaProgress.progress(value: 60, height: 14).props.height == 14
+    end
+
+    test "reaches the bar even when a header is rendered above it" do
+      tree = MishkaProgress.progress(value: 60, height: 14, label: "Up", show_value: true)
+
+      assert find(tree, :progress).props.height == 14
+    end
+
+    test "is omitted entirely when not asked for, so the platform default stands" do
+      refute Map.has_key?(MishkaProgress.progress(value: 60).props, :height)
+    end
+  end
 end

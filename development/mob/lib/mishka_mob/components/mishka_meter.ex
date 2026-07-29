@@ -36,6 +36,7 @@ defmodule MishkaMob.Components.MishkaMeter do
   | `show_value` | boolean | `false` | Render a readout beside the label. |
   | `value_text` | string | `nil` | Overrides the readout (default is a rounded percentage). |
   | `color` | color token / ARGB int | platform default | Fill colour. |
+  | `height` | number | platform default (~4) | Gauge thickness. |
 
   `id` and the `*_class` attrs are not ported — they anchor `aria-*`
   relationships and style DOM parts.
