@@ -94,7 +94,7 @@ class TreeTest {
         if (compose.onAllNodesWithTag("tree-check-lib/mishka_mob.ex")
                 .fetchSemanticsNodes().isEmpty()
         ) {
-            compose.onAllNodesWithTag("tree-toggle-lib")[1].performClick()
+            compose.onAllNodesWithTag("tree-toggle-lib")[1].performScrollTo().performClick()
             compose.waitUntil(10_000) {
                 compose.onAllNodesWithTag("tree-check-lib/mishka_mob.ex")
                     .fetchSemanticsNodes().isNotEmpty()
@@ -137,7 +137,7 @@ class TreeTest {
 
         // By tag, not by glyph: every arrow on the page reads "▾", and the
         // first one belongs to the example above this one.
-        compose.onAllNodesWithTag("tree-toggle-lib")[1].performClick()
+        compose.onAllNodesWithTag("tree-toggle-lib")[1].performScrollTo().performClick()
         compose.waitUntil(10_000) {
             compose.onAllNodesWithTag(child).fetchSemanticsNodes().isEmpty()
         }
@@ -156,13 +156,19 @@ class TreeTest {
     }
 
     /**
-     * The checkbox for the node with [value].
+     * The checkbox for the node with [value], scrolled into view.
      *
      * A checkbox carries no text, so there is nothing to match on; the tree
      * gives each one an `:id`, which Mob turns into a native testTag. Indexed,
      * because the page renders more than one tree and only the checkbox example
      * builds these — index 0 is the one under test.
+     *
+     * The scroll is not optional. performClick dispatches at the node's
+     * coordinates whether or not those are inside the window, so clicking one
+     * that has been pushed off-screen — which expanding a branch above it does —
+     * misses silently: no exception, no event, just a test that waits out its
+     * timeout. Every failure this file ever reported was that.
      */
     private fun checkbox(value: String) =
-        compose.onAllNodesWithTag("tree-check-$value")[0]
+        compose.onAllNodesWithTag("tree-check-$value")[0].performScrollTo()
 }
