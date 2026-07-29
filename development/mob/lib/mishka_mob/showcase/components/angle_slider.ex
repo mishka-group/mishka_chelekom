@@ -92,16 +92,26 @@ defmodule MishkaMob.Showcase.Components.AngleSlider do
       %{name: "color", type: "ARGB int", default: "blue", description: "Arc and handle colour."},
       %{name: "label", type: "string", default: "nil", description: "Caption above the dial."},
       %{
+        name: "text_color",
+        type: "token / ARGB",
+        default: ":on_surface",
+        description: "Colour of the centre reading."
+      },
+      %{
         name: "on_change",
         type: "event tag",
         default: "—",
-        description: "{:change, tag, float}."
+        description:
+          "{:drag, tag, %{x:, y:, phase:}} — a touch POSITION, not a number. " <>
+            "Matching on {:change, …} compiles and never fires."
       },
       %{
-        name: "point_on_dial/4",
-        type: "helper",
+        name: "angle_at/3 · follow/2 · point_on_dial/4",
+        type: "helpers",
         default: "—",
-        description: "Where an angle lands on the circle — 0° is up, not right."
+        description:
+          "Position to angle (:dead near the centre), seam-safe follow, and where " <>
+            "an angle lands on the circle — 0° is up, not right."
       }
     ]
   end

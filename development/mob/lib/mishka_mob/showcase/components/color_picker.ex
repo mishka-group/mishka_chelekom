@@ -7,6 +7,12 @@ defmodule MishkaMob.Showcase.Components.ColorPicker do
   alias MishkaMob.Components.{Color, Event, MishkaColorPicker, MishkaHueSlider}
   alias MishkaMob.Showcase.Example
 
+  # The picker's own default width. The handler converts a touch x back to a
+  # hue against the SAME number the strip was drawn at — hard-coding 260 beside
+  # a 280-wide strip put the finger and the marker up to 8% apart, which is the
+  # exact failure hue_at/2 exists to prevent.
+  @picker_width 280
+
   @impl true
   def entry do
     %{
@@ -42,6 +48,23 @@ defmodule MishkaMob.Showcase.Components.ColorPicker do
           on_hue={:hue}
           on_area={:area}
         />
+
+        # Both controls ARE the drawing, so what arrives is a touch POSITION.
+        # Matching on {:change, …} compiles, renders perfectly and never fires.
+        # One gesture on the square carries BOTH axes, which is why on_area
+        # replaced the old on_saturation / on_value pair.
+        def handle_info({:drag, :area, %{x: x, y: y}}, socket) do
+          {sat, val} = MishkaColorPicker.sv_at(x, y)
+          {:noreply, socket |> assign(:sat, sat) |> assign(:val, val)}
+        end
+
+        # Pass the SAME width the strip was drawn at, or the finger and the
+        # marker drift apart.
+        def handle_info({:drag, :hue, %{x: x}}, socket) do
+          {:noreply, assign(socket, :hue, MishkaHueSlider.hue_at(x, 280))}
+        end
+
+        def handle_info(_msg, socket), do: {:noreply, socket}
         """,
         render: fn assigns ->
           ~MOB"""
@@ -84,22 +107,24 @@ defmodule MishkaMob.Showcase.Components.ColorPicker do
       %{name: "value", type: "0–100", default: "96", description: "Current brightness."},
       %{name: "width / height", type: "number", default: "280 / 170", description: "Area size."},
       %{
-        name: "show_preview",
-        type: "boolean",
-        default: "true",
-        description: "Swatch + hex under the sliders."
-      },
-      %{
-        name: "on_hue / on_saturation / on_value",
-        type: "event tags",
+        name: "on_area",
+        type: "event tag",
         default: "—",
-        description: "Each axis has its own slider — Mob delivers no 2D drag coordinates."
+        description:
+          "{:drag, tag, %{x:, y:}} from the square — ONE event for both axes. " <>
+            "Convert with sv_at/4."
       },
       %{
-        name: "hsv/1 · hex/1",
+        name: "on_hue",
+        type: "event tag",
+        default: "—",
+        description: "{:drag, tag, %{x:}} from the strip. Convert with hue_at/2."
+      },
+      %{
+        name: "sv_at/4 · hue_at/2 · hsv/1 · hex/1",
         type: "helpers",
         default: "—",
-        description: "Read the colour back out."
+        description: "Turn a touch position into values, and read the colour back out."
       }
     ]
   end
@@ -116,7 +141,7 @@ defmodule MishkaMob.Showcase.Components.ColorPicker do
   end
 
   def handle_change(:hue, %{x: x}, socket),
-    do: Mob.Socket.assign(socket, :hue, MishkaHueSlider.hue_at(x, 260))
+    do: Mob.Socket.assign(socket, :hue, MishkaHueSlider.hue_at(x, @picker_width))
 
   def handle_change(:hue, value, socket), do: Mob.Socket.assign(socket, :hue, value)
   def handle_change(:sat, value, socket), do: Mob.Socket.assign(socket, :sat, value)

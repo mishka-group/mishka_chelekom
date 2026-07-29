@@ -32,6 +32,7 @@ defmodule MishkaMob.Components.MishkaAngleSlider do
   | `size` | number | `160` | Dial diameter in logical units. |
   | `show_value` | boolean | `true` | Draw the `45°` reading in the centre. |
   | `label` | string | `nil` | Caption above the dial. |
+  | `text_color` | color token / ARGB int | `:on_surface` | Colour of the centre reading. |
   | `color` | ARGB int | `:primary`-ish blue | Arc and handle colour. |
   | `on_change` | event tag (atom) | — | `{:drag, tag, %{x:, y:, phase:}}` — a touch POSITION. Convert with `angle_at/3`, which returns `:dead` near the centre. |
 

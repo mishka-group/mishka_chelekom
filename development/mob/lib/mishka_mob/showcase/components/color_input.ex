@@ -146,7 +146,15 @@ defmodule MishkaMob.Showcase.Components.ColorInput do
         name: "on_change / on_toggle",
         type: "event tags",
         default: "—",
-        description: "Typing, and the ▾ trigger."
+        description: "Typing, and the ▾ trigger — which the swatch shares."
+      },
+      %{
+        name: "on_hue / on_area",
+        type: "event tags",
+        default: "—",
+        description:
+          "Forwarded to the panel, and they carry touch POSITIONS: convert with " <>
+            "MishkaHueSlider.hue_at/2 and MishkaColorPicker.sv_at/4."
       },
       %{
         name: "commit/2",
