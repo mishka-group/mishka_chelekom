@@ -21,7 +21,7 @@ defmodule <%= @module %> do
   |------|--------|---------|---------|
   | `icon` | string | `nil` | The glyph. Children override it. |
   | `on_tap` | event tag (atom) | — | Sent as `{:tap, tag}`. |
-  | `disabled` | boolean | `false` | Wires no handler and mutes the glyph. |
+  | `disabled` | boolean | `false` | Wires no handler, mutes the glyph and drops a `:filled` fill to `:surface`. |
   | `size` | number | `40` | Tap-target edge, not the glyph size. |
   | `variant` | `:plain` `:filled` | `:plain` | Transparent, or on a raised surface. |
   | `shape` | `:rounded` `:circle` | `:rounded` | `:circle` uses an exact `size / 2` radius. |
@@ -30,6 +30,15 @@ defmodule <%= @module %> do
 
   `label` is not ported: it is an `aria-label`, and Mob exposes no accessible
   name on a box. `type` (submit/reset) is form plumbing.
+
+  ## Children carry their own disabled state
+
+  `disabled` recolours the glyph it draws itself. It cannot recolour nodes you
+  pass as children — Mob has no opacity or alpha anywhere in its renderer, so
+  there is nothing to dim them with and rewriting arbitrary nodes is not this
+  component's business. The container still reads as disabled (the fill drops to
+  `:surface`, and no handler is wired), but a child that must look inert has to
+  say so itself.
   """
 
   import Mob.Sigil
@@ -99,10 +108,15 @@ defmodule <%= @module %> do
   {content}
 </Row>)
 
-  defp background(props, _disabled?) do
-    if Map.get(props, :variant, :plain) == :filled,
-      do: Map.get(props, :background, :surface_raised),
-      else: :transparent
+  # A disabled FILLED icon keeps a fill, but not the caller's — muting only the
+  # glyph left it looking live, and the caller's colour is usually the loud one.
+  # <%= @module_prefix_camel %>Chip resolves its background the same way.
+  defp background(props, disabled?) do
+    cond do
+      Map.get(props, :variant, :plain) != :filled -> :transparent
+      disabled? -> :surface
+      true -> Map.get(props, :background, :surface_raised)
+    end
   end
 
   defp handler(_props, true), do: nil

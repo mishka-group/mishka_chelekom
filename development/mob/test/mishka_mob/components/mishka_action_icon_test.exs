@@ -65,6 +65,22 @@ defmodule MishkaMob.Components.MishkaActionIconTest do
       assert find(node, :text).props.text_color == :muted
     end
 
+    test "a disabled filled icon drops the caller's fill too" do
+      # background/2 took disabled? and ignored it, so a filled disabled icon was
+      # drawn on the same surface as a live one — and the caller's fill is
+      # usually the loud one, which left it reading as enabled.
+      base = [icon: "x", variant: :filled, background: :primary]
+
+      assert MishkaActionIcon.action_icon(base).props.background == :primary
+      assert MishkaActionIcon.action_icon(base ++ [disabled: true]).props.background == :surface
+    end
+
+    test "a disabled PLAIN icon stays transparent, not surfaced" do
+      node = MishkaActionIcon.action_icon(icon: "x", disabled: true)
+
+      assert node.props.background == :transparent
+    end
+
     test "children replace the glyph" do
       art = [%{type: :text, props: %{text: "★"}, children: []}]
       node = MishkaActionIcon.action_icon(%{icon: "x"}, art)

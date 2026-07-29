@@ -28,10 +28,29 @@ defmodule MishkaMob.Showcase.Components.ActionIcon do
     [
       %Example{
         title: "Icon buttons",
-        description: "Plain by default; filled puts it on a raised surface.",
+        description:
+          "Plain by default; filled puts it on a raised surface. The count below " <>
+            "is every icon button on this page — they all report to one tag.",
         code: ~S"""
         <MishkaActionIcon icon="⋯" on_tap={:menu} />
-        <MishkaActionIcon icon="←" variant={:filled} shape={:circle} on_tap={:back} />
+        <MishkaActionIcon icon="←" variant={:filled} on_tap={:back} />
+        <MishkaActionIcon icon="★" variant={:filled} shape={:circle} on_tap={:star} />
+        <MishkaActionIcon icon="⚙" color={:primary} on_tap={:settings} />
+
+        # An icon button carries no value, so the TAG is the whole message. Give
+        # each button its own — three sharing :tap arrive identically and name
+        # nothing.
+        def handle_info({:tap, :menu}, socket) do
+          {:noreply, assign(socket, :menu_open, true)}
+        end
+
+        def handle_info({:tap, :back}, socket), do: {:noreply, Mob.Socket.pop_screen(socket)}
+
+        # In a list, put the row's identity in the tag: on_tap={{:delete, item.id}}
+        # arrives as {:tap, {:delete, 7}}.
+        def handle_info({:tap, {:delete, id}}, socket) do
+          {:noreply, assign(socket, :rows, List.delete(socket.assigns.rows, id))}
+        end
         """,
         render: fn assigns ->
           ~MOB"""
@@ -46,11 +65,7 @@ defmodule MishkaMob.Showcase.Components.ActionIcon do
               <MishkaActionIcon icon="⚙" color={:primary} on_tap={:ai_tap} />
             </Row>
             <Spacer size={12} />
-            <Text
-              text={"Tapped " <> Integer.to_string(@ai_taps) <> " times"}
-              text_size={:sm}
-              text_color={:muted}
-            />
+            <Text text={taps_label(@ai_taps)} text_size={:sm} text_color={:muted} />
           </Column>
           """
         end
@@ -59,7 +74,15 @@ defmodule MishkaMob.Showcase.Components.ActionIcon do
         title: "Close button",
         description: "The ✕ wrapper — same component, one spelling for close.",
         code: ~S"""
+        # icon and shape are applied with Map.put_new/3, so every Action Icon
+        # prop still works and both defaults can still be overridden.
         <MishkaCloseButton on_tap={:dismiss} />
+        <MishkaCloseButton variant={:filled} on_tap={:dismiss} />
+        <MishkaCloseButton disabled={true} />
+
+        def handle_info({:tap, :dismiss}, socket) do
+          {:noreply, assign(socket, :open, false)}
+        end
         """,
         render: fn _assigns ->
           ~MOB"""
@@ -77,8 +100,14 @@ defmodule MishkaMob.Showcase.Components.ActionIcon do
         title: "Tap targets stay finger-sized",
         description: "size is the target, not the glyph — 40 by default, not ~16.",
         code: ~S"""
-        <MishkaActionIcon icon="✕" size={40} />   # default
-        <MishkaActionIcon icon="✕" size={28} />   # deliberately smaller
+        # 40 is the default, and it is the TAP TARGET — the glyph stays :lg
+        # whatever size is. An icon button drawn to fit its glyph is a ~16 dp
+        # target, well under the ~44 dp both platforms ask for.
+        <MishkaActionIcon icon="✕" variant={:filled} size={48} on_tap={:zoom} />
+        <MishkaActionIcon icon="✕" variant={:filled} on_tap={:zoom} />
+        <MishkaActionIcon icon="✕" variant={:filled} size={28} on_tap={:zoom} />
+
+        def handle_info({:tap, :zoom}, socket), do: {:noreply, socket}
         """,
         render: fn _assigns ->
           ~MOB"""
@@ -94,16 +123,19 @@ defmodule MishkaMob.Showcase.Components.ActionIcon do
       },
       %Example{
         title: "Disabled",
-        description: "Muted and inert.",
+        description: "Muted and inert — the handler is dropped, not guarded.",
         code: ~S"""
-        <MishkaActionIcon icon="⋯" disabled={true} />
+        # on_tap is given and never wired, so nothing is sent and there is
+        # nothing to ignore on the receiving end. :muted also overrides color.
+        <MishkaActionIcon icon="⋯" disabled={true} on_tap={:nope} />
+        <MishkaActionIcon icon="⋯" variant={:filled} disabled={true} on_tap={:nope} />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Row fill_width={true}>
-            <MishkaActionIcon icon="⋯" disabled={true} />
+            <MishkaActionIcon icon="⋯" disabled={true} on_tap={:nope} />
             <Spacer size={8} />
-            <MishkaActionIcon icon="⋯" variant={:filled} disabled={true} />
+            <MishkaActionIcon icon="⋯" variant={:filled} disabled={true} on_tap={:nope} />
           </Row>
           """
         end
@@ -125,7 +157,9 @@ defmodule MishkaMob.Showcase.Components.ActionIcon do
         name: "disabled",
         type: "boolean",
         default: "false",
-        description: "Wires no handler and mutes the glyph."
+        description:
+          "Wires no handler, mutes the glyph and drops a :filled fill to :surface. " <>
+            "Children are rendered as given — Mob has no opacity to dim them with."
       },
       %{
         name: "size",
@@ -155,7 +189,19 @@ defmodule MishkaMob.Showcase.Components.ActionIcon do
         name: "background",
         type: "color / ARGB",
         default: ":surface_raised",
-        description: "Fill when variant: :filled."
+        description: "Fill when variant: :filled. Ignored while variant is :plain."
+      },
+      %{
+        name: "CloseButton: icon",
+        type: "string",
+        default: "\"✕\"",
+        description: "Put on with Map.put_new/3, so it is still overridable."
+      },
+      %{
+        name: "CloseButton: shape",
+        type: ":rounded · :circle",
+        default: ":circle",
+        description: "The only other difference — every prop above still applies."
       }
     ]
   end
@@ -163,6 +209,10 @@ defmodule MishkaMob.Showcase.Components.ActionIcon do
   @impl true
   def handle(:ai_tap, socket), do: Mob.Socket.assign(socket, :ai_taps, socket.assigns.ai_taps + 1)
   def handle(_tag, socket), do: socket
+
+  defp taps_label(0), do: "Not tapped yet"
+  defp taps_label(1), do: "Tapped once"
+  defp taps_label(n), do: "Tapped #{n} times"
 
   @impl true
   def card_preview do
