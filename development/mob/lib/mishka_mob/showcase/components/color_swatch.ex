@@ -1,8 +1,6 @@
 defmodule MishkaMob.Showcase.Components.ColorSwatch do
   @moduledoc """
-  Gallery entry for `MishkaMob.Components.MishkaColorSwatch` and
-  `MishkaMob.Components.MishkaLoadingOverlay`, which share a page as the two
-  small "surface" utilities.
+  Gallery entry for `MishkaMob.Components.MishkaColorSwatch`.
   """
   use MishkaMob.Showcase
 
@@ -34,7 +32,6 @@ defmodule MishkaMob.Showcase.Components.ColorSwatch do
   def mount(socket) do
     socket
     |> Mob.Socket.assign(:sw_picked, :violet)
-    |> Mob.Socket.assign(:sw_busy, false)
   end
 
   @impl true
@@ -42,18 +39,55 @@ defmodule MishkaMob.Showcase.Components.ColorSwatch do
     [
       %Example{
         title: "A palette",
-        description: "Selection draws a ring and a ✓.",
+        description:
+          "Selection draws a ring and a ✓. The name below comes back from the " <>
+            "screen, so the tap really made the round trip.",
         code: ~S"""
-        <MishkaColorSwatch
-          color={0xFF7C3AED}
-          selected={@picked == :violet}
-          on_tap={{:pick, :violet}}
-        />
+        # A swatch carries no value — the TAG is what identifies it, so put the
+        # colour's id in there. One handler then serves the whole palette.
+        swatches =
+          Enum.map(@palette, fn {id, color} ->
+            ~MOB"<MishkaColorSwatch color={color} selected={@picked == id} on_tap={{:pick, id}} />"
+          end)
+
+        def handle_info({:tap, {:pick, id}}, socket) do
+          {:noreply, Mob.Socket.assign(socket, :picked, id)}
+        end
+
+        def handle_info(_msg, socket), do: {:noreply, socket}
         """,
         render: fn assigns ->
           ~MOB"""
+          <Column fill_width={true}>
+            <Row fill_width={true}>
+              {swatches(@sw_picked)}
+            </Row>
+            <Spacer size={12} />
+            <Row fill_width={true} align={:center}>
+              <Text text="Picked:" text_size={:sm} text_color={:muted} />
+              <Spacer size={8} />
+              <MishkaColorSwatch color={picked_color(@sw_picked)} size={20} />
+              <Spacer size={8} />
+              <Text text={picked_label(@sw_picked)} text_size={:sm} text_color={:on_surface} />
+            </Row>
+          </Column>
+          """
+        end
+      },
+      %Example{
+        title: "Disabled",
+        description: "Muted intent: the swatch still shows its colour, but wires no handler.",
+        code: ~S"""
+        # on_tap is given and never wired — disabled drops the handler rather
+        # than guarding it, so nothing is sent and nothing needs ignoring.
+        <MishkaColorSwatch color={0xFF3B82F6} disabled={true} on_tap={{:pick, :blue}} />
+        """,
+        render: fn _assigns ->
+          ~MOB"""
           <Row fill_width={true}>
-            {swatches(@sw_picked)}
+            <MishkaColorSwatch color={0xFF64748B} disabled={true} on_tap={{:sw_pick, :slate}} />
+            <Spacer size={10} />
+            <MishkaColorSwatch color={0x8064748B} disabled={true} on_tap={{:sw_pick, :slate_soft}} />
           </Row>
           """
         end
@@ -62,7 +96,9 @@ defmodule MishkaMob.Showcase.Components.ColorSwatch do
         title: "Transparency",
         description: "A translucent colour is drawn over a checkerboard — otherwise it lies.",
         code: ~S"""
-        <MishkaColorSwatch color={0x807C3AED} />   # checkerboard appears automatically
+        # The checkerboard appears on its own below full alpha. checkerboard={true}
+        # forces it on an opaque colour; false turns it off.
+        <MishkaColorSwatch color={0x807C3AED} />
         """,
         render: fn _assigns ->
           ~MOB"""
@@ -97,39 +133,6 @@ defmodule MishkaMob.Showcase.Components.ColorSwatch do
           </Row>
           """
         end
-      },
-      %Example{
-        title: "Loading overlay",
-        description: "Covers its region AND absorbs taps, so a double submit is impossible.",
-        code: ~S"""
-        <Box>
-          {content}
-          <MishkaLoadingOverlay visible={@saving?} label="Saving…" />
-        </Box>
-        """,
-        render: fn assigns ->
-          ~MOB"""
-          <Column fill_width={true}>
-            <Box fill_width={true} height={120} background={:surface_raised} corner_radius={:radius_md}>
-              <Column fill_width={true} padding={:space_md}>
-                <Text text="Order #1042" text_size={:lg} text_color={:on_surface} />
-                <Spacer size={6} />
-                <Text text="Tap Save to see the overlay cover this." text_size={:sm} text_color={:muted} />
-              </Column>
-              <MishkaLoadingOverlay visible={@sw_busy} label="Saving…" corner_radius={:radius_md} />
-            </Box>
-            <Spacer size={12} />
-            <Button
-              text={if(@sw_busy, do: "Finish", else: "Save")}
-              background={:primary}
-              text_color={:on_primary}
-              padding={:space_sm}
-              fill_width={true}
-              on_tap={{self(), :sw_busy}}
-            />
-          </Column>
-          """
-        end
       }
     ]
   end
@@ -159,10 +162,16 @@ defmodule MishkaMob.Showcase.Components.ColorSwatch do
         description: "Force the transparency backdrop. Auto-on below full alpha."
       },
       %{
-        name: "LoadingOverlay: visible / label / scrim_color / color",
-        type: "see MishkaLoadingOverlay",
+        name: "disabled",
+        type: "boolean",
+        default: "false",
+        description: "Wires no handler. The colour still shows."
+      },
+      %{
+        name: "id",
+        type: "string",
         default: "—",
-        description: "A scrim that covers a region and absorbs taps while it is busy."
+        description: "Becomes a native testTag. A swatch has no text to find it by."
       }
     ]
   end
@@ -170,15 +179,20 @@ defmodule MishkaMob.Showcase.Components.ColorSwatch do
   @impl true
   def handle({:sw_pick, id}, socket), do: Mob.Socket.assign(socket, :sw_picked, id)
 
-  def handle(:sw_busy, socket),
-    do: Mob.Socket.assign(socket, :sw_busy, not socket.assigns.sw_busy)
-
   def handle(_tag, socket), do: socket
+
+  defp picked_color(id), do: Keyword.get(@palette, id, 0x00000000)
+  defp picked_label(id), do: id |> Atom.to_string() |> String.capitalize()
 
   defp swatches(picked) do
     @palette
     |> Enum.map(fn {id, color} ->
-      color_swatch(color: color, selected: id == picked, on_tap: {:sw_pick, id})
+      color_swatch(
+        color: color,
+        selected: id == picked,
+        on_tap: {:sw_pick, id},
+        id: "swatch-#{id}"
+      )
     end)
     |> Enum.intersperse(%{type: :spacer, props: %{size: 10}, children: []})
   end

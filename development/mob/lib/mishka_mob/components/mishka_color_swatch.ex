@@ -22,8 +22,10 @@ defmodule MishkaMob.Components.MishkaColorSwatch do
   | `on_tap` | event tag (atom) | — | Sent as `{:tap, tag}`. |
   | `disabled` | boolean | `false` | Wires no handler. |
   | `checkerboard` | boolean | auto | Force the transparency backdrop on or off. |
+  | `id` | string | — | Becomes a native testTag. A swatch has no text to find it by. |
 
-  Not ported: `label` (an `aria-label`) and `id` / `*_class`.
+  Not ported: `label` (an `aria-label`) and the `*_class` attrs. `id` IS ported,
+  but as a test handle rather than as a DOM id.
   """
 
   import Mob.Sigil
@@ -83,11 +85,16 @@ defmodule MishkaMob.Components.MishkaColorSwatch do
     </Box>
     """
 
-    case handler(props, disabled?) do
-      nil -> node
-      tap -> %{node | props: Map.put(node.props, :on_tap, tap)}
-    end
+    node
+    |> put(:on_tap, handler(props, disabled?))
+    |> put(:id, Map.get(props, :id))
   end
+
+  # Mob turns :id into a native testTag. A swatch is a colour and nothing else —
+  # no text, no label — so without one there is no way for a device test to say
+  # WHICH swatch it means.
+  defp put(node, _key, nil), do: node
+  defp put(node, key, value), do: %{node | props: Map.put(node.props, key, value)}
 
   @doc "The corner radius for a shape at a size."
   @spec radius(atom(), number()) :: number() | atom()
