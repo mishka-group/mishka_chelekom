@@ -94,6 +94,10 @@ defmodule MishkaMob.MixProject do
   # companion tags. Anchoring on the module is what makes this a real pairing
   # rather than a guess: only an atom actually bound to a component matches.
   @register ~r/:?([a-z0-9_]+)[:,]\s*MishkaMob\.Components\.[A-Z]/
+  # Slot tags carry no module to anchor on — being consumed by a parent's
+  # expand/3 is the whole point — so they are read off the @slot_tags list
+  # instead. Still tags, still validated by the sigil, still need whitelisting.
+  @slots ~r/@slot_tags\s+\[([^\]]*)\]/
   @fence_start "# >>> mishka_mob composites — regenerated on compile, do not edit"
   @fence_end "# <<< mishka_mob composites"
 
@@ -127,16 +131,26 @@ defmodule MishkaMob.MixProject do
     # The catalog is what decides a tag; a filename is only a guess at one, and
     # the guess is already wrong here — a page may register companion tags whose
     # components it is not named after (a burger alongside a toolbar).
-    names =
-      @catalog
-      |> File.read!()
-      |> then(&Regex.scan(@register, &1, capture: :all_but_first))
+    source = File.read!(@catalog)
+
+    composites =
+      @register
+      |> Regex.scan(source, capture: :all_but_first)
       |> List.flatten()
+
+    if composites == [], do: Mix.raise("no composite tags found in #{@catalog}")
+
+    slots =
+      case Regex.run(@slots, source, capture: :all_but_first) do
+        [list] -> Regex.scan(~r/:([a-z0-9_]+)/, list, capture: :all_but_first) |> List.flatten()
+        nil -> []
+      end
+
+    names =
+      (composites ++ slots)
       |> Enum.map(&Macro.camelize/1)
       |> Enum.uniq()
       |> Enum.sort()
-
-    if names == [], do: Mix.raise("no composite tags found in #{@catalog}")
 
     # Mob is recompiled when the set changes — @known_tags is baked at MOB's
     # compile time, so an untouched dep keeps serving the old list — and also

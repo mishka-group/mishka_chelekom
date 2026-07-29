@@ -231,6 +231,23 @@ defmodule MishkaMob.Showcase do
      [mishka_floating_indicator: MishkaMob.Components.MishkaFloatingIndicator]}
   ]
 
+  # Slot tags — the native analogue of a Chelekom `<:slot>`. A parent's expand/3
+  # matches them on :type among its children and consumes them, so unlike a
+  # composite they have no module, no expander and no generator files. They are
+  # still TAGS, though, and the sigil validates every tag against Mob's
+  # whitelist — so mix.exs reads this list and whitelists them alongside the
+  # composites. Without it every use warns, and this project builds with
+  # --warnings-as-errors.
+  @slot_tags [
+    :mishka_accordion_item,
+    :mishka_empty_state_actions,
+    :mishka_empty_state_indicator
+  ]
+
+  @doc "Every slot tag — a child tag consumed by its parent composite's `expand/3`."
+  @spec slot_tags() :: [atom()]
+  def slot_tags, do: @slot_tags
+
   @doc "Every showcase component module, in catalog order."
   @spec modules() :: [module()]
   def modules, do: Enum.map(@catalog, &elem(&1, 0))
