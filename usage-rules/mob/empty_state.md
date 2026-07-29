@@ -75,8 +75,9 @@ All three of the web component's slots are ported as tags:
 | `<MishkaEmptyStateActions>` | `<:actions>` | the `actions` prop |
 | bare children | `<:inner_block>` | — rendered after the description |
 
-Slot tags are not in Mob's tag whitelist, so `~MOB` emits a "pass-through" warning for them. It is
-cosmetic — the tag still expands correctly — and `<MishkaAccordionItem>` has the same wrinkle.
+A slot tag is matched on `:type` among the parent's children and consumed by `expand/3`, so it
+never reaches the renderer. Building the same node by hand works identically and is what you want
+when the actions come from a list — that is what the `actions` prop is for.
 
 Not ported: `id` and the `*_class` attrs.
 

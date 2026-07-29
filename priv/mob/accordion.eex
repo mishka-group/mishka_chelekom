@@ -50,15 +50,19 @@ defmodule <%= @module %> do
       Mob.Composite.register(:mishka_accordion, {#{inspect(__MODULE__)}, :expand})
 
   Items are the tag's children — the native analogue of Chelekom's `<:item>`
-  slot. Each child is a `:mishka_accordion_item` node carrying `id` + `title`,
-  whose own children are the panel body:
+  slot. Each is a `<<%= @module_prefix_camel %>AccordionItem>` carrying `id` + `title`, whose own
+  children are the panel body:
 
-      %{type: :mishka_accordion, props: %{open: @faq_open, on_toggle: :toggle_faq},
-        children: [
-          %{type: :mishka_accordion_item,
-            props: %{id: :what, title: "What is Mishka Chelekom?"},
-            children: [text("A component library for Phoenix — and now for Mob.")]}
-        ]}
+      <<%= @module_prefix_camel %>Accordion open={@faq_open} on_toggle={:toggle_faq}>
+        <<%= @module_prefix_camel %>AccordionItem id={:what} title="What is Mishka Chelekom?">
+          <Text text="A component library for Phoenix — and now for Mob." />
+        </<%= @module_prefix_camel %>AccordionItem>
+      </<%= @module_prefix_camel %>Accordion>
+
+  A slot tag is matched on `:type` among the parent's children and consumed by
+  `expand/3`, so it never reaches the renderer. Building the same nodes by hand
+  works identically — `%{type: :mishka_accordion_item, props: %{id: …}}` — and is
+  what you want when the items come from a list rather than being written out.
 
   `on_toggle` is auto-wired by the composite framework, so you pass a bare atom;
   it fires as `{:tap, {tag, item_id}}` so one handler serves every item.

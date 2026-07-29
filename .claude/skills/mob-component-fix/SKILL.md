@@ -146,7 +146,11 @@ Do not claim otherwise (an earlier empty_state rule did, wrongly). A slot is a c
 children |> Enum.filter(&match?(%{type: @actions_type}, &1)) |> Enum.flat_map(&Map.get(&1, :children, []))
 ```
 
-Children arrive at `expand/3` **unexpanded**, which is what makes this work (`Mob.Composite.do_expand/4` runs the expander before recursing). Slot tags are not in Mob's whitelist, so the sigil warns "pass-through" — cosmetic, and it is the reason to prefer a slot over an opaque list-of-nodes prop: the component can then own the layout it is responsible for. Keep the prop as a fallback for callers assembling actions from data.
+Children arrive at `expand/3` **unexpanded**, which is what makes this work (`Mob.Composite.do_expand/4` runs the expander before recursing).
+
+Add every new slot tag to `@slot_tags` in `lib/mishka_mob/showcase.ex`. The sigil validates tag names against a whitelist baked into Mob at ITS compile time, and this project builds `--warnings-as-errors`, so an unlisted tag is a wall rather than a warning. That list is why the markup form is usable at all.
+
+Prefer a slot to an opaque list-of-nodes prop: the component can then own the layout it is responsible for, which is exactly where these layout bugs live. Keep a prop as the fallback for callers building items from a list.
 
 ## Before saying it is done
 

@@ -9,6 +9,8 @@ defmodule MishkaMob.Showcase.Components.Accordion do
   """
   use MishkaMob.Showcase
 
+  import Mob.Sigil
+
   alias MishkaMob.Components.MishkaAccordion
   alias MishkaMob.Showcase.Example
 
@@ -56,14 +58,19 @@ defmodule MishkaMob.Showcase.Components.Accordion do
         end
         """,
         render: fn assigns ->
-          accordion(assigns.acc_faq, :toggle_faq, [
-            {:what, "What is Mishka Chelekom?",
-             "A component library for Phoenix — and now a native port for Mob."},
-            {:styled, "Is it styled?",
-             "The headless version ships behaviour only. This native port maps that behaviour onto theme tokens."},
-            {:native, "Is this real native UI?",
-             "Yes — it expands to SwiftUI / Jetpack Compose widgets. No WebView."}
-          ])
+          ~MOB"""
+          <MishkaAccordion open={@acc_faq} on_toggle={:toggle_faq}>
+            <MishkaAccordionItem id={:what} title="What is Mishka Chelekom?">
+              {body("A component library for Phoenix — and now a native port for Mob.")}
+            </MishkaAccordionItem>
+            <MishkaAccordionItem id={:styled} title="Is it styled?">
+              {body("The headless version ships behaviour only. This native port maps that behaviour onto theme tokens.")}
+            </MishkaAccordionItem>
+            <MishkaAccordionItem id={:native} title="Is this real native UI?">
+              {body("Yes — it expands to SwiftUI / Jetpack Compose widgets. No WebView.")}
+            </MishkaAccordionItem>
+          </MishkaAccordion>
+          """
         end
       },
       %Example{
@@ -77,19 +84,19 @@ defmodule MishkaMob.Showcase.Components.Accordion do
         MishkaAccordion.toggle(open, id, multiple: true)
         """,
         render: fn assigns ->
-          accordion(
-            assigns.acc_multi,
-            :toggle_multi,
-            [
-              {:beam, "The BEAM runs on the device",
-               "Your Elixir runs on the phone itself — screens are GenServers."},
-              {:native, "Widgets are native",
-               "Node maps become real platform widgets, so scrolling and text feel native."},
-              {:hot, "Code can be hot-pushed",
-               "mix mob.deploy pushes new BEAMs to the running app."}
-            ],
-            %{multiple: true}
-          )
+          ~MOB"""
+          <MishkaAccordion open={@acc_multi} multiple={true} on_toggle={:toggle_multi}>
+            <MishkaAccordionItem id={:beam} title="The BEAM runs on the device">
+              {body("Your Elixir runs on the phone itself — screens are GenServers.")}
+            </MishkaAccordionItem>
+            <MishkaAccordionItem id={:native} title="Widgets are native">
+              {body("Node maps become real platform widgets, so scrolling and text feel native.")}
+            </MishkaAccordionItem>
+            <MishkaAccordionItem id={:hot} title="Code can be hot-pushed">
+              {body("mix mob.deploy pushes new BEAMs to the running app.")}
+            </MishkaAccordionItem>
+          </MishkaAccordion>
+          """
         end
       },
       %Example{
@@ -103,17 +110,16 @@ defmodule MishkaMob.Showcase.Components.Accordion do
         MishkaAccordion.toggle(open, id, collapsible: false)
         """,
         render: fn assigns ->
-          accordion(
-            assigns.acc_locked,
-            :toggle_locked,
-            [
-              {:always, "This one starts open",
-               "Tapping this header again will not close it — something must stay open."},
-              {:other, "Tap me instead",
-               "Opening another item moves the selection, because multiple is still false."}
-            ],
-            %{collapsible: false}
-          )
+          ~MOB"""
+          <MishkaAccordion open={@acc_locked} collapsible={false} on_toggle={:toggle_locked}>
+            <MishkaAccordionItem id={:always} title="This one starts open">
+              {body("Tapping this header again will not close it — something must stay open.")}
+            </MishkaAccordionItem>
+            <MishkaAccordionItem id={:other} title="Tap me instead">
+              {body("Opening another item moves the selection, because multiple is still false.")}
+            </MishkaAccordionItem>
+          </MishkaAccordion>
+          """
         end
       },
       %Example{
@@ -128,10 +134,16 @@ defmodule MishkaMob.Showcase.Components.Accordion do
         </MishkaAccordion>
         """,
         render: fn assigns ->
-          accordion(assigns.acc_disabled, :toggle_disabled, [
-            {:ok, "I open normally", "Nothing special about this one."},
-            {:nope, "I am disabled", "You should not be able to reach this text.", true}
-          ])
+          ~MOB"""
+          <MishkaAccordion open={@acc_disabled} on_toggle={:toggle_disabled}>
+            <MishkaAccordionItem id={:ok} title="I open normally">
+              {body("Nothing special about this one.")}
+            </MishkaAccordionItem>
+            <MishkaAccordionItem id={:nope} title="I am disabled" disabled={true}>
+              {body("You should not be able to reach this text.")}
+            </MishkaAccordionItem>
+          </MishkaAccordion>
+          """
         end
       },
       %Example{
@@ -162,26 +174,22 @@ defmodule MishkaMob.Showcase.Components.Accordion do
         end
         """,
         render: fn assigns ->
-          %{
-            type: :column,
-            props: %{fill_width: true},
-            children: [
-              accordion_with(
-                assigns.acc_watched,
-                %{multiple: true, on_open_change: :acc_watch},
-                [
-                  {:shipping, "Shipping", "Open and close these — the log below records both."},
-                  {:returns, "Returns", "on_open_change carries the state AFTER the tap."}
-                ]
-              ),
-              %{type: :spacer, props: %{size: 12}, children: []},
-              %{
-                type: :text,
-                props: %{text: log_label(assigns.acc_log), text_size: :sm, text_color: :muted},
-                children: []
-              }
-            ]
-          }
+          # No on_toggle here: on_open_change is an alternative to it, not an
+          # addition — a tap can only send one message.
+          ~MOB"""
+          <Column fill_width={true}>
+            <MishkaAccordion open={@acc_watched} multiple={true} on_open_change={:acc_watch}>
+              <MishkaAccordionItem id={:shipping} title="Shipping">
+                {body("Open and close these — the log below records both.")}
+              </MishkaAccordionItem>
+              <MishkaAccordionItem id={:returns} title="Returns">
+                {body("on_open_change carries the state AFTER the tap.")}
+              </MishkaAccordionItem>
+            </MishkaAccordion>
+            <Spacer size={12} />
+            <Text text={log_label(@acc_log)} text_size={:sm} text_color={:muted} />
+          </Column>
+          """
         end
       }
     ]
@@ -336,35 +344,11 @@ defmodule MishkaMob.Showcase.Components.Accordion do
     }
   end
 
-  # ── Example builder ────────────────────────────────────────────────────────
-  # items are {id, title, body} or {id, title, body, disabled}
-  defp accordion(open, on_toggle, items, extra \\ %{}) do
-    props = Map.merge(%{open: open, on_toggle: on_toggle}, extra)
-    %{type: :mishka_accordion, props: props, children: Enum.map(items, &item/1)}
-  end
-
-  # No on_toggle: the caller wires on_open_change or on_value_change instead,
-  # which are alternatives to it rather than additions.
-  defp accordion_with(open, extra, items) do
-    props = Map.merge(%{open: open}, extra)
-    %{type: :mishka_accordion, props: props, children: Enum.map(items, &item/1)}
-  end
-
-  defp item({id, title, body}), do: item({id, title, body, false})
-
-  defp item({id, title, body, disabled}) do
-    %{
-      type: :mishka_accordion_item,
-      props: %{id: id, title: title, disabled: disabled},
-      children: [
-        %{
-          type: :text,
-          props: %{text: body, text_size: :base, text_color: :muted},
-          children: []
-        }
-      ]
-    }
-  end
+  # The panel body — the one thing every item has in common, and the only part
+  # worth a helper. Everything else is written as markup at the call site,
+  # because the props that vary between the examples ARE what each example is
+  # demonstrating, and a builder that takes them as a map hides exactly that.
+  defp body(text), do: ~MOB(<Text text={text} text_size={:base} text_color={:muted} />)
 
   defp bar(color) do
     %{
