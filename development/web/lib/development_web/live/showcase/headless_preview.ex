@@ -14,6 +14,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.Autocomplete
   import DevelopmentWeb.Components.Headless.Avatar
   import DevelopmentWeb.Components.Headless.Burger
+  import DevelopmentWeb.Components.Headless.Chart
   import DevelopmentWeb.Components.Headless.Checkbox
   import DevelopmentWeb.Components.Headless.CheckboxGroup
   import DevelopmentWeb.Components.Headless.Chip
@@ -64,6 +65,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   import DevelopmentWeb.Components.Headless.SemiCircleProgress
   import DevelopmentWeb.Components.Headless.Separator
   import DevelopmentWeb.Components.Headless.Slider
+  import DevelopmentWeb.Components.Headless.Sparkline
   import DevelopmentWeb.Components.Headless.Splitter
   import DevelopmentWeb.Components.Headless.Spoiler
   import DevelopmentWeb.Components.Headless.Switch
@@ -2202,6 +2204,63 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     """
   end
 
+  def show(%{component: "chart"} = assigns) do
+    ~H"""
+    <.chart
+      id={@id}
+      height="15rem"
+      class="w-full"
+      aria_label="Monthly revenue in thousands of dollars"
+      option={
+        %{
+          grid: %{left: 6, right: 10, top: 20, bottom: 20, containLabel: true},
+          tooltip: %{trigger: "axis"},
+          xAxis: %{type: "category", data: ~w(Jan Feb Mar Apr May Jun)},
+          yAxis: %{type: "value", axisLabel: %{formatter: "chelekom:compact"}},
+          series: [
+            %{
+              name: "Revenue",
+              type: "bar",
+              data: [820, 932, 901, 1234, 1290, 1330],
+              itemStyle: %{borderRadius: [4, 4, 0, 0]}
+            }
+          ]
+        }
+      }
+    />
+    """
+  end
+
+  def show(%{component: "sparkline"} = assigns) do
+    ~H"""
+    <div class="w-full space-y-3">
+      <div class="flex items-center justify-between gap-4">
+        <span class="text-sm text-[var(--c-base-content)]/70">Revenue</span>
+        <.sparkline
+          values={[4, 6, 5, 8, 7, 11, 9, 14]}
+          type="area"
+          last_point
+          class="h-8 w-28 text-[var(--c-primary)]"
+        />
+      </div>
+      <div class="flex items-center justify-between gap-4">
+        <span class="text-sm text-[var(--c-base-content)]/70">Sessions</span>
+        <.sparkline values={[30, 28, 33, 25, 40, 22, 26, 20]} class="h-8 w-28 text-emerald-500" />
+      </div>
+      <div class="flex items-center justify-between gap-4">
+        <span class="text-sm text-[var(--c-base-content)]/70">Net flow</span>
+        <.sparkline
+          values={[3, -2, 4, -1, 5, -3, 2, 6]}
+          type="bar"
+          baseline
+          rounded={1}
+          class="h-8 w-28 text-sky-500"
+        />
+      </div>
+    </div>
+    """
+  end
+
   def show(assigns) do
     ~H"""
     <p class="text-sm text-[var(--c-base-content)]/60">No example for <code>{@component}</code>.</p>
@@ -2276,7 +2335,175 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   def has_examples?("tree_select"), do: true
   def has_examples?("mask_input"), do: true
   def has_examples?("pills_input"), do: true
+  def has_examples?("chart"), do: true
+  def has_examples?("sparkline"), do: true
   def has_examples?(_), do: false
+
+  def examples(%{component: "chart"} = assigns) do
+    ~H"""
+    <div class="grid gap-4 lg:grid-cols-2">
+      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">Line with a gradient area</summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          Setting the area color to <code>"chelekom:fade"</code>
+          fades the series color to transparent; the y-axis uses the
+          <code>"chelekom:currency:USD"</code>
+          formatter — resolved to a real <code>Intl</code>
+          function on the client.
+        </p>
+        <.chart
+          id={"#{@id}-line"}
+          height="16rem"
+          class="mt-3 w-full"
+          aria_label="Daily revenue over a week"
+          option={
+            %{
+              grid: %{left: 6, right: 12, top: 20, bottom: 24, containLabel: true},
+              tooltip: %{trigger: "axis"},
+              xAxis: %{type: "category", boundaryGap: false, data: ~w(Mon Tue Wed Thu Fri Sat Sun)},
+              yAxis: %{type: "value", axisLabel: %{formatter: "chelekom:currency:USD"}},
+              series: [
+                %{
+                  name: "Revenue",
+                  type: "line",
+                  smooth: true,
+                  areaStyle: %{color: "chelekom:fade"},
+                  data: [1520, 2310, 1980, 3020, 2870, 3560, 4120]
+                }
+              ]
+            }
+          }
+        />
+      </details>
+
+      <details class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">Grouped bars, two series</summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          Both series draw from the theme palette (<code>--chart-1</code>, <code>--chart-2</code>) —
+          no color set in the option.
+        </p>
+        <.chart
+          id={"#{@id}-bars"}
+          height="16rem"
+          class="mt-3 w-full"
+          aria_label="This year versus last year by quarter"
+          option={
+            %{
+              grid: %{left: 6, right: 10, top: 34, bottom: 20, containLabel: true},
+              tooltip: %{trigger: "axis"},
+              legend: %{data: ["This year", "Last year"]},
+              xAxis: %{type: "category", data: ~w(Q1 Q2 Q3 Q4)},
+              yAxis: %{type: "value", axisLabel: %{formatter: "chelekom:compact"}},
+              series: [
+                %{name: "This year", type: "bar", data: [320, 432, 501, 634]},
+                %{name: "Last year", type: "bar", data: [220, 382, 391, 480]}
+              ]
+            }
+          }
+        />
+      </details>
+
+      <details class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">Donut</summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          A pie with an inner radius; each slice takes the next palette color in turn.
+        </p>
+        <.chart
+          id={"#{@id}-donut"}
+          height="16rem"
+          class="mt-3 w-full"
+          aria_label="Traffic by source"
+          option={
+            %{
+              tooltip: %{trigger: "item"},
+              legend: %{bottom: 0},
+              series: [
+                %{
+                  name: "Source",
+                  type: "pie",
+                  radius: ["45%", "70%"],
+                  data: [
+                    %{value: 1048, name: "Search"},
+                    %{value: 735, name: "Direct"},
+                    %{value: 580, name: "Referral"},
+                    %{value: 484, name: "Social"}
+                  ]
+                }
+              ]
+            }
+          }
+        />
+      </details>
+
+      <details class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
+        <summary class="cursor-pointer select-none font-medium">Live updates from the server</summary>
+        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
+          The surface is <code>phx-update="ignore"</code>, so push a fresh option instead of
+          re-rendering the element:
+        </p>
+        <.code_block code={
+          ~S|push_event(socket, "chelekom:chart", %{id: "sales", option: new_option})|
+        } />
+      </details>
+    </div>
+    """
+  end
+
+  def examples(%{component: "sparkline"} = assigns) do
+    ~H"""
+    <div class="space-y-6">
+      <div class="grid gap-3 sm:grid-cols-3">
+        <div
+          :for={
+            {label, value, delta, values, color} <- [
+              {"Revenue", "$48.2k", "+12%", [12, 18, 15, 22, 19, 28, 25, 33], "text-emerald-500"},
+              {"Signups", "1,204", "+4%", [30, 32, 28, 35, 40, 38, 44, 47],
+               "text-[var(--c-primary)]"},
+              {"Churn", "2.1%", "−8%", [9, 8, 10, 7, 6, 7, 5, 4], "text-rose-500"}
+            ]
+          }
+          class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4"
+        >
+          <div class="text-xs uppercase tracking-wide text-[var(--c-base-content)]/50">{label}</div>
+          <div class="mt-1 flex items-end justify-between gap-2">
+            <div>
+              <div class="text-2xl font-bold tabular-nums">{value}</div>
+              <div class={["text-xs font-medium", color]}>{delta}</div>
+            </div>
+            <.sparkline values={values} type="area" class={["h-10 w-24", color]} />
+          </div>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto rounded-lg ring-1 ring-[var(--c-base-content)]/5">
+        <table class="table table-sm">
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th>Last 8 weeks</th>
+              <th class="text-right">Now</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr :for={
+              {metric, values, now} <- [
+                {"Sessions", [120, 132, 101, 134, 90, 160, 180, 210], "210"},
+                {"Errors", [8, 6, 9, 4, 7, 3, 2, 1], "1"},
+                {"p95 latency", [220, 240, 210, 260, 300, 250, 230, 205], "205ms"}
+              ]
+            }>
+              <td class="font-medium">{metric}</td>
+              <td>
+                <.sparkline values={values} class="h-6 w-32 text-[var(--c-base-content)]/60" />
+              </td>
+              <td class="text-right tabular-nums">{now}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    """
+  end
 
   def examples(%{component: "empty_state"} = assigns) do
     ~H"""

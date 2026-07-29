@@ -102,6 +102,8 @@ defmodule DevelopmentWeb.Showcase.Meta do
     "checkbox_group" => "Group of checkboxes sharing a label and state.",
     "checkbox" => "Accessible checkbox supporting checked and indeterminate state.",
     "chip" => "Selectable pill backed by a native checkbox or radio input.",
+    "chart" =>
+      "Declarative wrapper over a JS charting engine — ECharts by default, or Chart.js / billboard.js via --engine; the option is a plain map.",
     "close_button" => "Icon-only button with a required accessible label, for dismissing UI.",
     "code" => "Inline or block code, semantics only.",
     "collapsible" => "A single trigger/panel pair that expands and collapses.",
@@ -152,6 +154,8 @@ defmodule DevelopmentWeb.Showcase.Meta do
     "separator" => "Semantic divider (ARIA separator), horizontal or vertical.",
     "slider" => "Range slider with one or more thumbs, keyboard and ARIA.",
     "spoiler" => "Clamp long content behind a Show more / Show less toggle.",
+    "sparkline" =>
+      "Inline trend line as pure server-side SVG — no JS or npm; works in tables, stat cards and email.",
     "switch" => "On/off toggle with switch role and keyboard.",
     "tabs" => "Tab list and panels with roving focus and ARIA.",
     "tags_input" => "Removable tokens plus a text field for entering a list of values.",

@@ -47,6 +47,7 @@ import Editor from "./editor.js";
 import EditorLexical from "./editor_lexical.js";
 import EditorMilkDown from "./editor_milk_down.js";
 import EditorCodeMirror from "./editor_code_mirror.js";
+import Chart from "./chart.js";
 const Components = {
   Tooltip,
   PreviewCard,
@@ -97,5 +98,6 @@ const Components = {
   EditorLexical,
   EditorMilkDown,
   EditorCodeMirror,
+  Chart,
 };
 export default Components;

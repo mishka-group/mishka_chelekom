@@ -1,0 +1,298 @@
+defmodule DevelopmentWeb.Components.Headless.Sparkline do
+  @moduledoc """
+  Headless **sparkline** — an inline trend line rendered as **pure server-side SVG**, with no
+  JavaScript, no hook and no npm dependency.
+
+  It takes a list of numbers and emits a compact `<svg>` that inherits `currentColor`, so it works
+  anywhere HEEx renders — a stat card, a table cell, even an email — and stays correct through a
+  LiveView patch without a client engine. Ship it regardless of which `chart` engine (if any) you
+  generated; the two are independent.
+
+      <.sparkline values={[3, 7, 4, 8, 6, 9, 5, 11]} />
+      <.sparkline values={@revenue} type="area" last_point class="w-24 text-emerald-500" />
+      <.sparkline values={@deltas} type="bar" baseline rounded={1} class="text-sky-500" />
+
+  ## Color
+
+  Everything is drawn with `currentColor`, so the sparkline takes the surrounding text color. Set it
+  with a text-color class (`class="text-emerald-500"`) or the `color` attr. Area fill reuses the same
+  color at `fill_opacity`.
+
+  ## Domain
+
+  The line is scaled to the data's own min/max by default, which emphasizes shape over absolute
+  level — the usual sparkline behavior. Pin `min` / `max` to compare several sparklines on one scale.
+
+  ## Accessibility
+
+  A sparkline is decorative by default (`aria-hidden`). Pass `aria_label` (e.g. a summary like
+  "Revenue, up 12% over 8 weeks") to expose it as `role="img"` with that name.
+
+  Ships **no** colors of its own beyond `currentColor` and no spacing — size it with `width` /
+  `height` (or a `w-*` / `h-*` class) and color it with text color.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/sparkline
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :values, :list, required: true, doc: "The numbers to plot, oldest → newest"
+
+  attr :type, :string,
+    default: "line",
+    values: ["line", "area", "bar"],
+    doc: "`line`, `area` (line + faded fill) or `bar`"
+
+  attr :width, :integer,
+    default: 120,
+    doc: "Intrinsic SVG width in px (override responsively with a `w-*` class)"
+
+  attr :height, :integer, default: 36, doc: "Intrinsic SVG height in px"
+
+  attr :stroke_width, :any,
+    default: 1.5,
+    doc: "Line thickness (non-scaling, stays crisp when the SVG is resized)"
+
+  attr :smooth, :boolean,
+    default: false,
+    doc: "Round the line with a Catmull-Rom curve instead of straight segments"
+
+  attr :fill_opacity, :any, default: 0.15, doc: "Opacity of the area fill (type=\"area\")"
+  attr :rounded, :any, default: 0, doc: "Bar corner radius in SVG units (type=\"bar\")"
+  attr :gap, :any, default: 2, doc: "Gap between bars in SVG units (type=\"bar\")"
+  attr :last_point, :boolean, default: false, doc: "Draw a dot on the final value"
+
+  attr :baseline, :boolean,
+    default: false,
+    doc: "Draw a faint line at zero when the value range crosses it"
+
+  attr :min, :any,
+    default: nil,
+    doc: "Force the low end of the value domain (default: the data min)"
+
+  attr :max, :any,
+    default: nil,
+    doc: "Force the high end of the value domain (default: the data max)"
+
+  attr :color, :string,
+    default: nil,
+    doc: "CSS color for the whole sparkline (default: inherit `currentColor`)"
+
+  attr :aria_label, :string,
+    default: nil,
+    doc: "Expose a text summary; makes the SVG `role=\"img\"` instead of `aria-hidden`"
+
+  attr :class, :any, default: nil, doc: "Extra classes for the SVG"
+  attr :rest, :global
+
+  def sparkline(assigns) do
+    assigns = assign_geometry(assigns)
+
+    ~H"""
+    <svg
+      viewBox={@view_box}
+      width={@width}
+      height={@height}
+      fill="none"
+      preserveAspectRatio="none"
+      role={@aria_label && "img"}
+      aria-label={@aria_label}
+      aria-hidden={is_nil(@aria_label) && "true"}
+      class={["chelekom-sparkline", @class]}
+      style={@color && "color: #{@color}"}
+      {@rest}
+    >
+      <line
+        :if={@baseline_y}
+        x1="0"
+        y1={@baseline_y}
+        x2={@width}
+        y2={@baseline_y}
+        stroke="currentColor"
+        stroke-opacity="0.25"
+        stroke-width="1"
+        vector-effect="non-scaling-stroke"
+      />
+      <path :if={@area_d} d={@area_d} fill="currentColor" fill-opacity={@fill_opacity} />
+      <rect
+        :for={b <- @bars}
+        x={b.x}
+        y={b.y}
+        width={b.w}
+        height={b.h}
+        rx={@rounded}
+        fill="currentColor"
+      />
+      <path
+        :if={@type in ["line", "area"] and @line_d != ""}
+        d={@line_d}
+        fill="none"
+        stroke="currentColor"
+        stroke-width={@stroke_width}
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        vector-effect="non-scaling-stroke"
+      />
+      <circle :if={@point} cx={@point.cx} cy={@point.cy} r={@point.r} fill="currentColor" />
+    </svg>
+    """
+  end
+
+  # Turn the raw values into everything the SVG needs: the line/area `d`, the bar rects, the optional
+  # last-point marker and zero baseline. All coordinates are computed once, server-side.
+  defp assign_geometry(assigns) do
+    values = assigns.values |> List.wrap() |> Enum.map(&num/1)
+    sw = num(assigns.stroke_width)
+    marker_r = max(sw, 2.0)
+    pad = if(assigns.last_point, do: marker_r, else: sw / 2) + 0.5
+    {lo, hi} = domain(values, assigns.min, assigns.max)
+    w = num(assigns.width)
+    h = num(assigns.height)
+
+    scale = %{
+      lo: lo,
+      hi: hi,
+      span: hi - lo,
+      pad: pad,
+      gap: num(assigns.gap),
+      w: w,
+      h: h,
+      innerw: max(w - 2 * pad, 0.0),
+      innerh: max(h - 2 * pad, 0.0)
+    }
+
+    points = points(values, scale)
+
+    assigns
+    |> assign(:view_box, "0 0 #{assigns.width} #{assigns.height}")
+    |> assign(:line_d, line_for(assigns.type, points, assigns.smooth))
+    |> assign(:area_d, area_for(assigns.type, points, assigns.smooth, scale))
+    |> assign(:bars, bars_for(assigns.type, values, scale))
+    |> assign(:point, marker_for(assigns.last_point, points, marker_r))
+    |> assign(:baseline_y, baseline_for(assigns.baseline, scale))
+  end
+
+  defp domain([], _min, _max), do: {0.0, 0.0}
+
+  defp domain(values, min, max) do
+    lo = if is_nil(min), do: Enum.min(values), else: num(min)
+    hi = if is_nil(max), do: Enum.max(values), else: num(max)
+    {lo, hi}
+  end
+
+  # Each value → an {x, y} point in the SVG coordinate box.
+  defp points(values, scale) do
+    n = length(values)
+
+    values
+    |> Enum.with_index()
+    |> Enum.map(fn {v, i} -> {x_at(i, n, scale), y_at(v, scale)} end)
+  end
+
+  defp x_at(_i, n, scale) when n <= 1, do: scale.w / 2
+  defp x_at(i, n, scale), do: scale.pad + i / (n - 1) * scale.innerw
+
+  defp y_at(_v, %{span: span} = scale) when span == 0.0, do: scale.h / 2
+  defp y_at(v, scale), do: scale.pad + (scale.hi - v) / scale.span * scale.innerh
+
+  defp line_for(type, points, smooth) when type in ["line", "area"], do: path_d(points, smooth)
+  defp line_for(_type, _points, _smooth), do: ""
+
+  defp area_for("area", [_ | _] = points, smooth, scale) do
+    {fx, _} = List.first(points)
+    {lx, _} = List.last(points)
+    base = fmt(scale.h - scale.pad)
+    path_d(points, smooth) <> " L #{fmt(lx)} #{base} L #{fmt(fx)} #{base} Z"
+  end
+
+  defp area_for(_type, _points, _smooth, _scale), do: nil
+
+  defp bars_for("bar", [_ | _] = values, scale) do
+    slot = scale.innerw / length(values)
+    bw = max(slot - scale.gap, 1.0)
+
+    values
+    |> Enum.with_index()
+    |> Enum.map(fn {v, i} -> bar_rect(v, i, slot, bw, scale) end)
+  end
+
+  defp bars_for(_type, _values, _scale), do: []
+
+  defp bar_rect(v, i, slot, bw, scale) do
+    bh = bar_height(v, scale)
+
+    %{
+      x: fmt(scale.pad + i * slot + (slot - bw) / 2),
+      y: fmt(scale.h - scale.pad - bh),
+      w: fmt(bw),
+      h: fmt(max(bh, 0.0))
+    }
+  end
+
+  defp bar_height(_v, %{span: span} = scale) when span == 0.0, do: scale.innerh
+  defp bar_height(v, scale), do: (v - scale.lo) / scale.span * scale.innerh
+
+  defp marker_for(true, [_ | _] = points, r) do
+    {lx, ly} = List.last(points)
+    %{cx: fmt(lx), cy: fmt(ly), r: fmt(r)}
+  end
+
+  defp marker_for(_last, _points, _r), do: nil
+
+  defp baseline_for(true, %{span: span, lo: lo, hi: hi} = scale)
+       when span != 0.0 and lo <= 0.0 and hi >= 0.0,
+       do: fmt(scale.pad + hi / span * scale.innerh)
+
+  defp baseline_for(_show, _scale), do: nil
+
+  defp path_d([], _smooth), do: ""
+  defp path_d(points, true), do: smooth_d(points)
+  defp path_d(points, _smooth), do: line_d(points)
+
+  defp line_d([]), do: ""
+
+  defp line_d([{x0, y0} | rest]) do
+    "M #{fmt(x0)} #{fmt(y0)}" <>
+      Enum.map_join(rest, "", fn {x, y} -> " L #{fmt(x)} #{fmt(y)}" end)
+  end
+
+  # Catmull-Rom → cubic Bézier: each segment's control points lean toward the neighbouring points,
+  # clamped at the ends. Needs at least three points to curve; fewer falls back to straight lines.
+  defp smooth_d(points) when length(points) < 3, do: line_d(points)
+
+  defp smooth_d(points) do
+    pts = List.to_tuple(points)
+    n = tuple_size(pts)
+    {x0, y0} = elem(pts, 0)
+
+    segs =
+      for i <- 0..(n - 2) do
+        {p1x, p1y} = elem(pts, i)
+        {p2x, p2y} = elem(pts, i + 1)
+        {p0x, p0y} = elem(pts, max(i - 1, 0))
+        {p3x, p3y} = elem(pts, min(i + 2, n - 1))
+        c1x = p1x + (p2x - p0x) / 6.0
+        c1y = p1y + (p2y - p0y) / 6.0
+        c2x = p2x - (p3x - p1x) / 6.0
+        c2y = p2y - (p3y - p1y) / 6.0
+        " C #{fmt(c1x)} #{fmt(c1y)}, #{fmt(c2x)} #{fmt(c2y)}, #{fmt(p2x)} #{fmt(p2y)}"
+      end
+
+    "M #{fmt(x0)} #{fmt(y0)}" <> Enum.join(segs, "")
+  end
+
+  defp num(x) when is_integer(x), do: x * 1.0
+  defp num(x) when is_float(x), do: x
+
+  defp num(x) when is_binary(x) do
+    case Float.parse(x) do
+      {f, _} -> f
+      :error -> 0.0
+    end
+  end
+
+  defp num(_), do: 0.0
+
+  defp fmt(x) when is_integer(x), do: Integer.to_string(x)
+  defp fmt(x) when is_float(x), do: :erlang.float_to_binary(x, [:compact, decimals: 2])
+end
