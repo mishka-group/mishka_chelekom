@@ -100,16 +100,43 @@ defmodule MishkaMob.Showcase.Components.Progress do
       },
       %Example{
         title: "Colour",
-        description: "Tint the indicator.",
+        description:
+          "color takes a theme token or an ARGB int. The last bar picks its own " <>
+            "from the value — green, amber, then red — which is the reason the " <>
+            "prop is worth having: the colour is the warning.",
         code: ~S"""
-        <MishkaProgress value={65} color={0xFF7C3AED} />
+        <MishkaProgress value={65} color={0xFFF97316} />   # orange
+        <MishkaProgress value={30} color={:primary} />
+
+        # Colour as meaning, not decoration. The bar on this page uses the same
+        # value the buttons move, so it changes band as you cross 60 and 85.
+        defp band(value) when value >= 85, do: 0xFFDC2626
+        defp band(value) when value >= 60, do: 0xFFF59E0B
+        defp band(_value), do: 0xFF16A34A
+
+        <MishkaProgress value={@value} color={band(@value)} show_value={true} />
         """,
-        render: fn _assigns ->
+        render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaProgress value={65} color={0xFF7C3AED} show_value={true} />
+            <MishkaProgress value={72} color={0xFFF97316} label="Orange" show_value={true} />
             <Spacer size={16} />
-            <MishkaProgress value={30} color={:primary} show_value={true} />
+            <MishkaProgress value={65} color={0xFF7C3AED} label="Violet" show_value={true} />
+            <Spacer size={16} />
+            <MishkaProgress value={30} color={:primary} label="The theme's primary" show_value={true} />
+            <Spacer size={20} />
+            <MishkaProgress
+              value={@pg_value}
+              color={band(@pg_value)}
+              label={"Disk usage — " <> band_name(@pg_value)}
+              show_value={true}
+            />
+            <Spacer size={8} />
+            <Text
+              text="Move it with the buttons in the first example."
+              text_size={:sm}
+              text_color={:muted}
+            />
           </Column>
           """
         end
@@ -158,11 +185,28 @@ defmodule MishkaMob.Showcase.Components.Progress do
   @impl true
   def handle(:pg_up, socket), do: nudge(socket, +15)
   def handle(:pg_down, socket), do: nudge(socket, -15)
+
   def handle(_tag, socket), do: socket
 
+  # Colour as meaning: the bar warns before the number has to be read.
+  defp band(value) when value >= 85, do: 0xFFDC2626
+  defp band(value) when value >= 60, do: 0xFFF59E0B
+  defp band(_value), do: 0xFF16A34A
+
+  defp band_name(value) when value >= 85, do: "critical"
+  defp band_name(value) when value >= 60, do: "getting full"
+  defp band_name(_value), do: "healthy"
+
   # Deliberately allowed past 0/100 so the bar's clamping is visible on device.
-  defp nudge(socket, delta),
-    do: Mob.Socket.assign(socket, :pg_value, socket.assigns.pg_value + delta)
+  # Clamped HERE, not just in the component. fraction/1 clamps what it draws, so
+  # an unbounded assign still shows a full bar — but it keeps climbing behind it,
+  # and after ten taps up you had to press down thirteen times before anything
+  # moved. The bar looked right and the buttons felt broken.
+  defp nudge(socket, delta) do
+    next = socket.assigns.pg_value + delta
+
+    Mob.Socket.assign(socket, :pg_value, next |> max(0) |> min(100))
+  end
 
   @impl true
   def card_preview do
