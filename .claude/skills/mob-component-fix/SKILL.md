@@ -114,4 +114,4 @@ Then commit per logical change. **Never push** — that is the user's call.
 
 - A `~S"""` sample containing `~MOB"""` closes the outer heredoc. Use the single-line `~MOB"…"` form inside samples.
 - `performClick` fires at a node's coordinates whether or not they are on screen — always `performScrollTo` first, or the tap misses silently with no exception.
-- Never leave an infinite animation (an indeterminate `Progress`) on a showcase page: Compose never reports idle, so `performScrollTo` hangs, and since the BEAM outlives the Activity it breaks device tests in unrelated classes.
+- Infinite animations and Compose idling: the suite once hit `IdlingResourceTimeoutException` in a run where a page with an indeterminate `Progress` had just been added, and `performScrollTo` waits for idle. But `ProgressTest` later walked exactly such a page with the ordinary helpers and passed, so treat this as a suspect to check rather than a rule. **Do not** "fix" it with `compose.mainClock.autoAdvance = false` — that freezes the whole render loop, and because this app's trees arrive from the BEAM asynchronously, nothing renders at all and every assertion times out.
