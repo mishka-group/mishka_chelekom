@@ -18,6 +18,7 @@ defmodule <%= @module %> do
   | `legend` | string | `nil` | The group's heading. |
   | `disabled` | boolean | `false` | Mutes the legend. Does NOT cascade — see above. |
   | `space` | number | `14` | Gap between the legend and the controls. |
+  | `color` | color token / ARGB int | `:on_surface` | The legend. Set it whenever you set `background`. |
   | `background` | color token / ARGB int | `nil` | Optional group fill. |
   | `padding` | spacing token / number | `nil` | Optional padding. |
   | `corner_radius` | radius token / number | `nil` | Optional rounding. |
@@ -41,7 +42,12 @@ defmodule <%= @module %> do
     props = Map.new(props)
     legend = Map.get(props, :legend)
     disabled? = truthy?(Map.get(props, :disabled, false))
-    color = if disabled?, do: :muted, else: :on_surface
+    # :on_surface is the theme's ink for a THEME surface. The moment a caller
+    # sets their own `background` it stops being one — a tinted panel keeps
+    # near-black text and the legend becomes hard to read. So the ink is a prop
+    # too; <%= @module_prefix_camel %>Mark learned the same lesson, which is why its fill and ink are
+    # a matched pair rather than one overridable half.
+    color = if disabled?, do: :muted, else: Map.get(props, :color, :on_surface)
     space = Map.get(props, :space, 14)
 
     group = ~MOB"""

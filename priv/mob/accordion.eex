@@ -76,6 +76,7 @@ defmodule <%= @module %> do
   | `on_value_change` | event tag (atom) | — | Sent as `{:tap, {tag, new_open_set}}` — the whole set after the tap, already resolved. |
   | `chevron` | boolean | `true` | Show the ▸/▾ state indicator. |
   | `background` | color token / ARGB int | `:surface_raised` | Item background. |
+  | `color` | color token / ARGB int | `:on_surface` | Title and chevron. Set it whenever you set `background`. |
   | `corner_radius` | radius token / number | `:radius_md` | Rounds each item. |
   | `padding` | spacing token / number | `:space_md` | Padding inside the trigger and the panel. |
   | `space` | number | `8` | Gap between items. `0` joins them into one block. |
@@ -182,7 +183,12 @@ defmodule <%= @module %> do
   # unless disabled — a disabled trigger gets no handler at all, so it cannot
   # fire and reads as inert.
   defp trigger(item, props, open?, disabled?) do
-    text_color = if disabled?, do: :muted, else: :on_surface
+    # :on_surface is the theme's ink for a THEME surface. The moment a caller
+    # sets their own `background` it stops being one — a violet panel keeps
+    # near-black text and the title becomes hard to read. So the ink is a prop
+    # too; <%= @module_prefix_camel %>Mark learned the same lesson, which is why its fill and ink are
+    # a matched pair rather than one overridable half.
+    text_color = if disabled?, do: :muted, else: Map.get(props, :color, :on_surface)
 
     row =
       [

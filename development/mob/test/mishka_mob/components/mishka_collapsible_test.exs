@@ -116,4 +116,36 @@ defmodule MishkaMob.Components.MishkaCollapsibleTest do
   defp tree_tap(tree) do
     tree |> find_all(:box) |> Enum.map(& &1.props[:on_tap]) |> Enum.find(&(&1 != nil))
   end
+
+  describe "ink follows the background" do
+    test "color sets the title and the chevron" do
+      # The bug: background was a prop and the ink was not, so a violet panel
+      # kept near-black :on_surface text and the title was hard to read.
+      tree =
+        MishkaCollapsible.collapsible(%{
+          title: "Tinted",
+          background: 0xFF7C3AED,
+          color: 0xFFFFFFFF,
+          open: true
+        })
+
+      inks = tree |> find_all(:text) |> Enum.map(& &1.props.text_color) |> Enum.uniq()
+
+      assert inks == [0xFFFFFFFF]
+    end
+
+    test "it still defaults to the theme's ink" do
+      tree = MishkaCollapsible.collapsible(%{title: "Plain"})
+
+      assert find(tree, :text).props.text_color == :on_surface
+    end
+
+    test "disabled still wins over color" do
+      # A disabled row reads as inert first and branded second.
+      tree =
+        MishkaCollapsible.collapsible(%{title: "Off", color: 0xFFFFFFFF, disabled: true})
+
+      assert find(tree, :text).props.text_color == :muted
+    end
+  end
 end

@@ -35,6 +35,7 @@ defmodule <%= @module %> do
   | `on_toggle` | event tag (atom) | — | Sent as `{:tap, tag}`. |
   | `chevron` | boolean | `true` | Show the ▸/▾ indicator. |
   | `background` | color token / ARGB int | `:surface_raised` | Row background. |
+  | `color` | color token / ARGB int | `:on_surface` | Title and chevron. Set it whenever you set `background`. |
   | `corner_radius` | radius token / number | `:radius_md` | Rounds the row. |
   | `padding` | spacing token / number | `:space_md` | Padding inside trigger and region. |
 
@@ -87,7 +88,12 @@ defmodule <%= @module %> do
   # Label leading, state chevron trailing. A disabled trigger gets no handler at
   # all, so it cannot fire.
   defp trigger(props, open?, disabled?, padding) do
-    color = if disabled?, do: :muted, else: :on_surface
+    # :on_surface is the theme's ink for a THEME surface. The moment a caller
+    # sets their own `background` it stops being one — a violet panel keeps
+    # near-black text and the title becomes hard to read. So the ink is a prop
+    # too; <%= @module_prefix_camel %>Mark learned the same lesson, which is why its fill and ink are
+    # a matched pair rather than one overridable half.
+    color = if disabled?, do: :muted, else: Map.get(props, :color, :on_surface)
 
     # Widened to {pid, tag}; a bare atom would serialise as an ordinary prop and
     # the trigger would render fine but never fire.

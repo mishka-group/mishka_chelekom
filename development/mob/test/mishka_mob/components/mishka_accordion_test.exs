@@ -328,4 +328,30 @@ defmodule MishkaMob.Components.MishkaAccordionTest do
       assert log =~ "will never fire"
     end
   end
+
+  describe "ink follows the background" do
+    test "color sets every item's title and chevron" do
+      tree =
+        MishkaAccordion.expand(
+          %{open: [], background: 0xFF7C3AED, color: 0xFFFFFFFF},
+          [item(:a, "A"), item(:b, "B")],
+          ctx()
+        )
+
+      inks = tree |> find_all(:text) |> Enum.map(& &1.props.text_color) |> Enum.uniq()
+
+      assert inks == [0xFFFFFFFF]
+    end
+
+    test "a disabled item stays muted whatever color says" do
+      tree =
+        MishkaAccordion.expand(
+          %{open: [], color: 0xFFFFFFFF},
+          [item(:a, "A", %{disabled: true})],
+          ctx()
+        )
+
+      assert find(tree, :text).props.text_color == :muted
+    end
+  end
 end
