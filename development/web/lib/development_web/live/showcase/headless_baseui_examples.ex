@@ -14,6 +14,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   import DevelopmentWeb.Components.Headless.Autocomplete
   import DevelopmentWeb.Components.Headless.Avatar
   import DevelopmentWeb.Components.Headless.Burger
+  import DevelopmentWeb.Components.Headless.Chart
   import DevelopmentWeb.Components.Headless.Checkbox
   import DevelopmentWeb.Components.Headless.CheckboxGroup
   import DevelopmentWeb.Components.Headless.Chip
@@ -79,6 +80,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
 
   alias DevelopmentWeb.Showcase.ExampleSource
   alias Phoenix.LiveView.JS
+
+  def sections("chart"),
+    do: [
+      {"chart-dashboard", "Revenue dashboard",
+       "A smooth area line filling its card: a USD-formatted y-axis and a fade-to-transparent fill (the \"chelekom:fade\" sentinel), sized responsively."},
+      {"chart-breakdown", "Traffic breakdown",
+       "A donut whose slices take the theme palette in turn, with the legend below and the tooltip confined to the box."}
+    ]
 
   def sections("collapsible"),
     do: [{"collapsible-hero", "Hero", "A panel controlled by a button."}]
@@ -593,6 +602,82 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   def has?(component), do: sections(component) != []
 
   def source(id), do: ExampleSource.code(__MODULE__, id)
+
+  def example(%{section: "chart-dashboard"} = assigns) do
+    ~H"""
+    <.chart
+      id="baseui-chart-dashboard"
+      height="20rem"
+      class="w-full max-w-xl"
+      aria_label="Monthly revenue over a year"
+      option={
+        %{
+          grid: %{left: 8, right: 16, top: 24, bottom: 28, containLabel: true},
+          tooltip: %{trigger: "axis"},
+          xAxis: %{
+            type: "category",
+            boundaryGap: false,
+            data: ~w(Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec)
+          },
+          yAxis: %{type: "value", axisLabel: %{formatter: "chelekom:currency:USD"}},
+          series: [
+            %{
+              name: "Revenue",
+              type: "line",
+              smooth: true,
+              areaStyle: %{color: "chelekom:fade"},
+              data: [
+                8200,
+                9320,
+                9010,
+                12_340,
+                12_900,
+                13_300,
+                14_100,
+                15_600,
+                14_800,
+                16_200,
+                17_400,
+                19_100
+              ]
+            }
+          ]
+        }
+      }
+    />
+    """
+  end
+
+  def example(%{section: "chart-breakdown"} = assigns) do
+    ~H"""
+    <.chart
+      id="baseui-chart-breakdown"
+      height="20rem"
+      class="w-full max-w-md"
+      aria_label="Traffic by source"
+      option={
+        %{
+          tooltip: %{trigger: "item"},
+          legend: %{bottom: 0},
+          series: [
+            %{
+              name: "Source",
+              type: "pie",
+              radius: ["48%", "72%"],
+              data: [
+                %{value: 1048, name: "Search"},
+                %{value: 735, name: "Direct"},
+                %{value: 580, name: "Referral"},
+                %{value: 484, name: "Social"},
+                %{value: 300, name: "Email"}
+              ]
+            }
+          ]
+        }
+      }
+    />
+    """
+  end
 
   def example(%{section: "collapsible-hero"} = assigns) do
     ~H"""

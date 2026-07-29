@@ -2339,113 +2339,299 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   def has_examples?("sparkline"), do: true
   def has_examples?(_), do: false
 
-  def examples(%{component: "chart"} = assigns) do
+  # One example card: the live chart + a "Show code" block whose source IS the option map (inspected),
+  # so the shown code can never drift from what renders. The surface clips overflow, so charts stay
+  # responsive inside the grid columns.
+  attr :id, :string, required: true
+  attr :title, :string, required: true
+  attr :aria, :string, required: true
+  attr :option, :map, required: true
+  attr :note, :string, default: nil
+  attr :open, :boolean, default: false
+  attr :height, :string, default: "17rem"
+
+  defp chart_card(assigns) do
     ~H"""
-    <div class="grid gap-4 lg:grid-cols-2">
-      <details open class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
-        <summary class="cursor-pointer select-none font-medium">Line with a gradient area</summary>
-        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
-          Setting the area color to <code>"chelekom:fade"</code>
-          fades the series color to transparent; the y-axis uses the
-          <code>"chelekom:currency:USD"</code>
-          formatter — resolved to a real <code>Intl</code>
-          function on the client.
-        </p>
-        <.chart
-          id={"#{@id}-line"}
-          height="16rem"
-          class="mt-3 w-full"
-          aria_label="Daily revenue over a week"
-          option={
+    <details
+      open={@open}
+      class="min-w-0 rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4"
+    >
+      <summary class="cursor-pointer select-none font-medium">{@title}</summary>
+      <p :if={@note} class="mt-1 text-sm text-[var(--c-base-content)]/60">{@note}</p>
+      <.chart id={@id} option={@option} height={@height} aria_label={@aria} class="mt-3 w-full" />
+      <details class="group mt-3">
+        <summary class="cursor-pointer select-none text-xs font-medium text-[var(--c-base-content)]/50 hover:text-[var(--c-base-content)]/80">
+          <span class="group-open:hidden">▸ Show code</span>
+          <span class="hidden group-open:inline">▾ Hide code</span>
+        </summary>
+        <.code_block class="mt-2" code={chart_snippet(@aria, @height, @option)} wrap />
+      </details>
+    </details>
+    """
+  end
+
+  # The copy-paste snippet: the real option map, pretty-printed, wrapped in a `<.chart>` call.
+  defp chart_snippet(aria, height, option) do
+    ~s|<.chart\n  id="my-chart"\n  height=#{inspect(height)}\n  aria_label=#{inspect(aria)}\n  option={| <>
+      inspect(option, pretty: true, limit: :infinity, width: 66) <>
+      "}\n/>"
+  end
+
+  # A tour of the ECharts option shapes — the option is passed through raw, so this doubles as a
+  # "which map produces which chart" cheat-sheet. The first two are open by default.
+  defp chart_examples(prefix) do
+    [
+      %{
+        id: "#{prefix}-line",
+        open: true,
+        height: "17rem",
+        title: "Line with a gradient area",
+        aria: "Daily revenue over a week",
+        note:
+          ~s(An area color of "chelekom:fade" fades the series to transparent; the y-axis formats as USD currency.),
+        option: %{
+          grid: %{left: 8, right: 14, top: 20, bottom: 28, containLabel: true},
+          tooltip: %{trigger: "axis"},
+          xAxis: %{type: "category", boundaryGap: false, data: ~w(Mon Tue Wed Thu Fri Sat Sun)},
+          yAxis: %{type: "value", axisLabel: %{formatter: "chelekom:currency:USD"}},
+          series: [
             %{
-              grid: %{left: 6, right: 12, top: 20, bottom: 24, containLabel: true},
-              tooltip: %{trigger: "axis"},
-              xAxis: %{type: "category", boundaryGap: false, data: ~w(Mon Tue Wed Thu Fri Sat Sun)},
-              yAxis: %{type: "value", axisLabel: %{formatter: "chelekom:currency:USD"}},
-              series: [
-                %{
-                  name: "Revenue",
-                  type: "line",
-                  smooth: true,
-                  areaStyle: %{color: "chelekom:fade"},
-                  data: [1520, 2310, 1980, 3020, 2870, 3560, 4120]
-                }
+              name: "Revenue",
+              type: "line",
+              smooth: true,
+              areaStyle: %{color: "chelekom:fade"},
+              data: [1520, 2310, 1980, 3020, 2870, 3560, 4120]
+            }
+          ]
+        }
+      },
+      %{
+        id: "#{prefix}-bars",
+        open: true,
+        height: "17rem",
+        title: "Grouped bars, two series",
+        aria: "This year versus last year by quarter",
+        note: "Both series draw from the theme palette; no color is set in the option.",
+        option: %{
+          grid: %{left: 6, right: 10, top: 34, bottom: 20, containLabel: true},
+          tooltip: %{trigger: "axis"},
+          legend: %{data: ["This year", "Last year"]},
+          xAxis: %{type: "category", data: ~w(Q1 Q2 Q3 Q4)},
+          yAxis: %{type: "value", axisLabel: %{formatter: "chelekom:compact"}},
+          series: [
+            %{name: "This year", type: "bar", data: [320, 432, 501, 634]},
+            %{name: "Last year", type: "bar", data: [220, 382, 391, 480]}
+          ]
+        }
+      },
+      %{
+        id: "#{prefix}-stack",
+        height: "17rem",
+        title: "Stacked area",
+        aria: "Sessions by channel, stacked",
+        note: "Give each line the same stack name plus an areaStyle to stack the filled series.",
+        option: %{
+          grid: %{left: 6, right: 12, top: 34, bottom: 20, containLabel: true},
+          tooltip: %{trigger: "axis"},
+          legend: %{data: ["Search", "Direct", "Email"]},
+          xAxis: %{type: "category", boundaryGap: false, data: ~w(Mon Tue Wed Thu Fri)},
+          yAxis: %{type: "value"},
+          series: [
+            %{
+              name: "Search",
+              type: "line",
+              stack: "Total",
+              areaStyle: %{},
+              smooth: true,
+              data: [120, 132, 101, 134, 90]
+            },
+            %{
+              name: "Direct",
+              type: "line",
+              stack: "Total",
+              areaStyle: %{},
+              smooth: true,
+              data: [220, 182, 191, 234, 290]
+            },
+            %{
+              name: "Email",
+              type: "line",
+              stack: "Total",
+              areaStyle: %{},
+              smooth: true,
+              data: [150, 232, 201, 154, 190]
+            }
+          ]
+        }
+      },
+      %{
+        id: "#{prefix}-hbar",
+        height: "17rem",
+        title: "Horizontal bar",
+        aria: "GitHub stars by language",
+        note: "Swap the axis types — value on x, category on y — for a horizontal bar chart.",
+        option: %{
+          grid: %{left: 8, right: 18, top: 10, bottom: 10, containLabel: true},
+          tooltip: %{trigger: "axis"},
+          xAxis: %{type: "value", axisLabel: %{formatter: "chelekom:compact"}},
+          yAxis: %{type: "category", data: ~w(TypeScript Python Go Rust Elixir)},
+          series: [%{name: "Stars", type: "bar", data: [720, 690, 410, 540, 280]}]
+        }
+      },
+      %{
+        id: "#{prefix}-sbar",
+        height: "17rem",
+        title: "Stacked bar",
+        aria: "Deals won and lost by quarter",
+        note: "Bars with a shared stack name stack on top of one another.",
+        option: %{
+          grid: %{left: 6, right: 10, top: 34, bottom: 20, containLabel: true},
+          tooltip: %{trigger: "axis"},
+          legend: %{data: ["Won", "Lost"]},
+          xAxis: %{type: "category", data: ~w(Q1 Q2 Q3 Q4)},
+          yAxis: %{type: "value"},
+          series: [
+            %{name: "Won", type: "bar", stack: "deals", data: [42, 58, 61, 74]},
+            %{name: "Lost", type: "bar", stack: "deals", data: [18, 12, 20, 9]}
+          ]
+        }
+      },
+      %{
+        id: "#{prefix}-donut",
+        height: "17rem",
+        title: "Donut",
+        aria: "Traffic by source",
+        note: "A pie with an inner radius; each slice takes the next palette color.",
+        option: %{
+          tooltip: %{trigger: "item"},
+          legend: %{bottom: 0},
+          series: [
+            %{
+              name: "Source",
+              type: "pie",
+              radius: ["45%", "70%"],
+              data: [
+                %{value: 1048, name: "Search"},
+                %{value: 735, name: "Direct"},
+                %{value: 580, name: "Referral"},
+                %{value: 484, name: "Social"}
               ]
             }
-          }
-        />
-      </details>
-
-      <details class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
-        <summary class="cursor-pointer select-none font-medium">Grouped bars, two series</summary>
-        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
-          Both series draw from the theme palette (<code>--chart-1</code>, <code>--chart-2</code>) —
-          no color set in the option.
-        </p>
-        <.chart
-          id={"#{@id}-bars"}
-          height="16rem"
-          class="mt-3 w-full"
-          aria_label="This year versus last year by quarter"
-          option={
+          ]
+        }
+      },
+      %{
+        id: "#{prefix}-scatter",
+        height: "17rem",
+        title: "Scatter",
+        aria: "Height versus weight",
+        note: "Each point is an [x, y] pair; symbolSize sets the dot size.",
+        option: %{
+          grid: %{left: 6, right: 12, top: 16, bottom: 20, containLabel: true},
+          tooltip: %{trigger: "item"},
+          xAxis: %{type: "value", name: "Height", scale: true},
+          yAxis: %{type: "value", name: "Weight", scale: true},
+          series: [
             %{
-              grid: %{left: 6, right: 10, top: 34, bottom: 20, containLabel: true},
-              tooltip: %{trigger: "axis"},
-              legend: %{data: ["This year", "Last year"]},
-              xAxis: %{type: "category", data: ~w(Q1 Q2 Q3 Q4)},
-              yAxis: %{type: "value", axisLabel: %{formatter: "chelekom:compact"}},
-              series: [
-                %{name: "This year", type: "bar", data: [320, 432, 501, 634]},
-                %{name: "Last year", type: "bar", data: [220, 382, 391, 480]}
+              type: "scatter",
+              symbolSize: 12,
+              data: [
+                [161, 51],
+                [167, 59],
+                [159, 49],
+                [171, 64],
+                [175, 74],
+                [180, 82],
+                [165, 55],
+                [177, 70]
               ]
             }
-          }
-        />
-      </details>
-
-      <details class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
-        <summary class="cursor-pointer select-none font-medium">Donut</summary>
-        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
-          A pie with an inner radius; each slice takes the next palette color in turn.
-        </p>
-        <.chart
-          id={"#{@id}-donut"}
-          height="16rem"
-          class="mt-3 w-full"
-          aria_label="Traffic by source"
-          option={
+          ]
+        }
+      },
+      %{
+        id: "#{prefix}-radar",
+        height: "18rem",
+        title: "Radar",
+        aria: "Budget allocated versus actual spend",
+        note: "Define the axes under radar.indicator; each series value is a list across them.",
+        option: %{
+          tooltip: %{},
+          legend: %{data: ["Allocated", "Actual"], bottom: 0},
+          radar: %{
+            indicator: [
+              %{name: "Sales", max: 100},
+              %{name: "Admin", max: 100},
+              %{name: "Tech", max: 100},
+              %{name: "Support", max: 100},
+              %{name: "Dev", max: 100},
+              %{name: "Marketing", max: 100}
+            ]
+          },
+          series: [
             %{
-              tooltip: %{trigger: "item"},
-              legend: %{bottom: 0},
-              series: [
-                %{
-                  name: "Source",
-                  type: "pie",
-                  radius: ["45%", "70%"],
-                  data: [
-                    %{value: 1048, name: "Search"},
-                    %{value: 735, name: "Direct"},
-                    %{value: 580, name: "Referral"},
-                    %{value: 484, name: "Social"}
-                  ]
-                }
+              type: "radar",
+              data: [
+                %{value: [80, 70, 90, 60, 85, 75], name: "Allocated"},
+                %{value: [70, 82, 75, 80, 70, 88], name: "Actual"}
               ]
             }
-          }
-        />
-      </details>
+          ]
+        }
+      },
+      %{
+        id: "#{prefix}-gauge",
+        height: "18rem",
+        title: "Gauge",
+        aria: "Uptime this month",
+        note: "A single-value gauge with an animated progress arc.",
+        option: %{
+          series: [
+            %{
+              type: "gauge",
+              max: 100,
+              progress: %{show: true, width: 10},
+              axisLine: %{lineStyle: %{width: 10}},
+              detail: %{valueAnimation: true, formatter: "{value}%"},
+              data: [%{value: 72, name: "Uptime"}]
+            }
+          ]
+        }
+      }
+    ]
+  end
 
-      <details class="rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-4">
-        <summary class="cursor-pointer select-none font-medium">Live updates from the server</summary>
-        <p class="mt-1 text-sm text-[var(--c-base-content)]/60">
-          The surface is <code>phx-update="ignore"</code>, so push a fresh option instead of
-          re-rendering the element:
-        </p>
-        <.code_block code={
-          ~S|push_event(socket, "chelekom:chart", %{id: "sales", option: new_option})|
-        } />
-      </details>
+  def examples(%{component: "chart"} = assigns) do
+    assigns = assign(assigns, :cards, chart_examples(assigns.id))
+
+    ~H"""
+    <div class="grid min-w-0 gap-4 lg:grid-cols-2">
+      <.chart_card
+        :for={c <- @cards}
+        id={c.id}
+        title={c.title}
+        aria={c.aria}
+        option={c.option}
+        note={c.note}
+        height={c.height}
+        open={Map.get(c, :open, false)}
+      />
     </div>
+    <p class="mt-4 text-sm text-[var(--c-base-content)]/60">
+      Every option above is a plain Elixir map handed straight to ECharts — see the
+      <a
+        href="https://echarts.apache.org/en/option.html"
+        target="_blank"
+        class="text-[var(--c-primary)] underline"
+      >ECharts option reference</a>
+      for the full vocabulary. To change a chart from the server, push a fresh option instead of
+      re-rendering:
+    </p>
+    <.code_block
+      class="mt-2"
+      code={~S|push_event(socket, "chelekom:chart", %{id: "my-chart", option: new_option})|}
+      wrap
+    />
     """
   end
 

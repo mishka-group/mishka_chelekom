@@ -186,6 +186,9 @@ function applyTheme(option, palette, tokens) {
     const legends = Array.isArray(option.legend) ? option.legend : [option.legend];
     legends.forEach((l) => (l.textStyle = { color: tokens.text, ...(l.textStyle || {}) }));
   }
+  // The surface clips overflow (so the chart never forces a page scrollbar), which would also clip a
+  // tooltip near an edge — confine it to the box unless the option says otherwise.
+  if (option.tooltip && option.tooltip.confine === undefined) option.tooltip.confine = true;
   return option;
 }
 

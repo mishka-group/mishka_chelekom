@@ -70,6 +70,11 @@ defmodule DevelopmentWeb.Components.Headless.Chart do
   Ships **no** colors, spacing or typography of its own — size it with `height` / `width`, style the
   box via `chelekom-chart*`, and drive the palette from the `--chart-*` custom properties.
 
+  The surface clips its overflow, so a chart always shrinks to fit its container (even inside a CSS
+  grid or flex column) instead of forcing a horizontal scrollbar. A side effect is that a tooltip
+  near an edge is clipped to the box; for ECharts the hook defaults `tooltip.confine` to `true` so
+  tooltips stay inside — override it in `option` if you want them to escape.
+
   **Documentation:** https://mishka.tools/chelekom/docs/headless/chart
   """
   use Phoenix.Component
@@ -148,7 +153,7 @@ defmodule DevelopmentWeb.Components.Headless.Chart do
         role="img"
         aria-label={@aria_label}
         class={["chelekom-chart__surface", @surface_class]}
-        style="width: 100%; height: 100%"
+        style="width: 100%; height: 100%; overflow: hidden"
       >
       </div>
     </div>
