@@ -105,7 +105,8 @@ defmodule MishkaMob.Showcase.Components.Progress do
             "from the value — green, amber, then red — which is the reason the " <>
             "prop is worth having: the colour is the warning.",
         code: ~S"""
-        <MishkaProgress value={65} color={0xFFF97316} />   # orange
+        # height is the bar's thickness — the default is the platform's ~4dp.
+        <MishkaProgress value={65} color={0xFFF97316} height={16} />
         <MishkaProgress value={30} color={:primary} />
 
         # Colour as meaning, not decoration. The bar on this page uses the same
@@ -119,7 +120,13 @@ defmodule MishkaMob.Showcase.Components.Progress do
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaProgress value={72} color={0xFFF97316} label="Orange" show_value={true} />
+            <MishkaProgress
+              value={72}
+              color={0xFFF97316}
+              height={16}
+              label="Orange, and thicker"
+              show_value={true}
+            />
             <Spacer size={16} />
             <MishkaProgress value={65} color={0xFF7C3AED} label="Violet" show_value={true} />
             <Spacer size={16} />

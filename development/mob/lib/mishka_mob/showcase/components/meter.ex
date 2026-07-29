@@ -114,17 +114,54 @@ defmodule MishkaMob.Showcase.Components.Meter do
         end
       },
       %Example{
-        title: "Colour",
-        description: "Tint the fill, e.g. to warn as a gauge approaches its limit.",
+        title: "Colour and thickness",
+        description:
+          "color tints the fill and height sets how thick the gauge is. A meter " <>
+            "reads a measurement, so colour is usually the warning — and a chunky " <>
+            "bar is easier to read at a glance than a hairline.",
         code: ~S"""
-        <MishkaMeter value={91} color={0xFFDC2626} />
+        # height is the gauge's thickness; the default is the platform's ~4dp.
+        <MishkaMeter value={91} color={0xFFDC2626} height={18} />
+
+        # Colour from the value, so the gauge warns before the number is read.
+        defp band(v) when v >= 85, do: 0xFFDC2626
+        defp band(v) when v >= 60, do: 0xFFF59E0B
+        defp band(_v), do: 0xFF16A34A
         """,
-        render: fn _assigns ->
+        render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
             <MishkaMeter value={22} label="Comfortable" color={:primary} show_value={true} />
             <Spacer size={16} />
-            <MishkaMeter value={91} label="Nearly full" color={0xFFDC2626} show_value={true} />
+            <MishkaMeter
+              value={64}
+              label="Amber, thicker"
+              color={0xFFF59E0B}
+              height={12}
+              show_value={true}
+            />
+            <Spacer size={16} />
+            <MishkaMeter
+              value={91}
+              label="Nearly full, thickest"
+              color={0xFFDC2626}
+              height={18}
+              show_value={true}
+            />
+            <Spacer size={20} />
+            <MishkaMeter
+              value={@mt_used}
+              label={"Disk — " <> band_name(@mt_used)}
+              color={band(@mt_used)}
+              height={14}
+              show_value={true}
+            />
+            <Spacer size={8} />
+            <Text
+              text="Move it with the buttons in the first example."
+              text_size={:sm}
+              text_color={:muted}
+            />
           </Column>
           """
         end
@@ -157,6 +194,12 @@ defmodule MishkaMob.Showcase.Components.Meter do
         description: "Overrides the readout; the default is a rounded percentage."
       },
       %{
+        name: "height",
+        type: "number",
+        default: "platform (~4)",
+        description: "Gauge thickness. Forwarded to the native bar."
+      },
+      %{
         name: "color",
         type: "color / ARGB",
         default: "platform",
@@ -170,8 +213,23 @@ defmodule MishkaMob.Showcase.Components.Meter do
   def handle(:mt_down, socket), do: nudge(socket, -12)
   def handle(_tag, socket), do: socket
 
-  defp nudge(socket, delta),
-    do: Mob.Socket.assign(socket, :mt_used, socket.assigns.mt_used + delta)
+  # Clamped HERE too. ratio/1 clamps what is drawn, so an unbounded assign shows
+  # a full gauge while the number behind it keeps climbing — and then takes as
+  # many wasted taps to come back down. Same defect the Progress demo had.
+  defp nudge(socket, delta) do
+    next = socket.assigns.mt_used + delta
+
+    Mob.Socket.assign(socket, :mt_used, next |> max(0) |> min(100))
+  end
+
+  # Colour as the warning: a gauge should read before its number does.
+  defp band(value) when value >= 85, do: 0xFFDC2626
+  defp band(value) when value >= 60, do: 0xFFF59E0B
+  defp band(_value), do: 0xFF16A34A
+
+  defp band_name(value) when value >= 85, do: "critical"
+  defp band_name(value) when value >= 60, do: "filling up"
+  defp band_name(_value), do: "healthy"
 
   @impl true
   def card_preview do
