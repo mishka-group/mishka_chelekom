@@ -32,7 +32,7 @@ defmodule MishkaMob.Showcase.Components.Code do
           ~MOB"""
           <Row fill_width={true}>
             <Text text="Run " text_size={:base} text_color={:on_surface} />
-            <MishkaCode text="mix mob.deploy" />
+            <MishkaCode text="mix mob.deploy" id="inline-code" />
             <Text text=" to push." text_size={:base} text_color={:on_surface} />
           </Row>
           """

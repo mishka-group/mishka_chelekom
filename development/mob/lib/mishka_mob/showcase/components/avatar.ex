@@ -70,11 +70,11 @@ defmodule MishkaMob.Showcase.Components.Avatar do
         render: fn _assigns ->
           ~MOB"""
           <Row fill_width={true} align={:bottom}>
-            <MishkaAvatar initials="S" size={28} text_size={:sm} />
+            <MishkaAvatar initials="S" size={28} text_size={:sm} id="avatar-28" />
             <Spacer size={12} />
-            <MishkaAvatar initials="SH" size={44} />
+            <MishkaAvatar initials="SH" size={44} id="avatar-44" />
             <Spacer size={12} />
-            <MishkaAvatar initials="SH" size={64} text_size={:xl} />
+            <MishkaAvatar initials="SH" size={64} text_size={:xl} id="avatar-64" />
           </Row>
           """
         end
