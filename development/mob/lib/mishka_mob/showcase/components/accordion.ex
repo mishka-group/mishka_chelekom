@@ -30,6 +30,8 @@ defmodule MishkaMob.Showcase.Components.Accordion do
     |> Mob.Socket.assign(:acc_multi, [:beam, :native])
     |> Mob.Socket.assign(:acc_locked, [:always])
     |> Mob.Socket.assign(:acc_disabled, [])
+    |> Mob.Socket.assign(:acc_watched, [])
+    |> Mob.Socket.assign(:acc_log, [])
   end
 
   @impl true
@@ -131,6 +133,56 @@ defmodule MishkaMob.Showcase.Components.Accordion do
             {:nope, "I am disabled", "You should not be able to reach this text.", true}
           ])
         end
+      },
+      %Example{
+        title: "Knowing which way it went",
+        description:
+          "on_toggle says WHICH trigger, not which way. on_open_change adds the " <>
+            "state after the tap, and on_value_change hands you the whole open set " <>
+            "already resolved. All three are optional — pick one.",
+        code: ~S"""
+        # on_toggle — which trigger. The screen works the rest out itself.
+        <MishkaAccordion open={@open} on_toggle={:toggled} />
+        def handle_info({:tap, {:toggled, id}}, socket) do
+          {:noreply, assign(socket, :open, MishkaAccordion.toggle(socket.assigns.open, id))}
+        end
+
+        # on_open_change — …and which WAY. Use it to load a panel body lazily,
+        # or to fire analytics only on close.
+        <MishkaAccordion open={@open} on_open_change={:changed} />
+        def handle_info({:tap, {:changed, id, true}}, socket), do: {:noreply, load(socket, id)}
+        def handle_info({:tap, {:changed, _id, false}}, socket), do: {:noreply, socket}
+
+        # on_value_change — the least work. The payload IS the next open set,
+        # computed with the same toggle/3, so the handler is a bare assign and
+        # cannot drift from the component's multiple / collapsible semantics.
+        <MishkaAccordion open={@open} multiple={true} on_value_change={:opened} />
+        def handle_info({:tap, {:opened, next}}, socket) do
+          {:noreply, assign(socket, :open, next)}
+        end
+        """,
+        render: fn assigns ->
+          %{
+            type: :column,
+            props: %{fill_width: true},
+            children: [
+              accordion_with(
+                assigns.acc_watched,
+                %{multiple: true, on_open_change: :acc_watch},
+                [
+                  {:shipping, "Shipping", "Open and close these — the log below records both."},
+                  {:returns, "Returns", "on_open_change carries the state AFTER the tap."}
+                ]
+              ),
+              %{type: :spacer, props: %{size: 12}, children: []},
+              %{
+                type: :text,
+                props: %{text: log_label(assigns.acc_log), text_size: :sm, text_color: :muted},
+                children: []
+              }
+            ]
+          }
+        end
       }
     ]
   end
@@ -199,6 +251,18 @@ defmodule MishkaMob.Showcase.Components.Accordion do
         description: "Gap between items. Use 0 to join them into one block."
       },
       %{
+        name: "on_open_change",
+        type: "event tag",
+        default: "—",
+        description: "{:tap, {tag, id, open?}} — open? is the state AFTER the tap."
+      },
+      %{
+        name: "on_value_change",
+        type: "event tag",
+        default: "—",
+        description: "{:tap, {tag, next_open_set}} — already resolved. One of the three wins."
+      },
+      %{
         name: "item.id / .title / .disabled",
         type: "term / string / boolean",
         default: "index / — / false",
@@ -212,7 +276,27 @@ defmodule MishkaMob.Showcase.Components.Accordion do
   def handle({:toggle_multi, id}, socket), do: put(socket, :acc_multi, id, multiple: true)
   def handle({:toggle_locked, id}, socket), do: put(socket, :acc_locked, id, collapsible: false)
   def handle({:toggle_disabled, id}, socket), do: put(socket, :acc_disabled, id, [])
+
+  # Three-element tag: the item AND the state after the tap. That direction is
+  # the whole point — on_toggle cannot tell an open from a close.
+  def handle({:acc_watch, id, open?}, socket) do
+    next = MishkaAccordion.toggle(socket.assigns.acc_watched, id, multiple: true)
+
+    socket
+    |> Mob.Socket.assign(:acc_watched, next)
+    |> Mob.Socket.assign(:acc_log, Enum.take([{id, open?} | socket.assigns.acc_log], 3))
+  end
+
   def handle(_tag, socket), do: socket
+
+  defp log_label([]), do: "Nothing yet — open or close a panel above."
+
+  defp log_label(entries) do
+    "Last: " <>
+      Enum.map_join(entries, ", ", fn {id, open?} ->
+        "#{id} #{if open?, do: "opened", else: "closed"}"
+      end)
+  end
 
   defp put(socket, key, id, opts) do
     next = MishkaAccordion.toggle(Map.fetch!(socket.assigns, key), id, opts)
@@ -250,6 +334,13 @@ defmodule MishkaMob.Showcase.Components.Accordion do
   # items are {id, title, body} or {id, title, body, disabled}
   defp accordion(open, on_toggle, items, extra \\ %{}) do
     props = Map.merge(%{open: open, on_toggle: on_toggle}, extra)
+    %{type: :mishka_accordion, props: props, children: Enum.map(items, &item/1)}
+  end
+
+  # No on_toggle: the caller wires on_open_change or on_value_change instead,
+  # which are alternatives to it rather than additions.
+  defp accordion_with(open, extra, items) do
+    props = Map.merge(%{open: open}, extra)
     %{type: :mishka_accordion, props: props, children: Enum.map(items, &item/1)}
   end
 

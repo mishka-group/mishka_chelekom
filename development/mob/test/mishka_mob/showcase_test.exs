@@ -782,6 +782,37 @@ defmodule MishkaMob.ShowcaseTest do
       assert taps == []
     end
 
+    test "the Accordion page's open-change example reports which WAY a panel went" do
+      view = mount_screen(ComponentScreen, %{slug: :accordion})
+
+      assert assigns(view).acc_watched == []
+      assert text(expanded(view)) =~ "Nothing yet"
+
+      # Opening reports true, and the SAME trigger then reports false — which is
+      # exactly what on_toggle cannot say.
+      opened = render_info(view, {:tap, {:acc_watch, :shipping, true}})
+      assert assigns(opened).acc_watched == [:shipping]
+      assert text(expanded(opened)) =~ "shipping opened"
+
+      closed = render_info(opened, {:tap, {:acc_watch, :shipping, false}})
+      assert assigns(closed).acc_watched == []
+      assert text(expanded(closed)) =~ "shipping closed"
+    end
+
+    test "that example's triggers carry the direction, not just the id" do
+      taps =
+        ComponentScreen
+        |> mount_screen(%{slug: :accordion})
+        |> expanded()
+        |> find_all(:box)
+        |> Enum.map(& &1.props[:on_tap])
+        |> Enum.reject(&is_nil/1)
+        |> Enum.filter(&match?({_pid, {:acc_watch, _, _}}, &1))
+
+      # Both shut, so both would OPEN — and the tag says so before it is tapped.
+      assert [{_, {:acc_watch, :shipping, true}}, {_, {:acc_watch, :returns, true}}] = taps
+    end
+
     test "unknown slug renders a not-found page (still renderable)" do
       view = mount_screen(ComponentScreen, %{slug: :ghost})
 
