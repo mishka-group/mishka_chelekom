@@ -2,7 +2,7 @@
   scroller: [
     name: "scroller",
     category: "layout",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/scroller",
+    doc_url: "https://mishka.tools/chelekom/docs/mob/scroller",
     args: [type: ["scroller"], only: ["scroller"], helpers: [], module: ""],
     optional: [],
     necessary: ["action_icon", "scroll_area"],

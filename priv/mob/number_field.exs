@@ -2,7 +2,7 @@
   number_field: [
     name: "number_field",
     category: "forms",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/number-field",
+    doc_url: "https://mishka.tools/chelekom/docs/mob/number-field",
     args: [type: ["number_field"], only: ["number_field"], helpers: [], module: ""],
     optional: [],
     necessary: [],

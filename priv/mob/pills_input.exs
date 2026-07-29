@@ -2,7 +2,7 @@
   pills_input: [
     name: "pills_input",
     category: "forms",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/pills_input",
+    doc_url: "https://mishka.tools/chelekom/docs/mob/pills-input",
     args: [type: ["pills_input"], only: ["pills_input"], helpers: [], module: ""],
     optional: [],
     necessary: [],

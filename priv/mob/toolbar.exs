@@ -2,7 +2,7 @@
   toolbar: [
     name: "toolbar",
     category: "navigation",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/toolbar",
+    doc_url: "https://mishka.tools/chelekom/docs/mob/toolbar",
     args: [type: ["toolbar"], only: ["toolbar"], helpers: [], module: ""],
     optional: [],
     necessary: [],

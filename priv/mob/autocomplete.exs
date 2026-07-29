@@ -2,7 +2,7 @@
   autocomplete: [
     name: "autocomplete",
     category: "forms",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/autocomplete",
+    doc_url: "https://mishka.tools/chelekom/docs/mob/autocomplete",
     args: [type: ["autocomplete"], only: ["autocomplete"], helpers: [], module: ""],
     optional: [],
     necessary: ["combobox"],

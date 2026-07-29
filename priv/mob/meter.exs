@@ -2,7 +2,7 @@
   meter: [
     name: "meter",
     category: "feedback",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/meter",
+    doc_url: "https://mishka.tools/chelekom/docs/mob/meter",
     args: [type: ["meter"], only: ["meter"], helpers: [], module: ""],
     optional: [],
     necessary: ["progress"],

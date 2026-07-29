@@ -2,7 +2,7 @@
   splitter: [
     name: "splitter",
     category: "layout",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/splitter",
+    doc_url: "https://mishka.tools/chelekom/docs/mob/splitter",
     args: [type: ["splitter"], only: ["splitter"], helpers: [], module: ""],
     optional: [],
     necessary: [],

@@ -2,10 +2,10 @@
   tree_select: [
     name: "tree_select",
     category: "forms",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/tree_select",
+    doc_url: "https://mishka.tools/chelekom/docs/mob/tree-select",
     args: [type: ["tree_select"], only: ["tree_select"], helpers: [], module: ""],
     optional: [],
-    necessary: [],
+    necessary: ["tree"],
     scripts: [],
     mob: [
       composite_tag: "tree_select",

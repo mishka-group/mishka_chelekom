@@ -2,7 +2,7 @@
   hue_slider: [
     name: "hue_slider",
     category: "forms",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/hue_slider",
+    doc_url: "https://mishka.tools/chelekom/docs/mob/hue-slider",
     args: [type: ["hue_slider"], only: ["hue_slider"], helpers: [], module: ""],
     optional: [],
     necessary: [],

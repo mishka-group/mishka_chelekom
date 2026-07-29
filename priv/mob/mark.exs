@@ -2,7 +2,7 @@
   mark: [
     name: "mark",
     category: "typography",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/mark",
+    doc_url: "https://mishka.tools/chelekom/docs/mob/mark",
     args: [type: ["mark"], only: ["mark"], helpers: [], module: ""],
     optional: [],
     necessary: [],

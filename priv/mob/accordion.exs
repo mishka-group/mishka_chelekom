@@ -2,7 +2,7 @@
   accordion: [
     name: "accordion",
     category: "disclosure",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/accordion",
+    doc_url: "https://mishka.tools/chelekom/docs/mob/accordion",
     args: [type: ["accordion"], only: ["accordion"], helpers: [], module: ""],
     optional: [],
     necessary: [],

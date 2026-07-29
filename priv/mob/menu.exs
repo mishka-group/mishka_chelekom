@@ -2,7 +2,7 @@
   menu: [
     name: "menu",
     category: "overlays",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/menu",
+    doc_url: "https://mishka.tools/chelekom/docs/mob/menu",
     args: [type: ["menu"], only: ["menu"], helpers: [], module: ""],
     optional: [],
     necessary: ["popover"],

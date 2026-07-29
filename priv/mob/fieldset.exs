@@ -2,7 +2,7 @@
   fieldset: [
     name: "fieldset",
     category: "forms",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/fieldset",
+    doc_url: "https://mishka.tools/chelekom/docs/mob/fieldset",
     args: [type: ["fieldset"], only: ["fieldset"], helpers: [], module: ""],
     optional: [],
     necessary: [],

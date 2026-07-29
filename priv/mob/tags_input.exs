@@ -2,7 +2,7 @@
   tags_input: [
     name: "tags_input",
     category: "forms",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/tags_input",
+    doc_url: "https://mishka.tools/chelekom/docs/mob/tags-input",
     args: [type: ["tags_input"], only: ["tags_input"], helpers: [], module: ""],
     optional: [],
     necessary: ["pill"],

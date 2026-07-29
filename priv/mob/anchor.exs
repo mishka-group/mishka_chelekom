@@ -2,7 +2,7 @@
   anchor: [
     name: "anchor",
     category: "navigation",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/anchor",
+    doc_url: "https://mishka.tools/chelekom/docs/mob/anchor",
     args: [type: ["anchor"], only: ["anchor"], helpers: [], module: ""],
     optional: [],
     necessary: [],

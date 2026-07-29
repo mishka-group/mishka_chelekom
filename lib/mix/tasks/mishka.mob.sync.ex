@@ -90,6 +90,7 @@ defmodule Mix.Tasks.Mishka.Mob.Sync do
 
   defp build_component_templates(%{assigns: %{mob_components: components}} = igniter) do
     source_dir = igniter.assigns.mob_source
+    known = MapSet.new(components, fn {name, _path} -> name end)
 
     built =
       Enum.map(components, fn {name, path} ->
@@ -101,7 +102,7 @@ defmodule Mix.Tasks.Mishka.Mob.Sync do
           template: Mob.templatize(source, component: name, companions: companions),
           catalog:
             Mob.catalog(name,
-              necessary: necessary(source),
+              necessary: necessary(name, source, known),
               kit: Mob.kit_dependencies(Enum.join([source | companions], "\n")),
               function: Mob.public_function(name, source)
             )
@@ -115,10 +116,22 @@ defmodule Mix.Tasks.Mishka.Mob.Sync do
 
   # A sibling's module suffix underscores back to its component name, which is
   # exactly what `necessary:` lists — the generator then offers to build them.
-  defp necessary(source) do
-    source
-    |> Mob.siblings()
-    |> Enum.map(fn {_suffix, component} -> component end)
+  #
+  # Two sources, because there are two ways to depend on a component and the
+  # source only shows one. An `alias` is visible; a sibling the CALLER supplies
+  # as children is not, so tree_select — which renders whatever tree it is
+  # handed and never names the module — read as having no dependencies at all
+  # and the generator never offered to build the tree it needs.
+  #
+  # Filtered against the components actually being synced, so a headless
+  # dependency with no Mob port cannot land in a catalog as a dangling name.
+  defp necessary(name, source, known) do
+    aliased = Enum.map(Mob.siblings(source), fn {_suffix, component} -> component end)
+
+    (aliased ++ Mob.declared_dependencies(name))
+    |> Enum.uniq()
+    |> Enum.filter(&MapSet.member?(known, &1))
+    |> Enum.reject(&(&1 == name))
     |> Enum.sort()
   end
 

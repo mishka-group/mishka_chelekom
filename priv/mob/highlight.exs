@@ -2,7 +2,7 @@
   highlight: [
     name: "highlight",
     category: "typography",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/highlight",
+    doc_url: "https://mishka.tools/chelekom/docs/mob/highlight",
     args: [type: ["highlight"], only: ["highlight"], helpers: [], module: ""],
     optional: [],
     necessary: ["mark"],

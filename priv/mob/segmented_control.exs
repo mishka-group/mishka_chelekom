@@ -2,7 +2,7 @@
   segmented_control: [
     name: "segmented_control",
     category: "forms",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/segmented_control",
+    doc_url: "https://mishka.tools/chelekom/docs/mob/segmented-control",
     args: [type: ["segmented_control"], only: ["segmented_control"], helpers: [], module: ""],
     optional: [],
     necessary: [],

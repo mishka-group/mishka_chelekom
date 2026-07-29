@@ -2,7 +2,7 @@
   nav_link: [
     name: "nav_link",
     category: "navigation",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/nav_link",
+    doc_url: "https://mishka.tools/chelekom/docs/mob/nav-link",
     args: [type: ["nav_link"], only: ["nav_link"], helpers: [], module: ""],
     optional: [],
     necessary: [],

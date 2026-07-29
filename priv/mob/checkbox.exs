@@ -2,7 +2,7 @@
   checkbox: [
     name: "checkbox",
     category: "forms",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/checkbox",
+    doc_url: "https://mishka.tools/chelekom/docs/mob/checkbox",
     args: [type: ["checkbox"], only: ["checkbox"], helpers: [], module: ""],
     optional: [],
     necessary: [],

@@ -2,7 +2,7 @@
   collapsible: [
     name: "collapsible",
     category: "disclosure",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/collapsible",
+    doc_url: "https://mishka.tools/chelekom/docs/mob/collapsible",
     args: [type: ["collapsible"], only: ["collapsible"], helpers: [], module: ""],
     optional: [],
     necessary: [],

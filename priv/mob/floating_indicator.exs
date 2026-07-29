@@ -2,7 +2,7 @@
   floating_indicator: [
     name: "floating_indicator",
     category: "navigation",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/floating_indicator",
+    doc_url: "https://mishka.tools/chelekom/docs/mob/floating-indicator",
     args: [type: ["floating_indicator"], only: ["floating_indicator"], helpers: [], module: ""],
     optional: [],
     necessary: [],

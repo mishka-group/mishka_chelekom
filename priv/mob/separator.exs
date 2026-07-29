@@ -2,7 +2,7 @@
   separator: [
     name: "separator",
     category: "feedback",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/separator",
+    doc_url: "https://mishka.tools/chelekom/docs/mob/separator",
     args: [type: ["separator"], only: ["separator"], helpers: [], module: ""],
     optional: [],
     necessary: [],

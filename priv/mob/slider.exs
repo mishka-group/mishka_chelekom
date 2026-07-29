@@ -2,7 +2,7 @@
   slider: [
     name: "slider",
     category: "forms",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/slider",
+    doc_url: "https://mishka.tools/chelekom/docs/mob/slider",
     args: [type: ["slider"], only: ["slider"], helpers: [], module: ""],
     optional: [],
     necessary: [],

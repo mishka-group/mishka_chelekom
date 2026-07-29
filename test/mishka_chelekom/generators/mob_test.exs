@@ -54,6 +54,43 @@ defmodule MishkaChelekom.Generators.MobTest do
       end
     end
 
+    test "every doc_url points at the MOB docs, hyphenated" do
+      # These used to be lifted verbatim from the headless catalog, which sent
+      # every Mob component's docs link to the web component's page — a
+      # different layer with a different API. Headless also spells its slugs
+      # inconsistently (25 of 35 multi-word ones use underscores where the site
+      # uses hyphens), so the URL is derived here rather than copied.
+      for path <- @catalogs do
+        {name, config} = config(path)
+
+        assert config[:doc_url] == Mob.doc_url(name), "#{name}'s doc_url is not the derived one"
+        assert config[:doc_url] =~ "/docs/mob/", "#{name} still links to another layer's docs"
+        refute Path.basename(config[:doc_url]) =~ "_", "#{name}'s slug uses an underscore"
+      end
+    end
+
+    test "a dependency supplied as CHILDREN is declared too, not just aliased ones" do
+      # siblings/1 reads alias lines, and a component handed its sibling as
+      # children never writes one — tree_select renders whatever tree it is
+      # given and names no module, so it read as dependency-free and the
+      # generator never offered to build the tree it cannot work without.
+      {_name, config} = config("priv/mob/tree_select.exs")
+
+      assert "tree" in config[:necessary]
+      assert Mob.declared_dependencies("tree_select") == ["tree"]
+    end
+
+    test "the merge does not invent dependencies for components that have none" do
+      # The headless catalogs declare this sparingly — a select needs no `check`
+      # component, because a tick is a glyph. If the union ever starts guessing,
+      # this is where it shows up.
+      assert Mob.declared_dependencies("select") == []
+      assert Mob.declared_dependencies("button") == []
+
+      {_name, config} = config("priv/mob/select.exs")
+      assert config[:necessary] == ["menu"], "select's deps should come from its alias alone"
+    end
+
     test "no component depends on itself" do
       # Self-dependency makes `generate_necessary` recurse until the run is
       # killed; it happened, from doctests that alias their own module.

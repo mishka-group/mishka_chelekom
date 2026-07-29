@@ -2,7 +2,7 @@
   drawer: [
     name: "drawer",
     category: "overlays",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/drawer",
+    doc_url: "https://mishka.tools/chelekom/docs/mob/drawer",
     args: [type: ["drawer"], only: ["drawer"], helpers: [], module: ""],
     optional: [],
     necessary: [],

@@ -2,7 +2,7 @@
   color_picker: [
     name: "color_picker",
     category: "forms",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/color_picker",
+    doc_url: "https://mishka.tools/chelekom/docs/mob/color-picker",
     args: [type: ["color_picker"], only: ["color_picker"], helpers: [], module: ""],
     optional: [],
     necessary: ["hue_slider"],

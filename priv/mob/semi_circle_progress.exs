@@ -2,7 +2,7 @@
   semi_circle_progress: [
     name: "semi_circle_progress",
     category: "feedback",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/semi_circle_progress",
+    doc_url: "https://mishka.tools/chelekom/docs/mob/semi-circle-progress",
     args: [
       type: ["semi_circle_progress"],
       only: ["semi_circle_progress"],

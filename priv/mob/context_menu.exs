@@ -2,7 +2,7 @@
   context_menu: [
     name: "context_menu",
     category: "overlays",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/context-menu",
+    doc_url: "https://mishka.tools/chelekom/docs/mob/context-menu",
     args: [type: ["context_menu"], only: ["context_menu"], helpers: [], module: ""],
     optional: [],
     necessary: ["menu"],

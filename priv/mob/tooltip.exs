@@ -2,7 +2,7 @@
   tooltip: [
     name: "tooltip",
     category: "overlays",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/tooltip",
+    doc_url: "https://mishka.tools/chelekom/docs/mob/tooltip",
     args: [type: ["tooltip"], only: ["tooltip"], helpers: [], module: ""],
     optional: [],
     necessary: [],

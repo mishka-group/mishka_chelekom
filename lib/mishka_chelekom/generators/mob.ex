@@ -309,18 +309,75 @@ defmodule MishkaChelekom.Generators.Mob do
     """
   end
 
+  @doc """
+  The docs URL for a Mob component.
+
+  Derived, not lifted. The headless catalog's own `doc_url` points at the
+  headless page, and copying it sent every Mob component's docs link to the web
+  component's page — a different layer with a different API. It is also spelt
+  inconsistently upstream (25 of 35 multi-word slugs use underscores where the
+  site uses hyphens), so deriving fixes both at once.
+
+      iex> MishkaChelekom.Generators.Mob.doc_url("collapsible")
+      "https://mishka.tools/chelekom/docs/mob/collapsible"
+
+      iex> MishkaChelekom.Generators.Mob.doc_url("action_icon")
+      "https://mishka.tools/chelekom/docs/mob/action-icon"
+  """
+  @spec doc_url(String.t()) :: String.t()
+  def doc_url(component) do
+    "https://mishka.tools/chelekom/docs/mob/" <> String.replace(component, "_", "-")
+  end
+
+  @doc """
+  Components the matching headless catalog declares as `necessary`.
+
+  This is the half `siblings/1` cannot see. A sibling reached through an `alias`
+  is visible in the source; one supplied by the caller as **children** is not —
+  `tree_select` renders whatever tree you hand it and never names the module, so
+  the alias scan finds nothing and the generator never offers to build the tree
+  it cannot work without.
+
+  The headless catalog is where that relationship is already stated by hand, and
+  it is stated sparingly — exactly one component declares it — so unioning the
+  two is precise rather than a guess. A `select` needs no `check` component
+  because a tick is a glyph, not a component, and nothing declares it.
+
+      iex> MishkaChelekom.Generators.Mob.declared_dependencies("tree_select")
+      ["tree"]
+
+      iex> MishkaChelekom.Generators.Mob.declared_dependencies("select")
+      []
+  """
+  @spec declared_dependencies(String.t()) :: [String.t()]
+  def declared_dependencies(component) do
+    case headless_config(component) do
+      nil -> []
+      config -> config |> Keyword.get(:necessary, []) |> Enum.map(&to_string/1)
+    end
+  end
+
+  defp headless_metadata(component) do
+    category =
+      case headless_config(component) do
+        nil -> "mob"
+        config -> Keyword.get(config, :category, "mob")
+      end
+
+    {category, doc_url(component)}
+  end
+
   # Core.lib_priv/1 resolves via :code.priv_dir/1, which is correct for a hex
   # dep, a path dep and an umbrella alike; File.cwd!() is only right when the
   # task happens to be run from the library root.
-  defp headless_metadata(component) do
+  defp headless_config(component) do
     path = Core.lib_priv("headless/#{component}.exs")
 
     with true <- File.exists?(path),
          config when is_list(config) <- Config.Reader.read!(path)[String.to_atom(component)] do
-      {Keyword.get(config, :category, "mob"),
-       Keyword.get(config, :doc_url, "https://mishka.tools/chelekom/docs/headless/#{component}")}
+      config
     else
-      _ -> {"mob", "https://mishka.tools/chelekom/docs/headless/#{component}"}
+      _ -> nil
     end
   end
 

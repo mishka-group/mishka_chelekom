@@ -2,7 +2,7 @@
   progress: [
     name: "progress",
     category: "feedback",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/progress",
+    doc_url: "https://mishka.tools/chelekom/docs/mob/progress",
     args: [type: ["progress"], only: ["progress"], helpers: [], module: ""],
     optional: [],
     necessary: [],

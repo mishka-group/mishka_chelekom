@@ -2,7 +2,7 @@
   chip: [
     name: "chip",
     category: "forms",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/chip",
+    doc_url: "https://mishka.tools/chelekom/docs/mob/chip",
     args: [type: ["chip"], only: ["chip"], helpers: [], module: ""],
     optional: [],
     necessary: [],

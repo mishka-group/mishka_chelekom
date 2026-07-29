@@ -2,7 +2,7 @@
   overflow_list: [
     name: "overflow_list",
     category: "data",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/overflow_list",
+    doc_url: "https://mishka.tools/chelekom/docs/mob/overflow-list",
     args: [type: ["overflow_list"], only: ["overflow_list"], helpers: [], module: ""],
     optional: [],
     necessary: [],

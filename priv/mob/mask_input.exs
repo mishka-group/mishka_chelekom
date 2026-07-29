@@ -2,7 +2,7 @@
   mask_input: [
     name: "mask_input",
     category: "forms",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/mask_input",
+    doc_url: "https://mishka.tools/chelekom/docs/mob/mask-input",
     args: [type: ["mask_input"], only: ["mask_input"], helpers: [], module: ""],
     optional: [],
     necessary: [],

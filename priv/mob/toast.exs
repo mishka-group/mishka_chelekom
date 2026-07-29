@@ -2,7 +2,7 @@
   toast: [
     name: "toast",
     category: "feedback",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/toast",
+    doc_url: "https://mishka.tools/chelekom/docs/mob/toast",
     args: [type: ["toast"], only: ["toast"], helpers: [], module: ""],
     optional: [],
     necessary: ["action_icon"],

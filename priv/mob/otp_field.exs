@@ -2,7 +2,7 @@
   otp_field: [
     name: "otp_field",
     category: "forms",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/otp-field",
+    doc_url: "https://mishka.tools/chelekom/docs/mob/otp-field",
     args: [type: ["otp_field"], only: ["otp_field"], helpers: [], module: ""],
     optional: [],
     necessary: [],

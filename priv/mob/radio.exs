@@ -2,7 +2,7 @@
   radio: [
     name: "radio",
     category: "forms",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/radio",
+    doc_url: "https://mishka.tools/chelekom/docs/mob/radio",
     args: [type: ["radio"], only: ["radio"], helpers: [], module: ""],
     optional: [],
     necessary: [],
