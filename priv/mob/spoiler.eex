@@ -27,6 +27,7 @@ defmodule <%= @module %> do
   | `preview` | list of nodes | `[]` | What to show while collapsed (e.g. a truncated line). |
   | `on_toggle` | event tag (atom) | — | Sent as `{:tap, tag}`. |
   | `color` | color token / ARGB int | `:primary` | Control colour. |
+  | `padding` | number | `10` | Vertical padding around the control — it is the tap target, not decoration. |
 
   Not ported: `id` and the `*_class` attrs.
   """
@@ -81,10 +82,23 @@ defmodule <%= @module %> do
   end
 
   # A text control, not a panel header: it belongs to the content above it.
+  #
+  # Wrapped in a padded Box because a line of :base text is a ~20 dp tap target,
+  # less than half the ~44 dp both platforms ask for — the same complaint
+  # <%= @module_prefix_camel %>ActionIcon's `size` default exists to prevent. The padding is VERTICAL
+  # only, so the label still sits flush with the content above it, and
+  # fill_width={false} keeps the target on the words rather than spanning the
+  # row, where a stray tap anywhere on the line would toggle it.
   defp control(props, expanded?) do
     text = label(props, expanded?)
     color = Map.get(props, :color, :primary)
-    node = ~MOB(<Text text={text} text_size={:base} text_color={color} />)
+    pad = Map.get(props, :padding, 10)
+
+    node = ~MOB"""
+    <Box padding_top={pad} padding_bottom={pad} fill_width={false}>
+      <Text text={text} text_size={:base} text_color={color} />
+    </Box>
+    """
 
     case Event.handler(Map.get(props, :on_toggle)) do
       nil -> node

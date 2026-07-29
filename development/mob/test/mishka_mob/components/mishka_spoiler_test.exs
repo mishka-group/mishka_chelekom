@@ -51,7 +51,10 @@ defmodule MishkaMob.Components.MishkaSpoilerTest do
     test "sits LAST, under the content — a spoiler is not a titled header" do
       tree = MishkaSpoiler.spoiler(%{expanded: true}, content())
 
-      assert %{type: :text, props: %{text: "Show less"}} = List.last(tree.children)
+      # A padded Box around the label, so the tap target is finger-sized; the
+      # label itself is still the only thing inside it.
+      assert %{type: :box, children: [%{type: :text, props: %{text: "Show less"}}]} =
+               List.last(tree.children)
     end
 
     test "is a text link, not a Button or a panel header" do
@@ -73,7 +76,7 @@ defmodule MishkaMob.Components.MishkaSpoilerTest do
     test "colour is overridable" do
       tree = MishkaSpoiler.spoiler(%{color: 0xFF7C3AED}, content())
 
-      assert List.last(tree.children).props.text_color == 0xFF7C3AED
+      assert find(List.last(tree.children), :text).props.text_color == 0xFF7C3AED
     end
   end
 
@@ -85,6 +88,43 @@ defmodule MishkaMob.Components.MishkaSpoilerTest do
   test "every variant renders" do
     for props <- [%{}, %{expanded: true}, %{preview: preview()}, %{on_toggle: :t}] do
       assert_renderable(MishkaSpoiler.spoiler(props, content()))
+    end
+  end
+
+  describe "the control is a finger-sized target" do
+    test "it is a padded Box, not a bare line of text" do
+      # A line of :base text is a ~20 dp target, less than half the ~44 dp both
+      # platforms ask for — the same complaint MishkaActionIcon's size default
+      # exists to prevent.
+      tree = MishkaSpoiler.spoiler(%{on_toggle: :more}, [])
+      control = find(tree, :box)
+
+      assert control.props.on_tap == {self(), :more}
+      assert control.props.padding_top == 10
+      assert control.props.padding_bottom == 10
+    end
+
+    test "the padding is VERTICAL, so the label stays flush with the content" do
+      tree = MishkaSpoiler.spoiler(%{on_toggle: :more}, [])
+      control = find(tree, :box)
+
+      refute Map.has_key?(control.props, :padding)
+      refute Map.has_key?(control.props, :padding_left)
+    end
+
+    test "it hugs the words rather than spanning the row" do
+      # A full-width target would toggle on a stray tap anywhere on the line.
+      assert find(MishkaSpoiler.spoiler(%{on_toggle: :more}, []), :box).props.fill_width == false
+    end
+
+    test "padding is overridable" do
+      tree = MishkaSpoiler.spoiler(%{on_toggle: :more, padding: 2}, [])
+
+      assert find(tree, :box).props.padding_top == 2
+    end
+
+    test "with no on_toggle the control wires nothing" do
+      refute Map.has_key?(find(MishkaSpoiler.spoiler(%{}, []), :box).props, :on_tap)
     end
   end
 end
