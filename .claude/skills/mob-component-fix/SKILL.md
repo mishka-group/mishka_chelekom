@@ -1,0 +1,93 @@
+---
+name: mob-component-fix
+description: "Definition of done for fixing a Mob component. Use when the user reports a bug in, or asks you to check, any component under development/mob — it enforces the seven things that ship with the fix (usage rule, showcase handlers, e2e, props/eex/exs checks)."
+---
+
+# Fixing a Mob component
+
+Fixing the reported bug is **one seventh** of the job. All seven ship together, or the component is not done.
+
+Run from `development/mob` unless a path says otherwise.
+
+## 1. Fix the reported bug
+
+And any earlier-reported bug on that component that is still outstanding. Ask yourself what the user said last time about this one.
+
+## 2. Usage rule
+
+`usage-rules/mob/<name>.md`. **Check first — many components have none.**
+
+```bash
+ls usage-rules/mob/
+```
+
+Match the house style: Generate → What it renders → Example (with handler) → Props table → "Three things to know" → Related. Lead with the platform wall the component ran into, not the prop list.
+
+## 3. Showcase examples
+
+If the component has any `on_*` prop, its `code:` sample must show the **handler** receiving it — a sample that stops at the tag leaves a control that renders and does nothing.
+
+```bash
+grep -c "handle_info" lib/mishka_mob/showcase/components/<name>.ex
+```
+
+Also confirm every sample matches what it actually renders. They drift.
+
+## 4. e2e test
+
+A device test that would have caught the bug you just fixed.
+
+```bash
+ls android/app/src/androidTest/java/com/example/mishka_mob/
+mix e2e <Name>Test
+```
+
+Assert the thing the node tree cannot show — geometry, hit-testing, a round trip through the screen. If `mix test` could already prove it, it does not belong here.
+
+## 5. Props check, both directions
+
+`props/0` against what the component actually reads:
+
+```bash
+grep -o 'Map.get(props, :[a-z_]*' lib/mishka_mob/components/mishka_<name>.ex | sort -u
+grep -n 'name: "' lib/mishka_mob/showcase/components/<name>.ex
+```
+
+Props the component reads but the page omits **and** props the page lists that the component ignores. The second kind is worse: it sends a reader off wiring something inert.
+
+## 6. Check the `.eex`
+
+`priv/mob/<name>.eex` is generated from the component. After any component change:
+
+```bash
+cd .. && cd .. && mix mishka.mob.sync --yes
+```
+
+`GeneratedComponentsTest` fails if you forget.
+
+## 7. Check the `.exs`
+
+`priv/mob/<name>.exs` — `doc_url` (should be `/chelekom/docs/mob/<hyphenated>`), `necessary`, `category`, `mob: function/kit`. `mix test test/mishka_chelekom/generators/mob_test.exs` in the repo root covers the invariants.
+
+## Two defect classes to check unprompted
+
+Both have bitten four or more components each — look for them even when unreported.
+
+**A Box given neither `width` nor `fill_width` fills its parent.** Broke pill, mark, tree's disclosure arrow, color_input's ▾ trigger. Anything meant to hug its content needs `fill_width={false}`.
+
+**`Mob.Composite` pre-widens tag props to `{screen_pid, tag}`.** Composing that with a per-item value yields a tag no `handle_info` clause matches — the handler registers, the tap fires, the catch-all eats it. Use `Event.handler/2`, never `Event.handler({tag, value})`. Broke ten components at once.
+
+## Before saying it is done
+
+```bash
+mix format --check-formatted && mix compile --warnings-as-errors && mix test
+mix deploy --android && mix e2e
+```
+
+Then commit per logical change. **Never push** — that is the user's call.
+
+## Traps that cost real time
+
+- A `~S"""` sample containing `~MOB"""` closes the outer heredoc. Use the single-line `~MOB"…"` form inside samples.
+- `performClick` fires at a node's coordinates whether or not they are on screen — always `performScrollTo` first, or the tap misses silently with no exception.
+- Never leave an infinite animation (an indeterminate `Progress`) on a showcase page: Compose never reports idle, so `performScrollTo` hangs, and since the BEAM outlives the Activity it breaks device tests in unrelated classes.
