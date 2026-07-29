@@ -13,6 +13,24 @@ defmodule MishkaMob.Components.MishkaAccordion do
   `hidden_until_found` (browser find-in-page), and every `*_class` — a phone has
   no DOM, no CSS cascade, and no roving tab focus.
 
+  ## Three ways to hear about a toggle
+
+  The web engine emits two events per click — `on_open_change` on the item
+  (`{value, open}`) and `on_value_change` on the root (`{value: [...]}`). A
+  device tap carries no payload, so **the tag is the payload** and only one
+  message can go out. These are therefore alternatives, not additions, and the
+  richest one wins if you set several (a warning is logged):
+
+      on_toggle       {:tap, {tag, :faq}}              which trigger
+      on_open_change  {:tap, {tag, :faq, true}}        …and which way
+      on_value_change {:tap, {tag, [:faq, :billing]}}  …the resulting set
+
+  `on_open_change` is what you want to load a panel's body lazily, or to fire
+  analytics only on close. `on_value_change` is the least work: the payload is
+  already the next open set, computed with the same `toggle/3` below, so the
+  handler is a bare assign and cannot drift from the component's own
+  `multiple` / `collapsible` semantics.
+
   ## Controlled, because composites are stateless
 
   The web engine keeps open/closed state in the DOM. A Mob composite is a pure
@@ -53,7 +71,9 @@ defmodule MishkaMob.Components.MishkaAccordion do
   | `multiple` | boolean | `false` | Allow several panels open at once; when `false` opening one closes the rest. |
   | `collapsible` | boolean | `true` | Allow the open item to be closed by its own trigger. `false` keeps one panel always open. |
   | `disabled` | boolean | `false` | Disable every trigger (cascades to items). |
-  | `on_toggle` | event tag (atom) | — | Sent as `{:tap, {tag, item_id}}`. Without it the triggers are inert (a warning is logged). |
+  | `on_toggle` | event tag (atom) | — | Sent as `{:tap, {tag, item_id}}` — which trigger, not which way. |
+  | `on_open_change` | event tag (atom) | — | Sent as `{:tap, {tag, item_id, open?}}`, where `open?` is the state **after** the tap. |
+  | `on_value_change` | event tag (atom) | — | Sent as `{:tap, {tag, new_open_set}}` — the whole set after the tap, already resolved. |
   | `chevron` | boolean | `true` | Show the ▸/▾ state indicator. |
   | `background` | color token / ARGB int | `:surface_raised` | Item background. |
   | `corner_radius` | radius token / number | `:radius_md` | Rounds each item. |
@@ -181,7 +201,7 @@ defmodule MishkaMob.Components.MishkaAccordion do
     box_props = %{fill_width: true, padding: Map.get(props, :padding, :space_md)}
 
     box_props =
-      case tap_target(Map.get(props, :on_toggle), item.id, disabled?) do
+      case tap_target(props, item, open?, disabled?) do
         nil -> box_props
         tap -> Map.put(box_props, :on_tap, tap)
       end
@@ -209,18 +229,75 @@ defmodule MishkaMob.Components.MishkaAccordion do
     }
   end
 
-  # One handler serves every item: the tag is widened to {tag, item_id}. Nil for
-  # a disabled item or a missing on_toggle, so no tap is wired.
-  defp tap_target(_on_toggle, _id, true), do: nil
-  defp tap_target({pid, tag}, id, _disabled) when is_pid(pid), do: {pid, {tag, id}}
-  defp tap_target(_on_toggle, _id, _disabled), do: nil
+  # One handler serves every item, and the tag carries everything the screen
+  # needs — because a tap has no payload, the tag IS the payload.
+  #
+  # A trigger can only carry ONE on_tap, so the three props are alternatives
+  # rather than additions (the web can emit an item event AND a root event from
+  # the same click; a device tap cannot). Richest wins.
+  defp tap_target(_props, _item, _open?, true), do: nil
+
+  defp tap_target(props, item, open?, _disabled) do
+    cond do
+      handler = wired(props, :on_value_change) -> value_change(handler, props, item, open?)
+      handler = wired(props, :on_open_change) -> open_change(handler, item, open?)
+      handler = wired(props, :on_toggle) -> plain(handler, item)
+      true -> nil
+    end
+  end
+
+  # The whole open set AFTER this tap, computed with the same toggle/3 a screen
+  # would call — so the two cannot drift, and the handler is a bare assign.
+  defp value_change({pid, tag}, props, item, _open?) do
+    next =
+      toggle(List.wrap(Map.get(props, :open, [])), item.id,
+        multiple: truthy?(Map.get(props, :multiple, false)),
+        collapsible: truthy?(Map.get(props, :collapsible, true))
+      )
+
+    {pid, {tag, next}}
+  end
+
+  # Which item, and which WAY — the state after the tap, not before. This is the
+  # half `on_toggle` cannot express: "this trigger was hit" says nothing about
+  # whether the panel is now opening or closing.
+  defp open_change({pid, tag}, item, open?), do: {pid, {tag, item.id, not open?}}
+
+  defp plain({pid, tag}, item), do: {pid, {tag, item.id}}
+
+  defp wired(props, key) do
+    case Map.get(props, key) do
+      {pid, _tag} = handler when is_pid(pid) -> handler
+      _ -> nil
+    end
+  end
+
+  @event_props [:on_value_change, :on_open_change, :on_toggle]
 
   defp warn_if_inert(props, items) do
-    if items != [] and not tap?(Map.get(props, :on_toggle)) do
-      Logger.warning(
-        "[MishkaAccordion] rendered with no `on_toggle` — its triggers cannot open anything; " <>
-          "the panels can only change by replacing the `open` prop from the screen."
-      )
+    wired = Enum.filter(@event_props, &tap?(Map.get(props, &1)))
+
+    cond do
+      items == [] ->
+        :ok
+
+      wired == [] ->
+        Logger.warning(
+          "[MishkaAccordion] rendered with no on_toggle / on_open_change / on_value_change — " <>
+            "its triggers cannot open anything; the panels can only change by replacing the " <>
+            "`open` prop from the screen."
+        )
+
+      # A trigger carries one on_tap, so the extras are silently unreachable —
+      # exactly the kind of prop that renders perfectly and does nothing.
+      length(wired) > 1 ->
+        Logger.warning(
+          "[MishkaAccordion] #{inspect(wired)} are all set, but a tap can only send one " <>
+            "message. #{inspect(hd(wired))} wins; the rest will never fire."
+        )
+
+      true ->
+        :ok
     end
   end
 

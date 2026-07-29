@@ -179,7 +179,7 @@ defmodule MishkaMob.Components.MishkaAccordionTest do
           assert Enum.all?(find_all(tree, :box), &(&1.props[:on_tap] == nil))
         end)
 
-      assert log =~ "no `on_toggle`"
+      assert log =~ "no on_toggle / on_open_change / on_value_change"
     end
 
     test "an empty accordion does not warn" do
@@ -227,6 +227,105 @@ defmodule MishkaMob.Components.MishkaAccordionTest do
       assert first.props.background == 0xFF7C3AED
       assert first.props.corner_radius == 4
       assert find(first, :box, padding: :space_lg)
+    end
+  end
+
+  describe "on_open_change — which WAY the panel went" do
+    # The half on_toggle cannot express. "This trigger was hit" says nothing
+    # about whether the panel is now opening or closing, so a screen that wants
+    # to load a body lazily, or fire analytics only on close, had to recompute
+    # it from its own open set.
+    defp taps(tree) do
+      tree
+      |> find_all(:box)
+      |> Enum.map(& &1.props[:on_tap])
+      |> Enum.reject(&is_nil/1)
+    end
+
+    test "reports the state AFTER the tap, not before" do
+      tree =
+        MishkaAccordion.expand(
+          %{open: [:a], on_open_change: {self(), :changed}},
+          [item(:a, "A"), item(:b, "B")],
+          %{screen: self()}
+        )
+
+      # :a is open, so tapping it closes → false. :b is shut, so → true.
+      assert taps(tree) == [{self(), {:changed, :a, false}}, {self(), {:changed, :b, true}}]
+    end
+
+    test "a disabled item still wires nothing" do
+      tree =
+        MishkaAccordion.expand(
+          %{open: [], on_open_change: {self(), :changed}},
+          [item(:a, "A", %{disabled: true})],
+          %{screen: self()}
+        )
+
+      assert taps(tree) == []
+    end
+  end
+
+  describe "on_value_change — the resulting open set" do
+    test "carries the next set, resolved with the same toggle/3 a screen would call" do
+      tree =
+        MishkaAccordion.expand(
+          %{open: [:a], multiple: true, on_value_change: {self(), :changed}},
+          [item(:a, "A"), item(:b, "B")],
+          %{screen: self()}
+        )
+
+      assert taps(tree) == [{self(), {:changed, []}}, {self(), {:changed, [:a, :b]}}]
+    end
+
+    test "honours multiple: false — opening one closes the rest" do
+      tree =
+        MishkaAccordion.expand(
+          %{open: [:a], on_value_change: {self(), :changed}},
+          [item(:a, "A"), item(:b, "B")],
+          %{screen: self()}
+        )
+
+      assert taps(tree) == [{self(), {:changed, []}}, {self(), {:changed, [:b]}}]
+    end
+
+    test "honours collapsible: false — the open one cannot close itself" do
+      tree =
+        MishkaAccordion.expand(
+          %{open: [:a], collapsible: false, on_value_change: {self(), :changed}},
+          [item(:a, "A")],
+          %{screen: self()}
+        )
+
+      assert taps(tree) == [{self(), {:changed, [:a]}}]
+    end
+  end
+
+  describe "the three event props are alternatives, not additions" do
+    test "the richest one wins, because a tap sends exactly one message" do
+      props = %{
+        open: [],
+        on_toggle: {self(), :t},
+        on_open_change: {self(), :o},
+        on_value_change: {self(), :v}
+      }
+
+      tree = MishkaAccordion.expand(props, [item(:a, "A")], %{screen: self()})
+
+      assert taps(tree) == [{self(), {:v, [:a]}}]
+    end
+
+    test "and setting more than one says so, since the extras are unreachable" do
+      log =
+        capture_log(fn ->
+          MishkaAccordion.expand(
+            %{open: [], on_toggle: {self(), :t}, on_open_change: {self(), :o}},
+            [item(:a, "A")],
+            %{screen: self()}
+          )
+        end)
+
+      assert log =~ "will never fire"
     end
   end
 end
