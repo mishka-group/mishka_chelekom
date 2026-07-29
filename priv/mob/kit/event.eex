@@ -32,4 +32,32 @@ defmodule <%= @namespace %>.Event do
   def handler(nil), do: nil
   def handler({pid, _tag} = wired) when is_pid(pid), do: wired
   def handler(tag), do: {self(), tag}
+
+  @doc """
+  Widen an event prop that carries a **per-item value** — a tree node, a menu
+  entry, a link's href.
+
+  Use this rather than `handler({tag, value})`, which is wrong for every
+  component that can be written as a tag.
+
+  A component reached as a composite never sees the bare tag it was written
+  with: `Mob.Composite` widens `on_check={:check}` to `{screen_pid, :check}`
+  before `expand/3` runs. Composing *that* with a value gives
+  `{self(), {{pid, :check}, "lib/app.ex"}}` — so a handler is registered, the tap
+  really fires, the message really arrives, and the screen's
+  `handle_info({:tap, {:check, value}}, …)` does not match it. The catch-all
+  eats it, and the control renders perfectly and does nothing.
+
+  It only shows up through the tag: calling the same component as a plain
+  function passes the bare atom and composes correctly, which is exactly how it
+  survived every unit test.
+
+      handler(:check, "a")           #=> {self(), {:check, "a"}}
+      handler({pid, :check}, "a")    #=> {pid, {:check, "a"}}
+      handler(nil, "a")              #=> nil
+  """
+  @spec handler(term(), term()) :: {pid(), term()} | nil
+  def handler(nil, _value), do: nil
+  def handler({pid, tag}, value) when is_pid(pid), do: {pid, {tag, value}}
+  def handler(tag, value), do: {self(), {tag, value}}
 end

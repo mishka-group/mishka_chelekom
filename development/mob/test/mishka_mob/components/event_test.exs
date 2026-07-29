@@ -37,4 +37,41 @@ defmodule MishkaMob.Components.EventTest do
       refute pid == parent
     end
   end
+
+  describe "handler/2 — a tag carrying a per-item value" do
+    test "composes a bare tag with its value" do
+      assert Event.handler(:check, "lib/app.ex") == {self(), {:check, "lib/app.ex"}}
+    end
+
+    test "UNWRAPS an already-widened tag instead of nesting it" do
+      # The bug this exists for. Mob.Composite widens on_check={:check} to
+      # {screen_pid, :check} before expand/3 runs, so a component reached as a
+      # TAG never sees the bare atom. Composing that pair the naive way gave
+      # {self(), {{pid, :check}, value}} — the renderer registered it, the tap
+      # fired, the message arrived, and the screen's handle({:check, value})
+      # clause did not match, so the catch-all swallowed it.
+      screen = spawn(fn -> :ok end)
+
+      assert Event.handler({screen, :check}, "lib/app.ex") == {screen, {:check, "lib/app.ex"}}
+    end
+
+    test "the two paths agree, which is why the function form never caught it" do
+      # Called as a plain function the prop is a bare atom; called as a tag it is
+      # already wired. Both must produce the same TAG, or a component behaves
+      # differently depending on how it was written.
+      {_pid, from_function} = Event.handler(:check, "a")
+      {_pid, from_tag} = Event.handler({self(), :check}, "a")
+
+      assert from_function == from_tag
+    end
+
+    test "nil stays nil, so a valueless prop is still omitted" do
+      assert Event.handler(nil, "anything") == nil
+    end
+
+    test "a value may be any term, not just a string" do
+      assert Event.handler(:pick, %{id: 1}) == {self(), {:pick, %{id: 1}}}
+      assert Event.handler(:pick, 7) == {self(), {:pick, 7}}
+    end
+  end
 end

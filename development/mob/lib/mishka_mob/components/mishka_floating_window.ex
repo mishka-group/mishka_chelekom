@@ -180,7 +180,7 @@ defmodule MishkaMob.Components.MishkaFloatingWindow do
   defp tag_handler(props, key, value) do
     case Map.get(props, key) do
       nil -> nil
-      tag -> Event.handler({tag, value})
+      tag -> Event.handler(tag, value)
     end
   end
 

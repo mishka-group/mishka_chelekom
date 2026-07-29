@@ -87,7 +87,7 @@ defmodule MishkaMob.Components.MishkaAnchor do
     case {Map.get(props, :on_tap), Map.get(props, :href)} do
       {nil, _} -> nil
       {tag, nil} -> Event.handler(tag)
-      {tag, href} -> Event.handler({tag, href})
+      {tag, href} -> Event.handler(tag, href)
     end
   end
 

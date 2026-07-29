@@ -164,7 +164,7 @@ defmodule MishkaMob.Components.MishkaNavLink do
   defp with_href(tag, props) do
     case Map.get(props, :href) do
       nil -> Event.handler(tag)
-      href -> Event.handler({tag, href})
+      href -> Event.handler(tag, href)
     end
   end
 

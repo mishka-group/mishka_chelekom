@@ -40,6 +40,25 @@ defmodule MishkaMob.ShowcaseTest do
       assert entry.module == MishkaMob.Showcase.Components.Drawer
     end
 
+    test "the gallery has exactly these categories, and no near-duplicates" do
+      # by_category/0 groups on the raw string, so "Overlay" beside "Overlays"
+      # is not a typo that reads oddly — it is a second, one-item section in the
+      # gallery. Pinning the set is what makes the next one fail here instead of
+      # on screen.
+      categories = Showcase.all() |> Enum.map(& &1.category) |> Enum.uniq() |> Enum.sort()
+
+      assert categories == [
+               "Color",
+               "Data display",
+               "Disclosure",
+               "Feedback",
+               "Forms",
+               "Layout",
+               "Navigation",
+               "Overlays"
+             ]
+    end
+
     test "by_category groups every catalog entry, categories alphabetical" do
       grouped = Showcase.by_category()
       categories = Enum.map(grouped, fn {category, _} -> category end)
@@ -558,6 +577,97 @@ defmodule MishkaMob.ShowcaseTest do
       assert assigns(view).hl_query == "che"
       view = render_info(view, {:tap, {:hl_query, "beam"}})
       assert assigns(view).hl_query == "beam"
+    end
+
+    test "the Action Icon page renders every example and its props" do
+      view = mount_screen(ComponentScreen, %{slug: :action_icon})
+
+      assert_renderable(expanded(view))
+
+      for heading <- ["Icon buttons", "Close button", "finger-sized", "Disabled", "Props"] do
+        assert text(view) =~ heading
+      end
+    end
+
+    test "every Action Icon sample that sets an event prop also shows its handler" do
+      # A sample that stops at on_tap={:menu} leaves the reader with a button
+      # that renders and does nothing, and no clue where the event goes. This is
+      # the gap the OTP and colour pages were fixed for.
+      for example <- MishkaMob.Showcase.Components.ActionIcon.examples() do
+        if example.code =~ "on_tap={:" and not (example.code =~ "disabled={true}") do
+          assert example.code =~ "handle_info",
+                 "#{example.title}: sets on_tap but shows no handler"
+        end
+      end
+    end
+
+    test "tapping an action icon reaches the screen and the count comes back" do
+      view = mount_screen(ComponentScreen, %{slug: :action_icon})
+
+      assert assigns(view).ai_taps == 0
+      assert text(expanded(view)) =~ "Not tapped yet"
+
+      once = render_info(view, {:tap, :ai_tap})
+      assert text(expanded(once)) =~ "Tapped once"
+
+      twice = render_info(once, {:tap, :ai_tap})
+      assert assigns(twice).ai_taps == 2
+      assert text(expanded(twice)) =~ "Tapped 2 times"
+    end
+
+    test "the disabled action icons wire no handler, even though one is given" do
+      taps =
+        ComponentScreen
+        |> mount_screen(%{slug: :action_icon})
+        |> expanded()
+        |> find_all(:box)
+        |> Enum.filter(&(text(&1) == "⋯"))
+        |> Enum.map(&Map.has_key?(&1.props, :on_tap))
+
+      # three ⋯ icons on the page: one live in the first example, two disabled
+      assert Enum.count(taps, & &1) == 1
+      assert Enum.count(taps, &(not &1)) == 2
+    end
+
+    test "a per-node tag survives composite expansion on every page that builds one" do
+      # THE bug: Mob.Composite widens on_check={:check} to {screen_pid, :check}
+      # before expand/3 runs, so a component reached as a TAG composed the
+      # widened pair and emitted {{pid, :check}, value} as its tag. A handler
+      # was registered, the tap fired, the message arrived — and the screen's
+      # handle({:check, value}) clause did not match, so the catch-all ate it.
+      # Every tree row, menu entry and nav link on these pages was inert.
+      #
+      # Nothing in the unit suite could see it: calling the same component as a
+      # plain function passes the bare atom and composes correctly.
+      # Swept over every page rather than the handful known to build per-item
+      # tags: seven components had this shape, and the next one to grow it
+      # should fail here rather than on a device.
+      checked =
+        for module <- Showcase.modules(), reduce: 0 do
+          acc ->
+            expanded =
+              ComponentScreen |> mount_screen(%{slug: module.entry().slug}) |> expanded()
+
+            tags =
+              [:box, :row, :column, :text, :button]
+              |> Enum.flat_map(&find_all(expanded, &1))
+              |> Enum.map(& &1.props[:on_tap])
+              |> Enum.reject(&is_nil/1)
+
+            for handler <- tags do
+              assert match?({pid, _tag} when is_pid(pid), handler),
+                     "#{module}: handler #{inspect(handler)} is not {pid, tag}"
+
+              {_pid, tag} = handler
+
+              refute match?({{p, _}, _} when is_pid(p), tag),
+                     "#{module}: tag #{inspect(tag)} nests a wired handler — no clause matches it"
+            end
+
+            acc + length(tags)
+        end
+
+      assert checked > 200, "only #{checked} taps swept — the check is close to vacuous"
     end
 
     test "unknown slug renders a not-found page (still renderable)" do

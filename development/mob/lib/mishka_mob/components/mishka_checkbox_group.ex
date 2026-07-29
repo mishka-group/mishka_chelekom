@@ -42,6 +42,7 @@ defmodule MishkaMob.Components.MishkaCheckboxGroup do
 
   import Mob.Sigil
 
+  alias MishkaMob.Components.Event
   alias MishkaMob.Components.MishkaCheckbox
 
   @item_type :mishka_checkbox_item
@@ -190,12 +191,11 @@ defmodule MishkaMob.Components.MishkaCheckboxGroup do
     end
   end
 
-  defp item_tag(props, id) do
-    case Map.get(props, :on_change) do
-      nil -> nil
-      tag -> {tag, id}
-    end
-  end
+  # Event.handler/2, not a hand-built {tag, id}: reached as a composite tag
+  # this group's :on_change has ALREADY been widened to {screen_pid, tag}, and
+  # pairing that with an id gives {{pid, tag}, id} — which the renderer
+  # registers and no handle_info clause matches.
+  defp item_tag(props, id), do: Event.handler(Map.get(props, :on_change), id)
 
   defp truthy?(nil), do: false
   defp truthy?(false), do: false

@@ -190,7 +190,7 @@ defmodule MishkaMob.Components.MishkaNavigationMenu do
   defp tag_handler(props, key, value, _disabled?) do
     case Map.get(props, key) do
       nil -> nil
-      tag -> Event.handler({tag, value})
+      tag -> Event.handler(tag, value)
     end
   end
 
