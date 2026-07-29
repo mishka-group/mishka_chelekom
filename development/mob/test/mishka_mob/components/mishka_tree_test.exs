@@ -193,6 +193,10 @@ defmodule MishkaMob.Components.MishkaTreeTest do
     end
 
     test "checkboxes show all three states" do
+      # The glyphs are MishkaCheckbox's, not the tree's own: a tick for checked,
+      # a dash for mixed, nothing for unchecked. The tree used to draw ☑/⊟/☐
+      # itself, which meant a checkbox in a tree looked nothing like one in a
+      # form.
       tree = fn checked ->
         MishkaTree.tree(
           nodes: @nodes,
@@ -202,9 +206,31 @@ defmodule MishkaMob.Components.MishkaTreeTest do
         )
       end
 
-      assert "☐" in labels(tree.([]))
-      assert "⊟" in labels(tree.(["lib/top.ex"]))
-      assert "☑" in labels(tree.(["lib/inner", "lib/inner/deep.ex", "lib/top.ex"]))
+      refute "✓" in labels(tree.([]))
+      assert "–" in labels(tree.(["lib/top.ex"]))
+      assert "✓" in labels(tree.(["lib/inner", "lib/inner/deep.ex", "lib/top.ex"]))
+    end
+
+    test "the checkbox IS the Checkbox component, and does not fill the row" do
+      # Two things a glyph could not give us: the states differ by more than a
+      # character (a filled :primary box when checked), and the checkbox has to
+      # hug — it is one cell in a row, and filling pushes the label off the end.
+      tree =
+        MishkaTree.tree(
+          nodes: @nodes,
+          checked: ["mix.exs"],
+          with_checkboxes: true
+        )
+
+      boxes =
+        tree
+        |> find_all(:row)
+        |> Enum.filter(&(&1.props[:fill_width] == false and find(&1, :box)))
+
+      refute Enum.empty?(boxes), "no Checkbox rows found in the tree"
+
+      fills = boxes |> Enum.map(&find(&1, :box)) |> Enum.map(& &1.props[:background])
+      assert :primary in fills, "a checked node should carry the Checkbox's filled indicator"
     end
 
     test "selection is styled, not just recorded" do

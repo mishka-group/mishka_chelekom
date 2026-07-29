@@ -22,11 +22,11 @@ defmodule MishkaMob.Showcase.Components.Tree do
           value: "lib/mishka_mob",
           icon: "📁",
           children: [
-            %{label: "app.ex", value: "lib/mishka_mob/app.ex", icon: "📄"},
-            %{label: "showcase.ex", value: "lib/mishka_mob/showcase.ex", icon: "📄"}
+            %{label: "app.ex", value: "lib/mishka_mob/app.ex", icon: "📄", meta: "12 KB"},
+            %{label: "showcase.ex", value: "lib/mishka_mob/showcase.ex", icon: "📄", meta: "8 KB"}
           ]
         },
-        %{label: "mishka_mob.ex", value: "lib/mishka_mob.ex", icon: "📄"}
+        %{label: "mishka_mob.ex", value: "lib/mishka_mob.ex", icon: "📄", meta: "2.4 MB"}
       ]
     },
     %{
@@ -35,7 +35,7 @@ defmodule MishkaMob.Showcase.Components.Tree do
       icon: "📁",
       children: [%{label: "test_helper.exs", value: "test/test_helper.exs", icon: "📄"}]
     },
-    %{label: "mix.exs", value: "mix.exs", icon: "📄", disabled: true}
+    %{label: "mix.exs", value: "mix.exs", icon: "📄", meta: "4 KB", disabled: true}
   ]
 
   @impl true
@@ -167,7 +167,7 @@ defmodule MishkaMob.Showcase.Components.Tree do
         name: "nodes",
         type: "list of node maps",
         default: "[]",
-        description: "label, value, children, icon, disabled."
+        description: "label, value, children, icon, meta (a trailing note), disabled."
       },
       %{
         name: "expanded / selected / checked",

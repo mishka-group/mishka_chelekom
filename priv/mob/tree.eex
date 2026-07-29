@@ -5,8 +5,9 @@ defmodule <%= @module %> do
 
   ## Nodes
 
-  A node is a map with `:label` and `:value`, optionally `:children`, `:icon`
-  and `:disabled`. Nesting is arbitrary:
+  A node is a map with `:label` and `:value`, optionally `:children`, `:icon`,
+  `:meta` (a trailing note — a size, a count, a date) and `:disabled`. Nesting
+  is arbitrary:
 
       [
         %{label: "lib", value: "lib", children: [
@@ -41,7 +42,7 @@ defmodule <%= @module %> do
 
   | Prop | Values | Default | Meaning |
   |------|--------|---------|---------|
-  | `nodes` | list of node maps | `[]` | The hierarchy. |
+  | `nodes` | list of node maps | `[]` | The hierarchy — `label`, `value`, `children`, `icon`, `meta`, `disabled`. |
   | `expanded` | list of values | `[]` | Which nodes are open. |
   | `selected` | list of values | `[]` | Which are selected. |
   | `checked` | list of values | `[]` | Which are checked. |
@@ -62,6 +63,7 @@ defmodule <%= @module %> do
   import Mob.Sigil
 
   alias <%= @namespace %>.Event
+  alias <%= @namespace %>.<%= @module_prefix_camel %>Checkbox
 
   @indent 18
 
@@ -257,7 +259,8 @@ defmodule <%= @module %> do
       guides(depth, props) ++
         [disclosure(node, expandable?, expanded?, props, disabled?)] ++
         checkbox(node, props, disabled?) ++
-        [icon(node), label(node, selected?, disabled?)]
+        [icon(node), label(node, selected?, disabled?)] ++
+        meta(node)
 
     ~MOB"""
     <Box
@@ -273,6 +276,23 @@ defmodule <%= @module %> do
     </Box>
     """
     |> put(:on_tap, select_handler(node, props, disabled?))
+  end
+
+  # A node's trailing note — a file size, a count, a date. Pushed to the far
+  # edge by a weighted Spacer, which is the only way to right-align in a Row.
+  defp meta(node) do
+    case Map.get(node, :meta) do
+      nil ->
+        []
+
+      text ->
+        # No disabled variant: it is already :muted, and dimming secondary
+        # text further takes it below readable.
+        [
+          ~MOB(<Spacer weight={1} />),
+          ~MOB(<Text text={text} text_size={:sm} text_color={:muted} />)
+        ]
+    end
   end
 
   # Guide lines are drawn per level so they line up with the indent.
@@ -307,35 +327,58 @@ defmodule <%= @module %> do
         tag = if expanded?, do: :on_collapse, else: :on_expand
         ink = if disabled?, do: :muted, else: :on_surface
 
+        # fill_width={false} is load-bearing. A Box given neither width nor
+        # fill_width FILLS its parent, so this arrow took the whole row and
+        # shoved the icon and label off the end — which is why every branch
+        # rendered as an empty band and only leaves, which have no arrow, looked
+        # right.
         ~MOB"""
-        <Box padding={2}>
+        <Box padding={2} fill_width={false}>
           <Text text={glyph} text_size={:sm} text_color={ink} />
         </Box>
         """
         |> put(:on_tap, tag_handler(props, tag, node.value, disabled?))
+        # Mob turns :id into a native testTag. Every arrow reads "▾" or "▸", so
+        # this is what tells one branch's control from another's.
+        |> put(:id, "tree-toggle-#{node.value}")
     end
   end
 
+  # The real Checkbox, not a ☑ of our own. Drawing the glyph here was one line
+  # shorter and meant a checkbox inside a tree looked nothing like a checkbox in
+  # a form — a hollow ☐ beside the component's filled tick. <%= @module_prefix_camel %>Checkbox
+  # already carries all three states, renders label-less, and puts the dash on
+  # :indeterminate so the states survive a colourblind reading.
   defp checkbox(node, props, disabled?) do
     if truthy?(Map.get(props, :with_checkboxes, false)) do
       state = check_state(Map.get(props, :nodes, []), node.value, Map.get(props, :checked, []))
 
-      glyph =
-        case state do
-          :checked -> "☑"
-          :indeterminate -> "⊟"
-          :unchecked -> "☐"
-        end
+      inner =
+        <%= @module_prefix_camel %>Checkbox.<%= @component_prefix %>checkbox(%{
+          checked: state == :checked,
+          indeterminate: state == :indeterminate,
+          disabled: disabled?,
+          size: 20
+        })
+        # Checkbox fills its row so a label can sit beside it. Here it is one
+        # cell among several, and filling pushes the file name off the end —
+        # the label stops being laid out at all.
+        |> put(:fill_width, false)
 
-      ink = if disabled?, do: :muted, else: :on_surface
-
+      # The tap goes on a wrapping Box, not on the Checkbox's own Row. Putting
+      # it on the Row rendered correctly and delivered nothing: found by
+      # testTag, clicked by the device suite, and the screen never heard. The
+      # Box is also the padding that makes a 20 dp indicator a real target.
       box =
         ~MOB"""
-        <Box padding={2}>
-          <Text text={glyph} text_size={:base} text_color={ink} />
+        <Box padding={4} fill_width={false}>
+          {inner}
         </Box>
         """
         |> put(:on_tap, tag_handler(props, :on_check, node.value, disabled?))
+        # Mob turns :id into a native testTag. A checkbox carries no text, so
+        # this is the only handle a device test has on it.
+        |> put(:id, "tree-check-#{node.value}")
 
       [box, ~MOB(<Spacer size={4} />)]
     else
@@ -379,7 +422,7 @@ defmodule <%= @module %> do
   defp tag_handler(props, key, value, _disabled?) do
     case Map.get(props, key) do
       nil -> nil
-      tag -> Event.handler({tag, value})
+      tag -> Event.handler(tag, value)
     end
   end
 
