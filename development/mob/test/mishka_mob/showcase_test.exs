@@ -813,6 +813,34 @@ defmodule MishkaMob.ShowcaseTest do
       assert [{_, {:acc_watch, :shipping, true}}, {_, {:acc_watch, :returns, true}}] = taps
     end
 
+    test "the Empty State page's actions really fill the list" do
+      # An empty state is what a list shows INSTEAD of itself, so the example is
+      # only honest if filling the list makes it go away. Its buttons used to be
+      # wired to a no-op and the page had no handle/2 at all.
+      view = mount_screen(ComponentScreen, %{slug: :empty_state})
+
+      # Two traps in one assertion. "No projects yet" is in this example's own
+      # CODE SAMPLE, so it is on the page whether or not the empty state renders
+      # — hence keying on the reset button instead, which is only ever rendered.
+      # And a Button's label is a PROP, not a :text node, so text/1 never sees it.
+      empty? = fn v -> find(expanded(v), :button, text: "Delete them all") == nil end
+
+      assert assigns(view).es_projects == []
+      assert empty?.(view)
+
+      filled = render_info(view, {:tap, :es_new})
+      assert assigns(filled).es_projects == ["Untitled 1"]
+      assert text(expanded(filled)) =~ "Untitled 1"
+      refute empty?.(filled)
+
+      imported = render_info(filled, {:tap, :es_import})
+      assert length(assigns(imported).es_projects) == 3
+
+      cleared = render_info(imported, {:tap, :es_reset})
+      assert assigns(cleared).es_projects == []
+      assert empty?.(cleared)
+    end
+
     test "unknown slug renders a not-found page (still renderable)" do
       view = mount_screen(ComponentScreen, %{slug: :ghost})
 
