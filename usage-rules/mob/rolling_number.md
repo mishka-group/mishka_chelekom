@@ -1,7 +1,7 @@
 # rolling_number (mob)
 
 A number that counts up to its value. See [README](README.md) for the rules every Mob component
-shares. It shares a gallery page with [semi_circle_progress](semi_circle_progress.md).
+shares.
 
 ## Generate
 `mix mishka.ui.gen.mob rolling_number` → `lib/<app>/components/rolling_number.ex`, tag
@@ -66,5 +66,5 @@ is a race.
 `steps/3` inside `render/1` produces a new sequence every frame and the number never settles.
 
 ## Related
-`semi_circle_progress` (shares its gallery page), `progress` (a bar rather than a number),
-`number_field` (input rather than display).
+`number_formatter` (formats without counting), `progress` (a bar rather than a number),
+`number_field` (input rather than display), `semi_circle_progress` (a gauge with a readout).

@@ -13,11 +13,12 @@ A real arc, drawn on `Mob.UI.canvas/1` with two `Mob.Canvas.arc/6` ops.
 
 ```
 column  fill_width
-├── box  fill_width, align: :center      ← a Column cannot centre; the Box does
-│   └── canvas  size x 0.54*size
-│       ├── arc  180°→360°   track, butt cap
-│       ├── arc  180°→180+180*frac   indicator, round cap  (omitted at zero)
-│       └── text  the readout, anchored centre
+├── box  fill_width, align: :center          ← a Column cannot centre; the Box does
+│   └── box  size x 0.54*size, align: :center    the stack (a ZStack on both)
+│       ├── canvas  size x 0.54*size
+│       │   ├── arc  180°→360°   track, butt cap
+│       │   └── arc  180°→180+180*frac   indicator, round cap  (omitted at zero)
+│       └── text  the readout, stacked OVER the canvas
 ├── spacer(8)
 └── box  fill_width, align: :center
     └── text  the label
@@ -67,14 +68,19 @@ defp clamp(value), do: value |> max(0) |> min(100)
 renders as a visible caption rather than being dropped.
 
 Not ported: `svg_class`, `track_class`, `indicator_class`, `label_class`, `id`. The web
-`inner_block` slot — an arbitrary centred readout — is the `value_text` string here, because the
-readout is painted into the canvas and a canvas draws **ops, not nodes**.
+`inner_block` slot — an arbitrary centred readout — is the `value_text` string here.
+
+**The readout is a real `Text` stacked over the canvas, not a canvas text op.** A canvas is a
+drawing: anything painted into it has no text for the platform to announce and nothing for a device
+test to find. That is a poor trade for a gauge whose whole job is reporting a number, so the arc is
+drawn and the number is a node. It is also why the gauge's device test can assert the readout at
+all.
 
 ## Five things to know
 
 **Clamp the value at the call site, not just in the component.** The arc clamps its own fraction, so
 an unbounded assign looks harmless — and then a "+15" button walks the number to 250 while the
-needle sits at full, and the next *ten* taps of "−15" do nothing visible. Every gauge on this page
+needle sits at full, and the next *ten* taps of "−15" do nothing visible. Every gauge here
 shipped with that bug at least once (progress, meter, and this one).
 
 **The indicator op is omitted at a zero sweep — do not "simplify" that away.** The indicator carries
@@ -97,4 +103,4 @@ an interpolated expression instead, and pass `extra: [:canvas]` to `assert_rende
 ## Related
 `progress` (the linear gauge; shares `fraction/1`, including numeric-string parsing), `meter`
 (a progress bar with a scale), `angle_slider` (the other real arc, and a dial you can turn),
-`rolling_number` (the companion on this page).
+`rolling_number` (a counting readout, on its own page).

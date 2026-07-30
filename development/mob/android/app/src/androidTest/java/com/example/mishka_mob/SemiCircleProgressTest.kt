@@ -148,34 +148,10 @@ class SemiCircleProgressTest {
     }
 
     @Test
-    fun the_rolling_number_counts_and_resets() {
-        compose.onAllNodesWithText("Roll to 1,284", substring = false)[0].performScrollTo()
-        compose.waitForIdle()
-
-        tap("Roll to 1,284")
-        // The screen walks steps/3 on a timer, so wait for the landing value.
-        compose.waitUntil(15_000) { placed("1,284") > 0 }
-
-        tap("Reset")
-        compose.waitUntil(10_000) { placed("0") > 0 }
-    }
-
-    @Test
-    fun grouping_renders_every_separator_the_description_promises() {
-        for (rendered in listOf("1,234,567", "1 234 567", "1234567", "-98,765")) {
-            compose.onAllNodesWithText(rendered, substring = false)[0].performScrollTo()
-            compose.waitForIdle()
-            require(placed(rendered) > 0) { "the grouping example never rendered $rendered" }
-        }
-    }
-
-    @Test
     fun the_page_renders_every_example_and_the_props_table() {
         for (heading in listOf(
             "A gauge",
             "Custom readout",
-            "Rolling number",
-            "Grouping",
             "Props"
         )) {
             compose.onAllNodesWithText(heading, substring = true)[0]
