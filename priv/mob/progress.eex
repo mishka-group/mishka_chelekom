@@ -91,16 +91,18 @@ defmodule <%= @module %> do
       1.0
       iex> <%= @namespace %>.<%= @module_prefix_camel %>Progress.fraction(%{})
       nil
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>Progress.fraction(%{value: "72"})
+      0.72
   """
   @spec fraction(map() | keyword()) :: float() | nil
   def fraction(props) do
     props = Map.new(props)
 
-    case Map.get(props, :value) do
+    case to_num(Map.get(props, :value)) do
       nil ->
         nil
 
-      value when is_number(value) ->
+      value ->
         min = Map.get(props, :min, 0)
         max = Map.get(props, :max, 100)
         span = max - min
@@ -110,6 +112,24 @@ defmodule <%= @module %> do
         if span == 0, do: 0.0, else: clamp((value - min) / span)
     end
   end
+
+  # The headless attr is `:any` and parses numeric strings, so `value="72"`
+  # reads as 72 rather than raising. That is not a hypothetical: an unbraced
+  # sigil attr IS a string, so `<<%= @module_prefix_camel %>Progress value="72" />` — the obvious
+  # way to write it — used to reach a two-clause case and die with a
+  # CaseClauseError. Unparseable input reads as empty, as it does on the web;
+  # only a genuinely absent value stays indeterminate.
+  defp to_num(nil), do: nil
+  defp to_num(value) when is_number(value), do: value
+
+  defp to_num(value) when is_binary(value) do
+    case Float.parse(value) do
+      {parsed, _rest} -> parsed
+      :error -> 0
+    end
+  end
+
+  defp to_num(_value), do: 0
 
   defp clamp(fraction) when fraction < 0, do: 0.0
   defp clamp(fraction) when fraction > 1, do: 1.0
