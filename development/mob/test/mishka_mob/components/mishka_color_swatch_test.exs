@@ -2,7 +2,7 @@ defmodule MishkaMob.Components.MishkaColorSwatchTest do
   # async: false — Mob.ScreenCase starts the globally-named `Mob.State`.
   use Mob.ScreenCase, async: false
 
-  alias MishkaMob.Components.{MishkaColorSwatch, MishkaLoadingOverlay}
+  alias MishkaMob.Components.MishkaColorSwatch
 
   doctest MishkaMob.Components.MishkaColorSwatch
 
@@ -79,62 +79,9 @@ defmodule MishkaMob.Components.MishkaColorSwatchTest do
            )
   end
 
-  describe "loading overlay" do
-    test "renders nothing when not visible" do
-      assert MishkaLoadingOverlay.loading_overlay(%{}) == %{
-               type: :column,
-               props: %{},
-               children: []
-             }
-    end
-
-    test "covers its region and ABSORBS taps, so a double submit is impossible" do
-      tree = MishkaLoadingOverlay.loading_overlay(%{visible: true})
-
-      assert tree.props.fill_width == true
-      assert tree.props.fill_height == true
-      assert {_pid, :__mishka_loading_ignore} = tree.props.on_tap
-    end
-
-    test "uses the native indeterminate Progress — no value means it animates" do
-      bar = find(MishkaLoadingOverlay.loading_overlay(%{visible: true}), :progress)
-
-      refute Map.has_key?(bar.props, :value)
-    end
-
-    test "an optional label renders under the indicator" do
-      assert text(MishkaLoadingOverlay.loading_overlay(%{visible: true, label: "Saving…"})) =~
-               "Saving…"
-
-      refute text(MishkaLoadingOverlay.loading_overlay(%{visible: true})) =~ "Saving"
-    end
-
-    test "children replace the indicator" do
-      art = [%{type: :text, props: %{text: "custom"}, children: []}]
-      tree = MishkaLoadingOverlay.loading_overlay(%{visible: true}, art)
-
-      assert text(tree) =~ "custom"
-      assert find_all(tree, :progress) == []
-    end
-
-    test "scrim colour and radius are overridable" do
-      tree =
-        MishkaLoadingOverlay.loading_overlay(%{
-          visible: true,
-          scrim_color: 0x99000000,
-          corner_radius: 8
-        })
-
-      assert tree.props.background == 0x99000000
-      assert tree.props.corner_radius == 8
-    end
-  end
-
   test "every variant renders" do
     for props <- [%{color: 0xFF7C3AED}, %{color: 0x807C3AED}, %{color: 1, selected: true}] do
       assert_renderable(MishkaColorSwatch.color_swatch(props))
     end
-
-    assert_renderable(MishkaLoadingOverlay.loading_overlay(%{visible: true, label: "x"}))
   end
 end

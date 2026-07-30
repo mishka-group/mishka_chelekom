@@ -115,12 +115,15 @@ defmodule MishkaMob.Showcase.Components.LoadingOverlay do
         end
       },
       %Example{
-        title: "Its own scrim and indicator",
-        description: "scrim_color and color are props. Children replace the indicator entirely.",
+        title: "Its own scrim, panel and indicator",
+        description:
+          "scrim_color, panel_color and color are props. A dark scrim wants a " <>
+            "dark panel — the indicator sits on the panel, not on the scrim.",
         code: ~S"""
         <MishkaLoadingOverlay
           visible={@busy?}
           scrim_color={0xE6111827}
+          panel_color={0xFF1F2937}
           color={:on_primary}
           label="Uploading…"
         />
@@ -140,6 +143,7 @@ defmodule MishkaMob.Showcase.Components.LoadingOverlay do
               <MishkaLoadingOverlay
                 visible={@lo_custom}
                 scrim_color={0xE6111827}
+                panel_color={0xFF1F2937}
                 color={:on_primary}
                 label="Uploading…"
                 corner_radius={:radius_md}
@@ -206,6 +210,12 @@ defmodule MishkaMob.Showcase.Components.LoadingOverlay do
         description: "Scrim fill. Semi-transparent, so the covered content stays legible."
       },
       %{
+        name: "panel_color",
+        type: "color / ARGB",
+        default: ":surface",
+        description: "The panel the indicator sits on. Go dark when the scrim is dark."
+      },
+      %{
         name: "color",
         type: "color / ARGB",
         default: ":primary",
@@ -215,7 +225,8 @@ defmodule MishkaMob.Showcase.Components.LoadingOverlay do
         name: "corner_radius",
         type: "radius token / number",
         default: "nil",
-        description: "Match the region it covers, or the scrim overhangs its corners."
+        description:
+          "Match the region it covers — on iOS the scrim overhangs a rounded card without it."
       },
       %{
         name: "children",
