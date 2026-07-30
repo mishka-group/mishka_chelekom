@@ -41,6 +41,20 @@ defmodule MishkaMob.Components.MishkaToastTest do
       assert next == [%{id: 2, kind: :a}]
     end
 
+    test "a key function returning nil does not collapse unrelated toasts" do
+      queue = [%{id: 1}, %{id: 2}]
+
+      assert Queue.push(queue, %{id: 3}, dedup_key: & &1[:group]) ==
+               [%{id: 1}, %{id: 2}, %{id: 3}]
+    end
+
+    test "a key function still dedups when the key is present" do
+      queue = [%{id: 1, group: :a}, %{id: 2, group: :b}]
+
+      assert Queue.push(queue, %{id: 3, group: :a}, dedup_key: & &1[:group]) ==
+               [%{id: 2, group: :b}, %{id: 3, group: :a}]
+    end
+
     test "a nil key does not collapse unrelated toasts" do
       queue = [%{id: 1}, %{id: 2}]
 
@@ -62,6 +76,21 @@ defmodule MishkaMob.Components.MishkaToastTest do
 
     test "a toast with no stamp is sticky and never expires" do
       assert Queue.expire([%{id: 1}], 1, now: 999_999) == [%{id: 1}]
+    end
+
+    test "a toast's own :duration overrides the default, both ways" do
+      queue = [%{id: 1, at: 0, duration: 500}, %{id: 2, at: 0, duration: 9_000}]
+
+      # The default would keep both; toast 1's own shorter duration expires it.
+      assert Queue.expire(queue, 8_000, now: 1_000) == [%{id: 2, at: 0, duration: 9_000}]
+
+      # And a longer one survives a default that would have dropped it.
+      assert Queue.expire(queue, 100, now: 1_000) == [%{id: 2, at: 0, duration: 9_000}]
+    end
+
+    test "duration: 0 is sticky, matching the web engine" do
+      assert Queue.expire([%{id: 1, at: 0, duration: 0}], 1, now: 999_999) ==
+               [%{id: 1, at: 0, duration: 0}]
     end
   end
 
@@ -117,9 +146,133 @@ defmodule MishkaMob.Components.MishkaToastTest do
     end
   end
 
-  test "expand/3 delegates to toast/1" do
+  test "expand/3 with no children delegates to toast/1" do
     assert MishkaToast.expand(%{toasts: toasts()}, [], %{screen: self()}) ==
              MishkaToast.toast(toasts: toasts())
+  end
+
+  describe "the card's flexible body" do
+    # Regression: the body used fill_width while sitting before the fixed-width
+    # ✕ in the same Row. A Compose Row measures a non-weighted child against the
+    # space left over, so a fillMaxWidth body took the whole row and the close
+    # button was measured at width 0 — present but zero-wide and untappable on
+    # Android. iOS was unaffected, which is what made it survive review.
+    test "takes weight, not fill_width, so the close button keeps its width" do
+      tree = MishkaToast.toast(toasts: toasts(), on_dismiss: :drop)
+      bodies = tree |> find_all(:box) |> Enum.filter(&(&1.props[:weight] == 1))
+
+      assert [_, _] = bodies
+      assert Enum.all?(bodies, &(&1.props[:fill_width] == nil))
+    end
+
+    test "the close button still declares its own fixed width" do
+      tree = MishkaToast.toast(toasts: toasts(), on_dismiss: :drop)
+      closes = tree |> find_all(:box) |> Enum.filter(&(&1.props[:on_tap] != nil))
+
+      assert Enum.all?(closes, &(&1.props[:width] == 32))
+    end
+  end
+
+  describe "slots" do
+    test "a MishkaToastItem child renders as a toast, body and all" do
+      item = %{
+        type: :mishka_toast_item,
+        props: %{id: :welcome, title: "Welcome", variant: :info},
+        children: [%{type: :text, props: %{text: "In markup"}, children: []}]
+      }
+
+      tree = MishkaToast.expand(%{toasts: []}, [item], %{screen: self()})
+
+      assert text(tree) =~ "Welcome"
+      assert text(tree) =~ "In markup"
+    end
+
+    test "static items render before the queued ones" do
+      item = %{type: :mishka_toast_item, props: %{title: "Static"}, children: []}
+      tree = MishkaToast.expand(%{toasts: toasts()}, [item], %{screen: self()})
+      titles = tree |> find_all(:text) |> Enum.map(& &1.props[:text])
+
+      assert Enum.find_index(titles, &(&1 == "Static")) <
+               Enum.find_index(titles, &(&1 == "Saved"))
+    end
+
+    test "a slot tag is consumed — no marker node reaches the renderer" do
+      item = %{type: :mishka_toast_item, props: %{title: "Static"}, children: []}
+      tree = MishkaToast.expand(%{toasts: []}, [item], %{screen: self()})
+
+      assert find_all(tree, :mishka_toast_item) == []
+      assert_renderable(tree)
+    end
+
+    test "MishkaToastClose content replaces the glyph on every card" do
+      close = %{
+        type: :mishka_toast_close,
+        props: %{},
+        children: [%{type: :text, props: %{text: "Dismiss"}, children: []}]
+      }
+
+      tree =
+        MishkaToast.expand(%{toasts: toasts(), on_dismiss: :drop}, [close], %{screen: self()})
+
+      # One per card — the close slot replaces the glyph on every toast.
+      assert [_, _] = find_all(tree, :text, text: "Dismiss")
+      refute text(tree) =~ "✕"
+    end
+
+    test "close slot content is not squeezed into the icon's square" do
+      close = %{
+        type: :mishka_toast_close,
+        props: %{},
+        children: [%{type: :text, props: %{text: "Dismiss"}, children: []}]
+      }
+
+      tree =
+        MishkaToast.expand(%{toasts: toasts(), on_dismiss: :drop}, [close], %{screen: self()})
+
+      # Regression: the content used to go inside action_icon's 32×32 Box, which
+      # clipped "Dismiss" to "Dis" on a device. A hugging Row carries the tap
+      # instead — so no fixed-size box may own the dismiss handler.
+      taps = tree |> find_all(:box) |> Enum.filter(&(&1.props[:on_tap] != nil))
+      assert taps == []
+
+      rows = tree |> find_all(:row) |> Enum.filter(&(&1.props[:on_tap] != nil))
+      assert [_, _] = rows
+      assert Enum.all?(rows, &(&1.props[:width] == nil and &1.props[:fill_width] == nil))
+    end
+
+    test "a queued toast's :content renders below its title, not instead of it" do
+      queued = [
+        %{
+          id: 1,
+          title: "Kept",
+          content: [%{type: :text, props: %{text: "Body node"}, children: []}]
+        }
+      ]
+
+      titles = MishkaToast.toast(toasts: queued) |> find_all(:text) |> Enum.map(& &1.props[:text])
+
+      assert "Kept" in titles
+      assert "Body node" in titles
+
+      assert Enum.find_index(titles, &(&1 == "Kept")) <
+               Enum.find_index(titles, &(&1 == "Body node"))
+    end
+
+    test "content with no title is the whole card" do
+      queued = [%{id: 1, content: [%{type: :text, props: %{text: "Only"}, children: []}]}]
+      texts = MishkaToast.toast(toasts: queued) |> find_all(:text) |> Enum.map(& &1.props[:text])
+
+      assert texts == ["Only"]
+    end
+  end
+
+  describe "close_icon" do
+    test "defaults to ✕ and is overridable" do
+      assert MishkaToast.toast(toasts: toasts(), on_dismiss: :drop) |> text() =~ "✕"
+
+      assert MishkaToast.toast(toasts: toasts(), on_dismiss: :drop, close_icon: "×")
+             |> text() =~ "×"
+    end
   end
 
   test "every variant renders" do

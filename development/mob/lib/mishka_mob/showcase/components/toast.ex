@@ -30,6 +30,7 @@ defmodule MishkaMob.Showcase.Components.Toast do
     |> Mob.Socket.assign(:tst, [])
     |> Mob.Socket.assign(:tst_next, 1)
     |> Mob.Socket.assign(:tst_position, :bottom)
+    |> Mob.Socket.assign(:tst_static, false)
   end
 
   @impl true
@@ -39,11 +40,20 @@ defmodule MishkaMob.Showcase.Components.Toast do
         title: "Stack a few",
         description: "The viewport renders whatever list the screen holds.",
         code: ~S"""
-        # in overlay/1
+        # in overlay/1 — the viewport overlays the whole page
         <MishkaToast toasts={@toasts} on_dismiss={:drop} />
 
-        # in the handler
-        Queue.push(@toasts, %{id: id, title: "Saved", variant: :success})
+        def handle({:add, variant}, socket) do
+          entry = %{id: socket.assigns.next, title: "Saved", variant: variant}
+
+          socket
+          |> Mob.Socket.assign(:toasts, Queue.push(socket.assigns.toasts, entry))
+          |> Mob.Socket.assign(:next, socket.assigns.next + 1)
+        end
+
+        # the ✕ sends {:tap, {tag, toast_id}}, so one clause serves every card
+        def handle({:drop, id}, socket),
+          do: Mob.Socket.assign(socket, :toasts, Queue.dismiss(socket.assigns.toasts, id))
         """,
         render: fn _assigns ->
           ~MOB"""
@@ -91,7 +101,10 @@ defmodule MishkaMob.Showcase.Components.Toast do
         title: "Position",
         description: "Stack against the top or the bottom edge.",
         code: ~S"""
-        <MishkaToast toasts={@toasts} position={:top} />
+        <MishkaToast toasts={@toasts} position={@position} on_dismiss={:drop} />
+
+        def handle(:to_top, socket), do: Mob.Socket.assign(socket, :position, :top)
+        def handle(:to_bottom, socket), do: Mob.Socket.assign(socket, :position, :bottom)
         """,
         render: fn _assigns ->
           ~MOB"""
@@ -100,6 +113,73 @@ defmodule MishkaMob.Showcase.Components.Toast do
             <Spacer size={8} />
             {plain("Bottom", :tst_bottom)}
           </Row>
+          """
+        end
+      },
+      %Example{
+        title: "Slots",
+        description:
+          "A toast written in markup rather than queued, with its own body and " <>
+            "a custom dismiss label. Toggle it and watch it stack with the queued ones.",
+        code: ~S"""
+        <MishkaToast toasts={@toasts} on_dismiss={:drop}>
+          <MishkaToastItem id={:welcome} title="Welcome" variant={:info}>
+            <Text text="Written in markup, not queued." text_size={:sm} />
+          </MishkaToastItem>
+          <MishkaToastClose>
+            <Text text="Dismiss" text_size={:sm} text_color={:muted} />
+          </MishkaToastClose>
+        </MishkaToast>
+
+        # A static item is not in @toasts, so Queue.dismiss cannot remove it —
+        # the screen drops it by flipping the flag that renders the markup.
+        def handle({:drop, :welcome}, socket),
+          do: Mob.Socket.assign(socket, :static?, false)
+
+        def handle({:drop, id}, socket),
+          do: Mob.Socket.assign(socket, :toasts, Queue.dismiss(socket.assigns.toasts, id))
+        """,
+        render: fn _assigns ->
+          ~MOB"""
+          <Column fill_width={true}>
+            <Text
+              text="The markup toast carries a body instead of a description, and every card's ✕ becomes a 'Dismiss' label."
+              text_size={:sm}
+              text_color={:muted}
+            />
+            <Spacer size={12} />
+            <Row fill_width={true}>
+              {plain("Toggle markup toast", :tst_toggle_static)}
+            </Row>
+          </Column>
+          """
+        end
+      },
+      %Example{
+        title: "Auto-dismiss",
+        description:
+          "Timers belong to the screen. Stamp each toast with :at, then drive " <>
+            "Queue.expire/3 from a tick — per-toast :duration wins, and 0 is sticky.",
+        code: ~S"""
+        # push with a stamp, and schedule the sweep
+        entry = %{id: id, title: "Saved", at: System.monotonic_time(:millisecond)}
+        Process.send_after(self(), :sweep, 1_000)
+
+        def handle(:sweep, socket) do
+          Process.send_after(self(), :sweep, 1_000)
+          Mob.Socket.assign(socket, :toasts, Queue.expire(socket.assigns.toasts, 5_000))
+        end
+
+        # this one never expires, matching the web engine's `duration: 0`
+        %{id: 9, title: "Sticky", duration: 0, at: now}
+        """,
+        render: fn _assigns ->
+          ~MOB"""
+          <Text
+            text="Queue.expire/3 is a pure function over the list, so the sweep is testable without waiting on a timer."
+            text_size={:sm}
+            text_color={:muted}
+          />
           """
         end
       }
@@ -113,7 +193,9 @@ defmodule MishkaMob.Showcase.Components.Toast do
         name: "toasts",
         type: "list of maps",
         default: "[]",
-        description: "%{id:, title:, description:, variant:}."
+        description:
+          "%{id:, title:, description:, variant:, duration:, content:}. " <>
+            "content is a node list rendered instead of title/description."
       },
       %{
         name: "position",
@@ -135,6 +217,26 @@ defmodule MishkaMob.Showcase.Components.Toast do
       },
       %{name: "space", type: "number", default: "10", description: "Gap between toasts."},
       %{
+        name: "close_icon",
+        type: "string",
+        default: "\"✕\"",
+        description: "Glyph for the dismiss control."
+      },
+      %{
+        name: "<MishkaToastItem>",
+        type: "slot",
+        default: "—",
+        description:
+          "A toast written in markup. Attrs match a toast map; children are its body. " <>
+            "Cannot dismiss itself — it is not in the queue."
+      },
+      %{
+        name: "<MishkaToastClose>",
+        type: "slot",
+        default: "—",
+        description: "Content for every card's dismiss control, replacing close_icon."
+      },
+      %{
         name: "Queue.push/3 · dismiss/2 · expire/3",
         type: "helpers",
         default: "—",
@@ -143,7 +245,31 @@ defmodule MishkaMob.Showcase.Components.Toast do
     ]
   end
 
+  # Two paths on purpose. Without the markup toast this is the plain function
+  # call every screen makes; with it, the composite tag — which is the only path
+  # that can carry slot children, and the one that widens `on_dismiss` to
+  # `{screen_pid, tag}` for us.
   @impl true
+  def overlay(%{tst_static: true} = assigns) do
+    queued = assigns.tst
+    position = assigns.tst_position
+
+    ~MOB"""
+    <MishkaToast toasts={queued} position={position} on_dismiss={:tst_drop}>
+      <MishkaToastItem id={:welcome} title="Welcome" variant={:info}>
+        <Text
+          text="Written in markup, not queued — its body is a slot."
+          text_size={:sm}
+          text_color={:muted}
+        />
+      </MishkaToastItem>
+      <MishkaToastClose>
+        <Text text="Dismiss" text_size={:sm} text_color={:muted} />
+      </MishkaToastClose>
+    </MishkaToast>
+    """
+  end
+
   def overlay(assigns) do
     toast(toasts: assigns.tst, position: assigns.tst_position, on_dismiss: :tst_drop)
   end
@@ -164,8 +290,16 @@ defmodule MishkaMob.Showcase.Components.Toast do
     |> Mob.Socket.assign(:tst_next, id + 1)
   end
 
+  # The markup toast is not in the queue, so Queue.dismiss has nothing to remove
+  # — dropping it means stopping rendering it.
+  def handle({:tst_drop, :welcome}, socket),
+    do: Mob.Socket.assign(socket, :tst_static, false)
+
   def handle({:tst_drop, id}, socket),
     do: Mob.Socket.assign(socket, :tst, Queue.dismiss(socket.assigns.tst, id))
+
+  def handle(:tst_toggle_static, socket),
+    do: Mob.Socket.assign(socket, :tst_static, not socket.assigns.tst_static)
 
   def handle(:tst_clear, socket), do: Mob.Socket.assign(socket, :tst, [])
   def handle(:tst_top, socket), do: Mob.Socket.assign(socket, :tst_position, :top)
@@ -178,33 +312,33 @@ defmodule MishkaMob.Showcase.Components.Toast do
   defp title_for(_), do: "Heads up"
 
   defp btn(label, variant) do
-    %{
-      type: :button,
-      props: %{
-        text: label,
-        background: :surface_raised,
-        text_color: :on_surface,
-        padding: :space_sm,
-        weight: 1,
-        on_tap: {self(), {:tst_add, variant}}
-      },
-      children: []
-    }
+    tap = {self(), {:tst_add, variant}}
+
+    ~MOB"""
+    <Button
+      text={label}
+      background={:surface_raised}
+      text_color={:on_surface}
+      padding={:space_sm}
+      weight={1}
+      on_tap={tap}
+    />
+    """
   end
 
   defp plain(label, tag) do
-    %{
-      type: :button,
-      props: %{
-        text: label,
-        background: :primary,
-        text_color: :on_primary,
-        padding: :space_sm,
-        weight: 1,
-        on_tap: {self(), tag}
-      },
-      children: []
-    }
+    tap = {self(), tag}
+
+    ~MOB"""
+    <Button
+      text={label}
+      background={:primary}
+      text_color={:on_primary}
+      padding={:space_sm}
+      weight={1}
+      on_tap={tap}
+    />
+    """
   end
 
   @impl true

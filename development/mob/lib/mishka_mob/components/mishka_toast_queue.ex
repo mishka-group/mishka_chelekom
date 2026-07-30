@@ -9,8 +9,10 @@ defmodule MishkaMob.Components.MishkaToast.Queue do
   operations live here and the screen drives them, keeping the toast list in its
   own assigns where it already belongs.
 
-  A toast is a plain map: `%{id:, title:, description:, variant:, at:}`. `at` is
-  a monotonic millisecond stamp used only by `expire/2`.
+  A toast is a plain map: `%{id:, title:, description:, variant:, at:,
+  duration:}`. `at` is a monotonic millisecond stamp used only by `expire/3`,
+  and `duration` overrides that call's default for this one toast — matching the
+  per-toast `duration` attr the web component's `<:toast>` slot declares.
   """
 
   @doc """
@@ -47,23 +49,31 @@ defmodule MishkaMob.Components.MishkaToast.Queue do
   def dismiss(toasts, id), do: Enum.reject(toasts, &(Map.get(&1, :id) == id))
 
   @doc """
-  Drop every toast stamped more than `duration` ms before `now`.
+  Drop every toast that has outlived its duration as of `now`.
 
-  Toasts with no `:at` never expire, so a message can be made sticky by simply
-  omitting the stamp.
+  `duration` is the default; a toast carrying its own `:duration` uses that
+  instead, which is how the web component's per-toast `duration` attr ports. Two
+  ways to make a message sticky, both matching the web behaviour: omit `:at`, or
+  give it `duration: 0` — the web engine reads `0` as "disables auto-dismiss".
 
       iex> alias MishkaMob.Components.MishkaToast.Queue
       ...> Queue.expire([%{id: 1, at: 0}, %{id: 2, at: 5_000}], 4_000, now: 5_000)
       [%{id: 2, at: 5000}]
+
+      iex> alias MishkaMob.Components.MishkaToast.Queue
+      ...> queue = [%{id: 1, at: 0, duration: 500}, %{id: 2, at: 0, duration: 0}]
+      ...> Queue.expire(queue, 10_000, now: 1_000)
+      [%{id: 2, at: 0, duration: 0}]
   """
   @spec expire([map()], non_neg_integer(), keyword()) :: [map()]
   def expire(toasts, duration, opts \\ []) do
     now = Keyword.get_lazy(opts, :now, fn -> System.monotonic_time(:millisecond) end)
 
     Enum.reject(toasts, fn toast ->
-      case Map.get(toast, :at) do
-        nil -> false
-        at -> now - at >= duration
+      case {Map.get(toast, :at), Map.get(toast, :duration, duration)} do
+        {nil, _} -> false
+        {_at, sticky} when not is_integer(sticky) or sticky <= 0 -> false
+        {at, dur} -> now - at >= dur
       end
     end)
   end
@@ -74,8 +84,16 @@ defmodule MishkaMob.Components.MishkaToast.Queue do
     Enum.reject(toasts, &(Map.get(&1, key) != nil and Map.get(&1, key) == Map.get(toast, key)))
   end
 
+  # Same nil guard as the atom clause. Without it a key function that returns nil
+  # for both toasts — `& &1[:group]` over two toasts with no `:group` — reads
+  # `nil == nil` as a match and silently drops an unrelated message.
   defp dedup(toasts, toast, fun) when is_function(fun, 1) do
-    Enum.reject(toasts, &(fun.(&1) == fun.(toast)))
+    key = fun.(toast)
+
+    Enum.reject(toasts, fn existing ->
+      existing_key = fun.(existing)
+      existing_key != nil and existing_key == key
+    end)
   end
 
   defp cap(toasts, nil), do: toasts

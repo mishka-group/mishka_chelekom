@@ -241,7 +241,9 @@ defmodule MishkaMob.Showcase do
   @slot_tags [
     :mishka_accordion_item,
     :mishka_empty_state_actions,
-    :mishka_empty_state_indicator
+    :mishka_empty_state_indicator,
+    :mishka_toast_close,
+    :mishka_toast_item
   ]
 
   @doc "Every slot tag — a child tag consumed by its parent composite's `expand/3`."
