@@ -166,28 +166,34 @@ defmodule MishkaMob.Showcase.Components.LoadingOverlay do
       %Example{
         title: "Over the whole page, with a body of your own",
         description:
-          "The real-world shape: a glass scrim over the entire screen, and a " <>
-            "panel you built — icon, headline, progress detail and a way out. " <>
-            "Children replace the indicator, so everything inside is yours.",
+          "The real-world shape: a glass scrim over the entire screen with the " <>
+            "content straight on it — icon, headline, progress detail and a way " <>
+            "out, no card of its own. Children replace the indicator, so " <>
+            "everything inside is yours.",
         code: ~S"""
         # A screen-wide overlay goes at the SCREEN root, not inside a card. Here
         # that is the showcase's overlay/1; in your app it is the outermost Box
         # of render/1, with the overlay as its last child.
         def overlay(assigns) do
           panel = sync_panel()
-          ~MOB(<MishkaLoadingOverlay visible={@syncing?} scrim_color={0x99FFFFFF}>
+          ~MOB(<MishkaLoadingOverlay visible={@syncing?} scrim_color={0xE6FFFFFF}>
             {panel}
           </MishkaLoadingOverlay>)
         end
 
         # Children replace the indicator entirely — panel and all — so supply
         # your own Progress, or nothing on the overlay will move.
-        #   <Box width={272} padding={:space_lg} background={:surface} ...>
+        #   <Box width={272}>
         #     <Text text="☁️" fill_width={true} text_align={:center} />
         #     <Text text="Syncing your library" ... />
         #     <Progress color={:primary} />
-        #     <Button text="Cancel" fill_width={true} on_tap={{self(), :cancel}} />
+        #     <Button text="Cancel" background={:transparent} text_color={:primary}
+        #             fill_width={true} on_tap={{self(), :cancel}} />
         #   </Box>
+        #
+        # No background anywhere — the content sits on the glass. The button
+        # needs background={:transparent} explicitly, or Compose draws a filled
+        # M3 button in its place.
         #
         # A Column cannot centre its children, so the Texts centre themselves
         # with text_align and the Progress and Button fill the panel instead.
@@ -301,7 +307,7 @@ defmodule MishkaMob.Showcase.Components.LoadingOverlay do
     panel = sync_panel()
 
     ~MOB"""
-    <MishkaLoadingOverlay visible={true} scrim_color={0x99FFFFFF}>
+    <MishkaLoadingOverlay visible={true} scrim_color={0xE6FFFFFF}>
       {panel}
     </MishkaLoadingOverlay>
     """
@@ -309,15 +315,21 @@ defmodule MishkaMob.Showcase.Components.LoadingOverlay do
 
   def overlay(_assigns), do: nil
 
-  # Children replace the indicator, panel and all — so this supplies its own
-  # Progress, or the overlay would have nothing moving on it. A Column cannot
-  # centre its children, so the Texts centre themselves with text_align and the
-  # Progress and Button fill the panel's width instead.
+  # Nothing here has a surface of its own: the content sits straight on the
+  # glass, which is what the scrim's alpha is for. The Cancel button gets
+  # `background: :transparent` (renderer.ex resolves it to 0x00000000) — without
+  # it, Compose falls back to `ButtonDefaults.buttonColors()` and draws a filled
+  # M3 button, which is the grey box this deliberately does not have.
+  #
+  # Children replace the indicator, panel and all, so this supplies its own
+  # Progress or nothing on the overlay would move. A Column cannot centre its
+  # children, so the Texts centre themselves with text_align and the Progress
+  # and Button fill the width instead.
   defp sync_panel do
     cancel = {self(), :lo_page_cancel}
 
     ~MOB"""
-    <Box width={272} padding={:space_lg} background={:surface} corner_radius={:radius_lg}>
+    <Box width={272}>
       <Column fill_width={true}>
         <Text text="☁️" text_size={:"3xl"} fill_width={true} text_align={:center} />
         <Spacer size={10} />
@@ -337,13 +349,13 @@ defmodule MishkaMob.Showcase.Components.LoadingOverlay do
           fill_width={true}
           text_align={:center}
         />
-        <Spacer size={16} />
+        <Spacer size={18} />
         <Progress color={:primary} />
-        <Spacer size={16} />
+        <Spacer size={14} />
         <Button
           text="Cancel"
-          background={:surface_raised}
-          text_color={:on_surface}
+          background={:transparent}
+          text_color={:primary}
           padding={:space_sm}
           fill_width={true}
           on_tap={cancel}

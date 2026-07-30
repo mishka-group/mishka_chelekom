@@ -95,13 +95,24 @@ def render(assigns) do
 end
 ```
 
-A lower alpha on `scrim_color` (`0x99` ≈ 60%) leaves the page legible through the scrim, which is
-what makes a full-page cover feel like glass rather than a blank wall. There is no blur primitive —
-alpha is the whole effect.
+**Alpha is the whole glass effect — there is no blur primitive**, and the alpha you pick depends on
+whether your content has a surface of its own:
+
+| Body | Scrim | Why |
+|---|---|---|
+| the built-in panel, or one of your own | `0x99`–`0xCC` (60–80%) | the panel supplies the contrast |
+| bare content, straight on the glass | `0xE6` (90%) | nothing else separates it from the page |
+
+That second row is not a style preference. At 60% with no panel, page text bleeds straight through
+the headline and the two become unreadable — measured on device, not guessed. At 90% the page
+recedes to a ghost, the content is crisp, and it still reads as glass rather than a wall.
 
 **Children replace the indicator, panel and all — so bring your own `Progress`.** That is the hook
 for a real busy panel: an icon, a headline, a line of detail, and a way out. Two things to know
-about building one. Your panel is centred for you (the component wraps children in a centring Box),
+about building one. Give the Button `background={:transparent}` if you want it bare — omit it and
+Compose falls back to `ButtonDefaults.buttonColors()` and draws a filled M3 button, which is a grey
+box you did not ask for. Your panel is centred for you (the component wraps children in a centring
+Box),
 but *inside* it a Column still cannot align its children — centre Texts with
 `fill_width={true} text_align={:center}`, and let a `Progress` or a `fill_width` Button span the
 panel. And a control inside the scrim **does** get its own taps: children are hit-tested before the
