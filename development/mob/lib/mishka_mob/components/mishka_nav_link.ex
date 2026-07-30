@@ -101,17 +101,19 @@ defmodule MishkaMob.Components.MishkaNavLink do
         true -> :on_surface
       end
 
-    weight = if active?, do: :semibold, else: :regular
+    # `font_weight`, not `weight`: a bare `weight` on a Text is read by the
+    # PARENT Row/Column as a layout weight and does nothing to the font.
+    font_weight = if active?, do: :semibold, else: :regular
     label = Map.get(props, :label, "")
 
     case Map.get(props, :description) do
       nil ->
-        ~MOB(<Text text={label} text_size={:base} text_color={ink} weight={weight} />)
+        ~MOB(<Text text={label} text_size={:base} text_color={ink} font_weight={font_weight} />)
 
       description ->
         ~MOB"""
         <Column>
-          <Text text={label} text_size={:base} text_color={ink} weight={weight} />
+          <Text text={label} text_size={:base} text_color={ink} font_weight={font_weight} />
           <Spacer size={2} />
           <Text text={description} text_size={:sm} text_color={:muted} />
         </Column>

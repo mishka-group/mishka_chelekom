@@ -165,7 +165,7 @@ defmodule MishkaMob.Showcase.Components.ColorPicker do
     ~MOB"""
     <Box fill_width={true} background={fill} corner_radius={:radius_md} padding={:space_md}>
       <Row fill_width={true}>
-        <Text text={Color.hex(rgb)} text_size={:base} text_color={ink} weight={:semibold} />
+        <Text text={Color.hex(rgb)} text_size={:base} text_color={ink} font_weight={:semibold} />
         <Spacer weight={1} />
         <Text text={"H #{round(h)}  S #{round(s)}  B #{round(v)}"} text_size={:sm} text_color={ink} />
       </Row>

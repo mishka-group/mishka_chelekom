@@ -17,7 +17,11 @@ defmodule <%= @module %> do
   | `thousand_separator` | string · boolean | `","` | `true` means `","`; `false` disables grouping. |
   | `decimal_separator` | string | `"."` | Radix character. |
   | `prefix` / `suffix` | string | `nil` | Wrapped around the digits. |
-  | `text_size` / `text_color` / `weight` | tokens | `:base` / `:on_surface` / `:regular` | Text styling. |
+  | `text_size` / `text_color` / `font_weight` | tokens | `:base` / `:on_surface` / `:regular` | Text styling. |
+
+  The weight prop is `font_weight`, not `weight`. Both bridges read `font_weight`
+  for typography; a bare `weight` is a Row/Column **layout** weight, so passing
+  it here would style nothing.
   """
 
   import Mob.Sigil
@@ -41,7 +45,7 @@ defmodule <%= @module %> do
       text={text}
       text_size={Map.get(props, :text_size, :base)}
       text_color={Map.get(props, :text_color, :on_surface)}
-      weight={Map.get(props, :weight, :regular)}
+      font_weight={Map.get(props, :font_weight, :regular)}
     />
     """
   end

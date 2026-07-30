@@ -56,7 +56,10 @@ defmodule MishkaMob.Components.MishkaNavLinkTest do
       label = tree |> find_all(:text) |> Enum.find(&(&1.props.text == "Inbox"))
 
       assert label.props.text_color == :primary
-      assert label.props.weight == :semibold
+      # `font_weight`, not `weight` — the bridges read the former for typography,
+      # and the latter is a parent Row/Column layout weight that styles nothing.
+      assert label.props.font_weight == :semibold
+      refute Map.has_key?(label.props, :weight)
       assert find(tree, :box).props.background == :surface_raised
     end
 

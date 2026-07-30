@@ -141,8 +141,11 @@ defmodule MishkaMob.Components.MishkaFloatingWindowTest do
       active = tree |> find_all(:text) |> Enum.find(&(&1.props.text == "Day"))
       other = tree |> find_all(:text) |> Enum.find(&(&1.props.text == "Week"))
 
-      assert active.props.weight == :semibold
-      assert other.props.weight == :regular
+      # `font_weight`, not `weight` — the bridges read the former for typography,
+      # and the latter is a parent Row/Column layout weight that styles nothing.
+      assert active.props.font_weight == :semibold
+      assert other.props.font_weight == :regular
+      refute Map.has_key?(active.props, :weight)
     end
 
     test "the highlight colour is a prop" do

@@ -278,7 +278,7 @@ defmodule MishkaMob.Showcase.Components.NavLink do
         content: [
           ~MOB"""
           <Column fill_width={true}>
-            <Text text="Chelekom" text_size={:base} text_color={:on_surface} weight={:semibold} />
+            <Text text="Chelekom" text_size={:base} text_color={:on_surface} font_weight={:semibold} />
             <Spacer size={4} />
             <Text text="Headless components for Phoenix and Mob." text_size={:sm} text_color={:muted} />
           </Column>

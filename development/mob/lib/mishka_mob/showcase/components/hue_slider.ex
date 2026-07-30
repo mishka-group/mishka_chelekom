@@ -58,7 +58,7 @@ defmodule MishkaMob.Showcase.Components.HueSlider do
 
     ~MOB"""
     <Box fill_width={true} background={fill} corner_radius={:radius_md} padding={:space_md}>
-      <Text text={Color.hex(rgb)} text_size={:base} text_color={ink} weight={:semibold} />
+      <Text text={Color.hex(rgb)} text_size={:base} text_color={ink} font_weight={:semibold} />
     </Box>
     """
   end

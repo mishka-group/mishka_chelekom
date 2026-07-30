@@ -238,7 +238,10 @@ defmodule MishkaMob.Components.MishkaTreeTest do
       label = tree |> find_all(:text) |> Enum.find(&(&1.props.text == "mix.exs"))
 
       assert label.props.text_color == :primary
-      assert label.props.weight == :semibold
+      # `font_weight`, not `weight` — the bridges read the former for typography,
+      # and the latter is a parent Row/Column layout weight that styles nothing.
+      assert label.props.font_weight == :semibold
+      refute Map.has_key?(label.props, :weight)
     end
 
     test "a disabled node is muted and wires nothing" do

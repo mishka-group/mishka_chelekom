@@ -78,7 +78,7 @@ defmodule MishkaMob.Showcase.Components.JsonInput do
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaNumberFormatter value={1_234_567.5} decimals={2} prefix="$" weight={:semibold} />
+            <MishkaNumberFormatter value={1_234_567.5} decimals={2} prefix="$" font_weight={:semibold} />
             <Spacer size={6} />
             <MishkaNumberFormatter
               value={1_234.5}
@@ -158,6 +158,12 @@ defmodule MishkaMob.Showcase.Components.JsonInput do
         type: "string",
         default: "nil",
         description: "Wrapped around the digits."
+      },
+      %{
+        name: "Formatter: text_size / text_color / font_weight",
+        type: "tokens",
+        default: ":base / :on_surface / :regular",
+        description: "Text styling. The weight prop is `font_weight` — a bare `weight` is layout."
       }
     ]
   end

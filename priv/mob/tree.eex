@@ -409,9 +409,11 @@ defmodule <%= @module %> do
         true -> :on_surface
       end
 
-    weight = if selected?, do: :semibold, else: :regular
+    # `font_weight`, not `weight`: a bare `weight` on a Text is read by the
+    # PARENT Row/Column as a layout weight and does nothing to the font.
+    font_weight = if selected?, do: :semibold, else: :regular
 
-    ~MOB(<Text text={node.label} text_size={:base} text_color={ink} weight={weight} />)
+    ~MOB(<Text text={node.label} text_size={:base} text_color={ink} font_weight={font_weight} />)
   end
 
   defp select_handler(node, props, disabled?),

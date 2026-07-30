@@ -130,10 +130,13 @@ defmodule <%= @module %> do
   defp handle(props) do
     label = Map.get(props, :label) || ""
 
+    # The Text takes `font_weight` and the Spacer below it takes `weight`: two
+    # different props. A bare `weight` on the Text would be read by the Row as a
+    # layout weight and do nothing to the font.
     ~MOB"""
     <Box fill_width={true} background={:surface_raised} padding={:space_sm}>
       <Row fill_width={true} align={:center}>
-        <Text text={label} text_size={:sm} text_color={:on_surface} weight={:semibold} />
+        <Text text={label} text_size={:sm} text_color={:on_surface} font_weight={:semibold} />
         <Spacer weight={1} />
         {nudges(props)}
         {close(props)}

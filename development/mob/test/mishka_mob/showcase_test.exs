@@ -142,6 +142,32 @@ defmodule MishkaMob.ShowcaseTest do
       end
     end
 
+    test "no Text carries a bare `weight` — typography is `font_weight`" do
+      # Both bridges read `font_weight` for a font: `fontWeightProp` in
+      # MobBridge.kt (`props["font_weight"]`) and `props[@"font_weight"]` in
+      # mob's ios/mob_nif.m. A `weight` on a Text is read by the PARENT
+      # Row/Column instead, as a Compose layout weight — and iOS has no layout
+      # weight at all. Worse, `floatProp` wants a number, so an atom like
+      # `:semibold` serialises to "semibold" and is dropped there too: the prop
+      # does nothing whatsoever, silently. That silence is why this is pinned
+      # across the whole catalog rather than one component at a time.
+      pages =
+        for module <- Showcase.modules() do
+          slug = module.entry().slug
+          {slug, ComponentScreen |> mount_screen(%{slug: slug}) |> expanded()}
+        end
+
+      offenders =
+        for {slug, tree} <- [{:gallery, GalleryScreen |> mount_screen() |> expanded()} | pages],
+            node <- find_all(tree, :text),
+            Map.has_key?(node.props, :weight),
+            do: {slug, node.props[:text], node.props[:weight]}
+
+      assert offenders == [],
+             "a Text styles its font with `font_weight`; these carry a dead `weight`: " <>
+               inspect(offenders)
+    end
+
     test "focus and blur reach the component, and are NOT taps" do
       # The bug this pins: mob_send_focus emits {:focus, tag}, not {:tap, tag}.
       # Without clauses for the real shape both events fell through the catch-all

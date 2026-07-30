@@ -105,7 +105,9 @@ defmodule MishkaMob.Components.MishkaFloatingIndicator do
         true -> :muted
       end
 
-    weight = if active?, do: :semibold, else: :regular
+    # `font_weight`, not `weight`: a bare `weight` on a Text is read by the
+    # PARENT Row/Column as a layout weight and does nothing to the font.
+    font_weight = if active?, do: :semibold, else: :regular
 
     node =
       ~MOB"""
@@ -116,7 +118,7 @@ defmodule MishkaMob.Components.MishkaFloatingIndicator do
         padding={:space_sm}
         align={:center}
       >
-        <Text text={entry.label} text_size={:sm} text_color={ink} weight={weight} />
+        <Text text={entry.label} text_size={:sm} text_color={ink} font_weight={font_weight} />
       </Box>
       """
       |> put(:on_tap, handler(props, entry.value, disabled?))

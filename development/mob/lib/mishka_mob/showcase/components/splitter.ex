@@ -105,7 +105,7 @@ defmodule MishkaMob.Showcase.Components.Splitter do
   defp pane(label, ink) do
     ~MOB"""
     <Column fill_width={true} padding={:space_md}>
-      <Text text={label} text_size={:sm} text_color={ink} weight={:semibold} />
+      <Text text={label} text_size={:sm} text_color={ink} font_weight={:semibold} />
       <Spacer size={6} />
       <Box fill_width={true} height={6} background={:surface_raised} corner_radius={:radius_sm} />
       <Spacer size={5} />
