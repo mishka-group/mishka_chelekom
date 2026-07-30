@@ -7,6 +7,8 @@ defmodule MishkaMob.Showcase.Components.SemiCircleProgress do
 
   import Mob.Sigil
 
+  import MishkaMob.Components.MishkaSemiCircleProgress, only: [semi_circle_progress: 1]
+
   alias MishkaMob.Components.MishkaRollingNumber
   alias MishkaMob.Showcase.Example
 
@@ -17,7 +19,7 @@ defmodule MishkaMob.Showcase.Components.SemiCircleProgress do
       name: "Semi Circle Progress",
       category: "Feedback",
       order: 4,
-      description: "A gauge with a large readout, plus a counting number."
+      description: "A half-circle gauge drawn on a canvas, plus a counting number."
     }
   end
 
@@ -34,9 +36,21 @@ defmodule MishkaMob.Showcase.Components.SemiCircleProgress do
       %Example{
         title: "A gauge",
         description:
-          "Mob has no canvas, so the arc is a track with a big readout — see the docs.",
+          "A real 180° arc on Mob.UI.canvas/1, at the web component's own " <>
+            "proportions — radius and stroke are ratios of size.",
         code: ~S"""
         <MishkaSemiCircleProgress value={@value} label="Battery" />
+
+        # the gauge is a display, so the buttons are the screen's
+        def handle(:up, socket), do: nudge(socket, +15)
+        def handle(:down, socket), do: nudge(socket, -15)
+
+        # clamp at the call site — the arc clamps, but a runaway assign means
+        # several taps do nothing before the needle moves again
+        defp nudge(socket, delta) do
+          value = min(max(socket.assigns.value + delta, 0), 100)
+          Mob.Socket.assign(socket, :value, value)
+        end
         """,
         render: fn assigns ->
           ~MOB"""
@@ -97,9 +111,13 @@ defmodule MishkaMob.Showcase.Components.SemiCircleProgress do
         Process.send_after(self(), {:roll, rest}, 16)
         """,
         render: fn assigns ->
+          # align on a Column is dead — Mob maps it to a bare Compose Column and
+          # a leading VStack, neither of which aligns children. A Box does.
           ~MOB"""
-          <Column fill_width={true} align={:center}>
-            <MishkaRollingNumber value={@rn_value} />
+          <Column fill_width={true}>
+            <Box fill_width={true} align={:center}>
+              <MishkaRollingNumber value={@rn_value} />
+            </Box>
             <Spacer size={12} />
             <Row fill_width={true}>
               <Button
@@ -126,10 +144,14 @@ defmodule MishkaMob.Showcase.Components.SemiCircleProgress do
       },
       %Example{
         title: "Grouping",
-        description: "separator groups thousands; \"\" turns it off.",
+        description:
+          "separator groups thousands — a comma by default, a space for the " <>
+            "European style, and \"\" turns grouping off. Negatives keep their sign.",
         code: ~S"""
         <MishkaRollingNumber value={1234567} />
+        <MishkaRollingNumber value={1234567} separator=" " />
         <MishkaRollingNumber value={1234567} separator="" />
+        <MishkaRollingNumber value={-98765} color={0xFFDC2626} />
         """,
         render: fn _assigns ->
           ~MOB"""
@@ -137,6 +159,8 @@ defmodule MishkaMob.Showcase.Components.SemiCircleProgress do
             <MishkaRollingNumber value={1_234_567} text_size={:xl} />
             <Spacer size={8} />
             <MishkaRollingNumber value={1_234_567} separator=" " text_size={:xl} />
+            <Spacer size={8} />
+            <MishkaRollingNumber value={1_234_567} separator="" text_size={:xl} />
             <Spacer size={8} />
             <MishkaRollingNumber value={-98_765} text_size={:xl} color={0xFFDC2626} />
           </Column>
@@ -149,13 +173,18 @@ defmodule MishkaMob.Showcase.Components.SemiCircleProgress do
   @impl true
   def props do
     [
-      %{name: "value", type: "number", default: "min", description: "The measurement."},
+      %{
+        name: "value",
+        type: "number or numeric string",
+        default: "min",
+        description: "The measurement. \"72\" reads as 72, matching the web attr."
+      },
       %{name: "min / max", type: "number", default: "0 / 100", description: "The range."},
       %{
         name: "label",
         type: "string",
         default: "nil",
-        description: "Caption under the readout."
+        description: "Caption under the gauge (the web aria-label)."
       },
       %{
         name: "value_text",
@@ -163,8 +192,24 @@ defmodule MishkaMob.Showcase.Components.SemiCircleProgress do
         default: "nil",
         description: "Overrides the readout."
       },
-      %{name: "color", type: "color / ARGB", default: ":primary", description: "Fill colour."},
-      %{name: "size", type: "number", default: "140", description: "Track width."},
+      %{
+        name: "color",
+        type: "color / ARGB",
+        default: ":primary",
+        description: "Indicator colour."
+      },
+      %{
+        name: "size",
+        type: "number",
+        default: "140",
+        description: "Gauge width in dp; the height follows at 0.54 ×, as the web viewBox does."
+      },
+      %{
+        name: "thickness",
+        type: "number",
+        default: "0.06 × size",
+        description: "Arc stroke width — the web's stroke-width: 12 in a w-48 box."
+      },
       %{
         name: "RollingNumber: value / separator",
         type: "integer / string",
@@ -198,21 +243,20 @@ defmodule MishkaMob.Showcase.Components.SemiCircleProgress do
 
   def handle(_tag, socket), do: socket
 
-  defp nudge(socket, delta),
-    do: Mob.Socket.assign(socket, :sc_value, socket.assigns.sc_value + delta)
+  # Clamp here, not just in the component. The arc clamps its own fraction, so
+  # an unbounded assign looks harmless — but it keeps counting past 100, and then
+  # several taps of "− 15" do nothing at all before the needle moves again. The
+  # progress and meter demos both shipped with exactly this bug.
+  defp nudge(socket, delta) do
+    value = min(max(socket.assigns.sc_value + delta, 0), 100)
+    Mob.Socket.assign(socket, :sc_value, value)
+  end
 
+  # The card shows the real component. It used to be a stack of boxes imitating a
+  # flat bar, which is what the gauge used to be — the preview lied about the
+  # shape as much as the docs did.
   @impl true
   def card_preview do
-    ~MOB"""
-    <Column fill_width={true} align={:center}>
-      <Box width={54} height={14} background={:muted} corner_radius={:radius_sm} />
-      <Spacer size={8} />
-      <Box width={104} height={8} background={:surface_raised} corner_radius={:radius_pill}>
-        <Box width={72} height={8} background={:primary} corner_radius={:radius_pill} />
-      </Box>
-      <Spacer size={8} />
-      <Box width={40} height={6} background={:surface_raised} corner_radius={:radius_sm} />
-    </Column>
-    """
+    semi_circle_progress(value: 68, size: 104)
   end
 end

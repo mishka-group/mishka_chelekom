@@ -3,40 +3,72 @@ defmodule MishkaMob.Components.MishkaSemiCircleProgress do
   Native Mob port of Mishka Chelekom's **headless Semi Circle Progress** — a
   gauge drawn as a half-circle arc.
 
-  ## The arc cannot be drawn, and the port says so
+  ## The arc is real, and its proportions are the web component's
 
-  The web component draws an SVG arc with a `stroke-dasharray`. Mob's widget set
-  has no canvas, no path and no rotation: `Box`, `Row`, `Column`, `Divider`,
-  `Progress`. There is no honest way to render a half-circle here, and faking
-  one with a stack of rotated boxes is not available either.
+  The web component draws two SVG paths — a track and an indicator swept by
+  `stroke-dasharray` — over `viewBox="0 0 200 108"`, both
+  `d="M 10 100 A 90 90 0 0 1 190 100"`. That is an exact semicircle: the chord
+  is 180 long for a radius of 90, so the centre can only be (100, 100), and the
+  positive sweep direction in a y-down space carries it up through (100, 10).
+  A half circle bulging **up**, flat side at the bottom, readout underneath it.
 
-  So this port renders the **same reading in the form Mob can draw well** — a
-  bounded track with a proportional fill and a large centred readout — and names
-  the limitation rather than shipping a lumpy approximation of an arc. It shares
-  `MishkaMob.Components.MishkaProgress.fraction/1`, so the range maths, clamping
-  and degenerate-range handling are identical to every other gauge here.
+  This draws the same thing on `Mob.UI.canvas/1` with two `Mob.Canvas.arc/6`
+  ops, from 180° to 360° (0° points right, angles sweep clockwise). Every number
+  is a ratio read off that viewBox rather than a value invented here, so the
+  gauge keeps the web proportions at any `size`:
 
-  If a true arc matters, it needs a `Canvas`/`Path` widget in Mob; that is a
-  framework change, not something this layer can paper over.
+    * height is `0.54 × size` — 108/200.
+    * `thickness` defaults to `0.06 × size` — the canonical `stroke-width: 12`
+      inside a `w-48` box.
+    * the radius is inset by a full stroke, leaving half a stroke of clearance
+      the way `MishkaAngleSlider` and Chelekom's own styled web gauge both do.
+
+  The track takes the SVG default butt cap and the indicator a round one,
+  matching the web, where only the indicator sets `stroke-linecap`. The
+  indicator op is **omitted** at a zero sweep: a round cap paints a cap-sized
+  dot with nothing to stroke, and neither renderer guards it.
+
+  The readout is a real `Text` stacked over the canvas rather than a canvas text
+  op. A canvas is a drawing — anything painted into it has no text for the
+  platform to announce and nothing for a device test to find, which is a poor
+  trade for a gauge whose whole job is reporting a number.
+
+  A canvas is fixed at `width`/`height` dp — it has no `fill_width` — so the
+  gauge is `size` wide and centred by the Box around it.
 
   ## Props
 
   | Prop | Values | Default | Meaning |
   |------|--------|---------|---------|
-  | `value` | number | `min` | The measurement. |
+  | `value` | number or numeric string | `min` | The measurement. |
   | `min` / `max` | number | `0` / `100` | The range. |
-  | `label` | string | `nil` | Caption under the readout. |
+  | `label` | string | `nil` | Caption under the gauge. |
   | `value_text` | string | `nil` | Overrides the readout (default is a rounded percentage). |
-  | `color` | color token / ARGB int | `:primary` | Fill colour. |
-  | `size` | number | `140` | Track width. |
+  | `color` | color token / ARGB int | `:primary` | Indicator colour. |
+  | `size` | number | `140` | Gauge width in dp; height follows at `0.54 ×`. |
+  | `thickness` | number | `0.06 × size` | Arc stroke width. |
 
-  Not ported: the SVG arc geometry, `svg_class`, `track_class`,
-  `indicator_class`, `label_class` and `id`.
+  `label` is the web component's `aria-label`. Mob has no accessibility layer to
+  announce into, so it renders as a visible caption rather than being dropped.
+
+  Not ported: `svg_class`, `track_class`, `indicator_class`, `label_class` and
+  `id`. The web `inner_block` slot — an arbitrary centred readout — is a string
+  here (`value_text`), because the readout is painted into the canvas and a
+  canvas draws ops, not nodes.
   """
 
   import Mob.Sigil
 
   alias MishkaMob.Components.MishkaProgress
+
+  # Ratios off the headless viewBox "0 0 200 108": height 108/200, the canonical
+  # stroke-width 12/200, and a readout sized to sit inside the arc.
+  @height_ratio 0.54
+  @thickness_ratio 0.06
+  @readout_ratio 0.16
+
+  @track :surface_raised
+  @ink :on_surface
 
   @doc "Composite expander (`<MishkaSemiCircleProgress />`)."
   @spec expand(map(), [map()], map()) :: map()
@@ -52,22 +84,96 @@ defmodule MishkaMob.Components.MishkaSemiCircleProgress do
     props = Map.new(props)
     min = Map.get(props, :min, 0)
     fraction = MishkaProgress.fraction(Map.put_new(props, :value, min)) || 0.0
-    color = Map.get(props, :color, :primary)
     size = Map.get(props, :size, 140)
-    label = Map.get(props, :label)
-    readout = readout(props, fraction)
+    stroke = Map.get(props, :thickness, size * @thickness_ratio)
+
+    gauge = centre(stack(props, fraction, size, stroke))
+    caption = caption(Map.get(props, :label))
 
     ~MOB"""
-    <Column fill_width={true} align={:center}>
-      <Text text={readout} text_size={:"2xl"} text_color={:on_surface} />
-      <Spacer size={8} />
-      <Box width={size} height={8} background={:surface_raised} corner_radius={:radius_pill}>
-        <Progress value={fraction} color={color} />
-      </Box>
-      <Spacer size={8} :if={is_binary(label)} />
-      <Text text={label} text_size={:sm} text_color={:muted} :if={is_binary(label)} />
+    <Column fill_width={true}>
+      {gauge}
+      {caption}
     </Column>
     """
+  end
+
+  @doc """
+  The draw ops for a gauge, exposed so a test can assert the geometry rather
+  than a pixel.
+
+      iex> alias MishkaMob.Components.MishkaSemiCircleProgress, as: G
+      ...> [track, indicator] = G.ops(%{value: 50}, 0.5, 140, 8.4)
+      ...> {track.start_deg, track.end_deg, indicator.end_deg}
+      {180, 360, 270.0}
+  """
+  @spec ops(map(), float(), number(), number()) :: [map()]
+  def ops(props, fraction, size, stroke) do
+    centre = size / 2
+    radius = centre - stroke
+
+    [Mob.Canvas.arc(centre, centre, radius, 180, 360, color: @track, width: stroke)] ++
+      indicator(centre, radius, stroke, fraction, Map.get(props, :color, :primary))
+  end
+
+  # Guard the computed SWEEP, not the fraction: a round cap with nothing to
+  # stroke still paints a cap-sized dot at the left end, and neither renderer
+  # guards zero — Compose drawArc and SwiftUI addArc are called straight through.
+  defp indicator(centre, radius, stroke, fraction, color) do
+    sweep = 180 * fraction
+
+    if sweep <= 0 do
+      []
+    else
+      [
+        Mob.Canvas.arc(centre, centre, radius, 180, 180 + sweep,
+          color: color,
+          width: stroke,
+          cap: :round
+        )
+      ]
+    end
+  end
+
+  # The readout is a real Text stacked OVER the canvas, not a canvas text op. A
+  # canvas is a drawing: anything painted into it has no text for the platform to
+  # announce and nothing for a device test to find, which is a poor trade for a
+  # gauge whose whole job is reporting a number. Box is a ZStack on both
+  # renderers, and `align: :center` is honoured on both.
+  defp stack(props, fraction, size, stroke) do
+    height = round(size * @height_ratio)
+    canvas = canvas(props, fraction, size, stroke)
+    readout = readout_node(props, fraction, size)
+
+    ~MOB"""
+    <Box width={size} height={height} align={:center}>
+      {canvas}
+      {readout}
+    </Box>
+    """
+  end
+
+  # text_size takes a raw number (both bridges .sp it), and the weight prop is
+  # `font_weight` — a bare `weight` on a Text is read by the PARENT as layout
+  # weight and silently does nothing to the font.
+  defp readout_node(props, fraction, size) do
+    text = readout(props, fraction)
+    text_size = round(size * @readout_ratio)
+    ink = @ink
+
+    ~MOB"""
+    <Text text={text} text_size={text_size} text_color={ink} font_weight={:semibold} />
+    """
+  end
+
+  # Mob.UI.canvas/1 Map.takes only [:width, :height, :draw]; nothing else here
+  # needs to survive, so the helper is the honest call.
+  defp canvas(props, fraction, size, stroke) do
+    Mob.UI.canvas(
+      width: size,
+      height: round(size * @height_ratio),
+      draw: ops(props, fraction, size, stroke)
+    )
   end
 
   defp readout(props, fraction) do
@@ -75,5 +181,27 @@ defmodule MishkaMob.Components.MishkaSemiCircleProgress do
       text when is_binary(text) -> text
       _ -> "#{round(fraction * 100)}%"
     end
+  end
+
+  defp caption(label) when is_binary(label) do
+    caption =
+      centre(~MOB"""
+      <Text text={label} text_size={:sm} text_color={:muted} />
+      """)
+
+    [~MOB(<Spacer size={8} />), caption]
+  end
+
+  defp caption(_label), do: []
+
+  # A Column cannot centre its children — Mob maps it to a bare Compose Column
+  # with no horizontalAlignment and to a `VStack(alignment: .leading)` — so each
+  # part gets its own centring Box, the way MishkaEmptyState does.
+  defp centre(node) do
+    ~MOB"""
+    <Box fill_width={true} align={:center}>
+      {node}
+    </Box>
+    """
   end
 end
