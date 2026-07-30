@@ -51,7 +51,7 @@ If you want movement to say *work is happening* rather than *content goes here*,
 # Both branches must build the SAME shape at the SAME sizes, or the content
 # jumps when it arrives — which is the one thing a skeleton exists to prevent.
 if @loaded do
-  ~MOB"<MishkaAvatar name={@user.name} size={40} />"
+  ~MOB"<MishkaAvatar initials={@user.initials} size={40} />"
 else
   ~MOB"<MishkaSkeleton shape={:circle} size={40} />"
 end
@@ -72,15 +72,23 @@ No events — a placeholder is not interactive, and it wires no handlers anywher
 | `gap` | number | `8` — `:text` only |
 | `color` | colour token / ARGB | `:surface_raised` |
 | `corner_radius` | radius token / number | pill / `size/2` / `:radius_md` |
+| `id` | string | — a native testTag; `:text` numbers its bars `id-0`, `id-1`, … |
 
 Helper: `shares(lines, last_line)` → the width share of each bar.
 
 ## Three things to know
 
-**The short last line is a Row weight, not a width.** No geometry is reported back to `render/1`,
-so nothing here can know how wide the parent is — but weights are relative, so a bar at
-`weight: 0.6` beside a spacer at `weight: 0.4` is 60% of whatever it lands in. That is the same
-trick that lets `overflow_list` and `pill` work without measuring.
+**The short last line is a Row weight, not a width — and weights are Android-only.** No geometry is
+reported back to `render/1`, so nothing here can know how wide the parent is. On Android a bar at
+`weight: 0.6` beside a spacer at `weight: 0.4` really is 60% of whatever it lands in. **On iOS the
+renderer never parses `weight`**, so the bar and the spacer are two equally-flexible siblings in an
+`HStack` and the last line lands at ~50% regardless of `last_line`. The full-width bars agree on
+both — a lone flexible child gets 100% either way — which is why the divergence hides.
+
+A portable version makes the inset rigid and the bar flexible (`<Box weight={1.0}/>` followed by
+`<Box width={inset}/>`), which both engines resolve to `parent - inset`. That turns `last_line` from
+a fraction into a dp inset, so it is an API change, not a silent fix. Until it lands, treat
+`last_line` as an Android refinement.
 
 **A block fills unless you give it a width.** That is what a card placeholder wants. A circle
 always hugs, because an avatar that stretched across the row would be nonsense — both are set

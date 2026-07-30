@@ -1,6 +1,5 @@
 package com.example.mishka_mob
 
-import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithText
@@ -13,11 +12,12 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import kotlin.math.abs
 
 /**
- * End-to-end tests for the three surface components: Color Swatch, Loading
- * Overlay and Skeleton.
+ * End-to-end tests for the Color Swatch surface component.
+ *
+ * Loading Overlay and Skeleton used to live here too; each has its own class
+ * now (LoadingOverlayTest, SkeletonTest), named after what it covers.
  *
  * ## Why these three together
  *
@@ -71,19 +71,6 @@ class SurfaceTest {
             compose.onNodeWithText(card, substring = false).performScrollTo().performClick()
             compose.waitUntil(60_000) { showing(marker) }
         }
-    }
-
-    /** Bounds of the topmost PLACED node reading exactly [label]. */
-    private fun boundsOf(label: String): Rect {
-        compose.waitForIdle()
-
-        val placed = compose.onAllNodesWithText(label, substring = false)
-            .fetchSemanticsNodes()
-            .map { it.boundsInRoot }
-            .filter { it.width > 0f && it.height > 0f }
-
-        require(placed.isNotEmpty()) { "no laid-out node reading exactly \"$label\"" }
-        return placed.minByOrNull { it.top }!!
     }
 
     /**
@@ -181,73 +168,5 @@ class SurfaceTest {
         compose.onAllNodesWithText("the overlay below is invisible", substring = true)[0]
             .performScrollTo()
             .assertIsDisplayed()
-    }
-
-    // ── Skeleton ─────────────────────────────────────────────────────────────
-
-    @Test
-    fun the_skeleton_last_line_really_is_shorter() {
-        openPage("Skeleton", "has not arrived")
-
-        // THE device-only claim. The short line is a Row WEIGHT — 60% of a
-        // parent whose width nothing in Elixir knows — so only real layout can
-        // say whether it landed. The bars carry no text, so they are reached by
-        // the :id the example gives them.
-        // Scroll to the LAST bar: bringing the first into view can leave the
-        // third below the fold, and an unplaced node reports a zero rect.
-        compose.onNodeWithTag("sk-text-2").performScrollTo()
-        compose.waitForIdle()
-
-        val first = compose.onNodeWithTag("sk-text-0").fetchSemanticsNode().boundsInRoot
-        val last = compose.onNodeWithTag("sk-text-2").fetchSemanticsNode().boundsInRoot
-
-        require(first.width > 0f && last.width > 0f) {
-            "a bar was not laid out: first=$first last=$last"
-        }
-        require(last.width < first.width) {
-            "the last bar is ${last.width} against ${first.width} — it did not come out short"
-        }
-
-        // 0.6 of the full width, within a pixel or two of rounding.
-        val ratio = last.width / first.width
-        require(ratio > 0.5f && ratio < 0.7f) { "the last bar is $ratio of the width, not ~0.6" }
-    }
-
-    @Test
-    fun loading_swaps_the_placeholder_for_content_of_the_same_shape() {
-        openPage("Skeleton", "has not arrived")
-
-        // Before: no name. After: the row it stood in for, and the avatar sits
-        // where the circle was — same size, so nothing jumps.
-        require(!showing("Ada Lovelace")) { "the example did not start unloaded" }
-
-        tap("Load")
-        compose.waitUntil(10_000) { showing("Ada Lovelace") }
-
-        val name = boundsOf("Ada Lovelace")
-        val caption = boundsOf("Wrote the first program")
-
-        require(caption.top > name.top) { "the two lines are not stacked" }
-        require(abs(name.left - caption.left) < 2f) { "the two lines do not share a left edge" }
-
-        tap("Reset")
-        compose.waitUntil(10_000) { !showing("Ada Lovelace") }
-    }
-
-    @Test
-    fun the_skeleton_page_renders_every_example_and_the_props_table() {
-        openPage("Skeleton", "has not arrived")
-
-        for (heading in listOf(
-            "Standing in for a real row",
-            "Text",
-            "Blocks and circles",
-            "It does not shimmer",
-            "Props",
-        )) {
-            compose.onAllNodesWithText(heading, substring = true)[0]
-                .performScrollTo()
-                .assertIsDisplayed()
-        }
     }
 }
