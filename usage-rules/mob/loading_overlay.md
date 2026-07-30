@@ -78,6 +78,36 @@ does not help — iOS never reads it for a Column. This component shipped with e
 the label left-aligned against the 140dp bar and sat visibly off centre on Android, and pinned to
 the far left edge on iOS. Every part now gets its own centring Box.
 
+**Cover the page, not the card, by mounting it at the screen root.** Inside a card it can only
+ever cover that card. For a screen-wide busy state, make it the last child of `render/1`'s outermost
+Box:
+
+```elixir
+def render(assigns) do
+  ~MOB"""
+  <Box fill_width={true} fill_height={true}>
+    {page(assigns)}
+    <MishkaLoadingOverlay visible={@syncing?} scrim_color={0x99FFFFFF}>
+      {panel}
+    </MishkaLoadingOverlay>
+  </Box>
+  """
+end
+```
+
+A lower alpha on `scrim_color` (`0x99` ≈ 60%) leaves the page legible through the scrim, which is
+what makes a full-page cover feel like glass rather than a blank wall. There is no blur primitive —
+alpha is the whole effect.
+
+**Children replace the indicator, panel and all — so bring your own `Progress`.** That is the hook
+for a real busy panel: an icon, a headline, a line of detail, and a way out. Two things to know
+about building one. Your panel is centred for you (the component wraps children in a centring Box),
+but *inside* it a Column still cannot align its children — centre Texts with
+`fill_width={true} text_align={:center}`, and let a `Progress` or a `fill_width` Button span the
+panel. And a control inside the scrim **does** get its own taps: children are hit-tested before the
+scrim beneath them, so a Cancel button works even though the scrim absorbs everything else. Without
+that, a full-page overlay would be a trap with no way out.
+
 **Invisible costs nothing.** `visible={false}` builds an empty `Column` — no scrim, no indicator,
 no handler — so it is safe to leave in the tree permanently. There is no need to wrap it in an
 `:if`.

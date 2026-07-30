@@ -132,9 +132,11 @@ defmodule MishkaMob.Components.MishkaLoadingOverlay do
     """
   end
 
-  defp body(_props, content), do: ~MOB(<Column>
-  {content}
-</Column>)
+  # Caller-supplied bodies get the same centring. Without it they inherit the
+  # very bug the default body was reported for: a bare Column cannot align, so
+  # a panel of your own would sit left of centre on Android and hard against the
+  # left edge on iOS.
+  defp body(_props, content), do: centre(content)
 
   defp caption(label) when is_binary(label) do
     text =

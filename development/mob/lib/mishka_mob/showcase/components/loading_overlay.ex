@@ -29,6 +29,7 @@ defmodule MishkaMob.Showcase.Components.LoadingOverlay do
     |> Mob.Socket.assign(:lo_hits, 0)
     |> Mob.Socket.assign(:lo_plain, false)
     |> Mob.Socket.assign(:lo_custom, false)
+    |> Mob.Socket.assign(:lo_page, false)
   end
 
   @impl true
@@ -163,6 +164,60 @@ defmodule MishkaMob.Showcase.Components.LoadingOverlay do
         end
       },
       %Example{
+        title: "Over the whole page, with a body of your own",
+        description:
+          "The real-world shape: a glass scrim over the entire screen, and a " <>
+            "panel you built — icon, headline, progress detail and a way out. " <>
+            "Children replace the indicator, so everything inside is yours.",
+        code: ~S"""
+        # A screen-wide overlay goes at the SCREEN root, not inside a card. Here
+        # that is the showcase's overlay/1; in your app it is the outermost Box
+        # of render/1, with the overlay as its last child.
+        def overlay(assigns) do
+          panel = sync_panel()
+          ~MOB(<MishkaLoadingOverlay visible={@syncing?} scrim_color={0x99FFFFFF}>
+            {panel}
+          </MishkaLoadingOverlay>)
+        end
+
+        # Children replace the indicator entirely — panel and all — so supply
+        # your own Progress, or nothing on the overlay will move.
+        #   <Box width={272} padding={:space_lg} background={:surface} ...>
+        #     <Text text="☁️" fill_width={true} text_align={:center} />
+        #     <Text text="Syncing your library" ... />
+        #     <Progress color={:primary} />
+        #     <Button text="Cancel" fill_width={true} on_tap={{self(), :cancel}} />
+        #   </Box>
+        #
+        # A Column cannot centre its children, so the Texts centre themselves
+        # with text_align and the Progress and Button fill the panel instead.
+
+        # The scrim absorbs taps, but a control INSIDE it still gets its own —
+        # children are hit-tested before the scrim beneath them.
+        def handle(:cancel, socket), do: Mob.Socket.assign(socket, :syncing?, false)
+        """,
+        render: fn _assigns ->
+          ~MOB"""
+          <Column fill_width={true}>
+            <Text
+              text="Covers the whole screen, not just a card — scroll is blocked and every tap is absorbed until it finishes."
+              text_size={:sm}
+              text_color={:muted}
+            />
+            <Spacer size={12} />
+            <Button
+              text="Sync 12 files"
+              background={:primary}
+              text_color={:on_primary}
+              padding={:space_sm}
+              fill_width={true}
+              on_tap={{self(), :lo_page}}
+            />
+          </Column>
+          """
+        end
+      },
+      %Example{
         title: "Invisible costs nothing",
         description: "Not visible renders an empty Column — no scrim, no indicator, no handler.",
         code: ~S"""
@@ -236,6 +291,73 @@ defmodule MishkaMob.Showcase.Components.LoadingOverlay do
       }
     ]
   end
+
+  # A screen-wide overlay belongs at the screen root. ComponentScreen stacks
+  # whatever overlay/1 returns over the whole page, which is the same slot the
+  # Drawer and Toast use — inside an example card it could only ever cover the
+  # card.
+  @impl true
+  def overlay(%{lo_page: true}) do
+    panel = sync_panel()
+
+    ~MOB"""
+    <MishkaLoadingOverlay visible={true} scrim_color={0x99FFFFFF}>
+      {panel}
+    </MishkaLoadingOverlay>
+    """
+  end
+
+  def overlay(_assigns), do: nil
+
+  # Children replace the indicator, panel and all — so this supplies its own
+  # Progress, or the overlay would have nothing moving on it. A Column cannot
+  # centre its children, so the Texts centre themselves with text_align and the
+  # Progress and Button fill the panel's width instead.
+  defp sync_panel do
+    cancel = {self(), :lo_page_cancel}
+
+    ~MOB"""
+    <Box width={272} padding={:space_lg} background={:surface} corner_radius={:radius_lg}>
+      <Column fill_width={true}>
+        <Text text="☁️" text_size={:"3xl"} fill_width={true} text_align={:center} />
+        <Spacer size={10} />
+        <Text
+          text="Syncing your library"
+          text_size={:base}
+          text_color={:on_surface}
+          font_weight={:semibold}
+          fill_width={true}
+          text_align={:center}
+        />
+        <Spacer size={4} />
+        <Text
+          text="3 of 12 files · 4.2 MB"
+          text_size={:sm}
+          text_color={:muted}
+          fill_width={true}
+          text_align={:center}
+        />
+        <Spacer size={16} />
+        <Progress color={:primary} />
+        <Spacer size={16} />
+        <Button
+          text="Cancel"
+          background={:surface_raised}
+          text_color={:on_surface}
+          padding={:space_sm}
+          fill_width={true}
+          on_tap={cancel}
+        />
+      </Column>
+    </Box>
+    """
+  end
+
+  def handle(:lo_page, socket),
+    do: Mob.Socket.assign(socket, :lo_page, true)
+
+  def handle(:lo_page_cancel, socket),
+    do: Mob.Socket.assign(socket, :lo_page, false)
 
   @impl true
   def handle(:lo_busy, socket),

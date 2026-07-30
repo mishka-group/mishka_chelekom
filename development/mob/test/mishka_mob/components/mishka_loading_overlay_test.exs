@@ -102,6 +102,16 @@ defmodule MishkaMob.Components.MishkaLoadingOverlayTest do
 
       refute tree |> find_all(:box) |> Enum.any?(&(&1.props[:width] == 176))
     end
+
+    test "a caller's own body is centred too, not just the default one" do
+      # The children path used to wrap content in a bare Column, so a panel of
+      # your own inherited the very bug the default body was reported for.
+      panel = [%{type: :box, props: %{width: 272}, children: []}]
+      tree = MishkaLoadingOverlay.loading_overlay(%{visible: true}, panel)
+
+      assert tree |> find_all(:box) |> Enum.any?(&(&1.props[:align] == :center))
+      assert find_all(tree, :column) == []
+    end
   end
 
   test "every variant renders" do

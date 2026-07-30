@@ -83,6 +83,16 @@ class LoadingOverlayTest {
         Thread.sleep(700)
     }
 
+    /**
+     * Guard the sweep on an EXACT match, not [showing]. Every example prints its
+     * own source, so a substring query says "Cancel is on screen" for a word
+     * buried in a code sample — and then the exact-match click finds no node at
+     * all and dies. Ask the same question the click will ask.
+     */
+    private fun tapBusyIfPresent(label: String) {
+        if (boundsOf(label).isNotEmpty()) tapBusy(label)
+    }
+
     @Before
     fun openLoadingOverlayScreen() {
         compose.waitUntil(90_000) { showing(home) || showing(page) || showing("← Back") }
@@ -104,7 +114,7 @@ class LoadingOverlayTest {
     @After
     fun stopEverything() {
         for (off in listOf("Finish", "Stop", "Cancel")) {
-            if (showing(off)) tapBusy(off)
+            tapBusyIfPresent(off)
         }
         Thread.sleep(400)
     }
@@ -169,6 +179,35 @@ class LoadingOverlayTest {
     }
 
     @Test
+    fun a_page_wide_overlay_covers_everything_and_its_own_control_still_works() {
+        compose.onAllNodesWithText("Sync 12 files", substring = false)[0].performScrollTo()
+        compose.waitForIdle()
+
+        val trigger = boundsOf("Sync 12 files").firstOrNull()
+        require(trigger != null) { "could not measure the trigger" }
+
+        tapBusy("Sync 12 files")
+
+        // Exact match, not `showing`: this page PRINTS its own source, and that
+        // source contains the words "Syncing your library". A substring query
+        // matches the code sample and stays true forever, so it would report
+        // both that the overlay appeared and that it never went away.
+        val headline = boundsOf("Syncing your library").firstOrNull()
+        require(headline != null) { "the page-wide overlay never appeared" }
+        require(abs(headline.center.x - trigger.center.x) < 20f) {
+            "the custom panel is not centred: ${headline.center.x} vs ${trigger.center.x}"
+        }
+
+        // The scrim absorbs taps, but a control INSIDE it must still get its
+        // own — otherwise a full-page overlay would be a trap with no way out.
+        tapBusy("Cancel")
+        require(boundsOf("Syncing your library").isEmpty()) {
+            "Cancel could not dismiss the overlay"
+        }
+        require(showing("Sync 12 files")) { "the page did not come back" }
+    }
+
+    @Test
     fun invisible_costs_nothing() {
         compose.onAllNodesWithText("Invisible costs nothing", substring = true)[0]
             .performScrollTo()
@@ -184,6 +223,7 @@ class LoadingOverlayTest {
             "It absorbs the taps it covers",
             "Without a label",
             "Its own scrim, panel and indicator",
+            "Over the whole page, with a body of your own",
             "Invisible costs nothing",
             "Props"
         )) {
