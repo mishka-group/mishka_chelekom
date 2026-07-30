@@ -219,7 +219,7 @@ defmodule MishkaMob.Showcase.Components.Skeleton do
   defp row(true) do
     ~MOB"""
     <Row fill_width={true} align={:center}>
-      <MishkaAvatar name="Ada Lovelace" size={40} />
+      <MishkaAvatar initials="AL" size={40} />
       <Spacer size={12} />
       <Column fill_width={true}>
         <Text text="Ada Lovelace" text_size={:base} text_color={:on_surface} />

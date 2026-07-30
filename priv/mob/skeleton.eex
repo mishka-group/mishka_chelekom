@@ -10,8 +10,11 @@ defmodule <%= @module %> do
 
   **Ordinary nodes cannot.** `Box`, `Text`, `Row` and `Column` expose no opacity,
   no alpha and no transition, so nothing in this component's tree can fade. The
-  only self-animating things the bridge draws are Material's two progress
-  indicators, which `<%= @namespace %>.<%= @module_prefix_camel %>Progress` wraps.
+  only self-animating thing the bridge draws is Material's LINEAR progress
+  indicator, which `<%= @namespace %>.<%= @module_prefix_camel %>Progress` wraps. (Android imports
+  `CircularProgressIndicator` and never uses it; iOS pins
+  `.progressViewStyle(.linear)` on both branches. There is no circular option
+  reachable from a Progress node.)
 
   **`Mob.UI.gpu_view/1` can.** It is a fragment-shader surface — GLES 3.0 on
   Android, Metal on iOS — and it redraws continuously at the display's refresh
@@ -26,10 +29,10 @@ defmodule <%= @module %> do
   rather than "content goes here", `<%= @module_prefix_camel %>Progress` and
   `<%= @namespace %>.<%= @module_prefix_camel %>LoadingOverlay` already animate for free.
 
-  (There is no animation plugin to reach for either: as of mob 0.7 the published
-  `mob_*` packages are all capabilities — camera, location, biometric, scanner,
-  bluetooth, nfc, vision, video, notify, photos, touch, screencast, background,
-  audio_capture — plus `mob_themes`, `mob_ash` and `mob_push`.)
+  (There is no animation plugin to reach for either: the `mob_*` packages
+  published as of mob 0.7 are capabilities — camera, location, biometric,
+  scanner, bluetooth, nfc, vision, video, notify, photos, touch, screencast,
+  background, audio_capture — plus `mob_themes`, `mob_ash` and `mob_push`.)
 
   ## Shapes
 
@@ -41,6 +44,19 @@ defmodule <%= @module %> do
   margin, so the last line is drawn at `last_line` of the width — and that is
   done with Row **weights**, not a measurement, because no geometry is reported
   back to `render/1` and nothing here can know how wide the parent is.
+
+  > #### `last_line` is Android-only {: .warning}
+  >
+  > Compose reads layout `weight`; the iOS renderer never parses it. On iOS the
+  > bar and its trailing spacer are two equally-flexible siblings in an `HStack`,
+  > so the last line lands at ~50% whatever `last_line` says. The full-width bars
+  > agree on both platforms — a lone flexible child gets 100% either way — which
+  > is exactly why this was easy to miss.
+  >
+  > A portable version would make the INSET rigid and the bar flexible
+  > (`<Box weight={1.0}/>` then `<Box width={inset}/>`), but that turns
+  > `last_line` from a fraction into a dp inset, so it is a deliberate API change
+  > rather than a silent fix.
 
   ## Props
 
@@ -111,7 +127,7 @@ defmodule <%= @module %> do
   def shares(lines, _last) when lines < 1, do: []
 
   def shares(lines, last) do
-    last = last |> max(0.0) |> min(1.0) |> Kernel./(1)
+    last = last |> max(0.0) |> min(1.0)
 
     List.duplicate(1.0, lines - 1) ++ [last * 1.0]
   end
@@ -157,26 +173,54 @@ defmodule <%= @module %> do
     %{row | children: children}
   end
 
+  # Compose's `Modifier.weight` requires a weight STRICTLY greater than zero, and
+  # MobBridge passes ours through unguarded — so `last_line: 0` would have taken
+  # down the Android app rather than drawing a zero-width line. An empty row is
+  # what "a last line of no width" actually means.
+  defp bar(share, _height, _color, _radius) when share <= 0.0 do
+    ~MOB(<Row fill_width={true} />)
+  end
+
   # Weights, not widths: a share of the parent is expressible without knowing
   # what the parent measures, which is the only option here.
   defp bar(share, height, color, radius) when share >= 1.0 do
+    filler = filler(height)
+
     ~MOB"""
     <Row fill_width={true}>
-      <Box weight={1.0} height={height} background={color} corner_radius={radius} />
+      <Box weight={1.0} height={height} background={color} corner_radius={radius}>
+        {filler}
+      </Box>
     </Row>
     """
   end
 
   defp bar(share, height, color, radius) do
     rest = 1.0 - share
+    filler = filler(height)
 
     ~MOB"""
     <Row fill_width={true}>
-      <Box weight={share} height={height} background={color} corner_radius={radius} />
+      <Box weight={share} height={height} background={color} corner_radius={radius}>
+        {filler}
+      </Box>
       <Spacer weight={rest} />
     </Row>
     """
   end
+
+  # iOS drops a Box's height unless the Box also has a WIDTH: `MobBox` applies
+  # `fixedHeight` only inside its `fixedWidth > 0` branch, so a childless bar
+  # measures 0pt tall and the whole placeholder is invisible — every `:text` bar
+  # and the default `:block` alike. Only `:circle` escaped, because it sets a
+  # width. A sized Spacer gives the ZStack an intrinsic height to adopt; both
+  # renderers size a Spacer on both axes, so it is `height` square, which a
+  # full-width bar swallows. Android already had the height and is unchanged.
+  #
+  # This is a workaround for a renderer gap, not a design: the real fix is for
+  # MobBox to apply fixedHeight in all three branches, the way the image and
+  # video cases already do.
+  defp filler(height), do: ~MOB(<Spacer size={height} />)
 
   defp circle(props) do
     size = Map.get(props, :size, @circle)
@@ -196,8 +240,12 @@ defmodule <%= @module %> do
 
     case Map.get(props, :width) do
       nil ->
+        filler = filler(height)
+
         ~MOB"""
-        <Box fill_width={true} height={height} background={color} corner_radius={radius} />
+        <Box fill_width={true} height={height} background={color} corner_radius={radius}>
+          {filler}
+        </Box>
         """
 
       width ->

@@ -154,4 +154,48 @@ defmodule MishkaMob.Components.MishkaSkeletonTest do
       assert_renderable(MishkaSkeleton.skeleton(props))
     end
   end
+
+  describe "the two platform traps" do
+    test "a zero last_line never reaches Modifier.weight" do
+      # Compose requires a weight strictly greater than zero and MobBridge passes
+      # ours through unguarded, so `weight: 0.0` took the Android app down.
+      tree = MishkaSkeleton.skeleton(shape: :text, lines: 2, last_line: 0)
+      weights = tree |> find_all(:box) |> Enum.map(& &1.props[:weight]) |> Enum.reject(&is_nil/1)
+
+      assert weights != []
+      assert Enum.all?(weights, &(&1 > 0))
+
+      # Negative input clamps to the same place and must be just as safe.
+      neg = MishkaSkeleton.skeleton(shape: :text, lines: 1, last_line: -2.0)
+      assert neg |> find_all(:box) |> Enum.all?(&((&1.props[:weight] || 1) > 0))
+    end
+
+    test "every width-less bar carries a child so iOS can give it a height" do
+      # iOS MobBox applies `height` only when the Box also has a `width`, so a
+      # childless bar measures 0pt tall and the placeholder vanishes. A sized
+      # Spacer inside gives the ZStack an intrinsic height to adopt.
+      for props <- [%{shape: :text, lines: 3}, %{shape: :block}] do
+        tree = MishkaSkeleton.skeleton(props)
+
+        bars =
+          tree
+          |> find_all(:box)
+          |> Enum.filter(&(&1.props[:height] != nil and &1.props[:width] == nil))
+
+        assert bars != []
+
+        for bar <- bars do
+          assert [%{type: :spacer, props: %{size: size}}] = bar.children
+          assert size == bar.props.height
+        end
+      end
+    end
+
+    test "a circle needs no filler — it already has a width" do
+      circle = MishkaSkeleton.skeleton(shape: :circle, size: 48)
+
+      assert circle.props.width == 48
+      assert circle.children == []
+    end
+  end
 end
