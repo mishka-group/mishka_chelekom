@@ -2569,6 +2569,19 @@ private fun MobToggle(node: MobNode, modifier: Modifier) {
     val handle  = intProp(node.props, "on_change")
     val checked = boolProp(node.props, "value") ?: false
     val color   = colorProp(node.props, "color")
+    val track   = colorProp(node.props, "track_color")
+    // `color` tinted the THUMB alone, so a custom colour recoloured half the
+    // control and left the track on the theme default — a two-tone switch nobody
+    // asked for. `track_color` covers the other half. Each is applied only when
+    // supplied, so an unset one keeps M3's default instead of being flattened to
+    // Unspecified.
+    val switchColors = when {
+        color != Color.Unspecified && track != Color.Unspecified ->
+            SwitchDefaults.colors(checkedThumbColor = color, checkedTrackColor = track)
+        color != Color.Unspecified -> SwitchDefaults.colors(checkedThumbColor = color)
+        track != Color.Unspecified -> SwitchDefaults.colors(checkedTrackColor = track)
+        else -> SwitchDefaults.colors()
+    }
     Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
         node.props["label"]?.let {
             Text(text = it as String, modifier = Modifier.weight(1f))
@@ -2576,10 +2589,7 @@ private fun MobToggle(node: MobNode, modifier: Modifier) {
         Switch(
             checked         = checked,
             onCheckedChange = { new -> handle?.let { MobBridge.nativeSendChangeBool(it, new) } },
-            colors          = if (color != Color.Unspecified)
-                SwitchDefaults.colors(checkedThumbColor = color)
-            else
-                SwitchDefaults.colors(),
+            colors          = switchColors,
         )
     }
 }

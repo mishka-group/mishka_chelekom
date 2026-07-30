@@ -29,6 +29,7 @@ defmodule MishkaMob.Showcase.Components.Switch do
     |> Mob.Socket.assign(:sw_wifi, true)
     |> Mob.Socket.assign(:sw_bluetooth, false)
     |> Mob.Socket.assign(:sw_colored, true)
+    |> Mob.Socket.assign(:sw_airplane, false)
   end
 
   @impl true
@@ -64,9 +65,17 @@ defmodule MishkaMob.Showcase.Components.Switch do
       },
       %Example{
         title: "Custom colour",
-        description: "Tint the thumb when the switch is on.",
+        description:
+          "color tints the thumb and track_color the track — separately, so " <>
+            "you can see which is which. Android only: iOS paints the system accent.",
         code: ~S"""
-        <MishkaSwitch label="Violet" checked={@on} color={0xFF7C3AED} on_change={:tint} />
+        <MishkaSwitch
+          label="Violet"
+          checked={@on}
+          color={0xFFFDE68A}
+          track_color={0xFF7C3AED}
+          on_change={:tint}
+        />
         """,
         render: fn assigns ->
           ~MOB"""
@@ -74,7 +83,8 @@ defmodule MishkaMob.Showcase.Components.Switch do
             <MishkaSwitch
               label="Brand violet"
               checked={@sw_colored}
-              color={0xFF7C3AED}
+              color={0xFFFDE68A}
+              track_color={0xFF7C3AED}
               on_change={:colored}
             />
           </Column>
@@ -99,20 +109,35 @@ defmodule MishkaMob.Showcase.Components.Switch do
       },
       %Example{
         title: "Without a label",
-        description: "Omit the label to place the switch inside your own row.",
+        description:
+          "The built-in label always leads and the switch always trails. Omit it " <>
+            "and the switch is just a node — put it first, or anywhere else the " <>
+            "row wants it.",
         code: ~S"""
+        # Leading switch, which the label prop cannot produce:
         <Row>
-          <Text text="Airplane mode" />
           <MishkaSwitch checked={@on} on_change={:airplane} />
+          <Text text="Airplane mode" />
         </Row>
+
+        def handle_change(:airplane, on?, socket),
+          do: Mob.Socket.assign(socket, :airplane, on?)
         """,
         render: fn assigns ->
           ~MOB"""
-          <Row fill_width={true}>
-            <Text text="Airplane mode" text_size={:lg} text_color={:on_surface} />
-            <Spacer weight={1} />
-            <MishkaSwitch checked={@sw_bluetooth} on_change={:bluetooth} />
-          </Row>
+          <Column fill_width={true}>
+            <Row fill_width={true} align={:center}>
+              <MishkaSwitch checked={@sw_airplane} on_change={:airplane} />
+              <Spacer size={12} />
+              <Text text="Airplane mode" text_size={:lg} text_color={:on_surface} />
+            </Row>
+            <Spacer size={10} />
+            <Text
+              text="The switch leads here. With label= it can only ever trail, which is the whole difference."
+              text_size={:sm}
+              text_color={:muted}
+            />
+          </Column>
           """
         end
       }
@@ -144,7 +169,13 @@ defmodule MishkaMob.Showcase.Components.Switch do
         name: "color",
         type: "color / ARGB",
         default: "platform",
-        description: "Thumb colour when on."
+        description: "Thumb colour when on. Android only — iOS paints the system accent."
+      },
+      %{
+        name: "track_color",
+        type: "color / ARGB",
+        default: "platform",
+        description: "Track colour when on. Android only, same as color."
       },
       %{
         name: "disabled",
@@ -159,6 +190,7 @@ defmodule MishkaMob.Showcase.Components.Switch do
   def handle_change(:wifi, on?, socket), do: Mob.Socket.assign(socket, :sw_wifi, on?)
   def handle_change(:bluetooth, on?, socket), do: Mob.Socket.assign(socket, :sw_bluetooth, on?)
   def handle_change(:colored, on?, socket), do: Mob.Socket.assign(socket, :sw_colored, on?)
+  def handle_change(:airplane, on?, socket), do: Mob.Socket.assign(socket, :sw_airplane, on?)
   def handle_change(_tag, _value, socket), do: socket
 
   @impl true

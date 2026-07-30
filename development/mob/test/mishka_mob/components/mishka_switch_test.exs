@@ -34,29 +34,36 @@ defmodule MishkaMob.Components.MishkaSwitchTest do
     end
 
     test "each is passed through when given" do
-      props = MishkaSwitch.switch(label: "Wi-Fi", color: 0xFF7C3AED, on_change: :wifi).props
+      # A labelled switch is a Row: the label is a real Text built here, not a
+      # `label` prop on the native Toggle, which iOS never decodes.
+      tree = MishkaSwitch.switch(label: "Wi-Fi", color: 0xFF7C3AED, on_change: :wifi)
 
-      assert props.label == "Wi-Fi"
-      assert props.color == 0xFF7C3AED
+      assert text(tree) =~ "Wi-Fi"
+      assert find(tree, :toggle).props.color == 0xFF7C3AED
+      refute Map.has_key?(find(tree, :toggle).props, :label)
     end
 
     test "a bare tag is widened to {pid, tag} — a bare atom never registers" do
-      assert MishkaSwitch.switch(on_change: :wifi).props.on_change == {self(), :wifi}
+      assert find(MishkaSwitch.switch(on_change: :wifi), :toggle).props.on_change ==
+               {self(), :wifi}
     end
 
     test "an already-wired handler is left alone" do
-      assert MishkaSwitch.switch(on_change: {self(), :wifi}).props.on_change == {self(), :wifi}
+      assert find(MishkaSwitch.switch(on_change: {self(), :wifi}), :toggle).props.on_change ==
+               {self(), :wifi}
     end
   end
 
   describe "disabled" do
     test "drops the handler, which is what makes a controlled Toggle inert" do
-      props = MishkaSwitch.switch(label: "Locked", checked: true, disabled: true).props
+      tree = MishkaSwitch.switch(label: "Locked", checked: true, disabled: true)
+      props = find(tree, :toggle).props
+
+      assert text(tree) =~ "Locked"
 
       refute Map.has_key?(props, :on_change)
       # it still renders its state and label — only interaction is removed
       assert props.value == true
-      assert props.label == "Locked"
     end
 
     test "disabled: false keeps the handler" do
@@ -76,6 +83,28 @@ defmodule MishkaMob.Components.MishkaSwitchTest do
   test "every variant renders" do
     for props <- [%{}, %{checked: true}, %{label: "L"}, %{disabled: true}, %{color: :primary}] do
       assert_renderable(MishkaSwitch.switch(props))
+    end
+  end
+
+  describe "colour" do
+    test "color and track_color reach the node separately" do
+      node = MishkaSwitch.switch(color: 0xFFFDE68A, track_color: 0xFF7C3AED)
+
+      assert node.props.color == 0xFFFDE68A
+      assert node.props.track_color == 0xFF7C3AED
+    end
+
+    test "an unset colour is omitted rather than sent as nil" do
+      # The bridge keeps M3's default for anything Unspecified, so sending a nil
+      # would flatten the half the caller did not ask to change.
+      node = MishkaSwitch.switch(color: 0xFFFDE68A)
+
+      assert node.props.color == 0xFFFDE68A
+      refute Map.has_key?(node.props, :track_color)
+
+      bare = MishkaSwitch.switch(%{})
+      refute Map.has_key?(bare.props, :color)
+      refute Map.has_key?(bare.props, :track_color)
     end
   end
 end
