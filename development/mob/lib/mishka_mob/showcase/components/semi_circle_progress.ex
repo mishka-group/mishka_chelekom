@@ -1,7 +1,6 @@
 defmodule MishkaMob.Showcase.Components.SemiCircleProgress do
   @moduledoc """
-  Gallery entry for `MishkaMob.Components.MishkaSemiCircleProgress` and
-  `MishkaMob.Components.MishkaRollingNumber`.
+  Gallery entry for `MishkaMob.Components.MishkaSemiCircleProgress`.
   """
   use MishkaMob.Showcase
 
@@ -9,7 +8,6 @@ defmodule MishkaMob.Showcase.Components.SemiCircleProgress do
 
   import MishkaMob.Components.MishkaSemiCircleProgress, only: [semi_circle_progress: 1]
 
-  alias MishkaMob.Components.MishkaRollingNumber
   alias MishkaMob.Showcase.Example
 
   @impl true
@@ -19,7 +17,7 @@ defmodule MishkaMob.Showcase.Components.SemiCircleProgress do
       name: "Semi Circle Progress",
       category: "Feedback",
       order: 4,
-      description: "A half-circle gauge drawn on a canvas, plus a counting number."
+      description: "A half-circle gauge drawn as a real arc on a canvas."
     }
   end
 
@@ -27,7 +25,6 @@ defmodule MishkaMob.Showcase.Components.SemiCircleProgress do
   def mount(socket) do
     socket
     |> Mob.Socket.assign(:sc_value, 72)
-    |> Mob.Socket.assign(:rn_value, 0)
   end
 
   @impl true
@@ -99,73 +96,6 @@ defmodule MishkaMob.Showcase.Components.SemiCircleProgress do
           </Column>
           """
         end
-      },
-      %Example{
-        title: "Rolling number",
-        description: "The component renders a number; the screen walks steps/3 on a timer.",
-        code: ~S"""
-        <MishkaRollingNumber value={@count} />
-
-        # in the handler
-        [next | rest] = MishkaRollingNumber.steps(from, to, 20)
-        Process.send_after(self(), {:roll, rest}, 16)
-        """,
-        render: fn assigns ->
-          # align on a Column is dead — Mob maps it to a bare Compose Column and
-          # a leading VStack, neither of which aligns children. A Box does.
-          ~MOB"""
-          <Column fill_width={true}>
-            <Box fill_width={true} align={:center}>
-              <MishkaRollingNumber value={@rn_value} />
-            </Box>
-            <Spacer size={12} />
-            <Row fill_width={true}>
-              <Button
-                text="Roll to 1,284"
-                background={:primary}
-                text_color={:on_primary}
-                padding={:space_sm}
-                weight={1}
-                on_tap={{self(), :rn_roll}}
-              />
-              <Spacer size={8} />
-              <Button
-                text="Reset"
-                background={:surface_raised}
-                text_color={:on_surface}
-                padding={:space_sm}
-                weight={1}
-                on_tap={{self(), :rn_reset}}
-              />
-            </Row>
-          </Column>
-          """
-        end
-      },
-      %Example{
-        title: "Grouping",
-        description:
-          "separator groups thousands — a comma by default, a space for the " <>
-            "European style, and \"\" turns grouping off. Negatives keep their sign.",
-        code: ~S"""
-        <MishkaRollingNumber value={1234567} />
-        <MishkaRollingNumber value={1234567} separator=" " />
-        <MishkaRollingNumber value={1234567} separator="" />
-        <MishkaRollingNumber value={-98765} color={0xFFDC2626} />
-        """,
-        render: fn _assigns ->
-          ~MOB"""
-          <Column fill_width={true}>
-            <MishkaRollingNumber value={1_234_567} text_size={:xl} />
-            <Spacer size={8} />
-            <MishkaRollingNumber value={1_234_567} separator=" " text_size={:xl} />
-            <Spacer size={8} />
-            <MishkaRollingNumber value={1_234_567} separator="" text_size={:xl} />
-            <Spacer size={8} />
-            <MishkaRollingNumber value={-98_765} text_size={:xl} color={0xFFDC2626} />
-          </Column>
-          """
-        end
       }
     ]
   end
@@ -209,18 +139,6 @@ defmodule MishkaMob.Showcase.Components.SemiCircleProgress do
         type: "number",
         default: "0.06 × size",
         description: "Arc stroke width — the web's stroke-width: 12 in a w-48 box."
-      },
-      %{
-        name: "RollingNumber: value / separator",
-        type: "integer / string",
-        default: "0 / \",\"",
-        description: "The number and its thousands separator."
-      },
-      %{
-        name: "RollingNumber.steps/3",
-        type: "helper",
-        default: "—",
-        description: "Eased intermediate values for the screen to walk on a timer."
       }
     ]
   end
@@ -228,19 +146,6 @@ defmodule MishkaMob.Showcase.Components.SemiCircleProgress do
   @impl true
   def handle(:sc_up, socket), do: nudge(socket, +15)
   def handle(:sc_down, socket), do: nudge(socket, -15)
-  def handle(:rn_reset, socket), do: Mob.Socket.assign(socket, :rn_value, 0)
-
-  def handle(:rn_roll, socket) do
-    [next | rest] = MishkaRollingNumber.steps(socket.assigns.rn_value, 1_284, 18)
-    if rest != [], do: Process.send_after(self(), {:tap, {:rn_step, rest}}, 24)
-    Mob.Socket.assign(socket, :rn_value, next)
-  end
-
-  def handle({:rn_step, [next | rest]}, socket) do
-    if rest != [], do: Process.send_after(self(), {:tap, {:rn_step, rest}}, 24)
-    Mob.Socket.assign(socket, :rn_value, next)
-  end
-
   def handle(_tag, socket), do: socket
 
   # Clamp here, not just in the component. The arc clamps its own fraction, so
