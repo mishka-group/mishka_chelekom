@@ -88,6 +88,21 @@ defmodule MishkaMob.Components.MishkaRadioGroupTest do
       assert %{type: :row} = layout(build(%{orientation: :horizontal}))
     end
 
+    test "horizontal options hug; stacked options fill" do
+      # Side by side, a filling option takes the whole row and pushes the rest
+      # off-screen — the bug the horizontal e2e test caught. Stacked, filling is
+      # what makes the label part of the tap target.
+      #
+      # option_rows, not rows/1: in a horizontal group the CONTAINER is a row
+      # too, and it fills on purpose.
+      assert Enum.all?(
+               option_rows(build(%{orientation: :horizontal})),
+               &(&1.props.fill_width == false)
+             )
+
+      assert Enum.all?(option_rows(build(%{})), &(&1.props.fill_width == true))
+    end
+
     test "space sets the gap between options" do
       tree = build(%{space: 30})
       gaps = layout(tree).children |> Enum.filter(&(&1.type == :spacer))
@@ -108,6 +123,24 @@ defmodule MishkaMob.Components.MishkaRadioGroupTest do
     end
   end
 
+  describe "option test tags" do
+    # The selection is a dot, not text, so a device test can only see it through
+    # these tags — and it needs to name ONE option, hence the composed prefix.
+    test "each option's ring is tagged <group>-<option>-<state>" do
+      ids = build(%{id: "plan", value: :pro}) |> find_all(:box) |> Enum.map(& &1.props[:id])
+
+      assert "plan-free-empty" in ids
+      assert "plan-pro-selected" in ids
+      assert "plan-team-empty" in ids
+    end
+
+    test "no group id leaves every option untagged" do
+      ids = build(%{value: :pro}) |> find_all(:box) |> Enum.map(& &1.props[:id])
+
+      assert Enum.all?(ids, &is_nil/1)
+    end
+  end
+
   test "expand/3 reads option children and ignores anything else" do
     stray = %{type: :text, props: %{text: "stray"}, children: []}
     tree = MishkaRadioGroup.expand(%{value: :free}, opts() ++ [stray], %{screen: self()})
@@ -124,4 +157,7 @@ defmodule MishkaMob.Components.MishkaRadioGroupTest do
 
   # the options container is the last child of the group column
   defp layout(tree), do: List.last(tree.children)
+
+  # the option rows themselves — direct children of that container
+  defp option_rows(tree), do: layout(tree).children |> Enum.filter(&(&1.type == :row))
 end

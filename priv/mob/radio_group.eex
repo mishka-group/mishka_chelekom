@@ -31,9 +31,14 @@ defmodule <%= @module %> do
   | `orientation` | `:vertical` `:horizontal` | `:vertical` | Layout axis. |
   | `space` | number | `12` | Gap between options. |
   | `color` / `size` | see Radio | — | Passed to every option. |
+  | `id` | string | `nil` | Prefix for each option's test tag. |
 
   Options are children built with `option/3`, carrying `id`, `label` and an
   optional `disabled`.
+
+  Given `id="plan"`, the `:pro` option's ring is tagged `"plan-pro-selected"` or
+  `"plan-pro-empty"` — see `<%= @namespace %>.<%= @module_prefix_camel %>Radio` for why the state
+  has to live in the tag.
 
   Not ported: `name`, `required`, `form` (HTML form plumbing) and `id` /
   `*_class`. `readonly` collapses into `disabled`.
@@ -95,6 +100,10 @@ defmodule <%= @module %> do
   defp options(children, props) do
     group_disabled? = truthy?(Map.get(props, :disabled, false))
     value = Map.get(props, :value)
+    # Side by side, an option that fills the width takes the WHOLE row and
+    # pushes its siblings off-screen. Stacked, filling is what makes the label
+    # part of the tap target, so it stays the default.
+    fill? = Map.get(props, :orientation, :vertical) != :horizontal
 
     children
     |> Enum.filter(&match?(%{type: @option_type}, &1))
@@ -105,10 +114,18 @@ defmodule <%= @module %> do
         disabled: group_disabled? or truthy?(Map.get(option, :disabled, false)),
         on_select: option_tag(props, Map.get(option, :id)),
         color: Map.get(props, :color, :primary),
-        size: Map.get(props, :size, 22)
+        size: Map.get(props, :size, 22),
+        fill_width: fill?,
+        id: option_id(Map.get(props, :id), Map.get(option, :id))
       )
     end)
   end
+
+  # `<group-id>-<option-id>` per option, so a device test can name one option's
+  # ring — the radio then suffixes it with `-selected` / `-empty`. Without a
+  # group id there is nothing to prefix with, and the options stay untagged.
+  defp option_id(nil, _option_id), do: nil
+  defp option_id(group_id, option_id), do: "#{group_id}-#{option_id}"
 
   # Every option reports the same tag widened with its own id, so one handler
   # serves the group — this is what replaces the browser's shared `name`.
