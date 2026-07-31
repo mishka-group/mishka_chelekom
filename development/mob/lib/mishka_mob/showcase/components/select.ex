@@ -35,6 +35,8 @@ defmodule MishkaMob.Showcase.Components.Select do
     |> Mob.Socket.assign(:sel_open, false)
     |> Mob.Socket.assign(:sel_langs, [])
     |> Mob.Socket.assign(:sel_multi_open, false)
+    |> Mob.Socket.assign(:sel_pizza, [:pepperoni])
+    |> Mob.Socket.assign(:sel_pizza_open, false)
   end
 
   @impl true
@@ -66,6 +68,7 @@ defmodule MishkaMob.Showcase.Components.Select do
               placeholder="Choose a country…"
               on_toggle={:sel_open}
               on_select={:sel_pick}
+              id="sel-country"
             >
               {country_options()}
             </MishkaSelect>
@@ -92,8 +95,43 @@ defmodule MishkaMob.Showcase.Components.Select do
               placeholder="Choose any…"
               on_toggle={:sel_multi_open}
               on_select={:sel_multi_pick}
+              id="sel-lang"
             >
               {lang_options()}
+            </MishkaSelect>
+          </Column>
+          """
+        end
+      },
+      %Example{
+        title: "Grouped",
+        description:
+          "A heading above each run of options. Multiple, so the list stays open while you pick.",
+        code: ~S"""
+        <MishkaSelect value={@toppings} multiple={true} open={@open?} …>{[
+          option(:cheese, "Cheese", group: "Classic"),
+          option(:pepperoni, "Pepperoni", group: "Classic"),
+          option(:mushroom, "Mushroom", group: "Veggie"),
+          option(:onion, "Onion", group: "Veggie")
+        ]}</MishkaSelect>
+
+        # CONSECUTIVE options sharing a group belong to it, so your order is the
+        # grouping — nothing is sorted underneath you.
+        """,
+        render: fn assigns ->
+          ~MOB"""
+          <Column fill_width={true}>
+            <MishkaSelect
+              label="TOPPINGS"
+              value={@sel_pizza}
+              open={@sel_pizza_open}
+              multiple={true}
+              placeholder="Choose your toppings…"
+              on_toggle={:sel_pizza_open}
+              on_select={:sel_pizza_pick}
+              id="sel-pizza"
+            >
+              {pizza_options()}
             </MishkaSelect>
           </Column>
           """
@@ -108,7 +146,7 @@ defmodule MishkaMob.Showcase.Components.Select do
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaSelect label="LOCKED" value={:uk} disabled={true}>
+            <MishkaSelect label="LOCKED" value={:uk} disabled={true} id="sel-off">
               {country_options()}
             </MishkaSelect>
           </Column>
@@ -153,10 +191,22 @@ defmodule MishkaMob.Showcase.Components.Select do
         description: "{:tap, tag} from the trigger; {:tap, {tag, option_id}} from an option."
       },
       %{
-        name: "toggle/3 · display/3",
+        name: "option/3 :group",
+        type: "string",
+        default: "nil",
+        description: "A heading above the run it starts. Consecutive options group together."
+      },
+      %{
+        name: "id",
+        type: "string",
+        default: "nil",
+        description: "Tags the trigger and each option with its state."
+      },
+      %{
+        name: "toggle/3 · display/3 · group_runs/1",
         type: "helpers",
         default: "—",
-        description: "The {value, close?} transition, and the trigger's text."
+        description: "The {value, close?} transition, the trigger's text, and the group runs."
       }
     ]
   end
@@ -164,6 +214,15 @@ defmodule MishkaMob.Showcase.Components.Select do
   @impl true
   def handle(:sel_open, socket), do: flip(socket, :sel_open)
   def handle(:sel_multi_open, socket), do: flip(socket, :sel_multi_open)
+  def handle(:sel_pizza_open, socket), do: flip(socket, :sel_pizza_open)
+
+  def handle({:sel_pizza_pick, id}, socket) do
+    {value, close?} = MishkaSelect.toggle(socket.assigns.sel_pizza, id, true)
+
+    socket
+    |> Mob.Socket.assign(:sel_pizza, value)
+    |> Mob.Socket.assign(:sel_pizza_open, not close?)
+  end
 
   def handle({:sel_pick, id}, socket) do
     {value, close?} = MishkaSelect.toggle(socket.assigns.sel_country, id, false)
@@ -186,6 +245,16 @@ defmodule MishkaMob.Showcase.Components.Select do
   defp flip(socket, key), do: Mob.Socket.assign(socket, key, not Map.fetch!(socket.assigns, key))
 
   defp country_options, do: Enum.map(@countries, fn {id, label} -> option(id, label) end)
+
+  # Order IS the grouping: consecutive options sharing a group get one heading.
+  defp pizza_options do
+    [
+      option(:cheese, "Cheese", group: "CLASSIC"),
+      option(:pepperoni, "Pepperoni", group: "CLASSIC"),
+      option(:mushroom, "Mushroom", group: "VEGGIE"),
+      option(:onion, "Onion", group: "VEGGIE")
+    ]
+  end
 
   defp lang_options do
     [
