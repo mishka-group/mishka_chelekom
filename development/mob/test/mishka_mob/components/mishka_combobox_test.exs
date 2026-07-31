@@ -104,15 +104,19 @@ defmodule MishkaMob.Components.MishkaComboboxTest do
       tree = build(%{clear: true, on_clear: :cleared})
       assert text(tree) =~ "✕"
 
-      taps = tree |> find_all(:row) |> Enum.map(& &1.props[:on_tap]) |> Enum.reject(&is_nil/1)
-      assert taps == [{self(), :cleared}]
+      # The clear button is a Box now — it was a Row wrapping a Box, and the tap
+      # sat on the wrapper, so the spacer beside the glyph was part of the
+      # target. Assert membership: the open list's option rows are Boxes with
+      # their own taps, and equality here would be asserting the whole page.
+      taps = tree |> find_all(:box) |> Enum.map(& &1.props[:on_tap]) |> Enum.reject(&is_nil/1)
+      assert {self(), :cleared} in taps
     end
 
     test "disabled unwires the field and the clear button" do
       tree = build(%{clear: true, disabled: true, on_query: :t, on_clear: :c})
 
       refute Map.has_key?(find(tree, :text_field).props, :on_change)
-      assert tree |> find_all(:row) |> Enum.all?(&(&1.props[:on_tap] == nil))
+      refute {self(), :c} in (tree |> find_all(:box) |> Enum.map(& &1.props[:on_tap]))
     end
   end
 
@@ -120,6 +124,148 @@ defmodule MishkaMob.Components.MishkaComboboxTest do
     tree = C.expand(%{open: true, query: "ir"}, opts(), %{screen: self()})
 
     assert text(tree) =~ "Iran"
+  end
+
+  describe "chips" do
+    test "multiple shows the selection as removable chips inside the control" do
+      tree = build(%{multiple: true, value: [:ir, :de]})
+
+      # Without these the selection is invisible until you reopen the list.
+      assert text(tree) =~ "Iran"
+      assert text(tree) =~ "Germany"
+    end
+
+    test "single mode renders no chips" do
+      # Not a text assertion: "Iran" is also an OPTION in the open list, so the
+      # page contains it either way. The chip's own tag is the honest witness.
+      ids =
+        C.combobox(%{id: "cb", open: true, value: :ir, multiple: false}, opts())
+        |> find_all(:box)
+        |> Enum.map(& &1.props[:id])
+
+      refute "cb-chip-ir" in ids
+    end
+
+    test "a chip's ✕ reports the id it would remove" do
+      # The pill puts its remove handler on a ROW, not the pill box.
+      taps =
+        build(%{multiple: true, value: [:ir], on_remove: :drop})
+        |> find_all(:row)
+        |> Enum.map(& &1.props[:on_tap])
+
+      assert {self(), {:drop, :ir}} in taps
+    end
+
+    test "a value with no matching option still shows, as its own id" do
+      # A stale selection must be visible rather than silently vanishing.
+      assert text(build(%{multiple: true, value: [:gone]})) =~ "gone"
+    end
+  end
+
+  describe "the trigger button" do
+    test "is opt-in and reports through on_toggle" do
+      refute text(build(%{})) =~ "▴"
+
+      tree = build(%{trigger: true, on_toggle: :flip})
+
+      assert text(tree) =~ "▴"
+      assert {self(), :flip} in (tree |> find_all(:box) |> Enum.map(& &1.props[:on_tap]))
+    end
+
+    test "the glyph follows the open state" do
+      assert text(C.combobox(%{trigger: true, open: false}, opts())) =~ "▾"
+      assert text(C.combobox(%{trigger: true, open: true}, opts())) =~ "▴"
+    end
+  end
+
+  describe "groups and disabled options" do
+    defp grouped do
+      [
+        C.option(:apple, "Apple", group: "FRUIT"),
+        C.option(:cherry, "Cherry", group: "FRUIT"),
+        C.option(:carrot, "Carrot", group: "VEGETABLE"),
+        C.option(:durian, "Durian", group: "FRUIT", disabled: true)
+      ]
+    end
+
+    test "a heading renders above each run" do
+      tree = C.combobox(%{open: true}, grouped())
+
+      assert text(tree) =~ "FRUIT"
+      assert text(tree) =~ "VEGETABLE"
+    end
+
+    test "a disabled option survives filtering and stays inert" do
+      # Options used to be flattened to {id, label}, which threw `disabled` and
+      # `group` away — a disabled option was indistinguishable from any other.
+      tree = C.combobox(%{open: true, on_select: :pick}, grouped())
+      taps = tree |> find_all(:box) |> Enum.map(& &1.props[:on_tap])
+
+      assert {self(), {:pick, :apple}} in taps
+      refute {self(), {:pick, :durian}} in taps
+    end
+
+    test "filtering keeps the groups of whatever survives" do
+      tree = C.combobox(%{open: true, query: "carrot"}, grouped())
+
+      assert text(tree) =~ "VEGETABLE"
+      refute text(tree) =~ "FRUIT"
+    end
+  end
+
+  describe "creatable" do
+    test "offers a create row for a query that matches nothing" do
+      tree = build(%{creatable: true, query: "Pomelo", on_create: :make})
+
+      assert text(tree) =~ ~s(Create "Pomelo")
+
+      assert {self(), {:pick, :__create__}} in (tree
+                                                |> find_all(:box)
+                                                |> Enum.map(& &1.props[:on_tap]))
+    end
+
+    test "offers it even when a PARTIAL match is on screen" do
+      # The web offers "Create Ira" while "Iran" is listed; only an EXACT match
+      # suppresses it, which is the difference between a create row and a
+      # duplicate.
+      tree = build(%{creatable: true, query: "Ira"})
+
+      assert text(tree) =~ "Iran"
+      assert text(tree) =~ ~s(Create "Ira")
+    end
+
+    test "an exact match suppresses it, case- and accent-insensitively" do
+      refute text(build(%{creatable: true, query: "Iran"})) =~ "Create"
+      refute text(build(%{creatable: true, query: "cafe"})) =~ "Create"
+    end
+
+    test "a blank query, or creatable off, offers nothing" do
+      refute text(build(%{creatable: true, query: "   "})) =~ "Create"
+      refute text(build(%{query: "Pomelo"})) =~ "Create"
+    end
+
+    test "a disabled combobox offers nothing either" do
+      refute text(build(%{creatable: true, query: "Pomelo", disabled: true})) =~ "Create"
+    end
+  end
+
+  describe "test tags" do
+    test "the input, the buttons and every option are addressable" do
+      tree =
+        C.combobox(
+          %{id: "cb", open: true, clear: true, trigger: true, value: :ir, multiple: true},
+          opts()
+        )
+
+      ids = tree |> find_all(:box) |> Enum.map(& &1.props[:id])
+
+      assert find(tree, :text_field).props.id == "cb-input"
+      assert "cb-on_clear" in ids
+      assert "cb-on_toggle" in ids
+      assert "cb-chip-ir" in ids
+      assert "cb-option-ir-selected" in ids
+      assert "cb-option-uk-idle" in ids
+    end
   end
 
   test "every variant renders" do
