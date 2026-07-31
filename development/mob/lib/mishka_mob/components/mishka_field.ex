@@ -25,19 +25,30 @@ defmodule MishkaMob.Components.MishkaField do
   | `description` | string | `nil` | Hint below it. Hidden while there are errors. |
   | `errors` | list of strings | `[]` | Validation messages. |
   | `required` | boolean | `false` | Appends a `*` to the label. |
-  | `disabled` | boolean | `false` | Mutes the label and hint. |
+  | `disabled` | boolean | `false` | Mutes the label. See the warning below. |
   | `space` | number | `6` | Gap between the parts. |
+  | `label_color` | color token / ARGB int | `:on_surface` | The label. |
+  | `description_color` | color token / ARGB int | `:muted` | The hint. |
+  | `error_color` | color token / ARGB int | `:error` | Errors, the `*` and the ✕. |
+  | `text_size` | text token | `:sm` | Label, hint and errors. |
 
   Children are the control itself — a `TextField`, a
   `MishkaMob.Components.MishkaSwitch`, anything.
+
+  ## `disabled` does NOT reach the control
+
+  It mutes this component's own label, and that is all it can do: the control is
+  an opaque child, and nothing here knows whether it is a text field, a switch or
+  a whole subtree. **Disable the control yourself as well** — a `TextField` needs
+  `enabled={false}`, not merely a withheld `on_change`. Withholding the handler
+  stops the BEAM hearing about edits but leaves the field focusable and
+  editable, so it looks live and silently goes nowhere.
 
   Not ported: `id`, `for`, `name` and the `*_class` attrs — the first three are
   DOM plumbing for label/description association.
   """
 
   import Mob.Sigil
-
-  @danger 0xFF_DC_26_26
 
   @doc "Composite expander (`<MishkaField>`). Children are the control."
   @spec expand(map(), [map()], map()) :: map()
@@ -54,7 +65,6 @@ defmodule MishkaMob.Components.MishkaField do
     errors = props |> Map.get(:errors, []) |> List.wrap() |> Enum.reject(&(&1 in [nil, ""]))
     disabled? = truthy?(Map.get(props, :disabled, false))
     space = Map.get(props, :space, 6)
-    danger = @danger
 
     ~MOB"""
     <Column fill_width={true}>
@@ -63,10 +73,17 @@ defmodule MishkaMob.Components.MishkaField do
       <Column fill_width={true}>
         {control}
       </Column>
-      {footer(props, errors, disabled?, space, danger)}
+      {footer(props, errors, space)}
     </Column>
     """
   end
+
+  # `:error` is a THEME token, so the red follows light, dark and every custom
+  # theme. It used to be a hardcoded 0xFFDC2626, which stayed the same shade of
+  # red whatever the theme did — the one colour in the component that could not
+  # be themed, on the one element that most needs to stand out.
+  defp danger(props), do: Map.get(props, :error_color, :error)
+  defp size(props), do: Map.get(props, :text_size, :sm)
 
   @doc """
   Whether a set of props describes a field in an invalid state — exposed so a
@@ -94,38 +111,49 @@ defmodule MishkaMob.Components.MishkaField do
   defp label(props, disabled?) do
     text = Map.get(props, :label)
     required? = truthy?(Map.get(props, :required, false))
-    color = if disabled?, do: :muted, else: :on_surface
-    danger = @danger
+    color = if disabled?, do: :muted, else: Map.get(props, :label_color, :on_surface)
+    danger = danger(props)
+    size = size(props)
 
     ~MOB"""
     <Row fill_width={true} :if={is_binary(text)}>
-      <Text text={text} text_size={:sm} text_color={color} />
-      <Text text=" *" text_size={:sm} text_color={danger} :if={required?} />
+      <Text text={text} text_size={size} text_color={color} />
+      <Text text=" *" text_size={size} text_color={danger} :if={required?} />
     </Row>
     """
   end
 
   # Errors replace the description: stacking a hint above a failure buries the
   # thing the user has to act on.
-  defp footer(props, [], disabled?, space, _danger) do
+  #
+  # The hint takes no `disabled?` argument, because it never used it — the old
+  # clause read `if disabled?, do: :muted, else: :muted`, so the moduledoc's
+  # promise to mute the hint was a branch that could not fire. The hint is muted
+  # in both states, and `disabled` mutes the label; that is what actually
+  # happens, and now what is documented.
+  defp footer(props, [], space) do
     description = Map.get(props, :description)
-    color = if disabled?, do: :muted, else: :muted
+    color = Map.get(props, :description_color, :muted)
+    size = size(props)
 
     ~MOB"""
     <Column fill_width={true} :if={is_binary(description)}>
       <Spacer size={space} />
-      <Text text={description} text_size={:sm} text_color={color} />
+      <Text text={description} text_size={size} text_color={color} />
     </Column>
     """
   end
 
-  defp footer(_props, errors, _disabled?, space, danger) do
+  defp footer(props, errors, space) do
+    danger = danger(props)
+    size = size(props)
+
     lines =
       Enum.map(errors, fn message ->
         ~MOB"""
         <Row fill_width={true}>
-          <Text text="✕ " text_size={:sm} text_color={danger} />
-          <Text text={message} text_size={:sm} text_color={danger} />
+          <Text text="✕ " text_size={size} text_color={danger} />
+          <Text text={message} text_size={size} text_color={danger} />
         </Row>
         """
       end)

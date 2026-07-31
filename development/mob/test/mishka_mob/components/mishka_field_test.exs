@@ -81,6 +81,53 @@ defmodule MishkaMob.Components.MishkaFieldTest do
     assert find(tree, :text, text: "Email").props.text_color == :muted
   end
 
+  test "disabled does NOT reach the control — that is the caller's job" do
+    child = [%{type: :text_field, props: %{value: "", on_change: {self(), :x}}, children: []}]
+    tree = MishkaField.field(%{label: "Email", disabled: true}, child)
+
+    # A TextField needs enabled={false} of its own. Withholding the handler is
+    # not enough: the field stays focusable and editable, so it looks live and
+    # quietly goes nowhere.
+    assert find(tree, :text_field).props.on_change == {self(), :x}
+    refute Map.has_key?(find(tree, :text_field).props, :enabled)
+  end
+
+  describe "colour follows the theme" do
+    test "errors, the ✕ and the required marker use the :error TOKEN" do
+      # Not a hardcoded 0xFFDC2626, which stayed the same red in every theme —
+      # on the one element that most needs to stand out.
+      errored = MishkaField.field(%{errors: ["Must contain an @."]}, control())
+      required = MishkaField.field(%{label: "Email", required: true}, control())
+
+      assert Enum.all?(find_all(errored, :text), &(&1.props.text_color == :error))
+      assert find(required, :text, text: " *").props.text_color == :error
+    end
+
+    test "every colour and the text size are overridable" do
+      tree =
+        MishkaField.field(
+          %{
+            label: "Email",
+            errors: ["boom"],
+            error_color: 0xFF00FF00,
+            label_color: :primary,
+            text_size: :xs
+          },
+          control()
+        )
+
+      assert find(tree, :text, text: "Email").props.text_color == :primary
+      assert find(tree, :text, text: "Email").props.text_size == :xs
+      assert find(tree, :text, text: "boom").props.text_color == 0xFF00FF00
+    end
+
+    test "the description colour is overridable too" do
+      tree = MishkaField.field(%{description: "hint", description_color: :primary}, control())
+
+      assert find(tree, :text, text: "hint").props.text_color == :primary
+    end
+  end
+
   test "expand/3 uses the tag's children as the control" do
     assert MishkaField.expand(%{label: "x"}, control(), %{screen: self()}) ==
              MishkaField.field(%{label: "x"}, control())
