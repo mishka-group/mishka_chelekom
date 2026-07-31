@@ -73,14 +73,11 @@ vertical — behind the `values`, `orientation` and `length` props, which
 a shared track), and `.rotationEffect(.degrees(-90))` in a sized frame for
 vertical.
 
-**And a both-platforms job:** push collision cannot be built on Compose's
-`RangeSlider` either. It clamps the dragged thumb at the stationary one and then
-reports the clamped value, so once they meet nothing distinguishes "still
-pushing" from "stopped". Only `min_gap` (a hard floor) is delivered today.
-Matching the headless push means hand-building the range control WITH ITS OWN
-DRAG HANDLING on Android as well as iOS — at which point both platforms can share
-`MishkaSlider.resolve/3`, which already implements push and stop as pure
-functions.
+Android's range slider is **already hand-built** for this reason — Compose's
+`RangeSlider` clamps the dragged thumb and then reports the clamped value, so
+once the thumbs meet nothing says the finger is still pushing. `MobRangeSlider`
+owns its drag (`detectDragGestures`), so it always knows the pointer and can
+push. Port that shape to SwiftUI rather than reaching for a stock control.
 
 ## 6. There is no `on_commit` on either platform
 

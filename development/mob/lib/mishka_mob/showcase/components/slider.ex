@@ -117,13 +117,11 @@ defmodule MishkaMob.Showcase.Components.Slider do
         end
       },
       %Example{
-        title: "Range · two thumbs · min gap",
+        title: "Range · two thumbs · min gap · push collision",
         description:
-          "Pass values instead of value and you get two thumbs. min_gap is a " <>
-            "hard floor — they never come closer than it. The headless PUSH " <>
-            "behaviour is not expressible on Compose's RangeSlider: it clamps " <>
-            "the dragged thumb and then reports the clamped value, so nothing " <>
-            "says the finger is still pushing. See the moduledoc.",
+          "Pass values instead of value and you get two thumbs. min_gap keeps " <>
+            "them apart; collision says what happens when they meet — push " <>
+            "carries the other thumb along, stop holds the dragged one there.",
         code: ~S"""
         <MishkaSlider values={@range} min={0} max={100} step={5}
                       min_gap={5} on_change={:range} />
@@ -291,5 +289,5 @@ defmodule MishkaMob.Showcase.Components.Slider do
   end
 
   defp stars(n) when is_number(n), do: String.duplicate("★", round(n))
-  defp range_label([lo, hi]), do: "#{round(lo)} — #{round(hi)}  (min gap 5)"
+  defp range_label([lo, hi]), do: "#{round(lo)} — #{round(hi)}  (min gap 5, push)"
 end

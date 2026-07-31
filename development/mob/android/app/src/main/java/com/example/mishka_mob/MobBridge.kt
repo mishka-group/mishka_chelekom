@@ -42,6 +42,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size as ComposeSize
 import androidx.compose.ui.graphics.Path
@@ -2680,10 +2681,16 @@ private fun MobSliderBody(node: MobNode, modifier: Modifier) {
     )
 }
 
-// Two thumbs. The pair travels as one `values` prop and comes back as one
-// `"lo,hi"` string, because the change channel carries a single float otherwise
-// — see nativeSendChangeStr. The screen owns the gap and collision rules; this
-// only reports where the thumbs were dragged to.
+// Two thumbs, hand-built.
+//
+// Compose's RangeSlider cannot do push collision: it clamps the dragged thumb at
+// the stationary one and then reports the CLAMPED value, so once they meet
+// nothing says the finger is still pushing. This control owns its drag, so it
+// always knows the pointer — which is the signal push needs, and is how the
+// headless does it.
+//
+// The pair comes back as one `"lo,hi"` string; the change channel carries a
+// single value otherwise.
 @Composable
 private fun MobRangeSlider(
     node: MobNode,
@@ -2695,57 +2702,90 @@ private fun MobRangeSlider(
     colors: androidx.compose.material3.SliderColors,
     handle: Int?,
 ) {
-    // Same drag guard as the single-thumb case above: an echo that lands
-    // mid-drag is stale by definition and would fight the finger.
-    val incoming = range[0]..range[1]
+    val gap = floatProp(node.props, "min_gap") ?: 0f
+    val stop = (node.props["collision"] as? String) == "stop"
+    val span = (maxVal - minVal).takeIf { it > 0f } ?: 1f
+    val stepSize = if (steps > 0) span / (steps + 1) else 0f
+
+    val incoming = range[0] to range[1]
     val epoch = LocalRenderEpoch.current
     var local by remember { mutableStateOf(incoming) }
     var seenEpoch by remember { mutableStateOf(-1) }
     var dragging by remember { mutableStateOf(false) }
+    var grabLo by remember { mutableStateOf(true) }
 
     if (epoch != seenEpoch) {
         seenEpoch = epoch
         if (!dragging && incoming != local) local = incoming
     }
 
-    // MIN GAP ONLY — push collision is NOT implementable on RangeSlider.
-    //
-    // The widget clamps the dragged thumb at the stationary one and then reports
-    // the CLAMPED value. Once the two meet, every further pixel of finger travel
-    // reports the same number, so there is no signal distinguishing "still
-    // pushing" from "stopped" — and push needs exactly that signal. The headless
-    // version does its own hit-testing and always knows the pointer, which is
-    // why it can push and this cannot.
-    //
-    // So the gap is enforced (the thumbs never come closer than `min_gap`) and
-    // the dragged thumb stops there. Matching the headless push needs a
-    // hand-built range control with its own drag handling, on both platforms —
-    // see development/mob/IOS_TODO.md.
-    val gap = floatProp(node.props, "min_gap") ?: 0f
+    fun snap(v: Float): Float {
+        val clamped = v.coerceIn(minVal, maxVal)
+        if (stepSize <= 0f) return clamped
+        return (minVal + Math.round((clamped - minVal) / stepSize) * stepSize)
+            .coerceIn(minVal, maxVal)
+    }
 
-    RangeSlider(
-        value         = local,
-        onValueChange = { next ->
-            dragging = true
-
-            var lo = next.start
-            var hi = next.endInclusive
-
-            if (gap > 0f && hi - lo < gap) {
-                // Hold whichever end is free; the dragged one is already pinned
-                // by the widget, so this only ever widens the pair back to `gap`.
-                if (hi + gap <= maxVal) hi = lo + gap else lo = hi - gap
+    // Apply the gap using the FINGER's target, not a clamped one — the whole
+    // point of owning the drag.
+    fun place(target: Float): Pair<Float, Float> {
+        val (lo, hi) = local
+        return if (grabLo) {
+            val newLo = snap(target)
+            if (hi - newLo >= gap) newLo to hi
+            else if (stop) minOf(newLo, hi - gap).coerceAtLeast(minVal) to hi
+            else {
+                val pushedHi = (newLo + gap).coerceAtMost(maxVal)
+                (pushedHi - gap) to pushedHi
             }
+        } else {
+            val newHi = snap(target)
+            if (newHi - lo >= gap) lo to newHi
+            else if (stop) lo to maxOf(newHi, lo + gap).coerceAtMost(maxVal)
+            else {
+                val pushedLo = (newHi - gap).coerceAtLeast(minVal)
+                pushedLo to (pushedLo + gap)
+            }
+        }
+    }
 
-            local = lo..hi
-            handle?.let { MobBridge.nativeSendChangeStr(it, "$lo,$hi") }
-        },
-        onValueChangeFinished = { dragging = false },
-        valueRange = minVal..maxVal,
-        steps      = steps,
-        modifier   = modifier,
-        colors     = colors,
-    )
+    val track = colors.disabledInactiveTrackColor
+    val accent = colors.thumbColor
+
+    Canvas(
+        modifier = modifier
+            .height(44.dp)
+            .pointerInput(gap, stop, minVal, maxVal, steps) {
+                fun toValue(x: Float) = minVal + (x / size.width.toFloat()) * span
+                detectDragGestures(
+                    onDragStart = { off ->
+                        val v = toValue(off.x)
+                        grabLo = kotlin.math.abs(v - local.first) <= kotlin.math.abs(v - local.second)
+                        dragging = true
+                        local = place(v)
+                        handle?.let {
+                            MobBridge.nativeSendChangeStr(it, "${local.first},${local.second}")
+                        }
+                    },
+                    onDrag = { change, _ ->
+                        local = place(toValue(change.position.x))
+                        handle?.let {
+                            MobBridge.nativeSendChangeStr(it, "${local.first},${local.second}")
+                        }
+                    },
+                    onDragEnd = { dragging = false },
+                    onDragCancel = { dragging = false },
+                )
+            }
+    ) {
+        val y = size.height / 2f
+        val loX = ((local.first - minVal) / span) * size.width
+        val hiX = ((local.second - minVal) / span) * size.width
+        drawLine(track, Offset(0f, y), Offset(size.width, y), strokeWidth = 10f, cap = StrokeCap.Round)
+        drawLine(accent, Offset(loX, y), Offset(hiX, y), strokeWidth = 10f, cap = StrokeCap.Round)
+        drawCircle(accent, radius = 22f, center = Offset(loX, y))
+        drawCircle(accent, radius = 22f, center = Offset(hiX, y))
+    }
 }
 
 private fun floatListProp(props: Map<String, Any?>, key: String): List<Float>? {

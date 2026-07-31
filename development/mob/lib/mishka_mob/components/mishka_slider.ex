@@ -26,20 +26,10 @@ defmodule MishkaMob.Components.MishkaSlider do
   `orientation={:vertical}` turns the control a quarter turn; `length` sets how
   long the track is, since a rotated slider cannot inherit a width.
 
-  > #### Push collision is not expressible, and this is why {: .warning}
-  >
-  > Compose's `RangeSlider` clamps the dragged thumb at the stationary one and
-  > then reports the CLAMPED value. Once they meet, every further pixel of finger
-  > travel reports the same number — so nothing distinguishes "still pushing"
-  > from "stopped", and push needs exactly that signal. The headless version does
-  > its own hit-testing and always knows the pointer, which is why it can push.
-  >
-  > `min_gap` is therefore honoured as a hard floor: the thumbs never come closer
-  > than it and the dragged one stops there. `resolve/3` still implements both
-  > rules as pure functions — useful for a screen deriving a range from something
-  > other than a drag — but `collision: :push` cannot be delivered by this widget.
-  > Matching the headless needs a hand-built range control with its own drag
-  > handling, on both platforms.
+  Two thumbs are a hand-built control, not Compose's `RangeSlider` — that one
+  clamps the dragged thumb and then reports the clamped value, so once they meet
+  nothing says the finger is still pushing. Owning the drag means always knowing
+  the pointer, which is what `collision: :push` needs.
 
   > #### Range and vertical are Android-only for now {: .warning}
   >
@@ -60,7 +50,8 @@ defmodule MishkaMob.Components.MishkaSlider do
   | `orientation` | `:horizontal` `:vertical` | `:horizontal` | Android only. |
   | `length` | number | `160` | Track length when vertical. |
   | `min_gap` | number | `0` | Least distance between the two thumbs. |
-  | `min_gap` alone | — | — | The thumbs stop at `min_gap`; see below. |
+  | `min_gap` | number | `0` | Least distance between the two thumbs. |
+  | `collision` | `:push` `:stop` | `:push` | What happens when they meet. |
   | `label` | string | `nil` | Caption above the track. |
   | `show_value` | boolean | `false` | Render a readout beside the label. |
   | `value_text` | string | `nil` | Overrides the readout (default is the rounded value). |
@@ -118,6 +109,7 @@ defmodule MishkaMob.Components.MishkaSlider do
       |> put_prop(:steps, steps(Map.get(props, :step), min, max))
       |> put_prop(:values, range_values(props))
       |> put_prop(:min_gap, Map.get(props, :min_gap))
+      |> put_prop(:collision, Map.get(props, :collision))
       |> put_prop(:orientation, Map.get(props, :orientation))
       |> put_prop(:length, Map.get(props, :length))
       |> put_prop(:on_change, Event.handler(Map.get(props, :on_change)))
