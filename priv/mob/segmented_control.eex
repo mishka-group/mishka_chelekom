@@ -15,12 +15,24 @@ defmodule <%= @module %> do
   When an empty selection is meaningful, reach for
   `<%= @namespace %>.<%= @module_prefix_camel %>ToggleGroup` instead.
 
-  ## Segments are content-sized
+  ## Segments are content-sized, and the track hugs them
 
   Equal-width segments would need `weight`, which Compose implements and Mob's
   iOS mapping does not, so the strip would look right on Android and collapse on
   iOS. Segments therefore size to their labels — the same compromise the Tabs
   port makes, for the same reason.
+
+  That makes `fill_width` load-bearing on both the track and each segment. A Box
+  given neither a width nor the prop **fills its parent**, so an unguarded
+  segment took the whole strip and pushed the rest off the screen, and an
+  unguarded track stretched to the screen edge around three short labels. Both
+  now hug; pass `fill_width={true}` for a strip that should span its container,
+  and accept that its segments still cluster at the leading edge.
+
+  ## Styling is the caller's, as on the web
+
+  The headless original ships no colours and no spacing. There is no stylesheet
+  here, so every visual is a prop with a legible default.
 
   ## Props
 
@@ -32,11 +44,26 @@ defmodule <%= @module %> do
   | `on_change` | event tag (atom) | — | Sent as `{:tap, {tag, option_id}}`. |
   | `color` | color token / ARGB int | `:primary` | Selected segment fill. |
   | `text_color` | color token / ARGB int | `:on_primary` | Selected segment label. |
+  | `label_color` | color token / ARGB int | `:on_surface` | An unselected label. |
   | `background` | color token / ARGB int | `:surface_raised` | The track. |
+  | `padding` | spacing token / number | `:space_sm` | Inside each segment. |
+  | `track_padding` | number | `3` | Inset between track and segments. |
+  | `corner_radius` | radius token / number | `:radius_md` | The track's corners. |
+  | `segment_radius` | radius token / number | `:radius_sm` | A segment's corners. |
+  | `border_color` | color token / ARGB int | `nil` | Track border, when set. |
+  | `border_width` | number | `0` | Track border width. |
+  | `text_size` | text token | `:base` | Segment labels. |
+  | `fill_width` | boolean | `false` | Track spans its parent. |
+  | `id` | string | `nil` | Prefix for each segment's test tag. |
 
   Options are children built with `option/3`.
 
-  Not ported: `name` (form plumbing) and `id` / `*_class`.
+  Given `id="view"`, the `:week` segment is tagged `"view-week-selected"` or
+  `"view-week-idle"`. Selection is conveyed by fill colour alone, and colour is
+  not in the accessibility tree, so those tags are the only thing a device test
+  can read.
+
+  Not ported: `name` (form plumbing) and the `*_class` attrs.
   """
 
   import Mob.Sigil
@@ -87,16 +114,24 @@ defmodule <%= @module %> do
     selected = selected(props, options)
     segments = Enum.map(options, &segment(&1, props, Map.get(&1, :id) == selected))
 
+    # The track and its Row must BOTH be told, or the strip stretches to the
+    # screen edge around three short labels: a Box with no width fills, and a
+    # Row that fills leaves a hugging track wrapping a full-width child.
+    fill? = truthy?(Map.get(props, :fill_width, false))
+
     ~MOB"""
     <Column fill_width={true}>
       <Text text={label} text_size={:sm} text_color={:muted} :if={is_binary(label)} />
       <Spacer size={10} :if={is_binary(label)} />
       <Box
+        fill_width={fill?}
         background={Map.get(props, :background, :surface_raised)}
-        corner_radius={:radius_md}
-        padding={3}
+        corner_radius={Map.get(props, :corner_radius, :radius_md)}
+        padding={Map.get(props, :track_padding, 3)}
+        border_color={Map.get(props, :border_color)}
+        border_width={Map.get(props, :border_width, 0)}
       >
-        <Row>
+        <Row fill_width={fill?}>
           {segments}
         </Row>
       </Box>
@@ -120,35 +155,67 @@ defmodule <%= @module %> do
     disabled? =
       truthy?(Map.get(props, :disabled, false)) or truthy?(Map.get(option, :disabled, false))
 
-    fill = if selected?, do: Map.get(props, :color, :primary), else: :transparent
+    # A disabled selection is greyed rather than accented — the same rule the
+    # toggle settled on, so a locked control reads as locked instead of live.
+    fill =
+      cond do
+        selected? and disabled? -> :muted
+        selected? -> Map.get(props, :color, :primary)
+        true -> :transparent
+      end
 
     text_color =
       cond do
-        disabled? -> :muted
         selected? -> Map.get(props, :text_color, :on_primary)
-        true -> :on_surface
+        disabled? -> :muted
+        true -> Map.get(props, :label_color, :on_surface)
       end
 
+    # fill_width: false is what keeps a segment the size of its label. Without
+    # it the first segment claims the whole strip and the others are pushed off
+    # the screen — present in the tree, correct in every unit test, invisible on
+    # the device. It is also what makes the "content-sized" claim above true.
     node = ~MOB"""
-    <Box background={fill} corner_radius={:radius_sm} padding={:space_sm}>
-      <Text text={Map.get(option, :label)} text_size={:base} text_color={text_color} />
+    <Box
+      fill_width={false}
+      background={fill}
+      corner_radius={Map.get(props, :segment_radius, :radius_sm)}
+      padding={Map.get(props, :padding, :space_sm)}
+      align={:center}
+    >
+      <Text
+        text={Map.get(option, :label)}
+        text_size={Map.get(props, :text_size, :base)}
+        text_color={text_color}
+      />
     </Box>
     """
 
-    case tap(props, option, disabled?) do
-      nil -> node
-      handler -> %{node | props: Map.put(node.props, :on_tap, handler)}
-    end
+    node
+    |> tag_state(Map.get(props, :id), Map.get(option, :id), selected?)
+    |> wire(tap(props, option, disabled?))
+  end
+
+  defp wire(node, nil), do: node
+  defp wire(node, handler), do: %{node | props: Map.put(node.props, :on_tap, handler)}
+
+  # Selection is a fill colour, and colour is not in the accessibility tree, so
+  # nothing tells a device test which segment is chosen. Fold it into the tag.
+  defp tag_state(node, nil, _option_id, _selected?), do: node
+
+  defp tag_state(node, id, option_id, selected?) do
+    state = if selected?, do: "selected", else: "idle"
+    %{node | props: Map.put(node.props, :id, "#{id}-#{option_id}-#{state}")}
   end
 
   defp tap(_props, _option, true), do: nil
 
-  defp tap(props, option, _disabled) do
-    case Event.handler(Map.get(props, :on_change)) do
-      nil -> nil
-      {pid, tag} -> {pid, {tag, Map.get(option, :id)}}
-    end
-  end
+  # Event.handler/2, not a hand-built {tag, id}: reached as a composite tag this
+  # control's :on_change has ALREADY been widened to {screen_pid, tag}, and
+  # pairing that with an id by hand gives {{pid, tag}, id} — which the renderer
+  # registers and no handle_info clause matches.
+  defp tap(props, option, _disabled),
+    do: Event.handler(Map.get(props, :on_change), Map.get(option, :id))
 
   defp truthy?(nil), do: false
   defp truthy?(false), do: false

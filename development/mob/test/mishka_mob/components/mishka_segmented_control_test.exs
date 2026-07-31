@@ -91,6 +91,83 @@ defmodule MishkaMob.Components.MishkaSegmentedControlTest do
     end
   end
 
+  describe "layout" do
+    test "every segment HUGS its label" do
+      # A Box with neither a width nor fill_width fills its parent, so an
+      # unguarded first segment claims the whole strip and the rest are pushed
+      # off the screen — correct in the tree, invisible on the device. This is
+      # also what makes the moduledoc's "content-sized" claim true.
+      assert Enum.all?(segments(build(%{})), &(&1.props.fill_width == false))
+    end
+
+    test "the track hugs by default and spans on request" do
+      assert track(build(%{})).props.fill_width == false
+      assert track(build(%{fill_width: true})).props.fill_width == true
+    end
+
+    test "the inner Row follows the track, or a hugging track wraps a filling child" do
+      assert find(build(%{}), :row).props.fill_width == false
+      assert find(build(%{fill_width: true}), :row).props.fill_width == true
+    end
+  end
+
+  describe "styling is the caller's" do
+    test "every visual is overridable" do
+      tree =
+        build(%{
+          value: :day,
+          padding: 14,
+          track_padding: 6,
+          corner_radius: 12,
+          segment_radius: 9,
+          border_color: :border,
+          border_width: 1,
+          text_size: :sm,
+          label_color: :muted
+        })
+
+      assert track(tree).props.padding == 6
+      assert track(tree).props.corner_radius == 12
+      assert track(tree).props.border_width == 1
+
+      selected = Enum.at(segments(tree), 0)
+      assert selected.props.padding == 14
+      assert selected.props.corner_radius == 9
+
+      # label_color paints an UNSELECTED label; the selected one keeps text_color.
+      assert find(Enum.at(segments(tree), 1), :text).props.text_color == :muted
+      assert find(selected, :text).props.text_size == :sm
+    end
+
+    test "the track has no border unless one is asked for" do
+      assert track(build(%{})).props.border_width == 0
+    end
+  end
+
+  describe "segment test tags" do
+    # Selection is a fill colour, and colour is not in the accessibility tree —
+    # these tags are the only way a device test can see which segment is chosen.
+    test "each segment is tagged <control>-<option>-<state>" do
+      ids = build(%{id: "view", value: :week}) |> segments() |> Enum.map(& &1.props[:id])
+
+      assert ids == ["view-day-idle", "view-week-selected", "view-month-idle"]
+    end
+
+    test "no control id leaves every segment untagged" do
+      ids = build(%{value: :week}) |> segments() |> Enum.map(& &1.props[:id])
+
+      assert Enum.all?(ids, &is_nil/1)
+    end
+  end
+
+  test "a disabled segment that is SELECTED keeps its selected label colour" do
+    # Otherwise the fill stays accent-coloured under a muted label, which is
+    # unreadable — and the user cannot see which segment is locked in.
+    tree = build(%{value: :month, disabled: true})
+
+    assert find(Enum.at(segments(tree), 2), :text).props.text_color == :on_primary
+  end
+
   test "the label renders above the strip when given" do
     assert text(build(%{label: "VIEW"})) =~ "VIEW"
   end
