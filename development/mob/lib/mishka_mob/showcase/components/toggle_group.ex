@@ -283,10 +283,16 @@ defmodule MishkaMob.Showcase.Components.ToggleGroup do
         description: "Forwarded to every item. Pressed pair, then idle pair."
       },
       %{
-        name: "padding · corner_radius · border_color · border_width · text_size",
+        name: "padding · corner_radius",
         type: "see Toggle",
         default: "—",
         description: "Also forwarded. The group has no look of its own."
+      },
+      %{
+        name: "border_color · border_width · text_size",
+        type: "see Toggle",
+        default: "—",
+        description: "Forwarded too. border_width: 0 gives a segmented bar's inner buttons."
       },
       %{
         name: "fill_width",

@@ -214,6 +214,48 @@ defmodule MishkaMob.ShowcaseTest do
     end
   end
 
+  describe "the props table" do
+    # A long prop name used to starve the type/default column to ~0pt: Compose
+    # measures UNWEIGHTED row children first, so an unweighted name Text took
+    # the whole row and the meta wrapped one character per line, leaving a tall
+    # and mostly empty box. The flexible part must carry the weight instead.
+    test "the NAME is the weighted child, so the meta keeps its natural width" do
+      [box] =
+        MishkaMob.Showcase.Kit.props_table([
+          %{name: "a", type: "b", default: "c", description: "d"}
+        ]).children
+
+      header = box |> find_all(:row) |> hd()
+      [first | rest] = header.children
+
+      assert first.type == :box
+      assert first.props[:weight] == 1
+      assert text(first) =~ "a"
+
+      # And nothing after it may be weighted, or they would share the leftover
+      # rather than the meta being measured against its own content.
+      assert Enum.all?(rest, &is_nil(&1.props[:weight]))
+    end
+
+    test "every registered component's props table renders" do
+      for entry <- Showcase.all(), props = entry.module.props(), props != [] do
+        assert_renderable(MishkaMob.Showcase.Kit.props_table(props))
+      end
+    end
+
+    test "no prop NAME is long enough to crowd its own row" do
+      # The layout survives a long name now, but a name this long is a sign the
+      # row should have been split into two props.
+      long =
+        for entry <- Showcase.all(),
+            p <- entry.module.props(),
+            String.length(p.name) > 60,
+            do: "#{entry.slug}: #{p.name}"
+
+      assert long == []
+    end
+  end
+
   describe "ComponentScreen" do
     test "loads the entry from the slug param and renders its examples + code" do
       view = mount_screen(ComponentScreen, %{slug: :drawer})

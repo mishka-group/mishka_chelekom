@@ -230,14 +230,30 @@ defmodule MishkaMob.Showcase.Kit do
       |> Enum.reject(&is_nil/1)
       |> Enum.join("   ·   ")
 
+    # The NAME carries the weight, and the meta is unweighted.
+    #
+    # It used to be name, flex spacer, meta — three siblings where the first was
+    # an unweighted Text. Compose measures unweighted children FIRST, against the
+    # row's full width, so a long prop name ("color · text_color · background ·
+    # label_color") ate the row and left the meta ~0pt: it wrapped one character
+    # per line ("see / Tog / gle / def / ault"), and the row grew tall enough to
+    # be mostly empty space. Putting the flexible part in a weighted Box measures
+    # the meta at its natural width first and gives the name whatever is left,
+    # where it wraps as text should.
     header =
       row([
         %{
-          type: :text,
-          props: %{text: p.name, text_size: :base, text_color: :on_surface},
-          children: []
+          type: :box,
+          props: %{weight: 1},
+          children: [
+            %{
+              type: :text,
+              props: %{text: p.name, text_size: :base, text_color: :on_surface},
+              children: []
+            }
+          ]
         },
-        flex_slot(),
+        gap_h(),
         %{type: :text, props: %{text: meta, text_size: :xs, text_color: :muted}, children: []}
       ])
 
