@@ -94,6 +94,13 @@ class ChipTest {
         require(erlang.left >= elixir.right - 2f) {
             "chips are not on one line: $elixir vs $erlang"
         }
+
+        // Every label must render IN FULL. An exact-text lookup fails the moment
+        // one is ellipsised, which is what happened when the chip carried its own
+        // padding on top of Material's — "Gleam" came out as "Gle…".
+        for (label in listOf("Elixir", "Erlang", "Gleam")) {
+            require(boundsOf(label).width > 0f) { "\"$label\" did not render in full" }
+        }
     }
 
     @Test

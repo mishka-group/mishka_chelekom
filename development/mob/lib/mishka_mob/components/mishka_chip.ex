@@ -57,34 +57,46 @@ defmodule MishkaMob.Components.MishkaChip do
     ink = text_color(props, checked?, disabled?)
     fill = background(props, checked?, disabled?)
 
-    # The Row is what makes a chip chip-SIZED. A Box with neither `width` nor
-    # `fill_width` fills its parent on BOTH platforms, so the pill stretched the
-    # whole row — one chip per line, full width. A Row hugs its content on both
-    # (Compose Row does not fill by default; an HStack hugs unless told to), and
-    # the Box inside then measures to the label. The radius stays on the Box
-    # because a Row's corner_radius is clipped only on Android.
-    pill = ~MOB"""
-    <Box fill_width={false} background={fill} corner_radius={:radius_pill} padding={:space_sm}>
-      <Text text={label} text_size={:base} text_color={ink} />
-    </Box>
+    # A Button, not a Box, and the reason is iOS. A Box with neither `width` nor
+    # `fill_width` fills its parent on BOTH platforms — that is why the chip came
+    # out full width — and `fill_width={false}` does not rescue it, because iOS's
+    # MobBox never reads the prop: only a fixed width stops it filling, and a
+    # label's width is not known here. Wrapping it in a hugging Row does not help
+    # either, since an HStack still proposes its full width to a flexible child.
+    #
+    # Button reads `fill_width` on both (Compose `if (fillWidth) fillMaxWidth()`,
+    # SwiftUI `.frame(maxWidth: fillWidth ? .infinity : nil)`) and iOS clips it to
+    # `RoundedRectangle(cornerRadius:)`, so the pill hugs AND stays round on both.
+    #
+    # No `padding` of our own: it lands INSIDE the label on iOS but as an outer
+    # margin on Android, where Material3 has already added its own content
+    # padding — stacking the two made the chip chunky enough to truncate
+    # "Gleam" to "Gle…". Each platform's own button padding is closer to a chip
+    # than anything set here, and it is the only setting that agrees.
+    node = ~MOB"""
+    <Button
+      text={label}
+      fill_width={false}
+      background={fill}
+      text_color={ink}
+      corner_radius={:radius_pill}
+    />
     """
 
-    pill =
-      case handler(props, disabled?) do
-        nil -> pill
-        tap -> %{pill | props: Map.put(pill.props, :on_tap, tap)}
-      end
-
-    ~MOB"""
-    <Row>
-      {pill}
-    </Row>
-    """
+    case handler(props, disabled?) do
+      nil -> node
+      tap -> %{node | props: Map.put(node.props, :on_tap, tap)}
+    end
   end
 
+  # `disabled` must not erase `checked`. It used to: both fell to
+  # `:surface_raised`, so a locked-ON chip was pixel-identical to a locked-OFF
+  # one and the user could not see what was selected. The web keeps them
+  # orthogonal — `data-disabled` on the root, `:checked` still on the input — so
+  # a disabled selection stays visibly selected, just muted.
   defp background(props, checked?, disabled?) do
     cond do
-      disabled? -> :surface_raised
+      checked? and disabled? -> :muted
       checked? -> Map.get(props, :color, :primary)
       true -> :surface_raised
     end
