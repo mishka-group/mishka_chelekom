@@ -11,15 +11,15 @@ rules every Mob component shares.
 
 ```
 row  fill_width, on_tap          ← the whole row is the target, label included
-├── box  size × size, corner_radius: :radius_sm, border
-│   └── text  "✓" / "–" / ""     ← scaled to 0.7 × size
+├── box  size × size, corner_radius: :radius_sm, border, id: "<id>-checked|mixed|empty"
+│   └── canvas  size × size      ← the mark: 2 lines for a tick, 1 for a dash, 0 for empty
 ├── spacer(10)
 └── text  the label
 ```
 
-Mob ships no checkbox widget — its `Toggle` is a switch — so the indicator is drawn from a Box and a
-glyph. That is why `size` exists, and why the glyph is sized *from* it: a fixed glyph in a resizable
-box is clipped when the box shrinks and marooned when it grows.
+Mob ships no checkbox widget — its `Toggle` is a switch — so the indicator is drawn from a Box, and
+the mark is **drawn on a canvas** rather than typed as a glyph. That is why `size` exists: every
+coordinate in the mark is a fraction of it, so it lands correctly at any edge.
 
 ## Example
 
@@ -48,19 +48,27 @@ end
 | `color` | colour token / ARGB int | `:primary` — the fill when checked or mixed |
 | `text_color` | colour token / ARGB int | `:on_primary` — the tick itself |
 | `size` | number | `22` — the indicator's edge |
+| `id` | string | `nil` — becomes the indicator's testTag, suffixed with its state |
 
 Helper: `toggle/1`.
 
-## Four things to know
+## Five things to know
 
-**`size` scales the glyph too.** The tick is `0.7 × size`, so it stays inside the border at any
-edge. It used to be a fixed `:base`, which meant `size` moved the box and left the glyph behind — a
-small box clipped its tick into a smear and a large one left it stranded in the middle. If you
-change the ratio, check both ends of the range, not just the default.
+**The mark is drawn, not typed — do not put it back to a glyph.** It was a `"✓"` Text once, and it
+could not be centred at any font size: a glyph sits on its *baseline* with descent space beneath, so
+it rides high inside its box. That offset is invisible at 26dp and obvious at 16dp, and scaling the
+ratio (0.7, then 0.55) only moves it. Lines have no metrics, so `Mob.Canvas.line` puts the mark
+exactly where the fractions say at every size.
 
-**Indeterminate wins over checked, and the glyph changes with it.** A mixed box draws a dash rather
-than a tick, so the three states differ by *shape* and not only by colour — they survive a
-colourblind reading. `toggle/1` resolves mixed to fully checked, which is what browsers do.
+**A drawn mark is invisible to tests, so `id` carries the state.** There is no text to assert on, so
+the indicator's testTag becomes `"<id>-checked"`, `"<id>-mixed"` or `"<id>-empty"` — the same trick
+`mishka_skeleton` uses for bars that carry no text. In a device test, pass `useUnmergedTree = true`:
+the tappable Row merges its children's semantics and swallows the tag.
+
+**Indeterminate wins over checked, and the shape changes with it.** A mixed box draws one horizontal
+line rather than two angled ones, so the three states differ by *shape* and not only by colour —
+they survive a colourblind reading. `toggle/1` resolves mixed to fully checked, which is what
+browsers do.
 
 **The whole row is the tap target.** `on_tap` sits on the Row, so the label is as tappable as the
 box — the web gets this free from `<label>`, and a 22dp box alone is a poor target on a phone.

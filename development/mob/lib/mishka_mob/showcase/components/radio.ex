@@ -34,9 +34,13 @@ defmodule MishkaMob.Showcase.Components.Radio do
         code: ~S"""
         <MishkaRadio label="Pro" checked={@plan == :pro} on_select={{:plan, :pro}} />
 
+        # The id rides in the tag, so ONE clause serves the whole set. A bare
+        # on_select={:plan} renders a perfect radio that cannot say which.
         def handle_info({:tap, {:plan, id}}, socket) do
-          {:noreply, assign(socket, :plan, id)}
+          {:noreply, Mob.Socket.assign(socket, :plan, id)}
         end
+
+        def handle_info(_msg, socket), do: {:noreply, socket}
         """,
         render: fn assigns ->
           ~MOB"""
@@ -90,9 +94,9 @@ defmodule MishkaMob.Showcase.Components.Radio do
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaRadio label="Large violet" checked={true} color={0xFF7C3AED} size={28} />
+            <MishkaRadio label="Large violet" checked={true} color={0xFF7C3AED} size={28} id="rd-large" />
             <Spacer size={12} />
-            <MishkaRadio label="Small" checked={true} size={16} />
+            <MishkaRadio label="Small" checked={true} size={16} id="rd-small" />
           </Column>
           """
         end
@@ -123,7 +127,25 @@ defmodule MishkaMob.Showcase.Components.Radio do
         default: ":primary",
         description: "Ring and dot when selected."
       },
-      %{name: "size", type: "number", default: "22", description: "Outer circle diameter."}
+      %{
+        name: "text_color",
+        type: "color / ARGB",
+        default: ":on_surface",
+        description: "The label."
+      },
+      %{name: "size", type: "number", default: "22", description: "Outer circle diameter."},
+      %{
+        name: "fill_width",
+        type: "boolean",
+        default: "true",
+        description: "Row spans its parent. Set false for a side-by-side set."
+      },
+      %{
+        name: "id",
+        type: "string",
+        default: "nil",
+        description: "Test tag on the ring, suffixed -selected / -empty."
+      }
     ]
   end
 
@@ -134,7 +156,7 @@ defmodule MishkaMob.Showcase.Components.Radio do
   defp plan_radios(selected) do
     @plans
     |> Enum.map(fn {id, label} ->
-      radio(label: label, checked: id == selected, on_select: {:rd_plan, id})
+      radio(label: label, checked: id == selected, on_select: {:rd_plan, id}, id: "rd-#{id}")
     end)
     |> Enum.intersperse(%{type: :spacer, props: %{size: 12}, children: []})
   end

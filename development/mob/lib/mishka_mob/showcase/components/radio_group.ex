@@ -44,20 +44,26 @@ defmodule MishkaMob.Showcase.Components.RadioGroup do
           option(:team, "Team")
         ]}</MishkaRadioGroup>
 
+        # Every option reports the SAME tag widened with its own id — that is what
+        # replaces the browser's shared `name`, and why one clause is enough.
         def handle_info({:tap, {:plan, id}}, socket) do
-          {:noreply, assign(socket, :plan, MishkaRadioGroup.select(socket.assigns.plan, id))}
+          {:noreply, Mob.Socket.assign(socket, :plan, MishkaRadioGroup.select(socket.assigns.plan, id))}
         end
+
+        def handle_info(_msg, socket), do: {:noreply, socket}
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaRadioGroup label="PLAN" value={@rg_plan} on_change={:rg_plan}>
+            <MishkaRadioGroup label="PLAN" value={@rg_plan} on_change={:rg_plan} id="rg-plan">
               {[
               option(:free, "Free"),
               option(:pro, "Pro"),
               option(:team, "Team — 5 seats")
             ]}
             </MishkaRadioGroup>
+            <Spacer size={12} />
+            <Text text={"Selected: " <> to_string(@rg_plan)} text_size={:sm} text_color={:muted} />
           </Column>
           """
         end
@@ -81,6 +87,7 @@ defmodule MishkaMob.Showcase.Components.RadioGroup do
               orientation={:horizontal}
               space={18}
               on_change={:rg_size}
+              id="rg-size"
             >
               {[
               option(:s, "S"),
@@ -109,10 +116,10 @@ defmodule MishkaMob.Showcase.Components.RadioGroup do
             ]}
             </MishkaRadioGroup>
             <Spacer size={16} />
-            <MishkaRadioGroup label="WHOLE GROUP OFF" value={@rg_plan} disabled={true}>
+            <MishkaRadioGroup label="WHOLE GROUP OFF" value={@rg_plan} disabled={true} id="rg-off">
               {[
-              option(:free, "Free"),
-              option(:pro, "Pro")
+              option(:free, "Free (off)"),
+              option(:pro, "Pro (off)")
             ]}
             </MishkaRadioGroup>
           </Column>
@@ -170,6 +177,12 @@ defmodule MishkaMob.Showcase.Components.RadioGroup do
         type: "see Radio",
         default: "—",
         description: "Passed to every option."
+      },
+      %{
+        name: "id",
+        type: "string",
+        default: "nil",
+        description: "Prefix for each option's test tag: <id>-<option>-selected."
       },
       %{
         name: "select/2",
