@@ -2484,12 +2484,17 @@ private fun MobTextField(node: MobNode, modifier: Modifier) {
     // So it is suppressed exactly when the node draws its own border, and kept
     // otherwise: a field with no box of its own has nothing else marking its
     // bounds, and every component in the library relies on that.
+    // `underline: false` says so outright, for a field sitting INSIDE someone
+    // else's box — the number field's value slot, between its two steppers,
+    // where the joined control draws the only border there should be.
     val drawsOwnBorder =
         longColorProp(node.props, "border_color") != null &&
             (floatProp(node.props, "border_width") ?: 0f) > 0f
 
+    val wantsUnderline = boolProp(node.props, "underline") ?: !drawsOwnBorder
+
     val indicator =
-        if (drawsOwnBorder) Color.Transparent else colorProp(node.props, "border_color")
+        if (wantsUnderline) colorProp(node.props, "border_color") else Color.Transparent
 
     val fieldColors = TextFieldDefaults.colors(
         focusedTextColor        = colorProp(node.props, "text_color"),

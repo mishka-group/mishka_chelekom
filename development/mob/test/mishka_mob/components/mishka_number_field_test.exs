@@ -83,13 +83,88 @@ defmodule MishkaMob.Components.MishkaNumberFieldTest do
   end
 
   describe "the rendered field" do
-    test "is a text field flanked by two steppers" do
+    test "is ONE bordered strip: stepper, value, stepper" do
       tree = NF.number_field(value: 1)
 
-      assert tree.type == :row
+      # A Box, not a Row. It used to be a stepper, a gap, a filling bordered
+      # field and another stepper, so the buttons drifted to opposite edges with
+      # a wide box marooned between them. The border belongs to the strip.
+      assert tree.type == :box
+      assert tree.props.border_width == 1
       assert find(tree, :text_field)
       assert text(tree) =~ "−"
       assert text(tree) =~ "+"
+    end
+
+    test "the inner field draws no box of its own" do
+      field = find(NF.number_field(value: 1), :text_field)
+
+      # Otherwise the strip has a second border inside it — and with no border of
+      # its own the platform would draw its indicator underline instead, which is
+      # what `underline: false` turns off.
+      assert field.props.underline == false
+      assert field.props.background == :transparent
+      assert field.props.text_align == "center"
+      refute Map.has_key?(field.props, :border_width)
+    end
+
+    test "the value slot widens for a longer rendered value" do
+      # A fixed slot clipped "$1,999.99" down to "99.99". There is no text
+      # measurement on this side of the bridge, so the width is estimated from
+      # the string the component is about to render.
+      short = NF.number_field(value: 3)
+      money = NF.number_field(value: 1999.99, step: 0.01, format: :currency)
+
+      short_slot = short |> find_all(:box) |> Enum.find(&(&1.props[:width] not in [nil, 1, 56]))
+      money_slot = money |> find_all(:box) |> Enum.find(&(&1.props[:width] not in [nil, 1, 56]))
+
+      assert money_slot.props.width > short_slot.props.width
+
+      assert NF.number_field(value: 3, value_width: 200)
+             |> find_all(:box)
+             |> Enum.any?(&(&1.props[:width] == 200))
+    end
+
+    test "the strip hugs by default and spans on request" do
+      assert NF.number_field(value: 1).props.fill_width == false
+      assert NF.number_field(value: 1, fill_width: true).props.fill_width == true
+    end
+
+    test "a stepper goes inert at its bound, not just when disabled" do
+      at_max = NF.number_field(value: 10, max: 10, on_step: :bump)
+      taps = at_max |> find_all(:box) |> Enum.map(& &1.props[:on_tap]) |> Enum.reject(&is_nil/1)
+
+      # Only the DOWN stepper is still wired.
+      assert taps == [{self(), {:bump, :down}}]
+
+      at_min = NF.number_field(value: 0, min: 0, on_step: :bump)
+
+      taps_min =
+        at_min |> find_all(:box) |> Enum.map(& &1.props[:on_tap]) |> Enum.reject(&is_nil/1)
+
+      assert taps_min == [{self(), {:bump, :up}}]
+    end
+
+    test "id tags the value field and both steppers with their direction" do
+      tree = NF.number_field(value: 1, id: "qty")
+      ids = tree |> find_all(:box) |> Enum.map(& &1.props[:id]) |> Enum.reject(&is_nil/1)
+
+      assert find(tree, :text_field).props.id == "qty"
+      assert ids == ["qty-down", "qty-up"]
+    end
+
+    test "no id leaves everything untagged" do
+      tree = NF.number_field(value: 1)
+
+      refute Map.has_key?(find(tree, :text_field).props, :id)
+      assert tree |> find_all(:box) |> Enum.all?(&is_nil(&1.props[:id]))
+    end
+
+    test "an unbounded field keeps both steppers live" do
+      tree = NF.number_field(value: 999, on_step: :bump)
+      taps = tree |> find_all(:box) |> Enum.map(& &1.props[:on_tap]) |> Enum.reject(&is_nil/1)
+
+      assert length(taps) == 2
     end
 
     test "picks the numeric keypad for whole steps and decimal otherwise" do
@@ -100,6 +175,15 @@ defmodule MishkaMob.Components.MishkaNumberFieldTest do
     test "the value is rendered at the step's precision" do
       assert find(NF.number_field(value: 4, step: 1), :text_field).props.value == "4"
       assert find(NF.number_field(value: 0.5, step: 0.1), :text_field).props.value == "0.5"
+    end
+
+    test "format reaches the rendered value" do
+      currency = NF.number_field(value: 1999.99, step: 0.01, format: :currency)
+      percent = NF.number_field(value: 0.075, step: 0.001, format: :percent)
+
+      assert find(currency, :text_field).props.value == "$1,999.99"
+      # The stored value is a FRACTION — 0.075 is 7.5%, not 0.075%.
+      assert find(percent, :text_field).props.value == "7.5%"
     end
 
     test "each stepper carries its own direction" do
