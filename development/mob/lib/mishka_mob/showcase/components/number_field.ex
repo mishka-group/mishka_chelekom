@@ -231,10 +231,16 @@ defmodule MishkaMob.Showcase.Components.NumberField do
         description: "The value slot's width. Estimated from the rendered text unless set."
       },
       %{
-        name: "background · border_color · border_width · corner_radius",
+        name: "background · corner_radius",
+        type: "colour / radius",
+        default: ":surface / :radius_sm",
+        description: "The strip's fill and rounding."
+      },
+      %{
+        name: "border_color · border_width",
         type: "colour / number",
-        default: ":surface / :border / 1 / :radius_sm",
-        description: "The strip itself. The inner field draws no box."
+        default: ":border / 1",
+        description: "The strip's outline. The inner field draws no box of its own."
       },
       %{
         name: "id",

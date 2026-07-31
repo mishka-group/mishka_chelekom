@@ -230,31 +230,32 @@ defmodule MishkaMob.Showcase.Kit do
       |> Enum.reject(&is_nil/1)
       |> Enum.join("   ·   ")
 
-    # The NAME carries the weight, and the meta is unweighted.
+    # BOTH columns are weighted, and that is the whole point.
     #
-    # It used to be name, flex spacer, meta — three siblings where the first was
-    # an unweighted Text. Compose measures unweighted children FIRST, against the
-    # row's full width, so a long prop name ("color · text_color · background ·
-    # label_color") ate the row and left the meta ~0pt: it wrapped one character
-    # per line ("see / Tog / gle / def / ault"), and the row grew tall enough to
-    # be mostly empty space. Putting the flexible part in a weighted Box measures
-    # the meta at its natural width first and gives the name whatever is left,
-    # where it wraps as text should.
+    # Compose measures unweighted row children first, against the row's full
+    # width, so whichever of these two is unweighted starves the other. It was
+    # name-then-spacer-then-meta, and a long NAME left the meta ~0pt wide, one
+    # character per line. Weighting the name alone just reversed it: a long META
+    # ("colour / number · default :surface / :border / 1 / :radius_sm") then took
+    # the row and squeezed the name into a sliver that wrapped down a dozen
+    # lines, which is the tall, mostly-empty box in the number field's table.
+    #
+    # Two weights share the row in a fixed ratio instead, so neither can starve
+    # the other however long the strings get. 2:1 because a name is the thing
+    # you scan for.
     header =
       row([
-        %{
-          type: :box,
-          props: %{weight: 1},
-          children: [
-            %{
-              type: :text,
-              props: %{text: p.name, text_size: :base, text_color: :on_surface},
-              children: []
-            }
-          ]
-        },
+        weighted(2, %{
+          type: :text,
+          props: %{text: p.name, text_size: :base, text_color: :on_surface},
+          children: []
+        }),
         gap_h(),
-        %{type: :text, props: %{text: meta, text_size: :xs, text_color: :muted}, children: []}
+        weighted(1, %{
+          type: :text,
+          props: %{text: meta, text_size: :xs, text_color: :muted, text_align: "end"},
+          children: []
+        })
       ])
 
     body = [header] ++ if(Map.get(p, :description), do: [gap(4), muted(p.description)], else: [])
@@ -280,6 +281,9 @@ defmodule MishkaMob.Showcase.Kit do
       children: []
     }
   end
+
+  defp weighted(weight, child),
+    do: %{type: :box, props: %{weight: weight}, children: [child]}
 
   defp row(children), do: %{type: :row, props: %{fill_width: true}, children: children}
   defp gap_h, do: %{type: :spacer, props: %{size: 12}, children: []}

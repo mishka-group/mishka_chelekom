@@ -219,22 +219,38 @@ defmodule MishkaMob.ShowcaseTest do
     # measures UNWEIGHTED row children first, so an unweighted name Text took
     # the whole row and the meta wrapped one character per line, leaving a tall
     # and mostly empty box. The flexible part must carry the weight instead.
-    test "the NAME is the weighted child, so the meta keeps its natural width" do
+    test "BOTH columns are weighted, so neither can starve the other" do
       [box] =
         MishkaMob.Showcase.Kit.props_table([
           %{name: "a", type: "b", default: "c", description: "d"}
         ]).children
 
       header = box |> find_all(:row) |> hd()
-      [first | rest] = header.children
+      weights = header.children |> Enum.map(& &1.props[:weight]) |> Enum.reject(&is_nil/1)
 
-      assert first.type == :box
-      assert first.props[:weight] == 1
-      assert text(first) =~ "a"
+      # Compose measures UNWEIGHTED row children first against the full width, so
+      # an unweighted column takes what it wants and the other gets the scraps.
+      # Weighting one and not the other only reverses which one suffers.
+      assert weights == [2, 1]
+      assert text(hd(header.children)) =~ "a"
+    end
 
-      # And nothing after it may be weighted, or they would share the leftover
-      # rather than the meta being measured against its own content.
-      assert Enum.all?(rest, &is_nil(&1.props[:weight]))
+    test "no prop's type/default line is long enough to crowd the name" do
+      # The ratio bounds the damage, but a meta this long still wraps to three
+      # lines in its third of the row. Shorten the string, not the layout.
+      # Build the string prop_row actually renders, separator and all — not an
+      # approximation of it, or the check passes while the row is still tall.
+      long =
+        for entry <- Showcase.all(),
+            p <- entry.module.props(),
+            meta =
+              [Map.get(p, :type), Map.get(p, :default) && "default #{p.default}"]
+              |> Enum.reject(&is_nil/1)
+              |> Enum.join("   ·   "),
+            String.length(meta) > 60,
+            do: "#{entry.slug}: #{p.name} — #{meta}"
+
+      assert long == []
     end
 
     test "every registered component's props table renders" do

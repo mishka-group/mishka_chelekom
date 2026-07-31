@@ -210,9 +210,10 @@ defmodule MishkaMob.Showcase.Components.OtpField do
       %{name: "length", type: "integer", default: "6", description: "Number of slots."},
       %{
         name: "validation_type",
-        type: ":numeric · :alpha · :alphanumeric · :none",
+        type: "atom",
         default: ":numeric",
-        description: "What sanitize/2 keeps, and which keyboard opens."
+        description:
+          ":numeric · :alpha · :alphanumeric · :none — what sanitize/2 keeps, and which keyboard opens."
       },
       %{
         name: "mask",
