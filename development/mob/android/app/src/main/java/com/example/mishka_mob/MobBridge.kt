@@ -2474,6 +2474,23 @@ private fun MobTextField(node: MobNode, modifier: Modifier) {
     // focusable — it looked live and quietly went nowhere.
     val enabled = boolProp(node.props, "enabled") ?: true
 
+    // Material's filled TextField draws an INDICATOR LINE under the text. When
+    // the caller has already drawn a box of its own — border_color plus a
+    // non-zero border_width, which nodeModifier turns into a rounded outline —
+    // that line lands INSIDE the outline as a second border in the same colour.
+    // A web field is one box you type in; this looked like a box with a rule
+    // drawn across its bottom.
+    //
+    // So it is suppressed exactly when the node draws its own border, and kept
+    // otherwise: a field with no box of its own has nothing else marking its
+    // bounds, and every component in the library relies on that.
+    val drawsOwnBorder =
+        longColorProp(node.props, "border_color") != null &&
+            (floatProp(node.props, "border_width") ?: 0f) > 0f
+
+    val indicator =
+        if (drawsOwnBorder) Color.Transparent else colorProp(node.props, "border_color")
+
     val fieldColors = TextFieldDefaults.colors(
         focusedTextColor        = colorProp(node.props, "text_color"),
         unfocusedTextColor      = colorProp(node.props, "text_color"),
@@ -2488,9 +2505,9 @@ private fun MobTextField(node: MobNode, modifier: Modifier) {
         // transparent — the OTP overlay — must not blink a cursor over the
         // boxes it is hiding behind.
         cursorColor             = colorProp(node.props, "text_color"),
-        focusedIndicatorColor   = colorProp(node.props, "border_color"),
-        unfocusedIndicatorColor = colorProp(node.props, "border_color"),
-        disabledIndicatorColor  = colorProp(node.props, "border_color"),
+        focusedIndicatorColor   = indicator,
+        unfocusedIndicatorColor = indicator,
+        disabledIndicatorColor  = indicator,
     )
 
     val alignment = when (node.props["text_align"] as? String) {
@@ -2563,6 +2580,10 @@ private fun MobTextField(node: MobNode, modifier: Modifier) {
         enabled   = enabled,
         colors    = fieldColors,
         textStyle = fieldStyle,
+        // M3's filled field rounds its TOP corners only, so a caller that draws
+        // a fully rounded box got square container corners peeking out of the
+        // bottom two. Follow the node's own radius instead.
+        shape     = RoundedCornerShape((floatProp(node.props, "corner_radius") ?: 0f).dp),
     )
     }
 }
