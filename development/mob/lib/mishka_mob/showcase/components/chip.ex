@@ -14,7 +14,7 @@ defmodule MishkaMob.Showcase.Components.Chip do
   alias MishkaMob.Showcase.Example
 
   @tags [{:elixir, "Elixir"}, {:erlang, "Erlang"}, {:gleam, "Gleam"}]
-  @sizes [{:s, "Small"}, {:m, "Medium"}, {:l, "Large"}]
+  @sizes [{:s, "Low"}, {:m, "Normal"}, {:l, "High"}]
 
   @impl true
   def entry do
@@ -67,7 +67,9 @@ defmodule MishkaMob.Showcase.Components.Chip do
       },
       %Example{
         title: "Single select",
-        description: "Radio chips: the handler replaces the selection.",
+        description:
+          "Radio chips: the handler replaces the selection. Labelled by " <>
+            "priority, not by size — chips are all one size; only the label differs.",
         code: ~S"""
         # Single select replaces rather than toggles — there is no way to clear it,
         # which is exactly what makes it a radio group and not a checkbox set.

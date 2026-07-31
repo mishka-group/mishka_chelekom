@@ -106,4 +106,26 @@ defmodule MishkaMob.Components.MishkaCheckboxTest do
       assert_renderable(MishkaCheckbox.checkbox(props))
     end
   end
+
+  describe "the indicator scales" do
+    test "the glyph grows and shrinks with size" do
+      small = MishkaCheckbox.checkbox(label: "S", checked: true, size: 16)
+      large = MishkaCheckbox.checkbox(label: "L", checked: true, size: 32)
+
+      # Regression: the tick was a fixed `:base`, so `size` moved the box and
+      # left the glyph behind — clipped in a small box, marooned in a large one.
+      assert find(small, :text).props.text_size < find(large, :text).props.text_size
+    end
+
+    test "the glyph fits inside the box at every size" do
+      for size <- [14, 22, 26, 40] do
+        tree = MishkaCheckbox.checkbox(label: "x", checked: true, size: size)
+        box = find(tree, :box)
+        glyph = find(tree, :text)
+
+        assert box.props.width == size
+        assert glyph.props.text_size < size
+      end
+    end
+  end
 end

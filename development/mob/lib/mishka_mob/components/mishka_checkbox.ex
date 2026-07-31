@@ -110,6 +110,14 @@ defmodule MishkaMob.Components.MishkaCheckbox do
         true -> ""
       end
 
+    # The glyph scales with the box — but against the box's HEIGHT, not its font
+    # size. A Text node is roughly 1.3x its font size tall, so the obvious 0.7
+    # produced a line box as tall as the whole checkbox: the tick touched the
+    # border on every side and read as a cramped slash, worst at small sizes.
+    # 0.55 leaves about a quarter of the box as breathing room at both ends of
+    # the range (measured at size 16 and size 26 on device).
+    glyph_size = round(size * 0.55)
+
     ~MOB"""
     <Box
       width={size}
@@ -120,7 +128,7 @@ defmodule MishkaMob.Components.MishkaCheckbox do
       border_color={:border}
       border_width={1}
     >
-      <Text text={glyph} text_size={:base} text_color={glyph_color(props, disabled?)} />
+      <Text text={glyph} text_size={glyph_size} text_color={glyph_color(props, disabled?)} />
     </Box>
     """
   end

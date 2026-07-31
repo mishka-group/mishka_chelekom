@@ -69,6 +69,14 @@ lets several sit in one Row the way they do on the web. A Box with neither `widt
 `fill_width` **fills its parent** — so a hand-rolled pill comes out a full-width bar and only one
 fits per line. If yours does that, this is why.
 
+**On iOS it does not hug.** `MobBox` decodes `fill_width` and never reads it — only an explicit
+width stops a Box filling there, and a label's width is not known here — so a pill still spans the
+row on iOS. `mishka_chip` hit the same wall and reached the same answer: a `Button` would hug on
+both, but Material3's minimum size and content padding make it too big for a pill and clip long
+labels, which is worse than being right on one platform. The fix belongs in the dependency
+(`development/mob/IOS_TODO.md`, item 6): one line teaching `MobBox` to honour the prop corrects both
+components with no Elixir change.
+
 **Rows do not wrap.** Mob has `Box`, `Column` and `Row` and no flow layout, and no geometry is
 reported back to `render/1` — nothing can ask how many pills fit. Chunk by a **declared** count
 and stack the rows:

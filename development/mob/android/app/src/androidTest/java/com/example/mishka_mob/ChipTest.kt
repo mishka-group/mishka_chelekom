@@ -105,15 +105,15 @@ class ChipTest {
 
     @Test
     fun a_longer_label_makes_a_wider_chip() {
-        compose.onAllNodesWithText("Medium", substring = false)[0].performScrollTo()
+        compose.onAllNodesWithText("Normal", substring = false)[0].performScrollTo()
         compose.waitForIdle()
 
         // If the pill were filling its parent, every chip would measure the same.
-        val small = boundsOf("Small")
-        val medium = boundsOf("Medium")
+        val short = boundsOf("Low")
+        val long = boundsOf("Normal")
 
-        require(medium.width > small.width) {
-            "chips do not size to their label: Small=$small Medium=$medium"
+        require(long.width > short.width) {
+            "chips do not size to their label: Low=$short Normal=$long"
         }
     }
 
@@ -139,16 +139,16 @@ class ChipTest {
 
     @Test
     fun single_select_replaces_rather_than_toggles() {
-        compose.onAllNodesWithText("Large", substring = false)[0].performScrollTo()
+        compose.onAllNodesWithText("High", substring = false)[0].performScrollTo()
         compose.waitForIdle()
 
-        val medium = boundsOf("Medium")
-        tap("Large")
+        val neighbour = boundsOf("Normal")
+        tap("High")
 
         // A radio set cannot be cleared: tapping the chosen one again leaves it
         // chosen, which is the whole difference from the checkbox set above.
-        tap("Large")
-        require(boundsOf("Medium").width == medium.width) { "the radio row reflowed unexpectedly" }
+        tap("High")
+        require(boundsOf("Normal").width == neighbour.width) { "the radio row reflowed unexpectedly" }
     }
 
     @Test
