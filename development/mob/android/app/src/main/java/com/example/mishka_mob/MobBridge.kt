@@ -2641,25 +2641,38 @@ private fun MobSliderBody(node: MobNode, modifier: Modifier) {
         return
     }
 
-    // Same rule as MobTextField: a snapped or clamped value comes back equal to
-    // the last one, so keying on it left the thumb resting where the finger let
-    // go while the readout beside it showed the snapped number.
+    // The value the screen last told us, and the one under the finger.
+    //
+    // Accepting an incoming value DURING a drag is what made the thumb stutter:
+    // every move sends a value to the BEAM, which re-renders the whole tree and
+    // sends it back, and by the time that tree lands the finger has moved on —
+    // so the "current" value in it is already stale and yanks the thumb
+    // backwards. The next move pushes it forward again. Half a second of
+    // fighting, once per frame, exactly like a controlled React input on a slow
+    // round trip.
+    //
+    // So while `dragging` the thumb follows the finger alone. On release the
+    // next render is accepted, which is when a screen that clamped, snapped or
+    // rejected the value gets to move the thumb to the truth.
     val incomingVal = floatProp(node.props, "value") ?: minVal
     val epoch = LocalRenderEpoch.current
     var localVal by remember { mutableStateOf(incomingVal) }
     var seenEpoch by remember { mutableStateOf(-1) }
+    var dragging by remember { mutableStateOf(false) }
 
     if (epoch != seenEpoch) {
         seenEpoch = epoch
-        if (incomingVal != localVal) localVal = incomingVal
+        if (!dragging && incomingVal != localVal) localVal = incomingVal
     }
 
     Slider(
         value         = localVal,
         onValueChange = { new ->
+            dragging = true
             localVal = new
             handle?.let { MobBridge.nativeSendChangeFloat(it, new) }
         },
+        onValueChangeFinished = { dragging = false },
         valueRange    = minVal..maxVal,
         steps         = steps,
         modifier      = modifier,
@@ -2682,24 +2695,29 @@ private fun MobRangeSlider(
     colors: androidx.compose.material3.SliderColors,
     handle: Int?,
 ) {
+    // Same drag guard as the single-thumb case above: an echo that lands
+    // mid-drag is stale by definition and would fight the finger.
     val incoming = range[0]..range[1]
     val epoch = LocalRenderEpoch.current
     var local by remember { mutableStateOf(incoming) }
     var seenEpoch by remember { mutableStateOf(-1) }
+    var dragging by remember { mutableStateOf(false) }
 
     if (epoch != seenEpoch) {
         seenEpoch = epoch
-        if (incoming != local) local = incoming
+        if (!dragging && incoming != local) local = incoming
     }
 
     RangeSlider(
         value         = local,
         onValueChange = { next ->
+            dragging = true
             local = next
             handle?.let {
                 MobBridge.nativeSendChangeStr(it, "${next.start},${next.endInclusive}")
             }
         },
+        onValueChangeFinished = { dragging = false },
         valueRange = minVal..maxVal,
         steps      = steps,
         modifier   = modifier,

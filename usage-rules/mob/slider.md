@@ -72,8 +72,16 @@ platform and is worth unit-testing rather than dragging.
 **Vertical needs a `length`.** A rotated slider cannot inherit a width, so it is drawn inside a box
 as tall as the track is long. Give it one or it defaults to 160.
 
-**It is controlled — on Android.** iOS's `MobSlider` seeds its state once and never resyncs, so a
-screen that clamps or rejects a value will drift from the thumb there. Same shape as the Switch.
+**It is controlled — but the screen only gets to move the thumb on release.** While a drag is in
+flight the thumb follows the finger alone. Accepting the screen's value mid-drag is what made the
+slider stutter: every move sends a value, the screen re-renders the whole tree and sends it back,
+and by the time that lands the finger has moved on — so the "current" value in it is stale and
+drags the thumb backwards. On release the next render is accepted, which is when a clamp, a snap or
+a rejection takes effect. Design your handler for that: correct the value freely, just do not expect
+the correction to appear until the finger lifts.
+
+iOS's `MobSlider` seeds its state once and never resyncs at all, so there a clamp never lands. Same
+shape as the Switch.
 
 ## Range and vertical are Android-only
 
