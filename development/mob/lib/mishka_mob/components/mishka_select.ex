@@ -35,11 +35,21 @@ defmodule MishkaMob.Components.MishkaSelect do
   | `disabled` | boolean | `false` | Mutes and unwires. |
   | `on_toggle` | event tag (atom) | — | `{:tap, tag}` from the trigger. |
   | `on_select` | event tag (atom) | — | `{:tap, {tag, option_id}}` from an option. |
+  | `id` | string | `nil` | Test tags for the trigger and every option. |
 
-  Options are children built with `option/3`.
+  Options are children built with `option/3`, which takes an optional `:group`.
+
+  ## Groups are runs, not buckets
+
+  `option(:pepperoni, "Pepperoni", group: "Classic")` puts a heading above the
+  run it starts. CONSECUTIVE options sharing a group belong to it — the same
+  rule the web uses — so the caller's order is the grouping, and nothing is
+  silently sorted underneath them. `group_runs/1` is the pure function that does
+  it, and the headings are `MishkaMenu.label/1`, so a grouped select and a
+  grouped menu look the same.
 
   Not ported: `name`, `form`, `required`, `readonly` (form plumbing), `side`,
-  `highlight_on_hover`, and `id` / `*_class`.
+  `highlight_on_hover` (no anchoring, no hover) and the `*_class` attrs.
   """
 
   import Mob.Sigil
@@ -52,14 +62,44 @@ defmodule MishkaMob.Components.MishkaSelect do
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, children, _ctx), do: select(props, children)
 
-  @doc "Build one option node."
+  @doc """
+  Build one option node. Options: `:disabled`, `:group`.
+
+      option(:pepperoni, "Pepperoni", group: "Classic")
+  """
   @spec option(term(), String.t(), keyword()) :: map()
   def option(id, label, opts \\ []) do
     %{
       type: @option,
-      props: %{id: id, label: label, disabled: Keyword.get(opts, :disabled, false)},
+      props: %{
+        id: id,
+        label: label,
+        disabled: Keyword.get(opts, :disabled, false),
+        group: Keyword.get(opts, :group)
+      },
       children: []
     }
+  end
+
+  @doc """
+  Chunk options into `{group, options}` runs.
+
+  CONSECUTIVE options sharing a group belong to it — the same rule the web uses.
+  That means order is the grouping: two runs of "Classic" separated by a
+  "Veggie" render as three headings, not two, and the caller keeps control of
+  the order rather than having it sorted underneath them.
+
+      iex> alias MishkaMob.Components.MishkaSelect
+      iex> [a, b] = [MishkaSelect.option(:a, "A", group: "G"), MishkaSelect.option(:b, "B", group: "G")]
+      iex> [{group, options}] = MishkaSelect.group_runs([a.props, b.props])
+      iex> {group, length(options)}
+      {"G", 2}
+  """
+  @spec group_runs([map()]) :: [{String.t() | nil, [map()]}]
+  def group_runs(options) do
+    options
+    |> Enum.chunk_by(&Map.get(&1, :group))
+    |> Enum.map(fn [first | _] = run -> {Map.get(first, :group), run} end)
   end
 
   @doc """
@@ -163,11 +203,21 @@ defmodule MishkaMob.Components.MishkaSelect do
     </Box>
     """
 
+    node = trigger_tag(node, Map.get(props, :id), open?(props))
+
     case handler(props, :on_toggle, disabled?) do
       nil -> node
       tap -> %{node | props: Map.put(node.props, :on_tap, tap)}
     end
   end
+
+  defp trigger_tag(node, nil, _open?), do: node
+
+  defp trigger_tag(node, id, open?),
+    do: %{
+      node
+      | props: Map.put(node.props, :id, "#{id}-trigger-#{if open?, do: "open", else: "closed"}")
+    }
 
   # Built on the Menu surface so a select and a menu agree on what a list of
   # choices looks like. A chosen option is ticked, which is the only affordance
@@ -175,26 +225,39 @@ defmodule MishkaMob.Components.MishkaSelect do
   defp list(props, options) do
     if open?(props) and options != [] do
       chosen = List.wrap(Map.get(props, :value))
+      id = Map.get(props, :id)
 
       items =
-        Enum.map(options, fn option ->
-          id = Map.get(option, :id)
-          ticked = if id in chosen, do: "✓", else: nil
-
-          MishkaMenu.item(id, Map.get(option, :label),
-            icon: ticked,
-            disabled: truthy?(Map.get(option, :disabled, false))
-          )
+        options
+        |> group_runs()
+        |> Enum.flat_map(fn {group, run} ->
+          heading = if is_binary(group), do: [MishkaMenu.label(group)], else: []
+          heading ++ Enum.map(run, &item(&1, chosen, id))
         end)
 
-      MishkaMenu.menu(
-        %{open: true, on_select: Map.get(props, :on_select)},
-        items
-      )
+      MishkaMenu.menu(%{open: true, on_select: Map.get(props, :on_select)}, items)
     else
       ~MOB(<Column />)
     end
   end
+
+  defp item(option, chosen, select_id) do
+    option_id = Map.get(option, :id)
+    picked? = option_id in chosen
+
+    MishkaMenu.item(option_id, Map.get(option, :label),
+      icon: if(picked?, do: "✓", else: nil),
+      disabled: truthy?(Map.get(option, :disabled, false)),
+      # The tick is the only thing distinguishing a chosen row, and a glyph is
+      # not something a device test can attribute to one row among several.
+      test_id: option_tag(select_id, option_id, picked?)
+    )
+  end
+
+  defp option_tag(nil, _option_id, _picked?), do: nil
+
+  defp option_tag(select_id, option_id, picked?),
+    do: "#{select_id}-option-#{option_id}-#{if picked?, do: "selected", else: "idle"}"
 
   defp handler(_props, _key, true), do: nil
   defp handler(props, key, _), do: Event.handler(Map.get(props, key))

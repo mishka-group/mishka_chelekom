@@ -49,7 +49,13 @@ defmodule MishkaMob.Components.MishkaMenu do
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, children, _ctx), do: menu(props, children)
 
-  @doc "Build one action row. Options: `:disabled`, `:danger`, `:icon`."
+  @doc """
+  Build one action row. Options: `:disabled`, `:danger`, `:icon`, `:test_id`.
+
+  `:id` is the EVENT tag — what `on_select` reports. `:test_id` is separate and
+  becomes the row's native testTag, because a device test otherwise has nothing
+  to address a row by but its label, and labels repeat across a page.
+  """
   @spec item(term(), String.t(), keyword()) :: map()
   def item(id, label, opts \\ []) do
     %{
@@ -59,7 +65,8 @@ defmodule MishkaMob.Components.MishkaMenu do
         label: label,
         icon: Keyword.get(opts, :icon),
         disabled: Keyword.get(opts, :disabled, false),
-        danger: Keyword.get(opts, :danger, false)
+        danger: Keyword.get(opts, :danger, false),
+        test_id: Keyword.get(opts, :test_id)
       },
       children: []
     }
@@ -132,7 +139,12 @@ defmodule MishkaMob.Components.MishkaMenu do
       end
 
     node = ~MOB"""
-    <Box fill_width={true} padding={:space_sm} corner_radius={:radius_sm}>
+    <Box
+      fill_width={true}
+      padding={:space_sm}
+      corner_radius={:radius_sm}
+      id={Map.get(item, :test_id)}
+    >
       <Row fill_width={true}>
         <Text text={icon} text_size={:base} text_color={color} :if={is_binary(icon)} />
         <Spacer size={10} :if={is_binary(icon)} />

@@ -141,6 +141,88 @@ defmodule MishkaMob.Components.MishkaSelectTest do
     assert text(tree) =~ "Iran"
   end
 
+  describe "groups" do
+    defp grouped do
+      [
+        S.option(:cheese, "Cheese", group: "Classic"),
+        S.option(:pepperoni, "Pepperoni", group: "Classic"),
+        S.option(:mushroom, "Mushroom", group: "Veggie"),
+        S.option(:onion, "Onion", group: "Veggie")
+      ]
+    end
+
+    test "a heading renders above each run" do
+      tree = S.select(%{open: true, value: :pepperoni}, grouped())
+
+      assert text(tree) =~ "Classic"
+      assert text(tree) =~ "Veggie"
+    end
+
+    test "CONSECUTIVE options group; the caller's order is the grouping" do
+      # Two runs of the same name are two headings, not one merged bucket —
+      # nothing is sorted underneath the caller.
+      runs =
+        S.group_runs([
+          %{id: :a, group: "G"},
+          %{id: :b, group: "H"},
+          %{id: :c, group: "G"}
+        ])
+
+      assert Enum.map(runs, &elem(&1, 0)) == ["G", "H", "G"]
+    end
+
+    test "ungrouped options render with no heading at all" do
+      plain = S.select(%{open: true}, [S.option(:a, "Alpha")])
+
+      assert text(plain) =~ "Alpha"
+      assert [{nil, _}] = S.group_runs([%{id: :a, group: nil}])
+    end
+
+    test "grouping does not change what an option reports" do
+      tree = S.select(%{open: true, on_select: :pick}, grouped())
+      taps = tree |> find_all(:box) |> Enum.map(& &1.props[:on_tap]) |> Enum.reject(&is_nil/1)
+
+      assert {self(), {:pick, :cheese}} in taps
+      assert {self(), {:pick, :onion}} in taps
+    end
+  end
+
+  describe "test tags" do
+    test "the trigger reports whether the list is open" do
+      assert S.select(%{id: "pizza"}, []) |> find(:box) |> Map.fetch!(:props) |> Map.get(:id) ==
+               "pizza-trigger-closed"
+
+      assert S.select(%{id: "pizza", open: true}, [S.option(:a, "A")])
+             |> find(:box)
+             |> Map.fetch!(:props)
+             |> Map.get(:id) == "pizza-trigger-open"
+    end
+
+    test "each option says whether it is the chosen one" do
+      # The tick is a glyph, and a glyph cannot be attributed to one row among
+      # several by a device test.
+      ids =
+        S.select(%{id: "pizza", open: true, value: :b}, [
+          S.option(:a, "A"),
+          S.option(:b, "B")
+        ])
+        |> find_all(:box)
+        |> Enum.map(& &1.props[:id])
+
+      assert "pizza-option-a-idle" in ids
+      assert "pizza-option-b-selected" in ids
+    end
+
+    test "no id leaves the trigger and options untagged" do
+      ids =
+        S.select(%{open: true}, [S.option(:a, "A")])
+        |> find_all(:box)
+        |> Enum.map(& &1.props[:id])
+
+      assert Enum.all?(ids, &is_nil/1)
+    end
+  end
+
   test "every variant renders" do
     for props <- [%{}, %{open: true}, %{value: :uk}, %{value: [:uk], multiple: true, open: true}] do
       assert_renderable(build(props))
