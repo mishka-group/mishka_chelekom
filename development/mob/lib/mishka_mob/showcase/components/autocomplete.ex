@@ -27,6 +27,11 @@ defmodule MishkaMob.Showcase.Components.Autocomplete do
   def mount(socket) do
     socket
     |> Mob.Socket.assign(:ac_query, "")
+    |> Mob.Socket.assign(:ac_open, false)
+    # A second pair for the contains example: sharing one assign made typing in
+    # either field rewrite the other, which reads as a bug in the component.
+    |> Mob.Socket.assign(:ac_any, "")
+    |> Mob.Socket.assign(:ac_any_open, false)
     |> Mob.Socket.assign(:ac_draft, "")
     |> Mob.Socket.assign(:ac_recipients, ["ada", "grace"])
   end
@@ -42,26 +47,48 @@ defmodule MishkaMob.Showcase.Components.Autocomplete do
         <MishkaAutocomplete
           query={@query}
           suggestions={@cities}
-          open={true}
+          open={@open?}
           on_query={:query}
           on_select={:choose}
+          on_focus={:focus}
         />
 
-        # the chosen suggestion IS the text
-        def handle_info({:tap, {:choose, text}}, socket), do: assign(socket, :query, text)
+        # Typing opens it and is the value; the chosen suggestion IS the text.
+        def handle_info({:change, :query, text}, socket) do
+          {:noreply, socket |> assign(:query, text) |> assign(:open?, true)}
+        end
+
+        def handle_info({:tap, {:choose, text}}, socket) do
+          {:noreply, socket |> assign(:query, text) |> assign(:open?, false)}
+        end
+
+        # Tapping the field opens it; tapping the container around it closes.
+        def handle_info({:focus, :focus}, socket), do: {:noreply, assign(socket, :open?, true)}
+        def handle_info({:tap, :close}, socket), do: {:noreply, assign(socket, :open?, false)}
         """,
         render: fn assigns ->
           ~MOB"""
-          <Column fill_width={true}>
+          <Column fill_width={true} on_tap={{self(), :ac_close}}>
             <MishkaAutocomplete
               query={@ac_query}
               suggestions={cities()}
-              open={true}
+              open={@ac_open}
               clear={true}
+              trigger={true}
               placeholder="Type a city…"
               on_query={:ac_query}
               on_select={:ac_choose}
               on_clear={:ac_clear}
+              on_focus={:ac_focus}
+              on_toggle={:ac_toggle}
+              id="ac-city"
+            />
+            <Spacer size={10} />
+            <Text
+              text="Tap the field to open it, ▾ to toggle, and anywhere in this card to close.
+                    Choosing a suggestion fills the field."
+              text_size={:sm}
+              text_color={:muted}
             />
             <Spacer size={10} />
             <Text text={"Value: " <> inspect(@ac_query)} text_size={:sm} text_color={:muted} />
@@ -77,15 +104,23 @@ defmodule MishkaMob.Showcase.Components.Autocomplete do
         """,
         render: fn assigns ->
           ~MOB"""
-          <Column fill_width={true}>
+          <Column fill_width={true} on_tap={{self(), :ac_any_close}}>
             <MishkaAutocomplete
-              query={@ac_query}
+              query={@ac_any}
               suggestions={cities()}
-              open={true}
+              open={@ac_any_open}
               filter={:contains}
               placeholder="Matches anywhere…"
-              on_query={:ac_query}
-              on_select={:ac_choose}
+              on_query={:ac_any}
+              on_select={:ac_any_choose}
+              on_focus={:ac_any_focus}
+              id="ac-any"
+            />
+            <Spacer size={10} />
+            <Text
+              text="Its own text, separate from the card above — the two used to share one."
+              text_size={:sm}
+              text_color={:muted}
             />
           </Column>
           """
@@ -149,7 +184,31 @@ defmodule MishkaMob.Showcase.Components.Autocomplete do
         description: "on_select hands back the suggestion's TEXT, not an id."
       },
       %{
-        name: "suggest/3 · exact?/2",
+        name: "open",
+        type: "boolean",
+        default: "false",
+        description: "Whether the panel is shown. Lives in the screen."
+      },
+      %{
+        name: "on_focus / on_toggle / trigger",
+        type: "event tags / boolean",
+        default: "—",
+        description: "Tap the field to open, ▾ to toggle. Close with an on_tap on the container."
+      },
+      %{
+        name: "clear / placeholder / empty_text / disabled",
+        type: "see Combobox",
+        default: "—",
+        description: "Forwarded — this drops only :suggestions and hands the rest over."
+      },
+      %{
+        name: "id",
+        type: "string",
+        default: "nil",
+        description: "Test tags for the field, the buttons and every suggestion."
+      },
+      %{
+        name: "suggest/3 · exact?/2 · exact_match?/2",
         type: "helpers",
         default: "—",
         description: "Filtered suggestions, and whether the query already names one."
@@ -170,8 +229,24 @@ defmodule MishkaMob.Showcase.Components.Autocomplete do
   end
 
   @impl true
-  def handle({:ac_choose, text}, socket), do: Mob.Socket.assign(socket, :ac_query, text)
+  # Choosing fills the field AND closes: there is nothing left to suggest, and a
+  # panel that stays open over the answer is the defect this page used to show.
+  def handle({:ac_choose, text}, socket) do
+    socket |> Mob.Socket.assign(:ac_query, text) |> Mob.Socket.assign(:ac_open, false)
+  end
+
+  def handle({:ac_any_choose, text}, socket) do
+    socket |> Mob.Socket.assign(:ac_any, text) |> Mob.Socket.assign(:ac_any_open, false)
+  end
+
   def handle(:ac_clear, socket), do: Mob.Socket.assign(socket, :ac_query, "")
+  def handle(:ac_focus, socket), do: Mob.Socket.assign(socket, :ac_open, true)
+  def handle(:ac_any_focus, socket), do: Mob.Socket.assign(socket, :ac_any_open, true)
+  def handle(:ac_close, socket), do: Mob.Socket.assign(socket, :ac_open, false)
+  def handle(:ac_any_close, socket), do: Mob.Socket.assign(socket, :ac_any_open, false)
+
+  def handle(:ac_toggle, socket),
+    do: Mob.Socket.assign(socket, :ac_open, not socket.assigns.ac_open)
 
   def handle({:ac_drop, id}, socket),
     do: Mob.Socket.assign(socket, :ac_recipients, List.delete(socket.assigns.ac_recipients, id))
@@ -192,7 +267,16 @@ defmodule MishkaMob.Showcase.Components.Autocomplete do
   def handle(_tag, socket), do: socket
 
   @impl true
-  def handle_change(:ac_query, text, socket), do: Mob.Socket.assign(socket, :ac_query, text)
+  # Typing opens it too, so someone who taps and types before the panel appears
+  # does not have to tap again.
+  def handle_change(:ac_query, text, socket) do
+    socket |> Mob.Socket.assign(:ac_query, text) |> Mob.Socket.assign(:ac_open, true)
+  end
+
+  def handle_change(:ac_any, text, socket) do
+    socket |> Mob.Socket.assign(:ac_any, text) |> Mob.Socket.assign(:ac_any_open, true)
+  end
+
   def handle_change(:ac_draft, text, socket), do: Mob.Socket.assign(socket, :ac_draft, text)
   def handle_change(_tag, _value, socket), do: socket
 
