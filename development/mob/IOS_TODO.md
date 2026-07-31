@@ -136,6 +136,24 @@ pins the content to the leading edge; on Android a sizeless `MobSpacer` is
 `Spacer(modifier = Modifier)` (`MobBridge.kt:2812`), which measures 0×0 with no
 weight and changes nothing. Apply it only when `fill_width` is true.
 
+## 9. `Text` has no `max_lines` on iOS
+
+`MobBridge.kt`'s `MobText` now reads `max_lines` and pairs it with
+`TextOverflow.Ellipsis`; the iOS side has no equivalent — `MobRootView.swift`
+builds its Text with no `.lineLimit`, and the only `.lineLimit(1)` in the file
+belongs to the Button label.
+
+It matters because of what Compose (and SwiftUI) do to a Text squeezed narrower
+than its content: they wrap it CHARACTER BY CHARACTER. A token that does not
+quite fit its row renders as a vertical stack of letters — "Ja", "pa", "n" —
+rather than being clipped. Every pill sets `max_lines: 1` for that reason, so on
+iOS a slightly over-packed row of chips will still stack letters vertically
+where Android now ellipsises.
+
+**Fix:** read the prop and apply `.lineLimit(n)` plus `.truncationMode(.tail)`
+in the `.text` case. One line, and it makes the packing estimate's failure mode
+survivable on both platforms rather than one.
+
 ---
 
 ## Also worth knowing

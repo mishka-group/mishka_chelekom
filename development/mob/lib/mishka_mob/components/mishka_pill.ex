@@ -81,9 +81,19 @@ defmodule MishkaMob.Components.MishkaPill do
     end
   end
 
+  # max_lines: 1 — a pill is a single-line token by nature, and the failure mode
+  # without it is ugly rather than merely tight: a Compose Text squeezed narrower
+  # than its content wraps CHARACTER BY CHARACTER, so a pill that does not quite
+  # fit its row renders as a vertical stack of letters. Ellipsised is wrong by a
+  # little; stacked letters look broken.
   defp label(props, [], disabled?) do
     ~MOB"""
-    <Text text={Map.get(props, :label)} text_size={:base} text_color={color(props, disabled?)} />
+    <Text
+      text={Map.get(props, :label)}
+      text_size={:base}
+      text_color={color(props, disabled?)}
+      max_lines={1}
+    />
     """
   end
 

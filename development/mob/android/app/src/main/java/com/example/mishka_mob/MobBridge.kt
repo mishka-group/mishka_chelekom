@@ -2334,6 +2334,16 @@ private fun MobText(node: MobNode, modifier: Modifier) {
         tappableModifier.fillMaxWidth()
     } else tappableModifier
 
+    // `max_lines` caps the line count and ellipsises the overflow. Unset means
+    // unlimited, which is Compose's default and what every existing Text wants.
+    //
+    // It exists because of the failure mode when a Text is squeezed narrower
+    // than its content: Compose wraps it CHARACTER BY CHARACTER, so a chip that
+    // does not quite fit its row renders as a vertical stack of letters — "Ja",
+    // "pa", "n" — rather than being clipped. A token that says "Japa…" is wrong
+    // by a little; one that stacks letters vertically looks broken.
+    val maxLines = intProp(node.props, "max_lines")?.takeIf { it > 0 } ?: Int.MAX_VALUE
+
     Text(
         text          = text,
         modifier      = textModifier,
@@ -2345,6 +2355,8 @@ private fun MobText(node: MobNode, modifier: Modifier) {
         lineHeight    = resolvedLineHeight,
         letterSpacing = letterSpacing?.sp ?: TextUnit.Unspecified,
         fontFamily    = fontFamily,
+        maxLines      = maxLines,
+        overflow      = if (maxLines == Int.MAX_VALUE) TextOverflow.Clip else TextOverflow.Ellipsis,
     )
 }
 

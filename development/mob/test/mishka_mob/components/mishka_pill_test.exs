@@ -113,6 +113,13 @@ defmodule MishkaMob.Components.MishkaPillTest do
     end
   end
 
+  test "the label is one line, ellipsised — never a vertical stack of letters" do
+    # A Compose Text squeezed narrower than its content wraps CHARACTER BY
+    # CHARACTER, so a pill that does not quite fit its row renders as "Ja", "pa",
+    # "n" down the page. Ellipsised is wrong by a little; that looks broken.
+    assert find(MishkaPill.pill(label: "United Kingdom"), :text).props.max_lines == 1
+  end
+
   test "every variant renders" do
     for props <- [
           %{},

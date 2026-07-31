@@ -116,6 +116,19 @@ defmodule MishkaMob.Components.MishkaTagsInputTest do
       assert plain.props.padding == 0
     end
 
+    test "the budget UNDER-packs rather than over-packs" do
+      # Measured on a phone: a 263dp row, 7.6dp a character, 41dp of chrome and
+      # gap per token. "United Kingdom" (19) and "Germany" (12) fit; adding
+      # "Japan" (10) does not, and an over-packed row squeezes its last token
+      # until the text wraps character by character.
+      assert TI.wrap(["United Kingdom", "Germany"], 34) == [["United Kingdom", "Germany"]]
+
+      assert TI.wrap(["United Kingdom", "Germany", "Japan"], 34) == [
+               ["United Kingdom", "Germany"],
+               ["Japan"]
+             ]
+    end
+
     test "tokens wrap onto more rows as they get longer" do
       # Neither renderer has a flow layout, so a single Row of tokens runs off
       # the edge. Rows are packed by an estimate; this pins that they multiply.

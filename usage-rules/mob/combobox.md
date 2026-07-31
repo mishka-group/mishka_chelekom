@@ -82,7 +82,7 @@ end
 | `on_query` / `on_select` / `on_clear` / `on_toggle` / `on_create` / `on_remove` | event tags | — |
 | `on_focus` / `on_blur` | event tags | — `{:focus, tag}` / `{:blur, tag}` |
 | `background` / `border_color` / `border_width` / `corner_radius` / `padding` | | the control |
-| `wrap_chars` | number | `40` — characters per chip row |
+| `wrap_chars` | number | `34` — characters per chip row |
 | `id` | string | `nil` |
 
 Options are built with `option/3`, which takes `:disabled` and `:group`.

@@ -62,7 +62,7 @@ end
 | `background` / `corner_radius` / `padding` | | `:surface` / `:radius_md` / `:space_sm` |
 | `border_color` / `border_width` | | `:border` / `1` — `0` removes the box |
 | `space` | number | `6` — gap between tokens |
-| `wrap_chars` | number | `40` — characters per token row |
+| `wrap_chars` | number | `34` — characters per token row |
 | `id` | string | `nil` — `<id>-draft` and `<id>-tag-<tag>` |
 
 Helpers: `add/3`, `remove/2`, `wrap/2`.
@@ -93,12 +93,18 @@ container as a stray rule across the middle. Keep it that way if you restyle.
 
 **Tokens wrap by estimate.** Neither renderer has a flow layout and nothing on this side of the
 bridge can measure text, so tags are packed greedily into rows using `wrap_chars` as a character
-budget (each tag costs its length plus a fixed allowance for its padding and ✕). The default is
-calibrated rather than guessed: a card's usable width is about 349dp, a character at `:base` about
-8.5dp, and a token's padding plus its ✕ about 36dp — roughly 40 characters a row. It was 28, which
-broke "United Kingdom" onto a line of its own with half the row empty beside it. Raise it for a wide
-control, lower it for a narrow one; a tag longer than the whole budget gets a row to itself rather
-than being dropped.
+budget: each tag costs its **length plus 5**, against a budget of **34**.
+
+Those numbers are measured, not guessed. On a phone, inside a card: the row is 263dp wide, a
+character at `:base` is 7.6dp, and a token's padding plus its ✕ plus the gap to the next one costs
+41dp. Two earlier guesses were wrong in opposite directions — 28 broke "United Kingdom" onto a line
+of its own, and 40 packed a third token into a row that fits two.
+
+When in doubt this **under-packs**, deliberately. A sparse row merely looks sparse; an over-packed
+one squeezes its last token until the text wraps character by character, which on Android is
+ellipsised by the pill's `max_lines: 1` but on iOS still renders as a vertical stack of letters
+(`IOS_TODO.md` item 9). Raise it for a wide control, lower it for a narrow one; a tag longer than the
+whole budget gets a row to itself rather than being dropped.
 
 ## Related
 `pill` (the token itself), `chip` (a selectable label rather than a removable one), `field` (label,

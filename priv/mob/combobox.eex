@@ -45,6 +45,7 @@ defmodule <%= @module %> do
   | `on_focus` | event tag (atom) | — | `{:focus, tag}` when the field is tapped. |
   | `on_blur` | event tag (atom) | — | `{:blur, tag}` when it loses focus. |
   | `create_label` | string | `"Create"` | Prefix on the create row. |
+  | `wrap_chars` | number | `34` | Characters per chip row. See the tags input. |
   | `id` | string | `nil` | Test tags for the input, chips, options and buttons. |
 
   Options are built with `option/3`, which takes `:disabled` and `:group`.
@@ -197,7 +198,7 @@ defmodule <%= @module %> do
   # block of chips with a field stranded underneath. It only drops to a row of
   # its own when the last chip row is already full.
   defp control(props, options, disabled?) do
-    budget = Map.get(props, :wrap_chars, 40)
+    budget = Map.get(props, :wrap_chars, 34)
     {rows, used} = chip_rows(props, options, disabled?, budget)
     field = field_row(props, disabled?)
 
@@ -269,7 +270,7 @@ defmodule <%= @module %> do
       # Reuse the tags input's packing rule rather than inventing a second one:
       # wrap the LABELS, then cut the {id, label} list to the same row lengths.
       packed = labels |> Enum.map(&elem(&1, 1)) |> <%= @module_prefix_camel %>TagsInput.wrap(budget)
-      used = packed |> List.last([]) |> Enum.map(&(String.length(&1) + 4)) |> Enum.sum()
+      used = packed |> List.last([]) |> Enum.map(&(String.length(&1) + 5)) |> Enum.sum()
 
       rows =
         packed
