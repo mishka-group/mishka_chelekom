@@ -44,7 +44,12 @@ defmodule MishkaMob.Showcase.Components.Checkbox do
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaCheckbox label="Remember me" checked={@cb_remember} on_toggle={:cb_remember} />
+            <MishkaCheckbox
+              label="Remember me"
+              checked={@cb_remember}
+              on_toggle={:cb_remember}
+              id="cb-remember"
+            />
             <Spacer size={12} />
             <MishkaCheckbox label="Unchecked" checked={false} />
           </Column>
@@ -102,9 +107,15 @@ defmodule MishkaMob.Showcase.Components.Checkbox do
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaCheckbox label="Violet, larger" checked={true} color={0xFF7C3AED} size={26} />
+            <MishkaCheckbox
+              label="Violet, larger"
+              checked={true}
+              color={0xFF7C3AED}
+              size={26}
+              id="cb-large"
+            />
             <Spacer size={12} />
-            <MishkaCheckbox label="Small" checked={true} size={16} />
+            <MishkaCheckbox label="Small" checked={true} size={16} id="cb-small" />
           </Column>
           """
         end

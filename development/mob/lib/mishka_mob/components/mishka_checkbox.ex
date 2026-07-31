@@ -30,6 +30,7 @@ defmodule MishkaMob.Components.MishkaCheckbox do
   | `on_toggle` | event tag (atom) | — | Sent as `{:tap, tag}`. |
   | `color` | color token / ARGB int | `:primary` | Fill when checked or mixed. |
   | `size` | number | `22` | Indicator edge length. |
+  | `id` | string | — | A native testTag, suffixed with the state: `id-checked`, `id-mixed`, `id-empty`. |
 
   Not ported: `name`, `value`, `required` (HTML form plumbing), `id` /
   `*_class`, and `parent` — the tristate "select all" behaviour is the screen's
@@ -99,26 +100,19 @@ defmodule MishkaMob.Components.MishkaCheckbox do
 
   # A dash for mixed, a tick for checked — the states differ by glyph, not only
   # by colour, so they survive a colourblind reading.
+  #
+  # The mark is DRAWN, not typed. It was a "✓" Text, and a text glyph sits on its
+  # baseline with descent space beneath it, so the mark rode high in its box —
+  # invisible at 26dp and obvious at 16dp, where it looked off-centre and
+  # cramped. No font size fixes that, because the offset is a property of text
+  # metrics rather than of scale. Two canvas lines have no metrics: they land
+  # exactly where the arithmetic puts them, at any size, on both platforms.
   defp indicator(props, checked?, mixed?, disabled?) do
     size = Map.get(props, :size, 22)
     fill = fill(props, checked?, disabled?)
+    mark = mark(size, checked?, mixed?, glyph_color(props, disabled?))
 
-    glyph =
-      cond do
-        mixed? -> "–"
-        checked? -> "✓"
-        true -> ""
-      end
-
-    # The glyph scales with the box — but against the box's HEIGHT, not its font
-    # size. A Text node is roughly 1.3x its font size tall, so the obvious 0.7
-    # produced a line box as tall as the whole checkbox: the tick touched the
-    # border on every side and read as a cramped slash, worst at small sizes.
-    # 0.55 leaves about a quarter of the box as breathing room at both ends of
-    # the range (measured at size 16 and size 26 on device).
-    glyph_size = round(size * 0.55)
-
-    ~MOB"""
+    node = ~MOB"""
     <Box
       width={size}
       height={size}
@@ -128,10 +122,78 @@ defmodule MishkaMob.Components.MishkaCheckbox do
       border_color={:border}
       border_width={1}
     >
-      <Text text={glyph} text_size={glyph_size} text_color={glyph_color(props, disabled?)} />
+      {mark}
     </Box>
     """
+
+    tag_state(node, Map.get(props, :id), checked?, mixed?)
   end
+
+  # A drawn mark has no text, so nothing in the accessibility tree says whether
+  # the box is ticked — which also means a device test cannot see it. Mob turns
+  # `:id` into a native testTag, so the STATE goes into the tag: `id-checked`,
+  # `id-mixed`, `id-empty`. The same trick MishkaSkeleton uses to let a test
+  # address a bar that carries no text.
+  defp tag_state(node, nil, _checked?, _mixed?), do: node
+
+  defp tag_state(node, id, checked?, mixed?) do
+    state =
+      cond do
+        mixed? -> "mixed"
+        checked? -> "checked"
+        true -> "empty"
+      end
+
+    %{node | props: Map.put(node.props, :id, "#{id}-#{state}")}
+  end
+
+  # Coordinates are fractions of the box, so the mark is centred by construction
+  # and scales with `size` without a second thought.
+  defp mark(_size, false, false, _ink), do: []
+
+  defp mark(size, _checked?, true, ink) do
+    y = size / 2
+
+    [
+      Mob.UI.canvas(
+        width: size,
+        height: size,
+        draw: [
+          Mob.Canvas.line(size * 0.26, y, size * 0.74, y,
+            color: ink,
+            width: stroke(size),
+            cap: :round
+          )
+        ]
+      )
+    ]
+  end
+
+  defp mark(size, _checked?, _mixed?, ink) do
+    w = stroke(size)
+
+    [
+      Mob.UI.canvas(
+        width: size,
+        height: size,
+        draw: [
+          Mob.Canvas.line(size * 0.26, size * 0.52, size * 0.44, size * 0.70,
+            color: ink,
+            width: w,
+            cap: :round
+          ),
+          Mob.Canvas.line(size * 0.44, size * 0.70, size * 0.76, size * 0.32,
+            color: ink,
+            width: w,
+            cap: :round
+          )
+        ]
+      )
+    ]
+  end
+
+  # Thick enough to read at 14dp, thin enough not to fill the box at 40dp.
+  defp stroke(size), do: Kernel.max(size * 0.12, 1.5)
 
   defp fill(props, true, false), do: Map.get(props, :color, :primary)
   defp fill(_props, _checked, _disabled), do: :surface_raised

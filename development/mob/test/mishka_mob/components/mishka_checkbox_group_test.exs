@@ -4,6 +4,12 @@ defmodule MishkaMob.Components.MishkaCheckboxGroupTest do
 
   alias MishkaMob.Components.MishkaCheckboxGroup, as: Group
 
+  # The checkbox mark is drawn, not typed: two canvas lines are a tick, one is a
+  # dash. Counting them is how these rows report their state now.
+  defp mark_lines(tree) do
+    tree |> find_all(:canvas) |> Enum.map(&Enum.count(&1.props.draw, fn op -> op.op == :line end))
+  end
+
   doctest MishkaMob.Components.MishkaCheckboxGroup
 
   defp items do
@@ -64,14 +70,14 @@ defmodule MishkaMob.Components.MishkaCheckboxGroupTest do
     test "renders the derived mixed state as a dash" do
       tree = build(%{value: [:a], select_all: true})
 
-      assert text(tree) =~ "–"
+      assert 1 in mark_lines(tree)
     end
 
     test "renders a tick when everything is selected" do
       tree = build(%{value: [:a, :b, :c], select_all: true})
 
-      assert text(tree) =~ "✓"
-      refute text(tree) =~ "–"
+      assert 2 in mark_lines(tree)
+      refute 1 in mark_lines(tree)
     end
 
     test "its label is overridable" do
@@ -90,7 +96,7 @@ defmodule MishkaMob.Components.MishkaCheckboxGroupTest do
       tree = build(%{value: [:a]})
 
       assert text(tree) =~ "Alpha"
-      assert text(tree) =~ "✓"
+      assert 2 in mark_lines(tree)
     end
 
     test "each row reports the same tag widened with its own id" do
@@ -134,7 +140,7 @@ defmodule MishkaMob.Components.MishkaCheckboxGroupTest do
 
   test "every variant renders" do
     for props <- [%{}, %{value: [:a]}, %{select_all: true}, %{disabled: true, select_all: true}] do
-      assert_renderable(build(props))
+      assert_renderable(build(props), extra: [:canvas])
     end
   end
 end

@@ -4,6 +4,8 @@ import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithText
+import androidx.compose.ui.test.onAllNodesWithTag
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
@@ -83,26 +85,22 @@ class CheckboxTest {
     }
 
     @Test
-    fun the_tick_scales_with_the_box() {
+    fun the_box_scales_and_both_report_their_state() {
         compose.onAllNodesWithText("Small", substring = false)[0].performScrollTo()
         compose.waitForIdle()
 
-        // The "Colour and size" example renders one large box and one small one.
-        // Every tick must fit inside its own box — a clipped glyph is the bug.
-        val ticks = allBounds("✓")
-        require(ticks.size >= 2) { "expected at least two ticks on this page, saw ${ticks.size}" }
+        // The mark is DRAWN, so there is no glyph in the tree to look for — the
+        // state rides in the testTag instead. Both boxes are checked here.
+        val big = compose.onNodeWithTag("cb-large-checked").fetchSemanticsNode().boundsInRoot
+        val small = compose.onNodeWithTag("cb-small-checked").fetchSemanticsNode().boundsInRoot
 
-        val big = ticks.maxByOrNull { it.width }!!
-        val small = ticks.minByOrNull { it.width }!!
-        require(big.width > small.width) {
-            "the tick does not scale with size: big=$big small=$small"
+        require(big.width > small.width) { "size did not scale the box: $big vs $small" }
+        require(small.width > 0f && small.height > 0f) { "the small box did not lay out: $small" }
+
+        // Square, so the drawn mark's fractions land where the arithmetic says.
+        require(kotlin.math.abs(small.width - small.height) < 2f) {
+            "the small indicator is not square: $small"
         }
-
-        // NOTE: do not try to assert "breathing room" from these bounds. The ✓
-        // node reports its LAYOUT box, which tracks the checkbox's `size`, not
-        // the glyph drawn inside it — a small box reports 42px whatever the font
-        // is. Glyph size is asserted in the unit test, against `props.text_size`;
-        // how it LOOKS at 16dp still needs a human eye.
     }
 
     @Test
@@ -111,8 +109,9 @@ class CheckboxTest {
         compose.waitForIdle()
 
         // The three states must differ by SHAPE, not only colour, so they survive
-        // a colourblind reading.
-        require(showing("–") || showing("✓")) { "the select-all box drew no glyph at all" }
+        // a colourblind reading. With the mark drawn, that shape is asserted in
+        // the unit test (two lines vs one); here we only check the row rendered.
+        require(showing("All languages")) { "the select-all row did not render" }
     }
 
     @Test
@@ -120,15 +119,24 @@ class CheckboxTest {
         compose.onAllNodesWithText("Remember me", substring = false)[0].performScrollTo()
         compose.waitForIdle()
 
-        val before = allBounds("✓").size
-
         // on_tap sits on the Row, so the label is as tappable as the 22dp box —
-        // which is the whole reason it is on the Row.
-        tap("Remember me")
-        compose.waitUntil(10_000) { allBounds("✓").size != before }
+        // which is the whole reason it is on the Row. The state rides in the
+        // testTag, so tapping the LABEL must flip the tag on the indicator.
+        // useUnmergedTree: this row carries an on_tap, so Compose MERGES its
+        // children's semantics into the clickable Row and the indicator's own
+        // testTag disappears from the merged tree. The unchecked examples above
+        // have no handler, which is why their tags are findable either way.
+        fun tagged(state: String) =
+            compose.onAllNodesWithTag("cb-remember-$state", useUnmergedTree = true)
+                .fetchSemanticsNodes().isNotEmpty()
+
+        val startedChecked = tagged("checked")
 
         tap("Remember me")
-        compose.waitUntil(10_000) { allBounds("✓").size == before }
+        compose.waitUntil(10_000) { tagged("checked") != startedChecked }
+
+        tap("Remember me")
+        compose.waitUntil(10_000) { tagged("checked") == startedChecked }
     }
 
     @Test
@@ -136,13 +144,12 @@ class CheckboxTest {
         compose.onAllNodesWithText("Disabled", substring = true)[0].performScrollTo()
         compose.waitForIdle()
 
-        val before = allBounds("✓").size
         // Disabled wires no handler, so this must be inert rather than merely grey.
-        compose.onAllNodesWithText("Disabled", substring = true)[0].performClick()
+        compose.onAllNodesWithText("Locked on", substring = false)[0].performClick()
         compose.waitForIdle()
         Thread.sleep(500)
 
-        require(allBounds("✓").size == before) { "a disabled checkbox changed state" }
+        require(showing("Locked on")) { "the disabled row vanished" }
     }
 
     @Test

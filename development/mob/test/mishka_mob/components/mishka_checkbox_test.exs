@@ -7,7 +7,23 @@ defmodule MishkaMob.Components.MishkaCheckboxTest do
   doctest MishkaMob.Components.MishkaCheckbox
 
   defp indicator(tree), do: find(tree, :box)
-  defp glyph(tree), do: indicator(tree) |> find(:text) |> get_in([Access.key(:props), :text])
+  # The mark is drawn rather than typed, so "which glyph" is "how many lines":
+  # two for a tick, one for a dash, none for a clear box. Keeping the old names
+  # lets the state tests below go on reading as prose.
+  defp glyph(tree) do
+    case indicator(tree) |> find_all(:canvas) do
+      [] -> nil
+      [canvas] -> lines(canvas)
+    end
+  end
+
+  defp lines(canvas) do
+    case Enum.count(canvas.props.draw, &(&1.op == :line)) do
+      2 -> "✓"
+      1 -> "–"
+      _ -> nil
+    end
+  end
 
   describe "toggle/1 — the transition a tap should produce" do
     test "unchecked becomes checked and back" do
@@ -30,7 +46,8 @@ defmodule MishkaMob.Components.MishkaCheckboxTest do
     test "unchecked draws no glyph on a raised surface" do
       tree = MishkaCheckbox.checkbox(label: "x")
 
-      assert glyph(tree) == ""
+      # An unchecked box draws nothing at all, rather than an empty glyph.
+      assert glyph(tree) == nil
       assert indicator(tree).props.background == :surface_raised
     end
 
@@ -68,7 +85,9 @@ defmodule MishkaMob.Components.MishkaCheckboxTest do
       tree = MishkaCheckbox.checkbox(checked: true)
 
       assert Enum.filter(tree.children, &(&1.type == :spacer)) == []
-      assert find_all(tree, :text) |> Enum.map(& &1.props.text) == ["✓"]
+      # No label means no Text anywhere: the mark itself is drawn, not typed.
+      assert find_all(tree, :text) == []
+      assert glyph(tree) == "✓"
     end
 
     test "size sets the indicator's edge" do
@@ -103,29 +122,52 @@ defmodule MishkaMob.Components.MishkaCheckboxTest do
 
   test "every variant renders" do
     for props <- [%{}, %{label: "x"}, %{checked: true}, %{indeterminate: true}, %{disabled: true}] do
-      assert_renderable(MishkaCheckbox.checkbox(props))
+      assert_renderable(MishkaCheckbox.checkbox(props), extra: [:canvas])
     end
   end
 
-  describe "the indicator scales" do
-    test "the glyph grows and shrinks with size" do
-      small = MishkaCheckbox.checkbox(label: "S", checked: true, size: 16)
-      large = MishkaCheckbox.checkbox(label: "L", checked: true, size: 32)
+  describe "the mark is drawn, not typed" do
+    test "a tick is two canvas lines, sized to the box" do
+      tree = MishkaCheckbox.checkbox(label: "x", checked: true, size: 22)
+      canvas = find(tree, :canvas)
 
-      # Regression: the tick was a fixed `:base`, so `size` moved the box and
-      # left the glyph behind — clipped in a small box, marooned in a large one.
-      assert find(small, :text).props.text_size < find(large, :text).props.text_size
+      assert canvas.props.width == 22
+      assert canvas.props.height == 22
+      assert [%{op: :line}, %{op: :line}] = canvas.props.draw
     end
 
-    test "the glyph fits inside the box at every size" do
-      for size <- [14, 22, 26, 40] do
-        tree = MishkaCheckbox.checkbox(label: "x", checked: true, size: size)
-        box = find(tree, :box)
-        glyph = find(tree, :text)
+    test "a mixed box is one line, and a clear box has no canvas at all" do
+      mixed = MishkaCheckbox.checkbox(label: "x", indeterminate: true, size: 22)
+      clear = MishkaCheckbox.checkbox(label: "x", size: 22)
 
-        assert box.props.width == size
-        assert glyph.props.text_size < size
+      assert [%{op: :line}] = find(mixed, :canvas).props.draw
+      assert find_all(clear, :canvas) == []
+    end
+
+    test "every coordinate stays inside the box, at every size" do
+      # Regression: the mark was a "✓" Text, and a text glyph sits on its
+      # baseline with descent space beneath — so it rode high and looked
+      # off-centre, worst at small sizes. Drawn lines have no metrics.
+      for size <- [14, 16, 22, 26, 40] do
+        tree = MishkaCheckbox.checkbox(label: "x", checked: true, size: size)
+        canvas = find(tree, :canvas)
+
+        for %{x1: x1, y1: y1, x2: x2, y2: y2} <- canvas.props.draw do
+          for coord <- [x1, y1, x2, y2] do
+            assert coord > 0 and coord < size
+          end
+        end
       end
+    end
+
+    test "the mark is centred by construction — the tick spans the middle" do
+      tree = MishkaCheckbox.checkbox(label: "x", checked: true, size: 100)
+      [a, b] = find(tree, :canvas).props.draw
+
+      # Left end left of centre, right end right of centre, and the elbow below
+      # both — the shape of a tick rather than a slash.
+      assert a.x1 < 50 and b.x2 > 50
+      assert a.y2 > a.y1 and b.y2 < b.y1
     end
   end
 end

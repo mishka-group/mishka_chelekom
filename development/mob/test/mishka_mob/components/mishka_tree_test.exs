@@ -206,9 +206,18 @@ defmodule MishkaMob.Components.MishkaTreeTest do
         )
       end
 
-      refute "✓" in labels(tree.([]))
-      assert "–" in labels(tree.(["lib/top.ex"]))
-      assert "✓" in labels(tree.(["lib/inner", "lib/inner/deep.ex", "lib/top.ex"]))
+      # The marks are DRAWN now, not typed, so count canvas lines rather than
+      # look for glyph characters: two lines is a tick, one is a dash, none is
+      # an empty box.
+      marks = fn t ->
+        t
+        |> find_all(:canvas)
+        |> Enum.map(&Enum.count(&1.props.draw, fn op -> op.op == :line end))
+      end
+
+      refute 2 in marks.(tree.([]))
+      assert 1 in marks.(tree.(["lib/top.ex"]))
+      assert 2 in marks.(tree.(["lib/inner", "lib/inner/deep.ex", "lib/top.ex"]))
     end
 
     test "the checkbox IS the Checkbox component, and does not fill the row" do
@@ -348,7 +357,7 @@ defmodule MishkaMob.Components.MishkaTreeTest do
           %{nodes: @nodes, expanded: ["lib"], with_checkboxes: true, checked: ["lib/top.ex"]},
           %{nodes: @nodes, selected: ["mix.exs"], with_expand_icon: false}
         ] do
-      assert_renderable(MishkaTree.tree(props))
+      assert_renderable(MishkaTree.tree(props), extra: [:canvas])
     end
 
     assert_renderable(
