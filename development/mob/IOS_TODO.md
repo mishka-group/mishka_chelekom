@@ -71,8 +71,16 @@ vertical — behind the `values`, `orientation` and `length` props, which
 
 **Fix:** a custom SwiftUI control for the range case (two draggable thumbs over
 a shared track), and `.rotationEffect(.degrees(-90))` in a sized frame for
-vertical. The min-gap and push/stop collision rules do **not** need porting —
-they are pure Elixir in `MishkaSlider.resolve/3` and already run on both.
+vertical.
+
+**And a both-platforms job:** push collision cannot be built on Compose's
+`RangeSlider` either. It clamps the dragged thumb at the stationary one and then
+reports the clamped value, so once they meet nothing distinguishes "still
+pushing" from "stopped". Only `min_gap` (a hard floor) is delivered today.
+Matching the headless push means hand-building the range control WITH ITS OWN
+DRAG HANDLING on Android as well as iOS — at which point both platforms can share
+`MishkaSlider.resolve/3`, which already implements push and stop as pure
+functions.
 
 ## 6. There is no `on_commit` on either platform
 

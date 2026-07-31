@@ -2708,14 +2708,37 @@ private fun MobRangeSlider(
         if (!dragging && incoming != local) local = incoming
     }
 
+    // MIN GAP ONLY — push collision is NOT implementable on RangeSlider.
+    //
+    // The widget clamps the dragged thumb at the stationary one and then reports
+    // the CLAMPED value. Once the two meet, every further pixel of finger travel
+    // reports the same number, so there is no signal distinguishing "still
+    // pushing" from "stopped" — and push needs exactly that signal. The headless
+    // version does its own hit-testing and always knows the pointer, which is
+    // why it can push and this cannot.
+    //
+    // So the gap is enforced (the thumbs never come closer than `min_gap`) and
+    // the dragged thumb stops there. Matching the headless push needs a
+    // hand-built range control with its own drag handling, on both platforms —
+    // see development/mob/IOS_TODO.md.
+    val gap = floatProp(node.props, "min_gap") ?: 0f
+
     RangeSlider(
         value         = local,
         onValueChange = { next ->
             dragging = true
-            local = next
-            handle?.let {
-                MobBridge.nativeSendChangeStr(it, "${next.start},${next.endInclusive}")
+
+            var lo = next.start
+            var hi = next.endInclusive
+
+            if (gap > 0f && hi - lo < gap) {
+                // Hold whichever end is free; the dragged one is already pinned
+                // by the widget, so this only ever widens the pair back to `gap`.
+                if (hi + gap <= maxVal) hi = lo + gap else lo = hi - gap
             }
+
+            local = lo..hi
+            handle?.let { MobBridge.nativeSendChangeStr(it, "$lo,$hi") }
         },
         onValueChangeFinished = { dragging = false },
         valueRange = minVal..maxVal,

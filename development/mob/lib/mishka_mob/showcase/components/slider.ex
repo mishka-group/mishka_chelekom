@@ -117,13 +117,20 @@ defmodule MishkaMob.Showcase.Components.Slider do
         end
       },
       %Example{
-        title: "Range · two thumbs · min gap · push collision",
+        title: "Range · two thumbs · min gap",
         description:
-          "Pass values instead of value and you get two thumbs. The gap and " <>
-            "what happens when they meet are the screen's rules, applied with " <>
-            "resolve/3 — push carries the other thumb along, stop holds at the edge.",
+          "Pass values instead of value and you get two thumbs. min_gap is a " <>
+            "hard floor — they never come closer than it. The headless PUSH " <>
+            "behaviour is not expressible on Compose's RangeSlider: it clamps " <>
+            "the dragged thumb and then reports the clamped value, so nothing " <>
+            "says the finger is still pushing. See the moduledoc.",
         code: ~S"""
-        <MishkaSlider values={@range} min={0} max={100} step={5} on_change={:range} />
+        <MishkaSlider values={@range} min={0} max={100} step={5}
+                      min_gap={5} on_change={:range} />
+
+        # min_gap and collision are enforced by the WIDGET, so a push happens
+        # under the finger with no round trip. resolve/3 is the same rule as a
+        # pure function, for a screen that wants to re-apply it authoritatively.
 
         # The pair comes back as "lo,hi" — one change channel, two numbers.
         def handle_change(:range, reported, socket) do
@@ -284,5 +291,5 @@ defmodule MishkaMob.Showcase.Components.Slider do
   end
 
   defp stars(n) when is_number(n), do: String.duplicate("★", round(n))
-  defp range_label([lo, hi]), do: "#{round(lo)} — #{round(hi)}  (gap kept at 5)"
+  defp range_label([lo, hi]), do: "#{round(lo)} — #{round(hi)}  (min gap 5)"
 end

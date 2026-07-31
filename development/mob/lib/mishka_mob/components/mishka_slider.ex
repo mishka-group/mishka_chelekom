@@ -26,6 +26,21 @@ defmodule MishkaMob.Components.MishkaSlider do
   `orientation={:vertical}` turns the control a quarter turn; `length` sets how
   long the track is, since a rotated slider cannot inherit a width.
 
+  > #### Push collision is not expressible, and this is why {: .warning}
+  >
+  > Compose's `RangeSlider` clamps the dragged thumb at the stationary one and
+  > then reports the CLAMPED value. Once they meet, every further pixel of finger
+  > travel reports the same number — so nothing distinguishes "still pushing"
+  > from "stopped", and push needs exactly that signal. The headless version does
+  > its own hit-testing and always knows the pointer, which is why it can push.
+  >
+  > `min_gap` is therefore honoured as a hard floor: the thumbs never come closer
+  > than it and the dragged one stops there. `resolve/3` still implements both
+  > rules as pure functions — useful for a screen deriving a range from something
+  > other than a drag — but `collision: :push` cannot be delivered by this widget.
+  > Matching the headless needs a hand-built range control with its own drag
+  > handling, on both platforms.
+
   > #### Range and vertical are Android-only for now {: .warning}
   >
   > SwiftUI ships neither a range slider nor a vertical one, so both had to be
@@ -44,6 +59,8 @@ defmodule MishkaMob.Components.MishkaSlider do
   | `values` | `[lo, hi]` | `nil` | Two thumbs. Overrides `value`. Android only. |
   | `orientation` | `:horizontal` `:vertical` | `:horizontal` | Android only. |
   | `length` | number | `160` | Track length when vertical. |
+  | `min_gap` | number | `0` | Least distance between the two thumbs. |
+  | `min_gap` alone | — | — | The thumbs stop at `min_gap`; see below. |
   | `label` | string | `nil` | Caption above the track. |
   | `show_value` | boolean | `false` | Render a readout beside the label. |
   | `value_text` | string | `nil` | Overrides the readout (default is the rounded value). |
@@ -55,12 +72,12 @@ defmodule MishkaMob.Components.MishkaSlider do
 
   ## What is not ported, and why
 
-    * `values` (multi-thumb range), `orientation: "vertical"` and
-      `thumb_collision` / `thumb_labels` — the native widget is a single
-      horizontal thumb; faking a range would mean rebuilding the control.
-    * `on_commit` — the bridge exposes no release/keyup event, only continuous
-      change.
-    * `large_step`, `min_steps_between_values` — keyboard affordances.
+    * `thumb_labels` — per-thumb `aria-label`s, with no accessibility layer to
+      announce them into.
+    * `on_commit` — neither bridge exposes a release event, only continuous
+      change. See `development/mob/IOS_TODO.md`.
+    * `large_step` — a keyboard affordance (PageUp/Shift+Arrow); there is no
+      keyboard on the control.
     * `format` / `locale` — number formatting is the caller's job via
       `value_text`.
     * `name` / `form` / `id` — HTML form plumbing and DOM anchoring.
@@ -100,7 +117,8 @@ defmodule MishkaMob.Components.MishkaSlider do
       |> put_prop(:color, Map.get(props, :color))
       |> put_prop(:steps, steps(Map.get(props, :step), min, max))
       |> put_prop(:values, range_values(props))
-      |> put_prop(:orientation, orientation(props))
+      |> put_prop(:min_gap, Map.get(props, :min_gap))
+      |> put_prop(:orientation, Map.get(props, :orientation))
       |> put_prop(:length, Map.get(props, :length))
       |> put_prop(:on_change, Event.handler(Map.get(props, :on_change)))
 
@@ -186,14 +204,6 @@ defmodule MishkaMob.Components.MishkaSlider do
   defp range_values(props) do
     case Map.get(props, :values) do
       [lo, hi | _] when is_number(lo) and is_number(hi) -> [lo, hi]
-      _ -> nil
-    end
-  end
-
-  defp orientation(props) do
-    case Map.get(props, :orientation) do
-      :vertical -> "vertical"
-      "vertical" -> "vertical"
       _ -> nil
     end
   end
