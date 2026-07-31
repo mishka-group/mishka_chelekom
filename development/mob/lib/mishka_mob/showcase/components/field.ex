@@ -111,7 +111,7 @@ defmodule MishkaMob.Showcase.Components.Field do
               required={true}
               errors={shown(@form, @touched, @submitted?, :name)}
             >
-              {[input(@form.name, "Ada Lovelace", {:form, :name}, err?(@form, :name), id: "fld-name")]}
+              {[input(@form.name, "Ada Lovelace", {:form, :name}, err?(@form, @touched, @submitted?, :name), id: "fld-name")]}
             </MishkaField>
             <Spacer size={16} />
             <MishkaField
@@ -121,7 +121,7 @@ defmodule MishkaMob.Showcase.Components.Field do
               errors={shown(@form, @touched, @submitted?, :email)}
             >
               {[
-                input(@form.email, "ada@example.com", {:form, :email}, err?(@form, :email),
+                input(@form.email, "ada@example.com", {:form, :email}, err?(@form, @touched, @submitted?, :email),
                   keyboard: "email",
                   id: "fld-email"
                 )
@@ -134,7 +134,7 @@ defmodule MishkaMob.Showcase.Components.Field do
               errors={shown(@form, @touched, @submitted?, :age)}
             >
               {[
-                input(@form.age, "18", {:form, :age}, err?(@form, :age),
+                input(@form.age, "18", {:form, :age}, err?(@form, @touched, @submitted?, :age),
                   keyboard: "number",
                   id: "fld-age"
                 )
@@ -156,7 +156,7 @@ defmodule MishkaMob.Showcase.Components.Field do
               errors={shown(@form, @touched, @submitted?, :bio)}
             >
               {[
-                input(@form.bio, "A sentence or two...", {:form, :bio}, err?(@form, :bio),
+                input(@form.bio, "A sentence or two...", {:form, :bio}, err?(@form, @touched, @submitted?, :bio),
                   lines: 4,
                   max_length: 160,
                   id: "fld-bio"
@@ -398,7 +398,11 @@ defmodule MishkaMob.Showcase.Components.Field do
 
   # The border tint asks the same question the error list does, so a red border
   # can never appear over a field that is showing no message.
-  defp err?(form, key), do: Map.fetch!(validate(form), key) != []
+  # The border tint asks exactly the question the error list asks — including
+  # "has the user earned this yet". Computing it from validate/1 alone put a red
+  # border around every empty required field the moment the page opened, with no
+  # message underneath to explain it.
+  defp err?(form, touched, submitted?, key), do: shown(form, touched, submitted?, key) != []
 
   # The summary tracks validity LIVE, and only names the offending fields once
   # you have submitted — before that, listing fields you have not reached yet is
@@ -439,7 +443,6 @@ defmodule MishkaMob.Showcase.Components.Field do
         fill_width: true,
         background: :surface,
         corner_radius: :radius_sm,
-        padding: :space_sm,
         border_width: 1,
         # :error is a theme token, so the invalid border follows the theme.
         border_color: if(invalid?, do: :error, else: :border)
