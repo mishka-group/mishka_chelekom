@@ -2613,6 +2613,14 @@ private fun MobSlider(node: MobNode, modifier: Modifier) {
         if (incomingVal != localVal) localVal = incomingVal
     }
 
+    // Compose snaps natively when `steps` is set, which is the only way a
+    // stepped slider feels right: without it the control is continuous, the
+    // screen snaps the value and writes it back, and the resync above then
+    // yanks the thumb to the snap point WHILE THE FINGER IS STILL DOWN. That
+    // is the jump. `steps` counts the positions BETWEEN the endpoints, so a
+    // 1..5 rating is 3, and 0 means continuous.
+    val steps = intProp(node.props, "steps")?.coerceAtLeast(0) ?: 0
+
     Slider(
         value         = localVal,
         onValueChange = { new ->
@@ -2620,6 +2628,7 @@ private fun MobSlider(node: MobNode, modifier: Modifier) {
             handle?.let { MobBridge.nativeSendChangeFloat(it, new) }
         },
         valueRange    = minVal..maxVal,
+        steps         = steps,
         modifier      = modifier.fillMaxWidth(),
         colors        = if (color != Color.Unspecified)
             SliderDefaults.colors(thumbColor = color, activeTrackColor = color)

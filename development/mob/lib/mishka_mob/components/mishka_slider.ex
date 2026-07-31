@@ -80,6 +80,7 @@ defmodule MishkaMob.Components.MishkaSlider do
     track =
       ~MOB(<Slider min={min} max={max} value={value} />)
       |> put_prop(:color, Map.get(props, :color))
+      |> put_prop(:steps, steps(Map.get(props, :step), min, max))
       |> put_prop(:on_change, Event.handler(Map.get(props, :on_change)))
 
     case header(props, value) do
@@ -96,6 +97,23 @@ defmodule MishkaMob.Components.MishkaSlider do
         """
     end
   end
+
+  @doc """
+  How many discrete positions sit BETWEEN the endpoints — which is what Compose's
+  `steps` counts, not how many stops there are.
+
+      iex> alias MishkaMob.Components.MishkaSlider
+      ...> {MishkaSlider.steps(1, 1, 5), MishkaSlider.steps(5, 0, 100), MishkaSlider.steps(nil, 0, 1)}
+      {3, 19, 0}
+
+  Zero means continuous, which is what a missing, zero or negative `step` gives.
+  """
+  @spec steps(number() | nil, number(), number()) :: non_neg_integer()
+  def steps(step, min, max) when is_number(step) and step > 0 and max > min do
+    Kernel.max(round((max - min) / step) - 1, 0)
+  end
+
+  def steps(_step, _min, _max), do: 0
 
   @doc """
   Snap a raw slider value to the nearest `step`, clamped into `[min, max]`.
