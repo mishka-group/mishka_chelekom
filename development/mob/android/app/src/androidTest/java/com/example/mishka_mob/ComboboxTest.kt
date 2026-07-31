@@ -253,6 +253,67 @@ class ComboboxTest {
     }
 
     @Test
+    fun tapping_the_field_opens_the_list() {
+        // Close it first — @Before opens it, and "already open" proves nothing.
+        tapTag("cb-one-on_toggle")
+        compose.waitUntil(10_000) { !listed("cb-one", "ir") }
+
+        // A tap into the field focuses it, and focus is what opens the list.
+        // Without this a user has to find the ▾ before they can search.
+        compose.onNodeWithTag("cb-one-input").performScrollTo().performClick()
+        compose.waitForIdle()
+
+        compose.waitUntil(10_000) { listed("cb-one", "ir") }
+    }
+
+    @Test
+    fun typing_opens_the_list_too() {
+        tapTag("cb-one-on_toggle")
+        compose.waitUntil(10_000) { !listed("cb-one", "ir") }
+
+        // Someone who taps and starts typing before the list appears must not
+        // have to tap again.
+        typeInto("cb-one-input", "ira")
+
+        compose.waitUntil(10_000) { listed("cb-one", "ir") }
+    }
+
+    @Test
+    fun tapping_outside_the_control_closes_the_list() {
+        require(listed("cb-one", "ir")) { "the list is not open" }
+
+        // The caption below the control is part of the card, not the combobox.
+        // The list renders in flow rather than in an overlay, so nothing covers
+        // the page to catch this — the screen puts an on_tap on the container,
+        // and a child's own handler consumes taps on the control and its options.
+        // useUnmergedTree: the container carries the on_tap, and a clickable
+        // parent MERGES its children's semantics — so a merged lookup returns
+        // the whole card and performClick hits its CENTRE, which is the option
+        // list, whose own handler consumes the tap. The caption's own node is
+        // the only thing guaranteed to be outside the control.
+        compose.onAllNodesWithText("Tap the field to open it", substring = true, useUnmergedTree = true)[0]
+            .performScrollTo()
+            .performClick()
+        compose.waitForIdle()
+
+        compose.waitUntil(10_000) { !listed("cb-one", "ir") }
+    }
+
+    @Test
+    fun picking_an_option_does_not_close_a_multiple_list() {
+        ensureOpen("cb-food", "banana")
+
+        // The backdrop must not swallow taps meant for the list, and blur must
+        // not close it: a multi-select that shut on every pick would be
+        // exhausting, and both mistakes look identical from here.
+        val before = picked("cb-food", "banana")
+        tapTag(if (before) "cb-food-option-banana-selected" else "cb-food-option-banana-idle")
+
+        compose.waitUntil(10_000) { picked("cb-food", "banana") != before }
+        require(listed("cb-food", "apple")) { "picking closed a multiple list" }
+    }
+
+    @Test
     fun the_page_renders_every_example_and_the_props_table() {
         for (heading in listOf(
             "Filter and choose",

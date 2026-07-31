@@ -249,6 +249,30 @@ defmodule MishkaMob.Components.MishkaComboboxTest do
     end
   end
 
+  describe "focus and blur" do
+    test "the field reports focus, which is how a tap opens the list" do
+      field = find(build(%{on_focus: :opened}), :text_field)
+
+      assert field.props.on_focus == {self(), :opened}
+    end
+
+    test "blur is offered but separate — it is NOT how you close" do
+      # Tapping an option blurs the field too, so closing on blur closes the
+      # list on every pick, which is exactly what multiple mode must not do.
+      field = find(build(%{on_focus: :o, on_blur: :b}), :text_field)
+
+      assert field.props.on_blur == {self(), :b}
+      refute field.props.on_focus == field.props.on_blur
+    end
+
+    test "a disabled combobox reports neither" do
+      field = find(build(%{disabled: true, on_focus: :o, on_blur: :b}), :text_field)
+
+      refute Map.has_key?(field.props, :on_focus)
+      refute Map.has_key?(field.props, :on_blur)
+    end
+  end
+
   describe "test tags" do
     test "the input, the buttons and every option are addressable" do
       tree =

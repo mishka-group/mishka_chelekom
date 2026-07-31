@@ -73,7 +73,7 @@ defmodule MishkaMob.Showcase.Components.Combobox do
         """,
         render: fn assigns ->
           ~MOB"""
-          <Column fill_width={true}>
+          <Column fill_width={true} on_tap={{self(), :cb_close}}>
             <MishkaCombobox
               query={@cb_query}
               value={@cb_value}
@@ -85,12 +85,20 @@ defmodule MishkaMob.Showcase.Components.Combobox do
               on_select={:cb_pick}
               on_clear={:cb_clear}
               on_toggle={:cb_open}
+              on_focus={:cb_focus}
               id="cb-one"
             >
               {country_options()}
             </MishkaCombobox>
             <Spacer size={10} />
             <Text text={chosen(@cb_value)} text_size={:sm} text_color={:muted} />
+            <Spacer size={20} />
+            <Text
+              text="Tap the field to open it, type to keep it open, and tap anywhere in this
+                    card to close it."
+              text_size={:sm}
+              text_color={:muted}
+            />
           </Column>
           """
         end
@@ -104,7 +112,7 @@ defmodule MishkaMob.Showcase.Components.Combobox do
         """,
         render: fn assigns ->
           ~MOB"""
-          <Column fill_width={true}>
+          <Column fill_width={true} on_tap={{self(), :cb_multi_close}}>
             <MishkaCombobox
               query={@cb_multi_query}
               value={@cb_multi}
@@ -116,6 +124,7 @@ defmodule MishkaMob.Showcase.Components.Combobox do
               on_select={:cb_multi_pick}
               on_remove={:cb_multi_remove}
               on_toggle={:cb_multi_open}
+              on_focus={:cb_multi_focus}
               id="cb-multi"
             >
               {country_options()}
@@ -141,7 +150,7 @@ defmodule MishkaMob.Showcase.Components.Combobox do
         """,
         render: fn assigns ->
           ~MOB"""
-          <Column fill_width={true}>
+          <Column fill_width={true} on_tap={{self(), :cb_food_close}}>
             <MishkaCombobox
               query={@cb_food_query}
               value={@cb_food}
@@ -156,6 +165,7 @@ defmodule MishkaMob.Showcase.Components.Combobox do
               on_remove={:cb_food_remove}
               on_clear={:cb_food_clear}
               on_toggle={:cb_food_open}
+              on_focus={:cb_food_focus}
               id="cb-food"
             >
               {food_options(@cb_created)}
@@ -272,6 +282,16 @@ defmodule MishkaMob.Showcase.Components.Combobox do
   def handle(:cb_clear, socket), do: Mob.Socket.assign(socket, :cb_query, "")
   def handle(:cb_open, socket), do: flip(socket, :cb_open)
   def handle(:cb_multi_open, socket), do: flip(socket, :cb_multi_open)
+
+  # Tapping the field opens the list; tapping the card around it closes.
+  # A child's handler consumes the tap, so the control and its options are
+  # unaffected — only the surrounding space closes anything.
+  def handle(:cb_focus, socket), do: Mob.Socket.assign(socket, :cb_open, true)
+  def handle(:cb_multi_focus, socket), do: Mob.Socket.assign(socket, :cb_multi_open, true)
+  def handle(:cb_food_focus, socket), do: Mob.Socket.assign(socket, :cb_food_open, true)
+  def handle(:cb_close, socket), do: Mob.Socket.assign(socket, :cb_open, false)
+  def handle(:cb_multi_close, socket), do: Mob.Socket.assign(socket, :cb_multi_open, false)
+  def handle(:cb_food_close, socket), do: Mob.Socket.assign(socket, :cb_food_open, false)
   def handle(:cb_food_open, socket), do: flip(socket, :cb_food_open)
   def handle(:cb_food_clear, socket), do: Mob.Socket.assign(socket, :cb_food_query, "")
 
@@ -304,13 +324,23 @@ defmodule MishkaMob.Showcase.Components.Combobox do
     do: Mob.Socket.assign(socket, key, not Map.fetch!(socket.assigns, key))
 
   @impl true
-  def handle_change(:cb_query, text, socket), do: Mob.Socket.assign(socket, :cb_query, text)
+  # Typing opens it too: a user who taps and types before the list appears must
+  # not have to tap again.
+  def handle_change(:cb_query, text, socket) do
+    socket |> Mob.Socket.assign(:cb_query, text) |> Mob.Socket.assign(:cb_open, true)
+  end
 
-  def handle_change(:cb_food_query, text, socket),
-    do: Mob.Socket.assign(socket, :cb_food_query, text)
+  def handle_change(:cb_food_query, text, socket) do
+    socket
+    |> Mob.Socket.assign(:cb_food_query, text)
+    |> Mob.Socket.assign(:cb_food_open, true)
+  end
 
-  def handle_change(:cb_multi_query, text, socket),
-    do: Mob.Socket.assign(socket, :cb_multi_query, text)
+  def handle_change(:cb_multi_query, text, socket) do
+    socket
+    |> Mob.Socket.assign(:cb_multi_query, text)
+    |> Mob.Socket.assign(:cb_multi_open, true)
+  end
 
   def handle_change(_tag, _value, socket), do: socket
 

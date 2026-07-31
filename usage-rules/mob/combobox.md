@@ -80,8 +80,9 @@ end
 | `empty_text` | string | `"No matches"` |
 | `disabled` | boolean | `false` |
 | `on_query` / `on_select` / `on_clear` / `on_toggle` / `on_create` / `on_remove` | event tags | — |
+| `on_focus` / `on_blur` | event tags | — `{:focus, tag}` / `{:blur, tag}` |
 | `background` / `border_color` / `border_width` / `corner_radius` / `padding` | | the control |
-| `wrap_chars` | number | `28` — characters per chip row |
+| `wrap_chars` | number | `40` — characters per chip row |
 | `id` | string | `nil` |
 
 Options are built with `option/3`, which takes `:disabled` and `:group`.
@@ -90,6 +91,44 @@ Helpers: `filter/3`, `fold/1`.
 
 Not ported: `name` / `form` (form plumbing), `auto_highlight` (there is no focus ring to highlight)
 and the `*_class` attrs.
+
+## Opening and closing
+
+`open` lives in the screen, like every Mob overlay. The three ways a user expects to open a combobox
+map onto three events:
+
+```elixir
+# 1. tapping the field
+def handle_info({:focus, :focus}, socket), do: {:noreply, assign(socket, :open?, true)}
+
+# 2. typing — fires on the first keystroke, so someone who taps and types
+#    straight away does not have to tap again
+def handle_info({:change, :query, text}, socket) do
+  {:noreply, socket |> assign(:query, text) |> assign(:open?, true)}
+end
+
+# 3. the ▾
+def handle_info({:tap, :toggle}, socket), do: {:noreply, assign(socket, :open?, not socket.assigns.open?)}
+```
+
+**Closing on an outside tap needs a backdrop from you.** The list renders in flow rather than in an
+overlay, so nothing covers the page to catch that tap. Put an `on_tap` on the container around the
+combobox:
+
+```elixir
+~MOB"""
+<Column fill_width={true} on_tap={{self(), :close}}>
+  <MishkaCombobox … />
+</Column>
+"""
+```
+
+A child's own handler consumes the tap, so the control, its chips and its options are unaffected —
+only the surrounding space closes the list.
+
+**Do not close on `on_blur`.** It is offered, and it looks like the obvious answer, but tapping an
+option blurs the field too — so closing on blur closes the list on every pick, which is exactly what
+`multiple` mode must not do.
 
 ## Five things to know
 

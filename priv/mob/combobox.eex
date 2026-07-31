@@ -42,6 +42,8 @@ defmodule <%= @module %> do
   | `creatable` | boolean | `false` | Offer "Create …" for a query that matches nothing. |
   | `on_create` | event tag (atom) | — | `{:tap, tag}` from that row. |
   | `on_remove` | event tag (atom) | — | `{:tap, {tag, id}}` from a chip's ✕. |
+  | `on_focus` | event tag (atom) | — | `{:focus, tag}` when the field is tapped. |
+  | `on_blur` | event tag (atom) | — | `{:blur, tag}` when it loses focus. |
   | `create_label` | string | `"Create"` | Prefix on the create row. |
   | `id` | string | `nil` | Test tags for the input, chips, options and buttons. |
 
@@ -64,6 +66,26 @@ defmodule <%= @module %> do
   component only offers; adding to the list is the screen's job, which is why
   `on_create` carries no payload beyond the tag and the screen already holds the
   query.
+
+  ## Opening and closing is the screen's, and needs a backdrop
+
+  `open` lives in the screen, like every Mob overlay. The three ways a user
+  expects to open a combobox map onto three events the component reports:
+
+    * tapping the field — `on_focus`,
+    * typing — `on_query`, which fires on the first keystroke,
+    * the ▾ — `on_toggle`.
+
+  Closing on a tap **outside** the control has no component-level answer here:
+  the list renders in flow rather than in an overlay, so there is nothing
+  covering the page to catch that tap. The screen provides it, by putting an
+  `on_tap` on the container around the combobox. A child's handler consumes the
+  tap, so the control and its options are unaffected and only the surrounding
+  space closes the list.
+
+  `on_blur` is offered but is **not** the way to do it: tapping an option blurs
+  the field too, so closing on blur closes the list on every pick — which is
+  exactly what `multiple` mode must not do.
 
   Not ported: `name` / `form` (form plumbing), `auto_highlight` (there is no
   focus ring to highlight) and the `*_class` attrs.
@@ -308,11 +330,14 @@ defmodule <%= @module %> do
 
     node = tag(node, Map.get(props, :id), "input")
 
-    case handler(props, :on_query, disabled?) do
-      nil -> node
-      tap -> %{node | props: Map.put(node.props, :on_change, tap)}
-    end
+    node
+    |> put(:on_change, handler(props, :on_query, disabled?))
+    |> put(:on_focus, handler(props, :on_focus, disabled?))
+    |> put(:on_blur, handler(props, :on_blur, disabled?))
   end
+
+  defp put(node, _key, nil), do: node
+  defp put(node, key, value), do: %{node | props: Map.put(node.props, key, value)}
 
   defp button(_glyph, _key, _props, _disabled?, false), do: ~MOB(<Row />)
 
