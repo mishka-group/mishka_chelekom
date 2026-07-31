@@ -25,7 +25,7 @@ defmodule MishkaMob.Showcase.Components.TagsInput do
   @impl true
   def mount(socket) do
     socket
-    |> Mob.Socket.assign(:ti_tags, ["elixir", "beam"])
+    |> Mob.Socket.assign(:ti_tags, ["design", "phoenix", "elixir"])
     |> Mob.Socket.assign(:ti_draft, "")
   end
 
@@ -61,6 +61,7 @@ defmodule MishkaMob.Showcase.Components.TagsInput do
               on_draft={:ti_draft}
               on_add={:ti_add}
               on_remove={:ti_remove}
+              id="ti"
             />
             <Spacer size={10} />
             <Text text={summary(@ti_tags)} text_size={:sm} text_color={:muted} />
@@ -69,27 +70,32 @@ defmodule MishkaMob.Showcase.Components.TagsInput do
         end
       },
       %Example{
-        title: "Duplicates are refused",
-        description: "add/3 trims and rejects a repeat, so callers cannot forget to.",
+        title: "It ships no look",
+        description: "Like the headless original — border_width: 0 leaves you a bare control.",
         code: ~S"""
-        MishkaTagsInput.add(["elixir"], "  elixir  ")   #=> ["elixir"]
-        MishkaTagsInput.add(["elixir"], "elixir", allow_duplicates: true)
+        <MishkaTagsInput tags={@tags} border_width={0} padding={0} background={:background} />
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <Text
-              text="Try adding a tag you already have — it is trimmed and refused."
-              text_size={:sm}
-              text_color={:muted}
-            />
-            <Spacer size={10} />
             <MishkaTagsInput
               tags={@ti_tags}
               draft={@ti_draft}
+              placeholder="No box at all…"
               on_draft={:ti_draft}
               on_add={:ti_add}
               on_remove={:ti_remove}
+              border_width={0}
+              padding={0}
+              background={:background}
+              id="ti-bare"
+            />
+            <Spacer size={10} />
+            <Text
+              text="Duplicates are still refused: add/3 trims and rejects a repeat, so a
+                    caller cannot forget to."
+              text_size={:sm}
+              text_color={:muted}
             />
           </Column>
           """
@@ -105,9 +111,14 @@ defmodule MishkaMob.Showcase.Components.TagsInput do
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaTagsInput tags={[]} placeholder="Nothing yet…" />
+            <MishkaTagsInput tags={[]} placeholder="Nothing yet…" id="ti-empty" />
             <Spacer size={12} />
-            <MishkaTagsInput tags={["locked", "readonly"]} disabled={true} placeholder="Disabled" />
+            <MishkaTagsInput
+              tags={["locked", "readonly"]}
+              disabled={true}
+              placeholder="Disabled"
+              id="ti-off"
+            />
           </Column>
           """
         end
@@ -139,10 +150,35 @@ defmodule MishkaMob.Showcase.Components.TagsInput do
         description: "{:change,…} typing, {:submit,…} on return, {:tap, {tag, string}} from a ✕."
       },
       %{
-        name: "add/3 · remove/2",
+        name: "background · corner_radius · padding",
+        type: "colour / radius",
+        default: ":surface / :radius_md",
+        description: "The control's own box. border_width: 0 removes it entirely."
+      },
+      %{
+        name: "border_color · border_width",
+        type: "colour / number",
+        default: ":border / 1",
+        description: "The outline. The draft field inside draws no box of its own."
+      },
+      %{name: "space", type: "number", default: "6", description: "Gap between tokens."},
+      %{
+        name: "wrap_chars",
+        type: "number",
+        default: "28",
+        description: "Characters per token row. Nothing here can measure text."
+      },
+      %{
+        name: "id",
+        type: "string",
+        default: "nil",
+        description: "Tags the draft as <id>-draft and each token as <id>-tag-<tag>."
+      },
+      %{
+        name: "add/3 · remove/2 · wrap/2",
         type: "helpers",
         default: "—",
-        description: "Trim, reject blanks and duplicates; remove by value."
+        description: "Trim, reject blanks and duplicates; remove by value; pack token rows."
       }
     ]
   end

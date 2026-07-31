@@ -35,8 +35,30 @@ defmodule MishkaMob.Components.MishkaTagsInput do
   | `on_draft` | event tag (atom) | — | `{:change, tag, text}` as the draft is typed. |
   | `on_add` | event tag (atom) | — | Fired on return. Carries NO text — commit your own draft. |
   | `on_remove` | event tag (atom) | — | `{:tap, {tag, tag_string}}` from a token's ✕. |
+  | `background` / `border_color` / `border_width` / `corner_radius` / `padding` | | | The control. |
+  | `space` | number | `6` | Gap between tokens. |
+  | `wrap_chars` | number | `28` | Roughly how much text fits on one token row. |
+  | `id` | string | `nil` | Tags the draft field and each token's ✕. |
 
-  Not ported: `name` / `input_name` (form plumbing) and `id` / `*_class`.
+  ## It ships no look of its own worth keeping
+
+  The headless original ships no colours and no spacing. There is no stylesheet
+  here, so the container's decoration is a set of props with legible defaults —
+  pass your own, or `border_width: 0` for no box at all.
+
+  The draft field inside draws **no** box: `underline: false`, because a
+  Material text field otherwise draws its indicator line *inside* the control,
+  which reads as a stray border across the middle of the box.
+
+  ## Tokens wrap by estimate, because nothing here can measure text
+
+  Neither renderer has a flow layout, and there is no text measurement on this
+  side of the bridge, so a single `Row` of tokens simply runs off the edge once
+  you have a few. Tags are packed greedily into rows using `wrap_chars` as a
+  character budget — an estimate, tuned so three short tags share a line the way
+  the web's do. Raise it for a wider control, lower it for a narrow one.
+
+  Not ported: `name` / `input_name` (form plumbing) and the `*_class` attrs.
   """
 
   import Mob.Sigil
@@ -91,11 +113,11 @@ defmodule MishkaMob.Components.MishkaTagsInput do
     ~MOB"""
     <Box
       fill_width={true}
-      background={:surface}
-      corner_radius={:radius_md}
-      padding={:space_sm}
-      border_color={:border}
-      border_width={1}
+      background={Map.get(props, :background, :surface)}
+      corner_radius={Map.get(props, :corner_radius, :radius_md)}
+      padding={Map.get(props, :padding, :space_sm)}
+      border_color={Map.get(props, :border_color, :border)}
+      border_width={Map.get(props, :border_width, 1)}
     >
       <Column fill_width={true}>
         {tokens(tags, props, disabled?)}
@@ -105,30 +127,85 @@ defmodule MishkaMob.Components.MishkaTagsInput do
     """
   end
 
+  @doc """
+  Pack tags into rows that will roughly fit, using `budget` characters a row.
+
+  Neither renderer has a flow layout and nothing here can measure text, so this
+  is an estimate rather than a measurement: each tag costs its own length plus a
+  fixed allowance for its padding and ✕. A tag longer than the whole budget gets
+  a row to itself rather than being dropped.
+
+      iex> MishkaMob.Components.MishkaTagsInput.wrap(["a", "b"], 28)
+      [["a", "b"]]
+      iex> MishkaMob.Components.MishkaTagsInput.wrap(["aaaaaaaa", "bbbbbbbb", "cccccccc"], 20)
+      [["aaaaaaaa"], ["bbbbbbbb"], ["cccccccc"]]
+      iex> MishkaMob.Components.MishkaTagsInput.wrap([], 28)
+      []
+  """
+  @spec wrap([String.t()], pos_integer()) :: [[String.t()]]
+  def wrap(tags, budget) do
+    tags
+    |> Enum.reduce([], fn tag, rows ->
+      cost = String.length(tag) + 4
+
+      case rows do
+        [{row, used} | rest] when used + cost <= budget -> [{[tag | row], used + cost} | rest]
+        rows -> [{[tag], cost} | rows]
+      end
+    end)
+    |> Enum.reverse()
+    |> Enum.map(fn {row, _used} -> Enum.reverse(row) end)
+  end
+
   defp tokens([], _props, _disabled?), do: ~MOB(<Column />)
 
   defp tokens(tags, props, disabled?) do
-    pills =
+    space = Map.get(props, :space, 6)
+    budget = Map.get(props, :wrap_chars, 28)
+
+    rows =
       tags
-      |> Enum.map(fn tag ->
-        MishkaPill.pill(
-          label: tag,
-          with_remove: true,
-          disabled: disabled?,
-          on_remove: remove_tag(props, tag)
-        )
+      |> wrap(budget)
+      |> Enum.map(fn row ->
+        pills =
+          row
+          |> Enum.map(&token(&1, props, disabled?))
+          |> Enum.intersperse(~MOB(<Spacer size={space} />))
+
+        ~MOB"""
+        <Row fill_width={true}>
+          {pills}
+        </Row>
+        """
       end)
-      |> Enum.intersperse(~MOB(<Spacer size={6} />))
+      |> Enum.intersperse(~MOB(<Spacer size={space} />))
 
     ~MOB"""
     <Column fill_width={true}>
-      <Row fill_width={true}>
-        {pills}
-      </Row>
+      {rows}
       <Spacer size={8} />
     </Column>
     """
   end
+
+  defp token(tag, props, disabled?) do
+    node =
+      MishkaPill.pill(
+        label: tag,
+        with_remove: true,
+        disabled: disabled?,
+        on_remove: remove_tag(props, tag)
+      )
+
+    # Every token's ✕ reads the same glyph, so an exact-text lookup cannot say
+    # WHICH tag it would remove. The tag itself makes the id unique.
+    tag_node(node, Map.get(props, :id), tag)
+  end
+
+  defp tag_node(node, nil, _tag), do: node
+
+  defp tag_node(node, id, tag),
+    do: %{node | props: Map.put(node.props, :id, "#{id}-tag-#{tag}")}
 
   defp draft(props, disabled?) do
     node = ~MOB"""
@@ -137,15 +214,20 @@ defmodule MishkaMob.Components.MishkaTagsInput do
       placeholder={Map.get(props, :placeholder, "Add a tag…")}
       return_key="done"
       fill_width={true}
-      background={:surface}
-      padding={:space_sm}
+      background={:transparent}
+      enabled={not disabled?}
+      underline={false}
     />
     """
 
     node
+    |> draft_tag(Map.get(props, :id))
     |> put(:on_change, handler(props, :on_draft, disabled?))
     |> put(:on_submit, handler(props, :on_add, disabled?))
   end
+
+  defp draft_tag(node, nil), do: node
+  defp draft_tag(node, id), do: %{node | props: Map.put(node.props, :id, "#{id}-draft")}
 
   defp remove_tag(props, tag) do
     case Event.handler(Map.get(props, :on_remove)) do
