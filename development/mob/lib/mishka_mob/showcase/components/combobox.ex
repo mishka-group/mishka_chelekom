@@ -7,7 +7,7 @@ defmodule MishkaMob.Showcase.Components.Combobox do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaCombobox, only: [option: 2]
+  import MishkaMob.Components.MishkaCombobox, only: [option: 2, option: 3]
 
   alias MishkaMob.Components.{MishkaCombobox, MishkaSelect}
   alias MishkaMob.Showcase.Example
@@ -18,7 +18,11 @@ defmodule MishkaMob.Showcase.Components.Combobox do
     {:de, "Germany"},
     {:jp, "Japan"},
     {:br, "Brazil"},
-    {:se, "Sweden"}
+    {:se, "Sweden"},
+    # An accented label on purpose: the description claims matching ignores
+    # accents, and without one on the page nothing demonstrates it. Typing
+    # "turkiye" on a phone keyboard has to find this.
+    {:tr, "Türkiye"}
   ]
 
   @impl true
@@ -39,6 +43,11 @@ defmodule MishkaMob.Showcase.Components.Combobox do
     |> Mob.Socket.assign(:cb_value, nil)
     |> Mob.Socket.assign(:cb_multi, [])
     |> Mob.Socket.assign(:cb_multi_query, "")
+    |> Mob.Socket.assign(:cb_open, true)
+    |> Mob.Socket.assign(:cb_food, [:apple, :carrot])
+    |> Mob.Socket.assign(:cb_food_query, "")
+    |> Mob.Socket.assign(:cb_food_open, true)
+    |> Mob.Socket.assign(:cb_created, [])
   end
 
   @impl true
@@ -46,7 +55,8 @@ defmodule MishkaMob.Showcase.Components.Combobox do
     [
       %Example{
         title: "Filter and choose",
-        description: "Type to narrow the list — matching ignores case AND accents.",
+        description:
+          "Type to narrow the list — matching ignores case AND accents. ▾ opens and closes it.",
         code: ~S"""
         <MishkaCombobox
           query={@query}
@@ -66,12 +76,15 @@ defmodule MishkaMob.Showcase.Components.Combobox do
             <MishkaCombobox
               query={@cb_query}
               value={@cb_value}
-              open={true}
+              open={@cb_open}
               clear={true}
+              trigger={true}
               placeholder="Search countries…"
               on_query={:cb_query}
               on_select={:cb_pick}
               on_clear={:cb_clear}
+              on_toggle={:cb_open}
+              id="cb-one"
             >
               {country_options()}
             </MishkaCombobox>
@@ -83,7 +96,8 @@ defmodule MishkaMob.Showcase.Components.Combobox do
       },
       %Example{
         title: "Multiple",
-        description: "Chosen options are ticked and the list stays open.",
+        description:
+          "Chosen options become removable chips inside the control, and the list stays open.",
         code: ~S"""
         <MishkaCombobox multiple={true} value={@values} …>{options}</MishkaCombobox>
         """,
@@ -98,8 +112,50 @@ defmodule MishkaMob.Showcase.Components.Combobox do
               placeholder="Pick several…"
               on_query={:cb_multi_query}
               on_select={:cb_multi_pick}
+              on_remove={:cb_multi_remove}
+              id="cb-multi"
             >
               {country_options()}
+            </MishkaCombobox>
+          </Column>
+          """
+        end
+      },
+      %Example{
+        title: "Grouped, creatable, with a disabled item",
+        description:
+          "Headings per run, an out-of-stock option that cannot be picked, and a Create row for anything that does not match.",
+        code: ~S"""
+        <MishkaCombobox multiple={true} creatable={true} on_create={:create} …>{[
+          option(:apple, "Apple", group: "FRUIT"),
+          option(:durian, "Durian (out of stock)", group: "FRUIT", disabled: true),
+          option(:carrot, "Carrot", group: "VEGETABLE")
+        ]}</MishkaCombobox>
+
+        # The component only OFFERS; adding to the list is the screen's job, and
+        # the screen already holds the query.
+        def handle_info({:tap, {:pick, :__create__}}, socket), do: create(socket)
+        """,
+        render: fn assigns ->
+          ~MOB"""
+          <Column fill_width={true}>
+            <MishkaCombobox
+              query={@cb_food_query}
+              value={@cb_food}
+              open={@cb_food_open}
+              multiple={true}
+              clear={true}
+              trigger={true}
+              creatable={true}
+              placeholder="Add items…"
+              on_query={:cb_food_query}
+              on_select={:cb_food_pick}
+              on_remove={:cb_food_remove}
+              on_clear={:cb_food_clear}
+              on_toggle={:cb_food_open}
+              id="cb-food"
+            >
+              {food_options(@cb_created)}
             </MishkaCombobox>
           </Column>
           """
@@ -211,10 +267,43 @@ defmodule MishkaMob.Showcase.Components.Combobox do
   end
 
   def handle(:cb_clear, socket), do: Mob.Socket.assign(socket, :cb_query, "")
+  def handle(:cb_open, socket), do: flip(socket, :cb_open)
+  def handle(:cb_food_open, socket), do: flip(socket, :cb_food_open)
+  def handle(:cb_food_clear, socket), do: Mob.Socket.assign(socket, :cb_food_query, "")
+
+  def handle({:cb_multi_remove, id}, socket),
+    do: Mob.Socket.assign(socket, :cb_multi, List.delete(socket.assigns.cb_multi, id))
+
+  def handle({:cb_food_remove, id}, socket),
+    do: Mob.Socket.assign(socket, :cb_food, List.delete(socket.assigns.cb_food, id))
+
+  # The create row reports the same tag as any option, with the id :__create__ —
+  # so one clause handles picking, and one branch inside it handles creating.
+  def handle({:cb_food_pick, :__create__}, socket) do
+    name = String.trim(socket.assigns.cb_food_query)
+    id = name |> String.downcase() |> String.to_atom()
+
+    socket
+    |> Mob.Socket.assign(:cb_created, socket.assigns.cb_created ++ [{id, name}])
+    |> Mob.Socket.assign(:cb_food, socket.assigns.cb_food ++ [id])
+    |> Mob.Socket.assign(:cb_food_query, "")
+  end
+
+  def handle({:cb_food_pick, id}, socket) do
+    {value, _close?} = MishkaSelect.toggle(socket.assigns.cb_food, id, true)
+    Mob.Socket.assign(socket, :cb_food, value)
+  end
+
   def handle(_tag, socket), do: socket
+
+  defp flip(socket, key),
+    do: Mob.Socket.assign(socket, key, not Map.fetch!(socket.assigns, key))
 
   @impl true
   def handle_change(:cb_query, text, socket), do: Mob.Socket.assign(socket, :cb_query, text)
+
+  def handle_change(:cb_food_query, text, socket),
+    do: Mob.Socket.assign(socket, :cb_food_query, text)
 
   def handle_change(:cb_multi_query, text, socket),
     do: Mob.Socket.assign(socket, :cb_multi_query, text)
@@ -222,6 +311,19 @@ defmodule MishkaMob.Showcase.Components.Combobox do
   def handle_change(_tag, _value, socket), do: socket
 
   defp country_options, do: Enum.map(@countries, fn {id, label} -> option(id, label) end)
+
+  # Order IS the grouping: consecutive options sharing a group get one heading.
+  # Anything the user creates is appended, so it appears under its own run.
+  defp food_options(created) do
+    [
+      option(:apple, "Apple", group: "FRUIT"),
+      option(:banana, "Banana", group: "FRUIT"),
+      option(:cherry, "Cherry", group: "FRUIT"),
+      option(:durian, "Durian (out of stock)", group: "FRUIT", disabled: true),
+      option(:carrot, "Carrot", group: "VEGETABLE"),
+      option(:potato, "Potato", group: "VEGETABLE")
+    ] ++ Enum.map(created, fn {id, label} -> option(id, label, group: "CREATED") end)
+  end
 
   defp chosen(nil), do: "Nothing chosen"
   defp chosen(id), do: "Chosen: " <> MishkaCombobox.fold(to_string(id))
