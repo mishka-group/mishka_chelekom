@@ -79,7 +79,24 @@ once the thumbs meet nothing says the finger is still pushing. `MobRangeSlider`
 owns its drag (`detectDragGestures`), so it always knows the pointer and can
 push. Port that shape to SwiftUI rather than reaching for a stock control.
 
-## 6. There is no `on_commit` on either platform
+## 6. `MobBox` never reads `fill_width`, so nothing can hug on iOS
+
+`MobRootView.swift` — `MobBox` branches on `fixedWidth > 0` and `fillHeight`
+only, then falls through to `.frame(maxWidth: .infinity)`. `fill_width` IS
+decoded (`MobNode.h`, `mob_nif.m`) and simply never read for a box, so a Box can
+only stop filling by carrying an explicit width — which a label's width is not.
+
+This is why `mishka_chip` renders full-width on iOS. `Button` is the one node
+that reads the prop on both, but Material3 gives it a minimum size and content
+padding that made the chips oversized enough to overflow their row and clip the
+last label, so the chip uses a Box and is correct on Android only. `mishka_pill`
+has the same shape.
+
+**Fix:** honour the prop —
+`.frame(maxWidth: node.fillWidth == false ? nil : .infinity)` — after which the
+chip is correct on both with no Elixir change.
+
+## 7. There is no `on_commit` on either platform
 
 The headless slider distinguishes `on_change` (dragging) from `on_commit`
 (release). Neither bridge emits a drag-ended event, so only `on_change` is

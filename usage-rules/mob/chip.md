@@ -10,23 +10,20 @@ every Mob component shares.
 ## What it renders
 
 ```
-button  fill_width: false, corner_radius: :radius_pill, text, on_tap
+box  fill_width: false, corner_radius: :radius_pill, padding, on_tap
+└── text  the label
 ```
 
-One node, and it must be a **Button**. A `Box` with neither `width` nor `fill_width` *fills its
-parent* on both platforms — that is why the chip shipped full width — and `fill_width={false}` does
-not rescue it, because iOS's `MobBox` never reads that prop: only an explicit width stops it
-filling, and a label's width is not known here. Wrapping the Box in a hugging `Row` does not help
-either; an `HStack` still offers its whole width to a flexible child.
+`fill_width={false}` is load-bearing. A Box with neither `width` nor `fill_width` **fills its
+parent**, which is why the chip once rendered as one full-width banner per row.
 
-`Button` is the only node that reads `fill_width` on **both** (`if (fillWidth) fillMaxWidth()` in
-Compose, `.frame(maxWidth: fillWidth ? .infinity : nil)` in SwiftUI), and iOS clips it with
-`RoundedRectangle(cornerRadius:)`, so the pill hugs *and* stays round on both.
-
-**Do not give it a `padding`.** Padding lands inside the label on iOS but as an outer margin on
-Android, where Material has already added its own content padding — stacking the two made the chip
-chunky enough to ellipsise "Gleam" to "Gle…". Each platform's own button padding is closer to a chip
-than anything set here, and it is the only setting that agrees.
+**On iOS it still does.** `MobBox` never reads `fill_width` — only an explicit width stops it
+filling, and a label's width is not known here. A `Button` *would* hug on both (it is the one node
+that reads the prop on either side), but Material3 gives a Button its own minimum size and content
+padding: the chips came out oversized, overflowed their row, and the last label was squeezed away
+entirely. A chip that is the right shape on one platform beats one that is the wrong shape on both,
+so this uses a Box. The real fix is for `MobBox` to honour the prop — see
+`development/mob/IOS_TODO.md`.
 
 ## Example
 

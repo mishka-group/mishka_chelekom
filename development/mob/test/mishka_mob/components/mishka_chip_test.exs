@@ -10,14 +10,14 @@ defmodule MishkaMob.Components.MishkaChipTest do
 
       pill = node
 
-      # A Button, because it is the only node that reads fill_width on BOTH
-      # platforms — iOS's MobBox ignores it, so a Box can only hug by carrying an
-      # explicit width, which a label's width is not.
-      assert node.type == :button
+      # A Box with fill_width={false}: right on Android. A Button would also hug
+      # on iOS, but Material's minimum size made the chips overflow their row and
+      # clip their labels — see the moduledoc.
+      assert node.type == :box
       assert pill.props.fill_width == false
       assert pill.props.corner_radius == :radius_pill
 
-      assert node.props.text == "Elixir"
+      assert text(node) =~ "Elixir"
     end
 
     test "hugs its label rather than filling the row" do
@@ -25,7 +25,7 @@ defmodule MishkaMob.Components.MishkaChipTest do
       long = MishkaChip.chip(label: "A considerably longer chip label")
 
       for tree <- [short, long] do
-        assert tree.type == :button
+        assert tree.type == :box
         assert tree.props.fill_width == false
         refute Map.has_key?(tree.props, :width)
       end
@@ -35,7 +35,7 @@ defmodule MishkaMob.Components.MishkaChipTest do
       node = MishkaChip.chip(label: "Elixir", on_toggle: :p)
 
       assert node.props.corner_radius == :radius_pill
-      assert find_all(node, :box) == []
+      assert find_all(node, :button) == []
     end
   end
 
@@ -46,7 +46,7 @@ defmodule MishkaMob.Components.MishkaChipTest do
       pill = node
 
       assert pill.props.background == :surface_raised
-      assert node.props.text_color == :on_surface
+      assert find(node, :text).props.text_color == :on_surface
     end
 
     test "checked fills with the accent colour" do
@@ -55,7 +55,7 @@ defmodule MishkaMob.Components.MishkaChipTest do
       pill = node
 
       assert pill.props.background == :primary
-      assert node.props.text_color == :on_primary
+      assert find(node, :text).props.text_color == :on_primary
     end
 
     test "colour and text_color are overridable when checked" do
@@ -64,7 +64,7 @@ defmodule MishkaMob.Components.MishkaChipTest do
       pill = node
 
       assert pill.props.background == 0xFF7C3AED
-      assert node.props.text_color == 0xFFFFFFFF
+      assert find(node, :text).props.text_color == 0xFFFFFFFF
     end
 
     test "the accent colour is ignored while unchecked" do
@@ -82,7 +82,7 @@ defmodule MishkaMob.Components.MishkaChipTest do
       off = MishkaChip.chip(label: "E", checked: false, disabled: true, on_toggle: :pick)
 
       refute Map.has_key?(on.props, :on_tap)
-      assert on.props.text_color == :muted
+      assert find(on, :text).props.text_color == :on_primary
 
       # This used to assert both were :surface_raised, which pinned the bug: a
       # locked-ON chip looked exactly like a locked-OFF one.

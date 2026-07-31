@@ -57,30 +57,23 @@ defmodule <%= @module %> do
     ink = text_color(props, checked?, disabled?)
     fill = background(props, checked?, disabled?)
 
-    # A Button, not a Box, and the reason is iOS. A Box with neither `width` nor
-    # `fill_width` fills its parent on BOTH platforms — that is why the chip came
-    # out full width — and `fill_width={false}` does not rescue it, because iOS's
-    # MobBox never reads the prop: only a fixed width stops it filling, and a
-    # label's width is not known here. Wrapping it in a hugging Row does not help
-    # either, since an HStack still proposes its full width to a flexible child.
+    # A Box with `fill_width={false}`, NOT a Button.
     #
-    # Button reads `fill_width` on both (Compose `if (fillWidth) fillMaxWidth()`,
-    # SwiftUI `.frame(maxWidth: fillWidth ? .infinity : nil)`) and iOS clips it to
-    # `RoundedRectangle(cornerRadius:)`, so the pill hugs AND stays round on both.
+    # A Box with neither `width` nor `fill_width` fills its parent on both
+    # platforms — that was the original full-width chip. `fill_width={false}`
+    # fixes it on Android. A Button would fix it on iOS too (it is the only node
+    # that reads `fill_width` there), but Material3 gives a Button its own
+    # minimum size and content padding: the chips came out oversized, overflowed
+    # their row, and the last one was squeezed until its label vanished. A chip
+    # that is the right shape on one platform beats one that is the wrong shape
+    # on both.
     #
-    # No `padding` of our own: it lands INSIDE the label on iOS but as an outer
-    # margin on Android, where Material3 has already added its own content
-    # padding — stacking the two made the chip chunky enough to truncate
-    # "Gleam" to "Gle…". Each platform's own button padding is closer to a chip
-    # than anything set here, and it is the only setting that agrees.
+    # So iOS still stretches, and that is recorded in development/mob/IOS_TODO.md
+    # — the real fix is for MobBox to read `fill_width`, which lives in the dep.
     node = ~MOB"""
-    <Button
-      text={label}
-      fill_width={false}
-      background={fill}
-      text_color={ink}
-      corner_radius={:radius_pill}
-    />
+    <Box fill_width={false} background={fill} corner_radius={:radius_pill} padding={:space_sm}>
+      <Text text={label} text_size={:base} text_color={ink} />
+    </Box>
     """
 
     case handler(props, disabled?) do
@@ -102,8 +95,12 @@ defmodule <%= @module %> do
     end
   end
 
+  # A checked+disabled chip keeps a light label: its fill is `:muted`, and a
+  # `:muted` label on a `:muted` fill is invisible — which is exactly how the
+  # locked-on chip rendered as a blank dark blob.
   defp text_color(props, checked?, disabled?) do
     cond do
+      checked? and disabled? -> Map.get(props, :text_color, :on_primary)
       disabled? -> :muted
       checked? -> Map.get(props, :text_color, :on_primary)
       true -> :on_surface
