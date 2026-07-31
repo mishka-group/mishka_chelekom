@@ -23,8 +23,14 @@ defmodule MishkaMob.Showcase.Components.CheckboxGroup do
     }
   end
 
+  @notify [{:email, "Email"}, {:sms, "SMS"}, {:push, "Push"}]
+
   @impl true
-  def mount(socket), do: Mob.Socket.assign(socket, :cg_value, [:beam])
+  def mount(socket) do
+    socket
+    |> Mob.Socket.assign(:cg_value, [:beam])
+    |> Mob.Socket.assign(:cg_notify, [:email])
+  end
 
   @impl true
   def examples do
@@ -38,10 +44,23 @@ defmodule MishkaMob.Showcase.Components.CheckboxGroup do
           select_all={true}
           on_change={:item}
           on_select_all={:all}
+          id="langs"
         >{items}</MishkaCheckboxGroup>
 
-        def handle_info({:tap, {:item, id}}, socket),
-          do: {:noreply, assign(socket, :value, MishkaCheckboxGroup.toggle(socket.assigns.value, id))}
+        # An item tap carries its id; the parent's does not need to, because
+        # there is only one parent. Both reducers live in the component so a
+        # screen never re-derives them.
+        def handle_info({:tap, {:item, id}}, socket) do
+          {:noreply, Mob.Socket.assign(socket, :value,
+            MishkaCheckboxGroup.toggle(socket.assigns.value, id))}
+        end
+
+        def handle_info({:tap, :all}, socket) do
+          {:noreply, Mob.Socket.assign(socket, :value,
+            MishkaCheckboxGroup.select_all(socket.assigns.value, @all_ids))}
+        end
+
+        def handle_info(_msg, socket), do: {:noreply, socket}
         """,
         render: fn assigns ->
           ~MOB"""
@@ -50,8 +69,10 @@ defmodule MishkaMob.Showcase.Components.CheckboxGroup do
               label="LIBRARIES"
               value={@cg_value}
               select_all={true}
+              select_all_label="Select all libraries"
               on_change={:cg_item}
               on_select_all={:cg_all}
+              id="cg-langs"
             >
               {lang_items()}
             </MishkaCheckboxGroup>
@@ -63,15 +84,25 @@ defmodule MishkaMob.Showcase.Components.CheckboxGroup do
       },
       %Example{
         title: "Without a parent",
-        description: "Leave select_all off for a plain group.",
+        description: "Leave select_all off for a plain group — no parent, no divider.",
         code: ~S"""
         <MishkaCheckboxGroup value={@value} on_change={:item}>{items}</MishkaCheckboxGroup>
+
+        def handle_info({:tap, {:item, id}}, socket) do
+          {:noreply, Mob.Socket.assign(socket, :value,
+            MishkaCheckboxGroup.toggle(socket.assigns.value, id))}
+        end
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaCheckboxGroup value={@cg_value} on_change={:cg_item}>
-              {lang_items()}
+            <MishkaCheckboxGroup
+              label="NOTIFY ME BY"
+              value={@cg_notify}
+              on_change={:cg_notify}
+              id="cg-notify"
+            >
+              {notify_items()}
             </MishkaCheckboxGroup>
           </Column>
           """
@@ -87,7 +118,7 @@ defmodule MishkaMob.Showcase.Components.CheckboxGroup do
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaCheckboxGroup label="ONE ITEM OFF" value={@cg_value} on_change={:cg_item}>
+            <MishkaCheckboxGroup label="ONE ITEM OFF" value={@cg_value} on_change={:cg_item} id="cg-one">
               {[
               item(:beam, "BEAM"),
               item(:ecto, "Ecto (unavailable)", disabled: true)
@@ -99,8 +130,10 @@ defmodule MishkaMob.Showcase.Components.CheckboxGroup do
               value={@cg_value}
               select_all={true}
               disabled={true}
+              select_all_label="Select all (off)"
+              id="cg-off"
             >
-              {lang_items()}
+              {off_items()}
             </MishkaCheckboxGroup>
           </Column>
           """
@@ -146,6 +179,18 @@ defmodule MishkaMob.Showcase.Components.CheckboxGroup do
       },
       %{name: "space", type: "number", default: "12", description: "Gap between rows."},
       %{
+        name: "color / size",
+        type: "see Checkbox",
+        default: ":primary / 22",
+        description: "Passed to every row, parent included."
+      },
+      %{
+        name: "id",
+        type: "string",
+        default: "nil",
+        description: "Prefix for each row's test tag: <id>-<item>-checked."
+      },
+      %{
         name: "toggle/2 · select_all/2 · parent_state/2",
         type: "helpers",
         default: "—",
@@ -173,9 +218,25 @@ defmodule MishkaMob.Showcase.Components.CheckboxGroup do
     )
   end
 
+  def handle({:cg_notify, id}, socket),
+    do:
+      Mob.Socket.assign(
+        socket,
+        :cg_notify,
+        MishkaCheckboxGroup.toggle(socket.assigns.cg_notify, id)
+      )
+
   def handle(_tag, socket), do: socket
 
   defp lang_items, do: Enum.map(@langs, fn {id, label} -> item(id, label) end)
+
+  # Distinct labels, because three groups on this page read the same @cg_value
+  # and an exact-text lookup finds the FIRST match — which is the tappable one.
+  # A test aimed at the disabled group would otherwise exercise the live one and
+  # pass. It also stops the page reading as the same list printed three times.
+  defp off_items, do: Enum.map(@langs, fn {id, label} -> item(id, "#{label} (off)") end)
+
+  defp notify_items, do: Enum.map(@notify, fn {id, label} -> item(id, label) end)
 
   defp summary([]), do: "Nothing selected"
   defp summary(ids), do: "Selected: " <> Enum.map_join(ids, ", ", &to_string/1)

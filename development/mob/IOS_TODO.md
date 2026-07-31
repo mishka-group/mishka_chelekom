@@ -102,6 +102,40 @@ The headless slider distinguishes `on_change` (dragging) from `on_commit`
 (release). Neither bridge emits a drag-ended event, so only `on_change` is
 ported. Worth adding to both bridges together rather than one at a time.
 
+## 8. A `fill_width` Row CENTRES its content on iOS, but is left-aligned on Android
+
+`MobRootView.swift:253` — the row case applies
+`.ifLet(node.fillWidth ? () : nil) { view, _ in view.frame(maxWidth: .infinity) }`
+with **no `alignment:` argument**, so SwiftUI defaults to `.center`. The column
+case two dozen lines above (line 229) explicitly passes `alignment: .topLeading`,
+which is what makes the omission look accidental rather than chosen. Android's
+`Row` uses the default `horizontalArrangement = Start` (`MobBridge.kt:2235`).
+
+So any `<Row fill_width={true}>` whose children are all inflexible — an indicator
+Box of fixed width, a sized Spacer, a Text that hugs — reports the sum of its
+children, and the frame then centres that block. Every checkbox and radio row is
+exactly that shape: on Android a group renders as a straight left-hand column, on
+iOS each row centres *independently*, so rows with different label lengths put
+their boxes at different x positions and the list reads as ragged and broken.
+Taps are unaffected (`.contentShape(Rectangle())` is applied after the frame), so
+this is purely visual — and invisible to every device test we have, which is why
+it went uncaught this long.
+
+This is **not** specific to one component: it affects roughly every row-based
+component in the library, `mishka_checkbox`, `mishka_radio`, and both groups
+included.
+
+**Fix:** `view.frame(maxWidth: .infinity, alignment: .leading)` — matching what
+the column case does. Nothing in Elixir needs to change.
+
+**In-repo workaround if iOS is needed before that lands** (unverified — no iOS
+device has been run this session): append a flexible `<Spacer />` with **no
+`size`** as the row's last child. On iOS `fixedSize == 0` means "fill available
+space" (`MobNode.h:167`, `MobRootView.swift:381-389`), so it absorbs the slack and
+pins the content to the leading edge; on Android a sizeless `MobSpacer` is
+`Spacer(modifier = Modifier)` (`MobBridge.kt:2812`), which measures 0×0 with no
+weight and changes nothing. Apply it only when `fill_width` is true.
+
 ---
 
 ## Also worth knowing
