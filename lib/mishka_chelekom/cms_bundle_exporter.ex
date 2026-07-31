@@ -34,6 +34,40 @@ defmodule MishkaChelekom.CmsBundleExporter do
   @type component_params :: map()
   @type js_hook :: %{required(String.t()) => term()}
 
+  @doc """
+  Rebuilds an atom-keyed map default from the `__atom_map__` envelope this module writes.
+
+  The encoder is `opt_value/1`: a map literal default such as `%{kind: :banner}` cannot be written
+  to JSON with its atoms intact, so it is emitted as
+  `%{"__atom_map__" => [[":kind", "banner"]]}` — every atom carrying a `:` sentinel — for the
+  consumer to rebuild at compile time.
+
+  That rebuild step is the half that gets forgotten, and the failure is silent until render: the
+  envelope itself reaches the component as the attribute's value, and the first thing that
+  interpolates it raises `String.Chars not implemented for Map`. It lives here, next to the encoder,
+  so the two cannot drift.
+
+  Anything that is not an envelope is returned unchanged, so this is safe to apply to every default.
+
+      iex> MishkaChelekom.CmsBundleExporter.decode_atom_map(%{"__atom_map__" => [[":kind", "banner"]]})
+      %{kind: "banner"}
+
+      iex> MishkaChelekom.CmsBundleExporter.decode_atom_map("plain")
+      "plain"
+
+  `String.to_atom/1` is used deliberately: the input is a kit bundle compiled into a release, not
+  anything a visitor can send.
+  """
+  @spec decode_atom_map(term()) :: term()
+  def decode_atom_map(%{"__atom_map__" => pairs}) when is_list(pairs),
+    do: Map.new(pairs, fn [key, value] -> {decode_term(key), decode_term(value)} end)
+
+  def decode_atom_map(value), do: value
+
+  defp decode_term(":" <> atom), do: String.to_atom(atom)
+  defp decode_term(list) when is_list(list), do: Enum.map(list, &decode_term/1)
+  defp decode_term(term), do: term
+
   @base_assigns %{
     module: "Sentinel.Component",
     web_module: Sentinel,
