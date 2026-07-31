@@ -175,6 +175,97 @@ defmodule MishkaMob.Components.MishkaAutocompleteTest do
              MishkaPillsInput.pills_input(%{}, pills())
   end
 
+  describe "the exact-match rule drops ONE suggestion, not the list" do
+    test "a longer completion survives the query that names a shorter one" do
+      # "Iran" is the answer for itself, but "Iranian Rial" is exactly what a
+      # user typing a prefix is still looking for. Blanking the whole list threw
+      # it away and then claimed there was nothing to suggest.
+      tree =
+        MishkaAutocomplete.autocomplete(
+          query: "Iran",
+          suggestions: ["Iran", "Iranian Rial"],
+          open: true
+        )
+
+      assert text(tree) =~ "Iranian Rial"
+      refute text(tree) =~ "No suggestions"
+    end
+
+    test "the exactly-named suggestion itself is gone" do
+      tree =
+        MishkaAutocomplete.autocomplete(
+          query: "Iran",
+          suggestions: ["Iran", "Iranian Rial"],
+          open: true
+        )
+
+      # The completion is offered and the word already in the field is not. An
+      # exact-text check, because "Iran" is a prefix of "Iranian Rial".
+      assert text(tree) =~ "Iranian Rial"
+      refute tree |> find_all(:text) |> Enum.any?(&(&1.props[:text] == "Iran"))
+    end
+
+    test "no panel at all when the exact match was the only thing left" do
+      # "No suggestions" is information when nothing matches what you typed, and
+      # a lie when the only match was dropped for already being the answer.
+      tree = MishkaAutocomplete.autocomplete(query: "Iran", suggestions: ["Iran"], open: true)
+
+      refute text(tree) =~ "No suggestions"
+    end
+
+    test "a query nothing matches still says so" do
+      tree = MishkaAutocomplete.autocomplete(query: "zzzz", suggestions: ["Iran"], open: true)
+
+      assert text(tree) =~ "No suggestions"
+    end
+
+    test "exact_match?/2 folds case and accents" do
+      assert MishkaAutocomplete.exact_match?("Iran", "iran")
+      assert MishkaAutocomplete.exact_match?("Café", "cafe")
+      refute MishkaAutocomplete.exact_match?("Ireland", "iran")
+      refute MishkaAutocomplete.exact_match?("Iran", "")
+    end
+  end
+
+  describe "props reach the combobox" do
+    test "id, on_focus and trigger are forwarded — the moduledoc used to deny id" do
+      tree =
+        MishkaAutocomplete.autocomplete(
+          id: "ac",
+          query: "Te",
+          suggestions: ["Tehran"],
+          open: true,
+          clear: true,
+          trigger: true,
+          on_focus: :focused
+        )
+
+      ids = tree |> find_all(:box) |> Enum.map(& &1.props[:id])
+
+      assert find(tree, :text_field).props.id == "ac-input"
+      assert find(tree, :text_field).props.on_focus == {self(), :focused}
+      assert "ac-on_clear" in ids
+      assert "ac-on_toggle" in ids
+    end
+  end
+
+  describe "the pills input's draft field" do
+    test "draws no box, so no rule crosses the control" do
+      field = find(MishkaPillsInput.pills_input(%{}, []), :text_field)
+
+      assert field.props.underline == false
+      assert field.props.background == :transparent
+    end
+
+    test "disabled actually disables it, not just its handler" do
+      field = find(MishkaPillsInput.pills_input(%{disabled: true}, []), :text_field)
+
+      # Withholding the handler stops the BEAM hearing about edits but leaves the
+      # field focusable and editable — it looks live and goes nowhere.
+      assert field.props.enabled == false
+    end
+  end
+
   test "every variant renders" do
     for props <- [
           %{},

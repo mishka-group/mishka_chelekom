@@ -112,6 +112,12 @@ defmodule MishkaMob.Components.MishkaPillsInput do
 </Column>)
   end
 
+  # The draft draws NO box of its own: the control around it is the box, and a
+  # Material text field with no border draws its indicator line instead — a
+  # stray rule across the middle of the control. `enabled` is what actually
+  # disables it, too; withholding the handler stops the BEAM hearing about edits
+  # but leaves the field focusable and editable, so it looks live and silently
+  # goes nowhere.
   defp draft(props, disabled?) do
     node = ~MOB"""
     <TextField
@@ -119,8 +125,9 @@ defmodule MishkaMob.Components.MishkaPillsInput do
       placeholder={Map.get(props, :placeholder, "")}
       return_key="done"
       fill_width={true}
-      background={:surface}
-      padding={:space_sm}
+      background={:transparent}
+      enabled={not disabled?}
+      underline={false}
     />
     """
 

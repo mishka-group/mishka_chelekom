@@ -19,8 +19,12 @@ defmodule <%= @module %> do
   `on_select` therefore hands back the suggestion's label, which is what a
   free-text field needs.
 
-  Suggestions are also hidden once the query exactly matches one, since there is
-  nothing left to suggest.
+  Once the query names a suggestion exactly, that suggestion is dropped — there
+  is nothing left to suggest about it. Only that one: "Iran" still offers
+  "Iranian Rial", because a longer completion is exactly what a user typing a
+  prefix is looking for. If dropping it leaves nothing at all, the panel is not
+  drawn rather than being drawn empty: "No suggestions" is false when the reason
+  is that you already typed the answer.
 
   ## Props
 
@@ -35,9 +39,26 @@ defmodule <%= @module %> do
   | `empty_text` | string | `"No suggestions"` | Shown when nothing matches. |
   | `disabled` | boolean | `false` | Mutes and unwires. |
   | `on_query` / `on_select` / `on_clear` | event tags | — | Typing, choosing, clearing. |
+  | `on_focus` / `on_blur` | event tags | — | The field gained or lost focus. |
+  | `trigger` / `on_toggle` | boolean / event tag | — | An optional ▾ that opens and closes. |
+  | `id` | string | `nil` | Test tags for the field, the buttons and every suggestion. |
+
+  Every other prop the combobox takes is forwarded too — this component drops
+  only `:suggestions` and hands the rest straight over.
+
+  ## Opening and closing is the screen's
+
+  Exactly as for the combobox, and for the same reasons: tapping the field
+  reports `on_focus`, the first keystroke reports `on_query`, an optional ▾
+  reports `on_toggle`, and closing on a tap OUTSIDE needs an `on_tap` on the
+  container around the control — the panel renders in flow, so nothing covers
+  the page to catch that tap. Do not close on `on_blur`: choosing a suggestion
+  blurs the field too.
 
   Not ported: `name` / `required` / `readonly` (form plumbing), `auto_highlight`
-  (no focus ring), and `id` / `*_class`.
+  (there is no focus ring to highlight), `inline` (typing the completion into
+  the field ahead of the caret fights every mobile IME) and the `*_class` attrs.
+  `id` IS ported, as a test handle.
   """
 
   alias <%= @namespace %>.<%= @module_prefix_camel %>Combobox
@@ -96,25 +117,61 @@ defmodule <%= @module %> do
     folded != "" and Enum.any?(suggestions, &(<%= @module_prefix_camel %>Combobox.fold(&1) == folded))
   end
 
+  @doc """
+  Whether `suggestion` is exactly what the query already says.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>Autocomplete.exact_match?("Iran", "iran")
+      true
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>Autocomplete.exact_match?("Ireland", "iran")
+      false
+  """
+  @spec exact_match?(String.t(), String.t() | nil) :: boolean()
+  def exact_match?(suggestion, query) do
+    folded = <%= @module_prefix_camel %>Combobox.fold(query)
+    folded != "" and <%= @module_prefix_camel %>Combobox.fold(suggestion) == folded
+  end
+
   @doc "The autocomplete node."
   @spec <%= @component_prefix %>autocomplete(map() | keyword()) :: map()
   def <%= @component_prefix %>autocomplete(props \\ %{}) do
     props = Map.new(props)
     query = Map.get(props, :query, "")
     all = List.wrap(Map.get(props, :suggestions, []))
+    mode = Map.get(props, :filter, :starts_with)
+
+    # Drop ONLY the suggestion the query already names, not the whole list. It
+    # used to blank every option the moment the query matched one exactly, which
+    # hid longer completions — typing "Iran" threw away "Iranian Rial" — and
+    # left the panel showing "No suggestions", which was simply false.
+    remaining = Enum.reject(all, &exact_match?(&1, query))
 
     # Options carry the LABEL as their id, so choosing one hands the screen the
     # text to put in the field rather than an id it would have to look up.
     # The Combobox does the filtering, from the same query the field shows —
     # pre-filtering here and blanking its query would have emptied the field.
-    options =
-      if exact?(all, query), do: [], else: Enum.map(all, &<%= @module_prefix_camel %>Combobox.option(&1, &1))
+    options = Enum.map(remaining, &<%= @module_prefix_camel %>Combobox.option(&1, &1))
 
     props
     |> Map.drop([:suggestions])
-    |> Map.put(:filter, Map.get(props, :filter, :starts_with))
+    |> Map.put(:filter, mode)
+    |> Map.put(:open, open?(props, remaining, query, mode))
     |> Map.put_new(:placeholder, "Type to search…")
     |> Map.put_new(:empty_text, "No suggestions")
     |> <%= @module_prefix_camel %>Combobox.<%= @component_prefix %>combobox(options)
   end
+
+  # "No suggestions" is information when nothing matches what you typed. It is a
+  # lie when the only thing that matched was dropped for already being the
+  # answer, so that case renders no panel at all.
+  defp open?(props, remaining, query, mode) do
+    asked? = truthy?(Map.get(props, :open, false))
+
+    matches = remaining |> Enum.map(&{&1, &1}) |> <%= @module_prefix_camel %>Combobox.filter(query, mode: mode)
+
+    asked? and not (matches == [] and exact?(List.wrap(Map.get(props, :suggestions, [])), query))
+  end
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
 end
