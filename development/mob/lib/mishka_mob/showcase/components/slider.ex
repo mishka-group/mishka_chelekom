@@ -29,6 +29,8 @@ defmodule MishkaMob.Showcase.Components.Slider do
     |> Mob.Socket.assign(:sl_volume, 40)
     |> Mob.Socket.assign(:sl_stepped, 50)
     |> Mob.Socket.assign(:sl_rating, 3)
+    |> Mob.Socket.assign(:sl_range, [20, 60])
+    |> Mob.Socket.assign(:sl_vertical, 40)
   end
 
   @impl true
@@ -113,6 +115,69 @@ defmodule MishkaMob.Showcase.Components.Slider do
           </Column>
           """
         end
+      },
+      %Example{
+        title: "Range · two thumbs · min gap · push collision",
+        description:
+          "Pass values instead of value and you get two thumbs. The gap and " <>
+            "what happens when they meet are the screen's rules, applied with " <>
+            "resolve/3 — push carries the other thumb along, stop holds at the edge.",
+        code: ~S"""
+        <MishkaSlider values={@range} min={0} max={100} step={5} on_change={:range} />
+
+        # The pair comes back as "lo,hi" — one change channel, two numbers.
+        def handle_change(:range, reported, socket) do
+          case MishkaSlider.parse_range(reported) do
+            {lo, hi} ->
+              moved = if lo != hd(socket.assigns.range), do: :lo, else: :hi
+              {lo, hi} = MishkaSlider.resolve({lo, hi}, moved,
+                           min_gap: 5, collision: :push, min: 0, max: 100)
+              Mob.Socket.assign(socket, :range, [lo, hi])
+
+            :error ->
+              socket
+          end
+        end
+        """,
+        render: fn assigns ->
+          ~MOB"""
+          <Column fill_width={true}>
+            <MishkaSlider values={@sl_range} min={0} max={100} step={5} label="Price" on_change={:range} />
+            <Spacer size={6} />
+            <Text text={range_label(@sl_range)} text_size={:sm} text_color={:muted} />
+          </Column>
+          """
+        end
+      },
+      %Example{
+        title: "Vertical",
+        description:
+          "orientation={:vertical} turns the control a quarter turn. length sets " <>
+            "how long the track is, since a rotated slider cannot inherit a width.",
+        code: ~S"""
+        <MishkaSlider
+          value={@level}
+          orientation={:vertical}
+          length={180}
+          on_change={:level}
+        />
+        """,
+        render: fn assigns ->
+          ~MOB"""
+          <Row fill_width={true} align={:center}>
+            <MishkaSlider
+              value={@sl_vertical}
+              min={0}
+              max={100}
+              orientation={:vertical}
+              length={160}
+              on_change={:vertical}
+            />
+            <Spacer size={16} />
+            <Text text={"Level #{round(@sl_vertical)}"} text_size={:base} text_color={:on_surface} />
+          </Row>
+          """
+        end
       }
     ]
   end
@@ -173,6 +238,30 @@ defmodule MishkaMob.Showcase.Components.Slider do
   def handle_change(:stepped, v, socket),
     do: Mob.Socket.assign(socket, :sl_stepped, MishkaSlider.snap(v, step: 10))
 
+  def handle_change(:range, reported, socket) do
+    case MishkaSlider.parse_range(reported) do
+      {lo, hi} ->
+        [was_lo, _] = socket.assigns.sl_range
+        moved = if lo != was_lo, do: :lo, else: :hi
+
+        {lo, hi} =
+          MishkaSlider.resolve({lo, hi}, moved,
+            min_gap: 5,
+            collision: :push,
+            min: 0,
+            max: 100
+          )
+
+        Mob.Socket.assign(socket, :sl_range, [round(lo), round(hi)])
+
+      :error ->
+        socket
+    end
+  end
+
+  def handle_change(:vertical, v, socket),
+    do: Mob.Socket.assign(socket, :sl_vertical, MishkaSlider.snap(v, step: 1, min: 0, max: 100))
+
   def handle_change(:rating, v, socket),
     do: Mob.Socket.assign(socket, :sl_rating, MishkaSlider.snap(v, step: 1, min: 1, max: 5))
 
@@ -195,4 +284,5 @@ defmodule MishkaMob.Showcase.Components.Slider do
   end
 
   defp stars(n) when is_number(n), do: String.duplicate("★", round(n))
+  defp range_label([lo, hi]), do: "#{round(lo)} — #{round(hi)}  (gap kept at 5)"
 end

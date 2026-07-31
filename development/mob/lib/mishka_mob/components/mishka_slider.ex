@@ -3,21 +3,36 @@ defmodule MishkaMob.Components.MishkaSlider do
   Native Mob port of Mishka Chelekom's **headless Slider** — a draggable value
   along a range, wrapping Mob's native `Slider` widget.
 
-  ## Stepping is snapped by the screen, not the widget
+  ## Stepping is snapped by the widget
 
-  Mob's `Slider` bridge forwards `min`, `max`, `value`, `color` and `on_change`,
-  but **not** Compose's `steps`, so the native control is continuous. Rather
-  than pretend otherwise, `step` is honoured where the value actually settles —
-  in the screen — via `snap/2`:
+  `step` becomes Compose's `steps` (see `steps/3`), so the native control snaps
+  itself. It used to be snapped by the screen instead, which is why a stepped
+  slider jumped: the screen snapped the value and wrote it back, and the bridge
+  pulled the thumb to the snap point while the finger was still down.
 
       <MishkaSlider value={@volume} min={0} max={100} step={5} on_change={:volume} />
 
-      def handle_info({:change, :volume, raw}, socket) do
-        {:noreply, Mob.Socket.assign(socket, :volume, MishkaSlider.snap(raw, step: 5))}
-      end
+  `snap/2` is still here for a screen that clamps to rules of its own — the
+  widget can only snap to an even division of the range.
 
-  The thumb glides continuously under the finger and lands on a multiple of
-  `step`, which is what a stepped slider feels like anyway.
+  ## Range, and vertical
+
+  Pass `values` (a two-element list) instead of `value` for two thumbs. The pair
+  comes back as one `"lo,hi"` string, because the change channel carries a single
+  number otherwise — `parse_range/1` decodes it, and `resolve/3` applies the
+  minimum gap and the push-or-stop collision rule. Both are pure functions, so
+  they behave the same on every platform.
+
+  `orientation={:vertical}` turns the control a quarter turn; `length` sets how
+  long the track is, since a rotated slider cannot inherit a width.
+
+  > #### Range and vertical are Android-only for now {: .warning}
+  >
+  > SwiftUI ships neither a range slider nor a vertical one, so both had to be
+  > built — and they were built in the Android bridge, which lives in this repo.
+  > The iOS renderer is in the `mob` dependency and cannot be changed from here.
+  > On iOS a `values` slider falls back to a single thumb and `orientation` is
+  > ignored. See `development/mob/IOS_TODO.md` for what the iOS side needs.
 
   ## Props
 
@@ -26,6 +41,9 @@ defmodule MishkaMob.Components.MishkaSlider do
   | `value` | number | `min` | Current value. The widget is controlled — the screen owns it. |
   | `min` | number | `0` | Lower bound. |
   | `max` | number | `100` | Upper bound. |
+  | `values` | `[lo, hi]` | `nil` | Two thumbs. Overrides `value`. Android only. |
+  | `orientation` | `:horizontal` `:vertical` | `:horizontal` | Android only. |
+  | `length` | number | `160` | Track length when vertical. |
   | `label` | string | `nil` | Caption above the track. |
   | `show_value` | boolean | `false` | Render a readout beside the label. |
   | `value_text` | string | `nil` | Overrides the readout (default is the rounded value). |
@@ -81,6 +99,9 @@ defmodule MishkaMob.Components.MishkaSlider do
       ~MOB(<Slider min={min} max={max} value={value} />)
       |> put_prop(:color, Map.get(props, :color))
       |> put_prop(:steps, steps(Map.get(props, :step), min, max))
+      |> put_prop(:values, range_values(props))
+      |> put_prop(:orientation, orientation(props))
+      |> put_prop(:length, Map.get(props, :length))
       |> put_prop(:on_change, Event.handler(Map.get(props, :on_change)))
 
     case header(props, value) do
@@ -95,6 +116,85 @@ defmodule MishkaMob.Components.MishkaSlider do
           {track}
         </Column>
         """
+    end
+  end
+
+  @doc """
+  Clamp a dragged range so the thumbs keep `min_gap` between them.
+
+  `:push` carries the other thumb along; `:stop` holds the dragged one at the
+  boundary. `moved` says which thumb the finger has — the other is the one that
+  may be pushed.
+
+      iex> alias MishkaMob.Components.MishkaSlider
+      ...> MishkaSlider.resolve({40, 45}, :lo, min_gap: 10, collision: :push, min: 0, max: 100)
+      {40, 50}
+
+      iex> alias MishkaMob.Components.MishkaSlider
+      ...> MishkaSlider.resolve({40, 45}, :lo, min_gap: 10, collision: :stop, min: 0, max: 100)
+      {35, 45}
+  """
+  @spec resolve({number(), number()}, :lo | :hi, keyword()) :: {number(), number()}
+  def resolve({lo, hi}, moved, opts \\ []) do
+    gap = Keyword.get(opts, :min_gap, 0)
+    min = Keyword.get(opts, :min, 0)
+    max = Keyword.get(opts, :max, 100)
+    collision = Keyword.get(opts, :collision, :push)
+
+    lo = clamp(lo, min, max)
+    hi = clamp(hi, min, max)
+
+    cond do
+      hi - lo >= gap -> {lo, hi}
+      collision == :push and moved == :lo -> push_up(lo, gap, min, max)
+      collision == :push -> push_down(hi, gap, min, max)
+      moved == :lo -> {clamp(hi - gap, min, max), hi}
+      true -> {lo, clamp(lo + gap, min, max)}
+    end
+  end
+
+  defp push_up(lo, gap, min, max) do
+    if lo + gap > max, do: {clamp(max - gap, min, max), max}, else: {lo, lo + gap}
+  end
+
+  defp push_down(hi, gap, min, max) do
+    if hi - gap < min, do: {min, clamp(min + gap, min, max)}, else: {hi - gap, hi}
+  end
+
+  @doc """
+  Parse the `"lo,hi"` string a range slider reports back.
+
+      iex> MishkaMob.Components.MishkaSlider.parse_range("12.0,30.5")
+      {12.0, 30.5}
+
+      iex> MishkaMob.Components.MishkaSlider.parse_range("nonsense")
+      :error
+  """
+  @spec parse_range(String.t()) :: {float(), float()} | :error
+  def parse_range(reported) when is_binary(reported) do
+    with [a, b] <- String.split(reported, ",", parts: 2),
+         {lo, _} <- Float.parse(a),
+         {hi, _} <- Float.parse(b) do
+      {lo, hi}
+    else
+      _ -> :error
+    end
+  end
+
+  def parse_range(_reported), do: :error
+
+  defp range_values(props) do
+    case Map.get(props, :values) do
+      [lo, hi | _] when is_number(lo) and is_number(hi) -> [lo, hi]
+      _ -> nil
+    end
+  end
+
+  defp orientation(props) do
+    case Map.get(props, :orientation) do
+      :vertical -> "vertical"
+      "vertical" -> "vertical"
+      _ -> nil
     end
   end
 

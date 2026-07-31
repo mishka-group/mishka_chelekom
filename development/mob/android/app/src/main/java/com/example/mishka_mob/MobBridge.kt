@@ -100,6 +100,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -153,6 +154,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.RangeSlider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.NavigationBar
@@ -2596,10 +2598,49 @@ private fun MobToggle(node: MobNode, modifier: Modifier) {
 
 @Composable
 private fun MobSlider(node: MobNode, modifier: Modifier) {
+    val vertical = node.props["orientation"] as? String == "vertical"
+
+    // A vertical slider is a horizontal one turned a quarter turn. `rotate`
+    // transforms the drawing AND the pointer input, so the drag still tracks the
+    // finger; it does not change the measured bounds, so the rotated control is
+    // parked inside a Box that is as tall as the track is long.
+    if (vertical) {
+        val len = floatProp(node.props, "length") ?: 160f
+        Box(
+            modifier = modifier.height(len.dp).width(48.dp),
+            contentAlignment = Alignment.Center,
+        ) {
+            MobSliderBody(node, Modifier.width(len.dp).rotate(-90f))
+        }
+    } else {
+        MobSliderBody(node, modifier.fillMaxWidth())
+    }
+}
+
+@Composable
+private fun MobSliderBody(node: MobNode, modifier: Modifier) {
     val handle   = intProp(node.props, "on_change")
     val minVal   = floatProp(node.props, "min") ?: 0f
     val maxVal   = floatProp(node.props, "max") ?: 1f
     val color    = colorProp(node.props, "color")
+    // Compose snaps natively when `steps` is set, which is the only way a
+    // stepped slider feels right: without it the control is continuous, the
+    // screen snaps the value and writes it back, and the resync below then
+    // yanks the thumb to the snap point WHILE THE FINGER IS STILL DOWN. That
+    // is the jump. `steps` counts the positions BETWEEN the endpoints, so a
+    // 1..5 rating is 3, and 0 means continuous.
+    val steps = intProp(node.props, "steps")?.coerceAtLeast(0) ?: 0
+    val colors = if (color != Color.Unspecified)
+        SliderDefaults.colors(thumbColor = color, activeTrackColor = color)
+    else
+        SliderDefaults.colors()
+
+    val range = floatListProp(node.props, "values")
+    if (range != null) {
+        MobRangeSlider(node, modifier, range, minVal, maxVal, steps, colors, handle)
+        return
+    }
+
     // Same rule as MobTextField: a snapped or clamped value comes back equal to
     // the last one, so keying on it left the thumb resting where the finger let
     // go while the readout beside it showed the snapped number.
@@ -2613,14 +2654,6 @@ private fun MobSlider(node: MobNode, modifier: Modifier) {
         if (incomingVal != localVal) localVal = incomingVal
     }
 
-    // Compose snaps natively when `steps` is set, which is the only way a
-    // stepped slider feels right: without it the control is continuous, the
-    // screen snaps the value and writes it back, and the resync above then
-    // yanks the thumb to the snap point WHILE THE FINGER IS STILL DOWN. That
-    // is the jump. `steps` counts the positions BETWEEN the endpoints, so a
-    // 1..5 rating is 3, and 0 means continuous.
-    val steps = intProp(node.props, "steps")?.coerceAtLeast(0) ?: 0
-
     Slider(
         value         = localVal,
         onValueChange = { new ->
@@ -2629,12 +2662,58 @@ private fun MobSlider(node: MobNode, modifier: Modifier) {
         },
         valueRange    = minVal..maxVal,
         steps         = steps,
-        modifier      = modifier.fillMaxWidth(),
-        colors        = if (color != Color.Unspecified)
-            SliderDefaults.colors(thumbColor = color, activeTrackColor = color)
-        else
-            SliderDefaults.colors(),
+        modifier      = modifier,
+        colors        = colors,
     )
+}
+
+// Two thumbs. The pair travels as one `values` prop and comes back as one
+// `"lo,hi"` string, because the change channel carries a single float otherwise
+// — see nativeSendChangeStr. The screen owns the gap and collision rules; this
+// only reports where the thumbs were dragged to.
+@Composable
+private fun MobRangeSlider(
+    node: MobNode,
+    modifier: Modifier,
+    range: List<Float>,
+    minVal: Float,
+    maxVal: Float,
+    steps: Int,
+    colors: androidx.compose.material3.SliderColors,
+    handle: Int?,
+) {
+    val incoming = range[0]..range[1]
+    val epoch = LocalRenderEpoch.current
+    var local by remember { mutableStateOf(incoming) }
+    var seenEpoch by remember { mutableStateOf(-1) }
+
+    if (epoch != seenEpoch) {
+        seenEpoch = epoch
+        if (incoming != local) local = incoming
+    }
+
+    RangeSlider(
+        value         = local,
+        onValueChange = { next ->
+            local = next
+            handle?.let {
+                MobBridge.nativeSendChangeStr(it, "${next.start},${next.endInclusive}")
+            }
+        },
+        valueRange = minVal..maxVal,
+        steps      = steps,
+        modifier   = modifier,
+        colors     = colors,
+    )
+}
+
+private fun floatListProp(props: Map<String, Any?>, key: String): List<Float>? {
+    val raw = when (val v = props[key]) {
+        is List<*> -> v.mapNotNull { (it as? Number)?.toFloat() }
+        is JSONArray -> (0 until v.length()).mapNotNull { (v.get(it) as? Number)?.toFloat() }
+        else -> null
+    }
+    return raw?.takeIf { it.size >= 2 }?.let { listOf(it[0], it[1]) }
 }
 
 @Composable
