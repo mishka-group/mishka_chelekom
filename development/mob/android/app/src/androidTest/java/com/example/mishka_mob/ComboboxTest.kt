@@ -102,9 +102,23 @@ class ComboboxTest {
             compose.waitUntil(60_000) { showing(page) }
         }
 
-        // The BEAM outlives the Activity, so an earlier test's query survives.
+        // The BEAM outlives the Activity, so an earlier test's query and open
+        // state both survive. Reset the query and open each list through its own
+        // trigger — the examples now start CLOSED, like the web, rather than
+        // hardcoding open={true} and standing permanently expanded.
         typeInto("cb-one-input", "")
         typeInto("cb-food-input", "")
+
+        ensureOpen("cb-one", "ir")
+        ensureOpen("cb-food", "apple")
+    }
+
+    /** Open a list through its ▾ if it is not already showing [probe]. */
+    private fun ensureOpen(box: String, probe: String) {
+        if (!listed(box, probe)) {
+            tapTag("$box-on_toggle")
+            compose.waitUntil(10_000) { listed(box, probe) }
+        }
     }
 
     @Test
@@ -151,7 +165,9 @@ class ComboboxTest {
 
     @Test
     fun the_trigger_opens_and_closes_the_list() {
-        require(listed("cb-one", "ir")) { "the list did not start open" }
+        // @Before opened it through this same button, so getting here at all is
+        // half the assertion.
+        require(listed("cb-one", "ir")) { "the list is not open" }
 
         tapTag("cb-one-on_toggle")
         compose.waitUntil(10_000) { !listed("cb-one", "ir") }
@@ -164,6 +180,7 @@ class ComboboxTest {
     fun a_chosen_option_becomes_a_removable_chip() {
         compose.onNodeWithTag("cb-food-input").performScrollTo()
         compose.waitForIdle()
+
 
         // A chip is the only thing showing the selection while the list is open —
         // without it a multi-select is a guessing game.

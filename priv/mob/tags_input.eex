@@ -37,7 +37,7 @@ defmodule <%= @module %> do
   | `on_remove` | event tag (atom) | — | `{:tap, {tag, tag_string}}` from a token's ✕. |
   | `background` / `border_color` / `border_width` / `corner_radius` / `padding` | | | The control. |
   | `space` | number | `6` | Gap between tokens. |
-  | `wrap_chars` | number | `28` | Roughly how much text fits on one token row. |
+  | `wrap_chars` | number | `40` | Roughly how much text fits on one token row. |
   | `id` | string | `nil` | Tags the draft field and each token's ✕. |
 
   ## It ships no look of its own worth keeping
@@ -55,8 +55,12 @@ defmodule <%= @module %> do
   Neither renderer has a flow layout, and there is no text measurement on this
   side of the bridge, so a single `Row` of tokens simply runs off the edge once
   you have a few. Tags are packed greedily into rows using `wrap_chars` as a
-  character budget — an estimate, tuned so three short tags share a line the way
-  the web's do. Raise it for a wider control, lower it for a narrow one.
+  character budget — an estimate, calibrated against a real phone: a card's
+  usable width is about 349dp, a character at `:base` is about 8.5dp, and a
+  token's padding plus its ✕ costs about 36dp. That is roughly 40 characters a
+  row, counting each token as its length plus 4. It was 28, which broke "United
+  Kingdom" onto a line of its own with half the row empty beside it. Raise it
+  for a wider control, lower it for a narrow one.
 
   Not ported: `name` / `input_name` (form plumbing) and the `*_class` attrs.
   """
@@ -161,7 +165,7 @@ defmodule <%= @module %> do
 
   defp tokens(tags, props, disabled?) do
     space = Map.get(props, :space, 6)
-    budget = Map.get(props, :wrap_chars, 28)
+    budget = Map.get(props, :wrap_chars, 40)
 
     rows =
       tags

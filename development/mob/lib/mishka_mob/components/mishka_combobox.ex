@@ -168,10 +168,33 @@ defmodule MishkaMob.Components.MishkaCombobox do
   defp open?(props), do: truthy?(Map.get(props, :open, false))
 
   # One control holding the chips, the query field and the buttons — the web
-  # draws a single box and so does this. The chips sit ABOVE the field rather
-  # than beside it: a Row cannot wrap, and a chip row that runs off the edge
-  # hides the very selection it exists to show.
+  # draws a single box and so does this.
+  #
+  # The query field shares the LAST chip row when there is room for it, which is
+  # what makes the control read as one line of chips-then-input rather than a
+  # block of chips with a field stranded underneath. It only drops to a row of
+  # its own when the last chip row is already full.
   defp control(props, options, disabled?) do
+    budget = Map.get(props, :wrap_chars, 40)
+    {rows, used} = chip_rows(props, options, disabled?, budget)
+    field = field_row(props, disabled?)
+
+    lines =
+      case rows do
+        [] ->
+          [field]
+
+        rows ->
+          {init, [last]} = Enum.split(rows, -1)
+          # The field needs room for its placeholder plus the two buttons.
+          cost = String.length(Map.get(props, :placeholder, "Search…") || "") + 8
+
+          if used + cost <= budget,
+            do: init ++ [join(last, field)],
+            else: rows ++ [field]
+      end
+      |> Enum.intersperse(~MOB(<Spacer size={6} />))
+
     ~MOB"""
     <Box
       fill_width={true}
@@ -182,23 +205,34 @@ defmodule MishkaMob.Components.MishkaCombobox do
       border_width={Map.get(props, :border_width, 1)}
     >
       <Column fill_width={true}>
-        {chips(props, options, disabled?)}
-        <Row fill_width={true}>
-          <Box weight={1}>
-            {input(props, disabled?)}
-          </Box>
-          {button("✕", :on_clear, props, disabled?, truthy?(Map.get(props, :clear, false)))}
-          {button(if(open?(props), do: "▴", else: "▾"), :on_toggle, props, disabled?,
-             truthy?(Map.get(props, :trigger, false)))}
-        </Row>
+        {lines}
       </Column>
     </Box>
     """
   end
 
+  defp join(row, field), do: %{row | children: row.children ++ [field]}
+
+  # The query field plus the clear and trigger buttons, as one row.
+  defp field_row(props, disabled?) do
+    ~MOB"""
+    <Row fill_width={true}>
+      <Box weight={1}>
+        {input(props, disabled?)}
+      </Box>
+      {button("✕", :on_clear, props, disabled?, truthy?(Map.get(props, :clear, false)))}
+      {button(if(open?(props), do: "▴", else: "▾"), :on_toggle, props, disabled?,
+         truthy?(Map.get(props, :trigger, false)))}
+    </Row>
+    """
+  end
+
   # A chosen option is shown as a removable chip. Without this the selection is
   # invisible until you reopen the list, which is a guessing game.
-  defp chips(props, options, disabled?) do
+  #
+  # Returns the rows AND how much of the last row's budget they used, so the
+  # caller can decide whether the query field fits beside them.
+  defp chip_rows(props, options, disabled?, budget) do
     chosen = List.wrap(Map.get(props, :value))
 
     if truthy?(Map.get(props, :multiple, false)) and chosen != [] do
@@ -212,12 +246,11 @@ defmodule MishkaMob.Components.MishkaCombobox do
 
       # Reuse the tags input's packing rule rather than inventing a second one:
       # wrap the LABELS, then cut the {id, label} list to the same row lengths.
-      budget = Map.get(props, :wrap_chars, 28)
+      packed = labels |> Enum.map(&elem(&1, 1)) |> MishkaTagsInput.wrap(budget)
+      used = packed |> List.last([]) |> Enum.map(&(String.length(&1) + 4)) |> Enum.sum()
 
       rows =
-        labels
-        |> Enum.map(&elem(&1, 1))
-        |> MishkaTagsInput.wrap(budget)
+        packed
         |> Enum.map(&length/1)
         |> chunk_like(labels)
         |> Enum.map(fn row ->
@@ -232,16 +265,10 @@ defmodule MishkaMob.Components.MishkaCombobox do
           </Row>
           """
         end)
-        |> Enum.intersperse(~MOB(<Spacer size={6} />))
 
-      ~MOB"""
-      <Column fill_width={true}>
-        {rows}
-        <Spacer size={8} />
-      </Column>
-      """
+      {rows, used}
     else
-      ~MOB(<Column />)
+      {[], 0}
     end
   end
 

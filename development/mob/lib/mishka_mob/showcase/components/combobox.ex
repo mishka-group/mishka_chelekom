@@ -41,12 +41,13 @@ defmodule MishkaMob.Showcase.Components.Combobox do
     socket
     |> Mob.Socket.assign(:cb_query, "")
     |> Mob.Socket.assign(:cb_value, nil)
-    |> Mob.Socket.assign(:cb_multi, [])
+    |> Mob.Socket.assign(:cb_multi, [:uk, :de])
     |> Mob.Socket.assign(:cb_multi_query, "")
-    |> Mob.Socket.assign(:cb_open, true)
+    |> Mob.Socket.assign(:cb_open, false)
     |> Mob.Socket.assign(:cb_food, [:apple, :carrot])
+    |> Mob.Socket.assign(:cb_multi_open, false)
     |> Mob.Socket.assign(:cb_food_query, "")
-    |> Mob.Socket.assign(:cb_food_open, true)
+    |> Mob.Socket.assign(:cb_food_open, false)
     |> Mob.Socket.assign(:cb_created, [])
   end
 
@@ -97,7 +98,7 @@ defmodule MishkaMob.Showcase.Components.Combobox do
       %Example{
         title: "Multiple",
         description:
-          "Chosen options become removable chips inside the control, and the list stays open.",
+          "Chips share the line with the field, as on the web. ▾ opens the list; picking keeps it open.",
         code: ~S"""
         <MishkaCombobox multiple={true} value={@values} …>{options}</MishkaCombobox>
         """,
@@ -107,12 +108,14 @@ defmodule MishkaMob.Showcase.Components.Combobox do
             <MishkaCombobox
               query={@cb_multi_query}
               value={@cb_multi}
-              open={true}
+              open={@cb_multi_open}
               multiple={true}
+              trigger={true}
               placeholder="Pick several…"
               on_query={:cb_multi_query}
               on_select={:cb_multi_pick}
               on_remove={:cb_multi_remove}
+              on_toggle={:cb_multi_open}
               id="cb-multi"
             >
               {country_options()}
@@ -268,6 +271,7 @@ defmodule MishkaMob.Showcase.Components.Combobox do
 
   def handle(:cb_clear, socket), do: Mob.Socket.assign(socket, :cb_query, "")
   def handle(:cb_open, socket), do: flip(socket, :cb_open)
+  def handle(:cb_multi_open, socket), do: flip(socket, :cb_multi_open)
   def handle(:cb_food_open, socket), do: flip(socket, :cb_food_open)
   def handle(:cb_food_clear, socket), do: Mob.Socket.assign(socket, :cb_food_query, "")
 

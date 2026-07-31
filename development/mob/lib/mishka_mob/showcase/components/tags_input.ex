@@ -165,7 +165,7 @@ defmodule MishkaMob.Showcase.Components.TagsInput do
       %{
         name: "wrap_chars",
         type: "number",
-        default: "28",
+        default: "40",
         description: "Characters per token row. Nothing here can measure text."
       },
       %{
