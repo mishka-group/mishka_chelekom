@@ -33,10 +33,17 @@ defmodule <%= @module %> do
   | `on_select_all` | event tag (atom) | — | Sent as `{:tap, tag}` for the parent. |
   | `space` | number | `12` | Gap between rows. |
   | `color` / `size` | see Checkbox | — | Passed to every row. |
+  | `id` | string | `nil` | Prefix for each row's test tag. |
 
   Items are children built with `item/3`.
 
-  Not ported: `name` (form plumbing), `id` / `*_class`, and the
+  Given `id="langs"`, the `:otp` row's indicator is tagged `"langs-otp-checked"`
+  or `"langs-otp-empty"`, and the parent is `"langs-all-mixed"` when only some
+  children are selected. The mark is drawn rather than typed, so those tags are
+  the only thing a device test can read — see
+  `<%= @namespace %>.<%= @module_prefix_camel %>Checkbox`.
+
+  Not ported: `name` (form plumbing), the `*_class` attrs, and the
   `indicator_icon` slot — the tick and dash are drawn by the Checkbox.
   """
 
@@ -156,9 +163,17 @@ defmodule <%= @module %> do
       disabled: truthy?(Map.get(props, :disabled, false)) or item.disabled,
       on_toggle: item_tag(props, item.id),
       color: Map.get(props, :color, :primary),
-      size: Map.get(props, :size, 22)
+      size: Map.get(props, :size, 22),
+      id: row_id(Map.get(props, :id), item.id)
     )
   end
+
+  # `<group-id>-<item-id>` per row, which the Checkbox then suffixes with its
+  # state. The mark is drawn rather than typed, so a device test has no text to
+  # read and these tags are the only way to see which rows are ticked. Without a
+  # group id there is nothing to prefix with, and the rows stay untagged.
+  defp row_id(nil, _item_id), do: nil
+  defp row_id(group_id, item_id), do: "#{group_id}-#{item_id}"
 
   # The parent is an ordinary Checkbox whose mixed state is DERIVED from the
   # children — nothing about it is a special widget.
@@ -175,7 +190,8 @@ defmodule <%= @module %> do
           disabled: truthy?(Map.get(props, :disabled, false)),
           on_toggle: Map.get(props, :on_select_all),
           color: Map.get(props, :color, :primary),
-          size: Map.get(props, :size, 22)
+          size: Map.get(props, :size, 22),
+          id: row_id(Map.get(props, :id), "all")
         )
 
       ~MOB"""

@@ -126,6 +126,35 @@ defmodule MishkaMob.Components.MishkaCheckboxGroupTest do
     end
   end
 
+  describe "row test tags" do
+    # The tick and dash are DRAWN, so no row carries text saying whether it is
+    # ticked. These tags are the only thing a device test can read, and it needs
+    # to name ONE row, hence the composed prefix.
+    test "each row's indicator is tagged <group>-<item>-<state>" do
+      ids = build(%{id: "langs", value: [:a]}) |> find_all(:box) |> Enum.map(& &1.props[:id])
+
+      assert "langs-a-checked" in ids
+      assert "langs-b-empty" in ids
+      assert "langs-c-empty" in ids
+    end
+
+    test "the parent is tagged too, and reports its derived tristate" do
+      mixed = build(%{id: "langs", select_all: true, value: [:a]})
+      full = build(%{id: "langs", select_all: true, value: [:a, :b, :c]})
+      none = build(%{id: "langs", select_all: true, value: []})
+
+      assert "langs-all-mixed" in (mixed |> find_all(:box) |> Enum.map(& &1.props[:id]))
+      assert "langs-all-checked" in (full |> find_all(:box) |> Enum.map(& &1.props[:id]))
+      assert "langs-all-empty" in (none |> find_all(:box) |> Enum.map(& &1.props[:id]))
+    end
+
+    test "no group id leaves every row untagged rather than inventing one" do
+      ids = build(%{select_all: true, value: [:a]}) |> find_all(:box) |> Enum.map(& &1.props[:id])
+
+      assert Enum.all?(ids, &is_nil/1)
+    end
+  end
+
   test "the group label renders when given" do
     assert text(build(%{label: "LIBRARIES"})) =~ "LIBRARIES"
   end
