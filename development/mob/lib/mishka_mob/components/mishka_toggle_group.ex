@@ -28,13 +28,29 @@ defmodule MishkaMob.Components.MishkaToggleGroup do
   | `disabled` | boolean | `false` | Disables every item. |
   | `on_change` | event tag (atom) | — | Sent as `{:tap, {tag, item_id}}`. |
   | `orientation` | `:horizontal` `:vertical` | `:horizontal` | Layout axis. |
-  | `space` | number | `8` | Gap between items. |
-  | `color` / `text_color` | see Toggle | — | Passed to every item. |
+  | `space` | number | `8` | Gap between items. `0` joins them into a bar. |
+  | `fill_width` | boolean | `true` | The container's width, not the items'. |
+  | `id` | string | `nil` | Prefix for each item's test tag. |
 
-  Items are children built with `item/3`.
+  Every styling prop `MishkaMob.Components.MishkaToggle` takes — `color`,
+  `text_color`, `background`, `label_color`, `padding`, `corner_radius`,
+  `border_color`, `border_width`, `text_size` — is passed straight through to
+  each item, so the group is styled by styling its buttons. Nothing here has a
+  look of its own.
 
-  Not ported: `name`, `form` (form plumbing), `loop` (arrow-key focus) and
-  `id` / `*_class`.
+  Items are children built with `item/3`, carrying `id`, `label` and an optional
+  `disabled`.
+
+  ## Orientation decides whether an item hugs
+
+  Horizontally, each item must hug its label: an item that fills would take the
+  whole row and push its siblings off the screen. Stacked, filling is what makes
+  the buttons a uniform width instead of a ragged staircase, so a vertical group
+  passes `fill_width: true`. Row and Box disagree about this prop on iOS — see
+  the note in `MishkaMob.Components.MishkaToggle`.
+
+  Not ported: `name`, `form` (form plumbing), `loop` (arrow-key focus — there is
+  no focus ring to move) and the `*_class` attrs.
   """
 
   import Mob.Sigil
@@ -88,23 +104,36 @@ defmodule MishkaMob.Components.MishkaToggleGroup do
   def toggle_group(props \\ %{}, children \\ []) do
     props = Map.new(props)
     space = Map.get(props, :space, 8)
+    vertical? = Map.get(props, :orientation, :horizontal) == :vertical
 
     buttons =
       children
       |> Enum.filter(&match?(%{type: @item_type}, &1))
-      |> Enum.map(&button(&1.props, props))
-      |> Enum.intersperse(~MOB(<Spacer size={space} />))
+      |> Enum.map(&button(&1.props, props, vertical?))
+      |> gaps(space)
 
-    if Map.get(props, :orientation, :horizontal) == :vertical do
-      ~MOB(<Column fill_width={true}>
+    # The CONTAINER's own width, distinct from each item's. A group that fills
+    # cannot be wrapped in a hugging track: the track would stretch to the screen
+    # edge around three short buttons, which is what a segmented bar must not do.
+    fill? = truthy?(Map.get(props, :fill_width, true))
+
+    if vertical? do
+      ~MOB(<Column fill_width={fill?}>
   {buttons}
 </Column>)
     else
-      ~MOB(<Row fill_width={true}>
+      ~MOB(<Row fill_width={fill?}>
   {buttons}
 </Row>)
     end
   end
+
+  # space: 0 emits NO spacer rather than a zero-sized one. A Spacer whose size is
+  # 0 is not a 0pt gap on iOS — `fixedSize == 0` means "fill the available
+  # space", so the buttons would be flung apart instead of joined. Joining them
+  # into one segmented bar is exactly what space: 0 is for.
+  defp gaps(buttons, 0), do: buttons
+  defp gaps(buttons, space), do: Enum.intersperse(buttons, ~MOB(<Spacer size={space} />))
 
   @doc """
   Whether `id` is pressed for a given value, in either mode.
@@ -120,17 +149,42 @@ defmodule MishkaMob.Components.MishkaToggleGroup do
   def pressed?(value, id) when is_list(value), do: id in value
   def pressed?(value, id), do: value == id
 
-  defp button(item, props) do
-    MishkaToggle.toggle(
+  # Every styling prop the Toggle understands, forwarded untouched when the group
+  # was given one. Map.take rather than a Map.get per prop: the list is the
+  # Toggle's to grow, and a group that has to be edited for every new style prop
+  # silently falls behind the component it composes.
+  @styling [
+    :color,
+    :text_color,
+    :background,
+    :label_color,
+    :padding,
+    :corner_radius,
+    :border_color,
+    :border_width,
+    :text_size
+  ]
+
+  defp button(item, props, fill?) do
+    props
+    |> Map.take(@styling)
+    |> Map.merge(%{
       label: Map.get(item, :label),
       pressed: pressed?(Map.get(props, :value), Map.get(item, :id)),
       disabled:
         truthy?(Map.get(props, :disabled, false)) or truthy?(Map.get(item, :disabled, false)),
       on_change: item_tag(props, Map.get(item, :id)),
-      color: Map.get(props, :color, :primary),
-      text_color: Map.get(props, :text_color, :on_primary)
-    )
+      fill_width: fill?,
+      id: item_id(Map.get(props, :id), Map.get(item, :id))
+    })
+    |> MishkaToggle.toggle()
   end
+
+  # `<group-id>-<item-id>`, which the Toggle then suffixes with -pressed / -idle.
+  # A pressed button differs by fill colour alone, and colour is not in the
+  # accessibility tree, so these tags are all a device test has to read.
+  defp item_id(nil, _item_id), do: nil
+  defp item_id(group_id, item_id), do: "#{group_id}-#{item_id}"
 
   # Event.handler/2, not a hand-built {tag, id}: reached as a composite tag
   # this group's :on_change has ALREADY been widened to {screen_pid, tag}, and

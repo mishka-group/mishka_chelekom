@@ -95,6 +95,77 @@ defmodule MishkaMob.Components.MishkaToggleGroupTest do
 
       assert Enum.all?(buttons(tree), &(&1.props[:on_tap] == nil))
     end
+
+    test "horizontal items HUG; stacked items fill" do
+      # Side by side, an item that fills takes the whole row and pushes the rest
+      # off the screen. Stacked, filling is what makes the buttons a uniform
+      # width instead of a ragged staircase.
+      assert Enum.all?(buttons(build(%{})), &(&1.props.fill_width == false))
+      assert Enum.all?(buttons(build(%{orientation: :vertical})), &(&1.props.fill_width == true))
+    end
+
+    test "the container fills by default and can be told to hug" do
+      # Distinct from each ITEM's width. A group that fills cannot be wrapped in
+      # a hugging track: the track stretches to the screen edge around three
+      # short buttons, which is what a segmented bar must not do.
+      assert build(%{}).props.fill_width == true
+      assert build(%{fill_width: false}).props.fill_width == false
+      assert build(%{orientation: :vertical, fill_width: false}).props.fill_width == false
+    end
+
+    test "space: 0 emits NO spacer, rather than a zero-sized one" do
+      # A Spacer of size 0 is not a 0pt gap on iOS: fixedSize == 0 means "fill
+      # the available space", so the buttons would be flung apart instead of
+      # joined into one bar — which is the entire point of space: 0.
+      joined = build(%{space: 0})
+
+      assert Enum.filter(joined.children, &(&1.type == :spacer)) == []
+      assert length(buttons(joined)) == 3
+    end
+  end
+
+  describe "styling passes through to every item" do
+    test "the Toggle's visual props are forwarded untouched" do
+      button =
+        build(%{
+          value: :a,
+          padding: 14,
+          corner_radius: 2,
+          border_width: 0,
+          background: :background,
+          color: 0xFF7C3AED
+        })
+        |> buttons()
+        |> hd()
+
+      assert button.props.padding == 14
+      assert button.props.corner_radius == 2
+      assert button.props.border_width == 0
+      assert button.props.background == 0xFF7C3AED
+    end
+
+    test "an unstyled group leaves the Toggle's own defaults in place" do
+      button = build(%{}) |> buttons() |> hd()
+
+      assert button.props.corner_radius == :radius_md
+      assert button.props.border_width == 1
+    end
+  end
+
+  describe "item test tags" do
+    # A pressed button differs by fill colour alone, and colour is not in the
+    # accessibility tree — these tags are all a device test has to read.
+    test "each item is tagged <group>-<item>-<state>" do
+      ids = build(%{id: "align", value: :b}) |> buttons() |> Enum.map(& &1.props[:id])
+
+      assert ids == ["align-a-idle", "align-b-pressed", "align-c-idle"]
+    end
+
+    test "no group id leaves every item untagged" do
+      ids = build(%{value: :b}) |> buttons() |> Enum.map(& &1.props[:id])
+
+      assert Enum.all?(ids, &is_nil/1)
+    end
   end
 
   test "expand/3 reads item children and ignores anything else" do

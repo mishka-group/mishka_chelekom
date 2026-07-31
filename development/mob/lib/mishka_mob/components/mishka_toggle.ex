@@ -21,6 +21,14 @@ defmodule MishkaMob.Components.MishkaToggle do
   Beware the name: Mob's own `<Toggle>` tag is a **switch**, which is what
   `MishkaSwitch` wraps. This component deliberately does not use it.
 
+  ## Styling is the caller's, as on the web
+
+  The headless component ships no colours and no spacing — you style it with a
+  stylesheet. There is no stylesheet here, so every visual decision is a prop
+  instead, with defaults chosen only so an unstyled toggle is legible. Pass your
+  own to make it yours; the showcase does exactly that to build a segmented bar
+  out of nothing but these props.
+
   ## Props
 
   | Prop | Values | Default | Meaning |
@@ -29,11 +37,25 @@ defmodule MishkaMob.Components.MishkaToggle do
   | `pressed` | boolean | `false` | Whether it reads as pushed in. |
   | `disabled` | boolean | `false` | Wires no handler and mutes it. |
   | `on_change` | event tag (atom) | — | Sent as `{:tap, tag}`. |
-  | `color` | color token / ARGB int | `:primary` | Fill when pressed. |
-  | `text_color` | color token / ARGB int | `:on_primary` | Label colour when pressed. |
+  | `color` | color token / ARGB int | `:primary` | Fill **when pressed**. |
+  | `text_color` | color token / ARGB int | `:on_primary` | Label **when pressed**. |
+  | `background` | color token / ARGB int | `:surface_raised` | Fill when idle. |
+  | `label_color` | color token / ARGB int | `:on_surface` | Label when idle. |
+  | `padding` | spacing token / number | `:space_sm` | Inside the button. |
+  | `corner_radius` | radius token / number | `:radius_md` | Corner rounding. |
+  | `border_color` | color token / ARGB int | `:border` | Border. |
+  | `border_width` | number | `1` | `0` removes the border. |
+  | `text_size` | text token | `:base` | Label size. |
+  | `fill_width` | boolean | `false` | Span the parent instead of hugging. |
+  | `id` | string | `nil` | Test tag, suffixed `-pressed` / `-idle`. |
+
+  `fill_width` defaults to **false** because a Box with neither a width nor the
+  prop fills its parent — which rendered every toggle as one full-width slab and
+  made a row of them impossible. Set it to `true` deliberately, for a toggle that
+  really should span its container.
 
   Not ported: `name`, `value`, `unchecked_value`, `form` (HTML form plumbing)
-  and `id` / `*_class`.
+  and the `*_class` attrs.
   """
 
   import Mob.Sigil
@@ -55,29 +77,47 @@ defmodule MishkaMob.Components.MishkaToggle do
     pressed? = truthy?(Map.get(props, :pressed, false))
     disabled? = truthy?(Map.get(props, :disabled, false))
 
+    # fill_width: false is load-bearing. A Box given neither a width nor the
+    # prop FILLS its parent, so every toggle rendered as a full-width slab and a
+    # row of them was impossible — the same trap the chip fell into.
     node = ~MOB"""
     <Box
+      fill_width={truthy?(Map.get(props, :fill_width, false))}
       background={background(props, pressed?, disabled?)}
-      corner_radius={:radius_md}
-      padding={:space_sm}
-      border_color={:border}
-      border_width={1}
+      corner_radius={Map.get(props, :corner_radius, :radius_md)}
+      padding={Map.get(props, :padding, :space_sm)}
+      border_color={Map.get(props, :border_color, :border)}
+      border_width={Map.get(props, :border_width, 1)}
+      align={:center}
     >
       {body(props, content, pressed?, disabled?)}
     </Box>
     """
 
-    case handler(props, disabled?) do
-      nil -> node
-      tap -> %{node | props: Map.put(node.props, :on_tap, tap)}
-    end
+    node
+    |> tag_state(Map.get(props, :id), pressed?)
+    |> wire(handler(props, disabled?))
+  end
+
+  defp wire(node, nil), do: node
+  defp wire(node, tap), do: %{node | props: Map.put(node.props, :on_tap, tap)}
+
+  # A pressed toggle differs from an idle one by its FILL COLOUR alone. Colour is
+  # not in the accessibility tree, so nothing tells a device test which buttons
+  # are pressed — the state goes into the test tag instead, the same way the
+  # checkbox does it for its drawn mark.
+  defp tag_state(node, nil, _pressed?), do: node
+
+  defp tag_state(node, id, pressed?) do
+    state = if pressed?, do: "pressed", else: "idle"
+    %{node | props: Map.put(node.props, :id, "#{id}-#{state}")}
   end
 
   defp body(props, [], pressed?, disabled?) do
     ~MOB"""
     <Text
       text={Map.get(props, :label)}
-      text_size={:base}
+      text_size={Map.get(props, :text_size, :base)}
       text_color={text_color(props, pressed?, disabled?)}
     />
     """
@@ -87,15 +127,19 @@ defmodule MishkaMob.Components.MishkaToggle do
   {content}
 </Row>)
 
-  defp background(props, pressed?, disabled?) do
-    if pressed? and not disabled?, do: Map.get(props, :color, :primary), else: :surface_raised
-  end
+  # A disabled toggle that is PRESSED stays filled — greyed rather than accented,
+  # but filled. Falling back to the idle background would render "locked on" and
+  # "locked off" identically, so the user cannot see what they are locked into.
+  # The same rule the chip settled on, and what the web's disabled group shows.
+  defp background(_props, true, true), do: :muted
+  defp background(props, true, _disabled?), do: Map.get(props, :color, :primary)
+  defp background(props, _pressed?, _disabled?), do: Map.get(props, :background, :surface_raised)
 
   defp text_color(props, pressed?, disabled?) do
     cond do
-      disabled? -> :muted
       pressed? -> Map.get(props, :text_color, :on_primary)
-      true -> :on_surface
+      disabled? -> :muted
+      true -> Map.get(props, :label_color, :on_surface)
     end
   end
 
