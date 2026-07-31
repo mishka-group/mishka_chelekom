@@ -53,24 +53,33 @@ defmodule MishkaMob.Components.MishkaChip do
     checked? = truthy?(Map.get(props, :checked, false))
     disabled? = truthy?(Map.get(props, :disabled, false))
 
-    node = ~MOB"""
-    <Box
-      background={background(props, checked?, disabled?)}
-      corner_radius={:radius_pill}
-      padding={:space_sm}
-    >
-      <Text
-        text={Map.get(props, :label)}
-        text_size={:base}
-        text_color={text_color(props, checked?, disabled?)}
-      />
+    label = Map.get(props, :label)
+    ink = text_color(props, checked?, disabled?)
+    fill = background(props, checked?, disabled?)
+
+    # The Row is what makes a chip chip-SIZED. A Box with neither `width` nor
+    # `fill_width` fills its parent on BOTH platforms, so the pill stretched the
+    # whole row — one chip per line, full width. A Row hugs its content on both
+    # (Compose Row does not fill by default; an HStack hugs unless told to), and
+    # the Box inside then measures to the label. The radius stays on the Box
+    # because a Row's corner_radius is clipped only on Android.
+    pill = ~MOB"""
+    <Box fill_width={false} background={fill} corner_radius={:radius_pill} padding={:space_sm}>
+      <Text text={label} text_size={:base} text_color={ink} />
     </Box>
     """
 
-    case handler(props, disabled?) do
-      nil -> node
-      tap -> %{node | props: Map.put(node.props, :on_tap, tap)}
-    end
+    pill =
+      case handler(props, disabled?) do
+        nil -> pill
+        tap -> %{pill | props: Map.put(pill.props, :on_tap, tap)}
+      end
+
+    ~MOB"""
+    <Row>
+      {pill}
+    </Row>
+    """
   end
 
   defp background(props, checked?, disabled?) do

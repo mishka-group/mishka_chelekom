@@ -249,9 +249,12 @@ defmodule MishkaMob.GeneratedComponentsTest do
     test "handlers are widened, so a generated component's taps actually fire" do
       # The single easiest thing to break: a bare tag serialises as an ordinary
       # prop and the control renders perfectly and does nothing.
+      # The chip is a hugging Row around the pill, so the handler lives on the
+      # Box that is actually tappable.
       node = Generated.Live.Chip.chip(label: "Elixir", on_toggle: :pick)
+      pill = find(node, :box)
 
-      assert node.props.on_tap == {self(), :pick}
+      assert pill.props.on_tap == {self(), :pick}
     end
 
     test "a component that composes a sibling produces the sibling's markup" do

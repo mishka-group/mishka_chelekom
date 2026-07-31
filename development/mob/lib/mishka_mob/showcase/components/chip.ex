@@ -43,8 +43,15 @@ defmodule MishkaMob.Showcase.Components.Chip do
         code: ~S"""
         <MishkaChip label="Elixir" checked={:elixir in @tags} on_toggle={{:tag, :elixir}} />
 
-        # toggle membership
-        tags = if id in tags, do: List.delete(tags, id), else: [id | tags]
+        # The tag is COMPOSED with the chip's id, so one clause serves every chip.
+        # Note the shape: {:tag, id}, not a bare :tag — a bare atom would give you
+        # no way to tell which chip was tapped.
+        def handle({:tag, id}, socket) do
+          tags = socket.assigns.tags
+
+          next = if id in tags, do: List.delete(tags, id), else: [id | tags]
+          Mob.Socket.assign(socket, :tags, next)
+        end
         """,
         render: fn assigns ->
           ~MOB"""
@@ -62,8 +69,10 @@ defmodule MishkaMob.Showcase.Components.Chip do
         title: "Single select",
         description: "Radio chips: the handler replaces the selection.",
         code: ~S"""
-        # replace
-        size = id
+        # Single select replaces rather than toggles — there is no way to clear it,
+        # which is exactly what makes it a radio group and not a checkbox set.
+        def handle({:size, id}, socket),
+          do: Mob.Socket.assign(socket, :size, id)
         """,
         render: fn assigns ->
           ~MOB"""
