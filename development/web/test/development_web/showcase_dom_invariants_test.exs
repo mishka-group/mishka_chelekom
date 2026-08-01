@@ -9,11 +9,13 @@ defmodule DevelopmentWeb.ShowcaseDomInvariantsTest do
     * **Every bound form carries an `id`.** Without one LiveView cannot recover the form after a
       disconnect, and `Phoenix.LiveViewTest` warns on each render.
 
-  Both rules are collected in a single sweep: mounting ~130 LiveViews twice would sit close to
-  ExUnit's default per-test timeout on a loaded machine.
+  Both rules are collected in one pass over the *dead* render — the HTML the browser is served
+  before the socket connects, and the only render a plain `dispatch/5` can produce off the test
+  process, which is what lets the ~130 pages run concurrently. `live/2` refuses to run anywhere
+  but the test process, and a sequential connected sweep sat close to ExUnit's per-test timeout.
+  Connected-render behaviour for `file_field` is covered by `DevelopmentWeb.FileFieldExamplesTest`.
   """
   use DevelopmentWeb.ConnCase
-  import Phoenix.LiveViewTest
 
   alias DevelopmentWeb.Showcase.{Catalog, HeadlessCatalog}
 
@@ -25,9 +27,12 @@ defmodule DevelopmentWeb.ShowcaseDomInvariantsTest do
       ["/showcase", "/showcase/kit", "/showcase/headless", "/showcase/headless-baseui"]
   end
 
-  defp violations(conn, path) do
-    {:ok, _view, html} = live(conn, path)
-    doc = LazyHTML.from_document(html)
+  defp violations(path) do
+    conn =
+      Phoenix.ConnTest.build_conn()
+      |> Phoenix.ConnTest.dispatch(DevelopmentWeb.Endpoint, :get, path)
+
+    doc = conn |> Phoenix.ConnTest.html_response(200) |> LazyHTML.from_document()
 
     ids = doc |> LazyHTML.query("[id]") |> LazyHTML.attribute("id")
     forms = LazyHTML.query(doc, "form[phx-change], form[phx-submit]")
@@ -47,8 +52,14 @@ defmodule DevelopmentWeb.ShowcaseDomInvariantsTest do
     assert length(paths()) > 100
   end
 
-  test "every showcase page has unique ids and identifies its bound forms", %{conn: conn} do
-    found = paths() |> Enum.map(&violations(conn, &1)) |> Enum.reject(&is_nil/1)
+  test "every showcase page has unique ids and identifies its bound forms" do
+    found =
+      paths()
+      |> Task.async_stream(&violations/1,
+        max_concurrency: System.schedulers_online(),
+        timeout: 60_000
+      )
+      |> Enum.flat_map(fn {:ok, v} -> List.wrap(v) end)
 
     assert found == [],
            "DOM invariants broken:\n" <>
