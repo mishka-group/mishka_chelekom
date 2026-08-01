@@ -5,6 +5,13 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob.ComponentsTest do
   alias Mix.Tasks.Mishka.Ui.Gen.Mob.Kit, as: MobKit
   @moduletag :igniter
 
+  # The catalog size is DERIVED, not written down. It was hardcoded as 72 (and
+  # 74 with the kit modules), so every new component broke two assertions in a
+  # file that has nothing to do with it — and the failure named a number rather
+  # than the thing that changed.
+  @catalog Path.wildcard("priv/mob/*.exs") |> length()
+  @kit_modules 2
+
   setup do
     Application.ensure_all_started(:owl)
     MishkaChelekom.ComponentTestHelper.setup_config()
@@ -102,8 +109,8 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob.ComponentsTest do
 
       names = generated(igniter)
 
-      # 72 components plus the two vendored kit modules.
-      assert length(names) == 74
+      # Every component in priv/mob, plus the two vendored kit modules.
+      assert length(names) == @catalog + @kit_modules
       assert "drawer" in names
       assert "event" in names
     end
@@ -166,13 +173,13 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob.ComponentsTest do
       assert registry =~ "{:pill, Test.Components.Pill}"
     end
 
-    test "a whole-catalog run registers all 72, and no kit module" do
+    test "a whole-catalog run registers every component, and no kit module" do
       igniter = test_project_with_formatter() |> Igniter.compose_task(MobComponents, ["--yes"])
 
       registry = content(igniter, "lib/test/components.ex")
       tags = Regex.scan(~r/\{:(\w+), Test/, registry) |> Enum.map(&List.last/1)
 
-      assert length(tags) == 72
+      assert length(tags) == @catalog
       assert Enum.uniq(tags) == tags, "a tag was registered twice"
       refute "event" in tags
       refute "color" in tags
