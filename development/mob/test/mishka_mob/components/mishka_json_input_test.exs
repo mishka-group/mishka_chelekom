@@ -57,8 +57,13 @@ defmodule MishkaMob.Components.MishkaJsonInputTest do
     test "invalid text paints the border and shows the message" do
       tree = MishkaJsonInput.json_input(value: "{oops}")
 
-      assert find(tree, :text_field).props.border_color == :danger
-      assert find(tree, :text).props.text_color == :danger
+      # :error, not :danger. :danger was in no theme and no fallback palette, so
+      # it serialised as the string "danger": the border was not drawn at all
+      # (a border needs BOTH a colour and a width) and the message was not red
+      # on Android and fully transparent on iOS. These assertions passed anyway,
+      # because a token is only resolved on its way to the device.
+      assert find(tree, :text_field).props.border_color == :error
+      assert find(tree, :text).props.text_color == :error
     end
 
     test "valid and blank text are both left alone" do
@@ -74,7 +79,7 @@ defmodule MishkaMob.Components.MishkaJsonInputTest do
       forced = MishkaJsonInput.json_input(value: ~s({"a": 1}), invalid: true)
       suppressed = MishkaJsonInput.json_input(value: "{oops}", invalid: false)
 
-      assert find(forced, :text_field).props.border_color == :danger
+      assert find(forced, :text_field).props.border_color == :error
       assert find(suppressed, :text_field).props.border_color == :border
     end
 
@@ -85,7 +90,7 @@ defmodule MishkaMob.Components.MishkaJsonInputTest do
       assert text(custom) =~ "Check your braces"
       refute find(hidden, :text)
       # …but the border still marks it.
-      assert find(hidden, :text_field).props.border_color == :danger
+      assert find(hidden, :text_field).props.border_color == :error
     end
 
     test "reports keystrokes, and disabled reports nothing" do
@@ -94,6 +99,52 @@ defmodule MishkaMob.Components.MishkaJsonInputTest do
 
       assert live.props.on_change == {self(), :draft}
       refute Map.has_key?(dead.props, :on_change)
+    end
+
+    test "disabled actually disables it, rather than only going quiet" do
+      # Withholding the handler stops the BEAM hearing about edits but leaves
+      # the field focusable and editable: it accepts typing, shows a caret, and
+      # silently discards everything. `enabled` is what the platform reads.
+      dead = MishkaJsonInput.json_input(disabled: true) |> find(:text_field)
+      live = MishkaJsonInput.json_input() |> find(:text_field)
+
+      assert dead.props.enabled == false
+      assert live.props.enabled == true
+    end
+
+    test "the error colour is overridable, like every other colour here" do
+      tree = MishkaJsonInput.json_input(value: "{oops}", error_color: 0xFF00FF00)
+
+      assert find(tree, :text_field).props.border_color == 0xFF00FF00
+      assert find(tree, :text).props.text_color == 0xFF00FF00
+    end
+
+    test "id tags the field, so a device test can address it" do
+      assert MishkaJsonInput.json_input(id: "cfg")
+             |> find(:text_field)
+             |> get_in([Access.key(:props), :id]) ==
+               "cfg"
+
+      refute MishkaJsonInput.json_input()
+             |> find(:text_field)
+             |> Map.fetch!(:props)
+             |> Map.has_key?(:id)
+    end
+
+    test "forcing invalid on text that PARSES tints, but does not claim bad syntax" do
+      # The caller knows something the parser does not — a schema rejected it,
+      # the server said no. "Invalid JSON" would be a lie about the one thing
+      # this component actually checked.
+      forced = MishkaJsonInput.json_input(value: ~s({"a": 1}), invalid: true)
+
+      assert find(forced, :text_field).props.border_color == :error
+      refute find(forced, :text)
+
+      # With a message supplied, it says that instead.
+      told =
+        MishkaJsonInput.json_input(value: ~s({"a": 1}), invalid: true, error_text: "Rejected")
+
+      assert text(told) =~ "Rejected"
     end
   end
 

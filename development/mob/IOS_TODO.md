@@ -154,6 +154,24 @@ where Android now ellipsises.
 in the `.text` case. One line, and it makes the packing estimate's failure mode
 survivable on both platforms rather than one.
 
+## 10. `MobTextField` ignores `lines`, and styles itself instead of reading props
+
+`MobRootView.swift` — the text-field case renders a single-line field whatever
+`lines` says, and applies `.textFieldStyle(.roundedBorder)` rather than reading
+`background`, `border_color` or `border_width`. Android's `MobTextField` honours
+all four (`singleLine = !multiline` with `minLines`/`maxLines`, plus the colours
+through `TextFieldDefaults.colors`).
+
+Two consequences worth naming. `mishka_json_input` is a **textarea** — six rows
+by default — and on iOS it is a one-line box, so a JSON document is edited
+through a slit. And because the border props are inert there, a field that
+signals an error state by reddening its border shows nothing at all; only the
+message underneath survives.
+
+**Fix:** read `lines` (`axis: .vertical` with `lineLimit(n...n)` on iOS 16+), and
+honour `background` / `border_color` / `border_width` instead of the stock style
+— matching what `nodeModifier` already does on Android.
+
 ---
 
 ## Also worth knowing
