@@ -9,6 +9,9 @@ defmodule Mishka.GenComponentsTest do
   alias Mix.Tasks.Mishka.Ui.Gen.Components, as: Task
 
   @moduletag :mishka_cli
+  # Staging the whole catalog through Igniter runs well past ExUnit's 60s default on a
+  # loaded CI runner; the work is real, not a hang.
+  @moduletag timeout: 300_000
 
   setup do
     Application.ensure_all_started(:owl)

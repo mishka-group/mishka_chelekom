@@ -113,7 +113,10 @@ defmodule Development.MixProject do
         "deps.unlock --check-unused",
         "format --check-formatted",
         "deps.audit",
-        "hex.audit",
+        # Hex's own tasks live in an archive that is not on the code path once an alias is
+        # already running, so an inline "hex.audit" aborts the gate with "task could not be
+        # found". A nested `mix` resolves it the same way the shell does.
+        "cmd mix hex.audit",
         "credo --strict",
         "sobelow --config",
         "test --warnings-as-errors"
