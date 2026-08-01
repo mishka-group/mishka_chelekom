@@ -24,10 +24,20 @@ defmodule MishkaMob.Components.MishkaPillsInput do
   | `disabled` | boolean | `false` | Mutes and unwires. |
   | `on_draft` | event tag (atom) | — | `{:change, tag, text}` as the draft is typed. |
   | `on_add` | event tag (atom) | — | Fired on return. Carries NO text — commit your own draft. |
+  | `on_focus` / `on_blur` | event tags | — | The draft gained or lost focus. |
   | `space` | number | `6` | Gap between pills. |
   | `per_row` | number | `3` | Pills before wrapping to the next line. |
+  | `id` | string | `nil` | Test tag on the draft field. |
 
   Children are the pills.
+
+  ## Pair it with a suggestion list
+
+  A pills input owns no list, but a picker usually wants one: `on_focus` tells
+  the screen to open it, `on_draft` filters it, and each row's tap adds a pill —
+  or removes it, if that one is already picked. The Autocomplete page shows the
+  whole pattern, and the toggle-on-second-tap is what keeps a picker from
+  collecting the same recipient twice.
 
   ## Why `per_row` is a number and not a measurement
 
@@ -132,9 +142,15 @@ defmodule MishkaMob.Components.MishkaPillsInput do
     """
 
     node
+    |> tag(Map.get(props, :id))
     |> put(:on_change, handler(props, :on_draft, disabled?))
     |> put(:on_submit, handler(props, :on_add, disabled?))
+    |> put(:on_focus, handler(props, :on_focus, disabled?))
+    |> put(:on_blur, handler(props, :on_blur, disabled?))
   end
+
+  defp tag(node, nil), do: node
+  defp tag(node, id), do: %{node | props: Map.put(node.props, :id, "#{id}-draft")}
 
   defp put(node, _key, nil), do: node
   defp put(node, key, value), do: %{node | props: Map.put(node.props, key, value)}

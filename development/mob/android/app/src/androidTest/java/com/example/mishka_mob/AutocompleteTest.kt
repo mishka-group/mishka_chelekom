@@ -201,6 +201,62 @@ class AutocompleteTest {
     }
 
     @Test
+    fun the_pills_picker_adds_on_tap_and_removes_on_a_second_tap() {
+        compose.onNodeWithTag("ac-pills-draft").performScrollTo().performClick()
+        compose.waitForIdle()
+        compose.waitUntil(10_000) { tagged("ac-pick-Grace Hopper-idle") }
+
+        // Tapping a name adds it as a pill.
+        tapTag("ac-pick-Grace Hopper-idle")
+        compose.waitUntil(10_000) { tagged("ac-pick-Grace Hopper-selected") }
+
+        // Tapping the SAME name again removes it. One clause does both, which is
+        // also what makes a duplicate impossible rather than a rule enforced
+        // separately on each path and forgotten on one of them.
+        tapTag("ac-pick-Grace Hopper-selected")
+        compose.waitUntil(10_000) { tagged("ac-pick-Grace Hopper-idle") }
+    }
+
+    @Test
+    fun the_same_person_cannot_be_added_twice() {
+        compose.onNodeWithTag("ac-pills-draft").performScrollTo().performClick()
+        compose.waitForIdle()
+        compose.waitUntil(10_000) { tagged("ac-pick-Alan Turing-idle") }
+
+        tapTag("ac-pick-Alan Turing-idle")
+        compose.waitUntil(10_000) { tagged("ac-pick-Alan Turing-selected") }
+
+        // One pill, not two — count the pills carrying that exact label.
+        val pills = compose.onAllNodesWithText("Alan Turing", substring = false)
+            .fetchSemanticsNodes().size
+
+        tapTag("ac-pick-Alan Turing-selected")
+        compose.waitUntil(10_000) { tagged("ac-pick-Alan Turing-idle") }
+
+        tapTag("ac-pick-Alan Turing-idle")
+        compose.waitUntil(10_000) { tagged("ac-pick-Alan Turing-selected") }
+
+        require(
+            compose.onAllNodesWithText("Alan Turing", substring = false)
+                .fetchSemanticsNodes().size == pills
+        ) { "adding the same person again produced a second pill" }
+    }
+
+    @Test
+    fun typing_filters_the_pills_picker() {
+        compose.onNodeWithTag("ac-pills-draft").performScrollTo().performClick()
+        compose.waitForIdle()
+        compose.waitUntil(10_000) { tagged("ac-pick-Ada Lovelace-selected") }
+
+        typeInto("ac-pills-draft", "gra")
+
+        compose.waitUntil(10_000) { tagged("ac-pick-Grace Hopper-idle") }
+        require(!tagged("ac-pick-Alan Turing-idle")) { "the picker did not filter" }
+
+        typeInto("ac-pills-draft", "")
+    }
+
+    @Test
     fun the_page_renders_every_example_and_the_props_table() {
         for (heading in listOf(
             "Suggest as you type",

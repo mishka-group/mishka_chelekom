@@ -8,6 +8,7 @@ defmodule MishkaMob.Showcase.Components.Autocomplete do
   import Mob.Sigil
   import MishkaMob.Components.MishkaPill, only: [pill: 1]
 
+  alias MishkaMob.Components.{MishkaCombobox, MishkaMenu}
   alias MishkaMob.Showcase.Example
 
   @cities ["Tehran", "Toronto", "Tokyo", "Berlin", "Bergen", "Lisbon"]
@@ -33,7 +34,8 @@ defmodule MishkaMob.Showcase.Components.Autocomplete do
     |> Mob.Socket.assign(:ac_any, "")
     |> Mob.Socket.assign(:ac_any_open, false)
     |> Mob.Socket.assign(:ac_draft, "")
-    |> Mob.Socket.assign(:ac_recipients, ["ada", "grace"])
+    |> Mob.Socket.assign(:ac_recipients, ["Ada Lovelace"])
+    |> Mob.Socket.assign(:ac_pick_open, false)
   end
 
   @impl true
@@ -127,28 +129,47 @@ defmodule MishkaMob.Showcase.Components.Autocomplete do
         end
       },
       %Example{
-        title: "Pills input",
-        description: "The caller owns the pills — they can be anything, not just strings.",
+        title: "Pills input — a picker, not just a text box",
+        description:
+          "Tap the field for the list, type to filter, tap a name to add it. Tapping a name you already have removes it, so the same person cannot be added twice.",
         code: ~S"""
-        <MishkaPillsInput
-          draft={@draft}
-          on_draft={:typed}
-          on_add={:commit}
-        >{recipient_pills()}</MishkaPillsInput>
+        <MishkaPillsInput draft={@draft} on_draft={:typed} on_add={:commit} on_focus={:open}>
+          {pills(@chosen)}
+        </MishkaPillsInput>
+        {suggestions_menu(@chosen, @draft)}
+
+        # ONE clause does add and remove: a tap on a name you already have is a
+        # request to drop it, which is also what stops duplicates existing.
+        def handle_info({:tap, {:pick, name}}, socket) do
+          chosen = socket.assigns.chosen
+
+          next =
+            if name in chosen, do: List.delete(chosen, name), else: chosen ++ [name]
+
+          {:noreply, socket |> assign(:chosen, next) |> assign(:draft, "")}
+        end
         """,
         render: fn assigns ->
           ~MOB"""
-          <Column fill_width={true}>
+          <Column fill_width={true} on_tap={{self(), :ac_pick_close}}>
             <MishkaPillsInput
               draft={@ac_draft}
               placeholder="Add a recipient…"
               on_draft={:ac_draft}
               on_add={:ac_add}
+              on_focus={:ac_pick_focus}
+              id="ac-pills"
             >
               {recipient_pills(@ac_recipients)}
             </MishkaPillsInput>
+            {recipient_menu(@ac_recipients, @ac_draft, @ac_pick_open)}
             <Spacer size={10} />
-            <Text text="Press return to add; tap a ✕ to remove." text_size={:sm} text_color={:muted} />
+            <Text
+              text="A ✓ marks someone already added — tap them again to remove. Return still
+                    commits whatever you typed."
+              text_size={:sm}
+              text_color={:muted}
+            />
           </Column>
           """
         end
@@ -251,6 +272,21 @@ defmodule MishkaMob.Showcase.Components.Autocomplete do
   def handle({:ac_drop, id}, socket),
     do: Mob.Socket.assign(socket, :ac_recipients, List.delete(socket.assigns.ac_recipients, id))
 
+  def handle(:ac_pick_focus, socket), do: Mob.Socket.assign(socket, :ac_pick_open, true)
+  def handle(:ac_pick_close, socket), do: Mob.Socket.assign(socket, :ac_pick_open, false)
+
+  # ONE clause does add and remove. A tap on someone already added is a request
+  # to drop them — which is also what makes a duplicate impossible, rather than
+  # a rule enforced separately and forgotten on one of the two paths.
+  def handle({:ac_pick, name}, socket) do
+    chosen = socket.assigns.ac_recipients
+    next = if name in chosen, do: List.delete(chosen, name), else: chosen ++ [name]
+
+    socket
+    |> Mob.Socket.assign(:ac_recipients, next)
+    |> Mob.Socket.assign(:ac_draft, "")
+  end
+
   # A submit carries no payload, so the draft we already hold is what commits.
   def handle(:ac_add, socket) do
     draft = String.trim(socket.assigns.ac_draft)
@@ -277,7 +313,10 @@ defmodule MishkaMob.Showcase.Components.Autocomplete do
     socket |> Mob.Socket.assign(:ac_any, text) |> Mob.Socket.assign(:ac_any_open, true)
   end
 
-  def handle_change(:ac_draft, text, socket), do: Mob.Socket.assign(socket, :ac_draft, text)
+  def handle_change(:ac_draft, text, socket) do
+    socket |> Mob.Socket.assign(:ac_draft, text) |> Mob.Socket.assign(:ac_pick_open, true)
+  end
+
   def handle_change(_tag, _value, socket), do: socket
 
   defp cities, do: @cities
@@ -286,6 +325,47 @@ defmodule MishkaMob.Showcase.Components.Autocomplete do
     Enum.map(names, fn name ->
       pill(label: name, with_remove: true, on_remove: {:ac_drop, name})
     end)
+  end
+
+  @roster [
+    "Ada Lovelace",
+    "Grace Hopper",
+    "Alan Turing",
+    "Katherine Johnson",
+    "Barbara Liskov"
+  ]
+
+  # A pills input owns no list, so the picker's list is the screen's — built on
+  # the same Menu surface the combobox and select use, from the same filter.
+  # Everyone stays on the list, chosen or not: a ✓ says who is already in, and
+  # tapping them again is how you take them out.
+  defp recipient_menu(_chosen, _draft, false), do: %{type: :column, props: %{}, children: []}
+
+  defp recipient_menu(chosen, draft, true) do
+    matches =
+      @roster
+      |> Enum.map(&{&1, &1})
+      |> MishkaCombobox.filter(draft)
+
+    case matches do
+      [] ->
+        MishkaMenu.menu(%{open: true}, [
+          MishkaMenu.item(:__none__, "Nobody by that name", disabled: true)
+        ])
+
+      matches ->
+        items =
+          Enum.map(matches, fn {name, _} ->
+            picked? = name in chosen
+
+            MishkaMenu.item(name, name,
+              icon: if(picked?, do: "✓", else: nil),
+              test_id: "ac-pick-#{name}-#{if picked?, do: "selected", else: "idle"}"
+            )
+          end)
+
+        MishkaMenu.menu(%{open: true, on_select: :ac_pick}, items)
+    end
   end
 
   @impl true
