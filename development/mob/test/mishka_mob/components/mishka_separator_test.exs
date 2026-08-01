@@ -87,6 +87,41 @@ defmodule MishkaMob.Components.MishkaSeparatorTest do
     end
   end
 
+  describe "id" do
+    # A rule draws a line: no text, no state, nothing in the semantics tree. So
+    # `id` is the only thing that makes one addressable at all, and the only way
+    # to check the one thing a rule can get wrong — its geometry.
+    test "tags whichever node the variant actually renders" do
+      assert %{type: :divider, props: %{id: "r"}} = MishkaSeparator.separator(id: "r")
+
+      assert %{type: :box, props: %{id: "v"}} =
+               MishkaSeparator.separator(orientation: :vertical, id: "v")
+
+      assert %{type: :row, props: %{id: "l"}} = MishkaSeparator.separator(label: "or", id: "l")
+    end
+
+    test "a labelled rule tags both lines, so their widths can be compared" do
+      row = MishkaSeparator.separator(label: "or", id: "l")
+      lines = Enum.filter(row.children, &(&1.type == :divider))
+
+      assert Enum.map(lines, & &1.props.id) == ["l-line-start", "l-line-end"]
+      assert MishkaSeparator.line_ids("l") == {"l-line-start", "l-line-end"}
+
+      # Both still carry the weight that makes them share the leftover width —
+      # tagging them must not disturb the thing being measured.
+      assert Enum.all?(lines, &(&1.props.weight == 1))
+    end
+
+    test "no id, no tag — on the rule or on its lines" do
+      refute Map.has_key?(MishkaSeparator.separator().props, :id)
+
+      MishkaSeparator.separator(label: "or")
+      |> Map.fetch!(:children)
+      |> Enum.filter(&(&1.type == :divider))
+      |> Enum.each(&refute(Map.has_key?(&1.props, :id)))
+    end
+  end
+
   test "every variant renders" do
     for props <- [%{}, %{label: "or"}, %{orientation: :vertical}, %{color: :primary}] do
       assert_renderable(MishkaSeparator.separator(props))

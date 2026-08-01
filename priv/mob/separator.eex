@@ -44,17 +44,38 @@ defmodule <%= @module %> do
   | `color` | color token / ARGB int | `:border` | Rule colour. |
   | `thickness` | number | `1` | Rule thickness in dp/pt. |
   | `space` | number | `12` | Gap between the label and the lines. |
+  | `id` | string | `nil` | Test tag. The labelled variant also tags each line. |
 
   `decorative` from the web component is **not** ported: it only flips
   `role="separator"` to `role="none"` for screen readers in the DOM, and Mob
   exposes no such role on a divider.
 
+  ## A rule has nothing to assert on without an `id`
+
+  A separator draws a line: no text, no state, nothing in the semantics tree.
+  So `id` is not decoration here, it is the only way a device test can say
+  *which* rule it means — and the only way to check the one thing a rule can
+  get wrong, which is its geometry. The labelled variant additionally tags its
+  two flanking lines `<id>-line-start` and `<id>-line-end`, because "the label
+  sits centred between two equal lines" is a claim about their widths.
+
   ## Platform note
 
-  The label variant flexes its two lines with `weight`, which Android's Compose
-  layout implements and iOS's SwiftUI mapping does not (only a bare `Spacer()`
-  fills there) — so on iOS the flanking lines take their intrinsic width until
-  Mob grows `weight` support. The plain and vertical rules are portable.
+  **Only the plain rule is portable.** Both other variants are broken on iOS,
+  and the breakage is in the `mob` dependency rather than here — see
+  `IOS_TODO.md` items 11-13:
+
+    * the **vertical** rule renders 1pt wide and **0pt tall**, i.e. invisible.
+      It is a Box with a `width` and `fill_height`, and iOS's `MobBox` consults
+      `fillHeight` only in the branch it takes when there is *no* width;
+    * the **labelled** variant's flanking lines come out as 1x1pt ticks.
+      SwiftUI's `Divider()` draws along the axis of its container, so inside the
+      `Row` that centres the label it is a *vertical* hairline, then clamped to
+      `thickness` tall;
+    * `weight` is read nowhere in the iOS renderer, so the two lines cannot
+      share the leftover width there in any case.
+
+  Android is correct for all three.
   """
 
   import Mob.Sigil
@@ -79,32 +100,54 @@ defmodule <%= @module %> do
     color = Map.get(props, :color, :border)
     thickness = Map.get(props, :thickness, 1)
     label = Map.get(props, :label)
+    id = Map.get(props, :id)
 
     cond do
       Map.get(props, :orientation, :horizontal) == :vertical ->
-        ~MOB(<Box width={thickness} fill_height={true} background={color} />)
+        tag(~MOB(<Box width={thickness} fill_height={true} background={color} />), id)
 
       is_binary(label) and label != "" ->
-        labelled(label, color, thickness, Map.get(props, :space, 12))
+        labelled(label, color, thickness, Map.get(props, :space, 12), id)
 
       true ->
-        rule(color, thickness)
+        tag(rule(color, thickness), id)
     end
   end
+
+  @doc """
+  The test tags on a labelled separator's two flanking lines.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>Separator.line_ids("or")
+      {"or-line-start", "or-line-end"}
+  """
+  @spec line_ids(String.t()) :: {String.t(), String.t()}
+  def line_ids(id) when is_binary(id), do: {id <> "-line-start", id <> "-line-end"}
 
   defp rule(color, thickness), do: ~MOB(<Divider color={color} thickness={thickness} />)
 
   # line — label — line. The lines carry `weight` so they share the leftover
-  # width evenly around a label of any length.
-  defp labelled(label, color, thickness, space) do
+  # width evenly around a label of any length. Each is tagged separately: their
+  # widths are the only evidence that the label is actually centred, and a Row
+  # merges its children away from a tag query that does not ask for the
+  # unmerged tree.
+  defp labelled(label, color, thickness, space, id) do
+    {start_id, end_id} = if is_binary(id), do: line_ids(id), else: {nil, nil}
+
     ~MOB"""
     <Row fill_width={true}>
-      <Divider color={color} thickness={thickness} weight={1} />
+      {tag(rule_with_weight(color, thickness), start_id)}
       <Spacer size={space} />
       <Text text={label} text_size={:sm} text_color={:muted} />
       <Spacer size={space} />
-      <Divider color={color} thickness={thickness} weight={1} />
+      {tag(rule_with_weight(color, thickness), end_id)}
     </Row>
     """
+    |> tag(id)
   end
+
+  defp rule_with_weight(color, thickness),
+    do: ~MOB(<Divider color={color} thickness={thickness} weight={1} />)
+
+  defp tag(node, nil), do: node
+  defp tag(node, id), do: %{node | props: Map.put(node.props, :id, id)}
 end

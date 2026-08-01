@@ -108,7 +108,8 @@ defmodule MishkaMob.Showcase.Components.ScrollArea do
         name: "id",
         type: "string",
         default: "nil",
-        description: "Registers the scroller so Mob.Test.scroll_to/2 can address it."
+        description:
+          "Registers the scroller so it can be scrolled by id — see MishkaScroller.nudge/3."
       },
       %{
         name: "background",

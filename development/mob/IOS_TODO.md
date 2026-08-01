@@ -172,6 +172,102 @@ message underneath survives.
 honour `background` / `border_color` / `border_width` instead of the stock style
 — matching what `nodeModifier` already does on Android.
 
+## 11. `MobBox` ignores `fill_height` as soon as a `width` is set
+
+`MobRootView.swift` — `MobBox`'s first branch fires on `fixedWidth > 0` and
+passes `height: node.fixedHeight > 0 ? ... : nil`. `fillHeight` is consulted
+only in the *second* branch, the one taken when there is no width. So a Box with
+a width and `fill_height` and no explicit height measures **0pt tall**.
+
+This is the mirror image of item 1 and is **not** fixed by item 1's remedy.
+
+`mishka_separator`'s vertical rule is exactly that shape — `<Box width={thickness}
+fill_height={true} background={color} />` — so a vertical separator is 1pt wide,
+0pt tall, and therefore invisible on iOS. It is also childless, so there is no
+intrinsic height to fall back on. Android applies `fillMaxHeight()` before the
+width in `nodeModifier` and is correct.
+
+**Fix:** apply `maxHeight: .infinity` when `fillHeight` is set, inside the
+`fixedWidth > 0` branch too.
+
+## 12. `Divider` draws along its container's axis on iOS, so it is vertical inside a Row
+
+`MobRootView.swift` — the divider case is `Divider().frame(height: node.thickness)`.
+SwiftUI's `Divider()` is context-sensitive: a horizontal line inside a VStack, a
+**vertical** one inside an HStack. Android's `MobDivider` always uses Material3's
+`HorizontalDivider`.
+
+So any `<Divider>` inside a `<Row>` comes out as a vertical hairline and is then
+clamped by `.frame(height:)` to a `thickness`-tall tick — a 1x1pt dot at the
+default. `mishka_separator`'s labelled variant ("line — label — line") puts both
+of its rules in a Row, so on iOS the label is flanked by two dots.
+
+**Fix:** in the `.row` case, or on the divider itself, force the orientation —
+a `Rectangle().frame(height: thickness)` with `maxWidth: .infinity` behaves the
+same in both stacks and does not depend on the container.
+
+## 13. `weight` is read nowhere in the iOS renderer
+
+Not partial support — absent. Every `weight` in `MobRootView.swift` is a *font*
+weight; the row case renders children with a bare `ForEach` and no per-child
+modifier. Android reads it in both `Row` and `Column`
+(`MobBridge.kt:2240-2244`).
+
+This is broader than one component. `Kit.props_table` weights its two columns
+2:1 and `Kit.component_card` weights its label — so **every showcase page** lays
+out differently on iOS, and every component that shares space by ratio (the
+separator's flanking lines, the segmented control's segments, number_field's
+body) falls back to intrinsic sizes.
+
+**Fix:** SwiftUI has no direct equivalent, but `.frame(maxWidth: .infinity)` on
+weighted children divides space evenly, and a `GeometryReader` + explicit widths
+handles unequal ratios. Even the even-split approximation would fix most callers.
+
+## 14. The scroll NIFs do not exist on an iOS release build
+
+`ios/mob_nif.m` — `scroll_info`, `scroll_to` and `element_frames` are inside
+`#if !MOB_RELEASE`, both their implementations and their entries in the NIF
+function table. On a release build the Erlang stub
+`scroll_to(_Id, _X, _Y) -> erlang:nif_error(not_loaded)` runs and **raises**,
+taking the calling screen process down.
+
+That matters now that this is not only a test path: `MishkaScroller.nudge/3`
+calls `:mob_nif.scroll_to/3` so a rail's arrows actually move it. It rescues and
+returns `:unsupported`, so the arrows are simply inert there rather than fatal —
+but "the arrows do nothing on iOS release" is a real gap, not a styling one.
+
+Android registers the NIF unconditionally (`jni/mob_nif.zig`) and
+`MobBridge.scrollTo` has no debug gate, so it works in every Android build.
+
+**Fix:** move scroll_info/scroll_to out of the debug-only block — reading and
+setting a scroll offset is not a debugging capability. `element_frames` can stay
+gated.
+
+## 15. `mob_nif.scroll_to/3` blocks a scheduler and is not dirty-flagged
+
+`MobBridge.scrollTo` launches on `Dispatchers.Main` then blocks on
+`latch.await(2, TimeUnit.SECONDS)`, and the NIF is registered with `.flags = 0`
+rather than `ERL_NIF_DIRTY_JOB_CPU_BOUND` (which `element_frames` alongside it
+does use). Fine for a harness driven over rpc; a screen handler calling it inline
+stalls a BEAM scheduler until the main thread services the coroutine.
+
+**Fix:** flag it dirty, like its neighbour.
+
+## 16. Android `scroll_info` reports width in the height fields for a horizontal rail
+
+Ours, not iOS's — `MobBridge.kt`'s `scrollInfo`. In the horizontal branch
+`viewportPx` holds the **width**, yet the JSON sets `content_h`, `viewport_w`
+*and* `viewport_h` from it. Only `offset_x` and `max_x` are trustworthy for a
+horizontal scroller.
+
+It also feeds a second bug upstream: `Mob.Test.scroll_to(node, id, {:page, n})`
+computes `{ox, n * vh}` — it always pages on Y — so `{:page, n}` is a silent
+no-op on any horizontal rail. `MishkaScroller.nudge/3` reads only the x-axis
+figures for this reason.
+
+**Fix:** set the height fields from the measured height (or 0) in the horizontal
+branch, and make `resolve_scroll_target/2` page along the scroller's own axis.
+
 ---
 
 ## Also worth knowing

@@ -7,14 +7,45 @@ defmodule MishkaMob.Components.MishkaScroller do
 
   The scrolling itself is `MishkaMob.Components.MishkaScrollArea` (Mob's native
   `Scroll`, which already has momentum and a scrollbar). What this adds is the
-  pair of buttons — and those cannot work from a render function alone: nudging
-  a scroller means calling `Mob.Test.scroll_to/2`-style APIs against a **live**
-  widget, which is a side effect the screen performs, not something a node tree
+  pair of buttons — and those cannot work from a render function alone: moving a
+  live widget is a side effect the screen performs, not something a node tree
   can express.
 
   So the port renders the rail and its controls, gives the scroller an `id` so
   it is addressable, and emits `on_prev` / `on_next` for the screen to act on.
-  Wiring an inert pair of arrows would have looked complete and done nothing.
+  `nudge/3` is the side effect those handlers should perform.
+
+  ## `nudge/3`, and why it is not simply wired up for you
+
+  A rail that scrolls when you swipe it but not when you press its own arrows is
+  the obvious failure here, and it is what this component shipped as: the arrows
+  emitted their tags and nothing moved them.
+
+  `nudge/3` closes that, by reading the rail's current offset and driving the
+  native scroll view to a new one:
+
+      def handle_info({:tap, :fwd}, socket) do
+        MishkaScroller.nudge("gallery", :next)
+        {:noreply, socket}
+      end
+
+  It is a **side effect, not an assign** — the offset lives in the native
+  widget, so there is nothing to put in the socket and nothing re-renders.
+
+  It stays opt-in because of what it costs. The underlying `:mob_nif.scroll_to/3`
+  is Mob's test-harness NIF, which means two things worth knowing before a
+  production screen calls it:
+
+    * **it does not exist on an iOS release build.** The implementation and its
+      entry in the NIF function table are inside `#if !MOB_RELEASE`, so the
+      Erlang stub raises `not_loaded` and takes the screen process down with it.
+      `nudge/3` therefore rescues and returns `:unsupported` rather than
+      crashing — a rail that does not nudge beats a screen that dies;
+    * **it blocks the calling scheduler** for up to two seconds while the main
+      thread services the scroll, and the NIF is not dirty-flagged.
+
+  Both belong upstream in `mob` (`IOS_TODO.md` items 14-15); until they land,
+  this is Android-complete and degrades quietly everywhere else.
 
   ## Props
 
@@ -58,15 +89,17 @@ defmodule MishkaMob.Components.MishkaScroller do
       )
 
     if truthy?(Map.get(props, :controls, true)) do
+      id = Map.get(props, :id)
+
       ~MOB"""
       <Column fill_width={true}>
         {rail}
         <Spacer size={Map.get(props, :space, 8)} />
         <Row fill_width={true}>
           <Spacer weight={1} />
-          {arrow("‹", Map.get(props, :on_prev))}
+          {tag(arrow("‹", Map.get(props, :on_prev)), suffix(id, "-prev"))}
           <Spacer size={8} />
-          {arrow("›", Map.get(props, :on_next))}
+          {tag(arrow("›", Map.get(props, :on_next)), suffix(id, "-next"))}
         </Row>
       </Column>
       """
@@ -74,6 +107,90 @@ defmodule MishkaMob.Components.MishkaScroller do
       rail
     end
   end
+
+  @doc """
+  The test tags on a scroller's two arrows, given the rail's `id`.
+
+  An arrow is a glyph in a box — no label, and the glyphs are punctuation a
+  text query has no business hunting for. These are the handles.
+
+      iex> MishkaMob.Components.MishkaScroller.arrow_ids("gallery")
+      {"gallery-prev", "gallery-next"}
+  """
+  @spec arrow_ids(String.t()) :: {String.t(), String.t()}
+  def arrow_ids(id) when is_binary(id), do: {id <> "-prev", id <> "-next"}
+
+  @doc """
+  Scroll a rail one step, by `id`. The side effect an `on_prev` / `on_next`
+  handler performs.
+
+  `direction` is `:prev` or `:next`. `step` defaults to 80% of the visible
+  width, so a nudge always leaves a sliver of the previous tile on screen —
+  paging by a full viewport loses the reader's place.
+
+  Returns `:ok`, `:unsupported` when the platform has no scroll NIF (an iOS
+  release build), or `{:error, reason}` when no rail is registered under `id`.
+
+      MishkaScroller.nudge("gallery", :next)
+      MishkaScroller.nudge("gallery", :prev, step: 120)
+  """
+  @spec nudge(String.t(), :prev | :next, keyword()) :: :ok | :unsupported | {:error, term()}
+  def nudge(id, direction, opts \\ []) when direction in [:prev, :next] do
+    with {:ok, offset, viewport, limit} <- rail_metrics(id) do
+      step = Keyword.get(opts, :step) || max(round(viewport * 0.8), 1)
+      delta = if direction == :next, do: step, else: -step
+
+      # The native side clamps too, but clamping here keeps `nudge/3` honest
+      # about what it did — and a negative x is not something to hand a NIF.
+      scroll(id, (offset + delta) |> max(0.0) |> min(limit))
+    end
+  end
+
+  # `scroll_info` reports a horizontal rail's extent in offset_x / max_x. Its
+  # *height* fields are unreliable for a horizontal scroller — Android puts the
+  # measured WIDTH in content_h and viewport_h (IOS_TODO item 16) — so only the
+  # x-axis figures are read here.
+  defp rail_metrics(id) do
+    case nif(:scroll_info, [to_string(id)]) do
+      json when is_binary(json) ->
+        m = :json.decode(json)
+        {:ok, num(m["offset_x"]), num(m["viewport_w"]), num(m["max_x"])}
+
+      :unsupported ->
+        :unsupported
+
+      other ->
+        {:error, other}
+    end
+  end
+
+  defp scroll(id, x) do
+    case nif(:scroll_to, [to_string(id), x * 1.0, 0.0]) do
+      true -> :ok
+      :ok -> :ok
+      :unsupported -> :unsupported
+      other -> {:error, other}
+    end
+  end
+
+  # The scroll NIFs are absent from iOS release builds, where the Erlang stub
+  # raises `not_loaded`. Rescuing keeps a pressed arrow from killing the screen.
+  defp nif(fun, args) do
+    apply(:mob_nif, fun, args)
+  rescue
+    _ -> :unsupported
+  catch
+    _, _ -> :unsupported
+  end
+
+  defp num(n) when is_number(n), do: n * 1.0
+  defp num(_), do: 0.0
+
+  defp suffix(nil, _), do: nil
+  defp suffix(id, s), do: id <> s
+
+  defp tag(node, nil), do: node
+  defp tag(node, id), do: %{node | props: Map.put(node.props, :id, id)}
 
   defp arrow(glyph, nil),
     do: MishkaActionIcon.action_icon(icon: glyph, variant: :filled, disabled: true)

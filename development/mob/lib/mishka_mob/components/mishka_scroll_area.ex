@@ -29,12 +29,27 @@ defmodule MishkaMob.Components.MishkaScrollArea do
   |------|--------|---------|---------|
   | `orientation` | `:vertical` `:horizontal` | `:vertical` | Scroll axis. |
   | `height` | number | `nil` | Viewport height. Required for a vertical scroller to scroll at all. |
-  | `id` | string | `nil` | Registers the scroller so `Mob.Test.scroll_to/2` can address it. |
+  | `id` | string | `nil` | Registers the scroller so it can be scrolled by id. |
   | `background` | color token / ARGB int | `nil` | Viewport fill. |
   | `padding` | spacing token / number | `nil` | Padding inside the viewport. |
   | `corner_radius` | radius token / number | `nil` | Rounds the viewport. |
 
   Not ported: the `*_class` attrs, which style a scrollbar the platform owns.
+
+  ## `height` is a no-op on iOS
+
+  The bound is a Box carrying `height` and `fill_width` but no `width`, and
+  iOS's `MobBox` applies `fixedHeight` only in the branch it takes when a width
+  IS set. So on iOS the viewport is unbounded and a vertical scroll area does
+  not scroll at all — which is exactly the failure the section above warns
+  about, except that there setting `height` fixes it and here it cannot.
+  `IOS_TODO.md` item 1 covers the underlying bug. Android honours the prop.
+
+  ## Scrolling it from a handler
+
+  An `id` registers the native scroll view so a screen can move it without a
+  finger — see `MishkaMob.Components.MishkaScroller.nudge/3`, which is what the
+  scroller's arrows call.
   """
 
   import Mob.Sigil

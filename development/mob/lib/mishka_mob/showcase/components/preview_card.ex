@@ -7,6 +7,7 @@ defmodule MishkaMob.Showcase.Components.PreviewCard do
 
   import Mob.Sigil
 
+  alias MishkaMob.Components.MishkaScroller
   alias MishkaMob.Showcase.Example
 
   @impl true
@@ -90,9 +91,24 @@ defmodule MishkaMob.Showcase.Components.PreviewCard do
       },
       %Example{
         title: "Scroller",
-        description: "A horizontal rail; the arrows emit events the screen acts on.",
+        description: "A horizontal rail. The arrows move it — press one instead of swiping.",
         code: ~S"""
-        <MishkaScroller id="gallery" on_prev={:back} on_next={:fwd}>{[rail()]}</MishkaScroller>
+        <MishkaScroller id="gallery" on_prev={:back} on_next={:fwd} height={76}>
+          {[rail()]}
+        </MishkaScroller>
+
+        # Scrolling is a side effect on a live widget, so there is no assign to
+        # set and nothing re-renders — nudge/3 reads the rail's current offset
+        # and drives the native scroll view to a new one.
+        def handle_info({:tap, :fwd}, socket) do
+          MishkaScroller.nudge("gallery", :next)
+          {:noreply, socket}
+        end
+
+        def handle_info({:tap, :back}, socket) do
+          MishkaScroller.nudge("gallery", :prev)
+          {:noreply, socket}
+        end
         """,
         render: fn assigns ->
           ~MOB"""
@@ -155,11 +171,19 @@ defmodule MishkaMob.Showcase.Components.PreviewCard do
   def handle(:pc_toggle, socket),
     do: Mob.Socket.assign(socket, :pc_open, not socket.assigns.pc_open)
 
-  def handle(:pc_prev, socket), do: bump(socket)
-  def handle(:pc_next, socket), do: bump(socket)
+  # The arrows move the rail. They used only to count their own taps, which
+  # looked wired up while the one thing this component exists for — pressing ‹
+  # or › instead of swiping — did nothing at all. `nudge/3` is the side effect;
+  # the counter stays, as the visible difference between "the arrow is dead"
+  # and "the rail is already at the end and cannot go further".
+  def handle(:pc_prev, socket), do: nudge_rail(:prev, socket)
+  def handle(:pc_next, socket), do: nudge_rail(:next, socket)
   def handle(_tag, socket), do: socket
 
-  defp bump(socket), do: Mob.Socket.assign(socket, :pc_nudges, socket.assigns.pc_nudges + 1)
+  defp nudge_rail(direction, socket) do
+    MishkaScroller.nudge("gallery", direction)
+    Mob.Socket.assign(socket, :pc_nudges, socket.assigns.pc_nudges + 1)
+  end
 
   defp follow do
     %{
@@ -191,6 +215,9 @@ defmodule MishkaMob.Showcase.Components.PreviewCard do
 
   defp gap, do: %{type: :spacer, props: %{size: 8}, children: []}
 
+  # Each tile is numbered. A scrolled rail does not move its own container —
+  # only its contents slide under it — so the tiles are the only thing whose
+  # position can witness a nudge, and a device test needs to name one.
   defp rail do
     tiles =
       Enum.flat_map(1..10, fn i ->
@@ -198,6 +225,7 @@ defmodule MishkaMob.Showcase.Components.PreviewCard do
           %{
             type: :box,
             props: %{
+              id: "gallery-tile-#{i}",
               width: 100,
               height: 60,
               background: if(rem(i, 2) == 0, do: :primary, else: :surface_raised),

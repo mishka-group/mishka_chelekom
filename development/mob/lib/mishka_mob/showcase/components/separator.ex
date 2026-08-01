@@ -41,7 +41,7 @@ defmodule MishkaMob.Showcase.Components.Separator do
           <Column fill_width={true}>
             <Text text="Section one" text_color={:on_surface} />
             <Spacer size={12} />
-            <MishkaSeparator />
+            <MishkaSeparator id="sep-plain" />
             <Spacer size={12} />
             <Text text="Section two" text_color={:on_surface} />
           </Column>
@@ -57,9 +57,9 @@ defmodule MishkaMob.Showcase.Components.Separator do
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaSeparator label="or continue with" />
+            <MishkaSeparator label="or continue with" id="sep-or" />
             <Spacer size={16} />
-            <MishkaSeparator label="1994" />
+            <MishkaSeparator label="1994" id="sep-year" />
           </Column>
           """
         end
@@ -73,11 +73,11 @@ defmodule MishkaMob.Showcase.Components.Separator do
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaSeparator color={0xFF7C3AED} thickness={3} />
+            <MishkaSeparator color={0xFF7C3AED} thickness={3} id="sep-thick" />
             <Spacer size={14} />
-            <MishkaSeparator color={:primary} thickness={2} />
+            <MishkaSeparator color={:primary} thickness={2} id="sep-primary" />
             <Spacer size={14} />
-            <MishkaSeparator color={:muted} label="muted + thick" thickness={2} />
+            <MishkaSeparator color={:muted} label="muted + thick" thickness={2} id="sep-muted" />
           </Column>
           """
         end
@@ -98,11 +98,11 @@ defmodule MishkaMob.Showcase.Components.Separator do
             <Row fill_width={true}>
               <Text text="Docs" text_color={:on_surface} />
               <Spacer size={12} />
-              <MishkaSeparator orientation={:vertical} />
+              <MishkaSeparator orientation={:vertical} id="sep-vert" />
               <Spacer size={12} />
               <Text text="Guides" text_color={:on_surface} />
               <Spacer size={12} />
-              <MishkaSeparator orientation={:vertical} color={:primary} thickness={2} />
+              <MishkaSeparator orientation={:vertical} color={:primary} thickness={2} id="sep-vert-thick" />
               <Spacer size={12} />
               <Text text="API" text_color={:on_surface} />
             </Row>
@@ -145,6 +145,12 @@ defmodule MishkaMob.Showcase.Components.Separator do
         type: "number",
         default: "12",
         description: "Gap between the label and the lines."
+      },
+      %{
+        name: "id",
+        type: "string",
+        default: "nil",
+        description: "Test tag. A labelled rule also tags each line <id>-line-start / -line-end."
       }
     ]
   end
