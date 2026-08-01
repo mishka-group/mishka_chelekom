@@ -42,8 +42,11 @@ defmodule <%= @module %> do
   | `creatable` | boolean | `false` | Offer "Create …" for a query that matches nothing. |
   | `on_create` | event tag (atom) | — | `{:tap, tag}` from that row. |
   | `on_remove` | event tag (atom) | — | `{:tap, {tag, id}}` from a chip's ✕. |
-  | `on_focus` | event tag (atom) | — | `{:focus, tag}` when the field is tapped. |
+  | `on_press` | event tag (atom) | — | `{:tap, tag}` on EVERY tap of the field. |
+  | `on_focus` | event tag (atom) | — | `{:focus, tag}` when the field GAINS focus. |
   | `on_blur` | event tag (atom) | — | `{:blur, tag}` when it loses focus. |
+  | `trigger_icon` | string or `{closed, open}` | `"▾"` / `"▴"` | The ▾'s glyph. |
+  | `clear_icon` | string | `"✕"` | The ✕'s glyph. |
   | `create_label` | string | `"Create"` | Prefix on the create row. |
   | `wrap_chars` | number | `34` | Characters per chip row. See the tags input. |
   | `id` | string | `nil` | Test tags for the input, chips, options and buttons. |
@@ -73,7 +76,11 @@ defmodule <%= @module %> do
   `open` lives in the screen, like every Mob overlay. The three ways a user
   expects to open a combobox map onto three events the component reports:
 
-    * tapping the field — `on_focus`,
+    * tapping the field — `on_press`, which fires on EVERY tap. `on_focus` is
+      an edge, so a field that already has focus reports nothing when tapped
+      again: close the list with the backdrop and the caret stays, and the
+      obvious way to reopen it does nothing. Use `on_press` for "open", and
+      keep `on_focus` for things that genuinely care about focus,
     * typing — `on_query`, which fires on the first keystroke,
     * the ▾ — `on_toggle`.
 
@@ -243,8 +250,9 @@ defmodule <%= @module %> do
       <Box weight={1}>
         {input(props, disabled?)}
       </Box>
-      {button("✕", :on_clear, props, disabled?, truthy?(Map.get(props, :clear, false)))}
-      {button(if(open?(props), do: "▴", else: "▾"), :on_toggle, props, disabled?,
+      {button(Map.get(props, :clear_icon, "✕"), :on_clear, props, disabled?,
+         truthy?(Map.get(props, :clear, false)))}
+      {button(trigger_icon(props), :on_toggle, props, disabled?,
          truthy?(Map.get(props, :trigger, false)))}
     </Row>
     """
@@ -333,12 +341,24 @@ defmodule <%= @module %> do
 
     node
     |> put(:on_change, handler(props, :on_query, disabled?))
+    |> put(:on_press, handler(props, :on_press, disabled?))
     |> put(:on_focus, handler(props, :on_focus, disabled?))
     |> put(:on_blur, handler(props, :on_blur, disabled?))
   end
 
   defp put(node, _key, nil), do: node
   defp put(node, key, value), do: %{node | props: Map.put(node.props, key, value)}
+
+  # The caret is a prop like everything else. `trigger_icon` may be one glyph
+  # used in both states, or a {closed, open} pair when the two should differ.
+  defp trigger_icon(props) do
+    case Map.get(props, :trigger_icon) do
+      nil -> if open?(props), do: "▴", else: "▾"
+      {closed, open} -> if open?(props), do: open, else: closed
+      [closed, open] -> if open?(props), do: open, else: closed
+      glyph -> glyph
+    end
+  end
 
   defp button(_glyph, _key, _props, _disabled?, false), do: ~MOB(<Row />)
 

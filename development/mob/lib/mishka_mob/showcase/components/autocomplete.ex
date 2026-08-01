@@ -52,7 +52,7 @@ defmodule MishkaMob.Showcase.Components.Autocomplete do
           open={@open?}
           on_query={:query}
           on_select={:choose}
-          on_focus={:focus}
+          on_press={:open}
         />
 
         # Typing opens it and is the value; the chosen suggestion IS the text.
@@ -64,8 +64,11 @@ defmodule MishkaMob.Showcase.Components.Autocomplete do
           {:noreply, socket |> assign(:query, text) |> assign(:open?, false)}
         end
 
-        # Tapping the field opens it; tapping the container around it closes.
-        def handle_info({:focus, :focus}, socket), do: {:noreply, assign(socket, :open?, true)}
+        # on_press, NOT on_focus: focus is an edge, so a field that already has
+        # the caret reports nothing when you tap it again — and closing the list
+        # does not take the caret away, so the obvious way to reopen it did
+        # nothing at all.
+        def handle_info({:tap, :open}, socket), do: {:noreply, assign(socket, :open?, true)}
         def handle_info({:tap, :close}, socket), do: {:noreply, assign(socket, :open?, false)}
         """,
         render: fn assigns ->
@@ -81,7 +84,7 @@ defmodule MishkaMob.Showcase.Components.Autocomplete do
               on_query={:ac_query}
               on_select={:ac_choose}
               on_clear={:ac_clear}
-              on_focus={:ac_focus}
+              on_press={:ac_focus}
               on_toggle={:ac_toggle}
               id="ac-city"
             />
@@ -115,7 +118,7 @@ defmodule MishkaMob.Showcase.Components.Autocomplete do
               placeholder="Matches anywhere…"
               on_query={:ac_any}
               on_select={:ac_any_choose}
-              on_focus={:ac_any_focus}
+              on_press={:ac_any_focus}
               id="ac-any"
             />
             <Spacer size={10} />
@@ -157,7 +160,7 @@ defmodule MishkaMob.Showcase.Components.Autocomplete do
               placeholder="Add a recipient…"
               on_draft={:ac_draft}
               on_add={:ac_add}
-              on_focus={:ac_pick_focus}
+              on_press={:ac_pick_focus}
               id="ac-pills"
             >
               {recipient_pills(@ac_recipients)}
@@ -211,10 +214,16 @@ defmodule MishkaMob.Showcase.Components.Autocomplete do
         description: "Whether the panel is shown. Lives in the screen."
       },
       %{
-        name: "on_focus / on_toggle / trigger",
+        name: "on_press / on_toggle / trigger",
         type: "event tags / boolean",
         default: "—",
-        description: "Tap the field to open, ▾ to toggle. Close with an on_tap on the container."
+        description: "on_press fires on EVERY tap of the field; on_focus only on the first."
+      },
+      %{
+        name: "trigger_icon / clear_icon",
+        type: "string or {closed, open}",
+        default: "▾ ▴ / ✕",
+        description: "The buttons' glyphs, for callers who want their own."
       },
       %{
         name: "clear / placeholder / empty_text / disabled",

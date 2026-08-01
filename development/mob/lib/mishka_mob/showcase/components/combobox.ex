@@ -85,7 +85,7 @@ defmodule MishkaMob.Showcase.Components.Combobox do
               on_select={:cb_pick}
               on_clear={:cb_clear}
               on_toggle={:cb_open}
-              on_focus={:cb_focus}
+              on_press={:cb_focus}
               id="cb-one"
             >
               {country_options()}
@@ -124,7 +124,7 @@ defmodule MishkaMob.Showcase.Components.Combobox do
               on_select={:cb_multi_pick}
               on_remove={:cb_multi_remove}
               on_toggle={:cb_multi_open}
-              on_focus={:cb_multi_focus}
+              on_press={:cb_multi_focus}
               id="cb-multi"
             >
               {country_options()}
@@ -165,7 +165,7 @@ defmodule MishkaMob.Showcase.Components.Combobox do
               on_remove={:cb_food_remove}
               on_clear={:cb_food_clear}
               on_toggle={:cb_food_open}
-              on_focus={:cb_food_focus}
+              on_press={:cb_food_focus}
               id="cb-food"
             >
               {food_options(@cb_created)}

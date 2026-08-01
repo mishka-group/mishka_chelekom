@@ -120,16 +120,35 @@ defmodule MishkaMob.Components.MishkaAutocompleteTest do
       assert find_all(tree, :row) == []
     end
 
-    test "pills wrap onto a new row every per_row" do
+    test "pills wrap by WIDTH, so short ones share a row and long ones do not" do
       # A single Row runs off the edge — Mob has no flow layout, and nothing
-      # clips or complains, so the seventh recipient simply vanished past the
-      # border. The tree was valid either way, which is why this is asserted.
-      tokens = for i <- 1..7, do: %{type: :text, props: %{text: "p#{i}"}, children: []}
+      # clips or complains, so a pill past the border simply vanished. It used
+      # to chunk by a fixed count of three, which is wrong the moment the pills
+      # are not all short: three long names were packed onto one row and the
+      # last was squeezed to a sliver.
+      short = for i <- 1..7, do: %{type: :text, props: %{text: "p#{i}"}, children: []}
 
-      assert row_widths(MishkaPillsInput.pills_input(%{}, tokens)) == [3, 3, 1]
+      long =
+        for name <- ["Ada Lovelace", "Grace Hopper", "Katherine Johnson"],
+            do: %{type: :text, props: %{text: name}, children: []}
+
+      # Seven two-character pills cost 7 each against a budget of 34 — four fit.
+      assert row_widths(MishkaPillsInput.pills_input(%{}, short)) == [4, 3]
+
+      # The three names that started this: 17 + 17 = 34 fits, the third does not.
+      assert row_widths(MishkaPillsInput.pills_input(%{}, long)) == [2, 1]
     end
 
-    test "per_row is a prop, and 0 does not divide the pills into nothing" do
+    test "a textless pill is costed, not treated as free" do
+      # An avatar or a swatch has no text to measure. Assuming "free" would pack
+      # an unbounded number onto one row. pack/2 directly, because row_widths
+      # counts Text children and these pills deliberately have none.
+      blank = for _ <- 1..5, do: %{type: :box, props: %{}, children: []}
+
+      assert length(MishkaPillsInput.pack(blank, 34)) > 1
+    end
+
+    test "per_row still takes over when a caller sets it, for uniform pills" do
       tokens = for i <- 1..4, do: %{type: :text, props: %{text: "p#{i}"}, children: []}
       widths = &row_widths(MishkaPillsInput.pills_input(%{per_row: &1}, tokens))
 

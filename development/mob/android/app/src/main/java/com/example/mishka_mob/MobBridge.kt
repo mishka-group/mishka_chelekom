@@ -41,6 +41,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.ui.geometry.Offset
@@ -2486,6 +2487,29 @@ private fun MobTextField(node: MobNode, modifier: Modifier) {
     // focusable — it looked live and quietly went nowhere.
     val enabled = boolProp(node.props, "enabled") ?: true
 
+    // `on_press` fires on EVERY tap of the field, focused or not.
+    //
+    // on_focus is not enough on its own, and the difference is the whole reason
+    // this exists: focus is an edge, so a field that already HAS focus reports
+    // nothing when you tap it again. A combobox closed by tapping its backdrop
+    // keeps the caret — so the next tap on the field, the obvious way to reopen
+    // the list, did nothing at all and the control could only be opened by its
+    // ▾. The user has to tap somewhere that steals focus first, which nobody
+    // would guess.
+    //
+    // Observed on the INITIAL pass and never consumed, so the field still places
+    // its own caret and shows its own keyboard exactly as before.
+    val pressHandle = intProp(node.props, "on_press")
+
+    val pressModifier =
+        if (pressHandle == null) Modifier
+        else Modifier.pointerInput(pressHandle) {
+            awaitEachGesture {
+                awaitFirstDown(requireUnconsumed = false, pass = PointerEventPass.Initial)
+                MobBridge.nativeSendTap(pressHandle)
+            }
+        }
+
     // Material's filled TextField draws an INDICATOR LINE under the text. When
     // the caller has already drawn a box of its own — border_color plus a
     // non-zero border_width, which nodeModifier turns into a rounded outline —
@@ -2573,6 +2597,7 @@ private fun MobTextField(node: MobNode, modifier: Modifier) {
         },
         placeholder   = { Text(placeholder) },
         modifier      = tfModifier
+            .then(pressModifier)
             .onFocusChanged { state ->
                 if (state.isFocused) {
                     // Focus arrives from the tap that positioned the caret, so

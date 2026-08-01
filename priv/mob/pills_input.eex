@@ -26,7 +26,8 @@ defmodule <%= @module %> do
   | `on_add` | event tag (atom) | — | Fired on return. Carries NO text — commit your own draft. |
   | `on_focus` / `on_blur` | event tags | — | The draft gained or lost focus. |
   | `space` | number | `6` | Gap between pills. |
-  | `per_row` | number | `3` | Pills before wrapping to the next line. |
+  | `wrap_chars` | number | `34` | Characters per pill row. |
+  | `per_row` | number | `nil` | A fixed count instead, when the pills are uniform. |
   | `id` | string | `nil` | Test tag on the draft field. |
 
   Children are the pills.
@@ -39,15 +40,23 @@ defmodule <%= @module %> do
   whole pattern, and the toggle-on-second-tap is what keeps a picker from
   collecting the same recipient twice.
 
-  ## Why `per_row` is a number and not a measurement
+  ## How the rows are packed
 
   Mob has no flow layout, and a `Row` runs off the edge rather than onto a second
-  line. Nor is any geometry reported back to `render/1`, so nothing here can ask
-  how many pills fit — the count has to be **declared**. Three is a reasonable
-  default for short tokens; raise it for narrow ones, lower it for long names.
+  line — silently, since nothing clips or complains. Nor is any geometry reported
+  back to `render/1`, so the packing is an estimate.
 
-  `<%= @namespace %>.<%= @module_prefix_camel %>OverflowList` takes a declared count for the same
-  reason.
+  It used to be a fixed count of three, which is wrong the moment the pills are
+  not all short: "Ada Lovelace", "Grace Hopper" and "Katherine Johnson" were
+  packed onto one row and the last was squeezed to a sliver. Pills are now packed
+  against `wrap_chars`, the same measured budget the tags input uses, costing
+  each pill by the **text inside it** — all this component can know, since the
+  pills are the caller's own nodes.
+
+  A pill with no text at all (an avatar, a colour swatch) is costed at a flat
+  allowance: something has to be assumed, and assuming "free" packs an unbounded
+  number onto one row. When the pills ARE uniform, `per_row` still takes over and
+  chunks by count, which is exactly right for that case.
 
   Not ported: `id` / `input_name` (form plumbing) and the `*_class` attrs.
   """
@@ -96,14 +105,20 @@ defmodule <%= @module %> do
 
   # One Row per chunk, stacked. A single Row would run off the edge as soon as
   # the pills outgrew the width — silently, since nothing clips or complains.
+  #
+  # Chunking by a fixed COUNT was the bug: three short pills fit a row and three
+  # long ones do not, so "Ada Lovelace / Grace Hopper / Katherine Johnson" packed
+  # all three and squeezed the last into a sliver. The budget is the same
+  # measured one the tags input uses, and each pill's cost is estimated from the
+  # text inside it — which is all this component can know, since the pills are
+  # the caller's nodes and may be avatars or swatches with no text at all.
   defp rows(pills, props) do
     space = Map.get(props, :space, 6)
-    per_row = max(Map.get(props, :per_row, 3), 1)
     gap = ~MOB(<Spacer size={space} />)
 
     lines =
       pills
-      |> Enum.chunk_every(per_row)
+      |> chunk(props)
       |> Enum.map(fn chunk ->
         spaced = Enum.intersperse(chunk, gap)
 
@@ -121,6 +136,69 @@ defmodule <%= @module %> do
   {lines}
 </Column>)
   end
+
+  # `per_row` still wins when a caller sets it — a fixed count is right when the
+  # pills are uniform, an avatar row say. Left unset, the width estimate decides.
+  defp chunk(pills, props) do
+    case Map.get(props, :per_row) do
+      nil -> pack(pills, Map.get(props, :wrap_chars, 34))
+      n -> Enum.chunk_every(pills, max(n, 1))
+    end
+  end
+
+  @doc """
+  Pack pills into rows against a character `budget`, costing each by the text it
+  contains.
+
+  A pill with no text at all — an avatar, a colour swatch — is costed as
+  `@textless_cost`, because something has to be assumed and assuming "free"
+  packs an unbounded number onto one row.
+
+      iex> alias <%= @namespace %>.<%= @module_prefix_camel %>PillsInput, as: P
+      ...> pill = fn label -> %{type: :text, props: %{text: label}, children: []} end
+      ...> P.pack([pill.("Ada Lovelace"), pill.("Grace Hopper")], 34) |> length()
+      1
+
+      iex> alias <%= @namespace %>.<%= @module_prefix_camel %>PillsInput, as: P
+      ...> pill = fn label -> %{type: :text, props: %{text: label}, children: []} end
+      ...> P.pack([pill.("Ada Lovelace"), pill.("Grace Hopper"), pill.("Katherine Johnson")], 34)
+      ...> |> length()
+      2
+  """
+  @spec pack([map()], pos_integer()) :: [[map()]]
+  def pack(pills, budget) do
+    pills
+    |> Enum.reduce([], fn pill, rows ->
+      cost = cost(pill)
+
+      case rows do
+        [{row, used} | rest] when used + cost <= budget -> [{[pill | row], used + cost} | rest]
+        rows -> [{[pill], cost} | rows]
+      end
+    end)
+    |> Enum.reverse()
+    |> Enum.map(fn {row, _used} -> Enum.reverse(row) end)
+  end
+
+  # Same allowance per pill as the tags input: its text plus 5 for padding, the
+  # ✕ and the gap to the next one.
+  @textless_cost 10
+
+  defp cost(pill) do
+    case text_of(pill) do
+      "" -> @textless_cost
+      text -> String.length(text) + 5
+    end
+  end
+
+  defp text_of(%{props: props, children: children}) do
+    own = Map.get(props, :text)
+    rest = children |> List.wrap() |> Enum.map_join(&text_of/1)
+
+    if is_binary(own), do: own <> rest, else: rest
+  end
+
+  defp text_of(_node), do: ""
 
   # The draft draws NO box of its own: the control around it is the box, and a
   # Material text field with no border draws its indicator line instead — a
