@@ -1,6 +1,23 @@
 # Changelog for MishkaChelekom 0.0.10
 
 ### Features:
+- The CMS bundle carries each attribute's own option list. A component's `args:` config already
+  enumerates what `variant`, `color`, `size`, `rounded` and `padding` accept, and the exporter threw
+  it away — a consumer had to recover the same lists from the `<%= if %>` gating around each helper
+  clause, which is lossy (alert's fourteen colours came back as eleven). The list is now written onto
+  the attribute as `opts.values`, where `attr :color, :string, values: [...]` would have put it, and
+  is skipped for the few attributes whose own default contradicts it (`default: ""`), because a
+  bundle whose components cannot be compiled is worse than one that says less about them. 23
+  attributes carried a value list before; 364 do now
+- The CMS bundle carries each component's `doc_url`, so a consumer can link to the page that explains
+  the component it is offering
+
+### Bug fixes:
+- A guarded helper clause keeps its discriminators. `Discriminators.extract_head/1` stripped the
+  `when` guard when building its lookup key while the exporter wrote that guard INTO the clause's
+  `args`, so the two signatures could never match and all 867 guarded clauses in the kit shipped with
+  an empty `discriminators` list — most of the option lists a consumer needs to build a picker
+
 - Add headless `Editor` component (TipTap 3 parity) — rich-text editing via an `Editor` JS engine (hook on an inner `phx-update="ignore"` surface, hidden textarea mirror so it submits as an ordinary form field, toolbar buttons wired by `data-editor-command`), with a Phoenix form demo
 - Add npm dependency support to the generators — a component can declare `npm:` in its catalog and `mix mishka.ui.gen.headless <name>` installs it (npm/bun/yarn auto-detected, falling back to the `{:bun, ...}` hex binary so no system Node is required), gitignores `assets/node_modules` and prepends the install to the `assets.setup`/`build`/`deploy` aliases so CI and Docker builds work. `--no-npm` skips the install; npm-backed components are excluded from `mix mishka.ui.gen.*.components` unless named explicitly or `--with-npm` is passed
 

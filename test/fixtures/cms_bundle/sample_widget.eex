@@ -1,0 +1,17 @@
+defmodule <%= @module %> do
+  use Phoenix.Component
+
+  @doc """
+  A component whose `rounded` default is the empty string — the shape that makes an
+  authoritative value list impossible to attach without breaking the compile.
+  """
+  attr :rounded, :string, default: ""
+  attr :size, :string, default: "small"
+  attr :rest, :global
+
+  def sample_widget(assigns) do
+    ~H"""
+    <div class={[@rounded, @size]} {@rest} />
+    """
+  end
+end

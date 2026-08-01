@@ -25,8 +25,16 @@ defmodule MishkaChelekom.CmsBundleExporterTest do
     button_eex = File.read!(Path.join(@fixture_dir, "sample_button.eex"))
     card_exs = File.read!(Path.join(@fixture_dir, "sample_card.exs"))
     card_eex = File.read!(Path.join(@fixture_dir, "sample_card.eex"))
+    widget_exs = File.read!(Path.join(@fixture_dir, "sample_widget.exs"))
+    widget_eex = File.read!(Path.join(@fixture_dir, "sample_widget.eex"))
 
-    {:ok, button_exs: button_exs, button_eex: button_eex, card_exs: card_exs, card_eex: card_eex}
+    {:ok,
+     button_exs: button_exs,
+     button_eex: button_eex,
+     card_exs: card_exs,
+     card_eex: card_eex,
+     widget_exs: widget_exs,
+     widget_eex: widget_eex}
   end
 
   defp by_name(components, name), do: Enum.find(components, &(&1["name"] == name))
@@ -255,6 +263,68 @@ defmodule MishkaChelekom.CmsBundleExporterTest do
     end
   end
 
+  ## ─── Declared option lists ─────────────────────────────────────────
+
+  describe "convert/5 — attribute values from the component config" do
+    # The config already says what each axis accepts. Throwing it away left the consumer to recover
+    # the same lists from the `<%= if %>` gating, which is lossy: alert's fourteen colours came back
+    # as eleven.
+    test "an axis in `args` becomes the attribute's own `values`", %{
+      button_exs: e,
+      button_eex: t
+    } do
+      {:ok, %{components: cps}} = CmsBundleExporter.convert(e, t, "kit", "1.0")
+      btn = by_name(cps, "kit-sample-button")
+
+      variant = Enum.find(btn["attrs"], &(&1["name"] == "variant"))
+      color = Enum.find(btn["attrs"], &(&1["name"] == "color"))
+
+      assert variant["opts"]["values"] == ["default", "outline"]
+      assert color["opts"]["values"] == ["primary", "danger"]
+    end
+
+    test "an attribute the config says nothing about keeps its opts unchanged", %{
+      button_exs: e,
+      button_eex: t
+    } do
+      {:ok, %{components: cps}} = CmsBundleExporter.convert(e, t, "kit", "1.0")
+      btn = by_name(cps, "kit-sample-button")
+
+      id = Enum.find(btn["attrs"], &(&1["name"] == "id"))
+
+      refute Map.has_key?(id["opts"], "values")
+    end
+
+    # `attr :rounded, :string, values: [...], default: ""` does not compile — Phoenix requires the
+    # default to be one of the values, and several components declare `""` to mean "unset" while
+    # their config lists only real sizes. A bundle whose components cannot be compiled is worse than
+    # one that says less about them.
+    test "a list that would contradict the attribute's own default is not attached", %{
+      widget_exs: e,
+      widget_eex: t
+    } do
+      {:ok, %{components: cps}} = CmsBundleExporter.convert(e, t, "kit", "1.0")
+      widget = by_name(cps, "kit-sample-widget")
+
+      rounded = Enum.find(widget["attrs"], &(&1["name"] == "rounded"))
+      size = Enum.find(widget["attrs"], &(&1["name"] == "size"))
+
+      refute Map.has_key?(rounded["opts"], "values")
+      # …while a sibling whose default IS in its list keeps it.
+      assert size["opts"]["values"] == ["small", "large"]
+    end
+
+    # `doc_url` and the category are the only human-facing identity the kit has, and the CMS bundle
+    # carried neither — a palette could not say what a component is for or link to its docs.
+    test "the component carries its docs URL and category", %{button_exs: e, button_eex: t} do
+      {:ok, %{components: cps}} = CmsBundleExporter.convert(e, t, "kit", "1.0")
+      btn = by_name(cps, "kit-sample-button")
+
+      assert btn["extra"]["doc_url"]
+      assert btn["type"] != ""
+    end
+  end
+
   ## ─── Discriminators ────────────────────────────────────────────────
 
   describe "convert/5 — discriminators" do
@@ -293,6 +363,28 @@ defmodule MishkaChelekom.CmsBundleExporterTest do
       color = Enum.find(cv["discriminators"], &(&1["axis"] == "color"))
       assert variant["values"] == ["default"]
       assert color["values"] == ["primary"]
+    end
+
+    # A clause with a `when` guard is indexed by a key that includes the guard, because that is what
+    # the exporter writes into the clause's `args`. Stripping it produced a key that could never
+    # match, and every guarded clause in the kit — 867 of them — shipped with no discriminators, so
+    # a consumer building a picker saw a free-text box where a six-value list exists.
+    test "a guarded clause keeps its discriminators", %{button_exs: e, button_eex: t} do
+      {:ok, %{components: cps}} = CmsBundleExporter.convert(e, t, "kit", "1.0")
+      btn = by_name(cps, "kit-sample-button")
+
+      guarded =
+        Enum.find(btn["helpers"], fn h ->
+          h["name"] == "color_variant" and String.contains?(h["args"] || "", "when")
+        end)
+
+      assert guarded, "the fixture should carry a guarded color_variant clause"
+
+      axes = guarded["discriminators"] |> Enum.map(& &1["axis"]) |> Enum.sort()
+      assert axes == ["color", "variant"]
+
+      variant = Enum.find(guarded["discriminators"], &(&1["axis"] == "variant"))
+      assert variant["values"] == ["bordered"]
     end
 
     test "catch-all + non-literal helpers get empty discriminators",

@@ -743,6 +743,61 @@ defmodule MishkaChelekom.CmsBundleExporter do
     }
   end
 
+  # The component's own config already lists what each axis accepts:
+  #
+  #     args: [variant: ["default", "outline", …], color: ["white", "base", …], …]
+  #
+  # …and until now the CMS bundle threw it away, leaving a consumer to recover the same lists from
+  # the `<%= if %>` gating around each helper clause. That recovery is lossy — alert's fourteen
+  # colours came back as eleven — so the authoritative list is written onto the attribute itself,
+  # where `attr :color, :string, values: […]` would have put it.
+  #
+  # An `.eex` that already declares `values:` wins: it is the more specific statement, and a few
+  # components legitimately accept less than the generator can produce.
+  defp put_declared_values(opts, attr_name, args) do
+    with nil <- Map.get(opts, "values"),
+         values when is_list(values) <- declared_values(args, attr_name),
+         true <- default_allowed?(opts, values) do
+      Map.put(opts, "values", values)
+    else
+      _keep -> opts
+    end
+  end
+
+  # `attr :rounded, :string, values: [...], default: ""` does not compile — Phoenix requires the
+  # default to be one of the values, and several components declare `""` to mean "unset" while their
+  # config lists only real sizes. The list is dropped for those rather than emitted, because a bundle
+  # whose components cannot be compiled is worse than one that says less about them.
+  defp default_allowed?(opts, values) do
+    case Map.fetch(opts, "default") do
+      {:ok, nil} -> true
+      {:ok, default} -> default in values
+      :error -> true
+    end
+  end
+
+  defp declared_values(args, attr_name) when is_list(args) do
+    key = safe_key(attr_name)
+
+    case key && Keyword.get(args, key) do
+      values when is_list(values) -> Enum.filter(values, &is_binary/1)
+      _none -> nil
+    end
+  end
+
+  defp declared_values(_args, _attr_name), do: nil
+
+  # `String.to_existing_atom/1` because the keys come from a component's own config, and a name that
+  # names no existing atom cannot be a key in it.
+  defp safe_key(name) when is_binary(name) do
+    String.to_existing_atom(name)
+  rescue
+    ArgumentError -> nil
+  end
+
+  defp safe_key(name) when is_atom(name), do: name
+  defp safe_key(_name), do: nil
+
   defp stringify_value(value)
        when is_binary(value) or is_number(value) or is_boolean(value) or is_nil(value),
        do: value
@@ -935,6 +990,8 @@ defmodule MishkaChelekom.CmsBundleExporter do
     |> Map.put(:__kit_name__, kit_name)
     |> Map.put(:__kit_version__, kit_version)
     |> Map.put(:__category__, config[:category])
+    |> Map.put(:__doc_url__, config[:doc_url])
+    |> Map.put(:__args__, config[:args] || [])
     |> Map.put(:__necessary__, config[:necessary] || [])
     |> Map.put(:__scripts__, config[:scripts] || [])
     |> Map.put_new(:__extra_clauses__, [])
@@ -1104,7 +1161,8 @@ defmodule MishkaChelekom.CmsBundleExporter do
 
     attrs =
       Enum.map(c.attrs, fn a ->
-        base = %{"name" => a.name, "type" => a.type, "opts" => stringify_keys(a.opts)}
+        opts = a.opts |> stringify_keys() |> put_declared_values(a.name, c.__args__)
+        base = %{"name" => a.name, "type" => a.type, "opts" => opts}
 
         if Map.has_key?(a, :struct_name),
           do: Map.put(base, "struct_name", a.struct_name),
@@ -1162,6 +1220,10 @@ defmodule MishkaChelekom.CmsBundleExporter do
         "prelude" => c.__prelude__,
         "module_attributes" => module_attributes,
         "clauses" => clauses_field,
+        # The component's own identity. `category` already ships as the top-level `type`; the docs
+        # URL had nowhere to go at all, so a consumer's palette could not link to the page that
+        # explains the component it is offering.
+        "doc_url" => c.__doc_url__,
         "doc_examples" => Map.get(c, :doc_examples, [])
       }
     }
