@@ -65,6 +65,7 @@
 - Fix `--cms` export shipping no examples for 53 of 136 components: the form components' docs pages were never vendored, nested-only components (`card_title`, `td`, `progress_section`…) were skipped by the extractor, and the literal-only filter discarded every snippet that referenced a demo assign (`pagination` harvested 111 examples and shipped 0)
 - Fix `DemoHarness` not passing `extra.clauses`, `extra.prelude` and `extra.module_attributes` to the component compiler, so every multi-clause component was compiled from its first clause only and guarded clauses were never exercised
 - Fix component compiler dropping multi-clause guards, which made all nine form-field components raise `FunctionClauseError` on render with their default `floating` value
+- Fix `file_field` dropzone never opening the file picker: `live_file_input/1` identifies its input by the upload ref and ignores a caller `id`, so the label's `for` resolved to nothing and the label lost its control entirely. The label now points at `@upload.ref`, the caller's `id` moves to the wrapper, and the previously undeclared `upload` attribute is declared [#496](https://github.com/mishka-group/mishka_chelekom/issues/496)
 
 # Changelog for MishkaChelekom 0.0.9
 

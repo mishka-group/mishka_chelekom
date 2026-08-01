@@ -34,6 +34,7 @@ defmodule DevelopmentWeb.Showcase.JsonInputFormDemo do
     ~H"""
     <div class="max-w-md">
       <.form
+        id={"#{@id}-form"}
         for={to_form(%{"json" => @value}, as: :json_demo)}
         phx-target={@myself}
         phx-submit="format"

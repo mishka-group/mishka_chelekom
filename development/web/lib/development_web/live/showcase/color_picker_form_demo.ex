@@ -31,6 +31,7 @@ defmodule DevelopmentWeb.Showcase.ColorPickerFormDemo do
     ~H"""
     <div>
       <.form
+        id={"#{@id}-form"}
         for={to_form(%{"color" => @color}, as: :picker_demo)}
         phx-target={@myself}
         phx-submit="save"

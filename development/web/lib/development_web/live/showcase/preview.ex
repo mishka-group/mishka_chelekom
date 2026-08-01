@@ -1519,7 +1519,7 @@ defmodule DevelopmentWeb.Showcase.Preview do
 
   def show(%{component: "file_field"} = assigns) do
     ~H"""
-    <.form for={@form} phx-change="validate" phx-submit="save" class="w-full">
+    <.form id={"#{@id}-form"} for={@form} phx-change="validate" phx-submit="save" class="w-full">
       <.file_field
         :if={@props[:dropzone]}
         target={:showcase_file}

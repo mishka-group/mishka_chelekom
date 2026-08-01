@@ -45,7 +45,7 @@ defmodule DevelopmentWeb.Showcase.OtpFormDemo do
   def render(assigns) do
     ~H"""
     <div>
-      <.form :let={f} for={@form} phx-target={@myself} phx-submit="verify">
+      <.form :let={f} id={"#{@id}-form"} for={@form} phx-target={@myself} phx-submit="verify">
         <.otp_field
           id={"#{@id}-code"}
           name={f[:code].name}

@@ -28,6 +28,7 @@ defmodule DevelopmentWeb.Showcase.MaskInputFormDemo do
     ~H"""
     <div class="max-w-md">
       <.form
+        id={"#{@id}-form"}
         for={to_form(%{}, as: :mask_demo)}
         phx-target={@myself}
         phx-submit="save"

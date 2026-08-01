@@ -32,6 +32,31 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
            max_entries: 3,
            max_file_size: 5_000_000
          )
+         |> allow_upload(:showcase_dropzone_file,
+           accept: ~w(.pdf .txt .md .zip),
+           max_entries: 3,
+           max_file_size: 5_000_000
+         )
+         |> allow_upload(:showcase_dropzone_image,
+           accept: ~w(.jpg .jpeg .png .gif .webp),
+           max_entries: 3,
+           max_file_size: 5_000_000
+         )
+         |> allow_upload(:showcase_live_file,
+           accept: ~w(.jpg .jpeg .png .gif .webp),
+           max_entries: 1,
+           max_file_size: 5_000_000
+         )
+         |> allow_upload(:showcase_form_a,
+           accept: ~w(.jpg .jpeg .png .gif .webp),
+           max_entries: 1,
+           max_file_size: 5_000_000
+         )
+         |> allow_upload(:showcase_form_b,
+           accept: ~w(.pdf .txt .md),
+           max_entries: 1,
+           max_file_size: 5_000_000
+         )
          |> assign(:component, component)
          |> assign(:prev, prev)
          |> assign(:next, next)
@@ -116,7 +141,10 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
   def handle_event("validate", _params, socket), do: {:noreply, socket}
 
   def handle_event("cancel-upload", %{"ref" => ref}, socket) do
-    {:noreply, cancel_upload(socket, :showcase_file, ref)}
+    case upload_owning(socket.assigns.uploads, ref) do
+      nil -> {:noreply, socket}
+      name -> {:noreply, cancel_upload(socket, name, ref)}
+    end
   end
 
   def handle_event("rating", %{"number" => n}, socket) do
@@ -124,6 +152,16 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
   end
 
   def handle_event(_event, _params, socket), do: {:noreply, socket}
+
+  defp upload_owning(uploads, ref) do
+    Enum.find_value(uploads, fn
+      {name, %Phoenix.LiveView.UploadConfig{entries: entries}} ->
+        Enum.any?(entries, &(&1.ref == ref)) && name
+
+      _other ->
+        nil
+    end)
+  end
 
   @impl true
   def render(assigns) do
@@ -222,7 +260,12 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
                     :if={MapSet.member?(@open_examples, s.id)}
                     class="px-4 pb-5 pt-1 bg-[var(--c-base-100)]/40"
                   >
-                    <.example mod={@examples_mod} section={s.id} />
+                    <.example
+                      mod={@examples_mod}
+                      section={s.id}
+                      form={@form}
+                      uploads={@uploads}
+                    />
                     <.example_code mod={@examples_mod} section={s.id} />
                   </div>
                 </div>
@@ -251,7 +294,12 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
               :if={@component.dims != [] or @component.flags != []}
               class="bg-[var(--c-base-100)] rounded-lg p-4 shadow-sm space-y-3"
             >
-              <form :if={@component.dims != []} phx-change="update" class="space-y-2">
+              <form
+                :if={@component.dims != []}
+                id="showcase-dims"
+                phx-change="update"
+                class="space-y-2"
+              >
                 <label :for={dim <- @component.dims} class="flex items-center justify-between gap-3">
                   <span class="text-sm capitalize text-[var(--c-base-content)]/70">
                     {String.replace(dim.key, "_", " ")}
@@ -288,6 +336,7 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
 
               <form
                 :if={@component.flags != []}
+                id="showcase-flags"
                 phx-change="update"
                 class="space-y-1.5 border-t border-[var(--c-base-300)] pt-3"
               >

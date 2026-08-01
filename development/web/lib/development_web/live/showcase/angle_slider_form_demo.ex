@@ -33,7 +33,12 @@ defmodule DevelopmentWeb.Showcase.AngleSliderFormDemo do
   def render(assigns) do
     ~H"""
     <div class="flex flex-wrap items-center gap-8">
-      <.form for={to_form(%{}, as: :angle_demo)} phx-target={@myself} phx-submit="save">
+      <.form
+        id={"#{@id}-form"}
+        for={to_form(%{}, as: :angle_demo)}
+        phx-target={@myself}
+        phx-submit="save"
+      >
         <.angle_slider
           id={"#{@id}-dial"}
           name="angle_demo[angle]"

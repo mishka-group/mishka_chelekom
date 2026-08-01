@@ -32,6 +32,7 @@ defmodule DevelopmentWeb.Showcase.SliderColorFormDemo do
     ~H"""
     <div class="max-w-xs">
       <.form
+        id={"#{@id}-form"}
         for={to_form(%{"v" => @value}, as: :slider_demo)}
         phx-target={@myself}
         phx-submit="save"

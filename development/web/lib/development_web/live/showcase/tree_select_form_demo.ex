@@ -76,7 +76,12 @@ defmodule DevelopmentWeb.Showcase.TreeSelectFormDemo do
   def render(assigns) do
     ~H"""
     <div class="max-w-sm space-y-3">
-      <.form for={to_form(%{}, as: :tree_demo)} phx-target={@myself} phx-submit="save">
+      <.form
+        id={"#{@id}-form"}
+        for={to_form(%{}, as: :tree_demo)}
+        phx-target={@myself}
+        phx-submit="save"
+      >
         <input type="hidden" name="tree_demo[node]" value={@value || ""} />
         <.tree_select
           id={"#{@id}-ts"}

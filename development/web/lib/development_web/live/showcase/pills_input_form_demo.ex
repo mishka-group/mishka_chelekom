@@ -34,7 +34,7 @@ defmodule DevelopmentWeb.Showcase.PillsInputFormDemo do
   def render(assigns) do
     ~H"""
     <div class="max-w-md">
-      <.form for={@form} phx-target={@myself} phx-submit="add">
+      <.form id={"#{@id}-form"} for={@form} phx-target={@myself} phx-submit="add">
         <.pills_input
           id={"#{@id}-pi"}
           input_name={@form[:email].name}
