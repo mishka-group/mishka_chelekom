@@ -28,6 +28,7 @@ mishka_chelekom-*.tar
 # Local
 .DS_Store
 /.zed/
+/.claude/launch.json
 .iex.exs
 /assets
 /config

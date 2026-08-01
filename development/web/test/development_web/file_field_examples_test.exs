@@ -14,6 +14,7 @@ defmodule DevelopmentWeb.FileFieldExamplesTest do
   use DevelopmentWeb.ConnCase
   import Phoenix.LiveViewTest
   alias DevelopmentWeb.Showcase.Examples.FileField
+  alias DevelopmentWeb.Showcase.FileFieldFormDemo.{Attachment, Upload}
 
   @path "/showcase/file_field"
 
@@ -145,6 +146,139 @@ defmodule DevelopmentWeb.FileFieldExamplesTest do
            "a form with phx-change/phx-submit is missing an id"
 
     assert Enum.all?(ids, &(&1 not in [nil, ""]))
+  end
+
+  describe "the Ecto form example" do
+    @form "#ex-file_field-attachment-form"
+
+    # `consume_uploaded_entries/3` crashes under LiveViewTest when more than one entry is in
+    # flight (the upload channels are linked, so consuming the first kills the rest) — so the
+    # submit path is asserted with a single file and the multi-file path stops at validation.
+    # Five concurrent uploads were verified end-to-end in a real browser.
+    defp open_ecto_form(conn) do
+      {:ok, view, _html} = live(conn, @path)
+      open(view, "ecto_form")
+      view
+    end
+
+    defp attach(view, specs) do
+      entries =
+        Enum.map(specs, fn {name, type, size} ->
+          %{name: name, type: type, content: :binary.copy(<<0>>, size)}
+        end)
+
+      input = file_input(view, @form, :showcase_attachment, entries)
+      for %{name: name} <- entries, do: render_upload(input, name)
+      view
+    end
+
+    test "reports the file's name, format, type and size back after submit", %{conn: conn} do
+      html =
+        conn
+        |> open_ecto_form()
+        |> attach([{"q3-hosting-invoice.pdf", "application/pdf", 1200}])
+        |> form(@form, attachment: %{title: "Q3 supplier paperwork", category: "invoice"})
+        |> render_submit()
+
+      result = ~s(#ex-file_field-attachment-result)
+
+      assert html |> query(~s(#{result} [data-part="saved-file"])) |> Enum.count() == 1
+
+      assert html |> query(~s(#{result} [data-part="filename"])) |> LazyHTML.text() =~
+               "q3-hosting-invoice.pdf"
+
+      assert html |> query(~s(#{result} [data-part="format"])) |> LazyHTML.text() =~ "pdf"
+
+      assert html |> query(~s(#{result} [data-part="content-type"])) |> LazyHTML.text() =~
+               "application/pdf"
+
+      assert html |> query(~s(#{result} [data-part="size"])) |> LazyHTML.text() =~ "KB"
+    end
+
+    test "accepts the full batch of files at once and validates each one", %{conn: conn} do
+      specs = [
+        {"q3-hosting-invoice.pdf", "application/pdf", 1200},
+        {"receipt-scan.png", "image/png", 450},
+        {"contract-signed.jpeg", "image/jpeg", 3000},
+        {"logo-final.webp", "image/webp", 150},
+        {"appendix.pdf", "application/pdf", 8800}
+      ]
+
+      assert length(specs) == Attachment.max_files()
+
+      html =
+        conn
+        |> open_ecto_form()
+        |> attach(specs)
+        |> form(@form, attachment: %{title: "Q3 supplier paperwork", category: "invoice"})
+        |> render_change()
+
+      # every file is listed in the dropzone, and none of them draws a changeset error
+      assert html |> query(~s(#{@form} .upload-item)) |> Enum.count() == length(specs)
+
+      for {name, _type, _size} <- specs do
+        assert html =~ name
+      end
+
+      refute html =~ "attach at least one file"
+      refute html =~ "unsupported file type"
+      refute html =~ "must be at most"
+    end
+
+    test "the changeset blocks a submit with no file and no title", %{conn: conn} do
+      html =
+        conn
+        |> open_ecto_form()
+        |> form(@form, attachment: %{title: "", category: ""})
+        |> render_submit()
+
+      assert html =~ "attach at least one file"
+      assert html =~ "can&#39;t be blank"
+      refute html |> query("#ex-file_field-attachment-result") |> Enum.any?()
+    end
+
+    test "an oversized file is refused by allow_upload before the changeset sees it", %{
+      conn: conn
+    } do
+      view = open_ecto_form(conn)
+
+      input =
+        file_input(view, @form, :showcase_attachment, [
+          %{
+            name: "huge-scan.pdf",
+            type: "application/pdf",
+            content: :binary.copy(<<0>>, Upload.max_bytes() + 1)
+          }
+        ])
+
+      assert {:error, [[_ref, :too_large]]} = render_upload(input, "huge-scan.pdf")
+    end
+
+    test "a wrong file type is refused by allow_upload", %{conn: conn} do
+      view = open_ecto_form(conn)
+
+      input =
+        file_input(view, @form, :showcase_attachment, [
+          %{name: "notes.txt", type: "text/plain", content: "nope"}
+        ])
+
+      assert {:error, [[_ref, :not_accepted]]} = render_upload(input, "notes.txt")
+    end
+
+    test "the category select keeps the chosen option across a re-render", %{conn: conn} do
+      html =
+        conn
+        |> open_ecto_form()
+        |> form(@form, attachment: %{title: "Q3", category: "contract"})
+        |> render_change()
+
+      selected =
+        html
+        |> query("#ex-file_field-attachment-category option[selected]")
+        |> LazyHTML.attribute("value")
+
+      assert selected == ["contract"]
+    end
   end
 
   defp fully_open_page(conn) do

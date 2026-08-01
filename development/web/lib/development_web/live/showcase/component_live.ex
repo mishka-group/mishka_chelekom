@@ -9,6 +9,7 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
 
   import DevelopmentWeb.Showcase.UI
   alias DevelopmentWeb.Showcase.{Catalog, Preview, Snippets, JsonMeta, ExampleSource, KitDemo}
+  alias DevelopmentWeb.Showcase.FileFieldFormDemo.{Attachment, Upload}
 
   @sample "Mishka Chelekom"
 
@@ -57,6 +58,15 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
            max_entries: 1,
            max_file_size: 5_000_000
          )
+         |> allow_upload(:showcase_attachment,
+           accept: Upload.extensions(),
+           max_entries: Attachment.max_files(),
+           max_file_size: Upload.max_bytes(),
+           auto_upload: true
+         )
+         |> assign(:attachment_form, attachment_form(%{}))
+         |> assign(:attachment_saved, nil)
+         |> assign(:attachment_busy, false)
          |> assign(:component, component)
          |> assign(:prev, prev)
          |> assign(:next, next)
@@ -151,7 +161,89 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
     {:noreply, assign(socket, :props, Map.put(socket.assigns.props, :select, n))}
   end
 
+  def handle_event("attachment_validate", %{"attachment" => params}, socket) do
+    {:noreply,
+     socket
+     |> assign(:attachment_form, attachment_form(params, socket, action: :validate))
+     |> assign(:attachment_saved, nil)
+     |> assign(:attachment_busy, false)}
+  end
+
+  def handle_event("attachment_save", %{"attachment" => params}, socket) do
+    if attachment_uploading?(socket) do
+      # `consume_uploaded_entries/3` raises while an entry is still in flight, and `auto_upload`
+      # means the user can reach the button before the last chunk lands.
+      {:noreply, assign(socket, attachment_busy: true, attachment_saved: nil)}
+    else
+      attachment_save(socket, params)
+    end
+  end
+
+  def handle_event("attachment_reset", _params, socket) do
+    socket =
+      Enum.reduce(socket.assigns.uploads.showcase_attachment.entries, socket, fn entry, acc ->
+        cancel_upload(acc, :showcase_attachment, entry.ref)
+      end)
+
+    {:noreply,
+     socket
+     |> assign(:attachment_form, attachment_form(%{}))
+     |> assign(:attachment_saved, nil)
+     |> assign(:attachment_busy, false)}
+  end
+
   def handle_event(_event, _params, socket), do: {:noreply, socket}
+
+  defp attachment_uploading?(socket) do
+    Enum.any?(socket.assigns.uploads.showcase_attachment.entries, &(not &1.done?))
+  end
+
+  defp attachment_save(socket, params) do
+    attrs = Map.merge(params, attachment_file_attrs(socket))
+
+    case %Attachment{} |> Attachment.changeset(attrs) |> Ecto.Changeset.apply_action(:insert) do
+      {:ok, data} ->
+        # Consume so the entry clears and LiveView removes its temp file. The bytes are read
+        # nowhere and written nowhere — only the metadata already validated above is kept.
+        consume_uploaded_entries(socket, :showcase_attachment, fn _meta, _entry -> {:ok, :ok} end)
+
+        {:noreply,
+         socket
+         |> assign(:attachment_saved, data)
+         |> assign(:attachment_busy, false)
+         |> assign(:attachment_form, attachment_form(%{}))}
+
+      {:error, changeset} ->
+        {:noreply,
+         socket
+         |> assign(:attachment_saved, nil)
+         |> assign(:attachment_busy, false)
+         |> assign(:attachment_form, to_form(changeset, action: :insert, as: :attachment))}
+    end
+  end
+
+  defp attachment_form(params, socket \\ nil, opts \\ []) do
+    params = if socket, do: Map.merge(params, attachment_file_attrs(socket)), else: params
+
+    %Attachment{}
+    |> Attachment.changeset(params)
+    |> to_form(Keyword.put(opts, :as, :attachment))
+  end
+
+  # Every entry's reported metadata becomes the `files` embed, so the changeset validates the
+  # uploads exactly like typed fields. No entries => `cast_embed(required: true)` speaks.
+  defp attachment_file_attrs(socket) do
+    files =
+      Enum.map(socket.assigns.uploads.showcase_attachment.entries, fn entry ->
+        %{
+          "filename" => entry.client_name,
+          "content_type" => entry.client_type,
+          "byte_size" => entry.client_size
+        }
+      end)
+
+    %{"files" => files}
+  end
 
   defp upload_owning(uploads, ref) do
     Enum.find_value(uploads, fn
@@ -265,6 +357,9 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
                       section={s.id}
                       form={@form}
                       uploads={@uploads}
+                      attachment_form={@attachment_form}
+                      attachment_saved={@attachment_saved}
+                      attachment_busy={@attachment_busy}
                     />
                     <.example_code mod={@examples_mod} section={s.id} />
                   </div>
