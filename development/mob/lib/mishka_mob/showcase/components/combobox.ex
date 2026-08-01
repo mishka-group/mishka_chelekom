@@ -71,6 +71,11 @@ defmodule MishkaMob.Showcase.Components.Combobox do
 
         MishkaCombobox.filter(pairs, query)   # "cafe" finds "Café"
         """,
+        # `empty_text` here names this list's empty row rather than taking the
+        # default. "No matches" is on the page from mount — it is the fourth
+        # example's title, and the props table prints it as this prop's default
+        # — so a test looking for that string could not tell THIS list's empty
+        # state from two nodes it never touches. The row below has one renderer.
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true} on_tap={{self(), :cb_close}}>
@@ -81,6 +86,7 @@ defmodule MishkaMob.Showcase.Components.Combobox do
               clear={true}
               trigger={true}
               placeholder="Search countries…"
+              empty_text="No country by that name."
               on_query={:cb_query}
               on_select={:cb_pick}
               on_clear={:cb_clear}

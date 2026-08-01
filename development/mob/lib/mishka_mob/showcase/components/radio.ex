@@ -78,9 +78,9 @@ defmodule MishkaMob.Showcase.Components.Radio do
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaRadio label="Locked on" checked={true} disabled={true} />
+            <MishkaRadio label="Locked on" checked={true} disabled={true} id="rd-locked-on" />
             <Spacer size={12} />
-            <MishkaRadio label="Locked off" disabled={true} />
+            <MishkaRadio label="Locked off" disabled={true} id="rd-locked-off" />
           </Column>
           """
         end

@@ -2,6 +2,9 @@ package com.example.mishka_mob
 
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasAnyDescendant
+import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onAllNodesWithText
@@ -52,6 +55,28 @@ class SelectTest {
 
     private fun picked(select: String, option: String): Boolean =
         tagged("$select-option-$option-selected")
+
+    /**
+     * Does this select's own TRIGGER read [text]?
+     *
+     * [showing] cannot answer that. It searches the whole page, and the page
+     * carries two other renderers of the same words: every example's source is
+     * drawn as an ordinary text node — the "Single choice" snippet spells out
+     * `option(:ir, "Iran")` — and an open list draws each option's label. So a
+     * page-global query for a label is true whether the trigger followed the
+     * pick or stayed on its placeholder.
+     *
+     * The trigger folds open/closed into its own tag, hence the lookup; and
+     * unmerged, because the tappable Box merges its label away.
+     */
+    private fun triggerShows(select: String, text: String): Boolean {
+        val tag = "$select-trigger-" + (if (open(select)) "open" else "closed")
+
+        return compose.onAllNodes(
+            hasTestTag(tag) and hasAnyDescendant(hasText(text, substring = true)),
+            useUnmergedTree = true,
+        ).fetchSemanticsNodes().isNotEmpty()
+    }
 
     private fun boundsOf(tag: String): Rect =
         compose.onAllNodesWithTag(tag, useUnmergedTree = true)
@@ -138,7 +163,15 @@ class SelectTest {
         // screen can do this, and a screen that drops close? leaves the list
         // hanging open over the rest of the page.
         compose.waitUntil(10_000) { !open("sel-country") }
-        require(showing("Iran")) { "the trigger did not show the new choice" }
+
+        // Both of these are about the trigger, so both ask the trigger. The old
+        // page-wide `showing("Iran")` was already true at mount off the code
+        // sample above the select, and would have passed on a trigger still
+        // reading "Choose a country…" — or on a display/3 that returned nothing.
+        require(triggerShows("sel-country", "Iran")) { "the trigger did not show the new choice" }
+        require(!triggerShows("sel-country", "Choose a country")) {
+            "the trigger kept its placeholder after a choice"
+        }
 
         openIt("sel-country")
         require(picked("sel-country", "ir")) { "the chosen option is not ticked" }
@@ -213,12 +246,21 @@ class SelectTest {
             }
         }
 
-        require(showing("Choose any")) { "an empty multi-select lost its placeholder" }
+        require(triggerShows("sel-lang", "Choose any")) {
+            "an empty multi-select lost its placeholder"
+        }
 
-        // And a choice replaces the placeholder with the label.
+        // And a choice replaces the placeholder with the label. Multiple mode
+        // leaves the list OPEN, so the "Elixir" option row is on screen while
+        // this runs and answered the old page-wide query by itself — the line
+        // held even if the trigger never followed the pick, which is the only
+        // thing left for it to prove once the wait above has checked the tick.
         tapTag("sel-lang-option-elixir-idle")
         compose.waitUntil(10_000) { picked("sel-lang", "elixir") }
-        require(showing("Elixir")) { "the trigger did not show the chosen label" }
+        require(triggerShows("sel-lang", "Elixir")) { "the trigger did not show the chosen label" }
+        require(!triggerShows("sel-lang", "Choose any")) {
+            "the trigger kept its placeholder after a choice"
+        }
     }
 
     @Test

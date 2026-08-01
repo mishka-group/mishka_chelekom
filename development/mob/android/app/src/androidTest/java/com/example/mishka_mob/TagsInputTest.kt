@@ -140,17 +140,33 @@ class TagsInputTest {
             compose.waitUntil(15_000) { tagged("ti-tag-elixir") }
         }
 
-        val before = showing("Tags:").let { compose.onAllNodesWithText("elixir", substring = false)
-            .fetchSemanticsNodes().size }
+        compose.waitForIdle()
+
+        // Counted by tag rather than by page text. onAllNodesWithText("elixir")
+        // also answered for the "It ships no look" example, which renders the
+        // same @ti_tags under id="ti-bare", so before was 2 and a real failure
+        // reported "2 -> 4" for a control holding one token. The showing("Tags:")
+        // it was wrapped in was inert twice over: .let threw the Boolean away, and
+        // nothing on this page says "Tags:" — the summary reads "3 tag(s): …".
+        val before = compose.onAllNodesWithTag("ti-tag-elixir", useUnmergedTree = true)
+            .fetchSemanticsNodes().size
+        require(before == 1) { "ti did not hold exactly one elixir token: $before" }
 
         // Padded, and already present: add/3 trims it and refuses the repeat.
         addTag("  elixir  ")
         Thread.sleep(600)
 
-        val after = compose.onAllNodesWithText("elixir", substring = false)
+        val after = compose.onAllNodesWithTag("ti-tag-elixir", useUnmergedTree = true)
             .fetchSemanticsNodes().size
 
         require(after == before) { "a duplicate tag was added: $before -> $after" }
+
+        // The trim half of this test's name could not fail before. An exact-text
+        // count of "elixir" cannot see a token whose label is "  elixir  ", so
+        // losing String.trim/1 from add/3 appended the padded token and still left
+        // after == before. The token's id carries the raw text, so the padding
+        // shows up here.
+        require(!tagged("ti-tag-  elixir  ")) { "the draft was not trimmed" }
     }
 
     @Test

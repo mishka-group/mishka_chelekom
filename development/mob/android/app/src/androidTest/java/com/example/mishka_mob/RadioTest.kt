@@ -54,6 +54,14 @@ class RadioTest {
     private fun tagged(tag: String): Boolean =
         compose.onAllNodesWithTag(tag, useUnmergedTree = true).fetchSemanticsNodes().isNotEmpty()
 
+    /**
+     * A ring's state as its own tag spells it — "selected" or "empty". Null when
+     * the row is not in the tree at all, which is how a vanished example reads,
+     * and also when both tags somehow exist at once.
+     */
+    private fun ringState(prefix: String): String? =
+        listOf("selected", "empty").singleOrNull { tagged("$prefix-$it") }
+
     private fun ringBounds(tag: String): Rect =
         compose.onAllNodesWithTag(tag, useUnmergedTree = true)
             .fetchSemanticsNodes()
@@ -176,13 +184,32 @@ class RadioTest {
         compose.onAllNodesWithText("Locked off", substring = false)[0].performScrollTo()
         compose.waitForIdle()
 
+        // Read both rings BEFORE the tap: an end state that merely happens to
+        // look right proves nothing, so the test pins the starting point and
+        // then demands neither ring moved.
+        val offBefore = ringState("rd-locked-off")
+        val onBefore = ringState("rd-locked-on")
+        require(offBefore == "empty" && onBefore == "selected") {
+            "the disabled example did not start as declared: off=$offBefore, on=$onBefore"
+        }
+
         // Disabled wires no handler, so this must be inert rather than merely grey.
         compose.onAllNodesWithText("Locked off", substring = false)[0].performClick()
         compose.waitForIdle()
         Thread.sleep(500)
 
-        require(showing("Locked off")) { "the disabled row vanished" }
-        require(showing("Locked on")) { "the disabled selected row vanished" }
+        // These used to be showing("Locked off") / showing("Locked on"). A label
+        // is a plain Text that never varies with `checked` — the selection is a
+        // dot — so both strings stayed on the page whether the tap was swallowed
+        // or wired the row and flipped it. The ring's tag is the only witness of
+        // selection, so a tap that reached a handler now fails here.
+        require(ringState("rd-locked-off") == offBefore) {
+            "tapping a disabled radio changed it: $offBefore -> ${ringState("rd-locked-off")}"
+        }
+        require(!tagged("rd-locked-off-selected")) { "the disabled empty radio grew a dot" }
+        require(ringState("rd-locked-on") == onBefore) {
+            "the disabled selected radio lost its dot: ${ringState("rd-locked-on")}"
+        }
     }
 
     @Test

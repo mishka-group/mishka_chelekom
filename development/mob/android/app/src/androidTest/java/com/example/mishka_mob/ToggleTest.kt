@@ -1,7 +1,12 @@
 package com.example.mishka_mob
 
 import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.semantics.getOrNull
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasAnyDescendant
+import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onAllNodesWithText
@@ -51,6 +56,47 @@ class ToggleTest {
 
     private fun stateOf(prefix: String): String? =
         listOf("pressed", "idle").firstOrNull { tagged("$prefix-$it") }
+
+    /**
+     * True when the toggle tagged [prefix] carries [label] as its own text.
+     *
+     * A page-wide text query cannot establish that. Every example's SOURCE is
+     * rendered as a text node too, so "Locked on" is on the page from mount —
+     * quoted inside the Disabled example's snippet — whether or not the live
+     * toggle rendered at all. Matching a label under the toggle's own tag asks
+     * the component instead of the page.
+     */
+    private fun labelled(prefix: String, label: String): Boolean {
+        val state = stateOf(prefix) ?: return false
+
+        return compose.onAllNodes(
+            hasTestTag("$prefix-$state") and hasAnyDescendant(hasText(label)),
+            useUnmergedTree = true,
+        ).fetchSemanticsNodes().isNotEmpty()
+    }
+
+    /**
+     * The toolbar example's summary line, read as a node rather than searched for.
+     *
+     * It is the only text on the page shaped like "Pressed: …" or exactly
+     * "Nothing pressed" — the toggle labelled "Pressed" has no colon, and the
+     * code samples only ever quote `pressed={true}`.
+     */
+    private fun summaryText(): String? =
+        compose.onAllNodesWithText("pressed", substring = true, ignoreCase = true)
+            .fetchSemanticsNodes()
+            .flatMap { it.config.getOrNull(SemanticsProperties.Text).orEmpty() }
+            .map { it.text }
+            .firstOrNull { it.startsWith("Pressed: ") || it == "Nothing pressed" }
+
+    /** Mirrors `summary/3` in the showcase, so the test can predict the line. */
+    private fun expectedSummary(bold: Boolean, italic: Boolean, under: Boolean): String {
+        val on = listOf("bold" to bold, "italic" to italic, "underline" to under)
+            .filter { it.second }
+            .joinToString(", ") { it.first }
+
+        return if (on.isEmpty()) "Nothing pressed" else "Pressed: $on"
+    }
 
     /** Bounds of a toggle whichever state it is in. */
     private fun toggleBounds(prefix: String): Rect =
@@ -157,19 +203,37 @@ class ToggleTest {
         compose.waitForIdle()
 
         // Read the current state rather than assume it: the BEAM outlives the
-        // Activity, so a previous test's tap survives into this one.
-        val boldBefore = stateOf("tg-bold")
-        val italicBefore = stateOf("tg-italic")
+        // Activity, so a previous test's tap survives into this one. Insisting on
+        // a tag here rather than accepting null also means a toggle that failed to
+        // render fails the test, instead of quietly satisfying the wait below.
+        val boldBefore = stateOf("tg-bold") ?: error("\"tg-bold\" is untagged")
+        val italicBefore = stateOf("tg-italic") ?: error("\"tg-italic\" is untagged")
+        val underBefore = stateOf("tg-under") ?: error("\"tg-under\" is untagged")
 
         tap("Bold")
-        compose.waitUntil(10_000) { stateOf("tg-bold") != boldBefore }
+
+        // Name the state the tap must produce. Waiting for merely "not what it
+        // was" was satisfied by the toggle disappearing, since stateOf goes null.
+        val boldAfter = if (boldBefore == "pressed") "idle" else "pressed"
+        compose.waitUntil(10_000) { stateOf("tg-bold") == boldAfter }
 
         require(stateOf("tg-italic") == italicBefore) { "pressing Bold disturbed Italic" }
+        require(stateOf("tg-under") == underBefore) { "pressing Bold disturbed Underline" }
 
         // The summary renders from the same assigns, so it is the honest witness
-        // that the tap reached a handle_info clause rather than merely repainting.
-        require(showing("Pressed:") || showing("Nothing pressed")) {
-            "the example rendered no summary"
+        // that the tap reached a handle_info clause rather than merely repainting
+        // — but only if it is held to the ONE line those assigns imply. The old
+        // check accepted "Pressed:" or "Nothing pressed", and summary/3 returns
+        // one of those for every possible input, so it was already true at mount
+        // and stayed true with the tap swallowed or the summary frozen.
+        val expected = expectedSummary(
+            bold = boldAfter == "pressed",
+            italic = italicBefore == "pressed",
+            under = underBefore == "pressed",
+        )
+        compose.waitUntil(10_000) { summaryText() == expected }
+        require(summaryText() == expected) {
+            "the summary did not follow the tap: ${summaryText()} instead of $expected"
         }
     }
 
@@ -182,8 +246,12 @@ class ToggleTest {
         tap("Locked on")
         Thread.sleep(400)
 
-        require(showing("Locked on")) { "the disabled toggle vanished" }
-        require(showing("Locked off")) { "the disabled idle toggle vanished" }
+        // Ask each toggle for its own label. A page-wide "Locked on" was true from
+        // mount — the Disabled example's code sample quotes it — so it stayed true
+        // with the live toggle unrendered, unlabelled or deleted from the page,
+        // which is the one thing its message claimed to catch.
+        require(labelled("tg-lockon", "Locked on")) { "the disabled toggle vanished" }
+        require(labelled("tg-lockoff", "Locked off")) { "the disabled idle toggle vanished" }
 
         // Locked-on and locked-off must not read the same. Colour is invisible to
         // the tree, so the tags carry it: a disabled toggle still reports whether

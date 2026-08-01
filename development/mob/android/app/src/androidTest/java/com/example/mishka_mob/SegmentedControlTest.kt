@@ -5,6 +5,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onAllNodesWithText
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
@@ -42,7 +43,10 @@ class SegmentedControlTest {
     private val home = "Native component library"
     private val page = "joined strip where exactly one"
 
-    private val views = listOf("day" to "Day", "week" to "Week", "month" to "Month")
+    // Ids only. The labels used to live here so tests could tap by text, but
+    // "Day"/"Week"/"Month" are rendered by three controls on this page and only
+    // sc-view is tagged, so every tap now goes through the tag instead.
+    private val views = listOf("day", "week", "month")
 
     private fun showing(text: String): Boolean =
         try {
@@ -65,13 +69,44 @@ class SegmentedControlTest {
             .firstOrNull { it.width > 0f && it.height > 0f }
             ?: error("no laid-out node tagged \"$tag\"")
 
+    /** A segment's whole tag, state included — the selection moves, the tag follows. */
+    private fun segmentTag(prefix: String): String =
+        "$prefix-" + (stateOf(prefix) ?: error("\"$prefix\" is untagged"))
+
     /** Bounds of a segment whichever state it is in — the selection moves. */
-    private fun segmentBounds(prefix: String): Rect =
-        boundsOf("$prefix-" + (stateOf(prefix) ?: error("\"$prefix\" is untagged")))
+    private fun segmentBounds(prefix: String): Rect = boundsOf(segmentTag(prefix))
+
+    /**
+     * Scroll to the segment itself, never to a label near it. Three controls on
+     * this page render "Day"/"Week"/"Month" — sc-view and the two strips in
+     * "Styled by props", which pass no id and so get no tag — so a text query
+     * picks by tree order, and scrolling a styled strip into view scrolls sc-view
+     * off the screen, where Compose reports zero bounds. Aim at the thing being
+     * measured; performScrollTo only ever moves the minimum distance.
+     */
+    private fun scrollToSegment(prefix: String) {
+        compose.onNodeWithTag(segmentTag(prefix), useUnmergedTree = true).performScrollTo()
+        compose.waitForIdle()
+    }
+
+    /**
+     * Press a segment through its tag. `tag_state/4` tags the very Box that
+     * carries `on_tap`, so the tagged node is the clickable one — and unlike a
+     * label tap it cannot land on one of the untagged styled strips, which are
+     * bound to the same assign and would move @sc_view identically. Tapping by
+     * text could not tell the two apart; this can.
+     */
+    private fun tapSegment(prefix: String) {
+        compose.onNodeWithTag(segmentTag(prefix), useUnmergedTree = true)
+            .performScrollTo()
+            .performClick()
+        compose.waitForIdle()
+        Thread.sleep(300)
+    }
 
     /** The selected view. singleOrNull, so two selections read as null and fail loudly. */
     private fun selectedView(): String? =
-        views.map { it.first }.singleOrNull { stateOf("sc-view-$it") == "selected" }
+        views.singleOrNull { stateOf("sc-view-$it") == "selected" }
 
     private fun leavePage(): Boolean {
         if (!showing("← Back")) return false
@@ -107,8 +142,12 @@ class SegmentedControlTest {
 
     @Test
     fun the_segments_sit_side_by_side() {
-        compose.onAllNodesWithText("Day", substring = false)[0].performScrollTo()
-        compose.waitForIdle()
+        // Scroll to the strip being measured, not to the first node reading
+        // "Day": that index landed on sc-view by declaration order alone, and a
+        // reordered page would have scrolled a styled strip in and left these
+        // three below the fold — reported as a missing node rather than as the
+        // overlap this test exists to catch.
+        scrollToSegment("sc-view-day")
 
         val day = segmentBounds("sc-view-day")
         val week = segmentBounds("sc-view-week")
@@ -128,17 +167,20 @@ class SegmentedControlTest {
 
     @Test
     fun the_selection_can_never_be_emptied() {
-        compose.onAllNodesWithText("Day", substring = false)[0].performScrollTo()
-        compose.waitForIdle()
-
         // Read the current selection rather than assume it: the BEAM outlives
         // the Activity, so a previous test's tap survives into this one.
         val before = selectedView() ?: error("the control started with nothing selected")
-        val label = views.first { it.first == before }.second
+
+        scrollToSegment("sc-view-$before")
 
         // Re-tapping the selected segment is a NO-OP. A toggle group would clear
         // here — that is the entire difference between the two components.
-        tap(label)
+        //
+        // The press goes through sc-view's own tag. Tapping the label pressed
+        // whichever Day/Week/Month node came first in the tree, and since the
+        // styled strips write the same assign, the require below read the same
+        // value whether or not sc-view was ever the thing re-tapped.
+        tapSegment("sc-view-$before")
         Thread.sleep(400)
 
         require(selectedView() == before) { "re-tapping cleared the selection" }
@@ -146,12 +188,14 @@ class SegmentedControlTest {
 
     @Test
     fun tapping_another_segment_moves_the_selection() {
-        compose.onAllNodesWithText("Week", substring = false)[0].performScrollTo()
-        compose.waitForIdle()
+        val before = selectedView()
+        val id = views.first { it != before }
 
-        val (id, label) = views.first { it.first != selectedView() }
-
-        tap(label)
+        // Pressed by tag, so the tap and the assertions are about one control.
+        // A label tap could press a styled strip instead, and because all three
+        // share @sc_view both checks below would still have gone green without
+        // sc-view having handled anything.
+        tapSegment("sc-view-$id")
         compose.waitUntil(10_000) { selectedView() == id }
 
         // selectedView uses singleOrNull, so two filled segments read as null —

@@ -38,6 +38,15 @@ class ComboboxTest {
     private val home = "Native component library"
     private val page = "text field that filters"
 
+    /**
+     * cb-one's own empty text, which nothing else on the page renders. The
+     * empty state used to be checked with "No matches", which is the fourth
+     * example's TITLE and the props table's printed default for `empty_text` —
+     * both on screen from mount, so the wait returned on its first poll and a
+     * panel that collapsed to nothing instead of saying so passed either test.
+     */
+    private val emptyRow = "No country by that name"
+
     private fun showing(text: String): Boolean =
         try {
             compose.onAllNodesWithText(text, substring = true).fetchSemanticsNodes().isNotEmpty()
@@ -146,21 +155,40 @@ class ComboboxTest {
 
     @Test
     fun no_matches_says_so_rather_than_collapsing() {
+        // The row has to APPEAR, so prove it is absent while the list is full —
+        // otherwise a permanently-rendered row would satisfy the wait below.
+        require(!showing(emptyRow)) { "the empty row is showing before any query" }
+
         typeInto("cb-one-input", "zzzzz")
 
-        compose.waitUntil(10_000) { showing("No matches") }
+        compose.waitUntil(10_000) { showing(emptyRow) }
         require(!listed("cb-one", "ir")) { "an option survived a query nothing matches" }
     }
 
     @Test
     fun the_clear_button_empties_the_query() {
         typeInto("cb-one-input", "zzzzz")
-        compose.waitUntil(10_000) { showing("No matches") }
+
+        // Gate on something only the typing can produce. Waiting for a string
+        // the page renders anyway established nothing, so the ✕ was tapped with
+        // the full list still up — and "the options came back" below was true
+        // because they had never left. Both option tags and the empty row have
+        // to agree that the query reached the filter.
+        compose.waitUntil(10_000) {
+            !listed("cb-one", "ir") && !listed("cb-one", "de") && showing(emptyRow)
+        }
 
         tapTag("cb-one-on_clear")
 
         // Clearing restores the full list, which is the observable half.
         compose.waitUntil(10_000) { listed("cb-one", "ir") && listed("cb-one", "de") }
+
+        // And empties the FIELD, which is what the button is named for: the
+        // restored list only proves the query the filter saw is now blank, not
+        // that the text the user typed is gone from the box.
+        val left = compose.onNodeWithTag("cb-one-input").fetchSemanticsNode()
+            .config.firstOrNull { it.key.name == "EditableText" }?.value?.toString() ?: ""
+        require(left.isEmpty()) { "the ✕ left the query in the field: '$left'" }
     }
 
     @Test

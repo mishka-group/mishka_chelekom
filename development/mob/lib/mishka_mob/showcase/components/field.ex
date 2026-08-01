@@ -362,7 +362,12 @@ defmodule MishkaMob.Showcase.Components.Field do
       email: email_errors(form.email),
       age: age_errors(form.age),
       role: if(is_nil(form.role), do: ["Pick a role."], else: []),
-      bio: if(String.length(form.bio) > 160, do: ["Up to 160 characters."], else: [])
+      # "At most 160 characters.", phrased like name_errors/1's "At most 40
+      # characters." below, because "Up to 160 characters." was word for word
+      # the bio field's own hint above. A device test cannot ask whether the bio
+      # error is showing while the answer is yes on a page nobody has touched —
+      # the same trap "Ready to submit" was named to avoid, see summary/2.
+      bio: if(String.length(form.bio) > 160, do: ["At most 160 characters."], else: [])
     }
   end
 

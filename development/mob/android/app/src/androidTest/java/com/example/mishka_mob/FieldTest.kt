@@ -200,6 +200,12 @@ class FieldTest {
         // has touched — that assertion would have passed either way.
         compose.waitUntil(15_000) { showing("Ready to submit") }
 
+        // Every entry below has to name an error and nothing else the page
+        // renders. The bio entry read "Up to 160 characters", which is verbatim
+        // the bio field's permanently visible hint, so the diagnostic accused
+        // bio on every single failure no matter what had actually gone wrong.
+        // The showcase now words that error "At most 160 characters.", the way
+        // the name field already worded its own length error.
         require(showing("Ready to submit")) {
             "a fully filled form still reports errors: " +
                 listOf(
@@ -209,13 +215,20 @@ class FieldTest {
                     "Must be 18 or older",
                     "Digits only",
                     "Pick a role.",
-                    "Up to 160 characters",
+                    "At most 160 characters",
                 ).filter { showing(it) }
         }
 
         // Optional fields stay optional: bio and age were left alone by the
         // valid path above, and a submitted form must not invent errors for them.
         require(!showing("Required.")) { "a valid form still reports required fields" }
+
+        // And bio specifically, which nothing here asserted before: while its
+        // error and its hint were the same sentence, this line could not have
+        // been written — the hint held it false whatever the validator did.
+        require(!showing("At most 160 characters")) {
+            "an empty bio was reported as too long"
+        }
     }
 
     @Test

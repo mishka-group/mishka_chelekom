@@ -5,6 +5,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onAllNodesWithText
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
@@ -69,6 +70,24 @@ class RadioGroupTest {
         Thread.sleep(300)
     }
 
+    /**
+     * Press an option through its ring tag rather than its label. [tap] takes
+     * `onAllNodesWithText(label)[0]`, and "Free" and "Pro" are each rendered by
+     * three groups on this page — all bound to the same @rg_plan, only the first
+     * carrying an id. A tap that drifted onto one of the others therefore still
+     * turned every rg-plan assertion green: the test could not tell which group
+     * it had pressed. A tag names one group by construction, and onNodeWithTag
+     * fails loudly rather than picking a first match if that ever stops holding.
+     *
+     * The tag sits on the ring while the on_tap sits on its Row, so the touch
+     * lands at the ring's centre and the Row's clickable is what receives it.
+     */
+    private fun tapRing(tag: String) {
+        compose.onNodeWithTag(tag, useUnmergedTree = true).performScrollTo().performClick()
+        compose.waitForIdle()
+        Thread.sleep(300)
+    }
+
     @Before
     fun openRadioGroupScreen() {
         compose.waitUntil(90_000) { showing(home) || showing(page) || showing("← Back") }
@@ -86,8 +105,11 @@ class RadioGroupTest {
         }
     }
 
-    private val plans =
-        listOf("free" to "Free", "pro" to "Pro", "team" to "Team — 5 seats")
+    /**
+     * Option ids, not labels: the labels are shared with two other groups on the
+     * page, so a label does not name an option here — the ring tag does.
+     */
+    private val plans = listOf("free", "pro", "team")
 
     /**
      * The BEAM outlives the Activity, so a previous test's tap survives into
@@ -95,21 +117,27 @@ class RadioGroupTest {
      * fail loudly if the group somehow holds two.
      */
     private fun selectedPlan(): String =
-        plans.map { it.first }.singleOrNull { tagged("rg-plan-$it-selected") }
+        plans.singleOrNull { tagged("rg-plan-$it-selected") }
             ?: error("expected exactly one selection, got " +
-                plans.map { it.first }.filter { tagged("rg-plan-$it-selected") })
+                plans.filter { tagged("rg-plan-$it-selected") })
 
     @Test
     fun one_handler_serves_every_option() {
         compose.onAllNodesWithText("PLAN", substring = false)[0].performScrollTo()
         compose.waitForIdle()
 
-        val (id, label) = plans.first { it.first != selectedPlan() }
+        val current = selectedPlan()
+        val id = plans.first { it != current }
 
         // Each option widens the SAME on_change tag with its own id. If that
         // widening broke, the tap would still land and simply do nothing — so
         // assert the state moved, not that the tap happened.
-        tap(label)
+        //
+        // Pressed by tag: tapping the label reached whichever group came first
+        // in tree order, and since all three write @rg_plan the assertions below
+        // passed no matter which one that was — including for a regression that
+        // broke only the id-carrying group this test names.
+        tapRing("rg-plan-$id-empty")
         compose.waitUntil(10_000) { tagged("rg-plan-$id-selected") }
         require(selectedPlan() == id) { "the group holds more than one selection" }
 
@@ -161,16 +189,30 @@ class RadioGroupTest {
 
     @Test
     fun a_disabled_group_cascades_to_every_option() {
+        // The OFF group shows the same @rg_plan as the first example, so while
+        // :pro is the plan a cascade that failed would send {:rg_plan, :pro} and
+        // change nothing anyone could see. Park the selection elsewhere first,
+        // through the group that really works, so the tap has something to prove.
+        if (selectedPlan() == "pro") {
+            tapRing("rg-plan-team-empty")
+            compose.waitUntil(10_000) { tagged("rg-plan-team-selected") }
+        }
+
         compose.onAllNodesWithText("WHOLE GROUP OFF", substring = false)[0].performScrollTo()
         compose.waitForIdle()
 
-        // This group has no on_change at all, so nothing may move. Its rings are
-        // still tagged, which is how we can tell it rendered rather than vanished.
+        // The group carries a live on_change, so `disabled` cascading to every
+        // option is the only thing that can stop a tap. Its rings are still
+        // tagged, which is how we can tell it rendered rather than vanished.
         require(tagged("rg-off-free-empty") || tagged("rg-off-free-selected")) {
             "the disabled group did not render"
         }
 
         val before = selectedPlan()
+        require(before != "pro") { "the tap below cannot fail while :pro is selected" }
+        require(tagged("rg-off-pro-empty")) {
+            "the OFF group's Pro ring is not empty while the plan is $before"
+        }
 
         // This group's options are labelled "(off)" precisely so a click here
         // cannot land on the tappable "Pro" of the first example — three groups
@@ -179,7 +221,16 @@ class RadioGroupTest {
         tap("Pro (off)")
         Thread.sleep(400)
 
-        require(selectedPlan() == before) { "a disabled group reported a selection" }
+        // Until the showcase wired on_change onto this group there was nothing
+        // to fire, so both requires below could only observe a MISSING handler —
+        // deleting `disabled={true}` left the test green. They now fail if the
+        // cascade stops reaching an option: once in the shared assign, and once
+        // in the OFF group's own ring, which is the half scoped to the group
+        // this test names.
+        require(selectedPlan() == before) {
+            "a disabled group reported a selection: $before -> ${selectedPlan()}"
+        }
+        require(tagged("rg-off-pro-empty")) { "a disabled option filled its own ring" }
     }
 
     @Test

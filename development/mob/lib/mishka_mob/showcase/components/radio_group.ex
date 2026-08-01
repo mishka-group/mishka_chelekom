@@ -104,8 +104,14 @@ defmodule MishkaMob.Showcase.Components.RadioGroup do
         description: "An option can be disabled on its own, or the whole group at once.",
         code: ~S"""
         option(:team, "Team", disabled: true)
-        <MishkaRadioGroup disabled={true} value={@plan}>{opts}</MishkaRadioGroup>
+        <MishkaRadioGroup disabled={true} value={@plan} on_change={:plan}>{opts}</MishkaRadioGroup>
         """,
+        # The OFF group below wires on_change even though nothing can ever fire
+        # it: a disabled group with no handler is inert for the wrong reason, and
+        # a test tapping it would only be observing the missing on_change —
+        # deleting `disabled={true}` would leave that test green. With the handler
+        # present, the cascade is the single thing standing between a tap and a
+        # selection, which is what the example claims to demonstrate.
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
@@ -116,7 +122,13 @@ defmodule MishkaMob.Showcase.Components.RadioGroup do
             ]}
             </MishkaRadioGroup>
             <Spacer size={16} />
-            <MishkaRadioGroup label="WHOLE GROUP OFF" value={@rg_plan} disabled={true} id="rg-off">
+            <MishkaRadioGroup
+              label="WHOLE GROUP OFF"
+              value={@rg_plan}
+              disabled={true}
+              on_change={:rg_plan}
+              id="rg-off"
+            >
               {[
               option(:free, "Free (off)"),
               option(:pro, "Pro (off)")

@@ -137,7 +137,20 @@ class AutocompleteTest {
         // :starts_with is the default, which is what "autocomplete" means — a
         // combobox defaults to :contains.
         compose.waitUntil(10_000) { offered("ac-city", "Tehran") }
-        require(!offered("ac-city", "Istanbul")) { "prefix mode matched mid-word" }
+
+        // The mid-word check used to name "Istanbul", which is not one of the six
+        // cities this page offers — no option tag for it can ever exist, so the
+        // negation held for every query and every mode. "te" cannot discriminate
+        // either: Tehran is the only city containing it, and it contains it at the
+        // front, so :contains and :starts_with return the same list. "on" is the
+        // real discriminator — mid-word in Toronto, final in Lisbon, initial in
+        // neither — so :contains would offer both and the prefix default offers
+        // nothing at all.
+        typeInto("ac-city-input", "on")
+
+        compose.waitUntil(10_000) { showing("No suggestions") }
+        require(!offered("ac-city", "Toronto")) { "prefix mode matched mid-word" }
+        require(!offered("ac-city", "Lisbon")) { "prefix mode matched a suffix" }
     }
 
     @Test
@@ -149,7 +162,17 @@ class AutocompleteTest {
 
         // The query IS the value: the suggestion's TEXT lands in the field.
         compose.waitUntil(10_000) { !offered("ac-city", "Tehran") }
-        require(showing("Tehran")) { "the chosen suggestion did not fill the field" }
+
+        // Read the FIELD, not the page. "Tehran" is on this screen twice over
+        // without the field ever changing: the caption below prints
+        // Value: "Tehran" off the same assign, and the second example's panel is
+        // left open by an earlier test with every city listed. A page-wide search
+        // for the word therefore passed even for the bug this component's
+        // moduledoc warns about — the assign updated, the field left blank.
+        val filled = compose.onNodeWithTag("ac-city-input").fetchSemanticsNode()
+            .config.firstOrNull { it.key.name == "EditableText" }?.value?.toString() ?: ""
+
+        require(filled == "Tehran") { "the chosen suggestion did not fill the field: '$filled'" }
     }
 
     @Test

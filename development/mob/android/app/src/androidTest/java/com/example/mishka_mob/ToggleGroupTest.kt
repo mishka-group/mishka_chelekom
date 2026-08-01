@@ -5,6 +5,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onAllNodesWithText
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
@@ -42,7 +43,7 @@ class ToggleGroupTest {
     private val home = "Native component library"
     private val page = "row of toggle buttons"
 
-    private val aligns = listOf("left" to "Left", "center" to "Center", "right" to "Right")
+    private val aligns = listOf("left", "center", "right")
 
     private fun showing(text: String): Boolean =
         try {
@@ -65,13 +66,15 @@ class ToggleGroupTest {
             .firstOrNull { it.width > 0f && it.height > 0f }
             ?: error("no laid-out node tagged \"$tag\"")
 
-    /** Bounds of an item whichever state it is in — the selection moves. */
-    private fun itemBounds(prefix: String): Rect =
-        boundsOf("$prefix-" + (stateOf(prefix) ?: error("\"$prefix\" is untagged")))
+    /** The item's tag whichever state it is in — the selection moves. */
+    private fun itemTag(prefix: String): String =
+        "$prefix-" + (stateOf(prefix) ?: error("\"$prefix\" is untagged"))
+
+    private fun itemBounds(prefix: String): Rect = boundsOf(itemTag(prefix))
 
     /** The pressed align, or null — single mode really can hold nothing. */
     private fun pressedAlign(): String? =
-        aligns.map { it.first }.singleOrNull { stateOf("tgg-align-$it") == "pressed" }
+        aligns.singleOrNull { stateOf("tgg-align-$it") == "pressed" }
 
     private fun leavePage(): Boolean {
         if (!showing("← Back")) return false
@@ -82,10 +85,34 @@ class ToggleGroupTest {
         return true
     }
 
+    // onNodeWithText rather than [0] of onAllNodesWithText: [0] is tree order, so
+    // a second node carrying the same label gets tapped silently. This throws.
     private fun tap(label: String) {
-        compose.onAllNodesWithText(label, substring = false)[0].performScrollTo().performClick()
+        compose.onNodeWithText(label, substring = false).performScrollTo().performClick()
         compose.waitForIdle()
         Thread.sleep(300)
+    }
+
+    private fun tapTag(tag: String) {
+        compose.onNodeWithTag(tag, useUnmergedTree = true).performScrollTo().performClick()
+        compose.waitForIdle()
+        Thread.sleep(300)
+    }
+
+    // Four groups on this page render "Left", "Center" and "Right", and three of
+    // them are bound to the same @tgg_align, so a label tap that landed on the
+    // wrong one moved the assign anyway and every align assertion still passed —
+    // the tests could not tell which group they had pressed. Only the Single
+    // group carries an `id`, and MishkaToggle puts that tag on the very Box that
+    // carries on_tap, so the tag is both unambiguous and directly tappable.
+    private fun tapItem(prefix: String) {
+        tapTag(itemTag(prefix))
+    }
+
+    /** Scroll by tag for the same reason: a shared label scrolls to any group. */
+    private fun scrollToItem(prefix: String) {
+        compose.onNodeWithTag(itemTag(prefix), useUnmergedTree = true).performScrollTo()
+        compose.waitForIdle()
     }
 
     @Before
@@ -107,8 +134,10 @@ class ToggleGroupTest {
 
     @Test
     fun the_items_sit_side_by_side() {
-        compose.onAllNodesWithText("Left", substring = false)[0].performScrollTo()
-        compose.waitForIdle()
+        // Scroll to the item being measured, not to a label three other groups
+        // also render: the wrong "Left" leaves this strip below the fold, where
+        // bounds read as zero and itemBounds dies on a missing node instead.
+        scrollToItem("tgg-align-left")
 
         val left = itemBounds("tgg-align-left")
         val center = itemBounds("tgg-align-center")
@@ -128,22 +157,20 @@ class ToggleGroupTest {
 
     @Test
     fun pressing_the_pressed_one_CLEARS_the_group() {
-        compose.onAllNodesWithText("Left", substring = false)[0].performScrollTo()
-        compose.waitForIdle()
+        scrollToItem("tgg-align-left")
 
         // Get to a known non-empty state without assuming one: the BEAM outlives
         // the Activity, so a previous test's press survives into this one.
         if (pressedAlign() == null) {
-            tap("Left")
+            tapItem("tgg-align-left")
             compose.waitUntil(10_000) { pressedAlign() != null }
         }
 
         val pressed = pressedAlign()!!
-        val label = aligns.first { it.first == pressed }.second
 
         // THE differentiator: a radio group cannot be cleared, a segmented control
         // always keeps a selection, and this does neither.
-        tap(label)
+        tapItem("tgg-align-$pressed")
         compose.waitUntil(10_000) { pressedAlign() == null }
 
         require(showing("Value: nil")) { "the summary did not follow the clear" }
@@ -151,13 +178,12 @@ class ToggleGroupTest {
 
     @Test
     fun single_mode_moves_the_selection_rather_than_adding_to_it() {
-        compose.onAllNodesWithText("Left", substring = false)[0].performScrollTo()
-        compose.waitForIdle()
+        scrollToItem("tgg-align-left")
 
-        tap("Left")
+        tapItem("tgg-align-left")
         compose.waitUntil(10_000) { pressedAlign() == "left" }
 
-        tap("Center")
+        tapItem("tgg-align-center")
         compose.waitUntil(10_000) { pressedAlign() == "center" }
 
         // pressedAlign uses singleOrNull, so it returns null if TWO are pressed —

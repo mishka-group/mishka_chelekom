@@ -177,9 +177,16 @@ class CheckboxGroupTest {
             "toggling phoenix disturbed the other rows"
         }
 
-        // The summary renders from the same assign, proving a clause matched.
-        require(showing("Selected:") || showing("Nothing selected")) {
-            "the example rendered no summary"
+        // The summary must NAME the row the tap just moved. Accepting either
+        // "Selected:" or "Nothing selected" proved nothing — summary/1 covers
+        // every possible value between those two clauses, so it was already
+        // true before the tap and stayed true with the handler unwired. The
+        // lowercase id can only come from the summary: the labels on this page
+        // are "Phoenix" and "Phoenix (off)", and showing() is case-sensitive.
+        val phoenixChecked = stateOf("cg-langs-phoenix") == "checked"
+        require(showing("phoenix") == phoenixChecked) {
+            "the summary disagrees with the row: checked=$phoenixChecked, " +
+                "summary shows phoenix=${showing("phoenix")}"
         }
     }
 

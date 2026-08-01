@@ -9,6 +9,8 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
+import androidx.compose.ui.semantics.SemanticsProperties
+import androidx.compose.ui.semantics.getOrNull
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Before
 import org.junit.Rule
@@ -57,6 +59,15 @@ class NumberFieldTest {
             .config.firstOrNull { it.key.name == "EditableText" }
             ?.value?.toString()
             ?: error("no editable text on \"$tag\"")
+
+    // A Text carries its own tag when the example gives it an `id`, so a caption
+    // can be read from its own node instead of asking the page whether a string
+    // is somewhere on it — the props table repeats most of this page's prose.
+    private fun textOf(tag: String): String =
+        compose.onNodeWithTag(tag, useUnmergedTree = true).fetchSemanticsNode()
+            .config.getOrNull(SemanticsProperties.Text)
+            ?.joinToString("") { it.text }
+            ?: error("no text on \"$tag\"")
 
     private fun leavePage(): Boolean {
         if (!showing("← Back")) return false
@@ -188,7 +199,24 @@ class NumberFieldTest {
         require(valueOf("nf-pct").endsWith("%")) { "percent lost its sign: ${valueOf("nf-pct")}" }
         require(valueOf("nf-pct") == "7.5%") { "0.075 did not read as 7.5%: ${valueOf("nf-pct")}" }
 
-        require(showing("a fraction")) { "the caption explaining the fraction is missing" }
+        // The caption is now read from its own node (`nf-pct-note`) and checked
+        // against the field. The old `showing("a fraction")` asked the whole page
+        // for a substring that the props table also renders — "…:percent shows a
+        // FRACTION as a percentage" — differing only in case, so it survived
+        // whatever this field drew and would have gone permanently true the day
+        // anyone lowercased that row or added ignoreCase to the helper.
+        val note = textOf("nf-pct-note")
+
+        // The assign is still the fraction: format changes how the value reads,
+        // never what is stored, and the caption inspects the assign itself.
+        require(note.startsWith("Stored: 0.075 ")) { "the stored value is not the fraction: $note" }
+
+        // And the promise the caption makes is the reading the field gives. The
+        // "reads as " prefix is what makes this falsifiable: a field that showed
+        // the raw 0.075 would still be a substring of the caption without it.
+        require(note.contains("reads as ${valueOf("nf-pct")}")) {
+            "the caption and the field disagree: \"$note\" vs \"${valueOf("nf-pct")}\""
+        }
     }
 
     @Test

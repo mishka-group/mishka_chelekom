@@ -124,6 +124,7 @@ defmodule MishkaMob.Showcase.Components.NumberField do
               text={"Stored: " <> inspect(@nf_pct) <> " — a fraction. 0.075 reads as 7.5%."}
               text_size={:sm}
               text_color={:muted}
+              id="nf-pct-note"
             />
           </Column>
           """
