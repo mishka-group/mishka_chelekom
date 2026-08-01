@@ -66,21 +66,29 @@ defmodule MishkaMob.Components.MishkaSplitterTest do
       assert atom == string
     end
 
-    test "the control spans min..max, not 0..100" do
-      slider =
-        MishkaSplitter.splitter(%{min: 20, max: 70, on_change: :s}, panes()) |> find(:slider)
+    test "the divider itself is the drag handle — no separate control" do
+      tree = MishkaSplitter.splitter(%{on_change: :s}, panes())
 
-      assert {slider.props.min, slider.props.max} == {20, 70}
-      assert slider.props.on_change == {self(), :s}
+      # There is no Slider any more. The component shipped one under the panes
+      # on the stated grounds that Mob delivers no pointer coordinates, which
+      # was false: on_drag is a registered handler and only :canvas carries it.
+      refute find(tree, :slider)
+
+      canvas = find(tree, :canvas)
+      assert canvas.props.on_drag == {self(), :s}
     end
 
-    test "the control can be hidden, and disabling removes it" do
-      refute MishkaSplitter.splitter(%{show_control: false}, panes()) |> find(:slider)
-      refute MishkaSplitter.splitter(%{disabled: true}, panes()) |> find(:slider)
-      assert MishkaSplitter.splitter(%{}, panes()) |> find(:slider)
+    test "disabling unwires the grip rather than hiding it" do
+      disabled = MishkaSplitter.splitter(%{disabled: true, on_change: :s}, panes())
+      canvas = find(disabled, :canvas)
+
+      # Still drawn — a divider that vanishes when disabled makes the layout
+      # jump — but nothing can fire it.
+      assert canvas
+      refute Map.has_key?(canvas.props, :on_drag)
     end
 
-    test "the panes keep their sizes when disabled — only the control goes" do
+    test "the panes keep their sizes when disabled" do
       enabled = MishkaSplitter.splitter(%{value: 30, extent: 300}, panes())
       disabled = MishkaSplitter.splitter(%{value: 30, extent: 300, disabled: true}, panes())
 
@@ -88,16 +96,139 @@ defmodule MishkaMob.Components.MishkaSplitterTest do
                Enum.map(pane_boxes(disabled), & &1.props.width)
     end
 
-    test "the grip is drawn where the split is" do
-      tree = MishkaSplitter.splitter(%{}, panes())
-      grip = tree |> find_all(:box) |> Enum.find(&(&1.props[:corner_radius] == :radius_pill))
+    test "the grip is drawn AT the split, on a canvas spanning the whole extent" do
+      # Two ops: a faint band (the touch target, made visible) and the pill.
+      for {orientation, key} <- [{:horizontal, :w}, {:vertical, :h}] do
+        canvas =
+          MishkaSplitter.splitter(%{orientation: orientation, value: 25, extent: 200}, panes())
+          |> find(:canvas)
 
-      assert grip.props.background == :muted
+        [band, pill] = canvas.props.draw
+
+        # The canvas spans the extent along the drag axis — that is what makes
+        # its coordinates a stable ruler instead of one that moves with the
+        # divider.
+        assert Map.fetch!(canvas.props, if(orientation == :vertical, do: :height, else: :width)) ==
+                 200
+
+        # And the grip is drawn a quarter of the way along, because value is 25.
+        assert_in_delta Map.fetch!(band, if(orientation == :vertical, do: :y, else: :x)),
+                        38.0,
+                        0.1
+
+        assert Map.fetch!(band, key) == 24
+        assert pill.op == :rect
+      end
     end
 
+    test "id tags the root, the panes and the grip — a canvas has no text to find" do
+      tree = MishkaSplitter.splitter(%{id: "sp"}, panes())
+
+      assert tree.props.id == "sp"
+      assert Enum.map(pane_boxes(tree), & &1.props.id) == ["sp-pane-1", "sp-pane-2"]
+      assert find(tree, :canvas).props.id == "sp-grip"
+
+      assert MishkaSplitter.grip_id("sp") == "sp-grip"
+      assert MishkaSplitter.pane_id("sp", 2) == "sp-pane-2"
+    end
+  end
+
+  describe "drag/3" do
+    # The drag surface spans the whole extent, so x is a POSITION. A canvas
+    # riding on the divider would have been a ruler sliding under the finger —
+    # on the device that moved 10dp for a 60dp drag while this arithmetic was
+    # provably right, which is why the canvas is static and this is absolute.
+    test "a grab on the divider then a move sets the split from the position" do
+      opts = [value: 50, extent: 200]
+
+      {_, grab} = MishkaSplitter.drag(%{phase: "began", x: 100.0}, nil, opts)
+      {value, _} = MishkaSplitter.drag(%{phase: "dragging", x: 140.0}, grab, opts)
+
+      assert value == 70.0
+    end
+
+    test "a touch that misses the divider engages nothing" do
+      opts = [value: 50, extent: 200]
+
+      # The canvas covers both panes — it must, to be a stable ruler — so
+      # without this every tap anywhere would teleport the split to the finger.
+      assert {50, nil} = MishkaSplitter.drag(%{phase: "began", x: 10.0}, nil, opts)
+      assert {50, nil} = MishkaSplitter.drag(%{phase: "began", x: 190.0}, nil, opts)
+
+      {_, grab} = MishkaSplitter.drag(%{phase: "began", x: 10.0}, nil, opts)
+      assert {50, nil} = MishkaSplitter.drag(%{phase: "dragging", x: 20.0}, grab, opts)
+    end
+
+    test "grabbing off-centre does not snap the divider under the finger" do
+      opts = [value: 50, extent: 200, grip: 24]
+
+      # 100 is the divider; grab at 112, still within the grip.
+      {_, grab} = MishkaSplitter.drag(%{phase: "began", x: 112.0}, nil, opts)
+      assert grab.offset == 12.0
+
+      # Holding still keeps the split exactly where it was.
+      assert {50.0, _} = MishkaSplitter.drag(%{phase: "dragging", x: 112.0}, grab, opts)
+    end
+
+    test "it clamps into min..max, so a pane can never be dragged away" do
+      opts = [value: 50, extent: 100, min: 20, max: 80]
+
+      {_, grab} = MishkaSplitter.drag(%{phase: "began", x: 50.0}, nil, opts)
+
+      assert {80.0, _} = MishkaSplitter.drag(%{phase: "dragging", x: 900.0}, grab, opts)
+      assert {20.0, _} = MishkaSplitter.drag(%{phase: "dragging", x: -900.0}, grab, opts)
+    end
+
+    test "a vertical splitter reads y instead of x" do
+      opts = [value: 50, extent: 200, orientation: :vertical]
+
+      {_, grab} = MishkaSplitter.drag(%{phase: "began", x: 999.0, y: 100.0}, nil, opts)
+      {value, _} = MishkaSplitter.drag(%{phase: "dragging", x: 0.0, y: 140.0}, grab, opts)
+
+      assert value == 70.0
+    end
+
+    test "ending releases the anchor; a stray sample without one changes nothing" do
+      opts = [value: 50, extent: 200]
+      grab = %{offset: 0.0}
+
+      assert {70.0, nil} = MishkaSplitter.drag(%{phase: "ended", x: 140.0}, grab, opts)
+      assert {50, nil} = MishkaSplitter.drag(%{phase: "ended", x: 140.0}, nil, opts)
+    end
+
+    test "the phase is an ATOM on the wire, which is how this shipped dead" do
+      opts = [value: 50, extent: 200]
+
+      # The NIF sends :began / :dragging / :ended as atoms. This module compared
+      # them against "began" and fell through to the :dragging default, so the
+      # anchor was never set and every drag returned the split unchanged — the
+      # divider was completely inert on the device while every unit test here
+      # passed, because they all used strings.
+      {_, grab} = MishkaSplitter.drag(%{phase: :began, x: 100.0}, nil, opts)
+      assert grab, "an atom :began did not engage the drag"
+
+      {value, _} = MishkaSplitter.drag(%{phase: :dragging, x: 140.0}, grab, opts)
+      assert value == 70.0
+
+      assert {70.0, nil} = MishkaSplitter.drag(%{phase: :ended, x: 140.0}, grab, opts)
+    end
+
+    test "string keys work too, because the payload crosses a wire" do
+      opts = [value: 50, extent: 200]
+
+      {_, grab} = MishkaSplitter.drag(%{"phase" => "began", "x" => 100.0}, nil, opts)
+      {value, _} = MishkaSplitter.drag(%{"phase" => "dragging", "x" => 140.0}, grab, opts)
+
+      assert value == 70.0
+    end
+  end
+
+  describe "panes" do
     test "a missing pane renders as blank rather than crashing" do
-      assert_renderable(MishkaSplitter.splitter(%{}, []))
-      assert_renderable(MishkaSplitter.splitter(%{}, [hd(panes())]))
+      # extra: [:canvas] — the divider is a canvas now, and canvas is a plugin
+      # tag rather than one of mob's baked-in renderable types.
+      assert_renderable(MishkaSplitter.splitter(%{}, []), extra: [:canvas])
+      assert_renderable(MishkaSplitter.splitter(%{}, [hd(panes())]), extra: [:canvas])
     end
 
     test "extra children past the second are ignored" do
@@ -173,9 +304,9 @@ defmodule MishkaMob.Components.MishkaSplitterTest do
           %{},
           %{value: 10, extent: 200},
           %{orientation: :vertical, disabled: true},
-          %{value: 90, show_control: false}
+          %{value: 90, grip: 32}
         ] do
-      assert_renderable(MishkaSplitter.splitter(props, panes()))
+      assert_renderable(MishkaSplitter.splitter(props, panes()), extra: [:canvas])
     end
 
     for props <- [%{}, %{visible: 0}, %{visible: 99}, %{visible: 2, on_counter: :x}] do

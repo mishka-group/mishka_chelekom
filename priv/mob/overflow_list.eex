@@ -26,8 +26,22 @@ defmodule <%= @module %> do
   | `space` | number | `6` | Gap between items. |
   | `counter_text` | function | `&"+\#{&1}"` | Renders the counter's label from the hidden count. |
   | `on_counter` | event tag (atom) | — | `{:tap, tag}` on the counter — open a sheet with the rest. |
+  | `id` | string | `nil` | Test tag; items get `<id>-item-<n>`, the counter `<id>-counter`. |
 
   Children are the items, in priority order.
+
+  Not ported: `on_change` (the web pushes the hidden count to the server on
+  every resize; there is no resize here to push, and `split/2` already hands the
+  caller the hidden list), and the `*_class` attrs.
+
+  ## The counter must not fill
+
+  The `+N` pill sets `fill_width={false}`. A Box given neither a `width` nor
+  `fill_width` **fills its parent**, which turned the counter into a bar
+  stretching across the rest of the row instead of a pill hugging its label —
+  the same bug `<%= @namespace %>.<%= @module_prefix_camel %>Pill` documents. iOS's `MobBox` never
+  reads `fill_width` at all (`IOS_TODO.md` item 6), so this is an Android fix
+  until that lands.
   """
 
   import Mob.Sigil
@@ -46,20 +60,45 @@ defmodule <%= @module %> do
   @spec <%= @component_prefix %>overflow_list(map() | keyword(), [map()]) :: map()
   def <%= @component_prefix %>overflow_list(props \\ %{}, items \\ []) do
     props = Map.new(props)
+    id = Map.get(props, :id)
     {shown, hidden} = split(items, props)
     space = Map.get(props, :space, 6)
 
     parts =
       shown
+      |> Enum.with_index(1)
+      |> Enum.map(fn {item, n} -> tag(item, item_id(id, n)) end)
       |> Enum.intersperse(~MOB(<Spacer size={space} />))
-      |> Kernel.++(counter(hidden, props, space))
+      |> Kernel.++(counter(hidden, props, space, id))
 
     ~MOB"""
     <Row fill_width={true} align={:center}>
       {parts}
     </Row>
     """
+    |> tag(id)
   end
+
+  @doc """
+  The test tag on the "+N" counter, given the list's `id`.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>OverflowList.counter_id("langs")
+      "langs-counter"
+  """
+  @spec counter_id(String.t() | nil) :: String.t() | nil
+  def counter_id(id) when is_binary(id), do: id <> "-counter"
+  def counter_id(_), do: nil
+
+  @doc """
+  The test tag on the nth *shown* item — 1-based, and only the shown ones are
+  tagged, so counting these tags counts what survived the split.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>OverflowList.item_id("langs", 2)
+      "langs-item-2"
+  """
+  @spec item_id(String.t() | nil, pos_integer()) :: String.t() | nil
+  def item_id(id, n) when is_binary(id), do: "#{id}-item-#{n}"
+  def item_id(_id, _n), do: nil
 
   @doc """
   Split items into `{shown, hidden}`.
@@ -86,18 +125,24 @@ defmodule <%= @module %> do
     Enum.split(items, take)
   end
 
-  defp counter([], _props, _space), do: []
+  defp counter([], _props, _space, _id), do: []
 
-  defp counter(hidden, props, space) do
+  defp counter(hidden, props, space, id) do
     label = counter_label(hidden, props)
 
     node =
       ~MOB"""
-      <Box background={:surface_raised} corner_radius={:radius_pill} padding={:space_sm}>
+      <Box
+        fill_width={false}
+        background={:surface_raised}
+        corner_radius={:radius_pill}
+        padding={:space_sm}
+      >
         <Text text={label} text_size={:sm} text_color={:on_surface} />
       </Box>
       """
       |> put(:on_tap, Event.handler(Map.get(props, :on_counter)))
+      |> tag(counter_id(id))
 
     [~MOB(<Spacer size={space} />), node]
   end
@@ -114,4 +159,7 @@ defmodule <%= @module %> do
 
   defp put(node, _key, nil), do: node
   defp put(node, key, value), do: %{node | props: Map.put(node.props, key, value)}
+
+  defp tag(node, nil), do: node
+  defp tag(node, id), do: %{node | props: Map.put(node.props, :id, id)}
 end

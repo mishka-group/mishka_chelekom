@@ -1,16 +1,16 @@
 defmodule MishkaMob.Showcase.Components.Splitter do
   @moduledoc """
-  Gallery entry for `MishkaMob.Components.MishkaSplitter` and
-  `MishkaMob.Components.MishkaOverflowList`.
+  Gallery entry for `MishkaMob.Components.MishkaSplitter`.
   """
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaPill, only: [pill: 1]
 
+  alias MishkaMob.Components.MishkaSplitter
   alias MishkaMob.Showcase.Example
 
-  @tags ~w(elixir beam otp nerves phoenix liveview mob)
+  @extent 300
+  @vextent 200
 
   @impl true
   def entry do
@@ -19,7 +19,7 @@ defmodule MishkaMob.Showcase.Components.Splitter do
       name: "Splitter",
       category: "Layout",
       order: 6,
-      description: "Two panes sharing an extent — plus an overflow list."
+      description: "Two resizable panes with a draggable divider."
     }
   end
 
@@ -28,7 +28,8 @@ defmodule MishkaMob.Showcase.Components.Splitter do
     socket
     |> Mob.Socket.assign(:split, 55)
     |> Mob.Socket.assign(:vsplit, 40)
-    |> Mob.Socket.assign(:visible, 3)
+    |> Mob.Socket.assign(:bounded, 50)
+    |> Mob.Socket.assign(:grab, nil)
   end
 
   @impl true
@@ -36,40 +37,73 @@ defmodule MishkaMob.Showcase.Components.Splitter do
     [
       %Example{
         title: "Side by side",
-        description:
-          "Panes are sized in dp from the percentage, because weight is Compose-only and " <>
-            "would collapse on iOS.",
+        description: "Drag the divider between the panes. It is the handle — there is no slider.",
         code: ~S"""
         <MishkaSplitter
           value={@split}
-          extent={320}
+          extent={300}
           on_change={:split}
+          id="panes"
         >{[left(), right()]}</MishkaSplitter>
+
+        # A canvas reports canvas-LOCAL coordinates, so the arithmetic is
+        # relative: drag/3 anchors on the "began" phase and adds the distance
+        # travelled since. Keep the anchor in an assign and hand it back.
+        def handle_info({:drag, :split, payload}, socket) do
+          {value, grab} =
+            MishkaSplitter.drag(payload, socket.assigns.grab,
+              value: socket.assigns.split,
+              extent: 300
+            )
+
+          {:noreply, socket |> assign(:split, value) |> assign(:grab, grab)}
+        end
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaSplitter value={@split} extent={300} on_change={:split}>
+            <MishkaSplitter value={@split} extent={300} on_change={:split} id="panes">
               {[pane("Editor", :primary), pane("Preview", :muted)]}
             </MishkaSplitter>
+            <Spacer size={10} />
+            <Text text={"First pane: " <> percent(@split) <> "%"} text_size={:sm} text_color={:muted} />
           </Column>
           """
         end
       },
       %Example{
         title: "Stacked",
-        description: "The same control, dividing height instead of width.",
+        description: "The same grip, dividing height instead of width. Drag it up and down.",
         code: ~S"""
         <MishkaSplitter
-          value={@split}
+          value={@vsplit}
           orientation={:vertical}
-          extent={220}
+          extent={200}
+          on_change={:vsplit}
         >{[top(), bottom()]}</MishkaSplitter>
+
+        # orientation: :vertical makes drag/3 read y instead of x.
+        def handle_info({:drag, :vsplit, payload}, socket) do
+          {value, grab} =
+            MishkaSplitter.drag(payload, socket.assigns.grab,
+              value: socket.assigns.vsplit,
+              extent: 200,
+              orientation: :vertical
+            )
+
+          {:noreply, socket |> assign(:vsplit, value) |> assign(:grab, grab)}
+        end
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaSplitter value={@vsplit} orientation={:vertical} extent={200} on_change={:vsplit}>
+            <MishkaSplitter
+              value={@vsplit}
+              orientation={:vertical}
+              extent={200}
+              on_change={:vsplit}
+              id="stack"
+            >
               {[pane("Output", :primary), pane("Console", :muted)]}
             </MishkaSplitter>
           </Column>
@@ -77,30 +111,37 @@ defmodule MishkaMob.Showcase.Components.Splitter do
         end
       },
       %Example{
-        title: "Overflow list",
-        description:
-          "How many fit is declared rather than measured — Mob reports no geometry back " <>
-            "to render/1.",
+        title: "Bounded, and disabled",
+        description: "min/max stop a pane vanishing. Disabled greys the grip and unwires it.",
         code: ~S"""
-        <MishkaOverflowList
-          visible={3}
-          on_counter={:show_all}
-        >{tag_pills()}</MishkaOverflowList>
+        <MishkaSplitter value={@bounded} min={30} max={70} extent={300} on_change={:bounded} />
+        <MishkaSplitter value={50} extent={300} disabled={true} />
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaOverflowList visible={@visible} on_counter={:more}>
-              {tag_pills()}
-            </MishkaOverflowList>
-            <Spacer size={10} />
-            <Text text="Tap +N to reveal one more." text_size={:sm} text_color={:muted} />
+            <MishkaSplitter
+              value={@bounded}
+              min={30}
+              max={70}
+              extent={300}
+              on_change={:bounded}
+              id="bounded"
+            >
+              {[pane("Min 30%", :primary), pane("Max 70%", :muted)]}
+            </MishkaSplitter>
+            <Spacer size={14} />
+            <MishkaSplitter value={50} extent={300} disabled={true} id="frozen">
+              {[pane("Frozen", :muted), pane("Inert", :muted)]}
+            </MishkaSplitter>
           </Column>
           """
         end
       }
     ]
   end
+
+  defp percent(value), do: value |> round() |> Integer.to_string()
 
   defp pane(label, ink) do
     ~MOB"""
@@ -113,8 +154,6 @@ defmodule MishkaMob.Showcase.Components.Splitter do
     </Column>
     """
   end
-
-  defp tag_pills, do: Enum.map(@tags, &pill(label: &1))
 
   @impl true
   def props do
@@ -130,7 +169,7 @@ defmodule MishkaMob.Showcase.Components.Splitter do
         name: "extent",
         type: "number",
         default: "320",
-        description: "Total dp to divide — there is no weight that works on both platforms."
+        description: "Total dp to divide — no weight works on both platforms."
       },
       %{
         name: "min / max",
@@ -139,48 +178,64 @@ defmodule MishkaMob.Showcase.Components.Splitter do
         description: "Bounds; a pane can never vanish."
       },
       %{
-        name: "show_control / disabled",
-        type: "boolean",
-        default: "true / false",
-        description: "The resize slider."
+        name: "on_change",
+        type: "event tag",
+        default: "—",
+        description: "{:drag, tag, payload} as the divider moves. Fold it with drag/3."
       },
       %{
-        name: "sizes/1 · split/1",
+        name: "disabled",
+        type: "boolean",
+        default: "false",
+        description: "The grip greys and stops responding; the panes keep their sizes."
+      },
+      %{
+        name: "grip / grip_color",
+        type: "number · ARGB",
+        default: "24 · grey",
+        description: "The drag target's thickness, and the pill. Canvas ops take ints."
+      },
+      %{
+        name: "id",
+        type: "string",
+        default: "nil",
+        description: "Test tag; panes get <id>-pane-1/2 and the grip <id>-grip."
+      },
+      %{
+        name: "drag/3 · sizes/1 · split/1",
         type: "helpers",
         default: "—",
-        description: "The pane arithmetic, without rendering."
-      },
-      %{
-        name: "OverflowList: visible / min_visible",
-        type: "integer",
-        default: "3 / 1",
-        description: "How many show; min_visible wins."
-      },
-      %{
-        name: "OverflowList: counter_text / on_counter",
-        type: "fun · event tag",
-        default: "+N",
-        description: "The counter's label, and its tap."
-      },
-      %{
-        name: "OverflowList: split/2",
-        type: "helper",
-        default: "—",
-        description: "{shown, hidden} — where a measured count would plug in."
+        description: "Fold a drag; the pane arithmetic without rendering."
       }
     ]
   end
 
   @impl true
-  def handle(:more, socket),
-    do: Mob.Socket.assign(socket, :visible, min(socket.assigns.visible + 1, length(@tags)))
-
   def handle(_tag, socket), do: socket
 
+  # Every drag arrives here as {:drag, tag, payload}; ComponentScreen routes it
+  # to handle_change/3 the same way it routes {:change, tag, value}.
   @impl true
-  def handle_change(:split, value, socket), do: Mob.Socket.assign(socket, :split, value)
-  def handle_change(:vsplit, value, socket), do: Mob.Socket.assign(socket, :vsplit, value)
+  def handle_change(:split, payload, socket), do: resize(socket, :split, payload, @extent, [])
+
+  # Its own assign, not :split — two examples sharing one would mean dragging
+  # either moved both, and no test (or reader) could say which it had touched.
+  def handle_change(:bounded, payload, socket),
+    do: resize(socket, :bounded, payload, @extent, min: 30, max: 70)
+
+  def handle_change(:vsplit, payload, socket),
+    do: resize(socket, :vsplit, payload, @vextent, orientation: :vertical)
+
   def handle_change(_tag, _value, socket), do: socket
+
+  defp resize(socket, key, payload, extent, opts) do
+    opts = Keyword.merge([value: Map.fetch!(socket.assigns, key), extent: extent], opts)
+    {value, grab} = MishkaSplitter.drag(payload, socket.assigns.grab, opts)
+
+    socket
+    |> Mob.Socket.assign(key, value)
+    |> Mob.Socket.assign(:grab, grab)
+  end
 
   @impl true
   def card_preview do
