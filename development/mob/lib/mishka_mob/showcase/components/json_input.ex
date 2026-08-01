@@ -36,14 +36,21 @@ defmodule MishkaMob.Showcase.Components.JsonInput do
         description:
           "Parsing is Jason's job — the same division of labour the web version keeps.",
         code: ~S"""
-        <MishkaJsonInput value={@json} on_change={:json} />
+        <MishkaJsonInput value={@json} lines={5} on_change={:json} id="config" />
 
-        MishkaJsonInput.validate(@json)  #=> {:ok, %{"name" => "mishka"}}
+        # The field never reformats as you type — that would move the cursor out
+        # from under the user — so the screen just holds the raw text.
+        def handle_info({:change, :json, text}, socket) do
+          {:noreply, Mob.Socket.assign(socket, :json, text)}
+        end
+
+        MishkaJsonInput.validate(@json)
+        #=> {:ok, %{"name" => "mishka", "stars" => 42}}
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaJsonInput value={@json} lines={5} on_change={:json} />
+            <MishkaJsonInput value={@json} lines={5} on_change={:json} id="json-valid" />
             <Spacer size={8} />
             <Text
               text={"Parses: " <> inspect(match?({:ok, _}, MishkaJsonInput.validate(@json)))}
@@ -58,12 +65,36 @@ defmodule MishkaMob.Showcase.Components.JsonInput do
         title: "Invalid shows the parser's own message",
         description: "Blank is not an error — an untouched field is not a mistake.",
         code: ~S"""
-        <MishkaJsonInput value={~s({"name": mishka})} />
+        <MishkaJsonInput value={@broken} lines={3} on_change={:broken} id="json-broken" />
+
+        # The border reddens and the parser's own message appears underneath.
+        # Both use the :error THEME token, so they follow light and dark.
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaJsonInput value={@broken} lines={3} on_change={:broken} />
+            <MishkaJsonInput value={@broken} lines={3} on_change={:broken} id="json-broken" />
+          </Column>
+          """
+        end
+      },
+      %Example{
+        title: "Disabled",
+        description: "Inert, not merely quiet — the field cannot be typed into at all.",
+        code: ~S"""
+        <MishkaJsonInput value={@json} disabled={true} />
+        """,
+        render: fn assigns ->
+          ~MOB"""
+          <Column fill_width={true}>
+            <MishkaJsonInput value={@json} lines={3} disabled={true} id="json-off" />
+            <Spacer size={8} />
+            <Text
+              text="A disabled field used to withhold only its handler: it still took a
+                    caret and accepted typing, and threw every keystroke away."
+              text_size={:sm}
+              text_color={:muted}
+            />
           </Column>
           """
         end
@@ -88,7 +119,7 @@ defmodule MishkaMob.Showcase.Components.JsonInput do
               suffix=" €"
             />
             <Spacer size={6} />
-            <MishkaNumberFormatter value={-98_765} text_color={:danger} />
+            <MishkaNumberFormatter value={-98_765} text_color={:error} />
           </Column>
           """
         end
@@ -110,6 +141,36 @@ defmodule MishkaMob.Showcase.Components.JsonInput do
         type: "integer",
         default: "6",
         description: "Field height in rows. The bridge grew a `lines` prop for this."
+      },
+      %{
+        name: "on_change",
+        type: "event tag",
+        default: "—",
+        description: "{:change, tag, text} per keystroke. Without it the field reports nothing."
+      },
+      %{
+        name: "placeholder",
+        type: "string",
+        default: "\"{ }\"",
+        description: "Empty-state hint."
+      },
+      %{
+        name: "disabled",
+        type: "boolean",
+        default: "false",
+        description: "Inert: enabled={false}, not merely a withheld handler."
+      },
+      %{
+        name: "error_color",
+        type: "colour / ARGB",
+        default: ":error",
+        description: "The invalid border and the message. A theme token, so it follows the theme."
+      },
+      %{
+        name: "id",
+        type: "string",
+        default: "nil",
+        description: "Test tag on the field."
       },
       %{
         name: "invalid",
