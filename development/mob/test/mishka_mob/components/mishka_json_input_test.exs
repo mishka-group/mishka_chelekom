@@ -131,6 +131,25 @@ defmodule MishkaMob.Components.MishkaJsonInputTest do
              |> Map.has_key?(:id)
     end
 
+    test "the message is tagged separately, because a page shows several at once" do
+      # A device test that asks the PAGE whether an error is showing gets its
+      # answer from whichever field is broken — including the example that is
+      # deliberately broken. That made one device test fail for the wrong reason
+      # and two others pass while asserting nothing, waiting for text that was
+      # already on screen before they typed. The message needs its own handle.
+      assert MishkaJsonInput.json_input(value: "{oops}", id: "cfg")
+             |> find(:text)
+             |> get_in([Access.key(:props), :id]) == "cfg-error"
+
+      assert MishkaJsonInput.error_id("cfg") == "cfg-error"
+
+      # No id on the field, no tag on the message.
+      refute MishkaJsonInput.json_input(value: "{oops}")
+             |> find(:text)
+             |> Map.fetch!(:props)
+             |> Map.has_key?(:id)
+    end
+
     test "forcing invalid on text that PARSES tints, but does not claim bad syntax" do
       # The caller knows something the parser does not — a schema rejected it,
       # the server said no. "Invalid JSON" would be a lie about the one thing

@@ -36,9 +36,16 @@ defmodule MishkaMob.Components.MishkaJsonInput do
   | `on_change` | event tag (atom) | — | `{:change, tag, text}` per keystroke. |
   | `error_color` | color token / ARGB int | `:error` | The invalid border and message. |
   | `background` / `border_color` / `border_width` / `padding` | | | The field. |
-  | `id` | string | `nil` | Test tag on the field. |
+  | `id` | string | `nil` | Test tag on the field; the message gets `<id>-error`. |
 
   Not ported: `name` / `form` (form plumbing). `id` IS ported, as a test handle.
+
+  ## Asking about the error requires an `id`
+
+  A page shows several of these at once — a valid one, a broken one — and they
+  all render into the same screen. "Is an error showing?" is therefore not a
+  question you can ask the page; it is a question about one field. Give the
+  field an `id` and its message is addressable as `error_id(id)`.
   """
 
   import Mob.Sigil
@@ -82,10 +89,23 @@ defmodule MishkaMob.Components.MishkaJsonInput do
     ~MOB"""
     <Column fill_width={true}>
       {field}
-      {message(props, result, invalid?)}
+      {message(props, result, invalid?, Map.get(props, :id))}
     </Column>
     """
   end
+
+  @doc """
+  The test tag on the error message, given the field's `id`.
+
+  A page usually shows several of these side by side — a valid one and a broken
+  one — so "is the error message on screen?" is not a question about the page,
+  it is a question about *one field*. This is the handle for asking it.
+
+      iex> MishkaMob.Components.MishkaJsonInput.error_id("config")
+      "config-error"
+  """
+  @spec error_id(String.t()) :: String.t()
+  def error_id(id) when is_binary(id), do: id <> "-error"
 
   @doc """
   Validate the text.
@@ -162,7 +182,13 @@ defmodule MishkaMob.Components.MishkaJsonInput do
     end
   end
 
-  defp message(props, result, invalid?) do
+  # The message carries its own tag (`<id>-error`) rather than borrowing the
+  # field's. A showcase page — and any real form — shows several of these at
+  # once, so a test that asks the PAGE whether an error is visible cannot tell
+  # which field it belongs to: a permanently-broken example next door answers
+  # for everyone. That is not hypothetical; it is what made three tests here
+  # either fail for the wrong reason or pass while asserting nothing.
+  defp message(props, result, invalid?, id) do
     with true <- truthy?(Map.get(props, :show_error, true)),
          true <- invalid?,
          text when is_binary(text) <- error_text(props, result) do
@@ -172,10 +198,18 @@ defmodule MishkaMob.Components.MishkaJsonInput do
         <Text text={text} text_size={:sm} text_color={danger(props)} />
       </Column>
       """
+      |> tag_message(id)
     else
       _ -> nil
     end
   end
+
+  defp tag_message(node, id) when is_binary(id) do
+    [spacer, text] = node.children
+    %{node | children: [spacer, tag(text, error_id(id))]}
+  end
+
+  defp tag_message(node, _id), do: node
 
   # `invalid: true` on text that PARSES means the caller knows something the
   # parser does not — a schema rejected it, the server said no. Claiming

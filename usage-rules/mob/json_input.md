@@ -52,9 +52,9 @@ end
 | `show_error` | boolean | `true` |
 | `error_color` | colour token / ARGB int | `:error` |
 | `background` / `border_color` / `border_width` / `padding` | | the field |
-| `id` | string | `nil` — test tag on the field |
+| `id` | string | `nil` — test tag on the field; the message gets `<id>-error` |
 
-Helpers: `validate/1`, `format/1`, `invalid?/2`.
+Helpers: `validate/1`, `format/1`, `invalid?/2`, `error_id/1`.
 
 Not ported: `name` / `form` (form plumbing). `id` **is** ported, as a test handle.
 
@@ -77,6 +77,13 @@ border vanish entirely (a border needs both a colour and a width), so invalid JS
 field's outline* instead of reddening it; as a `text_color` it left the message unstyled on Android
 and fully transparent — invisible — on iOS. `error_color` overrides it if your design system
 disagrees.
+
+**"Is an error showing?" is a question about a field, not about the page.** Give each field an `id`
+and its message is addressable as `error_id(id)` → `"<id>-error"`. A form shows several of these at
+once, so a page-wide search for the message text finds whichever one is broken — including an
+example that is *meant* to be broken. Three device tests here were written that way: one failed
+because the neighbouring invalid example answered for it, and two passed while asserting nothing at
+all, waiting for text that was already on screen before they typed.
 
 **Forcing `invalid` on text that parses does not claim bad syntax.** `invalid: true` means the caller
 knows something the parser does not — a schema rejected it, the server said no. Without an
