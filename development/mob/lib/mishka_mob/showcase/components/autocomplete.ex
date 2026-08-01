@@ -136,7 +136,7 @@ defmodule MishkaMob.Showcase.Components.Autocomplete do
         description:
           "Tap the field for the list, type to filter, tap a name to add it. Tapping a name you already have removes it, so the same person cannot be added twice.",
         code: ~S"""
-        <MishkaPillsInput draft={@draft} on_draft={:typed} on_add={:commit} on_focus={:open}>
+        <MishkaPillsInput draft={@draft} on_draft={:typed} on_add={:commit} on_press={:open}>
           {pills(@chosen)}
         </MishkaPillsInput>
         {suggestions_menu(@chosen, @draft)}

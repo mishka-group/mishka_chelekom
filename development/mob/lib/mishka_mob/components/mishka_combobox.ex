@@ -76,11 +76,12 @@ defmodule MishkaMob.Components.MishkaCombobox do
   `open` lives in the screen, like every Mob overlay. The three ways a user
   expects to open a combobox map onto three events the component reports:
 
-    * tapping the field — `on_press`, which fires on EVERY tap. `on_focus` is
-      an edge, so a field that already has focus reports nothing when tapped
-      again: close the list with the backdrop and the caret stays, and the
-      obvious way to reopen it does nothing. Use `on_press` for "open", and
-      keep `on_focus` for things that genuinely care about focus,
+    * tapping the field — `on_press`, which fires on EVERY tap. Use this one for
+      "open". `on_focus` is an EDGE: a field that already has focus reports
+      nothing when you tap it again, and closing the list does not take the
+      caret away — so with `on_focus` the obvious way to reopen the list did
+      nothing at all, the caret went on blinking, and only the ▾ worked. Keep
+      `on_focus` for things that genuinely care about focus,
     * typing — `on_query`, which fires on the first keystroke,
     * the ▾ — `on_toggle`.
 
@@ -341,7 +342,9 @@ defmodule MishkaMob.Components.MishkaCombobox do
 
     node
     |> put(:on_change, handler(props, :on_query, disabled?))
-    |> put(:on_press, handler(props, :on_press, disabled?))
+    # on_tap, not a new name: the renderer only registers handlers for the prop
+    # names it knows, and MobTextField reads on_tap as "the field was tapped".
+    |> put(:on_tap, handler(props, :on_press, disabled?))
     |> put(:on_focus, handler(props, :on_focus, disabled?))
     |> put(:on_blur, handler(props, :on_blur, disabled?))
   end

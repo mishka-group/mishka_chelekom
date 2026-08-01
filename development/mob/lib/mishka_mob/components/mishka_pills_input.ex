@@ -24,6 +24,7 @@ defmodule MishkaMob.Components.MishkaPillsInput do
   | `disabled` | boolean | `false` | Mutes and unwires. |
   | `on_draft` | event tag (atom) | — | `{:change, tag, text}` as the draft is typed. |
   | `on_add` | event tag (atom) | — | Fired on return. Carries NO text — commit your own draft. |
+  | `on_press` | event tag (atom) | — | `{:tap, tag}` on EVERY tap of the draft. |
   | `on_focus` / `on_blur` | event tags | — | The draft gained or lost focus. |
   | `space` | number | `6` | Gap between pills. |
   | `wrap_chars` | number | `34` | Characters per pill row. |
@@ -223,6 +224,7 @@ defmodule MishkaMob.Components.MishkaPillsInput do
     |> tag(Map.get(props, :id))
     |> put(:on_change, handler(props, :on_draft, disabled?))
     |> put(:on_submit, handler(props, :on_add, disabled?))
+    |> put(:on_tap, handler(props, :on_press, disabled?))
     |> put(:on_focus, handler(props, :on_focus, disabled?))
     |> put(:on_blur, handler(props, :on_blur, disabled?))
   end

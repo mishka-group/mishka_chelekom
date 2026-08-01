@@ -35,7 +35,7 @@ forwarded; this drops only `:suggestions`.
     placeholder="Type a city…"
     on_query={:query}
     on_select={:choose}
-    on_focus={:focus}
+    on_press={:press}
     on_toggle={:toggle}
     id="city"
   />
@@ -53,7 +53,8 @@ def handle_info({:tap, {:choose, text}}, socket) do
   {:noreply, socket |> Mob.Socket.assign(:query, text) |> Mob.Socket.assign(:open?, false)}
 end
 
-def handle_info({:focus, :focus}, socket), do: {:noreply, Mob.Socket.assign(socket, :open?, true)}
+# on_press, NOT on_focus — see "A note on focus" below.
+def handle_info({:tap, :press}, socket), do: {:noreply, Mob.Socket.assign(socket, :open?, true)}
 def handle_info({:tap, :close}, socket), do: {:noreply, Mob.Socket.assign(socket, :open?, false)}
 ```
 
@@ -71,7 +72,9 @@ def handle_info({:tap, :close}, socket), do: {:noreply, Mob.Socket.assign(socket
 | `empty_text` | string | `"No suggestions"` |
 | `disabled` | boolean | `false` |
 | `on_query` / `on_select` / `on_clear` | event tags | — |
+| `on_press` | event tag | — fires on EVERY tap of the field |
 | `on_focus` / `on_blur` / `on_toggle` | event tags | — |
+| `trigger_icon` / `clear_icon` | string, or `{closed, open}` | `▾`/`▴` and `✕` |
 | `id` | string | `nil` — test tags for the field, buttons and suggestions |
 
 Everything else the [combobox](combobox.md) takes is forwarded too.
@@ -97,7 +100,7 @@ those completions and then claimed there was nothing to suggest.
 drawn — rather than one saying "No suggestions", which is false when the reason is that you already
 typed the answer. A query that genuinely matches nothing still says so; that is the distinction.
 
-**Opening and closing is the screen's, and needs a backdrop.** Tapping the field reports `on_focus`,
+**Opening and closing is the screen's, and needs a backdrop.** Tapping the field reports `on_press`,
 the first keystroke reports `on_query`, an optional ▾ reports `on_toggle`. Closing on a tap
 **outside** needs an `on_tap` on the container around the control — the panel renders in flow, so
 nothing covers the page to catch it. Do not close on `on_blur`: choosing a suggestion blurs the field
@@ -109,9 +112,15 @@ the thing users notice first.
 
 ## A note on focus
 
-`on_focus` fires on a focus *change*. A field that already has focus does not report another one, so
-"tap the field to open" does nothing if the field was already focused — which a real user never
-does, but a device test will, and it looks like a broken component when it happens.
+`on_focus` fires on a focus *change*, and that is why **`on_press` exists and is what you should
+open on**. A field that already has the caret reports no new focus, and closing the panel does not
+take the caret away — so "tap the field to open it" did nothing the second time, while the caret
+blinked away as if the field were live. Only the ▾ worked, or tapping somewhere that happened to
+steal focus first, which nobody would guess.
+
+`on_press` fires on every tap. It observes the pointer without consuming it, so the field still
+places its caret and raises the keyboard exactly as before. Keep `on_focus` for things that
+genuinely care about focus.
 
 ## Related
 `combobox` (pick from a fixed list), `pills_input` (the free-text control on the same page),

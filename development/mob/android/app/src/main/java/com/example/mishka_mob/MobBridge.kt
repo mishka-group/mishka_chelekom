@@ -2217,10 +2217,14 @@ private fun RenderNodeInner(node: MobNode, modifier: Modifier) {
     // Apply on_tap as a clickable modifier for any node type except button —
     // button installs its own onClick via the Button composable. Mirrors iOS,
     // where most node types pick up onTapGesture via .ifLet(node.onTap).
+    // ...and except text_field, which reads on_tap itself (see MobTextField):
+    // a clickable wrapped round a text field CONSUMES the tap, so the field
+    // never places its caret and never raises the keyboard.
     val tapHandle = intProp(node.props, "on_tap")
-    val tapModifier = if (tapHandle != null && node.type != "button") {
-        modifier.clickable { MobBridge.nativeSendTap(tapHandle) }
-    } else modifier
+    val tapModifier =
+        if (tapHandle != null && node.type != "button" && node.type != "text_field") {
+            modifier.clickable { MobBridge.nativeSendTap(tapHandle) }
+        } else modifier
     val base = tapModifier.then(nodeModifier(node.props))
     // Track on-screen frame + set a testTag for any node carrying an :id, so the
     // agent can read positions (Mob.Test.element_frames) without a screenshot.
@@ -2487,7 +2491,7 @@ private fun MobTextField(node: MobNode, modifier: Modifier) {
     // focusable — it looked live and quietly went nowhere.
     val enabled = boolProp(node.props, "enabled") ?: true
 
-    // `on_press` fires on EVERY tap of the field, focused or not.
+    // `on_tap` on a TextField fires on EVERY tap of it, focused or not.
     //
     // on_focus is not enough on its own, and the difference is the whole reason
     // this exists: focus is an edge, so a field that already HAS focus reports
@@ -2499,7 +2503,11 @@ private fun MobTextField(node: MobNode, modifier: Modifier) {
     //
     // Observed on the INITIAL pass and never consumed, so the field still places
     // its own caret and shows its own keyboard exactly as before.
-    val pressHandle = intProp(node.props, "on_press")
+    // on_tap and NOT a new prop name: Mob.Renderer only turns {pid, tag} into a
+    // handler for the names it knows — on_tap, on_change, on_focus, on_blur,
+    // on_submit. Anything else is serialised as an ordinary prop, and a tuple is
+    // not serialisable, so inventing `on_press` took the whole screen down.
+    val pressHandle = intProp(node.props, "on_tap")
 
     val pressModifier =
         if (pressHandle == null) Modifier

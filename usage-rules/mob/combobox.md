@@ -80,7 +80,9 @@ end
 | `empty_text` | string | `"No matches"` |
 | `disabled` | boolean | `false` |
 | `on_query` / `on_select` / `on_clear` / `on_toggle` / `on_create` / `on_remove` | event tags | — |
+| `on_press` | event tag | — `{:tap, tag}` on EVERY tap of the field |
 | `on_focus` / `on_blur` | event tags | — `{:focus, tag}` / `{:blur, tag}` |
+| `trigger_icon` / `clear_icon` | string, or `{closed, open}` | `▾`/`▴` and `✕` |
 | `background` / `border_color` / `border_width` / `corner_radius` / `padding` | | the control |
 | `wrap_chars` | number | `34` — characters per chip row |
 | `id` | string | `nil` |
@@ -98,8 +100,8 @@ and the `*_class` attrs.
 map onto three events:
 
 ```elixir
-# 1. tapping the field
-def handle_info({:focus, :focus}, socket), do: {:noreply, assign(socket, :open?, true)}
+# 1. tapping the field — on_press, NOT on_focus
+def handle_info({:tap, :press}, socket), do: {:noreply, assign(socket, :open?, true)}
 
 # 2. typing — fires on the first keystroke, so someone who taps and types
 #    straight away does not have to tap again
@@ -125,6 +127,11 @@ combobox:
 
 A child's own handler consumes the tap, so the control, its chips and its options are unaffected —
 only the surrounding space closes the list.
+
+**Open on `on_press`, not `on_focus`.** Focus is an EDGE: a field that already has the caret
+reports nothing when you tap it again. Closing the list does not take the caret away, so with
+`on_focus` the obvious way to reopen it does nothing, the caret keeps blinking as if the field were
+live, and the only thing that still works is the ▾. `on_press` fires on every tap.
 
 **Do not close on `on_blur`.** It is offered, and it looks like the obvious answer, but tapping an
 option blurs the field too — so closing on blur closes the list on every pick, which is exactly what
