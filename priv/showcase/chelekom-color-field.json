@@ -1,0 +1,21 @@
+{
+  "name": "chelekom-color-field",
+  "furnishing": {
+    "body": "",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Brand palette in a theme settings form",
+      "source": "<.component component_name=\"chelekom-form-wrapper\" site=\"Global\" for={%{}} class=\"max-w-xl space-y-6 rounded-lg border border-neutral-200 p-6 dark:border-neutral-700\">\n  <div>\n    <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"large\" font_weight=\"font-semibold\">Brand colours</.component>\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\" class=\"mt-1 opacity-70\">These three drive every button, link and highlight on the site. Changes apply the moment you save.</.component>\n  </div>\n  <div class=\"flex flex-wrap gap-8\">\n    <.component component_name=\"chelekom-color-field\" site=\"Global\" id=\"theme-primary\" name=\"theme[primary]\" value=\"#4f46e5\" label=\"Primary\" description=\"Buttons and links\" />\n    <.component component_name=\"chelekom-color-field\" site=\"Global\" id=\"theme-accent\" name=\"theme[accent]\" value=\"#f59e0b\" label=\"Accent\" description=\"Badges and highlights\" />\n    <.component component_name=\"chelekom-color-field\" site=\"Global\" id=\"theme-surface\" name=\"theme[surface]\" value=\"#f8fafc\" label=\"Surface\" description=\"Card backgrounds\" />\n  </div>\n  <:actions>\n    <.component component_name=\"chelekom-button\" site=\"Global\" type=\"submit\" variant=\"default\" color=\"primary\" size=\"small\">Save theme</.component>\n  </:actions>\n</.component>"
+    },
+    {
+      "label": "Chart series colours in a reporting settings card",
+      "source": "<div class=\"max-w-md rounded-lg border border-neutral-200 p-5 dark:border-neutral-700\">\n  <div class=\"mb-4 flex items-baseline justify-between\">\n    <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"large\" font_weight=\"font-semibold\">Chart colours</.component>\n    <.component component_name=\"chelekom-small\" site=\"Global\" class=\"opacity-60\">Used in every report</.component>\n  </div>\n  <div class=\"flex items-center gap-6\">\n    <.component component_name=\"chelekom-color-field\" site=\"Global\" id=\"series-revenue\" name=\"chart[revenue]\" value=\"#2563eb\" label=\"Revenue\" size=\"small\" circle />\n    <.component component_name=\"chelekom-color-field\" site=\"Global\" id=\"series-refunds\" name=\"chart[refunds]\" value=\"#dc2626\" label=\"Refunds\" size=\"small\" circle />\n    <.component component_name=\"chelekom-color-field\" site=\"Global\" id=\"series-net\" name=\"chart[net]\" value=\"#16a34a\" label=\"Net\" size=\"small\" circle />\n  </div>\n</div>"
+    },
+    {
+      "label": "Label colour picker in a task editor",
+      "source": "<div class=\"max-w-sm space-y-4 rounded-lg border border-neutral-200 p-5 dark:border-neutral-700\">\n  <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"large\" font_weight=\"font-semibold\">Edit label</.component>\n  <.component component_name=\"chelekom-color-field\" site=\"Global\" id=\"label-colour\" name=\"label[color]\" value=\"#10b981\" label=\"Label colour\" description=\"Shown as a dot beside the task title in every list and board.\" />\n  <div>\n    <div class=\"mb-1 text-xs uppercase tracking-wide opacity-50\">Sample task row</div>\n    <div class=\"flex items-center gap-2 rounded-md bg-neutral-100 px-3 py-2 text-sm dark:bg-neutral-800\">\n      <.component component_name=\"chelekom-indicator\" site=\"Global\" color=\"success\" size=\"extra_small\" />\n      <span>Ready for review</span>\n    </div>\n  </div>\n</div>"
+    }
+  ]
+}

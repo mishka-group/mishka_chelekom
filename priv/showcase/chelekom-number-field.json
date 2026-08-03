@@ -1,0 +1,21 @@
+{
+  "name": "chelekom-number-field",
+  "furnishing": {
+    "body": "",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Cart quantity picker with subtotal",
+      "source": "<div class=\"max-w-sm space-y-4 rounded-xl border border-zinc-200 p-5 dark:border-zinc-800\">\n  <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"medium\" font_weight=\"font-semibold\">AeroPress Go travel kit</.component>\n  <.component component_name=\"chelekom-number-field\" site=\"Global\" id=\"cart-quantity\" name=\"quantity\" value=\"1\" label=\"Quantity\" floating=\"outer\" description=\"Ten per order is the limit.\" placeholder=\"1\">\n    <:start_section class=\"text-zinc-400\">\n      <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-shopping-bag\" class=\"size-4\" />\n    </:start_section>\n  </.component>\n  <div class=\"flex items-center justify-between border-t border-zinc-200 pt-3 text-sm dark:border-zinc-800\">\n    <span class=\"text-zinc-500 dark:text-zinc-400\">Subtotal</span>\n    <span class=\"font-semibold\">$42.00</span>\n  </div>\n  <.component component_name=\"chelekom-button\" site=\"Global\" variant=\"default\" color=\"primary\" full_width>Add to cart</.component>\n</div>"
+    },
+    {
+      "label": "Instance resize form with CPU, memory and storage",
+      "source": "<div class=\"max-w-md space-y-5 rounded-xl border border-zinc-200 p-6 dark:border-zinc-800\">\n  <div class=\"space-y-1\">\n    <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"medium\" font_weight=\"font-semibold\">Resize this instance</.component>\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\" color=\"natural\">Changes apply on the next restart, which takes about forty seconds.</.component>\n  </div>\n  <div class=\"grid gap-4 sm:grid-cols-2\">\n    <.component component_name=\"chelekom-number-field\" site=\"Global\" id=\"resize-vcpu\" name=\"vcpu\" value=\"4\" label=\"vCPU cores\" floating=\"outer\" placeholder=\"4\" />\n    <.component component_name=\"chelekom-number-field\" site=\"Global\" id=\"resize-memory\" name=\"memory\" value=\"16\" label=\"Memory\" floating=\"outer\" placeholder=\"16\">\n      <:end_section class=\"text-xs text-zinc-500 dark:text-zinc-400\"><span>GB</span></:end_section>\n    </.component>\n  </div>\n  <.component component_name=\"chelekom-number-field\" site=\"Global\" id=\"resize-storage\" name=\"storage\" value=\"200\" label=\"Block storage\" floating=\"outer\" description=\"Storage can be grown later, but never shrunk.\" placeholder=\"200\">\n    <:end_section class=\"text-xs text-zinc-500 dark:text-zinc-400\"><span>GB</span></:end_section>\n  </.component>\n  <.component component_name=\"chelekom-button\" site=\"Global\" variant=\"default\" color=\"natural\" full_width>Review new price</.component>\n</div>"
+    },
+    {
+      "label": "Room booking party-size panel",
+      "source": "<div class=\"max-w-sm space-y-4 rounded-xl border border-zinc-200 p-5 dark:border-zinc-800\">\n  <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"medium\" font_weight=\"font-semibold\">Who is travelling?</.component>\n  <.component component_name=\"chelekom-number-field\" site=\"Global\" id=\"booking-adults\" name=\"adults\" value=\"2\" label=\"Adults\" floating=\"outer\" description=\"Aged 13 and over\" placeholder=\"2\" />\n  <.component component_name=\"chelekom-number-field\" site=\"Global\" id=\"booking-children\" name=\"children\" value=\"0\" label=\"Children\" floating=\"outer\" description=\"Aged 2 to 12\" placeholder=\"0\" />\n  <.component component_name=\"chelekom-number-field\" site=\"Global\" id=\"booking-rooms\" name=\"rooms\" value=\"1\" label=\"Rooms\" floating=\"outer\" placeholder=\"1\" />\n  <.component component_name=\"chelekom-button\" site=\"Global\" variant=\"default\" color=\"primary\" full_width>Check availability</.component>\n</div>"
+    }
+  ]
+}

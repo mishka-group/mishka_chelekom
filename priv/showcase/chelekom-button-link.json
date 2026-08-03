@@ -1,0 +1,21 @@
+{
+  "name": "chelekom-button-link",
+  "furnishing": {
+    "body": "Read the documentation",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Hero call-to-action pair linking to signup and docs",
+      "source": "<div class=\"max-w-xl space-y-5\">\n  <h1 class=\"text-3xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100\">A content platform your editors will actually use</h1>\n  <p class=\"text-base leading-7 text-zinc-600 dark:text-zinc-400\">Build pages visually, keep every revision, and roll back a bad publish in one click.</p>\n  <div class=\"flex flex-wrap items-center gap-3\">\n    <.component component_name=\"chelekom-button-link\" site=\"Global\" id=\"btnlink-trial\" navigate=\"/auth\" variant=\"default\" color=\"primary\">Create your account</.component>\n    <.component component_name=\"chelekom-button-link\" site=\"Global\" id=\"btnlink-docs\" navigate=\"/chelekom/docs\" variant=\"outline\" color=\"natural\" icon=\"hero-book-open\">Read the docs</.component>\n  </div>\n</div>"
+    },
+    {
+      "label": "Read-more action at the foot of an article card",
+      "source": "<article class=\"max-w-sm space-y-3 rounded-lg border border-zinc-200 p-5 dark:border-zinc-800\">\n  <h3 class=\"text-base font-semibold text-zinc-900 dark:text-zinc-100\">Why we moved previews behind signed tokens</h3>\n  <p class=\"text-sm leading-6 text-zinc-600 dark:text-zinc-400\">Unlisted URLs kept leaking into search results. Here is the design we landed on, and the three edge cases that nearly sank it.</p>\n  <.component component_name=\"chelekom-button-link\" site=\"Global\" id=\"btnlink-readmore\" navigate=\"/blog/post/signed-preview-tokens\" variant=\"transparent\" color=\"primary\" size=\"small\" icon=\"hero-arrow-long-right\" right_icon>Read the article</.component>\n</article>"
+    },
+    {
+      "label": "Empty-state action inviting the first page",
+      "source": "<div class=\"mx-auto max-w-sm space-y-4 rounded-lg border border-dashed border-zinc-300 p-8 text-center dark:border-zinc-700\">\n  <h3 class=\"text-base font-semibold text-zinc-900 dark:text-zinc-100\">No pages yet</h3>\n  <p class=\"text-sm leading-6 text-zinc-600 dark:text-zinc-400\">Start from a blank canvas, or pick one of the ready-made layouts and edit it in place.</p>\n  <.component component_name=\"chelekom-button-link\" site=\"Global\" id=\"btnlink-empty\" navigate=\"/admin/dashboard/runtime/builder/page\" variant=\"default\" color=\"primary\" size=\"medium\" icon=\"hero-plus\">Create your first page</.component>\n</div>"
+    }
+  ]
+}

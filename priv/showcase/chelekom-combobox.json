@@ -1,0 +1,47 @@
+{
+  "name": "chelekom-combobox",
+  "furnishing": {
+    "body": "",
+    "slots": [
+      {
+        "name": "option",
+        "attrs": {
+          "value": "draft"
+        },
+        "body": "Draft"
+      },
+      {
+        "name": "option",
+        "attrs": {
+          "value": "in_review"
+        },
+        "body": "In review"
+      },
+      {
+        "name": "option",
+        "attrs": {
+          "value": "published"
+        },
+        "body": "Published"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "label": "Country selector with search in a checkout address form",
+      "source": "<.component\n  component_name=\"chelekom-combobox\"\n  site=\"Global\"\n  id=\"checkout-country\"\n  name=\"address[country]\"\n  label=\"Country or region\"\n  description=\"We use this to work out tax and delivery times.\"\n  placeholder=\"Select a country\"\n  search_placeholder=\"Search countries\"\n  searchable\n  class=\"max-w-sm\"\n>\n  <:start_section>\n    <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-globe-alt\" class=\"size-5 opacity-60\" />\n  </:start_section>\n  <:option value=\"de\">Germany</:option>\n  <:option value=\"fr\">France</:option>\n  <:option value=\"nl\">Netherlands</:option>\n  <:option value=\"es\">Spain</:option>\n  <:option value=\"it\">Italy</:option>\n  <:option value=\"se\">Sweden</:option>\n  <:option value=\"gb\">United Kingdom</:option>\n  <:option value=\"us\">United States</:option>\n  <:option value=\"ca\">Canada</:option>\n  <:option value=\"jp\">Japan</:option>\n</.component>"
+    },
+    {
+      "label": "Reviewer picker grouped by team, several at a time",
+      "source": "<.component\n  component_name=\"chelekom-combobox\"\n  site=\"Global\"\n  id=\"page-reviewers\"\n  name=\"page[reviewers]\"\n  label=\"Reviewers\"\n  description=\"Everyone you pick has to approve before the page goes live.\"\n  placeholder=\"Add reviewers\"\n  search_placeholder=\"Search people\"\n  searchable\n  multiple\n  class=\"max-w-md\"\n>\n  <:option group=\"Design\" value=\"nadia\">Nadia Kessler</:option>\n  <:option group=\"Design\" value=\"tomas\">Tomás Rivera</:option>\n  <:option group=\"Engineering\" value=\"ada\">Ada Lovelace</:option>\n  <:option group=\"Engineering\" value=\"jun\">Jun Watanabe</:option>\n  <:option group=\"Engineering\" value=\"priya\">Priya Raman</:option>\n  <:option group=\"Content\" value=\"marta\">Marta Silva</:option>\n  <:option group=\"Content\" value=\"eli\">Eli Brandt</:option>\n  <:option group=\"Legal\" value=\"hanna\" disabled={true}>Hanna Voss — on leave</:option>\n</.component>"
+    },
+    {
+      "label": "Support ticket status picker with coloured indicators",
+      "source": "<.component\n  component_name=\"chelekom-combobox\"\n  site=\"Global\"\n  id=\"ticket-status\"\n  name=\"ticket[status]\"\n  label=\"Status\"\n  placeholder=\"Select a status\"\n  size=\"medium\"\n  class=\"max-w-xs\"\n>\n  <:option value=\"open\">\n    <div class=\"flex items-center gap-2\">\n      <.component component_name=\"chelekom-indicator\" site=\"Global\" color=\"info\" size=\"extra_small\" />\n      <span>Open</span>\n    </div>\n  </:option>\n  <:option value=\"waiting\">\n    <div class=\"flex items-center gap-2\">\n      <.component component_name=\"chelekom-indicator\" site=\"Global\" color=\"warning\" size=\"extra_small\" />\n      <span>Waiting on customer</span>\n    </div>\n  </:option>\n  <:option value=\"escalated\">\n    <div class=\"flex items-center gap-2\">\n      <.component component_name=\"chelekom-indicator\" site=\"Global\" color=\"danger\" size=\"extra_small\" />\n      <span>Escalated</span>\n    </div>\n  </:option>\n  <:option value=\"resolved\">\n    <div class=\"flex items-center gap-2\">\n      <.component component_name=\"chelekom-indicator\" site=\"Global\" color=\"success\" size=\"extra_small\" />\n      <span>Resolved</span>\n    </div>\n  </:option>\n  <:option value=\"archived\">\n    <div class=\"flex items-center gap-2\">\n      <.component component_name=\"chelekom-indicator\" site=\"Global\" color=\"silver\" size=\"extra_small\" />\n      <span>Archived</span>\n    </div>\n  </:option>\n</.component>"
+    },
+    {
+      "label": "Filter bar above an article listing",
+      "source": "<div class=\"flex flex-wrap items-end gap-3 rounded-lg border border-neutral-200 p-4 dark:border-neutral-700\">\n  <.component\n    component_name=\"chelekom-combobox\"\n    site=\"Global\"\n    id=\"listing-category\"\n    name=\"filters[category]\"\n    label=\"Category\"\n    placeholder=\"All categories\"\n    size=\"medium\"\n    class=\"w-56\"\n  >\n    <:option value=\"engineering\">Engineering</:option>\n    <:option value=\"design\">Design</:option>\n    <:option value=\"product\">Product notes</:option>\n    <:option value=\"changelog\">Changelog</:option>\n  </.component>\n  <.component\n    component_name=\"chelekom-combobox\"\n    site=\"Global\"\n    id=\"listing-sort\"\n    name=\"filters[sort]\"\n    label=\"Sort by\"\n    placeholder=\"Newest first\"\n    size=\"medium\"\n    class=\"w-48\"\n  >\n    <:option value=\"newest\">Newest first</:option>\n    <:option value=\"oldest\">Oldest first</:option>\n    <:option value=\"read_time\">Shortest read</:option>\n  </.component>\n  <.component component_name=\"chelekom-button\" site=\"Global\" variant=\"default\" color=\"primary\" size=\"small\" icon=\"hero-magnifying-glass\">Apply</.component>\n</div>"
+    }
+  ]
+}

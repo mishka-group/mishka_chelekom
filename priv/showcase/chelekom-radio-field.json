@@ -1,0 +1,21 @@
+{
+  "name": "chelekom-radio-field",
+  "furnishing": {
+    "body": "",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Delivery method chooser in a checkout form",
+      "source": "<.component component_name=\"chelekom-form-wrapper\" site=\"Global\" for={%{}} id=\"checkout-delivery-form\" class=\"max-w-md rounded-xl border border-gray-200 dark:border-gray-700 p-5\">\n  <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"large\" font_weight=\"font-semibold\">Delivery method</.component>\n  <.component component_name=\"chelekom-small\" site=\"Global\" class=\"block mt-1 mb-4 text-gray-500\">Estimates apply to orders placed before 2 PM on a business day.</.component>\n  <.component component_name=\"chelekom-radio-field\" site=\"Global\" id=\"delivery-standard\" name=\"delivery\" value=\"standard\" space=\"small\" label=\"Standard — 3 to 5 business days, free\" checked />\n  <.component component_name=\"chelekom-radio-field\" site=\"Global\" id=\"delivery-express\" name=\"delivery\" value=\"express\" space=\"small\" label=\"Express — 2 business days, $9.90\" />\n  <.component component_name=\"chelekom-radio-field\" site=\"Global\" id=\"delivery-overnight\" name=\"delivery\" value=\"overnight\" space=\"small\" label=\"Overnight — next business day, $24.90\" />\n</.component>"
+    },
+    {
+      "label": "Billing cycle picker on a pricing card",
+      "source": "<div class=\"max-w-sm rounded-xl border border-gray-200 dark:border-gray-700 p-5\">\n  <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"medium\" font_weight=\"font-semibold\" class=\"mb-3\">Choose your billing cycle</.component>\n  <.component component_name=\"chelekom-radio-field\" site=\"Global\" id=\"billing-monthly\" name=\"billing_cycle\" value=\"monthly\" space=\"small\" label=\"Monthly — $19 per editor\" checked />\n  <.component component_name=\"chelekom-radio-field\" site=\"Global\" id=\"billing-yearly\" name=\"billing_cycle\" value=\"yearly\" space=\"small\" label=\"Yearly — $190 per editor, two months free\" />\n  <.component component_name=\"chelekom-small\" site=\"Global\" class=\"block mt-3 text-gray-500\">Switch or cancel at any time from your workspace settings.</.component>\n</div>"
+    },
+    {
+      "label": "Support ticket priority with a validation error",
+      "source": "<div class=\"max-w-md rounded-xl border border-gray-200 dark:border-gray-700 p-5\">\n  <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"medium\" font_weight=\"font-semibold\" class=\"mb-3\">How urgent is this request?</.component>\n  <.component component_name=\"chelekom-radio-field\" site=\"Global\" id=\"priority-low\" name=\"priority\" value=\"low\" color=\"success\" space=\"small\" label=\"Low — a question, no deadline\" />\n  <.component component_name=\"chelekom-radio-field\" site=\"Global\" id=\"priority-medium\" name=\"priority\" value=\"medium\" color=\"warning\" space=\"small\" label=\"Medium — a feature is misbehaving\" />\n  <.component component_name=\"chelekom-radio-field\" site=\"Global\" id=\"priority-high\" name=\"priority\" value=\"high\" color=\"danger\" space=\"small\" label=\"High — the site is down for visitors\" />\n  <.component component_name=\"chelekom-error\" site=\"Global\">Pick a priority so we can route your ticket.</.component>\n</div>"
+    }
+  ]
+}

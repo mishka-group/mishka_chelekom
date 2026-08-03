@@ -1,0 +1,17 @@
+{
+  "name": "chelekom-stepper-section",
+  "furnishing": {
+    "body": "<span class=\"mt-1 inline-block text-xs opacity-70\">About 2 minutes</span>",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Email verification step in a signup flow",
+      "source": "<.component component_name=\"chelekom-stepper\" site=\"Global\" id=\"stepper-email-verification\" variant=\"default\" color=\"primary\">\n  <.component component_name=\"chelekom-stepper-section\" site=\"Global\" id=\"verify-step-account\" step=\"completed\" step_number={1} title=\"Account created\" description=\"Welcome, Sara\" />\n  <.component component_name=\"chelekom-stepper-section\" site=\"Global\" id=\"verify-step-email\" step=\"current\" step_number={2} title=\"Verify your email\" description=\"We sent a link to sara@northwind.co\" />\n</.component>"
+    },
+    {
+      "label": "Payout step still clearing with the bank",
+      "source": "<.component component_name=\"chelekom-stepper\" site=\"Global\" id=\"stepper-payout-status\" variant=\"default\" color=\"success\">\n  <.component component_name=\"chelekom-stepper-section\" site=\"Global\" id=\"payout-step-requested\" step=\"completed\" icon=\"hero-check-circle\" title=\"Payout requested\" description=\"12 March, 09:41\" />\n  <.component component_name=\"chelekom-stepper-section\" site=\"Global\" id=\"payout-step-clearing\" step=\"loading\" icon=\"hero-clock\" title=\"Processing with your bank\" description=\"Usually takes two working days\" />\n</.component>"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "name": "chelekom-em",
+  "furnishing": {
+    "body": "every single time",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Emphasised promise inside a body paragraph",
+      "source": "<.component component_name=\"chelekom-p\" site=\"Global\" class=\"mx-auto max-w-xl\">\n  The editor saves a new draft the moment you stop typing, so <.component component_name=\"chelekom-em\" site=\"Global\">nothing you write is ever lost</.component> — not when the browser crashes, and not when the network drops halfway through a sentence.\n</.component>"
+    },
+    {
+      "label": "Publication title in a citation line",
+      "source": "<.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\" class=\"mx-auto max-w-xl text-gray-500 dark:text-gray-400\">\n  First published in <.component component_name=\"chelekom-em\" site=\"Global\">The Elixir Quarterly</.component>, March 2025. Reprinted with permission.\n</.component>"
+    }
+  ]
+}

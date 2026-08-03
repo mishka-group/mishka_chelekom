@@ -1,0 +1,13 @@
+{
+  "name": "chelekom-back",
+  "furnishing": {
+    "body": "Back to all articles",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Return link at the foot of an article",
+      "source": "<.component component_name=\"chelekom-back\" site=\"Global\" navigate=\"/blog\">Back to all articles</.component>"
+    }
+  ]
+}

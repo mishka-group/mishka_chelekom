@@ -1,0 +1,30 @@
+{
+  "name": "chelekom-clipboard",
+  "furnishing": {
+    "body": "",
+    "slots": [
+      {
+        "name": "content",
+        "body": "Invite code: <span class=\"font-mono font-semibold\">CHELEKOM-2026</span>"
+      },
+      {
+        "name": "trigger",
+        "body": "<.component component_name=\"chelekom-button\" site=\"Global\">Copy code</.component>"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "label": "Install command with a copy button",
+      "source": "<div class=\"max-w-xl rounded-lg border border-neutral-200 bg-neutral-50 p-4 dark:border-neutral-700 dark:bg-neutral-900\">\n  <div class=\"mb-2 text-xs font-semibold uppercase tracking-wide opacity-60\">Add Chelekom to your project</div>\n  <div class=\"flex items-center justify-between gap-3\">\n    <code id=\"clipboard-install-snippet\" class=\"truncate font-mono text-sm\">mix igniter.install mishka_chelekom</code>\n    <.component\n      component_name=\"chelekom-clipboard\"\n      site=\"Global\"\n      id=\"clipboard-install\"\n      target_selector=\"#clipboard-install-snippet\"\n      show_status_text={false}\n      dynamic_label={true}\n      copy_success_text=\"Copied\"\n      class=\"shrink-0\"\n    >\n      <:trigger>\n        <.component component_name=\"chelekom-button\" site=\"Global\" size=\"extra_small\" icon=\"hero-clipboard-document\">Copy</.component>\n      </:trigger>\n    </.component>\n  </div>\n</div>"
+    },
+    {
+      "label": "Secret API key row in account settings",
+      "source": "<div class=\"max-w-xl space-y-3 rounded-lg border border-neutral-200 p-5 dark:border-neutral-700\">\n  <div>\n    <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"large\" font_weight=\"font-semibold\">Secret API key</.component>\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\" class=\"mt-1 opacity-70\">Keep this on your server. Rotating it signs every integration out immediately.</.component>\n  </div>\n  <div class=\"flex items-center justify-between gap-3 rounded-md bg-neutral-100 px-3 py-2 dark:bg-neutral-800\">\n    <span id=\"clipboard-api-key\" class=\"truncate font-mono text-sm\">key_sample_4f21c9d84ba0416e9d5c3ab1</span>\n    <.component\n      component_name=\"chelekom-clipboard\"\n      site=\"Global\"\n      id=\"clipboard-api-key-copy\"\n      target_selector=\"#clipboard-api-key\"\n      show_status_text={false}\n      dynamic_label={true}\n      copy_success_text=\"Key copied\"\n      text_description=\"Copies the secret API key shown beside this button\"\n      timeout={4000}\n      class=\"shrink-0\"\n    >\n      <:trigger>\n        <button type=\"button\" class=\"inline-flex items-center gap-1 rounded border border-neutral-300 px-2 py-1 text-xs transition-colors hover:bg-white dark:border-neutral-600 dark:hover:bg-neutral-700\">\n          <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-key\" class=\"size-4\" />\n          <span>Copy key</span>\n        </button>\n      </:trigger>\n    </.component>\n  </div>\n</div>"
+    },
+    {
+      "label": "Referral card with a shareable invite link",
+      "source": "<div class=\"max-w-md rounded-xl border border-dashed border-neutral-300 p-6 text-center dark:border-neutral-600\">\n  <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"large\" font_weight=\"font-semibold\">Give a month, get a month</.component>\n  <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\" class=\"mx-auto mt-2 max-w-xs opacity-70\">Share your link. When a friend subscribes, you both get your next month free.</.component>\n  <.component\n    component_name=\"chelekom-clipboard\"\n    site=\"Global\"\n    id=\"clipboard-referral\"\n    copy_success_text=\"Invite link copied\"\n    content_class=\"block mb-3 rounded-md bg-neutral-100 px-3 py-2 font-mono text-sm dark:bg-neutral-800\"\n    trigger_class=\"block\"\n    status_class=\"block mt-3 text-xs text-green-600 dark:text-green-400\"\n    class=\"mt-5 block\"\n  >\n    <:content>https://northwind.app/invite/ada-7qx2</:content>\n    <:trigger>\n      <.component component_name=\"chelekom-button\" site=\"Global\" variant=\"default\" color=\"primary\" size=\"small\" full_width>Copy invite link</.component>\n    </:trigger>\n  </.component>\n</div>"
+    }
+  ]
+}

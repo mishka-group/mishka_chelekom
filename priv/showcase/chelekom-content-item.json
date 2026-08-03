@@ -1,0 +1,17 @@
+{
+  "name": "chelekom-content-item",
+  "furnishing": {
+    "body": "<.link href=\"#getting-started\" class=\"hover:underline\">Getting started</.link>",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Table of contents entry linking to a page section",
+      "source": "<.component component_name=\"chelekom-content-item\" site=\"Global\" id=\"toc-item-pricing\" icon=\"hero-hashtag\" icon_class=\"size-3.5 opacity-50\">\n  <.link href=\"#pricing\" class=\"text-sm hover:underline\">Pricing and billing</.link>\n</.component>"
+    },
+    {
+      "label": "Current step in a checkout progress list",
+      "source": "<.component\n  component_name=\"chelekom-content-item\"\n  site=\"Global\"\n  id=\"content-item-checkout-payment\"\n  icon=\"hero-credit-card\"\n  icon_class=\"size-4\"\n  title=\"Step 2 of 3\"\n  title_class=\"text-[11px] uppercase tracking-wide opacity-50\"\n  active\n>\n  Payment details\n</.component>"
+    }
+  ]
+}

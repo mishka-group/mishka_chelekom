@@ -334,9 +334,21 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
         kit_component_set =
           MapSet.new(components, fn c -> c["extra"]["function"] end) |> MapSet.delete(nil)
 
+        # Hand-authored examples live beside the demos and are laid OVER the
+        # harvest, for the components that have one — see
+        # `MishkaChelekom.CmsBundle.Showcase`. The harvest itself is untouched:
+        # option coverage is the right answer for a consumer asking which
+        # invocation demonstrates `variant="outline"`, and the wrong one for a
+        # page builder asking to be shown a finished block it can edit.
+        showcase_dir = Path.join([Path.dirname(igniter.assigns.cli_dir), "showcase"])
+
         components =
           components
           |> populate_examples(demos_dir, kit_component_set, bundle_name)
+          |> MishkaChelekom.CmsBundle.Showcase.overlay(showcase_dir)
+          # Which CONTROL an attribute wants, stated rather than left for the consumer to guess from
+          # the attribute's name — see `MishkaChelekom.CmsBundle.EditorHints`.
+          |> MishkaChelekom.CmsBundle.EditorHints.annotate()
 
         # Theme + base CSS files ship from `priv/assets/css/`. Combine
         # them into one global `:theme` Stylesheet entry — the runtime
@@ -347,14 +359,20 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
 
         skipped_names = Enum.map(skipped, fn {:skip, {n, _}} -> n end)
 
-        bundle = %{
-          "$schema" => "mishka.ui_kit.bundle.v3",
-          "name" => bundle_name,
-          "version" => bundle_version,
-          "components" => components,
-          "js_hooks" => js_hooks,
-          "stylesheets" => stylesheets
-        }
+        bundle =
+          %{
+            "$schema" => "mishka.ui_kit.bundle.v3",
+            "name" => bundle_name,
+            "version" => bundle_version,
+            "components" => components,
+            "js_hooks" => js_hooks,
+            "stylesheets" => stylesheets
+          }
+          # The glyphs behind every `hero-*` class this kit's components name. A consumer has no
+          # `deps/heroicons` and no Tailwind plugin, so without these it cannot draw an icon picker
+          # at all — see `MishkaChelekom.CmsBundle.Icons`. Omitted entirely when the set is not on
+          # disk, rather than shipped empty.
+          |> put_icons(MishkaChelekom.CmsBundle.Icons.block())
 
         json = Jason.encode!(bundle, pretty: true)
 
@@ -752,6 +770,9 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
   # Skips silently when `demos_dir` doesn't exist — kit author opted
   # out of demo verification (the bundle still ships, just with empty
   # examples arrays).
+  defp put_icons(bundle, nil), do: bundle
+  defp put_icons(bundle, icons), do: Map.put(bundle, "icons", icons)
+
   @doc false
   def populate_examples(components, demos_dir, kit_component_set, kit_name) do
     if File.dir?(demos_dir) do

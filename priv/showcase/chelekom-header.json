@@ -1,0 +1,27 @@
+{
+  "name": "chelekom-header",
+  "furnishing": {
+    "body": "Team members",
+    "slots": [
+      {
+        "name": "subtitle",
+        "body": "Everyone with access to this workspace, and what they are allowed to change.",
+        "attrs": {}
+      }
+    ]
+  },
+  "examples": [
+    {
+      "label": "Team listing header with an invite action",
+      "source": "<.component component_name=\"chelekom-header\" site=\"Global\" class=\"mb-8\">\n  Team members\n  <:subtitle>Everyone with access to this workspace, and what they are allowed to change.</:subtitle>\n  <:actions>\n    <.component component_name=\"chelekom-button\" site=\"Global\" variant=\"default\" color=\"primary\" icon=\"hero-user-plus\">Invite member</.component>\n  </:actions>\n</.component>"
+    },
+    {
+      "label": "Billing settings header with two actions",
+      "source": "<.component component_name=\"chelekom-header\" site=\"Global\" class=\"mb-8 border-b border-zinc-200 pb-6\">\n  Billing\n  <:subtitle>Your plan renews on 12 September. Invoices are emailed to the workspace owner.</:subtitle>\n  <:actions>\n    <div class=\"flex items-center gap-3\">\n      <.component component_name=\"chelekom-button\" site=\"Global\" variant=\"outline\" color=\"natural\" icon=\"hero-arrow-down-tray\">Download invoices</.component>\n      <.component component_name=\"chelekom-button\" site=\"Global\" variant=\"default\" color=\"primary\">Change plan</.component>\n    </div>\n  </:actions>\n</.component>"
+    },
+    {
+      "label": "Centered marketing section header above a feature grid",
+      "source": "<div class=\"mx-auto max-w-4xl py-12\">\n  <.component component_name=\"chelekom-header\" site=\"Global\" class=\"text-center\">\n    Everything a small team needs\n    <:subtitle>No add-ons and no per-seat surprises. The whole CMS is in every plan.</:subtitle>\n  </.component>\n  <div class=\"mt-10 grid gap-8 sm:grid-cols-3\">\n    <div>\n      <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-bolt\" class=\"size-6 text-indigo-600\" />\n      <.component component_name=\"chelekom-h6\" site=\"Global\" font_weight=\"font-semibold\" class=\"mt-3\">Instant publishing</.component>\n      <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\" class=\"mt-1 text-zinc-600\">Changes go live the moment you press publish, with no rebuild queue.</.component>\n    </div>\n    <div>\n      <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-shield-check\" class=\"size-6 text-indigo-600\" />\n      <.component component_name=\"chelekom-h6\" site=\"Global\" font_weight=\"font-semibold\" class=\"mt-3\">Roles that fit</.component>\n      <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\" class=\"mt-1 text-zinc-600\">Give writers the editor and nothing else. Permissions are per site.</.component>\n    </div>\n    <div>\n      <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-clock\" class=\"size-6 text-indigo-600\" />\n      <.component component_name=\"chelekom-h6\" site=\"Global\" font_weight=\"font-semibold\" class=\"mt-3\">Full history</.component>\n      <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\" class=\"mt-1 text-zinc-600\">Every version of every page is kept, so you can roll back at any time.</.component>\n    </div>\n  </div>\n</div>"
+    }
+  ]
+}

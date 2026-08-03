@@ -1,0 +1,17 @@
+{
+  "name": "chelekom-td",
+  "furnishing": {
+    "body": "Chelekom Starter Licence",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Customer cell stacking the name over the email",
+      "source": "<.component component_name=\"chelekom-td\" site=\"Global\" id=\"td-customer-cell\">\n  <div class=\"leading-tight\">\n    <div class=\"font-semibold\">Nadia Rahmani</div>\n    <div class=\"text-xs opacity-70\">nadia@mishka.life</div>\n  </div>\n</.component>"
+    },
+    {
+      "label": "Payment status cell with a badge and the settled date",
+      "source": "<.component component_name=\"chelekom-td\" site=\"Global\" id=\"td-status-cell\">\n  <div class=\"flex items-center gap-2\">\n    <.component component_name=\"chelekom-badge\" site=\"Global\" color=\"success\" rounded=\"full\">Paid</.component>\n    <span class=\"text-xs opacity-70\">settled 3 May</span>\n  </div>\n</.component>"
+    }
+  ]
+}

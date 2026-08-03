@@ -1,0 +1,21 @@
+{
+  "name": "chelekom-input-button",
+  "furnishing": {
+    "body": "",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Search row with a submit button",
+      "source": "<div class=\"mx-auto flex max-w-lg items-end gap-3\">\n  <div class=\"flex-1\">\n    <.component component_name=\"chelekom-input\" site=\"Global\" id=\"docs-search-query\" name=\"q\" value=\"\" type=\"search\" label=\"Search the documentation\" />\n  </div>\n  <.component component_name=\"chelekom-input-button\" site=\"Global\" id=\"docs-search-submit\" type=\"submit\" value=\"Search\" variant=\"default\" color=\"primary\" size=\"small\" />\n</div>"
+    },
+    {
+      "label": "Form action row with save and reset",
+      "source": "<div class=\"mx-auto max-w-md space-y-4\">\n  <.component component_name=\"chelekom-input\" site=\"Global\" id=\"profile-display-name\" name=\"display_name\" value=\"Sara Mehrabi\" type=\"text\" label=\"Display name\" />\n  <.component component_name=\"chelekom-input\" site=\"Global\" id=\"profile-title\" name=\"title\" value=\"Product designer\" type=\"text\" label=\"Job title\" />\n  <.component component_name=\"chelekom-hr\" site=\"Global\" margin=\"small\" />\n  <div class=\"flex items-center justify-end gap-3\">\n    <.component component_name=\"chelekom-input-button\" site=\"Global\" id=\"profile-reset\" type=\"reset\" value=\"Discard\" variant=\"outline\" color=\"natural\" size=\"medium\" />\n    <.component component_name=\"chelekom-input-button\" site=\"Global\" id=\"profile-save\" type=\"submit\" value=\"Save changes\" variant=\"default\" color=\"primary\" size=\"medium\" />\n  </div>\n</div>"
+    },
+    {
+      "label": "Order summary with a full-width checkout button",
+      "source": "<div class=\"mx-auto max-w-sm rounded-2xl border border-zinc-200 p-6\">\n  <.component component_name=\"chelekom-h5\" site=\"Global\" font_weight=\"font-semibold\">Order summary</.component>\n  <div class=\"mt-4 flex items-center justify-between\">\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\">Team plan, 6 seats</.component>\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\">$294.00</.component>\n  </div>\n  <div class=\"mt-2 flex items-center justify-between\">\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\">VAT</.component>\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\">$26.46</.component>\n  </div>\n  <.component component_name=\"chelekom-hr\" site=\"Global\" margin=\"medium\" />\n  <div class=\"flex items-center justify-between\">\n    <.component component_name=\"chelekom-p\" site=\"Global\" font_weight=\"font-semibold\">Total today</.component>\n    <.component component_name=\"chelekom-p\" site=\"Global\" font_weight=\"font-semibold\">$320.46</.component>\n  </div>\n  <.component component_name=\"chelekom-input-button\" site=\"Global\" id=\"checkout-place-order\" type=\"submit\" value=\"Place order\" variant=\"default\" color=\"primary\" full_width={true} class=\"mt-6\" />\n  <.component component_name=\"chelekom-small\" site=\"Global\" size=\"small\" class=\"mt-3 block text-center text-zinc-500\">You can cancel from the billing page at any time.</.component>\n</div>"
+    }
+  ]
+}

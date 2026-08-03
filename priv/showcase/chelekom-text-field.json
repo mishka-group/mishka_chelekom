@@ -1,0 +1,21 @@
+{
+  "name": "chelekom-text-field",
+  "furnishing": {
+    "body": "",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Full name field on a checkout form",
+      "source": "<.component component_name=\"chelekom-text-field\" site=\"Global\" id=\"text-full-name\" name=\"full_name\" value=\"\" label=\"Full name\" placeholder=\"Mona Aghili\" description=\"Enter the name exactly as it appears on your card.\" space=\"small\" rounded=\"medium\" />"
+    },
+    {
+      "label": "Discount code field with an apply action",
+      "source": "<.component component_name=\"chelekom-text-field\" site=\"Global\" id=\"text-discount-code\" name=\"discount_code\" value=\"\" label=\"Discount code\" placeholder=\"SPRING25\" description=\"One code per order. Codes are not case sensitive.\" variant=\"bordered\" color=\"natural\" space=\"small\" rounded=\"medium\">\n  <:start_section>\n    <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-tag\" class=\"size-4 opacity-60\" />\n  </:start_section>\n  <:end_section>\n    <.component component_name=\"chelekom-button\" site=\"Global\" type=\"button\" variant=\"default\" color=\"primary\" size=\"extra_small\" rounded=\"small\">Apply</.component>\n  </:end_section>\n</.component>"
+    },
+    {
+      "label": "Company name with a floating label",
+      "source": "<.component component_name=\"chelekom-text-field\" site=\"Global\" id=\"text-company-floating\" name=\"company_name\" value=\"\" label=\"Company name\" floating=\"outer\" variant=\"bordered\" color=\"primary\" rounded=\"medium\" space=\"small\" />"
+    }
+  ]
+}

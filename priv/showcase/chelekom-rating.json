@@ -1,0 +1,21 @@
+{
+  "name": "chelekom-rating",
+  "furnishing": {
+    "body": "",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Average score summary on a product page",
+      "source": "<div class=\"max-w-sm rounded-xl border border-gray-200 dark:border-gray-700 p-5\">\n  <div class=\"flex items-center gap-4\">\n    <span class=\"text-4xl font-semibold leading-none\">4.5</span>\n    <div>\n      <.component component_name=\"chelekom-rating\" site=\"Global\" id=\"product-avg-rating\" select={4.5} size=\"medium\" />\n      <.component component_name=\"chelekom-small\" site=\"Global\" class=\"block mt-1 text-gray-500\">Based on 1,284 verified reviews</.component>\n    </div>\n  </div>\n</div>"
+    },
+    {
+      "label": "Customer testimonial card",
+      "source": "<div class=\"max-w-md rounded-xl border border-gray-200 dark:border-gray-700 p-6\">\n  <.component component_name=\"chelekom-rating\" site=\"Global\" id=\"testimonial-rating\" select={5} />\n  <.component component_name=\"chelekom-p\" site=\"Global\" class=\"mt-3\">Migrating took an afternoon. Our editors publish twice as often now, and nobody has filed a ticket about the old admin since.</.component>\n  <div class=\"mt-5 flex items-center gap-3\">\n    <.component component_name=\"chelekom-avatar\" site=\"Global\" src=\"/images/avatar2.jpg\" alt=\"Portrait of Nadia Farrokh\" size=\"medium\" rounded=\"full\" />\n    <div>\n      <.component component_name=\"chelekom-strong\" site=\"Global\" class=\"block\">Nadia Farrokh</.component>\n      <.component component_name=\"chelekom-small\" site=\"Global\" class=\"block text-gray-500\">Head of Content, Aurora Labs</.component>\n    </div>\n  </div>\n</div>"
+    },
+    {
+      "label": "Star breakdown in a product review section",
+      "source": "<div class=\"max-w-md rounded-xl border border-gray-200 dark:border-gray-700 p-5 space-y-3\">\n  <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"medium\" font_weight=\"font-semibold\">Customer reviews</.component>\n  <div class=\"flex items-center gap-3\">\n    <.component component_name=\"chelekom-rating\" site=\"Global\" id=\"breakdown-rating-5\" select={5} size=\"extra_small\" class=\"shrink-0\" />\n    <div class=\"h-2 flex-1 rounded-full bg-gray-200 dark:bg-gray-700\"><div class=\"h-2 w-[68%] rounded-full bg-amber-400\"></div></div>\n    <span class=\"w-12 text-right text-sm text-gray-500\">874</span>\n  </div>\n  <div class=\"flex items-center gap-3\">\n    <.component component_name=\"chelekom-rating\" site=\"Global\" id=\"breakdown-rating-4\" select={4} size=\"extra_small\" class=\"shrink-0\" />\n    <div class=\"h-2 flex-1 rounded-full bg-gray-200 dark:bg-gray-700\"><div class=\"h-2 w-[21%] rounded-full bg-amber-400\"></div></div>\n    <span class=\"w-12 text-right text-sm text-gray-500\">269</span>\n  </div>\n  <div class=\"flex items-center gap-3\">\n    <.component component_name=\"chelekom-rating\" site=\"Global\" id=\"breakdown-rating-3\" select={3} size=\"extra_small\" class=\"shrink-0\" />\n    <div class=\"h-2 flex-1 rounded-full bg-gray-200 dark:bg-gray-700\"><div class=\"h-2 w-[7%] rounded-full bg-amber-400\"></div></div>\n    <span class=\"w-12 text-right text-sm text-gray-500\">90</span>\n  </div>\n  <div class=\"flex items-center gap-3\">\n    <.component component_name=\"chelekom-rating\" site=\"Global\" id=\"breakdown-rating-2\" select={2} size=\"extra_small\" class=\"shrink-0\" />\n    <div class=\"h-2 flex-1 rounded-full bg-gray-200 dark:bg-gray-700\"><div class=\"h-2 w-[3%] rounded-full bg-amber-400\"></div></div>\n    <span class=\"w-12 text-right text-sm text-gray-500\">33</span>\n  </div>\n  <div class=\"flex items-center gap-3\">\n    <.component component_name=\"chelekom-rating\" site=\"Global\" id=\"breakdown-rating-1\" select={1} size=\"extra_small\" class=\"shrink-0\" />\n    <div class=\"h-2 flex-1 rounded-full bg-gray-200 dark:bg-gray-700\"><div class=\"h-2 w-[1%] rounded-full bg-amber-400\"></div></div>\n    <span class=\"w-12 text-right text-sm text-gray-500\">18</span>\n  </div>\n</div>"
+    }
+  ]
+}

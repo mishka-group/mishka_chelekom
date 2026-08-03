@@ -1,0 +1,17 @@
+{
+  "name": "chelekom-h6",
+  "furnishing": {
+    "body": "Shipping and returns",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Footer column heading above a link list",
+      "source": "<div class=\"max-w-xs\">\n  <.component component_name=\"chelekom-h6\" site=\"Global\" size=\"small\" font_weight=\"font-semibold\" class=\"uppercase tracking-wide text-zinc-500\">Product</.component>\n  <.component component_name=\"chelekom-ul\" site=\"Global\" class=\"mt-4 space-y-2\">\n    <.component component_name=\"chelekom-li\" site=\"Global\"><.link navigate=\"/chelekom\">Components</.link></.component>\n    <.component component_name=\"chelekom-li\" site=\"Global\"><.link navigate=\"/theme-builder\">Theme builder</.link></.component>\n    <.component component_name=\"chelekom-li\" site=\"Global\"><.link navigate=\"/blog\">Changelog</.link></.component>\n    <.component component_name=\"chelekom-li\" site=\"Global\"><.link navigate=\"/hire-us\">Hire the team</.link></.component>\n  </.component>\n</div>"
+    },
+    {
+      "label": "Numbered how-it-works steps",
+      "source": "<div class=\"mx-auto grid max-w-4xl gap-8 sm:grid-cols-3\">\n  <div>\n    <div class=\"flex size-8 items-center justify-center rounded-full bg-zinc-900 text-sm font-semibold text-white\">1</div>\n    <.component component_name=\"chelekom-h6\" site=\"Global\" font_weight=\"font-semibold\" class=\"mt-4\">Point your domain</.component>\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\" class=\"mt-1 text-zinc-600\">Add one CNAME record. The certificate is issued for you within a minute.</.component>\n  </div>\n  <div>\n    <div class=\"flex size-8 items-center justify-center rounded-full bg-zinc-900 text-sm font-semibold text-white\">2</div>\n    <.component component_name=\"chelekom-h6\" site=\"Global\" font_weight=\"font-semibold\" class=\"mt-4\">Build the page</.component>\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\" class=\"mt-1 text-zinc-600\">Drag blocks onto the canvas and edit their text straight where it sits.</.component>\n  </div>\n  <div>\n    <div class=\"flex size-8 items-center justify-center rounded-full bg-zinc-900 text-sm font-semibold text-white\">3</div>\n    <.component component_name=\"chelekom-h6\" site=\"Global\" font_weight=\"font-semibold\" class=\"mt-4\">Publish</.component>\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\" class=\"mt-1 text-zinc-600\">Your change is live immediately, with the previous version kept as a draft.</.component>\n  </div>\n</div>"
+    }
+  ]
+}

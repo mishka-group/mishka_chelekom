@@ -1,0 +1,17 @@
+{
+  "name": "chelekom-tr",
+  "furnishing": {
+    "body": "<.component component_name=\"chelekom-td\" site=\"Global\">Ada Lovelace</.component>\n<.component component_name=\"chelekom-td\" site=\"Global\">ada@example.com</.component>\n<.component component_name=\"chelekom-td\" site=\"Global\">Active</.component>",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Invoice rows inside a billing table",
+      "source": "<.component component_name=\"chelekom-table\" site=\"Global\" id=\"table-invoices\" padding=\"small\" rows_border=\"extra_small\">\n  <:header>Invoice</:header>\n  <:header>Issued</:header>\n  <:header>Amount</:header>\n  <:header>Status</:header>\n  <.component component_name=\"chelekom-tr\" site=\"Global\">\n    <.component component_name=\"chelekom-td\" site=\"Global\" class=\"font-medium\">INV-2041</.component>\n    <.component component_name=\"chelekom-td\" site=\"Global\">1 Mar 2026</.component>\n    <.component component_name=\"chelekom-td\" site=\"Global\">$249.00</.component>\n    <.component component_name=\"chelekom-td\" site=\"Global\">\n      <.component component_name=\"chelekom-badge\" site=\"Global\" variant=\"default\" color=\"success\" rounded=\"full\">Paid</.component>\n    </.component>\n  </.component>\n  <.component component_name=\"chelekom-tr\" site=\"Global\">\n    <.component component_name=\"chelekom-td\" site=\"Global\" class=\"font-medium\">INV-2042</.component>\n    <.component component_name=\"chelekom-td\" site=\"Global\">1 Apr 2026</.component>\n    <.component component_name=\"chelekom-td\" site=\"Global\">$249.00</.component>\n    <.component component_name=\"chelekom-td\" site=\"Global\">\n      <.component component_name=\"chelekom-badge\" site=\"Global\" variant=\"default\" color=\"warning\" rounded=\"full\">Due in 9 days</.component>\n    </.component>\n  </.component>\n</.component>"
+    },
+    {
+      "label": "Highlighted row in a team members table",
+      "source": "<.component component_name=\"chelekom-table\" site=\"Global\" id=\"table-team-members\" padding=\"small\" rows_border=\"extra_small\">\n  <:header>Name</:header>\n  <:header>Email</:header>\n  <:header>Role</:header>\n  <:header>Last activity</:header>\n  <.component component_name=\"chelekom-tr\" site=\"Global\">\n    <.component component_name=\"chelekom-td\" site=\"Global\" class=\"font-medium\">Emily Carter</.component>\n    <.component component_name=\"chelekom-td\" site=\"Global\">emily@example.com</.component>\n    <.component component_name=\"chelekom-td\" site=\"Global\">Editor</.component>\n    <.component component_name=\"chelekom-td\" site=\"Global\">Active two hours ago</.component>\n  </.component>\n  <.component component_name=\"chelekom-tr\" site=\"Global\" class=\"bg-amber-50 dark:bg-amber-500/10\">\n    <.component component_name=\"chelekom-td\" site=\"Global\" class=\"font-medium\">Noah Bennett</.component>\n    <.component component_name=\"chelekom-td\" site=\"Global\">noah@example.com</.component>\n    <.component component_name=\"chelekom-td\" site=\"Global\">Invited</.component>\n    <.component component_name=\"chelekom-td\" site=\"Global\">Invitation expires tomorrow</.component>\n  </.component>\n</.component>"
+    }
+  ]
+}

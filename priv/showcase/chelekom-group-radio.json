@@ -1,0 +1,43 @@
+{
+  "name": "chelekom-group-radio",
+  "furnishing": {
+    "body": "<div class=\"mb-1 text-sm font-medium\">Choose a plan</div>",
+    "slots": [
+      {
+        "name": "radio",
+        "attrs": {
+          "value": "monthly"
+        },
+        "body": "Monthly billing"
+      },
+      {
+        "name": "radio",
+        "attrs": {
+          "value": "annual"
+        },
+        "body": "Annual billing, two months free"
+      },
+      {
+        "name": "radio",
+        "attrs": {
+          "value": "metered"
+        },
+        "body": "Pay only for what you use"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "label": "Billing period choice in a checkout",
+      "source": "<.component component_name=\"chelekom-group-radio\" site=\"Global\" id=\"checkout-billing-period\" name=\"billing_period\" space=\"small\">\n  <div class=\"mb-2 text-sm font-medium\">How would you like to be billed?</div>\n  <:radio value=\"monthly\">Monthly — 29 EUR, cancel any time</:radio>\n  <:radio value=\"annual\" checked={true}>Annually — 290 EUR, two months free</:radio>\n  <:radio value=\"metered\">Metered — pay for the pages you publish</:radio>\n</.component>"
+    },
+    {
+      "label": "Delivery speed options laid out in a row",
+      "source": "<.component component_name=\"chelekom-group-radio\" site=\"Global\" id=\"checkout-delivery-speed\" name=\"delivery_speed\" variation=\"horizontal\" space=\"large\" size=\"small\" label_class=\"text-sm\">\n  <:radio value=\"standard\" checked={true}>Standard, 3 to 5 days</:radio>\n  <:radio value=\"express\">Express, next working day</:radio>\n  <:radio value=\"collect\">Collect from the workshop</:radio>\n</.component>"
+    },
+    {
+      "label": "Survey question with a five-point scale",
+      "source": "<.component component_name=\"chelekom-group-radio\" site=\"Global\" id=\"survey-recommend\" name=\"recommend\" variation=\"horizontal\" space=\"medium\" size=\"small\" label_class=\"text-sm\">\n  <div class=\"mb-2 w-full text-sm font-medium\">How likely are you to recommend the editor to a colleague?</div>\n  <:radio value=\"1\">Not at all</:radio>\n  <:radio value=\"2\">Unlikely</:radio>\n  <:radio value=\"3\">Neutral</:radio>\n  <:radio value=\"4\">Likely</:radio>\n  <:radio value=\"5\">Very likely</:radio>\n</.component>"
+    }
+  ]
+}

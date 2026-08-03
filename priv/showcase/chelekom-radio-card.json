@@ -1,0 +1,44 @@
+{
+  "name": "chelekom-radio-card",
+  "furnishing": {
+    "body": "",
+    "slots": [
+      {
+        "name": "radio",
+        "attrs": {
+          "value": "one",
+          "title": "First option",
+          "description": "What picking this one means."
+        },
+        "body": ""
+      },
+      {
+        "name": "radio",
+        "attrs": {
+          "value": "two",
+          "title": "Second option",
+          "description": "And what picking this one means."
+        },
+        "body": ""
+      }
+    ]
+  },
+  "examples": [
+    {
+      "label": "Pricing plan picker with three tiers",
+      "source": "<div class=\"max-w-3xl space-y-4\">\n  <div class=\"space-y-1\">\n    <.component component_name=\"chelekom-h3\" site=\"Global\" size=\"large\" font_weight=\"font-semibold\">Choose a plan</.component>\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\" color=\"natural\">Switch or cancel whenever you like; we bill for the days you used.</.component>\n  </div>\n  <.component component_name=\"chelekom-radio-card\" site=\"Global\" id=\"pricing-plan\" name=\"plan\" cols=\"three\" cols_gap=\"small\" padding=\"medium\" rounded=\"large\">\n    <:radio value=\"starter\" title=\"Starter\" description=\"$0 — one site, community support\">\n      <div class=\"mt-2 text-xs text-zinc-500 dark:text-zinc-400\">Good for a personal blog you publish once a week.</div>\n    </:radio>\n    <:radio value=\"team\" title=\"Team\" checked description=\"$29 per editor — five sites, drafts and review\">\n      <div class=\"mt-2 text-xs text-zinc-500 dark:text-zinc-400\">The one most agencies land on after the first month.</div>\n    </:radio>\n    <:radio value=\"business\" title=\"Business\" description=\"$79 per editor — unlimited sites, audit log, SSO\">\n      <div class=\"mt-2 text-xs text-zinc-500 dark:text-zinc-400\">Adds the retention and access controls procurement asks about.</div>\n    </:radio>\n  </.component>\n</div>"
+    },
+    {
+      "label": "Checkout shipping speed chooser",
+      "source": "<div class=\"max-w-xl space-y-3\">\n  <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"medium\" font_weight=\"font-semibold\">How soon do you need it?</.component>\n  <.component component_name=\"chelekom-radio-card\" site=\"Global\" id=\"shipping-speed\" name=\"shipping\" cols=\"two\" cols_gap=\"small\" padding=\"small\" show_radio>\n    <:radio value=\"standard\" checked title=\"Standard\" description=\"Free — arrives Thursday 12 March\"></:radio>\n    <:radio value=\"express\" title=\"Express\" description=\"$12 — arrives tomorrow before noon\"></:radio>\n  </.component>\n  <p class=\"text-xs text-zinc-500 dark:text-zinc-400\">Orders placed after 4 p.m. ship the following working day.</p>\n</div>"
+    },
+    {
+      "label": "Instance size picker with icons",
+      "source": "<div class=\"max-w-2xl space-y-3\">\n  <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"medium\" font_weight=\"font-semibold\">Instance size</.component>\n  <.component component_name=\"chelekom-radio-card\" site=\"Global\" id=\"instance-size\" name=\"instance\" cols=\"three\" cols_gap=\"small\" padding=\"small\" class=\"text-center\" rounded=\"medium\">\n    <:radio value=\"small\" icon=\"hero-cpu-chip\" title=\"2 vCPU\" description=\"4 GB RAM · $18/mo\"></:radio>\n    <:radio value=\"medium\" icon=\"hero-cpu-chip\" checked title=\"4 vCPU\" description=\"16 GB RAM · $64/mo\"></:radio>\n    <:radio value=\"large\" icon=\"hero-cpu-chip\" title=\"8 vCPU\" description=\"32 GB RAM · $128/mo\"></:radio>\n  </.component>\n</div>"
+    },
+    {
+      "label": "Notification frequency settings row",
+      "source": "<div class=\"max-w-md space-y-3 rounded-xl border border-zinc-200 p-6 dark:border-zinc-800\">\n  <.component component_name=\"chelekom-radio-card\" site=\"Global\" id=\"digest-frequency\" name=\"digest\" label=\"Email digest\" description=\"How often we should collect activity into one message.\" show_radio space=\"small\" padding=\"small\">\n    <:radio value=\"realtime\" title=\"As it happens\" description=\"One email per comment, mention and review request\"></:radio>\n    <:radio value=\"daily\" checked title=\"Once a day\" description=\"A single summary sent at 8 a.m. in your timezone\"></:radio>\n    <:radio value=\"weekly\" title=\"Once a week\" description=\"Monday morning, everything from the week before\"></:radio>\n    <:radio value=\"never\" title=\"Never\" description=\"Nothing by email — check the notification centre instead\"></:radio>\n  </.component>\n</div>"
+    }
+  ]
+}

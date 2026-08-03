@@ -1,0 +1,17 @@
+{
+  "name": "chelekom-flash-group",
+  "furnishing": {
+    "body": "",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Site-wide flash stack in the top-right corner",
+      "source": "<.component component_name=\"chelekom-flash-group\" site=\"Global\" id=\"flash-group-site\" flash={%{}} position=\"top_right\" />"
+    },
+    {
+      "label": "Admin layout stack, shadowed and anchored bottom-left",
+      "source": "<.component component_name=\"chelekom-flash-group\" site=\"Global\" id=\"flash-group-admin\" flash={%{}} position=\"bottom_left\" variant=\"shadow\" />"
+    }
+  ]
+}

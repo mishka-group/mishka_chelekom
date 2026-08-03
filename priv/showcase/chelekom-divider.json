@@ -1,0 +1,25 @@
+{
+  "name": "chelekom-divider",
+  "furnishing": {
+    "body": "",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Sign-in card separator between email and social buttons",
+      "source": "<div class=\"mx-auto w-full max-w-sm rounded-xl border border-gray-200 p-6 dark:border-gray-700\">\n  <.component component_name=\"chelekom-button\" site=\"Global\" variant=\"default\" color=\"primary\" type=\"submit\" full_width>\n    Sign in with email\n  </.component>\n\n  <.component component_name=\"chelekom-divider\" site=\"Global\" size=\"small\">\n    <:text>Or continue with</:text>\n  </.component>\n\n  <div class=\"grid grid-cols-2 gap-3\">\n    <.component component_name=\"chelekom-button\" site=\"Global\" variant=\"outline\" color=\"natural\" size=\"small\" icon=\"hero-globe-alt\" full_width>\n      Google\n    </.component>\n    <.component component_name=\"chelekom-button\" site=\"Global\" variant=\"outline\" color=\"natural\" size=\"small\" icon=\"hero-code-bracket\" full_width>\n      GitHub\n    </.component>\n  </div>\n</div>"
+    },
+    {
+      "label": "Icon break between two article sections",
+      "source": "<div class=\"mx-auto max-w-2xl\">\n  <p class=\"text-sm leading-6 text-gray-600 dark:text-gray-300\">\n    We rebuilt the page editor from scratch this spring. Every block you drop on the canvas is now rendered by the server, which means the preview you are looking at is exactly the markup your visitors receive.\n  </p>\n\n  <.component component_name=\"chelekom-divider\" site=\"Global\" size=\"small\" color=\"silver\">\n    <:icon name=\"hero-sparkles\" />\n  </.component>\n\n  <p class=\"text-sm leading-6 text-gray-600 dark:text-gray-300\">\n    The next release moves that same pipeline behind reusable sections, so a change to a shared header rolls out to every page that uses it without a single copy and paste.\n  </p>\n</div>"
+    },
+    {
+      "label": "Vertical rules separating headline statistics",
+      "source": "<div class=\"mx-auto flex max-w-2xl items-center justify-between gap-4 rounded-xl border border-gray-200 px-6 py-5 dark:border-gray-700\">\n  <div class=\"text-center\">\n    <div class=\"text-2xl font-semibold\">1,284</div>\n    <div class=\"text-xs text-gray-500 dark:text-gray-400\">Articles</div>\n  </div>\n\n  <.component component_name=\"chelekom-divider\" site=\"Global\" variation=\"vertical\" height=\"h-10\" />\n\n  <div class=\"text-center\">\n    <div class=\"text-2xl font-semibold\">37</div>\n    <div class=\"text-xs text-gray-500 dark:text-gray-400\">Authors</div>\n  </div>\n\n  <.component component_name=\"chelekom-divider\" site=\"Global\" variation=\"vertical\" height=\"h-10\" />\n\n  <div class=\"text-center\">\n    <div class=\"text-2xl font-semibold\">92k</div>\n    <div class=\"text-xs text-gray-500 dark:text-gray-400\">Monthly readers</div>\n  </div>\n</div>"
+    },
+    {
+      "label": "Dashed day markers in an activity feed",
+      "source": "<div class=\"mx-auto max-w-xl\">\n  <.component component_name=\"chelekom-divider\" site=\"Global\" type=\"dashed\" size=\"small\" position=\"left\" color=\"silver\">\n    <:text>Today</:text>\n  </.component>\n\n  <ul class=\"space-y-3 text-sm\">\n    <li class=\"flex items-start gap-3\">\n      <span class=\"mt-1.5 size-2 shrink-0 rounded-full bg-emerald-500\"></span>\n      <span><span class=\"font-medium\">Sara</span> published \"Shipping the new canvas\".</span>\n    </li>\n    <li class=\"flex items-start gap-3\">\n      <span class=\"mt-1.5 size-2 shrink-0 rounded-full bg-blue-500\"></span>\n      <span><span class=\"font-medium\">Nima</span> restored the pricing page from a draft.</span>\n    </li>\n  </ul>\n\n  <.component component_name=\"chelekom-divider\" site=\"Global\" type=\"dashed\" size=\"small\" position=\"left\" color=\"silver\">\n    <:text>Yesterday</:text>\n  </.component>\n\n  <ul class=\"space-y-3 text-sm\">\n    <li class=\"flex items-start gap-3\">\n      <span class=\"mt-1.5 size-2 shrink-0 rounded-full bg-gray-400\"></span>\n      <span><span class=\"font-medium\">Mona</span> archived 14 unused snippets.</span>\n    </li>\n  </ul>\n</div>"
+    }
+  ]
+}

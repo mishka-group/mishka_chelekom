@@ -1,0 +1,38 @@
+{
+  "name": "chelekom-list",
+  "furnishing": {
+    "body": "",
+    "slots": [
+      {
+        "name": "item",
+        "body": "Create your workspace"
+      },
+      {
+        "name": "item",
+        "body": "Invite the people you publish with"
+      },
+      {
+        "name": "item",
+        "body": "Publish your first page"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "label": "Account setup steps as separated cards",
+      "source": "<div class=\"max-w-md space-y-3\">\n  <h3 class=\"text-base font-semibold text-zinc-900 dark:text-zinc-100\">Finish setting up your account</h3>\n  <.component component_name=\"chelekom-list\" site=\"Global\" id=\"list-account-setup\" variant=\"base_separated\" size=\"small\" space=\"extra_small\" rounded=\"medium\">\n    <:item padding=\"small\">Confirm your email address from the link we just sent.</:item>\n    <:item padding=\"small\">Add a company name and logo so invoices look right.</:item>\n    <:item padding=\"small\">Invite the teammates who will publish with you.</:item>\n    <:item padding=\"small\">Connect a domain and publish your first page.</:item>\n  </.component>\n</div>"
+    },
+    {
+      "label": "How to return an order",
+      "source": "<div class=\"max-w-xl space-y-3\">\n  <h3 class=\"text-base font-semibold text-zinc-900 dark:text-zinc-100\">How to return an order</h3>\n  <.component component_name=\"chelekom-list\" site=\"Global\" id=\"list-return-order\" size=\"small\">\n    <:item padding=\"extra_small\">Open the order in your account and choose <span class=\"font-semibold\">Start a return</span>.</:item>\n    <:item padding=\"extra_small\">Print the prepaid label we email you within one business day.</:item>\n    <:item padding=\"extra_small\">Drop the parcel at any carrier point within 14 days.</:item>\n    <:item padding=\"extra_small\">We refund the original payment method once the parcel reaches our warehouse.</:item>\n  </.component>\n</div>"
+    },
+    {
+      "label": "Most-read articles ranked with view counts",
+      "source": "<div class=\"max-w-md space-y-3\">\n  <h3 class=\"text-base font-semibold text-zinc-900 dark:text-zinc-100\">Most read this month</h3>\n  <.component component_name=\"chelekom-list\" site=\"Global\" id=\"list-top-articles\" variant=\"base_separated\" size=\"small\" space=\"extra_small\" rounded=\"medium\">\n    <:item padding=\"small\" content_class=\"flex items-center justify-between gap-3\">\n      <span>Deploying Phoenix on a single machine</span>\n      <span class=\"shrink-0 text-xs text-zinc-500 dark:text-zinc-400\">12,480 reads</span>\n    </:item>\n    <:item padding=\"small\" content_class=\"flex items-center justify-between gap-3\">\n      <span>Writing components your designers can edit</span>\n      <span class=\"shrink-0 text-xs text-zinc-500 dark:text-zinc-400\">9,102 reads</span>\n    </:item>\n    <:item padding=\"small\" content_class=\"flex items-center justify-between gap-3\">\n      <span>A practical guide to multitenancy</span>\n      <span class=\"shrink-0 text-xs text-zinc-500 dark:text-zinc-400\">7,845 reads</span>\n    </:item>\n    <:item padding=\"small\" content_class=\"flex items-center justify-between gap-3\">\n      <span>Migrating a legacy CMS in a weekend</span>\n      <span class=\"shrink-0 text-xs text-zinc-500 dark:text-zinc-400\">6,310 reads</span>\n    </:item>\n  </.component>\n</div>"
+    },
+    {
+      "label": "Numbered clauses in a terms of service section",
+      "source": "<div class=\"max-w-2xl space-y-3\">\n  <h3 class=\"text-base font-semibold text-zinc-900 dark:text-zinc-100\">Payment and renewal</h3>\n  <.component component_name=\"chelekom-list\" site=\"Global\" id=\"list-terms-clauses\" size=\"small\">\n    <:item padding=\"extra_small\">Subscriptions renew automatically on the anniversary of the purchase date.</:item>\n    <:item padding=\"extra_small\">We email an invoice to the billing address on file seven days before each renewal.</:item>\n    <:item padding=\"extra_small\">You may cancel at any time; access continues until the end of the paid period.</:item>\n    <:item padding=\"extra_small\">Prices announced on this page apply from the next renewal, never retroactively.</:item>\n  </.component>\n</div>"
+    }
+  ]
+}

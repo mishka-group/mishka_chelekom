@@ -1,0 +1,21 @@
+{
+  "name": "chelekom-filterable-gallery",
+  "furnishing": {
+    "body": "",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Studio portfolio grid filtered by project type",
+      "source": "<.component component_name=\"chelekom-filterable-gallery\" site=\"Global\" id=\"gallery-portfolio\" filters={[\"Branding\", \"Web design\", \"Print\"]} media={[%{src: \"/images/card-1.jpg\", alt: \"Rebrand for Parsian Retail\", category: \"Branding\"}, %{src: \"/images/card-2.jpg\", alt: \"Booking flow for Alborz Travel\", category: \"Web design\"}, %{src: \"/images/card-3.jpg\", alt: \"Autumn catalogue spread\", category: \"Print\"}, %{src: \"/images/card-4.jpg\", alt: \"Packaging system for Damavand Tea\", category: [\"Branding\", \"Print\"]}, %{src: \"/images/card-5.jpg\", alt: \"Marketing site for Mishka CMS\", category: \"Web design\"}]} />"
+    },
+    {
+      "label": "Team photo wall filtered by department",
+      "source": "<.component component_name=\"chelekom-filterable-gallery\" site=\"Global\" id=\"gallery-team\" default_filter=\"Everyone\" cols=\"four\" gap=\"medium\" filters={[\"Engineering\", \"Design\", \"Support\"]} media={[%{src: \"/images/avatar1.png\", alt: \"Nadia Rahimi, product designer\", category: \"Design\"}, %{src: \"/images/avatar2.jpg\", alt: \"Omid Karimi, backend engineer\", category: \"Engineering\"}, %{src: \"/images/avatar3.jpg\", alt: \"Sara Ahmadi, design lead\", category: \"Design\"}, %{src: \"/images/avatar4.jpg\", alt: \"Reza Sadeghi, support engineer\", category: [\"Support\", \"Engineering\"]}, %{src: \"/images/avatar5.jpg\", alt: \"Leila Moradi, customer support\", category: \"Support\"}, %{src: \"/images/avatar6.jpg\", alt: \"Kaveh Nouri, platform engineer\", category: \"Engineering\"}]} />"
+    },
+    {
+      "label": "Furniture lookbook, two columns with a hover zoom",
+      "source": "<.component component_name=\"chelekom-filterable-gallery\" site=\"Global\" id=\"gallery-lookbook\" cols=\"two\" gap=\"large\" animation=\"scale-up\" animation_size=\"small\" default_filter=\"Whole collection\" filters={[\"Seating\", \"Tables\", \"Storage\"]} media={[%{src: \"/images/card-1.jpg\", alt: \"Alborz lounge chair in walnut\", category: \"Seating\"}, %{src: \"/images/card-3.jpg\", alt: \"Damavand dining table\", category: \"Tables\"}, %{src: \"/images/card-4.jpg\", alt: \"Zagros sideboard in oak\", category: \"Storage\"}, %{src: \"/images/card-5.jpg\", alt: \"Caspian bench with storage\", category: [\"Seating\", \"Storage\"]}]} />"
+    }
+  ]
+}

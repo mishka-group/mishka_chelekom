@@ -1,0 +1,17 @@
+{
+  "name": "chelekom-h2",
+  "furnishing": {
+    "body": "Everything you need to launch",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Section heading opening a feature row",
+      "source": "<.component component_name=\"chelekom-h2\" site=\"Global\" font_weight=\"font-bold\" class=\"mb-2 text-center tracking-tight\">Built for the people who write the words</.component>"
+    },
+    {
+      "label": "Documentation section title with an anchor",
+      "source": "<.component component_name=\"chelekom-h2\" site=\"Global\" id=\"installation\" size=\"double_large\" font_weight=\"font-semibold\" class=\"mt-12 mb-4 scroll-mt-24 border-b border-neutral-200 pb-2 dark:border-neutral-700\">Installing the editor</.component>"
+    }
+  ]
+}

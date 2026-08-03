@@ -1,0 +1,31 @@
+{
+  "name": "chelekom-stat",
+  "furnishing": {
+    "body": "",
+    "slots": [
+      {
+        "name": "figure",
+        "attrs": {},
+        "body": "<.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-chart-bar\" class=\"size-8\" />"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "label": "Monthly revenue KPI with an upward trend and a report link",
+      "source": "<.component component_name=\"chelekom-stat\" site=\"Global\" id=\"stat-monthly-revenue\" size=\"large\" title=\"Monthly revenue\" value=\"$48,320\" description=\"12.4% more than February\" trend=\"up\">\n  <:figure>\n    <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-banknotes\" class=\"size-9\" />\n  </:figure>\n  <:actions>\n    <.component component_name=\"chelekom-button-link\" site=\"Global\" href=\"/admin/reports/revenue\" size=\"extra_small\" variant=\"outline\" color=\"primary\">View full report</.component>\n  </:actions>\n</.component>"
+    },
+    {
+      "label": "Dashboard row with visitors, signups and churn",
+      "source": "<div class=\"grid gap-4 sm:grid-cols-3\">\n  <.component component_name=\"chelekom-stat\" site=\"Global\" id=\"stat-row-visitors\" title=\"Visitors\" value=\"18,204\" description=\"6% more than last week\" trend=\"up\">\n    <:figure>\n      <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-users\" class=\"size-7\" />\n    </:figure>\n  </.component>\n  <.component component_name=\"chelekom-stat\" site=\"Global\" id=\"stat-row-signups\" title=\"New signups\" value=\"412\" description=\"Steady week over week\" trend=\"neutral\">\n    <:figure>\n      <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-user-plus\" class=\"size-7\" />\n    </:figure>\n  </.component>\n  <.component component_name=\"chelekom-stat\" site=\"Global\" id=\"stat-row-churn\" title=\"Churn\" value=\"2.4%\" description=\"0.3 points lower than March\" trend=\"down\">\n    <:figure>\n      <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-user-minus\" class=\"size-7\" />\n    </:figure>\n  </.component>\n</div>"
+    },
+    {
+      "label": "Service uptime card for a status page",
+      "source": "<.component component_name=\"chelekom-stat\" site=\"Global\" id=\"stat-service-uptime\" variant=\"bordered\" color=\"success\" title=\"Uptime, last 90 days\" value=\"99.98%\" description=\"No incidents since 4 January\" trend=\"neutral\" figure_position=\"top\">\n  <:figure>\n    <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-shield-check\" class=\"size-7\" />\n  </:figure>\n  <:actions>\n    <.component component_name=\"chelekom-button-link\" site=\"Global\" href=\"/status/history\" size=\"extra_small\" variant=\"outline\" color=\"success\">Incident history</.component>\n  </:actions>\n</.component>"
+    },
+    {
+      "label": "Storage usage with an upgrade prompt",
+      "source": "<.component component_name=\"chelekom-stat\" site=\"Global\" id=\"stat-storage-usage\" variant=\"shadow\" color=\"warning\" title=\"Storage used\" value=\"84 GB of 100 GB\" description=\"At this rate you run out in about 11 days\">\n  <:figure>\n    <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-circle-stack\" class=\"size-7\" />\n  </:figure>\n  <:actions>\n    <.component component_name=\"chelekom-button-link\" site=\"Global\" href=\"/billing/plans\" size=\"extra_small\" variant=\"default\" color=\"warning\">Upgrade plan</.component>\n  </:actions>\n</.component>"
+    }
+  ]
+}

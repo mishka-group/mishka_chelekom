@@ -1,0 +1,17 @@
+{
+  "name": "chelekom-dd",
+  "furnishing": {
+    "body": "A copy of your page held on the server nearest the visitor, so it arrives without a round trip to the origin.",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Order details definition list",
+      "source": "<.component component_name=\"chelekom-dl\" site=\"Global\" id=\"order-details\" class=\"max-w-sm rounded-lg border border-neutral-200 p-5 dark:border-neutral-700\">\n  <.component component_name=\"chelekom-dt\" site=\"Global\" size=\"small\" class=\"opacity-60\">Order number</.component>\n  <.component component_name=\"chelekom-dd\" site=\"Global\" id=\"order-number\" class=\"mb-3\">NW-48213</.component>\n  <.component component_name=\"chelekom-dt\" site=\"Global\" size=\"small\" class=\"opacity-60\">Placed</.component>\n  <.component component_name=\"chelekom-dd\" site=\"Global\" id=\"order-placed\" class=\"mb-3\">12 March 2026 at 09:41</.component>\n  <.component component_name=\"chelekom-dt\" site=\"Global\" size=\"small\" class=\"opacity-60\">Delivery</.component>\n  <.component component_name=\"chelekom-dd\" site=\"Global\" id=\"order-delivery\">Standard, arriving 16 to 18 March</.component>\n</.component>"
+    },
+    {
+      "label": "Glossary entry in a documentation page",
+      "source": "<.component component_name=\"chelekom-dl\" site=\"Global\" id=\"glossary-edge-cache\" class=\"max-w-md\">\n  <.component component_name=\"chelekom-dt\" site=\"Global\">Edge cache</.component>\n  <.component component_name=\"chelekom-dd\" site=\"Global\" id=\"glossary-edge-cache-definition\" size=\"small\" class=\"mt-1 opacity-80\">\n    A copy of your page held on the server nearest the visitor. It is served straight from there, so the origin is never asked twice for the same thing.\n  </.component>\n</.component>"
+    }
+  ]
+}

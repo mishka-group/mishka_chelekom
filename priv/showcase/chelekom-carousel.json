@@ -1,0 +1,49 @@
+{
+  "name": "chelekom-carousel",
+  "furnishing": {
+    "body": "",
+    "slots": [
+      {
+        "name": "slide",
+        "body": "",
+        "attrs": {
+          "image": "/images/card-1.jpg",
+          "title": "Build pages without leaving the browser",
+          "description": "Drag a section in, edit the copy in place, publish when it reads right."
+        }
+      },
+      {
+        "name": "slide",
+        "body": "",
+        "attrs": {
+          "image": "/images/card-2.jpg",
+          "title": "Every component is yours to change",
+          "description": "Colours, spacing and rounding are attributes, not a theme you have to fork."
+        }
+      },
+      {
+        "name": "slide",
+        "body": "",
+        "attrs": {
+          "image": "/images/card-3.jpg",
+          "title": "Ship one page to every site",
+          "description": "Write it once as a global component and reuse it across each site you run."
+        }
+      }
+    ]
+  },
+  "examples": [
+    {
+      "label": "Homepage hero carousel that plays through three headlines",
+      "source": "<.component component_name=\"chelekom-carousel\" site=\"Global\" id=\"showcase-carousel-hero\" indicator={true} autoplay={true} autoplay_interval={6000} overlay=\"dark\" size=\"large\" padding=\"large\">\n  <:slide\n    image=\"/images/card-1.jpg\"\n    title=\"Build pages without leaving the browser\"\n    description=\"Drag a section in, edit the copy in place, publish when it reads right.\"\n    content_position=\"center\"\n  />\n  <:slide\n    image=\"/images/card-2.jpg\"\n    title=\"Every component is yours to change\"\n    description=\"Colours, spacing and rounding are attributes, not a theme you have to fork.\"\n    content_position=\"center\"\n  />\n  <:slide\n    image=\"/images/card-3.jpg\"\n    title=\"Ship one page to every site you run\"\n    description=\"Write it once as a global component and reuse it wherever it belongs.\"\n    content_position=\"center\"\n  />\n</.component>"
+    },
+    {
+      "label": "Product photo gallery with four shots",
+      "source": "<.component component_name=\"chelekom-carousel\" site=\"Global\" id=\"showcase-carousel-product\" indicator={true} size=\"medium\" class=\"max-w-xl rounded-lg\">\n  <:slide image=\"/images/card-2.jpg\" />\n  <:slide image=\"/images/card-3.jpg\" />\n  <:slide image=\"/images/card-4.jpg\" />\n  <:slide image=\"/images/card-5.jpg\" />\n</.component>"
+    },
+    {
+      "label": "Case study slider with captions along the bottom left",
+      "source": "<.component component_name=\"chelekom-carousel\" site=\"Global\" id=\"showcase-carousel-cases\" indicator={true} text_position=\"start\" overlay=\"primary\" size=\"medium\" padding=\"large\" class=\"max-w-3xl\">\n  <:slide\n    image=\"/images/card-4.jpg\"\n    title=\"Kavir Logistics\"\n    description=\"Cut publishing time from two days to twenty minutes across eleven regional sites.\"\n    content_position=\"end\"\n  />\n  <:slide\n    image=\"/images/card-5.jpg\"\n    title=\"Damavand Books\"\n    description=\"Moved 4,000 catalogue pages onto one shared layout without a single redirect.\"\n    content_position=\"end\"\n  />\n</.component>"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "name": "chelekom-figcaption",
+  "furnishing": {
+    "body": "Photo: Mishka Group archive, 2025",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Small source line citing the report a chart came from",
+      "source": "<.component component_name=\"chelekom-figure\" site=\"Global\" id=\"figcaption-chart-source\" class=\"max-w-md\">\n  <img src=\"/images/card-5.jpg\" alt=\"Bar chart of publishing volume by month\" class=\"w-full rounded-lg\" />\n  <.component component_name=\"chelekom-figcaption\" site=\"Global\" size=\"small\" color=\"silver\" class=\"mt-2\">Source: <cite title=\"Mishka CMS 2025 Usage Report\">Mishka CMS 2025 Usage Report</cite>, page 12</.component>\n</.component>"
+    },
+    {
+      "label": "Numbered caption at the default size",
+      "source": "<.component component_name=\"chelekom-figure\" site=\"Global\" id=\"figcaption-numbered\" class=\"max-w-md\">\n  <img src=\"/images/card-3.jpg\" alt=\"Heat map of where readers stop scrolling\" class=\"w-full rounded-lg\" />\n  <.component component_name=\"chelekom-figcaption\" site=\"Global\" class=\"mt-2\">Figure 3 — Where readers stop scrolling on a long article page.</.component>\n</.component>"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "name": "chelekom-dt",
+  "furnishing": {
+    "body": "Release cadence",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Terms in a plan comparison list",
+      "source": "<.component component_name=\"chelekom-dl\" site=\"Global\" class=\"mx-auto max-w-sm space-y-3\">\n  <div class=\"flex items-baseline justify-between gap-4\">\n    <.component component_name=\"chelekom-dt\" site=\"Global\" size=\"small\">Included storage</.component>\n    <.component component_name=\"chelekom-dd\" site=\"Global\" size=\"small\">250 GB</.component>\n  </div>\n  <div class=\"flex items-baseline justify-between gap-4\">\n    <.component component_name=\"chelekom-dt\" site=\"Global\" size=\"small\">Team seats</.component>\n    <.component component_name=\"chelekom-dd\" site=\"Global\" size=\"small\">Up to 10</.component>\n  </div>\n</.component>"
+    },
+    {
+      "label": "Field labels in a support ticket panel",
+      "source": "<.component component_name=\"chelekom-dl\" site=\"Global\" class=\"mx-auto grid max-w-md grid-cols-3 gap-y-2\">\n  <.component component_name=\"chelekom-dt\" site=\"Global\" size=\"small\">Status</.component>\n  <.component component_name=\"chelekom-dd\" site=\"Global\" size=\"small\" class=\"col-span-2\">Waiting on customer</.component>\n\n  <.component component_name=\"chelekom-dt\" site=\"Global\" size=\"small\">Opened</.component>\n  <.component component_name=\"chelekom-dd\" site=\"Global\" size=\"small\" class=\"col-span-2\">12 March 2025, 09:41</.component>\n\n  <.component component_name=\"chelekom-dt\" site=\"Global\" size=\"small\">Assignee</.component>\n  <.component component_name=\"chelekom-dd\" site=\"Global\" size=\"small\" class=\"col-span-2\">Nima Rezaei</.component>\n</.component>"
+    }
+  ]
+}

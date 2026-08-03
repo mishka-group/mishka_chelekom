@@ -1,0 +1,17 @@
+{
+  "name": "chelekom-li",
+  "furnishing": {
+    "body": "Unlimited projects",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Feature checklist inside a plan card",
+      "source": "<.component component_name=\"chelekom-list-group\" site=\"Global\" id=\"listgroup-plan-features\" size=\"small\">\n  <.component component_name=\"chelekom-li\" site=\"Global\" padding=\"extra_small\" icon=\"hero-check-circle\" icon_class=\"size-4 text-emerald-600\">Unlimited projects</.component>\n  <.component component_name=\"chelekom-li\" site=\"Global\" padding=\"extra_small\" icon=\"hero-check-circle\" icon_class=\"size-4 text-emerald-600\">Ten team members</.component>\n  <.component component_name=\"chelekom-li\" site=\"Global\" padding=\"extra_small\" icon=\"hero-check-circle\" icon_class=\"size-4 text-emerald-600\">Nightly backups kept for 30 days</.component>\n  <.component component_name=\"chelekom-li\" site=\"Global\" padding=\"extra_small\" icon=\"hero-check-circle\" icon_class=\"size-4 text-emerald-600\">Email support within one business day</.component>\n</.component>"
+    },
+    {
+      "label": "Numbered onboarding steps",
+      "source": "<.component component_name=\"chelekom-list-group\" site=\"Global\" id=\"listgroup-onboarding\" size=\"small\">\n  <.component component_name=\"chelekom-li\" site=\"Global\" padding=\"extra_small\" count={1}>Create your workspace</.component>\n  <.component component_name=\"chelekom-li\" site=\"Global\" padding=\"extra_small\" count={2}>Invite the people you publish with</.component>\n  <.component component_name=\"chelekom-li\" site=\"Global\" padding=\"extra_small\" count={3}>Connect your domain</.component>\n  <.component component_name=\"chelekom-li\" site=\"Global\" padding=\"extra_small\" count={4}>Publish your first page</.component>\n</.component>"
+    }
+  ]
+}

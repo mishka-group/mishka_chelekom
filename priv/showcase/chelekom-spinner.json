@@ -1,0 +1,21 @@
+{
+  "name": "chelekom-spinner",
+  "furnishing": {
+    "body": "",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Results panel waiting for data",
+      "source": "<div class=\"flex flex-col items-center justify-center gap-3 rounded-lg border border-black/10 py-12\">\n  <.component component_name=\"chelekom-spinner\" site=\"Global\" size=\"large\" color=\"primary\" />\n  <p class=\"text-sm opacity-70\">Loading your latest orders</p>\n</div>"
+    },
+    {
+      "label": "Save button in its submitting state",
+      "source": "<.component component_name=\"chelekom-button\" site=\"Global\" type=\"submit\" variant=\"default\" color=\"primary\">\n  <:loading position=\"start\" class=\"me-2 flex items-center\">\n    <.component component_name=\"chelekom-spinner\" site=\"Global\" size=\"extra_small\" color=\"white\" />\n  </:loading>\n  Saving changes\n</.component>"
+    },
+    {
+      "label": "Card header showing live figures refreshing",
+      "source": "<div class=\"flex items-center justify-between rounded-lg border border-black/10 px-4 py-3\">\n  <span class=\"text-sm font-medium\">Visitors right now</span>\n  <span class=\"flex items-center gap-2 text-xs opacity-70\">\n    <.component component_name=\"chelekom-spinner\" site=\"Global\" type=\"dots\" size=\"extra_small\" color=\"natural\" />\n    Refreshing\n  </span>\n</div>"
+    }
+  ]
+}

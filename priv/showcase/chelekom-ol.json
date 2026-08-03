@@ -1,0 +1,21 @@
+{
+  "name": "chelekom-ol",
+  "furnishing": {
+    "body": "<.component component_name=\"chelekom-li\" site=\"Global\">Open the settings panel.</.component>\n<.component component_name=\"chelekom-li\" site=\"Global\">Choose a workspace.</.component>\n<.component component_name=\"chelekom-li\" site=\"Global\">Save your changes.</.component>",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Recipe method steps under a heading",
+      "source": "<div class=\"max-w-lg space-y-3\">\n  <.component component_name=\"chelekom-h3\" site=\"Global\" size=\"large\" font_weight=\"font-semibold\">Method</.component>\n  <.component component_name=\"chelekom-ol\" site=\"Global\" class=\"space-y-2\">\n    <.component component_name=\"chelekom-li\" site=\"Global\">Rinse the paper filter and warm the brewer with just-boiled water.</.component>\n    <.component component_name=\"chelekom-li\" site=\"Global\">Grind 18 g of coffee to about the coarseness of table salt.</.component>\n    <.component component_name=\"chelekom-li\" site=\"Global\">Pour 60 g of water, wait forty seconds for the bloom, then fill to 300 g.</.component>\n    <.component component_name=\"chelekom-li\" site=\"Global\">Stir once, let the bed draw down, and serve within a minute.</.component>\n  </.component>\n</div>"
+    },
+    {
+      "label": "Numbered onboarding checklist in a bordered list",
+      "source": "<div class=\"max-w-md space-y-3\">\n  <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"medium\" font_weight=\"font-semibold\">Finish setting up your workspace</.component>\n  <.component component_name=\"chelekom-ol\" site=\"Global\" variant=\"bordered\" color=\"natural\" rounded=\"medium\">\n    <.component component_name=\"chelekom-li\" site=\"Global\" padding=\"small\">Invite the two people who review your drafts.</.component>\n    <.component component_name=\"chelekom-li\" site=\"Global\" padding=\"small\">Point your domain at the CMS and wait for the certificate.</.component>\n    <.component component_name=\"chelekom-li\" site=\"Global\" padding=\"small\">Publish the home page so the site stops answering 404.</.component>\n    <.component component_name=\"chelekom-li\" site=\"Global\" padding=\"small\">Turn on nightly backups from the storage settings.</.component>\n  </.component>\n</div>"
+    },
+    {
+      "label": "Refund policy clauses with bold lead-ins",
+      "source": "<div class=\"max-w-2xl space-y-4\">\n  <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"medium\" font_weight=\"font-semibold\">Refunds</.component>\n  <.component component_name=\"chelekom-ol\" site=\"Global\" class=\"space-y-3\" size=\"small\">\n    <.component component_name=\"chelekom-li\" site=\"Global\"><span class=\"font-semibold\">Within fourteen days.</span> Unopened items go back for a full refund to the original payment method.</.component>\n    <.component component_name=\"chelekom-li\" site=\"Global\"><span class=\"font-semibold\">Between fifteen and thirty days.</span> We issue store credit at the price you paid, minus return shipping.</.component>\n    <.component component_name=\"chelekom-li\" site=\"Global\"><span class=\"font-semibold\">Faulty on arrival.</span> Tell us within seven days and we cover the return label and send a replacement.</.component>\n    <.component component_name=\"chelekom-li\" site=\"Global\"><span class=\"font-semibold\">Made to order.</span> Engraved and monogrammed pieces cannot be returned unless they arrive damaged.</.component>\n  </.component>\n</div>"
+    }
+  ]
+}

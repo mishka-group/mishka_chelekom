@@ -1,0 +1,72 @@
+{
+  "name": "chelekom-navbar",
+  "furnishing": {
+    "body": "",
+    "slots": [
+      {
+        "name": "start_content",
+        "attrs": {
+          "class": "flex items-center gap-2"
+        },
+        "body": "<.link navigate=\"/\" class=\"flex items-center gap-2\">\n  <span class=\"text-lg font-semibold tracking-tight\">Northwind</span>\n</.link>"
+      },
+      {
+        "name": "list",
+        "attrs": {
+          "class": "text-sm hover:opacity-70"
+        },
+        "body": "<.link navigate=\"/\">Home</.link>"
+      },
+      {
+        "name": "list",
+        "attrs": {
+          "class": "text-sm hover:opacity-70"
+        },
+        "body": "<.link navigate=\"/about\">About</.link>"
+      },
+      {
+        "name": "list",
+        "attrs": {
+          "class": "text-sm hover:opacity-70"
+        },
+        "body": "<.link navigate=\"/pricing\">Pricing</.link>"
+      },
+      {
+        "name": "list",
+        "attrs": {
+          "class": "text-sm hover:opacity-70"
+        },
+        "body": "<.link navigate=\"/blog\">Blog</.link>"
+      },
+      {
+        "name": "end_content",
+        "attrs": {
+          "class": "flex items-center gap-3"
+        },
+        "body": "<.component component_name=\"chelekom-button-link\" site=\"Global\" navigate=\"/contact\">\n  Get in touch\n</.component>"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "label": "Marketing site header with sign-in and trial CTA",
+      "source": "<.component\n  component_name=\"chelekom-navbar\"\n  site=\"Global\"\n  id=\"marketing-site-header\"\n  max_width=\"extra_large\"\n>\n  <:start_content class=\"flex items-center gap-2\">\n    <.link navigate=\"/\" class=\"flex items-center gap-2\">\n      <img src=\"/images/mishka-logo.svg\" class=\"size-8\" alt=\"Northwind\" />\n      <span class=\"text-lg font-semibold tracking-tight\">Northwind</span>\n    </.link>\n  </:start_content>\n\n  <:list class=\"text-sm hover:opacity-70\"><.link navigate=\"/product\">Product</.link></:list>\n  <:list class=\"text-sm hover:opacity-70\"><.link navigate=\"/pricing\">Pricing</.link></:list>\n  <:list class=\"text-sm hover:opacity-70\"><.link navigate=\"/customers\">Customers</.link></:list>\n  <:list class=\"text-sm hover:opacity-70\"><.link navigate=\"/blog\">Blog</.link></:list>\n\n  <:end_content class=\"flex items-center gap-4\">\n    <.link navigate=\"/sign-in\" class=\"text-sm hover:underline\">Sign in</.link>\n    <.component\n      component_name=\"chelekom-button-link\"\n      site=\"Global\"\n      navigate=\"/sign-up\"\n      variant=\"default\"\n      color=\"primary\"\n      size=\"small\"\n    >\n      Start free trial\n    </.component>\n  </:end_content>\n</.component>"
+    },
+    {
+      "label": "Documentation header with search shortcut and account avatar",
+      "source": "<.component\n  component_name=\"chelekom-navbar\"\n  site=\"Global\"\n  id=\"documentation-header\"\n  max_width=\"extra_large\"\n>\n  <:start_content class=\"flex items-center gap-2\">\n    <.link navigate=\"/\" class=\"flex items-center gap-2\">\n      <img src=\"/images/mishka-logo.svg\" class=\"size-8\" alt=\"Northwind\" />\n      <span class=\"text-lg font-semibold\">Northwind <span class=\"opacity-60\">Docs</span></span>\n    </.link>\n  </:start_content>\n\n  <:list icon=\"hero-rocket-launch\" icon_class=\"size-4 me-1.5\" class=\"text-sm hover:opacity-70\">\n    <.link navigate=\"/docs/getting-started\">Getting started</.link>\n  </:list>\n  <:list icon=\"hero-book-open\" icon_class=\"size-4 me-1.5\" class=\"text-sm hover:opacity-70\">\n    <.link navigate=\"/docs/guides\">Guides</.link>\n  </:list>\n  <:list icon=\"hero-code-bracket\" icon_class=\"size-4 me-1.5\" class=\"text-sm hover:opacity-70\">\n    <.link navigate=\"/docs/api\">API reference</.link>\n  </:list>\n  <:list icon=\"hero-lifebuoy\" icon_class=\"size-4 me-1.5\" class=\"text-sm hover:opacity-70\">\n    <.link navigate=\"/docs/support\">Support</.link>\n  </:list>\n\n  <:end_content class=\"flex items-center gap-3\">\n    <.link\n      navigate=\"/docs/search\"\n      class=\"hidden sm:flex items-center gap-2 rounded-md border border-gray-200 px-2.5 py-1.5 text-sm opacity-70 hover:opacity-100 dark:border-gray-700\"\n    >\n      <.component\n        component_name=\"chelekom-icon\"\n        site=\"Global\"\n        name=\"hero-magnifying-glass\"\n        class=\"size-4\"\n      />\n      <span>Search the docs</span>\n      <kbd class=\"ms-8 rounded border border-gray-200 px-1.5 py-0.5 text-xs font-medium dark:border-gray-700\">\n        Ctrl K\n      </kbd>\n    </.link>\n    <.component\n      component_name=\"chelekom-avatar\"\n      site=\"Global\"\n      src=\"/images/avatar1.png\"\n      rounded=\"full\"\n    />\n  </:end_content>\n</.component>"
+    },
+    {
+      "label": "Storefront header with categories and cart count",
+      "source": "<.component\n  component_name=\"chelekom-navbar\"\n  site=\"Global\"\n  id=\"storefront-header\"\n  variant=\"bordered\"\n  max_width=\"extra_large\"\n>\n  <:start_content class=\"flex items-center gap-2\">\n    <.link navigate=\"/\" class=\"flex items-center gap-2\">\n      <img src=\"/images/mishka-logo.svg\" class=\"size-8\" alt=\"Fern and Field\" />\n      <span class=\"text-lg font-semibold tracking-tight\">Fern &amp; Field</span>\n    </.link>\n  </:start_content>\n\n  <:list class=\"text-sm hover:opacity-70\"><.link navigate=\"/shop/new\">New in</.link></:list>\n  <:list class=\"text-sm hover:opacity-70\"><.link navigate=\"/shop/plants\">Plants</.link></:list>\n  <:list class=\"text-sm hover:opacity-70\"><.link navigate=\"/shop/planters\">Pots &amp; planters</.link></:list>\n  <:list class=\"text-sm hover:opacity-70\"><.link navigate=\"/shop/care\">Plant care</.link></:list>\n  <:list icon=\"hero-truck\" icon_class=\"size-4 me-1.5\" class=\"hidden lg:inline-flex text-sm opacity-70\">\n    <.link navigate=\"/shipping\">Free delivery over $60</.link>\n  </:list>\n\n  <:end_content class=\"flex items-center gap-4\">\n    <.link navigate=\"/search\" class=\"p-1.5 hover:opacity-70\">\n      <.component\n        component_name=\"chelekom-icon\"\n        site=\"Global\"\n        name=\"hero-magnifying-glass\"\n        class=\"size-5\"\n      />\n    </.link>\n    <.link navigate=\"/account\" class=\"p-1.5 hover:opacity-70\">\n      <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-user\" class=\"size-5\" />\n    </.link>\n    <.link navigate=\"/cart\" class=\"relative p-1.5 hover:opacity-70\">\n      <.component\n        component_name=\"chelekom-icon\"\n        site=\"Global\"\n        name=\"hero-shopping-bag\"\n        class=\"size-5\"\n      />\n      <span class=\"absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-rose-600 px-1 text-[10px] font-semibold text-white\">\n        3\n      </span>\n    </.link>\n  </:end_content>\n</.component>"
+    },
+    {
+      "label": "Dark application top bar with workspace switcher",
+      "source": "<.component\n  component_name=\"chelekom-navbar\"\n  site=\"Global\"\n  id=\"app-top-bar\"\n  variant=\"default\"\n  color=\"dark\"\n  max_width=\"extra_large\"\n>\n  <:start_content class=\"flex items-center gap-3\">\n    <.link navigate=\"/app\" class=\"flex items-center gap-2\">\n      <img src=\"/images/mishka-logo.svg\" class=\"size-7\" alt=\"Northwind\" />\n      <span class=\"text-base font-semibold\">Northwind</span>\n    </.link>\n    <span class=\"hidden md:inline-block h-5 w-px bg-white/25\"></span>\n    <.link\n      navigate=\"/app/workspaces\"\n      class=\"hidden md:inline-flex items-center gap-1.5 rounded-md bg-white/10 px-2 py-1 text-xs hover:bg-white/20\"\n    >\n      Acme Corp\n      <.component\n        component_name=\"chelekom-icon\"\n        site=\"Global\"\n        name=\"hero-chevron-down\"\n        class=\"size-3.5\"\n      />\n    </.link>\n  </:start_content>\n\n  <:list icon=\"hero-squares-2x2\" icon_class=\"size-4 me-1.5\" class=\"text-sm hover:opacity-80\">\n    <.link navigate=\"/app\">Dashboard</.link>\n  </:list>\n  <:list icon=\"hero-inbox-stack\" icon_class=\"size-4 me-1.5\" class=\"text-sm hover:opacity-80\">\n    <.link navigate=\"/app/projects\">Projects</.link>\n  </:list>\n  <:list icon=\"hero-chart-bar\" icon_class=\"size-4 me-1.5\" class=\"text-sm hover:opacity-80\">\n    <.link navigate=\"/app/reports\">Reports</.link>\n  </:list>\n  <:list icon=\"hero-cog-6-tooth\" icon_class=\"size-4 me-1.5\" class=\"text-sm hover:opacity-80\">\n    <.link navigate=\"/app/settings\">Settings</.link>\n  </:list>\n\n  <:end_content class=\"flex items-center gap-3\">\n    <.link navigate=\"/app/notifications\" class=\"relative p-1.5 hover:opacity-80\">\n      <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-bell\" class=\"size-5\" />\n      <span class=\"absolute top-1 right-1 size-2 rounded-full bg-emerald-400\"></span>\n    </.link>\n    <.component\n      component_name=\"chelekom-avatar\"\n      site=\"Global\"\n      src=\"/images/avatar2.jpg\"\n      rounded=\"full\"\n    />\n  </:end_content>\n</.component>"
+    },
+    {
+      "label": "Centered section nav for an event landing page",
+      "source": "<.component\n  component_name=\"chelekom-navbar\"\n  site=\"Global\"\n  id=\"event-section-nav\"\n  variant=\"gradient\"\n  color=\"primary\"\n  content_position=\"center\"\n  max_width=\"medium\"\n>\n  <:start_content class=\"flex items-center gap-2\">\n    <img src=\"/images/mishka-logo.svg\" class=\"size-7\" alt=\"Northwind Summit\" />\n    <span class=\"text-base font-semibold tracking-tight\">Northwind Summit 2026</span>\n  </:start_content>\n\n  <:list class=\"text-sm hover:opacity-80\"><.link href=\"#agenda\">Agenda</.link></:list>\n  <:list class=\"text-sm hover:opacity-80\"><.link href=\"#speakers\">Speakers</.link></:list>\n  <:list class=\"text-sm hover:opacity-80\"><.link href=\"#venue\">Venue</.link></:list>\n  <:list class=\"text-sm hover:opacity-80\"><.link href=\"#tickets\">Tickets</.link></:list>\n  <:list icon=\"hero-sparkles\" icon_class=\"size-4 me-1.5\" class=\"text-sm font-medium\">\n    <.link href=\"#tickets\">Early bird ends Friday</.link>\n  </:list>\n</.component>"
+    }
+  ]
+}

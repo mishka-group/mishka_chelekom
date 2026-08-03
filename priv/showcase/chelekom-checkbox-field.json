@@ -1,0 +1,21 @@
+{
+  "name": "chelekom-checkbox-field",
+  "furnishing": {
+    "body": "",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Sign-up consent block above the submit button",
+      "source": "<div class=\"max-w-md space-y-4\">\n  <.component component_name=\"chelekom-checkbox-field\" site=\"Global\" id=\"showcase-cbf-terms\" name=\"accept_terms\" value=\"yes\" label=\"I have read and accept the terms of service\" />\n  <.component component_name=\"chelekom-checkbox-field\" site=\"Global\" id=\"showcase-cbf-updates\" name=\"product_updates\" value=\"yes\" label=\"Send me product updates, about once a month\" checked={true} />\n  <.component component_name=\"chelekom-button\" site=\"Global\" color=\"primary\" type=\"button\">Create account</.component>\n</div>"
+    },
+    {
+      "label": "Email notification preferences list",
+      "source": "<div class=\"max-w-md space-y-3\">\n  <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"large\" font_weight=\"font-semibold\">Email notifications</.component>\n  <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\" class=\"opacity-70\">Everything else stays in the notification centre.</.component>\n  <div class=\"space-y-2\">\n    <.component component_name=\"chelekom-checkbox-field\" site=\"Global\" id=\"showcase-cbf-comments\" name=\"notify_comments\" value=\"yes\" label=\"Someone comments on a post I wrote\" checked={true} />\n    <.component component_name=\"chelekom-checkbox-field\" site=\"Global\" id=\"showcase-cbf-mentions\" name=\"notify_mentions\" value=\"yes\" label=\"Someone mentions me by name\" checked={true} />\n    <.component component_name=\"chelekom-checkbox-field\" site=\"Global\" id=\"showcase-cbf-weekly\" name=\"notify_weekly\" value=\"yes\" label=\"Weekly summary of site activity\" />\n  </div>\n</div>"
+    },
+    {
+      "label": "Catalogue filter panel with the label first and counts on the right",
+      "source": "<div class=\"max-w-xs space-y-3 rounded-lg border border-current/10 p-4\">\n  <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"medium\" font_weight=\"font-semibold\">Category</.component>\n  <div class=\"space-y-2\">\n    <div class=\"flex items-center justify-between gap-2\">\n      <.component component_name=\"chelekom-checkbox-field\" site=\"Global\" id=\"showcase-cbf-cat-books\" name=\"category_books\" value=\"books\" label=\"Books\" reverse={true} size=\"medium\" />\n      <span class=\"text-xs opacity-60\">128</span>\n    </div>\n    <div class=\"flex items-center justify-between gap-2\">\n      <.component component_name=\"chelekom-checkbox-field\" site=\"Global\" id=\"showcase-cbf-cat-courses\" name=\"category_courses\" value=\"courses\" label=\"Courses\" reverse={true} size=\"medium\" checked={true} />\n      <span class=\"text-xs opacity-60\">34</span>\n    </div>\n    <div class=\"flex items-center justify-between gap-2\">\n      <.component component_name=\"chelekom-checkbox-field\" site=\"Global\" id=\"showcase-cbf-cat-templates\" name=\"category_templates\" value=\"templates\" label=\"Templates\" reverse={true} size=\"medium\" />\n      <span class=\"text-xs opacity-60\">61</span>\n    </div>\n  </div>\n</div>"
+    }
+  ]
+}

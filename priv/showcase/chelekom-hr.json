@@ -1,0 +1,21 @@
+{
+  "name": "chelekom-hr",
+  "furnishing": {
+    "body": "",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "\"Or continue with\" separator between sign-in options",
+      "source": "<div class=\"mx-auto max-w-sm\">\n  <.component component_name=\"chelekom-button\" site=\"Global\" variant=\"default\" color=\"primary\" full_width={true}>Sign in with email</.component>\n  <.component component_name=\"chelekom-hr\" site=\"Global\" margin=\"large\">\n    <:text class=\"bg-white px-3 text-zinc-500\">Or continue with</:text>\n  </.component>\n  <div class=\"grid grid-cols-2 gap-3\">\n    <.component component_name=\"chelekom-button\" site=\"Global\" variant=\"outline\" color=\"natural\" full_width={true} icon=\"hero-globe-alt\">Google</.component>\n    <.component component_name=\"chelekom-button\" site=\"Global\" variant=\"outline\" color=\"natural\" full_width={true} icon=\"hero-code-bracket\">GitHub</.component>\n  </div>\n</div>"
+    },
+    {
+      "label": "Ornamental break between a pull quote and its attribution",
+      "source": "<div class=\"mx-auto max-w-xl text-center\">\n  <.component component_name=\"chelekom-p\" site=\"Global\" size=\"large\" class=\"italic text-zinc-700\">We moved eleven client sites onto Mishka over one weekend, and the editors never filed a single ticket about it.</.component>\n  <.component component_name=\"chelekom-hr\" site=\"Global\" color=\"silver\" margin=\"large\">\n    <:icon name=\"hero-sparkles\" class=\"bg-white\" icon_class=\"size-4 text-zinc-400\" />\n  </.component>\n  <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\" class=\"text-zinc-500\">Sara Mehrabi, founder of Studio Karimi</.component>\n</div>"
+    },
+    {
+      "label": "Dashed break between the summary and the totals of an invoice",
+      "source": "<div class=\"mx-auto max-w-md rounded-2xl border border-zinc-200 p-6\">\n  <div class=\"flex items-center justify-between\">\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\">Team plan, 6 seats</.component>\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\">$294.00</.component>\n  </div>\n  <div class=\"mt-2 flex items-center justify-between\">\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\">Extra storage, 50 GB</.component>\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\">$15.00</.component>\n  </div>\n  <.component component_name=\"chelekom-hr\" site=\"Global\" type=\"dashed\" margin=\"medium\" />\n  <div class=\"flex items-center justify-between\">\n    <.component component_name=\"chelekom-p\" site=\"Global\" font_weight=\"font-semibold\">Due 12 September</.component>\n    <.component component_name=\"chelekom-p\" site=\"Global\" font_weight=\"font-semibold\">$309.00</.component>\n  </div>\n</div>"
+    }
+  ]
+}

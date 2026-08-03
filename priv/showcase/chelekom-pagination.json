@@ -1,0 +1,21 @@
+{
+  "name": "chelekom-pagination",
+  "furnishing": {
+    "body": "",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Blog index footer with a result count",
+      "source": "<div class=\"flex max-w-3xl flex-col items-center gap-3 border-t border-zinc-200 pt-6 dark:border-zinc-800\">\n  <div class=\"text-sm text-zinc-500 dark:text-zinc-400\">Showing 21 to 30 of 118 articles</div>\n  <.component component_name=\"chelekom-pagination\" site=\"Global\" id=\"blog-index-pager\" total={12} active={3} size=\"small\" />\n</div>"
+    },
+    {
+      "label": "Search results pager with Newest and Oldest jumps",
+      "source": "<div class=\"max-w-3xl space-y-4\">\n  <div class=\"flex items-baseline justify-between\">\n    <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"medium\" font_weight=\"font-semibold\">118 results for “cold brew”</.component>\n    <span class=\"text-sm text-zinc-500 dark:text-zinc-400\">Sorted by relevance</span>\n  </div>\n  <.component component_name=\"chelekom-pagination\" site=\"Global\" id=\"search-results-pager\" total={12} active={1} size=\"small\" variant=\"outline\" color=\"natural\" space=\"small\">\n    <:start_items>\n      <span class=\"px-2 text-sm text-zinc-500 dark:text-zinc-400\">Newest</span>\n    </:start_items>\n    <:end_items>\n      <span class=\"px-2 text-sm text-zinc-500 dark:text-zinc-400\">Oldest</span>\n    </:end_items>\n  </.component>\n</div>"
+    },
+    {
+      "label": "Table footer with worded previous and next controls",
+      "source": "<div class=\"flex max-w-4xl flex-col gap-3 border-t border-zinc-200 pt-4 sm:flex-row sm:items-center sm:justify-between dark:border-zinc-800\">\n  <div class=\"text-sm text-zinc-500 dark:text-zinc-400\">25 invoices per page</div>\n  <.component component_name=\"chelekom-pagination\" site=\"Global\" id=\"invoices-table-pager\" total={8} active={4} size=\"small\" variant=\"default\" color=\"natural\" rounded=\"full\" previous_label={%{type: :text, value: \"Previous\"}} next_label={%{type: :text, value: \"Next\"}} />\n</div>"
+    }
+  ]
+}

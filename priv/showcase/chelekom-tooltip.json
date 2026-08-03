@@ -1,0 +1,34 @@
+{
+  "name": "chelekom-tooltip",
+  "furnishing": {
+    "body": "",
+    "slots": [
+      {
+        "name": "trigger",
+        "body": "<span class=\"underline decoration-dotted underline-offset-4 cursor-help\">Hover for details</span>"
+      },
+      {
+        "name": "content",
+        "body": "Extra detail, shown on hover."
+      }
+    ]
+  },
+  "examples": [
+    {
+      "label": "Help hint beside a settings label",
+      "source": "<.component component_name=\"chelekom-tooltip\" site=\"Global\" id=\"tooltip-api-key-help\" position=\"right\" width=\"large\" text_position=\"left\">\n  <:trigger>\n    <span class=\"inline-flex items-center gap-1 text-sm font-medium\">\n      API key\n      <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-question-mark-circle\" class=\"size-4 opacity-70\" />\n    </span>\n  </:trigger>\n  <:content>Found under Settings, Developers. Rotating the key signs out every connected app.</:content>\n</.component>"
+    },
+    {
+      "label": "Inline glossary term inside body copy",
+      "source": "<.component component_name=\"chelekom-tooltip\" site=\"Global\" id=\"tooltip-inline-ttl\" inline={true} position=\"top\" width=\"large\">\n  <:trigger>\n    <span class=\"underline decoration-dotted underline-offset-4 cursor-help\">TTL</span>\n  </:trigger>\n  <:content>Time to live: how long an edge server may serve a cached copy before asking your origin again.</:content>\n</.component>"
+    },
+    {
+      "label": "Icon-only toolbar button with its label",
+      "source": "<.component component_name=\"chelekom-tooltip\" site=\"Global\" id=\"tooltip-toolbar-delete\" position=\"bottom\">\n  <:trigger>\n    <button type=\"button\" aria-label=\"Delete selection\" class=\"inline-flex items-center justify-center size-9 rounded-md border border-black/10 dark:border-white/15\">\n      <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-trash\" class=\"size-4\" />\n    </button>\n  </:trigger>\n  <:content>Delete selection</:content>\n</.component>"
+    },
+    {
+      "label": "Clickable tooltip holding a value you can select and copy",
+      "source": "<.component component_name=\"chelekom-tooltip\" site=\"Global\" id=\"tooltip-webhook-secret\" clickable={true} hide_delay={800} position=\"top\" width=\"large\" text_position=\"left\">\n  <:trigger>\n    <span class=\"inline-flex items-center gap-1 text-sm\">\n      Signing secret\n      <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-information-circle\" class=\"size-4 opacity-70\" />\n    </span>\n  </:trigger>\n  <:content>\n    Every webhook body is signed with this secret. Keep the pointer inside the tooltip to select it.\n    <span class=\"mt-1 block font-mono text-xs select-all\">whsec_8f2b41d0c7e94a55</span>\n  </:content>\n</.component>"
+    }
+  ]
+}

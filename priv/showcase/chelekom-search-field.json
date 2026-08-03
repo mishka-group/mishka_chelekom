@@ -1,0 +1,27 @@
+{
+  "name": "chelekom-search-field",
+  "furnishing": {
+    "body": "",
+    "slots": [
+      {
+        "name": "start_section",
+        "body": "<.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-magnifying-glass\" class=\"size-5 text-gray-400\" />",
+        "attrs": {}
+      }
+    ]
+  },
+  "examples": [
+    {
+      "label": "Documentation header with search",
+      "source": "<div class=\"flex flex-wrap items-end justify-between gap-4 border-b border-gray-200 dark:border-gray-700 pb-5\">\n  <div>\n    <.component component_name=\"chelekom-h3\" site=\"Global\" size=\"extra_large\" font_weight=\"font-semibold\">Documentation</.component>\n    <.component component_name=\"chelekom-small\" site=\"Global\" class=\"block mt-1 text-gray-500\">Guides, recipes and the full component reference.</.component>\n  </div>\n  <.component component_name=\"chelekom-search-field\" site=\"Global\" id=\"docs-search\" name=\"q\" value=\"\" label=\"Search the docs\" floating=\"outer\" space=\"small\" search_button class=\"w-full sm:w-80\" />\n</div>"
+    },
+    {
+      "label": "Help center hero with popular topics",
+      "source": "<div class=\"max-w-xl mx-auto text-center\">\n  <.component component_name=\"chelekom-h3\" site=\"Global\" size=\"double_large\" font_weight=\"font-semibold\">How can we help?</.component>\n  <.component component_name=\"chelekom-p\" site=\"Global\" class=\"mt-2 text-gray-500\">Search more than 400 articles, or start from a popular topic.</.component>\n  <div class=\"mt-6 text-left\">\n    <.component component_name=\"chelekom-search-field\" site=\"Global\" id=\"help-center-search\" name=\"query\" value=\"\" label=\"Search articles\" description=\"Try billing, single sign-on, or exporting data\" description_class=\"text-[12px] text-gray-500 mb-1\" floating=\"outer\" space=\"small\" search_button />\n  </div>\n  <div class=\"mt-4 flex flex-wrap justify-center gap-2\">\n    <.component component_name=\"chelekom-badge\" site=\"Global\" size=\"medium\" rounded=\"full\">Billing</.component>\n    <.component component_name=\"chelekom-badge\" site=\"Global\" size=\"medium\" rounded=\"full\">Single sign-on</.component>\n    <.component component_name=\"chelekom-badge\" site=\"Global\" size=\"medium\" rounded=\"full\">Exporting data</.component>\n    <.component component_name=\"chelekom-badge\" site=\"Global\" size=\"medium\" rounded=\"full\">API keys</.component>\n  </div>\n</div>"
+    },
+    {
+      "label": "Blog archive filter row",
+      "source": "<div class=\"flex flex-col gap-3 sm:flex-row sm:items-end\">\n  <.component component_name=\"chelekom-search-field\" site=\"Global\" id=\"blog-archive-search\" name=\"s\" value=\"\" label=\"Search posts\" floating=\"outer\" space=\"small\" size=\"medium\" class=\"sm:flex-1\">\n    <:start_section>\n      <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-magnifying-glass\" class=\"size-5 text-gray-400\" />\n    </:start_section>\n  </.component>\n  <.component component_name=\"chelekom-native-select\" site=\"Global\" id=\"blog-archive-category\" name=\"category\" label=\"Category\" space=\"small\" size=\"medium\" class=\"sm:w-56\">\n    <:option value=\"\">All categories</:option>\n    <:option value=\"engineering\">Engineering</:option>\n    <:option value=\"product\">Product</:option>\n    <:option value=\"design\">Design</:option>\n    <:option value=\"customers\">Customer stories</:option>\n  </.component>\n</div>"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "name": "chelekom-error",
+  "furnishing": {
+    "body": "This field is required",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Validation message under a sign-up email field",
+      "source": "<div class=\"max-w-sm\">\n  <.component component_name=\"chelekom-text-field\" site=\"Global\" id=\"signup-email-field\" name=\"user[email]\" label=\"Email address\" placeholder=\"you@example.com\" value=\"jane@\" />\n  <.component component_name=\"chelekom-error\" site=\"Global\">Please enter a valid email address</.component>\n</div>"
+    },
+    {
+      "label": "Two server-side errors stacked above a checkout form",
+      "source": "<div class=\"max-w-md\">\n  <.component component_name=\"chelekom-error\" site=\"Global\">Your card was declined. Try a different card, or contact your bank and retry.</.component>\n  <.component component_name=\"chelekom-error\" site=\"Global\">The billing postcode does not match the one your bank has on file.</.component>\n</div>"
+    }
+  ]
+}

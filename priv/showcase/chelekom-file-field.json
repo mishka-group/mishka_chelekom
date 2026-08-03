@@ -1,0 +1,21 @@
+{
+  "name": "chelekom-file-field",
+  "furnishing": {
+    "body": "",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Résumé upload on a job application",
+      "source": "<.component component_name=\"chelekom-file-field\" site=\"Global\" id=\"apply-resume\" name=\"application[resume]\" label=\"Attach your résumé (PDF or Word, up to 5 MB)\" class=\"max-w-md\" />"
+    },
+    {
+      "label": "Profile photo field rejecting an oversized image",
+      "source": "<.component component_name=\"chelekom-file-field\" site=\"Global\" id=\"profile-avatar-upload\" name=\"user[avatar]\" label=\"Profile photo\" errors={[\"That image is larger than 2 MB. Please choose a smaller file.\"]} class=\"max-w-md\" />"
+    },
+    {
+      "label": "Receipt attachment on an expense claim",
+      "source": "<.component component_name=\"chelekom-file-field\" site=\"Global\" id=\"expense-receipt\" name=\"expense[receipt]\" label=\"Receipt or invoice\" color=\"primary\" space=\"small\" class=\"max-w-md\" />"
+    }
+  ]
+}

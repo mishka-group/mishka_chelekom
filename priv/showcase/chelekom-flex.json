@@ -1,0 +1,21 @@
+{
+  "name": "chelekom-flex",
+  "furnishing": {
+    "body": "<div class=\"mr-3 rounded-lg border border-gray-200 px-4 py-3\">Research</div>\n<div class=\"mr-3 rounded-lg border border-gray-200 px-4 py-3\">Design</div>\n<div class=\"rounded-lg border border-gray-200 px-4 py-3\">Build</div>",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Page header with the title on the left and actions on the right",
+      "source": "<.component component_name=\"chelekom-flex\" site=\"Global\" id=\"flex-page-header\" justify=\"between\" align=\"center\" gap=\"small\" class=\"w-full border-b border-gray-200 pb-4\">\n  <div>\n    <.component component_name=\"chelekom-h2\" site=\"Global\" size=\"extra_large\" font_weight=\"font-semibold\">Subscribers</.component>\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\" color=\"silver\" class=\"mt-1\">4,182 people receive the weekly digest.</.component>\n  </div>\n  <.component component_name=\"chelekom-flex\" site=\"Global\" align=\"center\" gap=\"small\">\n    <.component component_name=\"chelekom-button\" site=\"Global\" variant=\"outline\" color=\"natural\" size=\"small\">Export CSV</.component>\n    <.component component_name=\"chelekom-button\" site=\"Global\" variant=\"default\" color=\"primary\" size=\"small\" icon=\"hero-envelope\">New campaign</.component>\n  </.component>\n</.component>"
+    },
+    {
+      "label": "Three feature cards stretched to an even row",
+      "source": "<.component component_name=\"chelekom-flex\" site=\"Global\" id=\"flex-feature-row\" gap=\"medium\" align=\"stretch\" class=\"w-full\">\n  <div class=\"flex-1 rounded-xl border border-gray-200 p-5\">\n    <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-bolt\" class=\"size-6\" />\n    <h3 class=\"mt-3 font-semibold\">Instant preview</h3>\n    <p class=\"mt-1 text-sm\">See every edit rendered with the real site styles before you publish.</p>\n  </div>\n  <div class=\"flex-1 rounded-xl border border-gray-200 p-5\">\n    <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-swatch\" class=\"size-6\" />\n    <h3 class=\"mt-3 font-semibold\">Themes that stay yours</h3>\n    <p class=\"mt-1 text-sm\">Colours, spacing and typography come from one place and follow every page.</p>\n  </div>\n  <div class=\"flex-1 rounded-xl border border-gray-200 p-5\">\n    <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-shield-check\" class=\"size-6\" />\n    <h3 class=\"mt-3 font-semibold\">Reviewed before it ships</h3>\n    <p class=\"mt-1 text-sm\">Drafts wait for an approver, and every change is recorded in the activity log.</p>\n  </div>\n</.component>"
+    },
+    {
+      "label": "Author byline with avatar, name and publish date",
+      "source": "<.component component_name=\"chelekom-flex\" site=\"Global\" id=\"flex-author-byline\" align=\"center\" gap=\"small\">\n  <.component component_name=\"chelekom-avatar\" site=\"Global\" src=\"/images/avatar3.jpg\" rounded=\"full\" size=\"medium\" />\n  <div>\n    <div class=\"font-semibold\">Nadia Rahimi</div>\n    <div class=\"text-sm\">Published 12 March 2025 · 6 min read</div>\n  </div>\n</.component>"
+    }
+  ]
+}

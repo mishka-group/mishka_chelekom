@@ -1,0 +1,30 @@
+{
+  "name": "chelekom-video",
+  "furnishing": {
+    "body": "",
+    "slots": [
+      {
+        "name": "source",
+        "body": "",
+        "attrs": {
+          "src": "https://mdn.github.io/shared-assets/videos/flower.mp4",
+          "type": "video/mp4"
+        }
+      }
+    ]
+  },
+  "examples": [
+    {
+      "label": "Product tour video with a poster frame",
+      "source": "<.component component_name=\"chelekom-video\" site=\"Global\" id=\"video-product-tour\" ratio=\"video\" rounded=\"large\" thumbnail=\"/images/card-1.jpg\" controls preload=\"none\">\n  <:source src=\"https://mdn.github.io/shared-assets/videos/flower.webm\" type=\"video/webm\" />\n  <:source src=\"https://mdn.github.io/shared-assets/videos/flower.mp4\" type=\"video/mp4\" />\n</.component>"
+    },
+    {
+      "label": "Tutorial video with English captions",
+      "source": "<.component component_name=\"chelekom-video\" site=\"Global\" id=\"video-getting-started\" ratio=\"video\" rounded=\"medium\" caption_size=\"small\" caption_background=\"dark\" controls>\n  <:source src=\"https://mdn.github.io/shared-assets/videos/flower.mp4\" type=\"video/mp4\" />\n  <:track label=\"English\" kind=\"captions\" srclang=\"en\" src=\"data:text/vtt;base64,V0VCVlRUCgowMDowMDowMC4wMDAgLS0+IDAwOjAwOjAwLjk5OSAgbGluZTo4MCUKSGlsZHkhCgowMDowMDowMS4wMDAgLS0+IDAwOjAwOjAxLjQ5OSBsaW5lOjgwJQpIb3cgYXJlIHlvdT8KCjAwOjAwOjAxLjUwMCAtLT4gMDA6MDA6MDIuOTk5IGxpbmU6ODAlClRlbGwgbWUsIGlzIHRoZSA8dT5sb3JkIG9mIHRoZSB1bml2ZXJzZTwvdT4gaW4/CgowMDowMDowMy4wMDAgLS0+IDAwOjAwOjA0LjI5OSBsaW5lOjgwJQpZZXMsIGhlJ3MgaW4gLSBpbiBhIGJhZCBodW1vcgoKMDA6MDA6MDQuMzAwIC0tPiAwMDowMDowNi4wMDAgbGluZTo4MCUKU29tZWJvZHkgbXVzdCd2ZSBzdG9sZW4gdGhlIGNyb3duIGpld2Vscwo=\" default={true} />\n</.component>"
+    },
+    {
+      "label": "Muted looping clip behind a section heading",
+      "source": "<.component component_name=\"chelekom-video\" site=\"Global\" id=\"video-hero-loop\" ratio=\"video\" rounded=\"extra_large\" thumbnail=\"/images/card-2.jpg\" autoplay muted loop playsinline>\n  <:source src=\"https://mdn.github.io/shared-assets/videos/flower.mp4\" type=\"video/mp4\" />\n</.component>"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "name": "chelekom-group-checkbox",
+  "furnishing": {
+    "body": "<div class=\"mb-1 text-sm font-medium\">Email me about</div>",
+    "slots": [
+      {
+        "name": "checkbox",
+        "attrs": {
+          "value": "product_updates"
+        },
+        "body": "Product updates"
+      },
+      {
+        "name": "checkbox",
+        "attrs": {
+          "value": "security"
+        },
+        "body": "Security alerts"
+      },
+      {
+        "name": "checkbox",
+        "attrs": {
+          "value": "billing"
+        },
+        "body": "Billing receipts"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "label": "Notification preferences in account settings",
+      "source": "<.component component_name=\"chelekom-group-checkbox\" site=\"Global\" id=\"account-notifications\" name=\"notifications[]\" space=\"small\">\n  <div class=\"mb-2 text-sm font-medium\">Send me an email when</div>\n  <:checkbox value=\"comment\" checked={true}>Someone comments on a page I wrote</:checkbox>\n  <:checkbox value=\"publish\">A page I edited goes live</:checkbox>\n  <:checkbox value=\"invite\">I am invited to another site</:checkbox>\n  <:checkbox value=\"digest\">The weekly activity digest is ready</:checkbox>\n</.component>"
+    },
+    {
+      "label": "Availability filter in a shop sidebar",
+      "source": "<.component component_name=\"chelekom-group-checkbox\" site=\"Global\" id=\"shop-filter-availability\" name=\"availability[]\" space=\"extra_small\" size=\"small\" label_class=\"block text-sm\">\n  <div class=\"mb-2 text-xs font-semibold uppercase tracking-wide opacity-70\">Availability</div>\n  <:checkbox value=\"in_stock\" checked={true}>In stock now (128)</:checkbox>\n  <:checkbox value=\"made_to_order\">Made to order (34)</:checkbox>\n  <:checkbox value=\"preorder\">Pre-order (9)</:checkbox>\n  <:checkbox value=\"clearance\">Clearance (17)</:checkbox>\n</.component>"
+    },
+    {
+      "label": "Column picker laid out in a row above a report",
+      "source": "<.component component_name=\"chelekom-group-checkbox\" site=\"Global\" id=\"report-columns\" name=\"columns[]\" variation=\"horizontal\" space=\"large\" size=\"small\" label_class=\"block text-sm\">\n  <:checkbox value=\"title\" checked={true}>Title</:checkbox>\n  <:checkbox value=\"author\" checked={true}>Author</:checkbox>\n  <:checkbox value=\"published_at\">Published</:checkbox>\n  <:checkbox value=\"views\">Views</:checkbox>\n  <:checkbox value=\"comments\">Comments</:checkbox>\n</.component>"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "name": "chelekom-h1",
+  "furnishing": {
+    "body": "Build and publish your site without touching code",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Hero headline at the top of a landing page",
+      "source": "<.component component_name=\"chelekom-h1\" site=\"Global\" font_weight=\"font-bold\" class=\"max-w-3xl tracking-tight\">Publish a page in the time it takes to write one</.component>"
+    },
+    {
+      "label": "Article title above the byline",
+      "source": "<.component component_name=\"chelekom-h1\" site=\"Global\" id=\"article-title\" size=\"triple_large\" font_weight=\"font-semibold\" class=\"mb-3\">How we cut our LiveView payload in half</.component>"
+    }
+  ]
+}

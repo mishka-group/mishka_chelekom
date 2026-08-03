@@ -1,0 +1,31 @@
+{
+  "name": "chelekom-form-wrapper",
+  "furnishing": {
+    "body": "<div class=\"space-y-4\">\n  <.component component_name=\"chelekom-text-field\" site=\"Global\" name=\"full_name\" value=\"\" label=\"Full name\" />\n  <.component component_name=\"chelekom-email-field\" site=\"Global\" name=\"email\" value=\"\" label=\"Email address\" />\n</div>",
+    "slots": [
+      {
+        "name": "actions",
+        "attrs": {},
+        "body": "<.component component_name=\"chelekom-button\" site=\"Global\" type=\"submit\" color=\"primary\">Send</.component>"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "label": "Contact form with a message box",
+      "source": "<.component component_name=\"chelekom-form-wrapper\" site=\"Global\" for={%{}} id=\"contact-form\" space=\"medium\" padding=\"medium\" rounded=\"large\" action_wrapper_class=\"pt-2\">\n  <.component component_name=\"chelekom-text-field\" site=\"Global\" id=\"contact-name\" name=\"name\" value=\"\" label=\"Your name\" />\n  <.component component_name=\"chelekom-email-field\" site=\"Global\" id=\"contact-email\" name=\"email\" value=\"\" label=\"Email address\" description=\"We only use this to reply to you.\" />\n  <.component component_name=\"chelekom-textarea-field\" site=\"Global\" id=\"contact-message\" name=\"message\" value=\"\" label=\"How can we help?\" rows=\"5\" />\n  <:actions>\n    <.component component_name=\"chelekom-button\" site=\"Global\" type=\"submit\" color=\"primary\">Send message</.component>\n  </:actions>\n</.component>"
+    },
+    {
+      "label": "Sign-in card with a remember-me box",
+      "source": "<.component component_name=\"chelekom-form-wrapper\" site=\"Global\" for={%{}} id=\"sign-in-form\" space=\"medium\" padding=\"large\" rounded=\"large\" class=\"max-w-sm\" action_wrapper_class=\"space-y-3 pt-2\">\n  <.component component_name=\"chelekom-email-field\" site=\"Global\" id=\"sign-in-email\" name=\"email\" value=\"\" label=\"Email address\" />\n  <.component component_name=\"chelekom-password-field\" site=\"Global\" id=\"sign-in-password\" name=\"password\" value=\"\" label=\"Password\" show_password={true} />\n  <.component component_name=\"chelekom-checkbox-field\" site=\"Global\" id=\"sign-in-remember\" name=\"remember_me\" value=\"true\" label=\"Keep me signed in for 30 days\" size=\"small\" />\n  <:actions>\n    <.component component_name=\"chelekom-button\" site=\"Global\" type=\"submit\" color=\"primary\" full_width={true}>Sign in</.component>\n    <div class=\"text-center text-sm\"><a href=\"/reset-password\" class=\"hover:underline\">Forgot your password?</a></div>\n  </:actions>\n</.component>"
+    },
+    {
+      "label": "Support ticket form with a priority select",
+      "source": "<.component component_name=\"chelekom-form-wrapper\" site=\"Global\" for={%{}} id=\"ticket-form\" space=\"medium\" padding=\"medium\" rounded=\"medium\" action_wrapper_class=\"flex gap-3 pt-2\">\n  <.component component_name=\"chelekom-text-field\" site=\"Global\" id=\"ticket-subject\" name=\"subject\" value=\"\" label=\"Subject\" />\n  <.component component_name=\"chelekom-native-select\" site=\"Global\" id=\"ticket-priority\" name=\"priority\" label=\"How urgent is it?\">\n    <:option value=\"low\">Low — answer when you can</:option>\n    <:option value=\"normal\" selected={true}>Normal — within a working day</:option>\n    <:option value=\"urgent\">Urgent — the site is down</:option>\n  </.component>\n  <.component component_name=\"chelekom-textarea-field\" site=\"Global\" id=\"ticket-details\" name=\"details\" value=\"\" label=\"What happened?\" rows=\"6\" description=\"Paste the exact error message if you saw one.\" />\n  <:actions>\n    <.component component_name=\"chelekom-button\" site=\"Global\" type=\"submit\" color=\"primary\">Open ticket</.component>\n    <.component component_name=\"chelekom-button\" site=\"Global\" type=\"reset\" variant=\"outline\" color=\"natural\">Clear the form</.component>\n  </:actions>\n</.component>"
+    },
+    {
+      "label": "Shipping address in two columns",
+      "source": "<.component component_name=\"chelekom-form-wrapper\" site=\"Global\" for={%{}} id=\"shipping-form\" space=\"medium\" padding=\"medium\" rounded=\"medium\" action_wrapper_class=\"flex justify-end pt-2\">\n  <div class=\"grid gap-4 sm:grid-cols-2\">\n    <.component component_name=\"chelekom-text-field\" site=\"Global\" id=\"shipping-first-name\" name=\"first_name\" value=\"\" label=\"First name\" />\n    <.component component_name=\"chelekom-text-field\" site=\"Global\" id=\"shipping-last-name\" name=\"last_name\" value=\"\" label=\"Last name\" />\n    <.component component_name=\"chelekom-text-field\" site=\"Global\" id=\"shipping-street\" name=\"street\" value=\"\" label=\"Street and number\" class=\"sm:col-span-2\" />\n    <.component component_name=\"chelekom-text-field\" site=\"Global\" id=\"shipping-city\" name=\"city\" value=\"\" label=\"City\" />\n    <.component component_name=\"chelekom-text-field\" site=\"Global\" id=\"shipping-postcode\" name=\"postcode\" value=\"\" label=\"Post code\" />\n    <.component component_name=\"chelekom-tel-field\" site=\"Global\" id=\"shipping-phone\" name=\"phone\" value=\"\" label=\"Phone for the courier\" class=\"sm:col-span-2\" />\n  </div>\n  <:actions>\n    <.component component_name=\"chelekom-button\" site=\"Global\" type=\"submit\" color=\"primary\">Save this address</.component>\n  </:actions>\n</.component>"
+    }
+  ]
+}
