@@ -10,6 +10,7 @@ import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.swipeLeft
 import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performTextReplacement
 import androidx.compose.ui.test.performTouchInput
@@ -87,6 +88,19 @@ class ToolbarTest {
         Thread.sleep(500)
     }
 
+    /** Unclipped x, unfiltered on size — a control scrolled out of its strip reports zero. */
+    private fun rawBounds(tag: String): androidx.compose.ui.geometry.Rect? =
+        compose.onAllNodesWithTag(tag, useUnmergedTree = true)
+            .fetchSemanticsNodes().firstOrNull()?.boundsInRoot
+
+    private fun rawLeft(tag: String): Float =
+        compose.onAllNodesWithTag(tag, useUnmergedTree = true)
+            .fetchSemanticsNodes()
+            .firstOrNull()
+            ?.boundsInRoot
+            ?.left
+            ?: error("no node tagged \"$tag\"")
+
     private fun laidOut(tag: String): androidx.compose.ui.geometry.Rect =
         compose.onAllNodesWithTag(tag, useUnmergedTree = true)
             .fetchSemanticsNodes()
@@ -153,8 +167,12 @@ class ToolbarTest {
         compose.onNodeWithTag("tb-kinds-find").performScrollTo().performTextReplacement("beam")
         compose.waitForIdle()
 
+        // Case-insensitive: the status reads "Looking for beam" on a fresh page
+        // but "Tapped X, looking for beam" once any earlier test in this class
+        // has tapped a control — and the BEAM outlives the Activity, so which
+        // one you get depends on test order.
         compose.waitUntil(10_000) {
-            textOrNull("tb-kinds-status")?.contains("Looking for beam") == true
+            textOrNull("tb-kinds-status")?.contains("looking for beam", ignoreCase = true) == true
         }
     }
 
@@ -220,25 +238,32 @@ class ToolbarTest {
 
     @Test
     fun a_scrolling_strip_reaches_its_last_control() {
-        // Two scrolls, in this order, and the order is the point:
-        // performScrollTo drives the NEAREST scrollable ancestor, so asking the
-        // last button to scroll into view moves the toolbar's own horizontal
-        // scroller and leaves the PAGE wherever it was. The heading is outside
-        // that scroller, so scrolling to it is what moves the page.
-        compose.onAllNodesWithText("Overflow: scroll", substring = true)[0].performScrollTo()
+        // Scroll the PAGE by the toolbar's outer Box, which sits outside the
+        // horizontal scroller — performScrollTo drives the nearest scrollable
+        // ancestor, so anything INSIDE the strip moves the strip and leaves the
+        // page where it was, with everything reporting Rect(0,0,0,0).
+        compose.onNodeWithTag("tb-scr", useUnmergedTree = true).performScrollTo()
         compose.waitForIdle()
 
         require(tagged("tb-scr-table")) { "the eighth control was never composed" }
 
+        // Measure the FIRST control travelling, not the eighth arriving: a
+        // control clipped away by the strip's viewport reports zero bounds, so
+        // its own position can neither prove nor disprove that the strip moved.
+        val firstBefore = rawLeft("tb-scr-cut")
+        require(firstBefore > 0f) { "the strip never came into view" }
+
+        // Drive the strip with performScrollTo on its LAST control rather than a
+        // synthetic swipe. A swipe has to win a gesture negotiation against the
+        // controls' own clickables, and here it loses — but the claim under test
+        // is that the strip can reach its last control, not which gesture gets
+        // it there. This is also what a caller's own scroll-into-view does.
         compose.onNodeWithTag("tb-scr-table", useUnmergedTree = true).performScrollTo()
         compose.waitForIdle()
+        Thread.sleep(400)
 
-        // Measured, not assertIsDisplayed: the control sits in a horizontally
-        // scrolled strip, so it can be fully laid out and reachable while
-        // Compose still counts it as partly clipped by the viewport.
-        val reached = laidOut("tb-scr-table")
-        require(reached.width > 0f && reached.height > 0f) {
-            "the eighth control never came into view: $reached"
+        require(rawLeft("tb-scr-cut") < firstBefore - 20f) {
+            "the strip did not scroll: first control was at $firstBefore, now ${rawLeft("tb-scr-cut")}"
         }
     }
 

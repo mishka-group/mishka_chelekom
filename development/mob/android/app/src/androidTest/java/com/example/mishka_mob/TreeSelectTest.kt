@@ -157,6 +157,11 @@ class TreeSelectTest {
     fun picking_a_file_fills_the_trigger_and_CLOSES() {
         openIt("ts-file")
 
+        // Expand `lib` first: its children only exist while the branch is open,
+        // and an earlier test in this class may have collapsed it — the BEAM
+        // outlives the Activity, so the tree's state carries over.
+        if (!tagged("ts-file-tree-row-lib/app.ex")) tapTag("ts-file-tree-toggle-lib")
+
         // Rows are addressable because the tree inside the panel carries its own
         // id — five panels sharing MishkaTree's default would collide.
         tapTag("ts-file-tree-row-lib/app.ex")

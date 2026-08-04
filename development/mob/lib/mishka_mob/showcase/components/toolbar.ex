@@ -27,6 +27,11 @@ defmodule MishkaMob.Showcase.Components.Toolbar do
     {:redo, "Redo", "↻"},
     {:link, "Link", "🔗"},
     {:image, "Image", "🖼"},
+    {:quote, "Quote", "❝"},
+    {:code, "Code", "⌨"},
+    {:list, "List", "☰"},
+    {:align, "Align", "⇹"},
+    {:colour, "Colour", "🎨"},
     {:table, "Table", "▦"}
   ]
 

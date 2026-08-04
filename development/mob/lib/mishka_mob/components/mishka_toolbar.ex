@@ -628,6 +628,14 @@ defmodule MishkaMob.Components.MishkaToolbar do
     end)
   end
 
+  # The Scroll must FILL its axis, or there is nothing to scroll.
+  #
+  # Without it the scroller measures to its CONTENT — so the viewport and the
+  # content are the same size, the strip cannot move, and the overflow is simply
+  # clipped by the Box outside it. The controls past the edge stayed composed
+  # and tagged, so a test could find them; they were merely unreachable, by
+  # finger or by scroll_to. This is the mirror of the tab strip's rule, where
+  # the inner Row must NOT fill for the same reason.
   defp scroller(strip, %{overflow: :scroll} = ctx) do
     axis = if ctx.vertical?, do: nil, else: "horizontal"
 
@@ -638,6 +646,7 @@ defmodule MishkaMob.Components.MishkaToolbar do
     """
     |> put(:axis, axis)
     |> put(:id, scroll_tag(ctx.id))
+    |> put(if(ctx.vertical?, do: :fill_height, else: :fill_width), true)
   end
 
   defp scroller(strip, _ctx), do: strip
