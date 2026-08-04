@@ -108,16 +108,24 @@ class TreeSelectTest {
     fun openTreeSelectScreen() {
         compose.waitUntil(90_000) { showing(home) || showing(page) || showing("← Back") }
 
+        // Back out only until a screen that HAS the card, then click it. The
+        // previous shape backed out unconditionally and then clicked, so a run
+        // that started anywhere unexpected failed in @Before and took every
+        // test in the class with it.
         var guard = 0
-        while (showing("← Back") && guard++ < 3) {
+        while (!showing(page) && !showing(home) && guard++ < 4) {
+            if (!showing("← Back")) break
             compose.onNodeWithText("← Back", substring = true).performScrollTo().performClick()
             compose.waitForIdle()
             Thread.sleep(800)
         }
 
-        compose.onAllNodesWithText("Tree Select", substring = false)[0]
-            .performScrollTo()
-            .performClick()
+        if (!showing(page)) {
+            compose.onAllNodesWithText("Tree Select", substring = false)[0]
+                .performScrollTo()
+                .performClick()
+        }
+
         compose.waitUntil(60_000) { showing(page) }
     }
 

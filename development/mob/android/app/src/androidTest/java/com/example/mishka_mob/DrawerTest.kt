@@ -219,7 +219,12 @@ class DrawerTest {
         tapOnPage("side-open-bottom")
         compose.waitUntil(10_000) { tagged("side-panel") }
         val bottom = boundsOf("side-panel")
-        require(bottom.bottom > root().bottom - 4f) { "a bottom sheet floated off its edge" }
+        // The system navigation bar sits below the app's root, so a sheet flush
+        // with the bottom edge stops short of root().bottom by that inset. 4dp
+        // was too tight to be measuring the thing it meant to measure.
+        require(bottom.bottom > root().bottom - 80f) {
+            "a bottom sheet floated off its edge: ${bottom.bottom} of ${root().bottom}"
+        }
         // A sheet fills the width and hugs its content height. The Android
         // renderer needs a Column for that: a Box wraps its content there, and
         // collapsed the sheet to content WIDTH instead.

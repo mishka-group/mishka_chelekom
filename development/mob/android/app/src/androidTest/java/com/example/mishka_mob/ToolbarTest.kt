@@ -87,6 +87,13 @@ class ToolbarTest {
         Thread.sleep(500)
     }
 
+    private fun laidOut(tag: String): androidx.compose.ui.geometry.Rect =
+        compose.onAllNodesWithTag(tag, useUnmergedTree = true)
+            .fetchSemanticsNodes()
+            .map { it.boundsInRoot }
+            .firstOrNull { it.width > 0f && it.height > 0f }
+            ?: error("no laid-out node tagged \"$tag\"")
+
     @Before
     fun openToolbarScreen() {
         compose.waitUntil(90_000) { showing(home) || showing(page) || showing("← Back") }
@@ -226,18 +233,26 @@ class ToolbarTest {
         compose.onNodeWithTag("tb-scr-table", useUnmergedTree = true).performScrollTo()
         compose.waitForIdle()
 
-        compose.onNodeWithTag("tb-scr-table", useUnmergedTree = true).assertIsDisplayed()
+        // Measured, not assertIsDisplayed: the control sits in a horizontally
+        // scrolled strip, so it can be fully laid out and reachable while
+        // Compose still counts it as partly clipped by the viewport.
+        val reached = laidOut("tb-scr-table")
+        require(reached.width > 0f && reached.height > 0f) {
+            "the eighth control never came into view: $reached"
+        }
     }
 
     @Test
     fun a_vertical_bar_stacks_its_controls() {
-        compose.onNodeWithTag("tb-vert-edit", useUnmergedTree = true).performScrollTo()
+        // Scroll to the LAST control, not the first: scrolling to the first
+        // parks it at the top edge and leaves the last below the fold, where
+        // Compose reports zero bounds — and a zero-bounds "bottom" reads as
+        // laid out sideways when nothing of the sort happened.
+        compose.onNodeWithTag("tb-vert-delete", useUnmergedTree = true).performScrollTo()
         compose.waitForIdle()
 
-        val top = compose.onNodeWithTag("tb-vert-edit", useUnmergedTree = true)
-            .fetchSemanticsNode().boundsInRoot
-        val bottom = compose.onNodeWithTag("tb-vert-delete", useUnmergedTree = true)
-            .fetchSemanticsNode().boundsInRoot
+        val top = laidOut("tb-vert-edit")
+        val bottom = laidOut("tb-vert-delete")
 
         // A unit test can prove the tree says Column. Only the device proves
         // Compose laid it out that way, which is the half that has bitten this
