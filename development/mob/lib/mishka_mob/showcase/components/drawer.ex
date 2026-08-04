@@ -6,6 +6,15 @@ defmodule MishkaMob.Showcase.Components.Drawer do
   rendered by `overlay/1` at the screen root, so a panel stacks over the whole
   page. Each example owns its own `open?` assign — a shared one would mean a
   device test could not say which example it had just opened.
+
+  That split is also why the openers here are `MishkaDrawer.trigger/2` calls
+  rather than `<MishkaDrawerTrigger>` tags: the slot is drawn by the drawer, in
+  the drawer's own place, and these drawers live at the root while their buttons
+  live inside a scrolling card. The builder returns exactly the node the tag
+  builds, so the gallery loses nothing but the markup — and the code samples
+  lead with the tag, which is what an app with one drawer per screen should
+  write. `<MishkaDrawerFooter>` has no such tension and is used for real, by the
+  undismissable sheet whose only way out is its footer.
   """
   use MishkaMob.Showcase
 
@@ -77,9 +86,24 @@ defmodule MishkaMob.Showcase.Components.Drawer do
       %Example{
         title: "A trigger, and any side",
         description:
-          "trigger/2 is the port of the web's <:trigger> slot — it stays where you put it, " <>
-            "because the composite cannot reach into your layout.",
+          "<MishkaDrawerTrigger> is the web's <:trigger> slot — it is what a CLOSED drawer " <>
+            "draws, so it stands in the drawer's own place until the overlay wants it.",
         code: ~S"""
+        # The opener as markup. A closed drawer renders nothing, which is exactly
+        # the room the slot needs — so put the tag where the button belongs, and
+        # somewhere that can hand the overlay the whole screen when it opens.
+        <MishkaDrawer id="menu" open={@menu_open?} side={:left} title="Menu"
+                      on_close={:close_menu}>
+          <MishkaDrawerTrigger label="Menu" on_open={:open_menu} id="menu-open" />
+          {menu_item("👤", "Profile")}
+        </MishkaDrawer>
+
+        # This gallery cannot use the slot, and the reason is worth knowing: its
+        # triggers sit in a scrolling card while every panel is stacked at the
+        # screen root, and one node cannot be in both places. trigger/2 builds
+        # EXACTLY the node the tag builds — place it yourself, and `id` ties the
+        # two together. It is also the only way to open one drawer from four
+        # buttons, as this example does.
         {MishkaDrawer.trigger("Right", on_open: {:open_side, :right}, weight: 1)}
 
         <MishkaDrawer id="side" open={@side_open?} side={@side}
@@ -99,10 +123,26 @@ defmodule MishkaMob.Showcase.Components.Drawer do
       },
       %Example{
         title: "Panel width",
-        description: "size runs :xs to :xl (240–384dp). Top and bottom sheets ignore it.",
+        description:
+          "size runs :xs to :xl (240–384dp). Top and bottom sheets ignore it. Five openers " <>
+            "from one list — the case the builder is for.",
         code: ~S"""
         <MishkaDrawer id="size" open={@size_open?} side={:right} size={@size}
                       title="Width" on_close={{:close, :size}} />
+
+        # When the children come from DATA, the function form is the right one:
+        # a comprehension says this once, and generated markup cannot be written
+        # at all. The tag is for a trigger you type; trigger/2 is for five.
+        [:xs, :sm, :md, :lg, :xl]
+        |> Enum.map(fn size ->
+          MishkaDrawer.trigger(Atom.to_string(size),
+            on_open: {:open_size, size},
+            test_id: "size-open-#{size}",
+            weight: 1
+          )
+        end)
+        |> Enum.intersperse(gap(6))
+        |> row()
         """,
         render: fn _assigns -> sizes_preview() end
       },
@@ -205,10 +245,23 @@ defmodule MishkaMob.Showcase.Components.Drawer do
         title: "Undismissable, and unblocking",
         description:
           "dismissible: false keeps the backdrop blocking but inert — only the ✕ closes it. " <>
-            "scrim: false drops the backdrop entirely, so the page behind stays live.",
+            "scrim: false drops the backdrop entirely, so the page behind stays live. The way " <>
+            "out is a <MishkaDrawerFooter>, which is what a drawer's own exit is.",
         code: ~S"""
+        # The footer slot is the panel's bottom block: it gets its own
+        # <id>-footer tag, and on a panel with a determined height — every side
+        # drawer, and a sheet on a snap point — a weighted Spacer pushes it to
+        # the floor. This sheet hugs its content, so it simply follows the body.
         <MishkaDrawer id="locked" open={@locked_open?} side={:bottom} dismissible={false}
-                      title="Sign the waiver" on_close={{:close, :locked}} />
+                      title="Sign the waiver" on_close={{:close, :locked}}>
+          <MishkaDrawerFooter>
+            {done_row()}
+          </MishkaDrawerFooter>
+        </MishkaDrawer>
+
+        # MishkaDrawer.footer/1 builds the same marker node, for a footer
+        # assembled from data rather than typed:
+        #   MishkaDrawer.footer(Enum.map(@actions, &action_row/1))
 
         <MishkaDrawer id="bare" open={@bare_open?} side={:right} scrim={false}
                       size={:sm} title="Inspector" on_close={{:close, :bare}} />
@@ -406,6 +459,22 @@ defmodule MishkaMob.Showcase.Components.Drawer do
         type: "event tag",
         default: "—",
         description: "{:drag, tag, payload} from the handle or the edge. Fold it with swipe/3."
+      },
+      %{
+        name: "<MishkaDrawerTrigger>",
+        type: "slot",
+        default: "—",
+        description:
+          "The opener, and what a CLOSED drawer draws. Takes label (or children), on_open, " <>
+            "id, weight, fill_width. trigger/2 builds the same node."
+      },
+      %{
+        name: "<MishkaDrawerFooter>",
+        type: "slot",
+        default: "—",
+        description:
+          "The panel's bottom block, tagged <id>-footer and pushed to the floor when the " <>
+            "panel has a height. footer/1 builds the same node."
       },
       %{
         name: "trigger/2 · swipe/3",
@@ -616,7 +685,9 @@ defmodule MishkaMob.Showcase.Components.Drawer do
       description="The backdrop will not let you out of this one"
       on_close={{:close, :locked}}
     >
-      {[done_row()]}
+      <MishkaDrawerFooter>
+        {done_row()}
+      </MishkaDrawerFooter>
     </MishkaDrawer>
     """
   end

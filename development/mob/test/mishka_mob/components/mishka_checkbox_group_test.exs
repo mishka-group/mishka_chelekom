@@ -159,6 +159,57 @@ defmodule MishkaMob.Components.MishkaCheckboxGroupTest do
     assert text(build(%{label: "LIBRARIES"})) =~ "LIBRARIES"
   end
 
+  describe "rows, written as tags" do
+    # What the sigil makes of `<MishkaCheckboxGroupItem id={:a} label="Alpha" />`:
+    # the type atom, the attributes as props, and nothing at all filled in for
+    # what the caller left out. A slot tag has no module and no expander, so it
+    # arrives at the group exactly like this.
+    defp tag(props), do: %{type: :mishka_checkbox_group_item, props: props, children: []}
+
+    defp expanded(children, props), do: Group.expand(props, children, %{screen: self()})
+
+    # Both handlers and an id, so the equalities below cover the wiring and the
+    # test tags too, not just the shape.
+    @group %{id: "langs", value: [:a], select_all: true, on_change: :pick, on_select_all: :all}
+
+    test "<MishkaCheckboxGroupItem> builds exactly what item/3 builds" do
+      tags = [tag(%{id: :a, label: "Alpha"}), tag(%{id: :c, label: "Gamma", disabled: true})]
+      built = [Group.item(:a, "Alpha"), Group.item(:c, "Gamma", disabled: true)]
+
+      assert expanded(tags, @group) == Group.checkbox_group(@group, built)
+    end
+
+    test "an attribute left out — or written nil — falls back to the builder's default" do
+      for props <- [%{id: :a, label: "Alpha"}, %{id: :a, label: "Alpha", disabled: nil}] do
+        assert expanded([tag(props)], @group) ==
+                 Group.checkbox_group(@group, [Group.item(:a, "Alpha")])
+      end
+    end
+
+    test "no <MishkaCheckboxGroupItem> marker survives expansion" do
+      tree = expanded([tag(%{id: :a, label: "Alpha"})], @group)
+
+      # A marker that leaks reaches the renderer, which has never heard of the
+      # type and draws nothing. assert_renderable will not catch it either: the
+      # name is whitelisted in mix.exs, so the sigil accepts the tag.
+      assert find_all(tree, :mishka_checkbox_group_item) == []
+      assert text(tree) =~ "Alpha"
+    end
+
+    test "a row written as a tag is wired to the group's on_change, widened with its id" do
+      taps =
+        expanded([tag(%{id: :a, label: "Alpha"})], @group)
+        |> rows()
+        |> Enum.map(& &1.props[:on_tap])
+
+      assert {self(), {:pick, :a}} in taps
+    end
+
+    test "slot_types/0 names every node the group consumes as a row" do
+      assert Group.slot_types() == [:mishka_checkbox_group_item]
+    end
+  end
+
   test "expand/3 reads item children and ignores anything else" do
     stray = %{type: :text, props: %{text: "stray"}, children: []}
     tree = Group.expand(%{value: []}, items() ++ [stray], %{screen: self()})

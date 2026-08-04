@@ -20,7 +20,6 @@ trigger and **nothing else**; with no trigger it is the panel alone.
 <MishkaPreviewCard
   id="elixir"
   open={@preview == "elixir"}
-  trigger={name_chip("Elixir")}
   on_hold={:preview}
   on_tap={:visit}
   arrow={true}
@@ -28,7 +27,12 @@ trigger and **nothing else**; with no trigger it is the panel alone.
   subtitle="@elixir-lang"
   initials="EX"
   description="A dynamic, functional language."
->{[follow_button()]}</MishkaPreviewCard>
+>
+  <MishkaPreviewCardTrigger>
+    {name_chip("Elixir")}
+  </MishkaPreviewCardTrigger>
+  {[follow_button()]}
+</MishkaPreviewCard>
 """
 
 # A hold ASKS for a change; the screen decides what it means. Holding the open
@@ -44,13 +48,37 @@ def handle_info({:tap, {:visit, id}}, socket) do
 end
 ```
 
+## Slots
+
+| Slot | Web | What it takes |
+|---|---|---|
+| `<MishkaPreviewCardTrigger>` | `<:trigger>` | the nodes you hold. No props of its own — `on_hold`, `on_tap` and the `<id>-trigger` tag are the card's |
+| bare children | `<:inner_block>` | the footer, which is where actions belong |
+
+The web's `<:arrow>` slot is not a slot here: the arrow is a glyph the component draws itself, switched
+on with `arrow={true}` and coloured with `arrow_color`.
+
+**When the function form is still right.** The `trigger` prop takes the same nodes as data, and both
+forms reach the same `trigger/3` and build the identical tree. Use the tag when you are writing a card
+out by hand; use the prop when a list comprehension is doing the writing and there is no markup to
+hang a tag in:
+
+```elixir
+Enum.map(@people, fn {id, name} ->
+  preview_card(%{id: id, open: @preview == id, trigger: name_chip(name), on_hold: :preview})
+end)
+```
+
+`trigger/3` is public for the third case — a trigger that has to live somewhere the card cannot reach,
+such as a list row with the card rendered at the foot of the screen.
+
 ## Props
 
 | Prop | Values | Default |
 |---|---|---|
 | `id` | string | `nil` — testTag root, **and** the value the trigger events carry |
 | `open` | boolean | `false` — the panel draws nothing when closed |
-| `trigger` | node / [node] | `nil` — what you hold. Omit it and only the panel renders |
+| `trigger` | node / [node] | `nil` — the trigger slot as data. Omit it *and* the tag, and only the panel renders |
 | `on_hold` | event tag | — `{:tap, {tag, id}}` on a long press |
 | `on_tap` | event tag | — `{:tap, {tag, id}}` on a plain tap |
 | `side` | `:bottom` `:top` `:left` `:right` | `:bottom` |
@@ -62,9 +90,7 @@ end
 | `avatar_color` | colour token / ARGB int | `:primary` |
 
 Everything `popover` accepts is forwarded (`width`, `background`, `corner_radius`, `padding`,
-`border_*`, `offset_x`, `offset_y`). Children are the footer, which is where actions belong.
-`trigger/3` builds the trigger on its own for the case where it has to live somewhere the card
-cannot reach — a list row, with the card at the foot of the screen.
+`border_*`, `offset_x`, `offset_y`).
 
 ## Six things to know
 

@@ -11,11 +11,17 @@ defmodule MishkaMob.Showcase.Components.Tree do
   The first two examples deliberately leave `id` at its default (`"tree"`) —
   that is the pair `TreeTest.kt` addresses by index, and it is also the only
   place the default prefix is exercised.
+
+  Both spellings of a hierarchy are on the page. The first example and the tree
+  select write theirs as `<MishkaTreeNode>` markup, which is the form to reach
+  for when the shape is known. The rest pass `nodes`, because their reducers
+  need the hierarchy as data regardless — `toggle_check/4`, `select_range/4`
+  and `toggle_expand/3` all take the node list — and the async example builds
+  its nodes from a flag, which is not something markup can do.
   """
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaTree, only: [tree: 1]
 
   alias MishkaMob.Components.MishkaTree
   alias MishkaMob.Showcase.Example
@@ -407,11 +413,9 @@ defmodule MishkaMob.Showcase.Components.Tree do
         title: "Tree select",
         description: "A trigger showing the selection, with the tree in a panel beneath it.",
         code: ~S"""
-        <MishkaTreeSelect
-          label={@picked}
-          open={@open}
-          on_toggle={:ts_toggle}
-        >{[tree(id: "ts", nodes: @nodes, on_select: :ts_pick)]}</MishkaTreeSelect>
+        <MishkaTreeSelect label={@picked} open={@open} on_toggle={:ts_toggle}>
+          <MishkaTree id="ts" nodes={@nodes} on_select={:ts_pick} />
+        </MishkaTreeSelect>
 
         # Picking closes the panel, which is the whole point of a select.
         def handle_info({:tap, {:ts_pick, value}}, socket) do
@@ -430,12 +434,15 @@ defmodule MishkaMob.Showcase.Components.Tree do
               open={@ts_open}
               on_toggle={:ts_toggle}
             >
-              {[
-                 tree(
-                   id: "ts", nodes: nodes(), expanded: @ts_expanded, select_on_click: true,
-                   on_expand: :ts_open_node, on_collapse: :ts_close_node, on_select: :ts_pick
-                 )
-               ]}
+              <MishkaTree
+                id="ts"
+                nodes={nodes()}
+                expanded={@ts_expanded}
+                select_on_click={true}
+                on_expand={:ts_open_node}
+                on_collapse={:ts_close_node}
+                on_select={:ts_pick}
+              />
             </MishkaTreeSelect>
           </Column>
           """

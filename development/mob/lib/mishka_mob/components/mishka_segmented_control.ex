@@ -56,7 +56,39 @@ defmodule MishkaMob.Components.MishkaSegmentedControl do
   | `fill_width` | boolean | `false` | Track spans its parent. |
   | `id` | string | `nil` | Prefix for each segment's test tag. |
 
-  Options are children built with `option/3`.
+  ## Slots
+
+  Segments are written out as children, the native analogue of Chelekom's
+  `<:option>` slot, so the markup reads the way the Phoenix component does:
+
+      <MishkaSegmentedControl value={@view} on_change={:pick} id="view">
+        <MishkaSegmentedControlOption id={:day} label="Day" />
+        <MishkaSegmentedControlOption id={:week} label="Week" />
+        <MishkaSegmentedControlOption id={:month} label="Month" disabled={true} />
+      </MishkaSegmentedControl>
+
+  | Slot | Takes | Builds the same node as |
+  |------|-------|-------------------------|
+  | `<MishkaSegmentedControlOption>` | `id`, `label`, `disabled` | `option/3` |
+
+  A slot tag is matched on `:type` among the parent's children and consumed by
+  `expand/3`, so it never reaches the renderer. `option/3` produces exactly the
+  node the tag does — `%{type: :mishka_segmented_control_option, props: %{id: …,
+  label: …, disabled: …}}` — and the two forms are interchangeable. Use the tag
+  when you are writing the segments out, the function when they come from data:
+
+      <MishkaSegmentedControl value={@role} on_change={:pick}>
+        {Enum.map(@roles, fn {id, label} -> option(id, label) end)}
+      </MishkaSegmentedControl>
+
+  The label is a prop rather than the slot's children because the control paints
+  it: `text_size`, and the selected/idle `text_color`, are the control's props,
+  so the `Text` node has to be the control's to build.
+
+  `on_change` stays on the control rather than moving to the option. An `on_*`
+  prop on a slot tag is not auto-wired the way a composite's is, so an option
+  carrying its own handler would hand the renderer a bare atom; the control
+  instead pairs its already-wired tag with each option's id.
 
   Given `id="view"`, the `:week` segment is tagged `"view-week-selected"` or
   `"view-week-idle"`. Selection is conveyed by fill colour alone, and colour is
@@ -70,13 +102,27 @@ defmodule MishkaMob.Components.MishkaSegmentedControl do
 
   alias MishkaMob.Components.Event
 
-  @option_type :mishka_segment
+  # The slot tag and the builder share one atom on purpose: that is what makes
+  # <MishkaSegmentedControlOption> and option/3 the same node, and so
+  # interchangeable everywhere.
+  @option_type :mishka_segmented_control_option
 
-  @doc "Composite expander (`<MishkaSegmentedControl>`). Children are options."
+  @doc """
+  Composite expander (`<MishkaSegmentedControl>`).
+
+  Children are `<MishkaSegmentedControlOption>` slot tags — or the identical
+  nodes from `option/3` — matched on `:type` and consumed here, so no marker
+  ever reaches the renderer. Anything else among the children is dropped.
+  """
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, children, _ctx), do: segmented_control(props, children)
 
-  @doc "Build one segment node."
+  @doc """
+  Build one segment node — exactly what `<MishkaSegmentedControlOption>` builds.
+
+  Reach for it when the segments come from data; write the tag when you are
+  spelling them out.
+  """
   @spec option(term(), String.t(), keyword()) :: map()
   def option(id, label, opts \\ []) do
     %{
@@ -100,12 +146,22 @@ defmodule MishkaMob.Components.MishkaSegmentedControl do
   @spec select(term(), term()) :: term()
   def select(_current, tapped), do: tapped
 
-  @doc "The control node."
+  @doc """
+  The control node. Children are `<MishkaSegmentedControlOption>` tags or
+  `option/3` nodes — the same thing either way.
+  """
   @spec segmented_control(map() | keyword(), [map()]) :: map()
   def segmented_control(props \\ %{}, children \\ []) do
     props = Map.new(props)
     label = Map.get(props, :label)
 
+    # The slot tags are read for their props and then dropped: only the segments
+    # built below go into the tree. A marker that survived would reach the
+    # renderer, whose `when (node.type)` has no else branch, and draw nothing at
+    # all — silently, because mix.exs has whitelisted the name.
+    #
+    # A tag written without `disabled` has no such key, where option/3 defaults
+    # it, so everything downstream reads it with a default rather than a match.
     options =
       children
       |> Enum.filter(&match?(%{type: @option_type}, &1))

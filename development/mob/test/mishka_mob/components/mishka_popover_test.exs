@@ -2,6 +2,11 @@ defmodule MishkaMob.Components.MishkaPopoverTest do
   # async: false — Mob.ScreenCase starts the globally-named `Mob.State`.
   use Mob.ScreenCase, async: false
 
+  # The slot tests write the tags as real markup rather than hand-building the
+  # node: the point of a slot tag is that a caller writes it, so the assertion
+  # has to start where the caller does.
+  import Mob.Sigil
+
   alias MishkaMob.Components.MishkaPopover
 
   defp content, do: [%{type: :text, props: %{text: "panel body"}, children: []}]
@@ -440,6 +445,198 @@ defmodule MishkaMob.Components.MishkaPopoverTest do
       trigger = Enum.find(flatten(tree), &(&1.props[:id] == "p-trigger-closed"))
 
       assert trigger.props.on_tap == {self(), {:chg, true}}
+    end
+  end
+
+  describe "slot tags" do
+    setup do
+      Mob.Composite.register(:mishka_popover, {MishkaPopover, :expand})
+      :ok
+    end
+
+    defp shut(children), do: expanded(%{id: "p", open: false}, children)
+    defp up(children), do: expanded(%{id: "p", open: true}, children)
+
+    test "<MishkaPopoverTrigger> builds what trigger/1 builds" do
+      assert ~MOB(<MishkaPopoverTrigger text="Go" />) == MishkaPopover.trigger("Go")
+
+      assert shut([~MOB(<MishkaPopoverTrigger text="Go" />)]) ==
+               shut([MishkaPopover.trigger("Go")])
+
+      assert text(node_with_id(shut([MishkaPopover.trigger("Go")]), "p-trigger-closed")) =~ "Go"
+    end
+
+    test "no <MishkaPopoverTrigger> marker survives expansion" do
+      # A leaked marker is SILENT: the tag is whitelisted, so the sigil accepts
+      # it and assert_renderable/1 is satisfied — the renderer simply has no
+      # case for the type and draws nothing where the trigger should be.
+      assert find_all(shut([~MOB(<MishkaPopoverTrigger text="Go" />)]), :mishka_popover_trigger) ==
+               []
+    end
+
+    test "<MishkaPopoverTitle> builds what title/1 builds" do
+      assert ~MOB(<MishkaPopoverTitle text="Shipped" />) == MishkaPopover.title("Shipped")
+
+      tree = up([~MOB(<MishkaPopoverTitle text="Shipped" />)])
+
+      assert tree == up([MishkaPopover.title("Shipped")])
+      assert node_with_id(tree, "p-title").props.text == "Shipped"
+    end
+
+    test "no <MishkaPopoverTitle> marker survives expansion" do
+      assert find_all(up([~MOB(<MishkaPopoverTitle text="Shipped" />)]), :mishka_popover_title) ==
+               []
+    end
+
+    test "<MishkaPopoverDescription> builds what description/1 builds" do
+      assert ~MOB(<MishkaPopoverDescription text="By email." />) ==
+               MishkaPopover.description("By email.")
+
+      tree = up([~MOB(<MishkaPopoverDescription text="By email." />)])
+
+      assert tree == up([MishkaPopover.description("By email.")])
+      assert node_with_id(tree, "p-desc").props.text == "By email."
+    end
+
+    test "no <MishkaPopoverDescription> marker survives expansion" do
+      tree = up([~MOB(<MishkaPopoverDescription text="By email." />)])
+
+      assert find_all(tree, :mishka_popover_description) == []
+    end
+
+    test "<MishkaPopoverClose> builds what close/1 builds" do
+      assert ~MOB(<MishkaPopoverClose text="Got it" />) == MishkaPopover.close("Got it")
+
+      tree = up([~MOB(<MishkaPopoverClose text="Got it" />)])
+
+      assert tree == up([MishkaPopover.close("Got it")])
+      assert text(node_with_id(tree, "p-close")) =~ "Got it"
+    end
+
+    test "no <MishkaPopoverClose> marker survives expansion" do
+      assert find_all(up([~MOB(<MishkaPopoverClose text="Got it" />)]), :mishka_popover_close) ==
+               []
+    end
+
+    test "<MishkaPopoverArrow> builds what arrow/0 builds" do
+      assert ~MOB(<MishkaPopoverArrow />) == MishkaPopover.arrow()
+
+      tree = up([~MOB(<MishkaPopoverArrow />)])
+
+      assert tree == up([MishkaPopover.arrow()])
+      # Written bare, the tag says exactly what `arrow={true}` says.
+      assert node_with_id(tree, "p-arrow").props.text == "▲"
+    end
+
+    test "no <MishkaPopoverArrow> marker survives expansion" do
+      assert find_all(up([~MOB(<MishkaPopoverArrow />)]), :mishka_popover_arrow) == []
+    end
+
+    test "a slot wins over its shorthand prop" do
+      tree =
+        expanded(%{id: "p", open: true, title: "From the prop"}, [
+          ~MOB(<MishkaPopoverTitle text="From the slot" />)
+        ])
+
+      assert node_with_id(tree, "p-title").props.text == "From the slot"
+    end
+
+    test "the shorthand props still build the identical tree" do
+      slots = [
+        MishkaPopover.trigger("Go"),
+        MishkaPopover.title("T"),
+        MishkaPopover.description("D"),
+        MishkaPopover.close("C"),
+        MishkaPopover.arrow()
+      ]
+
+      props = %{id: "p", open: true, trigger: "Go", title: "T", description: "D", close: "C"}
+
+      assert expanded(Map.put(props, :arrow, true), []) ==
+               expanded(%{id: "p", open: true}, slots)
+    end
+
+    test "order does not matter — each part is placed by the anatomy, not by where it was written" do
+      written_backwards = [
+        ~MOB(<MishkaPopoverClose text="C" />),
+        ~MOB(<MishkaPopoverDescription text="D" />),
+        ~MOB(<MishkaPopoverTitle text="T" />),
+        ~MOB(<MishkaPopoverTrigger text="Go" />)
+      ]
+
+      in_order = [
+        MishkaPopover.trigger("Go"),
+        MishkaPopover.title("T"),
+        MishkaPopover.description("D"),
+        MishkaPopover.close("C")
+      ]
+
+      assert up(written_backwards) == up(in_order)
+    end
+
+    test "bare children are the body, and keep their place between title and footer" do
+      tree =
+        up([
+          ~MOB(<MishkaPopoverTitle text="T" />),
+          %{type: :text, props: %{text: "panel body"}, children: []},
+          ~MOB(<MishkaPopoverClose text="C" />)
+        ])
+
+      assert text(tree) =~ "panel body"
+      assert_renderable(tree)
+    end
+
+    test "a slot written as markup is styled by the caller and still carries the part's tag" do
+      tree =
+        up([MishkaPopover.title([%{type: :text, props: %{text: "★ Shipped"}, children: []}])])
+
+      title = node_with_id(tree, "p-title")
+
+      # A Text would have worn the tag itself; markup gets its own Column, so
+      # the part stays addressable whatever the caller put in it.
+      assert title.type == :column
+      assert text(title) =~ "★ Shipped"
+    end
+
+    test "the arrow slot may carry a glyph of its own, tinted like the panel" do
+      tree = expanded(%{id: "p", open: true, background: 0xFF1E1B4B}, [MishkaPopover.arrow("◆")])
+      arrow = node_with_id(tree, "p-arrow")
+
+      assert arrow.props.text == "◆"
+      assert arrow.props.text_color == 0xFF1E1B4B
+    end
+
+    test "a close slot of your own controls is not wired for you" do
+      button = %{type: :button, props: %{text: "Later"}, children: []}
+      tree = up([MishkaPopover.close([button])])
+      footer = node_with_id(tree, "p-close")
+
+      # The tag goes on the row rather than on a control this module did not
+      # build — and nothing in it is wired, because those handlers are yours.
+      assert footer.type == :row
+      refute Map.has_key?(footer.props, :on_tap)
+      assert find(footer, :button, text: "Later")
+    end
+
+    test "the wired close is the labelled one, and it reports the popover shut" do
+      tree =
+        expanded(%{id: "p", open: true, on_open_change: :chg}, [MishkaPopover.close("Got it")])
+
+      assert node_with_id(tree, "p-close").props.on_tap == {self(), {:chg, false}}
+    end
+
+    test "every slot type is consumed, so none of them ever reaches the renderer" do
+      tree =
+        up([
+          MishkaPopover.trigger("Go"),
+          MishkaPopover.title("T"),
+          MishkaPopover.description("D"),
+          MishkaPopover.close("C"),
+          MishkaPopover.arrow()
+        ])
+
+      for type <- MishkaPopover.slot_types(), do: assert(find_all(tree, type) == [])
+      assert_renderable(tree)
     end
   end
 

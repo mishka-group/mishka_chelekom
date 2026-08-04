@@ -269,7 +269,14 @@ defmodule MishkaMob.Components.MishkaAlertDialogTest do
 
     test "actions/1 and Dialog's footer/1 are the same slot under two names" do
       assert MishkaAlertDialog.actions(actions()) == MishkaDialog.footer(actions())
-      assert MishkaAlertDialog.slot_types() == MishkaDialog.slot_types()
+
+      # Every Dialog slot tag works here too — <MishkaDialogTitle> and friends
+      # are written inside an alert dialog verbatim. The one addition is the
+      # action tag, which Dialog has no equivalent of.
+      assert MishkaDialog.slot_types() -- MishkaAlertDialog.slot_types() == []
+
+      assert MishkaAlertDialog.slot_types() -- MishkaDialog.slot_types() ==
+               [:mishka_alert_dialog_action]
     end
 
     test "no slot type ever reaches the renderer" do
@@ -397,6 +404,16 @@ defmodule MishkaMob.Components.MishkaAlertDialogTest do
 
     defp after_taps(tags), do: Enum.reduce(tags, mounted(), &Page.handle(&1, &2))
 
+    # The page writes its dialogs as <MishkaAlertDialog> markup with slot-tag
+    # children, so `overlay/1` hands back an unexpanded composite. Run the pass
+    # the renderer runs before reading testTags off it.
+    defp opened(tags) do
+      case Page.overlay(after_taps(tags).assigns) do
+        nil -> nil
+        node -> Mob.Composite.expand(node, self())
+      end
+    end
+
     test "every example renders and shows its handler" do
       assigns = mounted().assigns
 
@@ -429,7 +446,7 @@ defmodule MishkaMob.Components.MishkaAlertDialogTest do
             {:ad_slots_open, "ad-slots"},
             {:ad_chrome_open, "ad-chrome"}
           ] do
-        overlay = Page.overlay(after_taps([tag]).assigns)
+        overlay = opened([tag])
 
         assert Enum.filter(ids(overlay), &String.ends_with?(&1, "-open")) == ["#{id}-open"]
         assert_renderable(overlay)
@@ -437,7 +454,7 @@ defmodule MishkaMob.Components.MishkaAlertDialogTest do
     end
 
     test "the stubborn dialog is the one that passes dismissible and is refused" do
-      overlay = Page.overlay(after_taps([:ad_stubborn_open]).assigns)
+      overlay = opened([:ad_stubborn_open])
 
       assert find(overlay, :box, id: "ad-stubborn-backdrop-modal").props.on_tap ==
                {self(), @absorb}
@@ -464,7 +481,7 @@ defmodule MishkaMob.Components.MishkaAlertDialogTest do
     end
 
     test "the slot-built dialog is tagged exactly like the string-built ones" do
-      overlay = Page.overlay(after_taps([:ad_slots_open]).assigns)
+      overlay = opened([:ad_slots_open])
 
       for part <- ~w(open backdrop-modal panel title description footer) do
         assert "ad-slots-#{part}" in ids(overlay), "missing testTag ad-slots-#{part}"
@@ -472,7 +489,7 @@ defmodule MishkaMob.Components.MishkaAlertDialogTest do
     end
 
     test "the chrome example is the one carrying a body, so -content has a home" do
-      overlay = Page.overlay(after_taps([:ad_chrome_open]).assigns)
+      overlay = opened([:ad_chrome_open])
 
       assert "ad-chrome-content" in ids(overlay)
     end

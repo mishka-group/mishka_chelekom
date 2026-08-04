@@ -2,6 +2,8 @@ defmodule MishkaMob.Components.MishkaSegmentedControlTest do
   # async: false — Mob.ScreenCase starts the globally-named `Mob.State`.
   use Mob.ScreenCase, async: false
 
+  import Mob.Sigil
+
   alias MishkaMob.Components.MishkaSegmentedControl, as: SC
 
   doctest MishkaMob.Components.MishkaSegmentedControl
@@ -178,6 +180,55 @@ defmodule MishkaMob.Components.MishkaSegmentedControlTest do
 
     refute text(tree) =~ "stray"
     assert length(segments(tree)) == 3
+  end
+
+  describe "slots" do
+    # The tag form is the one a screen writes; the function form is what you want
+    # when the segments come from data. They must stay interchangeable, because
+    # the showcase and the usage rule both promise it.
+    defp tag_opts do
+      [
+        ~MOB(<MishkaSegmentedControlOption id={:day} label="Day" />),
+        ~MOB(<MishkaSegmentedControlOption id={:week} label="Week" />),
+        ~MOB(<MishkaSegmentedControlOption id={:month} label="Month" disabled={true} />)
+      ]
+    end
+
+    test "<MishkaSegmentedControlOption> builds the node option/3 builds" do
+      assert ~MOB(<MishkaSegmentedControlOption id={:day} label="Day" disabled={false} />) ==
+               SC.option(:day, "Day")
+
+      assert ~MOB(<MishkaSegmentedControlOption id={:month} label="Month" disabled={true} />) ==
+               SC.option(:month, "Month", disabled: true)
+    end
+
+    test "a tag written without `disabled` still means false" do
+      [day, _week, _month] = tag_opts()
+
+      # The tag simply has no such key where option/3 writes `false`. That is the
+      # only difference between the two forms, and it is why everything reading a
+      # segment's props takes `disabled` with a default rather than matching on
+      # it — the tree-equality test below is what proves the default lands.
+      refute Map.has_key?(day.props, :disabled)
+    end
+
+    test "the tag form and the function form expand to the same tree" do
+      props = %{value: :week, on_change: :pick, id: "view", label: "VIEW"}
+      ctx = %{screen: self()}
+
+      assert SC.expand(props, tag_opts(), ctx) == SC.expand(props, opts(), ctx)
+    end
+
+    test "no slot marker survives expansion" do
+      tree = SC.expand(%{value: :week, on_change: :pick}, tag_opts(), %{screen: self()})
+
+      # assert_renderable is blind here: mix.exs whitelists the tag name so the
+      # helper considers it renderable, while the renderer's `when (node.type)`
+      # has no else branch and simply draws nothing. Only an explicit check
+      # catches a marker the expander forgot to consume.
+      assert find_all(tree, :mishka_segmented_control_option) == []
+      assert length(segments(tree)) == 3
+    end
   end
 
   test "every variant renders" do

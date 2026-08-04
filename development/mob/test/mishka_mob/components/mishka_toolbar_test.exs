@@ -97,6 +97,12 @@ defmodule MishkaMob.Components.MishkaToolbarTest do
   test "expand/3 uses the tag's children" do
     assert MishkaToolbar.expand(%{}, items(), %{screen: self()}) ==
              MishkaToolbar.toolbar(%{}, items())
+
+    # expand/3 routes every item through its builder to normalise the slot tags,
+    # so a builder node must survive that trip untouched — otherwise writing the
+    # markup and calling the function would drift apart on the next default.
+    assert MishkaToolbar.expand(%{id: "fmt"}, kinds(), %{screen: self()}) ==
+             MishkaToolbar.toolbar(%{id: "fmt"}, kinds())
   end
 
   describe "the four item kinds" do
@@ -157,6 +163,137 @@ defmodule MishkaMob.Components.MishkaToolbarTest do
           MishkaToolbar.toolbar(%{orientation: orientation, overflow: overflow}, kinds())
         )
       end
+    end
+  end
+
+  describe "the four item kinds, written as tags" do
+    # What the sigil makes of `<MishkaToolbarButton id={:bold} label="Bold" />`:
+    # the type atom, the attributes as props, and nothing at all filled in for
+    # what the caller left out. A slot tag has no module and no expander, so it
+    # arrives at the parent exactly like this.
+    defp tag(type, props), do: %{type: type, props: props, children: []}
+
+    defp expanded(children, props), do: MishkaToolbar.expand(props, children, %{screen: self()})
+
+    # Every handler the bar owns, so the equality below covers the wiring too and
+    # not just the shape.
+    @bar %{id: "fmt", on_select: :act, on_hold: :hold, on_input: :typed}
+
+    defp kind_tags do
+      [
+        tag(:mishka_toolbar_button, %{id: :bold, label: "Bold", icon: "B"}),
+        tag(:mishka_toolbar_link, %{id: :docs, label: "Docs", href: "https://mishka.tools"}),
+        tag(:mishka_toolbar_separator, %{}),
+        tag(:mishka_toolbar_input, %{id: :find, placeholder: "Find…", value: "abc"})
+      ]
+    end
+
+    test "<MishkaToolbarButton> builds exactly what button/3 builds" do
+      item = tag(:mishka_toolbar_button, %{id: :bold, label: "Bold", icon: "B", group: "Text"})
+      built = MishkaToolbar.button(:bold, "Bold", icon: "B", group: "Text")
+
+      assert expanded([item], @bar) == MishkaToolbar.toolbar(@bar, [built])
+    end
+
+    test "no <MishkaToolbarButton> marker survives expansion" do
+      tree = expanded([tag(:mishka_toolbar_button, %{id: :bold, label: "Bold"})], @bar)
+
+      # A marker that leaks reaches the renderer, which has never heard of the
+      # type and draws nothing. assert_renderable will not catch it either: the
+      # name is whitelisted in mix.exs so the sigil accepts the tag.
+      assert find_all(tree, :mishka_toolbar_button) == []
+      assert text(tree) =~ "Bold"
+    end
+
+    test "<MishkaToolbarLink> builds exactly what link/3 builds" do
+      item =
+        tag(:mishka_toolbar_link, %{
+          id: :docs,
+          label: "Docs",
+          href: "https://mishka.tools",
+          icon: "↗"
+        })
+
+      built = MishkaToolbar.link(:docs, "Docs", href: "https://mishka.tools", icon: "↗")
+
+      assert expanded([item], @bar) == MishkaToolbar.toolbar(@bar, [built])
+    end
+
+    test "no <MishkaToolbarLink> marker survives expansion" do
+      tree = expanded([tag(:mishka_toolbar_link, %{id: :docs, label: "Docs"})], @bar)
+
+      assert find_all(tree, :mishka_toolbar_link) == []
+      assert text(tree) =~ "Docs"
+    end
+
+    test "<MishkaToolbarInput> builds exactly what input/2 builds" do
+      item =
+        tag(:mishka_toolbar_input, %{id: :find, placeholder: "Find…", value: "abc", width: 90})
+
+      built = MishkaToolbar.input(:find, placeholder: "Find…", value: "abc", width: 90)
+
+      assert expanded([item], @bar) == MishkaToolbar.toolbar(@bar, [built])
+    end
+
+    test "no <MishkaToolbarInput> marker survives expansion" do
+      tree = expanded([tag(:mishka_toolbar_input, %{id: :find, placeholder: "Find…"})], @bar)
+
+      assert find_all(tree, :mishka_toolbar_input) == []
+      assert find(tree, :text_field).props.placeholder == "Find…"
+    end
+
+    test "<MishkaToolbarSeparator> builds exactly what separator/1 builds" do
+      items = [
+        tag(:mishka_toolbar_button, %{id: :bold, label: "Bold", group: "Align"}),
+        tag(:mishka_toolbar_separator, %{group: "Align"})
+      ]
+
+      built = [
+        MishkaToolbar.button(:bold, "Bold", group: "Align"),
+        MishkaToolbar.separator(group: "Align")
+      ]
+
+      assert expanded(items, @bar) == MishkaToolbar.toolbar(@bar, built)
+    end
+
+    test "no <MishkaToolbarSeparator> marker survives expansion" do
+      tree = expanded([tag(:mishka_toolbar_separator, %{})], @bar)
+
+      assert find_all(tree, :mishka_toolbar_separator) == []
+      assert tree |> find_all(:box) |> Enum.find(&(&1.props[:width] == 1))
+    end
+
+    test "a whole bar of tags is the same bar of builders — tags, groups and all" do
+      props = Map.merge(@bar, %{hint: :bold})
+
+      assert expanded(kind_tags(), props) == MishkaToolbar.toolbar(props, kinds())
+    end
+
+    test "an attribute left out — or written nil — falls back to the builder's default" do
+      for {item, built} <- [
+            {tag(:mishka_toolbar_button, %{id: :bold, label: "Bold"}),
+             MishkaToolbar.button(:bold, "Bold")},
+            {tag(:mishka_toolbar_button, %{id: :bold, label: "Bold", icon: nil, group: nil}),
+             MishkaToolbar.button(:bold, "Bold")},
+            {tag(:mishka_toolbar_input, %{id: :find}), MishkaToolbar.input(:find)},
+            {tag(:mishka_toolbar_separator, %{}), MishkaToolbar.separator()}
+          ] do
+        assert expanded([item], @bar) == MishkaToolbar.toolbar(@bar, [built])
+      end
+    end
+
+    test "disabled={true} on a tag reaches the item, tag and handler both" do
+      item = tag(:mishka_toolbar_button, %{id: :bold, label: "Bold", disabled: true})
+      tree = expanded([item], @bar)
+
+      assert tagged(tree, "fmt-bold-disabled")
+      refute tagged(tree, "fmt-bold-disabled").props[:on_tap]
+    end
+
+    test "a control that is not ours still passes through a tag bar untouched" do
+      tree = expanded([tag(:mishka_toolbar_separator, %{}), control("A")], @bar)
+
+      assert text(tree) =~ "A"
     end
   end
 
@@ -530,6 +667,18 @@ defmodule MishkaMob.Components.MishkaToolbarTest do
       view = mount_screen(ComponentScreen, %{slug: :toolbar})
 
       assert_renderable(Mob.Composite.expand(tree(view), self()))
+    end
+
+    test "the page is written in tags, and not one marker reaches the renderer" do
+      view = mount_screen(ComponentScreen, %{slug: :toolbar})
+      tree = Mob.Composite.expand(tree(view), self())
+
+      # The check assert_renderable cannot make: mix.exs whitelists these names
+      # for the sigil, so a marker the toolbar failed to consume serialises
+      # cleanly and simply draws nothing.
+      for type <- MishkaToolbar.slot_types() do
+        assert find_all(tree, type) == [], "#{type} leaked to the renderer"
+      end
     end
 
     test "each example has its own toolbar id, so a device test can say which it touched" do

@@ -29,31 +29,68 @@ defmodule MishkaMob.Components.MishkaAlertDialog do
   and stop. Not wiring `on_close` there is what keeps it an alert dialog; wiring
   *something* there is what makes it modal.
 
-  ## Anatomy, slots and tags — all Dialog's
+  ## Slots
 
-  `title/1`, `description/1` and `actions/1` build the slot children (the web's
-  `<:title>`, `<:description>` and `<:actions>`), and `title:` / `description:`
-  / `actions:` are their shorthands. Give the dialog an `id` and every part is
-  addressable from a device test: `<id>-open`, `<id>-backdrop-modal`,
-  `<id>-panel`, `<id>-title`, `<id>-description`, `<id>-content`,
-  `<id>-footer`. See `MishkaMob.Components.MishkaDialog` for the full table —
-  they are deliberately the same names, so a test does not have to know which of
-  the two it is looking at.
+  Every part of the dialog is a TAG, so the markup reads the way the Phoenix
+  component does and nothing has to be assembled in an expression first:
+
+      <MishkaAlertDialog id="discard" open={@confirming?} on_close={:cancel}>
+        <MishkaDialogTitle text="Discard changes?" />
+        <MishkaDialogDescription text="Your edits will be lost." />
+        <MishkaAlertDialogAction text="Cancel" id="discard-cancel" />
+        <MishkaAlertDialogAction text="Discard" id="discard-go"
+                                 variant={:danger} on_tap={:really_discard} />
+      </MishkaAlertDialog>
+
+  | Tag | What it takes | The function that builds the same node |
+  |-----|---------------|----------------------------------------|
+  | `<MishkaDialogTitle>` | `text`, or a subtree as its children | `title/1` |
+  | `<MishkaDialogDescription>` | `text`, or a subtree as its children | `description/1` |
+  | `<MishkaDialogFooter>` | a subtree as its children | `actions/1` |
+  | `<MishkaAlertDialogAction>` | `text` `id` `variant` `on_tap` `close` | `action/2` |
+
+  The first three are `MishkaMob.Components.MishkaDialog`'s own tags, not
+  aliases of them — an alert dialog *is* a dialog, so its title is the dialog's
+  title, and one `<MishkaDialogTitle>` works in both.
+
+  Anything else among the children is the body. `<MishkaAlertDialogAction>`
+  children **are** the footer, repeated the way the web repeats `<:actions>`;
+  wrap them in a `<MishkaDialogFooter>` instead when the footer holds something
+  that is not an action button, and the actions inside it are still resolved.
+
+  ### When the function form is still right
+
+  Tag and function forms build the identical node, so they are interchangeable
+  — and a footer assembled from **data** is easier to read as a comprehension
+  than as markup written out N times. That is what the `actions:` prop is for,
+  and it is the one place to reach past the tags:
+
+      actions = Enum.map(@choices, &MishkaAlertDialog.action(&1.label, id: &1.id))
+
+      <MishkaAlertDialog id="pick" open={@open?} actions={actions}>
+        <MishkaDialogTitle text="Which one?" />
+      </MishkaAlertDialog>
+
+  Action tags win over the prop when both are given.
+
+  ## Anatomy and tags — all Dialog's
+
+  Give the dialog an `id` and every part is addressable from a device test:
+  `<id>-open`, `<id>-backdrop-modal`, `<id>-panel`, `<id>-title`,
+  `<id>-description`, `<id>-content`, `<id>-footer`. See
+  `MishkaMob.Components.MishkaDialog` for the full table — they are deliberately
+  the same names, so a test does not have to know which of the two it is
+  looking at.
 
   ## Usage
 
-      <MishkaAlertDialog
-        id="discard"
-        open={@confirming?}
-        title="Discard changes?"
-        description="Your edits will be lost."
-        on_close={:cancel}
-        actions={[
-          MishkaAlertDialog.action("Cancel", id: "discard-cancel"),
-          MishkaAlertDialog.action("Discard", id: "discard-go",
-                                   variant: :danger, on_tap: :really_discard)
-        ]}
-      />
+      <MishkaAlertDialog id="discard" open={@confirming?} on_close={:cancel}>
+        <MishkaDialogTitle text="Discard changes?" />
+        <MishkaDialogDescription text="Your edits will be lost." />
+        <MishkaAlertDialogAction text="Cancel" id="discard-cancel" />
+        <MishkaAlertDialogAction text="Discard" id="discard-go"
+                                 variant={:danger} on_tap={:really_discard} />
+      </MishkaAlertDialog>
 
       def handle_info({:tap, :cancel}, socket) do
         {:noreply, Mob.Socket.assign(socket, :confirming?, false)}
@@ -84,14 +121,18 @@ defmodule MishkaMob.Components.MishkaAlertDialog do
   # screen's catch-all handle_info/2 eats it, the same way Dialog's panel does.
   @absorb :__mishka_alert_dialog_backdrop
 
+  # `<MishkaAlertDialogAction>`. The three other slot tags are Dialog's own and
+  # Dialog consumes them; this one is the alert dialog's, so this module has to.
+  @action :mishka_alert_dialog_action
+
   @doc """
   Composite expander (`<MishkaAlertDialog>`). The tag's children are the body
   plus any slot children.
   """
   @spec expand(map(), [map()], %{screen: pid()}) :: map()
-  # See MishkaDialog.expand/3 — the footer travels as a prop because a
-  # composite gets one children list, and an alert with no actions has no way
-  # out of it at all.
+  # See MishkaDialog.expand/3 — the footer ALSO travels as a prop, because a
+  # footer built from data reads better as a comprehension than as repeated
+  # markup. Action tags among the children win over it.
   def expand(props, children, ctx) do
     {actions, props} = Map.pop(Map.new(props), :actions, [])
     alert_dialog(props, children, List.wrap(actions), ctx)
@@ -99,8 +140,9 @@ defmodule MishkaMob.Components.MishkaAlertDialog do
 
   @doc """
   The alert dialog node. `body` is the content — slot children among it are
-  consumed rather than drawn — and `actions` are the footer buttons the user
-  must choose between.
+  consumed rather than drawn, and `<MishkaAlertDialogAction>` children become
+  the footer — and `actions` are the footer buttons the user must choose
+  between when the body carries no action tags.
   """
   @spec alert_dialog(map() | keyword(), [map()] | map(), [map()] | map(), map()) :: map()
   def alert_dialog(props \\ %{}, body \\ [], actions \\ [], ctx \\ %{}) do
@@ -108,8 +150,10 @@ defmodule MishkaMob.Components.MishkaAlertDialog do
     open? = truthy?(Map.get(props, :open, false))
     on_close = Map.get(props, :on_close)
 
-    body = body |> List.wrap() |> wire_close(on_close)
-    actions = actions |> List.wrap() |> wire_close(on_close)
+    {tagged, body} = body |> List.wrap() |> Enum.split_with(&action?/1)
+
+    body = body |> resolve(ctx) |> wire_close(on_close)
+    actions = tagged |> footer(actions) |> resolve(ctx) |> wire_close(on_close)
 
     warn_if_incomplete(props, body, actions, open?)
 
@@ -120,7 +164,8 @@ defmodule MishkaMob.Components.MishkaAlertDialog do
   end
 
   @doc """
-  Build one footer button — the native shape of an `<:actions>` child.
+  Build one footer button — what `<MishkaAlertDialogAction>` builds, and the
+  native shape of an `<:actions>` child.
 
   Options: `:id` (testTag base), `:on_tap` (event tag), `:close` (default
   `true`) and `:variant` (`:neutral`, `:primary` or `:danger`).
@@ -132,9 +177,63 @@ defmodule MishkaMob.Components.MishkaAlertDialog do
   The variant is folded into the testTag — `<id>-danger` — because a
   destructive button differs from a safe one by nothing but its fill, and a
   device test cannot read a colour.
+
+  Prefer the tag; reach for this when the footer comes from data:
+
+      Enum.map(@choices, &action(&1.label, id: &1.id, on_tap: &1.tag))
   """
   @spec action(String.t(), keyword()) :: map()
-  def action(label, opts \\ []) do
+  def action(label, opts \\ []), do: build_action(label, opts, %{})
+
+  # ── Action tags ─────────────────────────────────────────────────────────────
+
+  # The action tags ARE the footer when there are any, which is what makes the
+  # markup form complete: repeated <MishkaAlertDialogAction> children read like
+  # the web's repeated <:actions>, and the prop stays for a footer built from
+  # data. Written this way rather than as a `case` so an empty tag list falls
+  # through to the prop without either shadowing the other.
+  defp footer([], actions), do: List.wrap(actions)
+  defp footer(tagged, _actions), do: tagged
+
+  # A slot tag has no module and no expander: it arrives with its subtree
+  # intact, and whoever owns it MUST consume it — one that reaches the renderer
+  # is a type it has never heard of, so it silently draws nothing. So an action
+  # becomes its button here wherever it was written, including inside a
+  # <MishkaDialogFooter>, which is why this walks into slot children the same
+  # way wire_close/2 has to.
+  defp resolve(nodes, ctx) do
+    slots = slot_types()
+
+    Enum.map(nodes, fn
+      %{type: @action} = node ->
+        node |> Map.get(:props, %{}) |> action_node(ctx)
+
+      %{type: type, children: children} = node when is_list(children) ->
+        if type in slots, do: %{node | children: resolve(children, ctx)}, else: node
+
+      node ->
+        node
+    end)
+  end
+
+  defp action?(node), do: is_map(node) and Map.get(node, :type) == @action
+
+  defp action_node(props, ctx) do
+    props = Map.new(props)
+
+    build_action(
+      Map.get(props, :text),
+      [
+        id: Map.get(props, :id),
+        on_tap: Map.get(props, :on_tap),
+        variant: Map.get(props, :variant) || :neutral,
+        close: Map.get(props, :close, true)
+      ],
+      ctx
+    )
+  end
+
+  defp build_action(label, opts, ctx) do
     variant = Keyword.get(opts, :variant, :neutral)
     {background, text_color} = palette(variant)
 
@@ -146,33 +245,54 @@ defmodule MishkaMob.Components.MishkaAlertDialog do
         padding: :space_sm,
         close: Keyword.get(opts, :close, true)
       }
-      |> put_optional(:on_tap, Event.handler(Keyword.get(opts, :on_tap)))
+      |> put_optional(:on_tap, target(Keyword.get(opts, :on_tap), ctx))
       |> put_optional(:id, action_tag(Keyword.get(opts, :id), variant))
 
     %{type: :button, props: props, children: []}
   end
 
-  @doc "The `<:title>` slot as a node. Takes a string, one node, or a list."
+  # Widen the action's own event tag to the {pid, tag} shape the renderer
+  # registers. `Event.handler/1` is what does this everywhere else, but it can
+  # only ever name self(): a slot tag's props are NOT widened by Mob.Composite
+  # the way a composite's are, so an action written as markup arrives holding a
+  # bare atom, and it is widened during EXPANSION, where ctx names the screen.
+  # That is the same pid absorb/1 takes, so an action and the backdrop it sits
+  # over never disagree about who they are talking to.
+  defp target(nil, _ctx), do: nil
+  defp target({pid, _tag} = wired, _ctx) when is_pid(pid), do: wired
+  defp target(tag, %{screen: pid}) when is_pid(pid), do: {pid, tag}
+  defp target(tag, _ctx), do: Event.handler(tag)
+
+  @doc """
+  What `<MishkaDialogTitle>` builds. Takes a string, one node, or a list.
+  """
   @spec title(String.t() | map() | [map()]) :: map()
   defdelegate title(content), to: MishkaDialog
 
-  @doc "The `<:description>` slot as a node. Takes a string, one node, or a list."
+  @doc """
+  What `<MishkaDialogDescription>` builds. Takes a string, one node, or a list.
+  """
   @spec description(String.t() | map() | [map()]) :: map()
   defdelegate description(content), to: MishkaDialog
 
   @doc """
-  The `<:actions>` slot as a node — the footer buttons.
+  What `<MishkaDialogFooter>` builds — the footer as one slot node.
 
   Dialog calls this part `footer/1`, after the web dialog's `<:close>` slot;
   the alert dialog's slot is named `<:actions>`, so it keeps that name here and
-  builds the identical node.
+  builds the identical node. Both names, and the one tag, are the same thing.
   """
   @spec actions(String.t() | map() | [map()]) :: map()
   defdelegate actions(content), to: MishkaDialog, as: :footer
 
-  @doc "Every node type consumed as a slot — Dialog's, since they are its slots."
+  @doc """
+  Every node type consumed as a slot: Dialog's three, since its title,
+  description and footer ARE Dialog's, plus `<MishkaAlertDialogAction>`, which
+  is this component's own. Exported so a test can prove none of them leaked
+  past `alert_dialog/4` to the renderer.
+  """
   @spec slot_types() :: [atom()]
-  defdelegate slot_types(), to: MishkaDialog
+  def slot_types, do: [@action | MishkaDialog.slot_types()]
 
   # ── data-close ──────────────────────────────────────────────────────────────
 
@@ -236,8 +356,14 @@ defmodule MishkaMob.Components.MishkaAlertDialog do
   defp action_tag(nil, _variant), do: nil
   defp action_tag(id, variant), do: "#{id}-#{variant}"
 
-  defp palette(:danger), do: {:error, :on_error}
-  defp palette(:primary), do: {:primary, :on_primary}
+  # A string is as legitimate as an atom here — markup serialises an attribute
+  # the same way the web does, and Dialog's `dim?` already accepts `"true"`. The
+  # two forms must not part company: action_tag/2 interpolates whatever it is
+  # given, so a `variant="danger"` that fell through to neutral would paint a
+  # safe button and tag it `-danger`, which is exactly the lie the tag exists to
+  # prevent.
+  defp palette(variant) when variant in [:danger, "danger"], do: {:error, :on_error}
+  defp palette(variant) when variant in [:primary, "primary"], do: {:primary, :on_primary}
   defp palette(_neutral), do: {:surface_raised, :on_surface}
 
   # ── Guards against a dialog with no way out ─────────────────────────────────

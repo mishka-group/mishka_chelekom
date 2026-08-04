@@ -4,8 +4,8 @@ A trigger that toggles a panel of content beside it. See [README](README.md) for
 Mob component shares.
 
 ## Generate
-`mix mishka.ui.gen.mob popover` → `lib/<app>/components/popover.ex`, tag `<Popover>`. With
-`--module-prefix mishka_` it is `<MishkaPopover>`.
+`mix mishka.ui.gen.mob popover` → `lib/<app>/components/popover.ex`, tag `<Popover>` plus its slot
+tags. With `--module-prefix mishka_` they are `<MishkaPopover>`, `<MishkaPopoverTrigger>`, and so on.
 
 ## What it renders
 
@@ -28,18 +28,13 @@ Closed, only the trigger renders; with no `trigger` at all, only the panel.
 
 ```elixir
 ~MOB"""
-<MishkaPopover
-  id="details"
-  open={@open?}
-  trigger="Order details"
-  title="Shipped 2 days ago"
-  description="Tracking arrives by email."
-  close="Got it"
-  arrow={true}
-  open_on_hold={true}
-  on_open_change={:details}
->
+<MishkaPopover id="details" open={@open?} open_on_hold={true} on_open_change={:details}>
+  <MishkaPopoverTrigger text="Order details" />
+  <MishkaPopoverTitle text="Shipped 2 days ago" />
+  <MishkaPopoverDescription text="Tracking arrives by email." />
+  <MishkaPopoverArrow />
   <Text text="Two of three parcels have left the warehouse." />
+  <MishkaPopoverClose text="Got it" />
 </MishkaPopover>
 """
 
@@ -48,6 +43,38 @@ Closed, only the trigger renders; with no `trigger` at all, only the panel.
 def handle_info({:tap, {:details, open?}}, socket) do
   {:noreply, Mob.Socket.assign(socket, :open?, open?)}
 end
+```
+
+## Slots
+
+Every part the web declares as a slot is a tag here, and each has a shorthand prop for the plain
+string case:
+
+| Slot | Chelekom | Function | Takes | Shorthand prop |
+|---|---|---|---|---|
+| `<MishkaPopoverTrigger>` | `<:trigger>` | `trigger/1` | a label, or markup | `trigger` |
+| `<MishkaPopoverTitle>` | `<:title>` | `title/1` | a line, or markup | `title` |
+| `<MishkaPopoverDescription>` | `<:description>` | `description/1` | a line, or markup | `description` |
+| `<MishkaPopoverClose>` | `<:close>` | `close/1` | a label, or your own controls | `close` |
+| `<MishkaPopoverArrow>` | `<:arrow>` | `arrow/0` | nothing, a glyph, or markup | `arrow` |
+| bare children | `<:inner_block>` | — | the panel's body | — |
+
+Write `text="…"` and the component styles the part exactly as the shorthand prop does; write markup
+inside the tag and the styling is yours, wrapped in a Column that wears the part's testTag. A slot
+wins over its shorthand, and **order does not matter** — the slots are matched on `:type` among the
+children, consumed there, and each is placed where the anatomy says.
+
+Tag and function build the identical node, so reach for the function when the parts come from
+**data** — a comprehension can return `trigger/1`, and there is no way to write a tag from one:
+
+```elixir
+rows = Enum.map(@parcels, &line/1)
+
+~MOB"""
+<MishkaPopover id="order" open={@open?} on_open_change={:order}>
+  {[MishkaPopover.trigger("Order details"), MishkaPopover.title(@status) | rows]}
+</MishkaPopover>
+"""
 ```
 
 ## Props

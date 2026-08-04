@@ -25,6 +25,7 @@ defmodule MishkaMob.Showcase.Components.RadioGroup do
     socket
     |> Mob.Socket.assign(:rg_plan, :pro)
     |> Mob.Socket.assign(:rg_size, :m)
+    |> Mob.Socket.assign(:rg_tier, :growth)
   end
 
   @impl true
@@ -34,15 +35,11 @@ defmodule MishkaMob.Showcase.Components.RadioGroup do
         title: "A labelled group",
         description: "One handler serves every option — the tag carries the id.",
         code: ~S"""
-        <MishkaRadioGroup
-          label="Plan"
-          value={@plan}
-          on_change={:plan}
-        >{[
-          option(:free, "Free"),
-          option(:pro, "Pro"),
-          option(:team, "Team")
-        ]}</MishkaRadioGroup>
+        <MishkaRadioGroup label="Plan" value={@plan} on_change={:plan} id="plan">
+          <MishkaRadioGroupOption id={:free} label="Free" />
+          <MishkaRadioGroupOption id={:pro} label="Pro" />
+          <MishkaRadioGroupOption id={:team} label="Team" />
+        </MishkaRadioGroup>
 
         # Every option reports the SAME tag widened with its own id — that is what
         # replaces the browser's shared `name`, and why one clause is enough.
@@ -56,11 +53,9 @@ defmodule MishkaMob.Showcase.Components.RadioGroup do
           ~MOB"""
           <Column fill_width={true}>
             <MishkaRadioGroup label="PLAN" value={@rg_plan} on_change={:rg_plan} id="rg-plan">
-              {[
-              option(:free, "Free"),
-              option(:pro, "Pro"),
-              option(:team, "Team — 5 seats")
-            ]}
+              <MishkaRadioGroupOption id={:free} label="Free" />
+              <MishkaRadioGroupOption id={:pro} label="Pro" />
+              <MishkaRadioGroupOption id={:team} label="Team — 5 seats" />
             </MishkaRadioGroup>
             <Spacer size={12} />
             <Text text={"Selected: " <> to_string(@rg_plan)} text_size={:sm} text_color={:muted} />
@@ -72,11 +67,11 @@ defmodule MishkaMob.Showcase.Components.RadioGroup do
         title: "Horizontal",
         description: "orientation: :horizontal lays the options in a row.",
         code: ~S"""
-        <MishkaRadioGroup
-          value={@size}
-          orientation={:horizontal}
-          on_change={:size}
-        >{opts}</MishkaRadioGroup>
+        <MishkaRadioGroup value={@size} orientation={:horizontal} space={18} on_change={:size}>
+          <MishkaRadioGroupOption id={:s} label="S" />
+          <MishkaRadioGroupOption id={:m} label="M" />
+          <MishkaRadioGroupOption id={:l} label="L" />
+        </MishkaRadioGroup>
         """,
         render: fn assigns ->
           ~MOB"""
@@ -89,11 +84,9 @@ defmodule MishkaMob.Showcase.Components.RadioGroup do
               on_change={:rg_size}
               id="rg-size"
             >
-              {[
-              option(:s, "S"),
-              option(:m, "M"),
-              option(:l, "L")
-            ]}
+              <MishkaRadioGroupOption id={:s} label="S" />
+              <MishkaRadioGroupOption id={:m} label="M" />
+              <MishkaRadioGroupOption id={:l} label="L" />
             </MishkaRadioGroup>
           </Column>
           """
@@ -103,8 +96,14 @@ defmodule MishkaMob.Showcase.Components.RadioGroup do
         title: "Disabled option and group",
         description: "An option can be disabled on its own, or the whole group at once.",
         code: ~S"""
-        option(:team, "Team", disabled: true)
-        <MishkaRadioGroup disabled={true} value={@plan} on_change={:plan}>{opts}</MishkaRadioGroup>
+        <MishkaRadioGroup value={@plan} on_change={:plan}>
+          <MishkaRadioGroupOption id={:free} label="Free" />
+          <MishkaRadioGroupOption id={:team} label="Team" disabled={true} />
+        </MishkaRadioGroup>
+
+        <MishkaRadioGroup disabled={true} value={@plan} on_change={:plan}>
+          <MishkaRadioGroupOption id={:free} label="Free" />
+        </MishkaRadioGroup>
         """,
         # The OFF group below wires on_change even though nothing can ever fire
         # it: a disabled group with no handler is inert for the wrong reason, and
@@ -116,10 +115,8 @@ defmodule MishkaMob.Showcase.Components.RadioGroup do
           ~MOB"""
           <Column fill_width={true}>
             <MishkaRadioGroup label="ONE OPTION OFF" value={@rg_plan} on_change={:rg_plan}>
-              {[
-              option(:free, "Free"),
-              option(:team, "Team (unavailable)", disabled: true)
-            ]}
+              <MishkaRadioGroupOption id={:free} label="Free" />
+              <MishkaRadioGroupOption id={:team} label="Team (unavailable)" disabled={true} />
             </MishkaRadioGroup>
             <Spacer size={16} />
             <MishkaRadioGroup
@@ -129,10 +126,8 @@ defmodule MishkaMob.Showcase.Components.RadioGroup do
               on_change={:rg_plan}
               id="rg-off"
             >
-              {[
-              option(:free, "Free (off)"),
-              option(:pro, "Pro (off)")
-            ]}
+              <MishkaRadioGroupOption id={:free} label="Free (off)" />
+              <MishkaRadioGroupOption id={:pro} label="Pro (off)" />
             </MishkaRadioGroup>
           </Column>
           """
@@ -142,16 +137,41 @@ defmodule MishkaMob.Showcase.Components.RadioGroup do
         title: "Colour and size",
         description: "Passed through to every option.",
         code: ~S"""
-        <MishkaRadioGroup value={@plan} color={0xFF7C3AED} size={26}>{opts}</MishkaRadioGroup>
+        <MishkaRadioGroup value={@plan} color={0xFF7C3AED} size={26} on_change={:plan}>
+          <MishkaRadioGroupOption id={:free} label="Free" />
+          <MishkaRadioGroupOption id={:pro} label="Pro" />
+        </MishkaRadioGroup>
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
             <MishkaRadioGroup value={@rg_plan} color={0xFF7C3AED} size={26} on_change={:rg_plan}>
-              {[
-              option(:free, "Free"),
-              option(:pro, "Pro")
-            ]}
+              <MishkaRadioGroupOption id={:free} label="Free" />
+              <MishkaRadioGroupOption id={:pro} label="Pro" />
+            </MishkaRadioGroup>
+          </Column>
+          """
+        end
+      },
+      %Example{
+        title: "Options from a list",
+        description:
+          "Written out, an option is a tag. Built from data, it is option/3 — the same node, " <>
+            "so the two forms mix freely.",
+        code: ~S"""
+        # option/3 builds exactly what <MishkaRadioGroupOption> builds:
+        # %{type: :mishka_radio_group_option, props: %{id:, label:, disabled:}}.
+        # Use the tag when you are listing the options out, the function when
+        # they come from data — a comprehension over tiers cannot be markup.
+        <MishkaRadioGroup label="Tier" value={@tier} on_change={:tier}>
+          {Enum.map(@tiers, fn {id, label} -> option(id, label) end)}
+        </MishkaRadioGroup>
+        """,
+        render: fn assigns ->
+          ~MOB"""
+          <Column fill_width={true}>
+            <MishkaRadioGroup label="TIER" value={@rg_tier} on_change={:rg_tier} id="rg-tier">
+              {Enum.map(tiers(), &tier_option/1)}
             </MishkaRadioGroup>
           </Column>
           """
@@ -160,11 +180,30 @@ defmodule MishkaMob.Showcase.Components.RadioGroup do
     ]
   end
 
+  # Stand-in for whatever a real screen would have loaded — the point of the
+  # example is that the options are DATA here, so there is no markup to write.
+  defp tiers do
+    [
+      {:starter, "Starter — free forever"},
+      {:growth, "Growth — $12 a month"},
+      {:scale, "Scale — waitlisted", :unavailable}
+    ]
+  end
+
+  defp tier_option({id, label}), do: option(id, label)
+  defp tier_option({id, label, :unavailable}), do: option(id, label, disabled: true)
+
   @impl true
   def props do
     [
       %{name: "value", type: "option id", default: "nil", description: "The selected option."},
       %{name: "label", type: "string", default: "nil", description: "Group heading."},
+      %{
+        name: "<MishkaRadioGroupOption>",
+        type: "slot",
+        default: "—",
+        description: "One option: id, label, disabled. option/3 builds the same node."
+      },
       %{
         name: "disabled",
         type: "boolean",
@@ -208,6 +247,7 @@ defmodule MishkaMob.Showcase.Components.RadioGroup do
   @impl true
   def handle({:rg_plan, id}, socket), do: Mob.Socket.assign(socket, :rg_plan, id)
   def handle({:rg_size, id}, socket), do: Mob.Socket.assign(socket, :rg_size, id)
+  def handle({:rg_tier, id}, socket), do: Mob.Socket.assign(socket, :rg_tier, id)
   def handle(_tag, socket), do: socket
 
   @impl true

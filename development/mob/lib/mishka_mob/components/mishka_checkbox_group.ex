@@ -35,13 +35,39 @@ defmodule MishkaMob.Components.MishkaCheckboxGroup do
   | `color` / `size` | see Checkbox | — | Passed to every row. |
   | `id` | string | `nil` | Prefix for each row's test tag. |
 
-  Items are children built with `item/3`.
-
   Given `id="langs"`, the `:otp` row's indicator is tagged `"langs-otp-checked"`
   or `"langs-otp-empty"`, and the parent is `"langs-all-mixed"` when only some
   children are selected. The mark is drawn rather than typed, so those tags are
   the only thing a device test can read — see
   `MishkaMob.Components.MishkaCheckbox`.
+
+  ## Slots
+
+  Rows are written as tags, so a group reads the way the Phoenix component does —
+  the web's `<:checkbox>` slot, one tag per row:
+
+      <MishkaCheckboxGroup value={@value} select_all={true} on_change={:pick} id="langs">
+        <MishkaCheckboxGroupItem id={:beam} label="BEAM" />
+        <MishkaCheckboxGroupItem id={:otp} label="OTP" />
+        <MishkaCheckboxGroupItem id={:ecto} label="Ecto" disabled={true} />
+      </MishkaCheckboxGroup>
+
+  | Slot | Builder | Takes |
+  |------|---------|-------|
+  | `<MishkaCheckboxGroupItem>` | `item/3` | `id`, `label`, `disabled` |
+
+  A slot tag has no module and no expander of its own — it is matched on `:type`
+  among the group's children and consumed by `expand/3`, which routes it back
+  through `item/3`. Tag and builder therefore produce the **identical** node, so
+  pick by where the rows come from. Write the tags out when you are writing the
+  rows out; call `item/3` when they come from data:
+
+      <MishkaCheckboxGroup value={@value} on_change={:pick}>
+        {Enum.map(@languages, fn {id, label} -> MishkaCheckboxGroup.item(id, label) end)}
+      </MishkaCheckboxGroup>
+
+  An item carries no `on_*` of its own: the group's single `on_change` serves
+  every row, widened with that row's id.
 
   Not ported: `name` (form plumbing), the `*_class` attrs, and the
   `indicator_icon` slot — the tick and dash are drawn by the Checkbox.
@@ -52,13 +78,50 @@ defmodule MishkaMob.Components.MishkaCheckboxGroup do
   alias MishkaMob.Components.Event
   alias MishkaMob.Components.MishkaCheckbox
 
-  @item_type :mishka_checkbox_item
+  @item_type :mishka_checkbox_group_item
 
-  @doc "Composite expander (`<MishkaCheckboxGroup>`). Children are items."
+  @slot_types [@item_type]
+
+  @doc """
+  Composite expander (`<MishkaCheckboxGroup>`). Children are the rows, written as
+  `<MishkaCheckboxGroupItem>` tags or built with `item/3`.
+
+  Every slot tag is matched on `:type` and consumed here — a slot tag has no
+  module and no expander of its own, so one the parent does not take is
+  serialised straight to the renderer, which has never heard of the type and
+  draws nothing at all.
+  """
   @spec expand(map(), [map()], map()) :: map()
-  def expand(props, children, _ctx), do: checkbox_group(props, children)
+  def expand(props, children, _ctx) do
+    checkbox_group(props, children |> List.wrap() |> Enum.map(&from_tag/1))
+  end
 
-  @doc "Build one item node."
+  # A slot tag arrives with its attributes as raw props — whatever the caller did
+  # not write is simply absent — while the builder fills every key in. Routing the
+  # tag back through `item/3` is what makes the two forms the SAME node rather
+  # than two nodes that happen to render alike, so the tag and the function stay
+  # interchangeable even if a default here later changes. A nil attribute counts
+  # as an absent one, as it does everywhere else in Mob.
+  defp from_tag(%{type: @item_type, props: props}) do
+    disabled = Map.get(props, :disabled)
+    opts = if is_nil(disabled), do: [], else: [disabled: disabled]
+
+    item(Map.get(props, :id), Map.get(props, :label), opts)
+  end
+
+  defp from_tag(node), do: node
+
+  @doc """
+  Build one item node — the builder behind `<MishkaCheckboxGroupItem>`.
+
+  Options: `:disabled`.
+
+      item(:ecto, "Ecto", disabled: true)
+      # is <MishkaCheckboxGroupItem id={:ecto} label="Ecto" disabled={true} />
+
+  Reach for this when the rows come from data; write the tag when you are writing
+  the rows out.
+  """
   @spec item(term(), String.t(), keyword()) :: map()
   def item(id, label, opts \\ []) do
     %{
@@ -67,6 +130,13 @@ defmodule MishkaMob.Components.MishkaCheckboxGroup do
       children: []
     }
   end
+
+  @doc """
+  Every node type the group consumes as a row. Exported so a test can prove none
+  of them leaked to the renderer.
+  """
+  @spec slot_types() :: [atom()]
+  def slot_types, do: @slot_types
 
   @doc """
   Add or remove `id` from the selection, preserving order.

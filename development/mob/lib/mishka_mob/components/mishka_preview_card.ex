@@ -60,7 +60,7 @@ defmodule MishkaMob.Components.MishkaPreviewCard do
   |------|--------|---------|---------|
   | `id` | string | `nil` | testTag root, and the value the trigger events carry. |
   | `open` | boolean | `false` | Whether the card is shown. |
-  | `trigger` | node / [node] | `nil` | What you hold. Renders in both states. |
+  | `trigger` | node / [node] | `nil` | What you hold, as data. `<MishkaPreviewCardTrigger>` is the same thing as markup. Renders in both states. |
   | `on_hold` | event tag | `nil` | Long press on the trigger — `{:tap, {tag, id}}`. |
   | `on_tap` | event tag | `nil` | Plain tap on the trigger — `{:tap, {tag, id}}`. |
   | `side` | `:bottom` `:top` `:left` `:right` | `:bottom` | Where the card sits relative to the trigger. |
@@ -76,16 +76,41 @@ defmodule MishkaMob.Components.MishkaPreviewCard do
   | `avatar_color` | color token / ARGB int | `:primary` | Avatar fill. |
   | plus everything `MishkaMob.Components.MishkaPopover` accepts | | | |
 
-  Children become the card's footer, which is where actions belong.
+  ## Slots
+
+  The web declares the trigger as a `<:trigger>` slot, so this port writes it as
+  one too — markup, not a prop holding a list you built somewhere else:
+
+      <MishkaPreviewCard id="elixir" open={@preview == "elixir"} on_hold={:preview}>
+        <MishkaPreviewCardTrigger>
+          {name_chip("Elixir")}
+        </MishkaPreviewCardTrigger>
+        {[follow_button("elixir")]}
+      </MishkaPreviewCard>
+
+  | Slot | What it takes | The function that builds the same node |
+  |------|---------------|----------------------------------------|
+  | `<MishkaPreviewCardTrigger>` | the nodes you hold. It takes no props of its own — `on_hold`, `on_tap` and the `<id>-trigger` tag are all the card's, so that one hold reports one id | the `trigger` prop, which reaches `trigger/3` by the same path |
+
+  Every other child is the card's footer, which is where actions belong.
+
+  The two forms build the identical tree and are interchangeable. Reach for the
+  tag when you are writing a card out by hand, and for the prop when a list
+  comprehension is doing the writing: a card assembled from data has no markup
+  to put a tag in, and `trigger: name_chip(name)` is the honest shape there.
 
   Not ported: `delay` and `close_delay` (there is no hover to delay, and the long
   press has a hold time of its own), `close_on_escape` (a component cannot claim
-  the system back gesture — the screen owns it), and the `*_class` attrs.
+  the system back gesture — the screen owns it), the `<:arrow>` slot (the arrow
+  is a glyph this component draws itself, switched on with `arrow`), and the
+  `*_class` attrs.
   """
 
   import Mob.Sigil
 
   alias MishkaMob.Components.{Event, MishkaAvatar, MishkaPopover}
+
+  @trigger_slot :mishka_preview_card_trigger
 
   @sides [:top, :right, :bottom, :left]
   @aligns [:start, :center, :end]
@@ -107,16 +132,42 @@ defmodule MishkaMob.Components.MishkaPreviewCard do
   # side the card took: a card below the trigger points up at it.
   @glyphs %{bottom: "▲", top: "▼", left: "▶", right: "◀"}
 
-  @doc "Composite expander (`<MishkaPreviewCard>`). Children are the footer."
+  @doc """
+  Composite expander (`<MishkaPreviewCard>`).
+
+  `<MishkaPreviewCardTrigger>` contributes the thing you hold; every other child
+  is the footer. The slot tag has no module and no expander of its own, so it
+  arrives here with its subtree intact — and it has to be consumed here, because
+  a marker left in the tree reaches the renderer, which has never heard of it and
+  silently draws nothing.
+  """
   @spec expand(map(), [map()], map()) :: map()
-  def expand(props, children, _ctx), do: preview_card(props, children)
+  def expand(props, children, _ctx) do
+    {trigger_nodes, footer} = split(children)
+
+    preview_card(with_trigger(props, trigger_nodes), footer)
+  end
+
+  # A slot tag contributes its OWN children; the tag itself is dropped.
+  defp split(children) do
+    {tags, footer} = Enum.split_with(children, &match?(%{type: @trigger_slot}, &1))
+
+    {Enum.flat_map(tags, &Map.get(&1, :children, [])), footer}
+  end
+
+  # The tag and the `trigger` prop are one slot written two ways, so the tag wins
+  # only where one was actually written — a card built from data has no markup to
+  # put a tag in and hands the same nodes in as the prop instead.
+  defp with_trigger(props, []), do: props
+  defp with_trigger(props, nodes), do: Map.put(Map.new(props), :trigger, nodes)
 
   @doc """
   Wrap the thing whose preview this is, so holding it asks for the card.
 
-  `preview_card/2` uses this for its own `trigger` prop. It is public because a
-  trigger sometimes has to live somewhere the card cannot reach — inside a list
-  row, say, with the card rendered at the foot of the screen.
+  Both `<MishkaPreviewCardTrigger>` and the `trigger` prop end up here, which is
+  why they build the same node. It is public because a trigger sometimes has to
+  live somewhere the card cannot reach — inside a list row, say, with the card
+  rendered at the foot of the screen.
 
       trigger("elixir", [link_text()], on_hold: :preview, test_id: "elixir-trigger")
 
@@ -141,11 +192,18 @@ defmodule MishkaMob.Components.MishkaPreviewCard do
       <MishkaPreviewCard
         id="shahryar"
         open={@preview == "shahryar"}
-        trigger={[handle("@shahryar")]}
         on_hold={:preview}
         arrow={true}
         title="Shahryar"
-      >{[follow_button()]}</MishkaPreviewCard>
+      >
+        <MishkaPreviewCardTrigger>{handle("@shahryar")}</MishkaPreviewCardTrigger>
+        {[follow_button()]}
+      </MishkaPreviewCard>
+
+  Called as a plain function — mapping a list of people into cards, say — the
+  same trigger goes in as the `trigger` prop and builds the identical node:
+
+      preview_card(%{id: "shahryar", open: true, trigger: [handle("@shahryar")]}, [follow_button()])
   """
   @spec preview_card(map() | keyword(), [map()]) :: map()
   def preview_card(props \\ %{}, footer \\ []) do

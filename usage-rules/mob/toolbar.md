@@ -4,8 +4,9 @@ A strip of related controls, in groups, with separators between them. See [READM
 the rules every Mob component shares.
 
 ## Generate
-`mix mishka.ui.gen.mob toolbar` → `lib/<app>/components/toolbar.ex`, tag `<Toolbar>`. With
-`--module-prefix mishka_` it is `<MishkaToolbar>`.
+`mix mishka.ui.gen.mob toolbar` → `lib/<app>/components/toolbar.ex`, tag `<Toolbar>` plus its four
+item tags. With `--module-prefix mishka_` they are `<MishkaToolbar>`, `<MishkaToolbarButton>`, and so
+on.
 
 ## What it renders
 
@@ -33,21 +34,19 @@ Under `overflow: :scroll` the row is wrapped in a `Scroll`; under `:collapse` th
   on_input={:typed}
   hint={@hint}
 >
-  {[
-    MishkaToolbar.button(:bold, "Bold", icon: "B"),
-    MishkaToolbar.button(:italic, "Italic", icon: "I"),
-    MishkaToolbar.separator(),
-    MishkaToolbar.button(:left, "Left", icon: "◀", group: "Align"),
-    MishkaToolbar.button(:right, "Right", icon: "▶", group: "Align"),
-    MishkaToolbar.link(:docs, "Docs", href: "https://mishka.tools/chelekom"),
-    MishkaToolbar.input(:find, placeholder: "Find…", value: @query)
-  ]}
+  <MishkaToolbarButton id={:bold} label="Bold" icon="B" />
+  <MishkaToolbarButton id={:italic} label="Italic" icon="I" />
+  <MishkaToolbarSeparator />
+  <MishkaToolbarButton id={:left} label="Left" icon="◀" group="Align" />
+  <MishkaToolbarButton id={:right} label="Right" icon="▶" group="Align" />
+  <MishkaToolbarLink id={:docs} label="Docs" href="https://mishka.tools/chelekom" />
+  <MishkaToolbarInput id={:find} placeholder="Find…" value={@query} />
 </MishkaToolbar>
 """
 
 # One clause for every button and link — each reports its own id.
 def handle_info({:tap, {:act, :docs}}, socket) do
-  Mob.Device.open_url(MishkaToolbar.href(items(), :docs))
+  Mob.Device.open_url("https://mishka.tools/chelekom")
   {:noreply, socket}
 end
 
@@ -64,15 +63,30 @@ end
 
 ## Items
 
-| Builder | What it is |
-|---|---|
-| `button/3` | A command. `id`, `label`, and `:icon`, `:disabled`, `:group` |
-| `link/3` | A destination. Same, plus `:href` — tinted, with a rule under it |
-| `input/2` | A text field. `:placeholder`, `:value`, `:width`, `:disabled`, `:group` |
-| `separator/1` | A divider, oriented across the toolbar's axis. Takes `:group` |
+| Tag | Builder | What it is |
+|---|---|---|
+| `<MishkaToolbarButton>` | `button/3` | A command. `id`, `label`, and `icon`, `disabled`, `group` |
+| `<MishkaToolbarLink>` | `link/3` | A destination. Same, plus `href` — tinted, with a rule under it |
+| `<MishkaToolbarInput>` | `input/2` | A text field. `placeholder`, `value`, `width`, `disabled`, `group` |
+| `<MishkaToolbarSeparator>` | `separator/1` | A divider, oriented across the toolbar's axis. Takes `group` |
+
+No item tag carries its own `on_*` — the bar's `on_select`, `on_hold` and `on_input` serve every item,
+because each reports its own `id`.
+
+Tag and builder produce the identical node (`expand/3` routes every tag back through its builder), so
+pick by where the items come from. Write the tags when you are writing the bar out; call the builders
+when the items come from data, where a comprehension beats generated markup:
+
+```elixir
+~MOB"""
+<MishkaToolbar id="fmt" overflow={:scroll} on_select={:act}>
+  {Enum.map(@tools, fn {id, label, icon} -> MishkaToolbar.button(id, label, icon: icon) end)}
+</MishkaToolbar>
+"""
+```
 
 Anything that is *not* one of these passes through untouched, so a `toggle`, an `action_icon` or a
-`toggle_group` sits in the bar unchanged.
+`toggle_group` sits in the bar unchanged — as a tag or as an expression child, either way.
 
 ## Props
 
@@ -116,9 +130,10 @@ order so it stays *discoverable*. Here it means a disabled item still answers a 
 cannot activate it, but you can still find out what it is. Set it to `false` to take that away.
 
 **Everything reports an id, including links.** There is no second event shape for a link, because one
-`on_select` clause should serve the whole bar. `href/2` is what turns the reported id back into a
-destination, and opening it is the screen's job (`Mob.Device.open_url/1`, or `push_screen/3` for an
-internal one) — a node tree is a description, not an effect.
+`on_select` clause should serve the whole bar. Opening the destination is the screen's job
+(`Mob.Device.open_url/1`, or `push_screen/3` for an internal one) — a node tree is a description, not
+an effect. Written as tags the `href` sits in the markup beside the id; when the items come from a
+list, `href/2` turns the reported id back into it.
 
 **Nothing wraps, so overflow is a decision you make.** A `Row` runs off the edge rather than flowing
 onto a second line, and nothing measures itself, so eight controls on a phone are simply clipped by

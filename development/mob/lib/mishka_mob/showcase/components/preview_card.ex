@@ -56,7 +56,6 @@ defmodule MishkaMob.Showcase.Components.PreviewCard do
         <MishkaPreviewCard
           id={id}
           open={@open == id}
-          trigger={name_chip(name)}
           on_hold={:hold}
           on_tap={:visit}
           arrow={true}
@@ -65,7 +64,20 @@ defmodule MishkaMob.Showcase.Components.PreviewCard do
           initials={initials}
           avatar_color={0xFF7C3AED}
           description={blurb}
-        >{[follow_button(id)]}</MishkaPreviewCard>
+        >
+          <MishkaPreviewCardTrigger>
+            {name_chip(name)}
+          </MishkaPreviewCardTrigger>
+          {[follow_button(id)]}
+        </MishkaPreviewCard>
+
+        # The tag is the form to reach for. A whole LIST of cards comes out of
+        # DATA instead, and then there is no markup to hang a tag in: the
+        # `trigger` prop takes the node the same helper already built. Both
+        # forms end up in trigger/3, so the tree is identical either way.
+        Enum.map(@people, fn {id, name} ->
+          preview_card(%{id: id, open: @open == id, trigger: name_chip(name), on_hold: :hold})
+        end)
 
         # The card owns no state. A hold ASKS for a change and the screen
         # decides — here holding the open one closes it and holding the other
@@ -119,10 +131,13 @@ defmodule MishkaMob.Showcase.Components.PreviewCard do
           align_offset={6}
           arrow={true}
           arrow_color={:primary}
-          trigger={hint("Hold for the card above")}
           on_hold={:top_hold}
           title="Anchored upward"
-        />
+        >
+          <MishkaPreviewCardTrigger>
+            {hint("Hold for the card above")}
+          </MishkaPreviewCardTrigger>
+        </MishkaPreviewCard>
 
         def handle_info({:tap, {:top_hold, _id}}, socket) do
           {:noreply, Mob.Socket.assign(socket, :top?, not socket.assigns.top?)}
@@ -140,13 +155,16 @@ defmodule MishkaMob.Showcase.Components.PreviewCard do
               align_offset={6}
               arrow={true}
               arrow_color={:primary}
-              trigger={hint("Hold for the card above")}
               on_hold={:pc_top_hold}
               title="Anchored upward"
               subtitle="side={:top}"
               initials="UP"
               description="The arrow points down at the trigger, because the card took the side above it."
-            />
+            >
+              <MishkaPreviewCardTrigger>
+                {hint("Hold for the card above")}
+              </MishkaPreviewCardTrigger>
+            </MishkaPreviewCard>
           </Column>
           """
         end
@@ -163,10 +181,11 @@ defmodule MishkaMob.Showcase.Components.PreviewCard do
           side={:right}
           align={:start}
           arrow={true}
-          trigger={hint("Hold me")}
           on_hold={:side_hold}
           title="Beside"
-        />
+        >
+          <MishkaPreviewCardTrigger>{hint("Hold me")}</MishkaPreviewCardTrigger>
+        </MishkaPreviewCard>
 
         def handle_info({:tap, {:side_hold, _id}}, socket) do
           {:noreply, Mob.Socket.assign(socket, :side?, not socket.assigns.side?)}
@@ -181,12 +200,15 @@ defmodule MishkaMob.Showcase.Components.PreviewCard do
               side={:right}
               align={:start}
               arrow={true}
-              trigger={hint("Hold me")}
               on_hold={:pc_side_hold}
               title="Beside"
               subtitle="side={:right}"
               description="Cramped, and honest about it."
-            />
+            >
+              <MishkaPreviewCardTrigger>
+                {hint("Hold me")}
+              </MishkaPreviewCardTrigger>
+            </MishkaPreviewCard>
           </Column>
           """
         end
@@ -288,10 +310,19 @@ defmodule MishkaMob.Showcase.Components.PreviewCard do
         description: "Whether the card is shown. The trigger renders either way."
       },
       %{
+        name: "<MishkaPreviewCardTrigger>",
+        type: "slot",
+        default: "—",
+        description:
+          "What you hold, as markup. The card wires the hold — the tag takes no props of its own."
+      },
+      %{
         name: "trigger",
         type: "node / [node]",
         default: "nil",
-        description: "What you hold. Omit it and only the popup renders."
+        description:
+          "The same slot as data, for a card built by Enum.map with no markup to hang a tag in. " <>
+            "Omit both and only the popup renders."
       },
       %{
         name: "on_hold",
@@ -406,7 +437,6 @@ defmodule MishkaMob.Showcase.Components.PreviewCard do
     <MishkaPreviewCard
       id={id}
       open={open == id}
-      trigger={name_chip(name)}
       on_hold={:pc_hold}
       on_tap={:pc_visit}
       arrow={true}
@@ -416,6 +446,9 @@ defmodule MishkaMob.Showcase.Components.PreviewCard do
       avatar_color={0xFF7C3AED}
       description={blurb}
     >
+      <MishkaPreviewCardTrigger>
+        {name_chip(name)}
+      </MishkaPreviewCardTrigger>
       {[follow_button(id, followed == id)]}
     </MishkaPreviewCard>
     """

@@ -79,14 +79,16 @@ defmodule MishkaMob.Showcase.Components.Toolbar do
   defp own_controls do
     %Example{
       title: "A strip of your own controls",
-      description: "Anything that is not a toolbar item passes straight through, untouched.",
+      description:
+        "Anything that is not a toolbar item passes straight through, untouched — so another " <>
+          "component's node sits beside a <MishkaToolbarSeparator> without either noticing.",
       code: ~S"""
-      <MishkaToolbar id="tb-own">{[
-        toggle(label: "B", pressed: @bold?, on_change: :bold, id: "tb-own-b"),
-        toggle(label: "I", pressed: @italic?, on_change: :italic, id: "tb-own-i"),
-        MishkaToolbar.separator(),
-        action_icon(icon: "↺", on_tap: :undo)
-      ]}</MishkaToolbar>
+      <MishkaToolbar id="tb-own">
+        {toggle(label: "B", pressed: @bold?, on_change: :bold, id: "tb-own-b")}
+        {toggle(label: "I", pressed: @italic?, on_change: :italic, id: "tb-own-i")}
+        <MishkaToolbarSeparator />
+        {action_icon(icon: "↺", on_tap: :undo)}
+      </MishkaToolbar>
 
       def handle_info({:tap, :bold}, socket) do
         {:noreply, Mob.Socket.assign(socket, :bold?, not socket.assigns.bold?)}
@@ -96,7 +98,11 @@ defmodule MishkaMob.Showcase.Components.Toolbar do
         ~MOB"""
         <Column fill_width={true}>
           <MishkaToolbar id="tb-own">
-            {own_items(@tb_bold, @tb_italic)}
+            {toggle(label: " B ", pressed: @tb_bold, on_change: :tb_bold, id: "tb-own-b")}
+            {toggle(label: " I ", pressed: @tb_italic, on_change: :tb_italic, id: "tb-own-i")}
+            <MishkaToolbarSeparator />
+            {action_icon(icon: "↺", on_tap: :tb_noop)}
+            {action_icon(icon: "↻", on_tap: :tb_noop)}
           </MishkaToolbar>
         </Column>
         """
@@ -108,24 +114,22 @@ defmodule MishkaMob.Showcase.Components.Toolbar do
     %Example{
       title: "Four item kinds",
       description:
-        "button, link, input and separator — the web's <:item> types, all four. One on_select " <>
-          "clause serves every button and link, because each reports its own id.",
+        "One tag each — the web's <:item> types, all four. No item tag carries its own on_*: " <>
+          "a single on_select clause serves every button and link, because each reports its own id.",
       code: ~S"""
-      <MishkaToolbar
-        id="tb-kinds"
-        on_select={:act}
-        on_input={:typed}
-      >{[
-        MishkaToolbar.button(:bold, "Bold", icon: "B"),
-        MishkaToolbar.link(:docs, "Docs", href: "https://mishka.tools/chelekom"),
-        MishkaToolbar.separator(),
-        MishkaToolbar.input(:find, placeholder: "Find…", value: @query)
-      ]}</MishkaToolbar>
+      <MishkaToolbar id="tb-kinds" on_select={:act} on_input={:typed}>
+        <MishkaToolbarButton id={:bold} label="Bold" icon="B" />
+        <MishkaToolbarLink id={:docs} label="Docs" href="https://mishka.tools/chelekom" />
+        <MishkaToolbarSeparator />
+        <MishkaToolbarInput id={:find} placeholder="Find…" value={@query} />
+      </MishkaToolbar>
 
       def handle_info({:tap, {:act, :docs}}, socket) do
-        # href/2 turns the reported id back into the destination. Opening it is
-        # the screen's job — a node tree is a description, not an effect.
-        Mob.Device.open_url(MishkaToolbar.href(items(), :docs))
+        # A link reports its id like every other item, and opening the URL is the
+        # screen's job — a node tree is a description, not an effect. Written as
+        # tags the destination is right there in the markup; when the items come
+        # from a list instead, href/2 turns the reported id back into it.
+        Mob.Device.open_url("https://mishka.tools/chelekom")
         {:noreply, socket}
       end
 
@@ -137,7 +141,10 @@ defmodule MishkaMob.Showcase.Components.Toolbar do
         ~MOB"""
         <Column fill_width={true}>
           <MishkaToolbar id="tb-kinds" on_select={:tb_kinds_act} on_input={:tb_kinds_type}>
-            {kind_items(@tb_kinds_query)}
+            <MishkaToolbarButton id={:bold} label="Bold" icon="B" />
+            <MishkaToolbarLink id={:docs} label="Docs" href="https://mishka.tools/chelekom" />
+            <MishkaToolbarSeparator />
+            <MishkaToolbarInput id={:find} placeholder="Find…" value={@tb_kinds_query} />
           </MishkaToolbar>
           <Spacer size={10} />
           <Text
@@ -160,13 +167,13 @@ defmodule MishkaMob.Showcase.Components.Toolbar do
           "wraps them in a role=group div. Its label is invisible there too — here it becomes " <>
           "the cluster's test tag.",
       code: ~S"""
-      <MishkaToolbar id="tb-grp" on_select={:align}>{[
-        MishkaToolbar.button(:left, "Left", icon: "◀", group: "Align"),
-        MishkaToolbar.button(:center, "Centre", icon: "◆", group: "Align"),
-        MishkaToolbar.button(:right, "Right", icon: "▶", group: "Align"),
-        MishkaToolbar.button(:list, "List", icon: "☰", group: "Lists"),
-        MishkaToolbar.button(:quote, "Quote", icon: "❝", group: "Lists")
-      ]}</MishkaToolbar>
+      <MishkaToolbar id="tb-grp" on_select={:align}>
+        <MishkaToolbarButton id={:left} label="Left" icon="◀" group="Align" />
+        <MishkaToolbarButton id={:center} label="Centre" icon="◆" group="Align" />
+        <MishkaToolbarButton id={:right} label="Right" icon="▶" group="Align" />
+        <MishkaToolbarButton id={:list} label="List" icon="☰" group="Lists" />
+        <MishkaToolbarButton id={:quote} label="Quote" icon="❝" group="Lists" />
+      </MishkaToolbar>
 
       def handle_info({:tap, {:align, id}}, socket) do
         {:noreply, Mob.Socket.assign(socket, :align, id)}
@@ -176,7 +183,11 @@ defmodule MishkaMob.Showcase.Components.Toolbar do
         ~MOB"""
         <Column fill_width={true}>
           <MishkaToolbar id="tb-grp" on_select={:tb_group_act}>
-            {group_items()}
+            <MishkaToolbarButton id={:left} label="Left" icon="◀" group="Align" />
+            <MishkaToolbarButton id={:center} label="Centre" icon="◆" group="Align" />
+            <MishkaToolbarButton id={:right} label="Right" icon="▶" group="Align" />
+            <MishkaToolbarButton id={:list} label="List" icon="☰" group="Lists" />
+            <MishkaToolbarButton id={:quote} label="Quote" icon="❝" group="Lists" />
           </MishkaToolbar>
           <Spacer size={10} />
           <Text id="tb-grp-status" text={picked(@tb_group_last)} text_size={:sm} text_color={:muted} />
@@ -194,12 +205,12 @@ defmodule MishkaMob.Showcase.Components.Toolbar do
           "hover here, so hold the button: on_hold reports the id, and passing it back as hint " <>
           "prints that item's label under the strip.",
       code: ~S"""
-      <MishkaToolbar
-        id="tb-hint"
-        on_select={:act}
-        on_hold={:hold}
-        hint={@hint}
-      >{icon_items()}</MishkaToolbar>
+      <MishkaToolbar id="tb-hint" on_select={:act} on_hold={:hold} hint={@hint}>
+        <MishkaToolbarButton id={:undo} label="Undo" icon="↺" />
+        <MishkaToolbarButton id={:redo} label="Redo" icon="↻" />
+        <MishkaToolbarSeparator />
+        <MishkaToolbarButton id={:link} label="Insert link" icon="🔗" />
+      </MishkaToolbar>
 
       # A long press is the touch equivalent of a hover. The plain tap still
       # does whatever the button does, so the hint costs the caller nothing.
@@ -211,7 +222,10 @@ defmodule MishkaMob.Showcase.Components.Toolbar do
         ~MOB"""
         <Column fill_width={true}>
           <MishkaToolbar id="tb-hint" on_select={:tb_hint_act} on_hold={:tb_hint_hold} hint={@tb_hint}>
-            {hint_items()}
+            <MishkaToolbarButton id={:undo} label="Undo" icon="↺" />
+            <MishkaToolbarButton id={:redo} label="Redo" icon="↻" />
+            <MishkaToolbarSeparator />
+            <MishkaToolbarButton id={:link} label="Insert link" icon="🔗" />
           </MishkaToolbar>
         </Column>
         """
@@ -227,12 +241,15 @@ defmodule MishkaMob.Showcase.Components.Toolbar do
           "disabled item still answers a long press — that is focusable_when_disabled, which on " <>
           "the web keeps it in the roving order so it stays findable.",
       code: ~S"""
-      <MishkaToolbar id="tb-off" disabled={true} on_hold={:hold} hint={@held}>{items}</MishkaToolbar>
+      <MishkaToolbar id="tb-off" disabled={true} on_hold={:hold} hint={@held}>
+        <MishkaToolbarButton id={:bold} label="Bold" icon="B" />
+        <MishkaToolbarButton id={:italic} label="Italic" icon="I" />
+      </MishkaToolbar>
 
-      <MishkaToolbar id="tb-mix" on_select={:act}>{[
-        MishkaToolbar.button(:bold, "Bold", icon: "B"),
-        MishkaToolbar.button(:italic, "Italic", icon: "I", disabled: true)
-      ]}</MishkaToolbar>
+      <MishkaToolbar id="tb-mix" on_select={:act}>
+        <MishkaToolbarButton id={:bold} label="Bold" icon="B" />
+        <MishkaToolbarButton id={:italic} label="Italic" icon="I" disabled={true} />
+      </MishkaToolbar>
 
       # focusable_when_disabled={false} takes the long press away as well.
       def handle_info({:tap, {:hold, id}}, socket) do
@@ -249,11 +266,13 @@ defmodule MishkaMob.Showcase.Components.Toolbar do
             on_hold={:tb_off_hold}
             hint={@tb_off_hint}
           >
-            {off_items()}
+            <MishkaToolbarButton id={:bold} label="Bold" icon="B" />
+            <MishkaToolbarButton id={:italic} label="Italic" icon="I" />
           </MishkaToolbar>
           <Spacer size={12} />
           <MishkaToolbar id="tb-mix" on_select={:tb_mix_act}>
-            {mix_items()}
+            <MishkaToolbarButton id={:bold} label="Bold" icon="B" />
+            <MishkaToolbarButton id={:italic} label="Italic" icon="I" disabled={true} />
           </MishkaToolbar>
           <Spacer size={10} />
           <Text id="tb-mix-status" text={picked(@tb_mix_last)} text_size={:sm} text_color={:muted} />
@@ -267,14 +286,18 @@ defmodule MishkaMob.Showcase.Components.Toolbar do
     %Example{
       title: "Overflow: scroll",
       description:
-        "A Row does not wrap and nothing measures itself, so eight controls on a phone are " <>
-          "simply clipped. overflow={:scroll} makes the strip scroll along its own axis instead.",
+        "A Row does not wrap and nothing measures itself, so thirteen controls on a phone are " <>
+          "simply clipped. overflow={:scroll} makes the strip scroll along its own axis instead. " <>
+          "These items come from a list, so they are built rather than written out.",
       code: ~S"""
-      <MishkaToolbar
-        id="tb-scr"
-        overflow={:scroll}
-        on_select={:act}
-      >{wide_items()}</MishkaToolbar>
+      # A tag and its builder produce the identical node, so pick by where the
+      # items come from. Written out, they are tags; built from DATA, a
+      # comprehension beats generated markup — and this is that case.
+      <MishkaToolbar id="tb-scr" overflow={:scroll} on_select={:act}>
+        {Enum.map(@tools, fn {id, label, icon} ->
+          MishkaToolbar.button(id, label, icon: icon)
+        end)}
+      </MishkaToolbar>
 
       def handle_info({:tap, {:act, id}}, socket), do: {:noreply, act(socket, id)}
       """,
@@ -303,7 +326,11 @@ defmodule MishkaMob.Showcase.Components.Toolbar do
         visible={3}
         on_overflow={:show_rest}
         on_select={:act}
-      >{wide_items()}</MishkaToolbar>
+      >
+        {Enum.map(@tools, fn {id, label, icon} ->
+          MishkaToolbar.button(id, label, icon: icon)
+        end)}
+      </MishkaToolbar>
 
       def handle_info({:tap, :show_rest}, socket) do
         {:noreply, Mob.Socket.assign(socket, :sheet_open?, true)}
@@ -339,11 +366,11 @@ defmodule MishkaMob.Showcase.Components.Toolbar do
       title: "Vertical",
       description: "The separator orients itself to the toolbar's axis.",
       code: ~S"""
-      <MishkaToolbar id="tb-vert" orientation={:vertical} on_select={:act}>{[
-        MishkaToolbar.button(:edit, "Edit", icon: "✎"),
-        MishkaToolbar.separator(),
-        MishkaToolbar.button(:delete, "Delete", icon: "🗑")
-      ]}</MishkaToolbar>
+      <MishkaToolbar id="tb-vert" orientation={:vertical} on_select={:act}>
+        <MishkaToolbarButton id={:edit} label="Edit" icon="✎" />
+        <MishkaToolbarSeparator />
+        <MishkaToolbarButton id={:delete} label="Delete" icon="🗑" />
+      </MishkaToolbar>
 
       def handle_info({:tap, {:act, id}}, socket), do: {:noreply, act(socket, id)}
       """,
@@ -351,7 +378,10 @@ defmodule MishkaMob.Showcase.Components.Toolbar do
         ~MOB"""
         <Row fill_width={true}>
           <MishkaToolbar id="tb-vert" orientation={:vertical} on_select={:tb_noop}>
-            {vertical_items()}
+            <MishkaToolbarButton id={:edit} label="Edit" icon="✎" />
+            <MishkaToolbarButton id={:copy} label="Copy" icon="⧉" />
+            <MishkaToolbarSeparator />
+            <MishkaToolbarButton id={:delete} label="Delete" icon="🗑" />
           </MishkaToolbar>
         </Row>
         """
@@ -392,67 +422,10 @@ defmodule MishkaMob.Showcase.Components.Toolbar do
     }
   end
 
-  defp own_items(bold?, italic?) do
-    [
-      toggle(label: " B ", pressed: bold?, on_change: :tb_bold, id: "tb-own-b"),
-      toggle(label: " I ", pressed: italic?, on_change: :tb_italic, id: "tb-own-i"),
-      MishkaToolbar.separator(),
-      action_icon(icon: "↺", on_tap: :tb_noop),
-      action_icon(icon: "↻", on_tap: :tb_noop)
-    ]
-  end
-
-  defp kind_items(query) do
-    [
-      MishkaToolbar.button(:bold, "Bold", icon: "B"),
-      MishkaToolbar.link(:docs, "Docs", href: "https://mishka.tools/chelekom"),
-      MishkaToolbar.separator(),
-      MishkaToolbar.input(:find, placeholder: "Find…", value: query)
-    ]
-  end
-
-  defp group_items do
-    [
-      MishkaToolbar.button(:left, "Left", icon: "◀", group: "Align"),
-      MishkaToolbar.button(:center, "Centre", icon: "◆", group: "Align"),
-      MishkaToolbar.button(:right, "Right", icon: "▶", group: "Align"),
-      MishkaToolbar.button(:list, "List", icon: "☰", group: "Lists"),
-      MishkaToolbar.button(:quote, "Quote", icon: "❝", group: "Lists")
-    ]
-  end
-
-  defp hint_items do
-    [
-      MishkaToolbar.button(:undo, "Undo", icon: "↺"),
-      MishkaToolbar.button(:redo, "Redo", icon: "↻"),
-      MishkaToolbar.separator(),
-      MishkaToolbar.button(:link, "Insert link", icon: "🔗")
-    ]
-  end
-
-  defp off_items do
-    [
-      MishkaToolbar.button(:bold, "Bold", icon: "B"),
-      MishkaToolbar.button(:italic, "Italic", icon: "I")
-    ]
-  end
-
-  defp mix_items do
-    [
-      MishkaToolbar.button(:bold, "Bold", icon: "B"),
-      MishkaToolbar.button(:italic, "Italic", icon: "I", disabled: true)
-    ]
-  end
-
-  defp vertical_items do
-    [
-      MishkaToolbar.button(:edit, "Edit", icon: "✎"),
-      MishkaToolbar.button(:copy, "Copy", icon: "⧉"),
-      MishkaToolbar.separator(),
-      MishkaToolbar.button(:delete, "Delete", icon: "🗑")
-    ]
-  end
-
+  # The two overflow bars are the one place a builder still beats a tag: their
+  # items come from @wide, and a comprehension reads better than markup a macro
+  # would have to generate. Both forms build the same node, so nothing else
+  # about those examples changes.
   defp wide_items do
     Enum.map(@wide, fn {id, label, icon} -> MishkaToolbar.button(id, label, icon: icon) end)
   end
@@ -575,10 +548,34 @@ defmodule MishkaMob.Showcase.Components.Toolbar do
         description: "Button ink, and link ink."
       },
       %{
+        name: "<MishkaToolbarButton>",
+        type: "slot",
+        default: "—",
+        description: "A command. id (what on_select reports), label, icon, disabled, group."
+      },
+      %{
+        name: "<MishkaToolbarLink>",
+        type: "slot",
+        default: "—",
+        description: "A destination. The same, plus href — tinted, with a rule under it."
+      },
+      %{
+        name: "<MishkaToolbarInput>",
+        type: "slot",
+        default: "—",
+        description: "A text field. id, placeholder, value, width, disabled, group."
+      },
+      %{
+        name: "<MishkaToolbarSeparator>",
+        type: "slot",
+        default: "—",
+        description: "A divider across the toolbar's other axis. Takes group."
+      },
+      %{
         name: "button/3 · link/3 · input/2 · separator/1",
         type: "builders",
         default: "—",
-        description: "The four item kinds. Each takes :disabled and :group."
+        description: "The same four nodes, for when the items come from data."
       },
       %{
         name: "href/2 · split/2 · item_tag/3",

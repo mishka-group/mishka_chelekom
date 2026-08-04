@@ -18,6 +18,14 @@ defmodule MishkaMob.Components.MishkaDrawerTest do
   defp body,
     do: [%{type: :button, props: %{text: "Profile", on_tap: {self(), :profile}}, children: []}]
 
+  # A slot marker as the sigil builds one: no module, no expander, and its
+  # subtree intact. Written by hand rather than through ~MOB so the test states
+  # the exact node the parent has to recognise.
+  defp trigger_tag(props), do: trigger_tag(props, [])
+
+  defp trigger_tag(props, children),
+    do: %{type: :mishka_drawer_trigger, props: props, children: children}
+
   # Realistic open props: an open drawer normally has an on_close dismiss path.
   defp p(extra \\ %{}), do: Map.merge(%{open: true, on_close: {self(), :close}}, extra)
 
@@ -542,6 +550,164 @@ defmodule MishkaMob.Components.MishkaDrawerTest do
     end
   end
 
+  describe "slot tags" do
+    test "the trigger tag builds exactly the node trigger/2 builds" do
+      tag =
+        trigger_tag(%{label: "Open", on_open: :open_menu, id: "menu-trigger", weight: 1})
+
+      assert MishkaDrawer.expand(%{open: false}, [tag], ctx()) ==
+               MishkaDrawer.trigger("Open",
+                 on_open: :open_menu,
+                 test_id: "menu-trigger",
+                 weight: 1
+               )
+    end
+
+    test "a trigger tag with children builds the tappable-Box form, node for node" do
+      children = [%{type: :text, props: %{text: "Account"}, children: []}]
+      tag = trigger_tag(%{on_open: :open_menu}, children)
+
+      assert MishkaDrawer.expand(%{open: false}, [tag], ctx()) ==
+               MishkaDrawer.trigger(children, on_open: :open_menu)
+    end
+
+    test "the tag's on_open is wired by the PARENT — a marker's props are not auto-wired" do
+      # Mob.Composite widens the tag it dispatches on, and a slot tag has no
+      # expander to dispatch to, so `on_open` arrives as the bare atom it was
+      # written as. Composing it by hand would give {{pid, tag}, …}.
+      tree =
+        MishkaDrawer.expand(%{open: false}, [trigger_tag(%{label: "Open", on_open: :go})], ctx())
+
+      assert tree.props.on_tap == {self(), :go}
+    end
+
+    test "two triggers share a Column rather than one of them being dropped" do
+      tags = [
+        trigger_tag(%{label: "One", on_open: :a}),
+        trigger_tag(%{label: "Two", on_open: :b})
+      ]
+
+      tree = MishkaDrawer.expand(%{open: false}, tags, ctx())
+
+      # A Button carries its label in props rather than in a Text child, so the
+      # labels are read from there rather than through text/1.
+      assert %{type: :column, children: [first, second]} = tree
+      assert {first.props.text, second.props.text} == {"One", "Two"}
+      assert {first.props.on_tap, second.props.on_tap} == {{self(), :a}, {self(), :b}}
+    end
+
+    test "the trigger is what a CLOSED drawer draws, and an open one draws the panel instead" do
+      tag = trigger_tag(%{label: "Open", on_open: :go, id: "menu-open"})
+
+      closed = MishkaDrawer.expand(%{open: false, id: "menu"}, [tag | body()], ctx())
+      open = MishkaDrawer.expand(p(%{id: "menu"}), [tag | body()], ctx())
+
+      assert tagged(closed, "menu-open")
+      refute tagged(closed, "menu-panel")
+
+      # While open the panel covers the page, so there is nothing for a trigger
+      # to do and nothing it could be tapped through.
+      refute tagged(open, "menu-open")
+      assert tagged(open, "menu-panel")
+    end
+
+    test "a trigger beats the swipe area, which wants the screen edge rather than the flow" do
+      tag = trigger_tag(%{label: "Open", on_open: :go})
+      tree = MishkaDrawer.expand(%{open: false, swipe_area: true, side: :left}, [tag], ctx())
+
+      assert tree.type == :button
+      refute find(tree, :canvas)
+    end
+
+    test "the footer tag and footer/1 are the same node, so the two forms expand alike" do
+      rows = [%{type: :button, props: %{text: "Done", on_tap: {self(), :done}}, children: []}]
+      tag = %{type: :mishka_drawer_footer, props: %{}, children: rows}
+
+      assert MishkaDrawer.footer(rows) == tag
+
+      assert MishkaDrawer.expand(p(), [tag], ctx()) ==
+               MishkaDrawer.expand(p(), [MishkaDrawer.footer(rows)], ctx())
+    end
+
+    test "footer/1 takes one node or a bare string as well as a list" do
+      row = %{type: :button, props: %{text: "Done"}, children: []}
+
+      assert MishkaDrawer.footer(row).children == [row]
+
+      tree = MishkaDrawer.expand(p(), [MishkaDrawer.footer("Signed in as shahryar")], ctx())
+      assert text(tree) =~ "Signed in as shahryar"
+      assert find(tree, :text, text: "Signed in as shahryar").props.text_color == :muted
+    end
+
+    test "the footer is the panel's last block, below the caller's body" do
+      tree =
+        MishkaDrawer.expand(
+          p(%{id: "sheet", side: :bottom}),
+          body() ++ [MishkaDrawer.footer([%{type: :text, props: %{text: "Bye"}, children: []}])],
+          ctx()
+        )
+
+      block = tagged(tree, "sheet-footer")
+      assert block.type == :column
+      assert text(block) == "Bye"
+
+      # …and it is genuinely last: the body button comes before it.
+      panel = find(tree, :column, fill_width: true, background: :surface)
+      assert %{children: [%{children: inner}]} = panel
+      assert List.last(inner) == block
+    end
+
+    test "a panel with a determined height pushes its footer to the floor" do
+      footer = MishkaDrawer.footer([%{type: :text, props: %{text: "Bye"}, children: []}])
+
+      # A side drawer is full-height, and so is a sheet parked on a snap point.
+      for props <- [%{side: :left}, %{side: :bottom, snap_points: [180, 300]}] do
+        tree = MishkaDrawer.expand(p(props), body() ++ [footer], ctx())
+        column = Enum.find(flatten(tree), &(&1.type == :column and Map.get(&1.props, :padding)))
+
+        assert Enum.any?(
+                 column.children,
+                 &(&1.type == :spacer and Map.get(&1.props, :weight) == 1)
+               ),
+               "expected a pushing Spacer for #{inspect(props)}"
+      end
+    end
+
+    test "a hugging sheet does not push — an iOS Spacer would stretch it open" do
+      footer = MishkaDrawer.footer([%{type: :text, props: %{text: "Bye"}, children: []}])
+      tree = MishkaDrawer.expand(p(%{side: :bottom}), body() ++ [footer], ctx())
+
+      column = Enum.find(flatten(tree), &(&1.type == :column and Map.get(&1.props, :padding)))
+
+      refute Enum.any?(column.children, &(&1.type == :spacer and Map.get(&1.props, :weight) == 1))
+    end
+
+    test "no id means no footer tag, exactly like every other part" do
+      tree = MishkaDrawer.expand(p(), [MishkaDrawer.footer("Bye")], ctx())
+      assert tags(tree) == []
+    end
+
+    test "no slot marker survives expansion — the leak would be silent" do
+      # A marker that reaches the renderer draws NOTHING and says nothing: the
+      # tag names are whitelisted in mix.exs, so assert_renderable passes them.
+      children =
+        [
+          trigger_tag(%{label: "Open", on_open: :go}) | body()
+        ] ++ [MishkaDrawer.footer("Bye")]
+
+      for props <- [p(), %{open: false}, %{open: false, swipe_area: true}] do
+        tree = MishkaDrawer.expand(props, children, ctx())
+
+        assert find_all(tree, :mishka_drawer_trigger) == []
+        assert find_all(tree, :mishka_drawer_footer) == []
+      end
+    end
+
+    test "slot_types/0 names every marker the drawer claims" do
+      assert MishkaDrawer.slot_types() == [:mishka_drawer_trigger, :mishka_drawer_footer]
+    end
+  end
+
   describe "swipe/3" do
     test "began anchors the gesture and changes nothing" do
       {state, grab} =
@@ -772,6 +938,45 @@ defmodule MishkaMob.Components.MishkaDrawerTest do
 
       assert_renderable(expanded, extra: [:canvas])
       assert find(expanded, :canvas).props.on_drag == {self(), :edge}
+    end
+
+    test "slot tags written as markup are consumed on the way through" do
+      children = [
+        %{type: :mishka_drawer_trigger, props: %{label: "Menu", on_open: :open_it}, children: []},
+        %{type: :text, props: %{text: "Hi"}, children: []},
+        %{
+          type: :mishka_drawer_footer,
+          props: %{},
+          children: [%{type: :text, props: %{text: "Bye"}, children: []}]
+        }
+      ]
+
+      open =
+        Mob.Composite.expand(
+          %{
+            type: :mishka_drawer,
+            props: %{id: "menu", open: true, side: :left, on_close: :close_it},
+            children: children
+          },
+          self()
+        )
+
+      closed =
+        Mob.Composite.expand(
+          %{type: :mishka_drawer, props: %{id: "menu", open: false}, children: children},
+          self()
+        )
+
+      for tree <- [open, closed] do
+        assert find_all(tree, :mishka_drawer_trigger) == []
+        assert find_all(tree, :mishka_drawer_footer) == []
+        assert_renderable(tree)
+      end
+
+      assert tagged(open, "menu-footer")
+      assert text(open) =~ "Bye"
+      # The closed drawer is its trigger, and the tag's bare atom came out wired.
+      assert closed.props.on_tap == {self(), :open_it}
     end
 
     test "closed drawer expands to an empty, still-renderable node" do

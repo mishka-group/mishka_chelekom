@@ -46,13 +46,49 @@ defmodule MishkaMob.Components.MishkaPopover do
   `<id>-arrow`. The trigger's state goes in the tag because that state is
   otherwise carried only by its fill, and a device test cannot read a colour.
 
+  ## Slots
+
+  Every part the web declares as a slot is a **tag** here, so the markup reads
+  the way the Chelekom component does rather than as a list of props:
+
+      <MishkaPopover id="details" open={@open?} on_open_change={:details}>
+        <MishkaPopoverTrigger text="Order details" />
+        <MishkaPopoverTitle text="Shipped 2 days ago" />
+        <MishkaPopoverDescription text="Tracking arrives by email." />
+        <MishkaPopoverArrow />
+        <Text text="Two of three parcels have left the warehouse." />
+        <MishkaPopoverClose text="Got it" />
+      </MishkaPopover>
+
+  | Slot | Chelekom | Function | Takes | Shorthand prop |
+  |------|----------|----------|-------|----------------|
+  | `<MishkaPopoverTrigger>` | `<:trigger>` | `trigger/1` | a label, or markup | `trigger` |
+  | `<MishkaPopoverTitle>` | `<:title>` | `title/1` | a line, or markup | `title` |
+  | `<MishkaPopoverDescription>` | `<:description>` | `description/1` | a line, or markup | `description` |
+  | `<MishkaPopoverClose>` | `<:close>` | `close/1` | a label, or your own controls | `close` |
+  | `<MishkaPopoverArrow>` | `<:arrow>` | `arrow/0` | nothing, a glyph, or markup | `arrow` |
+  | bare children | `<:inner_block>` | — | the panel's body | — |
+
+  Write `text="…"` and the part is styled by this module, exactly as the
+  shorthand prop is; write markup inside the tag and it is yours, wrapped in a
+  Column that wears the part's testTag. A slot wins over its shorthand, so
+  passing both is redundant rather than an error, and **order does not matter**:
+  the slots are taken out of the children by `:type` and each is placed where
+  the anatomy says, not where it was written.
+
+  Tag and function build the identical node, which is what makes the function
+  the right form when the parts come from **data** — a comprehension can return
+  `trigger/1` and a tag cannot be produced by one:
+
+      popover(%{open: @open?}, [trigger(@order.name) | Enum.map(@parcels, &line/1)])
+
   ## Props
 
   | Prop | Values | Default | Meaning |
   |------|--------|---------|---------|
   | `id` | string | `nil` | Root testTag; every part derives its own from it. |
   | `open` | boolean | `false` | Whether the panel is shown. Lives in the screen. |
-  | `trigger` | string / node / nodes | `nil` | The control that toggles it. Omit and you place your own. |
+  | `trigger` | string / node / nodes | `nil` | Shorthand for `<MishkaPopoverTrigger>`. Omit both and you place your own. |
   | `on_open_change` | event tag | — | Sent as `{:tap, {tag, next_open?}}`. |
   | `open_on_hold` | boolean | `false` | A long press on the trigger also opens it. |
   | `disabled` | boolean | `false` | Wires no handler, so the trigger is inert. |
@@ -61,10 +97,10 @@ defmodule MishkaMob.Components.MishkaPopover do
   | `align` | `:start` `:center` `:end` | `:start` | Where the panel sits across that axis. |
   | `side_offset` | number | `8` | Gap between trigger and panel, in dp. |
   | `align_offset` | number | `nil` | Nudge along the alignment axis, in dp. |
-  | `title` | string | `nil` | Heading inside the panel. |
-  | `description` | string | `nil` | Secondary line under the title. |
-  | `close` | string | `nil` | Label for a close action in the panel's footer. |
-  | `arrow` | boolean | `false` | Draw a beak pointing back at the trigger. |
+  | `title` | string | `nil` | Shorthand for `<MishkaPopoverTitle>`. |
+  | `description` | string | `nil` | Shorthand for `<MishkaPopoverDescription>`. |
+  | `close` | string | `nil` | Shorthand for `<MishkaPopoverClose>`. |
+  | `arrow` | boolean | `false` | Shorthand for `<MishkaPopoverArrow>` — a beak pointing back at the trigger. |
   | `width` | number | `nil` | Panel width. Omit to fill the parent. |
   | `background` | color token / ARGB int | `:surface` | Panel fill. |
   | `color` / `muted_color` | color token / ARGB int | `:on_surface` / `:muted` | Title ink, and the description's. |
@@ -94,37 +130,118 @@ defmodule MishkaMob.Components.MishkaPopover do
   # The web's gap between trigger and panel, read as dp instead of px.
   @side_offset 8
 
-  @doc "Composite expander (`<MishkaPopover>`). Children are the panel content."
+  @trigger_slot :mishka_popover_trigger
+  @title_slot :mishka_popover_title
+  @description_slot :mishka_popover_description
+  @close_slot :mishka_popover_close
+  @arrow_slot :mishka_popover_arrow
+
+  @slot_types [@trigger_slot, @title_slot, @description_slot, @close_slot, @arrow_slot]
+
+  @doc """
+  Composite expander (`<MishkaPopover>`). Children are the panel content, plus
+  any slot tags among them.
+
+  The slot tags are consumed one level down, in `popover/2`, rather than here:
+  a slot tag has no module and no expander of its own, so `title/1` builds the
+  very same node the markup does, and a caller who reaches for the function
+  form has to get the same tree out. Consuming them in one place is what
+  guarantees that. Whatever a parent fails to take reaches the renderer, which
+  has no case for the type and draws nothing at all — silently.
+  """
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, children, _ctx), do: popover(props, children)
 
   @doc """
+  The control that toggles the panel — the web's `<:trigger>`.
+
+  Takes a label, one node, or a list of them; `<MishkaPopoverTrigger>` and the
+  `trigger` prop build the same thing.
+
+      trigger("Order details")
+      trigger([icon(), label()])
+  """
+  @spec trigger(String.t() | map() | [map()]) :: map()
+  def trigger(content), do: slot(@trigger_slot, content)
+
+  @doc "The panel's heading — the web's `<:title>`. A line of text, or markup."
+  @spec title(String.t() | map() | [map()]) :: map()
+  def title(content), do: slot(@title_slot, content)
+
+  @doc "The line under the heading — the web's `<:description>`. Text, or markup."
+  @spec description(String.t() | map() | [map()]) :: map()
+  def description(content), do: slot(@description_slot, content)
+
+  @doc """
+  The footer action — the web's `<:close>`.
+
+  A label builds the button this module styles and wires, which reports the
+  panel closed through the popover's own `on_open_change`. Markup instead puts
+  your own controls in the footer row, and their handlers stay yours.
+  """
+  @spec close(String.t() | map() | [map()]) :: map()
+  def close(content), do: slot(@close_slot, content)
+
+  @doc """
+  The beak pointing back at the trigger — the web's `<:arrow>`.
+
+  Written bare it draws the glyph the `side` calls for, tinted like the panel.
+  Give it a character or markup of your own and that is drawn instead.
+  """
+  @spec arrow(String.t() | map() | [map()] | nil) :: map()
+  def arrow(content \\ nil)
+  def arrow(nil), do: %{type: @arrow_slot, props: %{}, children: []}
+  def arrow(content), do: slot(@arrow_slot, content)
+
+  @doc """
+  Every node type the popover consumes as a slot. Exported so a test can prove
+  none of them leaked past `popover/2` to the renderer.
+  """
+  @spec slot_types() :: [atom()]
+  def slot_types, do: @slot_types
+
+  # A slot written as a string keeps its text in props, so how it is styled
+  # stays this module's decision rather than the caller's; one written as
+  # markup contributes its children and is styled by whoever wrote it.
+  defp slot(type, content) when is_binary(content),
+    do: %{type: type, props: %{text: content}, children: []}
+
+  defp slot(type, content) when is_list(content),
+    do: %{type: type, props: %{}, children: content}
+
+  defp slot(type, content) when is_map(content),
+    do: %{type: type, props: %{}, children: [content]}
+
+  @doc """
   The popover node — its trigger, and the panel while `open`.
 
-      <MishkaPopover
-        id="details"
-        open={@open?}
-        trigger="Details"
-        title="Shipped"
-        on_open_change={:details}
-      >{content}</MishkaPopover>
+      <MishkaPopover id="details" open={@open?} on_open_change={:details}>
+        <MishkaPopoverTrigger text="Details" />
+        <MishkaPopoverTitle text="Shipped" />
+        {content}
+      </MishkaPopover>
 
       def handle_info({:tap, {:details, open?}}, socket) do
         {:noreply, Mob.Socket.assign(socket, :open?, open?)}
       end
 
-  With no `trigger` it is the panel alone, which is how `MishkaMenu` and the
-  select-style components use it: they place their own control.
+  Slot children among `content` are consumed rather than drawn where they
+  stand, so `[trigger("Details"), title("Shipped") | content]` builds exactly
+  what that markup does.
+
+  With no trigger at all it is the panel alone, which is how `MishkaMenu` and
+  the select-style components use it: they place their own control.
   """
   @spec popover(map() | keyword(), [map()]) :: map()
   def popover(props \\ %{}, content \\ []) do
-    props = Map.new(props)
+    {slots, content} = take_slots(content)
+    props = props |> Map.new() |> merge_slots(slots)
     id = Map.get(props, :id)
     open? = truthy?(Map.get(props, :open, false))
     side = one_of(Map.get(props, :side), @sides, :bottom)
     align = one_of(Map.get(props, :align), @aligns, :start)
 
-    trigger = trigger(props, id, open?, side)
+    trigger = trigger_part(props, id, open?, side)
     revealed = if open?, do: revealed(props, content, id, side, align), else: []
 
     # `revealed/5` is built trigger-first — gap, beak, panel. For a side that
@@ -209,9 +326,63 @@ defmodule MishkaMob.Components.MishkaPopover do
   def arrow_id(nil), do: nil
   def arrow_id(id) when is_binary(id), do: id <> "-arrow"
 
+  # ── The slots ───────────────────────────────────────────────────────────────
+
+  # A slot tag has no module and no expander, so it arrives with its subtree
+  # intact and nothing else will ever touch it: whatever is not taken out here
+  # travels on to the renderer, which has no case for the type and draws
+  # nothing — no crash, no warning, just a part that never appears. So they come
+  # out of the children first, by :type, before anything else reads the list.
+  defp take_slots(content) do
+    {slots, content} = Enum.split_with(content, &slot?/1)
+    {Enum.group_by(slots, & &1.type), content}
+  end
+
+  defp slot?(node), do: is_map(node) and Map.get(node, :type) in @slot_types
+
+  # Each slot resolves to the same shape its shorthand prop already took — a
+  # string, or nodes — and is written to the same key, so everything downstream
+  # reads one prop and never learns which form the caller wrote. The slot wins
+  # because it is the more specific of the two.
+  defp merge_slots(props, slots) do
+    props
+    |> put_slot(slots, @trigger_slot, :trigger)
+    |> put_slot(slots, @title_slot, :title)
+    |> put_slot(slots, @description_slot, :description)
+    |> put_slot(slots, @close_slot, :close)
+    |> put_arrow(slots)
+  end
+
+  defp put_slot(props, slots, type, key) do
+    case content_of(Map.get(slots, type, [])) do
+      nil -> props
+      content -> Map.put(props, key, content)
+    end
+  end
+
+  # The arrow is the one slot whose EMPTY form still says something: writing
+  # `<MishkaPopoverArrow />` is how markup says what `arrow={true}` says, and
+  # the side's own glyph is what gets drawn.
+  defp put_arrow(props, slots) do
+    case Map.get(slots, @arrow_slot, []) do
+      [] -> props
+      nodes -> Map.put(props, :arrow, content_of(nodes) || true)
+    end
+  end
+
+  defp content_of([]), do: nil
+  defp content_of([%{props: %{text: text}}]) when is_binary(text), do: text
+
+  defp content_of(nodes) do
+    case Enum.flat_map(nodes, &Map.get(&1, :children, [])) do
+      [] -> nil
+      children -> children
+    end
+  end
+
   # ── The trigger ─────────────────────────────────────────────────────────────
 
-  defp trigger(props, id, open?, side) do
+  defp trigger_part(props, id, open?, side) do
     case Map.get(props, :trigger) do
       nil -> []
       trigger -> [trigger_box(props, trigger, id, open?, side)]
@@ -301,16 +472,34 @@ defmodule MishkaMob.Components.MishkaPopover do
   # panel so it reads as the panel's own beak rather than a character.
   defp beak(props, id, side, align) do
     if truthy?(Map.get(props, :arrow, false)) do
-      glyph = beak_glyph(side)
-      fill = Map.get(props, :background, :surface)
-
-      node = put(~MOB"<Text text={glyph} text_size={:sm} text_color={fill} />", :id, arrow_id(id))
+      node = beak_node(Map.get(props, :arrow), props, id, side)
 
       [if(side in [:top, :bottom], do: aligned(node, align), else: node)]
     else
       []
     end
   end
+
+  defp beak_node(glyph, props, id, _side) when is_binary(glyph) do
+    fill = Map.get(props, :background, :surface)
+
+    put(~MOB"<Text text={glyph} text_size={:sm} text_color={fill} />", :id, arrow_id(id))
+  end
+
+  defp beak_node([_ | _] = nodes, _props, id, _side) do
+    put(
+      ~MOB"""
+      <Column>
+        {nodes}
+      </Column>
+      """,
+      :id,
+      arrow_id(id)
+    )
+  end
+
+  # `arrow={true}`, or a bare `<MishkaPopoverArrow />`: the side decides.
+  defp beak_node(_content, props, id, side), do: beak_node(beak_glyph(side), props, id, side)
 
   defp beak_glyph(:bottom), do: "▲"
   defp beak_glyph(:top), do: "▼"
@@ -350,65 +539,89 @@ defmodule MishkaMob.Components.MishkaPopover do
     ink = Map.get(props, :color, :on_surface)
     muted = Map.get(props, :muted_color, :muted)
 
-    [title(props, id, ink), description(props, id, muted), content, footer(props, id)]
+    [title_part(props, id, ink), description_part(props, id, muted), content, footer(props, id)]
     |> Enum.reject(&(&1 == []))
     |> Enum.intersperse([spacer(6)])
     |> List.flatten()
   end
 
-  defp title(props, id, ink) do
+  defp title_part(props, id, ink) do
     case Map.get(props, :title) do
       nil ->
         []
 
-      text ->
+      text when is_binary(text) ->
         [put(~MOB"<Text text={text} text_size={:lg} text_color={ink} />", :id, title_id(id))]
+
+      nodes ->
+        [put(block(nodes), :id, title_id(id))]
     end
   end
 
-  defp description(props, id, muted) do
+  defp description_part(props, id, muted) do
     case Map.get(props, :description) do
       nil ->
         []
 
-      text ->
+      text when is_binary(text) ->
         node = ~MOB"<Text text={text} text_size={:sm} text_color={muted} />"
         [put(node, :id, description_id(id))]
+
+      nodes ->
+        [put(block(nodes), :id, description_id(id))]
     end
   end
 
+  # A part written as markup still has to be addressable, so its own Column
+  # wears the tag the styled Text would have worn.
+  defp block(nodes) do
+    ~MOB"""
+    <Column fill_width={true}>
+      {nodes}
+    </Column>
+    """
+  end
+
   # The web's `close` slot is a footer of actions, dismissed via `data-close`.
-  # Here it is one labelled action that reports the same open change the trigger
-  # does, with `false` — so a screen keeps a single clause for both.
+  # A label here is one such action, reporting the same open change the trigger
+  # does with `false` — so a screen keeps a single clause for both.
   defp footer(props, id) do
     case Map.get(props, :close) do
       nil ->
         []
 
-      label ->
-        button =
-          ~MOB"""
-          <Box
-            fill_width={false}
-            background={:surface_raised}
-            corner_radius={:radius_sm}
-            padding={:space_sm}
-          >
-            <Text text={label} text_size={:sm} text_color={:on_surface} max_lines={1} />
-          </Box>
-          """
-          |> put(:id, close_id(id))
-          |> put(:on_tap, Event.handler(Map.get(props, :on_open_change), false))
+      label when is_binary(label) ->
+        [footer_row([close_button(props, label, id)])]
 
-        [
-          ~MOB"""
-          <Row fill_width={true}>
-            <Spacer weight={1} />
-            {button}
-          </Row>
-          """
-        ]
+      nodes ->
+        # Your own controls carry their own handlers, so the tag goes on the row
+        # rather than on a button this module did not build and cannot wire.
+        [put(footer_row(nodes), :id, close_id(id))]
     end
+  end
+
+  defp close_button(props, label, id) do
+    ~MOB"""
+    <Box
+      fill_width={false}
+      background={:surface_raised}
+      corner_radius={:radius_sm}
+      padding={:space_sm}
+    >
+      <Text text={label} text_size={:sm} text_color={:on_surface} max_lines={1} />
+    </Box>
+    """
+    |> put(:id, close_id(id))
+    |> put(:on_tap, Event.handler(Map.get(props, :on_open_change), false))
+  end
+
+  defp footer_row(nodes) do
+    ~MOB"""
+    <Row fill_width={true}>
+      <Spacer weight={1} />
+      {nodes}
+    </Row>
+    """
   end
 
   # ── Layout plumbing ─────────────────────────────────────────────────────────

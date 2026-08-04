@@ -33,8 +33,31 @@ defmodule MishkaMob.Components.MishkaRadioGroup do
   | `color` / `size` | see Radio | — | Passed to every option. |
   | `id` | string | `nil` | Prefix for each option's test tag. |
 
-  Options are children built with `option/3`, carrying `id`, `label` and an
-  optional `disabled`.
+  ## Slots
+
+  Options are written out as `<MishkaRadioGroupOption>` children, the way the
+  Phoenix component declares its `<:radio>` slots:
+
+      <MishkaRadioGroup label="Plan" value={@plan} on_change={:plan} id="plan">
+        <MishkaRadioGroupOption id={:free} label="Free" />
+        <MishkaRadioGroupOption id={:pro} label="Pro" />
+        <MishkaRadioGroupOption id={:team} label="Team" disabled={true} />
+      </MishkaRadioGroup>
+
+  | Slot | Takes | Built by hand with |
+  |------|-------|--------------------|
+  | `<MishkaRadioGroupOption>` | `id`, `label`, `disabled` | `option/3` |
+
+  A slot tag has no module and no expander of its own: it arrives at `expand/3`
+  with its props intact, is matched there on `:type` and consumed, so no marker
+  reaches the renderer. `option/3` builds the identical node —
+  `%{type: :mishka_radio_group_option, props: %{id:, label:, disabled:}}` — so
+  the two forms are interchangeable. Write the tag when you are listing the
+  options out; use the function when they come from data:
+
+      <MishkaRadioGroup value={@plan} on_change={:plan}>
+        {Enum.map(@plans, fn {id, label} -> option(id, label) end)}
+      </MishkaRadioGroup>
 
   Given `id="plan"`, the `:pro` option's ring is tagged `"plan-pro-selected"` or
   `"plan-pro-empty"` — see `MishkaMob.Components.MishkaRadio` for why the state
@@ -49,13 +72,26 @@ defmodule MishkaMob.Components.MishkaRadioGroup do
   alias MishkaMob.Components.Event
   alias MishkaMob.Components.MishkaRadio
 
-  @option_type :mishka_radio_option
+  # The slot tag's own name, so `<MishkaRadioGroupOption>` and `option/3` land on
+  # one type and the group cannot tell which form the caller wrote.
+  @option_type :mishka_radio_group_option
 
-  @doc "Composite expander (`<MishkaRadioGroup>`). Children are options."
+  @doc """
+  Composite expander (`<MishkaRadioGroup>`).
+
+  Children are `<MishkaRadioGroupOption>` slot tags, or the same nodes from
+  `option/3`. Both are consumed here — a slot tag that survived expansion would
+  reach the renderer, which has no branch for it and would silently draw nothing.
+  """
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, children, _ctx), do: radio_group(props, children)
 
-  @doc "Build one option node."
+  @doc """
+  Build one option node — exactly what `<MishkaRadioGroupOption>` builds.
+
+  Reach for it when the options come from data; write the tag when you are
+  listing them out.
+  """
   @spec option(term(), String.t(), keyword()) :: map()
   def option(id, label, opts \\ []) do
     %{

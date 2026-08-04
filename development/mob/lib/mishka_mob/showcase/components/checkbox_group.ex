@@ -5,7 +5,7 @@ defmodule MishkaMob.Showcase.Components.CheckboxGroup do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaCheckboxGroup, only: [item: 2, item: 3]
+  import MishkaMob.Components.MishkaCheckboxGroup, only: [item: 2]
 
   alias MishkaMob.Components.MishkaCheckboxGroup
   alias MishkaMob.Showcase.Example
@@ -37,7 +37,9 @@ defmodule MishkaMob.Showcase.Components.CheckboxGroup do
     [
       %Example{
         title: "Select all",
-        description: "The parent is an ordinary checkbox whose mixed state is derived.",
+        description:
+          "Rows are <MishkaCheckboxGroupItem> tags, one per row. The parent is an ordinary " <>
+            "checkbox whose mixed state is derived from them.",
         code: ~S"""
         <MishkaCheckboxGroup
           value={@value}
@@ -45,11 +47,17 @@ defmodule MishkaMob.Showcase.Components.CheckboxGroup do
           on_change={:item}
           on_select_all={:all}
           id="langs"
-        >{items}</MishkaCheckboxGroup>
+        >
+          <MishkaCheckboxGroupItem id={:beam} label="BEAM" />
+          <MishkaCheckboxGroupItem id={:otp} label="OTP" />
+          <MishkaCheckboxGroupItem id={:phoenix} label="Phoenix" />
+          <MishkaCheckboxGroupItem id={:ecto} label="Ecto" />
+        </MishkaCheckboxGroup>
 
-        # An item tap carries its id; the parent's does not need to, because
-        # there is only one parent. Both reducers live in the component so a
-        # screen never re-derives them.
+        # No item tag carries its own on_*: one on_change serves every row,
+        # because each reports its own id. An item tap carries that id; the
+        # parent's does not need to, because there is only one parent. Both
+        # reducers live in the component so a screen never re-derives them.
         def handle_info({:tap, {:item, id}}, socket) do
           {:noreply, Mob.Socket.assign(socket, :value,
             MishkaCheckboxGroup.toggle(socket.assigns.value, id))}
@@ -74,7 +82,10 @@ defmodule MishkaMob.Showcase.Components.CheckboxGroup do
               on_select_all={:cg_all}
               id="cg-langs"
             >
-              {lang_items()}
+              <MishkaCheckboxGroupItem id={:beam} label="BEAM" />
+              <MishkaCheckboxGroupItem id={:otp} label="OTP" />
+              <MishkaCheckboxGroupItem id={:phoenix} label="Phoenix" />
+              <MishkaCheckboxGroupItem id={:ecto} label="Ecto" />
             </MishkaCheckboxGroup>
             <Spacer size={12} />
             <Text text={summary(@cg_value)} text_size={:sm} text_color={:muted} />
@@ -83,10 +94,19 @@ defmodule MishkaMob.Showcase.Components.CheckboxGroup do
         end
       },
       %Example{
-        title: "Without a parent",
-        description: "Leave select_all off for a plain group — no parent, no divider.",
+        title: "Rows from data",
+        description:
+          "When the rows come from a list rather than being written out, item/2 builds the " <>
+            "identical node — the tag and the builder are interchangeable. This group also " <>
+            "leaves select_all off: no parent, no divider.",
         code: ~S"""
-        <MishkaCheckboxGroup value={@value} on_change={:item}>{items}</MishkaCheckboxGroup>
+        @channels [{:email, "Email"}, {:sms, "SMS"}, {:push, "Push"}]
+
+        # A comprehension is easier to write than generated markup, so reach for
+        # item/2 here and for the tag when the rows are literal.
+        <MishkaCheckboxGroup value={@value} on_change={:item}>
+          {Enum.map(@channels, fn {id, label} -> item(id, label) end)}
+        </MishkaCheckboxGroup>
 
         def handle_info({:tap, {:item, id}}, socket) do
           {:noreply, Mob.Socket.assign(socket, :value,
@@ -108,21 +128,28 @@ defmodule MishkaMob.Showcase.Components.CheckboxGroup do
           """
         end
       },
+      # The "(off)" labels are not decoration: three groups on this page read the
+      # same @cg_value, and an exact-text lookup finds the FIRST match — which is
+      # the tappable one. A test aimed at the disabled group would otherwise
+      # exercise the live one and pass. It also stops the page reading as the
+      # same list printed three times.
       %Example{
         title: "Disabled",
-        description: "One item, or the whole group including its parent.",
+        description: "One row, or the whole group including its parent.",
         code: ~S"""
-        item(:ecto, "Ecto", disabled: true)
-        <MishkaCheckboxGroup disabled={true} select_all={true}>{items}</MishkaCheckboxGroup>
+        <MishkaCheckboxGroup value={@value} on_change={:item}>
+          <MishkaCheckboxGroupItem id={:beam} label="BEAM" />
+          <MishkaCheckboxGroupItem id={:ecto} label="Ecto" disabled={true} />
+        </MishkaCheckboxGroup>
+
+        <MishkaCheckboxGroup disabled={true} select_all={true}>…</MishkaCheckboxGroup>
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
             <MishkaCheckboxGroup label="ONE ITEM OFF" value={@cg_value} on_change={:cg_item} id="cg-one">
-              {[
-              item(:beam, "BEAM"),
-              item(:ecto, "Ecto (unavailable)", disabled: true)
-            ]}
+              <MishkaCheckboxGroupItem id={:beam} label="BEAM" />
+              <MishkaCheckboxGroupItem id={:ecto} label="Ecto (unavailable)" disabled={true} />
             </MishkaCheckboxGroup>
             <Spacer size={16} />
             <MishkaCheckboxGroup
@@ -133,7 +160,10 @@ defmodule MishkaMob.Showcase.Components.CheckboxGroup do
               select_all_label="Select all (off)"
               id="cg-off"
             >
-              {off_items()}
+              <MishkaCheckboxGroupItem id={:beam} label="BEAM (off)" />
+              <MishkaCheckboxGroupItem id={:otp} label="OTP (off)" />
+              <MishkaCheckboxGroupItem id={:phoenix} label="Phoenix (off)" />
+              <MishkaCheckboxGroupItem id={:ecto} label="Ecto (off)" />
             </MishkaCheckboxGroup>
           </Column>
           """
@@ -191,6 +221,18 @@ defmodule MishkaMob.Showcase.Components.CheckboxGroup do
         description: "Prefix for each row's test tag: <id>-<item>-checked."
       },
       %{
+        name: "<MishkaCheckboxGroupItem>",
+        type: "slot",
+        default: "—",
+        description: "One row. id (what on_change reports), label, disabled."
+      },
+      %{
+        name: "item/3",
+        type: "builder",
+        default: "—",
+        description: "The same node, for when the rows come from data."
+      },
+      %{
         name: "toggle/2 · select_all/2 · parent_state/2",
         type: "helpers",
         default: "—",
@@ -228,14 +270,9 @@ defmodule MishkaMob.Showcase.Components.CheckboxGroup do
 
   def handle(_tag, socket), do: socket
 
-  defp lang_items, do: Enum.map(@langs, fn {id, label} -> item(id, label) end)
-
-  # Distinct labels, because three groups on this page read the same @cg_value
-  # and an exact-text lookup finds the FIRST match — which is the tappable one.
-  # A test aimed at the disabled group would otherwise exercise the live one and
-  # pass. It also stops the page reading as the same list printed three times.
-  defp off_items, do: Enum.map(@langs, fn {id, label} -> item(id, "#{label} (off)") end)
-
+  # The rows-from-data example, and the only place this page still builds items
+  # with the function: these come from @notify, so a comprehension is less work
+  # than four hand-written tags and cannot drift from the list.
   defp notify_items, do: Enum.map(@notify, fn {id, label} -> item(id, label) end)
 
   defp summary([]), do: "Nothing selected"

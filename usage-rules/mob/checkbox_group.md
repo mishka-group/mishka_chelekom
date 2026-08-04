@@ -34,7 +34,9 @@ widget — it is an ordinary checkbox whose `indeterminate` state is *derived* f
   on_select_all={:all}
   id="langs"
 >
-  {[item(:beam, "BEAM"), item(:otp, "OTP"), item(:ecto, "Ecto", disabled: true)]}
+  <MishkaCheckboxGroupItem id={:beam} label="BEAM" />
+  <MishkaCheckboxGroupItem id={:otp} label="OTP" />
+  <MishkaCheckboxGroupItem id={:ecto} label="Ecto" disabled={true} />
 </MishkaCheckboxGroup>
 """
 
@@ -54,7 +56,28 @@ end
 def handle_info(_msg, socket), do: {:noreply, socket}
 ```
 
-Items are children built with `item/3`: `item(id, label, disabled: false)`.
+## Slots
+
+| Slot | Builder | Takes |
+|---|---|---|
+| `<MishkaCheckboxGroupItem>` | `item/3` | `id`, `label`, `disabled` |
+
+A slot tag has no module and no expander — it is matched on `:type` among the group's children and
+consumed by `expand/3`, which routes it back through `item/3`. Tag and builder therefore produce the
+**identical** node, so pick by where the rows come from. Write the tags out when you are writing the
+rows out; call `item/3` when the rows come from data, where a comprehension is less work than
+generated markup and cannot drift from the list:
+
+```elixir
+~MOB"""
+<MishkaCheckboxGroup value={@value} on_change={:item}>
+  {Enum.map(@channels, fn {id, label} -> MishkaCheckboxGroup.item(id, label) end)}
+</MishkaCheckboxGroup>
+"""
+```
+
+No item tag carries its own `on_*`: the group's single `on_change` serves every row, because each
+row reports its own id.
 
 ## Props
 

@@ -9,10 +9,10 @@ defmodule MishkaMob.Components.MishkaToolbar do
   controls one tab stop and moves focus between them with the arrow keys
   (`loop`, `focusable_when_disabled`). There is no roving tabindex on a phone and
   no arrow keys, so that part does not travel. Everything else does, and it turns
-  out to be most of the component: the four item kinds (`button/3`, `link/3`,
-  `input/2`, `separator/1`), the chunking of consecutive items that share a
-  `:group`, per-item and whole-bar `disabled`, and the orientation the separators
-  follow.
+  out to be most of the component: the four item kinds (`<MishkaToolbarButton>`,
+  `<MishkaToolbarLink>`, `<MishkaToolbarInput>`, `<MishkaToolbarSeparator>`), the
+  chunking of consecutive items that share a `:group`, per-item and whole-bar
+  `disabled`, and the orientation the separators follow.
 
   Arbitrary nodes still pass through untouched, so a toolbar can hold a
   `MishkaMob.Components.MishkaToggle` or a
@@ -51,6 +51,40 @@ defmodule MishkaMob.Components.MishkaToolbar do
       reports `on_overflow` so a screen can show the rest in a
       `MishkaMob.Components.MishkaDrawer`. `split/2` is the whole policy, pure
       and testable.
+
+  ## Slots
+
+  The items are written as tags, so a toolbar reads the way the Phoenix component
+  does — the web's `<:item>` types, one tag each:
+
+      <MishkaToolbar id="fmt" on_select={:act} on_hold={:hint} hint={@hint}>
+        <MishkaToolbarButton id={:bold} label="Bold" icon="B" />
+        <MishkaToolbarButton id={:italic} label="Italic" icon="I" />
+        <MishkaToolbarSeparator />
+        <MishkaToolbarLink id={:docs} label="Docs" href="https://mishka.tools" />
+        <MishkaToolbarInput id={:find} placeholder="Find…" value={@query} />
+      </MishkaToolbar>
+
+  | Slot | Builder | Takes |
+  |------|---------|-------|
+  | `<MishkaToolbarButton>` | `button/3` | `id`, `label`, `icon`, `disabled`, `group` |
+  | `<MishkaToolbarLink>` | `link/3` | the same, plus `href` |
+  | `<MishkaToolbarInput>` | `input/2` | `id`, `placeholder`, `value`, `width`, `label`, `disabled`, `group` |
+  | `<MishkaToolbarSeparator>` | `separator/1` | `group` |
+
+  A tag and its builder produce the **identical** node — `expand/3` routes every
+  slot tag back through the builder — so pick by where the items come from. Write
+  the tags when you are writing the bar out; call the builders when the items come
+  from data:
+
+      <MishkaToolbar id="tb" overflow={:scroll} on_select={:act}>
+        {Enum.map(@tools, fn {id, label, icon} ->
+          MishkaToolbar.button(id, label, icon: icon)
+        end)}
+      </MishkaToolbar>
+
+  No item tag carries its own `on_*`: one `on_select` on the bar serves every
+  button and link, because each reports its own `id`.
 
   ## Props
 
@@ -123,12 +157,57 @@ defmodule MishkaMob.Components.MishkaToolbar do
   # A separator in a horizontal bar is as tall as a padded item.
   @hairline 22
 
-  @doc "Composite expander (`<MishkaToolbar>`). Children are the items."
+  @doc """
+  Composite expander (`<MishkaToolbar>`). Children are the items.
+
+  Each of the four slot tags is matched on `:type` and consumed here — a slot tag
+  has no module and no expander of its own, so a tag the parent does not take is
+  serialised straight to the renderer, which has never heard of it and draws
+  nothing. Anything that is not one of ours passes through as an ordinary control.
+  """
   @spec expand(map(), [map()], map()) :: map()
-  def expand(props, children, _ctx), do: toolbar(props, children)
+  def expand(props, children, _ctx) do
+    toolbar(props, children |> List.wrap() |> Enum.map(&from_tag/1))
+  end
+
+  # A slot tag arrives with its attributes as raw props — whatever the caller did
+  # not write is simply absent — while a builder fills every key in. Routing the
+  # tag back through its own builder is what makes the two forms the SAME node
+  # rather than two nodes that happen to render alike, so `<MishkaToolbarButton>`
+  # and `button/3` stay interchangeable even if a default here later changes. A
+  # nil attribute counts as an absent one, as it does everywhere else in Mob.
+  defp from_tag(%{type: @button, props: props}) do
+    button(Map.get(props, :id), Map.get(props, :label), opts(props, [:icon, :disabled, :group]))
+  end
+
+  defp from_tag(%{type: @link, props: props}) do
+    link(
+      Map.get(props, :id),
+      Map.get(props, :label),
+      opts(props, [:href, :icon, :disabled, :group])
+    )
+  end
+
+  defp from_tag(%{type: @input, props: props}) do
+    input(
+      Map.get(props, :id),
+      opts(props, [:label, :placeholder, :value, :width, :disabled, :group])
+    )
+  end
+
+  defp from_tag(%{type: @sep, props: props}), do: separator(opts(props, [:group]))
+
+  defp from_tag(node), do: node
+
+  defp opts(props, keys) do
+    keys
+    |> Enum.map(&{&1, Map.get(props, &1)})
+    |> Enum.reject(fn {_key, value} -> is_nil(value) end)
+  end
 
   @doc """
-  A command. `id` is what `on_select` and `on_hold` report.
+  A command — the builder behind `<MishkaToolbarButton>`. `id` is what
+  `on_select` and `on_hold` report.
 
   Options: `:icon`, `:disabled`, `:group`.
 
@@ -137,6 +216,7 @@ defmodule MishkaMob.Components.MishkaToolbar do
   a desktop browser shows on hover.
 
       button(:undo, "Undo", icon: "↺")
+      # is <MishkaToolbarButton id={:undo} label="Undo" icon="↺" />
   """
   @spec button(term(), String.t(), keyword()) :: map()
   def button(id, label, opts \\ []) do
@@ -154,8 +234,9 @@ defmodule MishkaMob.Components.MishkaToolbar do
   end
 
   @doc """
-  A destination. Drawn in `link_color` with a rule under it, so it does not read
-  as a button — the colour alone would not say so.
+  A destination — the builder behind `<MishkaToolbarLink>`. Drawn in `link_color`
+  with a rule under it, so it does not read as a button — the colour alone would
+  not say so.
 
   Options: `:href`, `:icon`, `:disabled`, `:group`.
 
@@ -163,6 +244,7 @@ defmodule MishkaMob.Components.MishkaToolbar do
   whole bar; `href/2` turns that id back into the destination.
 
       link(:docs, "Docs", href: "https://mishka.tools/chelekom")
+      # is <MishkaToolbarLink id={:docs} label="Docs" href="https://mishka.tools/chelekom" />
   """
   @spec link(term(), String.t(), keyword()) :: map()
   def link(id, label, opts \\ []) do
@@ -181,15 +263,17 @@ defmodule MishkaMob.Components.MishkaToolbar do
   end
 
   @doc """
-  A text field in the bar — a find box, a font size, a URL.
+  A text field in the bar — a find box, a font size, a URL. The builder behind
+  `<MishkaToolbarInput>`.
 
-  Options: `:placeholder`, `:value`, `:width`, `:disabled`, `:group`.
+  Options: `:placeholder`, `:value`, `:width`, `:label`, `:disabled`, `:group`.
 
   Edits arrive as `{:change, {on_input_tag, item_id}, value}`. The value stays
   the caller's, as everywhere else in this library: echo it back, or the field
   goes on showing what the BEAM already discarded.
 
-      input(:find, placeholder: "Find…", value: @query)
+      input(:find, placeholder: "Find…", value: query)
+      # is <MishkaToolbarInput id={:find} placeholder="Find…" value={@query} />
 
   An input is the one item with no hint: a text field consumes its own long
   press to place a selection, so `on_hold` would never fire on it. Its
@@ -213,7 +297,8 @@ defmodule MishkaMob.Components.MishkaToolbar do
   end
 
   @doc """
-  A divider between groups. Orients itself to the toolbar.
+  A divider between groups — the builder behind `<MishkaToolbarSeparator>`.
+  Orients itself to the toolbar.
 
   Takes `:group` like any other item, so a separator can sit *inside* a group
   rather than only between two of them — which is what the web's chunking does
@@ -367,14 +452,15 @@ defmodule MishkaMob.Components.MishkaToolbar do
   end
 
   @doc """
-  The toolbar node.
+  The toolbar node. `children` are the items, already built — `expand/3` is what
+  turns the slot tags into these.
 
-      <MishkaToolbar id="fmt" on_select={:act} on_hold={:hint} hint={@hint}>{[
-        button(:bold, "Bold", icon: "B"),
-        button(:italic, "Italic", icon: "I"),
-        separator(),
-        input(:find, placeholder: "Find…", value: @query)
-      ]}</MishkaToolbar>
+      <MishkaToolbar id="fmt" on_select={:act} on_hold={:hint} hint={@hint}>
+        <MishkaToolbarButton id={:bold} label="Bold" icon="B" />
+        <MishkaToolbarButton id={:italic} label="Italic" icon="I" />
+        <MishkaToolbarSeparator />
+        <MishkaToolbarInput id={:find} placeholder="Find…" value={@query} />
+      </MishkaToolbar>
 
       def handle_info({:tap, {:act, id}}, socket), do: {:noreply, act(socket, id)}
       def handle_info({:tap, {:hint, id}}, socket), do: {:noreply, assign(socket, :hint, id)}

@@ -385,6 +385,56 @@ defmodule MishkaMob.Components.MishkaPreviewCardTest do
       assert text(tree) =~ "SH"
     end
 
+    # The card written by hand and the card built from data are the same card.
+    defp tagged(children) do
+      %{
+        type: :mishka_preview_card,
+        props: %{id: "p", open: true, on_hold: :hold, on_tap: :visit, arrow: true, title: "T"},
+        children: children
+      }
+      |> Mob.Composite.expand(self())
+    end
+
+    defp trigger_tag(nodes),
+      do: %{type: :mishka_preview_card_trigger, props: %{}, children: nodes}
+
+    test "<MishkaPreviewCardTrigger> builds exactly what the trigger PROP builds" do
+      # Everything that is not the slot tag is the footer, so the button lands
+      # in the same place either way — and an identical tree is what makes the
+      # two forms interchangeable rather than merely similar.
+      by_tag = tagged([trigger_tag(chip()) | footer()])
+
+      by_prop =
+        %{
+          type: :mishka_preview_card,
+          props: %{
+            id: "p",
+            open: true,
+            on_hold: :hold,
+            on_tap: :visit,
+            arrow: true,
+            title: "T",
+            trigger: chip()
+          },
+          children: footer()
+        }
+        |> Mob.Composite.expand(self())
+
+      assert by_tag == by_prop
+      assert find(by_tag, :box, id: "p-trigger").props.on_long_press == {self(), {:hold, "p"}}
+    end
+
+    test "the slot marker is consumed — a leak would be silent" do
+      # A slot tag has no expander, so anything left of it reaches the renderer,
+      # which has never heard of the type and draws nothing. assert_renderable
+      # cannot catch that: mix.exs whitelists the name so the sigil accepts it.
+      tree = tagged([trigger_tag(chip()) | footer()])
+
+      assert find_all(tree, :mishka_preview_card_trigger) == []
+      assert text(tree) =~ "@shahryar"
+      assert_renderable(tree)
+    end
+
     test "on_hold written as a bare tag still reaches the renderer wired" do
       node = %{
         type: :mishka_preview_card,
@@ -418,6 +468,14 @@ defmodule MishkaMob.Components.MishkaPreviewCardTest do
       assert "pc-elixir-closed" in tags
       assert "pc-phoenix-closed" in tags
       refute "pc-elixir-open" in tags
+
+      # The page writes its triggers as <MishkaPreviewCardTrigger>, and a slot
+      # tag the parent failed to consume renders nothing while every other
+      # assertion here still passes — so the thing to hold is named explicitly.
+      assert "pc-elixir-trigger" in tags
+      assert "pc-top-trigger" in tags
+      assert "pc-side-trigger" in tags
+      assert page() |> tree() |> Mob.Composite.expand(self()) |> text() =~ "Hold me"
     end
 
     test "holding a name opens its card and nothing else's" do

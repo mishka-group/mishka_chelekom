@@ -4,6 +4,12 @@ defmodule MishkaMob.Showcase.Components.AlertDialog do
 
   Rendered through `overlay/1` at the screen root, like the Dialog and Drawer.
 
+  Every dialog here is written as MARKUP — `<MishkaAlertDialog>` with its slot
+  tags inside it — so `overlay/1` returns a composite node rather than a widget
+  tree, and the screen's composite pass is what turns it into one. A test
+  reading this page therefore has to run `Mob.Composite.expand/2` first, the
+  same way the Toolbar and Tree pages' tests do.
+
   Every example owns its own assign and its own testTag prefix. That is not
   tidiness: the whole page scrolls as one, and the code samples are text nodes
   too, so a test that asked "is 'Delete account?' on screen" would be answered
@@ -56,21 +62,21 @@ defmodule MishkaMob.Showcase.Components.AlertDialog do
     %Example{
       title: "Confirm or cancel",
       description:
-        "Cancel carries close: true and nothing else, so it fires the dialog's on_close — " <>
-          "the port of the web's data-close. Confirm brings its own handler, which wins.",
+        "Every part is a tag. Cancel carries close: true and nothing else, so it fires the " <>
+          "dialog's on_close — the port of the web's data-close. Confirm brings its own " <>
+          "handler, which wins.",
       code: ~S"""
-      <MishkaAlertDialog
-        id="discard"
-        open={@discard?}
-        title="Discard changes?"
-        description="Your edits will be lost."
-        on_close={:discard_cancel}
-        actions={[
-          MishkaAlertDialog.action("Cancel", id: "discard-cancel"),
-          MishkaAlertDialog.action("Discard", id: "discard-go",
-                                   variant: :primary, on_tap: :discard_go)
-        ]}
-      />
+      <MishkaAlertDialog id="discard" open={@discard?} on_close={:discard_cancel}>
+        <MishkaDialogTitle text="Discard changes?" />
+        <MishkaDialogDescription text="Your edits will be lost." />
+        <MishkaAlertDialogAction text="Cancel" id="discard-cancel" />
+        <MishkaAlertDialogAction
+          text="Discard"
+          id="discard-go"
+          variant={:primary}
+          on_tap={:discard_go}
+        />
+      </MishkaAlertDialog>
 
       # close: true routes here; the Discard button routes to its own tag.
       def handle_info({:tap, :discard_cancel}, socket) do
@@ -111,8 +117,8 @@ defmodule MishkaMob.Showcase.Components.AlertDialog do
           "over the card below, which counts every tap that reaches it.",
       code: ~S"""
       # Identical: dismissible is forced to false either way.
-      <MishkaAlertDialog id="stubborn" open={@open?} dismissible={true} … />
-      <MishkaAlertDialog id="stubborn" open={@open?} … />
+      <MishkaAlertDialog id="stubborn" open={@open?} dismissible={true}>…</MishkaAlertDialog>
+      <MishkaAlertDialog id="stubborn" open={@open?}>…</MishkaAlertDialog>
 
       # The card underneath keeps its own handler and never hears from it while
       # the dialog is up — the backdrop absorbs the tap rather than passing it on.
@@ -151,13 +157,26 @@ defmodule MishkaMob.Showcase.Components.AlertDialog do
       title: "Destructive",
       description:
         "variant: :danger tints with the :error token, and folds \"danger\" into the " <>
-          "button's testTag — a red fill is not something a device test can read.",
+          "button's testTag — a red fill is not something a device test can read. This one " <>
+          "builds its footer from DATA, which is the one place the function form still wins.",
       code: ~S"""
-      actions = [
-        MishkaAlertDialog.action("Cancel", id: "delete-cancel"),
-        MishkaAlertDialog.action("Delete", id: "delete-go",
-                                 variant: :danger, on_tap: :delete_go)
-      ]
+      # A footer that comes from a list is a comprehension, not markup written
+      # out N times — so action/2 stays, and the actions prop is how it lands.
+      # Both forms build the identical node, so mixing them is not a compromise.
+      actions =
+        Enum.map(@choices, fn choice ->
+          MishkaAlertDialog.action(choice.label,
+            id: choice.id,
+            variant: choice.variant,
+            on_tap: choice.on_tap
+          )
+        end)
+
+      <MishkaAlertDialog id="delete" open={@deleting?} on_close={:delete_cancel}
+                         actions={actions}>
+        <MishkaDialogTitle text="Delete account?" />
+        <MishkaDialogDescription text="This cannot be undone." />
+      </MishkaAlertDialog>
 
       # testTags: "delete-cancel-neutral" and "delete-go-danger".
       def handle_info({:tap, :delete_go}, socket) do
@@ -186,20 +205,27 @@ defmodule MishkaMob.Showcase.Components.AlertDialog do
     %Example{
       title: "A title that is not a string",
       description:
-        "title/1 and description/1 build slot children that take nodes, which is what the " <>
-          "web's required <:title> and <:description> slots are for. The string props are " <>
-          "the shorthand.",
+        "A slot tag with a subtree inside it is the whole point of a slot: the web's " <>
+          "required <:title> and <:description> take blocks, not strings. The text= " <>
+          "attribute is the shorthand.",
       code: ~S"""
-      # Slot nodes travel as children; the component consumes them and never
-      # renders them inline.
-      {MishkaAlertDialog.alert_dialog(
-         %{id: "quota", open: @open?, on_close: :quota_close},
-         [
-           MishkaAlertDialog.title(icon_and_text("⚠", "Storage full")),
-           MishkaAlertDialog.description(usage_bar(0.98)),
-           MishkaAlertDialog.actions([MishkaAlertDialog.action("Got it", id: "quota-ok")])
-         ]
-       )}
+      # Give the tag children instead of a text= and the subtree IS the part.
+      # <MishkaDialogFooter> wraps the footer when it holds more than actions.
+      <MishkaAlertDialog id="quota" open={@open?} on_close={:quota_close}>
+        <MishkaDialogTitle>
+          <Row fill_width={true}>
+            <Text text="⚠" text_size={:xl} text_color={:error} />
+            <Spacer size={8} />
+            <Text text="Storage full" text_size={:xl} text_color={:on_surface} />
+          </Row>
+        </MishkaDialogTitle>
+        <MishkaDialogDescription>
+          {usage_bar(0.98)}
+        </MishkaDialogDescription>
+        <MishkaDialogFooter>
+          <MishkaAlertDialogAction text="Got it" id="quota-ok" />
+        </MishkaDialogFooter>
+      </MishkaAlertDialog>
 
       def handle_info({:tap, :quota_close}, socket) do
         {:noreply, Mob.Socket.assign(socket, :open?, false)}
@@ -225,10 +251,11 @@ defmodule MishkaMob.Showcase.Components.AlertDialog do
         background={:surface_raised}
         scrim_color={0xCC000000}
         on_close={:chrome_close}
-        title="Narrower, darker"
-        actions={[MishkaAlertDialog.action("Close", id: "chrome-close")]}
       >
-        <Text text="The tag's children are the body." text_color={:on_surface} />
+        <MishkaDialogTitle text="Narrower, darker" />
+        <MishkaDialogDescription text="260dp wide, tighter padding, a heavier scrim." />
+        <Text text="Anything that is not a slot tag is the body." text_color={:on_surface} />
+        <MishkaAlertDialogAction text="Close" id="chrome-close" />
       </MishkaAlertDialog>
 
       def handle_info({:tap, :chrome_close}, socket) do
@@ -258,22 +285,44 @@ defmodule MishkaMob.Showcase.Components.AlertDialog do
         description: "Whether the dialog is shown. Lives in the screen."
       },
       %{
-        name: "title",
-        type: "string",
-        default: "nil",
-        description: "Heading. Shorthand for title/1, whose slot form takes nodes."
+        name: "<MishkaDialogTitle>",
+        type: "slot tag",
+        default: "—",
+        description:
+          "The heading. text=\"…\" for a line, or children for a subtree. " <>
+            "title/1 builds the same node; the title string prop is the shorthand."
       },
       %{
-        name: "description",
-        type: "string",
-        default: "nil",
-        description: "Supporting line under the heading. Shorthand for description/1."
+        name: "<MishkaDialogDescription>",
+        type: "slot tag",
+        default: "—",
+        description:
+          "The supporting part under the heading. Same two forms as the title. " <>
+            "description/1 builds the same node."
+      },
+      %{
+        name: "<MishkaAlertDialogAction>",
+        type: "slot tag",
+        default: "—",
+        description:
+          "One footer button: text, id, variant, on_tap, close. Repeat it per " <>
+            "choice. action/2 builds the same node."
+      },
+      %{
+        name: "<MishkaDialogFooter>",
+        type: "slot tag",
+        default: "—",
+        description:
+          "The whole footer at once, for one holding more than action buttons. " <>
+            "Actions written inside it are still resolved. actions/1 builds it."
       },
       %{
         name: "actions",
         type: "list of nodes",
         default: "[]",
-        description: "Footer buttons, trailing-aligned. Build them with action/2."
+        description:
+          "The footer as a prop — for buttons built from data with action/2. " <>
+            "Action tags win over it."
       },
       %{
         name: "on_close",
@@ -331,82 +380,82 @@ defmodule MishkaMob.Showcase.Components.AlertDialog do
   end
 
   defp confirm_dialog do
-    MishkaAlertDialog.alert_dialog(
-      %{
-        id: "ad-confirm",
-        open: true,
-        title: "Discard changes?",
-        description: "Your edits will be lost.",
-        on_close: :ad_confirm_cancel
-      },
-      [],
-      [
-        MishkaAlertDialog.action("Cancel", id: "ad-confirm-cancel"),
-        MishkaAlertDialog.action("Discard",
-          id: "ad-confirm-go",
-          variant: :primary,
-          on_tap: :ad_confirm_go
-        )
-      ]
-    )
+    ~MOB"""
+    <MishkaAlertDialog id="ad-confirm" open={true} on_close={:ad_confirm_cancel}>
+      <MishkaDialogTitle text="Discard changes?" />
+      <MishkaDialogDescription text="Your edits will be lost." />
+      <MishkaAlertDialogAction text="Cancel" id="ad-confirm-cancel" />
+      <MishkaAlertDialogAction
+        text="Discard"
+        id="ad-confirm-go"
+        variant={:primary}
+        on_tap={:ad_confirm_go}
+      />
+    </MishkaAlertDialog>
+    """
   end
 
+  # dismissible={true} is passed on purpose. It is dropped, and the unit tests
+  # prove it — an alert dialog you can tap away is a Dialog.
   defp stubborn_dialog do
-    MishkaAlertDialog.alert_dialog(
-      %{
-        id: "ad-stubborn",
-        open: true,
-        # Passed on purpose. It is dropped, and the unit tests prove it.
-        dismissible: true,
-        title: "Tap the backdrop",
-        description: "Nothing happens, and nothing behind it hears the tap either.",
-        on_close: :ad_stubborn_close
-      },
-      [],
-      [MishkaAlertDialog.action("Let me out", id: "ad-stubborn-ok")]
-    )
+    ~MOB"""
+    <MishkaAlertDialog id="ad-stubborn" open={true} dismissible={true} on_close={:ad_stubborn_close}>
+      <MishkaDialogTitle text="Tap the backdrop" />
+      <MishkaDialogDescription text="Nothing happens, and nothing behind it hears the tap either." />
+      <MishkaAlertDialogAction text="Let me out" id="ad-stubborn-ok" />
+    </MishkaAlertDialog>
+    """
   end
+
+  # The one dialog whose footer comes from DATA, and so the one that keeps the
+  # function form. Two entries is a small list, but the shape is the point: a
+  # comprehension grows with the data and repeated markup does not, which is why
+  # action/2 and the actions prop are still here beside the tags.
+  @delete_choices [
+    %{label: "Cancel", id: "ad-delete-cancel", variant: :neutral, on_tap: nil},
+    %{label: "Delete", id: "ad-delete-go", variant: :danger, on_tap: :ad_delete_go}
+  ]
 
   defp delete_dialog do
-    MishkaAlertDialog.alert_dialog(
-      %{
-        id: "ad-delete",
-        open: true,
-        title: "Delete account?",
-        description: "Everything you have stored will be removed. This cannot be undone.",
-        on_close: :ad_delete_cancel
-      },
-      [],
-      [
-        MishkaAlertDialog.action("Cancel", id: "ad-delete-cancel"),
-        MishkaAlertDialog.action("Delete",
-          id: "ad-delete-go",
-          variant: :danger,
-          on_tap: :ad_delete_go
+    choices =
+      Enum.map(@delete_choices, fn choice ->
+        MishkaAlertDialog.action(choice.label,
+          id: choice.id,
+          variant: choice.variant,
+          on_tap: choice.on_tap
         )
-      ]
-    )
+      end)
+
+    ~MOB"""
+    <MishkaAlertDialog id="ad-delete" open={true} on_close={:ad_delete_cancel} actions={choices}>
+      <MishkaDialogTitle text="Delete account?" />
+      <MishkaDialogDescription
+        text="Everything you have stored will be removed. This cannot be undone."
+      />
+    </MishkaAlertDialog>
+    """
   end
 
-  # The slot forms, not the string props: the title is an icon beside a heading
-  # and the description is a meter, neither of which is expressible as text.
+  # Subtrees rather than text= attributes: the title is an icon beside a heading
+  # and the description is a meter, neither of which is expressible as a string.
+  # The footer goes through <MishkaDialogFooter> so the nesting is exercised too
+  # — an action tag inside another slot tag still has to become a button.
   #
   # The filled part of that meter is a fixed 230dp inside a fill-width track,
   # not a weighted Box: SwiftUI has no layout weight at all, so a proportional
   # bar would read as 98% on Android and as nothing on iOS. 230 is comfortably
   # inside the 320dp panel less its padding.
   defp slots_dialog do
-    MishkaAlertDialog.alert_dialog(
-      %{id: "ad-slots", open: true, on_close: :ad_slots_close},
-      [
-        MishkaAlertDialog.title(~MOB"""
+    ~MOB"""
+    <MishkaAlertDialog id="ad-slots" open={true} on_close={:ad_slots_close}>
+      <MishkaDialogTitle>
         <Row fill_width={true}>
           <Text text="⚠" text_size={:xl} text_color={:error} />
           <Spacer size={8} />
           <Text text="Storage full" text_size={:xl} text_color={:on_surface} max_lines={1} />
         </Row>
-        """),
-        MishkaAlertDialog.description(~MOB"""
+      </MishkaDialogTitle>
+      <MishkaDialogDescription>
         <Column fill_width={true}>
           <Text text="19.6 GB of 20 GB used" text_size={:base} text_color={:muted} />
           <Spacer size={6} />
@@ -414,36 +463,38 @@ defmodule MishkaMob.Showcase.Components.AlertDialog do
             <Box width={230} height={6} background={:error} corner_radius={:radius_sm} />
           </Box>
         </Column>
-        """),
-        MishkaAlertDialog.actions([
-          MishkaAlertDialog.action("Got it", id: "ad-slots-ok")
-        ])
-      ]
-    )
+      </MishkaDialogDescription>
+      <MishkaDialogFooter>
+        <MishkaAlertDialogAction text="Got it" id="ad-slots-ok" />
+      </MishkaDialogFooter>
+    </MishkaAlertDialog>
+    """
   end
 
+  # The only example with a body — the bare Text below is not a slot tag, so it
+  # lands in the content block and the -content tag has somewhere to go.
   defp chrome_dialog do
-    MishkaAlertDialog.alert_dialog(
-      %{
-        id: "ad-chrome",
-        open: true,
-        width: 260,
-        padding: :space_md,
-        corner_radius: :radius_sm,
-        background: :surface_raised,
-        scrim_color: 0xCC_00_00_00,
-        title: "Narrower, darker",
-        description: "260dp wide, tighter padding, a heavier scrim.",
-        on_close: :ad_chrome_close
-      },
-      # The only example with a body, so the -content tag has somewhere to land.
-      [
-        ~MOB"""
-        <Text text="The tag's children are the body." text_size={:base} text_color={:on_surface} />
-        """
-      ],
-      [MishkaAlertDialog.action("Close", id: "ad-chrome-ok")]
-    )
+    ~MOB"""
+    <MishkaAlertDialog
+      id="ad-chrome"
+      open={true}
+      width={260}
+      padding={:space_md}
+      corner_radius={:radius_sm}
+      background={:surface_raised}
+      scrim_color={0xCC_00_00_00}
+      on_close={:ad_chrome_close}
+    >
+      <MishkaDialogTitle text="Narrower, darker" />
+      <MishkaDialogDescription text="260dp wide, tighter padding, a heavier scrim." />
+      <Text
+        text="Anything that is not a slot tag is the body."
+        text_size={:base}
+        text_color={:on_surface}
+      />
+      <MishkaAlertDialogAction text="Close" id="ad-chrome-ok" />
+    </MishkaAlertDialog>
+    """
   end
 
   @impl true
