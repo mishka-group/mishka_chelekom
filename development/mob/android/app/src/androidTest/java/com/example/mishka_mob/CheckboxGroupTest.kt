@@ -237,7 +237,11 @@ class CheckboxGroupTest {
     fun the_page_renders_every_example_and_the_props_table() {
         for (heading in listOf(
             "Select all",
-            "Without a parent",
+            // The card that used to be "Without a parent". It still leaves
+            // select_all off — a_group_without_select_all_renders_no_parent is
+            // what proves that — and now also shows item/2 building the rows
+            // from a list, next to the tags every other card writes out.
+            "Rows from data",
             "Disabled",
             "Props",
         )) {
