@@ -142,20 +142,20 @@ class OverflowListTest {
     }
 
     @Test
-    fun dragging_the_handle_changes_how_many_fit() {
+    fun dragging_the_boxs_right_edge_changes_how_many_fit() {
         compose.onNodeWithTag("rail-handle", useUnmergedTree = true).performScrollTo()
         compose.waitForIdle()
 
         val before = shownCount("rail")
-        val track = boundsOf("rail-handle")
+        val surface = boundsOf("rail-handle")
+        val box = boundsOf("rail")
 
-        // The track spans the whole width RANGE and sits below the rail, so its
-        // x maps straight onto a width — touch near the right end for the widest
-        // rail. This is what the web gets from a ResizeObserver; here the screen
-        // owns the width, so it can ask fit/3 what that width holds.
+        // Grab the box's RIGHT EDGE — the drag only engages there. The canvas
+        // spans the whole width range and covers the badges, so that a tap on a
+        // badge cannot snap the width to the finger.
         compose.onRoot().performTouchInput {
-            down(androidx.compose.ui.geometry.Offset(track.left + 20f, track.center.y))
-            repeat(5) { moveBy(androidx.compose.ui.geometry.Offset(track.width / 6f, 0f)) }
+            down(androidx.compose.ui.geometry.Offset(box.right, surface.center.y))
+            repeat(5) { moveBy(androidx.compose.ui.geometry.Offset(40f, 0f)) }
             up()
         }
         compose.waitForIdle()
@@ -163,21 +163,47 @@ class OverflowListTest {
 
         val after = shownCount("rail")
         require(after > before) {
-            "widening the rail did not reveal more items: $before -> $after"
+            "pulling the edge right did not reveal more badges: $before -> $after"
         }
 
-        // And back: narrowing hides them again, so the count really follows the
-        // width rather than only ever growing.
+        // And back: narrowing hides them again, so the count follows the width
+        // rather than only ever growing.
+        val wider = boundsOf("rail")
         compose.onRoot().performTouchInput {
-            down(androidx.compose.ui.geometry.Offset(track.right - 20f, track.center.y))
-            repeat(5) { moveBy(androidx.compose.ui.geometry.Offset(-track.width / 6f, 0f)) }
+            down(androidx.compose.ui.geometry.Offset(wider.right, surface.center.y))
+            repeat(5) { moveBy(androidx.compose.ui.geometry.Offset(-40f, 0f)) }
             up()
         }
         compose.waitForIdle()
         Thread.sleep(700)
 
         require(shownCount("rail") < after) {
-            "narrowing the rail did not hide items: $after -> ${shownCount("rail")}"
+            "pulling the edge back did not hide badges: $after -> ${shownCount("rail")}"
+        }
+    }
+
+    @Test
+    fun a_touch_away_from_the_edge_does_not_resize() {
+        compose.onNodeWithTag("rail-handle", useUnmergedTree = true).performScrollTo()
+        compose.waitForIdle()
+
+        val before = shownCount("rail")
+        val surface = boundsOf("rail-handle")
+        val box = boundsOf("rail")
+
+        // The drag surface has to cover the badges to be a stable ruler, so the
+        // handler refuses any gesture that does not start on the edge —
+        // otherwise tapping a badge would snap the box to your finger.
+        compose.onRoot().performTouchInput {
+            down(androidx.compose.ui.geometry.Offset(box.left + 20f, surface.center.y))
+            repeat(5) { moveBy(androidx.compose.ui.geometry.Offset(40f, 0f)) }
+            up()
+        }
+        compose.waitForIdle()
+        Thread.sleep(600)
+
+        require(shownCount("rail") == before) {
+            "a drag starting on a badge resized the box: $before -> ${shownCount("rail")}"
         }
     }
 

@@ -20,6 +20,7 @@ defmodule MishkaMob.Showcase.Components.OverflowList do
   # visibly drops items, wide enough that everything fits at the far end.
   @min_width 140
   @max_width 340
+  @rail_height 56
 
   @impl true
   def entry do
@@ -111,10 +112,10 @@ defmodule MishkaMob.Showcase.Components.OverflowList do
         end
       },
       %Example{
-        title: "Resizable — drag the handle, the count follows",
+        title: "Resizable — drag the box's right edge",
         description:
-          "What the web gets from a ResizeObserver. The screen owns the width, so it can ask " <>
-            "fit/3 what that width holds.",
+          "Pull the grey bar on the right of the box. Wider fits more badges — what the web " <>
+            "gets from a ResizeObserver.",
         code: ~S"""
         # The component cannot measure — but a screen that SET its own width
         # already knows it, and fit/3 turns that into a count.
@@ -123,22 +124,22 @@ defmodule MishkaMob.Showcase.Components.OverflowList do
           id="rail"
         >{tag_pills()}</MishkaOverflowList>
 
-        # The handle is a canvas, because only a canvas carries on_drag.
-        def handle_info({:drag, :width, payload}, socket) do
-          {width, grab} = drag_width(payload, socket.assigns.grab, socket.assigns.width)
-          {:noreply, socket |> assign(:width, width) |> assign(:grab, grab)}
+        # The edge is a canvas over the box, because only a canvas carries
+        # on_drag — and it spans the whole width RANGE rather than riding on the
+        # edge, so its coordinates do not move with the thing they measure.
+        def handle_info({:drag, :width, %{phase: :began, x: x}}, socket) do
+          grab = if abs(x - socket.assigns.width) <= 28, do: x - socket.assigns.width
+          {:noreply, assign(socket, :grab, grab)}
+        end
+
+        def handle_info({:drag, :width, %{x: x}}, socket) when socket.assigns.grab != nil do
+          {:noreply, assign(socket, :width, clamp(x - socket.assigns.grab))}
         end
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <Box width={@width} background={:surface_raised} corner_radius={:radius_md} padding={:space_sm}>
-              <MishkaOverflowList visible={fit(@width)} id="rail">
-                {tag_pills()}
-              </MishkaOverflowList>
-            </Box>
-            <Spacer size={8} />
-            {handle(@width)}
+            {rail(@width)}
             <Spacer size={10} />
             <Text
               text={"Width " <> dp(@width) <> "dp · hidden: " <> hidden(@width)}
@@ -180,30 +181,55 @@ defmodule MishkaMob.Showcase.Components.OverflowList do
 
   defp hidden(width), do: (length(@tags) - fit(width)) |> Integer.to_string()
 
-  # The drag track.
+  # Grab the box's RIGHT EDGE and pull, exactly like the web original.
   #
-  # It sits BELOW the rail and spans the full width range, and both of those are
-  # load-bearing. Beside the rail it competed for room in an unweighted Row and
-  # was starved to zero width — the very bug this page's component just had. And
-  # a handle pinned to the rail's trailing edge would MOVE as the rail resizes,
-  # making its own canvas-local coordinates a ruler that slides under the finger
-  # (see MishkaSplitter's moduledoc for the version of that which had to be
-  # undone). Static and full-range means x maps straight onto a width.
-  defp handle(width) do
-    span = @max_width
-    at = width - @min_width
+  # The edge is drawn on a canvas that spans the full width RANGE and lies over
+  # the box in a z-stack. That is the part worth understanding: a handle pinned
+  # to the box's trailing edge would MOVE as the box resizes, and a canvas
+  # reports coordinates local to itself — so its ruler would slide under the
+  # finger and the drag would fight itself. Static and full-range means x maps
+  # straight onto a width. MishkaSplitter's moduledoc has the long version; it
+  # had to be rebuilt this way for exactly the same reason.
+  defp rail(width) do
+    %{
+      type: :box,
+      props: %{width: @max_width + 14, height: @rail_height},
+      children: [
+        %{
+          type: :box,
+          props: %{
+            width: width,
+            height: @rail_height,
+            background: :surface_raised,
+            corner_radius: :radius_md,
+            padding: :space_sm
+          },
+          children: [
+            MishkaOverflowList.overflow_list(%{visible: fit(width), id: "rail"}, tag_pills())
+          ]
+        },
+        edge(width)
+      ]
+    }
+  end
+
+  defp edge(width) do
+    mid = @rail_height / 2
 
     %{
       type: :canvas,
       props: %{
-        width: span,
-        height: 36,
+        width: @max_width + 14,
+        height: @rail_height,
         id: "rail-handle",
         on_drag: MishkaMob.Components.Event.handler(:width),
         draw: [
-          Mob.Canvas.rect(0, 16, span, 4, color: 0x22000000, radius: 2),
-          Mob.Canvas.rect(0, 16, at, 4, color: 0x556B7280, radius: 2),
-          Mob.Canvas.rect(max(at - 7, 0), 6, 14, 24, color: 0xFF6B7280, radius: 4)
+          # Drawn just OUTSIDE the box, not straddling its edge: at width - 3 it
+          # sat on top of the "+N" counter, which lives hard against that edge.
+          Mob.Canvas.rect(width + 3, 6, 8, @rail_height - 12, color: 0xFF6B7280, radius: 4),
+          # Two notches — the universal "pull me".
+          Mob.Canvas.rect(width + 6, mid - 8, 2, 6, color: 0xFFFFFFFF, radius: 1),
+          Mob.Canvas.rect(width + 6, mid + 2, 2, 6, color: 0xFFFFFFFF, radius: 1)
         ]
       },
       children: []
@@ -274,15 +300,40 @@ defmodule MishkaMob.Showcase.Components.OverflowList do
 
   # The handle canvas spans exactly the width RANGE, so x maps straight onto it:
   # absolute, no anchor arithmetic, no ruler that moves with what it measures.
+  # Only a drag that STARTS on the edge resizes the box. The canvas covers the
+  # badges — it has to, to be a stable ruler — so without this every tap on a
+  # badge would snap the width to the finger.
   @impl true
   def handle_change(:width, payload, socket) do
-    x = payload[:x] || payload["x"] || 0
-    width = (@min_width + x) |> max(@min_width) |> min(@max_width)
+    x = (payload[:x] || payload["x"] || 0) * 1.0
 
-    Mob.Socket.assign(socket, :width, width)
+    case {phase(payload), socket.assigns.grab} do
+      {:began, _} ->
+        grab = if abs(x - socket.assigns.width) <= 28, do: x - socket.assigns.width
+        Mob.Socket.assign(socket, :grab, grab)
+
+      {:ended, _} ->
+        Mob.Socket.assign(socket, :grab, nil)
+
+      {:dragging, nil} ->
+        socket
+
+      {:dragging, offset} ->
+        Mob.Socket.assign(socket, :width, clamp_width(x - offset))
+    end
   end
 
   def handle_change(_tag, _value, socket), do: socket
+
+  defp phase(payload) do
+    case payload[:phase] || payload["phase"] do
+      p when p in [:began, "began"] -> :began
+      p when p in [:ended, "ended"] -> :ended
+      _ -> :dragging
+    end
+  end
+
+  defp clamp_width(width), do: width |> max(@min_width) |> min(@max_width)
 
   @impl true
   def card_preview do
