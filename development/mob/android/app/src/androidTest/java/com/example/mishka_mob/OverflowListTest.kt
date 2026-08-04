@@ -6,6 +6,8 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onRoot
+import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
@@ -95,7 +97,7 @@ class OverflowListTest {
         val item = boundsOf("langs-item-1")
         val row = boundsOf("langs")
 
-        // "+3" is shorter than "Design", so the pill must be narrower than a
+        // "+4" is shorter than "Design", so the pill must be narrower than a
         // real item — and nowhere near the full row. Without fill_width={false}
         // it filled its parent and stretched across everything left over, which
         // is what this measures and what a unit test cannot see.
@@ -108,12 +110,84 @@ class OverflowListTest {
     }
 
     @Test
+    fun the_counter_is_not_squeezed_into_a_column_of_characters() {
+        show("langs")
+
+        val counter = boundsOf("langs-counter")
+        val item = boundsOf("langs-item-1")
+
+        // The bug this guards, exactly as reported: with every child of the Row
+        // unweighted, Compose measured them in order and the counter — last —
+        // got the scraps, so "+4" wrapped CHARACTER BY CHARACTER into a stack of
+        // "+" over "4". Two independent symptoms, so two assertions.
+        //
+        // 1. It is no taller than an item. A two-line counter is roughly double.
+        require(counter.height < item.height * 1.5f) {
+            "the counter is stacking its characters vertically: " +
+                "counter=$counter item=$item"
+        }
+
+        // 2. It is wide enough to actually read. A starved counter collapsed to
+        // roughly one character.
+        require(counter.width > 40f) {
+            "the counter was squeezed to $counter — there is no room for the count"
+        }
+
+        // And it sits INSIDE the row it belongs to, rather than being pushed out
+        // past the edge.
+        val row = boundsOf("langs")
+        require(counter.right <= row.right + 2f) {
+            "the counter overflowed its row: counter=$counter row=$row"
+        }
+    }
+
+    @Test
+    fun dragging_the_handle_changes_how_many_fit() {
+        compose.onNodeWithTag("rail-handle", useUnmergedTree = true).performScrollTo()
+        compose.waitForIdle()
+
+        val before = shownCount("rail")
+        val track = boundsOf("rail-handle")
+
+        // The track spans the whole width RANGE and sits below the rail, so its
+        // x maps straight onto a width — touch near the right end for the widest
+        // rail. This is what the web gets from a ResizeObserver; here the screen
+        // owns the width, so it can ask fit/3 what that width holds.
+        compose.onRoot().performTouchInput {
+            down(androidx.compose.ui.geometry.Offset(track.left + 20f, track.center.y))
+            repeat(5) { moveBy(androidx.compose.ui.geometry.Offset(track.width / 6f, 0f)) }
+            up()
+        }
+        compose.waitForIdle()
+        Thread.sleep(700)
+
+        val after = shownCount("rail")
+        require(after > before) {
+            "widening the rail did not reveal more items: $before -> $after"
+        }
+
+        // And back: narrowing hides them again, so the count really follows the
+        // width rather than only ever growing.
+        compose.onRoot().performTouchInput {
+            down(androidx.compose.ui.geometry.Offset(track.right - 20f, track.center.y))
+            repeat(5) { moveBy(androidx.compose.ui.geometry.Offset(-track.width / 6f, 0f)) }
+            up()
+        }
+        compose.waitForIdle()
+        Thread.sleep(700)
+
+        require(shownCount("rail") < after) {
+            "narrowing the rail did not hide items: $after -> ${shownCount("rail")}"
+        }
+    }
+
+    @Test
     fun it_shows_exactly_what_visible_asks_for() {
         show("langs")
 
-        // visible={4} over seven tags.
-        require(shownCount("langs") == 4) { "expected 4 items, found ${shownCount("langs")}" }
-        require(tagged("langs-counter")) { "three items are hidden but no counter was drawn" }
+        // visible={3} over seven tags.
+        require(shownCount("langs") == 3) { "expected 3 items, found ${shownCount("langs")}" }
+        require(tagged("langs-counter")) { "four items are hidden but no counter was drawn" }
     }
 
     @Test
@@ -158,9 +232,10 @@ class OverflowListTest {
     @Test
     fun the_page_renders_every_example_and_the_props_table() {
         for (heading in listOf(
-            "Four fit, three do not",
+            "Three fit, four do not",
             "Tap the counter",
             "min_visible is a floor",
+            "Resizable",
             "A counter that says something else",
             "Props",
         )) {

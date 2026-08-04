@@ -11,7 +11,7 @@ Items on one row, with the ones that do not fit collapsed into a `+N` counter. S
 
 ```
 row  fill_width, align: center, carries `id`
-├── item · spacer · item · spacer · …    the shown children, in priority order
+├── box   weight: 1 — the shown children, in priority order
 └── box   the "+N" counter — fill_width: false, tappable when on_counter is set
 ```
 
@@ -42,7 +42,7 @@ Children are the items, in priority order — the first ones survive.
 | `on_counter` | event tag | — `{:tap, tag}`; without it the `+N` is inert |
 | `id` | string | `nil` — items get `<id>-item-<n>`, the counter `<id>-counter` |
 
-Helpers: `split/2`, `counter_id/1`, `item_id/2`.
+Helpers: `split/2`, `fit/3`, `counter_id/1`, `item_id/2`.
 
 Not ported: `on_change` (the web pushes the hidden count on every resize; there is no resize here to
 push, and `split/2` already hands you the hidden list) and the `*_class` attrs.
@@ -55,6 +55,24 @@ learn a rendered node's width in Mob: `render/1` is a pure function producing a 
 is no `on_layout`/`on_size` event on either platform. Rather than fake it, this takes `visible`.
 The useful cases are usually the ones where you already know the number — "three tags and a +N",
 "the last four avatars".
+
+**`fit/3` is the honest stand-in for a ResizeObserver.** The component cannot measure — but a
+screen that *set* its own container width already knows it, and `fit(labels, width)` turns that into
+a count you pass back as `visible`. That is how you get the web's resize behaviour:
+
+```elixir
+<MishkaOverflowList visible={MishkaOverflowList.fit(@tags, @width)}>{pills}</MishkaOverflowList>
+```
+
+**The counter is measured before the items, and never wraps.** Two separate things kept the `+N`
+from being readable, and both are worth knowing because they recur:
+
+- Compose measures a Row's **unweighted** children first, in order, each against what is left. With
+  everything unweighted the items ate the row and the counter — last — got the scraps. The items now
+  sit in a `weight: 1` box, which inverts the order: the counter takes its natural width and the
+  overflow is what gets clipped, which is the point of the component.
+- A Text squeezed narrower than its content wraps **character by character**, so a starved `+3`
+  rendered as a vertical stack of `+` over `3` rather than clipping. The label carries `max_lines: 1`.
 
 **`split/2` is the whole policy, and it is public.** `{shown, hidden}` — pure, testable, and exactly
 where a measured count would plug in unchanged if Mob ever reports geometry. Use it when you want to

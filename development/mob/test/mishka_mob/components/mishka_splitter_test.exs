@@ -2,10 +2,9 @@ defmodule MishkaMob.Components.MishkaSplitterTest do
   # async: false — Mob.ScreenCase starts the globally-named `Mob.State`.
   use Mob.ScreenCase, async: false
 
-  alias MishkaMob.Components.{MishkaOverflowList, MishkaSplitter}
+  alias MishkaMob.Components.MishkaSplitter
 
   doctest MishkaMob.Components.MishkaSplitter
-  doctest MishkaMob.Components.MishkaOverflowList
 
   defp panes do
     [
@@ -238,65 +237,11 @@ defmodule MishkaMob.Components.MishkaSplitterTest do
     end
   end
 
-  describe "overflow list" do
-    defp items(n), do: for(i <- 1..n, do: %{type: :text, props: %{text: "i#{i}"}, children: []})
-
-    test "shows the first N and counts the rest" do
-      tree = MishkaOverflowList.overflow_list(%{visible: 2}, items(5))
-
-      assert text(tree) =~ "i1"
-      assert text(tree) =~ "i2"
-      refute text(tree) =~ "i3"
-      assert text(tree) =~ "+3"
-    end
-
-    test "no counter when everything fits" do
-      tree = MishkaOverflowList.overflow_list(%{visible: 5}, items(3))
-
-      refute text(tree) =~ "+"
-    end
-
-    test "min_visible wins, so the list cannot collapse entirely" do
-      assert MishkaOverflowList.split([1, 2, 3], %{visible: 0}) == {[1], [2, 3]}
-      assert MishkaOverflowList.split([1, 2, 3], %{visible: 0, min_visible: 2}) == {[1, 2], [3]}
-    end
-
-    test "asking for more than there is shows everything" do
-      assert MishkaOverflowList.split([1, 2], %{visible: 99}) == {[1, 2], []}
-      assert MishkaOverflowList.split([], %{visible: 3}) == {[], []}
-    end
-
-    test "the counter reports taps" do
-      tree = MishkaOverflowList.overflow_list(%{visible: 1, on_counter: :more}, items(4))
-      counter = tree |> find_all(:box) |> Enum.find(&(&1.props[:on_tap] != nil))
-
-      assert counter.props.on_tap == {self(), :more}
-    end
-
-    test "the counter label can be given as a function or a string" do
-      fun = MishkaOverflowList.overflow_list(%{visible: 1, counter_text: &"#{&1} more"}, items(4))
-      str = MishkaOverflowList.overflow_list(%{visible: 1, counter_text: "…"}, items(4))
-
-      assert text(fun) =~ "3 more"
-      assert text(str) =~ "…"
-    end
-
-    test "an empty list renders an empty row" do
-      tree = MishkaOverflowList.overflow_list(%{}, [])
-
-      assert tree.type == :row
-      assert tree.children == []
-    end
-  end
-
-  test "expand/3 delegates for both" do
+  test "expand/3 delegates to splitter/2" do
     ctx = %{screen: self()}
 
     assert MishkaSplitter.expand(%{value: 30}, panes(), ctx) ==
              MishkaSplitter.splitter(%{value: 30}, panes())
-
-    assert MishkaOverflowList.expand(%{visible: 1}, items(3), ctx) ==
-             MishkaOverflowList.overflow_list(%{visible: 1}, items(3))
   end
 
   test "every variant renders" do
@@ -307,10 +252,6 @@ defmodule MishkaMob.Components.MishkaSplitterTest do
           %{value: 90, grip: 32}
         ] do
       assert_renderable(MishkaSplitter.splitter(props, panes()), extra: [:canvas])
-    end
-
-    for props <- [%{}, %{visible: 0}, %{visible: 99}, %{visible: 2, on_counter: :x}] do
-      assert_renderable(MishkaOverflowList.overflow_list(props, items(4)))
     end
   end
 end
