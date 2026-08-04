@@ -10,7 +10,7 @@
     mob: [
       composite_tag: "alert_dialog",
       function: "alert_dialog",
-      kit: []
+      kit: ["event"]
     ]
   ]
 ]

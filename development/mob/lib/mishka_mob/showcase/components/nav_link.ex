@@ -45,9 +45,13 @@ defmodule MishkaMob.Showcase.Components.NavLink do
 
   @impl true
   def mount(socket) do
+    # One assign per example, never shared: two examples reading the same assign
+    # look identical on the device and no test can say which one it moved.
     socket
-    |> Mob.Socket.assign(:active, :inbox)
-    |> Mob.Socket.assign(:opened, true)
+    |> Mob.Socket.assign(:nl_current, "/dashboard")
+    |> Mob.Socket.assign(:nl_mail_open, false)
+    |> Mob.Socket.assign(:nl_mail_pick, nil)
+    |> Mob.Socket.assign(:nl_marked, false)
     |> Mob.Socket.assign(:menu, nil)
     |> Mob.Socket.assign(:nav, nil)
     |> Mob.Socket.assign(:last, "nothing yet")
@@ -57,34 +61,162 @@ defmodule MishkaMob.Showcase.Components.NavLink do
   def examples do
     [
       %Example{
-        title: "Nav links, flat and nested",
+        title: "Leaves — one handler, many links",
         description:
-          "The web version uses <details>, then warns that LiveView resets it on patch. " <>
-            "Here `opened` is a prop the screen owns, so it survives every render.",
+          "A link is a tap plus a destination. `href` rides back with the tag, so a whole " <>
+            "sidebar reports through one clause, and `active` marks whichever one it named.",
         code: ~S"""
         <MishkaNavLink
-          label="Mail"
-          icon="✉"
-          opened={@opened}
-          on_toggle={:toggle}
-        >{[nav_link([label: "Inbox", active: true, on_tap: :go], [])]}</MishkaNavLink>
+          id="nav-docs"
+          label="Docs"
+          icon="▤"
+          trailing="↗"
+          href="/docs"
+          active={@current == "/docs"}
+          on_tap={:pick}
+        />
+
+        # The component never navigates: a node tree only describes one.
+        def handle_info({:tap, {:pick, href}}, socket) do
+          {:noreply, Mob.Socket.assign(socket, :current, href)}
+        end
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaNavLink label="Dashboard" icon="◱" active={@active == :dash} on_tap={:dash}>
-              {[]}
-            </MishkaNavLink>
-            <MishkaNavLink label="Mail" icon="✉" opened={@opened} on_toggle={:toggle}>
+            <MishkaNavLink
+              id="nav-dash"
+              label="Dashboard"
+              icon="◱"
+              href="/dashboard"
+              active={@nl_current == "/dashboard"}
+              on_tap={:nl_pick}
+            />
+            <MishkaNavLink
+              id="nav-docs"
+              label="Docs"
+              icon="▤"
+              trailing="↗"
+              href="/docs"
+              active={@nl_current == "/docs"}
+              on_tap={:nl_pick}
+            />
+            <MishkaNavLink
+              id="nav-settings"
+              label="Settings"
+              icon="⚙"
+              href="/settings"
+              active={@nl_current == "/settings"}
+              on_tap={:nl_pick}
+            />
+            <Spacer size={10} />
+            <Text text={"Current: " <> @nl_current} text_size={:sm} text_color={:muted} />
+          </Column>
+          """
+        end
+      },
+      %Example{
+        title: "A group the screen owns",
+        description:
+          "The web uses <details>, then warns that LiveView resets it on every patch. " <>
+            "Here `opened` is a prop, so nothing can lose it — and `indent` sets how far " <>
+            "the nested links sit in.",
+        code: ~S"""
+        <MishkaNavLink
+          id="nav-mail"
+          label="Mail"
+          icon="✉"
+          indent={24}
+          opened={@open?}
+          on_toggle={:toggle}
+        >{[
+          nav_link([id: "nav-inbox", label: "Inbox", description: "12 unread",
+                    href: "inbox", on_tap: :pick], [])
+        ]}</MishkaNavLink>
+
+        def handle_info({:tap, :toggle}, socket) do
+          {:noreply, Mob.Socket.assign(socket, :open?, not socket.assigns.open?)}
+        end
+        """,
+        render: fn assigns ->
+          ~MOB"""
+          <Column fill_width={true}>
+            <MishkaNavLink
+              id="nav-mail"
+              label="Mail"
+              icon="✉"
+              indent={24}
+              opened={@nl_mail_open}
+              on_toggle={:nl_mail}
+            >
               {[
-                 nav_link([label: "Inbox", active: @active == :inbox, on_tap: :inbox], []),
-                 nav_link([label: "Drafts", description: "3 unsent",
-                           active: @active == :drafts, on_tap: :drafts], [])
+                 nav_link([id: "nav-inbox", label: "Inbox", description: "12 unread",
+                           active: @nl_mail_pick == "inbox", href: "inbox",
+                           on_tap: :nl_mail_pick], []),
+                 nav_link([id: "nav-drafts", label: "Drafts", description: "3 unsent",
+                           active: @nl_mail_pick == "drafts", href: "drafts",
+                           on_tap: :nl_mail_pick], [])
                ]}
             </MishkaNavLink>
-            <MishkaNavLink label="Archive" icon="▤" disabled={true}>
-              {[]}
+            <Spacer size={10} />
+            <Text text={picked(@nl_mail_pick)} text_size={:sm} text_color={:muted} />
+          </Column>
+          """
+        end
+      },
+      %Example{
+        title: "default_opened — nobody owns it",
+        description:
+          "The web's fallback for a static page, with the web's precedence: it applies only " <>
+            "while `opened` is nil. Tapping this row does nothing, because a node tree has " <>
+            "nowhere to keep the answer. Pass `opened` the moment it has to toggle.",
+        code: ~S"""
+        <MishkaNavLink id="nav-team" label="Team" icon="◍" default_opened={true}>{[
+          nav_link([id: "nav-alice", label: "Alice"], [])
+        ]}</MishkaNavLink>
+        """,
+        render: fn _assigns ->
+          ~MOB"""
+          <Column fill_width={true}>
+            <MishkaNavLink id="nav-team" label="Team" icon="◍" default_opened={true}>
+              {[
+                 nav_link([id: "nav-alice", label: "Alice"], []),
+                 nav_link([id: "nav-bob", label: "Bob"], [])
+               ]}
             </MishkaNavLink>
+          </Column>
+          """
+        end
+      },
+      %Example{
+        title: "Disabled, and a node in the trailing slot",
+        description:
+          "`trailing` takes a node as readily as a glyph — the web slot's whole point. " <>
+            "Tapping Reports marks it; Archive is disabled, so it wires no handler at all " <>
+            "and nothing it does can mark anything.",
+        code: ~S"""
+        # A trailing NODE must state its own width: a Box with none fills its
+        # parent on both bridges, and a filling badge shoves the label off the row.
+        <MishkaNavLink id="nav-reports" label="Reports" trailing={badge(3)}
+                       active={@on?} on_tap={:mark} />
+        <MishkaNavLink id="nav-archive" label="Archive" disabled={true} on_tap={:mark} />
+
+        def handle_info({:tap, :mark}, socket) do
+          {:noreply, Mob.Socket.assign(socket, :on?, not socket.assigns.on?)}
+        end
+        """,
+        render: fn assigns ->
+          ~MOB"""
+          <Column fill_width={true}>
+            <MishkaNavLink
+              id="nav-reports"
+              label="Reports"
+              icon="▦"
+              trailing={unread_badge(3)}
+              active={@nl_marked}
+              on_tap={:nl_mark}
+            />
+            <MishkaNavLink id="nav-archive" label="Archive" icon="▤" disabled={true} on_tap={:nl_mark} />
           </Column>
           """
         end
@@ -178,22 +310,46 @@ defmodule MishkaMob.Showcase.Components.NavLink do
   def props do
     [
       %{
-        name: "NavLink: label / description / icon / trailing",
+        name: "NavLink: id",
         type: "string",
         default: "nil",
-        description: "Row content."
+        description: "Test tags: <id>, <id>-active/-inactive/-disabled, <id>-open/-closed."
       },
       %{
-        name: "NavLink: active / opened / disabled",
+        name: "NavLink: label / description / icon / trailing",
+        type: "string or node",
+        default: "nil",
+        description: "Row content. icon and trailing also take a node."
+      },
+      %{
+        name: "NavLink: active / disabled",
         type: "boolean",
         default: "false",
-        description: "Opened is a prop, not DOM state."
+        description: "Current-page ink; muted and unwired."
+      },
+      %{
+        name: "NavLink: opened / default_opened",
+        type: "boolean",
+        default: "nil · false",
+        description: "A prop, not DOM state. opened wins while it is not nil."
+      },
+      %{
+        name: "NavLink: indent",
+        type: "number",
+        default: "16",
+        description: "How far the nested links sit in."
+      },
+      %{
+        name: "NavLink: href",
+        type: "string",
+        default: "nil",
+        description: "Rides back with the tap as {tag, href}."
       },
       %{
         name: "NavLink: on_tap / on_toggle",
         type: "event tags",
         default: "—",
-        description: "Leaf tap; parent expand. href rides along."
+        description: "Leaf tap; parent expand. on_toggle falls back to on_tap."
       },
       %{
         name: "Anchor: label / href / underline / color",
@@ -240,11 +396,18 @@ defmodule MishkaMob.Showcase.Components.NavLink do
     ]
   end
 
+  # One clause for a whole sidebar: the href the link was given rides back with
+  # the tag, so the handler never has to know which row was tapped.
   @impl true
-  def handle(:toggle, socket), do: Mob.Socket.assign(socket, :opened, not socket.assigns.opened)
-  def handle(:dash, socket), do: Mob.Socket.assign(socket, :active, :dash)
-  def handle(:inbox, socket), do: Mob.Socket.assign(socket, :active, :inbox)
-  def handle(:drafts, socket), do: Mob.Socket.assign(socket, :active, :drafts)
+  def handle({:nl_pick, href}, socket), do: Mob.Socket.assign(socket, :nl_current, href)
+
+  def handle(:nl_mail, socket),
+    do: Mob.Socket.assign(socket, :nl_mail_open, not socket.assigns.nl_mail_open)
+
+  def handle({:nl_mail_pick, which}, socket), do: Mob.Socket.assign(socket, :nl_mail_pick, which)
+
+  def handle(:nl_mark, socket),
+    do: Mob.Socket.assign(socket, :nl_marked, not socket.assigns.nl_marked)
 
   # The screen performs the side effect; the node tree only described it.
   def handle({:visit, href}, socket) do
@@ -267,6 +430,20 @@ defmodule MishkaMob.Showcase.Components.NavLink do
 
   def handle({:visit_item, value}, socket), do: Mob.Socket.assign(socket, :last, to_string(value))
   def handle(_tag, socket), do: socket
+
+  defp picked(nil), do: "No mailbox yet"
+  defp picked(which), do: "Mailbox: " <> which
+
+  # A node in the trailing slot has to state its own width: a Box given neither
+  # `width` nor a fixed frame fills its parent on both bridges, and a badge that
+  # fills would shove the label off the row.
+  defp unread_badge(count) do
+    ~MOB"""
+    <Box width={24} height={18} align={:center} background={:primary} corner_radius={:radius_sm}>
+      <Text text={to_string(count)} text_size={:xs} text_color={:on_primary} />
+    </Box>
+    """
+  end
 
   defp menus, do: @menus
 

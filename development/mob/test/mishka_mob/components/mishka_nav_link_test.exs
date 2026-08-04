@@ -10,6 +10,9 @@ defmodule MishkaMob.Components.MishkaNavLinkTest do
     MishkaVisuallyHidden
   }
 
+  alias MishkaMob.Showcase
+  alias MishkaMob.Showcase.ComponentScreen
+
   doctest MishkaMob.Components.MishkaAnchor
   doctest MishkaMob.Components.MishkaMenubar
   doctest MishkaMob.Components.MishkaNavigationMenu
@@ -19,6 +22,12 @@ defmodule MishkaMob.Components.MishkaNavLinkTest do
 
   defp taps(tree),
     do: tree |> find_all(:box) |> Enum.map(& &1.props[:on_tap]) |> Enum.reject(&is_nil/1)
+
+  # Every test tag in the tree — what a device test can actually address.
+  defp tags(tree),
+    do: tree |> flatten() |> Enum.map(&get_in(&1, [:props, :id])) |> Enum.reject(&is_nil/1)
+
+  defp tagged(tree, tag), do: tree |> flatten() |> Enum.find(&(get_in(&1, [:props, :id]) == tag))
 
   describe "nav link" do
     test "a leaf is a row; a parent gets a chevron" do
@@ -114,6 +123,174 @@ defmodule MishkaMob.Components.MishkaNavLinkTest do
       sizes = tree |> find_all(:spacer) |> Enum.map(& &1.props[:size])
 
       assert 24 in sizes
+    end
+
+    test "the label takes the row's slack, so a long one cannot starve the chevron" do
+      child = MishkaNavLink.nav_link(%{label: "x"}, [])
+      tree = MishkaNavLink.nav_link(%{label: "Mail", icon: "✉"}, [child])
+      row = find(tree, :row)
+
+      # Compose measures a Row's UNWEIGHTED children first and in order, so an
+      # unweighted label column takes the whole width and the chevron is laid
+      # out in nothing at all. The weighted Box is what leaves it room.
+      assert Enum.any?(row.children, &(&1.props[:weight] == 1))
+      # And the label is capped at a line: a Text squeezed narrower than its
+      # content wraps character by character rather than eliding.
+      assert find(tree, :text, text: "Mail").props[:max_lines] == 1
+    end
+  end
+
+  describe "nav link test tags" do
+    test "id fans out to the nodes whose state is otherwise only a colour" do
+      tree =
+        MishkaNavLink.nav_link(
+          %{id: "nav-docs", label: "Docs", icon: "▤", trailing: "↗", active: true},
+          []
+        )
+
+      assert tags(tree) == ["nav-docs", "nav-docs-icon", "nav-docs-active", "nav-docs-trailing"]
+      # The tag sits on the row itself, which is what carries the tap.
+      assert tagged(tree, "nav-docs").props[:background] == :surface_raised
+    end
+
+    test "the label's tag names its ink, and disabled outranks active" do
+      label_tag = fn props ->
+        props |> Map.merge(%{id: "nav-x", label: "X"}) |> MishkaNavLink.nav_link([]) |> tags()
+      end
+
+      assert label_tag.(%{}) == ["nav-x", "nav-x-inactive"]
+      assert label_tag.(%{active: true}) == ["nav-x", "nav-x-active"]
+      assert label_tag.(%{disabled: true}) == ["nav-x", "nav-x-disabled"]
+      assert label_tag.(%{active: true, disabled: true}) == ["nav-x", "nav-x-disabled"]
+    end
+
+    test "a group's chevron carries the open state, which is otherwise just a glyph" do
+      child = MishkaNavLink.nav_link(%{label: "x"}, [])
+      closed = MishkaNavLink.nav_link(%{id: "nav-mail", label: "Mail"}, [child])
+      open = MishkaNavLink.nav_link(%{id: "nav-mail", label: "Mail", opened: true}, [child])
+
+      assert "nav-mail-closed" in tags(closed)
+      assert "nav-mail-open" in tags(open)
+      # ▸ and ▾ read identically to a device test, so the tag is the only signal.
+      refute "nav-mail-open" in tags(closed)
+    end
+
+    test "the row's own tag never moves, so a test can always tap the same node" do
+      child = MishkaNavLink.nav_link(%{label: "x"}, [])
+
+      for props <- [
+            %{id: "nav-mail", label: "Mail"},
+            %{id: "nav-mail", label: "Mail", opened: true, active: true},
+            %{id: "nav-mail", label: "Mail", disabled: true}
+          ] do
+        assert "nav-mail" in tags(MishkaNavLink.nav_link(props, [child]))
+      end
+    end
+
+    test "no id, no tags — the tree stays exactly as untagged as it was" do
+      child = MishkaNavLink.nav_link(%{label: "x"}, [])
+
+      assert tags(MishkaNavLink.nav_link(%{label: "Mail", icon: "✉", opened: true}, [child])) ==
+               []
+    end
+
+    test "an atom id still tags, because both bridges read the tag as a string" do
+      # Android does `props["id"] as? String` and iOS sets an
+      # accessibilityIdentifier: an atom would tag nothing and say nothing.
+      tree = MishkaNavLink.nav_link(%{id: :nav_mail, label: "Mail"}, [])
+
+      assert tags(tree) == ["nav_mail", "nav_mail-inactive"]
+    end
+  end
+
+  describe "nav link slots" do
+    test "icon and trailing take a node, and it is tagged as a glyph would be" do
+      badge = %{type: :box, props: %{width: 24}, children: []}
+      avatar = %{type: :box, props: %{width: 20}, children: []}
+
+      tree =
+        MishkaNavLink.nav_link(
+          %{id: "nav-mail", label: "Mail", icon: avatar, trailing: badge},
+          []
+        )
+
+      assert tagged(tree, "nav-mail-icon").props[:width] == 20
+      assert tagged(tree, "nav-mail-trailing").props[:width] == 24
+    end
+
+    test "a node that already names itself keeps its own tag" do
+      badge = %{type: :box, props: %{id: "unread-count"}, children: []}
+      tree = MishkaNavLink.nav_link(%{id: "nav-mail", label: "Mail", trailing: badge}, [])
+
+      assert "unread-count" in tags(tree)
+      refute "nav-mail-trailing" in tags(tree)
+    end
+
+    test "a slot holding several nodes arrives in a row that hugs them" do
+      pair = [
+        %{type: :text, props: %{text: "3"}, children: []},
+        %{type: :text, props: %{text: "★"}, children: []}
+      ]
+
+      tree = MishkaNavLink.nav_link(%{id: "nav-mail", label: "Mail", trailing: pair}, [])
+      row = tagged(tree, "nav-mail-trailing")
+
+      # Not fill_width: a filling row would take the label's width with it.
+      assert row.type == :row
+      refute row.props[:fill_width]
+      assert text(row) =~ "3"
+    end
+
+    test "an empty slot is no slot, exactly as the web's :if={@icon != []} has it" do
+      tree = MishkaNavLink.nav_link(%{id: "nav-mail", label: "Mail", icon: [], trailing: []}, [])
+
+      assert tags(tree) == ["nav-mail", "nav-mail-inactive"]
+    end
+
+    test "a number in a slot reads as its own text rather than raising" do
+      tree = MishkaNavLink.nav_link(%{id: "nav-mail", label: "Mail", trailing: 3}, [])
+
+      assert "3" in glyphs(tree)
+      assert tagged(tree, "nav-mail-trailing").props.text == "3"
+    end
+
+    test "a parent's chevron still wins over a trailing node" do
+      badge = %{type: :box, props: %{id: "unread-count"}, children: []}
+      child = MishkaNavLink.nav_link(%{label: "x"}, [])
+      tree = MishkaNavLink.nav_link(%{id: "nav-mail", label: "Mail", trailing: badge}, [child])
+
+      refute "unread-count" in tags(tree)
+      assert "nav-mail-closed" in tags(tree)
+    end
+  end
+
+  describe "nav link open state" do
+    setup do
+      %{child: MishkaNavLink.nav_link(%{label: "Inbox"}, [])}
+    end
+
+    test "default_opened opens a group nobody controls", %{child: child} do
+      tree = MishkaNavLink.nav_link(%{label: "Mail", default_opened: true}, [child])
+
+      assert text(tree) =~ "Inbox"
+      assert "▾" in glyphs(tree)
+    end
+
+    test "opened wins over default_opened, whichever way it points", %{child: child} do
+      shut =
+        MishkaNavLink.nav_link(%{label: "Mail", default_opened: true, opened: false}, [child])
+
+      open =
+        MishkaNavLink.nav_link(%{label: "Mail", default_opened: false, opened: true}, [child])
+
+      refute text(shut) =~ "Inbox"
+      assert text(open) =~ "Inbox"
+    end
+
+    test "default_opened cannot open a childless link", %{child: _child} do
+      tree = MishkaNavLink.nav_link(%{label: "Solo", default_opened: true}, [])
+
+      refute "▾" in glyphs(tree)
     end
   end
 
@@ -370,4 +547,104 @@ defmodule MishkaMob.Components.MishkaNavLinkTest do
       assert_renderable(tree)
     end
   end
+
+  # The gallery page is what the device test drives, so the tags it addresses
+  # are pinned here: renaming one on the page breaks this instead of failing on
+  # a device twenty minutes later.
+  describe "the gallery page" do
+    setup do
+      Showcase.reset()
+      Showcase.register_all()
+
+      %{view: mount_screen(ComponentScreen, %{slug: :nav_link})}
+    end
+
+    test "nested links can be written as tags, not only built as functions" do
+      # A composite's children reach expand/3 UNEXPANDED, which is what lets a
+      # nav link hold nav links: the parent sees one child and becomes a group,
+      # and the child expands on the pass after.
+      tree = %{
+        type: :mishka_nav_link,
+        props: %{id: "nav-mail", label: "Mail", opened: true},
+        children: [
+          %{type: :mishka_nav_link, props: %{id: "nav-inbox", label: "Inbox"}, children: []}
+        ]
+      }
+
+      expanded = Mob.Composite.expand(tree, self())
+
+      assert "nav-mail-open" in tags(expanded)
+      assert "nav-inbox" in tags(expanded)
+      assert text(expanded) =~ "Inbox"
+    end
+
+    test "every row NavLinkTest addresses is tagged", %{view: view} do
+      tags = view |> page() |> tags()
+
+      for tag <- [
+            "nav-dash",
+            "nav-dash-active",
+            "nav-docs",
+            "nav-docs-inactive",
+            "nav-docs-trailing",
+            "nav-settings",
+            "nav-mail",
+            "nav-mail-closed",
+            "nav-team",
+            "nav-team-open",
+            "nav-alice",
+            "nav-reports",
+            "nav-reports-trailing",
+            "nav-archive",
+            "nav-archive-disabled"
+          ] do
+        assert tag in tags
+      end
+    end
+
+    test "one handler serves the sidebar, and the active tag follows it", %{view: view} do
+      after_tap = view |> render_info({:tap, {:nl_pick, "/docs"}}) |> page() |> tags()
+
+      assert "nav-docs-active" in after_tap
+      assert "nav-dash-inactive" in after_tap
+      refute "nav-dash-active" in after_tap
+    end
+
+    test "toggling the group reveals its children and flips the chevron tag", %{view: view} do
+      before = view |> page() |> tags()
+      opened = view |> render_info({:tap, :nl_mail}) |> page() |> tags()
+
+      refute "nav-inbox" in before
+      assert "nav-inbox" in opened
+      assert "nav-mail-open" in opened
+      refute "nav-mail-closed" in opened
+    end
+
+    test "the disabled row is wired to nothing at all", %{view: view} do
+      tree = page(view)
+
+      refute Map.has_key?(tagged(tree, "nav-archive").props, :on_tap)
+      assert Map.has_key?(tagged(tree, "nav-reports").props, :on_tap)
+      # NavLinkTest reads the mark off the Reports row's own tag rather than a
+      # counter: the BEAM outlives the Activity, so a count from an earlier test
+      # would still be there, while a flip is true whatever it started as.
+      marked = view |> render_info({:tap, :nl_mark}) |> page() |> tags()
+      assert "nav-reports-active" in marked
+    end
+
+    test "no two examples share an assign, so a tap names the one it moved", %{view: view} do
+      moved = view |> render_info({:tap, :nl_mail}) |> assigns()
+
+      assert moved.nl_mail_open
+      assert moved.nl_current == "/dashboard"
+      assert moved.nl_marked == false
+    end
+
+    test "the whole page is renderable once its composites expand", %{view: view} do
+      assert_renderable(page(view))
+    end
+  end
+
+  # The page is written with composite tags; expand them the way the device does.
+  defp page(view), do: Mob.Composite.expand(tree(view), self())
 end

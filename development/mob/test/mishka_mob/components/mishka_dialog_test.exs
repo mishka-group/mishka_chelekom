@@ -5,6 +5,7 @@ defmodule MishkaMob.Components.MishkaDialogTest do
   alias MishkaMob.Components.MishkaDialog
 
   @scrim 0x99_00_00_00
+  @clear 0x00_00_00_00
 
   defp body, do: [%{type: :text, props: %{text: "body text"}, children: []}]
   defp actions, do: [%{type: :button, props: %{text: "OK"}, children: []}]
@@ -13,6 +14,7 @@ defmodule MishkaMob.Components.MishkaDialogTest do
   defp open(extra \\ %{}), do: MishkaDialog.dialog(p(extra), body(), actions())
 
   defp scrim(tree), do: find(tree, :box, background: @scrim)
+  defp tagged(tree, id), do: Enum.find(flatten(tree), &(Map.get(&1.props, :id) == id))
 
   describe "closed" do
     test "renders nothing when open is false or absent" do
@@ -24,6 +26,12 @@ defmodule MishkaMob.Components.MishkaDialogTest do
 
     test "the body is not in the tree when closed" do
       refute text(MishkaDialog.dialog(%{open: false}, body())) =~ "body text"
+    end
+
+    test "a closed dialog emits no tags at all — presence IS the open state" do
+      tree = MishkaDialog.dialog(%{id: "d", open: false}, body())
+
+      assert Enum.all?(flatten(tree), &is_nil(Map.get(&1.props, :id)))
     end
   end
 
@@ -50,6 +58,11 @@ defmodule MishkaMob.Components.MishkaDialogTest do
 
       assert text(tree) =~ "body text"
       assert find_all(tree, :text) |> Enum.map(& &1.props.text) == ["body text"]
+    end
+
+    test "the viewport inset is overridable" do
+      assert find(open(), :box, align: :center).props.padding == :space_lg
+      assert find(open(%{inset: 4}), :box, align: :center).props.padding == 4
     end
   end
 
@@ -100,6 +113,216 @@ defmodule MishkaMob.Components.MishkaDialogTest do
     end
   end
 
+  describe "modal" do
+    test "dims by default" do
+      assert scrim(open())
+    end
+
+    test "false and \"trap-focus\" render the same transparent backdrop" do
+      for value <- [false, "trap-focus", :trap_focus, "false"] do
+        tree = open(%{modal: value})
+
+        refute scrim(tree)
+        assert find(tree, :box, background: @clear)
+      end
+    end
+
+    test "the string \"true\" dims, because the web serialises modal with to_string/1" do
+      assert scrim(open(%{modal: "true"}))
+    end
+
+    test "an explicit scrim_color still wins over the modal default" do
+      tree = open(%{modal: false, scrim_color: 0x33FF0000})
+
+      assert find(tree, :box, background: 0x33FF0000)
+    end
+
+    test "a non-modal backdrop still dismisses — one hit test cannot both pass through and close" do
+      assert find(open(%{modal: false}), :box, background: @clear).props.on_tap ==
+               {self(), :close}
+    end
+  end
+
+  describe "on_open_change" do
+    test "carries the new state, mirroring the web's {open} payload" do
+      tree = MishkaDialog.dialog(%{open: true, on_open_change: :changed}, body(), [])
+
+      assert scrim(tree).props.on_tap == {self(), {:changed, false}}
+    end
+
+    test "on_close wins when both are given" do
+      tree = open(%{on_open_change: :changed})
+
+      assert scrim(tree).props.on_tap == {self(), :close}
+    end
+
+    test "an already-wired tuple is composed, not re-wrapped" do
+      tree = MishkaDialog.dialog(%{open: true, on_open_change: {self(), :changed}}, body(), [])
+
+      assert scrim(tree).props.on_tap == {self(), {:changed, false}}
+    end
+  end
+
+  describe "test tags" do
+    test "id names every part of the anatomy" do
+      tree =
+        MishkaDialog.dialog(
+          %{id: "dlg", open: true, title: "T", description: "D", on_close: :close},
+          body(),
+          actions()
+        )
+
+      for suffix <- ~w(open backdrop-modal panel title description content footer) do
+        assert tagged(tree, "dlg-" <> suffix), "no node tagged dlg-#{suffix}"
+      end
+    end
+
+    test "the root tag exists only while open, so its presence is the state" do
+      assert tagged(open(%{id: "dlg"}), "dlg-open")
+      refute tagged(MishkaDialog.dialog(%{id: "dlg", open: false}, body()), "dlg-open")
+    end
+
+    test "the backdrop names whether it dims, because modal is otherwise pure colour" do
+      assert tagged(open(%{id: "dlg"}), "dlg-backdrop-modal")
+      assert tagged(open(%{id: "dlg", modal: false}), "dlg-backdrop-plain")
+      refute tagged(open(%{id: "dlg", modal: false}), "dlg-backdrop-modal")
+    end
+
+    test "parts with nothing in them are not tagged" do
+      tree = MishkaDialog.dialog(%{id: "dlg", open: true}, [], [])
+
+      refute tagged(tree, "dlg-title")
+      refute tagged(tree, "dlg-description")
+      refute tagged(tree, "dlg-content")
+      refute tagged(tree, "dlg-footer")
+      assert tagged(tree, "dlg-panel")
+    end
+
+    test "an atom id is stringified — the native side reads a String or nothing" do
+      assert tagged(open(%{id: :dlg}), "dlg-open")
+    end
+
+    test "without an id nothing is tagged" do
+      assert Enum.all?(flatten(open()), &is_nil(Map.get(&1.props, :id)))
+    end
+  end
+
+  describe "slots" do
+    test "title/1, description/1 and footer/1 take a string and style it like the props" do
+      slots = [MishkaDialog.title("T"), MishkaDialog.description("D")]
+      tree = MishkaDialog.dialog(p(), slots ++ body(), [])
+
+      assert find(tree, :text, text: "T").props.text_size == :xl
+      assert find(tree, :text, text: "D").props.text_color == :muted
+      assert text(tree) =~ "body text"
+    end
+
+    test "a slot takes arbitrary nodes, which is the whole point of a slot" do
+      heading = %{type: :text, props: %{text: "custom heading"}, children: []}
+      tree = MishkaDialog.dialog(p(%{id: "dlg"}), [MishkaDialog.title([heading])], [])
+
+      assert find(tagged(tree, "dlg-title"), :text, text: "custom heading")
+    end
+
+    test "a single node needs no list" do
+      heading = %{type: :text, props: %{text: "solo"}, children: []}
+
+      assert text(MishkaDialog.dialog(p(), [MishkaDialog.title(heading)], [])) =~ "solo"
+    end
+
+    test "a slot child wins over its shorthand prop" do
+      tree =
+        MishkaDialog.dialog(
+          p(%{title: "shorthand", description: "shorthand desc"}),
+          [MishkaDialog.title("slot"), MishkaDialog.description("slot desc")],
+          []
+        )
+
+      assert text(tree) =~ "slot"
+      refute text(tree) =~ "shorthand"
+    end
+
+    test "footer/1 wins over the actions argument and lands in the same row" do
+      slot = %{type: :button, props: %{text: "From slot"}, children: []}
+      tree = MishkaDialog.dialog(p(), [MishkaDialog.footer([slot])], actions())
+
+      assert find(tree, :button, text: "From slot")
+      refute find(tree, :button, text: "OK")
+      assert [%{type: :spacer, props: %{weight: 1}}, %{type: :button}] = find(tree, :row).children
+    end
+
+    test "slot children are consumed, never drawn" do
+      slots = [MishkaDialog.title("T"), MishkaDialog.description("D"), MishkaDialog.footer([])]
+      tree = MishkaDialog.dialog(p(), slots ++ body(), [])
+      types = tree |> flatten() |> Enum.map(& &1.type) |> Enum.uniq()
+
+      assert Enum.all?(MishkaDialog.slot_types(), &(&1 not in types))
+      assert_renderable(tree)
+    end
+
+    test "an empty footer slot renders no footer row" do
+      tree = MishkaDialog.dialog(p(), [MishkaDialog.footer([])], [])
+
+      assert find_all(tree, :row) == []
+    end
+  end
+
+  describe "trigger/3" do
+    test "is a button tagged <id>-trigger" do
+      node = MishkaDialog.trigger("dlg", "Open")
+
+      assert node.type == :button
+      assert node.props.id == "dlg-trigger"
+      assert node.props.text == "Open"
+      assert node.props.fill_width == true
+    end
+
+    test "on_tap is widened to the shape the renderer registers" do
+      assert MishkaDialog.trigger("dlg", "Open", on_tap: :open).props.on_tap == {self(), :open}
+    end
+
+    test "on_open_change carries true, so one clause can serve both edges" do
+      node = MishkaDialog.trigger("dlg", "Open", on_open_change: :changed)
+
+      assert node.props.on_tap == {self(), {:changed, true}}
+    end
+
+    test "on_tap wins over on_open_change" do
+      node = MishkaDialog.trigger("dlg", "Open", on_tap: :open, on_open_change: :changed)
+
+      assert node.props.on_tap == {self(), :open}
+    end
+
+    test "disabled wires no handler and says so in the tag" do
+      node = MishkaDialog.trigger("dlg", "Open", on_tap: :open, disabled: true)
+
+      refute Map.has_key?(node.props, :on_tap)
+      assert node.props.id == "dlg-trigger-disabled"
+      assert node.props.background == :surface_raised
+      assert node.props.text_color == :muted
+    end
+
+    test "chrome is overridable, and no id means no tag" do
+      node =
+        MishkaDialog.trigger(nil, "Open",
+          background: :secondary,
+          text_color: :on_secondary,
+          padding: 4,
+          fill_width: false
+        )
+
+      refute Map.has_key?(node.props, :id)
+      assert node.props.background == :secondary
+      assert node.props.text_color == :on_secondary
+      assert node.props.padding == 4
+      assert node.props.fill_width == false
+    end
+
+    test "renders natively" do
+      assert_renderable(MishkaDialog.trigger("dlg", "Open", on_tap: :open))
+    end
+  end
+
   describe "footer" do
     test "actions sit in a trailing-aligned row" do
       row = find(open(), :row)
@@ -122,10 +345,28 @@ defmodule MishkaMob.Components.MishkaDialogTest do
       assert text(tree) =~ "body text"
       assert find(tree, :box, width: 320).props.on_tap == {self(), :__mishka_dialog_ignore}
     end
+
+    test "expand/3 pops actions out of the props and consumes slot children" do
+      children = [MishkaDialog.title("T") | body()]
+      tree = MishkaDialog.expand(p(%{actions: actions()}), children, %{screen: self()})
+
+      assert find(tree, :button, text: "OK")
+      assert text(tree) =~ "T"
+      refute find(tree, :box, width: 320).props[:actions]
+    end
   end
 
   test "every variant renders" do
-    for extra <- [%{}, %{title: "T"}, %{dismissible: false}, %{width: 280}] do
+    for extra <- [
+          %{},
+          %{title: "T"},
+          %{dismissible: false},
+          %{width: 280},
+          %{id: "dlg"},
+          %{modal: false},
+          %{on_open_change: :changed},
+          %{inset: 0}
+        ] do
       assert_renderable(open(extra))
     end
   end

@@ -1,44 +1,116 @@
 defmodule <%= @module %> do
   @moduledoc """
   Native Mob port of Mishka Chelekom's **headless Floating Window** — a titled
-  panel that floats over the screen at a given position.
+  panel that floats over a stage and is dragged by its title bar.
 
-  ## Positioned, not dragged
+  ## The drag is real
 
-  The web component is dragged by its handle, and offers arrow-key movement as
-  the keyboard alternative WCAG 2.5.7 asks for. Mob delivers no pointer
-  coordinates to `render/1`, so the drag cannot be ported — but the *position*
-  can: `offset_x` / `offset_y` place the window inside its parent, and `x` / `y`
-  are ordinary props the screen owns.
+  This port shipped saying "Mob delivers no pointer coordinates to `render/1`,
+  so the drag cannot be ported". That was false: `Mob.Renderer` registers
+  `on_drag` beside `on_tap` (renderer.ex ~395) and several components in this
+  library already drive themselves with it. What *is* true is that only a
+  `:canvas` carries `on_drag`, and that a canvas reports coordinates local to
+  **itself** — so the drag surface is one STATIC canvas the size of the whole
+  stage. A canvas riding on the window would be a ruler sliding under the
+  finger: the window moves, the canvas moves with it, the next sample reads the
+  same local `x`, and the window creeps a fraction of the gesture. That is not
+  a theory — `<%= @module_prefix_camel %>Splitter` measured it, moving 10dp for a 60dp drag while
+  its arithmetic was provably right.
 
-  So the keyboard alternative becomes the primary interaction rather than a
-  fallback: the handle carries nudge controls, `nudge/4` computes the new
-  position with clamping, and the window moves. That is a real, usable floating
-  window; what it is not is a drag.
+  Read `x`/`y` from the payload, never `dx`/`dy`: those are cumulative
+  translation on iOS and per-sample deltas on Android, so anything built on
+  them behaves differently on each platform. `drag/3` reads only `x`/`y`.
 
-  Put it in a `Box` with the page beneath it, exactly like a
-  `<%= @namespace %>.<%= @module_prefix_camel %>Dialog` — the last child of a stacking Box is on
-  top.
+  `bounds` is therefore not decoration. It is the stage in dp: it sizes the
+  canvas, it is the space the position is clamped inside, and without it there
+  is no drag surface at all.
+
+  ## Three layers, and which finger reaches which
+
+  The root is a `Box` — a z-stack on both platforms — holding, in order:
+
+      1. the panel      background, border, title strip, label. No handlers.
+      2. the canvas     the whole stage, transparent, carries on_drag.
+      3. the controls   the body, the ✕, the nudge arrows — each at its own offset.
+
+  Anything a finger must *tap* has to sit above the canvas: the canvas consumes
+  the touch that starts on it, and on iOS a view with a background blocks the
+  gesture of the sibling beneath it. Anything the *drag* must reach has to sit
+  below it — which is why the title strip and its label carry no handlers, and
+  why the ✕ is the only thing in the title bar that does not begin a drag,
+  exactly the carve-out the web original words as "interactive controls inside
+  the handle don't start a drag".
+
+  Layer 3 is placed by arithmetic rather than by layout, so the window is a
+  fixed rectangle: `width` by `height`, with a 48dp title bar and a 48dp nudge
+  row. That is the price of a drag surface that cannot move, and it is what
+  lets `drag/3` decide whether a touch landed on the handle without asking the
+  native side to measure anything.
+
+  ## Moving it
+
+  `on_move` carries both halves of what WCAG 2.5.7 asks for — the pointer drag,
+  and the keyboard-style alternative:
+
+      {:drag, tag, payload}     from the canvas   -> fold with drag/3
+      {:tap, {tag, :up}}        from an arrow     -> fold with nudge/2
+
+  Both folds read the same prop map, which is what makes `step` and `bounds`
+  live props rather than the documentation they used to be:
+
+      def handle_info({:drag, :move, payload}, socket) do
+        {position, grab} = <%= @module_prefix_camel %>FloatingWindow.drag(payload, socket.assigns.grab, window(socket))
+        {:noreply, socket |> assign(:pos, position) |> assign(:grab, grab)}
+      end
+
+      def handle_info({:tap, {:move, direction}}, socket) do
+        {:noreply, assign(socket, :pos, <%= @module_prefix_camel %>FloatingWindow.nudge(window(socket), direction))}
+      end
 
   ## Props
 
   | Prop | Values | Default | Meaning |
   |------|--------|---------|---------|
-  | `x` / `y` | number | `0` | Position inside the parent. |
-  | `width` | number | `260` | Window width. |
-  | `label` | string | `nil` | Title shown in the handle. |
-  | `bounds` | `{w, h}` | `nil` | Clamps `nudge/4`; without it, movement is unbounded. |
+  | `x` / `y` | number | `0` | Position inside the stage. |
+  | `width` / `height` | number | `260` / `180` | The window is a fixed rectangle. |
+  | `bounds` | `{w, h}` | `nil` | The stage in dp. Sizes the drag canvas; clamps the position. |
   | `step` | number | `20` | How far one nudge moves. |
-  | `show_nudges` | boolean | `true` | Render the arrow controls. |
-  | `on_move` | event tag (atom) | — | `{:tap, {tag, direction}}` — `:up`/`:down`/`:left`/`:right`. |
+  | `label` | string | `nil` | Title shown in the strip. |
+  | `handle` | node(s) | `nil` | Title-bar content instead of `label`. Decoration — it takes no taps. |
+  | `dragging` | boolean | `false` | The web's `data-dragging`: tints the strip and lands in its test tag. |
+  | `show_nudges` | boolean | `true` | The arrow row, when `on_move` is set. |
+  | `on_move` | event tag (atom) | — | Drag payloads *and* `{:tap, {tag, :up}}`. |
   | `on_close` | event tag (atom) | — | `{:tap, tag}` on the ✕. |
+  | `id` | string | `nil` | Test tags — see `part_id/2` and `handle_id/2`. |
 
   Children are the window's body.
+
+  Not ported: `handle_label` (Mob exposes no accessibility semantics to hang a
+  role or a label on), `class` / `handle_class` / `body_class` (no CSS), and
+  Shift+Arrow's 1px step — there are no modifier keys on a touch screen, so
+  `step` is the one increment.
   """
 
   import Mob.Sigil
 
   alias <%= @namespace %>.{Color, Event}
+
+  @width 260
+  @height 180
+
+  # The title bar and every control in it are 48dp: Material's minimum touch
+  # target. The arrows used to be 4dp of padding round a glyph — about 20dp of
+  # target, which is a miss more often than a tap.
+  @handle 48
+  @touch 48
+
+  # The web nudges 10px, or 1px with Shift. There is no Shift here, so a step
+  # has to be worth taking: 20dp moves the window visibly on a phone.
+  @step 20
+
+  @gutter 12
+
+  @arrows [{:left, "←"}, {:up, "↑"}, {:down, "↓"}, {:right, "→"}]
 
   @doc "Composite expander (`<<%= @module_prefix_camel %>FloatingWindow>`). Children are the body."
   @spec expand(map(), [map()], map()) :: map()
@@ -50,66 +122,97 @@ defmodule <%= @module %> do
       <<%= @module_prefix_camel %>FloatingWindow
         x={@x}
         y={@y}
+        bounds={{300, 220}}
         label="Inspector"
         on_move={:move}
+        id="win"
       >{[body()]}</<%= @module_prefix_camel %>FloatingWindow>
   """
   @spec <%= @component_prefix %>floating_window(map() | keyword(), [map()]) :: map()
   def <%= @component_prefix %>floating_window(props \\ %{}, children \\ []) do
     props = Map.new(props)
 
-    ~MOB"""
-    <Box
-      offset_x={Map.get(props, :x, 0)}
-      offset_y={Map.get(props, :y, 0)}
-      width={Map.get(props, :width, 260)}
-      background={:surface}
-      corner_radius={:radius_md}
-      padding={0}
-      border_color={:border}
-      border_width={1}
-    >
-      <Column fill_width={true}>
-        {handle(props)}
-        <Column fill_width={true} padding={:space_md}>
-          {children}
-        </Column>
-      </Column>
-    </Box>
-    """
+    layers = [panel(props), surface(props), body(props, children), close(props) | nudges(props)]
+
+    %{type: :box, props: stage(props), children: Enum.reject(layers, &is_nil/1)}
   end
 
   @doc """
-  The position after a nudge, clamped inside `bounds` when given.
+  Fold a drag payload into a new `{x, y}`.
+
+  Returns `{position, grab}` — keep `grab` in an assign and hand it back with
+  the next payload. It is `nil` between drags, and `nil` for a touch that began
+  anywhere but the title bar.
+
+  The canvas spans the stage and never moves, so `x`/`y` are positions in stage
+  coordinates rather than distances. `grab` records where on the title bar the
+  finger took hold, so the window does not jump to centre itself under it:
+
+      iex> alias <%= @namespace %>.<%= @module_prefix_camel %>FloatingWindow
+      iex> props = %{x: 20, y: 10, width: 200, height: 120, bounds: {300, 220}}
+      iex> {position, grab} = <%= @module_prefix_camel %>FloatingWindow.drag(%{phase: :began, x: 40.0, y: 20.0}, nil, props)
+      iex> {position, grab.offset}
+      {{20, 10}, {20.0, 10.0}}
+      iex> {moved, _} = <%= @module_prefix_camel %>FloatingWindow.drag(%{phase: :dragging, x: 90.0, y: 60.0}, grab, props)
+      iex> moved
+      {70.0, 50.0}
+
+  A touch that misses the title bar engages nothing. The canvas covers the
+  whole stage — it has to, to be a stable ruler — so without this every tap
+  would teleport the window to the finger:
+
+      iex> alias <%= @namespace %>.<%= @module_prefix_camel %>FloatingWindow
+      iex> props = %{x: 20, y: 10, width: 200, height: 120, bounds: {300, 220}}
+      iex> <%= @module_prefix_camel %>FloatingWindow.drag(%{phase: :began, x: 40.0, y: 120.0}, nil, props)
+      {{20, 10}, nil}
+  """
+  @spec drag(map(), map() | nil, map() | keyword()) :: {{number(), number()}, map() | nil}
+  def drag(payload, grab, props \\ %{}) do
+    props = Map.new(props)
+    at = point(payload)
+
+    case phase(payload) do
+      :began -> {position(props), take_hold(at, props)}
+      :dragging -> {follow(at, grab, props), grab}
+      :ended -> {follow(at, grab, props), nil}
+    end
+  end
+
+  @doc """
+  The position after a nudge, clamped inside the stage.
+
+  Reads `x`, `y`, `step` and `bounds` from the same prop map the window renders
+  with — which is the point. `step` and `bounds` were documented props that
+  nothing read, so a caller who set them got the defaults and no complaint.
 
   Screen coordinates put y downwards, so `:up` **subtracts** — the sign that is
   easy to get backwards.
 
-      iex> <%= @namespace %>.<%= @module_prefix_camel %>FloatingWindow.nudge({40, 40}, :up, 10)
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>FloatingWindow.nudge(%{x: 40, y: 40, step: 10}, :up)
       {40, 30}
 
-      iex> <%= @namespace %>.<%= @module_prefix_camel %>FloatingWindow.nudge({40, 40}, :right, 10)
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>FloatingWindow.nudge(%{x: 40, y: 40, step: 10}, :right)
       {50, 40}
 
-  Clamping keeps the window on screen:
+  The clamp is the stage **minus the window**, so it stops with its far edge
+  against the far edge of the stage rather than walking half out of view:
 
-      iex> <%= @namespace %>.<%= @module_prefix_camel %>FloatingWindow.nudge({0, 0}, :left, 10, {200, 200})
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>FloatingWindow.nudge(
+      ...>   %{x: 90, y: 0, step: 20, width: 120, height: 80, bounds: {200, 200}},
+      ...>   :right
+      ...> )
+      {80, 0}
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>FloatingWindow.nudge(%{x: 0, y: 0, bounds: {200, 200}}, :left)
       {0, 0}
-
-      iex> <%= @namespace %>.<%= @module_prefix_camel %>FloatingWindow.nudge({195, 0}, :right, 10, {200, 200})
-      {200, 0}
   """
-  @spec nudge(
-          {number(), number()},
-          :up | :down | :left | :right,
-          number(),
-          {number(), number()} | nil
-        ) ::
-          {number(), number()}
-  def nudge(position, direction, step \\ 20, bounds \\ nil)
+  @spec nudge(map() | keyword(), :up | :down | :left | :right) :: {number(), number()}
+  def nudge(props, direction) do
+    props = Map.new(props)
+    {x, y} = position(props)
+    step = Map.get(props, :step, @step)
 
-  def nudge({x, y}, direction, step, bounds) do
-    {nx, ny} =
+    moved =
       case direction do
         :up -> {x, y - step}
         :down -> {x, y + step}
@@ -118,77 +221,334 @@ defmodule <%= @module %> do
         _ -> {x, y}
       end
 
-    clamp(nx, ny, bounds)
+    clamp(moved, props)
   end
 
-  defp clamp(x, y, nil), do: {x, y}
+  @doc """
+  The test tag on one part of the window, given the window's `id`.
 
-  defp clamp(x, y, {width, height}) do
-    {Color.clamp(x, 0, width), Color.clamp(y, 0, height)}
+  A drag surface is a drawing and a nudge arrow is a glyph — neither carries
+  text a device test can query, so this is the only handle it has on them.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>FloatingWindow.part_id("win", :close)
+      "win-close"
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>FloatingWindow.part_id("win", {:nudge, :up})
+      "win-nudge-up"
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>FloatingWindow.part_id(nil, :close)
+      nil
+  """
+  @spec part_id(String.t() | nil, atom() | {atom(), atom()}) :: String.t() | nil
+  def part_id(id, {part, value}) when is_binary(id), do: "#{id}-#{part}-#{value}"
+  def part_id(id, part) when is_binary(id), do: "#{id}-#{part}"
+  def part_id(_id, _part), do: nil
+
+  @doc """
+  The title strip's test tag, which carries the drag state.
+
+  The web mirrors that state as `data-dragging`; here it has to be in the tag,
+  because the only other place it shows is the strip's colour — and a device
+  test cannot read a colour.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>FloatingWindow.handle_id("win", false)
+      "win-handle"
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>FloatingWindow.handle_id("win", true)
+      "win-handle-dragging"
+  """
+  @spec handle_id(String.t() | nil, boolean()) :: String.t() | nil
+  def handle_id(id, true) when is_binary(id), do: "#{id}-handle-dragging"
+  def handle_id(id, _dragging) when is_binary(id), do: "#{id}-handle"
+  def handle_id(_id, _dragging), do: nil
+
+  @doc """
+  The height of everything above the body — the title bar, plus the nudge row
+  when there is one. The body starts here, and spends the rest of `height`.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>FloatingWindow.chrome_height(%{})
+      48
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>FloatingWindow.chrome_height(%{on_move: :move})
+      96
+  """
+  @spec chrome_height(map() | keyword()) :: number()
+  def chrome_height(props) do
+    props = Map.new(props)
+
+    if nudges?(props), do: @handle + @touch, else: @handle
   end
 
-  defp handle(props) do
-    label = Map.get(props, :label) || ""
+  # ── The three layers ───────────────────────────────────────────────────────
 
-    # The Text takes `font_weight` and the Spacer below it takes `weight`: two
-    # different props. A bare `weight` on the Text would be read by the Row as a
-    # layout weight and do nothing to the font.
+  # The stage. Sized to `bounds` when there is one, so the canvas can never be
+  # declared wider than the space it gets: MobCanvas SCALES its ops to fit,
+  # which would report every coordinate in a different unit from the dp offsets
+  # the window is positioned with.
+  defp stage(props) do
+    base =
+      case bounds(props) do
+        {w, h} -> %{width: w, height: h}
+        nil -> %{fill_width: true}
+      end
+
+    case Map.get(props, :id) do
+      nil -> base
+      id -> Map.put(base, :id, id)
+    end
+  end
+
+  # Layer 1: everything a finger must be able to drag THROUGH. Nothing here
+  # carries a handler, so the touch falls past it to the canvas above.
+  defp panel(props) do
+    {x, y} = position(props)
+    id = Map.get(props, :id)
+    w = width(props)
+    h = height(props)
+    handle = @handle
+    gutter = @gutter
+    dragging? = dragging?(props)
+    strip = if dragging?, do: :primary, else: :surface_raised
+
     ~MOB"""
-    <Box fill_width={true} background={:surface_raised} padding={:space_sm}>
-      <Row fill_width={true} align={:center}>
-        <Text text={label} text_size={:sm} text_color={:on_surface} font_weight={:semibold} />
-        <Spacer weight={1} />
-        {nudges(props)}
-        {close(props)}
-      </Row>
+    <Box
+      offset_x={x}
+      offset_y={y}
+      width={w}
+      height={h}
+      background={:surface}
+      corner_radius={:radius_md}
+      border_color={:border}
+      border_width={1}
+      id={part_id(id, :window)}
+    >
+      <Box
+        width={w}
+        height={handle}
+        background={strip}
+        align={:leading}
+        id={handle_id(id, dragging?)}
+      >
+        <Row fill_width={true} align={:center}>
+          <Box width={gutter} />
+          <Box width={title_width(props)}>
+            {title(props, dragging?)}
+          </Box>
+        </Row>
+      </Box>
     </Box>
     """
   end
 
-  defp nudges(props) do
-    if truthy?(Map.get(props, :show_nudges, true)) do
-      arrows =
-        Enum.map([{:left, "←"}, {:up, "↑"}, {:down, "↓"}, {:right, "→"}], fn {dir, glyph} ->
-          ~MOB"""
-          <Box padding={4}>
-            <Text text={glyph} text_size={:sm} text_color={:muted} />
-          </Box>
-          """
-          |> put(:on_tap, tag_handler(props, :on_move, dir))
-        end)
+  # The title stops where the ✕ starts. The ✕ is a layer-3 overlay at a computed
+  # offset rather than a sibling in this row — it has to be, to sit above the
+  # canvas — so nothing here reserves its space unless this does.
+  defp title_width(props) do
+    reserved = if Map.get(props, :on_close), do: @touch, else: @gutter
 
-      ~MOB"""
-      <Row align={:center}>
-        {arrows}
-      </Row>
-      """
+    max(width(props) - @gutter - reserved, 0)
+  end
+
+  defp title(props, dragging?) do
+    ink = if dragging?, do: :on_primary, else: :on_surface
+
+    case Map.get(props, :handle) do
+      nil ->
+        # max_lines: 1 — a Text squeezed narrower than its content wraps
+        # character by character, and this one shares its row with the ✕.
+        ~MOB"""
+        <Text
+          text={Map.get(props, :label) || ""}
+          text_size={:sm}
+          text_color={ink}
+          font_weight={:semibold}
+          max_lines={1}
+        />
+        """
+
+      handle ->
+        %{type: :column, props: %{}, children: List.wrap(handle)}
     end
+  end
+
+  # Layer 2: the drag surface. One canvas, the size of the stage, transparent,
+  # and it never moves — the moduledoc says what a moving one does.
+  #
+  # `Mob.UI.canvas/1` is `Map.take(props, [:width, :height, :draw])`: it drops
+  # every handler, which is the "renders perfectly and does nothing" failure.
+  # `Canvas` is not in the ~MOB tag whitelist either, so this is built literally.
+  defp surface(props) do
+    handler = Event.handler(Map.get(props, :on_move))
+
+    case {bounds(props), handler} do
+      {{w, h}, handler} when not is_nil(handler) ->
+        # One transparent rect rather than an empty op list: a canvas is
+        # hit-tested by its frame on both platforms, but nothing promises how
+        # either renderer sizes a canvas that draws literally nothing. `rect`
+        # STROKES by default, hence `fill: true` — a stroked transparent rect is
+        # no more visible, but this is the op that gets copied.
+        %{
+          type: :canvas,
+          props: %{
+            width: w,
+            height: h,
+            draw: [Mob.Canvas.rect(0, 0, w, h, color: 0x00000000, fill: true)],
+            on_drag: handler
+          },
+          children: []
+        }
+        |> tag(part_id(Map.get(props, :id), :drag))
+
+      _ ->
+        nil
+    end
+  end
+
+  # Layer 3, placed by arithmetic. The body lives up here rather than inside the
+  # panel because the canvas would otherwise swallow every tap meant for it.
+  defp body(props, children) do
+    {x, y} = position(props)
+    chrome = chrome_height(props)
+
+    ~MOB"""
+    <Box
+      offset_x={x}
+      offset_y={y + chrome}
+      width={width(props)}
+      height={max(height(props) - chrome, 0)}
+      id={part_id(Map.get(props, :id), :body)}
+    >
+      <Column fill_width={true} padding={:space_md}>
+        {children}
+      </Column>
+    </Box>
+    """
   end
 
   defp close(props) do
-    case Map.get(props, :on_close) do
+    case Event.handler(Map.get(props, :on_close)) do
       nil ->
         nil
 
-      tag ->
+      handler ->
+        {x, y} = position(props)
+        touch = @touch
+
         ~MOB"""
-        <Box padding={4}>
+        <Box
+          offset_x={x + width(props) - touch}
+          offset_y={y}
+          width={touch}
+          height={touch}
+          align={:center}
+          on_tap={handler}
+          id={part_id(Map.get(props, :id), :close)}
+        >
           <Text text="✕" text_size={:sm} text_color={:muted} />
         </Box>
         """
-        |> put(:on_tap, Event.handler(tag))
     end
   end
 
-  defp tag_handler(props, key, value) do
-    case Map.get(props, key) do
-      nil -> nil
-      tag -> Event.handler(tag, value)
+  # Arrows exist only to move the window, so an unwired one is a control that
+  # renders perfectly and does nothing. Don't render it at all.
+  defp nudges(props) do
+    if nudges?(props) do
+      {x, y} = position(props)
+      id = Map.get(props, :id)
+      touch = @touch
+      handle = @handle
+
+      @arrows
+      |> Enum.with_index()
+      |> Enum.map(fn {{direction, glyph}, index} ->
+        ~MOB"""
+        <Box
+          offset_x={x + index * touch}
+          offset_y={y + handle}
+          width={touch}
+          height={touch}
+          align={:center}
+          on_tap={Event.handler(Map.get(props, :on_move), direction)}
+          id={part_id(id, {:nudge, direction})}
+        >
+          <Text text={glyph} text_size={:sm} text_color={:muted} />
+        </Box>
+        """
+      end)
+    else
+      []
     end
   end
 
-  defp put(node, _key, nil), do: node
-  defp put(node, key, value), do: %{node | props: Map.put(node.props, key, value)}
+  # ── The drag fold ──────────────────────────────────────────────────────────
+
+  # Engage only when the touch lands on the title bar. The canvas covers the
+  # whole stage — it must, to be a stable ruler — so without this every tap
+  # anywhere on the stage would teleport the window to the finger.
+  defp take_hold({ax, ay}, props) do
+    {x, y} = position(props)
+
+    if ax >= x and ax <= x + width(props) and ay >= y and ay <= y + @handle do
+      %{offset: {ax - x, ay - y}}
+    end
+  end
+
+  defp follow(_at, nil, props), do: position(props)
+
+  defp follow({ax, ay}, %{offset: {ox, oy}}, props), do: clamp({ax - ox, ay - oy}, props)
+
+  defp clamp({x, y}, props) do
+    case bounds(props) do
+      nil ->
+        {x, y}
+
+      {w, h} ->
+        {Color.clamp(x, 0, max(w - width(props), 0)),
+         Color.clamp(y, 0, max(h - height(props), 0))}
+    end
+  end
+
+  # The NIF sends `phase` as an ATOM (:began / :dragging / :ended). Comparing it
+  # against "began" matches nothing and falls through to the :dragging default,
+  # so the anchor is never set and every drag returns the position unchanged —
+  # the window looks completely dead while the arithmetic is fine. Strings are
+  # accepted too, because a payload that has crossed a wire may be either.
+  defp phase(payload) do
+    case payload[:phase] || payload["phase"] do
+      p when p in [:began, "began"] -> :began
+      p when p in [:ended, "ended"] -> :ended
+      _ -> :dragging
+    end
+  end
+
+  # x/y, never dx/dy: those are cumulative translation on iOS and per-sample
+  # deltas on Android, so a fold built on them drifts on exactly one platform.
+  defp point(payload), do: {coordinate(payload, :x), coordinate(payload, :y)}
+
+  defp coordinate(payload, key), do: (payload[key] || payload[to_string(key)] || 0) * 1.0
+
+  # ── Props ──────────────────────────────────────────────────────────────────
+
+  defp position(props), do: {Map.get(props, :x, 0), Map.get(props, :y, 0)}
+  defp width(props), do: Map.get(props, :width, @width)
+  defp height(props), do: Map.get(props, :height, @height)
+
+  defp bounds(props) do
+    case Map.get(props, :bounds) do
+      {w, h} -> {w, h}
+      _ -> nil
+    end
+  end
+
+  defp dragging?(props), do: truthy?(Map.get(props, :dragging, false))
+
+  defp nudges?(props) do
+    Map.get(props, :on_move) != nil and truthy?(Map.get(props, :show_nudges, true))
+  end
+
+  defp tag(node, nil), do: node
+  defp tag(node, id), do: %{node | props: Map.put(node.props, :id, id)}
 
   defp truthy?(nil), do: false
   defp truthy?(false), do: false

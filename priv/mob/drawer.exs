@@ -10,7 +10,7 @@
     mob: [
       composite_tag: "drawer",
       function: nil,
-      kit: []
+      kit: ["event"]
     ]
   ]
 ]

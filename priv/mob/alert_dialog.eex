@@ -5,80 +5,288 @@ defmodule <%= @module %> do
 
   ## What makes it an *alert* dialog
 
-  The web component hardcodes `data-close-on-outside="false"`: a backdrop click
-  does **not** dismiss it. That single rule is the whole difference from a plain
-  dialog, so this port is a thin, deliberate wrapper over
-  `<%= @namespace %>.<%= @module_prefix_camel %>Dialog` that forces `dismissible: false` rather
-  than a second copy of the overlay, scrim and panel machinery.
+  The web component hardcodes `data-close-on-outside="false"` and an
+  `aria-modal` popup: a backdrop click does **not** dismiss it, and everything
+  behind the backdrop is inert. That is the whole difference from a plain
+  dialog, so this is a thin wrapper over
+  `<%= @namespace %>.<%= @module_prefix_camel %>Dialog` — same overlay, same anatomy, same part
+  tags — with two props taken out of the caller's hands:
 
-  Because `dismissible` is forced, passing it has no effect — an alert dialog
-  that could be dismissed by tapping outside would just be a dialog.
+    * `dismissible` is forced to `false`. Passing it changes nothing; an alert
+      dialog you can tap away is a dialog.
+    * `modal` is forced to `true`. The web's alert dialog has no such attribute
+      because it is never anything else.
 
-  The web version also marks `title`, `description` and `actions` as required.
-  Here they are enforced where it helps rather than by crashing a screen mid
-  render: `alert_dialog/3` logs a warning when it is opened with no actions,
-  because a forced-choice modal with nothing to choose is a dead end the user
-  cannot escape.
+  ## The backdrop blocks, it just does not dismiss
+
+  "Not dismissible" is not the same as "not there", and natively the difference
+  has to be earned: a Compose Box with a background but no pointer input paints
+  over the page without consuming a single touch. A Dialog with `dismissible:
+  false` therefore leaves its dim backdrop transparent to taps, and the page
+  underneath keeps taking them — a user could reach past the dim and press the
+  very button that opened the dialog. So this wrapper gives the backdrop a
+  handler that goes nowhere: taps land on it, route to a tag the screen ignores,
+  and stop. Not wiring `on_close` there is what keeps it an alert dialog; wiring
+  *something* there is what makes it modal.
+
+  ## Anatomy, slots and tags — all Dialog's
+
+  `title/1`, `description/1` and `actions/1` build the slot children (the web's
+  `<:title>`, `<:description>` and `<:actions>`), and `title:` / `description:`
+  / `actions:` are their shorthands. Give the dialog an `id` and every part is
+  addressable from a device test: `<id>-open`, `<id>-backdrop-modal`,
+  `<id>-panel`, `<id>-title`, `<id>-description`, `<id>-content`,
+  `<id>-footer`. See `<%= @namespace %>.<%= @module_prefix_camel %>Dialog` for the full table —
+  they are deliberately the same names, so a test does not have to know which of
+  the two it is looking at.
 
   ## Usage
 
       <<%= @module_prefix_camel %>AlertDialog
+        id="discard"
         open={@confirming?}
         title="Discard changes?"
         description="Your edits will be lost."
         on_close={:cancel}
-        actions={actions}
+        actions={[
+          <%= @module_prefix_camel %>AlertDialog.action("Cancel", id: "discard-cancel"),
+          <%= @module_prefix_camel %>AlertDialog.action("Discard", id: "discard-go",
+                                   variant: :danger, on_tap: :really_discard)
+        ]}
       />
+
+      def handle_info({:tap, :cancel}, socket) do
+        {:noreply, Mob.Socket.assign(socket, :confirming?, false)}
+      end
+
+      # REQUIRED catch-all: the backdrop and the panel both route stray taps to
+      # tags nobody handles.
+      def handle_info(_msg, socket), do: {:noreply, socket}
 
   ## Props
 
-  Everything `<%= @namespace %>.<%= @module_prefix_camel %>Dialog` accepts, except `dismissible`,
-  which is always `false`. `on_close` is still useful — it is what a Cancel
-  action calls — it simply is not wired to the backdrop.
+  Everything `<%= @namespace %>.<%= @module_prefix_camel %>Dialog` accepts, except `dismissible`
+  and `modal`, which are fixed. `on_close` is still useful — it is what an
+  action marked `close: true` fires — it simply is not wired to the backdrop.
+
+  Not ported beyond Dialog's own list: the `<:trigger>` slot's `disabled`
+  (`<%= @module_prefix_camel %>Dialog.trigger/3` has it), `on_open_change` (it fires on backdrop
+  dismiss, which cannot happen here), and `role="alertdialog"` / `aria-modal` —
+  Mob's renderers expose no accessibility semantics on either platform, so the
+  modality is behavioural rather than announced.
   """
 
   require Logger
 
-  alias <%= @namespace %>.<%= @module_prefix_camel %>Dialog
+  alias <%= @namespace %>.{Event, <%= @module_prefix_camel %>Dialog}
+
+  # Backdrop taps are swallowed rather than dismissing — see seal/3. The host
+  # screen's catch-all handle_info/2 eats it, the same way Dialog's panel does.
+  @absorb :__mishka_alert_dialog_backdrop
 
   @doc """
-  Composite expander (`<<%= @module_prefix_camel %>AlertDialog>`). The tag's children are the body.
+  Composite expander (`<<%= @module_prefix_camel %>AlertDialog>`). The tag's children are the body
+  plus any slot children.
   """
   @spec expand(map(), [map()], %{screen: pid()}) :: map()
   # See <%= @module_prefix_camel %>Dialog.expand/3 — the footer travels as a prop because a
-  # composite gets one children list, and an alert with no actions has no
-  # way out of it at all.
+  # composite gets one children list, and an alert with no actions has no way
+  # out of it at all.
   def expand(props, children, ctx) do
     {actions, props} = Map.pop(Map.new(props), :actions, [])
     <%= @component_prefix %>alert_dialog(props, children, List.wrap(actions), ctx)
   end
 
   @doc """
-  The alert dialog node. `body` is the content; `actions` are the footer
-  buttons the user must choose between.
+  The alert dialog node. `body` is the content — slot children among it are
+  consumed rather than drawn — and `actions` are the footer buttons the user
+  must choose between.
   """
-  @spec <%= @component_prefix %>alert_dialog(map() | keyword(), [map()], [map()], map()) :: map()
+  @spec <%= @component_prefix %>alert_dialog(map() | keyword(), [map()] | map(), [map()] | map(), map()) :: map()
   def <%= @component_prefix %>alert_dialog(props \\ %{}, body \\ [], actions \\ [], ctx \\ %{}) do
     props = Map.new(props)
-    warn_if_inescapable(props, actions)
+    open? = truthy?(Map.get(props, :open, false))
+    on_close = Map.get(props, :on_close)
+
+    body = body |> List.wrap() |> wire_close(on_close)
+    actions = actions |> List.wrap() |> wire_close(on_close)
+
+    warn_if_incomplete(props, body, actions, open?)
 
     props
-    |> Map.put(:dismissible, false)
+    |> Map.merge(%{dismissible: false, modal: true})
     |> <%= @module_prefix_camel %>Dialog.<%= @component_prefix %>dialog(body, actions, ctx)
+    |> seal(ctx, open?)
   end
 
-  defp warn_if_inescapable(props, []) do
-    if truthy?(Map.get(props, :open, false)) do
+  @doc """
+  Build one footer button — the native shape of an `<:actions>` child.
+
+  Options: `:id` (testTag base), `:on_tap` (event tag), `:close` (default
+  `true`) and `:variant` (`:neutral`, `:primary` or `:danger`).
+
+  `close: true` is the port of the web's `data-close`: the button fires the
+  dialog's `on_close` unless it carries an `on_tap` of its own, in which case
+  the explicit handler wins and closing is the screen's business.
+
+  The variant is folded into the testTag — `<id>-danger` — because a
+  destructive button differs from a safe one by nothing but its fill, and a
+  device test cannot read a colour.
+  """
+  @spec action(String.t(), keyword()) :: map()
+  def action(label, opts \\ []) do
+    variant = Keyword.get(opts, :variant, :neutral)
+    {background, text_color} = palette(variant)
+
+    props =
+      %{
+        text: label,
+        background: background,
+        text_color: text_color,
+        padding: :space_sm,
+        close: Keyword.get(opts, :close, true)
+      }
+      |> put_optional(:on_tap, Event.handler(Keyword.get(opts, :on_tap)))
+      |> put_optional(:id, action_tag(Keyword.get(opts, :id), variant))
+
+    %{type: :button, props: props, children: []}
+  end
+
+  @doc "The `<:title>` slot as a node. Takes a string, one node, or a list."
+  @spec title(String.t() | map() | [map()]) :: map()
+  defdelegate title(content), to: <%= @module_prefix_camel %>Dialog
+
+  @doc "The `<:description>` slot as a node. Takes a string, one node, or a list."
+  @spec description(String.t() | map() | [map()]) :: map()
+  defdelegate description(content), to: <%= @module_prefix_camel %>Dialog
+
+  @doc """
+  The `<:actions>` slot as a node — the footer buttons.
+
+  Dialog calls this part `footer/1`, after the web dialog's `<:close>` slot;
+  the alert dialog's slot is named `<:actions>`, so it keeps that name here and
+  builds the identical node.
+  """
+  @spec actions(String.t() | map() | [map()]) :: map()
+  defdelegate actions(content), to: <%= @module_prefix_camel %>Dialog, as: :footer
+
+  @doc "Every node type consumed as a slot — Dialog's, since they are its slots."
+  @spec slot_types() :: [atom()]
+  defdelegate slot_types(), to: <%= @module_prefix_camel %>Dialog
+
+  # ── data-close ──────────────────────────────────────────────────────────────
+
+  # Slot children are walked into, because the footer may arrive as
+  # `actions([...])` among the body rather than as the actions argument.
+  defp wire_close(nodes, on_close) do
+    handler = Event.handler(on_close)
+    slots = slot_types()
+
+    Enum.map(nodes, fn
+      %{type: type, children: children} = node when is_list(children) ->
+        if type in slots do
+          %{node | children: wire_close(children, on_close)}
+        else
+          close_wiring(node, handler)
+        end
+
+      node ->
+        node
+    end)
+  end
+
+  defp close_wiring(%{props: props} = node, handler) when is_map(props) do
+    case Map.pop(props, :close) do
+      {close, rest} when close in [nil, false] -> %{node | props: rest}
+      {_close, rest} -> %{node | props: closer(rest, handler)}
+    end
+  end
+
+  defp close_wiring(node, _handler), do: node
+
+  defp closer(props, nil), do: props
+  # put_new, not put: a button that already knows what it does keeps doing it,
+  # and the screen closes the dialog from its own handler.
+  defp closer(props, handler), do: Map.put_new(props, :on_tap, handler)
+
+  # ── Sealing the backdrop ────────────────────────────────────────────────────
+
+  defp seal(node, _ctx, false), do: node
+
+  # Dialog's open overlay is Box[backdrop, viewport]. Reaching the backdrop this
+  # way is what lets it absorb without Dialog growing a prop for the one caller
+  # that wants a handler which does nothing.
+  defp seal(%{children: [backdrop, viewport]} = root, ctx, true) do
+    %{root | children: [put_prop(backdrop, :on_tap, absorb(ctx)), viewport]}
+  end
+
+  # A Dialog refactor should cost the seal, not a crashed screen — the dialog
+  # still opens, still refuses to dismiss, and merely leaks taps again. The unit
+  # tests assert the handler, so the drift is caught in CI, not on a device.
+  defp seal(root, _ctx, true), do: root
+
+  # ctx carries the screen pid for composite expansion; when called as a plain
+  # function the caller's process (the screen) is already correct.
+  defp absorb(%{screen: pid}) when is_pid(pid), do: {pid, @absorb}
+  defp absorb(_ctx), do: {self(), @absorb}
+
+  defp put_prop(%{props: props} = node, key, value),
+    do: %{node | props: Map.put(props, key, value)}
+
+  defp action_tag(nil, _variant), do: nil
+  defp action_tag(id, variant), do: "#{id}-#{variant}"
+
+  defp palette(:danger), do: {:error, :on_error}
+  defp palette(:primary), do: {:primary, :on_primary}
+  defp palette(_neutral), do: {:surface_raised, :on_surface}
+
+  # ── Guards against a dialog with no way out ─────────────────────────────────
+
+  defp warn_if_incomplete(_props, _body, _actions, false), do: :ok
+
+  defp warn_if_incomplete(props, body, actions, true) do
+    # A slot child could be a footer or a title and `slot_types/0` does not say
+    # which, so the moment one is present these say nothing rather than risk a
+    # false alarm on a dialog that is perfectly well formed.
+    if not slots?(body) do
+      warn_no_actions(actions)
+      warn_no_heading(props)
+    end
+
+    :ok
+  end
+
+  defp warn_no_actions([]) do
+    Logger.warning(
+      "[<%= @module_prefix_camel %>AlertDialog] open with no actions — the backdrop cannot dismiss an alert " <>
+        "dialog, so there is no way out of it. Pass at least one action (e.g. Cancel)."
+    )
+  end
+
+  defp warn_no_actions(_actions), do: :ok
+
+  # The web marks title AND description required, which is aria-labelledby and
+  # aria-describedby needing something to point at — a DOM constraint with no
+  # native counterpart, so a title on its own is fine here. Neither is not: that
+  # is a modal demanding a choice without saying what about.
+  defp warn_no_heading(props) do
+    if is_nil(Map.get(props, :title)) and is_nil(Map.get(props, :description)) do
       Logger.warning(
-        "[<%= @module_prefix_camel %>AlertDialog] open with no actions — the backdrop cannot dismiss an alert " <>
-          "dialog, so there is no way out of it. Pass at least one action (e.g. Cancel)."
+        "[<%= @module_prefix_camel %>AlertDialog] open with neither title nor description — the user is being " <>
+          "asked to choose with nothing to read."
       )
     end
   end
 
-  defp warn_if_inescapable(_props, _actions), do: :ok
+  defp slots?(body) do
+    slots = slot_types()
+    Enum.any?(body, &(is_map(&1) and Map.get(&1, :type) in slots))
+  end
+
+  defp put_optional(props, _key, nil), do: props
+  defp put_optional(props, key, value), do: Map.put(props, key, value)
 
   defp truthy?(nil), do: false
   defp truthy?(false), do: false
-  defp truthy?(_), do: true
+  defp truthy?(_other), do: true
 end

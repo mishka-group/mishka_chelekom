@@ -1,63 +1,149 @@
 defmodule MishkaMob.Components.MishkaPopover do
   @moduledoc """
-  Native Mob port of Mishka Chelekom's **headless Popover** — a small panel of
-  content revealed next to whatever opened it.
+  Native Mob port of Mishka Chelekom's **headless Popover** — a trigger that
+  toggles a panel of arbitrary content beside it.
 
-  ## Anchored positioning does not port, and pretending otherwise would be worse
+  ## The panel is anchored by layout, not by measurement
 
-  The web component floats its panel beside the trigger using `side`, `align`,
-  `side_offset` and `align_offset`. That needs the trigger's measured on-screen
-  rectangle, and Mob gives a render function no way to obtain one: there is no
-  `Popup` or `DropdownMenu` widget, no anchor primitive, and no measurement fed
-  back into `render/1`. A `:box` stacks over the *whole* area, not beside a
-  sibling.
+  The web floats its panel over the page from the trigger's measured rectangle,
+  flipping at the viewport edge and repositioning on scroll. Mob reports no
+  geometry back to `render/1`, so that mechanism cannot exist here — but what it
+  was *for* ports almost entirely, because a flow container already puts one
+  child beside another:
 
-  So the panel is **placed by the caller**, in flow — normally in the same
-  `Column` directly under its trigger, which is how native dropdowns are built
-  and is stable on both platforms. `offset_x` / `offset_y` are exposed as an
-  escape hatch for nudging (Mob applies them to any node), but they are a static
-  displacement in dp, not anchoring.
+    * `side` decides which side of the trigger the panel occupies. `:bottom` and
+      `:top` stack the two in a `Column`; `:left` and `:right` put them in a
+      `Row`.
+    * `side_offset` is the gap between them, in dp rather than px.
+    * `align` positions the panel across that axis, and `align_offset` nudges it
+      along the same one.
 
-  `open_on_hover`, `delay` and `close_delay` are dropped for a simpler reason:
-  a phone has no hover.
+  What is genuinely gone is the *floating* half: the panel takes room in the
+  layout instead of drawing over it, and nothing flips at the screen edge
+  because nothing here knows where the edge is. That is how native dropdowns are
+  built anyway, and it is stable on both platforms.
+
+  `align` defaults to `:start`, not the web's `center`. The web centres on the
+  trigger's measured box; in flow there is no such box to centre on, and a panel
+  that fills its parent — the default — looks identical at every alignment. So
+  the default is the native one, the leading edge, and `:center` / `:end` are
+  there for a panel narrow enough to have somewhere to go.
+
+  ## A long press is the hover
+
+  `open_on_hover` means nothing on a phone, but its intent — a second, softer way
+  to summon the panel — does. `open_on_hold` puts that open on the trigger's
+  **long press**, the same touch equivalent
+  `MishkaMob.Components.MishkaContextMenu` uses for the web's right-click. The
+  ordinary tap still toggles, so the two do not fight. `delay` and `close_delay`
+  are hover timings and the system owns how long a press lasts, so they are
+  dropped rather than accepted and ignored.
+
+  ## Every part is addressable
+
+  `id` tags the root, and each part derives its own tag from it: `<id>-trigger-open`
+  / `<id>-trigger-closed`, `<id>-panel`, `<id>-title`, `<id>-desc`, `<id>-close`,
+  `<id>-arrow`. The trigger's state goes in the tag because that state is
+  otherwise carried only by its fill, and a device test cannot read a colour.
 
   ## Props
 
   | Prop | Values | Default | Meaning |
   |------|--------|---------|---------|
+  | `id` | string | `nil` | Root testTag; every part derives its own from it. |
   | `open` | boolean | `false` | Whether the panel is shown. Lives in the screen. |
+  | `trigger` | string / node / nodes | `nil` | The control that toggles it. Omit and you place your own. |
+  | `on_open_change` | event tag | — | Sent as `{:tap, {tag, next_open?}}`. |
+  | `open_on_hold` | boolean | `false` | A long press on the trigger also opens it. |
+  | `disabled` | boolean | `false` | Wires no handler, so the trigger is inert. |
+  | `chevron` | boolean | `true` | Show the ▾/▴ indicator on the trigger. |
+  | `side` | `:top` `:right` `:bottom` `:left` | `:bottom` | Which side of the trigger the panel takes. |
+  | `align` | `:start` `:center` `:end` | `:start` | Where the panel sits across that axis. |
+  | `side_offset` | number | `8` | Gap between trigger and panel, in dp. |
+  | `align_offset` | number | `nil` | Nudge along the alignment axis, in dp. |
+  | `title` | string | `nil` | Heading inside the panel. |
+  | `description` | string | `nil` | Secondary line under the title. |
+  | `close` | string | `nil` | Label for a close action in the panel's footer. |
+  | `arrow` | boolean | `false` | Draw a beak pointing back at the trigger. |
   | `width` | number | `nil` | Panel width. Omit to fill the parent. |
   | `background` | color token / ARGB int | `:surface` | Panel fill. |
+  | `color` / `muted_color` | color token / ARGB int | `:on_surface` / `:muted` | Title ink, and the description's. |
   | `corner_radius` | radius token / number | `:radius_md` | Panel corners. |
   | `padding` | spacing token / number | `:space_md` | Padding inside the panel. |
   | `border_color` / `border_width` | color / number | `:border` / `1` | The edge that separates it from the content beneath. |
-  | `offset_x` / `offset_y` | number | `nil` | Static nudge in dp. |
+  | `offset_x` / `offset_y` | number | `nil` | Static nudge in dp; wins over `align_offset`. |
 
-  Not ported: `side`, `align`, `side_offset`, `align_offset`, `open_on_hover`,
-  `delay`, `close_delay`, `modal`, and the `id` / `*_class` attrs.
+  Not ported: `modal` and the backdrop it draws (a scrim belongs to whatever owns
+  the screen root — use `MishkaMob.Components.MishkaDialog` or
+  `MishkaMob.Components.MishkaDrawer` when the page must be blocked),
+  `dismissible` and `close_on_escape` (a panel in flow has no outside to click
+  and a phone has no Escape), `initial_focus` / `final_focus` (Mob exposes no
+  focus model for a panel), `labelledby` / `describedby` (no accessibility
+  semantics on any node — the `title` and `description` are rendered instead of
+  merely referenced), `open_on_hover` / `delay` / `close_delay`, and the
+  `*_class` attrs.
   """
 
   import Mob.Sigil
+
+  alias MishkaMob.Components.Event
+
+  @sides [:top, :right, :bottom, :left]
+  @aligns [:start, :center, :end]
+
+  # The web's gap between trigger and panel, read as dp instead of px.
+  @side_offset 8
 
   @doc "Composite expander (`<MishkaPopover>`). Children are the panel content."
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, children, _ctx), do: popover(props, children)
 
   @doc """
-  The popover node. Renders nothing when closed.
+  The popover node — its trigger, and the panel while `open`.
 
-      <MishkaPopover open={@open?}>{content}</MishkaPopover>
+      <MishkaPopover
+        id="details"
+        open={@open?}
+        trigger="Details"
+        title="Shipped"
+        on_open_change={:details}
+      >{content}</MishkaPopover>
+
+      def handle_info({:tap, {:details, open?}}, socket) do
+        {:noreply, Mob.Socket.assign(socket, :open?, open?)}
+      end
+
+  With no `trigger` it is the panel alone, which is how `MishkaMenu` and the
+  select-style components use it: they place their own control.
   """
   @spec popover(map() | keyword(), [map()]) :: map()
   def popover(props \\ %{}, content \\ []) do
     props = Map.new(props)
+    id = Map.get(props, :id)
+    open? = truthy?(Map.get(props, :open, false))
+    side = one_of(Map.get(props, :side), @sides, :bottom)
+    align = one_of(Map.get(props, :align), @aligns, :start)
 
-    if truthy?(Map.get(props, :open, false)), do: panel(props, content), else: ~MOB(<Column />)
+    trigger = trigger(props, id, open?, side)
+    revealed = if open?, do: revealed(props, content, id, side, align), else: []
+
+    # `revealed/5` is built trigger-first — gap, beak, panel. For a side that
+    # precedes the trigger the same sequence simply runs backwards, which is the
+    # whole of what "the panel is above/left of its trigger" means in flow.
+    children =
+      if side in [:top, :left],
+        do: Enum.reverse(revealed) ++ trigger,
+        else: trigger ++ revealed
+
+    container(children, id, side, align)
   end
 
   @doc """
   The panel shell without the `open` gate — the surface `MishkaMenu` and
-  `MishkaTooltip` build on, so all three agree on radius, border and padding.
+  `MishkaPreviewCard` build on, so they all agree on radius, border and padding.
+
+  Reads `:id` verbatim rather than deriving one, so a caller that already owns a
+  tagging scheme keeps it.
   """
   @spec panel(map() | keyword(), [map()]) :: map()
   def panel(props \\ %{}, content \\ []) do
@@ -79,11 +165,293 @@ defmodule MishkaMob.Components.MishkaPopover do
       """
 
     node
+    |> put(:id, Map.get(props, :id))
     |> put(:width, Map.get(props, :width))
     |> put(:fill_width, if(Map.get(props, :width), do: nil, else: true))
     |> put(:offset_x, Map.get(props, :offset_x))
     |> put(:offset_y, Map.get(props, :offset_y))
   end
+
+  @doc """
+  The trigger's tag, which carries its own open state.
+
+  The trigger says whether its panel is up by changing fill, and a device test
+  can read a tag but not a colour — so the state rides in the tag, exactly as a
+  `MishkaMenu` checkbox appends `-checked`.
+  """
+  @spec trigger_id(String.t() | nil, boolean()) :: String.t() | nil
+  def trigger_id(nil, _open?), do: nil
+  def trigger_id(id, true) when is_binary(id), do: id <> "-trigger-open"
+  def trigger_id(id, false) when is_binary(id), do: id <> "-trigger-closed"
+
+  @doc "The panel's tag. It exists only while the popover is open."
+  @spec panel_id(String.t() | nil) :: String.t() | nil
+  def panel_id(nil), do: nil
+  def panel_id(id) when is_binary(id), do: id <> "-panel"
+
+  @doc "The title's tag."
+  @spec title_id(String.t() | nil) :: String.t() | nil
+  def title_id(nil), do: nil
+  def title_id(id) when is_binary(id), do: id <> "-title"
+
+  @doc "The description's tag. `-desc`, matching the web's `aria-describedby` target."
+  @spec description_id(String.t() | nil) :: String.t() | nil
+  def description_id(nil), do: nil
+  def description_id(id) when is_binary(id), do: id <> "-desc"
+
+  @doc "The footer close action's tag."
+  @spec close_id(String.t() | nil) :: String.t() | nil
+  def close_id(nil), do: nil
+  def close_id(id) when is_binary(id), do: id <> "-close"
+
+  @doc "The beak's tag."
+  @spec arrow_id(String.t() | nil) :: String.t() | nil
+  def arrow_id(nil), do: nil
+  def arrow_id(id) when is_binary(id), do: id <> "-arrow"
+
+  # ── The trigger ─────────────────────────────────────────────────────────────
+
+  defp trigger(props, id, open?, side) do
+    case Map.get(props, :trigger) do
+      nil -> []
+      trigger -> [trigger_box(props, trigger, id, open?, side)]
+    end
+  end
+
+  defp trigger_box(props, trigger, id, open?, side) do
+    disabled? = truthy?(Map.get(props, :disabled, false))
+    # Only a trigger stacked above or below its panel can claim the full width;
+    # beside one it has to hug, or there is nothing left for the panel.
+    fill? = side in [:top, :bottom]
+    {background, ink} = trigger_chrome(open?, disabled?)
+
+    ~MOB"""
+    <Box fill_width={fill?} background={background} corner_radius={:radius_md} padding={:space_sm}>
+      {trigger_content(props, trigger, ink, open?, fill?)}
+    </Box>
+    """
+    |> put(:id, trigger_id(id, open?))
+    |> wire(props, open?, disabled?)
+  end
+
+  # An open popover leaves its trigger looking pressed — the web's `data-pressed`
+  # / `data-popup-open`, which is a fill here because there is no CSS to hand.
+  defp trigger_chrome(_open?, true), do: {:surface_raised, :muted}
+  defp trigger_chrome(true, _disabled?), do: {:primary, :on_primary}
+  defp trigger_chrome(false, _disabled?), do: {:surface_raised, :on_surface}
+
+  defp trigger_content(props, trigger, ink, open?, fill?) do
+    label =
+      case trigger do
+        text when is_binary(text) ->
+          # max_lines: 1 — a Text squeezed narrower than its content wraps
+          # character by character rather than clipping, and a trigger squeezed
+          # by its own chevron is exactly that case.
+          [~MOB"<Text text={text} text_size={:base} text_color={ink} max_lines={1} />"]
+
+        nodes when is_list(nodes) ->
+          nodes
+
+        node ->
+          [node]
+      end
+
+    if truthy?(Map.get(props, :chevron, true)) do
+      glyph = if open?, do: "▴", else: "▾"
+
+      [
+        ~MOB"""
+        <Row fill_width={fill?}>
+          {label}
+          <Spacer weight={1} :if={fill?} />
+          <Spacer size={8} :if={not fill?} />
+          <Text text={glyph} text_size={:sm} text_color={ink} />
+        </Row>
+        """
+      ]
+    else
+      label
+    end
+  end
+
+  # A disabled trigger gets no handler at all, so it cannot fire. The tap always
+  # toggles; the hold only ever opens, because that is what the hover it stands
+  # in for did.
+  defp wire(node, _props, _open?, true), do: node
+
+  defp wire(node, props, open?, false) do
+    change = Map.get(props, :on_open_change)
+    hold? = truthy?(Map.get(props, :open_on_hold, false))
+
+    node
+    |> put(:on_tap, Event.handler(change, not open?))
+    |> put(:on_long_press, if(hold?, do: Event.handler(change, true)))
+  end
+
+  # ── The panel and what sits between it and the trigger ──────────────────────
+
+  defp revealed(props, content, id, side, align) do
+    gap = Map.get(props, :side_offset, @side_offset)
+
+    [spacer(gap)] ++ beak(props, id, side, align) ++ [placed(props, content, id, side, align)]
+  end
+
+  # The web's arrow is a styled span the positioner rotates to face the trigger.
+  # With the side known up front a glyph says the same thing, tinted like the
+  # panel so it reads as the panel's own beak rather than a character.
+  defp beak(props, id, side, align) do
+    if truthy?(Map.get(props, :arrow, false)) do
+      glyph = beak_glyph(side)
+      fill = Map.get(props, :background, :surface)
+
+      node = put(~MOB"<Text text={glyph} text_size={:sm} text_color={fill} />", :id, arrow_id(id))
+
+      [if(side in [:top, :bottom], do: aligned(node, align), else: node)]
+    else
+      []
+    end
+  end
+
+  defp beak_glyph(:bottom), do: "▲"
+  defp beak_glyph(:top), do: "▼"
+  defp beak_glyph(:right), do: "◀"
+  defp beak_glyph(:left), do: "▶"
+
+  defp placed(props, content, id, side, align) do
+    node =
+      props
+      |> align_nudge(side)
+      |> Map.put(:id, panel_id(id))
+      |> panel(body(props, content, id))
+
+    if side in [:left, :right] do
+      # Compose measures a Row's unweighted children first, in order, so an
+      # unweighted panel beside a trigger gets whatever the trigger left — and a
+      # trigger that fills takes everything. The flexible half goes in a
+      # weighted Box.
+      %{type: :box, props: %{weight: 1}, children: [node]}
+    else
+      aligned(node, align)
+    end
+  end
+
+  # `align_offset` is the spec's nudge along the alignment axis, which is
+  # horizontal for a vertical side and vertical for a horizontal one. An
+  # explicit offset_x/offset_y still wins — it is the raw escape hatch.
+  defp align_nudge(props, side) do
+    case {Map.get(props, :align_offset), side} do
+      {nil, _} -> props
+      {n, s} when s in [:top, :bottom] -> Map.put_new(props, :offset_x, n)
+      {n, _} -> Map.put_new(props, :offset_y, n)
+    end
+  end
+
+  defp body(props, content, id) do
+    ink = Map.get(props, :color, :on_surface)
+    muted = Map.get(props, :muted_color, :muted)
+
+    [title(props, id, ink), description(props, id, muted), content, footer(props, id)]
+    |> Enum.reject(&(&1 == []))
+    |> Enum.intersperse([spacer(6)])
+    |> List.flatten()
+  end
+
+  defp title(props, id, ink) do
+    case Map.get(props, :title) do
+      nil ->
+        []
+
+      text ->
+        [put(~MOB"<Text text={text} text_size={:lg} text_color={ink} />", :id, title_id(id))]
+    end
+  end
+
+  defp description(props, id, muted) do
+    case Map.get(props, :description) do
+      nil ->
+        []
+
+      text ->
+        node = ~MOB"<Text text={text} text_size={:sm} text_color={muted} />"
+        [put(node, :id, description_id(id))]
+    end
+  end
+
+  # The web's `close` slot is a footer of actions, dismissed via `data-close`.
+  # Here it is one labelled action that reports the same open change the trigger
+  # does, with `false` — so a screen keeps a single clause for both.
+  defp footer(props, id) do
+    case Map.get(props, :close) do
+      nil ->
+        []
+
+      label ->
+        button =
+          ~MOB"""
+          <Box
+            fill_width={false}
+            background={:surface_raised}
+            corner_radius={:radius_sm}
+            padding={:space_sm}
+          >
+            <Text text={label} text_size={:sm} text_color={:on_surface} max_lines={1} />
+          </Box>
+          """
+          |> put(:id, close_id(id))
+          |> put(:on_tap, Event.handler(Map.get(props, :on_open_change), false))
+
+        [
+          ~MOB"""
+          <Row fill_width={true}>
+            <Spacer weight={1} />
+            {button}
+          </Row>
+          """
+        ]
+    end
+  end
+
+  # ── Layout plumbing ─────────────────────────────────────────────────────────
+
+  defp container(children, id, side, align) when side in [:left, :right] do
+    %{type: :row, props: %{fill_width: true}, children: children}
+    |> put(:id, id)
+    |> put(:align, row_align(align))
+  end
+
+  defp container(children, id, _side, _align) do
+    put(%{type: :column, props: %{fill_width: true}, children: children}, :id, id)
+  end
+
+  # A Column has no horizontal alignment on either platform, so a panel narrower
+  # than its parent is placed by the Box that wraps it. `:start` needs no wrapper
+  # — a Box's default content alignment is already the leading edge.
+  defp aligned(node, :start), do: node
+
+  defp aligned(node, align) do
+    %{type: :box, props: %{fill_width: true, align: box_align(align)}, children: [node]}
+  end
+
+  defp box_align(:center), do: :top_center
+  defp box_align(:end), do: :top_trailing
+
+  # A Row aligns its children vertically, so the same three names land on its
+  # own `align` prop. Centre is the Row's default, so it says nothing.
+  defp row_align(:start), do: :top
+  defp row_align(:center), do: nil
+  defp row_align(:end), do: :bottom
+
+  defp spacer(size), do: %{type: :spacer, props: %{size: size}, children: []}
+
+  defp one_of(value, allowed, default) when is_atom(value) and not is_nil(value) do
+    if value in allowed, do: value, else: default
+  end
+
+  defp one_of(value, allowed, default) when is_binary(value) do
+    Enum.find(allowed, default, &(Atom.to_string(&1) == value))
+  end
+
+  defp one_of(_value, _allowed, default), do: default
 
   defp put(node, _key, nil), do: node
   defp put(node, key, value), do: %{node | props: Map.put(node.props, key, value)}

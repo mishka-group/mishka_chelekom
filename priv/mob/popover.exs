@@ -10,7 +10,7 @@
     mob: [
       composite_tag: "popover",
       function: "popover",
-      kit: []
+      kit: ["event"]
     ]
   ]
 ]

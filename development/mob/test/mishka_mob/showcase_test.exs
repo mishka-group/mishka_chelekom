@@ -14,7 +14,13 @@ defmodule MishkaMob.ShowcaseTest do
   end
 
   defp expanded(view), do: Mob.Composite.expand(tree(view), self())
-  defp drawer_node(view), do: find(view, :mishka_drawer)
+  # The drawer page now renders NINE drawers, one per example, so "the drawer"
+  # has to be named. find/2 would hand back whichever comes first in the tree.
+  defp drawer_node(view, id) do
+    view
+    |> find_all(:mishka_drawer)
+    |> Enum.find(&(&1.props[:id] == id))
+  end
 
   # The "Inside inputs" token rows, as lists of the pills in each. A row here is
   # a :row whose DIRECT children are pills — the wrapper Column and the outer
@@ -277,10 +283,11 @@ defmodule MishkaMob.ShowcaseTest do
       view = mount_screen(ComponentScreen, %{slug: :drawer})
 
       assert assigns(view).entry.slug == :drawer
-      assert assigns(view).drawer_open? == false
-      assert_renderable(expanded(view))
-      assert text(view) =~ "Open from any side"
-      assert text(view) =~ "Rounded bottom sheet"
+      assert assigns(view).side_open? == false
+      # extra: [:canvas] — the sheet and the edge area are drag surfaces now.
+      assert_renderable(expanded(view), extra: [:canvas])
+      assert text(view) =~ "A trigger, and any side"
+      assert text(view) =~ "Bottom sheet"
       # the example code is shown verbatim as text
       assert text(view) =~ "MishkaDrawer"
     end
@@ -289,24 +296,24 @@ defmodule MishkaMob.ShowcaseTest do
       view =
         ComponentScreen
         |> mount_screen(%{slug: :drawer})
-        |> render_info({:tap, {:open, :right, :default}})
+        |> render_info({:tap, {:open_side, :right}})
 
-      assert assigns(view).drawer_open? == true
-      assert assigns(view).drawer_side == :right
+      assert assigns(view).side_open? == true
+      assert assigns(view).side == :right
 
       # "About" appears only in the drawer body — every other menu label also
       # shows up in an example's code block, so it would not prove the overlay.
       assert text(expanded(view)) =~ "About"
-      assert_renderable(expanded(view))
+      assert_renderable(expanded(view), extra: [:canvas])
     end
 
     test "menu rows are left-aligned tappable boxes, not centred buttons" do
       view =
         ComponentScreen
         |> mount_screen(%{slug: :drawer})
-        |> render_info({:tap, {:open, :right, :default}})
+        |> render_info({:tap, {:open_side, :right}})
 
-      children = drawer_node(view).children
+      children = drawer_node(view, "side").children
       rows = Enum.filter(children, &(&1.type == :box))
 
       # A Material Button centres its label; a tappable Box lets the row lay the
@@ -320,41 +327,38 @@ defmodule MishkaMob.ShowcaseTest do
     test "every example opens a distinct, visible drawer variant" do
       base = mount_screen(ComponentScreen, %{slug: :drawer})
 
-      sides = base |> render_info({:tap, {:open, :right, :default}}) |> drawer_node()
+      # Each example owns its own assign, so opening one must leave the others
+      # shut — that is the whole reason they stopped sharing state.
+      sides = base |> render_info({:tap, {:open_side, :right}}) |> drawer_node("side")
       assert sides.props.open == true
       assert sides.props.side == :right
-      refute Map.has_key?(sides.props, :corner_radius)
 
-      sheet = base |> render_info({:tap, {:open, :bottom, :sheet}}) |> drawer_node()
+      sheet = base |> render_info({:tap, {:open, :sheet}}) |> drawer_node("sheet")
       assert sheet.props.open == true
       assert sheet.props.side == :bottom
-      assert sheet.props.corner_radius == :radius_lg
+      assert sheet.props.handle == true
 
-      custom = base |> render_info({:tap, {:open, :left, :custom}}) |> drawer_node()
-      assert custom.props.open == true
-      assert custom.props.side == :left
-      assert custom.props.header == false
+      chrome = base |> render_info({:tap, {:open, :chrome}}) |> drawer_node("chrome")
+      assert chrome.props.open == true
+      assert chrome.props.header == false
 
-      colors = base |> render_info({:tap, {:open, :left, :colors}}) |> drawer_node()
-      assert colors.props.open == true
-      assert colors.props.background == 0xFF7C3AED
-      assert colors.props.scrim_color == 0x992E1065
+      opened = base |> render_info({:tap, {:open, :sheet}})
+      assert drawer_node(opened, "side").props.open == false
     end
 
     test "the custom-chrome variant supplies its own account header (header: false)" do
       view =
         ComponentScreen
         |> mount_screen(%{slug: :drawer})
-        |> render_info({:tap, {:open, :left, :custom}})
+        |> render_info({:tap, {:open, :chrome}})
 
       # the built-in title/✕ is off; a bespoke account card is rendered instead
-      assert drawer_node(view).props.header == false
+      assert drawer_node(view, "chrome").props.header == false
       assert text(expanded(view)) =~ "Shahryar"
-      assert text(expanded(view)) =~ "shahryar@mishka.tools"
 
       # the panel must keep the default :surface background — tinting it
       # :surface_raised matched the rows and made them invisible
-      refute Map.has_key?(drawer_node(view).props, :background)
+      refute Map.has_key?(drawer_node(view, "chrome").props, :background)
     end
 
     test "declares a props reference that the ComponentScreen renders" do
@@ -371,7 +375,7 @@ defmodule MishkaMob.ShowcaseTest do
 
     test "standalone example triggers are full-width, not weight (so they don't collapse)" do
       view = mount_screen(ComponentScreen, %{slug: :drawer})
-      open_sheet = find(view, :button, text: "Open bottom sheet")
+      open_sheet = find(view, :button, text: "Open the sheet")
 
       assert open_sheet.props.fill_width == true
       refute Map.has_key?(open_sheet.props, :weight)
@@ -388,11 +392,11 @@ defmodule MishkaMob.ShowcaseTest do
       view =
         ComponentScreen
         |> mount_screen(%{slug: :drawer})
-        |> render_info({:tap, {:open, :bottom, :sheet}})
-        |> render_info({:tap, :close_drawer})
+        |> render_info({:tap, {:open, :sheet}})
+        |> render_info({:tap, {:close, :sheet}})
 
-      assert assigns(view).drawer_open? == false
-      refute text(expanded(view)) =~ "About"
+      assert assigns(view).sheet_open? == false
+      assert drawer_node(view, "sheet").props.open == false
     end
 
     test "the Accordion page renders its examples, panels and props" do

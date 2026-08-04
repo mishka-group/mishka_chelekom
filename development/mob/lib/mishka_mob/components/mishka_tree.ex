@@ -6,8 +6,8 @@ defmodule MishkaMob.Components.MishkaTree do
   ## Nodes
 
   A node is a map with `:label` and `:value`, optionally `:children`, `:icon`,
-  `:meta` (a trailing note — a size, a count, a date) and `:disabled`. Nesting
-  is arbitrary:
+  `:meta` (a trailing note — a size, a count, a date), `:disabled`,
+  `:selectable` and `:has_children`. Nesting is arbitrary:
 
       [
         %{label: "lib", value: "lib", children: [
@@ -17,6 +17,18 @@ defmodule MishkaMob.Components.MishkaTree do
         ]},
         %{label: "mix.exs", value: "mix.exs"}
       ]
+
+  Three of those keys are node *kinds* rather than decoration:
+
+    * `disabled: true` wires nothing at all — no tap, no hold, no checkbox.
+    * `selectable: false` is a **category header**: it can never be selected, and
+      tapping it toggles its branch instead, even with `expand_on_click: false`.
+      That is what the web does, and it is the only way a heading can be a row
+      without pretending to be a destination.
+    * `has_children: true` with no `:children` is a branch whose contents have
+      not been fetched. It draws a disclosure like any other parent, and the
+      first tap reports `on_load_children` rather than `on_expand`, so the screen
+      knows to go and get them.
 
   ## The layout is flat, and that is deliberate
 
@@ -31,33 +43,95 @@ defmodule MishkaMob.Components.MishkaTree do
   assert on, and it is the same structure `LazyList` would need if a tree ever
   grows large enough to want virtualising.
 
+  ## A tap does one thing
+
+  On the web a click can expand *and* select, because the engine handles the
+  event and then decides. A Mob node carries a single `on_tap`, so the row picks
+  one: a branch that may expand expands (`expand_on_click`, and always for a
+  `selectable: false` header), and anything else selects (`select_on_click`).
+  The disclosure arrow keeps its own handler either way, so a tree with
+  `expand_on_click: false` is still fully navigable.
+
+  `select_on_click` defaults to **true** here where the web defaults to false.
+  A pointer has a second button and a modifier key to spare; a finger has
+  neither, and a row that reports nothing when tapped is dead UI on a phone.
+
+  ## Long press is Shift+click
+
+  Range selection is Shift+click on the web. There is no Shift on a touch
+  screen, so the range lands on the gesture that already means "the other thing
+  this row does": a long press reports `on_range_select`, and `select_range/4`
+  turns the anchor and the held row into the values between them.
+
   ## Checkbox state
 
   With `with_checkboxes`, a parent reflects its descendants: checked when they
-  all are, indeterminate when only some are. `check_state/3` computes that, and
-  `toggle_check/3` applies a tap the way the web engine does — cascading to
+  all are, indeterminate when only some are. `check_state/4` computes that, and
+  `toggle_check/4` applies a tap the way the web engine does — cascading to
   descendants unless `check_strictly` is set.
+
+  ## Test tags
+
+  Everything this component says about state, it says with a colour, a glyph or
+  a drawn mark, and none of those are in the accessibility tree. So `id` (default
+  `"tree"`) prefixes a tag on every part, and the tags that describe state carry
+  it:
+
+  | Tag | Where | Why |
+  |------|-------|-----|
+  | `<id>-row-<value>` | the whole row | the tap / long-press target |
+  | `<id>-toggle-<value>` | the disclosure | the arrow reads `▸`/`▾` on every row |
+  | `<id>-check-<value>` | the checkbox | a checkbox carries no text |
+  | `<id>-<value>-open` / `-closed` | the arrow glyph | which way it points |
+  | `<id>-<value>-selected` / `-idle` | the label | selection is colour and weight |
+  | `<id>-<value>-checked` / `-mixed` / `-empty` | the indicator | `MishkaCheckbox` adds these |
+  | `<id>-<value>-loading` | the loader | async children are on their way |
+
+  Row, disclosure and checkbox are tappable, so they merge their children's
+  semantics: a device test reaches the state tags with `useUnmergedTree = true`.
 
   ## Props
 
   | Prop | Values | Default | Meaning |
   |------|--------|---------|---------|
-  | `nodes` | list of node maps | `[]` | The hierarchy — `label`, `value`, `children`, `icon`, `meta`, `disabled`. |
-  | `expanded` | list of values | `[]` | Which nodes are open. |
+  | `nodes` | list of node maps | `[]` | The hierarchy — `label`, `value`, `children`, `icon`, `meta`, `disabled`, `selectable`, `has_children`. |
+  | `id` | string | `"tree"` | Prefix for every test tag. |
+  | `expanded` | list of values, or `:all` | `[]` | Which nodes are open. |
   | `selected` | list of values | `[]` | Which are selected. |
   | `checked` | list of values | `[]` | Which are checked. |
+  | `loading` | list of values | `[]` | Which are fetching their children. |
   | `with_checkboxes` | boolean | `false` | Render a checkbox per node. |
   | `check_strictly` | boolean | `false` | Do not cascade a check to children. |
-  | `with_expand_icon` | boolean | `true` | Render the ▸/▾ disclosure. |
+  | `with_expand_icon` | boolean | `true` | Render the disclosure. |
+  | `expand_icon` / `collapse_icon` | string | `"▸"` / `"▾"` | The disclosure glyphs. |
+  | `loader_icon` | string | `"…"` | Shown on a row while it is `loading`. |
   | `with_lines` | boolean | `false` | Draw guide lines at each level. |
   | `level_offset` | number | `18` | Indent per depth. |
+  | `expand_on_click` | boolean | `true` | Tapping a branch toggles it. |
+  | `select_on_click` | boolean | `true` | Tapping anything else selects it. |
+  | `allow_range_selection` | boolean | `true` | Hold a row to report a range. |
   | `on_expand` / `on_collapse` | event tags | — | `{:tap, {tag, value}}`. |
   | `on_select` / `on_check` | event tags | — | `{:tap, {tag, value}}`. |
+  | `on_load_children` | event tag | — | First tap on a `has_children` branch. |
+  | `on_range_select` | event tag | — | Long press, when range selection is on. |
 
-  Not ported: `draggable` / `with_drag_handle` / `allow_drop` (no drag gesture),
-  `allow_range_selection` and the `*_on_space` / keyboard attrs, `has_children`
-  async loading, `keep_mounted`, `clear_selection_on_outside_click`, and
-  `name`/`id`/`*_class`.
+  `multiple` is not a prop because the tree is controlled: the screen owns
+  `selected`, so the mode belongs to the reducer. `toggle_select/3` takes it as
+  an option, and `select_range/4` builds the Shift+click half.
+
+  The `<:expand_icon>` and `<:loader>` slots become the glyph props above: a
+  slot renders arbitrary markup, and what a native row can actually vary is the
+  character.
+
+  Not ported: `draggable` / `with_drag_handle` / `allow_drop` / `on_drag_drop`
+  and the `<:drag_icon>` slot (Mob's only drag gesture belongs to a static
+  `:canvas`), the `expand_on_space` / `check_on_space` keyboard attrs and the
+  rest of the APG key map, `keep_mounted` (a collapsed branch is never built, so
+  there is nothing to keep), `clear_selection_on_outside_click` (there is no
+  outside), `aria_label` / `drag_handle_label` (Mob exposes no accessibility
+  labels), `name` and `on_target` (form and LiveView plumbing), the `*_class`
+  attrs, and the `<:node>` slot — a node's `:icon` and `:meta` keys are the
+  parts of a custom label a row has room for.
   """
 
   import Mob.Sigil
@@ -66,6 +140,10 @@ defmodule MishkaMob.Components.MishkaTree do
   alias MishkaMob.Components.MishkaCheckbox
 
   @indent 18
+  @default_id "tree"
+  @expand_glyph "▸"
+  @collapse_glyph "▾"
+  @loader_glyph "…"
 
   @doc "Composite expander (`<MishkaTree />`). Delegates to `tree/1`."
   @spec expand(map(), [map()], map()) :: map()
@@ -95,6 +173,9 @@ defmodule MishkaMob.Components.MishkaTree do
   A subtree that is not expanded contributes nothing but its own parent, so the
   cost of a collapsed branch is one row rather than a hidden layout tree.
 
+  `expanded` is a list of values, or `:all` — which opens every branch, the same
+  shorthand the web attr takes.
+
       iex> nodes = [%{label: "a", value: "a", children: [%{label: "b", value: "b"}]}]
       iex> MishkaMob.Components.MishkaTree.visible(nodes, [])
       [{%{label: "a", value: "a", children: [%{label: "b", value: "b"}]}, 0, true, false}]
@@ -102,22 +183,39 @@ defmodule MishkaMob.Components.MishkaTree do
       iex> nodes = [%{label: "a", value: "a", children: [%{label: "b", value: "b"}]}]
       iex> MishkaMob.Components.MishkaTree.visible(nodes, ["a"]) |> Enum.map(&elem(&1, 0).value)
       ["a", "b"]
+
+      iex> nodes = [%{label: "a", value: "a", children: [%{label: "b", value: "b"}]}]
+      iex> MishkaMob.Components.MishkaTree.visible(nodes, :all) |> Enum.map(&elem(&1, 0).value)
+      ["a", "b"]
+
+  A branch whose children have not been fetched still counts as expandable, so
+  it draws a disclosure and can report `on_load_children`:
+
+      iex> nodes = [%{label: "a", value: "a", has_children: true}]
+      iex> MishkaMob.Components.MishkaTree.visible(nodes, [])
+      [{%{label: "a", value: "a", has_children: true}, 0, true, false}]
   """
-  @spec visible([map()], [term()], non_neg_integer()) :: [
+  @spec visible([map()], [term()] | :all, non_neg_integer()) :: [
           {map(), non_neg_integer(), boolean(), boolean()}
         ]
   def visible(nodes, expanded, depth \\ 0) do
-    open = MapSet.new(List.wrap(expanded))
+    open = open_set(expanded)
 
     Enum.flat_map(List.wrap(nodes), fn node ->
       children = children(node)
-      expandable? = children != []
-      expanded? = expandable? and MapSet.member?(open, node.value)
+      expandable? = children != [] or truthy?(Map.get(node, :has_children, false))
+      expanded? = expandable? and open?(open, node.value)
       rest = if expanded?, do: visible(children, expanded, depth + 1), else: []
 
       [{node, depth, expandable?, expanded?} | rest]
     end)
   end
+
+  defp open_set(:all), do: :all
+  defp open_set(values), do: MapSet.new(List.wrap(values))
+
+  defp open?(:all, _value), do: true
+  defp open?(set, value), do: MapSet.member?(set, value)
 
   @doc """
   Every value at or under `value`, itself included — the set a cascading check
@@ -156,12 +254,30 @@ defmodule MishkaMob.Components.MishkaTree do
 
       iex> MishkaMob.Components.MishkaTree.check_state([%{label: "b", value: "b"}], "b", ["b"])
       :checked
+
+  `strictly: true` is `check_strictly`: a parent then reports its own membership
+  and nothing else, because a strict tick is a statement about that row rather
+  than about what is under it. Deriving it from the leaves instead is what made
+  the prop inert — the tick landed in the list and the box stayed empty.
+
+      iex> nodes = [%{label: "a", value: "a", children: [%{label: "b", value: "b"}]}]
+      iex> MishkaMob.Components.MishkaTree.check_state(nodes, "a", ["a"], strictly: true)
+      :checked
+
+      iex> nodes = [%{label: "a", value: "a", children: [%{label: "b", value: "b"}]}]
+      iex> MishkaMob.Components.MishkaTree.check_state(nodes, "a", ["a"])
+      :unchecked
   """
-  @spec check_state([map()], term(), [term()]) :: :checked | :unchecked | :indeterminate
-  def check_state(nodes, value, checked) do
+  @spec check_state([map()], term(), [term()], keyword()) ::
+          :checked | :unchecked | :indeterminate
+  def check_state(nodes, value, checked, opts \\ []) do
     set = MapSet.new(List.wrap(checked))
 
-    nodes |> find_node(value) |> node_state(value, set)
+    if Keyword.get(opts, :strictly, false) do
+      if MapSet.member?(set, value), do: :checked, else: :unchecked
+    else
+      nodes |> find_node(value) |> node_state(value, set)
+    end
   end
 
   defp node_state(nil, _value, _set), do: :unchecked
@@ -201,23 +317,50 @@ defmodule MishkaMob.Components.MishkaTree do
       iex> nodes = [%{label: "a", value: "a", children: [%{label: "b", value: "b"}]}]
       iex> MishkaMob.Components.MishkaTree.toggle_check(nodes, "a", [], strictly: true)
       ["a"]
+
+  A strict tick comes off again on the second tap. It only does so because the
+  state is read strictly too: derived from the leaves, a strictly-checked parent
+  reads as unchecked forever and every tap tries to check it again.
+
+      iex> nodes = [%{label: "a", value: "a", children: [%{label: "b", value: "b"}]}]
+      iex> MishkaMob.Components.MishkaTree.toggle_check(nodes, "a", ["a"], strictly: true)
+      []
   """
   @spec toggle_check([map()], term(), [term()], keyword()) :: [term()]
   def toggle_check(nodes, value, checked, opts \\ []) do
-    affected =
-      if Keyword.get(opts, :strictly, false),
-        do: [value],
-        else: subtree_values(nodes, value)
+    strictly? = Keyword.get(opts, :strictly, false)
+    affected = if strictly?, do: [value], else: subtree_values(nodes, value)
 
     affected = if affected == [], do: [value], else: affected
     current = List.wrap(checked)
-    on? = check_state(nodes, value, current) != :checked
+    on? = check_state(nodes, value, current, strictly: strictly?) != :checked
 
     if on? do
       Enum.uniq(current ++ affected)
     else
       current -- affected
     end
+  end
+
+  @doc """
+  Every branch in the tree — the list `:all` is shorthand for.
+
+  A branch is any node with children, or one that claims them with
+  `has_children: true` and has not fetched them yet.
+
+      iex> nodes = [%{label: "a", value: "a", children: [%{label: "b", value: "b"}]},
+      ...>   %{label: "c", value: "c", has_children: true}, %{label: "d", value: "d"}]
+      iex> MishkaMob.Components.MishkaTree.expanded_values(nodes)
+      ["a", "c"]
+  """
+  @spec expanded_values([map()]) :: [term()]
+  def expanded_values(nodes) do
+    Enum.flat_map(List.wrap(nodes), fn node ->
+      case children(node) do
+        [] -> if truthy?(Map.get(node, :has_children, false)), do: [node.value], else: []
+        kids -> [node.value | expanded_values(kids)]
+      end
+    end)
   end
 
   @doc """
@@ -228,13 +371,161 @@ defmodule MishkaMob.Components.MishkaTree do
 
       iex> MishkaMob.Components.MishkaTree.toggle_expand("a", ["a", "b"])
       ["b"]
+
+  `:all` is a rendering shorthand, not a state: "everything except this one"
+  cannot be written down without the tree. Pass the nodes and it is materialised
+  with `expanded_values/1` first, so the tap really does close a branch.
+
+      iex> nodes = [%{label: "a", value: "a", children: [%{label: "b", value: "b"}]}]
+      iex> MishkaMob.Components.MishkaTree.toggle_expand("a", :all, nodes)
+      []
   """
-  @spec toggle_expand(term(), [term()]) :: [term()]
-  def toggle_expand(value, expanded) do
+  @spec toggle_expand(term(), [term()] | :all, [map()]) :: [term()]
+  def toggle_expand(value, expanded, nodes \\ [])
+
+  def toggle_expand(value, :all, nodes), do: toggle_expand(value, expanded_values(nodes), [])
+
+  def toggle_expand(value, expanded, _nodes) do
     expanded = List.wrap(expanded)
 
     if value in expanded, do: expanded -- [value], else: expanded ++ [value]
   end
+
+  @doc """
+  Apply a selection tap, returning the new selected list.
+
+  This is the `multiple` attr: the web engine owns the selection and the flag
+  tells it how to grow, while here the screen owns it and the flag is an option
+  on the reducer.
+
+  Single selection replaces, and tapping the one selected row clears it — the
+  same "tap it again to put it back" the disclosure has:
+
+      iex> MishkaMob.Components.MishkaTree.toggle_select("a", [])
+      ["a"]
+
+      iex> MishkaMob.Components.MishkaTree.toggle_select("b", ["a"])
+      ["b"]
+
+      iex> MishkaMob.Components.MishkaTree.toggle_select("a", ["a"])
+      []
+
+  With `multiple: true` a tap adds or removes, and the rest stays:
+
+      iex> MishkaMob.Components.MishkaTree.toggle_select("b", ["a"], multiple: true)
+      ["a", "b"]
+
+      iex> MishkaMob.Components.MishkaTree.toggle_select("a", ["a", "b"], multiple: true)
+      ["b"]
+  """
+  @spec toggle_select(term(), [term()], keyword()) :: [term()]
+  def toggle_select(value, selected, opts \\ []) do
+    selected = List.wrap(selected)
+
+    cond do
+      Keyword.get(opts, :multiple, false) ->
+        if value in selected, do: selected -- [value], else: selected ++ [value]
+
+      selected == [value] ->
+        []
+
+      true ->
+        [value]
+    end
+  end
+
+  @doc """
+  The values between `anchor` and `value` on screen, inclusive — the port of
+  Shift+click.
+
+  Order does not matter: the range is read off `visible/2`, so it follows what
+  the reader can actually see rather than the shape of the data. Rows that
+  cannot be selected — `disabled`, or a `selectable: false` header — drop out of
+  the middle of a range rather than joining it.
+
+      iex> nodes = [%{label: "a", value: "a", children: [
+      ...>   %{label: "b", value: "b"}, %{label: "c", value: "c"}]}, %{label: "d", value: "d"}]
+      iex> MishkaMob.Components.MishkaTree.select_range(nodes, ["a"], "b", "d")
+      ["b", "c", "d"]
+
+      iex> nodes = [%{label: "a", value: "a", children: [
+      ...>   %{label: "b", value: "b"}, %{label: "c", value: "c"}]}, %{label: "d", value: "d"}]
+      iex> MishkaMob.Components.MishkaTree.select_range(nodes, ["a"], "d", "b")
+      ["b", "c", "d"]
+
+  A collapsed branch contributes only itself, because only what is on screen can
+  be dragged across:
+
+      iex> nodes = [%{label: "a", value: "a", children: [%{label: "b", value: "b"}]},
+      ...>   %{label: "d", value: "d"}]
+      iex> MishkaMob.Components.MishkaTree.select_range(nodes, [], "a", "d")
+      ["a", "d"]
+
+  With no anchor yet — nothing selected — a hold is just a selection of one:
+
+      iex> MishkaMob.Components.MishkaTree.select_range([%{label: "a", value: "a"}], [], nil, "a")
+      ["a"]
+  """
+  @spec select_range([map()], [term()] | :all, term(), term()) :: [term()]
+  def select_range(nodes, expanded, anchor, value) do
+    rows = visible(nodes, expanded)
+    values = Enum.map(rows, &elem(&1, 0).value)
+
+    case {Enum.find_index(values, &(&1 == anchor)), Enum.find_index(values, &(&1 == value))} do
+      {nil, _} ->
+        if value in values, do: [value], else: []
+
+      {_, nil} ->
+        []
+
+      {from, to} ->
+        rows
+        |> Enum.slice(min(from, to)..max(from, to))
+        |> Enum.map(&elem(&1, 0))
+        |> Enum.filter(&pickable?/1)
+        |> Enum.map(& &1.value)
+    end
+  end
+
+  @doc """
+  The test tag on a whole row — the tap and long-press target.
+
+      iex> MishkaMob.Components.MishkaTree.row_tag("files", "lib/app.ex")
+      "files-row-lib/app.ex"
+  """
+  @spec row_tag(String.t(), term()) :: String.t()
+  def row_tag(id, value), do: "#{id}-row-#{value}"
+
+  @doc """
+  The test tag on a row's disclosure.
+
+      iex> MishkaMob.Components.MishkaTree.toggle_tag("files", "lib")
+      "files-toggle-lib"
+  """
+  @spec toggle_tag(String.t(), term()) :: String.t()
+  def toggle_tag(id, value), do: "#{id}-toggle-#{value}"
+
+  @doc """
+  The test tag on a row's checkbox.
+
+      iex> MishkaMob.Components.MishkaTree.check_tag("files", "lib")
+      "files-check-lib"
+  """
+  @spec check_tag(String.t(), term()) :: String.t()
+  def check_tag(id, value), do: "#{id}-check-#{value}"
+
+  @doc """
+  The test tag that reports a row's state.
+
+  Expansion is a glyph, selection is a colour and a font weight, and the check
+  is a drawn mark — a device test can read none of the three, so each one gets
+  its own tag instead.
+
+      iex> MishkaMob.Components.MishkaTree.state_tag("files", "lib", "open")
+      "files-lib-open"
+  """
+  @spec state_tag(String.t(), term(), String.t()) :: String.t()
+  def state_tag(id, value, state), do: "#{id}-#{value}-#{state}"
 
   defp find_node(nodes, value) do
     Enum.find_value(List.wrap(nodes), fn node ->
@@ -248,18 +539,27 @@ defmodule MishkaMob.Components.MishkaTree do
 
   defp children(node), do: node |> Map.get(:children) |> List.wrap()
 
+  defp selectable?(node), do: truthy?(Map.get(node, :selectable, true))
+  defp disabled?(node), do: truthy?(Map.get(node, :disabled, false))
+  defp pickable?(node), do: selectable?(node) and not disabled?(node)
+
   # ── Rendering ───────────────────────────────────────────────────────────────
 
   defp row({node, depth, expandable?, expanded?}, props) do
-    disabled? = truthy?(Map.get(node, :disabled, false))
-    selected? = node.value in List.wrap(Map.get(props, :selected, []))
+    id = tree_id(props)
+    value = node.value
+    off? = disabled?(node)
+    pick? = selectable?(node)
+    selected? = pick? and value in List.wrap(Map.get(props, :selected, []))
+    loading? = value in List.wrap(Map.get(props, :loading, []))
     offset = Map.get(props, :level_offset, @indent) * depth
 
     parts =
       guides(depth, props) ++
-        [disclosure(node, expandable?, expanded?, props, disabled?)] ++
-        checkbox(node, props, disabled?) ++
-        [icon(node), label(node, selected?, disabled?)] ++
+        [disclosure(node, expandable?, expanded?, props, off?)] ++
+        checkbox(node, props, off?) ++
+        [icon(node), label(node, id, selected?, off?)] ++
+        loader(props, id, value, loading?) ++
         meta(node)
 
     ~MOB"""
@@ -275,11 +575,60 @@ defmodule MishkaMob.Components.MishkaTree do
       </Row>
     </Box>
     """
-    |> put(:on_tap, select_handler(node, props, disabled?))
+    |> put(:on_tap, tap(node, expandable?, expanded?, props, off?, pick?))
+    |> put(:on_long_press, hold(props, value, off?, pick?))
+    |> put(:id, row_tag(id, value))
   end
 
-  # A node's trailing note — a file size, a count, a date. Pushed to the far
-  # edge by a weighted Spacer, which is the only way to right-align in a Row.
+  # A tap can only mean one thing, so the branch wins where there is one: a
+  # reader who wanted to open a folder and got it selected instead has lost the
+  # gesture that opens it. `selectable: false` forces the branch even with
+  # `expand_on_click: false`, which is what the web does for a category header.
+  #
+  # The fallthrough matters more than it looks. A tree wired for checkboxes has
+  # `on_expand` but no `on_select`, and one wired for picking has the reverse —
+  # so taking the branch unconditionally would leave half of them with rows that
+  # render perfectly and do nothing.
+  defp tap(_node, _expandable?, _expanded?, _props, true, _pick?), do: nil
+
+  defp tap(node, expandable?, expanded?, props, _off?, pick?) do
+    branch =
+      if expandable? and (flag?(props, :expand_on_click, true) or not pick?),
+        do: branch(node, expanded?, props)
+
+    select =
+      if pick? and flag?(props, :select_on_click, true),
+        do: tag_handler(props, :on_select, node.value, false)
+
+    branch || select
+  end
+
+  # Expanding a branch that has never been fetched is a request, not a state
+  # change — hence a separate event. It falls back to `on_expand` so a tree
+  # that only ever gets `has_children` data by accident still opens.
+  defp branch(node, true, props), do: tag_handler(props, :on_collapse, node.value, false)
+
+  defp branch(node, false, props) do
+    if children(node) == [] and truthy?(Map.get(node, :has_children, false)) do
+      tag_handler(props, :on_load_children, node.value, false) ||
+        tag_handler(props, :on_expand, node.value, false)
+    else
+      tag_handler(props, :on_expand, node.value, false)
+    end
+  end
+
+  # Shift+click has no finger equivalent, so the range moves to the one gesture
+  # a row has left. A plain tap passes through untouched — `combinedClickable`
+  # takes both handles — so selecting one row still works exactly as before.
+  defp hold(props, value, off?, pick?) do
+    if not off? and pick? and flag?(props, :allow_range_selection, true) do
+      tag_handler(props, :on_range_select, value, false)
+    end
+  end
+
+  # A node's trailing note — a file size, a count, a date. It hugs the right
+  # edge because the label beside it is the row's only weighted child, so the
+  # label absorbs every spare pixel and the note is pushed out to the end.
   defp meta(node) do
     case Map.get(node, :meta) do
       nil ->
@@ -289,15 +638,15 @@ defmodule MishkaMob.Components.MishkaTree do
         # No disabled variant: it is already :muted, and dimming secondary
         # text further takes it below readable.
         [
-          ~MOB(<Spacer weight={1} />),
-          ~MOB(<Text text={text} text_size={:sm} text_color={:muted} />)
+          ~MOB(<Spacer size={8} />),
+          ~MOB(<Text text={text} text_size={:sm} text_color={:muted} max_lines={1} />)
         ]
     end
   end
 
   # Guide lines are drawn per level so they line up with the indent.
   defp guides(depth, props) do
-    if truthy?(Map.get(props, :with_lines, false)) and depth > 0 do
+    if flag?(props, :with_lines, false) and depth > 0 do
       step = Map.get(props, :level_offset, @indent)
 
       Enum.map(1..depth, fn _ ->
@@ -313,9 +662,9 @@ defmodule MishkaMob.Components.MishkaTree do
     end
   end
 
-  defp disclosure(node, expandable?, expanded?, props, disabled?) do
+  defp disclosure(node, expandable?, expanded?, props, off?) do
     cond do
-      not truthy?(Map.get(props, :with_expand_icon, true)) ->
+      not flag?(props, :with_expand_icon, true) ->
         ~MOB(<Spacer size={0} />)
 
       not expandable? ->
@@ -323,9 +672,21 @@ defmodule MishkaMob.Components.MishkaTree do
         ~MOB(<Spacer size={20} />)
 
       true ->
-        glyph = if expanded?, do: "▾", else: "▸"
-        tag = if expanded?, do: :on_collapse, else: :on_expand
-        ink = if disabled?, do: :muted, else: :on_surface
+        id = tree_id(props)
+        ink = if off?, do: :muted, else: :on_surface
+
+        glyph =
+          if expanded?,
+            do: Map.get(props, :collapse_icon, @collapse_glyph),
+            else: Map.get(props, :expand_icon, @expand_glyph)
+
+        # The glyph says which way the branch is pointing and nothing else does,
+        # so the state goes into a tag on the arrow itself. It cannot go on the
+        # tappable Box: that is what a device test clicks, and a target whose
+        # name changes when you use it is a target you can only click once.
+        arrow =
+          ~MOB(<Text text={glyph} text_size={:sm} text_color={ink} max_lines={1} />)
+          |> put(:id, state_tag(id, node.value, if(expanded?, do: "open", else: "closed")))
 
         # fill_width={false} is load-bearing. A Box given neither width nor
         # fill_width FILLS its parent, so this arrow took the whole row and
@@ -334,13 +695,13 @@ defmodule MishkaMob.Components.MishkaTree do
         # right.
         ~MOB"""
         <Box padding={2} fill_width={false}>
-          <Text text={glyph} text_size={:sm} text_color={ink} />
+          {arrow}
         </Box>
         """
-        |> put(:on_tap, tag_handler(props, tag, node.value, disabled?))
+        |> put(:on_tap, if(off?, do: nil, else: branch(node, expanded?, props)))
         # Mob turns :id into a native testTag. Every arrow reads "▾" or "▸", so
         # this is what tells one branch's control from another's.
-        |> put(:id, "tree-toggle-#{node.value}")
+        |> put(:id, toggle_tag(id, node.value))
     end
   end
 
@@ -349,16 +710,31 @@ defmodule MishkaMob.Components.MishkaTree do
   # a form — a hollow ☐ beside the component's filled tick. MishkaCheckbox
   # already carries all three states, renders label-less, and puts the dash on
   # :indeterminate so the states survive a colourblind reading.
-  defp checkbox(node, props, disabled?) do
-    if truthy?(Map.get(props, :with_checkboxes, false)) do
-      state = check_state(Map.get(props, :nodes, []), node.value, Map.get(props, :checked, []))
+  defp checkbox(node, props, off?) do
+    if flag?(props, :with_checkboxes, false) do
+      id = tree_id(props)
+
+      # check_strictly has to reach the indicator, not only the reducer. It used
+      # to stop at `toggle_check`, so a strict tick went into the list and the
+      # box it was made in stayed empty — the prop rendered as if it were not
+      # set at all.
+      state =
+        check_state(
+          Map.get(props, :nodes, []),
+          node.value,
+          Map.get(props, :checked, []),
+          strictly: flag?(props, :check_strictly, false)
+        )
 
       inner =
         MishkaCheckbox.checkbox(%{
           checked: state == :checked,
           indeterminate: state == :indeterminate,
-          disabled: disabled?,
-          size: 20
+          disabled: off?,
+          size: 20,
+          # The Checkbox suffixes this with -checked / -mixed / -empty, which is
+          # the only reading of a drawn mark a device test gets.
+          id: "#{id}-#{node.value}"
         })
         # Checkbox fills its row so a label can sit beside it. Here it is one
         # cell among several, and filling pushes the file name off the end —
@@ -375,10 +751,10 @@ defmodule MishkaMob.Components.MishkaTree do
           {inner}
         </Box>
         """
-        |> put(:on_tap, tag_handler(props, :on_check, node.value, disabled?))
+        |> put(:on_tap, tag_handler(props, :on_check, node.value, off?))
         # Mob turns :id into a native testTag. A checkbox carries no text, so
         # this is the only handle a device test has on it.
-        |> put(:id, "tree-check-#{node.value}")
+        |> put(:id, check_tag(id, node.value))
 
       [box, ~MOB(<Spacer size={4} />)]
     else
@@ -401,10 +777,27 @@ defmodule MishkaMob.Components.MishkaTree do
     end
   end
 
-  defp label(node, selected?, disabled?) do
+  # The busy marker for a branch whose children are still being fetched. It is a
+  # static glyph rather than a spinner because Mob animates nothing — and a
+  # spinner that does not spin is a worse lie than an ellipsis. This is what the
+  # web's `<:loader>` slot becomes: a slot renders arbitrary markup, and what a
+  # native row can actually vary is the character.
+  defp loader(_props, _id, _value, false), do: []
+
+  defp loader(props, id, value, true) do
+    glyph = Map.get(props, :loader_icon, @loader_glyph)
+
+    [
+      ~MOB(<Spacer size={6} />),
+      ~MOB(<Text text={glyph} text_size={:sm} text_color={:muted} max_lines={1} />)
+      |> put(:id, state_tag(id, value, "loading"))
+    ]
+  end
+
+  defp label(node, id, selected?, off?) do
     ink =
       cond do
-        disabled? -> :muted
+        off? -> :muted
         selected? -> :primary
         true -> :on_surface
       end
@@ -413,20 +806,44 @@ defmodule MishkaMob.Components.MishkaTree do
     # PARENT Row/Column as a layout weight and does nothing to the font.
     font_weight = if selected?, do: :semibold, else: :regular
 
-    ~MOB(<Text text={node.label} text_size={:base} text_color={ink} font_weight={font_weight} />)
+    # max_lines: 1 because a Text squeezed narrower than its content wraps
+    # CHARACTER BY CHARACTER, and a deep row with a long name is exactly that —
+    # "mi", "sh", "ka" stacked down the row rather than one truncated line.
+    text =
+      ~MOB"""
+      <Text
+        text={node.label}
+        text_size={:base}
+        text_color={ink}
+        font_weight={font_weight}
+        max_lines={1}
+      />
+      """
+      |> put(:id, state_tag(id, node.value, if(selected?, do: "selected", else: "idle")))
+
+    # Compose measures a Row's unweighted children first, in order, so an
+    # unweighted label takes its full intrinsic width and starves the meta note
+    # beside it. The weighted Box is the house idiom for "this is the part that
+    # gives".
+    ~MOB"""
+    <Box weight={1} fill_width={true}>
+      {text}
+    </Box>
+    """
   end
 
-  defp select_handler(node, props, disabled?),
-    do: tag_handler(props, :on_select, node.value, disabled?)
+  defp tree_id(props), do: props |> Map.get(:id, @default_id) |> to_string()
 
   defp tag_handler(_props, _key, _value, true), do: nil
 
-  defp tag_handler(props, key, value, _disabled?) do
+  defp tag_handler(props, key, value, _off?) do
     case Map.get(props, key) do
       nil -> nil
       tag -> Event.handler(tag, value)
     end
   end
+
+  defp flag?(props, key, default), do: truthy?(Map.get(props, key, default))
 
   defp put(node, _key, nil), do: node
   defp put(node, key, value), do: %{node | props: Map.put(node.props, key, value)}

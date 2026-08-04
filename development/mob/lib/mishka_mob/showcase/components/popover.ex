@@ -15,42 +15,64 @@ defmodule MishkaMob.Showcase.Components.Popover do
       name: "Popover",
       category: "Overlays",
       order: 3,
-      description: "A small panel of content, placed in flow under its trigger."
+      description: "A trigger that toggles a panel of content beside it."
     }
   end
 
+  # One assign per example. Sharing them would mean a device test could not say
+  # which trigger it just pressed — every example would move together.
   @impl true
   def mount(socket) do
     socket
-    |> Mob.Socket.assign(:pop_open, false)
-    |> Mob.Socket.assign(:pop_wide, false)
+    |> Mob.Socket.assign(:pop_details, false)
+    |> Mob.Socket.assign(:pop_hold, false)
+    |> Mob.Socket.assign(:pop_above, false)
+    |> Mob.Socket.assign(:pop_beside, false)
+    |> Mob.Socket.assign(:pop_aligned, false)
+    |> Mob.Socket.assign(:pop_off, false)
   end
 
   @impl true
   def examples do
     [
       %Example{
-        title: "Under its trigger",
-        description: "Placed in flow — native dropdowns are built by layout, not by floating.",
+        title: "Tap the trigger",
+        description:
+          "The whole anatomy: a trigger that reads as pressed while its panel is up, " <>
+            "a title, a description, a beak pointing back at the trigger, and a close action.",
         code: ~S"""
-        <Column>
-          <Button text="Details" on_tap={{self(), :toggle}} />
-          <MishkaPopover open={@open?}>{content}</MishkaPopover>
-        </Column>
+        <MishkaPopover
+          id="details"
+          open={@open?}
+          trigger="Order details"
+          title="Shipped 2 days ago"
+          description="Tracking arrives by email."
+          close="Got it"
+          arrow={true}
+          on_open_change={:details}
+        >
+          {content}
+        </MishkaPopover>
+
+        # The trigger sends the state it wants, so one clause serves the
+        # trigger, the long press and the footer's close button alike.
+        def handle_info({:tap, {:details, open?}}, socket) do
+          {:noreply, Mob.Socket.assign(socket, :open?, open?)}
+        end
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <Button
-              text={if(@pop_open, do: "Hide details", else: "Show details")}
-              background={:primary}
-              text_color={:on_primary}
-              padding={:space_sm}
-              fill_width={true}
-              on_tap={{self(), :pop_toggle}}
-            />
-            <Spacer size={8} />
-            <MishkaPopover open={@pop_open}>
+            <MishkaPopover
+              id="pop"
+              open={@pop_details}
+              trigger="Order details"
+              title="Shipped 2 days ago"
+              description="Tracking arrives by email."
+              close="Got it"
+              arrow={true}
+              on_open_change={:pop_details}
+            >
               {body()}
             </MishkaPopover>
           </Column>
@@ -58,25 +80,148 @@ defmodule MishkaMob.Showcase.Components.Popover do
         end
       },
       %Example{
-        title: "Fixed width",
-        description: "width pins the panel; omit it to fill the parent.",
+        title: "Hold to open",
+        description:
+          "open_on_hold is the port of open_on_hover — a long press is what a touch screen " <>
+            "has instead of a pointer resting on something. The tap still toggles.",
         code: ~S"""
-        <MishkaPopover open={@open?} width={240}>{content}</MishkaPopover>
+        <MishkaPopover
+          id="hint"
+          open={@open?}
+          trigger="Press and hold me"
+          open_on_hold={true}
+          on_open_change={:hint}
+        >
+          {content}
+        </MishkaPopover>
+
+        # A hold always sends true; only the tap sends the opposite of now.
+        def handle_info({:tap, {:hint, open?}}, socket) do
+          {:noreply, Mob.Socket.assign(socket, :open?, open?)}
+        end
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <Button
-              text={if(@pop_wide, do: "Hide", else: "Show a 240dp panel")}
-              background={:surface_raised}
-              text_color={:on_surface}
-              padding={:space_sm}
-              fill_width={true}
-              on_tap={{self(), :pop_wide}}
-            />
-            <Spacer size={8} />
-            <MishkaPopover open={@pop_wide} width={240}>
-              {body()}
+            <MishkaPopover
+              id="hold"
+              open={@pop_hold}
+              trigger="Press and hold me"
+              open_on_hold={true}
+              on_open_change={:pop_hold}
+            >
+              {[line("A hold opens it. A tap toggles it.")]}
+            </MishkaPopover>
+          </Column>
+          """
+        end
+      },
+      %Example{
+        title: "Which side it takes",
+        description:
+          "side puts the panel before or after its trigger in the same flow container, " <>
+            "and side_offset is the gap. :top and :bottom stack; :left and :right sit abreast.",
+        code: ~S"""
+        <MishkaPopover id="up" open={@up?} trigger="Above" side={:top} side_offset={12} …/>
+        <MishkaPopover id="next" open={@next?} trigger="Beside" side={:right} …/>
+
+        def handle_info({:tap, {:up, open?}}, socket) do
+          {:noreply, Mob.Socket.assign(socket, :up?, open?)}
+        end
+        """,
+        render: fn assigns ->
+          ~MOB"""
+          <Column fill_width={true}>
+            <MishkaPopover
+              id="above"
+              open={@pop_above}
+              trigger="Panel above"
+              side={:top}
+              side_offset={12}
+              on_open_change={:pop_above}
+            >
+              {[line("This panel sits above its trigger.")]}
+            </MishkaPopover>
+            <Spacer size={12} />
+            <MishkaPopover
+              id="beside"
+              open={@pop_beside}
+              trigger="Beside"
+              side={:right}
+              align={:center}
+              on_open_change={:pop_beside}
+            >
+              {[line("And this one sits to its right.")]}
+            </MishkaPopover>
+          </Column>
+          """
+        end
+      },
+      %Example{
+        title: "A narrow panel has somewhere to go",
+        description:
+          "align only bites once width makes the panel narrower than its parent — " <>
+            "a panel that fills looks identical at every alignment. align_offset nudges it.",
+        code: ~S"""
+        <MishkaPopover
+          id="menu"
+          open={@open?}
+          trigger="Trailing edge"
+          width={220}
+          align={:end}
+          align_offset={-4}
+          on_open_change={:menu}
+        >{content}</MishkaPopover>
+
+        def handle_info({:tap, {:menu, open?}}, socket) do
+          {:noreply, Mob.Socket.assign(socket, :open?, open?)}
+        end
+        """,
+        render: fn assigns ->
+          ~MOB"""
+          <Column fill_width={true}>
+            <MishkaPopover
+              id="aligned"
+              open={@pop_aligned}
+              trigger="Trailing edge"
+              width={220}
+              align={:end}
+              align_offset={-4}
+              on_open_change={:pop_aligned}
+            >
+              {[line("220dp wide, pushed to the trailing edge.")]}
+            </MishkaPopover>
+          </Column>
+          """
+        end
+      },
+      %Example{
+        title: "Disabled, and without a chevron",
+        description:
+          "disabled wires no handler at all, so the trigger cannot fire. " <>
+            "chevron={false} drops the ▾ when the panel itself is indication enough.",
+        code: ~S"""
+        <MishkaPopover
+          id="off"
+          open={@open?}
+          trigger="Unavailable"
+          disabled={true}
+          chevron={false}
+          on_open_change={:off}
+        >{content}</MishkaPopover>
+        """,
+        render: fn assigns ->
+          ~MOB"""
+          <Column fill_width={true}>
+            <MishkaPopover
+              id="off"
+              open={@pop_off}
+              trigger="Unavailable"
+              disabled={true}
+              chevron={false}
+              on_open_change={:pop_off}
+            >
+              {[line("You will never see this.")]}
             </MishkaPopover>
           </Column>
           """
@@ -84,19 +229,36 @@ defmodule MishkaMob.Showcase.Components.Popover do
       },
       %Example{
         title: "Chrome",
-        description: "background, corner_radius, padding and the border are props.",
+        description:
+          "background, color, muted_color, corner_radius, padding and the border are props — " <>
+            "set the ink whenever you set the fill, or the title keeps the theme's near-black.",
         code: ~S"""
         <MishkaPopover
           open={true}
           background={0xFF1E1B4B}
+          color={0xFFFFFFFF}
+          muted_color={0xFFC7D2FE}
           border_width={0}
+          corner_radius={:radius_lg}
+          title="Any colour works"
         >{content}</MishkaPopover>
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaPopover open={true} background={0xFF1E1B4B} border_width={0} corner_radius={:radius_lg}>
-              {tinted_body()}
+            <MishkaPopover
+              id="chrome"
+              open={true}
+              background={0xFF1E1B4B}
+              color={0xFFFFFFFF}
+              muted_color={0xFFC7D2FE}
+              border_width={0}
+              corner_radius={:radius_lg}
+              padding={:space_lg}
+              title="Any colour works"
+              description="But then the ink is yours to set too."
+            >
+              {[]}
             </MishkaPopover>
           </Column>
           """
@@ -109,10 +271,89 @@ defmodule MishkaMob.Showcase.Components.Popover do
   def props do
     [
       %{
+        name: "id",
+        type: "string",
+        default: "nil",
+        description:
+          "Root testTag. Parts derive theirs: -trigger-open/-closed, -panel, -title, -desc, -close, -arrow."
+      },
+      %{
         name: "open",
         type: "boolean",
         default: "false",
         description: "Whether the panel is shown. Lives in the screen."
+      },
+      %{
+        name: "trigger",
+        type: "string / node",
+        default: "nil",
+        description: "The control that toggles it. Omit and you place your own."
+      },
+      %{
+        name: "on_open_change",
+        type: "event tag",
+        default: "—",
+        description: "Sent as {:tap, {tag, next_open?}} by trigger, hold and close alike."
+      },
+      %{
+        name: "open_on_hold",
+        type: "boolean",
+        default: "false",
+        description: "A long press on the trigger opens it — the port of open_on_hover."
+      },
+      %{
+        name: "disabled",
+        type: "boolean",
+        default: "false",
+        description: "Wires no handler, so the trigger is inert."
+      },
+      %{
+        name: "chevron",
+        type: "boolean",
+        default: "true",
+        description: "Show the ▾/▴ indicator on the trigger."
+      },
+      %{
+        name: "side",
+        type: ":top :right :bottom :left",
+        default: ":bottom",
+        description: "Which side of the trigger the panel takes, in flow."
+      },
+      %{
+        name: "align",
+        type: ":start :center :end",
+        default: ":start",
+        description: "Where the panel sits across that axis. Only bites once width is set."
+      },
+      %{
+        name: "side_offset",
+        type: "number",
+        default: "8",
+        description: "Gap between trigger and panel, in dp."
+      },
+      %{
+        name: "align_offset",
+        type: "number",
+        default: "nil",
+        description: "Nudge along the alignment axis, in dp."
+      },
+      %{
+        name: "title / description",
+        type: "string",
+        default: "nil",
+        description: "Heading and secondary line inside the panel."
+      },
+      %{
+        name: "close",
+        type: "string",
+        default: "nil",
+        description: "Label for a footer action that reports the panel closed."
+      },
+      %{
+        name: "arrow",
+        type: "boolean",
+        default: "false",
+        description: "Draw a beak pointing back at the trigger."
       },
       %{
         name: "width",
@@ -125,6 +366,12 @@ defmodule MishkaMob.Showcase.Components.Popover do
         type: "color / ARGB",
         default: ":surface",
         description: "Panel fill."
+      },
+      %{
+        name: "color / muted_color",
+        type: "color / ARGB",
+        default: ":on_surface / :muted",
+        description: "Title ink, and the description's. Set them whenever you set background."
       },
       %{
         name: "corner_radius",
@@ -148,42 +395,41 @@ defmodule MishkaMob.Showcase.Components.Popover do
         name: "offset_x / offset_y",
         type: "number",
         default: "nil",
-        description: "Static nudge in dp. Not anchoring — see the moduledoc."
+        description: "Static nudge in dp. Wins over align_offset."
       }
     ]
   end
 
+  # One clause per example, because each owns its own assign — the whole reason
+  # the assigns are not shared is that a device test has to be able to say which
+  # trigger it pressed.
   @impl true
-  def handle(:pop_toggle, socket), do: flip(socket, :pop_open)
-  def handle(:pop_wide, socket), do: flip(socket, :pop_wide)
-  def handle(_tag, socket), do: socket
+  def handle({:pop_details, open?}, socket), do: Mob.Socket.assign(socket, :pop_details, open?)
+  def handle({:pop_hold, open?}, socket), do: Mob.Socket.assign(socket, :pop_hold, open?)
+  def handle({:pop_above, open?}, socket), do: Mob.Socket.assign(socket, :pop_above, open?)
+  def handle({:pop_beside, open?}, socket), do: Mob.Socket.assign(socket, :pop_beside, open?)
+  def handle({:pop_aligned, open?}, socket), do: Mob.Socket.assign(socket, :pop_aligned, open?)
 
-  defp flip(socket, key), do: Mob.Socket.assign(socket, key, not Map.fetch!(socket.assigns, key))
+  # `off` is disabled, so nothing ever sends this — the clause exists so the
+  # example is wired exactly like the others and only `disabled` differs.
+  def handle({:pop_off, open?}, socket), do: Mob.Socket.assign(socket, :pop_off, open?)
+
+  def handle(_tag, socket), do: socket
 
   defp body do
     [
-      %{
-        type: :text,
-        props: %{text: "Shipped 2 days ago", text_size: :base, text_color: :on_surface},
-        children: []
-      },
+      line("Two of three parcels have left the warehouse."),
       %{type: :spacer, props: %{size: 4}, children: []},
       %{
         type: :text,
-        props: %{text: "Tracking arrives by email.", text_size: :sm, text_color: :muted},
+        props: %{text: "Order #4821", text_size: :sm, text_color: :muted},
         children: []
       }
     ]
   end
 
-  defp tinted_body do
-    [
-      %{
-        type: :text,
-        props: %{text: "Any colour works", text_size: :base, text_color: 0xFFFFFFFF},
-        children: []
-      }
-    ]
+  defp line(text) do
+    %{type: :text, props: %{text: text, text_size: :base, text_color: :on_surface}, children: []}
   end
 
   @impl true
@@ -191,7 +437,8 @@ defmodule MishkaMob.Showcase.Components.Popover do
     ~MOB"""
     <Column fill_width={true}>
       <Box width={70} height={20} background={:primary} corner_radius={:radius_sm} />
-      <Spacer size={8} />
+      <Spacer size={4} />
+      <Text text="▲" text_size={:sm} text_color={:surface} />
       <Box
         fill_width={true}
         background={:surface}

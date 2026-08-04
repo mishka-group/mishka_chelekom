@@ -10,7 +10,7 @@
     mob: [
       composite_tag: "toolbar",
       function: "toolbar",
-      kit: []
+      kit: ["event"]
     ]
   ]
 ]
