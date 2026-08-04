@@ -47,7 +47,7 @@ Helpers: `split/2`, `fit/3`, `counter_id/1`, `item_id/2`.
 Not ported: `on_change` (the web pushes the hidden count on every resize; there is no resize here to
 push, and `split/2` already hands you the hidden list) and the `*_class` attrs.
 
-## Four things to know
+## Six things to know
 
 **The count is declared, not measured — and that is the whole difference from the web.** The web
 version watches its container with a `ResizeObserver` and hides items until they fit. Elixir cannot
