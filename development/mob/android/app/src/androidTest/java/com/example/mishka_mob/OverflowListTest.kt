@@ -258,10 +258,10 @@ class OverflowListTest {
     @Test
     fun the_page_renders_every_example_and_the_props_table() {
         for (heading in listOf(
+            "Make it bigger",
             "Three fit, four do not",
             "Tap the counter",
             "min_visible is a floor",
-            "Resizable",
             "A counter that says something else",
             "Props",
         )) {

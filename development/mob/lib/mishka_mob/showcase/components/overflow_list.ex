@@ -45,6 +45,55 @@ defmodule MishkaMob.Showcase.Components.OverflowList do
   def examples do
     [
       %Example{
+        title: "Make it bigger — pull the handle",
+        description:
+          "Put your finger on the grey handle at the right of the box and drag it sideways. " <>
+            "A wider box fits more badges; a narrower one folds them into the +N.",
+        code: ~S"""
+        # The component cannot measure — but a screen that SET its own width
+        # already knows it, and fit/3 turns that into a count.
+        <MishkaOverflowList
+          visible={MishkaOverflowList.fit(@tags, @width)}
+          id="rail"
+        >{tag_pills()}</MishkaOverflowList>
+
+        # The edge is a canvas over the box, because only a canvas carries
+        # on_drag — and it spans the whole width RANGE rather than riding on the
+        # edge, so its coordinates do not move with the thing they measure.
+        def handle_info({:drag, :width, %{phase: :began, x: x}}, socket) do
+          # At or right of the edge grabs the handle; a touch inside the box is
+          # a touch on a badge, and is ignored.
+          offset = x - socket.assigns.width
+          {:noreply, assign(socket, :grab, if(offset >= -16.0, do: offset))}
+        end
+
+        def handle_info({:drag, :width, %{x: x}}, socket) when socket.assigns.grab != nil do
+          {:noreply, assign(socket, :width, clamp(x - socket.assigns.grab))}
+        end
+        """,
+        render: fn assigns ->
+          ~MOB"""
+          <Column fill_width={true}>
+            <Text
+              text="⇤  drag the handle  ⇥"
+              text_size={:sm}
+              text_color={:primary}
+              font_weight={:semibold}
+            />
+            <Spacer size={8} />
+            {rail(@width)}
+            <Spacer size={10} />
+            <Text
+              text={dp(@width) <> "dp wide · showing " <> showing(@width) <> " of 7"}
+              text_size={:sm}
+              text_color={:muted}
+              id="rail-readout"
+            />
+          </Column>
+          """
+        end
+      },
+      %Example{
         title: "Three fit, four do not",
         description: "The same shape the web version lands on: items, then +N for the remainder.",
         code: ~S"""
@@ -112,46 +161,6 @@ defmodule MishkaMob.Showcase.Components.OverflowList do
         end
       },
       %Example{
-        title: "Resizable — drag the box's right edge",
-        description:
-          "Pull the grey bar on the right of the box. Wider fits more badges — what the web " <>
-            "gets from a ResizeObserver.",
-        code: ~S"""
-        # The component cannot measure — but a screen that SET its own width
-        # already knows it, and fit/3 turns that into a count.
-        <MishkaOverflowList
-          visible={MishkaOverflowList.fit(@tags, @width)}
-          id="rail"
-        >{tag_pills()}</MishkaOverflowList>
-
-        # The edge is a canvas over the box, because only a canvas carries
-        # on_drag — and it spans the whole width RANGE rather than riding on the
-        # edge, so its coordinates do not move with the thing they measure.
-        def handle_info({:drag, :width, %{phase: :began, x: x}}, socket) do
-          grab = if abs(x - socket.assigns.width) <= 28, do: x - socket.assigns.width
-          {:noreply, assign(socket, :grab, grab)}
-        end
-
-        def handle_info({:drag, :width, %{x: x}}, socket) when socket.assigns.grab != nil do
-          {:noreply, assign(socket, :width, clamp(x - socket.assigns.grab))}
-        end
-        """,
-        render: fn assigns ->
-          ~MOB"""
-          <Column fill_width={true}>
-            {rail(@width)}
-            <Spacer size={10} />
-            <Text
-              text={"Width " <> dp(@width) <> "dp · hidden: " <> hidden(@width)}
-              text_size={:sm}
-              text_color={:muted}
-              id="rail-readout"
-            />
-          </Column>
-          """
-        end
-      },
-      %Example{
         title: "A counter that says something else",
         description: "counter_text takes the hidden count and returns whatever label you want.",
         code: ~S"""
@@ -179,7 +188,7 @@ defmodule MishkaMob.Showcase.Components.OverflowList do
 
   defp dp(width), do: width |> round() |> Integer.to_string()
 
-  defp hidden(width), do: (length(@tags) - fit(width)) |> Integer.to_string()
+  defp showing(width), do: width |> fit() |> Integer.to_string()
 
   # Grab the box's RIGHT EDGE and pull, exactly like the web original.
   #
@@ -193,7 +202,7 @@ defmodule MishkaMob.Showcase.Components.OverflowList do
   defp rail(width) do
     %{
       type: :box,
-      props: %{width: @max_width + 14, height: @rail_height},
+      props: %{width: @max_width + 30, height: @rail_height},
       children: [
         %{
           type: :box,
@@ -219,17 +228,21 @@ defmodule MishkaMob.Showcase.Components.OverflowList do
     %{
       type: :canvas,
       props: %{
-        width: @max_width + 14,
+        width: @max_width + 30,
         height: @rail_height,
         id: "rail-handle",
         on_drag: MishkaMob.Components.Event.handler(:width),
         draw: [
           # Drawn just OUTSIDE the box, not straddling its edge: at width - 3 it
           # sat on top of the "+N" counter, which lives hard against that edge.
-          Mob.Canvas.rect(width + 3, 6, 8, @rail_height - 12, color: 0xFF6B7280, radius: 4),
-          # Two notches — the universal "pull me".
-          Mob.Canvas.rect(width + 6, mid - 8, 2, 6, color: 0xFFFFFFFF, radius: 1),
-          Mob.Canvas.rect(width + 6, mid + 2, 2, 6, color: 0xFFFFFFFF, radius: 1)
+          #
+          # Deliberately chunky. The first version was a hairline that read as
+          # decoration, and the person using it could not tell there was anything
+          # to grab — which is the only thing that matters about a handle.
+          Mob.Canvas.rect(width + 4, 0, 22, @rail_height, color: 0xFF6B7280, radius: 6),
+          Mob.Canvas.rect(width + 12, mid - 11, 3, 3, color: 0xFFFFFFFF, radius: 2),
+          Mob.Canvas.rect(width + 12, mid - 2, 3, 3, color: 0xFFFFFFFF, radius: 2),
+          Mob.Canvas.rect(width + 12, mid + 7, 3, 3, color: 0xFFFFFFFF, radius: 2)
         ]
       },
       children: []
@@ -309,8 +322,15 @@ defmodule MishkaMob.Showcase.Components.OverflowList do
 
     case {phase(payload), socket.assigns.grab} do
       {:began, _} ->
-        grab = if abs(x - socket.assigns.width) <= 28, do: x - socket.assigns.width
-        Mob.Socket.assign(socket, :grab, grab)
+        # Anything AT or RIGHT OF the box's edge grabs the handle; a touch well
+        # inside the box is a touch on a badge and is ignored.
+        #
+        # A half-open rule rather than a window around the edge: the canvas is
+        # declared wider than the space it is given, so its logical x runs a
+        # little ahead of the dp the box is laid out in, and a tolerance tuned
+        # by eye missed the real grab by about a millimetre.
+        offset = x - socket.assigns.width
+        Mob.Socket.assign(socket, :grab, if(offset >= -16.0, do: offset))
 
       {:ended, _} ->
         Mob.Socket.assign(socket, :grab, nil)
