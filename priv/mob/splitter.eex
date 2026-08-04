@@ -331,6 +331,10 @@ defmodule <%= @module %> do
     |> tag(grip_id(Map.get(props, :id)))
   end
 
+  # `fill: true` on every rect — Mob.Canvas.rect STROKES by default, so without
+  # it the grip drew as a hollow outline and read as a broken box rather than a
+  # handle.
+  #
   # The pill, drawn at the split rather than centred: the canvas spans the whole
   # extent, so where the grip appears IS the split. A canvas has no children, so
   # this is drawn rather than boxed.
@@ -340,13 +344,13 @@ defmodule <%= @module %> do
 
     if axis == :vertical do
       [
-        Mob.Canvas.rect(0, at - grip / 2, width, grip, color: @grip_band, radius: 2),
-        Mob.Canvas.rect(width / 2 - 14, at - 1.5, 28, 3, color: ink, radius: 2)
+        Mob.Canvas.rect(0, at - grip / 2, width, grip, color: @grip_band, radius: 2, fill: true),
+        Mob.Canvas.rect(width / 2 - 14, at - 1.5, 28, 3, color: ink, radius: 2, fill: true)
       ]
     else
       [
-        Mob.Canvas.rect(at - grip / 2, 0, grip, height, color: @grip_band, radius: 2),
-        Mob.Canvas.rect(at - 1.5, height / 2 - 14, 3, 28, color: ink, radius: 2)
+        Mob.Canvas.rect(at - grip / 2, 0, grip, height, color: @grip_band, radius: 2, fill: true),
+        Mob.Canvas.rect(at - 1.5, height / 2 - 14, 3, 28, color: ink, radius: 2, fill: true)
       ]
     end
   end

@@ -18,9 +18,20 @@ defmodule MishkaMob.Showcase.Components.OverflowList do
 
   # The resizable example's rail, in dp. Narrow enough that the first drag
   # visibly drops items, wide enough that everything fits at the far end.
-  @min_width 140
-  @max_width 340
+  @min_width 130
+  @max_width 270
   @rail_height 56
+
+  # The drag surface must NEVER be declared wider than the space it is given.
+  # MobCanvas scales its ops by measured/declared while a Box merely clips, so a
+  # canvas that overflows draws everything squashed inwards — the handle ended
+  # up painted on top of the "+N" counter it was supposed to sit beside. 300dp
+  # clears a phone's content width (411 screen, less page and card padding).
+  @surface_width 300
+
+  # Short labels here so the count visibly swings as you drag, rather than
+  # sticking on one long word.
+  @rail_tags ~w(Elixir Beam OTP Mob CLI Web API)
 
   @impl true
   def entry do
@@ -84,7 +95,7 @@ defmodule MishkaMob.Showcase.Components.OverflowList do
             {rail(@width)}
             <Spacer size={10} />
             <Text
-              text={dp(@width) <> "dp wide · showing " <> showing(@width) <> " of 7"}
+              text={dp(@width) <> "dp wide · showing " <> showing(@width) <> " of " <> total()}
               text_size={:sm}
               text_color={:muted}
               id="rail-readout"
@@ -184,11 +195,15 @@ defmodule MishkaMob.Showcase.Components.OverflowList do
 
   defp more_label(count), do: "#{count} more"
 
-  defp fit(width), do: MishkaOverflowList.fit(@tags, width)
+  defp fit(width), do: MishkaOverflowList.fit(@rail_tags, width)
+
+  defp rail_pills, do: Enum.map(@rail_tags, &pill(label: &1))
 
   defp dp(width), do: width |> round() |> Integer.to_string()
 
   defp showing(width), do: width |> fit() |> Integer.to_string()
+
+  defp total, do: length(@rail_tags) |> Integer.to_string()
 
   # Grab the box's RIGHT EDGE and pull, exactly like the web original.
   #
@@ -202,7 +217,7 @@ defmodule MishkaMob.Showcase.Components.OverflowList do
   defp rail(width) do
     %{
       type: :box,
-      props: %{width: @max_width + 30, height: @rail_height},
+      props: %{width: @surface_width, height: @rail_height},
       children: [
         %{
           type: :box,
@@ -214,7 +229,7 @@ defmodule MishkaMob.Showcase.Components.OverflowList do
             padding: :space_sm
           },
           children: [
-            MishkaOverflowList.overflow_list(%{visible: fit(width), id: "rail"}, tag_pills())
+            MishkaOverflowList.overflow_list(%{visible: fit(width), id: "rail"}, rail_pills())
           ]
         },
         edge(width)
@@ -228,7 +243,7 @@ defmodule MishkaMob.Showcase.Components.OverflowList do
     %{
       type: :canvas,
       props: %{
-        width: @max_width + 30,
+        width: @surface_width,
         height: @rail_height,
         id: "rail-handle",
         on_drag: MishkaMob.Components.Event.handler(:width),
@@ -239,10 +254,14 @@ defmodule MishkaMob.Showcase.Components.OverflowList do
           # Deliberately chunky. The first version was a hairline that read as
           # decoration, and the person using it could not tell there was anything
           # to grab — which is the only thing that matters about a handle.
-          Mob.Canvas.rect(width + 4, 0, 22, @rail_height, color: 0xFF6B7280, radius: 6),
-          Mob.Canvas.rect(width + 12, mid - 11, 3, 3, color: 0xFFFFFFFF, radius: 2),
-          Mob.Canvas.rect(width + 12, mid - 2, 3, 3, color: 0xFFFFFFFF, radius: 2),
-          Mob.Canvas.rect(width + 12, mid + 7, 3, 3, color: 0xFFFFFFFF, radius: 2)
+          Mob.Canvas.rect(width + 4, 0, 22, @rail_height,
+            color: 0xFF6B7280,
+            radius: 6,
+            fill: true
+          ),
+          Mob.Canvas.rect(width + 12, mid - 11, 3, 3, color: 0xFFFFFFFF, radius: 2, fill: true),
+          Mob.Canvas.rect(width + 12, mid - 2, 3, 3, color: 0xFFFFFFFF, radius: 2, fill: true),
+          Mob.Canvas.rect(width + 12, mid + 7, 3, 3, color: 0xFFFFFFFF, radius: 2, fill: true)
         ]
       },
       children: []
