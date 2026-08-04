@@ -16,30 +16,34 @@ defmodule MishkaMob.Components.MishkaTabs do
   `Row` / `Box` / `Text` instead. When you *do* want bottom navigation, use
   `TabBar` directly; it is the right widget for that job.
 
-  ## Tabs are children, like Chelekom's `<:tab>` slots
+  ## Tabs are slot tags, like Chelekom's `<:tab>`
 
-  Each child is a `:mishka_tab` node carrying `id` + `label`, whose own children
-  are that tab's panel — so a tab and its panel are declared together instead of
-  being matched up by position:
+  Write them out as `<MishkaTab>` children. A tab and its panel are declared
+  together rather than matched up by position:
 
-      <MishkaTabs
-        active={@tab}
-        on_change={:pick_tab}
-      >{[
-        tab(:overview, "Overview", overview_body()),
-        tab(:specs, "Specs", specs_body())
-      ]}</MishkaTabs>
+      <MishkaTabs active={@tab} on_change={:pick} id="main">
+        <MishkaTab id={:overview} label="Overview">
+          <Text text="What this thing is." />
+        </MishkaTab>
+        <MishkaTab id={:specs} label="Specs">
+          <Text text="How big it is." />
+        </MishkaTab>
+      </MishkaTabs>
 
-      def handle_info({:tap, {:pick_tab, id}}, socket) do
-        {:noreply, Mob.Socket.assign(socket, :tab, id)}
-      end
+  A slot tag is matched on `:type` among the parent's children and consumed by
+  `expand/3`, so it never reaches the renderer.
 
-  ## Sizing
+  `tab/4` builds exactly the same node by hand —
+  `%{type: :mishka_tab, props: %{id: …, label: …}, children: panel}` — and the
+  two forms are interchangeable. Use the tag when you are writing tabs out, the
+  function when the tabs come from a list:
 
-  Tabs are content-sized and laid out in a row, not stretched to equal widths.
-  Equal widths would need `weight`, which Compose implements and Mob's iOS
-  mapping does not, so the strip would look right on Android and collapse on
-  iOS.
+      <MishkaTabs active={@tab} on_change={:pick}>
+        {Enum.map(@folders, fn {id, label, body} -> tab(id, label, body) end)}
+      </MishkaTabs>
+
+  `on_change` is auto-wired by the composite framework, so you pass a bare atom;
+  it fires as `{:tap, {tag, tab_id}}`, so one handler serves every tab.
 
   ## Props
 

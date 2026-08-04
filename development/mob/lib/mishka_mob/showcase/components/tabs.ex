@@ -5,7 +5,7 @@ defmodule MishkaMob.Showcase.Components.Tabs do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaTabs, only: [tab: 3, tab: 4]
+  import MishkaMob.Components.MishkaTabs, only: [tab: 3]
 
   alias MishkaMob.Showcase.Example
 
@@ -42,15 +42,17 @@ defmodule MishkaMob.Showcase.Components.Tabs do
         title: "A tab strip",
         description: "Each tab declares its own panel; only the active one renders.",
         code: ~S"""
-        <MishkaTabs
-          active={@tab}
-          on_change={:pick}
-          id="main"
-        >{[
-          tab(:overview, "Overview", overview_body()),
-          tab(:specs, "Specs", specs_body()),
-          tab(:support, "Support", support_body())
-        ]}</MishkaTabs>
+        <MishkaTabs active={@tab} on_change={:pick} id="main">
+          <MishkaTab id={:overview} label="Overview">
+            <Text text="A native tab strip." />
+          </MishkaTab>
+          <MishkaTab id={:specs} label="Specs">
+            <Text text="Each tab's children are its panel." />
+          </MishkaTab>
+          <MishkaTab id={:support} label="Support">
+            <Text text="Only the active one renders." />
+          </MishkaTab>
+        </MishkaTabs>
 
         # One clause serves every tab: the message carries the tab's own id.
         def handle_info({:tap, {:pick, id}}, socket) do
@@ -61,11 +63,15 @@ defmodule MishkaMob.Showcase.Components.Tabs do
           ~MOB"""
           <Column fill_width={true}>
             <MishkaTabs active={@tb_main} on_change={:tb_main} id="main">
-              {[
-              tab(:overview, "Overview", para("A native tab strip built from Row, Box and Text.")),
-              tab(:specs, "Specs", para("Content-sized tabs, so the strip works on both platforms.")),
-              tab(:support, "Support", para("Each panel is the tab's own children."))
-            ]}
+              <MishkaTab id={:overview} label="Overview">
+                <Text text="A native tab strip built from Row, Box and Text." text_color={:muted} />
+              </MishkaTab>
+              <MishkaTab id={:specs} label="Specs">
+                <Text text="Content-sized tabs, so it works on both platforms." text_color={:muted} />
+              </MishkaTab>
+              <MishkaTab id={:support} label="Support">
+                <Text text="Each panel is the tab's own children." text_color={:muted} />
+              </MishkaTab>
             </MishkaTabs>
           </Column>
           """
@@ -79,27 +85,21 @@ defmodule MishkaMob.Showcase.Components.Tabs do
         code: ~S"""
         # The strip is a horizontal Scroll, so it drags. A Row cannot wrap, and
         # before this the fifth tab was drawn past the screen edge for good.
-        <MishkaTabs active={@tab} on_change={:pick} id="many">{[
-          tab(:inbox, "Inbox", body(:inbox)),
-          tab(:starred, "Starred", body(:starred)),
-          # …seven more
-        ]}</MishkaTabs>
+        #
+        # Written as a LIST here rather than as <MishkaTab> slot tags, because
+        # the tabs come from data. tab/3 builds exactly the same node the tag
+        # does — %{type: :mishka_tab, props: %{id:, label:}, children: panel} —
+        # so the two forms are interchangeable. Use the tag when you are writing
+        # tabs out by hand, the function when you are mapping over a list.
+        <MishkaTabs active={@tab} on_change={:pick} id="many">
+          {Enum.map(@folders, fn {id, label, body} -> tab(id, label, body) end)}
+        </MishkaTabs>
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
             <MishkaTabs active={@tb_many} on_change={:tb_many} id="many">
-              {[
-              tab(:inbox, "Inbox", para("Nine tabs. Drag the bar to reach the ones off-screen.")),
-              tab(:starred, "Starred", para("Starred messages live here.")),
-              tab(:snoozed, "Snoozed", para("Back later.")),
-              tab(:sent, "Sent", para("Everything you sent.")),
-              tab(:drafts, "Drafts", para("Unfinished business.")),
-              tab(:archive, "Archive", para("Kept, but out of the way.")),
-              tab(:spam, "Spam", para("The bad stuff.")),
-              tab(:trash, "Trash", para("On its way out.")),
-              tab(:settings, "Settings", para("The last tab — you had to drag to get here."))
-            ]}
+              {Enum.map(folders(), fn {id, label, body} -> tab(id, label, para(body)) end)}
             </MishkaTabs>
           </Column>
           """
@@ -115,11 +115,15 @@ defmodule MishkaMob.Showcase.Components.Tabs do
           ~MOB"""
           <Column fill_width={true}>
             <MishkaTabs active={@tb_plain} indicator={false} on_change={:tb_plain} id="plain">
-              {[
-              tab(:one, "First", para("No underline here.")),
-              tab(:two, "Second", para("Just the active colour.")),
-              tab(:three, "Third", para("Three tabs, no underline."))
-            ]}
+              <MishkaTab id={:one} label="First">
+                <Text text="No underline here." text_color={:muted} />
+              </MishkaTab>
+              <MishkaTab id={:two} label="Second">
+                <Text text="Just the active colour." text_color={:muted} />
+              </MishkaTab>
+              <MishkaTab id={:three} label="Third">
+                <Text text="Three tabs, no underline." text_color={:muted} />
+              </MishkaTab>
             </MishkaTabs>
           </Column>
           """
@@ -129,17 +133,21 @@ defmodule MishkaMob.Showcase.Components.Tabs do
         title: "Disabled tab",
         description: "A disabled tab renders muted and wires no handler.",
         code: ~S"""
-        tab(:locked, "Locked", body, disabled: true)
+        <MishkaTab id={:locked} label="Locked" disabled={true}>…</MishkaTab>
         """,
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
             <MishkaTabs active={@tb_locked} on_change={:tb_locked} id="locked">
-              {[
-              tab(:overview, "Overview", para("Tap the tabs — Locked will not respond.")),
-              tab(:locked, "Locked", para("Unreachable."), disabled: true),
-              tab(:specs, "Specs", para("This one works."))
-            ]}
+              <MishkaTab id={:overview} label="Overview">
+                <Text text="Tap the tabs — Locked will not respond." text_color={:muted} />
+              </MishkaTab>
+              <MishkaTab id={:locked} label="Locked" disabled={true}>
+                <Text text="Unreachable." text_color={:muted} />
+              </MishkaTab>
+              <MishkaTab id={:specs} label="Specs">
+                <Text text="This one works." text_color={:muted} />
+              </MishkaTab>
             </MishkaTabs>
           </Column>
           """
@@ -166,11 +174,15 @@ defmodule MishkaMob.Showcase.Components.Tabs do
               on_change={:tb_styled}
               id="styled"
             >
-              {[
-              tab(:one, "Violet", para("A brand-tinted strip.")),
-              tab(:two, "Spaced", para("With a wider gap between tabs.")),
-              tab(:three, "Wide", para("Three tabs, 26dp apart."))
-            ]}
+              <MishkaTab id={:one} label="Violet">
+                <Text text="A brand-tinted strip." text_color={:muted} />
+              </MishkaTab>
+              <MishkaTab id={:two} label="Spaced">
+                <Text text="With a wider gap between tabs." text_color={:muted} />
+              </MishkaTab>
+              <MishkaTab id={:three} label="Wide">
+                <Text text="Three tabs, 26dp apart." text_color={:muted} />
+              </MishkaTab>
             </MishkaTabs>
           </Column>
           """
@@ -257,6 +269,22 @@ defmodule MishkaMob.Showcase.Components.Tabs do
       <Box fill_width={true} height={24} background={:surface_raised} corner_radius={:radius_sm} />
     </Column>
     """
+  end
+
+  # The tabs of the "too many to fit" example, as data — which is the case the
+  # tab/3 function form exists for.
+  defp folders do
+    [
+      {:inbox, "Inbox", "Nine tabs. Drag the bar to reach the ones off-screen."},
+      {:starred, "Starred", "Starred messages live here."},
+      {:snoozed, "Snoozed", "Back later."},
+      {:sent, "Sent", "Everything you sent."},
+      {:drafts, "Drafts", "Unfinished business."},
+      {:archive, "Archive", "Kept, but out of the way."},
+      {:spam, "Spam", "The bad stuff."},
+      {:trash, "Trash", "On its way out."},
+      {:settings, "Settings", "The last tab — you had to drag to get here."}
+    ]
   end
 
   defp para(text) do

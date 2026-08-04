@@ -242,6 +242,7 @@ defmodule MishkaMob.Showcase do
   # --warnings-as-errors.
   @slot_tags [
     :mishka_accordion_item,
+    :mishka_tab,
     :mishka_empty_state_actions,
     :mishka_empty_state_indicator,
     :mishka_toast_close,

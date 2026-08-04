@@ -20,11 +20,17 @@ column  fill_width, carries `id`
 
 ```elixir
 ~MOB"""
-<MishkaTabs active={@tab} on_change={:pick} id="main">{[
-  tab(:overview, "Overview", overview_body()),
-  tab(:specs, "Specs", specs_body()),
-  tab(:support, "Support", support_body())
-]}</MishkaTabs>
+<MishkaTabs active={@tab} on_change={:pick} id="main">
+  <MishkaTab id={:overview} label="Overview">
+    <Text text="What this thing is." />
+  </MishkaTab>
+  <MishkaTab id={:specs} label="Specs">
+    <Text text="How big it is." />
+  </MishkaTab>
+  <MishkaTab id={:support} label="Support">
+    <Text text="Who to ask." />
+  </MishkaTab>
+</MishkaTabs>
 """
 
 # One clause serves every tab — the message carries the tab's own id.
@@ -45,7 +51,18 @@ end
 | `scrollable` | boolean | `true` — the strip drags sideways when the tabs overflow |
 | `id` | string | `nil` — test tags, see below |
 
-Per tab (`<MishkaTab>` props): `id` (defaults to its index), `label`, `disabled`.
+Per tab (`<MishkaTab>` props): `id` (defaults to its index), `label`, `disabled`. A tab's children
+are its panel.
+
+**Tags or a list, whichever suits.** `<MishkaTab>` is a slot tag — matched on `:type` among the
+parent's children and consumed by `expand/3`, so it never reaches the renderer. `tab/4` builds the
+identical node, which is what you want when the tabs come from data:
+
+```elixir
+<MishkaTabs active={@tab} on_change={:pick}>
+  {Enum.map(@folders, fn {id, label, body} -> tab(id, label, body) end)}
+</MishkaTabs>
+```
 
 Helpers: `active/2`, `tab/4`, `strip_id/1`, `tab_id/3`, `panel_id/1`.
 
