@@ -6,18 +6,23 @@ defmodule MishkaMob.Components.MishkaContextMenu do
   Renders through `MishkaMob.Components.MishkaMenu`, because a context menu and a
   dropdown menu are the same list of actions; only what *summons* them differs.
 
-  ## The right-click is the part that does not port
+  ## Long-press is the right-click
 
-  On the web this opens on `contextmenu` — a right-click, or a long press on
-  touch — at the pointer's coordinates. Mob's Android bridge exposes no
-  long-press gesture and no pointer coordinates, so neither the trigger nor the
-  at-the-cursor placement can be reproduced. Rather than invent a worse gesture,
-  the port keeps the **subject**: `for_label` names the object the actions belong
-  to and renders as a heading, which is what a phone context menu (an action
-  sheet) does and what makes it unambiguous which row you are acting on.
+  On the web this opens on `contextmenu` — a right-click, or **a long press on
+  touch**, which is what the web component's own keyboard/focus notes say. So
+  that is what it opens on here: wrap the object in `trigger/2` and hold it.
 
-  Open it from whatever the caller likes — a ⋯ button on the row is the usual
-  phone answer — and place it in flow or inside a bottom `MishkaDrawer`.
+  This shipped without a trigger at all, on the stated grounds that "Mob's
+  Android bridge exposes no long-press gesture". Half of that was true: the
+  handler has always been registered (`Mob.Renderer`, `on_long_press`) and iOS
+  has always implemented it (`.onLongPressGesture`) — only our Android bridge
+  was missing it, and that bridge is ours. It now wires `combinedClickable`, so
+  a long press works on both platforms.
+
+  What genuinely does not port is **placement at the pointer**: a touch has no
+  cursor to open at, and a phone has no room for a menu pinned to a coordinate.
+  The menu opens where the caller puts it — in flow, or in a bottom
+  `MishkaDrawer`, which is the shape a phone uses for exactly this.
 
   ## Props
 
@@ -27,15 +32,56 @@ defmodule MishkaMob.Components.MishkaContextMenu do
   |------|--------|---------|---------|
   | `for_label` | string | `nil` | The object these actions apply to, shown as a heading. |
 
-  Not ported: the `contextmenu` trigger, pointer placement, and `id` /
-  `*_class`.
+  `trigger/2` wraps whatever the actions belong to:
+
+      <Column>
+        {MishkaContextMenu.trigger(:report, [row_content()])}
+        <MishkaContextMenu open={@open == :report} for_label="report.pdf" on_select={:act}>
+          <MishkaMenuItem id={:rename} label="Rename" />
+        </MishkaContextMenu>
+      </Column>
+
+      def handle_info({:tap, {:hold, id}}, socket), do: {:noreply, assign(socket, :open, id)}
+
+  Not ported: placement at the pointer, and `id` / `*_class`.
   """
 
-  alias MishkaMob.Components.MishkaMenu
+  alias MishkaMob.Components.{Event, MishkaMenu}
 
   @doc "Composite expander (`<MishkaContextMenu>`). Children are menu items."
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, children, _ctx), do: context_menu(props, children)
+
+  @doc """
+  Wrap the object the actions belong to, so holding it opens the menu.
+
+  `on_hold` is the event tag; the message is `{:tap, {tag, id}}`, the same shape
+  every other row-carrying component here uses, so one clause serves a list.
+
+      trigger(:report, [row()], on_hold: :hold, test_id: "row-report")
+
+  A long press is the touch equivalent of the web's right-click. A plain tap
+  passes straight through, so the row keeps whatever it already did.
+  """
+  @spec trigger(term(), [map()], keyword()) :: map()
+  def trigger(id, children, opts \\ []) do
+    node = %{
+      type: :box,
+      props: %{fill_width: true},
+      children: children
+    }
+
+    node =
+      case Event.handler(Keyword.get(opts, :on_hold)) do
+        nil -> node
+        {pid, tag} -> put_in(node.props[:on_long_press], {pid, {tag, id}})
+      end
+
+    case Keyword.get(opts, :test_id) do
+      nil -> node
+      test_id -> put_in(node.props[:id], test_id)
+    end
+  end
 
   @doc """
   The context-menu node.

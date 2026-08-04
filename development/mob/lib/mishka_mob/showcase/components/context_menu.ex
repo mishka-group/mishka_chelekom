@@ -7,6 +7,7 @@ defmodule MishkaMob.Showcase.Components.ContextMenu do
   import Mob.Sigil
   import MishkaMob.Components.MishkaMenu, only: [item: 3, separator: 0]
 
+  alias MishkaMob.Components.MishkaContextMenu
   alias MishkaMob.Showcase.Example
 
   @files [{:report, "report.pdf"}, {:notes, "notes.md"}]
@@ -33,17 +34,27 @@ defmodule MishkaMob.Showcase.Components.ContextMenu do
   def examples do
     [
       %Example{
-        title: "Per-row actions",
-        description: "The ⋯ opens it, and for_label makes the subject unambiguous.",
+        title: "Hold a row — the touch right-click",
+        description:
+          "Press and hold any row to open its actions, exactly as the web opens on right-click. " <>
+            "The ⋯ does the same, because a long press is invisible unless something says so.",
         code: ~S"""
+        # trigger/3 wraps the object; holding it fires on_long_press. A plain
+        # tap passes straight through, so the row keeps whatever it already did.
+        {MishkaContextMenu.trigger(id, [row_content()], on_hold: :open_for)}
+
         <MishkaContextMenu
-          open={@open?}
-          for_label="report.pdf"
+          open={@open_for == id}
+          for_label={name}
           on_select={:act}
-        >{[
-          item(:rename, "Rename"),
-          item(:delete, "Delete", danger: true)
-        ]}</MishkaContextMenu>
+        >
+          <MishkaMenuItem id={:rename} label="Rename" icon="✎" />
+          <MishkaMenuItem id={:delete} label="Delete" icon="🗑" danger={true} />
+        </MishkaContextMenu>
+
+        def handle_info({:tap, {:open_for, id}}, socket) do
+          {:noreply, assign(socket, :open_for, id)}
+        end
         """,
         render: fn assigns ->
           ~MOB"""
@@ -130,20 +141,35 @@ defmodule MishkaMob.Showcase.Components.ContextMenu do
   end
 
   defp file_row(id, name, open_for) do
+    # The row itself is the trigger: hold it and the menu opens, which is the
+    # touch equivalent of the web's right-click. The ⋯ stays as the discoverable
+    # alternative — a long press is invisible unless something tells you.
+    row =
+      MishkaContextMenu.trigger(
+        id,
+        [
+          ~MOB"""
+          <Row fill_width={true}>
+            <Text text={name} text_size={:base} text_color={:on_surface} />
+            <Spacer weight={1} />
+            <MishkaActionIcon icon="⋯" on_tap={{:cm_open, id}} />
+          </Row>
+          """
+        ],
+        on_hold: :cm_open,
+        test_id: "row-#{id}"
+      )
+
     ~MOB"""
     <Column fill_width={true}>
-      <Row fill_width={true}>
-        <Text text={name} text_size={:base} text_color={:on_surface} />
-        <Spacer weight={1} />
-        <MishkaActionIcon icon="⋯" on_tap={{:cm_open, id}} />
-      </Row>
+      {row}
       <Spacer size={6} :if={open_for == id} />
       <MishkaContextMenu open={open_for == id} for_label={name} on_select={:cm_pick}>
         {[
-           item(:rename, "Rename", icon: "✎"),
-           item(:duplicate, "Duplicate", icon: "⧉"),
+           item(:rename, "Rename", icon: "✎", test_id: "act-#{id}-rename"),
+           item(:duplicate, "Duplicate", icon: "⧉", test_id: "act-#{id}-duplicate"),
            separator(),
-           item(:delete, "Delete", icon: "🗑", danger: true)
+           item(:delete, "Delete", icon: "🗑", danger: true, test_id: "act-#{id}-delete")
          ]}
       </MishkaContextMenu>
     </Column>

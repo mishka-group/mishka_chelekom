@@ -39,6 +39,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.ui.input.pointer.PointerEventPass
@@ -2212,6 +2213,10 @@ fun RenderNode(node: MobNode, modifier: Modifier = Modifier) {
     }
 }
 
+// combinedClickable is still marked experimental in Compose Foundation; it is
+// the only way to get a long press alongside a tap without hand-rolling a
+// pointerInput gesture, and it has been stable in practice for years.
+@OptIn(androidx.compose.foundation.ExperimentalFoundationApi::class)
 @Composable
 private fun RenderNodeInner(node: MobNode, modifier: Modifier) {
     // Apply on_tap as a clickable modifier for any node type except button —
@@ -2221,9 +2226,24 @@ private fun RenderNodeInner(node: MobNode, modifier: Modifier) {
     // a clickable wrapped round a text field CONSUMES the tap, so the field
     // never places its caret and never raises the keyboard.
     val tapHandle = intProp(node.props, "on_tap")
+    // on_long_press is the touch equivalent of a right-click, and it is what a
+    // context menu opens on. Mob.Renderer has always registered the handler
+    // (renderer.ex ~356) and iOS has always implemented it
+    // (MobRootView.swift ~70, .onLongPressGesture) — only this bridge was
+    // missing it, which is why MishkaContextMenu's moduledoc claimed the
+    // gesture did not exist at all and shipped without a trigger.
+    val longPressHandle = intProp(node.props, "on_long_press")
+    val wired = tapHandle != null || longPressHandle != null
     val tapModifier =
-        if (tapHandle != null && node.type != "button" && node.type != "text_field") {
-            modifier.clickable { MobBridge.nativeSendTap(tapHandle) }
+        if (wired && node.type != "button" && node.type != "text_field") {
+            // combinedClickable, not clickable: it carries both, and a node may
+            // legitimately want a tap AND a long press (open the row, or act on
+            // it). Either handle may be null; Compose accepts a null onLongClick.
+            modifier.combinedClickable(
+                onClick = { tapHandle?.let { MobBridge.nativeSendTap(it) } },
+                onLongClick =
+                    longPressHandle?.let { handle -> { MobBridge.nativeSendTap(handle) } },
+            )
         } else modifier
     val base = tapModifier.then(nodeModifier(node.props))
     // Track on-screen frame + set a testTag for any node carrying an :id, so the

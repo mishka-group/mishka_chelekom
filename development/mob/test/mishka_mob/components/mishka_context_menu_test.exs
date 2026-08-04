@@ -60,4 +60,29 @@ defmodule MishkaMob.Components.MishkaContextMenuTest do
       assert_renderable(MishkaContextMenu.context_menu(props, items()))
     end
   end
+
+  describe "trigger/3" do
+    test "a long press opens it — the touch equivalent of the web's right-click" do
+      node = MishkaContextMenu.trigger(:report, [], on_hold: :hold)
+
+      # on_long_press, not on_tap: a plain tap passes through so the row keeps
+      # doing whatever it already did.
+      assert node.props.on_long_press == {self(), {:hold, :report}}
+      refute Map.has_key?(node.props, :on_tap)
+    end
+
+    test "no handler, no gesture" do
+      refute MishkaContextMenu.trigger(:report, [])
+             |> Map.fetch!(:props)
+             |> Map.has_key?(:on_long_press)
+    end
+
+    test "it wraps its children and can carry a test tag" do
+      child = %{type: :text, props: %{text: "report.pdf"}, children: []}
+      node = MishkaContextMenu.trigger(:report, [child], test_id: "row-report")
+
+      assert node.children == [child]
+      assert node.props.id == "row-report"
+    end
+  end
 end
