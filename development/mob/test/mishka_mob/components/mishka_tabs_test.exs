@@ -16,8 +16,11 @@ defmodule MishkaMob.Components.MishkaTabsTest do
 
   defp build(props \\ %{}), do: MishkaTabs.tabs(Map.merge(%{on_change: :pick}, props), three())
 
+  # The strip is a horizontal Scroll wrapping the Row of triggers — a Row cannot
+  # wrap, so without the Scroll the fifth tab is drawn off-screen for good.
   defp strip(tree), do: hd(tree.children)
-  defp triggers(tree), do: Enum.filter(strip(tree).children, &(&1.type == :column))
+  defp row(tree), do: strip(tree) |> Map.fetch!(:children) |> hd()
+  defp triggers(tree), do: Enum.filter(row(tree).children, &(&1.type == :column))
 
   describe "active selection" do
     test "defaults to the first tab" do
@@ -145,6 +148,62 @@ defmodule MishkaMob.Components.MishkaTabsTest do
   test "every variant renders" do
     for props <- [%{}, %{active: :b}, %{indicator: false}, %{color: :primary, space: 4}] do
       assert_renderable(build(props))
+    end
+  end
+
+  describe "the strip scrolls" do
+    test "it is a horizontal Scroll, so tabs past the edge can still be reached" do
+      tree = build()
+
+      assert strip(tree).type == :scroll
+      assert strip(tree).props.axis == "horizontal"
+      assert row(tree).type == :row
+
+      # The inner Row must NOT fill: a fill_width Row inside a horizontal Scroll
+      # is pinned to the viewport and there is nothing left to scroll.
+      refute Map.get(row(tree).props, :fill_width)
+    end
+
+    test "scrollable: false gives back a plain filling Row" do
+      tree = build(%{scrollable: false})
+
+      assert strip(tree).type == :row
+      assert strip(tree).props.fill_width
+    end
+
+    test "a strip with many tabs still renders every trigger" do
+      many = for i <- 1..9, do: MishkaTabs.tab(:"t#{i}", "Tab #{i}", panel("body #{i}"))
+      tree = MishkaTabs.tabs(%{on_change: :pick}, many)
+
+      assert length(Enum.filter(hd(hd(tree.children).children).children, &(&1.type == :column))) ==
+               9
+    end
+  end
+
+  describe "ids" do
+    test "fold the state into the tag, because colour is not in the tree" do
+      tree = build(%{id: "tb", active: :b})
+
+      tags = triggers(tree) |> Enum.map(& &1.props[:id])
+      assert tags == ["tb-tab-a-idle", "tb-tab-b-active", "tb-tab-c-disabled"]
+
+      assert MishkaTabs.tab_id("tb", :b, :active) == "tb-tab-b-active"
+      assert MishkaTabs.strip_id("tb") == "tb-strip"
+      assert MishkaTabs.panel_id("tb") == "tb-panel"
+    end
+
+    test "tag the strip and the panel too" do
+      tree = build(%{id: "tb"})
+
+      assert strip(tree).props.id == "tb-strip"
+      assert List.last(tree.children).props.id == "tb-panel"
+    end
+
+    test "no id, no tags anywhere" do
+      tree = build()
+
+      refute Map.has_key?(strip(tree).props, :id)
+      assert Enum.all?(triggers(tree), &(not Map.has_key?(&1.props, :id)))
     end
   end
 end

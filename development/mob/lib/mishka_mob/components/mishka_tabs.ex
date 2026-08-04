@@ -50,8 +50,32 @@ defmodule MishkaMob.Components.MishkaTabs do
   | `indicator` | boolean | `true` | Underline the active tab. |
   | `color` | color token / ARGB int | `:primary` | Active label and indicator. |
   | `space` | number | `18` | Gap between tabs. |
+  | `scrollable` | boolean | `true` | The strip drags sideways when the tabs overflow. |
+  | `id` | string | `nil` | Test tags — see below. |
 
   Per tab (`:mishka_tab` props): `id`, `label`, `disabled`.
+
+  ## The strip scrolls, because a Row cannot wrap
+
+  The tab bar used to be a bare `Row`, so the fifth tab — or any set of long
+  labels — was drawn past the screen edge and could never be reached. It is a
+  horizontal `Scroll` now: drag it left and right with a finger. `scrollable:
+  false` gives back the old fixed row for the cases that genuinely fit.
+
+  Mob's native `tab_bar` node is no help here: on Android it is a Material
+  `NavigationBar` pinned to the bottom of the screen and on iOS a SwiftUI
+  `TabView`. That is app-level navigation, not an inline strip, and neither
+  scrolls sideways.
+
+  ## Tags, and why the state is in them
+
+  A tab announces itself with a colour and a 2dp underline, and **neither is in
+  the semantics tree** — so a device test cannot otherwise tell the selected tab
+  from any other. With an `id` set:
+
+    * the strip is `<id>-strip`,
+    * each trigger is `<id>-tab-<tab_id>-<active|idle|disabled>`,
+    * the panel is `<id>-panel`.
 
   Not ported: `orientation: "vertical"`, `activate_on_focus` (there is no focus
   ring to follow), `default_value` (the screen holds state, so "uncontrolled"
@@ -92,7 +116,7 @@ defmodule MishkaMob.Components.MishkaTabs do
     ~MOB"""
     <Column fill_width={true}>
       {strip(items, props, active)}
-      {panel(items, active)}
+      {panel(items, active, Map.get(props, :id))}
     </Column>
     """
   end
@@ -126,20 +150,76 @@ defmodule MishkaMob.Components.MishkaTabs do
     end)
   end
 
+  # The strip scrolls sideways.
+  #
+  # It used to be a bare `<Row fill_width={true}>`, and a Row cannot wrap — so
+  # the fifth tab, or any set of long labels, was drawn past the screen edge and
+  # was permanently unreachable. Nothing said so, because every example on the
+  # showcase page happened to fit.
+  #
+  # A horizontal `Scroll` fixes it on BOTH platforms with no native change. Mob's
+  # own `tab_bar` node is no help here — on Android it is a Material
+  # `NavigationBar` pinned to the bottom of the screen and on iOS a SwiftUI
+  # `TabView`, i.e. app-level navigation, and neither scrolls horizontally.
   defp strip(items, props, active) do
     space = Map.get(props, :space, 18)
+    id = Map.get(props, :id)
 
     triggers =
       items
       |> Enum.map(&trigger(&1, props, &1.id == active))
       |> Enum.intersperse(~MOB(<Spacer size={space} />))
 
-    ~MOB"""
-    <Row fill_width={true}>
+    row = ~MOB"""
+    <Row>
       {triggers}
     </Row>
     """
+
+    if truthy?(Map.get(props, :scrollable, true)) do
+      %{
+        type: :scroll,
+        props: scroll_props(id),
+        children: [row]
+      }
+    else
+      %{row | props: Map.put(row.props, :fill_width, true)}
+    end
   end
+
+  defp scroll_props(nil), do: %{axis: "horizontal"}
+  defp scroll_props(id), do: %{axis: "horizontal", id: strip_id(id)}
+
+  @doc """
+  The test tag on the scrolling strip, given the tabs' `id`.
+
+      iex> MishkaMob.Components.MishkaTabs.strip_id("plans")
+      "plans-strip"
+  """
+  @spec strip_id(String.t()) :: String.t()
+  def strip_id(id) when is_binary(id), do: id <> "-strip"
+
+  @doc """
+  The test tag on one tab's trigger, with its state folded in.
+
+  A tab says which one it is with a colour and a 2dp underline, and neither is
+  in the semantics tree — so without the state in the tag itself a device test
+  cannot tell the selected tab from any other.
+
+      iex> MishkaMob.Components.MishkaTabs.tab_id("plans", :pro, :active)
+      "plans-tab-pro-active"
+  """
+  @spec tab_id(String.t(), term(), :active | :idle | :disabled) :: String.t()
+  def tab_id(id, tab, state) when is_binary(id), do: "#{id}-tab-#{tab}-#{state}"
+
+  @doc """
+  The test tag on the panel below the strip.
+
+      iex> MishkaMob.Components.MishkaTabs.panel_id("plans")
+      "plans-panel"
+  """
+  @spec panel_id(String.t()) :: String.t()
+  def panel_id(id) when is_binary(id), do: id <> "-panel"
 
   # A tappable Box, not a Button: a Material Button centres and boxes its label,
   # which is wrong for a tab strip.
@@ -167,10 +247,25 @@ defmodule MishkaMob.Components.MishkaTabs do
     </Column>
     """
 
+    node = tag(node, trigger_tag(Map.get(props, :id), item, active?))
+
     case tap_target(props, item) do
       nil -> node
       target -> %{node | props: Map.put(node.props, :on_tap, target)}
     end
+  end
+
+  defp trigger_tag(nil, _item, _active?), do: nil
+
+  defp trigger_tag(id, item, active?) do
+    state =
+      cond do
+        item.disabled -> :disabled
+        active? -> :active
+        true -> :idle
+      end
+
+    tab_id(id, item.id, state)
   end
 
   defp tap_target(_props, %{disabled: true}), do: nil
@@ -182,7 +277,7 @@ defmodule MishkaMob.Components.MishkaTabs do
     end
   end
 
-  defp panel(items, active) do
+  defp panel(items, active, id) do
     body =
       case Enum.find(items, &(&1.id == active)) do
         nil -> []
@@ -195,7 +290,11 @@ defmodule MishkaMob.Components.MishkaTabs do
       {body}
     </Column>
     """
+    |> tag(if(is_binary(id), do: panel_id(id)))
   end
+
+  defp tag(node, nil), do: node
+  defp tag(node, id), do: %{node | props: Map.put(node.props, :id, id)}
 
   defp truthy?(nil), do: false
   defp truthy?(false), do: false
