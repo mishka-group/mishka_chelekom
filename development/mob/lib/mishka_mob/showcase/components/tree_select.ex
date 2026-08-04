@@ -8,7 +8,6 @@ defmodule MishkaMob.Showcase.Components.TreeSelect do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaTree, only: [tree: 1]
 
   alias MishkaMob.Components.MishkaTree
   alias MishkaMob.Showcase.Example
@@ -94,8 +93,14 @@ defmodule MishkaMob.Showcase.Components.TreeSelect do
           on_toggle={:toggle}
           id="ts-file"
         >
-          {[tree(nodes: @nodes, id: "ts-file-tree", expanded: @expanded,
-                 on_expand: :open_node, on_collapse: :close_node, on_select: :pick)]}
+          <MishkaTree
+            nodes={@nodes}
+            id="ts-file-tree"
+            expanded={@expanded}
+            on_expand={:open_node}
+            on_collapse={:close_node}
+            on_select={:pick}
+          />
         </MishkaTreeSelect>
 
         def handle_info({:tap, :toggle}, socket) do
@@ -121,17 +126,15 @@ defmodule MishkaMob.Showcase.Components.TreeSelect do
               on_toggle={:ts_file_toggle}
               id="ts-file"
             >
-              {[
-                 tree(
-                   nodes: files(),
-                   id: "ts-file-tree",
-                   expanded: @ts_file_expanded,
-                   with_lines: true,
-                   on_expand: :ts_file_expand,
-                   on_collapse: :ts_file_collapse,
-                   on_select: :ts_file_pick
-                 )
-               ]}
+              <MishkaTree
+                nodes={files()}
+                id="ts-file-tree"
+                expanded={@ts_file_expanded}
+                with_lines={true}
+                on_expand={:ts_file_expand}
+                on_collapse={:ts_file_collapse}
+                on_select={:ts_file_pick}
+              />
             </MishkaTreeSelect>
           </Column>
           """
@@ -149,7 +152,9 @@ defmodule MishkaMob.Showcase.Components.TreeSelect do
           open={@open?}
           on_toggle={:toggle}
           id="ts-team"
-        >{[tree(nodes: @people, id: "ts-team-tree", on_select: :pick)]}</MishkaTreeSelect>
+        >
+          <MishkaTree nodes={@people} id="ts-team-tree" on_select={:pick} />
+        </MishkaTreeSelect>
 
         # A tree reports its node's VALUE; what the trigger shows is the label,
         # so the screen maps one to the other.
@@ -170,7 +175,7 @@ defmodule MishkaMob.Showcase.Components.TreeSelect do
               on_toggle={:ts_team_toggle}
               id="ts-team"
             >
-              {[tree(nodes: owners(), id: "ts-team-tree", on_select: :ts_team_pick)]}
+              <MishkaTree nodes={owners()} id="ts-team-tree" on_select={:ts_team_pick} />
             </MishkaTreeSelect>
           </Column>
           """
@@ -183,14 +188,14 @@ defmodule MishkaMob.Showcase.Components.TreeSelect do
             "on_toggle at all, which is what an inline picker looks like: it never closes.",
         code: ~S"""
         <MishkaTreeSelect label="Europe" open={true} id="ts-pinned">
-          {[tree(nodes: @regions, id: "ts-pinned-tree", expanded: ["eu"])]}
+          <MishkaTree nodes={@regions} id="ts-pinned-tree" expanded={["eu"]} />
         </MishkaTreeSelect>
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
             <MishkaTreeSelect label="Europe" open={true} id="ts-pinned">
-              {[tree(nodes: regions(), id: "ts-pinned-tree", expanded: ["eu"])]}
+              <MishkaTree nodes={regions()} id="ts-pinned-tree" expanded={["eu"]} />
             </MishkaTreeSelect>
           </Column>
           """
@@ -210,7 +215,9 @@ defmodule MishkaMob.Showcase.Components.TreeSelect do
           open={@open?}
           on_toggle={:toggle}
           id="ts-long"
-        >{[tree(nodes: @nodes, id: "ts-long-tree")]}</MishkaTreeSelect>
+        >
+          <MishkaTree nodes={@nodes} id="ts-long-tree" />
+        </MishkaTreeSelect>
         """,
         render: fn assigns ->
           ~MOB"""
@@ -221,7 +228,7 @@ defmodule MishkaMob.Showcase.Components.TreeSelect do
               on_toggle={:ts_long_toggle}
               id="ts-long"
             >
-              {[tree(nodes: long_nodes(), id: "ts-long-tree")]}
+              <MishkaTree nodes={long_nodes()} id="ts-long-tree" />
             </MishkaTreeSelect>
           </Column>
           """
@@ -232,7 +239,7 @@ defmodule MishkaMob.Showcase.Components.TreeSelect do
         description: "Muted, and the trigger is unwired — tapping it cannot open the panel.",
         code: ~S"""
         <MishkaTreeSelect label="mix.exs" disabled={true} on_toggle={:toggle} id="ts-off">
-          {[tree(nodes: @nodes, id: "ts-off-tree")]}
+          <MishkaTree nodes={@nodes} id="ts-off-tree" />
         </MishkaTreeSelect>
         """,
         render: fn assigns ->
@@ -245,7 +252,7 @@ defmodule MishkaMob.Showcase.Components.TreeSelect do
               on_toggle={:ts_off_toggle}
               id="ts-off"
             >
-              {[tree(nodes: archive(), id: "ts-off-tree")]}
+              <MishkaTree nodes={archive()} id="ts-off-tree" />
             </MishkaTreeSelect>
           </Column>
           """
