@@ -42,7 +42,7 @@ defmodule MishkaMob.Components.MishkaContextMenuTest do
 
     taps = tree |> find_all(:box) |> Enum.map(& &1.props[:on_tap]) |> Enum.reject(&is_nil/1)
     assert [{_, {:act, :rename}}, {_, {:act, :delete}}] = taps
-    assert find(tree, :text, text: "Delete").props.text_color == 0xFFDC2626
+    assert find(tree, :text, text: "Delete").props.text_color == :error
   end
 
   test "renders nothing when closed" do

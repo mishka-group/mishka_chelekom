@@ -242,6 +242,12 @@ defmodule MishkaMob.Showcase do
   # --warnings-as-errors.
   @slot_tags [
     :mishka_accordion_item,
+    :mishka_menu_checkbox,
+    :mishka_menu_item,
+    :mishka_menu_label,
+    :mishka_menu_radio,
+    :mishka_menu_separator,
+    :mishka_menu_submenu,
     :mishka_tab,
     :mishka_empty_state_actions,
     :mishka_empty_state_indicator,

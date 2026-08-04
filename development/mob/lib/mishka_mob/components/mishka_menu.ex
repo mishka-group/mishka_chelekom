@@ -43,7 +43,14 @@ defmodule MishkaMob.Components.MishkaMenu do
   @item :mishka_menu_item
   @sep :mishka_menu_separator
   @label :mishka_menu_label
-  @danger 0xFF_DC_26_26
+  @checkbox :mishka_menu_checkbox
+  @radio :mishka_menu_radio
+  @submenu :mishka_menu_submenu
+
+  @slot_types [@item, @sep, @label, @checkbox, @radio, @submenu]
+
+  # How far a submenu's rows sit in from their trigger.
+  @indent 16
 
   @doc "Composite expander (`<MishkaMenu>`). Children are items."
   @spec expand(map(), [map()], map()) :: map()
@@ -81,6 +88,77 @@ defmodule MishkaMob.Components.MishkaMenu do
   def label(text), do: %{type: @label, props: %{text: text}, children: []}
 
   @doc """
+  A row that carries a tick. Options: `:checked`, `:disabled`, `:test_id`.
+
+      checkbox(:grid, "Show grid", checked: true)
+  """
+  @spec checkbox(term(), String.t(), keyword()) :: map()
+  def checkbox(id, label, opts \\ []) do
+    %{
+      type: @checkbox,
+      props: %{
+        id: id,
+        label: label,
+        checked: Keyword.get(opts, :checked, false),
+        disabled: Keyword.get(opts, :disabled, false),
+        test_id: Keyword.get(opts, :test_id)
+      },
+      children: []
+    }
+  end
+
+  @doc """
+  One choice in a named group. Options: `:checked`, `:disabled`, `:test_id`.
+
+  `name` groups rows that select one another out — it is carried through to the
+  event so a screen can tell which group moved.
+
+      radio(:by_name, "Name", "sort", checked: true)
+  """
+  @spec radio(term(), String.t(), String.t(), keyword()) :: map()
+  def radio(id, label, name, opts \\ []) do
+    %{
+      type: @radio,
+      props: %{
+        id: id,
+        label: label,
+        name: name,
+        checked: Keyword.get(opts, :checked, false),
+        disabled: Keyword.get(opts, :disabled, false),
+        test_id: Keyword.get(opts, :test_id)
+      },
+      children: []
+    }
+  end
+
+  @doc """
+  A nested group. Its children are the rows it reveals.
+
+  Options: `:open`, `:disabled`, `:test_id`.
+
+      submenu(:share, "Share", open: @sub == :share, rows: [item(:link, "Copy link")])
+
+  On the web a submenu flies out sideways on hover. There is no hover on a
+  touch screen and no room beside a phone-width panel, so this opens **inline**:
+  the trigger stays put and its rows appear underneath, indented. Same
+  information, no second surface to chase.
+  """
+  @spec submenu(term(), String.t(), keyword()) :: map()
+  def submenu(id, label, opts \\ []) do
+    %{
+      type: @submenu,
+      props: %{
+        id: id,
+        label: label,
+        open: Keyword.get(opts, :open, false),
+        disabled: Keyword.get(opts, :disabled, false),
+        test_id: Keyword.get(opts, :test_id)
+      },
+      children: Keyword.get(opts, :rows, [])
+    }
+  end
+
+  @doc """
   The menu node. Renders nothing when closed.
 
       <MishkaMenu
@@ -103,6 +181,10 @@ defmodule MishkaMob.Components.MishkaMenu do
     end
   end
 
+  # Rows keep their written order, so this is one ordered pass rather than a
+  # filter per kind. A submenu recurses into its own children — the only place
+  # in this library where a slot tag nests inside another, which works because
+  # a slot tag has no expander and therefore arrives with its subtree intact.
   defp rows(children, props) do
     Enum.map(children, &row(&1, props))
   end
@@ -121,7 +203,7 @@ defmodule MishkaMob.Components.MishkaMenu do
     text = Map.get(p, :text)
 
     ~MOB"""
-    <Box fill_width={true} padding={8}>
+    <Box fill_width={true} padding={:space_sm}>
       <Text text={text} text_size={:xs} text_color={:muted} />
     </Box>
     """
@@ -134,7 +216,7 @@ defmodule MishkaMob.Components.MishkaMenu do
     color =
       cond do
         disabled? -> :muted
-        truthy?(Map.get(item, :danger, false)) -> Map.get(props, :danger_color, @danger)
+        truthy?(Map.get(item, :danger, false)) -> Map.get(props, :danger_color, :error)
         true -> :on_surface
       end
 
@@ -159,7 +241,98 @@ defmodule MishkaMob.Components.MishkaMenu do
     end
   end
 
+  defp row(%{type: @checkbox, props: item}, props) do
+    mark(item, props, if(truthy?(Map.get(item, :checked, false)), do: "✓", else: " "))
+  end
+
+  defp row(%{type: @radio, props: item}, props) do
+    mark(item, props, if(truthy?(Map.get(item, :checked, false)), do: "●", else: "○"))
+  end
+
+  defp row(%{type: @submenu, props: sub, children: rows}, props) do
+    open? = truthy?(Map.get(sub, :open, false))
+    disabled? = truthy?(Map.get(sub, :disabled, false))
+
+    trigger =
+      %{
+        type: @item,
+        props: %{
+          id: Map.get(sub, :id),
+          label: Map.get(sub, :label),
+          icon: if(open?, do: "▾", else: "▸"),
+          disabled: disabled?,
+          danger: false,
+          test_id: submenu_tag(Map.get(sub, :test_id), open?)
+        },
+        children: []
+      }
+      |> row(props)
+
+    # A local, not @indent: inside ~MOB a leading @ means an ASSIGN, so the
+    # module attribute is rewritten to assigns.indent and blows up at compile
+    # time with a message that names the sigil rather than the attribute.
+    indent = @indent
+
+    nested =
+      if open? and rows != [] do
+        [
+          ~MOB"""
+          <Row fill_width={true}>
+            <Spacer size={indent} />
+            <Column fill_width={true}>
+              {rows(rows, props)}
+            </Column>
+          </Row>
+          """
+        ]
+      else
+        []
+      end
+
+    ~MOB"""
+    <Column fill_width={true}>
+      {[trigger | nested]}
+    </Column>
+    """
+  end
+
   defp row(other, _props), do: other
+
+  # Checkbox and radio rows are an item with an indicator glyph in the icon
+  # slot — but the STATE also goes in the tag, because a glyph is not something
+  # a device test can attribute to a row.
+  defp mark(item, props, glyph) do
+    checked? = truthy?(Map.get(item, :checked, false))
+
+    %{
+      type: @item,
+      props: %{
+        id: Map.get(item, :id),
+        label: Map.get(item, :label),
+        icon: glyph,
+        disabled: Map.get(item, :disabled, false),
+        danger: false,
+        test_id: state_tag(Map.get(item, :test_id), checked?)
+      },
+      children: []
+    }
+    |> row(props)
+  end
+
+  defp state_tag(nil, _checked?), do: nil
+  defp state_tag(id, true), do: id <> "-checked"
+  defp state_tag(id, false), do: id <> "-unchecked"
+
+  defp submenu_tag(nil, _open?), do: nil
+  defp submenu_tag(id, true), do: id <> "-open"
+  defp submenu_tag(id, false), do: id <> "-closed"
+
+  @doc """
+  Every node type a menu consumes as a row — the slot tags plus their function
+  equivalents. Exported so a test can prove none of them leaked to the renderer.
+  """
+  @spec slot_types() :: [atom()]
+  def slot_types, do: @slot_types
 
   defp tap(_props, _item, true), do: nil
 
