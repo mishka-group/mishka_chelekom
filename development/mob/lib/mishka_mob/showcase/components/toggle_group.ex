@@ -5,7 +5,6 @@ defmodule MishkaMob.Showcase.Components.ToggleGroup do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaToggleGroup, only: [item: 2, item: 3]
 
   alias MishkaMob.Components.MishkaToggleGroup
   alias MishkaMob.Showcase.Example
@@ -37,38 +36,17 @@ defmodule MishkaMob.Showcase.Components.ToggleGroup do
   # than flush to its corners: a flush item would need per-corner rounding to
   # follow the track, and corner_radius is a single number on both renderers, so
   # the first and last segments would square off the rounded ends.
-  defp track(inner) do
-    ~MOB"""
-    <Box
-      fill_width={false}
-      border_width={1}
-      border_color={:border}
-      corner_radius={9}
-      padding={3}
-      background={:surface_raised}
-    >
-      {inner}
-    </Box>
-    """
-  end
 
-  # A segmented bar built only from props: no gap, borderless items, transparent
-  # idle fill, all sitting in the rounded `track/1` above.
-  defp segmented(opts, items) do
-    defaults = %{
-      space: 0,
-      corner_radius: 6,
-      padding: 10,
-      border_width: 0,
-      background: :transparent,
-      # The GROUP must hug as well, not just its items — otherwise the track
-      # wraps a Row that fills, and the bar stretches to the screen edge around
-      # three short buttons.
-      fill_width: false
-    }
-
-    track(MishkaToggleGroup.toggle_group(Enum.into(opts, defaults), items))
-  end
+  # The props that make a group look segmented — written out on each bar below
+  # rather than merged in by a helper, because the whole point of this page is
+  # that the styling is ordinary markup a reader can copy:
+  #
+  #   space={0} corner_radius={6} padding={10} border_width={0}
+  #   background={:transparent} fill_width={false}
+  #
+  # `fill_width={false}` is on the GROUP, not just its items — otherwise the
+  # track wraps a Row that fills, and the bar stretches to the screen edge
+  # around three short buttons.
 
   @impl true
   def examples do
@@ -78,7 +56,9 @@ defmodule MishkaMob.Showcase.Components.ToggleGroup do
         description: "Pressing the pressed button clears the group — unlike a radio group.",
         code: ~S"""
         <MishkaToggleGroup value={@align} on_change={:align} space={0} border_width={0}>
-          {[item(:left, "Left"), item(:center, "Center"), item(:right, "Right")]}
+          <MishkaToggleGroupItem id={:left} label="Left" />
+          <MishkaToggleGroupItem id={:center} label="Center" />
+          <MishkaToggleGroupItem id={:right} label="Right" />
         </MishkaToggleGroup>
 
         # press/3 is the reducer: in single mode, pressing the pressed one clears.
@@ -93,11 +73,30 @@ defmodule MishkaMob.Showcase.Components.ToggleGroup do
           ~MOB"""
           <Column fill_width={true}>
             <Row fill_width={true}>
-              {segmented([value: @tgg_align, on_change: :tgg_align, id: "tgg-align"], [
-                item(:left, "Left"),
-                item(:center, "Center"),
-                item(:right, "Right")
-              ])}
+              <Box
+                fill_width={false}
+                border_width={1}
+                border_color={:border}
+                corner_radius={9}
+                padding={3}
+                background={:surface_raised}
+              >
+                <MishkaToggleGroup
+                  value={@tgg_align}
+                  on_change={:tgg_align}
+                  id="tgg-align"
+                  space={0}
+                  corner_radius={6}
+                  padding={10}
+                  border_width={0}
+                  background={:transparent}
+                  fill_width={false}
+                >
+                  <MishkaToggleGroupItem id={:left} label="Left" />
+                  <MishkaToggleGroupItem id={:center} label="Center" />
+                  <MishkaToggleGroupItem id={:right} label="Right" />
+                </MishkaToggleGroup>
+              </Box>
             </Row>
             <Spacer size={12} />
             <Text text={"Value: " <> inspect(@tgg_align)} text_size={:sm} text_color={:muted} />
@@ -109,7 +108,11 @@ defmodule MishkaMob.Showcase.Components.ToggleGroup do
         title: "Multiple",
         description: "multiple: true makes the value a set — several pressed at once.",
         code: ~S"""
-        <MishkaToggleGroup value={@style} multiple={true} on_change={:style}>{items}</MishkaToggleGroup>
+        <MishkaToggleGroup value={@style} multiple={true} on_change={:style}>
+          <MishkaToggleGroupItem id={:bold} label="Bold" />
+          <MishkaToggleGroupItem id={:italic} label="Italic" />
+          <MishkaToggleGroupItem id={:under} label="Underline" />
+        </MishkaToggleGroup>
 
         def handle_info({:tap, {:style, id}}, socket) do
           next = MishkaToggleGroup.press(socket.assigns.style, id, true)
@@ -120,10 +123,31 @@ defmodule MishkaMob.Showcase.Components.ToggleGroup do
           ~MOB"""
           <Column fill_width={true}>
             <Row fill_width={true}>
-              {segmented(
-                [value: @tgg_style, multiple: true, on_change: :tgg_style, id: "tgg-style"],
-                [item(:bold, "Bold"), item(:italic, "Italic"), item(:under, "Underline")]
-              )}
+              <Box
+                fill_width={false}
+                border_width={1}
+                border_color={:border}
+                corner_radius={9}
+                padding={3}
+                background={:surface_raised}
+              >
+                <MishkaToggleGroup
+                  value={@tgg_style}
+                  multiple={true}
+                  on_change={:tgg_style}
+                  id="tgg-style"
+                  space={0}
+                  corner_radius={6}
+                  padding={10}
+                  border_width={0}
+                  background={:transparent}
+                  fill_width={false}
+                >
+                  <MishkaToggleGroupItem id={:bold} label="Bold" />
+                  <MishkaToggleGroupItem id={:italic} label="Italic" />
+                  <MishkaToggleGroupItem id={:under} label="Underline" />
+                </MishkaToggleGroup>
+              </Box>
             </Row>
             <Spacer size={12} />
             <Text text={"Value: " <> inspect(@tgg_style)} text_size={:sm} text_color={:muted} />
@@ -135,21 +159,41 @@ defmodule MishkaMob.Showcase.Components.ToggleGroup do
         title: "Vertical",
         description: "orientation stacks them, and stacked items share one width.",
         code: ~S"""
-        <MishkaToggleGroup orientation={:vertical} value={@view} on_change={:view}>{items}</MishkaToggleGroup>
+        <MishkaToggleGroup orientation={:vertical} value={@view} on_change={:view}>
+          <MishkaToggleGroupItem id={:list} label="List" />
+          <MishkaToggleGroupItem id={:grid} label="Grid" />
+          <MishkaToggleGroupItem id={:cards} label="Cards" />
+        </MishkaToggleGroup>
         """,
         render: fn assigns ->
           ~MOB"""
           <Row fill_width={true}>
             <Box width={150}>
-              {segmented(
-                [
-                  value: @tgg_view,
-                  orientation: :vertical,
-                  on_change: :tgg_view,
-                  id: "tgg-view"
-                ],
-                [item(:list, "List"), item(:grid, "Grid"), item(:cards, "Cards")]
-              )}
+              <Box
+                fill_width={false}
+                border_width={1}
+                border_color={:border}
+                corner_radius={9}
+                padding={3}
+                background={:surface_raised}
+              >
+                <MishkaToggleGroup
+                  value={@tgg_view}
+                  orientation={:vertical}
+                  on_change={:tgg_view}
+                  id="tgg-view"
+                  space={0}
+                  corner_radius={6}
+                  padding={10}
+                  border_width={0}
+                  background={:transparent}
+                  fill_width={false}
+                >
+                  <MishkaToggleGroupItem id={:list} label="List" />
+                  <MishkaToggleGroupItem id={:grid} label="Grid" />
+                  <MishkaToggleGroupItem id={:cards} label="Cards" />
+                </MishkaToggleGroup>
+              </Box>
             </Box>
           </Row>
           """
@@ -180,7 +224,9 @@ defmodule MishkaMob.Showcase.Components.ToggleGroup do
                 background={0xFFEFEDF7}
                 text_size={:sm}
               >
-                {[item(:left, "Left"), item(:center, "Center"), item(:right, "Right")]}
+                <MishkaToggleGroupItem id={:left} label="Left" />
+                <MishkaToggleGroupItem id={:center} label="Center" />
+                <MishkaToggleGroupItem id={:right} label="Right" />
               </MishkaToggleGroup>
             </Row>
             <Spacer size={14} />
@@ -195,7 +241,9 @@ defmodule MishkaMob.Showcase.Components.ToggleGroup do
                 color={0xFF111111}
                 text_size={:sm}
               >
-                {[item(:left, "Left"), item(:center, "Center"), item(:right, "Right")]}
+                <MishkaToggleGroupItem id={:left} label="Left" />
+                <MishkaToggleGroupItem id={:center} label="Center" />
+                <MishkaToggleGroupItem id={:right} label="Right" />
               </MishkaToggleGroup>
             </Row>
           </Column>
@@ -207,8 +255,14 @@ defmodule MishkaMob.Showcase.Components.ToggleGroup do
         description:
           "One item, or the whole group. A disabled item still shows if it is pressed.",
         code: ~S"""
-        item(:right, "Right", disabled: true)
-        <MishkaToggleGroup disabled={true} value={@align}>{items}</MishkaToggleGroup>
+        # One item off:
+        <MishkaToggleGroupItem id={:right} label="Right" disabled={true} />
+
+        # The whole group off — it cascades to every item:
+        <MishkaToggleGroup disabled={true} value={@align}>
+          <MishkaToggleGroupItem id={:left} label="Left" />
+          <MishkaToggleGroupItem id={:right} label="Right" />
+        </MishkaToggleGroup>
         """,
         render: fn assigns ->
           ~MOB"""
@@ -216,19 +270,57 @@ defmodule MishkaMob.Showcase.Components.ToggleGroup do
             <Text text="ONE ITEM OFF" text_size={:sm} text_color={:muted} />
             <Spacer size={8} />
             <Row fill_width={true}>
-              {segmented([value: @tgg_align, on_change: :tgg_align, id: "tgg-one"], [
-                item(:left, "Left"),
-                item(:right, "Right (off)", disabled: true)
-              ])}
+              <Box
+                fill_width={false}
+                border_width={1}
+                border_color={:border}
+                corner_radius={9}
+                padding={3}
+                background={:surface_raised}
+              >
+                <MishkaToggleGroup
+                  value={@tgg_align}
+                  on_change={:tgg_align}
+                  id="tgg-one"
+                  space={0}
+                  corner_radius={6}
+                  padding={10}
+                  border_width={0}
+                  background={:transparent}
+                  fill_width={false}
+                >
+                  <MishkaToggleGroupItem id={:left} label="Left" />
+                  <MishkaToggleGroupItem id={:right} label="Right (off)" disabled={true} />
+                </MishkaToggleGroup>
+              </Box>
             </Row>
             <Spacer size={16} />
             <Text text="WHOLE GROUP OFF" text_size={:sm} text_color={:muted} />
             <Spacer size={8} />
             <Row fill_width={true}>
-              {segmented([value: :on, disabled: true, id: "tgg-off"], [
-                item(:off, "A (off)"),
-                item(:on, "B (off)")
-              ])}
+              <Box
+                fill_width={false}
+                border_width={1}
+                border_color={:border}
+                corner_radius={9}
+                padding={3}
+                background={:surface_raised}
+              >
+                <MishkaToggleGroup
+                  value={:on}
+                  disabled={true}
+                  id="tgg-off"
+                  space={0}
+                  corner_radius={6}
+                  padding={10}
+                  border_width={0}
+                  background={:transparent}
+                  fill_width={false}
+                >
+                  <MishkaToggleGroupItem id={:off} label="A (off)" />
+                  <MishkaToggleGroupItem id={:on} label="B (off)" />
+                </MishkaToggleGroup>
+              </Box>
             </Row>
           </Column>
           """

@@ -38,8 +38,26 @@ defmodule <%= @module %> do
   each item, so the group is styled by styling its buttons. Nothing here has a
   look of its own.
 
-  Items are children built with `item/3`, carrying `id`, `label` and an optional
-  `disabled`.
+  ## Items are slot children
+
+  An item is written as `<<%= @module_prefix_camel %>ToggleGroupItem>`, the way the Phoenix component
+  writes it:
+
+      <<%= @module_prefix_camel %>ToggleGroup value={@align} on_change={:align} id="align">
+        <<%= @module_prefix_camel %>ToggleGroupItem id={:left} label="Left" />
+        <<%= @module_prefix_camel %>ToggleGroupItem id={:center} label="Center" />
+        <<%= @module_prefix_camel %>ToggleGroupItem id={:right} label="Right" disabled={true} />
+      </<%= @module_prefix_camel %>ToggleGroup>
+
+  It carries `id` (what `on_change` reports, and the stem of the item's
+  testTag), `label`, and an optional `disabled`. `item/3` builds the identical
+  node, so the two forms mix freely inside one group — reach for the function
+  when the items come from DATA.
+
+  A slot tag has no module and no expander: it arrives with its props intact and
+  `toggle_group/2` consumes it. One that leaked past would reach the renderer as
+  an unknown node and draw nothing at all — silently, because the tag name is
+  whitelisted.
 
   ## Orientation decides whether an item hugs
 
@@ -58,13 +76,19 @@ defmodule <%= @module %> do
   alias <%= @namespace %>.Event
   alias <%= @namespace %>.<%= @module_prefix_camel %>Toggle
 
-  @item_type :mishka_toggle_item
+  @item_type :mishka_toggle_group_item
 
-  @doc "Composite expander (`<<%= @module_prefix_camel %>ToggleGroup>`). Children are items."
+  @doc """
+  Composite expander (`<<%= @module_prefix_camel %>ToggleGroup>`). Children are
+  `<<%= @module_prefix_camel %>ToggleGroupItem>` slot tags, or the same nodes from `item/3`.
+  """
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, children, _ctx), do: <%= @component_prefix %>toggle_group(props, children)
 
-  @doc "Build one item node."
+  @doc """
+  Build one item node — exactly what `<<%= @module_prefix_camel %>ToggleGroupItem>` builds, for when
+  the items come from data rather than being written out.
+  """
   @spec item(term(), String.t(), keyword()) :: map()
   def item(id, label, opts \\ []) do
     %{

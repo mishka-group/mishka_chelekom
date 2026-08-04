@@ -83,7 +83,34 @@ defmodule <%= @module %> do
   | `on_close` | event tag (atom) | — | `{:tap, tag}` on the ✕. |
   | `id` | string | `nil` | Test tags — see `part_id/2` and `handle_id/2`. |
 
-  Children are the window's body.
+  ## Slots
+
+  Children are the window's body, except for `<<%= @module_prefix_camel %>FloatingWindowHandle>` — the
+  web's `<:handle>`, a title bar of your own in place of `label`:
+
+      <<%= @module_prefix_camel %>FloatingWindow width={240} height={110} id="custom">
+        <<%= @module_prefix_camel %>FloatingWindowHandle>
+          <Row align={:center}>
+            <Box width={8} height={8} background={:primary} corner_radius={:radius_pill} />
+            <Spacer size={8} />
+            <Text text="build.log" text_size={:sm} max_lines={1} />
+          </Row>
+        </<%= @module_prefix_camel %>FloatingWindowHandle>
+        <Text text="The window body goes here." />
+      </<%= @module_prefix_camel %>FloatingWindow>
+
+  `handle/1` builds the identical node for when the bar comes from data, and the
+  `handle:` prop still takes one directly. **A slot wins over the prop**, the
+  same way a Dialog's title slot wins over its `title:` string — passing both is
+  redundant, not wrong.
+
+  The handle is DECORATION either way: it sits under the drag surface, so the
+  whole bar stays draggable and the handle itself takes no taps.
+
+  A slot tag has no module and no expander — it arrives with its subtree intact
+  and `floating_window/2` consumes it. One that leaked past would reach the
+  renderer as an unknown node and draw nothing at all, silently, because the tag
+  name is whitelisted; `slot_types/0` is exported so a test can name it.
 
   Not ported: `handle_label` (Mob exposes no accessibility semantics to hang a
   role or a label on), `class` / `handle_class` / `body_class` (no CSS), and
@@ -110,11 +137,38 @@ defmodule <%= @module %> do
 
   @gutter 12
 
+  # The handle slot. A slot tag has no module and no expander — it arrives with
+  # its subtree intact and `floating_window/2` consumes it below.
+  @handle_slot :mishka_floating_window_handle
+
   @arrows [{:left, "←"}, {:up, "↑"}, {:down, "↓"}, {:right, "→"}]
 
-  @doc "Composite expander (`<<%= @module_prefix_camel %>FloatingWindow>`). Children are the body."
+  @doc """
+  Composite expander (`<<%= @module_prefix_camel %>FloatingWindow>`). Children are the window body, plus an
+  optional `<<%= @module_prefix_camel %>FloatingWindowHandle>` slot tag.
+  """
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, children, _ctx), do: <%= @component_prefix %>floating_window(props, children)
+
+  @doc """
+  A title bar of your own — the web's `<:handle>`, as a builder as well as a tag.
+
+  `<<%= @module_prefix_camel %>FloatingWindowHandle>` builds the identical node, so write the
+  tag out when the bar is written out and reach for this when it comes from
+  data. Either way it is DECORATION: it sits under the drag surface, so the
+  whole bar stays draggable and the handle itself takes no taps.
+  """
+  @spec handle(map() | [map()]) :: map()
+  def handle(content), do: %{type: @handle_slot, props: %{}, children: List.wrap(content)}
+
+  @doc """
+  Every node type the window consumes as a slot. Exported so a test can prove
+  none of them leaked past `floating_window/2` to the renderer — a leak is
+  silent, since the tag name is whitelisted and an unknown node simply draws
+  nothing.
+  """
+  @spec slot_types() :: [atom()]
+  def slot_types, do: [@handle_slot]
 
   @doc """
   The window.
@@ -126,13 +180,24 @@ defmodule <%= @module %> do
         label="Inspector"
         on_move={:move}
         id="win"
-      >{[body()]}</<%= @module_prefix_camel %>FloatingWindow>
+      >
+        <Text text="Anything at all." />
+      </<%= @module_prefix_camel %>FloatingWindow>
   """
   @spec <%= @component_prefix %>floating_window(map() | keyword(), [map()]) :: map()
   def <%= @component_prefix %>floating_window(props \\ %{}, children \\ []) do
     props = Map.new(props)
+    {slots, content} = Enum.split_with(children, &match?(%{type: @handle_slot}, &1))
 
-    layers = [panel(props), surface(props), body(props, children), close(props) | nudges(props)]
+    # A handle slot wins over the `handle:` prop, the same way a Dialog's title
+    # slot wins over its `title:` string — passing both is redundant, not wrong.
+    props =
+      case slots do
+        [] -> props
+        nodes -> Map.put(props, :handle, Enum.flat_map(nodes, & &1.children))
+      end
+
+    layers = [panel(props), surface(props), body(props, content), close(props) | nudges(props)]
 
     %{type: :box, props: stage(props), children: Enum.reject(layers, &is_nil/1)}
   end

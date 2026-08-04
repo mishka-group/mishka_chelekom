@@ -38,8 +38,26 @@ defmodule MishkaMob.Components.MishkaToggleGroup do
   each item, so the group is styled by styling its buttons. Nothing here has a
   look of its own.
 
-  Items are children built with `item/3`, carrying `id`, `label` and an optional
-  `disabled`.
+  ## Items are slot children
+
+  An item is written as `<MishkaToggleGroupItem>`, the way the Phoenix component
+  writes it:
+
+      <MishkaToggleGroup value={@align} on_change={:align} id="align">
+        <MishkaToggleGroupItem id={:left} label="Left" />
+        <MishkaToggleGroupItem id={:center} label="Center" />
+        <MishkaToggleGroupItem id={:right} label="Right" disabled={true} />
+      </MishkaToggleGroup>
+
+  It carries `id` (what `on_change` reports, and the stem of the item's
+  testTag), `label`, and an optional `disabled`. `item/3` builds the identical
+  node, so the two forms mix freely inside one group — reach for the function
+  when the items come from DATA.
+
+  A slot tag has no module and no expander: it arrives with its props intact and
+  `toggle_group/2` consumes it. One that leaked past would reach the renderer as
+  an unknown node and draw nothing at all — silently, because the tag name is
+  whitelisted.
 
   ## Orientation decides whether an item hugs
 
@@ -58,13 +76,19 @@ defmodule MishkaMob.Components.MishkaToggleGroup do
   alias MishkaMob.Components.Event
   alias MishkaMob.Components.MishkaToggle
 
-  @item_type :mishka_toggle_item
+  @item_type :mishka_toggle_group_item
 
-  @doc "Composite expander (`<MishkaToggleGroup>`). Children are items."
+  @doc """
+  Composite expander (`<MishkaToggleGroup>`). Children are
+  `<MishkaToggleGroupItem>` slot tags, or the same nodes from `item/3`.
+  """
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, children, _ctx), do: toggle_group(props, children)
 
-  @doc "Build one item node."
+  @doc """
+  Build one item node — exactly what `<MishkaToggleGroupItem>` builds, for when
+  the items come from data rather than being written out.
+  """
   @spec item(term(), String.t(), keyword()) :: map()
   def item(id, label, opts \\ []) do
     %{

@@ -36,12 +36,10 @@ the same options in a bottom `drawer` — which is where a native picker belongs
   on_select={:pick}
   id="toppings"
 >
-  {[
-    option(:cheese, "Cheese", group: "CLASSIC"),
-    option(:pepperoni, "Pepperoni", group: "CLASSIC"),
-    option(:mushroom, "Mushroom", group: "VEGGIE"),
-    option(:onion, "Onion", group: "VEGGIE")
-  ]}
+  <MishkaSelectOption id={:cheese} label="Cheese" group="CLASSIC" />
+  <MishkaSelectOption id={:pepperoni} label="Pepperoni" group="CLASSIC" />
+  <MishkaSelectOption id={:mushroom} label="Mushroom" group="VEGGIE" />
+  <MishkaSelectOption id={:onion} label="Onion" group="VEGGIE" />
 </MishkaSelect>
 """
 
@@ -74,7 +72,22 @@ end
 | `on_select` | event tag | — `{:tap, {tag, option_id}}` from an option |
 | `id` | string | `nil` — tags the trigger and every option |
 
-Options are children built with `option/3`: `option(id, label, disabled: false, group: nil)`.
+## Options
+
+An option is a slot child: `<MishkaSelectOption id={:uk} label="United Kingdom" />`, taking `id`
+(required — what `on_select` reports and the stem of the testTag), `label`, `disabled` and `group`.
+
+`option/3` builds the identical node — `option(id, label, disabled: false, group: nil)` — so the two
+forms mix freely inside one select. Write the tags out when you are writing the options out, and
+reach for the function when they come from data:
+
+```elixir
+~MOB"""
+<MishkaSelect value={@country} open={@open?} on_select={:pick}>
+  {Enum.map(@countries, fn {id, label} -> MishkaSelect.option(id, label) end)}
+</MishkaSelect>
+"""
+```
 
 Helpers: `toggle/3`, `display/3`, `group_runs/1`.
 

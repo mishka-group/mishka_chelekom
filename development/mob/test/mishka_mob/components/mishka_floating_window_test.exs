@@ -2,6 +2,8 @@ defmodule MishkaMob.Components.MishkaFloatingWindowTest do
   # async: false — Mob.ScreenCase starts the globally-named `Mob.State`.
   use Mob.ScreenCase, async: false
 
+  import Mob.Sigil
+
   alias MishkaMob.Components.{MishkaFloatingIndicator, MishkaFloatingWindow}
 
   doctest MishkaMob.Components.MishkaFloatingWindow
@@ -310,6 +312,51 @@ defmodule MishkaMob.Components.MishkaFloatingWindowTest do
 
       assert text(tree) =~ "build.log"
       refute text(tree) =~ "ignored"
+    end
+
+    test "the handle SLOT does the same, and is not drawn as a body child" do
+      bar = %{type: :text, props: %{text: "build.log"}, children: []}
+
+      tree =
+        MishkaFloatingWindow.floating_window(%{label: "ignored"}, [
+          MishkaFloatingWindow.handle(bar),
+          %{type: :text, props: %{text: "body text"}, children: []}
+        ])
+
+      assert text(tree) =~ "build.log"
+      refute text(tree) =~ "ignored"
+      # The bar went to the title, and the body kept only what was not a slot.
+      assert text(tree) =~ "body text"
+
+      # assert_renderable is blind to a leak: mix.exs whitelists the tag's name,
+      # so it counts as renderable while MobBridge has no branch for it and
+      # silently draws nothing. Name the marker.
+      for type <- MishkaFloatingWindow.slot_types() do
+        assert find_all(tree, type) == []
+      end
+    end
+
+    test "the slot wins over the handle prop when both are given" do
+      slot = %{type: :text, props: %{text: "from the slot"}, children: []}
+      prop = %{type: :text, props: %{text: "from the prop"}, children: []}
+
+      tree =
+        MishkaFloatingWindow.floating_window(%{handle: prop}, [
+          MishkaFloatingWindow.handle(slot)
+        ])
+
+      assert text(tree) =~ "from the slot"
+      refute text(tree) =~ "from the prop"
+    end
+
+    test "<MishkaFloatingWindowHandle> and handle/1 build the same node" do
+      bar = ~MOB(<Text text="build.log" />)
+
+      assert ~MOB"""
+             <MishkaFloatingWindowHandle>
+               <Text text="build.log" />
+             </MishkaFloatingWindowHandle>
+             """ == MishkaFloatingWindow.handle(bar)
     end
 
     test "the body starts below the chrome, and the chrome grows with the arrows" do

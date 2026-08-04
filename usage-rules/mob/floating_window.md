@@ -39,7 +39,7 @@ not begin a drag.
   on_move={:move}
   id="win"
 >
-  {[readout()]}
+  <Text text={"x #{round(@x)} · y #{round(@y)}"} text_size={:sm} />
 </MishkaFloatingWindow>
 """
 
@@ -73,16 +73,41 @@ end
 | `bounds` | `{w, h}` | `nil` — the stage in dp. **No bounds, no drag** |
 | `step` | number | `20` — how far one arrow tap moves it |
 | `label` | string | `nil` — the title |
-| `handle` | node(s) | `nil` — title-bar content instead of `label` |
+| `handle` | node(s) | `nil` — the `<MishkaFloatingWindowHandle>` slot's shorthand |
 | `dragging` | boolean | `false` — the web's `data-dragging` |
 | `show_nudges` | boolean | `true` — the arrow row, when `on_move` is set |
 | `on_move` | event tag | — `{:drag, tag, payload}` **and** `{:tap, {tag, :up}}` |
 | `on_close` | event tag | — `{:tap, tag}` on the ✕ |
 | `id` | string | `nil` — `<id>-window`, `-handle` / `-handle-dragging`, `-drag`, `-body`, `-close`, `-nudge-up` |
 
-Children are the body.
+## Slots
 
-Helpers: `drag/3`, `nudge/2`, `chrome_height/1`, `part_id/2`, `handle_id/2`.
+Children are the body, except for `<MishkaFloatingWindowHandle>` — the web's `<:handle>`, a title
+bar of your own in place of `label`:
+
+```elixir
+~MOB"""
+<MishkaFloatingWindow width={240} height={110} id="custom">
+  <MishkaFloatingWindowHandle>
+    <Row align={:center}>
+      <Box width={8} height={8} background={:primary} corner_radius={:radius_pill} />
+      <Spacer size={8} />
+      <Text text="build.log" text_size={:sm} max_lines={1} />
+    </Row>
+  </MishkaFloatingWindowHandle>
+  <Text text="The window body goes here." />
+</MishkaFloatingWindow>
+"""
+```
+
+`handle/1` builds the identical node for when the bar comes from data, and the `handle:` prop still
+takes one directly. **A slot wins over the prop** — passing both is redundant, not wrong.
+
+The handle is decoration either way: it sits under the drag surface, so the whole bar stays
+draggable and the handle itself takes no taps.
+
+Helpers: `drag/3`, `nudge/2`, `chrome_height/1`, `part_id/2`, `handle_id/2`, `handle/1`,
+`slot_types/0`.
 
 Not ported: `handle_label` (Mob exposes no accessibility semantics to hang a role or a label on),
 `class` / `handle_class` / `body_class` (no CSS), and Shift+Arrow's 1px step — there are no

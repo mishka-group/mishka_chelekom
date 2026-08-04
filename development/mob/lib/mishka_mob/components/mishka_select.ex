@@ -37,7 +37,33 @@ defmodule MishkaMob.Components.MishkaSelect do
   | `on_select` | event tag (atom) | — | `{:tap, {tag, option_id}}` from an option. |
   | `id` | string | `nil` | Test tags for the trigger and every option. |
 
-  Options are children built with `option/3`, which takes an optional `:group`.
+  ## Options are slot children
+
+  An option is written as `<MishkaSelectOption>`, the way the Phoenix component
+  writes it. Every attribute but `id` is optional:
+
+      <MishkaSelect value={@country} open={@open?} on_toggle={:open} on_select={:pick}>
+        <MishkaSelectOption id={:uk} label="United Kingdom" />
+        <MishkaSelectOption id={:ir} label="Iran" />
+        <MishkaSelectOption id={:jp} label="Japan" disabled={true} />
+      </MishkaSelect>
+
+  | Attribute | Meaning |
+  |------|------|
+  | `id` | What `on_select` reports, and the stem of the option's testTag. |
+  | `label` | The row's text. |
+  | `disabled` | Mutes and unwires the row. Defaults to `false`. |
+  | `group` | A heading above the run this option starts. |
+
+  `option/3` builds the identical node, so the two forms mix freely inside one
+  select — reach for the function when the options come from DATA:
+
+      <MishkaSelect …>{Enum.map(@countries, fn {id, l} -> option(id, l) end)}</MishkaSelect>
+
+  A slot tag has no module and no expander: it arrives with its props intact and
+  `select/2` consumes it. One that leaked past would reach the renderer as an
+  unknown node and draw nothing at all — silently, because the tag name is
+  whitelisted — which is what the tests assert against by name.
 
   ## Groups are runs, not buckets
 

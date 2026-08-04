@@ -29,9 +29,13 @@ read a tag and cannot read a colour.
 ## Example
 
 ```elixir
+# A closed dialog draws nothing but its trigger slot, so the tag can sit where
+# the button belongs — in flow, inside the page the user is reading.
 ~MOB"""
 <Column fill_width={true}>
-  {MishkaDialog.trigger("confirm", "Delete", on_tap: :open_confirm)}
+  <MishkaDialog id="confirm" open={false}>
+    <MishkaDialogTrigger label="Delete" on_tap={:open_confirm} />
+  </MishkaDialog>
 </Column>
 """
 
@@ -46,9 +50,12 @@ read a tag and cannot read a colour.
     title="Delete file?"
     description="This cannot be undone."
     on_close={:close_confirm}
-    actions={[cancel_button(), delete_button()]}
   >
     <Text text="report.pdf will be removed from every device." />
+    <MishkaDialogFooter>
+      <Button text="Cancel" id="confirm-close" on_tap={{self(), :close_confirm}} />
+      <Button text="Delete" id="confirm-confirm" on_tap={{self(), :close_confirm}} />
+    </MishkaDialogFooter>
   </MishkaDialog>
 </Box>
 """
@@ -67,25 +74,39 @@ def handle_info(_msg, socket), do: {:noreply, socket}
 
 ## Slots
 
-| Builder | Web slot | Shorthand prop |
-|---|---|---|
-| `title/1` | `<:title>` | `title:` (a string) |
-| `description/1` | `<:description>` | `description:` (a string) |
-| `footer/1` | `<:close>` | `actions:` (a list of nodes) |
-| the tag's children | `<:inner_block>` | — |
-| `trigger/3` | `<:trigger>` | — (a builder, see below) |
+Write them as tags among the dialog's children. Each also has a builder, which produces the
+identical node — reach for it when the content comes from data rather than being written out.
 
-Each builder takes a string, one node, or a list of nodes, and each is placed among the dialog's
-children:
+| Tag | Web slot | Builder | Shorthand prop |
+|---|---|---|---|
+| `<MishkaDialogTitle>` | `<:title>` | `title/1` | `title:` (a string) |
+| `<MishkaDialogDescription>` | `<:description>` | `description/1` | `description:` (a string) |
+| `<MishkaDialogFooter>` | `<:close>` | `footer/1` | `actions:` (a list of nodes) |
+| `<MishkaDialogTrigger>` | `<:trigger>` | `trigger/3` | — |
+| anything else among the children | `<:inner_block>` | — | — |
 
 ```elixir
-dialog(%{id: "move", open: @move?, on_close: :close_move}, [
-  MishkaDialog.title([icon_heading("🗂", "Move to trash")]),
-  MishkaDialog.description("Items in the trash are deleted after 30 days."),
-  body_nodes(),
-  MishkaDialog.footer([close_button()])
-])
+~MOB"""
+<MishkaDialog id="move" open={@move?} on_close={:close_move}>
+  <MishkaDialogTitle>
+    <Row fill_width={true}>
+      <Text text="🗂" text_size={:xl} />
+      <Spacer size={8} />
+      <Box weight={1}><Text text="Move to trash" text_size={:xl} max_lines={1} /></Box>
+    </Row>
+  </MishkaDialogTitle>
+  <MishkaDialogDescription text="Items in the trash are deleted after 30 days." />
+  <Text text="Two files selected." />
+  <MishkaDialogFooter>
+    <Button text="Got it" id="move-close" on_tap={{self(), :close_move}} />
+  </MishkaDialogFooter>
+</MishkaDialog>
+"""
 ```
+
+A tag with a `text` attribute is the string shorthand; a tag with children carries those verbatim.
+`<MishkaDialogTrigger>` takes `label` (or `text`) plus every `trigger/3` option, and reads the
+dialog's own `id` unless it is given one.
 
 ## Props
 
@@ -115,11 +136,14 @@ anchoring are DOM concerns; the classes are the chrome props above.
 
 ## Seven things to know
 
-**The trigger is a builder, not a slot.** On the web it lives inside the dialog's own markup. Here
-the panel has to be stacked at the **screen root** to cover the page, while the trigger belongs in
-flow where the user is reading — one node cannot be in both places. So `trigger/3` builds the
-button, the caller places it, and `id` is what ties the two together. The open state is yours, the
-same way it is for `menu` and `popover`.
+**The trigger slot is a second `<MishkaDialog>`, not the same one.** On the web one tag holds both
+the trigger and the panel. Here the panel has to be stacked at the **screen root** to cover the
+page, while the trigger belongs in flow where the user is reading, and one node cannot be in both
+places. What makes the slot work anyway is that a closed dialog draws *nothing but* its trigger: put
+`<MishkaDialog id="confirm" open={false}><MishkaDialogTrigger …/></MishkaDialog>` in flow and the
+open one at the root, and `id` ties them together. `trigger/3` builds the identical button when the
+tag will not fit — two buttons opening the same dialog, say. The open state is yours either way, the
+same as `menu` and `popover`.
 
 **`id` is the only thing a device test can see.** A native screen has no DOM to query and a tag
 query cannot read a colour or a glyph, so state that would otherwise be colour-only is folded into

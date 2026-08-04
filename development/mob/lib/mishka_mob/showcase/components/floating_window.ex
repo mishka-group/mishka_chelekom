@@ -6,7 +6,6 @@ defmodule MishkaMob.Showcase.Components.FloatingWindow do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaFloatingWindow, only: [floating_window: 2]
 
   alias MishkaMob.Components.MishkaFloatingWindow
   alias MishkaMob.Showcase.Example
@@ -19,6 +18,10 @@ defmodule MishkaMob.Showcase.Components.FloatingWindow do
   # sides, is 80dp of the narrowest phone's 360 — and a theme with a spacing
   # scale takes more, so 240 rather than the 280 that would just fit.
   @stage {240, 200}
+
+  # Read by the markup AND by the handlers' fold props — see drag_window/1.
+  @drag_size {160, 100}
+  @step_size {200, 140}
 
   # Where the draggable window goes home to. The e2e resets to it before
   # measuring, because the BEAM outlives the Activity and the last test's drag
@@ -70,7 +73,9 @@ defmodule MishkaMob.Showcase.Components.FloatingWindow do
           show_nudges={false}
           on_move={:move}
           id="win"
-        >{[body()]}</MishkaFloatingWindow>
+        >
+          <Text text={"x #{round(@x)} · y #{round(@y)}"} text_size={:sm} />
+        </MishkaFloatingWindow>
 
         # The canvas never moves, so x/y are POSITIONS in stage coordinates.
         # drag/3 anchors on the :began phase — keep that anchor in an assign and
@@ -107,7 +112,9 @@ defmodule MishkaMob.Showcase.Components.FloatingWindow do
           label="Layers"
           on_move={:step_move}
           id="step"
-        >{[body()]}</MishkaFloatingWindow>
+        >
+          <Text text="Tap an arrow." text_size={:sm} />
+        </MishkaFloatingWindow>
 
         # One tap, one step. nudge/2 takes the window's own props, so it clamps
         # against the geometry that was actually drawn.
@@ -126,7 +133,7 @@ defmodule MishkaMob.Showcase.Components.FloatingWindow do
             "nothing is laid over it. The ✕ is the one control that lives in the title bar.",
         code: ~S"""
         <MishkaFloatingWindow label="Console" width={220} height={130} on_close={:close} id="closable">
-          {[ping_button()]}
+          <Button text="Ping" on_tap={{self(), :ping}} />
         </MishkaFloatingWindow>
 
         def handle_info({:tap, :close}, socket), do: {:noreply, assign(socket, :open?, false)}
@@ -139,15 +146,20 @@ defmodule MishkaMob.Showcase.Components.FloatingWindow do
       %Example{
         title: "Its own title bar",
         description:
-          "handle replaces the label with your own node. It is decoration: it sits under the " <>
-            "drag surface so the whole bar stays draggable, which also means it takes no taps.",
+          "The handle slot replaces the label with your own node. It is decoration: it sits " <>
+            "under the drag surface so the whole bar stays draggable, which also means it " <>
+            "takes no taps.",
         code: ~S"""
-        <MishkaFloatingWindow
-          handle={custom_bar()}
-          width={240}
-          height={110}
-          id="custom"
-        >{[body()]}</MishkaFloatingWindow>
+        <MishkaFloatingWindow width={240} height={110} id="custom">
+          <MishkaFloatingWindowHandle>
+            <Row align={:center}>
+              <Box width={8} height={8} background={:primary} corner_radius={:radius_pill} />
+              <Spacer size={8} />
+              <Text text="build.log" text_size={:sm} max_lines={1} />
+            </Row>
+          </MishkaFloatingWindowHandle>
+          <Text text="The window body goes here." text_size={:sm} />
+        </MishkaFloatingWindow>
         """,
         render: fn _assigns -> custom_example() end
       },
@@ -203,11 +215,30 @@ defmodule MishkaMob.Showcase.Components.FloatingWindow do
   # one moved the other, and no test (or reader) could say which it had touched.
 
   defp drag_example(assigns) do
-    window = floating_window(drag_window(assigns), [drag_body(assigns)])
+    # A module attribute cannot be read inside ~MOB: the sigil rewrites `@foo`
+    # to `assigns.foo`. Bind them to locals first.
+    {w, h} = stage = @stage
+    {win_w, win_h} = @drag_size
+    {x, y} = assigns.drag_pos
 
     ~MOB"""
     <Column fill_width={true}>
-      {stage_box(window)}
+      <Box width={w} height={h} background={:surface_raised} corner_radius={:radius_md}>
+        <MishkaFloatingWindow
+          x={x}
+          y={y}
+          width={win_w}
+          height={win_h}
+          bounds={stage}
+          label="Inspector"
+          dragging={assigns.grab != nil}
+          show_nudges={false}
+          on_move={:move}
+          id="win"
+        >
+          {drag_body(assigns)}
+        </MishkaFloatingWindow>
+      </Box>
       <Spacer size={10} />
       <Row fill_width={true} align={:center}>
         {readout("win", assigns.drag_pos)}
@@ -219,11 +250,28 @@ defmodule MishkaMob.Showcase.Components.FloatingWindow do
   end
 
   defp nudge_example(assigns) do
-    window = floating_window(step_window(assigns), [nudge_body(assigns)])
+    {w, h} = stage = @stage
+    {win_w, win_h} = @step_size
+    {x, y} = assigns.step_pos
 
     ~MOB"""
     <Column fill_width={true}>
-      {stage_box(window)}
+      <Box width={w} height={h} background={:surface_raised} corner_radius={:radius_md}>
+        <MishkaFloatingWindow
+          x={x}
+          y={y}
+          width={win_w}
+          height={win_h}
+          bounds={stage}
+          step={20}
+          label="Layers"
+          dragging={assigns.step_grab != nil}
+          on_move={:step_move}
+          id="step"
+        >
+          {nudge_body(assigns)}
+        </MishkaFloatingWindow>
+      </Box>
       <Spacer size={10} />
       <Row fill_width={true} align={:center}>
         {readout("step", assigns.step_pos)}
@@ -235,26 +283,21 @@ defmodule MishkaMob.Showcase.Components.FloatingWindow do
   end
 
   defp closable_example(assigns) do
-    window =
-      if assigns.open? do
-        floating_window(
-          [
-            x: 10,
-            y: 10,
-            width: 220,
-            height: 130,
-            label: "Console",
-            on_close: :close,
-            id: "closable"
-          ],
-          [ping_body(assigns)]
-        )
-      end
-
     ~MOB"""
     <Column fill_width={true}>
       <Box fill_width={true} height={160} background={:surface_raised} corner_radius={:radius_md}>
-        {window}
+        <MishkaFloatingWindow
+          :if={assigns.open?}
+          x={10}
+          y={10}
+          width={220}
+          height={130}
+          label="Console"
+          on_close={:close}
+          id="closable"
+        >
+          {ping_body(assigns)}
+        </MishkaFloatingWindow>
       </Box>
       <Spacer size={10} />
       <Row fill_width={true} align={:center}>
@@ -272,25 +315,26 @@ defmodule MishkaMob.Showcase.Components.FloatingWindow do
     """
   end
 
+  # The handle is a SLOT, not a prop holding a node — the same shape the web's
+  # <:handle> has. It is decoration: it sits under the drag surface, so the bar
+  # stays draggable and the handle itself takes no taps.
   defp custom_example do
-    bar = ~MOB"""
-    <Row align={:center}>
-      <Box width={8} height={8} background={:primary} corner_radius={:radius_pill} />
-      <Spacer size={8} />
-      <Text text="build.log" text_size={:sm} text_color={:on_surface} max_lines={1} />
-    </Row>
-    """
-
-    body = ~MOB"""
-    <Text text="No on_move, so no arrows and no drag surface." text_size={:sm} text_color={:muted} />
-    """
-
-    window =
-      floating_window([x: 8, y: 10, width: 240, height: 110, handle: bar, id: "custom"], [body])
-
     ~MOB"""
     <Box fill_width={true} height={140} background={:surface_raised} corner_radius={:radius_md}>
-      {window}
+      <MishkaFloatingWindow x={8} y={10} width={240} height={110} id="custom">
+        <MishkaFloatingWindowHandle>
+          <Row align={:center}>
+            <Box width={8} height={8} background={:primary} corner_radius={:radius_pill} />
+            <Spacer size={8} />
+            <Text text="build.log" text_size={:sm} text_color={:on_surface} max_lines={1} />
+          </Row>
+        </MishkaFloatingWindowHandle>
+        <Text
+          text="No on_move, so no arrows and no drag surface."
+          text_size={:sm}
+          text_color={:muted}
+        />
+      </MishkaFloatingWindow>
     </Box>
     """
   end
@@ -302,51 +346,26 @@ defmodule MishkaMob.Showcase.Components.FloatingWindow do
   # arithmetic, so folding against a width the window was not drawn at is a
   # window that ignores the grab, or stops where nothing looks like an edge.
 
+  # The geometry the HANDLERS fold against. `drag/3` decides whether a touch
+  # landed on the title bar by arithmetic, so folding against a width the window
+  # was not drawn at is a window that ignores the grab, or stops where nothing
+  # looks like an edge. The markup above reads @drag_size / @step_size / @stage
+  # too, which is what keeps the two in step.
   defp drag_window(assigns) do
     {x, y} = assigns.drag_pos
+    {w, h} = @drag_size
 
-    [
-      x: x,
-      y: y,
-      width: 160,
-      height: 100,
-      bounds: @stage,
-      label: "Inspector",
-      dragging: assigns.grab != nil,
-      show_nudges: false,
-      on_move: :move,
-      id: "win"
-    ]
+    [x: x, y: y, width: w, height: h, bounds: @stage]
   end
 
   defp step_window(assigns) do
     {x, y} = assigns.step_pos
+    {w, h} = @step_size
 
-    [
-      x: x,
-      y: y,
-      width: 200,
-      height: 140,
-      bounds: @stage,
-      step: 20,
-      label: "Layers",
-      dragging: assigns.step_grab != nil,
-      on_move: :step_move,
-      id: "step"
-    ]
+    [x: x, y: y, width: w, height: h, bounds: @stage, step: 20]
   end
 
   # ── Pieces ─────────────────────────────────────────────────────────────────
-
-  defp stage_box(window) do
-    {w, h} = @stage
-
-    ~MOB"""
-    <Box width={w} height={h} background={:surface_raised} corner_radius={:radius_md}>
-      {window}
-    </Box>
-    """
-  end
 
   defp drag_body(assigns) do
     {x, y} = assigns.drag_pos

@@ -11,9 +11,7 @@ defmodule MishkaMob.Showcase.Components.Dialog do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaDialog, only: [dialog: 2, dialog: 3, trigger: 3]
 
-  alias MishkaMob.Components.MishkaDialog
   alias MishkaMob.Showcase.Example
 
   # Every dialog on the page, in the order overlay/1 stacks them. The assign is
@@ -61,13 +59,20 @@ defmodule MishkaMob.Showcase.Components.Dialog do
           title="Delete file?"
           description="This cannot be undone."
           on_close={:close_confirm}
-          actions={actions}
-        >{body}</MishkaDialog>
+        >
+          <Text text="report.pdf will be removed from every device." />
+          <MishkaDialogFooter>
+            <Button text="Cancel" id="confirm-close" on_tap={{self(), :close_confirm}} />
+            <Button text="Delete" id="confirm-confirm" on_tap={{self(), :close_confirm}} />
+          </MishkaDialogFooter>
+        </MishkaDialog>
 
-        # The trigger is a builder, not a slot — the panel is stacked at the
-        # screen root while the trigger stays in flow, and one node cannot be
-        # in both places. `id` is what ties the two together.
-        {MishkaDialog.trigger("confirm", "Delete", on_tap: :open_confirm)}
+        # The trigger is a slot too — a closed dialog draws nothing else, so the
+        # tag can sit where the button belongs while the panel stacks at the
+        # screen root. `id` is what ties the two together.
+        <MishkaDialog id="confirm" open={false}>
+          <MishkaDialogTrigger label="Delete" on_tap={:open_confirm} />
+        </MishkaDialog>
 
         def handle_info({:tap, :open_confirm}, socket) do
           {:noreply, Mob.Socket.assign(socket, :confirm?, true)}
@@ -82,15 +87,24 @@ defmodule MishkaMob.Showcase.Components.Dialog do
       %Example{
         title: "Slots, not strings",
         description:
-          "title/1, description/1 and footer/1 take arbitrary nodes — the string props " <>
-            "are only the shorthand. A slot child wins when both are given.",
+          "<MishkaDialogTitle>, <MishkaDialogDescription> and <MishkaDialogFooter> take " <>
+            "arbitrary nodes — the string props are only the shorthand. A slot child wins " <>
+            "when both are given.",
         code: ~S"""
-        dialog(%{id: "move", open: @move?, on_close: :close_move}, [
-          MishkaDialog.title(icon_heading("🗂", "Move to trash")),
-          MishkaDialog.description("Items in the trash are deleted after 30 days."),
-          body_nodes(),
-          MishkaDialog.footer([close_button()])
-        ])
+        <MishkaDialog id="move" open={@move?} on_close={:close_move}>
+          <MishkaDialogTitle>
+            <Row fill_width={true}>
+              <Text text="🗂" text_size={:xl} />
+              <Spacer size={8} />
+              <Box weight={1}><Text text="Move to trash" text_size={:xl} max_lines={1} /></Box>
+            </Row>
+          </MishkaDialogTitle>
+          <MishkaDialogDescription text="Items in the trash are deleted after 30 days." />
+          <Text text="Two files selected." />
+          <MishkaDialogFooter>
+            <Button text="Got it" id="move-close" on_tap={{self(), :close_move}} />
+          </MishkaDialogFooter>
+        </MishkaDialog>
 
         def handle_info({:tap, :close_move}, socket) do
           {:noreply, Mob.Socket.assign(socket, :move?, false)}
@@ -109,7 +123,9 @@ defmodule MishkaMob.Showcase.Components.Dialog do
           open={@notice?}
           dismissible={true}
           on_open_change={:notice_changed}
-        >{body}</MishkaDialog>
+        >
+          <Text text="There is no footer here — the backdrop is the only way out." />
+        </MishkaDialog>
 
         # on_open_change carries the new state, exactly like the web's {open}.
         def handle_info({:tap, {:notice_changed, open?}}, socket) do
@@ -135,13 +151,13 @@ defmodule MishkaMob.Showcase.Components.Dialog do
         title: "Forced choice",
         description: "dismissible: false leaves the backdrop inert — pick an action.",
         code: ~S"""
-        <MishkaDialog
-          id="discard"
-          open={@discard?}
-          dismissible={false}
-          on_close={:close_discard}
-          actions={actions}
-        >{body}</MishkaDialog>
+        <MishkaDialog id="discard" open={@discard?} dismissible={false} on_close={:close_discard}>
+          <Text text="Your edits to report.pdf have not been saved." />
+          <MishkaDialogFooter>
+            <Button text="Cancel" id="discard-close" on_tap={{self(), :close_discard}} />
+            <Button text="Discard" id="discard-confirm" on_tap={{self(), :close_discard}} />
+          </MishkaDialogFooter>
+        </MishkaDialog>
 
         # The backdrop is inert, so the footer buttons are the only way out.
         def handle_info({:tap, :close_discard}, socket) do
@@ -157,7 +173,10 @@ defmodule MishkaMob.Showcase.Components.Dialog do
             "transparent. The focus trap it also named has no native counterpart.",
         code: ~S"""
         <MishkaDialog id="hint" open={@hint?} modal={false} on_close={:close_hint}>
-          {body}
+          <Text text="The backdrop is still there; it simply has no fill." />
+          <MishkaDialogFooter>
+            <Button text="Close" id="hint-close" on_tap={{self(), :close_hint}} />
+          </MishkaDialogFooter>
         </MishkaDialog>
 
         def handle_info({:tap, :close_hint}, socket) do
@@ -180,7 +199,12 @@ defmodule MishkaMob.Showcase.Components.Dialog do
           inset={:space_xl}
           scrim_color={0x992E1065}
           on_close={:close_tinted}
-        >{body}</MishkaDialog>
+        >
+          <Text text="Any colour token or ARGB int works." text_color={0xCCFFFFFF} />
+          <MishkaDialogFooter>
+            <Button text="Close" id="tinted-close" on_tap={{self(), :close_tinted}} />
+          </MishkaDialogFooter>
+        </MishkaDialog>
         """,
         render: fn _assigns -> open_button(:dlg_tinted, "Open tinted") end
       },
@@ -190,16 +214,21 @@ defmodule MishkaMob.Showcase.Components.Dialog do
           "disabled: true wires no handler at all and tags itself -trigger-disabled, " <>
             "because the muted colour that says so is invisible to a device test.",
         code: ~S"""
-        {MishkaDialog.trigger("export", "Export (Pro only)",
-           disabled: true,
-           on_tap: :open_export
-         )}
+        <MishkaDialog id="export" open={@export?}>
+          <MishkaDialogTrigger label="Export (Pro only)" disabled={true} on_tap={:open_export} />
+        </MishkaDialog>
+
+        # Or, when the trigger cannot live inside the tag — because the panel has
+        # to cover the page the button scrolls in, or two buttons open the same
+        # dialog — the identical node from the builder:
+        {MishkaDialog.trigger("export", "Export (Pro only)", disabled: true, on_tap: :open_export)}
         """,
         render: fn _assigns ->
-          trigger("dlg-disabled", "Unavailable",
-            disabled: true,
-            on_tap: {:dlg_open, :dlg_disabled}
-          )
+          ~MOB"""
+          <MishkaDialog id="dlg-disabled" open={false}>
+            <MishkaDialogTrigger label="Unavailable" disabled={true} on_tap={{:dlg_open, :dlg_disabled}} />
+          </MishkaDialog>
+          """
         end
       }
     ]
@@ -331,121 +360,140 @@ defmodule MishkaMob.Showcase.Components.Dialog do
   def handle(_tag, socket), do: socket
 
   defp build(:dlg_basic = key, id) do
-    dialog(
-      %{
-        id: id,
-        open: true,
-        title: "Delete file?",
-        description: "This cannot be undone.",
-        on_close: {:dlg_close, key}
-      },
-      [note("report.pdf will be removed from every device.")],
-      [cancel(id, key), gap(), confirm(id, key, "Delete")]
-    )
+    ~MOB"""
+    <MishkaDialog
+      id={id}
+      open={true}
+      title="Delete file?"
+      description="This cannot be undone."
+      on_close={{:dlg_close, key}}
+    >
+      {note("report.pdf will be removed from every device.")}
+      <MishkaDialogFooter>
+        {cancel(id, key)}
+        {confirm(id, key, "Delete")}
+      </MishkaDialogFooter>
+    </MishkaDialog>
+    """
   end
 
   # The slot form: a title that is a Row rather than a line of text, which is
   # the whole reason the web has a <:title> slot and not a title attribute.
   defp build(:dlg_slots = key, id) do
-    dialog(
-      %{id: id, open: true, on_close: {:dlg_close, key}},
-      [
-        MishkaDialog.title([
-          ~MOB"""
-          <Row fill_width={true}>
-            <Text text="🗂" text_size={:xl} />
-            <Spacer size={8} />
-            <Box weight={1}>
-              <Text text="Move to trash" text_size={:xl} text_color={:on_surface} max_lines={1} />
-            </Box>
-          </Row>
-          """
-        ]),
-        MishkaDialog.description("Items in the trash are deleted after 30 days."),
-        note("Two files selected."),
-        MishkaDialog.footer([close(id, key, "Got it")])
-      ]
-    )
+    ~MOB"""
+    <MishkaDialog id={id} open={true} on_close={{:dlg_close, key}}>
+      <MishkaDialogTitle>
+        <Row fill_width={true}>
+          <Text text="🗂" text_size={:xl} />
+          <Spacer size={8} />
+          <Box weight={1}>
+            <Text text="Move to trash" text_size={:xl} text_color={:on_surface} max_lines={1} />
+          </Box>
+        </Row>
+      </MishkaDialogTitle>
+      <MishkaDialogDescription text="Items in the trash are deleted after 30 days." />
+      {note("Two files selected.")}
+      <MishkaDialogFooter>
+        {close(id, key, "Got it")}
+      </MishkaDialogFooter>
+    </MishkaDialog>
+    """
   end
 
   defp build(:dlg_dismiss = key, id) do
-    dialog(
-      %{
-        id: id,
-        open: true,
-        title: "Tap outside",
-        description: "Anywhere on the dimmed backdrop closes this.",
-        on_open_change: {:dlg_changed, key}
-      },
-      [note("There is no footer here — the backdrop is the only way out.")],
-      []
-    )
+    ~MOB"""
+    <MishkaDialog
+      id={id}
+      open={true}
+      title="Tap outside"
+      description="Anywhere on the dimmed backdrop closes this."
+      on_open_change={{:dlg_changed, key}}
+    >
+      {note("There is no footer here — the backdrop is the only way out.")}
+    </MishkaDialog>
+    """
   end
 
   defp build(:dlg_forced = key, id) do
-    dialog(
-      %{
-        id: id,
-        open: true,
-        title: "Discard changes?",
-        description: "The backdrop will not dismiss this — choose an action.",
-        dismissible: false,
-        on_close: {:dlg_close, key}
-      },
-      [note("Your edits to report.pdf have not been saved.")],
-      [cancel(id, key), gap(), confirm(id, key, "Discard")]
-    )
+    ~MOB"""
+    <MishkaDialog
+      id={id}
+      open={true}
+      title="Discard changes?"
+      description="The backdrop will not dismiss this — choose an action."
+      dismissible={false}
+      on_close={{:dlg_close, key}}
+    >
+      {note("Your edits to report.pdf have not been saved.")}
+      <MishkaDialogFooter>
+        {cancel(id, key)}
+        {confirm(id, key, "Discard")}
+      </MishkaDialogFooter>
+    </MishkaDialog>
+    """
   end
 
   defp build(:dlg_plain = key, id) do
-    dialog(
-      %{
-        id: id,
-        open: true,
-        modal: false,
-        title: "No dim",
-        description: "modal={false} keeps the page visible behind the panel.",
-        on_close: {:dlg_close, key}
-      },
-      [note("The backdrop is still there; it simply has no fill.")],
-      [close(id, key, "Close")]
-    )
+    ~MOB"""
+    <MishkaDialog
+      id={id}
+      open={true}
+      modal={false}
+      title="No dim"
+      description="modal={false} keeps the page visible behind the panel."
+      on_close={{:dlg_close, key}}
+    >
+      {note("The backdrop is still there; it simply has no fill.")}
+      <MishkaDialogFooter>
+        {close(id, key, "Close")}
+      </MishkaDialogFooter>
+    </MishkaDialog>
+    """
   end
 
   defp build(:dlg_tinted = key, id) do
-    dialog(
-      %{
-        id: id,
-        open: true,
-        title: "Tinted",
-        description: "Every piece of chrome is a prop.",
-        width: 280,
-        background: 0xFF1E1B4B,
-        corner_radius: :radius_xl,
-        padding: :space_xl,
-        inset: :space_xl,
-        scrim_color: 0x99_2E_10_65,
-        on_close: {:dlg_close, key}
-      },
-      [
-        ~MOB"""
-        <Text text="Any colour token or ARGB int works." text_size={:base} text_color={0xCCFFFFFF} />
-        """
-      ],
-      [close(id, key, "Close")]
-    )
+    ~MOB"""
+    <MishkaDialog
+      id={id}
+      open={true}
+      title="Tinted"
+      description="Every piece of chrome is a prop."
+      width={280}
+      background={0xFF1E1B4B}
+      corner_radius={:radius_xl}
+      padding={:space_xl}
+      inset={:space_xl}
+      scrim_color={0x992E1065}
+      on_close={{:dlg_close, key}}
+    >
+      <Text text="Any colour token or ARGB int works." text_size={:base} text_color={0xCCFFFFFF} />
+      <MishkaDialogFooter>
+        {close(id, key, "Close")}
+      </MishkaDialogFooter>
+    </MishkaDialog>
+    """
   end
 
   defp build(:dlg_disabled = key, id) do
-    dialog(
-      %{id: id, open: true, title: "Unreachable", on_close: {:dlg_close, key}},
-      [note("A disabled trigger wires no handler, so this cannot be opened.")],
-      [close(id, key, "Close")]
-    )
+    ~MOB"""
+    <MishkaDialog id={id} open={true} title="Unreachable" on_close={{:dlg_close, key}}>
+      {note("A disabled trigger wires no handler, so this cannot be opened.")}
+      <MishkaDialogFooter>
+        {close(id, key, "Close")}
+      </MishkaDialogFooter>
+    </MishkaDialog>
+    """
   end
 
+  # A closed dialog draws nothing but its trigger slot, so the card can hold the
+  # <MishkaDialog> tag itself and the panel still stacks at the screen root
+  # under its own assign. Same node `trigger/3` builds, same `<id>-trigger` tag.
   defp open_button(key, label) do
-    trigger(id_for(key), label, on_tap: {:dlg_open, key})
+    ~MOB"""
+    <MishkaDialog id={id_for(key)} open={false}>
+      <MishkaDialogTrigger label={label} on_tap={{:dlg_open, key}} />
+    </MishkaDialog>
+    """
   end
 
   defp id_for(key) do
@@ -461,8 +509,6 @@ defmodule MishkaMob.Showcase.Components.Dialog do
     <Text text={text} text_size={:base} text_color={:on_surface} />
     """
   end
-
-  defp gap, do: ~MOB(<Spacer size={8} />)
 
   # Footer buttons carry their own tags: a device test that can only see the
   # panel has no other way to say which button it pressed.

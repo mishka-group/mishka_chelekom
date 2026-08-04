@@ -5,7 +5,7 @@ defmodule MishkaMob.Showcase.Components.Select do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaSelect, only: [option: 2, option: 3]
+  import MishkaMob.Components.MishkaSelect, only: [option: 2]
 
   alias MishkaMob.Components.MishkaSelect
   alias MishkaMob.Showcase.Example
@@ -46,15 +46,10 @@ defmodule MishkaMob.Showcase.Components.Select do
         title: "Single choice",
         description: "Picking replaces the value and closes the list.",
         code: ~S"""
-        <MishkaSelect
-          value={@country}
-          open={@open?}
-          on_toggle={:open}
-          on_select={:pick}
-        >{[
-          option(:uk, "United Kingdom"),
-          option(:ir, "Iran")
-        ]}</MishkaSelect>
+        <MishkaSelect value={@country} open={@open?} on_toggle={:open} on_select={:pick}>
+          <MishkaSelectOption id={:uk} label="United Kingdom" />
+          <MishkaSelectOption id={:ir} label="Iran" />
+        </MishkaSelect>
 
         {value, close?} = MishkaSelect.toggle(@country, id, false)
         """,
@@ -70,7 +65,10 @@ defmodule MishkaMob.Showcase.Components.Select do
               on_select={:sel_pick}
               id="sel-country"
             >
-              {country_options()}
+              <MishkaSelectOption id={:uk} label="United Kingdom" />
+              <MishkaSelectOption id={:ir} label="Iran" />
+              <MishkaSelectOption id={:de} label="Germany" />
+              <MishkaSelectOption id={:jp} label="Japan" />
             </MishkaSelect>
           </Column>
           """
@@ -80,7 +78,11 @@ defmodule MishkaMob.Showcase.Components.Select do
         title: "Multiple",
         description: "Picking accumulates and the list stays open — a chosen option is ticked.",
         code: ~S"""
-        <MishkaSelect value={@langs} multiple={true} open={@open?} …>{options}</MishkaSelect>
+        <MishkaSelect value={@langs} multiple={true} open={@open?} on_select={:pick}>
+          <MishkaSelectOption id={:elixir} label="Elixir" />
+          <MishkaSelectOption id={:erlang} label="Erlang" />
+          <MishkaSelectOption id={:rust} label="Rust" disabled={true} />
+        </MishkaSelect>
 
         {value, close?} = MishkaSelect.toggle(@langs, id, true)
         """,
@@ -97,7 +99,10 @@ defmodule MishkaMob.Showcase.Components.Select do
               on_select={:sel_multi_pick}
               id="sel-lang"
             >
-              {lang_options()}
+              <MishkaSelectOption id={:elixir} label="Elixir" />
+              <MishkaSelectOption id={:erlang} label="Erlang" />
+              <MishkaSelectOption id={:gleam} label="Gleam" />
+              <MishkaSelectOption id={:rust} label="Rust" disabled={true} />
             </MishkaSelect>
           </Column>
           """
@@ -108,12 +113,12 @@ defmodule MishkaMob.Showcase.Components.Select do
         description:
           "A heading above each run of options. Multiple, so the list stays open while you pick.",
         code: ~S"""
-        <MishkaSelect value={@toppings} multiple={true} open={@open?} …>{[
-          option(:cheese, "Cheese", group: "Classic"),
-          option(:pepperoni, "Pepperoni", group: "Classic"),
-          option(:mushroom, "Mushroom", group: "Veggie"),
-          option(:onion, "Onion", group: "Veggie")
-        ]}</MishkaSelect>
+        <MishkaSelect value={@toppings} multiple={true} open={@open?} on_select={:pick}>
+          <MishkaSelectOption id={:cheese} label="Cheese" group="CLASSIC" />
+          <MishkaSelectOption id={:pepperoni} label="Pepperoni" group="CLASSIC" />
+          <MishkaSelectOption id={:mushroom} label="Mushroom" group="VEGGIE" />
+          <MishkaSelectOption id={:onion} label="Onion" group="VEGGIE" />
+        </MishkaSelect>
 
         # CONSECUTIVE options sharing a group belong to it, so your order is the
         # grouping — nothing is sorted underneath you.
@@ -131,17 +136,24 @@ defmodule MishkaMob.Showcase.Components.Select do
               on_select={:sel_pizza_pick}
               id="sel-pizza"
             >
-              {pizza_options()}
+              <MishkaSelectOption id={:cheese} label="Cheese" group="CLASSIC" />
+              <MishkaSelectOption id={:pepperoni} label="Pepperoni" group="CLASSIC" />
+              <MishkaSelectOption id={:mushroom} label="Mushroom" group="VEGGIE" />
+              <MishkaSelectOption id={:onion} label="Onion" group="VEGGIE" />
             </MishkaSelect>
           </Column>
           """
         end
       },
       %Example{
-        title: "Disabled",
-        description: "The trigger is muted and cannot open.",
+        title: "Disabled, and options from data",
+        description:
+          "The trigger is muted and cannot open. Its options come from a list rather than " <>
+            "being written out — option/3 builds exactly what <MishkaSelectOption> builds.",
         code: ~S"""
-        <MishkaSelect value={:uk} disabled={true}>{options}</MishkaSelect>
+        <MishkaSelect value={:uk} disabled={true}>
+          {Enum.map(@countries, fn {id, label} -> MishkaSelect.option(id, label) end)}
+        </MishkaSelect>
         """,
         render: fn _assigns ->
           ~MOB"""
@@ -244,26 +256,10 @@ defmodule MishkaMob.Showcase.Components.Select do
 
   defp flip(socket, key), do: Mob.Socket.assign(socket, key, not Map.fetch!(socket.assigns, key))
 
+  # The one example whose options are DATA. Everywhere else on this page they
+  # are written out as <MishkaSelectOption> tags — option/3 builds the identical
+  # node, so the two forms mix freely inside one select.
   defp country_options, do: Enum.map(@countries, fn {id, label} -> option(id, label) end)
-
-  # Order IS the grouping: consecutive options sharing a group get one heading.
-  defp pizza_options do
-    [
-      option(:cheese, "Cheese", group: "CLASSIC"),
-      option(:pepperoni, "Pepperoni", group: "CLASSIC"),
-      option(:mushroom, "Mushroom", group: "VEGGIE"),
-      option(:onion, "Onion", group: "VEGGIE")
-    ]
-  end
-
-  defp lang_options do
-    [
-      option(:elixir, "Elixir"),
-      option(:erlang, "Erlang"),
-      option(:gleam, "Gleam"),
-      option(:rust, "Rust", disabled: true)
-    ]
-  end
 
   @impl true
   def card_preview do

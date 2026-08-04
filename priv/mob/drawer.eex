@@ -84,9 +84,53 @@ defmodule <%= @module %> do
       # REQUIRED catch-all — see "Host requirement" below.
       def handle_info(_msg, s), do: {:noreply, s}
 
-  `trigger/2` builds the opener — the port of the web's `<:trigger>` slot.
   `on_close` fires when the backdrop **or** the ✕ button is tapped; the
   composite auto-wires the tuple, so you pass a bare atom.
+
+  ## Slots
+
+  Two of the web component's slots are ported as tags, so markup reads the way
+  the Phoenix component does instead of being assembled in an expression child:
+
+      <<%= @module_prefix_camel %>Drawer id="menu" open={@open?} side={:left} title="Account"
+                    on_close={:close_menu}>
+        <<%= @module_prefix_camel %>DrawerTrigger label="Account" on_open={:open_menu} id="menu-open" />
+        {menu_rows(assigns)}
+        <<%= @module_prefix_camel %>DrawerFooter>
+          <Button text="Sign out" on_tap={{self(), :sign_out}} />
+        </<%= @module_prefix_camel %>DrawerFooter>
+      </<%= @module_prefix_camel %>Drawer>
+
+  | Slot | Phoenix | Takes | The function that builds the same node |
+  |------|---------|-------|----------------------------------------|
+  | `<<%= @module_prefix_camel %>DrawerTrigger>` | `<:trigger>` | `label` (or children), `on_open`, `id`, `weight`, `fill_width` | `trigger/2` |
+  | `<<%= @module_prefix_camel %>DrawerFooter>` | `<:footer>` | children, or a bare string | `footer/1` |
+  | bare children | `<:inner_block>` | — | — the drawer body, as before |
+
+  A slot tag has no module and no expander, so it arrives with its subtree
+  intact and `expand/3` consumes it. Anything it did not claim would reach the
+  renderer as an unknown node and draw nothing at all — silently, because the
+  tag name is whitelisted.
+
+  ### The trigger slot is what a CLOSED drawer draws
+
+  A closed drawer renders nothing, so the trigger has somewhere to be: it takes
+  the drawer's own place in the layout, and when the drawer opens the overlay
+  takes that place instead. That makes `<<%= @module_prefix_camel %>Drawer>` a self-contained
+  control you drop in flow — but it also means the node has to sit somewhere
+  that can hand the overlay the whole screen (the screen's root `Box`, or a
+  root `Column` that is not scrolling), because the overlay is a fill node and
+  a fill node inside a scroll has no bounded height to fill.
+
+  When the button must sit deep in a scrolling page and the panel still has to
+  cover it — the usual case, and what this library's own gallery does — keep
+  the two apart: `trigger/2` builds **exactly** the node the tag builds, you
+  place it where it belongs, and `id` ties the two together. That is also what
+  lets one drawer be opened from three places, which no slot can express.
+
+  `swipe_area` does not combine with a trigger slot: the patch wants the screen
+  edge and the trigger wants the flow, so a closed drawer given both draws the
+  trigger.
 
   ## Host requirement — a catch-all `handle_info/2`
 
@@ -127,19 +171,20 @@ defmodule <%= @module %> do
   | `on_close` | event tag (atom) | — | `{:tap, tag}` on backdrop / ✕ tap. Without it the ✕ is omitted and only `open` can close the drawer (a warning is logged). |
   | `on_swipe` | event tag (atom) | — | `{:drag, tag, payload}` from the handle or the swipe area. Fold it with `swipe/3`. |
 
-  Children of the tag become the drawer body (below the header). Build any
-  interactive children with an explicit `{self(), tag}` on their `on_tap` —
-  only the tag's *own* `on_*` props are auto-wired, not its children's.
+  Children of the tag that are not slots become the drawer body (below the
+  header). Build any interactive children with an explicit `{self(), tag}` on
+  their `on_tap` — only the tag's *own* `on_*` props are auto-wired, not its
+  children's, and a slot tag's are not auto-wired either (see `trigger/2`).
 
   ## Test tags
 
   With `id="sheet"` the parts are addressable as `sheet` (the whole overlay,
   present only while open), `sheet-scrim`, `sheet-panel`, `sheet-title`,
-  `sheet-description`, `sheet-close`, `sheet-handle`, `sheet-swipe-area`, and
-  `sheet-snap-<n>` — the 1-based index of the active snap point, on the handle's
-  row. That last one exists because the active snap is otherwise only a panel
-  height, and a device test that measures a height in px cannot say which snap
-  point produced it.
+  `sheet-description`, `sheet-close`, `sheet-footer`, `sheet-handle`,
+  `sheet-swipe-area`, and `sheet-snap-<n>` — the 1-based index of the active
+  snap point, on the handle's row. That last one exists because the active snap
+  is otherwise only a panel height, and a device test that measures a height in
+  px cannot say which snap point produced it.
 
   ## Custom design without a new composite
 
@@ -190,6 +235,14 @@ defmodule <%= @module %> do
 
   alias <%= @namespace %>.Event
 
+  # The slot tags. They have no expander of their own — a slot tag is a marker
+  # that arrives with its subtree intact and is consumed by the parent's
+  # expand/3, exactly as <%= @module_prefix_camel %>Menu consumes its six row kinds.
+  @trigger :mishka_drawer_trigger
+  @footer :mishka_drawer_footer
+
+  @slot_types [@trigger, @footer]
+
   # Panel width per size token, for left/right drawers (matches Mishka's
   # w-60..w-96 scale). Top/bottom drawers are content-height instead.
   @sizes %{xs: 240, sm: 256, md: 288, lg: 320, xl: 384}
@@ -233,15 +286,25 @@ defmodule <%= @module %> do
   Composite expander. `props` arrive with `on_*` targets already resolved to
   `{screen_pid, tag}` tuples; `ctx` is `%{screen: pid}` (only `:screen` — the
   framework moduledoc's `:platform` key does not exist in the code, so don't
-  read it). Returns a Mob node map — the overlay tree when open, the edge
-  swipe-area when closed and `swipe_area` is on, and an empty column otherwise.
+  read it). Returns a Mob node map — the overlay tree when open, the trigger
+  slot or the edge swipe-area when closed, and an empty column otherwise.
+
+  `children` are read once and split three ways: the `<<%= @module_prefix_camel %>DrawerTrigger>`
+  slot, the `<<%= @module_prefix_camel %>DrawerFooter>` slot, and everything else, which is the body.
   """
   @spec expand(map(), [map()], %{screen: pid()}) :: map()
   def expand(props, children, ctx) do
+    {triggers, footer, body} = slots(children)
+
     cond do
       truthy?(Map.get(props, :open, false)) ->
         warn(props)
-        overlay(props, children, ctx)
+        overlay(props, body, footer, ctx)
+
+      # A closed drawer draws nothing, which is precisely the room the trigger
+      # slot needs: it takes the drawer's own place until the overlay wants it.
+      triggers != [] ->
+        opener(triggers, ctx)
 
       truthy?(Map.get(props, :swipe_area, false)) ->
         edge_area(props, ctx)
@@ -252,7 +315,8 @@ defmodule <%= @module %> do
   end
 
   @doc """
-  The thing that opens the drawer — the port of the web's `<:trigger>` slot.
+  The thing that opens the drawer — the port of the web's `<:trigger>` slot, as
+  a builder rather than only a tag.
 
   Given a string it is a button; given a list of nodes it is a tappable Box
   wrapped round them, for a trigger that is a row or a card rather than a label.
@@ -263,10 +327,12 @@ defmodule <%= @module %> do
   Options: `on_open` (the event tag), `test_id` (its native test tag), `weight`
   (for a trigger sharing a Row), and `fill_width` (defaults to true).
 
-  The web renders this inside the drawer's own markup; here it stays where you
-  put it, because the composite has no way to reach into the caller's layout —
-  and because a drawer whose trigger lived inside it could not be opened from
-  two places.
+  `<<%= @module_prefix_camel %>DrawerTrigger>` is built **through this function**, so the two forms
+  cannot drift: the tag's `label` is this first argument, and its `id`,
+  `on_open`, `weight` and `fill_width` are these options. Reach for the builder
+  when the trigger cannot live inside the drawer tag — because it belongs in a
+  scrolling page while the panel has to cover one, or because the same drawer is
+  opened from more than one place, which no slot can express.
   """
   @spec trigger(String.t() | [map()], keyword()) :: map()
   def trigger(label, opts \\ [])
@@ -297,6 +363,37 @@ defmodule <%= @module %> do
 
     %{type: :box, props: props, children: children}
   end
+
+  @doc """
+  The panel's footer — the block that sits below the body, and on a panel with a
+  determined height, at its floor.
+
+  This returns the same marker node `<<%= @module_prefix_camel %>DrawerFooter>` produces, the way
+  `<%= @namespace %>.<%= @module_prefix_camel %>Menu.item/3` returns a `<<%= @module_prefix_camel %>MenuItem>`: pass it
+  among the drawer's children and `expand/3` consumes it. A string is styled
+  here rather than by the caller, so a one-line footer needs no `<Text>`.
+
+      footer([cancel_button(), confirm_button()])
+      footer("Signed in as shahryar@mishka.tools")
+
+  Before this existed a footer was merely the last body child, which meant it
+  could not be tagged, could not be pushed to the panel's floor, and read as one
+  more row.
+  """
+  @spec footer(String.t() | map() | [map()]) :: map()
+  def footer(content) when is_binary(content),
+    do: %{type: @footer, props: %{text: content}, children: []}
+
+  def footer(content) when is_list(content), do: %{type: @footer, props: %{}, children: content}
+  def footer(content) when is_map(content), do: %{type: @footer, props: %{}, children: [content]}
+
+  @doc """
+  Every node type the drawer consumes as a slot. Exported so a test can prove
+  none of them leaked past `expand/3` to the renderer — a leak is silent, since
+  the tag names are whitelisted and an unknown node simply draws nothing.
+  """
+  @spec slot_types() :: [atom()]
+  def slot_types, do: @slot_types
 
   @doc """
   Fold one drag payload into the drawer's next state.
@@ -414,9 +511,103 @@ defmodule <%= @module %> do
     end
   end
 
+  # ── The slots ──
+  #
+  # One pass over the children, the way <%= @module_prefix_camel %>Menu reads its rows: split the
+  # markers out, group them by kind, and hand the rest on as the body. A marker
+  # left in the body would travel all the way to the renderer, which has no
+  # widget for it and draws nothing — and says nothing either, because the tag
+  # name is whitelisted.
+  defp slots(children) do
+    {markers, body} = Enum.split_with(List.wrap(children), &slot?/1)
+    grouped = Enum.group_by(markers, & &1.type)
+
+    {Map.get(grouped, @trigger, []), Map.get(grouped, @footer, []), body}
+  end
+
+  defp slot?(node), do: is_map(node) and Map.get(node, :type) in @slot_types
+
+  # ── The trigger slot ──
+  #
+  # Built THROUGH trigger/2, so the tag and the builder cannot drift: whatever
+  # the markup renders is the node the function returns, and a test can assert
+  # that with `==`.
+  #
+  # Two triggers share a Column rather than the first one winning: dropping a
+  # node the caller wrote is the silent failure this whole slot exists to avoid.
+  defp opener(triggers, ctx) do
+    case Enum.map(triggers, &built_trigger(&1, ctx)) do
+      [one] -> one
+      many -> %{type: :column, props: %{fill_width: true}, children: many}
+    end
+  end
+
+  defp built_trigger(node, ctx) do
+    props = Map.get(node, :props, %{})
+
+    opts =
+      []
+      # A slot tag's `on_*` props are NOT auto-wired the way the composite's own
+      # are — Mob.Composite widens the tag it dispatches on, and a marker has no
+      # expander to dispatch to. So the parent wires it, from ctx.
+      |> maybe_opt(:on_open, handler(props, :on_open, ctx))
+      |> maybe_opt(:test_id, Map.get(props, :test_id) || Map.get(props, :id))
+      |> maybe_opt(:weight, Map.get(props, :weight))
+      |> maybe_opt(:fill_width, Map.get(props, :fill_width))
+
+    case Map.get(node, :children, []) do
+      # `text` as well as `label`, because `<Button text={…} />` is the muscle
+      # memory and a trigger that silently renders blank is worse than an alias.
+      [] -> trigger(Map.get(props, :label) || Map.get(props, :text) || "", opts)
+      children -> trigger(children, opts)
+    end
+  end
+
+  # ── The footer slot ──
+  #
+  # A tagged block below the body. On a panel whose height is determined — every
+  # side drawer, and a sheet parked on a snap point — a weighted Spacer pushes it
+  # to the floor, which is where a "Sign out" row belongs. A content-height sheet
+  # has no floor to push against, so the footer simply follows the body: an
+  # iOS `Spacer()` fills whatever room it is in, and in a hugging sheet that room
+  # is the sheet, so pushing unconditionally would stretch it open.
+  defp footer_block(_props, []), do: []
+
+  defp footer_block(props, markers) do
+    case Enum.flat_map(markers, &footer_content/1) do
+      [] ->
+        []
+
+      content ->
+        block =
+          %{type: :column, props: %{fill_width: true}, children: content}
+          |> put(:id, part(props, "footer"))
+
+        push = if floored?(props), do: [flex_spacer()], else: []
+
+        push ++ [gap(16), block]
+    end
+  end
+
+  # A string footer keeps its text in the marker's props so the styling stays
+  # this module's decision, exactly as <%= @module_prefix_camel %>Dialog's slots do.
+  defp footer_content(%{props: props, children: children}) do
+    case Map.get(props, :text) do
+      text when is_binary(text) ->
+        [%{type: :text, props: %{text: text, text_size: :sm, text_color: :muted}, children: []}]
+
+      _ ->
+        children
+    end
+  end
+
+  defp footer_content(_node), do: []
+
+  defp floored?(props), do: side(props) in [:left, :right] or sheet_height(props) != nil
+
   # ── Overlay: scrim (bottom) + edge-anchored panel (top) inside a fill Box ──
-  defp overlay(props, children, ctx) do
-    positioner = positioner(side(props), panel(props, children, ctx))
+  defp overlay(props, children, footer, ctx) do
+    positioner = positioner(side(props), panel(props, children, footer, ctx))
     root = %{fill_width: true, fill_height: true} |> maybe_put(:id, part(props, nil))
 
     %{
@@ -472,8 +663,8 @@ defmodule <%= @module %> do
   # `children` are the tag's RAW children (Mob.Composite passes them un-expanded
   # and re-expands this output to a fixpoint, so nested composites still
   # resolve) — splicing them in directly is correct.
-  defp panel(props, children, ctx) do
-    body = body(props, children, ctx)
+  defp panel(props, children, footer, ctx) do
+    body = body(props, children, footer, ctx)
     padding = Map.get(props, :padding, :space_lg)
 
     skin =
@@ -507,11 +698,11 @@ defmodule <%= @module %> do
     end
   end
 
-  # Handle, header and the caller's children. The handle sits at the panel's
-  # free edge — the top for a bottom sheet or a side drawer, the bottom for a
-  # top sheet — which is the edge a thumb reaches for.
-  defp body(props, children, ctx) do
-    content = header(props, ctx) ++ children
+  # Handle, header, the caller's children, footer. The handle sits at the
+  # panel's free edge — the top for a bottom sheet or a side drawer, the bottom
+  # for a top sheet — which is the edge a thumb reaches for.
+  defp body(props, children, footer, ctx) do
+    content = header(props, ctx) ++ children ++ footer_block(props, footer)
 
     case {handle(props, ctx), side(props)} do
       {nil, _side} -> content
@@ -923,6 +1114,11 @@ defmodule <%= @module %> do
 
   defp maybe_put(map, _key, nil), do: map
   defp maybe_put(map, key, value), do: Map.put(map, key, value)
+
+  # The keyword-list twin of maybe_put/3: an option left out is an option
+  # trigger/2 defaults, which is not the same as one passed as nil.
+  defp maybe_opt(opts, _key, nil), do: opts
+  defp maybe_opt(opts, key, value), do: Keyword.put(opts, key, value)
 
   defp truthy?(nil), do: false
   defp truthy?(false), do: false

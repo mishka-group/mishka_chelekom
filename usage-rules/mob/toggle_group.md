@@ -24,7 +24,9 @@ straight through to each item. You style the group by styling its buttons.
 ```elixir
 ~MOB"""
 <MishkaToggleGroup value={@align} on_change={:align} id="align">
-  {[item(:left, "Left"), item(:center, "Center"), item(:right, "Right")]}
+  <MishkaToggleGroupItem id={:left} label="Left" />
+  <MishkaToggleGroupItem id={:center} label="Center" />
+  <MishkaToggleGroupItem id={:right} label="Right" />
 </MishkaToggleGroup>
 """
 
@@ -37,7 +39,22 @@ end
 def handle_info(_msg, socket), do: {:noreply, socket}
 ```
 
-Items are children built with `item/3`: `item(id, label, disabled: false)`.
+## Items
+
+An item is a slot child: `<MishkaToggleGroupItem id={:left} label="Left" />`, taking `id` (required
+— what `on_change` reports and the stem of the testTag), `label` and `disabled`.
+
+`item/3` builds the identical node — `item(id, label, disabled: false)` — so the two forms mix
+freely inside one group. Write the tags out when you are writing the items out, and reach for the
+function when they come from data:
+
+```elixir
+~MOB"""
+<MishkaToggleGroup value={@view} on_change={:view}>
+  {Enum.map(@views, fn {id, label} -> MishkaToggleGroup.item(id, label) end)}
+</MishkaToggleGroup>
+"""
+```
 
 ### A segmented bar
 
@@ -56,7 +73,11 @@ items, a transparent idle fill, wrapped in a rounded track you draw yourself:
     border_width={0}
     background={:transparent}
     fill_width={false}
-  >{items}</MishkaToggleGroup>
+  >
+    <MishkaToggleGroupItem id={:left} label="Left" />
+    <MishkaToggleGroupItem id={:center} label="Center" />
+    <MishkaToggleGroupItem id={:right} label="Right" />
+  </MishkaToggleGroup>
 </Box>
 """
 ```

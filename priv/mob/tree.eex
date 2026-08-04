@@ -30,6 +30,39 @@ defmodule <%= @module %> do
       first tap reports `on_load_children` rather than `on_expand`, so the screen
       knows to go and get them.
 
+  ## Slots
+
+  A hierarchy that is known in advance reads better written down than handed
+  over as data, so it can be markup:
+
+      <<%= @module_prefix_camel %>Tree expanded={@open} on_expand={:open} on_select={:pick}>
+        <<%= @module_prefix_camel %>TreeNode label="lib" value="lib" icon="📁">
+          <<%= @module_prefix_camel %>TreeNode label="app.ex" value="lib/app.ex" icon="📄" meta="12 KB" />
+        </<%= @module_prefix_camel %>TreeNode>
+        <<%= @module_prefix_camel %>TreeNode label="mix.exs" value="mix.exs" icon="📄" disabled={true} />
+      </<%= @module_prefix_camel %>Tree>
+
+  | Slot | What it takes | The same node, built |
+  |------|---------------|----------------------|
+  | `<<%= @module_prefix_camel %>TreeNode>` | `label` and `value`, plus any of `icon`, `meta`, `disabled`, `selectable`, `has_children` and `children`; the `<<%= @module_prefix_camel %>TreeNode>`s inside it are its children | `node/3` |
+
+  `node/3` returns an ordinary node map, and that map is precisely what the tag
+  builds — one value in two spellings, so the forms mix freely. Written nodes
+  come first and the `nodes` prop follows, and a node's `children` attr appends
+  to the tags nested inside it, so a fetched list can hang off a written
+  heading at any depth.
+
+  Markup is right when the shape can be read off the page. When the hierarchy
+  *is* data — a directory listing, a category table — `Enum.map/2` into `nodes`
+  is the form that fits, and it is not the lesser one: `toggle_check/4` and
+  `select_range/4` take the node list too, so a tree with checkboxes or ranges
+  needs it in the screen regardless.
+
+  A slot tag has no module and no expander of its own, so it arrives at
+  `expand/3` with its subtree intact and is consumed there. Nothing downstream
+  knows the type: a `<<%= @module_prefix_camel %>TreeNode>` written anywhere else reaches the
+  renderer and draws nothing at all, without complaint.
+
   ## The layout is flat, and that is deliberate
 
   The web component nests `<ul>` inside `<li>`, and the obvious port is nested
@@ -130,8 +163,9 @@ defmodule <%= @module %> do
   there is nothing to keep), `clear_selection_on_outside_click` (there is no
   outside), `aria_label` / `drag_handle_label` (Mob exposes no accessibility
   labels), `name` and `on_target` (form and LiveView plumbing), the `*_class`
-  attrs, and the `<:node>` slot — a node's `:icon` and `:meta` keys are the
-  parts of a custom label a row has room for.
+  attrs, and the `<:node>` slot — that one renders a custom *label*, which is a
+  different thing from the `<<%= @module_prefix_camel %>TreeNode>` above; a node's `:icon` and
+  `:meta` keys are the parts of a custom label a row has room for.
   """
 
   import Mob.Sigil
@@ -145,9 +179,86 @@ defmodule <%= @module %> do
   @collapse_glyph "▾"
   @loader_glyph "…"
 
-  @doc "Composite expander (`<<%= @module_prefix_camel %>Tree />`). Delegates to `tree/1`."
+  @node_type :mishka_tree_node
+  @slot_types [@node_type]
+
+  # The attrs a `<<%= @module_prefix_camel %>TreeNode>` shares with a node map. `:children` is not
+  # among them because it is merged with the nested tags rather than copied.
+  @node_keys [:label, :value, :icon, :meta, :disabled, :selectable, :has_children]
+
+  # What `node/3` takes past its two positional arguments.
+  @node_opts [:children, :icon, :meta, :disabled, :selectable, :has_children]
+
+  @doc """
+  Composite expander (`<<%= @module_prefix_camel %>Tree>`).
+
+  `<<%= @module_prefix_camel %>TreeNode>` children are consumed here and become node maps, which is
+  how a hierarchy gets written as markup. They come first and the `nodes` prop
+  follows, so a written heading can sit above a fetched list without either
+  form having to give way.
+  """
   @spec expand(map(), [map()], map()) :: map()
-  def expand(props, _children, _ctx), do: <%= @component_prefix %>tree(props)
+  def expand(props, children, _ctx) do
+    props = Map.new(props)
+
+    <%= @component_prefix %>tree(Map.put(props, :nodes, slot_nodes(children) ++ List.wrap(Map.get(props, :nodes, []))))
+  end
+
+  @doc """
+  Build one node — the function form of `<<%= @module_prefix_camel %>TreeNode>`.
+
+  Options: `:children`, `:icon`, `:meta`, `:disabled`, `:selectable`,
+  `:has_children`.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>Tree.node("mix.exs", "mix.exs", icon: "📄")
+      %{label: "mix.exs", value: "mix.exs", icon: "📄"}
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>Tree.node("lib", "lib",
+      ...>   children: [<%= @namespace %>.<%= @module_prefix_camel %>Tree.node("app.ex", "lib/app.ex")])
+      %{label: "lib", value: "lib", children: [%{label: "app.ex", value: "lib/app.ex"}]}
+
+  A node is an ordinary map, so this is a spelling rather than a
+  representation: `%{label: "mix.exs", value: "mix.exs"}` is the same value,
+  and writing the map out — or mapping over your own data into one — stays
+  exactly as good.
+  """
+  @spec node(String.t(), term(), keyword()) :: map()
+  def node(label, value, opts \\ []) do
+    opts
+    |> Keyword.take(@node_opts)
+    |> Map.new()
+    |> Map.merge(%{label: label, value: value})
+  end
+
+  @doc """
+  Every node type the tree consumes as a child. Exported so a test can prove
+  none of them leaked to the renderer, which would draw nothing and say
+  nothing.
+  """
+  @spec slot_types() :: [atom()]
+  def slot_types, do: @slot_types
+
+  # A `<<%= @module_prefix_camel %>TreeNode>` IS a node map: its attrs are the map's keys and the
+  # tags inside it are its children. Anything else written between the tags is
+  # dropped rather than carried along — a row draws a disclosure, a checkbox, an
+  # icon, a label and a note, and arbitrary markup has nowhere to go in it.
+  defp slot_nodes(children) do
+    children
+    |> Enum.filter(&match?(%{type: @node_type}, &1))
+    |> Enum.map(&slot_node/1)
+  end
+
+  defp slot_node(node) do
+    props = node |> Map.get(:props, %{}) |> Map.new()
+
+    # The root's rule again, one level down: what is written comes first, then
+    # what the `children` attr carries, so a written branch can hold a fetched
+    # list.
+    kids = slot_nodes(Map.get(node, :children, [])) ++ List.wrap(Map.get(props, :children))
+    map = Map.take(props, @node_keys)
+
+    if kids == [], do: map, else: Map.put(map, :children, kids)
+  end
 
   @doc """
   The tree.

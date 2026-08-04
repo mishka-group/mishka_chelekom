@@ -2,6 +2,8 @@ defmodule MishkaMob.Components.MishkaSelectTest do
   # async: false — Mob.ScreenCase starts the globally-named `Mob.State`.
   use Mob.ScreenCase, async: false
 
+  import Mob.Sigil
+
   alias MishkaMob.Components.MishkaSelect, as: S
 
   doctest MishkaMob.Components.MishkaSelect
@@ -220,6 +222,79 @@ defmodule MishkaMob.Components.MishkaSelectTest do
         |> Enum.map(& &1.props[:id])
 
       assert Enum.all?(ids, &is_nil/1)
+    end
+  end
+
+  describe "the option slot tag" do
+    test "<MishkaSelectOption> and option/3 name the same node type" do
+      from_tag = ~MOB(<MishkaSelectOption id={:uk} label="United Kingdom" />)
+
+      # option/3 fills in the defaults the tag simply omits, so compare what
+      # the tag actually carries rather than the maps whole.
+      assert from_tag.type == S.option(:uk, "United Kingdom").type
+      assert from_tag.props.id == :uk
+      assert from_tag.props.label == "United Kingdom"
+    end
+
+    test "a tag with no :disabled or :group is read as neither" do
+      tree =
+        S.select(%{id: "s", open: true, value: :uk}, [
+          ~MOB(<MishkaSelectOption id={:uk} label="United Kingdom" />),
+          ~MOB(<MishkaSelectOption id={:ir} label="Iran" />)
+        ])
+
+      ids = tree |> find_all(:box) |> Enum.map(& &1.props[:id])
+
+      assert "s-option-uk-selected" in ids
+      assert "s-option-ir-idle" in ids
+    end
+
+    test "no option marker reaches the renderer" do
+      tree = S.select(%{id: "s", open: true}, [~MOB(<MishkaSelectOption id={:uk} label="UK" />)])
+
+      # assert_renderable is blind to this: mix.exs whitelists the tag's name,
+      # so it counts as renderable while MobBridge has no branch for it and
+      # silently draws nothing.
+      assert find_all(tree, :mishka_select_option) == []
+      assert_renderable(tree)
+    end
+  end
+
+  # The gallery page is what SelectTest.kt drives, and every option on it bar
+  # the data-driven card is now written as a tag.
+  describe "the gallery page" do
+    alias MishkaMob.Showcase.Components.Select, as: Page
+
+    setup do
+      MishkaMob.Showcase.reset()
+      MishkaMob.Showcase.register_all()
+
+      :ok
+    end
+
+    defp cards do
+      assigns = Page.mount(Mob.Socket.new(MishkaMob.Showcase.ComponentScreen)).assigns
+
+      Enum.map(Page.examples(), &Mob.Composite.expand(&1.render.(assigns), self()))
+    end
+
+    test "every trigger the device test names survives expansion" do
+      ids =
+        cards()
+        |> Enum.flat_map(&flatten/1)
+        |> Enum.map(& &1.props[:id])
+        |> Enum.reject(&is_nil/1)
+
+      for tag <- ~w(sel-country-trigger-closed sel-lang-trigger-closed
+                    sel-pizza-trigger-closed sel-off-trigger-closed) do
+        assert tag in ids, "the #{tag} trigger is missing"
+      end
+    end
+
+    test "no option marker reaches the renderer from the page either" do
+      for card <- cards() do
+        assert find_all(card, :mishka_select_option) == []
+      end
     end
   end
 

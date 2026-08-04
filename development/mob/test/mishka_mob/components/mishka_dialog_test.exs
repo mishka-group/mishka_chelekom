@@ -15,6 +15,7 @@ defmodule MishkaMob.Components.MishkaDialogTest do
 
   defp scrim(tree), do: find(tree, :box, background: @scrim)
   defp tagged(tree, id), do: Enum.find(flatten(tree), &(Map.get(&1.props, :id) == id))
+  defp ids(tree), do: tree |> flatten() |> Enum.map(& &1.props[:id]) |> Enum.reject(&is_nil/1)
 
   describe "closed" do
     test "renders nothing when open is false or absent" do
@@ -353,6 +354,79 @@ defmodule MishkaMob.Components.MishkaDialogTest do
       assert find(tree, :button, text: "OK")
       assert text(tree) =~ "T"
       refute find(tree, :box, width: 320).props[:actions]
+    end
+  end
+
+  # The gallery page is what DialogTest.kt drives, and it is written in slot
+  # tags — panels, footers and triggers alike. This is where the tag form is
+  # proved through the real composite pass rather than a hand-built child list.
+  describe "the showcase page" do
+    alias MishkaMob.Showcase.Components.Dialog, as: Page
+
+    # The page is markup now, so nothing renders until the expanders behind
+    # <MishkaDialog> and its slot tags are registered.
+    setup do
+      MishkaMob.Showcase.reset()
+      MishkaMob.Showcase.register_all()
+
+      :ok
+    end
+
+    defp mounted, do: Page.mount(Mob.Socket.new(MishkaMob.Showcase.ComponentScreen))
+
+    defp expand(nil), do: nil
+    defp expand(node), do: Mob.Composite.expand(node, self())
+
+    defp opened(tag), do: expand(Page.overlay(Page.handle(tag, mounted()).assigns))
+
+    test "each card renders its trigger through the trigger slot" do
+      assigns = mounted().assigns
+      tags = Enum.flat_map(Page.examples(), &ids(expand(&1.render.(assigns))))
+
+      for id <- ~w(dlg-basic dlg-slots dlg-dismiss dlg-forced dlg-plain dlg-tinted) do
+        assert "#{id}-trigger" in tags, "the #{id} card has no trigger"
+      end
+
+      # The one that wires no handler says so in its tag, because the muted
+      # colour that says so is invisible to a device test.
+      assert "dlg-disabled-trigger-disabled" in tags
+      refute "dlg-disabled-trigger" in tags
+    end
+
+    test "a closed dialog on a card draws its trigger and nothing else" do
+      card = expand(Enum.at(Page.examples(), 0).render.(mounted().assigns))
+
+      refute "dlg-basic-open" in ids(card)
+      refute "dlg-basic-panel" in ids(card)
+    end
+
+    test "every opened dialog carries the parts its device test names" do
+      for id <- ~w(dlg-basic dlg-slots dlg-forced dlg-plain dlg-tinted) do
+        key = String.to_existing_atom(String.replace(id, "-", "_"))
+        overlay = opened({:dlg_open, key})
+
+        for part <- ~w(open panel title description footer) do
+          assert "#{id}-#{part}" in ids(overlay), "#{id} opened without its #{part}"
+        end
+      end
+    end
+
+    test "no slot marker survives the page" do
+      assigns = mounted().assigns
+
+      trees =
+        Enum.map(Page.examples(), &expand(&1.render.(assigns))) ++
+          Enum.map(
+            ~w(dlg_basic dlg_slots dlg_dismiss dlg_forced dlg_plain dlg_tinted dlg_disabled)a,
+            &opened({:dlg_open, &1})
+          )
+
+      # assert_renderable is blind to this: mix.exs whitelists every slot tag's
+      # name, so it counts them renderable while MobBridge has no branch for
+      # them and silently draws nothing. Only naming the markers catches it.
+      for tree <- trees, type <- MishkaDialog.slot_types() do
+        assert find_all(tree, type) == [], "a #{type} marker reached the renderer"
+      end
     end
   end
 
