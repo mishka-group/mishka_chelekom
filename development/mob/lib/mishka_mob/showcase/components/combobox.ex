@@ -67,7 +67,10 @@ defmodule MishkaMob.Showcase.Components.Combobox do
           on_query={:query}
           on_select={:pick}
           on_clear={:clear}
-        >{options}</MishkaCombobox>
+        >
+          <MishkaSelectOption id={:uk} label="United Kingdom" />
+          <MishkaSelectOption id={:ir} label="Iran" />
+        </MishkaCombobox>
 
         MishkaCombobox.filter(pairs, query)   # "cafe" finds "Café"
         """,
@@ -114,7 +117,10 @@ defmodule MishkaMob.Showcase.Components.Combobox do
         description:
           "Chips share the line with the field, as on the web. ▾ opens the list; picking keeps it open.",
         code: ~S"""
-        <MishkaCombobox multiple={true} value={@values} …>{options}</MishkaCombobox>
+        <MishkaCombobox multiple={true} value={@values} on_select={:pick}>
+          <MishkaSelectOption id={:uk} label="United Kingdom" />
+          <MishkaSelectOption id={:ir} label="Iran" />
+        </MishkaCombobox>
         """,
         render: fn assigns ->
           ~MOB"""
@@ -144,11 +150,11 @@ defmodule MishkaMob.Showcase.Components.Combobox do
         description:
           "Headings per run, an out-of-stock option that cannot be picked, and a Create row for anything that does not match.",
         code: ~S"""
-        <MishkaCombobox multiple={true} creatable={true} on_create={:create} …>{[
-          option(:apple, "Apple", group: "FRUIT"),
-          option(:durian, "Durian (out of stock)", group: "FRUIT", disabled: true),
-          option(:carrot, "Carrot", group: "VEGETABLE")
-        ]}</MishkaCombobox>
+        <MishkaCombobox multiple={true} creatable={true} on_create={:create}>
+          <MishkaSelectOption id={:apple} label="Apple" group="FRUIT" />
+          <MishkaSelectOption id={:durian} label="Durian (out of stock)" group="FRUIT" disabled={true} />
+          <MishkaSelectOption id={:carrot} label="Carrot" group="VEGETABLE" />
+        </MishkaCombobox>
 
         # The component only OFFERS; adding to the list is the screen's job, and
         # the screen already holds the query.
@@ -184,11 +190,10 @@ defmodule MishkaMob.Showcase.Components.Combobox do
         title: "No matches",
         description: "An empty result says so rather than collapsing to nothing.",
         code: ~S"""
-        <MishkaCombobox
-          query="zzz"
-          open={true}
-          empty_text="Nothing found"
-        >{options}</MishkaCombobox>
+        <MishkaCombobox query="zzz" open={true} empty_text="Nothing found">
+          <MishkaSelectOption id={:uk} label="United Kingdom" />
+          <MishkaSelectOption id={:ir} label="Iran" />
+        </MishkaCombobox>
         """,
         render: fn _assigns ->
           ~MOB"""
@@ -204,7 +209,10 @@ defmodule MishkaMob.Showcase.Components.Combobox do
         title: "starts_with",
         description: "The other filter mode the web component names.",
         code: ~S"""
-        <MishkaCombobox filter={:starts_with} query="u" open={true}>{options}</MishkaCombobox>
+        <MishkaCombobox filter={:starts_with} query="u" open={true}>
+          <MishkaSelectOption id={:uk} label="United Kingdom" />
+          <MishkaSelectOption id={:ir} label="Iran" />
+        </MishkaCombobox>
         """,
         render: fn _assigns ->
           ~MOB"""

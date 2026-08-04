@@ -8,7 +8,6 @@ defmodule MishkaMob.Showcase.Components.NavLink do
   use MishkaMob.Showcase
 
   import Mob.Sigil
-  import MishkaMob.Components.MishkaNavLink, only: [nav_link: 2]
 
   alias MishkaMob.Components.{MishkaAnchor, MishkaMenubar, MishkaNavigationMenu}
   alias MishkaMob.Showcase.Example
@@ -129,10 +128,15 @@ defmodule MishkaMob.Showcase.Components.NavLink do
           indent={24}
           opened={@open?}
           on_toggle={:toggle}
-        >{[
-          nav_link([id: "nav-inbox", label: "Inbox", description: "12 unread",
-                    href: "inbox", on_tap: :pick], [])
-        ]}</MishkaNavLink>
+        >
+          <MishkaNavLink
+            id="nav-inbox"
+            label="Inbox"
+            description="12 unread"
+            href="inbox"
+            on_tap={:pick}
+          />
+        </MishkaNavLink>
 
         def handle_info({:tap, :toggle}, socket) do
           {:noreply, Mob.Socket.assign(socket, :open?, not socket.assigns.open?)}
@@ -149,14 +153,22 @@ defmodule MishkaMob.Showcase.Components.NavLink do
               opened={@nl_mail_open}
               on_toggle={:nl_mail}
             >
-              {[
-                 nav_link([id: "nav-inbox", label: "Inbox", description: "12 unread",
-                           active: @nl_mail_pick == "inbox", href: "inbox",
-                           on_tap: :nl_mail_pick], []),
-                 nav_link([id: "nav-drafts", label: "Drafts", description: "3 unsent",
-                           active: @nl_mail_pick == "drafts", href: "drafts",
-                           on_tap: :nl_mail_pick], [])
-               ]}
+              <MishkaNavLink
+                id="nav-inbox"
+                label="Inbox"
+                description="12 unread"
+                active={@nl_mail_pick == "inbox"}
+                href="inbox"
+                on_tap={:nl_mail_pick}
+              />
+              <MishkaNavLink
+                id="nav-drafts"
+                label="Drafts"
+                description="3 unsent"
+                active={@nl_mail_pick == "drafts"}
+                href="drafts"
+                on_tap={:nl_mail_pick}
+              />
             </MishkaNavLink>
             <Spacer size={10} />
             <Text text={picked(@nl_mail_pick)} text_size={:sm} text_color={:muted} />
@@ -171,18 +183,16 @@ defmodule MishkaMob.Showcase.Components.NavLink do
             "while `opened` is nil. Tapping this row does nothing, because a node tree has " <>
             "nowhere to keep the answer. Pass `opened` the moment it has to toggle.",
         code: ~S"""
-        <MishkaNavLink id="nav-team" label="Team" icon="◍" default_opened={true}>{[
-          nav_link([id: "nav-alice", label: "Alice"], [])
-        ]}</MishkaNavLink>
+        <MishkaNavLink id="nav-team" label="Team" icon="◍" default_opened={true}>
+          <MishkaNavLink id="nav-alice" label="Alice" />
+        </MishkaNavLink>
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
             <MishkaNavLink id="nav-team" label="Team" icon="◍" default_opened={true}>
-              {[
-                 nav_link([id: "nav-alice", label: "Alice"], []),
-                 nav_link([id: "nav-bob", label: "Bob"], [])
-               ]}
+              <MishkaNavLink id="nav-alice" label="Alice" />
+              <MishkaNavLink id="nav-bob" label="Bob" />
             </MishkaNavLink>
           </Column>
           """

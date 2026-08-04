@@ -6,8 +6,6 @@ defmodule MishkaMob.Showcase.Components.Menu do
 
   import Mob.Sigil
 
-  import MishkaMob.Components.MishkaMenu, only: [item: 2, item: 3, separator: 0]
-
   alias MishkaMob.Showcase.Example
 
   @impl true
@@ -120,20 +118,18 @@ defmodule MishkaMob.Showcase.Components.Menu do
         title: "Plain actions",
         description: "No icons, no groups — just rows.",
         code: ~S"""
-        <MishkaMenu
-          open={true}
-          on_select={:pick}
-        >{[item(:a, "One"), item(:b, "Two")]}</MishkaMenu>
+        <MishkaMenu open={true} on_select={:pick}>
+          <MishkaMenuItem id={:a} label="One" />
+          <MishkaMenuItem id={:b} label="Two" />
+        </MishkaMenu>
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
             <MishkaMenu open={true} on_select={:menu_pick} width={200}>
-              {[
-              item(:one, "First action"),
-              item(:two, "Second action"),
-              item(:three, "Third action")
-            ]}
+              <MishkaMenuItem id={:one} label="First action" />
+              <MishkaMenuItem id={:two} label="Second action" />
+              <MishkaMenuItem id={:three} label="Third action" />
             </MishkaMenu>
           </Column>
           """
@@ -144,7 +140,13 @@ defmodule MishkaMob.Showcase.Components.Menu do
         description: "On a phone an action list often belongs in a Drawer instead.",
         code: ~S"""
         # the same menu, rendered inside a bottom Drawer
-        <MishkaDrawer side={:bottom}><MishkaMenu open={true} …>{items}</MishkaMenu></MishkaDrawer>
+        <MishkaDrawer side={:bottom}>
+          <MishkaMenu open={true} on_select={:pick}>
+            <MishkaMenuItem id={:share} label="Share" icon="↗" />
+            <MishkaMenuSeparator />
+            <MishkaMenuItem id={:report} label="Report" icon="⚑" danger={true} />
+          </MishkaMenu>
+        </MishkaDrawer>
         """,
         render: fn _assigns ->
           ~MOB"""
@@ -156,12 +158,10 @@ defmodule MishkaMob.Showcase.Components.Menu do
             />
             <Spacer size={10} />
             <MishkaMenu open={true} on_select={:menu_pick}>
-              {[
-              item(:share, "Share", icon: "↗"),
-              item(:copy, "Copy link", icon: "🔗"),
-              separator(),
-              item(:report, "Report", icon: "⚑", danger: true)
-            ]}
+              <MishkaMenuItem id={:share} label="Share" icon="↗" />
+              <MishkaMenuItem id={:copy} label="Copy link" icon="🔗" />
+              <MishkaMenuSeparator />
+              <MishkaMenuItem id={:report} label="Report" icon="⚑" danger={true} />
             </MishkaMenu>
           </Column>
           """
