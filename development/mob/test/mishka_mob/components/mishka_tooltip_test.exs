@@ -87,8 +87,11 @@ defmodule MishkaMob.Components.MishkaTooltipTest do
     test "children become the trigger, and the bubble joins them in one stack" do
       tree = MishkaTooltip.tooltip(%{text: "Copy", open: true, id: "tip"}, [control()])
 
-      assert tree.type == :column
-      assert ids(tree) == ["tip-open", "tip-trigger"]
+      assert tree.type == :anchored
+      # The bubble's -open tag comes SECOND now, because the trigger is always
+      # the anchor and the bubble is always the panel — the order no longer
+      # encodes which side the bubble is on.
+      assert ids(tree) == ["tip-trigger", "tip-open"]
       assert text(tree) =~ "Copy"
       assert text(tree) =~ "⧉"
     end
@@ -184,101 +187,89 @@ defmodule MishkaMob.Components.MishkaTooltipTest do
     end
   end
 
-  describe "side" do
-    test "top and left put the bubble before the trigger, bottom and right after" do
-      for {side, order} <- [
-            {:top, ["tip-open", "tip-trigger"]},
-            {:bottom, ["tip-trigger", "tip-open"]},
-            {:left, ["tip-open", "tip-trigger"]},
-            {:right, ["tip-trigger", "tip-open"]}
-          ] do
-        tree = MishkaTooltip.tooltip(%{text: "x", open: true, id: "tip", side: side}, [control()])
-        assert ids(tree) == order, "side #{side} stacked as #{inspect(ids(tree))}"
+  # The bubble is not a sibling of the trigger any more: it is child [1] of an
+  # :anchored node, drawn in its own window over the page. So these assert the
+  # anchored node's PROPS. The old assertions were about ordering, flexible
+  # spacers and Row alignment — all of which existed to place a bubble that
+  # shared a parent with the control it describes, which is exactly why opening
+  # a tooltip used to shove the next icon button sideways.
+  describe "anchoring" do
+    defp anchored(tree), do: Enum.find(flatten(tree), &(&1.type == :anchored))
+
+    defp anchor_props(props) do
+      anchored(MishkaTooltip.tooltip(Map.merge(%{text: "x", open: true}, props), [control()])).props
+    end
+
+    test "the trigger is the anchor and the bubble is the panel, in that order always" do
+      node = anchored(MishkaTooltip.tooltip(%{text: "Copy", open: true, id: "tip"}, [control()]))
+
+      assert length(node.children) == 2
+      assert hd(node.children).props.id == "tip-trigger"
+      assert text(List.last(node.children)) =~ "Copy"
+    end
+
+    test "side rides on the anchored node, for every side" do
+      for side <- [:top, :right, :bottom, :left] do
+        assert anchor_props(%{side: side}).side == side
       end
     end
 
-    test "a vertical side stacks, a horizontal one sits beside" do
-      above = MishkaTooltip.tooltip(%{text: "x", open: true, side: :top}, [control()])
-      beside = MishkaTooltip.tooltip(%{text: "x", open: true, side: :left}, [control()])
-
-      assert above.type == :column
-      assert beside.type == :row
+    test "top is the default, and an unknown side falls back to it" do
+      assert anchor_props(%{}).side == :top
+      assert anchor_props(%{side: :sideways}).side == :top
+      assert anchor_props(%{side: "bottom"}).side == :bottom
     end
 
-    test "accepts the web's string spelling as well as the atom" do
-      atom = MishkaTooltip.tooltip(%{text: "x", open: true, side: :bottom}, [control()])
-      string = MishkaTooltip.tooltip(%{text: "x", open: true, side: "bottom"}, [control()])
+    test "side_offset is the gap, and defaults to 6" do
+      # It used to be a :spacer sibling, which cannot express a gap between two
+      # things that are not in the same layout.
+      assert anchor_props(%{}).side_offset == 6
+      assert anchor_props(%{side_offset: 14}).side_offset == 14
 
-      assert atom == string
+      tree = MishkaTooltip.tooltip(%{text: "x", open: true}, [control()])
+      refute Enum.any?(anchored(tree).children, &(&1.type == :spacer))
     end
 
-    test "an unknown side falls back to the default rather than blowing up" do
-      assert MishkaTooltip.tooltip(%{text: "x", open: true, side: :sideways}, [control()]) ==
-               MishkaTooltip.tooltip(%{text: "x", open: true, side: :top}, [control()])
-    end
-  end
-
-  describe "side_offset" do
-    test "is the gap between trigger and bubble" do
-      tree = MishkaTooltip.tooltip(%{text: "x", open: true, side_offset: 20}, [control()])
-
-      assert Enum.any?(flatten(tree), &(&1.type == :spacer and &1.props[:size] == 20))
-    end
-
-    test "goes with the bubble, so a closed tooltip reserves nothing" do
-      tree = MishkaTooltip.tooltip(%{text: "x", open: false, side_offset: 20}, [control()])
-
-      refute Enum.any?(flatten(tree), &(&1.type == :spacer and &1.props[:size] == 20))
-    end
-  end
-
-  describe "align" do
-    test "across a vertical side it is a flexible Spacer on the free side" do
-      for {align, before, after_} <- [{:start, 0, 1}, {:center, 1, 1}, {:end, 1, 0}] do
-        row =
-          %{text: "x", open: true, align: align}
-          |> MishkaTooltip.tooltip([control()])
-          |> find(:row)
-
-        {lead, [_bubble | trail]} =
-          Enum.split_while(row.children, &(&1.type == :spacer and &1.props[:weight] == 1))
-
-        assert length(lead) == before, "align #{align} had #{length(lead)} leading spacers"
-        assert length(trail) == after_, "align #{align} had #{length(trail)} trailing spacers"
+    test "align rides on the anchored node instead of a flexible Spacer" do
+      for align <- [:start, :center, :end] do
+        assert anchor_props(%{align: align}).align == align
       end
+
+      # No weighted spacers left anywhere — those WERE the alignment.
+      tree = MishkaTooltip.tooltip(%{text: "x", open: true}, [control()])
+      refute Enum.any?(flatten(tree), &(&1.type == :spacer and &1.props[:weight] == 1))
     end
 
-    test "across a horizontal side it is the Row's own vertical alignment" do
-      for {align, expected} <- [{:start, :top}, {:center, :center}, {:end, :bottom}] do
-        tree =
-          MishkaTooltip.tooltip(%{text: "x", open: true, side: :left, align: align}, [control()])
-
-        assert tree.props.align == expected
-      end
-    end
-  end
-
-  describe "align_offset" do
-    test "nudges along the horizontal axis for a vertical side" do
-      tree = MishkaTooltip.tooltip(%{text: "x", open: true, align_offset: 8}, [control()])
-
-      assert bubble(tree).props.offset_x == 8
-      refute Map.has_key?(bubble(tree).props, :offset_y)
+    test "align_offset is one prop, not an axis-dependent offset" do
+      # It used to fold into offset_x on a vertical side and offset_y on a
+      # horizontal one, because a nudge in flow must name its axis.
+      assert anchor_props(%{align_offset: 10}).align_offset == 10
+      assert anchor_props(%{side: :left, align_offset: 10}).align_offset == 10
     end
 
-    test "nudges along the vertical axis for a horizontal side" do
-      tree =
-        MishkaTooltip.tooltip(%{text: "x", open: true, side: :right, align_offset: 8}, [control()])
+    test "an explicit offset is the raw escape hatch, renamed so it moves the BUBBLE" do
+      props = anchor_props(%{align_offset: 10, offset_x: -3, offset_y: 4})
 
-      assert bubble(tree).props.offset_y == 8
-      refute Map.has_key?(bubble(tree).props, :offset_x)
+      assert props.panel_offset_x == -3
+      assert props.panel_offset_y == 4
+      assert props.align_offset == 10
+
+      # And it is NOT left on the bubble: Mob.Renderer would wrap the bubble in
+      # an offset Box inside its own popup window, shifting the content out of
+      # the window rather than moving the window.
+      bubble =
+        List.last(
+          anchored(MishkaTooltip.tooltip(%{text: "x", open: true, offset_x: -3}, [control()])).children
+        )
+
+      refute Map.has_key?(bubble.props, :offset_x)
     end
 
-    test "adds to an explicit offset rather than replacing it" do
-      tree =
-        MishkaTooltip.tooltip(%{text: "x", open: true, offset_x: 4, align_offset: 8}, [control()])
+    test "a closed tooltip anchors nothing but still holds its trigger" do
+      node = anchored(MishkaTooltip.tooltip(%{text: "x", open: false, id: "tip"}, [control()]))
 
-      assert bubble(tree).props.offset_x == 12
+      assert length(node.children) == 1
+      assert hd(node.children).props.id == "tip-trigger"
     end
   end
 
@@ -365,31 +356,6 @@ defmodule MishkaMob.Components.MishkaTooltipTest do
       tree = MishkaTooltip.tooltip(%{text: "x", open: true, arrow: true}, [control()])
 
       assert ids(tree) == []
-    end
-  end
-
-  describe "fill_width" do
-    test "the stack fills by default, so align has room" do
-      tree = MishkaTooltip.tooltip(%{text: "x", open: true}, [control()])
-
-      assert tree.props.fill_width == true
-      assert Enum.any?(flatten(tree), &(&1.type == :spacer and &1.props[:weight] == 1))
-    end
-
-    test "turning it off drops the flexible spacers that would starve a sibling" do
-      tree = MishkaTooltip.tooltip(%{text: "x", open: true, fill_width: false}, [control()])
-
-      assert tree.props.fill_width == false
-      refute Enum.any?(flatten(tree), &(&1.type == :spacer and &1.props[:weight] == 1))
-    end
-
-    test "a horizontal side drops its trailing spacer too" do
-      tree =
-        MishkaTooltip.tooltip(%{text: "x", open: true, side: :left, fill_width: false}, [
-          control()
-        ])
-
-      refute Enum.any?(flatten(tree), &(&1.type == :spacer and &1.props[:weight] == 1))
     end
   end
 

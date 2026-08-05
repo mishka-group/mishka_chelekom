@@ -100,51 +100,55 @@ defmodule MishkaMob.Components.MishkaPreviewCardTest do
   end
 
   describe "side" do
-    test "bottom is the default: trigger, gap, then card" do
-      tree = MishkaPreviewCard.preview_card(%{id: "p", open: true, trigger: chip(), title: "T"})
+    # The card is child [1] of an :anchored node now, drawn in its own window.
+    # There is no ordering left to assert — "top" is a prop, not a position in
+    # a list — so these read the anchored node's props instead.
+    defp anchored(tree), do: Enum.find(flatten(tree), &(&1.type == :anchored))
 
-      assert tree.type == :column
-      assert tree.props.id == "p-open"
-      assert Enum.map(tree.children, & &1.props[:id]) == ["p-trigger", nil, "p-popup-bottom"]
-    end
+    test "the root is a Column whatever the side, and the trigger anchors it" do
+      for side <- [:top, :right, :bottom, :left] do
+        tree =
+          MishkaPreviewCard.preview_card(%{id: "p", open: true, side: side, trigger: chip()})
 
-    test "top puts the card first, so it sits over the trigger" do
-      tree = MishkaPreviewCard.preview_card(%{id: "p", open: true, side: :top, trigger: chip()})
+        assert tree.type == :column
+        assert tree.props.id == "p-open"
 
-      assert tree.type == :column
-      assert Enum.map(tree.children, & &1.props[:id]) == ["p-popup-top", nil, "p-trigger"]
-    end
-
-    test "left and right lay the pair out as a Row" do
-      for {side, order} <- [
-            {:right, ["p-trigger", nil, "p-popup-right"]},
-            {:left, ["p-popup-left", nil, "p-trigger"]}
-          ] do
-        tree = MishkaPreviewCard.preview_card(%{id: "p", open: true, side: side, trigger: chip()})
-
-        assert tree.type == :row
-        assert Enum.map(tree.children, & &1.props[:id]) == order
+        node = anchored(tree)
+        assert length(node.children) == 2
+        assert hd(node.children).props.id == "p-trigger", "#{side} did not anchor the trigger"
+        assert tagged?(List.last(node.children), "p-popup-#{side}")
       end
     end
 
-    test "beside the trigger BOTH halves are weighted, so neither starves the other" do
-      # A Box with neither a width nor fill_width fills its parent, and Compose
-      # measures a Row's unweighted children first — an unweighted half would
-      # take the whole row.
-      tree = MishkaPreviewCard.preview_card(%{id: "p", open: true, side: :right, trigger: chip()})
-      trigger = find(tree, :box, id: "p-trigger")
+    test "side and align ride on the anchored node" do
+      for side <- [:top, :right, :bottom, :left], align <- [:start, :center, :end] do
+        props =
+          anchored(
+            MishkaPreviewCard.preview_card(%{
+              id: "p",
+              open: true,
+              side: side,
+              align: align,
+              trigger: chip()
+            })
+          ).props
 
-      assert trigger.props[:weight] == 1
-      assert popup(tree).props[:weight] == 1
-      refute Map.has_key?(trigger.props, :fill_width)
+        assert props.side == side
+        assert props.align == align
+      end
     end
 
-    test "above or below, the trigger fills the width and carries no weight" do
-      tree = MishkaPreviewCard.preview_card(%{id: "p", open: true, trigger: chip()})
-      trigger = find(tree, :box, id: "p-trigger")
+    test "no weights anywhere: nothing shares a line with the card any more" do
+      # Both halves used to be weighted because they shared a Row, and Compose
+      # measures a Row's unweighted children first — whichever went unweighted
+      # took the whole row and starved the other. The card is in its own window.
+      for side <- [:top, :right, :bottom, :left] do
+        tree =
+          MishkaPreviewCard.preview_card(%{id: "p", open: true, side: side, trigger: chip()})
 
-      assert trigger.props[:fill_width] == true
-      refute Map.has_key?(trigger.props, :weight)
+        refute Enum.any?(flatten(tree), &Map.has_key?(&1.props, :weight)),
+               "#{side} still weights something"
+      end
     end
 
     test "the side is folded into the popup's tag, since a position is not queryable" do
@@ -193,20 +197,23 @@ defmodule MishkaMob.Components.MishkaPreviewCardTest do
       assert [{:spacer, nil, 1}, {:text, nil, nil}, {:spacer, 14, nil}] = weights.(:end)
     end
 
-    test "beside the trigger it is the row's own alignment that places it" do
-      # A Column has no horizontal alignment prop to hang `align` off, so on the
-      # horizontal axis the root Row's vertical alignment is what moves it.
-      for {align, value} <- [{:start, "top"}, {:center, "center"}, {:end, "bottom"}] do
+    test "beside the trigger the arrow rides with the card, not with a Row" do
+      # `align` used to land on the root Row's vertical alignment, because a
+      # Column has no horizontal alignment prop. The card is anchored now, so
+      # align is the anchored node's own prop and the arrow simply sits in the
+      # card's stack.
+      for align <- [:start, :center, :end] do
         tree =
           MishkaPreviewCard.preview_card(%{
             id: "p",
             open: true,
             side: :right,
             align: align,
-            arrow: true
+            arrow: true,
+            trigger: chip()
           })
 
-        assert tree.props.align == value
+        assert Enum.find(flatten(tree), &(&1.type == :anchored)).props.align == align
         assert arrow(tree).type == :text
       end
     end
@@ -249,30 +256,25 @@ defmodule MishkaMob.Components.MishkaPreviewCardTest do
   end
 
   describe "side_offset" do
-    test "is the real gap between the trigger and the card" do
+    test "is the gap on the anchored node, not a spacer between siblings" do
       tree =
         MishkaPreviewCard.preview_card(%{id: "p", open: true, trigger: chip(), side_offset: 20})
 
-      assert Enum.at(tree.children, 1) == %{type: :spacer, props: %{size: 20}, children: []}
+      assert Enum.find(flatten(tree), &(&1.type == :anchored)).props.side_offset == 20
+      refute Enum.any?(flatten(tree), &(&1.type == :spacer and &1.props[:size] == 20))
     end
 
     test "defaults to the web's 8" do
       tree = MishkaPreviewCard.preview_card(%{id: "p", open: true, trigger: chip()})
 
-      assert Enum.at(tree.children, 1).props.size == 8
+      assert Enum.find(flatten(tree), &(&1.type == :anchored)).props.side_offset == 8
     end
 
-    test "zero closes the gap entirely" do
-      tree =
-        MishkaPreviewCard.preview_card(%{id: "p", open: true, trigger: chip(), side_offset: 0})
-
-      assert Enum.map(tree.children, & &1.props[:id]) == ["p-trigger", "p-popup-bottom"]
-    end
-
-    test "with no trigger there is no pair to separate" do
+    test "with no trigger there is nothing to anchor to, so the card renders in place" do
       tree = MishkaPreviewCard.preview_card(%{id: "p", open: true, side_offset: 20})
 
-      assert Enum.map(tree.children, & &1.props[:id]) == ["p-popup-bottom"]
+      refute Enum.any?(flatten(tree), &(&1.type == :anchored))
+      assert tagged?(tree, "p-popup-bottom")
     end
   end
 

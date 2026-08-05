@@ -49,18 +49,22 @@ class TooltipTest {
     private fun tagged(tag: String): Boolean =
         compose.onAllNodesWithTag(tag, useUnmergedTree = true).fetchSemanticsNodes().isNotEmpty()
 
+    // performScrollTo() throws inside a Popup — "Semantic Node has no parent
+    // layout with a Scroll SemanticsAction" — because the panel renders in its
+    // own window, which is not inside the page's scroll. It is only ever a
+    // convenience (bring the node on screen first), so attempt it and carry on.
     private fun hold(tag: String) {
-        compose.onNodeWithTag(tag, useUnmergedTree = true)
-            .performScrollTo()
-            .performTouchInput { longClick() }
+        val node = compose.onNodeWithTag(tag, useUnmergedTree = true)
+        runCatching { node.performScrollTo() }
+        node.performTouchInput { longClick() }
         compose.waitForIdle()
         Thread.sleep(500)
     }
 
     private fun tap(tag: String) {
-        compose.onNodeWithTag(tag, useUnmergedTree = true)
-            .performScrollTo()
-            .performClick()
+        val node = compose.onNodeWithTag(tag, useUnmergedTree = true)
+        runCatching { node.performScrollTo() }
+        node.performClick()
         compose.waitForIdle()
         Thread.sleep(400)
     }
@@ -150,9 +154,10 @@ class TooltipTest {
     @Test
     fun every_side_draws_the_arrow_that_points_back() {
         for (side in listOf("top", "bottom", "left", "right")) {
-            compose.onNodeWithTag("side-$side-arrow-$side", useUnmergedTree = true)
-                .performScrollTo()
-                .assertIsDisplayed()
+            // The arrow lives in the bubble's own window; scrolling to it throws.
+            val node = compose.onNodeWithTag("side-$side-arrow-$side", useUnmergedTree = true)
+            runCatching { node.performScrollTo() }
+            node.assertIsDisplayed()
         }
     }
 
@@ -205,9 +210,9 @@ class TooltipTest {
     @Test
     fun styling_reaches_every_bubble() {
         for (id in listOf("style-dark", "style-token", "style-plum")) {
-            compose.onNodeWithTag("$id-open", useUnmergedTree = true)
-                .performScrollTo()
-                .assertIsDisplayed()
+            val node = compose.onNodeWithTag("$id-open", useUnmergedTree = true)
+            runCatching { node.performScrollTo() }
+            node.assertIsDisplayed()
         }
     }
 

@@ -53,17 +53,21 @@ class PreviewCardTest {
         compose.onAllNodesWithTag(tag, useUnmergedTree = true).fetchSemanticsNodes().isNotEmpty()
 
     private fun hold(tag: String) {
-        compose.onNodeWithTag(tag, useUnmergedTree = true)
-            .performScrollTo()
-            .performTouchInput { longClick() }
+        val node = compose.onNodeWithTag(tag, useUnmergedTree = true)
+        runCatching { node.performScrollTo() }
+        node.performTouchInput { longClick() }
         compose.waitForIdle()
         Thread.sleep(500)
     }
 
+    // performScrollTo() throws inside a Popup — "Semantic Node has no parent
+    // layout with a Scroll SemanticsAction" — because the panel renders in its
+    // own window, which is not inside the page's scroll. It is only ever a
+    // convenience (bring the node on screen first), so attempt it and carry on.
     private fun tap(tag: String) {
-        compose.onNodeWithTag(tag, useUnmergedTree = true)
-            .performScrollTo()
-            .performClick()
+        val node = compose.onNodeWithTag(tag, useUnmergedTree = true)
+        runCatching { node.performScrollTo() }
+        node.performClick()
         compose.waitForIdle()
         Thread.sleep(400)
     }

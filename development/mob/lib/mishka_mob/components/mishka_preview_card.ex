@@ -108,7 +108,7 @@ defmodule MishkaMob.Components.MishkaPreviewCard do
 
   import Mob.Sigil
 
-  alias MishkaMob.Components.{Event, MishkaAvatar, MishkaPopover}
+  alias MishkaMob.Components.{Anchored, Event, MishkaAvatar, MishkaPopover}
 
   @trigger_slot :mishka_preview_card_trigger
 
@@ -213,45 +213,61 @@ defmodule MishkaMob.Components.MishkaPreviewCard do
     align = one_of(Map.get(props, :align), @aligns, :center)
     trigger = trigger_part(props, side)
 
-    if truthy?(Map.get(props, :open, false)) do
-      root(side, align, id, "-open", parts(props, footer, id, side, align, trigger))
-    else
-      closed(side, align, id, trigger)
+    opts = [
+      side: side,
+      align: align,
+      side_offset: Map.get(props, :side_offset, 8)
+    ]
+
+    open? = truthy?(Map.get(props, :open, false))
+
+    cond do
+      # No trigger at all: the card IS the content, so it renders in place.
+      trigger == [] and open? ->
+        put(
+          %{
+            type: :column,
+            props: %{fill_width: true},
+            children: [card(props, footer, id, side, align)]
+          },
+          :id,
+          tag(id, "-open")
+        )
+
+      trigger == [] ->
+        put(~MOB(<Column />), :id, tag(id, "-closed"))
+
+      open? ->
+        node = Anchored.anchor(hd(trigger), card(props, footer, id, side, align), opts)
+
+        put(%{type: :column, props: %{fill_width: true}, children: [node]}, :id, tag(id, "-open"))
+
+      true ->
+        node = Anchored.closed(hd(trigger), opts)
+
+        put(
+          %{type: :column, props: %{fill_width: true}, children: [node]},
+          :id,
+          tag(id, "-closed")
+        )
     end
   end
 
-  # A closed card with no trigger is still nothing at all. The tag is the only
-  # thing left of it, and it is what a device test reads instead of trying to
-  # prove the absence of a colour.
-  defp closed(_side, _align, id, []), do: put(~MOB(<Column />), :id, tag(id, "-closed"))
-  defp closed(side, align, id, trigger), do: root(side, align, id, "-closed", trigger)
+  # The popup and its arrow, as ONE node — an anchored node takes exactly two
+  # children, and the gap that used to be a :spacer between them is now
+  # `side_offset` on the anchor.
+  defp card(props, footer, id, side, align) do
+    popup = popup(props, footer, id, side)
 
-  defp root(side, _align, id, suffix, children) when side in [:top, :bottom] do
-    %{type: :column, props: %{fill_width: true}, children: children}
-    |> put(:id, tag(id, suffix))
-  end
+    case arrow(props, id, side, align) do
+      [] ->
+        popup
 
-  # Beside the trigger the two parts share one line, so the row's own vertical
-  # alignment is what `align` can act on — a Column has no horizontal alignment
-  # prop to hang it off instead.
-  defp root(_side, align, id, suffix, children) do
-    %{type: :row, props: %{fill_width: true, align: row_align(align)}, children: children}
-    |> put(:id, tag(id, suffix))
-  end
+      arrow ->
+        parts = if side in [:bottom, :right], do: arrow ++ [popup], else: [popup] ++ arrow
+        axis = if side in [:left, :right], do: :row, else: :column
 
-  defp row_align(:start), do: "top"
-  defp row_align(:end), do: "bottom"
-  defp row_align(_align), do: "center"
-
-  defp parts(props, footer, id, side, align, trigger) do
-    popup = [popup(props, footer, id, side)]
-    gap = gap(props, trigger)
-    arrow = arrow(props, id, side, align)
-
-    if side in [:bottom, :right] do
-      trigger ++ gap ++ arrow ++ popup
-    else
-      popup ++ arrow ++ gap ++ trigger
+        %{type: axis, props: %{}, children: parts}
     end
   end
 
@@ -263,44 +279,32 @@ defmodule MishkaMob.Components.MishkaPreviewCard do
       nodes ->
         id = Map.get(props, :id)
 
+        # The trigger HUGS, on every side, and carries no weight. Both of those
+        # existed to share a Row or a Column with the card; anchored to a
+        # full-width trigger, `align: :end` would mean the screen's edge rather
+        # than the trigger's, which is not what the web does.
+        _ = side
+
         node =
           trigger(id, nodes,
             on_hold: Map.get(props, :on_hold),
             on_tap: Map.get(props, :on_tap),
             test_id: tag(id, "-trigger"),
-            fill_width: side in [:top, :bottom]
+            fill_width: false
           )
 
-        [put(node, :weight, weight(side))]
+        [node]
     end
   end
 
   defp popup(props, footer, id, side) do
     props
+    # Hugging, not filling: inside a popup window "fill" is the whole SCREEN,
+    # after which the position clamp pins the card to the leading edge whatever
+    # side asked for. MishkaPopover.panel/2 honours an explicit value.
+    |> Map.put_new(:fill_width, false)
     |> MishkaPopover.panel([header(props, id), body(props, id), footer_part(footer, id)])
     |> put(:id, tag(id, "-popup-#{side}"))
-    |> put(:weight, weight(side))
-  end
-
-  # Beside the trigger both halves have to be weighted. A Box with neither a
-  # width nor `fill_width` fills its parent, and Compose measures a Row's
-  # unweighted children first — so whichever half went unweighted would take the
-  # whole row and starve the other.
-  defp weight(side) when side in [:left, :right], do: 1
-  defp weight(_side), do: nil
-
-  # The gap separates the trigger from the card. With no trigger there is no
-  # pair to separate, and a leading spacer would only push the card down.
-  defp gap(_props, []), do: []
-
-  defp gap(props, _trigger) do
-    case Map.get(props, :side_offset, 8) do
-      size when is_number(size) and size > 0 ->
-        [%{type: :spacer, props: %{size: size}, children: []}]
-
-      _ ->
-        []
-    end
   end
 
   defp arrow(props, id, side, align) do

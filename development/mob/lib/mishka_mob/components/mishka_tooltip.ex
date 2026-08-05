@@ -78,6 +78,7 @@ defmodule MishkaMob.Components.MishkaTooltip do
 
   import Mob.Sigil
 
+  alias MishkaMob.Components.Anchored
   alias MishkaMob.Components.Event
 
   @fill 0xFF_11_18_27
@@ -143,70 +144,37 @@ defmodule MishkaMob.Components.MishkaTooltip do
     open? = truthy?(Map.get(props, :open, false)) and not disabled?(props)
 
     case children do
-      [] -> if open?, do: bubble(props, side), else: ~MOB(<Column />)
+      # No trigger, so nothing to anchor TO: the bubble is placed by the caller
+      # and offset_x/offset_y move it directly, the way they always did. With a
+      # trigger they move the anchored PANEL instead — see anchor_opts/2.
+      [] -> if open?, do: nudged(bubble(props, side), props), else: ~MOB(<Column />)
       _ -> anchored(props, children, side, open?)
     end
   end
 
-  # Trigger and bubble in one stack. The bubble comes first for `:top` / `:left`
-  # and last for `:bottom` / `:right`, so `side` is literally the side of the
-  # trigger it lands on. Closed, only the trigger is emitted — the gap goes with
-  # the bubble, or every tooltip on the page would reserve 6dp forever.
-  defp anchored(props, children, :top, open?) do
-    lead = if open?, do: [aligned(props, :top), spacer(gap(props))], else: []
-    column(props, lead ++ [trigger(props, children)])
+  # Trigger in flow, bubble over the page. The bubble used to be a SIBLING of
+  # the trigger in a Column or a Row, which is why opening a tooltip shoved the
+  # control next to it aside — on a toolbar of icon buttons the whole row moved.
+  # `side` is now a prop on the anchored node rather than an ordering trick.
+  defp anchored(props, children, side, false) do
+    Anchored.closed(trigger(props, children), anchor_opts(props, side))
   end
 
-  defp anchored(props, children, :bottom, open?) do
-    trail = if open?, do: [spacer(gap(props)), aligned(props, :bottom)], else: []
-    column(props, [trigger(props, children) | trail])
+  defp anchored(props, children, side, true) do
+    Anchored.anchor(trigger(props, children), bubble(props, side), anchor_opts(props, side))
   end
 
-  defp anchored(props, children, :left, open?) do
-    lead = if open?, do: [bubble(props, :left), spacer(gap(props))], else: []
-    beside(props, lead ++ [trigger(props, children)])
-  end
+  defp anchor_opts(props, side) do
+    {x, y} = offsets(props)
 
-  defp anchored(props, children, :right, open?) do
-    trail = if open?, do: [spacer(gap(props)), bubble(props, :right)], else: []
-    beside(props, [trigger(props, children) | trail])
-  end
-
-  # `align` across a vertical side is horizontal placement, and a flexible
-  # Spacer on the free side is what produces it. Compose measures the unweighted
-  # children of a Row first, so the bubble takes exactly its content width and
-  # the spacers divide whatever is left. A stack that is not filling has no
-  # "left" to divide, so it gets the bubble alone.
-  defp aligned(props, side) do
-    fill? = fill?(props)
-
-    parts =
-      case {fill?, align(props)} do
-        {false, _} -> [bubble(props, side)]
-        {true, :start} -> [bubble(props, side), flex()]
-        {true, :end} -> [flex(), bubble(props, side)]
-        {true, _} -> [flex(), bubble(props, side), flex()]
-      end
-
-    ~MOB"""
-    <Row fill_width={fill?}>
-      {parts}
-    </Row>
-    """
-  end
-
-  # Across a horizontal side the same alignment is vertical, which a Row already
-  # expresses — so it is the Row's own `align`, not a pair of spacers.
-  defp beside(props, children) do
-    cross = cross(props)
-    fill? = fill?(props)
-    children = if fill?, do: children ++ [flex()], else: children
-
-    ~MOB"""
-    <Row fill_width={fill?} align={cross}>
-      {children}
-    </Row>
-    """
+    [
+      side: side,
+      align: align(props),
+      side_offset: gap(props),
+      align_offset: Map.get(props, :align_offset),
+      panel_offset_x: x,
+      panel_offset_y: y
+    ]
   end
 
   defp bubble(props, side) do
@@ -219,11 +187,7 @@ defmodule MishkaMob.Components.MishkaTooltip do
         body
       end
 
-    {x, y} = offsets(props, side)
-
     node
-    |> put(:offset_x, x)
-    |> put(:offset_y, y)
   end
 
   defp body(props) do
@@ -285,17 +249,16 @@ defmodule MishkaMob.Components.MishkaTooltip do
   # `align_offset` is the web's nudge along the alignment axis, and which axis
   # that is depends on the side. It adds to whatever `offset_x` / `offset_y` the
   # caller set rather than replacing it, so neither silently wins.
-  defp offsets(props, side) do
-    nudge = Map.get(props, :align_offset, 0)
-    x = Map.get(props, :offset_x)
-    y = Map.get(props, :offset_y)
+  # The raw escape hatch. `align_offset` used to be folded in here, because a
+  # nudge in flow has to name its own axis; the anchored node knows which axis
+  # its align runs on, so it takes that prop directly.
+  defp offsets(props), do: {Map.get(props, :offset_x), Map.get(props, :offset_y)}
 
-    if side in [:top, :bottom], do: {sum(x, nudge), y}, else: {x, sum(y, nudge)}
+  defp nudged(node, props) do
+    {x, y} = offsets(props)
+
+    node |> put(:offset_x, x) |> put(:offset_y, y)
   end
-
-  defp sum(nil, 0), do: nil
-  defp sum(nil, nudge), do: nudge
-  defp sum(offset, nudge), do: offset + nudge
 
   # The trigger hugs the control it wraps, so the long press covers the control
   # and not the whole row it happens to sit in.
@@ -341,18 +304,6 @@ defmodule MishkaMob.Components.MishkaTooltip do
   defp align(props), do: Map.get(@aligns, Map.get(props, :align, :center), :center)
   defp gap(props), do: Map.get(props, :side_offset, @gap)
   defp disabled?(props), do: truthy?(Map.get(props, :disabled, false))
-  defp fill?(props), do: Map.get(props, :fill_width, true) != false
-
-  defp cross(props) do
-    case align(props) do
-      :start -> :top
-      :end -> :bottom
-      _ -> :center
-    end
-  end
-
-  defp column(props, children),
-    do: %{type: :column, props: %{fill_width: fill?(props)}, children: children}
 
   # Unlike `column/1` this one carries no `fill_width`, so it hugs the bubble it
   # holds — the arrow's stacking Box has to size to the bubble for `align` to
@@ -360,7 +311,6 @@ defmodule MishkaMob.Components.MishkaTooltip do
   defp pile(children), do: %{type: :column, props: %{}, children: children}
   defp middle(children), do: %{type: :row, props: %{align: :center}, children: children}
   defp spacer(size), do: %{type: :spacer, props: %{size: size}, children: []}
-  defp flex, do: %{type: :spacer, props: %{weight: 1}, children: []}
 
   defp stack(align, children),
     do: %{type: :box, props: %{fill_width: false, align: align}, children: children}
