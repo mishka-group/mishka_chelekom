@@ -122,6 +122,7 @@ defmodule MishkaMob.Components.MishkaPopover do
 
   import Mob.Sigil
 
+  alias MishkaMob.Components.Anchored
   alias MishkaMob.Components.Event
 
   @sides [:top, :right, :bottom, :left]
@@ -242,17 +243,40 @@ defmodule MishkaMob.Components.MishkaPopover do
     align = one_of(Map.get(props, :align), @aligns, :start)
 
     trigger = trigger_part(props, id, open?, side)
-    revealed = if open?, do: revealed(props, content, id, side, align), else: []
+    panel = if open?, do: [revealed(props, content, id, side, align)], else: []
 
-    # `revealed/5` is built trigger-first — gap, beak, panel. For a side that
-    # precedes the trigger the same sequence simply runs backwards, which is the
-    # whole of what "the panel is above/left of its trigger" means in flow.
-    children =
-      if side in [:top, :left],
-        do: Enum.reverse(revealed) ++ trigger,
-        else: trigger ++ revealed
+    # The panel is not a sibling of the trigger — it is the second child of an
+    # :anchored node, which draws it in its own window over the page. In flow it
+    # pushed everything below it down, which is what "side: :top" could never
+    # honestly mean and what made an open popover read as an accordion.
+    inner =
+      case {trigger, panel} do
+        {[t], [p]} -> [Anchored.anchor(t, p, anchor_opts(props, side, align))]
+        {[t], []} -> [Anchored.closed(t, anchor_opts(props, side, align))]
+        # Pinned open with no trigger: there is nothing to anchor TO, so the
+        # panel simply renders in place. This is the `menu`-in-a-drawer case.
+        {[], [p]} -> [p]
+        {[], []} -> []
+      end
 
-    container(children, id, side, align)
+    put(%{type: :column, props: %{fill_width: true}, children: inner}, :id, id)
+  end
+
+  # side/align go to the anchored node; the two offsets change name because
+  # Mob.Renderer wraps any node carrying offset_x/offset_y in an offset Box,
+  # which here would move the TRIGGER rather than the panel.
+  defp anchor_opts(props, side, align) do
+    [
+      side: side,
+      align: align,
+      side_offset: Map.get(props, :side_offset, @side_offset),
+      align_offset: Map.get(props, :align_offset),
+      panel_offset_x: Map.get(props, :offset_x),
+      panel_offset_y: Map.get(props, :offset_y),
+      flip: Map.get(props, :flip),
+      clamp: Map.get(props, :clamp),
+      edge_padding: Map.get(props, :edge_padding)
+    ]
   end
 
   @doc """
@@ -265,7 +289,13 @@ defmodule MishkaMob.Components.MishkaPopover do
   @spec panel(map() | keyword(), [map()]) :: map()
   def panel(props \\ %{}, content \\ []) do
     props = Map.new(props)
+    fill? = Map.get(props, :fill_width, if(Map.get(props, :width), do: nil, else: true))
 
+    # The inner Column follows the outer Box. A filling child forces its Box to
+    # the maximum constraint in Compose, so a Column pinned to `true` made a
+    # hugging panel span the whole width anyway — which inside a popup window
+    # means the whole SCREEN, and the position clamp then pinned it to the
+    # leading edge no matter what `side` or `align` asked for.
     node =
       ~MOB"""
       <Box
@@ -275,7 +305,7 @@ defmodule MishkaMob.Components.MishkaPopover do
         border_color={Map.get(props, :border_color, :border)}
         border_width={Map.get(props, :border_width, 1)}
       >
-        <Column fill_width={true}>
+        <Column fill_width={fill? != false}>
           {content}
         </Column>
       </Box>
@@ -284,7 +314,7 @@ defmodule MishkaMob.Components.MishkaPopover do
     node
     |> put(:id, Map.get(props, :id))
     |> put(:width, Map.get(props, :width))
-    |> put(:fill_width, if(Map.get(props, :width), do: nil, else: true))
+    |> put(:fill_width, fill?)
     |> put(:offset_x, Map.get(props, :offset_x))
     |> put(:offset_y, Map.get(props, :offset_y))
   end
@@ -391,9 +421,13 @@ defmodule MishkaMob.Components.MishkaPopover do
 
   defp trigger_box(props, trigger, id, open?, side) do
     disabled? = truthy?(Map.get(props, :disabled, false))
-    # Only a trigger stacked above or below its panel can claim the full width;
-    # beside one it has to hug, or there is nothing left for the panel.
-    fill? = side in [:top, :bottom]
+    # The trigger HUGS, on every side. It used to fill when stacked, because the
+    # panel shared its Column and a narrow trigger looked stranded. Now the panel
+    # is anchored to the trigger's own box, so a full-width trigger would make
+    # `align: :end` mean "the screen's right edge" instead of "the trigger's" —
+    # and the web anchors to a content-sized <button>.
+    fill? = false
+    _ = side
     {background, ink} = trigger_chrome(open?, disabled?)
 
     ~MOB"""
@@ -461,20 +495,43 @@ defmodule MishkaMob.Components.MishkaPopover do
 
   # ── The panel and what sits between it and the trigger ──────────────────────
 
+  # The panel and its beak, as ONE node — the anchored node takes exactly two
+  # children, and the gap between panel and trigger is now `side_offset` on the
+  # anchor rather than a :spacer sibling.
   defp revealed(props, content, id, side, align) do
-    gap = Map.get(props, :side_offset, @side_offset)
+    surface =
+      props
+      |> Map.put(:id, panel_id(id))
+      |> Map.put_new(:fill_width, false)
+      |> panel(body(props, content, id))
 
-    [spacer(gap)] ++ beak(props, id, side, align) ++ [placed(props, content, id, side, align)]
+    case beak(props, id, side, align) do
+      [] ->
+        surface
+
+      beak ->
+        # The beak faces the trigger, so it leads on :bottom/:right and trails on
+        # :top/:left. The web centres its arrow on the POPUP (`left: 50%`), never
+        # on the trigger, which is what `aligned(_, :center)` says here.
+        parts = if side in [:top, :left], do: [surface] ++ beak, else: beak ++ [surface]
+        axis = if side in [:left, :right], do: :row, else: :column
+
+        %{type: axis, props: %{}, children: parts}
+    end
   end
 
   # The web's arrow is a styled span the positioner rotates to face the trigger.
   # With the side known up front a glyph says the same thing, tinted like the
   # panel so it reads as the panel's own beak rather than a character.
-  defp beak(props, id, side, align) do
+  defp beak(props, id, side, _align) do
     if truthy?(Map.get(props, :arrow, false)) do
       node = beak_node(Map.get(props, :arrow), props, id, side)
 
-      [if(side in [:top, :bottom], do: aligned(node, align), else: node)]
+      # Centred on the PANEL, which is what the web does (`left: 50%` on the
+      # arrow, never an offset from the trigger). Before anchoring existed the
+      # panel shared a full-width parent with the trigger, so the arrow had to
+      # be aligned the same way the panel was; now it belongs to the panel.
+      [if(side in [:top, :bottom], do: aligned(node, :center), else: node)]
     else
       []
     end
@@ -505,35 +562,6 @@ defmodule MishkaMob.Components.MishkaPopover do
   defp beak_glyph(:top), do: "▼"
   defp beak_glyph(:right), do: "◀"
   defp beak_glyph(:left), do: "▶"
-
-  defp placed(props, content, id, side, align) do
-    node =
-      props
-      |> align_nudge(side)
-      |> Map.put(:id, panel_id(id))
-      |> panel(body(props, content, id))
-
-    if side in [:left, :right] do
-      # Compose measures a Row's unweighted children first, in order, so an
-      # unweighted panel beside a trigger gets whatever the trigger left — and a
-      # trigger that fills takes everything. The flexible half goes in a
-      # weighted Box.
-      %{type: :box, props: %{weight: 1}, children: [node]}
-    else
-      aligned(node, align)
-    end
-  end
-
-  # `align_offset` is the spec's nudge along the alignment axis, which is
-  # horizontal for a vertical side and vertical for a horizontal one. An
-  # explicit offset_x/offset_y still wins — it is the raw escape hatch.
-  defp align_nudge(props, side) do
-    case {Map.get(props, :align_offset), side} do
-      {nil, _} -> props
-      {n, s} when s in [:top, :bottom] -> Map.put_new(props, :offset_x, n)
-      {n, _} -> Map.put_new(props, :offset_y, n)
-    end
-  end
 
   defp body(props, content, id) do
     ink = Map.get(props, :color, :on_surface)
@@ -626,33 +654,14 @@ defmodule MishkaMob.Components.MishkaPopover do
 
   # ── Layout plumbing ─────────────────────────────────────────────────────────
 
-  defp container(children, id, side, align) when side in [:left, :right] do
-    %{type: :row, props: %{fill_width: true}, children: children}
-    |> put(:id, id)
-    |> put(:align, row_align(align))
-  end
-
-  defp container(children, id, _side, _align) do
-    put(%{type: :column, props: %{fill_width: true}, children: children}, :id, id)
-  end
-
-  # A Column has no horizontal alignment on either platform, so a panel narrower
-  # than its parent is placed by the Box that wraps it. `:start` needs no wrapper
-  # — a Box's default content alignment is already the leading edge.
-  defp aligned(node, :start), do: node
-
+  # The beak sits inside the panel's own stack, so the only alignment left is
+  # centring it across that stack — the web's `left: 50%` on the arrow. A Column
+  # has no horizontal alignment on either platform, hence the Box.
   defp aligned(node, align) do
     %{type: :box, props: %{fill_width: true, align: box_align(align)}, children: [node]}
   end
 
   defp box_align(:center), do: :top_center
-  defp box_align(:end), do: :top_trailing
-
-  # A Row aligns its children vertically, so the same three names land on its
-  # own `align` prop. Centre is the Row's default, so it says nothing.
-  defp row_align(:start), do: :top
-  defp row_align(:center), do: nil
-  defp row_align(:end), do: :bottom
 
   defp spacer(size), do: %{type: :spacer, props: %{size: size}, children: []}
 

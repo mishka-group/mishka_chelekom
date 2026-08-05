@@ -93,6 +93,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.boundsInWindow
+import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.platform.testTag
 import android.view.PixelCopy
 import android.view.WindowManager
@@ -352,35 +353,49 @@ object MobBridge {
     // weakly-consistent iteration can't throw ConcurrentModificationException.
     private val elementFramesById = ConcurrentHashMap<String, FloatArray>()
 
+    // The View each frame was measured in, so the window offset can be resolved
+    // when the table is READ rather than when the frame was recorded. See
+    // frameTrackingModifier.
+    private val elementViewsById = ConcurrentHashMap<String, WeakReference<android.view.View>>()
+
     fun recordElementFrame(id: String, x: Float, y: Float, w: Float, h: Float) {
         elementFramesById[id] = floatArrayOf(x, y, w, h)
     }
 
     // boundsInWindow() is relative to the window the node is composed in. Inside
     // an `anchored` panel that is the POPUP's own window, so every id'd node in
-    // a panel would report ~(0,0,w,h) and Mob.Test.element_frames — the
+    // a panel reports ~(0,0,w,h) and Mob.Test.element_frames — the
     // screenshot-free position read — would be silently wrong.
     //
-    // Translating through getLocationOnScreen puts every frame back in the
-    // ACTIVITY's window space. For the main composition the delta is exactly
-    // (0,0), so existing frames are unchanged; only popup descendants move, and
-    // they move from wrong to right.
+    // The window offset is recorded as a VIEW here and resolved in
+    // elementFrames(), not baked in now. A popup's content lays out once, inside
+    // a window the position provider then MOVES, and the page can scroll under
+    // it afterwards — neither re-fires onGloballyPositioned, so an offset
+    // captured here goes stale by exactly the distance the window travelled.
+    // (Measured: a panel reading ~94dp above where it was drawn.)
+    //
+    // For the main composition the offset is (0,0) at every moment, so existing
+    // frames are unchanged.
     @Composable
     fun frameTrackingModifier(id: String): Modifier {
         val view = LocalView.current
         return Modifier
             .testTag(id)
             .onGloballyPositioned { c ->
-                val b = c.boundsInWindow()
-                val here = IntArray(2).also { view.getLocationOnScreen(it) }
-                val root = activityRef?.get()?.findViewById<android.view.View>(android.R.id.content)
-                val base = IntArray(2).also { root?.getLocationOnScreen(it) }
+                // positionInWindow + size, NOT boundsInWindow: the latter is
+                // CLIPPED to the window, so a panel taller than its popup's
+                // visible area reported a sliver of its real height (measured:
+                // 24dp for a 213dp panel) while its position was computed from
+                // the true size. Every geometric comparison then disagreed with
+                // what was on screen.
+                val p = c.positionInWindow()
+                elementViewsById[id] = WeakReference(view)
                 recordElementFrame(
                     id,
-                    b.left + (here[0] - base[0]),
-                    b.top + (here[1] - base[1]),
-                    b.width,
-                    b.height,
+                    p.x,
+                    p.y,
+                    c.size.width.toFloat(),
+                    c.size.height.toFloat(),
                 )
             }
     }
@@ -389,11 +404,23 @@ object MobBridge {
     @JvmStatic
     fun elementFrames(): String {
         val density = activityRef?.get()?.resources?.displayMetrics?.density ?: 1f
+        val root = activityRef?.get()?.findViewById<android.view.View>(android.R.id.content)
+        val base = IntArray(2).also { root?.getLocationOnScreen(it) }
         val o = JSONObject()
         for ((id, f) in elementFramesById) {
+            // Resolve the recording window's offset NOW: a popup window moves
+            // after its content is laid out, and the page scrolls under it.
+            val view = elementViewsById[id]?.get()
+            var dx = 0f
+            var dy = 0f
+            if (view != null && view !== root) {
+                val here = IntArray(2).also { view.getLocationOnScreen(it) }
+                dx = (here[0] - base[0]).toFloat()
+                dy = (here[1] - base[1]).toFloat()
+            }
             val arr = org.json.JSONArray()
-            arr.put((f[0] / density).toDouble())
-            arr.put((f[1] / density).toDouble())
+            arr.put(((f[0] + dx) / density).toDouble())
+            arr.put(((f[1] + dy) / density).toDouble())
             arr.put((f[2] / density).toDouble())
             arr.put((f[3] / density).toDouble())
             o.put(id, arr)

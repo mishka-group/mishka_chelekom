@@ -222,99 +222,113 @@ defmodule MishkaMob.Components.MishkaPopoverTest do
     end
   end
 
-  describe "side puts the panel where anchoring used to" do
-    test "bottom is the default: trigger, gap, panel" do
-      tree = open(%{id: "p", trigger: "Go"})
+  describe "side and align, now that the panel really floats" do
+    # The panel is no longer a sibling of the trigger: it is child [1] of an
+    # :anchored node, which the bridge draws in its own window over the page.
+    # So the assertions are about the anchored node's PROPS, not about ordering
+    # in a Column — there is no ordering left to get wrong.
+    defp anchored(tree), do: Enum.find(flatten(tree), &(&1.type == :anchored))
 
-      assert tree.type == :column
-      assert Enum.map(tree.children, & &1.type) == [:box, :spacer, :box]
-      assert hd(tree.children).props.id == "p-trigger-open"
-      assert List.last(tree.children).props.id == "p-panel"
+    defp anchor_props(props), do: anchored(open(props)).props
+
+    test "the root is always a Column, whatever the side" do
+      # It used to be a :row for :left/:right, because the panel shared the
+      # trigger's line. Nothing shares a line with the panel any more.
+      for side <- [:top, :right, :bottom, :left] do
+        assert open(%{id: "p", trigger: "Go", side: side}).type == :column
+      end
     end
 
-    test "top runs the same sequence backwards" do
-      tree = open(%{id: "p", trigger: "Go", side: :top})
+    test "trigger first, panel second — the order never reverses" do
+      for side <- [:top, :right, :bottom, :left] do
+        node = anchored(open(%{id: "p", trigger: "Go", side: side}))
 
-      assert tree.type == :column
-      assert hd(tree.children).props.id == "p-panel"
-      assert List.last(tree.children).props.id == "p-trigger-open"
+        assert length(node.children) == 2
+
+        assert hd(node.children).props.id == "p-trigger-open",
+               "#{side} did not anchor the trigger"
+
+        # The panel is always the SECOND child, whatever the side. In flow the
+        # sequence had to run backwards for :top and :left, because "above" was
+        # expressed by ordering; a floating panel needs no such trick.
+        assert node_with_id(List.last(node.children), "p-panel"),
+               "#{side} did not put the panel second"
+      end
     end
 
-    test "left and right sit abreast, in a Row" do
-      right = open(%{id: "p", trigger: "Go", side: :right})
-      left = open(%{id: "p", trigger: "Go", side: :left})
-
-      assert right.type == :row
-      assert left.type == :row
-      assert hd(right.children).props.id == "p-trigger-open"
-      assert List.last(left.children).props.id == "p-trigger-open"
+    test "side rides on the anchored node" do
+      for side <- [:top, :right, :bottom, :left] do
+        assert anchor_props(%{trigger: "Go", side: side}).side == side
+      end
     end
 
-    test "beside a trigger the panel is weighted and the trigger hugs" do
-      # Compose measures a Row's unweighted children first, so an unweighted
-      # panel next to a filling trigger would be starved to nothing.
-      tree = open(%{id: "p", trigger: "Go", side: :right})
-
-      assert node_with_id(tree, "p-trigger-open").props.fill_width == false
-      assert List.last(tree.children).props == %{weight: 1}
-    end
-
-    test "stacked, the trigger fills instead" do
-      trigger = node_with_id(open(%{id: "p", trigger: "Go"}), "p-trigger-open")
-
-      assert trigger.props.fill_width == true
-    end
-
-    test "an unknown side falls back to bottom rather than rendering sideways" do
-      assert open(%{id: "p", trigger: "Go", side: :sideways}).type == :column
-      assert open(%{id: "p", trigger: "Go", side: "right"}).type == :row
+    test "bottom is the default, and an unknown side falls back to it" do
+      assert anchor_props(%{trigger: "Go"}).side == :bottom
+      assert anchor_props(%{trigger: "Go", side: :sideways}).side == :bottom
+      assert anchor_props(%{trigger: "Go", side: "right"}).side == :right
     end
 
     test "side_offset is the gap, and defaults to the web's 8" do
-      gap = fn props -> Enum.find(open(props).children, &(&1.type == :spacer)).props.size end
-
-      assert gap.(%{trigger: "Go"}) == 8
-      assert gap.(%{trigger: "Go", side_offset: 16}) == 16
+      # It used to be a :spacer sibling. A spacer cannot express a gap between
+      # things that are not in the same layout.
+      assert anchor_props(%{trigger: "Go"}).side_offset == 8
+      assert anchor_props(%{trigger: "Go", side_offset: 16}).side_offset == 16
+      # No :spacer BETWEEN the trigger and the panel any more. (body/3 still
+      # spaces title from description inside the panel, which is unrelated.)
+      refute Enum.any?(anchored(open(%{trigger: "Go"})).children, &(&1.type == :spacer))
     end
-  end
 
-  describe "align places a panel narrow enough to have somewhere to go" do
-    test "start needs no wrapper — a Box already begins at the leading edge" do
+    test "align rides on the anchored node for every side" do
+      for align <- [:start, :center, :end], side <- [:top, :right, :bottom, :left] do
+        assert anchor_props(%{trigger: "Go", side: side, align: align}).align == align
+      end
+    end
+
+    test "align_offset is one prop now, not an axis-dependent offset" do
+      # It used to become offset_x on a vertical side and offset_y on a
+      # horizontal one, because a flow nudge has to name its axis. The anchored
+      # node knows which axis its own align runs on.
+      assert anchor_props(%{trigger: "Go", align_offset: 12}).align_offset == 12
+
+      assert anchor_props(%{trigger: "Go", side: :right, align_offset: 12}).align_offset ==
+               12
+    end
+
+    test "an explicit offset is the raw escape hatch, renamed so it moves the PANEL" do
+      # offset_x/offset_y on the panel node would be applied by Mob.Renderer to
+      # whatever carries them; on an anchored node they would move the trigger.
+      props = anchor_props(%{trigger: "Go", align_offset: 12, offset_x: -4, offset_y: 6})
+
+      assert props.panel_offset_x == -4
+      assert props.panel_offset_y == 6
+      assert props.align_offset == 12
+    end
+
+    test "the trigger hugs on every side" do
+      # It used to fill when stacked. With real anchoring a full-width trigger
+      # makes align={:end} mean "the screen's right edge" rather than "the
+      # trigger's", which is not what the web does — it anchors to a
+      # content-sized button.
+      for side <- [:top, :right, :bottom, :left] do
+        trigger = node_with_id(open(%{id: "p", trigger: "Go", side: side}), "p-trigger-open")
+
+        assert trigger.props.fill_width == false, "#{side} left the trigger filling"
+      end
+    end
+
+    test "a closed popover still anchors, so the trigger keeps its place" do
+      node = anchored(closed(%{id: "p", trigger: "Go"}))
+
+      assert length(node.children) == 1
+      assert hd(node.children).props.id == "p-trigger-closed"
+    end
+
+    test "pinned open with no trigger there is nothing to anchor to" do
+      # The menu-inside-a-drawer case: the panel is the content, not an overlay.
       tree = open(%{id: "p", width: 200})
 
-      assert List.last(tree.children).props.id == "p-panel"
-    end
-
-    test "centre and end wrap the panel in an aligned Box" do
-      for {align, expected} <- [center: :top_center, end: :top_trailing] do
-        wrapper = List.last(open(%{id: "p", width: 200, align: align}).children)
-
-        assert wrapper.props.align == expected
-        assert hd(wrapper.children).props.id == "p-panel"
-      end
-    end
-
-    test "abreast, the same three names land on the Row's vertical alignment" do
-      for {align, expected} <- [start: :top, end: :bottom] do
-        assert open(%{trigger: "Go", side: :right, align: align}).props.align == expected
-      end
-
-      # Centre is a Row's own default, so it says nothing.
-      refute Map.has_key?(open(%{trigger: "Go", side: :right, align: :center}).props, :align)
-    end
-
-    test "align_offset nudges along whichever axis the alignment runs on" do
-      down = node_with_id(open(%{id: "p", align_offset: 12}), "p-panel")
-      across = node_with_id(open(%{id: "p", side: :right, align_offset: 12}), "p-panel")
-
-      assert down.props.offset_x == 12
-      assert across.props.offset_y == 12
-    end
-
-    test "an explicit offset wins — it is the raw escape hatch" do
-      panel = node_with_id(open(%{id: "p", align_offset: 12, offset_x: -4}), "p-panel")
-
-      assert panel.props.offset_x == -4
+      assert anchored(tree) == nil
+      assert node_with_id(tree, "p-panel")
     end
   end
 

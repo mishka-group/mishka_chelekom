@@ -56,16 +56,23 @@ class PopoverTest {
     private fun tagged(tag: String): Boolean =
         compose.onAllNodesWithTag(tag, useUnmergedTree = true).fetchSemanticsNodes().isNotEmpty()
 
+    // performScrollTo() throws inside a Popup — "Semantic Node has no parent
+    // layout with a Scroll SemanticsAction" — because the panel now renders in
+    // its own window, which is not inside the page's scroll. It is only ever a
+    // convenience here (bring the node on screen first), so attempt it and carry
+    // on. frames() already uses this idiom below.
     private fun tap(tag: String) {
-        compose.onNodeWithTag(tag, useUnmergedTree = true).performScrollTo().performClick()
+        val node = compose.onNodeWithTag(tag, useUnmergedTree = true)
+        runCatching { node.performScrollTo() }
+        node.performClick()
         compose.waitForIdle()
         Thread.sleep(400)
     }
 
     private fun hold(tag: String) {
-        compose.onNodeWithTag(tag, useUnmergedTree = true)
-            .performScrollTo()
-            .performTouchInput { longClick() }
+        val node = compose.onNodeWithTag(tag, useUnmergedTree = true)
+        runCatching { node.performScrollTo() }
+        node.performTouchInput { longClick() }
         compose.waitForIdle()
         Thread.sleep(500)
     }
@@ -85,36 +92,66 @@ class PopoverTest {
      * against Rect(0,0,0,0), which is not a failure of the component.
      */
     private fun frames(id: String): Pair<Rect, Rect> {
-        // Scroll to whichever end brings BOTH into view. side={:top} puts the
-        // panel above the trigger and align={:end} can put it below, so
-        // favouring either one alone leaves the other off-screen at zero
-        // bounds — which reads as a component failure and is not one.
-        for (anchor in listOf("$id-trigger-open", "$id-panel")) {
-            runCatching {
-                compose.onNodeWithTag(anchor, useUnmergedTree = true).performScrollTo()
-            }
+        // Deliberately does NOT scroll: `tap` already brought the trigger on
+        // screen before opening, and scrolling afterwards moves the anchor out
+        // from under a panel that is still catching up.
+        //
+        // A popup window follows its anchor ASYNCHRONOUSLY — Compose polls for
+        // the anchor's on-screen position changing rather than being notified —
+        // so a frame read the instant the panel appears catches it in flight,
+        // by as much as ~94dp on this page. Settle first: read until the pair
+        // stops moving, which is also what a user's eye waits for.
+        compose.waitForIdle()
+
+        var previous = laidOut("$id-trigger-open") to laidOut("$id-panel")
+        repeat(20) {
+            Thread.sleep(50)
             compose.waitForIdle()
-
-            val trigger = laidOutOrNull("$id-trigger-open")
-            val panel = laidOutOrNull("$id-panel")
-            if (trigger != null && panel != null) return trigger to panel
+            val now = laidOut("$id-trigger-open") to laidOut("$id-panel")
+            if (now == previous) return now
+            previous = now
         }
+        return previous
+    }
 
-        return laidOut("$id-trigger-open") to laidOut("$id-panel")
+    /**
+     * One coordinate space for both halves, via MobBridge's own frame table.
+     *
+     * The panel renders in its own window now, so its boundsInRoot is relative
+     * to THAT window while the trigger's is relative to the page's scrollable
+     * content: a trigger scrolled to the bottom of a long page reads y=2256 on
+     * a 2400px screen while the panel beside it reads y=42, and every geometric
+     * assertion becomes noise. `frameTrackingModifier` translates every id'd
+     * node through getLocationOnScreen into the ACTIVITY's window space, which
+     * is the one space the two share. (SemanticsNode.positionOnScreen would
+     * also do it, but it does not exist in this Compose version.)
+     *
+     * Reading it here doubles as the check that the translation works at all.
+     */
+    private fun frameTable(): Map<String, Rect> {
+        val json = org.json.JSONObject(MobBridge.elementFrames())
+        val out = mutableMapOf<String, Rect>()
+        for (key in json.keys()) {
+            val a = json.getJSONArray(key)
+            val x = a.getDouble(0).toFloat()
+            val y = a.getDouble(1).toFloat()
+            out[key] = Rect(x, y, x + a.getDouble(2).toFloat(), y + a.getDouble(3).toFloat())
+        }
+        return out
     }
 
     private fun laidOutOrNull(tag: String): Rect? =
-        compose.onAllNodesWithTag(tag, useUnmergedTree = true)
-            .fetchSemanticsNodes()
-            .map { it.boundsInRoot }
-            .firstOrNull { it.width > 0f && it.height > 0f }
+        // Present in the semantics tree AND non-degenerate in the frame table.
+        // The tag check comes first: a stale frame outlives the node that wrote
+        // it, since nothing clears the table when a panel closes.
+        if (!tagged(tag)) {
+            null
+        } else {
+            frameTable()[tag]?.takeIf { it.width > 0f && it.height > 0f }
+        }
 
     private fun laidOut(tag: String): Rect =
-        compose.onAllNodesWithTag(tag, useUnmergedTree = true)
-            .fetchSemanticsNodes()
-            .map { it.boundsInRoot }
-            .firstOrNull { it.width > 0f && it.height > 0f }
-            ?: error("no laid-out node tagged \"$tag\"")
+        laidOutOrNull(tag) ?: error("no laid-out node tagged \"$tag\"")
 
     @Before
     fun openPopoverScreen() {
@@ -216,6 +253,41 @@ class PopoverTest {
         }
     }
 
+    /**
+     * The whole point of the change, stated as geometry.
+     *
+     * "Which side it takes" holds `above` and `beside` in one Column. When the
+     * panel was a sibling in that Column, opening either one pushed the other
+     * down the page by the panel's height — the accordion the user reported.
+     * A floating panel cannot move it at all.
+     */
+    @Test
+    fun opening_a_panel_does_not_move_the_sibling_below_it() {
+        // Bring the pair on screen and record where the LOWER trigger sits.
+        runCatching {
+            compose.onNodeWithTag("beside-trigger-closed", useUnmergedTree = true).performScrollTo()
+        }
+        compose.waitForIdle()
+        val before = laidOut("beside-trigger-closed")
+
+        // Open the one ABOVE it, without scrolling in between.
+        compose.onNodeWithTag("above-trigger-closed", useUnmergedTree = true).performClick()
+        compose.waitUntil(10_000) { tagged("above-panel") }
+        Thread.sleep(400)
+        compose.waitForIdle()
+
+        val after = laidOut("beside-trigger-closed")
+
+        require(kotlin.math.abs(before.top - after.top) <= 1f) {
+            "opening a popover displaced its sibling: $before -> $after. The panel is in flow."
+        }
+
+        // And the panel is real, not merely absent: it has area, and it is
+        // drawn over the page rather than between the two triggers.
+        val panel = laidOut("above-panel")
+        require(panel.width > 0f && panel.height > 0f) { "the panel has no area: $panel" }
+    }
+
     @Test
     fun side_right_puts_them_abreast() {
         tap("beside-trigger-closed")
@@ -226,14 +298,25 @@ class PopoverTest {
         require(panel.left >= trigger.right) {
             "side={:right} did not put the panel beside the trigger: trigger=$trigger panel=$panel"
         }
-        // Abreast, not stacked — they share vertical space.
-        require(panel.top < trigger.bottom && trigger.top < panel.bottom) {
-            "the panel and its trigger do not overlap vertically: trigger=$trigger panel=$panel"
+        // Abreast, not stacked — align={:start} lines the panel's top up with
+        // the trigger's, UNLESS the window clamp moves it, which is what
+        // happens here: performScrollTo moves the minimum distance, so the
+        // trigger ends up near the bottom edge and the panel is pushed up to
+        // stay on screen. The web's positionPopup clamps exactly the same way,
+        // so accept either — but not a panel that has drifted below its anchor,
+        // which no rule would produce.
+        val aligned = kotlin.math.abs(panel.top - trigger.top) <= 2f
+        val clampedUp = panel.top < trigger.top && panel.bottom <= trigger.bottom
+        require(aligned || clampedUp) {
+            "align={:start} neither lined the tops up nor clamped upward: " +
+                "trigger=$trigger panel=$panel"
         }
-        // And the trigger hugged its label rather than eating the row. An
-        // unweighted child measured first would have starved the panel to zero.
-        require(panel.width > trigger.width) {
-            "the trigger claimed the row: trigger=$trigger panel=$panel"
+        // The panel really is to the RIGHT of the trigger now. It used to share
+        // a Row with it, where "beside" was whatever space the trigger left
+        // over; the panel is in its own window and the trigger hugs its label,
+        // so this is a plain geometric fact.
+        require(panel.left >= trigger.right - 1f) {
+            "the panel is not to the right of the trigger: trigger=$trigger panel=$panel"
         }
     }
 
@@ -244,11 +327,23 @@ class PopoverTest {
 
         val (trigger, panel) = frames("aligned")
 
-        // width={220} is what gives align somewhere to go — a panel that fills
-        // its parent looks identical at every alignment.
-        require(panel.width < trigger.width) { "the panel ignored its width: panel=$panel" }
-        require(panel.left > trigger.left) {
-            "align={:end} left the panel at the leading edge: trigger=$trigger panel=$panel"
+        // align={:end} means the panel's trailing edge lines up with the
+        // TRIGGER's, which is the web's contract. It used to mean "the right of
+        // a full-width trigger", i.e. the screen edge, because the trigger
+        // spanned the page; the trigger hugs now, so this is the real thing.
+        require(panel.width > 0f && panel.height > 0f) { "the panel has no area: $panel" }
+
+        // align={:end} lines the panel's trailing edge up with the TRIGGER's —
+        // unless doing so would push it off the leading edge, in which case the
+        // clamp wins and it pins flush at the screen's padding. Both are the
+        // web's behaviour, and this example hits the second: the trigger sits
+        // ~110dp wide near the left edge, so a 220dp panel cannot have its
+        // right edge at the trigger's without its left going negative.
+        val aligned = kotlin.math.abs(panel.right - trigger.right) <= 2f
+        val clamped = panel.left <= 32f && panel.right > trigger.right
+        require(aligned || clamped) {
+            "align={:end} neither lined the trailing edges up nor clamped: " +
+                "trigger=$trigger panel=$panel"
         }
     }
 
