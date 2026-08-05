@@ -82,7 +82,13 @@ defmodule MishkaMob.Components.MishkaScrollerTest do
     end
 
     test "only accepts a real direction" do
-      assert_raise FunctionClauseError, fn -> MishkaScroller.nudge("gallery", :sideways) end
+      # Through apply/3 on purpose. The point of the test is to pass a direction
+      # the guard rejects, and Elixir 1.20's type checker reads the literal
+      # against the `:next | :prev` spec and warns at compile time — a warning
+      # about the test doing exactly what it is there to do.
+      assert_raise FunctionClauseError, fn ->
+        apply(MishkaScroller, :nudge, ["gallery", :sideways])
+      end
     end
   end
 

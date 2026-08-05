@@ -400,6 +400,19 @@ defmodule MishkaMob.Components.MishkaAlertDialogTest do
   describe "the showcase page" do
     alias MishkaMob.Showcase.Components.AlertDialog, as: Page
 
+    # The page is <MishkaAlertDialog> markup, so nothing expands until the
+    # expanders are registered — and registration lives in :persistent_term,
+    # which is GLOBAL and survives across test files. That is exactly why this
+    # block passed locally and failed on CI: another file had already called
+    # register_all/0 under the local seed, and under CI's it had not. A test
+    # that depends on another test having run is not passing, it is lucky.
+    setup do
+      MishkaMob.Showcase.reset()
+      MishkaMob.Showcase.register_all()
+
+      :ok
+    end
+
     defp mounted, do: Page.mount(Mob.Socket.new(MishkaMob.Showcase.ComponentScreen))
 
     defp after_taps(tags), do: Enum.reduce(tags, mounted(), &Page.handle(&1, &2))
