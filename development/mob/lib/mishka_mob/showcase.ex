@@ -234,6 +234,21 @@ defmodule MishkaMob.Showcase do
      [mishka_floating_indicator: MishkaMob.Components.MishkaFloatingIndicator]}
   ]
 
+  # Primitive node types this app renders ITSELF in MobBridge.kt, which mob's own
+  # whitelist does not know about.
+  #
+  # Unlike a composite or a slot tag these are never written as `<Anchored>` in
+  # ~MOB — the components emit them as raw maps, the way mishka_popover.ex
+  # already emits its layout plumbing — so the sigil never sees them. This list
+  # exists for one reason: `Mob.ScreenCase.assert_renderable/2` bakes its
+  # renderable types out of priv/tags/*.txt at mob's compile time and flunks
+  # anything outside that list, so without it every test touching a popover
+  # would fail on an unknown node type.
+  @native_tags [:anchored]
+
+  @doc false
+  def native_tags, do: @native_tags
+
   # Slot tags — the native analogue of a Chelekom `<:slot>`. A parent's expand/3
   # matches them on :type among its children and consumes them, so unlike a
   # composite they have no module, no expander and no generator files. They are

@@ -98,6 +98,13 @@ defmodule MishkaMob.MixProject do
   # expand/3 is the whole point — so they are read off the @slot_tags list
   # instead. Still tags, still validated by the sigil, still need whitelisting.
   @slots ~r/@slot_tags\s+\[([^\]]*)\]/
+  # Primitive node types this app renders ITSELF in MobBridge.kt, which mob's own
+  # whitelist does not know about. They are never written as ~MOB tags — the
+  # components emit them as raw maps — so the sigil does not need them.
+  # Mob.ScreenCase.assert_renderable/2 does: it bakes @renderable_types from
+  # these same files at mob's compile time and flunks any type outside the list,
+  # which would fail every test that touches a popover.
+  @natives ~r/@native_tags\s+\[([^\]]*)\]/
   @fence_start "# >>> mishka_mob composites — regenerated on compile, do not edit"
   @fence_end "# <<< mishka_mob composites"
 
@@ -140,14 +147,18 @@ defmodule MishkaMob.MixProject do
 
     if composites == [], do: Mix.raise("no composite tags found in #{@catalog}")
 
-    slots =
-      case Regex.run(@slots, source, capture: :all_but_first) do
+    atoms = fn regex ->
+      case Regex.run(regex, source, capture: :all_but_first) do
         [list] -> Regex.scan(~r/:([a-z0-9_]+)/, list, capture: :all_but_first) |> List.flatten()
         nil -> []
       end
+    end
+
+    slots = atoms.(@slots)
+    natives = atoms.(@natives)
 
     names =
-      (composites ++ slots)
+      (composites ++ slots ++ natives)
       |> Enum.map(&Macro.camelize/1)
       |> Enum.uniq()
       |> Enum.sort()

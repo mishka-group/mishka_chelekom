@@ -204,6 +204,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+// ── the `anchored` node type ──
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.IntRect
+import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.window.Popup
+import androidx.compose.ui.window.PopupPositionProvider
+import androidx.compose.ui.window.PopupProperties
 import coil.compose.AsyncImage
 import org.json.JSONObject
 import androidx.camera.core.CameraSelector
@@ -340,13 +356,34 @@ object MobBridge {
         elementFramesById[id] = floatArrayOf(x, y, w, h)
     }
 
-    fun frameTrackingModifier(id: String): Modifier =
-        Modifier
+    // boundsInWindow() is relative to the window the node is composed in. Inside
+    // an `anchored` panel that is the POPUP's own window, so every id'd node in
+    // a panel would report ~(0,0,w,h) and Mob.Test.element_frames — the
+    // screenshot-free position read — would be silently wrong.
+    //
+    // Translating through getLocationOnScreen puts every frame back in the
+    // ACTIVITY's window space. For the main composition the delta is exactly
+    // (0,0), so existing frames are unchanged; only popup descendants move, and
+    // they move from wrong to right.
+    @Composable
+    fun frameTrackingModifier(id: String): Modifier {
+        val view = LocalView.current
+        return Modifier
             .testTag(id)
             .onGloballyPositioned { c ->
                 val b = c.boundsInWindow()
-                recordElementFrame(id, b.left, b.top, b.width, b.height)
+                val here = IntArray(2).also { view.getLocationOnScreen(it) }
+                val root = activityRef?.get()?.findViewById<android.view.View>(android.R.id.content)
+                val base = IntArray(2).also { root?.getLocationOnScreen(it) }
+                recordElementFrame(
+                    id,
+                    b.left + (here[0] - base[0]),
+                    b.top + (here[1] - base[1]),
+                    b.width,
+                    b.height,
+                )
             }
+    }
 
     /** JSON {id:[x,y,w,h], ...} in dp (matches screenInfo / tap_xy units). */
     @JvmStatic
@@ -2329,6 +2366,257 @@ private fun RenderNodeInner(node: MobNode, modifier: Modifier) {
         "native_view"    -> MobNativeViewRegistry.render(node)
         "canvas"         -> MobCanvas(node, m)
         "gpu_view"       -> MobGpuView(node, m)
+        "anchored"       -> MobAnchored(node, m)
+    }
+}
+
+// ── anchored ─────────────────────────────────────────────────────────────────
+//
+// Exactly two children: [0] the ANCHOR (a popover's trigger), [1] the PANEL.
+// The anchor renders in flow; the panel renders in its OWN window via
+// androidx.compose.ui.window.Popup, so it OVERLAYS the page instead of taking a
+// place in it. That is what the web does — its three headless engines set
+// `position: fixed` and write viewport-space left/top — and it is the only
+// arrangement no ancestor can defeat: a Box with corner_radius clips
+// (nodeModifier, the `m.clip(shape)` below) and a vertical Scroll clips its main
+// axis. An in-flow overlay inside either measures (0,0,0,0): invisible AND
+// untappable, which is worse than the accordion it was meant to replace.
+//
+// Props (all read off THIS node, never off a child):
+//
+//   side              "top" | "right" | "bottom" | "left"    default "bottom"
+//   align             "start" | "center" | "end"             default "center"
+//   side_offset       dp gap between anchor and panel        default 0
+//   align_offset      dp nudge along the align axis          default 0
+//   panel_offset_x/y  dp raw nudge, applied last             default 0
+//   flip              turn to the opposite side when the
+//                     requested one has no room              default true
+//   clamp             keep the panel inside the window       default true
+//   edge_padding      dp kept clear of the window edges      default 8
+//   panel_max_width   dp cap on the panel                    default screen - 2*edge
+//   panel_max_height  dp cap on the panel                    default screen - 2*edge
+//   focusable         let the panel take keyboard focus      default false
+//
+// NOT read: offset_x / offset_y. RenderNode wraps any node carrying those in a
+// Box(Modifier.offset), which would move the ANCHOR, not the panel — hence the
+// separate panel_offset_* names. Do not add them.
+@Composable
+private fun MobAnchored(node: MobNode, modifier: Modifier) {
+    val anchor = node.children.getOrNull(0)
+    val panel = node.children.getOrNull(1)
+
+    // Closed (trigger alone) and pinned-open-with-no-trigger both degrade to a
+    // plain Box, so the node keeps its :id, its testTag and its frame either way.
+    if (panel == null) {
+        Box(modifier = modifier) { anchor?.let { RenderNode(it) } }
+        return
+    }
+    if (anchor == null) {
+        Box(modifier = modifier) { RenderNode(panel) }
+        return
+    }
+
+    val density = LocalDensity.current
+    val cfg = LocalConfiguration.current
+    // enableEdgeToEdge() is on, so the window spans the display and a bare 8dp
+    // pad would let a panel land under the status bar. safeDrawing is added per
+    // edge; it is zero on the axes that have no bar.
+    val insets = WindowInsets.safeDrawing
+    val ld = LocalLayoutDirection.current
+    val edgeDp = floatProp(node.props, "edge_padding") ?: 8f
+    val edgePx = with(density) { edgeDp.dp.roundToPx() }
+
+    val provider =
+        remember(node.props, density, insets, ld, cfg) {
+            MobAnchoredPositionProvider(
+                side = node.props["side"] as? String ?: "bottom",
+                align = node.props["align"] as? String ?: "center",
+                sideOffset =
+                    with(density) { (floatProp(node.props, "side_offset") ?: 0f).dp.roundToPx() },
+                alignOffset =
+                    with(density) { (floatProp(node.props, "align_offset") ?: 0f).dp.roundToPx() },
+                nudgeX =
+                    with(density) { (floatProp(node.props, "panel_offset_x") ?: 0f).dp.roundToPx() },
+                nudgeY =
+                    with(density) { (floatProp(node.props, "panel_offset_y") ?: 0f).dp.roundToPx() },
+                padLeft = edgePx + insets.getLeft(density, ld),
+                padTop = edgePx + insets.getTop(density),
+                padRight = edgePx + insets.getRight(density, ld),
+                padBottom = edgePx + insets.getBottom(density),
+                flip = boolProp(node.props, "flip") ?: true,
+                clamp = boolProp(node.props, "clamp") ?: true,
+            )
+        }
+
+    // A Popup measures its content against the whole window, so a panel that
+    // sets fill_width (MishkaPopover.panel/2 does by default) would be screen
+    // wide and a long paragraph would never wrap short. Cap it here rather than
+    // making every component carry a width.
+    val maxW = (floatProp(node.props, "panel_max_width") ?: (cfg.screenWidthDp - 2f * edgeDp)).dp
+    val maxH = (floatProp(node.props, "panel_max_height") ?: (cfg.screenHeightDp - 2f * edgeDp)).dp
+
+    Box(modifier = modifier) {
+        RenderNode(anchor)
+        Popup(
+            popupPositionProvider = provider,
+            onDismissRequest = null,
+            properties =
+                PopupProperties(
+                    // The BEAM owns open/closed. A self-dismissing window would
+                    // desynchronise from the server assign and from the
+                    // -trigger-open / -panel tag pair the device tests read.
+                    focusable = boolProp(node.props, "focusable") ?: false,
+                    dismissOnBackPress = false,
+                    dismissOnClickOutside = false,
+                    clippingEnabled = true,
+                ),
+        ) {
+            Box(modifier = Modifier.widthIn(max = maxW).heightIn(max = maxH)) { RenderNode(panel) }
+        }
+    }
+}
+
+// The web's positionPopup(), transliterated. All three headless engines carry a
+// byte-identical copy: a main-axis-only flip when BOTH halves hold, then an
+// unconditional clamp on both axes. `align` is never flipped, and there is no
+// shift-along-align fallback.
+//
+// anchorBounds arrives as parentLayoutCoordinates.positionInWindow() + size;
+// windowSize is getWindowVisibleDisplayFrame. The returned IntOffset becomes
+// params.x/params.y with gravity = START|TOP.
+private class MobAnchoredPositionProvider(
+    private val side: String,
+    private val align: String,
+    private val sideOffset: Int,
+    private val alignOffset: Int,
+    private val nudgeX: Int,
+    private val nudgeY: Int,
+    private val padLeft: Int,
+    private val padTop: Int,
+    private val padRight: Int,
+    private val padBottom: Int,
+    private val flip: Boolean,
+    private val clamp: Boolean,
+) : PopupPositionProvider {
+    override fun calculatePosition(
+        anchorBounds: IntRect,
+        windowSize: IntSize,
+        layoutDirection: LayoutDirection,
+        popupContentSize: IntSize,
+    ): IntOffset {
+        val vw = windowSize.width
+        val vh = windowSize.height
+        val pw = popupContentSize.width
+        val ph = popupContentSize.height
+        val rtl = layoutDirection == LayoutDirection.Rtl
+
+        // Mirror once, up front, the way the web does with isRTL; everything
+        // after this is absolute arithmetic.
+        var s =
+            if (!rtl) {
+                side
+            } else {
+                when (side) {
+                    "left" -> "right"
+                    "right" -> "left"
+                    else -> side
+                }
+            }
+        val vertical = s == "top" || s == "bottom"
+        val al =
+            if (!rtl || !vertical) {
+                align
+            } else {
+                when (align) {
+                    "start" -> "end"
+                    "end" -> "start"
+                    else -> align
+                }
+            }
+        val alOff = if (rtl && vertical) -alignOffset else alignOffset
+
+        if (flip) {
+            s =
+                when (s) {
+                    "bottom" ->
+                        if (anchorBounds.bottom + sideOffset + ph > vh - padBottom &&
+                            anchorBounds.top - sideOffset - ph > padTop
+                        ) {
+                            "top"
+                        } else {
+                            s
+                        }
+                    "top" ->
+                        if (anchorBounds.top - sideOffset - ph < padTop &&
+                            anchorBounds.bottom + sideOffset + ph < vh - padBottom
+                        ) {
+                            "bottom"
+                        } else {
+                            s
+                        }
+                    "right" ->
+                        if (anchorBounds.right + sideOffset + pw > vw - padRight &&
+                            anchorBounds.left - sideOffset - pw > padLeft
+                        ) {
+                            "left"
+                        } else {
+                            s
+                        }
+                    "left" ->
+                        if (anchorBounds.left - sideOffset - pw < padLeft &&
+                            anchorBounds.right + sideOffset + pw < vw - padRight
+                        ) {
+                            "right"
+                        } else {
+                            s
+                        }
+                    else -> s
+                }
+        }
+
+        var x: Int
+        var y: Int
+        if (s == "top" || s == "bottom") {
+            y =
+                if (s == "bottom") {
+                    anchorBounds.bottom + sideOffset
+                } else {
+                    anchorBounds.top - ph - sideOffset
+                }
+            // Note the sign asymmetry on "end": a positive align_offset pushes
+            // the panel INWARD, exactly as the web engines do.
+            x =
+                when (al) {
+                    "start" -> anchorBounds.left + alOff
+                    "end" -> anchorBounds.right - pw - alOff
+                    else -> anchorBounds.left + (anchorBounds.width - pw) / 2 + alOff
+                }
+        } else {
+            x =
+                if (s == "right") {
+                    anchorBounds.right + sideOffset
+                } else {
+                    anchorBounds.left - pw - sideOffset
+                }
+            y =
+                when (al) {
+                    "start" -> anchorBounds.top + alOff
+                    "end" -> anchorBounds.bottom - ph - alOff
+                    else -> anchorBounds.top + (anchorBounds.height - ph) / 2 + alOff
+                }
+        }
+
+        x += nudgeX
+        y += nudgeY
+
+        if (clamp) {
+            // If the panel is wider than the room, the upper bound collapses to
+            // the lower one and it pins flush at the leading edge — the edge
+            // carrying the title. Same as the web's Math.min(Math.max(...)).
+            x = x.coerceIn(padLeft, maxOf(padLeft, vw - pw - padRight))
+            y = y.coerceIn(padTop, maxOf(padTop, vh - ph - padBottom))
+        }
+        return IntOffset(x, y)
     }
 }
 
