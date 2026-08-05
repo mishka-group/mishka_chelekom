@@ -317,6 +317,16 @@ defmodule MishkaMob.Components.MishkaPopover do
     put(%{type: :column, props: %{fill_width: true}, children: inner}, :id, id)
   end
 
+  # A tap outside the panel reports the state the popover wants NEXT, which is
+  # exactly the web's on_open_change contract — so one screen clause serves the
+  # trigger and the outside tap alike. `dismissible: false` opts out, for a
+  # popover that must be answered rather than dismissed.
+  defp dismiss_handler(props) do
+    if truthy?(Map.get(props, :dismissible, true)) do
+      Event.handler(Map.get(props, :on_open_change), false)
+    end
+  end
+
   # side/align go to the anchored node; the two offsets change name because
   # Mob.Renderer wraps any node carrying offset_x/offset_y in an offset Box,
   # which here would move the TRIGGER rather than the panel.
@@ -330,7 +340,8 @@ defmodule MishkaMob.Components.MishkaPopover do
       panel_offset_y: Map.get(props, :offset_y),
       flip: Map.get(props, :flip),
       clamp: Map.get(props, :clamp),
-      edge_padding: Map.get(props, :edge_padding)
+      edge_padding: Map.get(props, :edge_padding),
+      on_dismiss: dismiss_handler(props)
     ]
   end
 

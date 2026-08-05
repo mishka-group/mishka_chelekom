@@ -195,7 +195,11 @@ defmodule <%= @module %> do
       side_offset: gap(props),
       align_offset: Map.get(props, :align_offset),
       panel_offset_x: x,
-      panel_offset_y: y
+      panel_offset_y: y,
+      # A tap outside the bubble asks for the state the tooltip wants next,
+      # exactly as a tap ON it does when close_on_tap is set. Before this an
+      # open hint could only be dismissed by finding the bubble itself.
+      on_dismiss: Event.handler(Map.get(props, :on_open_change), false)
     ]
   end
 

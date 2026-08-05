@@ -2299,7 +2299,14 @@ private fun RenderNodeInner(node: MobNode, modifier: Modifier) {
     val longPressHandle = intProp(node.props, "on_long_press")
     val wired = tapHandle != null || longPressHandle != null
     val tapModifier =
-        if (wired && node.type != "button" && node.type != "text_field") {
+        if (wired &&
+            node.type != "button" &&
+            node.type != "text_field" &&
+            // `anchored` reads on_tap itself, as its dismiss handler. A
+            // clickable wrapped round it would swallow taps meant for the
+            // trigger inside it.
+            node.type != "anchored"
+        ) {
             // combinedClickable, not clickable: it carries both, and a node may
             // legitimately want a tap AND a long press (open the row, or act on
             // it). Either handle may be null; Compose accepts a null onLongClick.
@@ -2472,6 +2479,13 @@ private fun MobAnchored(node: MobNode, modifier: Modifier) {
                 padBottom = edgePx + insets.getBottom(density),
                 flip = boolProp(node.props, "flip") ?: true,
                 clamp = boolProp(node.props, "clamp") ?: true,
+                // The DISPLAY, not windowSize. windowSize comes from
+                // getWindowVisibleDisplayFrame, which under enableEdgeToEdge is
+                // smaller than what is actually drawn — a trigger sitting over
+                // the gesture bar counted as off-screen and its panel stopped
+                // being clamped, landing at x=-65dp.
+                screenWidth = with(density) { cfg.screenWidthDp.dp.roundToPx() },
+                screenHeight = with(density) { cfg.screenHeightDp.dp.roundToPx() },
             )
         }
 
@@ -2484,18 +2498,34 @@ private fun MobAnchored(node: MobNode, modifier: Modifier) {
 
     Box(modifier = modifier) {
         RenderNode(anchor)
+        // `on_tap` on an anchored node means DISMISS, not "tap the anchor" —
+        // RenderNodeInner skips its usual clickable branch for this type. The
+        // BEAM still owns open/closed: the window does not close itself, it
+        // reports the outside tap and the screen flips the assign, so the
+        // -trigger-open / -panel tags never disagree with the state that drew
+        // them. Without a handler an outside tap does nothing, which is what
+        // shipped first and what the user reported.
+        val dismiss = intProp(node.props, "on_tap")
+
         Popup(
             popupPositionProvider = provider,
-            onDismissRequest = null,
+            onDismissRequest = dismiss?.let { { MobBridge.nativeSendTap(it) } },
             properties =
                 PopupProperties(
-                    // The BEAM owns open/closed. A self-dismissing window would
-                    // desynchronise from the server assign and from the
-                    // -trigger-open / -panel tag pair the device tests read.
-                    focusable = boolProp(node.props, "focusable") ?: false,
+                    // focusable is what lets the window see a tap that lands
+                    // outside it at all; without it dismissOnClickOutside can
+                    // never fire.
+                    focusable = boolProp(node.props, "focusable") ?: (dismiss != null),
                     dismissOnBackPress = false,
-                    dismissOnClickOutside = false,
-                    clippingEnabled = true,
+                    dismissOnClickOutside = dismiss != null,
+                    // FALSE, deliberately. With clipping on, the window manager
+                    // pins the popup inside the display whatever position it is
+                    // given — so a panel whose anchor had scrolled far above the
+                    // viewport (measured: anchor at y=-3658dp) was dragged back
+                    // to y=94dp and sat there, following the user down the page.
+                    // The position provider does the clamping instead, and only
+                    // while the anchor is actually on screen.
+                    clippingEnabled = false,
                 ),
         ) {
             Box(modifier = Modifier.widthIn(max = maxW).heightIn(max = maxH)) { RenderNode(panel) }
@@ -2524,6 +2554,8 @@ private class MobAnchoredPositionProvider(
     private val padBottom: Int,
     private val flip: Boolean,
     private val clamp: Boolean,
+    private val screenWidth: Int,
+    private val screenHeight: Int,
 ) : PopupPositionProvider {
     override fun calculatePosition(
         anchorBounds: IntRect,
@@ -2636,7 +2668,17 @@ private class MobAnchoredPositionProvider(
         x += nudgeX
         y += nudgeY
 
-        if (clamp) {
+        // Clamp only while the ANCHOR is on screen. Clamping unconditionally is
+        // what made an open panel park itself at the top of the window and
+        // follow the user down the page after its trigger had scrolled away —
+        // measured: trigger at y=-3658dp, panel pinned at y=94dp and visible.
+        // Off-screen anchor, off-screen panel; clippingEnabled then hides it,
+        // which is what the web does when its reference scrolls out of view.
+        val anchorOnScreen =
+            anchorBounds.bottom > 0 && anchorBounds.top < screenHeight &&
+                anchorBounds.right > 0 && anchorBounds.left < screenWidth
+
+        if (clamp && anchorOnScreen) {
             // If the panel is wider than the room, the upper bound collapses to
             // the lower one and it pins flush at the leading edge — the edge
             // carrying the title. Same as the web's Math.min(Math.max(...)).

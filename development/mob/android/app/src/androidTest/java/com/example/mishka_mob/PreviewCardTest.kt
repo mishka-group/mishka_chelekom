@@ -238,4 +238,66 @@ class PreviewCardTest {
                 .assertIsDisplayed()
         }
     }
+    /**
+     * A REAL touch, through the system — not compose.performClick.
+     *
+     * The panel lives in its own window, and an outside tap only reaches it as
+     * the window manager delivering ACTION_OUTSIDE to a touch-modal window.
+     * Compose's synthetic click is injected straight into one window's
+     * semantics tree and never crosses that boundary, so it can neither dismiss
+     * the popup nor prove that a finger would.
+     */
+    private fun tapOutsideAt(xDp: Float, yDp: Float) {
+        val density = compose.activity.resources.displayMetrics.density
+        val x = xDp * density
+        val y = yDp * density
+        val instr = androidx.test.platform.app.InstrumentationRegistry.getInstrumentation()
+        val down = android.os.SystemClock.uptimeMillis()
+
+        instr.sendPointerSync(
+            android.view.MotionEvent.obtain(
+                down, down, android.view.MotionEvent.ACTION_DOWN, x, y, 0
+            )
+        )
+        instr.sendPointerSync(
+            android.view.MotionEvent.obtain(
+                down, down + 60, android.view.MotionEvent.ACTION_UP, x, y, 0
+            )
+        )
+        compose.waitForIdle()
+    }
+
+    private fun frameOf(tag: String): androidx.compose.ui.geometry.Rect? {
+        val json = org.json.JSONObject(MobBridge.elementFrames())
+        if (!json.has(tag)) return null
+        val a = json.getJSONArray(tag)
+        val x = a.getDouble(0).toFloat()
+        val y = a.getDouble(1).toFloat()
+        return androidx.compose.ui.geometry.Rect(
+            x, y, x + a.getDouble(2).toFloat(), y + a.getDouble(3).toFloat()
+        )
+    }
+
+    /**
+     * Reported by the user: "why we click out of it not closed?".
+     *
+     * It did not, because nothing was wired to an outside tap — the card could
+     * only be closed by finding its trigger again and holding it. The web
+     * dismisses on pointer-leave, which a finger has no equivalent of; an
+     * outside tap is the equivalent a finger CAN make.
+     */
+    @Test
+    fun a_tap_outside_the_card_closes_it() {
+        if (!tagged("pc-elixir-open")) hold("pc-elixir-trigger")
+        compose.waitUntil(10_000) { tagged("pc-elixir-open") }
+        Thread.sleep(500)
+
+        val popup = frameOf("pc-elixir-popup-bottom") ?: error("the card has no frame")
+        tapOutsideAt(10f, popup.bottom + 80f)
+
+        compose.waitUntil(10_000) { !tagged("pc-elixir-open") }
+        require(tagged("pc-elixir-closed")) {
+            "the card closed but its root still reads open — window and assign disagree"
+        }
+    }
 }

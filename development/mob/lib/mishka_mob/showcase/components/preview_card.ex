@@ -156,6 +156,7 @@ defmodule MishkaMob.Showcase.Components.PreviewCard do
               arrow={true}
               arrow_color={:primary}
               on_hold={:pc_top_hold}
+              on_dismiss={:pc_top_dismiss}
               title="Anchored upward"
               subtitle="side={:top}"
               initials="UP"
@@ -201,6 +202,7 @@ defmodule MishkaMob.Showcase.Components.PreviewCard do
               align={:start}
               arrow={true}
               on_hold={:pc_side_hold}
+              on_dismiss={:pc_side_dismiss}
               title="Beside"
               subtitle="side={:right}"
               description="Cramped, and honest about it."
@@ -412,6 +414,13 @@ defmodule MishkaMob.Showcase.Components.PreviewCard do
   def handle({:pc_side_hold, _id}, socket),
     do: Mob.Socket.assign(socket, :pc_side, not socket.assigns.pc_side)
 
+  # A tap OUTSIDE an open card closes it — the touch equivalent of the web's
+  # pointer-leave. Each card owns its own tag so an outside tap cannot close a
+  # card the user was not looking at.
+  def handle(:pc_dismiss, socket), do: Mob.Socket.assign(socket, :pc_open, nil)
+  def handle(:pc_top_dismiss, socket), do: Mob.Socket.assign(socket, :pc_top, false)
+  def handle(:pc_side_dismiss, socket), do: Mob.Socket.assign(socket, :pc_side, false)
+
   # The arrows move the rail. They used only to count their own taps, which
   # looked wired up while the one thing this component exists for — pressing ‹
   # or › instead of swiping — did nothing at all. `nudge/3` is the side effect;
@@ -438,6 +447,7 @@ defmodule MishkaMob.Showcase.Components.PreviewCard do
       id={id}
       open={open == id}
       on_hold={:pc_hold}
+      on_dismiss={:pc_dismiss}
       on_tap={:pc_visit}
       arrow={true}
       title={name}

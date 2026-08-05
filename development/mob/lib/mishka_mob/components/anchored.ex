@@ -51,6 +51,7 @@ defmodule MishkaMob.Components.Anchored do
   | `edge_padding` | number | `8` | Kept clear of the window edges, plus the safe-area inset. |
   | `panel_max_width` / `panel_max_height` | number | screen − 2·edge | Cap on the panel. |
   | `focusable` | boolean | `false` | Whether the panel's window takes keyboard focus. |
+  | `on_dismiss` | `{pid, tag}` | — | A tap OUTSIDE the panel sends this. Without it an outside tap does nothing. |
 
   `offset_x` / `offset_y` are deliberately NOT read: `Mob.Renderer` wraps any
   node carrying them in an offset Box, which would move the ANCHOR rather than
@@ -58,9 +59,15 @@ defmodule MishkaMob.Components.Anchored do
 
   ## Open state is still yours
 
-  The panel's window never dismisses itself — no back-press, no outside tap.
-  The screen owns `open`, exactly as it did before, so the node cannot
-  desynchronise from the assign that produced it.
+  The panel's window never closes itself. `on_dismiss` REPORTS an outside tap;
+  the screen flips its own assign and the node stops being built. So the window
+  and the state that drew it cannot fall out of step, which a self-dismissing
+  popup would guarantee — the panel would vanish while `open` stayed true and
+  the trigger kept its `-trigger-open` tag.
+
+  A back press is not wired either: `Mob.Screen` intercepts `{:mob, :back}`
+  before a screen's own clauses and pops the nav stack, so a panel cannot claim
+  it.
 
   ## iOS
 
@@ -92,6 +99,17 @@ defmodule MishkaMob.Components.Anchored do
   end
 
   @doc """
+  Whether a dismiss handler is wired — `on_dismiss` reaching the node as
+  `on_tap`.
+
+  Exported so a test can name the wire prop once instead of every caller
+  knowing about the rename.
+  """
+  @spec dismissible?(map()) :: boolean()
+  def dismissible?(%{type: :anchored, props: props}), do: Map.has_key?(props, :on_tap)
+  def dismissible?(_node), do: false
+
+  @doc """
   The closed form: the anchor alone, with no panel and no window.
 
   Kept as its own function so a component never has to build a one-child
@@ -104,9 +122,16 @@ defmodule MishkaMob.Components.Anchored do
   end
 
   defp take(opts) do
+    opts = Map.new(opts)
+
     opts
-    |> Map.new()
     |> Map.take(@props)
+    # `on_dismiss` travels as `on_tap` because that is the only tap-shaped prop
+    # Mob.Renderer registers: an unregistered `{pid, tag}` would fall through to
+    # the generic clause and fail to encode. The bridge reads on_tap on an
+    # anchored node as the DISMISS handler and skips its usual clickable branch,
+    # so nothing else on the node responds to it.
+    |> Map.put(:on_tap, Map.get(opts, :on_dismiss))
     |> Enum.reject(fn {_k, v} -> is_nil(v) end)
     |> Map.new()
   end

@@ -288,6 +288,88 @@ class PopoverTest {
         require(panel.width > 0f && panel.height > 0f) { "the panel has no area: $panel" }
     }
 
+    /**
+     * Reported by the user: an open panel "comes with us in scroll".
+     *
+     * It did. The position clamp ran unconditionally, so once the trigger had
+     * scrolled off the top of the page the panel was dragged back inside the
+     * window and sat there — anchored to nothing, following the reader down the
+     * page. The clamp now applies only while the anchor is on screen, and the
+     * popup window no longer lets the window manager clip it back into view.
+     */
+    @Test
+    fun the_panel_leaves_the_screen_with_its_trigger() {
+        tap("pop-trigger-closed")
+        compose.waitUntil(10_000) { tagged("pop-panel") }
+        Thread.sleep(500)
+
+        // Scroll the PAGE — not the panel, which is in its own window and
+        // swallows the gesture.
+        compose.onAllNodesWithText("Props", substring = true)[0].performScrollTo()
+        compose.waitForIdle()
+        Thread.sleep(800)
+
+        val table = frameTable()
+        val trigger = table["pop-trigger-open"] ?: error("the trigger left the frame table")
+
+        require(trigger.top < -100f) {
+            "the page did not scroll far enough to prove anything: trigger=$trigger"
+        }
+
+        val panel = table["pop-panel"]
+        require(panel == null || panel.bottom <= 0f) {
+            "the panel stayed on screen after its trigger scrolled away: " +
+                "trigger=$trigger panel=$panel"
+        }
+    }
+
+    /**
+     * Also reported: tapping outside an open panel did not close it.
+     *
+     * The panel's window reports the outside tap through on_open_change and the
+     * SCREEN closes it — the window never closes itself, or it would vanish
+     * while `open` stayed true and the trigger kept its -trigger-open tag.
+     */
+    @Test
+    fun a_tap_outside_the_panel_closes_it() {
+        tap("pop-trigger-closed")
+        compose.waitUntil(10_000) { tagged("pop-panel") }
+        Thread.sleep(500)
+
+        val panel = laidOut("pop-panel")
+
+        // A REAL touch, through the system — not compose.performClick.
+        //
+        // The panel lives in its own window, and an outside tap only reaches it
+        // as the window manager delivering ACTION_OUTSIDE to a touch-modal
+        // window. Compose's synthetic click is injected straight into one
+        // window's semantics tree and never crosses that boundary, so it can
+        // neither dismiss the popup nor prove that a finger would.
+        val density = compose.activity.resources.displayMetrics.density
+        val x = 10f * density
+        val y = (panel.bottom + 80f) * density
+        val instr = androidx.test.platform.app.InstrumentationRegistry.getInstrumentation()
+        val down = android.os.SystemClock.uptimeMillis()
+
+        instr.sendPointerSync(
+            android.view.MotionEvent.obtain(
+                down, down, android.view.MotionEvent.ACTION_DOWN, x, y, 0
+            )
+        )
+        instr.sendPointerSync(
+            android.view.MotionEvent.obtain(
+                down, down + 60, android.view.MotionEvent.ACTION_UP, x, y, 0
+            )
+        )
+        compose.waitForIdle()
+
+        compose.waitUntil(10_000) { !tagged("pop-panel") }
+        require(tagged("pop-trigger-closed")) {
+            "the panel closed but the trigger still reads open — the window and " +
+                "the assign are out of step"
+        }
+    }
+
     @Test
     fun side_right_puts_them_abreast() {
         tap("beside-trigger-closed")

@@ -78,9 +78,10 @@ defmodule MishkaMob.Components.MishkaPreviewCard do
 
   ## What anchoring did not change
 
-  `open` is still the screen's. The card's window never dismisses itself — no
-  back press, no outside tap — so it cannot drift out of step with the assign
-  that drew it, and a card that can be opened still needs a hold that closes it.
+  `open` is still the screen's. The card's window never closes itself:
+  `on_dismiss` REPORTS an outside tap and the screen flips its own assign, so
+  the window cannot drift out of step with the state that drew it. Holding the
+  trigger again still closes it too.
 
   There is still no hover on a touch screen, either. The long press is the whole
   of it.
@@ -119,6 +120,7 @@ defmodule MishkaMob.Components.MishkaPreviewCard do
   | `trigger` | node / [node] | `nil` | What you hold, as data. `<MishkaPreviewCardTrigger>` is the same thing as markup. Renders in both states. |
   | `on_hold` | event tag | `nil` | Long press on the trigger — `{:tap, {tag, id}}`. |
   | `on_tap` | event tag | `nil` | Plain tap on the trigger — `{:tap, {tag, id}}`. |
+  | `on_dismiss` | event tag | `nil` | A tap OUTSIDE the open card — `{:tap, tag}`. Without it the card can only be closed from its trigger. |
   | `side` | `:bottom` `:top` `:left` `:right` | `:bottom` | Which side of the trigger the card takes. Flips to the opposite side when that one has no room. |
   | `align` | `:start` `:center` `:end` | `:center` | Where the card sits across that axis, from the trigger's own edge. |
   | `side_offset` | number | `8` | Gap between trigger and card, in dp. |
@@ -283,7 +285,12 @@ defmodule MishkaMob.Components.MishkaPreviewCard do
     opts = [
       side: side,
       align: align,
-      side_offset: Map.get(props, :side_offset, 8)
+      side_offset: Map.get(props, :side_offset, 8),
+      # A tap anywhere outside the card closes it. The web dismisses on
+      # pointer-leave, which a touch screen has no equivalent of; an outside tap
+      # is the equivalent a finger CAN make, and without it the only way out was
+      # finding the trigger again and holding it.
+      on_dismiss: Event.handler(Map.get(props, :on_dismiss))
     ]
 
     open? = truthy?(Map.get(props, :open, false))
