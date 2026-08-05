@@ -52,8 +52,12 @@ defmodule <%= @module %> do
   reports `on_focus`, the first keystroke reports `on_query`, an optional ▾
   reports `on_toggle`, and closing on a tap OUTSIDE needs an `on_tap` on the
   container around the control — the panel renders in flow, so nothing covers
-  the page to catch that tap. Do not close on `on_blur`: choosing a suggestion
-  blurs the field too.
+  the page to catch that tap. That is not a missing primitive: `:anchored`
+  (`<%= @namespace %>.Anchored`) does float a panel in its own window, and
+  `<%= @namespace %>.<%= @module_prefix_camel %>Popover` is built on it. The suggestions stay in
+  flow because the list is as long as the data behind it, and an anchored window
+  would not have caught the outside tap either — it dismisses itself on nothing.
+  Do not close on `on_blur`: choosing a suggestion blurs the field too.
 
   Not ported: `name` / `required` / `readonly` (form plumbing), `auto_highlight`
   (there is no focus ring to highlight), `inline` (typing the completion into

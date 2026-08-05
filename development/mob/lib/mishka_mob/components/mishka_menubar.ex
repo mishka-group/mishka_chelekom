@@ -14,8 +14,13 @@ defmodule MishkaMob.Components.MishkaMenubar do
   here — there is no pointer, and a finger is either down or not. So every menu
   opens on tap, which is what a touch menubar does anyway.
 
-  The panel is rendered in flow beneath the bar, for the reason
-  `MishkaMob.Components.MishkaPopover` explains: Mob has no anchored overlay.
+  The panel is rendered in flow beneath the bar. That used to be because Mob had
+  no anchored overlay at all; it has one now — the `:anchored` node
+  (`MishkaMob.Components.Anchored`), which `MishkaMob.Components.MishkaPopover`
+  is built on — and the menubar has simply not been moved onto it. It draws
+  through `MishkaMob.Components.MishkaMenu`, which is unchanged. `:anchored` is
+  Android-only so far; on iOS the node falls through to a column, which is the
+  stacked shape the bar already has.
 
   ## Menus
 

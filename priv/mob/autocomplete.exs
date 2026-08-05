@@ -10,7 +10,7 @@
     mob: [
       composite_tag: "autocomplete",
       function: "autocomplete",
-      kit: []
+      kit: ["anchored"]
     ]
   ]
 ]

@@ -97,10 +97,12 @@ screen that closes on every event has a select that shuts the moment you open a 
 `on_select` clause touches `open?`.
 
 **Nothing dismisses the panel but you.** There is no Escape and no outside tap: the panel is in
-flow beneath the trigger rather than floating over the page, because Mob has no anchored-overlay
-primitive and a floating panel on a phone would cover the trigger it belongs to. Tapping the
-trigger again is the dismissal. For a tree too big to sit in the page, put the same tree in a
-bottom [`drawer`](drawer.md), which brings a scrim and a dismissal with it.
+flow beneath the trigger rather than floating over the page, because a tree is as tall as its data
+and a floating one on a phone would cover the trigger it belongs to. This used to say Mob has no
+anchored-overlay primitive at all; it has one — [`popover`](popover.md) draws its panel in a window
+of its own — but that window dismisses itself on nothing either, so it would not have bought the
+click-away. Tapping the trigger again is the dismissal. For a tree too big to sit in the page, put
+the same tree in a bottom [`drawer`](drawer.md), which brings a scrim and a dismissal with it.
 
 **Give the tree inside its own `id`.** `MishkaTree`'s `id` defaults to `"tree"`, so two tree
 selects on one page hand every row the same tag and a device test can no longer say which panel it

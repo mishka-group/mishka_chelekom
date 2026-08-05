@@ -103,8 +103,10 @@ typed the answer. A query that genuinely matches nothing still says so; that is 
 **Opening and closing is the screen's, and needs a backdrop.** Tapping the field reports `on_press`,
 the first keystroke reports `on_query`, an optional ▾ reports `on_toggle`. Closing on a tap
 **outside** needs an `on_tap` on the container around the control — the panel renders in flow, so
-nothing covers the page to catch it. Do not close on `on_blur`: choosing a suggestion blurs the field
-too, so you would close before the choice registered.
+nothing covers the page to catch it. That is the list's length, not a missing primitive: `popover`
+floats its panel over the page now, and its window would not have caught the outside tap either. Do
+not close on `on_blur`: choosing a suggestion blurs the field too, so you would close before the
+choice registered.
 
 **Close when you fill.** Choosing a suggestion should set the query *and* clear `open?`. The
 component cannot do it for you — `open` is your assign — and a panel left hanging over the answer is

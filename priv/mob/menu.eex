@@ -7,11 +7,14 @@ defmodule <%= @module %> do
   are the same surface with the same radius, border and padding; the menu adds
   the item list, separators and labels.
 
-  Positioning carries the Popover's limitation: Mob cannot anchor a floating
-  panel to a measured trigger, so the menu is **placed by the caller** — under
-  its trigger in a `Column` for a dropdown, or inside a
-  `<%= @namespace %>.<%= @module_prefix_camel %>Drawer` for a bottom-sheet action list, which is
-  often the better phone idiom anyway.
+  The menu is **placed by the caller** — under its trigger in a `Column` for a
+  dropdown, or inside a `<%= @namespace %>.<%= @module_prefix_camel %>Drawer` for a bottom-sheet
+  action list, which is often the better phone idiom anyway. This used to say
+  Mob cannot anchor a floating panel to a trigger at all. It can: the Popover
+  now draws its panel in its own window, over the page, on the `:anchored` node
+  (`<%= @namespace %>.Anchored`). The menu has not been moved onto it, and it
+  keeps the full-width shell it always had by passing `panel/2` no `fill_width`
+  of its own.
 
   ## Items are children, and rows are left-aligned
 
@@ -32,8 +35,12 @@ defmodule <%= @module %> do
   | `danger_color` | color token / ARGB int | `0xFFDC2626` | Destructive item colour. |
   | plus everything `<%= @namespace %>.<%= @module_prefix_camel %>Popover` accepts | | | |
 
-  Not ported: `side`, `align`, offsets, `open_on_hover`, `delay` (no hover, no
-  anchoring) and the `id` / `*_class` attrs.
+  Not ported: `side`, `align`, offsets, `open_on_hover`, `delay` and the `id` /
+  `*_class` attrs. A touch screen has no hover; the positioning props are absent
+  because a menu is PLACED BY ITS CALLER and so has no side to take. Anchored
+  overlays do exist now — `<%= @namespace %>.Anchored`, which `popover`,
+  `tooltip` and `preview_card` are built on — this component simply has not been
+  moved onto one.
   """
 
   import Mob.Sigil

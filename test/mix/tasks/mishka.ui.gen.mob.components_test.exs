@@ -10,7 +10,10 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob.ComponentsTest do
   # file that has nothing to do with it — and the failure named a number rather
   # than the thing that changed.
   @catalog Path.wildcard("priv/mob/*.exs") |> length()
-  @kit_modules 2
+  # Counted, not hardcoded — for exactly the reason the comment above gives. It
+  # was 2 (color, event) until `anchored` joined them, and a literal here failed
+  # in a file that has nothing to do with anchoring.
+  @kit_modules Path.wildcard("priv/mob/kit/*.eex") |> length()
 
   setup do
     Application.ensure_all_started(:owl)

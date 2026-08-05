@@ -68,8 +68,10 @@ Everything `popover` accepts is forwarded (`background`, `corner_radius`, `paddi
 ## Six things to know
 
 **The trigger and the open state are yours.** Unlike the web original there is no `<:trigger>` slot:
-Mob has no anchored-popup positioning, so the caller places the menu and owns `open`. That is also
-what lets the same row list serve as a dropdown or as the contents of a bottom `drawer`.
+the caller places the menu and owns `open`. This used to say Mob has no anchored-popup positioning —
+it has some now, and `popover` draws its panel in a window of its own, over the page; the menu has
+not been moved onto it and keeps the full-width shell it always had. Caller placement is also what
+lets the same row list serve as a dropdown or as the contents of a bottom `drawer`.
 
 **One handler serves every row.** `on_select` sends `{:tap, {tag, row_id}}`, so you match the menu
 once and read the id. A row with no `on_select` renders identically and does nothing.

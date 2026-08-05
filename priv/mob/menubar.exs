@@ -10,7 +10,7 @@
     mob: [
       composite_tag: "menubar",
       function: "menubar",
-      kit: ["event"]
+      kit: ["anchored", "event"]
     ]
   ]
 ]

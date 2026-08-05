@@ -10,7 +10,7 @@
     mob: [
       composite_tag: "combobox",
       function: "combobox",
-      kit: ["event"]
+      kit: ["anchored", "event"]
     ]
   ]
 ]

@@ -37,13 +37,17 @@ defmodule MishkaChelekom.Generators.Mob do
   # Shared support modules. They are not Chelekom components — nobody generates
   # `event` by name — so they are vendored once by `mix mishka.ui.gen.mob.kit`
   # and are never module-prefixed, exactly like the Kit engine's modules.
-  @kit_modules ~w(color event)
+  #
+  # `anchored` is one of these rather than a component: it builds the `:anchored`
+  # node that popover, tooltip and preview_card all place their panel in, and a
+  # generated popover will not compile without it.
+  @kit_modules ~w(anchored color event)
 
   @doc "The Mob application's component directory, relative to the library root."
   @spec source_dir() :: String.t()
   def source_dir, do: "development/mob/lib/mishka_mob/components"
 
-  @doc "The kit module basenames (`[\"color\", \"event\"]`)."
+  @doc "The kit module basenames (`[\"anchored\", \"color\", \"event\"]`)."
   @spec kit_modules() :: [String.t()]
   def kit_modules, do: @kit_modules
 

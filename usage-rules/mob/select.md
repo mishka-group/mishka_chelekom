@@ -18,9 +18,11 @@ column  fill_width
     └── item   an option, ticked with ✓ when chosen
 ```
 
-The list renders **in flow beneath the trigger**, not floating beside it: the web version anchors
-its listbox, and Mob has no anchored positioning (see `popover`). For a long list on a phone, put
-the same options in a bottom `drawer` — which is where a native picker belongs anyway.
+The list renders **in flow beneath the trigger**, not floating beside it. This used to say Mob has
+no anchored positioning; it does now — `popover` draws its panel in a window of its own, over the
+page — and the select does not use it, because a list is as long as its data and one floating over a
+phone covers the field it came from. For a long list, put the same options in a bottom `drawer` —
+which is where a native picker belongs anyway.
 
 ## Example
 
@@ -92,7 +94,7 @@ reach for the function when they come from data:
 Helpers: `toggle/3`, `display/3`, `group_runs/1`.
 
 Not ported: `name`, `form`, `required`, `readonly` (form plumbing), `side` and `highlight_on_hover`
-(no anchoring, no hover) and the `*_class` attrs.
+(the list is in flow, and a touch screen has no hover) and the `*_class` attrs.
 
 ## Five things to know
 

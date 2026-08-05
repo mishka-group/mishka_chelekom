@@ -12,13 +12,17 @@ defmodule MishkaMob.Components.MishkaTreeSelect do
   ## The panel is in flow, not floating
 
   The web anchors the panel to the trigger and dismisses it on Escape or on a
-  click outside. Mob has no anchored-overlay primitive (see
-  `MishkaMob.Components.MishkaPopover`), and on a phone a floating panel would
-  cover the trigger it belongs to — so the panel renders in flow beneath the
-  trigger, and nothing surrounds it to click away from. Tapping the trigger
-  again is the dismissal. For a tree too large to sit in the page, hand the same
-  tree to a bottom `MishkaMob.Components.MishkaDrawer`, which brings a scrim and
-  a dismissal of its own.
+  click outside. This used to say Mob has no anchored-overlay primitive; it has
+  one — the `:anchored` node (`MishkaMob.Components.Anchored`), which
+  `MishkaMob.Components.MishkaPopover` is built on. A tree select does not use
+  it: a tree is as tall as its data, and one floating over a phone covers the
+  trigger it belongs to. So the panel renders in flow beneath the trigger, and
+  nothing surrounds it to click away from. Tapping the trigger again is the
+  dismissal — and an anchored panel would not have changed that either, because
+  its window dismisses itself on nothing: no back-press, no outside tap. For a
+  tree too large to sit in the page, hand the same tree to a bottom
+  `MishkaMob.Components.MishkaDrawer`, which brings a scrim and a dismissal of
+  its own.
 
   ## `id`, because the trigger's only text is yours
 

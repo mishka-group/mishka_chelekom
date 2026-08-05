@@ -4,7 +4,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob.Kit do
   alias MishkaChelekom.Generators.{Core, Mob}
 
   @example "mix mishka.ui.gen.mob.kit"
-  @shortdoc "Vendor the shared Mob support modules (Event, Color) into your app"
+  @shortdoc "Vendor the shared Mob support modules (Anchored, Event, Color) into your app"
   @moduledoc """
   #{@shortdoc}
 

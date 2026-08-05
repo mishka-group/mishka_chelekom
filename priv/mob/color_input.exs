@@ -10,7 +10,7 @@
     mob: [
       composite_tag: "color_input",
       function: "color_input",
-      kit: ["color", "event"]
+      kit: ["anchored", "color", "event"]
     ]
   ]
 ]

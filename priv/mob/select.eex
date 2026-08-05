@@ -6,14 +6,22 @@ defmodule <%= @module %> do
   ## Trigger and list, placed by the caller
 
   The web version floats its listbox beside the trigger. That needs anchored
-  positioning, which Mob does not have (see
-  `<%= @namespace %>.<%= @module_prefix_camel %>Popover`), so the list renders in flow beneath the
-  trigger — or, for a long list on a phone, inside a bottom
-  `<%= @namespace %>.<%= @module_prefix_camel %>Drawer`, which is where a native picker belongs
-  anyway. `side` and `highlight_on_hover` are dropped: no anchoring, no hover.
+  positioning, and this used to say Mob does not have any. It does: the
+  `:anchored` node (`<%= @namespace %>.Anchored`) draws a panel in its own
+  window, against the anchor's own bounds and clipped by no ancestor, and
+  `<%= @namespace %>.<%= @module_prefix_camel %>Popover` is built on it.
+
+  A select still renders its list in flow beneath the trigger, and the reason is
+  the list rather than the primitive: a list of options is as long as its data,
+  and one floating over a phone covers the field it came from. For a long list,
+  put the same options inside a bottom `<%= @namespace %>.<%= @module_prefix_camel %>Drawer`,
+  which is where a native picker belongs anyway.
 
   The list is built on `<%= @module_prefix_camel %>Menu`'s surface so a select and a menu do not
   disagree about what a list of choices looks like.
+
+  `side` is dropped because a list in flow has no side to take, and
+  `highlight_on_hover` because a touch screen still has no hover.
 
   ## Single and multiple
 
@@ -75,7 +83,8 @@ defmodule <%= @module %> do
   grouped menu look the same.
 
   Not ported: `name`, `form`, `required`, `readonly` (form plumbing), `side`,
-  `highlight_on_hover` (no anchoring, no hover) and the `*_class` attrs.
+  `highlight_on_hover` (the list is in flow, and a touch screen has no hover)
+  and the `*_class` attrs.
   """
 
   import Mob.Sigil

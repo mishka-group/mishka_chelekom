@@ -10,7 +10,7 @@
     mob: [
       composite_tag: "tree_select",
       function: "tree_select",
-      kit: ["event"]
+      kit: ["anchored", "event"]
     ]
   ]
 ]

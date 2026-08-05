@@ -11,11 +11,17 @@ defmodule MishkaMob.Components.MishkaDrawer do
 
   ## How Mob draws an overlay
 
-  Mob has no z-index, absolute positioning, or modal slot. The single stacking
-  primitive is `:box`, which is a SwiftUI `ZStack` / Compose `Box`: its children
-  draw on top of each other, last child on top. A drawer is therefore a `Box`
-  that holds `[scrim, panel]` and is itself stacked over the screen's own
-  content. The backdrop is just a `Box` with a semi-transparent ARGB fill
+  Mob has no z-index and no modal slot. The single stacking primitive is `:box`,
+  which is a SwiftUI `ZStack` / Compose `Box`: its children draw on top of each
+  other, last child on top. A drawer is therefore a `Box` that holds
+  `[scrim, panel]` and is itself stacked over the screen's own content.
+
+  That is still the right shape here even though anchored overlays now exist
+  (`MishkaMob.Components.Anchored`, which `popover` and friends put their panel
+  in). An anchored panel is sized to its content and positioned against a
+  trigger; a drawer's scrim has to cover the whole screen and take every stray
+  tap, which a stacked `Box` already does — and unlike the anchored node it
+  works on both platforms. The backdrop is just a `Box` with a semi-transparent ARGB fill
   (`0xAARRGGBB`, alpha first).
 
   ## The gestures

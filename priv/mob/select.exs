@@ -10,7 +10,7 @@
     mob: [
       composite_tag: "select",
       function: "select",
-      kit: ["event"]
+      kit: ["anchored", "event"]
     ]
   ]
 ]

@@ -10,7 +10,7 @@
     mob: [
       composite_tag: "context_menu",
       function: "context_menu",
-      kit: ["event"]
+      kit: ["anchored", "event"]
     ]
   ]
 ]

@@ -21,8 +21,12 @@ defmodule MishkaMob.Components.MishkaContextMenu do
 
   What genuinely does not port is **placement at the pointer**: a touch has no
   cursor to open at, and a phone has no room for a menu pinned to a coordinate.
-  The menu opens where the caller puts it — in flow, or in a bottom
-  `MishkaDrawer`, which is the shape a phone uses for exactly this.
+  That is about the coordinate, not about floating — the `:anchored` node
+  (`MishkaMob.Components.Anchored`) does draw a panel over the page against a
+  trigger's own box, and `MishkaMob.Components.MishkaPopover` is built on it.
+  This renders through `MishkaMob.Components.MishkaMenu`, which has not been
+  moved onto it, so the menu still opens where the caller puts it — in flow, or
+  in a bottom `MishkaDrawer`, which is the shape a phone uses for exactly this.
 
   ## Props
 

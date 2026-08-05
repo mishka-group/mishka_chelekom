@@ -34,7 +34,13 @@ defmodule <%= @module %> do
   | `on_link` | event tag (atom) | — | `{:tap, {tag, value}}` on a plain link. |
 
   Not ported: `delay` / `close_delay` (hover has no touch equivalent),
-  `side` / `align` / `arrow` (no anchored positioning) and the morph animation.
+  `side` / `align` / `arrow`, and the morph animation. Those three were dropped
+  because Mob had no anchored positioning. It has some now — the `:anchored`
+  node (`<%= @namespace %>.Anchored`), which
+  `<%= @namespace %>.<%= @module_prefix_camel %>Popover` is built on — but this component has not
+  been moved onto it: the viewport is still one shared area in flow, with no
+  side to take and nothing to point an arrow at. `:anchored` is Android-only so
+  far; on iOS the node falls through to a column.
   """
 
   import Mob.Sigil

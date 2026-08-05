@@ -114,8 +114,11 @@ def handle_info({:tap, :toggle}, socket), do: {:noreply, assign(socket, :open?, 
 ```
 
 **Closing on an outside tap needs a backdrop from you.** The list renders in flow rather than in an
-overlay, so nothing covers the page to catch that tap. Put an `on_tap` on the container around the
-combobox:
+overlay, so nothing covers the page to catch that tap. An anchored panel would not spare you it:
+`popover` does float over the page now — this used to say nothing in Mob could — but its window
+dismisses itself on nothing either, no back-press and no outside tap, and the combobox stays in flow
+regardless, because a filtered list is as long as the data behind it. Put an `on_tap` on the
+container around the combobox:
 
 ```elixir
 ~MOB"""

@@ -268,6 +268,67 @@ figures for this reason.
 **Fix:** set the height fields from the measured height (or 0) in the horizontal
 branch, and make `resolve_scroll_target/2` page along the scroller's own axis.
 
+## 17. There is no `:anchored` node type on iOS, so every floating panel is still an accordion
+
+`:anchored` is a node type this app renders itself — `MobAnchored`,
+`MobBridge.kt:2431` — and it exists on Android only. It takes exactly two
+children: child [0] is the anchor and renders **in flow**, child [1] is the panel
+and renders in its own window via `androidx.compose.ui.window.Popup`. The panel
+therefore overlays the page: it takes no space, it may sit above or left of its
+trigger, and no ancestor can clip it. Position is a transliteration of the web's
+`positionPopup()` — `side` (top/right/bottom/left), `align` (start/center/end),
+`side_offset`, `align_offset`, a main-axis flip when the requested side has no
+room **and** the opposite one does, then an unconditional clamp to the window
+with 8dp of edge padding plus the safe-area inset.
+
+iOS does something else instead, and the reason this went unnoticed is that it
+does not fail loudly. `mob_nif.m`'s `mob_node_from_dict` maps the type string
+through an `if`/`else if` chain (`mob_nif.m:604-648`) that ends at `"gpu_view"`
+with **no else**, so an unrecognised type leaves `node.nodeType` at the
+zero-initialised value — which is `MobNodeTypeColumn` (`MobNode.h:22`). An
+anchored node therefore renders as a plain `VStack` of `[trigger, panel]`
+(`MobRootView.swift:220`): exactly the stacked accordion the node type was built
+to replace. It neither errors nor blanks. `MishkaPopover`, `MishkaTooltip` and
+`MishkaPreviewCard` all build on `:anchored` now, so on iOS all three are back to
+pushing their siblings down the page, and `side` / `align` / `side_offset` are
+inert there.
+
+**The trap: a green unit test proves nothing about iOS here.**
+`Mob.ScreenCase.assert_renderable/2` bakes `@renderable_types` from
+`read.("ios.txt") ++ read.("android.txt")` (`deps/mob/lib/mob/screen_case.ex:112`)
+— a **union**, so an Android-only type counts as renderable. And `Anchored` is
+literally in `ios.txt` (line 28) besides: our own `mix.exs` writes the composites
+fence into both files from `@tag_files ~w(android ios)` (`mix.exs:90`), which is
+what teaches the `~MOB` sigil our tag names. Nothing in the unit suite can see
+this gap. Only a device run can.
+
+**Fix — the SwiftUI mechanism.** Not `.overlay(alignment:)` + `.offset`: an
+overlay draws inside its host's subtree, so a `corner_radius` Box or a vertical
+`Scroll` clips it, and that clipping is the measured failure that made
+`:anchored` a node type rather than a positioned Box. The shape that works is
+`anchorPreference` + a root-level overlay. `MobRootView` (`MobRootView.swift:1317`)
+is already a top-level `ZStack` sitting above every Box and Scroll: publish the
+anchor child's bounds with `.anchorPreference(key:value:.bounds)`, collect them
+at that ZStack with `.overlayPreferenceValue`, resolve each through the
+`GeometryProxy` and `.position` the panel there. `MobFrameTracker`
+(`MobRootView.swift:489`) already reads `geo.frame(in: .global)` for id-carrying
+nodes, so the measurement half is not new ground. Port
+`MobAnchoredPositionProvider`'s arithmetic verbatim rather than rewriting it —
+all three headless engines carry a byte-identical copy of `positionPopup()`, and
+a fourth version will drift. `.popover(isPresented:attachmentAnchor:)` is the
+wrong tool despite the name: it adapts to a sheet on iPhone, brings its own arrow
+and dimming, and dismisses itself on an outside tap — and the BEAM owns
+open/closed here, so a self-dismissing window desynchronises from the screen's
+assign.
+
+**Blocker: this cannot ship from this repo at all.** `deps/mob` is a hex package
+pinned in `mix.lock` (`mob 0.7.20`) with its checksums; anything written into
+`deps/` is local scratch that `deps.get`, `deps.clean` and a fresh clone all drop
+— `mix.exs` regenerates its tags fence on every compile for precisely that reason
+— and consumers get the published package, never our copy. Unlike every Android
+half above, where `MobBridge.kt` is ours, the anchored primitive has to land
+upstream in `mob` itself.
+
 ---
 
 ## Also worth knowing

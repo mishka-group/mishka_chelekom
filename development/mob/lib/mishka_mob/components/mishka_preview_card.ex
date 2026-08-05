@@ -20,23 +20,79 @@ defmodule MishkaMob.Components.MishkaPreviewCard do
   `MishkaMob.Components.MishkaPopover`, so holding the trigger a second time can
   close the card, or not, as the screen prefers.
 
-  ## What `side` and `align` honestly mean here
+  ## The card floats over the page
 
-  There is still no anchored positioning (see `MishkaMob.Components.MishkaPopover`
-  for why a render function cannot measure its trigger). But once the trigger is
-  *inside* the component, `side` no longer needs a measurement to mean something:
-  it is the order and the axis of the two parts.
+  The trigger and the card used to be siblings in a flow container: `:bottom`
+  and `:top` stacked them in a Column, `:left` and `:right` sat them in a Row,
+  and on that Row both halves carried a weight so neither starved the other.
+  Layout is not floating, and it showed — opening a card pushed everything below
+  it down the page, `side: :top` was a lie because a card "above" its trigger
+  still consumed the same vertical space, and beside the trigger the two split a
+  phone's width between them.
 
-    * `:bottom` (default) / `:top` — a Column; the card sits under or over the
-      trigger.
-    * `:left` / `:right` — a Row; the card sits beside it. Both parts carry a
-      weight so neither starves the other, which on a phone-width screen means
-      roughly half the width each. Cramped, and offered because the web offers
-      it, not because it is the shape to reach for.
+  The pair is an `:anchored` node now (`MishkaMob.Components.Anchored`). Child
+  [0] is the trigger and renders in flow; child [1] is the card and renders in
+  its own window, over the page. The card therefore takes no space, it can sit
+  above or beside the thing it describes, and no ancestor can clip it — which is
+  the point, because a `:box` with a `corner_radius` clips and a vertical
+  `:scroll` clips its main axis, and a card is nearly always inside both.
 
-  `align` positions the arrow along the card's facing edge, which is the only
-  thing alignment can move while the card itself spans the width. `side_offset`
-  is the real gap between the two parts; `align_offset` nudges the arrow.
+  The root is a `:column` whatever the side, and nothing is weighted any more.
+  There is no ordering left to arrange: `side` is a prop the window's position
+  provider reads, not a place in a list.
+
+  ## Where the card lands
+
+  The position is the web's `positionPopup()` transliterated, measured against
+  the trigger's real rectangle:
+
+    * `side` — which side of the trigger the card takes.
+    * `align` — where it sits along the cross axis, from the trigger's own edge.
+    * `side_offset` — the gap between the two. A prop on the anchored node now,
+      rather than a `:spacer` sibling.
+
+  When the requested side has no room and the opposite one does, the card flips
+  to it — a main-axis flip only, as on the web, where `align` never flips.
+  Whatever survives that is then clamped into the window unconditionally, with
+  8dp of edge padding plus the safe-area inset, so a card near an edge is moved
+  rather than cut in half.
+
+  `align_offset` is the one prop that does not move the card: it nudges the
+  arrow along the card's facing edge, which is what it did before the card was
+  anchored too.
+
+  ## The trigger hugs, and so does the card
+
+  Both follow from the card being anchored to the trigger's own box instead of
+  sharing a parent with it:
+
+    * The trigger hugs its content on **every** side. Stacked, it used to fill
+      the width. Anchored, a full-width trigger would make `align: :end` mean
+      the screen's right edge instead of the trigger's — and the web anchors to
+      a content-sized `<button>`.
+    * The card hugs rather than filling. Inside a popup window "fill" is the
+      whole SCREEN, after which the clamp pins the card to the leading edge
+      whatever `side` and `align` asked for. Pass `width` for a fixed card, or
+      `fill_width: true` for the old filling one —
+      `MishkaMob.Components.MishkaPopover.panel/2` honours an explicit value.
+
+  ## What anchoring did not change
+
+  `open` is still the screen's. The card's window never dismisses itself — no
+  back press, no outside tap — so it cannot drift out of step with the assign
+  that drew it, and a card that can be opened still needs a hold that closes it.
+
+  There is still no hover on a touch screen, either. The long press is the whole
+  of it.
+
+  ## iOS
+
+  iOS has no anchored primitive, and `deps/mob/ios` is a checksum-locked hex
+  dependency this repo cannot edit. An unknown node type there falls through to
+  `MobNodeTypeColumn`, so an anchored card degrades to the old stacked accordion
+  rather than erroring or blanking — but it stacks in child order, which puts the
+  card after the trigger whatever `side` says. Android-only for now, and
+  `IOS_TODO.md` §17 records it.
 
   ## Everything carries a testTag
 
@@ -63,10 +119,10 @@ defmodule MishkaMob.Components.MishkaPreviewCard do
   | `trigger` | node / [node] | `nil` | What you hold, as data. `<MishkaPreviewCardTrigger>` is the same thing as markup. Renders in both states. |
   | `on_hold` | event tag | `nil` | Long press on the trigger — `{:tap, {tag, id}}`. |
   | `on_tap` | event tag | `nil` | Plain tap on the trigger — `{:tap, {tag, id}}`. |
-  | `side` | `:bottom` `:top` `:left` `:right` | `:bottom` | Where the card sits relative to the trigger. |
-  | `align` | `:start` `:center` `:end` | `:center` | Where the arrow sits along the facing edge. |
+  | `side` | `:bottom` `:top` `:left` `:right` | `:bottom` | Which side of the trigger the card takes. Flips to the opposite side when that one has no room. |
+  | `align` | `:start` `:center` `:end` | `:center` | Where the card sits across that axis, from the trigger's own edge. |
   | `side_offset` | number | `8` | Gap between trigger and card, in dp. |
-  | `align_offset` | number | `0` | Nudge along the alignment axis, in dp. |
+  | `align_offset` | number | `0` | Nudges the **arrow** along the card's facing edge, in dp. It does not move the card. |
   | `arrow` | boolean | `false` | Draw the pointer back at the trigger. |
   | `arrow_color` | color token / ARGB int | `:border` | Arrow colour. |
   | `title` | string | `nil` | The name. |
@@ -74,7 +130,11 @@ defmodule MishkaMob.Components.MishkaPreviewCard do
   | `description` | string | `nil` | The body. |
   | `initials` / `image` | string | `nil` | Avatar content — omit both and there is no avatar. |
   | `avatar_color` | color token / ARGB int | `:primary` | Avatar fill. |
-  | plus everything `MishkaMob.Components.MishkaPopover` accepts | | | |
+  | plus everything `MishkaMob.Components.MishkaPopover`'s **panel** accepts | | | `width`, `background`, `corner_radius`, `padding`, `border_*`, `fill_width`. |
+
+  Of popover's positioning props only `side`, `align` and `side_offset` reach the
+  anchored node. `flip`, `clamp`, `edge_padding` and `panel_offset_*` are not
+  forwarded, so setting them here does nothing.
 
   ## Slots
 
@@ -174,6 +234,11 @@ defmodule MishkaMob.Components.MishkaPreviewCard do
   `on_hold` is the long press, the touch equivalent of the web's hover; `on_tap`
   is whatever the trigger already did. Both report `{:tap, {tag, id}}`, so one
   screen clause serves a list of them.
+
+  Called directly it still fills its parent, since a trigger placed by hand is
+  usually a row of its own. The card builds its own with `fill_width: false`,
+  because an anchor wider than its content would drag `align` out to the screen's
+  edge.
   """
   @spec trigger(term(), [map()], keyword()) :: map()
   def trigger(id, children, opts \\ []) do
@@ -185,9 +250,11 @@ defmodule MishkaMob.Components.MishkaPreviewCard do
   end
 
   @doc """
-  The preview-card node — trigger, gap, arrow and popup.
+  The preview-card node — the trigger, and the card anchored to it.
 
-  The trigger renders in both states; the rest appears only when `open`.
+  The trigger renders in both states, in flow; the card appears only when `open`,
+  in its own window over the page. With no trigger there is nothing to anchor to,
+  so the card renders in place instead.
 
       <MishkaPreviewCard
         id="shahryar"

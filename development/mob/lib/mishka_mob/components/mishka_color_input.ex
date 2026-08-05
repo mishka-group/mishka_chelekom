@@ -5,12 +5,14 @@ defmodule MishkaMob.Components.MishkaColorInput do
 
   ## The panel is in flow, not floating
 
-  On the web the picker lives in a popover anchored to the field. Mob has no
-  anchored-overlay primitive (the same constraint that shapes
-  `MishkaMob.Components.MishkaPopover`), so an open panel is rendered **in the
-  layout**, directly under the control row. On a phone that is the better shape
-  anyway: a picker floating over a 390-point-wide screen would cover the field
-  it belongs to.
+  On the web the picker lives in a popover anchored to the field. This used to
+  say Mob has no anchored-overlay primitive; it has one — the `:anchored` node
+  (`MishkaMob.Components.Anchored`), which
+  `MishkaMob.Components.MishkaPopover` is built on. The picker does not use it,
+  because on a phone the flow is the better shape: a picker floating over a
+  390-point-wide screen would cover the field it belongs to, and that field is
+  the one you type the hex into. So an open panel is rendered **in the layout**,
+  directly under the control row.
 
   ## Typing and picking stay in sync
 

@@ -10,26 +10,30 @@ rules every Mob component shares.
 ## What it renders
 
 ```
-column  fill_width                       (a row instead when side is :left / :right)
-├── row     the alignment lane — flexible spacers place the bubble across the side
-│   └── box   the hint — `<id>-open`, tappable to dismiss, only while open
-│       └── text  one line, ellipsised
-├── spacer  side_offset — goes with the bubble, so a closed tooltip reserves nothing
-└── box     the trigger — `<id>-trigger`, carries the hold and the control's own tap
-    └── …   your children
+anchored  side · align · side_offset · align_offset carried as props
+├── box   the trigger — `<id>-trigger`, in flow, hugs its child, carries the hold and the tap
+│   └── …    your children
+└── box   the hint — `<id>-open`, in its OWN window over the page, tappable to dismiss
+    └── text  one line, ellipsised
 ```
 
-With `side={:top}` or `:left` that sequence runs backwards, so the bubble precedes its trigger.
+The trigger is child [0] and the bubble child [1] for **every** side — `side` is a prop on the
+anchored node, not an ordering trick. Closed, the node has one child: the trigger alone, no window.
+
 With `arrow={true}` the bubble is wrapped in a stacking box aligned to the edge that faces the
 trigger:
 
 ```
-box     aligned :bottom_center / :top_center / :trailing / :leading
-├── column  the hint, plus a strip the arrow's own depth
+box     hugs the bubble, aligned :bottom_center / :top_center / :trailing / :leading
+├── column  the hint, plus a strip the arrow's own depth  ← a ROW for `:left` / `:right`,
+│           since the strip has to sit beside the bubble rather than under it
 └── canvas  a filled triangle — `<id>-arrow-<side>`
 ```
 
-Pass no children and you get the bare bubble alone, for a screen that places its own.
+Because that box hugs, the triangle centres on the *bubble's* edge — the web's `left: 50%`.
+
+Pass no children and there is nothing to anchor to: you get the bare bubble alone, for a screen that
+places its own, and `offset_x` / `offset_y` move it directly.
 
 ## Example
 
@@ -41,7 +45,6 @@ Pass no children and you get the bare bubble alone, for a screen that places its
   open={@tip == :copy}
   side={:bottom}
   arrow={true}
-  fill_width={false}
   on_open_change={{:hold, :copy}}
   on_tap={{:use, :copy}}
 >
@@ -69,19 +72,19 @@ end
 | `open` | boolean | `false` — the bubble draws nothing when closed |
 | `on_open_change` | event tag | — `{:tap, {tag, next_open?}}` |
 | `on_tap` | event tag | — the wrapped control's own tap, `{:tap, tag}` |
-| `side` | `:top` `:bottom` `:left` `:right` | `:top` — strings accepted too |
+| `side` | `:top` `:bottom` `:left` `:right` | `:top` — strings accepted too; flips when that side has no room |
 | `align` | `:start` `:center` `:end` | `:center` |
 | `side_offset` | number | `6` — the gap to the trigger, in dp |
-| `align_offset` | number | `0` — nudge along the alignment axis |
+| `align_offset` | number | `0` — nudge along the alignment axis; positive pushes *inward* on `:end` |
 | `arrow` | boolean | `false` |
 | `disabled` | boolean | `false` — never opens, and wires no hold |
 | `close_on_tap` | boolean | `true` — tapping the bubble dismisses it |
 | `background` | colour token / ARGB int | `0xFF111827` |
 | `color` | colour token / ARGB int | `0xFFFFFFFF` |
 | `text_size` | size token | `:sm` |
-| `offset_x` / `offset_y` | number | `nil` — raw nudge; adds to `align_offset` |
-| `fill_width` | boolean | `true` — turn off to sit several in one Row |
-| `id` | string | `nil` — root testTag; every part derives its own from it |
+| `offset_x` / `offset_y` | number | `nil` — raw nudge on the bubble, applied last; independent of `align_offset` |
+| `fill_width` | boolean | — no longer read |
+| `id` | string | `nil` — the stem every part's tag derives from |
 
 Not ported: `delay`, `close_delay`, `hoverable`, `track_cursor_axis`, `group`, `close_on_escape`,
 `trigger_label`, and the `*_class` attrs.
@@ -105,18 +108,25 @@ an `action_icon` carrying its own `on_tap` inside a tooltip eats the hold and th
 One `combinedClickable` carries both, which is why the trigger owns the tap — put the control's
 handler in the tooltip's `on_tap` and leave the control itself inert.
 
-**`side` is real, but it is layout — not floating.** The web positions the bubble from the trigger's
-measured rectangle, flips it at the viewport edge and re-anchors on scroll. Nothing in Mob reports a
-rendered node's geometry back to `render/1`, so the bubble is simply the trigger's neighbour in a
-`Column` (`:top`, `:bottom`) or a `Row` (`:left`, `:right`), with `side_offset` as the gap. Opening
-therefore **displaces** the surrounding content instead of drawing over it, and nothing flips
-because nothing here knows where the edge is.
+**`side` places the bubble now; it no longer orders it.** The trigger renders in flow as child [0]
+of an `:anchored` node, and the bubble is child [1], drawn in its own window
+(`androidx.compose.ui.window.Popup`) over the page. It takes no space, it can sit above or left of
+the control it describes, and no rounded box or scroll clips it. Placement is the web's
+`positionPopup()` transliterated: `side_offset` off the chosen side, `align_offset` along the cross
+axis, a main-axis flip when the requested side has no room and the opposite one does, then a clamp
+into the window with 8dp of edge padding plus the safe-area inset. What that replaced: the bubble
+used to be the trigger's **sibling** in a `Column` or a `Row`, placed across the side by flexible
+spacers — so opening a hint on one icon button shoved the buttons beside it aside, `side={:top}`
+only meant "earlier in the stack", and nothing flipped because nothing in flow knows where the edge
+is.
 
-**Turn `fill_width` off to put several in one Row.** It is the one prop with no web counterpart.
-Compose measures a Row's unweighted children first, in order, so a filling tooltip takes the whole
-row and starves its siblings — a toolbar of three hinted icons renders as one. Turning it off also
-leaves `align` nothing to align against, which is the honest trade: a stack that hugs its trigger
-has no spare width to place a bubble in.
+**`fill_width` is no longer read.** It was the one prop with no web counterpart: the stack filled its
+parent so `align` had spare width to place the bubble in, and you turned it off to fit several
+tooltips into one Row, because Compose measures a Row's unweighted children first and a filling
+tooltip starved its siblings — a toolbar of three hinted icons rendered as one. Both jobs are gone.
+The trigger always hugs the control it wraps, and `align` is arithmetic on the trigger's own measured
+box rather than room in a lane. Passing it is harmless, so an old call site does not break; it simply
+does nothing.
 
 **Give it an `id` or a device test has nothing to hold onto.** The trigger's tag is `<id>-trigger`
 and it is **stable** — unlike `popover`, whose trigger changes appearance when its panel opens, this
@@ -127,9 +137,11 @@ nothing else about it a device test can read.
 
 **Tapping the hint is the Escape, and `disabled` beats `open`.** The web closes on blur,
 pointer-leave or Escape; a phone has none of the three, so `close_on_escape` becomes `close_on_tap`
-and the bubble itself is the dismissal. Set it `false` and only a second hold closes the hint.
-`disabled` switches off the *hint*, not the control: no hold handler is wired, `open={true}` cannot
-win, and `on_tap` still fires.
+and the bubble itself is the dismissal. Set it `false` and only a second hold closes the hint. The
+bubble's own window will not help you: it has no back-press and no outside tap, deliberately, so it
+cannot desynchronise from the assign that produced it. `open` still lives in the screen. `disabled`
+switches off the *hint*, not the control: no hold handler is wired, `open={true}` cannot win, and
+`on_tap` still fires.
 
 **Set the ink whenever you set the fill.** The default is a hardcoded near-black with white text,
 and deliberately so — a hint has to read over *any* surface and there is no theme token for an
@@ -139,24 +151,27 @@ inverted one. The moment you pass a `background` of your own that reasoning stop
 
 ## Known platform gap
 
-Two entries in `development/mob/IOS_TODO.md` land on this component, so the bubble is shaped
-correctly on Android and stretched on iOS:
+**The anchoring is Android-only.** There is no `:anchored` primitive on iOS, and `deps/mob/ios` is a
+checksum-locked hex dependency that cannot be edited from this repo. An unknown node type there falls
+through to `MobNodeTypeColumn`, so on iOS a tooltip degrades to what it used to be on both platforms:
+the bubble stacked with its trigger, in flow, displacing the page. It neither errors nor blanks.
+`development/mob/IOS_TODO.md` §17 records it.
+
+Two older entries land on the bubble itself, so the hint is shaped correctly on Android and stretched
+on iOS:
 
 * **`MobBox` never reads `fill_width`** (item 6). The bubble is a Box asking to hug its text; on iOS
-  it fills its parent instead, so a hint renders as a full-width bar. That also leaves `align`
-  nothing to place — the bubble is already as wide as the lane — and the arrow's stacking Box
+  it fills its parent instead, so a hint renders as a full-width bar — and the arrow's stacking Box
   centres its triangle on the screen rather than on the bubble's edge.
 * **`max_lines` is never read** by the iOS renderer, so a hint too long for its row wraps there
   instead of ellipsising.
 
-Neither is specific to the tooltip and neither affects the gesture: `on_long_press` is
-`.onLongPressGesture(minimumDuration: 0.5)` on iOS and `combinedClickable` on Android, and the arrow
-is a `Mob.Canvas` path both renderers draw.
+Neither affects the gesture: `on_long_press` is `.onLongPressGesture(minimumDuration: 0.5)` on iOS
+and `combinedClickable` on Android, and the arrow is a `Mob.Canvas` path both renderers draw.
 
-What is not an iOS gap but a layering one on both platforms: a bubble in flow cannot float over the
-page, so a tooltip near the bottom of a scroll pushes rather than overlaps. When the hint is long
-enough that this matters, it is not a tooltip — use `popover`.
+A hint is one ellipsised line by design, whichever platform it lands on. When the text needs more
+room than that, it is not a tooltip — use `popover`.
 
 ## Related
-`popover` (the same placement problem, a panel rather than a hint), `context_menu` (the other
-long-press component), `action_icon` (the control a tooltip most often wraps), `toast`.
+`popover` (the same anchoring, a panel rather than a hint), `context_menu` (the other long-press
+component), `action_icon` (the control a tooltip most often wraps), `toast`.

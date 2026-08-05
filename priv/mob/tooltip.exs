@@ -10,7 +10,7 @@
     mob: [
       composite_tag: "tooltip",
       function: "tooltip",
-      kit: ["event"]
+      kit: ["anchored", "event"]
     ]
   ]
 ]

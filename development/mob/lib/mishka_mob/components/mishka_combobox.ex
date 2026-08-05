@@ -92,6 +92,14 @@ defmodule MishkaMob.Components.MishkaCombobox do
   tap, so the control and its options are unaffected and only the surrounding
   space closes the list.
 
+  An anchored panel would not have spared you that. Mob does have one — the
+  `:anchored` node (`MishkaMob.Components.Anchored`), which
+  `MishkaMob.Components.MishkaPopover` is built on — but its window dismisses
+  itself on nothing either: no back-press, no outside tap. The combobox does not
+  use it regardless, because a filtered list is as long as the data behind it,
+  and floating that over the field you are typing into is the wrong shape on a
+  phone.
+
   `on_blur` is offered but is **not** the way to do it: tapping an option blurs
   the field too, so closing on blur closes the list on every pick — which is
   exactly what `multiple` mode must not do.

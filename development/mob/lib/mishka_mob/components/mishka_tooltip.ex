@@ -20,19 +20,35 @@ defmodule MishkaMob.Components.MishkaTooltip do
   and `<:trigger>` is a named slot; here the children are the *trigger*, because
   a native hint is one short string (`text`) while a trigger is a whole control.
 
-  ## Placement is flow, not anchoring
+  ## The hint floats over the page
 
-  `side` and `align` do port, but they position the bubble **in the layout**
-  rather than floating it over one. `side` decides which side of the trigger the
-  bubble is stacked on and which way the arrow points; `align` places it across
-  that side; `side_offset` is the gap between the two and `align_offset` nudges
-  along the alignment axis. What does not port is edge-flip and viewport
-  clamping — both need a measured on-screen rectangle, which a Mob render
-  function is never given (see `MishkaMob.Components.MishkaPopover`).
+  `side`, `align`, `side_offset` and `align_offset` port, and they now mean what
+  they mean on the web. The trigger is child [0] of an `:anchored` node and
+  renders in flow; the bubble is child [1] and renders in its own window over
+  everything (see `MishkaMob.Components.Anchored`). The bubble therefore takes
+  no space, it can sit above or left of the control it describes, and no rounded
+  `:box` or vertical `:scroll` can clip it. `side` is a prop on that node rather
+  than an ordering trick — the trigger comes first for every side.
 
-  Opening therefore *displaces* the surrounding content instead of floating over
-  it. That is the honest native shape, and it is why `side_offset` is a real gap
-  rather than a fudge factor.
+  The position is the web's `positionPopup()`, transliterated: `side_offset` off
+  the chosen side, `align_offset` along the alignment axis (positive pushes
+  INWARD on `:end`, matching the web), a main-axis flip when the requested side
+  has no room and the opposite one does, then a clamp into the window with 8dp
+  of edge padding plus the safe-area inset.
+
+  What that replaced: the bubble used to be a **sibling** of the trigger in a
+  Column or a Row, placed across the side by flexible spacers. Opening it
+  displaced the page — a hint on one icon button shoved the buttons beside it
+  aside — and `side: :top` only ever meant "earlier in the stack". Nothing
+  flipped and nothing clamped, because nothing in flow knows where the edge is.
+
+  With NO children there is nothing to anchor to, and that case is unchanged:
+  you get the bare bubble for a screen that places its own, and `offset_x` /
+  `offset_y` move it directly.
+
+  iOS has no `:anchored` primitive. An unknown node type falls through to
+  `MobNodeTypeColumn` there, so the bubble degrades to the old stack rather than
+  erroring or blanking — see `IOS_TODO.md` §17.
 
   ## It is deliberately not the Popover shell
 
@@ -46,10 +62,10 @@ defmodule MishkaMob.Components.MishkaTooltip do
   |------|--------|---------|---------|
   | `text` | string | `nil` | The hint. |
   | `open` | boolean | `false` | Whether it is shown. Lives in the screen. |
-  | `side` | `:top` `:bottom` `:left` `:right` | `:top` | Which side of the trigger the bubble sits on. |
-  | `align` | `:start` `:center` `:end` | `:center` | Placement across that side. |
+  | `side` | `:top` `:bottom` `:left` `:right` | `:top` | Which side of the trigger the bubble takes. Flips when that side has no room. |
+  | `align` | `:start` `:center` `:end` | `:center` | Where it sits along the cross axis. |
   | `side_offset` | number | `6` | Gap between trigger and bubble, in dp. |
-  | `align_offset` | number | `0` | Nudge along the alignment axis, in dp. |
+  | `align_offset` | number | `0` | Nudge along the alignment axis. Positive pushes inward on `:end`. |
   | `arrow` | boolean | `false` | Draw a triangle pointing back at the trigger. |
   | `disabled` | boolean | `false` | Never opens, and wires no handler. |
   | `on_open_change` | event tag | — | Sent as `{:tap, {tag, next_open?}}`. |
@@ -58,16 +74,22 @@ defmodule MishkaMob.Components.MishkaTooltip do
   | `background` | color token / ARGB int | `0xFF111827` | Bubble fill — dark by default so it reads over any surface. |
   | `color` | color token / ARGB int | `0xFFFFFFFF` | Hint colour. |
   | `text_size` | size token | `:sm` | Hint size. |
-  | `offset_x` / `offset_y` | number | `nil` | Static nudge in dp. |
-  | `fill_width` | boolean | `true` | The stack fills its parent so `align` has room to work. |
+  | `offset_x` / `offset_y` | number | `nil` | Raw nudge on the bubble, in dp, applied last. |
+  | `fill_width` | boolean | — | No longer read. |
   | `id` | string | — | Native testTags: `id-trigger`, `id-open`, `id-arrow-<side>`. |
 
-  `fill_width` is the one prop with no web counterpart, and it exists because a
-  Row measures its unweighted children first: a filling stack would take the
-  whole row and starve its siblings, so several tooltips side by side need
-  `fill_width={false}`. Turning it off also gives `align` nothing to align
-  against, which is the honest trade — a stack that hugs its trigger has no
-  spare width to place the bubble in.
+  `fill_width` is the one prop with no web counterpart, and it is now inert. It
+  used to make the stack fill its parent so `align` had spare width to place the
+  bubble in, and turning it off was how you fitted several tooltips into one Row
+  — a Row measures its unweighted children first, so a filling stack starved its
+  siblings. Both jobs are gone: the trigger always hugs the control it wraps,
+  and `align` is arithmetic on the trigger's own measured box rather than room
+  in a lane. Passing it is harmless, so an old call site does not break; it
+  simply does nothing.
+
+  `offset_x` / `offset_y` are independent of `align_offset` now rather than
+  folded into it: the anchored node knows which axis its align runs on, so the
+  two no longer have to share one number.
 
   Not ported: `delay`, `close_delay`, `hoverable` and `track_cursor_axis` (all
   describe a pointer that does not exist), `group` (a shared *hover* delay), and
@@ -246,9 +268,6 @@ defmodule MishkaMob.Components.MishkaTooltip do
   defp triangle(:left), do: {@depth, @span, [{0, 0}, {@depth, @span / 2}, {0, @span}]}
   defp triangle(:right), do: {@depth, @span, [{@depth, 0}, {0, @span / 2}, {@depth, @span}]}
 
-  # `align_offset` is the web's nudge along the alignment axis, and which axis
-  # that is depends on the side. It adds to whatever `offset_x` / `offset_y` the
-  # caller set rather than replacing it, so neither silently wins.
   # The raw escape hatch. `align_offset` used to be folded in here, because a
   # nudge in flow has to name its own axis; the anchored node knows which axis
   # its align runs on, so it takes that prop directly.

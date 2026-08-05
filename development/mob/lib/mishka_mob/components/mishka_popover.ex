@@ -3,31 +3,67 @@ defmodule MishkaMob.Components.MishkaPopover do
   Native Mob port of Mishka Chelekom's **headless Popover** — a trigger that
   toggles a panel of arbitrary content beside it.
 
-  ## The panel is anchored by layout, not by measurement
+  ## The panel floats, in a window of its own
 
-  The web floats its panel over the page from the trigger's measured rectangle,
-  flipping at the viewport edge and repositioning on scroll. Mob reports no
-  geometry back to `render/1`, so that mechanism cannot exist here — but what it
-  was *for* ports almost entirely, because a flow container already puts one
-  child beside another:
+  The web floats its panel over the page from the trigger's measured rectangle.
+  Mob reports no geometry back to `render/1`, so this port used to do the only
+  other thing available: make the panel the trigger's **sibling**. `:bottom` and
+  `:top` stacked the two in a `Column`, `:left` and `:right` put them in a `Row`,
+  `side_offset` was a `:spacer` between them and `align` was an aligned Box. That
+  is layout, not floating — opening pushed every sibling below the popover down
+  the page, and `side: :top` was a lie, because a panel "above" its trigger still
+  ate the same vertical space. It read as an accordion.
 
-    * `side` decides which side of the trigger the panel occupies. `:bottom` and
-      `:top` stack the two in a `Column`; `:left` and `:right` put them in a
-      `Row`.
-    * `side_offset` is the gap between them, in dp rather than px.
-    * `align` positions the panel across that axis, and `align_offset` nudges it
-      along the same one.
+  `MishkaMob.Components.Anchored` is what replaced it. The trigger is child `[0]`
+  of an `:anchored` node and the panel is child `[1]`, in that order **for every
+  side**; the anchor renders in flow, and the panel renders in its own window
+  over the page. So the panel takes no room, it can genuinely sit above or left
+  of its trigger, and no ancestor can clip it — which matters, because a `:box`
+  with a `corner_radius` clips and a vertical `:scroll` clips its main axis, and
+  the showcase is made of both.
 
-  What is genuinely gone is the *floating* half: the panel takes room in the
-  layout instead of drawing over it, and nothing flips at the screen edge
-  because nothing here knows where the edge is. That is how native dropdowns are
-  built anyway, and it is stable on both platforms.
+  Positioning is the web's `positionPopup()`, transliterated:
 
-  `align` defaults to `:start`, not the web's `center`. The web centres on the
-  trigger's measured box; in flow there is no such box to centre on, and a panel
-  that fills its parent — the default — looks identical at every alignment. So
-  the default is the native one, the leading edge, and `:center` / `:end` are
-  there for a panel narrow enough to have somewhere to go.
+    * `side` decides which side of the trigger the panel takes, and `side_offset`
+      is the gap, in dp rather than px. It is a prop on the anchor now, not a
+      spacer — a spacer cannot express a gap between things that share no layout.
+    * `align` places the panel across that side, against the trigger's own box,
+      and `align_offset` nudges it along the same axis. A positive `align_offset`
+      pushes **inward** on `:end`, matching the web's sign.
+    * The side **flips** to its opposite when the requested one has no room and
+      the opposite one does — main axis only, exactly as the web engines do.
+    * Then the panel is clamped into the window, keeping 8dp of edge padding plus
+      the safe-area inset clear, so it can neither run off-screen nor land under
+      the status bar.
+
+  `align` still defaults to `:start` rather than the web's `center`, because the
+  leading edge is where a native dropdown opens. What changed is that the value
+  now *bites*: alignment used to be nearly decorative, since a panel filling its
+  parent looks identical at every setting. Both halves hug now, so `:center` and
+  `:end` really do move the panel against the trigger.
+
+  ## Both halves hug their content
+
+  The **trigger** hugs on every side. It used to fill the width when stacked,
+  because it shared a Column with the panel and a narrow trigger looked stranded
+  above a wide one. Under real anchoring that is harmful: a full-width trigger
+  turns `align: :end` into "the screen's right edge" instead of "the trigger's",
+  and the web anchors to a content-sized `<button>`.
+
+  The **panel** hugs too. Inside a popup window `fill_width` means the whole
+  SCREEN, after which the clamp pins the panel to the leading edge whatever
+  `side` or `align` asked for. Popover and preview_card get that
+  by putting `fill_width: false` on the way in; `panel/2` itself still FILLS by
+  default, which is how `MishkaMob.Components.MishkaMenu` — passing none, and
+  placing its own control — keeps the full-width shell it always had. Pass
+  `fill_width: true` explicitly to get the old filling panel back.
+
+  ## Open and closed are still the screen's
+
+  The panel's window never dismisses itself: no back-press, no outside tap. The
+  screen owns `open` exactly as it did in flow, so the tree cannot desynchronise
+  from the assign that produced it, nor from the `<id>-trigger-open` /
+  `<id>-panel` tag pair a device test reads.
 
   ## A long press is the hover
 
@@ -94,30 +130,47 @@ defmodule MishkaMob.Components.MishkaPopover do
   | `disabled` | boolean | `false` | Wires no handler, so the trigger is inert. |
   | `chevron` | boolean | `true` | Show the ▾/▴ indicator on the trigger. |
   | `side` | `:top` `:right` `:bottom` `:left` | `:bottom` | Which side of the trigger the panel takes. |
-  | `align` | `:start` `:center` `:end` | `:start` | Where the panel sits across that axis. |
+  | `align` | `:start` `:center` `:end` | `:start` | Where the panel sits across that side, against the trigger's box. |
   | `side_offset` | number | `8` | Gap between trigger and panel, in dp. |
-  | `align_offset` | number | `nil` | Nudge along the alignment axis, in dp. |
+  | `align_offset` | number | `nil` | Nudge along the alignment axis, in dp. Positive pushes *inward* on `:end`. |
+  | `flip` | boolean | `true` | Turn to the opposite side when the requested one has no room and that one does. |
+  | `clamp` | boolean | `true` | Keep the panel inside the window. |
+  | `edge_padding` | number | `8` | Kept clear of the window edges, on top of the safe-area inset. |
   | `title` | string | `nil` | Shorthand for `<MishkaPopoverTitle>`. |
   | `description` | string | `nil` | Shorthand for `<MishkaPopoverDescription>`. |
   | `close` | string | `nil` | Shorthand for `<MishkaPopoverClose>`. |
   | `arrow` | boolean | `false` | Shorthand for `<MishkaPopoverArrow>` — a beak pointing back at the trigger. |
-  | `width` | number | `nil` | Panel width. Omit to fill the parent. |
+  | `width` | number | `nil` | Panel width. Omit and the panel hugs its content. |
   | `background` | color token / ARGB int | `:surface` | Panel fill. |
   | `color` / `muted_color` | color token / ARGB int | `:on_surface` / `:muted` | Title ink, and the description's. |
   | `corner_radius` | radius token / number | `:radius_md` | Panel corners. |
   | `padding` | spacing token / number | `:space_md` | Padding inside the panel. |
   | `border_color` / `border_width` | color / number | `:border` / `1` | The edge that separates it from the content beneath. |
-  | `offset_x` / `offset_y` | number | `nil` | Static nudge in dp; wins over `align_offset`. |
+  | `offset_x` / `offset_y` | number | `nil` | Raw nudge in dp, applied last — on top of `side_offset` and `align_offset` rather than instead of either. |
 
-  Not ported: `modal` and the backdrop it draws (a scrim belongs to whatever owns
-  the screen root — use `MishkaMob.Components.MishkaDialog` or
+  The two offsets reach the anchored node as `panel_offset_x` / `panel_offset_y`,
+  because `Mob.Renderer` wraps any node carrying `offset_x` / `offset_y` in an
+  offset Box — which on the anchor would move the TRIGGER rather than the panel.
+
+  Not ported: `modal` and the backdrop it draws (the panel's window is sized to
+  the panel, so there is nothing there to dim the page with; a scrim belongs to
+  whatever owns the screen root — use `MishkaMob.Components.MishkaDialog` or
   `MishkaMob.Components.MishkaDrawer` when the page must be blocked),
-  `dismissible` and `close_on_escape` (a panel in flow has no outside to click
-  and a phone has no Escape), `initial_focus` / `final_focus` (Mob exposes no
-  focus model for a panel), `labelledby` / `describedby` (no accessibility
-  semantics on any node — the `title` and `description` are rendered instead of
-  merely referenced), `open_on_hover` / `delay` / `close_delay`, and the
-  `*_class` attrs.
+  `dismissible` and `close_on_escape` (the panel's window is deliberately not
+  self-dismissing, so it cannot drift out of step with the screen's `open`, and a
+  phone has no Escape), `initial_focus` / `final_focus` (Mob exposes no focus
+  model for a panel), `labelledby` / `describedby` (no accessibility semantics on
+  any node — the `title` and `description` are rendered instead of merely
+  referenced), `open_on_hover` / `delay` / `close_delay`, and the `*_class`
+  attrs.
+
+  ## iOS
+
+  There is no anchored primitive on iOS: `deps/mob/ios` is a checksum-locked hex
+  dependency and cannot be edited from this repo. An unknown node type there
+  falls through to `MobNodeTypeColumn`, so an anchored panel degrades to the old
+  stacked accordion — it neither errors nor blanks. Floating is Android-only for
+  now, and `IOS_TODO.md` §17 records it.
   """
 
   import Mob.Sigil
@@ -231,7 +284,9 @@ defmodule MishkaMob.Components.MishkaPopover do
   what that markup does.
 
   With no trigger at all it is the panel alone, which is how `MishkaMenu` and
-  the select-style components use it: they place their own control.
+  the select-style components use it: they place their own control. There is
+  nothing to anchor to in that case, so the panel renders in place rather than
+  in a window of its own.
   """
   @spec popover(map() | keyword(), [map()]) :: map()
   def popover(props \\ %{}, content \\ []) do

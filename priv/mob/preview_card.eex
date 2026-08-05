@@ -20,23 +20,79 @@ defmodule <%= @module %> do
   `<%= @namespace %>.<%= @module_prefix_camel %>Popover`, so holding the trigger a second time can
   close the card, or not, as the screen prefers.
 
-  ## What `side` and `align` honestly mean here
+  ## The card floats over the page
 
-  There is still no anchored positioning (see `<%= @namespace %>.<%= @module_prefix_camel %>Popover`
-  for why a render function cannot measure its trigger). But once the trigger is
-  *inside* the component, `side` no longer needs a measurement to mean something:
-  it is the order and the axis of the two parts.
+  The trigger and the card used to be siblings in a flow container: `:bottom`
+  and `:top` stacked them in a Column, `:left` and `:right` sat them in a Row,
+  and on that Row both halves carried a weight so neither starved the other.
+  Layout is not floating, and it showed — opening a card pushed everything below
+  it down the page, `side: :top` was a lie because a card "above" its trigger
+  still consumed the same vertical space, and beside the trigger the two split a
+  phone's width between them.
 
-    * `:bottom` (default) / `:top` — a Column; the card sits under or over the
-      trigger.
-    * `:left` / `:right` — a Row; the card sits beside it. Both parts carry a
-      weight so neither starves the other, which on a phone-width screen means
-      roughly half the width each. Cramped, and offered because the web offers
-      it, not because it is the shape to reach for.
+  The pair is an `:anchored` node now (`<%= @namespace %>.Anchored`). Child
+  [0] is the trigger and renders in flow; child [1] is the card and renders in
+  its own window, over the page. The card therefore takes no space, it can sit
+  above or beside the thing it describes, and no ancestor can clip it — which is
+  the point, because a `:box` with a `corner_radius` clips and a vertical
+  `:scroll` clips its main axis, and a card is nearly always inside both.
 
-  `align` positions the arrow along the card's facing edge, which is the only
-  thing alignment can move while the card itself spans the width. `side_offset`
-  is the real gap between the two parts; `align_offset` nudges the arrow.
+  The root is a `:column` whatever the side, and nothing is weighted any more.
+  There is no ordering left to arrange: `side` is a prop the window's position
+  provider reads, not a place in a list.
+
+  ## Where the card lands
+
+  The position is the web's `positionPopup()` transliterated, measured against
+  the trigger's real rectangle:
+
+    * `side` — which side of the trigger the card takes.
+    * `align` — where it sits along the cross axis, from the trigger's own edge.
+    * `side_offset` — the gap between the two. A prop on the anchored node now,
+      rather than a `:spacer` sibling.
+
+  When the requested side has no room and the opposite one does, the card flips
+  to it — a main-axis flip only, as on the web, where `align` never flips.
+  Whatever survives that is then clamped into the window unconditionally, with
+  8dp of edge padding plus the safe-area inset, so a card near an edge is moved
+  rather than cut in half.
+
+  `align_offset` is the one prop that does not move the card: it nudges the
+  arrow along the card's facing edge, which is what it did before the card was
+  anchored too.
+
+  ## The trigger hugs, and so does the card
+
+  Both follow from the card being anchored to the trigger's own box instead of
+  sharing a parent with it:
+
+    * The trigger hugs its content on **every** side. Stacked, it used to fill
+      the width. Anchored, a full-width trigger would make `align: :end` mean
+      the screen's right edge instead of the trigger's — and the web anchors to
+      a content-sized `<button>`.
+    * The card hugs rather than filling. Inside a popup window "fill" is the
+      whole SCREEN, after which the clamp pins the card to the leading edge
+      whatever `side` and `align` asked for. Pass `width` for a fixed card, or
+      `fill_width: true` for the old filling one —
+      `<%= @namespace %>.<%= @module_prefix_camel %>Popover.panel/2` honours an explicit value.
+
+  ## What anchoring did not change
+
+  `open` is still the screen's. The card's window never dismisses itself — no
+  back press, no outside tap — so it cannot drift out of step with the assign
+  that drew it, and a card that can be opened still needs a hold that closes it.
+
+  There is still no hover on a touch screen, either. The long press is the whole
+  of it.
+
+  ## iOS
+
+  iOS has no anchored primitive, and `deps/mob/ios` is a checksum-locked hex
+  dependency this repo cannot edit. An unknown node type there falls through to
+  `MobNodeTypeColumn`, so an anchored card degrades to the old stacked accordion
+  rather than erroring or blanking — but it stacks in child order, which puts the
+  card after the trigger whatever `side` says. Android-only for now, and
+  `IOS_TODO.md` §17 records it.
 
   ## Everything carries a testTag
 
@@ -63,10 +119,10 @@ defmodule <%= @module %> do
   | `trigger` | node / [node] | `nil` | What you hold, as data. `<<%= @module_prefix_camel %>PreviewCardTrigger>` is the same thing as markup. Renders in both states. |
   | `on_hold` | event tag | `nil` | Long press on the trigger — `{:tap, {tag, id}}`. |
   | `on_tap` | event tag | `nil` | Plain tap on the trigger — `{:tap, {tag, id}}`. |
-  | `side` | `:bottom` `:top` `:left` `:right` | `:bottom` | Where the card sits relative to the trigger. |
-  | `align` | `:start` `:center` `:end` | `:center` | Where the arrow sits along the facing edge. |
+  | `side` | `:bottom` `:top` `:left` `:right` | `:bottom` | Which side of the trigger the card takes. Flips to the opposite side when that one has no room. |
+  | `align` | `:start` `:center` `:end` | `:center` | Where the card sits across that axis, from the trigger's own edge. |
   | `side_offset` | number | `8` | Gap between trigger and card, in dp. |
-  | `align_offset` | number | `0` | Nudge along the alignment axis, in dp. |
+  | `align_offset` | number | `0` | Nudges the **arrow** along the card's facing edge, in dp. It does not move the card. |
   | `arrow` | boolean | `false` | Draw the pointer back at the trigger. |
   | `arrow_color` | color token / ARGB int | `:border` | Arrow colour. |
   | `title` | string | `nil` | The name. |
@@ -74,7 +130,11 @@ defmodule <%= @module %> do
   | `description` | string | `nil` | The body. |
   | `initials` / `image` | string | `nil` | Avatar content — omit both and there is no avatar. |
   | `avatar_color` | color token / ARGB int | `:primary` | Avatar fill. |
-  | plus everything `<%= @namespace %>.<%= @module_prefix_camel %>Popover` accepts | | | |
+  | plus everything `<%= @namespace %>.<%= @module_prefix_camel %>Popover`'s **panel** accepts | | | `width`, `background`, `corner_radius`, `padding`, `border_*`, `fill_width`. |
+
+  Of popover's positioning props only `side`, `align` and `side_offset` reach the
+  anchored node. `flip`, `clamp`, `edge_padding` and `panel_offset_*` are not
+  forwarded, so setting them here does nothing.
 
   ## Slots
 
@@ -108,7 +168,7 @@ defmodule <%= @module %> do
 
   import Mob.Sigil
 
-  alias <%= @namespace %>.{Event, <%= @module_prefix_camel %>Avatar, <%= @module_prefix_camel %>Popover}
+  alias <%= @namespace %>.{Anchored, Event, <%= @module_prefix_camel %>Avatar, <%= @module_prefix_camel %>Popover}
 
   @trigger_slot :mishka_preview_card_trigger
 
@@ -174,6 +234,11 @@ defmodule <%= @module %> do
   `on_hold` is the long press, the touch equivalent of the web's hover; `on_tap`
   is whatever the trigger already did. Both report `{:tap, {tag, id}}`, so one
   screen clause serves a list of them.
+
+  Called directly it still fills its parent, since a trigger placed by hand is
+  usually a row of its own. The card builds its own with `fill_width: false`,
+  because an anchor wider than its content would drag `align` out to the screen's
+  edge.
   """
   @spec trigger(term(), [map()], keyword()) :: map()
   def trigger(id, children, opts \\ []) do
@@ -185,9 +250,11 @@ defmodule <%= @module %> do
   end
 
   @doc """
-  The preview-card node — trigger, gap, arrow and popup.
+  The preview-card node — the trigger, and the card anchored to it.
 
-  The trigger renders in both states; the rest appears only when `open`.
+  The trigger renders in both states, in flow; the card appears only when `open`,
+  in its own window over the page. With no trigger there is nothing to anchor to,
+  so the card renders in place instead.
 
       <<%= @module_prefix_camel %>PreviewCard
         id="shahryar"
@@ -213,45 +280,61 @@ defmodule <%= @module %> do
     align = one_of(Map.get(props, :align), @aligns, :center)
     trigger = trigger_part(props, side)
 
-    if truthy?(Map.get(props, :open, false)) do
-      root(side, align, id, "-open", parts(props, footer, id, side, align, trigger))
-    else
-      closed(side, align, id, trigger)
+    opts = [
+      side: side,
+      align: align,
+      side_offset: Map.get(props, :side_offset, 8)
+    ]
+
+    open? = truthy?(Map.get(props, :open, false))
+
+    cond do
+      # No trigger at all: the card IS the content, so it renders in place.
+      trigger == [] and open? ->
+        put(
+          %{
+            type: :column,
+            props: %{fill_width: true},
+            children: [card(props, footer, id, side, align)]
+          },
+          :id,
+          tag(id, "-open")
+        )
+
+      trigger == [] ->
+        put(~MOB(<Column />), :id, tag(id, "-closed"))
+
+      open? ->
+        node = Anchored.anchor(hd(trigger), card(props, footer, id, side, align), opts)
+
+        put(%{type: :column, props: %{fill_width: true}, children: [node]}, :id, tag(id, "-open"))
+
+      true ->
+        node = Anchored.closed(hd(trigger), opts)
+
+        put(
+          %{type: :column, props: %{fill_width: true}, children: [node]},
+          :id,
+          tag(id, "-closed")
+        )
     end
   end
 
-  # A closed card with no trigger is still nothing at all. The tag is the only
-  # thing left of it, and it is what a device test reads instead of trying to
-  # prove the absence of a colour.
-  defp closed(_side, _align, id, []), do: put(~MOB(<Column />), :id, tag(id, "-closed"))
-  defp closed(side, align, id, trigger), do: root(side, align, id, "-closed", trigger)
+  # The popup and its arrow, as ONE node — an anchored node takes exactly two
+  # children, and the gap that used to be a :spacer between them is now
+  # `side_offset` on the anchor.
+  defp card(props, footer, id, side, align) do
+    popup = popup(props, footer, id, side)
 
-  defp root(side, _align, id, suffix, children) when side in [:top, :bottom] do
-    %{type: :column, props: %{fill_width: true}, children: children}
-    |> put(:id, tag(id, suffix))
-  end
+    case arrow(props, id, side, align) do
+      [] ->
+        popup
 
-  # Beside the trigger the two parts share one line, so the row's own vertical
-  # alignment is what `align` can act on — a Column has no horizontal alignment
-  # prop to hang it off instead.
-  defp root(_side, align, id, suffix, children) do
-    %{type: :row, props: %{fill_width: true, align: row_align(align)}, children: children}
-    |> put(:id, tag(id, suffix))
-  end
+      arrow ->
+        parts = if side in [:bottom, :right], do: arrow ++ [popup], else: [popup] ++ arrow
+        axis = if side in [:left, :right], do: :row, else: :column
 
-  defp row_align(:start), do: "top"
-  defp row_align(:end), do: "bottom"
-  defp row_align(_align), do: "center"
-
-  defp parts(props, footer, id, side, align, trigger) do
-    popup = [popup(props, footer, id, side)]
-    gap = gap(props, trigger)
-    arrow = arrow(props, id, side, align)
-
-    if side in [:bottom, :right] do
-      trigger ++ gap ++ arrow ++ popup
-    else
-      popup ++ arrow ++ gap ++ trigger
+        %{type: axis, props: %{}, children: parts}
     end
   end
 
@@ -263,44 +346,32 @@ defmodule <%= @module %> do
       nodes ->
         id = Map.get(props, :id)
 
+        # The trigger HUGS, on every side, and carries no weight. Both of those
+        # existed to share a Row or a Column with the card; anchored to a
+        # full-width trigger, `align: :end` would mean the screen's edge rather
+        # than the trigger's, which is not what the web does.
+        _ = side
+
         node =
           trigger(id, nodes,
             on_hold: Map.get(props, :on_hold),
             on_tap: Map.get(props, :on_tap),
             test_id: tag(id, "-trigger"),
-            fill_width: side in [:top, :bottom]
+            fill_width: false
           )
 
-        [put(node, :weight, weight(side))]
+        [node]
     end
   end
 
   defp popup(props, footer, id, side) do
     props
+    # Hugging, not filling: inside a popup window "fill" is the whole SCREEN,
+    # after which the position clamp pins the card to the leading edge whatever
+    # side asked for. <%= @module_prefix_camel %>Popover.panel/2 honours an explicit value.
+    |> Map.put_new(:fill_width, false)
     |> <%= @module_prefix_camel %>Popover.panel([header(props, id), body(props, id), footer_part(footer, id)])
     |> put(:id, tag(id, "-popup-#{side}"))
-    |> put(:weight, weight(side))
-  end
-
-  # Beside the trigger both halves have to be weighted. A Box with neither a
-  # width nor `fill_width` fills its parent, and Compose measures a Row's
-  # unweighted children first — so whichever half went unweighted would take the
-  # whole row and starve the other.
-  defp weight(side) when side in [:left, :right], do: 1
-  defp weight(_side), do: nil
-
-  # The gap separates the trigger from the card. With no trigger there is no
-  # pair to separate, and a leading spacer would only push the card down.
-  defp gap(_props, []), do: []
-
-  defp gap(props, _trigger) do
-    case Map.get(props, :side_offset, 8) do
-      size when is_number(size) and size > 0 ->
-        [%{type: :spacer, props: %{size: size}, children: []}]
-
-      _ ->
-        []
-    end
   end
 
   defp arrow(props, id, side, align) do

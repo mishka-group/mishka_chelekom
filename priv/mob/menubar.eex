@@ -14,8 +14,13 @@ defmodule <%= @module %> do
   here — there is no pointer, and a finger is either down or not. So every menu
   opens on tap, which is what a touch menubar does anyway.
 
-  The panel is rendered in flow beneath the bar, for the reason
-  `<%= @namespace %>.<%= @module_prefix_camel %>Popover` explains: Mob has no anchored overlay.
+  The panel is rendered in flow beneath the bar. That used to be because Mob had
+  no anchored overlay at all; it has one now — the `:anchored` node
+  (`<%= @namespace %>.Anchored`), which `<%= @namespace %>.<%= @module_prefix_camel %>Popover`
+  is built on — and the menubar has simply not been moved onto it. It draws
+  through `<%= @namespace %>.<%= @module_prefix_camel %>Menu`, which is unchanged. `:anchored` is
+  Android-only so far; on iOS the node falls through to a column, which is the
+  stacked shape the bar already has.
 
   ## Menus
 

@@ -104086,8 +104086,8 @@
         "chelekom-icon"
       ],
       "examples": [
-        "<.component component_name=\"chelekom-flash-group\" site=\"Global\" id=\"flash-group-site\" flash={%{}} position=\"top_right\" />",
-        "<.component component_name=\"chelekom-flash-group\" site=\"Global\" id=\"flash-group-admin\" flash={%{}} position=\"bottom_left\" variant=\"shadow\" />"
+        "<.component component_name=\"chelekom-flash-group\" site=\"Global\" id=\"flash-group-site\" position=\"top_right\" flash={%{\"info\" => \"Your changes have been saved.\", \"error\" => \"We could not reach the server — retrying.\"}} />",
+        "<.component component_name=\"chelekom-flash-group\" site=\"Global\" id=\"flash-group-admin\" position=\"bottom_left\" variant=\"shadow\" flash={%{\"info\" => \"Cache cleared for 3 sites.\"}} />"
       ],
       "extra": {
         "clauses": null,
@@ -104097,21 +104097,21 @@
         "examples": [
           {
             "base": true,
-            "label": "Site-wide flash stack in the top-right corner",
+            "label": "Save confirmation and an error, stacked top-right",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-flash-group\" site=\"Global\" id=\"flash-group-site\" flash={%{}} position=\"top_right\" />"
+            "source": "<.component component_name=\"chelekom-flash-group\" site=\"Global\" id=\"flash-group-site\" position=\"top_right\" flash={%{\"info\" => \"Your changes have been saved.\", \"error\" => \"We could not reach the server — retrying.\"}} />"
           },
           {
             "base": false,
-            "label": "Admin layout stack, shadowed and anchored bottom-left",
+            "label": "Admin stack anchored bottom-left, shadowed",
             "requires": {
               "variant": [
                 "shadow"
               ]
             },
             "section": null,
-            "source": "<.component component_name=\"chelekom-flash-group\" site=\"Global\" id=\"flash-group-admin\" flash={%{}} position=\"bottom_left\" variant=\"shadow\" />"
+            "source": "<.component component_name=\"chelekom-flash-group\" site=\"Global\" id=\"flash-group-admin\" position=\"bottom_left\" variant=\"shadow\" flash={%{\"info\" => \"Cache cleared for 3 sites.\"}} />"
           }
         ],
         "function": "flash_group",
