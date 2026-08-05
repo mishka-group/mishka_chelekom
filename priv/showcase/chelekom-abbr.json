@@ -1,0 +1,17 @@
+{
+  "name": "chelekom-abbr",
+  "furnishing": {
+    "body": "HTML",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Protocol shorthand inside a technical paragraph",
+      "source": "<p class=\"max-w-prose text-sm leading-7 text-zinc-700 dark:text-zinc-300\">\n  Every request between the edge and your origin travels over <.component component_name=\"chelekom-abbr\" site=\"Global\" id=\"abbr-https\" title=\"Hypertext Transfer Protocol Secure\">HTTPS</.component>, and static assets stay in the cache for twenty-four hours before they are revalidated.\n</p>"
+    },
+    {
+      "label": "Billing unit shorthand in a pricing note",
+      "source": "<p class=\"max-w-prose text-sm leading-7 text-zinc-600 dark:text-zinc-400\">\n  Object storage is billed at $0.02 per <.component component_name=\"chelekom-abbr\" site=\"Global\" id=\"abbr-gb\" title=\"Gigabyte\" color=\"primary\">GB</.component> per month. The first 10 GB on every workspace are free, and we never charge for traffic between your own regions.\n</p>"
+    }
+  ]
+}

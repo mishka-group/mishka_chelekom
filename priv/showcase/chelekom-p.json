@@ -1,0 +1,17 @@
+{
+  "name": "chelekom-p",
+  "furnishing": {
+    "body": "A short paragraph that says what this section is about and why it is worth reading.",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Article opening beneath a section heading",
+      "source": "<div class=\"max-w-2xl space-y-3\">\n  <.component component_name=\"chelekom-h2\" site=\"Global\" size=\"double_large\" font_weight=\"font-semibold\">Why we rewrote the editor</.component>\n  <.component component_name=\"chelekom-p\" site=\"Global\">The old editor asked you to hold two things in your head at once: the page you were writing and the markup it would become. Every change meant a save, a reload, and a guess about what had moved.</.component>\n  <.component component_name=\"chelekom-p\" site=\"Global\">The new one renders the real components on a real canvas. What you drag is what ships, and the only thing left to guess about is the copy.</.component>\n</div>"
+    },
+    {
+      "label": "Two feature blurbs side by side",
+      "source": "<div class=\"grid max-w-3xl gap-8 sm:grid-cols-2\">\n  <div class=\"space-y-2\">\n    <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"medium\" font_weight=\"font-semibold\">Drafts stay private</.component>\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\" color=\"natural\">A draft is only ever reachable through the preview link you generate, and that link expires the moment you publish.</.component>\n  </div>\n  <div class=\"space-y-2\">\n    <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"medium\" font_weight=\"font-semibold\">Every change is reversible</.component>\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\" color=\"natural\">Each publish keeps the version before it, so rolling back a bad afternoon takes one click and no database work.</.component>\n  </div>\n</div>"
+    }
+  ]
+}

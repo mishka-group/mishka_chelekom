@@ -1,0 +1,50 @@
+{
+  "name": "chelekom-accordion",
+  "furnishing": {
+    "body": "",
+    "slots": [
+      {
+        "name": "item",
+        "attrs": {
+          "id": "acc-furnish-install",
+          "title": "How do I install the theme?"
+        },
+        "body": "Download the package from your account, unzip it, and upload the folder to your site. The installer walks you through the remaining steps."
+      },
+      {
+        "name": "item",
+        "attrs": {
+          "id": "acc-furnish-licence",
+          "title": "Can I use it on more than one site?"
+        },
+        "body": "A single licence covers one production site plus as many staging environments as you need."
+      },
+      {
+        "name": "item",
+        "attrs": {
+          "id": "acc-furnish-expiry",
+          "title": "What happens when my licence expires?"
+        },
+        "body": "Your site keeps working exactly as it is. You simply stop receiving new releases and priority support until you renew."
+      }
+    ]
+  },
+  "examples": [
+    {
+      "label": "Billing FAQ with five questions",
+      "source": "<.component component_name=\"chelekom-accordion\" site=\"Global\" id=\"accordion-support-faq\" multiple>\n  <:item id=\"faq-billing-date\" title=\"When am I billed?\">\n    <p class=\"text-sm leading-6\">Subscriptions renew on the same day of each month. The exact date, along with every past invoice, is listed under Billing in your account.</p>\n  </:item>\n  <:item id=\"faq-plan-change\" title=\"Can I change plans mid-cycle?\">\n    <p class=\"text-sm leading-6\">Yes. Upgrades take effect immediately and we charge only the prorated difference. Downgrades take effect at the start of your next cycle.</p>\n  </:item>\n  <:item id=\"faq-seats\" title=\"How are extra seats charged?\">\n    <p class=\"text-sm leading-6\">Every plan includes five seats. Additional seats are $9 each per month and can be added or removed at any time from the Team page.</p>\n  </:item>\n  <:item id=\"faq-refund\" title=\"Do you offer refunds?\">\n    <p class=\"text-sm leading-6\">Annual plans are refunded in full within thirty days of purchase, no questions asked. Monthly plans can be cancelled any time before the next renewal.</p>\n  </:item>\n  <:item id=\"faq-data-retention\" title=\"What happens to my data if I cancel?\">\n    <p class=\"text-sm leading-6\">Your workspace stays readable for sixty days so you can export everything you need. After that it is permanently removed from our systems and backups.</p>\n  </:item>\n</.component>"
+    },
+    {
+      "label": "Shipping and returns panel on a product page",
+      "source": "<.component component_name=\"chelekom-accordion\" site=\"Global\" id=\"accordion-shipping\" variant=\"bordered\" color=\"natural\" padding=\"medium\">\n  <:item id=\"ship-delivery\" icon=\"hero-truck\" title=\"Delivery\" description=\"Free on orders over $60\">\n    <p class=\"text-sm leading-6\">Standard delivery arrives in two to four working days. Express delivery is $9 and arrives the next working day when ordered before 2pm.</p>\n  </:item>\n  <:item id=\"ship-returns\" icon=\"hero-arrow-uturn-left\" title=\"Returns and exchanges\" description=\"Thirty days, prepaid label\">\n    <p class=\"text-sm leading-6\">Send anything back within thirty days for a full refund. Print the prepaid label from your order page, drop the parcel at any collection point, and we refund within five working days of it arriving.</p>\n  </:item>\n  <:item id=\"ship-warranty\" icon=\"hero-shield-check\" title=\"Two-year warranty\" description=\"Covers manufacturing defects\">\n    <p class=\"text-sm leading-6\">Every product is covered for two years against manufacturing defects. Accidental damage is not included, but we offer a discounted replacement in that case.</p>\n  </:item>\n</.component>"
+    },
+    {
+      "label": "Release notes with the newest version expanded",
+      "source": "<.component component_name=\"chelekom-accordion\" site=\"Global\" id=\"accordion-release-notes\" variant=\"base_separated\" space=\"small\" padding=\"medium\">\n  <:item id=\"rel-2-4-0\" title=\"Version 2.4.0\" description=\"Released 12 March\" open>\n    <ul class=\"list-disc space-y-1 ps-5 text-sm leading-6\">\n      <li>Draft previews now open in a side panel instead of a new browser tab.</li>\n      <li>Media library uploads resume automatically after a dropped connection.</li>\n      <li>Fixed a case where scheduled posts published an hour early on the daylight-saving changeover.</li>\n    </ul>\n  </:item>\n  <:item id=\"rel-2-3-2\" title=\"Version 2.3.2\" description=\"Released 27 February\">\n    <ul class=\"list-disc space-y-1 ps-5 text-sm leading-6\">\n      <li>Reduced first-paint time on the dashboard by deferring the activity feed.</li>\n      <li>Corrected the ordering of revisions when two edits share a timestamp.</li>\n    </ul>\n  </:item>\n  <:item id=\"rel-2-3-0\" title=\"Version 2.3.0\" description=\"Released 9 February\">\n    <ul class=\"list-disc space-y-1 ps-5 text-sm leading-6\">\n      <li>Added per-site notification preferences for editors and reviewers.</li>\n      <li>Introduced keyboard shortcuts for save, preview, and publish.</li>\n    </ul>\n  </:item>\n</.component>"
+    },
+    {
+      "label": "Meet-the-team panel with member photos",
+      "source": "<.component component_name=\"chelekom-accordion\" site=\"Global\" id=\"accordion-team\" variant=\"outline_separated\" color=\"primary\" space=\"small\" padding=\"medium\">\n  <:item id=\"team-sara\" image=\"/images/avatar2.jpg\" image_class=\"rounded-full object-cover\" title=\"Sara Nadeau\" description=\"Head of Product\">\n    <p class=\"text-sm leading-6\">Sara joined in 2019 after seven years building editorial tools for newsrooms. She owns the roadmap and runs the monthly customer research sessions.</p>\n  </:item>\n  <:item id=\"team-omid\" image=\"/images/avatar4.jpg\" image_class=\"rounded-full object-cover\" title=\"Omid Rahmani\" description=\"Principal Engineer\">\n    <p class=\"text-sm leading-6\">Omid designed the multi-tenant runtime that powers every site on the platform. He writes most of our performance post-mortems and all of our migration guides.</p>\n  </:item>\n  <:item id=\"team-lea\" image=\"/images/avatar6.jpg\" image_class=\"rounded-full object-cover\" title=\"Lea Fontaine\" description=\"Customer Success Lead\">\n    <p class=\"text-sm leading-6\">Lea onboards every enterprise account personally and turns the questions she hears most often into the documentation you are reading now.</p>\n  </:item>\n</.component>"
+    }
+  ]
+}

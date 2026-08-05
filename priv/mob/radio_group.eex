@@ -1,0 +1,192 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Radio Group** — a labelled set
+  of mutually exclusive options.
+
+  Composes `<%= @namespace %>.<%= @module_prefix_camel %>Radio` rather than redrawing the circle,
+  so a single radio and a grouped one are the same control. What the group adds
+  is the three things a lone radio cannot know about itself:
+
+    * which option is selected (`value`), so exactly one is checked,
+    * a group label,
+    * a group-wide `disabled` that cascades to every option.
+
+  ## The selection reducer is the point
+
+  On the web a shared `name` makes the browser enforce exclusivity. Here the
+  group does it: every option reports the same `on_change` tag widened with its
+  own id, and `select/2` is the (one-line, but easy to get subtly wrong) rule for
+  what the next value is — including that tapping the already-selected option
+  leaves it selected rather than clearing the group, which is how radios differ
+  from checkboxes.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `value` | option id | `nil` | The selected option. |
+  | `label` | string | `nil` | Group heading. |
+  | `disabled` | boolean | `false` | Disables every option. |
+  | `on_change` | event tag (atom) | — | Sent as `{:tap, {tag, option_id}}`. |
+  | `orientation` | `:vertical` `:horizontal` | `:vertical` | Layout axis. |
+  | `space` | number | `12` | Gap between options. |
+  | `color` / `size` | see Radio | — | Passed to every option. |
+  | `id` | string | `nil` | Prefix for each option's test tag. |
+
+  ## Slots
+
+  Options are written out as `<<%= @module_prefix_camel %>RadioGroupOption>` children, the way the
+  Phoenix component declares its `<:radio>` slots:
+
+      <<%= @module_prefix_camel %>RadioGroup label="Plan" value={@plan} on_change={:plan} id="plan">
+        <<%= @module_prefix_camel %>RadioGroupOption id={:free} label="Free" />
+        <<%= @module_prefix_camel %>RadioGroupOption id={:pro} label="Pro" />
+        <<%= @module_prefix_camel %>RadioGroupOption id={:team} label="Team" disabled={true} />
+      </<%= @module_prefix_camel %>RadioGroup>
+
+  | Slot | Takes | Built by hand with |
+  |------|-------|--------------------|
+  | `<<%= @module_prefix_camel %>RadioGroupOption>` | `id`, `label`, `disabled` | `option/3` |
+
+  A slot tag has no module and no expander of its own: it arrives at `expand/3`
+  with its props intact, is matched there on `:type` and consumed, so no marker
+  reaches the renderer. `option/3` builds the identical node —
+  `%{type: :mishka_radio_group_option, props: %{id:, label:, disabled:}}` — so
+  the two forms are interchangeable. Write the tag when you are listing the
+  options out; use the function when they come from data:
+
+      <<%= @module_prefix_camel %>RadioGroup value={@plan} on_change={:plan}>
+        {Enum.map(@plans, fn {id, label} -> option(id, label) end)}
+      </<%= @module_prefix_camel %>RadioGroup>
+
+  Given `id="plan"`, the `:pro` option's ring is tagged `"plan-pro-selected"` or
+  `"plan-pro-empty"` — see `<%= @namespace %>.<%= @module_prefix_camel %>Radio` for why the state
+  has to live in the tag.
+
+  Not ported: `name`, `required`, `form` (HTML form plumbing) and `id` /
+  `*_class`. `readonly` collapses into `disabled`.
+  """
+
+  import Mob.Sigil
+
+  alias <%= @namespace %>.Event
+  alias <%= @namespace %>.<%= @module_prefix_camel %>Radio
+
+  # The slot tag's own name, so `<<%= @module_prefix_camel %>RadioGroupOption>` and `option/3` land on
+  # one type and the group cannot tell which form the caller wrote.
+  @option_type :mishka_radio_group_option
+
+  @doc """
+  Composite expander (`<<%= @module_prefix_camel %>RadioGroup>`).
+
+  Children are `<<%= @module_prefix_camel %>RadioGroupOption>` slot tags, or the same nodes from
+  `option/3`. Both are consumed here — a slot tag that survived expansion would
+  reach the renderer, which has no branch for it and would silently draw nothing.
+  """
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, children, _ctx), do: <%= @component_prefix %>radio_group(props, children)
+
+  @doc """
+  Build one option node — exactly what `<<%= @module_prefix_camel %>RadioGroupOption>` builds.
+
+  Reach for it when the options come from data; write the tag when you are
+  listing them out.
+  """
+  @spec option(term(), String.t(), keyword()) :: map()
+  def option(id, label, opts \\ []) do
+    %{
+      type: @option_type,
+      props: %{id: id, label: label, disabled: Keyword.get(opts, :disabled, false)},
+      children: []
+    }
+  end
+
+  @doc """
+  The next selected value for a tap on `id`.
+
+  Tapping the selected option keeps it selected — a radio group cannot be
+  cleared by re-tapping, which is exactly where it differs from a checkbox.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>RadioGroup.select(:a, :b)
+      :b
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>RadioGroup.select(:a, :a)
+      :a
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>RadioGroup.select(nil, :a)
+      :a
+  """
+  @spec select(term(), term()) :: term()
+  def select(_current, tapped), do: tapped
+
+  @doc "The group node: an optional label above its options."
+  @spec <%= @component_prefix %>radio_group(map() | keyword(), [map()]) :: map()
+  def <%= @component_prefix %>radio_group(props \\ %{}, children \\ []) do
+    props = Map.new(props)
+    label = Map.get(props, :label)
+    options = options(children, props)
+
+    ~MOB"""
+    <Column fill_width={true}>
+      <Text text={label} text_size={:sm} text_color={:muted} :if={is_binary(label)} />
+      <Spacer size={10} :if={is_binary(label)} />
+      {layout(options, props)}
+    </Column>
+    """
+  end
+
+  defp options(children, props) do
+    group_disabled? = truthy?(Map.get(props, :disabled, false))
+    value = Map.get(props, :value)
+    # Side by side, an option that fills the width takes the WHOLE row and
+    # pushes its siblings off-screen. Stacked, filling is what makes the label
+    # part of the tap target, so it stays the default.
+    fill? = Map.get(props, :orientation, :vertical) != :horizontal
+
+    children
+    |> Enum.filter(&match?(%{type: @option_type}, &1))
+    |> Enum.map(fn %{props: option} ->
+      <%= @module_prefix_camel %>Radio.<%= @component_prefix %>radio(
+        label: Map.get(option, :label),
+        checked: Map.get(option, :id) == value,
+        disabled: group_disabled? or truthy?(Map.get(option, :disabled, false)),
+        on_select: option_tag(props, Map.get(option, :id)),
+        color: Map.get(props, :color, :primary),
+        size: Map.get(props, :size, 22),
+        fill_width: fill?,
+        id: option_id(Map.get(props, :id), Map.get(option, :id))
+      )
+    end)
+  end
+
+  # `<group-id>-<option-id>` per option, so a device test can name one option's
+  # ring — the radio then suffixes it with `-selected` / `-empty`. Without a
+  # group id there is nothing to prefix with, and the options stay untagged.
+  defp option_id(nil, _option_id), do: nil
+  defp option_id(group_id, option_id), do: "#{group_id}-#{option_id}"
+
+  # Every option reports the same tag widened with its own id, so one handler
+  # serves the group — this is what replaces the browser's shared `name`.
+  # Event.handler/2, not a hand-built {tag, id}: reached as a composite tag
+  # this group's :on_change has ALREADY been widened to {screen_pid, tag}, and
+  # pairing that with an id gives {{pid, tag}, id} — which the renderer
+  # registers and no handle_info clause matches.
+  defp option_tag(props, id), do: Event.handler(Map.get(props, :on_change), id)
+
+  defp layout(options, props) do
+    space = Map.get(props, :space, 12)
+    spaced = Enum.intersperse(options, ~MOB(<Spacer size={space} />))
+
+    if Map.get(props, :orientation, :vertical) == :horizontal do
+      ~MOB(<Row fill_width={true}>
+  {spaced}
+</Row>)
+    else
+      ~MOB(<Column fill_width={true}>
+  {spaced}
+</Column>)
+    end
+  end
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
+end

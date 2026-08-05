@@ -1,0 +1,292 @@
+defmodule MishkaMob.Components.MishkaNavLink do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Nav Link** — a navigation row
+  that is either a leaf or a disclosure holding nested links.
+
+  This one ports almost exactly. The web version leans on `<details>` so a
+  nested group works without JS, and then warns that `<details open>` is
+  uncontrolled DOM state which LiveView resets on every patch. Here there is no
+  such trap: `opened` is a prop, the screen owns it, and re-rendering cannot
+  lose it. `default_opened` keeps the web's precedence — it is the fallback the
+  row falls back on only while `opened` is `nil`.
+
+  ## The state is a colour, and a colour is not testable
+
+  A row says it is the current page by turning `:primary` on a raised
+  background; a group says it is expanded with a ▸ or a ▾. A device test reads
+  neither — it reads tags. So `id` is not one tag but a small family, each
+  naming the state of the node it sits on:
+
+  | Tag | Node | When |
+  |------|------|------|
+  | `<id>` | the tappable row | always — stable across every state, so a test can tap it |
+  | `<id>-active` / `-inactive` / `-disabled` | the label | one per ink the label can take |
+  | `<id>-open` / `-closed` | the chevron | a group only |
+  | `<id>-icon` | the leading glyph | when `icon` is set |
+  | `<id>-trailing` | the trailing glyph | a leaf with `trailing` set |
+
+  Only the glyphs get a tag of their own; the label and description are words,
+  and words a test can already read. A glyph is not.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `id` | string | `nil` | Base of the row's test tags. No id, no tags. |
+  | `label` | string | `nil` | The row's text. |
+  | `description` | string | `nil` | A second line under the label. |
+  | `icon` | glyph string, node, or list | `nil` | Leading content — the web's slot. |
+  | `trailing` | glyph string, node, or list | `nil` | Trailing content. Replaced by the chevron when it has children. |
+  | `active` | boolean | `false` | Current-page styling — the web's `data-active`. |
+  | `opened` | boolean | `nil` | Whether the nested group is expanded. Wins over `default_opened`. |
+  | `default_opened` | boolean | `false` | Open initially, while `opened` is `nil`. |
+  | `disabled` | boolean | `false` | Mutes and unwires. |
+  | `href` | string | `nil` | Rides along with `on_tap`, as in `MishkaMob.Components.MishkaAnchor`. |
+  | `indent` | number | `16` | Indent applied to the children. |
+  | `on_tap` | event tag (atom) | — | Tapping a leaf. |
+  | `on_toggle` | event tag (atom) | — | Tapping a parent's row. Falls back to `on_tap`. |
+
+  Children are the nested links, shown when the group is open.
+
+  Not ported: `navigate` / `patch` — the distinction is a LiveView routing
+  concept, and on a device the screen decides how to navigate, so the
+  destination rides back with the tap as `href` does (the rule
+  `MishkaMob.Components.MishkaAnchor` already follows). Nor `class` /
+  `label_class` / `children_class` / `rest` (no CSS, no DOM attributes), the
+  `inner_block` label slot (children are the nested links here), or
+  `aria-current` — no node type in the bridge carries accessibility semantics.
+  """
+
+  import Mob.Sigil
+
+  alias MishkaMob.Components.Event
+
+  @doc "Composite expander (`<MishkaNavLink>`). Children are the nested links."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, children, _ctx), do: nav_link(props, children)
+
+  @doc """
+  The nav link.
+
+      <MishkaNavLink id="nav-settings" label="Settings" icon="⚙" active={true} on_tap={:go}>
+        {[]}
+      </MishkaNavLink>
+  """
+  @spec nav_link(map() | keyword(), [map()]) :: map()
+  def nav_link(props \\ %{}, children \\ []) do
+    props = Map.new(props)
+    children = List.wrap(children)
+    parent? = children != []
+    disabled? = truthy?(Map.get(props, :disabled, false))
+    opened? = parent? and open?(props)
+
+    ~MOB"""
+    <Column fill_width={true}>
+      {row(props, parent?, opened?, disabled?)}
+      {nested(children, opened?, props)}
+    </Column>
+    """
+  end
+
+  # The web resolves the two open props as
+  # `(opened == nil && default_opened) || opened`, so a screen that passes
+  # `opened` wins outright and `default_opened` is only the uncontrolled
+  # fallback. Same precedence here — with the difference that an uncontrolled
+  # group stays as `default_opened` left it, a node tree having nowhere to keep
+  # state of its own. Pass `opened` for a group that has to toggle.
+  defp open?(props) do
+    case Map.get(props, :opened) do
+      nil -> truthy?(Map.get(props, :default_opened, false))
+      given -> truthy?(given)
+    end
+  end
+
+  defp row(props, parent?, opened?, disabled?) do
+    active? = truthy?(Map.get(props, :active, false))
+    id = base_tag(Map.get(props, :id))
+
+    ~MOB"""
+    <Box
+      fill_width={true}
+      background={if(active?, do: :surface_raised, else: :transparent)}
+      corner_radius={:radius_sm}
+      padding={:space_sm}
+      id={id}
+    >
+      <Row fill_width={true} align={:center}>
+        {leading(props, id)}
+        <Box weight={1}>
+          {labels(props, active?, disabled?, id)}
+        </Box>
+        {trailing(props, parent?, opened?, id)}
+      </Row>
+    </Box>
+    """
+    |> put(:on_tap, handler(props, parent?, disabled?))
+  end
+
+  defp leading(props, id) do
+    case glyph(Map.get(props, :icon), :base, tag(id, "-icon")) do
+      nil ->
+        nil
+
+      icon ->
+        ~MOB"""
+        <Row>
+          {icon}
+          <Spacer size={10} />
+        </Row>
+        """
+    end
+  end
+
+  defp labels(props, active?, disabled?, id) do
+    ink =
+      cond do
+        disabled? -> :muted
+        active? -> :primary
+        true -> :on_surface
+      end
+
+    # `font_weight`, not `weight`: a bare `weight` on a Text is read by the
+    # PARENT Row/Column as a layout weight and does nothing to the font.
+    font_weight = if active?, do: :semibold, else: :regular
+    label = Map.get(props, :label, "")
+    label_tag = ink_tag(id, active?, disabled?)
+
+    # `max_lines` matters because the row squeezes: a Text narrower than its
+    # content wraps character by character, which turns a long nav label into a
+    # column of letters.
+    text = ~MOB"""
+    <Text
+      text={label}
+      text_size={:base}
+      text_color={ink}
+      font_weight={font_weight}
+      max_lines={1}
+      id={label_tag}
+    />
+    """
+
+    case Map.get(props, :description) do
+      nil ->
+        text
+
+      description ->
+        ~MOB"""
+        <Column>
+          {text}
+          <Spacer size={2} />
+          <Text text={description} text_size={:sm} text_color={:muted} max_lines={1} />
+        </Column>
+        """
+    end
+  end
+
+  # A parent's chevron always wins over a custom trailing glyph: it is the one
+  # thing telling the user the row expands rather than navigates.
+  defp trailing(_props, true, opened?, id) do
+    chevron = if opened?, do: "▾", else: "▸"
+    chevron_tag = tag(id, if(opened?, do: "-open", else: "-closed"))
+
+    ~MOB(<Text text={chevron} text_size={:sm} text_color={:muted} id={chevron_tag} />)
+  end
+
+  defp trailing(props, _parent?, _opened?, id) do
+    glyph(Map.get(props, :trailing), :sm, tag(id, "-trailing"))
+  end
+
+  # `icon` and `trailing` are slots on the web, so they take a node here as
+  # readily as a glyph string — a pill counting unread mail is a perfectly
+  # ordinary trailing, and a string could never be one. An empty slot is
+  # nothing at all, which is what the web's `:if={@icon != []}` says too.
+  defp glyph(nil, _size, _tag), do: nil
+  defp glyph([], _size, _tag), do: nil
+
+  defp glyph(text, size, tag) when is_binary(text) do
+    ~MOB(<Text text={text} text_size={size} text_color={:muted} id={tag} />)
+  end
+
+  # `render_slot` returns a list, so several nodes are a legitimate slot. A Row
+  # hugs its content unless told to fill, so it can hold them without taking the
+  # label's width.
+  defp glyph(nodes, _size, tag) when is_list(nodes) do
+    ~MOB"""
+    <Row>
+      {nodes}
+    </Row>
+    """
+    |> put(:id, tag)
+  end
+
+  defp glyph(%{type: _, props: props} = node, _size, tag) do
+    case {tag, Map.get(props, :id)} do
+      {nil, _} -> node
+      # A node that already names itself keeps its own tag: the caller built it
+      # and may well be addressing it in a test of their own.
+      {_, given} when not is_nil(given) -> node
+      {tag, _} -> put(node, :id, tag)
+    end
+  end
+
+  # A number or an atom reads as its own text rather than taking a screen down
+  # over a glyph.
+  defp glyph(other, size, tag), do: glyph(to_string(other), size, tag)
+
+  defp nested(_children, false, _props), do: nil
+
+  defp nested(children, true, props) do
+    indent = Map.get(props, :indent, 16)
+
+    ~MOB"""
+    <Row fill_width={true}>
+      <Spacer size={indent} />
+      <Column fill_width={true}>
+        {children}
+      </Column>
+    </Row>
+    """
+  end
+
+  defp handler(_props, _parent?, true), do: nil
+
+  defp handler(props, true, _disabled?) do
+    tag = Map.get(props, :on_toggle) || Map.get(props, :on_tap)
+
+    with_href(tag, props)
+  end
+
+  defp handler(props, _parent?, _disabled?), do: with_href(Map.get(props, :on_tap), props)
+
+  defp with_href(nil, _props), do: nil
+
+  defp with_href(tag, props) do
+    case Map.get(props, :href) do
+      nil -> Event.handler(tag)
+      href -> Event.handler(tag, href)
+    end
+  end
+
+  # Both bridges read the tag as a string — `props["id"] as? String` on Android,
+  # `accessibilityIdentifier` on iOS — so an atom id would tag nothing at all
+  # and say nothing about it. Normalise once, here, rather than at five call
+  # sites that would each have to remember.
+  defp base_tag(nil), do: nil
+  defp base_tag(id) when is_binary(id), do: id
+  defp base_tag(id), do: to_string(id)
+
+  defp tag(nil, _suffix), do: nil
+  defp tag(id, suffix), do: id <> suffix
+
+  defp ink_tag(nil, _active?, _disabled?), do: nil
+  defp ink_tag(id, _active?, true), do: id <> "-disabled"
+  defp ink_tag(id, true, _disabled?), do: id <> "-active"
+  defp ink_tag(id, _active?, _disabled?), do: id <> "-inactive"
+
+  defp put(node, _key, nil), do: node
+  defp put(node, key, value), do: %{node | props: Map.put(node.props, key, value)}
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
+end

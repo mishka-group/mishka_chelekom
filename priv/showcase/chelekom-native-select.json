@@ -1,0 +1,47 @@
+{
+  "name": "chelekom-native-select",
+  "furnishing": {
+    "body": "",
+    "slots": [
+      {
+        "name": "option",
+        "body": "Starter",
+        "attrs": {
+          "value": "starter"
+        }
+      },
+      {
+        "name": "option",
+        "body": "Team",
+        "attrs": {
+          "value": "team"
+        }
+      },
+      {
+        "name": "option",
+        "body": "Business",
+        "attrs": {
+          "value": "business"
+        }
+      }
+    ]
+  },
+  "examples": [
+    {
+      "label": "Country picker in a checkout address form",
+      "source": "<div class=\"max-w-sm\">\n  <.component component_name=\"chelekom-native-select\" site=\"Global\" id=\"select-checkout-country\" name=\"country\" label=\"Country or region\" description=\"We show prices and delivery times for this country.\" size=\"small\" rounded=\"medium\">\n    <:option value=\"\" disabled=\"disabled\" selected>Select a country</:option>\n    <:option value=\"de\">Germany</:option>\n    <:option value=\"fr\">France</:option>\n    <:option value=\"nl\">Netherlands</:option>\n    <:option value=\"es\">Spain</:option>\n    <:option value=\"it\">Italy</:option>\n    <:option value=\"gb\">United Kingdom</:option>\n  </.component>\n</div>"
+    },
+    {
+      "label": "Support ticket priority with helper text",
+      "source": "<div class=\"max-w-sm\">\n  <.component component_name=\"chelekom-native-select\" site=\"Global\" id=\"select-ticket-priority\" name=\"priority\" label=\"Priority\" description=\"Urgent tickets page the on-call engineer straight away.\" size=\"small\" rounded=\"medium\" color=\"natural\">\n    <:option value=\"low\">Low, answer within three days</:option>\n    <:option value=\"normal\" selected>Normal, answer within one day</:option>\n    <:option value=\"high\">High, answer within four hours</:option>\n    <:option value=\"urgent\">Urgent, site is down</:option>\n  </.component>\n</div>"
+    },
+    {
+      "label": "Sort control above a product grid",
+      "source": "<div class=\"flex flex-wrap items-end justify-between gap-4\">\n  <div>\n    <h3 class=\"text-base font-semibold text-zinc-900 dark:text-zinc-100\">Desks and chairs</h3>\n    <p class=\"text-sm text-zinc-500 dark:text-zinc-400\">48 products</p>\n  </div>\n  <div class=\"w-56\">\n    <.component component_name=\"chelekom-native-select\" site=\"Global\" id=\"select-catalog-sort\" name=\"sort\" label=\"Sort by\" size=\"small\" rounded=\"medium\">\n      <:option value=\"relevance\" selected>Most relevant</:option>\n      <:option value=\"newest\">Newest first</:option>\n      <:option value=\"price-asc\">Price, low to high</:option>\n      <:option value=\"price-desc\">Price, high to low</:option>\n      <:option value=\"rating\">Highest rated</:option>\n    </.component>\n  </div>\n</div>"
+    },
+    {
+      "label": "Multi-select of newsletter topics",
+      "source": "<div class=\"max-w-sm\">\n  <.component component_name=\"chelekom-native-select\" site=\"Global\" id=\"select-newsletter-topics\" name=\"topics[]\" label=\"Topics you want to hear about\" description=\"Hold Ctrl, or Command on a Mac, to pick more than one.\" size=\"small\" rounded=\"medium\" multiple min_height=\"min-h-36\">\n    <:option value=\"releases\" selected>Product releases</:option>\n    <:option value=\"guides\">Guides and tutorials</:option>\n    <:option value=\"engineering\">Engineering write-ups</:option>\n    <:option value=\"events\">Events and meetups</:option>\n    <:option value=\"offers\">Offers and discounts</:option>\n  </.component>\n</div>"
+    }
+  ]
+}

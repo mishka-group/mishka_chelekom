@@ -1,0 +1,17 @@
+{
+  "name": "chelekom-s",
+  "furnishing": {
+    "body": "$129.00",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Sale price beside the original price",
+      "source": "<div class=\"flex items-baseline gap-2\">\n  <.component component_name=\"chelekom-s\" site=\"Global\" class=\"text-gray-500\">$129.00</.component>\n  <.component component_name=\"chelekom-strong\" site=\"Global\" size=\"large\" class=\"text-red-600\">$89.00</.component>\n  <.component component_name=\"chelekom-small\" site=\"Global\" class=\"text-gray-500\">Save 31% until Friday</.component>\n</div>"
+    },
+    {
+      "label": "Corrected value in a changelog entry",
+      "source": "<.component component_name=\"chelekom-p\" site=\"Global\">Default cache lifetime for published pages is now <.component component_name=\"chelekom-s\" site=\"Global\" class=\"text-gray-500\">30 seconds</.component> 5 minutes.</.component>"
+    }
+  ]
+}

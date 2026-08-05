@@ -1,0 +1,17 @@
+{
+  "name": "chelekom-label",
+  "furnishing": {
+    "body": "Email address",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Label above a plan selector",
+      "source": "<div class=\"max-w-sm space-y-1.5\">\n  <.component component_name=\"chelekom-label\" site=\"Global\" for=\"signup-plan\">Choose a plan</.component>\n  <.component component_name=\"chelekom-native-select\" site=\"Global\" id=\"signup-plan\" name=\"plan\" size=\"small\" rounded=\"medium\">\n    <:option value=\"starter\" selected>Starter, 9 USD per month</:option>\n    <:option value=\"team\">Team, 29 USD per month</:option>\n    <:option value=\"business\">Business, 79 USD per month</:option>\n  </.component>\n</div>"
+    },
+    {
+      "label": "Required field label with a helper line",
+      "source": "<div class=\"max-w-sm space-y-1.5\">\n  <.component component_name=\"chelekom-label\" site=\"Global\" for=\"contact-work-email\">\n    Work email <span class=\"text-rose-600\">*</span>\n  </.component>\n  <input\n    type=\"email\"\n    id=\"contact-work-email\"\n    name=\"email\"\n    placeholder=\"you@company.com\"\n    class=\"block w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-500 focus:outline-none dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100\"\n  />\n  <p class=\"text-xs text-zinc-500 dark:text-zinc-400\">We use this only to send your receipt.</p>\n</div>"
+    }
+  ]
+}

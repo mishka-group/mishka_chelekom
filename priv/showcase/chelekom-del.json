@@ -1,0 +1,17 @@
+{
+  "name": "chelekom-del",
+  "furnishing": {
+    "body": "Was $79.00",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Sale price with the old price struck through",
+      "source": "<div class=\"flex max-w-sm items-center justify-between gap-4 rounded-lg border border-neutral-200 p-4 dark:border-neutral-700\">\n  <div>\n    <div class=\"font-medium\">Merino wool scarf</div>\n    <div class=\"text-xs opacity-60\">Charcoal · One size</div>\n  </div>\n  <div class=\"flex items-baseline gap-2\">\n    <.component component_name=\"chelekom-del\" site=\"Global\" id=\"scarf-old-price\" size=\"small\" class=\"opacity-60\">$79.00</.component>\n    <span class=\"text-lg font-semibold\">$54.00</span>\n  </div>\n</div>"
+    },
+    {
+      "label": "Corrected limit in a release note",
+      "source": "<.component component_name=\"chelekom-p\" site=\"Global\" class=\"max-w-prose\">\n  The Starter plan now includes <.component component_name=\"chelekom-del\" site=\"Global\" id=\"release-note-plan-seats\" class=\"opacity-60\">three</.component> ten team members, and the seat limit no longer applies to read-only reviewers.\n</.component>"
+    }
+  ]
+}

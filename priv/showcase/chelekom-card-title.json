@@ -1,0 +1,25 @@
+{
+  "name": "chelekom-card-title",
+  "furnishing": {
+    "body": "Monthly usage summary",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Dashboard panel header with an icon and a live status badge",
+      "source": "<.component component_name=\"chelekom-card\" site=\"Global\" id=\"showcase-ct-panel\" rounded=\"large\" padding=\"large\" space=\"small\" class=\"max-w-md\">\n  <.component component_name=\"chelekom-card-title\" site=\"Global\" id=\"showcase-ct-panel-title\" title=\"Background jobs\" icon=\"hero-chart-bar\" position=\"between\">\n    <.component component_name=\"chelekom-badge\" site=\"Global\" color=\"success\" rounded=\"full\">Running</.component>\n  </.component>\n  <.component component_name=\"chelekom-card-content\" site=\"Global\" id=\"showcase-ct-panel-body\" space=\"extra_small\">\n    <div class=\"flex items-center justify-between text-sm\">\n      <span class=\"opacity-70\">Completed today</span>\n      <span class=\"font-semibold\">12,480</span>\n    </div>\n    <div class=\"flex items-center justify-between text-sm\">\n      <span class=\"opacity-70\">Retrying</span>\n      <span class=\"font-semibold\">7</span>\n    </div>\n  </.component>\n</.component>"
+    },
+    {
+      "label": "Article card header with a rule under it and a trailing icon",
+      "source": "<.component component_name=\"chelekom-card\" site=\"Global\" id=\"showcase-ct-article\" rounded=\"large\" padding=\"large\" space=\"small\" class=\"max-w-sm\">\n  <.component component_name=\"chelekom-card-title\" site=\"Global\" id=\"showcase-ct-article-title\" position=\"between\" class=\"pb-3 border-b border-current/10\">\n    <span>Release notes, version 2.4</span>\n    <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-ellipsis-horizontal\" class=\"size-5 opacity-60\" />\n  </.component>\n  <.component component_name=\"chelekom-card-content\" site=\"Global\" id=\"showcase-ct-article-body\">\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\">\n      Draft previews now carry a shareable token, and the media library remembers the folder you were last in.\n    </.component>\n  </.component>\n</.component>"
+    },
+    {
+      "label": "Invoice card header with the amount on the right",
+      "source": "<.component component_name=\"chelekom-card\" site=\"Global\" id=\"showcase-ct-invoice\" rounded=\"large\" padding=\"large\" space=\"small\" class=\"max-w-md\">\n  <.component component_name=\"chelekom-card-title\" site=\"Global\" id=\"showcase-ct-invoice-title\" position=\"between\" size=\"medium\">\n    <div>\n      <div>Invoice INV-2048</div>\n      <div class=\"text-xs font-normal opacity-70\">Issued 12 March, due 12 April</div>\n    </div>\n    <span class=\"text-xl\">$1,240.00</span>\n  </.component>\n  <.component component_name=\"chelekom-card-content\" site=\"Global\" id=\"showcase-ct-invoice-body\">\n    <div class=\"flex items-center gap-2 text-sm\">\n      <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-check-circle\" class=\"size-4\" />\n      <span>Paid by bank transfer on 3 April</span>\n    </div>\n  </.component>\n</.component>"
+    },
+    {
+      "label": "Team card header with an avatar and member count",
+      "source": "<.component component_name=\"chelekom-card\" site=\"Global\" id=\"showcase-ct-team\" rounded=\"large\" padding=\"large\" space=\"small\" class=\"max-w-sm\">\n  <.component component_name=\"chelekom-card-title\" site=\"Global\" id=\"showcase-ct-team-title\" position=\"between\" size=\"medium\">\n    <div class=\"flex items-center gap-2\">\n      <.component component_name=\"chelekom-avatar\" site=\"Global\" src=\"/images/avatar1.png\" size=\"small\" rounded=\"full\" />\n      <span>Platform team</span>\n    </div>\n    <.component component_name=\"chelekom-badge\" site=\"Global\" icon=\"hero-user-group\" rounded=\"full\">9 members</.component>\n  </.component>\n  <.component component_name=\"chelekom-card-content\" site=\"Global\" id=\"showcase-ct-team-body\">\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\">\n      Owns the runtime compiler, the job pipeline and everything under the deployment dashboard.\n    </.component>\n  </.component>\n</.component>"
+    }
+  ]
+}

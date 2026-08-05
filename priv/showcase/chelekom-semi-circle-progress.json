@@ -1,0 +1,21 @@
+{
+  "name": "chelekom-semi-circle-progress",
+  "furnishing": {
+    "body": "",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Monthly sales goal gauge",
+      "source": "<div class=\"max-w-xs rounded-xl border border-gray-200 dark:border-gray-700 p-6 text-center\">\n  <.component component_name=\"chelekom-semi-circle-progress\" site=\"Global\" id=\"sales-goal-gauge\" value={72} size={220} thickness={16} linecap=\"round\" color=\"success\" class=\"mx-auto\" />\n  <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"medium\" font_weight=\"font-semibold\" class=\"mt-3\">Monthly sales goal</.component>\n  <.component component_name=\"chelekom-small\" site=\"Global\" class=\"block mt-1 text-gray-500\">$36,000 of $50,000 — 9 days left</.component>\n</div>"
+    },
+    {
+      "label": "Service status panel with three gauges",
+      "source": "<div class=\"grid gap-4 sm:grid-cols-3\">\n  <div class=\"rounded-xl border border-gray-200 dark:border-gray-700 p-5 text-center\">\n    <.component component_name=\"chelekom-semi-circle-progress\" site=\"Global\" id=\"status-gauge-api\" value={98} size={160} thickness={12} linecap=\"round\" color=\"success\" class=\"mx-auto\" />\n    <.component component_name=\"chelekom-small\" site=\"Global\" class=\"block mt-2 text-gray-500\">API availability</.component>\n  </div>\n  <div class=\"rounded-xl border border-gray-200 dark:border-gray-700 p-5 text-center\">\n    <.component component_name=\"chelekom-semi-circle-progress\" site=\"Global\" id=\"status-gauge-jobs\" value={64} size={160} thickness={12} linecap=\"round\" color=\"info\" class=\"mx-auto\" />\n    <.component component_name=\"chelekom-small\" site=\"Global\" class=\"block mt-2 text-gray-500\">Background job queue</.component>\n  </div>\n  <div class=\"rounded-xl border border-gray-200 dark:border-gray-700 p-5 text-center\">\n    <.component component_name=\"chelekom-semi-circle-progress\" site=\"Global\" id=\"status-gauge-storage\" value={87} size={160} thickness={12} linecap=\"round\" color=\"warning\" class=\"mx-auto\" />\n    <.component component_name=\"chelekom-small\" site=\"Global\" class=\"block mt-2 text-gray-500\">Storage in use</.component>\n  </div>\n</div>"
+    },
+    {
+      "label": "Satisfaction score in a report header",
+      "source": "<div class=\"flex flex-col items-center gap-5 rounded-xl border border-gray-200 dark:border-gray-700 p-6 sm:flex-row sm:items-center\">\n  <.component component_name=\"chelekom-semi-circle-progress\" site=\"Global\" id=\"csat-gauge\" value={88} label=\"88\" size={180} thickness={14} linecap=\"round\" color=\"primary\" class=\"shrink-0\" />\n  <div>\n    <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"large\" font_weight=\"font-semibold\">Customer satisfaction</.component>\n    <.component component_name=\"chelekom-p\" site=\"Global\" class=\"mt-1 text-gray-500\">Up four points from last quarter, measured across 2,140 answered surveys.</.component>\n  </div>\n</div>"
+    }
+  ]
+}

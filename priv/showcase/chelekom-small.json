@@ -1,0 +1,17 @@
+{
+  "name": "chelekom-small",
+  "furnishing": {
+    "body": "Last updated on 12 March 2026",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Byline and reading time under an article title",
+      "source": "<div class=\"max-w-prose\">\n  <h2 class=\"text-xl font-semibold\">Shipping the new page builder</h2>\n  <.component component_name=\"chelekom-small\" site=\"Global\" size=\"small\" class=\"mt-1 block opacity-70\">Posted by Sara Ahmadi on 12 March 2026, 6 min read</.component>\n</div>"
+    },
+    {
+      "label": "Tax note beside a checkout total",
+      "source": "<p class=\"text-sm\">Total: $148.00 <.component component_name=\"chelekom-small\" site=\"Global\" size=\"extra_small\" class=\"ms-1 opacity-70\">including VAT and standard delivery</.component></p>"
+    }
+  ]
+}

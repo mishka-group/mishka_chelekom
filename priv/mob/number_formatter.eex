@@ -1,0 +1,155 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Number Formatter** — a number
+  rendered with grouping, decimals, prefix and suffix.
+
+  Almost all of this component is arithmetic, so almost all of it is a pure
+  function: `format/2` does the work and the node is a `Text` around it. That
+  makes it usable anywhere a string is wanted — a chart axis, a slider readout,
+  an accessibility label — not only where a node fits.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `value` | number | `0` | The number. |
+  | `decimals` | integer | `nil` | Fixed decimal places. `nil` keeps what it has. |
+  | `thousand_separator` | string · boolean | `","` | `true` means `","`; `false` disables grouping. |
+  | `decimal_separator` | string | `"."` | Radix character. |
+  | `prefix` / `suffix` | string | `nil` | Wrapped around the digits. |
+  | `text_size` / `text_color` / `font_weight` | tokens | `:base` / `:on_surface` / `:regular` | Text styling. |
+
+  The weight prop is `font_weight`, not `weight`. Both bridges read `font_weight`
+  for typography; a bare `weight` is a Row/Column **layout** weight, so passing
+  it here would style nothing.
+  """
+
+  import Mob.Sigil
+
+  @doc "Composite expander (`<<%= @module_prefix_camel %>NumberFormatter />`). Delegates to `number_formatter/1`."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, _children, _ctx), do: <%= @component_prefix %>number_formatter(props)
+
+  @doc """
+  The formatted number as a `Text` node.
+
+      <%= @component_prefix %>number_formatter(value: 1234567.5, decimals: 2, prefix: "$")
+  """
+  @spec <%= @component_prefix %>number_formatter(map() | keyword()) :: map()
+  def <%= @component_prefix %>number_formatter(props \\ %{}) do
+    props = Map.new(props)
+    text = format(Map.get(props, :value, 0), props)
+
+    ~MOB"""
+    <Text
+      text={text}
+      text_size={Map.get(props, :text_size, :base)}
+      text_color={Map.get(props, :text_color, :on_surface)}
+      font_weight={Map.get(props, :font_weight, :regular)}
+    />
+    """
+  end
+
+  @doc """
+  Format a number.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>NumberFormatter.format(1234567)
+      "1,234,567"
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>NumberFormatter.format(1234.5, decimals: 2)
+      "1,234.50"
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>NumberFormatter.format(1234, prefix: "$", suffix: " USD")
+      "$1,234 USD"
+
+  European conventions are a matter of swapping the two separators:
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>NumberFormatter.format(1234.5,
+      ...>   decimals: 2, thousand_separator: ".", decimal_separator: ",")
+      "1.234,50"
+
+  Grouping applies to the integer part only — never to the decimals:
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>NumberFormatter.format(1234.5678, decimals: 4)
+      "1,234.5678"
+
+  Negative numbers keep the sign outside the grouping:
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>NumberFormatter.format(-1234567)
+      "-1,234,567"
+
+  Grouping can be turned off:
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>NumberFormatter.format(1234567, thousand_separator: false)
+      "1234567"
+  """
+  @spec format(number() | String.t() | nil, map() | keyword()) :: String.t()
+  def format(value, opts \\ %{})
+
+  def format(nil, _opts), do: ""
+
+  def format(value, opts) when is_binary(value) do
+    case Float.parse(value) do
+      {number, _rest} -> format(number, opts)
+      :error -> value
+    end
+  end
+
+  def format(value, opts) do
+    opts = Map.new(opts)
+    {integer, decimals} = parts(value, Map.get(opts, :decimals))
+    {sign, digits} = split_sign(integer)
+
+    grouped = group(digits, separator(Map.get(opts, :thousand_separator, ",")))
+    radix = Map.get(opts, :decimal_separator, ".")
+
+    body = if decimals == "", do: grouped, else: grouped <> radix <> decimals
+
+    to_string(Map.get(opts, :prefix, "")) <> sign <> body <> to_string(Map.get(opts, :suffix, ""))
+  end
+
+  defp parts(value, nil) do
+    case to_string(value) |> String.split(".") do
+      [integer] -> {integer, ""}
+      [integer, decimals] -> {integer, decimals}
+    end
+  end
+
+  defp parts(value, places) when is_integer(places) and places >= 0 do
+    [integer, decimals] =
+      value
+      |> :erlang.float()
+      |> :erlang.float_to_binary(decimals: places)
+      |> String.split(".")
+      |> case do
+        [only] -> [only, ""]
+        pair -> pair
+      end
+
+    {integer, decimals}
+  end
+
+  defp parts(value, _places), do: parts(value, nil)
+
+  defp split_sign("-" <> digits), do: {"-", digits}
+  defp split_sign(digits), do: {"", digits}
+
+  defp separator(true), do: ","
+  defp separator(false), do: ""
+  defp separator(nil), do: ""
+  defp separator(text) when is_binary(text), do: text
+  defp separator(_), do: ","
+
+  # Reverse ONCE, chunk, join, reverse back. Reversing the chunks as well is the
+  # obvious mistake and silently yields "1,432,765" for 1234567.
+  defp group(digits, ""), do: digits
+
+  defp group(digits, separator) do
+    digits
+    |> String.reverse()
+    |> String.to_charlist()
+    |> Enum.chunk_every(3)
+    |> Enum.map_join(separator, &to_string/1)
+    |> String.reverse()
+  end
+end

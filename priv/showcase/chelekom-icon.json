@@ -1,0 +1,17 @@
+{
+  "name": "chelekom-icon",
+  "furnishing": {
+    "body": "",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Plan feature list with check icons",
+      "source": "<div class=\"max-w-xs space-y-3\">\n  <div class=\"flex items-start gap-2\">\n    <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-check-circle-solid\" class=\"mt-0.5 size-5 shrink-0 text-emerald-600\" />\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\">Unlimited pages, layouts and drafts</.component>\n  </div>\n  <div class=\"flex items-start gap-2\">\n    <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-check-circle-solid\" class=\"mt-0.5 size-5 shrink-0 text-emerald-600\" />\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\">Custom domain with a free certificate</.component>\n  </div>\n  <div class=\"flex items-start gap-2\">\n    <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-check-circle-solid\" class=\"mt-0.5 size-5 shrink-0 text-emerald-600\" />\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\">Thirty days of nightly backups</.component>\n  </div>\n</div>"
+    },
+    {
+      "label": "Contact details block with leading icons",
+      "source": "<div class=\"max-w-sm space-y-3\">\n  <div class=\"flex items-center gap-3\">\n    <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-map-pin\" class=\"size-5 shrink-0 text-zinc-500\" />\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\">Unit 4, 12 Vali-Asr Street, Tehran</.component>\n  </div>\n  <div class=\"flex items-center gap-3\">\n    <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-envelope\" class=\"size-5 shrink-0 text-zinc-500\" />\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\">hello@example.com</.component>\n  </div>\n  <div class=\"flex items-center gap-3\">\n    <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-clock\" class=\"size-5 shrink-0 text-zinc-500\" />\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\">Sunday to Thursday, 9:00 to 17:00</.component>\n  </div>\n</div>"
+    }
+  ]
+}

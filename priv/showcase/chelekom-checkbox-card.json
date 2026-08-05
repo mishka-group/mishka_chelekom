@@ -1,0 +1,53 @@
+{
+  "name": "chelekom-checkbox-card",
+  "furnishing": {
+    "body": "",
+    "slots": [
+      {
+        "name": "checkbox",
+        "body": "",
+        "attrs": {
+          "value": "starter",
+          "title": "Starter",
+          "description": "Up to 3 projects and 5 GB of asset storage"
+        }
+      },
+      {
+        "name": "checkbox",
+        "body": "",
+        "attrs": {
+          "value": "growth",
+          "title": "Growth",
+          "description": "Unlimited projects and 50 GB of asset storage"
+        }
+      },
+      {
+        "name": "checkbox",
+        "body": "",
+        "attrs": {
+          "value": "scale",
+          "title": "Scale",
+          "description": "Dedicated infrastructure and priority support"
+        }
+      }
+    ]
+  },
+  "examples": [
+    {
+      "label": "Plan picker with three tiers and descriptions",
+      "source": "<.component component_name=\"chelekom-checkbox-card\" site=\"Global\" id=\"showcase-cbc-plans\" name=\"plans[]\" label=\"Choose the plans to compare\" description=\"Pick as many as you like, we will line them up side by side.\" class=\"max-w-md\">\n  <:checkbox value=\"starter\" title=\"Starter\" description=\"Up to 3 projects and 5 GB of asset storage\" />\n  <:checkbox value=\"growth\" title=\"Growth\" description=\"Unlimited projects and 50 GB of asset storage\" checked={true} />\n  <:checkbox value=\"scale\" title=\"Scale\" description=\"Dedicated infrastructure and priority support\" />\n</.component>"
+    },
+    {
+      "label": "Notification channels laid out in two columns",
+      "source": "<.component component_name=\"chelekom-checkbox-card\" site=\"Global\" id=\"showcase-cbc-channels\" name=\"channels[]\" label=\"Where should we reach you?\" cols=\"two\" cols_gap=\"small\" variant=\"bordered\" color=\"primary\" class=\"max-w-lg\">\n  <:checkbox value=\"email\" icon=\"hero-envelope\" title=\"Email\" description=\"A digest every morning\" checked={true} />\n  <:checkbox value=\"sms\" icon=\"hero-device-phone-mobile\" title=\"SMS\" description=\"Only for outages\" />\n  <:checkbox value=\"chat\" icon=\"hero-chat-bubble-left-right\" title=\"Team chat\" description=\"Posted to #alerts\" />\n  <:checkbox value=\"push\" icon=\"hero-bell\" title=\"Push\" description=\"Browser and mobile app\" />\n</.component>"
+    },
+    {
+      "label": "Checkout add-ons with the checkbox visible on each card",
+      "source": "<.component component_name=\"chelekom-checkbox-card\" site=\"Global\" id=\"showcase-cbc-addons\" name=\"addons[]\" label=\"Add-ons\" description=\"Billed monthly alongside your plan.\" show_checkbox={true} reverse={true} variant=\"outline\" color=\"success\" padding=\"medium\" class=\"max-w-md\">\n  <:checkbox value=\"backups\" title=\"Nightly backups\" description=\"30 days of restore points, $9 per month\" checked={true} />\n  <:checkbox value=\"cdn\" title=\"Global CDN\" description=\"Edge caching in 12 regions, $19 per month\" />\n  <:checkbox value=\"sla\" title=\"99.99% SLA\" description=\"One hour response, around the clock, $49 per month\" />\n</.component>"
+    },
+    {
+      "label": "Deployment regions with icons and free-form detail",
+      "source": "<.component component_name=\"chelekom-checkbox-card\" site=\"Global\" id=\"showcase-cbc-regions\" name=\"regions[]\" label=\"Deploy to\" cols=\"two\" variant=\"shadow\" color=\"natural\" padding=\"medium\" class=\"max-w-xl\">\n  <:checkbox value=\"fra\" icon=\"hero-globe-alt\" title=\"Frankfurt\" checked={true}>\n    <div class=\"mt-1 text-xs opacity-70\">18 ms from Tehran &middot; 3 nodes free</div>\n  </:checkbox>\n  <:checkbox value=\"iad\" icon=\"hero-globe-alt\" title=\"Virginia\">\n    <div class=\"mt-1 text-xs opacity-70\">96 ms from Tehran &middot; 7 nodes free</div>\n  </:checkbox>\n</.component>"
+    }
+  ]
+}

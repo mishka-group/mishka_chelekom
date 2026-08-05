@@ -1,0 +1,21 @@
+{
+  "name": "chelekom-avatar",
+  "furnishing": {
+    "body": "SB",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Article byline with the author's photo",
+      "source": "<div class=\"flex items-center gap-3\">\n  <.component component_name=\"chelekom-avatar\" site=\"Global\" id=\"avatar-byline\" src=\"/images/avatar3.jpg\" size=\"medium\" rounded=\"full\" />\n  <div class=\"leading-tight\">\n    <p class=\"text-sm font-semibold text-zinc-900 dark:text-zinc-100\">Ramin Doost</p>\n    <p class=\"text-xs text-zinc-500 dark:text-zinc-400\">Staff Engineer &middot; 6 min read</p>\n  </div>\n</div>"
+    },
+    {
+      "label": "Conversation list rows with an online status dot",
+      "source": "<ul class=\"w-full max-w-sm divide-y divide-zinc-200 dark:divide-zinc-800\">\n  <li class=\"flex items-center gap-3 py-3\">\n    <.component component_name=\"chelekom-avatar\" site=\"Global\" id=\"avatar-chat-nadia\" src=\"/images/avatar5.jpg\" size=\"medium\" rounded=\"full\">\n      <span class=\"absolute bottom-0 end-0 size-3 rounded-full border-2 border-white bg-emerald-500 dark:border-zinc-900\"></span>\n    </.component>\n    <div class=\"min-w-0 flex-1\">\n      <p class=\"truncate text-sm font-medium text-zinc-900 dark:text-zinc-100\">Nadia Farhat</p>\n      <p class=\"truncate text-xs text-zinc-500 dark:text-zinc-400\">The staging deploy is green, ready when you are.</p>\n    </div>\n    <span class=\"shrink-0 text-xs text-zinc-400\">2m</span>\n  </li>\n  <li class=\"flex items-center gap-3 py-3\">\n    <.component component_name=\"chelekom-avatar\" site=\"Global\" id=\"avatar-chat-omid\" src=\"/images/avatar4.jpg\" size=\"medium\" rounded=\"full\">\n      <span class=\"absolute bottom-0 end-0 size-3 rounded-full border-2 border-white bg-zinc-400 dark:border-zinc-900\"></span>\n    </.component>\n    <div class=\"min-w-0 flex-1\">\n      <p class=\"truncate text-sm font-medium text-zinc-900 dark:text-zinc-100\">Omid Rahmani</p>\n      <p class=\"truncate text-xs text-zinc-500 dark:text-zinc-400\">Left a note on the migration checklist.</p>\n    </div>\n    <span class=\"shrink-0 text-xs text-zinc-400\">1h</span>\n  </li>\n</ul>"
+    },
+    {
+      "label": "Comment thread using initials instead of photos",
+      "source": "<div class=\"max-w-lg space-y-4\">\n  <div class=\"flex gap-3\">\n    <.component component_name=\"chelekom-avatar\" site=\"Global\" id=\"avatar-comment-mk\" color=\"primary\" size=\"medium\" rounded=\"full\">MK</.component>\n    <div class=\"rounded-lg bg-zinc-100 px-3 py-2 dark:bg-zinc-800\">\n      <p class=\"text-xs font-semibold text-zinc-900 dark:text-zinc-100\">Mona Karimi</p>\n      <p class=\"mt-1 text-sm leading-6 text-zinc-700 dark:text-zinc-300\">Ship it. The migration script ran clean on staging twice, and the rollback path is documented.</p>\n    </div>\n  </div>\n  <div class=\"flex gap-3\">\n    <.component component_name=\"chelekom-avatar\" site=\"Global\" id=\"avatar-comment-rp\" color=\"misc\" size=\"medium\" rounded=\"full\">RP</.component>\n    <div class=\"rounded-lg bg-zinc-100 px-3 py-2 dark:bg-zinc-800\">\n      <p class=\"text-xs font-semibold text-zinc-900 dark:text-zinc-100\">Reza Pouya</p>\n      <p class=\"mt-1 text-sm leading-6 text-zinc-700 dark:text-zinc-300\">Agreed. I will watch the error rate for the first hour after release and post here either way.</p>\n    </div>\n  </div>\n</div>"
+    }
+  ]
+}

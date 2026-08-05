@@ -1,0 +1,25 @@
+{
+  "name": "chelekom-toast",
+  "furnishing": {
+    "body": "<p class=\"font-medium\">Changes saved</p>\n<p class=\"text-xs\">Your page is up to date.</p>",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Publish confirmation toast",
+      "source": "<.component component_name=\"chelekom-toast\" site=\"Global\" id=\"toast-page-published\" variant=\"default\" color=\"success\" width=\"large\" padding=\"small\" content_border=\"small\" border_position=\"start\">\n  <div class=\"flex items-start gap-3\">\n    <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-check-circle\" class=\"size-5 shrink-0\" />\n    <div>\n      <p class=\"font-semibold\">Page published</p>\n      <p class=\"text-xs\">Pricing is live and visible to every visitor.</p>\n    </div>\n  </div>\n</.component>"
+    },
+    {
+      "label": "Upload failure notice with a retry action",
+      "source": "<.component component_name=\"chelekom-toast\" site=\"Global\" id=\"toast-upload-failed\" variant=\"default\" color=\"danger\" width=\"large\" padding=\"small\" content_border=\"small\" border_position=\"start\">\n  <div class=\"flex items-start gap-3\">\n    <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-exclamation-triangle\" class=\"size-5 shrink-0\" />\n    <div>\n      <p class=\"font-semibold\">Upload failed</p>\n      <p class=\"text-xs\">brand-guidelines.pdf is 48 MB, over the 25 MB limit.</p>\n      <button type=\"button\" class=\"mt-2 text-xs font-medium underline underline-offset-2\">Choose another file</button>\n    </div>\n  </div>\n</.component>"
+    },
+    {
+      "label": "Storage quota warning pinned bottom left",
+      "source": "<.component component_name=\"chelekom-toast\" site=\"Global\" id=\"toast-storage-quota\" variant=\"default\" color=\"warning\" vertical=\"bottom\" horizontal=\"left\" width=\"large\" padding=\"small\">\n  <div class=\"flex items-start gap-3\">\n    <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-server-stack\" class=\"size-5 shrink-0\" />\n    <div>\n      <p class=\"font-semibold\">You have used 92% of your storage</p>\n      <p class=\"text-xs\">Remove unused media or upgrade before the next backup runs.</p>\n    </div>\n  </div>\n</.component>"
+    },
+    {
+      "label": "Connection lost notice centred at the bottom",
+      "source": "<.component component_name=\"chelekom-toast\" site=\"Global\" id=\"toast-connection-lost\" variant=\"default\" color=\"dark\" vertical=\"bottom\" horizontal=\"center\" width=\"medium\" padding=\"small\">\n  <div class=\"flex items-center gap-3\">\n    <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-signal-slash\" class=\"size-5 shrink-0\" />\n    <p class=\"text-sm\">You are offline. Edits will sync once the connection returns.</p>\n  </div>\n</.component>"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "name": "chelekom-email-field",
+  "furnishing": {
+    "body": "",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Newsletter sign-up row with a subscribe button",
+      "source": "<div class=\"mx-auto w-full max-w-xl rounded-xl border border-gray-200 p-6 dark:border-gray-700\">\n  <h3 class=\"text-lg font-semibold\">Get the monthly changelog</h3>\n  <p class=\"mt-1 mb-4 text-sm text-gray-500 dark:text-gray-400\">\n    One email a month with everything we shipped. No sales pitches, unsubscribe in one click.\n  </p>\n\n  <.component component_name=\"chelekom-form-wrapper\" site=\"Global\" id=\"form-newsletter\" for={%{}} form_wrapper_class=\"flex flex-col gap-3 sm:flex-row sm:items-end\">\n    <.component component_name=\"chelekom-email-field\" site=\"Global\" id=\"email-newsletter\" name=\"email\" value=\"\" size=\"medium\" space=\"small\" label=\"Email address\" placeholder=\"you@company.com\" class=\"w-full\" />\n    <.component component_name=\"chelekom-button\" site=\"Global\" variant=\"default\" color=\"primary\" type=\"submit\" size=\"medium\">\n      Subscribe\n    </.component>\n  </.component>\n</div>"
+    },
+    {
+      "label": "Account settings email with a validation error",
+      "source": "<.component component_name=\"chelekom-form-wrapper\" site=\"Global\" id=\"form-account-email\" for={%{}} space=\"medium\" class=\"mx-auto max-w-md\">\n  <.component component_name=\"chelekom-email-field\" site=\"Global\" id=\"email-account-settings\" name=\"user[email]\" value=\"sara@mishka\" size=\"medium\" space=\"small\" variant=\"default\" color=\"danger\" label=\"Work email\" placeholder=\"you@company.com\" description=\"Billing receipts and security alerts are sent to this address.\" errors={[\"Enter a valid email address\"]} />\n\n  <:actions>\n    <.component component_name=\"chelekom-button\" site=\"Global\" variant=\"default\" color=\"primary\" type=\"submit\" size=\"small\">\n      Save changes\n    </.component>\n  </:actions>\n</.component>"
+    },
+    {
+      "label": "Early-access waitlist field with a floating label",
+      "source": "<div class=\"mx-auto w-full max-w-sm rounded-xl border border-gray-200 p-6 text-center dark:border-gray-700\">\n  <h3 class=\"text-lg font-semibold\">Join the private beta</h3>\n  <p class=\"mt-1 mb-5 text-sm text-gray-500 dark:text-gray-400\">\n    We are letting in about fifty teams a week.\n  </p>\n\n  <.component component_name=\"chelekom-email-field\" site=\"Global\" id=\"email-waitlist\" name=\"waitlist_email\" value=\"\" size=\"medium\" space=\"small\" rounded=\"full\" floating=\"outer\" label=\"Email address\" class=\"text-start\">\n    <:start_section>\n      <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-envelope\" class=\"size-4\" />\n    </:start_section>\n  </.component>\n\n  <.component component_name=\"chelekom-button\" site=\"Global\" variant=\"default\" color=\"primary\" rounded=\"full\" class=\"mt-4\" full_width>\n    Request an invite\n  </.component>\n</div>"
+    },
+    {
+      "label": "Contact form with email and message",
+      "source": "<.component component_name=\"chelekom-form-wrapper\" site=\"Global\" id=\"form-contact\" for={%{}} space=\"medium\" variant=\"bordered\" color=\"natural\" rounded=\"large\" padding=\"medium\" class=\"mx-auto max-w-lg\">\n  <.component component_name=\"chelekom-text-field\" site=\"Global\" id=\"contact-name\" name=\"name\" value=\"\" size=\"medium\" space=\"small\" label=\"Your name\" placeholder=\"Sara Ahmadi\" />\n\n  <.component component_name=\"chelekom-email-field\" site=\"Global\" id=\"email-contact-form\" name=\"email\" value=\"\" size=\"medium\" space=\"small\" label=\"Email address\" placeholder=\"you@company.com\" description=\"We reply to every message within one business day.\" />\n\n  <.component component_name=\"chelekom-textarea-field\" site=\"Global\" id=\"contact-message\" name=\"message\" value=\"\" size=\"medium\" space=\"small\" rows=\"5\" label=\"How can we help?\" placeholder=\"Tell us a little about your project\" />\n\n  <:actions>\n    <.component component_name=\"chelekom-button\" site=\"Global\" variant=\"default\" color=\"primary\" type=\"submit\" icon=\"hero-paper-airplane\">\n      Send message\n    </.component>\n  </:actions>\n</.component>"
+    }
+  ]
+}

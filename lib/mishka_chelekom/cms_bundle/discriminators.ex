@@ -187,9 +187,18 @@ defmodule MishkaChelekom.CmsBundle.Discriminators do
 
   # `head` shapes:
   #   {name, _, [arg1, arg2, ...]}              — `defp foo(a, b)`
-  #   {:when, _, [{name, _, args}, _guard]}     — `defp foo(a) when …`
+  #   {:when, _, [{name, _, args}, guard]}      — `defp foo(a) when …`
   #   {name, _, nil}                            — older zero-arg form
-  defp extract_head({:when, _, [inner, _guard]}), do: extract_head(inner)
+  #
+  # The guard is part of the KEY, because the exporter's `head_to_helper_entry/5` writes it into the
+  # clause's `args` ("default", type when type in [:error, :danger]). Dropping it here produced a key
+  # that could never match, so every guarded clause in the kit shipped with no discriminators at all
+  # — 867 of them, which is most of the option lists a consumer needs.
+  defp extract_head({:when, _, [inner, guard]}) do
+    with {:ok, name, args} <- extract_head(inner) do
+      {:ok, name, guarded_args(args, guard)}
+    end
+  end
 
   defp extract_head({name, _, args}) when is_atom(name) and is_list(args) do
     {:ok, to_string(name), args_to_string(args)}
@@ -200,6 +209,9 @@ defmodule MishkaChelekom.CmsBundle.Discriminators do
   end
 
   defp extract_head(_), do: :not_a_defp
+
+  defp guarded_args("", guard), do: "when #{Macro.to_string(guard)}"
+  defp guarded_args(args, guard), do: "#{args} when #{Macro.to_string(guard)}"
 
   defp args_to_string([]), do: ""
   defp args_to_string(args), do: Enum.map_join(args, ", ", &Macro.to_string/1)

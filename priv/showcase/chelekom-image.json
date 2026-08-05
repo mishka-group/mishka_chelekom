@@ -1,0 +1,21 @@
+{
+  "name": "chelekom-image",
+  "furnishing": {
+    "body": "",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Blog post card with a cover image",
+      "source": "<div class=\"max-w-sm overflow-hidden rounded-2xl border border-zinc-200\">\n  <.component component_name=\"chelekom-image\" site=\"Global\" src=\"/images/card-1.jpg\" alt=\"A designer sketching a page layout on paper\" loading=\"lazy\" class=\"h-48 w-full object-cover\" />\n  <div class=\"p-5\">\n    <.component component_name=\"chelekom-h5\" site=\"Global\" font_weight=\"font-semibold\">Designing pages your editors will actually use</.component>\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\" class=\"mt-2 text-zinc-600\">Six rules we follow when turning a design file into blocks a non-technical editor can rearrange without breaking the page.</.component>\n  </div>\n</div>"
+    },
+    {
+      "label": "Captioned screenshot inside an article",
+      "source": "<.component component_name=\"chelekom-figure\" site=\"Global\" class=\"mx-auto max-w-2xl\">\n  <.component component_name=\"chelekom-image\" site=\"Global\" src=\"/images/card-3.jpg\" alt=\"The page builder with the block palette open\" rounded=\"large\" shadow=\"large\" loading=\"lazy\" class=\"w-full\" />\n  <.component component_name=\"chelekom-figcaption\" site=\"Global\" size=\"small\" class=\"mt-3 text-center text-zinc-500\">The block palette lists every component installed on the current site.</.component>\n</.component>"
+    },
+    {
+      "label": "Author byline with a round avatar",
+      "source": "<div class=\"flex items-center gap-3\">\n  <.component component_name=\"chelekom-image\" site=\"Global\" src=\"/images/avatar2.jpg\" alt=\"Portrait of Sara Mehrabi\" rounded=\"full\" width={44} height={44} class=\"size-11 object-cover\" />\n  <div>\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\" font_weight=\"font-semibold\">Sara Mehrabi</.component>\n    <.component component_name=\"chelekom-small\" site=\"Global\" size=\"small\" class=\"text-zinc-500\">Product designer, 6 min read</.component>\n  </div>\n</div>"
+    }
+  ]
+}

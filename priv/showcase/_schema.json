@@ -1,0 +1,86 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://mishka.tools/schemas/cms-showcase.v1.json",
+  "title": "MishkaCMS component showcase",
+  "description": "Hand-authored drop default and finished examples for one component of a UI kit. Laid over the harvested examples by MishkaChelekom.CmsBundle.Showcase. See README.md in this directory for the full contract.",
+  "type": "object",
+  "required": ["name"],
+  "additionalProperties": false,
+
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 2,
+      "description": "The component this attaches to, including the kit prefix — e.g. \"chelekom-card\". Must match a component name in the bundle exactly, or the file is ignored.",
+      "examples": ["chelekom-card", "chelekom-jumbotron"]
+    },
+
+    "furnishing": {
+      "type": "object",
+      "description": "What lands on a plain drag-and-drop, when the reader has opened neither the examples modal nor the wizard. Uses the component's DEFAULT options only — a minimal install ships nothing else, and a drop must never render as an error. Validated on the consumer side by MishkaCmsCore.Builder.Furnishing.",
+      "required": ["body", "slots"],
+      "additionalProperties": false,
+      "properties": {
+        "body": {
+          "type": "string",
+          "description": "HEEx written between the component's tags. An empty string means genuinely empty and is honoured — a spinner has nothing to say. Never write <:inner_block>; the HEEx compiler rejects the name."
+        },
+        "slots": {
+          "type": "array",
+          "description": "Sample <:name> entries, for a component whose content is a list. Repeat a slot name to place several entries.",
+          "items": {
+            "type": "object",
+            "required": ["name", "body"],
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "not": { "const": "inner_block" },
+                "description": "A slot the component declares. Never \"inner_block\" — that is `body`."
+              },
+              "body": {
+                "type": "string",
+                "description": "HEEx written inside this slot entry."
+              },
+              "attrs": {
+                "type": "object",
+                "description": "The slot's OWN attributes, written verbatim. An <:option> without a `value` is a choice that cannot be chosen.",
+                "additionalProperties": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "examples": {
+      "type": "array",
+      "description": "Finished, real-world blocks a reader can insert and edit. Three to five — not one per variant, which is what the wizard tab already answers, better and with a live preview.",
+      "minItems": 1,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "required": ["label", "source"],
+        "additionalProperties": false,
+        "properties": {
+          "label": {
+            "type": "string",
+            "minLength": 3,
+            "description": "What the block IS, never what option it sets. \"Pricing card with feature list\", not \"Outline variant\".",
+            "examples": [
+              "Pricing card with feature list",
+              "Cookie consent bar with accept and decline",
+              "SaaS hero with dual call-to-action"
+            ]
+          },
+          "source": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Complete, self-contained HEEx in the CMS runtime form — <.component component_name=\"…\" site=\"Global\" …>, including every nested child. Only declared attributes and slots; only option values present in the component's helpers[].discriminators; required attributes supplied and ids literal and unique. No daisyUI, no style= or <style>, no :let, no phx- handlers needing their own LiveView, no invented image URLs. The bundle's `requires` is DERIVED from this markup — you do not declare it."
+          }
+        }
+      }
+    }
+  }
+}

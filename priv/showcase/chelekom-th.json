@@ -1,0 +1,17 @@
+{
+  "name": "chelekom-th",
+  "furnishing": {
+    "body": "Product",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Sortable column heading with a sort indicator",
+      "source": "<.component component_name=\"chelekom-th\" site=\"Global\" id=\"th-sortable-created\" scope=\"col\">\n  <span class=\"inline-flex items-center gap-1\">\n    Created\n    <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-chevron-up-down\" class=\"size-3.5 opacity-60\" />\n  </span>\n</.component>"
+    },
+    {
+      "label": "Right-aligned amount heading with a currency hint",
+      "source": "<.component component_name=\"chelekom-th\" site=\"Global\" id=\"th-amount-heading\" scope=\"col\" class=\"text-right\">\n  Amount <span class=\"font-normal opacity-60\">(USD)</span>\n</.component>"
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "name": "chelekom-sidebar",
+  "furnishing": {
+    "body": "",
+    "slots": [
+      {
+        "name": "item",
+        "attrs": {
+          "icon": "hero-squares-2x2",
+          "label": "Dashboard",
+          "link": "/",
+          "link_class": "gap-2 rounded-md px-3 py-2 hover:bg-black/5"
+        },
+        "body": ""
+      },
+      {
+        "name": "item",
+        "attrs": {
+          "icon": "hero-document-text",
+          "label": "Articles",
+          "link": "/articles",
+          "link_class": "gap-2 rounded-md px-3 py-2 hover:bg-black/5"
+        },
+        "body": ""
+      },
+      {
+        "name": "item",
+        "attrs": {
+          "icon": "hero-photo",
+          "label": "Media library",
+          "link": "/media",
+          "link_class": "gap-2 rounded-md px-3 py-2 hover:bg-black/5"
+        },
+        "body": ""
+      },
+      {
+        "name": "item",
+        "attrs": {
+          "icon": "hero-chat-bubble-left-right",
+          "label": "Comments",
+          "link": "/comments",
+          "link_class": "gap-2 rounded-md px-3 py-2 hover:bg-black/5"
+        },
+        "body": ""
+      },
+      {
+        "name": "item",
+        "attrs": {
+          "icon": "hero-cog-6-tooth",
+          "label": "Settings",
+          "link": "/settings",
+          "link_class": "gap-2 rounded-md px-3 py-2 hover:bg-black/5"
+        },
+        "body": ""
+      }
+    ]
+  },
+  "examples": [
+    {
+      "label": "Admin console sidebar with a collapsible rail and account footer",
+      "source": "<.component component_name=\"chelekom-sidebar\" site=\"Global\" id=\"sidebar-admin-console\" size=\"small\" minimize list_wrapper_class=\"px-3 pb-4 space-y-1\">\n  <:item icon=\"hero-squares-2x2\" label=\"Overview\" link=\"/admin\" link_class=\"gap-2 rounded-md px-3 py-2 hover:bg-black/5\" />\n  <:item icon=\"hero-document-text\" label=\"Articles\" link=\"/admin/articles\" link_class=\"gap-2 rounded-md px-3 py-2 hover:bg-black/5\" />\n  <:item icon=\"hero-photo\" label=\"Media library\" link=\"/admin/media\" link_class=\"gap-2 rounded-md px-3 py-2 hover:bg-black/5\" />\n  <:item icon=\"hero-users\" label=\"Authors\" link=\"/admin/authors\" link_class=\"gap-2 rounded-md px-3 py-2 hover:bg-black/5\" />\n  <:item icon=\"hero-chart-bar\" label=\"Analytics\" link=\"/admin/analytics\" link_class=\"gap-2 rounded-md px-3 py-2 hover:bg-black/5\" />\n  <:item icon=\"hero-cog-6-tooth\" label=\"Settings\" link=\"/admin/settings\" link_class=\"gap-2 rounded-md px-3 py-2 hover:bg-black/5\" />\n  <div class=\"mt-6 border-t border-black/10 px-4 py-4\">\n    <p class=\"text-sm font-medium\">Sara Ahmadi</p>\n    <p class=\"text-xs opacity-70\">Editor, Northwind Journal</p>\n    <a href=\"/sign-out\" class=\"mt-3 inline-block text-xs underline\">Sign out</a>\n  </div>\n</.component>"
+    },
+    {
+      "label": "Documentation navigation grouped by section",
+      "source": "<.component component_name=\"chelekom-sidebar\" site=\"Global\" id=\"sidebar-docs-nav\" variant=\"bordered\" size=\"small\">\n  <nav class=\"space-y-6 p-4\">\n    <div>\n      <p class=\"mb-2 text-xs font-semibold uppercase tracking-wide opacity-60\">Getting started</p>\n      <ul class=\"space-y-1 text-sm\">\n        <li><a href=\"/docs/installation\" class=\"block rounded px-2 py-1.5 hover:bg-black/5\">Installation</a></li>\n        <li><a href=\"/docs/first-page\" class=\"block rounded px-2 py-1.5 hover:bg-black/5\">Your first page</a></li>\n        <li><a href=\"/docs/layouts\" class=\"block rounded px-2 py-1.5 hover:bg-black/5\">Layouts and themes</a></li>\n      </ul>\n    </div>\n    <div>\n      <p class=\"mb-2 text-xs font-semibold uppercase tracking-wide opacity-60\">Components</p>\n      <ul class=\"space-y-1 text-sm\">\n        <li><a href=\"/docs/components/button\" class=\"block rounded px-2 py-1.5 hover:bg-black/5\">Button</a></li>\n        <li><a href=\"/docs/components/table\" class=\"block rounded px-2 py-1.5 hover:bg-black/5\">Table</a></li>\n        <li><a href=\"/docs/components/stepper\" class=\"block rounded px-2 py-1.5 hover:bg-black/5\">Stepper</a></li>\n      </ul>\n    </div>\n    <div>\n      <p class=\"mb-2 text-xs font-semibold uppercase tracking-wide opacity-60\">Going live</p>\n      <ul class=\"space-y-1 text-sm\">\n        <li><a href=\"/docs/deploy/releases\" class=\"block rounded px-2 py-1.5 hover:bg-black/5\">Releases</a></li>\n        <li><a href=\"/docs/deploy/domains\" class=\"block rounded px-2 py-1.5 hover:bg-black/5\">Custom domains</a></li>\n      </ul>\n    </div>\n  </nav>\n</.component>"
+    },
+    {
+      "label": "Storefront filter panel docked to the right edge",
+      "source": "<.component component_name=\"chelekom-sidebar\" site=\"Global\" id=\"sidebar-shop-filters\" position=\"end\" hide_position=\"right\" size=\"extra_small\" variant=\"default\" color=\"white\">\n  <div class=\"space-y-6 p-5\">\n    <h2 class=\"text-base font-semibold\">Filter products</h2>\n    <div class=\"space-y-2\">\n      <p class=\"text-sm font-medium\">Category</p>\n      <.component component_name=\"chelekom-checkbox-field\" site=\"Global\" id=\"shop-filter-desks\" name=\"category_desks\" value=\"true\" checked label=\"Desks\" size=\"small\" label_class=\"ms-2 text-sm\" />\n      <.component component_name=\"chelekom-checkbox-field\" site=\"Global\" id=\"shop-filter-chairs\" name=\"category_chairs\" value=\"true\" label=\"Chairs\" size=\"small\" label_class=\"ms-2 text-sm\" />\n      <.component component_name=\"chelekom-checkbox-field\" site=\"Global\" id=\"shop-filter-lighting\" name=\"category_lighting\" value=\"true\" label=\"Lighting\" size=\"small\" label_class=\"ms-2 text-sm\" />\n    </div>\n    <div class=\"space-y-2\">\n      <p class=\"text-sm font-medium\">Availability</p>\n      <.component component_name=\"chelekom-checkbox-field\" site=\"Global\" id=\"shop-filter-in-stock\" name=\"in_stock_only\" value=\"true\" label=\"In stock only\" size=\"small\" label_class=\"ms-2 text-sm\" />\n      <.component component_name=\"chelekom-checkbox-field\" site=\"Global\" id=\"shop-filter-on-sale\" name=\"on_sale\" value=\"true\" label=\"Reduced price\" size=\"small\" label_class=\"ms-2 text-sm\" />\n    </div>\n    <.component component_name=\"chelekom-button\" site=\"Global\" size=\"small\" variant=\"default\" color=\"primary\" full_width>Apply filters</.component>\n  </div>\n</.component>"
+    },
+    {
+      "label": "Off-canvas mobile menu with a trial call to action",
+      "source": "<.component component_name=\"chelekom-sidebar\" site=\"Global\" id=\"sidebar-mobile-menu\" hide_position=\"left\" size=\"small\" variant=\"default\" color=\"dark\" list_wrapper_class=\"px-3 py-2 space-y-1\">\n  <:item icon=\"hero-home\" label=\"Home\" link=\"/\" link_class=\"gap-2 rounded-md px-3 py-2 hover:bg-white/10\" />\n  <:item icon=\"hero-cube\" label=\"Products\" link=\"/products\" link_class=\"gap-2 rounded-md px-3 py-2 hover:bg-white/10\" />\n  <:item icon=\"hero-document-text\" label=\"Journal\" link=\"/journal\" link_class=\"gap-2 rounded-md px-3 py-2 hover:bg-white/10\" />\n  <:item icon=\"hero-lifebuoy\" label=\"Support\" link=\"/support\" link_class=\"gap-2 rounded-md px-3 py-2 hover:bg-white/10\" />\n  <div class=\"mt-6 px-4\">\n    <.component component_name=\"chelekom-button-link\" site=\"Global\" href=\"/get-started\" size=\"small\" variant=\"default\" color=\"primary\" full_width>Start free trial</.component>\n  </div>\n</.component>"
+    }
+  ]
+}

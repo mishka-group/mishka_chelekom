@@ -1,0 +1,17 @@
+{
+  "name": "chelekom-strong",
+  "furnishing": {
+    "body": "Free delivery on orders over $50",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Deadline emphasised in a returns policy paragraph",
+      "source": "<p class=\"max-w-prose text-sm leading-6\">Orders ship within two working days. Returns are accepted for <.component component_name=\"chelekom-strong\" site=\"Global\" size=\"small\">30 days after delivery</.component>, as long as the item is unused and still in its original packaging.</p>"
+    },
+    {
+      "label": "Usage figure called out in a plan summary",
+      "source": "<p class=\"text-sm\">Your team has used <.component component_name=\"chelekom-strong\" site=\"Global\" size=\"small\" color=\"primary\">42 GB</.component> of the 100 GB included in the Growth plan.</p>"
+    }
+  ]
+}

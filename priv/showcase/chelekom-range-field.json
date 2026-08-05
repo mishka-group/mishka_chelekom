@@ -1,0 +1,29 @@
+{
+  "name": "chelekom-range-field",
+  "furnishing": {
+    "body": "",
+    "slots": [
+      {
+        "name": "range_value",
+        "body": "60%",
+        "attrs": {
+          "position": "end"
+        }
+      }
+    ]
+  },
+  "examples": [
+    {
+      "label": "Price filter in a shop sidebar",
+      "source": "<div class=\"max-w-xs rounded-xl border border-gray-200 dark:border-gray-700 p-5\">\n  <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"medium\" font_weight=\"font-semibold\">Filter by price</.component>\n  <.component component_name=\"chelekom-small\" site=\"Global\" class=\"block mt-1 mb-5 text-gray-500\">Showing items up to $450</.component>\n  <.component component_name=\"chelekom-range-field\" site=\"Global\" id=\"shop-price-filter\" name=\"max_price\" value=\"450\" min=\"0\" max=\"1000\" step=\"10\" label=\"Maximum price\">\n    <:range_value position=\"start\" class=\"text-gray-500\">$0</:range_value>\n    <:range_value position=\"middle\" class=\"text-gray-500\">$500</:range_value>\n    <:range_value position=\"end\" class=\"text-gray-500\">$1,000</:range_value>\n  </.component>\n</div>"
+    },
+    {
+      "label": "Playback controls in a settings panel",
+      "source": "<div class=\"max-w-md rounded-xl border border-gray-200 dark:border-gray-700 p-5 space-y-8\">\n  <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"medium\" font_weight=\"font-semibold\">Playback</.component>\n  <.component component_name=\"chelekom-range-field\" site=\"Global\" id=\"settings-volume\" name=\"volume\" value=\"70\" min=\"0\" max=\"100\" label=\"Volume\">\n    <:range_value position=\"end\" class=\"text-gray-500\">70%</:range_value>\n  </.component>\n  <.component component_name=\"chelekom-range-field\" site=\"Global\" id=\"settings-brightness\" name=\"brightness\" value=\"40\" min=\"0\" max=\"100\" label=\"Player brightness\" color=\"warning\">\n    <:range_value position=\"end\" class=\"text-gray-500\">40%</:range_value>\n  </.component>\n</div>"
+    },
+    {
+      "label": "Budget slider in a quote request form",
+      "source": "<.component component_name=\"chelekom-form-wrapper\" site=\"Global\" for={%{}} id=\"quote-budget-form\" class=\"max-w-lg rounded-xl border border-gray-200 dark:border-gray-700 p-6\">\n  <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"large\" font_weight=\"font-semibold\">What is your budget for this project?</.component>\n  <.component component_name=\"chelekom-small\" site=\"Global\" class=\"block mt-1 mb-6 text-gray-500\">Drag the slider — we will send a proposal that fits the range.</.component>\n  <.component component_name=\"chelekom-range-field\" site=\"Global\" id=\"quote-budget\" name=\"budget\" value=\"25000\" min=\"5000\" max=\"100000\" step=\"1000\" label=\"Project budget in USD\" color=\"success\">\n    <:range_value position=\"start\" class=\"text-gray-500\">$5k</:range_value>\n    <:range_value position=\"end\" class=\"text-gray-500\">$100k</:range_value>\n  </.component>\n  <:actions>\n    <.component component_name=\"chelekom-button\" site=\"Global\" type=\"submit\" variant=\"default\" color=\"primary\">Request a quote</.component>\n  </:actions>\n</.component>"
+    }
+  ]
+}

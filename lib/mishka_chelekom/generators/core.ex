@@ -44,6 +44,15 @@ defmodule MishkaChelekom.Generators.Core do
     end
   end
 
+  @typedoc """
+  Which catalog a component is generated from.
+
+    * `:styled` / `:headless` — Phoenix components, rendered into `<app>_web`
+    * `:mob` — native Mob components for a BEAM-on-device app, which has no
+      `_web` namespace and no JS or CSS to wire up
+  """
+  @type layer :: :styled | :headless | :mob
+
   @doc """
   Joins a sub-path onto the library `priv/` dir.
 
@@ -57,10 +66,12 @@ defmodule MishkaChelekom.Generators.Core do
 
     * `:styled`   → `priv/components`
     * `:headless` → `priv/headless`
+    * `:mob`      → `priv/mob`
   """
-  @spec template_dir(:styled | :headless) :: String.t()
+  @spec template_dir(layer()) :: String.t()
   def template_dir(:styled), do: lib_priv("components")
   def template_dir(:headless), do: lib_priv("headless")
+  def template_dir(:mob), do: lib_priv("mob")
 
   @doc """
   Validates that a loaded catalog config has the minimal expected shape, returning
@@ -98,7 +109,7 @@ defmodule MishkaChelekom.Generators.Core do
   app's `priv/mishka_chelekom/{components,presets,templates}`; everything else (and all
   `:headless` names) resolves against the library `priv/`.
   """
-  @spec fetch_catalog(Igniter.t(), String.t(), :styled | :headless) ::
+  @spec fetch_catalog(Igniter.t(), String.t(), layer()) ::
           {:ok, %{component: String.t(), path: String.t(), config: keyword()}}
           | {:error, {:not_found, String.t()} | {:bad_catalog, String.t(), String.t()}}
   def fetch_catalog(igniter, component, layer) do
@@ -138,13 +149,15 @@ defmodule MishkaChelekom.Generators.Core do
 
   defp catalog_path(_igniter, component, :headless), do: lib_priv("headless/#{component}.eex")
 
+  defp catalog_path(_igniter, component, :mob), do: lib_priv("mob/#{component}.eex")
+
   @doc """
   Every available component name for a layer (sorted, unique basenames of the `.eex` files).
 
   `:styled` also discovers host-app custom templates under
   `priv/mishka_chelekom/{components,templates,presets}`.
   """
-  @spec all_component_names(Igniter.t(), :styled | :headless) :: [String.t()]
+  @spec all_component_names(Igniter.t(), layer()) :: [String.t()]
   def all_component_names(igniter, :styled) do
     [
       template_dir(:styled),
@@ -158,8 +171,9 @@ defmodule MishkaChelekom.Generators.Core do
     |> Enum.sort()
   end
 
-  def all_component_names(_igniter, :headless) do
-    template_dir(:headless)
+  def all_component_names(_igniter, layer) when layer in [:headless, :mob] do
+    layer
+    |> template_dir()
     |> Path.join("*.eex")
     |> Path.wildcard()
     |> Enum.map(&Path.basename(&1, ".eex"))
@@ -438,7 +452,7 @@ defmodule MishkaChelekom.Generators.Core do
   @spec resolve_components(
           Igniter.t(),
           String.t() | nil,
-          :styled | :headless,
+          layer(),
           map(),
           [String.t()] | nil
         ) :: [String.t()]
@@ -458,7 +472,7 @@ defmodule MishkaChelekom.Generators.Core do
   @doc """
   The components in `list` whose catalog declares npm packages.
   """
-  @spec npm_backed(Igniter.t(), [String.t()], :styled | :headless) :: [String.t()]
+  @spec npm_backed(Igniter.t(), [String.t()], layer()) :: [String.t()]
   def npm_backed(igniter, list, layer) do
     Enum.filter(list, fn name ->
       case fetch_catalog(igniter, name, layer) do
@@ -492,6 +506,7 @@ defmodule MishkaChelekom.Generators.Core do
   end
 
   defp layer_task(:headless), do: "headless"
+  defp layer_task(:mob), do: "mob"
   defp layer_task(_), do: "component"
 
   @doc """

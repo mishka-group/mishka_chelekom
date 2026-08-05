@@ -1,0 +1,17 @@
+{
+  "name": "chelekom-indicator",
+  "furnishing": {
+    "body": "",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Service status list with coloured status dots",
+      "source": "<div class=\"max-w-sm divide-y divide-zinc-200 rounded-xl border border-zinc-200\">\n  <div class=\"flex items-center gap-3 px-4 py-3\">\n    <.component component_name=\"chelekom-indicator\" site=\"Global\" color=\"success\" />\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\" class=\"flex-1\">Public API</.component>\n    <.component component_name=\"chelekom-small\" site=\"Global\" size=\"small\" class=\"text-zinc-500\">Operational</.component>\n  </div>\n  <div class=\"flex items-center gap-3 px-4 py-3\">\n    <.component component_name=\"chelekom-indicator\" site=\"Global\" color=\"warning\" />\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\" class=\"flex-1\">Media uploads</.component>\n    <.component component_name=\"chelekom-small\" site=\"Global\" size=\"small\" class=\"text-zinc-500\">Degraded</.component>\n  </div>\n  <div class=\"flex items-center gap-3 px-4 py-3\">\n    <.component component_name=\"chelekom-indicator\" site=\"Global\" color=\"danger\" />\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\" class=\"flex-1\">Scheduled publishing</.component>\n    <.component component_name=\"chelekom-small\" site=\"Global\" size=\"small\" class=\"text-zinc-500\">Outage</.component>\n  </div>\n</div>"
+    },
+    {
+      "label": "Unread dot pinned to the corner of a notification button",
+      "source": "<div class=\"flex items-center gap-4\">\n  <div class=\"relative inline-flex\">\n    <.component component_name=\"chelekom-button\" site=\"Global\" variant=\"outline\" color=\"natural\" rounded=\"full\" size=\"small\" icon=\"hero-bell\" aria-label=\"Notifications\" />\n    <.component component_name=\"chelekom-indicator\" site=\"Global\" color=\"danger\" size=\"medium\" class=\"absolute right-0 top-0 -translate-y-1/2 translate-x-1/2\" />\n  </div>\n  <div class=\"relative inline-flex\">\n    <.component component_name=\"chelekom-button\" site=\"Global\" variant=\"outline\" color=\"natural\" rounded=\"full\" size=\"small\" icon=\"hero-envelope\" aria-label=\"Messages\" />\n    <.component component_name=\"chelekom-indicator\" site=\"Global\" color=\"primary\" size=\"medium\" class=\"absolute right-0 top-0 -translate-y-1/2 translate-x-1/2\" />\n  </div>\n</div>"
+    }
+  ]
+}

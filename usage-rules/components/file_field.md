@@ -31,7 +31,7 @@ mix mishka.ui.gen.component file_field --module MyAppWeb.Components.CustomFileFi
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `id` | `:string` | `nil` | Unique identifier |
+| `id` | `:string` | `nil` | Unique identifier. With `live`/`dropzone` the file input is identified by the upload ref, so this lands on the wrapper |
 | `name` | `:string` | `nil` | Input field name |
 | `variant` | `:string` | `"base"` | Style variant |
 | `color` | `:string` | `"base"` | Color theme |

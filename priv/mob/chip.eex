@@ -1,0 +1,116 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Chip** — a compact, selectable
+  label (a filter chip).
+
+  On the web a chip is a `<label>` wrapping a hidden checkbox or radio, so the
+  browser handles selection and form submission. Natively there is no hidden
+  input and no form post: the chip is a tappable pill whose `checked` state
+  comes from the screen, exactly like every other controlled Mob widget.
+
+  That also means `type: "checkbox" | "radio"` does not port as a prop. The
+  difference between the two is entirely in how the *screen* updates state —
+  toggle one id, or replace the selection — so it belongs in the handler. Both
+  shapes are one line:
+
+      # checkbox chips: toggle membership
+      selected = if id in selected, do: List.delete(selected, id), else: [id | selected]
+
+      # radio chips: replace
+      selected = [id]
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `label` | string | `nil` | The chip's text. |
+  | `checked` | boolean | `false` | Whether it reads as selected. |
+  | `disabled` | boolean | `false` | Wires no handler and mutes the chip. |
+  | `on_toggle` | event tag (atom) | — | Sent as `{:tap, tag}`. |
+  | `color` | color token / ARGB int | `:primary` | Fill when checked. |
+  | `text_color` | color token / ARGB int | `:on_primary` | Label colour when checked. |
+
+  Not ported: `name`, `value` and `type` (HTML form plumbing) and the `id` /
+  `*_class` attrs.
+  """
+
+  import Mob.Sigil
+
+  alias <%= @namespace %>.Event
+
+  @doc "Composite expander (`<<%= @module_prefix_camel %>Chip />`). Delegates to `chip/1`."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, _children, _ctx), do: <%= @component_prefix %>chip(props)
+
+  @doc """
+  The chip node.
+
+      <%= @component_prefix %>chip(label: "Elixir", checked: true, on_toggle: :pick_elixir)
+  """
+  @spec <%= @component_prefix %>chip(map() | keyword()) :: map()
+  def <%= @component_prefix %>chip(props \\ %{}) do
+    props = Map.new(props)
+    checked? = truthy?(Map.get(props, :checked, false))
+    disabled? = truthy?(Map.get(props, :disabled, false))
+
+    label = Map.get(props, :label)
+    ink = text_color(props, checked?, disabled?)
+    fill = background(props, checked?, disabled?)
+
+    # A Box with `fill_width={false}`, NOT a Button.
+    #
+    # A Box with neither `width` nor `fill_width` fills its parent on both
+    # platforms — that was the original full-width chip. `fill_width={false}`
+    # fixes it on Android. A Button would fix it on iOS too (it is the only node
+    # that reads `fill_width` there), but Material3 gives a Button its own
+    # minimum size and content padding: the chips came out oversized, overflowed
+    # their row, and the last one was squeezed until its label vanished. A chip
+    # that is the right shape on one platform beats one that is the wrong shape
+    # on both.
+    #
+    # So iOS still stretches, and that is recorded in development/mob/IOS_TODO.md
+    # — the real fix is for MobBox to read `fill_width`, which lives in the dep.
+    node = ~MOB"""
+    <Box fill_width={false} background={fill} corner_radius={:radius_pill} padding={:space_sm}>
+      <Text text={label} text_size={:base} text_color={ink} />
+    </Box>
+    """
+
+    case handler(props, disabled?) do
+      nil -> node
+      tap -> %{node | props: Map.put(node.props, :on_tap, tap)}
+    end
+  end
+
+  # `disabled` must not erase `checked`. It used to: both fell to
+  # `:surface_raised`, so a locked-ON chip was pixel-identical to a locked-OFF
+  # one and the user could not see what was selected. The web keeps them
+  # orthogonal — `data-disabled` on the root, `:checked` still on the input — so
+  # a disabled selection stays visibly selected, just muted.
+  defp background(props, checked?, disabled?) do
+    cond do
+      checked? and disabled? -> :muted
+      checked? -> Map.get(props, :color, :primary)
+      true -> :surface_raised
+    end
+  end
+
+  # A checked+disabled chip keeps a light label: its fill is `:muted`, and a
+  # `:muted` label on a `:muted` fill is invisible — which is exactly how the
+  # locked-on chip rendered as a blank dark blob.
+  defp text_color(props, checked?, disabled?) do
+    cond do
+      checked? and disabled? -> Map.get(props, :text_color, :on_primary)
+      disabled? -> :muted
+      checked? -> Map.get(props, :text_color, :on_primary)
+      true -> :on_surface
+    end
+  end
+
+  defp handler(_props, true), do: nil
+  defp handler(props, _disabled), do: Event.handler(Map.get(props, :on_toggle))
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
+end

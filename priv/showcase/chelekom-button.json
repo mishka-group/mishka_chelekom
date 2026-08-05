@@ -1,0 +1,25 @@
+{
+  "name": "chelekom-button",
+  "furnishing": {
+    "body": "Get started",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Hero call-to-action pair",
+      "source": "<div class=\"max-w-xl space-y-5 text-center\">\n  <h1 class=\"text-3xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100\">Publish faster, without leaving the page</h1>\n  <p class=\"text-base leading-7 text-zinc-600 dark:text-zinc-400\">Compose, preview and ship every page from a single canvas. No build step, no context switching, no waiting on a deploy.</p>\n  <div class=\"flex flex-wrap items-center justify-center gap-3\">\n    <.component component_name=\"chelekom-button\" site=\"Global\" id=\"btn-hero-primary\" variant=\"default\" color=\"primary\" icon=\"hero-rocket-launch\">Start free trial</.component>\n    <.component component_name=\"chelekom-button\" site=\"Global\" id=\"btn-hero-secondary\" variant=\"outline\" color=\"natural\">Watch the demo</.component>\n  </div>\n</div>"
+    },
+    {
+      "label": "Settings card footer with cancel and save",
+      "source": "<div class=\"max-w-lg rounded-lg border border-zinc-200 dark:border-zinc-800\">\n  <div class=\"space-y-2 p-5\">\n    <h3 class=\"text-base font-semibold text-zinc-900 dark:text-zinc-100\">Default publishing timezone</h3>\n    <p class=\"text-sm leading-6 text-zinc-600 dark:text-zinc-400\">Scheduled posts are published using this timezone. Individual authors can still override it on a per-post basis.</p>\n  </div>\n  <div class=\"flex items-center justify-end gap-3 border-t border-zinc-200 px-5 py-3 dark:border-zinc-800\">\n    <.component component_name=\"chelekom-button\" site=\"Global\" id=\"btn-card-cancel\" variant=\"transparent\" color=\"natural\" size=\"medium\">Cancel</.component>\n    <.component component_name=\"chelekom-button\" site=\"Global\" id=\"btn-card-save\" variant=\"default\" color=\"primary\" size=\"medium\">Save changes</.component>\n  </div>\n</div>"
+    },
+    {
+      "label": "Report toolbar with circular icon actions",
+      "source": "<div class=\"flex items-center justify-between gap-4 rounded-lg border border-zinc-200 px-4 py-3 dark:border-zinc-800\">\n  <p class=\"text-sm font-medium text-zinc-900 dark:text-zinc-100\">Q3 performance report</p>\n  <div class=\"flex items-center gap-2\">\n    <.component component_name=\"chelekom-button\" site=\"Global\" id=\"btn-tool-refresh\" title=\"Refresh\" variant=\"outline\" color=\"natural\" size=\"small\" icon=\"hero-arrow-path\" rounded=\"full\" circle />\n    <.component component_name=\"chelekom-button\" site=\"Global\" id=\"btn-tool-download\" title=\"Download as CSV\" variant=\"outline\" color=\"natural\" size=\"small\" icon=\"hero-arrow-down-tray\" rounded=\"full\" circle />\n    <.component component_name=\"chelekom-button\" site=\"Global\" id=\"btn-tool-print\" title=\"Print\" variant=\"outline\" color=\"natural\" size=\"small\" icon=\"hero-printer\" rounded=\"full\" circle />\n    <.component component_name=\"chelekom-button\" site=\"Global\" id=\"btn-tool-share\" variant=\"default\" color=\"primary\" size=\"small\" icon=\"hero-share\">Share</.component>\n  </div>\n</div>"
+    },
+    {
+      "label": "Destructive confirmation with the submit button mid-flight",
+      "source": "<div class=\"max-w-lg space-y-4 rounded-lg border border-red-200 p-5 dark:border-red-900\">\n  <div class=\"space-y-1\">\n    <h3 class=\"text-base font-semibold text-zinc-900 dark:text-zinc-100\">Delete this workspace</h3>\n    <p class=\"text-sm leading-6 text-zinc-600 dark:text-zinc-400\">Every page, draft and media file in the workspace is removed. This cannot be undone once the job finishes.</p>\n  </div>\n  <div class=\"flex items-center justify-end gap-3\">\n    <.component component_name=\"chelekom-button\" site=\"Global\" id=\"btn-form-keep\" variant=\"transparent\" color=\"natural\" size=\"medium\">Cancel</.component>\n    <.component component_name=\"chelekom-button\" site=\"Global\" id=\"btn-form-delete\" variant=\"default\" color=\"danger\" size=\"medium\">\n      <:loading position=\"start\">\n        <.component component_name=\"chelekom-spinner\" site=\"Global\" id=\"spinner-form-delete\" size=\"extra_small\" color=\"white\" />\n      </:loading>\n      Deleting workspace\n    </.component>\n  </div>\n</div>"
+    }
+  ]
+}

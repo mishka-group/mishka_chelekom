@@ -1,0 +1,53 @@
+{
+  "name": "chelekom-speed-dial",
+  "furnishing": {
+    "body": "",
+    "slots": [
+      {
+        "name": "trigger_content",
+        "attrs": {
+          "class": "flex items-center justify-center"
+        },
+        "body": "<.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-plus\" class=\"size-5\" />"
+      },
+      {
+        "name": "item",
+        "attrs": {
+          "icon": "hero-pencil-square",
+          "href": "/admin/articles/new"
+        },
+        "body": ""
+      },
+      {
+        "name": "item",
+        "attrs": {
+          "icon": "hero-photo",
+          "href": "/admin/media"
+        },
+        "body": ""
+      },
+      {
+        "name": "item",
+        "attrs": {
+          "icon": "hero-user-plus",
+          "href": "/admin/team/invite"
+        },
+        "body": ""
+      }
+    ]
+  },
+  "examples": [
+    {
+      "label": "Editor quick-actions button floating over the dashboard",
+      "source": "<.component component_name=\"chelekom-speed-dial\" site=\"Global\" id=\"speeddial-editor-actions\" icon=\"hero-plus\" icon_animated size=\"large\" variant=\"default\" color=\"primary\">\n  <:item icon=\"hero-pencil-square\" href=\"/admin/articles/new\" color=\"primary\" />\n  <:item icon=\"hero-photo\" href=\"/admin/media/upload\" color=\"info\" />\n  <:item icon=\"hero-user-plus\" href=\"/admin/team/invite\" color=\"success\" />\n  <:item icon=\"hero-calendar-days\" href=\"/admin/schedule\" color=\"warning\" />\n</.component>"
+    },
+    {
+      "label": "Share menu that opens to the left of its trigger",
+      "source": "<.component component_name=\"chelekom-speed-dial\" site=\"Global\" id=\"speeddial-share-post\" icon=\"hero-share\" wrapper_position=\"left\" size=\"medium\" space=\"small\" variant=\"default\" color=\"dark\">\n  <:item icon=\"hero-link\" href=\"/share/copy-link\" color=\"natural\" />\n  <:item icon=\"hero-envelope\" href=\"/share/email\" color=\"natural\" />\n  <:item icon=\"hero-printer\" href=\"/share/print\" color=\"natural\" />\n</.component>"
+    },
+    {
+      "label": "Support launcher in the bottom-left corner with labelled actions",
+      "source": "<.component component_name=\"chelekom-speed-dial\" site=\"Global\" id=\"speeddial-support-launcher\" action_position=\"bottom-start\" clickable width=\"medium\" padding=\"small\" size=\"large\" variant=\"shadow\" color=\"success\">\n  <:trigger_content class=\"text-xs font-semibold\">Help</:trigger_content>\n  <:item href=\"/support/chat\" content_class=\"px-3 py-2\" color=\"white\" variant=\"default\">Chat with us</:item>\n  <:item href=\"/docs\" content_class=\"px-3 py-2\" color=\"white\" variant=\"default\">Read the docs</:item>\n  <:item href=\"/support/ticket\" content_class=\"px-3 py-2\" color=\"white\" variant=\"default\">Open a ticket</:item>\n</.component>"
+    }
+  ]
+}

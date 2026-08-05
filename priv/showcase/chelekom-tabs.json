@@ -1,0 +1,50 @@
+{
+  "name": "chelekom-tabs",
+  "furnishing": {
+    "body": "",
+    "slots": [
+      {
+        "name": "tab",
+        "body": "Description"
+      },
+      {
+        "name": "tab",
+        "body": "Specification"
+      },
+      {
+        "name": "tab",
+        "body": "Delivery"
+      },
+      {
+        "name": "panel",
+        "body": "<p class=\"text-sm leading-6 opacity-80\">A hand-finished walnut desk shelf that lifts your monitor to eye level and gives keyboards, notebooks and cables somewhere to live.</p>"
+      },
+      {
+        "name": "panel",
+        "body": "<p class=\"text-sm leading-6 opacity-80\">600 x 220 x 120 mm, solid walnut with a hardwax oil finish. Holds up to 25 kg and ships flat with the tools included.</p>"
+      },
+      {
+        "name": "panel",
+        "body": "<p class=\"text-sm leading-6 opacity-80\">Free tracked delivery on orders over $60. Most parcels arrive within three working days, and returns stay open for 30 days.</p>"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "label": "Product detail tabs for description, specification and reviews",
+      "source": "<.component component_name=\"chelekom-tabs\" site=\"Global\" id=\"tabs-product-detail\" padding=\"small\" content_padding=\"small\" gap=\"small\" class=\"w-full\">\n  <:tab>Description</:tab>\n  <:tab>Specification</:tab>\n  <:tab>Reviews</:tab>\n  <:panel>\n    <div class=\"space-y-3 pt-4\">\n      <p class=\"text-sm leading-6 opacity-80\">The Meridian desk shelf is cut from a single walnut board, so the grain runs unbroken from one leg to the other. It lifts a 27-inch monitor to a comfortable eye line and leaves room underneath for a full-size keyboard.</p>\n      <p class=\"text-sm leading-6 opacity-80\">Every shelf is finished by hand with a plant-based hardwax oil that can be refreshed at home rather than sent back to us.</p>\n    </div>\n  </:panel>\n  <:panel>\n    <dl class=\"grid grid-cols-2 gap-x-6 gap-y-3 pt-4 text-sm\">\n      <dt class=\"opacity-70\">Dimensions</dt>\n      <dd>600 x 220 x 120 mm</dd>\n      <dt class=\"opacity-70\">Material</dt>\n      <dd>Solid European walnut</dd>\n      <dt class=\"opacity-70\">Load rating</dt>\n      <dd>25 kg</dd>\n      <dt class=\"opacity-70\">Weight</dt>\n      <dd>3.4 kg</dd>\n    </dl>\n  </:panel>\n  <:panel>\n    <div class=\"space-y-4 pt-4\">\n      <div class=\"flex items-center gap-2\">\n        <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-star\" class=\"size-4 text-amber-500\" />\n        <span class=\"text-sm font-semibold\">4.8 out of 5</span>\n        <span class=\"text-sm opacity-70\">from 214 verified buyers</span>\n      </div>\n      <blockquote class=\"border-l-2 border-gray-200 pl-3 text-sm leading-6 opacity-80 dark:border-gray-700\">Solid, heavy and completely flat. The oil finish is warmer than the photos suggest.</blockquote>\n    </div>\n  </:panel>\n</.component>"
+    },
+    {
+      "label": "Support centre tabs with icons and open-ticket counts",
+      "source": "<.component component_name=\"chelekom-tabs\" site=\"Global\" id=\"tabs-support-centre\" variant=\"nav_pills\" color=\"primary\" rounded=\"large\" padding=\"small\" content_padding=\"small\" gap=\"small\" class=\"w-full\">\n  <:tab icon=\"hero-inbox\" badge=\"4\" badge_color=\"danger\">Open tickets</:tab>\n  <:tab icon=\"hero-clock\" badge=\"2\" badge_color=\"warning\">Waiting on you</:tab>\n  <:tab icon=\"hero-check-circle\">Resolved</:tab>\n  <:panel>\n    <ul class=\"divide-y divide-gray-200 pt-4 text-sm dark:divide-gray-700\">\n      <li class=\"flex items-center justify-between py-3\">\n        <span>Invoice 2043 has not arrived by email</span>\n        <span class=\"text-xs opacity-70\">Opened 2 days ago</span>\n      </li>\n      <li class=\"flex items-center justify-between py-3\">\n        <span>Custom domain still shows the old certificate</span>\n        <span class=\"text-xs opacity-70\">Opened 5 days ago</span>\n      </li>\n    </ul>\n  </:panel>\n  <:panel>\n    <p class=\"pt-4 text-sm leading-6 opacity-80\">Two tickets are waiting for a reply from your team. We keep them open for 14 days before closing them automatically.</p>\n  </:panel>\n  <:panel>\n    <p class=\"pt-4 text-sm leading-6 opacity-80\">Nothing needs your attention here. Resolved conversations stay searchable for a year.</p>\n  </:panel>\n</.component>"
+    },
+    {
+      "label": "Account settings laid out as a vertical tab set",
+      "source": "<.component component_name=\"chelekom-tabs\" site=\"Global\" id=\"tabs-account-settings\" vertical padding=\"small\" content_padding=\"small\" gap=\"small\" class=\"w-full\">\n  <:tab icon=\"hero-user-circle\">Profile</:tab>\n  <:tab icon=\"hero-bell\">Notifications</:tab>\n  <:tab icon=\"hero-credit-card\">Billing</:tab>\n  <:tab icon=\"hero-lock-closed\">Security</:tab>\n  <:panel>\n    <div class=\"space-y-2\">\n      <h3 class=\"text-base font-semibold\">Profile</h3>\n      <p class=\"text-sm leading-6 opacity-80\">Your name and photo appear next to every comment and version you publish.</p>\n    </div>\n  </:panel>\n  <:panel>\n    <div class=\"space-y-2\">\n      <h3 class=\"text-base font-semibold\">Notifications</h3>\n      <p class=\"text-sm leading-6 opacity-80\">Choose which changes reach your inbox and which stay in the activity feed.</p>\n    </div>\n  </:panel>\n  <:panel>\n    <div class=\"space-y-2\">\n      <h3 class=\"text-base font-semibold\">Billing</h3>\n      <p class=\"text-sm leading-6 opacity-80\">You are on the Growth plan, billed annually. The next invoice is issued on 3 May.</p>\n    </div>\n  </:panel>\n  <:panel>\n    <div class=\"space-y-2\">\n      <h3 class=\"text-base font-semibold\">Security</h3>\n      <p class=\"text-sm leading-6 opacity-80\">Two-factor authentication is on. Recovery codes were last regenerated in January.</p>\n    </div>\n  </:panel>\n</.component>"
+    },
+    {
+      "label": "Billing period switch between monthly and annual pricing",
+      "source": "<.component component_name=\"chelekom-tabs\" site=\"Global\" id=\"tabs-billing-period\" variant=\"nav_pills\" color=\"base\" rounded=\"full\" padding=\"small\" content_padding=\"small\" gap=\"extra_small\" full_width_tab class=\"w-full max-w-md\">\n  <:tab>Monthly</:tab>\n  <:tab active>Annual</:tab>\n  <:panel>\n    <div class=\"pt-5 text-center\">\n      <div class=\"flex items-end justify-center gap-1\">\n        <span class=\"text-4xl font-semibold\">$29</span>\n        <span class=\"pb-1 text-sm opacity-70\">per user / month</span>\n      </div>\n      <p class=\"mt-2 text-sm opacity-70\">Billed every month. Cancel whenever you like.</p>\n    </div>\n  </:panel>\n  <:panel>\n    <div class=\"pt-5 text-center\">\n      <div class=\"flex items-end justify-center gap-1\">\n        <span class=\"text-4xl font-semibold\">$23</span>\n        <span class=\"pb-1 text-sm opacity-70\">per user / month</span>\n      </div>\n      <p class=\"mt-2 text-sm opacity-70\">Billed once a year. That is two months free compared with monthly.</p>\n    </div>\n  </:panel>\n</.component>"
+    }
+  ]
+}

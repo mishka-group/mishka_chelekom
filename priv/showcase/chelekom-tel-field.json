@@ -1,0 +1,26 @@
+{
+  "name": "chelekom-tel-field",
+  "furnishing": {
+    "body": "",
+    "slots": [
+      {
+        "name": "start_section",
+        "body": "<.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-phone\" class=\"size-4 opacity-70\" />"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "label": "Mobile number field with a country-code prefix",
+      "source": "<.component component_name=\"chelekom-tel-field\" site=\"Global\" id=\"tel-mobile-number\" name=\"mobile_number\" value=\"\" label=\"Mobile number\" placeholder=\"7700 900123\" description=\"We only use this to send delivery updates, never for marketing.\" space=\"small\" rounded=\"medium\">\n  <:start_section class=\"gap-1 text-sm opacity-80\">\n    <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-phone\" class=\"size-4 opacity-70\" />\n    +44\n  </:start_section>\n</.component>"
+    },
+    {
+      "label": "Callback number on a support request form",
+      "source": "<.component component_name=\"chelekom-tel-field\" site=\"Global\" id=\"tel-callback-support\" name=\"callback_number\" value=\"\" label=\"Best number to call you back on\" placeholder=\"020 7946 0018\" description=\"Our team calls between 09:00 and 17:30, Monday to Friday.\" variant=\"bordered\" color=\"primary\" space=\"small\" rounded=\"medium\">\n  <:end_section>\n    <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-clock\" class=\"size-4 opacity-60\" />\n  </:end_section>\n</.component>"
+    },
+    {
+      "label": "Work phone with a floating label on a compact profile form",
+      "source": "<.component component_name=\"chelekom-tel-field\" site=\"Global\" id=\"tel-work-phone-floating\" name=\"work_phone\" value=\"\" label=\"Work phone\" floating=\"outer\" variant=\"bordered\" color=\"silver\" rounded=\"medium\" space=\"small\" />"
+    }
+  ]
+}

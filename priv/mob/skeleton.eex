@@ -1,0 +1,267 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  A placeholder for content that has not arrived — the grey blocks a list shows
+  while it loads.
+
+  ## It does not shimmer — and what it would cost to
+
+  Every skeleton on the web pulses. This one does not, and the reason is worth
+  stating precisely rather than as "Mob cannot animate".
+
+  **Ordinary nodes cannot.** `Box`, `Text`, `Row` and `Column` expose no opacity,
+  no alpha and no transition, so nothing in this component's tree can fade. The
+  only self-animating thing the bridge draws is Material's LINEAR progress
+  indicator, which `<%= @namespace %>.<%= @module_prefix_camel %>Progress` wraps. (Android imports
+  `CircularProgressIndicator` and never uses it; iOS pins
+  `.progressViewStyle(.linear)` on both branches. There is no circular option
+  reachable from a Progress node.)
+
+  **`Mob.UI.gpu_view/1` can.** It is a fragment-shader surface — GLES 3.0 on
+  Android, Metal on iOS — and it redraws continuously at the display's refresh
+  rate, so a shimmer is genuinely expressible as a shader. Two things make it the
+  wrong tool here. The host provides no time uniform, so animating means pushing
+  a new uniform from Elixir on **every frame** — a full render plus a NIF call at
+  60 Hz, per placeholder. And each one is a whole `GLSurfaceView`; a list showing
+  eight skeleton rows would allocate eight GL contexts to fade some grey boxes.
+
+  Neither is a reason a *shader-backed* skeleton could never exist — it is a
+  reason this one is static. If you want motion to say "work is happening"
+  rather than "content goes here", `<%= @module_prefix_camel %>Progress` and
+  `<%= @namespace %>.<%= @module_prefix_camel %>LoadingOverlay` already animate for free.
+
+  (There is no animation plugin to reach for either: the `mob_*` packages
+  published as of mob 0.7 are capabilities — camera, location, biometric,
+  scanner, bluetooth, nfc, vision, video, notify, photos, touch, screencast,
+  background, audio_capture — plus `mob_themes`, `mob_ash` and `mob_push`.)
+
+  ## Shapes
+
+      <%= @component_prefix %>skeleton(shape: :text, lines: 3)   # three bars, the last one short
+      <%= @component_prefix %>skeleton(shape: :circle, size: 48) # an avatar
+      <%= @component_prefix %>skeleton(shape: :block, height: 120)
+
+  `:text` is the interesting one. Real paragraphs do not end flush with the
+  margin, so the last line is drawn at `last_line` of the width — and that is
+  done with Row **weights**, not a measurement, because no geometry is reported
+  back to `render/1` and nothing here can know how wide the parent is.
+
+  > #### `last_line` is Android-only {: .warning}
+  >
+  > Compose reads layout `weight`; the iOS renderer never parses it. On iOS the
+  > bar and its trailing spacer are two equally-flexible siblings in an `HStack`,
+  > so the last line lands at ~50% whatever `last_line` says. The full-width bars
+  > agree on both platforms — a lone flexible child gets 100% either way — which
+  > is exactly why this was easy to miss.
+  >
+  > A portable version would make the INSET rigid and the bar flexible
+  > (`<Box weight={1.0}/>` then `<Box width={inset}/>`), but that turns
+  > `last_line` from a fraction into a dp inset, so it is a deliberate API change
+  > rather than a silent fix.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `shape` | `:block` `:text` `:circle` | `:block` | What is being stood in for. |
+  | `width` | number | fills | Exact width. Omit to fill the parent. |
+  | `height` | number | per shape | Bar/block height. Ignored by `:circle`. |
+  | `size` | number | `40` | `:circle` diameter — sets both axes. |
+  | `lines` | integer | `3` | `:text` only: how many bars. |
+  | `last_line` | 0.0–1.0 | `0.6` | `:text` only: the last bar's share of the width. |
+  | `gap` | number | `8` | `:text` only: space between bars. |
+  | `color` | color token / ARGB int | `:surface_raised` | Placeholder fill. |
+  | `corner_radius` | radius token / number | per shape | Override the shape's radius. |
+  | `id` | string | — | A native testTag. `:text` numbers its bars `id-0`, `id-1`, … |
+  """
+
+  import Mob.Sigil
+
+  @text_height 12
+  @block_height 80
+  @circle 40
+
+  @doc "Composite expander (`<<%= @module_prefix_camel %>Skeleton />`). Delegates to `skeleton/1`."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, _children, _ctx), do: <%= @component_prefix %>skeleton(props)
+
+  @doc """
+  The skeleton node.
+
+      <%= @component_prefix %>skeleton(shape: :text, lines: 2)
+      <%= @component_prefix %>skeleton(shape: :circle, size: 56)
+  """
+  @spec <%= @component_prefix %>skeleton(map() | keyword()) :: map()
+  def <%= @component_prefix %>skeleton(props \\ %{}) do
+    props = Map.new(props)
+
+    case Map.get(props, :shape, :block) do
+      :text -> text_lines(props)
+      :circle -> circle(props)
+      _block -> block(props)
+    end
+  end
+
+  @doc """
+  The width share of each bar in a `:text` skeleton, first to last.
+
+  Every bar but the last is full width; the last is `last_line`, because a real
+  paragraph does not end flush with the margin.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>Skeleton.shares(3, 0.6)
+      [1.0, 1.0, 0.6]
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>Skeleton.shares(1, 0.6)
+      [0.6]
+
+  A single full-width bar is `last_line: 1.0`:
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>Skeleton.shares(1, 1.0)
+      [1.0]
+
+  Nonsense counts render nothing rather than raising:
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>Skeleton.shares(0, 0.6)
+      []
+  """
+  @spec shares(integer(), number()) :: [float()]
+  def shares(lines, _last) when lines < 1, do: []
+
+  def shares(lines, last) do
+    last = last |> max(0.0) |> min(1.0)
+
+    List.duplicate(1.0, lines - 1) ++ [last * 1.0]
+  end
+
+  defp text_lines(props) do
+    height = Map.get(props, :height, @text_height)
+    gap = Map.get(props, :gap, 8)
+    color = Map.get(props, :color, :surface_raised)
+    radius = Map.get(props, :corner_radius, :radius_pill)
+
+    id = Map.get(props, :id)
+
+    bars =
+      props
+      |> Map.get(:lines, 3)
+      |> shares(Map.get(props, :last_line, 0.6))
+      |> Enum.with_index()
+      |> Enum.map(fn {share, i} ->
+        share |> bar(height, color, radius) |> tag_bar(id, i)
+      end)
+      |> Enum.intersperse(~MOB(<Spacer size={gap} />))
+
+    ~MOB"<Column fill_width={true}>
+  {bars}
+</Column>"
+  end
+
+  # Mob turns :id into a native testTag, and a placeholder has no text at all —
+  # so numbering the bars is the only way a device test can say which one it
+  # means, which is what proves the short last line really landed short.
+  defp tag_bar(row, nil, _index), do: row
+
+  defp tag_bar(row, id, index) do
+    # Map over the children rather than matching one: a SHORT bar's row holds a
+    # box AND the weighted spacer that pushes it in, so `[box] = children`
+    # matched the full-width rows and blew up on the last one.
+    children =
+      Enum.map(row.children, fn
+        %{type: :box} = box -> %{box | props: Map.put(box.props, :id, "#{id}-#{index}")}
+        other -> other
+      end)
+
+    %{row | children: children}
+  end
+
+  # Compose's `Modifier.weight` requires a weight STRICTLY greater than zero, and
+  # MobBridge passes ours through unguarded — so `last_line: 0` would have taken
+  # down the Android app rather than drawing a zero-width line. An empty row is
+  # what "a last line of no width" actually means.
+  defp bar(share, _height, _color, _radius) when share <= 0.0 do
+    ~MOB(<Row fill_width={true} />)
+  end
+
+  # Weights, not widths: a share of the parent is expressible without knowing
+  # what the parent measures, which is the only option here.
+  defp bar(share, height, color, radius) when share >= 1.0 do
+    filler = filler(height)
+
+    ~MOB"""
+    <Row fill_width={true}>
+      <Box weight={1.0} height={height} background={color} corner_radius={radius}>
+        {filler}
+      </Box>
+    </Row>
+    """
+  end
+
+  defp bar(share, height, color, radius) do
+    rest = 1.0 - share
+    filler = filler(height)
+
+    ~MOB"""
+    <Row fill_width={true}>
+      <Box weight={share} height={height} background={color} corner_radius={radius}>
+        {filler}
+      </Box>
+      <Spacer weight={rest} />
+    </Row>
+    """
+  end
+
+  # iOS drops a Box's height unless the Box also has a WIDTH: `MobBox` applies
+  # `fixedHeight` only inside its `fixedWidth > 0` branch, so a childless bar
+  # measures 0pt tall and the whole placeholder is invisible — every `:text` bar
+  # and the default `:block` alike. Only `:circle` escaped, because it sets a
+  # width. A sized Spacer gives the ZStack an intrinsic height to adopt; both
+  # renderers size a Spacer on both axes, so it is `height` square, which a
+  # full-width bar swallows. Android already had the height and is unchanged.
+  #
+  # This is a workaround for a renderer gap, not a design: the real fix is for
+  # MobBox to apply fixedHeight in all three branches, the way the image and
+  # video cases already do.
+  defp filler(height), do: ~MOB(<Spacer size={height} />)
+
+  defp circle(props) do
+    size = Map.get(props, :size, @circle)
+    color = Map.get(props, :color, :surface_raised)
+    radius = Map.get(props, :corner_radius, size / 2)
+
+    ~MOB"""
+    <Box width={size} height={size} background={color} corner_radius={radius} fill_width={false} />
+    """
+    |> with_id(props)
+  end
+
+  defp block(props) do
+    height = Map.get(props, :height, @block_height)
+    color = Map.get(props, :color, :surface_raised)
+    radius = Map.get(props, :corner_radius, :radius_md)
+
+    case Map.get(props, :width) do
+      nil ->
+        filler = filler(height)
+
+        ~MOB"""
+        <Box fill_width={true} height={height} background={color} corner_radius={radius}>
+          {filler}
+        </Box>
+        """
+
+      width ->
+        # fill_width={false} alongside an exact width: a Box with neither fills
+        # its parent, and "80 wide" would silently become "as wide as the row".
+        ~MOB"""
+        <Box width={width} height={height} background={color} corner_radius={radius} fill_width={false} />
+        """
+    end
+    |> with_id(props)
+  end
+
+  defp with_id(node, props) do
+    case Map.get(props, :id) do
+      nil -> node
+      id -> %{node | props: Map.put(node.props, :id, id)}
+    end
+  end
+end

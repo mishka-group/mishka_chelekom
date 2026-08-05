@@ -1,0 +1,25 @@
+{
+  "name": "chelekom-input",
+  "furnishing": {
+    "body": "",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Newsletter signup with an email field and subscribe button",
+      "source": "<div class=\"mx-auto max-w-md rounded-2xl border border-zinc-200 p-6\">\n  <.component component_name=\"chelekom-h5\" site=\"Global\" font_weight=\"font-semibold\">Get the monthly changelog</.component>\n  <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\" class=\"mt-1 text-zinc-600\">One email a month with everything we shipped. No sales, ever.</.component>\n  <div class=\"mt-4 flex items-end gap-3\">\n    <div class=\"flex-1\">\n      <.component component_name=\"chelekom-input\" site=\"Global\" id=\"newsletter-email\" name=\"email\" value=\"\" type=\"email\" label=\"Email address\" />\n    </div>\n    <.component component_name=\"chelekom-input-button\" site=\"Global\" id=\"newsletter-submit\" type=\"submit\" value=\"Subscribe\" variant=\"default\" color=\"primary\" size=\"small\" />\n  </div>\n</div>"
+    },
+    {
+      "label": "Project enquiry form with message and consent checkbox",
+      "source": "<div class=\"mx-auto max-w-lg space-y-4\">\n  <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"large\" font_weight=\"font-semibold\">Tell us about your project</.component>\n  <.component component_name=\"chelekom-input\" site=\"Global\" id=\"enquiry-name\" name=\"name\" value=\"\" type=\"text\" label=\"Full name\" />\n  <.component component_name=\"chelekom-input\" site=\"Global\" id=\"enquiry-email\" name=\"email\" value=\"\" type=\"email\" label=\"Work email\" />\n  <.component component_name=\"chelekom-input\" site=\"Global\" id=\"enquiry-message\" name=\"message\" value=\"\" type=\"textarea\" label=\"What do you need built?\" />\n  <.component component_name=\"chelekom-input\" site=\"Global\" id=\"enquiry-terms\" name=\"terms\" value=\"\" type=\"checkbox\" label=\"I agree to the privacy policy\" />\n  <.component component_name=\"chelekom-input-button\" site=\"Global\" id=\"enquiry-submit\" type=\"submit\" value=\"Send message\" variant=\"default\" color=\"primary\" full_width={true} />\n</div>"
+    },
+    {
+      "label": "Workspace settings with a plan select and a rejected value",
+      "source": "<div class=\"mx-auto max-w-md space-y-4\">\n  <.component component_name=\"chelekom-h5\" site=\"Global\" font_weight=\"font-semibold\">Workspace settings</.component>\n  <.component component_name=\"chelekom-input\" site=\"Global\" id=\"workspace-name\" name=\"workspace\" value=\"Studio Karimi\" type=\"text\" label=\"Workspace name\" />\n  <.component component_name=\"chelekom-input\" site=\"Global\" id=\"workspace-plan\" name=\"plan\" type=\"select\" value=\"team\" label=\"Plan\" options={[{\"Starter\", \"starter\"}, {\"Team\", \"team\"}, {\"Business\", \"business\"}]} />\n  <.component component_name=\"chelekom-input\" site=\"Global\" id=\"workspace-slug\" name=\"slug\" value=\"studio karimi\" type=\"text\" label=\"Workspace URL\" errors={[\"can only contain letters, numbers and dashes\"]} />\n</div>"
+    },
+    {
+      "label": "Sign-in card with email, password and remember me",
+      "source": "<div class=\"mx-auto max-w-sm space-y-4 rounded-2xl border border-zinc-200 p-8\">\n  <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"large\" font_weight=\"font-semibold\" class=\"text-center\">Welcome back</.component>\n  <.component component_name=\"chelekom-input\" site=\"Global\" id=\"signin-email\" name=\"email\" value=\"\" type=\"email\" label=\"Email\" />\n  <.component component_name=\"chelekom-input\" site=\"Global\" id=\"signin-password\" name=\"password\" value=\"\" type=\"password\" label=\"Password\" />\n  <.component component_name=\"chelekom-input\" site=\"Global\" id=\"signin-remember\" name=\"remember\" value=\"\" type=\"checkbox\" label=\"Keep me signed in\" />\n  <.component component_name=\"chelekom-input-button\" site=\"Global\" id=\"signin-submit\" type=\"submit\" value=\"Sign in\" variant=\"default\" color=\"primary\" full_width={true} />\n</div>"
+    }
+  ]
+}

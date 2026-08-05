@@ -1,0 +1,17 @@
+{
+  "name": "chelekom-h3",
+  "furnishing": {
+    "body": "What you get out of the box",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Feature card title inside a three-up row",
+      "source": "<.component component_name=\"chelekom-h3\" site=\"Global\" size=\"extra_large\" font_weight=\"font-semibold\" class=\"mb-2\">Drafts nobody can publish by accident</.component>"
+    },
+    {
+      "label": "Question heading in an FAQ list",
+      "source": "<.component component_name=\"chelekom-h3\" site=\"Global\" id=\"faq-move-content\" size=\"large\" font_weight=\"font-semibold\" class=\"mt-8 mb-2\">Can I move my content to another site later?</.component>"
+    }
+  ]
+}

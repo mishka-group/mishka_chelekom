@@ -1,0 +1,26 @@
+{
+  "name": "chelekom-date-time-field",
+  "furnishing": {
+    "body": "",
+    "slots": [
+      {
+        "name": "start_section",
+        "body": "<.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-calendar-days\" class=\"size-5 opacity-60\" />"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "label": "Stay dates in a booking form",
+      "source": "<.component component_name=\"chelekom-form-wrapper\" site=\"Global\" for={%{}} class=\"max-w-md space-y-5 rounded-lg border border-neutral-200 p-6 dark:border-neutral-700\">\n  <div>\n    <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"large\" font_weight=\"font-semibold\">Check availability</.component>\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\" class=\"mt-1 opacity-70\">Two nights minimum. Free cancellation up to 48 hours before you arrive.</.component>\n  </div>\n  <div class=\"grid gap-4 sm:grid-cols-2\">\n    <.component component_name=\"chelekom-date-time-field\" site=\"Global\" id=\"booking-check-in\" name=\"booking[check_in]\" value=\"\" label=\"Check in\" floating=\"outer\" space=\"small\">\n      <:start_section>\n        <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-calendar-days\" class=\"size-5 opacity-60\" />\n      </:start_section>\n    </.component>\n    <.component component_name=\"chelekom-date-time-field\" site=\"Global\" id=\"booking-check-out\" name=\"booking[check_out]\" value=\"\" label=\"Check out\" floating=\"outer\" space=\"small\">\n      <:start_section>\n        <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-calendar-days\" class=\"size-5 opacity-60\" />\n      </:start_section>\n    </.component>\n  </div>\n  <:actions>\n    <.component component_name=\"chelekom-button\" site=\"Global\" type=\"submit\" variant=\"default\" color=\"primary\" size=\"small\" full_width>Search rooms</.component>\n  </:actions>\n</.component>"
+    },
+    {
+      "label": "Event scheduler with a date and start and end times",
+      "source": "<.component component_name=\"chelekom-form-wrapper\" site=\"Global\" for={%{}} class=\"max-w-lg space-y-5 rounded-lg border border-neutral-200 p-6 dark:border-neutral-700\">\n  <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"large\" font_weight=\"font-semibold\">Schedule the workshop</.component>\n  <.component component_name=\"chelekom-date-time-field\" site=\"Global\" id=\"event-day\" name=\"event[day]\" value=\"\" type=\"date\" label=\"Date\" floating=\"outer\" space=\"small\">\n    <:start_section>\n      <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-calendar\" class=\"size-5 opacity-60\" />\n    </:start_section>\n  </.component>\n  <div class=\"grid gap-4 sm:grid-cols-2\">\n    <.component component_name=\"chelekom-date-time-field\" site=\"Global\" id=\"event-starts\" name=\"event[starts_at]\" value=\"\" type=\"time\" label=\"Starts\" floating=\"outer\" space=\"small\">\n      <:start_section>\n        <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-clock\" class=\"size-5 opacity-60\" />\n      </:start_section>\n    </.component>\n    <.component component_name=\"chelekom-date-time-field\" site=\"Global\" id=\"event-ends\" name=\"event[ends_at]\" value=\"\" type=\"time\" label=\"Ends\" floating=\"outer\" space=\"small\">\n      <:start_section>\n        <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-clock\" class=\"size-5 opacity-60\" />\n      </:start_section>\n    </.component>\n  </div>\n  <:actions>\n    <.component component_name=\"chelekom-button\" site=\"Global\" type=\"submit\" variant=\"default\" color=\"primary\" size=\"small\">Add to calendar</.component>\n  </:actions>\n</.component>"
+    },
+    {
+      "label": "Reporting period picker above a dashboard",
+      "source": "<div class=\"flex flex-wrap items-center gap-4 rounded-lg border border-neutral-200 p-4 dark:border-neutral-700\">\n  <div class=\"me-auto\">\n    <div class=\"text-sm font-semibold\">Revenue report</div>\n    <div class=\"text-xs opacity-60\">Figures update as soon as you change the period.</div>\n  </div>\n  <.component\n    component_name=\"chelekom-date-time-field\"\n    site=\"Global\"\n    id=\"report-month\"\n    name=\"report[month]\"\n    value=\"\"\n    type=\"month\"\n    label=\"Month\"\n    floating=\"outer\"\n    space=\"small\"\n    size=\"medium\"\n    class=\"w-48\"\n  />\n  <.component\n    component_name=\"chelekom-date-time-field\"\n    site=\"Global\"\n    id=\"report-week\"\n    name=\"report[week]\"\n    value=\"\"\n    type=\"week\"\n    label=\"Compare with week\"\n    floating=\"outer\"\n    space=\"small\"\n    size=\"medium\"\n    class=\"w-56\"\n  />\n  <.component component_name=\"chelekom-button\" site=\"Global\" variant=\"default\" color=\"primary\" size=\"small\" icon=\"hero-arrow-path\">Refresh</.component>\n</div>"
+    }
+  ]
+}

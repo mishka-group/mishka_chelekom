@@ -1,0 +1,17 @@
+{
+  "name": "chelekom-h4",
+  "furnishing": {
+    "body": "Built for teams that ship every week",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Feature heading above its supporting paragraph",
+      "source": "<div class=\"max-w-md\">\n  <.component component_name=\"chelekom-h4\" site=\"Global\" font_weight=\"font-semibold\">Automatic nightly backups</.component>\n  <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\" class=\"mt-3 text-zinc-600\">Every site is snapshotted at 02:00 and kept for thirty days, so a bad deploy is never more than one click away from being undone.</.component>\n</div>"
+    },
+    {
+      "label": "Pricing tier name above its monthly price",
+      "source": "<div class=\"max-w-xs rounded-2xl border border-zinc-200 p-6\">\n  <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"large\" font_weight=\"font-semibold\">Team</.component>\n  <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\" class=\"mt-1 text-zinc-500\">For agencies running several client sites from one workspace.</.component>\n  <div class=\"mt-5 flex items-baseline gap-1\">\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"triple_large\" font_weight=\"font-bold\">$49</.component>\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\" class=\"text-zinc-500\">per month</.component>\n  </div>\n</div>"
+    }
+  ]
+}

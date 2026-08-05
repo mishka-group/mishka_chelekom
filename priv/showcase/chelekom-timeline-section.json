@@ -1,0 +1,21 @@
+{
+  "name": "chelekom-timeline-section",
+  "furnishing": {
+    "body": "<h3 class=\"text-base font-semibold\">Design review signed off</h3>\n<p class=\"mt-1 text-sm leading-6 opacity-80\">The new checkout layout was approved and moved into the build queue for next sprint.</p>\n<div class=\"mt-2 text-xs opacity-60\">14 March, 11:20</div>",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Delivery milestone with an icon bullet",
+      "source": "<.component component_name=\"chelekom-timeline-section\" site=\"Global\" id=\"tl-section-dispatched\" bullet_icon=\"hero-truck\" size=\"medium\" title=\"Dispatched from Bristol\" time=\"12 March, 18:40\" description=\"Your parcel was collected by the courier and scanned into the overnight network.\" />"
+    },
+    {
+      "label": "Activity entry using the author's avatar as the bullet",
+      "source": "<.component component_name=\"chelekom-timeline-section\" site=\"Global\" id=\"tl-section-review-comment\" image=\"/images/avatar1.png\" size=\"double_large\">\n  <div class=\"text-sm leading-6\">\n    <span class=\"font-semibold\">Mona Aghili</span> left a comment on the pricing page draft.\n  </div>\n  <div class=\"mt-2 rounded-lg border border-gray-200 bg-gray-50 p-3 text-sm leading-6 opacity-80 dark:border-gray-700 dark:bg-gray-900\">Can we drop the third tier below the fold? Two options read much faster on a phone.</div>\n  <div class=\"mt-1 text-xs opacity-60\">40 minutes ago</div>\n</.component>"
+    },
+    {
+      "label": "Release note entry with a dashed connector",
+      "source": "<.component component_name=\"chelekom-timeline-section\" site=\"Global\" id=\"tl-section-release-note\" bullet_icon=\"hero-rocket-launch\" line_style=\"dashed\" size=\"medium\" title=\"Version 1.4 is live\" time=\"2 April 2025\">\n  <ul class=\"mt-1 space-y-1.5 text-sm leading-6 opacity-80\">\n    <li class=\"flex items-start gap-2\">\n      <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-check\" class=\"mt-1 size-4 shrink-0 text-green-600 dark:text-green-400\" />\n      <span>Tables gained sticky headers and per-column borders.</span>\n    </li>\n    <li class=\"flex items-start gap-2\">\n      <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-check\" class=\"mt-1 size-4 shrink-0 text-green-600 dark:text-green-400\" />\n      <span>Form fields now keep their floating labels on autofill.</span>\n    </li>\n  </ul>\n</.component>"
+    }
+  ]
+}

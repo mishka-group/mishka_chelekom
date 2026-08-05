@@ -1,0 +1,181 @@
+defmodule MishkaMob.Components.MishkaAutocomplete do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Autocomplete** — a text field
+  that suggests completions as you type.
+
+  ## Autocomplete or Combobox?
+
+  They are close enough that the port makes them the same machinery and keeps the
+  difference the web component actually draws:
+
+    * a **Combobox** picks from a fixed list — the value is one of the options,
+      and the field is a filter over them.
+    * an **Autocomplete** accepts free text and merely *suggests* — the query IS
+      the value, and choosing a suggestion fills it in.
+
+  So this renders through `MishkaMob.Components.MishkaCombobox` (same filtering,
+  same list surface) but the value it reports is the **text**, and picking a
+  suggestion replaces that text rather than selecting an id. `single`
+  `on_select` therefore hands back the suggestion's label, which is what a
+  free-text field needs.
+
+  Once the query names a suggestion exactly, that suggestion is dropped — there
+  is nothing left to suggest about it. Only that one: "Iran" still offers
+  "Iranian Rial", because a longer completion is exactly what a user typing a
+  prefix is looking for. If dropping it leaves nothing at all, the panel is not
+  drawn rather than being drawn empty: "No suggestions" is false when the reason
+  is that you already typed the answer.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `query` | string | `""` | The field's text — this is the value. |
+  | `open` | boolean | `false` | Whether suggestions are shown. |
+  | `suggestions` | list of strings | `[]` | What to offer. |
+  | `filter` | `:contains` `:starts_with` | `:starts_with` | Match mode — prefix by default, which is what "autocomplete" means. |
+  | `placeholder` | string | `"Type to search…"` | Field placeholder. |
+  | `clear` | boolean | `false` | Render a ✕ that clears the text. |
+  | `empty_text` | string | `"No suggestions"` | Shown when nothing matches. |
+  | `disabled` | boolean | `false` | Mutes and unwires. |
+  | `on_query` / `on_select` / `on_clear` | event tags | — | Typing, choosing, clearing. |
+  | `on_focus` / `on_blur` | event tags | — | The field gained or lost focus. |
+  | `trigger` / `on_toggle` | boolean / event tag | — | An optional ▾ that opens and closes. |
+  | `id` | string | `nil` | Test tags for the field, the buttons and every suggestion. |
+
+  Every other prop the combobox takes is forwarded too — this component drops
+  only `:suggestions` and hands the rest straight over.
+
+  ## Opening and closing is the screen's
+
+  Exactly as for the combobox, and for the same reasons: tapping the field
+  reports `on_focus`, the first keystroke reports `on_query`, an optional ▾
+  reports `on_toggle`, and closing on a tap OUTSIDE needs an `on_tap` on the
+  container around the control — the panel renders in flow, so nothing covers
+  the page to catch that tap. That is not a missing primitive: `:anchored`
+  (`MishkaMob.Components.Anchored`) does float a panel in its own window, and
+  `MishkaMob.Components.MishkaPopover` is built on it. The suggestions stay in
+  flow because the list is as long as the data behind it, and an anchored window
+  would not have caught the outside tap either — it dismisses itself on nothing.
+  Do not close on `on_blur`: choosing a suggestion blurs the field too.
+
+  Not ported: `name` / `required` / `readonly` (form plumbing), `auto_highlight`
+  (there is no focus ring to highlight), `inline` (typing the completion into
+  the field ahead of the caret fights every mobile IME) and the `*_class` attrs.
+  `id` IS ported, as a test handle.
+  """
+
+  alias MishkaMob.Components.MishkaCombobox
+
+  @doc "Composite expander (`<MishkaAutocomplete />`)."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, _children, _ctx), do: autocomplete(props)
+
+  @doc """
+  The suggestions to show for a query — filtered, and empty once the query
+  already matches one exactly.
+
+      iex> alias MishkaMob.Components.MishkaAutocomplete, as: A
+      ...> A.suggest(["Iran", "Ireland", "Italy"], "ir")
+      ["Iran", "Ireland"]
+
+      iex> alias MishkaMob.Components.MishkaAutocomplete, as: A
+      ...> A.suggest(["Iran", "Ireland"], "Iran")
+      []
+
+      iex> alias MishkaMob.Components.MishkaAutocomplete, as: A
+      ...> A.suggest(["Iran", "Ireland"], "")
+      ["Iran", "Ireland"]
+  """
+  @spec suggest([String.t()], String.t() | nil, keyword()) :: [String.t()]
+  def suggest(suggestions, query, opts \\ []) do
+    mode = Keyword.get(opts, :mode, :starts_with)
+    folded = MishkaCombobox.fold(query)
+
+    exact? = Enum.any?(suggestions, &(MishkaCombobox.fold(&1) == folded and folded != ""))
+
+    if exact? do
+      []
+    else
+      suggestions
+      |> Enum.map(&{&1, &1})
+      |> MishkaCombobox.filter(query, mode: mode)
+      |> Enum.map(&elem(&1, 0))
+    end
+  end
+
+  @doc """
+  Whether the query already names a suggestion exactly — in which case there is
+  nothing left to suggest.
+
+      iex> MishkaMob.Components.MishkaAutocomplete.exact?(["Iran"], "iran")
+      true
+      iex> MishkaMob.Components.MishkaAutocomplete.exact?(["Iran"], "ir")
+      false
+      iex> MishkaMob.Components.MishkaAutocomplete.exact?(["Iran"], "")
+      false
+  """
+  @spec exact?([String.t()], String.t() | nil) :: boolean()
+  def exact?(suggestions, query) do
+    folded = MishkaCombobox.fold(query)
+    folded != "" and Enum.any?(suggestions, &(MishkaCombobox.fold(&1) == folded))
+  end
+
+  @doc """
+  Whether `suggestion` is exactly what the query already says.
+
+      iex> MishkaMob.Components.MishkaAutocomplete.exact_match?("Iran", "iran")
+      true
+      iex> MishkaMob.Components.MishkaAutocomplete.exact_match?("Ireland", "iran")
+      false
+  """
+  @spec exact_match?(String.t(), String.t() | nil) :: boolean()
+  def exact_match?(suggestion, query) do
+    folded = MishkaCombobox.fold(query)
+    folded != "" and MishkaCombobox.fold(suggestion) == folded
+  end
+
+  @doc "The autocomplete node."
+  @spec autocomplete(map() | keyword()) :: map()
+  def autocomplete(props \\ %{}) do
+    props = Map.new(props)
+    query = Map.get(props, :query, "")
+    all = List.wrap(Map.get(props, :suggestions, []))
+    mode = Map.get(props, :filter, :starts_with)
+
+    # Drop ONLY the suggestion the query already names, not the whole list. It
+    # used to blank every option the moment the query matched one exactly, which
+    # hid longer completions — typing "Iran" threw away "Iranian Rial" — and
+    # left the panel showing "No suggestions", which was simply false.
+    remaining = Enum.reject(all, &exact_match?(&1, query))
+
+    # Options carry the LABEL as their id, so choosing one hands the screen the
+    # text to put in the field rather than an id it would have to look up.
+    # The Combobox does the filtering, from the same query the field shows —
+    # pre-filtering here and blanking its query would have emptied the field.
+    options = Enum.map(remaining, &MishkaCombobox.option(&1, &1))
+
+    props
+    |> Map.drop([:suggestions])
+    |> Map.put(:filter, mode)
+    |> Map.put(:open, open?(props, remaining, query, mode))
+    |> Map.put_new(:placeholder, "Type to search…")
+    |> Map.put_new(:empty_text, "No suggestions")
+    |> MishkaCombobox.combobox(options)
+  end
+
+  # "No suggestions" is information when nothing matches what you typed. It is a
+  # lie when the only thing that matched was dropped for already being the
+  # answer, so that case renders no panel at all.
+  defp open?(props, remaining, query, mode) do
+    asked? = truthy?(Map.get(props, :open, false))
+
+    matches = remaining |> Enum.map(&{&1, &1}) |> MishkaCombobox.filter(query, mode: mode)
+
+    asked? and not (matches == [] and exact?(List.wrap(Map.get(props, :suggestions, [])), query))
+  end
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
+end

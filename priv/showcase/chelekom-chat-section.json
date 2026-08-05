@@ -1,0 +1,30 @@
+{
+  "name": "chelekom-chat-section",
+  "furnishing": {
+    "body": "<div class=\"font-semibold\">Mona Aghili</div>\n<p>Just pushed the fix &mdash; can you pull and re-run the migration?</p>",
+    "slots": [
+      {
+        "name": "status",
+        "body": "",
+        "attrs": {
+          "time": "09:41",
+          "deliver": "Delivered"
+        }
+      }
+    ]
+  },
+  "examples": [
+    {
+      "label": "Message bubble with sender name, body and a read receipt",
+      "source": "<.component component_name=\"chelekom-chat\" site=\"Global\" id=\"showcase-cs-plain\" variant=\"bordered\" color=\"natural\" padding=\"medium\" class=\"max-w-lg\">\n  <.component component_name=\"chelekom-avatar\" site=\"Global\" src=\"/images/avatar2.jpg\" size=\"medium\" rounded=\"full\" />\n  <.component component_name=\"chelekom-chat-section\" site=\"Global\" id=\"showcase-cs-plain-bubble\">\n    <div class=\"font-semibold\">Mona Aghili</div>\n    <p>I moved the launch review to Thursday so the design pass has time to land first.</p>\n    <:status time=\"16:12\" deliver=\"Read\" />\n  </.component>\n</.component>"
+    },
+    {
+      "label": "Reply carrying an image attachment in its meta row",
+      "source": "<.component component_name=\"chelekom-chat\" site=\"Global\" id=\"showcase-cs-media\" variant=\"bordered\" color=\"natural\" padding=\"medium\" size=\"extra_large\" class=\"max-w-xl\">\n  <.component component_name=\"chelekom-avatar\" site=\"Global\" src=\"/images/avatar6.jpg\" size=\"medium\" rounded=\"full\" />\n  <.component component_name=\"chelekom-chat-section\" site=\"Global\" id=\"showcase-cs-media-bubble\">\n    <div class=\"font-semibold\">Sara Kamali</div>\n    <p>This is the crop I meant for the hero. The horizon sits a little higher than the old one.</p>\n    <:meta>\n      <.component component_name=\"chelekom-image\" site=\"Global\" id=\"showcase-cs-media-image\" src=\"/images/card-4.jpg\" alt=\"Proposed hero crop with a higher horizon line\" rounded=\"medium\" class=\"w-full\" />\n    </:meta>\n    <:status time=\"10:04\" deliver=\"Delivered\" />\n  </.component>\n</.component>"
+    },
+    {
+      "label": "System notice posted into a conversation",
+      "source": "<.component component_name=\"chelekom-chat\" site=\"Global\" id=\"showcase-cs-system\" variant=\"outline\" color=\"info\" padding=\"medium\" size=\"large\" class=\"max-w-lg\">\n  <.component component_name=\"chelekom-chat-section\" site=\"Global\" id=\"showcase-cs-system-bubble\">\n    <div class=\"flex items-center gap-2 font-semibold\">\n      <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-shield-check\" class=\"size-4\" />\n      <span>Conversation assigned</span>\n    </div>\n    <p>Ticket #4821 moved from the general queue to the billing team.</p>\n    <:status time=\"08:15\" />\n  </.component>\n</.component>"
+    }
+  ]
+}

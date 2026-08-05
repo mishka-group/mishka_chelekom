@@ -1,0 +1,21 @@
+{
+  "name": "chelekom-toast-group",
+  "furnishing": {
+    "body": "<.component component_name=\"chelekom-toast\" site=\"Global\" id=\"toast-group-item-1\" fixed={false}>\n  <p class=\"font-medium\">Changes saved</p>\n  <p class=\"text-xs\">Your page is up to date.</p>\n</.component>\n<.component component_name=\"chelekom-toast\" site=\"Global\" id=\"toast-group-item-2\" fixed={false}>\n  <p class=\"font-medium\">Draft restored</p>\n  <p class=\"text-xs\">Recovered from the version saved four minutes ago.</p>\n</.component>",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Deployment activity stack in the bottom-right corner",
+      "source": "<.component component_name=\"chelekom-toast-group\" site=\"Global\" id=\"toast-stack-deploys\" space=\"small\" vertical=\"bottom\" horizontal=\"right\" vertical_space=\"large\" horizontal_space=\"large\">\n  <.component component_name=\"chelekom-toast\" site=\"Global\" id=\"toast-deploy-succeeded\" fixed={false} variant=\"default\" color=\"success\" width=\"large\" padding=\"small\" content_border=\"small\" border_position=\"start\">\n    <p class=\"font-semibold\">Deploy succeeded</p>\n    <p class=\"text-xs\">Build 482 shipped to production in 1m 12s.</p>\n  </.component>\n  <.component component_name=\"chelekom-toast\" site=\"Global\" id=\"toast-cache-purged\" fixed={false} variant=\"default\" color=\"info\" width=\"large\" padding=\"small\" content_border=\"small\" border_position=\"start\">\n    <p class=\"font-semibold\">CDN cache purged</p>\n    <p class=\"text-xs\">Every edge location refetches on the next request.</p>\n  </.component>\n  <.component component_name=\"chelekom-toast\" site=\"Global\" id=\"toast-certificate-expiring\" fixed={false} variant=\"default\" color=\"warning\" width=\"large\" padding=\"small\" content_border=\"small\" border_position=\"start\">\n    <p class=\"font-semibold\">Certificate expires in six days</p>\n    <p class=\"text-xs\">Renewal is automatic, no action needed.</p>\n  </.component>\n</.component>"
+    },
+    {
+      "label": "System alerts pinned to the top centre",
+      "source": "<.component component_name=\"chelekom-toast-group\" site=\"Global\" id=\"toast-stack-system\" vertical=\"top\" horizontal=\"center\" space=\"extra_small\" vertical_space=\"medium\">\n  <.component component_name=\"chelekom-toast\" site=\"Global\" id=\"toast-maintenance-window\" fixed={false} variant=\"default\" color=\"info\" width=\"large\" padding=\"small\">\n    <div class=\"flex items-center gap-3\">\n      <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-clock\" class=\"size-5 shrink-0\" />\n      <p class=\"text-sm\">Scheduled maintenance tonight, 02:00 to 02:30 UTC.</p>\n    </div>\n  </.component>\n  <.component component_name=\"chelekom-toast\" site=\"Global\" id=\"toast-new-version\" fixed={false} variant=\"default\" color=\"primary\" width=\"large\" padding=\"small\">\n    <div class=\"flex items-center gap-3\">\n      <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-sparkles\" class=\"size-5 shrink-0\" />\n      <p class=\"text-sm\">Version 2.4 is available. Reload to pick it up.</p>\n    </div>\n  </.component>\n</.component>"
+    },
+    {
+      "label": "Background job progress stack on the left",
+      "source": "<.component component_name=\"chelekom-toast-group\" site=\"Global\" id=\"toast-stack-jobs\" vertical=\"bottom\" horizontal=\"left\" space=\"medium\" vertical_space=\"large\" horizontal_space=\"medium\">\n  <.component component_name=\"chelekom-toast\" site=\"Global\" id=\"toast-import-running\" fixed={false} variant=\"default\" color=\"natural\" width=\"large\" padding=\"small\">\n    <p class=\"font-semibold\">Importing 1,240 posts</p>\n    <p class=\"text-xs\">Roughly two minutes left. You can keep working.</p>\n  </.component>\n  <.component component_name=\"chelekom-toast\" site=\"Global\" id=\"toast-export-ready\" fixed={false} variant=\"default\" color=\"success\" width=\"large\" padding=\"small\">\n    <p class=\"font-semibold\">Export ready</p>\n    <p class=\"text-xs\">subscribers-march.csv was sent to your inbox.</p>\n  </.component>\n</.component>"
+    }
+  ]
+}

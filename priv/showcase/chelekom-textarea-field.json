@@ -1,0 +1,21 @@
+{
+  "name": "chelekom-textarea-field",
+  "furnishing": {
+    "body": "",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Message box on a contact form",
+      "source": "<.component component_name=\"chelekom-textarea-field\" site=\"Global\" id=\"textarea-contact-message\" name=\"message\" value=\"\" label=\"Message\" placeholder=\"Tell us what you are trying to build and where you are stuck.\" description=\"The more detail you give, the fewer questions we have to send back.\" rows=\"5\" space=\"small\" rounded=\"medium\" />"
+    },
+    {
+      "label": "Product review box with writing guidance",
+      "source": "<.component component_name=\"chelekom-textarea-field\" site=\"Global\" id=\"textarea-product-review\" name=\"review_body\" value=\"\" label=\"Your review\" placeholder=\"What did you like, and what would you change?\" description=\"Reviews of 40 characters or more are published within one working day.\" rows=\"4\" disable_resize variant=\"bordered\" color=\"natural\" space=\"small\" rounded=\"medium\" />"
+    },
+    {
+      "label": "Delivery note for the courier, with a floating label",
+      "source": "<.component component_name=\"chelekom-textarea-field\" site=\"Global\" id=\"textarea-order-note-floating\" name=\"courier_note\" value=\"\" label=\"Note for the courier\" floating=\"outer\" rows=\"3\" disable_resize variant=\"bordered\" color=\"primary\" space=\"small\" rounded=\"medium\" />"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "name": "chelekom-progress",
+  "furnishing": {
+    "body": "",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Disk usage broken down by file type",
+      "source": "<div class=\"max-w-md space-y-2\">\n  <div class=\"flex items-baseline justify-between\">\n    <span class=\"text-sm font-medium\">Storage</span>\n    <span class=\"text-sm text-zinc-500 dark:text-zinc-400\">118 GB of 150 GB used</span>\n  </div>\n  <.component component_name=\"chelekom-progress\" site=\"Global\" id=\"disk-usage-progress\" size=\"double_large\" rounded=\"full\">\n    <.component component_name=\"chelekom-progress-section\" site=\"Global\" variant=\"default\" color=\"primary\" value={46}>\n      <:tooltip label=\"Media\" position=\"top\" class=\"text-xs\">69 GB of photos and video</:tooltip>\n    </.component>\n    <.component component_name=\"chelekom-progress-section\" site=\"Global\" variant=\"default\" color=\"warning\" value={26}>\n      <:tooltip label=\"Backups\" position=\"top\" class=\"text-xs\">39 GB of nightly snapshots</:tooltip>\n    </.component>\n    <.component component_name=\"chelekom-progress-section\" site=\"Global\" variant=\"default\" color=\"silver\" value={7}>\n      <:tooltip label=\"Other\" position=\"bottom\" class=\"text-xs\">10 GB of logs and temporary files</:tooltip>\n    </.component>\n  </.component>\n</div>"
+    },
+    {
+      "label": "Fundraising goal card",
+      "source": "<div class=\"max-w-sm space-y-3 rounded-xl border border-zinc-200 p-5 dark:border-zinc-800\">\n  <div>\n    <div class=\"text-2xl font-semibold\">$18,400</div>\n    <div class=\"text-sm text-zinc-500 dark:text-zinc-400\">raised towards a $25,000 goal</div>\n  </div>\n  <.component component_name=\"chelekom-progress\" site=\"Global\" variant=\"default\" color=\"success\" value={74} size=\"medium\" rounded=\"full\" />\n  <div class=\"flex justify-between text-xs text-zinc-500 dark:text-zinc-400\">\n    <span>312 backers</span>\n    <span>9 days left</span>\n  </div>\n</div>"
+    },
+    {
+      "label": "Profile completion meter with remaining steps",
+      "source": "<div class=\"max-w-sm space-y-3 rounded-xl border border-zinc-200 p-5 dark:border-zinc-800\">\n  <div class=\"flex items-baseline justify-between\">\n    <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"small\" font_weight=\"font-semibold\">Your profile is 60% complete</.component>\n    <span class=\"text-xs text-zinc-500 dark:text-zinc-400\">3 of 5</span>\n  </div>\n  <.component component_name=\"chelekom-progress\" site=\"Global\" variant=\"default\" color=\"info\" value={60} size=\"small\" rounded=\"full\" />\n  <.component component_name=\"chelekom-ul\" site=\"Global\" class=\"space-y-1 text-sm text-zinc-500 dark:text-zinc-400\">\n    <.component component_name=\"chelekom-li\" site=\"Global\" icon=\"hero-photo\">Add a profile photo</.component>\n    <.component component_name=\"chelekom-li\" site=\"Global\" icon=\"hero-map-pin\">Tell people where you are based</.component>\n  </.component>\n</div>"
+    }
+  ]
+}

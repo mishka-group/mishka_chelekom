@@ -1,0 +1,17 @@
+{
+  "name": "chelekom-h5",
+  "furnishing": {
+    "body": "What our customers ask most",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "FAQ list with question headings and answers",
+      "source": "<div class=\"mx-auto max-w-2xl divide-y divide-zinc-200\">\n  <div class=\"py-6\">\n    <.component component_name=\"chelekom-h5\" site=\"Global\" font_weight=\"font-semibold\">Can I move an existing site onto Mishka?</.component>\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\" class=\"mt-2 text-zinc-600\">Yes. Import your pages as HTML and the builder maps most markup onto blocks automatically; anything it cannot match stays as a raw block you can edit by hand.</.component>\n  </div>\n  <div class=\"py-6\">\n    <.component component_name=\"chelekom-h5\" site=\"Global\" font_weight=\"font-semibold\">Do my editors need to understand HEEx?</.component>\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\" class=\"mt-2 text-zinc-600\">No. Editors only ever see the block palette and the inspector. HEEx is what the builder writes for you underneath.</.component>\n  </div>\n  <div class=\"py-6\">\n    <.component component_name=\"chelekom-h5\" site=\"Global\" font_weight=\"font-semibold\">What happens when my trial ends?</.component>\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\" class=\"mt-2 text-zinc-600\">Your sites stay online and read-only for another fourteen days. Nothing is deleted until you ask us to delete it.</.component>\n  </div>\n</div>"
+    },
+    {
+      "label": "Team member card with name and role",
+      "source": "<div class=\"max-w-xs rounded-2xl border border-zinc-200 p-6 text-center\">\n  <.component component_name=\"chelekom-image\" site=\"Global\" src=\"/images/avatar4.jpg\" alt=\"Portrait of Nima Rasti\" rounded=\"full\" width={96} height={96} class=\"mx-auto size-24 object-cover\" />\n  <.component component_name=\"chelekom-h5\" site=\"Global\" font_weight=\"font-semibold\" class=\"mt-4\">Nima Rasti</.component>\n  <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\" class=\"mt-1 text-zinc-500\">Head of Platform</.component>\n</div>"
+    }
+  ]
+}

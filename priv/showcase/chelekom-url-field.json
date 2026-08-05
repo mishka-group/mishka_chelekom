@@ -1,0 +1,21 @@
+{
+  "name": "chelekom-url-field",
+  "furnishing": {
+    "body": "",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Website field in a profile form",
+      "source": "<.component component_name=\"chelekom-url-field\" site=\"Global\" id=\"profile-website\" name=\"website\" value=\"\" size=\"small\" space=\"small\" floating=\"outer\" label=\"Website\" placeholder=\"https://example.com\" description=\"Shown on your public author page.\">\n  <:start_section>\n    <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-globe-alt\" class=\"size-4\" />\n  </:start_section>\n</.component>"
+    },
+    {
+      "label": "Webhook endpoint field with a saved value",
+      "source": "<.component component_name=\"chelekom-url-field\" site=\"Global\" id=\"integration-webhook-url\" name=\"webhook_url\" size=\"small\" space=\"small\" floating=\"inner\" label=\"Endpoint URL\" value=\"https://hooks.example.com/mishka/orders\">\n  <:end_section>\n    <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-arrow-top-right-on-square\" class=\"size-4 opacity-70\" />\n  </:end_section>\n</.component>"
+    },
+    {
+      "label": "Social profile field showing a validation error",
+      "source": "<.component component_name=\"chelekom-url-field\" site=\"Global\" id=\"profile-linkedin\" name=\"linkedin\" size=\"small\" space=\"small\" floating=\"outer\" label=\"LinkedIn profile\" value=\"linkedin.com/in/emily-carter\" errors={[\"Please include https:// at the start of the address\"]}>\n  <:start_section>\n    <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-link\" class=\"size-4\" />\n  </:start_section>\n</.component>"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "name": "chelekom-popover",
+  "furnishing": {
+    "body": "",
+    "slots": [
+      {
+        "name": "trigger",
+        "body": "Hover me"
+      },
+      {
+        "name": "content",
+        "body": "A short explanation that appears next to the trigger."
+      }
+    ]
+  },
+  "examples": [
+    {
+      "label": "Author byline with a profile card on hover",
+      "source": "<div class=\"flex max-w-xl items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400\">\n  <span>Written by</span>\n  <.component component_name=\"chelekom-popover\" site=\"Global\" id=\"byline-author-popover\" position=\"bottom\" rounded=\"large\" padding=\"small\" space=\"small\" width=\"large\">\n    <:trigger class=\"font-semibold text-zinc-900 dark:text-zinc-100\">\n      <span class=\"cursor-pointer\">Mona Aghili</span>\n    </:trigger>\n    <:content>\n      <div class=\"flex items-center gap-3\">\n        <.component component_name=\"chelekom-avatar\" site=\"Global\" src=\"/images/avatar2.jpg\" rounded=\"full\" size=\"large\" />\n        <div>\n          <div class=\"font-semibold\">Mona Aghili</div>\n          <div class=\"text-xs text-zinc-500 dark:text-zinc-400\">Writes about brewing and gear</div>\n        </div>\n      </div>\n      <p class=\"mt-2 text-xs\">Forty-one articles since 2021, most of them about water temperature.</p>\n    </:content>\n  </.component>\n  <span>· 6 min read</span>\n</div>"
+    },
+    {
+      "label": "Field label with a “what is this?” hint",
+      "source": "<div class=\"max-w-sm space-y-2\">\n  <div class=\"flex items-center gap-1.5\">\n    <.component component_name=\"chelekom-label\" site=\"Global\" for=\"workspace-slug-field\">Workspace URL</.component>\n    <.component component_name=\"chelekom-popover\" site=\"Global\" id=\"workspace-slug-popover\" clickable position=\"top\" rounded=\"medium\" padding=\"small\" width=\"large\">\n      <:trigger>\n        <span class=\"cursor-pointer text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200\">\n          <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-question-mark-circle\" class=\"size-4\" />\n        </span>\n      </:trigger>\n      <:content>\n        <div class=\"text-xs\">This becomes the address your team types every morning. Lowercase letters, numbers and hyphens only — you can change it later, but old links will break.</div>\n      </:content>\n    </.component>\n  </div>\n  <.component component_name=\"chelekom-text-field\" site=\"Global\" id=\"workspace-slug-field\" name=\"slug\" value=\"northwind\" placeholder=\"northwind\" />\n</div>"
+    },
+    {
+      "label": "Storage status button that opens a usage summary",
+      "source": "<.component component_name=\"chelekom-popover\" site=\"Global\" id=\"storage-status-popover\" clickable position=\"bottom\" rounded=\"large\" padding=\"medium\" width=\"large\" space=\"small\">\n  <:trigger>\n    <.component component_name=\"chelekom-button\" site=\"Global\" variant=\"outline\" color=\"natural\" size=\"small\" icon=\"hero-circle-stack\">Storage</.component>\n  </:trigger>\n  <:content>\n    <div class=\"text-sm font-semibold\">32 GB left of 150 GB</div>\n    <.component component_name=\"chelekom-progress\" site=\"Global\" variant=\"default\" color=\"warning\" value={79} size=\"small\" rounded=\"full\" />\n    <div class=\"text-xs text-zinc-500 dark:text-zinc-400\">Backups are the largest share. Older snapshots are removed after ninety days.</div>\n  </:content>\n</.component>"
+    },
+    {
+      "label": "Inline glossary term explained in place",
+      "source": "<.component component_name=\"chelekom-p\" site=\"Global\" class=\"max-w-2xl\">\n  Every page you publish is compiled once and cached, so a request never waits on the\n  <.component component_name=\"chelekom-popover\" site=\"Global\" id=\"glossary-runtime-popover\" inline rounded=\"medium\" padding=\"small\" width=\"large\" position=\"top\">\n    <:trigger class=\"font-semibold text-blue-600 dark:text-blue-400\">\n      <span class=\"cursor-help\">runtime compiler</span>\n    </:trigger>\n    <:content>\n      <span class=\"block text-xs\">The step that turns a stored template into a real Phoenix module. It runs when you publish, not when a visitor arrives.</span>\n    </:content>\n  </.component>\n  again. Editing a page puts it back in the queue, and the old version keeps serving until the new one is ready.\n</.component>"
+    }
+  ]
+}

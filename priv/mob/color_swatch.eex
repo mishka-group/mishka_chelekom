@@ -1,0 +1,143 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Color Swatch** — a block of a
+  single colour, optionally selectable.
+
+  ## Checkerboard for transparency
+
+  A swatch showing a translucent colour over the page background is a lie: the
+  same ARGB reads differently on a light and a dark surface. So a swatch with an
+  alpha below `0xFF` is drawn over a **checkerboard**, the convention every
+  colour picker uses, which makes the transparency itself visible. Fully opaque
+  colours skip it — the extra nodes would be waste.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `color` | ARGB int / token | `nil` | The colour shown. |
+  | `size` | number | `36` | Swatch edge. |
+  | `shape` | `:rounded` `:circle` `:square` | `:rounded` | Swatch shape. |
+  | `selected` | boolean | `false` | Draws a ring and a ✓. |
+  | `on_tap` | event tag (atom) | — | Sent as `{:tap, tag}`. |
+  | `disabled` | boolean | `false` | Wires no handler. |
+  | `checkerboard` | boolean | auto | Force the transparency backdrop on or off. |
+  | `id` | string | — | Becomes a native testTag. A swatch has no text to find it by. |
+
+  Not ported: `label` (an `aria-label`) and the `*_class` attrs. `id` IS ported,
+  but as a test handle rather than as a DOM id.
+  """
+
+  import Mob.Sigil
+
+  alias <%= @namespace %>.Event
+
+  @light 0xFF_E5_E7_EB
+  @dark 0xFF_9C_A3_AF
+
+  @doc "Composite expander (`<<%= @module_prefix_camel %>ColorSwatch>`). Children overlay the swatch."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, children, _ctx), do: <%= @component_prefix %>color_swatch(props, children)
+
+  @doc """
+  Whether a colour needs the transparency checkerboard: true when it is an ARGB
+  integer whose alpha byte is below full.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>ColorSwatch.translucent?(0x807C3AED)
+      true
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>ColorSwatch.translucent?(0xFF7C3AED)
+      false
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>ColorSwatch.translucent?(:primary)
+      false
+  """
+  @spec translucent?(term()) :: boolean()
+  def translucent?(color) when is_integer(color), do: Bitwise.bsr(color, 24) < 0xFF
+  def translucent?(_color), do: false
+
+  @doc """
+  The swatch node.
+
+      <%= @component_prefix %>color_swatch(color: 0xFF7C3AED, selected: true, on_tap: {:pick, :violet})
+  """
+  @spec <%= @component_prefix %>color_swatch(map() | keyword(), [map()]) :: map()
+  def <%= @component_prefix %>color_swatch(props \\ %{}, content \\ []) do
+    props = Map.new(props)
+    size = Map.get(props, :size, 36)
+    radius = radius(Map.get(props, :shape, :rounded), size)
+    color = Map.get(props, :color)
+    disabled? = truthy?(Map.get(props, :disabled, false))
+    selected? = truthy?(Map.get(props, :selected, false))
+    checks? = Map.get(props, :checkerboard, translucent?(color))
+
+    node = ~MOB"""
+    <Box
+      width={size}
+      height={size}
+      corner_radius={radius}
+      align={:center}
+      border_color={if(selected?, do: :on_surface, else: :border)}
+      border_width={if(selected?, do: 2, else: 1)}
+    >
+      {checkerboard(checks?, size, radius)}
+      <Box width={size} height={size} corner_radius={radius} background={color} align={:center}>
+        {overlay(selected?, content)}
+      </Box>
+    </Box>
+    """
+
+    node
+    |> put(:on_tap, handler(props, disabled?))
+    |> put(:id, Map.get(props, :id))
+  end
+
+  # Mob turns :id into a native testTag. A swatch is a colour and nothing else —
+  # no text, no label — so without one there is no way for a device test to say
+  # WHICH swatch it means.
+  defp put(node, _key, nil), do: node
+  defp put(node, key, value), do: %{node | props: Map.put(node.props, key, value)}
+
+  @doc "The corner radius for a shape at a size."
+  @spec radius(atom(), number()) :: number() | atom()
+  def radius(:circle, size), do: size / 2
+  def radius(:square, _size), do: 0
+  def radius(_rounded, _size), do: :radius_sm
+
+  # Two rows of alternating tiles is enough to read as a checkerboard at swatch
+  # sizes, and costs four nodes rather than a grid.
+  defp checkerboard(false, _size, _radius), do: ~MOB(<Column />)
+
+  defp checkerboard(_true, size, radius) do
+    half = size / 2
+    # Locals: `@light` inside a ~MOB expression would be rewritten to
+    # `assigns.light` (the HEEx shorthand), not read as a module attribute.
+    light = @light
+    dark = @dark
+
+    ~MOB"""
+    <Box width={size} height={size} corner_radius={radius} background={light}>
+      <Column>
+        <Row>
+          <Box width={half} height={half} background={dark} />
+          <Box width={half} height={half} />
+        </Row>
+        <Row>
+          <Box width={half} height={half} />
+          <Box width={half} height={half} background={dark} />
+        </Row>
+      </Column>
+    </Box>
+    """
+  end
+
+  defp overlay(true, []), do: ~MOB(<Text text="✓" text_size={:base} text_color={:on_primary} />)
+  defp overlay(_selected, content), do: ~MOB(<Row>
+  {content}
+</Row>)
+
+  defp handler(_props, true), do: nil
+  defp handler(props, _), do: Event.handler(Map.get(props, :on_tap))
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
+end

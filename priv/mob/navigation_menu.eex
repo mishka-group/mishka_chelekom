@@ -1,0 +1,211 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Navigation Menu** — a nav
+  whose expandable items share one content area.
+
+  ## Menubar or navigation menu?
+
+  They look alike and are not the same thing, so both exist here as they do on
+  the web. `<%= @namespace %>.<%= @module_prefix_camel %>Menubar` is a bar of **commands** —
+  File, Edit, View — whose panels are lists of actions. A navigation menu is a
+  **site nav**: its items are destinations, some plain links and some opening a
+  richer panel, and every panel shares one viewport.
+
+  That shared viewport is the whole point of the web component, which morphs the
+  popup's size from the old content to the new. There is no animation primitive
+  in Mob — see `<%= @namespace %>.<%= @module_prefix_camel %>Marquee` — so the viewport simply
+  shows the active item's content. What it keeps is the part that matters: one
+  content area, not one per item, so panels cannot overlap or double-render.
+
+  ## Items
+
+  An item is `%{label:, value:, content: [nodes]}` — with `content`, the item is
+  a trigger; without it, a plain link.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `items` | list of item maps | `[]` | The nav. |
+  | `value` | value | `nil` | Which item is open. |
+  | `orientation` | `:horizontal` · `:vertical` | `:horizontal` | Row of triggers, or a stack. |
+  | `disabled` | boolean | `false` | Disables the whole nav. |
+  | `on_open` | event tag (atom) | — | `{:tap, {tag, value}}` on a trigger. |
+  | `on_link` | event tag (atom) | — | `{:tap, {tag, value}}` on a plain link. |
+
+  Not ported: `delay` / `close_delay` (hover has no touch equivalent),
+  `side` / `align` / `arrow`, and the morph animation. Those three were dropped
+  because Mob had no anchored positioning. It has some now — the `:anchored`
+  node (`<%= @namespace %>.Anchored`), which
+  `<%= @namespace %>.<%= @module_prefix_camel %>Popover` is built on — but this component has not
+  been moved onto it: the viewport is still one shared area in flow, with no
+  side to take and nothing to point an arrow at. `:anchored` is Android-only so
+  far; on iOS the node falls through to a column.
+  """
+
+  import Mob.Sigil
+
+  alias <%= @namespace %>.Event
+
+  @doc "Composite expander (`<<%= @module_prefix_camel %>NavigationMenu />`). Delegates to `navigation_menu/1`."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, _children, _ctx), do: <%= @component_prefix %>navigation_menu(props)
+
+  @doc """
+  The navigation menu.
+
+      <%= @component_prefix %>navigation_menu(items: @items, value: @open, on_open: :open, on_link: :go)
+  """
+  @spec <%= @component_prefix %>navigation_menu(map() | keyword()) :: map()
+  def <%= @component_prefix %>navigation_menu(props \\ %{}) do
+    props = Map.new(props)
+    items = List.wrap(Map.get(props, :items, []))
+    value = Map.get(props, :value)
+    triggers = Enum.map(items, &trigger(&1, value, props))
+
+    bar =
+      case orientation(props) do
+        :vertical ->
+          ~MOB"""
+          <Column fill_width={true}>
+            {triggers}
+          </Column>
+          """
+
+        :horizontal ->
+          ~MOB"""
+          <Row fill_width={true} align={:center}>
+            {triggers}
+          </Row>
+          """
+      end
+
+    ~MOB"""
+    <Column fill_width={true}>
+      {bar}
+      {viewport(items, value)}
+    </Column>
+    """
+  end
+
+  @doc """
+  Whether an item opens a panel or is a plain link.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>NavigationMenu.trigger?(%{label: "Docs", value: :docs})
+      false
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>NavigationMenu.trigger?(%{label: "P", value: :p, content: [%{}]})
+      true
+  """
+  @spec trigger?(map()) :: boolean()
+  def trigger?(item), do: item |> Map.get(:content) |> List.wrap() |> Kernel.!=([])
+
+  @doc """
+  The value open after tapping `value` — same exclusivity as a menubar, since
+  one viewport can only show one item.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>NavigationMenu.toggle(:docs, :docs)
+      nil
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>NavigationMenu.toggle(:docs, :blog)
+      :docs
+  """
+  @spec toggle(term(), term()) :: term() | nil
+  def toggle(value, current), do: if(value == current, do: nil, else: value)
+
+  defp trigger(item, open, props) do
+    open? = item.value == open and trigger?(item)
+    disabled? = disabled?(props) or truthy?(Map.get(item, :disabled, false))
+    ink = if disabled?, do: :muted, else: :on_surface
+    key = if trigger?(item), do: :on_open, else: :on_link
+    glyph = if trigger?(item), do: if(open?, do: "▾", else: "▸")
+
+    node =
+      ~MOB"""
+      <Box
+        background={if(open?, do: :surface_raised, else: :transparent)}
+        corner_radius={:radius_sm}
+        padding={:space_sm}
+      >
+        <Row align={:center}>
+          <Text text={item.label} text_size={:base} text_color={ink} />
+          {chevron(glyph)}
+        </Row>
+      </Box>
+      """
+      |> put(:on_tap, tag_handler(props, key, item.value, disabled?))
+
+    ~MOB"""
+    <Row>
+      {node}
+      <Spacer size={4} />
+    </Row>
+    """
+  end
+
+  defp chevron(nil), do: nil
+
+  defp chevron(glyph) do
+    ~MOB"""
+    <Row>
+      <Spacer size={6} />
+      <Text text={glyph} text_size={:sm} text_color={:muted} />
+    </Row>
+    """
+  end
+
+  # One viewport for every item, which is what stops two panels rendering at
+  # once — the invariant the web component's morphing popup exists to keep.
+  defp viewport(items, value) do
+    with item when not is_nil(item) <- Enum.find(items, &(&1.value == value)),
+         true <- trigger?(item) do
+      content = item |> Map.get(:content) |> List.wrap()
+
+      ~MOB"""
+      <Column fill_width={true}>
+        <Spacer size={8} />
+        <Box
+          fill_width={true}
+          background={:surface}
+          corner_radius={:radius_md}
+          padding={:space_md}
+          border_color={:border}
+          border_width={1}
+        >
+          <Column fill_width={true}>
+            {content}
+          </Column>
+        </Box>
+      </Column>
+      """
+    else
+      _ -> nil
+    end
+  end
+
+  defp orientation(props) do
+    case Map.get(props, :orientation, :horizontal) do
+      :vertical -> :vertical
+      "vertical" -> :vertical
+      _ -> :horizontal
+    end
+  end
+
+  defp tag_handler(_props, _key, _value, true), do: nil
+
+  defp tag_handler(props, key, value, _disabled?) do
+    case Map.get(props, key) do
+      nil -> nil
+      tag -> Event.handler(tag, value)
+    end
+  end
+
+  defp disabled?(props), do: truthy?(Map.get(props, :disabled, false))
+
+  defp put(node, _key, nil), do: node
+  defp put(node, key, value), do: %{node | props: Map.put(node.props, key, value)}
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
+end

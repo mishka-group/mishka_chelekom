@@ -1,0 +1,21 @@
+{
+  "name": "chelekom-card-media",
+  "furnishing": {
+    "body": "",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "News card with a lead image",
+      "source": "<.component component_name=\"chelekom-card\" site=\"Global\" id=\"showcase-cm-news\" rounded=\"large\" padding=\"large\" space=\"small\" class=\"max-w-sm\">\n  <.component component_name=\"chelekom-card-media\" site=\"Global\" id=\"showcase-cm-news-image\" src=\"/images/card-3.jpg\" alt=\"Two people reviewing a page layout on a laptop\" rounded=\"medium\" />\n  <.component component_name=\"chelekom-card-title\" site=\"Global\" id=\"showcase-cm-news-title\" title=\"Ten minutes to your first landing page\" />\n  <.component component_name=\"chelekom-card-content\" site=\"Global\" id=\"showcase-cm-news-body\">\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\">\n      Start from a blank page, drop in a hero, a feature grid and a footer, then publish. No build step and no deploy.\n    </.component>\n  </.component>\n  <.component component_name=\"chelekom-card-footer\" site=\"Global\" id=\"showcase-cm-news-footer\">\n    <.component component_name=\"chelekom-button\" site=\"Global\" color=\"primary\" type=\"button\" size=\"medium\" icon=\"hero-arrow-right\">Read the guide</.component>\n  </.component>\n</.component>"
+    },
+    {
+      "label": "Course card with a cover image and a duration badge",
+      "source": "<.component component_name=\"chelekom-card\" site=\"Global\" id=\"showcase-cm-course\" rounded=\"large\" padding=\"large\" space=\"small\" class=\"max-w-md\">\n  <.component component_name=\"chelekom-card-media\" site=\"Global\" id=\"showcase-cm-course-image\" src=\"/images/card-5.jpg\" alt=\"A notebook and an open terminal on a desk\" rounded=\"medium\" />\n  <.component component_name=\"chelekom-card-title\" site=\"Global\" id=\"showcase-cm-course-title\" position=\"between\">\n    <span>Ash resources from scratch</span>\n    <.component component_name=\"chelekom-badge\" site=\"Global\" color=\"info\" rounded=\"full\">4h 20m</.component>\n  </.component>\n  <.component component_name=\"chelekom-card-content\" site=\"Global\" id=\"showcase-cm-course-body\">\n    <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\">\n      Nine lessons covering actions, policies, relationships and multitenancy, ending with a finished application you can deploy.\n    </.component>\n  </.component>\n</.component>"
+    },
+    {
+      "label": "Compact release card with a square thumbnail",
+      "source": "<.component component_name=\"chelekom-card\" site=\"Global\" id=\"showcase-cm-compact\" rounded=\"large\" padding=\"medium\" space=\"small\" class=\"max-w-md\">\n  <div class=\"flex items-center gap-3\">\n    <.component component_name=\"chelekom-card-media\" site=\"Global\" id=\"showcase-cm-compact-thumb\" src=\"/images/card-2.jpg\" alt=\"Cover art for the 2.4 release notes\" width=\"w-20\" rounded=\"medium\" class=\"shrink-0\" />\n    <div class=\"min-w-0\">\n      <div class=\"font-semibold\">Version 2.4 is out</div>\n      <div class=\"text-sm opacity-70\">Shareable draft previews, a faster media library, and 31 fixes.</div>\n    </div>\n  </div>\n</.component>"
+    }
+  ]
+}

@@ -1,0 +1,238 @@
+defmodule MishkaMob.Components.MishkaEmptyState do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Empty State** — the placeholder
+  shown when a list has nothing in it: an indicator, a title, supporting text and
+  optional actions.
+
+  ## Alignment is the one real prop
+
+  The web component's `align` decides whether the indicator sits above the text
+  (centred) or beside it (leading). Both are ported, because they are genuinely
+  different layouts rather than a styling nicety: a centred empty state fills a
+  blank screen, while a leading one sits inside a card or a section without
+  looking like the screen has failed.
+
+  Centring uses `align: :center` on a Box, which Mob maps to `Alignment.Center`
+  on Compose and the matching SwiftUI alignment.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `title` | string | `nil` | Heading. |
+  | `description` | string | `nil` | Supporting text. |
+  | `align` | `:center` `:leading` | `:center` | Indicator above the text, or beside it. |
+  | `indicator` | string | `nil` | A glyph or emoji shown above/beside the text. |
+  | `padding` | spacing token / number | `:space_xl` | Padding around the block. |
+
+  ## Slots
+
+  All three of the web component's slots are ported as tags, so markup reads the
+  way the Phoenix component does:
+
+      <MishkaEmptyState title="No projects yet" description="Create one to get started.">
+        <MishkaEmptyStateIndicator>
+          <Text text="📁" text_size={:"2xl"} />
+        </MishkaEmptyStateIndicator>
+        <MishkaEmptyStateActions>
+          <Button text="New" on_tap={:new_project} />
+        </MishkaEmptyStateActions>
+      </MishkaEmptyState>
+
+  | Slot | Phoenix | Falls back to |
+  |------|---------|---------------|
+  | `<MishkaEmptyStateIndicator>` | `<:indicator>` | the `indicator` glyph prop |
+  | `<MishkaEmptyStateActions>` | `<:actions>` | the `actions` prop (list of nodes) |
+  | bare children | `<:inner_block>` | — rendered after the description |
+
+  The `actions` prop is kept because assembling actions from data is common and
+  a list comprehension is easier to write than generated markup; the slot wins
+  when both are given.
+
+  Not ported: `id` and the `*_class` attrs.
+  """
+
+  import Mob.Sigil
+
+  @indicator_type :mishka_empty_state_indicator
+  @actions_type :mishka_empty_state_actions
+
+  @slot_types [@indicator_type, @actions_type]
+
+  @doc """
+  Composite expander (`<MishkaEmptyState>`).
+
+  Children are partitioned into the three slots the web component declares —
+  `<MishkaEmptyStateIndicator>`, `<MishkaEmptyStateActions>`, and everything
+  else, which is the inner block rendered after the description.
+
+  Slot tags are ordinary composite children matched on `:type`, the same shape
+  `MishkaAccordion` uses for `<MishkaAccordionItem>`. They are consumed here, so
+  no marker node ever reaches the renderer.
+  """
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, children, _ctx) do
+    {actions_prop, props} = Map.pop(Map.new(props), :actions, [])
+
+    actions =
+      case slot(children, @actions_type) do
+        [] -> List.wrap(actions_prop)
+        nodes -> nodes
+      end
+
+    empty_state(props, slot(children, @indicator_type), actions, inner_block(children))
+  end
+
+  # A slot tag contributes its OWN children; the tag itself is dropped.
+  defp slot(children, type) do
+    children
+    |> Enum.filter(&match?(%{type: ^type}, &1))
+    |> Enum.flat_map(&Map.get(&1, :children, []))
+  end
+
+  defp inner_block(children) do
+    Enum.reject(children, &match?(%{type: type} when type in @slot_types, &1))
+  end
+
+  @doc """
+  The empty-state node.
+
+      empty_state(title: "No messages", description: "Anything you receive lands here.")
+  """
+  @spec empty_state(map() | keyword(), [map()], [map()], [map()]) :: map()
+  def empty_state(props \\ %{}, indicator_nodes \\ [], actions \\ [], body \\ []) do
+    props = Map.new(props)
+
+    if Map.get(props, :align, :center) == :leading do
+      leading(props, indicator_nodes, actions, body)
+    else
+      centred(props, indicator_nodes, actions, body)
+    end
+  end
+
+  # Every part gets its OWN centring Box. Centring the block as a whole is not
+  # the same thing and looks wrong the moment the parts differ in width: a
+  # Column cannot align its children (Mob maps it to a bare Compose Column with
+  # no horizontalAlignment), so the widest part sets the block width and every
+  # narrower part left-aligns inside it. A title under a wide actions row then
+  # sits visibly off-centre on a layout whose entire job is centring.
+  defp centred(props, indicator_nodes, actions, body) do
+    ~MOB"""
+    <Box fill_width={true} align={:center} padding={Map.get(props, :padding, :space_xl)}>
+      <Column fill_width={true}>
+        {centre(indicator(props, indicator_nodes))}
+        {centre(text_block(props, :center))}
+        {centre(body)}
+        {centre(actions_row(actions))}
+      </Column>
+    </Box>
+    """
+  end
+
+  defp centre(nodes) do
+    ~MOB"""
+    <Box fill_width={true} align={:center}>
+      {nodes}
+    </Box>
+    """
+  end
+
+  defp leading(props, indicator_nodes, actions, body) do
+    ~MOB"""
+    <Row fill_width={true}>
+      {indicator(props, indicator_nodes)}
+      <Spacer size={14} />
+      <Column fill_width={true}>
+        {text_block(props, :leading)}
+        {body}
+        {actions_row(actions)}
+      </Column>
+    </Row>
+    """
+  end
+
+  defp indicator(props, []) do
+    glyph = Map.get(props, :indicator)
+
+    ~MOB"""
+    <Column :if={is_binary(glyph)}>
+      <Text text={glyph} text_size={:"2xl"} text_color={:muted} />
+      <Spacer size={10} />
+    </Column>
+    """
+  end
+
+  defp indicator(_props, nodes), do: ~MOB(<Column>
+  {nodes}
+</Column>)
+
+  defp text_block(props, align) do
+    title = Map.get(props, :title)
+    description = Map.get(props, :description)
+    centre? = align == :center
+
+    # text_align centres the LINES within a wrapped paragraph; the Box around
+    # this block centres the block. A long description needs both.
+    align = if centre?, do: :center, else: nil
+
+    ~MOB"""
+    <Column fill_width={centre? == false}>
+      <Text
+        text={title}
+        text_size={:xl}
+        text_color={:on_surface}
+        text_align={align}
+        :if={is_binary(title)}
+      />
+      <Spacer size={6} :if={is_binary(title) and is_binary(description)} />
+      <Text
+        text={description}
+        text_size={:base}
+        text_color={:muted}
+        text_align={align}
+        :if={is_binary(description)}
+      />
+    </Column>
+    """
+  end
+
+  defp actions_row([]), do: ~MOB(<Column />)
+
+  # Owning the slot means owning the layout, and the layout needs owning.
+  #
+  # A Row hands the first child every pixel it asks for, and a control that has
+  # not been told to hug asks for all of them: the first action filled the row
+  # and the second was measured to ZERO width, parked past the right edge. It
+  # stayed in the node tree with a working handler, so every unit test passed and
+  # the test harness would happily "click" it — only a finger could tell.
+  #
+  # `fill_width: false` is the fix rather than a weight. Both place the buttons,
+  # but weight is `Modifier.weight`, which SwiftUI has no equivalent for and Mob's
+  # iOS renderer does not implement — the row would divide evenly on Android and
+  # not on iOS. Hugging is honoured on both, and it is also what an HStack does
+  # natively, so the two platforms agree. `put_new` leaves a caller free to say
+  # otherwise.
+  #
+  # Nothing here fills: the centred layout centres by having this Row hug inside
+  # an aligned Box, and a Column cannot align its own children (Mob maps it to a
+  # bare Compose Column, no horizontalAlignment). Fill the Row and the actions
+  # silently move to the left edge.
+  defp actions_row(actions) do
+    spaced =
+      actions
+      |> Enum.map(&hug/1)
+      |> Enum.intersperse(~MOB(<Spacer size={8} />))
+
+    ~MOB"""
+    <Column>
+      <Spacer size={16} />
+      <Row>
+        {spaced}
+      </Row>
+    </Column>
+    """
+  end
+
+  defp hug(%{props: props} = node), do: %{node | props: Map.put_new(props, :fill_width, false)}
+  defp hug(node), do: node
+end

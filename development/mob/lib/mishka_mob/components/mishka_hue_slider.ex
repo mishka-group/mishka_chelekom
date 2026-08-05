@@ -1,0 +1,197 @@
+defmodule MishkaMob.Components.MishkaHueSlider do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Hue Slider** — pick a hue,
+  0–360°, against a real rainbow track.
+
+  ## The track is drawn, not faked
+
+  The web version puts a CSS `linear-gradient` on the track. Mob has no gradient
+  fill, but it does have `Mob.UI.canvas/1`, so the rainbow is drawn as a run of
+  filled rects — one per `step_px` of width, each at its own hue. At the default
+  resolution the bands are two logical units wide, which reads as a continuous
+  spectrum at any sane display density.
+
+  Dragging is the native `Slider` sitting under the strip: Mob has no pointer
+  coordinates to hit-test a custom track with, so the strip is the *picture* of
+  the value and the slider is the *control*. They share one number, so they
+  cannot disagree.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `value` | number | `0` | Current hue in degrees. Out-of-range values wrap; 360 stays at the far end. |
+  | `width` | number | `300` | Track width in logical units. |
+  | `height` | number | `16` | Track height. |
+  | `show_value` | boolean | `false` | Render a `210°` readout. |
+  | `label` | string | `nil` | Caption above the track. |
+  | `on_change` | event tag (atom) | — | `{:drag, tag, %{x:, y:, dx:, dy:, phase:}}` — a touch POSITION, not a value. Convert with `hue_at/2`. |
+  | `id` | string | — | A native testTag. A canvas has no text to find it by. |
+
+  The strip itself is the control: there is no `<Slider>` under it. `phase` is
+  `"began"` on touch-down (so a tap sets the hue), `"dragging"` while the finger
+  moves, `"ended"` on release.
+
+  Not ported: `on_commit` (the bridge has no release event — see
+  `MishkaMob.Components.MishkaSlider`), `step`/`large_step` (keyboard nudging),
+  and `name`/`form`/`id`.
+  """
+
+  import Mob.Sigil
+
+  alias MishkaMob.Components.{Color, Event}
+
+  @width 300
+  @height 16
+  @band 2
+
+  @doc "Composite expander (`<MishkaHueSlider />`). Delegates to `hue_slider/1`."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, _children, _ctx), do: hue_slider(props)
+
+  @doc """
+  The hue slider.
+
+      hue_slider(value: @hue, show_value: true, on_change: :hue)
+  """
+  @spec hue_slider(map() | keyword()) :: map()
+  def hue_slider(props \\ %{}) do
+    props = Map.new(props)
+    hue = normalize_hue(Map.get(props, :value, 0))
+    width = Map.get(props, :width, @width)
+    height = Map.get(props, :height, @height)
+
+    strip =
+      canvas_node(
+        width,
+        height,
+        spectrum(width, height, hue),
+        Event.handler(Map.get(props, :on_change)),
+        Map.get(props, :id)
+      )
+
+    head = header(props, hue)
+
+    ~MOB"""
+    <Column fill_width={true}>
+      {head}
+      {strip}
+    </Column>
+    """
+  end
+
+  @doc """
+  The hue a touch at `x` selects, `x` in canvas units from the strip's left edge.
+
+  The inverse of the marker, so finger and marker cannot separate.
+
+      iex> MishkaMob.Components.MishkaHueSlider.hue_at(150, 300)
+      180.0
+
+      iex> MishkaMob.Components.MishkaHueSlider.hue_at(300, 300)
+      360.0
+
+      iex> MishkaMob.Components.MishkaHueSlider.hue_at(-40, 300)
+      0.0
+  """
+  @spec hue_at(number(), number()) :: float()
+  def hue_at(x, width \\ @width)
+  def hue_at(_x, width) when not is_number(width) or width <= 0, do: 0.0
+  def hue_at(x, width), do: Color.clamp(x, 0, width) / width * 360
+
+  # Mob.UI.canvas/1 is Map.take(props, [:width, :height, :draw]) — it silently
+  # drops any handler, which is exactly the "renders perfectly and does nothing"
+  # failure Event warns about. Built literally so on_drag survives to the
+  # renderer, which registers it like any other handler.
+  defp canvas_node(width, height, ops, handler, id) do
+    props = %{width: width, height: height, draw: ops}
+    props = if handler, do: Map.put(props, :on_drag, handler), else: props
+    # Mob turns :id into a native testTag. A canvas is a drawing — no text, no
+    # label — so this is the only handle a device test has on it.
+    props = if id, do: Map.put(props, :id, id), else: props
+
+    %{type: :canvas, props: props, children: []}
+  end
+
+  @doc """
+  The draw ops for a rainbow strip with a marker at `hue`.
+
+  Public because the colour picker paints the same strip, and because a list of
+  plain maps is far easier to assert on than a rendered gradient.
+
+      iex> ops = MishkaMob.Components.MishkaHueSlider.spectrum(10, 4, 0)
+      iex> Enum.count(ops, &(&1.op == :rect)) > 1
+      true
+  """
+  @spec spectrum(number(), number(), number()) :: [map()]
+  def spectrum(width, height, hue) do
+    bands =
+      0
+      |> Stream.iterate(&(&1 + @band))
+      |> Stream.take_while(&(&1 < width))
+      |> Enum.map(fn x ->
+        # +1 on the width closes the hairline seam between adjacent bands.
+        Mob.Canvas.rect(x, 0, @band + 1, height,
+          color: Color.argb(Color.hue_rgb(fraction(x, width) * 360)),
+          fill: true
+        )
+      end)
+
+    bands ++ marker(width, height, hue)
+  end
+
+  # Bands are placed by their LEFT edge, so dividing by the full width leaves
+  # the last one short of the end — a hue strip that stopped at 355° rather
+  # than coming back round to red. Dividing by the span the left edges actually
+  # cover makes both endpoints exact.
+  defp fraction(x, width) do
+    span = width - @band
+
+    if span > 0, do: min(x / span, 1.0), else: 0.0
+  end
+
+  # 360° and 0° are the same colour but NOT the same position. wrap_hue/1 is
+  # fmod, and fmod(360.0, 360.0) is 0.0 — so a finger at the right-hand end of
+  # the strip teleported the marker back to the left edge. Wrap only what is
+  # genuinely out of range; Color.hsv_to_rgb/3 wraps for the colour maths anyway.
+  defp normalize_hue(v) when is_number(v) and v >= 0 and v <= 360, do: v * 1.0
+  defp normalize_hue(v), do: Color.wrap_hue(v)
+
+  # Clamped to half the stroke, not to 2. With a slider thumb driving it nobody
+  # noticed the gap; with a finger on the strip the marker would sit visibly
+  # inside the edge the user is aiming at.
+  defp marker(width, height, hue) do
+    x = Color.clamp(hue / 360 * width, 1.5, width - 1.5)
+
+    [
+      Mob.Canvas.line(x, 0, x, height, color: 0xFF_FF_FF_FF, width: 3),
+      Mob.Canvas.line(x, 0, x, height, color: 0xFF_11_18_27, width: 1)
+    ]
+  end
+
+  defp header(props, hue) do
+    label = Map.get(props, :label)
+    readout = if truthy?(Map.get(props, :show_value, false)), do: "#{round(hue)}°"
+
+    cond do
+      is_binary(label) and readout -> row(label, readout)
+      is_binary(label) -> ~MOB(<Text text={label} text_size={:sm} text_color={:on_surface} />)
+      readout -> ~MOB(<Text text={readout} text_size={:sm} text_color={:muted} />)
+      true -> nil
+    end
+  end
+
+  defp row(label, readout) do
+    ~MOB"""
+    <Row fill_width={true}>
+      <Text text={label} text_size={:sm} text_color={:on_surface} />
+      <Spacer weight={1} />
+      <Text text={readout} text_size={:sm} text_color={:muted} />
+    </Row>
+    """
+  end
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
+end

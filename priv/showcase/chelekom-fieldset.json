@@ -1,0 +1,38 @@
+{
+  "name": "chelekom-fieldset",
+  "furnishing": {
+    "body": "",
+    "slots": [
+      {
+        "name": "control",
+        "body": "<label class=\"flex items-center gap-2\"><input type=\"checkbox\" name=\"topics[]\" value=\"product\" checked /> Product updates</label>"
+      },
+      {
+        "name": "control",
+        "body": "<label class=\"flex items-center gap-2\"><input type=\"checkbox\" name=\"topics[]\" value=\"security\" checked /> Security alerts</label>"
+      },
+      {
+        "name": "control",
+        "body": "<label class=\"flex items-center gap-2\"><input type=\"checkbox\" name=\"topics[]\" value=\"events\" /> Community events</label>"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "label": "Email notification preferences with four checkboxes",
+      "source": "<.component component_name=\"chelekom-fieldset\" site=\"Global\" id=\"fieldset-email-prefs\" legend=\"Email notifications\" class=\"max-w-md\">\n  <:control>\n    <.component component_name=\"chelekom-checkbox-field\" site=\"Global\" id=\"prefs-weekly-digest\" name=\"notifications[]\" value=\"digest\" label=\"Weekly digest of new posts\" checked />\n  </:control>\n  <:control>\n    <.component component_name=\"chelekom-checkbox-field\" site=\"Global\" id=\"prefs-comment-replies\" name=\"notifications[]\" value=\"replies\" label=\"Someone replies to my comment\" checked />\n  </:control>\n  <:control>\n    <.component component_name=\"chelekom-checkbox-field\" site=\"Global\" id=\"prefs-mentions\" name=\"notifications[]\" value=\"mentions\" label=\"I am mentioned by name\" />\n  </:control>\n  <:control>\n    <.component component_name=\"chelekom-checkbox-field\" site=\"Global\" id=\"prefs-product-news\" name=\"notifications[]\" value=\"product\" label=\"Product announcements and release notes\" />\n  </:control>\n</.component>"
+    },
+    {
+      "label": "Delivery speed chooser with three shipping options",
+      "source": "<.component component_name=\"chelekom-fieldset\" site=\"Global\" id=\"fieldset-shipping\" legend=\"Delivery speed\" space=\"small\" class=\"max-w-md\">\n  <:control>\n    <.component component_name=\"chelekom-radio-field\" site=\"Global\" id=\"shipping-standard\" name=\"shipping\" value=\"standard\" label=\"Standard — 3 to 5 working days, free\" checked />\n  </:control>\n  <:control>\n    <.component component_name=\"chelekom-radio-field\" site=\"Global\" id=\"shipping-express\" name=\"shipping\" value=\"express\" label=\"Express — next working day, $12\" />\n  </:control>\n  <:control>\n    <.component component_name=\"chelekom-radio-field\" site=\"Global\" id=\"shipping-pickup\" name=\"shipping\" value=\"pickup\" label=\"Collect in store — ready in 2 hours, free\" />\n  </:control>\n</.component>"
+    },
+    {
+      "label": "Billing address group with street, city and postcode",
+      "source": "<.component component_name=\"chelekom-fieldset\" site=\"Global\" id=\"fieldset-billing\" legend=\"Billing address\" padding=\"medium\" class=\"max-w-lg\">\n  <:control>\n    <.component component_name=\"chelekom-text-field\" site=\"Global\" id=\"billing-street\" name=\"billing[street]\" label=\"Street address\" placeholder=\"14 Valiasr Street\" value=\"\" size=\"small\" />\n  </:control>\n  <:control>\n    <.component component_name=\"chelekom-text-field\" site=\"Global\" id=\"billing-city\" name=\"billing[city]\" label=\"City\" placeholder=\"Tehran\" value=\"\" size=\"small\" />\n  </:control>\n  <:control>\n    <.component component_name=\"chelekom-text-field\" site=\"Global\" id=\"billing-postcode\" name=\"billing[postcode]\" label=\"Postal code\" placeholder=\"1966733451\" value=\"\" size=\"small\" />\n  </:control>\n</.component>"
+    },
+    {
+      "label": "Terms consent group showing a validation error",
+      "source": "<.component component_name=\"chelekom-fieldset\" site=\"Global\" id=\"fieldset-consent\" legend=\"Before you continue\" variant=\"outline\" color=\"danger\" errors={[\"You must accept the terms before your account can be created.\"]} class=\"max-w-md\">\n  <:control>\n    <.component component_name=\"chelekom-checkbox-field\" site=\"Global\" id=\"consent-terms\" name=\"consent[terms]\" value=\"true\" label=\"I accept the terms of service and the privacy policy\" />\n  </:control>\n  <:control>\n    <.component component_name=\"chelekom-checkbox-field\" site=\"Global\" id=\"consent-marketing\" name=\"consent[marketing]\" value=\"true\" label=\"Send me occasional product news (optional)\" />\n  </:control>\n</.component>"
+    }
+  ]
+}

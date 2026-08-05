@@ -1,0 +1,152 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Floating Indicator** — one
+  highlight that marks the active target among several.
+
+  ## One indicator, moved by state rather than by measurement
+
+  The web version measures the active target with a `ResizeObserver` and slides
+  a single absolutely-positioned box over it. Neither half of that is available:
+  Mob reports no geometry back to `render/1`, and there is no animation
+  primitive — the same two walls `<%= @namespace %>.<%= @module_prefix_camel %>OverflowList` and
+  `<%= @namespace %>.<%= @module_prefix_camel %>Marquee` describe.
+
+  What is available is the thing the indicator is *for*: exactly one target is
+  highlighted, and it is whichever matches `active`. So the highlight is drawn
+  as the active target's own background rather than as a box flying over it. No
+  measurement is needed because the target draws its own highlight, and the
+  invariant that made it a single floating box — one highlight, never two — is
+  kept by construction.
+
+  It does not slide. Everything else about it is intact.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `targets` | list of `%{label:, value:}` | `[]` | The choices. |
+  | `active` | value | `nil` | Which one is highlighted. |
+  | `orientation` | `:horizontal` · `:vertical` | `:horizontal` | Row or stack. |
+  | `color` | color token / ARGB | `:surface_raised` | The highlight. |
+  | `disabled` | boolean | `false` | Mutes and unwires. |
+  | `on_change` | event tag (atom) | — | `{:tap, {tag, value}}` on a target. |
+  """
+
+  import Mob.Sigil
+
+  alias <%= @namespace %>.Event
+
+  @doc "Composite expander (`<<%= @module_prefix_camel %>FloatingIndicator />`). Delegates to `floating_indicator/1`."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, _children, _ctx), do: <%= @component_prefix %>floating_indicator(props)
+
+  @doc """
+  The indicator group.
+
+      <%= @component_prefix %>floating_indicator(targets: @tabs, active: @tab, on_change: :pick)
+  """
+  @spec <%= @component_prefix %>floating_indicator(map() | keyword()) :: map()
+  def <%= @component_prefix %>floating_indicator(props \\ %{}) do
+    props = Map.new(props)
+    targets = List.wrap(Map.get(props, :targets, []))
+    nodes = Enum.map(targets, &target(&1, props))
+
+    body =
+      case orientation(props) do
+        :vertical ->
+          ~MOB"""
+          <Column fill_width={true}>
+            {nodes}
+          </Column>
+          """
+
+        :horizontal ->
+          ~MOB"""
+          <Row fill_width={true} align={:center}>
+            {nodes}
+          </Row>
+          """
+      end
+
+    ~MOB"""
+    <Box fill_width={true} background={:surface} corner_radius={:radius_md} padding={4}>
+      {body}
+    </Box>
+    """
+  end
+
+  @doc """
+  Whether `value` is the active target.
+
+  Trivial, and public because it is the component's entire semantics: exactly
+  one target is active, so a caller can style anything else the same way.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>FloatingIndicator.active?(:a, :a)
+      true
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>FloatingIndicator.active?(:a, nil)
+      false
+  """
+  @spec active?(term(), term()) :: boolean()
+  def active?(value, active), do: not is_nil(active) and value == active
+
+  defp target(entry, props) do
+    active? = active?(entry.value, Map.get(props, :active))
+
+    disabled? =
+      truthy?(Map.get(props, :disabled, false)) or truthy?(Map.get(entry, :disabled, false))
+
+    fill = if active?, do: Map.get(props, :color, :surface_raised), else: :transparent
+
+    ink =
+      cond do
+        disabled? -> :muted
+        active? -> :on_surface
+        true -> :muted
+      end
+
+    # `font_weight`, not `weight`: a bare `weight` on a Text is read by the
+    # PARENT Row/Column as a layout weight and does nothing to the font.
+    font_weight = if active?, do: :semibold, else: :regular
+
+    node =
+      ~MOB"""
+      <Box
+        fill_width={true}
+        background={fill}
+        corner_radius={:radius_sm}
+        padding={:space_sm}
+        align={:center}
+      >
+        <Text text={entry.label} text_size={:sm} text_color={ink} font_weight={font_weight} />
+      </Box>
+      """
+      |> put(:on_tap, handler(props, entry.value, disabled?))
+
+    node
+  end
+
+  defp orientation(props) do
+    case Map.get(props, :orientation, :horizontal) do
+      :vertical -> :vertical
+      "vertical" -> :vertical
+      _ -> :horizontal
+    end
+  end
+
+  defp handler(_props, _value, true), do: nil
+
+  defp handler(props, value, _disabled?) do
+    case Map.get(props, :on_change) do
+      nil -> nil
+      tag -> Event.handler(tag, value)
+    end
+  end
+
+  defp put(node, _key, nil), do: node
+  defp put(node, key, value), do: %{node | props: Map.put(node.props, key, value)}
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
+end

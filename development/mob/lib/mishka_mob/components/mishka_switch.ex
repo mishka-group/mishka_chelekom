@@ -1,0 +1,146 @@
+defmodule MishkaMob.Components.MishkaSwitch do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Switch** — an on/off control.
+
+  Unlike the Drawer and Accordion, this one is a thin wrapper: Mob ships a real
+  `Toggle` widget (a Compose `Switch` / SwiftUI `Toggle`), so the port maps the
+  Chelekom API onto it rather than rebuilding a track and thumb out of boxes.
+  That means the control animates, reports accessibility state, and follows the
+  platform's own switch metrics for free.
+
+  ## Controlled — on Android
+
+  On Android `Toggle` is controlled: it renders whatever `checked` says and
+  reports intent through `on_change`, so nothing moves until the screen writes
+  the new value back. The value arrives as `{:change, tag, boolean}`:
+
+      <MishkaSwitch label="Wi-Fi" checked={@wifi?} on_change={:wifi_changed} />
+
+      def handle_info({:change, :wifi_changed, on?}, socket) do
+        {:noreply, Mob.Socket.assign(socket, :wifi?, on?)}
+      end
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `checked` | boolean | `false` | The on state. |
+  | `label` | string | `nil` | Leading label; the switch sits at the trailing edge. |
+  | `on_change` | event tag (atom) | — | Sent as `{:change, tag, boolean}`. Omit for a read-only switch. |
+  | `color` | color token / ARGB int | platform default | Thumb colour when on. |
+  | `track_color` | **ARGB int** | platform default | Track colour when on. |
+  | `disabled` | boolean | `false` | Wires no handler, so the control cannot move. |
+
+  > #### Colour is Android-only, and `track_color` takes no tokens {: .warning}
+  >
+  > `color` and `track_color` reach Compose's `SwitchDefaults.colors`, so on
+  > Android they tint the thumb and the track independently — set one and you get
+  > a two-tone switch, which is why both exist.
+  >
+  > `track_color` must be a raw **ARGB integer**. Mob's renderer resolves colour
+  > *tokens* only for the props in its `@color_props` whitelist, and
+  > `track_color` is not one of them — pass `:primary` and it arrives as an
+  > unparseable string and is silently ignored. `color` is whitelisted and takes
+  > either.
+  >
+  > **iOS ignores both.** Its `MobToggle` is a bare `Toggle(label, isOn:)` with
+  > no `.tint(...)`, so the control always paints in the system accent.
+
+  > #### Three iOS gaps, all in the dependency {: .warning}
+  >
+  > None of these is this component's doing, and none can be fixed from here.
+  >
+  > 1. **The switch is uncontrolled.** iOS `MobToggle` seeds a `@State` once in
+  >    its initialiser and binds the control to that local copy, so the thumb
+  >    moves on touch whatever the screen decides. A screen that rejects or
+  >    overrides the change will not be reflected until the view is rebuilt.
+  > 2. **`disabled` does not disable.** It works by omitting the handler, which
+  >    is enough for a controlled widget — but an uncontrolled one flips anyway
+  >    and simply reports nowhere. A disabled switch is inert on Android and
+  >    freely movable on iOS.
+  > 3. **Colour is ignored**, as above.
+  >
+  > The label used to be a third: the bridge decodes text from `props["text"]`,
+  > so a `label` prop was dropped and the Toggle came up blank. This component
+  > now builds the label row itself, so that one is closed.
+
+  ## What is deliberately not ported
+
+  The web attrs that exist only to make an `<input>` submit inside an HTML form
+  — `name`, `value`, `unchecked_value`, `form`, `required` — have no meaning on
+  a phone: there is no form post, and the screen already holds the value. `id`
+  is dropped too (it exists to anchor `aria-*` relationships in the DOM).
+
+  `readonly` and `disabled` collapse into one thing here: both simply omit the
+  handler. Note the platform still paints an *enabled-looking* switch — Mob's
+  `Toggle` bridge does not forward Compose's `enabled` flag — so a disabled
+  switch looks normal but cannot be moved. Pair it with a muted label when that
+  distinction matters.
+  """
+
+  import Mob.Sigil
+
+  alias MishkaMob.Components.Event
+
+  @doc "Composite expander (`<MishkaSwitch />`). Delegates to `switch/1`."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, _children, _ctx), do: switch(props)
+
+  @doc """
+  The switch node. Accepts a map or keyword list.
+
+      switch(label: "Wi-Fi", checked: true, on_change: :wifi)
+  """
+  @spec switch(map() | keyword()) :: map()
+  def switch(props \\ %{}) do
+    props = Map.new(props)
+    checked = truthy?(Map.get(props, :checked, false))
+
+    toggle =
+      ~MOB(<Toggle value={checked} />)
+      |> put_prop(:color, Map.get(props, :color))
+      |> put_prop(:track_color, Map.get(props, :track_color))
+      |> put_prop(:on_change, handler(props))
+
+    labelled(toggle, Map.get(props, :label))
+  end
+
+  # The label row is built HERE rather than handed to the native Toggle as a
+  # `label` prop, because that prop never arrives on iOS: the bridge decodes a
+  # node's text from `props["text"]`, so `label` was dropped and the Toggle came
+  # up with an empty string. Building the row in Elixir renders the same
+  # arrangement on both platforms and makes the label an ordinary styleable Text.
+  #
+  # `<Spacer weight={1} />` is portable despite weight being Compose-only: on
+  # iOS a Spacer with no size is a flexible `Spacer()`, which pushes the toggle
+  # to the trailing edge just the same.
+  defp labelled(toggle, label) when is_binary(label) do
+    ~MOB"""
+    <Row fill_width={true} align={:center}>
+      <Text text={label} text_color={:on_surface} />
+      <Spacer weight={1} />
+      {toggle}
+    </Row>
+    """
+  end
+
+  defp labelled(toggle, _label), do: toggle
+
+  # A disabled switch keeps its handler off, which is what makes it inert:
+  # `Toggle` is controlled, so with nothing listening the thumb cannot move.
+  # Everything else is widened to {pid, tag} — see MishkaMob.Components.Event.
+  defp handler(props) do
+    if truthy?(Map.get(props, :disabled, false)) do
+      nil
+    else
+      Event.handler(Map.get(props, :on_change))
+    end
+  end
+
+  defp put_prop(node, _key, nil), do: node
+  defp put_prop(node, key, value), do: %{node | props: Map.put(node.props, key, value)}
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
+end

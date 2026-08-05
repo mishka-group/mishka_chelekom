@@ -1,0 +1,16 @@
+# ktlint configuration for Mob-generated Android projects.
+#
+# package-name: Mob app names use underscores (e.g. my_app → com.example.my_app).
+#   Android allows underscores in package names; the style guide discourages them
+#   but the Mob naming convention requires them.
+#
+# function-naming: JNI bridge functions (nativeSetActivity, nativeStartBeam, etc.)
+#   must match the JNI symbol names declared in beam_jni.c. Renaming them to
+#   camelCase would break the native linkage.
+#
+# no-multi-spaces: Mob templates use column-aligned arrows in when expressions
+#   for readability. ktlint cannot auto-correct this, so we suppress it globally.
+[*.kt]
+ktlint_standard_package-name = disabled
+ktlint_standard_function-naming = disabled
+ktlint_standard_no-multi-spaces = disabled

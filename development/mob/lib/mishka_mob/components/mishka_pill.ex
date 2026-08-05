@@ -1,0 +1,133 @@
+defmodule MishkaMob.Components.MishkaPill do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Pill** — a compact label with
+  an optional trailing remove button (a token, a tag, a filter you can dismiss).
+
+  ## Pill or Chip?
+
+  They look alike and are easy to confuse, so the port keeps them distinct in the
+  way that matters: a **Chip is selected**, a **Pill is removed**. A chip carries
+  `checked` and toggles; a pill carries content and offers a ✕. If you find
+  yourself giving a pill a checked state, you want
+  `MishkaMob.Components.MishkaChip`.
+
+  ## The remove button is its own tap target
+
+  `with_remove` renders a ✕ that carries its own handler, so tapping the label
+  and tapping the ✕ are different events — the pill itself can stay inert while
+  only its ✕ responds, which is the usual behaviour for a token in an input.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `label` | string | `nil` | The pill's text. Children override it. |
+  | `with_remove` | boolean | `false` | Render the trailing ✕. |
+  | `on_remove` | event tag (atom) | — | Sent as `{:tap, tag}` when the ✕ is tapped. |
+  | `on_tap` | event tag (atom) | — | Makes the pill body itself tappable. |
+  | `disabled` | boolean | `false` | Mutes it and wires no handlers, including the ✕. |
+  | `background` | color token / ARGB int | `:surface_raised` | Pill fill. |
+  | `color` | color token / ARGB int | `:on_surface` | Label colour. |
+  | `disabled_color` | color token / ARGB int | `:muted` | Label colour while disabled. |
+
+  Not ported: `remove_label` (an `aria-label` for the ✕ — Mob exposes no
+  accessible name on a text node) and the `id` / `*_class` attrs.
+
+  ## It hugs its label
+
+  The root Box passes `fill_width={false}`, so a pill is exactly as wide as its
+  text plus padding. That is what lets several sit in one Row the way they do on
+  the web. It matters because a Box with neither `width` nor `fill_width` fills
+  its parent, which made every pill a full-width bar.
+  """
+
+  import Mob.Sigil
+
+  alias MishkaMob.Components.Event
+
+  @doc """
+  Composite expander (`<MishkaPill>`). Children replace the `label` prop.
+  """
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, children, _ctx), do: pill(props, children)
+
+  @doc """
+  The pill node. `content` overrides the `label` prop when given.
+
+      pill(label: "elixir", with_remove: true, on_remove: {:drop, :elixir})
+  """
+  @spec pill(map() | keyword(), [map()]) :: map()
+  def pill(props \\ %{}, content \\ []) do
+    props = Map.new(props)
+    disabled? = truthy?(Map.get(props, :disabled, false))
+
+    node = ~MOB"""
+    <Box
+      background={Map.get(props, :background, :surface_raised)}
+      corner_radius={:radius_pill}
+      padding={:space_sm}
+      fill_width={false}
+    >
+      <Row>
+        {label(props, content, disabled?)}
+        {remove(props, disabled?)}
+      </Row>
+    </Box>
+    """
+
+    case tap(props, disabled?, :on_tap) do
+      nil -> node
+      handler -> %{node | props: Map.put(node.props, :on_tap, handler)}
+    end
+  end
+
+  # max_lines: 1 — a pill is a single-line token by nature, and the failure mode
+  # without it is ugly rather than merely tight: a Compose Text squeezed narrower
+  # than its content wraps CHARACTER BY CHARACTER, so a pill that does not quite
+  # fit its row renders as a vertical stack of letters. Ellipsised is wrong by a
+  # little; stacked letters look broken.
+  defp label(props, [], disabled?) do
+    ~MOB"""
+    <Text
+      text={Map.get(props, :label)}
+      text_size={:base}
+      text_color={color(props, disabled?)}
+      max_lines={1}
+    />
+    """
+  end
+
+  defp label(_props, content, _disabled?), do: ~MOB(<Row>
+  {content}
+</Row>)
+
+  # The ✕ is a separate tap target from the pill body, so a token can be
+  # removable without the whole pill being tappable.
+  defp remove(props, disabled?) do
+    if truthy?(Map.get(props, :with_remove, false)) do
+      node = ~MOB"""
+      <Row>
+        <Spacer size={8} />
+        <Text text="✕" text_size={:base} text_color={color(props, disabled?)} />
+      </Row>
+      """
+
+      case tap(props, disabled?, :on_remove) do
+        nil -> node
+        handler -> %{node | props: Map.put(node.props, :on_tap, handler)}
+      end
+    else
+      ~MOB(<Row />)
+    end
+  end
+
+  defp color(props, true), do: Map.get(props, :disabled_color, :muted)
+  defp color(props, _), do: Map.get(props, :color, :on_surface)
+
+  defp tap(_props, true, _key), do: nil
+  defp tap(props, _disabled, key), do: Event.handler(Map.get(props, key))
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
+end

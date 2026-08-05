@@ -1,0 +1,279 @@
+defmodule MishkaMob.Components.MishkaSegmentedControl do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Segmented Control** — a joined
+  strip of options where exactly one is always selected.
+
+  ## Why it is not a Toggle Group with different padding
+
+  It is drawn differently — one continuous track with the selection sitting
+  inside it, rather than separate buttons — and it behaves differently in the way
+  that matters: **the selection can never be empty**. Tapping the selected
+  segment does nothing, where a toggle group would clear and a radio group would
+  keep. That is why `select/2` exists and simply returns the tapped id: the rule
+  is "always something", and stating it beats each screen rediscovering it.
+
+  When an empty selection is meaningful, reach for
+  `MishkaMob.Components.MishkaToggleGroup` instead.
+
+  ## Segments are content-sized, and the track hugs them
+
+  Equal-width segments would need `weight`, which Compose implements and Mob's
+  iOS mapping does not, so the strip would look right on Android and collapse on
+  iOS. Segments therefore size to their labels — the same compromise the Tabs
+  port makes, for the same reason.
+
+  That makes `fill_width` load-bearing on both the track and each segment. A Box
+  given neither a width nor the prop **fills its parent**, so an unguarded
+  segment took the whole strip and pushed the rest off the screen, and an
+  unguarded track stretched to the screen edge around three short labels. Both
+  now hug; pass `fill_width={true}` for a strip that should span its container,
+  and accept that its segments still cluster at the leading edge.
+
+  ## Styling is the caller's, as on the web
+
+  The headless original ships no colours and no spacing. There is no stylesheet
+  here, so every visual is a prop with a legible default.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `value` | option id | first option | The selected segment. |
+  | `label` | string | `nil` | Heading above the strip. |
+  | `disabled` | boolean | `false` | Disables every segment. |
+  | `on_change` | event tag (atom) | — | Sent as `{:tap, {tag, option_id}}`. |
+  | `color` | color token / ARGB int | `:primary` | Selected segment fill. |
+  | `text_color` | color token / ARGB int | `:on_primary` | Selected segment label. |
+  | `label_color` | color token / ARGB int | `:on_surface` | An unselected label. |
+  | `background` | color token / ARGB int | `:surface_raised` | The track. |
+  | `padding` | spacing token / number | `:space_sm` | Inside each segment. |
+  | `track_padding` | number | `3` | Inset between track and segments. |
+  | `corner_radius` | radius token / number | `:radius_md` | The track's corners. |
+  | `segment_radius` | radius token / number | `:radius_sm` | A segment's corners. |
+  | `border_color` | color token / ARGB int | `nil` | Track border, when set. |
+  | `border_width` | number | `0` | Track border width. |
+  | `text_size` | text token | `:base` | Segment labels. |
+  | `fill_width` | boolean | `false` | Track spans its parent. |
+  | `id` | string | `nil` | Prefix for each segment's test tag. |
+
+  ## Slots
+
+  Segments are written out as children, the native analogue of Chelekom's
+  `<:option>` slot, so the markup reads the way the Phoenix component does:
+
+      <MishkaSegmentedControl value={@view} on_change={:pick} id="view">
+        <MishkaSegmentedControlOption id={:day} label="Day" />
+        <MishkaSegmentedControlOption id={:week} label="Week" />
+        <MishkaSegmentedControlOption id={:month} label="Month" disabled={true} />
+      </MishkaSegmentedControl>
+
+  | Slot | Takes | Builds the same node as |
+  |------|-------|-------------------------|
+  | `<MishkaSegmentedControlOption>` | `id`, `label`, `disabled` | `option/3` |
+
+  A slot tag is matched on `:type` among the parent's children and consumed by
+  `expand/3`, so it never reaches the renderer. `option/3` produces exactly the
+  node the tag does — `%{type: :mishka_segmented_control_option, props: %{id: …,
+  label: …, disabled: …}}` — and the two forms are interchangeable. Use the tag
+  when you are writing the segments out, the function when they come from data:
+
+      <MishkaSegmentedControl value={@role} on_change={:pick}>
+        {Enum.map(@roles, fn {id, label} -> option(id, label) end)}
+      </MishkaSegmentedControl>
+
+  The label is a prop rather than the slot's children because the control paints
+  it: `text_size`, and the selected/idle `text_color`, are the control's props,
+  so the `Text` node has to be the control's to build.
+
+  `on_change` stays on the control rather than moving to the option. An `on_*`
+  prop on a slot tag is not auto-wired the way a composite's is, so an option
+  carrying its own handler would hand the renderer a bare atom; the control
+  instead pairs its already-wired tag with each option's id.
+
+  Given `id="view"`, the `:week` segment is tagged `"view-week-selected"` or
+  `"view-week-idle"`. Selection is conveyed by fill colour alone, and colour is
+  not in the accessibility tree, so those tags are the only thing a device test
+  can read.
+
+  Not ported: `name` (form plumbing) and the `*_class` attrs.
+  """
+
+  import Mob.Sigil
+
+  alias MishkaMob.Components.Event
+
+  # The slot tag and the builder share one atom on purpose: that is what makes
+  # <MishkaSegmentedControlOption> and option/3 the same node, and so
+  # interchangeable everywhere.
+  @option_type :mishka_segmented_control_option
+
+  @doc """
+  Composite expander (`<MishkaSegmentedControl>`).
+
+  Children are `<MishkaSegmentedControlOption>` slot tags — or the identical
+  nodes from `option/3` — matched on `:type` and consumed here, so no marker
+  ever reaches the renderer. Anything else among the children is dropped.
+  """
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, children, _ctx), do: segmented_control(props, children)
+
+  @doc """
+  Build one segment node — exactly what `<MishkaSegmentedControlOption>` builds.
+
+  Reach for it when the segments come from data; write the tag when you are
+  spelling them out.
+  """
+  @spec option(term(), String.t(), keyword()) :: map()
+  def option(id, label, opts \\ []) do
+    %{
+      type: @option_type,
+      props: %{id: id, label: label, disabled: Keyword.get(opts, :disabled, false)},
+      children: []
+    }
+  end
+
+  @doc """
+  The next value after tapping `id` — always the tapped one.
+
+  A segmented control cannot be cleared, so re-tapping the selection is a no-op
+  rather than an empty state.
+
+      iex> MishkaMob.Components.MishkaSegmentedControl.select(:a, :b)
+      :b
+      iex> MishkaMob.Components.MishkaSegmentedControl.select(:a, :a)
+      :a
+  """
+  @spec select(term(), term()) :: term()
+  def select(_current, tapped), do: tapped
+
+  @doc """
+  The control node. Children are `<MishkaSegmentedControlOption>` tags or
+  `option/3` nodes — the same thing either way.
+  """
+  @spec segmented_control(map() | keyword(), [map()]) :: map()
+  def segmented_control(props \\ %{}, children \\ []) do
+    props = Map.new(props)
+    label = Map.get(props, :label)
+
+    # The slot tags are read for their props and then dropped: only the segments
+    # built below go into the tree. A marker that survived would reach the
+    # renderer, whose `when (node.type)` has no else branch, and draw nothing at
+    # all — silently, because mix.exs has whitelisted the name.
+    #
+    # A tag written without `disabled` has no such key, where option/3 defaults
+    # it, so everything downstream reads it with a default rather than a match.
+    options =
+      children
+      |> Enum.filter(&match?(%{type: @option_type}, &1))
+      |> Enum.map(& &1.props)
+
+    selected = selected(props, options)
+    segments = Enum.map(options, &segment(&1, props, Map.get(&1, :id) == selected))
+
+    # The track and its Row must BOTH be told, or the strip stretches to the
+    # screen edge around three short labels: a Box with no width fills, and a
+    # Row that fills leaves a hugging track wrapping a full-width child.
+    fill? = truthy?(Map.get(props, :fill_width, false))
+
+    ~MOB"""
+    <Column fill_width={true}>
+      <Text text={label} text_size={:sm} text_color={:muted} :if={is_binary(label)} />
+      <Spacer size={10} :if={is_binary(label)} />
+      <Box
+        fill_width={fill?}
+        background={Map.get(props, :background, :surface_raised)}
+        corner_radius={Map.get(props, :corner_radius, :radius_md)}
+        padding={Map.get(props, :track_padding, 3)}
+        border_color={Map.get(props, :border_color)}
+        border_width={Map.get(props, :border_width, 0)}
+      >
+        <Row fill_width={fill?}>
+          {segments}
+        </Row>
+      </Box>
+    </Column>
+    """
+  end
+
+  @doc """
+  The selected id: the `value` prop when it names a real option, otherwise the
+  first — a segmented control always has a selection.
+  """
+  @spec selected(map() | keyword(), [map()]) :: term() | nil
+  def selected(props, options) do
+    ids = Enum.map(options, &Map.get(&1, :id))
+    wanted = props |> Map.new() |> Map.get(:value)
+
+    if wanted in ids, do: wanted, else: List.first(ids)
+  end
+
+  defp segment(option, props, selected?) do
+    disabled? =
+      truthy?(Map.get(props, :disabled, false)) or truthy?(Map.get(option, :disabled, false))
+
+    # A disabled selection is greyed rather than accented — the same rule the
+    # toggle settled on, so a locked control reads as locked instead of live.
+    fill =
+      cond do
+        selected? and disabled? -> :muted
+        selected? -> Map.get(props, :color, :primary)
+        true -> :transparent
+      end
+
+    text_color =
+      cond do
+        selected? -> Map.get(props, :text_color, :on_primary)
+        disabled? -> :muted
+        true -> Map.get(props, :label_color, :on_surface)
+      end
+
+    # fill_width: false is what keeps a segment the size of its label. Without
+    # it the first segment claims the whole strip and the others are pushed off
+    # the screen — present in the tree, correct in every unit test, invisible on
+    # the device. It is also what makes the "content-sized" claim above true.
+    node = ~MOB"""
+    <Box
+      fill_width={false}
+      background={fill}
+      corner_radius={Map.get(props, :segment_radius, :radius_sm)}
+      padding={Map.get(props, :padding, :space_sm)}
+      align={:center}
+    >
+      <Text
+        text={Map.get(option, :label)}
+        text_size={Map.get(props, :text_size, :base)}
+        text_color={text_color}
+      />
+    </Box>
+    """
+
+    node
+    |> tag_state(Map.get(props, :id), Map.get(option, :id), selected?)
+    |> wire(tap(props, option, disabled?))
+  end
+
+  defp wire(node, nil), do: node
+  defp wire(node, handler), do: %{node | props: Map.put(node.props, :on_tap, handler)}
+
+  # Selection is a fill colour, and colour is not in the accessibility tree, so
+  # nothing tells a device test which segment is chosen. Fold it into the tag.
+  defp tag_state(node, nil, _option_id, _selected?), do: node
+
+  defp tag_state(node, id, option_id, selected?) do
+    state = if selected?, do: "selected", else: "idle"
+    %{node | props: Map.put(node.props, :id, "#{id}-#{option_id}-#{state}")}
+  end
+
+  defp tap(_props, _option, true), do: nil
+
+  # Event.handler/2, not a hand-built {tag, id}: reached as a composite tag this
+  # control's :on_change has ALREADY been widened to {screen_pid, tag}, and
+  # pairing that with an id by hand gives {{pid, tag}, id} — which the renderer
+  # registers and no handle_info clause matches.
+  defp tap(props, option, _disabled),
+    do: Event.handler(Map.get(props, :on_change), Map.get(option, :id))
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
+end

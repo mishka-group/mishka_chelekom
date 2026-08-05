@@ -1,0 +1,180 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Progress** — a determinate or
+  indeterminate progress bar, optionally labelled and showing its own readout.
+
+  Wraps Mob's native `Progress` widget (a Compose `LinearProgressIndicator` /
+  SwiftUI `ProgressView`), so the indeterminate state animates on its own and
+  the bar follows platform metrics.
+
+  ## Range translation
+
+  Chelekom expresses `value` inside `[min, max]`; the native widget wants a
+  fraction in `0.0..1.0`. `progress/1` does that conversion and **clamps**, so a
+  value outside the range renders a full or empty bar rather than a bar that
+  overshoots its track. A degenerate range (`max == min`) reads as `0.0` instead
+  of raising `ArithmeticError`.
+
+  Omitting `value` (or passing `nil`) gives the **indeterminate** bar — the
+  widget renders its own looping animation, and the readout is suppressed
+  because there is no percentage to show.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `value` | number or `nil` | `nil` | Current value in `[min, max]`. `nil` = indeterminate. |
+  | `min` | number | `0` | Lower bound. |
+  | `max` | number | `100` | Upper bound. |
+  | `label` | string | `nil` | Caption above the bar. |
+  | `show_value` | boolean | `false` | Render a readout beside the label. |
+  | `value_text` | string | `nil` | Overrides the readout (default is a rounded percentage). |
+  | `color` | color token / ARGB int | platform default | Indicator colour. |
+  | `height` | number | platform default (~4) | Bar thickness. |
+
+  The web component's `id` and the `*_class` attrs are not ported: they exist to
+  anchor `aria-labelledby` and to style DOM parts.
+  """
+
+  import Mob.Sigil
+
+  @doc "Composite expander (`<<%= @module_prefix_camel %>Progress />`). Delegates to `progress/1`."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, _children, _ctx), do: <%= @component_prefix %>progress(props)
+
+  @doc """
+  The progress node. Accepts a map or keyword list.
+
+      <%= @component_prefix %>progress(value: 40)
+      <%= @component_prefix %>progress(value: 3, max: 5, label: "Uploading", show_value: true)
+      <%= @component_prefix %>progress()                      # indeterminate
+  """
+  @spec <%= @component_prefix %>progress(map() | keyword()) :: map()
+  def <%= @component_prefix %>progress(props \\ %{}) do
+    props = Map.new(props)
+    fraction = fraction(props)
+
+    # height is a generic node prop the bridge turns into a Modifier.height, so
+    # the native indicator honours it — but only if it is forwarded. It was not,
+    # so the one dimension of the bar a caller might reasonably want to change
+    # was silently dropped on the way in.
+    bar =
+      ~MOB(<Progress />)
+      |> put_prop(:value, fraction)
+      |> put_prop(:color, Map.get(props, :color))
+      |> put_prop(:height, Map.get(props, :height))
+
+    case header(props, fraction) do
+      nil ->
+        bar
+
+      head ->
+        ~MOB"""
+        <Column fill_width={true}>
+          {head}
+          <Spacer size={6} />
+          {bar}
+        </Column>
+        """
+    end
+  end
+
+  @doc """
+  The `0.0..1.0` fraction a set of props resolves to, or `nil` when
+  indeterminate. Exposed because it is the whole of the range logic.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>Progress.fraction(%{value: 50})
+      0.5
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>Progress.fraction(%{value: 3, max: 5})
+      0.6
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>Progress.fraction(%{value: 999})
+      1.0
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>Progress.fraction(%{})
+      nil
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>Progress.fraction(%{value: "72"})
+      0.72
+  """
+  @spec fraction(map() | keyword()) :: float() | nil
+  def fraction(props) do
+    props = Map.new(props)
+
+    case to_num(Map.get(props, :value)) do
+      nil ->
+        nil
+
+      value ->
+        min = Map.get(props, :min, 0)
+        max = Map.get(props, :max, 100)
+        span = max - min
+
+        # A zero-width range has no meaningful position; report empty rather
+        # than dividing by zero.
+        if span == 0, do: 0.0, else: clamp((value - min) / span)
+    end
+  end
+
+  # The headless attr is `:any` and parses numeric strings, so `value="72"`
+  # reads as 72 rather than raising. That is not a hypothetical: an unbraced
+  # sigil attr IS a string, so `<<%= @module_prefix_camel %>Progress value="72" />` — the obvious
+  # way to write it — used to reach a two-clause case and die with a
+  # CaseClauseError. Unparseable input reads as empty, as it does on the web;
+  # only a genuinely absent value stays indeterminate.
+  defp to_num(nil), do: nil
+  defp to_num(value) when is_number(value), do: value
+
+  defp to_num(value) when is_binary(value) do
+    case Float.parse(value) do
+      {parsed, _rest} -> parsed
+      :error -> 0
+    end
+  end
+
+  defp to_num(_value), do: 0
+
+  defp clamp(fraction) when fraction < 0, do: 0.0
+  defp clamp(fraction) when fraction > 1, do: 1.0
+  defp clamp(fraction), do: fraction * 1.0
+
+  # Label on the leading edge, readout trailing. Nil when neither is asked for,
+  # so a plain bar stays a single node.
+  defp header(props, fraction) do
+    label = Map.get(props, :label)
+    readout = readout(props, fraction)
+
+    cond do
+      is_binary(label) and readout -> labelled_row(label, readout)
+      is_binary(label) -> ~MOB(<Text text={label} text_size={:sm} text_color={:on_surface} />)
+      readout -> ~MOB(<Text text={readout} text_size={:sm} text_color={:muted} />)
+      true -> nil
+    end
+  end
+
+  defp labelled_row(label, readout) do
+    ~MOB"""
+    <Row fill_width={true}>
+      <Text text={label} text_size={:sm} text_color={:on_surface} />
+      <Spacer weight={1} />
+      <Text text={readout} text_size={:sm} text_color={:muted} />
+    </Row>
+    """
+  end
+
+  # An indeterminate bar has no percentage to report, so the readout is dropped
+  # even when show_value is set.
+  defp readout(_props, nil), do: nil
+
+  defp readout(props, fraction) do
+    cond do
+      not truthy?(Map.get(props, :show_value, false)) -> nil
+      is_binary(Map.get(props, :value_text)) -> Map.get(props, :value_text)
+      true -> "#{round(fraction * 100)}%"
+    end
+  end
+
+  defp put_prop(node, _key, nil), do: node
+  defp put_prop(node, key, value), do: %{node | props: Map.put(node.props, key, value)}
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
+end

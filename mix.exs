@@ -1,7 +1,7 @@
 defmodule MishkaChelekom.MixProject do
   use Mix.Project
 
-  @version "0.0.10-alpha.5"
+  @version "0.0.10-alpha.6"
   @source_url "https://github.com/mishka-group/mishka_chelekom"
 
   def project do
@@ -59,6 +59,20 @@ defmodule MishkaChelekom.MixProject do
       {:igniter_js, "~> 0.4.11"},
       {:owl, "~> 0.13"},
       {:ex_doc, "~> 0.40.3", only: :dev, runtime: false},
+      # EXPORT-TIME ONLY, and never forced on a consumer. This kit's components name heroicon
+      # CLASSES (`hero-bell`) and leave the pictures to the host's Tailwind plugin — which is right
+      # for a Phoenix app and impossible for a CMS installing the bundle, because it has neither the
+      # plugin nor the SVGs. `mix mishka.ui.export --cms` reads them once and writes them into the
+      # bundle's `icons` block, so a consumer gets an icon picker out of the one file it downloaded.
+      # See `MishkaChelekom.CmsBundle.Icons`. `only: :dev` because the export runs nowhere else.
+      {:heroicons,
+       github: "tailwindlabs/heroicons",
+       tag: "v2.2.0",
+       sparse: "optimized",
+       app: false,
+       compile: false,
+       depth: 1,
+       only: :dev},
       {:plug, "~> 1.18 and >= 1.20.0"},
       {:usage_rules, "~> 1.2", only: :test},
       {:anubis_mcp, "~> 1.6"},

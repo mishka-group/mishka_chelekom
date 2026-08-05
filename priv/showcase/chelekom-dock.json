@@ -1,0 +1,62 @@
+{
+  "name": "chelekom-dock",
+  "furnishing": {
+    "body": "",
+    "slots": [
+      {
+        "name": "item",
+        "attrs": {
+          "icon": "hero-home",
+          "label": "Home",
+          "navigate": "/"
+        },
+        "body": ""
+      },
+      {
+        "name": "item",
+        "attrs": {
+          "icon": "hero-magnifying-glass",
+          "label": "Search",
+          "navigate": "/search"
+        },
+        "body": ""
+      },
+      {
+        "name": "item",
+        "attrs": {
+          "icon": "hero-bell",
+          "label": "Alerts",
+          "navigate": "/notifications"
+        },
+        "body": ""
+      },
+      {
+        "name": "item",
+        "attrs": {
+          "icon": "hero-user",
+          "label": "Account",
+          "navigate": "/account"
+        },
+        "body": ""
+      }
+    ]
+  },
+  "examples": [
+    {
+      "label": "Mobile bottom navigation pinned to the viewport",
+      "source": "<.component component_name=\"chelekom-dock\" site=\"Global\" id=\"dock-mobile-app-bar\" position=\"fixed_bottom\" variant=\"shadow\" color=\"natural\">\n  <:item icon=\"hero-home\" label=\"Home\" navigate=\"/\" active />\n  <:item icon=\"hero-magnifying-glass\" label=\"Search\" navigate=\"/search\" />\n  <:item icon=\"hero-bell\" label=\"Alerts\" navigate=\"/notifications\" badge=\"4\" />\n  <:item icon=\"hero-user\" label=\"Account\" navigate=\"/account\" />\n</.component>"
+    },
+    {
+      "label": "Floating pill dock over a photo gallery",
+      "source": "<.component component_name=\"chelekom-dock\" site=\"Global\" id=\"dock-gallery-pill\" position=\"fixed_bottom_center\" variant=\"bordered\" color=\"dark\" rounded=\"full\" padding=\"small\" space=\"medium\" size=\"large\" show_labels={false}>\n  <:item icon=\"hero-photo\" navigate=\"/gallery\" active />\n  <:item icon=\"hero-heart\" navigate=\"/gallery/favourites\" />\n  <:item icon=\"hero-arrow-down-tray\" navigate=\"/gallery/downloads\" />\n  <:item icon=\"hero-adjustments-horizontal\" navigate=\"/gallery/settings\" />\n</.component>"
+    },
+    {
+      "label": "Storefront bottom bar with a cart badge",
+      "source": "<.component component_name=\"chelekom-dock\" site=\"Global\" id=\"dock-store-nav\" position=\"sticky_bottom\" variant=\"bordered\" color=\"primary\" rounded=\"large\">\n  <:item icon=\"hero-squares-2x2\" label=\"Shop\" navigate=\"/shop\" />\n  <:item icon=\"hero-bookmark\" label=\"Saved\" navigate=\"/saved\" />\n  <:item icon=\"hero-shopping-bag\" label=\"Cart\" navigate=\"/cart\" badge=\"2\" active />\n  <:item icon=\"hero-user-circle\" label=\"Profile\" navigate=\"/profile\" />\n</.component>"
+    },
+    {
+      "label": "Documentation section switcher docked to the top",
+      "source": "<.component component_name=\"chelekom-dock\" site=\"Global\" id=\"dock-docs-sections\" position=\"sticky_top\" max_width=\"large\" space=\"large\" padding=\"small\">\n  <:item icon=\"hero-newspaper\" label=\"Guides\" navigate=\"/docs/guides\" active />\n  <:item icon=\"hero-code-bracket\" label=\"API reference\" navigate=\"/docs/api\" />\n  <:item icon=\"hero-adjustments-horizontal\" label=\"Recipes\" navigate=\"/docs/recipes\" />\n  <:item icon=\"hero-clock\" label=\"Changelog\" navigate=\"/docs/changelog\" />\n</.component>"
+    }
+  ]
+}

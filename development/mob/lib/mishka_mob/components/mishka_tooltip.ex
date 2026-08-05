@@ -1,0 +1,347 @@
+defmodule MishkaMob.Components.MishkaTooltip do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Tooltip** — a short hint about
+  the control it wraps.
+
+  ## A long press is the hover
+
+  The web tooltip is revealed by pointer-enter or focus, and a phone has
+  neither. That was read here as "a tooltip has no trigger on touch", so the
+  port shipped a bare bubble and left the reveal to the caller entirely.
+
+  The touch equivalent of hover-to-reveal is the gesture the platform already
+  uses for reveal-more everywhere else: **press and hold**. `Mob.Renderer` has
+  always registered `on_long_press`, iOS has always implemented it, and the
+  Android bridge now wires `combinedClickable` — so holding a control works on
+  both platforms. A tooltip's children are therefore its trigger, and holding
+  one pushes `on_open_change` with the state it wants next.
+
+  Note the inversion against the web: there the default slot is the *content*
+  and `<:trigger>` is a named slot; here the children are the *trigger*, because
+  a native hint is one short string (`text`) while a trigger is a whole control.
+
+  ## The hint floats over the page
+
+  `side`, `align`, `side_offset` and `align_offset` port, and they now mean what
+  they mean on the web. The trigger is child [0] of an `:anchored` node and
+  renders in flow; the bubble is child [1] and renders in its own window over
+  everything (see `MishkaMob.Components.Anchored`). The bubble therefore takes
+  no space, it can sit above or left of the control it describes, and no rounded
+  `:box` or vertical `:scroll` can clip it. `side` is a prop on that node rather
+  than an ordering trick — the trigger comes first for every side.
+
+  The position is the web's `positionPopup()`, transliterated: `side_offset` off
+  the chosen side, `align_offset` along the alignment axis (positive pushes
+  INWARD on `:end`, matching the web), a main-axis flip when the requested side
+  has no room and the opposite one does, then a clamp into the window with 8dp
+  of edge padding plus the safe-area inset.
+
+  What that replaced: the bubble used to be a **sibling** of the trigger in a
+  Column or a Row, placed across the side by flexible spacers. Opening it
+  displaced the page — a hint on one icon button shoved the buttons beside it
+  aside — and `side: :top` only ever meant "earlier in the stack". Nothing
+  flipped and nothing clamped, because nothing in flow knows where the edge is.
+
+  With NO children there is nothing to anchor to, and that case is unchanged:
+  you get the bare bubble for a screen that places its own, and `offset_x` /
+  `offset_y` move it directly.
+
+  iOS has no `:anchored` primitive. An unknown node type falls through to
+  `MobNodeTypeColumn` there, so the bubble degrades to the old stack rather than
+  erroring or blanking — see `IOS_TODO.md` §17.
+
+  ## It is deliberately not the Popover shell
+
+  A tooltip is a *hint*, not a panel: dark, tight, no border, small text, one
+  line. Using the Popover's surface would make it read as a menu. It is small
+  enough to draw directly.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `text` | string | `nil` | The hint. |
+  | `open` | boolean | `false` | Whether it is shown. Lives in the screen. |
+  | `side` | `:top` `:bottom` `:left` `:right` | `:top` | Which side of the trigger the bubble takes. Flips when that side has no room. |
+  | `align` | `:start` `:center` `:end` | `:center` | Where it sits along the cross axis. |
+  | `side_offset` | number | `6` | Gap between trigger and bubble, in dp. |
+  | `align_offset` | number | `0` | Nudge along the alignment axis. Positive pushes inward on `:end`. |
+  | `arrow` | boolean | `false` | Draw a triangle pointing back at the trigger. |
+  | `disabled` | boolean | `false` | Never opens, and wires no handler. |
+  | `on_open_change` | event tag | — | Sent as `{:tap, {tag, next_open?}}`. |
+  | `on_tap` | event tag | — | The wrapped control's own tap, sent as `{:tap, tag}`. |
+  | `close_on_tap` | boolean | `true` | Tapping the bubble dismisses it. |
+  | `background` | color token / ARGB int | `0xFF111827` | Bubble fill — dark by default so it reads over any surface. |
+  | `color` | color token / ARGB int | `0xFFFFFFFF` | Hint colour. |
+  | `text_size` | size token | `:sm` | Hint size. |
+  | `offset_x` / `offset_y` | number | `nil` | Raw nudge on the bubble, in dp, applied last. |
+  | `fill_width` | boolean | — | No longer read. |
+  | `id` | string | — | Native testTags: `id-trigger`, `id-open`, `id-arrow-<side>`. |
+
+  `fill_width` is the one prop with no web counterpart, and it is now inert. It
+  used to make the stack fill its parent so `align` had spare width to place the
+  bubble in, and turning it off was how you fitted several tooltips into one Row
+  — a Row measures its unweighted children first, so a filling stack starved its
+  siblings. Both jobs are gone: the trigger always hugs the control it wraps,
+  and `align` is arithmetic on the trigger's own measured box rather than room
+  in a lane. Passing it is harmless, so an old call site does not break; it
+  simply does nothing.
+
+  `offset_x` / `offset_y` are independent of `align_offset` now rather than
+  folded into it: the anchored node knows which axis its align runs on, so the
+  two no longer have to share one number.
+
+  Not ported: `delay`, `close_delay`, `hoverable` and `track_cursor_axis` (all
+  describe a pointer that does not exist), `group` (a shared *hover* delay), and
+  `trigger_label` — Mob exposes no accessible name on a node, only a testTag.
+  `close_on_escape` becomes `close_on_tap`: a phone has no Escape key, and the
+  one dismissal a finger can reach is the bubble itself.
+  """
+
+  import Mob.Sigil
+
+  alias MishkaMob.Components.Anchored
+  alias MishkaMob.Components.Event
+
+  @fill 0xFF_11_18_27
+  @ink 0xFF_FF_FF_FF
+  @gap 6
+
+  # The arrow is 12dp across its base and 6dp deep, which is small enough that a
+  # `:radius_sm` corner never eats it.
+  @span 12
+  @depth 6
+
+  # Both spellings, so a caller porting `side="top"` straight off the web page
+  # gets the same node an atom would build. A lookup rather than
+  # String.to_atom/1: the value set is closed, and an unknown one should fall
+  # back to the default instead of minting an atom nothing reads.
+  @sides %{
+    :top => :top,
+    :bottom => :bottom,
+    :left => :left,
+    :right => :right,
+    "top" => :top,
+    "bottom" => :bottom,
+    "left" => :left,
+    "right" => :right
+  }
+
+  @aligns %{
+    :start => :start,
+    :center => :center,
+    :end => :end,
+    "start" => :start,
+    "center" => :center,
+    "end" => :end
+  }
+
+  @doc "Composite expander (`<MishkaTooltip>`). Children are the trigger."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, children, _ctx), do: tooltip(props, children)
+
+  @doc """
+  The tooltip node. Children are the control the hint describes; hold one to
+  reveal it. With no children you get the bare bubble, for a screen that places
+  its own.
+
+      <MishkaTooltip
+        text="Copy to clipboard"
+        open={@tip == :copy}
+        side={:bottom}
+        arrow={true}
+        on_open_change={{:tip, :copy}}
+      >
+        <MishkaActionIcon icon="⧉" />
+      </MishkaTooltip>
+
+      def handle_info({:tap, {{:tip, which}, open?}}, socket) do
+        {:noreply, Mob.Socket.assign(socket, :tip, if(open?, do: which, else: nil))}
+      end
+  """
+  @spec tooltip(map() | keyword(), [map()]) :: map()
+  def tooltip(props \\ %{}, children \\ []) do
+    props = Map.new(props)
+    side = side(props)
+    open? = truthy?(Map.get(props, :open, false)) and not disabled?(props)
+
+    case children do
+      # No trigger, so nothing to anchor TO: the bubble is placed by the caller
+      # and offset_x/offset_y move it directly, the way they always did. With a
+      # trigger they move the anchored PANEL instead — see anchor_opts/2.
+      [] -> if open?, do: nudged(bubble(props, side), props), else: ~MOB(<Column />)
+      _ -> anchored(props, children, side, open?)
+    end
+  end
+
+  # Trigger in flow, bubble over the page. The bubble used to be a SIBLING of
+  # the trigger in a Column or a Row, which is why opening a tooltip shoved the
+  # control next to it aside — on a toolbar of icon buttons the whole row moved.
+  # `side` is now a prop on the anchored node rather than an ordering trick.
+  defp anchored(props, children, side, false) do
+    Anchored.closed(trigger(props, children), anchor_opts(props, side))
+  end
+
+  defp anchored(props, children, side, true) do
+    Anchored.anchor(trigger(props, children), bubble(props, side), anchor_opts(props, side))
+  end
+
+  defp anchor_opts(props, side) do
+    {x, y} = offsets(props)
+
+    [
+      side: side,
+      align: align(props),
+      side_offset: gap(props),
+      align_offset: Map.get(props, :align_offset),
+      panel_offset_x: x,
+      panel_offset_y: y,
+      # A tap outside the bubble asks for the state the tooltip wants next,
+      # exactly as a tap ON it does when close_on_tap is set. Before this an
+      # open hint could only be dismissed by finding the bubble itself.
+      on_dismiss: Event.handler(Map.get(props, :on_open_change), false)
+    ]
+  end
+
+  defp bubble(props, side) do
+    body = body(props)
+
+    node =
+      if truthy?(Map.get(props, :arrow, false)) do
+        pointed(props, body, side)
+      else
+        body
+      end
+
+    node
+  end
+
+  defp body(props) do
+    text = Map.get(props, :text)
+    fill = Map.get(props, :background, @fill)
+    ink = Map.get(props, :color, @ink)
+    size = Map.get(props, :text_size, :sm)
+
+    # `fill_width={false}` is what makes this a hint rather than a bar: a Box
+    # with neither a width nor the flag fills its parent, which is how this used
+    # to render the full width of the screen. `max_lines` guards the other end —
+    # a Text squeezed narrower than its content wraps one character per line.
+    node = ~MOB"""
+    <Box background={fill} corner_radius={:radius_sm} padding={8} fill_width={false}>
+      <Text text={text} text_size={size} text_color={ink} max_lines={1} />
+    </Box>
+    """
+
+    node
+    |> put(:id, tag(props, "open"))
+    |> put(:on_tap, dismiss(props))
+  end
+
+  # The arrow rides in a stacking Box aligned to the edge that faces the
+  # trigger, over a sibling that reserves exactly its depth. Nothing here
+  # measures the bubble, so alignment is the only way to centre the triangle on
+  # an edge whose length is decided by the text.
+  defp pointed(props, body, side) do
+    fill = Map.get(props, :background, @fill)
+    head = put(arrow(fill, side), :id, tag(props, "arrow-#{side}"))
+    room = spacer(@depth)
+
+    case side do
+      :top -> stack(:bottom_center, [pile([body, room]), head])
+      :bottom -> stack(:top_center, [pile([room, body]), head])
+      :left -> stack(:trailing, [middle([body, room]), head])
+      :right -> stack(:leading, [middle([room, body]), head])
+    end
+  end
+
+  # A filled triangle whose apex points back at the trigger. Drawn rather than
+  # typed: a "▾" glyph sits on a baseline with descent space under it, so it
+  # never lands on the edge it is supposed to touch.
+  defp arrow(fill, side) do
+    {w, h, points} = triangle(side)
+
+    Mob.UI.canvas(
+      width: w,
+      height: h,
+      draw: [Mob.Canvas.path(points, color: fill, fill: true, closed: true)]
+    )
+  end
+
+  defp triangle(:top), do: {@span, @depth, [{0, 0}, {@span, 0}, {@span / 2, @depth}]}
+  defp triangle(:bottom), do: {@span, @depth, [{0, @depth}, {@span, @depth}, {@span / 2, 0}]}
+  defp triangle(:left), do: {@depth, @span, [{0, 0}, {@depth, @span / 2}, {0, @span}]}
+  defp triangle(:right), do: {@depth, @span, [{@depth, 0}, {0, @span / 2}, {@depth, @span}]}
+
+  # The raw escape hatch. `align_offset` used to be folded in here, because a
+  # nudge in flow has to name its own axis; the anchored node knows which axis
+  # its align runs on, so it takes that prop directly.
+  defp offsets(props), do: {Map.get(props, :offset_x), Map.get(props, :offset_y)}
+
+  defp nudged(node, props) do
+    {x, y} = offsets(props)
+
+    node |> put(:offset_x, x) |> put(:offset_y, y)
+  end
+
+  # The trigger hugs the control it wraps, so the long press covers the control
+  # and not the whole row it happens to sit in.
+  #
+  # `on_tap` rides on the same Box because a clickable CHILD would eat the hold:
+  # Compose gives the gesture to the innermost clickable, so an ActionIcon with
+  # its own `on_tap` inside a tooltip means the tooltip never opens. One
+  # combinedClickable carries both, which is why the trigger owns the tap.
+  defp trigger(props, children) do
+    %{type: :box, props: %{fill_width: false}, children: children}
+    |> put(:id, tag(props, "trigger"))
+    |> put(:on_long_press, hold(props))
+    |> put(:on_tap, Event.handler(Map.get(props, :on_tap)))
+  end
+
+  # The event carries the state the tooltip wants NEXT, which is what the web's
+  # on_open_change reports — so holding an open tooltip closes it again, and one
+  # clause in the screen serves both directions.
+  defp hold(props) do
+    if disabled?(props) do
+      nil
+    else
+      Event.handler(Map.get(props, :on_open_change), not truthy?(Map.get(props, :open, false)))
+    end
+  end
+
+  # The web closes on blur, pointer-leave or Escape. A phone has none of the
+  # three; the bubble is the one part of a dismissal a finger can reach.
+  defp dismiss(props) do
+    if truthy?(Map.get(props, :close_on_tap, true)) do
+      Event.handler(Map.get(props, :on_open_change), false)
+    end
+  end
+
+  defp tag(props, suffix) do
+    case Map.get(props, :id) do
+      nil -> nil
+      id -> "#{id}-#{suffix}"
+    end
+  end
+
+  defp side(props), do: Map.get(@sides, Map.get(props, :side, :top), :top)
+  defp align(props), do: Map.get(@aligns, Map.get(props, :align, :center), :center)
+  defp gap(props), do: Map.get(props, :side_offset, @gap)
+  defp disabled?(props), do: truthy?(Map.get(props, :disabled, false))
+
+  # Unlike `column/1` this one carries no `fill_width`, so it hugs the bubble it
+  # holds — the arrow's stacking Box has to size to the bubble for `align` to
+  # land the triangle on the bubble's edge rather than the screen's.
+  defp pile(children), do: %{type: :column, props: %{}, children: children}
+  defp middle(children), do: %{type: :row, props: %{align: :center}, children: children}
+  defp spacer(size), do: %{type: :spacer, props: %{size: size}, children: []}
+
+  defp stack(align, children),
+    do: %{type: :box, props: %{fill_width: false, align: align}, children: children}
+
+  defp put(node, _key, nil), do: node
+  defp put(node, key, value), do: %{node | props: Map.put(node.props, key, value)}
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
+end

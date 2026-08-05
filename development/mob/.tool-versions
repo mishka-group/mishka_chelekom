@@ -1,0 +1,14 @@
+# Pinned toolchain versions for Mob development.
+# Both mise and asdf read this file automatically.
+#
+#   mise install    https://mise.jdx.dev  (recommended — brew install mise)
+#   asdf install    https://asdf-vm.com
+#
+# OTP 29 matches the device runtime tarballs. Java 17 LTS is required for Gradle.
+erlang 29.0
+elixir 1.20.0-otp-29
+java temurin-17.0.18
+# Native build (mob_dev's `zig build` for Android + iOS). The mob.new scaffold
+# omits this; without it the native build fails "No version is set for command
+# zig" (exit 126). Matches mob_dev's doctor (zig 0.15.x).
+zig 0.15.2

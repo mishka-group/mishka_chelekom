@@ -64,6 +64,11 @@ defmodule <%= @module %> do
   defp color_variant("outline", "primary"), do: "border border-blue-600 text-blue-600"
     <% end %>
   <% end %>
+  <%= if is_nil(@variant) or "bordered" in @variant do %>
+    <%= if is_nil(@color) or "danger" in @color do %>
+  defp color_variant("bordered", color) when color in ["danger", "error"], do: "border-red-600"
+    <% end %>
+  <% end %>
   defp color_variant(%{a: 1} = _multi_line_pattern_match), do: "complex"
   defp color_variant(_, _), do: ""
 end

@@ -1,0 +1,21 @@
+{
+  "name": "chelekom-gallery-media",
+  "furnishing": {
+    "body": "<div class=\"flex aspect-video w-full items-center justify-center rounded bg-neutral-100 text-sm text-neutral-500 dark:bg-neutral-800 dark:text-neutral-400\">Pick an image for this tile</div>",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Photo tile with a caption underneath",
+      "source": "<.component component_name=\"chelekom-gallery-media\" site=\"Global\" id=\"tile-sketch\" src=\"/images/card-3.jpg\" alt=\"Notebook and pencil on a workbench\" rounded=\"medium\">\n  <div class=\"mt-2 text-sm opacity-80\">Sketching the second revision, March 2026.</div>\n</.component>"
+    },
+    {
+      "label": "Portrait thumbnail with a soft shadow",
+      "source": "<.component component_name=\"chelekom-gallery-media\" site=\"Global\" id=\"tile-portrait\" src=\"/images/avatar2.jpg\" alt=\"Mona, head of design\" rounded=\"large\" shadow=\"medium\" wrapper_class=\"w-40\" />"
+    },
+    {
+      "label": "Photo with the caption laid over the image",
+      "source": "<.component component_name=\"chelekom-gallery-media\" site=\"Global\" id=\"tile-overlay\" src=\"/images/card-5.jpg\" alt=\"A finished commission ready to ship\" rounded=\"medium\" class=\"w-full\">\n  <div class=\"absolute inset-x-0 bottom-0 bg-black/60 px-3 py-2 text-sm text-white\">Commission no. 41, ready for collection</div>\n</.component>"
+    }
+  ]
+}

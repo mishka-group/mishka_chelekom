@@ -1,0 +1,36 @@
+{
+  "name": "chelekom-dropdown",
+  "furnishing": {
+    "body": "",
+    "slots": [
+      {
+        "name": "trigger",
+        "attrs": {},
+        "body": "<.component component_name=\"chelekom-button\" site=\"Global\" variant=\"outline\" color=\"natural\" size=\"small\" content_class=\"flex items-center gap-2\">\n  Options\n  <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-chevron-down\" class=\"size-4\" />\n</.component>"
+      },
+      {
+        "name": "content",
+        "attrs": {},
+        "body": "<ul class=\"min-w-40 py-1 text-sm\">\n  <li class=\"cursor-pointer px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Edit</li>\n  <li class=\"cursor-pointer px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Duplicate</li>\n  <li class=\"cursor-pointer px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Move to folder</li>\n  <li class=\"cursor-pointer px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Delete</li>\n</ul>"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "label": "Account menu in a site header",
+      "source": "<.component component_name=\"chelekom-dropdown\" site=\"Global\" id=\"dropdown-account-menu\" position=\"bottom\" variant=\"base\" rounded=\"large\" padding=\"extra_small\" space=\"small\">\n  <:trigger>\n    <.component component_name=\"chelekom-button\" site=\"Global\" variant=\"outline\" color=\"natural\" size=\"small\" content_class=\"flex items-center gap-2\">\n      Sara Ahmadi\n      <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-chevron-down\" class=\"size-4\" />\n    </.component>\n  </:trigger>\n\n  <:content class=\"min-w-56\">\n    <div class=\"border-b border-black/10 px-3 py-2 dark:border-white/10\">\n      <div class=\"text-sm font-medium\">Sara Ahmadi</div>\n      <div class=\"text-xs opacity-70\">sara@mishka.tools</div>\n    </div>\n    <ul class=\"py-1 text-sm\">\n      <li class=\"cursor-pointer rounded px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Your profile</li>\n      <li class=\"cursor-pointer rounded px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Billing and plan</li>\n      <li class=\"cursor-pointer rounded px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Team members</li>\n      <li class=\"cursor-pointer rounded px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Sign out</li>\n    </ul>\n  </:content>\n</.component>"
+    },
+    {
+      "label": "Row actions menu on a content listing",
+      "source": "<div class=\"mx-auto flex max-w-md items-center justify-between gap-4 rounded-lg border border-gray-200 px-4 py-3 dark:border-gray-700\">\n  <div>\n    <div class=\"text-sm font-medium\">Shipping the new canvas</div>\n    <div class=\"text-xs text-gray-500 dark:text-gray-400\">Published 12 March 2025</div>\n  </div>\n\n  <.component component_name=\"chelekom-dropdown\" site=\"Global\" id=\"dropdown-row-actions\" position=\"bottom\" variant=\"base\" rounded=\"large\" padding=\"extra_small\" space=\"small\">\n    <:trigger>\n      <.component component_name=\"chelekom-button\" site=\"Global\" variant=\"transparent\" color=\"natural\" size=\"small\" icon=\"hero-ellipsis-horizontal\">\n        <span class=\"sr-only\">Row actions</span>\n      </.component>\n    </:trigger>\n\n    <:content class=\"min-w-48\">\n      <ul class=\"py-1 text-sm\">\n        <li class=\"flex cursor-pointer items-center gap-2 rounded px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">\n          <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-pencil-square\" class=\"size-4\" /> Edit\n        </li>\n        <li class=\"flex cursor-pointer items-center gap-2 rounded px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">\n          <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-document-duplicate\" class=\"size-4\" /> Duplicate\n        </li>\n        <li class=\"flex cursor-pointer items-center gap-2 rounded px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">\n          <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-eye\" class=\"size-4\" /> Preview\n        </li>\n        <li class=\"flex cursor-pointer items-center gap-2 rounded px-3 py-2 text-red-600 hover:bg-black/5 dark:text-red-400 dark:hover:bg-white/10\">\n          <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-trash\" class=\"size-4\" /> Delete\n        </li>\n      </ul>\n    </:content>\n  </.component>\n</div>"
+    },
+    {
+      "label": "Sort-by menu above a product grid",
+      "source": "<.component component_name=\"chelekom-dropdown\" site=\"Global\" id=\"dropdown-sort-by\" position=\"bottom\" variant=\"bordered\" color=\"natural\" rounded=\"large\" padding=\"extra_small\" space=\"small\">\n  <:trigger>\n    <.component component_name=\"chelekom-button\" site=\"Global\" variant=\"outline\" color=\"natural\" size=\"small\" content_class=\"flex items-center gap-2\">\n      Sort: Newest first\n      <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-chevron-down\" class=\"size-4\" />\n    </.component>\n  </:trigger>\n\n  <:content class=\"min-w-56\">\n    <ul class=\"py-1 text-sm\">\n      <li class=\"flex cursor-pointer items-center justify-between rounded px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">\n        Newest first\n        <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-check\" class=\"size-4\" />\n      </li>\n      <li class=\"cursor-pointer rounded px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Oldest first</li>\n      <li class=\"cursor-pointer rounded px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Price: low to high</li>\n      <li class=\"cursor-pointer rounded px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Price: high to low</li>\n      <li class=\"cursor-pointer rounded px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Best rated</li>\n    </ul>\n  </:content>\n</.component>"
+    },
+    {
+      "label": "Language switcher opening upwards in a footer",
+      "source": "<.component component_name=\"chelekom-dropdown\" site=\"Global\" id=\"dropdown-language\" position=\"top\" variant=\"base\" rounded=\"large\" padding=\"extra_small\" space=\"small\">\n  <:trigger>\n    <.component component_name=\"chelekom-button\" site=\"Global\" variant=\"transparent\" color=\"natural\" size=\"small\" icon=\"hero-language\">\n      English\n    </.component>\n  </:trigger>\n\n  <:content class=\"min-w-44\">\n    <ul class=\"py-1 text-sm\">\n      <li class=\"cursor-pointer rounded px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">English</li>\n      <li class=\"cursor-pointer rounded px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">فارسی</li>\n      <li class=\"cursor-pointer rounded px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Deutsch</li>\n      <li class=\"cursor-pointer rounded px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Türkçe</li>\n    </ul>\n  </:content>\n</.component>"
+    }
+  ]
+}

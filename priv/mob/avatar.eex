@@ -1,0 +1,134 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Avatar** — an image with a
+  text fallback (typically initials).
+
+  ## The fallback is stacked, not swapped
+
+  The web component always renders the fallback and leaves show/hide to CSS, so
+  initials are visible until the image paints. There is no CSS here, but `:box`
+  is a stacking container (last child on top), so the port renders
+  `[fallback, image]`: the initials show immediately and the image covers them
+  once it has loaded. Same intent, no flash of empty space, and no loading
+  callback to wire.
+
+  That is why `delay` and `on_loading_status_change` are not ported — they exist
+  to orchestrate that swap in the browser. `Image` is backed by Coil (Android) /
+  AsyncImage (iOS), which handles fetching and caching.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `src` | string | `nil` | Image URL (`http(s)://…`) or on-device file path. Absent renders the fallback alone. |
+  | `initials` | string | `nil` | Fallback text. |
+  | `size` | number | `44` | Width and height — an avatar is square. |
+  | `shape` | `:circle` `:rounded` `:square` | `:circle` | `:circle` uses an exact `size / 2` radius rather than a token, so it stays a circle at any size. |
+  | `background` | color token / ARGB int | `:surface_raised` | Fallback background. |
+  | `color` | color token / ARGB int | `:on_surface` | Initials colour. |
+  | `text_size` | size token | `:lg` | Initials size. |
+  | `id` | string | — | A native testTag. An image-only avatar has no text to find it by. |
+
+  `alt` is dropped (no screen-reader text on a Mob image), as are `width` /
+  `height` (an avatar is square — use `size`), `referrer_policy`, `crossorigin`
+  and the `*_class` attrs.
+
+  Content is centred with `align: :center`, which Mob maps to
+  `Alignment.Center` on Compose and the matching SwiftUI alignment — the same
+  string keys on both platforms.
+  """
+
+  import Mob.Sigil
+
+  @doc """
+  Composite expander (`<<%= @module_prefix_camel %>Avatar />`). Any children become the fallback,
+  replacing `initials`.
+  """
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, children, _ctx), do: <%= @component_prefix %>avatar(props, children)
+
+  @doc """
+  The avatar node. `fallback` overrides the `initials` prop when given.
+
+      <%= @component_prefix %>avatar(initials: "SH")
+      <%= @component_prefix %>avatar(src: "https://example.com/me.png", initials: "SH", size: 64)
+      <%= @component_prefix %>avatar(initials: "SH", shape: :rounded, background: 0xFF7C3AED, color: 0xFFFFFFFF)
+  """
+  @spec <%= @component_prefix %>avatar(map() | keyword(), [map()]) :: map()
+  def <%= @component_prefix %>avatar(props \\ %{}, fallback \\ []) do
+    props = Map.new(props)
+    size = Map.get(props, :size, 44)
+    radius = radius(Map.get(props, :shape, :circle), size)
+    back = fallback(props, size, radius, fallback)
+
+    id = Map.get(props, :id)
+
+    case Map.get(props, :src) do
+      nil ->
+        with_id(back, id)
+
+      src ->
+        # Stacked, last on top: initials show until the image paints over them.
+        ~MOB"""
+        <Box width={size} height={size} corner_radius={radius} align={:center}>
+          {back}
+          <Image src={src} width={size} height={size} corner_radius={radius} content_mode="fill" />
+        </Box>
+        """
+        |> with_id(id)
+    end
+  end
+
+  # Mob turns :id into a native testTag. An avatar showing an IMAGE renders no
+  # text at all, so this is the only handle a device test has on it.
+  defp with_id(node, nil), do: node
+  defp with_id(node, id), do: %{node | props: Map.put(node.props, :id, id)}
+
+  @doc """
+  The corner radius a shape resolves to at a given size. A circle is `size / 2`
+  rather than a radius token, so it stays circular at any size.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>Avatar.radius(:circle, 44)
+      22.0
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>Avatar.radius(:square, 44)
+      0
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>Avatar.radius(:rounded, 44)
+      10
+  """
+  @spec radius(atom(), number()) :: number()
+  def radius(:circle, size), do: size / 2
+  def radius(:square, _size), do: 0
+  def radius(_rounded, _size), do: 10
+
+  defp fallback(props, size, radius, []) do
+    ~MOB"""
+    <Box
+      width={size}
+      height={size}
+      corner_radius={radius}
+      background={Map.get(props, :background, :surface_raised)}
+      align={:center}
+    >
+      <Text
+        text={Map.get(props, :initials, "")}
+        text_size={Map.get(props, :text_size, :lg)}
+        text_color={Map.get(props, :color, :on_surface)}
+      />
+    </Box>
+    """
+  end
+
+  defp fallback(props, size, radius, children) do
+    ~MOB"""
+    <Box
+      width={size}
+      height={size}
+      corner_radius={radius}
+      background={Map.get(props, :background, :surface_raised)}
+      align={:center}
+    >
+      {children}
+    </Box>
+    """
+  end
+end

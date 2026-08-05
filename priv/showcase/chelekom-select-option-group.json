@@ -1,0 +1,39 @@
+{
+  "name": "chelekom-select-option-group",
+  "furnishing": {
+    "body": "",
+    "slots": [
+      {
+        "name": "option",
+        "body": "Draft",
+        "attrs": {
+          "value": "draft"
+        }
+      },
+      {
+        "name": "option",
+        "body": "Scheduled",
+        "attrs": {
+          "value": "scheduled"
+        }
+      },
+      {
+        "name": "option",
+        "body": "Published",
+        "attrs": {
+          "value": "published"
+        }
+      }
+    ]
+  },
+  "examples": [
+    {
+      "label": "Timezone picker grouped by region",
+      "source": "<div class=\"max-w-sm\">\n  <.component component_name=\"chelekom-label\" site=\"Global\" for=\"schedule-timezone\">Publish in this timezone</.component>\n  <select id=\"schedule-timezone\" name=\"timezone\" class=\"mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-transparent px-3 py-2 text-sm\">\n    <.component component_name=\"chelekom-select-option-group\" site=\"Global\" id=\"tz-group-americas\" label=\"Americas\">\n      <:option value=\"America/Los_Angeles\">Los Angeles (GMT-8)</:option>\n      <:option value=\"America/Chicago\">Chicago (GMT-6)</:option>\n      <:option value=\"America/New_York\" selected>New York (GMT-5)</:option>\n      <:option value=\"America/Sao_Paulo\">Sao Paulo (GMT-3)</:option>\n    </.component>\n    <.component component_name=\"chelekom-select-option-group\" site=\"Global\" id=\"tz-group-europe\" label=\"Europe and Africa\">\n      <:option value=\"Europe/London\">London (GMT+0)</:option>\n      <:option value=\"Europe/Berlin\">Berlin (GMT+1)</:option>\n      <:option value=\"Africa/Nairobi\">Nairobi (GMT+3)</:option>\n    </.component>\n  </select>\n</div>"
+    },
+    {
+      "label": "Shipping destinations grouped by region",
+      "source": "<div class=\"max-w-sm\">\n  <.component component_name=\"chelekom-label\" site=\"Global\" for=\"checkout-destination\">Ship to</.component>\n  <select id=\"checkout-destination\" name=\"destination\" class=\"mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-transparent px-3 py-2 text-sm\">\n    <option value=\"\">Choose a destination</option>\n    <.component component_name=\"chelekom-select-option-group\" site=\"Global\" id=\"ship-group-eu\" label=\"European Union\">\n      <:option value=\"de\">Germany — 2 to 4 days</:option>\n      <:option value=\"fr\">France — 2 to 4 days</:option>\n      <:option value=\"es\">Spain — 3 to 5 days</:option>\n      <:option value=\"gr\" disabled=\"true\">Greece — temporarily unavailable</:option>\n    </.component>\n  </select>\n</div>"
+    }
+  ]
+}

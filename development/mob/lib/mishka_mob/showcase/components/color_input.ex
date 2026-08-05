@@ -1,0 +1,230 @@
+defmodule MishkaMob.Showcase.Components.ColorInput do
+  @moduledoc "Gallery entry for `MishkaMob.Components.MishkaColorInput`."
+  use MishkaMob.Showcase
+
+  import Mob.Sigil
+
+  alias MishkaMob.Components.{Color, MishkaColorInput, MishkaColorPicker, MishkaHueSlider}
+  alias MishkaMob.Showcase.Example
+
+  @impl true
+  def entry do
+    %{
+      slug: :color_input,
+      name: "Color Input",
+      category: "Color",
+      order: 5,
+      description: "A hex field with a swatch, and a picker that opens beneath it."
+    }
+  end
+
+  @impl true
+  def mount(socket) do
+    socket
+    |> Mob.Socket.assign(:hex, "#3b82f6")
+    |> Mob.Socket.assign(:open, false)
+    |> Mob.Socket.assign(:ci_hue, 217)
+    |> Mob.Socket.assign(:ci_sat, 76)
+    |> Mob.Socket.assign(:ci_val, 96)
+  end
+
+  @impl true
+  def examples do
+    [
+      %Example{
+        title: "Type it or pick it",
+        description:
+          "A half-typed #3b82 is simply not committed — the picker waits rather than " <>
+            "rewriting what you are in the middle of typing.",
+        code: ~S"""
+        <MishkaColorInput
+          value={@hex}
+          open={@open}
+          on_change={:hex}
+          on_toggle={:toggle}
+          on_hue={:hue}
+          on_area={:area}
+          hue={@hue}
+          saturation={@sat}
+          value_pct={@val}
+        />
+
+        # Typed text. Only accept it once it parses, or every keystroke on the
+        # way to "#3b82f6" would repaint the panel from a half-written colour.
+        def handle_info({:change, :hex, text}, socket) do
+          case Color.parse(text) do
+            {:ok, rgb} -> {:noreply, assign_hsv(socket, text, rgb)}
+            :error -> {:noreply, assign(socket, :hex, text)}
+          end
+        end
+
+        # The swatch and the ▾ trigger both send this.
+        def handle_info({:tap, :toggle}, socket) do
+          {:noreply, assign(socket, :open, not socket.assigns.open)}
+        end
+
+        # The panel's two canvases are dragged, so both carry a POSITION.
+        def handle_info({:drag, :hue, %{x: x}}, socket) do
+          {:noreply, sync(socket, :hue, MishkaHueSlider.hue_at(x, 280))}
+        end
+
+        def handle_info({:drag, :area, %{x: x, y: y}}, socket) do
+          {sat, val} = MishkaColorPicker.sv_at(x, y)
+          {:noreply, socket |> assign(:sat, sat) |> sync(:val, val)}
+        end
+
+        # hue/saturation/value_pct and the hex field are one colour in two
+        # notations — write the hex back or the text and the panel disagree.
+        defp sync(socket, key, value) do
+          socket = assign(socket, key, value)
+          %{hue: h, sat: s, val: v} = socket.assigns
+          assign(socket, :hex, Color.hsv_to_hex(h, s, v))
+        end
+        """,
+        render: fn assigns ->
+          ~MOB"""
+          <Column fill_width={true}>
+            <MishkaColorInput
+              value={@hex}
+              open={@open}
+              label="Brand colour"
+              hue={@ci_hue}
+              saturation={@ci_sat}
+              value_pct={@ci_val}
+              on_change={:hex}
+              on_toggle={:toggle}
+              on_hue={:ci_hue}
+              on_area={:ci_area}
+            />
+          </Column>
+          """
+        end
+      },
+      %Example{
+        title: "Disabled",
+        description: "Muted trigger, no handlers attached.",
+        code: ~S"""
+        # No handlers: disabled wires neither the field nor the two ways in
+        # (the swatch and the trigger), so there is nothing to receive.
+        <MishkaColorInput value={"#64748b"} disabled={true} />
+        """,
+        render: fn _assigns ->
+          ~MOB"""
+          <Column fill_width={true}>
+            <MishkaColorInput value={"#64748b"} disabled={true} />
+          </Column>
+          """
+        end
+      }
+    ]
+  end
+
+  @impl true
+  def props do
+    [
+      %{
+        name: "value",
+        type: "hex string",
+        default: "\"#3b82f6\"",
+        description: "The field's text."
+      },
+      %{
+        name: "open",
+        type: "boolean",
+        default: "false",
+        description: "Whether the panel is shown."
+      },
+      %{name: "label", type: "string", default: "nil", description: "Caption above the control."},
+      %{
+        name: "hue / saturation / value_pct",
+        type: "numbers",
+        default: "derived from value",
+        description: "Picker position; falls back to the field's colour."
+      },
+      %{name: "disabled", type: "boolean", default: "false", description: "Mutes and unwires."},
+      %{
+        name: "on_change / on_toggle",
+        type: "event tags",
+        default: "—",
+        description: "Typing, and the ▾ trigger — which the swatch shares."
+      },
+      %{
+        name: "on_hue / on_area",
+        type: "event tags",
+        default: "—",
+        description:
+          "Forwarded to the panel, and they carry touch POSITIONS: convert with " <>
+            "MishkaHueSlider.hue_at/2 and MishkaColorPicker.sv_at/4."
+      },
+      %{
+        name: "commit/2",
+        type: "helper",
+        default: "—",
+        description: "{:ok, hsv} once the text parses, :incomplete while it does not."
+      }
+    ]
+  end
+
+  @impl true
+  def handle(:toggle, socket), do: Mob.Socket.assign(socket, :open, not socket.assigns.open)
+  def handle(_tag, socket), do: socket
+
+  @impl true
+  def handle_change(:hex, text, socket) do
+    socket = Mob.Socket.assign(socket, :hex, text)
+
+    case MishkaColorInput.commit(text) do
+      {:ok, {h, s, v}} ->
+        socket
+        |> Mob.Socket.assign(:ci_hue, h)
+        |> Mob.Socket.assign(:ci_sat, s)
+        |> Mob.Socket.assign(:ci_val, v)
+
+      :incomplete ->
+        socket
+    end
+  end
+
+  # Moving the picker rewrites the field — that direction is unambiguous.
+  # Both panel controls are dragged, so both deliver a touch position. The hex
+  # field and the picker read the same three assigns, so writing the hex back in
+  # sync/2 is what stops the text and the panel disagreeing.
+  def handle_change(:ci_hue, %{x: x}, socket),
+    do: sync(socket, :ci_hue, MishkaHueSlider.hue_at(x, 280))
+
+  def handle_change(:ci_area, %{x: x, y: y}, socket) do
+    {sat, val} = MishkaColorPicker.sv_at(x, y)
+
+    socket |> Mob.Socket.assign(:ci_sat, sat) |> sync(:ci_val, val)
+  end
+
+  def handle_change(:ci_hue, value, socket) when is_number(value),
+    do: sync(socket, :ci_hue, value)
+
+  def handle_change(_tag, _value, socket), do: socket
+
+  defp sync(socket, key, value) do
+    socket = Mob.Socket.assign(socket, key, value)
+    %{ci_hue: h, ci_sat: s, ci_val: v} = socket.assigns
+
+    Mob.Socket.assign(socket, :hex, Color.hsv_to_hex(h, s, v))
+  end
+
+  @impl true
+  def card_preview do
+    ~MOB"""
+    <Row fill_width={true} align={:center}>
+      <Box width={24} height={24} background={0xFF3B82F6} corner_radius={:radius_sm} />
+      <Spacer size={8} />
+      <Box
+        fill_width={true}
+        height={24}
+        background={:surface}
+        corner_radius={:radius_sm}
+        border_color={:border}
+        border_width={1}
+      />
+    </Row>
+    """
+  end
+end

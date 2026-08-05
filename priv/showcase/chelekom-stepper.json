@@ -1,0 +1,25 @@
+{
+  "name": "chelekom-stepper",
+  "furnishing": {
+    "body": "<.component component_name=\"chelekom-stepper-section\" site=\"Global\" step=\"completed\" step_number={1} title=\"Create your account\" description=\"Name, email and a password\" />\n<.component component_name=\"chelekom-stepper-section\" site=\"Global\" step=\"current\" step_number={2} title=\"Verify your email\" description=\"We sent a link to your inbox\" />\n<.component component_name=\"chelekom-stepper-section\" site=\"Global\" step_number={3} title=\"Invite your team\" description=\"Optional, you can do this later\" />",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Checkout progress from cart to confirmation",
+      "source": "<.component component_name=\"chelekom-stepper\" site=\"Global\" id=\"stepper-checkout\" variant=\"default\" color=\"primary\" size=\"medium\" space=\"medium\">\n  <.component component_name=\"chelekom-stepper-section\" site=\"Global\" id=\"checkout-step-cart\" step=\"completed\" step_number={1} title=\"Your cart\" description=\"3 items, $148.00\" />\n  <.component component_name=\"chelekom-stepper-section\" site=\"Global\" id=\"checkout-step-shipping\" step=\"completed\" step_number={2} title=\"Delivery address\" description=\"Valiasr Street, Tehran\" />\n  <.component component_name=\"chelekom-stepper-section\" site=\"Global\" id=\"checkout-step-payment\" step=\"current\" step_number={3} title=\"Payment\" description=\"Card, wallet or bank transfer\" />\n  <.component component_name=\"chelekom-stepper-section\" site=\"Global\" id=\"checkout-step-review\" step_number={4} title=\"Review and confirm\" description=\"Check everything before you pay\" />\n</.component>"
+    },
+    {
+      "label": "Onboarding checklist with one step still running",
+      "source": "<.component component_name=\"chelekom-stepper\" site=\"Global\" id=\"stepper-onboarding\" variant=\"default\" color=\"info\" size=\"medium\" space=\"medium\">\n  <.component component_name=\"chelekom-stepper-section\" site=\"Global\" id=\"onboarding-step-workspace\" step=\"completed\" step_number={1} title=\"Workspace created\" description=\"northwind.mishka.site\" />\n  <.component component_name=\"chelekom-stepper-section\" site=\"Global\" id=\"onboarding-step-import\" step=\"loading\" step_number={2} title=\"Importing your old posts\" description=\"142 of 380 articles moved so far\" />\n  <.component component_name=\"chelekom-stepper-section\" site=\"Global\" id=\"onboarding-step-domain\" step_number={3} title=\"Connect your domain\" description=\"Point the DNS record at our servers\" />\n  <.component component_name=\"chelekom-stepper-section\" site=\"Global\" id=\"onboarding-step-invite\" step_number={4} title=\"Invite your editors\" description=\"Give the rest of the team access\" />\n</.component>"
+    },
+    {
+      "label": "Order tracking with a cancelled leg",
+      "source": "<.component component_name=\"chelekom-stepper\" site=\"Global\" id=\"stepper-order-tracking\" variant=\"default\" color=\"natural\" size=\"small\" space=\"small\">\n  <.component component_name=\"chelekom-stepper-section\" site=\"Global\" id=\"tracking-step-placed\" step=\"completed\" step_number={1} title=\"Order placed\" description=\"9 March, 14:12\" />\n  <.component component_name=\"chelekom-stepper-section\" site=\"Global\" id=\"tracking-step-packed\" step=\"completed\" step_number={2} title=\"Packed in the warehouse\" description=\"10 March, 08:40\" />\n  <.component component_name=\"chelekom-stepper-section\" site=\"Global\" id=\"tracking-step-courier\" step=\"canceled\" step_number={3} title=\"First delivery attempt\" description=\"Nobody was home, we will try again\" />\n  <.component component_name=\"chelekom-stepper-section\" site=\"Global\" id=\"tracking-step-redeliver\" step=\"current\" step_number={4} title=\"Out for redelivery\" description=\"Expected before 18:00 today\" />\n</.component>"
+    },
+    {
+      "label": "Publishing workflow with an icon for every stage",
+      "source": "<.component component_name=\"chelekom-stepper\" site=\"Global\" id=\"stepper-publishing\" variant=\"default\" color=\"secondary\" size=\"medium\" space=\"medium\">\n  <.component component_name=\"chelekom-stepper-section\" site=\"Global\" id=\"publish-step-draft\" step=\"completed\" icon=\"hero-pencil-square\" title=\"Draft written\" description=\"Last saved 20 minutes ago\" />\n  <.component component_name=\"chelekom-stepper-section\" site=\"Global\" id=\"publish-step-review\" step=\"current\" icon=\"hero-eye\" title=\"Editorial review\" description=\"Waiting on Sara Ahmadi\" />\n  <.component component_name=\"chelekom-stepper-section\" site=\"Global\" id=\"publish-step-schedule\" icon=\"hero-calendar-days\" title=\"Scheduled\" description=\"Goes out Friday at 09:00\" />\n  <.component component_name=\"chelekom-stepper-section\" site=\"Global\" id=\"publish-step-live\" icon=\"hero-rocket-launch\" title=\"Live on the site\" description=\"Shared to the newsletter automatically\" />\n</.component>"
+    }
+  ]
+}

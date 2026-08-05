@@ -1,0 +1,17 @@
+{
+  "name": "chelekom-keyboard",
+  "furnishing": {
+    "body": "Ctrl + K",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Search shortcut hint under a page title",
+      "source": "<div class=\"flex flex-wrap items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400\">\n  <span>Press</span>\n  <.component component_name=\"chelekom-keyboard\" site=\"Global\" id=\"kbd-search-ctrl\">Ctrl</.component>\n  <span>+</span>\n  <.component component_name=\"chelekom-keyboard\" site=\"Global\" id=\"kbd-search-k\">K</.component>\n  <span>to search this site.</span>\n</div>"
+    },
+    {
+      "label": "Editor shortcut reference rows",
+      "source": "<div class=\"max-w-sm divide-y divide-zinc-200 dark:divide-zinc-700\">\n  <div class=\"flex items-center justify-between py-2\">\n    <span class=\"text-sm text-zinc-700 dark:text-zinc-300\">Save draft</span>\n    <span class=\"flex items-center gap-1\">\n      <.component component_name=\"chelekom-keyboard\" site=\"Global\" id=\"kbd-save-mod\">Ctrl</.component>\n      <.component component_name=\"chelekom-keyboard\" site=\"Global\" id=\"kbd-save-key\">S</.component>\n    </span>\n  </div>\n  <div class=\"flex items-center justify-between py-2\">\n    <span class=\"text-sm text-zinc-700 dark:text-zinc-300\">Undo last change</span>\n    <span class=\"flex items-center gap-1\">\n      <.component component_name=\"chelekom-keyboard\" site=\"Global\" id=\"kbd-undo-mod\">Ctrl</.component>\n      <.component component_name=\"chelekom-keyboard\" site=\"Global\" id=\"kbd-undo-key\">Z</.component>\n    </span>\n  </div>\n  <div class=\"flex items-center justify-between py-2\">\n    <span class=\"text-sm text-zinc-700 dark:text-zinc-300\">Publish page</span>\n    <span class=\"flex items-center gap-1\">\n      <.component component_name=\"chelekom-keyboard\" site=\"Global\" id=\"kbd-publish-mod\">Ctrl</.component>\n      <.component component_name=\"chelekom-keyboard\" site=\"Global\" id=\"kbd-publish-shift\">Shift</.component>\n      <.component component_name=\"chelekom-keyboard\" site=\"Global\" id=\"kbd-publish-key\">P</.component>\n    </span>\n  </div>\n</div>"
+    }
+  ]
+}

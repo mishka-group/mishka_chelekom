@@ -1,0 +1,21 @@
+{
+  "name": "chelekom-ring-progress",
+  "furnishing": {
+    "body": "",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Storage usage card for an account page",
+      "source": "<div class=\"max-w-xs rounded-xl border border-gray-200 dark:border-gray-700 p-6 text-center\">\n  <.component component_name=\"chelekom-ring-progress\" site=\"Global\" id=\"storage-ring\" value={68} size={140} thickness={12} linecap=\"round\" color=\"primary\" class=\"mx-auto w-fit\" />\n  <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"medium\" font_weight=\"font-semibold\" class=\"mt-4\">Media storage</.component>\n  <.component component_name=\"chelekom-small\" site=\"Global\" class=\"block mt-1 text-gray-500\">34 GB of 50 GB used across 4 sites</.component>\n</div>"
+    },
+    {
+      "label": "Three KPI rings in a dashboard row",
+      "source": "<div class=\"grid gap-4 sm:grid-cols-3\">\n  <div class=\"rounded-xl border border-gray-200 dark:border-gray-700 p-5 text-center\">\n    <.component component_name=\"chelekom-ring-progress\" site=\"Global\" id=\"kpi-ring-uptime\" value={99} label=\"99.9%\" size={110} thickness={10} linecap=\"round\" color=\"success\" class=\"mx-auto w-fit\" />\n    <.component component_name=\"chelekom-small\" site=\"Global\" class=\"block mt-3 text-gray-500\">Uptime this month</.component>\n  </div>\n  <div class=\"rounded-xl border border-gray-200 dark:border-gray-700 p-5 text-center\">\n    <.component component_name=\"chelekom-ring-progress\" site=\"Global\" id=\"kpi-ring-tickets\" value={74} size={110} thickness={10} linecap=\"round\" color=\"info\" class=\"mx-auto w-fit\" />\n    <.component component_name=\"chelekom-small\" site=\"Global\" class=\"block mt-3 text-gray-500\">Tickets closed in SLA</.component>\n  </div>\n  <div class=\"rounded-xl border border-gray-200 dark:border-gray-700 p-5 text-center\">\n    <.component component_name=\"chelekom-ring-progress\" site=\"Global\" id=\"kpi-ring-budget\" value={88} size={110} thickness={10} linecap=\"round\" color=\"warning\" class=\"mx-auto w-fit\" />\n    <.component component_name=\"chelekom-small\" site=\"Global\" class=\"block mt-3 text-gray-500\">Quarterly budget spent</.component>\n  </div>\n</div>"
+    },
+    {
+      "label": "Onboarding checklist with a completion ring",
+      "source": "<div class=\"max-w-md rounded-xl border border-gray-200 dark:border-gray-700 p-6 flex items-start gap-5\">\n  <.component component_name=\"chelekom-ring-progress\" site=\"Global\" id=\"onboarding-ring\" value={60} size={96} thickness={8} linecap=\"round\" color=\"success\" class=\"shrink-0\" />\n  <div class=\"flex-1\">\n    <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"medium\" font_weight=\"font-semibold\">Finish setting up your site</.component>\n    <ul class=\"mt-3 space-y-2 text-sm\">\n      <li class=\"flex items-center gap-2\"><.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-check-circle\" class=\"size-5 text-green-600\" />Connect a custom domain</li>\n      <li class=\"flex items-center gap-2\"><.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-check-circle\" class=\"size-5 text-green-600\" />Publish your first page</li>\n      <li class=\"flex items-center gap-2\"><.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-check-circle\" class=\"size-5 text-green-600\" />Invite an editor</li>\n      <li class=\"flex items-center gap-2 text-gray-500\"><.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-clock\" class=\"size-5\" />Set up the contact form</li>\n      <li class=\"flex items-center gap-2 text-gray-500\"><.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-clock\" class=\"size-5\" />Add a favicon and social image</li>\n    </ul>\n  </div>\n</div>"
+    }
+  ]
+}

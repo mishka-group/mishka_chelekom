@@ -1,0 +1,17 @@
+{
+  "name": "chelekom-cite",
+  "furnishing": {
+    "body": "Refactoring UI, chapter 4",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Pull quote with its source attributed underneath",
+      "source": "<.component component_name=\"chelekom-blockquote\" site=\"Global\" class=\"max-w-xl\">\n  A page is finished when there is nothing left to explain to the person using it.\n  <:caption>\n    <.component component_name=\"chelekom-cite\" site=\"Global\" size=\"small\" class=\"pr-3\">The Mishka CMS editor handbook, chapter 4</.component>\n  </:caption>\n</.component>"
+    },
+    {
+      "label": "Footnote crediting the source of a figure",
+      "source": "<.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\" class=\"opacity-70\">\n  Adoption figures come from <.component component_name=\"chelekom-cite\" site=\"Global\" size=\"small\">our 2025 editor survey</.component>, answered by 1,140 sites.\n</.component>"
+    }
+  ]
+}

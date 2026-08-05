@@ -1,0 +1,17 @@
+{
+  "name": "chelekom-mark",
+  "furnishing": {
+    "body": "highlighted",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Search result snippet with the match highlighted",
+      "source": "<div class=\"max-w-xl space-y-1\">\n  <h3 class=\"text-base font-semibold text-zinc-900 dark:text-zinc-100\">Refunds and returns</h3>\n  <p class=\"text-sm leading-6 text-zinc-600 dark:text-zinc-400\">\n    Any order can be sent back within <.component component_name=\"chelekom-mark\" site=\"Global\" id=\"mark-return-window\" size=\"small\" color=\"dark\">30 days</.component> of delivery, and we refund the original payment method as soon as the parcel arrives.\n  </p>\n</div>"
+    },
+    {
+      "label": "Release note calling out the changed value",
+      "source": "<p class=\"max-w-xl text-sm leading-6 text-zinc-700 dark:text-zinc-300\">\n  The upload limit is now <.component component_name=\"chelekom-mark\" site=\"Global\" id=\"mark-upload-limit\" size=\"small\" color=\"dark\">250 MB per file</.component> on every paid plan, up from 25 MB.\n</p>"
+    }
+  ]
+}

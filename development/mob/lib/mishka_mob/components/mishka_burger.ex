@@ -1,0 +1,91 @@
+defmodule MishkaMob.Components.MishkaBurger do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Burger** — the three-bar
+  navigation button, which folds into an ✕ when open.
+
+  The closed state is drawn from boxes — three bars, so it is a real burger
+  rather than a "☰" glyph at the mercy of the font. The open state is a ✕
+  glyph, because Mob exposes no rotation and two horizontal bars would read as
+  an equals sign rather than a cross.
+
+  Both states sit inside the *same* fixed `size` × `size` box, so the tap target
+  and the button's metrics are identical either way: it stays one control that
+  changed shape, not two buttons that swap places. The web version animates
+  between them with CSS transforms; there is no transition here, only the
+  destination.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `opened` | boolean | `false` | Whether it shows the ✕ state. |
+  | `on_toggle` | event tag (atom) | — | Sent as `{:tap, tag}`. |
+  | `disabled` | boolean | `false` | Wires no handler and mutes the bars. |
+  | `size` | number | `40` | Tap-target edge, like `MishkaActionIcon`. |
+  | `color` | color token / ARGB int | `:on_surface` | Bar colour. |
+
+  Not ported: `label` and `controls` (an `aria-label` and `aria-controls`; Mob
+  exposes no accessible name), and `id` / `*_class`.
+  """
+
+  import Mob.Sigil
+
+  alias MishkaMob.Components.Event
+
+  @doc "Composite expander (`<MishkaBurger />`). Delegates to `burger/1`."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, _children, _ctx), do: burger(props)
+
+  @doc """
+  The burger node.
+
+      burger(opened: @nav_open?, on_toggle: :toggle_nav)
+  """
+  @spec burger(map() | keyword()) :: map()
+  def burger(props \\ %{}) do
+    props = Map.new(props)
+    disabled? = truthy?(Map.get(props, :disabled, false))
+    opened? = truthy?(Map.get(props, :opened, false))
+    size = Map.get(props, :size, 40)
+    color = if disabled?, do: :muted, else: Map.get(props, :color, :on_surface)
+    bar_width = round(size * 0.45)
+
+    node = ~MOB"""
+    <Box width={size} height={size} align={:center}>
+      {bars(opened?, bar_width, color)}
+    </Box>
+    """
+
+    case handler(props, disabled?) do
+      nil -> node
+      tap -> %{node | props: Map.put(node.props, :on_tap, tap)}
+    end
+  end
+
+  # A real cross needs rotation, which Mob does not expose, so the open state is
+  # a ✕ glyph. The outer box keeps its size, so only the content changes.
+  defp bars(true, _width, color) do
+    ~MOB"""
+    <Text text="✕" text_size={:lg} text_color={color} />
+    """
+  end
+
+  defp bars(_closed, width, color) do
+    ~MOB"""
+    <Column>
+      <Box width={width} height={2} background={color} corner_radius={:radius_sm} />
+      <Spacer size={4} />
+      <Box width={width} height={2} background={color} corner_radius={:radius_sm} />
+      <Spacer size={4} />
+      <Box width={width} height={2} background={color} corner_radius={:radius_sm} />
+    </Column>
+    """
+  end
+
+  defp handler(_props, true), do: nil
+  defp handler(props, _), do: Event.handler(Map.get(props, :on_toggle))
+
+  defp truthy?(nil), do: false
+  defp truthy?(false), do: false
+  defp truthy?(_), do: true
+end

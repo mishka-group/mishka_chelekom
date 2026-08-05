@@ -1,0 +1,17 @@
+{
+  "name": "chelekom-u",
+  "furnishing": {
+    "body": "underlined text",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Underlined policy names in a consent line",
+      "source": "<p class=\"text-sm leading-6\">By creating an account you agree to our <.component component_name=\"chelekom-u\" site=\"Global\">Terms of Service</.component> and confirm you have read the <.component component_name=\"chelekom-u\" site=\"Global\">Privacy Policy</.component>.</p>"
+    },
+    {
+      "label": "Proofreading note marking a misspelling",
+      "source": "<p class=\"text-sm leading-6\">The spell checker flagged one word in this draft: <.component component_name=\"chelekom-u\" site=\"Global\" color=\"danger\">recieve</.component>. Accept the suggestion to change it to receive.</p>"
+    }
+  ]
+}

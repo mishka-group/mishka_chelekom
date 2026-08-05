@@ -1,0 +1,25 @@
+{
+  "name": "chelekom-flash",
+  "furnishing": {
+    "body": "Your changes have been saved.",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Confirmation banner after a profile is saved",
+      "source": "<.component component_name=\"chelekom-flash\" site=\"Global\" id=\"flash-profile-saved\" variant=\"default\" kind={:success} title=\"Profile updated\" icon=\"hero-check-circle\">\n  Your new display name and photo are now visible everywhere on the site.\n</.component>"
+    },
+    {
+      "label": "Payment failure alert with the next step",
+      "source": "<.component component_name=\"chelekom-flash\" site=\"Global\" id=\"flash-payment-failed\" variant=\"default\" kind={:danger} title=\"Payment failed\" icon=\"hero-x-circle\">\n  We could not charge the card ending in 4242. Update your billing details to keep your plan active.\n</.component>"
+    },
+    {
+      "label": "Bordered maintenance notice, narrower and one size down",
+      "source": "<.component component_name=\"chelekom-flash\" site=\"Global\" id=\"flash-maintenance\" variant=\"bordered\" kind={:info} title=\"Scheduled maintenance\" icon=\"hero-information-circle\" width=\"medium\" size=\"small\">\n  The dashboard will be read-only on Friday from 22:00 to 23:30 UTC while we upgrade the database.\n</.component>"
+    },
+    {
+      "label": "Draft-recovered note sized to its own content",
+      "source": "<.component component_name=\"chelekom-flash\" site=\"Global\" id=\"flash-draft-recovered\" kind={:natural} title=\"Draft recovered\" icon=\"hero-document-arrow-up\" width=\"fit\">\n  We restored the version you were writing before the tab closed, saved 4 minutes ago.\n</.component>"
+    }
+  ]
+}

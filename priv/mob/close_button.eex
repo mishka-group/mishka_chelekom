@@ -1,0 +1,40 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Close Button** — the ✕ that
+  dismisses a dialog, a drawer, a toast or a card.
+
+  A thin wrapper over `<%= @namespace %>.<%= @module_prefix_camel %>ActionIcon` with the ✕ and a
+  circular shape baked in, rather than a second copy of the tap-target logic. It
+  exists as its own component because "close" appears everywhere and deserves
+  one spelling — including its finger-sized default, which the Action Icon
+  already enforces.
+
+  ## Props
+
+  Everything `<%= @namespace %>.<%= @module_prefix_camel %>ActionIcon` accepts. `icon` defaults to
+  `"✕"` and `shape` to `:circle`; both can still be overridden.
+
+  `label` is not ported — it is an `aria-label`, and Mob exposes no accessible
+  name on a box.
+  """
+
+  alias <%= @namespace %>.<%= @module_prefix_camel %>ActionIcon
+
+  @doc "Composite expander (`<<%= @module_prefix_camel %>CloseButton />`). Children override the ✕."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, children, _ctx), do: <%= @component_prefix %>close_button(props, children)
+
+  @doc """
+  The close-button node.
+
+      <%= @component_prefix %>close_button(on_tap: :dismiss)
+  """
+  @spec <%= @component_prefix %>close_button(map() | keyword(), [map()]) :: map()
+  def <%= @component_prefix %>close_button(props \\ %{}, content \\ []) do
+    props
+    |> Map.new()
+    |> Map.put_new(:icon, "✕")
+    |> Map.put_new(:shape, :circle)
+    |> <%= @module_prefix_camel %>ActionIcon.<%= @component_prefix %>action_icon(content)
+  end
+end

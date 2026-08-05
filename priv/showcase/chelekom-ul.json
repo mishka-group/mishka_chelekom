@@ -1,0 +1,25 @@
+{
+  "name": "chelekom-ul",
+  "furnishing": {
+    "body": "<.component component_name=\"chelekom-li\" site=\"Global\">First list item</.component>\n<.component component_name=\"chelekom-li\" site=\"Global\">Second list item</.component>\n<.component component_name=\"chelekom-li\" site=\"Global\">Third list item</.component>",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Feature checklist for a pricing plan",
+      "source": "<.component component_name=\"chelekom-ul\" site=\"Global\" size=\"small\" class=\"space-y-2\">\n  <.component component_name=\"chelekom-li\" site=\"Global\" icon=\"hero-check\" icon_class=\"list-item-icon shrink-0 text-emerald-600 dark:text-emerald-400\">Unlimited pages and revisions</.component>\n  <.component component_name=\"chelekom-li\" site=\"Global\" icon=\"hero-check\" icon_class=\"list-item-icon shrink-0 text-emerald-600 dark:text-emerald-400\">Custom domain with automatic HTTPS</.component>\n  <.component component_name=\"chelekom-li\" site=\"Global\" icon=\"hero-check\" icon_class=\"list-item-icon shrink-0 text-emerald-600 dark:text-emerald-400\">Five editor seats included</.component>\n  <.component component_name=\"chelekom-li\" site=\"Global\" icon=\"hero-check\" icon_class=\"list-item-icon shrink-0 text-emerald-600 dark:text-emerald-400\">Daily backups kept for 30 days</.component>\n</.component>"
+    },
+    {
+      "label": "Numbered setup steps for a new site",
+      "source": "<.component component_name=\"chelekom-ul\" site=\"Global\" size=\"small\" class=\"space-y-2\">\n  <.component component_name=\"chelekom-li\" site=\"Global\" count={1}>Point your domain at the CMS name servers.</.component>\n  <.component component_name=\"chelekom-li\" site=\"Global\" count={2}>Pick a starter layout and publish the home page.</.component>\n  <.component component_name=\"chelekom-li\" site=\"Global\" count={3}>Invite your editors and hand out permissions.</.component>\n  <.component component_name=\"chelekom-li\" site=\"Global\" count={4}>Connect analytics and switch the site live.</.component>\n</.component>"
+    },
+    {
+      "label": "Bordered order summary in a checkout sidebar",
+      "source": "<.component component_name=\"chelekom-ul\" site=\"Global\" variant=\"bordered\" color=\"natural\" width=\"medium\" rounded=\"medium\" size=\"small\" class=\"divide-y divide-black/5 dark:divide-white/10\">\n  <.component component_name=\"chelekom-li\" site=\"Global\" padding=\"small\">\n    <div class=\"flex items-center justify-between gap-4\">\n      <span>Business plan, billed yearly</span>\n      <span class=\"font-medium\">$490.00</span>\n    </div>\n  </.component>\n  <.component component_name=\"chelekom-li\" site=\"Global\" padding=\"small\">\n    <div class=\"flex items-center justify-between gap-4\">\n      <span>Extra editor seat</span>\n      <span class=\"font-medium\">$60.00</span>\n    </div>\n  </.component>\n  <.component component_name=\"chelekom-li\" site=\"Global\" padding=\"small\">\n    <div class=\"flex items-center justify-between gap-4 font-semibold\">\n      <span>Total due today</span>\n      <span>$550.00</span>\n    </div>\n  </.component>\n</.component>"
+    },
+    {
+      "label": "Release notes with bulleted changes",
+      "source": "<.component component_name=\"chelekom-ul\" site=\"Global\" style=\"list-disc\" size=\"small\" class=\"space-y-1.5 leading-7\">\n  <.component component_name=\"chelekom-li\" site=\"Global\">The media library now uploads several files at once.</.component>\n  <.component component_name=\"chelekom-li\" site=\"Global\">Drafts keep their preview link after a page is renamed.</.component>\n  <.component component_name=\"chelekom-li\" site=\"Global\">Fixed a crash when a form field was saved without a label.</.component>\n</.component>"
+    }
+  ]
+}

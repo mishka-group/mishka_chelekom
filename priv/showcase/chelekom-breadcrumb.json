@@ -1,0 +1,42 @@
+{
+  "name": "chelekom-breadcrumb",
+  "furnishing": {
+    "body": "",
+    "slots": [
+      {
+        "name": "item",
+        "attrs": {
+          "icon": "hero-home",
+          "link": "/"
+        },
+        "body": "Home"
+      },
+      {
+        "name": "item",
+        "attrs": {
+          "link": "/shop"
+        },
+        "body": "Headphones"
+      },
+      {
+        "name": "item",
+        "attrs": {},
+        "body": "Studio Pro X2"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "label": "Trail above a blog post",
+      "source": "<div class=\"space-y-3\">\n  <.component component_name=\"chelekom-breadcrumb\" site=\"Global\" id=\"breadcrumb-blog\" size=\"medium\">\n    <:item icon=\"hero-home\" link=\"/\" title=\"Home page\">Home</:item>\n    <:item link=\"/blog\">Blog</:item>\n    <:item link=\"/blog/category/engineering\">Engineering</:item>\n    <:item>Why we moved previews behind signed tokens</:item>\n  </.component>\n  <h1 class=\"text-2xl font-semibold text-zinc-900 dark:text-zinc-100\">Why we moved previews behind signed tokens</h1>\n</div>"
+    },
+    {
+      "label": "Shop category trail with a slash separator",
+      "source": "<.component component_name=\"chelekom-breadcrumb\" site=\"Global\" id=\"breadcrumb-shop\" color=\"natural\" separator_icon=\"hero-slash\" separator_icon_class=\"opacity-40\">\n  <:item link=\"/\">Home</:item>\n  <:item link=\"/shop\">Shop</:item>\n  <:item link=\"/shop/audio\">Audio</:item>\n  <:item>Studio Pro X2 Headphones</:item>\n</.component>"
+    },
+    {
+      "label": "Admin settings trail with section icons",
+      "source": "<.component component_name=\"chelekom-breadcrumb\" site=\"Global\" id=\"breadcrumb-admin\" color=\"primary\">\n  <:item icon=\"hero-squares-2x2\" link=\"/admin/dashboard\">Dashboard</:item>\n  <:item icon=\"hero-cog-6-tooth\" link=\"/admin/dashboard/settings\">Settings</:item>\n  <:item icon=\"hero-users\">Roles and permissions</:item>\n</.component>"
+    }
+  ]
+}

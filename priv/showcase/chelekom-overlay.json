@@ -1,0 +1,21 @@
+{
+  "name": "chelekom-overlay",
+  "furnishing": {
+    "body": "<div class=\"flex h-full items-center justify-center text-sm text-zinc-700 dark:text-zinc-200\">This sits on top of whatever the layer covers.</div>",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Photo tile with a caption bar over the image",
+      "source": "<div class=\"relative w-full max-w-sm overflow-hidden rounded-xl\">\n  <.component component_name=\"chelekom-image\" site=\"Global\" src=\"/images/card-1.jpg\" alt=\"Sunlight across a kitchen counter\" class=\"h-64 w-full object-cover\" />\n  <.component component_name=\"chelekom-overlay\" site=\"Global\" id=\"overlay-photo-caption\" color=\"dark\" opacity=\"tinted\" class=\"flex items-end\">\n    <div class=\"w-full p-4\">\n      <div class=\"text-lg font-semibold text-white\">Morning light, 6:40 a.m.</div>\n      <div class=\"text-sm text-zinc-200\">Shot on a 35 mm lens, straight out of camera.</div>\n    </div>\n  </.component>\n</div>"
+    },
+    {
+      "label": "Report panel dimmed while the numbers load",
+      "source": "<div class=\"relative max-w-md rounded-xl border border-zinc-200 p-6 dark:border-zinc-800\">\n  <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"medium\" font_weight=\"font-semibold\">Quarterly revenue</.component>\n  <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\" color=\"natural\" class=\"mt-1\">Measured against the same quarter last year.</.component>\n  <div class=\"mt-5 flex h-28 items-end gap-3\">\n    <div class=\"h-1/3 w-full rounded-t bg-zinc-200 dark:bg-zinc-700\"></div>\n    <div class=\"h-2/3 w-full rounded-t bg-zinc-200 dark:bg-zinc-700\"></div>\n    <div class=\"h-1/2 w-full rounded-t bg-zinc-200 dark:bg-zinc-700\"></div>\n    <div class=\"h-full w-full rounded-t bg-zinc-200 dark:bg-zinc-700\"></div>\n  </div>\n  <.component component_name=\"chelekom-overlay\" site=\"Global\" id=\"overlay-report-loading\" opacity=\"heavily_tinted\" backdrop=\"small\" class=\"flex items-center justify-center gap-3\">\n    <.component component_name=\"chelekom-spinner\" site=\"Global\" size=\"medium\" color=\"natural\" />\n    <span class=\"text-sm font-medium\">Reading twelve months of orders…</span>\n  </.component>\n</div>"
+    },
+    {
+      "label": "Sold-out state over a product tile",
+      "source": "<div class=\"relative w-56 overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-800\">\n  <div class=\"space-y-1 p-4\">\n    <div class=\"text-sm font-semibold\">Ceramic pour-over cone</div>\n    <div class=\"text-xs text-zinc-500 dark:text-zinc-400\">Stoneware, dishwasher safe</div>\n    <div class=\"pt-2 text-base font-semibold\">$38.00</div>\n  </div>\n  <.component component_name=\"chelekom-overlay\" site=\"Global\" id=\"overlay-sold-out\" opacity=\"semi_opaque\" class=\"flex items-center justify-center\">\n    <.component component_name=\"chelekom-badge\" site=\"Global\" variant=\"default\" color=\"danger\" size=\"medium\" rounded=\"full\">Sold out</.component>\n  </.component>\n</div>"
+    }
+  ]
+}

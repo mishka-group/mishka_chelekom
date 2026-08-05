@@ -1,0 +1,21 @@
+{
+  "name": "chelekom-toggle-field",
+  "furnishing": {
+    "body": "",
+    "slots": []
+  },
+  "examples": [
+    {
+      "label": "Weekly digest preference row",
+      "source": "<.component component_name=\"chelekom-toggle-field\" site=\"Global\" id=\"settings-weekly-digest\" name=\"weekly_digest\" label=\"Weekly email digest\" description=\"A short summary of traffic, comments and form submissions, every Monday at 09:00.\" description_class=\"text-xs opacity-70 mt-1 mb-2 max-w-md\" checked={true} />"
+    },
+    {
+      "label": "Two-factor authentication row, already enabled",
+      "source": "<.component component_name=\"chelekom-toggle-field\" site=\"Global\" id=\"security-two-factor\" name=\"two_factor\" color=\"success\" label=\"Two-factor authentication\" description=\"Ask for a one-time code from your authenticator app at every sign-in.\" description_class=\"text-xs opacity-70 mt-1 mb-2 max-w-md\" checked={true} />"
+    },
+    {
+      "label": "Maintenance mode switch in site settings",
+      "source": "<.component component_name=\"chelekom-toggle-field\" site=\"Global\" id=\"settings-maintenance-mode\" name=\"maintenance_mode\" color=\"warning\" size=\"small\" label=\"Maintenance mode\" description=\"Visitors see the holding page. Signed-in editors keep full access.\" description_class=\"text-xs opacity-70 mt-1 mb-2 max-w-md\" checked={false} />"
+    }
+  ]
+}
