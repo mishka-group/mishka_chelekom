@@ -10,6 +10,8 @@
       module: ""
     ],
     optional: [],
-    necessary: []
+    necessary: [],
+    required: true,
+    precompile: true
   ]
 ]

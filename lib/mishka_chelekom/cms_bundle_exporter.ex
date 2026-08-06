@@ -994,6 +994,8 @@ defmodule MishkaChelekom.CmsBundleExporter do
     |> Map.put(:__args__, config[:args] || [])
     |> Map.put(:__necessary__, config[:necessary] || [])
     |> Map.put(:__scripts__, config[:scripts] || [])
+    |> Map.put(:__required__, config[:required] == true)
+    |> Map.put(:__precompile__, config[:precompile] == true)
     |> Map.put_new(:__extra_clauses__, [])
   end
 
@@ -1206,6 +1208,11 @@ defmodule MishkaChelekom.CmsBundleExporter do
       "permissions" => [],
       "type" => to_string(c.__category__ || ""),
       "dependencies" => build_dependencies(c.__necessary__, c.__scripts__, c.__kit_name__),
+      # The consuming CMS reads both: `required` locks the component in its installer, `precompile`
+      # makes it a root of the CSS reachability walk. A component drawn through helper code rather
+      # than named in markup is invisible to that walk, which is why it has to be said out loud.
+      "required" => c.__required__,
+      "precompile" => c.__precompile__,
       "examples" => [],
       "template" => c.template,
       "body" => c.body,

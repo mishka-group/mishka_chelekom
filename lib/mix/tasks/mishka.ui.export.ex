@@ -91,6 +91,22 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
   * `--cms` - Exports a MishkaCMS UI-kit bundle (`mishka.ui_kit.bundle.v3`) instead of the default JSON.
   * `--bundle-name` - Sets the bundle name in `--cms` output (defaults to the `--name` value).
   * `--bundle-version` - Sets the bundle version in `--cms` output (defaults to `0.0.1`).
+
+  ## What a component's `.exs` can say to the consuming CMS
+
+  Beside `necessary` — which names the OTHER components this one draws through — two keys describe
+  what the CMS must do with this component itself. Both are optional and both default to `false`, so
+  a `.exs` written before they existed keeps its meaning exactly.
+
+      required: true     # the CMS cannot run without it; its installer may not let it be deselected
+      precompile: true   # build its CSS whether or not a page names it
+
+  `precompile` exists because a consuming CMS builds a site's stylesheet from the components its
+  pages REFERENCE, and a component reached through helper code or the host's own markup is invisible
+  to that walk. Saying so here is the only way it can be known.
+
+  `priv/components/icon.exs` is the example: 49 of this kit's components declare it `necessary`, so
+  deselecting it would leave a third of the kit unable to draw.
   """
 
   use Igniter.Mix.Task
