@@ -345,7 +345,7 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
         # companion `_live.ex` `mount/3`. CMS consumers read this
         # array straight from the bundle JSON to drive their demo
         # harness — no chelekom code required at consumer time.
-        demos_dir = Path.join([Path.dirname(igniter.assigns.cli_dir), "demos"])
+        demos_dir = layer_dir(igniter.assigns.cli_dir, "demos")
 
         kit_component_set =
           MapSet.new(components, fn c -> c["extra"]["function"] end) |> MapSet.delete(nil)
@@ -356,7 +356,7 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
         # option coverage is the right answer for a consumer asking which
         # invocation demonstrates `variant="outline"`, and the wrong one for a
         # page builder asking to be shown a finished block it can edit.
-        showcase_dir = Path.join([Path.dirname(igniter.assigns.cli_dir), "showcase"])
+        showcase_dir = layer_dir(igniter.assigns.cli_dir, "showcase")
 
         components =
           components
@@ -545,16 +545,22 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
   # Files come from `priv/assets/css/` relative to the component dir
   # (`priv/components/`). Both files are joined with a clear comment
   # boundary so the output is debuggable in the compiled CSS.
+  # A LAYER SHIPS ITS OWN SHEET. The two filenames were hardcoded, so a headless export carried the
+  # styled kit's theme byte-for-byte — colours, spacing, typography, all of it — while
+  # `mishka_chelekom_headless.css` says in its own header that it is functional only and that
+  # styling is the consuming app's job. Installing both kits wrote two `:theme` rows with identical
+  # content, and the headless one contradicted the one thing it exists to promise.
+  defp stylesheet_sources("headless"), do: ["mishka_chelekom_headless.css"]
+  defp stylesheet_sources(_layer), do: ["mishka_chelekom.css", "theme.css"]
+
   defp aggregate_stylesheets(component_dir, kit_name, kit_version) do
     css_dir = Path.join([Path.dirname(component_dir), "assets", "css"])
-    chelekom_path = Path.join(css_dir, "mishka_chelekom.css")
-    theme_path = Path.join(css_dir, "theme.css")
 
     parts =
-      [
-        {"mishka_chelekom.css", File.read(chelekom_path)},
-        {"theme.css", File.read(theme_path)}
-      ]
+      component_dir
+      |> Path.basename()
+      |> stylesheet_sources()
+      |> Enum.map(&{&1, File.read(Path.join(css_dir, &1))})
       |> Enum.flat_map(fn
         {name, {:ok, content}} -> [{name, content}]
         _ -> []
@@ -788,6 +794,22 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
   # examples arrays).
   defp put_icons(bundle, nil), do: bundle
   defp put_icons(bundle, icons), do: Map.put(bundle, "icons", icons)
+
+  # DEMOS ARE AUTHORED PER LAYER. `priv/demos` belongs to the styled kit, and the harvest indexes it
+  # by the BARE function name — `accordion`, `menu`, `toast` — which the headless components share.
+  # A headless export therefore borrowed the styled examples wholesale, writing `variant=`, `color=`
+  # and `padding=` into snippets for components that declare none of them: nonsense in a page
+  # builder's examples modal, and indistinguishable from the kit being broken. A layer with no demos
+  # of its own ships none — both the harvest and the showcase overlay already skip a directory that
+  # is not there — and `demos_<layer>` is where a layer's own would go.
+  defp layer_dir(cli_dir, kind) do
+    base = Path.dirname(cli_dir)
+
+    case Path.basename(cli_dir) do
+      "components" -> Path.join(base, kind)
+      layer -> Path.join(base, "#{kind}_#{layer}")
+    end
+  end
 
   @doc false
   def populate_examples(components, demos_dir, kit_component_set, kit_name) do
