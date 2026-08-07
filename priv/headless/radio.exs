@@ -7,6 +7,8 @@
     args: [type: ["radio"], only: ["radio"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     scripts: [
       %{module: "Radio", type: "file", file: "radio.js", imports: "import Radio from \"./radio.js\";"}
     ],

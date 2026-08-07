@@ -7,6 +7,8 @@
     args: [type: ["semi_circle_progress"], only: ["semi_circle_progress"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     headless: [
       anatomy: [
         root: [

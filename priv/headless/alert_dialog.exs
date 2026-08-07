@@ -7,6 +7,8 @@
     args: [type: ["alert_dialog"], only: ["alert_dialog"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     scripts: [
       %{
         module: "FocusTrap",

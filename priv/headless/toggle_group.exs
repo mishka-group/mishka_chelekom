@@ -7,6 +7,8 @@
     args: [type: ["toggle_group"], only: ["toggle_group"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     scripts: [
       %{
         module: "ToggleGroup",

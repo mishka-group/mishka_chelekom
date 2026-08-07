@@ -7,6 +7,8 @@
     args: [type: ["avatar"], only: ["avatar"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     scripts: [
       %{
         module: "Avatar",

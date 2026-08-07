@@ -7,6 +7,8 @@
     args: [type: ["tooltip"], only: ["tooltip"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     scripts: [
       %{
         module: "Tooltip",

@@ -7,6 +7,8 @@
     args: [type: ["number_formatter"], only: ["number_formatter"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     headless: [
       anatomy: [
         root: [

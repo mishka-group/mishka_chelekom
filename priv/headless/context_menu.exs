@@ -7,6 +7,8 @@
     args: [type: ["context_menu"], only: ["context_menu"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     scripts: [
       %{
         module: "ContextMenu",

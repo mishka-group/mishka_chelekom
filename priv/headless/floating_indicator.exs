@@ -7,6 +7,8 @@
     args: [type: ["floating_indicator"], only: ["floating_indicator"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     scripts: [
       %{module: "FloatingIndicator", type: "file", file: "floating_indicator.js", imports: "import FloatingIndicator from \"./floating_indicator.js\";"}
     ],

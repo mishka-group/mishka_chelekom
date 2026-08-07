@@ -7,6 +7,8 @@
     args: [type: ["popover"], only: ["popover"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     scripts: [
       %{
         module: "Popover",

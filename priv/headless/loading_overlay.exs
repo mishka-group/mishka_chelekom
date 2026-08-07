@@ -7,6 +7,8 @@
     args: [type: ["loading_overlay"], only: ["loading_overlay"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     headless: [
       anatomy: [
         root: [

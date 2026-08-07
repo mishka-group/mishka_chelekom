@@ -23,6 +23,8 @@
       module: ""
     ],
     optional: [],
-    necessary: ["image"]
+    necessary: ["image"],
+    required: false,
+    precompile: false
   ]
 ]

@@ -7,6 +7,8 @@
     args: [type: ["splitter"], only: ["splitter"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     scripts: [
       %{module: "Splitter", type: "file", file: "splitter.js", imports: "import Splitter from \"./splitter.js\";"}
     ],

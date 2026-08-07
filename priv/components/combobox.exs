@@ -28,6 +28,8 @@
     ],
     optional: [],
     necessary: ["scroll_area", "icon"],
+    required: false,
+    precompile: false,
     scripts: [
       %{
         type: "file",

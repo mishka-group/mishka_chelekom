@@ -7,6 +7,8 @@
     args: [type: ["tree_select"], only: ["tree_select"], helpers: [], module: ""],
     optional: [],
     necessary: ["tree"],
+    required: false,
+    precompile: false,
     scripts: [],
     headless: [
       anatomy: [

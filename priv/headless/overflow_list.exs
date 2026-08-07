@@ -7,6 +7,8 @@
     args: [type: ["overflow_list"], only: ["overflow_list"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     scripts: [
       %{module: "OverflowList", type: "file", file: "overflow_list.js", imports: "import OverflowList from \"./overflow_list.js\";"}
     ],

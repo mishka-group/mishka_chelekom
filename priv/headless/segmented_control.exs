@@ -7,6 +7,8 @@
     args: [type: ["segmented_control"], only: ["segmented_control"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     headless: [
       anatomy: [
         root: [

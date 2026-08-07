@@ -7,6 +7,8 @@
     args: [type: ["collapsible"], only: ["collapsible"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     scripts: [
       %{
         module: "Disclosure",

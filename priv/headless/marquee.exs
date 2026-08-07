@@ -7,6 +7,8 @@
     args: [type: ["marquee"], only: ["marquee"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     headless: [
       anatomy: [
         root: [element: "div", note: "clips the overflow; you set overflow-hidden", required: true],

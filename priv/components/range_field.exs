@@ -25,6 +25,8 @@
       module: ""
     ],
     optional: [],
-    necessary: ["icon"]
+    necessary: ["icon"],
+    required: false,
+    precompile: false
   ]
 ]

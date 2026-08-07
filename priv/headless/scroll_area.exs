@@ -7,6 +7,8 @@
     args: [type: ["scroll_area"], only: ["scroll_area"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     scripts: [
       %{
         module: "ScrollArea",

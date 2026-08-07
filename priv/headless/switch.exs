@@ -7,6 +7,8 @@
     args: [type: ["switch"], only: ["switch"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     scripts: [
       %{
         module: "Toggle",

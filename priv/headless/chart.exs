@@ -7,6 +7,8 @@
     args: [type: ["chart"], only: ["chart"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
 
     # Top-level = the default engine (echarts). The catalog-integrity tests read THIS key for the
     # exact-version and permissive-license checks; each :libs entry re-pins its own package. EXACT

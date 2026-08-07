@@ -28,6 +28,8 @@
       module: ""
     ],
     optional: [],
-    necessary: ["spinner", "progress", "icon"]
+    necessary: ["spinner", "progress", "icon"],
+    required: false,
+    precompile: false
   ]
 ]

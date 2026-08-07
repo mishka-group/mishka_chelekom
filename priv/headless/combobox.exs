@@ -7,6 +7,8 @@
     args: [type: ["combobox"], only: ["combobox"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     scripts: [
       %{
         module: "HeadlessCombobox",

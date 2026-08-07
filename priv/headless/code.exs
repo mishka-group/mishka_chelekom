@@ -7,6 +7,8 @@
     args: [type: ["code"], only: ["code"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     headless: [
       anatomy: [
         root: [

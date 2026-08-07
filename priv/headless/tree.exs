@@ -7,6 +7,8 @@
     args: [type: ["tree"], only: ["tree"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     scripts: [
       %{
         module: "Tree",

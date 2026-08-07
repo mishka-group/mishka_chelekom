@@ -7,6 +7,8 @@
     args: [type: ["checkbox"], only: ["checkbox"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     scripts: [
       %{
         module: "Toggle",

@@ -7,6 +7,8 @@
     args: [type: ["editor"], only: ["editor"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
 
     # EXACT pins, never carets. @tiptap/core peer-depends on @tiptap/pm at an exact version, and
     # drift there yields two prosemirror-model instances — which fails at runtime with an opaque

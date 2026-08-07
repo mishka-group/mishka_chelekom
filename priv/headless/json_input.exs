@@ -7,6 +7,8 @@
     args: [type: ["json_input"], only: ["json_input"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     headless: [
       anatomy: [
         root: [

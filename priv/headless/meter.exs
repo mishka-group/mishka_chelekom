@@ -7,6 +7,8 @@
     args: [type: ["meter"], only: ["meter"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     headless: [
       anatomy: [
         root: [

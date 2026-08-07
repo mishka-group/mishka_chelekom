@@ -7,6 +7,8 @@
     args: [type: ["nav_link"], only: ["nav_link"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     headless: [
       anatomy: [
         root: [

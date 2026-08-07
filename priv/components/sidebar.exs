@@ -27,6 +27,8 @@
     ],
     optional: [],
     necessary: ["icon"],
+    required: false,
+    precompile: false,
     scripts: [
       %{
         type: "file",

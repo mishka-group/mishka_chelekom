@@ -7,6 +7,8 @@
     args: [type: ["rolling_number"], only: ["rolling_number"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     scripts: [
       %{module: "RollingNumber", type: "file", file: "rolling_number.js", imports: "import RollingNumber from \"./rolling_number.js\";"}
     ],

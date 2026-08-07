@@ -7,6 +7,8 @@
     args: [type: ["radio_group"], only: ["radio_group"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     scripts: [
       %{
         module: "RadioGroup",

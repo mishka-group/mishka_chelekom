@@ -7,6 +7,8 @@
     args: [type: ["toolbar"], only: ["toolbar"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     scripts: [
       %{
         module: "Toolbar",

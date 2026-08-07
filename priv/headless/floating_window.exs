@@ -7,6 +7,8 @@
     args: [type: ["floating_window"], only: ["floating_window"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     scripts: [
       %{module: "FloatingWindow", type: "file", file: "floating_window.js", imports: "import FloatingWindow from \"./floating_window.js\";"}
     ],

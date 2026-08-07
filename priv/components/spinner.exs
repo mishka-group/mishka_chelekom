@@ -35,6 +35,8 @@
       module: ""
     ],
     optional: [],
-    necessary: []
+    necessary: [],
+    required: false,
+    precompile: false
   ]
 ]

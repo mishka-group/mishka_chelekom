@@ -7,6 +7,8 @@
     args: [type: ["select"], only: ["select"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     scripts: [
       %{
         module: "Select",

@@ -7,6 +7,8 @@
     args: [type: ["accordion"], only: ["accordion"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     scripts: [
       %{
         module: "Disclosure",

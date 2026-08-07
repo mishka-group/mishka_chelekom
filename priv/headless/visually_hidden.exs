@@ -7,6 +7,8 @@
     args: [type: ["visually_hidden"], only: ["visually_hidden"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     headless: [
       anatomy: [
         root: [

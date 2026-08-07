@@ -7,6 +7,8 @@
     args: [type: ["number_field"], only: ["number_field"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     scripts: [
       %{
         module: "NumberField",

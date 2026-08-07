@@ -7,6 +7,8 @@
     args: [type: ["field"], only: ["field"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     scripts: [
       %{
         module: "Field",

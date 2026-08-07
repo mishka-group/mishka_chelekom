@@ -7,6 +7,8 @@
     args: [type: ["mark"], only: ["mark"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     headless: [
       anatomy: [
         root: [element: "mark", note: "highlights an inline run of text", required: true],

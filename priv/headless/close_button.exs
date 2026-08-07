@@ -7,6 +7,8 @@
     args: [type: ["close_button"], only: ["close_button"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     headless: [
       anatomy: [
         root: [

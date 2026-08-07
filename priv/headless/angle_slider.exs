@@ -7,6 +7,8 @@
     args: [type: ["angle_slider"], only: ["angle_slider"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     scripts: [
       %{module: "AngleSlider", type: "file", file: "angle_slider.js", imports: "import AngleSlider from \"./angle_slider.js\";"}
     ],

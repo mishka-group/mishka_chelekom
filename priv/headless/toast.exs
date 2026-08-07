@@ -7,6 +7,8 @@
     args: [type: ["toast"], only: ["toast"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     scripts: [
       %{
         module: "ToastRegion",

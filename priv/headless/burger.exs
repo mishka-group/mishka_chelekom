@@ -7,6 +7,8 @@
     args: [type: ["burger"], only: ["burger"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     headless: [
       anatomy: [
         root: [

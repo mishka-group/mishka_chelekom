@@ -7,6 +7,8 @@
     args: [type: ["slider"], only: ["slider"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     scripts: [
       %{
         module: "Slider",

@@ -7,6 +7,8 @@
     args: [type: ["tabs"], only: ["tabs"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     scripts: [
       %{
         module: "Tabs",

@@ -7,6 +7,8 @@
     args: [type: ["alpha_slider"], only: ["alpha_slider"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     scripts: [
       %{module: "Slider", type: "file", file: "slider.js", imports: "import Slider from \"./slider.js\";"}
     ],

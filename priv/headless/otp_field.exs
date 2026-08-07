@@ -7,6 +7,8 @@
     args: [type: ["otp_field"], only: ["otp_field"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     scripts: [
       %{module: "Otp", type: "file", file: "otp.js", imports: "import Otp from \"./otp.js\";"}
     ],

@@ -7,6 +7,8 @@
     args: [type: ["fieldset"], only: ["fieldset"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     headless: [
       anatomy: [
         root: [

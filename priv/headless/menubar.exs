@@ -7,6 +7,8 @@
     args: [type: ["menubar"], only: ["menubar"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     scripts: [
       %{
         module: "Menubar",

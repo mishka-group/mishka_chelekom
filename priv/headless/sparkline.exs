@@ -7,6 +7,8 @@
     args: [type: ["sparkline"], only: ["sparkline"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     # No npm, no scripts, no hook: this component is pure server-rendered SVG. It works in a table
     # cell, a stat card, even an email — anywhere HEEx renders — and needs no JS build pipeline at
     # all, which is why it ships regardless of which chart engine (if any) you generated.

@@ -7,6 +7,8 @@
     args: [type: ["progress"], only: ["progress"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     headless: [
       anatomy: [
         root: [

@@ -7,6 +7,8 @@
     args: [type: ["highlight"], only: ["highlight"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     headless: [
       anatomy: [
         root: [element: "span", note: "wraps the text; matches become <mark> parts", required: true],

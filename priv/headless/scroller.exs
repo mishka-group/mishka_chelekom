@@ -7,6 +7,8 @@
     args: [type: ["scroller"], only: ["scroller"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     scripts: [
       %{module: "Scroller", type: "file", file: "scroller.js", imports: "import Scroller from \"./scroller.js\";"}
     ],

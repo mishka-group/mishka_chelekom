@@ -7,6 +7,8 @@
     args: [type: ["color_input"], only: ["color_input"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     scripts: [
       %{module: "ColorPicker", type: "file", file: "color_picker.js", imports: "import ColorPicker from \"./color_picker.js\";"}
     ],

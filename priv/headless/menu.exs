@@ -7,6 +7,8 @@
     args: [type: ["menu"], only: ["menu"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     scripts: [
       %{
         module: "Menu",

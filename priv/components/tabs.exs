@@ -25,6 +25,8 @@
       module: ""
     ],
     optional: [],
-    necessary: ["badge", "icon", "scroll_area"]
+    necessary: ["badge", "icon", "scroll_area"],
+    required: false,
+    precompile: false
   ]
 ]

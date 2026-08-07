@@ -7,6 +7,8 @@
     args: [type: ["pills_input"], only: ["pills_input"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     headless: [
       anatomy: [
         root: [

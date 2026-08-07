@@ -7,6 +7,8 @@
     args: [type: ["preview_card"], only: ["preview_card"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     scripts: [
       %{
         module: "PreviewCard",

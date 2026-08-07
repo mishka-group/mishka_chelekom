@@ -7,6 +7,8 @@
     args: [type: ["mask_input"], only: ["mask_input"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     scripts: [
       %{module: "MaskInput", type: "file", file: "mask_input.js", imports: "import MaskInput from \"./mask_input.js\";"}
     ],

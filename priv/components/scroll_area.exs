@@ -11,6 +11,8 @@
     ],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: true,
     scripts: [
       %{
         type: "file",

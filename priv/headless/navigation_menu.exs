@@ -7,6 +7,8 @@
     args: [type: ["navigation_menu"], only: ["navigation_menu"], helpers: [], module: ""],
     optional: [],
     necessary: [],
+    required: false,
+    precompile: false,
     scripts: [
       %{
         module: "NavigationMenu",
