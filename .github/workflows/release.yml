@@ -69,6 +69,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+
+      # The assets tests shell out to bun; without it they read the "Running bun
+      # install..." banner instead of the success line and fail. test.yml installs it
+      # for the same reason.
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
       - uses: erlef/setup-beam@v1.20.4
         with:
           elixir-version: ${{ env.ELIXIR_VERSION }}
@@ -214,8 +222,13 @@ jobs:
           extra=""
           [ -d "$src/consolidated" ] && extra="consolidated"
           tar -czhf "dist/mishka_chelekom-$v-ebin.tar.gz" -C "$src" ebin priv $extra
-          tar -tzf "dist/mishka_chelekom-$v-ebin.tar.gz" | grep -q '^ebin/Elixir.MishkaChelekom' \
+          # grep -c, not grep -q: -q exits on the first match, tar takes SIGPIPE, and
+          # pipefail then reports a perfectly good tarball as broken. -c drains the input.
+          mods="$(tar -tzf "dist/mishka_chelekom-$v-ebin.tar.gz" \
+                  | grep -c '^ebin/Elixir\.MishkaChelekom' || true)"
+          [ "$mods" -gt 0 ] \
             || { echo "::error::ebin tarball is missing the library's modules"; exit 1; }
+          echo "ebin tarball: $mods MishkaChelekom modules"
           echo "OTP $(erl -noshell -eval 'io:format("~s",[erlang:system_info(otp_release)]),halt().')," \
                "Elixir $(elixir -v | tail -1)" >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@v4
@@ -362,6 +375,33 @@ jobs:
           keyAlias=$ANDROID_KEY_ALIAS
           keyPassword=$ANDROID_KEY_PASSWORD
           EOF
+
+      # mob 0.7+ compiles the JNI layer with build.zig; CMake's mob_nif.c path is a
+      # legacy fallback whose sources the dep no longer ships. `mob.release --android`
+      # does not run that step — on a dev machine it only works because
+      # `mix android.native` already left android/app/build/zig-out/<abi>/ behind, which
+      # CMakeLists prefers. A clean runner has neither, so CMake falls back to the
+      # missing .c and configure fails.
+      #
+      # build_all/1 runs the zig build and the Gradle assemble, then tries to adb-install
+      # and push the release — the last two need a device and are expected to fail here.
+      # They come after the steps we need, so the failure is tolerated and the artifact
+      # itself is what gets asserted.
+      - name: Build the JNI objects with zig
+        working-directory: development/mob
+        run: |
+          set -euo pipefail
+          mix run --no-start \
+            -e 'MobDev.NativeBuild.build_all(platforms: [:android]) |> IO.inspect(label: "native")' \
+            || echo "::notice::native build returned non-zero (expected: no device attached)"
+
+          missing=0
+          for abi in arm64-v8a armeabi-v7a x86_64; do
+            d="android/app/build/zig-out/$abi"
+            n="$(ls "$d"/*.o 2>/dev/null | wc -l | tr -d ' ')"
+            if [ "$n" -eq 0 ]; then echo "::error::no zig objects in $d"; missing=1; else echo "$abi: $n objects"; fi
+          done
+          [ "$missing" -eq 0 ] || exit 1
 
       - name: Stage otp.zip and build the AAB
         working-directory: development/mob
