@@ -19,6 +19,10 @@ permissions:
 env:
   ELIXIR_VERSION: "1.18.4"
   OTP_VERSION: "28"
+  # development/web is developed and formatted on 1.19.5, and test.yml already pins that
+  # for it. The formatter's output moved between 1.18 and 1.19, so checking the harness's
+  # generated components under 1.18 flags files that are correctly formatted for 1.19.
+  WEB_ELIXIR_VERSION: "1.19.5"
   MOB_ELIXIR_VERSION: "1.20.2"
   MOB_OTP_VERSION: "29.0.2"
   ANDROID_NDK_VERSION: "27.2.12479018"
@@ -104,7 +108,7 @@ jobs:
       - uses: actions/checkout@v5
       - uses: erlef/setup-beam@v1.20.4
         with:
-          elixir-version: ${{ env.ELIXIR_VERSION }}
+          elixir-version: ${{ env.WEB_ELIXIR_VERSION }}
           otp-version: ${{ env.OTP_VERSION }}
       - name: Install development harness deps
         working-directory: development/web
@@ -127,7 +131,7 @@ jobs:
       - uses: actions/checkout@v5
       - uses: erlef/setup-beam@v1.20.4
         with:
-          elixir-version: ${{ env.ELIXIR_VERSION }}
+          elixir-version: ${{ env.WEB_ELIXIR_VERSION }}
           otp-version: ${{ env.OTP_VERSION }}
       - working-directory: development/web
         run: mix deps.get
@@ -346,6 +350,16 @@ jobs:
               System.get_env("MOB_ELIXIR_LIB", :code.lib_dir(:elixir) |> to_string() |> Path.dirname())
 
           config :mob, :plugins, [:mob_camera, :mob_location, :mob_biometric]
+
+          # The activated first-party plugins are signed with the shared mob release key,
+          # and the native build refuses to run against an untrusted one. These are the
+          # same fingerprints mob.new scaffolds into mob.exs; without them the build stops
+          # at "plugin signature check failed" before it compiles anything.
+          config :mob, :trusted_plugins, %{
+            mob_camera: "ed25519:nc56w+1Kx0gIt/4EkHxnMZCKHMzp4+S5kS/HoSzEZkg=",
+            mob_location: "ed25519:nc56w+1Kx0gIt/4EkHxnMZCKHMzp4+S5kS/HoSzEZkg=",
+            mob_biometric: "ed25519:nc56w+1Kx0gIt/4EkHxnMZCKHMzp4+S5kS/HoSzEZkg="
+          }
           EOF
 
       - name: Prefetch the Android OTP runtimes
@@ -537,6 +551,16 @@ jobs:
               System.get_env("MOB_ELIXIR_LIB", :code.lib_dir(:elixir) |> to_string() |> Path.dirname())
 
           config :mob, :plugins, [:mob_camera, :mob_location, :mob_biometric]
+
+          # The activated first-party plugins are signed with the shared mob release key,
+          # and the native build refuses to run against an untrusted one. These are the
+          # same fingerprints mob.new scaffolds into mob.exs; without them the build stops
+          # at "plugin signature check failed" before it compiles anything.
+          config :mob, :trusted_plugins, %{
+            mob_camera: "ed25519:nc56w+1Kx0gIt/4EkHxnMZCKHMzp4+S5kS/HoSzEZkg=",
+            mob_location: "ed25519:nc56w+1Kx0gIt/4EkHxnMZCKHMzp4+S5kS/HoSzEZkg=",
+            mob_biometric: "ed25519:nc56w+1Kx0gIt/4EkHxnMZCKHMzp4+S5kS/HoSzEZkg="
+          }
           EOF
 
       - name: Prefetch the Android OTP runtimes
