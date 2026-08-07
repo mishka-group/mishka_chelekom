@@ -127237,7 +127237,22 @@
           "name": "cols",
           "opts": {
             "default": "twelve",
-            "doc": "Defines the number of columns in the grid"
+            "doc": "Defines the number of columns in the grid",
+            "values": [
+              "one",
+              "two",
+              "three",
+              "four",
+              "five",
+              "six",
+              "seven",
+              "eight",
+              "nine",
+              "ten",
+              "eleven",
+              "twelve",
+              "none"
+            ]
           },
           "type": "string"
         },
