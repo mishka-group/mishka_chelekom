@@ -1,0 +1,579 @@
+name: Release
+
+# A `v*` tag publishes the release. Pushing the CI branch runs every build and check
+# exactly as the tag would, uploads the same artifacts, and stops short of publishing —
+# so the pipeline can be proven green before a tag is ever cut.
+on:
+  push:
+    tags: ["v*"]
+    branches: ["ci/tag-release"]
+  workflow_dispatch:
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  ELIXIR_VERSION: "1.18.4"
+  OTP_VERSION: "28"
+  MOB_ELIXIR_VERSION: "1.20.2"
+  MOB_OTP_VERSION: "29.0.2"
+  ANDROID_NDK_VERSION: "27.2.12479018"
+  JAVA_VERSION: "17"
+
+jobs:
+  # ── 1. The version, resolved once ────────────────────────────────────────────
+  # Every downstream job reads mix.exs through this output instead of parsing it
+  # again, so a tag, an APK's versionName and a bundle's version can never disagree.
+  version:
+    name: Resolve version from mix.exs
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.v.outputs.version }}
+      publish: ${{ steps.v.outputs.publish }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Read @version and reconcile it with the ref
+        id: v
+        run: |
+          set -euo pipefail
+          version="$(sed -n 's/^  @version "\(.*\)"$/\1/p' mix.exs | head -1)"
+          if [ -z "$version" ]; then
+            echo "::error file=mix.exs::could not parse @version from mix.exs"
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+          if [ "${{ github.ref_type }}" = "tag" ]; then
+            tag="${{ github.ref_name }}"
+            if [ "$tag" != "v$version" ]; then
+              echo "::error file=mix.exs::tag $tag does not match mix.exs @version $version (expected v$version)"
+              exit 1
+            fi
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+          fi
+
+          echo "### Release $version" >> "$GITHUB_STEP_SUMMARY"
+          echo "publish: $([ "${{ github.ref_type }}" = "tag" ] && echo yes || echo 'no (dry run)')" >> "$GITHUB_STEP_SUMMARY"
+
+  # ── 2. Library test suite ────────────────────────────────────────────────────
+  library-test:
+    name: Library tests
+    needs: version
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: erlef/setup-beam@v1.20.4
+        with:
+          elixir-version: ${{ env.ELIXIR_VERSION }}
+          otp-version: ${{ env.OTP_VERSION }}
+      - uses: actions/cache@v4.2.4
+        with:
+          path: |
+            deps
+            _build
+          key: ${{ runner.os }}-rel-mix-${{ env.ELIXIR_VERSION }}-${{ hashFiles('**/mix.lock') }}
+          restore-keys: ${{ runner.os }}-rel-mix-${{ env.ELIXIR_VERSION }}-
+      - run: mix deps.get
+      - run: mix compile --warnings-as-errors
+      - run: mix format --check-formatted
+      - run: mix test
+        env:
+          MIX_ENV: test
+
+  # ── 3. Generators must still be idempotent ───────────────────────────────────
+  idempotency:
+    name: Generators are idempotent
+    needs: version
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: erlef/setup-beam@v1.20.4
+        with:
+          elixir-version: ${{ env.ELIXIR_VERSION }}
+          otp-version: ${{ env.OTP_VERSION }}
+      - name: Install development harness deps
+        working-directory: development/web
+        run: mix deps.get
+      - name: Re-run the generators and diff
+        working-directory: development/web
+        env:
+          MIX_ENV: dev
+        run: mix run --no-start idempotency_check.exs
+
+  # ── 4. CMS UI-kit bundles ────────────────────────────────────────────────────
+  # Regenerated at the release version rather than shipping whatever is committed,
+  # so `ui_kit_version` inside the bundle matches the tag it is published under.
+  cms-bundles:
+    name: CMS bundles (--cms)
+    needs: version
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: erlef/setup-beam@v1.20.4
+        with:
+          elixir-version: ${{ env.ELIXIR_VERSION }}
+          otp-version: ${{ env.OTP_VERSION }}
+      - run: mix deps.get
+      - run: mix compile
+
+      - name: Export the styled kit
+        run: >
+          mix mishka.ui.export priv/components --cms
+          --name chelekom --bundle-name chelekom
+          --bundle-version ${{ needs.version.outputs.version }} --yes
+
+      - name: Export the headless kit
+        run: >
+          mix mishka.ui.export priv/headless --cms
+          --name chelekom_headless --bundle-name chelekom_headless
+          --bundle-version ${{ needs.version.outputs.version }} --yes
+
+      - name: Collect and verify both bundles
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          cp priv/components/chelekom.json dist/chelekom.json
+          cp priv/headless/chelekom_headless.json dist/chelekom_headless.json
+          for f in dist/chelekom.json dist/chelekom_headless.json; do
+            # A bundle that is not valid JSON, lost its components, or carries the wrong
+            # version must not ship.
+            n="$(jq '.components | length' "$f")"
+            got="$(jq -r '.version' "$f")"
+            [ "$n" -gt 0 ] || { echo "::error::$f has no components"; exit 1; }
+            [ "$got" = "${{ needs.version.outputs.version }}" ] \
+              || { echo "::error::$f says version $got"; exit 1; }
+            echo "$f: $n components, version $got"
+          done
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cms-bundles
+          path: dist/*.json
+          if-no-files-found: error
+
+  # ── 5. Hex package tarball ───────────────────────────────────────────────────
+  hex-package:
+    name: Hex package (.tar)
+    needs: version
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: erlef/setup-beam@v1.20.4
+        with:
+          elixir-version: ${{ env.ELIXIR_VERSION }}
+          otp-version: ${{ env.OTP_VERSION }}
+      - run: mix deps.get
+      - name: Build the package Hex would publish
+        run: mix hex.build
+      - name: Check the tarball is the release version
+        run: |
+          set -euo pipefail
+          tar="mishka_chelekom-${{ needs.version.outputs.version }}.tar"
+          test -f "$tar" || { echo "::error::expected $tar, got: $(ls *.tar 2>/dev/null || echo none)"; exit 1; }
+          mkdir -p dist && mv "$tar" dist/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hex-package
+          path: dist/*.tar
+          if-no-files-found: error
+
+  # ── 6. Compiled BEAM (ebin) ──────────────────────────────────────────────────
+  ebin-package:
+    name: Compiled ebin
+    needs: version
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: erlef/setup-beam@v1.20.4
+        with:
+          elixir-version: ${{ env.ELIXIR_VERSION }}
+          otp-version: ${{ env.OTP_VERSION }}
+      - run: mix deps.get
+      - name: Compile for :prod
+        run: mix compile
+        env:
+          MIX_ENV: prod
+      - name: Tar the ebin and its priv
+        run: |
+          set -euo pipefail
+          v="${{ needs.version.outputs.version }}"
+          src="_build/prod/lib/mishka_chelekom"
+          test -d "$src/ebin" || { echo "::error::$src/ebin not found"; exit 1; }
+          test -n "$(ls -A "$src/ebin"/*.beam 2>/dev/null)" || { echo "::error::no .beam files in $src/ebin"; exit 1; }
+          mkdir -p dist
+          # `priv` rides along: the generator resolves its templates through
+          # :code.priv_dir(:mishka_chelekom), so an ebin with no priv cannot generate.
+          # In _build it is a symlink back to the repo, hence -h to follow it.
+          extra=""
+          [ -d "$src/consolidated" ] && extra="consolidated"
+          tar -czhf "dist/mishka_chelekom-$v-ebin.tar.gz" -C "$src" ebin priv $extra
+          tar -tzf "dist/mishka_chelekom-$v-ebin.tar.gz" | grep -q '^ebin/Elixir.MishkaChelekom' \
+            || { echo "::error::ebin tarball is missing the library's modules"; exit 1; }
+          echo "OTP $(erl -noshell -eval 'io:format("~s",[erlang:system_info(otp_release)]),halt().')," \
+               "Elixir $(elixir -v | tail -1)" >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ebin-package
+          path: dist/*.tar.gz
+          if-no-files-found: error
+
+  # ── 7. Mob unit tests ────────────────────────────────────────────────────────
+  mob-test:
+    name: Mob tests
+    needs: version
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: erlef/setup-beam@v1.20.4
+        with:
+          elixir-version: ${{ env.MOB_ELIXIR_VERSION }}
+          otp-version: ${{ env.MOB_OTP_VERSION }}
+      - working-directory: development/mob
+        run: mix deps.get
+      - working-directory: development/mob
+        run: mix compile --warnings-as-errors
+      - working-directory: development/mob
+        run: mix format --check-formatted
+      - working-directory: development/mob
+        run: mix test
+        env:
+          MIX_ENV: test
+
+  # ── 8. Android APKs ──────────────────────────────────────────────────────────
+  # `mix mob.release --android` stages the OTP runtime into assets/otp.zip and builds
+  # the AAB; the second Gradle call reuses that staging to emit the split APKs. Signed
+  # only when the keystore secrets are present — otherwise the APKs are unsigned, which
+  # is fine for a GitHub release and rejected by Play, as intended.
+  android-apks:
+    name: Android APKs (v8 / v7 / universal)
+    needs: [version, mob-test]
+    runs-on: ubuntu-latest
+    # As ORG_GRADLE_PROJECT_* rather than -P, so the AAB that `mix mob.release` builds and
+    # the APKs assembled afterwards carry the same version. `splitAbi` stays a -P flag on
+    # the assemble call alone — the AAB must not be split.
+    env:
+      ORG_GRADLE_PROJECT_mobVersionName: ${{ needs.version.outputs.version }}
+      ORG_GRADLE_PROJECT_mobVersionCode: ${{ github.run_number }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - uses: erlef/setup-beam@v1.20.4
+        with:
+          elixir-version: ${{ env.MOB_ELIXIR_VERSION }}
+          otp-version: ${{ env.MOB_OTP_VERSION }}
+
+      - uses: android-actions/setup-android@v3
+
+      - name: Install the pinned NDK
+        run: sdkmanager --install "ndk;${{ env.ANDROID_NDK_VERSION }}" "cmake;3.22.1"
+
+      - uses: mlugg/setup-zig@v2
+        with:
+          version: 0.15.2
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Cache the Mob OTP runtimes
+        uses: actions/cache@v4.2.4
+        with:
+          path: ~/.mob/cache
+          key: ${{ runner.os }}-mob-otp-${{ hashFiles('development/mob/mix.lock') }}
+          restore-keys: ${{ runner.os }}-mob-otp-
+
+      - working-directory: development/mob
+        run: mix deps.get
+
+      - name: Write mob.exs (gitignored — machine-specific by design)
+        working-directory: development/mob
+        run: |
+          set -euo pipefail
+          test -f mob.exs || cat > mob.exs <<'EOF'
+          import Config
+
+          config :mob_dev,
+            mob_dir: Path.join(File.cwd!(), "deps/mob"),
+            elixir_lib:
+              System.get_env("MOB_ELIXIR_LIB", :code.lib_dir(:elixir) |> to_string() |> Path.dirname())
+
+          config :mob, :plugins, [:mob_camera, :mob_location, :mob_biometric]
+          EOF
+
+      - name: Prefetch the Android OTP runtimes
+        working-directory: development/mob
+        run: |
+          set -euo pipefail
+          # `mix mob.install` is the documented first run, but it PROMPTS for the machine
+          # paths and would hang here. It writes android/local.properties; build.gradle
+          # reads the same values from these env vars when that file is absent, so the
+          # downloader is driven directly and the paths are exported instead.
+          mix run --no-start -e '
+            for {abi, var} <- [
+                  {"arm64-v8a", "MOB_ANDROID_OTP_RELEASE"},
+                  {"armeabi-v7a", "MOB_ANDROID_OTP_RELEASE_ARM32"},
+                  {"x86_64", "MOB_ANDROID_OTP_RELEASE_X86_64"}
+                ] do
+              {:ok, path} = MobDev.OtpDownloader.ensure_android(abi)
+              File.write!(System.get_env("GITHUB_ENV"), "#{var}=#{path}\n", [:append])
+              IO.puts("#{abi} -> #{path}")
+            end
+
+            File.write!(
+              System.get_env("GITHUB_ENV"),
+              "MOB_DIR=#{Path.join(File.cwd!(), "deps/mob")}\n",
+              [:append]
+            )
+          '
+
+      - name: Environment check
+        working-directory: development/mob
+        # Informational: mob.doctor raises on any failed check, and a runner with no
+        # device attached legitimately fails some of them.
+        run: mix mob.doctor || true
+
+      - name: Decode the upload keystore, if configured
+        working-directory: development/mob/android
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          if [ -z "${ANDROID_KEYSTORE_BASE64:-}" ]; then
+            echo "::notice::no ANDROID_KEYSTORE_BASE64 secret — release APKs will be unsigned"
+            exit 0
+          fi
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 -d > upload_jks.keystore
+          cat > keystore.properties <<EOF
+          storeFile=upload_jks.keystore
+          storePassword=$ANDROID_KEYSTORE_PASSWORD
+          keyAlias=$ANDROID_KEY_ALIAS
+          keyPassword=$ANDROID_KEY_PASSWORD
+          EOF
+
+      - name: Stage otp.zip and build the AAB
+        working-directory: development/mob
+        run: mix mob.release --android
+
+      - name: Assemble the split APKs from the same staging
+        working-directory: development/mob/android
+        run: |
+          set -euo pipefail
+          ./gradlew assembleRelease --no-daemon -PsplitAbi
+
+      - name: Name the outputs after the release
+        working-directory: development/mob
+        run: |
+          set -euo pipefail
+          v="${{ needs.version.outputs.version }}"
+          out="android/app/build/outputs/apk/release"
+          mkdir -p dist
+          # AGP names split outputs app-<abi>-release[-unsigned].apk; the glob covers both.
+          pick() {
+            local match
+            match="$(ls "$out"/app-$1-release*.apk 2>/dev/null | head -1 || true)"
+            if [ -z "$match" ]; then
+              echo "::error::no APK matched app-$1-release*.apk in $out"
+              ls -la "$out" || true
+              exit 1
+            fi
+            cp "$match" "dist/mishka-mob-$v-$2.apk"
+            echo "  $2 <- $(basename "$match")"
+          }
+          pick "arm64-v8a"   "arm64-v8a"
+          pick "armeabi-v7a" "armeabi-v7a"
+          pick "universal"   "universal"
+          aab="$(ls android/app/build/outputs/bundle/release/*.aab 2>/dev/null | head -1 || true)"
+          [ -n "$aab" ] && cp "$aab" "dist/mishka-mob-$v.aab"
+          ls -la dist
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android-apks
+          path: development/mob/dist/*
+          if-no-files-found: error
+
+  # ── 9. Android e2e (instrumentation on an emulator) ──────────────────────────
+  # Kept apart from the APK job: it needs KVM and an emulator, fails for reasons that
+  # have nothing to do with packaging, and must never be what stops a release building.
+  android-e2e:
+    name: Android e2e
+    needs: [version, mob-test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Enable KVM for the emulator
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' \
+            | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - uses: erlef/setup-beam@v1.20.4
+        with:
+          elixir-version: ${{ env.MOB_ELIXIR_VERSION }}
+          otp-version: ${{ env.MOB_OTP_VERSION }}
+
+      - uses: android-actions/setup-android@v3
+
+      - name: Install the pinned NDK
+        run: sdkmanager --install "ndk;${{ env.ANDROID_NDK_VERSION }}" "cmake;3.22.1"
+
+      - uses: mlugg/setup-zig@v2
+        with:
+          version: 0.15.2
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Cache the Mob OTP runtimes
+        uses: actions/cache@v4.2.4
+        with:
+          path: ~/.mob/cache
+          key: ${{ runner.os }}-mob-otp-${{ hashFiles('development/mob/mix.lock') }}
+          restore-keys: ${{ runner.os }}-mob-otp-
+
+      - working-directory: development/mob
+        run: mix deps.get
+
+      - name: Write mob.exs (gitignored — machine-specific by design)
+        working-directory: development/mob
+        run: |
+          set -euo pipefail
+          test -f mob.exs || cat > mob.exs <<'EOF'
+          import Config
+
+          config :mob_dev,
+            mob_dir: Path.join(File.cwd!(), "deps/mob"),
+            elixir_lib:
+              System.get_env("MOB_ELIXIR_LIB", :code.lib_dir(:elixir) |> to_string() |> Path.dirname())
+
+          config :mob, :plugins, [:mob_camera, :mob_location, :mob_biometric]
+          EOF
+
+      - name: Prefetch the Android OTP runtimes
+        working-directory: development/mob
+        run: |
+          set -euo pipefail
+          # `mix mob.install` is the documented first run, but it PROMPTS for the machine
+          # paths and would hang here. It writes android/local.properties; build.gradle
+          # reads the same values from these env vars when that file is absent, so the
+          # downloader is driven directly and the paths are exported instead.
+          mix run --no-start -e '
+            for {abi, var} <- [
+                  {"arm64-v8a", "MOB_ANDROID_OTP_RELEASE"},
+                  {"armeabi-v7a", "MOB_ANDROID_OTP_RELEASE_ARM32"},
+                  {"x86_64", "MOB_ANDROID_OTP_RELEASE_X86_64"}
+                ] do
+              {:ok, path} = MobDev.OtpDownloader.ensure_android(abi)
+              File.write!(System.get_env("GITHUB_ENV"), "#{var}=#{path}\n", [:append])
+              IO.puts("#{abi} -> #{path}")
+            end
+
+            File.write!(
+              System.get_env("GITHUB_ENV"),
+              "MOB_DIR=#{Path.join(File.cwd!(), "deps/mob")}\n",
+              [:append]
+            )
+          '
+
+      # `mix e2e` installs only the test APK and reads the verdict out of the
+      # instrumentation output — `am instrument` exits 0 even when tests fail.
+      - name: Deploy and run the device suite
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          profile: pixel_6
+          ram-size: 4096M
+          disable-animations: true
+          working-directory: development/mob
+          script: |
+            mix android.native
+            mix e2e
+
+      - name: Keep the emulator logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-e2e-logs
+          path: |
+            development/mob/android/app/build/reports/**
+            development/mob/*.log
+          if-no-files-found: ignore
+
+  # ── 10. Publish ──────────────────────────────────────────────────────────────
+  # Only a tag publishes. On the CI branch every job above still runs and every
+  # artifact is still produced — this is the one step that is skipped.
+  release:
+    name: Publish GitHub release
+    needs:
+      - version
+      - library-test
+      - idempotency
+      - cms-bundles
+      - hex-package
+      - ebin-package
+      - mob-test
+      - android-apks
+      - android-e2e
+    if: ${{ needs.version.outputs.publish == 'true' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Lay the assets out flat and confirm every one arrived
+        run: |
+          set -euo pipefail
+          v="${{ needs.version.outputs.version }}"
+          mkdir -p release
+          find artifacts -type f -exec cp {} release/ \;
+          expected=(
+            "chelekom.json"
+            "chelekom_headless.json"
+            "mishka_chelekom-$v.tar"
+            "mishka_chelekom-$v-ebin.tar.gz"
+            "mishka-mob-$v-arm64-v8a.apk"
+            "mishka-mob-$v-armeabi-v7a.apk"
+            "mishka-mob-$v-universal.apk"
+          )
+          missing=0
+          for f in "${expected[@]}"; do
+            if [ ! -f "release/$f" ]; then echo "::error::missing release asset: $f"; missing=1; fi
+          done
+          [ "$missing" -eq 0 ] || { ls -la release; exit 1; }
+          ( cd release && sha256sum * > SHA256SUMS.txt )
+          ls -la release
+
+      - name: Create the release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: v${{ needs.version.outputs.version }}
+          generate_release_notes: true
+          fail_on_unmatched_files: true
+          files: release/*

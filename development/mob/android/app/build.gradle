@@ -42,8 +42,11 @@ android {
         minSdk 28
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         targetSdk 35
-        versionCode 1
-        versionName "1.0"
+
+        // The release workflow passes the Chelekom version from mix.exs so the APKs a tag
+        // publishes carry that tag's number. Local builds keep the historical defaults.
+        versionCode project.hasProperty('mobVersionCode') ? mobVersionCode.toInteger() : 1
+        versionName project.hasProperty('mobVersionName') ? mobVersionName : "1.0"
 
         ndk { abiFilters 'arm64-v8a', 'armeabi-v7a', 'x86_64' }
 
@@ -63,6 +66,19 @@ android {
         cmake {
             path "src/main/jni/CMakeLists.txt"
             version "3.22.1"
+        }
+    }
+
+    // One APK per phone ABI plus a universal one, for the GitHub release. Off unless
+    // -PsplitAbi is passed, so every local build and `mix android.native` keeps producing
+    // the single APK the deploy path installs. x86_64 stays in abiFilters above (the
+    // emulator needs it) but gets no APK of its own — only the universal build carries it.
+    splits {
+        abi {
+            enable project.hasProperty('splitAbi')
+            reset()
+            include 'arm64-v8a', 'armeabi-v7a'
+            universalApk true
         }
     }
 
