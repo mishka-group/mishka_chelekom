@@ -115,6 +115,31 @@ jobs:
           MIX_ENV: dev
         run: mix run --no-start idempotency_check.exs
 
+  # ── 3b. Harness test suite ───────────────────────────────────────────────────
+  # development/web has its own suite (showcase LiveViews, the styled components as
+  # generated, the CLI generator tasks) and neither this workflow nor test.yml ran it —
+  # test.yml only drives the idempotency check above.
+  web-test:
+    name: Harness tests (development/web)
+    needs: version
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: erlef/setup-beam@v1.20.4
+        with:
+          elixir-version: ${{ env.ELIXIR_VERSION }}
+          otp-version: ${{ env.OTP_VERSION }}
+      - working-directory: development/web
+        run: mix deps.get
+      - working-directory: development/web
+        run: mix compile --warnings-as-errors
+      - working-directory: development/web
+        run: mix format --check-formatted
+      - working-directory: development/web
+        run: mix test
+        env:
+          MIX_ENV: test
+
   # ── 4. CMS UI-kit bundles ────────────────────────────────────────────────────
   # Regenerated at the release version rather than shipping whatever is committed,
   # so `ui_kit_version` inside the bundle matches the tag it is published under.
@@ -328,26 +353,32 @@ jobs:
         run: |
           set -euo pipefail
           # `mix mob.install` is the documented first run, but it PROMPTS for the machine
-          # paths and would hang here. It writes android/local.properties; build.gradle
-          # reads the same values from these env vars when that file is absent, so the
-          # downloader is driven directly and the paths are exported instead.
+          # paths and would hang here. It writes android/local.properties — and mob_dev
+          # gates the whole Android chain on that file existing ("Skipping Android build
+          # — toolchain not detected"), so exporting the equivalent env vars is not
+          # enough even though build.gradle would accept them. Write the file it writes.
           mix run --no-start -e '
-            for {abi, var} <- [
-                  {"arm64-v8a", "MOB_ANDROID_OTP_RELEASE"},
-                  {"armeabi-v7a", "MOB_ANDROID_OTP_RELEASE_ARM32"},
-                  {"x86_64", "MOB_ANDROID_OTP_RELEASE_X86_64"}
-                ] do
-              {:ok, path} = MobDev.OtpDownloader.ensure_android(abi)
-              File.write!(System.get_env("GITHUB_ENV"), "#{var}=#{path}\n", [:append])
-              IO.puts("#{abi} -> #{path}")
-            end
+            paths =
+              for {abi, key} <- [
+                    {"arm64-v8a", "mob.otp_release"},
+                    {"armeabi-v7a", "mob.otp_release_arm32"},
+                    {"x86_64", "mob.otp_release_x86_64"}
+                  ] do
+                {:ok, path} = MobDev.OtpDownloader.ensure_android(abi)
+                IO.puts("#{abi} -> #{path}")
+                "#{key}=#{path}"
+              end
 
-            File.write!(
-              System.get_env("GITHUB_ENV"),
-              "MOB_DIR=#{Path.join(File.cwd!(), "deps/mob")}\n",
-              [:append]
-            )
+            props =
+              [
+                "sdk.dir=#{System.fetch_env!("ANDROID_HOME")}",
+                "mob.mob_dir=#{Path.join(File.cwd!(), "deps/mob")}"
+                | paths
+              ]
+
+            File.write!("android/local.properties", Enum.join(props, "\n") <> "\n")
           '
+          cat android/local.properties
 
       - name: Environment check
         working-directory: development/mob
@@ -513,26 +544,32 @@ jobs:
         run: |
           set -euo pipefail
           # `mix mob.install` is the documented first run, but it PROMPTS for the machine
-          # paths and would hang here. It writes android/local.properties; build.gradle
-          # reads the same values from these env vars when that file is absent, so the
-          # downloader is driven directly and the paths are exported instead.
+          # paths and would hang here. It writes android/local.properties — and mob_dev
+          # gates the whole Android chain on that file existing ("Skipping Android build
+          # — toolchain not detected"), so exporting the equivalent env vars is not
+          # enough even though build.gradle would accept them. Write the file it writes.
           mix run --no-start -e '
-            for {abi, var} <- [
-                  {"arm64-v8a", "MOB_ANDROID_OTP_RELEASE"},
-                  {"armeabi-v7a", "MOB_ANDROID_OTP_RELEASE_ARM32"},
-                  {"x86_64", "MOB_ANDROID_OTP_RELEASE_X86_64"}
-                ] do
-              {:ok, path} = MobDev.OtpDownloader.ensure_android(abi)
-              File.write!(System.get_env("GITHUB_ENV"), "#{var}=#{path}\n", [:append])
-              IO.puts("#{abi} -> #{path}")
-            end
+            paths =
+              for {abi, key} <- [
+                    {"arm64-v8a", "mob.otp_release"},
+                    {"armeabi-v7a", "mob.otp_release_arm32"},
+                    {"x86_64", "mob.otp_release_x86_64"}
+                  ] do
+                {:ok, path} = MobDev.OtpDownloader.ensure_android(abi)
+                IO.puts("#{abi} -> #{path}")
+                "#{key}=#{path}"
+              end
 
-            File.write!(
-              System.get_env("GITHUB_ENV"),
-              "MOB_DIR=#{Path.join(File.cwd!(), "deps/mob")}\n",
-              [:append]
-            )
+            props =
+              [
+                "sdk.dir=#{System.fetch_env!("ANDROID_HOME")}",
+                "mob.mob_dir=#{Path.join(File.cwd!(), "deps/mob")}"
+                | paths
+              ]
+
+            File.write!("android/local.properties", Enum.join(props, "\n") <> "\n")
           '
+          cat android/local.properties
 
       # `mix e2e` installs only the test APK and reads the verdict out of the
       # instrumentation output — `am instrument` exits 0 even when tests fail.
@@ -569,6 +606,7 @@ jobs:
       - version
       - library-test
       - idempotency
+      - web-test
       - cms-bundles
       - hex-package
       - ebin-package
