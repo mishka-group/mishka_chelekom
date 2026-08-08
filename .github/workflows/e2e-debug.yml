@@ -1,0 +1,114 @@
+name: e2e debug
+
+on:
+  push:
+    branches: ["fix/e2e-tap-outside-api34"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tap-outside:
+    name: tap-outside tests on API 34
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: erlef/setup-beam@v1.20.4
+        with:
+          elixir-version: "1.20.2"
+          otp-version: "29.0.2"
+
+      - uses: android-actions/setup-android@v3
+
+      - run: sdkmanager --install "ndk;27.2.12479018" "cmake;3.22.1"
+
+      - uses: mlugg/setup-zig@v2
+        with:
+          version: 0.15.2
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - uses: actions/cache@v4.2.4
+        with:
+          path: ~/.mob/cache
+          key: ${{ runner.os }}-mob-otp-${{ hashFiles('development/mob/mix.lock') }}
+          restore-keys: ${{ runner.os }}-mob-otp-
+
+      - working-directory: development/mob
+        run: mix deps.get
+
+      - name: Write mob.exs
+        working-directory: development/mob
+        run: |
+          set -euo pipefail
+          test -f mob.exs || cat > mob.exs <<'EOF'
+          import Config
+
+          config :mob_dev,
+            mob_dir: Path.join(File.cwd!(), "deps/mob"),
+            elixir_lib:
+              System.get_env("MOB_ELIXIR_LIB", :code.lib_dir(:elixir) |> to_string() |> Path.dirname())
+
+          config :mob, :plugins, [:mob_camera, :mob_location, :mob_biometric]
+
+          config :mob, :trusted_plugins, %{
+            mob_camera: "ed25519:nc56w+1Kx0gIt/4EkHxnMZCKHMzp4+S5kS/HoSzEZkg=",
+            mob_location: "ed25519:nc56w+1Kx0gIt/4EkHxnMZCKHMzp4+S5kS/HoSzEZkg=",
+            mob_biometric: "ed25519:nc56w+1Kx0gIt/4EkHxnMZCKHMzp4+S5kS/HoSzEZkg="
+          }
+          EOF
+
+      - name: Prefetch the Android OTP runtimes
+        working-directory: development/mob
+        run: |
+          set -euo pipefail
+          mix run --no-start -e '
+            paths =
+              for {abi, key} <- [
+                    {"arm64-v8a", "mob.otp_release"},
+                    {"armeabi-v7a", "mob.otp_release_arm32"},
+                    {"x86_64", "mob.otp_release_x86_64"}
+                  ] do
+                {:ok, path} = MobDev.OtpDownloader.ensure_android(abi)
+                "#{key}=#{path}"
+              end
+
+            props =
+              [
+                "sdk.dir=#{System.fetch_env!("ANDROID_HOME")}",
+                "mob.mob_dir=#{Path.join(File.cwd!(), "deps/mob")}"
+                | paths
+              ]
+
+            File.write!("android/local.properties", Enum.join(props, "\n") <> "\n")
+          '
+
+      - name: Run only the tap-outside classes
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          profile: pixel_6
+          ram-size: 4096M
+          disable-animations: true
+          working-directory: development/mob
+          script: |
+            mix android.native
+            adb logcat -c || true
+            (adb logcat -v time > "$RUNNER_TEMP/logcat.txt" 2>&1 &) || true
+            mix e2e PopoverTest PreviewCardTest TooltipTest
+
+      - name: Geometry probe
+        if: always()
+        run: |
+          echo "── TapProbe ──────────────────────────────────────────────"
+          grep -E "TapProbe" "$RUNNER_TEMP/logcat.txt" | sed 's/.*TapProbe[^:]*: //' | head -30 || echo "(none)"

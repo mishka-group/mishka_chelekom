@@ -351,6 +351,19 @@ class PopoverTest {
         val instr = androidx.test.platform.app.InstrumentationRegistry.getInstrumentation()
         val down = android.os.SystemClock.uptimeMillis()
 
+        run {
+            val decor = compose.activity.window.decorView
+            val ins = androidx.core.view.ViewCompat.getRootWindowInsets(decor)
+                ?.getInsets(androidx.core.view.WindowInsetsCompat.Type.systemBars())
+            android.util.Log.i(
+                "TapProbe",
+                "density=$density window=${decor.width}x${decor.height}px " +
+                    "insets=top:${ins?.top ?: -1},bottom:${ins?.bottom ?: -1} " +
+                    "tap=(${x},${y})px inWindow=${x >= 0 && y >= 0 && x < decor.width && y < decor.height} " +
+                    "aboveNav=${y < decor.height - (ins?.bottom ?: 0)}"
+            )
+        }
+
         instr.uiAutomation.injectInputEvent(
             android.view.MotionEvent.obtain(
                 down, down, android.view.MotionEvent.ACTION_DOWN, x, y, 0
