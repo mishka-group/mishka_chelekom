@@ -129,12 +129,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+
+      # The editor component is npm-backed, and editor_live_test asserts the packages
+      # are really installed rather than merely declared. `mix assets.setup` runs
+      # mishka.assets.install, which shells out to bun.
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
       - uses: erlef/setup-beam@v1.20.4
         with:
           elixir-version: ${{ env.WEB_ELIXIR_VERSION }}
           otp-version: ${{ env.OTP_VERSION }}
       - working-directory: development/web
         run: mix deps.get
+      - working-directory: development/web
+        run: mix assets.setup
       - working-directory: development/web
         run: mix compile --warnings-as-errors
       - working-directory: development/web
