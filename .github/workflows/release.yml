@@ -38,7 +38,6 @@ jobs:
     outputs:
       version: ${{ steps.v.outputs.version }}
       publish: ${{ steps.v.outputs.publish }}
-      only_android: ${{ steps.v.outputs.only_android }}
     steps:
       - uses: actions/checkout@v5
 
@@ -52,9 +51,6 @@ jobs:
             exit 1
           fi
           echo "version=$version" >> "$GITHUB_OUTPUT"
-
-          # TEMPORARY: skip the non-Android jobs while isolating the e2e hang.
-          echo "only_android=true" >> "$GITHUB_OUTPUT"
 
           if [ "${{ github.ref_type }}" = "tag" ]; then
             tag="${{ github.ref_name }}"
@@ -74,7 +70,6 @@ jobs:
   library-test:
     name: Library tests
     needs: version
-    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -108,7 +103,6 @@ jobs:
   idempotency:
     name: Generators are idempotent
     needs: version
-    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -132,7 +126,6 @@ jobs:
   web-test:
     name: Harness tests (development/web)
     needs: version
-    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -168,7 +161,6 @@ jobs:
   semgrep:
     name: Semgrep CE
     needs: version
-    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     container:
       image: semgrep/semgrep
@@ -179,7 +171,6 @@ jobs:
   retire-js:
     name: Retire.js
     needs: version
-    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -195,7 +186,6 @@ jobs:
   cms-bundles:
     name: CMS bundles (--cms)
     needs: version
-    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -245,7 +235,6 @@ jobs:
   hex-package:
     name: Hex package (.tar)
     needs: version
-    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -272,7 +261,6 @@ jobs:
   ebin-package:
     name: Compiled ebin
     needs: version
-    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -318,7 +306,6 @@ jobs:
   mob-test:
     name: Mob tests
     needs: version
-    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -344,7 +331,7 @@ jobs:
   # is fine for a GitHub release and rejected by Play, as intended.
   android-apks:
     name: Android APKs (v8 / v7 / universal)
-    needs: [version]
+    needs: [version, mob-test]
     runs-on: ubuntu-latest
     # As ORG_GRADLE_PROJECT_* rather than -P, so the AAB that `mix mob.release` builds and
     # the APKs assembled afterwards carry the same version. `splitAbi` stays a -P flag on
@@ -548,19 +535,24 @@ jobs:
   # have nothing to do with packaging, and must never be what stops a release building.
   android-e2e:
     name: Android e2e
-    needs: [version]
+    needs: [version, mob-test]
     runs-on: ubuntu-latest
     # `am instrument` buffers its output, so a wedged test looks exactly like a slow
     # one: silence either way. Without a cap the job would sit on the runner for the
-    # 6h default before anyone learned anything. The suite is ~400 tests over 52
-    # classes and ran at ~4s/test, so 90m is generous headroom over the ~30m it needs.
-    timeout-minutes: 90
+    # 6h default before anyone learned anything — one hung run cost 67 minutes before
+    # it was killed by hand. ~400 tests at the ~4s/test the suite actually managed is
+    # ~30m, so this bounds a wedge at roughly twice that.
+    timeout-minutes: 60
     # The suite runs and its result is reported, but it does not hold up a release.
-    # It currently gets through twelve test classes and then crashes the app process in
-    # DisplayTest#the_avatar_page_renders_every_example_and_the_props_table — a Compose
-    # SlotTable corruption on composition dispose, which is an app bug, not a packaging
-    # one. Gating the tag on it would mean no release could be cut until that is fixed.
-    # Delete this line once it is, so a red device suite blocks the release again.
+    #
+    # The DisplayTest crash that first forced this is fixed (MobBridge now pushes the
+    # render tree on the main thread) and that class passes. What remains is a hang
+    # somewhere in classes 13-52: the full suite ran 67 minutes without finishing. Those
+    # classes had never executed in CI before — the crash always ended the run at class
+    # 12 — so the hang predates this pipeline rather than being caused by it.
+    #
+    # Until it is found, a tag must not be held hostage to it. Delete this line once the
+    # full suite completes, so a red device suite blocks the release again.
     continue-on-error: true
     steps:
       - uses: actions/checkout@v5
@@ -674,12 +666,7 @@ jobs:
           working-directory: development/mob
           script: |
             mix android.native
-            # TEMPORARY: DisplayTest only. It is the class that used to crash the app
-            # process, and the full suite has never once got past it — so a hang in a
-            # later class may well predate this branch. Proving this one class green
-            # separates "the threading fix works" from "something else wedges". Restore
-            # the bare `mix e2e` once both are known.
-            mix e2e DisplayTest
+            mix e2e
 
       - name: Keep the emulator logs on failure
         if: failure()
