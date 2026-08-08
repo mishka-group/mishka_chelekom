@@ -38,7 +38,6 @@ jobs:
     outputs:
       version: ${{ steps.v.outputs.version }}
       publish: ${{ steps.v.outputs.publish }}
-      only_android: ${{ steps.v.outputs.only_android }}
     steps:
       - uses: actions/checkout@v5
 
@@ -52,9 +51,6 @@ jobs:
             exit 1
           fi
           echo "version=$version" >> "$GITHUB_OUTPUT"
-
-          # TEMPORARY: skip the non-Android jobs while narrowing the crash.
-          echo "only_android=true" >> "$GITHUB_OUTPUT"
 
           if [ "${{ github.ref_type }}" = "tag" ]; then
             tag="${{ github.ref_name }}"
@@ -74,7 +70,6 @@ jobs:
   library-test:
     name: Library tests
     needs: version
-    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -108,7 +103,6 @@ jobs:
   idempotency:
     name: Generators are idempotent
     needs: version
-    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -132,7 +126,6 @@ jobs:
   web-test:
     name: Harness tests (development/web)
     needs: version
-    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -178,7 +171,6 @@ jobs:
   semgrep:
     name: Semgrep CE
     needs: version
-    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     container:
       image: semgrep/semgrep
@@ -189,7 +181,6 @@ jobs:
   retire-js:
     name: Retire.js
     needs: version
-    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -205,7 +196,6 @@ jobs:
   cms-bundles:
     name: CMS bundles (--cms)
     needs: version
-    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -255,7 +245,6 @@ jobs:
   hex-package:
     name: Hex package (.tar)
     needs: version
-    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -282,7 +271,6 @@ jobs:
   ebin-package:
     name: Compiled ebin
     needs: version
-    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -328,7 +316,6 @@ jobs:
   mob-test:
     name: Mob tests
     needs: version
-    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -561,7 +548,7 @@ jobs:
   # have nothing to do with packaging, and must never be what stops a release building.
   android-e2e:
     name: Android e2e
-    needs: [version]
+    needs: [version, mob-test]
     runs-on: ubuntu-latest
     # `am instrument` buffers its output, so a wedged test looks exactly like a slow
     # one: silence either way. Without a cap the job would sit on the runner for the
@@ -693,9 +680,6 @@ jobs:
           set -euo pipefail
           f="$RUNNER_TEMP/logcat.txt"
           [ -f "$f" ] || { echo "no logcat captured"; exit 0; }
-          echo "── setRoot payload growth (per Activity launch) ───────────────"
-          grep -E "MobBridge.*setRoot json=" "$f" | awk '{print NR": "$0}' \
-            | awk 'NR % 25 == 1 || NR <= 5' | tail -40 || echo "(none)"
           echo "── AndroidRuntime / Compose / mob ─────────────────────────────"
           grep -nE "AndroidRuntime|FATAL|Compose|SlotTable|mishka_mob|MobBridge" "$f" \
             | tail -120 || echo "(no matching lines)"

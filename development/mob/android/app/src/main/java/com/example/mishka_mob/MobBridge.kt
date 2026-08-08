@@ -756,12 +756,6 @@ object MobBridge {
         // epoch reads atomic with the write that uses them.
         val node = JSONObject(json).toMobNode()
 
-        // TEMPORARY diagnostic: the payload length is a zero-cost proxy for tree size.
-        // If it climbs across Activity launches, the BEAM is accumulating screens and
-        // the composition it drives grows with them — which is the standing explanation
-        // for a SlotTable that reaches 40960 slots and then miscounts its own gap.
-        android.util.Log.i("MobBridge", "setRoot json=${json.length} transition=$transition")
-
         android.os.Handler(android.os.Looper.getMainLooper()).post {
             // Navigation transitions mean a genuinely different screen — old list state
             // is no longer relevant and would scroll the wrong list to a stale position.
