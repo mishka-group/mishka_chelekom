@@ -190,6 +190,41 @@ jobs:
       - run: npm install -g retire
       - run: retire --path priv/assets/js --severity medium
 
+  # ── 3d. Dependency advisories ────────────────────────────────────────────────
+  # Semgrep and Retire.js read the JS; nothing read the Elixir lockfiles, which is how a
+  # HIGH-severity bandit advisory (EEF-CVE-2026-65623, a quadratic blow-up reassembling
+  # fragmented WebSocket frames) sat in all three of them unnoticed. mix_audit checks the
+  # lockfile against the Elixir security advisories.
+  #
+  # `deps.unlock --check-unused` rides along because a stale lockfile entry carries a
+  # phantom CVE: five of them here — cowboy, cowlib and friends — reported cowlib
+  # advisories for code the project no longer even compiles.
+  deps-audit:
+    name: Dependency advisories
+    needs: version
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { dir: ".", elixir: "1.18.4", otp: "28" }
+          - { dir: "development/web", elixir: "1.19.5", otp: "28" }
+          - { dir: "development/mob", elixir: "1.20.2", otp: "29.0.2" }
+    steps:
+      - uses: actions/checkout@v5
+      - uses: erlef/setup-beam@v1.20.4
+        with:
+          elixir-version: ${{ matrix.elixir }}
+          otp-version: ${{ matrix.otp }}
+      - working-directory: ${{ matrix.dir }}
+        run: mix deps.get
+      - working-directory: ${{ matrix.dir }}
+        run: mix deps.unlock --check-unused
+      - working-directory: ${{ matrix.dir }}
+        run: mix deps.audit
+      - working-directory: ${{ matrix.dir }}
+        run: mix hex.audit
+
   # ── 4. CMS UI-kit bundles ────────────────────────────────────────────────────
   # Regenerated at the release version rather than shipping whatever is committed,
   # so `ui_kit_version` inside the bundle matches the tag it is published under.
@@ -707,6 +742,7 @@ jobs:
       - web-test
       - semgrep
       - retire-js
+      - deps-audit
       - cms-bundles
       - hex-package
       - ebin-package
