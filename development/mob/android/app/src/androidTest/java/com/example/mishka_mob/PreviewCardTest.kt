@@ -254,18 +254,25 @@ class PreviewCardTest {
         val instr = androidx.test.platform.app.InstrumentationRegistry.getInstrumentation()
         val down = android.os.SystemClock.uptimeMillis()
 
-        instr.uiAutomation.injectInputEvent(
-            android.view.MotionEvent.obtain(
-                down, down, android.view.MotionEvent.ACTION_DOWN, x, y, 0
-            ).apply { source = android.view.InputDevice.SOURCE_TOUCHSCREEN },
-            true,
-        )
-        instr.uiAutomation.injectInputEvent(
-            android.view.MotionEvent.obtain(
-                down, down + 60, android.view.MotionEvent.ACTION_UP, x, y, 0
-            ).apply { source = android.view.InputDevice.SOURCE_TOUCHSCREEN },
-            true,
-        )
+        // UiDevice, not Instrumentation.sendPointerSync. The panel is its own window, and
+        // androidx's own PopupDismissTest says why: "Need to click via UiDevice as this
+        // click has to propagate to multiple windows". sendPointerSync goes through the
+        // inject-into-self path, which on API 34+ refuses any event landing outside a
+        // window this app owns — the exact IllegalArgumentException CI was throwing.
+        //
+        // UiDevice takes SCREEN coordinates, so the activity's own offset has to be added
+        // back: elementFrames is relative to the activity window.
+        val origin = intArrayOf(0, 0)
+        compose.activity.window.decorView.getLocationOnScreen(origin)
+        val sx = (origin[0] + x).toInt()
+        val sy = (origin[1] + y).toInt()
+
+        android.util.Log.i("TapProbe", "window=(${x},${y}) origin=(${origin[0]},${origin[1]}) screen=($sx,$sy)")
+
+        androidx.test.uiautomator.UiDevice
+            .getInstance(androidx.test.platform.app.InstrumentationRegistry.getInstrumentation())
+            .click(sx, sy)
+
         compose.waitForIdle()
     }
 

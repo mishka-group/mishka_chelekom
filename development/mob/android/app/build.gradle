@@ -171,6 +171,10 @@ dependencies {
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test:runner:1.5.2'
+    // UiDevice.click is the only tap that crosses windows. androidx's own
+    // PopupDismissTest uses it for exactly this: "Need to click via UiDevice as
+    // this click has to propagate to multiple windows".
+    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.3.0'
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
 
