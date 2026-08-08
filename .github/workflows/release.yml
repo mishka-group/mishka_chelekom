@@ -685,11 +685,13 @@ jobs:
             # crashed but not why, and the Java stack behind it only exists here.
             adb logcat -c || true
             (adb logcat -v time > "$RUNNER_TEMP/logcat.txt" 2>&1 &) || true
-            # TEMPORARY: bisect, round 3. By Activity launches (every @Test relaunches
-            # MainActivity): 42 pass, 85 crash. Nine classes is 69.
-            #   Accordion 5 · AlertDialog 9 · Autocomplete 11 · CheckboxGroup 7
-            #   Checkbox 5 · Chip 5 · Collapsible 3 · Color 11 · Combobox 13 = 69
-            mix e2e AccordionTest AlertDialogTest AutocompleteTest CheckboxGroupTest CheckboxTest ChipTest CollapsibleTest ColorTest ComboboxTest DisplayTest
+            # TEMPORARY: the discriminating test, not another bisect step.
+            # 69 launches pass and 85 crash, so the culprit is inside ContextMenu(6) or
+            # Dialog(10). Running JUST those two before DisplayTest is 16 launches — far
+            # below the 42 that already passed. A crash here means accumulation was never
+            # the mechanism and one specific class leaves the damage; a pass means the
+            # count really does matter and the threshold is 69-85.
+            mix e2e ContextMenuTest DialogTest DisplayTest
 
       - name: Show the crash context from logcat
         if: failure()
