@@ -10,9 +10,9 @@ permissions:
 
 jobs:
   tap-outside:
-    name: tap-outside tests on API 34
+    name: tap-outside probe on API 34
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 75
     steps:
       - uses: actions/checkout@v5
 
@@ -91,7 +91,7 @@ jobs:
             File.write!("android/local.properties", Enum.join(props, "\n") <> "\n")
           '
 
-      - name: Run only the tap-outside classes
+      - name: Run the full batched suite, as the release pipeline does
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 34
@@ -105,7 +105,7 @@ jobs:
             mix android.native
             adb logcat -c || true
             (adb logcat -v time > "$RUNNER_TEMP/logcat.txt" 2>&1 &) || true
-            mix e2e PopoverTest PreviewCardTest TooltipTest
+            mix e2e
 
       - name: Geometry probe
         if: always()
