@@ -607,6 +607,10 @@ jobs:
           set -euo pipefail
           f="$RUNNER_TEMP/logcat.txt"
           [ -f "$f" ] || { echo "no logcat captured"; exit 0; }
+          echo "── TapProbe: geometry at each cross-window tap ────────────────"
+          grep -E "TapProbe" "$f" | sed 's/.*TapProbe[^:]*: //' | head -40 \
+            || echo "(none — the tap sites were never reached)"
+
           echo "── AndroidRuntime / Compose / mob ─────────────────────────────"
           grep -nE "AndroidRuntime|FATAL|Compose|SlotTable|mishka_mob|MobBridge" "$f" \
             | tail -120 || echo "(no matching lines)"
