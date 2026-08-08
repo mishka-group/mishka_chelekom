@@ -1,12 +1,12 @@
 name: Release
 
-# A `v*` tag publishes the release. Pushing the CI branch runs every build and check
-# exactly as the tag would, uploads the same artifacts, and stops short of publishing —
-# so the pipeline can be proven green before a tag is ever cut.
+# A `v*` tag publishes the release. workflow_dispatch runs every build and check exactly
+# as a tag would and stops short of publishing, which is how to exercise the pipeline
+# without cutting one. The ci/tag-release branch trigger that served that purpose during
+# development is gone now that a full run is green.
 on:
   push:
     tags: ["v*"]
-    branches: ["ci/tag-release"]
   workflow_dispatch:
 
 concurrency:
