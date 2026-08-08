@@ -724,18 +724,32 @@ object MobBridge {
     /** Called from mob_nif.c's nif_set_root — updates Compose state. */
     @JvmStatic
     fun setRootJson(json: String, transition: String) {
-        // Navigation transitions mean a genuinely different screen — old list state
-        // is no longer relevant and would scroll the wrong list to a stale position.
-        val newKey = if (transition != "none") {
-            lazyListStates.clear()
-            scrollHandlesById.clear()
-            elementFramesById.clear()
-            _rootState.value.navKey + 1
-        } else {
-            _rootState.value.navKey
+        // nif_set_root reaches this from a BEAM scheduler thread — get_jenv has to
+        // AttachCurrentThread precisely because that thread is not the main one. Writing
+        // _rootState there races the main thread: if a render lands while Compose is
+        // disposing the composition (activity destroy), the SlotWriter's gap accounting
+        // is corrupted and close() throws ArrayIndexOutOfBoundsException with a negative
+        // srcPos. setTheme above already hops to the main looper for exactly this reason;
+        // the root tree — written on EVERY render — did not.
+        //
+        // Parsing is pure, so it stays off the main thread. Everything that the
+        // composition reads is touched inside the post, which also keeps the navKey and
+        // epoch reads atomic with the write that uses them.
+        val node = JSONObject(json).toMobNode()
+
+        android.os.Handler(android.os.Looper.getMainLooper()).post {
+            // Navigation transitions mean a genuinely different screen — old list state
+            // is no longer relevant and would scroll the wrong list to a stale position.
+            val newKey = if (transition != "none") {
+                lazyListStates.clear()
+                scrollHandlesById.clear()
+                elementFramesById.clear()
+                _rootState.value.navKey + 1
+            } else {
+                _rootState.value.navKey
+            }
+            _rootState.value = RootState(newKey, transition, node, _rootState.value.epoch + 1)
         }
-        _rootState.value =
-            RootState(newKey, transition, JSONObject(json).toMobNode(), _rootState.value.epoch + 1)
     }
 
     /** Called from Compose onClick — routes tap back to BEAM via C. */
