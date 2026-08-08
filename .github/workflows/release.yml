@@ -144,6 +144,42 @@ jobs:
         env:
           MIX_ENV: test
 
+  # ── 3c. Security scans, at the tagged commit ─────────────────────────────────
+  # semgrep.yml and retire-js.yml cover pull requests and master, and CodeQL's default
+  # setup covers the default branch weekly — but none of them run on a tag, so a release
+  # could be cut from a commit nothing had scanned. Same tools and same scope as the
+  # standalone workflows, run here so they gate the release.
+  #
+  # Both mirror their existing invocation rather than tightening it: semgrep only fails
+  # the job on findings with `--error`, which would change what the repo already accepts.
+  # Add it here when the team wants findings to block a tag.
+  #
+  # CodeQL is deliberately absent. This repo has code-scanning *default setup* enabled,
+  # and GitHub refuses to run github/codeql-action while that is on — the job errors
+  # rather than scanning. Covering tags with CodeQL means converting the repo to advanced
+  # setup, which is a separate decision.
+  semgrep:
+    name: Semgrep CE
+    needs: version
+    runs-on: ubuntu-latest
+    container:
+      image: semgrep/semgrep
+    steps:
+      - uses: actions/checkout@v5
+      - run: semgrep scan --config auto priv/assets/js
+
+  retire-js:
+    name: Retire.js
+    needs: version
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - run: npm install -g retire
+      - run: retire --path priv/assets/js --severity medium
+
   # ── 4. CMS UI-kit bundles ────────────────────────────────────────────────────
   # Regenerated at the release version rather than shipping whatever is committed,
   # so `ui_kit_version` inside the bundle matches the tag it is published under.
@@ -501,6 +537,11 @@ jobs:
     name: Android e2e
     needs: [version, mob-test]
     runs-on: ubuntu-latest
+    # `am instrument` buffers its output, so a wedged test looks exactly like a slow
+    # one: silence either way. Without a cap the job would sit on the runner for the
+    # 6h default before anyone learned anything. The suite is ~400 tests over 52
+    # classes and ran at ~4s/test, so 90m is generous headroom over the ~30m it needs.
+    timeout-minutes: 90
     # The suite runs and its result is reported, but it does not hold up a release.
     # It currently gets through twelve test classes and then crashes the app process in
     # DisplayTest#the_avatar_page_renders_every_example_and_the_props_table — a Compose
@@ -642,6 +683,8 @@ jobs:
       - library-test
       - idempotency
       - web-test
+      - semgrep
+      - retire-js
       - cms-bundles
       - hex-package
       - ebin-package
