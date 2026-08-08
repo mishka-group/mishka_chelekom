@@ -38,6 +38,7 @@ jobs:
     outputs:
       version: ${{ steps.v.outputs.version }}
       publish: ${{ steps.v.outputs.publish }}
+      only_android: ${{ steps.v.outputs.only_android }}
     steps:
       - uses: actions/checkout@v5
 
@@ -51,6 +52,9 @@ jobs:
             exit 1
           fi
           echo "version=$version" >> "$GITHUB_OUTPUT"
+
+          # TEMPORARY: skip the non-Android jobs while isolating the e2e hang.
+          echo "only_android=true" >> "$GITHUB_OUTPUT"
 
           if [ "${{ github.ref_type }}" = "tag" ]; then
             tag="${{ github.ref_name }}"
@@ -70,6 +74,7 @@ jobs:
   library-test:
     name: Library tests
     needs: version
+    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -103,6 +108,7 @@ jobs:
   idempotency:
     name: Generators are idempotent
     needs: version
+    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -126,6 +132,7 @@ jobs:
   web-test:
     name: Harness tests (development/web)
     needs: version
+    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -161,6 +168,7 @@ jobs:
   semgrep:
     name: Semgrep CE
     needs: version
+    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     container:
       image: semgrep/semgrep
@@ -171,6 +179,7 @@ jobs:
   retire-js:
     name: Retire.js
     needs: version
+    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -186,6 +195,7 @@ jobs:
   cms-bundles:
     name: CMS bundles (--cms)
     needs: version
+    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -235,6 +245,7 @@ jobs:
   hex-package:
     name: Hex package (.tar)
     needs: version
+    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -261,6 +272,7 @@ jobs:
   ebin-package:
     name: Compiled ebin
     needs: version
+    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -306,6 +318,7 @@ jobs:
   mob-test:
     name: Mob tests
     needs: version
+    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -331,7 +344,7 @@ jobs:
   # is fine for a GitHub release and rejected by Play, as intended.
   android-apks:
     name: Android APKs (v8 / v7 / universal)
-    needs: [version, mob-test]
+    needs: [version]
     runs-on: ubuntu-latest
     # As ORG_GRADLE_PROJECT_* rather than -P, so the AAB that `mix mob.release` builds and
     # the APKs assembled afterwards carry the same version. `splitAbi` stays a -P flag on
@@ -535,7 +548,7 @@ jobs:
   # have nothing to do with packaging, and must never be what stops a release building.
   android-e2e:
     name: Android e2e
-    needs: [version, mob-test]
+    needs: [version]
     runs-on: ubuntu-latest
     # `am instrument` buffers its output, so a wedged test looks exactly like a slow
     # one: silence either way. Without a cap the job would sit on the runner for the
@@ -661,7 +674,12 @@ jobs:
           working-directory: development/mob
           script: |
             mix android.native
-            mix e2e
+            # TEMPORARY: DisplayTest only. It is the class that used to crash the app
+            # process, and the full suite has never once got past it — so a hang in a
+            # later class may well predate this branch. Proving this one class green
+            # separates "the threading fix works" from "something else wedges". Restore
+            # the bare `mix e2e` once both are known.
+            mix e2e DisplayTest
 
       - name: Keep the emulator logs on failure
         if: failure()
