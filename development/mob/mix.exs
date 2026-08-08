@@ -242,36 +242,94 @@ defmodule MishkaMob.MixProject do
   # where the whole OTP release lives, so the BEAM dies with `cannot get
   # bootfile` a second after onCreate. Installing only the TEST apk leaves the
   # app package untouched.
-  defp e2e(args) do
-    filter =
-      case args do
-        [] -> []
-        names -> ["-e", "class", Enum.map_join(names, ",", &qualify/1)]
-      end
+  # Every @Test relaunches MainActivity, and past roughly 70-85 launches in one process
+  # the app dies at the next Activity teardown — Compose's SlotTable miscounts its own
+  # gap and close() throws. 397 tests in a single `am instrument` sails past that, so
+  # the suite could never finish. Each invocation gets its own app process, so batching
+  # keeps every process well under the threshold.
+  #
+  # This is containment, not a cure: the launch-count bug is real and still open. It
+  # just isn't reachable by anything a user does, and it should not hold the suite (or
+  # a release) hostage while it is investigated.
+  @launch_budget 40
 
+  defp e2e(args) do
     cmd!(Path.expand("android/gradlew"), ["assembleDebugAndroidTest"], "android")
     cmd!("adb", ["install", "-r", @test_apk])
 
-    # `am instrument` prints each class as it finishes, but capturing into a string
-    # holds all of it until the command returns — so a suite that wedges looks
-    # identical to one that is merely slow, and killing it yields a log with no test
-    # output at all. `into:` streams it instead, which is what tells you WHERE it
-    # stopped; `tee` keeps a copy because the verdict still has to be read back.
+    batches =
+      case args do
+        [] -> test_classes() |> batch_by_launches(@launch_budget)
+        names -> [Enum.map(names, &qualify/1)]
+      end
+
+    if length(batches) > 1 do
+      Mix.shell().info(
+        "Running #{length(batches)} batches (≤#{@launch_budget} Activity launches each)\n"
+      )
+    end
+
+    failed =
+      batches
+      |> Enum.with_index(1)
+      |> Enum.reduce([], fn {classes, i}, acc ->
+        if length(batches) > 1 do
+          Mix.shell().info("── batch #{i}/#{length(batches)} ─────────────────────────")
+        end
+
+        if instrument_ok?(classes), do: acc, else: [i | acc]
+      end)
+
+    unless failed == [] do
+      Mix.raise(
+        "device tests failed in batch(es) #{failed |> Enum.reverse() |> Enum.join(", ")} " <>
+          "— see the output above"
+      )
+    end
+  end
+
+  # One `am instrument` run. Streams as it goes: the runner prints each class when it
+  # finishes, but capturing into a string withholds all of it until the command returns,
+  # which makes a wedged suite indistinguishable from a slow one and leaves a killed run
+  # with no test output at all. `tee` keeps a copy because the verdict is read back out
+  # of the text — `am instrument` exits 0 whether tests pass or fail.
+  defp instrument_ok?(classes) do
     log = Path.join(System.tmp_dir!(), "mob_e2e_#{System.unique_integer([:positive])}.log")
+    filter = if classes == [], do: [], else: ["-e", "class", Enum.join(classes, ",")]
     instrument = Enum.join(["am", "instrument", "-w"] ++ filter ++ [@runner], " ")
 
     System.cmd("sh", ["-c", "adb shell #{instrument} 2>&1 | tee #{log}"],
       into: IO.stream(:stdio, :line)
     )
 
-    # `am instrument` exits 0 even when tests fail — the verdict is in its
-    # output, so a green exit code here would be a lie.
     out = File.read!(log)
     File.rm(log)
 
-    if String.contains?(out, "FAILURES!!!") or not String.contains?(out, "OK (") do
-      Mix.raise("device tests failed — see the output above")
-    end
+    not String.contains?(out, "FAILURES!!!") and String.contains?(out, "OK (")
+  end
+
+  # Every *Test.kt, paired with its @Test count — the number of Activity launches it
+  # will cost. Read from source so a new class is batched the moment it lands.
+  defp test_classes do
+    "android/app/src/androidTest/**/*Test.kt"
+    |> Path.wildcard()
+    |> Enum.sort()
+    |> Enum.map(fn path ->
+      tests = path |> File.read!() |> then(&Regex.scan(~r/^\s*@Test\b/m, &1)) |> length()
+      {qualify(Path.basename(path, ".kt")), max(tests, 1)}
+    end)
+  end
+
+  # Greedy pack, in the runner's own order, so a batch reads as a contiguous run.
+  defp batch_by_launches(classes, budget) do
+    classes
+    |> Enum.reduce({[], [], 0}, fn {name, tests}, {done, current, spent} ->
+      if current != [] and spent + tests > budget,
+        do: {[Enum.reverse(current) | done], [name], tests},
+        else: {done, [name | current], spent + tests}
+    end)
+    |> then(fn {done, current, _} -> Enum.reverse([Enum.reverse(current) | done]) end)
+    |> Enum.reject(&(&1 == []))
   end
 
   defp qualify(name) do
