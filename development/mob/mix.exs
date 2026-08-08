@@ -252,10 +252,22 @@ defmodule MishkaMob.MixProject do
     cmd!(Path.expand("android/gradlew"), ["assembleDebugAndroidTest"], "android")
     cmd!("adb", ["install", "-r", @test_apk])
 
+    # `am instrument` prints each class as it finishes, but capturing into a string
+    # holds all of it until the command returns — so a suite that wedges looks
+    # identical to one that is merely slow, and killing it yields a log with no test
+    # output at all. `into:` streams it instead, which is what tells you WHERE it
+    # stopped; `tee` keeps a copy because the verdict still has to be read back.
+    log = Path.join(System.tmp_dir!(), "mob_e2e_#{System.unique_integer([:positive])}.log")
+    instrument = Enum.join(["am", "instrument", "-w"] ++ filter ++ [@runner], " ")
+
+    System.cmd("sh", ["-c", "adb shell #{instrument} 2>&1 | tee #{log}"],
+      into: IO.stream(:stdio, :line)
+    )
+
     # `am instrument` exits 0 even when tests fail — the verdict is in its
     # output, so a green exit code here would be a lie.
-    {out, _} = System.cmd("adb", ["shell", "am", "instrument", "-w"] ++ filter ++ [@runner])
-    IO.puts(out)
+    out = File.read!(log)
+    File.rm(log)
 
     if String.contains?(out, "FAILURES!!!") or not String.contains?(out, "OK (") do
       Mix.raise("device tests failed — see the output above")
