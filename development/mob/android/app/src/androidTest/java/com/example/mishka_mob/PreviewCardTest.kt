@@ -254,39 +254,25 @@ class PreviewCardTest {
         val instr = androidx.test.platform.app.InstrumentationRegistry.getInstrumentation()
         val down = android.os.SystemClock.uptimeMillis()
 
-        // Keep the point inside THIS app's window. A touch-modal popup closes only when
-        // the window manager delivers ACTION_OUTSIDE, and it does that only for a touch
-        // landing on another window of the same app — a point in the navigation bar
-        // belongs to the system and is swallowed, so the popup never hears about it and
-        // the test waits for a dismissal that cannot come. The offsets these callers pass
-        // are unbounded, so on a shorter screen they walk straight off the bottom.
-        val decor = compose.activity.window.decorView
-        val bars = androidx.core.view.ViewCompat.getRootWindowInsets(decor)
-            ?.getInsets(androidx.core.view.WindowInsetsCompat.Type.systemBars())
-        val margin = 8f * density
-        val safeTop = (bars?.top ?: 0) + margin
-        val safeBottom = decor.height - (bars?.bottom ?: 0) - margin
-        val ty = y.coerceIn(safeTop, maxOf(safeTop, safeBottom))
+        // UiDevice, not Instrumentation.sendPointerSync. The panel is its own window, and
+        // androidx's own PopupDismissTest says why: "Need to click via UiDevice as this
+        // click has to propagate to multiple windows". sendPointerSync goes through the
+        // inject-into-self path, which on API 34+ refuses any event landing outside a
+        // window this app owns — the exact IllegalArgumentException CI was throwing.
+        //
+        // UiDevice takes SCREEN coordinates, so the activity's own offset has to be added
+        // back: elementFrames is relative to the activity window.
+        val origin = intArrayOf(0, 0)
+        compose.activity.window.decorView.getLocationOnScreen(origin)
+        val sx = (origin[0] + x).toInt()
+        val sy = (origin[1] + y).toInt()
 
-        android.util.Log.i(
-            "TapProbe",
-            "density=$density window=${decor.width}x${decor.height}px " +
-                "insets=top:${bars?.top ?: -1},bottom:${bars?.bottom ?: -1} " +
-                "wanted=(${x},${y}) tapped=(${x},${ty}) clamped=${ty != y}"
-        )
+        android.util.Log.i("TapProbe", "window=(${x},${y}) origin=(${origin[0]},${origin[1]}) screen=($sx,$sy)")
 
-        instr.uiAutomation.injectInputEvent(
-            android.view.MotionEvent.obtain(
-                down, down, android.view.MotionEvent.ACTION_DOWN, x, ty, 0
-            ).apply { source = android.view.InputDevice.SOURCE_TOUCHSCREEN },
-            true,
-        )
-        instr.uiAutomation.injectInputEvent(
-            android.view.MotionEvent.obtain(
-                down, down + 60, android.view.MotionEvent.ACTION_UP, x, ty, 0
-            ).apply { source = android.view.InputDevice.SOURCE_TOUCHSCREEN },
-            true,
-        )
+        androidx.test.uiautomator.UiDevice
+            .getInstance(androidx.test.platform.app.InstrumentationRegistry.getInstrumentation())
+            .click(sx, sy)
+
         compose.waitForIdle()
     }
 
