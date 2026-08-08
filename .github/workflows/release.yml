@@ -38,6 +38,7 @@ jobs:
     outputs:
       version: ${{ steps.v.outputs.version }}
       publish: ${{ steps.v.outputs.publish }}
+      only_android: ${{ steps.v.outputs.only_android }}
     steps:
       - uses: actions/checkout@v5
 
@@ -51,6 +52,9 @@ jobs:
             exit 1
           fi
           echo "version=$version" >> "$GITHUB_OUTPUT"
+
+          # TEMPORARY: skip the non-Android jobs while narrowing the crash.
+          echo "only_android=true" >> "$GITHUB_OUTPUT"
 
           if [ "${{ github.ref_type }}" = "tag" ]; then
             tag="${{ github.ref_name }}"
@@ -70,6 +74,7 @@ jobs:
   library-test:
     name: Library tests
     needs: version
+    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -103,6 +108,7 @@ jobs:
   idempotency:
     name: Generators are idempotent
     needs: version
+    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -126,6 +132,7 @@ jobs:
   web-test:
     name: Harness tests (development/web)
     needs: version
+    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -171,6 +178,7 @@ jobs:
   semgrep:
     name: Semgrep CE
     needs: version
+    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     container:
       image: semgrep/semgrep
@@ -181,6 +189,7 @@ jobs:
   retire-js:
     name: Retire.js
     needs: version
+    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -196,6 +205,7 @@ jobs:
   cms-bundles:
     name: CMS bundles (--cms)
     needs: version
+    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -245,6 +255,7 @@ jobs:
   hex-package:
     name: Hex package (.tar)
     needs: version
+    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -271,6 +282,7 @@ jobs:
   ebin-package:
     name: Compiled ebin
     needs: version
+    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -316,6 +328,7 @@ jobs:
   mob-test:
     name: Mob tests
     needs: version
+    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -548,7 +561,7 @@ jobs:
   # have nothing to do with packaging, and must never be what stops a release building.
   android-e2e:
     name: Android e2e
-    needs: [version, mob-test]
+    needs: [version]
     runs-on: ubuntu-latest
     # `am instrument` buffers its output, so a wedged test looks exactly like a slow
     # one: silence either way. Without a cap the job would sit on the runner for the
@@ -672,7 +685,12 @@ jobs:
             # crashed but not why, and the Java stack behind it only exists here.
             adb logcat -c || true
             (adb logcat -v time > "$RUNNER_TEMP/logcat.txt" 2>&1 &) || true
-            mix e2e
+            # TEMPORARY: two classes, not 52. DisplayTest passes alone and crashes
+            # after eleven others, with byte-identical arithmetic every run — so the
+            # trigger is deterministic and cumulative, not a race. If ONE prior class is
+            # enough, the repro is 8 minutes instead of 20 and the cause is "the second
+            # Activity", not "eleven classes of accumulation".
+            mix e2e AccordionTest DisplayTest
 
       - name: Show the crash context from logcat
         if: failure()
