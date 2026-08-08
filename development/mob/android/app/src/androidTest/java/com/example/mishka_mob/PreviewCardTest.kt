@@ -254,15 +254,17 @@ class PreviewCardTest {
         val instr = androidx.test.platform.app.InstrumentationRegistry.getInstrumentation()
         val down = android.os.SystemClock.uptimeMillis()
 
-        instr.sendPointerSync(
+        instr.uiAutomation.injectInputEvent(
             android.view.MotionEvent.obtain(
                 down, down, android.view.MotionEvent.ACTION_DOWN, x, y, 0
-            )
+            ).apply { source = android.view.InputDevice.SOURCE_TOUCHSCREEN },
+            true,
         )
-        instr.sendPointerSync(
+        instr.uiAutomation.injectInputEvent(
             android.view.MotionEvent.obtain(
                 down, down + 60, android.view.MotionEvent.ACTION_UP, x, y, 0
-            )
+            ).apply { source = android.view.InputDevice.SOURCE_TOUCHSCREEN },
+            true,
         )
         compose.waitForIdle()
     }
