@@ -341,7 +341,10 @@ jobs:
   # is fine for a GitHub release and rejected by Play, as intended.
   android-apks:
     name: Android APKs (v8 / v7 / universal)
-    needs: [version, mob-test]
+    # Packaging follows verification: there is no point shipping an APK whose behaviour
+    # the device suite has not confirmed. A real dependency — android-e2e no longer
+    # carries continue-on-error, so a red or hung suite stops the APK and the release.
+    needs: [version, mob-test, android-e2e]
     runs-on: ubuntu-latest
     # As ORG_GRADLE_PROJECT_* rather than -P, so the AAB that `mix mob.release` builds and
     # the APKs assembled afterwards carry the same version. `splitAbi` stays a -P flag on
@@ -553,17 +556,6 @@ jobs:
     # it was killed by hand. ~400 tests at the ~4s/test the suite actually managed is
     # ~30m, so this bounds a wedge at roughly twice that.
     timeout-minutes: 60
-    # The suite runs and its result is reported, but it does not hold up a release.
-    #
-    # The DisplayTest crash that first forced this is fixed (MobBridge now pushes the
-    # render tree on the main thread) and that class passes. What remains is a hang
-    # somewhere in classes 13-52: the full suite ran 67 minutes without finishing. Those
-    # classes had never executed in CI before — the crash always ended the run at class
-    # 12 — so the hang predates this pipeline rather than being caused by it.
-    #
-    # Until it is found, a tag must not be held hostage to it. Delete this line once the
-    # full suite completes, so a red device suite blocks the release again.
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v5
 
