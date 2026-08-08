@@ -685,10 +685,11 @@ jobs:
             # crashed but not why, and the Java stack behind it only exists here.
             adb logcat -c || true
             (adb logcat -v time > "$RUNNER_TEMP/logcat.txt" 2>&1 &) || true
-            # TEMPORARY: bisect. 1 prior class passes, 11 crash — so it accumulates.
-            # Six splits the interval. Counting Activity launches rather than classes:
-            # 5 launches pass, 85 crash, and this asks about 42.
-            mix e2e AccordionTest AlertDialogTest AutocompleteTest CheckboxGroupTest CheckboxTest ChipTest DisplayTest
+            # TEMPORARY: bisect, round 3. By Activity launches (every @Test relaunches
+            # MainActivity): 42 pass, 85 crash. Nine classes is 69.
+            #   Accordion 5 · AlertDialog 9 · Autocomplete 11 · CheckboxGroup 7
+            #   Checkbox 5 · Chip 5 · Collapsible 3 · Color 11 · Combobox 13 = 69
+            mix e2e AccordionTest AlertDialogTest AutocompleteTest CheckboxGroupTest CheckboxTest ChipTest CollapsibleTest ColorTest ComboboxTest DisplayTest
 
       - name: Show the crash context from logcat
         if: failure()
