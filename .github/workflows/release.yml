@@ -685,12 +685,10 @@ jobs:
             # crashed but not why, and the Java stack behind it only exists here.
             adb logcat -c || true
             (adb logcat -v time > "$RUNNER_TEMP/logcat.txt" 2>&1 &) || true
-            # TEMPORARY: two classes, not 52. DisplayTest passes alone and crashes
-            # after eleven others, with byte-identical arithmetic every run — so the
-            # trigger is deterministic and cumulative, not a race. If ONE prior class is
-            # enough, the repro is 8 minutes instead of 20 and the cause is "the second
-            # Activity", not "eleven classes of accumulation".
-            mix e2e AccordionTest DisplayTest
+            # TEMPORARY: bisect. 1 prior class passes, 11 crash — so it accumulates.
+            # Six splits the interval. Counting Activity launches rather than classes:
+            # 5 launches pass, 85 crash, and this asks about 42.
+            mix e2e AccordionTest AlertDialogTest AutocompleteTest CheckboxGroupTest CheckboxTest ChipTest DisplayTest
 
       - name: Show the crash context from logcat
         if: failure()
