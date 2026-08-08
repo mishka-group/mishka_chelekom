@@ -178,6 +178,19 @@ class MainActivity : ComponentActivity() {
             MobBridge.setLaunchNotification(json)
         }
 
+        // The BEAM outlives the Activity (see the handoff above), and the registries it
+        // feeds are process-global — so a relaunched Activity would compose against
+        // LazyListState and ScrollState objects still bound to the previous
+        // composition and its disposed layout nodes. Compose corrupts the SlotTable
+        // when that happens, and the crash surfaces later, in the NEXT dispose, as an
+        // ArrayIndexOutOfBoundsException out of SlotWriter.close with a negative
+        // source position — nowhere near the reuse that caused it.
+        //
+        // Clearing on create rather than destroy is deliberate: a process that dies
+        // mid-dispose never reaches its own onDestroy, and the next Activity would
+        // inherit the wreckage anyway.
+        MobBridge.releaseCompositionState()
+
         setContent {
             val state by MobBridge.rootState
             val themeColors by MobBridge.themeColors

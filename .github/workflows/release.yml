@@ -668,7 +668,21 @@ jobs:
           working-directory: development/mob
           script: |
             mix android.native
+            # Logcat in the background: the instrumentation summary says a process
+            # crashed but not why, and the Java stack behind it only exists here.
+            adb logcat -c || true
+            (adb logcat -v time > "$RUNNER_TEMP/logcat.txt" 2>&1 &) || true
             mix e2e
+
+      - name: Show the crash context from logcat
+        if: failure()
+        run: |
+          set -euo pipefail
+          f="$RUNNER_TEMP/logcat.txt"
+          [ -f "$f" ] || { echo "no logcat captured"; exit 0; }
+          echo "── AndroidRuntime / Compose / mob ─────────────────────────────"
+          grep -nE "AndroidRuntime|FATAL|Compose|SlotTable|mishka_mob|MobBridge" "$f" \
+            | tail -120 || echo "(no matching lines)"
 
       - name: Keep the emulator logs on failure
         if: failure()
@@ -678,6 +692,7 @@ jobs:
           path: |
             development/mob/android/app/build/reports/**
             development/mob/*.log
+            ${{ runner.temp }}/logcat.txt
           if-no-files-found: ignore
 
   # ── 10. Publish ──────────────────────────────────────────────────────────────

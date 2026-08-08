@@ -358,6 +358,25 @@ object MobBridge {
     // frameTrackingModifier.
     private val elementViewsById = ConcurrentHashMap<String, WeakReference<android.view.View>>()
 
+    /**
+     * Drops every registry entry that belongs to a composition. Called from
+     * MainActivity.onCreate, on the main thread, before setContent.
+     *
+     * LazyListState and ScrollState are bound to the composition and the layout nodes
+     * that created them, but these registries are process-global and the BEAM outlives
+     * the Activity — so without this a relaunched Activity composes against holders
+     * belonging to a disposed one. `lazyListStates` makes it likelier still: its key is
+     * only "stable within a screen", so the same handle names a different list once the
+     * screen changes.
+     */
+    @JvmStatic
+    fun releaseCompositionState() {
+        lazyListStates.clear()
+        scrollHandlesById.clear()
+        elementFramesById.clear()
+        elementViewsById.clear()
+    }
+
     fun recordElementFrame(id: String, x: Float, y: Float, w: Float, h: Float) {
         elementFramesById[id] = floatArrayOf(x, y, w, h)
     }
