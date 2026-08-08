@@ -2492,9 +2492,10 @@ private fun MobAnchored(node: MobNode, modifier: Modifier) {
     val ld = LocalLayoutDirection.current
     val edgeDp = floatProp(node.props, "edge_padding") ?: 8f
     val edgePx = with(density) { edgeDp.dp.roundToPx() }
+    val displaySizePx = rememberRealDisplaySizePx()
 
     val provider =
-        remember(node.props, density, insets, ld, cfg) {
+        remember(node.props, density, insets, ld, cfg, displaySizePx) {
             MobAnchoredPositionProvider(
                 side = node.props["side"] as? String ?: "bottom",
                 align = node.props["align"] as? String ?: "center",
@@ -2517,8 +2518,17 @@ private fun MobAnchored(node: MobNode, modifier: Modifier) {
                 // smaller than what is actually drawn — a trigger sitting over
                 // the gesture bar counted as off-screen and its panel stopped
                 // being clamped, landing at x=-65dp.
-                screenWidth = with(density) { cfg.screenWidthDp.dp.roundToPx() },
-                screenHeight = with(density) { cfg.screenHeightDp.dp.roundToPx() },
+                //
+                // Configuration was the first attempt at "the display" and is
+                // still short of it below API 35, where screenHeightDp excludes
+                // the status and navigation bars — 851dp of a 923dp screen on a
+                // Pixel 6. A trigger at 858dp then reads as off-screen and the
+                // same -65dp escape comes back, on that API and no other, which
+                // is why it survived: an API 36 emulator clamps correctly and an
+                // API 34 one does not. getRealMetrics is the actual panel size on
+                // every API this app supports.
+                screenWidth = displaySizePx.width,
+                screenHeight = displaySizePx.height,
             )
         }
 
@@ -2574,6 +2584,29 @@ private fun MobAnchored(node: MobNode, modifier: Modifier) {
 // anchorBounds arrives as parentLayoutCoordinates.positionInWindow() + size;
 // windowSize is getWindowVisibleDisplayFrame. The returned IntOffset becomes
 // params.x/params.y with gravity = START|TOP.
+/**
+ * The physical panel size in pixels, system bars included.
+ *
+ * Neither of the obvious answers is this. `Configuration.screenWidthDp/HeightDp` drops
+ * the status and navigation bars below API 35 but keeps them from 35 on, so the same
+ * code reads two different screens depending on the device's API level. And
+ * `getWindowVisibleDisplayFrame` is the visible frame, which under enableEdgeToEdge is
+ * smaller than what is actually drawn. Anchored positioning needs the real surface: a
+ * trigger drawn over the gesture bar is on screen, and its panel has to be clamped.
+ */
+@Composable
+private fun rememberRealDisplaySizePx(): IntSize {
+    val context = LocalContext.current
+    return remember(context) {
+        val metrics = android.util.DisplayMetrics()
+        @Suppress("DEPRECATION")
+        (context.getSystemService(android.content.Context.WINDOW_SERVICE) as android.view.WindowManager)
+            .defaultDisplay
+            .getRealMetrics(metrics)
+        IntSize(metrics.widthPixels, metrics.heightPixels)
+    }
+}
+
 private class MobAnchoredPositionProvider(
     private val side: String,
     private val align: String,
