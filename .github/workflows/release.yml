@@ -514,14 +514,14 @@ jobs:
               ls -la "$out" || true
               exit 1
             fi
-            cp "$match" "dist/mishka-mob-$v-$2.apk"
+            cp "$match" "dist/mishka_mob_${v}_android_$2.apk"
             echo "  $2 <- $(basename "$match")"
           }
           pick "arm64-v8a"   "arm64-v8a"
           pick "armeabi-v7a" "armeabi-v7a"
           pick "universal"   "universal"
           aab="$(ls android/app/build/outputs/bundle/release/*.aab 2>/dev/null | head -1 || true)"
-          [ -n "$aab" ] && cp "$aab" "dist/mishka-mob-$v.aab"
+          [ -n "$aab" ] && cp "$aab" "dist/mishka_mob_${v}_android.aab"
           ls -la dist
 
       - uses: actions/upload-artifact@v4
@@ -718,9 +718,9 @@ jobs:
             "chelekom_headless.json"
             "mishka_chelekom-$v.tar"
             "mishka_chelekom-$v-ebin.tar.gz"
-            "mishka-mob-$v-arm64-v8a.apk"
-            "mishka-mob-$v-armeabi-v7a.apk"
-            "mishka-mob-$v-universal.apk"
+            "mishka_mob_${v}_android_arm64-v8a.apk"
+            "mishka_mob_${v}_android_armeabi-v7a.apk"
+            "mishka_mob_${v}_android_universal.apk"
           )
           missing=0
           for f in "${expected[@]}"; do
