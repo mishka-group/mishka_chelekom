@@ -358,6 +358,25 @@ object MobBridge {
     // frameTrackingModifier.
     private val elementViewsById = ConcurrentHashMap<String, WeakReference<android.view.View>>()
 
+    /**
+     * Drops every registry entry that belongs to a composition. Called from
+     * MainActivity.onCreate, on the main thread, before setContent.
+     *
+     * LazyListState and ScrollState are bound to the composition and the layout nodes
+     * that created them, but these registries are process-global and the BEAM outlives
+     * the Activity — so without this a relaunched Activity composes against holders
+     * belonging to a disposed one. `lazyListStates` makes it likelier still: its key is
+     * only "stable within a screen", so the same handle names a different list once the
+     * screen changes.
+     */
+    @JvmStatic
+    fun releaseCompositionState() {
+        lazyListStates.clear()
+        scrollHandlesById.clear()
+        elementFramesById.clear()
+        elementViewsById.clear()
+    }
+
     fun recordElementFrame(id: String, x: Float, y: Float, w: Float, h: Float) {
         elementFramesById[id] = floatArrayOf(x, y, w, h)
     }
@@ -724,18 +743,32 @@ object MobBridge {
     /** Called from mob_nif.c's nif_set_root — updates Compose state. */
     @JvmStatic
     fun setRootJson(json: String, transition: String) {
-        // Navigation transitions mean a genuinely different screen — old list state
-        // is no longer relevant and would scroll the wrong list to a stale position.
-        val newKey = if (transition != "none") {
-            lazyListStates.clear()
-            scrollHandlesById.clear()
-            elementFramesById.clear()
-            _rootState.value.navKey + 1
-        } else {
-            _rootState.value.navKey
+        // nif_set_root reaches this from a BEAM scheduler thread — get_jenv has to
+        // AttachCurrentThread precisely because that thread is not the main one. Writing
+        // _rootState there races the main thread: if a render lands while Compose is
+        // disposing the composition (activity destroy), the SlotWriter's gap accounting
+        // is corrupted and close() throws ArrayIndexOutOfBoundsException with a negative
+        // srcPos. setTheme above already hops to the main looper for exactly this reason;
+        // the root tree — written on EVERY render — did not.
+        //
+        // Parsing is pure, so it stays off the main thread. Everything that the
+        // composition reads is touched inside the post, which also keeps the navKey and
+        // epoch reads atomic with the write that uses them.
+        val node = JSONObject(json).toMobNode()
+
+        android.os.Handler(android.os.Looper.getMainLooper()).post {
+            // Navigation transitions mean a genuinely different screen — old list state
+            // is no longer relevant and would scroll the wrong list to a stale position.
+            val newKey = if (transition != "none") {
+                lazyListStates.clear()
+                scrollHandlesById.clear()
+                elementFramesById.clear()
+                _rootState.value.navKey + 1
+            } else {
+                _rootState.value.navKey
+            }
+            _rootState.value = RootState(newKey, transition, node, _rootState.value.epoch + 1)
         }
-        _rootState.value =
-            RootState(newKey, transition, JSONObject(json).toMobNode(), _rootState.value.epoch + 1)
     }
 
     /** Called from Compose onClick — routes tap back to BEAM via C. */
@@ -2459,9 +2492,10 @@ private fun MobAnchored(node: MobNode, modifier: Modifier) {
     val ld = LocalLayoutDirection.current
     val edgeDp = floatProp(node.props, "edge_padding") ?: 8f
     val edgePx = with(density) { edgeDp.dp.roundToPx() }
+    val displaySizePx = rememberRealDisplaySizePx()
 
     val provider =
-        remember(node.props, density, insets, ld, cfg) {
+        remember(node.props, density, insets, ld, cfg, displaySizePx) {
             MobAnchoredPositionProvider(
                 side = node.props["side"] as? String ?: "bottom",
                 align = node.props["align"] as? String ?: "center",
@@ -2484,8 +2518,17 @@ private fun MobAnchored(node: MobNode, modifier: Modifier) {
                 // smaller than what is actually drawn — a trigger sitting over
                 // the gesture bar counted as off-screen and its panel stopped
                 // being clamped, landing at x=-65dp.
-                screenWidth = with(density) { cfg.screenWidthDp.dp.roundToPx() },
-                screenHeight = with(density) { cfg.screenHeightDp.dp.roundToPx() },
+                //
+                // Configuration was the first attempt at "the display" and is
+                // still short of it below API 35, where screenHeightDp excludes
+                // the status and navigation bars — 851dp of a 923dp screen on a
+                // Pixel 6. A trigger at 858dp then reads as off-screen and the
+                // same -65dp escape comes back, on that API and no other, which
+                // is why it survived: an API 36 emulator clamps correctly and an
+                // API 34 one does not. getRealMetrics is the actual panel size on
+                // every API this app supports.
+                screenWidth = displaySizePx.width,
+                screenHeight = displaySizePx.height,
             )
         }
 
@@ -2541,6 +2584,29 @@ private fun MobAnchored(node: MobNode, modifier: Modifier) {
 // anchorBounds arrives as parentLayoutCoordinates.positionInWindow() + size;
 // windowSize is getWindowVisibleDisplayFrame. The returned IntOffset becomes
 // params.x/params.y with gravity = START|TOP.
+/**
+ * The physical panel size in pixels, system bars included.
+ *
+ * Neither of the obvious answers is this. `Configuration.screenWidthDp/HeightDp` drops
+ * the status and navigation bars below API 35 but keeps them from 35 on, so the same
+ * code reads two different screens depending on the device's API level. And
+ * `getWindowVisibleDisplayFrame` is the visible frame, which under enableEdgeToEdge is
+ * smaller than what is actually drawn. Anchored positioning needs the real surface: a
+ * trigger drawn over the gesture bar is on screen, and its panel has to be clamped.
+ */
+@Composable
+private fun rememberRealDisplaySizePx(): IntSize {
+    val context = LocalContext.current
+    return remember(context) {
+        val metrics = android.util.DisplayMetrics()
+        @Suppress("DEPRECATION")
+        (context.getSystemService(android.content.Context.WINDOW_SERVICE) as android.view.WindowManager)
+            .defaultDisplay
+            .getRealMetrics(metrics)
+        IntSize(metrics.widthPixels, metrics.heightPixels)
+    }
+}
+
 private class MobAnchoredPositionProvider(
     private val side: String,
     private val align: String,

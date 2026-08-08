@@ -59,6 +59,10 @@ defmodule MishkaChelekom.MixProject do
       {:igniter_js, "~> 0.4.11"},
       {:owl, "~> 0.13"},
       {:ex_doc, "~> 0.40.3", only: :dev, runtime: false},
+      # Checks the lockfile against the Elixir security advisories. The harness apps have
+      # carried it for a while; this project did not, which is how a HIGH-severity bandit
+      # advisory sat in all three lockfiles unnoticed. Not forced on consumers.
+      {:mix_audit, "~> 2.1", only: [:dev, :test], runtime: false},
       # EXPORT-TIME ONLY, and never forced on a consumer. This kit's components name heroicon
       # CLASSES (`hero-bell`) and leave the pictures to the host's Tailwind plugin — which is right
       # for a Phoenix app and impossible for a CMS installing the bundle, because it has neither the
