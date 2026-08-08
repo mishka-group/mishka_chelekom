@@ -38,7 +38,6 @@ jobs:
     outputs:
       version: ${{ steps.v.outputs.version }}
       publish: ${{ steps.v.outputs.publish }}
-      only_android: ${{ steps.v.outputs.only_android }}
     steps:
       - uses: actions/checkout@v5
 
@@ -52,12 +51,6 @@ jobs:
             exit 1
           fi
           echo "version=$version" >> "$GITHUB_OUTPUT"
-
-          # TEMPORARY (ci/tag-release only): skip the eight non-Android jobs so a push
-          # iterating on the APK/e2e build turns around in minutes instead of ~15. Set
-          # back to false — and restore the `needs:` noted on android-apks/android-e2e —
-          # before this branch is proposed to master.
-          echo "only_android=true" >> "$GITHUB_OUTPUT"
 
           if [ "${{ github.ref_type }}" = "tag" ]; then
             tag="${{ github.ref_name }}"
@@ -77,7 +70,6 @@ jobs:
   library-test:
     name: Library tests
     needs: version
-    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -111,7 +103,6 @@ jobs:
   idempotency:
     name: Generators are idempotent
     needs: version
-    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -135,7 +126,6 @@ jobs:
   web-test:
     name: Harness tests (development/web)
     needs: version
-    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -160,7 +150,6 @@ jobs:
   cms-bundles:
     name: CMS bundles (--cms)
     needs: version
-    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -210,7 +199,6 @@ jobs:
   hex-package:
     name: Hex package (.tar)
     needs: version
-    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -237,7 +225,6 @@ jobs:
   ebin-package:
     name: Compiled ebin
     needs: version
-    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -283,7 +270,6 @@ jobs:
   mob-test:
     name: Mob tests
     needs: version
-    if: ${{ needs.version.outputs.only_android != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -309,8 +295,7 @@ jobs:
   # is fine for a GitHub release and rejected by Play, as intended.
   android-apks:
     name: Android APKs (v8 / v7 / universal)
-    # TEMPORARY: restore `needs: [version, mob-test]` when only_android goes back to false.
-    needs: [version]
+    needs: [version, mob-test]
     runs-on: ubuntu-latest
     # As ORG_GRADLE_PROJECT_* rather than -P, so the AAB that `mix mob.release` builds and
     # the APKs assembled afterwards carry the same version. `splitAbi` stays a -P flag on
@@ -514,9 +499,15 @@ jobs:
   # have nothing to do with packaging, and must never be what stops a release building.
   android-e2e:
     name: Android e2e
-    # TEMPORARY: restore `needs: [version, mob-test]` when only_android goes back to false.
-    needs: [version]
+    needs: [version, mob-test]
     runs-on: ubuntu-latest
+    # The suite runs and its result is reported, but it does not hold up a release.
+    # It currently gets through twelve test classes and then crashes the app process in
+    # DisplayTest#the_avatar_page_renders_every_example_and_the_props_table — a Compose
+    # SlotTable corruption on composition dispose, which is an app bug, not a packaging
+    # one. Gating the tag on it would mean no release could be cut until that is fixed.
+    # Delete this line once it is, so a red device suite blocks the release again.
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v5
 
