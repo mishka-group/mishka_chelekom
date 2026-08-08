@@ -1,9 +1,5 @@
 name: Release
 
-# A `v*` tag publishes the release. workflow_dispatch runs every build and check exactly
-# as a tag would and stops short of publishing, which is how to exercise the pipeline
-# without cutting one. The ci/tag-release branch trigger that served that purpose during
-# development is gone now that a full run is green.
 on:
   push:
     tags: ["v*"]
@@ -19,9 +15,6 @@ permissions:
 env:
   ELIXIR_VERSION: "1.18.4"
   OTP_VERSION: "28"
-  # development/web is developed and formatted on 1.19.5, and test.yml already pins that
-  # for it. The formatter's output moved between 1.18 and 1.19, so checking the harness's
-  # generated components under 1.18 flags files that are correctly formatted for 1.19.
   WEB_ELIXIR_VERSION: "1.19.5"
   MOB_ELIXIR_VERSION: "1.20.2"
   MOB_OTP_VERSION: "29.0.2"
@@ -29,9 +22,6 @@ env:
   JAVA_VERSION: "17"
 
 jobs:
-  # ── 1. The version, resolved once ────────────────────────────────────────────
-  # Every downstream job reads mix.exs through this output instead of parsing it
-  # again, so a tag, an APK's versionName and a bundle's version can never disagree.
   version:
     name: Resolve version from mix.exs
     runs-on: ubuntu-latest
@@ -40,6 +30,8 @@ jobs:
       publish: ${{ steps.v.outputs.publish }}
     steps:
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
 
       - name: Read @version and reconcile it with the ref
         id: v
@@ -58,6 +50,13 @@ jobs:
               echo "::error file=mix.exs::tag $tag does not match mix.exs @version $version (expected v$version)"
               exit 1
             fi
+
+            git fetch --no-tags --quiet origin master
+            if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/master; then
+              echo "::error::tag $tag points at a commit that is not on master"
+              exit 1
+            fi
+
             echo "publish=true" >> "$GITHUB_OUTPUT"
           else
             echo "publish=false" >> "$GITHUB_OUTPUT"
@@ -66,7 +65,6 @@ jobs:
           echo "### Release $version" >> "$GITHUB_STEP_SUMMARY"
           echo "publish: $([ "${{ github.ref_type }}" = "tag" ] && echo yes || echo 'no (dry run)')" >> "$GITHUB_STEP_SUMMARY"
 
-  # ── 2. Library test suite ────────────────────────────────────────────────────
   library-test:
     name: Library tests
     needs: version
@@ -74,9 +72,6 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      # The assets tests shell out to bun; without it they read the "Running bun
-      # install..." banner instead of the success line and fail. test.yml installs it
-      # for the same reason.
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
@@ -99,7 +94,6 @@ jobs:
         env:
           MIX_ENV: test
 
-  # ── 3. Generators must still be idempotent ───────────────────────────────────
   idempotency:
     name: Generators are idempotent
     needs: version
@@ -119,10 +113,6 @@ jobs:
           MIX_ENV: dev
         run: mix run --no-start idempotency_check.exs
 
-  # ── 3b. Harness test suite ───────────────────────────────────────────────────
-  # development/web has its own suite (showcase LiveViews, the styled components as
-  # generated, the CLI generator tasks) and neither this workflow nor test.yml ran it —
-  # test.yml only drives the idempotency check above.
   web-test:
     name: Harness tests (development/web)
     needs: version
@@ -130,9 +120,6 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      # The editor component is npm-backed, and editor_live_test asserts the packages
-      # are really installed rather than merely declared. `mix assets.setup` runs
-      # mishka.assets.install, which shells out to bun.
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
@@ -154,20 +141,6 @@ jobs:
         env:
           MIX_ENV: test
 
-  # ── 3c. Security scans, at the tagged commit ─────────────────────────────────
-  # semgrep.yml and retire-js.yml cover pull requests and master, and CodeQL's default
-  # setup covers the default branch weekly — but none of them run on a tag, so a release
-  # could be cut from a commit nothing had scanned. Same tools and same scope as the
-  # standalone workflows, run here so they gate the release.
-  #
-  # Both mirror their existing invocation rather than tightening it: semgrep only fails
-  # the job on findings with `--error`, which would change what the repo already accepts.
-  # Add it here when the team wants findings to block a tag.
-  #
-  # CodeQL is deliberately absent. This repo has code-scanning *default setup* enabled,
-  # and GitHub refuses to run github/codeql-action while that is on — the job errors
-  # rather than scanning. Covering tags with CodeQL means converting the repo to advanced
-  # setup, which is a separate decision.
   semgrep:
     name: Semgrep CE
     needs: version
@@ -190,15 +163,6 @@ jobs:
       - run: npm install -g retire
       - run: retire --path priv/assets/js --severity medium
 
-  # ── 3d. Dependency advisories ────────────────────────────────────────────────
-  # Semgrep and Retire.js read the JS; nothing read the Elixir lockfiles, which is how a
-  # HIGH-severity bandit advisory (EEF-CVE-2026-65623, a quadratic blow-up reassembling
-  # fragmented WebSocket frames) sat in all three of them unnoticed. mix_audit checks the
-  # lockfile against the Elixir security advisories.
-  #
-  # `deps.unlock --check-unused` rides along because a stale lockfile entry carries a
-  # phantom CVE: five of them here — cowboy, cowlib and friends — reported cowlib
-  # advisories for code the project no longer even compiles.
   deps-audit:
     name: Dependency advisories
     needs: version
@@ -225,9 +189,6 @@ jobs:
       - working-directory: ${{ matrix.dir }}
         run: mix hex.audit
 
-  # ── 4. CMS UI-kit bundles ────────────────────────────────────────────────────
-  # Regenerated at the release version rather than shipping whatever is committed,
-  # so `ui_kit_version` inside the bundle matches the tag it is published under.
   cms-bundles:
     name: CMS bundles (--cms)
     needs: version
@@ -260,8 +221,6 @@ jobs:
           cp priv/components/chelekom.json dist/chelekom.json
           cp priv/headless/chelekom_headless.json dist/chelekom_headless.json
           for f in dist/chelekom.json dist/chelekom_headless.json; do
-            # A bundle that is not valid JSON, lost its components, or carries the wrong
-            # version must not ship.
             n="$(jq '.components | length' "$f")"
             got="$(jq -r '.version' "$f")"
             [ "$n" -gt 0 ] || { echo "::error::$f has no components"; exit 1; }
@@ -276,7 +235,6 @@ jobs:
           path: dist/*.json
           if-no-files-found: error
 
-  # ── 5. Hex package tarball ───────────────────────────────────────────────────
   hex-package:
     name: Hex package (.tar)
     needs: version
@@ -302,7 +260,6 @@ jobs:
           path: dist/*.tar
           if-no-files-found: error
 
-  # ── 6. Compiled BEAM (ebin) ──────────────────────────────────────────────────
   ebin-package:
     name: Compiled ebin
     needs: version
@@ -326,14 +283,9 @@ jobs:
           test -d "$src/ebin" || { echo "::error::$src/ebin not found"; exit 1; }
           test -n "$(ls -A "$src/ebin"/*.beam 2>/dev/null)" || { echo "::error::no .beam files in $src/ebin"; exit 1; }
           mkdir -p dist
-          # `priv` rides along: the generator resolves its templates through
-          # :code.priv_dir(:mishka_chelekom), so an ebin with no priv cannot generate.
-          # In _build it is a symlink back to the repo, hence -h to follow it.
           extra=""
           [ -d "$src/consolidated" ] && extra="consolidated"
           tar -czhf "dist/mishka_chelekom-$v-ebin.tar.gz" -C "$src" ebin priv $extra
-          # grep -c, not grep -q: -q exits on the first match, tar takes SIGPIPE, and
-          # pipefail then reports a perfectly good tarball as broken. -c drains the input.
           mods="$(tar -tzf "dist/mishka_chelekom-$v-ebin.tar.gz" \
                   | grep -c '^ebin/Elixir\.MishkaChelekom' || true)"
           [ "$mods" -gt 0 ] \
@@ -347,7 +299,6 @@ jobs:
           path: dist/*.tar.gz
           if-no-files-found: error
 
-  # ── 7. Mob unit tests ────────────────────────────────────────────────────────
   mob-test:
     name: Mob tests
     needs: version
@@ -369,21 +320,10 @@ jobs:
         env:
           MIX_ENV: test
 
-  # ── 8. Android APKs ──────────────────────────────────────────────────────────
-  # `mix mob.release --android` stages the OTP runtime into assets/otp.zip and builds
-  # the AAB; the second Gradle call reuses that staging to emit the split APKs. Signed
-  # only when the keystore secrets are present — otherwise the APKs are unsigned, which
-  # is fine for a GitHub release and rejected by Play, as intended.
   android-apks:
     name: Android APKs (v8 / v7 / universal)
-    # Packaging follows verification: there is no point shipping an APK whose behaviour
-    # the device suite has not confirmed. A real dependency — android-e2e no longer
-    # carries continue-on-error, so a red or hung suite stops the APK and the release.
     needs: [version, mob-test, android-e2e]
     runs-on: ubuntu-latest
-    # As ORG_GRADLE_PROJECT_* rather than -P, so the AAB that `mix mob.release` builds and
-    # the APKs assembled afterwards carry the same version. `splitAbi` stays a -P flag on
-    # the assemble call alone — the AAB must not be split.
     env:
       ORG_GRADLE_PROJECT_mobVersionName: ${{ needs.version.outputs.version }}
       ORG_GRADLE_PROJECT_mobVersionCode: ${{ github.run_number }}
@@ -435,10 +375,6 @@ jobs:
 
           config :mob, :plugins, [:mob_camera, :mob_location, :mob_biometric]
 
-          # The activated first-party plugins are signed with the shared mob release key,
-          # and the native build refuses to run against an untrusted one. These are the
-          # same fingerprints mob.new scaffolds into mob.exs; without them the build stops
-          # at "plugin signature check failed" before it compiles anything.
           config :mob, :trusted_plugins, %{
             mob_camera: "ed25519:nc56w+1Kx0gIt/4EkHxnMZCKHMzp4+S5kS/HoSzEZkg=",
             mob_location: "ed25519:nc56w+1Kx0gIt/4EkHxnMZCKHMzp4+S5kS/HoSzEZkg=",
@@ -450,11 +386,6 @@ jobs:
         working-directory: development/mob
         run: |
           set -euo pipefail
-          # `mix mob.install` is the documented first run, but it PROMPTS for the machine
-          # paths and would hang here. It writes android/local.properties — and mob_dev
-          # gates the whole Android chain on that file existing ("Skipping Android build
-          # — toolchain not detected"), so exporting the equivalent env vars is not
-          # enough even though build.gradle would accept them. Write the file it writes.
           mix run --no-start -e '
             paths =
               for {abi, key} <- [
@@ -480,8 +411,6 @@ jobs:
 
       - name: Environment check
         working-directory: development/mob
-        # Informational: mob.doctor raises on any failed check, and a runner with no
-        # device attached legitimately fails some of them.
         run: mix mob.doctor || true
 
       - name: Decode the upload keystore, if configured
@@ -505,17 +434,6 @@ jobs:
           keyPassword=$ANDROID_KEY_PASSWORD
           EOF
 
-      # mob 0.7+ compiles the JNI layer with build.zig; CMake's mob_nif.c path is a
-      # legacy fallback whose sources the dep no longer ships. `mob.release --android`
-      # does not run that step — on a dev machine it only works because
-      # `mix android.native` already left android/app/build/zig-out/<abi>/ behind, which
-      # CMakeLists prefers. A clean runner has neither, so CMake falls back to the
-      # missing .c and configure fails.
-      #
-      # build_all/1 runs the zig build and the Gradle assemble, then tries to adb-install
-      # and push the release — the last two need a device and are expected to fail here.
-      # They come after the steps we need, so the failure is tolerated and the artifact
-      # itself is what gets asserted.
       - name: Build the JNI objects with zig
         working-directory: development/mob
         run: |
@@ -524,10 +442,6 @@ jobs:
             -e 'MobDev.NativeBuild.build_all(platforms: [:android]) |> IO.inspect(label: "native")' \
             || echo "::notice::native build returned non-zero (expected: no device attached)"
 
-          # build_android/2 names this artifact itself, and reaching it means zig, CMake
-          # for every ABI and the generated io.mob.plugin Kotlin all went through.
-          # Globbing zig-out for .o files was the wrong proxy — and a failed `ls` under
-          # `set -e` with pipefail killed the step before it could print why.
           apk="android/app/build/outputs/apk/debug/app-debug.apk"
           if [ ! -f "$apk" ]; then
             echo "::error::native build produced no $apk — the Android chain did not complete"
@@ -553,7 +467,6 @@ jobs:
           v="${{ needs.version.outputs.version }}"
           out="android/app/build/outputs/apk/release"
           mkdir -p dist
-          # AGP names split outputs app-<abi>-release[-unsigned].apk; the glob covers both.
           pick() {
             local match
             match="$(ls "$out"/app-$1-release*.apk 2>/dev/null | head -1 || true)"
@@ -578,18 +491,10 @@ jobs:
           path: development/mob/dist/*
           if-no-files-found: error
 
-  # ── 9. Android e2e (instrumentation on an emulator) ──────────────────────────
-  # Kept apart from the APK job: it needs KVM and an emulator, fails for reasons that
-  # have nothing to do with packaging, and must never be what stops a release building.
   android-e2e:
     name: Android e2e
     needs: [version, mob-test]
     runs-on: ubuntu-latest
-    # `am instrument` buffers its output, so a wedged test looks exactly like a slow
-    # one: silence either way. Without a cap the job would sit on the runner for the
-    # 6h default before anyone learned anything — one hung run cost 67 minutes before
-    # it was killed by hand. ~400 tests at the ~4s/test the suite actually managed is
-    # ~30m, so this bounds a wedge at roughly twice that.
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v5
@@ -646,10 +551,6 @@ jobs:
 
           config :mob, :plugins, [:mob_camera, :mob_location, :mob_biometric]
 
-          # The activated first-party plugins are signed with the shared mob release key,
-          # and the native build refuses to run against an untrusted one. These are the
-          # same fingerprints mob.new scaffolds into mob.exs; without them the build stops
-          # at "plugin signature check failed" before it compiles anything.
           config :mob, :trusted_plugins, %{
             mob_camera: "ed25519:nc56w+1Kx0gIt/4EkHxnMZCKHMzp4+S5kS/HoSzEZkg=",
             mob_location: "ed25519:nc56w+1Kx0gIt/4EkHxnMZCKHMzp4+S5kS/HoSzEZkg=",
@@ -661,11 +562,6 @@ jobs:
         working-directory: development/mob
         run: |
           set -euo pipefail
-          # `mix mob.install` is the documented first run, but it PROMPTS for the machine
-          # paths and would hang here. It writes android/local.properties — and mob_dev
-          # gates the whole Android chain on that file existing ("Skipping Android build
-          # — toolchain not detected"), so exporting the equivalent env vars is not
-          # enough even though build.gradle would accept them. Write the file it writes.
           mix run --no-start -e '
             paths =
               for {abi, key} <- [
@@ -689,8 +585,6 @@ jobs:
           '
           cat android/local.properties
 
-      # `mix e2e` installs only the test APK and reads the verdict out of the
-      # instrumentation output — `am instrument` exits 0 even when tests fail.
       - name: Deploy and run the device suite
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -703,8 +597,6 @@ jobs:
           working-directory: development/mob
           script: |
             mix android.native
-            # Logcat in the background: the instrumentation summary says a process
-            # crashed but not why, and the Java stack behind it only exists here.
             adb logcat -c || true
             (adb logcat -v time > "$RUNNER_TEMP/logcat.txt" 2>&1 &) || true
             mix e2e
@@ -730,9 +622,6 @@ jobs:
             ${{ runner.temp }}/logcat.txt
           if-no-files-found: ignore
 
-  # ── 10. Publish ──────────────────────────────────────────────────────────────
-  # Only a tag publishes. On the CI branch every job above still runs and every
-  # artifact is still produced — this is the one step that is skipped.
   release:
     name: Publish GitHub release
     needs:
