@@ -28,6 +28,10 @@
 @source inline("d-{checkbox,toggle,select}-{primary,secondary,accent,neutral,info,success,warning,error}");
 @source inline("d-{checkbox,toggle,select}-{xs,sm,md,lg,xl}");
 @source inline("d-{menu,tabs}-{xs,sm,md,lg,xl}");
+@source inline("d-menu-{horizontal,vertical,active}");
+@source inline("lg:d-menu-horizontal");
+@source inline("d-tooltip d-tooltip-{top,bottom,left,right}");
+@source inline("d-badge d-badge-{xs,sm} d-badge-{info,warning,success,error}");
 
 /* A Tailwind plugin that makes "hero-#{ICON}" classes available.
    The heroicons installation itself is managed by your mix.exs */

@@ -121,13 +121,40 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"menu-placement", "Placement",
        "daisyUI ships sixteen `dropdown-{top,bottom,left,right}` × `dropdown-{start,center,end}` classes; ours are the `side` and `align` attributes."},
       {"menu-hover", "On hover", "daisyUI's `dropdown-hover` — our `open_on_hover` attribute."},
-      {"menu-sizes", "Sizes", "`menu-xs` through `menu-lg` on the popup part."},
+      {"menu-sizes", "Sizes", "`menu-xs` through `menu-xl` on the popup part."},
+      {"menu-icons", "With icons", "An icon before each label, laid out by the skin's row grid."},
+      {"menu-icons-only", "Icon only",
+       "Icons with no labels — daisyUI's compact rail, as a dropdown."},
+      {"menu-icons-tooltip", "Icon only, with tooltip",
+       "daisyUI's `tooltip` + `data-tip` on each row, since the label is gone."},
+      {"menu-badges", "With icons and a badge",
+       "daisyUI's `badge badge-xs` pushed to the end of the row."},
+      {"menu-active", "Active item", "daisyUI's `menu-active` marking the current page."},
+      {"menu-disabled", "Disabled items", "A disabled row alongside live ones."},
+      {"menu-title", "With a title", "daisyUI's `menu-title` as a heading over a group of rows."},
+      {"menu-title-parent", "Title as a parent",
+       "The title heading a nested list rather than a flat group."},
+      {"menu-submenu", "Submenu", "A nested list opened from a row."},
+      {"menu-file-tree", "File tree",
+       "daisyUI's `menu-xs` file tree, nested two levels deep inside the popup."},
+      {"menu-horizontal", "Horizontal",
+       "daisyUI's `menu-horizontal` — the popup lays its rows out in a row."},
+      {"menu-responsive", "Responsive",
+       "daisyUI's `menu-vertical lg:menu-horizontal`: stacked on small screens, a row above `lg`."},
+      {"menu-flush", "Without padding or radius",
+       "daisyUI's `p-0` + square rows, for a menu that meets its container's edges."},
       {"menu-rich", "Checkboxes, radios and a submenu",
        "The full menu surface — checkbox items, a radio group and a nested submenu — all painted by the skin."},
       {"menu-card", "Card as dropdown",
        "daisyUI's card-shaped dropdown: arbitrary content in the popup instead of rows."}
     ]
   }
+
+  @nav [
+    {"Dashboard", "M3 12h18M3 6h18M3 18h18"},
+    {"Projects", "M4 7h6l2 3h8v9H4z"},
+    {"Settings", "M12 8a4 4 0 100 8 4 4 0 000-8z"}
+  ]
 
   @spec has?(String.t()) :: boolean()
   def has?(component), do: Map.has_key?(@sections, component)
@@ -774,7 +801,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   end
 
   def example(%{section: "menu-sizes"} = assigns) do
-    assigns = assign(assigns, :sizes, ~w(xs sm md lg))
+    assigns = assign(assigns, :sizes, @sizes)
 
     ~H"""
     <div class="flex flex-wrap gap-3">
@@ -789,6 +816,195 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         <:item>Item two</:item>
       </.menu>
     </div>
+    """
+  end
+
+  def example(%{section: "menu-icons"} = assigns) do
+    assigns = assign(assigns, :nav, @nav)
+
+    ~H"""
+    <.menu id="daisyui-menu-icons" side_offset={8}>
+      <:trigger>Workspace</:trigger>
+      <:item :for={{label, path} <- @nav}>
+        <.nav_icon path={path} />
+        {label}
+      </:item>
+    </.menu>
+    """
+  end
+
+  def example(%{section: "menu-icons-only"} = assigns) do
+    assigns = assign(assigns, :nav, @nav)
+
+    ~H"""
+    <.menu id="daisyui-menu-icons-only" side_offset={8} popup_class="!min-w-0 w-fit">
+      <:trigger>Rail</:trigger>
+      <:item :for={{label, path} <- @nav} label={label}>
+        <.nav_icon path={path} />
+      </:item>
+    </.menu>
+    """
+  end
+
+  def example(%{section: "menu-icons-tooltip"} = assigns) do
+    assigns = assign(assigns, :nav, @nav)
+
+    ~H"""
+    <.menu id="daisyui-menu-tooltip" side_offset={8} popup_class="!min-w-0 w-fit">
+      <:trigger>Rail</:trigger>
+      <.menu_item
+        :for={{label, path} <- @nav}
+        label={label}
+        class="d-tooltip d-tooltip-right"
+        data-tip={label}
+      >
+        <.nav_icon path={path} />
+      </.menu_item>
+    </.menu>
+    """
+  end
+
+  def example(%{section: "menu-badges"} = assigns) do
+    ~H"""
+    <.menu id="daisyui-menu-badges" side_offset={8}>
+      <:trigger>Inbox</:trigger>
+      <:item>
+        <.nav_icon path="M3 8l9 6 9-6M3 8v8h18V8" /> Messages
+        <span class="d-badge d-badge-xs d-badge-info">12</span>
+      </:item>
+      <:item>
+        <.nav_icon path="M12 3v18M3 12h18" /> Drafts
+        <span class="d-badge d-badge-xs d-badge-warning">2</span>
+      </:item>
+      <:item><.nav_icon path="M4 7h16v12H4z" /> Archive</:item>
+    </.menu>
+    """
+  end
+
+  def example(%{section: "menu-active"} = assigns) do
+    ~H"""
+    <.menu id="daisyui-menu-active" side_offset={8}>
+      <:trigger>Section</:trigger>
+      <:item>Overview</:item>
+      <:item class="d-menu-active">Projects</:item>
+      <:item>Settings</:item>
+    </.menu>
+    """
+  end
+
+  def example(%{section: "menu-disabled"} = assigns) do
+    ~H"""
+    <.menu id="daisyui-menu-disabled" side_offset={8}>
+      <:trigger>Actions</:trigger>
+      <:item>Rename</:item>
+      <:item>Duplicate</:item>
+      <:item disabled>Transfer (owner only)</:item>
+      <:item>Delete</:item>
+    </.menu>
+    """
+  end
+
+  def example(%{section: "menu-title"} = assigns) do
+    ~H"""
+    <.menu id="daisyui-menu-title" side_offset={8}>
+      <:trigger>Account</:trigger>
+      <.menu_group id="daisyui-menu-title-group" label="Signed in as shahryar">
+        <.menu_item>Profile</.menu_item>
+        <.menu_item>Billing</.menu_item>
+        <.menu_item>Sign out</.menu_item>
+      </.menu_group>
+    </.menu>
+    """
+  end
+
+  def example(%{section: "menu-title-parent"} = assigns) do
+    ~H"""
+    <.menu id="daisyui-menu-title-parent" side_offset={8}>
+      <:trigger>Docs</:trigger>
+      <.menu_group id="daisyui-menu-parent-a" label="Getting started">
+        <.menu_item>Install</.menu_item>
+        <.menu_item>Configure</.menu_item>
+      </.menu_group>
+      <.menu_group id="daisyui-menu-parent-b" label="Components">
+        <.menu_item>Accordion</.menu_item>
+        <.menu_item>Select</.menu_item>
+      </.menu_group>
+    </.menu>
+    """
+  end
+
+  def example(%{section: "menu-submenu"} = assigns) do
+    ~H"""
+    <.menu id="daisyui-menu-submenu" side_offset={8}>
+      <:trigger>File</:trigger>
+      <.menu_item>New</.menu_item>
+      <.menu_submenu id="daisyui-menu-submenu-open" label="Open recent">
+        <.menu_item>chelekom.ex</.menu_item>
+        <.menu_item>app.css</.menu_item>
+      </.menu_submenu>
+      <.menu_item>Save</.menu_item>
+    </.menu>
+    """
+  end
+
+  def example(%{section: "menu-file-tree"} = assigns) do
+    ~H"""
+    <.menu id="daisyui-menu-tree" side_offset={8} popup_class="d-menu-xs w-60">
+      <:trigger>Files</:trigger>
+      <.menu_submenu id="daisyui-menu-tree-lib" label="lib">
+        <.menu_submenu id="daisyui-menu-tree-web" label="my_app_web">
+          <.menu_item>router.ex</.menu_item>
+          <.menu_item>endpoint.ex</.menu_item>
+        </.menu_submenu>
+        <.menu_item>application.ex</.menu_item>
+      </.menu_submenu>
+      <.menu_submenu id="daisyui-menu-tree-assets" label="assets">
+        <.menu_item>app.css</.menu_item>
+        <.menu_item>app.js</.menu_item>
+      </.menu_submenu>
+      <.menu_item>mix.exs</.menu_item>
+    </.menu>
+    """
+  end
+
+  def example(%{section: "menu-horizontal"} = assigns) do
+    ~H"""
+    <.menu id="daisyui-menu-horizontal" side_offset={8} popup_class="d-menu-horizontal !min-w-0">
+      <:trigger>Toolbar</:trigger>
+      <:item>Cut</:item>
+      <:item>Copy</:item>
+      <:item>Paste</:item>
+    </.menu>
+    """
+  end
+
+  def example(%{section: "menu-responsive"} = assigns) do
+    ~H"""
+    <.menu
+      id="daisyui-menu-responsive"
+      side_offset={8}
+      popup_class="d-menu-vertical lg:d-menu-horizontal lg:!min-w-0"
+    >
+      <:trigger>Responsive</:trigger>
+      <:item>Overview</:item>
+      <:item>Projects</:item>
+      <:item>Settings</:item>
+    </.menu>
+    """
+  end
+
+  def example(%{section: "menu-flush"} = assigns) do
+    ~H"""
+    <.menu
+      id="daisyui-menu-flush"
+      side_offset={8}
+      popup_class="!p-0 overflow-hidden [&_[data-part=item]]:rounded-none"
+    >
+      <:trigger>Flush</:trigger>
+      <:item>Overview</:item>
+      <:item>Projects</:item>
+      <:item>Settings</:item>
+    </.menu>
     """
   end
 
@@ -828,6 +1044,22 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         </div>
       </div>
     </.menu>
+    """
+  end
+
+  attr :path, :string, required: true
+
+  defp nav_icon(assigns) do
+    ~H"""
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      class="size-4 shrink-0"
+    >
+      <path d={@path} />
+    </svg>
     """
   end
 end
