@@ -20,9 +20,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   alias DevelopmentWeb.Showcase.ExampleSource
 
   import DevelopmentWeb.Components.Headless.Accordion
+  import DevelopmentWeb.Components.Headless.Avatar
   import DevelopmentWeb.Components.Headless.Checkbox
   import DevelopmentWeb.Components.Headless.Dialog
   import DevelopmentWeb.Components.Headless.Menu
+  import DevelopmentWeb.Components.Headless.Pill
   import DevelopmentWeb.Components.Headless.Select
   import DevelopmentWeb.Components.Headless.Switch
   import DevelopmentWeb.Components.Headless.Tabs
@@ -35,6 +37,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     {"Can I still use utility classes?",
      "Yes. Every per-part class attribute still applies on top, so you can override any part the skin paints."}
   ]
+
+  @face "https://images.unsplash.com/photo-1543610892-0b1f7e6d8ac1?w=128&h=128&fit=crop&crop=faces&dpr=2&q=80"
 
   @colors ~w(primary secondary accent neutral info success warning error)
   @sizes ~w(xs sm md lg xl)
@@ -114,6 +118,38 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
        "daisyUI's `--tab-bg` / `--tab-border-color` recipe."},
       {"tabs-vertical", "Vertical",
        "Not a daisyUI variant — our `orientation` attribute, with the indicator on the inline edge."}
+    ],
+    "avatar" => [
+      {"avatar-hero", "Avatar",
+       "daisyUI's `avatar` box; the image only appears once it has loaded."},
+      {"avatar-sizes", "Custom sizes",
+       "daisyUI sizes the avatar with a width utility on the root."},
+      {"avatar-rounded", "Rounded", "`rounded-xl` and `rounded-full` on the root."},
+      {"avatar-mask", "With mask", "daisyUI's `mask` shapes — heart, squircle, hexagon."},
+      {"avatar-group", "Avatar group", "daisyUI's `avatar-group` with a negative inline gap."},
+      {"avatar-group-counter", "Group with counter",
+       "The same group ending in a placeholder counting the rest."},
+      {"avatar-ring", "With ring", "A `ring-primary` offset from the page background."},
+      {"avatar-presence", "With presence indicator",
+       "daisyUI's `avatar-online` / `avatar-offline` dot."},
+      {"avatar-placeholder", "Placeholder",
+       "Initials on a neutral chip — our fallback part, shown when there is no image."}
+    ],
+    "pill" => [
+      {"pill-hero", "Badge", "daisyUI's `badge`, painted from the pill's root."},
+      {"pill-sizes", "Sizes", "`badge-xs` through `badge-xl`."},
+      {"pill-colors", "Colors", "All eight `badge-*` colors."},
+      {"pill-soft", "Soft style", "daisyUI's `badge-soft` across the colors."},
+      {"pill-outline", "Outline style", "daisyUI's `badge-outline` across the colors."},
+      {"pill-dash", "Dash style", "daisyUI's `badge-dash` across the colors."},
+      {"pill-neutral-variants", "Neutral, outline and dash", "The neutral badge in both styles."},
+      {"pill-ghost", "Ghost", "daisyUI's `badge-ghost`."},
+      {"pill-empty", "Empty", "Content-free badges at every size — a status dot."},
+      {"pill-icon", "With icon", "An icon before the label inside the badge."},
+      {"pill-in-text", "In a text", "Badges sized to sit inline with headings and body copy."},
+      {"pill-in-button", "In a button", "A badge riding along inside a daisyUI button."},
+      {"pill-removable", "Removable",
+       "Not a daisyUI variant — our `with_remove` trailing button, painted to match."}
     ],
     "menu" => [
       {"menu-hero", "Dropdown menu",
@@ -244,6 +280,261 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         {answer}
       </:item>
     </.accordion>
+    """
+  end
+
+  # ── avatar ────────────────────────────────────────────────────────────────
+  def example(%{section: "avatar-hero"} = assigns) do
+    assigns = assign(assigns, :face, @face)
+
+    ~H"""
+    <.avatar id="daisyui-avatar-1" src={@face} alt="Lisa Turner" class="rounded-full" />
+    """
+  end
+
+  def example(%{section: "avatar-sizes"} = assigns) do
+    assigns = assign(assigns, :face, @face)
+
+    ~H"""
+    <div class="flex items-end gap-3">
+      <.avatar
+        :for={w <- ~w(w-8 w-16 w-20 w-32)}
+        id={"daisyui-avatar-size-#{w}"}
+        src={@face}
+        alt=""
+        class={["rounded-full", w]}
+      />
+    </div>
+    """
+  end
+
+  def example(%{section: "avatar-rounded"} = assigns) do
+    assigns = assign(assigns, :face, @face)
+
+    ~H"""
+    <div class="flex gap-3">
+      <.avatar id="daisyui-avatar-3" src={@face} alt="" class="w-20 rounded-xl" />
+      <.avatar id="daisyui-avatar-4" src={@face} alt="" class="w-20 rounded-full" />
+    </div>
+    """
+  end
+
+  def example(%{section: "avatar-mask"} = assigns) do
+    assigns = assign(assigns, :face, @face)
+
+    ~H"""
+    <div class="flex gap-3">
+      <.avatar
+        :for={mask <- ~w(d-mask-heart d-mask-squircle d-mask-hexagon-2)}
+        id={"daisyui-avatar-#{mask}"}
+        src={@face}
+        alt=""
+        class={["w-20 d-mask", mask]}
+      />
+    </div>
+    """
+  end
+
+  def example(%{section: "avatar-group"} = assigns) do
+    assigns = assign(assigns, :face, @face)
+
+    ~H"""
+    <div class="d-avatar-group -space-x-6">
+      <.avatar
+        :for={i <- 1..3}
+        id={"daisyui-avatar-group-#{i}"}
+        src={@face}
+        alt=""
+        class="w-12 rounded-full"
+      />
+    </div>
+    """
+  end
+
+  def example(%{section: "avatar-group-counter"} = assigns) do
+    assigns = assign(assigns, :face, @face)
+
+    ~H"""
+    <div class="d-avatar-group -space-x-6">
+      <.avatar
+        :for={i <- 1..3}
+        id={"daisyui-avatar-counter-#{i}"}
+        src={@face}
+        alt=""
+        class="w-12 rounded-full"
+      />
+      <.avatar id="daisyui-avatar-8" class="w-12 rounded-full">+99</.avatar>
+    </div>
+    """
+  end
+
+  def example(%{section: "avatar-ring"} = assigns) do
+    assigns = assign(assigns, :face, @face)
+
+    ~H"""
+    <.avatar
+      id="daisyui-avatar-9"
+      src={@face}
+      alt=""
+      class="w-20 rounded-full ring-2 ring-primary ring-offset-2 ring-offset-base-100"
+    />
+    """
+  end
+
+  def example(%{section: "avatar-presence"} = assigns) do
+    assigns = assign(assigns, :face, @face)
+
+    ~H"""
+    <div class="flex gap-3">
+      <.avatar id="daisyui-avatar-10" src={@face} alt="" class="d-avatar-online w-16 rounded-full" />
+      <.avatar id="daisyui-avatar-11" src={@face} alt="" class="d-avatar-offline w-16 rounded-full" />
+    </div>
+    """
+  end
+
+  def example(%{section: "avatar-placeholder"} = assigns) do
+    assigns = assign(assigns, :face, @face)
+
+    ~H"""
+    <div class="flex gap-3">
+      <.avatar id="daisyui-avatar-12" class="w-16 rounded-full">LT</.avatar>
+      <.avatar id="daisyui-avatar-13" class="d-avatar-online w-16 rounded-full">SH</.avatar>
+    </div>
+    """
+  end
+
+  # ── pill ──────────────────────────────────────────────────────────────────
+  def example(%{section: "pill-hero"} = assigns) do
+    ~H"""
+    <.pill>Badge</.pill>
+    """
+  end
+
+  def example(%{section: "pill-sizes"} = assigns) do
+    assigns = assign(assigns, :sizes, @sizes)
+
+    ~H"""
+    <div class="flex flex-wrap items-center gap-2">
+      <.pill :for={size <- @sizes} class={"d-badge-#{size}"}>badge-{size}</.pill>
+    </div>
+    """
+  end
+
+  def example(%{section: "pill-colors"} = assigns) do
+    assigns = assign(assigns, :colors, @colors)
+
+    ~H"""
+    <div class="flex flex-wrap gap-2">
+      <.pill :for={color <- @colors} class={"d-badge-#{color}"}>{color}</.pill>
+    </div>
+    """
+  end
+
+  def example(%{section: "pill-soft"} = assigns) do
+    assigns = assign(assigns, :colors, @colors)
+
+    ~H"""
+    <div class="flex flex-wrap gap-2">
+      <.pill :for={color <- @colors} class={"d-badge-soft d-badge-#{color}"}>{color}</.pill>
+    </div>
+    """
+  end
+
+  def example(%{section: "pill-outline"} = assigns) do
+    assigns = assign(assigns, :colors, @colors)
+
+    ~H"""
+    <div class="flex flex-wrap gap-2">
+      <.pill :for={color <- @colors} class={"d-badge-outline d-badge-#{color}"}>{color}</.pill>
+    </div>
+    """
+  end
+
+  def example(%{section: "pill-dash"} = assigns) do
+    assigns = assign(assigns, :colors, @colors)
+
+    ~H"""
+    <div class="flex flex-wrap gap-2">
+      <.pill :for={color <- @colors} class={"d-badge-dash d-badge-#{color}"}>{color}</.pill>
+    </div>
+    """
+  end
+
+  def example(%{section: "pill-neutral-variants"} = assigns) do
+    ~H"""
+    <div class="flex flex-wrap gap-2">
+      <.pill class="d-badge-neutral d-badge-outline">outline</.pill>
+      <.pill class="d-badge-neutral d-badge-dash">dash</.pill>
+    </div>
+    """
+  end
+
+  def example(%{section: "pill-ghost"} = assigns) do
+    ~H"""
+    <.pill class="d-badge-ghost">Ghost</.pill>
+    """
+  end
+
+  def example(%{section: "pill-empty"} = assigns) do
+    assigns = assign(assigns, :sizes, @sizes)
+
+    ~H"""
+    <div class="flex flex-wrap items-center gap-2">
+      <.pill :for={size <- @sizes} class={"d-badge-primary d-badge-#{size}"}><span /></.pill>
+    </div>
+    """
+  end
+
+  def example(%{section: "pill-icon"} = assigns) do
+    ~H"""
+    <div class="flex flex-wrap gap-2">
+      <.pill class="d-badge-info">
+        <.nav_icon path="M12 8h.01M11 12h1v4h1" /> Info
+      </.pill>
+      <.pill class="d-badge-success">
+        <.nav_icon path="M20 6 9 17l-5-5" /> Done
+      </.pill>
+      <.pill class="d-badge-warning">
+        <.nav_icon path="M12 9v4m0 4h.01" /> Careful
+      </.pill>
+      <.pill class="d-badge-error">
+        <.nav_icon path="M18 6 6 18M6 6l12 12" /> Failed
+      </.pill>
+    </div>
+    """
+  end
+
+  def example(%{section: "pill-in-text"} = assigns) do
+    ~H"""
+    <div class="space-y-2">
+      <h2 class="text-xl font-bold">
+        Headline
+        <.pill class="d-badge-lg">new</.pill>
+      </h2>
+      <p class="text-sm">
+        Body copy with a
+        <.pill class="d-badge-sm">small</.pill>
+        badge inline.
+      </p>
+    </div>
+    """
+  end
+
+  def example(%{section: "pill-in-button"} = assigns) do
+    ~H"""
+    <button type="button" class="d-btn">
+      Inbox
+      <.pill class="d-badge-sm d-badge-secondary">12</.pill>
+    </button>
+    """
+  end
+
+  def example(%{section: "pill-removable"} = assigns) do
+    ~H"""
+    <div class="flex flex-wrap gap-2">
+      <.pill class="d-badge-primary" with_remove>elixir</.pill>
+      <.pill class="d-badge-secondary" with_remove>phoenix</.pill>
+    </div>
     """
   end
 

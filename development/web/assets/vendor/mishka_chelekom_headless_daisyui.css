@@ -681,3 +681,83 @@
   }
 }
 /* <<< checkbox */
+
+/* >>> avatar */
+@layer components {
+  [data-skin=daisyui] {
+    /* avatar — daisyUI skin (root paints `avatar`; the loading state stays the component's). */
+
+    .chelekom-avatar {
+      @apply d-avatar;
+      display: inline-flex;
+      width: calc(var(--size-field, 0.25rem) * 12);
+    }
+
+    .chelekom-avatar__image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: inherit;
+    }
+
+    /* daisyUI's placeholder centres initials on a neutral chip; ours is the fallback part, revealed
+     * by the Avatar hook via `data-status`, so the same look keys off that instead of `:empty`. */
+    .chelekom-avatar__fallback {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+      border-radius: inherit;
+      background-color: var(--color-neutral);
+      color: var(--color-neutral-content);
+      font-size: 0.875rem;
+      user-select: none;
+    }
+  }
+}
+/* <<< avatar */
+
+/* >>> pill */
+@layer components {
+  [data-skin=daisyui] {
+    /* pill — daisyUI skin (paints `badge`; every badge modifier still works on the root). */
+
+    .chelekom-pill {
+      @apply d-badge;
+    }
+
+    .chelekom-pill[data-disabled] {
+      cursor: not-allowed;
+      opacity: 50%;
+    }
+
+    .chelekom-pill__label {
+      display: inline-flex;
+      align-items: center;
+      gap: calc(0.25rem * 1);
+    }
+
+    .chelekom-pill__remove {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-inline-start: calc(0.25rem * 1);
+      border-radius: var(--radius-selector);
+      cursor: pointer;
+      opacity: 60%;
+      transition: opacity 0.2s ease-out;
+    }
+
+    .chelekom-pill__remove:hover {
+      opacity: 100%;
+    }
+
+    .chelekom-pill__remove:focus-visible {
+      outline: 2px solid currentColor;
+      outline-offset: 1px;
+    }
+  }
+}
+/* <<< pill */

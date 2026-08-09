@@ -1,0 +1,36 @@
+/* pill — daisyUI skin (paints `badge`; every badge modifier still works on the root). */
+
+.chelekom-pill {
+  @apply <%= @d %>badge;
+}
+
+.chelekom-pill[data-disabled] {
+  cursor: not-allowed;
+  opacity: 50%;
+}
+
+.chelekom-pill__label {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(0.25rem * 1);
+}
+
+.chelekom-pill__remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-inline-start: calc(0.25rem * 1);
+  border-radius: var(--radius-selector);
+  cursor: pointer;
+  opacity: 60%;
+  transition: opacity 0.2s ease-out;
+}
+
+.chelekom-pill__remove:hover {
+  opacity: 100%;
+}
+
+.chelekom-pill__remove:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 1px;
+}
