@@ -922,3 +922,284 @@
   }
 }
 /* <<< tooltip */
+
+/* >>> radio */
+@layer components {
+  [data-skin=daisyui] {
+    /* radio — daisyUI skin (indicator paints `radio`; the dot is daisyUI's own ::before). */
+
+    .chelekom-radio {
+      display: inline-flex;
+      align-items: center;
+      gap: calc(0.25rem * 2);
+      cursor: pointer;
+      font-size: 0.875rem;
+      color: var(--color-base-content);
+    }
+
+    .chelekom-radio:disabled,
+    .chelekom-radio[data-disabled] {
+      cursor: not-allowed;
+      opacity: 20%;
+    }
+
+    .chelekom-radio[data-readonly] {
+      cursor: default;
+    }
+
+    /* daisyUI's `radio` IS the input; ours is a separate indicator beside a native input kept for form
+     * submission, so the native one gets out of the way. */
+    .chelekom-radio__input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .chelekom-radio__indicator {
+      @apply d-radio;
+    }
+
+    /* The size modifiers are gated on `[type=radio]`, which our indicator is not — so honour daisyUI's
+     * own scale here. Same story as `toggle-*` and `range-*`. */
+    .chelekom-radio__indicator.d-radio-xs {
+      --d-size: calc(var(--size-selector, 0.25rem) * 4);
+    }
+
+    .chelekom-radio__indicator.d-radio-sm {
+      --d-size: calc(var(--size-selector, 0.25rem) * 5);
+    }
+
+    .chelekom-radio__indicator.d-radio-md {
+      --d-size: calc(var(--size-selector, 0.25rem) * 6);
+    }
+
+    .chelekom-radio__indicator.d-radio-lg {
+      --d-size: calc(var(--size-selector, 0.25rem) * 7);
+    }
+
+    .chelekom-radio__indicator.d-radio-xl {
+      --d-size: calc(var(--size-selector, 0.25rem) * 8);
+    }
+
+    /* daisyUI keys the filled dot off `:checked` / `[aria-checked]`, both of which live on our root
+     * button rather than on the indicator — the indicator carries `data-checked` instead. */
+    .chelekom-radio__indicator[data-checked] {
+      border-color: currentcolor;
+      background-color: var(--color-base-100);
+    }
+
+    .chelekom-radio__indicator[data-checked]:before {
+      background-color: currentcolor;
+    }
+
+    .chelekom-radio:focus-visible .chelekom-radio__indicator {
+      outline: 2px solid currentColor;
+      outline-offset: 2px;
+    }
+
+    .chelekom-radio__label {
+      user-select: none;
+    }
+  }
+}
+/* <<< radio */
+
+/* >>> slider */
+@layer components {
+  [data-skin=daisyui] {
+    /* slider — daisyUI skin (the `range` look).
+     *
+     * daisyUI's `range` styles a native `<input type=range>` through `::-webkit-slider-thumb` and a
+     * `--range-fill` gradient on the track. Ours is a track/indicator/thumb trio the Slider engine
+     * drives, so these are daisyUI's values written against our parts — which also means `range-vertical`
+     * is unnecessary: `orientation="vertical"` already turns the control on its side.
+     *
+     * `--d-range-bg`, `--d-range-thumb` and `--d-range-fill` are daisyUI's own variables, so its
+     * custom-colour recipe works here unchanged.
+     */
+
+    .chelekom-slider {
+      --d-range-thumb: var(--color-base-100);
+      --d-range-bg: currentColor;
+      --d-range-fill: 1;
+      --d-range-thumb-size: calc(var(--size-selector, 0.25rem) * 6);
+      display: flex;
+      flex-direction: column;
+      gap: calc(0.25rem * 1);
+      width: 100%;
+      color: var(--color-base-content);
+    }
+
+    .chelekom-slider__label,
+    .chelekom-slider__value {
+      font-size: 0.875rem;
+    }
+
+    .chelekom-slider__control {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      height: calc(var(--size-field, 0.25rem) * 6);
+      cursor: pointer;
+      touch-action: none;
+    }
+
+    .chelekom-slider__track {
+      position: relative;
+      width: 100%;
+      height: 0.5rem;
+      border-radius: calc(infinity * 1px);
+      background-color: color-mix(in oklab, var(--color-base-content) 10%, transparent);
+    }
+
+    .chelekom-slider__indicator {
+      height: 100%;
+      border-radius: inherit;
+      background-color: var(--d-range-bg);
+      opacity: var(--d-range-fill);
+    }
+
+    .chelekom-slider__thumb {
+      width: var(--d-range-thumb-size);
+      height: var(--d-range-thumb-size);
+      border-radius: calc(infinity * 1px);
+      background-color: var(--d-range-thumb);
+      color: var(--d-range-bg);
+      box-shadow:
+        0 0 0 3px var(--d-range-bg) inset,
+        0 0 0 var(--border) var(--d-range-bg),
+        0 1px 3px -1px oklch(0% 0 0 / calc(var(--depth) * 0.3));
+      cursor: grab;
+    }
+
+    .chelekom-slider__thumb[data-dragging] {
+      cursor: grabbing;
+    }
+
+    .chelekom-slider__thumb:focus-visible {
+      outline: 2px solid currentColor;
+      outline-offset: 2px;
+    }
+
+    .chelekom-slider[data-disabled] {
+      cursor: not-allowed;
+      opacity: 30%;
+    }
+
+    /* The size modifiers are gated on `input[type=range]`, which our control is not — so honour
+     * daisyUI's own thumb scale here, on the root. */
+    .chelekom-slider.d-range-xs {
+      --d-range-thumb-size: calc(var(--size-selector, 0.25rem) * 4);
+    }
+
+    .chelekom-slider.d-range-sm {
+      --d-range-thumb-size: calc(var(--size-selector, 0.25rem) * 5);
+    }
+
+    .chelekom-slider.d-range-md {
+      --d-range-thumb-size: calc(var(--size-selector, 0.25rem) * 6);
+    }
+
+    .chelekom-slider.d-range-lg {
+      --d-range-thumb-size: calc(var(--size-selector, 0.25rem) * 7);
+    }
+
+    .chelekom-slider.d-range-xl {
+      --d-range-thumb-size: calc(var(--size-selector, 0.25rem) * 8);
+    }
+
+    /* Vertical: the same parts, stood up. */
+    .chelekom-slider[data-orientation="vertical"] .chelekom-slider__control {
+      width: auto;
+      height: 12rem;
+    }
+
+    .chelekom-slider[data-orientation="vertical"] .chelekom-slider__track {
+      width: 0.5rem;
+      height: 100%;
+    }
+
+    .chelekom-slider[data-orientation="vertical"] .chelekom-slider__indicator {
+      width: 100%;
+    }
+  }
+}
+/* <<< slider */
+
+/* >>> separator */
+@layer components {
+  [data-skin=daisyui] {
+    /* separator — daisyUI skin (paints `divider`, including the label-in-the-middle layout). */
+
+    .chelekom-separator {
+      @apply d-divider;
+    }
+
+    .chelekom-separator[data-orientation="vertical"] {
+      @apply d-divider-horizontal;
+    }
+
+    .chelekom-separator__label {
+      padding-inline: calc(0.25rem * 2);
+      font-size: 0.875rem;
+      color: var(--color-base-content);
+    }
+  }
+}
+/* <<< separator */
+
+/* >>> radio_group */
+@layer components {
+  [data-skin=daisyui] {
+    /* radio_group — daisyUI skin (each item paints `radio`, the group lays them out). */
+
+    .chelekom-radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: calc(0.25rem * 2);
+      color: var(--color-base-content);
+    }
+
+    .chelekom-radio-group[data-orientation="horizontal"] {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: calc(0.25rem * 4);
+    }
+
+    .chelekom-radio-group__item {
+      display: inline-flex;
+      align-items: center;
+      gap: calc(0.25rem * 2);
+      cursor: pointer;
+      font-size: 0.875rem;
+      user-select: none;
+    }
+
+    .chelekom-radio-group__item:before {
+      @apply d-radio;
+      content: "";
+    }
+
+    .chelekom-radio-group__item[data-checked]:before,
+    .chelekom-radio-group__item[aria-checked="true"]:before {
+      border-color: currentcolor;
+      background-color: var(--color-base-100);
+      box-shadow: 0 0 0 4px currentColor inset;
+    }
+
+    .chelekom-radio-group__item[data-disabled],
+    .chelekom-radio-group[data-disabled] .chelekom-radio-group__item {
+      cursor: not-allowed;
+      opacity: 20%;
+    }
+
+    .chelekom-radio-group__item:focus-visible:before {
+      outline: 2px solid currentColor;
+      outline-offset: 2px;
+    }
+  }
+}
+/* <<< radio_group */

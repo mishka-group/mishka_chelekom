@@ -26,6 +26,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.Menu
   import DevelopmentWeb.Components.Headless.Pill
   import DevelopmentWeb.Components.Headless.Progress
+  import DevelopmentWeb.Components.Headless.Slider
+  import DevelopmentWeb.Components.Headless.Separator
+  import DevelopmentWeb.Components.Headless.Radio
+  import DevelopmentWeb.Components.Headless.RadioGroup
   import DevelopmentWeb.Components.Headless.Select
   import DevelopmentWeb.Components.Headless.Switch
   import DevelopmentWeb.Components.Headless.Tabs
@@ -176,6 +180,35 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
        "daisyUI's `tooltip-content` for markup instead of a `data-tip` string."},
       {"tooltip-responsive", "Responsive",
        "daisyUI's `lg:tooltip` — hidden below the breakpoint, shown above it."}
+    ],
+    "radio" => [
+      {"radio-hero", "Radio", "daisyUI's `radio`, painted from the indicator part."},
+      {"radio-sizes", "Sizes", "`radio-xs` through `radio-xl`."},
+      {"radio-colors", "Colors", "All eight `radio-*` colors."},
+      {"radio-disabled", "Disabled", "Checked and unchecked, both disabled."},
+      {"radio-custom-colors", "Custom colors",
+       "daisyUI's custom-colour recipe, with `data-checked` standing in for `:checked`."},
+      {"radio-group", "In a group",
+       "Our `radio_group`, which owns the roving tabindex and arrow-key selection."}
+    ],
+    "slider" => [
+      {"slider-hero", "Range", "daisyUI's `range` track, fill and thumb."},
+      {"slider-steps", "With steps and measure",
+       "daisyUI's stepped range, with the step marks underneath."},
+      {"slider-colors", "Colors", "All eight `range-*` colors."},
+      {"slider-sizes", "Sizes", "`range-xs` through `range-xl`."},
+      {"slider-custom", "Custom color and no fill",
+       "daisyUI's `--range-bg` / `--range-thumb` / `--range-fill` recipe. Note the `d-` — a prefixed plugin prefixes its variables too, so the recipe from the docs needs the prefix here."},
+      {"slider-vertical", "Vertical",
+       "daisyUI's `range-vertical`; ours is the `orientation` attribute."},
+      {"slider-range", "Two thumbs",
+       "Not a daisyUI variant — our multi-thumb range, painted the same."}
+    ],
+    "separator" => [
+      {"separator-hero", "Divider", "daisyUI's `divider` with a label in the middle."},
+      {"separator-plain", "Without a label", "The bare rule."},
+      {"separator-vertical", "Vertical", "daisyUI's `divider-horizontal` orientation."},
+      {"separator-colors", "Colors", "All eight `divider-*` colors."}
     ],
     "menu" => [
       {"menu-hero", "Dropdown menu",
@@ -708,6 +741,210 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <:trigger><span class="d-btn">Large screens only</span></:trigger>
       only above lg
     </.tooltip>
+    """
+  end
+
+  # ── radio ─────────────────────────────────────────────────────────────────
+  def example(%{section: "radio-hero"} = assigns) do
+    ~H"""
+    <div class="flex flex-col gap-2">
+      <.radio id="daisyui-radio-a" name="radio-hero" value="a" checked>Option A</.radio>
+      <.radio id="daisyui-radio-b" name="radio-hero" value="b">Option B</.radio>
+    </div>
+    """
+  end
+
+  def example(%{section: "radio-sizes"} = assigns) do
+    assigns = assign(assigns, :sizes, @sizes)
+
+    ~H"""
+    <div class="flex flex-col gap-2">
+      <.radio
+        :for={size <- @sizes}
+        id={"daisyui-radio-size-#{size}"}
+        name={"radio-size-#{size}"}
+        value={size}
+        checked
+        indicator_class={"d-radio-#{size}"}
+      >
+        radio-{size}
+      </.radio>
+    </div>
+    """
+  end
+
+  def example(%{section: "radio-colors"} = assigns) do
+    assigns = assign(assigns, :colors, @colors)
+
+    ~H"""
+    <div class="flex flex-wrap gap-4">
+      <.radio
+        :for={color <- @colors}
+        id={"daisyui-radio-#{color}"}
+        name={"radio-#{color}"}
+        value={color}
+        checked
+        indicator_class={"d-radio-#{color}"}
+      >
+        {color}
+      </.radio>
+    </div>
+    """
+  end
+
+  def example(%{section: "radio-disabled"} = assigns) do
+    ~H"""
+    <div class="flex flex-col gap-2">
+      <.radio id="daisyui-radio-dis-on" name="radio-dis" value="on" checked disabled>
+        Disabled, selected
+      </.radio>
+      <.radio id="daisyui-radio-dis-off" name="radio-dis2" value="off" disabled>
+        Disabled
+      </.radio>
+    </div>
+    """
+  end
+
+  def example(%{section: "radio-custom-colors"} = assigns) do
+    ~H"""
+    <.radio
+      id="daisyui-radio-custom"
+      name="radio-custom"
+      value="custom"
+      checked
+      indicator_class="border-red-300 bg-red-100 text-red-600 data-[checked]:border-red-600 data-[checked]:bg-red-200"
+    >
+      Custom colors
+    </.radio>
+    """
+  end
+
+  def example(%{section: "radio-group"} = assigns) do
+    ~H"""
+    <div>
+      <div id="daisyui-radio-group-label" class="mb-2 text-sm font-bold">Plan</div>
+      <.radio_group
+        id="daisyui-radio-group"
+        name="plan"
+        value="pro"
+        aria-labelledby="daisyui-radio-group-label"
+      >
+        <:option value="free">Free</:option>
+        <:option value="pro">Pro</:option>
+        <:option value="team" disabled>Team (invite only)</:option>
+      </.radio_group>
+    </div>
+    """
+  end
+
+  # ── slider ────────────────────────────────────────────────────────────────
+  def example(%{section: "slider-hero"} = assigns) do
+    ~H"""
+    <.slider id="daisyui-slider-hero" value={40} label="Volume" class="max-w-xs" />
+    """
+  end
+
+  def example(%{section: "slider-steps"} = assigns) do
+    ~H"""
+    <div class="w-full max-w-xs">
+      <.slider id="daisyui-slider-steps" value={50} step={25} />
+      <div class="mt-2 flex justify-between px-1 text-xs opacity-60">
+        <span :for={n <- ~w(0 25 50 75 100)}>{n}</span>
+      </div>
+    </div>
+    """
+  end
+
+  def example(%{section: "slider-colors"} = assigns) do
+    assigns = assign(assigns, :colors, @colors)
+
+    ~H"""
+    <div class="flex w-full max-w-xs flex-col gap-3">
+      <.slider
+        :for={color <- @colors}
+        id={"daisyui-slider-#{color}"}
+        value={60}
+        class={"d-range-#{color}"}
+      />
+    </div>
+    """
+  end
+
+  def example(%{section: "slider-sizes"} = assigns) do
+    assigns = assign(assigns, :sizes, @sizes)
+
+    ~H"""
+    <div class="flex w-full max-w-xs flex-col gap-3">
+      <.slider
+        :for={size <- @sizes}
+        id={"daisyui-slider-size-#{size}"}
+        value={60}
+        class={"d-range-#{size}"}
+      />
+    </div>
+    """
+  end
+
+  def example(%{section: "slider-custom"} = assigns) do
+    ~H"""
+    <.slider
+      id="daisyui-slider-custom"
+      value={40}
+      class="max-w-xs text-blue-300 [--d-range-bg:orange] [--d-range-fill:0] [--d-range-thumb:blue]"
+    />
+    """
+  end
+
+  def example(%{section: "slider-vertical"} = assigns) do
+    ~H"""
+    <.slider id="daisyui-slider-vertical" value={40} orientation="vertical" />
+    """
+  end
+
+  def example(%{section: "slider-range"} = assigns) do
+    ~H"""
+    <.slider id="daisyui-slider-two" values={[25, 75]} class="max-w-xs d-range-primary" />
+    """
+  end
+
+  # ── separator ─────────────────────────────────────────────────────────────
+  def example(%{section: "separator-hero"} = assigns) do
+    ~H"""
+    <div class="w-full max-w-xs">
+      <div>Above</div>
+      <.separator>OR</.separator>
+      <div>Below</div>
+    </div>
+    """
+  end
+
+  def example(%{section: "separator-plain"} = assigns) do
+    ~H"""
+    <div class="w-full max-w-xs">
+      <div>Above</div>
+      <.separator />
+      <div>Below</div>
+    </div>
+    """
+  end
+
+  def example(%{section: "separator-vertical"} = assigns) do
+    ~H"""
+    <div class="flex w-full max-w-xs items-center">
+      <div class="grid grow place-items-center">Left</div>
+      <.separator orientation="vertical">OR</.separator>
+      <div class="grid grow place-items-center">Right</div>
+    </div>
+    """
+  end
+
+  def example(%{section: "separator-colors"} = assigns) do
+    assigns = assign(assigns, :colors, @colors)
+
+    ~H"""
+    <div class="w-full max-w-xs">
+      <.separator :for={color <- @colors} class={"d-divider-#{color}"}>{color}</.separator>
+    </div>
     """
   end
 

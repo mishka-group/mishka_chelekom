@@ -1,0 +1,76 @@
+/* radio — daisyUI skin (indicator paints `radio`; the dot is daisyUI's own ::before). */
+
+.chelekom-radio {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(0.25rem * 2);
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: var(--color-base-content);
+}
+
+.chelekom-radio:disabled,
+.chelekom-radio[data-disabled] {
+  cursor: not-allowed;
+  opacity: 20%;
+}
+
+.chelekom-radio[data-readonly] {
+  cursor: default;
+}
+
+/* daisyUI's `radio` IS the input; ours is a separate indicator beside a native input kept for form
+ * submission, so the native one gets out of the way. */
+.chelekom-radio__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.chelekom-radio__indicator {
+  @apply <%= @d %>radio;
+}
+
+/* The size modifiers are gated on `[type=radio]`, which our indicator is not — so honour daisyUI's
+ * own scale here. Same story as `toggle-*` and `range-*`. */
+.chelekom-radio__indicator.<%= @d %>radio-xs {
+  --<%= @d %>size: calc(var(--size-selector, 0.25rem) * 4);
+}
+
+.chelekom-radio__indicator.<%= @d %>radio-sm {
+  --<%= @d %>size: calc(var(--size-selector, 0.25rem) * 5);
+}
+
+.chelekom-radio__indicator.<%= @d %>radio-md {
+  --<%= @d %>size: calc(var(--size-selector, 0.25rem) * 6);
+}
+
+.chelekom-radio__indicator.<%= @d %>radio-lg {
+  --<%= @d %>size: calc(var(--size-selector, 0.25rem) * 7);
+}
+
+.chelekom-radio__indicator.<%= @d %>radio-xl {
+  --<%= @d %>size: calc(var(--size-selector, 0.25rem) * 8);
+}
+
+/* daisyUI keys the filled dot off `:checked` / `[aria-checked]`, both of which live on our root
+ * button rather than on the indicator — the indicator carries `data-checked` instead. */
+.chelekom-radio__indicator[data-checked] {
+  border-color: currentcolor;
+  background-color: var(--color-base-100);
+}
+
+.chelekom-radio__indicator[data-checked]:before {
+  background-color: currentcolor;
+}
+
+.chelekom-radio:focus-visible .chelekom-radio__indicator {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.chelekom-radio__label {
+  user-select: none;
+}

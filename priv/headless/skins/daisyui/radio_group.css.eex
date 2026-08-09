@@ -1,0 +1,46 @@
+/* radio_group — daisyUI skin (each item paints `radio`, the group lays them out). */
+
+.chelekom-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: calc(0.25rem * 2);
+  color: var(--color-base-content);
+}
+
+.chelekom-radio-group[data-orientation="horizontal"] {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: calc(0.25rem * 4);
+}
+
+.chelekom-radio-group__item {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(0.25rem * 2);
+  cursor: pointer;
+  font-size: 0.875rem;
+  user-select: none;
+}
+
+.chelekom-radio-group__item:before {
+  @apply <%= @d %>radio;
+  content: "";
+}
+
+.chelekom-radio-group__item[data-checked]:before,
+.chelekom-radio-group__item[aria-checked="true"]:before {
+  border-color: currentcolor;
+  background-color: var(--color-base-100);
+  box-shadow: 0 0 0 4px currentColor inset;
+}
+
+.chelekom-radio-group__item[data-disabled],
+.chelekom-radio-group[data-disabled] .chelekom-radio-group__item {
+  cursor: not-allowed;
+  opacity: 20%;
+}
+
+.chelekom-radio-group__item:focus-visible:before {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
