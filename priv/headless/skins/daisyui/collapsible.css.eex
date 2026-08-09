@@ -1,0 +1,87 @@
+/* collapsible — daisyUI skin (paints `collapse`; one disclosure rather than a set).
+ *
+ * Same shape as the accordion skin: `@apply` gets the box and the title, but daisyUI's open state
+ * keys off `[open]`, `:has(> input:checked)` and `.collapse-open`, none of which our DOM has — so
+ * the panel's own height transition is driven by the `data-open` / `data-starting-style` the
+ * shared Disclosure engine already sets (it names the variable --accordion-panel-height).
+ */
+
+.chelekom-collapsible__item {
+  @apply <%= @d %>collapse;
+  display: block;
+  border: var(--border) solid var(--color-base-300);
+  background-color: var(--color-base-100);
+  color: var(--color-base-content);
+}
+
+.chelekom-collapsible__trigger {
+  @apply <%= @d %>collapse-title;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(0.25rem * 4);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-align: start;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* daisyUI's arrow, ours only when the trigger has no icon of its own. */
+.chelekom-collapsible__trigger:not(:has(> *)):after {
+  content: "";
+  position: absolute;
+  display: block;
+  top: 50%;
+  inset-inline-end: 1.4rem;
+  height: 0.5rem;
+  width: 0.5rem;
+  transform: translateY(-100%) rotate(45deg);
+  transform-origin: 75% 75%;
+  box-shadow: 2px 2px;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .chelekom-collapsible__trigger:not(:has(> *)):after {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .chelekom-collapsible__trigger[data-panel-open]:not(:has(> *)):after {
+    transform: translateY(-50%) rotate(225deg);
+  }
+}
+
+.chelekom-collapsible__trigger:hover:not([data-disabled]) {
+  background-color: color-mix(in oklab, var(--color-base-content) 6%, transparent);
+}
+
+.chelekom-collapsible__trigger:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
+}
+
+.chelekom-collapsible__trigger[data-disabled] {
+  cursor: not-allowed;
+  color: color-mix(in oklab, var(--color-base-content) 30%, transparent);
+}
+
+.chelekom-collapsible__panel {
+  height: var(--accordion-panel-height);
+  overflow: hidden;
+  padding-inline: 1rem;
+  padding-bottom: 1rem;
+  font-size: 0.875rem;
+  color: color-mix(in oklab, var(--color-base-content) 70%, transparent);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .chelekom-collapsible__panel {
+    transition: height 0.2s ease-out;
+  }
+}
+
+.chelekom-collapsible__panel[data-starting-style],
+.chelekom-collapsible__panel[data-ending-style] {
+  height: 0;
+}

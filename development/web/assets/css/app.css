@@ -42,6 +42,8 @@
 @source inline("d-{radio,range}-{xs,sm,md,lg,xl}");
 @source inline("d-divider-horizontal");
 @source inline("[--d-range-bg:orange] [--d-range-fill:0] [--d-range-thumb:blue]");
+@source inline("d-alert d-alert-{info,success,warning,error}");
+@source inline("d-toast-{top,middle,bottom,start,center,end}");
 
 /* A Tailwind plugin that makes "hero-#{ICON}" classes available.
    The heroicons installation itself is managed by your mix.exs */

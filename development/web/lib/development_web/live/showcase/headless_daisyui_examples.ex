@@ -22,6 +22,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.Accordion
   import DevelopmentWeb.Components.Headless.Avatar
   import DevelopmentWeb.Components.Headless.Checkbox
+  import DevelopmentWeb.Components.Headless.Toast
+  import DevelopmentWeb.Components.Headless.Collapsible
   import DevelopmentWeb.Components.Headless.Dialog
   import DevelopmentWeb.Components.Headless.Menu
   import DevelopmentWeb.Components.Headless.Pill
@@ -209,6 +211,28 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"separator-plain", "Without a label", "The bare rule."},
       {"separator-vertical", "Vertical", "daisyUI's `divider-horizontal` orientation."},
       {"separator-colors", "Colors", "All eight `divider-*` colors."}
+    ],
+    "collapsible" => [
+      {"collapsible-hero", "Collapse", "daisyUI's `collapse` with the arrow icon."},
+      {"collapsible-plain", "Without border or background",
+       "The bare disclosure, before the card treatment."},
+      {"collapsible-plus", "Plus / minus icon",
+       "daisyUI's `collapse-plus`; ours is the trigger's own icon, rotated on `data-panel-open`."},
+      {"collapsible-icon-start", "Icon at the start",
+       "The icon before the title instead of after it."},
+      {"collapsible-open", "Force open", "daisyUI's `collapse-open` — our `open` attribute."},
+      {"collapsible-custom-colors", "Custom colors",
+       "A primary card, the way daisyUI's colour recipe does it."}
+    ],
+    "toast" => [
+      {"toast-hero", "Toast with an alert inside",
+       "daisyUI's `toast` corner stack with an `alert` card in it."},
+      {"toast-colors", "Alert colors",
+       "`alert-info`, `alert-success`, `alert-warning`, `alert-error`."},
+      {"toast-placement", "Placement",
+       "daisyUI's nine `toast-{top,middle,bottom}` × `toast-{start,center,end}` combinations, as classes on the viewport."},
+      {"toast-live", "Pushed from a trigger",
+       "The template toast our engine clones on click, with the close button and auto-dismiss."}
     ],
     "menu" => [
       {"menu-hero", "Dropdown menu",
@@ -945,6 +969,151 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="w-full max-w-xs">
       <.separator :for={color <- @colors} class={"d-divider-#{color}"}>{color}</.separator>
     </div>
+    """
+  end
+
+  # ── collapsible ───────────────────────────────────────────────────────────
+  def example(%{section: "collapsible-hero"} = assigns) do
+    ~H"""
+    <.collapsible id="daisyui-collapsible-hero" class="w-80">
+      <:trigger>How do I create an account?</:trigger>
+      Click the "Sign up" button in the top right corner and follow the prompts.
+    </.collapsible>
+    """
+  end
+
+  def example(%{section: "collapsible-plain"} = assigns) do
+    ~H"""
+    <.collapsible id="daisyui-collapsible-plain" class="w-80" item_class="!border-0 !bg-transparent">
+      <:trigger>Without border or background</:trigger>
+      The same disclosure with the card treatment removed.
+    </.collapsible>
+    """
+  end
+
+  def example(%{section: "collapsible-plus"} = assigns) do
+    ~H"""
+    <.collapsible id="daisyui-collapsible-plus" class="w-80" trigger_class="group">
+      <:trigger>
+        Plus / minus
+        <svg
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          class="size-3.5 shrink-0 transition-transform duration-200 group-data-[panel-open]:rotate-45"
+        >
+          <path d="M2 8h12M8 2v12" />
+        </svg>
+      </:trigger>
+      daisyUI swaps the arrow for a plus; ours is the trigger's own icon.
+    </.collapsible>
+    """
+  end
+
+  def example(%{section: "collapsible-icon-start"} = assigns) do
+    ~H"""
+    <.collapsible
+      id="daisyui-collapsible-icon-start"
+      class="w-80"
+      trigger_class="group flex-row-reverse justify-end"
+    >
+      <:trigger>
+        Icon at the start
+        <svg
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          class="size-3.5 shrink-0 transition-transform duration-200 group-data-[panel-open]:rotate-90"
+        >
+          <path d="M6 3l5 5-5 5" />
+        </svg>
+      </:trigger>
+      The trigger is a flex row, so reversing it moves the icon.
+    </.collapsible>
+    """
+  end
+
+  def example(%{section: "collapsible-open"} = assigns) do
+    ~H"""
+    <.collapsible id="daisyui-collapsible-open" class="w-80" open>
+      <:trigger>Open from the start</:trigger>
+      daisyUI's `collapse-open`; ours is the `open` attribute.
+    </.collapsible>
+    """
+  end
+
+  def example(%{section: "collapsible-custom-colors"} = assigns) do
+    ~H"""
+    <.collapsible
+      id="daisyui-collapsible-custom"
+      class="w-80"
+      item_class="!border-primary !bg-primary text-primary-content"
+    >
+      <:trigger>Custom colors</:trigger>
+      A primary card, painted with utilities on the item part.
+    </.collapsible>
+    """
+  end
+
+  # ── toast ─────────────────────────────────────────────────────────────────
+  def example(%{section: "toast-hero"} = assigns) do
+    ~H"""
+    <div class="relative h-28 w-full [transform:translate(0)]">
+      <.toast id="daisyui-toast-hero">
+        <:toast duration={0}>New message arrived.</:toast>
+      </.toast>
+    </div>
+    """
+  end
+
+  def example(%{section: "toast-colors"} = assigns) do
+    ~H"""
+    <div class="flex flex-col gap-2">
+      <.toast
+        :for={color <- ~w(info success warning error)}
+        id={"daisyui-toast-#{color}"}
+        viewport_class="!static"
+        toast_class={"d-alert-#{color}"}
+      >
+        <:toast duration={0}>alert-{color}</:toast>
+      </.toast>
+    </div>
+    """
+  end
+
+  def example(%{section: "toast-placement"} = assigns) do
+    assigns =
+      assign(
+        assigns,
+        :spots,
+        for(v <- ~w(top middle bottom), h <- ~w(start center end), do: {v, h})
+      )
+
+    ~H"""
+    <div class="grid grid-cols-3 gap-2">
+      <.toast
+        :for={{v, h} <- @spots}
+        id={"daisyui-toast-#{v}-#{h}"}
+        class="relative h-20 [transform:translate(0)]"
+        viewport_class={["d-toast-#{v}", "d-toast-#{h}"]}
+        toast_class="d-alert-info"
+      >
+        <:toast duration={0}>{v}/{h}</:toast>
+      </.toast>
+    </div>
+    """
+  end
+
+  def example(%{section: "toast-live"} = assigns) do
+    ~H"""
+    <.toast id="daisyui-toast-live" duration={4000} toast_class="d-alert-success">
+      <:trigger>Show a toast</:trigger>
+      <:template>Saved. This one dismisses itself.</:template>
+    </.toast>
     """
   end
 
