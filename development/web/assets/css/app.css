@@ -36,6 +36,8 @@
 @source inline("d-badge-{soft,outline,dash,ghost}");
 @source inline("d-avatar-{group,online,offline}");
 @source inline("d-mask d-mask-{heart,squircle,hexagon-2}");
+@source inline("d-progress-{primary,secondary,accent,neutral,info,success,warning,error}");
+@source inline("d-tooltip-{primary,secondary,accent,info,success,warning,error}");
 
 /* A Tailwind plugin that makes "hero-#{ICON}" classes available.
    The heroicons installation itself is managed by your mix.exs */

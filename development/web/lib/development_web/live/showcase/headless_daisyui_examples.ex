@@ -25,9 +25,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.Dialog
   import DevelopmentWeb.Components.Headless.Menu
   import DevelopmentWeb.Components.Headless.Pill
+  import DevelopmentWeb.Components.Headless.Progress
   import DevelopmentWeb.Components.Headless.Select
   import DevelopmentWeb.Components.Headless.Switch
   import DevelopmentWeb.Components.Headless.Tabs
+  import DevelopmentWeb.Components.Headless.Tooltip
 
   @faq [
     {"What is a skin?",
@@ -150,6 +152,30 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"pill-in-button", "In a button", "A badge riding along inside a daisyUI button."},
       {"pill-removable", "Removable",
        "Not a daisyUI variant — our `with_remove` trailing button, painted to match."}
+    ],
+    "progress" => [
+      {"progress-hero", "Progress", "daisyUI's `progress` bar at 40%."},
+      {"progress-colors", "Colors",
+       "All eight `progress-*` colors — each only sets `color`, and the bar is `currentColor`."},
+      {"progress-values", "Values", "0, 10, 40, 70 and 100 percent."},
+      {"progress-indeterminate", "Indeterminate",
+       "No `value`, so the bar sweeps — daisyUI's 5s loop, driven by our `data-indeterminate`."},
+      {"progress-labelled", "With a label and readout",
+       "Not a daisyUI variant — our `label` and `show_value` parts, painted to match."}
+    ],
+    "tooltip" => [
+      {"tooltip-hero", "Tooltip", "daisyUI's neutral bubble, opened on hover or focus."},
+      {"tooltip-open", "Force open", "daisyUI's `tooltip-open` — our `open` attribute."},
+      {"tooltip-sides", "Top, bottom, left and right",
+       "daisyUI's four position classes; ours is the `side` attribute, and the engine flips it when there is no room."},
+      {"tooltip-align", "Start, center and end",
+       "daisyUI's `tooltip-start/center/end`; ours is the `align` attribute."},
+      {"tooltip-colors", "Colors",
+       "All seven `tooltip-*` colors, which set daisyUI's own `--tt-bg` so the arrow follows."},
+      {"tooltip-rich", "With rich content",
+       "daisyUI's `tooltip-content` for markup instead of a `data-tip` string."},
+      {"tooltip-responsive", "Responsive",
+       "daisyUI's `lg:tooltip` — hidden below the breakpoint, shown above it."}
     ],
     "menu" => [
       {"menu-hero", "Dropdown menu",
@@ -535,6 +561,153 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <.pill class="d-badge-primary" with_remove>elixir</.pill>
       <.pill class="d-badge-secondary" with_remove>phoenix</.pill>
     </div>
+    """
+  end
+
+  # ── progress ──────────────────────────────────────────────────────────────
+  def example(%{section: "progress-hero"} = assigns) do
+    ~H"""
+    <.progress id="daisyui-progress-hero" value={40} class="w-56" />
+    """
+  end
+
+  def example(%{section: "progress-colors"} = assigns) do
+    assigns = assign(assigns, :colors, @colors)
+
+    ~H"""
+    <div class="flex flex-col gap-2">
+      <.progress
+        :for={color <- @colors}
+        id={"daisyui-progress-#{color}"}
+        value={60}
+        class={["w-56", "d-progress-#{color}"]}
+      />
+    </div>
+    """
+  end
+
+  def example(%{section: "progress-values"} = assigns) do
+    ~H"""
+    <div class="flex flex-col gap-2">
+      <.progress
+        :for={v <- [0, 10, 40, 70, 100]}
+        id={"daisyui-progress-v#{v}"}
+        value={v}
+        class="w-56"
+      />
+    </div>
+    """
+  end
+
+  def example(%{section: "progress-indeterminate"} = assigns) do
+    ~H"""
+    <.progress id="daisyui-progress-indeterminate" class="w-56" />
+    """
+  end
+
+  def example(%{section: "progress-labelled"} = assigns) do
+    ~H"""
+    <.progress
+      id="daisyui-progress-labelled"
+      value={64}
+      label="Uploading"
+      show_value
+      class="w-56 d-progress-primary"
+    />
+    """
+  end
+
+  # ── tooltip ───────────────────────────────────────────────────────────────
+  def example(%{section: "tooltip-hero"} = assigns) do
+    ~H"""
+    <.tooltip id="daisyui-tooltip-hero">
+      <:trigger><span class="d-btn">Hover me</span></:trigger>
+      hello
+    </.tooltip>
+    """
+  end
+
+  def example(%{section: "tooltip-open"} = assigns) do
+    ~H"""
+    <div class="pt-10">
+      <.tooltip id="daisyui-tooltip-open" open>
+        <:trigger><span class="d-btn">Always open</span></:trigger>
+        hello
+      </.tooltip>
+    </div>
+    """
+  end
+
+  def example(%{section: "tooltip-sides"} = assigns) do
+    ~H"""
+    <div class="grid grid-cols-2 gap-10 p-10">
+      <.tooltip
+        :for={side <- ~w(top bottom left right)}
+        id={"daisyui-tooltip-#{side}"}
+        side={side}
+        open
+      >
+        <:trigger><span class="d-btn">{side}</span></:trigger>
+        {side}
+      </.tooltip>
+    </div>
+    """
+  end
+
+  def example(%{section: "tooltip-align"} = assigns) do
+    ~H"""
+    <div class="flex gap-10 p-10">
+      <.tooltip
+        :for={align <- ~w(start center end)}
+        id={"daisyui-tooltip-align-#{align}"}
+        align={align}
+        open
+      >
+        <:trigger><span class="d-btn">{align}</span></:trigger>
+        {align}
+      </.tooltip>
+    </div>
+    """
+  end
+
+  def example(%{section: "tooltip-colors"} = assigns) do
+    assigns = assign(assigns, :colors, ~w(primary secondary accent info success warning error))
+
+    ~H"""
+    <div class="flex flex-wrap gap-6 p-10">
+      <.tooltip
+        :for={color <- @colors}
+        id={"daisyui-tooltip-#{color}"}
+        open
+        popup_class={"d-tooltip-#{color}"}
+      >
+        <:trigger><span class="d-btn">{color}</span></:trigger>
+        {color}
+      </.tooltip>
+    </div>
+    """
+  end
+
+  def example(%{section: "tooltip-rich"} = assigns) do
+    ~H"""
+    <div class="pt-16">
+      <.tooltip id="daisyui-tooltip-rich" open popup_class="max-w-56">
+        <:trigger><span class="d-btn">Rich content</span></:trigger>
+        <div class="space-y-1 text-left">
+          <div class="text-base font-bold">You are doing well</div>
+          <div class="text-xs opacity-80">Keep it up and finish the tutorial.</div>
+        </div>
+      </.tooltip>
+    </div>
+    """
+  end
+
+  def example(%{section: "tooltip-responsive"} = assigns) do
+    ~H"""
+    <.tooltip id="daisyui-tooltip-responsive" class="hidden lg:inline-block">
+      <:trigger><span class="d-btn">Large screens only</span></:trigger>
+      only above lg
+    </.tooltip>
     """
   end
 

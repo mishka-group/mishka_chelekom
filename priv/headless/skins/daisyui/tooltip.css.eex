@@ -1,0 +1,78 @@
+/* tooltip — daisyUI skin.
+ *
+ * daisyUI's `tooltip` is a CSS-only bubble drawn on the trigger's `::before`/`::after` from a
+ * `data-tip`, positioned by `tooltip-{top,bottom,left,right}` and revealed on `:hover`. Ours is a
+ * real popup element placed by the Tooltip engine, so these are daisyUI's values written against
+ * our parts, keyed off the `data-side` the engine sets. `--d-tt-bg` is daisyUI's own variable, so
+ * `tooltip-primary` and friends recolour the bubble and the arrow together.
+ */
+
+.chelekom-tooltip {
+  display: inline-block;
+}
+
+.chelekom-tooltip__popup {
+  --d-tt-bg: var(--color-neutral);
+  z-index: 60;
+  max-width: 20rem;
+  width: max-content;
+  border-radius: var(--radius-field);
+  padding-inline: calc(0.25rem * 2);
+  padding-block: calc(0.25rem * 1);
+  background-color: var(--d-tt-bg);
+  color: var(--color-neutral-content);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  text-align: center;
+  white-space: normal;
+}
+
+/* The colour modifiers set `--tt-bg` on themselves but the matching text colour through
+ * `& > .tooltip-content` / `&[data-tip]:before` — child selectors our popup cannot satisfy, because
+ * it carries the modifier itself. Pair them back up here with daisyUI's own values. */
+.chelekom-tooltip__popup.<%= @d %>tooltip-primary {
+  color: var(--color-primary-content);
+}
+
+.chelekom-tooltip__popup.<%= @d %>tooltip-secondary {
+  color: var(--color-secondary-content);
+}
+
+.chelekom-tooltip__popup.<%= @d %>tooltip-accent {
+  color: var(--color-accent-content);
+}
+
+.chelekom-tooltip__popup.<%= @d %>tooltip-info {
+  color: var(--color-info-content);
+}
+
+.chelekom-tooltip__popup.<%= @d %>tooltip-success {
+  color: var(--color-success-content);
+}
+
+.chelekom-tooltip__popup.<%= @d %>tooltip-warning {
+  color: var(--color-warning-content);
+}
+
+.chelekom-tooltip__popup.<%= @d %>tooltip-error {
+  color: var(--color-error-content);
+}
+
+.chelekom-tooltip__arrow {
+  width: 0.5rem;
+  height: 0.5rem;
+  rotate: 45deg;
+  background-color: var(--d-tt-bg);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .chelekom-tooltip__popup {
+    transition: opacity 0.15s ease-out, scale 0.15s ease-out;
+  }
+}
+
+.chelekom-tooltip__popup[data-starting-style],
+.chelekom-tooltip__popup[data-ending-style] {
+  opacity: 0;
+  scale: 0.96;
+}
