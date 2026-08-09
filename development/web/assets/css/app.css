@@ -23,6 +23,12 @@
    demo's (this is what `DevelopmentWeb.Kit.safelist()` returns for the skin). */
 @source inline("[&_[data-part=trigger]]:flex [&_[data-part=trigger]]:w-full [&_[data-part=trigger]]:justify-between [&_[data-part=trigger]]:py-3 [&_[data-part=trigger]]:font-medium [&_[data-part=panel]]:pb-3 [&_[data-part=panel]]:text-sm [&_[data-part=panel]]:text-base-content/70");
 
+/* The daisyUI gallery builds its size/color variant classes by interpolation, so Tailwind cannot
+   scan them out of the source — safelist the sets the examples iterate over. */
+@source inline("d-{checkbox,toggle,select}-{primary,secondary,accent,neutral,info,success,warning,error}");
+@source inline("d-{checkbox,toggle,select}-{xs,sm,md,lg,xl}");
+@source inline("d-{menu,tabs}-{xs,sm,md,lg,xl}");
+
 /* A Tailwind plugin that makes "hero-#{ICON}" classes available.
    The heroicons installation itself is managed by your mix.exs */
 @plugin "../vendor/heroicons";

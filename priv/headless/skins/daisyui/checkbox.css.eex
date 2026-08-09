@@ -1,0 +1,57 @@
+/* checkbox — daisyUI skin (indicator paints `checkbox`; the tick is daisyUI's own ::before). */
+
+.chelekom-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(0.25rem * 2);
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: var(--color-base-content);
+}
+
+.chelekom-checkbox:disabled,
+.chelekom-checkbox[data-disabled] {
+  cursor: not-allowed;
+  opacity: 20%;
+}
+
+.chelekom-checkbox[data-readonly] {
+  cursor: default;
+}
+
+.chelekom-checkbox__indicator {
+  @apply <%= @d %>checkbox;
+}
+
+.chelekom-checkbox__indicator[data-checked],
+.chelekom-checkbox__indicator[data-indeterminate] {
+  background-color: var(
+    --d-input-color,
+    color-mix(in oklab, var(--color-base-content) 20%, transparent)
+  );
+  box-shadow:
+    0 0 #0000 inset,
+    0 8px 0 -4px oklch(100% 0 0 / calc(var(--depth) * 0.1)) inset,
+    0 1px oklch(0% 0 0 / calc(var(--depth) * 0.1));
+}
+
+.chelekom-checkbox__indicator[data-checked]:before {
+  opacity: 100%;
+  clip-path: polygon(20% 100%, 20% 80%, 50% 80%, 50% 0%, 70% 0%, 70% 100%);
+}
+
+.chelekom-checkbox__indicator[data-indeterminate]:before {
+  opacity: 100%;
+  rotate: 0deg;
+  translate: 0 -35%;
+  clip-path: polygon(20% 100%, 20% 80%, 50% 80%, 50% 80%, 80% 80%, 80% 100%);
+}
+
+.chelekom-checkbox:focus-visible .chelekom-checkbox__indicator {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.chelekom-checkbox__label {
+  user-select: none;
+}

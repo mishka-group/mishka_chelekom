@@ -419,15 +419,24 @@ defmodule MishkaChelekom.Generators.Assets do
 
   `options[:skin_prefix]` must match the prefix the app configures on the design system's Tailwind
   plugin (e.g. `@plugin "daisyui" { prefix: "d-"; }` → `--skin-prefix d-`).
+
+  `options[:skin_scope]` nests the whole skin under a selector, so it paints only inside that
+  subtree (e.g. `--skin-scope "[data-skin=daisyui]"`). Without it a skin paints every instance of
+  the component in the app, which is usually what you want.
   """
   @spec setup_headless_skin(Igniter.t(), String.t(), keyword()) :: Igniter.t()
   def setup_headless_skin(igniter, component, options \\ []) do
     skin = options[:skin]
 
     cond do
-      is_nil(skin) or skin == "none" -> igniter
-      skin not in @skins -> Igniter.add_issue(igniter, unknown_skin_message(skin))
-      true -> install_skin(igniter, component, skin, options[:skin_prefix] || "")
+      is_nil(skin) or skin == "none" ->
+        igniter
+
+      skin not in @skins ->
+        Igniter.add_issue(igniter, unknown_skin_message(skin))
+
+      true ->
+        install_skin(igniter, component, skin, options[:skin_prefix] || "", options[:skin_scope])
     end
   end
 
@@ -435,11 +444,11 @@ defmodule MishkaChelekom.Generators.Assets do
     "Unknown --skin #{inspect(skin)}. Available: #{Enum.join(@skins, ", ")}."
   end
 
-  defp install_skin(igniter, component, skin, prefix) do
+  defp install_skin(igniter, component, skin, prefix, scope) do
     fragment = Core.lib_priv("headless/skins/#{skin}/#{component}.css.eex")
 
     if File.exists?(fragment) do
-      css = EEx.eval_file(fragment, assigns: [d: prefix])
+      css = fragment |> EEx.eval_file(assigns: [d: prefix]) |> wrap_css(scope)
       vendor = "assets/vendor/mishka_chelekom_headless_#{skin}.css"
 
       igniter
@@ -461,6 +470,19 @@ defmodule MishkaChelekom.Generators.Assets do
       )
     end
   end
+
+  # A skin is a default, not an override: `@layer components` puts it below Tailwind's utilities
+  # AND below the design system's own classes (daisyUI emits into `utilities`), so the per-part
+  # class attributes and the system's own modifiers still win. An optional scope nests inside it.
+  # CSS nesting does the scoping — no selector rewriting, so an unparsed fragment stays intact.
+  defp wrap_css(css, scope) do
+    css
+    |> String.trim_trailing()
+    |> then(&if(scope in [nil, ""], do: &1, else: "#{scope} {\n#{indent(&1)}\n}"))
+    |> then(&"@layer components {\n#{indent(&1)}\n}\n")
+  end
+
+  defp indent(css), do: String.replace(css, ~r/^(?!$)/m, "  ")
 
   defp skin_header(skin) do
     """

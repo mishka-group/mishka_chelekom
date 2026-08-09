@@ -1,0 +1,113 @@
+/* tabs — daisyUI skin (the `tabs-border` look; the sliding indicator is our own part).
+ *
+ * daisyUI gates every `.tab` rule on `:is(.tabs > .tab)`, which our markup can never satisfy, so
+ * these are daisyUI's values written against our parts instead of @apply-ed.
+ */
+
+.chelekom-tabs {
+  display: flex;
+  flex-direction: column;
+  color: var(--color-base-content);
+}
+
+.chelekom-tabs__list {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* Opt out of the skin's own row when the caller hands the list daisyUI's real `tabs`/`tab`
+ * classes — that is how `tabs-lift`, `tabs-box` and the size modifiers stay pixel-exact. */
+.chelekom-tabs__list:not(.<%= @d %>tabs) {
+  border-bottom: var(--border) solid var(--color-base-300);
+}
+
+.chelekom-tabs__list.<%= @d %>tabs .chelekom-tabs__indicator {
+  display: none;
+}
+
+.chelekom-tabs__tab:not(.<%= @d %>tab) {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(var(--size-field, 0.25rem) * 10);
+  padding-inline: 0.75rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  color: color-mix(in oklab, var(--color-base-content) 50%, transparent);
+  transition: color 0.2s ease-out;
+}
+
+.chelekom-tabs__tab:not(.<%= @d %>tab):hover:not([data-disabled]) {
+  color: var(--color-base-content);
+}
+
+.chelekom-tabs__tab:not(.<%= @d %>tab)[data-active] {
+  color: var(--color-base-content);
+}
+
+.chelekom-tabs__tab[data-disabled] {
+  cursor: not-allowed;
+  color: color-mix(in oklab, var(--color-base-content) 20%, transparent);
+}
+
+.chelekom-tabs__tab:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
+}
+
+.chelekom-tabs__indicator {
+  position: absolute;
+  bottom: calc(var(--border) * -1);
+  left: var(--active-tab-left, 0);
+  width: var(--active-tab-width, 0);
+  height: 2px;
+  background-color: var(--color-base-content);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .chelekom-tabs__indicator {
+    transition: left 0.2s ease-out, width 0.2s ease-out, top 0.2s ease-out, height 0.2s ease-out;
+  }
+}
+
+.chelekom-tabs[data-orientation="vertical"] {
+  flex-direction: row;
+}
+
+.chelekom-tabs[data-orientation="vertical"] .chelekom-tabs__list {
+  flex-direction: column;
+  border-bottom: 0;
+  border-inline-end: var(--border) solid var(--color-base-300);
+}
+
+.chelekom-tabs[data-orientation="vertical"] .chelekom-tabs__indicator {
+  bottom: auto;
+  left: auto;
+  inset-inline-end: calc(var(--border) * -1);
+  top: var(--active-tab-top, 0);
+  width: 2px;
+  height: var(--active-tab-height, 0);
+}
+
+.chelekom-tabs__panels {
+  padding-block-start: 1rem;
+}
+
+.chelekom-tabs[data-orientation="vertical"] .chelekom-tabs__panels {
+  padding-block-start: 0;
+  padding-inline-start: 1rem;
+}
+
+.chelekom-tabs__panel {
+  font-size: 0.875rem;
+}
+
+.chelekom-tabs__panel:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}

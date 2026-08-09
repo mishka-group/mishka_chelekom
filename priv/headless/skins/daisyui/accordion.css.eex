@@ -38,7 +38,8 @@
   user-select: none;
 }
 
-.chelekom-accordion__trigger:after {
+/* The arrow is ours only when the trigger has no icon of its own. */
+.chelekom-accordion__trigger:not(:has(> *)):after {
   content: "";
   position: absolute;
   display: block;
@@ -53,11 +54,11 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .chelekom-accordion__trigger:after {
+  .chelekom-accordion__trigger:not(:has(> *)):after {
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .chelekom-accordion__trigger[data-panel-open]:after {
+  .chelekom-accordion__trigger[data-panel-open]:not(:has(> *)):after {
     transform: translateY(-50%) rotate(225deg);
   }
 }
@@ -80,12 +81,9 @@
   height: var(--accordion-panel-height);
   overflow: hidden;
   padding-inline: 1rem;
+  padding-bottom: 1rem;
   font-size: 0.875rem;
   color: color-mix(in oklab, var(--color-base-content) 70%, transparent);
-}
-
-.chelekom-accordion__panel > :last-child {
-  padding-bottom: 1rem;
 }
 
 @media (prefers-reduced-motion: no-preference) {

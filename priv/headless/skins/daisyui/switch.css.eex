@@ -1,0 +1,48 @@
+/* switch — daisyUI skin (track paints `toggle`; the knob is daisyUI's own ::before). */
+
+/* daisyUI's `toggle-*` color modifiers only set `--d-input-color`, and they key off `:checked` /
+ * `[aria-checked]` — which live on our root button, not on the track. Reading the root's value
+ * here (with daisyUI's own default as the fallback) lets `<.switch class="<%= @d %>toggle-primary">`
+ * work exactly as the docs describe. */
+.chelekom-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(0.25rem * 2);
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: var(--color-base-content);
+  --d-switch-on: var(--d-input-color, var(--color-base-content));
+}
+
+.chelekom-switch:disabled,
+.chelekom-switch[data-disabled] {
+  cursor: not-allowed;
+  opacity: 20%;
+}
+
+.chelekom-switch[data-readonly] {
+  cursor: default;
+}
+
+.chelekom-switch__track {
+  @apply <%= @d %>toggle;
+}
+
+.chelekom-switch__track[data-checked] {
+  grid-template-columns: 1fr 1fr 0fr;
+  background-color: var(--color-base-100);
+  --d-input-color: var(--d-switch-on);
+}
+
+.chelekom-switch:focus-visible .chelekom-switch__track {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.chelekom-switch__thumb {
+  display: none;
+}
+
+.chelekom-switch__label {
+  user-select: none;
+}

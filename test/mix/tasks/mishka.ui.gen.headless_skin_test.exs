@@ -123,6 +123,26 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.HeadlessSkinTest do
       assert Enum.all?(applied, &(prefixed =~ "@apply d-#{&1}"))
     end
 
+    test "--skin-scope nests the whole skin so it cannot paint outside that subtree" do
+      component = hd(skinned())
+      scope = "[data-skin=daisyui]"
+
+      unscoped = gen([component, "--skin", "daisyui", "--yes"]) |> source_content(@vendor)
+
+      scoped =
+        gen([component, "--skin", "daisyui", "--skin-scope", scope, "--yes"])
+        |> source_content(@vendor)
+
+      assert scoped =~ "#{scope} {"
+
+      # Every selector the unscoped file declares at column 0 must be indented under the scope.
+      for [selector] <-
+            Regex.scan(~r/^(\.chelekom-[a-z0-9_-]+[^\n{]*)\{/m, unscoped, capture: :all_but_first) do
+        refute scoped =~ ~r/^#{Regex.escape(String.trim(selector))}\s*\{/m,
+               "#{String.trim(selector)} escaped the scope"
+      end
+    end
+
     test "regenerating replaces the component's block instead of duplicating it" do
       component = hd(skinned())
 

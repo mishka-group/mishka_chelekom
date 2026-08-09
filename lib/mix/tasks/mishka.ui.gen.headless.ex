@@ -38,6 +38,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless do
   * `--lib` - For components with several engines, which external library to use (e.g. `--lib tiptap`)
   * `--skin` - Also install a design-system skin for this component (e.g. `--skin daisyui`)
   * `--skin-prefix` - The prefix the skin's Tailwind plugin is loaded with (e.g. `--skin-prefix d-`)
+  * `--skin-scope` - Restrict the skin to a subtree (e.g. `--skin-scope "[data-skin=daisyui]"`)
   * `--yes` - Apply without prompts
 
   ## Skins
@@ -69,7 +70,8 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless do
         no_npm: :boolean,
         lib: :string,
         skin: :string,
-        skin_prefix: :string
+        skin_prefix: :string,
+        skin_scope: :string
       ],
       aliases: [m: :module]
     }

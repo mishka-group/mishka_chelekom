@@ -75,15 +75,39 @@ defmodule DevelopmentWeb.HeadlessDaisyUISkinTest do
     end
   end
 
-  test "the daisyUI examples pass no per-part styling classes", %{conn: _conn} do
+  test "every example's source can be extracted for its code block" do
     for name <- @skinned, {id, _title, _desc} <- HeadlessDaisyUIExamples.sections(name) do
+      assert is_binary(HeadlessDaisyUIExamples.source(id)),
+             "#{id}: source could not be extracted for the code block"
+    end
+  end
+
+  test "each component's hero passes no per-part styling classes — the skin does all of it" do
+    for name <- @skinned do
+      id = HeadlessDaisyUIExamples.hero(name)
       source = HeadlessDaisyUIExamples.source(id)
-      assert is_binary(source), "#{id}: source could not be extracted for the code block"
 
       refute source =~
-               ~r/\b(trigger|popup|item|panel|positioner|value|icon|group|content|label)_class=/,
-             "#{id}: the daisyUI example hand-paints a part — the skin should be doing that"
+               ~r/\b(trigger|popup|item|panel|positioner|value|icon|group|content|label|list|track|indicator|thumb|backdrop|viewport|footer|description|title)_class=/,
+             "#{id}: the hero hand-paints a part — the skin should be doing that"
     end
+  end
+
+  test "variant examples reach daisyUI's own modifiers rather than re-implementing them" do
+    variants =
+      for name <- @skinned,
+          [_hero | rest] = HeadlessDaisyUIExamples.sections(name),
+          {id, _t, _d} <- rest,
+          source = HeadlessDaisyUIExamples.source(id),
+          is_binary(source),
+          do: {id, source}
+
+    assert length(variants) > 20, "expected the galleries to mirror daisyUI's full example sets"
+
+    using_daisy = Enum.filter(variants, fn {_id, src} -> src =~ ~r/\bd-[a-z]/ end)
+
+    assert length(using_daisy) > 10,
+           "expected most variants to opt into daisyUI's real modifier classes"
   end
 
   test "the Base UI examples DO hand-paint their parts (the contrast the gallery shows)" do
@@ -97,6 +121,16 @@ defmodule DevelopmentWeb.HeadlessDaisyUISkinTest do
 
     assert hand_painted != [],
            "expected the Base UI gallery to style parts inline — otherwise the comparison is meaningless"
+  end
+
+  test "only the daisyUI gallery opts into the skin's scope", %{conn: conn} do
+    for name <- @skinned do
+      assert gallery(conn, "daisyui", name) =~ ~s(data-skin="daisyui"),
+             "#{name}: the daisyUI page does not opt into the skin scope"
+
+      refute gallery(conn, "baseui", name) =~ ~s(data-skin="daisyui"),
+             "#{name}: the skin would repaint the Base UI examples"
+    end
   end
 
   test "the skin switch links both ways on a component page", %{conn: conn} do

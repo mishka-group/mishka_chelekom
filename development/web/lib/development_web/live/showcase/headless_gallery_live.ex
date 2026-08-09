@@ -53,6 +53,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessGalleryLive do
     {:noreply, assign(socket, submitted: Map.get(params, "apple") || "nothing")}
   end
 
+  def handle_event(event, params, socket)
+      when event in ~w(daisyui_switch_submit daisyui_checkbox_submit) do
+    on = params |> Map.filter(fn {_k, v} -> v not in [nil, "", "false"] end) |> Map.keys()
+    {:noreply, assign(socket, submitted: Enum.join(Enum.sort(on), ", "))}
+  end
+
   # The daisyUI gallery only lists what actually ships a skin fragment today.
   defp catalog(:daisyui) do
     skinned = HeadlessDaisyUIExamples.components()
@@ -74,7 +80,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessGalleryLive do
   @impl true
   def render(%{mode: :show} = assigns) do
     ~H"""
-    <div class="min-h-screen bg-[var(--c-base-200)] text-[var(--c-base-content)]">
+    <div
+      data-skin={@skin == :daisyui && "daisyui"}
+      class="min-h-screen bg-[var(--c-base-200)] text-[var(--c-base-content)]"
+    >
       <main class="mx-auto max-w-3xl space-y-6 px-4 py-10">
         <.link
           navigate={~p"/showcase/headless/#{@component.name}"}
@@ -85,8 +94,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessGalleryLive do
 
         <header class="space-y-3">
           <div class="flex flex-wrap items-center justify-between gap-3">
-            <h1 class="text-2xl font-bold capitalize">
-              {String.replace(@component.name, "_", " ")}
+            <h1 class="text-2xl font-bold">
+              <span class="capitalize">{String.replace(@component.name, "_", " ")}</span>
               <span class="text-[var(--c-base-content)]/40">— {skin_label(@skin)}</span>
             </h1>
             <.skin_switch skin={@skin} component={@component.name} />
@@ -110,7 +119,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessGalleryLive do
   # ── all components ────────────────────────────────────────────────────────
   def render(%{mode: :index} = assigns) do
     ~H"""
-    <div class="min-h-screen bg-[var(--c-base-200)] text-[var(--c-base-content)]">
+    <div
+      data-skin={@skin == :daisyui && "daisyui"}
+      class="min-h-screen bg-[var(--c-base-200)] text-[var(--c-base-content)]"
+    >
       <header class="sticky top-0 z-30 border-b border-[var(--c-base-300)] bg-[var(--c-base-100)]/90 backdrop-blur">
         <div class="mx-auto flex max-w-3xl items-center justify-between gap-4 px-4 py-3">
           <.link
@@ -208,7 +220,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessGalleryLive do
           code={HeadlessDaisyUIExamples.source(id)}
         />
         <p
-          :if={@submitted && id == "select-form"}
+          :if={@submitted && String.ends_with?(id, "-form")}
           class="text-center text-xs font-medium text-[var(--c-success)]"
         >
           Submitted: {@submitted}
