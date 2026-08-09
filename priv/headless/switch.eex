@@ -12,7 +12,9 @@ defmodule <%= @module %> do
   (submitted when on, default `"on"`), `unchecked_value` (submitted when off — adds a companion hidden
   input), `on_change` (LiveView event `{checked}`). State attributes (root + thumb): `data-checked`,
   `data-unchecked`, `data-disabled`, `data-readonly`, `data-required`. Parts: `input` (hidden
-  checkbox), `thumb`, `label`. Style via `chelekom-switch*` — ships **no** colors or spacing.
+  checkbox), `track`, `thumb`, optional `on_icon`/`off_icon` (rendered inside the track after the
+  thumb, so a skin can cross-fade them), `label`. Style via `chelekom-switch*` — ships **no**
+  colors or spacing.
 
   WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/switch/
 
@@ -51,6 +53,8 @@ defmodule <%= @module %> do
   attr :label_class, :any, default: nil, doc: "Extra classes for the label part"
   attr :rest, :global
 
+  slot :on_icon, doc: "Optional icon rendered inside the track, shown while on"
+  slot :off_icon, doc: "Optional icon rendered inside the track, shown while off"
   slot :inner_block, doc: "Optional label content"
 
   def <%= @component_prefix %>switch(assigns) do
@@ -109,6 +113,22 @@ defmodule <%= @module %> do
           class={["chelekom-switch__thumb", @thumb_class]}
           aria-hidden="true"
         ></span>
+        <span
+          :if={@on_icon != []}
+          data-part="on-icon"
+          data-checked={@checked}
+          data-unchecked={!@checked}
+          class="chelekom-switch__on-icon"
+          aria-hidden="true"
+        >{render_slot(@on_icon)}</span>
+        <span
+          :if={@off_icon != []}
+          data-part="off-icon"
+          data-checked={@checked}
+          data-unchecked={!@checked}
+          class="chelekom-switch__off-icon"
+          aria-hidden="true"
+        >{render_slot(@off_icon)}</span>
       </span>
       <span
         :if={@inner_block != []}

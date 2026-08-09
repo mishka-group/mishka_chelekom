@@ -1,9 +1,11 @@
 /* switch — daisyUI skin (track paints `toggle`; the knob is daisyUI's own ::before). */
 
-/* daisyUI's `toggle-*` color modifiers only set `--d-input-color`, and they key off `:checked` /
- * `[aria-checked]` — which live on our root button, not on the track. Reading the root's value
- * here (with daisyUI's own default as the fallback) lets `<.switch class="<%= @d %>toggle-primary">`
- * work exactly as the docs describe. */
+/* Every `toggle-*` modifier resolves against the ROOT, not the track: the colour ones key off
+ * `:checked` / `[aria-checked]` and the size ones off `:is([type=checkbox])` / `:has([type=checkbox])`,
+ * and the root is the element that carries `aria-checked` and contains the hidden input. They only
+ * set custom properties, so the root's values are read here — with daisyUI's own defaults as the
+ * fallbacks — and handed down to the track. `<.switch class="<%= @d %>toggle-primary <%= @d %>toggle-lg">`
+ * then works exactly as the docs describe. */
 .chelekom-switch {
   display: inline-flex;
   align-items: center;
@@ -12,6 +14,7 @@
   font-size: 0.875rem;
   color: var(--color-base-content);
   --d-switch-on: var(--d-input-color, var(--color-base-content));
+  --d-switch-size: var(--d-size, calc(var(--size-selector, 0.25rem) * 6));
 }
 
 .chelekom-switch:disabled,
@@ -24,8 +27,32 @@
   cursor: default;
 }
 
+/* The size modifiers are gated on `:is([type=checkbox])` / `:has([type=checkbox])`, and our hidden
+ * input only exists when the switch has a `name` — so honour daisyUI's own scale here instead, and
+ * `<%= @d %>toggle-lg` works on the root whether or not the switch takes part in a form. */
+.chelekom-switch.<%= @d %>toggle-xs {
+  --d-switch-size: calc(var(--size-selector, 0.25rem) * 4);
+}
+
+.chelekom-switch.<%= @d %>toggle-sm {
+  --d-switch-size: calc(var(--size-selector, 0.25rem) * 5);
+}
+
+.chelekom-switch.<%= @d %>toggle-md {
+  --d-switch-size: calc(var(--size-selector, 0.25rem) * 6);
+}
+
+.chelekom-switch.<%= @d %>toggle-lg {
+  --d-switch-size: calc(var(--size-selector, 0.25rem) * 7);
+}
+
+.chelekom-switch.<%= @d %>toggle-xl {
+  --d-switch-size: calc(var(--size-selector, 0.25rem) * 8);
+}
+
 .chelekom-switch__track {
   @apply <%= @d %>toggle;
+  --d-size: var(--d-switch-size);
 }
 
 .chelekom-switch__track[data-checked] {
@@ -41,6 +68,33 @@
 
 .chelekom-switch__thumb {
   display: none;
+}
+
+/* daisyUI cross-fades two icons sitting on the knob. `@apply <%= @d %>toggle` already places every
+ * track child; only the on/off state is ours to bridge, off `data-checked` instead of `:checked`. */
+.chelekom-switch__on-icon,
+.chelekom-switch__off-icon {
+  color: var(--color-base-100);
+}
+
+.chelekom-switch__on-icon {
+  opacity: 0%;
+  rotate: -15deg;
+}
+
+.chelekom-switch__off-icon {
+  opacity: 100%;
+  rotate: 0deg;
+}
+
+.chelekom-switch__track[data-checked] .chelekom-switch__on-icon {
+  opacity: 100%;
+  rotate: 0deg;
+}
+
+.chelekom-switch__track[data-checked] .chelekom-switch__off-icon {
+  opacity: 0%;
+  rotate: 15deg;
 }
 
 .chelekom-switch__label {

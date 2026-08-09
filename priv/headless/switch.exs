@@ -34,7 +34,18 @@
         ],
         parts: [
           input: [element: "input", note: "hidden checkbox carrying the value for form submission"],
+          track: [element: "span", data_attributes: ["data-checked", "data-unchecked"]],
           thumb: [element: "span", data_attributes: ["data-checked", "data-unchecked"]],
+          "on-icon": [
+            element: "span",
+            data_attributes: ["data-checked", "data-unchecked"],
+            note: "optional `:on_icon` slot, rendered inside the track after the thumb"
+          ],
+          "off-icon": [
+            element: "span",
+            data_attributes: ["data-checked", "data-unchecked"],
+            note: "optional `:off_icon` slot, rendered inside the track after the thumb"
+          ],
           label: [element: "span"]
         ]
       ],

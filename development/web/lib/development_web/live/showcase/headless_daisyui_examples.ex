@@ -70,6 +70,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"switch-sizes", "Sizes", "`toggle-xs` through `toggle-xl`."},
       {"switch-colors", "Colors", "All eight `toggle-*` colors."},
       {"switch-disabled", "Disabled", "On and off, both disabled."},
+      {"switch-icons", "Toggle with icons inside",
+       "daisyUI puts two icons on the knob and cross-fades them; our switch grew `:on_icon` / `:off_icon` slots so the skin can do the same."},
       {"switch-custom-colors", "Custom colors",
        "daisyUI's custom-color recipe, with `data-checked` standing in for `:checked`."},
       {"switch-form", "With fieldset and label",
@@ -364,7 +366,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         :for={size <- @sizes}
         id={"daisyui-switch-size-#{size}"}
         checked
-        track_class={"d-toggle-#{size}"}
+        class={"d-toggle-#{size}"}
       >
         toggle-{size}
       </.switch>
@@ -395,6 +397,23 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <.switch id="daisyui-switch-disabled-on" checked disabled>Disabled, on</.switch>
       <.switch id="daisyui-switch-disabled-off" disabled>Disabled, off</.switch>
     </div>
+    """
+  end
+
+  def example(%{section: "switch-icons"} = assigns) do
+    ~H"""
+    <.switch id="daisyui-switch-icons" checked class="d-toggle-lg">
+      <:on_icon>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" class="size-full">
+          <path d="M20 6 9 17l-5-5" />
+        </svg>
+      </:on_icon>
+      <:off_icon>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" class="size-full">
+          <path d="M18 6 6 18M6 6l12 12" />
+        </svg>
+      </:off_icon>
+    </.switch>
     """
   end
 
