@@ -1,0 +1,227 @@
+/* Mishka Chelekom — headless daisyui skin.
+ *
+ * PRESENTATION ONLY: color, spacing, sizing and transitions painted onto the classes and
+ * `data-*` state the headless components already emit. Behavior, markup and ARIA are
+ * untouched. Generated per component by `mix mishka.ui.gen.headless <name> --skin daisyui`;
+ * each block below is rewritten in place on regeneration.
+ */
+
+
+
+/* >>> accordion */
+/* accordion — daisyUI skin (paints `collapse`; behavior stays in the headless component). */
+
+.chelekom-accordion {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+  border: var(--border) solid var(--color-base-300);
+  border-radius: var(--radius-box);
+  background-color: var(--color-base-100);
+  color: var(--color-base-content);
+}
+
+.chelekom-accordion__item {
+  @apply d-collapse;
+  display: block;
+  border-radius: 0;
+}
+
+.chelekom-accordion__item + .chelekom-accordion__item {
+  border-top: var(--border) solid var(--color-base-300);
+}
+
+.chelekom-accordion__heading {
+  margin: 0;
+}
+
+.chelekom-accordion__trigger {
+  @apply d-collapse-title;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(0.25rem * 4);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: start;
+  cursor: pointer;
+  user-select: none;
+}
+
+.chelekom-accordion__trigger:after {
+  content: "";
+  position: absolute;
+  display: block;
+  top: 50%;
+  inset-inline-end: 1.4rem;
+  height: 0.5rem;
+  width: 0.5rem;
+  transform: translateY(-100%) rotate(45deg);
+  transform-origin: 75% 75%;
+  box-shadow: 2px 2px;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .chelekom-accordion__trigger:after {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .chelekom-accordion__trigger[data-panel-open]:after {
+    transform: translateY(-50%) rotate(225deg);
+  }
+}
+
+.chelekom-accordion__trigger:hover:not([data-disabled]) {
+  background-color: color-mix(in oklab, var(--color-base-content) 6%, transparent);
+}
+
+.chelekom-accordion__trigger:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
+}
+
+.chelekom-accordion__trigger[data-disabled] {
+  cursor: not-allowed;
+  color: color-mix(in oklab, var(--color-base-content) 30%, transparent);
+}
+
+.chelekom-accordion__panel {
+  height: var(--accordion-panel-height);
+  overflow: hidden;
+  padding-inline: 1rem;
+  font-size: 0.875rem;
+  color: color-mix(in oklab, var(--color-base-content) 70%, transparent);
+}
+
+.chelekom-accordion__panel > :last-child {
+  padding-bottom: 1rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .chelekom-accordion__panel {
+    transition: height 0.2s ease-out;
+  }
+}
+
+.chelekom-accordion__panel[data-starting-style],
+.chelekom-accordion__panel[data-ending-style] {
+  height: 0;
+}
+/* <<< accordion */
+
+/* >>> select */
+/* select — daisyUI skin (trigger paints `select`, popup paints `menu`). */
+
+.chelekom-select {
+  display: block;
+  width: clamp(3rem, 20rem, 100%);
+}
+
+.chelekom-select__label {
+  @apply d-label;
+  display: flex;
+  margin-bottom: calc(0.25rem * 1);
+  font-size: 0.875rem;
+}
+
+.chelekom-select__trigger {
+  @apply d-select;
+  width: 100%;
+  cursor: pointer;
+  text-align: start;
+}
+
+.chelekom-select__trigger[data-readonly] {
+  cursor: default;
+}
+
+.chelekom-select__value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chelekom-select__value[data-placeholder] {
+  color: color-mix(in oklab, var(--color-base-content) 50%, transparent);
+}
+
+.chelekom-select__icon {
+  display: none;
+}
+
+.chelekom-select__positioner {
+  z-index: 50;
+}
+
+.chelekom-select__popup {
+  @apply d-menu;
+  width: var(--anchor-width, max-content);
+  min-width: 10rem;
+  max-height: 20rem;
+  overflow-y: auto;
+  flex-wrap: nowrap;
+  border: var(--border) solid var(--color-base-300);
+  border-radius: var(--radius-box);
+  background-color: var(--color-base-100);
+  color: var(--color-base-content);
+  box-shadow: 0 4px 6px -1px oklch(0% 0 0 / 0.1), 0 2px 4px -2px oklch(0% 0 0 / 0.1);
+}
+
+.chelekom-select__group-label {
+  @apply d-menu-title;
+}
+
+.chelekom-select__group-list {
+  display: flex;
+  flex-direction: column;
+  margin-inline-start: 0;
+  padding-inline-start: 0;
+}
+
+.chelekom-select__group-list:before {
+  display: none;
+}
+
+.chelekom-select__option {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(auto, max-content) auto;
+  align-items: center;
+  gap: calc(0.25rem * 2);
+  padding-inline: calc(0.25rem * 3);
+  padding-block: calc(0.25rem * 1.5);
+  border-radius: var(--radius-field);
+  text-align: start;
+  cursor: pointer;
+  user-select: none;
+  transition-property: color, background-color, box-shadow;
+  transition-duration: 0.2s;
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+}
+
+.chelekom-select__option[data-highlighted]:not([data-selected]) {
+  background-color: color-mix(in oklab, var(--color-base-content) 10%, transparent);
+}
+
+.chelekom-select__option[data-selected] {
+  @apply d-menu-active;
+}
+
+.chelekom-select__option[data-disabled] {
+  pointer-events: none;
+  color: color-mix(in oklab, var(--color-base-content) 20%, transparent);
+}
+
+.chelekom-select__indicator {
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.chelekom-select__text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* <<< select */

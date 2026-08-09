@@ -36,7 +36,23 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless do
   * `--no-save` - Use prefixes without saving them to config
   * `--no-npm` - Write everything but skip installing the component's npm packages
   * `--lib` - For components with several engines, which external library to use (e.g. `--lib tiptap`)
+  * `--skin` - Also install a design-system skin for this component (e.g. `--skin daisyui`)
+  * `--skin-prefix` - The prefix the skin's Tailwind plugin is loaded with (e.g. `--skin-prefix d-`)
   * `--yes` - Apply without prompts
+
+  ## Skins
+
+  A skin paints the component — color, spacing, sizing, transitions — by targeting the
+  `chelekom-<name>__<part>` classes and `data-*` state it already emits. Markup, ARIA and behavior
+  never change, so a skinned component is the same component.
+
+  ```bash
+  mix mishka.ui.gen.headless accordion --skin daisyui
+  ```
+
+  This appends the component's block to `assets/vendor/mishka_chelekom_headless_daisyui.css` and
+  imports it into `app.css`. The design system itself stays your dependency — load it in `app.css`
+  (`@plugin "daisyui";`), and if you give it a prefix, pass the same one via `--skin-prefix`.
   """
 
   def info(_argv, _composing_task) do
@@ -51,7 +67,9 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless do
         sub: :boolean,
         no_save: :boolean,
         no_npm: :boolean,
-        lib: :string
+        lib: :string,
+        skin: :string,
+        skin_prefix: :string
       ],
       aliases: [m: :module]
     }
@@ -80,6 +98,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless do
       |> write_component()
       |> wire_scripts()
       |> maybe_setup_css()
+      |> maybe_setup_skin()
       |> maybe_save_prefixes()
 
     if spin? do
@@ -212,6 +231,11 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless do
   defp wire_scripts(igniter), do: igniter
 
   defp maybe_setup_css(igniter), do: Assets.setup_headless_css(igniter, igniter.args.options)
+
+  defp maybe_setup_skin(%{assigns: %{component_name: component}} = igniter),
+    do: Assets.setup_headless_skin(igniter, component, igniter.args.options)
+
+  defp maybe_setup_skin(igniter), do: igniter
 
   defp maybe_save_prefixes(igniter), do: Core.maybe_save_prefixes(igniter, igniter.args.options)
 end

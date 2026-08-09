@@ -402,6 +402,118 @@ defmodule MishkaChelekom.Generators.Assets do
     end
   end
 
+  @skins ~w(daisyui)
+
+  @doc "The skin names `--skin` accepts."
+  @spec skins() :: [String.t()]
+  def skins, do: @skins
+
+  @doc """
+  Appends one component's design-system skin into `assets/vendor/mishka_chelekom_headless_<skin>.css`
+  and imports that file into `app.css`.
+
+  A skin is presentation only — color, spacing, sizing and transitions painted onto the
+  `chelekom-<comp>__<part>` classes and `data-*` state the headless component already emits. It never
+  changes markup, ARIA or behavior. Each component owns a delimited block in the stylesheet, so
+  regenerating a component rewrites its block in place instead of duplicating it.
+
+  `options[:skin_prefix]` must match the prefix the app configures on the design system's Tailwind
+  plugin (e.g. `@plugin "daisyui" { prefix: "d-"; }` → `--skin-prefix d-`).
+  """
+  @spec setup_headless_skin(Igniter.t(), String.t(), keyword()) :: Igniter.t()
+  def setup_headless_skin(igniter, component, options \\ []) do
+    skin = options[:skin]
+
+    cond do
+      is_nil(skin) or skin == "none" -> igniter
+      skin not in @skins -> Igniter.add_issue(igniter, unknown_skin_message(skin))
+      true -> install_skin(igniter, component, skin, options[:skin_prefix] || "")
+    end
+  end
+
+  defp unknown_skin_message(skin) do
+    "Unknown --skin #{inspect(skin)}. Available: #{Enum.join(@skins, ", ")}."
+  end
+
+  defp install_skin(igniter, component, skin, prefix) do
+    fragment = Core.lib_priv("headless/skins/#{skin}/#{component}.css.eex")
+
+    if File.exists?(fragment) do
+      css = EEx.eval_file(fragment, assigns: [d: prefix])
+      vendor = "assets/vendor/mishka_chelekom_headless_#{skin}.css"
+
+      igniter
+      |> Igniter.create_or_update_file(
+        vendor,
+        skin_header(skin) <> put_skin_block("", component, css),
+        fn source ->
+          content = Rewrite.Source.get(source, :content)
+          Rewrite.Source.update(source, :content, put_skin_block(content, component, css))
+        end
+      )
+      |> add_vendor_import("assets/css/app.css", "../vendor/mishka_chelekom_headless_#{skin}.css")
+      |> warn_missing_plugin(skin)
+    else
+      Igniter.add_notice(
+        igniter,
+        "No #{skin} skin for #{component} yet — generated unstyled. " <>
+          "Style it with the `chelekom-#{component}__*` classes and its `data-*` state."
+      )
+    end
+  end
+
+  defp skin_header(skin) do
+    """
+    /* Mishka Chelekom — headless #{skin} skin.
+     *
+     * PRESENTATION ONLY: color, spacing, sizing and transitions painted onto the classes and
+     * `data-*` state the headless components already emit. Behavior, markup and ARIA are
+     * untouched. Generated per component by `mix mishka.ui.gen.headless <name> --skin #{skin}`;
+     * each block below is rewritten in place on regeneration.
+     */
+
+    """
+  end
+
+  # One `/* >>> name */ … /* <<< name */` block per component: replaced when present, appended when not.
+  defp put_skin_block(content, component, css) do
+    open = "/* >>> #{component} */"
+    close = "/* <<< #{component} */"
+    block = "#{open}\n#{String.trim_trailing(css)}\n#{close}\n"
+
+    pattern = ~r/#{Regex.escape(open)}.*?#{Regex.escape(close)}\n?/s
+
+    if Regex.match?(pattern, content) do
+      Regex.replace(pattern, content, block)
+    else
+      String.trim_trailing(content) <> "\n\n" <> block
+    end
+  end
+
+  defp warn_missing_plugin(igniter, skin) do
+    case File.read("assets/css/app.css") do
+      {:ok, content} ->
+        if String.contains?(content, skin) do
+          igniter
+        else
+          Igniter.add_notice(igniter, missing_plugin_message(skin))
+        end
+
+      _ ->
+        Igniter.add_notice(igniter, missing_plugin_message(skin))
+    end
+  end
+
+  defp missing_plugin_message(skin) do
+    """
+    The #{skin} skin needs #{skin} itself loaded in assets/css/app.css, e.g.
+
+        @plugin "#{skin}";
+
+    If you load it with a prefix, pass the same prefix to the generator (--skin-prefix d-).
+    """
+  end
+
   # Idempotently adds a vendor `@import` to app.css using the same parser the styled side uses
   # (regex dedup + correct Tailwind-4 ordering), so it never duplicates and never lands before
   # `@import "tailwindcss";`. Never rewrites the rest of the user's app.css.

@@ -4,6 +4,16 @@
 @import "tailwindcss" source(none);
 @import "../vendor/mishka_chelekom.css";
 @import "../vendor/mishka_chelekom_headless.css";
+@import "../vendor/mishka_chelekom_headless_daisyui.css";
+
+/* The design system the headless skin paints with. Prefixed so its component classes can never
+   collide with the showcase chrome's own .btn/.card/.menu or with Tailwind's `collapse` utility;
+   `rootcolor` is excluded so it does not repaint the harness page background. */
+@plugin "../vendor/daisyui.js" {
+  prefix: "d-";
+  exclude: rootcolor;
+  logs: false;
+}
 
 @source "../css";
 @source "../js";

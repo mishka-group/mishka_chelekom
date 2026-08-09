@@ -10,10 +10,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessLive do
   import DevelopmentWeb.Showcase.UI
 
   alias DevelopmentWeb.Showcase.{
-    HeadlessCatalog,
-    HeadlessPreview,
     HeadlessApi,
+    HeadlessCatalog,
+    HeadlessDaisyUIExamples,
     HeadlessKitDemo,
+    HeadlessPreview,
     Snippets
   }
 
@@ -58,12 +59,20 @@ defmodule DevelopmentWeb.Showcase.HeadlessLive do
         </.link>
         <div class="flex flex-wrap items-center justify-between gap-3">
           <h1 class="text-3xl font-bold">Unstyled components</h1>
-          <.link
-            navigate={~p"/showcase/headless-baseui"}
-            class="inline-flex items-center gap-1.5 rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] px-3.5 py-2 text-sm font-medium shadow-sm hover:bg-[var(--c-base-200)]"
-          >
-            Base UI examples →
-          </.link>
+          <div class="flex flex-wrap items-center gap-2">
+            <.link
+              navigate={~p"/showcase/headless-baseui"}
+              class="inline-flex items-center gap-1.5 rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] px-3.5 py-2 text-sm font-medium shadow-sm hover:bg-[var(--c-base-200)]"
+            >
+              Base UI examples →
+            </.link>
+            <.link
+              navigate={~p"/showcase/headless-daisyui"}
+              class="inline-flex items-center gap-1.5 rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] px-3.5 py-2 text-sm font-medium shadow-sm hover:bg-[var(--c-base-200)]"
+            >
+              daisyUI skin →
+            </.link>
+          </div>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           <.link
@@ -100,6 +109,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessLive do
                 class="inline-flex items-center gap-1 rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] px-2.5 py-1 font-medium shadow-sm hover:bg-[var(--c-base-200)]"
               >
                 Base UI examples →
+              </.link>
+              <.link
+                :if={HeadlessDaisyUIExamples.has?(@component.name)}
+                navigate={~p"/showcase/headless-daisyui/#{@component.name}"}
+                class="inline-flex items-center gap-1 rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] px-2.5 py-1 font-medium shadow-sm hover:bg-[var(--c-base-200)]"
+              >
+                daisyUI skin →
               </.link>
               <.link
                 :if={@component.sibling}
