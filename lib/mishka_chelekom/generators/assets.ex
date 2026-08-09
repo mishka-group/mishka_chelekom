@@ -417,8 +417,9 @@ defmodule MishkaChelekom.Generators.Assets do
   changes markup, ARIA or behavior. Each component owns a delimited block in the stylesheet, so
   regenerating a component rewrites its block in place instead of duplicating it.
 
-  `options[:skin_prefix]` must match the prefix the app configures on the design system's Tailwind
-  plugin (e.g. `@plugin "daisyui" { prefix: "d-"; }` → `--skin-prefix d-`).
+  `options[:skin_prefix]` is normally unnecessary: the prefix is read out of the design system's own
+  `@plugin` block in `app.css`, so `@plugin "daisyui" { prefix: "d-"; }` produces a `d-`-prefixed
+  skin with no flag at all. Pass it to override what is found there.
 
   `options[:skin_scope]` nests the whole skin under a selector, so it paints only inside that
   subtree (e.g. `--skin-scope "[data-skin=daisyui]"`). Without it a skin paints every instance of
@@ -436,7 +437,40 @@ defmodule MishkaChelekom.Generators.Assets do
         Igniter.add_issue(igniter, unknown_skin_message(skin))
 
       true ->
-        install_skin(igniter, component, skin, options[:skin_prefix] || "", options[:skin_scope])
+        prefix = options[:skin_prefix] || detect_prefix(skin)
+        install_skin(igniter, component, skin, prefix, options[:skin_scope])
+    end
+  end
+
+  @doc """
+  The prefix the app loads `skin`'s Tailwind plugin with, read from its `@plugin` block in
+  `app.css`; `""` when it is loaded unprefixed, absent, or unreadable.
+
+  A skin `@apply`s the design system's own class names, so it has to spell them the way the
+  consuming build does — `@apply collapse` simply fails to compile in a project whose daisyUI is
+  loaded as `@plugin "daisyui" { prefix: "d-"; }`. Asking the stylesheet beats asking the user.
+  """
+  @spec detect_prefix(String.t(), Path.t()) :: String.t()
+  def detect_prefix(skin, app_css \\ "assets/css/app.css") do
+    with {:ok, source} <- File.read(app_css),
+         {:ok, [_ | _] = rules} <- plugin_rules(source, skin),
+         {_, raw} <- Enum.find_value(rules, &List.keyfind(&1.declarations, "prefix", 0)) do
+      raw |> String.trim() |> String.trim(~s|"|) |> String.trim(~s|'|)
+    else
+      _ -> ""
+    end
+  end
+
+  # A plugin is named either by the package (`"daisyui"`) or by a vendored file
+  # (`"../vendor/daisyui.js"`), so match on the target containing the skin's name rather than
+  # equalling it. `get_at_rules/4` with no `matching` returns every `@plugin`; we pick ours.
+  defp plugin_rules(source, skin) do
+    case IgniterCss.get_at_rules(source, "plugin") do
+      {:ok, rules} ->
+        {:ok, Enum.filter(rules, &String.contains?(&1.target || "", skin))}
+
+      other ->
+        other
     end
   end
 
@@ -512,17 +546,15 @@ defmodule MishkaChelekom.Generators.Assets do
     end
   end
 
+  # Asked of the parsed stylesheet, not of its bytes: the skin's own `@import` line contains the
+  # design system's name, so a substring check answers "yes, it's loaded" for a project that has
+  # only ever imported our stylesheet — exactly the project that needs the notice.
   defp warn_missing_plugin(igniter, skin) do
-    case File.read("assets/css/app.css") do
-      {:ok, content} ->
-        if String.contains?(content, skin) do
-          igniter
-        else
-          Igniter.add_notice(igniter, missing_plugin_message(skin))
-        end
-
-      _ ->
-        Igniter.add_notice(igniter, missing_plugin_message(skin))
+    with {:ok, source} <- File.read("assets/css/app.css"),
+         {:ok, [_ | _]} <- plugin_rules(source, skin) do
+      igniter
+    else
+      _ -> Igniter.add_notice(igniter, missing_plugin_message(skin))
     end
   end
 
@@ -532,37 +564,22 @@ defmodule MishkaChelekom.Generators.Assets do
 
         @plugin "#{skin}";
 
-    If you load it with a prefix, pass the same prefix to the generator (--skin-prefix d-).
+    The prefix is read back out of that block, so a prefixed plugin needs no extra flag.
     """
   end
 
-  # Idempotently adds a vendor `@import` to app.css using the same parser the styled side uses
-  # (regex dedup + correct Tailwind-4 ordering), so it never duplicates and never lands before
-  # `@import "tailwindcss";`. Never rewrites the rest of the user's app.css.
+  # Idempotently adds a vendor `@import` to app.css. `IgniterCss` parses the file rather than
+  # pattern-matching it, so the import lands after the at-rule prologue, comments survive, a second
+  # run is a no-op, and — because the codemod goes through Igniter — the change is visible to the
+  # diff preview and to tests instead of being written behind Igniter's back.
   defp add_vendor_import(igniter, app_css, import_path) do
-    case File.read(app_css) do
-      {:ok, content} ->
-        case SimpleCSSUtilities.add_import(content, import_path) do
-          {:ok, :exists, _} ->
-            igniter
-
-          {:ok, :added, updated} ->
-            Igniter.create_or_update_file(igniter, app_css, updated, fn source ->
-              Rewrite.Source.update(source, :content, updated)
-            end)
-
-          {:error, _, _} ->
-            Igniter.add_notice(
-              igniter,
-              "Could not update #{app_css} — add `@import \"#{import_path}\";` manually."
-            )
-        end
-
-      _ ->
-        Igniter.add_notice(
-          igniter,
-          "Could not find #{app_css} — add `@import \"#{import_path}\";` manually."
-        )
+    if File.exists?(app_css) or igniter.rewrite.sources[app_css] do
+      IgniterCss.Codemods.add_import(igniter, app_css, import_path)
+    else
+      Igniter.add_notice(
+        igniter,
+        "Could not find #{app_css} — add `@import \"#{import_path}\";` manually."
+      )
     end
   end
 end
