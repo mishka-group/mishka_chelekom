@@ -75,6 +75,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.Meter
   import DevelopmentWeb.Components.Headless.NavigationMenu
   import DevelopmentWeb.Components.Headless.NumberField
+  import DevelopmentWeb.Components.Headless.NumberFormatter
   import DevelopmentWeb.Components.Headless.OverflowList
   import DevelopmentWeb.Components.Headless.PillsInput
   import DevelopmentWeb.Components.Headless.Popover
@@ -724,6 +725,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ],
     "number_field" => [
       {"number_field-hero", "Hero",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+    ],
+    "number_formatter" => [
+      {"number_formatter-hero", "Hero",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "overflow_list" => [
@@ -5715,6 +5720,29 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         </svg>
       </:increment_icon>
     </.number_field>
+    """
+  end
+
+  # ── number_formatter ────────────────────────────────────────────────────
+  def example(%{section: "number_formatter-hero"} = assigns) do
+    ~H"""
+    <div>
+      <p>
+        Revenue:
+        <.number_formatter
+          value={1_234_567.89}
+          prefix="$"
+          decimal_scale={2}
+        />
+      </p>
+      <p>
+        Downloads:
+        <.number_formatter
+          value={9_876_543}
+          thousand_separator=" "
+        />
+      </p>
+    </div>
     """
   end
 

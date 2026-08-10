@@ -4924,6 +4924,22 @@
 }
 /* <<< number_field */
 
+/* >>> number_formatter */
+@layer components {
+  [data-skin=daisyui] {
+    /* number_formatter — daisyUI skin.
+     *
+     * Formatted output, not a control: the only thing worth setting is tabular figures, so a column of
+     * amounts lines up on the decimal point.
+     */
+
+    .chelekom-number-formatter {
+      font-variant-numeric: tabular-nums;
+    }
+  }
+}
+/* <<< number_formatter */
+
 /* >>> overflow_list */
 @layer components {
   [data-skin=daisyui] {

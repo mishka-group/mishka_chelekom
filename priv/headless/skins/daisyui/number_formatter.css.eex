@@ -1,0 +1,9 @@
+/* number_formatter — daisyUI skin.
+ *
+ * Formatted output, not a control: the only thing worth setting is tabular figures, so a column of
+ * amounts lines up on the decimal point.
+ */
+
+.chelekom-number-formatter {
+  font-variant-numeric: tabular-nums;
+}
