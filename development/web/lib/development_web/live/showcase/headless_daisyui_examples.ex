@@ -54,6 +54,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.ToggleGroup
   import DevelopmentWeb.Components.Headless.AlertDialog
   import DevelopmentWeb.Components.Headless.ContextMenu
+  import DevelopmentWeb.Components.Headless.FloatingWindow
   import DevelopmentWeb.Components.Headless.Menubar
   import DevelopmentWeb.Components.Headless.NavigationMenu
   import DevelopmentWeb.Components.Headless.Popover
@@ -588,6 +589,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"context_menu-hero", "Hero",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
       {"context_menu-submenu", "Submenu",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+    ],
+    "floating_window" => [
+      {"floating_window-hero", "Hero",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "menubar" => [
@@ -4277,6 +4282,23 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         Share
       </.context_menu_item>
     </.context_menu>
+    """
+  end
+
+  # ── floating_window ─────────────────────────────────────────────────────
+  def example(%{section: "floating_window-hero"} = assigns) do
+    ~H"""
+    <div style="background-image: radial-gradient(rgba(120,120,120,0.25) 1px, transparent 0); background-size: 16px 16px;">
+      <.floating_window
+        id="daisyui-floating-window"
+        x={24}
+        y={24}
+        label="Window"
+      >
+        <:handle>Drag me</:handle>
+        Grab the title bar to move this panel within the box.
+      </.floating_window>
+    </div>
     """
   end
 

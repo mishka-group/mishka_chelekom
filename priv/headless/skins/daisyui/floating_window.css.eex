@@ -1,0 +1,40 @@
+/* floating_window — daisyUI skin.
+ *
+ * daisyUI's `modal-box` is the right surface but the wrong behaviour: this window is draggable and
+ * does not block the page, so the box is borrowed and the title bar — which daisyUI has nothing
+ * for — is drawn as the drag handle it is, cursor included.
+ */
+
+.chelekom-floating-window {
+  @apply <%= @d %>modal-box;
+
+  position: fixed;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+}
+
+.chelekom-floating-window__handle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(0.25rem * 2);
+  border-bottom: var(--border) solid color-mix(in oklab, var(--color-base-content) 12%, #0000);
+  background-color: var(--color-base-200);
+  padding: calc(0.25rem * 2) calc(0.25rem * 3);
+  cursor: grab;
+  user-select: none;
+  font-weight: 600;
+}
+
+.chelekom-floating-window__handle:active {
+  cursor: grabbing;
+}
+
+.chelekom-floating-window__body {
+  flex: 1;
+  overflow: auto;
+  padding: calc(0.25rem * 4);
+}
