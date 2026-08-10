@@ -82,6 +82,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.Scroller
   import DevelopmentWeb.Components.Headless.Splitter
   import DevelopmentWeb.Components.Headless.TagsInput
+  import DevelopmentWeb.Components.Headless.ThemeIcon
   import DevelopmentWeb.Components.Headless.Toolbar
   import DevelopmentWeb.Components.Headless.Tree
   import DevelopmentWeb.Components.Headless.TreeSelect
@@ -765,6 +766,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ],
     "tags_input" => [
       {"tags_input-hero", "Hero",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+    ],
+    "theme_icon" => [
+      {"theme_icon-hero", "Hero",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "toolbar" => [
@@ -6083,6 +6088,30 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       placeholder="Add a tag…"
       on_remove={JS.hide(to: {:closest, "[data-part=tag]"})}
     />
+    """
+  end
+
+  # ── theme_icon ──────────────────────────────────────────────────────────
+  def example(%{section: "theme_icon-hero"} = assigns) do
+    ~H"""
+    <div>
+      <.theme_icon label="Success">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="2"
+          stroke="currentColor"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+        </svg>
+      </.theme_icon>
+      <.theme_icon>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M11.983 1.907a.75.75 0 0 0-1.292-.657l-8.5 9.5A.75.75 0 0 0 2.75 12h6.572l-1.305 6.093a.75.75 0 0 0 1.292.657l8.5-9.5A.75.75 0 0 0 18.25 8h-6.572l1.305-6.093Z" />
+        </svg>
+      </.theme_icon>
+    </div>
     """
   end
 
