@@ -55,6 +55,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.Breadcrumb
   import DevelopmentWeb.Components.Headless.Stepper
   import DevelopmentWeb.Components.Headless.Dock
+  import DevelopmentWeb.Components.Headless.Pagination
 
   @faq [
     {"What is a skin?",
@@ -409,6 +410,24 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
        "Not on daisyUI's page either. `max_items` keeps the ends and stands one ellipsis in for the middle — arithmetic on the server, so it works before the socket connects."},
       {"breadcrumb-expandable", "Expandable",
        "The same collapse with `on_expand`, which makes the ellipsis a real button that pushes to the server."}
+    ],
+    "pagination" => [
+      {"pagination-hero", "With an active page",
+       "daisyUI writes its pagination out by hand; here `total` and `page` are the input and the window is computed. The current page is a disabled button with `aria-current`, not a link to where you already are."},
+      {"pagination-sizes", "Sizes", "daisyUI's `btn-*` sizes on the controls."},
+      {"pagination-disabled", "With a disabled page",
+       "`disabled` greys the whole control — and previous/next disable themselves at the ends rather than wrapping round."},
+      {"pagination-xs", "Extra small buttons", "daisyUI's `btn-xs`."},
+      {"pagination-edges", "First / last as well as previous / next",
+       "daisyUI's equal-width outline prev/next, plus `show_edges` for the ends."},
+      {"pagination-radio", "Using radio inputs",
+       "daisyUI's radio pagination. `name` renders radios instead of buttons, so the choice posts with a surrounding form and needs no JS at all."},
+      {"pagination-window", "The window at work",
+       "Not on daisyUI's page. The same control at four positions in a hundred pages — the width never changes, so the buttons do not move under the cursor."},
+      {"pagination-links", "Real links",
+       "Not on daisyUI's page either. `href` takes a function of the page number, so the pages are crawlable and work with JavaScript off."},
+      {"pagination-interactive", "Live",
+       "`on_select` pushes `%{page: n}`; the page below is the server's."}
     ],
     "dock" => [
       {"dock-hero", "Dock",
@@ -2977,6 +2996,118 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <:item href="#">Headless</:item>
       <:item>Breadcrumb</:item>
     </.breadcrumb>
+    """
+  end
+
+  # ── pagination ────────────────────────────────────────────────────────────
+  def example(%{section: "pagination-hero"} = assigns) do
+    ~H"""
+    <.pagination id="daisyui-pagination-hero" total={4} page={2} show_controls={false} />
+    """
+  end
+
+  def example(%{section: "pagination-sizes"} = assigns) do
+    assigns = assign(assigns, :sizes, @sizes)
+
+    ~H"""
+    <div class="flex flex-col items-center gap-3">
+      <.pagination
+        :for={size <- @sizes}
+        id={"daisyui-pagination-#{size}"}
+        total={4}
+        page={2}
+        show_controls={false}
+        control_class={"d-btn-#{size}"}
+      />
+    </div>
+    """
+  end
+
+  def example(%{section: "pagination-disabled"} = assigns) do
+    ~H"""
+    <div class="flex flex-col items-center gap-3">
+      <.pagination id="daisyui-pagination-disabled" total={4} page={2} disabled />
+      <.pagination id="daisyui-pagination-at-first" total={4} page={1} />
+      <.pagination id="daisyui-pagination-at-last" total={4} page={4} />
+    </div>
+    """
+  end
+
+  def example(%{section: "pagination-xs"} = assigns) do
+    ~H"""
+    <.pagination
+      id="daisyui-pagination-extra-small"
+      total={4}
+      page={2}
+      show_controls={false}
+      control_class="d-btn-xs"
+    />
+    """
+  end
+
+  def example(%{section: "pagination-edges"} = assigns) do
+    ~H"""
+    <.pagination
+      id="daisyui-pagination-edges"
+      total={10}
+      page={5}
+      show_edges
+      previous_label="Prev"
+      next_label="Next"
+      first_label="First"
+      last_label="Last"
+      control_class="d-btn-outline"
+    />
+    """
+  end
+
+  def example(%{section: "pagination-radio"} = assigns) do
+    ~H"""
+    <form phx-change="daisyui_pagination_change">
+      <.pagination
+        id="daisyui-pagination-radio"
+        total={4}
+        page={2}
+        name="page"
+        show_controls={false}
+      />
+    </form>
+    """
+  end
+
+  def example(%{section: "pagination-window"} = assigns) do
+    ~H"""
+    <div class="flex flex-col items-center gap-3">
+      <.pagination
+        :for={page <- [1, 7, 50, 100]}
+        id={"daisyui-pagination-w#{page}"}
+        total={100}
+        page={page}
+      />
+    </div>
+    """
+  end
+
+  def example(%{section: "pagination-links"} = assigns) do
+    ~H"""
+    <.pagination
+      id="daisyui-pagination-links"
+      total={7}
+      page={3}
+      href={&"/showcase/headless-daisyui/pagination?page=#{&1}"}
+    />
+    """
+  end
+
+  def example(%{section: "pagination-interactive"} = assigns) do
+    ~H"""
+    <.pagination
+      id="daisyui-pagination-interactive"
+      total={12}
+      page={4}
+      show_edges
+      on_select="daisyui_pagination_select"
+    />
     """
   end
 

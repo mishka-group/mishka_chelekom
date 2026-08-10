@@ -75,6 +75,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessGalleryLive do
     {:noreply, assign(socket, submitted: "panel #{index}")}
   end
 
+  def handle_event("daisyui_pagination_select", %{"page" => page}, socket) do
+    {:noreply, assign(socket, submitted: "page #{page}")}
+  end
+
+  def handle_event("daisyui_pagination_change", %{"page" => page}, socket) do
+    {:noreply, assign(socket, submitted: "page #{page}")}
+  end
+
   # The form examples exist to prove the params actually arrive under the names the components
   # derived — so echo the shape rather than a fixed "saved" string.
   def handle_event(event, params, socket)
@@ -85,7 +93,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessGalleryLive do
 
   # Which examples show what the server received back. Every `*-form` section submits, and the
   # breadcrumb's expandable trail pushes from its ellipsis — without this it would look inert.
-  defp echoes_events?(id), do: String.ends_with?(id, ["-form", "-expandable", "-interactive"])
+  defp echoes_events?(id),
+    do: String.ends_with?(id, ["-form", "-expandable", "-interactive", "-radio"])
 
   # The daisyUI gallery only lists what actually ships a skin fragment today.
   defp catalog(:daisyui) do
