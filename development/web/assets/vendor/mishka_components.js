@@ -49,6 +49,7 @@ import EditorMilkDown from "./editor_milk_down.js";
 import EditorCodeMirror from "./editor_code_mirror.js";
 import Chart from "./chart.js";
 import Autosize from "./autosize.js";
+import Countdown from "./countdown.js";
 const Components = {
   Tooltip,
   PreviewCard,
@@ -101,5 +102,6 @@ const Components = {
   EditorCodeMirror,
   Chart,
   Autosize,
+  Countdown,
 };
 export default Components;

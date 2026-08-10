@@ -57,6 +57,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.Dock
   import DevelopmentWeb.Components.Headless.Pagination
   import DevelopmentWeb.Components.Headless.Rating
+  import DevelopmentWeb.Components.Headless.Countdown
 
   @faq [
     {"What is a skin?",
@@ -411,6 +412,20 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
        "Not on daisyUI's page either. `max_items` keeps the ends and stands one ellipsis in for the middle — arithmetic on the server, so it works before the socket connects."},
       {"breadcrumb-expandable", "Expandable",
        "The same collapse with `on_expand`, which makes the ellipsis a real button that pushes to the server."}
+    ],
+    "countdown" => [
+      {"countdown-hero", "Countdown",
+       "daisyUI's `countdown` ships no timer — it animates a number you change yourself. This one counts: the server renders the remaining time so the first paint is already right, and the hook ticks it from there."},
+      {"countdown-large", "Large text", "daisyUI's `text-4xl` on the root."},
+      {"countdown-clock", "Clock",
+       "Hours, minutes and seconds — the largest unit shown absorbs the days above it."},
+      {"countdown-colons", "Clock with colons", "The `separator` attribute between units."},
+      {"countdown-labels", "With labels", "`show_labels` puts the unit beside each number."},
+      {"countdown-labels-under", "With labels underneath",
+       "The same labels, stacked — layout is the caller's, the parts are the component's."},
+      {"countdown-boxes", "In boxes", "daisyUI's bordered boxes around each unit."},
+      {"countdown-short", "Reaching zero",
+       "Not on daisyUI's page. A ten-second countdown that pushes `on_complete` once when it lands — watch the message below appear."}
     ],
     "rating" => [
       {"rating-hero", "Rating",
@@ -3017,6 +3032,98 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     """
   end
 
+  # ── countdown ─────────────────────────────────────────────────────────────
+  def example(%{section: "countdown-hero"} = assigns) do
+    ~H"""
+    <.countdown id="daisyui-countdown-hero" target={countdown_target(:launch)} />
+    """
+  end
+
+  def example(%{section: "countdown-large"} = assigns) do
+    ~H"""
+    <.countdown
+      id="daisyui-countdown-large"
+      target={countdown_target(:launch)}
+      class="font-mono text-4xl"
+    />
+    """
+  end
+
+  def example(%{section: "countdown-clock"} = assigns) do
+    ~H"""
+    <.countdown
+      id="daisyui-countdown-clock"
+      target={countdown_target(:launch)}
+      units={~w(hours minutes seconds)}
+      class="font-mono text-2xl"
+    />
+    """
+  end
+
+  def example(%{section: "countdown-colons"} = assigns) do
+    ~H"""
+    <.countdown
+      id="daisyui-countdown-colons"
+      target={countdown_target(:launch)}
+      units={~w(hours minutes seconds)}
+      separator=":"
+      class="font-mono text-2xl"
+    />
+    """
+  end
+
+  def example(%{section: "countdown-labels"} = assigns) do
+    ~H"""
+    <.countdown
+      id="daisyui-countdown-labels"
+      target={countdown_target(:launch)}
+      show_labels
+      labels={%{"days" => "days", "hours" => "hours", "minutes" => "min", "seconds" => "sec"}}
+      class="font-mono text-2xl"
+    />
+    """
+  end
+
+  def example(%{section: "countdown-labels-under"} = assigns) do
+    ~H"""
+    <.countdown
+      id="daisyui-countdown-labels-under"
+      target={countdown_target(:launch)}
+      show_labels
+      class="font-mono text-3xl [&_[data-part=unit]]:flex-col [&_[data-part=unit]]:items-center gap-5"
+    />
+    """
+  end
+
+  def example(%{section: "countdown-boxes"} = assigns) do
+    ~H"""
+    <.countdown
+      id="daisyui-countdown-boxes"
+      target={countdown_target(:launch)}
+      show_labels
+      class={[
+        "font-mono text-3xl gap-3",
+        "[&_[data-part=unit]]:flex-col [&_[data-part=unit]]:items-center",
+        "[&_[data-part=unit]]:rounded-box [&_[data-part=unit]]:bg-neutral",
+        "[&_[data-part=unit]]:text-neutral-content [&_[data-part=unit]]:p-3"
+      ]}
+    />
+    """
+  end
+
+  def example(%{section: "countdown-short"} = assigns) do
+    ~H"""
+    <.countdown
+      id="daisyui-countdown-short"
+      seconds={10}
+      units={~w(seconds)}
+      show_labels
+      on_complete="daisyui_countdown_complete"
+      class="font-mono text-3xl"
+    />
+    """
+  end
+
   # ── rating ────────────────────────────────────────────────────────────────
   def example(%{section: "rating-hero"} = assigns) do
     ~H"""
@@ -4226,6 +4333,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       nested inside a clickable box.
     </.card>
     """
+  end
+
+  # A fixed offset rather than a wall-clock date: the examples have to read the same every time the
+  # page is rendered, including in a test, and a hard-coded date would eventually go negative.
+  defp countdown_target(:launch) do
+    DateTime.utc_now() |> DateTime.add(2 * 86_400 + 5 * 3_600 + 42 * 60 + 17)
   end
 
   attr :height, :string, default: "h-40"
