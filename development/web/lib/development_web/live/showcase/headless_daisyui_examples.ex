@@ -85,6 +85,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.Toolbar
   import DevelopmentWeb.Components.Headless.Tree
   import DevelopmentWeb.Components.Headless.TreeSelect
+  import DevelopmentWeb.Components.Headless.VisuallyHidden
   import DevelopmentWeb.Components.Headless.Select
   import DevelopmentWeb.Components.Headless.Switch
   import DevelopmentWeb.Components.Headless.Tabs
@@ -776,6 +777,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ],
     "tree_select" => [
       {"tree_select-hero", "Hero",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+    ],
+    "visually_hidden" => [
+      {"visually_hidden-hero", "Hero",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "alpha_slider" => [
@@ -6226,6 +6231,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         <:expand_icon>▸</:expand_icon>
       </.tree>
     </.tree_select>
+    """
+  end
+
+  # ── visually_hidden ─────────────────────────────────────────────────────
+  def example(%{section: "visually_hidden-hero"} = assigns) do
+    ~H"""
+    <button type="button">
+      ★
+      <.visually_hidden>Add to favorites</.visually_hidden>
+    </button>
     """
   end
 

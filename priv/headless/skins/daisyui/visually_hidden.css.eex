@@ -1,0 +1,18 @@
+/* visually_hidden — daisyUI skin.
+ *
+ * Tailwind's own `sr-only` is exactly this, and daisyUI adds nothing to it. The declarations are
+ * written out rather than `@apply sr-only` so the component keeps working in a project that has
+ * disabled Tailwind's utility layer.
+ */
+
+.chelekom-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border-width: 0;
+}
