@@ -48,6 +48,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.ActionIcon
   import DevelopmentWeb.Components.Headless.CloseButton
   import DevelopmentWeb.Components.Headless.Chip
+  import DevelopmentWeb.Components.Headless.Burger
   import DevelopmentWeb.Components.Headless.Select
   import DevelopmentWeb.Components.Headless.Switch
   import DevelopmentWeb.Components.Headless.Tabs
@@ -532,6 +533,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"countdown-boxes", "In boxes", "daisyUI's bordered boxes around each unit."},
       {"countdown-short", "Reaching zero",
        "Not on daisyUI's page. A ten-second countdown that pushes `on_complete` once when it lands — watch the message below appear."}
+    ],
+    "burger" => [
+      {"burger-hero", "Burger",
+       "daisyUI's hamburger lives on its `swap` page as a checkbox cross-fading two whole SVGs. Ours is three bars that animate into an ✕ — one fewer icon to draw — on a real button with `aria-expanded`, not a disguised checkbox."},
+      {"burger-opened", "Opened", "The same button in its open state."},
+      {"burger-sizes", "Sizes", "`btn-xs` through `btn-lg` on the root."},
+      {"burger-colors", "Colors",
+       "The bars take `currentColor`, so a text colour is all it needs."},
+      {"burger-disabled", "Disabled", "Dimmed and inert."}
     ],
     "action_icon" => [
       {"action-icon-hero", "Action icon",
@@ -4032,6 +4042,51 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       on_complete="daisyui_countdown_complete"
       class="font-mono text-3xl"
     />
+    """
+  end
+
+  # ── burger ────────────────────────────────────────────────────────────────
+  def example(%{section: "burger-hero"} = assigns) do
+    ~H"""
+    <.burger id="daisyui-burger-hero" label="Open menu" controls="daisyui-burger-region" />
+    """
+  end
+
+  def example(%{section: "burger-opened"} = assigns) do
+    ~H"""
+    <.burger id="daisyui-burger-opened" label="Close menu" opened />
+    """
+  end
+
+  def example(%{section: "burger-sizes"} = assigns) do
+    ~H"""
+    <div class="flex items-center gap-2">
+      <.burger
+        :for={size <- ~w(xs sm md lg)}
+        id={"daisyui-burger-#{size}"}
+        label={"Menu #{size}"}
+        class={"d-btn-#{size}"}
+      />
+    </div>
+    """
+  end
+
+  def example(%{section: "burger-colors"} = assigns) do
+    ~H"""
+    <div class="flex items-center gap-2">
+      <.burger
+        :for={color <- ~w(primary secondary accent error)}
+        id={"daisyui-burger-#{color}"}
+        label={"Menu #{color}"}
+        class={"text-#{color}"}
+      />
+    </div>
+    """
+  end
+
+  def example(%{section: "burger-disabled"} = assigns) do
+    ~H"""
+    <.burger id="daisyui-burger-disabled" label="Menu" disabled />
     """
   end
 

@@ -1,0 +1,47 @@
+/* burger — daisyUI skin.
+ *
+ * daisyUI's hamburger is on its `swap` page: a checkbox with two whole SVGs cross-fading between
+ * them. Ours is three bars that *animate into* an ✕, which is the same idea with one fewer icon to
+ * draw — so the button borrows `btn btn-square btn-ghost` from daisyUI and the bars are drawn here.
+ *
+ * The transform keys off `data-opened`, which the component already sets, rather than off a
+ * `:checked` input: our burger is a real button with `aria-expanded`, not a disguised checkbox.
+ */
+
+.chelekom-burger {
+  @apply <%= @d %>btn <%= @d %>btn-square <%= @d %>btn-ghost;
+
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: calc(0.25rem * 1);
+}
+
+.chelekom-burger__line {
+  display: block;
+  width: calc(0.25rem * 5);
+  height: 2px;
+  border-radius: calc(infinity * 1px);
+  background-color: currentcolor;
+  transition:
+    transform 0.2s ease-out,
+    opacity 0.2s ease-out;
+}
+
+/* Top and bottom rotate onto the middle line; the middle one fades, so the three become two. */
+.chelekom-burger[data-opened] .chelekom-burger__line:first-child {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.chelekom-burger[data-opened] .chelekom-burger__line:nth-child(2) {
+  opacity: 0;
+}
+
+.chelekom-burger[data-opened] .chelekom-burger__line:last-child {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+.chelekom-burger[data-disabled] {
+  @apply <%= @d %>btn-disabled;
+}
