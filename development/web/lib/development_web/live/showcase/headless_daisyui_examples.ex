@@ -53,6 +53,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.SegmentedControl
   import DevelopmentWeb.Components.Headless.ToggleGroup
   import DevelopmentWeb.Components.Headless.AlertDialog
+  import DevelopmentWeb.Components.Headless.Autocomplete
   import DevelopmentWeb.Components.Headless.CheckboxGroup
   import DevelopmentWeb.Components.Headless.ContextMenu
   import DevelopmentWeb.Components.Headless.FloatingIndicator
@@ -587,6 +588,26 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"alert_dialog-detached-triggers-controlled", "Detached triggers controlled",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
       {"alert_dialog-detached-triggers-simple", "Detached triggers simple",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+    ],
+    "autocomplete" => [
+      {"autocomplete-hero", "Hero",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+      {"autocomplete-async", "Async",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+      {"autocomplete-auto-highlight", "Auto highlight",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+      {"autocomplete-command-palette", "Command palette",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+      {"autocomplete-fuzzy-matching", "Fuzzy matching",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+      {"autocomplete-grid", "Grid",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+      {"autocomplete-grouped", "Grouped",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+      {"autocomplete-inline", "Inline",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+      {"autocomplete-limit", "Limit",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "checkbox_group" => [
@@ -4225,6 +4246,141 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         </button>
       </:actions>
     </.alert_dialog>
+    """
+  end
+
+  # ── autocomplete ────────────────────────────────────────────────────────
+  def example(%{section: "autocomplete-hero"} = assigns) do
+    ~H"""
+    <label>
+      Search tags
+      <.autocomplete
+        id="daisyui-autocomplete-hero"
+        placeholder="e.g. feature"
+      >
+        <:option
+          :for={tag <- daisyui_autocomplete_tags()}
+          value={tag.value}
+        >
+          {tag.value}
+        </:option>
+        <:empty>
+          <div>
+            No tags found.
+          </div>
+        </:empty>
+      </.autocomplete>
+    </label>
+    """
+  end
+
+  def example(%{section: "autocomplete-async"} = assigns) do
+    ~H"""
+    <label>
+      Search movies by name or year
+      <.autocomplete
+        id="daisyui-autocomplete-async"
+        placeholder="e.g. Pulp Fiction or 1994"
+      >
+        <:option
+          :for={movie <- daisyui_autocomplete_movies()}
+          value={movie.title}
+        >
+          <span>
+            <span>{movie.title}</span>
+            <span>
+              {movie.year}
+            </span>
+          </span>
+        </:option>
+        <:empty>
+          <div>
+            No movies found in the Top 100 IMDb movies.
+          </div>
+        </:empty>
+      </.autocomplete>
+    </label>
+    """
+  end
+
+  def example(%{section: "autocomplete-auto-highlight"} = assigns) do
+    ~H"""
+    <label>
+      Auto highlight on type
+      <.autocomplete
+        id="daisyui-autocomplete-auto-highlight"
+        placeholder="e.g. feature"
+        auto_highlight
+      >
+        <:option
+          :for={tag <- daisyui_autocomplete_tags()}
+          value={tag.value}
+        >
+          {tag.value}
+        </:option>
+        <:empty>
+          <div>
+            No tags found.
+          </div>
+        </:empty>
+      </.autocomplete>
+    </label>
+    """
+  end
+
+  def example(%{section: "autocomplete-command-palette"} = assigns) do
+    ~H"""
+    <div>
+      <.autocomplete
+        id="daisyui-autocomplete-command-palette"
+        placeholder="Search for apps and commands…"
+        auto_highlight
+        inline
+      >
+        <:option
+          :for={item <- daisyui_autocomplete_palette_suggestions()}
+          value={item.label}
+          group="Suggestions"
+        >
+          <span>{item.label}</span>
+          <span>
+            Application
+          </span>
+        </:option>
+        <:option
+          :for={item <- daisyui_autocomplete_palette_commands()}
+          value={item.label}
+          group="Commands"
+        >
+          <span>{item.label}</span>
+          <span>
+            Command
+          </span>
+        </:option>
+        <:empty>
+          <div>
+            No results found.
+          </div>
+        </:empty>
+      </.autocomplete>
+      <div>
+        <div>
+          <span>Activate</span>
+          <kbd>
+            Enter
+          </kbd>
+        </div>
+        <div>
+          <span>Actions</span>
+          <kbd>
+            Cmd
+          </kbd>
+          <kbd>
+            K
+          </kbd>
+        </div>
+      </div>
+    </div>
     """
   end
 
