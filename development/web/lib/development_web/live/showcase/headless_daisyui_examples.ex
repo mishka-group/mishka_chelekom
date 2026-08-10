@@ -18,6 +18,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   use Phoenix.Component
 
   alias DevelopmentWeb.Showcase.ExampleSource
+  alias Phoenix.LiveView.JS
 
   import DevelopmentWeb.Components.Headless.Accordion
   import DevelopmentWeb.Components.Headless.Avatar
@@ -44,6 +45,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.Separator
   import DevelopmentWeb.Components.Headless.Radio
   import DevelopmentWeb.Components.Headless.RadioGroup
+  import DevelopmentWeb.Components.Headless.ActionIcon
   import DevelopmentWeb.Components.Headless.Select
   import DevelopmentWeb.Components.Headless.Switch
   import DevelopmentWeb.Components.Headless.Tabs
@@ -528,6 +530,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"countdown-boxes", "In boxes", "daisyUI's bordered boxes around each unit."},
       {"countdown-short", "Reaching zero",
        "Not on daisyUI's page. A ten-second countdown that pushes `on_complete` once when it lands — watch the message below appear."}
+    ],
+    "action_icon" => [
+      {"action-icon-hero", "Action icon",
+       "daisyUI has no icon-button component; its own are `btn btn-square` written by hand, so that is what the skin paints — and every other `btn-*` modifier still works on the root."},
+      {"action-icon-colors", "Colors", "All eight `btn-*` colors."},
+      {"action-icon-sizes", "Sizes", "`btn-xs` through `btn-xl`."},
+      {"action-icon-variants", "Variants",
+       "daisyUI's `btn-outline`, `btn-ghost`, `btn-soft` and `btn-dash`."},
+      {"action-icon-circle", "Circle", "daisyUI's `btn-circle` in place of the default square."},
+      {"action-icon-disabled", "Disabled", "`disabled` reaches the skin through `data-disabled`."}
     ],
     "radio_group" => [
       {"radio-group-hero", "Radio group",
@@ -4001,1362 +4013,73 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     """
   end
 
-  # ── radio_group ───────────────────────────────────────────────────────────
-  def example(%{section: "radio-group-hero"} = assigns) do
+  # ── action_icon ───────────────────────────────────────────────────────────
+  def example(%{section: "action-icon-hero"} = assigns) do
     ~H"""
-    <.radio_group id="daisyui-radio-group-hero" name="plan" value="team">
-      <:option value="solo">Solo</:option>
-      <:option value="team">Team</:option>
-      <:option value="enterprise">Enterprise</:option>
-    </.radio_group>
-    """
-  end
-
-  def example(%{section: "radio-group-horizontal"} = assigns) do
-    ~H"""
-    <.radio_group
-      id="daisyui-radio-group-horizontal"
-      name="plan_row"
-      value="team"
-      orientation="horizontal"
-    >
-      <:option value="solo">Solo</:option>
-      <:option value="team">Team</:option>
-      <:option value="enterprise">Enterprise</:option>
-    </.radio_group>
-    """
-  end
-
-  def example(%{section: "radio-group-sizes"} = assigns) do
-    assigns = assign(assigns, :sizes, @sizes)
-
-    ~H"""
-    <div class="flex flex-col gap-3">
-      <.radio_group
-        :for={size <- @sizes}
-        id={"daisyui-radio-group-#{size}"}
-        name={"plan_#{size}"}
-        value="team"
-        orientation="horizontal"
-        class={"d-radio-#{size}"}
-      >
-        <:option value="solo">Solo</:option>
-        <:option value="team">{size}</:option>
-      </.radio_group>
+    <div class="flex items-center gap-2">
+      <.action_icon label="Edit"><.dock_icon path="M4 20h4L20 8l-4-4L4 16z" /></.action_icon>
+      <.action_icon label="Delete">
+        <.dock_icon path="M5 7h14M9 7V5h6v2M7 7l1 13h8l1-13" />
+      </.action_icon>
     </div>
     """
   end
 
-  def example(%{section: "radio-group-colors"} = assigns) do
+  def example(%{section: "action-icon-colors"} = assigns) do
     assigns = assign(assigns, :colors, @colors)
 
     ~H"""
-    <div class="flex flex-col gap-2">
-      <.radio_group
-        :for={color <- @colors}
-        id={"daisyui-radio-group-#{color}"}
-        name={"plan_#{color}"}
-        value="on"
-        orientation="horizontal"
-        class={"text-#{color}"}
-      >
-        <:option value="on">{color}</:option>
-        <:option value="off">off</:option>
-      </.radio_group>
+    <div class="flex flex-wrap items-center gap-2">
+      <.action_icon :for={color <- @colors} label={color} class={"d-btn-#{color}"}>
+        <.dock_icon path="M4 20h4L20 8l-4-4L4 16z" />
+      </.action_icon>
     </div>
     """
   end
 
-  def example(%{section: "radio-group-disabled"} = assigns) do
-    ~H"""
-    <div class="flex flex-col gap-4">
-      <.radio_group id="daisyui-radio-group-disabled" name="plan_off" value="team" disabled>
-        <:option value="solo">Solo</:option>
-        <:option value="team">Team</:option>
-      </.radio_group>
-
-      <.radio_group id="daisyui-radio-group-one-off" name="plan_one" value="solo">
-        <:option value="solo">Solo</:option>
-        <:option value="team" disabled>Team (sold out)</:option>
-        <:option value="enterprise">Enterprise</:option>
-      </.radio_group>
-    </div>
-    """
-  end
-
-  def example(%{section: "radio-group-readonly"} = assigns) do
-    ~H"""
-    <.radio_group id="daisyui-radio-group-readonly" name="plan_ro" value="team" readonly>
-      <:option value="solo">Solo</:option>
-      <:option value="team">Team</:option>
-      <:option value="enterprise">Enterprise</:option>
-    </.radio_group>
-    """
-  end
-
-  def example(%{section: "radio-group-form"} = assigns) do
-    ~H"""
-    <form
-      id="daisyui-radio-group-form-el"
-      phx-change="daisyui_radio_group_change"
-      phx-submit="daisyui_radio_group_submit"
-      class="flex flex-col items-start gap-3"
-    >
-      <.radio_group id="daisyui-radio-group-form" name="plan_form" value="team">
-        <:option value="solo">Solo</:option>
-        <:option value="team">Team</:option>
-        <:option value="enterprise">Enterprise</:option>
-      </.radio_group>
-      <button type="submit" class="d-btn d-btn-primary d-btn-sm">Save</button>
-    </form>
-    """
-  end
-
-  # ── rating ────────────────────────────────────────────────────────────────
-  def example(%{section: "rating-hero"} = assigns) do
-    ~H"""
-    <.rating id="daisyui-rating-hero" value={3} />
-    """
-  end
-
-  def example(%{section: "rating-readonly"} = assigns) do
-    ~H"""
-    <.rating
-      id="daisyui-rating-readonly"
-      value={4}
-      readonly
-      label="Average rating"
-      item_class="bg-orange-400"
-    />
-    """
-  end
-
-  def example(%{section: "rating-star2"} = assigns) do
-    ~H"""
-    <.rating id="daisyui-rating-star2" value={2} item_class="d-mask-star-2 bg-warning" />
-    """
-  end
-
-  def example(%{section: "rating-heart"} = assigns) do
-    ~H"""
-    <.rating id="daisyui-rating-heart" value={3} item_class="d-mask-heart bg-red-400" />
-    """
-  end
-
-  def example(%{section: "rating-green"} = assigns) do
-    ~H"""
-    <.rating id="daisyui-rating-green" value={4} item_class="d-mask-star-2 bg-green-500" />
-    """
-  end
-
-  def example(%{section: "rating-sizes"} = assigns) do
+  def example(%{section: "action-icon-sizes"} = assigns) do
     assigns = assign(assigns, :sizes, @sizes)
 
     ~H"""
-    <div class="flex flex-col items-center gap-2">
-      <.rating
-        :for={size <- @sizes}
-        id={"daisyui-rating-#{size}"}
-        value={3}
-        class={"d-rating-#{size}"}
-        item_class="d-mask-star-2 bg-orange-400"
-      />
+    <div class="flex items-center gap-2">
+      <.action_icon :for={size <- @sizes} label={size} class={"d-btn-#{size}"}>
+        <.dock_icon path="M4 20h4L20 8l-4-4L4 16z" />
+      </.action_icon>
     </div>
     """
   end
 
-  def example(%{section: "rating-hidden"} = assigns) do
+  def example(%{section: "action-icon-variants"} = assigns) do
     ~H"""
-    <.rating
-      id="daisyui-rating-hidden"
-      value={2}
-      clearable
-      item_class="d-mask-star-2 bg-green-500"
-    />
-    """
-  end
-
-  def example(%{section: "rating-half"} = assigns) do
-    ~H"""
-    <.rating
-      id="daisyui-rating-half"
-      value={2.5}
-      precision={0.5}
-      clearable
-      item_class="d-mask-star-2 bg-green-500"
-    />
-    """
-  end
-
-  def example(%{section: "rating-form"} = assigns) do
-    ~H"""
-    <form
-      id="daisyui-rating-form-el"
-      phx-change="daisyui_rating_change"
-      phx-submit="daisyui_rating_submit"
-      class="flex flex-col items-center gap-3"
-    >
-      <.rating
-        id="daisyui-rating-form"
-        name="score"
-        value={3.5}
-        precision={0.5}
-        label="Your score"
-        item_class="bg-orange-400"
-      />
-      <button type="submit" class="d-btn d-btn-primary d-btn-sm">Save</button>
-    </form>
-    """
-  end
-
-  # ── pagination ────────────────────────────────────────────────────────────
-  def example(%{section: "pagination-hero"} = assigns) do
-    ~H"""
-    <.pagination id="daisyui-pagination-hero" total={4} page={2} show_controls={false} />
-    """
-  end
-
-  def example(%{section: "pagination-sizes"} = assigns) do
-    assigns = assign(assigns, :sizes, @sizes)
-
-    ~H"""
-    <div class="flex flex-col items-center gap-3">
-      <.pagination
-        :for={size <- @sizes}
-        id={"daisyui-pagination-#{size}"}
-        total={4}
-        page={2}
-        show_controls={false}
-        control_class={"d-btn-#{size}"}
-      />
-    </div>
-    """
-  end
-
-  def example(%{section: "pagination-disabled"} = assigns) do
-    ~H"""
-    <div class="flex flex-col items-center gap-3">
-      <.pagination id="daisyui-pagination-disabled" total={4} page={2} disabled />
-      <.pagination id="daisyui-pagination-at-first" total={4} page={1} />
-      <.pagination id="daisyui-pagination-at-last" total={4} page={4} />
-    </div>
-    """
-  end
-
-  def example(%{section: "pagination-xs"} = assigns) do
-    ~H"""
-    <.pagination
-      id="daisyui-pagination-extra-small"
-      total={4}
-      page={2}
-      show_controls={false}
-      control_class="d-btn-xs"
-    />
-    """
-  end
-
-  def example(%{section: "pagination-edges"} = assigns) do
-    ~H"""
-    <.pagination
-      id="daisyui-pagination-edges"
-      total={10}
-      page={5}
-      show_edges
-      previous_label="Prev"
-      next_label="Next"
-      first_label="First"
-      last_label="Last"
-      control_class="d-btn-outline"
-    />
-    """
-  end
-
-  def example(%{section: "pagination-radio"} = assigns) do
-    ~H"""
-    <form id="daisyui-pagination-radio-form" phx-change="daisyui_pagination_change">
-      <.pagination
-        id="daisyui-pagination-radio"
-        total={4}
-        page={2}
-        name="page"
-        show_controls={false}
-      />
-    </form>
-    """
-  end
-
-  def example(%{section: "pagination-window"} = assigns) do
-    ~H"""
-    <div class="flex flex-col items-center gap-3">
-      <.pagination
-        :for={page <- [1, 7, 50, 100]}
-        id={"daisyui-pagination-w#{page}"}
-        total={100}
-        page={page}
-      />
-    </div>
-    """
-  end
-
-  def example(%{section: "pagination-links"} = assigns) do
-    ~H"""
-    <.pagination
-      id="daisyui-pagination-links"
-      total={7}
-      page={3}
-      href={&"/showcase/headless-daisyui/pagination?page=#{&1}"}
-    />
-    """
-  end
-
-  def example(%{section: "pagination-interactive"} = assigns) do
-    ~H"""
-    <.pagination
-      id="daisyui-pagination-interactive"
-      total={12}
-      page={4}
-      show_edges
-      on_select="daisyui_pagination_select"
-    />
-    """
-  end
-
-  # ── dock ──────────────────────────────────────────────────────────────────
-  def example(%{section: "dock-hero"} = assigns) do
-    ~H"""
-    <.dock_frame>
-      <.dock id="daisyui-dock-hero" label="Sections" contained>
-        <:item label="Home" href="#"><.dock_icon path="M3 11l9-8 9 8M5 10v10h14V10" /></:item>
-        <:item label="Inbox" href="#" active><.dock_icon path="M3 7h18v10H3zM3 7l9 6 9-6" /></:item>
-        <:item label="Settings" href="#"><.dock_icon path="M12 8a4 4 0 100 8 4 4 0 000-8z" /></:item>
-      </.dock>
-    </.dock_frame>
-    """
-  end
-
-  def example(%{section: "dock-sizes"} = assigns) do
-    assigns = assign(assigns, :sizes, @sizes)
-
-    ~H"""
-    <div class="flex flex-col gap-4">
-      <.dock_frame :for={size <- @sizes} height="h-28">
-        <.dock
-          id={"daisyui-dock-#{size}"}
-          label={"Sections #{size}"}
-          contained
-          class={"d-dock-#{size}"}
-        >
-          <:item label="Home" href="#"><.dock_icon path="M3 11l9-8 9 8M5 10v10h14V10" /></:item>
-          <:item label="Inbox" href="#" active><.dock_icon path="M3 7h18v10H3zM3 7l9 6 9-6" /></:item>
-          <:item label="Settings" href="#">
-            <.dock_icon path="M12 8a4 4 0 100 8 4 4 0 000-8z" />
-          </:item>
-        </.dock>
-      </.dock_frame>
-    </div>
-    """
-  end
-
-  def example(%{section: "dock-colors"} = assigns) do
-    ~H"""
-    <.dock_frame>
-      <.dock
-        id="daisyui-dock-colors"
-        label="Sections"
-        contained
-        class="bg-primary text-primary-content"
+    <div class="flex items-center gap-2">
+      <.action_icon
+        :for={variant <- ~w(outline ghost soft dash)}
+        label={variant}
+        class={"d-btn-#{variant}"}
       >
-        <:item label="Home" href="#"><.dock_icon path="M3 11l9-8 9 8M5 10v10h14V10" /></:item>
-        <:item label="Inbox" href="#" active><.dock_icon path="M3 7h18v10H3zM3 7l9 6 9-6" /></:item>
-        <:item label="Settings" href="#"><.dock_icon path="M12 8a4 4 0 100 8 4 4 0 000-8z" /></:item>
-      </.dock>
-    </.dock_frame>
-    """
-  end
-
-  def example(%{section: "dock-top"} = assigns) do
-    ~H"""
-    <.dock_frame align="items-start">
-      <.dock id="daisyui-dock-top" label="Sections" position="top" contained>
-        <:item label="Home" href="#"><.dock_icon path="M3 11l9-8 9 8M5 10v10h14V10" /></:item>
-        <:item label="Inbox" href="#" active><.dock_icon path="M3 7h18v10H3zM3 7l9 6 9-6" /></:item>
-        <:item label="Settings" href="#"><.dock_icon path="M12 8a4 4 0 100 8 4 4 0 000-8z" /></:item>
-      </.dock>
-    </.dock_frame>
-    """
-  end
-
-  def example(%{section: "dock-icon-only"} = assigns) do
-    ~H"""
-    <.dock_frame>
-      <.dock id="daisyui-dock-icon-only" label="Sections" contained show_labels={false}>
-        <:item label="Home" href="#"><.dock_icon path="M3 11l9-8 9 8M5 10v10h14V10" /></:item>
-        <:item label="Inbox" href="#" active><.dock_icon path="M3 7h18v10H3zM3 7l9 6 9-6" /></:item>
-        <:item label="Settings" href="#" disabled>
-          <.dock_icon path="M12 8a4 4 0 100 8 4 4 0 000-8z" />
-        </:item>
-      </.dock>
-    </.dock_frame>
-    """
-  end
-
-  def example(%{section: "dock-interactive"} = assigns) do
-    ~H"""
-    <.dock_frame>
-      <.dock id="daisyui-dock-interactive" label="Panels" contained>
-        <:item label="Home" on_select="daisyui_dock_select">
-          <.dock_icon path="M3 11l9-8 9 8M5 10v10h14V10" />
-        </:item>
-        <:item label="Inbox" on_select="daisyui_dock_select" active>
-          <.dock_icon path="M3 7h18v10H3zM3 7l9 6 9-6" />
-        </:item>
-        <:item label="Settings" on_select="daisyui_dock_select">
-          <.dock_icon path="M12 8a4 4 0 100 8 4 4 0 000-8z" />
-        </:item>
-      </.dock>
-    </.dock_frame>
-    """
-  end
-
-  # ── stepper ───────────────────────────────────────────────────────────────
-  def example(%{section: "stepper-hero"} = assigns) do
-    ~H"""
-    <.stepper id="daisyui-stepper-hero" label="Checkout" active={2}>
-      <:step label="Register" />
-      <:step label="Choose plan" />
-      <:step label="Purchase" />
-      <:step label="Receive product" />
-    </.stepper>
-    """
-  end
-
-  def example(%{section: "stepper-vertical"} = assigns) do
-    ~H"""
-    <.stepper
-      id="daisyui-stepper-vertical"
-      label="Checkout"
-      orientation="vertical"
-      active={2}
-    >
-      <:step label="Register" />
-      <:step label="Choose plan" />
-      <:step label="Purchase" />
-      <:step label="Receive product" />
-    </.stepper>
-    """
-  end
-
-  def example(%{section: "stepper-responsive"} = assigns) do
-    ~H"""
-    <.stepper
-      id="daisyui-stepper-responsive"
-      label="Checkout"
-      active={2}
-      orientation="vertical"
-      horizontal_from="lg"
-    >
-      <:step label="Register" />
-      <:step label="Choose plan" />
-      <:step label="Purchase" />
-      <:step label="Receive product" />
-    </.stepper>
-    """
-  end
-
-  def example(%{section: "stepper-icons"} = assigns) do
-    ~H"""
-    <.stepper id="daisyui-stepper-icons" label="Delivery" active={4}>
-      <:step label="Step 1">😕</:step>
-      <:step label="Step 2">😃</:step>
-      <:step label="Step 3">😍</:step>
-      <:step label="Step 4">
-        <.field_icon path="M5 13l4 4L19 7" />
-      </:step>
-    </.stepper>
-    """
-  end
-
-  def example(%{section: "stepper-content"} = assigns) do
-    ~H"""
-    <.stepper id="daisyui-stepper-content" label="Progress" active={4}>
-      <:step label="Step 1" content="?" />
-      <:step label="Step 2" content="!" />
-      <:step label="Step 3" content="✓" />
-      <:step label="Step 4" content="✕" />
-      <:step label="Step 5" />
-    </.stepper>
-    """
-  end
-
-  def example(%{section: "stepper-colors"} = assigns) do
-    ~H"""
-    <.stepper id="daisyui-stepper-colors" label="Colors" active={0}>
-      <:step label="Fund wallet" class="d-step-info" />
-      <:step label="Choose plan" class="d-step-info" />
-      <:step label="Purchase" class="d-step-error" />
-      <:step label="Receive product" class="d-step-error" />
-    </.stepper>
-    """
-  end
-
-  def example(%{section: "stepper-scrollable"} = assigns) do
-    ~H"""
-    <div class="w-full overflow-x-auto">
-      <.stepper id="daisyui-stepper-scrollable" label="Long flow" active={3}>
-        <:step :for={n <- 1..10} label={"Step #{n}"} />
-      </.stepper>
+        <.dock_icon path="M4 20h4L20 8l-4-4L4 16z" />
+      </.action_icon>
     </div>
     """
   end
 
-  def example(%{section: "stepper-descriptions"} = assigns) do
+  def example(%{section: "action-icon-circle"} = assigns) do
     ~H"""
-    <.stepper id="daisyui-stepper-descriptions" label="Onboarding" active={1}>
-      <:step label="Account" description="Email and password" />
-      <:step label="Profile" description="Name and avatar" />
-      <:step label="Team" description="Invite your colleagues" />
-    </.stepper>
-    """
-  end
-
-  def example(%{section: "stepper-interactive"} = assigns) do
-    ~H"""
-    <.stepper
-      id="daisyui-stepper-interactive"
-      label="Editable flow"
-      active={2}
-      on_select="daisyui_stepper_select"
-    >
-      <:step label="Register" />
-      <:step label="Choose plan" />
-      <:step label="Purchase" />
-      <:step label="Receive product" />
-    </.stepper>
-    """
-  end
-
-  # ── text_input ────────────────────────────────────────────────────────────
-  def example(%{section: "text-input-hero"} = assigns) do
-    ~H"""
-    <.text_input id="daisyui-input-hero" name="username" placeholder="Type here" />
-    """
-  end
-
-  def example(%{section: "text-input-label-inside"} = assigns) do
-    ~H"""
-    <.text_input id="daisyui-input-label-inside" name="path" placeholder="daisyui.com">
-      <:start_section>https://</:start_section>
-    </.text_input>
-    """
-  end
-
-  def example(%{section: "text-input-label-end"} = assigns) do
-    ~H"""
-    <.text_input id="daisyui-input-label-end" name="domain" placeholder="mysite">
-      <:end_section>.com</:end_section>
-    </.text_input>
-    """
-  end
-
-  def example(%{section: "text-input-ghost"} = assigns) do
-    ~H"""
-    <.text_input
-      id="daisyui-input-ghost"
-      name="ghost"
-      class="d-input-ghost"
-      placeholder="Type here"
-    />
-    """
-  end
-
-  def example(%{section: "text-input-fieldset"} = assigns) do
-    ~H"""
-    <.fieldset id="daisyui-input-fieldset" class="d-fieldset w-xs">
-      <:legend>What is your name?</:legend>
-      <.text_input id="daisyui-input-fieldset-control" name="name" placeholder="Your name" />
-      <p class="d-label">Optional</p>
-    </.fieldset>
-    """
-  end
-
-  def example(%{section: "text-input-field"} = assigns) do
-    ~H"""
-    <.field
-      :let={f}
-      id="daisyui-input-field"
-      name="email"
-      label="Email"
-      class="d-fieldset w-xs"
-      label_class="d-fieldset-legend"
-    >
-      <.text_input
-        id={f.id}
-        name={f.name}
-        type="email"
-        placeholder="you@example.com"
-        describedby={f.describedby}
-      />
-      <:description>We'll never share it.</:description>
-    </.field>
-    """
-  end
-
-  def example(%{section: "text-input-colors"} = assigns) do
-    assigns = assign(assigns, :colors, @colors)
-
-    ~H"""
-    <div class="flex flex-col gap-2">
-      <.text_input
-        :for={color <- @colors}
-        id={"daisyui-input-#{color}"}
-        name={color}
-        class={"d-input-#{color}"}
-        placeholder={String.capitalize(color)}
-      />
+    <div class="flex items-center gap-2">
+      <.action_icon label="Edit" class="d-btn-circle">
+        <.dock_icon path="M4 20h4L20 8l-4-4L4 16z" />
+      </.action_icon>
+      <.action_icon label="Add" class="d-btn-circle d-btn-primary">
+        <.dock_icon path="M12 5v14M5 12h14" />
+      </.action_icon>
     </div>
     """
   end
 
-  def example(%{section: "text-input-sizes"} = assigns) do
-    assigns = assign(assigns, :sizes, @sizes)
-
+  def example(%{section: "action-icon-disabled"} = assigns) do
     ~H"""
-    <div class="flex flex-col gap-2">
-      <.text_input
-        :for={size <- @sizes}
-        id={"daisyui-input-size-#{size}"}
-        name={size}
-        class={"d-input-#{size}"}
-        placeholder={"Size #{size}"}
-      />
-    </div>
+    <.action_icon label="Edit" disabled><.dock_icon path="M4 20h4L20 8l-4-4L4 16z" /></.action_icon>
     """
-  end
-
-  def example(%{section: "text-input-disabled"} = assigns) do
-    ~H"""
-    <div class="flex flex-col gap-2">
-      <.text_input id="daisyui-input-disabled" name="disabled" placeholder="You can't type" disabled />
-      <.text_input id="daisyui-input-disabled-value" name="disabled_value" value="Locked" disabled />
-    </div>
-    """
-  end
-
-  def example(%{section: "text-input-datalist"} = assigns) do
-    ~H"""
-    <div>
-      <.text_input
-        id="daisyui-input-datalist"
-        name="browser"
-        placeholder="Pick a browser"
-        list="daisyui-browsers"
-      />
-      <datalist id="daisyui-browsers">
-        <option value="Chrome"></option>
-        <option value="Firefox"></option>
-        <option value="Safari"></option>
-      </datalist>
-    </div>
-    """
-  end
-
-  def example(%{section: "text-input-date"} = assigns) do
-    ~H"""
-    <.text_input id="daisyui-input-date" name="date" type="date" />
-    """
-  end
-
-  def example(%{section: "text-input-time"} = assigns) do
-    ~H"""
-    <.text_input id="daisyui-input-time" name="time" type="time" />
-    """
-  end
-
-  def example(%{section: "text-input-datetime"} = assigns) do
-    ~H"""
-    <.text_input id="daisyui-input-datetime" name="at" type="datetime-local" />
-    """
-  end
-
-  def example(%{section: "text-input-username"} = assigns) do
-    ~H"""
-    <div class="w-xs">
-      <.text_input
-        id="daisyui-input-username"
-        name="username"
-        class="d-validator"
-        placeholder="Username"
-        required
-        pattern="[A-Za-z][A-Za-z0-9\-]*"
-        minlength="3"
-        maxlength="30"
-        title="Only letters, numbers or dash"
-      >
-        <:start_section>
-          <.field_icon path="M12 12a4 4 0 100-8 4 4 0 000 8zM4 20a8 8 0 0116 0" />
-        </:start_section>
-      </.text_input>
-      <p class="d-validator-hint">
-        Must be 3 to 30 characters, containing only letters, numbers or dash
-      </p>
-    </div>
-    """
-  end
-
-  def example(%{section: "text-input-search"} = assigns) do
-    ~H"""
-    <.text_input id="daisyui-input-search" name="q" type="search" placeholder="Search" required>
-      <:start_section>
-        <.field_icon path="M11 19a8 8 0 100-16 8 8 0 000 16zM21 21l-4.35-4.35" />
-      </:start_section>
-    </.text_input>
-    """
-  end
-
-  def example(%{section: "text-input-email"} = assigns) do
-    ~H"""
-    <div class="w-xs">
-      <.text_input
-        id="daisyui-input-email"
-        name="email"
-        type="email"
-        class="d-validator"
-        placeholder="mail@site.com"
-        required
-      >
-        <:start_section>
-          <.field_icon path="M3 7l9 6 9-6M3 7v10h18V7H3z" />
-        </:start_section>
-      </.text_input>
-      <div class="d-validator-hint">Enter valid email address</div>
-    </div>
-    """
-  end
-
-  def example(%{section: "text-input-join"} = assigns) do
-    ~H"""
-    <form id="daisyui-input-join-form" phx-submit="daisyui_text_input_submit" class="d-join">
-      <.text_input
-        id="daisyui-input-join"
-        name="email"
-        type="email"
-        class="d-join-item"
-        placeholder="Enter your email"
-        required
-      />
-      <button type="submit" class="d-btn d-btn-primary d-join-item">Subscribe</button>
-    </form>
-    """
-  end
-
-  def example(%{section: "text-input-password"} = assigns) do
-    ~H"""
-    <div class="w-xs">
-      <.text_input
-        id="daisyui-input-password"
-        name="password"
-        type="password"
-        class="d-validator"
-        placeholder="Password"
-        required
-        minlength="8"
-        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*"
-        title="Must be more than 8 characters, including a number, a lowercase and an uppercase letter"
-      >
-        <:start_section>
-          <.field_icon path="M7 11V8a5 5 0 0110 0v3M5 11h14v10H5V11z" />
-        </:start_section>
-      </.text_input>
-      <p class="d-validator-hint">
-        Must be more than 8 characters, including a number, a lowercase and an uppercase letter
-      </p>
-    </div>
-    """
-  end
-
-  def example(%{section: "text-input-number"} = assigns) do
-    ~H"""
-    <div class="w-xs">
-      <.text_input
-        id="daisyui-input-number"
-        name="quantity"
-        type="number"
-        class="d-validator"
-        placeholder="Between 1 and 10"
-        required
-        min="1"
-        max="10"
-        title="Must be between 1 and 10"
-      />
-      <p class="d-validator-hint">Must be between 1 and 10</p>
-    </div>
-    """
-  end
-
-  def example(%{section: "text-input-tel"} = assigns) do
-    ~H"""
-    <div class="w-xs">
-      <.text_input
-        id="daisyui-input-tel"
-        name="phone"
-        type="tel"
-        class="d-validator tabular-nums"
-        placeholder="Phone"
-        required
-        pattern="[0-9]*"
-        minlength="10"
-        maxlength="10"
-        title="Must be 10 digits"
-      >
-        <:start_section>
-          <.field_icon path="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a1 1 0 01-1 1A16 16 0 014 5a1 1 0 011-1z" />
-        </:start_section>
-      </.text_input>
-      <p class="d-validator-hint">Must be 10 digits</p>
-    </div>
-    """
-  end
-
-  def example(%{section: "text-input-url"} = assigns) do
-    ~H"""
-    <div class="w-xs">
-      <.text_input
-        id="daisyui-input-url"
-        name="url"
-        type="url"
-        class="d-validator"
-        placeholder="https://"
-        required
-      >
-        <:start_section>
-          <.field_icon path="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1" />
-        </:start_section>
-      </.text_input>
-      <p class="d-validator-hint">Must be valid URL</p>
-    </div>
-    """
-  end
-
-  def example(%{section: "text-input-form"} = assigns) do
-    # Same errors on both forms; only the right one has params, so only the right one has been
-    # "used". That difference is the whole point — `used_input?/1` is what keeps a freshly rendered
-    # form from being red before anyone has typed in it.
-    errors = [email: {"must have the @ sign", []}]
-
-    assigns =
-      assigns
-      |> assign(:pristine, to_form(%{}, as: :pristine, errors: errors))
-      |> assign(:touched, to_form(%{"email" => "nope"}, as: :touched, errors: errors))
-
-    ~H"""
-    <form
-      id="daisyui-input-form"
-      phx-submit="daisyui_text_input_submit"
-      class="flex flex-wrap items-start gap-6"
-    >
-      <.field :let={f} id="daisyui-input-pristine" label="Pristine" class="d-fieldset">
-        <.text_input
-          field={@pristine[:email]}
-          type="email"
-          placeholder="you@example.com"
-          describedby={f.describedby}
-        />
-        <:description>Has an error; not shown yet.</:description>
-      </.field>
-
-      <.field
-        :let={f}
-        id="daisyui-input-touched"
-        label="Touched"
-        errors={Enum.map(@touched[:email].errors, &elem(&1, 0))}
-        class="d-fieldset"
-      >
-        <.text_input field={@touched[:email]} type="email" describedby={f.describedby} />
-      </.field>
-
-      <button type="submit" class="d-btn d-btn-primary self-center">Save</button>
-    </form>
-    """
-  end
-
-  # ── textarea ──────────────────────────────────────────────────────────────
-  def example(%{section: "textarea-hero"} = assigns) do
-    ~H"""
-    <.textarea id="daisyui-textarea-hero" name="bio" placeholder="Bio" />
-    """
-  end
-
-  def example(%{section: "textarea-ghost"} = assigns) do
-    ~H"""
-    <.textarea id="daisyui-textarea-ghost" name="ghost" class="d-textarea-ghost" placeholder="Bio" />
-    """
-  end
-
-  def example(%{section: "textarea-field"} = assigns) do
-    ~H"""
-    <.field
-      :let={f}
-      id="daisyui-textarea-field"
-      name="bio"
-      label="Your bio"
-      class="d-fieldset w-xs"
-      label_class="d-fieldset-legend"
-    >
-      <.textarea id={f.id} name={f.name} placeholder="Bio" describedby={f.describedby} />
-      <:description>Optional</:description>
-    </.field>
-    """
-  end
-
-  def example(%{section: "textarea-colors"} = assigns) do
-    assigns = assign(assigns, :colors, @colors)
-
-    ~H"""
-    <div class="flex flex-col gap-2">
-      <.textarea
-        :for={color <- @colors}
-        id={"daisyui-textarea-#{color}"}
-        name={color}
-        rows={2}
-        class={"d-textarea-#{color}"}
-        placeholder={String.capitalize(color)}
-      />
-    </div>
-    """
-  end
-
-  def example(%{section: "textarea-sizes"} = assigns) do
-    assigns = assign(assigns, :sizes, @sizes)
-
-    ~H"""
-    <div class="flex flex-col gap-2">
-      <.textarea
-        :for={size <- @sizes}
-        id={"daisyui-textarea-size-#{size}"}
-        name={size}
-        rows={2}
-        class={"d-textarea-#{size}"}
-        placeholder={"Size #{size}"}
-      />
-    </div>
-    """
-  end
-
-  def example(%{section: "textarea-disabled"} = assigns) do
-    ~H"""
-    <div class="flex flex-col gap-2">
-      <.textarea id="daisyui-textarea-disabled" name="disabled" placeholder="You can't type" disabled />
-      <.textarea id="daisyui-textarea-disabled-value" name="locked" value="Locked" disabled />
-    </div>
-    """
-  end
-
-  def example(%{section: "textarea-autosize"} = assigns) do
-    ~H"""
-    <.textarea
-      id="daisyui-textarea-autosize"
-      name="notes"
-      placeholder="Keep typing — this grows to six rows, then scrolls"
-      autosize
-      min_rows={2}
-      max_rows={6}
-    />
-    """
-  end
-
-  def example(%{section: "textarea-form"} = assigns) do
-    assigns = assign(assigns, :form, to_form(%{"bio" => "Elixir developer."}, as: :profile))
-
-    ~H"""
-    <form
-      id="daisyui-textarea-form-el"
-      phx-change="daisyui_textarea_change"
-      phx-submit="daisyui_textarea_submit"
-      class="flex w-xs flex-col gap-2"
-    >
-      <.field :let={f} id="daisyui-textarea-form" label="Bio" class="d-fieldset">
-        <.textarea
-          field={@form[:bio]}
-          rows={3}
-          placeholder="Tell us about yourself"
-          describedby={f.describedby}
-        />
-        <:description>Changes push on every keystroke.</:description>
-      </.field>
-      <button type="submit" class="d-btn d-btn-primary self-start">Save</button>
-    </form>
-    """
-  end
-
-  # ── file_input ────────────────────────────────────────────────────────────
-  def example(%{section: "file-input-hero"} = assigns) do
-    ~H"""
-    <.file_input id="daisyui-file-hero" name="attachment" />
-    """
-  end
-
-  def example(%{section: "file-input-ghost"} = assigns) do
-    ~H"""
-    <.file_input id="daisyui-file-ghost" name="ghost" class="d-file-input-ghost" />
-    """
-  end
-
-  def example(%{section: "file-input-field"} = assigns) do
-    ~H"""
-    <.field
-      :let={f}
-      id="daisyui-file-field"
-      name="avatar"
-      label="Pick a file"
-      class="d-fieldset w-xs"
-      label_class="d-fieldset-legend"
-    >
-      <.file_input id={f.id} name={f.name} accept="image/*" describedby={f.describedby} />
-      <:description>Max size 2MB</:description>
-    </.field>
-    """
-  end
-
-  def example(%{section: "file-input-sizes"} = assigns) do
-    assigns = assign(assigns, :sizes, @sizes)
-
-    ~H"""
-    <div class="flex flex-col gap-2">
-      <.file_input
-        :for={size <- @sizes}
-        id={"daisyui-file-size-#{size}"}
-        name={size}
-        class={"d-file-input-#{size}"}
-      />
-    </div>
-    """
-  end
-
-  def example(%{section: "file-input-colors"} = assigns) do
-    assigns = assign(assigns, :colors, @colors)
-
-    ~H"""
-    <div class="flex flex-col gap-2">
-      <.file_input
-        :for={color <- @colors}
-        id={"daisyui-file-#{color}"}
-        name={color}
-        class={"d-file-input-#{color}"}
-      />
-    </div>
-    """
-  end
-
-  def example(%{section: "file-input-disabled"} = assigns) do
-    ~H"""
-    <.file_input id="daisyui-file-disabled" name="disabled" disabled />
-    """
-  end
-
-  def example(%{section: "file-input-form"} = assigns) do
-    assigns = assign(assigns, :form, to_form(%{}, as: :upload))
-
-    ~H"""
-    <form
-      id="daisyui-file-form"
-      phx-submit="daisyui_file_input_submit"
-      class="flex w-xs flex-col gap-3"
-    >
-      <.field :let={f} id="daisyui-file-form-single" label="Attachment" class="d-fieldset">
-        <.file_input field={@form[:attachment]} describedby={f.describedby} />
-        <:description>One file, posted as <code>upload[attachment]</code>.</:description>
-      </.field>
-
-      <.field :let={f} id="daisyui-file-form-many" label="Gallery" class="d-fieldset">
-        <.file_input field={@form[:gallery]} multiple accept="image/*" describedby={f.describedby} />
-        <:description>
-          Several files — the name gains <code>[]</code> so Plug builds a list.
-        </:description>
-      </.field>
-
-      <button type="submit" class="d-btn d-btn-primary self-start">Upload</button>
-    </form>
-    """
-  end
-
-  # ── card ──────────────────────────────────────────────────────────────────
-  def example(%{section: "card-hero"} = assigns) do
-    ~H"""
-    <.card id="daisyui-card-hero" class="d-card bg-base-100 w-80 shadow-sm">
-      <:figure><.card_image /></:figure>
-      <:title>Shoes!</:title>
-      If a dog chews shoes whose shoes does he choose?
-      <:actions>
-        <div class="ml-auto">
-          <button type="button" class="d-btn d-btn-primary">Buy now</button>
-        </div>
-      </:actions>
-    </.card>
-    """
-  end
-
-  def example(%{section: "card-pricing"} = assigns) do
-    ~H"""
-    <.card id="daisyui-card-pricing" class="bg-base-100 w-80 shadow-sm">
-      <:title>Pro plan</:title>
-      <div class="flex flex-col gap-2">
-        <span class="text-2xl font-semibold">$29<span class="text-sm font-normal">/mo</span></span>
-        <ul class="flex flex-col gap-1 text-sm">
-          <li :for={feature <- ["Unlimited projects", "Priority support", "Custom domain"]}>
-            ✓ {feature}
-          </li>
-        </ul>
-      </div>
-      <:actions>
-        <button type="button" class="d-btn d-btn-primary d-btn-block">Subscribe</button>
-      </:actions>
-    </.card>
-    """
-  end
-
-  def example(%{section: "card-sizes"} = assigns) do
-    assigns = assign(assigns, :sizes, @sizes)
-
-    ~H"""
-    <div class="flex flex-wrap items-start gap-3">
-      <.card
-        :for={size <- @sizes}
-        id={"daisyui-card-#{size}"}
-        class={"d-card-#{size} bg-base-100 w-52 shadow-sm"}
-      >
-        <:title>card-{size}</:title>
-        A card with the {size} padding scale.
-      </.card>
-    </div>
-    """
-  end
-
-  def example(%{section: "card-border"} = assigns) do
-    ~H"""
-    <.card id="daisyui-card-border" class="d-card-border bg-base-100 w-80">
-      <:title>Bordered</:title>
-      A card with a solid border instead of a shadow.
-    </.card>
-    """
-  end
-
-  def example(%{section: "card-dash"} = assigns) do
-    ~H"""
-    <.card id="daisyui-card-dash" class="d-card-dash bg-base-100 w-80">
-      <:title>Dashed</:title>
-      A card with a dashed border — reads as a placeholder or a drop target.
-    </.card>
-    """
-  end
-
-  def example(%{section: "card-badge"} = assigns) do
-    ~H"""
-    <.card id="daisyui-card-badge" class="bg-base-100 w-80 shadow-sm">
-      <:title>
-        Shoes!
-        <div class="d-badge d-badge-secondary">NEW</div>
-      </:title>
-      If a dog chews shoes whose shoes does he choose?
-      <:actions>
-        <div class="d-badge d-badge-outline">Fashion</div>
-        <div class="d-badge d-badge-outline">Products</div>
-      </:actions>
-    </.card>
-    """
-  end
-
-  def example(%{section: "card-bottom-image"} = assigns) do
-    ~H"""
-    <.card id="daisyui-card-bottom" figure_position="end" class="bg-base-100 w-80 shadow-sm">
-      <:title>Shoes!</:title>
-      If a dog chews shoes whose shoes does he choose?
-      <:figure><.card_image /></:figure>
-    </.card>
-    """
-  end
-
-  def example(%{section: "card-centered"} = assigns) do
-    ~H"""
-    <.card id="daisyui-card-centered" class="bg-base-100 w-80 shadow-sm">
-      <:figure><.card_image class="rounded-xl" /></:figure>
-      <div class="flex flex-col items-center gap-2 pt-2 text-center">
-        <h3 class="d-card-title">Shoes!</h3>
-        <p>A card with centered content and a padded, rounded image.</p>
-        <button type="button" class="d-btn d-btn-primary">Buy now</button>
-      </div>
-    </.card>
-    """
-  end
-
-  def example(%{section: "card-image-overlay"} = assigns) do
-    ~H"""
-    <.card id="daisyui-card-overlay" class="d-image-full w-80 shadow-sm">
-      <:figure><.card_image /></:figure>
-      <:title>Shoes!</:title>
-      If a dog chews shoes whose shoes does he choose?
-      <:actions>
-        <div class="ml-auto">
-          <button type="button" class="d-btn d-btn-primary">Buy now</button>
-        </div>
-      </:actions>
-    </.card>
-    """
-  end
-
-  def example(%{section: "card-no-image"} = assigns) do
-    ~H"""
-    <.card id="daisyui-card-no-image" class="bg-base-100 w-80 shadow-sm">
-      <:title>Card title</:title>
-      A card with no image at all — just a padded box with a heading.
-      <:actions>
-        <div class="ml-auto">
-          <button type="button" class="d-btn d-btn-primary">Buy now</button>
-        </div>
-      </:actions>
-    </.card>
-    """
-  end
-
-  def example(%{section: "card-custom-color"} = assigns) do
-    ~H"""
-    <.card id="daisyui-card-custom" class="bg-primary text-primary-content w-80">
-      <:title>Card title</:title>
-      Theme colors on the root; everything inside inherits them.
-      <:actions>
-        <div class="ml-auto">
-          <button type="button" class="d-btn">Buy now</button>
-        </div>
-      </:actions>
-    </.card>
-    """
-  end
-
-  def example(%{section: "card-neutral"} = assigns) do
-    ~H"""
-    <.card id="daisyui-card-neutral" class="bg-neutral text-neutral-content w-80">
-      <div class="flex flex-col items-center gap-2 text-center">
-        <h3 class="d-card-title">Cookies!</h3>
-        <p>We are using cookies for no reason.</p>
-        <div class="flex gap-2">
-          <button type="button" class="d-btn d-btn-primary">Accept</button>
-          <button type="button" class="d-btn d-btn-ghost">Deny</button>
-        </div>
-      </div>
-    </.card>
-    """
-  end
-
-  def example(%{section: "card-actions-top"} = assigns) do
-    ~H"""
-    <.card id="daisyui-card-actions-top" class="bg-base-100 w-80 shadow-sm">
-      <:actions>
-        <div class="ml-auto flex gap-1">
-          <button type="button" class="d-btn d-btn-square d-btn-sm" aria-label="Archive">
-            <.field_icon path="M4 7h16v3H4zM6 10h12v10H6zM10 14h4" />
-          </button>
-          <button type="button" class="d-btn d-btn-square d-btn-sm" aria-label="Close">
-            <.field_icon path="M6 6l12 12M18 6L6 18" />
-          </button>
-        </div>
-      </:actions>
-      <:title>Card title</:title>
-      The actions row is rendered first in the body, so it sits above the heading.
-    </.card>
-    """
-  end
-
-  def example(%{section: "card-side"} = assigns) do
-    ~H"""
-    <.card id="daisyui-card-side" class="d-card-side bg-base-100 w-96 shadow-sm">
-      <:figure><.card_image class="w-32" /></:figure>
-      <:title>New movie is released!</:title>
-      Click the button to watch on Jetflix app.
-      <:actions>
-        <div class="ml-auto">
-          <button type="button" class="d-btn d-btn-primary">Watch</button>
-        </div>
-      </:actions>
-    </.card>
-    """
-  end
-
-  def example(%{section: "card-responsive"} = assigns) do
-    ~H"""
-    <.card id="daisyui-card-responsive" class="bg-base-100 w-96 shadow-sm sm:d-card-side">
-      <:figure><.card_image class="sm:w-32" /></:figure>
-      <:title>Responsive</:title>
-      Vertical below <code>sm</code>, horizontal from <code>sm</code>
-      up. Resize the window.
-    </.card>
-    """
-  end
-
-  def example(%{section: "card-selectable"} = assigns) do
-    ~H"""
-    <div class="flex flex-wrap gap-3">
-      <.card
-        :for={{plan, price, checked} <- [{"Starter", "$0", true}, {"Team", "$29", false}]}
-        id={"daisyui-card-select-#{String.downcase(plan)}"}
-        class="d-card-border bg-base-100 w-48 cursor-pointer"
-      >
-        <:title>{plan}</:title>
-        <label class="flex items-center gap-2">
-          <input type="radio" name="daisyui_card_plan" value={plan} checked={checked} class="d-radio" />
-          <span>{price} / month</span>
-        </label>
-      </.card>
-    </div>
-    """
-  end
-
-  def example(%{section: "card-link"} = assigns) do
-    ~H"""
-    <.card
-      id="daisyui-card-link"
-      navigate="/showcase/headless-daisyui/card"
-      class="d-card-border bg-base-100 w-80 transition hover:shadow-md"
-    >
-      <:title>The whole card is the link</:title>
-      The root renders as an anchor, so there is one focus stop and one click target — not a link
-      nested inside a clickable box.
-    </.card>
-    """
-  end
-
-  attr :paint, :string, default: "tailwind", values: ~w(tailwind css theme)
-  slot :inner_block, required: true
-
-  # A daisyUI fab is `position: fixed`; a contained one is `absolute`, so it needs a positioned
-  # ancestor — and nine fabs all pinned to the viewport corner would land on top of each other.
-  defp fab_frame(assigns) do
-    ~H"""
-    <.preview_frame paint={@paint} class="relative h-48 w-64 overflow-hidden">
-      {render_slot(@inner_block)}
-    </.preview_frame>
-    """
-  end
-
-  attr :id, :string, required: true
-  slot :inner_block, required: true
-
-  # Each controller repaints this box rather than the page: a gallery of ten theme controllers that
-  # all targeted `:root` would fight each other, and the last one clicked would win the whole page.
-  # `paint="theme"` is not a preference here, it is the demo: the box has to repaint when the
-  # controller changes the theme, and only daisyUI's own tokens follow `data-theme`. Painting it in
-  # fixed Tailwind colours would leave it stubbornly the same shade whichever theme was picked.
-  defp theme_preview(assigns) do
-    ~H"""
-    <.preview_frame id={@id} paint="theme" class="flex w-72 flex-col items-center gap-3 p-6">
-      {render_slot(@inner_block)}
-      <p class="text-xs opacity-60">This box follows the choice above.</p>
-    </.preview_frame>
-    """
-  end
-
-  # A fixed offset rather than a wall-clock date: the examples have to read the same every time the
-  # page is rendered, including in a test, and a hard-coded date would eventually go negative.
-  defp countdown_target(:launch) do
-    DateTime.utc_now() |> DateTime.add(2 * 86_400 + 5 * 3_600 + 42 * 60 + 17)
   end
 
   attr :height, :string, default: "h-40"
@@ -5409,6 +4132,65 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   defp frame_paint("css"), do: "border-[var(--c-base-300)] bg-[var(--c-base-100)]"
   defp frame_paint("theme"), do: "border-base-300 bg-base-100 text-base-content"
+
+  defp daisyui_autocomplete_movies do
+    [
+      %{title: "Sample Film One", year: 2021},
+      %{title: "Sample Film Two", year: 2019},
+      %{title: "Another Picture", year: 2023},
+      %{title: "A Short Story", year: 2018}
+    ]
+  end
+
+  defp daisyui_autocomplete_palette_commands do
+    [
+      %{label: "Toggle theme", name: "toggle-theme"},
+      %{label: "Format document", name: "format"},
+      %{label: "Go to line", name: "goto-line"},
+      %{label: "Find in files", name: "find"}
+    ]
+  end
+
+  defp daisyui_autocomplete_palette_suggestions do
+    [
+      %{label: "New file", name: "new-file"},
+      %{label: "New window", name: "new-window"},
+      %{label: "Open recent", name: "open-recent"}
+    ]
+  end
+
+  defp daisyui_autocomplete_tags do
+    [
+      %{value: "feature", group: "Type"},
+      %{value: "bug", group: "Type"},
+      %{value: "docs", group: "Area"},
+      %{value: "design", group: "Area"},
+      %{value: "urgent", group: "Priority"}
+    ]
+  end
+
+  defp daisyui_autocomplete_docs do
+    [
+      %{title: "Quick start", description: "Install and render your first component."},
+      %{title: "Styling", description: "Bring your own CSS or Tailwind utilities."},
+      %{title: "Accessibility", description: "Built-in ARIA roles and keyboard support."},
+      %{title: "Theming", description: "Tokens, dark mode, and variants."}
+    ]
+  end
+
+  defp daisyui_autocomplete_emojis do
+    [
+      %{emoji: "😀", name: "grinning", group: "Smileys"},
+      %{emoji: "🎉", name: "party", group: "Objects"},
+      %{emoji: "🚀", name: "rocket", group: "Travel"},
+      %{emoji: "❤️", name: "heart", group: "Symbols"},
+      %{emoji: "👍", name: "thumbs up", group: "People"}
+    ]
+  end
+
+  defp daisyui_autocomplete_limit_tags do
+    Enum.map(~w(react vue svelte angular solid qwik ember preact lit alpine), &%{value: &1})
+  end
 
   attr :path, :string, required: true
 
