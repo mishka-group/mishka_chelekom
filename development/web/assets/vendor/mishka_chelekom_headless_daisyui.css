@@ -3059,3 +3059,128 @@
   }
 }
 /* <<< pagination */
+
+/* >>> rating */
+@layer components {
+  [data-skin=daisyui] {
+    /* rating — daisyUI skin.
+     *
+     * daisyUI's `.rating` already anticipates non-input markup: its fill rule matches
+     * `[aria-checked="true"]` as well as `:checked`, so our `<button role="radio">` items work with it
+     * unchanged. What cannot be reused is `.rating *`, which would paint every descendant — including
+     * the hidden input that carries the value into a form — so the rules below target our item part
+     * instead of a universal selector.
+     *
+     * The fill is pure CSS: `:has(~ [aria-checked="true"])` lights every star before the chosen one,
+     * so nothing about the visual state depends on the hook having run.
+     */
+
+    .chelekom-rating {
+      @apply d-rating;
+    }
+
+    /* A rating with no mask is a row of grey rectangles, so the skin supplies the star — that is the
+     * point of a skin, and it is what lets the hero pass no classes at all. `mask-star` matches
+     * daisyUI's own first example; a caller-supplied `mask-star-2` or `mask-heart` still wins, because
+     * mask utilities land in Tailwind's utilities layer and that outranks this one. */
+    .chelekom-rating__item {
+      @apply d-mask d-mask-star;
+
+      border-radius: 0;
+      background-color: var(--color-base-content);
+      opacity: 20%;
+      width: calc(var(--d-size) * 1);
+      height: calc(var(--d-size));
+      cursor: pointer;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .chelekom-rating__item {
+        animation: rating 0.25s ease-out;
+      }
+    }
+
+    .chelekom-rating__item[aria-checked="true"],
+    .chelekom-rating__item:has(~ .chelekom-rating__item[aria-checked="true"]) {
+      opacity: 100%;
+    }
+
+    .chelekom-rating__item:focus-visible {
+      scale: 1.1;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .chelekom-rating__item:focus-visible {
+        transition: scale 0.2s ease-out;
+      }
+    }
+
+    .chelekom-rating__item:active:focus {
+      animation: none;
+      scale: 1.1;
+    }
+
+    .chelekom-rating__item:disabled {
+      cursor: not-allowed;
+    }
+
+    /* A readonly rating is still readable and focusable — only the pointer says it will not change. */
+    .chelekom-rating[aria-readonly="true"] .chelekom-rating__item {
+      cursor: default;
+    }
+
+    /* The clear control is daisyUI's `rating-hidden`: present, focusable, and invisible. */
+    .chelekom-rating__item[data-clear] {
+      width: calc(0.25rem * 2);
+      background-color: transparent;
+    }
+
+    /* Half precision: two half-width controls per star, each masking its own side of the shape. */
+    .chelekom-rating[data-precision="0.5"] .chelekom-rating__item:not([data-clear]) {
+      width: calc(var(--d-size) * 0.5);
+    }
+
+    /* Written out rather than `@apply mask-half-1`: `@apply` keeps daisyUI's own `@layer` wrapper, and
+     * `mask-half-*` sits in a shallower sublayer than `mask`, so the applied position would lose to the
+     * `center` that `mask` sets on the same element. These declarations are unlayered, so they win. */
+    .chelekom-rating__item[data-half="first"] {
+      mask-size: 200%;
+      mask-position: left;
+    }
+
+    .chelekom-rating__item[data-half="second"] {
+      mask-size: 200%;
+      mask-position: right;
+    }
+
+    [dir="rtl"] .chelekom-rating__item[data-half="first"] {
+      mask-position: right;
+    }
+
+    [dir="rtl"] .chelekom-rating__item[data-half="second"] {
+      mask-position: left;
+    }
+
+    /* daisyUI's size modifiers set `--size` on the root, which our items already read. */
+    .chelekom-rating.d-rating-xs {
+      --d-size: calc(var(--size-selector, 0.25rem) * 4);
+    }
+
+    .chelekom-rating.d-rating-sm {
+      --d-size: calc(var(--size-selector, 0.25rem) * 5);
+    }
+
+    .chelekom-rating.d-rating-md {
+      --d-size: calc(var(--size-selector, 0.25rem) * 6);
+    }
+
+    .chelekom-rating.d-rating-lg {
+      --d-size: calc(var(--size-selector, 0.25rem) * 7);
+    }
+
+    .chelekom-rating.d-rating-xl {
+      --d-size: calc(var(--size-selector, 0.25rem) * 8);
+    }
+  }
+}
+/* <<< rating */

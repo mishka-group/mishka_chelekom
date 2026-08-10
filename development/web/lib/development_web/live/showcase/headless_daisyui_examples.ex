@@ -56,6 +56,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.Stepper
   import DevelopmentWeb.Components.Headless.Dock
   import DevelopmentWeb.Components.Headless.Pagination
+  import DevelopmentWeb.Components.Headless.Rating
 
   @faq [
     {"What is a skin?",
@@ -410,6 +411,23 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
        "Not on daisyUI's page either. `max_items` keeps the ends and stands one ellipsis in for the middle — arithmetic on the server, so it works before the socket connects."},
       {"breadcrumb-expandable", "Expandable",
        "The same collapse with `on_expand`, which makes the ellipsis a real button that pushes to the server."}
+    ],
+    "rating" => [
+      {"rating-hero", "Rating",
+       "daisyUI's `rating`. No classes in the markup — the skin supplies the star shape, and it is a radio group underneath, so arrow keys move and select and the whole control is one tab stop."},
+      {"rating-readonly", "Read-only",
+       "`readonly` shows a rating without letting it change — and unlike `disabled`, focus still moves through it, so a screen reader can read it out."},
+      {"rating-star2", "mask-star-2 with warning color", "daisyUI's second star shape."},
+      {"rating-heart", "mask-heart with multiple colors",
+       "daisyUI's per-item colours — the classes go on the items, so each one can differ."},
+      {"rating-green", "mask-star-2 with a fixed color", "A colour outside the theme palette."},
+      {"rating-sizes", "Sizes", "`rating-xs` through `rating-xl`."},
+      {"rating-hidden", "With a clear option",
+       "daisyUI's `rating-hidden`. `clearable` adds a zero-width control before the first star, which is the only way back to no rating once one has been given."},
+      {"rating-half", "Half stars",
+       "`precision={0.5}` renders two half-width controls per star, so a half is picked rather than approximated — `data-value` carries the float, so the server never reconstructs it from an index."},
+      {"rating-form", "In a Phoenix form",
+       "The hidden input carries the value and fires `input`, so a wrapping `<.form phx-change>` sees every change — including the halves."}
     ],
     "pagination" => [
       {"pagination-hero", "With an active page",
@@ -2999,6 +3017,103 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     """
   end
 
+  # ── rating ────────────────────────────────────────────────────────────────
+  def example(%{section: "rating-hero"} = assigns) do
+    ~H"""
+    <.rating id="daisyui-rating-hero" value={3} />
+    """
+  end
+
+  def example(%{section: "rating-readonly"} = assigns) do
+    ~H"""
+    <.rating
+      id="daisyui-rating-readonly"
+      value={4}
+      readonly
+      label="Average rating"
+      item_class="bg-orange-400"
+    />
+    """
+  end
+
+  def example(%{section: "rating-star2"} = assigns) do
+    ~H"""
+    <.rating id="daisyui-rating-star2" value={2} item_class="d-mask-star-2 bg-warning" />
+    """
+  end
+
+  def example(%{section: "rating-heart"} = assigns) do
+    ~H"""
+    <.rating id="daisyui-rating-heart" value={3} item_class="d-mask-heart bg-red-400" />
+    """
+  end
+
+  def example(%{section: "rating-green"} = assigns) do
+    ~H"""
+    <.rating id="daisyui-rating-green" value={4} item_class="d-mask-star-2 bg-green-500" />
+    """
+  end
+
+  def example(%{section: "rating-sizes"} = assigns) do
+    assigns = assign(assigns, :sizes, @sizes)
+
+    ~H"""
+    <div class="flex flex-col items-center gap-2">
+      <.rating
+        :for={size <- @sizes}
+        id={"daisyui-rating-#{size}"}
+        value={3}
+        class={"d-rating-#{size}"}
+        item_class="d-mask-star-2 bg-orange-400"
+      />
+    </div>
+    """
+  end
+
+  def example(%{section: "rating-hidden"} = assigns) do
+    ~H"""
+    <.rating
+      id="daisyui-rating-hidden"
+      value={2}
+      clearable
+      item_class="d-mask-star-2 bg-green-500"
+    />
+    """
+  end
+
+  def example(%{section: "rating-half"} = assigns) do
+    ~H"""
+    <.rating
+      id="daisyui-rating-half"
+      value={2.5}
+      precision={0.5}
+      clearable
+      item_class="d-mask-star-2 bg-green-500"
+    />
+    """
+  end
+
+  def example(%{section: "rating-form"} = assigns) do
+    ~H"""
+    <form
+      id="daisyui-rating-form-el"
+      phx-change="daisyui_rating_change"
+      phx-submit="daisyui_rating_submit"
+      class="flex flex-col items-center gap-3"
+    >
+      <.rating
+        id="daisyui-rating-form"
+        name="score"
+        value={3.5}
+        precision={0.5}
+        label="Your score"
+        item_class="bg-orange-400"
+      />
+      <button type="submit" class="d-btn d-btn-primary d-btn-sm">Save</button>
+    </form>
+    """
+  end
+
   # ── pagination ────────────────────────────────────────────────────────────
   def example(%{section: "pagination-hero"} = assigns) do
     ~H"""
@@ -3063,7 +3178,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "pagination-radio"} = assigns) do
     ~H"""
-    <form phx-change="daisyui_pagination_change">
+    <form id="daisyui-pagination-radio-form" phx-change="daisyui_pagination_change">
       <.pagination
         id="daisyui-pagination-radio"
         total={4}

@@ -83,10 +83,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessGalleryLive do
     {:noreply, assign(socket, submitted: "page #{page}")}
   end
 
+  def handle_event("daisyui_rating_change", %{"score" => score}, socket) do
+    {:noreply, assign(socket, submitted: "score #{score}")}
+  end
+
   # The form examples exist to prove the params actually arrive under the names the components
   # derived — so echo the shape rather than a fixed "saved" string.
   def handle_event(event, params, socket)
-      when event in ~w(daisyui_text_input_submit daisyui_textarea_submit
+      when event in ~w(daisyui_text_input_submit daisyui_textarea_submit daisyui_rating_submit
                        daisyui_file_input_submit) do
     {:noreply, assign(socket, submitted: inspect(Map.drop(params, ["_target", "_csrf_token"])))}
   end

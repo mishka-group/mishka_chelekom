@@ -63,6 +63,8 @@
 @source inline("d-breadcrumbs");
 @source inline("d-steps");
 @source inline("d-dock d-dock-{xs,sm,md,lg,xl}");
+@source inline("d-rating d-rating-{xs,sm,md,lg,xl}");
+@source inline("d-mask-{star,star-2,heart,half-1,half-2} bg-{orange,red,green}-{400,500}");
 @source inline("d-step-{neutral,primary,secondary,accent,info,success,warning,error}");
 
 /* A Tailwind plugin that makes "hero-#{ICON}" classes available.
