@@ -59,6 +59,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.Rating
   import DevelopmentWeb.Components.Headless.Countdown
   import DevelopmentWeb.Components.Headless.ThemeController
+  import DevelopmentWeb.Components.Headless.Fab
 
   @faq [
     {"What is a skin?",
@@ -413,6 +414,24 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
        "Not on daisyUI's page either. `max_items` keeps the ends and stands one ellipsis in for the middle — arithmetic on the server, so it works before the socket connects."},
       {"breadcrumb-expandable", "Expandable",
        "The same collapse with `on_expand`, which makes the ellipsis a real button that pushes to the server."}
+    ],
+    "fab" => [
+      {"fab-hero", "FAB and speed dial",
+       "daisyUI opens its dial with `:focus-within` on a `div[role=button]`. This is a real button on the shared Popup engine, so it has `aria-expanded`, closes on Escape and on an outside click, and can be activated with Space."},
+      {"fab-icons", "With SVG icons", "Icons rather than letters in each action."},
+      {"fab-labels", "With labels",
+       "`show_label` puts the name beside the glyph; the action is announced either way."},
+      {"fab-rectangle", "Rectangular buttons",
+       "An action with a visible label stops being a circle — the skin does that from `:has()`, not from a modifier the caller adds."},
+      {"fab-close", "With a close button",
+       "`:close_icon` swaps the trigger's glyph while the dial is open."},
+      {"fab-main-action", "With a main action",
+       "daisyUI's `fab-main-action`: while the dial is open the button underneath is free to mean something else."},
+      {"fab-single", "A single FAB",
+       "No actions at all — and then no popup is rendered either, rather than an empty menu."},
+      {"fab-flower", "Flower", "daisyUI's quarter-circle arrangement, from `data-direction`."},
+      {"fab-directions", "Other directions",
+       "Not on daisyUI's page. The dial can fan down, left or right as well as up."}
     ],
     "theme_controller" => [
       {"theme-controller-hero", "Theme controller",
@@ -3053,6 +3072,128 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     """
   end
 
+  # ── fab ───────────────────────────────────────────────────────────────────
+  def example(%{section: "fab-hero"} = assigns) do
+    ~H"""
+    <.fab_frame>
+      <.fab id="daisyui-fab-hero" label="Actions" contained>
+        <:icon>+</:icon>
+        <:action label="Share">A</:action>
+        <:action label="Copy">B</:action>
+        <:action label="Edit">C</:action>
+      </.fab>
+    </.fab_frame>
+    """
+  end
+
+  def example(%{section: "fab-icons"} = assigns) do
+    ~H"""
+    <.fab_frame>
+      <.fab id="daisyui-fab-icons" label="Actions" contained>
+        <:icon><.dock_icon path="M12 5v14M5 12h14" /></:icon>
+        <:action label="Share"><.dock_icon path="M4 12v8h16v-8M12 3v13M8 7l4-4 4 4" /></:action>
+        <:action label="Copy"><.dock_icon path="M9 9h10v10H9zM5 15V5h10" /></:action>
+        <:action label="Edit"><.dock_icon path="M4 20h4L20 8l-4-4L4 16z" /></:action>
+      </.fab>
+    </.fab_frame>
+    """
+  end
+
+  def example(%{section: "fab-labels"} = assigns) do
+    ~H"""
+    <.fab_frame>
+      <.fab id="daisyui-fab-labels" label="Actions" contained>
+        <:icon><.dock_icon path="M12 5v14M5 12h14" /></:icon>
+        <:action label="Share" show_label>
+          <.dock_icon path="M4 12v8h16v-8M12 3v13M8 7l4-4 4 4" />
+        </:action>
+        <:action label="Copy" show_label><.dock_icon path="M9 9h10v10H9zM5 15V5h10" /></:action>
+      </.fab>
+    </.fab_frame>
+    """
+  end
+
+  def example(%{section: "fab-rectangle"} = assigns) do
+    ~H"""
+    <.fab_frame>
+      <.fab id="daisyui-fab-rectangle" label="Actions" contained>
+        <:icon>+</:icon>
+        <:action label="Add a page" show_label>+</:action>
+        <:action label="Add a folder" show_label>▸</:action>
+      </.fab>
+    </.fab_frame>
+    """
+  end
+
+  def example(%{section: "fab-close"} = assigns) do
+    ~H"""
+    <.fab_frame>
+      <.fab id="daisyui-fab-close" label="Actions" contained>
+        <:icon><.dock_icon path="M12 5v14M5 12h14" /></:icon>
+        <:close_icon><.dock_icon path="M6 6l12 12M18 6L6 18" /></:close_icon>
+        <:action label="Share" show_label>A</:action>
+        <:action label="Copy" show_label>B</:action>
+      </.fab>
+    </.fab_frame>
+    """
+  end
+
+  def example(%{section: "fab-main-action"} = assigns) do
+    ~H"""
+    <.fab_frame>
+      <.fab id="daisyui-fab-main" label="Actions" contained>
+        <:icon><.dock_icon path="M12 5v14M5 12h14" /></:icon>
+        <:action label="Share" show_label>A</:action>
+        <:action label="Copy" show_label>B</:action>
+        <:main_action label="Compose"><.dock_icon path="M4 20h4L20 8l-4-4L4 16z" /></:main_action>
+      </.fab>
+    </.fab_frame>
+    """
+  end
+
+  def example(%{section: "fab-single"} = assigns) do
+    ~H"""
+    <.fab_frame>
+      <.fab id="daisyui-fab-single" label="Compose" contained>
+        <:icon><.dock_icon path="M4 20h4L20 8l-4-4L4 16z" /></:icon>
+      </.fab>
+    </.fab_frame>
+    """
+  end
+
+  def example(%{section: "fab-flower"} = assigns) do
+    ~H"""
+    <.fab_frame>
+      <.fab id="daisyui-fab-flower" label="Actions" contained direction="flower">
+        <:icon><.dock_icon path="M12 5v14M5 12h14" /></:icon>
+        <:action label="Share">A</:action>
+        <:action label="Copy">B</:action>
+        <:action label="Edit">C</:action>
+      </.fab>
+    </.fab_frame>
+    """
+  end
+
+  def example(%{section: "fab-directions"} = assigns) do
+    ~H"""
+    <div class="flex flex-wrap gap-4">
+      <.fab_frame :for={{dir, place} <- [{"down", "top-start"}, {"right", "bottom-start"}]}>
+        <.fab
+          id={"daisyui-fab-#{dir}"}
+          label={"Actions #{dir}"}
+          contained
+          direction={dir}
+          placement={place}
+        >
+          <:icon>+</:icon>
+          <:action label="Share">A</:action>
+          <:action label="Copy">B</:action>
+        </.fab>
+      </.fab_frame>
+    </div>
+    """
+  end
+
   # ── theme_controller ──────────────────────────────────────────────────────
   def example(%{section: "theme-controller-hero"} = assigns) do
     ~H"""
@@ -4530,6 +4671,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       The root renders as an anchor, so there is one focus stop and one click target — not a link
       nested inside a clickable box.
     </.card>
+    """
+  end
+
+  slot :inner_block, required: true
+
+  # A daisyUI fab is `position: fixed`; a contained one is `absolute`, so it needs a positioned
+  # ancestor — and nine fabs all pinned to the viewport corner would land on top of each other.
+  defp fab_frame(assigns) do
+    ~H"""
+    <div class="relative h-48 w-64 overflow-hidden rounded-xl border border-[var(--c-base-300)] bg-[var(--c-base-100)]">
+      {render_slot(@inner_block)}
+    </div>
     """
   end
 
