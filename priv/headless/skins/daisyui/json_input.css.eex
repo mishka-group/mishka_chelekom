@@ -1,0 +1,12 @@
+/* json_input — daisyUI skin.
+ *
+ * daisyUI's `textarea` with a monospace face and tabular figures: a JSON document read in a
+ * proportional font is much harder to scan for a misplaced brace.
+ */
+
+.chelekom-json-input {
+  @apply <%= @d %>textarea;
+
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-variant-numeric: tabular-nums;
+}

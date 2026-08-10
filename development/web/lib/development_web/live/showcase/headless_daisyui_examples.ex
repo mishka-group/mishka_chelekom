@@ -59,6 +59,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.ContextMenu
   import DevelopmentWeb.Components.Headless.FloatingIndicator
   import DevelopmentWeb.Components.Headless.FloatingWindow
+  import DevelopmentWeb.Components.Headless.JsonInput
   import DevelopmentWeb.Components.Headless.MaskInput
   import DevelopmentWeb.Components.Headless.Menubar
   import DevelopmentWeb.Components.Headless.Meter
@@ -646,6 +647,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ],
     "floating_window" => [
       {"floating_window-hero", "Hero",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+    ],
+    "json_input" => [
+      {"json_input-hero", "Hero",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "mask_input" => [
@@ -4974,6 +4979,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         Grab the title bar to move this panel within the box.
       </.floating_window>
     </div>
+    """
+  end
+
+  # ── json_input ──────────────────────────────────────────────────────────
+  def example(%{section: "json_input-hero"} = assigns) do
+    ~H"""
+    <.json_input
+      id="daisyui-json-input"
+      value={~s({\n  "name": "Mantine",\n  "ok": true\n})}
+      rows={4}
+    />
     """
   end
 
