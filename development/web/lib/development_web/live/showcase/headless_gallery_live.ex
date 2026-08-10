@@ -119,6 +119,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessGalleryLive do
     {:noreply, assign(socket, submitted: "month #{month}")}
   end
 
+  def handle_event("baseui_table_sort", %{"key" => key, "dir" => dir}, socket) do
+    {:noreply, assign(socket, submitted: "sort #{key} #{dir}")}
+  end
+
   # The form examples exist to prove the params actually arrive under the names the components
   # derived — so echo the shape rather than a fixed "saved" string.
   def handle_event(event, params, socket)
