@@ -56,6 +56,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.Autocomplete
   import DevelopmentWeb.Components.Headless.CheckboxGroup
   import DevelopmentWeb.Components.Headless.ColorInput
+  import DevelopmentWeb.Components.Headless.ColorPicker
   import DevelopmentWeb.Components.Headless.Combobox
   import DevelopmentWeb.Components.Headless.ContextMenu
   import DevelopmentWeb.Components.Headless.FloatingIndicator
@@ -622,6 +623,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ],
     "color_input" => [
       {"color_input-hero", "Hero",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+    ],
+    "color_picker" => [
+      {"color_picker-hero", "Hero",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "combobox" => [
@@ -4470,6 +4475,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       id="daisyui-color-input"
       value="#0ea5e9"
       label="Color"
+    />
+    """
+  end
+
+  # ── color_picker ────────────────────────────────────────────────────────
+  def example(%{section: "color_picker-hero"} = assigns) do
+    ~H"""
+    <.color_picker
+      id="daisyui-color-picker"
+      value="#e8590c"
     />
     """
   end

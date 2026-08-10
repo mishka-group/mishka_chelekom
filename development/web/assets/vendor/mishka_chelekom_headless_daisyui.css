@@ -4087,6 +4087,68 @@
 }
 /* <<< spoiler */
 
+/* >>> color_picker */
+@layer components {
+  [data-skin=daisyui] {
+    /* color_picker — daisyUI skin.
+     *
+     * daisyUI has no colour picker. Everything here is drawn from tokens except the two gradients in
+     * the saturation/brightness area, which cannot be themed — they are the colour space itself.
+     */
+
+    .chelekom-color-picker {
+      display: flex;
+      flex-direction: column;
+      gap: calc(0.25rem * 3);
+      width: 15rem;
+      border-radius: var(--radius-box);
+      background-color: var(--color-base-100);
+      color: var(--color-base-content);
+    }
+
+    .chelekom-color-picker__area {
+      position: relative;
+      height: 9rem;
+      border-radius: var(--radius-field);
+      /* Saturation across, brightness down, over the chosen hue — the two gradients *are* the picker. */
+      background-image:
+        linear-gradient(to top, #000, #0000),
+        linear-gradient(to right, #fff, #0000);
+      background-color: var(--chelekom-picker-hue, #f00);
+      cursor: crosshair;
+    }
+
+    .chelekom-color-picker__thumb {
+      position: absolute;
+      width: calc(0.25rem * 3.5);
+      height: calc(0.25rem * 3.5);
+      translate: -50% -50%;
+      border-radius: calc(infinity * 1px);
+      border: 2px solid #fff;
+      box-shadow: 0 0 0 1px oklch(0% 0 0 / 0.35);
+    }
+
+    .chelekom-color-picker__controls {
+      display: flex;
+      align-items: center;
+      gap: calc(0.25rem * 2);
+    }
+
+    .chelekom-color-picker__preview {
+      width: calc(0.25rem * 8);
+      height: calc(0.25rem * 8);
+      flex-shrink: 0;
+      border-radius: var(--radius-field);
+      box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-base-content) 20%, transparent);
+    }
+
+    .chelekom-color-picker__hue {
+      flex: 1;
+    }
+  }
+}
+/* <<< color_picker */
+
 /* >>> combobox */
 @layer components {
   [data-skin=daisyui] {
