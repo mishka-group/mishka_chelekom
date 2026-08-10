@@ -55,6 +55,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.AlertDialog
   import DevelopmentWeb.Components.Headless.Autocomplete
   import DevelopmentWeb.Components.Headless.CheckboxGroup
+  import DevelopmentWeb.Components.Headless.ColorInput
   import DevelopmentWeb.Components.Headless.Combobox
   import DevelopmentWeb.Components.Headless.ContextMenu
   import DevelopmentWeb.Components.Headless.FloatingIndicator
@@ -617,6 +618,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ],
     "checkbox_group" => [
       {"checkbox_group-hero", "Hero",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+    ],
+    "color_input" => [
+      {"color_input-hero", "Hero",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "combobox" => [
@@ -4455,6 +4460,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         Granny Smith
       </:item>
     </.checkbox_group>
+    """
+  end
+
+  # ── color_input ─────────────────────────────────────────────────────────
+  def example(%{section: "color_input-hero"} = assigns) do
+    ~H"""
+    <.color_input
+      id="daisyui-color-input"
+      value="#0ea5e9"
+      label="Color"
+    />
     """
   end
 
