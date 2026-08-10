@@ -56,6 +56,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.Menubar
   import DevelopmentWeb.Components.Headless.NavigationMenu
   import DevelopmentWeb.Components.Headless.Popover
+  import DevelopmentWeb.Components.Headless.PreviewCard
   import DevelopmentWeb.Components.Headless.Toolbar
   import DevelopmentWeb.Components.Headless.Select
   import DevelopmentWeb.Components.Headless.Switch
@@ -602,6 +603,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"popover-detached-triggers-simple", "Detached Triggers Simple",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
       {"popover-open-on-hover", "Open On Hover",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+    ],
+    "preview_card" => [
+      {"preview_card-hero", "Hero",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+      {"preview_card-detached-triggers-controlled", "Detached Triggers Controlled",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+      {"preview_card-detached-triggers-full", "Detached Triggers Full",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+      {"preview_card-detached-triggers-simple", "Detached Triggers Simple",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "toolbar" => [
@@ -4662,6 +4673,213 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <:title>Notifications</:title>
       <:description>You are all caught up. Good job!</:description>
     </.popover>
+    """
+  end
+
+  # ── preview_card ────────────────────────────────────────────────────────
+  def example(%{section: "preview_card-hero"} = assigns) do
+    ~H"""
+    <p>
+      The principles of good
+      <.preview_card
+        id="daisyui-preview_card-hero"
+        side_offset={8}
+      >
+        <:trigger>typography</:trigger>
+        <:arrow></:arrow>
+        <div>
+          <img
+            width="224"
+            height="150"
+            src="https://images.unsplash.com/photo-1619615391095-dfa29e1672ef?q=80&w=448&h=300"
+            alt="Station Hofplein signage in Rotterdam, Netherlands"
+          />
+          <p>
+            <strong>Typography</strong> is the art and science of arranging type to make written
+            language clear, visually appealing, and effective in communication.
+          </p>
+        </div>
+      </.preview_card>
+      remain in the digital age.
+    </p>
+    """
+  end
+
+  def example(%{section: "preview_card-detached-triggers-controlled"} = assigns) do
+    ~H"""
+    <div>
+      <p>
+        Discover
+        <.preview_card
+          id="daisyui-preview_card-detached-triggers-controlled-typography"
+          side_offset={8}
+        >
+          <:trigger>typography</:trigger>
+          <:arrow></:arrow>
+          <div>
+            <img
+              width="224"
+              height="150"
+              src="https://images.unsplash.com/photo-1619615391095-dfa29e1672ef?q=80&w=448&h=300"
+              alt="Station Hofplein signage in Rotterdam, Netherlands"
+            />
+            <p>
+              <strong>Typography</strong> is the art and science of arranging type.
+            </p>
+          </div>
+        </.preview_card>
+        ,
+        <.preview_card
+          id="daisyui-preview_card-detached-triggers-controlled-design"
+          side_offset={8}
+        >
+          <:trigger>design</:trigger>
+          <:arrow></:arrow>
+          <div>
+            <img
+              width="241"
+              height="240"
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Braun_ABW30_%28schwarz%29.jpg/250px-Braun_ABW30_%28schwarz%29.jpg"
+              alt="Braun ABW30"
+            />
+            <p>
+              A <strong>design</strong> is the concept or proposal for an object, process, or system.
+            </p>
+          </div>
+        </.preview_card>
+        , or
+        <.preview_card
+          id="daisyui-preview_card-detached-triggers-controlled-art"
+          side_offset={8}
+        >
+          <:trigger>art</:trigger>
+          <:arrow></:arrow>
+          <div>
+            <img
+              width="206"
+              height="240"
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/MonaLisa_sfumato.jpeg/250px-MonaLisa_sfumato.jpeg"
+              alt="Mona Lisa"
+            />
+            <p>
+              <strong>Art</strong>
+              is a diverse range of cultural activity centered around works utilizing
+              creative or imaginative talents, which are expected to evoke a worthwhile experience,
+              generally through an expression of emotional power, conceptual ideas, technical proficiency,
+              or beauty.
+            </p>
+          </div>
+        </.preview_card>
+        .
+      </p>
+      <button
+        type="button"
+        phx-click={
+          Phoenix.LiveView.JS.focus(
+            to: "#baseui-preview_card-detached-triggers-controlled-design [data-part=trigger]"
+          )
+        }
+      >
+        Open programmatically
+      </button>
+    </div>
+    """
+  end
+
+  def example(%{section: "preview_card-detached-triggers-full"} = assigns) do
+    ~H"""
+    <p>
+      Discover
+      <.preview_card
+        id="daisyui-preview_card-detached-triggers-full-typography"
+        side_offset={8}
+      >
+        <:trigger>typography</:trigger>
+        <:arrow></:arrow>
+        <div>
+          <img
+            width="224"
+            height="150"
+            src="https://images.unsplash.com/photo-1619615391095-dfa29e1672ef?q=80&w=448&h=300"
+            alt="Station Hofplein signage in Rotterdam, Netherlands"
+          />
+          <p>
+            <strong>Typography</strong> is the art and science of arranging type.
+          </p>
+        </div>
+      </.preview_card>
+      ,
+      <.preview_card
+        id="daisyui-preview_card-detached-triggers-full-design"
+        side_offset={8}
+      >
+        <:trigger>design</:trigger>
+        <:arrow></:arrow>
+        <div>
+          <img
+            width="250"
+            height="249"
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Braun_ABW30_%28schwarz%29.jpg/250px-Braun_ABW30_%28schwarz%29.jpg"
+            alt="Braun ABW30"
+          />
+          <p>
+            A <strong>design</strong> is the concept or proposal for an object, process, or system.
+          </p>
+        </div>
+      </.preview_card>
+      , or
+      <.preview_card
+        id="daisyui-preview_card-detached-triggers-full-art"
+        side_offset={8}
+      >
+        <:trigger>art</:trigger>
+        <:arrow></:arrow>
+        <div>
+          <img
+            width="250"
+            height="290"
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/MonaLisa_sfumato.jpeg/250px-MonaLisa_sfumato.jpeg"
+            alt="Mona Lisa"
+          />
+          <p>
+            <strong>Art</strong>
+            is a diverse range of cultural activity centered around works utilizing
+            creative or imaginative talents, which are expected to evoke a worthwhile experience,
+            generally through an expression of emotional power, conceptual ideas, technical proficiency,
+            or beauty.
+          </p>
+        </div>
+      </.preview_card>
+      .
+    </p>
+    """
+  end
+
+  def example(%{section: "preview_card-detached-triggers-simple"} = assigns) do
+    ~H"""
+    <p>
+      The principles of good
+      <.preview_card
+        id="daisyui-preview_card-detached-triggers-simple"
+        side_offset={8}
+      >
+        <:trigger>typography</:trigger>
+        <:arrow></:arrow>
+        <div>
+          <img
+            width="224"
+            height="150"
+            src="https://images.unsplash.com/photo-1619615391095-dfa29e1672ef?q=80&w=448&h=300"
+            alt="Station Hofplein signage in Rotterdam, Netherlands"
+          />
+          <p>
+            <strong>Typography</strong> is the art and science of arranging type to make
+            written language clear, visually appealing, and effective in communication.
+          </p>
+        </div>
+      </.preview_card>
+      remain in the digital age.
+    </p>
     """
   end
 

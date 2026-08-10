@@ -4343,6 +4343,46 @@
 }
 /* <<< popover */
 
+/* >>> preview_card */
+@layer components {
+  [data-skin=daisyui] {
+    /* preview_card — daisyUI skin.
+     *
+     * A hover card, so it takes daisyUI's `card` surface rather than a menu's: what appears is content,
+     * not a list of choices. It is deliberately non-modal and never steals focus, which is why nothing
+     * here dims the page behind it.
+     */
+
+    .chelekom-preview_card__popup {
+      @apply d-card;
+
+      position: absolute;
+      z-index: 50;
+      width: 20rem;
+      border-radius: var(--radius-box);
+      border: var(--border) solid color-mix(in oklab, var(--color-base-content) 10%, #0000);
+      background-color: var(--color-base-100);
+      color: var(--color-base-content);
+      padding: calc(0.25rem * 4);
+      box-shadow: 0 8px 24px oklch(0% 0 0 / 0.14);
+    }
+
+    .chelekom-preview_card__popup[data-closed] {
+      display: none;
+    }
+
+    .chelekom-preview_card__arrow {
+      position: absolute;
+      width: calc(0.25rem * 2);
+      height: calc(0.25rem * 2);
+      rotate: 45deg;
+      border: var(--border) solid color-mix(in oklab, var(--color-base-content) 10%, #0000);
+      background-color: var(--color-base-100);
+    }
+  }
+}
+/* <<< preview_card */
+
 /* >>> segmented_control */
 @layer components {
   [data-skin=daisyui] {
