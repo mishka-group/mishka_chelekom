@@ -1,0 +1,162 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Headless **button** — the action primitive (Mantine Button parity).
+
+  Renders a `<button>`, or a LiveView link when given `navigate`/`patch`/`href`, so a call to action
+  keeps the right element for what it does: a link navigates, a button acts. Anchor attributes
+  (`target`, `rel`, `download`, …) and `phx-*` bindings pass through either way.
+
+  `loading` marks the button busy: `aria-busy`, `data-loading`, interaction off, and the `loader`
+  part revealed while the `label` part stays in place so the button keeps its width. `disabled`
+  reflects to `data-disabled`; the link form has no native `disabled`, so it gets `aria-disabled`
+  and `data-disabled` instead.
+
+  Optional `:start_icon` / `:end_icon` slots sit either side of the label as their own parts, so a
+  skin can space them without the caller reaching into the markup.
+
+  Parts: `start-icon`, `loader`, `label`, `end-icon`. Ships **no** colors, sizing or spacing — style
+  via `chelekom-button*` and the `data-loading` / `data-disabled` hooks.
+
+  WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/button/
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/button
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, default: nil, doc: "Optional unique id"
+
+  attr :type, :string,
+    default: "button",
+    values: ~w(button submit reset),
+    doc: "Native button type (ignored by the link form)"
+
+  attr :disabled, :boolean, default: false, doc: "Disable the button (also sets data-disabled)"
+
+  attr :loading, :boolean,
+    default: false,
+    doc: "Mark the button busy: aria-busy, data-loading, non-interactive, loader shown"
+
+  attr :label, :string, default: nil, doc: "Label text (or use the default slot)"
+  attr :navigate, :string, doc: "Navigates to another LiveView"
+  attr :patch, :string, doc: "Patches the current LiveView"
+  attr :href, :string, default: nil, doc: "Link target — renders a link instead of a button"
+  attr :form, :string, default: nil, doc: "Id of the form this button submits"
+  attr :name, :string, default: nil, doc: "Name submitted with the form"
+  attr :value, :string, default: nil, doc: "Value submitted with the form"
+  attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :label_class, :any, default: nil, doc: ~s|Extra classes for `data-part="label"`|
+  attr :loader_class, :any, default: nil, doc: ~s|Extra classes for `data-part="loader"`|
+
+  attr :rest, :global,
+    include: ~w(download hreflang referrerpolicy rel replace target),
+    doc: "Any button/anchor/global attrs, e.g. phx-click"
+
+  slot :start_icon, doc: "Icon before the label"
+  slot :end_icon, doc: "Icon after the label"
+  slot :loader, doc: "Shown while loading — bring your own spinner"
+  slot :inner_block, doc: "Label content, used when the label attr is not set"
+
+  def <%= @component_prefix %>button(%{navigate: _navigate} = assigns) do
+    ~H"""
+    <.link
+      navigate={@navigate}
+      id={@id}
+      role="button"
+      aria-disabled={(@disabled || @loading) && "true"}
+      aria-busy={@loading && "true"}
+      data-disabled={@disabled}
+      data-loading={@loading}
+      class={["chelekom-button", @class]}
+      {@rest}
+    ><.<%= @component_prefix %>button_content {assigns} /></.link>
+    """
+  end
+
+  def <%= @component_prefix %>button(%{patch: _patch} = assigns) do
+    ~H"""
+    <.link
+      patch={@patch}
+      id={@id}
+      role="button"
+      aria-disabled={(@disabled || @loading) && "true"}
+      aria-busy={@loading && "true"}
+      data-disabled={@disabled}
+      data-loading={@loading}
+      class={["chelekom-button", @class]}
+      {@rest}
+    ><.<%= @component_prefix %>button_content {assigns} /></.link>
+    """
+  end
+
+  def <%= @component_prefix %>button(%{href: href} = assigns) when is_binary(href) do
+    ~H"""
+    <a
+      id={@id}
+      href={@href}
+      role="button"
+      aria-disabled={(@disabled || @loading) && "true"}
+      aria-busy={@loading && "true"}
+      data-disabled={@disabled}
+      data-loading={@loading}
+      class={["chelekom-button", @class]}
+      {@rest}
+    ><.<%= @component_prefix %>button_content {assigns} /></a>
+    """
+  end
+
+  def <%= @component_prefix %>button(assigns) do
+    ~H"""
+    <button
+      id={@id}
+      type={@type}
+      form={@form}
+      name={@name}
+      value={@value}
+      disabled={@disabled || @loading}
+      aria-busy={@loading && "true"}
+      data-disabled={@disabled}
+      data-loading={@loading}
+      class={["chelekom-button", @class]}
+      {@rest}
+    ><.<%= @component_prefix %>button_content {assigns} /></button>
+    """
+  end
+
+  @doc false
+  attr :label, :string, default: nil
+  attr :loading, :boolean, default: false
+  attr :label_class, :any, default: nil
+  attr :loader_class, :any, default: nil
+  attr :rest, :global
+  slot :start_icon
+  slot :end_icon
+  slot :loader
+  slot :inner_block
+
+  def <%= @component_prefix %>button_content(assigns) do
+    ~H"""
+    <span
+      :if={@start_icon != []}
+      data-part="start-icon"
+      aria-hidden="true"
+      class="chelekom-button__start-icon"
+    >{render_slot(@start_icon)}</span>
+    <span
+      :if={@loading && @loader != []}
+      data-part="loader"
+      aria-hidden="true"
+      class={["chelekom-button__loader", @loader_class]}
+    >{render_slot(@loader)}</span>
+    <span data-part="label" class={["chelekom-button__label", @label_class]}>{@label}{render_slot(
+      @inner_block
+    )}</span>
+    <span
+      :if={@end_icon != []}
+      data-part="end-icon"
+      aria-hidden="true"
+      class="chelekom-button__end-icon"
+    >{render_slot(@end_icon)}</span>
+    """
+  end
+end

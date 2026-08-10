@@ -26,6 +26,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.Fieldset
   import DevelopmentWeb.Components.Headless.Drawer
   import DevelopmentWeb.Components.Headless.Anchor
+  import DevelopmentWeb.Components.Headless.Button
   import DevelopmentWeb.Components.Headless.Toggle
   import DevelopmentWeb.Components.Headless.NavLink
   import DevelopmentWeb.Components.Headless.LoadingOverlay
@@ -313,6 +314,30 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
        "daisyUI's `loading-spinner` on a scrim over a region."},
       {"loading_overlay-content", "With custom content",
        "Your own loader instead of the spinner."}
+    ],
+    "button" => [
+      {"button-hero", "Button", "daisyUI's `btn`."},
+      {"button-sizes", "Sizes", "`btn-xs` through `btn-xl`."},
+      {"button-responsive", "Responsive", "One button that grows with the breakpoint."},
+      {"button-colors", "Colors", "All eight `btn-*` colors."},
+      {"button-soft", "Soft", "daisyUI's `btn-soft` across the colors."},
+      {"button-outline", "Outline", "daisyUI's `btn-outline` across the colors."},
+      {"button-dash", "Dash", "daisyUI's `btn-dash` across the colors."},
+      {"button-neutral-variants", "Neutral, outline and dash",
+       "The neutral button in both styles."},
+      {"button-active", "Active", "daisyUI's `btn-active`."},
+      {"button-ghost-link", "Ghost and link", "`btn-ghost` and `btn-link`."},
+      {"button-wide-block", "Wide and block", "`btn-wide` and `btn-block`."},
+      {"button-shapes", "Square and circle", "`btn-square` and `btn-circle`."},
+      {"button-icons", "With icons",
+       "Our `:start_icon` and `:end_icon` parts, so a skin can space them without markup surgery."},
+      {"button-disabled", "Disabled",
+       "The native disabled button, and the link form — which has no `disabled`, so it gets `aria-disabled`."},
+      {"button-loading", "Loading",
+       "Our `loading` attribute: `aria-busy`, interaction off, and the `:loader` slot revealed while the label holds its width."},
+      {"button-as-link", "As a link",
+       "`href` / `navigate` render an anchor with `role=\"button\"` — a link navigates, a button acts."},
+      {"button-submit", "In a form", "A submit button wired to a form."}
     ],
     "menu" => [
       {"menu-hero", "Dropdown menu",
@@ -1626,6 +1651,172 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         <span class="d-loading d-loading-dots d-loading-lg"></span>
       </.loading_overlay>
     </div>
+    """
+  end
+
+  # ── button ────────────────────────────────────────────────────────────────
+  def example(%{section: "button-hero"} = assigns) do
+    ~H"""
+    <.button>Button</.button>
+    """
+  end
+
+  def example(%{section: "button-sizes"} = assigns) do
+    assigns = assign(assigns, :sizes, @sizes)
+
+    ~H"""
+    <div class="flex flex-wrap items-center gap-2">
+      <.button :for={size <- @sizes} class={"d-btn-#{size}"}>btn-{size}</.button>
+    </div>
+    """
+  end
+
+  def example(%{section: "button-responsive"} = assigns) do
+    ~H"""
+    <.button class="d-btn-xs sm:d-btn-sm md:d-btn-md lg:d-btn-lg xl:d-btn-xl">Responsive</.button>
+    """
+  end
+
+  def example(%{section: "button-colors"} = assigns) do
+    assigns = assign(assigns, :colors, @colors)
+
+    ~H"""
+    <div class="flex flex-wrap gap-2">
+      <.button :for={color <- @colors} class={"d-btn-#{color}"}>{color}</.button>
+    </div>
+    """
+  end
+
+  def example(%{section: "button-soft"} = assigns) do
+    assigns = assign(assigns, :colors, @colors)
+
+    ~H"""
+    <div class="flex flex-wrap gap-2">
+      <.button :for={color <- @colors} class={"d-btn-soft d-btn-#{color}"}>{color}</.button>
+    </div>
+    """
+  end
+
+  def example(%{section: "button-outline"} = assigns) do
+    assigns = assign(assigns, :colors, @colors)
+
+    ~H"""
+    <div class="flex flex-wrap gap-2">
+      <.button :for={color <- @colors} class={"d-btn-outline d-btn-#{color}"}>{color}</.button>
+    </div>
+    """
+  end
+
+  def example(%{section: "button-dash"} = assigns) do
+    assigns = assign(assigns, :colors, @colors)
+
+    ~H"""
+    <div class="flex flex-wrap gap-2">
+      <.button :for={color <- @colors} class={"d-btn-dash d-btn-#{color}"}>{color}</.button>
+    </div>
+    """
+  end
+
+  def example(%{section: "button-neutral-variants"} = assigns) do
+    ~H"""
+    <div class="flex flex-wrap gap-2">
+      <.button class="d-btn-neutral d-btn-outline">outline</.button>
+      <.button class="d-btn-neutral d-btn-dash">dash</.button>
+    </div>
+    """
+  end
+
+  def example(%{section: "button-active"} = assigns) do
+    ~H"""
+    <div class="flex flex-wrap gap-2">
+      <.button class="d-btn-active">Active</.button>
+      <.button class="d-btn-primary d-btn-active">Primary</.button>
+      <.button class="d-btn-ghost d-btn-active">Ghost</.button>
+    </div>
+    """
+  end
+
+  def example(%{section: "button-ghost-link"} = assigns) do
+    ~H"""
+    <div class="flex flex-wrap gap-2">
+      <.button class="d-btn-ghost">Ghost</.button>
+      <.button class="d-btn-link">Link</.button>
+    </div>
+    """
+  end
+
+  def example(%{section: "button-wide-block"} = assigns) do
+    ~H"""
+    <div class="flex w-full max-w-sm flex-col items-center gap-2">
+      <.button class="d-btn-wide">Wide</.button>
+      <.button class="d-btn-block">Block</.button>
+    </div>
+    """
+  end
+
+  def example(%{section: "button-shapes"} = assigns) do
+    ~H"""
+    <div class="flex flex-wrap gap-2">
+      <.button class="d-btn-square" label="✕" />
+      <.button class="d-btn-circle" label="✕" />
+    </div>
+    """
+  end
+
+  def example(%{section: "button-icons"} = assigns) do
+    ~H"""
+    <div class="flex flex-wrap gap-2">
+      <.button class="d-btn-primary">
+        <:start_icon><.nav_icon path="M12 5v14M5 12h14" /></:start_icon>
+        New project
+      </.button>
+      <.button>
+        Continue
+        <:end_icon><.nav_icon path="M6 3l5 5-5 5" /></:end_icon>
+      </.button>
+    </div>
+    """
+  end
+
+  def example(%{section: "button-disabled"} = assigns) do
+    ~H"""
+    <div class="flex flex-wrap gap-2">
+      <.button disabled>Disabled button</.button>
+      <.button href="#" disabled>Disabled link</.button>
+    </div>
+    """
+  end
+
+  def example(%{section: "button-loading"} = assigns) do
+    ~H"""
+    <div class="flex flex-wrap gap-2">
+      <.button class="d-btn-primary" loading>
+        <:loader><span class="d-loading d-loading-spinner d-loading-xs"></span></:loader>
+        Saving
+      </.button>
+      <.button class="d-btn-square" loading label="">
+        <:loader><span class="d-loading d-loading-spinner"></span></:loader>
+      </.button>
+    </div>
+    """
+  end
+
+  def example(%{section: "button-as-link"} = assigns) do
+    ~H"""
+    <div class="flex flex-wrap gap-2">
+      <.button href="https://daisyui.com" class="d-btn-primary">Open daisyUI</.button>
+      <.button navigate="/showcase/headless-daisyui" class="d-btn-ghost">Back to the gallery</.button>
+    </div>
+    """
+  end
+
+  def example(%{section: "button-submit"} = assigns) do
+    ~H"""
+    <form phx-submit="daisyui_switch_submit" class="flex items-center gap-3">
+      <input type="hidden" name="saved" value="yes" />
+      <.button type="submit" class="d-btn-primary">Save</.button>
+      <.button type="reset" class="d-btn-ghost">Reset</.button>
+    </form>
     """
   end
 

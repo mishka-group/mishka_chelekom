@@ -256,7 +256,20 @@ defmodule DevelopmentWeb.Showcase.HeadlessGalleryLive do
       </div>
     </div>
 
-    <div :if={!HeadlessBaseUIExamples.has?(@component)} class="space-y-4">
+    <p
+      :if={!HeadlessBaseUIExamples.has?(@component) and !HeadlessPreview.source(@component)}
+      class="rounded-2xl border border-dashed border-[var(--c-base-300)] p-6 text-center text-sm text-[var(--c-base-content)]/50"
+    >
+      No Base UI examples for this component — Base UI has no equivalent primitive. See the <.link
+        navigate={component_path(:daisyui, @component)}
+        class="underline"
+      >daisyUI page</.link>.
+    </p>
+
+    <div
+      :if={!HeadlessBaseUIExamples.has?(@component) and !!HeadlessPreview.source(@component)}
+      class="space-y-4"
+    >
       <.example_card
         preview_id={"g-#{@component}"}
         code={HeadlessPreview.source(@component)}
