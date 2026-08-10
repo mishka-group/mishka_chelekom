@@ -5150,6 +5150,74 @@
 }
 /* <<< toolbar */
 
+/* >>> alpha_slider */
+@layer components {
+  [data-skin=daisyui] {
+    /* alpha_slider — daisyUI skin.
+     *
+     * The same control as the hue slider with one difference that matters: a checkerboard under the
+     * transparent-to-opaque gradient. Without it the transparent end is indistinguishable from the page
+     * behind it — which is precisely the value being chosen.
+     */
+    .chelekom-alpha-slider {
+      display: block;
+      width: 100%;
+    }
+
+    .chelekom-alpha-slider__control {
+      position: relative;
+      padding-block: calc(0.25rem * 2);
+    }
+
+    .chelekom-alpha-slider__track {
+      position: relative;
+      border-radius: calc(infinity * 1px);
+      box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-base-content) 18%, transparent);
+      height: calc(0.25rem * 3);
+      background-image:
+        linear-gradient(to right, #0000, var(--chelekom-alpha-color, #000)),
+        conic-gradient(#0000 0.25turn, #0003 0.25turn 0.5turn, #0000 0.5turn 0.75turn, #0003 0.75turn);
+      background-size:
+        100% 100%,
+        calc(0.25rem * 2) calc(0.25rem * 2);
+    }
+
+    .chelekom-alpha-slider__thumb {
+      position: absolute;
+      top: 50%;
+      width: calc(0.25rem * 4);
+      height: calc(0.25rem * 4);
+      translate: -50% -50%;
+      border-radius: calc(infinity * 1px);
+      background-color: var(--color-base-100);
+      box-shadow:
+        0 0 0 2px var(--color-base-content),
+        0 1px 3px oklch(0% 0 0 / 0.3);
+      cursor: grab;
+    }
+
+    .chelekom-alpha-slider__thumb:active {
+      cursor: grabbing;
+    }
+
+
+    .chelekom-alpha-slider__control:focus-within .chelekom-alpha-slider__thumb {
+      outline: 2px solid var(--color-base-content);
+      outline-offset: 2px;
+    }
+
+    /* The indicator is the filled part of the track; on these two the track *is* the gradient, so it
+     * only needs to not cover it. */
+    .chelekom-alpha-slider__indicator {
+      position: absolute;
+      inset-block: 0;
+      border-radius: inherit;
+      pointer-events: none;
+    }
+  }
+}
+/* <<< alpha_slider */
+
 /* >>> autocomplete */
 @layer components {
   [data-skin=daisyui] {

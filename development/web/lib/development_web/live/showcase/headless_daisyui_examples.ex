@@ -52,6 +52,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.Spoiler
   import DevelopmentWeb.Components.Headless.SegmentedControl
   import DevelopmentWeb.Components.Headless.ToggleGroup
+  import DevelopmentWeb.Components.Headless.AlphaSlider
   import DevelopmentWeb.Components.Headless.AlertDialog
   import DevelopmentWeb.Components.Headless.Autocomplete
   import DevelopmentWeb.Components.Headless.CheckboxGroup
@@ -724,6 +725,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ],
     "toolbar" => [
       {"toolbar-hero", "Hero",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+    ],
+    "alpha_slider" => [
+      {"alpha_slider-hero", "Hero",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "action_icon" => [
@@ -5897,6 +5902,19 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         Edited 51m ago
       </:item>
     </.toolbar>
+    """
+  end
+
+  # ── alpha_slider ────────────────────────────────────────────────────────
+  def example(%{section: "alpha_slider-hero"} = assigns) do
+    ~H"""
+    <div>
+      <.alpha_slider
+        id="daisyui-alpha-slider"
+        value={50}
+        color="#e8590c"
+      />
+    </div>
     """
   end
 
