@@ -64,6 +64,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.ColorSwatch
   import DevelopmentWeb.Components.Headless.Combobox
   import DevelopmentWeb.Components.Headless.ContextMenu
+  import DevelopmentWeb.Components.Headless.Editor
   import DevelopmentWeb.Components.Headless.EmptyState
   import DevelopmentWeb.Components.Headless.FloatingIndicator
   import DevelopmentWeb.Components.Headless.FloatingWindow
@@ -679,6 +680,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"context_menu-hero", "Hero",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
       {"context_menu-submenu", "Submenu",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+    ],
+    "editor" => [
+      {"editor-hero", "Hero",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "empty_state" => [
@@ -5186,6 +5191,24 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         Share
       </.context_menu_item>
     </.context_menu>
+    """
+  end
+
+  # ── editor ──────────────────────────────────────────────────────────────
+  def example(%{section: "editor-hero"} = assigns) do
+    ~H"""
+    <.editor
+      id="daisyui-editor-hero"
+      value="<p>A rich-text surface. Select a word and use the toolbar.</p>"
+    >
+      <:toolbar>
+        <button
+          :for={{command, label} <- [{"bold", "B"}, {"italic", "I"}, {"underline", "U"}]}
+          type="button"
+          data-editor-command={command}
+        >{label}</button>
+      </:toolbar>
+    </.editor>
     """
   end
 
