@@ -53,6 +53,7 @@ import Countdown from "./countdown.js";
 import ThemeController from "./theme_controller.js";
 import Indeterminate from "./indeterminate.js";
 import HeadlessCarousel from "./headless_carousel.js";
+import Calendar from "./calendar.js";
 const Components = {
   Tooltip,
   PreviewCard,
@@ -109,5 +110,6 @@ const Components = {
   ThemeController,
   Indeterminate,
   HeadlessCarousel,
+  Calendar,
 };
 export default Components;

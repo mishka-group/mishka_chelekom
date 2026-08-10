@@ -1,0 +1,308 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Headless **calendar** — a month grid, computed on the server.
+
+  daisyUI has no calendar: it styles three third-party ones (Cally, React Day Picker, Vanilla
+  Calendar Pro), all of which arrive with their own JavaScript and their own markup. This is the
+  Phoenix answer instead — the grid is `Date` arithmetic in Elixir, rendered as a real `<table>`,
+  and the only JavaScript is the part a server cannot do: moving focus with the arrow keys.
+
+  Being server-computed is not a detail. The month renders correctly before the socket connects,
+  survives a reconnect, and can be paged with plain `<button>`s that work without JavaScript at
+  all. Selection is the server's too, so `value` is always the truth.
+
+  Three modes. `single` picks a day, `multiple` picks several, `range` picks a start and an end and
+  marks everything between as `data-in-range` — the middle days are a state, not a class the caller
+  has to work out.
+
+  A day grid is genuinely two-dimensional, which is why it is a `<table>` with `role="grid"`:
+  arrows move by a day and by a week, Home/End go to the ends of the week, PageUp/PageDown change
+  the month. Only one day is ever in the tab order, so the calendar is one tab stop rather than
+  thirty-five.
+
+  Parts: `header`, `previous`, `next`, `heading`, `grid`, `weekday`, `week`, `day`.
+
+  Ships **no** colors, sizing or spacing — style via `chelekom-calendar*` and the
+  `data-selected` / `data-today` / `data-outside` hooks.
+
+  WAI-ARIA: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/calendar
+  """
+  use Phoenix.Component
+
+  alias Phoenix.LiveView.JS
+
+  @month_names ~w(January February March April May June July August September October November December)
+  @weekday_names ~w(Monday Tuesday Wednesday Thursday Friday Saturday Sunday)
+  @weekday_short ~w(Mo Tu We Th Fr Sa Su)
+
+  @doc type: :component
+  attr :id, :string, required: true, doc: "Unique id (carries the Calendar hook)"
+
+  attr :month, :any,
+    default: nil,
+    doc: "Any date in the month to show; defaults to today, or to the first selected day"
+
+  attr :value, :any,
+    default: nil,
+    doc: "A Date for `single`, a list for `multiple`, or a `{from, to}` tuple for `range`"
+
+  attr :mode, :string,
+    default: "single",
+    values: ~w(single multiple range),
+    doc: "How many days can be picked"
+
+  attr :min, :any, default: nil, doc: "Earliest selectable date"
+  attr :max, :any, default: nil, doc: "Latest selectable date"
+  attr :disabled_dates, :list, default: [], doc: "Individual dates that cannot be picked"
+
+  attr :first_day_of_week, :integer,
+    default: 1,
+    doc: "1 is Monday (ISO), 7 is Sunday — which column the week starts in"
+
+  attr :fixed_weeks, :boolean,
+    default: true,
+    doc: "Always render six rows, so the grid does not change height between months"
+
+  attr :show_outside_days, :boolean,
+    default: true,
+    doc: "Show the days either side of the month; they are marked `data-outside`"
+
+  attr :today, :any, default: nil, doc: "Override what counts as today (for tests and demos)"
+  attr :label, :string, default: "Calendar", doc: "Accessible name for the grid"
+  attr :month_names, :list, default: @month_names, doc: "Month names, January first"
+  attr :weekday_names, :list, default: @weekday_names, doc: "Weekday names, Monday first"
+
+  attr :weekday_abbreviations, :list,
+    default: @weekday_short,
+    doc: "Short weekday names, Monday first"
+
+  attr :previous_label, :string, default: "Previous month", doc: "Accessible name for previous"
+  attr :next_label, :string, default: "Next month", doc: "Accessible name for next"
+  attr :on_select, :string, default: nil, doc: "Event pushed as `%{date}` when a day is picked"
+
+  attr :on_month_change, :string,
+    default: nil,
+    doc: "Event pushed as `%{month}` (an ISO date in that month) when the month is paged"
+
+  attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :day_class, :any, default: nil, doc: ~s|Extra classes for every `data-part="day"`|
+  attr :rest, :global
+
+  def <%= @component_prefix %>calendar(assigns) do
+    today = assigns.today || Date.utc_today()
+    selection = selection(assigns.value, assigns.mode)
+    month = assigns.month |> visible_month(selection, today) |> Date.beginning_of_month()
+
+    assigns =
+      assigns
+      |> assign(:today, today)
+      |> assign(:selection, selection)
+      |> assign(:month, month)
+      |> assign(:weeks, weeks(month, assigns.first_day_of_week, assigns.fixed_weeks))
+      |> assign(:weekdays, rotate(assigns.weekday_abbreviations, assigns.first_day_of_week))
+      |> assign(:weekday_titles, rotate(assigns.weekday_names, assigns.first_day_of_week))
+      |> assign(:focus, focusable(assigns.value, month, today, selection))
+
+    ~H"""
+    <div
+      id={@id}
+      phx-hook="Calendar"
+      data-part="root"
+      data-month={Date.to_iso8601(@month)}
+      data-mode={@mode}
+      data-on-select={@on_select}
+      data-on-month-change={@on_month_change}
+      class={["chelekom-calendar", @class]}
+      {@rest}
+    >
+      <div data-part="header" class="chelekom-calendar__header">
+        <button
+          type="button"
+          data-part="previous"
+          aria-label={@previous_label}
+          disabled={!can_page?(:previous, @month, @min, @max)}
+          phx-click={@on_month_change && page(@on_month_change, @month, -1)}
+          class="chelekom-calendar__control"
+        >‹</button>
+
+        <div
+          id={"#{@id}-heading"}
+          data-part="heading"
+          aria-live="polite"
+          class="chelekom-calendar__heading"
+        >{heading(@month, @month_names)}</div>
+
+        <button
+          type="button"
+          data-part="next"
+          aria-label={@next_label}
+          disabled={!can_page?(:next, @month, @min, @max)}
+          phx-click={@on_month_change && page(@on_month_change, @month, 1)}
+          class="chelekom-calendar__control"
+        >›</button>
+      </div>
+
+      <table
+        role="grid"
+        data-part="grid"
+        aria-labelledby={"#{@id}-heading"}
+        aria-label={@label}
+        class="chelekom-calendar__grid"
+      >
+        <thead>
+          <tr>
+            <th
+              :for={{short, index} <- Enum.with_index(@weekdays)}
+              scope="col"
+              data-part="weekday"
+              abbr={Enum.at(@weekday_titles, index)}
+              class="chelekom-calendar__weekday"
+            >{short}</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr :for={week <- @weeks} data-part="week" class="chelekom-calendar__week">
+            <td :for={date <- week} data-part="cell" class="chelekom-calendar__cell">
+              <button
+                :if={@show_outside_days || Date.compare(Date.beginning_of_month(date), @month) == :eq}
+                type="button"
+                role="gridcell"
+                data-part="day"
+                data-date={Date.to_iso8601(date)}
+                data-today={Date.compare(date, @today) == :eq}
+                data-outside={Date.compare(Date.beginning_of_month(date), @month) != :eq}
+                data-selected={selected?(date, @selection)}
+                data-range-start={range_edge?(date, @selection, :start)}
+                data-range-end={range_edge?(date, @selection, :end)}
+                data-in-range={in_range?(date, @selection)}
+                aria-selected={to_string(selected?(date, @selection))}
+                aria-current={Date.compare(date, @today) == :eq && "date"}
+                aria-label={long_label(date, @month_names, @weekday_names)}
+                aria-disabled={unavailable?(date, @min, @max, @disabled_dates) && "true"}
+                tabindex={if Date.compare(date, @focus) == :eq, do: "0", else: "-1"}
+                phx-click={
+                  @on_select && !unavailable?(date, @min, @max, @disabled_dates) &&
+                    JS.push(@on_select, value: %{date: Date.to_iso8601(date)})
+                }
+                class={["chelekom-calendar__day", @day_class]}
+              >{date.day}</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    """
+  end
+
+  @doc """
+  The weeks of `month`, each a list of seven `Date`s, including the days either side that fill the
+  first and last rows.
+
+  Public because it is the whole component: anything else that has to lay out a month — a mini
+  calendar in a tooltip, an email — should not re-derive it.
+  """
+  @spec weeks(Date.t(), 1..7, boolean()) :: [[Date.t()]]
+  def weeks(month, first_day_of_week, fixed_weeks \\ true) do
+    first = Date.beginning_of_month(month)
+    # How far back the grid has to start so the 1st lands in its own column.
+    lead = Integer.mod(Date.day_of_week(first) - first_day_of_week, 7)
+    start = Date.add(first, -lead)
+
+    days = if fixed_weeks, do: 42, else: needed(first, lead)
+
+    start
+    |> Date.range(Date.add(start, days - 1))
+    |> Enum.chunk_every(7)
+  end
+
+  # Without fixed weeks a month spans whichever rows it actually needs — five most of the time,
+  # six when it starts late, four for a non-leap February that begins on the first column.
+  defp needed(first, lead) do
+    first |> Date.end_of_month() |> Map.fetch!(:day) |> Kernel.+(lead) |> ceil_weeks()
+  end
+
+  defp ceil_weeks(days), do: ceil(days / 7) * 7
+
+  # Weekday name lists are written Monday-first; the grid may not start there.
+  defp rotate(names, first_day_of_week) do
+    offset = Integer.mod(first_day_of_week - 1, 7)
+    Enum.drop(names, offset) ++ Enum.take(names, offset)
+  end
+
+  # Normalising up front means every predicate below deals with one shape instead of three.
+  defp selection(nil, _mode), do: []
+  defp selection(%Date{} = date, _mode), do: [date]
+  defp selection({nil, nil}, _mode), do: []
+  defp selection({from, nil}, "range"), do: [from]
+  defp selection({from, to}, "range"), do: [from, to]
+  defp selection(list, _mode) when is_list(list), do: Enum.filter(list, &match?(%Date{}, &1))
+  defp selection(_value, _mode), do: []
+
+  defp visible_month(nil, [first | _], _today), do: first
+  defp visible_month(nil, _selection, today), do: today
+  defp visible_month(month, _selection, _today), do: month
+
+  # One tab stop for the whole grid: the selected day if it is on screen, else today, else the 1st.
+  defp focusable(_value, month, today, selection) do
+    candidates = selection ++ [today]
+
+    Enum.find(candidates, Date.beginning_of_month(month), fn date ->
+      Date.compare(Date.beginning_of_month(date), month) == :eq
+    end)
+  end
+
+  defp selected?(date, selection), do: Enum.any?(selection, &(Date.compare(&1, date) == :eq))
+
+  defp range_edge?(date, [from, _to], :start), do: Date.compare(date, from) == :eq
+  defp range_edge?(date, [_from, to], :end), do: Date.compare(date, to) == :eq
+  defp range_edge?(_date, _selection, _edge), do: false
+
+  # The days between the ends of a range are a state the component derives, not a class the caller
+  # has to work out for every cell.
+  defp in_range?(date, [from, to]) do
+    Date.compare(date, from) == :gt and Date.compare(date, to) == :lt
+  end
+
+  defp in_range?(_date, _selection), do: false
+
+  defp unavailable?(date, min, max, disabled) do
+    (min && Date.compare(date, min) == :lt) ||
+      (max && Date.compare(date, max) == :gt) ||
+      Enum.any?(disabled, &(Date.compare(&1, date) == :eq))
+  end
+
+  # Paging past the range is pointless, so the control says so rather than moving to an empty month.
+  defp can_page?(:previous, month, min, _max) do
+    is_nil(min) or Date.compare(Date.add(Date.beginning_of_month(month), -1), min) != :lt
+  end
+
+  defp can_page?(:next, month, _min, max) do
+    is_nil(max) or Date.compare(Date.add(Date.end_of_month(month), 1), max) != :gt
+  end
+
+  defp page(event, month, offset) do
+    target =
+      month
+      |> Date.beginning_of_month()
+      |> Date.add(if offset < 0, do: -1, else: Date.days_in_month(month))
+      |> Date.beginning_of_month()
+
+    JS.push(event, value: %{month: Date.to_iso8601(target)})
+  end
+
+  defp heading(month, month_names) do
+    "#{Enum.at(month_names, month.month - 1)} #{month.year}"
+  end
+
+  # "Monday, 3 March 2025" rather than "3": a bare number tells a screen-reader user nothing about
+  # where in the grid they are.
+  defp long_label(date, month_names, weekday_names) do
+    # `weekday_names` is Monday-first and unrotated, which is what `Date.day_of_week/1` indexes.
+    weekday = Enum.at(weekday_names, Date.day_of_week(date) - 1)
+    month = Enum.at(month_names, date.month - 1)
+    "#{weekday}, #{date.day} #{month} #{date.year}"
+  end
+end

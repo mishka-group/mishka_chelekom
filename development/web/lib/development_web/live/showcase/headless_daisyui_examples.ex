@@ -62,6 +62,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.Fab
   import DevelopmentWeb.Components.Headless.Table
   import DevelopmentWeb.Components.Headless.Carousel
+  import DevelopmentWeb.Components.Headless.Calendar
 
   @faq [
     {"What is a skin?",
@@ -416,6 +417,24 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
        "Not on daisyUI's page either. `max_items` keeps the ends and stands one ellipsis in for the middle — arithmetic on the server, so it works before the socket connects."},
       {"breadcrumb-expandable", "Expandable",
        "The same collapse with `on_expand`, which makes the ellipsis a real button that pushes to the server."}
+    ],
+    "calendar" => [
+      {"calendar-hero", "Calendar",
+       "daisyUI ships no calendar — it styles Cally, React Day Picker and Vanilla Calendar Pro, each with its own JavaScript and markup. This is the Phoenix answer: the grid is `Date` arithmetic in Elixir, so the month is right before the socket connects."},
+      {"calendar-selected", "With a selected day",
+       "`value` is a `Date`; the selection lives on the server, so it is always the truth."},
+      {"calendar-range", "Range",
+       "`mode=\"range\"` with a `{from, to}` tuple — the days between are `data-in-range`, a state the component derives rather than a class the caller works out per cell."},
+      {"calendar-multiple", "Multiple days", "`mode=\"multiple\"` with a list."},
+      {"calendar-bounds", "With a minimum and a maximum",
+       "Out-of-range days are `aria-disabled`, and the paging control disables itself rather than moving to a month with nothing in it."},
+      {"calendar-disabled-dates", "With specific days blocked", "Individual dates ruled out."},
+      {"calendar-sunday", "Starting on Sunday",
+       "`first_day_of_week={7}` rotates the columns and the weekday names together."},
+      {"calendar-compact", "Without outside days, sized to the month",
+       "`show_outside_days={false}` and `fixed_weeks={false}`. February 2027 starts on a Monday and has 28 days, so it needs exactly four rows — and gets four, instead of six with two of them empty."},
+      {"calendar-live", "Live",
+       "`on_select` and `on_month_change` push to the server; the arrow keys page the month by themselves and land on the day the keys were heading for."}
     ],
     "carousel" => [
       {"carousel-hero", "Snap to start",
@@ -3160,6 +3179,106 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <:item href="#">Headless</:item>
       <:item>Breadcrumb</:item>
     </.breadcrumb>
+    """
+  end
+
+  # ── calendar ──────────────────────────────────────────────────────────────
+  def example(%{section: "calendar-hero"} = assigns) do
+    ~H"""
+    <.calendar id="daisyui-calendar-hero" month={~D[2026-03-01]} today={~D[2026-03-17]} />
+    """
+  end
+
+  def example(%{section: "calendar-selected"} = assigns) do
+    ~H"""
+    <.calendar
+      id="daisyui-calendar-selected"
+      month={~D[2026-03-01]}
+      today={~D[2026-03-17]}
+      value={~D[2026-03-12]}
+    />
+    """
+  end
+
+  def example(%{section: "calendar-range"} = assigns) do
+    ~H"""
+    <.calendar
+      id="daisyui-calendar-range"
+      mode="range"
+      month={~D[2026-03-01]}
+      today={~D[2026-03-17]}
+      value={{~D[2026-03-09], ~D[2026-03-18]}}
+    />
+    """
+  end
+
+  def example(%{section: "calendar-multiple"} = assigns) do
+    ~H"""
+    <.calendar
+      id="daisyui-calendar-multiple"
+      mode="multiple"
+      month={~D[2026-03-01]}
+      today={~D[2026-03-17]}
+      value={[~D[2026-03-03], ~D[2026-03-11], ~D[2026-03-24]]}
+    />
+    """
+  end
+
+  def example(%{section: "calendar-bounds"} = assigns) do
+    ~H"""
+    <.calendar
+      id="daisyui-calendar-bounds"
+      month={~D[2026-03-01]}
+      today={~D[2026-03-17]}
+      min={~D[2026-03-05]}
+      max={~D[2026-03-25]}
+    />
+    """
+  end
+
+  def example(%{section: "calendar-disabled-dates"} = assigns) do
+    ~H"""
+    <.calendar
+      id="daisyui-calendar-disabled-dates"
+      month={~D[2026-03-01]}
+      today={~D[2026-03-17]}
+      disabled_dates={[~D[2026-03-14], ~D[2026-03-15], ~D[2026-03-21], ~D[2026-03-22]]}
+    />
+    """
+  end
+
+  def example(%{section: "calendar-sunday"} = assigns) do
+    ~H"""
+    <.calendar
+      id="daisyui-calendar-sunday"
+      month={~D[2026-03-01]}
+      today={~D[2026-03-17]}
+      first_day_of_week={7}
+    />
+    """
+  end
+
+  def example(%{section: "calendar-compact"} = assigns) do
+    ~H"""
+    <.calendar
+      id="daisyui-calendar-compact"
+      month={~D[2027-02-01]}
+      today={~D[2027-02-17]}
+      show_outside_days={false}
+      fixed_weeks={false}
+    />
+    """
+  end
+
+  def example(%{section: "calendar-live"} = assigns) do
+    ~H"""
+    <.calendar
+      id="daisyui-calendar-live"
+      month={~D[2026-03-01]}
+      today={~D[2026-03-17]}
+      on_select="daisyui_calendar_select"
+      on_month_change="daisyui_calendar_month"
+    />
     """
   end
 
