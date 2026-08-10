@@ -1,0 +1,80 @@
+/* navigation_menu — daisyUI skin.
+ *
+ * daisyUI's `navbar` is the bar and `dropdown-content menu` is what comes out of it, so both are
+ * borrowed. What daisyUI has nothing for is the *morphing viewport* — one shared panel that
+ * resizes and slides between menus instead of each menu opening its own box — so the transition is
+ * driven here from the `--popup-width` / `--popup-height` the engine measures.
+ */
+
+.chelekom-navigation_menu {
+  position: relative;
+  color: var(--color-base-content);
+}
+
+.chelekom-navigation_menu__list {
+  @apply <%= @d %>menu <%= @d %>menu-horizontal;
+
+  gap: calc(0.25rem * 1);
+  padding: calc(0.25rem * 1);
+}
+
+.chelekom-navigation_menu__trigger,
+.chelekom-navigation_menu__link {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(0.25rem * 1);
+  border-radius: var(--radius-field);
+  padding-inline: calc(0.25rem * 3);
+  padding-block: calc(0.25rem * 1.5);
+  cursor: pointer;
+}
+
+.chelekom-navigation_menu__trigger:hover,
+.chelekom-navigation_menu__link:hover,
+.chelekom-navigation_menu__trigger[data-popup-open] {
+  background-color: color-mix(in oklab, var(--color-base-content) 10%, transparent);
+}
+
+.chelekom-navigation_menu__icon {
+  transition: rotate 0.2s ease-out;
+}
+
+.chelekom-navigation_menu__trigger[data-popup-open] .chelekom-navigation_menu__icon {
+  rotate: 180deg;
+}
+
+.chelekom-navigation_menu__positioner {
+  position: absolute;
+  z-index: 50;
+}
+
+/* One box that changes size, not one box per menu — that is what makes the movement read as the
+ * same panel travelling rather than two panels swapping. */
+.chelekom-navigation_menu__viewport {
+  position: relative;
+  overflow: hidden;
+  width: var(--popup-width, auto);
+  height: var(--popup-height, auto);
+  border-radius: var(--radius-box);
+  background-color: var(--color-base-100);
+  box-shadow: 0 8px 24px oklch(0% 0 0 / 0.14);
+  transition:
+    width 0.2s ease-out,
+    height 0.2s ease-out;
+}
+
+.chelekom-navigation_menu__popup[data-closed] {
+  display: none;
+}
+
+.chelekom-navigation_menu__content {
+  padding: calc(0.25rem * 3);
+}
+
+.chelekom-navigation_menu__arrow {
+  position: absolute;
+  width: calc(0.25rem * 2);
+  height: calc(0.25rem * 2);
+  rotate: 45deg;
+  background-color: var(--color-base-100);
+}

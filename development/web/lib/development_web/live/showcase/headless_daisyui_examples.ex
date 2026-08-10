@@ -54,6 +54,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.ToggleGroup
   import DevelopmentWeb.Components.Headless.ContextMenu
   import DevelopmentWeb.Components.Headless.Menubar
+  import DevelopmentWeb.Components.Headless.NavigationMenu
   import DevelopmentWeb.Components.Headless.Toolbar
   import DevelopmentWeb.Components.Headless.Select
   import DevelopmentWeb.Components.Headless.Switch
@@ -580,6 +581,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ],
     "menubar" => [
       {"menubar-hero", "Hero",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+    ],
+    "navigation_menu" => [
+      {"navigation_menu-hero", "Hero",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+      {"navigation_menu-nested", "Nested",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+      {"navigation_menu-nested-inline", "Nested Inline",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "toolbar" => [
@@ -4268,6 +4277,300 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
       <:menu label="Help" disabled></:menu>
     </.menubar>
+    """
+  end
+
+  # ── navigation_menu ─────────────────────────────────────────────────────
+  def example(%{section: "navigation_menu-hero"} = assigns) do
+    ~H"""
+    <.navigation_menu
+      id="daisyui-navigation_menu-hero"
+      style="--duration: 0.35s; --easing: cubic-bezier(0.22, 1, 0.36, 1);"
+    >
+      <:icon>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M12 6H4l4 4.5z" />
+        </svg>
+      </:icon>
+
+      <:item label="Overview">
+        <ul>
+          <li>
+            <a href="#">
+              <h3>Quick Start</h3>
+              <p>
+                Install and assemble your first component.
+              </p>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <h3>Accessibility</h3>
+              <p>
+                Learn how we build accessible components.
+              </p>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <h3>Releases</h3>
+              <p>
+                See what's new in the latest Base UI versions.
+              </p>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <h3>About</h3>
+              <p>
+                Learn more about Base UI and our mission.
+              </p>
+            </a>
+          </li>
+        </ul>
+      </:item>
+
+      <:item label="Handbook">
+        <ul>
+          <li>
+            <a href="#">
+              <h3>Styling</h3>
+              <p>
+                Base UI components can be styled with plain CSS, Tailwind CSS, CSS-in-JS, or CSS Modules.
+              </p>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <h3>Animation</h3>
+              <p>
+                Base UI components can be animated with CSS transitions, CSS animations, or JavaScript libraries.
+              </p>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <h3>Composition</h3>
+              <p>
+                Base UI components can be replaced and composed with your own existing components.
+              </p>
+            </a>
+          </li>
+        </ul>
+      </:item>
+
+      <:item label="GitHub" href="#" />
+    </.navigation_menu>
+    """
+  end
+
+  def example(%{section: "navigation_menu-nested"} = assigns) do
+    ~H"""
+    <.navigation_menu
+      id="daisyui-navigation_menu-nested"
+      style="--duration: 0.35s; --easing: cubic-bezier(0.22, 1, 0.36, 1);"
+    >
+      <:icon>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M12 6H4l4 4.5z" />
+        </svg>
+      </:icon>
+
+      <:item label="Overview">
+        <ul>
+          <li>
+            <a href="#">
+              <h3>Quick Start</h3>
+              <p>
+                Install and assemble your first component.
+              </p>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <h3>Accessibility</h3>
+              <p>
+                Learn how we build accessible components.
+              </p>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <h3>Releases</h3>
+              <p>
+                See what's new in the latest Base UI versions.
+              </p>
+            </a>
+          </li>
+          <li>
+            <div>
+              <span>Handbook</span>
+              <p>
+                How to use Base UI effectively.
+              </p>
+            </div>
+            <ul>
+              <li>
+                <a href="#">
+                  <h3>Styling</h3>
+                  <p>
+                    Base UI components can be styled with plain CSS, Tailwind CSS, CSS-in-JS, or CSS Modules.
+                  </p>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <h3>Animation</h3>
+                  <p>
+                    Base UI components can be animated with CSS transitions, CSS animations, or JavaScript libraries.
+                  </p>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <h3>Composition</h3>
+                  <p>
+                    Base UI components can be replaced and composed with your own existing components.
+                  </p>
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </:item>
+    </.navigation_menu>
+    """
+  end
+
+  def example(%{section: "navigation_menu-nested-inline"} = assigns) do
+    ~H"""
+    <.navigation_menu
+      id="daisyui-navigation_menu-nested-inline"
+      style="--duration: 0.35s; --easing: cubic-bezier(0.22, 1, 0.36, 1);"
+    >
+      <:icon>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M12 6H4l4 4.5z" />
+        </svg>
+      </:icon>
+
+      <:item label="Product">
+        <div>
+          <ul>
+            <li>
+              <div>
+                <span>
+                  Developers
+                </span>
+                <span>
+                  Go from idea to UI faster.
+                </span>
+              </div>
+            </li>
+            <li>
+              <div>
+                <span>
+                  Design Systems
+                </span>
+                <span>
+                  Keep patterns aligned across teams.
+                </span>
+              </div>
+            </li>
+            <li>
+              <div>
+                <span>
+                  Engineering Leads
+                </span>
+                <span>
+                  Roll out shared UI without drag.
+                </span>
+              </div>
+            </li>
+            <li>
+              <div>
+                <span>
+                  Startups
+                </span>
+                <span>
+                  Ship polished basics while things change.
+                </span>
+              </div>
+            </li>
+          </ul>
+          <div>
+            <div>
+              <div>
+                <h4>
+                  Build product UI without giving up control
+                </h4>
+                <p>
+                  Start with accessible parts and shape them to your app instead of working around a preset design system.
+                </p>
+              </div>
+              <ul>
+                <li>
+                  <a href="#">
+                    <h5>Quick start</h5>
+                    <p>
+                      Install Base UI and get your first interactive primitive on screen fast.
+                    </p>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <h5>Composition</h5>
+                    <p>
+                      Wrap and combine parts to match your product structure without hacks.
+                    </p>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </:item>
+
+      <:item label="Learn">
+        <div>
+          <div>
+            <h4>Where teams usually start</h4>
+            <p>
+              These are the docs people reach for first when they are turning a prototype into shared UI.
+            </p>
+          </div>
+          <ul>
+            <li>
+              <a href="#">
+                <h5>Accessibility handbook</h5>
+                <p>
+                  Take a practical pass over focus order, semantics, and keyboard support.
+                </p>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <h5>Composition handbook</h5>
+                <p>
+                  Learn when to wrap parts, share behavior, and expose flexible APIs.
+                </p>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <h5>Styling handbook</h5>
+                <p>
+                  Apply tokens and state styles without fighting the underlying markup.
+                </p>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </:item>
+
+      <:item label="Releases" href="#" />
+      <:item label="GitHub" href="#" />
+    </.navigation_menu>
     """
   end
 
