@@ -49,6 +49,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.CloseButton
   import DevelopmentWeb.Components.Headless.Chip
   import DevelopmentWeb.Components.Headless.Burger
+  import DevelopmentWeb.Components.Headless.Spoiler
   import DevelopmentWeb.Components.Headless.Select
   import DevelopmentWeb.Components.Headless.Switch
   import DevelopmentWeb.Components.Headless.Tabs
@@ -542,6 +543,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"burger-colors", "Colors",
        "The bars take `currentColor`, so a text colour is all it needs."},
       {"burger-disabled", "Disabled", "Dimmed and inert."}
+    ],
+    "spoiler" => [
+      {"spoiler-hero", "Spoiler",
+       "daisyUI's nearest thing is `collapse`, but that hides everything behind a title bar. A spoiler shows the beginning and fades out the rest, so the box is ours and only the toggle borrows `btn btn-sm btn-ghost`."},
+      {"spoiler-expanded", "Starting open", "`expanded` renders it already unfolded."},
+      {"spoiler-labels", "Custom labels", "The show and hide labels are attributes."}
     ],
     "action_icon" => [
       {"action-icon-hero", "Action icon",
@@ -4087,6 +4094,48 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "burger-disabled"} = assigns) do
     ~H"""
     <.burger id="daisyui-burger-disabled" label="Menu" disabled />
+    """
+  end
+
+  # ── spoiler ───────────────────────────────────────────────────────────────
+  def example(%{section: "spoiler-hero"} = assigns) do
+    ~H"""
+    <.spoiler id="daisyui-spoiler-hero" class="w-96">
+      <p>
+        Chelekom's headless line ships behaviour and semantics, and no styling at all. Each component
+        names its parts with <code>data-part</code>
+        and reports its state with <code>data-*</code>
+        attributes, which is what lets one stylesheet paint the whole set without the markup knowing
+        anything about it. That is the same contract this spoiler follows.
+      </p>
+    </.spoiler>
+    """
+  end
+
+  def example(%{section: "spoiler-expanded"} = assigns) do
+    ~H"""
+    <.spoiler id="daisyui-spoiler-expanded" expanded class="w-96">
+      <p>
+        Already unfolded, because the server said so — no flash of collapsed content while the
+        socket connects.
+      </p>
+    </.spoiler>
+    """
+  end
+
+  def example(%{section: "spoiler-labels"} = assigns) do
+    ~H"""
+    <.spoiler
+      id="daisyui-spoiler-labels"
+      show_label="Read the rest"
+      hide_label="That's enough"
+      class="w-96"
+    >
+      <p>
+        The labels are attributes rather than slots, because a spoiler's control is a word or two —
+        anything longer belongs in an accordion.
+      </p>
+    </.spoiler>
     """
   end
 
