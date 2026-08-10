@@ -4450,6 +4450,26 @@
 }
 /* <<< floating_window */
 
+/* >>> highlight */
+@layer components {
+  [data-skin=daisyui] {
+    /* highlight — daisyUI skin.
+     *
+     * daisyUI has no highlight component. The marked run takes the theme's warning colour, which is
+     * what a search hit reads as, and keeps `currentColor`-derived text so it stays legible in either
+     * light or dark.
+     */
+
+    .chelekom-highlight__mark {
+      border-radius: calc(0.25rem * 0.5);
+      padding-inline: calc(0.25rem * 0.5);
+      background-color: color-mix(in oklab, var(--color-warning) 45%, transparent);
+      color: inherit;
+    }
+  }
+}
+/* <<< highlight */
+
 /* >>> hue_slider */
 @layer components {
   [data-skin=daisyui] {
