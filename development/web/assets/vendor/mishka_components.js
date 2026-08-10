@@ -50,6 +50,7 @@ import EditorCodeMirror from "./editor_code_mirror.js";
 import Chart from "./chart.js";
 import Autosize from "./autosize.js";
 import Countdown from "./countdown.js";
+import ThemeController from "./theme_controller.js";
 const Components = {
   Tooltip,
   PreviewCard,
@@ -103,5 +104,6 @@ const Components = {
   Chart,
   Autosize,
   Countdown,
+  ThemeController,
 };
 export default Components;

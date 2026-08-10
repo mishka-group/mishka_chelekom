@@ -65,6 +65,7 @@
 @source inline("d-dock d-dock-{xs,sm,md,lg,xl}");
 @source inline("d-rating d-rating-{xs,sm,md,lg,xl}");
 @source inline("d-countdown rounded-box bg-neutral text-neutral-content");
+@source inline("bg-base-100 border-base-300 text-base-content");
 @source inline("d-mask-{star,star-2,heart,half-1,half-2} bg-{orange,red,green}-{400,500}");
 @source inline("d-step-{neutral,primary,secondary,accent,info,success,warning,error}");
 

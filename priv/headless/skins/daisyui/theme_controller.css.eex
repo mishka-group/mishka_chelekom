@@ -1,0 +1,34 @@
+/* theme_controller — daisyUI skin.
+ *
+ * daisyUI has no styling of its own here: `theme-controller` is a *mechanism*, not a look — its
+ * examples borrow `toggle`, `checkbox`, `swap`, `btn` and `dropdown` for the visible part. So this
+ * fragment lays the options out and leaves the control's appearance to whichever daisyUI class the
+ * caller puts on `input_class`, exactly as daisyUI's own page does.
+ *
+ * The one thing worth painting here is the selected state, because ours is a real attribute
+ * (`data-checked`) rather than a `:checked` pseudo-class that only reaches its own input.
+ */
+
+.chelekom-theme-controller {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(0.25rem * 2);
+  flex-wrap: wrap;
+}
+
+.chelekom-theme-controller__option {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(0.25rem * 2);
+  cursor: pointer;
+}
+
+.chelekom-theme-controller__label {
+  user-select: none;
+}
+
+/* An option rendered as a button (`input_class="sr-only"`, label styled as a `btn`) needs the
+ * chosen one to stand out; daisyUI's active treatment is what marks it. */
+.chelekom-theme-controller__option[data-checked] .chelekom-theme-controller__label:is(.<%= @d %>btn) {
+  @apply <%= @d %>btn-active;
+}

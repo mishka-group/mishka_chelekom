@@ -58,6 +58,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.Pagination
   import DevelopmentWeb.Components.Headless.Rating
   import DevelopmentWeb.Components.Headless.Countdown
+  import DevelopmentWeb.Components.Headless.ThemeController
 
   @faq [
     {"What is a skin?",
@@ -412,6 +413,26 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
        "Not on daisyUI's page either. `max_items` keeps the ends and stands one ellipsis in for the middle — arithmetic on the server, so it works before the socket connects."},
       {"breadcrumb-expandable", "Expandable",
        "The same collapse with `on_expand`, which makes the ellipsis a real button that pushes to the server."}
+    ],
+    "theme_controller" => [
+      {"theme-controller-hero", "Theme controller",
+       "Every example on this page targets its own preview box rather than the page, which is what `target` is for — a controller that repainted this whole gallery would make the rest of it unreadable."},
+      {"theme-controller-toggle", "Using a toggle",
+       "daisyUI's `toggle` on the input. `switch` renders one checkbox standing for two themes instead of a radio each."},
+      {"theme-controller-checkbox", "Using a checkbox", "daisyUI's `checkbox`."},
+      {"theme-controller-toggle-text", "Toggle with text", "The label beside the switch."},
+      {"theme-controller-toggle-icons", "Toggle with icons",
+       "An icon on each side; the `:option` slot body replaces the label's text."},
+      {"theme-controller-colors", "Toggle with custom colors",
+       "daisyUI's colour modifiers on the input."},
+      {"theme-controller-radio", "Using radio inputs",
+       "The default shape: one native radio per theme, so arrow keys move between them without a line of JS."},
+      {"theme-controller-buttons", "Using radio buttons",
+       "The same radios with the input visually hidden and the label painted as a button — `data-checked` marks the chosen one."},
+      {"theme-controller-system", "With a system option",
+       "Not on daisyUI's page. `system` follows `prefers-color-scheme` and keeps following it, so changing the OS setting changes the preview without a click."},
+      {"theme-controller-persist", "Remembering the choice",
+       "Not on daisyUI's page either, and the reason this component exists: daisyUI's controller forgets on the next navigation. This one stores the choice — pick a theme, reload, and it is still there."}
     ],
     "countdown" => [
       {"countdown-hero", "Countdown",
@@ -3032,6 +3053,183 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     """
   end
 
+  # ── theme_controller ──────────────────────────────────────────────────────
+  def example(%{section: "theme-controller-hero"} = assigns) do
+    ~H"""
+    <.theme_preview id="daisyui-theme-hero-box">
+      <.theme_controller
+        id="daisyui-theme-hero"
+        target="#daisyui-theme-hero-box"
+        value="light"
+        input_class="d-radio"
+      >
+        <:option value="light">Light</:option>
+        <:option value="dark">Dark</:option>
+        <:option value="cupcake">Cupcake</:option>
+      </.theme_controller>
+    </.theme_preview>
+    """
+  end
+
+  def example(%{section: "theme-controller-toggle"} = assigns) do
+    ~H"""
+    <.theme_preview id="daisyui-theme-toggle-box">
+      <.theme_controller
+        id="daisyui-theme-toggle"
+        target="#daisyui-theme-toggle-box"
+        value="light"
+        switch
+        input_class="d-toggle"
+      >
+        <:option value="light" />
+        <:option value="dark" />
+      </.theme_controller>
+    </.theme_preview>
+    """
+  end
+
+  def example(%{section: "theme-controller-checkbox"} = assigns) do
+    ~H"""
+    <.theme_preview id="daisyui-theme-checkbox-box">
+      <.theme_controller
+        id="daisyui-theme-checkbox"
+        target="#daisyui-theme-checkbox-box"
+        value="light"
+        switch
+        input_class="d-checkbox"
+      >
+        <:option value="light" />
+        <:option value="dark" />
+      </.theme_controller>
+    </.theme_preview>
+    """
+  end
+
+  def example(%{section: "theme-controller-toggle-text"} = assigns) do
+    ~H"""
+    <.theme_preview id="daisyui-theme-text-box">
+      <.theme_controller
+        id="daisyui-theme-text"
+        target="#daisyui-theme-text-box"
+        value="light"
+        switch
+        input_class="d-toggle"
+      >
+        <:option value="light" />
+        <:option value="dark">Dark mode</:option>
+      </.theme_controller>
+    </.theme_preview>
+    """
+  end
+
+  def example(%{section: "theme-controller-toggle-icons"} = assigns) do
+    ~H"""
+    <.theme_preview id="daisyui-theme-icons-box">
+      <.theme_controller
+        id="daisyui-theme-icons"
+        target="#daisyui-theme-icons-box"
+        value="light"
+        switch
+        input_class="d-toggle"
+      >
+        <:option value="light" />
+        <:option value="dark">
+          <.field_icon path="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z" />
+        </:option>
+      </.theme_controller>
+    </.theme_preview>
+    """
+  end
+
+  def example(%{section: "theme-controller-colors"} = assigns) do
+    ~H"""
+    <.theme_preview id="daisyui-theme-colors-box">
+      <.theme_controller
+        id="daisyui-theme-colors"
+        target="#daisyui-theme-colors-box"
+        value="light"
+        switch
+        input_class="d-toggle d-toggle-primary"
+      >
+        <:option value="light" />
+        <:option value="dark" />
+      </.theme_controller>
+    </.theme_preview>
+    """
+  end
+
+  def example(%{section: "theme-controller-radio"} = assigns) do
+    ~H"""
+    <.theme_preview id="daisyui-theme-radio-box">
+      <.theme_controller
+        id="daisyui-theme-radio"
+        target="#daisyui-theme-radio-box"
+        value="light"
+        input_class="d-radio"
+      >
+        <:option value="light">Light</:option>
+        <:option value="dark">Dark</:option>
+        <:option value="retro">Retro</:option>
+        <:option value="cyberpunk">Cyberpunk</:option>
+      </.theme_controller>
+    </.theme_preview>
+    """
+  end
+
+  def example(%{section: "theme-controller-buttons"} = assigns) do
+    ~H"""
+    <.theme_preview id="daisyui-theme-buttons-box">
+      <.theme_controller
+        id="daisyui-theme-buttons"
+        target="#daisyui-theme-buttons-box"
+        value="light"
+        input_class="sr-only"
+        label_class="d-btn d-btn-sm"
+      >
+        <:option value="light">Light</:option>
+        <:option value="dark">Dark</:option>
+        <:option value="valentine">Valentine</:option>
+      </.theme_controller>
+    </.theme_preview>
+    """
+  end
+
+  def example(%{section: "theme-controller-system"} = assigns) do
+    ~H"""
+    <.theme_preview id="daisyui-theme-system-box">
+      <.theme_controller
+        id="daisyui-theme-system"
+        target="#daisyui-theme-system-box"
+        value="system"
+        system
+        input_class="d-radio"
+      >
+        <:option value="light">Light</:option>
+        <:option value="dark">Dark</:option>
+      </.theme_controller>
+    </.theme_preview>
+    """
+  end
+
+  def example(%{section: "theme-controller-persist"} = assigns) do
+    ~H"""
+    <.theme_preview id="daisyui-theme-persist-box">
+      <.theme_controller
+        id="daisyui-theme-persist"
+        target="#daisyui-theme-persist-box"
+        storage_key="chelekom-demo-theme"
+        value="light"
+        input_class="d-radio"
+        on_change="daisyui_theme_change"
+      >
+        <:option value="light">Light</:option>
+        <:option value="dark">Dark</:option>
+        <:option value="dracula">Dracula</:option>
+      </.theme_controller>
+    </.theme_preview>
+    """
+  end
+
   # ── countdown ─────────────────────────────────────────────────────────────
   def example(%{section: "countdown-hero"} = assigns) do
     ~H"""
@@ -4332,6 +4530,23 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       The root renders as an anchor, so there is one focus stop and one click target — not a link
       nested inside a clickable box.
     </.card>
+    """
+  end
+
+  attr :id, :string, required: true
+  slot :inner_block, required: true
+
+  # Each controller repaints this box rather than the page: a gallery of ten theme controllers that
+  # all targeted `:root` would fight each other, and the last one clicked would win the whole page.
+  defp theme_preview(assigns) do
+    ~H"""
+    <div
+      id={@id}
+      class="flex w-72 flex-col items-center gap-3 rounded-xl border border-base-300 bg-base-100 p-6 text-base-content"
+    >
+      {render_slot(@inner_block)}
+      <p class="text-xs opacity-60">This box follows the choice above.</p>
+    </div>
     """
   end
 
