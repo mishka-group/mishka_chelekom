@@ -4149,6 +4149,24 @@
 }
 /* <<< color_picker */
 
+/* >>> color_swatch */
+@layer components {
+  [data-skin=daisyui] {
+    /* color_swatch — daisyUI skin.
+     *
+     * The colour is the component's; all this adds is the hairline ring that keeps a white swatch
+     * visible on a white background, in the theme's own contrast rather than a fixed grey.
+     */
+
+    .chelekom-color-swatch {
+      display: inline-block;
+      border-radius: var(--radius-field);
+      box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-base-content) 20%, transparent);
+    }
+  }
+}
+/* <<< color_swatch */
+
 /* >>> combobox */
 @layer components {
   [data-skin=daisyui] {

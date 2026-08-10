@@ -57,6 +57,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.CheckboxGroup
   import DevelopmentWeb.Components.Headless.ColorInput
   import DevelopmentWeb.Components.Headless.ColorPicker
+  import DevelopmentWeb.Components.Headless.ColorSwatch
   import DevelopmentWeb.Components.Headless.Combobox
   import DevelopmentWeb.Components.Headless.ContextMenu
   import DevelopmentWeb.Components.Headless.FloatingIndicator
@@ -627,6 +628,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ],
     "color_picker" => [
       {"color_picker-hero", "Hero",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+    ],
+    "color_swatch" => [
+      {"color_swatch-hero", "Hero",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "combobox" => [
@@ -4486,6 +4491,29 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       id="daisyui-color-picker"
       value="#e8590c"
     />
+    """
+  end
+
+  # ── color_swatch ────────────────────────────────────────────────────────
+  def example(%{section: "color_swatch-hero"} = assigns) do
+    ~H"""
+    <div>
+      <.color_swatch color="#fa5252" />
+      <.color_swatch color="#7048e8" />
+      <.color_swatch color="#12b886" />
+      <.color_swatch
+        color="#1c7ed6"
+        label="Selected"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path
+            fill-rule="evenodd"
+            d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </.color_swatch>
+    </div>
     """
   end
 
