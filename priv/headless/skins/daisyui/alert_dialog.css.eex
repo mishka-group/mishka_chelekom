@@ -1,0 +1,46 @@
+/* alert_dialog — daisyUI skin.
+ *
+ * daisyUI's `modal` is a `<dialog>` with `modal-box` inside and `modal-backdrop` behind. Ours is
+ * not a `<dialog>` — an alert dialog must never be dismissed by Escape or by clicking away, and
+ * `<dialog>` gives both away for free — so `modal-box` is borrowed for the panel and the backdrop
+ * is drawn here rather than taken from a class that expects the native element.
+ */
+
+.chelekom-alert-dialog__popup {
+  @apply <%= @d %>modal-box;
+
+  position: fixed;
+  z-index: 60;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+}
+
+.chelekom-alert-dialog__popup[data-closed] {
+  display: none;
+}
+
+.chelekom-alert-dialog__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background-color: oklch(0% 0 0 / 0.4);
+}
+
+.chelekom-alert-dialog__backdrop[data-closed] {
+  display: none;
+}
+
+.chelekom-alert-dialog__title {
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.chelekom-alert-dialog__description {
+  padding-top: calc(0.25rem * 2);
+  opacity: 75%;
+}
+
+.chelekom-alert-dialog__actions {
+  @apply <%= @d %>modal-action;
+}

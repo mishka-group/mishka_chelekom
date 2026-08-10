@@ -52,6 +52,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.Spoiler
   import DevelopmentWeb.Components.Headless.SegmentedControl
   import DevelopmentWeb.Components.Headless.ToggleGroup
+  import DevelopmentWeb.Components.Headless.AlertDialog
   import DevelopmentWeb.Components.Headless.ContextMenu
   import DevelopmentWeb.Components.Headless.Menubar
   import DevelopmentWeb.Components.Headless.NavigationMenu
@@ -574,6 +575,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"toggle-group-disabled", "Disabled", "The whole group ruled out."},
       {"toggle-group-form", "In a form",
        "Hidden inputs carry the pressed values; `multiple` posts them as a list."}
+    ],
+    "alert_dialog" => [
+      {"alert_dialog-hero", "Hero",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+      {"alert_dialog-detached-triggers-controlled", "Detached triggers controlled",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+      {"alert_dialog-detached-triggers-simple", "Detached triggers simple",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "context_menu" => [
       {"context_menu-hero", "Hero",
@@ -4118,6 +4127,79 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       on_complete="daisyui_countdown_complete"
       class="font-mono text-3xl"
     />
+    """
+  end
+
+  # ── alert_dialog ────────────────────────────────────────────────────────
+  def example(%{section: "alert_dialog-hero"} = assigns) do
+    ~H"""
+    <.alert_dialog id="daisyui-alert_dialog-hero">
+      <:trigger>Discard draft</:trigger>
+      <:title>Discard draft?</:title>
+      <:description>You can’t undo this action.</:description>
+      <:actions>
+        <button
+          type="button"
+          data-close
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          data-close
+        >
+          Discard
+        </button>
+      </:actions>
+    </.alert_dialog>
+    """
+  end
+
+  def example(%{section: "alert_dialog-detached-triggers-controlled"} = assigns) do
+    ~H"""
+    <.alert_dialog id="daisyui-alert_dialog-detached-triggers-controlled">
+      <:trigger>Discard</:trigger>
+      <:title>Discard draft?</:title>
+      <:description>This action cannot be undone.</:description>
+      <:actions>
+        <button
+          type="button"
+          data-close
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          data-close
+        >
+          Confirm
+        </button>
+      </:actions>
+    </.alert_dialog>
+    """
+  end
+
+  def example(%{section: "alert_dialog-detached-triggers-simple"} = assigns) do
+    ~H"""
+    <.alert_dialog id="daisyui-alert_dialog-detached-triggers-simple">
+      <:trigger>Discard draft</:trigger>
+      <:title>Discard draft?</:title>
+      <:description>This action cannot be undone.</:description>
+      <:actions>
+        <button
+          type="button"
+          data-close
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          data-close
+        >
+          Discard
+        </button>
+      </:actions>
+    </.alert_dialog>
     """
   end
 
