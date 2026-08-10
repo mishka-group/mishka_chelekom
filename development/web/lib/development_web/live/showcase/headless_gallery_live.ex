@@ -131,6 +131,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessGalleryLive do
     {:noreply, assign(socket, submitted: "density #{value}")}
   end
 
+  def handle_event("daisyui_toggle_group_change", params, socket) do
+    {:noreply, assign(socket, submitted: inspect(Map.get(params, "format")))}
+  end
+
   # The form examples exist to prove the params actually arrive under the names the components
   # derived — so echo the shape rather than a fixed "saved" string.
   def handle_event(event, params, socket)

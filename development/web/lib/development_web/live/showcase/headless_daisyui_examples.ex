@@ -51,6 +51,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.Burger
   import DevelopmentWeb.Components.Headless.Spoiler
   import DevelopmentWeb.Components.Headless.SegmentedControl
+  import DevelopmentWeb.Components.Headless.ToggleGroup
   import DevelopmentWeb.Components.Headless.Select
   import DevelopmentWeb.Components.Headless.Switch
   import DevelopmentWeb.Components.Headless.Tabs
@@ -557,6 +558,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"segmented-control-form", "In a form",
        "The segments are real radios sharing a name, so the choice posts with the form and needs no JS."},
       {"segmented-control-disabled", "Disabled", "The whole control ruled out."}
+    ],
+    "toggle_group" => [
+      {"toggle-group-hero", "Toggle group",
+       "daisyUI's `join` around `btn`s: one strip, square inner corners, the pressed one filled. Ours is a real toolbar with roving focus."},
+      {"toggle-group-multiple", "Multiple",
+       "Any number pressed at once — the classic text-formatting bar."},
+      {"toggle-group-vertical", "Vertical", "The join runs down instead of across."},
+      {"toggle-group-disabled", "Disabled", "The whole group ruled out."},
+      {"toggle-group-form", "In a form",
+       "Hidden inputs carry the pressed values; `multiple` posts them as a list."}
     ],
     "action_icon" => [
       {"action-icon-hero", "Action icon",
@@ -4188,6 +4199,61 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       disabled
       options={[{"list", "List"}, {"grid", "Grid"}]}
     />
+    """
+  end
+
+  # ── toggle_group ──────────────────────────────────────────────────────────
+  def example(%{section: "toggle-group-hero"} = assigns) do
+    ~H"""
+    <.toggle_group id="daisyui-toggle-group-hero" value="center">
+      <:item value="left">Left</:item>
+      <:item value="center">Center</:item>
+      <:item value="right">Right</:item>
+    </.toggle_group>
+    """
+  end
+
+  def example(%{section: "toggle-group-multiple"} = assigns) do
+    ~H"""
+    <.toggle_group id="daisyui-toggle-group-multiple" multiple value={["bold", "italic"]}>
+      <:item value="bold"><span class="font-bold">B</span></:item>
+      <:item value="italic"><span class="italic">I</span></:item>
+      <:item value="underline"><span class="underline">U</span></:item>
+    </.toggle_group>
+    """
+  end
+
+  def example(%{section: "toggle-group-vertical"} = assigns) do
+    ~H"""
+    <.toggle_group id="daisyui-toggle-group-vertical" orientation="vertical" value="center">
+      <:item value="left">Left</:item>
+      <:item value="center">Center</:item>
+      <:item value="right">Right</:item>
+    </.toggle_group>
+    """
+  end
+
+  def example(%{section: "toggle-group-disabled"} = assigns) do
+    ~H"""
+    <.toggle_group id="daisyui-toggle-group-disabled" value="center" disabled>
+      <:item value="left">Left</:item>
+      <:item value="center">Center</:item>
+    </.toggle_group>
+    """
+  end
+
+  def example(%{section: "toggle-group-form"} = assigns) do
+    ~H"""
+    <form
+      id="daisyui-toggle-group-form-el"
+      phx-change="daisyui_toggle_group_change"
+      class="flex flex-col items-start gap-3"
+    >
+      <.toggle_group id="daisyui-toggle-group-form" name="format" multiple value={["bold"]}>
+        <:item value="bold"><span class="font-bold">B</span></:item>
+        <:item value="italic"><span class="italic">I</span></:item>
+      </.toggle_group>
+    </form>
     """
   end
 
