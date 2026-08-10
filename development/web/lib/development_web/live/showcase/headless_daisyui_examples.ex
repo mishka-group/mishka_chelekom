@@ -52,6 +52,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.Spoiler
   import DevelopmentWeb.Components.Headless.SegmentedControl
   import DevelopmentWeb.Components.Headless.ToggleGroup
+  import DevelopmentWeb.Components.Headless.Menubar
   import DevelopmentWeb.Components.Headless.Toolbar
   import DevelopmentWeb.Components.Headless.Select
   import DevelopmentWeb.Components.Headless.Switch
@@ -569,6 +570,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"toggle-group-disabled", "Disabled", "The whole group ruled out."},
       {"toggle-group-form", "In a form",
        "Hidden inputs carry the pressed values; `multiple` posts them as a list."}
+    ],
+    "menubar" => [
+      {"menubar-hero", "Hero",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "toolbar" => [
       {"toolbar-hero", "Hero",
@@ -4073,6 +4078,112 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       on_complete="daisyui_countdown_complete"
       class="font-mono text-3xl"
     />
+    """
+  end
+
+  # ── menubar ─────────────────────────────────────────────────────────────
+  def example(%{section: "menubar-hero"} = assigns) do
+    ~H"""
+    <.menubar id="daisyui-menubar-hero">
+      <:menu label="File">
+        <button
+          type="button"
+          role="menuitem"
+        >
+          New
+        </button>
+        <button
+          type="button"
+          role="menuitem"
+        >
+          Open
+        </button>
+        <button
+          type="button"
+          role="menuitem"
+        >
+          Save
+        </button>
+        <button
+          type="button"
+          role="menuitem"
+        >
+          Export
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="display: block;">
+            <path d="M6 12V4l4.5 4z" />
+          </svg>
+        </button>
+        <div
+          data-part="separator"
+          role="separator"
+        >
+        </div>
+        <button
+          type="button"
+          role="menuitem"
+        >
+          Print
+        </button>
+      </:menu>
+
+      <:menu label="Edit">
+        <button
+          type="button"
+          role="menuitem"
+        >
+          Cut
+        </button>
+        <button
+          type="button"
+          role="menuitem"
+        >
+          Copy
+        </button>
+        <button
+          type="button"
+          role="menuitem"
+        >
+          Paste
+        </button>
+      </:menu>
+
+      <:menu label="View">
+        <button
+          type="button"
+          role="menuitem"
+        >
+          Zoom In
+        </button>
+        <button
+          type="button"
+          role="menuitem"
+        >
+          Zoom Out
+        </button>
+        <button
+          type="button"
+          role="menuitem"
+        >
+          Layout
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="display: block;">
+            <path d="M6 12V4l4.5 4z" />
+          </svg>
+        </button>
+        <div
+          data-part="separator"
+          role="separator"
+        >
+        </div>
+        <button
+          type="button"
+          role="menuitem"
+        >
+          Full Screen
+        </button>
+      </:menu>
+
+      <:menu label="Help" disabled></:menu>
+    </.menubar>
     """
   end
 
