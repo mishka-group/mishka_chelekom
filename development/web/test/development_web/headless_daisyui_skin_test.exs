@@ -211,14 +211,18 @@ defmodule DevelopmentWeb.HeadlessDaisyUISkinTest do
     assert themes =~ "bg-base-100"
   end
 
-  test "an unskinned component's daisyUI page says so instead of 500ing", %{conn: conn} do
-    unskinned =
-      HeadlessCatalog.all()
-      |> Enum.map(& &1.name)
-      |> Enum.reject(&(&1 in @skinned))
-      |> hd()
+  test "every component in the catalog now has a daisyUI skin", %{conn: conn} do
+    # This used to assert the opposite — that an *unskinned* component fell back to a note rather
+    # than a 500 — and it found one by taking the head of the unskinned list. There is no longer
+    # one to take, which is the point: the fallback still exists in the gallery for a component
+    # added tomorrow, but today nothing needs it.
+    unskinned = HeadlessCatalog.all() |> Enum.map(& &1.name) |> Enum.reject(&(&1 in @skinned))
 
-    html = gallery(conn, "daisyui", unskinned)
-    assert html =~ "No daisyUI skin for this component yet"
+    assert unskinned == [], "no daisyUI skin for: #{Enum.join(unskinned, " ")}"
+
+    # And every one of them renders its own markup on the daisyUI page.
+    for %{name: name} <- HeadlessCatalog.all() do
+      assert gallery(conn, "daisyui", name) =~ "chelekom-", "#{name}: nothing rendered"
+    end
   end
 end
