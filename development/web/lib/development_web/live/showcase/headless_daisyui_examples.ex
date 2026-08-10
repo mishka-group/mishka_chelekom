@@ -77,6 +77,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.TagsInput
   import DevelopmentWeb.Components.Headless.Toolbar
   import DevelopmentWeb.Components.Headless.Tree
+  import DevelopmentWeb.Components.Headless.TreeSelect
   import DevelopmentWeb.Components.Headless.Select
   import DevelopmentWeb.Components.Headless.Switch
   import DevelopmentWeb.Components.Headless.Tabs
@@ -732,6 +733,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ],
     "tree" => [
       {"tree-hero", "Hero",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+    ],
+    "tree_select" => [
+      {"tree_select-hero", "Hero",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "alpha_slider" => [
@@ -5983,6 +5988,41 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         {n.node.label}
       </:node>
     </.tree>
+    """
+  end
+
+  # ── tree_select ─────────────────────────────────────────────────────────
+  def example(%{section: "tree_select-hero"} = assigns) do
+    ~H"""
+    <.tree_select
+      id="daisyui-tree-select"
+      placeholder="Choose a category…"
+    >
+      <.tree
+        id="daisyui-tree-select-tree"
+        nodes={[
+          %{
+            label: "Design",
+            value: "design",
+            children: [
+              %{label: "Wireframes", value: "wireframes"},
+              %{label: "Mockups", value: "mockups"}
+            ]
+          },
+          %{
+            label: "Engineering",
+            value: "engineering",
+            children: [%{label: "Frontend", value: "frontend"}, %{label: "Backend", value: "backend"}]
+          }
+        ]}
+        expanded={:all}
+        select_on_click
+        multiple={false}
+        aria_label="Categories"
+      >
+        <:expand_icon>▸</:expand_icon>
+      </.tree>
+    </.tree_select>
     """
   end
 

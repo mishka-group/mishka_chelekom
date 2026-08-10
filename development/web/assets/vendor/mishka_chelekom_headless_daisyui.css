@@ -5425,6 +5425,60 @@
 }
 /* <<< angle_slider */
 
+/* >>> tree_select */
+@layer components {
+  [data-skin=daisyui] {
+    /* tree_select — daisyUI skin.
+     *
+     * A select whose panel happens to contain a tree: the trigger borrows daisyUI's `select` and the
+     * panel its `dropdown-content`, so it sits alongside the other fields on a form rather than
+     * looking like a widget that wandered in.
+     */
+
+    .chelekom-tree-select {
+      position: relative;
+      color: var(--color-base-content);
+    }
+
+    .chelekom-tree-select__trigger {
+      @apply d-select;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      cursor: pointer;
+      text-align: start;
+    }
+
+    .chelekom-tree-select__value {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+
+
+    .chelekom-tree-select__panel {
+      @apply d-dropdown-content;
+
+      position: absolute;
+      z-index: 50;
+      max-height: 18rem;
+      overflow: auto;
+      width: 100%;
+      border-radius: var(--radius-box);
+      background-color: var(--color-base-100);
+      box-shadow: 0 4px 12px oklch(0% 0 0 / 0.12);
+    }
+
+    .chelekom-tree-select__panel[data-closed] {
+      display: none;
+    }
+  }
+}
+/* <<< tree_select */
+
 /* >>> autocomplete */
 @layer components {
   [data-skin=daisyui] {
