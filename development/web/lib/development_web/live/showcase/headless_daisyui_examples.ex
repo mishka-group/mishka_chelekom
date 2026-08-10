@@ -49,6 +49,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.Tabs
   import DevelopmentWeb.Components.Headless.Tooltip
   import DevelopmentWeb.Components.Headless.TextInput
+  import DevelopmentWeb.Components.Headless.Textarea
 
   @faq [
     {"What is a skin?",
@@ -426,6 +427,19 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"text-input-url", "URL with icon and validator", "`type=\"url\"`."},
       {"text-input-form", "In a Phoenix form",
        "The real integration: `field={@form[:email]}` takes the id, name, value and errors from the form. Errors wait for `used_input?/1` — the pristine form on the left has an error in its changeset and does not show it; the touched one on the right does."}
+    ],
+    "textarea" => [
+      {"textarea-hero", "Textarea", "daisyUI's `textarea` on the control root."},
+      {"textarea-ghost", "Ghost (no background)", "daisyUI's `textarea-ghost`."},
+      {"textarea-field", "With form control and labels",
+       "Our `field` wrapper around the textarea, label and description wired for screen readers."},
+      {"textarea-colors", "Textarea colors", "All eight `textarea-*` colors."},
+      {"textarea-sizes", "Sizes", "`textarea-xs` through `textarea-xl`."},
+      {"textarea-disabled", "Disabled", "Disabled also removes the resize handle."},
+      {"textarea-autosize", "Autosize",
+       "Not on daisyUI's page — the one behaviour worth a hook. Type and the box grows between `min_rows` and `max_rows`, then starts scrolling."},
+      {"textarea-form", "In a Phoenix form",
+       "`field={@form[:bio]}` with a live character count from `phx-change`."}
     ]
   }
 
@@ -3131,6 +3145,115 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       </.field>
 
       <button type="submit" class="d-btn d-btn-primary self-center">Save</button>
+    </form>
+    """
+  end
+
+  # ── textarea ──────────────────────────────────────────────────────────────
+  def example(%{section: "textarea-hero"} = assigns) do
+    ~H"""
+    <.textarea id="daisyui-textarea-hero" name="bio" placeholder="Bio" />
+    """
+  end
+
+  def example(%{section: "textarea-ghost"} = assigns) do
+    ~H"""
+    <.textarea id="daisyui-textarea-ghost" name="ghost" class="d-textarea-ghost" placeholder="Bio" />
+    """
+  end
+
+  def example(%{section: "textarea-field"} = assigns) do
+    ~H"""
+    <.field
+      :let={f}
+      id="daisyui-textarea-field"
+      name="bio"
+      label="Your bio"
+      class="d-fieldset w-xs"
+      label_class="d-fieldset-legend"
+    >
+      <.textarea id={f.id} name={f.name} placeholder="Bio" describedby={f.describedby} />
+      <:description>Optional</:description>
+    </.field>
+    """
+  end
+
+  def example(%{section: "textarea-colors"} = assigns) do
+    assigns = assign(assigns, :colors, @colors)
+
+    ~H"""
+    <div class="flex flex-col gap-2">
+      <.textarea
+        :for={color <- @colors}
+        id={"daisyui-textarea-#{color}"}
+        name={color}
+        rows={2}
+        class={"d-textarea-#{color}"}
+        placeholder={String.capitalize(color)}
+      />
+    </div>
+    """
+  end
+
+  def example(%{section: "textarea-sizes"} = assigns) do
+    assigns = assign(assigns, :sizes, @sizes)
+
+    ~H"""
+    <div class="flex flex-col gap-2">
+      <.textarea
+        :for={size <- @sizes}
+        id={"daisyui-textarea-size-#{size}"}
+        name={size}
+        rows={2}
+        class={"d-textarea-#{size}"}
+        placeholder={"Size #{size}"}
+      />
+    </div>
+    """
+  end
+
+  def example(%{section: "textarea-disabled"} = assigns) do
+    ~H"""
+    <div class="flex flex-col gap-2">
+      <.textarea id="daisyui-textarea-disabled" name="disabled" placeholder="You can't type" disabled />
+      <.textarea id="daisyui-textarea-disabled-value" name="locked" value="Locked" disabled />
+    </div>
+    """
+  end
+
+  def example(%{section: "textarea-autosize"} = assigns) do
+    ~H"""
+    <.textarea
+      id="daisyui-textarea-autosize"
+      name="notes"
+      placeholder="Keep typing — this grows to six rows, then scrolls"
+      autosize
+      min_rows={2}
+      max_rows={6}
+    />
+    """
+  end
+
+  def example(%{section: "textarea-form"} = assigns) do
+    assigns = assign(assigns, :form, to_form(%{"bio" => "Elixir developer."}, as: :profile))
+
+    ~H"""
+    <form
+      id="daisyui-textarea-form-el"
+      phx-change="daisyui_textarea_change"
+      phx-submit="daisyui_textarea_submit"
+      class="flex w-xs flex-col gap-2"
+    >
+      <.field :let={f} id="daisyui-textarea-form" label="Bio" class="d-fieldset">
+        <.textarea
+          field={@form[:bio]}
+          rows={3}
+          placeholder="Tell us about yourself"
+          describedby={f.describedby}
+        />
+        <:description>Changes push on every keystroke.</:description>
+      </.field>
+      <button type="submit" class="d-btn d-btn-primary self-start">Save</button>
     </form>
     """
   end

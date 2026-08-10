@@ -59,9 +59,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessGalleryLive do
     {:noreply, assign(socket, submitted: Enum.join(Enum.sort(on), ", "))}
   end
 
+  def handle_event("daisyui_textarea_change", %{"profile" => %{"bio" => bio}}, socket) do
+    {:noreply, assign(socket, submitted: "#{String.length(bio)} characters")}
+  end
+
   # The form examples exist to prove the params actually arrive under the names the components
   # derived — so echo the shape rather than a fixed "saved" string.
-  def handle_event("daisyui_text_input_submit", params, socket) do
+  def handle_event(event, params, socket)
+      when event in ~w(daisyui_text_input_submit daisyui_textarea_submit) do
     {:noreply, assign(socket, submitted: inspect(Map.drop(params, ["_target", "_csrf_token"])))}
   end
 

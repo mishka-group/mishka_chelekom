@@ -1,0 +1,88 @@
+/* textarea — daisyUI skin.
+ *
+ * Same shape as `text_input`: daisyUI's `textarea` is a container that resets any nested
+ * `<textarea>` to transparent, so the root takes the class and every modifier — `textarea-primary`,
+ * `textarea-lg`, `textarea-ghost` — works on the root. The descendant rules `@apply` cannot carry
+ * (`.textarea textarea`, the focus ring, the disabled state) are mirrored against our parts below.
+ */
+
+.chelekom-textarea {
+  @apply <%= @d %>textarea;
+
+  display: flex;
+}
+
+.chelekom-textarea__textarea {
+  width: 100%;
+  flex: 1;
+  appearance: none;
+  background-color: transparent;
+  border: none;
+  font-size: inherit;
+  resize: vertical;
+}
+
+.chelekom-textarea__textarea[data-resize="none"] {
+  resize: none;
+}
+
+.chelekom-textarea__textarea[data-resize="horizontal"] {
+  resize: horizontal;
+}
+
+.chelekom-textarea__textarea[data-resize="both"] {
+  resize: both;
+}
+
+.chelekom-textarea__textarea::placeholder {
+  color: var(--color-base-content);
+  opacity: 50%;
+}
+
+.chelekom-textarea__textarea:focus,
+.chelekom-textarea__textarea:focus-within {
+  --tw-outline-style: none;
+  outline-style: none;
+}
+
+@media (forced-colors: active) {
+  .chelekom-textarea__textarea:focus,
+  .chelekom-textarea__textarea:focus-within {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+  }
+}
+
+.chelekom-textarea:focus-within {
+  --<%= @d %>input-color: var(--color-base-content);
+  box-shadow: 0 1px
+    color-mix(in oklab, var(--<%= @d %>input-color) calc(var(--depth) * 10%), #0000);
+  outline: 2px solid var(--<%= @d %>input-color);
+  outline-offset: 2px;
+}
+
+.chelekom-textarea[data-disabled] {
+  cursor: not-allowed;
+  border-color: var(--color-base-200);
+  background-color: var(--color-base-200);
+  box-shadow: none;
+}
+
+.chelekom-textarea[data-disabled] .chelekom-textarea__textarea {
+  cursor: not-allowed;
+  resize: none;
+  color: color-mix(in oklab, var(--color-base-content) 40%, transparent);
+}
+
+.chelekom-textarea[data-disabled] .chelekom-textarea__textarea::placeholder {
+  color: var(--color-base-content);
+  opacity: 20%;
+}
+
+.chelekom-textarea[data-invalid] {
+  --<%= @d %>input-color: var(--color-error);
+}
+
+.chelekom-textarea[data-valid] {
+  --<%= @d %>input-color: var(--color-success);
+}
