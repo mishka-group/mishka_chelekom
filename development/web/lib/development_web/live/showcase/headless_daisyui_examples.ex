@@ -66,6 +66,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.FloatingIndicator
   import DevelopmentWeb.Components.Headless.FloatingWindow
   import DevelopmentWeb.Components.Headless.JsonInput
+  import DevelopmentWeb.Components.Headless.Marquee
   import DevelopmentWeb.Components.Headless.MaskInput
   import DevelopmentWeb.Components.Headless.Menubar
   import DevelopmentWeb.Components.Headless.Meter
@@ -675,6 +676,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ],
     "json_input" => [
       {"json_input-hero", "Hero",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+    ],
+    "marquee" => [
+      {"marquee-hero", "Hero",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "mask_input" => [
@@ -5098,6 +5103,24 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       value={~s({\n  "name": "Mantine",\n  "ok": true\n})}
       rows={4}
     />
+    """
+  end
+
+  # ── marquee ─────────────────────────────────────────────────────────────
+  def example(%{section: "marquee-hero"} = assigns) do
+    ~H"""
+    <div>
+      <style>
+        @keyframes chelekom-marquee-x { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+      </style>
+      <.marquee>
+        <span>React</span>
+        <span>Vue</span>
+        <span>Svelte</span>
+        <span>Solid</span>
+        <span>Angular</span>
+      </.marquee>
+    </div>
     """
   end
 

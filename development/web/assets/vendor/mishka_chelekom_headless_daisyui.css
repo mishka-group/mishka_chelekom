@@ -4541,6 +4541,37 @@
 }
 /* <<< json_input */
 
+/* >>> marquee */
+@layer components {
+  [data-skin=daisyui] {
+    /* marquee — daisyUI skin.
+     *
+     * daisyUI has no marquee. The scroll itself is the component's (it duplicates the group so the
+     * loop is seamless); this only draws the mask that fades both edges, which is what keeps the
+     * content from appearing to be clipped mid-word.
+     */
+
+    .chelekom-marquee {
+      overflow: hidden;
+      mask-image: linear-gradient(to right, #0000, #000 8%, #000 92%, #0000);
+      color: var(--color-base-content);
+    }
+
+    .chelekom-marquee__track {
+      display: flex;
+      width: max-content;
+    }
+
+    .chelekom-marquee__group {
+      display: flex;
+      align-items: center;
+      gap: calc(0.25rem * 6);
+      padding-inline: calc(0.25rem * 3);
+    }
+  }
+}
+/* <<< marquee */
+
 /* >>> mask_input */
 @layer components {
   [data-skin=daisyui] {
