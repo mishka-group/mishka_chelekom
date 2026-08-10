@@ -55,6 +55,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.ContextMenu
   import DevelopmentWeb.Components.Headless.Menubar
   import DevelopmentWeb.Components.Headless.NavigationMenu
+  import DevelopmentWeb.Components.Headless.Popover
   import DevelopmentWeb.Components.Headless.Toolbar
   import DevelopmentWeb.Components.Headless.Select
   import DevelopmentWeb.Components.Headless.Switch
@@ -589,6 +590,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"navigation_menu-nested", "Nested",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
       {"navigation_menu-nested-inline", "Nested Inline",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+    ],
+    "popover" => [
+      {"popover-hero", "Hero",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+      {"popover-detached-triggers-controlled", "Detached Triggers Controlled",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+      {"popover-detached-triggers-full", "Detached Triggers Full",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+      {"popover-detached-triggers-simple", "Detached Triggers Simple",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+      {"popover-open-on-hover", "Open On Hover",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "toolbar" => [
@@ -4571,6 +4584,84 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <:item label="Releases" href="#" />
       <:item label="GitHub" href="#" />
     </.navigation_menu>
+    """
+  end
+
+  # ── popover ─────────────────────────────────────────────────────────────
+  def example(%{section: "popover-hero"} = assigns) do
+    ~H"""
+    <.popover
+      id="daisyui-popover-hero"
+      side_offset={8}
+    >
+      <:trigger>Notifications</:trigger>
+      <:arrow></:arrow>
+      <:title>Notifications</:title>
+      <:description>You are all caught up. Good job!</:description>
+    </.popover>
+    """
+  end
+
+  def example(%{section: "popover-detached-triggers-controlled"} = assigns) do
+    ~H"""
+    <.popover
+      id="daisyui-popover-detached-triggers-controlled"
+      side_offset={8}
+    >
+      <:trigger>Trigger 1</:trigger>
+      <:arrow></:arrow>
+      <:title>Notifications</:title>
+      <:description>You are all caught up. Good job!</:description>
+    </.popover>
+    """
+  end
+
+  def example(%{section: "popover-detached-triggers-full"} = assigns) do
+    ~H"""
+    <.popover
+      id="daisyui-popover-detached-triggers-full"
+      side_offset={8}
+    >
+      <:trigger>Profile</:trigger>
+      <:arrow></:arrow>
+      <div>
+        <h2>
+          Jason Eventon
+        </h2>
+        <span>
+          <img
+            src="https://images.unsplash.com/photo-1543610892-0b1f7e6d8ac1?w=128&h=128&dpr=2&q=80"
+            width="48"
+            height="48"
+          />
+        </span>
+        <span>
+          Pro plan
+        </span>
+        <div>
+          <a href="#">
+            Profile settings
+          </a>
+          <a href="#">
+            Log out
+          </a>
+        </div>
+      </div>
+    </.popover>
+    """
+  end
+
+  def example(%{section: "popover-detached-triggers-simple"} = assigns) do
+    ~H"""
+    <.popover
+      id="daisyui-popover-detached-triggers-simple"
+      side_offset={8}
+    >
+      <:trigger>Notifications</:trigger>
+      <:arrow></:arrow>
+      <:title>Notifications</:title>
+      <:description>You are all caught up. Good job!</:description>
+    </.popover>
     """
   end
 
