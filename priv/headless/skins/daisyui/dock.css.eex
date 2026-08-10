@@ -1,0 +1,168 @@
+/* dock — daisyUI skin.
+ *
+ * daisyUI's `dock` is a fixed bar and styles its children with `.dock > *`, its labels with
+ * `.dock-label`, and its active indicator with `.dock-active:after` — descendant and class
+ * cross-references that `@apply` cannot carry, so all three are mirrored against our parts. The
+ * active indicator keys off `data-active`, which the component already sets, so no caller has to
+ * add `dock-active` by hand.
+ *
+ * `data-contained` is ours: daisyUI's dock is `position: fixed`, which makes it impossible to show
+ * one inside a card or a device mockup. Contained mode swaps that for `absolute`, so the nearest
+ * positioned ancestor holds it instead of the viewport.
+ */
+
+.chelekom-dock {
+  @apply <%= @d %>dock;
+}
+
+.chelekom-dock[data-position="top"] {
+  top: 0;
+  bottom: auto;
+  border-top: none;
+  border-bottom: 0.5px solid color-mix(in oklab, var(--color-base-content) 5%, #0000);
+  padding-bottom: 0;
+  padding-top: env(safe-area-inset-top);
+}
+
+.chelekom-dock[data-contained] {
+  position: absolute;
+  height: 4rem;
+  padding-bottom: 0;
+}
+
+.chelekom-dock__item {
+  position: relative;
+  margin-bottom: calc(0.25rem * 2);
+  display: flex;
+  height: 100%;
+  max-width: calc(0.25rem * 32);
+  flex-shrink: 1;
+  flex-basis: 100%;
+  cursor: pointer;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  border-radius: var(--radius-box);
+  background-color: transparent;
+  transition: opacity 0.2s ease-out;
+}
+
+span.chelekom-dock__item {
+  cursor: default;
+}
+
+@media (hover: hover) {
+  .chelekom-dock__item:hover {
+    opacity: 80%;
+  }
+}
+
+.chelekom-dock__item[aria-disabled="true"],
+.chelekom-dock__item[disabled] {
+  pointer-events: none;
+  color: color-mix(in oklab, var(--color-base-content) 10%, transparent);
+  opacity: 100%;
+}
+
+/* The active pill under the icon. daisyUI grows it from 6 to 10 units on the active item. */
+.chelekom-dock__item::after {
+  content: "";
+  position: absolute;
+  height: 0.25rem;
+  width: calc(0.25rem * 6);
+  border-radius: calc(infinity * 1px);
+  background-color: transparent;
+  bottom: 0.2rem;
+  border-top: 3px solid transparent;
+  transition:
+    background-color 0.1s ease-out,
+    color 0.1s ease-out,
+    width 0.1s ease-out;
+}
+
+.chelekom-dock__item[data-active]::after {
+  width: calc(0.25rem * 10);
+  background-color: currentcolor;
+  color: currentcolor;
+}
+
+.chelekom-dock[data-position="top"] .chelekom-dock__item::after {
+  bottom: auto;
+  top: 0.2rem;
+}
+
+.chelekom-dock__label {
+  font-size: 0.6875rem;
+}
+
+/* Hidden from sight, not from a screen reader — an icon-only dock still has names. */
+.chelekom-dock__label[data-hidden] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* daisyUI's size modifiers, mirrored: the height lands on the root by `@apply`, but the label
+ * size and the pill offset are descendant rules that do not travel with it. */
+.chelekom-dock.<%= @d %>dock-xs .chelekom-dock__label {
+  font-size: 0.625rem;
+}
+
+.chelekom-dock.<%= @d %>dock-xs .chelekom-dock__item[data-active]::after {
+  bottom: -0.1rem;
+}
+
+.chelekom-dock.<%= @d %>dock-xs[data-contained] {
+  height: 3rem;
+}
+
+.chelekom-dock.<%= @d %>dock-sm .chelekom-dock__label {
+  font-size: 0.625rem;
+}
+
+.chelekom-dock.<%= @d %>dock-sm .chelekom-dock__item[data-active]::after {
+  bottom: -0.1rem;
+}
+
+.chelekom-dock.<%= @d %>dock-sm[data-contained] {
+  height: 3.5rem;
+}
+
+.chelekom-dock.<%= @d %>dock-md .chelekom-dock__label {
+  font-size: 0.6875rem;
+}
+
+.chelekom-dock.<%= @d %>dock-md[data-contained] {
+  height: 4rem;
+}
+
+.chelekom-dock.<%= @d %>dock-lg .chelekom-dock__label {
+  font-size: 0.6875rem;
+}
+
+.chelekom-dock.<%= @d %>dock-lg .chelekom-dock__item[data-active]::after {
+  bottom: 0.4rem;
+}
+
+.chelekom-dock.<%= @d %>dock-lg[data-contained] {
+  height: 4.5rem;
+}
+
+.chelekom-dock.<%= @d %>dock-xl .chelekom-dock__label {
+  font-size: 0.75rem;
+}
+
+.chelekom-dock.<%= @d %>dock-xl .chelekom-dock__item[data-active]::after {
+  bottom: 0.4rem;
+}
+
+.chelekom-dock.<%= @d %>dock-xl[data-contained] {
+  height: 5rem;
+}

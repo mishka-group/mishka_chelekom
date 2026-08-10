@@ -54,6 +54,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.Card
   import DevelopmentWeb.Components.Headless.Breadcrumb
   import DevelopmentWeb.Components.Headless.Stepper
+  import DevelopmentWeb.Components.Headless.Dock
 
   @faq [
     {"What is a skin?",
@@ -408,6 +409,19 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
        "Not on daisyUI's page either. `max_items` keeps the ends and stands one ellipsis in for the middle — arithmetic on the server, so it works before the socket connects."},
       {"breadcrumb-expandable", "Expandable",
        "The same collapse with `on_expand`, which makes the ellipsis a real button that pushes to the server."}
+    ],
+    "dock" => [
+      {"dock-hero", "Dock",
+       "daisyUI's `dock`, shown inside a frame — `contained` swaps the fixed positioning for absolute so it belongs to the box instead of the viewport, which is the only way to put one on a page that already has one."},
+      {"dock-sizes", "Sizes", "`dock-xs` through `dock-xl`."},
+      {"dock-colors", "Custom colors",
+       "daisyUI colours the active item with a text class; the active state is `data-active`, so no `dock-active` is added by hand."},
+      {"dock-top", "Pinned to the top",
+       "Not on daisyUI's page. `position=\"top\"` flips the border and the active pill to the other edge."},
+      {"dock-icon-only", "Labels for screen readers only",
+       "Not on daisyUI's page either. `show_labels={false}` keeps the names in the DOM and hides them visually, rather than dropping the text an icon cannot replace."},
+      {"dock-interactive", "Switching a panel",
+       "`on_select` renders buttons instead of links, for a dock that changes a view rather than a route."}
     ],
     "stepper" => [
       {"stepper-hero", "Horizontal",
@@ -2966,6 +2980,103 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     """
   end
 
+  # ── dock ──────────────────────────────────────────────────────────────────
+  def example(%{section: "dock-hero"} = assigns) do
+    ~H"""
+    <.dock_frame>
+      <.dock id="daisyui-dock-hero" label="Sections" contained>
+        <:item label="Home" href="#"><.dock_icon path="M3 11l9-8 9 8M5 10v10h14V10" /></:item>
+        <:item label="Inbox" href="#" active><.dock_icon path="M3 7h18v10H3zM3 7l9 6 9-6" /></:item>
+        <:item label="Settings" href="#"><.dock_icon path="M12 8a4 4 0 100 8 4 4 0 000-8z" /></:item>
+      </.dock>
+    </.dock_frame>
+    """
+  end
+
+  def example(%{section: "dock-sizes"} = assigns) do
+    assigns = assign(assigns, :sizes, @sizes)
+
+    ~H"""
+    <div class="flex flex-col gap-4">
+      <.dock_frame :for={size <- @sizes} height="h-28">
+        <.dock
+          id={"daisyui-dock-#{size}"}
+          label={"Sections #{size}"}
+          contained
+          class={"d-dock-#{size}"}
+        >
+          <:item label="Home" href="#"><.dock_icon path="M3 11l9-8 9 8M5 10v10h14V10" /></:item>
+          <:item label="Inbox" href="#" active><.dock_icon path="M3 7h18v10H3zM3 7l9 6 9-6" /></:item>
+          <:item label="Settings" href="#">
+            <.dock_icon path="M12 8a4 4 0 100 8 4 4 0 000-8z" />
+          </:item>
+        </.dock>
+      </.dock_frame>
+    </div>
+    """
+  end
+
+  def example(%{section: "dock-colors"} = assigns) do
+    ~H"""
+    <.dock_frame>
+      <.dock
+        id="daisyui-dock-colors"
+        label="Sections"
+        contained
+        class="bg-primary text-primary-content"
+      >
+        <:item label="Home" href="#"><.dock_icon path="M3 11l9-8 9 8M5 10v10h14V10" /></:item>
+        <:item label="Inbox" href="#" active><.dock_icon path="M3 7h18v10H3zM3 7l9 6 9-6" /></:item>
+        <:item label="Settings" href="#"><.dock_icon path="M12 8a4 4 0 100 8 4 4 0 000-8z" /></:item>
+      </.dock>
+    </.dock_frame>
+    """
+  end
+
+  def example(%{section: "dock-top"} = assigns) do
+    ~H"""
+    <.dock_frame align="items-start">
+      <.dock id="daisyui-dock-top" label="Sections" position="top" contained>
+        <:item label="Home" href="#"><.dock_icon path="M3 11l9-8 9 8M5 10v10h14V10" /></:item>
+        <:item label="Inbox" href="#" active><.dock_icon path="M3 7h18v10H3zM3 7l9 6 9-6" /></:item>
+        <:item label="Settings" href="#"><.dock_icon path="M12 8a4 4 0 100 8 4 4 0 000-8z" /></:item>
+      </.dock>
+    </.dock_frame>
+    """
+  end
+
+  def example(%{section: "dock-icon-only"} = assigns) do
+    ~H"""
+    <.dock_frame>
+      <.dock id="daisyui-dock-icon-only" label="Sections" contained show_labels={false}>
+        <:item label="Home" href="#"><.dock_icon path="M3 11l9-8 9 8M5 10v10h14V10" /></:item>
+        <:item label="Inbox" href="#" active><.dock_icon path="M3 7h18v10H3zM3 7l9 6 9-6" /></:item>
+        <:item label="Settings" href="#" disabled>
+          <.dock_icon path="M12 8a4 4 0 100 8 4 4 0 000-8z" />
+        </:item>
+      </.dock>
+    </.dock_frame>
+    """
+  end
+
+  def example(%{section: "dock-interactive"} = assigns) do
+    ~H"""
+    <.dock_frame>
+      <.dock id="daisyui-dock-interactive" label="Panels" contained>
+        <:item label="Home" on_select="daisyui_dock_select">
+          <.dock_icon path="M3 11l9-8 9 8M5 10v10h14V10" />
+        </:item>
+        <:item label="Inbox" on_select="daisyui_dock_select" active>
+          <.dock_icon path="M3 7h18v10H3zM3 7l9 6 9-6" />
+        </:item>
+        <:item label="Settings" on_select="daisyui_dock_select">
+          <.dock_icon path="M12 8a4 4 0 100 8 4 4 0 000-8z" />
+        </:item>
+      </.dock>
+    </.dock_frame>
+    """
+  end
+
   # ── stepper ───────────────────────────────────────────────────────────────
   def example(%{section: "stepper-hero"} = assigns) do
     ~H"""
@@ -3868,6 +3979,44 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       The root renders as an anchor, so there is one focus stop and one click target — not a link
       nested inside a clickable box.
     </.card>
+    """
+  end
+
+  attr :height, :string, default: "h-40"
+  attr :align, :string, default: "items-end"
+  slot :inner_block, required: true
+
+  # A daisyUI dock is `position: fixed`; a contained one is `absolute`, which needs a positioned
+  # ancestor. This frame is that ancestor — and it is also what keeps three docks on one page from
+  # stacking on top of each other at the bottom of the viewport.
+  defp dock_frame(assigns) do
+    ~H"""
+    <div class={[
+      "relative w-72 overflow-hidden rounded-xl border border-[var(--c-base-300)] bg-[var(--c-base-100)]",
+      @height,
+      @align
+    ]}>
+      {render_slot(@inner_block)}
+    </div>
+    """
+  end
+
+  attr :path, :string, required: true
+
+  defp dock_icon(assigns) do
+    ~H"""
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="size-5"
+      aria-hidden="true"
+    >
+      <path d={@path} />
+    </svg>
     """
   end
 

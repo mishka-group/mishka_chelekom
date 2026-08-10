@@ -71,6 +71,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessGalleryLive do
     {:noreply, assign(socket, submitted: "step #{index}")}
   end
 
+  def handle_event("daisyui_dock_select", %{"index" => index}, socket) do
+    {:noreply, assign(socket, submitted: "panel #{index}")}
+  end
+
   # The form examples exist to prove the params actually arrive under the names the components
   # derived — so echo the shape rather than a fixed "saved" string.
   def handle_event(event, params, socket)
