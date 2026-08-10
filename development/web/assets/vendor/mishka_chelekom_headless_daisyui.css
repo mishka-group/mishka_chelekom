@@ -4034,3 +4034,52 @@
 }
 /* <<< spoiler */
 
+/* >>> segmented_control */
+@layer components {
+  [data-skin=daisyui] {
+    /* segmented_control — daisyUI skin.
+     *
+     * daisyUI builds this out of `join` plus `btn`s, or out of `tabs tabs-boxed` — both are the same
+     * shape: one bordered strip, square inner corners, the chosen segment filled. That shape is
+     * mirrored here so a caller writes no classes at all.
+     *
+     * The selected segment keys off `data-checked` rather than `:checked`, because our radios are
+     * visually hidden and daisyUI's `btn-active` has nothing to hang off otherwise.
+     */
+
+    .chelekom-segmented-control {
+      display: inline-flex;
+      align-items: stretch;
+      border-radius: var(--radius-field);
+      border: var(--border) solid color-mix(in oklab, var(--color-base-content) 12%, #0000);
+      background-color: var(--color-base-200);
+      padding: calc(0.25rem * 0.5);
+      gap: calc(0.25rem * 0.5);
+    }
+
+    .chelekom-segmented-control__item {
+      @apply d-btn d-btn-sm d-btn-ghost;
+
+      border: none;
+      flex: 1;
+    }
+
+    .chelekom-segmented-control__item[data-checked],
+    .chelekom-segmented-control__item:has(.chelekom-segmented-control__input:checked) {
+      background-color: var(--color-base-100);
+      box-shadow: 0 1px 2px oklch(0% 0 0 / 0.08);
+    }
+
+    .chelekom-segmented-control__item:has(.chelekom-segmented-control__input:focus-visible) {
+      outline: 2px solid currentcolor;
+      outline-offset: 2px;
+    }
+
+    .chelekom-segmented-control[data-disabled] .chelekom-segmented-control__item {
+      pointer-events: none;
+      opacity: 50%;
+    }
+  }
+}
+/* <<< segmented_control */
+

@@ -50,6 +50,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.Chip
   import DevelopmentWeb.Components.Headless.Burger
   import DevelopmentWeb.Components.Headless.Spoiler
+  import DevelopmentWeb.Components.Headless.SegmentedControl
   import DevelopmentWeb.Components.Headless.Select
   import DevelopmentWeb.Components.Headless.Switch
   import DevelopmentWeb.Components.Headless.Tabs
@@ -549,6 +550,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
        "daisyUI's nearest thing is `collapse`, but that hides everything behind a title bar. A spoiler shows the beginning and fades out the rest, so the box is ours and only the toggle borrows `btn btn-sm btn-ghost`."},
       {"spoiler-expanded", "Starting open", "`expanded` renders it already unfolded."},
       {"spoiler-labels", "Custom labels", "The show and hide labels are attributes."}
+    ],
+    "segmented_control" => [
+      {"segmented-control-hero", "Segmented control",
+       "daisyUI builds this from `join` + `btn` or from `tabs-boxed`; both are the same shape, and the skin draws it so the markup carries nothing."},
+      {"segmented-control-form", "In a form",
+       "The segments are real radios sharing a name, so the choice posts with the form and needs no JS."},
+      {"segmented-control-disabled", "Disabled", "The whole control ruled out."}
     ],
     "action_icon" => [
       {"action-icon-hero", "Action icon",
@@ -4136,6 +4144,50 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         anything longer belongs in an accordion.
       </p>
     </.spoiler>
+    """
+  end
+
+  # ── segmented_control ─────────────────────────────────────────────────────
+  def example(%{section: "segmented-control-hero"} = assigns) do
+    ~H"""
+    <.segmented_control
+      id="daisyui-segmented-hero"
+      name="view"
+      value="list"
+      label="View"
+      options={[{"list", "List"}, {"grid", "Grid"}, {"table", "Table"}]}
+    />
+    """
+  end
+
+  def example(%{section: "segmented-control-form"} = assigns) do
+    ~H"""
+    <form
+      id="daisyui-segmented-form-el"
+      phx-change="daisyui_segmented_change"
+      class="flex flex-col items-start gap-3"
+    >
+      <.segmented_control
+        id="daisyui-segmented-form"
+        name="density"
+        value="cosy"
+        label="Density"
+        options={[{"compact", "Compact"}, {"cosy", "Cosy"}, {"roomy", "Roomy"}]}
+      />
+    </form>
+    """
+  end
+
+  def example(%{section: "segmented-control-disabled"} = assigns) do
+    ~H"""
+    <.segmented_control
+      id="daisyui-segmented-disabled"
+      name="view_off"
+      value="grid"
+      label="View"
+      disabled
+      options={[{"list", "List"}, {"grid", "Grid"}]}
+    />
     """
   end
 
