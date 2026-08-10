@@ -51,6 +51,7 @@ import Chart from "./chart.js";
 import Autosize from "./autosize.js";
 import Countdown from "./countdown.js";
 import ThemeController from "./theme_controller.js";
+import Indeterminate from "./indeterminate.js";
 const Components = {
   Tooltip,
   PreviewCard,
@@ -105,5 +106,6 @@ const Components = {
   Autosize,
   Countdown,
   ThemeController,
+  Indeterminate,
 };
 export default Components;

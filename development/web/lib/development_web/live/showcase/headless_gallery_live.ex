@@ -95,6 +95,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessGalleryLive do
     {:noreply, assign(socket, submitted: "theme #{theme}")}
   end
 
+  def handle_event("daisyui_table_sort", %{"key" => key, "dir" => dir}, socket) do
+    {:noreply, assign(socket, submitted: "sort #{key} #{dir}")}
+  end
+
+  def handle_event("daisyui_table_select", %{"id" => id}, socket) do
+    {:noreply, assign(socket, submitted: "row #{id}")}
+  end
+
+  def handle_event("daisyui_table_select_all", _params, socket) do
+    {:noreply, assign(socket, submitted: "all rows")}
+  end
+
   # The form examples exist to prove the params actually arrive under the names the components
   # derived — so echo the shape rather than a fixed "saved" string.
   def handle_event(event, params, socket)
@@ -113,7 +125,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessGalleryLive do
         "-interactive",
         "-radio",
         "-short",
-        "-persist"
+        "-persist",
+        "-sortable",
+        "-selectable"
       ])
 
   # The daisyUI gallery only lists what actually ships a skin fragment today.

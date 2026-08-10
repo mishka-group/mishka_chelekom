@@ -60,6 +60,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.Countdown
   import DevelopmentWeb.Components.Headless.ThemeController
   import DevelopmentWeb.Components.Headless.Fab
+  import DevelopmentWeb.Components.Headless.Table
 
   @faq [
     {"What is a skin?",
@@ -415,6 +416,27 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"breadcrumb-expandable", "Expandable",
        "The same collapse with `on_expand`, which makes the ellipsis a real button that pushes to the server."}
     ],
+    "table" => [
+      {"table-hero", "Table",
+       "daisyUI's `table` transfers almost intact, because its rules target `th`/`td`/`tr` rather than class names. What it cannot give you is the semantics — a caption, `scope` on the headers, and a row header that lets a reader say the person's name before their job."},
+      {"table-bordered", "With border and background",
+       "daisyUI's `rounded-box` wrapper and a border."},
+      {"table-active", "With an active row",
+       "daisyUI marks a row with a class; ours is a state, so the skin reads `data-selected`."},
+      {"table-hover", "Rows that highlight on hover", "daisyUI's `table-row-hover`."},
+      {"table-zebra", "Zebra", "daisyUI's `table-zebra`."},
+      {"table-visual", "With visual elements",
+       "Avatars and badges in the cells, from the column's `:let` row."},
+      {"table-xs", "Table xs", "daisyUI's `table-xs`."},
+      {"table-pinned", "With pinned rows", "daisyUI's `table-pin-rows` inside a scrolling box."},
+      {"table-pinned-cols", "With pinned rows and columns",
+       "daisyUI's `table-pin-cols` as well — the row header is the column that stays put."},
+      {"table-sortable", "Sortable",
+       "Not on daisyUI's page. The header is a button and the cell carries `aria-sort`, so the order is announced and not merely drawn; clicking the sorted column reverses it."},
+      {"table-selectable", "Selectable",
+       "Not on daisyUI's page either. The header checkbox is tri-state — select one row and it goes to the mixed state rather than pretending nothing is selected."},
+      {"table-empty", "Empty", "The `:empty` slot spans every column."}
+    ],
     "fab" => [
       {"fab-hero", "FAB and speed dial",
        "daisyUI opens its dial with `:focus-within` on a `div[role=button]`. This is a real button on the shared Popup engine, so it has `aria-expanded`, closes on Escape and on an outside click, and can be activated with Space."},
@@ -629,6 +651,33 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
        "`navigate` renders the root as an anchor, which is the honest markup for a card that is one big click target — a nested `<a>` inside a clickable `<div>` is not."}
     ]
   }
+
+  @crew [
+    %{
+      id: 1,
+      name: "Cy Ganderton",
+      job: "Quality Control Specialist",
+      color: "Blue",
+      company: "Littel, Schaden and Vandervort",
+      location: "Canada"
+    },
+    %{
+      id: 2,
+      name: "Hart Hagerty",
+      job: "Desktop Support Technician",
+      color: "Purple",
+      company: "Zemlak, Daniel and Leannon",
+      location: "United States"
+    },
+    %{
+      id: 3,
+      name: "Brice Swyre",
+      job: "Tax Accountant",
+      color: "Red",
+      company: "Carroll Group",
+      location: "China"
+    }
+  ]
 
   @nav [
     {"Dashboard", "M3 12h18M3 6h18M3 18h18"},
@@ -3069,6 +3118,213 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <:item href="#">Headless</:item>
       <:item>Breadcrumb</:item>
     </.breadcrumb>
+    """
+  end
+
+  # ── table ─────────────────────────────────────────────────────────────────
+  def example(%{section: "table-hero"} = assigns) do
+    assigns = assign(assigns, :rows, @crew)
+
+    ~H"""
+    <.table id="daisyui-table-hero" rows={@rows} caption="Crew" row_id={&"hero-#{&1.id}"}>
+      <:col :let={row} label="#" align="end">{row.id}</:col>
+      <:col :let={row} label="Name" row_header>{row.name}</:col>
+      <:col :let={row} label="Job">{row.job}</:col>
+      <:col :let={row} label="Favorite color">{row.color}</:col>
+    </.table>
+    """
+  end
+
+  def example(%{section: "table-bordered"} = assigns) do
+    assigns = assign(assigns, :rows, @crew)
+
+    ~H"""
+    <div class="rounded-box border border-base-content/5 bg-base-100 overflow-hidden">
+      <.table id="daisyui-table-bordered" rows={@rows} caption="Crew" row_id={&"bordered-#{&1.id}"}>
+        <:col :let={row} label="Name" row_header>{row.name}</:col>
+        <:col :let={row} label="Job">{row.job}</:col>
+      </.table>
+    </div>
+    """
+  end
+
+  def example(%{section: "table-active"} = assigns) do
+    assigns = assign(assigns, :rows, @crew)
+
+    ~H"""
+    <.table
+      id="daisyui-table-active"
+      rows={@rows}
+      caption="Crew"
+      row_id={&"active-#{&1.id}"}
+      selected={["active-2"]}
+    >
+      <:col :let={row} label="Name" row_header>{row.name}</:col>
+      <:col :let={row} label="Job">{row.job}</:col>
+    </.table>
+    """
+  end
+
+  def example(%{section: "table-hover"} = assigns) do
+    assigns = assign(assigns, :rows, @crew)
+
+    ~H"""
+    <.table
+      id="daisyui-table-hover"
+      rows={@rows}
+      caption="Crew"
+      row_id={&"hover-#{&1.id}"}
+      row_class="d-table-row-hover"
+    >
+      <:col :let={row} label="Name" row_header>{row.name}</:col>
+      <:col :let={row} label="Job">{row.job}</:col>
+    </.table>
+    """
+  end
+
+  def example(%{section: "table-zebra"} = assigns) do
+    assigns = assign(assigns, :rows, @crew)
+
+    ~H"""
+    <.table
+      id="daisyui-table-zebra"
+      rows={@rows}
+      caption="Crew"
+      row_id={&"zebra-#{&1.id}"}
+      class="d-table-zebra"
+    >
+      <:col :let={row} label="Name" row_header>{row.name}</:col>
+      <:col :let={row} label="Job">{row.job}</:col>
+    </.table>
+    """
+  end
+
+  def example(%{section: "table-visual"} = assigns) do
+    assigns = assign(assigns, :rows, @crew)
+
+    ~H"""
+    <.table id="daisyui-table-visual" rows={@rows} caption="Crew" row_id={&"visual-#{&1.id}"}>
+      <:col :let={row} label="Name" row_header>
+        <span class="flex items-center gap-3">
+          <span class="d-badge d-badge-neutral size-8 rounded-full">{String.first(row.name)}</span>
+          <span class="flex flex-col">
+            <span class="font-medium">{row.name}</span>
+            <span class="text-xs opacity-50">{row.job}</span>
+          </span>
+        </span>
+      </:col>
+      <:col :let={row} label="Color">
+        <span class="d-badge d-badge-ghost d-badge-sm">{row.color}</span>
+      </:col>
+    </.table>
+    """
+  end
+
+  def example(%{section: "table-xs"} = assigns) do
+    assigns = assign(assigns, :rows, @crew)
+
+    ~H"""
+    <.table
+      id="daisyui-table-xs"
+      rows={@rows}
+      caption="Crew"
+      row_id={&"xs-#{&1.id}"}
+      class="d-table-xs"
+    >
+      <:col :let={row} label="Name" row_header>{row.name}</:col>
+      <:col :let={row} label="Job">{row.job}</:col>
+      <:col :let={row} label="Color">{row.color}</:col>
+    </.table>
+    """
+  end
+
+  def example(%{section: "table-pinned"} = assigns) do
+    assigns = assign(assigns, :rows, @crew ++ @crew)
+
+    ~H"""
+    <div class="h-48 overflow-x-auto">
+      <.table
+        id="daisyui-table-pinned"
+        rows={Enum.with_index(@rows) |> Enum.map(fn {r, i} -> %{r | id: i} end)}
+        caption="Crew"
+        row_id={&"pinned-#{&1.id}"}
+        class="d-table-pin-rows"
+      >
+        <:col :let={row} label="Name" row_header>{row.name}</:col>
+        <:col :let={row} label="Job">{row.job}</:col>
+      </.table>
+    </div>
+    """
+  end
+
+  def example(%{section: "table-pinned-cols"} = assigns) do
+    assigns = assign(assigns, :rows, @crew)
+
+    ~H"""
+    <div class="h-48 w-full overflow-x-auto">
+      <.table
+        id="daisyui-table-pinned-cols"
+        rows={@rows}
+        caption="Crew"
+        row_id={&"pincols-#{&1.id}"}
+        class="d-table-pin-rows d-table-pin-cols"
+      >
+        <:col :let={row} label="Name" row_header>{row.name}</:col>
+        <:col :let={row} label="Job">{row.job}</:col>
+        <:col :let={row} label="Color">{row.color}</:col>
+        <:col :let={row} label="Company">{row.company}</:col>
+        <:col :let={row} label="Location">{row.location}</:col>
+      </.table>
+    </div>
+    """
+  end
+
+  def example(%{section: "table-sortable"} = assigns) do
+    assigns = assign(assigns, :rows, @crew)
+
+    ~H"""
+    <.table
+      id="daisyui-table-sortable"
+      rows={@rows}
+      caption="Crew, sortable"
+      row_id={&"sortable-#{&1.id}"}
+      sort_by="name"
+      sort_dir="asc"
+      on_sort="daisyui_table_sort"
+    >
+      <:col :let={row} label="Name" key="name" row_header>{row.name}</:col>
+      <:col :let={row} label="Job" key="job">{row.job}</:col>
+      <:col :let={row} label="Color">{row.color}</:col>
+    </.table>
+    """
+  end
+
+  def example(%{section: "table-selectable"} = assigns) do
+    assigns = assign(assigns, :rows, @crew)
+
+    ~H"""
+    <.table
+      id="daisyui-table-selectable"
+      rows={@rows}
+      caption="Crew, selectable"
+      row_id={&"selectable-#{&1.id}"}
+      selected={["selectable-1"]}
+      on_select="daisyui_table_select"
+      on_select_all="daisyui_table_select_all"
+    >
+      <:col :let={row} label="Name" row_header>{row.name}</:col>
+      <:col :let={row} label="Job">{row.job}</:col>
+    </.table>
+    """
+  end
+
+  def example(%{section: "table-empty"} = assigns) do
+    ~H"""
+    <.table id="daisyui-table-empty" rows={[]} caption="No crew" show_caption>
+      <:col label="Name" />
+      <:col label="Job" />
+      <:empty>Nobody has signed on yet.</:empty>
+    </.table>
     """
   end
 
