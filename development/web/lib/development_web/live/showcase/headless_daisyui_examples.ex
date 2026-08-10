@@ -59,6 +59,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.ContextMenu
   import DevelopmentWeb.Components.Headless.FloatingIndicator
   import DevelopmentWeb.Components.Headless.FloatingWindow
+  import DevelopmentWeb.Components.Headless.MaskInput
   import DevelopmentWeb.Components.Headless.Menubar
   import DevelopmentWeb.Components.Headless.Meter
   import DevelopmentWeb.Components.Headless.NavigationMenu
@@ -645,6 +646,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ],
     "floating_window" => [
       {"floating_window-hero", "Hero",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+    ],
+    "mask_input" => [
+      {"mask_input-hero", "Hero",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "menubar" => [
@@ -4969,6 +4974,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         Grab the title bar to move this panel within the box.
       </.floating_window>
     </div>
+    """
+  end
+
+  # ── mask_input ──────────────────────────────────────────────────────────
+  def example(%{section: "mask_input-hero"} = assigns) do
+    ~H"""
+    <.mask_input
+      id="daisyui-mask-input"
+      mask="(999) 999-9999"
+      placeholder="(___) ___-____"
+      inputmode="numeric"
+    />
     """
   end
 

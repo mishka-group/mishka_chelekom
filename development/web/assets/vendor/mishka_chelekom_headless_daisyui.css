@@ -4370,6 +4370,18 @@
 }
 /* <<< floating_window */
 
+/* >>> mask_input */
+@layer components {
+  [data-skin=daisyui] {
+    /* mask_input — daisyUI skin (a single `<input>`, so daisyUI's `input` applies directly). */
+
+    .chelekom-mask-input {
+      @apply d-input;
+    }
+  }
+}
+/* <<< mask_input */
+
 /* >>> menubar */
 @layer components {
   [data-skin=daisyui] {

@@ -1,0 +1,5 @@
+/* mask_input — daisyUI skin (a single `<input>`, so daisyUI's `input` applies directly). */
+
+.chelekom-mask-input {
+  @apply <%= @d %>input;
+}
