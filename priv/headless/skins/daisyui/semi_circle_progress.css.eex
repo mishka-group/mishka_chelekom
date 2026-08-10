@@ -1,0 +1,38 @@
+/* semi_circle_progress — daisyUI skin (the `radial-progress` look, as an arc).
+ *
+ * daisyUI's `radial-progress` is a full circle drawn with a conic gradient on a single element;
+ * ours is an SVG arc with track and indicator paths. Same idea, different medium — these are its
+ * colours and thickness written against our parts, and the colour utilities work as-is because
+ * both paths are `currentColor`.
+ */
+
+.chelekom-semi-circle-progress {
+  display: inline-grid;
+  place-items: center;
+  color: var(--color-base-content);
+}
+
+.chelekom-semi-circle-progress__svg {
+  overflow: visible;
+}
+
+.chelekom-semi-circle-progress__track {
+  stroke: color-mix(in oklab, currentColor 20%, transparent);
+  stroke-linecap: round;
+}
+
+.chelekom-semi-circle-progress__indicator {
+  stroke: currentColor;
+  stroke-linecap: round;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .chelekom-semi-circle-progress__indicator {
+    transition: stroke-dashoffset 0.3s ease-out;
+  }
+}
+
+.chelekom-semi-circle-progress__label {
+  font-size: 1.125rem;
+  font-weight: 600;
+}

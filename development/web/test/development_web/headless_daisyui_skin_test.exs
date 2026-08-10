@@ -34,6 +34,11 @@ defmodule DevelopmentWeb.HeadlessDaisyUISkinTest do
     html
   end
 
+  # The line is not consistent about this: `otp_field` renders `chelekom-otp_field` while
+  # `semi_circle_progress` and `radio_group` render hyphens. Accept either rather than encode a rule
+  # the components do not follow.
+  defp root_classes(name), do: ["chelekom-#{name}", "chelekom-#{String.replace(name, "_", "-")}"]
+
   test "the skin ships at least one component" do
     refute Enum.empty?(@skinned)
   end
@@ -55,11 +60,28 @@ defmodule DevelopmentWeb.HeadlessDaisyUISkinTest do
     end
   end
 
-  test "each skinned component's page mounts and renders its own parts", %{conn: conn} do
+  test "each skinned component's page mounts and renders its own markup", %{conn: conn} do
     for name <- @skinned do
       html = gallery(conn, "daisyui", name)
-      assert html =~ "chelekom-#{name}", "#{name}: daisyUI page renders no component markup"
-      assert html =~ ~s(data-part=)
+
+      assert Enum.any?(root_classes(name), &String.contains?(html, &1)),
+             "#{name}: daisyUI page renders no component markup"
+    end
+  end
+
+  # Not every component has parts. A leaf like `anchor` is a single `<a>` with one class and no
+  # `data-part` anywhere, so requiring parts would say more about the test than about the skin.
+  test "a component with parts still emits them under the skin", %{conn: conn} do
+    with_parts =
+      Enum.filter(@skinned, fn name ->
+        gallery(conn, "baseui", name) =~ ~s(data-part=)
+      end)
+
+    refute Enum.empty?(with_parts)
+
+    for name <- with_parts do
+      assert gallery(conn, "daisyui", name) =~ ~s(data-part=),
+             "#{name}: the skinned page lost its parts"
     end
   end
 
@@ -68,8 +90,8 @@ defmodule DevelopmentWeb.HeadlessDaisyUISkinTest do
       baseui = attrs_present(gallery(conn, "baseui", name))
       daisyui = attrs_present(gallery(conn, "daisyui", name))
 
-      assert baseui != [], "#{name}: no behavioral attributes found to compare"
-
+      # A component may legitimately carry none — `anchor` is a bare `<a>`. What must never happen
+      # is the skinned page having FEWER than the Base UI one.
       assert MapSet.subset?(MapSet.new(baseui), MapSet.new(daisyui)),
              "#{name}: daisyUI markup dropped #{inspect(MapSet.difference(MapSet.new(baseui), MapSet.new(daisyui)) |> MapSet.to_list())}"
     end

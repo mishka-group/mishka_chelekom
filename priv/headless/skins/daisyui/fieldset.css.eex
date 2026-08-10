@@ -1,0 +1,13 @@
+/* fieldset — daisyUI skin (paints `fieldset` + `fieldset-legend`). */
+
+.chelekom-fieldset {
+  @apply <%= @d %>fieldset;
+}
+
+.chelekom-fieldset__legend {
+  @apply <%= @d %>fieldset-legend;
+}
+
+.chelekom-fieldset[data-disabled] {
+  opacity: 60%;
+}

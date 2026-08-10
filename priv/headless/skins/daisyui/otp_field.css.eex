@@ -1,0 +1,29 @@
+/* otp_field — daisyUI skin (each box paints `input`).
+ *
+ * daisyUI's OTP example is a row of `input` boxes, which is exactly our anatomy: one `input` part
+ * per character, with optional `separator` parts between groups.
+ */
+
+.chelekom-otp_field {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(0.25rem * 2);
+}
+
+.chelekom-otp_field__input {
+  @apply <%= @d %>input;
+  width: calc(var(--size-field, 0.25rem) * 12);
+  padding-inline: 0;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.chelekom-otp_field__separator {
+  color: color-mix(in oklab, var(--color-base-content) 40%, transparent);
+  user-select: none;
+}
+
+.chelekom-otp_field[data-disabled] {
+  cursor: not-allowed;
+  opacity: 50%;
+}

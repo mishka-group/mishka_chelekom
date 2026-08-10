@@ -1363,3 +1363,206 @@
   }
 }
 /* <<< toast */
+
+/* >>> fieldset */
+@layer components {
+  [data-skin=daisyui] {
+    /* fieldset — daisyUI skin (paints `fieldset` + `fieldset-legend`). */
+
+    .chelekom-fieldset {
+      @apply d-fieldset;
+    }
+
+    .chelekom-fieldset__legend {
+      @apply d-fieldset-legend;
+    }
+
+    .chelekom-fieldset[data-disabled] {
+      opacity: 60%;
+    }
+  }
+}
+/* <<< fieldset */
+
+/* >>> otp_field */
+@layer components {
+  [data-skin=daisyui] {
+    /* otp_field — daisyUI skin (each box paints `input`).
+     *
+     * daisyUI's OTP example is a row of `input` boxes, which is exactly our anatomy: one `input` part
+     * per character, with optional `separator` parts between groups.
+     */
+
+    .chelekom-otp_field {
+      display: inline-flex;
+      align-items: center;
+      gap: calc(0.25rem * 2);
+    }
+
+    .chelekom-otp_field__input {
+      @apply d-input;
+      width: calc(var(--size-field, 0.25rem) * 12);
+      padding-inline: 0;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .chelekom-otp_field__separator {
+      color: color-mix(in oklab, var(--color-base-content) 40%, transparent);
+      user-select: none;
+    }
+
+    .chelekom-otp_field[data-disabled] {
+      cursor: not-allowed;
+      opacity: 50%;
+    }
+  }
+}
+/* <<< otp_field */
+
+/* >>> anchor */
+@layer components {
+  [data-skin=daisyui] {
+    /* anchor — daisyUI skin (paints `link`). */
+
+    .chelekom-anchor {
+      @apply d-link;
+    }
+
+    .chelekom-anchor:focus-visible {
+      outline: 2px solid currentColor;
+      outline-offset: 2px;
+    }
+  }
+}
+/* <<< anchor */
+
+/* >>> semi_circle_progress */
+@layer components {
+  [data-skin=daisyui] {
+    /* semi_circle_progress — daisyUI skin (the `radial-progress` look, as an arc).
+     *
+     * daisyUI's `radial-progress` is a full circle drawn with a conic gradient on a single element;
+     * ours is an SVG arc with track and indicator paths. Same idea, different medium — these are its
+     * colours and thickness written against our parts, and the colour utilities work as-is because
+     * both paths are `currentColor`.
+     */
+
+    .chelekom-semi-circle-progress {
+      display: inline-grid;
+      place-items: center;
+      color: var(--color-base-content);
+    }
+
+    .chelekom-semi-circle-progress__svg {
+      overflow: visible;
+    }
+
+    .chelekom-semi-circle-progress__track {
+      stroke: color-mix(in oklab, currentColor 20%, transparent);
+      stroke-linecap: round;
+    }
+
+    .chelekom-semi-circle-progress__indicator {
+      stroke: currentColor;
+      stroke-linecap: round;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .chelekom-semi-circle-progress__indicator {
+        transition: stroke-dashoffset 0.3s ease-out;
+      }
+    }
+
+    .chelekom-semi-circle-progress__label {
+      font-size: 1.125rem;
+      font-weight: 600;
+    }
+  }
+}
+/* <<< semi_circle_progress */
+
+/* >>> drawer */
+@layer components {
+  [data-skin=daisyui] {
+    /* drawer — daisyUI skin.
+     *
+     * daisyUI's `drawer` is a CSS-only sidebar: a hidden checkbox, a `drawer-side` that slides via
+     * `translate`, and a label acting as the overlay. Ours is a real popup the Drawer engine positions
+     * and swipes, so this is daisyUI's `drawer-side` / `drawer-overlay` look written against our parts,
+     * keyed off the `data-side` and `data-open` the engine already sets.
+     */
+
+    .chelekom-drawer__trigger {
+      @apply d-btn;
+    }
+
+    .chelekom-drawer__backdrop {
+      background-color: oklch(0% 0 0 / 0.4);
+      transition: opacity 0.3s ease-out;
+    }
+
+    .chelekom-drawer__backdrop[data-starting-style],
+    .chelekom-drawer__backdrop[data-ending-style] {
+      opacity: 0;
+    }
+
+    .chelekom-drawer__popup {
+      display: flex;
+      flex-direction: column;
+      gap: calc(0.25rem * 3);
+      min-width: 18rem;
+      max-width: min(24rem, 90vw);
+      padding: calc(0.25rem * 6);
+      background-color: var(--color-base-100);
+      color: var(--color-base-content);
+      box-shadow: oklch(0% 0 0 / 0.25) 0 25px 50px -12px;
+    }
+
+    .chelekom-drawer__popup[data-side="bottom"],
+    .chelekom-drawer__popup[data-side="top"] {
+      max-width: none;
+      width: 100%;
+      max-height: 90vh;
+    }
+
+    .chelekom-drawer__popup[data-side="bottom"] {
+      border-start-start-radius: var(--radius-box);
+      border-start-end-radius: var(--radius-box);
+    }
+
+    .chelekom-drawer__popup[data-side="top"] {
+      border-end-start-radius: var(--radius-box);
+      border-end-end-radius: var(--radius-box);
+    }
+
+    .chelekom-drawer__handle {
+      align-self: center;
+      width: calc(0.25rem * 10);
+      height: calc(0.25rem * 1);
+      border-radius: calc(infinity * 1px);
+      background-color: color-mix(in oklab, var(--color-base-content) 20%, transparent);
+    }
+
+    .chelekom-drawer__title {
+      font-size: 1.125rem;
+      font-weight: 700;
+    }
+
+    .chelekom-drawer__description {
+      font-size: 0.875rem;
+      color: color-mix(in oklab, var(--color-base-content) 70%, transparent);
+    }
+
+    .chelekom-drawer__content {
+      flex: 1 1 auto;
+      overflow-y: auto;
+      font-size: 0.875rem;
+    }
+
+    .chelekom-drawer__footer {
+      @apply d-modal-action;
+    }
+  }
+}
+/* <<< drawer */

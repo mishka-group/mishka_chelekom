@@ -21,6 +21,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   import DevelopmentWeb.Components.Headless.Accordion
   import DevelopmentWeb.Components.Headless.Avatar
+  import DevelopmentWeb.Components.Headless.SemiCircleProgress
+  import DevelopmentWeb.Components.Headless.OtpField
+  import DevelopmentWeb.Components.Headless.Fieldset
+  import DevelopmentWeb.Components.Headless.Drawer
+  import DevelopmentWeb.Components.Headless.Anchor
   import DevelopmentWeb.Components.Headless.Checkbox
   import DevelopmentWeb.Components.Headless.Toast
   import DevelopmentWeb.Components.Headless.Collapsible
@@ -233,6 +238,43 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
        "daisyUI's nine `toast-{top,middle,bottom}` × `toast-{start,center,end}` combinations, as classes on the viewport."},
       {"toast-live", "Pushed from a trigger",
        "The template toast our engine clones on click, with the close button and auto-dismiss."}
+    ],
+    "fieldset" => [
+      {"fieldset-hero", "Fieldset with legend and label",
+       "daisyUI's `fieldset` and `fieldset-legend`."},
+      {"fieldset-box", "With background and border", "The boxed variant from the docs."},
+      {"fieldset-multiple", "With multiple inputs", "Several labelled inputs in one group."},
+      {"fieldset-join", "With join items", "daisyUI's `join` pairing an input with a button."},
+      {"fieldset-login", "Login form", "The docs' login form, built from our fieldset."},
+      {"fieldset-disabled", "Disabled",
+       "Not a daisyUI variant — our `disabled` attribute, which disables every control natively."}
+    ],
+    "otp_field" => [
+      {"otp_field-hero", "OTP input", "Six `input` boxes in a row, daisyUI's OTP recipe."},
+      {"otp_field-groups", "With a separator", "Two groups of three, split by a separator part."},
+      {"otp_field-masked", "Masked", "The same field with the characters hidden."},
+      {"otp_field-alphanumeric", "Alphanumeric", "Letters and digits, upper-cased as you type."},
+      {"otp_field-disabled", "Disabled", "The whole field disabled."}
+    ],
+    "anchor" => [
+      {"anchor-hero", "Link", "daisyUI's `link`."},
+      {"anchor-hover", "Link on hover only", "daisyUI's `link-hover`."},
+      {"anchor-colors", "Colors", "All eight `link-*` colors."},
+      {"anchor-in-text", "In a paragraph", "The link inline in body copy, as the docs show it."}
+    ],
+    "semi_circle_progress" => [
+      {"semi_circle_progress-hero", "Radial progress", "daisyUI's `radial-progress`, as an arc."},
+      {"semi_circle_progress-values", "Values", "0, 25, 50, 75 and 100 percent."},
+      {"semi_circle_progress-colors", "Colors",
+       "The colour utilities, since both arcs are `currentColor`."},
+      {"semi_circle_progress-sizes", "Sizes", "Sized by a width utility on the root."}
+    ],
+    "drawer" => [
+      {"drawer-hero", "Drawer", "daisyUI's sidebar drawer with an overlay."},
+      {"drawer-sides", "Sides", "Left, right, top and bottom."},
+      {"drawer-handle", "Bottom sheet with a handle",
+       "Our handle part, for the swipe-to-dismiss sheet daisyUI has no equivalent of."},
+      {"drawer-non-dismissible", "Does not close on overlay click", "`dismissible={false}`."}
     ],
     "menu" => [
       {"menu-hero", "Dropdown menu",
@@ -1114,6 +1156,265 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <:trigger>Show a toast</:trigger>
       <:template>Saved. This one dismisses itself.</:template>
     </.toast>
+    """
+  end
+
+  # ── fieldset ──────────────────────────────────────────────────────────────
+  def example(%{section: "fieldset-hero"} = assigns) do
+    ~H"""
+    <.fieldset id="daisyui-fieldset-hero" class="w-xs">
+      <:legend>Page title</:legend>
+      <input type="text" class="d-input" placeholder="My awesome page" />
+      <p class="d-label">You can edit page title later on from settings</p>
+    </.fieldset>
+    """
+  end
+
+  def example(%{section: "fieldset-box"} = assigns) do
+    ~H"""
+    <.fieldset
+      id="daisyui-fieldset-box"
+      class="w-xs rounded-box border border-base-300 bg-base-200 p-4"
+    >
+      <:legend>Page title</:legend>
+      <input type="text" class="d-input" placeholder="My awesome page" />
+      <p class="d-label">You can edit page title later on from settings</p>
+    </.fieldset>
+    """
+  end
+
+  def example(%{section: "fieldset-multiple"} = assigns) do
+    ~H"""
+    <.fieldset
+      id="daisyui-fieldset-multiple"
+      class="w-xs rounded-box border border-base-300 bg-base-200 p-4"
+    >
+      <:legend>Page details</:legend>
+      <label class="d-label">Title</label>
+      <input type="text" class="d-input" placeholder="My awesome page" />
+      <label class="d-label">Slug</label>
+      <input type="text" class="d-input" placeholder="my-awesome-page" />
+      <label class="d-label">Author</label>
+      <input type="text" class="d-input" placeholder="Name" />
+    </.fieldset>
+    """
+  end
+
+  def example(%{section: "fieldset-join"} = assigns) do
+    ~H"""
+    <.fieldset
+      id="daisyui-fieldset-join"
+      class="w-xs rounded-box border border-base-300 bg-base-200 p-4"
+    >
+      <:legend>Newsletter</:legend>
+      <div class="d-join">
+        <input type="email" class="d-input d-join-item" placeholder="you@example.com" />
+        <button type="button" class="d-btn d-join-item">Subscribe</button>
+      </div>
+    </.fieldset>
+    """
+  end
+
+  def example(%{section: "fieldset-login"} = assigns) do
+    ~H"""
+    <.fieldset
+      id="daisyui-fieldset-login"
+      class="w-xs rounded-box border border-base-300 bg-base-200 p-4"
+    >
+      <:legend>Login</:legend>
+      <label class="d-label">Email</label>
+      <input type="email" class="d-input" placeholder="Email" />
+      <label class="d-label">Password</label>
+      <input type="password" class="d-input" placeholder="Password" />
+      <button type="button" class="d-btn d-btn-neutral mt-4">Login</button>
+    </.fieldset>
+    """
+  end
+
+  def example(%{section: "fieldset-disabled"} = assigns) do
+    ~H"""
+    <.fieldset
+      id="daisyui-fieldset-disabled"
+      disabled
+      class="w-xs rounded-box border border-base-300 bg-base-200 p-4"
+    >
+      <:legend>Disabled group</:legend>
+      <input type="text" class="d-input" placeholder="Cannot type here" />
+      <button type="button" class="d-btn">Cannot click either</button>
+    </.fieldset>
+    """
+  end
+
+  # ── otp_field ─────────────────────────────────────────────────────────────
+  def example(%{section: "otp_field-hero"} = assigns) do
+    ~H"""
+    <.otp_field id="daisyui-otp-hero" />
+    """
+  end
+
+  def example(%{section: "otp_field-groups"} = assigns) do
+    ~H"""
+    <.otp_field id="daisyui-otp-groups" group={3} separator="–" />
+    """
+  end
+
+  def example(%{section: "otp_field-masked"} = assigns) do
+    ~H"""
+    <.otp_field id="daisyui-otp-masked" mask value="1234" />
+    """
+  end
+
+  def example(%{section: "otp_field-alphanumeric"} = assigns) do
+    ~H"""
+    <.otp_field
+      id="daisyui-otp-alnum"
+      length={5}
+      validation_type="alphanumeric"
+      transform="uppercase"
+    />
+    """
+  end
+
+  def example(%{section: "otp_field-disabled"} = assigns) do
+    ~H"""
+    <.otp_field id="daisyui-otp-disabled" value="123456" disabled />
+    """
+  end
+
+  # ── anchor ────────────────────────────────────────────────────────────────
+  def example(%{section: "anchor-hero"} = assigns) do
+    ~H"""
+    <.anchor href="#">Click me</.anchor>
+    """
+  end
+
+  def example(%{section: "anchor-hover"} = assigns) do
+    ~H"""
+    <.anchor href="#" class="d-link-hover">Underlined on hover only</.anchor>
+    """
+  end
+
+  def example(%{section: "anchor-colors"} = assigns) do
+    assigns = assign(assigns, :colors, @colors)
+
+    ~H"""
+    <div class="flex flex-wrap gap-4">
+      <.anchor :for={color <- @colors} href="#" class={"d-link-#{color}"}>{color}</.anchor>
+    </div>
+    """
+  end
+
+  def example(%{section: "anchor-in-text"} = assigns) do
+    ~H"""
+    <p class="max-w-sm text-sm">
+      Read the
+      <.anchor href="#">quick start guide</.anchor>
+      before you install anything, then come back here.
+    </p>
+    """
+  end
+
+  # ── semi_circle_progress ──────────────────────────────────────────────────
+  def example(%{section: "semi_circle_progress-hero"} = assigns) do
+    ~H"""
+    <.semi_circle_progress id="daisyui-semi-hero" value={70} label="Progress">
+      70%
+    </.semi_circle_progress>
+    """
+  end
+
+  def example(%{section: "semi_circle_progress-values"} = assigns) do
+    ~H"""
+    <div class="flex flex-wrap items-end gap-4">
+      <.semi_circle_progress :for={v <- [0, 25, 50, 75, 100]} id={"daisyui-semi-#{v}"} value={v}>
+        {v}%
+      </.semi_circle_progress>
+    </div>
+    """
+  end
+
+  def example(%{section: "semi_circle_progress-colors"} = assigns) do
+    ~H"""
+    <div class="flex flex-wrap items-end gap-4">
+      <.semi_circle_progress
+        :for={color <- ~w(primary secondary accent success warning error)}
+        id={"daisyui-semi-#{color}"}
+        value={70}
+        class={"text-#{color}"}
+      >
+        70%
+      </.semi_circle_progress>
+    </div>
+    """
+  end
+
+  def example(%{section: "semi_circle_progress-sizes"} = assigns) do
+    ~H"""
+    <div class="flex flex-wrap items-end gap-4">
+      <.semi_circle_progress
+        :for={w <- ~w(w-20 w-28 w-40)}
+        id={"daisyui-semi-size-#{w}"}
+        value={70}
+        class={w}
+      >
+        70%
+      </.semi_circle_progress>
+    </div>
+    """
+  end
+
+  # ── drawer ────────────────────────────────────────────────────────────────
+  def example(%{section: "drawer-hero"} = assigns) do
+    ~H"""
+    <.drawer id="daisyui-drawer-hero">
+      <:trigger>Open drawer</:trigger>
+      <:title>Navigation</:title>
+      <:description>The overlay closes it, and so does Escape.</:description>
+      <p>Drawer body content.</p>
+      <:close>
+        <button type="button" data-close class="d-btn">Close</button>
+      </:close>
+    </.drawer>
+    """
+  end
+
+  def example(%{section: "drawer-sides"} = assigns) do
+    ~H"""
+    <div class="flex flex-wrap gap-3">
+      <.drawer :for={side <- ~w(left right top bottom)} id={"daisyui-drawer-#{side}"} side={side}>
+        <:trigger>{side}</:trigger>
+        <:title>{side} drawer</:title>
+        <p>Opened from the {side}.</p>
+        <:close>
+          <button type="button" data-close class="d-btn">Close</button>
+        </:close>
+      </.drawer>
+    </div>
+    """
+  end
+
+  def example(%{section: "drawer-handle"} = assigns) do
+    ~H"""
+    <.drawer id="daisyui-drawer-handle" side="bottom">
+      <:trigger>Open bottom sheet</:trigger>
+      <:handle></:handle>
+      <:title>Bottom sheet</:title>
+      <:description>Drag the handle down to dismiss.</:description>
+      <p>Swipe-to-dismiss is the component's, not daisyUI's.</p>
+    </.drawer>
+    """
+  end
+
+  def example(%{section: "drawer-non-dismissible"} = assigns) do
+    ~H"""
+    <.drawer id="daisyui-drawer-sticky" dismissible={false}>
+      <:trigger>Open sticky drawer</:trigger>
+      <:title>Finish this first</:title>
+      <:description>Clicking the overlay will not close this one.</:description>
+      <:close>
+        <button type="button" data-close class="d-btn d-btn-primary">Done</button>
+      </:close>
+    </.drawer>
     """
   end
 
