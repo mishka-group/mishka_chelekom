@@ -3586,3 +3586,102 @@
   }
 }
 /* <<< table */
+
+/* >>> carousel */
+@layer components {
+  [data-skin=daisyui] {
+    /* carousel — daisyUI skin.
+     *
+     * daisyUI's carousel is `carousel` on the scroll container and `carousel-item` on the children,
+     * with `carousel-start/center/end` choosing the snap alignment and `carousel-vertical` the axis.
+     * Ours has a root *around* the scroller — it needs somewhere to hang the controls and the
+     * indicators — so `carousel` goes on the viewport rather than the root, and the snap alignment is
+     * read from `data-snap` on the root instead of from a class the caller has to remember.
+     */
+
+    .chelekom-carousel {
+      display: flex;
+      flex-direction: column;
+      gap: calc(0.25rem * 2);
+      max-width: 100%;
+    }
+
+    .chelekom-carousel__viewport {
+      @apply d-carousel;
+
+      max-width: 100%;
+    }
+
+    .chelekom-carousel__viewport:focus-visible {
+      outline: 2px solid currentcolor;
+      outline-offset: 2px;
+    }
+
+    .chelekom-carousel[data-orientation="vertical"] .chelekom-carousel__viewport {
+      @apply d-carousel-vertical;
+    }
+
+    .chelekom-carousel__slide {
+      @apply d-carousel-item;
+    }
+
+    /* daisyUI puts the alignment on the container as a class; the component already knows it, so the
+     * skin reads the attribute and the caller does not have to repeat themselves. */
+    .chelekom-carousel[data-snap="start"] .chelekom-carousel__slide {
+      scroll-snap-align: start;
+    }
+
+    .chelekom-carousel[data-snap="center"] .chelekom-carousel__slide {
+      scroll-snap-align: center;
+    }
+
+    .chelekom-carousel[data-snap="end"] .chelekom-carousel__slide {
+      scroll-snap-align: end;
+    }
+
+    .chelekom-carousel[data-snap="none"] .chelekom-carousel__viewport {
+      scroll-snap-type: none;
+    }
+
+    .chelekom-carousel__controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: calc(0.25rem * 2);
+    }
+
+    .chelekom-carousel__control {
+      @apply d-btn d-btn-circle d-btn-sm;
+    }
+
+    .chelekom-carousel__indicators {
+      display: flex;
+      align-items: center;
+      gap: calc(0.25rem * 1);
+    }
+
+    /* daisyUI's own indicator example uses `btn btn-xs`; a dot reads better at this size and still
+     * meets the 24px target once the padding is counted. */
+    .chelekom-carousel__indicator {
+      width: calc(0.25rem * 2);
+      height: calc(0.25rem * 2);
+      padding: calc(0.25rem * 2);
+      box-sizing: content-box;
+      border-radius: calc(infinity * 1px);
+      background-clip: content-box;
+      background-color: color-mix(in oklab, var(--color-base-content) 25%, transparent);
+      cursor: pointer;
+      transition: background-color 0.2s ease-out;
+    }
+
+    .chelekom-carousel__indicator[data-current] {
+      background-color: var(--color-base-content);
+    }
+
+    .chelekom-carousel__indicator:focus-visible {
+      outline: 2px solid currentcolor;
+      outline-offset: -2px;
+    }
+  }
+}
+/* <<< carousel */

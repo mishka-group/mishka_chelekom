@@ -107,6 +107,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessGalleryLive do
     {:noreply, assign(socket, submitted: "all rows")}
   end
 
+  def handle_event("daisyui_carousel_change", %{"index" => index}, socket) do
+    {:noreply, assign(socket, submitted: "slide #{index}")}
+  end
+
   # The form examples exist to prove the params actually arrive under the names the components
   # derived — so echo the shape rather than a fixed "saved" string.
   def handle_event(event, params, socket)
@@ -127,7 +131,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessGalleryLive do
         "-short",
         "-persist",
         "-sortable",
-        "-selectable"
+        "-selectable",
+        "-live"
       ])
 
   # The daisyUI gallery only lists what actually ships a skin fragment today.

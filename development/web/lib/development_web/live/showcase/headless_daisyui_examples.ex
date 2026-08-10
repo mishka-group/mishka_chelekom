@@ -61,6 +61,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.ThemeController
   import DevelopmentWeb.Components.Headless.Fab
   import DevelopmentWeb.Components.Headless.Table
+  import DevelopmentWeb.Components.Headless.Carousel
 
   @faq [
     {"What is a skin?",
@@ -416,6 +417,25 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"breadcrumb-expandable", "Expandable",
        "The same collapse with `on_expand`, which makes the ellipsis a real button that pushes to the server."}
     ],
+    "carousel" => [
+      {"carousel-hero", "Snap to start",
+       "daisyUI's default. The scrolling is native scroll-snap and works with the hook absent — what the hook adds is which slide is current, which CSS has no way to report."},
+      {"carousel-center", "Snap to center",
+       "`snap=\"center\"`, read from the root rather than a class."},
+      {"carousel-end", "Snap to end", "`snap=\"end\"`."},
+      {"carousel-full", "Full width items", "One slide per view."},
+      {"carousel-vertical", "Vertical",
+       "daisyUI's `carousel-vertical`; the arrow keys follow the axis."},
+      {"carousel-half", "Half width items", "Two slides per view, from a width on the slide."},
+      {"carousel-indicators", "With indicator buttons",
+       "daisyUI's indicators are anchors that jump by fragment; ours are buttons carrying `aria-current`, so the position is announced and the page does not gain a history entry per slide."},
+      {"carousel-controls", "With next/prev buttons",
+       "The controls disable themselves at the ends — unless the carousel loops."},
+      {"carousel-autoplay", "Autoplay",
+       "Not on daisyUI's page. It advances on its own, pauses on hover and on focus, and never starts at all under `prefers-reduced-motion`."},
+      {"carousel-live", "Reporting the slide",
+       "`on_change` pushes the observed index — the one the user actually landed on, not the one a counter guessed."}
+    ],
     "table" => [
       {"table-hero", "Table",
        "daisyUI's `table` transfers almost intact, because its rules target `th`/`td`/`tr` rather than class names. What it cannot give you is the semantics — a caption, `scope` on the headers, and a row header that lets a reader say the person's name before their job."},
@@ -651,6 +671,28 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
        "`navigate` renders the root as an anchor, which is the honest markup for a card that is one big click target — a nested `<a>` inside a clickable `<div>` is not."}
     ]
   }
+
+  attr :n, :integer, required: true
+
+  # A flat SVG rather than a remote image: the gallery must render identically offline and in a
+  # test, and ten carousels of network images would make the page useless to review.
+  defp carousel_slide(assigns) do
+    ~H"""
+    <svg viewBox="0 0 200 120" class="h-32 w-full rounded-box object-cover" aria-hidden="true">
+      <rect width="200" height="120" fill={"oklch(#{60 + rem(@n * 7, 20)}% 0.17 #{@n * 47})"} />
+      <text
+        x="100"
+        y="68"
+        text-anchor="middle"
+        font-size="36"
+        font-weight="700"
+        fill="oklch(100% 0 0 / 0.85)"
+      >
+        {@n}
+      </text>
+    </svg>
+    """
+  end
 
   @crew [
     %{
@@ -3118,6 +3160,112 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <:item href="#">Headless</:item>
       <:item>Breadcrumb</:item>
     </.breadcrumb>
+    """
+  end
+
+  # ── carousel ──────────────────────────────────────────────────────────────
+  def example(%{section: "carousel-hero"} = assigns) do
+    ~H"""
+    <.carousel id="daisyui-carousel-hero" label="Photos" class="w-80">
+      <:slide :for={n <- 1..5} class="w-48"><.carousel_slide n={n} /></:slide>
+    </.carousel>
+    """
+  end
+
+  def example(%{section: "carousel-center"} = assigns) do
+    ~H"""
+    <.carousel id="daisyui-carousel-center" label="Photos" snap="center" class="w-80">
+      <:slide :for={n <- 1..5} class="w-48"><.carousel_slide n={n} /></:slide>
+    </.carousel>
+    """
+  end
+
+  def example(%{section: "carousel-end"} = assigns) do
+    ~H"""
+    <.carousel id="daisyui-carousel-end" label="Photos" snap="end" class="w-80">
+      <:slide :for={n <- 1..5} class="w-48"><.carousel_slide n={n} /></:slide>
+    </.carousel>
+    """
+  end
+
+  def example(%{section: "carousel-full"} = assigns) do
+    ~H"""
+    <.carousel id="daisyui-carousel-full" label="Photos" class="w-80">
+      <:slide :for={n <- 1..4} class="w-full"><.carousel_slide n={n} /></:slide>
+    </.carousel>
+    """
+  end
+
+  def example(%{section: "carousel-vertical"} = assigns) do
+    ~H"""
+    <.carousel
+      id="daisyui-carousel-vertical"
+      label="Photos"
+      orientation="vertical"
+      class="w-64"
+      viewport_class="h-64"
+    >
+      <:slide :for={n <- 1..4} class="h-64"><.carousel_slide n={n} /></:slide>
+    </.carousel>
+    """
+  end
+
+  def example(%{section: "carousel-half"} = assigns) do
+    ~H"""
+    <.carousel id="daisyui-carousel-half" label="Photos" class="w-80">
+      <:slide :for={n <- 1..6} class="w-1/2"><.carousel_slide n={n} /></:slide>
+    </.carousel>
+    """
+  end
+
+  def example(%{section: "carousel-indicators"} = assigns) do
+    ~H"""
+    <.carousel id="daisyui-carousel-indicators" label="Photos" class="w-80" show_indicators>
+      <:slide :for={n <- 1..4} class="w-full"><.carousel_slide n={n} /></:slide>
+    </.carousel>
+    """
+  end
+
+  def example(%{section: "carousel-controls"} = assigns) do
+    ~H"""
+    <.carousel
+      id="daisyui-carousel-controls"
+      label="Photos"
+      class="w-80"
+      show_controls
+      show_indicators
+    >
+      <:slide :for={n <- 1..4} class="w-full"><.carousel_slide n={n} /></:slide>
+    </.carousel>
+    """
+  end
+
+  def example(%{section: "carousel-autoplay"} = assigns) do
+    ~H"""
+    <.carousel
+      id="daisyui-carousel-autoplay"
+      label="Photos"
+      class="w-80"
+      autoplay={2500}
+      loop
+      show_indicators
+    >
+      <:slide :for={n <- 1..4} class="w-full"><.carousel_slide n={n} /></:slide>
+    </.carousel>
+    """
+  end
+
+  def example(%{section: "carousel-live"} = assigns) do
+    ~H"""
+    <.carousel
+      id="daisyui-carousel-live"
+      label="Photos"
+      class="w-80"
+      show_controls
+      on_change="daisyui_carousel_change"
+    >
+      <:slide :for={n <- 1..4} class="w-full"><.carousel_slide n={n} /></:slide>
+    </.carousel>
     """
   end
 

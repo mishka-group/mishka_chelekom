@@ -1,0 +1,158 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Headless **carousel** — native scroll-snap, with the state CSS cannot report.
+
+  The scrolling is the platform's. The viewport is a snap container and the slides are snap points,
+  so dragging, trackpads, momentum and `prefers-reduced-motion` all behave the way the browser
+  intends — and the carousel still scrolls with JavaScript disabled, which is why daisyUI's version
+  is CSS-only in the first place.
+
+  What the `HeadlessCarousel` hook adds is everything CSS has no way to express: which slide is
+  current, prev/next, indicators, and autoplay that pauses on hover and on focus. Current is
+  *observed* rather than counted — an IntersectionObserver reports whichever slide is actually most
+  visible — so a flick that lands two slides along is still right, where an incrementing counter
+  would have drifted.
+
+  The semantics follow the APG carousel pattern: the root is a `region` with
+  `aria-roledescription="carousel"`, each slide is a `group` labelled "3 of 7", and the indicators
+  are buttons carrying `aria-current`. That is what turns a scrolling strip into something a screen
+  reader can describe.
+
+  Parts: `viewport`, `slide`, `previous`, `next`, `indicators`, `indicator`.
+
+  Ships **no** colors, sizing or spacing — style via `chelekom-carousel*` and the `data-current`
+  hook.
+
+  WAI-ARIA: https://www.w3.org/WAI/ARIA/apg/patterns/carousel/
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/carousel
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, required: true, doc: "Unique id (carries the HeadlessCarousel hook)"
+  attr :label, :string, required: true, doc: "What this carousel is a carousel of"
+
+  attr :snap, :string,
+    default: "start",
+    values: ~w(start center end none),
+    doc: "Where a slide comes to rest"
+
+  attr :orientation, :string,
+    default: "horizontal",
+    values: ~w(horizontal vertical),
+    doc: "Which way it scrolls"
+
+  attr :index, :integer, default: 0, doc: "The slide to start on"
+
+  attr :autoplay, :integer,
+    default: nil,
+    doc: "Advance every N milliseconds; pauses on hover and focus, and never runs under reduced motion"
+
+  attr :loop, :boolean, default: false, doc: "Wrap around at the ends instead of stopping"
+  attr :show_controls, :boolean, default: false, doc: "Render previous/next buttons"
+  attr :show_indicators, :boolean, default: false, doc: "Render one button per slide"
+  attr :previous_label, :string, default: "Previous slide", doc: "Accessible name for previous"
+  attr :next_label, :string, default: "Next slide", doc: "Accessible name for next"
+  attr :on_change, :string, default: nil, doc: "LiveView event pushed as `%{index}`"
+  attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :viewport_class, :any, default: nil, doc: ~s|Extra classes for `data-part="viewport"`|
+  attr :slide_class, :any, default: nil, doc: ~s|Extra classes for every `data-part="slide"`|
+  attr :rest, :global
+
+  slot :slide, required: true, doc: "One slide" do
+    attr :label, :string, doc: "Overrides the default \"N of M\" description"
+    attr :class, :any
+  end
+
+  slot :controls, doc: "Custom markup for the controls row, instead of the default buttons"
+
+  def <%= @component_prefix %>carousel(assigns) do
+    assigns = assign(assigns, :count, length(assigns.slide))
+
+    ~H"""
+    <div
+      id={@id}
+      role="region"
+      aria-roledescription="carousel"
+      aria-label={@label}
+      phx-hook="HeadlessCarousel"
+      data-part="root"
+      data-orientation={@orientation}
+      data-snap={@snap}
+      data-index={@index}
+      data-loop={@loop}
+      data-autoplay={@autoplay}
+      data-on-change={@on_change}
+      class={["chelekom-carousel", @class]}
+      {@rest}
+    >
+      <div
+        data-part="viewport"
+        tabindex="0"
+        aria-live={@autoplay && "off"}
+        class={["chelekom-carousel__viewport", @viewport_class]}
+      >
+        <div
+          :for={{slide, position} <- Enum.with_index(@slide)}
+          data-part="slide"
+          data-index={position}
+          data-current={position == @index}
+          role="group"
+          aria-roledescription="slide"
+          aria-label={slide[:label] || "#{position + 1} of #{@count}"}
+          aria-hidden={position != @index && "true"}
+          class={["chelekom-carousel__slide", @slide_class, slide[:class]]}
+        >{render_slot(slide)}</div>
+      </div>
+
+      <div
+        :if={@show_controls || @show_indicators || @controls != []}
+        data-part="controls"
+        class="chelekom-carousel__controls"
+      >
+        {render_slot(@controls)}
+
+        <button
+          :if={@show_controls}
+          type="button"
+          data-part="previous"
+          aria-label={@previous_label}
+          aria-controls={@id}
+          disabled={!@loop && @index == 0}
+          class="chelekom-carousel__control"
+        >‹</button>
+
+        <div
+          :if={@show_indicators}
+          data-part="indicators"
+          role="group"
+          aria-label={"#{@label} slides"}
+          class="chelekom-carousel__indicators"
+        >
+          <button
+            :for={position <- 0..(@count - 1)//1}
+            type="button"
+            data-part="indicator"
+            data-index={position}
+            data-current={position == @index}
+            aria-current={position == @index && "true"}
+            aria-label={"Go to slide #{position + 1}"}
+            class="chelekom-carousel__indicator"
+          />
+        </div>
+
+        <button
+          :if={@show_controls}
+          type="button"
+          data-part="next"
+          aria-label={@next_label}
+          aria-controls={@id}
+          disabled={!@loop && @index >= @count - 1}
+          class="chelekom-carousel__control"
+        >›</button>
+      </div>
+    </div>
+    """
+  end
+end
