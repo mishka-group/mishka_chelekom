@@ -5821,6 +5821,20 @@
     .chelekom-tree__loader {
       @apply d-loading d-loading-spinner d-loading-xs;
     }
+
+    /* The Base UI page expressed this in utility classes; here the stylesheet owns it, so the label's
+     * own contents have to be laid out too — otherwise an icon and its text stack instead of sitting
+     * on one line. */
+    .chelekom-tree__label-text {
+      display: inline-flex;
+      align-items: center;
+      gap: calc(0.25rem * 1.5);
+      min-width: 0;
+    }
+
+    .chelekom-tree__label-text svg {
+      flex-shrink: 0;
+    }
   }
 }
 /* <<< tree */
