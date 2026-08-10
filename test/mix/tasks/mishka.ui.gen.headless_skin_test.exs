@@ -28,6 +28,12 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.HeadlessSkinTest do
 
   defp gen(args), do: Igniter.compose_task(test_project_with_formatter(), Headless, args)
 
+  # The line is not consistent about this: `otp_field` renders `chelekom-otp_field` while
+  # `loading_overlay` and `radio_group` render hyphens. Accept either rather than encode a rule the
+  # components do not follow.
+  defp root_prefixes(name),
+    do: [".chelekom-#{name}", ".chelekom-#{String.replace(name, "_", "-")}"]
+
   describe "skin fragments" do
     test "every advertised skin has a fragment directory, and daisyui has components in it" do
       for skin <- Assets.skins() do
@@ -55,7 +61,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.HeadlessSkinTest do
         assert selectors != [], "#{component} skin targets no chelekom class"
 
         for selector <- selectors do
-          assert String.starts_with?(selector, ".chelekom-#{component}"),
+          assert Enum.any?(root_prefixes(component), &String.starts_with?(selector, &1)),
                  "#{component} skin leaks into #{selector}"
         end
       end
@@ -83,7 +89,9 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.HeadlessSkinTest do
 
         assert css =~ "/* >>> #{component} */"
         assert css =~ "/* <<< #{component} */"
-        assert css =~ ".chelekom-#{component}"
+
+        assert Enum.any?(root_prefixes(component), &String.contains?(css, &1)),
+               "#{component}: no rule targets the component's own classes"
       end
     end
 
