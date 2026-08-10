@@ -52,6 +52,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.Spoiler
   import DevelopmentWeb.Components.Headless.SegmentedControl
   import DevelopmentWeb.Components.Headless.ToggleGroup
+  import DevelopmentWeb.Components.Headless.Toolbar
   import DevelopmentWeb.Components.Headless.Select
   import DevelopmentWeb.Components.Headless.Switch
   import DevelopmentWeb.Components.Headless.Tabs
@@ -568,6 +569,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"toggle-group-disabled", "Disabled", "The whole group ruled out."},
       {"toggle-group-form", "In a form",
        "Hidden inputs carry the pressed values; `multiple` posts them as a list."}
+    ],
+    "toolbar" => [
+      {"toolbar-hero", "Hero",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "action_icon" => [
       {"action-icon-hero", "Action icon",
@@ -4068,6 +4073,53 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       on_complete="daisyui_countdown_complete"
       class="font-mono text-3xl"
     />
+    """
+  end
+
+  # ── toolbar ─────────────────────────────────────────────────────────────
+  def example(%{section: "toolbar-hero"} = assigns) do
+    ~H"""
+    <.toolbar id="daisyui-toolbar-hero">
+      <:item
+        group="Alignment"
+        label="Align left"
+      >
+        Align Left
+      </:item>
+      <:item
+        group="Alignment"
+        label="Align right"
+      >
+        Align Right
+      </:item>
+      <:item type="separator" />
+      <:item
+        group="Numerical format"
+        label="Format as currency"
+      >
+        $
+      </:item>
+      <:item
+        group="Numerical format"
+        label="Format as percent"
+      >
+        %
+      </:item>
+      <:item type="separator" />
+      <:item label="Font family">
+        Helvetica
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M11 10H5l3 3.5zm0-4H5l3-3.5z" />
+        </svg>
+      </:item>
+      <:item type="separator" />
+      <:item
+        type="link"
+        href="#"
+      >
+        Edited 51m ago
+      </:item>
+    </.toolbar>
     """
   end
 

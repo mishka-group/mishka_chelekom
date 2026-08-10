@@ -1,0 +1,67 @@
+/* toolbar — daisyUI skin.
+ *
+ * daisyUI's `join` is the right look for a row of grouped controls, but a toolbar holds
+ * heterogeneous things — buttons, links, inputs, separators — and `join` assumes every child wants
+ * the same border treatment. So the strip is drawn here and each kind of child takes the daisyUI
+ * class that suits it.
+ */
+
+.chelekom-toolbar {
+  display: flex;
+  align-items: center;
+  gap: calc(0.25rem * 1);
+  border-radius: var(--radius-field);
+  border: var(--border) solid color-mix(in oklab, var(--color-base-content) 12%, #0000);
+  background-color: var(--color-base-100);
+  padding: calc(0.25rem * 1);
+  color: var(--color-base-content);
+}
+
+.chelekom-toolbar[data-orientation="vertical"] {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.chelekom-toolbar__button {
+  @apply <%= @d %>btn <%= @d %>btn-sm <%= @d %>btn-ghost;
+}
+
+/* A disabled toolbar item stays focusable — that is the point of the roving tabindex here — so it
+ * is dimmed with `aria-disabled`, which a real `disabled` attribute would have taken away. */
+.chelekom-toolbar__button[aria-disabled="true"] {
+  pointer-events: none;
+  opacity: 45%;
+}
+
+.chelekom-toolbar__button[data-pressed],
+.chelekom-toolbar__button[aria-pressed="true"] {
+  @apply <%= @d %>btn-active;
+}
+
+.chelekom-toolbar__link {
+  @apply <%= @d %>btn <%= @d %>btn-sm <%= @d %>btn-ghost;
+}
+
+.chelekom-toolbar__input {
+  @apply <%= @d %>input <%= @d %>input-sm;
+}
+
+.chelekom-toolbar__separator {
+  align-self: stretch;
+  width: 1px;
+  margin-inline: calc(0.25rem * 1);
+  background-color: color-mix(in oklab, var(--color-base-content) 15%, transparent);
+}
+
+.chelekom-toolbar[data-orientation="vertical"] .chelekom-toolbar__separator {
+  width: auto;
+  height: 1px;
+  margin-inline: 0;
+  margin-block: calc(0.25rem * 1);
+}
+
+.chelekom-toolbar__group {
+  display: flex;
+  align-items: center;
+  gap: calc(0.25rem * 1);
+}
