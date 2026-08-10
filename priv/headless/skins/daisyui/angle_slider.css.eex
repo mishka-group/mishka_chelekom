@@ -1,0 +1,52 @@
+/* angle_slider — daisyUI skin.
+ *
+ * A dial, which daisyUI has nothing resembling. The thumb is placed by rotating a layer rather than
+ * by computing x and y, so the engine only writes one angle — and the readout in the middle uses
+ * tabular figures so the dial does not jitter as the number changes width.
+ */
+
+.chelekom-angle-slider {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: calc(0.25rem * 20);
+  height: calc(0.25rem * 20);
+  border-radius: calc(infinity * 1px);
+  background-color: var(--color-base-200);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-base-content) 15%, transparent);
+  color: var(--color-base-content);
+  cursor: grab;
+  user-select: none;
+}
+
+.chelekom-angle-slider:active {
+  cursor: grabbing;
+}
+
+.chelekom-angle-slider:focus-within {
+  outline: 2px solid var(--color-base-content);
+  outline-offset: 2px;
+}
+
+.chelekom-angle-slider__thumb-layer {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.chelekom-angle-slider__thumb {
+  position: absolute;
+  top: calc(0.25rem * 1.5);
+  left: 50%;
+  width: calc(0.25rem * 3);
+  height: calc(0.25rem * 3);
+  translate: -50% 0;
+  border-radius: calc(infinity * 1px);
+  background-color: var(--color-primary);
+}
+
+.chelekom-angle-slider__value {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.875rem;
+}
+

@@ -53,6 +53,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.SegmentedControl
   import DevelopmentWeb.Components.Headless.ToggleGroup
   import DevelopmentWeb.Components.Headless.AlphaSlider
+  import DevelopmentWeb.Components.Headless.AngleSlider
   import DevelopmentWeb.Components.Headless.HueSlider
   import DevelopmentWeb.Components.Headless.AlertDialog
   import DevelopmentWeb.Components.Headless.Autocomplete
@@ -730,6 +731,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ],
     "alpha_slider" => [
       {"alpha_slider-hero", "Hero",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+    ],
+    "angle_slider" => [
+      {"angle_slider-hero", "Hero",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "hue_slider" => [
@@ -5920,6 +5925,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         color="#e8590c"
       />
     </div>
+    """
+  end
+
+  # ── angle_slider ────────────────────────────────────────────────────────
+  def example(%{section: "angle_slider-hero"} = assigns) do
+    ~H"""
+    <.angle_slider
+      id="daisyui-angle-slider"
+      value={135}
+      step={5}
+      label="Angle"
+    />
     """
   end
 
