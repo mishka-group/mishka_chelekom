@@ -4173,6 +4173,46 @@
 }
 /* <<< context_menu */
 
+/* >>> floating_indicator */
+@layer components {
+  [data-skin=daisyui] {
+    /* floating_indicator — daisyUI skin.
+     *
+     * The pill that slides behind whichever item is active. daisyUI has no equivalent — its own tabs
+     * move a border, not a box — so this is drawn from tokens. The transition is on `transform` and
+     * `width` because the engine writes those, and honouring reduced motion means jumping instead of
+     * sliding rather than not moving at all.
+     */
+
+    .chelekom-floating-indicator {
+      position: relative;
+    }
+
+    .chelekom-floating-indicator__indicator {
+      position: absolute;
+      z-index: 0;
+      border-radius: var(--radius-field);
+      background-color: color-mix(in oklab, var(--color-base-content) 10%, transparent);
+      transition:
+        transform 0.2s ease-out,
+        width 0.2s ease-out,
+        height 0.2s ease-out;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .chelekom-floating-indicator__indicator {
+        transition: none;
+      }
+    }
+
+    .chelekom-floating-indicator__target {
+      position: relative;
+      z-index: 1;
+    }
+  }
+}
+/* <<< floating_indicator */
+
 /* >>> floating_window */
 @layer components {
   [data-skin=daisyui] {

@@ -54,6 +54,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.ToggleGroup
   import DevelopmentWeb.Components.Headless.AlertDialog
   import DevelopmentWeb.Components.Headless.ContextMenu
+  import DevelopmentWeb.Components.Headless.FloatingIndicator
   import DevelopmentWeb.Components.Headless.FloatingWindow
   import DevelopmentWeb.Components.Headless.Menubar
   import DevelopmentWeb.Components.Headless.NavigationMenu
@@ -589,6 +590,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"context_menu-hero", "Hero",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
       {"context_menu-submenu", "Submenu",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+    ],
+    "floating_indicator" => [
+      {"floating_indicator-hero", "Hero",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "floating_window" => [
@@ -4282,6 +4287,21 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         Share
       </.context_menu_item>
     </.context_menu>
+    """
+  end
+
+  # ── floating_indicator ──────────────────────────────────────────────────
+  def example(%{section: "floating_indicator-hero"} = assigns) do
+    ~H"""
+    <.floating_indicator
+      id="daisyui-floating-indicator"
+      active="day"
+      label="Range"
+    >
+      <:target value="day">Day</:target>
+      <:target value="week">Week</:target>
+      <:target value="month">Month</:target>
+    </.floating_indicator>
     """
   end
 
