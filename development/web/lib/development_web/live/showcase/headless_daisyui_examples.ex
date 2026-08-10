@@ -5197,15 +5197,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     """
   end
 
+  attr :paint, :string, default: "tailwind", values: ~w(tailwind css theme)
   slot :inner_block, required: true
 
   # A daisyUI fab is `position: fixed`; a contained one is `absolute`, so it needs a positioned
   # ancestor — and nine fabs all pinned to the viewport corner would land on top of each other.
   defp fab_frame(assigns) do
     ~H"""
-    <div class="relative h-48 w-64 overflow-hidden rounded-xl border border-[var(--c-base-300)] bg-[var(--c-base-100)]">
+    <.preview_frame paint={@paint} class="relative h-48 w-64 overflow-hidden">
       {render_slot(@inner_block)}
-    </div>
+    </.preview_frame>
     """
   end
 
@@ -5214,15 +5215,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   # Each controller repaints this box rather than the page: a gallery of ten theme controllers that
   # all targeted `:root` would fight each other, and the last one clicked would win the whole page.
+  # `paint="theme"` is not a preference here, it is the demo: the box has to repaint when the
+  # controller changes the theme, and only daisyUI's own tokens follow `data-theme`. Painting it in
+  # fixed Tailwind colours would leave it stubbornly the same shade whichever theme was picked.
   defp theme_preview(assigns) do
     ~H"""
-    <div
-      id={@id}
-      class="flex w-72 flex-col items-center gap-3 rounded-xl border border-base-300 bg-base-100 p-6 text-base-content"
-    >
+    <.preview_frame id={@id} paint="theme" class="flex w-72 flex-col items-center gap-3 p-6">
       {render_slot(@inner_block)}
       <p class="text-xs opacity-60">This box follows the choice above.</p>
-    </div>
+    </.preview_frame>
     """
   end
 
@@ -5234,6 +5235,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   attr :height, :string, default: "h-40"
   attr :align, :string, default: "items-end"
+  attr :paint, :string, default: "tailwind", values: ~w(tailwind css theme)
   slot :inner_block, required: true
 
   # A daisyUI dock is `position: fixed`; a contained one is `absolute`, which needs a positioned
@@ -5241,15 +5243,46 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # stacking on top of each other at the bottom of the viewport.
   defp dock_frame(assigns) do
     ~H"""
-    <div class={[
-      "relative w-72 overflow-hidden rounded-xl border border-[var(--c-base-300)] bg-[var(--c-base-100)]",
-      @height,
-      @align
-    ]}>
+    <.preview_frame paint={@paint} class={["relative w-72 overflow-hidden", @height, @align]}>
+      {render_slot(@inner_block)}
+    </.preview_frame>
+    """
+  end
+
+  attr :id, :string, default: nil
+  attr :class, :any, default: nil
+
+  attr :paint, :string,
+    default: "tailwind",
+    values: ~w(tailwind css theme),
+    doc: "Which palette draws the box; see the note above the function"
+
+  slot :inner_block, required: true
+
+  # The box these demos sit in, in three palettes, because they are not interchangeable:
+  #
+  #   * `tailwind` — Tailwind 4 utilities, written out. The default, and the one to copy: it needs
+  #     nothing from this harness and drops into any Tailwind project unchanged.
+  #   * `css` — the showcase chrome's own `--c-*` variables, so a frame can match the page around
+  #     it rather than sitting in it as a lighter or darker rectangle.
+  #   * `theme` — daisyUI's `base-*` tokens, which follow `data-theme`. The only one that repaints
+  #     when a theme controller changes the theme.
+  #
+  # Keeping all three is the point: Tailwind is the readable default, and the other two exist
+  # because there are things they can do that it cannot.
+  defp preview_frame(assigns) do
+    ~H"""
+    <div id={@id} data-paint={@paint} class={[frame_paint(@paint), "rounded-xl border", @class]}>
       {render_slot(@inner_block)}
     </div>
     """
   end
+
+  defp frame_paint("tailwind"),
+    do: "border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950"
+
+  defp frame_paint("css"), do: "border-[var(--c-base-300)] bg-[var(--c-base-100)]"
+  defp frame_paint("theme"), do: "border-base-300 bg-base-100 text-base-content"
 
   attr :path, :string, required: true
 

@@ -180,6 +180,37 @@ defmodule DevelopmentWeb.HeadlessDaisyUISkinTest do
            |> render_submit() =~ "Submitted: gala"
   end
 
+  test "the demo frames offer all three palettes, and the theme preview uses the only one that works",
+       %{conn: conn} do
+    # The frames are showcase furniture, not component markup, so they may carry classes. What
+    # matters is that Tailwind is the default — it is the one a reader can copy anywhere — while the
+    # chrome variables and daisyUI's theme tokens stay available for the two jobs Tailwind cannot do.
+    {:ok, _view, dock} = live(conn, "/showcase/headless-daisyui/dock")
+
+    paints =
+      dock
+      |> LazyHTML.from_document()
+      |> LazyHTML.query("[data-paint]")
+      |> LazyHTML.attribute("data-paint")
+
+    assert paints != []
+    assert Enum.uniq(paints) == ["tailwind"], "the dock frames should default to Tailwind"
+    assert dock =~ "dark:bg-neutral-950", "the Tailwind paint should be written out in the markup"
+
+    # The theme preview is the exception, and deliberately: only daisyUI's tokens follow
+    # `data-theme`, so a Tailwind-painted box would not repaint when the controller changed it.
+    {:ok, _view, themes} = live(conn, "/showcase/headless-daisyui/theme_controller")
+
+    theme_paints =
+      themes
+      |> LazyHTML.from_document()
+      |> LazyHTML.query("[data-paint]")
+      |> LazyHTML.attribute("data-paint")
+
+    assert Enum.uniq(theme_paints) == ["theme"]
+    assert themes =~ "bg-base-100"
+  end
+
   test "an unskinned component's daisyUI page says so instead of 500ing", %{conn: conn} do
     unskinned =
       HeadlessCatalog.all()
