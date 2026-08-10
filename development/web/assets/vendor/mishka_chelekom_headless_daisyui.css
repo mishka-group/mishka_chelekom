@@ -1566,3 +1566,178 @@
   }
 }
 /* <<< drawer */
+
+/* >>> toggle */
+@layer components {
+  [data-skin=daisyui] {
+    /* toggle — daisyUI skin (the `swap` look).
+     *
+     * daisyUI's `swap` is a label holding a hidden checkbox and two children it cross-fades; ours is a
+     * `role="button"` with `aria-pressed`, so the state comes off `data-pressed` instead of `:checked`.
+     * The pressed look itself is `btn-active`, since a headless toggle is a two-state button.
+     */
+
+    .chelekom-toggle {
+      @apply d-btn;
+    }
+
+    .chelekom-toggle[data-pressed] {
+      @apply d-btn-active;
+    }
+
+    .chelekom-toggle[data-disabled] {
+      cursor: not-allowed;
+      opacity: 50%;
+    }
+
+    .chelekom-toggle__input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+}
+/* <<< toggle */
+
+/* >>> code */
+@layer components {
+  [data-skin=daisyui] {
+    /* code — daisyUI skin (paints `mockup-code`). */
+
+    .chelekom-code {
+      @apply d-mockup-code;
+    }
+  }
+}
+/* <<< code */
+
+/* >>> nav_link */
+@layer components {
+  [data-skin=daisyui] {
+    /* nav_link — daisyUI skin (a menu row, the shape a nav link takes in daisyUI's `menu`). */
+
+    .chelekom-nav-link__control {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(auto, max-content) auto max-content;
+      align-items: center;
+      gap: calc(0.25rem * 2);
+      padding-inline: calc(0.25rem * 3);
+      padding-block: calc(0.25rem * 1.5);
+      border-radius: var(--radius-field);
+      font-size: 0.875rem;
+      text-align: start;
+      cursor: pointer;
+      user-select: none;
+      transition-property: color, background-color, box-shadow;
+      transition-duration: 0.2s;
+      transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    }
+
+    .chelekom-nav-link__control:hover:not([data-disabled]) {
+      background-color: color-mix(in oklab, var(--color-base-content) 10%, transparent);
+    }
+
+    .chelekom-nav-link__control[data-active],
+    .chelekom-nav-link__control[aria-current] {
+      background-color: var(--color-neutral);
+      color: var(--color-neutral-content);
+    }
+
+    .chelekom-nav-link__control[data-disabled] {
+      pointer-events: none;
+      color: color-mix(in oklab, var(--color-base-content) 20%, transparent);
+    }
+
+    .chelekom-nav-link__children {
+      margin-inline-start: calc(0.25rem * 4);
+      padding-inline-start: calc(0.25rem * 2);
+      border-inline-start: var(--border) solid
+        color-mix(in oklab, var(--color-base-content) 10%, transparent);
+    }
+  }
+}
+/* <<< nav_link */
+
+/* >>> loading_overlay */
+@layer components {
+  [data-skin=daisyui] {
+    /* loading_overlay — daisyUI skin (the overlay carries daisyUI's `loading` spinner).
+     *
+     * daisyUI's `loading` is the spinner glyph itself; our component is the scrim that covers a region
+     * while work is in flight, so the scrim is ours and the spinner is daisyUI's, drawn on the overlay.
+     */
+
+    .chelekom-loading-overlay {
+      display: grid;
+      place-items: center;
+      background-color: color-mix(in oklab, var(--color-base-100) 70%, transparent);
+      backdrop-filter: blur(2px);
+      color: var(--color-base-content);
+    }
+
+    .chelekom-loading-overlay:not(:has(> *)):before {
+      @apply d-loading d-loading-spinner;
+      content: "";
+    }
+  }
+}
+/* <<< loading_overlay */
+
+/* >>> field */
+@layer components {
+  [data-skin=daisyui] {
+    /* field — daisyUI skin (label + control + help/error, daisyUI's `label` and `validator-hint`). */
+
+    .chelekom-field {
+      display: flex;
+      flex-direction: column;
+      gap: calc(0.25rem * 1);
+      color: var(--color-base-content);
+    }
+
+    .chelekom-field__label {
+      @apply d-label;
+      font-size: 0.875rem;
+    }
+
+    /* The control part is a WRAPPER around whatever the caller renders, not the input itself — so
+     * daisyUI's `input` box goes on the control inside it. */
+    .chelekom-field__control {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chelekom-field__control > :is(input, select, textarea) {
+      @apply d-input;
+      width: 100%;
+    }
+
+    .chelekom-field__description {
+      font-size: 0.75rem;
+      color: color-mix(in oklab, var(--color-base-content) 60%, transparent);
+    }
+
+    /* daisyUI's `validator-hint` is the message under an invalid control; ours is the error part, shown
+     * off the `data-invalid` the field already sets rather than off `:user-invalid`. */
+    .chelekom-field__error {
+      font-size: 0.75rem;
+      color: var(--color-error);
+    }
+
+    .chelekom-field[data-invalid] .chelekom-field__control > :is(input, select, textarea) {
+      --d-input-color: var(--color-error);
+    }
+
+    .chelekom-field[data-valid] .chelekom-field__control > :is(input, select, textarea) {
+      --d-input-color: var(--color-success);
+    }
+
+    .chelekom-field[data-disabled] {
+      opacity: 60%;
+    }
+  }
+}
+/* <<< field */

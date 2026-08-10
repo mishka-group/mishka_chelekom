@@ -1,0 +1,18 @@
+/* loading_overlay — daisyUI skin (the overlay carries daisyUI's `loading` spinner).
+ *
+ * daisyUI's `loading` is the spinner glyph itself; our component is the scrim that covers a region
+ * while work is in flight, so the scrim is ours and the spinner is daisyUI's, drawn on the overlay.
+ */
+
+.chelekom-loading-overlay {
+  display: grid;
+  place-items: center;
+  background-color: color-mix(in oklab, var(--color-base-100) 70%, transparent);
+  backdrop-filter: blur(2px);
+  color: var(--color-base-content);
+}
+
+.chelekom-loading-overlay:not(:has(> *)):before {
+  @apply <%= @d %>loading <%= @d %>loading-spinner;
+  content: "";
+}

@@ -1,0 +1,27 @@
+/* toggle — daisyUI skin (the `swap` look).
+ *
+ * daisyUI's `swap` is a label holding a hidden checkbox and two children it cross-fades; ours is a
+ * `role="button"` with `aria-pressed`, so the state comes off `data-pressed` instead of `:checked`.
+ * The pressed look itself is `btn-active`, since a headless toggle is a two-state button.
+ */
+
+.chelekom-toggle {
+  @apply <%= @d %>btn;
+}
+
+.chelekom-toggle[data-pressed] {
+  @apply <%= @d %>btn-active;
+}
+
+.chelekom-toggle[data-disabled] {
+  cursor: not-allowed;
+  opacity: 50%;
+}
+
+.chelekom-toggle__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}

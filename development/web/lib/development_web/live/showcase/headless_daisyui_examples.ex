@@ -26,6 +26,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.Fieldset
   import DevelopmentWeb.Components.Headless.Drawer
   import DevelopmentWeb.Components.Headless.Anchor
+  import DevelopmentWeb.Components.Headless.Toggle
+  import DevelopmentWeb.Components.Headless.NavLink
+  import DevelopmentWeb.Components.Headless.LoadingOverlay
+  import DevelopmentWeb.Components.Headless.Field
+  import DevelopmentWeb.Components.Headless.Code
   import DevelopmentWeb.Components.Headless.Checkbox
   import DevelopmentWeb.Components.Headless.Toast
   import DevelopmentWeb.Components.Headless.Collapsible
@@ -275,6 +280,39 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"drawer-handle", "Bottom sheet with a handle",
        "Our handle part, for the swipe-to-dismiss sheet daisyUI has no equivalent of."},
       {"drawer-non-dismissible", "Does not close on overlay click", "`dismissible={false}`."}
+    ],
+    "toggle" => [
+      {"toggle-hero", "Swap",
+       "daisyUI's `swap`, as a two-state button; ours keys off `data-pressed`."},
+      {"toggle-states", "Pressed and disabled", "The three states side by side."},
+      {"toggle-icons", "With icons", "An icon that changes with the pressed state."},
+      {"toggle-form", "In a form", "The toggle submitting a value, via `name`."}
+    ],
+    "code" => [
+      {"code-hero", "Mockup code", "daisyUI's `mockup-code` window."},
+      {"code-inline", "Inline", "The same component inline in a sentence."}
+    ],
+    "field" => [
+      {"field-hero", "Label and input", "daisyUI's `label` and `input`, wired by the field."},
+      {"field-description", "With help text", "A description under the control."},
+      {"field-invalid", "Invalid",
+       "daisyUI's `validator-hint`; ours is the error part off `data-invalid`."},
+      {"field-valid", "Valid", "The success state."},
+      {"field-disabled", "Disabled", "The whole field disabled."}
+    ],
+    "nav_link" => [
+      {"nav_link-hero", "Nav link",
+       "A menu row, the shape a nav link takes in daisyUI's `menu`."},
+      {"nav_link-active", "Active", "daisyUI's `menu-active` treatment on the current page."},
+      {"nav_link-nested", "With children", "A nested list, indented with daisyUI's guide line."},
+      {"nav_link-icons", "With an icon and a badge",
+       "The `:icon` and `:trailing` slots, laid out by the row grid."}
+    ],
+    "loading_overlay" => [
+      {"loading_overlay-hero", "Loading",
+       "daisyUI's `loading-spinner` on a scrim over a region."},
+      {"loading_overlay-content", "With custom content",
+       "Your own loader instead of the spinner."}
     ],
     "menu" => [
       {"menu-hero", "Dropdown menu",
@@ -1415,6 +1453,179 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         <button type="button" data-close class="d-btn d-btn-primary">Done</button>
       </:close>
     </.drawer>
+    """
+  end
+
+  # ── toggle ────────────────────────────────────────────────────────────────
+  def example(%{section: "toggle-hero"} = assigns) do
+    ~H"""
+    <.toggle id="daisyui-toggle-hero" pressed>Bold</.toggle>
+    """
+  end
+
+  def example(%{section: "toggle-states"} = assigns) do
+    ~H"""
+    <div class="flex flex-wrap gap-3">
+      <.toggle id="daisyui-toggle-off">Off</.toggle>
+      <.toggle id="daisyui-toggle-on" pressed>On</.toggle>
+      <.toggle id="daisyui-toggle-dis" disabled>Disabled</.toggle>
+    </div>
+    """
+  end
+
+  def example(%{section: "toggle-icons"} = assigns) do
+    ~H"""
+    <.toggle id="daisyui-toggle-icons" pressed class="group d-btn-square">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="size-5">
+        <path class="hidden group-data-[pressed]:block" d="M20 6 9 17l-5-5" />
+        <path class="group-data-[pressed]:hidden" d="M12 5v14M5 12h14" />
+      </svg>
+    </.toggle>
+    """
+  end
+
+  def example(%{section: "toggle-form"} = assigns) do
+    ~H"""
+    <form phx-submit="daisyui_switch_submit" class="flex items-center gap-3">
+      <.toggle id="daisyui-toggle-form" name="pinned" pressed>Pinned</.toggle>
+      <button type="submit" class="d-btn d-btn-primary d-btn-sm">Save</button>
+    </form>
+    """
+  end
+
+  # ── code ──────────────────────────────────────────────────────────────────
+  def example(%{section: "code-hero"} = assigns) do
+    ~H"""
+    <.code id="daisyui-code-hero" block>
+      <pre data-prefix="$"><code>mix mishka.ui.gen.headless select --skin daisyui</code></pre>
+      <pre data-prefix=">" class="text-warning"><code>installing…</code></pre>
+      <pre data-prefix=">" class="text-success"><code>Done</code></pre>
+    </.code>
+    """
+  end
+
+  def example(%{section: "code-inline"} = assigns) do
+    ~H"""
+    <p class="text-sm">
+      Run
+      <.code id="daisyui-code-inline">mix mishka.ui.gen.headless</.code>
+      to generate a component.
+    </p>
+    """
+  end
+
+  # ── field ─────────────────────────────────────────────────────────────────
+  def example(%{section: "field-hero"} = assigns) do
+    ~H"""
+    <.field :let={f} id="daisyui-field-hero" label="Email" class="w-xs">
+      <input type="email" id={f.id} name={f.name} placeholder="you@example.com" />
+    </.field>
+    """
+  end
+
+  def example(%{section: "field-description"} = assigns) do
+    ~H"""
+    <.field :let={f} id="daisyui-field-desc" label="Page title" class="w-xs">
+      <:description>You can edit the title later from settings.</:description>
+      <input type="text" id={f.id} name={f.name} placeholder="My awesome page" />
+    </.field>
+    """
+  end
+
+  def example(%{section: "field-invalid"} = assigns) do
+    ~H"""
+    <.field
+      :let={f}
+      id="daisyui-field-invalid"
+      label="Email"
+      errors={["is not a valid address"]}
+      class="w-xs"
+    >
+      <input type="email" id={f.id} name={f.name} value="not-an-email" />
+    </.field>
+    """
+  end
+
+  def example(%{section: "field-valid"} = assigns) do
+    ~H"""
+    <.field :let={f} id="daisyui-field-valid" label="Email" valid class="w-xs">
+      <input type="email" id={f.id} name={f.name} value="you@example.com" />
+    </.field>
+    """
+  end
+
+  def example(%{section: "field-disabled"} = assigns) do
+    ~H"""
+    <.field :let={f} id="daisyui-field-disabled" label="Email" disabled class="w-xs">
+      <input type="email" id={f.id} name={f.name} disabled placeholder="Not editable" />
+    </.field>
+    """
+  end
+
+  # ── nav_link ──────────────────────────────────────────────────────────────
+  def example(%{section: "nav_link-hero"} = assigns) do
+    ~H"""
+    <div class="w-56">
+      <.nav_link id="daisyui-nav-hero" href="#" label="Dashboard" />
+      <.nav_link id="daisyui-nav-hero-2" href="#" label="Projects" />
+    </div>
+    """
+  end
+
+  def example(%{section: "nav_link-active"} = assigns) do
+    ~H"""
+    <div class="w-56">
+      <.nav_link id="daisyui-nav-active-1" href="#" label="Overview" />
+      <.nav_link id="daisyui-nav-active-2" href="#" label="Projects" active />
+      <.nav_link id="daisyui-nav-active-3" href="#" label="Settings" />
+    </div>
+    """
+  end
+
+  def example(%{section: "nav_link-nested"} = assigns) do
+    ~H"""
+    <div class="w-56">
+      <.nav_link id="daisyui-nav-nested" label="Components" default_opened>
+        <:children>
+          <.nav_link id="daisyui-nav-nested-a" href="#" label="Accordion" />
+          <.nav_link id="daisyui-nav-nested-b" href="#" label="Select" active />
+        </:children>
+      </.nav_link>
+    </div>
+    """
+  end
+
+  def example(%{section: "nav_link-icons"} = assigns) do
+    assigns = assign(assigns, :nav, @nav)
+
+    ~H"""
+    <div class="w-56">
+      <.nav_link :for={{label, path} <- @nav} id={"daisyui-nav-icon-#{label}"} href="#" label={label}>
+        <:icon><.nav_icon path={path} /></:icon>
+        <:trailing><span class="d-badge d-badge-xs">3</span></:trailing>
+      </.nav_link>
+    </div>
+    """
+  end
+
+  # ── loading_overlay ───────────────────────────────────────────────────────
+  def example(%{section: "loading_overlay-hero"} = assigns) do
+    ~H"""
+    <div class="relative h-32 w-64 rounded-box border border-base-300 p-4 text-sm">
+      Content behind the overlay.
+      <.loading_overlay id="daisyui-loading-hero" visible class="absolute inset-0 rounded-box" />
+    </div>
+    """
+  end
+
+  def example(%{section: "loading_overlay-content"} = assigns) do
+    ~H"""
+    <div class="relative h-32 w-64 rounded-box border border-base-300 p-4 text-sm">
+      Content behind the overlay.
+      <.loading_overlay id="daisyui-loading-content" visible class="absolute inset-0 rounded-box">
+        <span class="d-loading d-loading-dots d-loading-lg"></span>
+      </.loading_overlay>
+    </div>
     """
   end
 
