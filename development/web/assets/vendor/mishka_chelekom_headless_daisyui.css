@@ -2287,3 +2287,106 @@
   }
 }
 /* <<< file_input */
+
+/* >>> breadcrumb */
+@layer components {
+  [data-skin=daisyui] {
+    /* breadcrumb — daisyUI skin.
+     *
+     * daisyUI has no separator element: it draws a rotated chevron with `li > * + *:before`, which
+     * only works because its markup puts nothing between the crumbs. Ours renders a real
+     * `data-part="separator"`, so the caller can swap it for an icon — a better component, and the
+     * reason none of daisyUI's descendant rules can be reused as written.
+     *
+     * The chevron is therefore painted on *our* separator, and only on the default one
+     * (`data-default`). A caller-supplied separator is left alone, which is what makes the icon example
+     * work without fighting the skin.
+     */
+
+    .chelekom-breadcrumb {
+      @apply d-breadcrumbs;
+    }
+
+    .chelekom-breadcrumb__list {
+      display: flex;
+      min-height: min-content;
+      align-items: center;
+      white-space: nowrap;
+    }
+
+    .chelekom-breadcrumb__item {
+      display: flex;
+      align-items: center;
+    }
+
+    .chelekom-breadcrumb__link {
+      display: flex;
+      align-items: center;
+      gap: calc(0.25rem * 2);
+    }
+
+    a.chelekom-breadcrumb__link {
+      cursor: pointer;
+    }
+
+    @media (hover: hover) {
+      a.chelekom-breadcrumb__link:hover {
+        text-decoration-line: underline;
+      }
+    }
+
+    .chelekom-breadcrumb__link:focus {
+      --tw-outline-style: none;
+      outline-style: none;
+    }
+
+    .chelekom-breadcrumb__link:focus-visible {
+      outline: 2px solid currentcolor;
+      outline-offset: 2px;
+    }
+
+    /* The default separator is the "/" text fallback a headless breadcrumb ships so it reads correctly
+     * with no stylesheet at all. daisyUI's trail uses a chevron instead, so the text is collapsed to
+     * zero and the chevron drawn in its place — the element stays, only its glyph changes. */
+    .chelekom-breadcrumb__separator[data-default] {
+      font-size: 0;
+      line-height: 0;
+    }
+
+    .chelekom-breadcrumb__separator[data-default]::before {
+      content: "";
+      display: block;
+      height: calc(0.25rem * 1.5);
+      width: calc(0.25rem * 1.5);
+      opacity: 40%;
+      rotate: 45deg;
+      border-top: 1px solid;
+      border-right: 1px solid;
+      background-color: #0000;
+    }
+
+    .chelekom-breadcrumb__separator[data-default] {
+      margin-inline-start: calc(0.25rem * 2);
+      margin-inline-end: calc(0.25rem * 3);
+    }
+
+    [dir="rtl"] .chelekom-breadcrumb__separator[data-default]::before {
+      rotate: -135deg;
+    }
+
+    .chelekom-breadcrumb__ellipsis {
+      display: flex;
+      align-items: center;
+      opacity: 60%;
+    }
+
+    button.chelekom-breadcrumb__ellipsis {
+      cursor: pointer;
+    }
+
+    button.chelekom-breadcrumb__ellipsis:hover {
+      opacity: 100%;
+    }
+  }
+}
+/* <<< breadcrumb */

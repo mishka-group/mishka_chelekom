@@ -63,6 +63,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessGalleryLive do
     {:noreply, assign(socket, submitted: "#{String.length(bio)} characters")}
   end
 
+  def handle_event("daisyui_breadcrumb_expand", _params, socket) do
+    {:noreply, assign(socket, submitted: "expand the trail")}
+  end
+
   # The form examples exist to prove the params actually arrive under the names the components
   # derived — so echo the shape rather than a fixed "saved" string.
   def handle_event(event, params, socket)
@@ -70,6 +74,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessGalleryLive do
                        daisyui_file_input_submit) do
     {:noreply, assign(socket, submitted: inspect(Map.drop(params, ["_target", "_csrf_token"])))}
   end
+
+  # Which examples show what the server received back. Every `*-form` section submits, and the
+  # breadcrumb's expandable trail pushes from its ellipsis — without this it would look inert.
+  defp echoes_events?(id), do: String.ends_with?(id, ["-form", "-expandable"])
 
   # The daisyUI gallery only lists what actually ships a skin fragment today.
   defp catalog(:daisyui) do
@@ -232,7 +240,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessGalleryLive do
           code={HeadlessDaisyUIExamples.source(id)}
         />
         <p
-          :if={@submitted && String.ends_with?(id, "-form")}
+          :if={@submitted && echoes_events?(id)}
           class="text-center text-xs font-medium text-[var(--c-success)]"
         >
           Submitted: {@submitted}

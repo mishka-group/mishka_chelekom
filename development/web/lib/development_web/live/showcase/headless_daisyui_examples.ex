@@ -52,6 +52,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.Textarea
   import DevelopmentWeb.Components.Headless.FileInput
   import DevelopmentWeb.Components.Headless.Card
+  import DevelopmentWeb.Components.Headless.Breadcrumb
 
   @faq [
     {"What is a skin?",
@@ -392,6 +393,20 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
        "The full menu surface — checkbox items, a radio group and a nested submenu — all painted by the skin."},
       {"menu-card", "Card as dropdown",
        "daisyUI's card-shaped dropdown: arbitrary content in the popup instead of rows."}
+    ],
+    "breadcrumb" => [
+      {"breadcrumb-hero", "Breadcrumbs",
+       "daisyUI's `breadcrumbs`. The trail is an `<ol>` inside a `<nav aria-label>`, and the last crumb is a `<span aria-current=\"page\">` — a link to the page you are already on is a dead end that still takes a tab stop."},
+      {"breadcrumb-icons", "With icons",
+       "An icon inside each crumb. daisyUI draws its separator with a `:before` on the crumb itself; ours is a real part, so the icons do not fight it."},
+      {"breadcrumb-max-width", "With max-width",
+       "daisyUI scrolls a trail that outgrows its container — `max-w-*` on the root and the overflow is horizontal."},
+      {"breadcrumb-separator", "Custom separator",
+       "Not on daisyUI's page. The `:separator` slot replaces the chevron; the skin only paints its own when the default is in place."},
+      {"breadcrumb-collapsed", "Collapsed",
+       "Not on daisyUI's page either. `max_items` keeps the ends and stands one ellipsis in for the middle — arithmetic on the server, so it works before the socket connects."},
+      {"breadcrumb-expandable", "Expandable",
+       "The same collapse with `on_expand`, which makes the ellipsis a real button that pushes to the server."}
     ],
     "text_input" => [
       {"text-input-hero", "Text input",
@@ -2848,6 +2863,86 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         </div>
       </div>
     </.menu>
+    """
+  end
+
+  # ── breadcrumb ────────────────────────────────────────────────────────────
+  def example(%{section: "breadcrumb-hero"} = assigns) do
+    ~H"""
+    <.breadcrumb id="daisyui-breadcrumb-hero">
+      <:item href="#">Home</:item>
+      <:item href="#">Documents</:item>
+      <:item>Add document</:item>
+    </.breadcrumb>
+    """
+  end
+
+  def example(%{section: "breadcrumb-icons"} = assigns) do
+    ~H"""
+    <.breadcrumb id="daisyui-breadcrumb-icons">
+      <:item href="#">
+        <.field_icon path="M3 11l9-8 9 8M5 10v10h14V10" /> Home
+      </:item>
+      <:item href="#">
+        <.field_icon path="M3 7h6l2 2h10v10H3z" /> Documents
+      </:item>
+      <:item>
+        <.field_icon path="M7 3h7l5 5v13H7zM14 3v5h5" /> Add document
+      </:item>
+    </.breadcrumb>
+    """
+  end
+
+  def example(%{section: "breadcrumb-max-width"} = assigns) do
+    ~H"""
+    <.breadcrumb id="daisyui-breadcrumb-max-width" class="max-w-xs">
+      <:item href="#">Long text 1</:item>
+      <:item href="#">Long text 2</:item>
+      <:item href="#">Long text 3</:item>
+      <:item href="#">Long text 4</:item>
+      <:item>Long text 5</:item>
+    </.breadcrumb>
+    """
+  end
+
+  def example(%{section: "breadcrumb-separator"} = assigns) do
+    ~H"""
+    <.breadcrumb id="daisyui-breadcrumb-separator">
+      <:separator><span class="px-2 opacity-40">›</span></:separator>
+      <:item href="#">Home</:item>
+      <:item href="#">Library</:item>
+      <:item>Data</:item>
+    </.breadcrumb>
+    """
+  end
+
+  def example(%{section: "breadcrumb-collapsed"} = assigns) do
+    ~H"""
+    <.breadcrumb id="daisyui-breadcrumb-collapsed" max_items={4}>
+      <:item href="#">Home</:item>
+      <:item href="#">Projects</:item>
+      <:item href="#">Chelekom</:item>
+      <:item href="#">Headless</:item>
+      <:item href="#">Components</:item>
+      <:item>Breadcrumb</:item>
+    </.breadcrumb>
+    """
+  end
+
+  def example(%{section: "breadcrumb-expandable"} = assigns) do
+    ~H"""
+    <.breadcrumb
+      id="daisyui-breadcrumb-expandable"
+      max_items={3}
+      boundary={1}
+      on_expand="daisyui_breadcrumb_expand"
+    >
+      <:item href="#">Home</:item>
+      <:item href="#">Projects</:item>
+      <:item href="#">Chelekom</:item>
+      <:item href="#">Headless</:item>
+      <:item>Breadcrumb</:item>
+    </.breadcrumb>
     """
   end
 
