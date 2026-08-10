@@ -53,6 +53,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.SegmentedControl
   import DevelopmentWeb.Components.Headless.ToggleGroup
   import DevelopmentWeb.Components.Headless.AlphaSlider
+  import DevelopmentWeb.Components.Headless.HueSlider
   import DevelopmentWeb.Components.Headless.AlertDialog
   import DevelopmentWeb.Components.Headless.Autocomplete
   import DevelopmentWeb.Components.Headless.CheckboxGroup
@@ -729,6 +730,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ],
     "alpha_slider" => [
       {"alpha_slider-hero", "Hero",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+    ],
+    "hue_slider" => [
+      {"hue_slider-hero", "Hero",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "action_icon" => [
@@ -5915,6 +5920,362 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         color="#e8590c"
       />
     </div>
+    """
+  end
+
+  # ── hue_slider ──────────────────────────────────────────────────────────
+  def example(%{section: "hue_slider-hero"} = assigns) do
+    ~H"""
+    <div>
+      <.hue_slider
+        id="daisyui-hue-slider"
+        value={140}
+      />
+    </div>
+    """
+  end
+
+  def example(%{section: "autocomplete-fuzzy-matching"} = assigns) do
+    ~H"""
+    <label>
+      Fuzzy search documentation
+      <.autocomplete
+        id="daisyui-autocomplete-fuzzy-matching"
+        placeholder="e.g. React"
+      >
+        <:option
+          :for={doc <- daisyui_autocomplete_docs()}
+          value={doc.title}
+        >
+          <span>
+            <span>
+              <span>{doc.title}</span>
+            </span>
+            <span>{doc.description}</span>
+          </span>
+        </:option>
+        <:empty>
+          <div>
+            No results found.
+          </div>
+        </:empty>
+      </.autocomplete>
+    </label>
+    """
+  end
+
+  def example(%{section: "autocomplete-grid"} = assigns) do
+    ~H"""
+    <div>
+      <label>
+        Choose emoji
+        <.autocomplete
+          id="daisyui-autocomplete-grid"
+          placeholder="Search emojis…"
+        >
+          <:option
+            :for={emoji <- daisyui_autocomplete_emojis()}
+            value={emoji.name}
+            group={emoji.group}
+          >
+            {emoji.emoji}
+          </:option>
+          <:empty>
+            <div>
+              No emojis found
+            </div>
+          </:empty>
+        </.autocomplete>
+      </label>
+    </div>
+    """
+  end
+
+  def example(%{section: "autocomplete-grouped"} = assigns) do
+    ~H"""
+    <label>
+      Select a tag
+      <.autocomplete
+        id="daisyui-autocomplete-grouped"
+        placeholder="e.g. feature"
+      >
+        <:option
+          :for={tag <- daisyui_autocomplete_tags()}
+          value={tag.value}
+          group={tag.group}
+        >
+          {tag.value}
+        </:option>
+        <:empty>
+          <div>
+            No tags found.
+          </div>
+        </:empty>
+      </.autocomplete>
+    </label>
+    """
+  end
+
+  def example(%{section: "autocomplete-inline"} = assigns) do
+    ~H"""
+    <label>
+      Search tags
+      <.autocomplete
+        id="daisyui-autocomplete-inline"
+        placeholder="e.g. feature"
+        auto_highlight
+      >
+        <:option
+          :for={tag <- daisyui_autocomplete_tags()}
+          value={tag.value}
+        >
+          {tag.value}
+        </:option>
+      </.autocomplete>
+    </label>
+    """
+  end
+
+  def example(%{section: "autocomplete-limit"} = assigns) do
+    ~H"""
+    <label>
+      Limit results to 8
+      <.autocomplete
+        id="daisyui-autocomplete-limit"
+        placeholder="e.g. component"
+      >
+        <:option
+          :for={tag <- daisyui_autocomplete_limit_tags()}
+          value={tag.value}
+        >
+          {tag.value}
+        </:option>
+        <:empty>
+          <div>
+            No results found.
+          </div>
+        </:empty>
+      </.autocomplete>
+    </label>
+    """
+  end
+
+  def example(%{section: "combobox-grouped"} = assigns) do
+    assigns =
+      assign(assigns,
+        fruits: ~w(Apple Banana Mango Kiwi Grape Orange Strawberry Watermelon),
+        vegetables: [
+          "Broccoli",
+          "Carrot",
+          "Cauliflower",
+          "Cucumber",
+          "Kale",
+          "Bell pepper",
+          "Spinach",
+          "Zucchini"
+        ]
+      )
+
+    ~H"""
+    <div>
+      <label for="daisyui-combobox-grouped">Select produce</label>
+      <.combobox
+        id="daisyui-combobox-grouped"
+        clear
+        trigger
+        placeholder="e.g. Mango"
+      >
+        <:trigger_icon>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="display:block">
+            <path d="M12 6H4l4 4.5z" />
+          </svg>
+        </:trigger_icon>
+        <:clear_icon>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="square"
+            stroke-linejoin="round"
+            style="display:block"
+          >
+            <path d="m4.5 4.5 7 7m-7 0 7-7" />
+          </svg>
+        </:clear_icon>
+        <:item_indicator>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            style="display:block"
+          >
+            <path d="m2.5 8.5 4 4 7-9" />
+          </svg>
+        </:item_indicator>
+        <:option :for={f <- @fruits} value={"fruit-" <> String.downcase(f)} group="Fruits">
+          <span>{f}</span>
+        </:option>
+        <:option :for={v <- @vegetables} value={"veg-" <> String.downcase(v)} group="Vegetables">
+          <span>{v}</span>
+        </:option>
+        <:empty>No produce found.</:empty>
+      </.combobox>
+    </div>
+    """
+  end
+
+  def example(%{section: "combobox-input-inside-popup"} = assigns) do
+    assigns =
+      assign(assigns,
+        countries: [
+          {"af", "Afghanistan"},
+          {"al", "Albania"},
+          {"dz", "Algeria"},
+          {"ad", "Andorra"},
+          {"ao", "Angola"},
+          {"ar", "Argentina"},
+          {"am", "Armenia"},
+          {"au", "Australia"},
+          {"at", "Austria"},
+          {"az", "Azerbaijan"},
+          {"bs", "Bahamas"},
+          {"bh", "Bahrain"},
+          {"bd", "Bangladesh"},
+          {"be", "Belgium"},
+          {"br", "Brazil"},
+          {"ca", "Canada"},
+          {"cn", "China"},
+          {"fr", "France"},
+          {"de", "Germany"},
+          {"in", "India"},
+          {"it", "Italy"},
+          {"jp", "Japan"},
+          {"mx", "Mexico"},
+          {"nl", "Netherlands"},
+          {"nz", "New Zealand"},
+          {"no", "Norway"},
+          {"pl", "Poland"},
+          {"pt", "Portugal"},
+          {"es", "Spain"},
+          {"se", "Sweden"},
+          {"ch", "Switzerland"},
+          {"tr", "Turkey"},
+          {"ua", "Ukraine"},
+          {"gb", "United Kingdom"},
+          {"us", "United States"},
+          {"vn", "Vietnam"}
+        ]
+      )
+
+    ~H"""
+    <div>
+      <label for="daisyui-combobox-input-inside-popup">
+        Country
+      </label>
+      <.combobox
+        id="daisyui-combobox-input-inside-popup"
+        placeholder="e.g. United Kingdom"
+      >
+        <:item_indicator>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            style="display:block"
+          >
+            <path d="m2.5 8.5 4 4 7-9" />
+          </svg>
+        </:item_indicator>
+        <:option :for={{code, label} <- @countries} value={code}>
+          <span>{label}</span>
+        </:option>
+        <:empty>No countries found.</:empty>
+      </.combobox>
+    </div>
+    """
+  end
+
+  def example(%{section: "combobox-multiple"} = assigns) do
+    assigns =
+      assign(assigns,
+        langs: [
+          "JavaScript",
+          "TypeScript",
+          "Python",
+          "Java",
+          "C++",
+          "C#",
+          "PHP",
+          "Ruby",
+          "Go",
+          "Rust",
+          "Swift"
+        ]
+      )
+
+    ~H"""
+    <div>
+      <label for="daisyui-combobox-multiple">
+        Programming languages
+      </label>
+      <.combobox
+        id="daisyui-combobox-multiple"
+        multiple
+        placeholder="e.g. TypeScript"
+      >
+        <:chip_remove_icon>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="square"
+            stroke-linejoin="round"
+            style="display:block"
+          >
+            <path d="m4.5 4.5 7 7m-7 0 7-7" />
+          </svg>
+        </:chip_remove_icon>
+        <:item_indicator>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            style="display:block"
+          >
+            <path d="m2.5 8.5 4 4 7-9" />
+          </svg>
+        </:item_indicator>
+        <:option :for={lang <- @langs} value={lang}>
+          <span>{lang}</span>
+        </:option>
+        <:empty>No languages found.</:empty>
+      </.combobox>
+    </div>
+    """
+  end
+
+  def example(%{section: "popover-open-on-hover"} = assigns) do
+    ~H"""
+    <.popover
+      id="daisyui-popover-open-on-hover"
+      open_on_hover
+      side_offset={8}
+    >
+      <:trigger>Notifications</:trigger>
+      <:arrow></:arrow>
+      <:title>Notifications</:title>
+      <:description>You are all caught up. Good job!</:description>
+    </.popover>
     """
   end
 

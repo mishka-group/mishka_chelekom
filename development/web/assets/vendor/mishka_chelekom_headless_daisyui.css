@@ -4450,6 +4450,78 @@
 }
 /* <<< floating_window */
 
+/* >>> hue_slider */
+@layer components {
+  [data-skin=daisyui] {
+    /* hue_slider — daisyUI skin.
+     *
+     * daisyUI has no colour components at all, so the whole control is drawn here. The track is the
+     * one part that cannot come from a theme token: it is a gradient through every hue, because the
+     * gradient *is* the data being chosen.
+     */
+    .chelekom-hue-slider {
+      display: block;
+      width: 100%;
+    }
+
+    .chelekom-hue-slider__control {
+      position: relative;
+      padding-block: calc(0.25rem * 2);
+    }
+
+    .chelekom-hue-slider__track {
+      position: relative;
+      border-radius: calc(infinity * 1px);
+      box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-base-content) 18%, transparent);
+      height: calc(0.25rem * 3);
+      background: linear-gradient(
+        to right,
+        #f00 0%,
+        #ff0 17%,
+        #0f0 33%,
+        #0ff 50%,
+        #00f 67%,
+        #f0f 83%,
+        #f00 100%
+      );
+    }
+
+    .chelekom-hue-slider__thumb {
+      position: absolute;
+      top: 50%;
+      width: calc(0.25rem * 4);
+      height: calc(0.25rem * 4);
+      translate: -50% -50%;
+      border-radius: calc(infinity * 1px);
+      background-color: var(--color-base-100);
+      box-shadow:
+        0 0 0 2px var(--color-base-content),
+        0 1px 3px oklch(0% 0 0 / 0.3);
+      cursor: grab;
+    }
+
+    .chelekom-hue-slider__thumb:active {
+      cursor: grabbing;
+    }
+
+
+    .chelekom-hue-slider__control:focus-within .chelekom-hue-slider__thumb {
+      outline: 2px solid var(--color-base-content);
+      outline-offset: 2px;
+    }
+
+    /* The indicator is the filled part of the track; on these two the track *is* the gradient, so it
+     * only needs to not cover it. */
+    .chelekom-hue-slider__indicator {
+      position: absolute;
+      inset-block: 0;
+      border-radius: inherit;
+      pointer-events: none;
+    }
+  }
+}
+/* <<< hue_slider */
+
 /* >>> json_input */
 @layer components {
   [data-skin=daisyui] {
