@@ -57,6 +57,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.FloatingIndicator
   import DevelopmentWeb.Components.Headless.FloatingWindow
   import DevelopmentWeb.Components.Headless.Menubar
+  import DevelopmentWeb.Components.Headless.Meter
   import DevelopmentWeb.Components.Headless.NavigationMenu
   import DevelopmentWeb.Components.Headless.Popover
   import DevelopmentWeb.Components.Headless.PreviewCard
@@ -602,6 +603,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ],
     "menubar" => [
       {"menubar-hero", "Hero",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+    ],
+    "meter" => [
+      {"meter-hero", "Hero",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "navigation_menu" => [
@@ -4425,6 +4430,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
       <:menu label="Help" disabled></:menu>
     </.menubar>
+    """
+  end
+
+  # ── meter ───────────────────────────────────────────────────────────────
+  def example(%{section: "meter-hero"} = assigns) do
+    ~H"""
+    <.meter
+      id="daisyui-meter-hero"
+      value={24}
+      label="Storage Used"
+      show_value
+    />
     """
   end
 

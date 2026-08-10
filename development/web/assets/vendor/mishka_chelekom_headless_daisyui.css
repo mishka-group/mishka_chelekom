@@ -4307,6 +4307,58 @@
 }
 /* <<< menubar */
 
+/* >>> meter */
+@layer components {
+  [data-skin=daisyui] {
+    /* meter — daisyUI skin.
+     *
+     * daisyUI has no meter, only `progress`, and they are not the same thing: progress reports how far
+     * along a task is, a meter reports where a value sits in a range — disk used, a score. The track
+     * and fill are therefore drawn here rather than borrowed, in daisyUI's own radii and tokens.
+     *
+     * The fill takes `currentColor`, so a colour class on the root recolours the gauge and the caller
+     * never has to reach for the indicator part. Thresholds are deliberately not painted: the
+     * component reports a value in a range and nothing about what counts as bad, and inventing that
+     * here would put a judgement in the stylesheet that belongs to the caller.
+     */
+
+    .chelekom-meter {
+      color: var(--color-primary);
+      display: flex;
+      flex-direction: column;
+      gap: calc(0.25rem * 1);
+      color: var(--color-base-content);
+    }
+
+    .chelekom-meter__label {
+      color: var(--color-base-content);
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.875rem;
+    }
+
+    .chelekom-meter__value {
+      font-variant-numeric: tabular-nums;
+      opacity: 70%;
+    }
+
+    .chelekom-meter__track {
+      overflow: hidden;
+      height: calc(0.25rem * 2);
+      border-radius: calc(infinity * 1px);
+      background-color: color-mix(in oklab, var(--color-base-content) 15%, transparent);
+    }
+
+    .chelekom-meter__indicator {
+      height: 100%;
+      border-radius: calc(infinity * 1px);
+      background-color: currentcolor;
+      transition: width 0.2s ease-out;
+    }
+  }
+}
+/* <<< meter */
+
 /* >>> navigation_menu */
 @layer components {
   [data-skin=daisyui] {
