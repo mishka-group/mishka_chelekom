@@ -1,0 +1,48 @@
+/* splitter — daisyUI skin.
+ *
+ * daisyUI has no splitter. The handle is the only part with any real design in it: it has to be
+ * wide enough to grab and narrow enough not to look like a gap, so it stays hairline until the
+ * pointer is on it and thickens with the theme's primary while dragging.
+ */
+
+.chelekom-splitter {
+  display: flex;
+  width: 100%;
+  color: var(--color-base-content);
+}
+
+.chelekom-splitter[data-orientation="vertical"] {
+  flex-direction: column;
+}
+
+.chelekom-splitter__panel {
+  overflow: auto;
+  min-width: 0;
+  min-height: 0;
+}
+
+.chelekom-splitter__resizer {
+  flex-shrink: 0;
+  background-color: color-mix(in oklab, var(--color-base-content) 12%, transparent);
+  transition: background-color 0.15s ease-out;
+}
+
+.chelekom-splitter[data-orientation="horizontal"] .chelekom-splitter__resizer {
+  width: calc(0.25rem * 1);
+  cursor: col-resize;
+}
+
+.chelekom-splitter[data-orientation="vertical"] .chelekom-splitter__resizer {
+  height: calc(0.25rem * 1);
+  cursor: row-resize;
+}
+
+.chelekom-splitter__resizer:hover,
+.chelekom-splitter__resizer[data-dragging] {
+  background-color: var(--color-primary);
+}
+
+.chelekom-splitter__resizer:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}

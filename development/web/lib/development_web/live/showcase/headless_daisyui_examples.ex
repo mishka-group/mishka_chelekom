@@ -77,6 +77,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.PreviewCard
   import DevelopmentWeb.Components.Headless.ScrollArea
   import DevelopmentWeb.Components.Headless.Scroller
+  import DevelopmentWeb.Components.Headless.Splitter
   import DevelopmentWeb.Components.Headless.TagsInput
   import DevelopmentWeb.Components.Headless.Toolbar
   import DevelopmentWeb.Components.Headless.Tree
@@ -740,6 +741,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ],
     "scroller" => [
       {"scroller-hero", "Hero",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+    ],
+    "splitter" => [
+      {"splitter-hero", "Hero",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "tags_input" => [
@@ -5986,6 +5991,25 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         {n}
       </div>
     </.scroller>
+    """
+  end
+
+  # ── splitter ────────────────────────────────────────────────────────────
+  def example(%{section: "splitter-hero"} = assigns) do
+    ~H"""
+    <.splitter
+      id="daisyui-splitter"
+      default_size={45}
+    >
+      <:first>
+        <div>Files</div>
+      </:first>
+      <:second>
+        <div>
+          Editor — drag the divider or focus it and use arrow keys.
+        </div>
+      </:second>
+    </.splitter>
     """
   end
 
