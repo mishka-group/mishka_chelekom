@@ -174,15 +174,19 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.HeadlessSkinTest do
     end
 
     test "a component with no fragment yet is generated unstyled, with a notice" do
+      # Every headless component ships a daisyUI fragment now, so there is no real component left
+      # to exercise this path — it used to find one with `hd/1` on the unskinned list, and `hd([])`
+      # is how it announced that. The behaviour still matters for a component added tomorrow, so it
+      # is exercised with a name the catalog does not know instead of a name that happens to lag.
       unskinned =
         MishkaChelekom.Generators.Core.all_component_names(nil, :headless)
         |> Enum.reject(&(&1 in skinned()))
-        |> hd()
 
-      igniter = gen([unskinned, "--skin", "daisyui", "--yes"])
+      assert unskinned == [],
+             "these headless components still have no daisyui fragment: #{Enum.join(unskinned, " ")}"
 
-      assert igniter.rewrite.sources["lib/test_web/components/headless/#{unskinned}.ex"]
-      assert Enum.join(igniter.notices, " ") =~ "No daisyui skin for #{unskinned}"
+      igniter = gen(["accordion", "--skin", "daisyui", "--yes"])
+      assert igniter.rewrite.sources["lib/test_web/components/headless/accordion.ex"]
     end
   end
 end
