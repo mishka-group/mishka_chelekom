@@ -5127,6 +5127,24 @@
 }
 /* <<< preview_card */
 
+/* >>> rolling_number */
+@layer components {
+  [data-skin=daisyui] {
+    /* rolling_number — daisyUI skin.
+     *
+     * daisyUI's `countdown` rolls digits with a CSS column; this component animates the number in JS
+     * instead, so there is nothing to borrow. What it needs is tabular figures — without them the
+     * width changes on every tick and the surrounding text jitters.
+     */
+
+    .chelekom-rolling-number {
+      font-variant-numeric: tabular-nums;
+      color: var(--color-base-content);
+    }
+  }
+}
+/* <<< rolling_number */
+
 /* >>> scroll_area */
 @layer components {
   [data-skin=daisyui] {

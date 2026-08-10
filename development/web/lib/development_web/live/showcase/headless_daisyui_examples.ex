@@ -79,6 +79,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.PillsInput
   import DevelopmentWeb.Components.Headless.Popover
   import DevelopmentWeb.Components.Headless.PreviewCard
+  import DevelopmentWeb.Components.Headless.RollingNumber
   import DevelopmentWeb.Components.Headless.ScrollArea
   import DevelopmentWeb.Components.Headless.Scroller
   import DevelopmentWeb.Components.Headless.Splitter
@@ -753,6 +754,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"preview_card-detached-triggers-full", "Detached Triggers Full",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
       {"preview_card-detached-triggers-simple", "Detached Triggers Simple",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+    ],
+    "rolling_number" => [
+      {"rolling_number-hero", "Hero",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "scroll_area" => [
@@ -6041,6 +6046,23 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       </.preview_card>
       remain in the digital age.
     </p>
+    """
+  end
+
+  # ── rolling_number ──────────────────────────────────────────────────────
+  def example(%{section: "rolling_number-hero"} = assigns) do
+    ~H"""
+    <div>
+      <.rolling_number
+        id="daisyui-rolling-number-1"
+        value={2048}
+      />
+      <.rolling_number
+        id="daisyui-rolling-number-2"
+        value={1_000_000}
+        duration={1400}
+      />
+    </div>
     """
   end
 
