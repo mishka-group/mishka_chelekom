@@ -27,6 +27,7 @@ defmodule Mishka.AssetsDepsTest do
           ~w(assets/package.json assets/package-lock.json assets/bun.lock assets/yarn.lock),
           &snapshot/1
         )
+
       on_exit(fn -> Enum.each(snaps, &restore/1) end)
 
       mix!("mishka.assets.deps", ["accordion", "--test", "--yes"])
