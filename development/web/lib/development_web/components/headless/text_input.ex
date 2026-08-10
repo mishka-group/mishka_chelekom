@@ -1,0 +1,127 @@
+defmodule DevelopmentWeb.Components.Headless.TextInput do
+  @moduledoc """
+  Headless **text input** — a single-line control with optional leading/trailing sections
+  (Mantine TextInput parity).
+
+  Two ways to wire it, and they compose. Hand it a `Phoenix.HTML.FormField` —
+  `field={@form[:email]}` — and it takes its `id`, `name`, `value` and errors from the form;
+  errors only surface once `Phoenix.Component.used_input?/1` says the user has actually touched the
+  field, so a pristine form is not red before anyone types. Or pass `name`/`value` yourself, which
+  is what the rest of the headless line does and what the `field` wrapper hands down through
+  `:let`.
+
+  Validity is reflected both ways: `invalid` (or a non-empty `errors`) sets `aria-invalid` and
+  `data-invalid`, and `valid` sets `data-valid`, so a skin can paint either state without the
+  caller re-deriving it. The *messages* are the `field` wrapper's job — this component only says
+  whether there are any. `:start_section` / `:end_section` sit inside the control as their own
+  parts — an icon, a unit, a clear button — and the input keeps the remaining width.
+
+  Parts: `start-section`, `input`, `end-section`. The root is the control box, so a skin paints
+  that and leaves the `<input>` itself transparent — which is what lets a leading icon sit inside
+  the border.
+
+  Ships **no** colors, sizing or spacing — style via `chelekom-text-input*` and the
+  `data-invalid` / `data-valid` / `data-disabled` hooks.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/text_input
+  """
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :id, :string, default: nil, doc: "Unique id; taken from the form field when one is given"
+
+  attr :type, :string,
+    default: "text",
+    values: ~w(text email password search tel url number date time datetime-local month week),
+    doc: "Native input type"
+
+  attr :field, Phoenix.HTML.FormField,
+    default: nil,
+    doc: "A form field struct — supplies id, name, value and errors"
+
+  attr :name, :string, default: nil, doc: "Input name (ignored when `field` is given)"
+  attr :value, :any, default: nil, doc: "Input value (ignored when `field` is given)"
+
+  attr :errors, :list,
+    default: [],
+    doc: "Error messages; a non-empty list marks the input invalid"
+
+  attr :valid, :boolean, default: false, doc: "Mark the input valid (data-valid)"
+  attr :disabled, :boolean, default: false, doc: "Disable the input (data-disabled)"
+  attr :readonly, :boolean, default: false, doc: "Block editing but keep it focusable"
+  attr :required, :boolean, default: false, doc: "Require a value for form submit"
+  attr :placeholder, :string, default: nil, doc: "Placeholder text"
+  attr :describedby, :string, default: nil, doc: "Id(s) of the description/error elements"
+  attr :class, :any, default: nil, doc: "Extra classes for the control root"
+  attr :input_class, :any, default: nil, doc: ~s|Extra classes for `data-part="input"`|
+
+  attr :rest, :global,
+    include: ~w(autocomplete autofocus form inputmode list max maxlength min minlength
+                pattern size step),
+    doc: "Any input/global attrs, e.g. phx-change"
+
+  slot :start_section, doc: "Leading content inside the control (icon, prefix, …)"
+  slot :end_section, doc: "Trailing content inside the control (unit, clear button, …)"
+
+  def text_input(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
+    # Only surface errors the user has had a chance to cause. A form rendered fresh should not be
+    # red before anyone has typed in it.
+    errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
+
+    # `assign_new/3` is no help here: every one of these is declared with an `attr` default, so the
+    # key is already in assigns and the fallback would never run. An explicit nil check is what
+    # actually lets a caller override one derived value without losing the rest.
+    assigns
+    |> assign(field: nil)
+    |> assign(:id, assigns.id || field.id)
+    |> assign(:name, assigns.name || field.name)
+    |> assign(:value, if(is_nil(assigns.value), do: field.value, else: assigns.value))
+    |> assign(:errors, errors)
+    |> text_input()
+  end
+
+  def text_input(assigns) do
+    assigns = assign(assigns, :invalid?, assigns.errors != [])
+
+    ~H"""
+    <div
+      data-part="root"
+      data-invalid={@invalid?}
+      data-valid={@valid && !@invalid?}
+      data-disabled={@disabled}
+      data-readonly={@readonly}
+      data-required={@required}
+      class={["chelekom-text-input", @class]}
+    >
+      <span
+        :if={@start_section != []}
+        data-part="start-section"
+        class="chelekom-text-input__start-section"
+      >{render_slot(@start_section)}</span>
+
+      <input
+        id={@id}
+        type={@type}
+        name={@name}
+        value={Phoenix.HTML.Form.normalize_value(@type, @value)}
+        placeholder={@placeholder}
+        disabled={@disabled}
+        readonly={@readonly}
+        required={@required}
+        aria-invalid={@invalid? && "true"}
+        aria-describedby={@describedby}
+        data-part="input"
+        data-invalid={@invalid?}
+        class={["chelekom-text-input__input", @input_class]}
+        {@rest}
+      />
+
+      <span
+        :if={@end_section != []}
+        data-part="end-section"
+        class="chelekom-text-input__end-section"
+      >{render_slot(@end_section)}</span>
+    </div>
+    """
+  end
+end

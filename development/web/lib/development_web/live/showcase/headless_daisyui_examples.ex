@@ -48,6 +48,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.Switch
   import DevelopmentWeb.Components.Headless.Tabs
   import DevelopmentWeb.Components.Headless.Tooltip
+  import DevelopmentWeb.Components.Headless.TextInput
 
   @faq [
     {"What is a skin?",
@@ -388,6 +389,43 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
        "The full menu surface — checkbox items, a radio group and a nested submenu — all painted by the skin."},
       {"menu-card", "Card as dropdown",
        "daisyUI's card-shaped dropdown: arbitrary content in the popup instead of rows."}
+    ],
+    "text_input" => [
+      {"text-input-hero", "Text input",
+       "daisyUI's `input` on the control root. No styling classes in the markup — the border, radius, height and focus ring all come from the skin."},
+      {"text-input-label-inside", "With text label inside",
+       "daisyUI puts a label inside the input's border; ours is the `:start_section` slot, which the skin gives the divider and negative margin."},
+      {"text-input-label-end", "With the label at the end",
+       "The same, on the `:end_section` slot — the divider flips to the other edge."},
+      {"text-input-ghost", "Ghost style", "daisyUI's `input-ghost` — no border until focus."},
+      {"text-input-fieldset", "With fieldset and fieldset-legend",
+       "Our `fieldset` around the input, with the legend painted as daisyUI's."},
+      {"text-input-field", "With fieldset and label",
+       "Our `field` wrapper supplies the label, the description and the `aria-describedby` wiring; the input only has to spread the `:let` map."},
+      {"text-input-colors", "Input colors", "All eight `input-*` colors."},
+      {"text-input-sizes", "Sizes", "`input-xs` through `input-xl`."},
+      {"text-input-disabled", "Disabled",
+       "`disabled` dims the box through `data-disabled`, so a server-disabled input looks disabled even before the browser agrees."},
+      {"text-input-datalist", "With a datalist suggestion",
+       "The native `list` attribute — `:global` carries it straight through."},
+      {"text-input-date", "Date input", "`type=\"date\"`, with the picker indicator inset."},
+      {"text-input-time", "Time input", "`type=\"time\"`."},
+      {"text-input-datetime", "datetime-local input", "`type=\"datetime-local\"`."},
+      {"text-input-username", "Username with icon and validator",
+       "daisyUI's `validator` on the root: `:has(:user-invalid)` reaches our nested input, so the border turns red on a bad pattern with no JS."},
+      {"text-input-search", "Search with icon", "`type=\"search\"` and an icon section."},
+      {"text-input-email", "Email with icon and validator",
+       "Native email validation, with the hint revealed only once the field is user-invalid."},
+      {"text-input-join", "Email, button, joined",
+       "daisyUI's `join` around the input and a button — the shared radii come from `--join-*`, which our root already reads."},
+      {"text-input-password", "Password with icon and validator",
+       "A pattern requiring a number, a lowercase and an uppercase letter."},
+      {"text-input-number", "Number with validator", "`type=\"number\"` with min/max."},
+      {"text-input-tel", "Telephone with icon and validator",
+       "`type=\"tel\"` with a length pattern."},
+      {"text-input-url", "URL with icon and validator", "`type=\"url\"`."},
+      {"text-input-form", "In a Phoenix form",
+       "The real integration: `field={@form[:email]}` takes the id, name, value and errors from the form. Errors wait for `used_input?/1` — the pristine form on the left has an error in its changeset and does not show it; the touched one on the right does."}
     ]
   }
 
@@ -2750,6 +2788,369 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         </div>
       </div>
     </.menu>
+    """
+  end
+
+  # ── text_input ────────────────────────────────────────────────────────────
+  def example(%{section: "text-input-hero"} = assigns) do
+    ~H"""
+    <.text_input id="daisyui-input-hero" name="username" placeholder="Type here" />
+    """
+  end
+
+  def example(%{section: "text-input-label-inside"} = assigns) do
+    ~H"""
+    <.text_input id="daisyui-input-label-inside" name="path" placeholder="daisyui.com">
+      <:start_section>https://</:start_section>
+    </.text_input>
+    """
+  end
+
+  def example(%{section: "text-input-label-end"} = assigns) do
+    ~H"""
+    <.text_input id="daisyui-input-label-end" name="domain" placeholder="mysite">
+      <:end_section>.com</:end_section>
+    </.text_input>
+    """
+  end
+
+  def example(%{section: "text-input-ghost"} = assigns) do
+    ~H"""
+    <.text_input
+      id="daisyui-input-ghost"
+      name="ghost"
+      class="d-input-ghost"
+      placeholder="Type here"
+    />
+    """
+  end
+
+  def example(%{section: "text-input-fieldset"} = assigns) do
+    ~H"""
+    <.fieldset id="daisyui-input-fieldset" class="d-fieldset w-xs">
+      <:legend>What is your name?</:legend>
+      <.text_input id="daisyui-input-fieldset-control" name="name" placeholder="Your name" />
+      <p class="d-label">Optional</p>
+    </.fieldset>
+    """
+  end
+
+  def example(%{section: "text-input-field"} = assigns) do
+    ~H"""
+    <.field
+      :let={f}
+      id="daisyui-input-field"
+      name="email"
+      label="Email"
+      class="d-fieldset w-xs"
+      label_class="d-fieldset-legend"
+    >
+      <.text_input
+        id={f.id}
+        name={f.name}
+        type="email"
+        placeholder="you@example.com"
+        describedby={f.describedby}
+      />
+      <:description>We'll never share it.</:description>
+    </.field>
+    """
+  end
+
+  def example(%{section: "text-input-colors"} = assigns) do
+    assigns = assign(assigns, :colors, @colors)
+
+    ~H"""
+    <div class="flex flex-col gap-2">
+      <.text_input
+        :for={color <- @colors}
+        id={"daisyui-input-#{color}"}
+        name={color}
+        class={"d-input-#{color}"}
+        placeholder={String.capitalize(color)}
+      />
+    </div>
+    """
+  end
+
+  def example(%{section: "text-input-sizes"} = assigns) do
+    assigns = assign(assigns, :sizes, @sizes)
+
+    ~H"""
+    <div class="flex flex-col gap-2">
+      <.text_input
+        :for={size <- @sizes}
+        id={"daisyui-input-size-#{size}"}
+        name={size}
+        class={"d-input-#{size}"}
+        placeholder={"Size #{size}"}
+      />
+    </div>
+    """
+  end
+
+  def example(%{section: "text-input-disabled"} = assigns) do
+    ~H"""
+    <div class="flex flex-col gap-2">
+      <.text_input id="daisyui-input-disabled" name="disabled" placeholder="You can't type" disabled />
+      <.text_input id="daisyui-input-disabled-value" name="disabled_value" value="Locked" disabled />
+    </div>
+    """
+  end
+
+  def example(%{section: "text-input-datalist"} = assigns) do
+    ~H"""
+    <div>
+      <.text_input
+        id="daisyui-input-datalist"
+        name="browser"
+        placeholder="Pick a browser"
+        list="daisyui-browsers"
+      />
+      <datalist id="daisyui-browsers">
+        <option value="Chrome"></option>
+        <option value="Firefox"></option>
+        <option value="Safari"></option>
+      </datalist>
+    </div>
+    """
+  end
+
+  def example(%{section: "text-input-date"} = assigns) do
+    ~H"""
+    <.text_input id="daisyui-input-date" name="date" type="date" />
+    """
+  end
+
+  def example(%{section: "text-input-time"} = assigns) do
+    ~H"""
+    <.text_input id="daisyui-input-time" name="time" type="time" />
+    """
+  end
+
+  def example(%{section: "text-input-datetime"} = assigns) do
+    ~H"""
+    <.text_input id="daisyui-input-datetime" name="at" type="datetime-local" />
+    """
+  end
+
+  def example(%{section: "text-input-username"} = assigns) do
+    ~H"""
+    <div class="w-xs">
+      <.text_input
+        id="daisyui-input-username"
+        name="username"
+        class="d-validator"
+        placeholder="Username"
+        required
+        pattern="[A-Za-z][A-Za-z0-9\-]*"
+        minlength="3"
+        maxlength="30"
+        title="Only letters, numbers or dash"
+      >
+        <:start_section>
+          <.field_icon path="M12 12a4 4 0 100-8 4 4 0 000 8zM4 20a8 8 0 0116 0" />
+        </:start_section>
+      </.text_input>
+      <p class="d-validator-hint">
+        Must be 3 to 30 characters, containing only letters, numbers or dash
+      </p>
+    </div>
+    """
+  end
+
+  def example(%{section: "text-input-search"} = assigns) do
+    ~H"""
+    <.text_input id="daisyui-input-search" name="q" type="search" placeholder="Search" required>
+      <:start_section>
+        <.field_icon path="M11 19a8 8 0 100-16 8 8 0 000 16zM21 21l-4.35-4.35" />
+      </:start_section>
+    </.text_input>
+    """
+  end
+
+  def example(%{section: "text-input-email"} = assigns) do
+    ~H"""
+    <div class="w-xs">
+      <.text_input
+        id="daisyui-input-email"
+        name="email"
+        type="email"
+        class="d-validator"
+        placeholder="mail@site.com"
+        required
+      >
+        <:start_section>
+          <.field_icon path="M3 7l9 6 9-6M3 7v10h18V7H3z" />
+        </:start_section>
+      </.text_input>
+      <div class="d-validator-hint">Enter valid email address</div>
+    </div>
+    """
+  end
+
+  def example(%{section: "text-input-join"} = assigns) do
+    ~H"""
+    <form id="daisyui-input-join-form" phx-submit="daisyui_text_input_submit" class="d-join">
+      <.text_input
+        id="daisyui-input-join"
+        name="email"
+        type="email"
+        class="d-join-item"
+        placeholder="Enter your email"
+        required
+      />
+      <button type="submit" class="d-btn d-btn-primary d-join-item">Subscribe</button>
+    </form>
+    """
+  end
+
+  def example(%{section: "text-input-password"} = assigns) do
+    ~H"""
+    <div class="w-xs">
+      <.text_input
+        id="daisyui-input-password"
+        name="password"
+        type="password"
+        class="d-validator"
+        placeholder="Password"
+        required
+        minlength="8"
+        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*"
+        title="Must be more than 8 characters, including a number, a lowercase and an uppercase letter"
+      >
+        <:start_section>
+          <.field_icon path="M7 11V8a5 5 0 0110 0v3M5 11h14v10H5V11z" />
+        </:start_section>
+      </.text_input>
+      <p class="d-validator-hint">
+        Must be more than 8 characters, including a number, a lowercase and an uppercase letter
+      </p>
+    </div>
+    """
+  end
+
+  def example(%{section: "text-input-number"} = assigns) do
+    ~H"""
+    <div class="w-xs">
+      <.text_input
+        id="daisyui-input-number"
+        name="quantity"
+        type="number"
+        class="d-validator"
+        placeholder="Between 1 and 10"
+        required
+        min="1"
+        max="10"
+        title="Must be between 1 and 10"
+      />
+      <p class="d-validator-hint">Must be between 1 and 10</p>
+    </div>
+    """
+  end
+
+  def example(%{section: "text-input-tel"} = assigns) do
+    ~H"""
+    <div class="w-xs">
+      <.text_input
+        id="daisyui-input-tel"
+        name="phone"
+        type="tel"
+        class="d-validator tabular-nums"
+        placeholder="Phone"
+        required
+        pattern="[0-9]*"
+        minlength="10"
+        maxlength="10"
+        title="Must be 10 digits"
+      >
+        <:start_section>
+          <.field_icon path="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a1 1 0 01-1 1A16 16 0 014 5a1 1 0 011-1z" />
+        </:start_section>
+      </.text_input>
+      <p class="d-validator-hint">Must be 10 digits</p>
+    </div>
+    """
+  end
+
+  def example(%{section: "text-input-url"} = assigns) do
+    ~H"""
+    <div class="w-xs">
+      <.text_input
+        id="daisyui-input-url"
+        name="url"
+        type="url"
+        class="d-validator"
+        placeholder="https://"
+        required
+      >
+        <:start_section>
+          <.field_icon path="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1" />
+        </:start_section>
+      </.text_input>
+      <p class="d-validator-hint">Must be valid URL</p>
+    </div>
+    """
+  end
+
+  def example(%{section: "text-input-form"} = assigns) do
+    # Same errors on both forms; only the right one has params, so only the right one has been
+    # "used". That difference is the whole point — `used_input?/1` is what keeps a freshly rendered
+    # form from being red before anyone has typed in it.
+    errors = [email: {"must have the @ sign", []}]
+
+    assigns =
+      assigns
+      |> assign(:pristine, to_form(%{}, as: :pristine, errors: errors))
+      |> assign(:touched, to_form(%{"email" => "nope"}, as: :touched, errors: errors))
+
+    ~H"""
+    <form
+      id="daisyui-input-form"
+      phx-submit="daisyui_text_input_submit"
+      class="flex flex-wrap items-start gap-6"
+    >
+      <.field :let={f} id="daisyui-input-pristine" label="Pristine" class="d-fieldset">
+        <.text_input
+          field={@pristine[:email]}
+          type="email"
+          placeholder="you@example.com"
+          describedby={f.describedby}
+        />
+        <:description>Has an error; not shown yet.</:description>
+      </.field>
+
+      <.field
+        :let={f}
+        id="daisyui-input-touched"
+        label="Touched"
+        errors={Enum.map(@touched[:email].errors, &elem(&1, 0))}
+        class="d-fieldset"
+      >
+        <.text_input field={@touched[:email]} type="email" describedby={f.describedby} />
+      </.field>
+
+      <button type="submit" class="d-btn d-btn-primary self-center">Save</button>
+    </form>
+    """
+  end
+
+  attr :path, :string, required: true
+
+  defp field_icon(assigns) do
+    ~H"""
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="size-4 shrink-0 opacity-60"
+      aria-hidden="true"
+    >
+      <path d={@path} />
+    </svg>
     """
   end
 
