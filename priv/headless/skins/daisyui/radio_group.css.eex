@@ -44,3 +44,39 @@
   outline: 2px solid currentColor;
   outline-offset: 2px;
 }
+
+/* Sizes have to be set on the marker, not on the group. daisyUI's size modifiers are gated on
+ * `[type=radio]`, which our item is not — and worse, `@apply <%= @d %>radio` copies daisyUI's own
+ * `--size` declaration onto the `::before`, so a value inherited from the group would be shadowed
+ * by it. Writing the variable (and the padding, which is ungated) straight onto the marker is what
+ * actually wins.
+ */
+.chelekom-radio-group.<%= @d %>radio-xs .chelekom-radio-group__item::before {
+  --<%= @d %>size: calc(var(--size-selector, 0.25rem) * 4);
+
+  padding: 0.125rem;
+}
+
+.chelekom-radio-group.<%= @d %>radio-sm .chelekom-radio-group__item::before {
+  --<%= @d %>size: calc(var(--size-selector, 0.25rem) * 5);
+
+  padding: 0.1875rem;
+}
+
+.chelekom-radio-group.<%= @d %>radio-md .chelekom-radio-group__item::before {
+  --<%= @d %>size: calc(var(--size-selector, 0.25rem) * 6);
+
+  padding: 0.25rem;
+}
+
+.chelekom-radio-group.<%= @d %>radio-lg .chelekom-radio-group__item::before {
+  --<%= @d %>size: calc(var(--size-selector, 0.25rem) * 7);
+
+  padding: 0.3125rem;
+}
+
+.chelekom-radio-group.<%= @d %>radio-xl .chelekom-radio-group__item::before {
+  --<%= @d %>size: calc(var(--size-selector, 0.25rem) * 8);
+
+  padding: 0.375rem;
+}

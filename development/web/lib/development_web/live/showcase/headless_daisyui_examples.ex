@@ -63,6 +63,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.Table
   import DevelopmentWeb.Components.Headless.Carousel
   import DevelopmentWeb.Components.Headless.Calendar
+  import DevelopmentWeb.Components.Headless.RadioGroup
 
   @faq [
     {"What is a skin?",
@@ -527,6 +528,20 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"countdown-boxes", "In boxes", "daisyUI's bordered boxes around each unit."},
       {"countdown-short", "Reaching zero",
        "Not on daisyUI's page. A ten-second countdown that pushes `on_complete` once when it lands — watch the message below appear."}
+    ],
+    "radio_group" => [
+      {"radio-group-hero", "Radio group",
+       "daisyUI's `radio` on each item, but the group owns the behaviour: one tab stop, arrow keys move *and* select, and a hidden input carries the value into a form."},
+      {"radio-group-horizontal", "Horizontal", "The same group laid out in a row."},
+      {"radio-group-sizes", "Sizes",
+       "`radio-xs` through `radio-xl` — the modifier goes on the items, which is where daisyUI's radio lives."},
+      {"radio-group-colors", "Colors", "All eight `radio-*` colors, one group each."},
+      {"radio-group-disabled", "Disabled",
+       "A whole group ruled out, and a group with one option disabled — the arrow keys skip the disabled one rather than stopping on it."},
+      {"radio-group-readonly", "Read-only",
+       "Not on daisyUI's page. Focus still moves through a read-only group, so it can be read out; only the selection is frozen."},
+      {"radio-group-form", "In a form",
+       "The hidden input fires `input`, so a wrapping `<.form phx-change>` sees every change."}
     ],
     "rating" => [
       {"rating-hero", "Rating",
@@ -3983,6 +3998,117 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       on_complete="daisyui_countdown_complete"
       class="font-mono text-3xl"
     />
+    """
+  end
+
+  # ── radio_group ───────────────────────────────────────────────────────────
+  def example(%{section: "radio-group-hero"} = assigns) do
+    ~H"""
+    <.radio_group id="daisyui-radio-group-hero" name="plan" value="team">
+      <:option value="solo">Solo</:option>
+      <:option value="team">Team</:option>
+      <:option value="enterprise">Enterprise</:option>
+    </.radio_group>
+    """
+  end
+
+  def example(%{section: "radio-group-horizontal"} = assigns) do
+    ~H"""
+    <.radio_group
+      id="daisyui-radio-group-horizontal"
+      name="plan_row"
+      value="team"
+      orientation="horizontal"
+    >
+      <:option value="solo">Solo</:option>
+      <:option value="team">Team</:option>
+      <:option value="enterprise">Enterprise</:option>
+    </.radio_group>
+    """
+  end
+
+  def example(%{section: "radio-group-sizes"} = assigns) do
+    assigns = assign(assigns, :sizes, @sizes)
+
+    ~H"""
+    <div class="flex flex-col gap-3">
+      <.radio_group
+        :for={size <- @sizes}
+        id={"daisyui-radio-group-#{size}"}
+        name={"plan_#{size}"}
+        value="team"
+        orientation="horizontal"
+        class={"d-radio-#{size}"}
+      >
+        <:option value="solo">Solo</:option>
+        <:option value="team">{size}</:option>
+      </.radio_group>
+    </div>
+    """
+  end
+
+  def example(%{section: "radio-group-colors"} = assigns) do
+    assigns = assign(assigns, :colors, @colors)
+
+    ~H"""
+    <div class="flex flex-col gap-2">
+      <.radio_group
+        :for={color <- @colors}
+        id={"daisyui-radio-group-#{color}"}
+        name={"plan_#{color}"}
+        value="on"
+        orientation="horizontal"
+        class={"text-#{color}"}
+      >
+        <:option value="on">{color}</:option>
+        <:option value="off">off</:option>
+      </.radio_group>
+    </div>
+    """
+  end
+
+  def example(%{section: "radio-group-disabled"} = assigns) do
+    ~H"""
+    <div class="flex flex-col gap-4">
+      <.radio_group id="daisyui-radio-group-disabled" name="plan_off" value="team" disabled>
+        <:option value="solo">Solo</:option>
+        <:option value="team">Team</:option>
+      </.radio_group>
+
+      <.radio_group id="daisyui-radio-group-one-off" name="plan_one" value="solo">
+        <:option value="solo">Solo</:option>
+        <:option value="team" disabled>Team (sold out)</:option>
+        <:option value="enterprise">Enterprise</:option>
+      </.radio_group>
+    </div>
+    """
+  end
+
+  def example(%{section: "radio-group-readonly"} = assigns) do
+    ~H"""
+    <.radio_group id="daisyui-radio-group-readonly" name="plan_ro" value="team" readonly>
+      <:option value="solo">Solo</:option>
+      <:option value="team">Team</:option>
+      <:option value="enterprise">Enterprise</:option>
+    </.radio_group>
+    """
+  end
+
+  def example(%{section: "radio-group-form"} = assigns) do
+    ~H"""
+    <form
+      id="daisyui-radio-group-form-el"
+      phx-change="daisyui_radio_group_change"
+      phx-submit="daisyui_radio_group_submit"
+      class="flex flex-col items-start gap-3"
+    >
+      <.radio_group id="daisyui-radio-group-form" name="plan_form" value="team">
+        <:option value="solo">Solo</:option>
+        <:option value="team">Team</:option>
+        <:option value="enterprise">Enterprise</:option>
+      </.radio_group>
+      <button type="submit" class="d-btn d-btn-primary d-btn-sm">Save</button>
+    </form>
     """
   end
 

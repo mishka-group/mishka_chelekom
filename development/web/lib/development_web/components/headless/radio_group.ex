@@ -24,6 +24,12 @@ defmodule DevelopmentWeb.Components.Headless.RadioGroup do
   attr :id, :string, required: true
   attr :name, :string, default: nil, doc: "Name for the hidden form input"
   attr :value, :string, default: nil, doc: "Currently selected value"
+
+  attr :orientation, :string,
+    default: "vertical",
+    values: ~w(vertical horizontal),
+    doc: "Which way the options run; the engine's arrow keys follow it"
+
   attr :disabled, :boolean, default: false, doc: "Disable the whole group (data-disabled)"
   attr :readonly, :boolean, default: false, doc: "Block changing the selection (aria-readonly)"
   attr :required, :boolean, default: false, doc: "Require a selection for form submit"
@@ -54,7 +60,7 @@ defmodule DevelopmentWeb.Components.Headless.RadioGroup do
       id={@id}
       phx-hook="RadioGroup"
       role="radiogroup"
-      data-orientation="vertical"
+      data-orientation={@orientation}
       data-disabled={@disabled}
       data-on-change={@on_change}
       aria-disabled={@disabled && "true"}
