@@ -71,6 +71,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.Meter
   import DevelopmentWeb.Components.Headless.NavigationMenu
   import DevelopmentWeb.Components.Headless.NumberField
+  import DevelopmentWeb.Components.Headless.OverflowList
   import DevelopmentWeb.Components.Headless.PillsInput
   import DevelopmentWeb.Components.Headless.Popover
   import DevelopmentWeb.Components.Headless.PreviewCard
@@ -697,6 +698,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ],
     "number_field" => [
       {"number_field-hero", "Hero",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+    ],
+    "overflow_list" => [
+      {"overflow_list-hero", "Hero",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "pills_input" => [
@@ -5565,6 +5570,25 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         </svg>
       </:increment_icon>
     </.number_field>
+    """
+  end
+
+  # ── overflow_list ───────────────────────────────────────────────────────
+  def example(%{section: "overflow_list-hero"} = assigns) do
+    ~H"""
+    <div>
+      <.overflow_list
+        id="daisyui-overflow-list"
+        min_visible={1}
+      >
+        <:item>Design</:item>
+        <:item>Phoenix</:item>
+        <:item>Elixir</:item>
+        <:item>LiveView</:item>
+        <:item>Tailwind</:item>
+        <:item>Headless</:item>
+      </.overflow_list>
+    </div>
     """
   end
 

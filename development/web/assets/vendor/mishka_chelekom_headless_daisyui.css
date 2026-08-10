@@ -4799,6 +4799,36 @@
 }
 /* <<< number_field */
 
+/* >>> overflow_list */
+@layer components {
+  [data-skin=daisyui] {
+    /* overflow_list — daisyUI skin.
+     *
+     * The list is the caller's; what this paints is the counter that stands in for whatever did not
+     * fit, and daisyUI's `badge` is exactly that shape.
+     */
+
+    .chelekom-overflow-list {
+      display: flex;
+      align-items: center;
+      gap: calc(0.25rem * 2);
+      overflow: hidden;
+      color: var(--color-base-content);
+    }
+
+    .chelekom-overflow-list__item {
+      flex-shrink: 0;
+    }
+
+    .chelekom-overflow-list__counter {
+      @apply d-badge d-badge-neutral;
+
+      flex-shrink: 0;
+    }
+  }
+}
+/* <<< overflow_list */
+
 /* >>> pills_input */
 @layer components {
   [data-skin=daisyui] {
