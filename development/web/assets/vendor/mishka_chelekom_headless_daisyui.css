@@ -5046,6 +5046,50 @@
 }
 /* <<< scroll_area */
 
+/* >>> scroller */
+@layer components {
+  [data-skin=daisyui] {
+    /* scroller — daisyUI skin.
+     *
+     * A horizontal strip with an arrow at each end. daisyUI has no equivalent, but its `btn btn-circle`
+     * is exactly the right shape for the arrows, so they borrow it; the fading edges are drawn here.
+     */
+
+    .chelekom-scroller {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: calc(0.25rem * 2);
+      color: var(--color-base-content);
+    }
+
+    .chelekom-scroller__viewport {
+      display: flex;
+      gap: calc(0.25rem * 2);
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+    }
+
+    .chelekom-scroller__viewport::-webkit-scrollbar {
+      display: none;
+    }
+
+    .chelekom-scroller__control {
+      @apply d-btn d-btn-circle d-btn-sm;
+
+      flex-shrink: 0;
+    }
+
+    /* An arrow with nowhere left to go is disabled rather than hidden, so the strip does not change
+     * width as you reach either end. */
+    .chelekom-scroller__control[disabled] {
+      @apply d-btn-disabled;
+    }
+  }
+}
+/* <<< scroller */
+
 /* >>> segmented_control */
 @layer components {
   [data-skin=daisyui] {

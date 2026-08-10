@@ -75,6 +75,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.Popover
   import DevelopmentWeb.Components.Headless.PreviewCard
   import DevelopmentWeb.Components.Headless.ScrollArea
+  import DevelopmentWeb.Components.Headless.Scroller
   import DevelopmentWeb.Components.Headless.TagsInput
   import DevelopmentWeb.Components.Headless.Toolbar
   import DevelopmentWeb.Components.Headless.Tree
@@ -730,6 +731,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"scroll_area-both", "Both",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
       {"scroll_area-scroll-fade", "Scroll Fade",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+    ],
+    "scroller" => [
+      {"scroller-hero", "Hero",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "tags_input" => [
@@ -5946,6 +5951,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         sustainable design.
       </p>
     </.scroll_area>
+    """
+  end
+
+  # ── scroller ────────────────────────────────────────────────────────────
+  def example(%{section: "scroller-hero"} = assigns) do
+    ~H"""
+    <.scroller id="daisyui-scroller">
+      <div :for={n <- 1..10}>
+        {n}
+      </div>
+    </.scroller>
     """
   end
 
