@@ -13,8 +13,8 @@
   cursor: pointer;
   font-size: 0.875rem;
   color: var(--color-base-content);
-  --d-switch-on: var(--d-input-color, var(--color-base-content));
-  --d-switch-size: var(--d-size, calc(var(--size-selector, 0.25rem) * 6));
+  --d-switch-on: var(--<%= @d %>input-color, var(--color-base-content));
+  --d-switch-size: var(--<%= @d %>size, calc(var(--size-selector, 0.25rem) * 6));
 }
 
 .chelekom-switch:disabled,
@@ -52,13 +52,13 @@
 
 .chelekom-switch__track {
   @apply <%= @d %>toggle;
-  --d-size: var(--d-switch-size);
+  --<%= @d %>size: var(--d-switch-size);
 }
 
 .chelekom-switch__track[data-checked] {
   grid-template-columns: 1fr 1fr 0fr;
   background-color: var(--color-base-100);
-  --d-input-color: var(--d-switch-on);
+  --<%= @d %>input-color: var(--d-switch-on);
 }
 
 .chelekom-switch:focus-visible .chelekom-switch__track {

@@ -24,7 +24,7 @@
 }
 
 .chelekom-checkbox__indicator[data-checked] {
-  background-color: var(--d-input-color, #0000);
+  background-color: var(--<%= @d %>input-color, #0000);
   box-shadow:
     0 0 #0000 inset,
     0 8px 0 -4px oklch(100% 0 0 / calc(var(--depth) * 0.1)) inset,
@@ -33,7 +33,7 @@
 
 .chelekom-checkbox__indicator[data-indeterminate] {
   background-color: var(
-    --d-input-color,
+    --<%= @d %>input-color,
     color-mix(in oklab, var(--color-base-content) 20%, transparent)
   );
 }

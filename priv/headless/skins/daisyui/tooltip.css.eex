@@ -3,7 +3,7 @@
  * daisyUI's `tooltip` is a CSS-only bubble drawn on the trigger's `::before`/`::after` from a
  * `data-tip`, positioned by `tooltip-{top,bottom,left,right}` and revealed on `:hover`. Ours is a
  * real popup element placed by the Tooltip engine, so these are daisyUI's values written against
- * our parts, keyed off the `data-side` the engine sets. `--d-tt-bg` is daisyUI's own variable, so
+ * our parts, keyed off the `data-side` the engine sets. `--<%= @d %>tt-bg` is daisyUI's own variable, so
  * `tooltip-primary` and friends recolour the bubble and the arrow together.
  */
 
@@ -12,14 +12,14 @@
 }
 
 .chelekom-tooltip__popup {
-  --d-tt-bg: var(--color-neutral);
+  --<%= @d %>tt-bg: var(--color-neutral);
   z-index: 60;
   max-width: 20rem;
   width: max-content;
   border-radius: var(--radius-field);
   padding-inline: calc(0.25rem * 2);
   padding-block: calc(0.25rem * 1);
-  background-color: var(--d-tt-bg);
+  background-color: var(--<%= @d %>tt-bg);
   color: var(--color-neutral-content);
   font-size: 0.875rem;
   line-height: 1.25rem;
@@ -62,7 +62,7 @@
   width: 0.5rem;
   height: 0.5rem;
   rotate: 45deg;
-  background-color: var(--d-tt-bg);
+  background-color: var(--<%= @d %>tt-bg);
 }
 
 @media (prefers-reduced-motion: no-preference) {
