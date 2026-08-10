@@ -1,0 +1,48 @@
+/* empty_state — daisyUI skin.
+ *
+ * daisyUI has no empty state; this is drawn from its tokens — a centred column in `hero`'s
+ * proportions, with the actions row borrowing nothing so any `btn` the caller puts there fits.
+ */
+
+.chelekom-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(0.25rem * 3);
+  padding: calc(0.25rem * 10) calc(0.25rem * 6);
+  text-align: center;
+  color: var(--color-base-content);
+}
+
+.chelekom-empty-state__indicator {
+  display: grid;
+  place-items: center;
+  width: calc(0.25rem * 14);
+  height: calc(0.25rem * 14);
+  border-radius: calc(infinity * 1px);
+  background-color: color-mix(in oklab, var(--color-base-content) 8%, transparent);
+  opacity: 70%;
+}
+
+.chelekom-empty-state__body {
+  display: flex;
+  flex-direction: column;
+  gap: calc(0.25rem * 1);
+}
+
+.chelekom-empty-state__title {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.chelekom-empty-state__description {
+  font-size: 0.875rem;
+  opacity: 65%;
+}
+
+.chelekom-empty-state__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: calc(0.25rem * 2);
+}

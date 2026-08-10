@@ -63,6 +63,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.ColorSwatch
   import DevelopmentWeb.Components.Headless.Combobox
   import DevelopmentWeb.Components.Headless.ContextMenu
+  import DevelopmentWeb.Components.Headless.EmptyState
   import DevelopmentWeb.Components.Headless.FloatingIndicator
   import DevelopmentWeb.Components.Headless.FloatingWindow
   import DevelopmentWeb.Components.Headless.Highlight
@@ -668,6 +669,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"context_menu-hero", "Hero",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
       {"context_menu-submenu", "Submenu",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+    ],
+    "empty_state" => [
+      {"empty_state-hero", "Hero",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+      {"empty_state-actions", "With actions",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "floating_indicator" => [
@@ -5080,6 +5087,68 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         Share
       </.context_menu_item>
     </.context_menu>
+    """
+  end
+
+  # ── empty_state ─────────────────────────────────────────────────────────
+  def example(%{section: "empty_state-hero"} = assigns) do
+    ~H"""
+    <.empty_state
+      id="daisyui-empty-state-hero"
+      title="No results found"
+      description="We couldn't find anything matching your search. Try a different keyword."
+    >
+      <:indicator>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+          />
+        </svg>
+      </:indicator>
+    </.empty_state>
+    """
+  end
+
+  def example(%{section: "empty_state-actions"} = assigns) do
+    ~H"""
+    <.empty_state
+      id="daisyui-empty-state-actions"
+      align="left"
+      title="No projects yet"
+      description="Create your first project to get started — it only takes a minute."
+    >
+      <:indicator>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 10.5v6m3-3H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z"
+          />
+        </svg>
+      </:indicator>
+      <:actions>
+        <button type="button">
+          New project
+        </button>
+        <button type="button">
+          Import
+        </button>
+      </:actions>
+    </.empty_state>
     """
   end
 
