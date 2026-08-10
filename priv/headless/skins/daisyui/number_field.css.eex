@@ -1,0 +1,53 @@
+/* number_field — daisyUI skin.
+ *
+ * daisyUI has no number field; its docs show `input` next to two `btn`s, joined. That is exactly
+ * this component's anatomy, so the group takes `join`, the input takes `input`, and the two
+ * steppers take `btn` — every one of them a real daisyUI class on a real element, which is why the
+ * join's radius variables resolve without any mirroring here.
+ *
+ * The scrub area is ours: daisyUI has nothing that drags a number.
+ */
+
+.chelekom-number_field {
+  display: inline-flex;
+  flex-direction: column;
+  gap: calc(0.25rem * 1);
+}
+
+.chelekom-number_field__group {
+  @apply <%= @d %>join;
+}
+
+.chelekom-number_field__input {
+  @apply <%= @d %>input <%= @d %>join-item;
+
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.chelekom-number_field__decrement,
+.chelekom-number_field__increment {
+  @apply <%= @d %>btn <%= @d %>join-item;
+}
+
+.chelekom-number_field__decrement[disabled],
+.chelekom-number_field__increment[disabled] {
+  @apply <%= @d %>btn-disabled;
+}
+
+/* Dragging sideways to change the value: the cursor is the affordance, so it has to say so. */
+.chelekom-number_field__scrub-area {
+  cursor: ew-resize;
+  user-select: none;
+}
+
+.chelekom-number_field__scrub-cursor {
+  position: fixed;
+  z-index: 60;
+  pointer-events: none;
+}
+
+.chelekom-number_field__scrub-area-label {
+  font-size: 0.875rem;
+  opacity: 70%;
+}

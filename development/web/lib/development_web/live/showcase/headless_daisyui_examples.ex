@@ -60,6 +60,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.Menubar
   import DevelopmentWeb.Components.Headless.Meter
   import DevelopmentWeb.Components.Headless.NavigationMenu
+  import DevelopmentWeb.Components.Headless.NumberField
   import DevelopmentWeb.Components.Headless.Popover
   import DevelopmentWeb.Components.Headless.PreviewCard
   import DevelopmentWeb.Components.Headless.Toolbar
@@ -620,6 +621,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"navigation_menu-nested", "Nested",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
       {"navigation_menu-nested-inline", "Nested Inline",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+    ],
+    "number_field" => [
+      {"number_field-hero", "Hero",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "popover" => [
@@ -4778,6 +4783,59 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <:item label="Releases" href="#" />
       <:item label="GitHub" href="#" />
     </.navigation_menu>
+    """
+  end
+
+  # ── number_field ────────────────────────────────────────────────────────
+  def example(%{section: "number_field-hero"} = assigns) do
+    ~H"""
+    <.number_field
+      id="daisyui-number_field-hero"
+      value={100}
+      scrub_cursor
+    >
+      <:scrub_area>Amount</:scrub_area>
+      <:scrub_cursor_icon>
+        <svg
+          width="26"
+          height="14"
+          viewBox="0 0 24 14"
+          fill="black"
+          stroke="white"
+          style="display: block;"
+        >
+          <path d="M19.5 5.5L6.49737 5.51844V2L1 6.9999L6.5 12L6.49737 8.5L19.5 8.5V12L25 6.9999L19.5 2V5.5Z" />
+        </svg>
+      </:scrub_cursor_icon>
+      <:decrement_icon>
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="square"
+          stroke-linejoin="round"
+          style="display: block;"
+        >
+          <path d="M1.5 8h13" />
+        </svg>
+      </:decrement_icon>
+      <:increment_icon>
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="square"
+          stroke-linejoin="round"
+          style="display: block;"
+        >
+          <path d="M1.5 8h13M8 14.5v-13" />
+        </svg>
+      </:increment_icon>
+    </.number_field>
     """
   end
 
