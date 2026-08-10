@@ -3863,3 +3863,24 @@
 }
 /* <<< action_icon */
 
+/* >>> close_button */
+@layer components {
+  [data-skin=daisyui] {
+    /* close_button — daisyUI skin.
+     *
+     * daisyUI's own dismiss buttons — the one in its modal, the one on its alert — are
+     * `btn btn-sm btn-circle btn-ghost`, so that is exactly what this paints. Ghost rather than filled
+     * matters: a close button that draws as much attention as the thing it closes is a mistake.
+     */
+
+    .chelekom-close-button {
+      @apply d-btn d-btn-sm d-btn-circle d-btn-ghost;
+    }
+
+    .chelekom-close-button[data-disabled] {
+      @apply d-btn-disabled;
+    }
+  }
+}
+/* <<< close_button */
+

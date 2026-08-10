@@ -46,6 +46,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.Radio
   import DevelopmentWeb.Components.Headless.RadioGroup
   import DevelopmentWeb.Components.Headless.ActionIcon
+  import DevelopmentWeb.Components.Headless.CloseButton
   import DevelopmentWeb.Components.Headless.Select
   import DevelopmentWeb.Components.Headless.Switch
   import DevelopmentWeb.Components.Headless.Tabs
@@ -540,6 +541,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
        "daisyUI's `btn-outline`, `btn-ghost`, `btn-soft` and `btn-dash`."},
       {"action-icon-circle", "Circle", "daisyUI's `btn-circle` in place of the default square."},
       {"action-icon-disabled", "Disabled", "`disabled` reaches the skin through `data-disabled`."}
+    ],
+    "close_button" => [
+      {"close-button-hero", "Close button",
+       "daisyUI's own dismiss buttons — in its modal, on its alert — are `btn btn-sm btn-circle btn-ghost`, and so is this. Ghost matters: a close button should not compete with what it closes."},
+      {"close-button-sizes", "Sizes", "`btn-xs` through `btn-lg`."},
+      {"close-button-custom", "Custom glyph", "The slot replaces the built-in ✕."},
+      {"close-button-in-alert", "In an alert",
+       "Where daisyUI actually uses one — pinned to the end of a message."},
+      {"close-button-disabled", "Disabled", "Dimmed and inert."}
     ],
     "radio_group" => [
       {"radio-group-hero", "Radio group",
@@ -4079,6 +4089,44 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "action-icon-disabled"} = assigns) do
     ~H"""
     <.action_icon label="Edit" disabled><.dock_icon path="M4 20h4L20 8l-4-4L4 16z" /></.action_icon>
+    """
+  end
+
+  # ── close_button ──────────────────────────────────────────────────────────
+  def example(%{section: "close-button-hero"} = assigns) do
+    ~H"""
+    <.close_button label="Dismiss" />
+    """
+  end
+
+  def example(%{section: "close-button-sizes"} = assigns) do
+    ~H"""
+    <div class="flex items-center gap-2">
+      <.close_button :for={size <- ~w(xs sm md lg)} label={size} class={"d-btn-#{size}"} />
+    </div>
+    """
+  end
+
+  def example(%{section: "close-button-custom"} = assigns) do
+    ~H"""
+    <.close_button label="Dismiss">
+      <.dock_icon path="M6 6l12 12M18 6L6 18" />
+    </.close_button>
+    """
+  end
+
+  def example(%{section: "close-button-in-alert"} = assigns) do
+    ~H"""
+    <.alert id="daisyui-close-button-alert" class="d-alert d-alert-info w-96">
+      A new version is available.
+      <:actions><.close_button label="Dismiss" /></:actions>
+    </.alert>
+    """
+  end
+
+  def example(%{section: "close-button-disabled"} = assigns) do
+    ~H"""
+    <.close_button label="Dismiss" disabled />
     """
   end
 
