@@ -4794,6 +4794,62 @@
 }
 /* <<< segmented_control */
 
+/* >>> tags_input */
+@layer components {
+  [data-skin=daisyui] {
+    /* tags_input — daisyUI skin.
+     *
+     * The box is daisyUI's `input`, but it has to grow: `input` is a fixed-height row and a tag field
+     * wraps onto several. So the box is drawn from the same tokens with `height: auto`, and each tag
+     * is a `badge` — which is what a tag is.
+     */
+
+    .chelekom-tags-input {
+      border-radius: var(--radius-field);
+      border: var(--border) solid color-mix(in oklab, var(--color-base-content) 20%, #0000);
+      background-color: var(--color-base-100);
+      color: var(--color-base-content);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: calc(0.25rem * 1.5);
+      padding: calc(0.25rem * 1.5);
+      min-height: calc(var(--size-field, 0.25rem) * 10);
+    }
+
+    .chelekom-tags-input:focus-within {
+      outline: 2px solid var(--color-base-content);
+      outline-offset: 2px;
+    }
+
+    .chelekom-tags-input__tag {
+      @apply d-badge d-badge-neutral d-badge-sm;
+
+      gap: calc(0.25rem * 1);
+    }
+
+    .chelekom-tags-input__remove {
+      cursor: pointer;
+      opacity: 70%;
+    }
+
+    .chelekom-tags-input__remove:hover {
+      opacity: 100%;
+    }
+
+    /* The field grows to fill whatever the tags leave, so clicking the empty space still focuses it. */
+    .chelekom-tags-input__input {
+      flex: 1;
+      min-width: 6rem;
+      border: none;
+      background: transparent;
+      outline: none;
+      font-size: 0.875rem;
+    }
+  }
+}
+/* <<< tags_input */
+
 /* >>> toggle_group */
 @layer components {
   [data-skin=daisyui] {

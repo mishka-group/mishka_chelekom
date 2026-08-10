@@ -65,6 +65,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.NumberField
   import DevelopmentWeb.Components.Headless.Popover
   import DevelopmentWeb.Components.Headless.PreviewCard
+  import DevelopmentWeb.Components.Headless.TagsInput
   import DevelopmentWeb.Components.Headless.Toolbar
   import DevelopmentWeb.Components.Headless.Select
   import DevelopmentWeb.Components.Headless.Switch
@@ -685,6 +686,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"preview_card-detached-triggers-full", "Detached Triggers Full",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
       {"preview_card-detached-triggers-simple", "Detached Triggers Simple",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+    ],
+    "tags_input" => [
+      {"tags_input-hero", "Hero",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "toolbar" => [
@@ -5709,6 +5714,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       </.preview_card>
       remain in the digital age.
     </p>
+    """
+  end
+
+  # ── tags_input ──────────────────────────────────────────────────────────
+  def example(%{section: "tags_input-hero"} = assigns) do
+    ~H"""
+    <.tags_input
+      id="daisyui-tags-input"
+      tags={["Design", "Engineering", "Product"]}
+      placeholder="Add a tag…"
+      on_remove={JS.hide(to: {:closest, "[data-part=tag]"})}
+    />
     """
   end
 
