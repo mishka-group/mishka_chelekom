@@ -25,6 +25,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.OtpField
   import DevelopmentWeb.Components.Headless.Fieldset
   import DevelopmentWeb.Components.Headless.Drawer
+  import DevelopmentWeb.Components.Headless.Alert
   import DevelopmentWeb.Components.Headless.Anchor
   import DevelopmentWeb.Components.Headless.Button
   import DevelopmentWeb.Components.Headless.Toggle
@@ -338,6 +339,22 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"button-as-link", "As a link",
        "`href` / `navigate` render an anchor with `role=\"button\"` — a link navigates, a button acts."},
       {"button-submit", "In a form", "A submit button wired to a form."}
+    ],
+    "alert" => [
+      {"alert-hero", "Alert", "daisyUI's `alert`."},
+      {"alert-colors", "Colors",
+       "`alert-info`, `alert-success`, `alert-warning`, `alert-error`."},
+      {"alert-soft", "Soft", "daisyUI's `alert-soft`."},
+      {"alert-outline", "Outline", "daisyUI's `alert-outline`."},
+      {"alert-dash", "Dash", "daisyUI's `alert-dash`."},
+      {"alert-actions", "With buttons",
+       "daisyUI's `alert-vertical sm:alert-horizontal`, with our `:actions` part."},
+      {"alert-title", "With title and description",
+       "The `:title` part, wired to the root through `aria-labelledby` so it is announced first."},
+      {"alert-urgency", "Urgency",
+       "Not a daisyUI variant — daisyUI's alert is purely visual. Ours picks the semantics: polite renders `role=status`, assertive renders `role=alert` and interrupts a screen reader."},
+      {"alert-dismissible", "Dismissible",
+       "The `:close` part, which hides the alert with `Phoenix.LiveView.JS` — no hook, no round trip."}
     ],
     "menu" => [
       {"menu-hero", "Dropdown menu",
@@ -1817,6 +1834,122 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <.button type="submit" class="d-btn-primary">Save</.button>
       <.button type="reset" class="d-btn-ghost">Reset</.button>
     </form>
+    """
+  end
+
+  # ── alert ─────────────────────────────────────────────────────────────────
+  def example(%{section: "alert-hero"} = assigns) do
+    ~H"""
+    <.alert id="daisyui-alert-hero" class="w-xs">
+      <:icon><.nav_icon path="M12 8h.01M11 12h1v4h1" /></:icon>
+      12 unread messages. Tap to see.
+    </.alert>
+    """
+  end
+
+  def example(%{section: "alert-colors"} = assigns) do
+    ~H"""
+    <div class="flex w-xs flex-col gap-2">
+      <.alert
+        :for={color <- ~w(info success warning error)}
+        id={"daisyui-alert-#{color}"}
+        class={"d-alert-#{color}"}
+      >
+        alert-{color}
+      </.alert>
+    </div>
+    """
+  end
+
+  def example(%{section: "alert-soft"} = assigns) do
+    ~H"""
+    <div class="flex w-xs flex-col gap-2">
+      <.alert
+        :for={color <- ~w(info success warning error)}
+        id={"daisyui-alert-soft-#{color}"}
+        class={"d-alert-soft d-alert-#{color}"}
+      >
+        alert-{color}
+      </.alert>
+    </div>
+    """
+  end
+
+  def example(%{section: "alert-outline"} = assigns) do
+    ~H"""
+    <div class="flex w-xs flex-col gap-2">
+      <.alert
+        :for={color <- ~w(info success warning error)}
+        id={"daisyui-alert-outline-#{color}"}
+        class={"d-alert-outline d-alert-#{color}"}
+      >
+        alert-{color}
+      </.alert>
+    </div>
+    """
+  end
+
+  def example(%{section: "alert-dash"} = assigns) do
+    ~H"""
+    <div class="flex w-xs flex-col gap-2">
+      <.alert
+        :for={color <- ~w(info success warning error)}
+        id={"daisyui-alert-dash-#{color}"}
+        class={"d-alert-dash d-alert-#{color}"}
+      >
+        alert-{color}
+      </.alert>
+    </div>
+    """
+  end
+
+  def example(%{section: "alert-actions"} = assigns) do
+    ~H"""
+    <.alert id="daisyui-alert-actions" class="w-xs d-alert-vertical sm:d-alert-horizontal">
+      We use cookies for no reason.
+      <:actions>
+        <.button class="d-btn-sm">Deny</.button>
+        <.button class="d-btn-sm d-btn-primary">Accept</.button>
+      </:actions>
+    </.alert>
+    """
+  end
+
+  def example(%{section: "alert-title"} = assigns) do
+    ~H"""
+    <.alert id="daisyui-alert-title" class="w-xs d-alert-vertical sm:d-alert-horizontal">
+      <:icon><.nav_icon path="M12 9v4m0 4h.01" /></:icon>
+      <:title>New software update available</:title>
+      A new release is ready to install.
+      <:actions>
+        <.button class="d-btn-sm">Later</.button>
+      </:actions>
+    </.alert>
+    """
+  end
+
+  def example(%{section: "alert-urgency"} = assigns) do
+    ~H"""
+    <div class="flex w-xs flex-col gap-2">
+      <.alert id="daisyui-alert-polite" urgency="polite" class="d-alert-info">
+        polite — role="status", waits its turn
+      </.alert>
+      <.alert id="daisyui-alert-assertive" urgency="assertive" class="d-alert-error">
+        assertive — role="alert", interrupts
+      </.alert>
+      <.alert id="daisyui-alert-off" urgency="off">
+        off — a plain region, for a message already on the page
+      </.alert>
+    </div>
+    """
+  end
+
+  def example(%{section: "alert-dismissible"} = assigns) do
+    ~H"""
+    <.alert id="daisyui-alert-dismiss" class="w-xs d-alert-success" dismissible>
+      <:icon><.nav_icon path="M20 6 9 17l-5-5" /></:icon>
+      Saved. Dismiss me — no round trip.
+    </.alert>
     """
   end
 

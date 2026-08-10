@@ -1,0 +1,112 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Headless **alert** — an inline message the user did not ask for (Base UI Toast's static sibling).
+
+  Urgency picks the semantics rather than the colour: `urgency="polite"` (default) renders
+  `role="status"` with `aria-live="polite"`, so a screen reader finishes its sentence first;
+  `urgency="assertive"` renders `role="alert"`, which interrupts. Use assertive only when the user
+  must act — a failed save, a lost connection. `urgency="off"` renders a plain region for a message
+  that was already on the page at load, where announcing it would be noise.
+
+  `dismissible` adds a `close` part. It dismisses itself with `Phoenix.LiveView.JS` — no hook, no
+  round trip — and `on_dismiss` either replaces that with your own JS or names a LiveView event to
+  push instead, for a message the server needs to forget.
+
+  Parts: `icon`, `title`, `content`, `actions`, `close`. The title is wired to the root through
+  `aria-labelledby`, so the alert announces its heading before its body.
+
+  Ships **no** colors, sizing or spacing — style via `chelekom-alert*`.
+
+  WAI-ARIA: https://www.w3.org/WAI/ARIA/apg/patterns/alert/
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/alert
+  """
+  use Phoenix.Component
+
+  alias Phoenix.LiveView.JS
+
+  @doc type: :component
+  attr :id, :string, required: true, doc: "Unique id (anchors the title and the dismiss target)"
+
+  attr :urgency, :string,
+    default: "polite",
+    values: ~w(polite assertive off),
+    doc: "How the message is announced: status | alert | plain region"
+
+  attr :dismissible, :boolean, default: false, doc: "Render a close button"
+
+  attr :on_dismiss, :any,
+    default: nil,
+    doc: "A JS command or LiveView event name; defaults to hiding the alert client-side"
+
+  attr :close_label, :string, default: "Dismiss", doc: "Accessible label for the close button"
+  attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :title_class, :any, default: nil, doc: ~s|Extra classes for `data-part="title"`|
+  attr :content_class, :any, default: nil, doc: ~s|Extra classes for `data-part="content"`|
+  attr :close_class, :any, default: nil, doc: ~s|Extra classes for `data-part="close"`|
+  attr :rest, :global
+
+  slot :icon, doc: "Leading icon (decorative — hidden from assistive tech)"
+  slot :title, doc: "Short heading, announced before the body"
+  slot :actions, doc: "Buttons or links at the end of the alert"
+  slot :close_icon, doc: "Custom close glyph; falls back to ✕"
+  slot :inner_block, required: true, doc: "The message"
+
+  def <%= @component_prefix %>alert(assigns) do
+    assigns = assign(assigns, :dismiss, dismiss_action(assigns))
+
+    ~H"""
+    <div
+      id={@id}
+      role={role_for(@urgency)}
+      aria-live={@urgency != "off" && @urgency}
+      aria-labelledby={@title != [] && "#{@id}-title"}
+      data-urgency={@urgency}
+      data-dismissible={@dismissible}
+      class={["chelekom-alert", @class]}
+      {@rest}
+    >
+      <span :if={@icon != []} data-part="icon" aria-hidden="true" class="chelekom-alert__icon">{render_slot(
+        @icon
+      )}</span>
+
+      <div data-part="content" class={["chelekom-alert__content", @content_class]}>
+        <span
+          :if={@title != []}
+          id={"#{@id}-title"}
+          data-part="title"
+          class={["chelekom-alert__title", @title_class]}
+        >{render_slot(@title)}</span>
+        {render_slot(@inner_block)}
+      </div>
+
+      <span :if={@actions != []} data-part="actions" class="chelekom-alert__actions">{render_slot(
+        @actions
+      )}</span>
+
+      <button
+        :if={@dismissible}
+        type="button"
+        data-part="close"
+        aria-label={@close_label}
+        phx-click={@dismiss}
+        class={["chelekom-alert__close", @close_class]}
+      >
+        {if @close_icon != [], do: render_slot(@close_icon), else: "✕"}
+      </button>
+    </div>
+    """
+  end
+
+  # An assertive message interrupts; a polite one waits. `off` is for a message that was already
+  # there when the page loaded, where announcing it on mount would be noise.
+  defp role_for("assertive"), do: "alert"
+  defp role_for("polite"), do: "status"
+  defp role_for(_), do: nil
+
+  # Dismissing is client-side by default, so a purely visual alert costs no round trip. A binary
+  # `on_dismiss` is a LiveView event name; a JS struct replaces the default outright.
+  defp dismiss_action(%{on_dismiss: nil, id: id}), do: JS.hide(to: "##{id}")
+  defp dismiss_action(%{on_dismiss: %JS{} = js}), do: js
+  defp dismiss_action(%{on_dismiss: event}) when is_binary(event), do: JS.push(event)
+end

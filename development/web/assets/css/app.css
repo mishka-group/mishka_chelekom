@@ -43,6 +43,7 @@
 @source inline("d-divider-horizontal");
 @source inline("[--d-range-bg:orange] [--d-range-fill:0] [--d-range-thumb:blue]");
 @source inline("d-alert d-alert-{info,success,warning,error}");
+@source inline("d-alert-{soft,outline,dash,vertical,horizontal} sm:d-alert-horizontal");
 @source inline("d-toast-{top,middle,bottom,start,center,end}");
 @source inline("d-input d-label d-fieldset d-fieldset-legend d-join d-join-item");
 @source inline("d-link d-link-hover d-link-{primary,secondary,accent,neutral,info,success,warning,error}");

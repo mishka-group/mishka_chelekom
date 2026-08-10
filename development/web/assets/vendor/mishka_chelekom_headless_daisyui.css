@@ -1773,3 +1773,57 @@
   }
 }
 /* <<< button */
+
+/* >>> alert */
+@layer components {
+  [data-skin=daisyui] {
+    /* alert — daisyUI skin (paints `alert`; every alert modifier works on the root). */
+
+    .chelekom-alert {
+      @apply d-alert;
+    }
+
+    .chelekom-alert__icon {
+      display: inline-flex;
+      flex-shrink: 0;
+    }
+
+    .chelekom-alert__content {
+      display: flex;
+      flex-direction: column;
+      gap: calc(0.25rem * 0.5);
+      text-align: start;
+    }
+
+    .chelekom-alert__title {
+      font-weight: 700;
+    }
+
+    .chelekom-alert__actions {
+      display: inline-flex;
+      gap: calc(0.25rem * 2);
+      margin-inline-start: auto;
+    }
+
+    .chelekom-alert__close {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-inline-start: auto;
+      border-radius: var(--radius-selector);
+      cursor: pointer;
+      opacity: 60%;
+      transition: opacity 0.2s ease-out;
+    }
+
+    .chelekom-alert__close:hover {
+      opacity: 100%;
+    }
+
+    .chelekom-alert__close:focus-visible {
+      outline: 2px solid currentColor;
+      outline-offset: 1px;
+    }
+  }
+}
+/* <<< alert */
