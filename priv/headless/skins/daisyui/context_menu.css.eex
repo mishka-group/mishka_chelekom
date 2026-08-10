@@ -1,0 +1,79 @@
+/* context_menu — daisyUI skin.
+ *
+ * daisyUI's right-click menu is the same thing as its dropdown: `dropdown-content menu` in a box.
+ * The whole surface is painted from that, and the extra parts our menu has — checkbox and radio
+ * items, group labels, submenu chevrons — are drawn to match, since daisyUI's menu has no
+ * equivalent for any of them.
+ */
+
+.chelekom-context_menu__popup,
+.chelekom-context_menu__submenu-popup {
+  @apply <%= @d %>menu <%= @d %>dropdown-content;
+
+  position: absolute;
+  z-index: 50;
+  min-width: 13rem;
+  border-radius: var(--radius-box);
+  background-color: var(--color-base-100);
+  box-shadow: 0 4px 12px oklch(0% 0 0 / 0.12);
+}
+
+.chelekom-context_menu__popup[data-closed],
+.chelekom-context_menu__submenu-popup[data-closed] {
+  display: none;
+}
+
+.chelekom-context_menu__item,
+.chelekom-context_menu__link-item,
+.chelekom-context_menu__checkbox-item,
+.chelekom-context_menu__radio-item,
+.chelekom-context_menu__submenu-trigger {
+  display: flex;
+  align-items: center;
+  gap: calc(0.25rem * 2);
+  border-radius: var(--radius-field);
+  padding-inline: calc(0.25rem * 3);
+  padding-block: calc(0.25rem * 1.5);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.chelekom-context_menu__item[data-highlighted],
+.chelekom-context_menu__link-item[data-highlighted],
+.chelekom-context_menu__checkbox-item[data-highlighted],
+.chelekom-context_menu__radio-item[data-highlighted],
+.chelekom-context_menu__submenu-trigger[data-highlighted] {
+  background-color: color-mix(in oklab, var(--color-base-content) 10%, transparent);
+}
+
+.chelekom-context_menu__item[data-disabled] {
+  pointer-events: none;
+  opacity: 40%;
+}
+
+/* The indicator column is reserved whether or not the item is checked, so the labels line up. */
+.chelekom-context_menu__indicator,
+.chelekom-context_menu__indicator {
+  display: inline-grid;
+  place-items: center;
+  width: calc(0.25rem * 4);
+  flex-shrink: 0;
+}
+
+.chelekom-context_menu__group-label {
+  padding-inline: calc(0.25rem * 3);
+  padding-block: calc(0.25rem * 1.5);
+  font-size: 0.75rem;
+  opacity: 60%;
+}
+
+.chelekom-context_menu__separator {
+  height: 1px;
+  margin-block: calc(0.25rem * 1);
+  background-color: color-mix(in oklab, var(--color-base-content) 12%, transparent);
+}
+
+.chelekom-context_menu__chevron {
+  margin-inline-start: auto;
+  opacity: 60%;
+}

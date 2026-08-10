@@ -52,6 +52,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.Spoiler
   import DevelopmentWeb.Components.Headless.SegmentedControl
   import DevelopmentWeb.Components.Headless.ToggleGroup
+  import DevelopmentWeb.Components.Headless.ContextMenu
   import DevelopmentWeb.Components.Headless.Menubar
   import DevelopmentWeb.Components.Headless.Toolbar
   import DevelopmentWeb.Components.Headless.Select
@@ -570,6 +571,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"toggle-group-disabled", "Disabled", "The whole group ruled out."},
       {"toggle-group-form", "In a form",
        "Hidden inputs carry the pressed values; `multiple` posts them as a list."}
+    ],
+    "context_menu" => [
+      {"context_menu-hero", "Hero",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+      {"context_menu-submenu", "Submenu",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "menubar" => [
       {"menubar-hero", "Hero",
@@ -4078,6 +4085,83 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       on_complete="daisyui_countdown_complete"
       class="font-mono text-3xl"
     />
+    """
+  end
+
+  # ── context_menu ────────────────────────────────────────────────────────
+  def example(%{section: "context_menu-hero"} = assigns) do
+    ~H"""
+    <.context_menu id="daisyui-context_menu-hero">
+      <:trigger>Right click here</:trigger>
+      <:item>
+        Add to Library
+      </:item>
+      <:item>
+        Add to Playlist
+      </:item>
+      <:item type="separator" />
+      <:item>
+        Play Next
+      </:item>
+      <:item>
+        Play Last
+      </:item>
+      <:item type="separator" />
+      <:item>
+        Favorite
+      </:item>
+      <:item>
+        Share
+      </:item>
+    </.context_menu>
+    """
+  end
+
+  def example(%{section: "context_menu-submenu"} = assigns) do
+    ~H"""
+    <.context_menu id="daisyui-context_menu-submenu">
+      <:trigger>Right click here</:trigger>
+      <.context_menu_item>
+        Add to Library
+      </.context_menu_item>
+      <.context_menu_submenu
+        id="daisyui-context_menu-submenu-playlist"
+        label="Add to Playlist"
+      >
+        <:chevron>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="display: block">
+            <path d="M6 12V4l4.5 4z" />
+          </svg>
+        </:chevron>
+        <.context_menu_item>
+          Get Up!
+        </.context_menu_item>
+        <.context_menu_item>
+          Inside Out
+        </.context_menu_item>
+        <.context_menu_item>
+          Night Beats
+        </.context_menu_item>
+        <.context_menu_separator />
+        <.context_menu_item>
+          New playlist…
+        </.context_menu_item>
+      </.context_menu_submenu>
+      <.context_menu_separator />
+      <.context_menu_item>
+        Play Next
+      </.context_menu_item>
+      <.context_menu_item>
+        Play Last
+      </.context_menu_item>
+      <.context_menu_separator />
+      <.context_menu_item>
+        Favorite
+      </.context_menu_item>
+      <.context_menu_item>
+        Share
+      </.context_menu_item>
+    </.context_menu>
     """
   end
 
