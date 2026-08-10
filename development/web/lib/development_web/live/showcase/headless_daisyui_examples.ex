@@ -67,6 +67,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.FloatingWindow
   import DevelopmentWeb.Components.Headless.Highlight
   import DevelopmentWeb.Components.Headless.JsonInput
+  import DevelopmentWeb.Components.Headless.Mark
   import DevelopmentWeb.Components.Headless.Marquee
   import DevelopmentWeb.Components.Headless.MaskInput
   import DevelopmentWeb.Components.Headless.Menubar
@@ -681,6 +682,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ],
     "json_input" => [
       {"json_input-hero", "Hero",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+    ],
+    "mark" => [
+      {"mark-hero", "Hero",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "marquee" => [
@@ -5120,6 +5125,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       value={~s({\n  "name": "Mantine",\n  "ok": true\n})}
       rows={4}
     />
+    """
+  end
+
+  # ── mark ────────────────────────────────────────────────────────────────
+  def example(%{section: "mark-hero"} = assigns) do
+    ~H"""
+    <p>
+      The quick brown
+      <.mark>fox</.mark>
+      jumps over the lazy <.mark>dog</.mark>.
+    </p>
     """
   end
 
