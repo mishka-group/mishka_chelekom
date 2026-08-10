@@ -63,6 +63,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.Meter
   import DevelopmentWeb.Components.Headless.NavigationMenu
   import DevelopmentWeb.Components.Headless.NumberField
+  import DevelopmentWeb.Components.Headless.PillsInput
   import DevelopmentWeb.Components.Headless.Popover
   import DevelopmentWeb.Components.Headless.PreviewCard
   import DevelopmentWeb.Components.Headless.TagsInput
@@ -664,6 +665,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ],
     "number_field" => [
       {"number_field-hero", "Hero",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+    ],
+    "pills_input" => [
+      {"pills_input-hero", "Hero",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "popover" => [
@@ -5429,6 +5434,33 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         </svg>
       </:increment_icon>
     </.number_field>
+    """
+  end
+
+  # ── pills_input ─────────────────────────────────────────────────────────
+  def example(%{section: "pills_input-hero"} = assigns) do
+    ~H"""
+    <.pills_input
+      id="daisyui-pills-input"
+      placeholder="Add a tag…"
+    >
+      <:pills>
+        <.pill
+          with_remove
+          remove_label="Remove ui"
+          on_remove={JS.hide(to: {:closest, "[data-part=root]"})}
+        >
+          ui
+        </.pill>
+        <.pill
+          with_remove
+          remove_label="Remove phoenix"
+          on_remove={JS.hide(to: {:closest, "[data-part=root]"})}
+        >
+          phoenix
+        </.pill>
+      </:pills>
+    </.pills_input>
     """
   end
 
