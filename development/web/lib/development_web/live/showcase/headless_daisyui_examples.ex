@@ -55,6 +55,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.AlertDialog
   import DevelopmentWeb.Components.Headless.Autocomplete
   import DevelopmentWeb.Components.Headless.CheckboxGroup
+  import DevelopmentWeb.Components.Headless.Combobox
   import DevelopmentWeb.Components.Headless.ContextMenu
   import DevelopmentWeb.Components.Headless.FloatingIndicator
   import DevelopmentWeb.Components.Headless.FloatingWindow
@@ -612,6 +613,22 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ],
     "checkbox_group" => [
       {"checkbox_group-hero", "Hero",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+    ],
+    "combobox" => [
+      {"combobox-hero", "Hero",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+      {"combobox-async-multiple", "Async Multiple",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+      {"combobox-async-single", "Async Single",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+      {"combobox-creatable", "Creatable",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+      {"combobox-grouped", "Grouped",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+      {"combobox-input-inside-popup", "Input Inside Popup",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+      {"combobox-multiple", "Multiple",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "context_menu" => [
@@ -4418,6 +4435,421 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         Granny Smith
       </:item>
     </.checkbox_group>
+    """
+  end
+
+  # ── combobox ────────────────────────────────────────────────────────────
+  def example(%{section: "combobox-hero"} = assigns) do
+    ~H"""
+    <div>
+      <label for="daisyui-combobox-hero">Choose a fruit</label>
+      <.combobox
+        id="daisyui-combobox-hero"
+        clear
+        trigger
+        placeholder="e.g. Apple"
+      >
+        <:trigger_icon>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="display:block">
+            <path d="M12 6H4l4 4.5z" />
+          </svg>
+        </:trigger_icon>
+        <:clear_icon>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="square"
+            stroke-linejoin="round"
+            style="display:block"
+          >
+            <path d="m4.5 4.5 7 7m-7 0 7-7" />
+          </svg>
+        </:clear_icon>
+        <:item_indicator>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            style="display:block"
+          >
+            <path d="m2.5 8.5 4 4 7-9" />
+          </svg>
+        </:item_indicator>
+        <:option
+          :for={
+            f <-
+              ~w(Apple Banana Orange Pineapple Grape Mango Strawberry Blueberry Raspberry Blackberry Cherry Peach Pear Plum Kiwi Watermelon Cantaloupe Honeydew Papaya Guava Lychee Pomegranate Apricot Grapefruit Passionfruit)
+          }
+          value={String.downcase(f)}
+        >
+          <span>{f}</span>
+        </:option>
+        <:empty>No fruits found.</:empty>
+      </.combobox>
+    </div>
+    """
+  end
+
+  def example(%{section: "combobox-async-multiple"} = assigns) do
+    assigns =
+      assign(assigns,
+        users: [
+          %{
+            id: "leslie-alexander",
+            name: "Leslie Alexander",
+            username: "leslie",
+            email: "leslie.alexander@example.com",
+            title: "Product Manager"
+          },
+          %{
+            id: "kathryn-murphy",
+            name: "Kathryn Murphy",
+            username: "kathryn",
+            email: "kathryn.murphy@example.com",
+            title: "Marketing Lead"
+          },
+          %{
+            id: "courtney-henry",
+            name: "Courtney Henry",
+            username: "courtney",
+            email: "courtney.henry@example.com",
+            title: "Design Systems"
+          },
+          %{
+            id: "michael-foster",
+            name: "Michael Foster",
+            username: "michael",
+            email: "michael.foster@example.com",
+            title: "Engineering Manager"
+          },
+          %{
+            id: "lindsay-walton",
+            name: "Lindsay Walton",
+            username: "lindsay",
+            email: "lindsay.walton@example.com",
+            title: "Product Designer"
+          },
+          %{
+            id: "tom-cook",
+            name: "Tom Cook",
+            username: "tom",
+            email: "tom.cook@example.com",
+            title: "Frontend Engineer"
+          },
+          %{
+            id: "whitney-francis",
+            name: "Whitney Francis",
+            username: "whitney",
+            email: "whitney.francis@example.com",
+            title: "Customer Success"
+          },
+          %{
+            id: "jacob-jones",
+            name: "Jacob Jones",
+            username: "jacob",
+            email: "jacob.jones@example.com",
+            title: "Security Engineer"
+          },
+          %{
+            id: "arlene-mccoy",
+            name: "Arlene McCoy",
+            username: "arlene",
+            email: "arlene.mccoy@example.com",
+            title: "Data Analyst"
+          },
+          %{
+            id: "marvin-mckinney",
+            name: "Marvin McKinney",
+            username: "marvin",
+            email: "marvin.mckinney@example.com",
+            title: "QA Specialist"
+          },
+          %{
+            id: "eleanor-pena",
+            name: "Eleanor Pena",
+            username: "eleanor",
+            email: "eleanor.pena@example.com",
+            title: "Operations"
+          },
+          %{
+            id: "jerome-bell",
+            name: "Jerome Bell",
+            username: "jerome",
+            email: "jerome.bell@example.com",
+            title: "DevOps Engineer"
+          }
+        ]
+      )
+
+    ~H"""
+    <div>
+      <label for="daisyui-combobox-async-multiple">
+        Assign reviewers
+      </label>
+      <.combobox
+        id="daisyui-combobox-async-multiple"
+        multiple
+        placeholder="e.g. Michael"
+      >
+        <:chip_remove_icon>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="square"
+            stroke-linejoin="round"
+            style="display:block"
+          >
+            <path d="m4.5 4.5 7 7m-7 0 7-7" />
+          </svg>
+        </:chip_remove_icon>
+        <:item_indicator>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            style="display:block"
+          >
+            <path d="m2.5 8.5 4 4 7-9" />
+          </svg>
+        </:item_indicator>
+        <:option :for={u <- @users} value={u.id}>
+          <span>
+            <span>{u.name}</span>
+            <span>{u.email}</span>
+            <span>
+              <span>@{u.username}</span>
+              <span>{u.title}</span>
+            </span>
+          </span>
+        </:option>
+        <:empty>Try a different search term.</:empty>
+      </.combobox>
+    </div>
+    """
+  end
+
+  def example(%{section: "combobox-async-single"} = assigns) do
+    assigns =
+      assign(assigns,
+        users: [
+          %{
+            id: "leslie-alexander",
+            name: "Leslie Alexander",
+            username: "leslie",
+            email: "leslie.alexander@example.com",
+            title: "Product Manager"
+          },
+          %{
+            id: "kathryn-murphy",
+            name: "Kathryn Murphy",
+            username: "kathryn",
+            email: "kathryn.murphy@example.com",
+            title: "Marketing Lead"
+          },
+          %{
+            id: "courtney-henry",
+            name: "Courtney Henry",
+            username: "courtney",
+            email: "courtney.henry@example.com",
+            title: "Design Systems"
+          },
+          %{
+            id: "michael-foster",
+            name: "Michael Foster",
+            username: "michael",
+            email: "michael.foster@example.com",
+            title: "Engineering Manager"
+          },
+          %{
+            id: "lindsay-walton",
+            name: "Lindsay Walton",
+            username: "lindsay",
+            email: "lindsay.walton@example.com",
+            title: "Product Designer"
+          },
+          %{
+            id: "tom-cook",
+            name: "Tom Cook",
+            username: "tom",
+            email: "tom.cook@example.com",
+            title: "Frontend Engineer"
+          },
+          %{
+            id: "whitney-francis",
+            name: "Whitney Francis",
+            username: "whitney",
+            email: "whitney.francis@example.com",
+            title: "Customer Success"
+          },
+          %{
+            id: "jacob-jones",
+            name: "Jacob Jones",
+            username: "jacob",
+            email: "jacob.jones@example.com",
+            title: "Security Engineer"
+          },
+          %{
+            id: "arlene-mccoy",
+            name: "Arlene McCoy",
+            username: "arlene",
+            email: "arlene.mccoy@example.com",
+            title: "Data Analyst"
+          },
+          %{
+            id: "marvin-mckinney",
+            name: "Marvin McKinney",
+            username: "marvin",
+            email: "marvin.mckinney@example.com",
+            title: "QA Specialist"
+          },
+          %{
+            id: "eleanor-pena",
+            name: "Eleanor Pena",
+            username: "eleanor",
+            email: "eleanor.pena@example.com",
+            title: "Operations"
+          },
+          %{
+            id: "jerome-bell",
+            name: "Jerome Bell",
+            username: "jerome",
+            email: "jerome.bell@example.com",
+            title: "DevOps Engineer"
+          }
+        ]
+      )
+
+    ~H"""
+    <div>
+      <label for="daisyui-combobox-async-single">Assign reviewer</label>
+      <.combobox
+        id="daisyui-combobox-async-single"
+        clear
+        trigger
+        placeholder="e.g. Michael"
+      >
+        <:trigger_icon>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="display:block">
+            <path d="M12 6H4l4 4.5z" />
+          </svg>
+        </:trigger_icon>
+        <:clear_icon>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="square"
+            stroke-linejoin="round"
+            style="display:block"
+          >
+            <path d="m4.5 4.5 7 7m-7 0 7-7" />
+          </svg>
+        </:clear_icon>
+        <:item_indicator>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            style="display:block"
+          >
+            <path d="m2.5 8.5 4 4 7-9" />
+          </svg>
+        </:item_indicator>
+        <:option :for={u <- @users} value={u.id}>
+          <span>
+            <span>{u.name}</span>
+            <span>{u.email}</span>
+            <span>
+              <span>@{u.username}</span>
+              <span>{u.title}</span>
+            </span>
+          </span>
+        </:option>
+        <:empty>Try a different search term.</:empty>
+      </.combobox>
+    </div>
+    """
+  end
+
+  def example(%{section: "combobox-creatable"} = assigns) do
+    assigns =
+      assign(assigns,
+        labels: ["bug", "documentation", "enhancement", "help wanted", "good first issue"]
+      )
+
+    ~H"""
+    <div>
+      <label for="daisyui-combobox-creatable">
+        Labels
+      </label>
+      <.combobox
+        id="daisyui-combobox-creatable"
+        multiple
+        creatable
+        placeholder="e.g. bug"
+      >
+        <:chip_remove_icon>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="square"
+            stroke-linejoin="round"
+            style="display:block"
+          >
+            <path d="m4.5 4.5 7 7m-7 0 7-7" />
+          </svg>
+        </:chip_remove_icon>
+        <:item_indicator>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            style="display:block"
+          >
+            <path d="m2.5 8.5 4 4 7-9" />
+          </svg>
+        </:item_indicator>
+        <:create_icon>
+          <span>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="square"
+              stroke-linejoin="round"
+              style="display:block"
+            >
+              <path d="M1.5 8h13M8 14.5v-13" />
+            </svg>
+          </span>
+        </:create_icon>
+        <:option :for={lbl <- @labels} value={lbl}>
+          <span>{lbl}</span>
+        </:option>
+        <:empty>No labels found.</:empty>
+      </.combobox>
+    </div>
     """
   end
 
