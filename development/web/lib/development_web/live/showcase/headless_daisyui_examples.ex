@@ -50,6 +50,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.Tooltip
   import DevelopmentWeb.Components.Headless.TextInput
   import DevelopmentWeb.Components.Headless.Textarea
+  import DevelopmentWeb.Components.Headless.FileInput
 
   @faq [
     {"What is a skin?",
@@ -440,6 +441,19 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
        "Not on daisyUI's page — the one behaviour worth a hook. Type and the box grows between `min_rows` and `max_rows`, then starts scrolling."},
       {"textarea-form", "In a Phoenix form",
        "`field={@form[:bio]}` with a live character count from `phx-change`."}
+    ],
+    "file_input" => [
+      {"file-input-hero", "File input",
+       "daisyUI's `file-input`. The input *is* the root here, because `::file-selector-button` — the browser's own button — only exists on the input."},
+      {"file-input-ghost", "File input ghost", "daisyUI's `file-input-ghost`."},
+      {"file-input-field", "With fieldset and label",
+       "Our `field` wrapper, with the accepted types as the description."},
+      {"file-input-sizes", "Sizes", "`file-input-xs` through `file-input-xl`."},
+      {"file-input-colors", "Colors",
+       "The color modifiers paint the border and the button together."},
+      {"file-input-disabled", "Disabled", "Both the box and the file-selector button dim."},
+      {"file-input-form", "In a Phoenix form",
+       "`field={@form[:attachment]}` plus a multiple-file input, whose name gets the `[]` suffix so Plug builds a list."}
     ]
   }
 
@@ -3254,6 +3268,97 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         <:description>Changes push on every keystroke.</:description>
       </.field>
       <button type="submit" class="d-btn d-btn-primary self-start">Save</button>
+    </form>
+    """
+  end
+
+  # ── file_input ────────────────────────────────────────────────────────────
+  def example(%{section: "file-input-hero"} = assigns) do
+    ~H"""
+    <.file_input id="daisyui-file-hero" name="attachment" />
+    """
+  end
+
+  def example(%{section: "file-input-ghost"} = assigns) do
+    ~H"""
+    <.file_input id="daisyui-file-ghost" name="ghost" class="d-file-input-ghost" />
+    """
+  end
+
+  def example(%{section: "file-input-field"} = assigns) do
+    ~H"""
+    <.field
+      :let={f}
+      id="daisyui-file-field"
+      name="avatar"
+      label="Pick a file"
+      class="d-fieldset w-xs"
+      label_class="d-fieldset-legend"
+    >
+      <.file_input id={f.id} name={f.name} accept="image/*" describedby={f.describedby} />
+      <:description>Max size 2MB</:description>
+    </.field>
+    """
+  end
+
+  def example(%{section: "file-input-sizes"} = assigns) do
+    assigns = assign(assigns, :sizes, @sizes)
+
+    ~H"""
+    <div class="flex flex-col gap-2">
+      <.file_input
+        :for={size <- @sizes}
+        id={"daisyui-file-size-#{size}"}
+        name={size}
+        class={"d-file-input-#{size}"}
+      />
+    </div>
+    """
+  end
+
+  def example(%{section: "file-input-colors"} = assigns) do
+    assigns = assign(assigns, :colors, @colors)
+
+    ~H"""
+    <div class="flex flex-col gap-2">
+      <.file_input
+        :for={color <- @colors}
+        id={"daisyui-file-#{color}"}
+        name={color}
+        class={"d-file-input-#{color}"}
+      />
+    </div>
+    """
+  end
+
+  def example(%{section: "file-input-disabled"} = assigns) do
+    ~H"""
+    <.file_input id="daisyui-file-disabled" name="disabled" disabled />
+    """
+  end
+
+  def example(%{section: "file-input-form"} = assigns) do
+    assigns = assign(assigns, :form, to_form(%{}, as: :upload))
+
+    ~H"""
+    <form
+      id="daisyui-file-form"
+      phx-submit="daisyui_file_input_submit"
+      class="flex w-xs flex-col gap-3"
+    >
+      <.field :let={f} id="daisyui-file-form-single" label="Attachment" class="d-fieldset">
+        <.file_input field={@form[:attachment]} describedby={f.describedby} />
+        <:description>One file, posted as <code>upload[attachment]</code>.</:description>
+      </.field>
+
+      <.field :let={f} id="daisyui-file-form-many" label="Gallery" class="d-fieldset">
+        <.file_input field={@form[:gallery]} multiple accept="image/*" describedby={f.describedby} />
+        <:description>
+          Several files — the name gains <code>[]</code> so Plug builds a list.
+        </:description>
+      </.field>
+
+      <button type="submit" class="d-btn d-btn-primary self-start">Upload</button>
     </form>
     """
   end

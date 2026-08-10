@@ -56,6 +56,8 @@
 @source inline("d-input-{xs,sm,md,lg,xl} d-input-ghost d-validator d-validator-hint");
 @source inline("d-textarea d-textarea-{primary,secondary,accent,neutral,info,success,warning,error}");
 @source inline("d-textarea-{xs,sm,md,lg,xl} d-textarea-ghost");
+@source inline("d-file-input d-file-input-{primary,secondary,accent,neutral,info,success,warning,error}");
+@source inline("d-file-input-{xs,sm,md,lg,xl} d-file-input-ghost");
 
 /* A Tailwind plugin that makes "hero-#{ICON}" classes available.
    The heroicons installation itself is managed by your mix.exs */
