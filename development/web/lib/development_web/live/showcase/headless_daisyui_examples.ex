@@ -53,6 +53,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.FileInput
   import DevelopmentWeb.Components.Headless.Card
   import DevelopmentWeb.Components.Headless.Breadcrumb
+  import DevelopmentWeb.Components.Headless.Stepper
 
   @faq [
     {"What is a skin?",
@@ -407,6 +408,25 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
        "Not on daisyUI's page either. `max_items` keeps the ends and stands one ellipsis in for the middle — arithmetic on the server, so it works before the socket connects."},
       {"breadcrumb-expandable", "Expandable",
        "The same collapse with `on_expand`, which makes the ellipsis a real button that pushes to the server."}
+    ],
+    "stepper" => [
+      {"stepper-hero", "Horizontal",
+       "daisyUI's `steps`. Give the root an `active` index and the state of every step is derived — the skin colours the trail, so no step carries a `step-primary` by hand."},
+      {"stepper-vertical", "Vertical", "daisyUI's `steps-vertical`."},
+      {"stepper-responsive", "Responsive",
+       "Vertical on a small screen, horizontal from `lg` up."},
+      {"stepper-icons", "With custom content in the indicator",
+       "daisyUI's `step-icon`. Content in the step's body replaces the number the skin would otherwise draw."},
+      {"stepper-content", "With data-content",
+       "daisyUI's `data-content` — the `content` attribute swaps the number for a character without giving up the numbering for the other steps."},
+      {"stepper-colors", "Custom colors",
+       "daisyUI's manual `step-*` classes, still supported for a flow whose colours do not follow its progress."},
+      {"stepper-scrollable", "With a scrollable wrapper",
+       "A long flow inside `overflow-x-auto`, exactly as daisyUI does it."},
+      {"stepper-descriptions", "With descriptions",
+       "Not on daisyUI's page. A second line per step, in its own part."},
+      {"stepper-interactive", "Selectable steps",
+       "Not on daisyUI's page either. `on_select` gives each reachable step an `action` covering the whole step; steps you have not reached yet stay plain text rather than becoming disabled buttons that still take a tab stop."}
     ],
     "text_input" => [
       {"text-input-hero", "Text input",
@@ -2943,6 +2963,123 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <:item href="#">Headless</:item>
       <:item>Breadcrumb</:item>
     </.breadcrumb>
+    """
+  end
+
+  # ── stepper ───────────────────────────────────────────────────────────────
+  def example(%{section: "stepper-hero"} = assigns) do
+    ~H"""
+    <.stepper id="daisyui-stepper-hero" label="Checkout" active={2}>
+      <:step label="Register" />
+      <:step label="Choose plan" />
+      <:step label="Purchase" />
+      <:step label="Receive product" />
+    </.stepper>
+    """
+  end
+
+  def example(%{section: "stepper-vertical"} = assigns) do
+    ~H"""
+    <.stepper
+      id="daisyui-stepper-vertical"
+      label="Checkout"
+      orientation="vertical"
+      active={2}
+    >
+      <:step label="Register" />
+      <:step label="Choose plan" />
+      <:step label="Purchase" />
+      <:step label="Receive product" />
+    </.stepper>
+    """
+  end
+
+  def example(%{section: "stepper-responsive"} = assigns) do
+    ~H"""
+    <.stepper
+      id="daisyui-stepper-responsive"
+      label="Checkout"
+      active={2}
+      orientation="vertical"
+      horizontal_from="lg"
+    >
+      <:step label="Register" />
+      <:step label="Choose plan" />
+      <:step label="Purchase" />
+      <:step label="Receive product" />
+    </.stepper>
+    """
+  end
+
+  def example(%{section: "stepper-icons"} = assigns) do
+    ~H"""
+    <.stepper id="daisyui-stepper-icons" label="Delivery" active={4}>
+      <:step label="Step 1">😕</:step>
+      <:step label="Step 2">😃</:step>
+      <:step label="Step 3">😍</:step>
+      <:step label="Step 4">
+        <.field_icon path="M5 13l4 4L19 7" />
+      </:step>
+    </.stepper>
+    """
+  end
+
+  def example(%{section: "stepper-content"} = assigns) do
+    ~H"""
+    <.stepper id="daisyui-stepper-content" label="Progress" active={4}>
+      <:step label="Step 1" content="?" />
+      <:step label="Step 2" content="!" />
+      <:step label="Step 3" content="✓" />
+      <:step label="Step 4" content="✕" />
+      <:step label="Step 5" />
+    </.stepper>
+    """
+  end
+
+  def example(%{section: "stepper-colors"} = assigns) do
+    ~H"""
+    <.stepper id="daisyui-stepper-colors" label="Colors" active={0}>
+      <:step label="Fund wallet" class="d-step-info" />
+      <:step label="Choose plan" class="d-step-info" />
+      <:step label="Purchase" class="d-step-error" />
+      <:step label="Receive product" class="d-step-error" />
+    </.stepper>
+    """
+  end
+
+  def example(%{section: "stepper-scrollable"} = assigns) do
+    ~H"""
+    <div class="w-full overflow-x-auto">
+      <.stepper id="daisyui-stepper-scrollable" label="Long flow" active={3}>
+        <:step :for={n <- 1..10} label={"Step #{n}"} />
+      </.stepper>
+    </div>
+    """
+  end
+
+  def example(%{section: "stepper-descriptions"} = assigns) do
+    ~H"""
+    <.stepper id="daisyui-stepper-descriptions" label="Onboarding" active={1}>
+      <:step label="Account" description="Email and password" />
+      <:step label="Profile" description="Name and avatar" />
+      <:step label="Team" description="Invite your colleagues" />
+    </.stepper>
+    """
+  end
+
+  def example(%{section: "stepper-interactive"} = assigns) do
+    ~H"""
+    <.stepper
+      id="daisyui-stepper-interactive"
+      label="Editable flow"
+      active={2}
+      on_select="daisyui_stepper_select"
+    >
+      <:step label="Register" />
+      <:step label="Choose plan" />
+      <:step label="Purchase" />
+      <:step label="Receive product" />
+    </.stepper>
     """
   end
 

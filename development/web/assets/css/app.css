@@ -61,6 +61,8 @@
 @source inline("d-card d-card-{xs,sm,md,lg,xl} d-card-{border,dash,side,title,actions,body}");
 @source inline("d-image-full sm:d-card-side d-radio");
 @source inline("d-breadcrumbs");
+@source inline("d-steps");
+@source inline("d-step-{neutral,primary,secondary,accent,info,success,warning,error}");
 
 /* A Tailwind plugin that makes "hero-#{ICON}" classes available.
    The heroicons installation itself is managed by your mix.exs */

@@ -67,6 +67,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessGalleryLive do
     {:noreply, assign(socket, submitted: "expand the trail")}
   end
 
+  def handle_event("daisyui_stepper_select", %{"index" => index}, socket) do
+    {:noreply, assign(socket, submitted: "step #{index}")}
+  end
+
   # The form examples exist to prove the params actually arrive under the names the components
   # derived — so echo the shape rather than a fixed "saved" string.
   def handle_event(event, params, socket)
@@ -77,7 +81,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessGalleryLive do
 
   # Which examples show what the server received back. Every `*-form` section submits, and the
   # breadcrumb's expandable trail pushes from its ellipsis — without this it would look inert.
-  defp echoes_events?(id), do: String.ends_with?(id, ["-form", "-expandable"])
+  defp echoes_events?(id), do: String.ends_with?(id, ["-form", "-expandable", "-interactive"])
 
   # The daisyUI gallery only lists what actually ships a skin fragment today.
   defp catalog(:daisyui) do

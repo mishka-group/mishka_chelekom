@@ -2390,3 +2390,417 @@
   }
 }
 /* <<< breadcrumb */
+
+/* >>> stepper */
+@layer components {
+  [data-skin=daisyui] {
+    /* stepper — daisyUI skin (daisyUI calls this `steps`).
+     *
+     * daisyUI's `.step` is itself a two-row grid: the circle is placed in row 1 and the label flows
+     * into row 2, and the connector is a `:before` that reaches back over the previous step with
+     * `margin-inline-start: -100%`. None of that survives an inner wrapper, which is why the component
+     * puts label and description in a `content` part and hangs the click target off an absolutely
+     * positioned `action` rather than wrapping the step in a button.
+     *
+     * The colors are the interesting divergence. daisyUI asks the caller to put `step-primary` on the
+     * first N steps by hand; our stepper already knows which steps are done, so the skin paints
+     * `data-state` instead — set `active` and the trail colors itself. The `step-*` modifier classes
+     * are mirrored too, for the caller who wants daisyUI's manual control.
+     */
+
+    .chelekom-stepper {
+      @apply d-steps;
+
+      counter-reset: step;
+    }
+
+    .chelekom-stepper__step {
+      --d-step-bg: var(--color-base-300);
+      --d-step-fg: var(--color-base-content);
+
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+      grid-template-rows: 40px 1fr;
+      place-items: center;
+      text-align: center;
+      min-width: 4rem;
+      counter-increment: step;
+    }
+
+    /* The connector reaches back across the previous step, so the first one must not draw it. */
+    .chelekom-stepper__step::before {
+      content: "";
+      top: 0;
+      grid-column-start: 1;
+      grid-row-start: 1;
+      height: calc(0.25rem * 2);
+      width: 100%;
+      margin-inline-start: -100%;
+      border: 1px solid;
+      color: var(--d-step-bg);
+      background-color: var(--d-step-bg);
+    }
+
+    .chelekom-stepper__step:first-child::before {
+      content: none;
+    }
+
+    .chelekom-stepper__indicator {
+      position: relative;
+      z-index: 1;
+      grid-column-start: 1;
+      grid-row-start: 1;
+      display: grid;
+      height: calc(0.25rem * 8);
+      width: calc(0.25rem * 8);
+      place-items: center;
+      place-self: center;
+      border-radius: calc(infinity * 1px);
+      color: var(--d-step-fg);
+      background-color: var(--d-step-bg);
+      border: 1px solid var(--d-step-bg);
+    }
+
+    /* An indicator the caller left empty is numbered, exactly as daisyUI numbers its `:after`. Give the
+     * step content — an icon, a checkmark — and the number steps aside. */
+    .chelekom-stepper__indicator:empty::before {
+      content: counter(step);
+    }
+
+    .chelekom-stepper__indicator[data-content]:empty::before {
+      content: attr(data-content);
+    }
+
+    .chelekom-stepper__content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .chelekom-stepper__description {
+      opacity: 60%;
+      font-size: 0.75rem;
+    }
+
+    /* The click target covers the step; the step is the positioned ancestor. */
+    .chelekom-stepper__action {
+      position: absolute;
+      inset: 0;
+      cursor: pointer;
+      border-radius: var(--radius-box);
+      font-size: 0;
+    }
+
+    .chelekom-stepper__action:focus-visible {
+      outline: 2px solid currentcolor;
+      outline-offset: 2px;
+    }
+
+    .chelekom-stepper__step[data-disabled] {
+      opacity: 50%;
+    }
+
+    /* Derived colors: a step that is done, and the connector into it, take the theme color. */
+    .chelekom-stepper__step:is([data-state="complete"], [data-state="current"]) {
+      --d-step-bg: var(--color-neutral);
+      --d-step-fg: var(--color-neutral-content);
+    }
+
+    .chelekom-stepper__step[data-state="complete"]
+      + .chelekom-stepper__step:is([data-state="complete"], [data-state="current"])::before {
+      color: var(--d-step-bg);
+      background-color: var(--d-step-bg);
+    }
+
+    .chelekom-stepper__step:not([data-state="complete"]) + .chelekom-stepper__step::before {
+      --d-step-bg: var(--color-base-300);
+    }
+
+    /* daisyUI's own `step-*` modifiers, for callers who want to colour steps by hand. */
+    .chelekom-stepper__step.d-step-neutral {
+      --d-step-bg: var(--color-neutral);
+      --d-step-fg: var(--color-neutral-content);
+    }
+
+    .chelekom-stepper__step.d-step-neutral
+      + .chelekom-stepper__step.d-step-neutral::before {
+      color: var(--color-neutral);
+      background-color: var(--color-neutral);
+    }
+
+    .chelekom-stepper__step.d-step-primary {
+      --d-step-bg: var(--color-primary);
+      --d-step-fg: var(--color-primary-content);
+    }
+
+    .chelekom-stepper__step.d-step-primary
+      + .chelekom-stepper__step.d-step-primary::before {
+      color: var(--color-primary);
+      background-color: var(--color-primary);
+    }
+
+    .chelekom-stepper__step.d-step-secondary {
+      --d-step-bg: var(--color-secondary);
+      --d-step-fg: var(--color-secondary-content);
+    }
+
+    .chelekom-stepper__step.d-step-secondary
+      + .chelekom-stepper__step.d-step-secondary::before {
+      color: var(--color-secondary);
+      background-color: var(--color-secondary);
+    }
+
+    .chelekom-stepper__step.d-step-accent {
+      --d-step-bg: var(--color-accent);
+      --d-step-fg: var(--color-accent-content);
+    }
+
+    .chelekom-stepper__step.d-step-accent
+      + .chelekom-stepper__step.d-step-accent::before {
+      color: var(--color-accent);
+      background-color: var(--color-accent);
+    }
+
+    .chelekom-stepper__step.d-step-info {
+      --d-step-bg: var(--color-info);
+      --d-step-fg: var(--color-info-content);
+    }
+
+    .chelekom-stepper__step.d-step-info
+      + .chelekom-stepper__step.d-step-info::before {
+      color: var(--color-info);
+      background-color: var(--color-info);
+    }
+
+    .chelekom-stepper__step.d-step-success {
+      --d-step-bg: var(--color-success);
+      --d-step-fg: var(--color-success-content);
+    }
+
+    .chelekom-stepper__step.d-step-success
+      + .chelekom-stepper__step.d-step-success::before {
+      color: var(--color-success);
+      background-color: var(--color-success);
+    }
+
+    .chelekom-stepper__step.d-step-warning {
+      --d-step-bg: var(--color-warning);
+      --d-step-fg: var(--color-warning-content);
+    }
+
+    .chelekom-stepper__step.d-step-warning
+      + .chelekom-stepper__step.d-step-warning::before {
+      color: var(--color-warning);
+      background-color: var(--color-warning);
+    }
+
+    .chelekom-stepper__step.d-step-error {
+      --d-step-bg: var(--color-error);
+      --d-step-fg: var(--color-error-content);
+    }
+
+    .chelekom-stepper__step.d-step-error
+      + .chelekom-stepper__step.d-step-error::before {
+      color: var(--color-error);
+      background-color: var(--color-error);
+    }
+
+    /* Orientation is driven by our own `data-orientation`, not by daisyUI's `steps-vertical` /
+     * `steps-horizontal`. Those rewrite `.step`'s grid through rules nested inside daisyUI's own
+     * component definition, and `@apply` cannot carry a nested rule — worse, a responsive
+     * `lg:steps-horizontal` is a *different class name*, so no descendant selector of ours would ever
+     * match it. Keying off the attribute the component already sets makes the responsive form work,
+     * which is what `horizontal_from` is for.
+     */
+
+    .chelekom-stepper[data-orientation="vertical"] {
+      grid-auto-rows: 1fr;
+      grid-auto-flow: row;
+    }
+
+    .chelekom-stepper[data-orientation="vertical"] .chelekom-stepper__step {
+      grid-template-columns: 40px 1fr;
+      grid-template-rows: auto;
+      gap: 0.5rem;
+      min-height: 4rem;
+      min-width: 0;
+      justify-items: start;
+      text-align: start;
+    }
+
+    .chelekom-stepper[data-orientation="vertical"] .chelekom-stepper__step::before {
+      height: 100%;
+      width: calc(0.25rem * 2);
+      translate: -50% -50%;
+      margin-inline-start: 50%;
+    }
+
+    [dir="rtl"] .chelekom-stepper[data-orientation="vertical"] .chelekom-stepper__step::before {
+      translate: 50% -50%;
+    }
+
+    .chelekom-stepper[data-orientation="vertical"] .chelekom-stepper__content {
+      align-items: start;
+    }
+
+    .chelekom-stepper[data-orientation="horizontal"] {
+      grid-auto-columns: 1fr;
+      grid-auto-flow: column;
+    }
+
+    .chelekom-stepper[data-orientation="horizontal"] .chelekom-stepper__step {
+      grid-template-columns: auto;
+      grid-template-rows: 40px 1fr;
+      gap: 0;
+      min-height: 0;
+      min-width: 4rem;
+      place-items: center;
+      text-align: center;
+    }
+
+    .chelekom-stepper[data-orientation="horizontal"] .chelekom-stepper__step::before {
+      height: calc(0.25rem * 2);
+      width: 100%;
+      translate: 0;
+      margin-inline-start: -100%;
+    }
+
+    [dir="rtl"] .chelekom-stepper[data-orientation="horizontal"] .chelekom-stepper__step::before {
+      translate: 0;
+    }
+
+    .chelekom-stepper[data-orientation="horizontal"] .chelekom-stepper__content {
+      align-items: center;
+    }
+
+    @media (width >= 40rem) {
+      .chelekom-stepper[data-orientation-from="sm"] {
+        grid-auto-columns: 1fr;
+        grid-auto-flow: column;
+      }
+
+      .chelekom-stepper[data-orientation-from="sm"] .chelekom-stepper__step {
+        grid-template-columns: auto;
+        grid-template-rows: 40px 1fr;
+        gap: 0;
+        min-height: 0;
+        min-width: 4rem;
+        place-items: center;
+        text-align: center;
+      }
+
+      .chelekom-stepper[data-orientation-from="sm"] .chelekom-stepper__step::before {
+        height: calc(0.25rem * 2);
+        width: 100%;
+        translate: 0;
+        margin-inline-start: -100%;
+      }
+
+      [dir="rtl"] .chelekom-stepper[data-orientation-from="sm"] .chelekom-stepper__step::before {
+        translate: 0;
+      }
+
+      .chelekom-stepper[data-orientation-from="sm"] .chelekom-stepper__content {
+        align-items: center;
+      }
+    }
+
+    @media (width >= 48rem) {
+      .chelekom-stepper[data-orientation-from="md"] {
+        grid-auto-columns: 1fr;
+        grid-auto-flow: column;
+      }
+
+      .chelekom-stepper[data-orientation-from="md"] .chelekom-stepper__step {
+        grid-template-columns: auto;
+        grid-template-rows: 40px 1fr;
+        gap: 0;
+        min-height: 0;
+        min-width: 4rem;
+        place-items: center;
+        text-align: center;
+      }
+
+      .chelekom-stepper[data-orientation-from="md"] .chelekom-stepper__step::before {
+        height: calc(0.25rem * 2);
+        width: 100%;
+        translate: 0;
+        margin-inline-start: -100%;
+      }
+
+      [dir="rtl"] .chelekom-stepper[data-orientation-from="md"] .chelekom-stepper__step::before {
+        translate: 0;
+      }
+
+      .chelekom-stepper[data-orientation-from="md"] .chelekom-stepper__content {
+        align-items: center;
+      }
+    }
+
+    @media (width >= 64rem) {
+      .chelekom-stepper[data-orientation-from="lg"] {
+        grid-auto-columns: 1fr;
+        grid-auto-flow: column;
+      }
+
+      .chelekom-stepper[data-orientation-from="lg"] .chelekom-stepper__step {
+        grid-template-columns: auto;
+        grid-template-rows: 40px 1fr;
+        gap: 0;
+        min-height: 0;
+        min-width: 4rem;
+        place-items: center;
+        text-align: center;
+      }
+
+      .chelekom-stepper[data-orientation-from="lg"] .chelekom-stepper__step::before {
+        height: calc(0.25rem * 2);
+        width: 100%;
+        translate: 0;
+        margin-inline-start: -100%;
+      }
+
+      [dir="rtl"] .chelekom-stepper[data-orientation-from="lg"] .chelekom-stepper__step::before {
+        translate: 0;
+      }
+
+      .chelekom-stepper[data-orientation-from="lg"] .chelekom-stepper__content {
+        align-items: center;
+      }
+    }
+
+    @media (width >= 80rem) {
+      .chelekom-stepper[data-orientation-from="xl"] {
+        grid-auto-columns: 1fr;
+        grid-auto-flow: column;
+      }
+
+      .chelekom-stepper[data-orientation-from="xl"] .chelekom-stepper__step {
+        grid-template-columns: auto;
+        grid-template-rows: 40px 1fr;
+        gap: 0;
+        min-height: 0;
+        min-width: 4rem;
+        place-items: center;
+        text-align: center;
+      }
+
+      .chelekom-stepper[data-orientation-from="xl"] .chelekom-stepper__step::before {
+        height: calc(0.25rem * 2);
+        width: 100%;
+        translate: 0;
+        margin-inline-start: -100%;
+      }
+
+      [dir="rtl"] .chelekom-stepper[data-orientation-from="xl"] .chelekom-stepper__step::before {
+        translate: 0;
+      }
+
+      .chelekom-stepper[data-orientation-from="xl"] .chelekom-stepper__content {
+        align-items: center;
+      }
+    }
+  }
+}
+/* <<< stepper */
