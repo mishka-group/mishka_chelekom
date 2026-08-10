@@ -5955,6 +5955,31 @@
 }
 /* <<< autocomplete */
 
+/* >>> chart */
+@layer components {
+  [data-skin=daisyui] {
+    /* chart — daisyUI skin.
+     *
+     * The chart is drawn by its engine (ECharts, Chart.js or billboard.js), which reads its colours
+     * from the CSS variables the component bridges. daisyUI has no chart, so this only gives the box
+     * the same surface and radius as a card, and sets a default height — a chart with no height
+     * renders zero pixels tall and looks broken.
+     */
+
+    .chelekom-chart {
+      border-radius: var(--radius-box);
+      background-color: var(--color-base-100);
+      color: var(--color-base-content);
+    }
+
+    .chelekom-chart__surface {
+      width: 100%;
+      min-height: 16rem;
+    }
+  }
+}
+/* <<< chart */
+
 /* >>> checkbox_group */
 @layer components {
   [data-skin=daisyui] {

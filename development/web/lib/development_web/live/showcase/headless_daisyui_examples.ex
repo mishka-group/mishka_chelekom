@@ -57,6 +57,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.HueSlider
   import DevelopmentWeb.Components.Headless.AlertDialog
   import DevelopmentWeb.Components.Headless.Autocomplete
+  import DevelopmentWeb.Components.Headless.Chart
   import DevelopmentWeb.Components.Headless.CheckboxGroup
   import DevelopmentWeb.Components.Headless.ColorInput
   import DevelopmentWeb.Components.Headless.ColorPicker
@@ -634,6 +635,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"autocomplete-inline", "Inline",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
       {"autocomplete-limit", "Limit",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+    ],
+    "chart" => [
+      {"chart-breakdown", "Breakdown",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+      {"chart-dashboard", "Dashboard",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "checkbox_group" => [
@@ -4531,6 +4538,81 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         </div>
       </div>
     </div>
+    """
+  end
+
+  # ── chart ───────────────────────────────────────────────────────────────
+  def example(%{section: "chart-breakdown"} = assigns) do
+    ~H"""
+    <.chart
+      id="daisyui-chart-breakdown"
+      height="20rem"
+      aria_label="Traffic by source"
+      option={
+        %{
+          tooltip: %{trigger: "item"},
+          legend: %{bottom: 0},
+          series: [
+            %{
+              name: "Source",
+              type: "pie",
+              radius: ["48%", "72%"],
+              data: [
+                %{value: 1048, name: "Search"},
+                %{value: 735, name: "Direct"},
+                %{value: 580, name: "Referral"},
+                %{value: 484, name: "Social"},
+                %{value: 300, name: "Email"}
+              ]
+            }
+          ]
+        }
+      }
+    />
+    """
+  end
+
+  def example(%{section: "chart-dashboard"} = assigns) do
+    ~H"""
+    <.chart
+      id="daisyui-chart-dashboard"
+      height="20rem"
+      aria_label="Monthly revenue over a year"
+      option={
+        %{
+          grid: %{left: 8, right: 16, top: 24, bottom: 28, containLabel: true},
+          tooltip: %{trigger: "axis"},
+          xAxis: %{
+            type: "category",
+            boundaryGap: false,
+            data: ~w(Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec)
+          },
+          yAxis: %{type: "value", axisLabel: %{formatter: "chelekom:currency:USD"}},
+          series: [
+            %{
+              name: "Revenue",
+              type: "line",
+              smooth: true,
+              areaStyle: %{color: "chelekom:fade"},
+              data: [
+                8200,
+                9320,
+                9010,
+                12_340,
+                12_900,
+                13_300,
+                14_100,
+                15_600,
+                14_800,
+                16_200,
+                17_400,
+                19_100
+              ]
+            }
+          ]
+        }
+      }
+    />
     """
   end
 
