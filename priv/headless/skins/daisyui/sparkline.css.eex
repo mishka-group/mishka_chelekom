@@ -1,0 +1,11 @@
+/* sparkline — daisyUI skin.
+ *
+ * The component draws its own SVG and takes a `color`; daisyUI has no chart of any kind. The skin
+ * only gives it a sensible default — the theme's primary, via `currentColor` — so a sparkline
+ * dropped into a page belongs to the theme without the caller choosing a colour.
+ */
+
+.chelekom-sparkline {
+  color: var(--color-primary);
+  display: block;
+}

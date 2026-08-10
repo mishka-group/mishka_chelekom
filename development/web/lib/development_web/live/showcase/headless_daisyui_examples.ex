@@ -83,6 +83,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.RollingNumber
   import DevelopmentWeb.Components.Headless.ScrollArea
   import DevelopmentWeb.Components.Headless.Scroller
+  import DevelopmentWeb.Components.Headless.Sparkline
   import DevelopmentWeb.Components.Headless.Splitter
   import DevelopmentWeb.Components.Headless.TagsInput
   import DevelopmentWeb.Components.Headless.ThemeIcon
@@ -775,6 +776,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ],
     "scroller" => [
       {"scroller-hero", "Hero",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+    ],
+    "sparkline" => [
+      {"sparkline-hero", "Hero",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+      {"sparkline-types", "Types",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "splitter" => [
@@ -6176,6 +6183,32 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         {n}
       </div>
     </.scroller>
+    """
+  end
+
+  # ── sparkline ───────────────────────────────────────────────────────────
+  def example(%{section: "sparkline-hero"} = assigns) do
+    ~H"""
+    <.sparkline
+      values={[4, 7, 5, 9, 8, 12, 10, 14]}
+      last_point
+      color="currentColor"
+      aria_label="Weekly signups, trending up"
+    />
+    """
+  end
+
+  def example(%{section: "sparkline-types"} = assigns) do
+    ~H"""
+    <div>
+      <.sparkline
+        :for={type <- ~w(line area bar)}
+        values={[4, 7, 5, 9, 8, 12, 10, 14]}
+        type={type}
+        color="currentColor"
+        aria_label={"Weekly signups as a #{type}"}
+      />
+    </div>
     """
   end
 
