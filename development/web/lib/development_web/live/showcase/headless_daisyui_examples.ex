@@ -53,6 +53,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.SegmentedControl
   import DevelopmentWeb.Components.Headless.ToggleGroup
   import DevelopmentWeb.Components.Headless.AlertDialog
+  import DevelopmentWeb.Components.Headless.CheckboxGroup
   import DevelopmentWeb.Components.Headless.ContextMenu
   import DevelopmentWeb.Components.Headless.FloatingIndicator
   import DevelopmentWeb.Components.Headless.FloatingWindow
@@ -585,6 +586,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"alert_dialog-detached-triggers-controlled", "Detached triggers controlled",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
       {"alert_dialog-detached-triggers-simple", "Detached triggers simple",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+    ],
+    "checkbox_group" => [
+      {"checkbox_group-hero", "Hero",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "context_menu" => [
@@ -4215,6 +4220,43 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         </button>
       </:actions>
     </.alert_dialog>
+    """
+  end
+
+  # ── checkbox_group ──────────────────────────────────────────────────────
+  def example(%{section: "checkbox_group-hero"} = assigns) do
+    ~H"""
+    <.checkbox_group id="daisyui-checkbox_group-hero">
+      <:indicator_icon>
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          style="display: block"
+        >
+          <path d="m2.5 8.5 4 4 7-9" />
+        </svg>
+      </:indicator_icon>
+
+      <:label>Apples</:label>
+
+      <:item
+        value="fuji-apple"
+        checked
+      >
+        Fuji
+      </:item>
+
+      <:item value="gala-apple">
+        Gala
+      </:item>
+
+      <:item value="granny-smith-apple">
+        Granny Smith
+      </:item>
+    </.checkbox_group>
     """
   end
 

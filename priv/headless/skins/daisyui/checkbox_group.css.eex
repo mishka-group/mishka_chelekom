@@ -1,0 +1,78 @@
+/* checkbox_group — daisyUI skin (each item paints `checkbox`, the group lays them out).
+ *
+ * The same shape as the radio group: daisyUI's size modifiers are gated on `[type=checkbox]`, and
+ * `@apply <%= @d %>checkbox` copies daisyUI's own `--size` onto the marker, so a value inherited
+ * from the group would be shadowed. The size therefore lands on the marker itself.
+ */
+
+.chelekom-checkbox_group {
+  display: flex;
+  flex-direction: column;
+  gap: calc(0.25rem * 2);
+  color: var(--color-base-content);
+}
+
+.chelekom-checkbox_group[data-orientation="horizontal"] {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: calc(0.25rem * 4);
+}
+
+.chelekom-checkbox_group__item {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(0.25rem * 2);
+  cursor: pointer;
+  font-size: 0.875rem;
+  user-select: none;
+}
+
+.chelekom-checkbox_group__indicator {
+  @apply <%= @d %>checkbox;
+}
+
+.chelekom-checkbox_group__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.chelekom-checkbox_group__item:has(.chelekom-checkbox_group__input:focus-visible)
+  .chelekom-checkbox_group__indicator {
+  outline: 2px solid currentcolor;
+  outline-offset: 2px;
+}
+
+.chelekom-checkbox_group__item[data-disabled],
+.chelekom-checkbox_group[data-disabled] .chelekom-checkbox_group__item {
+  cursor: not-allowed;
+  opacity: 20%;
+}
+
+/* daisyUI's checkbox sizes are gated on the native input type, so the scale is carried here and
+ * written onto the marker for the same reason the radio group's is. */
+.chelekom-checkbox_group.<%= @d %>checkbox-xs .chelekom-checkbox_group__indicator {
+  --<%= @d %>size: calc(var(--size-selector, 0.25rem) * 4);
+}
+
+.chelekom-checkbox_group.<%= @d %>checkbox-sm .chelekom-checkbox_group__indicator {
+  --<%= @d %>size: calc(var(--size-selector, 0.25rem) * 5);
+}
+
+.chelekom-checkbox_group.<%= @d %>checkbox-md .chelekom-checkbox_group__indicator {
+  --<%= @d %>size: calc(var(--size-selector, 0.25rem) * 6);
+}
+
+.chelekom-checkbox_group.<%= @d %>checkbox-lg .chelekom-checkbox_group__indicator {
+  --<%= @d %>size: calc(var(--size-selector, 0.25rem) * 7);
+}
+
+.chelekom-checkbox_group.<%= @d %>checkbox-xl .chelekom-checkbox_group__indicator {
+  --<%= @d %>size: calc(var(--size-selector, 0.25rem) * 8);
+}
