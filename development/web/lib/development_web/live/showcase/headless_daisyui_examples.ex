@@ -51,6 +51,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.TextInput
   import DevelopmentWeb.Components.Headless.Textarea
   import DevelopmentWeb.Components.Headless.FileInput
+  import DevelopmentWeb.Components.Headless.Card
 
   @faq [
     {"What is a skin?",
@@ -454,6 +455,37 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"file-input-disabled", "Disabled", "Both the box and the file-selector button dim."},
       {"file-input-form", "In a Phoenix form",
        "`field={@form[:attachment]}` plus a multiple-file input, whose name gets the `[]` suffix so Plug builds a list."}
+    ],
+    "card" => [
+      {"card-hero", "Card",
+       "daisyUI's `card` with a figure, a title and an action. The title is a real `h3` wired to the card through `aria-labelledby`."},
+      {"card-pricing", "Pricing card", "A card with a list of features and a full-width action."},
+      {"card-sizes", "Card sizes",
+       "`card-xs` through `card-xl` — the padding and both font sizes come from the modifier."},
+      {"card-border", "With a border", "daisyUI's `card-border`."},
+      {"card-dash", "With a dashed border", "daisyUI's `card-dash`."},
+      {"card-badge", "With a badge",
+       "A daisyUI badge in the title row and another in the actions."},
+      {"card-bottom-image", "Image at the bottom",
+       "`figure_position=\"end\"` moves the figure after the body, which is what daisyUI's corner rounding keys off."},
+      {"card-centered", "Centered content and padding",
+       "Centered text with the image inset by padding."},
+      {"card-image-overlay", "Image overlay",
+       "daisyUI's `image-full` — figure and body share one grid cell and the image is dimmed behind the text."},
+      {"card-no-image", "No image", "Just a body — the card collapses to a padded box."},
+      {"card-custom-color", "Custom color",
+       "Theme colors on the root, inherited by everything inside."},
+      {"card-neutral", "Centered, neutral", "daisyUI's neutral card with centered actions."},
+      {"card-actions-top", "Action on top",
+       "The actions row moved above the title by ordering it first in the body."},
+      {"card-side", "Image on the side",
+       "daisyUI's `card-side`; the figure becomes a full-height column and its corners follow the edge."},
+      {"card-responsive", "Responsive",
+       "Vertical on a small screen, horizontal from `sm` up — one class, no JS."},
+      {"card-selectable", "Selectable cards",
+       "daisyUI outlines a card containing a checked control. `@rest` carries `aria-checked`, and the skin also matches `:has(:checked)` so the radio can live in the body."},
+      {"card-link", "The whole card as a link",
+       "`navigate` renders the root as an anchor, which is the honest markup for a card that is one big click target — a nested `<a>` inside a clickable `<div>` is not."}
     ]
   }
 
@@ -3360,6 +3392,265 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
       <button type="submit" class="d-btn d-btn-primary self-start">Upload</button>
     </form>
+    """
+  end
+
+  # ── card ──────────────────────────────────────────────────────────────────
+  def example(%{section: "card-hero"} = assigns) do
+    ~H"""
+    <.card id="daisyui-card-hero" class="d-card bg-base-100 w-80 shadow-sm">
+      <:figure><.card_image /></:figure>
+      <:title>Shoes!</:title>
+      If a dog chews shoes whose shoes does he choose?
+      <:actions>
+        <div class="ml-auto">
+          <button type="button" class="d-btn d-btn-primary">Buy now</button>
+        </div>
+      </:actions>
+    </.card>
+    """
+  end
+
+  def example(%{section: "card-pricing"} = assigns) do
+    ~H"""
+    <.card id="daisyui-card-pricing" class="bg-base-100 w-80 shadow-sm">
+      <:title>Pro plan</:title>
+      <div class="flex flex-col gap-2">
+        <span class="text-2xl font-semibold">$29<span class="text-sm font-normal">/mo</span></span>
+        <ul class="flex flex-col gap-1 text-sm">
+          <li :for={feature <- ["Unlimited projects", "Priority support", "Custom domain"]}>
+            ✓ {feature}
+          </li>
+        </ul>
+      </div>
+      <:actions>
+        <button type="button" class="d-btn d-btn-primary d-btn-block">Subscribe</button>
+      </:actions>
+    </.card>
+    """
+  end
+
+  def example(%{section: "card-sizes"} = assigns) do
+    assigns = assign(assigns, :sizes, @sizes)
+
+    ~H"""
+    <div class="flex flex-wrap items-start gap-3">
+      <.card
+        :for={size <- @sizes}
+        id={"daisyui-card-#{size}"}
+        class={"d-card-#{size} bg-base-100 w-52 shadow-sm"}
+      >
+        <:title>card-{size}</:title>
+        A card with the {size} padding scale.
+      </.card>
+    </div>
+    """
+  end
+
+  def example(%{section: "card-border"} = assigns) do
+    ~H"""
+    <.card id="daisyui-card-border" class="d-card-border bg-base-100 w-80">
+      <:title>Bordered</:title>
+      A card with a solid border instead of a shadow.
+    </.card>
+    """
+  end
+
+  def example(%{section: "card-dash"} = assigns) do
+    ~H"""
+    <.card id="daisyui-card-dash" class="d-card-dash bg-base-100 w-80">
+      <:title>Dashed</:title>
+      A card with a dashed border — reads as a placeholder or a drop target.
+    </.card>
+    """
+  end
+
+  def example(%{section: "card-badge"} = assigns) do
+    ~H"""
+    <.card id="daisyui-card-badge" class="bg-base-100 w-80 shadow-sm">
+      <:title>
+        Shoes!
+        <div class="d-badge d-badge-secondary">NEW</div>
+      </:title>
+      If a dog chews shoes whose shoes does he choose?
+      <:actions>
+        <div class="d-badge d-badge-outline">Fashion</div>
+        <div class="d-badge d-badge-outline">Products</div>
+      </:actions>
+    </.card>
+    """
+  end
+
+  def example(%{section: "card-bottom-image"} = assigns) do
+    ~H"""
+    <.card id="daisyui-card-bottom" figure_position="end" class="bg-base-100 w-80 shadow-sm">
+      <:title>Shoes!</:title>
+      If a dog chews shoes whose shoes does he choose?
+      <:figure><.card_image /></:figure>
+    </.card>
+    """
+  end
+
+  def example(%{section: "card-centered"} = assigns) do
+    ~H"""
+    <.card id="daisyui-card-centered" class="bg-base-100 w-80 shadow-sm">
+      <:figure><.card_image class="rounded-xl" /></:figure>
+      <div class="flex flex-col items-center gap-2 pt-2 text-center">
+        <h3 class="d-card-title">Shoes!</h3>
+        <p>A card with centered content and a padded, rounded image.</p>
+        <button type="button" class="d-btn d-btn-primary">Buy now</button>
+      </div>
+    </.card>
+    """
+  end
+
+  def example(%{section: "card-image-overlay"} = assigns) do
+    ~H"""
+    <.card id="daisyui-card-overlay" class="d-image-full w-80 shadow-sm">
+      <:figure><.card_image /></:figure>
+      <:title>Shoes!</:title>
+      If a dog chews shoes whose shoes does he choose?
+      <:actions>
+        <div class="ml-auto">
+          <button type="button" class="d-btn d-btn-primary">Buy now</button>
+        </div>
+      </:actions>
+    </.card>
+    """
+  end
+
+  def example(%{section: "card-no-image"} = assigns) do
+    ~H"""
+    <.card id="daisyui-card-no-image" class="bg-base-100 w-80 shadow-sm">
+      <:title>Card title</:title>
+      A card with no image at all — just a padded box with a heading.
+      <:actions>
+        <div class="ml-auto">
+          <button type="button" class="d-btn d-btn-primary">Buy now</button>
+        </div>
+      </:actions>
+    </.card>
+    """
+  end
+
+  def example(%{section: "card-custom-color"} = assigns) do
+    ~H"""
+    <.card id="daisyui-card-custom" class="bg-primary text-primary-content w-80">
+      <:title>Card title</:title>
+      Theme colors on the root; everything inside inherits them.
+      <:actions>
+        <div class="ml-auto">
+          <button type="button" class="d-btn">Buy now</button>
+        </div>
+      </:actions>
+    </.card>
+    """
+  end
+
+  def example(%{section: "card-neutral"} = assigns) do
+    ~H"""
+    <.card id="daisyui-card-neutral" class="bg-neutral text-neutral-content w-80">
+      <div class="flex flex-col items-center gap-2 text-center">
+        <h3 class="d-card-title">Cookies!</h3>
+        <p>We are using cookies for no reason.</p>
+        <div class="flex gap-2">
+          <button type="button" class="d-btn d-btn-primary">Accept</button>
+          <button type="button" class="d-btn d-btn-ghost">Deny</button>
+        </div>
+      </div>
+    </.card>
+    """
+  end
+
+  def example(%{section: "card-actions-top"} = assigns) do
+    ~H"""
+    <.card id="daisyui-card-actions-top" class="bg-base-100 w-80 shadow-sm">
+      <:actions>
+        <div class="ml-auto flex gap-1">
+          <button type="button" class="d-btn d-btn-square d-btn-sm" aria-label="Archive">
+            <.field_icon path="M4 7h16v3H4zM6 10h12v10H6zM10 14h4" />
+          </button>
+          <button type="button" class="d-btn d-btn-square d-btn-sm" aria-label="Close">
+            <.field_icon path="M6 6l12 12M18 6L6 18" />
+          </button>
+        </div>
+      </:actions>
+      <:title>Card title</:title>
+      The actions row is rendered first in the body, so it sits above the heading.
+    </.card>
+    """
+  end
+
+  def example(%{section: "card-side"} = assigns) do
+    ~H"""
+    <.card id="daisyui-card-side" class="d-card-side bg-base-100 w-96 shadow-sm">
+      <:figure><.card_image class="w-32" /></:figure>
+      <:title>New movie is released!</:title>
+      Click the button to watch on Jetflix app.
+      <:actions>
+        <div class="ml-auto">
+          <button type="button" class="d-btn d-btn-primary">Watch</button>
+        </div>
+      </:actions>
+    </.card>
+    """
+  end
+
+  def example(%{section: "card-responsive"} = assigns) do
+    ~H"""
+    <.card id="daisyui-card-responsive" class="bg-base-100 w-96 shadow-sm sm:d-card-side">
+      <:figure><.card_image class="sm:w-32" /></:figure>
+      <:title>Responsive</:title>
+      Vertical below <code>sm</code>, horizontal from <code>sm</code>
+      up. Resize the window.
+    </.card>
+    """
+  end
+
+  def example(%{section: "card-selectable"} = assigns) do
+    ~H"""
+    <div class="flex flex-wrap gap-3">
+      <.card
+        :for={{plan, price, checked} <- [{"Starter", "$0", true}, {"Team", "$29", false}]}
+        id={"daisyui-card-select-#{String.downcase(plan)}"}
+        class="d-card-border bg-base-100 w-48 cursor-pointer"
+      >
+        <:title>{plan}</:title>
+        <label class="flex items-center gap-2">
+          <input type="radio" name="daisyui_card_plan" value={plan} checked={checked} class="d-radio" />
+          <span>{price} / month</span>
+        </label>
+      </.card>
+    </div>
+    """
+  end
+
+  def example(%{section: "card-link"} = assigns) do
+    ~H"""
+    <.card
+      id="daisyui-card-link"
+      navigate="/showcase/headless-daisyui/card"
+      class="d-card-border bg-base-100 w-80 transition hover:shadow-md"
+    >
+      <:title>The whole card is the link</:title>
+      The root renders as an anchor, so there is one focus stop and one click target — not a link
+      nested inside a clickable box.
+    </.card>
+    """
+  end
+
+  attr :class, :any, default: nil
+
+  # No gradient `<defs>`: a def needs an id, and this placeholder is rendered once per card on a
+  # page full of them. Stacked flat fills give the same look with nothing to collide.
+  defp card_image(assigns) do
+    ~H"""
+    <svg viewBox="0 0 320 160" class={["h-40 w-full object-cover", @class]} aria-hidden="true">
+      <rect width="320" height="160" fill="oklch(66% 0.17 285)" />
+      <rect width="320" height="160" fill="oklch(60% 0.19 320)" opacity="0.45" />
+      <circle cx="70" cy="52" r="24" fill="oklch(100% 0 0 / 0.35)" />
+      <path d="M0 160L110 74l70 52 50-34 90 68z" fill="oklch(0% 0 0 / 0.22)" />
+    </svg>
     """
   end
 

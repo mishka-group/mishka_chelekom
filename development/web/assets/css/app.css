@@ -58,6 +58,8 @@
 @source inline("d-textarea-{xs,sm,md,lg,xl} d-textarea-ghost");
 @source inline("d-file-input d-file-input-{primary,secondary,accent,neutral,info,success,warning,error}");
 @source inline("d-file-input-{xs,sm,md,lg,xl} d-file-input-ghost");
+@source inline("d-card d-card-{xs,sm,md,lg,xl} d-card-{border,dash,side,title,actions,body}");
+@source inline("d-image-full sm:d-card-side d-radio");
 
 /* A Tailwind plugin that makes "hero-#{ICON}" classes available.
    The heroicons installation itself is managed by your mix.exs */
