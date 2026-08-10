@@ -1,0 +1,70 @@
+/* tree — daisyUI skin.
+ *
+ * daisyUI's `menu` supports nesting, so the rows borrow its item treatment and the subtree its
+ * indentation. The parts daisyUI has nothing for — the chevron that owns expansion, the drag
+ * handle, the per-node loader — are drawn to match.
+ */
+
+.chelekom-tree {
+  @apply <%= @d %>menu;
+
+  display: block;
+  width: 100%;
+  padding: calc(0.25rem * 1);
+  color: var(--color-base-content);
+}
+
+.chelekom-tree__label {
+  display: flex;
+  align-items: center;
+  gap: calc(0.25rem * 1.5);
+  border-radius: var(--radius-field);
+  padding-inline: calc(0.25rem * 2);
+  padding-block: calc(0.25rem * 1);
+  cursor: pointer;
+}
+
+.chelekom-tree__label:hover {
+  background-color: color-mix(in oklab, var(--color-base-content) 10%, transparent);
+}
+
+.chelekom-tree__label[aria-selected="true"] {
+  @apply <%= @d %>menu-active;
+}
+
+/* The chevron is the control, not the row: clicking it expands, clicking the row selects. Giving
+ * it its own hit area is what keeps those two apart. */
+.chelekom-tree__expand-icon {
+  display: inline-grid;
+  place-items: center;
+  width: calc(0.25rem * 4);
+  height: calc(0.25rem * 4);
+  flex-shrink: 0;
+  border-radius: calc(0.25rem * 0.5);
+  transition: rotate 0.15s ease-out;
+}
+
+.chelekom-tree__expand-icon[data-expanded] {
+  rotate: 90deg;
+}
+
+.chelekom-tree__subtree {
+  margin-inline-start: calc(0.25rem * 4);
+  border-inline-start: var(--border) solid
+    color-mix(in oklab, var(--color-base-content) 12%, #0000);
+  padding-inline-start: calc(0.25rem * 2);
+}
+
+.chelekom-tree__drag-handle {
+  cursor: grab;
+  opacity: 0;
+  transition: opacity 0.15s ease-out;
+}
+
+.chelekom-tree__label:hover .chelekom-tree__drag-handle {
+  opacity: 55%;
+}
+
+.chelekom-tree__loader {
+  @apply <%= @d %>loading <%= @d %>loading-spinner <%= @d %>loading-xs;
+}

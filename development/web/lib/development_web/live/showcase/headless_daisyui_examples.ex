@@ -76,6 +76,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.PreviewCard
   import DevelopmentWeb.Components.Headless.TagsInput
   import DevelopmentWeb.Components.Headless.Toolbar
+  import DevelopmentWeb.Components.Headless.Tree
   import DevelopmentWeb.Components.Headless.Select
   import DevelopmentWeb.Components.Headless.Switch
   import DevelopmentWeb.Components.Headless.Tabs
@@ -727,6 +728,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ],
     "toolbar" => [
       {"toolbar-hero", "Hero",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+    ],
+    "tree" => [
+      {"tree-hero", "Hero",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "alpha_slider" => [
@@ -5912,6 +5917,72 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         Edited 51m ago
       </:item>
     </.toolbar>
+    """
+  end
+
+  # ── tree ────────────────────────────────────────────────────────────────
+  def example(%{section: "tree-hero"} = assigns) do
+    ~H"""
+    <.tree
+      id="daisyui-tree-hero"
+      aria_label="Project files"
+      select_on_click
+      expanded={["app", "app/components"]}
+      selected={["app/components/Menu.tsx"]}
+      nodes={[
+        %{
+          label: "app",
+          value: "app",
+          children: [
+            %{
+              label: "components",
+              value: "app/components",
+              children: [
+                %{label: "Accordion.tsx", value: "app/components/Accordion.tsx"},
+                %{label: "Menu.tsx", value: "app/components/Menu.tsx"}
+              ]
+            },
+            %{label: "page.tsx", value: "app/page.tsx"}
+          ]
+        },
+        %{label: "package.json", value: "package.json"},
+        %{label: "tsconfig.json", value: "tsconfig.json"}
+      ]}
+    >
+      <:expand_icon>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="display: block">
+          <path d="M6 12V4l4.5 4z" />
+        </svg>
+      </:expand_icon>
+      <:node :let={n}>
+        <svg
+          :if={n.has_children}
+          width="14"
+          height="14"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="square"
+          stroke-linejoin="round"
+        >
+          <path d="M1.5 12.5v-9h4l1.5 2h7.5v7z" />
+        </svg>
+        <svg
+          :if={!n.has_children}
+          width="14"
+          height="14"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="square"
+          stroke-linejoin="round"
+        >
+          <path d="M3.5 1.5h6l3 3v11h-9z" />
+          <path d="M9.5 1.5v3.5h3" />
+        </svg>
+        {n.node.label}
+      </:node>
+    </.tree>
     """
   end
 
