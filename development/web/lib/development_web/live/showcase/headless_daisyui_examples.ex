@@ -74,6 +74,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   import DevelopmentWeb.Components.Headless.PillsInput
   import DevelopmentWeb.Components.Headless.Popover
   import DevelopmentWeb.Components.Headless.PreviewCard
+  import DevelopmentWeb.Components.Headless.ScrollArea
   import DevelopmentWeb.Components.Headless.TagsInput
   import DevelopmentWeb.Components.Headless.Toolbar
   import DevelopmentWeb.Components.Headless.Tree
@@ -721,6 +722,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"preview_card-detached-triggers-full", "Detached Triggers Full",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
       {"preview_card-detached-triggers-simple", "Detached Triggers Simple",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+    ],
+    "scroll_area" => [
+      {"scroll_area-hero", "Hero",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+      {"scroll_area-both", "Both",
+       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+      {"scroll_area-scroll-fade", "Scroll Fade",
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "tags_input" => [
@@ -5863,6 +5872,80 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       </.preview_card>
       remain in the digital age.
     </p>
+    """
+  end
+
+  # ── scroll_area ─────────────────────────────────────────────────────────
+  def example(%{section: "scroll_area-hero"} = assigns) do
+    ~H"""
+    <.scroll_area
+      id="daisyui-scroll_area-hero"
+      orientation="vertical"
+    >
+      <p>
+        Vernacular architecture is building done outside any academic tradition, and without
+        professional guidance. It is not a particular architectural movement or style, but
+        rather a broad category, encompassing a wide range and variety of building types, with
+        differing methods of construction, from around the world, both historical and extant and
+        classical and modern. Vernacular architecture constitutes 95% of the world's built
+        environment, as estimated in 1995 by Amos Rapoport, as measured against the small
+        percentage of new buildings every year designed by architects and built by engineers.
+      </p>
+      <p>
+        This type of architecture usually serves immediate, local needs, is constrained by the
+        materials available in its particular region and reflects local traditions and cultural
+        practices. The study of vernacular architecture does not examine formally schooled
+        architects, but instead that of the design skills and tradition of local builders, who
+        were rarely given any attribution for the work. More recently, vernacular architecture
+        has been examined by designers and the building industry in an effort to be more energy
+        conscious with contemporary design and construction—part of a broader interest in
+        sustainable design.
+      </p>
+    </.scroll_area>
+    """
+  end
+
+  def example(%{section: "scroll_area-both"} = assigns) do
+    ~H"""
+    <.scroll_area
+      id="daisyui-scroll_area-both"
+      orientation="both"
+    >
+      <ul>
+        <li :for={i <- 1..100}>
+          {i}
+        </li>
+      </ul>
+    </.scroll_area>
+    """
+  end
+
+  def example(%{section: "scroll_area-scroll-fade"} = assigns) do
+    ~H"""
+    <.scroll_area
+      id="daisyui-scroll_area-scroll-fade"
+      orientation="vertical"
+    >
+      <p>
+        Vernacular architecture is building done outside any academic tradition, and without
+        professional guidance. It is not a particular architectural movement or style, but
+        rather a broad category, encompassing a wide range and variety of building types, with
+        differing methods of construction, from around the world, both historical and extant and
+        classical and modern. Vernacular architecture constitutes 95% of the world's built
+        environment, as estimated in 1995 by Amos Rapoport, as measured against the small
+        percentage of new buildings every year designed by architects and built by engineers.
+      </p>
+      <p>
+        This type of architecture usually serves immediate, local needs, is constrained by the
+        materials available in its particular region and reflects local traditions and cultural
+        practices. The study of vernacular architecture does not examine formally schooled
+        architects, but instead that of the design skills and tradition of local builders, who
+        were rarely given any attribution for the work. More recently, vernacular architecture
+        has been examined by designers and the building industry in an effort to be more energy
+        conscious with contemporary design and construction—part of a broader interest in
+        sustainable design.
+      </p>
+    </.scroll_area>
     """
   end
 
