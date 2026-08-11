@@ -4024,11 +4024,10 @@
     .chelekom-alert-dialog__popup {
       @apply d-modal-box;
 
-      position: fixed;
+      /* The base stylesheet already pins and centres this panel, with `transform`. Repeating that here
+       * as `translate` does not override it — the two compose, and the dialog lands a full width and
+       * height off-centre. All this layer owes is the depth. */
       z-index: 60;
-      top: 50%;
-      left: 50%;
-      translate: -50% -50%;
 
       /* `modal-box` is drawn closed — scaled down and transparent — because inside a `modal` it is the
        * `modal-open` state that reveals it. This panel has no `modal` around it, so it has to undo
@@ -4064,6 +4063,24 @@
 
     .chelekom-alert-dialog__actions {
       @apply d-modal-action;
+    }
+
+    /* `modal-action` lays the row out but leaves the buttons to the caller, and there are no classes
+     * here to leave them to. The last one is the action the dialog is asking about — the one the copy
+     * names — so it carries the weight and the rest step back. */
+    .chelekom-alert-dialog__actions button,
+    .chelekom-alert-dialog__actions a {
+      @apply d-btn d-btn-sm;
+    }
+
+    /* Ghost only on the ones stepping back: `btn-ghost` forces a transparent background, and on the
+     * confirming button it would beat `btn-primary` to it — leaving coloured text on nothing. */
+    .chelekom-alert-dialog__actions > :not(:last-child) {
+      @apply d-btn-ghost;
+    }
+
+    .chelekom-alert-dialog__actions > :last-child {
+      @apply d-btn-primary;
     }
   }
 }
