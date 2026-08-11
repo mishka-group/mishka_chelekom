@@ -5,7 +5,10 @@
  * row of small actions.
  */
 
+/* Full width, like the textarea it stands in for: as a flex item an authoring surface that shrinks
+ * to its toolbar is a column of buttons with nowhere to write. */
 .chelekom-editor {
+  width: 100%;
   border-radius: var(--radius-field);
   border: var(--border) solid color-mix(in oklab, var(--color-base-content) 20%, #0000);
   background-color: var(--color-base-100);
