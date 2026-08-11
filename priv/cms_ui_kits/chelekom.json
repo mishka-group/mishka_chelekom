@@ -5408,6 +5408,7 @@
           "name": "src",
           "opts": {
             "doc": "Media link",
+            "editor": "media",
             "required": true
           },
           "type": "string"
@@ -14369,7 +14370,7 @@
           "opts": {
             "default": null,
             "doc": "Determines custom class for the icon",
-            "editor": "icon"
+            "editor": "text"
           },
           "type": "string"
         },
@@ -36854,7 +36855,8 @@
           "name": "link_class",
           "opts": {
             "default": null,
-            "doc": "Custom CSS class for additional styling to link"
+            "doc": "Custom CSS class for additional styling to link",
+            "editor": "text"
           },
           "type": "string"
         },
@@ -36880,7 +36882,7 @@
           "opts": {
             "default": null,
             "doc": "Determines custom class for the icon",
-            "editor": "icon"
+            "editor": "text"
           },
           "type": "string"
         },
@@ -36888,7 +36890,8 @@
           "name": "link_title",
           "opts": {
             "default": null,
-            "doc": "Determines link name"
+            "doc": "Determines link name",
+            "editor": "text"
           },
           "type": "string"
         },
@@ -36896,7 +36899,8 @@
           "name": "link",
           "opts": {
             "default": null,
-            "doc": "Determines path of link"
+            "doc": "Determines path of link",
+            "editor": "url"
           },
           "type": "string"
         },
@@ -39697,7 +39701,8 @@
           "name": "src",
           "opts": {
             "default": null,
-            "doc": "Media link"
+            "doc": "Media link",
+            "editor": "media"
           },
           "type": "string"
         },
@@ -41617,7 +41622,8 @@
           "name": "image",
           "opts": {
             "default": null,
-            "doc": "Image displayed alongside of an item"
+            "doc": "Image displayed alongside of an item",
+            "editor": "media"
           },
           "type": "string"
         },
@@ -41625,7 +41631,8 @@
           "name": "image_class",
           "opts": {
             "default": null,
-            "doc": "Determines custom class for the image"
+            "doc": "Determines custom class for the image",
+            "editor": "text"
           },
           "type": "string"
         },
@@ -41649,7 +41656,8 @@
           "name": "link",
           "opts": {
             "default": null,
-            "doc": ""
+            "doc": "",
+            "editor": "url"
           },
           "type": "string"
         },
@@ -41705,7 +41713,8 @@
           "name": "link_class",
           "opts": {
             "default": null,
-            "doc": "Custom CSS class for link"
+            "doc": "Custom CSS class for link",
+            "editor": "text"
           },
           "type": "string"
         },
@@ -48151,7 +48160,8 @@
         {
           "name": "value",
           "opts": {
-            "doc": "Value of input"
+            "doc": "Value of input",
+            "editor": "number"
           },
           "type": "any"
         },
@@ -50930,7 +50940,7 @@
           "opts": {
             "default": null,
             "doc": "Determines custom class for the icon",
-            "editor": "icon"
+            "editor": "text"
           },
           "type": "string"
         },
@@ -53403,7 +53413,7 @@
           "opts": {
             "default": null,
             "doc": "Custom CSS class for additional styling to icon of separator",
-            "editor": "icon"
+            "editor": "text"
           },
           "type": "string"
         },
@@ -57946,8 +57956,7 @@
           "name": "icon_animated",
           "opts": {
             "default": false,
-            "doc": "Determines whether element's icon has animation",
-            "editor": "icon"
+            "doc": "Determines whether element's icon has animation"
           },
           "type": "boolean"
         },
@@ -91796,7 +91805,8 @@
           "name": "image",
           "opts": {
             "default": null,
-            "doc": "Image displayed alongside of an item"
+            "doc": "Image displayed alongside of an item",
+            "editor": "media"
           },
           "type": "string"
         },
@@ -91804,7 +91814,8 @@
           "name": "image_class",
           "opts": {
             "default": null,
-            "doc": "Determines custom class for the image"
+            "doc": "Determines custom class for the image",
+            "editor": "text"
           },
           "type": "string"
         },
@@ -94408,7 +94419,7 @@
           "opts": {
             "default": null,
             "doc": "Custom CSS class applied to every item icon",
-            "editor": "icon"
+            "editor": "text"
           },
           "type": "any"
         },
@@ -106102,7 +106113,7 @@
           "opts": {
             "default": null,
             "doc": "Custom CSS class for additional styling to icon",
-            "editor": "icon"
+            "editor": "text"
           },
           "type": "string"
         },
@@ -112881,7 +112892,7 @@
           "opts": {
             "default": "list-item-icon",
             "doc": "Determines custom class for the icon",
-            "editor": "icon"
+            "editor": "text"
           },
           "type": "string"
         },
@@ -124558,7 +124569,8 @@
           "name": "src",
           "opts": {
             "default": null,
-            "doc": "Image source — renders an <img> if provided"
+            "doc": "Image source — renders an <img> if provided",
+            "editor": "media"
           },
           "type": "string"
         },
@@ -129468,7 +129480,8 @@
           "name": "src",
           "opts": {
             "default": null,
-            "doc": "Media link"
+            "doc": "Media link",
+            "editor": "media"
           },
           "type": "string"
         },
@@ -135458,7 +135471,8 @@
         {
           "name": "value",
           "opts": {
-            "doc": "Value of input"
+            "doc": "Value of input",
+            "editor": "url"
           },
           "type": "any"
         },
@@ -137355,7 +137369,8 @@
           "name": "link_class",
           "opts": {
             "default": null,
-            "doc": "Custom CSS class for additional styling for link"
+            "doc": "Custom CSS class for additional styling for link",
+            "editor": "text"
           },
           "type": "string"
         },
@@ -139977,7 +139992,7 @@
           "opts": {
             "default": "rtl:rotate-180",
             "doc": "Custom CSS class for additional styling",
-            "editor": "icon"
+            "editor": "text"
           },
           "type": "string"
         },
@@ -144154,7 +144169,8 @@
           "name": "image",
           "opts": {
             "default": null,
-            "doc": "Image displayed alongside of an item"
+            "doc": "Image displayed alongside of an item",
+            "editor": "media"
           },
           "type": "string"
         },
@@ -144203,7 +144219,7 @@
           "opts": {
             "default": null,
             "doc": "Custom CSS class for additional styling icon",
-            "editor": "icon"
+            "editor": "text"
           },
           "type": "string"
         },
@@ -144235,7 +144251,8 @@
           "name": "image_class",
           "opts": {
             "default": null,
-            "doc": "Custom CSS class for additional styling image"
+            "doc": "Custom CSS class for additional styling image",
+            "editor": "text"
           },
           "type": "string"
         },
@@ -152309,7 +152326,8 @@
           "name": "thumbnail",
           "opts": {
             "default": null,
-            "doc": "Determines thumbnail for video"
+            "doc": "Determines thumbnail for video",
+            "editor": "media"
           },
           "type": "string"
         },
@@ -168453,7 +168471,8 @@
         {
           "name": "value",
           "opts": {
-            "doc": "Value of input"
+            "doc": "Value of input",
+            "editor": "number"
           },
           "type": "any"
         },
@@ -171979,7 +171998,7 @@
           "opts": {
             "default": null,
             "doc": "Custom CSS class for additional styling to icon wrapper",
-            "editor": "icon"
+            "editor": "text"
           },
           "type": "string"
         },
@@ -178407,7 +178426,7 @@
           "opts": {
             "default": null,
             "doc": "Custom classes for error Icon",
-            "editor": "icon"
+            "editor": "text"
           },
           "type": "string"
         },
@@ -199801,7 +199820,7 @@
           "opts": {
             "default": null,
             "doc": "Custom CSS class for additional styling",
-            "editor": "icon"
+            "editor": "text"
           },
           "type": "string"
         },
@@ -199810,7 +199829,7 @@
           "opts": {
             "default": null,
             "doc": "Custom CSS class for additional styling",
-            "editor": "icon"
+            "editor": "text"
           },
           "type": "string"
         },
@@ -203638,7 +203657,7 @@
           "opts": {
             "default": null,
             "doc": "Custom CSS class for additional styling",
-            "editor": "icon"
+            "editor": "text"
           },
           "type": "string"
         },
@@ -211726,7 +211745,7 @@
           "opts": {
             "default": "",
             "doc": "Additional CSS classes to be added to the toast contents.",
-            "editor": "icon"
+            "editor": "text"
           },
           "type": "string"
         },
@@ -217880,7 +217899,8 @@
           "name": "value",
           "opts": {
             "default": "#000000",
-            "doc": "Value of input"
+            "doc": "Value of input",
+            "editor": "color"
           },
           "type": "any"
         },
@@ -218760,7 +218780,7 @@
           "opts": {
             "default": "size-5",
             "doc": "Custom CSS class for additional styling to icons close button",
-            "editor": "icon"
+            "editor": "text"
           },
           "type": "string"
         },
@@ -220518,6 +220538,7 @@
           "name": "src",
           "opts": {
             "doc": "Media link",
+            "editor": "media",
             "required": true
           },
           "type": "string"
@@ -224793,7 +224814,7 @@
           "opts": {
             "default": null,
             "doc": "Determines custom class for the icon",
-            "editor": "icon"
+            "editor": "text"
           },
           "type": "string"
         },
@@ -237944,21 +237965,24 @@
         {
           "name": "navigate",
           "opts": {
-            "doc": "Defines the path for navigation within the application using a `navigate` attribute."
+            "doc": "Defines the path for navigation within the application using a `navigate` attribute.",
+            "editor": "url"
           },
           "type": "string"
         },
         {
           "name": "patch",
           "opts": {
-            "doc": "Specifies the path for navigation using a LiveView patch"
+            "doc": "Specifies the path for navigation using a LiveView patch",
+            "editor": "url"
           },
           "type": "string"
         },
         {
           "name": "href",
           "opts": {
-            "doc": "Sets the URL for an external link"
+            "doc": "Sets the URL for an external link",
+            "editor": "url"
           },
           "type": "string"
         },
@@ -238094,7 +238118,7 @@
           "opts": {
             "default": null,
             "doc": "Determines custom class for the icon",
-            "editor": "icon"
+            "editor": "text"
           },
           "type": "string"
         },
@@ -241323,6 +241347,7 @@
         {
           "name": "navigate",
           "opts": {
+            "editor": "url",
             "required": true
           },
           "type": "any"
@@ -244591,7 +244616,8 @@
         {
           "name": "value",
           "opts": {
-            "doc": "Value of input"
+            "doc": "Value of input",
+            "editor": "textarea"
           },
           "type": "any"
         },
