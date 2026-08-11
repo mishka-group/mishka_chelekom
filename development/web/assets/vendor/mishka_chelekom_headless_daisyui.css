@@ -850,6 +850,14 @@
      * `tooltip-primary` and friends recolour the bubble and the arrow together.
      */
 
+    /* Same as the preview card's: a word in a sentence that reveals something on hover, marked
+     * dotted rather than solid so it does not read as a link. */
+    .chelekom-tooltip__trigger {
+      text-decoration: underline dotted;
+      text-underline-offset: 2px;
+      cursor: help;
+    }
+
     .chelekom-tooltip {
       display: inline-block;
     }
