@@ -5153,6 +5153,11 @@
      * engine resolved, which is why it keys off `data-side` rather than a class.
      */
 
+    /* The trigger is a real button, so it takes daisyUI's button — same as the dialog's. */
+    .chelekom-popover__trigger {
+      @apply d-btn;
+    }
+
     .chelekom-popover__popup {
       @apply d-dropdown-content;
 
