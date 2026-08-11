@@ -27,8 +27,30 @@
   user-select: none;
 }
 
+/* Unlike the single checkbox — which uses daisyUI's own `::before` tick — the group renders
+ * whatever icon the caller puts in `:indicator_icon`. Nothing was laying that out, so the tick fell
+ * out of the bottom of its box. */
 .chelekom-checkbox_group__indicator {
   @apply <%= @d %>checkbox;
+
+  display: grid;
+  place-items: center;
+}
+
+.chelekom-checkbox_group__indicator > svg {
+  width: 70%;
+  height: 70%;
+}
+
+/* The icon belongs to the checked state; the box is empty otherwise. */
+.chelekom-checkbox_group__indicator[data-unchecked] > svg {
+  display: none;
+}
+
+.chelekom-checkbox_group__indicator[data-checked] {
+  /* daisyUI leaves a checked box transparent and lets the tick carry the colour — the same as the
+   * single checkbox. Forcing the icon to base-100 painted it white on white. */
+  background-color: var(--<%= @d %>input-color, #0000);
 }
 
 .chelekom-checkbox_group__input {
