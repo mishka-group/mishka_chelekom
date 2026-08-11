@@ -6,6 +6,19 @@
  * equivalent for any of them.
  */
 
+/* Nothing about a right-click area announces itself, which is why every demo of one draws a
+ * dashed stage around it — without that the trigger is a line of text that happens to be live. */
+.chelekom-context_menu__trigger {
+  display: grid;
+  place-items: center;
+  min-height: calc(0.25rem * 32);
+  border-radius: var(--radius-box);
+  border: 2px dashed color-mix(in oklab, var(--color-base-content) 20%, #0000);
+  padding: calc(0.25rem * 4);
+  color: color-mix(in oklab, var(--color-base-content) 70%, #0000);
+  user-select: none;
+}
+
 .chelekom-context_menu__popup,
 .chelekom-context_menu__submenu-popup {
   @apply <%= @d %>menu <%= @d %>dropdown-content;
