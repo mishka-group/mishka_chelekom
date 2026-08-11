@@ -4530,8 +4530,16 @@
      * sliding rather than not moving at all.
      */
 
+    /* The strip itself. Without this the targets are bare buttons and collapse into one run-on word;
+     * the shape borrowed here is daisyUI's `tabs-boxed`, which is what a sliding indicator sits in. */
     .chelekom-floating-indicator {
       position: relative;
+      display: inline-flex;
+      align-items: stretch;
+      gap: calc(0.25rem * 0.5);
+      border-radius: var(--radius-field);
+      background-color: var(--color-base-200);
+      padding: calc(0.25rem * 0.5);
     }
 
     .chelekom-floating-indicator__indicator {
@@ -4551,9 +4559,14 @@
       }
     }
 
+    /* Ghost, not plain `btn`: the indicator behind it is what marks the active one, so a filled or
+     * bordered button would draw a second box around the same choice. */
     .chelekom-floating-indicator__target {
+      @apply d-btn d-btn-sm d-btn-ghost;
+
       position: relative;
       z-index: 1;
+      border: none;
     }
   }
 }
