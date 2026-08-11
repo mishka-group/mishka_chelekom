@@ -6084,11 +6084,24 @@
       display: none;
     }
 
+    /* An option is often a label plus a trailing note — a category, a shortcut. On the Base UI page a
+     * utility class held those apart; with no classes they run together into "New fileApplication". */
     .chelekom-autocomplete__item {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: calc(0.25rem * 2);
       border-radius: var(--radius-field);
       padding-inline: calc(0.25rem * 3);
       padding-block: calc(0.25rem * 1.5);
       cursor: pointer;
+    }
+
+    .chelekom-autocomplete__item > :last-child:not(:only-child) {
+      flex-shrink: 0;
+      font-size: 0.75rem;
+      opacity: 60%;
     }
 
     .chelekom-autocomplete__item[data-highlighted] {
