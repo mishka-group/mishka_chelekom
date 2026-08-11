@@ -6,6 +6,11 @@
  * is drawn here rather than taken from a class that expects the native element.
  */
 
+/* The trigger is a real button, so it takes daisyUI's button — same as the plain dialog's. */
+.chelekom-alert-dialog__trigger {
+  @apply <%= @d %>btn;
+}
+
 .chelekom-alert-dialog__popup {
   @apply <%= @d %>modal-box;
 
@@ -14,6 +19,12 @@
   top: 50%;
   left: 50%;
   translate: -50% -50%;
+
+  /* `modal-box` is drawn closed — scaled down and transparent — because inside a `modal` it is the
+   * `modal-open` state that reveals it. This panel has no `modal` around it, so it has to undo
+   * that or it opens invisible. */
+  scale: 100%;
+  opacity: 1;
 }
 
 .chelekom-alert-dialog__popup[data-closed] {
