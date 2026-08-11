@@ -5260,6 +5260,21 @@
      * here dims the page behind it.
      */
 
+    /* The card wraps a word inside a sentence, so the root has to stay in the line: as a block it
+     * breaks the sentence apart, one line per trigger. The popup is positioned by the engine, not by
+     * this element, so nothing depends on the root being a block. */
+    .chelekom-preview_card {
+      display: inline;
+    }
+
+    /* The trigger sits inside a sentence, so it is marked the way a footnote is: underlined, and
+     * dotted rather than solid so it does not read as a link that goes somewhere. */
+    .chelekom-preview_card__trigger {
+      text-decoration: underline dotted;
+      text-underline-offset: 2px;
+      cursor: default;
+    }
+
     .chelekom-preview_card__popup {
       @apply d-card;
 
