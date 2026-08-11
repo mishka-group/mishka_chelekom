@@ -6,6 +6,10 @@
 
 .chelekom-color-swatch {
   display: inline-block;
+  /* A swatch with no size is invisible; the Base UI page sized it with a utility class, so the
+   * skin has to carry a default of its own. Any width/height the caller sets still wins. */
+  width: calc(0.25rem * 8);
+  height: calc(0.25rem * 8);
   border-radius: var(--radius-field);
   box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-base-content) 20%, transparent);
 }

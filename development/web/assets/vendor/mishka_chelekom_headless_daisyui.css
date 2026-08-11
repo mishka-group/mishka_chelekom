@@ -3918,8 +3918,15 @@
       border-width: 0;
     }
 
+    /* `currentcolor` resolves against the *same element's* `color`, so setting both here made the
+     * background take the new text colour and the chip vanished into itself. The root keeps its colour
+     * — which is what fills the background — and the label is inverted separately. */
     .chelekom-chip:has(.chelekom-chip__input:checked) {
       background-color: currentcolor;
+      border-color: currentcolor;
+    }
+
+    .chelekom-chip:has(.chelekom-chip__input:checked) .chelekom-chip__label {
       color: var(--color-base-100);
     }
 
@@ -4067,10 +4074,17 @@
     .chelekom-spoiler__content {
       position: relative;
       overflow: hidden;
+      /* Collapsed by default, so the clamp is right before any JS runs; the root gains
+       * `data-expanded` when the control is used. */
+      max-height: 6rem;
       transition: max-height 0.2s ease-out;
     }
 
-    .chelekom-spoiler__content[data-collapsed]::after {
+    .chelekom-spoiler[data-expanded] .chelekom-spoiler__content {
+      max-height: 60rem;
+    }
+
+    .chelekom-spoiler__content::after {
       content: "";
       position: absolute;
       inset-inline: 0;
@@ -4078,6 +4092,20 @@
       height: 2.5rem;
       background: linear-gradient(to bottom, #0000, var(--color-base-100));
       pointer-events: none;
+    }
+
+    /* Both labels are always in the DOM; exactly one of them is shown. */
+    .chelekom-spoiler[data-expanded] .chelekom-spoiler__content::after {
+      display: none;
+    }
+
+    .chelekom-spoiler [data-part="hide-label"],
+    .chelekom-spoiler[data-expanded] [data-part="show-label"] {
+      display: none;
+    }
+
+    .chelekom-spoiler[data-expanded] [data-part="hide-label"] {
+      display: inline;
     }
 
     .chelekom-spoiler__control {
@@ -4160,6 +4188,10 @@
 
     .chelekom-color-swatch {
       display: inline-block;
+      /* A swatch with no size is invisible; the Base UI page sized it with a utility class, so the
+       * skin has to carry a default of its own. Any width/height the caller sets still wins. */
+      width: calc(0.25rem * 8);
+      height: calc(0.25rem * 8);
       border-radius: var(--radius-field);
       box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-base-content) 20%, transparent);
     }
@@ -4592,6 +4624,9 @@
     .chelekom-hue-slider {
       display: block;
       width: 100%;
+      /* `100%` of a shrink-to-fit parent is zero, which is how these ended up invisible in a centred
+       * demo box. A floor keeps the track draggable wherever the slider is placed. */
+      min-width: 12rem;
     }
 
     .chelekom-hue-slider__control {
@@ -4601,6 +4636,7 @@
 
     .chelekom-hue-slider__track {
       position: relative;
+      width: 100%;
       border-radius: calc(infinity * 1px);
       box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-base-content) 18%, transparent);
       height: calc(0.25rem * 3);
@@ -5357,6 +5393,20 @@
       gap: calc(0.25rem * 0.5);
     }
 
+    /* The segment is the control; the radio behind it is what makes the choice work without JS, so it
+     * is hidden from sight but kept focusable — `display: none` would take it out of the tab order. */
+    .chelekom-segmented-control__input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+      border-width: 0;
+    }
+
     .chelekom-segmented-control__item {
       @apply d-btn d-btn-sm d-btn-ghost;
 
@@ -5375,7 +5425,21 @@
       outline-offset: 2px;
     }
 
-    .chelekom-segmented-control[data-disabled] .chelekom-segmented-control__item {
+    .chelekom-segmented-control[data-disabled] /* The segment is the control; the radio behind it is what makes the choice work without JS, so it
+     * is hidden from sight but kept focusable — `display: none` would take it out of the tab order. */
+    .chelekom-segmented-control__input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+      border-width: 0;
+    }
+
+    .chelekom-segmented-control__item {
       pointer-events: none;
       opacity: 50%;
     }
@@ -5692,6 +5756,9 @@
     .chelekom-alpha-slider {
       display: block;
       width: 100%;
+      /* `100%` of a shrink-to-fit parent is zero, which is how these ended up invisible in a centred
+       * demo box. A floor keeps the track draggable wherever the slider is placed. */
+      min-width: 12rem;
     }
 
     .chelekom-alpha-slider__control {
@@ -5701,6 +5768,7 @@
 
     .chelekom-alpha-slider__track {
       position: relative;
+      width: 100%;
       border-radius: calc(infinity * 1px);
       box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-base-content) 18%, transparent);
       height: calc(0.25rem * 3);

@@ -29,8 +29,15 @@
   border-width: 0;
 }
 
+/* `currentcolor` resolves against the *same element's* `color`, so setting both here made the
+ * background take the new text colour and the chip vanished into itself. The root keeps its colour
+ * — which is what fills the background — and the label is inverted separately. */
 .chelekom-chip:has(.chelekom-chip__input:checked) {
   background-color: currentcolor;
+  border-color: currentcolor;
+}
+
+.chelekom-chip:has(.chelekom-chip__input:checked) .chelekom-chip__label {
   color: var(--color-base-100);
 }
 

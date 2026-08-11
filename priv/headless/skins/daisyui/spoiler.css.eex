@@ -19,10 +19,17 @@
 .chelekom-spoiler__content {
   position: relative;
   overflow: hidden;
+  /* Collapsed by default, so the clamp is right before any JS runs; the root gains
+   * `data-expanded` when the control is used. */
+  max-height: 6rem;
   transition: max-height 0.2s ease-out;
 }
 
-.chelekom-spoiler__content[data-collapsed]::after {
+.chelekom-spoiler[data-expanded] .chelekom-spoiler__content {
+  max-height: 60rem;
+}
+
+.chelekom-spoiler__content::after {
   content: "";
   position: absolute;
   inset-inline: 0;
@@ -30,6 +37,20 @@
   height: 2.5rem;
   background: linear-gradient(to bottom, #0000, var(--color-base-100));
   pointer-events: none;
+}
+
+/* Both labels are always in the DOM; exactly one of them is shown. */
+.chelekom-spoiler[data-expanded] .chelekom-spoiler__content::after {
+  display: none;
+}
+
+.chelekom-spoiler [data-part="hide-label"],
+.chelekom-spoiler[data-expanded] [data-part="show-label"] {
+  display: none;
+}
+
+.chelekom-spoiler[data-expanded] [data-part="hide-label"] {
+  display: inline;
 }
 
 .chelekom-spoiler__control {

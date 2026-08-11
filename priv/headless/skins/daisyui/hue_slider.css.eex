@@ -7,6 +7,9 @@
 .chelekom-hue-slider {
   display: block;
   width: 100%;
+  /* `100%` of a shrink-to-fit parent is zero, which is how these ended up invisible in a centred
+   * demo box. A floor keeps the track draggable wherever the slider is placed. */
+  min-width: 12rem;
 }
 
 .chelekom-hue-slider__control {
@@ -16,6 +19,7 @@
 
 .chelekom-hue-slider__track {
   position: relative;
+  width: 100%;
   border-radius: calc(infinity * 1px);
   box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-base-content) 18%, transparent);
   height: calc(0.25rem * 3);

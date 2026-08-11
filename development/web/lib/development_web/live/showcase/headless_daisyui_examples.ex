@@ -7006,7 +7006,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       name="view"
       value="list"
       label="View"
-      options={[{"list", "List"}, {"grid", "Grid"}, {"table", "Table"}]}
+      options={[{"List", "list"}, {"Grid", "grid"}, {"Table", "table"}]}
     />
     """
   end
@@ -7023,7 +7023,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         name="density"
         value="cosy"
         label="Density"
-        options={[{"compact", "Compact"}, {"cosy", "Cosy"}, {"roomy", "Roomy"}]}
+        options={[{"Compact", "compact"}, {"Cosy", "cosy"}, {"Roomy", "roomy"}]}
       />
     </form>
     """
@@ -7037,7 +7037,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       value="grid"
       label="View"
       disabled
-      options={[{"list", "List"}, {"grid", "Grid"}]}
+      options={[{"List", "list"}, {"Grid", "grid"}]}
     />
     """
   end
