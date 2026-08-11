@@ -5439,21 +5439,7 @@
       outline-offset: 2px;
     }
 
-    .chelekom-segmented-control[data-disabled] /* The segment is the control; the radio behind it is what makes the choice work without JS, so it
-     * is hidden from sight but kept focusable — `display: none` would take it out of the tab order. */
-    .chelekom-segmented-control__input {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip-path: inset(50%);
-      white-space: nowrap;
-      border-width: 0;
-    }
-
-    .chelekom-segmented-control__item {
+    .chelekom-segmented-control[data-disabled] .chelekom-segmented-control__item {
       pointer-events: none;
       opacity: 50%;
     }
