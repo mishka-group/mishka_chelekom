@@ -5,11 +5,22 @@
  * for — is drawn as the drag handle it is, cursor included.
  */
 
+/* Absolute, not fixed: the component clamps itself to its offset parent, so a fixed window escapes
+ * the stage it is supposed to be dragged around inside and lands on the page instead. `modal-box`
+ * brings a modal's width with it, which is far too wide for a panel that shares the page. */
 .chelekom-floating-window {
   @apply <%= @d %>modal-box;
 
-  position: fixed;
+  position: absolute;
+  width: calc(0.25rem * 52);
+  max-width: 100%;
   z-index: 60;
+
+  /* `modal-box` is drawn closed — scaled down and transparent — because inside a `modal` it is the
+   * `modal-open` state that reveals it. This window is always on the page, so it has to undo that
+   * or it never appears at all. */
+  scale: 100%;
+  opacity: 1;
   display: flex;
   flex-direction: column;
   padding: 0;

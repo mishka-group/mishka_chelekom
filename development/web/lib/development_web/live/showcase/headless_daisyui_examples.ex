@@ -5292,7 +5292,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── floating_window ─────────────────────────────────────────────────────
   def example(%{section: "floating_window-hero"} = assigns) do
     ~H"""
-    <div style="background-image: radial-gradient(rgba(120,120,120,0.25) 1px, transparent 0); background-size: 16px 16px;">
+    <div style="position: relative; width: 100%; height: 14rem; overflow: hidden; background-image: radial-gradient(rgba(120,120,120,0.25) 1px, transparent 0); background-size: 16px 16px;">
       <.floating_window
         id="daisyui-floating-window"
         x={24}
