@@ -123,12 +123,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessGalleryLive do
     {:noreply, assign(socket, submitted: "sort #{key} #{dir}")}
   end
 
-  def handle_event("daisyui_radio_group_change", %{"plan_form" => plan}, socket) do
-    {:noreply, assign(socket, submitted: "plan #{plan}")}
+  def handle_event("daisyui_radio_group_change", params, socket) do
+    {:noreply, assign(socket, submitted: "plan #{Map.get(params, "plan_form", "nothing")}")}
   end
 
-  def handle_event("daisyui_segmented_change", %{"density" => value}, socket) do
-    {:noreply, assign(socket, submitted: "density #{value}")}
+  # A `phx-change` form posts whatever is checked *at that moment*, which early in the client's
+  # life is nothing at all — and a clause that only matches the filled shape takes the whole
+  # LiveView down with it, leaving every other demo on the page dead.
+  def handle_event("daisyui_segmented_change", params, socket) do
+    {:noreply, assign(socket, submitted: "density #{Map.get(params, "density", "nothing")}")}
   end
 
   def handle_event("daisyui_toggle_group_change", params, socket) do
