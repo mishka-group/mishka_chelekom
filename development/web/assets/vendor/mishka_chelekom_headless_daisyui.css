@@ -5289,9 +5289,12 @@
      * content rather than a fixed height.
      */
 
+    /* The height is the skin's, not the component's: a scroll area with no bound grows to its content
+     * and never scrolls, so classless markup needs one. Any height set on the root still wins. */
     .chelekom-scroll_area {
       position: relative;
       overflow: hidden;
+      height: calc(0.25rem * 60);
       color: var(--color-base-content);
     }
 
