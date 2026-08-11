@@ -5,9 +5,16 @@
  * pointer is on it and thickens with the theme's primary while dragging.
  */
 
+/* Bordered and bounded, like daisyUI's `card`: without a height the two panels collapse onto one
+ * line and the handle between them reads as a stray hairline rather than something to drag. */
 .chelekom-splitter {
   display: flex;
   width: 100%;
+  height: calc(0.25rem * 48);
+  overflow: hidden;
+  border-radius: var(--radius-box);
+  border: var(--border) solid color-mix(in oklab, var(--color-base-content) 12%, #0000);
+  background-color: var(--color-base-100);
   color: var(--color-base-content);
 }
 
@@ -19,6 +26,7 @@
   overflow: auto;
   min-width: 0;
   min-height: 0;
+  padding: calc(0.25rem * 4);
 }
 
 .chelekom-splitter__resizer {
