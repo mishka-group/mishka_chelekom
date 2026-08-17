@@ -17936,12 +17936,14 @@
         "clauses": [
           {
             "body": "active_index = Enum.find_index(assigns.tab, &Map.get(&1, :active)) || 0\nassigns = assign(assigns, :active_index, active_index + 1)",
+            "delegates": false,
             "guard": null,
             "match": "%{vertical: true} = assigns",
             "template": "<div\n  id={@id}\n  class={[\n    \"vertical-tab flex dark:text-gray-200\",\n    @placement == \"end\" && \"flex-row-reverse\",\n    content_position(@triggers_position),\n    @variant == \"default\" || (@variant == \"base\" && tab_border(@tab_border_size, @vertical)),\n    color_variant(@variant, @color),\n    rounded_size(@rounded, @variant),\n    padding_size(@padding),\n    content_padding(@content_padding),\n    border_class(@border),\n    size_class(@size),\n    gap_size(@gap),\n    @font_weight,\n    @class\n  ]}\n  {@rest}\n>\n  <.component component_name=\"chelekom-scroll-area\" site={assigns[:site]}\n    :if={@scrollable}\n    id={\"#{@id}-trigger-scroll\"}\n    type=\"never\"\n    height=\"h-full\"\n    width=\"w-fit\"\n    padding=\"none\"\n    class=\"!h-full\"\n  >\n    <div\n      role=\"tablist\"\n      tabindex=\"0\"\n      class={[\n        \"tab-trigger-list flex flex-col shrink-0 text-natural-light dark:text-natural-dark\",\n        @variant == \"default\" &&\n          \"border-natural-hover-dark dark:border-silver-indicator-alt-light [&:not(.active-tab)_.tab-trigger]:border-natural-hover-dark dark:[&:not(.active-tab)_.tab-trigger]:border-silver-indicator-alt-light\",\n        @variant == \"base\" &&\n          \"border-base-border-light dark:border-base-border-dark [&:not(.active-tab)_.tab-trigger]:border-base-border-light dark:[&:not(.active-tab)_.tab-trigger]:border-base-border-dark\"\n      ]}\n    >\n      <button\n        :for={{tab, index} <- Enum.with_index(@tab, 1)}\n        id={\"#{@id}-tab-header-#{index}\"}\n        phx-show-tab={hide_tab(@id, length(@tab)) |> show_tab(@id, index)}\n        phx-click={\n          if is_nil(tab[:on_select]) do\n            JS.exec(\"phx-show-tab\", to: \"##{@id}-tab-header-#{index}\")\n          else\n            tab[:on_select]\n          end\n        }\n        role=\"tab\"\n        aria-selected={@active_index == index}\n        aria-controls={\"#{@id}-tab-panel-#{index}\"}\n        tabindex={@active_index == index && \"0\" || \"-1\"}\n        class={[\n          \"tab-trigger flex flex-row flex-nowrap items-center gap-1.5 leading-5\",\n          \"transition-all duration-400 delay-100 cursor-pointer disabled:opacity-80\",\n          \"shrink-0\",\n          @active_index == index && \"active-tab\",\n          tab[:icon_position] == \"end\" && tab[:badge_position] == \"end\" && \"flex-row-reverse\",\n          tab[:class]\n        ]}\n      >\n        <.component component_name=\"chelekom-icon\" site={assigns[:site]} :if={tab[:icon]} name={tab[:icon]} class=\"tab-icon\" />\n        <.component component_name=\"chelekom-badge\" site={assigns[:site]}\n          :if={tab[:badge]}\n          variant={tab[:badge_variant] || \"default\"}\n          color={tab[:badge_color] || \"natural\"}\n          size={tab[:badge_size] || \"extra_small\"}\n          rounded=\"full\"\n          circle\n        >\n          {tab[:badge]}\n        </.component>\n        <span class=\"block tab-button_content\">\n          {render_slot(tab)}\n        </span>\n      </button>\n    </div>\n  </.component>\n\n  <div\n    :if={!@scrollable}\n    role=\"tablist\"\n    tabindex=\"0\"\n    class={[\n      \"tab-trigger-list flex flex-col shrink-0 text-natural-light dark:text-natural-dark\",\n      @variant == \"default\" &&\n        \"border-natural-hover-dark dark:border-silver-indicator-alt-light [&:not(.active-tab)_.tab-trigger]:border-natural-hover-dark dark:[&:not(.active-tab)_.tab-trigger]:border-silver-indicator-alt-light\",\n      @variant == \"base\" &&\n        \"border-base-border-light dark:border-base-border-dark [&:not(.active-tab)_.tab-trigger]:border-base-border-light dark:[&:not(.active-tab)_.tab-trigger]:border-base-border-dark\"\n    ]}\n  >\n    <button\n      :for={{tab, index} <- Enum.with_index(@tab, 1)}\n      id={\"#{@id}-tab-header-#{index}\"}\n      phx-show-tab={hide_tab(@id, length(@tab)) |> show_tab(@id, index)}\n      phx-click={\n        if is_nil(tab[:on_select]) do\n          JS.exec(\"phx-show-tab\", to: \"##{@id}-tab-header-#{index}\")\n        else\n          tab[:on_select]\n        end\n      }\n      role=\"tab\"\n      aria-selected={@active_index == index}\n      aria-controls={\"#{@id}-tab-panel-#{index}\"}\n      tabindex={@active_index == index && \"0\" || \"-1\"}\n      class={[\n        \"tab-trigger flex flex-row flex-nowrap items-center gap-1.5 leading-5\",\n        \"transition-all duration-400 delay-100 cursor-pointer disabled:opacity-80\",\n        @active_index == index && \"active-tab\",\n        tab[:icon_position] == \"end\" && tab[:badge_position] == \"end\" && \"flex-row-reverse\",\n        tab[:class]\n      ]}\n    >\n      <.component component_name=\"chelekom-icon\" site={assigns[:site]} :if={tab[:icon]} name={tab[:icon]} class=\"tab-icon\" />\n      <.component component_name=\"chelekom-badge\" site={assigns[:site]}\n        :if={tab[:badge]}\n        variant={tab[:badge_variant] || \"default\"}\n        color={tab[:badge_color] || \"natural\"}\n        size={tab[:badge_size] || \"extra_small\"}\n        rounded=\"full\"\n        circle\n      >\n        {tab[:badge]}\n      </.component>\n      <span class=\"block tab-button_content\">\n        {render_slot(tab)}\n      </span>\n    </button>\n  </div>\n\n  <div class=\"ms-2 flex-1\">\n    <div\n      :for={{panel, index} <- Enum.with_index(@panel, 1)}\n      id={\"#{@id}-tab-panel-#{index}\"}\n      role=\"tabpanel\"\n      aria-labelledby={\"#{@id}-tab-header-#{index}\"}\n      class={[\n        \"tab-content\",\n        @active_index == index && \"active-tab-panel\",\n        \"[&:not(.active-tab-panel)]:hidden [&:not(.active-tab-panel)]:opacity-0 [&:not(.active-tab-panel)]:invisible\",\n        \"[&.active-tab-panel]:block [&.active-tab-panel]:opacity-100 [&.active-tab-panel]:visible\",\n        panel[:class]\n      ]}\n    >\n      {render_slot(panel)}\n    </div>\n  </div>\n</div>\n"
           },
           {
             "body": "active_index = Enum.find_index(assigns.tab, &Map.get(&1, :active)) || 0\nassigns = assign(assigns, :active_index, active_index + 1)",
+            "delegates": false,
             "guard": null,
             "match": null,
             "template": "<div\n  id={@id}\n  class={[\n    \"horizontal-tab dark:text-gray-200\",\n    content_position(@triggers_position),\n    @variant == \"default\" || (@variant == \"base\" && tab_border(@tab_border_size, @vertical)),\n    @hide_list_border && \"no-border-tabs-list [&_.tab-trigger]:flex-1\",\n    @full_width_tab && \"[&_.tab-trigger]:flex-1\",\n    color_variant(@variant, @color),\n    rounded_size(@rounded, @variant),\n    padding_size(@padding),\n    content_padding(@content_padding),\n    border_class(@border),\n    size_class(@size),\n    gap_size(@gap),\n    @font_weight,\n    @class\n  ]}\n  {@rest}\n>\n  <.component component_name=\"chelekom-scroll-area\" site={assigns[:site]}\n    :if={@scrollable}\n    id={\"#{@id}-trigger-scroll\"}\n    horizontal\n    type=\"never\"\n    height=\"h-fit\"\n    width=\"w-full\"\n    padding=\"none\"\n  >\n    <div\n      role=\"tablist\"\n      tabindex=\"0\"\n      class={[\n        \"tab-trigger-list flex flex-nowrap\",\n        @variant == \"nav_pills\" && \"tab-nav-pills bg-base-tab-bg-light dark:bg-base-border-dark\",\n        @variant == \"nav_pills\" && !@full_width_tab && \"w-fit\"\n      ]}\n    >\n      <button\n        :for={{tab, index} <- Enum.with_index(@tab, 1)}\n        id={\"#{@id}-tab-header-#{index}\"}\n        phx-click={\n          if is_nil(tab[:on_select]) do\n            hide_tab(@id, length(@tab)) |> show_tab(@id, index)\n          else\n            tab[:on_select]\n          end\n        }\n        role=\"tab\"\n        aria-selected={@active_index == index}\n        aria-controls={\"#{@id}-tab-panel-#{index}\"}\n        tabindex={@active_index == index && \"0\" || \"-1\"}\n        class={[\n          \"tab-trigger flex flex-row flex-nowrap justify-center items-center gap-1.5 leading-5\",\n          \"transition-all duration-400 delay-100 cursor-pointer disabled:opacity-80\",\n          \"shrink-0\",\n          @active_index == index && \"active-tab\",\n          tab[:icon_position] == \"end\" && tab[:badge_position] == \"end\" && \"flex-row-reverse\",\n          tab[:class]\n        ]}\n      >\n        <.component component_name=\"chelekom-icon\" site={assigns[:site]} :if={tab[:icon]} name={tab[:icon]} class=\"tab-icon\" />\n        <.component component_name=\"chelekom-badge\" site={assigns[:site]}\n          :if={tab[:badge]}\n          variant={tab[:badge_variant] || \"default\"}\n          color={tab[:badge_color] || \"natural\"}\n          size={tab[:badge_size] || \"extra_small\"}\n          rounded=\"full\"\n          circle\n        >\n          {tab[:badge]}\n        </.component>\n        <span class=\"block tab-button_content\">\n          {render_slot(tab)}\n        </span>\n      </button>\n    </div>\n  </.component>\n\n  <div\n    :if={!@scrollable}\n    role=\"tablist\"\n    tabindex=\"0\"\n    class={[\n      \"tab-trigger-list flex flex-wrap\",\n      @variant == \"nav_pills\" && \"tab-nav-pills bg-base-tab-bg-light dark:bg-base-border-dark\",\n      @variant == \"nav_pills\" && !@full_width_tab && \"w-fit\"\n    ]}\n  >\n    <button\n      :for={{tab, index} <- Enum.with_index(@tab, 1)}\n      id={\"#{@id}-tab-header-#{index}\"}\n      phx-click={\n        if is_nil(tab[:on_select]) do\n          hide_tab(@id, length(@tab)) |> show_tab(@id, index)\n        else\n          tab[:on_select]\n        end\n      }\n      role=\"tab\"\n      aria-selected={@active_index == index}\n      aria-controls={\"#{@id}-tab-panel-#{index}\"}\n      tabindex={@active_index == index && \"0\" || \"-1\"}\n      class={[\n        \"tab-trigger flex flex-row flex-nowrap justify-center items-center gap-1.5 leading-5\",\n        \"transition-all duration-400 delay-100 cursor-pointer disabled:opacity-80\",\n        @active_index == index && \"active-tab\",\n        tab[:icon_position] == \"end\" && tab[:badge_position] == \"end\" && \"flex-row-reverse\",\n        tab[:class]\n      ]}\n    >\n      <.component component_name=\"chelekom-icon\" site={assigns[:site]} :if={tab[:icon]} name={tab[:icon]} class=\"tab-icon\" />\n      <.component component_name=\"chelekom-badge\" site={assigns[:site]}\n        :if={tab[:badge]}\n        variant={tab[:badge_variant] || \"default\"}\n        color={tab[:badge_color] || \"natural\"}\n        size={tab[:badge_size] || \"extra_small\"}\n        rounded=\"full\"\n        circle\n      >\n        {tab[:badge]}\n      </.component>\n      <span class=\"block tab-button_content\">\n        {render_slot(tab)}\n      </span>\n    </button>\n  </div>\n\n  <div class=\"mt-2\">\n    <div\n      :for={{panel, index} <- Enum.with_index(@panel, 1)}\n      id={\"#{@id}-tab-panel-#{index}\"}\n      aria-labelledby={\"#{@id}-tab-header-#{index}\"}\n      role=\"tabpanel\"\n      class={[\n        \"tab-content w-full\",\n        @active_index == index && \"active-tab-panel\",\n        \"[&:not(.active-tab-panel)]:hidden [&:not(.active-tab-panel)]:opacity-0 [&:not(.active-tab-panel)]:invisible\",\n        \"[&.active-tab-panel]:block [&.active-tab-panel]:opacity-100 [&.active-tab-panel]:visible\",\n        panel[:class]\n      ]}\n    >\n      {render_slot(panel)}\n    </div>\n  </div>\n</div>\n"
@@ -20663,13 +20665,22 @@
       "extra": {
         "clauses": [
           {
+            "body": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn -> field.name end)\n|> assign_new(:value, fn -> field.value end)",
+            "delegates": true,
+            "guard": null,
+            "match": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
+            "template": null
+          },
+          {
             "body": null,
+            "delegates": false,
             "guard": "floating in [\"inner\", \"outer\"]",
             "match": "%{floating: floating} = assigns",
             "template": "<div class={[\n  color_variant(@variant, @color, @floating),\n  rounded_size(@rounded),\n  border_class(@border, @variant),\n  size_class(@size),\n  space_class(@space),\n  @ring && \"[&_.date-time-field-wrapper]:focus-within:ring-[0.03rem] leading-6\",\n  @class\n]}>\n  <div :if={@description} class={@description_class}>\n    {@description}\n  </div>\n\n  <div class={[\n    \"date-time-field-wrapper transition-all ease-in-out duration-200 w-full flex flex-nowrap\",\n    @errors != [] && \"date-time-field-error\",\n    @field_wrapper_class\n  ]}>\n    <div\n      :if={@start_section}\n      class={[\n        \"flex items-center justify-center shrink-0 ps-2\",\n        @start_section[:class]\n      ]}\n    >\n      {render_slot(@start_section)}\n    </div>\n    <div class=\"relative w-full z-[2]\">\n      <input\n        type={@type}\n        name={@name}\n        id={@id}\n        value={@value}\n        class={[\n          \"disabled:opacity-80 block w-full z-[2] focus:ring-0 placeholder:text-transparent pb-1 pt-2.5 px-2\",\n          \"text-[16px] sm:font-inherit appearance-none bg-transparent border-0 focus:outline-none peer\",\n          @input_class\n        ]}\n        placeholder=\" \"\n        {@rest}\n      />\n\n      <label\n        :if={@label}\n        class={[\n          \"floating-label px-1 start-1 -z-[1] absolute text-xs duration-300 transform scale-75 origin-[0]\",\n          variant_label_position(@floating),\n          @floating_label_class\n        ]}\n        for={@id}\n      >\n        {@label}\n      </label>\n    </div>\n\n    <div\n      :if={@end_section}\n      class={[\"flex items-center justify-center shrink-0 pe-2\", @end_section[:class]]}\n    >\n      {render_slot(@end_section)}\n    </div>\n  </div>\n\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors} icon={@error_icon}>{msg}</.component>\n</div>\n"
           },
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": null,
             "template": "<div class={[\n  color_variant(@variant, @color, @floating),\n  rounded_size(@rounded),\n  border_class(@border, @variant),\n  size_class(@size),\n  space_class(@space),\n  @ring && \"[&_.date-time-field-wrapper]:focus-within:ring-[0.03rem] leading-6\",\n  @class\n]}>\n  <div\n    :if={@label || @description}\n    class={[\"date-time-label-wrapper\", @description_wrapper_class]}\n  >\n    <.component component_name=\"chelekom-label\" site={assigns[:site]} :if={@label} for={@id} class={@label_class}>{@label}</.component>\n    <div :if={@description} class={@description_class}>\n      {@description}\n    </div>\n  </div>\n\n  <div class={[\n    \"date-time-field-wrapper overflow-hidden transition-all ease-in-out duration-200 flex items-center flex-nowrap\",\n    @errors != [] && \"date-time-field-error\",\n    @field_wrapper_class\n  ]}>\n    <div\n      :if={@start_section}\n      class={[\n        \"flex items-center justify-center shrink-0 ps-2\",\n        @start_section[:class]\n      ]}\n    >\n      {render_slot(@start_section)}\n    </div>\n\n    <input\n      type={@type}\n      name={@name}\n      id={@id}\n      value={@value}\n      placeholder={@placeholder}\n      class={[\n        \"flex-1 py-1 px-2 text-sm disabled:opacity-80 block w-full appearance-none\",\n        \"bg-transparent border-0 focus:outline-none focus:ring-0\",\n        @input_class\n      ]}\n      {@rest}\n    />\n\n    <div\n      :if={@end_section}\n      class={[\"flex items-center justify-center shrink-0 pe-2\", @end_section[:class]]}\n    >\n      {render_slot(@end_section)}\n    </div>\n  </div>\n\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors} icon={@error_icon}>{msg}</.component>\n</div>\n"
@@ -20864,14 +20875,6 @@
       },
       "format": "heex",
       "helpers": [
-        {
-          "args": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
-          "attrs": [],
-          "code": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn -> field.name end)\n|> assign_new(:value, fn -> field.value end)\n|> date_time_field()",
-          "discriminators": [],
-          "name": "date_time_field",
-          "slots": []
-        },
         {
           "args": "assigns",
           "attrs": [
@@ -29909,13 +29912,22 @@
       "extra": {
         "clauses": [
           {
+            "body": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn -> field.name end)\n|> assign_new(:value, fn -> field.value end)",
+            "delegates": true,
+            "guard": null,
+            "match": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
+            "template": null
+          },
+          {
             "body": null,
+            "delegates": false,
             "guard": "floating in [\"inner\", \"outer\"]",
             "match": "%{floating: floating} = assigns",
             "template": "<div class={[\n  color_variant(@variant, @color, @floating),\n  rounded_size(@rounded),\n  border_class(@border, @variant),\n  size_class(@size),\n  space_class(@space),\n  @ring && \"[&_.text-field-wrapper]:focus-within:ring-[0.03rem] leading-6\",\n  @class\n]}>\n  <div :if={@description} class={@description_class}>\n    {@description}\n  </div>\n  <div class={[\n    \"text-field-wrapper transition-all ease-in-out duration-200 w-full flex flex-nowrap\",\n    @errors != [] && \"text-field-error\",\n    @field_wrapper_class\n  ]}>\n    <div\n      :if={@start_section}\n      class={[\n        \"flex items-center justify-center shrink-0 ps-2\",\n        @start_section[:class]\n      ]}\n    >\n      {render_slot(@start_section)}\n    </div>\n    <div class=\"relative w-full z-[2]\">\n      <input\n        type=\"text\"\n        name={@name}\n        id={@id}\n        value={@value}\n        class={[\n          \"disabled:opacity-80 block w-full z-[2] focus:ring-0 placeholder:text-transparent pb-1 pt-2.5 px-2\",\n          \"text-[16px] sm:font-inherit appearance-none bg-transparent border-0 focus:outline-none peer\",\n          @input_class\n        ]}\n        placeholder=\" \"\n        {@rest}\n      />\n\n      <label\n        :if={@label}\n        class={[\n          \"floating-label px-1 start-1 -z-[1] absolute text-xs duration-300 transform scale-75 origin-[0]\",\n          variant_label_position(@floating),\n          @floating_label_class\n        ]}\n        for={@id}\n      >\n        {@label}\n      </label>\n    </div>\n\n    <div\n      :if={@end_section}\n      class={[\"flex items-center justify-center shrink-0 pe-2\", @end_section[:class]]}\n    >\n      {render_slot(@end_section)}\n    </div>\n  </div>\n\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors} icon={@error_icon}>{msg}</.component>\n</div>\n"
           },
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": null,
             "template": "<div class={[\n  color_variant(@variant, @color, @floating),\n  rounded_size(@rounded),\n  border_class(@border, @variant),\n  size_class(@size),\n  space_class(@space),\n  @ring && \"[&_.text-field-wrapper]:focus-within:ring-[0.03rem] leading-6\",\n  @class\n]}>\n  <div\n    :if={@label || @description}\n    class={[\"text-label-wrapper\", @description_wrapper_class]}\n  >\n    <.component component_name=\"chelekom-label\" site={assigns[:site]} :if={@label} for={@id} class={@label_class}>{@label}</.component>\n    <div :if={@description} class={@description_class}>\n      {@description}\n    </div>\n  </div>\n\n  <div class={[\n    \"text-field-wrapper overflow-hidden transition-all ease-in-out duration-200 flex items-center flex-nowrap\",\n    @errors != [] && \"text-field-error\",\n    @field_wrapper_class\n  ]}>\n    <div\n      :if={@start_section}\n      class={[\n        \"flex items-center justify-center shrink-0 ps-2\",\n        @start_section[:class]\n      ]}\n    >\n      {render_slot(@start_section)}\n    </div>\n\n    <input\n      type=\"text\"\n      name={@name}\n      id={@id}\n      value={@value}\n      placeholder={@placeholder}\n      class={[\n        \"flex-1 py-1 px-2 text-sm disabled:opacity-80 block w-full appearance-none\",\n        \"bg-transparent border-0 focus:outline-none focus:ring-0\",\n        @input_class\n      ]}\n      {@rest}\n    />\n\n    <div\n      :if={@end_section}\n      class={[\"flex items-center justify-center shrink-0 pe-2\", @end_section[:class]]}\n    >\n      {render_slot(@end_section)}\n    </div>\n  </div>\n\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors} icon={@error_icon}>{msg}</.component>\n</div>\n"
@@ -31137,14 +31149,6 @@
       },
       "format": "heex",
       "helpers": [
-        {
-          "args": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
-          "attrs": [],
-          "code": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn -> field.name end)\n|> assign_new(:value, fn -> field.value end)\n|> text_field()",
-          "discriminators": [],
-          "name": "text_field",
-          "slots": []
-        },
         {
           "args": "assigns",
           "attrs": [
@@ -46146,13 +46150,22 @@
       "extra": {
         "clauses": [
           {
+            "body": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id || random_id())\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn -> field.name end)\n|> assign_new(:value, fn -> field.value end)",
+            "delegates": true,
+            "guard": null,
+            "match": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
+            "template": null
+          },
+          {
             "body": "assigns = assign(assigns, field: nil, id: assigns.id || random_id() <> \"-password-field\")",
+            "delegates": false,
             "guard": "floating in [\"inner\", \"outer\"]",
             "match": "%{floating: floating} = assigns",
             "template": "<div class={[\n  color_variant(@variant, @color, @floating),\n  rounded_size(@rounded),\n  border_class(@border, @variant),\n  size_class(@size),\n  space_class(@space),\n  @ring && \"[&_.password-field-wrapper]:focus-within:ring-[0.03rem] leading-6\",\n  @class\n]}>\n  <div :if={@description} class={@description_class}>\n    {@description}\n  </div>\n  <div class={[\n    \"password-field-wrapper transition-all ease-in-out duration-200 w-full flex flex-nowrap\",\n    @errors != [] && \"password-field-error\",\n    @field_wrapper_class\n  ]}>\n    <div\n      :if={@start_section}\n      class={[\n        \"flex items-center justify-center shrink-0 ps-2\",\n        @start_section[:class]\n      ]}\n    >\n      {render_slot(@start_section)}\n    </div>\n    <div class=\"relative w-full z-[2]\">\n      <input\n        type=\"password\"\n        name={@name}\n        id={@id}\n        value={@value}\n        placeholder=\" \"\n        class={[\n          \"disabled:opacity-80 block w-full z-[2] focus:ring-0 placeholder:text-transparent pb-1 pt-2.5 px-2\",\n          \"text-[16px] sm:font-inherit appearance-none bg-transparent border-0 focus:outline-none peer\",\n          @input_class\n        ]}\n        {@rest}\n      />\n\n      <label\n        :if={@label}\n        class={[\n          \"floating-label px-1 start-1 -z-[1] absolute text-xs duration-300 transform scale-75 origin-[0]\",\n          variant_label_position(@floating),\n          @floating_label_class\n        ]}\n        for={@id}\n      >\n        {@label}\n      </label>\n    </div>\n\n    <div\n      :if={@end_section}\n      class={[\"flex items-center justify-center shrink-0 pe-2\", @end_section[:class]]}\n    >\n      {render_slot(@end_section)}\n    </div>\n    <div :if={@show_password} class={[\"flex items-center justify-center shrink-0 pe-2\", @show_pass_class]}>\n      <button\n        class=\"leading-6 focus:outline-none\"\n        phx-click={\n          JS.toggle_class(\"hero-eye-slash password-field-icon\")\n          |> JS.toggle_attribute({\"type\", \"password\", \"text\"}, to: \"##{@id}\")\n        }\n      >\n        <.component component_name=\"chelekom-icon\" site={assigns[:site]} name=\"hero-eye\" class=\"password-field-icon\" />\n      </button>\n    </div>\n  </div>\n\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors} icon={@error_icon}>{msg}</.component>\n</div>\n"
           },
           {
             "body": "assigns = assign(assigns, field: nil, id: assigns.id || random_id() <> \"-password-field\")",
+            "delegates": false,
             "guard": null,
             "match": null,
             "template": "<div class={[\n  color_variant(@variant, @color, @floating),\n  rounded_size(@rounded),\n  border_class(@border, @variant),\n  size_class(@size),\n  space_class(@space),\n  @ring && \"[&_.password-field-wrapper]:focus-within:ring-[0.03rem] leading-6\",\n  @class\n]}>\n  <div :if={@label || @description} class={[\"password-label-wrapper\", @description_wrapper_class]}>\n    <.component component_name=\"chelekom-label\" site={assigns[:site]} :if={@label} for={@id} class={@label_class}>{@label}</.component>\n    <div :if={@description} class={@description_class}>\n      {@description}\n    </div>\n  </div>\n\n  <div class={[\n    \"password-field-wrapper overflow-hidden transition-all ease-in-out duration-200 flex items-center flex-nowrap\",\n    @errors != [] && \"password-field-error\",\n    @field_wrapper_class\n  ]}>\n    <div\n      :if={@start_section}\n      class={[\n        \"flex items-center justify-center shrink-0 ps-2\",\n        @start_section[:class]\n      ]}\n    >\n      {render_slot(@start_section)}\n    </div>\n\n    <input\n      type=\"password\"\n      name={@name}\n      id={@id}\n      value={@value}\n      placeholder={@placeholder}\n      class={[\n        \"flex-1 py-1 px-2 text-sm disabled:opacity-80 block w-full appearance-none\",\n        \"bg-transparent border-0 focus:outline-none focus:ring-0\",\n        @input_class\n      ]}\n      {@rest}\n    />\n\n    <div\n      :if={@end_section}\n      class={[\"flex items-center justify-center shrink-0 pe-2\", @end_section[:class]]}\n    >\n      {render_slot(@end_section)}\n    </div>\n    <div\n      :if={@show_password}\n      class={[\"flex items-center justify-center shrink-0 pe-2\", @show_pass_class]}\n    >\n      <button\n        class=\"leading-6 focus:outline-none\"\n        phx-click={\n          JS.toggle_class(\"hero-eye-slash password-field-icon\")\n          |> JS.toggle_attribute({\"type\", \"password\", \"text\"}, to: \"##{@id}\")\n        }\n      >\n        <.component component_name=\"chelekom-icon\" site={assigns[:site]} name=\"hero-eye\" class=\"password-field-icon\" />\n      </button>\n    </div>\n  </div>\n\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors} icon={@error_icon}>{msg}</.component>\n</div>\n"
@@ -46323,14 +46336,6 @@
       },
       "format": "heex",
       "helpers": [
-        {
-          "args": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
-          "attrs": [],
-          "code": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id || random_id())\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn -> field.name end)\n|> assign_new(:value, fn -> field.value end)\n|> password_field()",
-          "discriminators": [],
-          "name": "password_field",
-          "slots": []
-        },
         {
           "args": "assigns",
           "attrs": [
@@ -48193,13 +48198,22 @@
       "extra": {
         "clauses": [
           {
+            "body": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn -> field.name end)\n|> assign_new(:value, fn -> field.value end)",
+            "delegates": true,
+            "guard": null,
+            "match": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
+            "template": null
+          },
+          {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": "%{appearance: \"default\"} = assigns",
             "template": "<div class={[\n  width_class(@width),\n  @class\n]}>\n  <.component component_name=\"chelekom-label\" site={assigns[:site]} :if={@label} for={@id}>{@label}</.component>\n  <div class=\"relative mb-8\">\n    <input type=\"range\" value={@value} name={@name} id={@id} class={[\"w-full\", color_class(@appearance, @color)]} {@rest} />\n    <span\n      :for={{range_value, index} <- Enum.with_index(@range_value, 1)}\n      id={\"#{@id}-value-#{index}\"}\n      class={[\n        \"absolute block -bottom-6 text-sm\",\n        value_position(range_value[:position]),\n        range_value[:class]\n      ]}\n    >\n      {render_slot(range_value)}\n    </span>\n  </div>\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors} icon={@error_icon}>{msg}</.component>\n</div>\n"
           },
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": null,
             "template": "<div class={[\n  color_class(@appearance, @color),\n  size_class(@size),\n  width_class(@width),\n  @class\n]}>\n  <.component component_name=\"chelekom-label\" site={assigns[:site]} :if={@label} for={@id}>{@label}</.component>\n  <div class=\"relative mb-8\">\n    <input\n      type=\"range\"\n      value={@value}\n      name={@name}\n      id={@id}\n      class={[\n        \"range-field bg-transparent cursor-pointer appearance-none disabled:opacity-50\",\n        \"disabled:pointer-events-none focus:outline-none\",\n        \"[&::-webkit-slider-runnable-track]:w-full [&::-webkit-slider-thumb]:rounded-full\",\n        \"[&::-webkit-slider-runnable-track]:bg-natural-disabled-light dark:[&::-webkit-slider-runnable-track]:bg-silver-bordered-bg-dark\",\n        \"[&::-webkit-slider-thumb]:bg-natural-disabled-light dark:[&::-webkit-slider-thumb]:bg-silver-bordered-bg-dark\",\n        \"[&::-webkit-slider-thumb]:-mt-0.5 [&::-webkit-slider-thumb]:appearance-none\",\n        \"[&::-webkit-slider-thumb]:transition-all [&::-webkit-slider-thumb]:duration-200 [&::-webkit-slider-thumb]:ease-in-out\",\n        \"[&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:bg-white\",\n        \"[&::-moz-range-thumb]:border-4 [&::-moz-range-thumb]:rounded-full\",\n        \"[&::-moz-range-thumb]:transition-all [&::-moz-range-thumb]:duration-200 [&::-moz-range-thumb]:ease-in-out\",\n        \"[&::-webkit-slider-runnable-track]:rounded-full [&::-moz-range-track]:w-full\",\n        \"[&::-moz-range-track]:bg-range-light-gray [&::-moz-range-track]:rounded-full\"\n      ]}\n      {@rest}\n    />\n    <span\n      :for={{range_value, index} <- Enum.with_index(@range_value, 1)}\n      id={\"#{@id}-value-#{index}\"}\n      class={[\n        \"absolute block -bottom-6 text-sm\",\n        value_position(range_value[:position]),\n        range_value[:class]\n      ]}\n    >\n      {render_slot(range_value)}\n    </span>\n  </div>\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors} icon={@error_icon}>{msg}</.component>\n</div>\n"
@@ -48598,14 +48612,6 @@
       },
       "format": "heex",
       "helpers": [
-        {
-          "args": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
-          "attrs": [],
-          "code": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn -> field.name end)\n|> assign_new(:value, fn -> field.value end)\n|> range_field()",
-          "discriminators": [],
-          "name": "range_field",
-          "slots": []
-        },
         {
           "args": "assigns",
           "attrs": [
@@ -49806,54 +49812,63 @@
         "clauses": [
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": "%{rest: %{top_left: true}} = assigns",
             "template": "<span\n  id={@id}\n  class={[\n    indicator_size(@size),\n    color_class(@color),\n    \"indicator block rounded-full absolute -translate-y-1/2 -translate-x-1/2 right-auto top-0 left-0 indicator-top-left\",\n    !is_nil(@rest[:pinging]) && \"animate-ping\",\n    @class\n  ]}\n  {drop_rest(@rest)}\n/>\n"
           },
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": "%{rest: %{top_center: true}} = assigns",
             "template": "<span\n  id={@id}\n  class={[\n    indicator_size(@size),\n    color_class(@color),\n    \"indicator block rounded-full absolute top-0 -translate-y-1/2 translate-x-1/2 right-1/2\",\n    !is_nil(@rest[:pinging]) && \"animate-ping\",\n    @class\n  ]}\n  {drop_rest(@rest)}\n/>\n"
           },
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": "%{rest: %{top_right: true}} = assigns",
             "template": "<span\n  id={@id}\n  class={[\n    indicator_size(@size),\n    color_class(@color),\n    \"indicator block rounded-full absolute -translate-y-1/2 translate-x-1/2 left-auto top-0 right-0 indicator-top-right\",\n    !is_nil(@rest[:pinging]) && \"animate-ping\",\n    @class\n  ]}\n  {drop_rest(@rest)}\n/>\n"
           },
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": "%{rest: %{middle_left: true}} = assigns",
             "template": "<span\n  id={@id}\n  class={[\n    indicator_size(@size),\n    color_class(@color),\n    \"indicator block rounded-full absolute -translate-y-1/2 -translate-x-1/2 right-auto left-0 top-2/4\",\n    !is_nil(@rest[:pinging]) && \"animate-ping\",\n    @class\n  ]}\n  {drop_rest(@rest)}\n/>\n"
           },
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": "%{rest: %{middle_right: true}} = assigns",
             "template": "<span\n  id={@id}\n  class={[\n    indicator_size(@size),\n    color_class(@color),\n    \"indicator block rounded-full absolute -translate-y-1/2 translate-x-1/2 left-auto right-0 top-2/4\",\n    !is_nil(@rest[:pinging]) && \"animate-ping\",\n    @class\n  ]}\n  {drop_rest(@rest)}\n/>\n"
           },
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": "%{rest: %{bottom_left: true}} = assigns",
             "template": "<span\n  id={@id}\n  class={[\n    indicator_size(@size),\n    color_class(@color),\n    \"indicator block rounded-full absolute translate-y-1/2 -translate-x-1/2 right-auto bottom-0 left-0 indicator-bottom-left\",\n    !is_nil(@rest[:pinging]) && \"animate-ping\",\n    @class\n  ]}\n  {drop_rest(@rest)}\n/>\n"
           },
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": "%{rest: %{bottom_center: true}} = assigns",
             "template": "<span\n  id={@id}\n  class={[\n    indicator_size(@size),\n    color_class(@color),\n    \"indicator block rounded-full absolute translate-y-1/2 translate-x-1/2 bottom-0 right-1/2\",\n    !is_nil(@rest[:pinging]) && \"animate-ping\",\n    @class\n  ]}\n  {drop_rest(@rest)}\n/>\n"
           },
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": "%{rest: %{bottom_right: true}} = assigns",
             "template": "<span\n  id={@id}\n  class={[\n    indicator_size(@size),\n    color_class(@color),\n    \"indicator block rounded-full absolute translate-y-1/2 translate-x-1/2 left-auto bottom-0 right-0 indicator-bottom-right\",\n    !is_nil(@rest[:pinging]) && \"animate-ping\",\n    @class\n  ]}\n  {drop_rest(@rest)}\n/>\n"
           },
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": null,
             "template": "<span\n  id={@id}\n  class={[\n    indicator_size(@size),\n    color_class(@color),\n    \"block indicator rounded-full\",\n    !is_nil(@rest[:pinging]) && \"animate-ping\",\n    @class\n  ]}\n  {drop_rest(@rest)}\n/>\n"
@@ -53123,6 +53138,7 @@
         {
           "name": "on_select",
           "opts": {
+            "default_struct": true,
             "doc": "Custom JS module for on_select action"
           },
           "struct_name": "Phoenix.LiveView.JS",
@@ -53131,6 +53147,7 @@
         {
           "name": "on_first",
           "opts": {
+            "default_struct": true,
             "doc": "Custom JS module for on_first action"
           },
           "struct_name": "Phoenix.LiveView.JS",
@@ -53139,6 +53156,7 @@
         {
           "name": "on_last",
           "opts": {
+            "default_struct": true,
             "doc": "Custom JS module for on_last action"
           },
           "struct_name": "Phoenix.LiveView.JS",
@@ -53147,6 +53165,7 @@
         {
           "name": "on_next",
           "opts": {
+            "default_struct": true,
             "doc": "Custom JS module for on_next action"
           },
           "struct_name": "Phoenix.LiveView.JS",
@@ -53155,6 +53174,7 @@
         {
           "name": "on_previous",
           "opts": {
+            "default_struct": true,
             "doc": "Custom JS module for on_previous action"
           },
           "struct_name": "Phoenix.LiveView.JS",
@@ -55317,6 +55337,7 @@
             {
               "name": "on_action",
               "opts": {
+                "default_struct": true,
                 "doc": "Custom JS module for on_action action"
               },
               "struct_name": "Phoenix.LiveView.JS",
@@ -67887,6 +67908,7 @@
         {
           "name": "on_hide",
           "opts": {
+            "default_struct": true,
             "doc": "Custom JS module for on_hide action"
           },
           "struct_name": "Phoenix.LiveView.JS",
@@ -67895,6 +67917,7 @@
         {
           "name": "on_show",
           "opts": {
+            "default_struct": true,
             "doc": "Custom JS module for on_show action"
           },
           "struct_name": "Phoenix.LiveView.JS",
@@ -67903,6 +67926,7 @@
         {
           "name": "on_hide_away",
           "opts": {
+            "default_struct": true,
             "doc": "Custom JS module for on_hide_away action"
           },
           "struct_name": "Phoenix.LiveView.JS",
@@ -89072,12 +89096,14 @@
         "clauses": [
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": "%{variation: \"vertical\"} = assigns",
             "template": "<div\n  id={@id}\n  role=\"separator\"\n  aria-orientation=\"vertical\"\n  class={[\n    color_class(@color, @position),\n    height_class(@height),\n    border_type_class(@type, :vertical, \"\"),\n    size_class(@size, :vertical, @position),\n    margin_class(@margin, :vertical),\n    @class\n  ]}\n  {@rest}\n>\n  <div\n    :for={text <- @text}\n    aria-hidden=\"true\"\n    class={[\n      \"divider-content whitespace-nowrap\",\n      text[:color],\n      text[:class] || \"bg-transparent\",\n      text_position(:divider, @position),\n      text[:size]\n    ]}\n  >\n    {render_slot(text)}\n  </div>\n</div>\n"
           },
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": null,
             "template": "<div\n  id={@id}\n  role=\"separator\"\n  aria-orientation=\"horizontal\"\n  class={[\n    default_classes(@position),\n    color_class(@color, @position),\n    width_class(@width),\n    border_type_class(@type, :horizontal, @position),\n    size_class(@size, :horizontal, @position),\n    margin_class(@margin, :horizontal),\n    @class\n  ]}\n  {@rest}\n>\n  <div\n    :for={icon <- @icon}\n    aria-hidden=\"true\"\n    class={[\n      \"divider-content whitespace-nowrap\",\n      icon[:size],\n      icon[:color],\n      icon[:class] || \"bg-transparent\",\n      text_position(:divider, @position)\n    ]}\n  >\n    <.component component_name=\"chelekom-icon\" site={assigns[:site]} name={icon[:name]} class={icon[:icon_class] || size_class(@size, :icon, \"\")} />\n  </div>\n\n  <div\n    :for={text <- @text}\n    aria-hidden=\"true\"\n    class={[\n      \"divider-content whitespace-nowrap\",\n      text[:color],\n      text[:class] || \"bg-transparent\",\n      text_position(:divider, @position),\n      text[:size]\n    ]}\n  >\n    {render_slot(text)}\n  </div>\n</div>\n"
@@ -91840,36 +91866,42 @@
         "clauses": [
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": "%{type: \"watch\"} = assigns",
             "template": "<div class={[\"w-fit\", color_class(@color), @class]}>\n  <div class=\"mock-base relative mx-auto rounded-t-[2.5rem] h-[63px] max-w-[133px]\"></div>\n  <div class=\"mock-base relative mx-auto border-[10px] rounded-[2.5rem] h-[213px] w-[208px]\">\n    <div class=\"mock-base h-[41px] w-[6px] absolute -end-[16px] top-[40px] rounded-e-lg\"></div>\n    <div class=\"mock-base h-[32px] w-[6px] absolute -end-[16px] top-[88px] rounded-e-lg\"></div>\n    <div class=\"bg-white dark:bg-default-device-dark rounded-[2rem] overflow-hidden h-[193px] w-[188px]\">\n      <.component component_name=\"chelekom-image\" site={assigns[:site]}\n        :if={!is_nil(@image)}\n        class={@image_class || \"h-[193px] w-[188px]\"}\n        src={@image}\n        alt={@alt}\n      />\n      {render_slot(@inner_block)}\n    </div>\n  </div>\n  <div class=\"mock-base relative mx-auto rounded-b-[2.5rem] h-[63px] max-w-[133px]\"></div>\n</div>\n"
           },
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": "%{type: \"android\"} = assigns",
             "template": "<div class={[\"w-fit\", color_class(@color), @class]}>\n  <div class=\"mock-base relative mx-auto border-[14px] rounded-xl h-[600px] w-[300px] shadow-xl\">\n    <div class=\"mock-base w-[148px] h-[18px] top-0 rounded-b-[1rem] left-1/2 -translate-x-1/2 absolute\">\n    </div>\n    <div class=\"mock-base h-[32px] w-[3px] absolute -start-[17px] top-[72px] rounded-s-lg\"></div>\n    <div class=\"mock-base h-[46px] w-[3px] absolute -start-[17px] top-[124px] rounded-s-lg\"></div>\n    <div class=\"mock-base h-[46px] w-[3px] absolute -start-[17px] top-[178px] rounded-s-lg\"></div>\n    <div class=\"mock-base h-[64px] w-[3px] absolute -end-[17px] top-[142px] rounded-e-lg\"></div>\n    <div class=\"rounded overflow-hidden w-[272px] h-[572px] bg-white dark:bg-default-device-dark\">\n      <.component component_name=\"chelekom-image\" site={assigns[:site]}\n        :if={!is_nil(@image)}\n        class={@image_class || \"w-[272px] h-[572px]\"}\n        src={@image}\n        alt={@alt}\n      />\n      {render_slot(@inner_block)}\n    </div>\n  </div>\n</div>\n"
           },
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": "%{type: \"laptop\"} = assigns",
             "template": "<div class={[\"max-w-fit md:max-w-[512px]\", color_class(@color), @class]}>\n  <div class=\"mock-base relative mx-auto border-[8px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]\">\n    <div class=\"rounded overflow-hidden h-[156px] md:h-[278px] bg-white dark:bg-default-device-dark\">\n      <.component component_name=\"chelekom-image\" site={assigns[:site]}\n        :if={!is_nil(@image)}\n        class={@image_class || \"h-[140px] md:h-[262px] w-full\"}\n        src={@image}\n        alt={@alt}\n      />\n      {render_slot(@inner_block)}\n    </div>\n  </div>\n  <div class=\"mock-darker-base relative mx-auto rounded-b-xl rounded-t-sm h-[17px] max-w-[351px] md:h-[21px] md:max-w-[597px]\">\n    <div class=\"mock-base absolute left-1/2 top-0 -translate-x-1/2 rounded-b-xl w-[56px] h-[5px] md:w-[96px] md:h-[8px]\">\n    </div>\n  </div>\n</div>\n"
           },
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": "%{type: \"ipad\"} = assigns",
             "template": "<div class={[\"max-w-fit md:max-w-[512px]\", color_class(@color), @class]}>\n  <div class=\"mock-base relative mx-auto border-[14px] rounded-[2.5rem] h-[454px] max-w-[341px] md:h-[682px] md:max-w-[512px]\">\n    <div class=\"mock-base h-[32px] w-[3px] absolute -start-[17px] top-[72px] rounded-s-lg\"></div>\n    <div class=\"mock-base h-[46px] w-[3px] absolute -start-[17px] top-[124px] rounded-s-lg\"></div>\n    <div class=\"mock-base h-[46px] w-[3px] absolute -start-[17px] top-[178px] rounded-s-lg\"></div>\n    <div class=\"mock-base h-[64px] w-[3px] absolute -end-[17px] top-[142px] rounded-e-lg\"></div>\n    <div class=\"dark:bg-default-device-dark bg-white rounded-3xl overflow-hidden h-[426px] md:h-[654px]\">\n      <.component component_name=\"chelekom-image\" site={assigns[:site]}\n        :if={!is_nil(@image)}\n        class={@image_class || \"h-[426px] md:h-[654px]\"}\n        src={@image}\n        alt={@alt}\n      />\n      {render_slot(@inner_block)}\n    </div>\n  </div>\n</div>\n"
           },
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": "%{type: \"imac\"} = assigns",
             "template": "<div class={[\"max-w-fit md:max-w-[512px]\", color_class(@color), @class]}>\n  <div class=\"mock-base relative mx-auto border-[16px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]\">\n    <div class=\"overflow-hidden h-[140px] md:h-[262px] bg-white dark:bg-default-device-dark\">\n      <.component component_name=\"chelekom-image\" site={assigns[:site]}\n        :if={!is_nil(@image)}\n        class={@image_class || \"h-[140px] md:h-[262px] w-full\"}\n        src={@image}\n        alt={@alt}\n      />\n      {render_slot(@inner_block)}\n    </div>\n  </div>\n  <div class=\"mock-darker-base relative mx-auto rounded-b-xl h-[24px] max-w-[301px] md:h-[42px] md:max-w-[512px]\">\n  </div>\n  <div class=\"mock-base relative mx-auto rounded-b-xl h-[55px] max-w-[83px] md:h-[95px] md:max-w-[142px]\">\n  </div>\n</div>\n"
           },
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": null,
             "template": "<div class={[\"w-fit\", color_class(@color), @class]}>\n  <div class=\"mock-base relative mx-auto border-[14px] rounded-[2.5rem] h-[600px] w-[300px] shadow-xl\">\n    <div class=\"mock-base w-[148px] h-[18px] top-0 rounded-b-[1rem] left-1/2 -translate-x-1/2 absolute\">\n    </div>\n    <div class=\"mock-base h-[46px] w-[3px] absolute -start-[17px] top-[124px] rounded-s-lg\"></div>\n    <div class=\"mock-base h-[46px] w-[3px] absolute -start-[17px] top-[178px] rounded-s-lg\"></div>\n    <div class=\"mock-base h-[64px] w-[3px] absolute -end-[17px] top-[142px] rounded-e-lg\"></div>\n    <div class=\"bg-white dark:bg-default-device-dark rounded-3xl overflow-hidden w-[272px] h-[572px]\">\n      <.component component_name=\"chelekom-image\" site={assigns[:site]}\n        :if={!is_nil(@image)}\n        class={@image_class || \"w-[272px] h-[572px]\"}\n        src={@image}\n        alt={@alt}\n      />\n      {render_slot(@inner_block)}\n    </div>\n  </div>\n</div>\n"
@@ -97372,13 +97404,22 @@
       "extra": {
         "clauses": [
           {
+            "body": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn ->\n  if assigns.multiple do\n    field.name <> \"[]\"\n  else\n    field.name\n  end\nend)\n|> assign_new(:value, fn -> field.value end)",
+            "delegates": true,
+            "guard": null,
+            "match": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
+            "template": null
+          },
+          {
             "body": "assigns =\n  assigns\n  |> assign_new(:id, fn -> \"combo-#{random_id()}\" end)\n  |> assign_new(:name, fn -> nil end)\n  |> assign_new(:options, fn -> [] end)\n  |> assign_new(:option, fn -> [] end)\n  |> assign_new(:value, fn -> Map.get(assigns, :value, []) end)\n  |> then(fn a ->\n    if a.creatable do\n      assign(a, :searchable, true)\n    else\n      a\n    end\n  end)",
+            "delegates": false,
             "guard": null,
             "match": "%{multiple: true} = assigns",
             "template": "<div class={[\n  \"leading-5\",\n  border_class(@border, @variant),\n  color_variant(@variant, @color),\n  rounded_size(@rounded),\n  padding_size(@padding),\n  size_class(@size),\n  space_class(@space),\n  @class\n]}>\n  <div\n    :if={@label || @description}\n    class={[\"combobox-label-wrapper\", @description_wrapper_class]}\n  >\n    <.component component_name=\"chelekom-label\" site={assigns[:site]} :if={@label} for={@id} class={@label_class}>{@label}</.component>\n    <div :if={@description} class={@description_class}>\n      {@description}\n    </div>\n  </div>\n\n  <div\n    phx-hook=\"GlobalCombobox\"\n    data-multiple={@multiple}\n    data-creatable={@creatable || nil}\n    data-create-label={@create_label}\n    data-on-create={@on_create}\n    id={\"#{@id}-combo\"}\n  >\n    <input type=\"hidden\" name={@name} />\n    <select id={@id} name={@name} multiple class=\"combo-select hidden\" {@rest}>\n      <option value=\"\"></option>\n\n      <%= if Enum.empty?(@option) do %>\n        {Phoenix.HTML.Form.options_for_select(@options, @value)}\n      <% else %>\n        <optgroup\n          :for={{group_label, grouped_options} <- Enum.group_by(@option, & &1[:group])}\n          :if={!is_nil(group_label)}\n          label={group_label}\n        >\n          {Phoenix.HTML.Form.options_for_select(\n            Enum.map(grouped_options, fn option -> {option[:value], option[:value]} end),\n            @value\n          )}\n        </optgroup>\n\n        {!Enum.any?(@option, &Map.has_key?(&1, :group)) &&\n          Phoenix.HTML.Form.options_for_select(\n            Enum.map(@option, fn %{value: v} -> {v, v} end),\n            @value\n          )}\n      <% end %>\n    </select>\n\n    <div phx-update=\"ignore\" id={\"#{@id}-combo-wrapper\"} class=\"relative\">\n      <button\n        class=\"combobox-trigger w-full text-start py-1 flex items-center justify-between focus:outline-none border\"\n        role=\"combobox\"\n        aria-haspopup=\"listbox\"\n        aria-expanded=\"false\"\n        aria-controls={\"#{@id}-listbox\"}\n        aria-labelledby={\"#{@id}-label #{@id}-button\"}\n        type=\"button\"\n      >\n        <div class=\"flex-1 flex items-center gap-2\">\n          <div\n            :if={@start_section != []}\n            class={[\n              \"shrink-0\",\n              @start_section[:class]\n            ]}\n          >\n            {render_slot(@start_section)}\n          </div>\n\n          <div :if={@placeholder} class=\"combobox-placeholder select-none\">\n            {@placeholder}\n          </div>\n\n          <div\n            data-part=\"select-toggle-label\"\n            class={[\n              \"selected-value flex flex-wrap items-center gap-2 [&_.combobox-pill]:py-0.5\",\n              \"[&_.combobox-pill]:px-1 [&_.combobox-pill]:leading-4\"\n            ]}\n          >\n          </div>\n        </div>\n\n        <div class=\"flex items-center gap-1\">\n          <div class=\"shrink-0\" data-part=\"clear-combobox-button\" role=\"button\" hidden>\n            <svg\n              xmlns=\"http://www.w3.org/2000/svg\"\n              width=\"24\"\n              height=\"24\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              class=\"size-3.5 opacity-60\"\n            >\n              <path d=\"M18 6 6 18\" /><path d=\"m6 6 12 12\" />\n            </svg>\n          </div>\n\n          <svg\n            xmlns=\"http://www.w3.org/2000/svg\"\n            width=\"24\"\n            height=\"24\"\n            viewBox=\"0 0 24 24\"\n            fill=\"none\"\n            stroke=\"currentColor\"\n            stroke-width=\"2\"\n            stroke-linecap=\"round\"\n            stroke-linejoin=\"round\"\n            class=\"shrink-0 combobox-icon\"\n          >\n            <path d=\"m7 15 5 5 5-5\" /><path d=\"m7 9 5-5 5 5\" />\n          </svg>\n        </div>\n      </button>\n\n      <div\n        id={\"#{@id}-listbox\"}\n        role=\"listbox\"\n        data-part=\"listbox\"\n        aria-multiselectable={@multiple}\n        class={[\n          \"combobox-dropdown z-50 absolute w-full px-[3px] py-2 transition-all ease-out duration-[250ms] top-full mt-2\",\n          dropdown_styles(@variant, @color, @rounded, @border, @size, @padding)\n        ]}\n        hidden\n      >\n        <div :if={@searchable} class=\"mt-1 mb-2 mx-1.5\">\n          <input\n            type=\"text\"\n            role=\"searchbox\"\n            aria-controls={\"#{@id}-listbox\"}\n            aria-autocomplete=\"list\"\n            aria-activedescendant=\"\"\n            aria-label={@search_placeholder}\n            class=\"combobox-search-input border appearance-none bg-transparent px-2 py-1 w-full focus:outline-none\"\n            placeholder={@search_placeholder}\n          />\n        </div>\n\n        <.component component_name=\"chelekom-scroll-area\" site={assigns[:site]}\n          id={\"combobox-wrapper-#{@id}\"}\n          padding=\"none\"\n          height={@height}\n          scrollbar_width=\"w-[4px]\"\n        >\n          <div class=\"px-1.5\">\n            <.option :for={{label, value} <- @options} :if={@options} value={value}>\n              {label}\n            </.option>\n\n            <div\n              :for={{group_label, grouped_options} <- Enum.group_by(@option, & &1[:group])}\n              :if={!is_nil(group_label)}\n              class={[\"option-group\", @option_group_class]}\n            >\n              <div class=\"group-label font-semibold my-2\">{group_label}</div>\n\n              <div>\n                <.option\n                  :for={option <- grouped_options}\n                  value={option[:value]}\n                  disabled={option[:disabled]}\n                  class={option[:class]}\n                >\n                  {render_slot(option)}\n                </.option>\n              </div>\n            </div>\n\n            <.option\n              :for={option <- Enum.filter(@option, &is_nil(&1[:group]))}\n              value={option[:value]}\n              disabled={option[:disabled]}\n              class={option[:class]}\n            >\n              {render_slot(option)}\n            </.option>\n\n            <div :if={@searchable} class=\"no-results text-center hidden\">\n              {gettext(\"Nothing found!\")}\n            </div>\n\n            <div\n              :if={@creatable}\n              class=\"combobox-create-option combobox-option cursor-pointer rounded flex items-center gap-2\"\n              data-part=\"create-option\"\n              role=\"option\"\n              hidden\n            >\n              <icon name=\"hero-plus\" class=\"size-4 shrink-0 combobox-icon\" />\n              <span class=\"combobox-create-label\"></span>\n            </div>\n          </div>\n        </.component>\n      </div>\n    </div>\n  </div>\n\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors}>{msg}</.component>\n</div>\n"
           },
           {
             "body": "assigns =\n  assigns\n  |> assign_new(:id, fn -> \"combo-#{random_id()}\" end)\n  |> assign_new(:name, fn -> nil end)\n  |> assign_new(:options, fn -> [] end)\n  |> assign_new(:option, fn -> [] end)\n  |> assign_new(:value, fn -> Map.get(assigns, :value) end)\n  |> then(fn a ->\n    if a.creatable do\n      assign(a, :searchable, true)\n    else\n      a\n    end\n  end)",
+            "delegates": false,
             "guard": null,
             "match": null,
             "template": "<div class={[\n  \"leading-5\",\n  border_class(@border, @variant),\n  color_variant(@variant, @color),\n  rounded_size(@rounded),\n  padding_size(@padding),\n  size_class(@size),\n  space_class(@space)\n]}>\n  <div\n    :if={@label || @description}\n    class={[\"combobox-label-wrapper\", @description_wrapper_class]}\n  >\n    <.component component_name=\"chelekom-label\" site={assigns[:site]} :if={@label} for={@id} class={@label_class}>{@label}</.component>\n    <div :if={@description} class={@description_class}>\n      {@description}\n    </div>\n  </div>\n\n  <div\n    phx-hook=\"GlobalCombobox\"\n    data-creatable={@creatable || nil}\n    data-create-label={@create_label}\n    data-on-create={@on_create}\n    id={\"#{@id}-combo\"}\n  >\n    <select id={@id} name={@name} class=\"combo-select hidden\" {@rest}>\n      <option value=\"\"></option>\n\n      <%= if Enum.empty?(@option) do %>\n        {Phoenix.HTML.Form.options_for_select(@options, @value)}\n      <% else %>\n        <optgroup\n          :for={{group_label, grouped_options} <- Enum.group_by(@option, & &1[:group])}\n          :if={!is_nil(group_label)}\n          label={group_label}\n        >\n          {Phoenix.HTML.Form.options_for_select(\n            Enum.map(grouped_options, fn option -> {option[:value], option[:value]} end),\n            @value\n          )}\n        </optgroup>\n\n        {!Enum.any?(@option, &Map.has_key?(&1, :group)) &&\n          Phoenix.HTML.Form.options_for_select(\n            Enum.map(@option, fn %{value: v} -> {v, v} end),\n            @value\n          )}\n      <% end %>\n    </select>\n\n    <div id={\"#{@id}-combo-wrapper\"} class=\"relative\" phx-update=\"ignore\">\n      <button\n        class=\"combobox-trigger w-full text-start py-1 flex items-center justify-between focus:outline-none border\"\n        role=\"combobox\"\n        aria-haspopup=\"listbox\"\n        aria-expanded=\"false\"\n        aria-controls={\"#{@id}-listbox\"}\n        aria-labelledby={\"#{@id}-label #{@id}-button\"}\n        type=\"button\"\n      >\n        <div id={\"#{@id}-select-toggle-label\"} class=\"flex-1 flex items-center gap-2\">\n          <div\n            :if={@start_section != []}\n            class={[\n              \"shrink-0\",\n              @start_section[:class]\n            ]}\n          >\n            {render_slot(@start_section)}\n          </div>\n\n          <div :if={@placeholder} class=\"combobox-placeholder select-none\">\n            {@placeholder}\n          </div>\n\n          <div data-part=\"select-toggle-label\" class=\"selected-value\"></div>\n        </div>\n\n        <div class=\"flex items-center gap-1\">\n          <div class=\"shrink-0\" data-part=\"clear-combobox-button\" role=\"button\" hidden>\n            <svg\n              xmlns=\"http://www.w3.org/2000/svg\"\n              width=\"24\"\n              height=\"24\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              class=\"size-3.5 opacity-60\"\n            >\n              <path d=\"M18 6 6 18\" /><path d=\"m6 6 12 12\" />\n            </svg>\n          </div>\n\n          <svg\n            xmlns=\"http://www.w3.org/2000/svg\"\n            width=\"24\"\n            height=\"24\"\n            viewBox=\"0 0 24 24\"\n            fill=\"none\"\n            stroke=\"currentColor\"\n            stroke-width=\"2\"\n            stroke-linecap=\"round\"\n            stroke-linejoin=\"round\"\n            class=\"shrink-0 combobox-icon\"\n          >\n            <path d=\"m7 15 5 5 5-5\" /><path d=\"m7 9 5-5 5 5\" />\n          </svg>\n        </div>\n      </button>\n\n      <div\n        id={\"#{@id}-listbox\"}\n        role=\"listbox\"\n        data-part=\"listbox\"\n        class={[\n          \"combobox-dropdown text-[13px] z-50 absolute w-full px-[3px] py-2 transition-all ease-out duration-[250ms] top-full mt-2\",\n          dropdown_styles(@variant, @color, @rounded, @border, @size, @padding)\n        ]}\n        hidden\n      >\n        <div :if={@searchable} class=\"mt-1 mb-2 mx-1.5\">\n          <input\n            type=\"text\"\n            role=\"searchbox\"\n            aria-controls={\"#{@id}-listbox\"}\n            aria-autocomplete=\"list\"\n            aria-activedescendant=\"\"\n            aria-label={@search_placeholder}\n            class=\"combobox-search-input border appearance-none bg-transparent px-2 py-1 w-full focus:outline-none\"\n            data-part=\"search\"\n            placeholder={@search_placeholder}\n          />\n        </div>\n\n        <.component component_name=\"chelekom-scroll-area\" site={assigns[:site]}\n          id={\"combobox-wrapper-#{@id}\"}\n          padding=\"none\"\n          height={@height}\n          scrollbar_width=\"w-[4px]\"\n        >\n          <div class=\"px-1.5\">\n            <.option :for={{label, value} <- @options} :if={@options} value={value}>\n              {label}\n            </.option>\n\n            <div\n              :for={{group_label, grouped_options} <- Enum.group_by(@option, & &1[:group])}\n              :if={!is_nil(group_label)}\n              class={[\"option-group\", @option_group_class]}\n            >\n              <div class=\"group-label font-semibold my-2\">{group_label}</div>\n\n              <div>\n                <.option\n                  :for={option <- grouped_options}\n                  value={option[:value]}\n                  disabled={option[:disabled]}\n                  class={option[:class]}\n                >\n                  {render_slot(option)}\n                </.option>\n              </div>\n            </div>\n\n            <.option\n              :for={option <- Enum.filter(@option, &is_nil(&1[:group]))}\n              value={option[:value]}\n              disabled={option[:disabled]}\n              class={option[:class]}\n            >\n              {render_slot(option)}\n            </.option>\n\n            <div :if={@searchable} class=\"no-results text-center hidden\">\n              {gettext(\"Nothing found!\")}\n            </div>\n\n            <div\n              :if={@creatable}\n              class=\"combobox-create-option combobox-option cursor-pointer rounded flex items-center gap-2\"\n              data-part=\"create-option\"\n              role=\"option\"\n              hidden\n            >\n              <icon name=\"hero-plus\" class=\"size-4 shrink-0 combobox-icon\" />\n              <span class=\"combobox-create-label\"></span>\n            </div>\n          </div>\n        </.component>\n      </div>\n    </div>\n  </div>\n\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors}>{msg}</.component>\n</div>\n"
@@ -97864,14 +97905,6 @@
       },
       "format": "heex",
       "helpers": [
-        {
-          "args": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
-          "attrs": [],
-          "code": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn ->\n  if assigns.multiple do\n    field.name <> \"[]\"\n  else\n    field.name\n  end\nend)\n|> assign_new(:value, fn -> field.value end)\n|> combobox()",
-          "discriminators": [],
-          "name": "combobox",
-          "slots": []
-        },
         {
           "args": "assigns",
           "attrs": [
@@ -109119,25 +109152,36 @@
       "extra": {
         "clauses": [
           {
+            "body": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn ->\n  if assigns.multiple do\n    field.name <> \"[]\"\n  else\n    field.name\n  end\nend)\n|> assign_new(:value, fn -> field.value end)",
+            "delegates": true,
+            "guard": null,
+            "match": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
+            "template": null
+          },
+          {
             "body": "assigns =\n  assign_new(assigns, :checked, fn ->\n    Phoenix.HTML.Form.normalize_value(\"checkbox\", assigns[:value])\n  end)",
+            "delegates": false,
             "guard": null,
             "match": "%{type: \"checkbox\"} = assigns",
             "template": "<div>\n  <label class=\"flex items-center gap-2 text-sm leading-6 text-zinc-600 dark:text-zinc-200\">\n    <input type=\"hidden\" name={@name} value=\"false\" disabled={@rest[:disabled]} />\n    <input\n      type=\"checkbox\"\n      id={@id}\n      name={@name}\n      value=\"true\"\n      checked={@checked}\n      class=\"rounded h-8 p-1 border border-zinc-300 text-zinc-900 focus:ring-0\"\n      {@rest}\n    /> {@label}\n  </label>\n\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors}>{msg}</.component>\n</div>\n"
           },
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": "%{type: \"select\"} = assigns",
             "template": "<div>\n  <.component component_name=\"chelekom-label\" site={assigns[:site]} :if={@label} for={@id}>{@label}</.component>\n\n  <select\n    id={@id}\n    name={@name}\n    class=\"mt-2 block w-full rounded-md h-8 p-1 border border-zinc-300 bg-white shadow-sm focus:border-zinc-400 focus:ring-0 sm:text-sm\"\n    multiple={@multiple}\n    {@rest}\n  >\n    <option :if={@prompt} value=\"\">{@prompt}</option>\n    {Phoenix.HTML.Form.options_for_select(@options, @value)}\n  </select>\n\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors}>{msg}</.component>\n</div>\n"
           },
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": "%{type: \"textarea\"} = assigns",
             "template": "<div>\n  <.component component_name=\"chelekom-label\" site={assigns[:site]} :if={@label} for={@id}>{@label}</.component>\n  <textarea\n    id={@id}\n    name={@name}\n    class={[\n      \"mt-2 block w-full h-8 p-1 border rounded-lg text-zinc-900 dark:text-zinc-200 focus:ring-0 sm:text-sm sm:leading-6 min-h-[6rem]\",\n      @errors == [] && \"border-zinc-300 focus:border-zinc-400\",\n      @errors != [] && \"border-rose-400 focus:border-rose-400\"\n    ]}\n    {@rest}\n  >{Phoenix.HTML.Form.normalize_value(\"textarea\", @value)}</textarea>\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors}>{msg}</.component>\n</div>\n"
           },
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": null,
             "template": "<div>\n  <.component component_name=\"chelekom-label\" site={assigns[:site]} :if={@label} for={@id}>{@label}</.component>\n\n  <input\n    type={@type}\n    name={@name}\n    id={@id}\n    value={Phoenix.HTML.Form.normalize_value(@type, @value)}\n    class={[\n      \"mt-2 block w-full h-8 p-1 border rounded-lg text-zinc-900 dark:text-zinc-200 focus:ring-0 sm:text-sm sm:leading-6\",\n      @errors == [] && \"border-zinc-300 focus:border-zinc-400\",\n      @errors != [] && \"border-rose-400 focus:border-rose-400\"\n    ]}\n    {@rest}\n  />\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors}>{msg}</.component>\n</div>\n"
@@ -109638,12 +109682,14 @@
         "clauses": [
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": "%{rest: %{ordered: true}} = assigns",
             "template": "<.component component_name=\"chelekom-ol\" site={assigns[:site]} {assigns}>\n  <.component component_name=\"chelekom-li\" site={assigns[:site]} :for={item <- @item} {item}>\n    {render_slot(item)}\n  </.component>\n  {render_slot(@inner_block)}\n</.component>\n"
           },
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": null,
             "template": "<.component component_name=\"chelekom-ul\" site={assigns[:site]} {assigns}>\n  <.component component_name=\"chelekom-li\" site={assigns[:site]}\n    :for={item <- @item}\n    class={\n      Enum.join([\"[&_.list-content]:flex [&_.list-content]:items-center\", item[:class]], \" \")\n    }\n    {item}\n  >\n    <div :if={!is_nil(Map.get(item, :title))} class=\"font-semibold me-2\">\n      {item.title}\n    </div>\n    {render_slot(item)}\n  </.component>\n  {render_slot(@inner_block)}\n</.component>\n"
@@ -129586,24 +129632,28 @@
         "clauses": [
           {
             "body": null,
+            "delegates": false,
             "guard": "not is_nil(src)",
             "match": "%{src: src, rounded: \"full\"} = assigns",
             "template": "<div class={[\n  \"relative w-fit select-none\",\n  size_class(@size, :image)\n]}>\n  <img\n    id={@id}\n    src={@src}\n    class={[\n      image_color(@color),\n      rounded_size(@rounded),\n      border_class(@border),\n      shadow_class(@shadow),\n      @class\n    ]}\n    {@rest}\n  />\n  {render_slot(@inner_block)}\n</div>\n"
           },
           {
             "body": null,
+            "delegates": false,
             "guard": "is_nil(src)",
             "match": "%{src: src, rounded: \"full\"} = assigns",
             "template": "<div\n  class={[\n    \"relative overflow-hidden select-none\",\n    color_class(@color),\n    rounded_size(@rounded),\n    border_class(@border),\n    shadow_class(@shadow),\n    @font_weight,\n    @class\n  ]}\n  {@rest}\n>\n  <div class={[\"flex items-center justify-center\", size_class(@size, :text)]}>\n    <div :for={icon <- @icon} class={[icon[:size], icon[:color], icon[:class]]}>\n      <.component component_name=\"chelekom-icon\" site={assigns[:site]} name={icon[:name]} class={icon[:icon_class] || size_class(@size, :icon)} />\n    </div>\n    {render_slot(@inner_block)}\n  </div>\n</div>\n"
           },
           {
             "body": null,
+            "delegates": false,
             "guard": "not is_nil(src)",
             "match": "%{src: src} = assigns",
             "template": "<div class=\"relative w-fit select-none\">\n  <img\n    id={@id}\n    src={@src}\n    class={[\n      image_color(@color),\n      rounded_size(@rounded),\n      size_class(@size),\n      border_class(@border),\n      shadow_class(@shadow),\n      @class\n    ]}\n    {@rest}\n  />\n  {render_slot(@inner_block)}\n</div>\n"
           },
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": null,
             "template": "<div\n  class={[\n    \"relative overflow-hidden select-none\",\n    color_class(@color),\n    rounded_size(@rounded),\n    border_class(@border),\n    shadow_class(@shadow),\n    @font_weight,\n    @class\n  ]}\n  {@rest}\n>\n  <div class={[\"flex items-center justify-center\", size_class(@size, :text)]}>\n    <div :for={icon <- @icon} class={[icon[:size], icon[:color], icon[:class]]}>\n      <.component component_name=\"chelekom-icon\" site={assigns[:site]} name={icon[:name]} class={icon[:icon_class] || size_class(@size, :icon)} />\n    </div>\n    {render_slot(@inner_block)}\n  </div>\n</div>\n"
@@ -133134,7 +133184,22 @@
         "<div class=\"max-w-md space-y-3 rounded-xl border border-zinc-200 p-6 dark:border-zinc-800\">\n  <.component component_name=\"chelekom-radio-card\" site=\"Global\" id=\"digest-frequency\" name=\"digest\" label=\"Email digest\" description=\"How often we should collect activity into one message.\" show_radio space=\"small\" padding=\"small\">\n    <:radio value=\"realtime\" title=\"As it happens\" description=\"One email per comment, mention and review request\"></:radio>\n    <:radio value=\"daily\" checked title=\"Once a day\" description=\"A single summary sent at 8 a.m. in your timezone\"></:radio>\n    <:radio value=\"weekly\" title=\"Once a week\" description=\"Monday morning, everything from the week before\"></:radio>\n    <:radio value=\"never\" title=\"Never\" description=\"Nothing by email — check the notification centre instead\"></:radio>\n  </.component>\n</div>"
       ],
       "extra": {
-        "clauses": null,
+        "clauses": [
+          {
+            "body": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn -> field.name end)\n|> assign_new(:value, fn -> field.value end)",
+            "delegates": true,
+            "guard": null,
+            "match": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
+            "template": null
+          },
+          {
+            "body": null,
+            "delegates": false,
+            "guard": null,
+            "match": null,
+            "template": "<div class={[\"leading-5\", space_class(@space), @class]} {@rest}>\n  <input type=\"hidden\" name={@name} value=\"\" disabled={@rest[:disabled]} />\n\n  <div :if={@label || @description} class={[\"radio-card-label-wrapper\", @field_label_wrapper]}>\n    <.component component_name=\"chelekom-label\" site={assigns[:site]} :if={@label} for={@id} class={@label_class}>{@label}</.component>\n    <div :if={@description} class={@description_class}>\n      {@description}\n    </div>\n  </div>\n\n  <div class={[\"grid\", grid_cols(@cols), grid_gap(@cols_gap), @wrapper_class]} role=\"radiogroup\" aria-labelledby={@id && \"#{@id}-label\"} aria-describedby={@id && \"#{@id}-desc\"}>\n    <label\n      :for={{radio, index} <- Enum.with_index(@radio, 1)}\n      for={\"#{@id}-#{index}\"}\n      class={[\n        \"radio-card-wrapper flex items-start cursor-pointer\",\n        \"has-[:disabled]:pointer-events-none has-[:disabled]:opacity-50\",\n        \"has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-blue-400\",\n        \"has-[:focus-visible]:outline-offset-[-2px] transition-all\",\n        @reverse && \"flex-row-reverse\",\n        border_class(@border, @variant),\n        color_variant(@variant, @color),\n        rounded_size(@rounded),\n        padding_size(@padding),\n        size_class(@size),\n        radio[:radio_wrapper_class]\n      ]}\n      {@rest}\n    >\n      <input\n        type=\"radio\"\n        aria-checked={radio[:checked]}\n        aria-labelledby={\"#{@id}-#{index}-title\"}\n        aria-describedby={\"#{@id}-#{index}-desc\"}\n        name={@name}\n        id={\"#{@id}-#{index}\"}\n        value={radio[:value]}\n        checked={radio[:checked]}\n        class={[\n          \"radio-card-input shrink-0 focus:ring-0 focus:ring-offset-0 appearance-none cursor-pointer\",\n          \"size-[18px] rounded-full border-2 border-current bg-clip-content p-[3px] checked:bg-current\",\n          \"disabled:opacity-50\",\n          !@show_radio && \"opacity-0 absolute\",\n          radio[:radio_input_class]\n        ]}\n      />\n      <div data-part=\"label\" class={[\"radio-card-content-wrapper flex-1\", radio[:card_label_class]]}>\n        <div\n          :if={!is_nil(radio[:icon]) || radio[:title] || radio[:description]}\n          class={[\"radio-slot-content\", radio[:content_wrapper_class]]}\n        >\n          <.component component_name=\"chelekom-icon\" site={assigns[:site]}\n            :if={!is_nil(radio[:icon])}\n            name={radio[:icon]}\n            class={[\"block mx-auto\", radio[:icon_class]]}\n          />\n          <div :if={radio[:title]} class={[\"block radio-card-title leading-[16px] font-semibold\", radio[:title_class]]}>\n            {radio[:title]}\n          </div>\n\n          <p :if={radio[:description]} class={[\"radio-card-description\", radio[:description_class]]}>\n            {radio[:description]}\n          </p>\n        </div>\n        <div :if={Map.get(radio, :inner_block)} class={[\"radio-card-content leading-[17px]\", radio[:content_class]]}>\n          {render_slot(radio)}\n        </div>\n      </div>\n    </label>\n  </div>\n</div>\n\n<.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors} icon={@error_icon}>{msg}</.component>\n"
+          }
+        ],
         "component": "radio_card",
         "demo_examples": [
           {
@@ -133469,14 +133534,6 @@
       },
       "format": "heex",
       "helpers": [
-        {
-          "args": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
-          "attrs": [],
-          "code": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn -> field.name end)\n|> assign_new(:value, fn -> field.value end)\n|> radio_card()",
-          "discriminators": [],
-          "name": "radio_card",
-          "slots": []
-        },
         {
           "args": ":list, {field, value}, %{params: params, data: data} = _form",
           "attrs": [],
@@ -135504,13 +135561,22 @@
       "extra": {
         "clauses": [
           {
+            "body": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn -> field.name end)\n|> assign_new(:value, fn -> field.value end)",
+            "delegates": true,
+            "guard": null,
+            "match": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
+            "template": null
+          },
+          {
             "body": null,
+            "delegates": false,
             "guard": "floating in [\"inner\", \"outer\"]",
             "match": "%{floating: floating} = assigns",
             "template": "<div class={[\n  color_variant(@variant, @color, @floating),\n  rounded_size(@rounded),\n  border_class(@border, @variant),\n  size_class(@size),\n  space_class(@space),\n  @ring && \"[&_.url-field-wrapper]:focus-within:ring-[0.03rem] leading-6\",\n  @class\n]}>\n  <div :if={@description} class={@description_class}>\n    {@description}\n  </div>\n  <div class={[\n    \"url-field-wrapper transition-all ease-in-out duration-200 w-full flex flex-nowrap\",\n    @errors != [] && \"url-field-error\",\n    @field_wrapper_class\n  ]}>\n    <div\n      :if={@start_section}\n      class={[\n        \"flex items-center justify-center shrink-0 ps-2\",\n        @start_section[:class]\n      ]}\n    >\n      {render_slot(@start_section)}\n    </div>\n    <div class=\"relative w-full z-[2]\">\n      <input\n        type=\"url\"\n        name={@name}\n        id={@id}\n        value={@value}\n        class={[\n          \"disabled:opacity-80 block w-full z-[2] focus:ring-0 placeholder:text-transparent pb-1 pt-2.5 px-2\",\n          \"text-[16px] sm:font-inherit appearance-none bg-transparent border-0 focus:outline-none peer\",\n          @input_class\n        ]}\n        placeholder=\" \"\n        {@rest}\n      />\n\n      <label\n        :if={@label}\n        class={[\n          \"floating-label px-1 start-1 -z-[1] absolute text-xs duration-300 transform scale-75 origin-[0]\",\n          variant_label_position(@floating),\n          @floating_label_class\n        ]}\n        for={@id}\n      >\n        {@label}\n      </label>\n    </div>\n\n    <div\n      :if={@end_section}\n      class={[\"flex items-center justify-center shrink-0 pe-2\", @end_section[:class]]}\n    >\n      {render_slot(@end_section)}\n    </div>\n  </div>\n\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors} icon={@error_icon}>{msg}</.component>\n</div>\n"
           },
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": null,
             "template": "<div class={[\n  color_variant(@variant, @color, @floating),\n  rounded_size(@rounded),\n  border_class(@border, @variant),\n  size_class(@size),\n  space_class(@space),\n  @ring && \"[&_.url-field-wrapper]:focus-within:ring-[0.03rem] leading-6\",\n  @class\n]}>\n  <div\n    :if={@label || @description}\n    class={[\"url-label-wrapper\", @description_wrapper_class]}\n  >\n    <.component component_name=\"chelekom-label\" site={assigns[:site]} :if={@label} for={@id} class={@label_class}>{@label}</.component>\n    <div :if={@description} class={@description_class}>\n      {@description}\n    </div>\n  </div>\n\n  <div class={[\n    \"url-field-wrapper overflow-hidden transition-all ease-in-out duration-200 flex items-center flex-nowrap\",\n    @errors != [] && \"url-field-error\",\n    @field_wrapper_class\n  ]}>\n    <div\n      :if={@start_section}\n      class={[\n        \"flex items-center justify-center shrink-0 ps-2\",\n        @start_section[:class]\n      ]}\n    >\n      {render_slot(@start_section)}\n    </div>\n\n    <input\n      type=\"url\"\n      name={@name}\n      id={@id}\n      value={@value}\n      placeholder={@placeholder}\n      class={[\n        \"flex-1 py-1 px-2 text-sm disabled:opacity-80 block w-full appearance-none\",\n        \"bg-transparent border-0 focus:outline-none focus:ring-0\",\n        @input_class\n      ]}\n      {@rest}\n    />\n\n    <div\n      :if={@end_section}\n      class={[\"flex items-center justify-center shrink-0 pe-2\", @end_section[:class]]}\n    >\n      {render_slot(@end_section)}\n    </div>\n  </div>\n\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors} icon={@error_icon}>{msg}</.component>\n</div>\n"
@@ -135657,14 +135723,6 @@
       },
       "format": "heex",
       "helpers": [
-        {
-          "args": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
-          "attrs": [],
-          "code": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn -> field.name end)\n|> assign_new(:value, fn -> field.value end)\n|> url_field()",
-          "discriminators": [],
-          "name": "url_field",
-          "slots": []
-        },
         {
           "args": "assigns",
           "attrs": [
@@ -138095,13 +138153,22 @@
       "extra": {
         "clauses": [
           {
+            "body": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn -> field.name end)\n|> assign_new(:value, fn -> field.value end)",
+            "delegates": true,
+            "guard": null,
+            "match": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
+            "template": null
+          },
+          {
             "body": null,
+            "delegates": false,
             "guard": "floating in [\"inner\", \"outer\"]",
             "match": "%{floating: floating} = assigns",
             "template": "<div class={[\n  color_variant(@variant, @color, @floating),\n  rounded_size(@rounded),\n  border_class(@border, @variant),\n  size_class(@size),\n  space_class(@space),\n  @ring && \"[&_.tel-field-wrapper]:focus-within:ring-[0.03rem] leading-6\",\n  @class\n]}>\n  <div :if={@description} class={@description_class}>\n    {@description}\n  </div>\n  <div class={[\n    \"tel-field-wrapper transition-all ease-in-out duration-200 w-full flex flex-nowrap\",\n    @errors != [] && \"tel-field-error\",\n    @field_wrapper_class\n  ]}>\n    <div\n      :if={@start_section}\n      class={[\n        \"flex items-center justify-center shrink-0 ps-2\",\n        @start_section[:class]\n      ]}\n    >\n      {render_slot(@start_section)}\n    </div>\n    <div class=\"relative w-full z-[2]\">\n      <input\n        type=\"tel\"\n        name={@name}\n        id={@id}\n        value={@value}\n        class={[\n          \"disabled:opacity-80 block w-full z-[2] focus:ring-0 placeholder:text-transparent pb-1 pt-2.5 px-2\",\n          \"text-[16px] sm:font-inherit appearance-none bg-transparent border-0 focus:outline-none peer\",\n          @input_class\n        ]}\n        placeholder=\" \"\n        {@rest}\n      />\n\n      <label\n        :if={@label}\n        class={[\n          \"floating-label px-1 start-1 -z-[1] absolute text-xs duration-300 transform scale-75 origin-[0]\",\n          variant_label_position(@floating),\n          @floating_label_class\n        ]}\n        for={@id}\n      >\n        {@label}\n      </label>\n    </div>\n\n    <div\n      :if={@end_section}\n      class={[\"flex items-center justify-center shrink-0 pe-2\", @end_section[:class]]}\n    >\n      {render_slot(@end_section)}\n    </div>\n  </div>\n\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors} icon={@error_icon}>{msg}</.component>\n</div>\n"
           },
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": null,
             "template": "<div class={[\n  color_variant(@variant, @color, @floating),\n  rounded_size(@rounded),\n  border_class(@border, @variant),\n  size_class(@size),\n  space_class(@space),\n  @ring && \"[&_.tel-field-wrapper]:focus-within:ring-[0.03rem] leading-6\",\n  @class\n]}>\n  <div\n    :if={@label || @description}\n    class={[\"tel-label-wrapper\", @description_wrapper_class]}\n  >\n    <.component component_name=\"chelekom-label\" site={assigns[:site]} :if={@label} for={@id} class={@label_class}>{@label}</.component>\n    <div :if={@description} class={@description_class}>\n      {@description}\n    </div>\n  </div>\n\n  <div class={[\n    \"tel-field-wrapper overflow-hidden transition-all ease-in-out duration-200 flex items-center flex-nowrap\",\n    @errors != [] && \"tel-field-error\",\n    @field_wrapper_class\n  ]}>\n    <div\n      :if={@start_section}\n      class={[\n        \"flex items-center justify-center shrink-0 ps-2\",\n        @start_section[:class]\n      ]}\n    >\n      {render_slot(@start_section)}\n    </div>\n\n    <input\n      type=\"tel\"\n      name={@name}\n      id={@id}\n      value={@value}\n      placeholder={@placeholder}\n      class={[\n        \"flex-1 py-1 px-2 text-sm disabled:opacity-80 block w-full appearance-none\",\n        \"bg-transparent border-0 focus:outline-none focus:ring-0\",\n        @input_class\n      ]}\n      {@rest}\n    />\n\n    <div\n      :if={@end_section}\n      class={[\"flex items-center justify-center shrink-0 pe-2\", @end_section[:class]]}\n    >\n      {render_slot(@end_section)}\n    </div>\n  </div>\n\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors} icon={@error_icon}>{msg}</.component>\n</div>\n"
@@ -138262,14 +138329,6 @@
       },
       "format": "heex",
       "helpers": [
-        {
-          "args": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
-          "attrs": [],
-          "code": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn -> field.name end)\n|> assign_new(:value, fn -> field.value end)\n|> tel_field()",
-          "discriminators": [],
-          "name": "tel_field",
-          "slots": []
-        },
         {
           "args": "assigns",
           "attrs": [
@@ -141029,36 +141088,47 @@
           "type": "global"
         }
       ],
-      "body": "targeted_upload = assigns.uploads[assigns.target]\n\nassigns =\n  assigns\n  |> assign_new(:entries, fn -> targeted_upload.entries end)\n  |> assign_new(:upload_error, fn -> targeted_upload end)\n  |> assign_new(:upload, fn -> targeted_upload end)",
+      "body": null,
       "dependencies": [
         "chelekom-spinner",
         "chelekom-progress",
         "chelekom-icon"
       ],
       "examples": [
-        "<.component component_name=\"chelekom-file-field\" site=\"Global\" id=\"apply-resume\" name=\"application[resume]\" label=\"Attach your résumé (PDF or Word, up to 5 MB)\" class=\"max-w-md\" />",
-        "<.component component_name=\"chelekom-file-field\" site=\"Global\" id=\"profile-avatar-upload\" name=\"user[avatar]\" label=\"Profile photo\" errors={[\"That image is larger than 2 MB. Please choose a smaller file.\"]} class=\"max-w-md\" />",
-        "<.component component_name=\"chelekom-file-field\" site=\"Global\" id=\"expense-receipt\" name=\"expense[receipt]\" label=\"Receipt or invoice\" color=\"primary\" space=\"small\" class=\"max-w-md\" />"
+        "<div class=\"max-w-md space-y-2\">\n  <.component component_name=\"chelekom-file-field\" site=\"Global\" id=\"apply-resume\" name=\"application[resume]\" value=\"\" label=\"Attach your résumé\" />\n  <p class=\"text-xs text-gray-500 dark:text-gray-400\">PDF or Word, up to 5 MB. A person reads every application — nothing here is screened automatically.</p>\n</div>",
+        "<div class=\"max-w-md space-y-2\">\n  <.component component_name=\"chelekom-file-field\" site=\"Global\" id=\"claim-documents\" name=\"claim[documents][]\" value=\"\" label=\"Supporting documents\" multiple />\n  <p class=\"text-xs text-gray-500 dark:text-gray-400\">Hold Shift to pick more than one. Photographs of paper receipts are fine.</p>\n</div>",
+        "<div class=\"max-w-md\">\n  <.component component_name=\"chelekom-file-field\" site=\"Global\" id=\"profile-avatar\" name=\"user[avatar]\" value=\"\" label=\"Profile photo\" errors={[\"That image is larger than 2 MB. Please choose a smaller one.\"]} />\n</div>",
+        "<div class=\"max-w-md space-y-2\">\n  <.component component_name=\"chelekom-file-field\" site=\"Global\" id=\"expense-receipt\" name=\"expense[receipt]\" value=\"\" label=\"Receipt or invoice\" color=\"primary\" space=\"small\" />\n  <p class=\"text-xs text-gray-500 dark:text-gray-400\">Claims without a receipt are held until finance can match them to a card statement.</p>\n</div>"
       ],
       "extra": {
         "clauses": [
           {
-            "body": "targeted_upload = assigns.uploads[assigns.target]\n\nassigns =\n  assigns\n  |> assign_new(:entries, fn -> targeted_upload.entries end)\n  |> assign_new(:upload_error, fn -> targeted_upload end)\n  |> assign_new(:upload, fn -> targeted_upload end)",
+            "body": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn ->\n  if assigns.rest[:multiple] do\n    field.name <> \"[]\"\n  else\n    field.name\n  end\nend)\n|> assign_new(:value, fn -> field.value end)",
+            "delegates": true,
             "guard": null,
-            "match": "%{dropzone: true, dropzone_type: \"file\"} = assigns",
+            "match": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
+            "template": null
+          },
+          {
+            "body": null,
+            "delegates": false,
+            "guard": "dropzone != true or type not in [\"file\", \"image\"]",
+            "match": "%{dropzone: dropzone, dropzone_type: type} = assigns",
+            "template": "<div\n  id={if @live, do: @id}\n  class={[\n    rounded_size(@rounded),\n    color_class(@color),\n    space_class(@space),\n    @class\n  ]}\n>\n  <.component component_name=\"chelekom-label\" site={assigns[:site]} :if={@label} for={if @live, do: @upload.ref, else: @id}>{@label}</.component>\n\n  <%= if @live do %>\n    <.live_file_input\n      upload={@upload}\n      class={[\n        \"file-field block w-full cursor-pointer focus:outline-none file:border-0 file:cursor-pointer\",\n        \"file:py-3 file:px-8 file:font-bold file:-ms-4 file:me-4\"\n      ]}\n      {@rest}\n    />\n  <% else %>\n    <input\n      name={@name}\n      id={@id}\n      class={[\n        \"file-field block w-full cursor-pointer focus:outline-none file:border-0 file:cursor-pointer\",\n        \"file:py-3 file:px-8 file:font-bold file:-ms-4 file:me-4\"\n      ]}\n      type=\"file\"\n      {@rest}\n    />\n  <% end %>\n\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors} icon={@error_icon}>{msg}</.component>\n</div>\n"
+          },
+          {
+            "body": "targeted_upload = assigns.uploads[assigns.target]\n\nassigns =\n  assigns\n  |> assign_new(:entries, fn -> targeted_upload.entries end)\n  |> assign_new(:upload_error, fn -> targeted_upload end)\n  |> assign_new(:upload, fn -> targeted_upload end)",
+            "delegates": false,
+            "guard": null,
+            "match": "%{dropzone_type: \"file\"} = assigns",
             "template": "<div\n  id={@id}\n  class={[\n    color_variant(@variant, @color),\n    border_class(@border, @variant),\n    rounded_size(@rounded),\n    size_class(@size),\n    @dashed && \"[&_.dropzone-wrapper]:border-dashed\",\n    @class\n  ]}\n>\n  <label\n    class={[\n      \"dropzone-wrapper group flex flex-col items-center justify-center w-full cursor-pointer\"\n    ]}\n    phx-drop-target={@upload.ref}\n    for={@upload.ref}\n    {@rest}\n  >\n    <div class=\"flex flex-col gap-3 items-center justify-center pt-5 pb-6\">\n      <.component component_name=\"chelekom-icon\" site={assigns[:site]} name={@dropzone_icon} class=\"size-14\" />\n      <div class=\"mb-2 font-semibold\">\n        {@dropzone_title}\n      </div>\n\n      <div>\n        {@dropzone_description}\n      </div>\n    </div>\n    <.live_file_input upload={@upload} class=\"hidden\" />\n  </label>\n\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors} icon={@error_icon}>{msg}</.component>\n\n  <div aria-live=\"polite\" class=\"mt-5 space-y-4\">\n    <%= for entry <- @entries do %>\n      <div\n        class=\"upload-item border rounded relative p-3\"\n        role=\"group\"\n        aria-label={gettext(\"Uploading %{file}\", file: entry.client_name)}\n      >\n        <div class=\"flex justify-around gap-3\">\n          <.component component_name=\"chelekom-icon\" site={assigns[:site]} name=\"hero-document-arrow-up\" class=\"size-8\" />\n          <div class=\"w-full space-y-3\">\n            <div class=\"text-ellipsis overflow-hidden w-44 whitespace-nowrap\">\n              {entry.client_name}\n            </div>\n\n            <div>\n              {convert_to_mb(entry.client_size)} <span>MB</span>\n            </div>\n\n            <.component component_name=\"chelekom-progress\" site={assigns[:site]} value={entry.progress} color={@color} size=\"extra_small\" />\n            <span class=\"sr-only\">\n              {gettext(\"Uploading %{file}: %{progress} percent\",\n                file: entry.client_name,\n                progress: entry.progress\n              )}\n            </span>\n          </div>\n        </div>\n\n        <button\n          type=\"button\"\n          phx-click=\"cancel-upload\"\n          phx-value-ref={entry.ref}\n          aria-label={gettext(\"Cancel upload for %{file}\", file: entry.client_name)}\n          class=\"absolute top-2 right-2 text-custom-black-100/60 hover:text-custome-black-100\"\n        >\n          <.component component_name=\"chelekom-icon\" site={assigns[:site]} name=\"hero-x-mark\" class=\"size-4\" />\n        </button>\n\n        <%= for err <- upload_errors(@upload_error, entry) do %>\n          <p class=\"text-rose-600 font-medium text-xs mt-3\">Error: {error_to_string(err)}</p>\n        <% end %>\n      </div>\n    <% end %>\n  </div>\n\n  <%= for err <- upload_errors(@upload_error) do %>\n    <p class=\"text-rose-600 font-medium text-xs\">{error_to_string(err)}</p>\n  <% end %>\n</div>\n"
           },
           {
             "body": "targeted_upload = assigns.uploads[assigns.target]\n\nassigns =\n  assigns\n  |> assign_new(:entries, fn -> targeted_upload.entries end)\n  |> assign_new(:upload_error, fn -> targeted_upload end)\n  |> assign_new(:upload, fn -> targeted_upload end)",
+            "delegates": false,
             "guard": null,
-            "match": "%{dropzone: true, dropzone_type: \"image\"} = assigns",
+            "match": "%{dropzone_type: \"image\"} = assigns",
             "template": "<div\n  id={@id}\n  class={[\n    color_variant(@variant, @color),\n    border_class(@border, @variant),\n    rounded_size(@rounded),\n    size_class(@size),\n    @dashed && \"[&_.dropzone-wrapper]:border-dashed\",\n    @class\n  ]}\n>\n  <label\n    class={[\n      \"dropzone-wrapper group flex flex-col items-center justify-center w-full cursor-pointer\"\n    ]}\n    phx-drop-target={@upload.ref}\n    for={@upload.ref}\n    {@rest}\n  >\n    <div class=\"flex flex-col gap-3 items-center justify-center pt-5 pb-6\">\n      <.component component_name=\"chelekom-icon\" site={assigns[:site]} name={@dropzone_icon} class=\"size-14\" />\n      <div class=\"mb-2 font-semibold\">\n        {@dropzone_title}\n      </div>\n\n      <div>\n        {@dropzone_description}\n      </div>\n    </div>\n    <.live_file_input upload={@upload} class=\"hidden\" />\n  </label>\n\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors} icon={@error_icon}>{msg}</.component>\n\n  <%= for err <- upload_errors(@upload_error) do %>\n    <p class=\"text-rose-600 font-semibold text-sm my-5\">{error_to_string(err)}</p>\n  <% end %>\n\n  <div class=\"flex flex-wrap gap-3 my-3\">\n    <%= for entry <- @entries do %>\n      <div>\n        <div\n          role=\"group\"\n          aria-label={gettext(\"Uploading %{file}\", file: entry.client_name)}\n          class=\"relative\"\n        >\n          <div class=\"rounded w-24 h-24 overflow-hidden\">\n            <figure class=\"w-full h-full object-cover\">\n              <.live_img_preview entry={entry} class=\"w-full h-full object-cover rounded\" />\n            </figure>\n          </div>\n\n          <button\n            type=\"button\"\n            phx-click=\"cancel-upload\"\n            phx-value-ref={entry.ref}\n            aria-label={gettext(\"Cancel upload for %{file}\", file: entry.client_name)}\n            class=\"bg-black/30 rounded p-px text-white flex justify-center items-center absolute top-2 right-2 z-10\"\n          >\n            <.component component_name=\"chelekom-icon\" site={assigns[:site]} name=\"hero-x-mark\" class=\"size-4\" />\n          </button>\n\n\n          <div\n            :if={!entry.done?}\n            role=\"status\"\n            class=\"absolute inset-0 bg-black/25 flex justify-center items-center\"\n          >\n            <.component component_name=\"chelekom-spinner\" site={assigns[:site]} color=\"base\" />\n            <span class=\"sr-only\">{gettext(\"Uploading %{file}\", file: entry.client_name)}</span>\n          </div>\n        </div>\n        <%= for err <- upload_errors(@upload_error, entry) do %>\n          <p class=\"text-rose-600 font-medium text-xs mt-3\">Error: {error_to_string(err)}</p>\n        <% end %>\n      </div>\n    <% end %>\n  </div>\n</div>\n"
-          },
-          {
-            "body": null,
-            "guard": null,
-            "match": null,
-            "template": "<div\n  id={if @live, do: @id}\n  class={[\n    rounded_size(@rounded),\n    color_class(@color),\n    space_class(@space),\n    @class\n  ]}\n>\n  <.component component_name=\"chelekom-label\" site={assigns[:site]} :if={@label} for={if @live, do: @upload.ref, else: @id}>{@label}</.component>\n\n  <%= if @live do %>\n    <.live_file_input\n      upload={@upload}\n      class={[\n        \"file-field block w-full cursor-pointer focus:outline-none file:border-0 file:cursor-pointer\",\n        \"file:py-3 file:px-8 file:font-bold file:-ms-4 file:me-4\"\n      ]}\n      {@rest}\n    />\n  <% else %>\n    <input\n      name={@name}\n      id={@id}\n      class={[\n        \"file-field block w-full cursor-pointer focus:outline-none file:border-0 file:cursor-pointer\",\n        \"file:py-3 file:px-8 file:font-bold file:-ms-4 file:me-4\"\n      ]}\n      type=\"file\"\n      {@rest}\n    />\n  <% end %>\n\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors} icon={@error_icon}>{msg}</.component>\n</div>\n"
           }
         ],
         "component": "file_field",
@@ -141215,18 +141285,25 @@
             "label": "Résumé upload on a job application",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-file-field\" site=\"Global\" id=\"apply-resume\" name=\"application[resume]\" label=\"Attach your résumé (PDF or Word, up to 5 MB)\" class=\"max-w-md\" />"
+            "source": "<div class=\"max-w-md space-y-2\">\n  <.component component_name=\"chelekom-file-field\" site=\"Global\" id=\"apply-resume\" name=\"application[resume]\" value=\"\" label=\"Attach your résumé\" />\n  <p class=\"text-xs text-gray-500 dark:text-gray-400\">PDF or Word, up to 5 MB. A person reads every application — nothing here is screened automatically.</p>\n</div>"
           },
           {
             "base": false,
-            "label": "Profile photo field rejecting an oversized image",
+            "label": "Supporting documents, several at once",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-file-field\" site=\"Global\" id=\"profile-avatar-upload\" name=\"user[avatar]\" label=\"Profile photo\" errors={[\"That image is larger than 2 MB. Please choose a smaller file.\"]} class=\"max-w-md\" />"
+            "source": "<div class=\"max-w-md space-y-2\">\n  <.component component_name=\"chelekom-file-field\" site=\"Global\" id=\"claim-documents\" name=\"claim[documents][]\" value=\"\" label=\"Supporting documents\" multiple />\n  <p class=\"text-xs text-gray-500 dark:text-gray-400\">Hold Shift to pick more than one. Photographs of paper receipts are fine.</p>\n</div>"
           },
           {
             "base": false,
-            "label": "Receipt attachment on an expense claim",
+            "label": "Profile photo rejected for being too large",
+            "requires": {},
+            "section": null,
+            "source": "<div class=\"max-w-md\">\n  <.component component_name=\"chelekom-file-field\" site=\"Global\" id=\"profile-avatar\" name=\"user[avatar]\" value=\"\" label=\"Profile photo\" errors={[\"That image is larger than 2 MB. Please choose a smaller one.\"]} />\n</div>"
+          },
+          {
+            "base": false,
+            "label": "Receipt on an expense claim, with the field emphasised",
             "requires": {
               "color": [
                 "primary"
@@ -141236,7 +141313,7 @@
               ]
             },
             "section": null,
-            "source": "<.component component_name=\"chelekom-file-field\" site=\"Global\" id=\"expense-receipt\" name=\"expense[receipt]\" label=\"Receipt or invoice\" color=\"primary\" space=\"small\" class=\"max-w-md\" />"
+            "source": "<div class=\"max-w-md space-y-2\">\n  <.component component_name=\"chelekom-file-field\" site=\"Global\" id=\"expense-receipt\" name=\"expense[receipt]\" value=\"\" label=\"Receipt or invoice\" color=\"primary\" space=\"small\" />\n  <p class=\"text-xs text-gray-500 dark:text-gray-400\">Claims without a receipt are held until finance can match them to a card statement.</p>\n</div>"
           }
         ],
         "function": "file_field",
@@ -141251,14 +141328,6 @@
       },
       "format": "heex",
       "helpers": [
-        {
-          "args": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
-          "attrs": [],
-          "code": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn ->\n  if assigns.rest[:multiple] do\n    field.name <> \"[]\"\n  else\n    field.name\n  end\nend)\n|> assign_new(:value, fn -> field.value end)\n|> file_field()",
-          "discriminators": [],
-          "name": "file_field",
-          "slots": []
-        },
         {
           "args": "assigns",
           "attrs": [
@@ -143282,7 +143351,7 @@
       "required": false,
       "site_id": null,
       "slots": [],
-      "template": "<div\n  id={@id}\n  class={[\n    color_variant(@variant, @color),\n    border_class(@border, @variant),\n    rounded_size(@rounded),\n    size_class(@size),\n    @dashed && \"[&_.dropzone-wrapper]:border-dashed\",\n    @class\n  ]}\n>\n  <label\n    class={[\n      \"dropzone-wrapper group flex flex-col items-center justify-center w-full cursor-pointer\"\n    ]}\n    phx-drop-target={@upload.ref}\n    for={@upload.ref}\n    {@rest}\n  >\n    <div class=\"flex flex-col gap-3 items-center justify-center pt-5 pb-6\">\n      <.component component_name=\"chelekom-icon\" site={assigns[:site]} name={@dropzone_icon} class=\"size-14\" />\n      <div class=\"mb-2 font-semibold\">\n        {@dropzone_title}\n      </div>\n\n      <div>\n        {@dropzone_description}\n      </div>\n    </div>\n    <.live_file_input upload={@upload} class=\"hidden\" />\n  </label>\n\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors} icon={@error_icon}>{msg}</.component>\n\n  <div aria-live=\"polite\" class=\"mt-5 space-y-4\">\n    <%= for entry <- @entries do %>\n      <div\n        class=\"upload-item border rounded relative p-3\"\n        role=\"group\"\n        aria-label={gettext(\"Uploading %{file}\", file: entry.client_name)}\n      >\n        <div class=\"flex justify-around gap-3\">\n          <.component component_name=\"chelekom-icon\" site={assigns[:site]} name=\"hero-document-arrow-up\" class=\"size-8\" />\n          <div class=\"w-full space-y-3\">\n            <div class=\"text-ellipsis overflow-hidden w-44 whitespace-nowrap\">\n              {entry.client_name}\n            </div>\n\n            <div>\n              {convert_to_mb(entry.client_size)} <span>MB</span>\n            </div>\n\n            <.component component_name=\"chelekom-progress\" site={assigns[:site]} value={entry.progress} color={@color} size=\"extra_small\" />\n            <span class=\"sr-only\">\n              {gettext(\"Uploading %{file}: %{progress} percent\",\n                file: entry.client_name,\n                progress: entry.progress\n              )}\n            </span>\n          </div>\n        </div>\n\n        <button\n          type=\"button\"\n          phx-click=\"cancel-upload\"\n          phx-value-ref={entry.ref}\n          aria-label={gettext(\"Cancel upload for %{file}\", file: entry.client_name)}\n          class=\"absolute top-2 right-2 text-custom-black-100/60 hover:text-custome-black-100\"\n        >\n          <.component component_name=\"chelekom-icon\" site={assigns[:site]} name=\"hero-x-mark\" class=\"size-4\" />\n        </button>\n\n        <%= for err <- upload_errors(@upload_error, entry) do %>\n          <p class=\"text-rose-600 font-medium text-xs mt-3\">Error: {error_to_string(err)}</p>\n        <% end %>\n      </div>\n    <% end %>\n  </div>\n\n  <%= for err <- upload_errors(@upload_error) do %>\n    <p class=\"text-rose-600 font-medium text-xs\">{error_to_string(err)}</p>\n  <% end %>\n</div>\n",
+      "template": "<div\n  id={if @live, do: @id}\n  class={[\n    rounded_size(@rounded),\n    color_class(@color),\n    space_class(@space),\n    @class\n  ]}\n>\n  <.component component_name=\"chelekom-label\" site={assigns[:site]} :if={@label} for={if @live, do: @upload.ref, else: @id}>{@label}</.component>\n\n  <%= if @live do %>\n    <.live_file_input\n      upload={@upload}\n      class={[\n        \"file-field block w-full cursor-pointer focus:outline-none file:border-0 file:cursor-pointer\",\n        \"file:py-3 file:px-8 file:font-bold file:-ms-4 file:me-4\"\n      ]}\n      {@rest}\n    />\n  <% else %>\n    <input\n      name={@name}\n      id={@id}\n      class={[\n        \"file-field block w-full cursor-pointer focus:outline-none file:border-0 file:cursor-pointer\",\n        \"file:py-3 file:px-8 file:font-bold file:-ms-4 file:me-4\"\n      ]}\n      type=\"file\"\n      {@rest}\n    />\n  <% end %>\n\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors} icon={@error_icon}>{msg}</.component>\n</div>\n",
       "type": "forms"
     },
     {
@@ -143373,12 +143442,14 @@
         "clauses": [
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": "%{horizontal: true} = assigns",
             "template": "<div\n  role=\"list\"\n  class={[\n    \"timeline-horizontal items-center sm:flex px-5 lg:px-0\",\n    color_class(@color),\n    @class\n  ]}\n  {@rest}\n>\n  {render_slot(@inner_block)}\n</div>\n"
           },
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": null,
             "template": "<div\n  role=\"list\"\n  class={[\n    color_class(@color),\n    @gapped_sections && \"[&_.timeline-bullet-wrapper]:items-center\",\n    @hide_last_line && \"[&_.timeline-section:last-child_.timeline-vertical-line]:after:hidden\",\n    @class\n  ]}\n  {@rest}\n>\n  {render_slot(@inner_block)}\n</div>\n"
@@ -144309,12 +144380,14 @@
         "clauses": [
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": "%{horizontal: true} = assigns",
             "template": "<div\n  id={@id}\n  role=\"listitem\"\n  class={[\n    \"timeline-section relative mb-6 sm:mb-0\",\n    @class\n  ]}\n  {@rest}\n>\n  <div :if={!@image} class={[\"flex items-center\", @bullet_wrapper_class]}>\n    <div class={[\n      \"timeline-bullet z-10 flex items-center justify-center rounded-full shrink-0\",\n      bullet_size(@size),\n      @bullet_class\n    ]}>\n      <.component component_name=\"chelekom-icon\" site={assigns[:site]} :if={@bullet_icon} name={@bullet_icon} class={[\"bullet-icon\", @icon_class]} aria-hidden=\"true\" />\n    </div>\n    <div class={[\n      \"timeline-horizontal-line hidden sm:flex w-full\",\n      line_size(@line_size, @horizontal),\n      line_style(@line_style, @horizontal),\n      @line_class\n    ]}>\n    </div>\n  </div>\n\n  <div :if={@image} class={[\"flex items-center\", @bullet_wrapper_class]}>\n    <div class={[\n      \"timeline-image-wrapper z-10 shrink-0\",\n      bullet_size(@size),\n      @bullet_class\n    ]}>\n      <img class={[\"rounded-full shadow-md\", @image_class]} src={@image} alt={@image} />\n    </div>\n    <div class={[\n      \"timeline-horizontal-line hidden sm:flex w-full\",\n      line_size(@line_size, @horizontal),\n      line_style(@line_style, @horizontal),\n      @line_class\n    ]}>\n    </div>\n  </div>\n\n  <div class={[\"mt-3 sm:pe-5\", @content_class]}>\n    <h3 :if={@title} class={[\"text-lg font-semibold mb-2\", @title_class]}>{@title}</h3>\n    <time :if={@time} class={[\"block mb-3 text-xs font-normal leading-none\", @time_class]}>{@time}</time>\n    <p :if={@description} class={@description_class}>{@description}</p>\n\n    {render_slot(@inner_block)}\n  </div>\n</div>\n"
           },
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": null,
             "template": "<div\n  id={@id}\n  role=\"listitem\"\n  class={[\n    \"timeline-section flex gap-x-3 [&_.timeline-vertical-line]:after:top-3\",\n    @class\n  ]}\n  {@rest}\n>\n  <div\n    :if={!@image}\n    class={[\n      \"timeline-vertical-line relative after:absolute\",\n      \"after:bottom-0 after:start-3.5 after:-translate-x-[0.5px]\",\n      line_size(@line_size, @horizontal),\n      line_style(@line_style, @horizontal),\n      @line_class\n    ]}\n  >\n    <div class={[\"timeline-bullet-wrapper relative z-10 size-7 flex justify-center\", @bullet_wrapper_class]}>\n      <div class={[\n        \"timeline-bullet rounded-full flex justify-center items-center\",\n        bullet_size(@size),\n        @bullet_class\n      ]}>\n        <.component component_name=\"chelekom-icon\" site={assigns[:site]} :if={@bullet_icon} name={@bullet_icon} class={[\"bullet-icon\", @icon_class]} aria-hidden=\"true\" />\n      </div>\n    </div>\n  </div>\n\n  <div\n    :if={@image}\n    class={[\n      \"timeline-vertical-line relative after:absolute\",\n      \"after:bottom-0 after:start-1/2 after:-translate-x-[0.5px] shrink-0\",\n      line_size(@line_size, @horizontal),\n      line_style(@line_style, @horizontal),\n      @line_class\n    ]}\n  >\n    <div class={[\"relative z-10\", @bullet_wrapper_class]}>\n      <div class={[\n        \"timeline-image-wrapper\",\n        bullet_size(@size),\n        @bullet_class\n      ]}>\n        <img class={[\"rounded-full shadow-md\", @image_class]} src={@image} alt={@image} />\n      </div>\n    </div>\n  </div>\n\n  <div class={[\"grow pt-0.5 pb-5\", @content_class]}>\n    <h3 :if={@title} class={[\"text-lg font-semibold mb-2\", @title_class]}>{@title}</h3>\n    <time :if={@time} class={[\"block mb-3 text-[12px] font-normal leading-none\", @time_class]}>{@time}</time>\n    <p :if={@description} class={@description_class}>{@description}</p>\n\n    {render_slot(@inner_block)}\n  </div>\n</div>\n"
@@ -149507,7 +149580,22 @@
         "<div class=\"max-w-sm\">\n  <.component component_name=\"chelekom-native-select\" site=\"Global\" id=\"select-newsletter-topics\" name=\"topics[]\" label=\"Topics you want to hear about\" description=\"Hold Ctrl, or Command on a Mac, to pick more than one.\" size=\"small\" rounded=\"medium\" multiple min_height=\"min-h-36\">\n    <:option value=\"releases\" selected>Product releases</:option>\n    <:option value=\"guides\">Guides and tutorials</:option>\n    <:option value=\"engineering\">Engineering write-ups</:option>\n    <:option value=\"events\">Events and meetups</:option>\n    <:option value=\"offers\">Offers and discounts</:option>\n  </.component>\n</div>"
       ],
       "extra": {
-        "clauses": null,
+        "clauses": [
+          {
+            "body": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn ->\n  if assigns.rest[:multiple] do\n    field.name <> \"[]\"\n  else\n    field.name\n  end\nend)\n|> assign_new(:value, fn -> field.value end)",
+            "delegates": true,
+            "guard": null,
+            "match": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
+            "template": null
+          },
+          {
+            "body": null,
+            "delegates": false,
+            "guard": null,
+            "match": null,
+            "template": "<div class={[\n  @variant != \"native\" && color_variant(@variant, @color),\n  rounded_size(@rounded),\n  border_class(@border, @variant),\n  size_class(@size),\n  space_class(@space),\n  \"[&_.select-field]:focus-within:outline-none\",\n  @ring && \"[&_.select-field]:focus-within:ring-1\",\n  @class\n]}>\n  <div\n    :if={@label || @description}\n    class={[\"select-label-wrapper\", @description_wrapper_class]}\n  >\n    <.component component_name=\"chelekom-label\" site={assigns[:site]} :if={@label} for={@id} class={@label_class}>{@label}</.component>\n    <div :if={@description} class={@description_class}>\n      {@description}\n    </div>\n  </div>\n\n  <select\n    name={@name}\n    id={@id}\n    multiple={@multiple}\n    class={[\n      \"select-field appearance-none block w-full text-[16px] sm:font-inherit py-1 px-2\",\n      @multiple && \"select-multiple-option\",\n      @errors != [] && \"select-field-error\",\n      @min_height,\n      @select_class\n    ]}\n    {@rest}\n  >\n    <option\n      :for={{option, index} <- Enum.with_index(@option, 1)}\n      id={\"#{@id}-option-#{index}\"}\n      value={option[:value]}\n      selected={option[:selected]}\n      disabled={option[:disabled]}\n    >\n      {render_slot(option)}\n    </option>\n  </select>\n\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors} icon={@error_icon}>{msg}</.component>\n</div>\n"
+          }
+        ],
         "component": "native_select",
         "demo_examples": [
           {
@@ -149727,14 +149815,6 @@
       },
       "format": "heex",
       "helpers": [
-        {
-          "args": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
-          "attrs": [],
-          "code": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn ->\n  if assigns.rest[:multiple] do\n    field.name <> \"[]\"\n  else\n    field.name\n  end\nend)\n|> assign_new(:value, fn -> field.value end)\n|> native_select()",
-          "discriminators": [],
-          "name": "native_select",
-          "slots": []
-        },
         {
           "args": "assigns",
           "attrs": [
@@ -151072,14 +151152,6 @@
       },
       "format": "heex",
       "helpers": [
-        {
-          "args": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
-          "attrs": [],
-          "code": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn ->\n  if assigns.rest[:multiple] do\n    field.name <> \"[]\"\n  else\n    field.name\n  end\nend)\n|> assign_new(:value, fn -> field.value end)\n|> native_select()",
-          "discriminators": [],
-          "name": "native_select",
-          "slots": []
-        },
         {
           "args": "assigns",
           "attrs": [
@@ -159621,13 +159693,22 @@
       "extra": {
         "clauses": [
           {
+            "body": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn -> field.name end)\n|> assign_new(:value, fn -> field.value end)",
+            "delegates": true,
+            "guard": null,
+            "match": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
+            "template": null
+          },
+          {
             "body": null,
+            "delegates": false,
             "guard": "floating in [\"inner\", \"outer\"]",
             "match": "%{floating: floating} = assigns",
             "template": "<div class={[\n  color_variant(@variant, @color, @floating),\n  rounded_size(@rounded),\n  border_class(@border, @variant),\n  size_class(@size),\n  space_class(@space),\n  @ring && \"[&_.email-field-wrapper]:focus-within:ring-[0.03rem] leading-6\",\n  @class\n]}>\n  <div :if={@description} class={@description_class}>\n    {@description}\n  </div>\n  <div class={[\n    \"email-field-wrapper transition-all ease-in-out duration-200 w-full flex flex-nowrap\",\n    @errors != [] && \"email-field-error\",\n    @field_wrapper_class\n  ]}>\n    <div\n      :if={@start_section}\n      class={[\n        \"flex items-center justify-center shrink-0 ps-2\",\n        @start_section[:class]\n      ]}\n    >\n      {render_slot(@start_section)}\n    </div>\n    <div class=\"relative w-full z-[2]\">\n      <input\n        type=\"email\"\n        name={@name}\n        id={@id}\n        value={@value}\n        class={[\n          \"disabled:opacity-80 block w-full z-[2] focus:ring-0 placeholder:text-transparent pb-1 pt-2.5 px-2\",\n          \"text-[16px] sm:font-inherit appearance-none bg-transparent border-0 focus:outline-none peer\",\n          @input_class\n        ]}\n        placeholder=\" \"\n        {@rest}\n      />\n\n      <label\n        :if={@label}\n        class={[\n          \"floating-label px-1 start-1 -z-[1] absolute text-xs duration-300 transform scale-75 origin-[0]\",\n          variant_label_position(@floating),\n          @floating_label_class\n        ]}\n        for={@id}\n      >\n        {@label}\n      </label>\n    </div>\n\n    <div\n      :if={@end_section}\n      class={[\"flex items-center justify-center shrink-0 pe-2\", @end_section[:class]]}\n    >\n      {render_slot(@end_section)}\n    </div>\n  </div>\n\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors} icon={@error_icon}>{msg}</.component>\n</div>\n"
           },
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": null,
             "template": "<div class={[\n  color_variant(@variant, @color, @floating),\n  rounded_size(@rounded),\n  border_class(@border, @variant),\n  size_class(@size),\n  space_class(@space),\n  @ring && \"[&_.email-field-wrapper]:focus-within:ring-[0.03rem] leading-6\",\n  @class\n]}>\n  <div\n    :if={@label || @description}\n    class={[\"email-label-wrapper\", @description_wrapper_class]}\n  >\n    <.component component_name=\"chelekom-label\" site={assigns[:site]} :if={@label} for={@id} class={@label_class}>{@label}</.component>\n    <div :if={@description} class={@description_class}>\n      {@description}\n    </div>\n  </div>\n\n  <div class={[\n    \"email-field-wrapper overflow-hidden transition-all ease-in-out duration-200 flex items-center flex-nowrap\",\n    @errors != [] && \"email-field-error\",\n    @field_wrapper_class\n  ]}>\n    <div\n      :if={@start_section}\n      class={[\n        \"flex items-center justify-center shrink-0 ps-2\",\n        @start_section[:class]\n      ]}\n    >\n      {render_slot(@start_section)}\n    </div>\n\n    <input\n      type=\"email\"\n      name={@name}\n      id={@id}\n      value={@value}\n      placeholder={@placeholder}\n      class={[\n        \"flex-1 py-1 px-2 text-sm disabled:opacity-80 block w-full appearance-none\",\n        \"bg-transparent border-0 focus:outline-none focus:ring-0\",\n        @input_class\n      ]}\n      {@rest}\n    />\n\n    <div\n      :if={@end_section}\n      class={[\"flex items-center justify-center shrink-0 pe-2\", @end_section[:class]]}\n    >\n      {render_slot(@end_section)}\n    </div>\n  </div>\n\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors} icon={@error_icon}>{msg}</.component>\n</div>\n"
@@ -159881,14 +159962,6 @@
       },
       "format": "heex",
       "helpers": [
-        {
-          "args": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
-          "attrs": [],
-          "code": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:value, fn -> field.value end)\n|> email_field()",
-          "discriminators": [],
-          "name": "email_field",
-          "slots": []
-        },
         {
           "args": "assigns",
           "attrs": [
@@ -161847,13 +161920,22 @@
       "extra": {
         "clauses": [
           {
+            "body": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn -> field.name end)\n|> assign_new(:value, fn -> field.value end)",
+            "delegates": true,
+            "guard": null,
+            "match": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
+            "template": null
+          },
+          {
             "body": null,
+            "delegates": false,
             "guard": "floating in [\"inner\", \"outer\"]",
             "match": "%{floating: floating} = assigns",
             "template": "<div class={[\n  color_variant(@variant, @color, @floating),\n  rounded_size(@rounded),\n  border_class(@border, @variant),\n  size_class(@size),\n  space_class(@space),\n  @ring && \"[&_.search-field-wrapper]:focus-within:ring-[0.03rem] leading-6\",\n  @class\n]}>\n  <div :if={@description} class={@description_class}>\n    {@description}\n  </div>\n  <div class={[\n    \"search-field-wrapper transition-all ease-in-out duration-200 w-full flex flex-nowrap\",\n    @errors != [] && \"search-field-error\",\n    @field_wrapper_class\n  ]}>\n    <div\n      :if={@start_section}\n      class={[\n        \"flex items-center justify-center shrink-0 ps-2\",\n        @start_section[:class]\n      ]}\n    >\n      {render_slot(@start_section)}\n    </div>\n    <div class=\"relative w-full z-[2]\">\n      <input\n        type=\"search\"\n        name={@name}\n        id={@id}\n        value={@value}\n        class={[\n          \"disabled:opacity-80 block w-full z-[2] focus:ring-0 placeholder:text-transparent pb-1 pt-2.5 px-2\",\n          \"text-[16px] sm:font-inherit appearance-none bg-transparent border-0 focus:outline-none peer\",\n          @input_class\n        ]}\n        placeholder=\" \"\n        {@rest}\n      />\n\n      <label\n        :if={@label}\n        class={[\n          \"floating-label px-1 start-1 -z-[1] absolute text-xs duration-300 transform scale-75 origin-[0]\",\n          variant_label_position(@floating),\n          @floating_label_class\n        ]}\n        for={@id}\n      >\n        {@label}\n      </label>\n    </div>\n\n    <div\n      :if={@end_section}\n      class={[\"flex items-center justify-center shrink-0 pe-2\", @end_section[:class]]}\n    >\n      {render_slot(@end_section)}\n    </div>\n    <div :if={@search_button} class={[\"flex items-center justify-center shrink-0 pe-2\", @search_button_class]}>\n      <button class=\"flex items-center justify-center leading-5 focus:outline-none\">\n        <.component component_name=\"chelekom-icon\" site={assigns[:site]} name=\"hero-magnifying-glass\" class=\"search-field-icon\" />\n      </button>\n    </div>\n  </div>\n\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors} icon={@error_icon}>{msg}</.component>\n</div>\n"
           },
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": null,
             "template": "<div class={[\n  color_variant(@variant, @color, @floating),\n  rounded_size(@rounded),\n  border_class(@border, @variant),\n  size_class(@size),\n  space_class(@space),\n  @ring && \"[&_.search-field-wrapper]:focus-within:ring-[0.03rem] leading-6\",\n  @class\n]}>\n  <div\n    :if={@label || @description}\n    class={[\"search-label-wrapper\", @description_wrapper_class]}\n  >\n    <.component component_name=\"chelekom-label\" site={assigns[:site]} :if={@label} for={@id} class={@label_class}>{@label}</.component>\n    <div :if={@description} class={@description_class}>\n      {@description}\n    </div>\n  </div>\n\n  <div class={[\n    \"search-field-wrapper overflow-hidden transition-all ease-in-out duration-200 flex items-center flex-nowrap\",\n    @errors != [] && \"search-field-error\",\n    @field_wrapper_class\n  ]}>\n    <div\n      :if={@start_section}\n      class={[\n        \"flex items-center justify-center shrink-0 ps-2\",\n        @start_section[:class]\n      ]}\n    >\n      {render_slot(@start_section)}\n    </div>\n\n    <input\n      type=\"search\"\n      name={@name}\n      id={@id}\n      value={@value}\n      placeholder={@placeholder}\n      class={[\n        \"flex-1 py-1 px-2 text-sm disabled:opacity-80 block w-full appearance-none\",\n        \"bg-transparent border-0 focus:outline-none focus:ring-0\",\n        @input_class\n      ]}\n      {@rest}\n    />\n\n    <div\n      :if={@end_section}\n      class={[\"flex items-center justify-center shrink-0 pe-2\", @end_section[:class]]}\n    >\n      {render_slot(@end_section)}\n    </div>\n    <div :if={@search_button} class={[\"flex items-center justify-center shrink-0 pe-2\", @search_button_class]}>\n      <button class=\"flex items-center justify-center leading-5 focus:outline-none\">\n        <.component component_name=\"chelekom-icon\" site={assigns[:site]} name=\"hero-magnifying-glass\" class=\"search-field-icon\" />\n      </button>\n    </div>\n  </div>\n\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors} icon={@error_icon}>{msg}</.component>\n</div>\n"
@@ -162001,14 +162083,6 @@
       },
       "format": "heex",
       "helpers": [
-        {
-          "args": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
-          "attrs": [],
-          "code": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn -> field.name end)\n|> assign_new(:value, fn -> field.value end)\n|> search_field()",
-          "discriminators": [],
-          "name": "search_field",
-          "slots": []
-        },
         {
           "args": "assigns",
           "attrs": [
@@ -168504,13 +168578,22 @@
       "extra": {
         "clauses": [
           {
+            "body": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn -> field.name end)\n|> assign_new(:value, fn -> field.value end)",
+            "delegates": true,
+            "guard": null,
+            "match": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
+            "template": null
+          },
+          {
             "body": null,
+            "delegates": false,
             "guard": "floating in [\"inner\", \"outer\"]",
             "match": "%{floating: floating} = assigns",
             "template": "<div class={[\n  color_variant(@variant, @color, @floating),\n  rounded_size(@rounded),\n  border_class(@border, @variant),\n  size_class(@size),\n  space_class(@space),\n  @ring && \"[&_.number-field-wrapper]:focus-within:ring-[0.03rem] leading-6\",\n  @class\n]}>\n  <div :if={@description} class={@description_class}>\n    {@description}\n  </div>\n  <div class={[\n    \"number-field-wrapper transition-all ease-in-out duration-200 w-full flex flex-nowrap\",\n    @errors != [] && \"number-field-error\",\n    @field_wrapper_class\n  ]}>\n    <div\n      :if={@start_section}\n      class={[\n        \"flex items-center justify-center shrink-0 ps-2\",\n        @start_section[:class]\n      ]}\n    >\n      {render_slot(@start_section)}\n    </div>\n    <div class=\"relative w-full z-[2]\">\n      <input\n        type=\"number\"\n        name={@name}\n        id={@id}\n        value={@value}\n        class={[\n          \"disabled:opacity-80 block w-full z-[2] focus:ring-0 placeholder:text-transparent pb-1 pt-2.5 px-2\",\n          \"text-[16px] sm:font-inherit appearance-none bg-transparent border-0 focus:outline-none peer\",\n          @controls == \"fixed\" &&\n            \"[&::-webkit-outer-spin-button]:opacity-100 [&::-webkit-inner-spin-button]:opacity-100\",\n          @controls == \"hide\" &&\n            \"[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none\",\n          @input_class\n        ]}\n        placeholder=\" \"\n        {@rest}\n      />\n\n      <label\n        :if={@label}\n        class={[\n          \"floating-label px-1 start-1 -z-[1] absolute text-xs duration-300 transform scale-75 origin-[0]\",\n          variant_label_position(@floating),\n          @floating_label_class\n        ]}\n        for={@id}\n      >\n        {@label}\n      </label>\n    </div>\n\n    <div\n      :if={@end_section}\n      class={[\"flex items-center justify-center shrink-0 pe-2\", @end_section[:class]]}\n    >\n      {render_slot(@end_section)}\n    </div>\n  </div>\n\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors} icon={@error_icon}>{msg}</.component>\n</div>\n"
           },
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": null,
             "template": "<div class={[\n  color_variant(@variant, @color, @floating),\n  rounded_size(@rounded),\n  border_class(@border, @variant),\n  size_class(@size),\n  space_class(@space),\n  @ring && \"[&_.number-field-wrapper]:focus-within:ring-[0.03rem] leading-6\",\n  @class\n]}>\n  <div\n    :if={@label || @description}\n    class={[\"number-label-wrapper\", @description_wrapper_class]}\n  >\n    <.component component_name=\"chelekom-label\" site={assigns[:site]} :if={@label} for={@id} class={@label_class}>{@label}</.component>\n    <div :if={@description} class={@description_class}>\n      {@description}\n    </div>\n  </div>\n\n  <div class={[\n    \"number-field-wrapper overflow-hidden transition-all ease-in-out duration-200 flex items-center flex-nowrap\",\n    @errors != [] && \"number-field-error\",\n    @field_wrapper_class\n  ]}>\n    <div\n      :if={@start_section}\n      class={[\n        \"flex items-center justify-center shrink-0 ps-2\",\n        @start_section[:class]\n      ]}\n    >\n      {render_slot(@start_section)}\n    </div>\n\n    <input\n      type=\"number\"\n      name={@name}\n      id={@id}\n      value={@value}\n      placeholder={@placeholder}\n      class={[\n        \"flex-1 py-1 px-2 text-sm disabled:opacity-80 block w-full appearance-none\",\n        \"bg-transparent border-0 focus:outline-none focus:ring-0\",\n        @controls == \"fixed\" &&\n          \"[&::-webkit-outer-spin-button]:opacity-100 [&::-webkit-inner-spin-button]:opacity-100\",\n        @controls == \"hide\" &&\n          \"[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none\",\n        @input_class\n      ]}\n      {@rest}\n    />\n\n    <div\n      :if={@end_section}\n      class={[\"flex items-center justify-center shrink-0 pe-2\", @end_section[:class]]}\n    >\n      {render_slot(@end_section)}\n    </div>\n  </div>\n\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors} icon={@error_icon}>{msg}</.component>\n</div>\n"
@@ -168665,14 +168748,6 @@
       },
       "format": "heex",
       "helpers": [
-        {
-          "args": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
-          "attrs": [],
-          "code": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn -> field.name end)\n|> assign_new(:value, fn -> field.value end)\n|> number_field()",
-          "discriminators": [],
-          "name": "number_field",
-          "slots": []
-        },
         {
           "args": "assigns",
           "attrs": [
@@ -170516,12 +170591,14 @@
         "clauses": [
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": "%{vertical: true} = assigns",
             "template": "<div\n  role=\"list\"\n  class={[\n    \"vertical-stepper relative flex flex-col\",\n    \"[&_.vertical-step:last-child_.stepper-separator]:hidden\",\n    step_visibility(),\n    border_class(@border),\n    space_class(@space),\n    size_class(@size),\n    color_variant(@variant, @color),\n    @font_weight,\n    @class\n  ]}\n  {@rest}\n>\n  {render_slot(@inner_block)}\n</div>\n"
           },
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": null,
             "template": "<div\n  role=\"list\"\n  id={@id}\n  class={[\n    \"group flex flex-row flex-start items-center flex-wrap gap-y-5\",\n    \"[&_.stepper-separator:last-child]:hidden\",\n    step_visibility(),\n    size_class(@size),\n    color_variant(@variant, @color),\n    border_class(@border),\n    wrapper_width(@max_width),\n    separator_margin(@margin),\n    separator_size(@separator_size),\n    col_step_position(@col_step_position),\n    @col_step && \"col-step\",\n    @col_step && \"col-step-position\",\n    @font_weight,\n    @class\n  ]}\n  {@rest}\n>\n  {render_slot(@inner_block)}\n</div>\n"
@@ -172162,12 +172239,14 @@
         "clauses": [
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": "%{vertical: true} = assigns",
             "template": "<div\n  id={@id}\n  role=\"button\"\n  aria-label={gettext(\"Step %{number}: %{title}\", number: @step_number, title: @title)}\n  aria-disabled={!@clickable}\n  aria-current={@step == \"current\" && \"step\"}\n  class={[\n    \"stepper-#{@step}-step cursor-pointer\",\n    \"vertical-step overflow-hidden flex flex-row text-start gap-4\",\n    @class\n  ]}\n  disabled={!@clickable}\n  {@rest}\n>\n  <span class=\"block relative\">\n    <span class={[\"stepper-separator block h-screen absolute start-1/2\", @separator_class]}>\n    </span>\n    <span\n      :if={@icon}\n      class={[\n        \"stepper-step relative border-2 rounded-full flex justify-center items-center shrink-0\",\n        \"transition-all ease-in-out duration-400 delay-100\",\n        @icon_wrapper_class\n      ]}\n    >\n      <.component component_name=\"chelekom-icon\" site={assigns[:site]} name={@icon} class=\"step-symbol stepper-icon\" />\n      <.loader :if={@step == \"loading\"} />\n      <.component component_name=\"chelekom-icon\" site={assigns[:site]}\n        :if={@step == \"completed\"}\n        name=\"hero-check-solid\"\n        class={[\n          \"stepper-icon stepper-completed-icon\",\n          \"transition-all ease-in-out duration-400 delay-100\"\n        ]}\n      />\n    </span>\n\n    <span\n      :if={!@icon}\n      class={[\n        \"stepper-step relative border-2 rounded-full flex justify-center items-center shrink-0\",\n        \"transition-all ease-in-out duration-400 delay-100\",\n        @number_wrapper_class\n      ]}\n    >\n      <span class=\"step-symbol\">{@step_number}</span>\n      <.loader :if={@step == \"loading\"} />\n      <.component component_name=\"chelekom-icon\" site={assigns[:site]}\n        :if={@step == \"completed\"}\n        name=\"hero-check-solid\"\n        class={[\n          \"stepper-icon stepper-completed-icon\",\n          \"transition-all ease-in-out duration-400 delay-100\"\n        ]}\n      />\n    </span>\n  </span>\n\n  <span class={[\"stepper-content block\", @content_class]}>\n    <span :if={@title} class={[\"block font-bold text-wrap\", @title_class]}>\n      {@title}\n    </span>\n\n    <span :if={@description} class={[\"block text-xs text-wrap\", @description_class]}>\n      {@description}\n    </span>\n\n    {render_slot(@inner_block)}\n  </span>\n</div>\n"
           },
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": null,
             "template": "<div\n  id={@id}\n  role=\"button\"\n  aria-label={gettext(\"Step %{number}: %{title}\", number: @step_number, title: @title)}\n  aria-disabled={!@clickable}\n  aria-current={@step == \"current\" && \"step\"}\n  class={[\n    \"stepper-#{@step}-step cursor-pointer\",\n    \"text-start flex flex-nowrap shrink-0 items-center\",\n    @reverse && \"flex-row-reverse text-end\",\n    \"group-[.col-step]:flex-col group-[.col-step]:gap-3\",\n    content_space(@space, @reverse),\n    @class\n  ]}\n  disabled={!@clickable}\n  {@rest}\n>\n  <span\n    :if={@icon}\n    class={[\n      \"stepper-step border-2 rounded-full flex justify-center items-center shrink-0\",\n      \"transition-all ease-in-out duration-400 delay-100\",\n      @icon_wrapper_class\n    ]}\n  >\n    <.component component_name=\"chelekom-icon\" site={assigns[:site]} name={@icon} class=\"step-symbol stepper-icon\" />\n    <.loader :if={@step == \"loading\"} />\n    <.component component_name=\"chelekom-icon\" site={assigns[:site]}\n      :if={@step == \"completed\"}\n      name=\"hero-check-solid\"\n      class={[\n        \"stepper-icon stepper-completed-icon\",\n        \"transition-all ease-in-out duration-400 delay-100\"\n      ]}\n    />\n  </span>\n\n  <span\n    :if={!@icon}\n    class={[\n      \"stepper-step border-2 rounded-full flex justify-center items-center shrink-0\",\n      \"transition-all ease-in-out duration-400 delay-100\",\n      @number_wrapper_class\n    ]}\n  >\n    <span class=\"step-symbol\">{@step_number}</span>\n    <.loader :if={@step == \"loading\"} />\n    <.component component_name=\"chelekom-icon\" site={assigns[:site]}\n      :if={@step == \"completed\"}\n      name=\"hero-check-solid\"\n      class={[\n        \"stepper-icon stepper-completed-icon\",\n        \"transition-all ease-in-out duration-400 delay-100\"\n      ]}\n    />\n  </span>\n\n  <span class={[\n    \"stepper-content block\",\n    @content_class\n  ]}>\n    <span :if={@title} class={[\"block font-bold text-wrap\", @title_class]}>\n      {@title}\n    </span>\n\n    <span :if={@description} class={[\"block text-xs text-wrap\", @description_class]}>\n      {@description}\n    </span>\n\n    {render_slot(@inner_block)}\n  </span>\n</div>\n\n<div class=\"stepper-separator w-full flex-1\"></div>\n"
@@ -173366,7 +173445,22 @@
         "<.component component_name=\"chelekom-toggle-field\" site=\"Global\" id=\"settings-maintenance-mode\" name=\"maintenance_mode\" color=\"warning\" size=\"small\" label=\"Maintenance mode\" description=\"Visitors see the holding page. Signed-in editors keep full access.\" description_class=\"text-xs opacity-70 mt-1 mb-2 max-w-md\" checked={false} />"
       ],
       "extra": {
-        "clauses": null,
+        "clauses": [
+          {
+            "body": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn -> field.name end)\n|> assign_new(:value, fn -> field.value end)",
+            "delegates": true,
+            "guard": null,
+            "match": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
+            "template": null
+          },
+          {
+            "body": "assigns =\n  assign_new(assigns, :checked, fn ->\n    Phoenix.HTML.Form.normalize_value(\"checkbox\", assigns[:value])\n  end)",
+            "delegates": false,
+            "guard": null,
+            "match": null,
+            "template": "<div class={[\n  size_class(@size),\n  rounded_size(@rounded),\n  @class\n]}>\n  <div class={@label_wrapper_class}>\n    <.component component_name=\"chelekom-label\" site={assigns[:site]} :if={@label} for={@id} class={@label_class}>{@label}</.component>\n    <div :if={!is_nil(@description)} class={@description_class}>\n      {@description}\n    </div>\n  </div>\n  <label for={@id} class={[\"flex items-center cursor-pointer select-none w-fit\", @toggle_wrapper_class]}>\n    <div class={[\"relative toggle-field-wrapper\", @toggle_field_wrapper_class]}>\n      <input type=\"hidden\" name={@name} value=\"false\" disabled={@rest[:disabled]} />\n      <input\n        type=\"checkbox\"\n        checked={@checked}\n        id={@id}\n        name={@name}\n        value=\"true\"\n        class=\"peer sr-only\"\n        role=\"switch\"\n        aria-checked={to_string(@checked)}\n        {@rest}\n      />\n      <div class={[\n        \"toggle-field-circle absolute transition-all ease-in-out duration-500 bg-white\",\n        \"top-1 peer-checked:translate-x-full left-1\",\n        @toggle_circle_class\n      ]}>\n      </div>\n      <div class={[\n        \"bg-default-light-gray dark:bg-natural-light transition-all ease-in-out duration-500 toggle-field-base\",\n        color_class(@color),\n        @toggle_base_class\n      ]}>\n      </div>\n    </div>\n  </label>\n\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors} icon={@error_icon}>{msg}</.component>\n</div>\n"
+          }
+        ],
         "component": "toggle_field",
         "demo_examples": [
           {
@@ -173645,14 +173739,6 @@
       },
       "format": "heex",
       "helpers": [
-        {
-          "args": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
-          "attrs": [],
-          "code": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn -> field.name end)\n|> assign_new(:value, fn -> field.value end)\n|> toggle_field()",
-          "discriminators": [],
-          "name": "toggle_field",
-          "slots": []
-        },
         {
           "args": "field, %{params: params, data: data} = _form",
           "attrs": [],
@@ -175446,7 +175532,22 @@
         "<div class=\"max-w-md rounded-xl border border-gray-200 dark:border-gray-700 p-5\">\n  <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"medium\" font_weight=\"font-semibold\" class=\"mb-3\">How urgent is this request?</.component>\n  <.component component_name=\"chelekom-radio-field\" site=\"Global\" id=\"priority-low\" name=\"priority\" value=\"low\" color=\"success\" space=\"small\" label=\"Low — a question, no deadline\" />\n  <.component component_name=\"chelekom-radio-field\" site=\"Global\" id=\"priority-medium\" name=\"priority\" value=\"medium\" color=\"warning\" space=\"small\" label=\"Medium — a feature is misbehaving\" />\n  <.component component_name=\"chelekom-radio-field\" site=\"Global\" id=\"priority-high\" name=\"priority\" value=\"high\" color=\"danger\" space=\"small\" label=\"High — the site is down for visitors\" />\n  <.component component_name=\"chelekom-error\" site=\"Global\">Pick a priority so we can route your ticket.</.component>\n</div>"
       ],
       "extra": {
-        "clauses": null,
+        "clauses": [
+          {
+            "body": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn -> field.name end)\n|> assign_new(:value, fn -> field.value end)",
+            "delegates": true,
+            "guard": null,
+            "match": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
+            "template": null
+          },
+          {
+            "body": null,
+            "delegates": false,
+            "guard": null,
+            "match": null,
+            "template": "<div class={[\n  color_class(@color),\n  border_class(@border),\n  size_class(@size),\n  space_class(@space),\n  @ring && \"[&_.radio-field-wrapper_input]:focus-within:ring-1\",\n  @reverse && \"[&_.radio-field-wrapper]:flex-row-reverse\",\n  @class\n]}>\n  <.component component_name=\"chelekom-label\" site={assigns[:site]} class={[\"radio-field-wrapper flex items-center w-fit\", @wrapper_class]} for={@id}>\n    <input\n      type=\"radio\"\n      name={@name}\n      id={@id}\n      value={@value}\n      checked={@checked}\n      class={[\n        \"bg-white dark:bg-base-bg-dark radio-input rounded-full\",\n        @radio_class\n      ]}\n      {@rest}\n    />\n    <span :if={@label} class={@label_class}>{@label}</span>\n  </.component>\n\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors} icon={@error_icon}>{msg}</.component>\n</div>\n"
+          }
+        ],
         "component": "radio_field",
         "demo_examples": [
           {
@@ -175640,22 +175741,6 @@
       },
       "format": "heex",
       "helpers": [
-        {
-          "args": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
-          "attrs": [],
-          "code": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn -> field.name end)\n|> assign_new(:value, fn -> field.value end)\n|> radio_field()",
-          "discriminators": [],
-          "name": "radio_field",
-          "slots": []
-        },
-        {
-          "args": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
-          "attrs": [],
-          "code": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn -> field.name end)\n|> assign_new(:value, fn -> field.value end)\n|> group_radio()",
-          "discriminators": [],
-          "name": "group_radio",
-          "slots": []
-        },
         {
           "args": ":list, {field, value}, %{params: params, data: data} = _form",
           "attrs": [],
@@ -176449,7 +176534,22 @@
         "<.component component_name=\"chelekom-group-radio\" site=\"Global\" id=\"survey-recommend\" name=\"recommend\" variation=\"horizontal\" space=\"medium\" size=\"small\" label_class=\"text-sm\">\n  <div class=\"mb-2 w-full text-sm font-medium\">How likely are you to recommend the editor to a colleague?</div>\n  <:radio value=\"1\">Not at all</:radio>\n  <:radio value=\"2\">Unlikely</:radio>\n  <:radio value=\"3\">Neutral</:radio>\n  <:radio value=\"4\">Likely</:radio>\n  <:radio value=\"5\">Very likely</:radio>\n</.component>"
       ],
       "extra": {
-        "clauses": null,
+        "clauses": [
+          {
+            "body": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn -> field.name end)\n|> assign_new(:value, fn -> field.value end)",
+            "delegates": true,
+            "guard": null,
+            "match": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
+            "template": null
+          },
+          {
+            "body": null,
+            "delegates": false,
+            "guard": null,
+            "match": null,
+            "template": "<div class={[\n  @variation == \"horizontal\" && \"flex flex-wrap items-center\",\n  @variation == \"vertical\" && \"flex flex-col\",\n  variation_gap(@space),\n  @class\n]}>\n  {render_slot(@inner_block)}\n  <input type=\"hidden\" name={@name} value=\"\" disabled={@rest[:disabled]} />\n  <div\n    :for={{radio, index} <- Enum.with_index(@radio, 1)}\n    class={[\n      color_class(@color),\n      border_class(@border),\n      size_class(@size),\n      space_class(radio[:space] || \"small\"),\n      @ring && \"[&_.radio-field-wrapper_input]:focus-within:ring-1\",\n      @reverse && \"[&_.radio-field-wrapper]:flex-row-reverse\",\n      @wrapper_class\n    ]}\n  >\n    <.component component_name=\"chelekom-label\" site={assigns[:site]}\n      class={[\"radio-field-wrapper flex items-center w-fit\", @radio_wrapper_class]}\n      for={\"#{@id}-#{index}\"}\n    >\n      <input\n        type=\"radio\"\n        name={@name}\n        id={\"#{@id}-#{index}\"}\n        value={radio[:value]}\n        checked={radio[:checked]}\n        class={[\"bg-white dark:bg-base-bg-dark radio-input rounded-full\", @radio_class]}\n        {@rest}\n      />\n      <span class={@label_class}>{render_slot(radio)}</span>\n    </.component>\n  </div>\n</div>\n<.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors} icon={@error_icon}>{msg}</.component>\n"
+          }
+        ],
         "component": "radio_field",
         "demo_examples": [
           {
@@ -176553,22 +176653,6 @@
       },
       "format": "heex",
       "helpers": [
-        {
-          "args": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
-          "attrs": [],
-          "code": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn -> field.name end)\n|> assign_new(:value, fn -> field.value end)\n|> radio_field()",
-          "discriminators": [],
-          "name": "radio_field",
-          "slots": []
-        },
-        {
-          "args": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
-          "attrs": [],
-          "code": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn -> field.name end)\n|> assign_new(:value, fn -> field.value end)\n|> group_radio()",
-          "discriminators": [],
-          "name": "group_radio",
-          "slots": []
-        },
         {
           "args": ":list, {field, value}, %{params: params, data: data} = _form",
           "attrs": [],
@@ -178535,7 +178619,22 @@
         "<.component component_name=\"chelekom-checkbox-card\" site=\"Global\" id=\"showcase-cbc-regions\" name=\"regions[]\" label=\"Deploy to\" cols=\"two\" variant=\"shadow\" color=\"natural\" padding=\"medium\" class=\"max-w-xl\">\n  <:checkbox value=\"fra\" icon=\"hero-globe-alt\" title=\"Frankfurt\" checked={true}>\n    <div class=\"mt-1 text-xs opacity-70\">18 ms from Tehran &middot; 3 nodes free</div>\n  </:checkbox>\n  <:checkbox value=\"iad\" icon=\"hero-globe-alt\" title=\"Virginia\">\n    <div class=\"mt-1 text-xs opacity-70\">96 ms from Tehran &middot; 7 nodes free</div>\n  </:checkbox>\n</.component>"
       ],
       "extra": {
-        "clauses": null,
+        "clauses": [
+          {
+            "body": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil)\n|> assign(id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn -> field.name <> \"[]\" end)\n|> assign_new(:value, fn -> field.value end)\n|> assign(:multiple, true)",
+            "delegates": true,
+            "guard": null,
+            "match": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
+            "template": null
+          },
+          {
+            "body": null,
+            "delegates": false,
+            "guard": null,
+            "match": null,
+            "template": "<div class={[\"leading-5\", space_class(@space)]}>\n  <input type=\"hidden\" name={@name} value=\"\" disabled={@rest[:disabled]} />\n\n  <div :if={@label || @description} class={[\"checkbox-card-label-wrapper\", @description_wrapper_class]}>\n    <.component component_name=\"chelekom-label\" site={assigns[:site]} :if={@label} for={@id} class={@label_class}>{@label}</.component>\n    <div :if={@description} class={[\"text-[12px]\", @description_class]}>\n      {@description}\n    </div>\n  </div>\n\n  <div class={[\"grid\", grid_cols(@cols), grid_gap(@cols_gap), @class]}>\n    <label\n      :for={{checkbox, index} <- Enum.with_index(@checkbox, 1)}\n      for={\"#{@id}-#{index}\"}\n      aria-checked={checkbox[:checked] && \"true\" || \"false\"}\n      aria-labelledby={\"#{@id}-#{index}-label\"}\n      class={[\n        \"checkbox-card-wrapper flex items-start cursor-pointer\",\n        \"has-[:disabled]:pointer-events-none has-[:disabled]:opacity-50\",\n        \"has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-blue-400\",\n        \"has-[:focus-visible]:outline-offset-[-2px] transition-all\",\n        @reverse && \"flex-row-reverse\",\n        border_class(@border, @variant),\n        color_variant(@variant, @color),\n        rounded_size(@rounded),\n        padding_size(@padding),\n        size_class(@size),\n        @checkbox_wrapper_class\n      ]}\n      {@rest}\n    >\n      <input\n        type=\"checkbox\"\n        name={@name}\n        id={\"#{@id}-#{index}\"}\n        value={checkbox[:value]}\n        checked={checkbox[:checked]}\n        aria-describedby={\"#{@id}-#{index}-description\"}\n        class={[\n          \"checkbox-card-input shrink-0 focus:ring-0 focus:ring-offset-0 appearance-none cursor-pointer\",\n          \"size-[18px] rounded-[5px] border-2 border-current bg-clip-content p-[3px] checked:bg-current\",\n          \"cursor-pointer disabled:opacity-50\",\n          !@show_checkbox && \"opacity-0 absolute\"\n        ]}\n      />\n      <div data-part=\"label\" class={[\"checkbox-card-content-wrapper flex-1\", @content_wrapper_class]}>\n        <div\n          :if={!is_nil(checkbox[:icon]) || checkbox[:title] || checkbox[:description]}\n          class={[\"checkbox-slot-content flex flex-col\", checkbox[:content_class]]}\n        >\n          <.component component_name=\"chelekom-icon\" site={assigns[:site]}\n            :if={!is_nil(checkbox[:icon])}\n            name={checkbox[:icon]}\n            class={[\"block mx-auto\", checkbox[:icon_class]]}\n          />\n          <div\n            :if={checkbox[:title]}\n            class={[\"block checkbox-card-title leading-[16px] font-semibold\", checkbox[:title_class]]}\n          >\n            {checkbox[:title]}\n          </div>\n\n          <p :if={checkbox[:description]} class={[\"checkbox-card-description\", checkbox[:description_class]]}>\n            {checkbox[:description]}\n          </p>\n        </div>\n        <div class={[\"checkbox-card-content leading-[17px]\",  checkbox[:card_content_class]]}>\n          {render_slot(checkbox)}\n        </div>\n      </div>\n    </label>\n  </div>\n</div>\n\n<.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors} icon={@error_icon} icon_class={@error_icon_class}>{msg}</.component>\n"
+          }
+        ],
         "component": "checkbox_card",
         "demo_examples": [
           {
@@ -178877,14 +178976,6 @@
       },
       "format": "heex",
       "helpers": [
-        {
-          "args": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
-          "attrs": [],
-          "code": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil)\n|> assign(id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn -> field.name <> \"[]\" end)\n|> assign_new(:value, fn -> field.value end)\n|> assign(:multiple, true)\n|> checkbox_card()",
-          "discriminators": [],
-          "name": "checkbox_card",
-          "slots": []
-        },
         {
           "args": ":list, {field, value}, %{params: params, data: data} = _form",
           "attrs": [],
@@ -181283,7 +181374,22 @@
         "<div class=\"max-w-xs space-y-3 rounded-lg border border-current/10 p-4\">\n  <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"medium\" font_weight=\"font-semibold\">Category</.component>\n  <div class=\"space-y-2\">\n    <div class=\"flex items-center justify-between gap-2\">\n      <.component component_name=\"chelekom-checkbox-field\" site=\"Global\" id=\"showcase-cbf-cat-books\" name=\"category_books\" value=\"books\" label=\"Books\" reverse={true} size=\"medium\" />\n      <span class=\"text-xs opacity-60\">128</span>\n    </div>\n    <div class=\"flex items-center justify-between gap-2\">\n      <.component component_name=\"chelekom-checkbox-field\" site=\"Global\" id=\"showcase-cbf-cat-courses\" name=\"category_courses\" value=\"courses\" label=\"Courses\" reverse={true} size=\"medium\" checked={true} />\n      <span class=\"text-xs opacity-60\">34</span>\n    </div>\n    <div class=\"flex items-center justify-between gap-2\">\n      <.component component_name=\"chelekom-checkbox-field\" site=\"Global\" id=\"showcase-cbf-cat-templates\" name=\"category_templates\" value=\"templates\" label=\"Templates\" reverse={true} size=\"medium\" />\n      <span class=\"text-xs opacity-60\">61</span>\n    </div>\n  </div>\n</div>"
       ],
       "extra": {
-        "clauses": null,
+        "clauses": [
+          {
+            "body": "new_id = assigns.id || field.id\n\nerrors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil)\n|> assign(\n  id:\n    if assigns.multiple do\n      new_id <> \"_#{Utils.random_id()}\"\n    else\n      new_id\n    end\n)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn ->\n  if assigns.multiple do\n    field.name <> \"[]\"\n  else\n    field.name\n  end\nend)\n|> assign_new(:value, fn -> field.value end)\n|> assign_new(:checked, fn -> Phoenix.HTML.Form.normalize_value(\"checkbox\", assigns[:value]) end)",
+            "delegates": true,
+            "guard": null,
+            "match": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
+            "template": null
+          },
+          {
+            "body": null,
+            "delegates": false,
+            "guard": null,
+            "match": null,
+            "template": "<div class={[\n  color_class(@color),\n  rounded_size(@rounded),\n  border_class(@border),\n  size_class(@size),\n  space_class(@space),\n  @ring && \"[&_.checkbox-field-wrapper:focus-within_input]:ring-1\",\n  @reverse && \"[&_.checkbox-field-wrapper]:flex-row-reverse\",\n  @class\n]}>\n  <.component component_name=\"chelekom-label\" site={assigns[:site]} class={[\"checkbox-field-wrapper flex items-center w-fit\", @wrapper_class]} for={@id}>\n    <%= if @value in [\"true\", \"false\"] do %>\n      <input type=\"hidden\" name={@name} value=\"false\" disabled={@rest[:disabled]} />\n    <% else %>\n      <input type=\"hidden\" name={@name} value=\"\" disabled={@rest[:disabled]} />\n    <% end %>\n\n    <input\n      type=\"checkbox\"\n      name={@name}\n      value={@value}\n      id={@id}\n      checked={@checked}\n      class={[\"bg-white dark:bg-base-bg-dark checkbox-input\", @checkbox_class]}\n      {@rest}\n    />\n    <span :if={@label} class={@label_class}>{@label}</span>\n  </.component>\n\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors} icon={@error_icon}>{msg}</.component>\n</div>\n"
+          }
+        ],
         "component": "checkbox_field",
         "demo_examples": [
           {
@@ -181570,22 +181676,6 @@
       },
       "format": "heex",
       "helpers": [
-        {
-          "args": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
-          "attrs": [],
-          "code": "new_id = assigns.id || field.id\n\nerrors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil)\n|> assign(\n  id:\n    if assigns.multiple do\n      new_id <> \"_#{Utils.random_id()}\"\n    else\n      new_id\n    end\n)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn ->\n  if assigns.multiple do\n    field.name <> \"[]\"\n  else\n    field.name\n  end\nend)\n|> assign_new(:value, fn -> field.value end)\n|> assign_new(:checked, fn -> Phoenix.HTML.Form.normalize_value(\"checkbox\", assigns[:value]) end)\n|> checkbox_field()",
-          "discriminators": [],
-          "name": "checkbox_field",
-          "slots": []
-        },
-        {
-          "args": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
-          "attrs": [],
-          "code": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil)\n|> assign(id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn -> field.name <> \"[]\" end)\n|> assign_new(:value, fn -> field.value end)\n|> assign(:multiple, true)\n|> group_checkbox()",
-          "discriminators": [],
-          "name": "group_checkbox",
-          "slots": []
-        },
         {
           "args": ":list, {field, value}, %{params: params, data: data} = _form",
           "attrs": [],
@@ -182564,7 +182654,22 @@
         "<.component component_name=\"chelekom-group-checkbox\" site=\"Global\" id=\"report-columns\" name=\"columns[]\" variation=\"horizontal\" space=\"large\" size=\"small\" label_class=\"block text-sm\">\n  <:checkbox value=\"title\" checked={true}>Title</:checkbox>\n  <:checkbox value=\"author\" checked={true}>Author</:checkbox>\n  <:checkbox value=\"published_at\">Published</:checkbox>\n  <:checkbox value=\"views\">Views</:checkbox>\n  <:checkbox value=\"comments\">Comments</:checkbox>\n</.component>"
       ],
       "extra": {
-        "clauses": null,
+        "clauses": [
+          {
+            "body": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil)\n|> assign(id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn -> field.name <> \"[]\" end)\n|> assign_new(:value, fn -> field.value end)\n|> assign(:multiple, true)",
+            "delegates": true,
+            "guard": null,
+            "match": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
+            "template": null
+          },
+          {
+            "body": null,
+            "delegates": false,
+            "guard": null,
+            "match": null,
+            "template": "<div class={[\n  @variation == \"horizontal\" && \"flex flex-wrap items-center\",\n  @variation == \"vertical\" && \"flex flex-col\",\n  variation_gap(@space),\n  @class\n]}>\n  {render_slot(@inner_block)}\n  <input type=\"hidden\" name={@name} value=\"\" disabled={@rest[:disabled]} />\n  <div\n    :for={{checkbox, index} <- Enum.with_index(@checkbox, 1)}\n    class={[\n      color_class(@color),\n      rounded_size(@rounded),\n      border_class(@border),\n      size_class(@size),\n      space_class(checkbox[:space] || \"small\"),\n      @ring && \"[&_.checkbox-field-wrapper:focus-within_input]:ring-1\",\n      @reverse && \"[&_.checkbox-field-wrapper]:flex-row-reverse\",\n      @wrapper_class\n    ]}\n  >\n    <.component component_name=\"chelekom-label\" site={assigns[:site]}\n      class={[\"checkbox-field-wrapper flex items-center w-fit\", @checkbox_wrapper_class]}\n      for={\"#{@id}-#{index}\"}\n    >\n      <input\n        type=\"checkbox\"\n        name={@name}\n        id={\"#{@id}-#{index}\"}\n        value={checkbox[:value]}\n        checked={checkbox[:checked]}\n        class={[\"bg-white dark:bg-base-bg-dark checkbox-input\", @checkbox_class]}\n        {@rest}\n      />\n      <span class={@label_class}>{render_slot(checkbox)}</span>\n    </.component>\n  </div>\n</div>\n<.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors} icon={@error_icon}>{msg}</.component>\n"
+          }
+        ],
         "component": "checkbox_field",
         "demo_examples": [
           {
@@ -182668,22 +182773,6 @@
       },
       "format": "heex",
       "helpers": [
-        {
-          "args": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
-          "attrs": [],
-          "code": "new_id = assigns.id || field.id\n\nerrors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil)\n|> assign(\n  id:\n    if assigns.multiple do\n      new_id <> \"_#{Utils.random_id()}\"\n    else\n      new_id\n    end\n)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn ->\n  if assigns.multiple do\n    field.name <> \"[]\"\n  else\n    field.name\n  end\nend)\n|> assign_new(:value, fn -> field.value end)\n|> assign_new(:checked, fn -> Phoenix.HTML.Form.normalize_value(\"checkbox\", assigns[:value]) end)\n|> checkbox_field()",
-          "discriminators": [],
-          "name": "checkbox_field",
-          "slots": []
-        },
-        {
-          "args": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
-          "attrs": [],
-          "code": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil)\n|> assign(id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn -> field.name <> \"[]\" end)\n|> assign_new(:value, fn -> field.value end)\n|> assign(:multiple, true)\n|> group_checkbox()",
-          "discriminators": [],
-          "name": "group_checkbox",
-          "slots": []
-        },
         {
           "args": ":list, {field, value}, %{params: params, data: data} = _form",
           "attrs": [],
@@ -199852,6 +199941,7 @@
         {
           "name": "on_hide",
           "opts": {
+            "default_struct": true,
             "doc": "Custom JS module for on_hide action"
           },
           "struct_name": "Phoenix.LiveView.JS",
@@ -199860,6 +199950,7 @@
         {
           "name": "on_show",
           "opts": {
+            "default_struct": true,
             "doc": "Custom JS module for on_show action"
           },
           "struct_name": "Phoenix.LiveView.JS",
@@ -199868,6 +199959,7 @@
         {
           "name": "on_hide_away",
           "opts": {
+            "default_struct": true,
             "doc": "Custom JS module for on_hide_away action"
           },
           "struct_name": "Phoenix.LiveView.JS",
@@ -201913,6 +202005,7 @@
         {
           "name": "on_action",
           "opts": {
+            "default_struct": true,
             "doc": "Custom JS module for on_action action"
           },
           "struct_name": "Phoenix.LiveView.JS",
@@ -202000,7 +202093,22 @@
         "<div class=\"max-w-md rounded-xl border border-gray-200 dark:border-gray-700 p-5 space-y-3\">\n  <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"medium\" font_weight=\"font-semibold\">Customer reviews</.component>\n  <div class=\"flex items-center gap-3\">\n    <.component component_name=\"chelekom-rating\" site=\"Global\" id=\"breakdown-rating-5\" select={5} size=\"extra_small\" class=\"shrink-0\" />\n    <div class=\"h-2 flex-1 rounded-full bg-gray-200 dark:bg-gray-700\"><div class=\"h-2 w-[68%] rounded-full bg-amber-400\"></div></div>\n    <span class=\"w-12 text-right text-sm text-gray-500\">874</span>\n  </div>\n  <div class=\"flex items-center gap-3\">\n    <.component component_name=\"chelekom-rating\" site=\"Global\" id=\"breakdown-rating-4\" select={4} size=\"extra_small\" class=\"shrink-0\" />\n    <div class=\"h-2 flex-1 rounded-full bg-gray-200 dark:bg-gray-700\"><div class=\"h-2 w-[21%] rounded-full bg-amber-400\"></div></div>\n    <span class=\"w-12 text-right text-sm text-gray-500\">269</span>\n  </div>\n  <div class=\"flex items-center gap-3\">\n    <.component component_name=\"chelekom-rating\" site=\"Global\" id=\"breakdown-rating-3\" select={3} size=\"extra_small\" class=\"shrink-0\" />\n    <div class=\"h-2 flex-1 rounded-full bg-gray-200 dark:bg-gray-700\"><div class=\"h-2 w-[7%] rounded-full bg-amber-400\"></div></div>\n    <span class=\"w-12 text-right text-sm text-gray-500\">90</span>\n  </div>\n  <div class=\"flex items-center gap-3\">\n    <.component component_name=\"chelekom-rating\" site=\"Global\" id=\"breakdown-rating-2\" select={2} size=\"extra_small\" class=\"shrink-0\" />\n    <div class=\"h-2 flex-1 rounded-full bg-gray-200 dark:bg-gray-700\"><div class=\"h-2 w-[3%] rounded-full bg-amber-400\"></div></div>\n    <span class=\"w-12 text-right text-sm text-gray-500\">33</span>\n  </div>\n  <div class=\"flex items-center gap-3\">\n    <.component component_name=\"chelekom-rating\" site=\"Global\" id=\"breakdown-rating-1\" select={1} size=\"extra_small\" class=\"shrink-0\" />\n    <div class=\"h-2 flex-1 rounded-full bg-gray-200 dark:bg-gray-700\"><div class=\"h-2 w-[1%] rounded-full bg-amber-400\"></div></div>\n    <span class=\"w-12 text-right text-sm text-gray-500\">18</span>\n  </div>\n</div>"
       ],
       "extra": {
-        "clauses": null,
+        "clauses": [
+          {
+            "body": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nselect =\n  case field.value do\n    val when is_integer(val) ->\n      val\n\n    val when is_float(val) ->\n      val\n\n    val when is_binary(val) and val != \"\" ->\n      case Float.parse(val) do\n        {f, \"\"} ->\n          if f == trunc(f) do\n            trunc(f)\n          else\n            f\n          end\n\n        _ ->\n          0\n      end\n\n    _ ->\n      0\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign(:name, field.name)\n|> assign(:select, select)\n|> assign(\n  :interactive,\n  if assigns.disabled do\n    false\n  else\n    true\n  end\n)",
+            "delegates": true,
+            "guard": null,
+            "match": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
+            "template": null
+          },
+          {
+            "body": null,
+            "delegates": false,
+            "guard": null,
+            "match": null,
+            "template": "<div id={@id && \"#{@id}-wrapper\"}>\n  <.component component_name=\"chelekom-label\" site={assigns[:site]} :if={@label}>{@label}</.component>\n  <div\n    id={@id}\n    role={if @name != nil and @interactive, do: \"radiogroup\", else: \"group\"}\n    aria-disabled={if @disabled, do: \"true\"}\n    class={[\n      \"flex flex-nowrap text-default-light-gray dark:text-natural-light\",\n      gap_class(@gap),\n      size_class(@size),\n      color_class(@color),\n      @disabled && \"opacity-50 pointer-events-none\",\n      @class\n    ]}\n    {@rest}\n  >\n    <input\n      :if={@interactive and @name != nil}\n      type=\"hidden\"\n      name={@name}\n      value=\"0\"\n      id={\"#{@id}-hidden\"}\n    />\n    <%= for item <- 1..@count//1 do %>\n      <% fill_percentage = calculate_fill_percentage(item, @select) %>\n      <%= cond do %>\n        <% @interactive and @name != nil and @precision == 0.5 -> %>\n          <div class={[\n            \"relative inline-flex rating-button [&>svg]:pointer-events-none\",\n            \"[&:has(~.rating-button:hover)_.fraction-path]:opacity-0 [&:has(~.rating-button:hover)_.full-path]:opacity-100\",\n            \"[&:has(.rating-half-right:hover)_.fraction-path]:opacity-0 [&:has(.rating-half-right:hover)_.full-path]:opacity-100\",\n            \"[&:has(.rating-half-left:hover)_.full-path]:opacity-0 [&:has(.rating-half-left:hover)_.fraction-path]:opacity-100\"\n          ]}>\n            <.precision_star_svg id={@id} item={item} fill_percentage={fill_percentage} />\n            <label class=\"rating-half-left absolute inset-y-0 left-0 w-1/2 z-10 cursor-pointer\">\n              <input\n                type=\"radio\"\n                name={@name}\n                value={to_string(item - 0.5)}\n                checked={@select == item - 0.5}\n                class=\"sr-only\"\n                aria-label={gettext(\"Rate %{count} stars\", count: item - 0.5)}\n              />\n            </label>\n            <label class=\"rating-half-right absolute inset-y-0 right-0 w-1/2 z-10 cursor-pointer\">\n              <input\n                type=\"radio\"\n                name={@name}\n                value={to_string(item)}\n                checked={@select == item}\n                class=\"sr-only\"\n                aria-label={gettext(\"Rate %{count} star\", count: item)}\n              />\n            </label>\n          </div>\n        <% @interactive and @name != nil -> %>\n          <label class={[\n            \"rating-button cursor-pointer\",\n            \"leading-5\",\n            \"group\",\n            \"[&:has(~.rating-button:hover)_.fraction-path]:opacity-0 [&:has(~.rating-button:hover)_.full-path]:opacity-100\"\n          ]}>\n            <input\n              type=\"radio\"\n              name={@name}\n              value={to_string(item)}\n              checked={item == @select}\n              class=\"sr-only\"\n              aria-label={\"#{item} star#{if item > 1, do: \"s\", else: \"\"}\"}\n            />\n            <.star_svg id={@id} item={item} fill_percentage={fill_percentage} />\n          </label>\n        <% @interactive and @precision == 0.5 -> %>\n          <div class={[\n            \"relative inline-flex rating-button [&>svg]:pointer-events-none\",\n            \"[&:has(~.rating-button:hover)_.fraction-path]:opacity-0 [&:has(~.rating-button:hover)_.full-path]:opacity-100\",\n            \"[&:has(.rating-half-right:hover)_.fraction-path]:opacity-0 [&:has(.rating-half-right:hover)_.full-path]:opacity-100\",\n            \"[&:has(.rating-half-left:hover)_.full-path]:opacity-0 [&:has(.rating-half-left:hover)_.fraction-path]:opacity-100\"\n          ]}>\n            <.precision_star_svg id={@id} item={item} fill_percentage={fill_percentage} />\n            <span\n              class=\"rating-half-left absolute inset-y-0 left-0 w-1/2 z-10 cursor-pointer\"\n              phx-click={event_click_js(@on_action, item - 0.5, @params)}\n            >\n              <span class=\"sr-only\">{gettext(\"Rate %{count} stars\", count: item - 0.5)}</span>\n            </span>\n            <span\n              class=\"rating-half-right absolute inset-y-0 right-0 w-1/2 z-10 cursor-pointer\"\n              phx-click={event_click_js(@on_action, item, @params)}\n            >\n              <span class=\"sr-only\">{gettext(\"Rate %{count} star\", count: item)}</span>\n            </span>\n          </div>\n        <% @interactive -> %>\n          <button\n            role=\"radio\"\n            aria-checked={if item <= @select, do: \"true\", else: \"false\"}\n            tabindex={if item == @select, do: \"0\", else: \"-1\"}\n            aria-label={\"#{item} star#{if item > 1, do: \"s\", else: \"\"}\"}\n            class={[\n              \"rating-button cursor-pointer\",\n              \"leading-5\",\n              \"group\",\n              \"[&:has(~.rating-button:hover)_.fraction-path]:opacity-0 [&:has(~.rating-button:hover)_.full-path]:opacity-100\"\n            ]}\n            phx-click={event_click_js(@on_action, item, @params)}\n          >\n            <.star_svg id={@id} item={item} fill_percentage={fill_percentage} />\n            <span class=\"sr-only\">{gettext(\"Rate %{count} star\", count: item)}</span>\n          </button>\n        <% true -> %>\n          <.star_svg id={@id} item={item} fill_percentage={fill_percentage} />\n      <% end %>\n    <% end %>\n  </div>\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors} icon={@error_icon}>{msg}</.component>\n</div>\n"
+          }
+        ],
         "component": "rating",
         "demo_examples": [
           {
@@ -202962,14 +203070,6 @@
       },
       "format": "heex",
       "helpers": [
-        {
-          "args": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
-          "attrs": [],
-          "code": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nselect =\n  case field.value do\n    val when is_integer(val) ->\n      val\n\n    val when is_float(val) ->\n      val\n\n    val when is_binary(val) and val != \"\" ->\n      case Float.parse(val) do\n        {f, \"\"} ->\n          if f == trunc(f) do\n            trunc(f)\n          else\n            f\n          end\n\n        _ ->\n          0\n      end\n\n    _ ->\n      0\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign(:name, field.name)\n|> assign(:select, select)\n|> assign(\n  :interactive,\n  if assigns.disabled do\n    false\n  else\n    true\n  end\n)\n|> rating()",
-          "discriminators": [],
-          "name": "rating",
-          "slots": []
-        },
         {
           "args": "assigns",
           "attrs": [
@@ -217930,7 +218030,22 @@
         "<div class=\"max-w-sm space-y-4 rounded-lg border border-neutral-200 p-5 dark:border-neutral-700\">\n  <.component component_name=\"chelekom-h4\" site=\"Global\" size=\"large\" font_weight=\"font-semibold\">Edit label</.component>\n  <.component component_name=\"chelekom-color-field\" site=\"Global\" id=\"label-colour\" name=\"label[color]\" value=\"#10b981\" label=\"Label colour\" description=\"Shown as a dot beside the task title in every list and board.\" />\n  <div>\n    <div class=\"mb-1 text-xs uppercase tracking-wide opacity-50\">Sample task row</div>\n    <div class=\"flex items-center gap-2 rounded-md bg-neutral-100 px-3 py-2 text-sm dark:bg-neutral-800\">\n      <.component component_name=\"chelekom-indicator\" site=\"Global\" color=\"success\" size=\"extra_small\" />\n      <span>Ready for review</span>\n    </div>\n  </div>\n</div>"
       ],
       "extra": {
-        "clauses": null,
+        "clauses": [
+          {
+            "body": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn -> field.name end)\n|> assign_new(:value, fn -> field.value end)",
+            "delegates": true,
+            "guard": null,
+            "match": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
+            "template": null
+          },
+          {
+            "body": null,
+            "delegates": false,
+            "guard": null,
+            "match": null,
+            "template": "<div class={[\n  \"w-fit\",\n  color_class(@color),\n  rounded_size(@rounded),\n  border_class(@border),\n  size_class(@size),\n  space_class(@space),\n  @circle &&\n    \"[&_.color-field-wrapper_.color-input]:w-auto! [&_.color-field-wrapper_.color-input]:aspect-square [&_.color-field-wrapper_.color-input]:rounded-full! [&_.color-field-wrapper_.color-input]:overflow-hidden [&_.color-field-wrapper_.color-input]:border-0! [&_.color-field-wrapper_.color-input]:p-0! [&_.color-field-wrapper_.color-input::-webkit-color-swatch-wrapper]:p-0! [&_.color-field-wrapper_.color-input::-webkit-color-swatch]:border-0! [&_.color-field-wrapper_.color-input::-webkit-color-swatch]:rounded-full! [&_.color-field-wrapper_.color-input::-moz-color-swatch]:border-0! [&_.color-field-wrapper_.color-input::-moz-color-swatch]:rounded-full!\",\n  @class\n]}>\n  <div\n    :if={@label || @description}\n    class={[\"color-field-label-wrapper\", @description_wrapper_class]}\n  >\n    <.component component_name=\"chelekom-label\" site={assigns[:site]} :if={@label} for={@id} class={@label_class}>{@label}</.component>\n    <div :if={@description} class={@description_class}>\n      {@description}\n    </div>\n  </div>\n\n  <div class=\"color-field-wrapper\">\n    <input\n      type=\"color\"\n      name={@name}\n      id={@id}\n      value={@value}\n      class={[\"color-input\", @input_class]}\n      {@rest}\n    />\n  </div>\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors} icon={@error_icon}>{msg}</.component>\n</div>\n"
+          }
+        ],
         "component": "color_field",
         "demo_examples": [
           {
@@ -218029,14 +218144,6 @@
       },
       "format": "heex",
       "helpers": [
-        {
-          "args": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
-          "attrs": [],
-          "code": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn -> field.name end)\n|> assign_new(:value, fn -> field.value end)\n|> color_field()",
-          "discriminators": [],
-          "name": "color_field",
-          "slots": []
-        },
         {
           "args": "assigns",
           "attrs": [
@@ -218843,6 +218950,7 @@
         {
           "name": "on_cancel",
           "opts": {
+            "default_struct": true,
             "doc": "Custom JS module for on_cancel action"
           },
           "struct_name": "Phoenix.LiveView.JS",
@@ -238175,18 +238283,21 @@
         "clauses": [
           {
             "body": "assigns = assign_new(assigns, :indicator, fn -> is_indicators?(assigns[:rest]) end)",
+            "delegates": false,
             "guard": null,
             "match": "%{navigate: _navigate} = assigns",
             "template": "<.link\n  navigate={@navigate}\n  id={@id}\n  class={[\n    default_classes(@rest[:pinging], @indicator),\n    size_class(@size, @rest[:circle]),\n    color_variant(@variant, @color, @indicator),\n    rounded_size(@rounded),\n    border_size(@border, @variant),\n    @full_width && \"w-full\",\n    @font_weight,\n    @line_height,\n    @display,\n    @class\n  ]}\n  {drop_rest(@rest)}\n>\n  <span\n    :for={loading <- @loading}\n    :if={is_nil(loading[:position]) || loading[:position] == \"start\"}\n    class={loading[:class]}\n  >\n    {render_slot(loading)}\n  </span>\n\n  <.button_indicator position=\"left\" size={@indicator_size} class={@indicator_class} {@rest} />\n  <.component component_name=\"chelekom-icon\" site={assigns[:site]} :if={icon_position(@icon, @rest) == \"left\"} name={@icon} class={@icon_class} />\n  <span :if={(@inner_block && render_slot(@inner_block)) || @title} class={[@content_class]}>\n    {render_slot(@inner_block) || @title}\n  </span>\n  <.component component_name=\"chelekom-icon\" site={assigns[:site]} :if={icon_position(@icon, @rest) == \"right\"} name={@icon} class={@icon_class} />\n  <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />\n\n  <span :for={loading <- @loading} :if={loading[:position] == \"end\"} class={loading[:class]}>\n    {render_slot(loading)}\n  </span>\n</.link>\n"
           },
           {
             "body": "assigns = assign_new(assigns, :indicator, fn -> is_indicators?(assigns[:rest]) end)",
+            "delegates": false,
             "guard": null,
             "match": "%{patch: _patch} = assigns",
             "template": "<.link\n  patch={@patch}\n  id={@id}\n  class={[\n    default_classes(@rest[:pinging], @indicator),\n    size_class(@size, @rest[:circle]),\n    color_variant(@variant, @color, @indicator),\n    rounded_size(@rounded),\n    border_size(@border, @variant),\n    @full_width && \"w-full\",\n    @font_weight,\n    @line_height,\n    @display,\n    @class\n  ]}\n  {drop_rest(@rest)}\n>\n  <span\n    :for={loading <- @loading}\n    :if={is_nil(loading[:position]) || loading[:position] == \"start\"}\n    class={loading[:class]}\n  >\n    {render_slot(loading)}\n  </span>\n\n  <.button_indicator position=\"left\" size={@indicator_size} class={@indicator_class} {@rest} />\n  <.component component_name=\"chelekom-icon\" site={assigns[:site]} :if={icon_position(@icon, @rest) == \"left\"} name={@icon} />\n  <span :if={(@inner_block && render_slot(@inner_block)) || @title} class={[@content_class]}>\n    {render_slot(@inner_block) || @title}\n  </span>\n  <.component component_name=\"chelekom-icon\" site={assigns[:site]} :if={icon_position(@icon, @rest) == \"right\"} name={@icon} />\n  <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />\n\n  <span :for={loading <- @loading} :if={loading[:position] == \"end\"} class={loading[:class]}>\n    {render_slot(loading)}\n  </span>\n</.link>\n"
           },
           {
             "body": "assigns = assign_new(assigns, :indicator, fn -> is_indicators?(assigns[:rest]) end)",
+            "delegates": false,
             "guard": null,
             "match": "%{href: _href} = assigns",
             "template": "<.link\n  href={@href}\n  id={@id}\n  class={[\n    default_classes(@rest[:pinging], @indicator),\n    size_class(@size, @rest[:circle]),\n    color_variant(@variant, @color, @indicator),\n    rounded_size(@rounded),\n    border_size(@border, @variant),\n    @full_width && \"w-full\",\n    @font_weight,\n    @line_height,\n    @display,\n    @class\n  ]}\n  {drop_rest(@rest)}\n>\n  <span\n    :for={loading <- @loading}\n    :if={is_nil(loading[:position]) || loading[:position] == \"start\"}\n    class={loading[:class]}\n  >\n    {render_slot(loading)}\n  </span>\n\n  <.button_indicator position=\"left\" size={@indicator_size} class={@indicator_class} {@rest} />\n  <.component component_name=\"chelekom-icon\" site={assigns[:site]} :if={icon_position(@icon, @rest) == \"left\"} name={@icon} />\n  <span :if={(@inner_block && render_slot(@inner_block)) || @title} class={[@content_class]}>\n    {render_slot(@inner_block) || @title}\n  </span>\n  <.component component_name=\"chelekom-icon\" site={assigns[:site]} :if={icon_position(@icon, @rest) == \"right\"} name={@icon} />\n  <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />\n\n  <span :for={loading <- @loading} :if={loading[:position] == \"end\"} class={loading[:class]}>\n    {render_slot(loading)}\n  </span>\n</.link>\n"
@@ -244649,13 +244760,22 @@
       "extra": {
         "clauses": [
           {
+            "body": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn -> field.name end)\n|> assign_new(:value, fn -> field.value end)",
+            "delegates": true,
+            "guard": null,
+            "match": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
+            "template": null
+          },
+          {
             "body": null,
+            "delegates": false,
             "guard": "floating in [\"inner\", \"outer\"]",
             "match": "%{floating: floating} = assigns",
             "template": "<div class={[\n  color_variant(@variant, @color, @floating),\n  rounded_size(@rounded),\n  border_class(@border, @variant),\n  height_size(@size),\n  space_class(@space),\n  @ring && \"[&_.textarea-field-wrapper]:focus-within:ring-[0.03rem] leading-6\",\n  @class\n]}>\n  <div :if={@description} class={@description_class}>\n    {@description}\n  </div>\n  <div class={[\n    \"textarea-field-wrapper transition-all ease-in-out duration-200 relative w-full z-[2]\",\n    @errors != [] && \"textarea-field-error\",\n    @field_wrapper_class\n  ]}>\n    <textarea\n      type=\"text\"\n      name={@name}\n      id={@id}\n      rows={@rows}\n      value={@value}\n      class={[\n        \"disabled:opacity-80 block w-full z-[2] focus:ring-0 placeholder:text-transparent pb-1 pt-3 px-2\",\n        \"text-[16px] sm:font-inherit appearance-none bg-transparent border-0 focus:outline-none peer\",\n        @disable_resize && \"resize-none\",\n        @textarea_class\n      ]}\n      placeholder=\" \"\n      {@rest}\n    >{Phoenix.HTML.Form.normalize_value(\"textarea\", @value)}</textarea>\n\n    <label\n      :if={@label}\n      class={[\n        \"floating-label px-1 start-1 -z-[1] absolute text-xs duration-300 transform scale-75 origin-[0]\",\n        variant_label_position(@floating),\n        @floating_label_class\n      ]}\n      for={@id}\n    >\n      {@label}\n    </label>\n  </div>\n\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors} icon={@error_icon}>{msg}</.component>\n</div>\n"
           },
           {
             "body": null,
+            "delegates": false,
             "guard": null,
             "match": null,
             "template": "<div class={[\n  color_variant(@variant, @color, @floating),\n  rounded_size(@rounded),\n  border_class(@border, @variant),\n  height_size(@size),\n  space_class(@space),\n  @ring && \"[&_.textarea-field-wrapper]:focus-within:ring-[0.03rem] leading-6\",\n  @class\n]}>\n<div\n    :if={@label || @description}\n    class={[\"textarea-label-wrapper\", @description_wrapper_class]}\n  >\n    <.component component_name=\"chelekom-label\" site={assigns[:site]} :if={@label} for={@id} class={@label_class}>{@label}</.component>\n    <div :if={@description} class={@description_class}>\n      {@description}\n    </div>\n  </div>\n\n  <div class={[\n    \"textarea-field-wrapper overflow-hidden transition-all ease-in-out duration-200 flex flex-nowrap\",\n    @errors != [] && \"textarea-field-error\",\n    @field_wrapper_class\n  ]}>\n    <textarea\n      type=\"text\"\n      name={@name}\n      id={@id}\n      rows={@rows}\n      value={@value}\n      placeholder={@placeholder}\n      class={[\n        \"flex-1 py-1 px-2 text-sm disabled:opacity-80 block w-full appearance-none\",\n        \"bg-transparent border-0 focus:outline-none focus:ring-0\",\n        @disable_resize && \"resize-none\",\n        @textarea_class\n      ]}\n      {@rest}\n    >{Phoenix.HTML.Form.normalize_value(\"textarea\", @value)}</textarea>\n  </div>\n\n  <.component component_name=\"chelekom-error\" site={assigns[:site]} :for={msg <- @errors} icon={@error_icon}>{msg}</.component>\n</div>\n"
@@ -244853,14 +244973,6 @@
       },
       "format": "heex",
       "helpers": [
-        {
-          "args": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
-          "attrs": [],
-          "code": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn -> field.name end)\n|> assign_new(:value, fn -> field.value end)\n|> textarea_field()",
-          "discriminators": [],
-          "name": "textarea_field",
-          "slots": []
-        },
         {
           "args": "assigns",
           "attrs": [
