@@ -35,7 +35,7 @@ defmodule <%= @module %> do
   ## Examples
 
   A plain file input needs a `name`, or a `field` to take one from — the same rule as every other
-  field in this kit, and the reason the first example is not simply `<.file_field />`.
+  field in this kit, and the reason no example below is written with no attributes at all.
 
   ```elixir
   <.<%= @component_prefix %>file_field name="attachment" label="Attach a file" />
