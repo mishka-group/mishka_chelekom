@@ -511,7 +511,12 @@ defmodule MishkaChelekom.CmsBundleExporter do
 
   defp delegating_clause?(_args, _body, _fn_name), do: false
 
-  defp map_pattern?({:=, _, [left, _right]}), do: map_pattern?(left)
+  # BOTH SIDES OF THE MATCH, because `=` in a head is symmetric: `%{field: f} = assigns` and
+  # `assigns = %{field: f}` are the same pattern to Elixir, and following only the left of it made
+  # the recognition depend on which one the author typed first. A kit written the second way had its
+  # bridge shipped as a helper nothing calls — the dead-code regression this check exists to prevent,
+  # reintroduced for a component whose only difference is argument order.
+  defp map_pattern?({:=, _, [left, right]}), do: map_pattern?(left) or map_pattern?(right)
   defp map_pattern?({:%{}, _, _}), do: true
   defp map_pattern?(_other), do: false
 
@@ -680,7 +685,9 @@ defmodule MishkaChelekom.CmsBundleExporter do
 
   defp attr_opts_to_map(_), do: %{}
 
-  defp struct_default(acc, {:%, _, [_alias, {:%{}, _, []}]}), do: Map.put(acc, "default_struct", true)
+  defp struct_default(acc, {:%, _, [_alias, {:%{}, _, []}]}),
+    do: Map.put(acc, "default_struct", true)
+
   defp struct_default(acc, _other), do: acc
 
   defp opt_value(v) when is_binary(v) or is_number(v) or is_boolean(v) or is_nil(v), do: v

@@ -43,7 +43,8 @@ defmodule MishkaChelekom.CmsBundle.Location do
   """
   @spec candidates(String.t()) :: [String.t()]
   def candidates(kit \\ "chelekom") do
-    for dir <- [@export_dir, @kits_dir], do: Path.join([:code.priv_dir(:mishka_chelekom), dir, "#{kit}.json"])
+    for dir <- [@export_dir, @kits_dir],
+        do: Path.join([:code.priv_dir(:mishka_chelekom), dir, "#{kit}.json"])
   end
 
   @doc """
