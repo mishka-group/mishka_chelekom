@@ -18,49 +18,102 @@ defmodule MishkaMob.HomeScreen do
     {:ok,
      socket
      |> Mob.Socket.assign(:theme, theme)
-     |> Mob.Socket.assign(:plugin_screens, Mob.Plugins.screens())}
+     |> Mob.Socket.assign(:plugin_screens, Mob.Plugins.screens())
+     |> Mob.List.put_renderer(:home, &home_item/1)}
   end
 
+  # The whole screen is one `:list` (see Mob.List) rather than a `:scroll` +
+  # `:column` wrapping an inner grid — Compose's LazyColumn (what `:list`
+  # becomes) cannot be nested inside an already-vertically-scrolling Column
+  # ("measured with an infinity maximum height constraints" crash), so the
+  # list has to own the screen's scrolling outright. The header and the demos
+  # section ride along as two more items rather than surrounding wrapper
+  # content — matches the pattern the framework's own docs describe (a header
+  # as a plain item before the main items).
+  #
+  # This is also what fixes the app's slow cold boot: the eager version built
+  # and native-inflated all 60 component preview cards before first paint;
+  # the native LazyColumn this produces only realizes the rows on screen.
   def render(assigns) do
     %{
-      type: :scroll,
-      props: %{background: :background},
+      type: :list,
+      props: %{
+        id: :home,
+        items: home_items(assigns),
+        background: :background,
+        padding: :space_lg,
+        fill_width: true,
+        fill_height: true
+      },
+      children: []
+    }
+  end
+
+  defp home_items(assigns) do
+    [{:header, assigns.theme}] ++
+      Enum.map(mishka_card_pairs(), &{:pair, &1}) ++
+      [{:demos, assigns.plugin_screens}]
+  end
+
+  defp home_item({:header, theme}) do
+    %{
+      type: :column,
+      props: %{fill_width: true},
       children: [
-        %{
-          type: :column,
-          props: %{background: :background, padding: :space_lg},
-          children: [
-            ThemeBar.bar(),
-            gap(16),
-            title_row(assigns.theme),
-            gap(22),
-
-            # ── Mishka components (priority) ─────────────────────────────
-            Kit.section_header("Mishka Chelekom", "Native component library"),
-            gap(14),
-            Kit.grid(mishka_cards()),
-            gap(28),
-
-            # ── Built-in demos + device plugins (compact) ────────────────
-            Kit.section_label("Demos & Device"),
-            gap(10),
-            Kit.grid(demo_buttons(assigns.plugin_screens))
-          ]
-        }
+        ThemeBar.bar(),
+        gap(16),
+        title_row(theme),
+        gap(22),
+        Kit.section_header("Mishka Chelekom", "Native component library"),
+        gap(14)
       ]
     }
   end
 
-  # Registered components as cards, padded with a few "coming soon" skeletons
-  # so the growing catalog reads as a grid from day one.
-  defp mishka_cards do
-    real =
-      Enum.map(Showcase.all(), fn e ->
-        Kit.component_card(e.module.card_preview(), e.name, e.category, {:open_component, e.slug})
-      end)
+  defp home_item({:pair, pair}), do: card_pair_row(pair)
 
-    real ++ List.duplicate(Kit.skeleton_card(), max(0, 4 - length(real)))
+  defp home_item({:demos, plugin_screens}) do
+    %{
+      type: :column,
+      props: %{fill_width: true},
+      children: [
+        gap(28),
+        Kit.section_label("Demos & Device"),
+        gap(10),
+        Kit.grid(demo_buttons(plugin_screens))
+      ]
+    }
   end
+
+  # Registered components, padded with a few "coming soon" skeletons so the
+  # growing catalog reads as a grid from day one, chunked into row-pairs —
+  # the pairing (not the cards themselves) is what needs to happen up front,
+  # since :list/:lazy_list virtualizes by row.
+  defp mishka_card_pairs do
+    real = Showcase.all()
+    padded = real ++ List.duplicate(:skeleton, max(0, 4 - length(real)))
+    Enum.chunk_every(padded, 2)
+  end
+
+  defp card_pair_row(pair) do
+    cells =
+      case Enum.map(pair, &card_cell/1) do
+        [a, b] -> [a, gap(12), b]
+        # Odd final row: pad with a `weight: 1` spacer so the lone card stays
+        # half-width instead of stretching to fill the row (matches Kit.grid/1).
+        [a] -> [a, gap(12), %{type: :spacer, props: %{weight: 1}, children: []}]
+      end
+
+    # `:lazy_list` has no item-spacing prop (see MobLazyList in MobBridge.kt) —
+    # bake the gap into the row itself, same convention ListScreen's
+    # history_row/1 uses.
+    %{type: :row, props: %{fill_width: true, padding_bottom: 12}, children: cells}
+  end
+
+  defp card_cell(:skeleton), do: Kit.skeleton_card()
+
+  defp card_cell(e),
+    do: Kit.component_card(e.module.card_preview(), e.name, e.category, {:open_component, e.slug})
 
   defp demo_buttons(plugin_screens) do
     [
