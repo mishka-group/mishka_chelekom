@@ -39,16 +39,63 @@ defmodule MishkaMob.Components.MishkaSeparator do
 
   | Prop | Values | Default | Meaning |
   |------|--------|---------|---------|
-  | `orientation` | `:horizontal` `:vertical` | `:horizontal` | Rule axis. A vertical rule needs a parent that gives it height (a `Row`). |
+  | `orientation` | `:horizontal` `:vertical` | `:horizontal` | Rule axis. A vertical rule needs a parent that gives it height (a `Row`) unless `length` is set. |
   | `label` | string | `nil` | Renders line — label — line. Horizontal only. |
   | `color` | color token / ARGB int | `:border` | Rule colour. |
   | `thickness` | number | `1` | Rule thickness in dp/pt. |
   | `space` | number | `12` | Gap between the label and the lines. |
+  | `render` | `:divider` `:box` | `:divider` | Which primitive draws a **horizontal** rule — a Material divider (a stroke) or a filled `Box` (a rect). See "A stroke is not a hairline" below. Ignored by a vertical rule, which is a `Box` either way. |
+  | `length` | number | `nil` | Explicit length of a **vertical** rule, in dp/pt. `nil` fills the parent's height, as before. |
+  | `label_size` | text-size token / number | `:sm` | Label text size. |
+  | `label_color` | color token / ARGB int | `:muted` | Label colour. |
+  | `label_weight` | `:bold` `:semibold` `:medium` `:light` `:thin` `:regular` | `nil` | Label font weight. Emitted as `font_weight`, never as `weight` — a bare `weight` on a `Text` is read by the parent `Row` as a *layout* weight and would fight the two lines for the leftover width. `nil` omits the prop entirely. |
   | `id` | string | `nil` | Test tag. The labelled variant also tags each line. |
 
   `decorative` from the web component is **not** ported: it only flips
   `role="separator"` to `role="none"` for screen readers in the DOM, and Mob
   exposes no such role on a divider.
+
+  ## A stroke is not a hairline, and `render={:box}` is the way out
+
+  `<Divider>` is not a neutral "draw a line" node. The Android bridge maps it to
+  Material3's `HorizontalDivider`, which is, in essence:
+
+      Canvas(modifier.fillMaxWidth().height(t)) {
+        drawLine(color, strokeWidth = t.toPx(), start = Offset(0f, t.toPx() / 2), ...)
+      }
+
+  — an **antialiased stroke**, not a filled rect. At 2.6875x density a `1` dp
+  rule is handed a 3px-tall canvas and a 2.6875px-wide stroke centred in it, so
+  the bottom pixel row lands at ~69% coverage: a full-width row that is 4-5/255
+  lighter than the two above it. A design that specifies a 1px hairline does not
+  get one, and no combination of `color` and `thickness` can produce one, because
+  the softness lives in the primitive rather than in the values.
+
+  `render={:box}` swaps the primitive for the one this component **already uses
+  on the other axis** — a background-filled `Box`, sized on the rule's short
+  edge. A filled rect has no antialiased edge, so every pixel row is the full
+  colour. It applies to the plain rule and to the labelled variant's two flanking
+  lines alike.
+
+  ### Why `:divider` is still the default
+
+  Not inertia. Two reasons:
+
+    1. **It is the only horizontal rule that works on iOS today.** A `:box` rule
+       needs the `Spacer` filler described under "Platform note" to have any
+       height at all there, and that workaround is worth carrying deliberately
+       rather than switching everyone onto silently.
+    2. **The two primitives are not pixel-identical, and the difference is not
+       zero.** At the same `thickness` the Divider paints two full rows plus one
+       at ~69%; the Box paints three full rows. The `:box` rule therefore reads a
+       shade heavier. That is a change of appearance, and no existing caller's
+       pixels may move — so it is opt-in.
+
+  Worth saying plainly, though: the component is currently *inconsistent with
+  itself*. A vertical rule has always been a `Box`, so a horizontal and a
+  vertical rule sharing one `color` and one `thickness` render two different
+  greys. `render={:box}` is what makes them agree, and a future major version
+  should probably flip the default rather than keep the seam.
 
   ## A rule has nothing to assert on without an `id`
 
@@ -61,21 +108,42 @@ defmodule MishkaMob.Components.MishkaSeparator do
 
   ## Platform note
 
-  **Only the plain rule is portable.** Both other variants are broken on iOS,
-  and the breakage is in the `mob` dependency rather than here — see
-  `IOS_TODO.md` items 11-13:
+  Every gap below is in the `mob` dependency rather than here — see
+  `IOS_TODO.md` items 1, 11, 12 and 13. **Android is correct for all three
+  variants**, the hairline softness above excepted, and that one is Material's
+  behaviour rather than a bug.
 
-    * the **vertical** rule renders 1pt wide and **0pt tall**, i.e. invisible.
-      It is a Box with a `width` and `fill_height`, and iOS's `MobBox` consults
-      `fillHeight` only in the branch it takes when there is *no* width;
-    * the **labelled** variant's flanking lines come out as 1x1pt ticks.
-      SwiftUI's `Divider()` draws along the axis of its container, so inside the
-      `Row` that centres the label it is a *vertical* hairline, then clamped to
-      `thickness` tall;
-    * `weight` is read nowhere in the iOS renderer, so the two lines cannot
-      share the leftover width there in any case.
+  On the defaults, only the plain rule is portable:
 
-  Android is correct for all three.
+    * the **vertical** rule renders 1pt wide and **0pt tall**, i.e. invisible
+      (item 11). It is a Box with a `width` and `fill_height`, and iOS's
+      `MobBox` consults `fillHeight` only in the branch it takes when there is
+      *no* width. **`length` closes this**: given a number, the rule carries a
+      `width` *and* a `height`, which is the one branch `MobBox` does size on
+      both axes;
+    * the **labelled** variant's flanking lines come out as 1x1pt ticks (item
+      12). SwiftUI's `Divider()` draws along the axis of its container, so
+      inside the `Row` that centres the label it is a *vertical* hairline, then
+      clamped to `thickness` tall. **`render={:box}` closes this for this
+      component** — a `Box` has no opinion about its container's axis. It does
+      not close item 12 itself: a bare `<Divider>` inside a `<Row>` is still
+      wrong for every other caller, so that entry stays open;
+    * `weight` is read nowhere in the iOS renderer (item 13), so the two lines
+      cannot share the leftover width there. `render={:box}` sidesteps it, and
+      by item 13's own proposed remedy: a full-width `MobBox` already compiles
+      to `.frame(maxWidth: .infinity)`, and an HStack divides its leftover
+      evenly between two equally-flexible children. Reasoned from reading
+      `MobRootView.swift`, not confirmed against a device from this repo.
+
+  ### The `Spacer` inside every `:box` rule
+
+  A `:box` rule carries a `<Spacer size={thickness} />` that Android has no use
+  for. `MobBox` drops a Box's `height` unless the Box also has a `width` (item
+  1), so a childless full-width bar measures 0pt tall on iOS and draws nothing;
+  a sized Spacer gives the ZStack an intrinsic height to adopt. `mishka_skeleton`
+  carries the same workaround for the same reason. On Android the Box's own
+  `height` pins it and the Spacer is an invisible `thickness`-square child that
+  the background covers. Both can go once item 1 is fixed.
   """
 
   import Mob.Sigil
@@ -93,6 +161,7 @@ defmodule MishkaMob.Components.MishkaSeparator do
       separator()
       separator(label: "or")
       separator(orientation: :vertical)
+      separator(render: :box)
   """
   @spec separator(map() | keyword()) :: map()
   def separator(props \\ %{}) do
@@ -101,16 +170,19 @@ defmodule MishkaMob.Components.MishkaSeparator do
     thickness = Map.get(props, :thickness, 1)
     label = Map.get(props, :label)
     id = Map.get(props, :id)
+    # `||` rather than a Map.get default, so an explicit `render: nil` still
+    # lands on the two-clause rule/3 instead of raising.
+    render = Map.get(props, :render) || :divider
 
     cond do
       Map.get(props, :orientation, :horizontal) == :vertical ->
-        tag(~MOB(<Box width={thickness} fill_height={true} background={color} />), id)
+        tag(vertical(color, thickness, Map.get(props, :length)), id)
 
       is_binary(label) and label != "" ->
-        labelled(label, color, thickness, Map.get(props, :space, 12), id)
+        labelled(props, label, color, thickness, render, id)
 
       true ->
-        tag(rule(color, thickness), id)
+        tag(rule(color, thickness, render), id)
     end
   end
 
@@ -123,31 +195,75 @@ defmodule MishkaMob.Components.MishkaSeparator do
   @spec line_ids(String.t()) :: {String.t(), String.t()}
   def line_ids(id) when is_binary(id), do: {id <> "-line-start", id <> "-line-end"}
 
-  defp rule(color, thickness), do: ~MOB(<Divider color={color} thickness={thickness} />)
+  # `length` nil keeps the original shape — fill whatever height the parent
+  # gives. A number swaps `fill_height` for an explicit `height`, which is the
+  # only Box shape iOS sizes on both axes (IOS_TODO 11).
+  defp vertical(color, thickness, nil),
+    do: ~MOB(<Box width={thickness} fill_height={true} background={color} />)
+
+  defp vertical(color, thickness, length),
+    do: ~MOB(<Box width={thickness} height={length} background={color} />)
+
+  defp rule(color, thickness, :divider),
+    do: ~MOB(<Divider color={color} thickness={thickness} />)
+
+  defp rule(color, thickness, :box), do: box_rule(color, thickness)
+
+  # A filled rect, so every pixel row carries the full colour — see "A stroke is
+  # not a hairline". The Spacer is an iOS height workaround, not a design; see
+  # "The `Spacer` inside every `:box` rule".
+  defp box_rule(color, thickness) do
+    ~MOB"""
+    <Box fill_width={true} height={thickness} background={color}>
+      <Spacer size={thickness} />
+    </Box>
+    """
+  end
 
   # line — label — line. The lines carry `weight` so they share the leftover
   # width evenly around a label of any length. Each is tagged separately: their
   # widths are the only evidence that the label is actually centred, and a Row
   # merges its children away from a tag query that does not ask for the
   # unmerged tree.
-  defp labelled(label, color, thickness, space, id) do
+  defp labelled(props, label, color, thickness, render, id) do
     {start_id, end_id} = if is_binary(id), do: line_ids(id), else: {nil, nil}
+    space = Map.get(props, :space, 12)
+    label_node = label_text(props, label)
 
     ~MOB"""
     <Row fill_width={true}>
-      {tag(rule_with_weight(color, thickness), start_id)}
+      {tag(rule_with_weight(color, thickness, render), start_id)}
       <Spacer size={space} />
-      <Text text={label} text_size={:sm} text_color={:muted} />
+      {label_node}
       <Spacer size={space} />
-      {tag(rule_with_weight(color, thickness), end_id)}
+      {tag(rule_with_weight(color, thickness, render), end_id)}
     </Row>
     """
     |> tag(id)
   end
 
-  defp rule_with_weight(color, thickness),
+  # `font_weight`, not `weight`: a bare `weight` on a Text is read by the PARENT
+  # Row as a layout weight, which would put the label in competition with the
+  # two lines for the leftover width.
+  defp label_text(props, label) do
+    text_size = Map.get(props, :label_size, :sm)
+    text_color = Map.get(props, :label_color, :muted)
+
+    ~MOB(<Text text={label} text_size={text_size} text_color={text_color} />)
+    |> put_prop(:font_weight, Map.get(props, :label_weight))
+  end
+
+  defp rule_with_weight(color, thickness, :divider),
     do: ~MOB(<Divider color={color} thickness={thickness} weight={1} />)
 
-  defp tag(node, nil), do: node
-  defp tag(node, id), do: %{node | props: Map.put(node.props, :id, id)}
+  defp rule_with_weight(color, thickness, :box),
+    do: put_prop(box_rule(color, thickness), :weight, 1)
+
+  defp tag(node, id), do: put_prop(node, :id, id)
+
+  # `~MOB` keeps a nil-valued prop in the map rather than dropping it, so an
+  # optional prop has to be added after the fact to leave the default tree
+  # exactly as it was.
+  defp put_prop(node, _key, nil), do: node
+  defp put_prop(node, key, value), do: %{node | props: Map.put(node.props, key, value)}
 end
