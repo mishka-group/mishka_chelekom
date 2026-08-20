@@ -166,8 +166,8 @@ defmodule MishkaMob.Components.MishkaSeparator do
   @spec separator(map() | keyword()) :: map()
   def separator(props \\ %{}) do
     props = Map.new(props)
-    color = Map.get(props, :color, :border)
-    thickness = Map.get(props, :thickness, 1)
+    color = Map.get(props, :color) || :border
+    thickness = Map.get(props, :thickness) || 1
     label = Map.get(props, :label)
     id = Map.get(props, :id)
     # `||` rather than a Map.get default, so an explicit `render: nil` still
@@ -175,7 +175,7 @@ defmodule MishkaMob.Components.MishkaSeparator do
     render = Map.get(props, :render) || :divider
 
     cond do
-      Map.get(props, :orientation, :horizontal) == :vertical ->
+      (Map.get(props, :orientation) || :horizontal) == :vertical ->
         tag(vertical(color, thickness, Map.get(props, :length)), id)
 
       is_binary(label) and label != "" ->
@@ -227,7 +227,7 @@ defmodule MishkaMob.Components.MishkaSeparator do
   # unmerged tree.
   defp labelled(props, label, color, thickness, render, id) do
     {start_id, end_id} = if is_binary(id), do: line_ids(id), else: {nil, nil}
-    space = Map.get(props, :space, 12)
+    space = Map.get(props, :space) || 12
     label_node = label_text(props, label)
 
     ~MOB"""
@@ -246,8 +246,8 @@ defmodule MishkaMob.Components.MishkaSeparator do
   # Row as a layout weight, which would put the label in competition with the
   # two lines for the leftover width.
   defp label_text(props, label) do
-    text_size = Map.get(props, :label_size, :sm)
-    text_color = Map.get(props, :label_color, :muted)
+    text_size = Map.get(props, :label_size) || :sm
+    text_color = Map.get(props, :label_color) || :muted
 
     ~MOB(<Text text={label} text_size={text_size} text_color={text_color} />)
     |> put_prop(:font_weight, Map.get(props, :label_weight))

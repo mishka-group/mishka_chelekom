@@ -144,7 +144,7 @@ defmodule MishkaMob.Components.MishkaChip do
     <Box
       fill_width={false}
       background={fill}
-      corner_radius={Map.get(props, :corner_radius, :radius_pill)}
+      corner_radius={Map.get(props, :corner_radius) || :radius_pill}
     >
       {body(props, ink)}
     </Box>
@@ -166,7 +166,7 @@ defmodule MishkaMob.Components.MishkaChip do
   # what it means does not have to know that, and cannot be double-padded by a
   # bridge that adds the two instead of choosing between them.
   defp pad(node, props) do
-    pad = Map.get(props, :padding, :space_sm)
+    pad = Map.get(props, :padding) || :space_sm
 
     case {Map.get(props, :padding_x), Map.get(props, :padding_y)} do
       {nil, nil} ->
@@ -210,8 +210,8 @@ defmodule MishkaMob.Components.MishkaChip do
   defp label(props, ink) do
     ~MOB"""
     <Text
-      text={Map.get(props, :label)}
-      text_size={Map.get(props, :text_size, :base)}
+      text={Map.get(props, :label) || ""}
+      text_size={Map.get(props, :text_size) || :base}
       text_color={ink}
     />
     """
@@ -243,7 +243,7 @@ defmodule MishkaMob.Components.MishkaChip do
 
       text ->
         ~MOB"""
-        <Text text={to_string(text)} text_size={Map.get(props, :text_size, :base)} text_color={ink} />
+        <Text text={to_string(text)} text_size={Map.get(props, :text_size) || :base} text_color={ink} />
         """
     end
   end
@@ -251,7 +251,7 @@ defmodule MishkaMob.Components.MishkaChip do
   # A Spacer's `size` is not a spacing prop the renderer resolves, so this one
   # is dp only — and zero means no Spacer rather than a Spacer of nothing.
   defp gap(props) do
-    case Map.get(props, :trailing_gap, 0) do
+    case Map.get(props, :trailing_gap) || 0 do
       size when is_number(size) and size > 0 -> ~MOB(<Spacer size={size} />)
       _zero_or_junk -> nil
     end
@@ -280,9 +280,9 @@ defmodule MishkaMob.Components.MishkaChip do
   # different `disabled_text_color`s or leave one of them defaulted.
   defp background(props, checked?, disabled?) do
     cond do
-      checked? and disabled? -> Map.get(props, :disabled_color, :muted)
-      disabled? -> Map.get(props, :disabled_color, unchecked_color(props))
-      checked? -> Map.get(props, :color, :primary)
+      checked? and disabled? -> Map.get(props, :disabled_color) || :muted
+      disabled? -> Map.get(props, :disabled_color) || unchecked_color(props)
+      checked? -> Map.get(props, :color) || :primary
       true -> unchecked_color(props)
     end
   end
@@ -292,15 +292,15 @@ defmodule MishkaMob.Components.MishkaChip do
   # locked-on chip rendered as a blank dark blob.
   defp text_color(props, checked?, disabled?) do
     cond do
-      checked? and disabled? -> Map.get(props, :disabled_text_color, checked_text_color(props))
-      disabled? -> Map.get(props, :disabled_text_color, :muted)
+      checked? and disabled? -> Map.get(props, :disabled_text_color) || checked_text_color(props)
+      disabled? -> Map.get(props, :disabled_text_color) || :muted
       checked? -> checked_text_color(props)
-      true -> Map.get(props, :unchecked_text_color, :on_surface)
+      true -> Map.get(props, :unchecked_text_color) || :on_surface
     end
   end
 
-  defp unchecked_color(props), do: Map.get(props, :unchecked_color, :surface_raised)
-  defp checked_text_color(props), do: Map.get(props, :text_color, :on_primary)
+  defp unchecked_color(props), do: Map.get(props, :unchecked_color) || :surface_raised
+  defp checked_text_color(props), do: Map.get(props, :text_color) || :on_primary
 
   defp handler(_props, true), do: nil
   defp handler(props, _disabled), do: Event.handler(Map.get(props, :on_toggle))

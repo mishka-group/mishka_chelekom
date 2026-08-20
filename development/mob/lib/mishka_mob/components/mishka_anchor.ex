@@ -52,12 +52,12 @@ defmodule MishkaMob.Components.MishkaAnchor do
   def anchor(props \\ %{}, children \\ []) do
     props = Map.new(props)
     disabled? = truthy?(Map.get(props, :disabled, false))
-    ink = if disabled?, do: :muted, else: Map.get(props, :color, :primary)
-    size = Map.get(props, :text_size, :base)
+    ink = if disabled?, do: :muted, else: Map.get(props, :color) || :primary
+    size = Map.get(props, :text_size) || :base
 
     # Bound first: ~MOB(...) ends at the first ")", so an interpolated call with
     # arguments breaks the parse. The heredoc form has no such limit.
-    label = Map.get(props, :label, "")
+    label = Map.get(props, :label) || ""
 
     content =
       case List.wrap(children) do
@@ -75,7 +75,11 @@ defmodule MishkaMob.Components.MishkaAnchor do
   end
 
   defp rule(props, ink) do
-    if truthy?(Map.get(props, :underline, true)) do
+    # `nil` means "not given", not `false`: `Map.get/3` hands back its default
+    # only when the key is ABSENT, so a keyword-built props map carrying an
+    # unset key as an explicit nil used to read as a deliberate `false`.
+    # Only a real `false` turns this off.
+    if Map.get(props, :underline) != false do
       ~MOB(<Box fill_width={true} height={1} background={ink} />)
     end
   end

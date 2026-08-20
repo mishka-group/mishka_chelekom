@@ -199,21 +199,21 @@ defmodule <%= @module %> do
     variant = variant(props)
     size = size(props)
     radius = radius(props)
-    color = Map.get(props, :color, :primary)
+    color = Map.get(props, :color) || :primary
     skin = skin(variant, color)
     id = Map.get(props, :id)
 
     # The variant proposes a border; the caller disposes. Width is only ever
     # written alongside a colour, because the renderer draws a border on a box
     # only when it has both — a lone width would serialise and paint nothing.
-    border_color = Map.get(props, :border_color, skin.border)
+    border_color = Map.get(props, :border_color) || skin.border
 
     container =
       %{width: size, height: size, align: :center, corner_radius: radius}
       |> put_some(:id, id)
       |> put_some(:background, skin.background)
       |> put_some(:border_color, border_color)
-      |> put_some(:border_width, border_color && Map.get(props, :border_width, 1))
+      |> put_some(:border_width, border_color && (Map.get(props, :border_width) || 1))
       |> put_some(:shadow, Map.get(props, :shadow))
       |> put_some(:on_tap, Event.handler(Map.get(props, :on_tap)))
       |> put_some(
@@ -249,7 +249,7 @@ defmodule <%= @module %> do
             props: %{
               text: to_string(glyph),
               text_size: round(size * 0.55),
-              text_color: Map.get(props, :icon_color, skin.icon),
+              text_color: Map.get(props, :icon_color) || skin.icon,
               max_lines: 1
             },
             children: []
@@ -381,19 +381,19 @@ defmodule <%= @module %> do
   # ── Scales ────────────────────────────────────────────────────────────────
 
   defp variant(props) do
-    variant = Map.get(props, :variant, :filled)
+    variant = Map.get(props, :variant) || :filled
     if variant in @variants, do: variant, else: :filled
   end
 
   defp size(props) do
-    case Map.get(props, :size, :md) do
+    case Map.get(props, :size) || :md do
       n when is_number(n) -> n
       token -> Map.get(@sizes, token, @sizes.md)
     end
   end
 
   defp radius(props) do
-    case Map.get(props, :radius, :md) do
+    case Map.get(props, :radius) || :md do
       n when is_number(n) -> n
       token -> Map.get(@radii, token, :radius_md)
     end

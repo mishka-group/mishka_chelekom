@@ -64,14 +64,18 @@ defmodule <%= @module %> do
     disabled? = truthy?(Map.get(props, :disabled, false))
     checked? = truthy?(Map.get(props, :checked, false))
     label = Map.get(props, :label)
-    label_color = if disabled?, do: :muted, else: Map.get(props, :text_color, :on_surface)
+    label_color = if disabled?, do: :muted, else: Map.get(props, :text_color) || :on_surface
 
     # fill_width makes the whole row the tap target, which is the point of a
     # stacked radio. Side by side it is the opposite: the first option would
     # take the entire width and push the rest off-screen, so a horizontal group
     # passes false and each option hugs its label. Row honours the prop on BOTH
     # renderers — unlike Box, which reads it on Android only.
-    fill? = truthy?(Map.get(props, :fill_width, true))
+    # `nil` means "not given", not `false`: `Map.get/3` hands back its default
+    # only when the key is ABSENT, so a keyword-built props map carrying an
+    # unset key as an explicit nil used to read as a deliberate `false`.
+    # Only a real `false` turns this off.
+    fill? = Map.get(props, :fill_width) != false
 
     node = ~MOB"""
     <Row fill_width={fill?}>
@@ -94,8 +98,8 @@ defmodule <%= @module %> do
   # a fixed dot is a blob in a small ring and a speck in a large one. The floor
   # of 6 is the smallest dot that still reads as a dot on a real screen.
   defp indicator(props, checked?, disabled?) do
-    size = Map.get(props, :size, 22)
-    accent = if disabled?, do: :muted, else: Map.get(props, :color, :primary)
+    size = Map.get(props, :size) || 22
+    accent = if disabled?, do: :muted, else: Map.get(props, :color) || :primary
     dot = max(round(size / 2.4), 6)
 
     ring = ~MOB"""

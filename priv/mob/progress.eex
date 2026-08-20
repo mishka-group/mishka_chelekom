@@ -226,8 +226,8 @@ defmodule <%= @module %> do
         nil
 
       value ->
-        min = Map.get(props, :min, 0)
-        max = Map.get(props, :max, 100)
+        min = Map.get(props, :min) || 0
+        max = Map.get(props, :max) || 100
         span = max - min
 
         # A zero-width range has no meaningful position; report empty rather
@@ -284,10 +284,10 @@ defmodule <%= @module %> do
   # readout stays suppressed either way — `header/2` still sees the nil.
   defp bar(props, fraction, :box) do
     geometry = %{
-      height: Map.get(props, :height, @drawn_height),
+      height: Map.get(props, :height) || @drawn_height,
       radius: Map.get(props, :corner_radius),
-      fill: Map.get(props, :color, @drawn_fill),
-      track: Map.get(props, :track_color, @drawn_track),
+      fill: Map.get(props, :color) || @drawn_fill,
+      track: Map.get(props, :track_color) || @drawn_track,
       id: Map.get(props, :id)
     }
 

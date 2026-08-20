@@ -26,7 +26,7 @@ defmodule <%= @module %> do
   | `on_remove` | event tag (atom) | — | Sent as `{:tap, tag}` when the ✕ is tapped. |
   | `on_tap` | event tag (atom) | — | Makes the pill body itself tappable. |
   | `disabled` | boolean | `false` | Mutes it and wires no handlers, including the ✕. |
-  | `background` | color token / ARGB int | `:surface_raised` | Pill fill. |
+  | `background` | color token / ARGB int / `:none` | `:surface_raised` | Pill fill. `:none` paints none — see "An outline-only pill". |
   | `color` | color token / ARGB int | `:on_surface` | Label colour. |
   | `disabled_color` | color token / ARGB int | `:muted` | Label colour while disabled. |
   | `corner_radius` | radius token / number | `:radius_pill` | Corner rounding. |
@@ -43,6 +43,7 @@ defmodule <%= @module %> do
   | `font_weight` | `:regular`, `:medium`, `:semibold`, `:bold`, `:light`, `:thin` | unset (regular) | Label weight — and the ✕'s. |
   | `letter_spacing` | number (sp) | unset | Tracking on the label. |
   | `line_height` | number | unset | Multiplier of `text_size`; ignored without one. |
+  | `max_lines` | integer / `:none` | `1` | Lines the `label` may take. `:none` lifts the cap — see "`max_lines`, and why it defaults to 1". |
   | `remove_gap` | number | `8` | Space between the label and the ✕. |
   | `remove_size` | text token / number | whatever `text_size` is | The ✕'s size, when it should differ from the label's. |
   | `leading` | string, node, or list of nodes | unset (nothing) | Content *before* the label — a dot, an icon, a count. See "The leading slot". |
@@ -53,10 +54,11 @@ defmodule <%= @module %> do
 
   Every prop below `disabled_color` is a later addition and every one of them
   defaults to exactly what the pill drew before it existed: the ones with a
-  token default (`corner_radius`, `padding`, `text_size`, `remove_gap`) name the
-  value that used to be hardcoded, and the ones marked *unset* are **left off
-  the node entirely** rather than passed as `nil` — not the same thing once the
-  tree is serialised, as the note beside the private `overrides` explains.
+  token default (`corner_radius`, `padding`, `text_size`, `max_lines`,
+  `remove_gap`) name the value that used to be hardcoded, and the ones marked
+  *unset* are **left off the node entirely** rather than passed as `nil` — not
+  the same thing once the tree is serialised, as the note beside the private
+  `overrides` explains.
 
   The last four hold to the same rule by two different routes. `leading_gap`
   names no earlier value — nothing rendered in front of the label before
@@ -86,6 +88,63 @@ defmodule <%= @module %> do
   number in sp, which is what a design pinned to 11.5 needs. Only the token form
   is multiplied by the theme's `type_scale`, so a numeric size stays put when the
   user scales their type. That is the trade: exactness against accessibility.
+
+  ## `max_lines`, and why it defaults to 1
+
+  The label is capped at one line, and the cap is worth understanding before
+  raising it. A Compose `Text` squeezed narrower than its content wraps
+  **character by character**, so a pill that does not quite fit its row renders
+  as a vertical stack of letters rather than being clipped. Ellipsised is wrong
+  by a little; stacked letters look broken. A token is one line by nature, so 1
+  is the right default and stays the default.
+
+  Being *fixed* at 1 is the part that had to go. It put every multi-line pill —
+  a note rather than a token — outside `label` entirely: the text had to arrive
+  as **children**, and children replace the label outright, taking `text_size`,
+  `font_weight`, `letter_spacing` and `line_height` with them for the caller to
+  restate by hand on a `Text` of their own. That is the same bill the `leading`
+  slot exists to stop, presented on the other side of the row.
+
+  So `max_lines` is a prop: the number of lines the label may take, or `:none`
+  to lift the cap (the key is left off the `Text`, which is Compose's unbounded
+  default). Raising it takes the character-wrap risk above back on, knowingly.
+  `line_height` is what you want beside it, and a wrapping label wants a pill
+  with a width to wrap inside — `fill_width={true}`, or a `width`.
+
+      <%= @component_prefix %>pill(%{label: note, max_lines: 3, line_height: 1.4, fill_width: true})
+
+  Only the label reads it. The ✕ and a string `leading` are lone glyphs, and
+  children bring `Text` nodes of their own.
+
+  On iOS the cap is inert whatever it says: `MobRootView` builds its `Text` with
+  no `.lineLimit` (`IOS_TODO.md` item 9), so a label wraps as far as it likes
+  there — which is today's behaviour rather than a regression, and the reason a
+  pill you have only checked on Android may look different on the other side.
+
+  ## An outline-only pill: `background: :none`
+
+  `background` is written on every pill, so until `:none` there was no way to
+  ask for the one the design draws — a bordered container over the page with
+  nothing painted behind the text. `background: :none` asks for it by leaving
+  the key **off** the Box, so nothing is filled and the border is the whole
+  pill.
+
+      <%= @component_prefix %>pill(label: "Draft", background: :none, border_color: :border,
+           border_width: 1)
+
+  `:transparent` is not the same thing, though it looks it. It is a real colour
+  (`0x00000000`), so the Box still *has* a `background` — and the renderer reads
+  that key as "this node is a surface", handing it a glass material under a
+  `glass: true` theme (`Mob.Renderer`'s `inject_theme_flags/3`). An outline pill
+  filled with glass is not an outline pill. `:none` writes no key at all, so
+  there is nothing for that rule to match on.
+
+  `background: nil` means the **default**, not "no fill". A prop that is present
+  but nil serialises as the string `"nil"` — the note beside the private
+  `overrides` has the details — so a caller writing `background: assigns[:bg]`
+  used to send the bridge a colour named "nil" instead of falling back to
+  anything. Nil now reads as unset, the way `render` is resolved elsewhere in
+  this codebase. Say `:none` when you mean none.
 
   ## Shadows
 
@@ -158,7 +217,7 @@ defmodule <%= @module %> do
   same row. Before it, a caller who wanted a coloured dot in front of the text
   had to pass the whole thing as **children** — and children replace the label
   outright, taking `label`, `text_size`, `font_weight`, `letter_spacing`,
-  `line_height` and the `max_lines: 1` guard with them. Five points of dot cost
+  `line_height` and the `max_lines` cap with them. Five points of dot cost
   every one of the label's typographic props, which the caller then had to
   restate on a `Text` of their own.
 
@@ -221,6 +280,16 @@ defmodule <%= @module %> do
 
       <%= @component_prefix %>pill(label: "Live", leading: dot_node, leading_gap: 6)
 
+  Outline only — a bordered container with nothing painted behind the text:
+
+      <%= @component_prefix %>pill(label: "Draft", background: :none, border_color: :border,
+           border_width: 1)
+
+  A note that wraps, still as a `label` and so still carrying the pill's own
+  typography rather than restating it on a `Text`:
+
+      <%= @component_prefix %>pill(%{label: note, max_lines: 3, line_height: 1.4, fill_width: true})
+
   A note: an icon on the first line of a paragraph that wraps to the pill's
   width. `content_align` puts the icon on the top; `content_fill_width` is what
   gives the paragraph's own `weight` a row wide enough to share.
@@ -235,9 +304,8 @@ defmodule <%= @module %> do
 
     node = ~MOB"""
     <Box
-      background={Map.get(props, :background, :surface_raised)}
-      corner_radius={Map.get(props, :corner_radius, :radius_pill)}
-      padding={Map.get(props, :padding, :space_sm)}
+      corner_radius={Map.get(props, :corner_radius) || :radius_pill}
+      padding={Map.get(props, :padding) || :space_sm}
       fill_width={truthy?(Map.get(props, :fill_width, false))}
     >
       {content_row(props, content, disabled?)}
@@ -245,8 +313,25 @@ defmodule <%= @module %> do
     """
 
     node
+    |> merge_props(fill(props))
     |> merge_props(overrides(props, @box_overrides))
     |> wire(tap(props, disabled?, :on_tap))
+  end
+
+  # `:none` is no fill, and it earns a value of its own rather than being spelt
+  # `:transparent`: a see-through colour still puts a `background` key on the
+  # Box, and the renderer reads that key as "this node is a surface", so under a
+  # `glass: true` theme the fill comes back as glass. Leaving the key off is the
+  # only way to mean nothing.
+  #
+  # `nil` is the DEFAULT, by the `||` this codebase already resolves `render`
+  # with — not "no fill", and no longer the string "nil" the bridge used to be
+  # handed when a caller computed the prop and got nothing. See `overrides/2`.
+  defp fill(props) do
+    case Map.get(props, :background) || :surface_raised do
+      :none -> %{}
+      background -> %{background: background}
+    end
   end
 
   # The one row every part of the pill sits in. `leading/2` is `nil` when the
@@ -278,21 +363,25 @@ defmodule <%= @module %> do
   defp put_fill(row_props, false), do: row_props
   defp put_fill(row_props, true), do: Map.put(row_props, :fill_width, true)
 
-  # max_lines: 1 — a pill is a single-line token by nature, and the failure mode
-  # without it is ugly rather than merely tight: a Compose Text squeezed narrower
-  # than its content wraps CHARACTER BY CHARACTER, so a pill that does not quite
-  # fit its row renders as a vertical stack of letters. Ellipsised is wrong by a
-  # little; stacked letters look broken. It stays fixed for that reason — the
-  # dimension props above change the pill's shape, never its line count.
+  # max_lines DEFAULTS to 1 — a pill is a single-line token by nature, and the
+  # failure mode without a cap is ugly rather than merely tight: a Compose Text
+  # squeezed narrower than its content wraps CHARACTER BY CHARACTER, so a pill
+  # that does not quite fit its row renders as a vertical stack of letters.
+  # Ellipsised is wrong by a little; stacked letters look broken.
+  #
+  # That reasoning fixes the DEFAULT, not the value. A pill that is a note
+  # rather than a token needs more lines, and having to reach for children to
+  # get them cost the caller every one of the label's typographic props. Raising
+  # the cap re-admits the character-wrap risk, for a caller who asked for it.
   defp label(props, [], disabled?) do
     ~MOB"""
     <Text
       text={Map.get(props, :label)}
       text_size={text_size(props)}
       text_color={color(props, disabled?)}
-      max_lines={1}
     />
     """
+    |> merge_props(lines(props))
     |> merge_props(overrides(props, @text_overrides))
   end
 
@@ -309,6 +398,17 @@ defmodule <%= @module %> do
     </Row>
     """
     |> merge_props(wrapper_props(props))
+  end
+
+  # `:none` lifts the cap by leaving the key off the `Text`, which is Compose's
+  # unbounded default; `nil` is the default 1, for `fill/1`'s reason. Only the
+  # label carries it — the ✕ and a string `leading` are lone glyphs, and
+  # children bring their own `Text` nodes.
+  defp lines(props) do
+    case Map.get(props, :max_lines) || 1 do
+      :none -> %{}
+      max_lines -> %{max_lines: max_lines}
+    end
   end
 
   defp wrapper_props(props) do
@@ -333,7 +433,7 @@ defmodule <%= @module %> do
         ~MOB"""
         <Row>
           {slot_node}
-          <Spacer size={Map.get(props, :leading_gap, 8)} />
+          <Spacer size={Map.get(props, :leading_gap) || 8} />
         </Row>
         """
     end
@@ -360,7 +460,7 @@ defmodule <%= @module %> do
     ~MOB"""
     <Text
       text={to_string(text)}
-      text_size={Map.get(props, :leading_size, text_size(props))}
+      text_size={Map.get(props, :leading_size) || text_size(props)}
       text_color={color(props, disabled?)}
     />
     """
@@ -377,7 +477,7 @@ defmodule <%= @module %> do
     if truthy?(Map.get(props, :with_remove, false)) do
       node = ~MOB"""
       <Row>
-        <Spacer size={Map.get(props, :remove_gap, 8)} />
+        <Spacer size={Map.get(props, :remove_gap) || 8} />
         {glyph(props, disabled?)}
       </Row>
       """
@@ -392,17 +492,17 @@ defmodule <%= @module %> do
     ~MOB"""
     <Text
       text="✕"
-      text_size={Map.get(props, :remove_size, text_size(props))}
+      text_size={Map.get(props, :remove_size) || text_size(props)}
       text_color={color(props, disabled?)}
     />
     """
     |> merge_props(overrides(props, @glyph_overrides))
   end
 
-  defp text_size(props), do: Map.get(props, :text_size, :base)
+  defp text_size(props), do: Map.get(props, :text_size) || :base
 
-  defp color(props, true), do: Map.get(props, :disabled_color, :muted)
-  defp color(props, _), do: Map.get(props, :color, :on_surface)
+  defp color(props, true), do: Map.get(props, :disabled_color) || :muted
+  defp color(props, _), do: Map.get(props, :color) || :on_surface
 
   defp tap(_props, true, _key), do: nil
   defp tap(props, _disabled, key), do: Event.handler(Map.get(props, key))

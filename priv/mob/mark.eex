@@ -52,10 +52,14 @@ defmodule <%= @module %> do
     # Bound to locals first: inside a ~MOB expression `@foo` is rewritten to
     # `assigns.foo` (the HEEx shorthand), so a module attribute cannot be read
     # there — it compiles to a reference to a non-existent `assigns`.
-    fill = Map.get(props, :background, @fill)
-    ink = Map.get(props, :color, @ink)
-    size = Map.get(props, :text_size, :base)
-    text = Map.get(props, :text)
+    fill = Map.get(props, :background) || @fill
+    ink = Map.get(props, :color) || @ink
+    size = Map.get(props, :text_size) || :base
+    # A missing label must render as nothing, not as the word "nil": an
+    # interpolated nil still lands in the props map, and `:json` encodes an
+    # atom as a string, so the wire carries "text":"nil" and the widget
+    # draws it.
+    text = Map.get(props, :text) || ""
 
     ~MOB"""
     <Box background={fill} corner_radius={:radius_sm} padding={2} fill_width={false}>

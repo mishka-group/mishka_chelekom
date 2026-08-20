@@ -171,15 +171,15 @@ defmodule <%= @module %> do
   end
 
   defp viewport(props, toasts, close_content) do
-    space = Map.get(props, :space, 10)
+    space = Map.get(props, :space) || 10
 
     stack =
       toasts
       |> Enum.map(&card(&1, props, close_content))
       |> Enum.intersperse(~MOB(<Spacer size={space} />))
 
-    top? = Map.get(props, :position, :bottom) == :top
-    pad = Map.get(props, :padding, :space_lg)
+    top? = (Map.get(props, :position) || :bottom) == :top
+    pad = Map.get(props, :padding) || :space_lg
 
     ~MOB"""
     <Box fill_width={true} fill_height={true} padding={pad}>
@@ -202,7 +202,7 @@ defmodule <%= @module %> do
   # `<Box weight={1}>` around the flexible part is the house idiom for this
   # shape; <%= @module_prefix_camel %>Combobox and <%= @module_prefix_camel %>NumberField wrap their inputs the same way.
   defp card(toast, props, close_content) do
-    bar = accent(Map.get(toast, :variant, :info))
+    bar = accent(Map.get(toast, :variant) || :info)
 
     ~MOB"""
     <Box fill_width={true} background={:surface} corner_radius={:radius_md} padding={:space_md}>
@@ -249,7 +249,7 @@ defmodule <%= @module %> do
   end
 
   defp close(props, id, content) do
-    icon = Map.get(props, :close_icon, "✕")
+    icon = Map.get(props, :close_icon) || "✕"
 
     case Event.handler(Map.get(props, :on_dismiss)) do
       nil ->
@@ -353,7 +353,7 @@ defmodule <%= @namespace %>.<%= @module_prefix_camel %>Toast.Queue do
     now = Keyword.get_lazy(opts, :now, fn -> System.monotonic_time(:millisecond) end)
 
     Enum.reject(toasts, fn toast ->
-      case {Map.get(toast, :at), Map.get(toast, :duration, duration)} do
+      case {Map.get(toast, :at), Map.get(toast, :duration) || duration} do
         {nil, _} -> false
         {_at, sticky} when not is_integer(sticky) or sticky <= 0 -> false
         {at, dur} -> now - at >= dur

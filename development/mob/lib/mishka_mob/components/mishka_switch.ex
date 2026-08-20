@@ -285,11 +285,11 @@ defmodule MishkaMob.Components.MishkaSwitch do
   # anything. `align={:center}` is what stacks and centres the thumb.
   defp control(props, :box, checked) do
     disabled? = truthy?(Map.get(props, :disabled, false))
-    width = Map.get(props, :track_width, 52)
-    height = Map.get(props, :track_height, 32)
-    size = Map.get(props, :thumb_size, 24)
-    radius = Map.get(props, :track_radius, height / 2)
-    inset = Map.get(props, :thumb_inset, (height - size) / 2)
+    width = Map.get(props, :track_width) || 52
+    height = Map.get(props, :track_height) || 32
+    size = Map.get(props, :thumb_size) || 24
+    radius = Map.get(props, :track_radius) || height / 2
+    inset = Map.get(props, :thumb_inset) || (height - size) / 2
     fill = track_fill(props, checked, disabled?)
 
     thumb =
@@ -313,7 +313,7 @@ defmodule MishkaMob.Components.MishkaSwitch do
   end
 
   defp thumb_node(props, checked, disabled?, size) do
-    radius = Map.get(props, :thumb_radius, size / 2)
+    radius = Map.get(props, :thumb_radius) || size / 2
     fill = thumb_fill(props, checked, disabled?)
 
     ~MOB"""

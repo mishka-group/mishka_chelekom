@@ -65,7 +65,7 @@ defmodule MishkaMob.Components.MishkaJsonInput do
   def json_input(props \\ %{}) do
     props = Map.new(props)
     disabled? = truthy?(Map.get(props, :disabled, false))
-    text = Map.get(props, :value, "")
+    text = Map.get(props, :value) || ""
     result = validate(text)
     invalid? = invalid?(props, result)
 
@@ -73,13 +73,13 @@ defmodule MishkaMob.Components.MishkaJsonInput do
       ~MOB"""
       <TextField
         value={text}
-        placeholder={Map.get(props, :placeholder, "{ }")}
-        lines={Map.get(props, :lines, 6)}
+        placeholder={Map.get(props, :placeholder) || "{ }"}
+        lines={Map.get(props, :lines) || 6}
         fill_width={true}
-        background={Map.get(props, :background, :surface)}
-        padding={Map.get(props, :padding, :space_sm)}
-        border_color={if(invalid?, do: danger(props), else: Map.get(props, :border_color, :border))}
-        border_width={Map.get(props, :border_width, 1)}
+        background={Map.get(props, :background) || :surface}
+        padding={Map.get(props, :padding) || :space_sm}
+        border_color={if(invalid?, do: danger(props), else: Map.get(props, :border_color) || :border)}
+        border_width={Map.get(props, :border_width) || 1}
         enabled={not disabled?}
       />
       """
@@ -189,7 +189,11 @@ defmodule MishkaMob.Components.MishkaJsonInput do
   # for everyone. That is not hypothetical; it is what made three tests here
   # either fail for the wrong reason or pass while asserting nothing.
   defp message(props, result, invalid?, id) do
-    with true <- truthy?(Map.get(props, :show_error, true)),
+    # `nil` means "not given", not `false`: `Map.get/3` hands back its default
+    # only when the key is ABSENT, so a keyword-built props map carrying an
+    # unset key as an explicit nil used to read as a deliberate `false`.
+    # Only a real `false` turns this off.
+    with true <- Map.get(props, :show_error) != false,
          true <- invalid?,
          text when is_binary(text) <- error_text(props, result) do
       ~MOB"""
@@ -241,7 +245,7 @@ defmodule MishkaMob.Components.MishkaJsonInput do
   #   * as a text_color it left the parser's message in the ordinary body
   #     colour on Android, and fully transparent (alpha 0) on iOS, where the
   #     only feedback about broken JSON was therefore invisible.
-  defp danger(props), do: Map.get(props, :error_color, :error)
+  defp danger(props), do: Map.get(props, :error_color) || :error
 
   defp tag(node, nil), do: node
   defp tag(node, id), do: %{node | props: Map.put(node.props, :id, id)}

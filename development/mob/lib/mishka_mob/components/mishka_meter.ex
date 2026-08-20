@@ -98,7 +98,7 @@ defmodule MishkaMob.Components.MishkaMeter do
     # A meter always reads something: an absent value is an empty gauge, never
     # the indeterminate bar Progress would render for the same input.
     props
-    |> Map.put(:value, Map.get(props, :value) || Map.get(props, :min, 0))
+    |> Map.put(:value, Map.get(props, :value) || Map.get(props, :min) || 0)
     |> MishkaProgress.progress()
   end
 
@@ -130,5 +130,5 @@ defmodule MishkaMob.Components.MishkaMeter do
   defdelegate fill_id(id), to: MishkaProgress
 
   defp meter_value(props),
-    do: Map.put(props, :value, Map.get(props, :value) || Map.get(props, :min, 0))
+    do: Map.put(props, :value, Map.get(props, :value) || Map.get(props, :min) || 0)
 end

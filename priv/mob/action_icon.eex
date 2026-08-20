@@ -100,14 +100,14 @@ defmodule <%= @module %> do
   def <%= @component_prefix %>action_icon(props \\ %{}, content \\ []) do
     props = Map.new(props)
     disabled? = truthy?(Map.get(props, :disabled, false))
-    size = Map.get(props, :size, 40)
+    size = Map.get(props, :size) || 40
 
     node = ~MOB"""
     <Box
       width={size}
       height={size}
       align={:center}
-      corner_radius={radius(Map.get(props, :shape, :rounded), size)}
+      corner_radius={radius(Map.get(props, :shape) || :rounded, size)}
       background={background(props, disabled?)}
     >
       {glyph(props, content, disabled?)}
@@ -134,8 +134,12 @@ defmodule <%= @module %> do
   # first `)` closes the sigil, so a call with arguments cannot be interpolated
   # there.
   defp glyph(props, [], disabled?) do
-    color = if disabled?, do: :muted, else: Map.get(props, :color, :on_surface)
-    icon = Map.get(props, :icon)
+    color = if disabled?, do: :muted, else: Map.get(props, :color) || :on_surface
+    # A missing label must render as nothing, not as the word "nil": an
+    # interpolated nil still lands in the props map, and `:json` encodes an
+    # atom as a string, so the wire carries "text":"nil" and the widget
+    # draws it.
+    icon = Map.get(props, :icon) || ""
 
     ~MOB"""
     <Text text={icon} text_size={:lg} text_color={color} />
@@ -151,9 +155,9 @@ defmodule <%= @module %> do
   # <%= @module_prefix_camel %>Chip resolves its background the same way.
   defp background(props, disabled?) do
     cond do
-      Map.get(props, :variant, :plain) != :filled -> :transparent
+      (Map.get(props, :variant) || :plain) != :filled -> :transparent
       disabled? -> :surface
-      true -> Map.get(props, :background, :surface_raised)
+      true -> Map.get(props, :background) || :surface_raised
     end
   end
 
@@ -169,7 +173,7 @@ defmodule <%= @module %> do
     |> put_some(:on_tap, handler(props, disabled?))
     |> put_some(:shadow, Map.get(props, :shadow))
     |> put_some(:border_color, border_color)
-    |> put_some(:border_width, border_color && Map.get(props, :border_width, 1))
+    |> put_some(:border_width, border_color && (Map.get(props, :border_width) || 1))
   end
 
   defp put_some(map, _key, nil), do: map

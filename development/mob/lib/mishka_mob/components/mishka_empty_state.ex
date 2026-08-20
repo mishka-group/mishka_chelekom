@@ -103,7 +103,7 @@ defmodule MishkaMob.Components.MishkaEmptyState do
   def empty_state(props \\ %{}, indicator_nodes \\ [], actions \\ [], body \\ []) do
     props = Map.new(props)
 
-    if Map.get(props, :align, :center) == :leading do
+    if (Map.get(props, :align) || :center) == :leading do
       leading(props, indicator_nodes, actions, body)
     else
       centred(props, indicator_nodes, actions, body)
@@ -118,7 +118,7 @@ defmodule MishkaMob.Components.MishkaEmptyState do
   # sits visibly off-centre on a layout whose entire job is centring.
   defp centred(props, indicator_nodes, actions, body) do
     ~MOB"""
-    <Box fill_width={true} align={:center} padding={Map.get(props, :padding, :space_xl)}>
+    <Box fill_width={true} align={:center} padding={Map.get(props, :padding) || :space_xl}>
       <Column fill_width={true}>
         {centre(indicator(props, indicator_nodes))}
         {centre(text_block(props, :center))}

@@ -159,11 +159,11 @@ defmodule MishkaMob.Components.MishkaToggle do
     <Box
       fill_width={truthy?(Map.get(props, :fill_width, false))}
       background={background(props, pressed?, disabled?)}
-      corner_radius={Map.get(props, :corner_radius, :radius_md)}
-      padding={Map.get(props, :padding, :space_sm)}
-      border_color={Map.get(props, :border_color, :border)}
-      border_width={Map.get(props, :border_width, 1)}
-      align={Map.get(props, :align, :center)}
+      corner_radius={Map.get(props, :corner_radius) || :radius_md}
+      padding={Map.get(props, :padding) || :space_sm}
+      border_color={Map.get(props, :border_color) || :border}
+      border_width={Map.get(props, :border_width) || 1}
+      align={Map.get(props, :align) || :center}
     >
       {body(props, content, pressed?, disabled?)}
     </Box>
@@ -192,8 +192,8 @@ defmodule MishkaMob.Components.MishkaToggle do
   defp body(props, [], pressed?, disabled?) do
     ~MOB"""
     <Text
-      text={Map.get(props, :label)}
-      text_size={Map.get(props, :text_size, :base)}
+      text={Map.get(props, :label) || ""}
+      text_size={Map.get(props, :text_size) || :base}
       text_color={text_color(props, pressed?, disabled?)}
     />
     """
@@ -209,14 +209,16 @@ defmodule MishkaMob.Components.MishkaToggle do
   # "locked off" identically, so the user cannot see what they are locked into.
   # The same rule the chip settled on, and what the web's disabled group shows.
   defp background(_props, true, true), do: :muted
-  defp background(props, true, _disabled?), do: Map.get(props, :color, :primary)
-  defp background(props, _pressed?, _disabled?), do: Map.get(props, :background, :surface_raised)
+  defp background(props, true, _disabled?), do: Map.get(props, :color) || :primary
+
+  defp background(props, _pressed?, _disabled?),
+    do: Map.get(props, :background) || :surface_raised
 
   defp text_color(props, pressed?, disabled?) do
     cond do
-      pressed? -> Map.get(props, :text_color, :on_primary)
+      pressed? -> Map.get(props, :text_color) || :on_primary
       disabled? -> :muted
-      true -> Map.get(props, :label_color, :on_surface)
+      true -> Map.get(props, :label_color) || :on_surface
     end
   end
 

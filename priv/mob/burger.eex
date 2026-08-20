@@ -46,8 +46,8 @@ defmodule <%= @module %> do
     props = Map.new(props)
     disabled? = truthy?(Map.get(props, :disabled, false))
     opened? = truthy?(Map.get(props, :opened, false))
-    size = Map.get(props, :size, 40)
-    color = if disabled?, do: :muted, else: Map.get(props, :color, :on_surface)
+    size = Map.get(props, :size) || 40
+    color = if disabled?, do: :muted, else: Map.get(props, :color) || :on_surface
     bar_width = round(size * 0.45)
 
     node = ~MOB"""

@@ -139,9 +139,9 @@ defmodule MishkaMob.Components.MishkaAutocomplete do
   @spec autocomplete(map() | keyword()) :: map()
   def autocomplete(props \\ %{}) do
     props = Map.new(props)
-    query = Map.get(props, :query, "")
+    query = Map.get(props, :query) || ""
     all = List.wrap(Map.get(props, :suggestions, []))
-    mode = Map.get(props, :filter, :starts_with)
+    mode = Map.get(props, :filter) || :starts_with
 
     # Drop ONLY the suggestion the query already names, not the whole list. It
     # used to blank every option the moment the query matched one exactly, which

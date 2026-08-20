@@ -217,10 +217,13 @@ defmodule MishkaMob.Components.MishkaTooltip do
   end
 
   defp body(props) do
-    text = Map.get(props, :text)
-    fill = Map.get(props, :background, @fill)
-    ink = Map.get(props, :color, @ink)
-    size = Map.get(props, :text_size, :sm)
+    # An absent tooltip text must render as nothing, not as the word "nil":
+    # an interpolated nil still lands in the props map, and `:json` encodes an
+    # atom as a string, so the wire carried "text":"nil" and the hint drew it.
+    text = Map.get(props, :text) || ""
+    fill = Map.get(props, :background) || @fill
+    ink = Map.get(props, :color) || @ink
+    size = Map.get(props, :text_size) || :sm
 
     # `fill_width={false}` is what makes this a hint rather than a bar: a Box
     # with neither a width nor the flag fills its parent, which is how this used
@@ -242,7 +245,7 @@ defmodule MishkaMob.Components.MishkaTooltip do
   # measures the bubble, so alignment is the only way to centre the triangle on
   # an edge whose length is decided by the text.
   defp pointed(props, body, side) do
-    fill = Map.get(props, :background, @fill)
+    fill = Map.get(props, :background) || @fill
     head = put(arrow(fill, side), :id, tag(props, "arrow-#{side}"))
     room = spacer(@depth)
 
@@ -311,7 +314,11 @@ defmodule MishkaMob.Components.MishkaTooltip do
   # The web closes on blur, pointer-leave or Escape. A phone has none of the
   # three; the bubble is the one part of a dismissal a finger can reach.
   defp dismiss(props) do
-    if truthy?(Map.get(props, :close_on_tap, true)) do
+    # `nil` means "not given", not `false`: `Map.get/3` hands back its default
+    # only when the key is ABSENT, so a keyword-built props map carrying an
+    # unset key as an explicit nil used to read as a deliberate `false`.
+    # Only a real `false` turns this off.
+    if Map.get(props, :close_on_tap) != false do
       Event.handler(Map.get(props, :on_open_change), false)
     end
   end
@@ -323,9 +330,9 @@ defmodule MishkaMob.Components.MishkaTooltip do
     end
   end
 
-  defp side(props), do: Map.get(@sides, Map.get(props, :side, :top), :top)
-  defp align(props), do: Map.get(@aligns, Map.get(props, :align, :center), :center)
-  defp gap(props), do: Map.get(props, :side_offset, @gap)
+  defp side(props), do: Map.get(@sides, Map.get(props, :side) || :top, :top)
+  defp align(props), do: Map.get(@aligns, Map.get(props, :align) || :center, :center)
+  defp gap(props), do: Map.get(props, :side_offset) || @gap
   defp disabled?(props), do: truthy?(Map.get(props, :disabled, false))
 
   # Unlike `column/1` this one carries no `fill_width`, so it hugs the bubble it

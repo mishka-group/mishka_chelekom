@@ -183,7 +183,12 @@ defmodule <%= @module %> do
 
   # Track props that must be ABSENT when the caller says nothing, rather than
   # present-and-nil. See `overrides/2` for why the difference is visible.
-  @track_overrides ~w(width height align shadow)a
+  # `border_color` joined them: it has no default (the track draws no border
+  # unless asked), but it was interpolated INTO the node, so an absent one
+  # still landed in the props map as nil — and `:json` encodes an atom as a
+  # string, so the bridge received "border_color":"nil" to resolve as a
+  # colour token.
+  @track_overrides ~w(width height align shadow border_color)a
 
   # A segment's own edge padding. Unprefixed, because `padding` is already the
   # segment's and `track_padding` already the track's.
@@ -292,27 +297,27 @@ defmodule <%= @module %> do
     text = ~MOB"""
     <Text
       text={label}
-      text_size={Map.get(props, :heading_size, :sm)}
-      text_color={Map.get(props, :heading_color, :muted)}
+      text_size={Map.get(props, :heading_size) || :sm}
+      text_color={Map.get(props, :heading_color) || :muted}
     />
     """
 
     gap = ~MOB"""
-    <Spacer size={Map.get(props, :heading_gap, 10)} />
+    <Spacer size={Map.get(props, :heading_gap) || 10} />
     """
 
     [merge_props(text, aliased(props, @heading_aliases)), gap]
   end
 
   defp track(props, segments, fill?) do
+    # `border_color` arrives through @track_overrides, not the template.
     ~MOB"""
     <Box
       fill_width={fill?}
-      background={Map.get(props, :background, :surface_raised)}
-      corner_radius={Map.get(props, :corner_radius, :radius_md)}
-      padding={Map.get(props, :track_padding, 3)}
-      border_color={Map.get(props, :border_color)}
-      border_width={Map.get(props, :border_width, 0)}
+      background={Map.get(props, :background) || :surface_raised}
+      corner_radius={Map.get(props, :corner_radius) || :radius_md}
+      padding={Map.get(props, :track_padding) || 3}
+      border_width={Map.get(props, :border_width) || 0}
     >
       <Row fill_width={fill?}>
         {segments}
@@ -338,21 +343,8 @@ defmodule <%= @module %> do
     disabled? =
       truthy?(Map.get(props, :disabled, false)) or truthy?(Map.get(option, :disabled, false))
 
-    # A disabled selection is greyed rather than accented — the same rule the
-    # toggle settled on, so a locked control reads as locked instead of live.
-    fill =
-      cond do
-        selected? and disabled? -> :muted
-        selected? -> Map.get(props, :color, :primary)
-        true -> :transparent
-      end
-
-    text_color =
-      cond do
-        selected? -> Map.get(props, :text_color, :on_primary)
-        disabled? -> :muted
-        true -> Map.get(props, :label_color, :on_surface)
-      end
+    fill = segment_fill(props, selected?, disabled?)
+    text_color = segment_ink(props, selected?, disabled?)
 
     # fill_width: false is what keeps a segment the size of its label. Without
     # it the first segment claims the whole strip and the others are pushed off
@@ -364,13 +356,13 @@ defmodule <%= @module %> do
     <Box
       fill_width={false}
       background={fill}
-      corner_radius={Map.get(props, :segment_radius, :radius_sm)}
-      padding={Map.get(props, :padding, :space_sm)}
-      align={Map.get(props, :segment_align, :center)}
+      corner_radius={Map.get(props, :segment_radius) || :radius_sm}
+      padding={Map.get(props, :padding) || :space_sm}
+      align={Map.get(props, :segment_align) || :center}
     >
       <Text
-        text={Map.get(option, :label)}
-        text_size={Map.get(props, :text_size, :base)}
+        text={Map.get(option, :label) || ""}
+        text_size={Map.get(props, :text_size) || :base}
         text_color={text_color}
       />
     </Box>
@@ -384,6 +376,16 @@ defmodule <%= @module %> do
     |> tag_state(Map.get(props, :id), Map.get(option, :id), selected?)
     |> wire(tap(props, option, disabled?))
   end
+
+  # A disabled selection is greyed rather than accented — the same rule the
+  # toggle settled on, so a locked control reads as locked instead of live.
+  defp segment_fill(_props, true, true), do: :muted
+  defp segment_fill(props, true, _disabled?), do: Map.get(props, :color) || :primary
+  defp segment_fill(_props, _selected?, _disabled?), do: :transparent
+
+  defp segment_ink(props, true, _disabled?), do: Map.get(props, :text_color) || :on_primary
+  defp segment_ink(_props, _selected?, true), do: :muted
+  defp segment_ink(props, _selected?, _disabled?), do: Map.get(props, :label_color) || :on_surface
 
   # The selected label may carry its own weight — an iOS-style strip bolds its
   # selection — falling back to the strip-wide one, and then to nothing at all,
