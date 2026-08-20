@@ -9,14 +9,19 @@ defmodule MishkaMob.Components.MishkaMeter do
   On the web the two differ mainly in semantics: `role="meter"` versus
   `role="progressbar"`, which is what a screen reader announces. Mob exposes no
   such role, and both are "a proportional fill along a track", so this port
-  renders the same native `Progress` widget and shares
+  renders the same native `Progress` widget by default and shares
   `MishkaMob.Components.MishkaProgress.fraction/1` for the range maths rather
-  than duplicating clamping logic that would then drift.
+  than duplicating clamping logic that would then drift. `render` picks the
+  primitive for both components in the same way, and means the same thing here.
 
-  Drawing the fill by hand — a `Row` of two weighted boxes — was the alternative,
-  and it was rejected: `weight` is a Compose concept that Mob's iOS mapping does
-  not implement, so the gauge would be proportional on Android and broken on
-  iOS. The native widget is proportional on both.
+  Drawing the fill by hand — a `Row` of two weighted boxes — used to be rejected
+  outright here: `weight` is a Compose concept Mob's iOS mapping does not
+  implement, so a hand-drawn gauge was proportional on Android and broken on
+  iOS. That reasoning survives for the **default**, and only for the default.
+  It missed that a gauge given an explicit `width` needs no `weight` at all —
+  its fill is `width * ratio`, plain arithmetic — and that Material's own
+  geometry is not always the geometry a design asks for. See "When the native
+  gauge cannot draw the design" below.
 
   The real differences the port keeps:
 
@@ -35,11 +40,42 @@ defmodule MishkaMob.Components.MishkaMeter do
   | `label` | string | `nil` | Caption above the gauge. |
   | `show_value` | boolean | `false` | Render a readout beside the label. |
   | `value_text` | string | `nil` | Overrides the readout (default is a rounded percentage). |
-  | `color` | color token / ARGB int | platform default | Fill colour. |
-  | `height` | number | platform default (~4) | Gauge thickness. |
+  | `color` | color token / ARGB int | platform default (`:primary`) | Fill colour. |
+  | `height` | number | platform default (~4); `4` under `render={:box}` | Gauge thickness. |
+  | `render` | `:progress` `:box` | `:progress` | Native indicator, or a track `Box` with a fill `Box` in it. |
+  | `width` | number | `nil` | Gauge width in dp/pt. `nil` fills the parent, as before. |
+  | `track_color` | color token / ARGB int | `:surface_raised` | The groove behind the fill. **`:box` only.** `:transparent` gives a trackless gauge. |
+  | `corner_radius` | number / radius token | `nil` (square) | Rounds track and fill alike. **`:box` only.** |
+  | `id` | string | `nil` | Test tag. `:box` additionally tags the fill `<id>-fill` (`fill_id/1`). |
 
-  `id` and the `*_class` attrs are not ported — they anchor `aria-*`
-  relationships and style DOM parts.
+  Everything from `render` down is passed straight through to
+  `MishkaMob.Components.MishkaProgress`, which owns the drawing and documents
+  each prop in full. The `*_class` attrs are not ported — they style DOM parts.
+
+  ## When the native gauge cannot draw the design
+
+  `render={:box}` swaps the native indicator for a track `Box` with a fill `Box`
+  inside it, so `width`, `height`, `corner_radius`, `track_color` and `color`
+  describe the gauge exactly rather than nudging Material's:
+
+      <MishkaMeter value={@used} render={:box}
+                   width={46} height={6} corner_radius={3}
+                   track_color={:transparent} color={0xFFFF7A00} />
+
+  A meter is the *better* candidate of the two for it. The one thing a drawn bar
+  cannot do is animate, and the only thing that needs animating is
+  `MishkaProgress`'s indeterminate state — which a meter does not have, by
+  definition. Every meter has a value, so every meter has a fill it can draw.
+
+  Both ends are ordinary readings and both are drawn: an empty gauge (`0.0`, the
+  fallback for a valueless meter) omits the fill node entirely rather than
+  emitting a zero `weight` or a zero width, and a full one (`1.0`) omits the
+  remainder instead. `MishkaProgress`'s "0% and 100% are ordinary values" has
+  the reasoning.
+
+  `:progress` stays the default because the drawn gauge inherits none of
+  Material's metrics, and no existing caller's pixels may move. On iOS, prefer
+  the fixed-`width` form — see `MishkaProgress`'s "Platform note".
   """
 
   alias MishkaMob.Components.MishkaProgress
@@ -53,6 +89,7 @@ defmodule MishkaMob.Components.MishkaMeter do
 
       meter(value: 72, label: "Disk", show_value: true)
       meter(value: 3, max: 5, value_text: "3 of 5 bars", show_value: true)
+      meter(value: 72, render: :box, width: 46, height: 6, corner_radius: 3)
   """
   @spec meter(map() | keyword()) :: map()
   def meter(props \\ %{}) do
@@ -81,6 +118,16 @@ defmodule MishkaMob.Components.MishkaMeter do
     |> meter_value()
     |> MishkaProgress.fraction()
   end
+
+  @doc """
+  The test tag on a drawn gauge's fill box, for a meter given both `id` and
+  `render={:box}`. Delegated, because the fill is `MishkaProgress`'s node.
+
+      iex> MishkaMob.Components.MishkaMeter.fill_id("storage")
+      "storage-fill"
+  """
+  @spec fill_id(String.t()) :: String.t()
+  defdelegate fill_id(id), to: MishkaProgress
 
   defp meter_value(props),
     do: Map.put(props, :value, Map.get(props, :value) || Map.get(props, :min, 0))
