@@ -9,6 +9,7 @@ defmodule MishkaMob.GeneratedComponentsTest do
               Generated.Live.CloseButton,
               Generated.Live.Color,
               Generated.Live.NumberFormatter,
+              Generated.Live.Switch,
               Generated.Live.Toast.Queue,
               Generated.Live.Tree,
               Generated.Pfx.MishkaCloseButton
@@ -266,6 +267,10 @@ defmodule MishkaMob.GeneratedComponentsTest do
       assert Generated.Live.Color.parse("#3b82f6") == {:ok, {59, 130, 246}}
       assert Generated.Live.NumberFormatter.format(1_234_567) == "1,234,567"
       assert Generated.Live.Tree.toggle_expand("a", []) == ["a"]
+      # The drawn switch's thumb arithmetic is public API, and the one piece of
+      # geometry a caller is invited to reuse at a call site.
+      assert Generated.Live.Switch.thumb_offset(true, 46, 22, 3) == 9.0
+      assert Generated.Live.Switch.thumb_offset(false, 46, 22, 3) == -9.0
     end
 
     test "a component with real props renders the same as the shipped one" do
@@ -287,6 +292,301 @@ defmodule MishkaMob.GeneratedComponentsTest do
         assert apply(generated, function, args) == apply(shipped, function, args),
                "#{inspect(generated)} diverged"
       end
+    end
+
+    # The default case above only proves the templates were not broken; it says
+    # nothing about a prop added to a component after its template was written,
+    # which is precisely how the two drift. So these pass the whole surface —
+    # sizing, typography, slots, per-state colours — in one call each.
+    test "a component's LATER props survive generation too, not only its defaults" do
+      cases = [
+        # A switch in its drawn rendering: a whole second way of building the
+        # control that the default cases never reach, and the only one whose
+        # geometry is computed here rather than forwarded to a native widget.
+        {Generated.Live.Switch, MishkaMob.Components.MishkaSwitch, :switch,
+         [
+           %{
+             render: :box,
+             checked: true,
+             disabled: false,
+             label: "Wi-Fi",
+             track_width: 46,
+             track_height: 28,
+             track_radius: 14,
+             thumb_size: 22,
+             thumb_radius: 11,
+             thumb_inset: 3,
+             track_on_color: :success,
+             track_off_color: :muted,
+             thumb_on_color: 0xFFFFFFFF,
+             thumb_off_color: :surface,
+             disabled_track_color: :muted,
+             disabled_thumb_color: :border,
+             thumb_shadow: "0 1 3 0 #33000000",
+             on_toggle: :wifi_tapped
+           }
+         ]},
+        # The same switch off and disabled: the other half of every colour
+        # fallback, the mirrored thumb offset, and the dropped tap handler.
+        {Generated.Live.Switch, MishkaMob.Components.MishkaSwitch, :switch,
+         [
+           %{
+             render: :box,
+             checked: false,
+             disabled: true,
+             track_width: 46,
+             track_height: 28,
+             thumb_size: 22,
+             thumb_inset: 3,
+             disabled_track_color: :muted,
+             disabled_thumb_color: :border,
+             on_toggle: :wifi_tapped
+           }
+         ]},
+        # A chip whose disabled state is transparent with a muted label: the
+        # design that could not be expressed at all while the unchecked and
+        # disabled colours were hardcoded to theme tokens.
+        {Generated.Live.Chip, MishkaMob.Components.MishkaChip, :chip,
+         [
+           %{
+             label: "Unread",
+             trailing: "12",
+             trailing_gap: 6,
+             width: 96,
+             height: 32,
+             padding_x: 15,
+             padding_y: 0,
+             corner_radius: 8,
+             text_size: 12,
+             font_weight: :medium,
+             max_lines: 1,
+             align: :center,
+             disabled: true,
+             disabled_color: 0x00000000,
+             disabled_text_color: :muted,
+             unchecked_color: 0x00000000,
+             unchecked_text_color: :subtle
+           }
+         ]},
+        # A pill sized to a design, with both slots filled and the content row
+        # told to stop centring.
+        {Generated.Live.Pill, MishkaMob.Components.MishkaPill, :pill,
+         [
+           %{
+             label: "PRO",
+             leading: "●",
+             leading_gap: 6,
+             leading_size: 8,
+             with_remove: true,
+             remove_gap: 4,
+             remove_size: :sm,
+             content_align: :top,
+             content_fill_width: true,
+             fill_width: true,
+             height: 12,
+             padding_top: 9,
+             padding_bottom: 9,
+             padding_left: 12,
+             padding_right: 12,
+             corner_radius: 4,
+             text_size: 11.5,
+             font_weight: :semibold,
+             letter_spacing: 0.5,
+             line_height: 1.2,
+             border_color: :outline,
+             border_width: 1,
+             shadow: "0 1 3 0 #33000000",
+             align: :center
+           }
+         ]},
+        # A drawn progress bar in its FIXED-width shape, full. The fill's width
+        # is arithmetic (`width * fraction`) rather than a forwarded prop, so a
+        # template that dropped the arithmetic would still render a plausible
+        # bar — just the wrong length — and only a parity check catches it.
+        {Generated.Live.Progress, MishkaMob.Components.MishkaProgress, :progress,
+         [
+           %{
+             value: 100,
+             render: :box,
+             width: 46,
+             height: 6,
+             corner_radius: 3,
+             track_color: :transparent,
+             color: 0xFFFF7A00,
+             id: "upload"
+           }
+         ]},
+        # The same bar EMPTY and fill-width: the shape that claims its share
+        # with `weight`, at the fraction where a zero weight would be emitted by
+        # anything that computed it naively. Compose rejects `weight: 0.0`
+        # outright, so 0% is the edge worth pinning, not an afterthought.
+        {Generated.Live.Progress, MishkaMob.Components.MishkaProgress, :progress,
+         [%{value: 0, render: :box, height: 6, label: "Uploading", show_value: true}]},
+        # A drawn meter, which reaches the same drawing code through a sibling
+        # module — so this also covers the sibling call surviving generation.
+        {Generated.Live.Meter, MishkaMob.Components.MishkaMeter, :meter,
+         [
+           %{
+             value: 72,
+             render: :box,
+             width: 46,
+             height: 6,
+             corner_radius: 3,
+             track_color: :surface_raised,
+             color: 0xFFFF7A00,
+             id: "storage"
+           }
+         ]},
+        # A drawn bar carries its fraction as a WIDTH rather than a prop, so the
+        # fill's test tag is the only thing a device test can read it back from
+        # — and it is a new public function rather than a node, which none of
+        # the tree comparisons above can see. Meter's delegates to Progress's,
+        # so a template that did not carry it over does not define it at all.
+        {Generated.Live.Progress, MishkaMob.Components.MishkaProgress, :fill_id, ["upload"]},
+        {Generated.Live.Meter, MishkaMob.Components.MishkaMeter, :fill_id, ["storage"]}
+      ]
+
+      for {generated, shipped, function, args} <- cases do
+        assert apply(generated, function, args) == apply(shipped, function, args),
+               "#{inspect(generated)} diverged on a later prop"
+      end
+    end
+
+    # Reached through `expand/3` rather than through each component's own
+    # function, because that is the composite protocol every generated component
+    # keeps under any prefix. So a case is a NAME, a props map and its children,
+    # and adding one needs no alias and no entry in the `@compile` list above:
+    # `Module.concat/1` resolves after `setup` has compiled these into being.
+    test "a container's later props — shadow, border, sizing — survive generation" do
+      option = fn id, label ->
+        %{type: :mishka_segmented_control_option, props: %{id: id, label: label}, children: []}
+      end
+
+      cases = [
+        # A rule drawn as a filled Box rather than as Material's antialiased
+        # stroke, with a label restyled on all three of its axes.
+        {"separator",
+         %{
+           render: :box,
+           label: "or continue with",
+           label_size: 13,
+           label_color: :primary,
+           label_weight: :semibold,
+           space: 6,
+           thickness: 2,
+           id: "sep"
+         }, []},
+        # A vertical rule carrying its own height, which is the one Box shape
+        # iOS sizes on both axes.
+        {"separator", %{orientation: :vertical, length: 24, thickness: 2, color: :border}, []},
+        # A floating disc: the shadow and the hairline are what make it one, and
+        # neither could be expressed while the container was written inside the
+        # sigil, where an unset prop lands in the map as a nil.
+        {"action_icon",
+         %{
+           icon: "→",
+           variant: :filled,
+           shape: :circle,
+           shadow: "0 1 2 0 #0D1A1917 | 0 8 16 -12 #801A1917",
+           border_color: :border,
+           border_width: 2,
+           on_tap: :next
+         }, []},
+        # The same, on a variant that already draws a border of its own — the
+        # caller's colour has to REPLACE the variant's rather than fight it.
+        {"theme_icon",
+         %{
+           icon: "★",
+           variant: :outline,
+           radius: :full,
+           shadow: "0 1 2 0 #0D1A1917",
+           border_color: :primary,
+           border_width: 3,
+           label: "Star",
+           id: "ti"
+         }, []},
+        # A strip pinned to a design: a trough of a fixed height, equal-width
+        # segments, a bolded selection lifted off the track, and a heading with
+        # a type scale of its own.
+        {"segmented_control",
+         %{
+           label: "View",
+           heading_size: 11,
+           heading_color: 0xFF010203,
+           heading_weight: :semibold,
+           heading_gap: 4,
+           width: 240,
+           height: 30,
+           align: :center,
+           shadow: "0 1 3 0 #11000000",
+           track_padding: 3,
+           segment_width: 70,
+           segment_height: 28,
+           segment_align: :center,
+           segment_weight: 1,
+           selected_shadow: "0 1 2 0 #0D1A1917",
+           font_weight: :medium,
+           selected_weight: :bold,
+           letter_spacing: 0.2,
+           line_height: 1.1,
+           max_lines: 1,
+           text_size: 10.5,
+           padding_top: 0,
+           padding_bottom: 0,
+           padding_left: 10,
+           padding_right: 10,
+           fill_width: true,
+           value: :week,
+           id: "view",
+           on_change: :pick
+         }, [option.(:day, "Day"), option.(:week, "Week")]},
+        # The 46x28 button the toggle's moduledoc promises, spelled with
+        # `padding: 0` because padding is applied before width and height.
+        {"toggle",
+         %{
+           label: "W",
+           width: 46,
+           height: 28,
+           padding: 0,
+           padding_left: 4,
+           padding_right: 4,
+           border_width: 0,
+           corner_radius: 8,
+           text_size: 11.5,
+           font_weight: :semibold,
+           letter_spacing: 0.2,
+           line_height: 1.1,
+           max_lines: 1,
+           align: :center,
+           shadow: "0 1 2 0 #0D1A1917",
+           pressed: true,
+           id: "t",
+           on_change: :bold
+         }, []}
+      ]
+
+      for {name, props, children} <- cases do
+        generated = Module.concat([Generated.Live, Macro.camelize(name)])
+        shipped = Module.concat([MishkaMob.Components, "Mishka#{Macro.camelize(name)}"])
+
+        assert generated.expand(props, children, %{screen: self()}) ==
+                 shipped.expand(props, children, %{screen: self()}),
+               "#{name} diverged on a prop added after its template was written"
+      end
+    end
+
+    test "the generated separator still defaults to a Divider, not to the new Box" do
+      # Every other case here compares generated against shipped, so a template
+      # that ported `render: :box` AND flipped the default would sail through
+      # them all. The default is load-bearing on its own: the Box paints three
+      # full pixel rows where Material's divider paints two and one at ~69%, so
+      # flipping it would move the rule under every existing caller.
+      separator = Module.concat([Generated.Live, "Separator"])
+      ctx = %{screen: self()}
+
+      assert separator.expand(%{}, [], ctx) == separator.expand(%{render: :divider}, [], ctx)
+      assert separator.expand(%{}, [], ctx).type == :divider
+      assert separator.expand(%{render: :box}, [], ctx).type == :box
     end
 
     test "the toast template carries its nested Queue module" do
