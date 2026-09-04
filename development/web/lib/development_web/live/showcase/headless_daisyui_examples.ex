@@ -586,6 +586,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
        "daisyUI's `toggle` on the input. `switch` renders one checkbox standing for two themes instead of a radio each."},
       {"theme-controller-checkbox", "Using a checkbox", "daisyUI's `checkbox`."},
       {"theme-controller-toggle-text", "Toggle with text", "The label beside the switch."},
+      {"theme-controller-swap", "Theme Controller using a swap",
+       "daisyUI's `swap swap-rotate`: the two glyphs sit in one grid cell and rotate past each other."},
+      {"theme-controller-icons-inside", "Toggle with icons inside",
+       "daisyUI's glyphs live inside the track itself, addressed by `:nth-child`, so they render with no label wrapper around them."},
+      {"theme-controller-dropdown", "Using a dropdown",
+       "daisyUI's theme dropdown — a radio per theme, each drawn as a ghost block button."},
       {"theme-controller-toggle-icons", "Toggle with icons",
        "An icon on each side; the `:option` slot body replaces the label's text."},
       {"theme-controller-colors", "Toggle with custom colors",
@@ -1359,7 +1365,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
     ~H"""
     <div class="flex flex-wrap items-center gap-2">
-      <.pill :for={size <- @sizes} class={"d-badge-#{size}"}>badge-{size}</.pill>
+      <.pill :for={size <- @sizes} class={"d-badge-#{size}"}>{size_label(size)}</.pill>
     </div>
     """
   end
@@ -1369,7 +1375,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
     ~H"""
     <div class="flex flex-wrap gap-2">
-      <.pill :for={color <- @colors} class={"d-badge-#{color}"}>{color}</.pill>
+      <.pill :for={color <- @colors} class={"d-badge-#{color}"}>{color_label(color)}</.pill>
     </div>
     """
   end
@@ -1379,7 +1385,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
     ~H"""
     <div class="flex flex-wrap gap-2">
-      <.pill :for={color <- @colors} class={"d-badge-soft d-badge-#{color}"}>{color}</.pill>
+      <.pill :for={color <- @colors} class={"d-badge-soft d-badge-#{color}"}>
+        {color_label(color)}
+      </.pill>
     </div>
     """
   end
@@ -1389,7 +1397,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
     ~H"""
     <div class="flex flex-wrap gap-2">
-      <.pill :for={color <- @colors} class={"d-badge-outline d-badge-#{color}"}>{color}</.pill>
+      <.pill :for={color <- @colors} class={"d-badge-outline d-badge-#{color}"}>
+        {color_label(color)}
+      </.pill>
     </div>
     """
   end
@@ -1399,7 +1409,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
     ~H"""
     <div class="flex flex-wrap gap-2">
-      <.pill :for={color <- @colors} class={"d-badge-dash d-badge-#{color}"}>{color}</.pill>
+      <.pill :for={color <- @colors} class={"d-badge-dash d-badge-#{color}"}>
+        {color_label(color)}
+      </.pill>
     </div>
     """
   end
@@ -1407,8 +1419,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "pill-neutral-variants"} = assigns) do
     ~H"""
     <div class="flex flex-wrap gap-2">
-      <.pill class="d-badge-neutral d-badge-outline">outline</.pill>
-      <.pill class="d-badge-neutral d-badge-dash">dash</.pill>
+      <.pill class="d-badge-neutral d-badge-outline">Outline</.pill>
+      <.pill class="d-badge-neutral d-badge-dash">Dash</.pill>
     </div>
     """
   end
@@ -3006,12 +3018,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <.select
         :for={size <- @sizes}
         id={"daisyui-select-size-#{size}"}
-        placeholder={"select-#{size}"}
+        placeholder={size_label(size)}
         class="w-56"
         trigger_class={"d-select-#{size}"}
       >
-        <:option value="one">One</:option>
-        <:option value="two">Two</:option>
+        <:option value="apple">{size_label(size)} Apple</:option>
+        <:option value="orange">{size_label(size)} Orange</:option>
+        <:option value="tomato">{size_label(size)} Tomato</:option>
       </.select>
     </div>
     """
@@ -4511,6 +4524,70 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         <:option value="light" />
         <:option value="dark">Dark mode</:option>
       </.theme_controller>
+    </.theme_preview>
+    """
+  end
+
+  def example(%{section: "theme-controller-swap"} = assigns) do
+    ~H"""
+    <.theme_preview id="daisyui-theme-swap-box">
+      <.theme_controller
+        id="daisyui-theme-swap"
+        target="#daisyui-theme-swap-box"
+        value="light"
+        switch
+        wrap_label={false}
+        option_class="d-swap d-swap-rotate"
+      >
+        <:option value="light" />
+        <:option value="dark">
+          <.theme_glyph kind="sun" class="d-swap-off size-10 fill-current" />
+          <.theme_glyph kind="moon" class="d-swap-on size-10 fill-current" />
+        </:option>
+      </.theme_controller>
+    </.theme_preview>
+    """
+  end
+
+  def example(%{section: "theme-controller-icons-inside"} = assigns) do
+    ~H"""
+    <.theme_preview id="daisyui-theme-inside-box">
+      <.theme_controller
+        id="daisyui-theme-inside"
+        target="#daisyui-theme-inside-box"
+        value="light"
+        switch
+        wrap_label={false}
+        option_class="d-toggle text-base-content"
+      >
+        <:option value="light" />
+        <:option value="dark">
+          <.theme_glyph kind="sun" stroked />
+          <.theme_glyph kind="moon" stroked />
+        </:option>
+      </.theme_controller>
+    </.theme_preview>
+    """
+  end
+
+  def example(%{section: "theme-controller-dropdown"} = assigns) do
+    ~H"""
+    <.theme_preview id="daisyui-theme-dropdown-box">
+      <details class="d-dropdown">
+        <summary class="d-btn m-1">Theme</summary>
+        <.theme_controller
+          id="daisyui-theme-dropdown"
+          target="#daisyui-theme-dropdown-box"
+          value="light"
+          class="d-dropdown-content z-1 w-52 rounded-box bg-base-300 p-2 shadow-2xl"
+          input_class="sr-only"
+          option_class="d-btn d-btn-sm d-btn-block d-btn-ghost justify-start"
+        >
+          <:option value="light" label="Light" />
+          <:option value="dark" label="Dark" />
+          <:option value="cupcake" label="Cupcake" />
+        </.theme_controller>
+      </details>
     </.theme_preview>
     """
   end
@@ -9233,6 +9310,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     """
   end
 
+  # daisyUI labels their size and colour examples with names, not class names — "Xsmall", "Primary".
+  # Reading "badge-xs" tells you what is already in the code block above it; reading "Xsmall" shows
+  # you the thing the example is about.
+  defp size_label("xs"), do: "Xsmall"
+  defp size_label("sm"), do: "Small"
+  defp size_label("md"), do: "Medium"
+  defp size_label("lg"), do: "Large"
+  defp size_label("xl"), do: "Xlarge"
+
+  defp color_label(color), do: String.capitalize(color)
+
   # daisyUI's own alert copy, so the soft / outline / dash rows read the same as their page.
   defp alert_messages do
     [
@@ -9273,6 +9361,48 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   defp alert_icon_path("error"),
     do: "M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+
+  # daisyUI's sun and moon, in the two shapes their theme-controller examples use them: filled for
+  # the swap, stroked for the toggle's inside glyphs.
+  attr :kind, :string, required: true, values: ~w(sun moon)
+  attr :stroked, :boolean, default: false
+  attr :class, :string, default: nil
+
+  defp theme_glyph(%{stroked: true} = assigns) do
+    ~H"""
+    <svg
+      aria-label={@kind}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class={@class}
+    >
+      <g :if={@kind == "sun"}>
+        <circle cx="12" cy="12" r="4" />
+        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+      </g>
+      <path :if={@kind == "moon"} d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+    </svg>
+    """
+  end
+
+  defp theme_glyph(assigns) do
+    ~H"""
+    <svg aria-label={@kind} viewBox="0 0 24 24" class={@class}>
+      <path
+        :if={@kind == "sun"}
+        d="M12 6a6 6 0 106 6 6 6 0 00-6-6zm0-4a1 1 0 011 1v1a1 1 0 01-2 0V3a1 1 0 011-1zm0 18a1 1 0 011 1v1a1 1 0 01-2 0v-1a1 1 0 011-1zM3 11h1a1 1 0 010 2H3a1 1 0 010-2zm17 0h1a1 1 0 010 2h-1a1 1 0 010-2zM5.64 4.22l.71.71a1 1 0 01-1.42 1.42l-.7-.71a1 1 0 011.41-1.42zm12.02 12.02l.71.71a1 1 0 01-1.42 1.41l-.7-.7a1 1 0 011.41-1.42zm.71-10.6l-.71.71a1 1 0 01-1.41-1.42l.7-.7a1 1 0 011.42 1.41zM6.35 17.66l-.71.71a1 1 0 01-1.41-1.42l.7-.7a1 1 0 011.42 1.41z"
+      />
+      <path
+        :if={@kind == "moon"}
+        d="M21.64 13a1 1 0 00-1.05-.14 8 8 0 01-9.45-9.45A1 1 0 0010 2.36 10 10 0 1022 14.05a1 1 0 00-.36-1.05z"
+      />
+    </svg>
+    """
+  end
 
   attr :path, :string, required: true
 

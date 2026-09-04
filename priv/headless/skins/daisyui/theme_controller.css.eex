@@ -17,10 +17,17 @@
 }
 
 .chelekom-theme-controller__option {
+  cursor: pointer;
+}
+
+/* Our own row layout — but only when the caller has not put a daisyUI layout class on the option.
+ * `toggle` and `swap` are grids that place their children into counted columns, so an inline-flex
+ * with a gap of its own competes for the display property and, worse, eats the space the grid was
+ * going to give the glyphs: a 40px toggle came out with 8px icons instead of 16px. */
+.chelekom-theme-controller__option:not(:is(.<%= @d %>toggle, .<%= @d %>swap)) {
   display: inline-flex;
   align-items: center;
   gap: calc(0.25rem * 2);
-  cursor: pointer;
 }
 
 .chelekom-theme-controller__label {

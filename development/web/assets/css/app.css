@@ -48,6 +48,8 @@
 @source inline("d-input d-label d-fieldset d-fieldset-legend d-join d-join-item");
 @source inline("d-link d-link-hover d-link-{primary,secondary,accent,neutral,info,success,warning,error}");
 @source inline("d-divider-{start,end} lg:d-divider-horizontal");
+@source inline("d-swap d-swap-rotate d-swap-on d-swap-off d-dropdown d-dropdown-content d-dropdown-end");
+@source inline("d-btn-block d-btn-ghost justify-start");
 @source inline("d-loading d-loading-{spinner,dots,ring,ball,bars,infinity} d-loading-{xs,sm,md,lg,xl} d-mockup-code");
 @source inline("text-{primary,secondary,accent,neutral,info,success,warning,error}");
 @source inline("d-btn d-btn-{xs,sm,md,lg,xl} sm:d-btn-sm md:d-btn-md lg:d-btn-lg xl:d-btn-xl");

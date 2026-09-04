@@ -61,6 +61,14 @@ defmodule DevelopmentWeb.Components.Headless.ThemeController do
   attr :option_class, :any, default: nil, doc: ~s|Extra classes for `data-part="option"`|
   attr :input_class, :any, default: nil, doc: ~s|Extra classes for `data-part="input"`|
   attr :label_class, :any, default: nil, doc: ~s|Extra classes for `data-part="label"`|
+
+  attr :wrap_label, :boolean,
+    default: true,
+    doc:
+      "Wrap each option's content in a `label` part. Set false when the content has to sit " <>
+        "directly beside the input — daisyUI's swap and toggle-with-icons recipes both place " <>
+        "their glyphs as siblings of it, and address them with `~` and `:nth-child`"
+
   attr :rest, :global
 
   slot :option, doc: "One theme" do
@@ -107,16 +115,18 @@ defmodule DevelopmentWeb.Components.Headless.ThemeController do
           data-unchecked-value={@switch && option[:off]}
           class={["chelekom-theme-controller__input", @input_class]}
         />
-        <span data-part="label" class={["chelekom-theme-controller__label", @label_class]}>{if option.slot &&
-                                                                                                 option.slot[
-                                                                                                   :inner_block
-                                                                                                 ],
-                                                                                               do:
-                                                                                                 render_slot(
-                                                                                                   option.slot
-                                                                                                 ),
-                                                                                               else:
-                                                                                                 option.label}</span>
+        <span
+          :if={@wrap_label}
+          data-part="label"
+          class={["chelekom-theme-controller__label", @label_class]}
+        >{if option.slot && option.slot[:inner_block],
+          do: render_slot(option.slot),
+          else: option.label}</span>
+        <%= if !@wrap_label do %>
+          {if option.slot && option.slot[:inner_block],
+            do: render_slot(option.slot),
+            else: option.label}
+        <% end %>
       </label>
     </div>
     """
