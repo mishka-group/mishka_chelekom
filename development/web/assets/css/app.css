@@ -47,8 +47,8 @@
 @source inline("d-toast-{top,middle,bottom,start,center,end}");
 @source inline("d-input d-label d-fieldset d-fieldset-legend d-join d-join-item");
 @source inline("d-link d-link-hover d-link-{primary,secondary,accent,neutral,info,success,warning,error}");
-@source inline("text-{primary,secondary,accent,success,warning,error}");
-@source inline("d-loading d-loading-{spinner,dots} d-loading-{xs,lg} d-mockup-code");
+@source inline("d-loading d-loading-{spinner,dots,ring,ball,bars,infinity} d-loading-{xs,sm,md,lg,xl} d-mockup-code");
+@source inline("text-{primary,secondary,accent,neutral,info,success,warning,error}");
 @source inline("d-btn d-btn-{xs,sm,md,lg,xl} sm:d-btn-sm md:d-btn-md lg:d-btn-lg xl:d-btn-xl");
 @source inline("d-btn-{primary,secondary,accent,neutral,info,success,warning,error}");
 @source inline("d-btn-{soft,outline,dash,ghost,link,active,wide,block,square,circle}");

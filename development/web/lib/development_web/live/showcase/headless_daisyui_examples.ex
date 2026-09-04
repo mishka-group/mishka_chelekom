@@ -380,6 +380,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
        "daisyUI's `loading-spinner` on a scrim over a region."},
       {"loading_overlay-content", "With custom content",
        "Your own loader instead of the spinner."},
+      {"loading_overlay-styles", "Loader styles",
+       "daisyUI's six: `loading-spinner`, `-dots`, `-ring`, `-ball`, `-bars` and `-infinity`."},
+      {"loading_overlay-colors", "Colors", "The loader takes any text color utility."}
     ],
     "button" => [
       {"button-hero", "Button", "daisyUI's `btn`."},
@@ -2368,6 +2371,46 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <.loading_overlay id="daisyui-loading-content" visible class="absolute inset-0 rounded-box">
         <span class="d-loading d-loading-dots d-loading-lg"></span>
       </.loading_overlay>
+    </div>
+    """
+  end
+
+  def example(%{section: "loading_overlay-styles"} = assigns) do
+    assigns = assign(assigns, :styles, ~w(spinner dots ring ball bars infinity))
+
+    ~H"""
+    <div class="flex flex-wrap items-center gap-6">
+      <div :for={style <- @styles} class="flex flex-col items-center gap-2">
+        <div class="relative size-20 rounded-box border border-base-300">
+          <.loading_overlay
+            id={"daisyui-loading-#{style}"}
+            visible
+            class="absolute inset-0 rounded-box"
+          >
+            <span class={"d-loading d-loading-#{style} d-loading-lg"}></span>
+          </.loading_overlay>
+        </div>
+        <span class="text-xs opacity-60">{style}</span>
+      </div>
+    </div>
+    """
+  end
+
+  def example(%{section: "loading_overlay-colors"} = assigns) do
+    assigns =
+      assign(assigns, :colors, ~w(primary secondary accent neutral info success warning error))
+
+    ~H"""
+    <div class="flex flex-wrap items-center gap-4">
+      <div :for={color <- @colors} class="relative size-16 rounded-box border border-base-300">
+        <.loading_overlay
+          id={"daisyui-loading-color-#{color}"}
+          visible
+          class="absolute inset-0 rounded-box"
+        >
+          <span class={"d-loading d-loading-spinner d-loading-md text-#{color}"}></span>
+        </.loading_overlay>
+      </div>
     </div>
     """
   end
