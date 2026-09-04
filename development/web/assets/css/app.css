@@ -529,9 +529,19 @@
 /* This file is for your main application CSS */
 
 /* Keyframes have no markup form, so the handful the skin needs live here as Tailwind theme
-   animations — `animate-chelekom-progress-loading` is then a utility like any other. */
+   animations — `animate-chelekom-progress-loading` is then a utility like any other. The
+   `@keyframes` stays at top level: nested inside `@theme` it is valid Tailwind, but the
+   generator's CSS codemod reparses this file and cannot round-trip that nesting. */
+
+@keyframes chelekom-progress-loading {
+  50% {
+    background-position-x: -115%;
+  }
+}
 
 @theme {
+    --animate-chelekom-progress-loading: chelekom-progress-loading 5s ease-in-out infinite;
+
     --color-base-border-light: var(--base-border-light);
     --color-base-border-dark: var(--base-border-dark);
     --color-base-text-light: var(--base-text-light);
@@ -849,8 +859,6 @@
     --color-stepper-separator-completed-border-dark: var(
         --stepper-separator-completed-border-dark
     );
-}
-  }
 }
 
 @theme {
