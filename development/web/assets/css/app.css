@@ -540,8 +540,6 @@
 }
 
 @theme {
-    --animate-chelekom-progress-loading: chelekom-progress-loading 5s ease-in-out infinite;
-
     --color-base-border-light: var(--base-border-light);
     --color-base-border-dark: var(--base-border-dark);
     --color-base-text-light: var(--base-text-light);
@@ -860,6 +858,7 @@
         --stepper-separator-completed-border-dark
     );
 }
+
 
 @theme {
     --color-base-border-light: var(--base-border-light);

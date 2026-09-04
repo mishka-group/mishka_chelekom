@@ -1346,27 +1346,6 @@
   }
 }
 /* <<< toast */
-
-/* >>> fieldset */
-@layer components {
-  [data-skin=daisyui] {
-    /* fieldset — daisyUI skin (paints `fieldset` + `fieldset-legend`). */
-
-    .chelekom-fieldset {
-      @apply d-fieldset;
-    }
-
-    .chelekom-fieldset__legend {
-      @apply d-fieldset-legend;
-    }
-
-    .chelekom-fieldset[data-disabled] {
-      opacity: 60%;
-    }
-  }
-}
-/* <<< fieldset */
-
 /* >>> otp_field */
 @layer components {
   [data-skin=daisyui] {
@@ -1583,19 +1562,6 @@
   }
 }
 /* <<< toggle */
-
-/* >>> code */
-@layer components {
-  [data-skin=daisyui] {
-    /* code — daisyUI skin (paints `mockup-code`). */
-
-    .chelekom-code {
-      @apply d-mockup-code;
-    }
-  }
-}
-/* <<< code */
-
 /* >>> nav_link */
 @layer components {
   [data-skin=daisyui] {
@@ -3794,50 +3760,6 @@
   }
 }
 /* <<< calendar */
-
-/* >>> action_icon */
-@layer components {
-  [data-skin=daisyui] {
-    /* action_icon — daisyUI skin.
-     *
-     * daisyUI has no icon-button component: its own icon buttons are `btn btn-square` or
-     * `btn btn-circle`, written by hand. Square is the default here because that is what an icon-only
-     * button in a toolbar usually is; `btn-circle` still works when the caller wants it, and so does
-     * every other `btn-*` modifier, because the root takes `btn` itself.
-     */
-
-    .chelekom-action-icon {
-      @apply d-btn d-btn-square;
-    }
-
-    .chelekom-action-icon[data-disabled] {
-      @apply d-btn-disabled;
-    }
-  }
-}
-/* <<< action_icon */
-
-/* >>> close_button */
-@layer components {
-  [data-skin=daisyui] {
-    /* close_button — daisyUI skin.
-     *
-     * daisyUI's own dismiss buttons — the one in its modal, the one on its alert — are
-     * `btn btn-sm btn-circle btn-ghost`, so that is exactly what this paints. Ghost rather than filled
-     * matters: a close button that draws as much attention as the thing it closes is a mistake.
-     */
-
-    .chelekom-close-button {
-      @apply d-btn d-btn-sm d-btn-circle d-btn-ghost;
-    }
-
-    .chelekom-close-button[data-disabled] {
-      @apply d-btn-disabled;
-    }
-  }
-}
-/* <<< close_button */
-
 /* >>> chip */
 @layer components {
   [data-skin=daisyui] {
@@ -4804,19 +4726,6 @@
   }
 }
 /* <<< marquee */
-
-/* >>> mask_input */
-@layer components {
-  [data-skin=daisyui] {
-    /* mask_input — daisyUI skin (a single `<input>`, so daisyUI's `input` applies directly). */
-
-    .chelekom-mask-input {
-      @apply d-input;
-    }
-  }
-}
-/* <<< mask_input */
-
 /* >>> menubar */
 @layer components {
   [data-skin=daisyui] {

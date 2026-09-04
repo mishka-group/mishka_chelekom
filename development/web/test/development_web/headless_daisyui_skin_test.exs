@@ -122,6 +122,13 @@ defmodule DevelopmentWeb.HeadlessDaisyUISkinTest do
   # Handing a part daisyUI's own class (`input_class="d-radio"`) is not hand-painting — it is the
   # same opt-in the skin would make with `@apply`, just spelled in markup. Painting is a Tailwind
   # utility: a class on a part that daisyUI did not give us.
+  # Once the skin is gone the hero has to carry the look itself, and where it carries it depends on
+  # the component: `action_icon` is a single element styled entirely through the root `class`,
+  # while `progress` needs one per part. Either counts; carrying nothing does not.
+  defp styled_in_markup?(source) do
+    source =~ ~r/\bclass=/ or source =~ ~r/\b[a-z_]+_class=/
+  end
+
   defp utility_painted?(source) do
     ~r/\b[a-z_]+_class=(?:"([^"]*)"|\{\[?([^}]*)\]?\})/
     |> Regex.scan(source)
@@ -139,7 +146,7 @@ defmodule DevelopmentWeb.HeadlessDaisyUISkinTest do
         refute utility_painted?(source),
                "#{id}: the hero hand-paints a part while the skin still styles it"
       else
-        assert utility_painted?(source),
+        assert styled_in_markup?(source),
                "#{id}: the skin region is gone, so the hero must carry the styling itself"
       end
     end

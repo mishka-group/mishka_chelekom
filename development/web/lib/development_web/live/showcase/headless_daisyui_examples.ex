@@ -2047,7 +2047,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── fieldset ──────────────────────────────────────────────────────────────
   def example(%{section: "fieldset-hero"} = assigns) do
     ~H"""
-    <.fieldset id="daisyui-fieldset-hero" class="w-xs">
+    <.fieldset
+      legend_class="d-fieldset-legend"
+      id="daisyui-fieldset-hero"
+      class="d-fieldset data-disabled:opacity-60 w-xs"
+    >
       <:legend>Page title</:legend>
       <input type="text" class="d-input" placeholder="My awesome page" />
       <p class="d-label">You can edit page title later on from settings</p>
@@ -2058,8 +2062,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "fieldset-box"} = assigns) do
     ~H"""
     <.fieldset
+      legend_class="d-fieldset-legend"
       id="daisyui-fieldset-box"
-      class="w-xs rounded-box border border-base-300 bg-base-200 p-4"
+      class="d-fieldset data-disabled:opacity-60 w-xs rounded-box border border-base-300 bg-base-200 p-4"
     >
       <:legend>Page title</:legend>
       <input type="text" class="d-input" placeholder="My awesome page" />
@@ -2071,8 +2076,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "fieldset-multiple"} = assigns) do
     ~H"""
     <.fieldset
+      legend_class="d-fieldset-legend"
       id="daisyui-fieldset-multiple"
-      class="w-xs rounded-box border border-base-300 bg-base-200 p-4"
+      class="d-fieldset data-disabled:opacity-60 w-xs rounded-box border border-base-300 bg-base-200 p-4"
     >
       <:legend>Page details</:legend>
       <label class="d-label">Title</label>
@@ -2088,8 +2094,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "fieldset-join"} = assigns) do
     ~H"""
     <.fieldset
+      legend_class="d-fieldset-legend"
       id="daisyui-fieldset-join"
-      class="w-xs rounded-box border border-base-300 bg-base-200 p-4"
+      class="d-fieldset data-disabled:opacity-60 w-xs rounded-box border border-base-300 bg-base-200 p-4"
     >
       <:legend>Newsletter</:legend>
       <div class="d-join">
@@ -2103,8 +2110,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "fieldset-login"} = assigns) do
     ~H"""
     <.fieldset
+      legend_class="d-fieldset-legend"
       id="daisyui-fieldset-login"
-      class="w-xs rounded-box border border-base-300 bg-base-200 p-4"
+      class="d-fieldset data-disabled:opacity-60 w-xs rounded-box border border-base-300 bg-base-200 p-4"
     >
       <:legend>Login</:legend>
       <label class="d-label">Email</label>
@@ -2119,9 +2127,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "fieldset-disabled"} = assigns) do
     ~H"""
     <.fieldset
+      legend_class="d-fieldset-legend"
       id="daisyui-fieldset-disabled"
       disabled
-      class="w-xs rounded-box border border-base-300 bg-base-200 p-4"
+      class="d-fieldset data-disabled:opacity-60 w-xs rounded-box border border-base-300 bg-base-200 p-4"
     >
       <:legend>Disabled group</:legend>
       <input type="text" class="d-input" placeholder="Cannot type here" />
@@ -2384,7 +2393,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── code ──────────────────────────────────────────────────────────────────
   def example(%{section: "code-hero"} = assigns) do
     ~H"""
-    <.code id="daisyui-code-hero" block>
+    <.code class="d-mockup-code" id="daisyui-code-hero" block>
       <pre data-prefix="$"><code>mix mishka.ui.gen.headless select --skin daisyui</code></pre>
       <pre data-prefix=">" class="text-warning"><code>installing…</code></pre>
       <pre data-prefix=">" class="text-success"><code>Done</code></pre>
@@ -2396,7 +2405,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <p class="text-sm">
       Run
-      <.code id="daisyui-code-inline">mix mishka.ui.gen.headless</.code>
+      <.code class="d-mockup-code" id="daisyui-code-inline">mix mishka.ui.gen.headless</.code>
       to generate a component.
     </p>
     """
@@ -2404,7 +2413,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "code-multi"} = assigns) do
     ~H"""
-    <.code id="daisyui-code-multi" block>
+    <.code class="d-mockup-code" id="daisyui-code-multi" block>
       <pre data-prefix="1"><code>defmodule MyApp.Page do</code></pre>
       <pre data-prefix="2"><code>  use MyAppWeb, :live_view</code></pre>
       <pre data-prefix="3"><code>end</code></pre>
@@ -2414,7 +2423,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "code-highlight"} = assigns) do
     ~H"""
-    <.code id="daisyui-code-highlight" block>
+    <.code class="d-mockup-code" id="daisyui-code-highlight" block>
       <pre data-prefix="1"><code>mix deps.get</code></pre>
       <pre data-prefix="2" class="bg-warning text-warning-content"><code>mix deps.compile</code></pre>
       <pre data-prefix="3"><code>mix phx.server</code></pre>
@@ -2424,7 +2433,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "code-scroll"} = assigns) do
     ~H"""
-    <.code id="daisyui-code-scroll" block>
+    <.code class="d-mockup-code" id="daisyui-code-scroll" block>
       <pre data-prefix="$"><code>mix mishka.ui.gen.headless select --skin daisyui --skin-scope "[data-skin=daisyui]" --skin-prefix d- --yes</code></pre>
     </.code>
     """
@@ -2432,7 +2441,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "code-no-prefix"} = assigns) do
     ~H"""
-    <.code id="daisyui-code-no-prefix" block>
+    <.code class="d-mockup-code" id="daisyui-code-no-prefix" block>
       <pre><code>{"%{status: :ok}"}</code></pre>
       <pre><code>{"%{status: :error}"}</code></pre>
     </.code>
@@ -2441,7 +2450,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "code-color"} = assigns) do
     ~H"""
-    <.code id="daisyui-code-color" block class="bg-primary text-primary-content">
+    <.code id="daisyui-code-color" block class="d-mockup-code bg-primary text-primary-content">
       <pre data-prefix="$"><code>mix phx.server</code></pre>
       <pre data-prefix=">"><code>Running DevelopmentWeb.Endpoint</code></pre>
     </.code>
@@ -5841,6 +5850,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "mask_input-hero"} = assigns) do
     ~H"""
     <.mask_input
+      class="d-input"
       id="daisyui-mask-input"
       mask="(999) 999-9999"
       placeholder="(___) ___-____"
@@ -7622,8 +7632,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "action-icon-hero"} = assigns) do
     ~H"""
     <div class="flex items-center gap-2">
-      <.action_icon label="Edit"><.dock_icon path="M4 20h4L20 8l-4-4L4 16z" /></.action_icon>
-      <.action_icon label="Delete">
+      <.action_icon class="d-btn d-btn-square data-disabled:d-btn-disabled" label="Edit">
+        <.dock_icon path="M4 20h4L20 8l-4-4L4 16z" />
+      </.action_icon>
+      <.action_icon class="d-btn d-btn-square data-disabled:d-btn-disabled" label="Delete">
         <.dock_icon path="M5 7h14M9 7V5h6v2M7 7l1 13h8l1-13" />
       </.action_icon>
     </div>
@@ -7635,7 +7647,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
     ~H"""
     <div class="flex flex-wrap items-center gap-2">
-      <.action_icon :for={color <- @colors} label={color} class={"d-btn-#{color}"}>
+      <.action_icon
+        :for={color <- @colors}
+        label={color}
+        class={["d-btn d-btn-square data-disabled:d-btn-disabled", "d-btn-#{color}"]}
+      >
         <.dock_icon path="M4 20h4L20 8l-4-4L4 16z" />
       </.action_icon>
     </div>
@@ -7647,7 +7663,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
     ~H"""
     <div class="flex items-center gap-2">
-      <.action_icon :for={size <- @sizes} label={size} class={"d-btn-#{size}"}>
+      <.action_icon
+        :for={size <- @sizes}
+        label={size}
+        class={["d-btn d-btn-square data-disabled:d-btn-disabled", "d-btn-#{size}"]}
+      >
         <.dock_icon path="M4 20h4L20 8l-4-4L4 16z" />
       </.action_icon>
     </div>
@@ -7660,7 +7680,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <.action_icon
         :for={variant <- ~w(outline ghost soft dash)}
         label={variant}
-        class={"d-btn-#{variant}"}
+        class={["d-btn d-btn-square data-disabled:d-btn-disabled", "d-btn-#{variant}"]}
       >
         <.dock_icon path="M4 20h4L20 8l-4-4L4 16z" />
       </.action_icon>
@@ -7671,10 +7691,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "action-icon-circle"} = assigns) do
     ~H"""
     <div class="flex items-center gap-2">
-      <.action_icon label="Edit" class="d-btn-circle">
+      <.action_icon label="Edit" class="d-btn d-btn-square data-disabled:d-btn-disabled d-btn-circle">
         <.dock_icon path="M4 20h4L20 8l-4-4L4 16z" />
       </.action_icon>
-      <.action_icon label="Add" class="d-btn-circle d-btn-primary">
+      <.action_icon
+        label="Add"
+        class="d-btn d-btn-square data-disabled:d-btn-disabled d-btn-circle d-btn-primary"
+      >
         <.dock_icon path="M12 5v14M5 12h14" />
       </.action_icon>
     </div>
@@ -7683,28 +7706,40 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "action-icon-disabled"} = assigns) do
     ~H"""
-    <.action_icon label="Edit" disabled><.dock_icon path="M4 20h4L20 8l-4-4L4 16z" /></.action_icon>
+    <.action_icon class="d-btn d-btn-square data-disabled:d-btn-disabled" label="Edit" disabled>
+      <.dock_icon path="M4 20h4L20 8l-4-4L4 16z" />
+    </.action_icon>
     """
   end
 
   # ── close_button ──────────────────────────────────────────────────────────
   def example(%{section: "close-button-hero"} = assigns) do
     ~H"""
-    <.close_button label="Dismiss" />
+    <.close_button
+      class="d-btn d-btn-sm d-btn-circle d-btn-ghost data-disabled:d-btn-disabled"
+      label="Dismiss"
+    />
     """
   end
 
   def example(%{section: "close-button-sizes"} = assigns) do
     ~H"""
     <div class="flex items-center gap-2">
-      <.close_button :for={size <- ~w(xs sm md lg)} label={size} class={"d-btn-#{size}"} />
+      <.close_button
+        :for={size <- ~w(xs sm md lg)}
+        label={size}
+        class={["d-btn d-btn-circle d-btn-ghost data-disabled:d-btn-disabled", "d-btn-#{size}"]}
+      />
     </div>
     """
   end
 
   def example(%{section: "close-button-custom"} = assigns) do
     ~H"""
-    <.close_button label="Dismiss">
+    <.close_button
+      class="d-btn d-btn-sm d-btn-circle d-btn-ghost data-disabled:d-btn-disabled"
+      label="Dismiss"
+    >
       <.dock_icon path="M6 6l12 12M18 6L6 18" />
     </.close_button>
     """
@@ -7714,14 +7749,23 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.alert id="daisyui-close-button-alert" class="d-alert d-alert-info w-96">
       A new version is available.
-      <:actions><.close_button label="Dismiss" /></:actions>
+      <:actions>
+        <.close_button
+          class="d-btn d-btn-sm d-btn-circle d-btn-ghost data-disabled:d-btn-disabled"
+          label="Dismiss"
+        />
+      </:actions>
     </.alert>
     """
   end
 
   def example(%{section: "close-button-disabled"} = assigns) do
     ~H"""
-    <.close_button label="Dismiss" disabled />
+    <.close_button
+      class="d-btn d-btn-sm d-btn-circle d-btn-ghost data-disabled:d-btn-disabled"
+      label="Dismiss"
+      disabled
+    />
     """
   end
 
@@ -8384,7 +8428,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "text-input-fieldset"} = assigns) do
     ~H"""
-    <.fieldset id="daisyui-input-fieldset" class="d-fieldset w-xs">
+    <.fieldset
+      legend_class="d-fieldset-legend"
+      id="daisyui-input-fieldset"
+      class="d-fieldset data-disabled:opacity-60 d-fieldset w-xs"
+    >
       <:legend>What is your name?</:legend>
       <.text_input id="daisyui-input-fieldset-control" name="name" placeholder="Your name" />
       <p class="d-label">Optional</p>

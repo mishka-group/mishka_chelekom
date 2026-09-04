@@ -1,5 +1,0 @@
-/* code — daisyUI skin (paints `mockup-code`). */
-
-.chelekom-code {
-  @apply <%= @d %>mockup-code;
-}
