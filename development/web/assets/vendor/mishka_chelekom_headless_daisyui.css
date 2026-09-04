@@ -1338,13 +1338,21 @@
 
     @media (prefers-reduced-motion: no-preference) {
       .chelekom-collapsible__panel {
-        transition: height 0.2s ease-out;
+        transition:
+          height 0.2s ease-out,
+          padding-bottom 0.2s ease-out;
       }
     }
 
+    /* The padding has to go with the height. These boxes are `border-box`, so `height: 0` cannot take
+     * the panel below its own padding — it stops about a pixel short of 1rem and then the engine's
+     * `hidden` removes the rest in one frame, which reads as a stall and a snap right at the end of
+     * the close. daisyUI has the same problem and answers it the same way, by only giving the content
+     * its bottom padding while the panel is open. */
     .chelekom-collapsible__panel[data-starting-style],
     .chelekom-collapsible__panel[data-ending-style] {
       height: 0;
+      padding-bottom: 0;
     }
   }
 }
