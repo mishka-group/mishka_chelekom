@@ -529,9 +529,10 @@
 /* This file is for your main application CSS */
 
 /* Keyframes have no markup form, so the handful the skin needs live here as Tailwind theme
-   animations — `animate-chelekom-progress-loading` is then a utility like any other. The
-   `@keyframes` stays at top level: nested inside `@theme` it is valid Tailwind, but the
-   generator's CSS codemod reparses this file and cannot round-trip that nesting. */
+   `@keyframes` stays at top level and the examples reach it with an arbitrary
+   `animate-[...]` utility. Both matter: nested inside `@theme` the codemod drops the block and
+   leaves its braces, and a `--animate-*` theme variable is stripped every time the generator
+   reparses this file — the keyframes at top level is the only part that survives. */
 
 @keyframes chelekom-progress-loading {
   50% {

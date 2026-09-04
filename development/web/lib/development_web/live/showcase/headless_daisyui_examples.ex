@@ -1550,7 +1550,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         "data-indeterminate:w-full data-indeterminate:bg-transparent",
         "data-indeterminate:bg-[repeating-linear-gradient(90deg,currentColor_-1%,currentColor_10%,#0000_10%,#0000_90%)]",
         "data-indeterminate:bg-size-[200%] data-indeterminate:bg-position-[15%]",
-        "motion-safe:data-indeterminate:animate-chelekom-progress-loading"
+        "motion-safe:data-indeterminate:animate-[chelekom-progress-loading_5s_ease-in-out_infinite]"
       ]}
     />
     """
@@ -2219,13 +2219,23 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── anchor ────────────────────────────────────────────────────────────────
   def example(%{section: "anchor-hero"} = assigns) do
     ~H"""
-    <.anchor href="#">Click me</.anchor>
+    <.anchor
+      phx-no-format
+      class="d-link focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
+      href="#"
+    >Click me</.anchor>
     """
   end
 
   def example(%{section: "anchor-hover"} = assigns) do
     ~H"""
-    <.anchor href="#" class="d-link-hover">Underlined on hover only</.anchor>
+    <.anchor
+      phx-no-format
+      href="#"
+      class="d-link focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current d-link-hover"
+    >
+      Underlined on hover only
+    </.anchor>
     """
   end
 
@@ -2234,7 +2244,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
     ~H"""
     <div class="flex flex-wrap gap-4">
-      <.anchor :for={color <- @colors} href="#" class={"d-link-#{color}"}>{color}</.anchor>
+      <.anchor
+        :for={color <- @colors}
+        phx-no-format
+        href="#"
+        class={[
+          "d-link focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current",
+          "d-link-#{color}"
+        ]}
+      >
+        {color}
+      </.anchor>
     </div>
     """
   end
@@ -2242,9 +2262,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "anchor-in-text"} = assigns) do
     ~H"""
     <p class="max-w-sm text-sm">
-      Read the
-      <.anchor href="#">quick start guide</.anchor>
-      before you install anything, then come back here.
+      Read the <.anchor
+        phx-no-format
+        class="d-link focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
+        href="#"
+      >quick start guide</.anchor> before you install anything, then come back here.
     </p>
     """
   end
@@ -5171,10 +5193,20 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "color_swatch-hero"} = assigns) do
     ~H"""
     <div>
-      <.color_swatch color="#fa5252" />
-      <.color_swatch color="#7048e8" />
-      <.color_swatch color="#12b886" />
       <.color_swatch
+        class="inline-block w-8 h-8 rounded-[var(--radius-field)] [box-shadow:inset_0_0_0_1px_color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+        color="#fa5252"
+      />
+      <.color_swatch
+        class="inline-block w-8 h-8 rounded-[var(--radius-field)] [box-shadow:inset_0_0_0_1px_color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+        color="#7048e8"
+      />
+      <.color_swatch
+        class="inline-block w-8 h-8 rounded-[var(--radius-field)] [box-shadow:inset_0_0_0_1px_color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+        color="#12b886"
+      />
+      <.color_swatch
+        class="inline-block w-8 h-8 rounded-[var(--radius-field)] [box-shadow:inset_0_0_0_1px_color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
         color="#1c7ed6"
         label="Selected"
       >
@@ -5799,6 +5831,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <p>
       <.highlight
+        mark_class="rounded-[2px] px-[2px] bg-warning/45 text-inherit"
         text="Search results for phoenix — the Phoenix framework is fast."
         highlight="phoenix"
       />
@@ -5810,6 +5843,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "json_input-hero"} = assigns) do
     ~H"""
     <.json_input
+      class="d-textarea tabular-nums font-[ui-monospace,SFMono-Regular,Menlo,monospace]"
       id="daisyui-json-input"
       value={~s({\n  "name": "Mantine",\n  "ok": true\n})}
       rows={4}
@@ -5821,9 +5855,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "mark-hero"} = assigns) do
     ~H"""
     <p>
-      The quick brown
-      <.mark>fox</.mark>
-      jumps over the lazy <.mark>dog</.mark>.
+      The quick brown <.mark phx-no-format class="rounded-[2px] px-[2px] bg-warning/45 text-inherit">fox</.mark> jumps over the lazy <.mark class="rounded-[2px] px-[2px] bg-warning/45 text-inherit">dog</.mark>.
     </p>
     """
   end
@@ -6373,6 +6405,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <p>
         Revenue:
         <.number_formatter
+          class="tabular-nums"
           value={1_234_567.89}
           prefix="$"
           decimal_scale={2}
@@ -6381,6 +6414,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <p>
         Downloads:
         <.number_formatter
+          class="tabular-nums"
           value={9_876_543}
           thousand_separator=" "
         />
@@ -6725,10 +6759,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <div>
       <.rolling_number
+        class="tabular-nums text-base-content"
         id="daisyui-rolling-number-1"
         value={2048}
       />
       <.rolling_number
+        class="tabular-nums text-base-content"
         id="daisyui-rolling-number-2"
         value={1_000_000}
         duration={1400}
@@ -6826,6 +6862,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "sparkline-hero"} = assigns) do
     ~H"""
     <.sparkline
+      class="block text-primary"
       values={[4, 7, 5, 9, 8, 12, 10, 14]}
       last_point
       color="currentColor"
@@ -6839,6 +6876,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div>
       <.sparkline
         :for={type <- ~w(line area bar)}
+        class="block text-primary"
         values={[4, 7, 5, 9, 8, 12, 10, 14]}
         type={type}
         color="currentColor"

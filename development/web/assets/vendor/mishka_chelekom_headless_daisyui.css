@@ -1381,24 +1381,6 @@
   }
 }
 /* <<< otp_field */
-
-/* >>> anchor */
-@layer components {
-  [data-skin=daisyui] {
-    /* anchor — daisyUI skin (paints `link`). */
-
-    .chelekom-anchor {
-      @apply d-link;
-    }
-
-    .chelekom-anchor:focus-visible {
-      outline: 2px solid currentColor;
-      outline-offset: 2px;
-    }
-  }
-}
-/* <<< anchor */
-
 /* >>> semi_circle_progress */
 @layer components {
   [data-skin=daisyui] {
@@ -4094,29 +4076,6 @@
   }
 }
 /* <<< color_picker */
-
-/* >>> color_swatch */
-@layer components {
-  [data-skin=daisyui] {
-    /* color_swatch — daisyUI skin.
-     *
-     * The colour is the component's; all this adds is the hairline ring that keeps a white swatch
-     * visible on a white background, in the theme's own contrast rather than a fixed grey.
-     */
-
-    .chelekom-color-swatch {
-      display: inline-block;
-      /* A swatch with no size is invisible; the Base UI page sized it with a utility class, so the
-       * skin has to carry a default of its own. Any width/height the caller sets still wins. */
-      width: calc(0.25rem * 8);
-      height: calc(0.25rem * 8);
-      border-radius: var(--radius-field);
-      box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-base-content) 20%, transparent);
-    }
-  }
-}
-/* <<< color_swatch */
-
 /* >>> combobox */
 @layer components {
   [data-skin=daisyui] {
@@ -4561,27 +4520,6 @@
   }
 }
 /* <<< floating_window */
-
-/* >>> highlight */
-@layer components {
-  [data-skin=daisyui] {
-    /* highlight — daisyUI skin.
-     *
-     * daisyUI has no highlight component. The marked run takes the theme's warning colour, which is
-     * what a search hit reads as, and keeps `currentColor`-derived text so it stays legible in either
-     * light or dark.
-     */
-
-    .chelekom-highlight__mark {
-      border-radius: calc(0.25rem * 0.5);
-      padding-inline: calc(0.25rem * 0.5);
-      background-color: color-mix(in oklab, var(--color-warning) 45%, transparent);
-      color: inherit;
-    }
-  }
-}
-/* <<< highlight */
-
 /* >>> hue_slider */
 @layer components {
   [data-skin=daisyui] {
@@ -4657,45 +4595,6 @@
   }
 }
 /* <<< hue_slider */
-
-/* >>> json_input */
-@layer components {
-  [data-skin=daisyui] {
-    /* json_input — daisyUI skin.
-     *
-     * daisyUI's `textarea` with a monospace face and tabular figures: a JSON document read in a
-     * proportional font is much harder to scan for a misplaced brace.
-     */
-
-    .chelekom-json-input {
-      @apply d-textarea;
-
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-variant-numeric: tabular-nums;
-    }
-  }
-}
-/* <<< json_input */
-
-/* >>> mark */
-@layer components {
-  [data-skin=daisyui] {
-    /* mark — daisyUI skin.
-     *
-     * The same treatment as `highlight`, on the single-element version: a browser's default `<mark>` is
-     * a fixed yellow that ignores the theme entirely, so it is replaced with the theme's own warning.
-     */
-
-    .chelekom-mark {
-      border-radius: calc(0.25rem * 0.5);
-      padding-inline: calc(0.25rem * 0.5);
-      background-color: color-mix(in oklab, var(--color-warning) 45%, transparent);
-      color: inherit;
-    }
-  }
-}
-/* <<< mark */
-
 /* >>> marquee */
 @layer components {
   [data-skin=daisyui] {
@@ -4971,23 +4870,6 @@
   }
 }
 /* <<< number_field */
-
-/* >>> number_formatter */
-@layer components {
-  [data-skin=daisyui] {
-    /* number_formatter — daisyUI skin.
-     *
-     * Formatted output, not a control: the only thing worth setting is tabular figures, so a column of
-     * amounts lines up on the decimal point.
-     */
-
-    .chelekom-number-formatter {
-      font-variant-numeric: tabular-nums;
-    }
-  }
-}
-/* <<< number_formatter */
-
 /* >>> overflow_list */
 @layer components {
   [data-skin=daisyui] {
@@ -5210,25 +5092,6 @@
   }
 }
 /* <<< preview_card */
-
-/* >>> rolling_number */
-@layer components {
-  [data-skin=daisyui] {
-    /* rolling_number — daisyUI skin.
-     *
-     * daisyUI's `countdown` rolls digits with a CSS column; this component animates the number in JS
-     * instead, so there is nothing to borrow. What it needs is tabular figures — without them the
-     * width changes on every tick and the surrounding text jitters.
-     */
-
-    .chelekom-rolling-number {
-      font-variant-numeric: tabular-nums;
-      color: var(--color-base-content);
-    }
-  }
-}
-/* <<< rolling_number */
-
 /* >>> scroll_area */
 @layer components {
   [data-skin=daisyui] {
@@ -5412,25 +5275,6 @@
   }
 }
 /* <<< segmented_control */
-
-/* >>> sparkline */
-@layer components {
-  [data-skin=daisyui] {
-    /* sparkline — daisyUI skin.
-     *
-     * The component draws its own SVG and takes a `color`; daisyUI has no chart of any kind. The skin
-     * only gives it a sensible default — the theme's primary, via `currentColor` — so a sparkline
-     * dropped into a page belongs to the theme without the caller choosing a colour.
-     */
-
-    .chelekom-sparkline {
-      color: var(--color-primary);
-      display: block;
-    }
-  }
-}
-/* <<< sparkline */
-
 /* >>> splitter */
 @layer components {
   [data-skin=daisyui] {
