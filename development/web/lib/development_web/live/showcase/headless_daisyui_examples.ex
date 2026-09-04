@@ -288,6 +288,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"separator-plain", "Without a label", "The bare rule."},
       {"separator-vertical", "Vertical", "daisyUI's `divider-horizontal` orientation."},
       {"separator-colors", "Colors", "All eight `divider-*` colors."},
+      {"separator-positions", "Positions",
+       "daisyUI's `divider-start` and `divider-end` move the label off centre."},
+      {"separator-responsive", "Responsive",
+       "Vertical on a wide screen, horizontal on a narrow one — daisyUI's `lg:divider-horizontal`."}
     ],
     "collapsible" => [
       {"collapsible-hero", "Collapse", "daisyUI's `collapse` with the arrow icon."},
@@ -1805,6 +1809,26 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   end
 
   # ── collapsible ───────────────────────────────────────────────────────────
+  def example(%{section: "separator-positions"} = assigns) do
+    ~H"""
+    <div class="w-72 space-y-2">
+      <.separator class="d-divider-start">Start</.separator>
+      <.separator>Center</.separator>
+      <.separator class="d-divider-end">End</.separator>
+    </div>
+    """
+  end
+
+  def example(%{section: "separator-responsive"} = assigns) do
+    ~H"""
+    <div class="flex w-full flex-col lg:flex-row">
+      <div class="grid h-20 flex-grow place-items-center rounded-box bg-base-300">content</div>
+      <.separator class="lg:d-divider-horizontal">OR</.separator>
+      <div class="grid h-20 flex-grow place-items-center rounded-box bg-base-300">content</div>
+    </div>
+    """
+  end
+
   def example(%{section: "collapsible-hero"} = assigns) do
     ~H"""
     <.collapsible id="daisyui-collapsible-hero" class="w-80">
