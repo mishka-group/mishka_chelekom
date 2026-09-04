@@ -427,15 +427,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"button-submit", "In a form", "A submit button wired to a form."}
     ],
     "alert" => [
-      {"alert-hero", "Alert", "daisyUI's `alert`."},
-      {"alert-colors", "Colors",
-       "`alert-info`, `alert-success`, `alert-warning`, `alert-error`."},
-      {"alert-soft", "Soft", "daisyUI's `alert-soft`."},
-      {"alert-outline", "Outline", "daisyUI's `alert-outline`."},
-      {"alert-dash", "Dash", "daisyUI's `alert-dash`."},
-      {"alert-actions", "With buttons",
+      {"alert-hero", "Alert",
+       "daisyUI's `alert` — neutral surface, the icon carrying the colour."},
+      {"alert-info", "Info color", "daisyUI's `alert-info`."},
+      {"alert-success", "Success color", "daisyUI's `alert-success`."},
+      {"alert-warning", "Warning color", "daisyUI's `alert-warning`."},
+      {"alert-error", "Error color", "daisyUI's `alert-error`."},
+      {"alert-soft", "Alert soft style", "daisyUI's `alert-soft`."},
+      {"alert-outline", "Alert outline style", "daisyUI's `alert-outline`."},
+      {"alert-dash", "Alert dash style", "daisyUI's `alert-dash`."},
+      {"alert-actions", "Alert with buttons + responsive",
        "daisyUI's `alert-vertical sm:alert-horizontal`, with our `:actions` part."},
-      {"alert-title", "With title and description",
+      {"alert-title", "Alert with title and description",
        "The `:title` part, wired to the root through `aria-labelledby` so it is announced first."},
       {"alert-urgency", "Urgency",
        "Not a daisyUI variant — daisyUI's alert is purely visual. Ours picks the semantics: polite renders `role=status`, assertive renders `role=alert` and interrupts a screen reader."},
@@ -2761,64 +2764,92 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── alert ─────────────────────────────────────────────────────────────────
   def example(%{section: "alert-hero"} = assigns) do
     ~H"""
-    <.alert id="daisyui-alert-hero" class="w-xs">
-      <:icon><.nav_icon path="M12 8h.01M11 12h1v4h1" /></:icon>
+    <.alert id="daisyui-alert-hero" class="w-full">
+      <:icon><.alert_icon kind="info" class="text-info" /></:icon>
       12 unread messages. Tap to see.
     </.alert>
     """
   end
 
-  def example(%{section: "alert-colors"} = assigns) do
+  def example(%{section: "alert-info"} = assigns) do
     ~H"""
-    <div class="flex w-xs flex-col gap-2">
-      <.alert
-        :for={color <- ~w(info success warning error)}
-        id={"daisyui-alert-#{color}"}
-        class={"d-alert-#{color}"}
-      >
-        alert-{color}
-      </.alert>
-    </div>
+    <.alert id="daisyui-alert-info" class="w-full d-alert-info">
+      <:icon><.alert_icon kind="info" /></:icon>
+      New software update available.
+    </.alert>
+    """
+  end
+
+  def example(%{section: "alert-success"} = assigns) do
+    ~H"""
+    <.alert id="daisyui-alert-success" class="w-full d-alert-success">
+      <:icon><.alert_icon kind="success" /></:icon>
+      Your purchase has been confirmed!
+    </.alert>
+    """
+  end
+
+  def example(%{section: "alert-warning"} = assigns) do
+    ~H"""
+    <.alert id="daisyui-alert-warning" class="w-full d-alert-warning">
+      <:icon><.alert_icon kind="warning" /></:icon>
+      Warning: Invalid email address!
+    </.alert>
+    """
+  end
+
+  def example(%{section: "alert-error"} = assigns) do
+    ~H"""
+    <.alert id="daisyui-alert-error" class="w-full d-alert-error">
+      <:icon><.alert_icon kind="error" /></:icon>
+      Error! Task failed successfully.
+    </.alert>
     """
   end
 
   def example(%{section: "alert-soft"} = assigns) do
+    assigns = assign(assigns, :alerts, alert_messages())
+
     ~H"""
-    <div class="flex w-xs flex-col gap-2">
+    <div class="flex w-full flex-col gap-2">
       <.alert
-        :for={color <- ~w(info success warning error)}
+        :for={{color, message} <- @alerts}
         id={"daisyui-alert-soft-#{color}"}
         class={"d-alert-soft d-alert-#{color}"}
       >
-        alert-{color}
+        {message}
       </.alert>
     </div>
     """
   end
 
   def example(%{section: "alert-outline"} = assigns) do
+    assigns = assign(assigns, :alerts, alert_messages())
+
     ~H"""
-    <div class="flex w-xs flex-col gap-2">
+    <div class="flex w-full flex-col gap-2">
       <.alert
-        :for={color <- ~w(info success warning error)}
+        :for={{color, message} <- @alerts}
         id={"daisyui-alert-outline-#{color}"}
         class={"d-alert-outline d-alert-#{color}"}
       >
-        alert-{color}
+        {message}
       </.alert>
     </div>
     """
   end
 
   def example(%{section: "alert-dash"} = assigns) do
+    assigns = assign(assigns, :alerts, alert_messages())
+
     ~H"""
-    <div class="flex w-xs flex-col gap-2">
+    <div class="flex w-full flex-col gap-2">
       <.alert
-        :for={color <- ~w(info success warning error)}
+        :for={{color, message} <- @alerts}
         id={"daisyui-alert-dash-#{color}"}
         class={"d-alert-dash d-alert-#{color}"}
       >
-        alert-{color}
+        {message}
       </.alert>
     </div>
     """
@@ -2826,8 +2857,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "alert-actions"} = assigns) do
     ~H"""
-    <.alert id="daisyui-alert-actions" class="w-xs d-alert-vertical sm:d-alert-horizontal">
-      We use cookies for no reason.
+    <.alert id="daisyui-alert-actions" class="w-full d-alert-vertical sm:d-alert-horizontal">
+      <:icon><.alert_icon kind="info" class="text-info" /></:icon>
+      we use cookies for no reason.
       <:actions>
         <.button class="d-btn-sm">Deny</.button>
         <.button class="d-btn-sm d-btn-primary">Accept</.button>
@@ -2838,12 +2870,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "alert-title"} = assigns) do
     ~H"""
-    <.alert id="daisyui-alert-title" class="w-xs d-alert-vertical sm:d-alert-horizontal">
-      <:icon><.nav_icon path="M12 9v4m0 4h.01" /></:icon>
-      <:title>New software update available</:title>
-      A new release is ready to install.
+    <.alert id="daisyui-alert-title" class="w-full d-alert-vertical sm:d-alert-horizontal">
+      <:icon><.alert_icon kind="info" class="text-info" /></:icon>
+      <:title>New message!</:title>
+      You have 1 unread message
       <:actions>
-        <.button class="d-btn-sm">Later</.button>
+        <.button class="d-btn-sm">See</.button>
       </:actions>
     </.alert>
     """
@@ -2851,7 +2883,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "alert-urgency"} = assigns) do
     ~H"""
-    <div class="flex w-xs flex-col gap-2">
+    <div class="flex w-full flex-col gap-2">
       <.alert id="daisyui-alert-polite" urgency="polite" class="d-alert-info">
         polite — role="status", waits its turn
       </.alert>
@@ -2867,7 +2899,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "alert-dismissible"} = assigns) do
     ~H"""
-    <.alert id="daisyui-alert-dismiss" class="w-xs d-alert-success" dismissible>
+    <.alert id="daisyui-alert-dismiss" class="w-full d-alert-success" dismissible>
       <:icon><.nav_icon path="M20 6 9 17l-5-5" /></:icon>
       Saved. Dismiss me — no round trip.
     </.alert>
@@ -9154,6 +9186,47 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     </svg>
     """
   end
+
+  # daisyUI's own alert copy, so the soft / outline / dash rows read the same as their page.
+  defp alert_messages do
+    [
+      {"info", "12 unread messages. Tap to see."},
+      {"success", "Your purchase has been confirmed!"},
+      {"warning", "Warning: Invalid email address!"},
+      {"error", "Error! Task failed successfully."}
+    ]
+  end
+
+  # Their alert glyphs verbatim — 24px at stroke 2 with round caps, where `nav_icon` is 16px at
+  # 1.6. Same paths, so the shapes are theirs rather than something similar.
+  attr :kind, :string, required: true, values: ~w(info success warning error)
+  attr :class, :string, default: nil
+
+  defp alert_icon(assigns) do
+    ~H"""
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class={["h-6 w-6 shrink-0", @class]}
+    >
+      <path d={alert_icon_path(@kind)} />
+    </svg>
+    """
+  end
+
+  defp alert_icon_path("info"), do: "M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+  defp alert_icon_path("success"), do: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+
+  defp alert_icon_path("warning"),
+    do:
+      "M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+
+  defp alert_icon_path("error"),
+    do: "M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
 
   attr :path, :string, required: true
 
