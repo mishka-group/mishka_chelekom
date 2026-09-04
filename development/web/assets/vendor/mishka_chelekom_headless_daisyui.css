@@ -1067,29 +1067,6 @@
   }
 }
 /* <<< slider */
-
-/* >>> separator */
-@layer components {
-  [data-skin=daisyui] {
-    /* separator — daisyUI skin (paints `divider`, including the label-in-the-middle layout). */
-
-    .chelekom-separator {
-      @apply d-divider;
-    }
-
-    .chelekom-separator[data-orientation="vertical"] {
-      @apply d-divider-horizontal;
-    }
-
-    .chelekom-separator__label {
-      padding-inline: calc(0.25rem * 2);
-      font-size: 0.875rem;
-      color: var(--color-base-content);
-    }
-  }
-}
-/* <<< separator */
-
 /* >>> radio_group */
 @layer components {
   [data-skin=daisyui] {
@@ -1591,32 +1568,6 @@
   }
 }
 /* <<< nav_link */
-
-/* >>> loading_overlay */
-@layer components {
-  [data-skin=daisyui] {
-    /* loading_overlay — daisyUI skin (the overlay carries daisyUI's `loading` spinner).
-     *
-     * daisyUI's `loading` is the spinner glyph itself; our component is the scrim that covers a region
-     * while work is in flight, so the scrim is ours and the spinner is daisyUI's, drawn on the overlay.
-     */
-
-    .chelekom-loading-overlay {
-      display: grid;
-      place-items: center;
-      background-color: color-mix(in oklab, var(--color-base-100) 70%, transparent);
-      backdrop-filter: blur(2px);
-      color: var(--color-base-content);
-    }
-
-    .chelekom-loading-overlay:not(:has(> *)):before {
-      @apply d-loading d-loading-spinner;
-      content: "";
-    }
-  }
-}
-/* <<< loading_overlay */
-
 /* >>> field */
 @layer components {
   [data-skin=daisyui] {
@@ -4595,36 +4546,6 @@
   }
 }
 /* <<< hue_slider */
-/* >>> marquee */
-@layer components {
-  [data-skin=daisyui] {
-    /* marquee — daisyUI skin.
-     *
-     * daisyUI has no marquee. The scroll itself is the component's (it duplicates the group so the
-     * loop is seamless); this only draws the mask that fades both edges, which is what keeps the
-     * content from appearing to be clipped mid-word.
-     */
-
-    .chelekom-marquee {
-      overflow: hidden;
-      mask-image: linear-gradient(to right, #0000, #000 8%, #000 92%, #0000);
-      color: var(--color-base-content);
-    }
-
-    .chelekom-marquee__track {
-      display: flex;
-      width: max-content;
-    }
-
-    .chelekom-marquee__group {
-      display: flex;
-      align-items: center;
-      gap: calc(0.25rem * 6);
-      padding-inline: calc(0.25rem * 3);
-    }
-  }
-}
-/* <<< marquee */
 /* >>> menubar */
 @layer components {
   [data-skin=daisyui] {
@@ -4870,36 +4791,6 @@
   }
 }
 /* <<< number_field */
-/* >>> overflow_list */
-@layer components {
-  [data-skin=daisyui] {
-    /* overflow_list — daisyUI skin.
-     *
-     * The list is the caller's; what this paints is the counter that stands in for whatever did not
-     * fit, and daisyUI's `badge` is exactly that shape.
-     */
-
-    .chelekom-overflow-list {
-      display: flex;
-      align-items: center;
-      gap: calc(0.25rem * 2);
-      overflow: hidden;
-      color: var(--color-base-content);
-    }
-
-    .chelekom-overflow-list__item {
-      flex-shrink: 0;
-    }
-
-    .chelekom-overflow-list__counter {
-      @apply d-badge d-badge-neutral;
-
-      flex-shrink: 0;
-    }
-  }
-}
-/* <<< overflow_list */
-
 /* >>> pills_input */
 @layer components {
   [data-skin=daisyui] {
@@ -5393,38 +5284,6 @@
   }
 }
 /* <<< tags_input */
-
-/* >>> theme_icon */
-@layer components {
-  [data-skin=daisyui] {
-    /* theme_icon — daisyUI skin.
-     *
-     * daisyUI's nearest equivalent is a `btn btn-square` that is not a button. Since this one is a
-     * container rather than a control, it borrows the shape and none of the interaction: the base
-     * surface, the field radius, and a size that matches daisyUI's own small buttons.
-     */
-
-    .chelekom-theme-icon {
-      display: inline-grid;
-      place-items: center;
-      width: calc(0.25rem * 8);
-      height: calc(0.25rem * 8);
-      border-radius: var(--radius-field);
-      border: var(--border) solid color-mix(in oklab, var(--color-base-content) 12%, #0000);
-      background-color: var(--color-base-200);
-      color: var(--color-base-content);
-    }
-
-    /* The glyph is a caller's `<svg>` with no size of its own, so without this it stretches to the
-     * whole box and the shape reads as a bare icon rather than as an icon in a tile. */
-    .chelekom-theme-icon > svg {
-      width: 60%;
-      height: 60%;
-    }
-  }
-}
-/* <<< theme_icon */
-
 /* >>> toggle_group */
 @layer components {
   [data-skin=daisyui] {
@@ -5931,31 +5790,6 @@
 }
 /* <<< autocomplete */
 
-/* >>> chart */
-@layer components {
-  [data-skin=daisyui] {
-    /* chart — daisyUI skin.
-     *
-     * The chart is drawn by its engine (ECharts, Chart.js or billboard.js), which reads its colours
-     * from the CSS variables the component bridges. daisyUI has no chart, so this only gives the box
-     * the same surface and radius as a card, and sets a default height — a chart with no height
-     * renders zero pixels tall and looks broken.
-     */
-
-    .chelekom-chart {
-      border-radius: var(--radius-box);
-      background-color: var(--color-base-100);
-      color: var(--color-base-content);
-    }
-
-    .chelekom-chart__surface {
-      width: 100%;
-      min-height: 16rem;
-    }
-  }
-}
-/* <<< chart */
-
 /* >>> checkbox_group */
 @layer components {
   [data-skin=daisyui] {
@@ -6184,27 +6018,23 @@
 }
 /* <<< color_input */
 
-/* >>> visually_hidden */
+/* >>> loading_overlay */
 @layer components {
   [data-skin=daisyui] {
-    /* visually_hidden — daisyUI skin.
+    /* loading_overlay — daisyUI skin (residual).
      *
-     * Tailwind's own `sr-only` is exactly this, and daisyUI adds nothing to it. The declarations are
-     * written out rather than `@apply sr-only` so the component keeps working in a project that has
-     * disabled Tailwind's utility layer.
+     * Everything this component needs is in the examples' markup except one rule, which cannot be
+     * spelled as a class: an *empty* overlay draws its spinner with a `::before`, and that spinner is
+     * a daisyUI component class. A pseudo-element cannot be given a class, and `d-loading`'s value is
+     * a percent-encoded SVG mask with a `prefers-reduced-motion` variant behind it — inlining that as
+     * an arbitrary utility would be unreadable in an example and would not survive a daisyUI upgrade.
+     * So this one rule stays, and only this one.
      */
+    .chelekom-loading-overlay:not(:has(> *)):before {
+      @apply d-loading d-loading-spinner;
 
-    .chelekom-visually-hidden {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip-path: inset(50%);
-      white-space: nowrap;
-      border-width: 0;
+      content: "";
     }
   }
 }
-/* <<< visually_hidden */
+/* <<< loading_overlay */

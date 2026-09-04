@@ -1834,7 +1834,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <div class="w-full max-w-xs">
       <div>Above</div>
-      <.separator>OR</.separator>
+      <.separator
+        label_class="px-2 text-[0.875rem] text-base-content"
+        class="d-divider"
+      >
+        OR
+      </.separator>
       <div>Below</div>
     </div>
     """
@@ -1844,7 +1849,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <div class="w-full max-w-xs">
       <div>Above</div>
-      <.separator />
+      <.separator
+        label_class="px-2 text-[0.875rem] text-base-content"
+        class="d-divider"
+      />
       <div>Below</div>
     </div>
     """
@@ -1854,7 +1862,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <div class="flex w-full max-w-xs items-center">
       <div class="grid grow place-items-center">Left</div>
-      <.separator orientation="vertical">OR</.separator>
+      <.separator
+        label_class="px-2 text-[0.875rem] text-base-content"
+        class="d-divider d-divider-horizontal"
+        orientation="vertical"
+      >
+        OR
+      </.separator>
       <div class="grid grow place-items-center">Right</div>
     </div>
     """
@@ -1865,7 +1879,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
     ~H"""
     <div class="w-full max-w-xs">
-      <.separator :for={color <- @colors} class={"d-divider-#{color}"}>{color}</.separator>
+      <.separator
+        :for={color <- @colors}
+        label_class="px-2 text-[0.875rem] text-base-content"
+        class={["d-divider", "d-divider-#{color}"]}
+      >
+        {color}
+      </.separator>
     </div>
     """
   end
@@ -1874,9 +1894,24 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "separator-positions"} = assigns) do
     ~H"""
     <div class="w-72 space-y-2">
-      <.separator class="d-divider-start">Start</.separator>
-      <.separator>Center</.separator>
-      <.separator class="d-divider-end">End</.separator>
+      <.separator
+        label_class="px-2 text-[0.875rem] text-base-content"
+        class="d-divider d-divider-start"
+      >
+        Start
+      </.separator>
+      <.separator
+        label_class="px-2 text-[0.875rem] text-base-content"
+        class="d-divider"
+      >
+        Center
+      </.separator>
+      <.separator
+        label_class="px-2 text-[0.875rem] text-base-content"
+        class="d-divider d-divider-end"
+      >
+        End
+      </.separator>
     </div>
     """
   end
@@ -1885,7 +1920,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <div class="flex w-full flex-col lg:flex-row">
       <div class="grid h-20 flex-grow place-items-center rounded-box bg-base-300">content</div>
-      <.separator class="lg:d-divider-horizontal">OR</.separator>
+      <.separator
+        label_class="px-2 text-[0.875rem] text-base-content"
+        class="d-divider lg:d-divider-horizontal"
+      >
+        OR
+      </.separator>
       <div class="grid h-20 flex-grow place-items-center rounded-box bg-base-300">content</div>
     </div>
     """
@@ -2578,7 +2618,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <div class="relative h-32 w-64 rounded-box border border-base-300 p-4 text-sm">
       Content behind the overlay.
-      <.loading_overlay id="daisyui-loading-hero" visible class="absolute inset-0 rounded-box" />
+      <.loading_overlay
+        id="daisyui-loading-hero"
+        visible
+        class="grid place-items-center bg-base-100/70 backdrop-blur-[2px] text-base-content absolute inset-0 rounded-box"
+      />
     </div>
     """
   end
@@ -2587,7 +2631,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <div class="relative h-32 w-64 rounded-box border border-base-300 p-4 text-sm">
       Content behind the overlay.
-      <.loading_overlay id="daisyui-loading-content" visible class="absolute inset-0 rounded-box">
+      <.loading_overlay
+        id="daisyui-loading-content"
+        visible
+        class="grid place-items-center bg-base-100/70 backdrop-blur-[2px] text-base-content absolute inset-0 rounded-box"
+      >
         <span class="d-loading d-loading-dots d-loading-lg"></span>
       </.loading_overlay>
     </div>
@@ -2604,7 +2652,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
           <.loading_overlay
             id={"daisyui-loading-#{style}"}
             visible
-            class="absolute inset-0 rounded-box"
+            class="grid place-items-center bg-base-100/70 backdrop-blur-[2px] text-base-content absolute inset-0 rounded-box"
           >
             <span class={"d-loading d-loading-#{style} d-loading-lg"}></span>
           </.loading_overlay>
@@ -2625,7 +2673,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         <.loading_overlay
           id={"daisyui-loading-color-#{color}"}
           visible
-          class="absolute inset-0 rounded-box"
+          class="grid place-items-center bg-base-100/70 backdrop-blur-[2px] text-base-content absolute inset-0 rounded-box"
         >
           <span class={"d-loading d-loading-spinner d-loading-md text-#{color}"}></span>
         </.loading_overlay>
@@ -5060,6 +5108,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "chart-breakdown"} = assigns) do
     ~H"""
     <.chart
+      surface_class="w-full min-h-64"
+      class="rounded-[var(--radius-box)] bg-base-100 text-base-content"
       id="daisyui-chart-breakdown"
       height="20rem"
       aria_label="Traffic by source"
@@ -5090,6 +5140,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "chart-dashboard"} = assigns) do
     ~H"""
     <.chart
+      surface_class="w-full min-h-64"
+      class="rounded-[var(--radius-box)] bg-base-100 text-base-content"
       id="daisyui-chart-dashboard"
       height="20rem"
       aria_label="Monthly revenue over a year"
@@ -5867,7 +5919,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <style>
         @keyframes chelekom-marquee-x { from { transform: translateX(0) } to { transform: translateX(-50%) } }
       </style>
-      <.marquee>
+      <.marquee
+        group_class="flex items-center gap-6 px-3"
+        track_class="flex w-max"
+        class="overflow-hidden [mask-image:linear-gradient(to_right,#0000,#000_8%,#000_92%,#0000)] text-base-content"
+      >
         <span>React</span>
         <span>Vue</span>
         <span>Svelte</span>
@@ -6428,6 +6484,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <div>
       <.overflow_list
+        counter_class="d-badge d-badge-neutral shrink-0"
+        item_class="shrink-0"
+        class="flex items-center gap-2 overflow-hidden text-base-content"
         id="daisyui-overflow-list"
         min_visible={1}
       >
@@ -6921,7 +6980,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "theme_icon-hero"} = assigns) do
     ~H"""
     <div>
-      <.theme_icon label="Success">
+      <.theme_icon
+        class="inline-grid place-items-center w-8 h-8 rounded-[var(--radius-field)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_12%,#0000)] bg-base-200 text-base-content [&>svg]:w-[60%] [&>svg]:h-[60%]"
+        label="Success"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -6932,7 +6994,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
           <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
         </svg>
       </.theme_icon>
-      <.theme_icon>
+      <.theme_icon class="inline-grid place-items-center w-8 h-8 rounded-[var(--radius-field)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_12%,#0000)] bg-base-200 text-base-content [&>svg]:w-[60%] [&>svg]:h-[60%]">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
           <path d="M11.983 1.907a.75.75 0 0 0-1.292-.657l-8.5 9.5A.75.75 0 0 0 2.75 12h6.572l-1.305 6.093a.75.75 0 0 0 1.292.657l8.5-9.5A.75.75 0 0 0 18.25 8h-6.572l1.305-6.093Z" />
         </svg>
@@ -7094,7 +7156,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <button type="button">
       ★
-      <.visually_hidden>Add to favorites</.visually_hidden>
+      <.visually_hidden class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0">
+        Add to favorites
+      </.visually_hidden>
     </button>
     """
   end

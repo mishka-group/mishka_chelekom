@@ -1,18 +1,14 @@
-/* loading_overlay — daisyUI skin (the overlay carries daisyUI's `loading` spinner).
+/* loading_overlay — daisyUI skin (residual).
  *
- * daisyUI's `loading` is the spinner glyph itself; our component is the scrim that covers a region
- * while work is in flight, so the scrim is ours and the spinner is daisyUI's, drawn on the overlay.
+ * Everything this component needs is in the examples' markup except one rule, which cannot be
+ * spelled as a class: an *empty* overlay draws its spinner with a `::before`, and that spinner is
+ * a daisyUI component class. A pseudo-element cannot be given a class, and `d-loading`'s value is
+ * a percent-encoded SVG mask with a `prefers-reduced-motion` variant behind it — inlining that as
+ * an arbitrary utility would be unreadable in an example and would not survive a daisyUI upgrade.
+ * So this one rule stays, and only this one.
  */
-
-.chelekom-loading-overlay {
-  display: grid;
-  place-items: center;
-  background-color: color-mix(in oklab, var(--color-base-100) 70%, transparent);
-  backdrop-filter: blur(2px);
-  color: var(--color-base-content);
-}
-
 .chelekom-loading-overlay:not(:has(> *)):before {
   @apply <%= @d %>loading <%= @d %>loading-spinner;
+
   content: "";
 }
