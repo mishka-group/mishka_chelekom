@@ -754,12 +754,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "navigation_menu" => [
-      {"navigation_menu-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+      {"navigation_menu-hero", "Megamenu",
+       "daisyUI's megamenu: a bar of triggers, each opening a wide panel of links. The panel here is one shared, morphing viewport rather than a popover per trigger, so moving between menus resizes the box instead of swapping it."},
       {"navigation_menu-nested", "Nested",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
-      {"navigation_menu-nested-inline", "Nested Inline",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+       "A menu inside a menu — the inner list opens its own panel from within the outer one."},
+      {"navigation_menu-nested-inline", "Nested inline",
+       "The nested list stays in the flow of the panel instead of opening a second one."},
+      {"navigation_menu-no-arrows", "Without arrows",
+       "daisyUI drops its arrow with `after:content-none`; ours hides the icon part, since the trigger falls back to a `▾` when the `:icon` slot is empty."},
+      {"navigation_menu-sizes", "Sizes", "daisyUI's `megamenu-xs` through `-lg`, on the list."}
     ],
     "number_field" => [
       {"number_field-hero", "Hero",
@@ -5845,6 +5848,48 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
       <:item label="GitHub" href="#" />
     </.navigation_menu>
+    """
+  end
+
+  def example(%{section: "navigation_menu-no-arrows"} = assigns) do
+    ~H"""
+    <.navigation_menu id="daisyui-navigation_menu-no-arrows" icon_class="hidden">
+      <:item label="One">
+        <div class="p-4">Content for the first item</div>
+      </:item>
+      <:item label="Two">
+        <div class="p-4">Content for the second item</div>
+      </:item>
+      <:item label="Three">
+        <div class="p-4">Content for the third item</div>
+      </:item>
+    </.navigation_menu>
+    """
+  end
+
+  def example(%{section: "navigation_menu-sizes"} = assigns) do
+    assigns = assign(assigns, :sizes, ~w(xs sm md lg))
+
+    ~H"""
+    <div class="flex flex-col items-start gap-4">
+      <.navigation_menu
+        :for={size <- @sizes}
+        id={"daisyui-navigation_menu-#{size}"}
+        list_class={"d-menu-#{size}"}
+      >
+        <:icon>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" class="block">
+            <path d="M12 6H4l4 4.5z" />
+          </svg>
+        </:icon>
+        <:item label="One">
+          <div class="p-4">menu-{size}</div>
+        </:item>
+        <:item label="Two">
+          <div class="p-4">Content for the second item</div>
+        </:item>
+      </.navigation_menu>
+    </div>
     """
   end
 
