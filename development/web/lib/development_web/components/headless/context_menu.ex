@@ -42,6 +42,16 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :trigger_class, :any, default: nil, doc: "Extra classes for the trigger wrapper"
   attr :popup_class, :any, default: nil, doc: "Extra classes for the popup surface"
+
+  attr :chevron_class, :any,
+    default: nil,
+    doc: ~s|Extra classes for `data-part="submenu-chevron"`|
+
+  attr :indicator_class, :any,
+    default: nil,
+    doc: ~s|Extra classes for `data-part="checkbox-item-indicator"`|
+
+  attr :submenu_class, :any, default: nil, doc: ~s|Extra classes for `data-part="submenu"`|
   attr :rest, :global
 
   slot :trigger, required: true, doc: "The area to right-click / long-press to open the menu"
@@ -131,7 +141,7 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
               aria-hidden="true"
               data-checked={it[:checked] == true}
               data-unchecked={it[:checked] != true}
-              class="chelekom-context_menu__indicator"
+              class={["chelekom-context_menu__indicator", @indicator_class]}
             >✓</span>
             {render_slot(it)}
           </button>
@@ -157,7 +167,7 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
               aria-hidden="true"
               data-checked={it[:checked] == true}
               data-unchecked={it[:checked] != true}
-              class="chelekom-context_menu__indicator"
+              class={["chelekom-context_menu__indicator", @indicator_class]}
             >●</span>
             {render_slot(it)}
           </button>
@@ -187,7 +197,7 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
         <div
           :for={{sm, idx} <- Enum.with_index(@submenu)}
           data-part="submenu"
-          class="chelekom-context_menu__submenu"
+          class={["chelekom-context_menu__submenu", @submenu_class]}
         >
           <button
             type="button"
@@ -205,7 +215,7 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
             <span
               data-part="submenu-chevron"
               aria-hidden="true"
-              class="chelekom-context_menu__chevron"
+              class={["chelekom-context_menu__chevron", @chevron_class]}
             >›</span>
           </button>
           <div
@@ -260,6 +270,11 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
   attr :on_change, :string, default: nil, doc: "LiveView event pushed on toggle ({checked})"
   attr :on_change_target, :string, default: nil
   attr :class, :any, default: nil
+
+  attr :indicator_class, :any,
+    default: nil,
+    doc: ~s|Extra classes for `data-part="checkbox-item-indicator"`|
+
   attr :rest, :global
   slot :indicator, doc: "Override the checked glyph"
   slot :inner_block, required: true
@@ -286,7 +301,7 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
         aria-hidden="true"
         data-checked={@checked}
         data-unchecked={!@checked}
-        class="chelekom-context_menu__indicator"
+        class={["chelekom-context_menu__indicator", @indicator_class]}
       >{if @indicator != [], do: render_slot(@indicator), else: "✓"}</span>
       {render_slot(@inner_block)}
     </button>
@@ -298,6 +313,11 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
   attr :id, :string, default: nil
   attr :label, :string, default: nil
   attr :class, :any, default: nil
+
+  attr :group_label_class, :any,
+    default: nil,
+    doc: ~s|Extra classes for `data-part="group-label"`|
+
   attr :rest, :global
   slot :inner_block, required: true
 
@@ -315,7 +335,7 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
         id={@id && "#{@id}-label"}
         role="presentation"
         data-part="group-label"
-        class="chelekom-context_menu__group-label"
+        class={["chelekom-context_menu__group-label", @group_label_class]}
       >
         {@label}
       </div>
@@ -338,6 +358,12 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
   attr :on_change, :string, default: nil, doc: "LiveView event pushed on select ({value})"
   attr :on_change_target, :string, default: nil
   attr :class, :any, default: nil
+
+  attr :indicator_class, :any,
+    default: nil,
+    doc:
+      ~s|Extra classes for `data-part="checkbox-item-indicator"` and `data-part="radio-item-indicator"`|
+
   attr :rest, :global
   slot :indicator, doc: "Override the selected glyph"
   slot :inner_block, required: true
@@ -366,7 +392,7 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
         aria-hidden="true"
         data-checked={@checked}
         data-unchecked={!@checked}
-        class="chelekom-context_menu__indicator"
+        class={["chelekom-context_menu__indicator", @indicator_class]}
       >{if @indicator != [], do: render_slot(@indicator), else: "●"}</span>
       {render_slot(@inner_block)}
     </button>
@@ -422,6 +448,11 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
   attr :id, :string, default: nil
   attr :label, :string, default: nil
   attr :class, :any, default: nil
+
+  attr :group_label_class, :any,
+    default: nil,
+    doc: ~s|Extra classes for `data-part="group-label"`|
+
   attr :rest, :global
   slot :inner_block, required: true
 
@@ -439,7 +470,7 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
         id={@id && "#{@id}-label"}
         role="presentation"
         data-part="group-label"
-        class="chelekom-context_menu__group-label"
+        class={["chelekom-context_menu__group-label", @group_label_class]}
       >
         {@label}
       </div>
@@ -456,6 +487,11 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
   attr :class, :any, default: nil
   attr :trigger_class, :any, default: nil, doc: "Extra classes for the submenu trigger"
   attr :popup_class, :any, default: nil, doc: "Extra classes for the submenu popup"
+
+  attr :chevron_class, :any,
+    default: nil,
+    doc: ~s|Extra classes for `data-part="submenu-chevron"`|
+
   attr :rest, :global
   slot :chevron, doc: "Override the submenu chevron glyph"
   slot :inner_block, required: true, doc: "Nested submenu rows"
@@ -476,14 +512,14 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
         class={["chelekom-context_menu__submenu-trigger", @trigger_class]}
       >
         {@label}
-        <span data-part="submenu-chevron" aria-hidden="true" class="chelekom-context_menu__chevron">{if @chevron !=
-                                                                                                          [],
-                                                                                                        do:
-                                                                                                          render_slot(
-                                                                                                            @chevron
-                                                                                                          ),
-                                                                                                        else:
-                                                                                                          "›"}</span>
+        <span
+          data-part="submenu-chevron"
+          aria-hidden="true"
+          class={["chelekom-context_menu__chevron", @chevron_class]}
+        >{if @chevron !=
+               [],
+             do: render_slot(@chevron),
+             else: "›"}</span>
       </button>
       <div
         id={"#{@id}-sub"}

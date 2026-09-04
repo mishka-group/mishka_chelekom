@@ -51,6 +51,9 @@ defmodule DevelopmentWeb.Components.Headless.Switch do
   attr :track_class, :any, default: nil, doc: "Extra classes for the track part (the switch box)"
   attr :thumb_class, :any, default: nil, doc: "Extra classes for the thumb part (the sliding dot)"
   attr :label_class, :any, default: nil, doc: "Extra classes for the label part"
+  attr :input_class, :any, default: nil, doc: ~s|Extra classes for `data-part="input"`|
+  attr :off_icon_class, :any, default: nil, doc: ~s|Extra classes for `data-part="off-icon"`|
+  attr :on_icon_class, :any, default: nil, doc: ~s|Extra classes for `data-part="on-icon"`|
   attr :rest, :global
 
   slot :on_icon, doc: "Optional icon rendered inside the track, shown while on"
@@ -97,7 +100,7 @@ defmodule DevelopmentWeb.Components.Headless.Switch do
         form={@form}
         tabindex="-1"
         aria-hidden="true"
-        class="chelekom-switch__input chelekom-sr-only"
+        class={["chelekom-switch__input chelekom-sr-only", @input_class]}
       />
       <span
         data-part="track"
@@ -118,7 +121,7 @@ defmodule DevelopmentWeb.Components.Headless.Switch do
           data-part="on-icon"
           data-checked={@checked}
           data-unchecked={!@checked}
-          class="chelekom-switch__on-icon"
+          class={["chelekom-switch__on-icon", @on_icon_class]}
           aria-hidden="true"
         >{render_slot(@on_icon)}</span>
         <span
@@ -126,7 +129,7 @@ defmodule DevelopmentWeb.Components.Headless.Switch do
           data-part="off-icon"
           data-checked={@checked}
           data-unchecked={!@checked}
-          class="chelekom-switch__off-icon"
+          class={["chelekom-switch__off-icon", @off_icon_class]}
           aria-hidden="true"
         >{render_slot(@off_icon)}</span>
       </span>

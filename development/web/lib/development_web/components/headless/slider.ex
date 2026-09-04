@@ -67,6 +67,8 @@ defmodule DevelopmentWeb.Components.Headless.Slider do
     doc: "Extra classes for the indicator (filled interval)"
 
   attr :thumb_class, :any, default: nil, doc: "Extra classes for each thumb"
+  attr :label_class, :any, default: nil, doc: ~s|Extra classes for `data-part="label"`|
+  attr :value_class, :any, default: nil, doc: ~s|Extra classes for `data-part="value"`|
   attr :rest, :global
 
   def slider(assigns) do
@@ -104,7 +106,12 @@ defmodule DevelopmentWeb.Components.Headless.Slider do
       class={["chelekom-slider", @class]}
       {@rest}
     >
-      <label :if={@label} id={"#{@id}-label"} data-part="label" class="chelekom-slider__label">
+      <label
+        :if={@label}
+        id={"#{@id}-label"}
+        data-part="label"
+        class={["chelekom-slider__label", @label_class]}
+      >
         {@label}
       </label>
 
@@ -112,7 +119,7 @@ defmodule DevelopmentWeb.Components.Headless.Slider do
         :if={@show_value}
         data-part="value"
         data-orientation={@orientation}
-        class="chelekom-slider__value"
+        class={["chelekom-slider__value", @value_class]}
       >
         {Enum.join(@values, " – ")}
       </output>

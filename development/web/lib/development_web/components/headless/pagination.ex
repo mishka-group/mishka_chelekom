@@ -62,6 +62,7 @@ defmodule DevelopmentWeb.Components.Headless.Pagination do
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :list_class, :any, default: nil, doc: ~s|Extra classes for `data-part="list"`|
   attr :control_class, :any, default: nil, doc: "Extra classes for every control"
+  attr :item_class, :any, default: nil, doc: ~s|Extra classes for `data-part="item"`|
   attr :rest, :global
 
   def pagination(assigns) do
@@ -93,6 +94,7 @@ defmodule DevelopmentWeb.Components.Headless.Pagination do
           on_select={@on_select}
           href={@href}
           class={@control_class}
+          item_class={@item_class}
         >
           {@first_label}
         </.control>
@@ -106,6 +108,7 @@ defmodule DevelopmentWeb.Components.Headless.Pagination do
           on_select={@on_select}
           href={@href}
           class={@control_class}
+          item_class={@item_class}
         >
           {@previous_label}
         </.control>
@@ -113,7 +116,7 @@ defmodule DevelopmentWeb.Components.Headless.Pagination do
         <li
           :for={{entry, index} <- Enum.with_index(@window)}
           data-part="item"
-          class="chelekom-pagination__item"
+          class={["chelekom-pagination__item", @item_class]}
         >
           <span
             :if={entry == :ellipsis}
@@ -144,6 +147,7 @@ defmodule DevelopmentWeb.Components.Headless.Pagination do
           on_select={@on_select}
           href={@href}
           class={@control_class}
+          item_class={@item_class}
         >
           {@next_label}
         </.control>
@@ -157,6 +161,7 @@ defmodule DevelopmentWeb.Components.Headless.Pagination do
           on_select={@on_select}
           href={@href}
           class={@control_class}
+          item_class={@item_class}
         >
           {@last_label}
         </.control>
@@ -172,13 +177,14 @@ defmodule DevelopmentWeb.Components.Headless.Pagination do
   attr :on_select, :any, default: nil
   attr :href, :any, default: nil
   attr :class, :any, default: nil
+  attr :item_class, :any, default: nil
   slot :inner_block, required: true
 
   # An edge control at the end of its travel is disabled, not hidden: a row of controls that
   # changes width as you page through is harder to hit than one that greys out.
   defp control(assigns) do
     ~H"""
-    <li data-part="item" class="chelekom-pagination__item">
+    <li data-part="item" class={["chelekom-pagination__item", @item_class]}>
       <.link
         :if={@href && !@disabled}
         href={@href.(@page)}

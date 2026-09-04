@@ -60,6 +60,7 @@ defmodule <%= @module %> do
   attr :unit_class, :any, default: nil, doc: ~s|Extra classes for `data-part="unit"`|
   attr :digit_class, :any, default: nil, doc: ~s|Extra classes for `data-part="digit"`|
   attr :label_class, :any, default: nil, doc: ~s|Extra classes for `data-part="label"`|
+  attr :separator_class, :any, default: nil, doc: ~s|Extra classes for `data-part="separator"`|
   attr :rest, :global
 
   def <%= @component_prefix %>countdown(assigns) do
@@ -95,7 +96,7 @@ defmodule <%= @module %> do
           :if={@separator && index > 0}
           data-part="separator"
           aria-hidden="true"
-          class="chelekom-countdown__separator"
+          class={["chelekom-countdown__separator", @separator_class]}
         >{@separator}</span>
 
         <span

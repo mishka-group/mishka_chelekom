@@ -33,6 +33,7 @@ defmodule DevelopmentWeb.Components.Headless.CheckboxGroup do
     doc: "LiveView event pushed with the selected values ({value: [...]})"
 
   attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :input_class, :any, default: nil, doc: ~s|Extra classes for `data-part="input"`|
   attr :label_class, :any, default: nil, doc: "Extra classes for the group label"
   attr :rest, :global
 
@@ -92,6 +93,7 @@ defmodule DevelopmentWeb.Components.Headless.CheckboxGroup do
         disabled={@disabled}
         item_class={all[:item_class]}
         indicator_class={all[:indicator_class]}
+        input_class={@input_class}
         indicator_icon={@indicator_icon}
       >
         {render_slot(all)}
@@ -106,6 +108,7 @@ defmodule DevelopmentWeb.Components.Headless.CheckboxGroup do
         disabled={@disabled || item[:disabled] || false}
         item_class={item[:item_class]}
         indicator_class={item[:indicator_class]}
+        input_class={@input_class}
         indicator_icon={@indicator_icon}
       >
         {render_slot(item)}
@@ -125,6 +128,7 @@ defmodule DevelopmentWeb.Components.Headless.CheckboxGroup do
   attr :parent, :boolean, default: false
   attr :item_class, :any, default: nil
   attr :indicator_class, :any, default: nil
+  attr :input_class, :any, default: nil
   attr :indicator_icon, :any, default: []
   slot :inner_block, required: true
 
@@ -155,7 +159,7 @@ defmodule DevelopmentWeb.Components.Headless.CheckboxGroup do
         disabled={@disabled}
         tabindex="-1"
         aria-hidden="true"
-        class="chelekom-checkbox_group__input chelekom-sr-only"
+        class={["chelekom-checkbox_group__input chelekom-sr-only", @input_class]}
       />
       <span
         data-part="indicator"

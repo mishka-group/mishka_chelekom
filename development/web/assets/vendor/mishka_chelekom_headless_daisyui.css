@@ -4590,6 +4590,18 @@
       justify-content: center;
       gap: calc(0.25rem * 2);
     }
+
+    /* The actions row holds whatever the caller puts there, and on a page whose markup carries no
+     * classes that is bare text. Painting buttons here is the same call the editor's toolbar makes. */
+    .chelekom-empty-state__actions button,
+    .chelekom-empty-state__actions a {
+      @apply d-btn d-btn-sm;
+    }
+
+    .chelekom-empty-state__actions button:first-child,
+    .chelekom-empty-state__actions a:first-child {
+      @apply d-btn-primary;
+    }
   }
 }
 /* <<< empty_state */

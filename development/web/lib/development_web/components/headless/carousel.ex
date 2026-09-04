@@ -59,6 +59,14 @@ defmodule DevelopmentWeb.Components.Headless.Carousel do
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :viewport_class, :any, default: nil, doc: ~s|Extra classes for `data-part="viewport"`|
   attr :slide_class, :any, default: nil, doc: ~s|Extra classes for every `data-part="slide"`|
+
+  attr :control_class, :any,
+    default: nil,
+    doc: ~s|Extra classes for the `data-part="previous"` and `data-part="next"` buttons|
+
+  attr :controls_class, :any, default: nil, doc: ~s|Extra classes for `data-part="controls"`|
+  attr :indicator_class, :any, default: nil, doc: ~s|Extra classes for `data-part="indicator"`|
+  attr :indicators_class, :any, default: nil, doc: ~s|Extra classes for `data-part="indicators"`|
   attr :rest, :global
 
   slot :slide, required: true, doc: "One slide" do
@@ -112,7 +120,7 @@ defmodule DevelopmentWeb.Components.Headless.Carousel do
       <div
         :if={@show_controls || @show_indicators || @controls != []}
         data-part="controls"
-        class="chelekom-carousel__controls"
+        class={["chelekom-carousel__controls", @controls_class]}
       >
         {render_slot(@controls)}
 
@@ -123,7 +131,7 @@ defmodule DevelopmentWeb.Components.Headless.Carousel do
           aria-label={@previous_label}
           aria-controls={@id}
           disabled={!@loop && @index == 0}
-          class="chelekom-carousel__control"
+          class={["chelekom-carousel__control", @control_class]}
         >‹</button>
 
         <div
@@ -131,7 +139,7 @@ defmodule DevelopmentWeb.Components.Headless.Carousel do
           data-part="indicators"
           role="group"
           aria-label={"#{@label} slides"}
-          class="chelekom-carousel__indicators"
+          class={["chelekom-carousel__indicators", @indicators_class]}
         >
           <button
             :for={position <- 0..(@count - 1)//1}
@@ -141,7 +149,7 @@ defmodule DevelopmentWeb.Components.Headless.Carousel do
             data-current={position == @index}
             aria-current={position == @index && "true"}
             aria-label={"Go to slide #{position + 1}"}
-            class="chelekom-carousel__indicator"
+            class={["chelekom-carousel__indicator", @indicator_class]}
           />
         </div>
 
@@ -152,7 +160,7 @@ defmodule DevelopmentWeb.Components.Headless.Carousel do
           aria-label={@next_label}
           aria-controls={@id}
           disabled={!@loop && @index >= @count - 1}
-          class="chelekom-carousel__control"
+          class={["chelekom-carousel__control", @control_class]}
         >›</button>
       </div>
     </div>

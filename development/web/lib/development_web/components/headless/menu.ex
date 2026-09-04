@@ -57,6 +57,21 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :trigger_class, :any, default: nil, doc: "Extra classes for the trigger button part"
   attr :popup_class, :any, default: nil, doc: "Extra classes for the popup part"
+
+  attr :chevron_class, :any,
+    default: nil,
+    doc: ~s|Extra classes for `data-part="submenu-chevron"`|
+
+  attr :submenu_class, :any, default: nil, doc: ~s|Extra classes for `data-part="submenu"`|
+
+  attr :submenu_popup_class, :any,
+    default: nil,
+    doc: ~s|Extra classes for `data-part="submenu-popup"`|
+
+  attr :submenu_trigger_class, :any,
+    default: nil,
+    doc: ~s|Extra classes for `data-part="submenu-trigger"`|
+
   attr :rest, :global
 
   slot :trigger, required: true, doc: "The button that opens the menu"
@@ -220,7 +235,7 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
         <div
           :for={{sm, idx} <- Enum.with_index(@submenu)}
           data-part="submenu"
-          class="chelekom-menu__submenu"
+          class={["chelekom-menu__submenu", @submenu_class]}
         >
           <button
             type="button"
@@ -232,10 +247,14 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
             data-disabled={sm[:disabled] == true}
             data-label={sm[:label]}
             tabindex="-1"
-            class="chelekom-menu__submenu-trigger"
+            class={["chelekom-menu__submenu-trigger", @submenu_trigger_class]}
           >
             {sm[:label]}
-            <span data-part="submenu-chevron" aria-hidden="true" class="chelekom-menu__chevron">›</span>
+            <span
+              data-part="submenu-chevron"
+              aria-hidden="true"
+              class={["chelekom-menu__chevron", @chevron_class]}
+            >›</span>
           </button>
           <div
             id={"#{@id}-sub-#{idx}"}
@@ -244,7 +263,7 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
             tabindex="-1"
             hidden
             data-closed
-            class="chelekom-menu__submenu-popup"
+            class={["chelekom-menu__submenu-popup", @submenu_popup_class]}
           >
             {render_slot(sm)}
           </div>

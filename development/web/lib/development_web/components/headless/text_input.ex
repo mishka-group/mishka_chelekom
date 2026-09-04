@@ -55,6 +55,14 @@ defmodule DevelopmentWeb.Components.Headless.TextInput do
   attr :class, :any, default: nil, doc: "Extra classes for the control root"
   attr :input_class, :any, default: nil, doc: ~s|Extra classes for `data-part="input"`|
 
+  attr :end_section_class, :any,
+    default: nil,
+    doc: ~s|Extra classes for `data-part="end-section"`|
+
+  attr :start_section_class, :any,
+    default: nil,
+    doc: ~s|Extra classes for `data-part="start-section"`|
+
   attr :rest, :global,
     include: ~w(autocomplete autofocus form inputmode list max maxlength min minlength
                 pattern size step),
@@ -96,7 +104,7 @@ defmodule DevelopmentWeb.Components.Headless.TextInput do
       <span
         :if={@start_section != []}
         data-part="start-section"
-        class="chelekom-text-input__start-section"
+        class={["chelekom-text-input__start-section", @start_section_class]}
       >{render_slot(@start_section)}</span>
 
       <input
@@ -119,7 +127,7 @@ defmodule DevelopmentWeb.Components.Headless.TextInput do
       <span
         :if={@end_section != []}
         data-part="end-section"
-        class="chelekom-text-input__end-section"
+        class={["chelekom-text-input__end-section", @end_section_class]}
       >{render_slot(@end_section)}</span>
     </div>
     """

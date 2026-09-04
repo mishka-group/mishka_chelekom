@@ -40,6 +40,7 @@ defmodule DevelopmentWeb.Components.Headless.RadioGroup do
 
   attr :on_change, :string, default: nil, doc: "LiveView event pushed on selection ({value})"
   attr :class, :any, default: nil
+  attr :item_class, :any, default: nil, doc: ~s|Extra classes for `data-part="item"`|
   attr :rest, :global
 
   slot :option, required: true, doc: "A radio option" do
@@ -90,7 +91,7 @@ defmodule DevelopmentWeb.Components.Headless.RadioGroup do
         data-unchecked={opt.value != @value}
         data-disabled={@disabled || opt[:disabled]}
         tabindex={if i == @tabbable, do: "0", else: "-1"}
-        class="chelekom-radio-group__item"
+        class={["chelekom-radio-group__item", @item_class]}
       >
         {render_slot(opt)}
       </button>

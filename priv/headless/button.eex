@@ -47,6 +47,8 @@ defmodule <%= @module %> do
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :label_class, :any, default: nil, doc: ~s|Extra classes for `data-part="label"`|
   attr :loader_class, :any, default: nil, doc: ~s|Extra classes for `data-part="loader"`|
+  attr :start_icon_class, :any, default: nil, doc: ~s|Extra classes for `data-part="start-icon"`|
+  attr :end_icon_class, :any, default: nil, doc: ~s|Extra classes for `data-part="end-icon"`|
 
   attr :rest, :global,
     include: ~w(download hreflang referrerpolicy rel replace target),
@@ -128,6 +130,8 @@ defmodule <%= @module %> do
   attr :loading, :boolean, default: false
   attr :label_class, :any, default: nil
   attr :loader_class, :any, default: nil
+  attr :end_icon_class, :any, default: nil, doc: ~s|Extra classes for `data-part="end-icon"`|
+  attr :start_icon_class, :any, default: nil, doc: ~s|Extra classes for `data-part="start-icon"`|
   attr :rest, :global
   slot :start_icon
   slot :end_icon
@@ -140,7 +144,7 @@ defmodule <%= @module %> do
       :if={@start_icon != []}
       data-part="start-icon"
       aria-hidden="true"
-      class="chelekom-button__start-icon"
+      class={["chelekom-button__start-icon", @start_icon_class]}
     >{render_slot(@start_icon)}</span>
     <span
       :if={@loading && @loader != []}
@@ -155,7 +159,7 @@ defmodule <%= @module %> do
       :if={@end_icon != []}
       data-part="end-icon"
       aria-hidden="true"
-      class="chelekom-button__end-icon"
+      class={["chelekom-button__end-icon", @end_icon_class]}
     >{render_slot(@end_icon)}</span>
     """
   end

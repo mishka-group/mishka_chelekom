@@ -47,6 +47,7 @@ defmodule DevelopmentWeb.Components.Headless.Dock do
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :item_class, :any, default: nil, doc: ~s|Extra classes for `data-part="item"`|
   attr :label_class, :any, default: nil, doc: ~s|Extra classes for `data-part="label"`|
+  attr :icon_class, :any, default: nil, doc: ~s|Extra classes for `data-part="icon"`|
   attr :rest, :global
 
   slot :item, doc: "One destination; the slot body is the icon" do
@@ -84,7 +85,9 @@ defmodule DevelopmentWeb.Components.Headless.Dock do
         class={["chelekom-dock__item", @item_class, item[:class]]}
         {item_attrs(item)}
       >
-        <span data-part="icon" aria-hidden="true" class="chelekom-dock__icon">{render_slot(item)}</span>
+        <span data-part="icon" aria-hidden="true" class={["chelekom-dock__icon", @icon_class]}>{render_slot(
+          item
+        )}</span>
         <span
           :if={item[:label]}
           data-part="label"

@@ -88,6 +88,14 @@ defmodule <%= @module %> do
 
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :day_class, :any, default: nil, doc: ~s|Extra classes for every `data-part="day"`|
+  attr :cell_class, :any, default: nil, doc: ~s|Extra classes for `data-part="cell"`|
+  attr :control_class, :any, default: nil,
+    doc: ~s|Extra classes for the `data-part="previous"` and `data-part="next"` buttons|
+  attr :grid_class, :any, default: nil, doc: ~s|Extra classes for `data-part="grid"`|
+  attr :header_class, :any, default: nil, doc: ~s|Extra classes for `data-part="header"`|
+  attr :heading_class, :any, default: nil, doc: ~s|Extra classes for `data-part="heading"`|
+  attr :week_class, :any, default: nil, doc: ~s|Extra classes for `data-part="week"`|
+  attr :weekday_class, :any, default: nil, doc: ~s|Extra classes for `data-part="weekday"`|
   attr :rest, :global
 
   def <%= @component_prefix %>calendar(assigns) do
@@ -117,21 +125,21 @@ defmodule <%= @module %> do
       class={["chelekom-calendar", @class]}
       {@rest}
     >
-      <div data-part="header" class="chelekom-calendar__header">
+      <div data-part="header" class={["chelekom-calendar__header", @header_class]}>
         <button
           type="button"
           data-part="previous"
           aria-label={@previous_label}
           disabled={!can_page?(:previous, @month, @min, @max)}
           phx-click={@on_month_change && page(@on_month_change, @month, -1)}
-          class="chelekom-calendar__control"
+          class={["chelekom-calendar__control", @control_class]}
         >‹</button>
 
         <div
           id={"#{@id}-heading"}
           data-part="heading"
           aria-live="polite"
-          class="chelekom-calendar__heading"
+          class={["chelekom-calendar__heading", @heading_class]}
         >{heading(@month, @month_names)}</div>
 
         <button
@@ -140,7 +148,7 @@ defmodule <%= @module %> do
           aria-label={@next_label}
           disabled={!can_page?(:next, @month, @min, @max)}
           phx-click={@on_month_change && page(@on_month_change, @month, 1)}
-          class="chelekom-calendar__control"
+          class={["chelekom-calendar__control", @control_class]}
         >›</button>
       </div>
 
@@ -149,7 +157,7 @@ defmodule <%= @module %> do
         data-part="grid"
         aria-labelledby={"#{@id}-heading"}
         aria-label={@label}
-        class="chelekom-calendar__grid"
+        class={["chelekom-calendar__grid", @grid_class]}
       >
         <thead>
           <tr>
@@ -158,14 +166,14 @@ defmodule <%= @module %> do
               scope="col"
               data-part="weekday"
               abbr={Enum.at(@weekday_titles, index)}
-              class="chelekom-calendar__weekday"
+              class={["chelekom-calendar__weekday", @weekday_class]}
             >{short}</th>
           </tr>
         </thead>
 
         <tbody>
-          <tr :for={week <- @weeks} data-part="week" class="chelekom-calendar__week">
-            <td :for={date <- week} data-part="cell" class="chelekom-calendar__cell">
+          <tr :for={week <- @weeks} data-part="week" class={["chelekom-calendar__week", @week_class]}>
+            <td :for={date <- week} data-part="cell" class={["chelekom-calendar__cell", @cell_class]}>
               <button
                 :if={@show_outside_days || Date.compare(Date.beginning_of_month(date), @month) == :eq}
                 type="button"

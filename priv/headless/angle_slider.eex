@@ -27,6 +27,8 @@ defmodule <%= @module %> do
   attr :label, :string, default: "Angle", doc: "Accessible label"
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :thumb_class, :any, default: nil, doc: "Extra classes for the thumb"
+  attr :thumb_layer_class, :any, default: nil, doc: ~s|Extra classes for `data-part="thumb-layer"`|
+  attr :value_class, :any, default: nil, doc: ~s|Extra classes for `data-part="value"`|
   attr :rest, :global
 
   def <%= @component_prefix %>angle_slider(assigns) do
@@ -48,10 +50,10 @@ defmodule <%= @module %> do
       class={["chelekom-angle-slider", @class]}
       {@rest}
     >
-      <span data-part="thumb-layer" class="chelekom-angle-slider__thumb-layer">
+      <span data-part="thumb-layer" class={["chelekom-angle-slider__thumb-layer", @thumb_layer_class]}>
         <span data-part="thumb" class={["chelekom-angle-slider__thumb", @thumb_class]}></span>
       </span>
-      <span :if={@show_value} data-part="value" class="chelekom-angle-slider__value">{@value}°</span>
+      <span :if={@show_value} data-part="value" class={["chelekom-angle-slider__value", @value_class]}>{@value}°</span>
       <input :if={@name} data-part="input" type="hidden" name={@name} value={@value} />
     </div>
     """

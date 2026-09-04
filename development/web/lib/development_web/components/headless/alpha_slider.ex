@@ -30,6 +30,7 @@ defmodule DevelopmentWeb.Components.Headless.AlphaSlider do
   attr :control_class, :any, default: nil
   attr :track_class, :any, default: nil
   attr :thumb_class, :any, default: nil
+  attr :indicator_class, :any, default: nil, doc: ~s|Extra classes for `data-part="indicator"`|
   attr :rest, :global
 
   def alpha_slider(assigns) do
@@ -64,7 +65,7 @@ defmodule DevelopmentWeb.Components.Headless.AlphaSlider do
           <div
             data-part="indicator"
             data-orientation="horizontal"
-            class="chelekom-alpha-slider__indicator"
+            class={["chelekom-alpha-slider__indicator", @indicator_class]}
           >
           </div>
           <span

@@ -45,6 +45,7 @@ defmodule DevelopmentWeb.Components.Headless.Card do
   attr :body_class, :any, default: nil, doc: ~s|Extra classes for `data-part="body"`|
   attr :title_class, :any, default: nil, doc: ~s|Extra classes for `data-part="title"`|
   attr :actions_class, :any, default: nil, doc: ~s|Extra classes for `data-part="actions"`|
+  attr :content_class, :any, default: nil, doc: ~s|Extra classes for `data-part="content"`|
   attr :rest, :global, include: ~w(download hreflang referrerpolicy rel target)
 
   slot :figure, doc: "The image (or any media); rendered inside a `<figure>`"
@@ -79,7 +80,11 @@ defmodule DevelopmentWeb.Components.Headless.Card do
           {render_slot(@title)}
         </.dynamic_tag>
 
-        <div :if={@inner_block != []} data-part="content" class="chelekom-card__content">
+        <div
+          :if={@inner_block != []}
+          data-part="content"
+          class={["chelekom-card__content", @content_class]}
+        >
           {render_slot(@inner_block)}
         </div>
 

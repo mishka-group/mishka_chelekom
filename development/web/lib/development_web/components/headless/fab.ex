@@ -51,6 +51,16 @@ defmodule DevelopmentWeb.Components.Headless.Fab do
   attr :trigger_class, :any, default: nil, doc: ~s|Extra classes for `data-part="trigger"`|
   attr :popup_class, :any, default: nil, doc: ~s|Extra classes for `data-part="popup"`|
   attr :action_class, :any, default: nil, doc: ~s|Extra classes for every `data-part="action"`|
+
+  attr :icon_class, :any,
+    default: nil,
+    doc: ~s|Extra classes for the trigger's `data-part="icon"`|
+
+  attr :action_icon_class, :any,
+    default: nil,
+    doc: ~s|Extra classes for each action's `data-part="icon"`|
+
+  attr :label_class, :any, default: nil, doc: ~s|Extra classes for `data-part="label"`|
   attr :rest, :global
 
   slot :icon, required: true, doc: "The trigger's glyph"
@@ -98,12 +108,14 @@ defmodule DevelopmentWeb.Components.Headless.Fab do
         aria-controls={@action != [] && "#{@id}-actions"}
         class={["chelekom-fab__trigger", @trigger_class]}
       >
-        <span data-part="icon" data-state="closed" class="chelekom-fab__icon">{render_slot(@icon)}</span>
+        <span data-part="icon" data-state="closed" class={["chelekom-fab__icon", @icon_class]}>{render_slot(
+          @icon
+        )}</span>
         <span
           :if={@close_icon != []}
           data-part="icon"
           data-state="open"
-          class="chelekom-fab__icon"
+          class={["chelekom-fab__icon", @icon_class]}
         >{render_slot(@close_icon)}</span>
       </button>
 
@@ -122,6 +134,8 @@ defmodule DevelopmentWeb.Components.Headless.Fab do
           part="action"
           index={index}
           class={@action_class}
+          action_icon_class={@action_icon_class}
+          label_class={@label_class}
         />
 
         <.fab_button
@@ -130,6 +144,8 @@ defmodule DevelopmentWeb.Components.Headless.Fab do
           part="main-action"
           index={-1}
           class={nil}
+          action_icon_class={@action_icon_class}
+          label_class={@label_class}
         />
       </div>
     </div>
@@ -140,6 +156,8 @@ defmodule DevelopmentWeb.Components.Headless.Fab do
   attr :part, :string, required: true
   attr :index, :integer, required: true
   attr :class, :any, default: nil
+  attr :action_icon_class, :any, default: nil
+  attr :label_class, :any, default: nil
 
   defp fab_button(assigns) do
     ~H"""
@@ -154,14 +172,16 @@ defmodule DevelopmentWeb.Components.Headless.Fab do
       class={["chelekom-fab__action", @class, @action[:class]]}
       {button_attrs(@action)}
     >
-      <span data-part="icon" aria-hidden="true" class="chelekom-fab__action-icon">{render_slot(
-        @action
-      )}</span>
+      <span
+        data-part="icon"
+        aria-hidden="true"
+        class={["chelekom-fab__action-icon", @action_icon_class]}
+      >{render_slot(@action)}</span>
       <span
         :if={@action[:show_label]}
         data-part="label"
         aria-hidden="true"
-        class="chelekom-fab__label"
+        class={["chelekom-fab__label", @label_class]}
       >{@action.label}</span>
     </.dynamic_tag>
     """

@@ -51,6 +51,7 @@ defmodule DevelopmentWeb.Components.Headless.Accordion do
     doc: "LiveView event pushed when the open set changes"
 
   attr :class, :any, default: nil
+  attr :heading_class, :any, default: nil, doc: ~s|Extra classes for `data-part="header"`|
   attr :rest, :global
 
   slot :item, required: true do
@@ -100,7 +101,7 @@ defmodule DevelopmentWeb.Components.Headless.Accordion do
         <.dynamic_tag
           tag_name={"h#{@heading_level}"}
           data-part="header"
-          class="chelekom-accordion__heading"
+          class={["chelekom-accordion__heading", @heading_class]}
         >
           <button
             type="button"

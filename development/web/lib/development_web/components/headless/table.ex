@@ -67,6 +67,18 @@ defmodule DevelopmentWeb.Components.Headless.Table do
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :row_class, :any, default: nil, doc: ~s|Extra classes for `data-part="row"`|
   attr :cell_class, :any, default: nil, doc: ~s|Extra classes for `data-part="cell"`|
+  attr :body_class, :any, default: nil, doc: ~s|Extra classes for `data-part="body"`|
+  attr :caption_class, :any, default: nil, doc: ~s|Extra classes for `data-part="caption"`|
+  attr :empty_class, :any, default: nil, doc: ~s|Extra classes for `data-part="empty"`|
+  attr :foot_class, :any, default: nil, doc: ~s|Extra classes for `data-part="foot"`|
+  attr :head_class, :any, default: nil, doc: ~s|Extra classes for `data-part="head"`|
+  attr :header_class, :any, default: nil, doc: ~s|Extra classes for `data-part="header"`|
+
+  attr :select_class, :any,
+    default: nil,
+    doc: ~s|Extra classes for the `data-part="select-all"` and `data-part="select"` checkboxes|
+
+  attr :sort_class, :any, default: nil, doc: ~s|Extra classes for `data-part="sort"`|
   attr :rest, :global
 
   slot :col, required: true, doc: "One column" do
@@ -96,14 +108,19 @@ defmodule DevelopmentWeb.Components.Headless.Table do
         :if={@caption}
         data-part="caption"
         data-hidden={!@show_caption}
-        class="chelekom-table__caption"
+        class={["chelekom-table__caption", @caption_class]}
       >
         {@caption}
       </caption>
 
-      <thead data-part="head" class="chelekom-table__head">
+      <thead data-part="head" class={["chelekom-table__head", @head_class]}>
         <tr data-part="row" class={["chelekom-table__row", @row_class]}>
-          <th :if={@selectable?} scope="col" data-part="header" class="chelekom-table__header">
+          <th
+            :if={@selectable?}
+            scope="col"
+            data-part="header"
+            class={["chelekom-table__header", @header_class]}
+          >
             <input
               type="checkbox"
               id={"#{@id}-select-all"}
@@ -113,7 +130,7 @@ defmodule DevelopmentWeb.Components.Headless.Table do
               checked={all_selected?(@rows, @selected, @row_id)}
               aria-label={@select_all_label}
               phx-click={@on_select_all && JS.push(@on_select_all)}
-              class="chelekom-table__select"
+              class={["chelekom-table__select", @select_class]}
             />
           </th>
 
@@ -124,7 +141,7 @@ defmodule DevelopmentWeb.Components.Headless.Table do
             data-align={col[:align]}
             data-sortable={sortable?(col, @on_sort)}
             aria-sort={aria_sort(col, @sort_by, @sort_dir)}
-            class={["chelekom-table__header", col[:class]]}
+            class={["chelekom-table__header", @header_class, col[:class]]}
           >
             <button
               :if={sortable?(col, @on_sort)}
@@ -134,7 +151,7 @@ defmodule DevelopmentWeb.Components.Headless.Table do
               phx-click={
                 JS.push(@on_sort, value: %{key: col[:key], dir: next_dir(col, @sort_by, @sort_dir)})
               }
-              class="chelekom-table__sort"
+              class={["chelekom-table__sort", @sort_class]}
             >{col[:label]}</button>
 
             <span :if={!sortable?(col, @on_sort)}>{col[:label]}</span>
@@ -142,7 +159,12 @@ defmodule DevelopmentWeb.Components.Headless.Table do
         </tr>
       </thead>
 
-      <tbody :if={@rows != []} data-part="body" id={"#{@id}-body"} class="chelekom-table__body">
+      <tbody
+        :if={@rows != []}
+        data-part="body"
+        id={"#{@id}-body"}
+        class={["chelekom-table__body", @body_class]}
+      >
         <tr
           :for={row <- @rows}
           id={@row_id && @row_id.(row)}
@@ -158,7 +180,7 @@ defmodule DevelopmentWeb.Components.Headless.Table do
               checked={selected?(row, @selected, @row_id)}
               aria-label={@select_label}
               phx-click={JS.push(@on_select, value: %{id: @row_id && @row_id.(row)})}
-              class="chelekom-table__select"
+              class={["chelekom-table__select", @select_class]}
             />
           </td>
 
@@ -175,19 +197,23 @@ defmodule DevelopmentWeb.Components.Headless.Table do
         </tr>
       </tbody>
 
-      <tbody :if={@rows == [] && @empty != []} data-part="body" class="chelekom-table__body">
-        <tr data-part="row" class="chelekom-table__row">
+      <tbody
+        :if={@rows == [] && @empty != []}
+        data-part="body"
+        class={["chelekom-table__body", @body_class]}
+      >
+        <tr data-part="row" class={["chelekom-table__row", @row_class]}>
           <td
             data-part="empty"
             colspan={length(@col) + if(@selectable?, do: 1, else: 0)}
-            class="chelekom-table__empty"
+            class={["chelekom-table__empty", @empty_class]}
           >
             {render_slot(@empty)}
           </td>
         </tr>
       </tbody>
 
-      <tfoot :if={@foot != []} data-part="foot" class="chelekom-table__foot">
+      <tfoot :if={@foot != []} data-part="foot" class={["chelekom-table__foot", @foot_class]}>
         <tr data-part="row" class={["chelekom-table__row", @row_class]}>{render_slot(@foot)}</tr>
       </tfoot>
     </table>

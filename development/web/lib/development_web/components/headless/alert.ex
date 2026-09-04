@@ -44,6 +44,8 @@ defmodule DevelopmentWeb.Components.Headless.Alert do
   attr :title_class, :any, default: nil, doc: ~s|Extra classes for `data-part="title"`|
   attr :content_class, :any, default: nil, doc: ~s|Extra classes for `data-part="content"`|
   attr :close_class, :any, default: nil, doc: ~s|Extra classes for `data-part="close"`|
+  attr :actions_class, :any, default: nil, doc: ~s|Extra classes for `data-part="actions"`|
+  attr :icon_class, :any, default: nil, doc: ~s|Extra classes for `data-part="icon"`|
   attr :rest, :global
 
   slot :icon, doc: "Leading icon (decorative — hidden from assistive tech)"
@@ -66,9 +68,12 @@ defmodule DevelopmentWeb.Components.Headless.Alert do
       class={["chelekom-alert", @class]}
       {@rest}
     >
-      <span :if={@icon != []} data-part="icon" aria-hidden="true" class="chelekom-alert__icon">{render_slot(
-        @icon
-      )}</span>
+      <span
+        :if={@icon != []}
+        data-part="icon"
+        aria-hidden="true"
+        class={["chelekom-alert__icon", @icon_class]}
+      >{render_slot(@icon)}</span>
 
       <div data-part="content" class={["chelekom-alert__content", @content_class]}>
         <span
@@ -80,9 +85,11 @@ defmodule DevelopmentWeb.Components.Headless.Alert do
         {render_slot(@inner_block)}
       </div>
 
-      <span :if={@actions != []} data-part="actions" class="chelekom-alert__actions">{render_slot(
-        @actions
-      )}</span>
+      <span
+        :if={@actions != []}
+        data-part="actions"
+        class={["chelekom-alert__actions", @actions_class]}
+      >{render_slot(@actions)}</span>
 
       <button
         :if={@dismissible}

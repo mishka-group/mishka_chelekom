@@ -47,6 +47,7 @@ defmodule DevelopmentWeb.Components.Headless.Breadcrumb do
   attr :list_class, :any, default: nil, doc: ~s|Extra classes for `data-part="list"`|
   attr :item_class, :any, default: nil, doc: ~s|Extra classes for `data-part="item"`|
   attr :separator_class, :any, default: nil, doc: ~s|Extra classes for `data-part="separator"`|
+  attr :ellipsis_class, :any, default: nil, doc: ~s|Extra classes for `data-part="ellipsis"`|
   attr :rest, :global
 
   slot :separator, doc: "Custom separator; falls back to a `/` character"
@@ -93,6 +94,7 @@ defmodule DevelopmentWeb.Components.Headless.Breadcrumb do
             last?={index == length(@entries) - 1}
             on_expand={@on_expand}
             expand_label={@expand_label}
+            ellipsis_class={@ellipsis_class}
           />
         </li>
       </ol>
@@ -104,6 +106,7 @@ defmodule DevelopmentWeb.Components.Headless.Breadcrumb do
   attr :last?, :boolean, required: true
   attr :on_expand, :any, required: true
   attr :expand_label, :string, required: true
+  attr :ellipsis_class, :any, default: nil
 
   defp crumb(%{entry: :ellipsis} = assigns) do
     ~H"""
@@ -113,9 +116,13 @@ defmodule DevelopmentWeb.Components.Headless.Breadcrumb do
       data-part="ellipsis"
       aria-label={@expand_label}
       phx-click={expand_action(@on_expand)}
-      class="chelekom-breadcrumb__ellipsis"
+      class={["chelekom-breadcrumb__ellipsis", @ellipsis_class]}
     >…</button>
-    <span :if={!@on_expand} data-part="ellipsis" class="chelekom-breadcrumb__ellipsis">…</span>
+    <span
+      :if={!@on_expand}
+      data-part="ellipsis"
+      class={["chelekom-breadcrumb__ellipsis", @ellipsis_class]}
+    >…</span>
     """
   end
 
