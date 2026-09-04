@@ -169,15 +169,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     "checkbox" => [
       {"checkbox-hero", "Checkbox",
        "daisyUI's `checkbox`: the indicator is the box and the tick is daisyUI's own clip-path."},
+      {"checkbox-form", "With fieldset and label",
+       "A checkbox group in a fieldset, submitted as real form fields."},
       {"checkbox-sizes", "Sizes", "`checkbox-xs` through `checkbox-xl`."},
       {"checkbox-colors", "Colors", "All eight `checkbox-*` colors."},
       {"checkbox-disabled", "Disabled", "Checked and unchecked, both disabled."},
       {"checkbox-indeterminate", "Indeterminate",
        "daisyUI needs JavaScript to set `.indeterminate`; ours is a server-rendered attribute."},
-      {"checkbox-custom-colors", "Custom colors",
-       "daisyUI's custom-color recipe, with `data-checked` standing in for `:checked`."},
-      {"checkbox-form", "With fieldset and label",
-       "A checkbox group in a fieldset, submitted as real form fields."}
+      {"checkbox-custom-colors", "Checkbox with custom colors",
+       "daisyUI's custom-color recipe, with `data-checked` standing in for `:checked`."}
     ],
     "dialog" => [
       {"dialog-hero", "Dialog modal",
