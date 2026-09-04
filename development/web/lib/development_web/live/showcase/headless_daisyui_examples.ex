@@ -302,6 +302,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"collapsible-icon-start", "Icon at the start",
        "The icon before the title instead of after it."},
       {"collapsible-open", "Force open", "daisyUI's `collapse-open` — our `open` attribute."},
+      {"collapsible-close", "Force close",
+       "daisyUI's `collapse-close` — ours is `disabled`, which also takes the trigger out of play."},
       {"collapsible-custom-colors", "Custom colors",
        "A primary card, the way daisyUI's colour recipe does it."}
     ],
@@ -1898,6 +1900,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <.collapsible id="daisyui-collapsible-open" class="w-80" open>
       <:trigger>Open from the start</:trigger>
       daisyUI's `collapse-open`; ours is the `open` attribute.
+    </.collapsible>
+    """
+  end
+
+  def example(%{section: "collapsible-close"} = assigns) do
+    ~H"""
+    <.collapsible id="daisyui-collapsible-close" class="w-80" disabled>
+      <:trigger>Closed, and it stays closed</:trigger>
+      daisyUI's `collapse-close`; ours is the `disabled` attribute.
     </.collapsible>
     """
   end
