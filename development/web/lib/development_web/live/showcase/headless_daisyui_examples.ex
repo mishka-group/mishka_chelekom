@@ -333,6 +333,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ],
     "otp_field" => [
       {"otp_field-hero", "OTP input", "Six `input` boxes in a row, daisyUI's OTP recipe."},
+      {"otp_field-joined", "OTP joined",
+       "daisyUI's `otp-joined` — the boxes share their edges, so the row reads as one field."},
+      {"otp_field-sizes", "OTP with different sizes",
+       "`input-xs` through `input-xl` on each box."},
+      {"otp_field-colors", "OTP with different colors", "The eight `input-*` colours."},
       {"otp_field-groups", "With a separator", "Two groups of three, split by a separator part."},
       {"otp_field-masked", "Masked", "The same field with the characters hidden."},
       {"otp_field-alphanumeric", "Alphanumeric", "Letters and digits, upper-cased as you type."},
@@ -2092,6 +2097,47 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "otp_field-hero"} = assigns) do
     ~H"""
     <.otp_field id="daisyui-otp-hero" />
+    """
+  end
+
+  def example(%{section: "otp_field-joined"} = assigns) do
+    ~H"""
+    <.otp_field
+      id="daisyui-otp-joined"
+      length={4}
+      class="gap-0!"
+      input_class="-ms-px rounded-none first:ms-0 first:rounded-s-field last:rounded-e-field"
+    />
+    """
+  end
+
+  def example(%{section: "otp_field-sizes"} = assigns) do
+    assigns = assign(assigns, :sizes, @sizes)
+
+    ~H"""
+    <div class="flex flex-col items-start gap-3">
+      <.otp_field
+        :for={size <- @sizes}
+        id={"daisyui-otp-#{size}"}
+        length={4}
+        input_class={"d-input-#{size}"}
+      />
+    </div>
+    """
+  end
+
+  def example(%{section: "otp_field-colors"} = assigns) do
+    assigns = assign(assigns, :colors, @colors)
+
+    ~H"""
+    <div class="flex flex-wrap items-center gap-3">
+      <.otp_field
+        :for={color <- @colors}
+        id={"daisyui-otp-#{color}"}
+        length={4}
+        input_class={"d-input-#{color}"}
+      />
+    </div>
     """
   end
 
