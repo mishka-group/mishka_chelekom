@@ -129,6 +129,38 @@ defmodule DevelopmentWeb.HeadlessDaisyUISkinTest do
     source =~ ~r/\bclass=/ or source =~ ~r/\b[a-z_]+_class=/
   end
 
+  # An example often renders other components inside itself — `pills_input`'s hero is full of
+  # `<.pill>`. Those carry their own classes once they convert, which says nothing about whether
+  # *this* component is being hand-painted. Read only the attributes of its own invocations.
+  defp own_attrs(source, name) do
+    ~r/<\.#{Regex.escape(name)}(?=[\s\/>])/
+    |> Regex.scan(source, return: :index)
+    |> Enum.map(fn [{start, len}] -> attrs_after(source, start + len) end)
+    |> Enum.join(" ")
+  end
+
+  # `Regex.scan/3` with `return: :index` hands back byte offsets, and this file has multibyte
+  # characters in it, so the slice has to be taken in bytes too.
+  defp attrs_after(source, from) do
+    source
+    |> binary_part(from, byte_size(source) - from)
+    |> String.graphemes()
+    |> Enum.reduce_while({[], 0, nil}, fn c, {acc, depth, quote_char} ->
+      cond do
+        quote_char && c == quote_char -> {:cont, {[c | acc], depth, nil}}
+        quote_char -> {:cont, {[c | acc], depth, quote_char}}
+        c in ["\"", "'"] -> {:cont, {[c | acc], depth, c}}
+        c == "{" -> {:cont, {[c | acc], depth + 1, nil}}
+        c == "}" -> {:cont, {[c | acc], depth - 1, nil}}
+        c == ">" and depth == 0 -> {:halt, {acc, depth, nil}}
+        true -> {:cont, {[c | acc], depth, nil}}
+      end
+    end)
+    |> elem(0)
+    |> Enum.reverse()
+    |> Enum.join()
+  end
+
   defp utility_painted?(source) do
     ~r/\b[a-z_]+_class=(?:"([^"]*)"|\{\[?([^}]*)\]?\})/
     |> Regex.scan(source)
@@ -143,10 +175,10 @@ defmodule DevelopmentWeb.HeadlessDaisyUISkinTest do
       source = HeadlessDaisyUIExamples.source(id)
 
       if skinned_in_css?(name) do
-        refute utility_painted?(source),
+        refute utility_painted?(own_attrs(source, name)),
                "#{id}: the hero hand-paints a part while the skin still styles it"
       else
-        assert styled_in_markup?(source),
+        assert styled_in_markup?(own_attrs(source, name)),
                "#{id}: the skin region is gone, so the hero must carry the styling itself"
       end
     end

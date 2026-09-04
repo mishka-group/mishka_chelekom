@@ -688,88 +688,7 @@
     }
   }
 }
-/* <<< checkbox */
-
-/* >>> avatar */
-@layer components {
-  [data-skin=daisyui] {
-    /* avatar — daisyUI skin (root paints `avatar`; the loading state stays the component's). */
-
-    .chelekom-avatar {
-      @apply d-avatar;
-      display: inline-flex;
-      width: calc(var(--size-field, 0.25rem) * 12);
-    }
-
-    .chelekom-avatar__image {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: inherit;
-    }
-
-    /* daisyUI's placeholder centres initials on a neutral chip; ours is the fallback part, revealed
-     * by the Avatar hook via `data-status`, so the same look keys off that instead of `:empty`. */
-    .chelekom-avatar__fallback {
-      display: flex;
-      width: 100%;
-      height: 100%;
-      align-items: center;
-      justify-content: center;
-      border-radius: inherit;
-      background-color: var(--color-neutral);
-      color: var(--color-neutral-content);
-      font-size: 0.875rem;
-      user-select: none;
-    }
-  }
-}
-/* <<< avatar */
-
-/* >>> pill */
-@layer components {
-  [data-skin=daisyui] {
-    /* pill — daisyUI skin (paints `badge`; every badge modifier still works on the root). */
-
-    .chelekom-pill {
-      @apply d-badge;
-    }
-
-    .chelekom-pill[data-disabled] {
-      cursor: not-allowed;
-      opacity: 50%;
-    }
-
-    .chelekom-pill__label {
-      display: inline-flex;
-      align-items: center;
-      gap: calc(0.25rem * 1);
-    }
-
-    .chelekom-pill__remove {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      margin-inline-start: calc(0.25rem * 1);
-      border-radius: var(--radius-selector);
-      cursor: pointer;
-      opacity: 60%;
-      transition: opacity 0.2s ease-out;
-    }
-
-    .chelekom-pill__remove:hover {
-      opacity: 100%;
-    }
-
-    .chelekom-pill__remove:focus-visible {
-      outline: 2px solid currentColor;
-      outline-offset: 1px;
-    }
-  }
-}
-/* <<< pill */
-/* >>> tooltip */
+/* <<< checkbox *//* >>> tooltip */
 @layer components {
   [data-skin=daisyui] {
     /* tooltip — daisyUI skin.
@@ -1486,42 +1405,7 @@
     }
   }
 }
-/* <<< drawer */
-
-/* >>> toggle */
-@layer components {
-  [data-skin=daisyui] {
-    /* toggle — daisyUI skin (the `swap` look).
-     *
-     * daisyUI's `swap` is a label holding a hidden checkbox and two children it cross-fades; ours is a
-     * `role="button"` with `aria-pressed`, so the state comes off `data-pressed` instead of `:checked`.
-     * The pressed look itself is `btn-active`, since a headless toggle is a two-state button.
-     */
-
-    .chelekom-toggle {
-      @apply d-btn;
-    }
-
-    .chelekom-toggle[data-pressed] {
-      @apply d-btn-active;
-    }
-
-    .chelekom-toggle[data-disabled] {
-      cursor: not-allowed;
-      opacity: 50%;
-    }
-
-    .chelekom-toggle__input {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      opacity: 0;
-      pointer-events: none;
-    }
-  }
-}
-/* <<< toggle */
-/* >>> nav_link */
+/* <<< drawer *//* >>> nav_link */
 @layer components {
   [data-skin=daisyui] {
     /* nav_link — daisyUI skin (a menu row, the shape a nav link takes in daisyUI's `menu`). */
@@ -1623,39 +1507,6 @@
   }
 }
 /* <<< field */
-
-/* >>> button */
-@layer components {
-  [data-skin=daisyui] {
-    /* button — daisyUI skin (paints `btn`; every btn modifier works on the root). */
-
-    .chelekom-button {
-      @apply d-btn;
-    }
-
-    /* daisyUI keys the disabled look off `:disabled`, which an anchor cannot have — our link form uses
-     * `aria-disabled` instead, so pair them up. */
-    .chelekom-button[aria-disabled="true"] {
-      pointer-events: none;
-      border-color: color-mix(in oklab, var(--color-base-content) 10%, transparent);
-      background-color: color-mix(in oklab, var(--color-base-content) 10%, transparent);
-      color: color-mix(in oklab, var(--color-base-content) 20%, transparent);
-      box-shadow: none;
-    }
-
-    .chelekom-button__loader {
-      display: inline-flex;
-    }
-
-    .chelekom-button__start-icon,
-    .chelekom-button__end-icon {
-      display: inline-flex;
-      flex-shrink: 0;
-    }
-  }
-}
-/* <<< button */
-
 /* >>> alert */
 @layer components {
   [data-skin=daisyui] {
@@ -5059,51 +4910,6 @@
   }
 }
 /* <<< scroll_area */
-
-/* >>> scroller */
-@layer components {
-  [data-skin=daisyui] {
-    /* scroller — daisyUI skin.
-     *
-     * A horizontal strip with an arrow at each end. daisyUI has no equivalent, but its `btn btn-circle`
-     * is exactly the right shape for the arrows, so they borrow it; the fading edges are drawn here.
-     */
-
-    .chelekom-scroller {
-      position: relative;
-      display: flex;
-      align-items: center;
-      gap: calc(0.25rem * 2);
-      color: var(--color-base-content);
-    }
-
-    .chelekom-scroller__viewport {
-      display: flex;
-      gap: calc(0.25rem * 2);
-      overflow-x: auto;
-      scroll-behavior: smooth;
-      scrollbar-width: none;
-    }
-
-    .chelekom-scroller__viewport::-webkit-scrollbar {
-      display: none;
-    }
-
-    .chelekom-scroller__control {
-      @apply d-btn d-btn-circle d-btn-sm;
-
-      flex-shrink: 0;
-    }
-
-    /* An arrow with nowhere left to go is disabled rather than hidden, so the strip does not change
-     * width as you reach either end. */
-    .chelekom-scroller__control[disabled] {
-      @apply d-btn-disabled;
-    }
-  }
-}
-/* <<< scroller */
-
 /* >>> segmented_control */
 @layer components {
   [data-skin=daisyui] {

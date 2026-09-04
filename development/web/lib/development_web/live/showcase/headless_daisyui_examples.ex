@@ -1238,7 +1238,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     assigns = assign(assigns, :face, @face)
 
     ~H"""
-    <.avatar id="daisyui-avatar-1" src={@face} alt="Lisa Turner" class="rounded-full" />
+    <.avatar
+      fallback_class="flex w-full h-full items-center justify-center rounded-[inherit] bg-neutral text-neutral-content text-[0.875rem] select-none"
+      image_class="block w-full h-full object-cover rounded-[inherit]"
+      id="daisyui-avatar-1"
+      src={@face}
+      alt="Lisa Turner"
+      class="d-avatar inline-flex w-[calc(var(--size-field,0.25rem)*12)] rounded-full"
+    />
     """
   end
 
@@ -1249,10 +1256,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex items-end gap-3">
       <.avatar
         :for={w <- ~w(w-8 w-16 w-20 w-32)}
+        fallback_class="flex w-full h-full items-center justify-center rounded-[inherit] bg-neutral text-neutral-content text-[0.875rem] select-none"
+        image_class="block w-full h-full object-cover rounded-[inherit]"
         id={"daisyui-avatar-size-#{w}"}
         src={@face}
         alt=""
-        class={["rounded-full", w]}
+        class={["d-avatar inline-flex", "rounded-full", w]}
       />
     </div>
     """
@@ -1263,8 +1272,22 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
     ~H"""
     <div class="flex gap-3">
-      <.avatar id="daisyui-avatar-3" src={@face} alt="" class="w-20 rounded-xl" />
-      <.avatar id="daisyui-avatar-4" src={@face} alt="" class="w-20 rounded-full" />
+      <.avatar
+        fallback_class="flex w-full h-full items-center justify-center rounded-[inherit] bg-neutral text-neutral-content text-[0.875rem] select-none"
+        image_class="block w-full h-full object-cover rounded-[inherit]"
+        id="daisyui-avatar-3"
+        src={@face}
+        alt=""
+        class="d-avatar inline-flex w-20 rounded-xl"
+      />
+      <.avatar
+        fallback_class="flex w-full h-full items-center justify-center rounded-[inherit] bg-neutral text-neutral-content text-[0.875rem] select-none"
+        image_class="block w-full h-full object-cover rounded-[inherit]"
+        id="daisyui-avatar-4"
+        src={@face}
+        alt=""
+        class="d-avatar inline-flex w-20 rounded-full"
+      />
     </div>
     """
   end
@@ -1276,10 +1299,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex gap-3">
       <.avatar
         :for={mask <- ~w(d-mask-heart d-mask-squircle d-mask-hexagon-2)}
+        fallback_class="flex w-full h-full items-center justify-center rounded-[inherit] bg-neutral text-neutral-content text-[0.875rem] select-none"
+        image_class="block w-full h-full object-cover rounded-[inherit]"
         id={"daisyui-avatar-#{mask}"}
         src={@face}
         alt=""
-        class={["w-20 d-mask", mask]}
+        class={["d-avatar", "w-20 d-mask", mask]}
       />
     </div>
     """
@@ -1292,10 +1317,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="d-avatar-group -space-x-6">
       <.avatar
         :for={i <- 1..3}
+        fallback_class="flex w-full h-full items-center justify-center rounded-[inherit] bg-neutral text-neutral-content text-[0.875rem] select-none"
+        image_class="block w-full h-full object-cover rounded-[inherit]"
         id={"daisyui-avatar-group-#{i}"}
         src={@face}
         alt=""
-        class="w-12 rounded-full"
+        class="d-avatar inline-flex w-12 rounded-full"
       />
     </div>
     """
@@ -1308,12 +1335,21 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="d-avatar-group -space-x-6">
       <.avatar
         :for={i <- 1..3}
+        fallback_class="flex w-full h-full items-center justify-center rounded-[inherit] bg-neutral text-neutral-content text-[0.875rem] select-none"
+        image_class="block w-full h-full object-cover rounded-[inherit]"
         id={"daisyui-avatar-counter-#{i}"}
         src={@face}
         alt=""
-        class="w-12 rounded-full"
+        class="d-avatar inline-flex w-12 rounded-full"
       />
-      <.avatar id="daisyui-avatar-8" class="w-12 rounded-full">+99</.avatar>
+      <.avatar
+        fallback_class="flex w-full h-full items-center justify-center rounded-[inherit] bg-neutral text-neutral-content text-[0.875rem] select-none"
+        image_class="block w-full h-full object-cover rounded-[inherit]"
+        id="daisyui-avatar-8"
+        class="d-avatar inline-flex w-12 rounded-full"
+      >
+        +99
+      </.avatar>
     </div>
     """
   end
@@ -1323,10 +1359,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
     ~H"""
     <.avatar
+      fallback_class="flex w-full h-full items-center justify-center rounded-[inherit] bg-neutral text-neutral-content text-[0.875rem] select-none"
+      image_class="block w-full h-full object-cover rounded-[inherit]"
       id="daisyui-avatar-9"
       src={@face}
       alt=""
-      class="w-20 rounded-full ring-2 ring-primary ring-offset-2 ring-offset-base-100"
+      class="d-avatar inline-flex w-20 rounded-full ring-2 ring-primary ring-offset-2 ring-offset-base-100"
     />
     """
   end
@@ -1336,8 +1374,22 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
     ~H"""
     <div class="flex gap-3">
-      <.avatar id="daisyui-avatar-10" src={@face} alt="" class="d-avatar-online w-16 rounded-full" />
-      <.avatar id="daisyui-avatar-11" src={@face} alt="" class="d-avatar-offline w-16 rounded-full" />
+      <.avatar
+        fallback_class="flex w-full h-full items-center justify-center rounded-[inherit] bg-neutral text-neutral-content text-[0.875rem] select-none"
+        image_class="block w-full h-full object-cover rounded-[inherit]"
+        id="daisyui-avatar-10"
+        src={@face}
+        alt=""
+        class="d-avatar inline-flex d-avatar-online w-16 rounded-full"
+      />
+      <.avatar
+        fallback_class="flex w-full h-full items-center justify-center rounded-[inherit] bg-neutral text-neutral-content text-[0.875rem] select-none"
+        image_class="block w-full h-full object-cover rounded-[inherit]"
+        id="daisyui-avatar-11"
+        src={@face}
+        alt=""
+        class="d-avatar inline-flex d-avatar-offline w-16 rounded-full"
+      />
     </div>
     """
   end
@@ -1347,8 +1399,22 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
     ~H"""
     <div class="flex gap-3">
-      <.avatar id="daisyui-avatar-12" class="w-16 rounded-full">LT</.avatar>
-      <.avatar id="daisyui-avatar-13" class="d-avatar-online w-16 rounded-full">SH</.avatar>
+      <.avatar
+        fallback_class="flex w-full h-full items-center justify-center rounded-[inherit] bg-neutral text-neutral-content text-[0.875rem] select-none"
+        image_class="block w-full h-full object-cover rounded-[inherit]"
+        id="daisyui-avatar-12"
+        class="d-avatar inline-flex w-16 rounded-full"
+      >
+        LT
+      </.avatar>
+      <.avatar
+        fallback_class="flex w-full h-full items-center justify-center rounded-[inherit] bg-neutral text-neutral-content text-[0.875rem] select-none"
+        image_class="block w-full h-full object-cover rounded-[inherit]"
+        id="daisyui-avatar-13"
+        class="d-avatar inline-flex d-avatar-online w-16 rounded-full"
+      >
+        SH
+      </.avatar>
     </div>
     """
   end
@@ -1356,7 +1422,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── pill ──────────────────────────────────────────────────────────────────
   def example(%{section: "pill-hero"} = assigns) do
     ~H"""
-    <.pill>Badge</.pill>
+    <.pill
+      remove_class="inline-flex items-center justify-center ms-1 rounded-[var(--radius-selector)] cursor-pointer opacity-60 transition-opacity duration-200 ease-[ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+      label_class="inline-flex items-center gap-1"
+      class="d-badge data-disabled:cursor-not-allowed data-disabled:opacity-50"
+    >
+      Badge
+    </.pill>
     """
   end
 
@@ -1365,7 +1437,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
     ~H"""
     <div class="flex flex-wrap items-center gap-2">
-      <.pill :for={size <- @sizes} class={"d-badge-#{size}"}>{size_label(size)}</.pill>
+      <.pill
+        :for={size <- @sizes}
+        remove_class="inline-flex items-center justify-center ms-1 rounded-[var(--radius-selector)] cursor-pointer opacity-60 transition-opacity duration-200 ease-[ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+        label_class="inline-flex items-center gap-1"
+        class={[
+          "d-badge data-disabled:cursor-not-allowed data-disabled:opacity-50",
+          "d-badge-#{size}"
+        ]}
+      >
+        {size_label(size)}
+      </.pill>
     </div>
     """
   end
@@ -1375,7 +1457,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
     ~H"""
     <div class="flex flex-wrap gap-2">
-      <.pill :for={color <- @colors} class={"d-badge-#{color}"}>{color_label(color)}</.pill>
+      <.pill
+        :for={color <- @colors}
+        remove_class="inline-flex items-center justify-center ms-1 rounded-[var(--radius-selector)] cursor-pointer opacity-60 transition-opacity duration-200 ease-[ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+        label_class="inline-flex items-center gap-1"
+        class={[
+          "d-badge data-disabled:cursor-not-allowed data-disabled:opacity-50",
+          "d-badge-#{color}"
+        ]}
+      >
+        {color_label(color)}
+      </.pill>
     </div>
     """
   end
@@ -1385,7 +1477,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
     ~H"""
     <div class="flex flex-wrap gap-2">
-      <.pill :for={color <- @colors} class={"d-badge-soft d-badge-#{color}"}>
+      <.pill
+        :for={color <- @colors}
+        remove_class="inline-flex items-center justify-center ms-1 rounded-[var(--radius-selector)] cursor-pointer opacity-60 transition-opacity duration-200 ease-[ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+        label_class="inline-flex items-center gap-1"
+        class={[
+          "d-badge data-disabled:cursor-not-allowed data-disabled:opacity-50",
+          "d-badge-soft d-badge-#{color}"
+        ]}
+      >
         {color_label(color)}
       </.pill>
     </div>
@@ -1397,7 +1497,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
     ~H"""
     <div class="flex flex-wrap gap-2">
-      <.pill :for={color <- @colors} class={"d-badge-outline d-badge-#{color}"}>
+      <.pill
+        :for={color <- @colors}
+        remove_class="inline-flex items-center justify-center ms-1 rounded-[var(--radius-selector)] cursor-pointer opacity-60 transition-opacity duration-200 ease-[ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+        label_class="inline-flex items-center gap-1"
+        class={[
+          "d-badge data-disabled:cursor-not-allowed data-disabled:opacity-50",
+          "d-badge-outline d-badge-#{color}"
+        ]}
+      >
         {color_label(color)}
       </.pill>
     </div>
@@ -1409,7 +1517,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
     ~H"""
     <div class="flex flex-wrap gap-2">
-      <.pill :for={color <- @colors} class={"d-badge-dash d-badge-#{color}"}>
+      <.pill
+        :for={color <- @colors}
+        remove_class="inline-flex items-center justify-center ms-1 rounded-[var(--radius-selector)] cursor-pointer opacity-60 transition-opacity duration-200 ease-[ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+        label_class="inline-flex items-center gap-1"
+        class={[
+          "d-badge data-disabled:cursor-not-allowed data-disabled:opacity-50",
+          "d-badge-dash d-badge-#{color}"
+        ]}
+      >
         {color_label(color)}
       </.pill>
     </div>
@@ -1419,15 +1535,33 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "pill-neutral-variants"} = assigns) do
     ~H"""
     <div class="flex flex-wrap gap-2">
-      <.pill class="d-badge-neutral d-badge-outline">Outline</.pill>
-      <.pill class="d-badge-neutral d-badge-dash">Dash</.pill>
+      <.pill
+        remove_class="inline-flex items-center justify-center ms-1 rounded-[var(--radius-selector)] cursor-pointer opacity-60 transition-opacity duration-200 ease-[ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+        label_class="inline-flex items-center gap-1"
+        class="d-badge data-disabled:cursor-not-allowed data-disabled:opacity-50 d-badge-neutral d-badge-outline"
+      >
+        Outline
+      </.pill>
+      <.pill
+        remove_class="inline-flex items-center justify-center ms-1 rounded-[var(--radius-selector)] cursor-pointer opacity-60 transition-opacity duration-200 ease-[ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+        label_class="inline-flex items-center gap-1"
+        class="d-badge data-disabled:cursor-not-allowed data-disabled:opacity-50 d-badge-neutral d-badge-dash"
+      >
+        Dash
+      </.pill>
     </div>
     """
   end
 
   def example(%{section: "pill-ghost"} = assigns) do
     ~H"""
-    <.pill class="d-badge-ghost">Ghost</.pill>
+    <.pill
+      remove_class="inline-flex items-center justify-center ms-1 rounded-[var(--radius-selector)] cursor-pointer opacity-60 transition-opacity duration-200 ease-[ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+      label_class="inline-flex items-center gap-1"
+      class="d-badge data-disabled:cursor-not-allowed data-disabled:opacity-50 d-badge-ghost"
+    >
+      Ghost
+    </.pill>
     """
   end
 
@@ -1436,7 +1570,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
     ~H"""
     <div class="flex flex-wrap items-center gap-2">
-      <.pill :for={size <- @sizes} class={"d-badge-primary d-badge-#{size}"}><span /></.pill>
+      <.pill
+        :for={size <- @sizes}
+        remove_class="inline-flex items-center justify-center ms-1 rounded-[var(--radius-selector)] cursor-pointer opacity-60 transition-opacity duration-200 ease-[ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+        label_class="inline-flex items-center gap-1"
+        class={[
+          "d-badge data-disabled:cursor-not-allowed data-disabled:opacity-50",
+          "d-badge-primary d-badge-#{size}"
+        ]}
+      >
+        <span />
+      </.pill>
     </div>
     """
   end
@@ -1444,16 +1588,32 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "pill-icon"} = assigns) do
     ~H"""
     <div class="flex flex-wrap gap-2">
-      <.pill class="d-badge-info">
+      <.pill
+        remove_class="inline-flex items-center justify-center ms-1 rounded-[var(--radius-selector)] cursor-pointer opacity-60 transition-opacity duration-200 ease-[ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+        label_class="inline-flex items-center gap-1"
+        class="d-badge data-disabled:cursor-not-allowed data-disabled:opacity-50 d-badge-info"
+      >
         <.nav_icon path="M12 8h.01M11 12h1v4h1" /> Info
       </.pill>
-      <.pill class="d-badge-success">
+      <.pill
+        remove_class="inline-flex items-center justify-center ms-1 rounded-[var(--radius-selector)] cursor-pointer opacity-60 transition-opacity duration-200 ease-[ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+        label_class="inline-flex items-center gap-1"
+        class="d-badge data-disabled:cursor-not-allowed data-disabled:opacity-50 d-badge-success"
+      >
         <.nav_icon path="M20 6 9 17l-5-5" /> Done
       </.pill>
-      <.pill class="d-badge-warning">
+      <.pill
+        remove_class="inline-flex items-center justify-center ms-1 rounded-[var(--radius-selector)] cursor-pointer opacity-60 transition-opacity duration-200 ease-[ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+        label_class="inline-flex items-center gap-1"
+        class="d-badge data-disabled:cursor-not-allowed data-disabled:opacity-50 d-badge-warning"
+      >
         <.nav_icon path="M12 9v4m0 4h.01" /> Careful
       </.pill>
-      <.pill class="d-badge-error">
+      <.pill
+        remove_class="inline-flex items-center justify-center ms-1 rounded-[var(--radius-selector)] cursor-pointer opacity-60 transition-opacity duration-200 ease-[ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+        label_class="inline-flex items-center gap-1"
+        class="d-badge data-disabled:cursor-not-allowed data-disabled:opacity-50 d-badge-error"
+      >
         <.nav_icon path="M18 6 6 18M6 6l12 12" /> Failed
       </.pill>
     </div>
@@ -1465,11 +1625,23 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="space-y-2">
       <h2 class="text-xl font-bold">
         Headline
-        <.pill class="d-badge-lg">new</.pill>
+        <.pill
+          remove_class="inline-flex items-center justify-center ms-1 rounded-[var(--radius-selector)] cursor-pointer opacity-60 transition-opacity duration-200 ease-[ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+          label_class="inline-flex items-center gap-1"
+          class="d-badge data-disabled:cursor-not-allowed data-disabled:opacity-50 d-badge-lg"
+        >
+          new
+        </.pill>
       </h2>
       <p class="text-sm">
         Body copy with a
-        <.pill class="d-badge-sm">small</.pill>
+        <.pill
+          remove_class="inline-flex items-center justify-center ms-1 rounded-[var(--radius-selector)] cursor-pointer opacity-60 transition-opacity duration-200 ease-[ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+          label_class="inline-flex items-center gap-1"
+          class="d-badge data-disabled:cursor-not-allowed data-disabled:opacity-50 d-badge-sm"
+        >
+          small
+        </.pill>
         badge inline.
       </p>
     </div>
@@ -1480,7 +1652,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <button type="button" class="d-btn">
       Inbox
-      <.pill class="d-badge-sm d-badge-secondary">12</.pill>
+      <.pill
+        remove_class="inline-flex items-center justify-center ms-1 rounded-[var(--radius-selector)] cursor-pointer opacity-60 transition-opacity duration-200 ease-[ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+        label_class="inline-flex items-center gap-1"
+        class="d-badge data-disabled:cursor-not-allowed data-disabled:opacity-50 d-badge-sm d-badge-secondary"
+      >
+        12
+      </.pill>
     </button>
     """
   end
@@ -1488,8 +1666,22 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "pill-removable"} = assigns) do
     ~H"""
     <div class="flex flex-wrap gap-2">
-      <.pill class="d-badge-primary" with_remove>elixir</.pill>
-      <.pill class="d-badge-secondary" with_remove>phoenix</.pill>
+      <.pill
+        remove_class="inline-flex items-center justify-center ms-1 rounded-[var(--radius-selector)] cursor-pointer opacity-60 transition-opacity duration-200 ease-[ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+        label_class="inline-flex items-center gap-1"
+        class="d-badge data-disabled:cursor-not-allowed data-disabled:opacity-50 d-badge-primary"
+        with_remove
+      >
+        elixir
+      </.pill>
+      <.pill
+        remove_class="inline-flex items-center justify-center ms-1 rounded-[var(--radius-selector)] cursor-pointer opacity-60 transition-opacity duration-200 ease-[ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+        label_class="inline-flex items-center gap-1"
+        class="d-badge data-disabled:cursor-not-allowed data-disabled:opacity-50 d-badge-secondary"
+        with_remove
+      >
+        phoenix
+      </.pill>
     </div>
     """
   end
@@ -2418,23 +2610,55 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── toggle ────────────────────────────────────────────────────────────────
   def example(%{section: "toggle-hero"} = assigns) do
     ~H"""
-    <.toggle id="daisyui-toggle-hero" pressed>Bold</.toggle>
+    <.toggle
+      input_class="absolute w-px h-px opacity-0 pointer-events-none"
+      class="d-btn data-pressed:d-btn-active data-disabled:cursor-not-allowed data-disabled:opacity-50"
+      id="daisyui-toggle-hero"
+      pressed
+    >
+      Bold
+    </.toggle>
     """
   end
 
   def example(%{section: "toggle-states"} = assigns) do
     ~H"""
     <div class="flex flex-wrap gap-3">
-      <.toggle id="daisyui-toggle-off">Off</.toggle>
-      <.toggle id="daisyui-toggle-on" pressed>On</.toggle>
-      <.toggle id="daisyui-toggle-dis" disabled>Disabled</.toggle>
+      <.toggle
+        input_class="absolute w-px h-px opacity-0 pointer-events-none"
+        class="d-btn data-pressed:d-btn-active data-disabled:cursor-not-allowed data-disabled:opacity-50"
+        id="daisyui-toggle-off"
+      >
+        Off
+      </.toggle>
+      <.toggle
+        input_class="absolute w-px h-px opacity-0 pointer-events-none"
+        class="d-btn data-pressed:d-btn-active data-disabled:cursor-not-allowed data-disabled:opacity-50"
+        id="daisyui-toggle-on"
+        pressed
+      >
+        On
+      </.toggle>
+      <.toggle
+        input_class="absolute w-px h-px opacity-0 pointer-events-none"
+        class="d-btn data-pressed:d-btn-active data-disabled:cursor-not-allowed data-disabled:opacity-50"
+        id="daisyui-toggle-dis"
+        disabled
+      >
+        Disabled
+      </.toggle>
     </div>
     """
   end
 
   def example(%{section: "toggle-icons"} = assigns) do
     ~H"""
-    <.toggle id="daisyui-toggle-icons" pressed class="group d-btn-square">
+    <.toggle
+      input_class="absolute w-px h-px opacity-0 pointer-events-none"
+      id="daisyui-toggle-icons"
+      pressed
+      class="d-btn data-pressed:d-btn-active data-disabled:cursor-not-allowed data-disabled:opacity-50 group d-btn-square"
+    >
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="size-5">
         <path class="hidden group-data-[pressed]:block" d="M20 6 9 17l-5-5" />
         <path class="group-data-[pressed]:hidden" d="M12 5v14M5 12h14" />
@@ -2446,7 +2670,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "toggle-form"} = assigns) do
     ~H"""
     <form phx-submit="daisyui_switch_submit" class="flex items-center gap-3">
-      <.toggle id="daisyui-toggle-form" name="pinned" pressed>Pinned</.toggle>
+      <.toggle
+        input_class="absolute w-px h-px opacity-0 pointer-events-none"
+        class="d-btn data-pressed:d-btn-active data-disabled:cursor-not-allowed data-disabled:opacity-50"
+        id="daisyui-toggle-form"
+        name="pinned"
+        pressed
+      >
+        Pinned
+      </.toggle>
       <button type="submit" class="d-btn d-btn-primary d-btn-sm">Save</button>
     </form>
     """
@@ -2685,7 +2917,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── button ────────────────────────────────────────────────────────────────
   def example(%{section: "button-hero"} = assigns) do
     ~H"""
-    <.button>Button</.button>
+    <.button
+      end_icon_class="inline-flex shrink-0"
+      start_icon_class="inline-flex shrink-0"
+      loader_class="inline-flex"
+      class="d-btn aria-disabled:pointer-events-none aria-disabled:border-base-content/10 aria-disabled:bg-base-content/10 aria-disabled:text-base-content/20 aria-disabled:[box-shadow:none]"
+    >Button</.button>
     """
   end
 
@@ -2694,14 +2931,28 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
     ~H"""
     <div class="flex flex-wrap items-center gap-2">
-      <.button :for={size <- @sizes} class={"d-btn-#{size}"}>btn-{size}</.button>
+      <.button
+        :for={size <- @sizes}
+        end_icon_class="inline-flex shrink-0"
+        start_icon_class="inline-flex shrink-0"
+        loader_class="inline-flex"
+        class={[
+          "d-btn aria-disabled:pointer-events-none aria-disabled:border-base-content/10 aria-disabled:bg-base-content/10 aria-disabled:text-base-content/20 aria-disabled:[box-shadow:none]",
+          "d-btn-#{size}"
+        ]}
+      >btn-{size}</.button>
     </div>
     """
   end
 
   def example(%{section: "button-responsive"} = assigns) do
     ~H"""
-    <.button class="d-btn-xs sm:d-btn-sm md:d-btn-md lg:d-btn-lg xl:d-btn-xl">Responsive</.button>
+    <.button
+      end_icon_class="inline-flex shrink-0"
+      start_icon_class="inline-flex shrink-0"
+      loader_class="inline-flex"
+      class="d-btn aria-disabled:pointer-events-none aria-disabled:border-base-content/10 aria-disabled:bg-base-content/10 aria-disabled:text-base-content/20 aria-disabled:[box-shadow:none] d-btn-xs sm:d-btn-sm md:d-btn-md lg:d-btn-lg xl:d-btn-xl"
+    >Responsive</.button>
     """
   end
 
@@ -2710,7 +2961,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
     ~H"""
     <div class="flex flex-wrap gap-2">
-      <.button :for={color <- @colors} class={"d-btn-#{color}"}>{color}</.button>
+      <.button
+        :for={color <- @colors}
+        end_icon_class="inline-flex shrink-0"
+        start_icon_class="inline-flex shrink-0"
+        loader_class="inline-flex"
+        class={[
+          "d-btn aria-disabled:pointer-events-none aria-disabled:border-base-content/10 aria-disabled:bg-base-content/10 aria-disabled:text-base-content/20 aria-disabled:[box-shadow:none]",
+          "d-btn-#{color}"
+        ]}
+      >{color}</.button>
     </div>
     """
   end
@@ -2720,7 +2980,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
     ~H"""
     <div class="flex flex-wrap gap-2">
-      <.button :for={color <- @colors} class={"d-btn-soft d-btn-#{color}"}>{color}</.button>
+      <.button
+        :for={color <- @colors}
+        end_icon_class="inline-flex shrink-0"
+        start_icon_class="inline-flex shrink-0"
+        loader_class="inline-flex"
+        class={[
+          "d-btn aria-disabled:pointer-events-none aria-disabled:border-base-content/10 aria-disabled:bg-base-content/10 aria-disabled:text-base-content/20 aria-disabled:[box-shadow:none]",
+          "d-btn-soft d-btn-#{color}"
+        ]}
+      >{color}</.button>
     </div>
     """
   end
@@ -2730,7 +2999,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
     ~H"""
     <div class="flex flex-wrap gap-2">
-      <.button :for={color <- @colors} class={"d-btn-outline d-btn-#{color}"}>{color}</.button>
+      <.button
+        :for={color <- @colors}
+        end_icon_class="inline-flex shrink-0"
+        start_icon_class="inline-flex shrink-0"
+        loader_class="inline-flex"
+        class={[
+          "d-btn aria-disabled:pointer-events-none aria-disabled:border-base-content/10 aria-disabled:bg-base-content/10 aria-disabled:text-base-content/20 aria-disabled:[box-shadow:none]",
+          "d-btn-outline d-btn-#{color}"
+        ]}
+      >{color}</.button>
     </div>
     """
   end
@@ -2740,7 +3018,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
     ~H"""
     <div class="flex flex-wrap gap-2">
-      <.button :for={color <- @colors} class={"d-btn-dash d-btn-#{color}"}>{color}</.button>
+      <.button
+        :for={color <- @colors}
+        end_icon_class="inline-flex shrink-0"
+        start_icon_class="inline-flex shrink-0"
+        loader_class="inline-flex"
+        class={[
+          "d-btn aria-disabled:pointer-events-none aria-disabled:border-base-content/10 aria-disabled:bg-base-content/10 aria-disabled:text-base-content/20 aria-disabled:[box-shadow:none]",
+          "d-btn-dash d-btn-#{color}"
+        ]}
+      >{color}</.button>
     </div>
     """
   end
@@ -2748,8 +3035,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "button-neutral-variants"} = assigns) do
     ~H"""
     <div class="flex flex-wrap gap-2">
-      <.button class="d-btn-neutral d-btn-outline">outline</.button>
-      <.button class="d-btn-neutral d-btn-dash">dash</.button>
+      <.button
+        end_icon_class="inline-flex shrink-0"
+        start_icon_class="inline-flex shrink-0"
+        loader_class="inline-flex"
+        class="d-btn aria-disabled:pointer-events-none aria-disabled:border-base-content/10 aria-disabled:bg-base-content/10 aria-disabled:text-base-content/20 aria-disabled:[box-shadow:none] d-btn-neutral d-btn-outline"
+      >outline</.button>
+      <.button
+        end_icon_class="inline-flex shrink-0"
+        start_icon_class="inline-flex shrink-0"
+        loader_class="inline-flex"
+        class="d-btn aria-disabled:pointer-events-none aria-disabled:border-base-content/10 aria-disabled:bg-base-content/10 aria-disabled:text-base-content/20 aria-disabled:[box-shadow:none] d-btn-neutral d-btn-dash"
+      >dash</.button>
     </div>
     """
   end
@@ -2757,9 +3054,24 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "button-active"} = assigns) do
     ~H"""
     <div class="flex flex-wrap gap-2">
-      <.button class="d-btn-active">Active</.button>
-      <.button class="d-btn-primary d-btn-active">Primary</.button>
-      <.button class="d-btn-ghost d-btn-active">Ghost</.button>
+      <.button
+        end_icon_class="inline-flex shrink-0"
+        start_icon_class="inline-flex shrink-0"
+        loader_class="inline-flex"
+        class="d-btn aria-disabled:pointer-events-none aria-disabled:border-base-content/10 aria-disabled:bg-base-content/10 aria-disabled:text-base-content/20 aria-disabled:[box-shadow:none] d-btn-active"
+      >Active</.button>
+      <.button
+        end_icon_class="inline-flex shrink-0"
+        start_icon_class="inline-flex shrink-0"
+        loader_class="inline-flex"
+        class="d-btn aria-disabled:pointer-events-none aria-disabled:border-base-content/10 aria-disabled:bg-base-content/10 aria-disabled:text-base-content/20 aria-disabled:[box-shadow:none] d-btn-primary d-btn-active"
+      >Primary</.button>
+      <.button
+        end_icon_class="inline-flex shrink-0"
+        start_icon_class="inline-flex shrink-0"
+        loader_class="inline-flex"
+        class="d-btn aria-disabled:pointer-events-none aria-disabled:border-base-content/10 aria-disabled:bg-base-content/10 aria-disabled:text-base-content/20 aria-disabled:[box-shadow:none] d-btn-ghost d-btn-active"
+      >Ghost</.button>
     </div>
     """
   end
@@ -2767,8 +3079,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "button-ghost-link"} = assigns) do
     ~H"""
     <div class="flex flex-wrap gap-2">
-      <.button class="d-btn-ghost">Ghost</.button>
-      <.button class="d-btn-link">Link</.button>
+      <.button
+        end_icon_class="inline-flex shrink-0"
+        start_icon_class="inline-flex shrink-0"
+        loader_class="inline-flex"
+        class="d-btn aria-disabled:pointer-events-none aria-disabled:border-base-content/10 aria-disabled:bg-base-content/10 aria-disabled:text-base-content/20 aria-disabled:[box-shadow:none] d-btn-ghost"
+      >Ghost</.button>
+      <.button
+        end_icon_class="inline-flex shrink-0"
+        start_icon_class="inline-flex shrink-0"
+        loader_class="inline-flex"
+        class="d-btn aria-disabled:pointer-events-none aria-disabled:border-base-content/10 aria-disabled:bg-base-content/10 aria-disabled:text-base-content/20 aria-disabled:[box-shadow:none] d-btn-link"
+      >Link</.button>
     </div>
     """
   end
@@ -2776,8 +3098,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "button-wide-block"} = assigns) do
     ~H"""
     <div class="flex w-full max-w-sm flex-col items-center gap-2">
-      <.button class="d-btn-wide">Wide</.button>
-      <.button class="d-btn-block">Block</.button>
+      <.button
+        end_icon_class="inline-flex shrink-0"
+        start_icon_class="inline-flex shrink-0"
+        loader_class="inline-flex"
+        class="d-btn aria-disabled:pointer-events-none aria-disabled:border-base-content/10 aria-disabled:bg-base-content/10 aria-disabled:text-base-content/20 aria-disabled:[box-shadow:none] d-btn-wide"
+      >Wide</.button>
+      <.button
+        end_icon_class="inline-flex shrink-0"
+        start_icon_class="inline-flex shrink-0"
+        loader_class="inline-flex"
+        class="d-btn aria-disabled:pointer-events-none aria-disabled:border-base-content/10 aria-disabled:bg-base-content/10 aria-disabled:text-base-content/20 aria-disabled:[box-shadow:none] d-btn-block"
+      >Block</.button>
     </div>
     """
   end
@@ -2785,8 +3117,20 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "button-shapes"} = assigns) do
     ~H"""
     <div class="flex flex-wrap gap-2">
-      <.button class="d-btn-square" label="✕" />
-      <.button class="d-btn-circle" label="✕" />
+      <.button
+        end_icon_class="inline-flex shrink-0"
+        start_icon_class="inline-flex shrink-0"
+        loader_class="inline-flex"
+        class="d-btn aria-disabled:pointer-events-none aria-disabled:border-base-content/10 aria-disabled:bg-base-content/10 aria-disabled:text-base-content/20 aria-disabled:[box-shadow:none] d-btn-square"
+        label="✕"
+      />
+      <.button
+        end_icon_class="inline-flex shrink-0"
+        start_icon_class="inline-flex shrink-0"
+        loader_class="inline-flex"
+        class="d-btn aria-disabled:pointer-events-none aria-disabled:border-base-content/10 aria-disabled:bg-base-content/10 aria-disabled:text-base-content/20 aria-disabled:[box-shadow:none] d-btn-circle"
+        label="✕"
+      />
     </div>
     """
   end
@@ -2794,11 +3138,21 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "button-icons"} = assigns) do
     ~H"""
     <div class="flex flex-wrap gap-2">
-      <.button class="d-btn-primary">
+      <.button
+        end_icon_class="inline-flex shrink-0"
+        start_icon_class="inline-flex shrink-0"
+        loader_class="inline-flex"
+        class="d-btn aria-disabled:pointer-events-none aria-disabled:border-base-content/10 aria-disabled:bg-base-content/10 aria-disabled:text-base-content/20 aria-disabled:[box-shadow:none] d-btn-primary"
+      >
         <:start_icon><.nav_icon path="M12 5v14M5 12h14" /></:start_icon>
         New project
       </.button>
-      <.button>
+      <.button
+        end_icon_class="inline-flex shrink-0"
+        start_icon_class="inline-flex shrink-0"
+        loader_class="inline-flex"
+        class="d-btn aria-disabled:pointer-events-none aria-disabled:border-base-content/10 aria-disabled:bg-base-content/10 aria-disabled:text-base-content/20 aria-disabled:[box-shadow:none]"
+      >
         Continue
         <:end_icon><.nav_icon path="M6 3l5 5-5 5" /></:end_icon>
       </.button>
@@ -2809,8 +3163,21 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "button-disabled"} = assigns) do
     ~H"""
     <div class="flex flex-wrap gap-2">
-      <.button disabled>Disabled button</.button>
-      <.button href="#" disabled>Disabled link</.button>
+      <.button
+        end_icon_class="inline-flex shrink-0"
+        start_icon_class="inline-flex shrink-0"
+        loader_class="inline-flex"
+        class="d-btn aria-disabled:pointer-events-none aria-disabled:border-base-content/10 aria-disabled:bg-base-content/10 aria-disabled:text-base-content/20 aria-disabled:[box-shadow:none]"
+        disabled
+      >Disabled button</.button>
+      <.button
+        end_icon_class="inline-flex shrink-0"
+        start_icon_class="inline-flex shrink-0"
+        loader_class="inline-flex"
+        class="d-btn aria-disabled:pointer-events-none aria-disabled:border-base-content/10 aria-disabled:bg-base-content/10 aria-disabled:text-base-content/20 aria-disabled:[box-shadow:none]"
+        href="#"
+        disabled
+      >Disabled link</.button>
     </div>
     """
   end
@@ -2818,11 +3185,24 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "button-loading"} = assigns) do
     ~H"""
     <div class="flex flex-wrap gap-2">
-      <.button class="d-btn-primary" loading>
+      <.button
+        end_icon_class="inline-flex shrink-0"
+        start_icon_class="inline-flex shrink-0"
+        loader_class="inline-flex"
+        class="d-btn aria-disabled:pointer-events-none aria-disabled:border-base-content/10 aria-disabled:bg-base-content/10 aria-disabled:text-base-content/20 aria-disabled:[box-shadow:none] d-btn-primary"
+        loading
+      >
         <:loader><span class="d-loading d-loading-spinner d-loading-xs"></span></:loader>
         Saving
       </.button>
-      <.button class="d-btn-square" loading label="">
+      <.button
+        end_icon_class="inline-flex shrink-0"
+        start_icon_class="inline-flex shrink-0"
+        loader_class="inline-flex"
+        class="d-btn aria-disabled:pointer-events-none aria-disabled:border-base-content/10 aria-disabled:bg-base-content/10 aria-disabled:text-base-content/20 aria-disabled:[box-shadow:none] d-btn-square"
+        loading
+        label=""
+      >
         <:loader><span class="d-loading d-loading-spinner"></span></:loader>
       </.button>
     </div>
@@ -2832,8 +3212,20 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "button-as-link"} = assigns) do
     ~H"""
     <div class="flex flex-wrap gap-2">
-      <.button href="https://daisyui.com" class="d-btn-primary">Open daisyUI</.button>
-      <.button navigate="/showcase/headless-daisyui" class="d-btn-ghost">Back to the gallery</.button>
+      <.button
+        end_icon_class="inline-flex shrink-0"
+        start_icon_class="inline-flex shrink-0"
+        loader_class="inline-flex"
+        href="https://daisyui.com"
+        class="d-btn aria-disabled:pointer-events-none aria-disabled:border-base-content/10 aria-disabled:bg-base-content/10 aria-disabled:text-base-content/20 aria-disabled:[box-shadow:none] d-btn-primary"
+      >Open daisyUI</.button>
+      <.button
+        end_icon_class="inline-flex shrink-0"
+        start_icon_class="inline-flex shrink-0"
+        loader_class="inline-flex"
+        navigate="/showcase/headless-daisyui"
+        class="d-btn aria-disabled:pointer-events-none aria-disabled:border-base-content/10 aria-disabled:bg-base-content/10 aria-disabled:text-base-content/20 aria-disabled:[box-shadow:none] d-btn-ghost"
+      >Back to the gallery</.button>
     </div>
     """
   end
@@ -2841,7 +3233,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "button-login"} = assigns) do
     ~H"""
     <div class="flex flex-col items-start gap-2">
-      <.button class="border-[#e5e5e5] bg-white text-black">
+      <.button
+        end_icon_class="inline-flex shrink-0"
+        start_icon_class="inline-flex shrink-0"
+        loader_class="inline-flex"
+        class="d-btn aria-disabled:pointer-events-none aria-disabled:border-base-content/10 aria-disabled:bg-base-content/10 aria-disabled:text-base-content/20 aria-disabled:[box-shadow:none] border-[#e5e5e5] bg-white text-black"
+      >
         <:start_icon>
           <svg aria-label="Email icon" width="16" height="16" viewBox="0 0 24 24">
             <g
@@ -2859,7 +3256,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         Login with Email
       </.button>
 
-      <.button class="border-black bg-black text-white">
+      <.button
+        end_icon_class="inline-flex shrink-0"
+        start_icon_class="inline-flex shrink-0"
+        loader_class="inline-flex"
+        class="d-btn aria-disabled:pointer-events-none aria-disabled:border-base-content/10 aria-disabled:bg-base-content/10 aria-disabled:text-base-content/20 aria-disabled:[box-shadow:none] border-black bg-black text-white"
+      >
         <:start_icon>
           <svg aria-label="GitHub logo" width="16" height="16" viewBox="0 0 24 24">
             <path
@@ -2871,7 +3273,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         Login with GitHub
       </.button>
 
-      <.button class="border-[#e5e5e5] bg-white text-black">
+      <.button
+        end_icon_class="inline-flex shrink-0"
+        start_icon_class="inline-flex shrink-0"
+        loader_class="inline-flex"
+        class="d-btn aria-disabled:pointer-events-none aria-disabled:border-base-content/10 aria-disabled:bg-base-content/10 aria-disabled:text-base-content/20 aria-disabled:[box-shadow:none] border-[#e5e5e5] bg-white text-black"
+      >
         <:start_icon>
           <svg aria-label="Google logo" width="16" height="16" viewBox="0 0 512 512">
             <g>
@@ -2886,7 +3293,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         Login with Google
       </.button>
 
-      <.button class="border-black bg-black text-white">
+      <.button
+        end_icon_class="inline-flex shrink-0"
+        start_icon_class="inline-flex shrink-0"
+        loader_class="inline-flex"
+        class="d-btn aria-disabled:pointer-events-none aria-disabled:border-base-content/10 aria-disabled:bg-base-content/10 aria-disabled:text-base-content/20 aria-disabled:[box-shadow:none] border-black bg-black text-white"
+      >
         <:start_icon>
           <svg aria-label="Apple logo" width="16" height="16" viewBox="0 0 1195 1195">
             <path
@@ -2898,7 +3310,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         Login with Apple
       </.button>
 
-      <.button class="border-[#005fd8] bg-[#1A77F2] text-white">
+      <.button
+        end_icon_class="inline-flex shrink-0"
+        start_icon_class="inline-flex shrink-0"
+        loader_class="inline-flex"
+        class="d-btn aria-disabled:pointer-events-none aria-disabled:border-base-content/10 aria-disabled:bg-base-content/10 aria-disabled:text-base-content/20 aria-disabled:[box-shadow:none] border-[#005fd8] bg-[#1A77F2] text-white"
+      >
         <:start_icon>
           <svg aria-label="Facebook logo" width="16" height="16" viewBox="0 0 32 32">
             <path
@@ -2917,8 +3334,20 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <form phx-submit="daisyui_switch_submit" class="flex items-center gap-3">
       <input type="hidden" name="saved" value="yes" />
-      <.button type="submit" class="d-btn-primary">Save</.button>
-      <.button type="reset" class="d-btn-ghost">Reset</.button>
+      <.button
+        end_icon_class="inline-flex shrink-0"
+        start_icon_class="inline-flex shrink-0"
+        loader_class="inline-flex"
+        type="submit"
+        class="d-btn aria-disabled:pointer-events-none aria-disabled:border-base-content/10 aria-disabled:bg-base-content/10 aria-disabled:text-base-content/20 aria-disabled:[box-shadow:none] d-btn-primary"
+      >Save</.button>
+      <.button
+        end_icon_class="inline-flex shrink-0"
+        start_icon_class="inline-flex shrink-0"
+        loader_class="inline-flex"
+        type="reset"
+        class="d-btn aria-disabled:pointer-events-none aria-disabled:border-base-content/10 aria-disabled:bg-base-content/10 aria-disabled:text-base-content/20 aria-disabled:[box-shadow:none] d-btn-ghost"
+      >Reset</.button>
     </form>
     """
   end
@@ -3023,8 +3452,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <:icon><.alert_icon kind="info" class="text-info" /></:icon>
       we use cookies for no reason.
       <:actions>
-        <.button class="d-btn-sm">Deny</.button>
-        <.button class="d-btn-sm d-btn-primary">Accept</.button>
+        <.button
+          end_icon_class="inline-flex shrink-0"
+          start_icon_class="inline-flex shrink-0"
+          loader_class="inline-flex"
+          class="d-btn aria-disabled:pointer-events-none aria-disabled:border-base-content/10 aria-disabled:bg-base-content/10 aria-disabled:text-base-content/20 aria-disabled:[box-shadow:none] d-btn-sm"
+        >Deny</.button>
+        <.button
+          end_icon_class="inline-flex shrink-0"
+          start_icon_class="inline-flex shrink-0"
+          loader_class="inline-flex"
+          class="d-btn aria-disabled:pointer-events-none aria-disabled:border-base-content/10 aria-disabled:bg-base-content/10 aria-disabled:text-base-content/20 aria-disabled:[box-shadow:none] d-btn-sm d-btn-primary"
+        >Accept</.button>
       </:actions>
     </.alert>
     """
@@ -3037,7 +3476,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <:title>New message!</:title>
       You have 1 unread message
       <:actions>
-        <.button class="d-btn-sm">See</.button>
+        <.button
+          end_icon_class="inline-flex shrink-0"
+          start_icon_class="inline-flex shrink-0"
+          loader_class="inline-flex"
+          class="d-btn aria-disabled:pointer-events-none aria-disabled:border-base-content/10 aria-disabled:bg-base-content/10 aria-disabled:text-base-content/20 aria-disabled:[box-shadow:none] d-btn-sm"
+        >See</.button>
       </:actions>
     </.alert>
     """
@@ -6510,6 +6954,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     >
       <:pills>
         <.pill
+          remove_class="inline-flex items-center justify-center ms-1 rounded-[var(--radius-selector)] cursor-pointer opacity-60 transition-opacity duration-200 ease-[ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+          label_class="inline-flex items-center gap-1"
+          class="d-badge data-disabled:cursor-not-allowed data-disabled:opacity-50"
           with_remove
           remove_label="Remove ui"
           on_remove={JS.hide(to: {:closest, "[data-part=root]"})}
@@ -6517,6 +6964,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
           ui
         </.pill>
         <.pill
+          remove_class="inline-flex items-center justify-center ms-1 rounded-[var(--radius-selector)] cursor-pointer opacity-60 transition-opacity duration-200 ease-[ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+          label_class="inline-flex items-center gap-1"
+          class="d-badge data-disabled:cursor-not-allowed data-disabled:opacity-50"
           with_remove
           remove_label="Remove phoenix"
           on_remove={JS.hide(to: {:closest, "[data-part=root]"})}
@@ -6909,7 +7359,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── scroller ────────────────────────────────────────────────────────────
   def example(%{section: "scroller-hero"} = assigns) do
     ~H"""
-    <.scroller id="daisyui-scroller">
+    <.scroller
+      control_class="d-btn d-btn-circle d-btn-sm shrink-0 disabled:d-btn-disabled"
+      viewport_class="flex gap-2 overflow-x-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      class="relative flex items-center gap-2 text-base-content"
+      id="daisyui-scroller"
+    >
       <div :for={n <- 1..10}>
         {n}
       </div>
