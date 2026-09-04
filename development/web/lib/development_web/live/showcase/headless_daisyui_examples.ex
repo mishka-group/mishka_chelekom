@@ -464,6 +464,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"menu-submenu", "Submenu", "A nested list opened from a row."},
       {"menu-file-tree", "File tree",
        "daisyUI's `menu-xs` file tree, nested two levels deep inside the popup."},
+      {"menu-horizontal-submenu", "Horizontal submenu",
+       "daisyUI's horizontal menu with a nested list hanging off one item."},
       {"menu-horizontal", "Horizontal",
        "daisyUI's `menu-horizontal` — the popup lays its rows out in a row."},
       {"menu-responsive", "Responsive",
@@ -3622,6 +3624,24 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         <.menu_item>app.js</.menu_item>
       </.menu_submenu>
       <.menu_item>mix.exs</.menu_item>
+    </.menu>
+    """
+  end
+
+  def example(%{section: "menu-horizontal-submenu"} = assigns) do
+    ~H"""
+    <.menu
+      id="daisyui-menu-horizontal-submenu"
+      side_offset={8}
+      popup_class="d-menu-horizontal !min-w-0"
+    >
+      <:trigger>Toolbar</:trigger>
+      <.menu_item>Cut</.menu_item>
+      <.menu_submenu id="daisyui-menu-horizontal-submenu-paste" label="Paste as">
+        <.menu_item>Plain text</.menu_item>
+        <.menu_item>Markdown</.menu_item>
+      </.menu_submenu>
+      <.menu_item>Copy</.menu_item>
     </.menu>
     """
   end
