@@ -2869,8 +2869,20 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "nav_link-hero"} = assigns) do
     ~H"""
     <div class="w-56">
-      <.nav_link id="daisyui-nav-hero" href="#" label="Dashboard" />
-      <.nav_link id="daisyui-nav-hero-2" href="#" label="Projects" />
+      <.nav_link
+        children_class="ms-4 ps-2 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,var(--color-base-content)_10%,transparent)]"
+        control_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-out hover:not-data-disabled:bg-base-content/10 data-active:bg-neutral data-active:text-neutral-content aria-current:bg-neutral aria-current:text-neutral-content data-disabled:pointer-events-none data-disabled:text-base-content/20"
+        id="daisyui-nav-hero"
+        href="#"
+        label="Dashboard"
+      />
+      <.nav_link
+        children_class="ms-4 ps-2 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,var(--color-base-content)_10%,transparent)]"
+        control_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-out hover:not-data-disabled:bg-base-content/10 data-active:bg-neutral data-active:text-neutral-content aria-current:bg-neutral aria-current:text-neutral-content data-disabled:pointer-events-none data-disabled:text-base-content/20"
+        id="daisyui-nav-hero-2"
+        href="#"
+        label="Projects"
+      />
     </div>
     """
   end
@@ -2878,9 +2890,28 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "nav_link-active"} = assigns) do
     ~H"""
     <div class="w-56">
-      <.nav_link id="daisyui-nav-active-1" href="#" label="Overview" />
-      <.nav_link id="daisyui-nav-active-2" href="#" label="Projects" active />
-      <.nav_link id="daisyui-nav-active-3" href="#" label="Settings" />
+      <.nav_link
+        children_class="ms-4 ps-2 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,var(--color-base-content)_10%,transparent)]"
+        control_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-out hover:not-data-disabled:bg-base-content/10 data-active:bg-neutral data-active:text-neutral-content aria-current:bg-neutral aria-current:text-neutral-content data-disabled:pointer-events-none data-disabled:text-base-content/20"
+        id="daisyui-nav-active-1"
+        href="#"
+        label="Overview"
+      />
+      <.nav_link
+        children_class="ms-4 ps-2 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,var(--color-base-content)_10%,transparent)]"
+        control_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-out hover:not-data-disabled:bg-base-content/10 data-active:bg-neutral data-active:text-neutral-content aria-current:bg-neutral aria-current:text-neutral-content data-disabled:pointer-events-none data-disabled:text-base-content/20"
+        id="daisyui-nav-active-2"
+        href="#"
+        label="Projects"
+        active
+      />
+      <.nav_link
+        children_class="ms-4 ps-2 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,var(--color-base-content)_10%,transparent)]"
+        control_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-out hover:not-data-disabled:bg-base-content/10 data-active:bg-neutral data-active:text-neutral-content aria-current:bg-neutral aria-current:text-neutral-content data-disabled:pointer-events-none data-disabled:text-base-content/20"
+        id="daisyui-nav-active-3"
+        href="#"
+        label="Settings"
+      />
     </div>
     """
   end
@@ -2888,10 +2919,29 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "nav_link-nested"} = assigns) do
     ~H"""
     <div class="w-56">
-      <.nav_link id="daisyui-nav-nested" label="Components" default_opened>
+      <.nav_link
+        children_class="ms-4 ps-2 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,var(--color-base-content)_10%,transparent)]"
+        control_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-out hover:not-data-disabled:bg-base-content/10 data-active:bg-neutral data-active:text-neutral-content aria-current:bg-neutral aria-current:text-neutral-content data-disabled:pointer-events-none data-disabled:text-base-content/20"
+        id="daisyui-nav-nested"
+        label="Components"
+        default_opened
+      >
         <:children>
-          <.nav_link id="daisyui-nav-nested-a" href="#" label="Accordion" />
-          <.nav_link id="daisyui-nav-nested-b" href="#" label="Select" active />
+          <.nav_link
+            children_class="ms-4 ps-2 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,var(--color-base-content)_10%,transparent)]"
+            control_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-out hover:not-data-disabled:bg-base-content/10 data-active:bg-neutral data-active:text-neutral-content aria-current:bg-neutral aria-current:text-neutral-content data-disabled:pointer-events-none data-disabled:text-base-content/20"
+            id="daisyui-nav-nested-a"
+            href="#"
+            label="Accordion"
+          />
+          <.nav_link
+            children_class="ms-4 ps-2 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,var(--color-base-content)_10%,transparent)]"
+            control_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-out hover:not-data-disabled:bg-base-content/10 data-active:bg-neutral data-active:text-neutral-content aria-current:bg-neutral aria-current:text-neutral-content data-disabled:pointer-events-none data-disabled:text-base-content/20"
+            id="daisyui-nav-nested-b"
+            href="#"
+            label="Select"
+            active
+          />
         </:children>
       </.nav_link>
     </div>
@@ -2903,7 +2953,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
     ~H"""
     <div class="w-56">
-      <.nav_link :for={{label, path} <- @nav} id={"daisyui-nav-icon-#{label}"} href="#" label={label}>
+      <.nav_link
+        :for={{label, path} <- @nav}
+        children_class="ms-4 ps-2 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,var(--color-base-content)_10%,transparent)]"
+        control_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-out hover:not-data-disabled:bg-base-content/10 data-active:bg-neutral data-active:text-neutral-content aria-current:bg-neutral aria-current:text-neutral-content data-disabled:pointer-events-none data-disabled:text-base-content/20"
+        id={"daisyui-nav-icon-#{label}"}
+        href="#"
+        label={label}
+      >
         <:icon><.nav_icon path={path} /></:icon>
         <:trailing><span class="d-badge d-badge-xs">3</span></:trailing>
       </.nav_link>
@@ -6360,6 +6417,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "floating_indicator-hero"} = assigns) do
     ~H"""
     <.floating_indicator
+      target_class="d-btn d-btn-sm d-btn-ghost relative z-[1] [border:none]"
+      indicator_class="absolute z-0 rounded-[var(--radius-field)] bg-base-content/10 [transition:transform_0.2s_ease-out,width_0.2s_ease-out,height_0.2s_ease-out] motion-reduce:transition-none"
+      class="relative inline-flex items-stretch gap-[calc(0.25rem*0.5)] rounded-[var(--radius-field)] bg-base-200 p-[calc(0.25rem*0.5)]"
       id="daisyui-floating-indicator"
       active="day"
       label="Range"
@@ -6572,6 +6632,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "meter-hero"} = assigns) do
     ~H"""
     <.meter
+      indicator_class="h-full rounded-[calc(infinity*1px)] bg-current transition-[width] duration-200 ease-[ease-out]"
+      track_class="overflow-hidden h-2 rounded-[calc(infinity*1px)] bg-base-content/15"
+      value_class="tabular-nums opacity-70"
+      label_class="text-base-content flex justify-between text-[0.875rem]"
+      class="flex flex-col gap-1 text-base-content"
       id="daisyui-meter-hero"
       value={24}
       label="Storage Used"
@@ -8075,13 +8140,25 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── burger ────────────────────────────────────────────────────────────────
   def example(%{section: "burger-hero"} = assigns) do
     ~H"""
-    <.burger id="daisyui-burger-hero" label="Open menu" controls="daisyui-burger-region" />
+    <.burger
+      line_class="block w-5 h-0.5 rounded-[calc(infinity*1px)] bg-current [transition:transform_0.2s_ease-out,opacity_0.2s_ease-out] group-data-[opened]:first:[transform:translateY(6px)_rotate(45deg)] group-data-[opened]:nth-[2]:opacity-0 group-data-[opened]:last:[transform:translateY(-6px)_rotate(-45deg)]"
+      class="group d-btn d-btn-square d-btn-ghost inline-flex flex-col items-center justify-center gap-1 data-disabled:d-btn-disabled"
+      id="daisyui-burger-hero"
+      label="Open menu"
+      controls="daisyui-burger-region"
+    />
     """
   end
 
   def example(%{section: "burger-opened"} = assigns) do
     ~H"""
-    <.burger id="daisyui-burger-opened" label="Close menu" opened />
+    <.burger
+      line_class="block w-5 h-0.5 rounded-[calc(infinity*1px)] bg-current [transition:transform_0.2s_ease-out,opacity_0.2s_ease-out] group-data-[opened]:first:[transform:translateY(6px)_rotate(45deg)] group-data-[opened]:nth-[2]:opacity-0 group-data-[opened]:last:[transform:translateY(-6px)_rotate(-45deg)]"
+      class="group d-btn d-btn-square d-btn-ghost inline-flex flex-col items-center justify-center gap-1 data-disabled:d-btn-disabled"
+      id="daisyui-burger-opened"
+      label="Close menu"
+      opened
+    />
     """
   end
 
@@ -8090,9 +8167,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex items-center gap-2">
       <.burger
         :for={size <- ~w(xs sm md lg)}
+        line_class="block w-5 h-0.5 rounded-[calc(infinity*1px)] bg-current [transition:transform_0.2s_ease-out,opacity_0.2s_ease-out] group-data-[opened]:first:[transform:translateY(6px)_rotate(45deg)] group-data-[opened]:nth-[2]:opacity-0 group-data-[opened]:last:[transform:translateY(-6px)_rotate(-45deg)]"
         id={"daisyui-burger-#{size}"}
         label={"Menu #{size}"}
-        class={"d-btn-#{size}"}
+        class={[
+          "group d-btn d-btn-square d-btn-ghost inline-flex flex-col items-center justify-center gap-1 data-disabled:d-btn-disabled",
+          "d-btn-#{size}"
+        ]}
       />
     </div>
     """
@@ -8103,9 +8184,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex items-center gap-2">
       <.burger
         :for={color <- ~w(primary secondary accent error)}
+        line_class="block w-5 h-0.5 rounded-[calc(infinity*1px)] bg-current [transition:transform_0.2s_ease-out,opacity_0.2s_ease-out] group-data-[opened]:first:[transform:translateY(6px)_rotate(45deg)] group-data-[opened]:nth-[2]:opacity-0 group-data-[opened]:last:[transform:translateY(-6px)_rotate(-45deg)]"
         id={"daisyui-burger-#{color}"}
         label={"Menu #{color}"}
-        class={"text-#{color}"}
+        class={[
+          "group d-btn d-btn-square d-btn-ghost inline-flex flex-col items-center justify-center gap-1 data-disabled:d-btn-disabled",
+          "text-#{color}"
+        ]}
       />
     </div>
     """
@@ -8113,7 +8198,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "burger-disabled"} = assigns) do
     ~H"""
-    <.burger id="daisyui-burger-disabled" label="Menu" disabled />
+    <.burger
+      line_class="block w-5 h-0.5 rounded-[calc(infinity*1px)] bg-current [transition:transform_0.2s_ease-out,opacity_0.2s_ease-out] group-data-[opened]:first:[transform:translateY(6px)_rotate(45deg)] group-data-[opened]:nth-[2]:opacity-0 group-data-[opened]:last:[transform:translateY(-6px)_rotate(-45deg)]"
+      class="group d-btn d-btn-square d-btn-ghost inline-flex flex-col items-center justify-center gap-1 data-disabled:d-btn-disabled"
+      id="daisyui-burger-disabled"
+      label="Menu"
+      disabled
+    />
     """
   end
 
