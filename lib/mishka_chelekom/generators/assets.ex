@@ -497,12 +497,39 @@ defmodule MishkaChelekom.Generators.Assets do
       |> add_vendor_import("assets/css/app.css", "../vendor/mishka_chelekom_headless_#{skin}.css")
       |> warn_missing_plugin(skin)
     else
-      Igniter.add_notice(
-        igniter,
+      igniter
+      |> drop_skin_block(component, skin)
+      |> Igniter.add_notice(
         "No #{skin} skin for #{component} yet — generated unstyled. " <>
           "Style it with the `chelekom-#{component}__*` classes and its `data-*` state."
       )
     end
+  end
+
+  # The skin fragment is the source of truth. When one is deleted — a component whose styling has
+  # moved into markup — its block has to leave the vendored stylesheet too, or regeneration keeps
+  # serving CSS no source can explain and the file never shrinks.
+  defp drop_skin_block(igniter, component, skin) do
+    vendor = "assets/vendor/mishka_chelekom_headless_#{skin}.css"
+
+    if Igniter.exists?(igniter, vendor) do
+      Igniter.update_file(igniter, vendor, fn source ->
+        content = Rewrite.Source.get(source, :content)
+        Rewrite.Source.update(source, :content, delete_skin_block(content, component))
+      end)
+    else
+      igniter
+    end
+  end
+
+  defp delete_skin_block(content, component) do
+    pattern =
+      ~r/\n*#{Regex.escape("/* >>> #{component} */")}.*?#{Regex.escape("/* <<< #{component} */")}\n?/s
+
+    content
+    |> then(&Regex.replace(pattern, &1, ""))
+    |> String.trim_trailing()
+    |> Kernel.<>("\n")
   end
 
   # A skin is a default, not an override: `@layer components` puts it below Tailwind's utilities

@@ -173,20 +173,52 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.HeadlessSkinTest do
       refute igniter.rewrite.sources[@vendor]
     end
 
-    test "a component with no fragment yet is generated unstyled, with a notice" do
-      # Every headless component ships a daisyUI fragment now, so there is no real component left
-      # to exercise this path — it used to find one with `hd/1` on the unskinned list, and `hd([])`
-      # is how it announced that. The behaviour still matters for a component added tomorrow, so it
-      # is exercised with a name the catalog does not know instead of a name that happens to lag.
+    test "a component with no fragment is generated unstyled, with a notice" do
+      # A component whose styling has moved into markup has no fragment left, so this path is the
+      # normal one for it — not an edge case. Pick a real headless component that has none.
       unskinned =
         MishkaChelekom.Generators.Core.all_component_names(nil, :headless)
         |> Enum.reject(&(&1 in skinned()))
 
-      assert unskinned == [],
-             "these headless components still have no daisyui fragment: #{Enum.join(unskinned, " ")}"
+      name = hd(unskinned)
+      igniter = gen([name, "--skin", "daisyui", "--yes"])
 
-      igniter = gen(["accordion", "--skin", "daisyui", "--yes"])
-      assert igniter.rewrite.sources["lib/test_web/components/headless/accordion.ex"]
+      assert igniter.rewrite.sources["lib/test_web/components/headless/#{name}.ex"],
+             "#{name}: generated no component"
+
+      assert Enum.join(igniter.notices, " ") =~ "No daisyui skin for #{name}"
+    end
+
+    # The fragment is the source of truth. Deleting one is how a component graduates to markup
+    # styling, and regeneration has to take its rules out of the stylesheet — otherwise the file
+    # keeps serving CSS that no source explains and can never shrink to nothing.
+    test "a component whose fragment is gone has its block pruned from the stylesheet" do
+      styled = hd(skinned())
+
+      gone =
+        MishkaChelekom.Generators.Core.all_component_names(nil, :headless)
+        |> Enum.reject(&(&1 in skinned()))
+        |> hd()
+
+      # A stylesheet holding both blocks: one still backed by a fragment, one no longer.
+      seeded =
+        gen([styled, "--skin", "daisyui", "--yes"])
+        |> source_content(@vendor)
+        |> Kernel.<>(
+          "\n/* >>> #{gone} */\n.chelekom-#{gone} { color: red; }\n/* <<< #{gone} */\n"
+        )
+
+      after_run =
+        test_project_with_formatter()
+        |> Igniter.create_new_file(@vendor, seeded)
+        |> Igniter.compose_task(Headless, [gone, "--skin", "daisyui", "--yes"])
+        |> source_content(@vendor)
+
+      refute after_run =~ "/* >>> #{gone} */", "#{gone}: stale block survived regeneration"
+      refute after_run =~ ".chelekom-#{gone} {", "#{gone}: stale rules survived regeneration"
+
+      assert after_run =~ "/* >>> #{styled} */",
+             "pruning #{gone} took #{styled}'s block with it"
     end
   end
 end

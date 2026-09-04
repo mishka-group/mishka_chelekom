@@ -111,14 +111,49 @@ defmodule DevelopmentWeb.HeadlessDaisyUISkinTest do
     end
   end
 
-  test "each component's hero passes no per-part styling classes — the skin does all of it" do
+  # A component is painted in exactly one place, and which one is readable from the generated
+  # stylesheet: while its `/* >>> name */` region is there the skin owns the styling and the
+  # examples must stay clean; once the region is gone the markup is the only thing left, so the
+  # examples have to carry it or the component renders bare. Deriving the rule from the artifact
+  # means a component converts by deleting its skin fragment, with no list to keep in step.
+  @skin_css File.read!("assets/vendor/mishka_chelekom_headless_daisyui.css")
+  defp skinned_in_css?(name), do: String.contains?(@skin_css, "/* >>> #{name} */")
+
+  # Handing a part daisyUI's own class (`input_class="d-radio"`) is not hand-painting — it is the
+  # same opt-in the skin would make with `@apply`, just spelled in markup. Painting is a Tailwind
+  # utility: a class on a part that daisyUI did not give us.
+  defp utility_painted?(source) do
+    ~r/\b[a-z_]+_class=(?:"([^"]*)"|\{\[?([^}]*)\]?\})/
+    |> Regex.scan(source)
+    |> Enum.flat_map(fn m -> m |> Enum.drop(1) |> Enum.join(" ") |> String.split(~r/[\s",]+/) end)
+    |> Enum.reject(&(&1 == "" or String.starts_with?(&1, "d-") or String.contains?(&1, "@")))
+    |> Enum.any?()
+  end
+
+  test "a component is painted by its skin or by its markup, never by neither" do
     for name <- @skinned do
       id = HeadlessDaisyUIExamples.hero(name)
       source = HeadlessDaisyUIExamples.source(id)
 
-      refute source =~
-               ~r/\b(trigger|popup|item|panel|positioner|value|icon|group|content|label|list|track|indicator|thumb|backdrop|viewport|footer|description|title)_class=/,
-             "#{id}: the hero hand-paints a part — the skin should be doing that"
+      if skinned_in_css?(name) do
+        refute utility_painted?(source),
+               "#{id}: the hero hand-paints a part while the skin still styles it"
+      else
+        assert utility_painted?(source),
+               "#{id}: the skin region is gone, so the hero must carry the styling itself"
+      end
+    end
+  end
+
+  test "the conversion is progressing and the stylesheet is shrinking" do
+    converted = Enum.reject(@skinned, &skinned_in_css?/1)
+
+    assert converted != [],
+           "no component has moved its styling into markup yet"
+
+    for name <- converted do
+      refute @skin_css =~ "chelekom-#{String.replace(name, "_", "-")}__",
+             "#{name}: converted, but the stylesheet still carries rules for its parts"
     end
   end
 

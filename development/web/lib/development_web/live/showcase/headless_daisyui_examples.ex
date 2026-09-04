@@ -1497,7 +1497,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── progress ──────────────────────────────────────────────────────────────
   def example(%{section: "progress-hero"} = assigns) do
     ~H"""
-    <.progress id="daisyui-progress-hero" value={40} class="w-56" />
+    <.progress
+      id="daisyui-progress-hero"
+      value={40}
+      class="block w-56"
+      track_class="relative h-2 w-full overflow-hidden rounded-[var(--radius-box)] bg-base-content/20"
+      indicator_class="h-full rounded-[inherit] bg-current transition-[width] duration-200 ease-[ease-out]"
+    />
     """
   end
 
@@ -1510,7 +1516,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         :for={color <- @colors}
         id={"daisyui-progress-#{color}"}
         value={60}
-        class={["w-56", "d-progress-#{color}"]}
+        class={["block w-56", "text-#{color}"]}
+        track_class="relative h-2 w-full overflow-hidden rounded-[var(--radius-box)] bg-base-content/20"
+        indicator_class="h-full rounded-[inherit] bg-current transition-[width] duration-200 ease-[ease-out]"
       />
     </div>
     """
@@ -1523,7 +1531,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         :for={v <- [0, 10, 40, 70, 100]}
         id={"daisyui-progress-v#{v}"}
         value={v}
-        class="w-56"
+        class="block w-56"
+        track_class="relative h-2 w-full overflow-hidden rounded-[var(--radius-box)] bg-base-content/20"
+        indicator_class="h-full rounded-[inherit] bg-current transition-[width] duration-200 ease-[ease-out]"
       />
     </div>
     """
@@ -1531,7 +1541,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "progress-indeterminate"} = assigns) do
     ~H"""
-    <.progress id="daisyui-progress-indeterminate" class="w-56" />
+    <.progress
+      id="daisyui-progress-indeterminate"
+      class="block w-56"
+      track_class="relative h-2 w-full overflow-hidden rounded-[var(--radius-box)] bg-base-content/20"
+      indicator_class={[
+        "h-full rounded-[inherit] bg-current transition-[width] duration-200 ease-[ease-out]",
+        "data-indeterminate:w-full data-indeterminate:bg-transparent",
+        "data-indeterminate:bg-[repeating-linear-gradient(90deg,currentColor_-1%,currentColor_10%,#0000_10%,#0000_90%)]",
+        "data-indeterminate:bg-size-[200%] data-indeterminate:bg-position-[15%]",
+        "motion-safe:data-indeterminate:animate-chelekom-progress-loading"
+      ]}
+    />
     """
   end
 
@@ -1542,7 +1563,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       value={64}
       label="Uploading"
       show_value
-      class="w-56 d-progress-primary"
+      class="block w-56 text-primary"
+      label_class="mb-1 block text-[0.875rem] text-base-content"
+      value_class="text-[0.875rem] text-base-content/70"
+      track_class="relative h-2 w-full overflow-hidden rounded-[var(--radius-box)] bg-base-content/20"
+      indicator_class="h-full rounded-[inherit] bg-current transition-[width] duration-200 ease-[ease-out]"
     />
     """
   end
