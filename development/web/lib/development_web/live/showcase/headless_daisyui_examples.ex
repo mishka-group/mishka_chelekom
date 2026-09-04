@@ -357,6 +357,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ],
     "code" => [
       {"code-hero", "Mockup code", "daisyUI's `mockup-code` window."},
+      {"code-multi", "Multi line", "Several lines, each with its own prefix."},
+      {"code-highlight", "Highlighted line", "One line picked out with a background colour."},
+      {"code-scroll", "Long line will scroll",
+       "A line wider than the window scrolls horizontally."},
+      {"code-no-prefix", "Without prefix", "Lines with no `data-prefix` at all."},
+      {"code-color", "With color", "The whole window in a theme colour."},
       {"code-inline", "Inline", "The same component inline in a sentence."}
     ],
     "field" => [
@@ -2257,6 +2263,52 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <.code id="daisyui-code-inline">mix mishka.ui.gen.headless</.code>
       to generate a component.
     </p>
+    """
+  end
+
+  def example(%{section: "code-multi"} = assigns) do
+    ~H"""
+    <.code id="daisyui-code-multi" block>
+      <pre data-prefix="1"><code>defmodule MyApp.Page do</code></pre>
+      <pre data-prefix="2"><code>  use MyAppWeb, :live_view</code></pre>
+      <pre data-prefix="3"><code>end</code></pre>
+    </.code>
+    """
+  end
+
+  def example(%{section: "code-highlight"} = assigns) do
+    ~H"""
+    <.code id="daisyui-code-highlight" block>
+      <pre data-prefix="1"><code>mix deps.get</code></pre>
+      <pre data-prefix="2" class="bg-warning text-warning-content"><code>mix deps.compile</code></pre>
+      <pre data-prefix="3"><code>mix phx.server</code></pre>
+    </.code>
+    """
+  end
+
+  def example(%{section: "code-scroll"} = assigns) do
+    ~H"""
+    <.code id="daisyui-code-scroll" block>
+      <pre data-prefix="$"><code>mix mishka.ui.gen.headless select --skin daisyui --skin-scope "[data-skin=daisyui]" --skin-prefix d- --yes</code></pre>
+    </.code>
+    """
+  end
+
+  def example(%{section: "code-no-prefix"} = assigns) do
+    ~H"""
+    <.code id="daisyui-code-no-prefix" block>
+      <pre><code>{"%{status: :ok}"}</code></pre>
+      <pre><code>{"%{status: :error}"}</code></pre>
+    </.code>
+    """
+  end
+
+  def example(%{section: "code-color"} = assigns) do
+    ~H"""
+    <.code id="daisyui-code-color" block class="bg-primary text-primary-content">
+      <pre data-prefix="$"><code>mix phx.server</code></pre>
+      <pre data-prefix=">"><code>Running DevelopmentWeb.Endpoint</code></pre>
+    </.code>
     """
   end
 
