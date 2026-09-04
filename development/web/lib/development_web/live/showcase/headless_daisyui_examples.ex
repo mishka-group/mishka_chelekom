@@ -515,6 +515,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"carousel-vertical", "Vertical",
        "daisyUI's `carousel-vertical`; the arrow keys follow the axis."},
       {"carousel-half", "Half width items", "Two slides per view, from a width on the slide."},
+      {"carousel-full-bleed", "Full-bleed",
+       "daisyUI's centred carousel on a neutral field, with the slides spaced and inset."},
       {"carousel-indicators", "With indicator buttons",
        "daisyUI's indicators are anchors that jump by fragment; ours are buttons carrying `aria-current`, so the position is announced and the page does not gain a history entry per slide."},
       {"carousel-controls", "With next/prev buttons",
@@ -3853,6 +3855,19 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.carousel id="daisyui-carousel-half" label="Photos" class="w-80">
       <:slide :for={n <- 1..6} class="w-1/2"><.carousel_slide n={n} /></:slide>
+    </.carousel>
+    """
+  end
+
+  def example(%{section: "carousel-full-bleed"} = assigns) do
+    ~H"""
+    <.carousel
+      id="daisyui-carousel-full-bleed"
+      label="Photos"
+      snap="center"
+      class="max-w-md space-x-4 rounded-box bg-neutral p-4"
+    >
+      <:slide :for={n <- 1..5} class="w-48"><.carousel_slide n={n} /></:slide>
     </.carousel>
     """
   end
