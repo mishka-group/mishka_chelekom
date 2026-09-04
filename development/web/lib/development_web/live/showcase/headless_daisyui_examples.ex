@@ -287,7 +287,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"separator-hero", "Divider", "daisyUI's `divider` with a label in the middle."},
       {"separator-plain", "Without a label", "The bare rule."},
       {"separator-vertical", "Vertical", "daisyUI's `divider-horizontal` orientation."},
-      {"separator-colors", "Colors", "All eight `divider-*` colors."}
+      {"separator-colors", "Colors", "All eight `divider-*` colors."},
     ],
     "collapsible" => [
       {"collapsible-hero", "Collapse", "daisyUI's `collapse` with the arrow icon."},
@@ -379,7 +379,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"loading_overlay-hero", "Loading",
        "daisyUI's `loading-spinner` on a scrim over a region."},
       {"loading_overlay-content", "With custom content",
-       "Your own loader instead of the spinner."}
+       "Your own loader instead of the spinner."},
     ],
     "button" => [
       {"button-hero", "Button", "daisyUI's `btn`."},
@@ -4627,12 +4627,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <.checkbox_group id="daisyui-checkbox_group-hero">
       <:indicator_icon>
         <svg
+          class="block"
           width="16"
           height="16"
           viewBox="0 0 16 16"
           fill="none"
           stroke="currentColor"
-          style="display: block"
         >
           <path d="m2.5 8.5 4 4 7-9" />
         </svg>
@@ -4714,12 +4714,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         placeholder="e.g. Apple"
       >
         <:trigger_icon>
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="display:block">
+          <svg class="block" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
             <path d="M12 6H4l4 4.5z" />
           </svg>
         </:trigger_icon>
         <:clear_icon>
           <svg
+            class="block"
             width="16"
             height="16"
             viewBox="0 0 16 16"
@@ -4727,19 +4728,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
             stroke="currentColor"
             stroke-linecap="square"
             stroke-linejoin="round"
-            style="display:block"
           >
             <path d="m4.5 4.5 7 7m-7 0 7-7" />
           </svg>
         </:clear_icon>
         <:item_indicator>
           <svg
+            class="block"
             width="16"
             height="16"
             viewBox="0 0 16 16"
             fill="none"
             stroke="currentColor"
-            style="display:block"
           >
             <path d="m2.5 8.5 4 4 7-9" />
           </svg>
@@ -4862,6 +4862,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       >
         <:chip_remove_icon>
           <svg
+            class="block"
             width="16"
             height="16"
             viewBox="0 0 16 16"
@@ -4869,19 +4870,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
             stroke="currentColor"
             stroke-linecap="square"
             stroke-linejoin="round"
-            style="display:block"
           >
             <path d="m4.5 4.5 7 7m-7 0 7-7" />
           </svg>
         </:chip_remove_icon>
         <:item_indicator>
           <svg
+            class="block"
             width="16"
             height="16"
             viewBox="0 0 16 16"
             fill="none"
             stroke="currentColor"
-            style="display:block"
           >
             <path d="m2.5 8.5 4 4 7-9" />
           </svg>
@@ -5003,12 +5003,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         placeholder="e.g. Michael"
       >
         <:trigger_icon>
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="display:block">
+          <svg class="block" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
             <path d="M12 6H4l4 4.5z" />
           </svg>
         </:trigger_icon>
         <:clear_icon>
           <svg
+            class="block"
             width="16"
             height="16"
             viewBox="0 0 16 16"
@@ -5016,19 +5017,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
             stroke="currentColor"
             stroke-linecap="square"
             stroke-linejoin="round"
-            style="display:block"
           >
             <path d="m4.5 4.5 7 7m-7 0 7-7" />
           </svg>
         </:clear_icon>
         <:item_indicator>
           <svg
+            class="block"
             width="16"
             height="16"
             viewBox="0 0 16 16"
             fill="none"
             stroke="currentColor"
-            style="display:block"
           >
             <path d="m2.5 8.5 4 4 7-9" />
           </svg>
@@ -5068,6 +5068,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       >
         <:chip_remove_icon>
           <svg
+            class="block"
             width="16"
             height="16"
             viewBox="0 0 16 16"
@@ -5075,19 +5076,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
             stroke="currentColor"
             stroke-linecap="square"
             stroke-linejoin="round"
-            style="display:block"
           >
             <path d="m4.5 4.5 7 7m-7 0 7-7" />
           </svg>
         </:chip_remove_icon>
         <:item_indicator>
           <svg
+            class="block"
             width="16"
             height="16"
             viewBox="0 0 16 16"
             fill="none"
             stroke="currentColor"
-            style="display:block"
           >
             <path d="m2.5 8.5 4 4 7-9" />
           </svg>
@@ -5095,6 +5095,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         <:create_icon>
           <span>
             <svg
+              class="block"
               width="16"
               height="16"
               viewBox="0 0 16 16"
@@ -5102,7 +5103,6 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
               stroke="currentColor"
               stroke-linecap="square"
               stroke-linejoin="round"
-              style="display:block"
             >
               <path d="M1.5 8h13M8 14.5v-13" />
             </svg>
@@ -5158,7 +5158,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         label="Add to Playlist"
       >
         <:chevron>
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="display: block">
+          <svg class="block" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
             <path d="M6 12V4l4.5 4z" />
           </svg>
         </:chevron>
@@ -5292,7 +5292,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── floating_window ─────────────────────────────────────────────────────
   def example(%{section: "floating_window-hero"} = assigns) do
     ~H"""
-    <div style="position: relative; width: 100%; height: 14rem; overflow: hidden; background-image: radial-gradient(rgba(120,120,120,0.25) 1px, transparent 0); background-size: 16px 16px;">
+    <div class="relative h-56 w-full overflow-hidden bg-[radial-gradient(rgba(120,120,120,0.25)_1px,transparent_0)] bg-[size:16px_16px]">
       <.floating_window
         id="daisyui-floating-window"
         x={24}
@@ -5398,7 +5398,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
           role="menuitem"
         >
           Export
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="display: block;">
+          <svg class="block" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
             <path d="M6 12V4l4.5 4z" />
           </svg>
         </button>
@@ -5454,7 +5454,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
           role="menuitem"
         >
           Layout
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="display: block;">
+          <svg class="block" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
             <path d="M6 12V4l4.5 4z" />
           </svg>
         </button>
@@ -5493,7 +5493,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.navigation_menu
       id="daisyui-navigation_menu-hero"
-      style="--duration: 0.35s; --easing: cubic-bezier(0.22, 1, 0.36, 1);"
+      class="[--duration:0.35s] [--easing:cubic-bezier(0.22,1,0.36,1)]"
     >
       <:icon>
         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
@@ -5576,7 +5576,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.navigation_menu
       id="daisyui-navigation_menu-nested"
-      style="--duration: 0.35s; --easing: cubic-bezier(0.22, 1, 0.36, 1);"
+      class="[--duration:0.35s] [--easing:cubic-bezier(0.22,1,0.36,1)]"
     >
       <:icon>
         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
@@ -5654,7 +5654,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.navigation_menu
       id="daisyui-navigation_menu-nested-inline"
-      style="--duration: 0.35s; --easing: cubic-bezier(0.22, 1, 0.36, 1);"
+      class="[--duration:0.35s] [--easing:cubic-bezier(0.22,1,0.36,1)]"
     >
       <:icon>
         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
@@ -5793,18 +5793,19 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <:scrub_area>Amount</:scrub_area>
       <:scrub_cursor_icon>
         <svg
+          class="block"
           width="26"
           height="14"
           viewBox="0 0 24 14"
           fill="black"
           stroke="white"
-          style="display: block;"
         >
           <path d="M19.5 5.5L6.49737 5.51844V2L1 6.9999L6.5 12L6.49737 8.5L19.5 8.5V12L25 6.9999L19.5 2V5.5Z" />
         </svg>
       </:scrub_cursor_icon>
       <:decrement_icon>
         <svg
+          class="block"
           width="16"
           height="16"
           viewBox="0 0 16 16"
@@ -5812,13 +5813,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
           stroke="currentColor"
           stroke-linecap="square"
           stroke-linejoin="round"
-          style="display: block;"
         >
           <path d="M1.5 8h13" />
         </svg>
       </:decrement_icon>
       <:increment_icon>
         <svg
+          class="block"
           width="16"
           height="16"
           viewBox="0 0 16 16"
@@ -5826,7 +5827,6 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
           stroke="currentColor"
           stroke-linecap="square"
           stroke-linejoin="round"
-          style="display: block;"
         >
           <path d="M1.5 8h13M8 14.5v-13" />
         </svg>
@@ -6449,7 +6449,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       ]}
     >
       <:expand_icon>
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="display: block">
+        <svg class="block" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
           <path d="M6 12V4l4.5 4z" />
         </svg>
       </:expand_icon>
@@ -6718,12 +6718,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         placeholder="e.g. Mango"
       >
         <:trigger_icon>
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="display:block">
+          <svg class="block" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
             <path d="M12 6H4l4 4.5z" />
           </svg>
         </:trigger_icon>
         <:clear_icon>
           <svg
+            class="block"
             width="16"
             height="16"
             viewBox="0 0 16 16"
@@ -6731,19 +6732,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
             stroke="currentColor"
             stroke-linecap="square"
             stroke-linejoin="round"
-            style="display:block"
           >
             <path d="m4.5 4.5 7 7m-7 0 7-7" />
           </svg>
         </:clear_icon>
         <:item_indicator>
           <svg
+            class="block"
             width="16"
             height="16"
             viewBox="0 0 16 16"
             fill="none"
             stroke="currentColor"
-            style="display:block"
           >
             <path d="m2.5 8.5 4 4 7-9" />
           </svg>
@@ -6814,12 +6814,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       >
         <:item_indicator>
           <svg
+            class="block"
             width="16"
             height="16"
             viewBox="0 0 16 16"
             fill="none"
             stroke="currentColor"
-            style="display:block"
           >
             <path d="m2.5 8.5 4 4 7-9" />
           </svg>
@@ -6863,6 +6863,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       >
         <:chip_remove_icon>
           <svg
+            class="block"
             width="16"
             height="16"
             viewBox="0 0 16 16"
@@ -6870,19 +6871,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
             stroke="currentColor"
             stroke-linecap="square"
             stroke-linejoin="round"
-            style="display:block"
           >
             <path d="m4.5 4.5 7 7m-7 0 7-7" />
           </svg>
         </:chip_remove_icon>
         <:item_indicator>
           <svg
+            class="block"
             width="16"
             height="16"
             viewBox="0 0 16 16"
             fill="none"
             stroke="currentColor"
-            style="display:block"
           >
             <path d="m2.5 8.5 4 4 7-9" />
           </svg>
