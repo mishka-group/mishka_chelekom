@@ -194,11 +194,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"tabs-hero", "Tabs",
        "The skin's own row: daisyUI's `tabs-border` look, but the underline is our indicator part, so it slides and resizes."},
       {"tabs-plain", "tabs", "daisyUI's plain `tabs`, opted into with its real classes."},
+      {"tabs-border", "tabs-border",
+       "daisyUI's `tabs-border`, opted into with its real classes rather than drawn by the skin."},
       {"tabs-lift", "tabs-lift", "daisyUI's `tabs-lift`, including its notched corners."},
       {"tabs-box", "tabs-box", "daisyUI's `tabs-box`."},
       {"tabs-sizes", "Sizes", "`tabs-xs` through `tabs-xl` on the lift style."},
       {"tabs-bottom", "Tabs on the bottom",
        "daisyUI's `tabs-bottom` with the panel above the row."},
+      {"tabs-scroll", "Horizontal scroll when there's no space",
+       "daisyUI's recipe: the row keeps its natural width inside a narrow scroller."},
       {"tabs-custom-color", "Custom color",
        "daisyUI's `--tab-bg` / `--tab-border-color` recipe."},
       {"tabs-vertical", "Vertical",
@@ -3193,6 +3197,19 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     """
   end
 
+  def example(%{section: "tabs-border"} = assigns) do
+    ~H"""
+    <.tabs id="daisyui-tabs-border" default_value="overview" list_class="d-tabs d-tabs-border">
+      <:tab value="overview" class="d-tab">Overview</:tab>
+      <:tab value="projects" class="d-tab">Projects</:tab>
+      <:tab value="account" class="d-tab">Account</:tab>
+      <:panel value="overview">Workspace stats and activity.</:panel>
+      <:panel value="projects">Milestones and deadlines.</:panel>
+      <:panel value="account">Billing, members and API keys.</:panel>
+    </.tabs>
+    """
+  end
+
   def example(%{section: "tabs-lift"} = assigns) do
     ~H"""
     <.tabs id="daisyui-tabs-lift" default_value="overview" list_class="d-tabs d-tabs-lift">
@@ -3253,6 +3270,27 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <:panel value="overview">Workspace stats and activity.</:panel>
       <:panel value="projects">Milestones and deadlines.</:panel>
     </.tabs>
+    """
+  end
+
+  def example(%{section: "tabs-scroll"} = assigns) do
+    ~H"""
+    <div class="max-w-60 overflow-x-auto">
+      <.tabs
+        id="daisyui-tabs-scroll"
+        default_value="one"
+        list_class="d-tabs d-tabs-lift min-w-max"
+      >
+        <:tab value="one" class="d-tab">Tab title 1</:tab>
+        <:tab value="two" class="d-tab">Tab title 2</:tab>
+        <:tab value="three" class="d-tab">Tab title 3</:tab>
+        <:tab value="four" class="d-tab">Tab title 4</:tab>
+        <:panel value="one" class="max-w-60">Tab content 1</:panel>
+        <:panel value="two" class="max-w-60">Tab content 2</:panel>
+        <:panel value="three" class="max-w-60">Tab content 3</:panel>
+        <:panel value="four" class="max-w-60">Tab content 4</:panel>
+      </.tabs>
+    </div>
     """
   end
 
