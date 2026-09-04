@@ -1326,7 +1326,8 @@
     }
   }
 }
-/* <<< drawer *//* >>> field */
+/* <<< drawer */
+/* >>> field */
 @layer components {
   [data-skin=daisyui] {
     /* field — daisyUI skin (label + control + help/error, daisyUI's `label` and `validator-hint`). */
@@ -1381,60 +1382,6 @@
   }
 }
 /* <<< field */
-/* >>> alert */
-@layer components {
-  [data-skin=daisyui] {
-    /* alert — daisyUI skin (paints `alert`; every alert modifier works on the root). */
-
-    .chelekom-alert {
-      @apply d-alert;
-    }
-
-    .chelekom-alert__icon {
-      display: inline-flex;
-      flex-shrink: 0;
-    }
-
-    .chelekom-alert__content {
-      display: flex;
-      flex-direction: column;
-      gap: calc(0.25rem * 0.5);
-      text-align: start;
-    }
-
-    .chelekom-alert__title {
-      font-weight: 700;
-    }
-
-    .chelekom-alert__actions {
-      display: inline-flex;
-      gap: calc(0.25rem * 2);
-      margin-inline-start: auto;
-    }
-
-    .chelekom-alert__close {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      margin-inline-start: auto;
-      border-radius: var(--radius-selector);
-      cursor: pointer;
-      opacity: 60%;
-      transition: opacity 0.2s ease-out;
-    }
-
-    .chelekom-alert__close:hover {
-      opacity: 100%;
-    }
-
-    .chelekom-alert__close:focus-visible {
-      outline: 2px solid currentColor;
-      outline-offset: 1px;
-    }
-  }
-}
-/* <<< alert */
-
 /* >>> text_input */
 @layer components {
   [data-skin=daisyui] {
@@ -3962,132 +3909,7 @@
     }
   }
 }
-/* <<< editor */
-
-/* >>> empty_state */
-@layer components {
-  [data-skin=daisyui] {
-    /* empty_state — daisyUI skin.
-     *
-     * daisyUI has no empty state; this is drawn from its tokens — a centred column in `hero`'s
-     * proportions, with the actions row borrowing nothing so any `btn` the caller puts there fits.
-     */
-
-    .chelekom-empty-state {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: calc(0.25rem * 3);
-      padding: calc(0.25rem * 10) calc(0.25rem * 6);
-      text-align: center;
-      color: var(--color-base-content);
-    }
-
-    .chelekom-empty-state__indicator {
-      display: grid;
-      place-items: center;
-      width: calc(0.25rem * 14);
-      height: calc(0.25rem * 14);
-      border-radius: calc(infinity * 1px);
-      background-color: color-mix(in oklab, var(--color-base-content) 8%, transparent);
-      opacity: 70%;
-    }
-
-    .chelekom-empty-state__body {
-      display: flex;
-      flex-direction: column;
-      gap: calc(0.25rem * 1);
-    }
-
-    .chelekom-empty-state__title {
-      font-size: 1.125rem;
-      font-weight: 600;
-    }
-
-    .chelekom-empty-state__description {
-      font-size: 0.875rem;
-      opacity: 65%;
-    }
-
-    .chelekom-empty-state__actions {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: calc(0.25rem * 2);
-    }
-
-    /* The actions row holds whatever the caller puts there, and on a page whose markup carries no
-     * classes that is bare text. Painting buttons here is the same call the editor's toolbar makes. */
-    .chelekom-empty-state__actions button,
-    .chelekom-empty-state__actions a {
-      @apply d-btn d-btn-sm;
-    }
-
-    .chelekom-empty-state__actions button:first-child,
-    .chelekom-empty-state__actions a:first-child {
-      @apply d-btn-primary;
-    }
-  }
-}
-/* <<< empty_state */
-/* >>> floating_window */
-@layer components {
-  [data-skin=daisyui] {
-    /* floating_window — daisyUI skin.
-     *
-     * daisyUI's `modal-box` is the right surface but the wrong behaviour: this window is draggable and
-     * does not block the page, so the box is borrowed and the title bar — which daisyUI has nothing
-     * for — is drawn as the drag handle it is, cursor included.
-     */
-
-    /* Absolute, not fixed: the component clamps itself to its offset parent, so a fixed window escapes
-     * the stage it is supposed to be dragged around inside and lands on the page instead. `modal-box`
-     * brings a modal's width with it, which is far too wide for a panel that shares the page. */
-    .chelekom-floating-window {
-      @apply d-modal-box;
-
-      position: absolute;
-      width: calc(0.25rem * 52);
-      max-width: 100%;
-      z-index: 60;
-
-      /* `modal-box` is drawn closed — scaled down and transparent — because inside a `modal` it is the
-       * `modal-open` state that reveals it. This window is always on the page, so it has to undo that
-       * or it never appears at all. */
-      scale: 100%;
-      opacity: 1;
-      display: flex;
-      flex-direction: column;
-      padding: 0;
-      overflow: hidden;
-    }
-
-    .chelekom-floating-window__handle {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: calc(0.25rem * 2);
-      border-bottom: var(--border) solid color-mix(in oklab, var(--color-base-content) 12%, #0000);
-      background-color: var(--color-base-200);
-      padding: calc(0.25rem * 2) calc(0.25rem * 3);
-      cursor: grab;
-      user-select: none;
-      font-weight: 600;
-    }
-
-    .chelekom-floating-window__handle:active {
-      cursor: grabbing;
-    }
-
-    .chelekom-floating-window__body {
-      flex: 1;
-      overflow: auto;
-      padding: calc(0.25rem * 4);
-    }
-  }
-}
-/* <<< floating_window */
-/* >>> hue_slider */
+/* <<< editor *//* >>> hue_slider */
 @layer components {
   [data-skin=daisyui] {
     /* hue_slider — daisyUI skin.
@@ -4400,63 +4222,7 @@
     }
   }
 }
-/* <<< popover */
-
-/* >>> preview_card */
-@layer components {
-  [data-skin=daisyui] {
-    /* preview_card — daisyUI skin.
-     *
-     * A hover card, so it takes daisyUI's `card` surface rather than a menu's: what appears is content,
-     * not a list of choices. It is deliberately non-modal and never steals focus, which is why nothing
-     * here dims the page behind it.
-     */
-
-    /* The card wraps a word inside a sentence, so the root has to stay in the line: as a block it
-     * breaks the sentence apart, one line per trigger. The popup is positioned by the engine, not by
-     * this element, so nothing depends on the root being a block. */
-    .chelekom-preview_card {
-      display: inline;
-    }
-
-    /* The trigger sits inside a sentence, so it is marked the way a footnote is: underlined, and
-     * dotted rather than solid so it does not read as a link that goes somewhere. */
-    .chelekom-preview_card__trigger {
-      text-decoration: underline dotted;
-      text-underline-offset: 2px;
-      cursor: default;
-    }
-
-    .chelekom-preview_card__popup {
-      @apply d-card;
-
-      position: absolute;
-      z-index: 50;
-      width: 20rem;
-      border-radius: var(--radius-box);
-      border: var(--border) solid color-mix(in oklab, var(--color-base-content) 10%, #0000);
-      background-color: var(--color-base-100);
-      color: var(--color-base-content);
-      padding: calc(0.25rem * 4);
-      box-shadow: 0 8px 24px oklch(0% 0 0 / 0.14);
-    }
-
-    .chelekom-preview_card__popup[data-closed] {
-      display: none;
-    }
-
-    .chelekom-preview_card__arrow {
-      position: absolute;
-      width: calc(0.25rem * 2);
-      height: calc(0.25rem * 2);
-      rotate: 45deg;
-      border: var(--border) solid color-mix(in oklab, var(--color-base-content) 10%, #0000);
-      background-color: var(--color-base-100);
-    }
-  }
-}
-/* <<< preview_card */
-/* >>> scroll_area */
+/* <<< popover *//* >>> scroll_area */
 @layer components {
   [data-skin=daisyui] {
     /* scroll_area — daisyUI skin.
@@ -4655,64 +4421,7 @@
     }
   }
 }
-/* <<< splitter */
-
-/* >>> tags_input */
-@layer components {
-  [data-skin=daisyui] {
-    /* tags_input — daisyUI skin.
-     *
-     * The box is daisyUI's `input`, but it has to grow: `input` is a fixed-height row and a tag field
-     * wraps onto several. So the box is drawn from the same tokens with `height: auto`, and each tag
-     * is a `badge` — which is what a tag is.
-     */
-
-    .chelekom-tags-input {
-      border-radius: var(--radius-field);
-      border: var(--border) solid color-mix(in oklab, var(--color-base-content) 20%, #0000);
-      background-color: var(--color-base-100);
-      color: var(--color-base-content);
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: calc(0.25rem * 1.5);
-      padding: calc(0.25rem * 1.5);
-      min-height: calc(var(--size-field, 0.25rem) * 10);
-    }
-
-    .chelekom-tags-input:focus-within {
-      outline: 2px solid var(--color-base-content);
-      outline-offset: 2px;
-    }
-
-    .chelekom-tags-input__tag {
-      @apply d-badge d-badge-neutral d-badge-sm;
-
-      gap: calc(0.25rem * 1);
-    }
-
-    .chelekom-tags-input__remove {
-      cursor: pointer;
-      opacity: 70%;
-    }
-
-    .chelekom-tags-input__remove:hover {
-      opacity: 100%;
-    }
-
-    /* The field grows to fill whatever the tags leave, so clicking the empty space still focuses it. */
-    .chelekom-tags-input__input {
-      flex: 1;
-      min-width: 6rem;
-      border: none;
-      background: transparent;
-      outline: none;
-      font-size: 0.875rem;
-    }
-  }
-}
-/* <<< tags_input */
-/* >>> toggle_group */
+/* <<< splitter *//* >>> toggle_group */
 @layer components {
   [data-skin=daisyui] {
     /* toggle_group — daisyUI skin.
@@ -5077,61 +4786,6 @@
   }
 }
 /* <<< angle_slider */
-
-/* >>> tree_select */
-@layer components {
-  [data-skin=daisyui] {
-    /* tree_select — daisyUI skin.
-     *
-     * A select whose panel happens to contain a tree: the trigger borrows daisyUI's `select` and the
-     * panel its `dropdown-content`, so it sits alongside the other fields on a form rather than
-     * looking like a widget that wandered in.
-     */
-
-    .chelekom-tree-select {
-      position: relative;
-      color: var(--color-base-content);
-    }
-
-    .chelekom-tree-select__trigger {
-      @apply d-select;
-
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      cursor: pointer;
-      text-align: start;
-    }
-
-    .chelekom-tree-select__value {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-
-
-    .chelekom-tree-select__panel {
-      @apply d-dropdown-content;
-
-      position: absolute;
-      z-index: 50;
-      max-height: 18rem;
-      overflow: auto;
-      width: 100%;
-      border-radius: var(--radius-box);
-      background-color: var(--color-base-100);
-      box-shadow: 0 4px 12px oklch(0% 0 0 / 0.12);
-    }
-
-    .chelekom-tree-select__panel[data-closed] {
-      display: none;
-    }
-  }
-}
-/* <<< tree_select */
-
 /* >>> autocomplete */
 @layer components {
   [data-skin=daisyui] {

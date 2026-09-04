@@ -3478,7 +3478,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── alert ─────────────────────────────────────────────────────────────────
   def example(%{section: "alert-hero"} = assigns) do
     ~H"""
-    <.alert id="daisyui-alert-hero" class="w-full">
+    <.alert
+      close_class="inline-flex items-center justify-center ms-auto rounded-[var(--radius-selector)] cursor-pointer opacity-60 [transition:opacity_0.2s_ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+      actions_class="inline-flex gap-2 ms-auto"
+      title_class="font-bold"
+      content_class="flex flex-col gap-[calc(0.25rem*0.5)] text-start"
+      icon_class="inline-flex shrink-0"
+      id="daisyui-alert-hero"
+      class="d-alert w-full"
+    >
       <:icon><.alert_icon kind="info" class="text-info" /></:icon>
       12 unread messages. Tap to see.
     </.alert>
@@ -3487,7 +3495,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "alert-info"} = assigns) do
     ~H"""
-    <.alert id="daisyui-alert-info" class="w-full d-alert-info">
+    <.alert
+      close_class="inline-flex items-center justify-center ms-auto rounded-[var(--radius-selector)] cursor-pointer opacity-60 [transition:opacity_0.2s_ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+      actions_class="inline-flex gap-2 ms-auto"
+      title_class="font-bold"
+      content_class="flex flex-col gap-[calc(0.25rem*0.5)] text-start"
+      icon_class="inline-flex shrink-0"
+      id="daisyui-alert-info"
+      class="d-alert w-full d-alert-info"
+    >
       <:icon><.alert_icon kind="info" /></:icon>
       New software update available.
     </.alert>
@@ -3496,7 +3512,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "alert-success"} = assigns) do
     ~H"""
-    <.alert id="daisyui-alert-success" class="w-full d-alert-success">
+    <.alert
+      close_class="inline-flex items-center justify-center ms-auto rounded-[var(--radius-selector)] cursor-pointer opacity-60 [transition:opacity_0.2s_ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+      actions_class="inline-flex gap-2 ms-auto"
+      title_class="font-bold"
+      content_class="flex flex-col gap-[calc(0.25rem*0.5)] text-start"
+      icon_class="inline-flex shrink-0"
+      id="daisyui-alert-success"
+      class="d-alert w-full d-alert-success"
+    >
       <:icon><.alert_icon kind="success" /></:icon>
       Your purchase has been confirmed!
     </.alert>
@@ -3505,7 +3529,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "alert-warning"} = assigns) do
     ~H"""
-    <.alert id="daisyui-alert-warning" class="w-full d-alert-warning">
+    <.alert
+      close_class="inline-flex items-center justify-center ms-auto rounded-[var(--radius-selector)] cursor-pointer opacity-60 [transition:opacity_0.2s_ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+      actions_class="inline-flex gap-2 ms-auto"
+      title_class="font-bold"
+      content_class="flex flex-col gap-[calc(0.25rem*0.5)] text-start"
+      icon_class="inline-flex shrink-0"
+      id="daisyui-alert-warning"
+      class="d-alert w-full d-alert-warning"
+    >
       <:icon><.alert_icon kind="warning" /></:icon>
       Warning: Invalid email address!
     </.alert>
@@ -3514,7 +3546,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "alert-error"} = assigns) do
     ~H"""
-    <.alert id="daisyui-alert-error" class="w-full d-alert-error">
+    <.alert
+      close_class="inline-flex items-center justify-center ms-auto rounded-[var(--radius-selector)] cursor-pointer opacity-60 [transition:opacity_0.2s_ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+      actions_class="inline-flex gap-2 ms-auto"
+      title_class="font-bold"
+      content_class="flex flex-col gap-[calc(0.25rem*0.5)] text-start"
+      icon_class="inline-flex shrink-0"
+      id="daisyui-alert-error"
+      class="d-alert w-full d-alert-error"
+    >
       <:icon><.alert_icon kind="error" /></:icon>
       Error! Task failed successfully.
     </.alert>
@@ -3528,8 +3568,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex w-full flex-col gap-2">
       <.alert
         :for={{color, message} <- @alerts}
+        close_class="inline-flex items-center justify-center ms-auto rounded-[var(--radius-selector)] cursor-pointer opacity-60 [transition:opacity_0.2s_ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+        actions_class="inline-flex gap-2 ms-auto"
+        title_class="font-bold"
+        content_class="flex flex-col gap-[calc(0.25rem*0.5)] text-start"
+        icon_class="inline-flex shrink-0"
         id={"daisyui-alert-soft-#{color}"}
-        class={"d-alert-soft d-alert-#{color}"}
+        class={["d-alert", "d-alert-soft d-alert-#{color}"]}
       >
         {message}
       </.alert>
@@ -3544,8 +3589,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex w-full flex-col gap-2">
       <.alert
         :for={{color, message} <- @alerts}
+        close_class="inline-flex items-center justify-center ms-auto rounded-[var(--radius-selector)] cursor-pointer opacity-60 [transition:opacity_0.2s_ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+        actions_class="inline-flex gap-2 ms-auto"
+        title_class="font-bold"
+        content_class="flex flex-col gap-[calc(0.25rem*0.5)] text-start"
+        icon_class="inline-flex shrink-0"
         id={"daisyui-alert-outline-#{color}"}
-        class={"d-alert-outline d-alert-#{color}"}
+        class={["d-alert", "d-alert-outline d-alert-#{color}"]}
       >
         {message}
       </.alert>
@@ -3560,8 +3610,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex w-full flex-col gap-2">
       <.alert
         :for={{color, message} <- @alerts}
+        close_class="inline-flex items-center justify-center ms-auto rounded-[var(--radius-selector)] cursor-pointer opacity-60 [transition:opacity_0.2s_ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+        actions_class="inline-flex gap-2 ms-auto"
+        title_class="font-bold"
+        content_class="flex flex-col gap-[calc(0.25rem*0.5)] text-start"
+        icon_class="inline-flex shrink-0"
         id={"daisyui-alert-dash-#{color}"}
-        class={"d-alert-dash d-alert-#{color}"}
+        class={["d-alert", "d-alert-dash d-alert-#{color}"]}
       >
         {message}
       </.alert>
@@ -3571,7 +3626,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "alert-actions"} = assigns) do
     ~H"""
-    <.alert id="daisyui-alert-actions" class="w-full d-alert-vertical sm:d-alert-horizontal">
+    <.alert
+      close_class="inline-flex items-center justify-center ms-auto rounded-[var(--radius-selector)] cursor-pointer opacity-60 [transition:opacity_0.2s_ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+      actions_class="inline-flex gap-2 ms-auto"
+      title_class="font-bold"
+      content_class="flex flex-col gap-[calc(0.25rem*0.5)] text-start"
+      icon_class="inline-flex shrink-0"
+      id="daisyui-alert-actions"
+      class="d-alert w-full d-alert-vertical sm:d-alert-horizontal"
+    >
       <:icon><.alert_icon kind="info" class="text-info" /></:icon>
       we use cookies for no reason.
       <:actions>
@@ -3594,7 +3657,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "alert-title"} = assigns) do
     ~H"""
-    <.alert id="daisyui-alert-title" class="w-full d-alert-vertical sm:d-alert-horizontal">
+    <.alert
+      close_class="inline-flex items-center justify-center ms-auto rounded-[var(--radius-selector)] cursor-pointer opacity-60 [transition:opacity_0.2s_ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+      actions_class="inline-flex gap-2 ms-auto"
+      title_class="font-bold"
+      content_class="flex flex-col gap-[calc(0.25rem*0.5)] text-start"
+      icon_class="inline-flex shrink-0"
+      id="daisyui-alert-title"
+      class="d-alert w-full d-alert-vertical sm:d-alert-horizontal"
+    >
       <:icon><.alert_icon kind="info" class="text-info" /></:icon>
       <:title>New message!</:title>
       You have 1 unread message
@@ -3613,13 +3684,40 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "alert-urgency"} = assigns) do
     ~H"""
     <div class="flex w-full flex-col gap-2">
-      <.alert id="daisyui-alert-polite" urgency="polite" class="d-alert-info">
+      <.alert
+        close_class="inline-flex items-center justify-center ms-auto rounded-[var(--radius-selector)] cursor-pointer opacity-60 [transition:opacity_0.2s_ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+        actions_class="inline-flex gap-2 ms-auto"
+        title_class="font-bold"
+        content_class="flex flex-col gap-[calc(0.25rem*0.5)] text-start"
+        icon_class="inline-flex shrink-0"
+        id="daisyui-alert-polite"
+        urgency="polite"
+        class="d-alert d-alert-info"
+      >
         polite — role="status", waits its turn
       </.alert>
-      <.alert id="daisyui-alert-assertive" urgency="assertive" class="d-alert-error">
+      <.alert
+        close_class="inline-flex items-center justify-center ms-auto rounded-[var(--radius-selector)] cursor-pointer opacity-60 [transition:opacity_0.2s_ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+        actions_class="inline-flex gap-2 ms-auto"
+        title_class="font-bold"
+        content_class="flex flex-col gap-[calc(0.25rem*0.5)] text-start"
+        icon_class="inline-flex shrink-0"
+        id="daisyui-alert-assertive"
+        urgency="assertive"
+        class="d-alert d-alert-error"
+      >
         assertive — role="alert", interrupts
       </.alert>
-      <.alert id="daisyui-alert-off" urgency="off">
+      <.alert
+        close_class="inline-flex items-center justify-center ms-auto rounded-[var(--radius-selector)] cursor-pointer opacity-60 [transition:opacity_0.2s_ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+        actions_class="inline-flex gap-2 ms-auto"
+        title_class="font-bold"
+        content_class="flex flex-col gap-[calc(0.25rem*0.5)] text-start"
+        icon_class="inline-flex shrink-0"
+        class="d-alert"
+        id="daisyui-alert-off"
+        urgency="off"
+      >
         off — a plain region, for a message already on the page
       </.alert>
     </div>
@@ -3628,7 +3726,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "alert-dismissible"} = assigns) do
     ~H"""
-    <.alert id="daisyui-alert-dismiss" class="w-full d-alert-success" dismissible>
+    <.alert
+      close_class="inline-flex items-center justify-center ms-auto rounded-[var(--radius-selector)] cursor-pointer opacity-60 [transition:opacity_0.2s_ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+      actions_class="inline-flex gap-2 ms-auto"
+      title_class="font-bold"
+      content_class="flex flex-col gap-[calc(0.25rem*0.5)] text-start"
+      icon_class="inline-flex shrink-0"
+      id="daisyui-alert-dismiss"
+      class="d-alert w-full d-alert-success"
+      dismissible
+    >
       <:icon><.nav_icon path="M20 6 9 17l-5-5" /></:icon>
       Saved. Dismiss me — no round trip.
     </.alert>
@@ -6355,6 +6462,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "empty_state-hero"} = assigns) do
     ~H"""
     <.empty_state
+      actions_class="flex flex-wrap justify-center gap-2"
+      description_class="text-[0.875rem] opacity-65"
+      title_class="text-[1.125rem] font-semibold"
+      body_class="flex flex-col gap-1"
+      indicator_class="grid place-items-center w-14 h-14 rounded-[calc(infinity*1px)] bg-base-content/8 opacity-70"
+      class="flex flex-col items-center gap-3 py-10 px-6 text-center text-base-content"
       id="daisyui-empty-state-hero"
       title="No results found"
       description="We couldn't find anything matching your search. Try a different keyword."
@@ -6381,6 +6494,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "empty_state-actions"} = assigns) do
     ~H"""
     <.empty_state
+      actions_class="flex flex-wrap justify-center gap-2"
+      description_class="text-[0.875rem] opacity-65"
+      title_class="text-[1.125rem] font-semibold"
+      body_class="flex flex-col gap-1"
+      indicator_class="grid place-items-center w-14 h-14 rounded-[calc(infinity*1px)] bg-base-content/8 opacity-70"
+      class="flex flex-col items-center gap-3 py-10 px-6 text-center text-base-content"
       id="daisyui-empty-state-actions"
       align="left"
       title="No projects yet"
@@ -6402,10 +6521,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         </svg>
       </:indicator>
       <:actions>
-        <button type="button">
+        <button type="button" class="d-btn d-btn-sm d-btn-primary">
           New project
         </button>
-        <button type="button">
+        <button type="button" class="d-btn d-btn-sm">
           Import
         </button>
       </:actions>
@@ -6436,6 +6555,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <div class="relative h-56 w-full overflow-hidden bg-[radial-gradient(rgba(120,120,120,0.25)_1px,transparent_0)] bg-[size:16px_16px]">
       <.floating_window
+        body_class="flex-1 overflow-auto p-4"
+        handle_class="flex items-center justify-between gap-2 border-b-[length:var(--border)] border-solid border-b-[color-mix(in_oklab,var(--color-base-content)_12%,#0000)] bg-base-200 py-2 px-3 cursor-grab select-none font-semibold active:cursor-grabbing"
+        class="d-modal-box absolute w-[calc(0.25rem*52)] max-w-full z-[60] [scale:100%] opacity-100 flex flex-col p-0 overflow-hidden"
         id="daisyui-floating-window"
         x={24}
         y={24}
@@ -7200,6 +7322,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <p>
       The principles of good
       <.preview_card
+        arrow_class="absolute w-2 h-2 rotate-45 border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_10%,#0000)] bg-base-100"
+        popup_class="d-card absolute z-50 w-80 rounded-[var(--radius-box)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_10%,#0000)] bg-base-100 text-base-content p-4 [box-shadow:0_8px_24px_oklch(0%_0_0/0.14)] data-closed:hidden"
+        trigger_class="[text-decoration:underline_dotted] [text-underline-offset:2px] cursor-default"
+        class="inline"
         id="daisyui-preview_card-hero"
         side_offset={8}
       >
@@ -7229,6 +7355,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <p>
         Discover
         <.preview_card
+          arrow_class="absolute w-2 h-2 rotate-45 border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_10%,#0000)] bg-base-100"
+          popup_class="d-card absolute z-50 w-80 rounded-[var(--radius-box)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_10%,#0000)] bg-base-100 text-base-content p-4 [box-shadow:0_8px_24px_oklch(0%_0_0/0.14)] data-closed:hidden"
+          trigger_class="[text-decoration:underline_dotted] [text-underline-offset:2px] cursor-default"
+          class="inline"
           id="daisyui-preview_card-detached-triggers-controlled-typography"
           side_offset={8}
         >
@@ -7248,6 +7378,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         </.preview_card>
         ,
         <.preview_card
+          arrow_class="absolute w-2 h-2 rotate-45 border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_10%,#0000)] bg-base-100"
+          popup_class="d-card absolute z-50 w-80 rounded-[var(--radius-box)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_10%,#0000)] bg-base-100 text-base-content p-4 [box-shadow:0_8px_24px_oklch(0%_0_0/0.14)] data-closed:hidden"
+          trigger_class="[text-decoration:underline_dotted] [text-underline-offset:2px] cursor-default"
+          class="inline"
           id="daisyui-preview_card-detached-triggers-controlled-design"
           side_offset={8}
         >
@@ -7267,6 +7401,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         </.preview_card>
         , or
         <.preview_card
+          arrow_class="absolute w-2 h-2 rotate-45 border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_10%,#0000)] bg-base-100"
+          popup_class="d-card absolute z-50 w-80 rounded-[var(--radius-box)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_10%,#0000)] bg-base-100 text-base-content p-4 [box-shadow:0_8px_24px_oklch(0%_0_0/0.14)] data-closed:hidden"
+          trigger_class="[text-decoration:underline_dotted] [text-underline-offset:2px] cursor-default"
+          class="inline"
           id="daisyui-preview_card-detached-triggers-controlled-art"
           side_offset={8}
         >
@@ -7309,6 +7447,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <p>
       Discover
       <.preview_card
+        arrow_class="absolute w-2 h-2 rotate-45 border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_10%,#0000)] bg-base-100"
+        popup_class="d-card absolute z-50 w-80 rounded-[var(--radius-box)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_10%,#0000)] bg-base-100 text-base-content p-4 [box-shadow:0_8px_24px_oklch(0%_0_0/0.14)] data-closed:hidden"
+        trigger_class="[text-decoration:underline_dotted] [text-underline-offset:2px] cursor-default"
+        class="inline"
         id="daisyui-preview_card-detached-triggers-full-typography"
         side_offset={8}
       >
@@ -7328,6 +7470,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       </.preview_card>
       ,
       <.preview_card
+        arrow_class="absolute w-2 h-2 rotate-45 border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_10%,#0000)] bg-base-100"
+        popup_class="d-card absolute z-50 w-80 rounded-[var(--radius-box)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_10%,#0000)] bg-base-100 text-base-content p-4 [box-shadow:0_8px_24px_oklch(0%_0_0/0.14)] data-closed:hidden"
+        trigger_class="[text-decoration:underline_dotted] [text-underline-offset:2px] cursor-default"
+        class="inline"
         id="daisyui-preview_card-detached-triggers-full-design"
         side_offset={8}
       >
@@ -7347,6 +7493,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       </.preview_card>
       , or
       <.preview_card
+        arrow_class="absolute w-2 h-2 rotate-45 border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_10%,#0000)] bg-base-100"
+        popup_class="d-card absolute z-50 w-80 rounded-[var(--radius-box)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_10%,#0000)] bg-base-100 text-base-content p-4 [box-shadow:0_8px_24px_oklch(0%_0_0/0.14)] data-closed:hidden"
+        trigger_class="[text-decoration:underline_dotted] [text-underline-offset:2px] cursor-default"
+        class="inline"
         id="daisyui-preview_card-detached-triggers-full-art"
         side_offset={8}
       >
@@ -7378,6 +7528,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <p>
       The principles of good
       <.preview_card
+        arrow_class="absolute w-2 h-2 rotate-45 border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_10%,#0000)] bg-base-100"
+        popup_class="d-card absolute z-50 w-80 rounded-[var(--radius-box)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_10%,#0000)] bg-base-100 text-base-content p-4 [box-shadow:0_8px_24px_oklch(0%_0_0/0.14)] data-closed:hidden"
+        trigger_class="[text-decoration:underline_dotted] [text-underline-offset:2px] cursor-default"
+        class="inline"
         id="daisyui-preview_card-detached-triggers-simple"
         side_offset={8}
       >
@@ -7561,6 +7715,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "tags_input-hero"} = assigns) do
     ~H"""
     <.tags_input
+      input_class="flex-1 min-w-24 border-none bg-transparent outline-none text-[0.875rem]"
+      remove_class="cursor-pointer opacity-70 hover:opacity-100"
+      tag_class="d-badge d-badge-neutral d-badge-sm gap-1"
+      class="rounded-[var(--radius-field)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_20%,#0000)] bg-base-100 text-base-content flex flex-wrap items-center gap-[calc(0.25rem*1.5)] p-[calc(0.25rem*1.5)] min-h-[calc(var(--size-field,0.25rem)*10)] focus-within:outline-2 focus-within:outline-base-content focus-within:outline-offset-2"
       id="daisyui-tags-input"
       tags={["Design", "Engineering", "Product"]}
       placeholder="Add a tag…"
@@ -7713,6 +7871,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "tree_select-hero"} = assigns) do
     ~H"""
     <.tree_select
+      panel_class="absolute z-50 max-h-72 overflow-auto w-full rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+      value_class="overflow-hidden text-ellipsis whitespace-nowrap"
+      trigger_class="d-select flex items-center justify-between w-full cursor-pointer text-start"
+      class="relative text-base-content"
       id="daisyui-tree-select"
       placeholder="Choose a category…"
     >
@@ -8468,7 +8630,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "close-button-in-alert"} = assigns) do
     ~H"""
-    <.alert id="daisyui-close-button-alert" class="d-alert d-alert-info w-96">
+    <.alert
+      close_class="inline-flex items-center justify-center ms-auto rounded-[var(--radius-selector)] cursor-pointer opacity-60 [transition:opacity_0.2s_ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+      actions_class="inline-flex gap-2 ms-auto"
+      title_class="font-bold"
+      content_class="flex flex-col gap-[calc(0.25rem*0.5)] text-start"
+      icon_class="inline-flex shrink-0"
+      id="daisyui-close-button-alert"
+      class="d-alert d-alert d-alert-info w-96"
+    >
       A new version is available.
       <:actions>
         <.close_button
