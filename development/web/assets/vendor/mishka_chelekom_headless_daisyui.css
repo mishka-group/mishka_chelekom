@@ -688,7 +688,8 @@
     }
   }
 }
-/* <<< checkbox *//* >>> tooltip */
+/* <<< checkbox */
+/* >>> tooltip */
 @layer components {
   [data-skin=daisyui] {
     /* tooltip — daisyUI skin.
@@ -1242,86 +1243,6 @@
   }
 }
 /* <<< toast */
-/* >>> otp_field */
-@layer components {
-  [data-skin=daisyui] {
-    /* otp_field — daisyUI skin (each box paints `input`).
-     *
-     * daisyUI's OTP example is a row of `input` boxes, which is exactly our anatomy: one `input` part
-     * per character, with optional `separator` parts between groups.
-     */
-
-    .chelekom-otp_field {
-      display: inline-flex;
-      align-items: center;
-      gap: calc(0.25rem * 2);
-    }
-
-    .chelekom-otp_field__input {
-      @apply d-input;
-      width: calc(var(--size-field, 0.25rem) * 12);
-      padding-inline: 0;
-      text-align: center;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .chelekom-otp_field__separator {
-      color: color-mix(in oklab, var(--color-base-content) 40%, transparent);
-      user-select: none;
-    }
-
-    .chelekom-otp_field[data-disabled] {
-      cursor: not-allowed;
-      opacity: 50%;
-    }
-  }
-}
-/* <<< otp_field */
-/* >>> semi_circle_progress */
-@layer components {
-  [data-skin=daisyui] {
-    /* semi_circle_progress — daisyUI skin (the `radial-progress` look, as an arc).
-     *
-     * daisyUI's `radial-progress` is a full circle drawn with a conic gradient on a single element;
-     * ours is an SVG arc with track and indicator paths. Same idea, different medium — these are its
-     * colours and thickness written against our parts, and the colour utilities work as-is because
-     * both paths are `currentColor`.
-     */
-
-    .chelekom-semi-circle-progress {
-      display: inline-grid;
-      place-items: center;
-      color: var(--color-base-content);
-    }
-
-    .chelekom-semi-circle-progress__svg {
-      overflow: visible;
-    }
-
-    .chelekom-semi-circle-progress__track {
-      stroke: color-mix(in oklab, currentColor 20%, transparent);
-      stroke-linecap: round;
-    }
-
-    .chelekom-semi-circle-progress__indicator {
-      stroke: currentColor;
-      stroke-linecap: round;
-    }
-
-    @media (prefers-reduced-motion: no-preference) {
-      .chelekom-semi-circle-progress__indicator {
-        transition: stroke-dashoffset 0.3s ease-out;
-      }
-    }
-
-    .chelekom-semi-circle-progress__label {
-      font-size: 1.125rem;
-      font-weight: 600;
-    }
-  }
-}
-/* <<< semi_circle_progress */
-
 /* >>> drawer */
 @layer components {
   [data-skin=daisyui] {
@@ -1405,7 +1326,8 @@
     }
   }
 }
-/* <<< drawer *//* >>> nav_link */
+/* <<< drawer */
+/* >>> nav_link */
 @layer components {
   [data-skin=daisyui] {
     /* nav_link — daisyUI skin (a menu row, the shape a nav link takes in daisyUI's `menu`). */
@@ -4397,53 +4319,6 @@
   }
 }
 /* <<< hue_slider */
-/* >>> menubar */
-@layer components {
-  [data-skin=daisyui] {
-    /* menubar — daisyUI skin.
-     *
-     * daisyUI has no menubar; it has `menu menu-horizontal` for the bar and `dropdown-content menu`
-     * for what drops out of it, which is exactly this component's two halves. Both are borrowed as-is,
-     * so the bar and its menus match every other daisyUI menu on the page.
-     */
-
-    .chelekom-menubar {
-      @apply d-menu d-menu-horizontal;
-
-      padding: calc(0.25rem * 1);
-      gap: calc(0.25rem * 1);
-    }
-
-    .chelekom-menubar__trigger {
-      border-radius: var(--radius-field);
-      padding-inline: calc(0.25rem * 3);
-      padding-block: calc(0.25rem * 1.5);
-      cursor: pointer;
-    }
-
-    .chelekom-menubar__trigger:hover,
-    .chelekom-menubar__trigger[aria-expanded="true"] {
-      background-color: color-mix(in oklab, var(--color-base-content) 10%, transparent);
-    }
-
-    .chelekom-menubar__popup {
-      @apply d-menu d-dropdown-content;
-
-      position: absolute;
-      z-index: 50;
-      min-width: 12rem;
-      border-radius: var(--radius-box);
-      background-color: var(--color-base-100);
-      box-shadow: 0 4px 12px oklch(0% 0 0 / 0.12);
-    }
-
-    .chelekom-menubar__popup[data-closed] {
-      display: none;
-    }
-  }
-}
-/* <<< menubar */
-
 /* >>> meter */
 @layer components {
   [data-skin=daisyui] {
@@ -4642,50 +4517,6 @@
   }
 }
 /* <<< number_field */
-/* >>> pills_input */
-@layer components {
-  [data-skin=daisyui] {
-    /* pills_input — daisyUI skin.
-     *
-     * The box is daisyUI's `input`, but it has to grow: `input` is a fixed-height row and a tag field
-     * wraps onto several. So the box is drawn from the same tokens with `height: auto`, and each pill
-     * is a `badge` — which is what a pill is.
-     */
-
-    .chelekom-pills-input {
-      border-radius: var(--radius-field);
-      border: var(--border) solid color-mix(in oklab, var(--color-base-content) 20%, #0000);
-      background-color: var(--color-base-100);
-      color: var(--color-base-content);
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: calc(0.25rem * 1.5);
-      padding: calc(0.25rem * 1.5);
-      min-height: calc(var(--size-field, 0.25rem) * 10);
-    }
-
-    .chelekom-pills-input:focus-within {
-      outline: 2px solid var(--color-base-content);
-      outline-offset: 2px;
-    }
-
-
-
-
-    /* The field grows to fill whatever the tags leave, so clicking the empty space still focuses it. */
-    .chelekom-pills-input__input {
-      flex: 1;
-      min-width: 6rem;
-      border: none;
-      background: transparent;
-      outline: none;
-      font-size: 0.875rem;
-    }
-  }
-}
-/* <<< pills_input */
-
 /* >>> popover */
 @layer components {
   [data-skin=daisyui] {

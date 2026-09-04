@@ -2374,17 +2374,23 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── otp_field ─────────────────────────────────────────────────────────────
   def example(%{section: "otp_field-hero"} = assigns) do
     ~H"""
-    <.otp_field id="daisyui-otp-hero" />
+    <.otp_field
+      separator_class="text-base-content/40 select-none"
+      input_class="d-input w-[calc(var(--size-field,0.25rem)*12)] px-0 text-center tabular-nums"
+      class="inline-flex items-center gap-2 data-disabled:cursor-not-allowed data-disabled:opacity-50"
+      id="daisyui-otp-hero"
+    />
     """
   end
 
   def example(%{section: "otp_field-joined"} = assigns) do
     ~H"""
     <.otp_field
+      separator_class="text-base-content/40 select-none"
       id="daisyui-otp-joined"
       length={4}
-      class="gap-0!"
-      input_class="-ms-px rounded-none first:ms-0 first:rounded-s-field last:rounded-e-field"
+      class="inline-flex items-center gap-2 data-disabled:cursor-not-allowed data-disabled:opacity-50 gap-0!"
+      input_class="d-input w-[calc(var(--size-field,0.25rem)*12)] px-0 text-center tabular-nums -ms-px rounded-none first:ms-0 first:rounded-s-field last:rounded-e-field"
     />
     """
   end
@@ -2396,9 +2402,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-col items-start gap-3">
       <.otp_field
         :for={size <- @sizes}
+        separator_class="text-base-content/40 select-none"
+        class="inline-flex items-center gap-2 data-disabled:cursor-not-allowed data-disabled:opacity-50"
         id={"daisyui-otp-#{size}"}
         length={4}
-        input_class={"d-input-#{size}"}
+        input_class={[
+          "d-input w-[calc(var(--size-field,0.25rem)*12)] px-0 text-center tabular-nums",
+          "d-input-#{size}"
+        ]}
       />
     </div>
     """
@@ -2411,9 +2422,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-wrap items-center gap-3">
       <.otp_field
         :for={color <- @colors}
+        separator_class="text-base-content/40 select-none"
+        class="inline-flex items-center gap-2 data-disabled:cursor-not-allowed data-disabled:opacity-50"
         id={"daisyui-otp-#{color}"}
         length={4}
-        input_class={"d-input-#{color}"}
+        input_class={[
+          "d-input w-[calc(var(--size-field,0.25rem)*12)] px-0 text-center tabular-nums",
+          "d-input-#{color}"
+        ]}
       />
     </div>
     """
@@ -2421,19 +2437,36 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "otp_field-groups"} = assigns) do
     ~H"""
-    <.otp_field id="daisyui-otp-groups" group={3} separator="–" />
+    <.otp_field
+      separator_class="text-base-content/40 select-none"
+      input_class="d-input w-[calc(var(--size-field,0.25rem)*12)] px-0 text-center tabular-nums"
+      class="inline-flex items-center gap-2 data-disabled:cursor-not-allowed data-disabled:opacity-50"
+      id="daisyui-otp-groups"
+      group={3}
+      separator="–"
+    />
     """
   end
 
   def example(%{section: "otp_field-masked"} = assigns) do
     ~H"""
-    <.otp_field id="daisyui-otp-masked" mask value="1234" />
+    <.otp_field
+      separator_class="text-base-content/40 select-none"
+      input_class="d-input w-[calc(var(--size-field,0.25rem)*12)] px-0 text-center tabular-nums"
+      class="inline-flex items-center gap-2 data-disabled:cursor-not-allowed data-disabled:opacity-50"
+      id="daisyui-otp-masked"
+      mask
+      value="1234"
+    />
     """
   end
 
   def example(%{section: "otp_field-alphanumeric"} = assigns) do
     ~H"""
     <.otp_field
+      separator_class="text-base-content/40 select-none"
+      input_class="d-input w-[calc(var(--size-field,0.25rem)*12)] px-0 text-center tabular-nums"
+      class="inline-flex items-center gap-2 data-disabled:cursor-not-allowed data-disabled:opacity-50"
       id="daisyui-otp-alnum"
       length={5}
       validation_type="alphanumeric"
@@ -2444,7 +2477,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "otp_field-disabled"} = assigns) do
     ~H"""
-    <.otp_field id="daisyui-otp-disabled" value="123456" disabled />
+    <.otp_field
+      separator_class="text-base-content/40 select-none"
+      input_class="d-input w-[calc(var(--size-field,0.25rem)*12)] px-0 text-center tabular-nums"
+      class="inline-flex items-center gap-2 data-disabled:cursor-not-allowed data-disabled:opacity-50"
+      id="daisyui-otp-disabled"
+      value="123456"
+      disabled
+    />
     """
   end
 
@@ -2506,7 +2546,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── semi_circle_progress ──────────────────────────────────────────────────
   def example(%{section: "semi_circle_progress-hero"} = assigns) do
     ~H"""
-    <.semi_circle_progress id="daisyui-semi-hero" value={70} label="Progress">
+    <.semi_circle_progress
+      label_class="text-[1.125rem] font-semibold"
+      indicator_class="[stroke:currentColor] [stroke-linecap:round] motion-safe:transition-[stroke-dashoffset] motion-safe:duration-300 motion-safe:ease-[ease-out]"
+      track_class="[stroke:color-mix(in_oklab,currentColor_20%,transparent)] [stroke-linecap:round]"
+      svg_class="overflow-visible"
+      class="inline-grid place-items-center text-base-content"
+      id="daisyui-semi-hero"
+      value={70}
+      label="Progress"
+    >
       70%
     </.semi_circle_progress>
     """
@@ -2515,7 +2564,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "semi_circle_progress-values"} = assigns) do
     ~H"""
     <div class="flex flex-wrap items-end gap-4">
-      <.semi_circle_progress :for={v <- [0, 25, 50, 75, 100]} id={"daisyui-semi-#{v}"} value={v}>
+      <.semi_circle_progress
+        :for={v <- [0, 25, 50, 75, 100]}
+        label_class="text-[1.125rem] font-semibold"
+        indicator_class="[stroke:currentColor] [stroke-linecap:round] motion-safe:transition-[stroke-dashoffset] motion-safe:duration-300 motion-safe:ease-[ease-out]"
+        track_class="[stroke:color-mix(in_oklab,currentColor_20%,transparent)] [stroke-linecap:round]"
+        svg_class="overflow-visible"
+        class="inline-grid place-items-center text-base-content"
+        id={"daisyui-semi-#{v}"}
+        value={v}
+      >
         {v}%
       </.semi_circle_progress>
     </div>
@@ -2527,9 +2585,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-wrap items-end gap-4">
       <.semi_circle_progress
         :for={color <- ~w(primary secondary accent success warning error)}
+        label_class="text-[1.125rem] font-semibold"
+        indicator_class="[stroke:currentColor] [stroke-linecap:round] motion-safe:transition-[stroke-dashoffset] motion-safe:duration-300 motion-safe:ease-[ease-out]"
+        track_class="[stroke:color-mix(in_oklab,currentColor_20%,transparent)] [stroke-linecap:round]"
+        svg_class="overflow-visible"
         id={"daisyui-semi-#{color}"}
         value={70}
-        class={"text-#{color}"}
+        class={["inline-grid place-items-center", "text-#{color}"]}
       >
         70%
       </.semi_circle_progress>
@@ -2542,9 +2604,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-wrap items-end gap-4">
       <.semi_circle_progress
         :for={w <- ~w(w-20 w-28 w-40)}
+        label_class="text-[1.125rem] font-semibold"
+        indicator_class="[stroke:currentColor] [stroke-linecap:round] motion-safe:transition-[stroke-dashoffset] motion-safe:duration-300 motion-safe:ease-[ease-out]"
+        track_class="[stroke:color-mix(in_oklab,currentColor_20%,transparent)] [stroke-linecap:round]"
+        svg_class="overflow-visible"
         id={"daisyui-semi-size-#{w}"}
         value={70}
-        class={w}
+        class={["inline-grid place-items-center text-base-content", w]}
       >
         70%
       </.semi_circle_progress>
@@ -6394,7 +6460,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── menubar ─────────────────────────────────────────────────────────────
   def example(%{section: "menubar-hero"} = assigns) do
     ~H"""
-    <.menubar id="daisyui-menubar-hero">
+    <.menubar
+      popup_class="d-menu absolute z-50 min-w-48 rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+      trigger_class="rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer hover:bg-base-content/10 aria-expanded:bg-base-content/10"
+      class="d-menu d-menu-horizontal p-1 gap-1"
+      id="daisyui-menubar-hero"
+    >
       <:menu label="File">
         <button
           type="button"
@@ -6949,6 +7020,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "pills_input-hero"} = assigns) do
     ~H"""
     <.pills_input
+      input_class="flex-1 min-w-24 border-none bg-transparent outline-none text-[0.875rem]"
+      class="rounded-[var(--radius-field)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_20%,#0000)] bg-base-100 text-base-content flex flex-wrap items-center gap-[calc(0.25rem*1.5)] p-[calc(0.25rem*1.5)] min-h-[calc(var(--size-field,0.25rem)*10)] focus-within:outline-2 focus-within:outline-base-content focus-within:outline-offset-2"
       id="daisyui-pills-input"
       placeholder="Add a tag…"
     >
