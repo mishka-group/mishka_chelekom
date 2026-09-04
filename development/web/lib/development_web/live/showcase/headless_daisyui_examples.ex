@@ -562,6 +562,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"fab-single", "A single FAB",
        "No actions at all — and then no popup is rendered either, rather than an empty menu."},
       {"fab-flower", "Flower", "daisyUI's quarter-circle arrangement, from `data-direction`."},
+      {"fab-flower-main", "Flower with a main action",
+       "daisyUI shows the quarter-circle both ways; this is the one where the trigger becomes an action of its own once the dial is open."},
       {"fab-directions", "Other directions",
        "Not on daisyUI's page. The dial can fan down, left or right as well as up."}
     ],
@@ -4227,6 +4229,20 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         <:action label="Share">A</:action>
         <:action label="Copy">B</:action>
         <:action label="Edit">C</:action>
+      </.fab>
+    </.fab_frame>
+    """
+  end
+
+  def example(%{section: "fab-flower-main"} = assigns) do
+    ~H"""
+    <.fab_frame>
+      <.fab id="daisyui-fab-flower-main" label="Actions" contained direction="flower">
+        <:icon><.dock_icon path="M12 5v14M5 12h14" /></:icon>
+        <:action label="Share">A</:action>
+        <:action label="Copy">B</:action>
+        <:action label="Edit">C</:action>
+        <:main_action label="Compose"><.dock_icon path="M4 20h4L20 8l-4-4L4 16z" /></:main_action>
       </.fab>
     </.fab_frame>
     """
