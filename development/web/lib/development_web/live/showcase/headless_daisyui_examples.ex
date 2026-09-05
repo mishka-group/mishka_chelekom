@@ -6113,6 +6113,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "color_input-hero"} = assigns) do
     ~H"""
     <.color_input
+      hue_class="d-range d-range-xs flex-1 [background:linear-gradient(to_right,#f00_0%,#ff0_17%,#0f0_33%,#0ff_50%,#00f_67%,#f0f_83%,#f00_100%)]"
+      controls_class="flex items-center gap-2"
+      thumb_class="absolute w-[calc(0.25rem*3.5)] h-[calc(0.25rem*3.5)] [translate:-50%_-50%] rounded-[calc(infinity*1px)] [border:2px_solid_#fff] [box-shadow:0_0_0_1px_oklch(0%_0_0/0.35)]"
+      area_class="relative h-36 rounded-[var(--radius-field)] [background-image:linear-gradient(to_top,#000,#0000),linear-gradient(to_right,#fff,#0000)] bg-[var(--chelekom-picker-hue,#f00)] cursor-crosshair"
+      panel_class="absolute z-50 flex flex-col gap-3 w-60 mt-1 rounded-[var(--radius-box)] bg-base-100 p-3 [box-shadow:0_8px_24px_oklch(0%_0_0/0.14)] data-closed:hidden"
+      text_class="flex-1 min-w-20 border-none bg-transparent outline-none font-[ui-monospace,SFMono-Regular,Menlo,monospace]"
+      preview_class="w-8 h-8 shrink-0 rounded-[var(--radius-field)] [box-shadow:inset_0_0_0_1px_color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+      trigger_class="inline-flex cursor-pointer"
+      control_class="d-input flex items-center gap-2"
+      class="relative inline-block"
       id="daisyui-color-input"
       value="#0ea5e9"
       label="Color"
@@ -6124,6 +6134,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "color_picker-hero"} = assigns) do
     ~H"""
     <.color_picker
+      hue_class="d-range d-range-xs flex-1 [background:linear-gradient(to_right,#f00_0%,#ff0_17%,#0f0_33%,#0ff_50%,#00f_67%,#f0f_83%,#f00_100%)]"
+      preview_class="w-8 h-8 shrink-0 rounded-[var(--radius-field)] [box-shadow:inset_0_0_0_1px_color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+      controls_class="flex items-center gap-2"
+      thumb_class="absolute w-[calc(0.25rem*3.5)] h-[calc(0.25rem*3.5)] [translate:-50%_-50%] rounded-[calc(infinity*1px)] [border:2px_solid_#fff] [box-shadow:0_0_0_1px_oklch(0%_0_0/0.35)]"
+      area_class="relative h-36 rounded-[var(--radius-field)] [background-image:linear-gradient(to_top,#000,#0000),linear-gradient(to_right,#fff,#0000)] bg-[var(--chelekom-picker-hue,#f00)] cursor-crosshair"
+      class="flex flex-col gap-3 w-60 rounded-[var(--radius-box)] bg-base-100 text-base-content"
       id="daisyui-color-picker"
       value="#e8590c"
     />
@@ -8002,7 +8018,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── toolbar ─────────────────────────────────────────────────────────────
   def example(%{section: "toolbar-hero"} = assigns) do
     ~H"""
-    <.toolbar id="daisyui-toolbar-hero">
+    <.toolbar
+      group_class="flex items-center gap-1"
+      separator_class="self-stretch w-px mx-1 bg-base-content/15 group-data-[orientation=vertical]:w-auto group-data-[orientation=vertical]:h-px group-data-[orientation=vertical]:mx-0 group-data-[orientation=vertical]:my-1"
+      input_class="d-input d-input-sm"
+      link_class="d-btn d-btn-sm d-btn-ghost"
+      button_class="d-btn d-btn-sm d-btn-ghost aria-disabled:pointer-events-none aria-disabled:opacity-45 data-pressed:d-btn-active aria-pressed:d-btn-active"
+      class="group flex items-center gap-1 rounded-[var(--radius-field)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_12%,#0000)] bg-base-100 p-1 text-base-content data-[orientation=vertical]:flex-col data-[orientation=vertical]:items-stretch"
+      id="daisyui-toolbar-hero"
+    >
       <:item
         group="Alignment"
         label="Align left"
@@ -8168,6 +8192,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <div>
       <.alpha_slider
+        indicator_class="absolute inset-y-0 rounded-[inherit] pointer-events-none"
+        thumb_class="absolute top-1/2 w-4 h-4 [translate:-50%_-50%] rounded-[calc(infinity*1px)] bg-base-100 [box-shadow:0_0_0_2px_var(--color-base-content),0_1px_3px_oklch(0%_0_0/0.3)] cursor-grab active:cursor-grabbing group-focus-within:outline-2 group-focus-within:outline-base-content group-focus-within:outline-offset-2"
+        track_class="relative w-full rounded-[calc(infinity*1px)] [box-shadow:inset_0_0_0_1px_color-mix(in_oklab,var(--color-base-content)_18%,transparent)] h-3 [background-image:linear-gradient(to_right,#0000,var(--chelekom-alpha-color,#000)),conic-gradient(#0000_0.25turn,#0003_0.25turn_0.5turn,#0000_0.5turn_0.75turn,#0003_0.75turn)] [background-size:100%_100%,calc(0.25rem*2)_calc(0.25rem*2)]"
+        control_class="group relative py-2"
+        class="block w-full min-w-48"
         id="daisyui-alpha-slider"
         value={50}
         color="#e8590c"
@@ -8180,6 +8209,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "angle_slider-hero"} = assigns) do
     ~H"""
     <.angle_slider
+      value_class="tabular-nums text-[0.875rem]"
+      thumb_class="absolute top-[calc(0.25rem*1.5)] left-1/2 w-3 h-3 [translate:-50%_0] rounded-[calc(infinity*1px)] bg-primary"
+      thumb_layer_class="absolute inset-0 rounded-[inherit]"
+      class="relative inline-grid place-items-center w-20 h-20 rounded-[calc(infinity*1px)] bg-base-200 [box-shadow:inset_0_0_0_1px_color-mix(in_oklab,var(--color-base-content)_15%,transparent)] text-base-content cursor-grab select-none active:cursor-grabbing focus-within:outline-2 focus-within:outline-base-content focus-within:outline-offset-2"
       id="daisyui-angle-slider"
       value={135}
       step={5}
@@ -8193,6 +8226,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <div>
       <.hue_slider
+        indicator_class="absolute inset-y-0 rounded-[inherit] pointer-events-none"
+        thumb_class="absolute top-1/2 w-4 h-4 [translate:-50%_-50%] rounded-[calc(infinity*1px)] bg-base-100 [box-shadow:0_0_0_2px_var(--color-base-content),0_1px_3px_oklch(0%_0_0/0.3)] cursor-grab active:cursor-grabbing group-focus-within:outline-2 group-focus-within:outline-base-content group-focus-within:outline-offset-2"
+        track_class="relative w-full rounded-[calc(infinity*1px)] [box-shadow:inset_0_0_0_1px_color-mix(in_oklab,var(--color-base-content)_18%,transparent)] h-3 [background:linear-gradient(to_right,#f00_0%,#ff0_17%,#0f0_33%,#0ff_50%,#00f_67%,#f0f_83%,#f00_100%)]"
+        control_class="group relative py-2"
+        class="block w-full min-w-48"
         id="daisyui-hue-slider"
         value={140}
       />
