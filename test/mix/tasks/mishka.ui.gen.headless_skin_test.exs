@@ -26,6 +26,17 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.HeadlessSkinTest do
     |> Enum.sort()
   end
 
+  defp skinned_applying do
+    Path.join(:code.priv_dir(:mishka_chelekom), "headless/skins/daisyui/*.css.eex")
+    |> Path.wildcard()
+    |> Enum.sort()
+    |> Enum.find(&(File.read!(&1) =~ ~r/@apply /))
+    |> case do
+      nil -> flunk("no daisyui skin fragment applies a design-system class")
+      path -> Path.basename(path, ".css.eex")
+    end
+  end
+
   defp gen(args), do: Igniter.compose_task(test_project_with_formatter(), Headless, args)
 
   # The line is not consistent about this: `otp_field` renders `chelekom-otp_field` while
@@ -117,7 +128,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.HeadlessSkinTest do
     end
 
     test "--skin-prefix is applied to the design system's class names" do
-      component = hd(skinned())
+      component = skinned_applying()
 
       plain = gen([component, "--skin", "daisyui", "--yes"]) |> source_content(@vendor)
 

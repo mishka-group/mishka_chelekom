@@ -7205,6 +7205,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <label>
       Search tags
       <.autocomplete
+        group_list_class="contents"
+        empty_class="p-3 text-[0.875rem] opacity-65"
+        clear_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
+        group_label_class="grid gap-2 items-center rounded-[var(--radius-field)] transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] px-3 py-1 text-[0.75rem] opacity-60"
+        item_class="flex flex-row items-center justify-between gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer [&>:last-child:not(:only-child)]:shrink-0 [&>:last-child:not(:only-child)]:text-[0.75rem] [&>:last-child:not(:only-child)]:opacity-60 data-highlighted:bg-base-content/10 aria-selected:outline-none aria-selected:[color:var(--menu-active-fg)] aria-selected:[background-color:var(--menu-active-bg)] aria-selected:[background-size:auto,calc(var(--noise)*100%)] aria-selected:[background-image:none,var(--fx-noise)] forced-colors:aria-selected:outline-2 forced-colors:aria-selected:outline-offset-2 forced-colors:aria-selected:outline-transparent"
+        popup_class="flex flex-col flex-wrap p-2 text-[0.875rem] [&_li]:relative [&_li]:flex [&_li]:shrink-0 [&_li:not([data-part=item])]:flex-col [&_li:not([data-part=item])]:flex-wrap [&_li:not([data-part=item])]:items-stretch [&_li_ul]:relative [&_li_ul]:ms-4 [&_li_ul]:ps-2 [&_li_ul]:whitespace-nowrap [&_li_ul]:before:content-[''] [&_li_ul]:before:absolute [&_li_ul]:before:start-0 [&_li_ul]:before:top-3 [&_li_ul]:before:bottom-3 [&_li_ul]:before:w-[var(--border)] [&_li_ul]:before:bg-base-content [&_li_ul]:before:opacity-10 [--menu-active-fg:var(--color-neutral-content)] [--menu-active-bg:var(--color-neutral)] absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+        input_class="d-input w-full"
         id="daisyui-autocomplete-hero"
         placeholder="e.g. feature"
       >
@@ -7229,6 +7236,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <label>
       Search movies by name or year
       <.autocomplete
+        group_list_class="contents"
+        empty_class="p-3 text-[0.875rem] opacity-65"
+        clear_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
+        group_label_class="grid gap-2 items-center rounded-[var(--radius-field)] transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] px-3 py-1 text-[0.75rem] opacity-60"
+        item_class="flex flex-row items-center justify-between gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer [&>:last-child:not(:only-child)]:shrink-0 [&>:last-child:not(:only-child)]:text-[0.75rem] [&>:last-child:not(:only-child)]:opacity-60 data-highlighted:bg-base-content/10 aria-selected:outline-none aria-selected:[color:var(--menu-active-fg)] aria-selected:[background-color:var(--menu-active-bg)] aria-selected:[background-size:auto,calc(var(--noise)*100%)] aria-selected:[background-image:none,var(--fx-noise)] forced-colors:aria-selected:outline-2 forced-colors:aria-selected:outline-offset-2 forced-colors:aria-selected:outline-transparent"
+        popup_class="flex flex-col flex-wrap p-2 text-[0.875rem] [&_li]:relative [&_li]:flex [&_li]:shrink-0 [&_li:not([data-part=item])]:flex-col [&_li:not([data-part=item])]:flex-wrap [&_li:not([data-part=item])]:items-stretch [&_li_ul]:relative [&_li_ul]:ms-4 [&_li_ul]:ps-2 [&_li_ul]:whitespace-nowrap [&_li_ul]:before:content-[''] [&_li_ul]:before:absolute [&_li_ul]:before:start-0 [&_li_ul]:before:top-3 [&_li_ul]:before:bottom-3 [&_li_ul]:before:w-[var(--border)] [&_li_ul]:before:bg-base-content [&_li_ul]:before:opacity-10 [--menu-active-fg:var(--color-neutral-content)] [--menu-active-bg:var(--color-neutral)] absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+        input_class="d-input w-full"
         id="daisyui-autocomplete-async"
         placeholder="e.g. Pulp Fiction or 1994"
       >
@@ -7258,6 +7272,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <label>
       Auto highlight on type
       <.autocomplete
+        group_list_class="contents"
+        empty_class="p-3 text-[0.875rem] opacity-65"
+        clear_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
+        group_label_class="grid gap-2 items-center rounded-[var(--radius-field)] transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] px-3 py-1 text-[0.75rem] opacity-60"
+        item_class="flex flex-row items-center justify-between gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer [&>:last-child:not(:only-child)]:shrink-0 [&>:last-child:not(:only-child)]:text-[0.75rem] [&>:last-child:not(:only-child)]:opacity-60 data-highlighted:bg-base-content/10 aria-selected:outline-none aria-selected:[color:var(--menu-active-fg)] aria-selected:[background-color:var(--menu-active-bg)] aria-selected:[background-size:auto,calc(var(--noise)*100%)] aria-selected:[background-image:none,var(--fx-noise)] forced-colors:aria-selected:outline-2 forced-colors:aria-selected:outline-offset-2 forced-colors:aria-selected:outline-transparent"
+        popup_class="flex flex-col flex-wrap p-2 text-[0.875rem] [&_li]:relative [&_li]:flex [&_li]:shrink-0 [&_li:not([data-part=item])]:flex-col [&_li:not([data-part=item])]:flex-wrap [&_li:not([data-part=item])]:items-stretch [&_li_ul]:relative [&_li_ul]:ms-4 [&_li_ul]:ps-2 [&_li_ul]:whitespace-nowrap [&_li_ul]:before:content-[''] [&_li_ul]:before:absolute [&_li_ul]:before:start-0 [&_li_ul]:before:top-3 [&_li_ul]:before:bottom-3 [&_li_ul]:before:w-[var(--border)] [&_li_ul]:before:bg-base-content [&_li_ul]:before:opacity-10 [--menu-active-fg:var(--color-neutral-content)] [--menu-active-bg:var(--color-neutral)] absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+        input_class="d-input w-full"
         id="daisyui-autocomplete-auto-highlight"
         placeholder="e.g. feature"
         auto_highlight
@@ -7282,6 +7303,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <div>
       <.autocomplete
+        group_list_class="contents"
+        empty_class="p-3 text-[0.875rem] opacity-65"
+        clear_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
+        group_label_class="px-3 py-1 text-[0.75rem] opacity-60"
+        item_class="flex flex-row items-center justify-between gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer [&>:last-child:not(:only-child)]:shrink-0 [&>:last-child:not(:only-child)]:text-[0.75rem] [&>:last-child:not(:only-child)]:opacity-60 data-highlighted:bg-base-content/10 aria-selected:outline-none aria-selected:[color:var(--menu-active-fg)] aria-selected:[background-color:var(--menu-active-bg)] aria-selected:[background-size:auto,calc(var(--noise)*100%)] aria-selected:[background-image:none,var(--fx-noise)] forced-colors:aria-selected:outline-2 forced-colors:aria-selected:outline-offset-2 forced-colors:aria-selected:outline-transparent"
+        input_class="d-input w-full"
         id="daisyui-autocomplete-command-palette"
         placeholder="Search for apps and commands…"
         auto_highlight
@@ -8420,8 +8447,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "navigation_menu-hero"} = assigns) do
     ~H"""
     <.navigation_menu
+      content_class="p-3 [.d-menu-xs_&]:px-2 [.d-menu-xs_&]:py-1 [.d-menu-sm_&]:px-2.5 [.d-menu-sm_&]:py-1 [.d-menu-md_&]:px-3 [.d-menu-md_&]:py-1.5 [.d-menu-lg_&]:px-4 [.d-menu-lg_&]:py-1.5 [.d-menu-xl_&]:px-5 [.d-menu-xl_&]:py-1.5"
+      arrow_class="absolute w-2 h-2 rotate-45 bg-base-100"
+      popup_class="data-closed:hidden"
+      viewport_class="relative overflow-hidden w-[var(--popup-width,auto)] h-[var(--popup-height,auto)] rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_8px_24px_oklch(0%_0_0/0.14)] [transition:width_0.2s_ease-out,height_0.2s_ease-out]"
+      positioner_class="absolute z-50"
+      icon_class="[transition:rotate_0.2s_ease-out] group-data-[popup-open]/trigger:[rotate:180deg]"
+      link_class="inline-flex items-center gap-1 rounded-[var(--radius-field)] cursor-pointer hover:bg-base-content/10"
+      trigger_class="group/trigger inline-flex items-center gap-1 rounded-[var(--radius-field)] cursor-pointer hover:bg-base-content/10 data-[popup-open]:bg-base-content/10"
+      list_class="d-menu d-menu-horizontal gap-1 p-1"
       id="daisyui-navigation_menu-hero"
-      class="[--duration:0.35s] [--easing:cubic-bezier(0.22,1,0.36,1)]"
+      class="relative text-base-content [--duration:0.35s] [--easing:cubic-bezier(0.22,1,0.36,1)]"
     >
       <:icon>
         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
@@ -8502,7 +8538,19 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "navigation_menu-no-arrows"} = assigns) do
     ~H"""
-    <.navigation_menu id="daisyui-navigation_menu-no-arrows" icon_class="hidden">
+    <.navigation_menu
+      content_class="p-3 [.d-menu-xs_&]:px-2 [.d-menu-xs_&]:py-1 [.d-menu-sm_&]:px-2.5 [.d-menu-sm_&]:py-1 [.d-menu-md_&]:px-3 [.d-menu-md_&]:py-1.5 [.d-menu-lg_&]:px-4 [.d-menu-lg_&]:py-1.5 [.d-menu-xl_&]:px-5 [.d-menu-xl_&]:py-1.5"
+      arrow_class="absolute w-2 h-2 rotate-45 bg-base-100"
+      popup_class="data-closed:hidden"
+      viewport_class="relative overflow-hidden w-[var(--popup-width,auto)] h-[var(--popup-height,auto)] rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_8px_24px_oklch(0%_0_0/0.14)] [transition:width_0.2s_ease-out,height_0.2s_ease-out]"
+      positioner_class="absolute z-50"
+      link_class="inline-flex items-center gap-1 rounded-[var(--radius-field)] cursor-pointer hover:bg-base-content/10"
+      trigger_class="group/trigger inline-flex items-center gap-1 rounded-[var(--radius-field)] cursor-pointer hover:bg-base-content/10 data-[popup-open]:bg-base-content/10"
+      list_class="d-menu d-menu-horizontal gap-1 p-1"
+      class="relative text-base-content"
+      id="daisyui-navigation_menu-no-arrows"
+      icon_class="[transition:rotate_0.2s_ease-out] group-data-[popup-open]/trigger:[rotate:180deg] hidden"
+    >
       <:item label="One">
         <div class="p-4">Content for the first item</div>
       </:item>
@@ -8523,8 +8571,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-col items-start gap-4">
       <.navigation_menu
         :for={size <- @sizes}
+        content_class="p-3 [.d-menu-xs_&]:px-2 [.d-menu-xs_&]:py-1 [.d-menu-sm_&]:px-2.5 [.d-menu-sm_&]:py-1 [.d-menu-md_&]:px-3 [.d-menu-md_&]:py-1.5 [.d-menu-lg_&]:px-4 [.d-menu-lg_&]:py-1.5 [.d-menu-xl_&]:px-5 [.d-menu-xl_&]:py-1.5"
+        arrow_class="absolute w-2 h-2 rotate-45 bg-base-100"
+        popup_class="data-closed:hidden"
+        viewport_class="relative overflow-hidden w-[var(--popup-width,auto)] h-[var(--popup-height,auto)] rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_8px_24px_oklch(0%_0_0/0.14)] [transition:width_0.2s_ease-out,height_0.2s_ease-out]"
+        positioner_class="absolute z-50"
+        icon_class="[transition:rotate_0.2s_ease-out] group-data-[popup-open]/trigger:[rotate:180deg]"
+        link_class="inline-flex items-center gap-1 rounded-[var(--radius-field)] cursor-pointer hover:bg-base-content/10"
+        trigger_class="group/trigger inline-flex items-center gap-1 rounded-[var(--radius-field)] cursor-pointer hover:bg-base-content/10 data-[popup-open]:bg-base-content/10"
+        class="relative text-base-content"
         id={"daisyui-navigation_menu-#{size}"}
-        list_class={"d-menu-#{size}"}
+        list_class={["d-menu d-menu-horizontal gap-1 p-1", "d-menu-#{size}"]}
       >
         <:icon>
           <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" class="block">
@@ -8545,8 +8602,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "navigation_menu-nested"} = assigns) do
     ~H"""
     <.navigation_menu
+      content_class="p-3 [.d-menu-xs_&]:px-2 [.d-menu-xs_&]:py-1 [.d-menu-sm_&]:px-2.5 [.d-menu-sm_&]:py-1 [.d-menu-md_&]:px-3 [.d-menu-md_&]:py-1.5 [.d-menu-lg_&]:px-4 [.d-menu-lg_&]:py-1.5 [.d-menu-xl_&]:px-5 [.d-menu-xl_&]:py-1.5"
+      arrow_class="absolute w-2 h-2 rotate-45 bg-base-100"
+      popup_class="data-closed:hidden"
+      viewport_class="relative overflow-hidden w-[var(--popup-width,auto)] h-[var(--popup-height,auto)] rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_8px_24px_oklch(0%_0_0/0.14)] [transition:width_0.2s_ease-out,height_0.2s_ease-out]"
+      positioner_class="absolute z-50"
+      icon_class="[transition:rotate_0.2s_ease-out] group-data-[popup-open]/trigger:[rotate:180deg]"
+      link_class="inline-flex items-center gap-1 rounded-[var(--radius-field)] cursor-pointer hover:bg-base-content/10"
+      trigger_class="group/trigger inline-flex items-center gap-1 rounded-[var(--radius-field)] cursor-pointer hover:bg-base-content/10 data-[popup-open]:bg-base-content/10"
+      list_class="d-menu d-menu-horizontal gap-1 p-1"
       id="daisyui-navigation_menu-nested"
-      class="[--duration:0.35s] [--easing:cubic-bezier(0.22,1,0.36,1)]"
+      class="relative text-base-content [--duration:0.35s] [--easing:cubic-bezier(0.22,1,0.36,1)]"
     >
       <:icon>
         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
@@ -8623,8 +8689,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "navigation_menu-nested-inline"} = assigns) do
     ~H"""
     <.navigation_menu
+      content_class="p-3 [.d-menu-xs_&]:px-2 [.d-menu-xs_&]:py-1 [.d-menu-sm_&]:px-2.5 [.d-menu-sm_&]:py-1 [.d-menu-md_&]:px-3 [.d-menu-md_&]:py-1.5 [.d-menu-lg_&]:px-4 [.d-menu-lg_&]:py-1.5 [.d-menu-xl_&]:px-5 [.d-menu-xl_&]:py-1.5"
+      arrow_class="absolute w-2 h-2 rotate-45 bg-base-100"
+      popup_class="data-closed:hidden"
+      viewport_class="relative overflow-hidden w-[var(--popup-width,auto)] h-[var(--popup-height,auto)] rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_8px_24px_oklch(0%_0_0/0.14)] [transition:width_0.2s_ease-out,height_0.2s_ease-out]"
+      positioner_class="absolute z-50"
+      icon_class="[transition:rotate_0.2s_ease-out] group-data-[popup-open]/trigger:[rotate:180deg]"
+      link_class="inline-flex items-center gap-1 rounded-[var(--radius-field)] cursor-pointer hover:bg-base-content/10"
+      trigger_class="group/trigger inline-flex items-center gap-1 rounded-[var(--radius-field)] cursor-pointer hover:bg-base-content/10 data-[popup-open]:bg-base-content/10"
+      list_class="d-menu d-menu-horizontal gap-1 p-1"
       id="daisyui-navigation_menu-nested-inline"
-      class="[--duration:0.35s] [--easing:cubic-bezier(0.22,1,0.36,1)]"
+      class="relative text-base-content [--duration:0.35s] [--easing:cubic-bezier(0.22,1,0.36,1)]"
     >
       <:icon>
         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
@@ -9699,6 +9774,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <label>
       Fuzzy search documentation
       <.autocomplete
+        group_list_class="contents"
+        empty_class="p-3 text-[0.875rem] opacity-65"
+        clear_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
+        group_label_class="grid gap-2 items-center rounded-[var(--radius-field)] transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] px-3 py-1 text-[0.75rem] opacity-60"
+        item_class="flex flex-row items-center justify-between gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer [&>:last-child:not(:only-child)]:shrink-0 [&>:last-child:not(:only-child)]:text-[0.75rem] [&>:last-child:not(:only-child)]:opacity-60 data-highlighted:bg-base-content/10 aria-selected:outline-none aria-selected:[color:var(--menu-active-fg)] aria-selected:[background-color:var(--menu-active-bg)] aria-selected:[background-size:auto,calc(var(--noise)*100%)] aria-selected:[background-image:none,var(--fx-noise)] forced-colors:aria-selected:outline-2 forced-colors:aria-selected:outline-offset-2 forced-colors:aria-selected:outline-transparent"
+        popup_class="flex flex-col flex-wrap p-2 text-[0.875rem] [&_li]:relative [&_li]:flex [&_li]:shrink-0 [&_li:not([data-part=item])]:flex-col [&_li:not([data-part=item])]:flex-wrap [&_li:not([data-part=item])]:items-stretch [&_li_ul]:relative [&_li_ul]:ms-4 [&_li_ul]:ps-2 [&_li_ul]:whitespace-nowrap [&_li_ul]:before:content-[''] [&_li_ul]:before:absolute [&_li_ul]:before:start-0 [&_li_ul]:before:top-3 [&_li_ul]:before:bottom-3 [&_li_ul]:before:w-[var(--border)] [&_li_ul]:before:bg-base-content [&_li_ul]:before:opacity-10 [--menu-active-fg:var(--color-neutral-content)] [--menu-active-bg:var(--color-neutral)] absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+        input_class="d-input w-full"
         id="daisyui-autocomplete-fuzzy-matching"
         placeholder="e.g. React"
       >
@@ -9729,6 +9811,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <label>
         Choose emoji
         <.autocomplete
+          group_list_class="contents"
+          empty_class="p-3 text-[0.875rem] opacity-65"
+          clear_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
+          group_label_class="grid gap-2 items-center rounded-[var(--radius-field)] transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] px-3 py-1 text-[0.75rem] opacity-60"
+          item_class="flex flex-row items-center justify-between gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer [&>:last-child:not(:only-child)]:shrink-0 [&>:last-child:not(:only-child)]:text-[0.75rem] [&>:last-child:not(:only-child)]:opacity-60 data-highlighted:bg-base-content/10 aria-selected:outline-none aria-selected:[color:var(--menu-active-fg)] aria-selected:[background-color:var(--menu-active-bg)] aria-selected:[background-size:auto,calc(var(--noise)*100%)] aria-selected:[background-image:none,var(--fx-noise)] forced-colors:aria-selected:outline-2 forced-colors:aria-selected:outline-offset-2 forced-colors:aria-selected:outline-transparent"
+          popup_class="flex flex-col flex-wrap p-2 text-[0.875rem] [&_li]:relative [&_li]:flex [&_li]:shrink-0 [&_li:not([data-part=item])]:flex-col [&_li:not([data-part=item])]:flex-wrap [&_li:not([data-part=item])]:items-stretch [&_li_ul]:relative [&_li_ul]:ms-4 [&_li_ul]:ps-2 [&_li_ul]:whitespace-nowrap [&_li_ul]:before:content-[''] [&_li_ul]:before:absolute [&_li_ul]:before:start-0 [&_li_ul]:before:top-3 [&_li_ul]:before:bottom-3 [&_li_ul]:before:w-[var(--border)] [&_li_ul]:before:bg-base-content [&_li_ul]:before:opacity-10 [--menu-active-fg:var(--color-neutral-content)] [--menu-active-bg:var(--color-neutral)] absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+          input_class="d-input w-full"
           id="daisyui-autocomplete-grid"
           placeholder="Search emojis…"
         >
@@ -9755,6 +9844,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <label>
       Select a tag
       <.autocomplete
+        group_list_class="contents"
+        empty_class="p-3 text-[0.875rem] opacity-65"
+        clear_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
+        group_label_class="grid gap-2 items-center rounded-[var(--radius-field)] transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] px-3 py-1 text-[0.75rem] opacity-60"
+        item_class="flex flex-row items-center justify-between gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer [&>:last-child:not(:only-child)]:shrink-0 [&>:last-child:not(:only-child)]:text-[0.75rem] [&>:last-child:not(:only-child)]:opacity-60 data-highlighted:bg-base-content/10 aria-selected:outline-none aria-selected:[color:var(--menu-active-fg)] aria-selected:[background-color:var(--menu-active-bg)] aria-selected:[background-size:auto,calc(var(--noise)*100%)] aria-selected:[background-image:none,var(--fx-noise)] forced-colors:aria-selected:outline-2 forced-colors:aria-selected:outline-offset-2 forced-colors:aria-selected:outline-transparent"
+        popup_class="flex flex-col flex-wrap p-2 text-[0.875rem] [&_li]:relative [&_li]:flex [&_li]:shrink-0 [&_li:not([data-part=item])]:flex-col [&_li:not([data-part=item])]:flex-wrap [&_li:not([data-part=item])]:items-stretch [&_li_ul]:relative [&_li_ul]:ms-4 [&_li_ul]:ps-2 [&_li_ul]:whitespace-nowrap [&_li_ul]:before:content-[''] [&_li_ul]:before:absolute [&_li_ul]:before:start-0 [&_li_ul]:before:top-3 [&_li_ul]:before:bottom-3 [&_li_ul]:before:w-[var(--border)] [&_li_ul]:before:bg-base-content [&_li_ul]:before:opacity-10 [--menu-active-fg:var(--color-neutral-content)] [--menu-active-bg:var(--color-neutral)] absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+        input_class="d-input w-full"
         id="daisyui-autocomplete-grouped"
         placeholder="e.g. feature"
       >
@@ -9780,6 +9876,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <label>
       Search tags
       <.autocomplete
+        group_list_class="contents"
+        empty_class="p-3 text-[0.875rem] opacity-65"
+        clear_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
+        group_label_class="grid gap-2 items-center rounded-[var(--radius-field)] transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] px-3 py-1 text-[0.75rem] opacity-60"
+        item_class="flex flex-row items-center justify-between gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer [&>:last-child:not(:only-child)]:shrink-0 [&>:last-child:not(:only-child)]:text-[0.75rem] [&>:last-child:not(:only-child)]:opacity-60 data-highlighted:bg-base-content/10 aria-selected:outline-none aria-selected:[color:var(--menu-active-fg)] aria-selected:[background-color:var(--menu-active-bg)] aria-selected:[background-size:auto,calc(var(--noise)*100%)] aria-selected:[background-image:none,var(--fx-noise)] forced-colors:aria-selected:outline-2 forced-colors:aria-selected:outline-offset-2 forced-colors:aria-selected:outline-transparent"
+        popup_class="flex flex-col flex-wrap p-2 text-[0.875rem] [&_li]:relative [&_li]:flex [&_li]:shrink-0 [&_li:not([data-part=item])]:flex-col [&_li:not([data-part=item])]:flex-wrap [&_li:not([data-part=item])]:items-stretch [&_li_ul]:relative [&_li_ul]:ms-4 [&_li_ul]:ps-2 [&_li_ul]:whitespace-nowrap [&_li_ul]:before:content-[''] [&_li_ul]:before:absolute [&_li_ul]:before:start-0 [&_li_ul]:before:top-3 [&_li_ul]:before:bottom-3 [&_li_ul]:before:w-[var(--border)] [&_li_ul]:before:bg-base-content [&_li_ul]:before:opacity-10 [--menu-active-fg:var(--color-neutral-content)] [--menu-active-bg:var(--color-neutral)] absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+        input_class="d-input w-full"
         id="daisyui-autocomplete-inline"
         placeholder="e.g. feature"
         auto_highlight
@@ -9800,6 +9903,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <label>
       Limit results to 8
       <.autocomplete
+        group_list_class="contents"
+        empty_class="p-3 text-[0.875rem] opacity-65"
+        clear_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
+        group_label_class="grid gap-2 items-center rounded-[var(--radius-field)] transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] px-3 py-1 text-[0.75rem] opacity-60"
+        item_class="flex flex-row items-center justify-between gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer [&>:last-child:not(:only-child)]:shrink-0 [&>:last-child:not(:only-child)]:text-[0.75rem] [&>:last-child:not(:only-child)]:opacity-60 data-highlighted:bg-base-content/10 aria-selected:outline-none aria-selected:[color:var(--menu-active-fg)] aria-selected:[background-color:var(--menu-active-bg)] aria-selected:[background-size:auto,calc(var(--noise)*100%)] aria-selected:[background-image:none,var(--fx-noise)] forced-colors:aria-selected:outline-2 forced-colors:aria-selected:outline-offset-2 forced-colors:aria-selected:outline-transparent"
+        popup_class="flex flex-col flex-wrap p-2 text-[0.875rem] [&_li]:relative [&_li]:flex [&_li]:shrink-0 [&_li:not([data-part=item])]:flex-col [&_li:not([data-part=item])]:flex-wrap [&_li:not([data-part=item])]:items-stretch [&_li_ul]:relative [&_li_ul]:ms-4 [&_li_ul]:ps-2 [&_li_ul]:whitespace-nowrap [&_li_ul]:before:content-[''] [&_li_ul]:before:absolute [&_li_ul]:before:start-0 [&_li_ul]:before:top-3 [&_li_ul]:before:bottom-3 [&_li_ul]:before:w-[var(--border)] [&_li_ul]:before:bg-base-content [&_li_ul]:before:opacity-10 [--menu-active-fg:var(--color-neutral-content)] [--menu-active-bg:var(--color-neutral)] absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+        input_class="d-input w-full"
         id="daisyui-autocomplete-limit"
         placeholder="e.g. component"
       >
