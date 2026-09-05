@@ -4447,7 +4447,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── tabs ──────────────────────────────────────────────────────────────────
   def example(%{section: "tabs-hero"} = assigns) do
     ~H"""
-    <.tabs id="daisyui-tabs-hero" default_value="overview">
+    <.tabs
+      panel_class="text-[0.875rem] focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
+      panels_class="pt-4 group-data-[orientation=vertical]:pt-0 group-data-[orientation=vertical]:ps-4"
+      indicator_class="absolute bottom-[calc(var(--border)*-1)] left-[var(--active-tab-left,0)] w-[var(--active-tab-width,0)] h-0.5 bg-base-content pointer-events-none motion-safe:[transition:left_0.2s_ease-out,width_0.2s_ease-out,top_0.2s_ease-out,height_0.2s_ease-out] [.d-tabs_&]:hidden group-data-[orientation=vertical]:bottom-auto group-data-[orientation=vertical]:left-auto group-data-[orientation=vertical]:end-[calc(var(--border)*-1)] group-data-[orientation=vertical]:top-[var(--active-tab-top,0)] group-data-[orientation=vertical]:w-0.5 group-data-[orientation=vertical]:h-[var(--active-tab-height,0)]"
+      tab_class="not-[.d-tab]:relative not-[.d-tab]:inline-flex not-[.d-tab]:items-center not-[.d-tab]:justify-center not-[.d-tab]:h-[calc(var(--size-field,0.25rem)*10)] not-[.d-tab]:px-3 not-[.d-tab]:text-[0.875rem] not-[.d-tab]:cursor-pointer not-[.d-tab]:select-none not-[.d-tab]:whitespace-nowrap not-[.d-tab]:[color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)] not-[.d-tab]:[transition:color_0.2s_ease-out] not-[.d-tab]:hover:not-data-disabled:text-base-content not-[.d-tab]:data-active:text-base-content data-disabled:cursor-not-allowed data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)] focus-visible:outline-2 focus-visible:outline-primary focus-visible:-outline-offset-2"
+      list_class="relative flex flex-wrap not-[.d-tabs]:border-b-[length:var(--border)] not-[.d-tabs]:border-solid not-[.d-tabs]:border-b-base-300 group-data-[orientation=vertical]:flex-col group-data-[orientation=vertical]:border-b-0 group-data-[orientation=vertical]:border-e-[length:var(--border)] group-data-[orientation=vertical]:border-e-base-300"
+      class="group flex flex-col text-base-content data-[orientation=vertical]:flex-row"
+      id="daisyui-tabs-hero"
+      default_value="overview"
+    >
       <:tab value="overview">Overview</:tab>
       <:tab value="projects">Projects</:tab>
       <:tab value="account">Account</:tab>
@@ -4460,7 +4469,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "tabs-plain"} = assigns) do
     ~H"""
-    <.tabs id="daisyui-tabs-plain" default_value="overview" list_class="d-tabs">
+    <.tabs
+      panel_class="text-[0.875rem] focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
+      panels_class="pt-4 group-data-[orientation=vertical]:pt-0 group-data-[orientation=vertical]:ps-4"
+      indicator_class="absolute bottom-[calc(var(--border)*-1)] left-[var(--active-tab-left,0)] w-[var(--active-tab-width,0)] h-0.5 bg-base-content pointer-events-none motion-safe:[transition:left_0.2s_ease-out,width_0.2s_ease-out,top_0.2s_ease-out,height_0.2s_ease-out] [.d-tabs_&]:hidden group-data-[orientation=vertical]:bottom-auto group-data-[orientation=vertical]:left-auto group-data-[orientation=vertical]:end-[calc(var(--border)*-1)] group-data-[orientation=vertical]:top-[var(--active-tab-top,0)] group-data-[orientation=vertical]:w-0.5 group-data-[orientation=vertical]:h-[var(--active-tab-height,0)]"
+      tab_class="not-[.d-tab]:relative not-[.d-tab]:inline-flex not-[.d-tab]:items-center not-[.d-tab]:justify-center not-[.d-tab]:h-[calc(var(--size-field,0.25rem)*10)] not-[.d-tab]:px-3 not-[.d-tab]:text-[0.875rem] not-[.d-tab]:cursor-pointer not-[.d-tab]:select-none not-[.d-tab]:whitespace-nowrap not-[.d-tab]:[color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)] not-[.d-tab]:[transition:color_0.2s_ease-out] not-[.d-tab]:hover:not-data-disabled:text-base-content not-[.d-tab]:data-active:text-base-content data-disabled:cursor-not-allowed data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)] focus-visible:outline-2 focus-visible:outline-primary focus-visible:-outline-offset-2"
+      class="group flex flex-col text-base-content data-[orientation=vertical]:flex-row"
+      id="daisyui-tabs-plain"
+      default_value="overview"
+      list_class="relative flex flex-wrap not-[.d-tabs]:border-b-[length:var(--border)] not-[.d-tabs]:border-solid not-[.d-tabs]:border-b-base-300 group-data-[orientation=vertical]:flex-col group-data-[orientation=vertical]:border-b-0 group-data-[orientation=vertical]:border-e-[length:var(--border)] group-data-[orientation=vertical]:border-e-base-300 d-tabs"
+    >
       <:tab value="overview" class="d-tab">Overview</:tab>
       <:tab value="projects" class="d-tab">Projects</:tab>
       <:tab value="account" class="d-tab">Account</:tab>
@@ -4473,7 +4491,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "tabs-border"} = assigns) do
     ~H"""
-    <.tabs id="daisyui-tabs-border" default_value="overview" list_class="d-tabs d-tabs-border">
+    <.tabs
+      panel_class="text-[0.875rem] focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
+      panels_class="pt-4 group-data-[orientation=vertical]:pt-0 group-data-[orientation=vertical]:ps-4"
+      indicator_class="absolute bottom-[calc(var(--border)*-1)] left-[var(--active-tab-left,0)] w-[var(--active-tab-width,0)] h-0.5 bg-base-content pointer-events-none motion-safe:[transition:left_0.2s_ease-out,width_0.2s_ease-out,top_0.2s_ease-out,height_0.2s_ease-out] [.d-tabs_&]:hidden group-data-[orientation=vertical]:bottom-auto group-data-[orientation=vertical]:left-auto group-data-[orientation=vertical]:end-[calc(var(--border)*-1)] group-data-[orientation=vertical]:top-[var(--active-tab-top,0)] group-data-[orientation=vertical]:w-0.5 group-data-[orientation=vertical]:h-[var(--active-tab-height,0)]"
+      tab_class="not-[.d-tab]:relative not-[.d-tab]:inline-flex not-[.d-tab]:items-center not-[.d-tab]:justify-center not-[.d-tab]:h-[calc(var(--size-field,0.25rem)*10)] not-[.d-tab]:px-3 not-[.d-tab]:text-[0.875rem] not-[.d-tab]:cursor-pointer not-[.d-tab]:select-none not-[.d-tab]:whitespace-nowrap not-[.d-tab]:[color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)] not-[.d-tab]:[transition:color_0.2s_ease-out] not-[.d-tab]:hover:not-data-disabled:text-base-content not-[.d-tab]:data-active:text-base-content data-disabled:cursor-not-allowed data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)] focus-visible:outline-2 focus-visible:outline-primary focus-visible:-outline-offset-2"
+      class="group flex flex-col text-base-content data-[orientation=vertical]:flex-row"
+      id="daisyui-tabs-border"
+      default_value="overview"
+      list_class="relative flex flex-wrap not-[.d-tabs]:border-b-[length:var(--border)] not-[.d-tabs]:border-solid not-[.d-tabs]:border-b-base-300 group-data-[orientation=vertical]:flex-col group-data-[orientation=vertical]:border-b-0 group-data-[orientation=vertical]:border-e-[length:var(--border)] group-data-[orientation=vertical]:border-e-base-300 d-tabs d-tabs-border"
+    >
       <:tab value="overview" class="d-tab">Overview</:tab>
       <:tab value="projects" class="d-tab">Projects</:tab>
       <:tab value="account" class="d-tab">Account</:tab>
@@ -4486,7 +4513,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "tabs-lift"} = assigns) do
     ~H"""
-    <.tabs id="daisyui-tabs-lift" default_value="overview" list_class="d-tabs d-tabs-lift">
+    <.tabs
+      panel_class="text-[0.875rem] focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
+      panels_class="pt-4 group-data-[orientation=vertical]:pt-0 group-data-[orientation=vertical]:ps-4"
+      indicator_class="absolute bottom-[calc(var(--border)*-1)] left-[var(--active-tab-left,0)] w-[var(--active-tab-width,0)] h-0.5 bg-base-content pointer-events-none motion-safe:[transition:left_0.2s_ease-out,width_0.2s_ease-out,top_0.2s_ease-out,height_0.2s_ease-out] [.d-tabs_&]:hidden group-data-[orientation=vertical]:bottom-auto group-data-[orientation=vertical]:left-auto group-data-[orientation=vertical]:end-[calc(var(--border)*-1)] group-data-[orientation=vertical]:top-[var(--active-tab-top,0)] group-data-[orientation=vertical]:w-0.5 group-data-[orientation=vertical]:h-[var(--active-tab-height,0)]"
+      tab_class="not-[.d-tab]:relative not-[.d-tab]:inline-flex not-[.d-tab]:items-center not-[.d-tab]:justify-center not-[.d-tab]:h-[calc(var(--size-field,0.25rem)*10)] not-[.d-tab]:px-3 not-[.d-tab]:text-[0.875rem] not-[.d-tab]:cursor-pointer not-[.d-tab]:select-none not-[.d-tab]:whitespace-nowrap not-[.d-tab]:[color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)] not-[.d-tab]:[transition:color_0.2s_ease-out] not-[.d-tab]:hover:not-data-disabled:text-base-content not-[.d-tab]:data-active:text-base-content data-disabled:cursor-not-allowed data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)] focus-visible:outline-2 focus-visible:outline-primary focus-visible:-outline-offset-2"
+      class="group flex flex-col text-base-content data-[orientation=vertical]:flex-row"
+      id="daisyui-tabs-lift"
+      default_value="overview"
+      list_class="relative flex flex-wrap not-[.d-tabs]:border-b-[length:var(--border)] not-[.d-tabs]:border-solid not-[.d-tabs]:border-b-base-300 group-data-[orientation=vertical]:flex-col group-data-[orientation=vertical]:border-b-0 group-data-[orientation=vertical]:border-e-[length:var(--border)] group-data-[orientation=vertical]:border-e-base-300 d-tabs d-tabs-lift"
+    >
       <:tab value="overview" class="d-tab">Overview</:tab>
       <:tab value="projects" class="d-tab">Projects</:tab>
       <:tab value="account" class="d-tab">Account</:tab>
@@ -4499,7 +4535,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "tabs-box"} = assigns) do
     ~H"""
-    <.tabs id="daisyui-tabs-box" default_value="overview" list_class="d-tabs d-tabs-box">
+    <.tabs
+      panel_class="text-[0.875rem] focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
+      panels_class="pt-4 group-data-[orientation=vertical]:pt-0 group-data-[orientation=vertical]:ps-4"
+      indicator_class="absolute bottom-[calc(var(--border)*-1)] left-[var(--active-tab-left,0)] w-[var(--active-tab-width,0)] h-0.5 bg-base-content pointer-events-none motion-safe:[transition:left_0.2s_ease-out,width_0.2s_ease-out,top_0.2s_ease-out,height_0.2s_ease-out] [.d-tabs_&]:hidden group-data-[orientation=vertical]:bottom-auto group-data-[orientation=vertical]:left-auto group-data-[orientation=vertical]:end-[calc(var(--border)*-1)] group-data-[orientation=vertical]:top-[var(--active-tab-top,0)] group-data-[orientation=vertical]:w-0.5 group-data-[orientation=vertical]:h-[var(--active-tab-height,0)]"
+      tab_class="not-[.d-tab]:relative not-[.d-tab]:inline-flex not-[.d-tab]:items-center not-[.d-tab]:justify-center not-[.d-tab]:h-[calc(var(--size-field,0.25rem)*10)] not-[.d-tab]:px-3 not-[.d-tab]:text-[0.875rem] not-[.d-tab]:cursor-pointer not-[.d-tab]:select-none not-[.d-tab]:whitespace-nowrap not-[.d-tab]:[color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)] not-[.d-tab]:[transition:color_0.2s_ease-out] not-[.d-tab]:hover:not-data-disabled:text-base-content not-[.d-tab]:data-active:text-base-content data-disabled:cursor-not-allowed data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)] focus-visible:outline-2 focus-visible:outline-primary focus-visible:-outline-offset-2"
+      class="group flex flex-col text-base-content data-[orientation=vertical]:flex-row"
+      id="daisyui-tabs-box"
+      default_value="overview"
+      list_class="relative flex flex-wrap not-[.d-tabs]:border-b-[length:var(--border)] not-[.d-tabs]:border-solid not-[.d-tabs]:border-b-base-300 group-data-[orientation=vertical]:flex-col group-data-[orientation=vertical]:border-b-0 group-data-[orientation=vertical]:border-e-[length:var(--border)] group-data-[orientation=vertical]:border-e-base-300 d-tabs d-tabs-box"
+    >
       <:tab value="overview" class="d-tab">Overview</:tab>
       <:tab value="projects" class="d-tab">Projects</:tab>
       <:tab value="account" class="d-tab">Account</:tab>
@@ -4517,9 +4562,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-col gap-6">
       <.tabs
         :for={size <- @sizes}
+        panel_class="text-[0.875rem] focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
+        panels_class="pt-4 group-data-[orientation=vertical]:pt-0 group-data-[orientation=vertical]:ps-4"
+        indicator_class="absolute bottom-[calc(var(--border)*-1)] left-[var(--active-tab-left,0)] w-[var(--active-tab-width,0)] h-0.5 bg-base-content pointer-events-none motion-safe:[transition:left_0.2s_ease-out,width_0.2s_ease-out,top_0.2s_ease-out,height_0.2s_ease-out] [.d-tabs_&]:hidden group-data-[orientation=vertical]:bottom-auto group-data-[orientation=vertical]:left-auto group-data-[orientation=vertical]:end-[calc(var(--border)*-1)] group-data-[orientation=vertical]:top-[var(--active-tab-top,0)] group-data-[orientation=vertical]:w-0.5 group-data-[orientation=vertical]:h-[var(--active-tab-height,0)]"
+        tab_class="not-[.d-tab]:relative not-[.d-tab]:inline-flex not-[.d-tab]:items-center not-[.d-tab]:justify-center not-[.d-tab]:h-[calc(var(--size-field,0.25rem)*10)] not-[.d-tab]:px-3 not-[.d-tab]:text-[0.875rem] not-[.d-tab]:cursor-pointer not-[.d-tab]:select-none not-[.d-tab]:whitespace-nowrap not-[.d-tab]:[color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)] not-[.d-tab]:[transition:color_0.2s_ease-out] not-[.d-tab]:hover:not-data-disabled:text-base-content not-[.d-tab]:data-active:text-base-content data-disabled:cursor-not-allowed data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)] focus-visible:outline-2 focus-visible:outline-primary focus-visible:-outline-offset-2"
+        class="group flex flex-col text-base-content data-[orientation=vertical]:flex-row"
         id={"daisyui-tabs-size-#{size}"}
         default_value="one"
-        list_class={"d-tabs d-tabs-lift d-tabs-#{size}"}
+        list_class={[
+          "relative flex flex-wrap not-[.d-tabs]:border-b-[length:var(--border)] not-[.d-tabs]:border-solid not-[.d-tabs]:border-b-base-300 group-data-[orientation=vertical]:flex-col group-data-[orientation=vertical]:border-b-0 group-data-[orientation=vertical]:border-e-[length:var(--border)] group-data-[orientation=vertical]:border-e-base-300",
+          "d-tabs d-tabs-lift d-tabs-#{size}"
+        ]}
       >
         <:tab value="one" class="d-tab">tabs-{size}</:tab>
         <:tab value="two" class="d-tab">Two</:tab>
@@ -4533,11 +4586,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "tabs-bottom"} = assigns) do
     ~H"""
     <.tabs
+      panel_class="text-[0.875rem] focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
+      indicator_class="absolute bottom-[calc(var(--border)*-1)] left-[var(--active-tab-left,0)] w-[var(--active-tab-width,0)] h-0.5 bg-base-content pointer-events-none motion-safe:[transition:left_0.2s_ease-out,width_0.2s_ease-out,top_0.2s_ease-out,height_0.2s_ease-out] [.d-tabs_&]:hidden group-data-[orientation=vertical]:bottom-auto group-data-[orientation=vertical]:left-auto group-data-[orientation=vertical]:end-[calc(var(--border)*-1)] group-data-[orientation=vertical]:top-[var(--active-tab-top,0)] group-data-[orientation=vertical]:w-0.5 group-data-[orientation=vertical]:h-[var(--active-tab-height,0)]"
+      tab_class="not-[.d-tab]:relative not-[.d-tab]:inline-flex not-[.d-tab]:items-center not-[.d-tab]:justify-center not-[.d-tab]:h-[calc(var(--size-field,0.25rem)*10)] not-[.d-tab]:px-3 not-[.d-tab]:text-[0.875rem] not-[.d-tab]:cursor-pointer not-[.d-tab]:select-none not-[.d-tab]:whitespace-nowrap not-[.d-tab]:[color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)] not-[.d-tab]:[transition:color_0.2s_ease-out] not-[.d-tab]:hover:not-data-disabled:text-base-content not-[.d-tab]:data-active:text-base-content data-disabled:cursor-not-allowed data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)] focus-visible:outline-2 focus-visible:outline-primary focus-visible:-outline-offset-2"
       id="daisyui-tabs-bottom"
       default_value="overview"
-      class="flex-col-reverse"
-      list_class="d-tabs d-tabs-lift d-tabs-bottom"
-      panels_class="!pt-0 pb-4"
+      class="group flex flex-col text-base-content data-[orientation=vertical]:flex-row flex-col-reverse"
+      list_class="relative flex flex-wrap not-[.d-tabs]:border-b-[length:var(--border)] not-[.d-tabs]:border-solid not-[.d-tabs]:border-b-base-300 group-data-[orientation=vertical]:flex-col group-data-[orientation=vertical]:border-b-0 group-data-[orientation=vertical]:border-e-[length:var(--border)] group-data-[orientation=vertical]:border-e-base-300 d-tabs d-tabs-lift d-tabs-bottom"
+      panels_class="pt-4 group-data-[orientation=vertical]:pt-0 group-data-[orientation=vertical]:ps-4 !pt-0 pb-4"
     >
       <:tab value="overview" class="d-tab">Overview</:tab>
       <:tab value="projects" class="d-tab">Projects</:tab>
@@ -4551,9 +4607,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <div class="max-w-60 overflow-x-auto">
       <.tabs
+        panel_class="text-[0.875rem] focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
+        panels_class="pt-4 group-data-[orientation=vertical]:pt-0 group-data-[orientation=vertical]:ps-4"
+        indicator_class="absolute bottom-[calc(var(--border)*-1)] left-[var(--active-tab-left,0)] w-[var(--active-tab-width,0)] h-0.5 bg-base-content pointer-events-none motion-safe:[transition:left_0.2s_ease-out,width_0.2s_ease-out,top_0.2s_ease-out,height_0.2s_ease-out] [.d-tabs_&]:hidden group-data-[orientation=vertical]:bottom-auto group-data-[orientation=vertical]:left-auto group-data-[orientation=vertical]:end-[calc(var(--border)*-1)] group-data-[orientation=vertical]:top-[var(--active-tab-top,0)] group-data-[orientation=vertical]:w-0.5 group-data-[orientation=vertical]:h-[var(--active-tab-height,0)]"
+        tab_class="not-[.d-tab]:relative not-[.d-tab]:inline-flex not-[.d-tab]:items-center not-[.d-tab]:justify-center not-[.d-tab]:h-[calc(var(--size-field,0.25rem)*10)] not-[.d-tab]:px-3 not-[.d-tab]:text-[0.875rem] not-[.d-tab]:cursor-pointer not-[.d-tab]:select-none not-[.d-tab]:whitespace-nowrap not-[.d-tab]:[color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)] not-[.d-tab]:[transition:color_0.2s_ease-out] not-[.d-tab]:hover:not-data-disabled:text-base-content not-[.d-tab]:data-active:text-base-content data-disabled:cursor-not-allowed data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)] focus-visible:outline-2 focus-visible:outline-primary focus-visible:-outline-offset-2"
+        class="group flex flex-col text-base-content data-[orientation=vertical]:flex-row"
         id="daisyui-tabs-scroll"
         default_value="one"
-        list_class="d-tabs d-tabs-lift min-w-max"
+        list_class="relative flex flex-wrap not-[.d-tabs]:border-b-[length:var(--border)] not-[.d-tabs]:border-solid not-[.d-tabs]:border-b-base-300 group-data-[orientation=vertical]:flex-col group-data-[orientation=vertical]:border-b-0 group-data-[orientation=vertical]:border-e-[length:var(--border)] group-data-[orientation=vertical]:border-e-base-300 d-tabs d-tabs-lift min-w-max"
       >
         <:tab value="one" class="d-tab">Tab title 1</:tab>
         <:tab value="two" class="d-tab">Tab title 2</:tab>
@@ -4570,7 +4631,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "tabs-custom-color"} = assigns) do
     ~H"""
-    <.tabs id="daisyui-tabs-custom" default_value="overview" list_class="d-tabs d-tabs-lift">
+    <.tabs
+      panel_class="text-[0.875rem] focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
+      panels_class="pt-4 group-data-[orientation=vertical]:pt-0 group-data-[orientation=vertical]:ps-4"
+      indicator_class="absolute bottom-[calc(var(--border)*-1)] left-[var(--active-tab-left,0)] w-[var(--active-tab-width,0)] h-0.5 bg-base-content pointer-events-none motion-safe:[transition:left_0.2s_ease-out,width_0.2s_ease-out,top_0.2s_ease-out,height_0.2s_ease-out] [.d-tabs_&]:hidden group-data-[orientation=vertical]:bottom-auto group-data-[orientation=vertical]:left-auto group-data-[orientation=vertical]:end-[calc(var(--border)*-1)] group-data-[orientation=vertical]:top-[var(--active-tab-top,0)] group-data-[orientation=vertical]:w-0.5 group-data-[orientation=vertical]:h-[var(--active-tab-height,0)]"
+      tab_class="not-[.d-tab]:relative not-[.d-tab]:inline-flex not-[.d-tab]:items-center not-[.d-tab]:justify-center not-[.d-tab]:h-[calc(var(--size-field,0.25rem)*10)] not-[.d-tab]:px-3 not-[.d-tab]:text-[0.875rem] not-[.d-tab]:cursor-pointer not-[.d-tab]:select-none not-[.d-tab]:whitespace-nowrap not-[.d-tab]:[color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)] not-[.d-tab]:[transition:color_0.2s_ease-out] not-[.d-tab]:hover:not-data-disabled:text-base-content not-[.d-tab]:data-active:text-base-content data-disabled:cursor-not-allowed data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)] focus-visible:outline-2 focus-visible:outline-primary focus-visible:-outline-offset-2"
+      class="group flex flex-col text-base-content data-[orientation=vertical]:flex-row"
+      id="daisyui-tabs-custom"
+      default_value="overview"
+      list_class="relative flex flex-wrap not-[.d-tabs]:border-b-[length:var(--border)] not-[.d-tabs]:border-solid not-[.d-tabs]:border-b-base-300 group-data-[orientation=vertical]:flex-col group-data-[orientation=vertical]:border-b-0 group-data-[orientation=vertical]:border-e-[length:var(--border)] group-data-[orientation=vertical]:border-e-base-300 d-tabs d-tabs-lift"
+    >
       <:tab value="overview" class="d-tab text-primary [--tab-bg:orange] [--tab-border-color:red]">
         Overview
       </:tab>
@@ -4583,7 +4653,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "tabs-vertical"} = assigns) do
     ~H"""
-    <.tabs id="daisyui-tabs-vertical" default_value="general" orientation="vertical">
+    <.tabs
+      panel_class="text-[0.875rem] focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
+      panels_class="pt-4 group-data-[orientation=vertical]:pt-0 group-data-[orientation=vertical]:ps-4"
+      indicator_class="absolute bottom-[calc(var(--border)*-1)] left-[var(--active-tab-left,0)] w-[var(--active-tab-width,0)] h-0.5 bg-base-content pointer-events-none motion-safe:[transition:left_0.2s_ease-out,width_0.2s_ease-out,top_0.2s_ease-out,height_0.2s_ease-out] [.d-tabs_&]:hidden group-data-[orientation=vertical]:bottom-auto group-data-[orientation=vertical]:left-auto group-data-[orientation=vertical]:end-[calc(var(--border)*-1)] group-data-[orientation=vertical]:top-[var(--active-tab-top,0)] group-data-[orientation=vertical]:w-0.5 group-data-[orientation=vertical]:h-[var(--active-tab-height,0)]"
+      tab_class="not-[.d-tab]:relative not-[.d-tab]:inline-flex not-[.d-tab]:items-center not-[.d-tab]:justify-center not-[.d-tab]:h-[calc(var(--size-field,0.25rem)*10)] not-[.d-tab]:px-3 not-[.d-tab]:text-[0.875rem] not-[.d-tab]:cursor-pointer not-[.d-tab]:select-none not-[.d-tab]:whitespace-nowrap not-[.d-tab]:[color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)] not-[.d-tab]:[transition:color_0.2s_ease-out] not-[.d-tab]:hover:not-data-disabled:text-base-content not-[.d-tab]:data-active:text-base-content data-disabled:cursor-not-allowed data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)] focus-visible:outline-2 focus-visible:outline-primary focus-visible:-outline-offset-2"
+      list_class="relative flex flex-wrap not-[.d-tabs]:border-b-[length:var(--border)] not-[.d-tabs]:border-solid not-[.d-tabs]:border-b-base-300 group-data-[orientation=vertical]:flex-col group-data-[orientation=vertical]:border-b-0 group-data-[orientation=vertical]:border-e-[length:var(--border)] group-data-[orientation=vertical]:border-e-base-300"
+      class="group flex flex-col text-base-content data-[orientation=vertical]:flex-row"
+      id="daisyui-tabs-vertical"
+      default_value="general"
+      orientation="vertical"
+    >
       <:tab value="general">General</:tab>
       <:tab value="members">Members</:tab>
       <:tab value="billing" disabled>Billing</:tab>
@@ -4917,7 +4997,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── breadcrumb ────────────────────────────────────────────────────────────
   def example(%{section: "breadcrumb-hero"} = assigns) do
     ~H"""
-    <.breadcrumb id="daisyui-breadcrumb-hero">
+    <.breadcrumb
+      ellipsis_class="flex items-center opacity-60 [button&]:cursor-pointer [button&]:hover:opacity-100"
+      separator_class="data-default:text-[0px] data-default:leading-[0px] data-default:ms-2 data-default:me-3 data-default:before:content-[''] data-default:before:block data-default:before:h-[calc(0.25rem*1.5)] data-default:before:w-[calc(0.25rem*1.5)] data-default:before:opacity-40 data-default:before:rotate-45 data-default:before:[border-top:1px_solid] data-default:before:[border-right:1px_solid] data-default:before:bg-[#0000] rtl:data-default:before:[rotate:-135deg]"
+      link_class="flex items-center gap-2 [a&]:cursor-pointer [a&]:hover:underline focus:outline-none focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2"
+      item_class="flex items-center"
+      list_class="flex min-h-min items-center whitespace-nowrap"
+      class="d-breadcrumbs"
+      id="daisyui-breadcrumb-hero"
+    >
       <:item href="#">Home</:item>
       <:item href="#">Documents</:item>
       <:item>Add document</:item>
@@ -4927,7 +5015,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "breadcrumb-icons"} = assigns) do
     ~H"""
-    <.breadcrumb id="daisyui-breadcrumb-icons">
+    <.breadcrumb
+      ellipsis_class="flex items-center opacity-60 [button&]:cursor-pointer [button&]:hover:opacity-100"
+      separator_class="data-default:text-[0px] data-default:leading-[0px] data-default:ms-2 data-default:me-3 data-default:before:content-[''] data-default:before:block data-default:before:h-[calc(0.25rem*1.5)] data-default:before:w-[calc(0.25rem*1.5)] data-default:before:opacity-40 data-default:before:rotate-45 data-default:before:[border-top:1px_solid] data-default:before:[border-right:1px_solid] data-default:before:bg-[#0000] rtl:data-default:before:[rotate:-135deg]"
+      link_class="flex items-center gap-2 [a&]:cursor-pointer [a&]:hover:underline focus:outline-none focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2"
+      item_class="flex items-center"
+      list_class="flex min-h-min items-center whitespace-nowrap"
+      class="d-breadcrumbs"
+      id="daisyui-breadcrumb-icons"
+    >
       <:item href="#">
         <.field_icon path="M3 11l9-8 9 8M5 10v10h14V10" /> Home
       </:item>
@@ -4943,7 +5039,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "breadcrumb-max-width"} = assigns) do
     ~H"""
-    <.breadcrumb id="daisyui-breadcrumb-max-width" class="max-w-xs">
+    <.breadcrumb
+      ellipsis_class="flex items-center opacity-60 [button&]:cursor-pointer [button&]:hover:opacity-100"
+      separator_class="data-default:text-[0px] data-default:leading-[0px] data-default:ms-2 data-default:me-3 data-default:before:content-[''] data-default:before:block data-default:before:h-[calc(0.25rem*1.5)] data-default:before:w-[calc(0.25rem*1.5)] data-default:before:opacity-40 data-default:before:rotate-45 data-default:before:[border-top:1px_solid] data-default:before:[border-right:1px_solid] data-default:before:bg-[#0000] rtl:data-default:before:[rotate:-135deg]"
+      link_class="flex items-center gap-2 [a&]:cursor-pointer [a&]:hover:underline focus:outline-none focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2"
+      item_class="flex items-center"
+      list_class="flex min-h-min items-center whitespace-nowrap"
+      id="daisyui-breadcrumb-max-width"
+      class="d-breadcrumbs max-w-xs"
+    >
       <:item href="#">Long text 1</:item>
       <:item href="#">Long text 2</:item>
       <:item href="#">Long text 3</:item>
@@ -4955,7 +5059,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "breadcrumb-separator"} = assigns) do
     ~H"""
-    <.breadcrumb id="daisyui-breadcrumb-separator">
+    <.breadcrumb
+      ellipsis_class="flex items-center opacity-60 [button&]:cursor-pointer [button&]:hover:opacity-100"
+      separator_class="data-default:text-[0px] data-default:leading-[0px] data-default:ms-2 data-default:me-3 data-default:before:content-[''] data-default:before:block data-default:before:h-[calc(0.25rem*1.5)] data-default:before:w-[calc(0.25rem*1.5)] data-default:before:opacity-40 data-default:before:rotate-45 data-default:before:[border-top:1px_solid] data-default:before:[border-right:1px_solid] data-default:before:bg-[#0000] rtl:data-default:before:[rotate:-135deg]"
+      link_class="flex items-center gap-2 [a&]:cursor-pointer [a&]:hover:underline focus:outline-none focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2"
+      item_class="flex items-center"
+      list_class="flex min-h-min items-center whitespace-nowrap"
+      class="d-breadcrumbs"
+      id="daisyui-breadcrumb-separator"
+    >
       <:separator><span class="px-2 opacity-40">›</span></:separator>
       <:item href="#">Home</:item>
       <:item href="#">Library</:item>
@@ -4966,7 +5078,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "breadcrumb-collapsed"} = assigns) do
     ~H"""
-    <.breadcrumb id="daisyui-breadcrumb-collapsed" max_items={4}>
+    <.breadcrumb
+      ellipsis_class="flex items-center opacity-60 [button&]:cursor-pointer [button&]:hover:opacity-100"
+      separator_class="data-default:text-[0px] data-default:leading-[0px] data-default:ms-2 data-default:me-3 data-default:before:content-[''] data-default:before:block data-default:before:h-[calc(0.25rem*1.5)] data-default:before:w-[calc(0.25rem*1.5)] data-default:before:opacity-40 data-default:before:rotate-45 data-default:before:[border-top:1px_solid] data-default:before:[border-right:1px_solid] data-default:before:bg-[#0000] rtl:data-default:before:[rotate:-135deg]"
+      link_class="flex items-center gap-2 [a&]:cursor-pointer [a&]:hover:underline focus:outline-none focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2"
+      item_class="flex items-center"
+      list_class="flex min-h-min items-center whitespace-nowrap"
+      class="d-breadcrumbs"
+      id="daisyui-breadcrumb-collapsed"
+      max_items={4}
+    >
       <:item href="#">Home</:item>
       <:item href="#">Projects</:item>
       <:item href="#">Chelekom</:item>
@@ -4980,6 +5101,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "breadcrumb-expandable"} = assigns) do
     ~H"""
     <.breadcrumb
+      ellipsis_class="flex items-center opacity-60 [button&]:cursor-pointer [button&]:hover:opacity-100"
+      separator_class="data-default:text-[0px] data-default:leading-[0px] data-default:ms-2 data-default:me-3 data-default:before:content-[''] data-default:before:block data-default:before:h-[calc(0.25rem*1.5)] data-default:before:w-[calc(0.25rem*1.5)] data-default:before:opacity-40 data-default:before:rotate-45 data-default:before:[border-top:1px_solid] data-default:before:[border-right:1px_solid] data-default:before:bg-[#0000] rtl:data-default:before:[rotate:-135deg]"
+      link_class="flex items-center gap-2 [a&]:cursor-pointer [a&]:hover:underline focus:outline-none focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2"
+      item_class="flex items-center"
+      list_class="flex min-h-min items-center whitespace-nowrap"
+      class="d-breadcrumbs"
       id="daisyui-breadcrumb-expandable"
       max_items={3}
       boundary={1}
@@ -9649,7 +9776,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "dock-hero"} = assigns) do
     ~H"""
     <.dock_frame>
-      <.dock id="daisyui-dock-hero" label="Sections" contained>
+      <.dock
+        label_class="d-dock-label data-hidden:absolute data-hidden:w-px data-hidden:h-px data-hidden:p-0 data-hidden:-m-px data-hidden:overflow-hidden data-hidden:[clip-path:inset(50%)] data-hidden:whitespace-nowrap data-hidden:border-0 [.d-dock-xs_&]:text-[0.625rem] [.d-dock-sm_&]:text-[0.625rem] [.d-dock-md_&]:text-[0.6875rem] [.d-dock-lg_&]:text-[0.6875rem] [.d-dock-xl_&]:text-[0.75rem]"
+        item_class="data-active:after:w-10 data-active:after:bg-current data-active:after:text-current group-data-[position=top]:after:bottom-auto group-data-[position=top]:after:top-[0.2rem] [.d-dock-xs_&]:data-active:after:bottom-[-0.1rem] [.d-dock-sm_&]:data-active:after:bottom-[-0.1rem] [.d-dock-lg_&]:data-active:after:bottom-[0.4rem] [.d-dock-xl_&]:data-active:after:bottom-[0.4rem]"
+        class="group d-dock data-[position=top]:top-0 data-[position=top]:bottom-auto data-[position=top]:[border-top:none] data-[position=top]:[border-bottom:0.5px_solid_color-mix(in_oklab,var(--color-base-content)_5%,#0000)] data-[position=top]:pb-0 data-[position=top]:[padding-top:env(safe-area-inset-top)] data-contained:absolute data-contained:h-16 data-contained:pb-0 data-contained:[&.d-dock-xs]:h-[3rem] data-contained:[&.d-dock-sm]:h-[3.5rem] data-contained:[&.d-dock-md]:h-[4rem] data-contained:[&.d-dock-lg]:h-[4.5rem] data-contained:[&.d-dock-xl]:h-[5rem]"
+        id="daisyui-dock-hero"
+        label="Sections"
+        contained
+      >
         <:item label="Home" href="#"><.dock_icon path="M3 11l9-8 9 8M5 10v10h14V10" /></:item>
         <:item label="Inbox" href="#" active><.dock_icon path="M3 7h18v10H3zM3 7l9 6 9-6" /></:item>
         <:item label="Settings" href="#"><.dock_icon path="M12 8a4 4 0 100 8 4 4 0 000-8z" /></:item>
@@ -9665,10 +9799,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-col gap-4">
       <.dock_frame :for={size <- @sizes} height="h-28">
         <.dock
+          label_class="d-dock-label data-hidden:absolute data-hidden:w-px data-hidden:h-px data-hidden:p-0 data-hidden:-m-px data-hidden:overflow-hidden data-hidden:[clip-path:inset(50%)] data-hidden:whitespace-nowrap data-hidden:border-0 [.d-dock-xs_&]:text-[0.625rem] [.d-dock-sm_&]:text-[0.625rem] [.d-dock-md_&]:text-[0.6875rem] [.d-dock-lg_&]:text-[0.6875rem] [.d-dock-xl_&]:text-[0.75rem]"
+          item_class="data-active:after:w-10 data-active:after:bg-current data-active:after:text-current group-data-[position=top]:after:bottom-auto group-data-[position=top]:after:top-[0.2rem] [.d-dock-xs_&]:data-active:after:bottom-[-0.1rem] [.d-dock-sm_&]:data-active:after:bottom-[-0.1rem] [.d-dock-lg_&]:data-active:after:bottom-[0.4rem] [.d-dock-xl_&]:data-active:after:bottom-[0.4rem]"
           id={"daisyui-dock-#{size}"}
           label={"Sections #{size}"}
           contained
-          class={"d-dock-#{size}"}
+          class={[
+            "group d-dock data-[position=top]:top-0 data-[position=top]:bottom-auto data-[position=top]:[border-top:none] data-[position=top]:[border-bottom:0.5px_solid_color-mix(in_oklab,var(--color-base-content)_5%,#0000)] data-[position=top]:pb-0 data-[position=top]:[padding-top:env(safe-area-inset-top)] data-contained:absolute data-contained:h-16 data-contained:pb-0 data-contained:[&.d-dock-xs]:h-[3rem] data-contained:[&.d-dock-sm]:h-[3.5rem] data-contained:[&.d-dock-md]:h-[4rem] data-contained:[&.d-dock-lg]:h-[4.5rem] data-contained:[&.d-dock-xl]:h-[5rem]",
+            "d-dock-#{size}"
+          ]}
         >
           <:item label="Home" href="#"><.dock_icon path="M3 11l9-8 9 8M5 10v10h14V10" /></:item>
           <:item label="Inbox" href="#" active><.dock_icon path="M3 7h18v10H3zM3 7l9 6 9-6" /></:item>
@@ -9685,10 +9824,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.dock_frame>
       <.dock
+        label_class="d-dock-label data-hidden:absolute data-hidden:w-px data-hidden:h-px data-hidden:p-0 data-hidden:-m-px data-hidden:overflow-hidden data-hidden:[clip-path:inset(50%)] data-hidden:whitespace-nowrap data-hidden:border-0 [.d-dock-xs_&]:text-[0.625rem] [.d-dock-sm_&]:text-[0.625rem] [.d-dock-md_&]:text-[0.6875rem] [.d-dock-lg_&]:text-[0.6875rem] [.d-dock-xl_&]:text-[0.75rem]"
+        item_class="data-active:after:w-10 data-active:after:bg-current data-active:after:text-current group-data-[position=top]:after:bottom-auto group-data-[position=top]:after:top-[0.2rem] [.d-dock-xs_&]:data-active:after:bottom-[-0.1rem] [.d-dock-sm_&]:data-active:after:bottom-[-0.1rem] [.d-dock-lg_&]:data-active:after:bottom-[0.4rem] [.d-dock-xl_&]:data-active:after:bottom-[0.4rem]"
         id="daisyui-dock-colors"
         label="Sections"
         contained
-        class="bg-primary text-primary-content"
+        class="group d-dock data-[position=top]:top-0 data-[position=top]:bottom-auto data-[position=top]:[border-top:none] data-[position=top]:[border-bottom:0.5px_solid_color-mix(in_oklab,var(--color-base-content)_5%,#0000)] data-[position=top]:pb-0 data-[position=top]:[padding-top:env(safe-area-inset-top)] data-contained:absolute data-contained:h-16 data-contained:pb-0 data-contained:[&.d-dock-xs]:h-[3rem] data-contained:[&.d-dock-sm]:h-[3.5rem] data-contained:[&.d-dock-md]:h-[4rem] data-contained:[&.d-dock-lg]:h-[4.5rem] data-contained:[&.d-dock-xl]:h-[5rem] bg-primary text-primary-content"
       >
         <:item label="Home" href="#"><.dock_icon path="M3 11l9-8 9 8M5 10v10h14V10" /></:item>
         <:item label="Inbox" href="#" active><.dock_icon path="M3 7h18v10H3zM3 7l9 6 9-6" /></:item>
@@ -9701,7 +9842,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "dock-top"} = assigns) do
     ~H"""
     <.dock_frame align="items-start">
-      <.dock id="daisyui-dock-top" label="Sections" position="top" contained>
+      <.dock
+        label_class="d-dock-label data-hidden:absolute data-hidden:w-px data-hidden:h-px data-hidden:p-0 data-hidden:-m-px data-hidden:overflow-hidden data-hidden:[clip-path:inset(50%)] data-hidden:whitespace-nowrap data-hidden:border-0 [.d-dock-xs_&]:text-[0.625rem] [.d-dock-sm_&]:text-[0.625rem] [.d-dock-md_&]:text-[0.6875rem] [.d-dock-lg_&]:text-[0.6875rem] [.d-dock-xl_&]:text-[0.75rem]"
+        item_class="data-active:after:w-10 data-active:after:bg-current data-active:after:text-current group-data-[position=top]:after:bottom-auto group-data-[position=top]:after:top-[0.2rem] [.d-dock-xs_&]:data-active:after:bottom-[-0.1rem] [.d-dock-sm_&]:data-active:after:bottom-[-0.1rem] [.d-dock-lg_&]:data-active:after:bottom-[0.4rem] [.d-dock-xl_&]:data-active:after:bottom-[0.4rem]"
+        class="group d-dock data-[position=top]:top-0 data-[position=top]:bottom-auto data-[position=top]:[border-top:none] data-[position=top]:[border-bottom:0.5px_solid_color-mix(in_oklab,var(--color-base-content)_5%,#0000)] data-[position=top]:pb-0 data-[position=top]:[padding-top:env(safe-area-inset-top)] data-contained:absolute data-contained:h-16 data-contained:pb-0 data-contained:[&.d-dock-xs]:h-[3rem] data-contained:[&.d-dock-sm]:h-[3.5rem] data-contained:[&.d-dock-md]:h-[4rem] data-contained:[&.d-dock-lg]:h-[4.5rem] data-contained:[&.d-dock-xl]:h-[5rem]"
+        id="daisyui-dock-top"
+        label="Sections"
+        position="top"
+        contained
+      >
         <:item label="Home" href="#"><.dock_icon path="M3 11l9-8 9 8M5 10v10h14V10" /></:item>
         <:item label="Inbox" href="#" active><.dock_icon path="M3 7h18v10H3zM3 7l9 6 9-6" /></:item>
         <:item label="Settings" href="#"><.dock_icon path="M12 8a4 4 0 100 8 4 4 0 000-8z" /></:item>
@@ -9713,7 +9862,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "dock-icon-only"} = assigns) do
     ~H"""
     <.dock_frame>
-      <.dock id="daisyui-dock-icon-only" label="Sections" contained show_labels={false}>
+      <.dock
+        label_class="d-dock-label data-hidden:absolute data-hidden:w-px data-hidden:h-px data-hidden:p-0 data-hidden:-m-px data-hidden:overflow-hidden data-hidden:[clip-path:inset(50%)] data-hidden:whitespace-nowrap data-hidden:border-0 [.d-dock-xs_&]:text-[0.625rem] [.d-dock-sm_&]:text-[0.625rem] [.d-dock-md_&]:text-[0.6875rem] [.d-dock-lg_&]:text-[0.6875rem] [.d-dock-xl_&]:text-[0.75rem]"
+        item_class="data-active:after:w-10 data-active:after:bg-current data-active:after:text-current group-data-[position=top]:after:bottom-auto group-data-[position=top]:after:top-[0.2rem] [.d-dock-xs_&]:data-active:after:bottom-[-0.1rem] [.d-dock-sm_&]:data-active:after:bottom-[-0.1rem] [.d-dock-lg_&]:data-active:after:bottom-[0.4rem] [.d-dock-xl_&]:data-active:after:bottom-[0.4rem]"
+        class="group d-dock data-[position=top]:top-0 data-[position=top]:bottom-auto data-[position=top]:[border-top:none] data-[position=top]:[border-bottom:0.5px_solid_color-mix(in_oklab,var(--color-base-content)_5%,#0000)] data-[position=top]:pb-0 data-[position=top]:[padding-top:env(safe-area-inset-top)] data-contained:absolute data-contained:h-16 data-contained:pb-0 data-contained:[&.d-dock-xs]:h-[3rem] data-contained:[&.d-dock-sm]:h-[3.5rem] data-contained:[&.d-dock-md]:h-[4rem] data-contained:[&.d-dock-lg]:h-[4.5rem] data-contained:[&.d-dock-xl]:h-[5rem]"
+        id="daisyui-dock-icon-only"
+        label="Sections"
+        contained
+        show_labels={false}
+      >
         <:item label="Home" href="#"><.dock_icon path="M3 11l9-8 9 8M5 10v10h14V10" /></:item>
         <:item label="Inbox" href="#" active><.dock_icon path="M3 7h18v10H3zM3 7l9 6 9-6" /></:item>
         <:item label="Settings" href="#" disabled>
@@ -9727,7 +9884,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "dock-interactive"} = assigns) do
     ~H"""
     <.dock_frame>
-      <.dock id="daisyui-dock-interactive" label="Panels" contained>
+      <.dock
+        label_class="d-dock-label data-hidden:absolute data-hidden:w-px data-hidden:h-px data-hidden:p-0 data-hidden:-m-px data-hidden:overflow-hidden data-hidden:[clip-path:inset(50%)] data-hidden:whitespace-nowrap data-hidden:border-0 [.d-dock-xs_&]:text-[0.625rem] [.d-dock-sm_&]:text-[0.625rem] [.d-dock-md_&]:text-[0.6875rem] [.d-dock-lg_&]:text-[0.6875rem] [.d-dock-xl_&]:text-[0.75rem]"
+        item_class="data-active:after:w-10 data-active:after:bg-current data-active:after:text-current group-data-[position=top]:after:bottom-auto group-data-[position=top]:after:top-[0.2rem] [.d-dock-xs_&]:data-active:after:bottom-[-0.1rem] [.d-dock-sm_&]:data-active:after:bottom-[-0.1rem] [.d-dock-lg_&]:data-active:after:bottom-[0.4rem] [.d-dock-xl_&]:data-active:after:bottom-[0.4rem]"
+        class="group d-dock data-[position=top]:top-0 data-[position=top]:bottom-auto data-[position=top]:[border-top:none] data-[position=top]:[border-bottom:0.5px_solid_color-mix(in_oklab,var(--color-base-content)_5%,#0000)] data-[position=top]:pb-0 data-[position=top]:[padding-top:env(safe-area-inset-top)] data-contained:absolute data-contained:h-16 data-contained:pb-0 data-contained:[&.d-dock-xs]:h-[3rem] data-contained:[&.d-dock-sm]:h-[3.5rem] data-contained:[&.d-dock-md]:h-[4rem] data-contained:[&.d-dock-lg]:h-[4.5rem] data-contained:[&.d-dock-xl]:h-[5rem]"
+        id="daisyui-dock-interactive"
+        label="Panels"
+        contained
+      >
         <:item label="Home" on_select="daisyui_dock_select">
           <.dock_icon path="M3 11l9-8 9 8M5 10v10h14V10" />
         </:item>

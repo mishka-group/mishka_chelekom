@@ -48,6 +48,7 @@ defmodule DevelopmentWeb.Components.Headless.Breadcrumb do
   attr :item_class, :any, default: nil, doc: ~s|Extra classes for `data-part="item"`|
   attr :separator_class, :any, default: nil, doc: ~s|Extra classes for `data-part="separator"`|
   attr :ellipsis_class, :any, default: nil, doc: ~s|Extra classes for `data-part="ellipsis"`|
+  attr :link_class, :any, default: nil, doc: ~s|Extra classes for every crumb link|
   attr :rest, :global
 
   slot :separator, doc: "Custom separator; falls back to a `/` character"
@@ -95,6 +96,7 @@ defmodule DevelopmentWeb.Components.Headless.Breadcrumb do
             on_expand={@on_expand}
             expand_label={@expand_label}
             ellipsis_class={@ellipsis_class}
+            link_class={@link_class}
           />
         </li>
       </ol>
@@ -107,6 +109,7 @@ defmodule DevelopmentWeb.Components.Headless.Breadcrumb do
   attr :on_expand, :any, required: true
   attr :expand_label, :string, required: true
   attr :ellipsis_class, :any, default: nil
+  attr :link_class, :any, default: nil
 
   defp crumb(%{entry: :ellipsis} = assigns) do
     ~H"""
@@ -136,14 +139,14 @@ defmodule DevelopmentWeb.Components.Headless.Breadcrumb do
       patch={@entry[:patch]}
       href={@entry[:href]}
       data-part="link"
-      class={["chelekom-breadcrumb__link", @entry[:class]]}
+      class={["chelekom-breadcrumb__link", @link_class, @entry[:class]]}
     >{render_slot(@entry)}</.link>
 
     <span
       :if={@current? || !link?(@entry)}
       data-part="link"
       aria-current={@current? && "page"}
-      class={["chelekom-breadcrumb__link", @entry[:class]]}
+      class={["chelekom-breadcrumb__link", @link_class, @entry[:class]]}
     >{render_slot(@entry)}</span>
     """
   end
