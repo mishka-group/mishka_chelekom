@@ -143,7 +143,7 @@ defmodule DevelopmentWeb.Components.Headless.Fab do
           action={main}
           part="main-action"
           index={-1}
-          class={nil}
+          class={@action_class}
           action_icon_class={@action_icon_class}
           label_class={@label_class}
         />

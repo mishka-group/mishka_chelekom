@@ -5715,7 +5715,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "fab-hero"} = assigns) do
     ~H"""
     <.fab_frame>
-      <.fab id="daisyui-fab-hero" label="Actions" contained>
+      <.fab
+        id="daisyui-fab-hero"
+        label="Actions"
+        contained
+      >
         <:icon>+</:icon>
         <:action label="Share">A</:action>
         <:action label="Copy">B</:action>
@@ -5728,7 +5732,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "fab-icons"} = assigns) do
     ~H"""
     <.fab_frame>
-      <.fab id="daisyui-fab-icons" label="Actions" contained>
+      <.fab
+        id="daisyui-fab-icons"
+        label="Actions"
+        contained
+      >
         <:icon><.dock_icon path="M12 5v14M5 12h14" /></:icon>
         <:action label="Share"><.dock_icon path="M4 12v8h16v-8M12 3v13M8 7l4-4 4 4" /></:action>
         <:action label="Copy"><.dock_icon path="M9 9h10v10H9zM5 15V5h10" /></:action>
@@ -5741,7 +5749,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "fab-labels"} = assigns) do
     ~H"""
     <.fab_frame>
-      <.fab id="daisyui-fab-labels" label="Actions" contained>
+      <.fab
+        id="daisyui-fab-labels"
+        label="Actions"
+        contained
+      >
         <:icon><.dock_icon path="M12 5v14M5 12h14" /></:icon>
         <:action label="Share" show_label>
           <.dock_icon path="M4 12v8h16v-8M12 3v13M8 7l4-4 4 4" />
@@ -5755,7 +5767,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "fab-rectangle"} = assigns) do
     ~H"""
     <.fab_frame>
-      <.fab id="daisyui-fab-rectangle" label="Actions" contained>
+      <.fab
+        id="daisyui-fab-rectangle"
+        label="Actions"
+        contained
+      >
         <:icon>+</:icon>
         <:action label="Add a page" show_label>+</:action>
         <:action label="Add a folder" show_label>▸</:action>
@@ -5767,7 +5783,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "fab-close"} = assigns) do
     ~H"""
     <.fab_frame>
-      <.fab id="daisyui-fab-close" label="Actions" contained>
+      <.fab
+        id="daisyui-fab-close"
+        label="Actions"
+        contained
+      >
         <:icon><.dock_icon path="M12 5v14M5 12h14" /></:icon>
         <:close_icon><.dock_icon path="M6 6l12 12M18 6L6 18" /></:close_icon>
         <:action label="Share" show_label>A</:action>
@@ -5780,7 +5800,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "fab-main-action"} = assigns) do
     ~H"""
     <.fab_frame>
-      <.fab id="daisyui-fab-main" label="Actions" contained>
+      <.fab
+        id="daisyui-fab-main"
+        label="Actions"
+        contained
+      >
         <:icon><.dock_icon path="M12 5v14M5 12h14" /></:icon>
         <:action label="Share" show_label>A</:action>
         <:action label="Copy" show_label>B</:action>
@@ -5793,7 +5817,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "fab-single"} = assigns) do
     ~H"""
     <.fab_frame>
-      <.fab id="daisyui-fab-single" label="Compose" contained>
+      <.fab
+        id="daisyui-fab-single"
+        label="Compose"
+        contained
+      >
         <:icon><.dock_icon path="M4 20h4L20 8l-4-4L4 16z" /></:icon>
       </.fab>
     </.fab_frame>
@@ -5803,7 +5831,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "fab-flower"} = assigns) do
     ~H"""
     <.fab_frame>
-      <.fab id="daisyui-fab-flower" label="Actions" contained direction="flower">
+      <.fab
+        id="daisyui-fab-flower"
+        label="Actions"
+        contained
+        direction="flower"
+      >
         <:icon><.dock_icon path="M12 5v14M5 12h14" /></:icon>
         <:action label="Share">A</:action>
         <:action label="Copy">B</:action>
@@ -5816,7 +5849,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "fab-flower-main"} = assigns) do
     ~H"""
     <.fab_frame>
-      <.fab id="daisyui-fab-flower-main" label="Actions" contained direction="flower">
+      <.fab
+        id="daisyui-fab-flower-main"
+        label="Actions"
+        contained
+        direction="flower"
+      >
         <:icon><.dock_icon path="M12 5v14M5 12h14" /></:icon>
         <:action label="Share">A</:action>
         <:action label="Copy">B</:action>
@@ -10866,13 +10904,21 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── file_input ────────────────────────────────────────────────────────────
   def example(%{section: "file-input-hero"} = assigns) do
     ~H"""
-    <.file_input id="daisyui-file-hero" name="attachment" />
+    <.file_input
+      class="d-file-input focus:[--d-input-color:var(--color-base-content)] focus:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_10%,#0000)] focus:outline-2 focus:outline-[var(--d-input-color)] focus:outline-offset-2 focus:isolate data-invalid:[--d-input-color:var(--color-error)] data-invalid:border-[var(--d-input-color)] disabled:cursor-not-allowed disabled:border-base-200 disabled:bg-base-200 disabled:[box-shadow:none] disabled:[color:color-mix(in_oklch,var(--color-base-content)_20%,#0000)] disabled:file:[--d-btn-border:#0000] disabled:file:[--d-btn-fg:color-mix(in_oklch,var(--color-base-content)_20%,#0000)] disabled:file:cursor-not-allowed disabled:file:[border-color:var(--color-base-200)] disabled:file:[background-color:var(--color-base-200)] disabled:file:[background-image:none] data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-disabled:[color:color-mix(in_oklch,var(--color-base-content)_20%,#0000)] data-disabled:file:[--d-btn-border:#0000] data-disabled:file:[--d-btn-fg:color-mix(in_oklch,var(--color-base-content)_20%,#0000)] data-disabled:file:cursor-not-allowed data-disabled:file:[border-color:var(--color-base-200)] data-disabled:file:[background-color:var(--color-base-200)] data-disabled:file:[background-image:none] file:[--d-size:calc(var(--size-field,0.25rem)*10)] file:[--d-btn-bg:var(--d-btn-color,var(--color-base-200))] file:[--d-btn-fg:var(--color-base-content)] file:[--d-btn-border:color-mix(in_oklab,var(--d-btn-bg),#000_5%)] file:[--d-btn-shadow:0_3px_2px_-2px_color-mix(in_oklab,var(--d-btn-bg)_30%,#0000),0_4px_3px_-2px_color-mix(in_oklab,var(--d-btn-bg)_30%,#0000)] file:[margin-inline-end:calc(0.25rem*4)] file:[margin-inline-start:calc(var(--border)*-1)] file:[margin-block:calc(var(--border)*-1)] file:[height:calc(100%+var(--border)*2)] file:[padding-inline:calc(0.25rem*4)] file:cursor-pointer file:select-none file:text-[0.875rem] file:font-semibold file:[color:var(--d-btn-fg)] file:[border-width:var(--border)] file:[border-style:solid] file:[border-color:var(--d-btn-border)] file:[border-start-start-radius:calc(var(--join-ss,var(--radius-field)-var(--border)))] file:[border-end-start-radius:calc(var(--join-es,var(--radius-field)-var(--border)))] file:[background-color:var(--d-btn-bg)] file:[background-size:calc(var(--noise)*100%)] file:[background-image:var(--fx-noise)] file:[text-shadow:0_0.5px_oklch(1_0_0/calc(var(--depth)*0.15))] file:[box-shadow:0_0.5px_0_0.5px_color-mix(in_oklab,color-mix(in_oklab,white_30%,var(--d-btn-bg))_calc(var(--depth)*20%),#0000)_inset,var(--d-btn-shadow)]"
+      id="daisyui-file-hero"
+      name="attachment"
+    />
     """
   end
 
   def example(%{section: "file-input-ghost"} = assigns) do
     ~H"""
-    <.file_input id="daisyui-file-ghost" name="ghost" class="d-file-input-ghost" />
+    <.file_input
+      id="daisyui-file-ghost"
+      name="ghost"
+      class="d-file-input focus:[--d-input-color:var(--color-base-content)] focus:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_10%,#0000)] focus:outline-2 focus:outline-[var(--d-input-color)] focus:outline-offset-2 focus:isolate data-invalid:[--d-input-color:var(--color-error)] data-invalid:border-[var(--d-input-color)] disabled:cursor-not-allowed disabled:border-base-200 disabled:bg-base-200 disabled:[box-shadow:none] disabled:[color:color-mix(in_oklch,var(--color-base-content)_20%,#0000)] disabled:file:[--d-btn-border:#0000] disabled:file:[--d-btn-fg:color-mix(in_oklch,var(--color-base-content)_20%,#0000)] disabled:file:cursor-not-allowed disabled:file:[border-color:var(--color-base-200)] disabled:file:[background-color:var(--color-base-200)] disabled:file:[background-image:none] data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-disabled:[color:color-mix(in_oklch,var(--color-base-content)_20%,#0000)] data-disabled:file:[--d-btn-border:#0000] data-disabled:file:[--d-btn-fg:color-mix(in_oklch,var(--color-base-content)_20%,#0000)] data-disabled:file:cursor-not-allowed data-disabled:file:[border-color:var(--color-base-200)] data-disabled:file:[background-color:var(--color-base-200)] data-disabled:file:[background-image:none] file:[--d-size:calc(var(--size-field,0.25rem)*10)] file:[--d-btn-bg:var(--d-btn-color,var(--color-base-200))] file:[--d-btn-fg:var(--color-base-content)] file:[--d-btn-border:color-mix(in_oklab,var(--d-btn-bg),#000_5%)] file:[--d-btn-shadow:0_3px_2px_-2px_color-mix(in_oklab,var(--d-btn-bg)_30%,#0000),0_4px_3px_-2px_color-mix(in_oklab,var(--d-btn-bg)_30%,#0000)] file:[margin-inline-end:calc(0.25rem*4)] file:[margin-inline-start:calc(var(--border)*-1)] file:[margin-block:calc(var(--border)*-1)] file:[height:calc(100%+var(--border)*2)] file:[padding-inline:calc(0.25rem*4)] file:cursor-pointer file:select-none file:text-[0.875rem] file:font-semibold file:[color:var(--d-btn-fg)] file:[border-width:var(--border)] file:[border-style:solid] file:[border-color:var(--d-btn-border)] file:[border-start-start-radius:calc(var(--join-ss,var(--radius-field)-var(--border)))] file:[border-end-start-radius:calc(var(--join-es,var(--radius-field)-var(--border)))] file:[background-color:var(--d-btn-bg)] file:[background-size:calc(var(--noise)*100%)] file:[background-image:var(--fx-noise)] file:[text-shadow:0_0.5px_oklch(1_0_0/calc(var(--depth)*0.15))] file:[box-shadow:0_0.5px_0_0.5px_color-mix(in_oklab,color-mix(in_oklab,white_30%,var(--d-btn-bg))_calc(var(--depth)*20%),#0000)_inset,var(--d-btn-shadow)] d-file-input-ghost"
+    />
     """
   end
 
@@ -10894,7 +10940,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         name={f.name}
         accept="image/*"
         describedby={f.describedby}
-        class="d-input w-full group-data-[invalid]:[--d-input-color:var(--color-error)] group-data-[valid]:[--d-input-color:var(--color-success)]"
+        class="d-file-input focus:[--d-input-color:var(--color-base-content)] focus:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_10%,#0000)] focus:outline-2 focus:outline-[var(--d-input-color)] focus:outline-offset-2 focus:isolate data-invalid:[--d-input-color:var(--color-error)] data-invalid:border-[var(--d-input-color)] disabled:cursor-not-allowed disabled:border-base-200 disabled:bg-base-200 disabled:[box-shadow:none] disabled:[color:color-mix(in_oklch,var(--color-base-content)_20%,#0000)] disabled:file:[--d-btn-border:#0000] disabled:file:[--d-btn-fg:color-mix(in_oklch,var(--color-base-content)_20%,#0000)] disabled:file:cursor-not-allowed disabled:file:[border-color:var(--color-base-200)] disabled:file:[background-color:var(--color-base-200)] disabled:file:[background-image:none] data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-disabled:[color:color-mix(in_oklch,var(--color-base-content)_20%,#0000)] data-disabled:file:[--d-btn-border:#0000] data-disabled:file:[--d-btn-fg:color-mix(in_oklch,var(--color-base-content)_20%,#0000)] data-disabled:file:cursor-not-allowed data-disabled:file:[border-color:var(--color-base-200)] data-disabled:file:[background-color:var(--color-base-200)] data-disabled:file:[background-image:none] file:[--d-size:calc(var(--size-field,0.25rem)*10)] file:[--d-btn-bg:var(--d-btn-color,var(--color-base-200))] file:[--d-btn-fg:var(--color-base-content)] file:[--d-btn-border:color-mix(in_oklab,var(--d-btn-bg),#000_5%)] file:[--d-btn-shadow:0_3px_2px_-2px_color-mix(in_oklab,var(--d-btn-bg)_30%,#0000),0_4px_3px_-2px_color-mix(in_oklab,var(--d-btn-bg)_30%,#0000)] file:[margin-inline-end:calc(0.25rem*4)] file:[margin-inline-start:calc(var(--border)*-1)] file:[margin-block:calc(var(--border)*-1)] file:[height:calc(100%+var(--border)*2)] file:[padding-inline:calc(0.25rem*4)] file:cursor-pointer file:select-none file:text-[0.875rem] file:font-semibold file:[color:var(--d-btn-fg)] file:[border-width:var(--border)] file:[border-style:solid] file:[border-color:var(--d-btn-border)] file:[border-start-start-radius:calc(var(--join-ss,var(--radius-field)-var(--border)))] file:[border-end-start-radius:calc(var(--join-es,var(--radius-field)-var(--border)))] file:[background-color:var(--d-btn-bg)] file:[background-size:calc(var(--noise)*100%)] file:[background-image:var(--fx-noise)] file:[text-shadow:0_0.5px_oklch(1_0_0/calc(var(--depth)*0.15))] file:[box-shadow:0_0.5px_0_0.5px_color-mix(in_oklab,color-mix(in_oklab,white_30%,var(--d-btn-bg))_calc(var(--depth)*20%),#0000)_inset,var(--d-btn-shadow)] d-input w-full group-data-[invalid]:[--d-input-color:var(--color-error)] group-data-[valid]:[--d-input-color:var(--color-success)]"
       />
       <:description>Max size 2MB</:description>
     </.field>
@@ -10910,7 +10956,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         :for={size <- @sizes}
         id={"daisyui-file-size-#{size}"}
         name={size}
-        class={"d-file-input-#{size}"}
+        class={[
+          "d-file-input focus:[--d-input-color:var(--color-base-content)] focus:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_10%,#0000)] focus:outline-2 focus:outline-[var(--d-input-color)] focus:outline-offset-2 focus:isolate data-invalid:[--d-input-color:var(--color-error)] data-invalid:border-[var(--d-input-color)] disabled:cursor-not-allowed disabled:border-base-200 disabled:bg-base-200 disabled:[box-shadow:none] disabled:[color:color-mix(in_oklch,var(--color-base-content)_20%,#0000)] disabled:file:[--d-btn-border:#0000] disabled:file:[--d-btn-fg:color-mix(in_oklch,var(--color-base-content)_20%,#0000)] disabled:file:cursor-not-allowed disabled:file:[border-color:var(--color-base-200)] disabled:file:[background-color:var(--color-base-200)] disabled:file:[background-image:none] data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-disabled:[color:color-mix(in_oklch,var(--color-base-content)_20%,#0000)] data-disabled:file:[--d-btn-border:#0000] data-disabled:file:[--d-btn-fg:color-mix(in_oklch,var(--color-base-content)_20%,#0000)] data-disabled:file:cursor-not-allowed data-disabled:file:[border-color:var(--color-base-200)] data-disabled:file:[background-color:var(--color-base-200)] data-disabled:file:[background-image:none] file:[--d-size:calc(var(--size-field,0.25rem)*10)] file:[--d-btn-bg:var(--d-btn-color,var(--color-base-200))] file:[--d-btn-fg:var(--color-base-content)] file:[--d-btn-border:color-mix(in_oklab,var(--d-btn-bg),#000_5%)] file:[--d-btn-shadow:0_3px_2px_-2px_color-mix(in_oklab,var(--d-btn-bg)_30%,#0000),0_4px_3px_-2px_color-mix(in_oklab,var(--d-btn-bg)_30%,#0000)] file:[margin-inline-end:calc(0.25rem*4)] file:[margin-inline-start:calc(var(--border)*-1)] file:[margin-block:calc(var(--border)*-1)] file:[height:calc(100%+var(--border)*2)] file:[padding-inline:calc(0.25rem*4)] file:cursor-pointer file:select-none file:text-[0.875rem] file:font-semibold file:[color:var(--d-btn-fg)] file:[border-width:var(--border)] file:[border-style:solid] file:[border-color:var(--d-btn-border)] file:[border-start-start-radius:calc(var(--join-ss,var(--radius-field)-var(--border)))] file:[border-end-start-radius:calc(var(--join-es,var(--radius-field)-var(--border)))] file:[background-color:var(--d-btn-bg)] file:[background-size:calc(var(--noise)*100%)] file:[background-image:var(--fx-noise)] file:[text-shadow:0_0.5px_oklch(1_0_0/calc(var(--depth)*0.15))] file:[box-shadow:0_0.5px_0_0.5px_color-mix(in_oklab,color-mix(in_oklab,white_30%,var(--d-btn-bg))_calc(var(--depth)*20%),#0000)_inset,var(--d-btn-shadow)]",
+          "d-file-input-#{size}"
+        ]}
       />
     </div>
     """
@@ -10925,7 +10974,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         :for={color <- @colors}
         id={"daisyui-file-#{color}"}
         name={color}
-        class={"d-file-input-#{color}"}
+        class={[
+          "d-file-input focus:[--d-input-color:var(--color-base-content)] focus:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_10%,#0000)] focus:outline-2 focus:outline-[var(--d-input-color)] focus:outline-offset-2 focus:isolate data-invalid:[--d-input-color:var(--color-error)] data-invalid:border-[var(--d-input-color)] disabled:cursor-not-allowed disabled:border-base-200 disabled:bg-base-200 disabled:[box-shadow:none] disabled:[color:color-mix(in_oklch,var(--color-base-content)_20%,#0000)] disabled:file:[--d-btn-border:#0000] disabled:file:[--d-btn-fg:color-mix(in_oklch,var(--color-base-content)_20%,#0000)] disabled:file:cursor-not-allowed disabled:file:[border-color:var(--color-base-200)] disabled:file:[background-color:var(--color-base-200)] disabled:file:[background-image:none] data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-disabled:[color:color-mix(in_oklch,var(--color-base-content)_20%,#0000)] data-disabled:file:[--d-btn-border:#0000] data-disabled:file:[--d-btn-fg:color-mix(in_oklch,var(--color-base-content)_20%,#0000)] data-disabled:file:cursor-not-allowed data-disabled:file:[border-color:var(--color-base-200)] data-disabled:file:[background-color:var(--color-base-200)] data-disabled:file:[background-image:none] file:[--d-size:calc(var(--size-field,0.25rem)*10)] file:[--d-btn-bg:var(--d-btn-color,var(--color-base-200))] file:[--d-btn-fg:var(--color-base-content)] file:[--d-btn-border:color-mix(in_oklab,var(--d-btn-bg),#000_5%)] file:[--d-btn-shadow:0_3px_2px_-2px_color-mix(in_oklab,var(--d-btn-bg)_30%,#0000),0_4px_3px_-2px_color-mix(in_oklab,var(--d-btn-bg)_30%,#0000)] file:[margin-inline-end:calc(0.25rem*4)] file:[margin-inline-start:calc(var(--border)*-1)] file:[margin-block:calc(var(--border)*-1)] file:[height:calc(100%+var(--border)*2)] file:[padding-inline:calc(0.25rem*4)] file:cursor-pointer file:select-none file:text-[0.875rem] file:font-semibold file:[color:var(--d-btn-fg)] file:[border-width:var(--border)] file:[border-style:solid] file:[border-color:var(--d-btn-border)] file:[border-start-start-radius:calc(var(--join-ss,var(--radius-field)-var(--border)))] file:[border-end-start-radius:calc(var(--join-es,var(--radius-field)-var(--border)))] file:[background-color:var(--d-btn-bg)] file:[background-size:calc(var(--noise)*100%)] file:[background-image:var(--fx-noise)] file:[text-shadow:0_0.5px_oklch(1_0_0/calc(var(--depth)*0.15))] file:[box-shadow:0_0.5px_0_0.5px_color-mix(in_oklab,color-mix(in_oklab,white_30%,var(--d-btn-bg))_calc(var(--depth)*20%),#0000)_inset,var(--d-btn-shadow)]",
+          "d-file-input-#{color}"
+        ]}
       />
     </div>
     """
@@ -10933,7 +10985,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "file-input-disabled"} = assigns) do
     ~H"""
-    <.file_input id="daisyui-file-disabled" name="disabled" disabled />
+    <.file_input
+      class="d-file-input focus:[--d-input-color:var(--color-base-content)] focus:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_10%,#0000)] focus:outline-2 focus:outline-[var(--d-input-color)] focus:outline-offset-2 focus:isolate data-invalid:[--d-input-color:var(--color-error)] data-invalid:border-[var(--d-input-color)] disabled:cursor-not-allowed disabled:border-base-200 disabled:bg-base-200 disabled:[box-shadow:none] disabled:[color:color-mix(in_oklch,var(--color-base-content)_20%,#0000)] disabled:file:[--d-btn-border:#0000] disabled:file:[--d-btn-fg:color-mix(in_oklch,var(--color-base-content)_20%,#0000)] disabled:file:cursor-not-allowed disabled:file:[border-color:var(--color-base-200)] disabled:file:[background-color:var(--color-base-200)] disabled:file:[background-image:none] data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-disabled:[color:color-mix(in_oklch,var(--color-base-content)_20%,#0000)] data-disabled:file:[--d-btn-border:#0000] data-disabled:file:[--d-btn-fg:color-mix(in_oklch,var(--color-base-content)_20%,#0000)] data-disabled:file:cursor-not-allowed data-disabled:file:[border-color:var(--color-base-200)] data-disabled:file:[background-color:var(--color-base-200)] data-disabled:file:[background-image:none] file:[--d-size:calc(var(--size-field,0.25rem)*10)] file:[--d-btn-bg:var(--d-btn-color,var(--color-base-200))] file:[--d-btn-fg:var(--color-base-content)] file:[--d-btn-border:color-mix(in_oklab,var(--d-btn-bg),#000_5%)] file:[--d-btn-shadow:0_3px_2px_-2px_color-mix(in_oklab,var(--d-btn-bg)_30%,#0000),0_4px_3px_-2px_color-mix(in_oklab,var(--d-btn-bg)_30%,#0000)] file:[margin-inline-end:calc(0.25rem*4)] file:[margin-inline-start:calc(var(--border)*-1)] file:[margin-block:calc(var(--border)*-1)] file:[height:calc(100%+var(--border)*2)] file:[padding-inline:calc(0.25rem*4)] file:cursor-pointer file:select-none file:text-[0.875rem] file:font-semibold file:[color:var(--d-btn-fg)] file:[border-width:var(--border)] file:[border-style:solid] file:[border-color:var(--d-btn-border)] file:[border-start-start-radius:calc(var(--join-ss,var(--radius-field)-var(--border)))] file:[border-end-start-radius:calc(var(--join-es,var(--radius-field)-var(--border)))] file:[background-color:var(--d-btn-bg)] file:[background-size:calc(var(--noise)*100%)] file:[background-image:var(--fx-noise)] file:[text-shadow:0_0.5px_oklch(1_0_0/calc(var(--depth)*0.15))] file:[box-shadow:0_0.5px_0_0.5px_color-mix(in_oklab,color-mix(in_oklab,white_30%,var(--d-btn-bg))_calc(var(--depth)*20%),#0000)_inset,var(--d-btn-shadow)]"
+      id="daisyui-file-disabled"
+      name="disabled"
+      disabled
+    />
     """
   end
 
@@ -10959,7 +11016,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         <.file_input
           field={@form[:attachment]}
           describedby={f.describedby}
-          class="d-input w-full group-data-[invalid]:[--d-input-color:var(--color-error)] group-data-[valid]:[--d-input-color:var(--color-success)]"
+          class="d-file-input focus:[--d-input-color:var(--color-base-content)] focus:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_10%,#0000)] focus:outline-2 focus:outline-[var(--d-input-color)] focus:outline-offset-2 focus:isolate data-invalid:[--d-input-color:var(--color-error)] data-invalid:border-[var(--d-input-color)] disabled:cursor-not-allowed disabled:border-base-200 disabled:bg-base-200 disabled:[box-shadow:none] disabled:[color:color-mix(in_oklch,var(--color-base-content)_20%,#0000)] disabled:file:[--d-btn-border:#0000] disabled:file:[--d-btn-fg:color-mix(in_oklch,var(--color-base-content)_20%,#0000)] disabled:file:cursor-not-allowed disabled:file:[border-color:var(--color-base-200)] disabled:file:[background-color:var(--color-base-200)] disabled:file:[background-image:none] data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-disabled:[color:color-mix(in_oklch,var(--color-base-content)_20%,#0000)] data-disabled:file:[--d-btn-border:#0000] data-disabled:file:[--d-btn-fg:color-mix(in_oklch,var(--color-base-content)_20%,#0000)] data-disabled:file:cursor-not-allowed data-disabled:file:[border-color:var(--color-base-200)] data-disabled:file:[background-color:var(--color-base-200)] data-disabled:file:[background-image:none] file:[--d-size:calc(var(--size-field,0.25rem)*10)] file:[--d-btn-bg:var(--d-btn-color,var(--color-base-200))] file:[--d-btn-fg:var(--color-base-content)] file:[--d-btn-border:color-mix(in_oklab,var(--d-btn-bg),#000_5%)] file:[--d-btn-shadow:0_3px_2px_-2px_color-mix(in_oklab,var(--d-btn-bg)_30%,#0000),0_4px_3px_-2px_color-mix(in_oklab,var(--d-btn-bg)_30%,#0000)] file:[margin-inline-end:calc(0.25rem*4)] file:[margin-inline-start:calc(var(--border)*-1)] file:[margin-block:calc(var(--border)*-1)] file:[height:calc(100%+var(--border)*2)] file:[padding-inline:calc(0.25rem*4)] file:cursor-pointer file:select-none file:text-[0.875rem] file:font-semibold file:[color:var(--d-btn-fg)] file:[border-width:var(--border)] file:[border-style:solid] file:[border-color:var(--d-btn-border)] file:[border-start-start-radius:calc(var(--join-ss,var(--radius-field)-var(--border)))] file:[border-end-start-radius:calc(var(--join-es,var(--radius-field)-var(--border)))] file:[background-color:var(--d-btn-bg)] file:[background-size:calc(var(--noise)*100%)] file:[background-image:var(--fx-noise)] file:[text-shadow:0_0.5px_oklch(1_0_0/calc(var(--depth)*0.15))] file:[box-shadow:0_0.5px_0_0.5px_color-mix(in_oklab,color-mix(in_oklab,white_30%,var(--d-btn-bg))_calc(var(--depth)*20%),#0000)_inset,var(--d-btn-shadow)] d-input w-full group-data-[invalid]:[--d-input-color:var(--color-error)] group-data-[valid]:[--d-input-color:var(--color-success)]"
         />
         <:description>One file, posted as <code>upload[attachment]</code>.</:description>
       </.field>
@@ -10979,7 +11036,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
           multiple
           accept="image/*"
           describedby={f.describedby}
-          class="d-input w-full group-data-[invalid]:[--d-input-color:var(--color-error)] group-data-[valid]:[--d-input-color:var(--color-success)]"
+          class="d-file-input focus:[--d-input-color:var(--color-base-content)] focus:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_10%,#0000)] focus:outline-2 focus:outline-[var(--d-input-color)] focus:outline-offset-2 focus:isolate data-invalid:[--d-input-color:var(--color-error)] data-invalid:border-[var(--d-input-color)] disabled:cursor-not-allowed disabled:border-base-200 disabled:bg-base-200 disabled:[box-shadow:none] disabled:[color:color-mix(in_oklch,var(--color-base-content)_20%,#0000)] disabled:file:[--d-btn-border:#0000] disabled:file:[--d-btn-fg:color-mix(in_oklch,var(--color-base-content)_20%,#0000)] disabled:file:cursor-not-allowed disabled:file:[border-color:var(--color-base-200)] disabled:file:[background-color:var(--color-base-200)] disabled:file:[background-image:none] data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-disabled:[color:color-mix(in_oklch,var(--color-base-content)_20%,#0000)] data-disabled:file:[--d-btn-border:#0000] data-disabled:file:[--d-btn-fg:color-mix(in_oklch,var(--color-base-content)_20%,#0000)] data-disabled:file:cursor-not-allowed data-disabled:file:[border-color:var(--color-base-200)] data-disabled:file:[background-color:var(--color-base-200)] data-disabled:file:[background-image:none] file:[--d-size:calc(var(--size-field,0.25rem)*10)] file:[--d-btn-bg:var(--d-btn-color,var(--color-base-200))] file:[--d-btn-fg:var(--color-base-content)] file:[--d-btn-border:color-mix(in_oklab,var(--d-btn-bg),#000_5%)] file:[--d-btn-shadow:0_3px_2px_-2px_color-mix(in_oklab,var(--d-btn-bg)_30%,#0000),0_4px_3px_-2px_color-mix(in_oklab,var(--d-btn-bg)_30%,#0000)] file:[margin-inline-end:calc(0.25rem*4)] file:[margin-inline-start:calc(var(--border)*-1)] file:[margin-block:calc(var(--border)*-1)] file:[height:calc(100%+var(--border)*2)] file:[padding-inline:calc(0.25rem*4)] file:cursor-pointer file:select-none file:text-[0.875rem] file:font-semibold file:[color:var(--d-btn-fg)] file:[border-width:var(--border)] file:[border-style:solid] file:[border-color:var(--d-btn-border)] file:[border-start-start-radius:calc(var(--join-ss,var(--radius-field)-var(--border)))] file:[border-end-start-radius:calc(var(--join-es,var(--radius-field)-var(--border)))] file:[background-color:var(--d-btn-bg)] file:[background-size:calc(var(--noise)*100%)] file:[background-image:var(--fx-noise)] file:[text-shadow:0_0.5px_oklch(1_0_0/calc(var(--depth)*0.15))] file:[box-shadow:0_0.5px_0_0.5px_color-mix(in_oklab,color-mix(in_oklab,white_30%,var(--d-btn-bg))_calc(var(--depth)*20%),#0000)_inset,var(--d-btn-shadow)] d-input w-full group-data-[invalid]:[--d-input-color:var(--color-error)] group-data-[valid]:[--d-input-color:var(--color-success)]"
         />
         <:description>
           Several files — the name gains <code>[]</code> so Plug builds a list.

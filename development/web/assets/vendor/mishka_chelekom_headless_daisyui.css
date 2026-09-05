@@ -510,99 +510,6 @@
   }
 }
 /* <<< drawer */
-/* >>> file_input */
-@layer components {
-  [data-skin=daisyui] {
-    /* file_input — daisyUI skin.
-     *
-     * The input is the root, so `file-input` and every modifier — `file-input-primary`,
-     * `file-input-sm`, `file-input-ghost` — go on it directly and behave exactly as on daisyUI's page.
-     *
-     * `@apply` copies declarations but not the `::file-selector-button` rule, and that pseudo-element
-     * is the browser's own "Choose file" button — the visible half of this control. Without the mirror
-     * below the button renders unstyled next to a daisyUI border. The disabled state is keyed off
-     * `data-disabled` as well as `:disabled`, so a server-disabled input dims even before the browser
-     * agrees.
-     */
-
-    .chelekom-file-input {
-      @apply d-file-input;
-    }
-
-    .chelekom-file-input::file-selector-button {
-      --d-size: calc(var(--size-field, 0.25rem) * 10);
-      --d-btn-bg: var(--d-btn-color, var(--color-base-200));
-      --d-btn-fg: var(--color-base-content);
-      --d-btn-border: color-mix(in oklab, var(--d-btn-bg), #000 5%);
-      --d-btn-shadow: 0 3px 2px -2px color-mix(in oklab, var(--d-btn-bg) 30%, #0000),
-        0 4px 3px -2px color-mix(in oklab, var(--d-btn-bg) 30%, #0000);
-
-      margin-inline-end: calc(0.25rem * 4);
-      margin-inline-start: calc(var(--border) * -1);
-      margin-block: calc(var(--border) * -1);
-      height: calc(100% + var(--border) * 2);
-      padding-inline: calc(0.25rem * 4);
-      cursor: pointer;
-      user-select: none;
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: var(--d-btn-fg);
-      border-width: var(--border);
-      border-style: solid;
-      border-color: var(--d-btn-border);
-      border-start-start-radius: calc(var(--join-ss, var(--radius-field) - var(--border)));
-      border-end-start-radius: calc(var(--join-es, var(--radius-field) - var(--border)));
-      background-color: var(--d-btn-bg);
-      background-size: calc(var(--noise) * 100%);
-      background-image: var(--fx-noise);
-      text-shadow: 0 0.5px oklch(1 0 0 / calc(var(--depth) * 0.15));
-      box-shadow:
-        0 0.5px 0 0.5px
-          color-mix(
-            in oklab,
-            color-mix(in oklab, white 30%, var(--d-btn-bg)) calc(var(--depth) * 20%),
-            #0000
-          )
-          inset,
-        var(--d-btn-shadow);
-    }
-
-    .chelekom-file-input:focus {
-      --d-input-color: var(--color-base-content);
-      box-shadow: 0 1px color-mix(in oklab, var(--d-input-color) 10%, #0000);
-      outline: 2px solid var(--d-input-color);
-      outline-offset: 2px;
-      isolation: isolate;
-    }
-
-    .chelekom-file-input:disabled,
-    .chelekom-file-input[data-disabled] {
-      cursor: not-allowed;
-      border-color: var(--color-base-200);
-      background-color: var(--color-base-200);
-      box-shadow: none;
-      color: color-mix(in oklch, var(--color-base-content) 20%, #0000);
-    }
-
-    .chelekom-file-input:disabled::file-selector-button,
-    .chelekom-file-input[data-disabled]::file-selector-button {
-      --d-btn-border: #0000;
-      --d-btn-fg: color-mix(in oklch, var(--color-base-content) 20%, #0000);
-
-      cursor: not-allowed;
-      border-color: var(--color-base-200);
-      background-color: var(--color-base-200);
-      background-image: none;
-    }
-
-    .chelekom-file-input[data-invalid] {
-      --d-input-color: var(--color-error);
-
-      border-color: var(--d-input-color);
-    }
-  }
-}
-/* <<< file_input */
 /* >>> stepper */
 @layer components {
   [data-skin=daisyui] {
@@ -1333,175 +1240,6 @@
   }
 }
 /* <<< theme_controller */
-
-/* >>> fab */
-@layer components {
-  [data-skin=daisyui] {
-    /* fab — daisyUI skin.
-     *
-     * daisyUI drives the whole component from `:focus-within` on `.fab > [tabindex]:first-child`, and
-     * positions the actions with `.fab > *`. Our markup is a real `<button>` and a `role="menu"`
-     * popup, so none of those selectors match — the layout is mirrored here and keyed off `data-open`,
-     * which the shared Popup engine already sets. That is what buys Escape, outside-click and
-     * `aria-expanded`, none of which a `:focus-within` dial has.
-     */
-
-    .chelekom-fab {
-      pointer-events: none;
-      position: fixed;
-      z-index: 999;
-      display: flex;
-      align-items: flex-end;
-      gap: calc(0.25rem * 2);
-      font-size: var(--text-sm);
-      white-space: nowrap;
-      user-select: none;
-    }
-
-    .chelekom-fab[data-contained] {
-      position: absolute;
-    }
-
-    .chelekom-fab[data-placement="bottom-end"] {
-      inset-inline-end: calc(0.25rem * 4);
-      bottom: calc(0.25rem * 4);
-    }
-
-    .chelekom-fab[data-placement="bottom-start"] {
-      inset-inline-start: calc(0.25rem * 4);
-      bottom: calc(0.25rem * 4);
-      align-items: flex-start;
-    }
-
-    .chelekom-fab[data-placement="top-end"] {
-      inset-inline-end: calc(0.25rem * 4);
-      top: calc(0.25rem * 4);
-    }
-
-    .chelekom-fab[data-placement="top-start"] {
-      inset-inline-start: calc(0.25rem * 4);
-      top: calc(0.25rem * 4);
-      align-items: flex-start;
-    }
-
-    .chelekom-fab > * {
-      pointer-events: auto;
-    }
-
-    .chelekom-fab__trigger {
-      @apply d-btn d-btn-circle d-btn-lg;
-
-      display: grid;
-      place-items: center;
-      transition:
-        rotate 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-        opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    /* One glyph at a time: the closed one until the dial opens, the close one after. */
-    .chelekom-fab__icon[data-state="open"] {
-      display: none;
-    }
-
-    .chelekom-fab:has([data-part="popup"][data-open]) .chelekom-fab__icon[data-state="closed"] {
-      display: none;
-    }
-
-    .chelekom-fab:has([data-part="popup"][data-open]) .chelekom-fab__icon[data-state="open"] {
-      display: block;
-    }
-
-    .chelekom-fab:has([data-part="popup"][data-open]) .chelekom-fab__trigger {
-      rotate: 45deg;
-    }
-
-    .chelekom-fab:has([data-part="popup"][data-open]) .chelekom-fab__trigger:has(
-        .chelekom-fab__icon[data-state="open"]
-      ) {
-      rotate: none;
-    }
-
-    /* The dial itself. Closed it is not merely invisible — it is out of the layout and out of the tab
-     * order, which `display: none` gives us and `opacity: 0` would not. */
-    .chelekom-fab__popup {
-      display: flex;
-      flex-direction: column-reverse;
-      align-items: inherit;
-      gap: calc(0.25rem * 2);
-      position: relative;
-    }
-
-    .chelekom-fab__popup[data-closed] {
-      display: none;
-    }
-
-    .chelekom-fab[data-direction="down"] .chelekom-fab__popup {
-      flex-direction: column;
-    }
-
-    .chelekom-fab[data-direction="left"] .chelekom-fab__popup {
-      flex-direction: row-reverse;
-      align-items: center;
-    }
-
-    .chelekom-fab[data-direction="right"] .chelekom-fab__popup {
-      flex-direction: row;
-      align-items: center;
-    }
-
-    .chelekom-fab__action {
-      @apply d-btn d-btn-circle;
-
-      display: flex;
-      align-items: center;
-      gap: calc(0.25rem * 2);
-    }
-
-    /* An action with a visible label is no longer a circle. */
-    .chelekom-fab__action:has(.chelekom-fab__label) {
-      border-radius: var(--radius-field);
-      width: auto;
-      padding-inline: calc(0.25rem * 4);
-    }
-
-    .chelekom-fab__action[data-disabled] {
-      pointer-events: none;
-      opacity: 50%;
-    }
-
-    .chelekom-fab__action[data-part="main-action"] {
-      @apply d-btn-lg;
-    }
-
-    /* Flower: daisyUI arranges the actions on a quarter circle instead of a column. Three positions is
-     * what the shape can hold without the buttons touching. */
-    .chelekom-fab[data-direction="flower"] .chelekom-fab__popup {
-      display: block;
-      width: calc(0.25rem * 12);
-      height: calc(0.25rem * 12);
-    }
-
-    .chelekom-fab[data-direction="flower"] .chelekom-fab__action {
-      position: absolute;
-      inset-inline-end: 0;
-      bottom: 0;
-    }
-
-    .chelekom-fab[data-direction="flower"] .chelekom-fab__action[data-index="0"] {
-      translate: 0 calc(0.25rem * -14);
-    }
-
-    .chelekom-fab[data-direction="flower"] .chelekom-fab__action[data-index="1"] {
-      translate: calc(0.25rem * -10) calc(0.25rem * -10);
-    }
-
-    .chelekom-fab[data-direction="flower"] .chelekom-fab__action[data-index="2"] {
-      translate: calc(0.25rem * -14) 0;
-    }
-  }
-}
-/* <<< fab */
-
 /* >>> table */
 @layer components {
   [data-skin=daisyui] {
@@ -2309,3 +2047,171 @@
   }
 }
 /* <<< loading_overlay */
+
+/* >>> fab */
+@layer components {
+  [data-skin=daisyui] {
+    /* fab — daisyUI skin.
+     *
+     * daisyUI drives the whole component from `:focus-within` on `.fab > [tabindex]:first-child`, and
+     * positions the actions with `.fab > *`. Our markup is a real `<button>` and a `role="menu"`
+     * popup, so none of those selectors match — the layout is mirrored here and keyed off `data-open`,
+     * which the shared Popup engine already sets. That is what buys Escape, outside-click and
+     * `aria-expanded`, none of which a `:focus-within` dial has.
+     */
+
+    .chelekom-fab {
+      pointer-events: none;
+      position: fixed;
+      z-index: 999;
+      display: flex;
+      align-items: flex-end;
+      gap: calc(0.25rem * 2);
+      font-size: var(--text-sm);
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    .chelekom-fab[data-contained] {
+      position: absolute;
+    }
+
+    .chelekom-fab[data-placement="bottom-end"] {
+      inset-inline-end: calc(0.25rem * 4);
+      bottom: calc(0.25rem * 4);
+    }
+
+    .chelekom-fab[data-placement="bottom-start"] {
+      inset-inline-start: calc(0.25rem * 4);
+      bottom: calc(0.25rem * 4);
+      align-items: flex-start;
+    }
+
+    .chelekom-fab[data-placement="top-end"] {
+      inset-inline-end: calc(0.25rem * 4);
+      top: calc(0.25rem * 4);
+    }
+
+    .chelekom-fab[data-placement="top-start"] {
+      inset-inline-start: calc(0.25rem * 4);
+      top: calc(0.25rem * 4);
+      align-items: flex-start;
+    }
+
+    .chelekom-fab > * {
+      pointer-events: auto;
+    }
+
+    .chelekom-fab__trigger {
+      @apply d-btn d-btn-circle d-btn-lg;
+
+      display: grid;
+      place-items: center;
+      transition:
+        rotate 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* One glyph at a time: the closed one until the dial opens, the close one after. */
+    .chelekom-fab__icon[data-state="open"] {
+      display: none;
+    }
+
+    .chelekom-fab:has([data-part="popup"][data-open]) .chelekom-fab__icon[data-state="closed"] {
+      display: none;
+    }
+
+    .chelekom-fab:has([data-part="popup"][data-open]) .chelekom-fab__icon[data-state="open"] {
+      display: block;
+    }
+
+    .chelekom-fab:has([data-part="popup"][data-open]) .chelekom-fab__trigger {
+      rotate: 45deg;
+    }
+
+    .chelekom-fab:has([data-part="popup"][data-open]) .chelekom-fab__trigger:has(
+        .chelekom-fab__icon[data-state="open"]
+      ) {
+      rotate: none;
+    }
+
+    /* The dial itself. Closed it is not merely invisible — it is out of the layout and out of the tab
+     * order, which `display: none` gives us and `opacity: 0` would not. */
+    .chelekom-fab__popup {
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: inherit;
+      gap: calc(0.25rem * 2);
+      position: relative;
+    }
+
+    .chelekom-fab__popup[data-closed] {
+      display: none;
+    }
+
+    .chelekom-fab[data-direction="down"] .chelekom-fab__popup {
+      flex-direction: column;
+    }
+
+    .chelekom-fab[data-direction="left"] .chelekom-fab__popup {
+      flex-direction: row-reverse;
+      align-items: center;
+    }
+
+    .chelekom-fab[data-direction="right"] .chelekom-fab__popup {
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .chelekom-fab__action {
+      @apply d-btn d-btn-circle;
+
+      display: flex;
+      align-items: center;
+      gap: calc(0.25rem * 2);
+    }
+
+    /* An action with a visible label is no longer a circle. */
+    .chelekom-fab__action:has(.chelekom-fab__label) {
+      border-radius: var(--radius-field);
+      width: auto;
+      padding-inline: calc(0.25rem * 4);
+    }
+
+    .chelekom-fab__action[data-disabled] {
+      pointer-events: none;
+      opacity: 50%;
+    }
+
+    .chelekom-fab__action[data-part="main-action"] {
+      @apply d-btn-lg;
+    }
+
+    /* Flower: daisyUI arranges the actions on a quarter circle instead of a column. Three positions is
+     * what the shape can hold without the buttons touching. */
+    .chelekom-fab[data-direction="flower"] .chelekom-fab__popup {
+      display: block;
+      width: calc(0.25rem * 12);
+      height: calc(0.25rem * 12);
+    }
+
+    .chelekom-fab[data-direction="flower"] .chelekom-fab__action {
+      position: absolute;
+      inset-inline-end: 0;
+      bottom: 0;
+    }
+
+    .chelekom-fab[data-direction="flower"] .chelekom-fab__action[data-index="0"] {
+      translate: 0 calc(0.25rem * -14);
+    }
+
+    .chelekom-fab[data-direction="flower"] .chelekom-fab__action[data-index="1"] {
+      translate: calc(0.25rem * -10) calc(0.25rem * -10);
+    }
+
+    .chelekom-fab[data-direction="flower"] .chelekom-fab__action[data-index="2"] {
+      translate: calc(0.25rem * -14) 0;
+    }
+  }
+}
+/* <<< fab */
