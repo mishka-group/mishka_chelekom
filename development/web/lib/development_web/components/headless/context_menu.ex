@@ -46,6 +46,11 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
     doc: ~s|Extra classes for every row — item, link, checkbox, radio and submenu trigger|
 
   attr :separator_class, :any, default: nil, doc: ~s|Extra classes for `data-part="separator"`|
+
+  attr :group_label_class, :any,
+    default: nil,
+    doc: ~s|Extra classes for every `data-part="group-label"`|
+
   attr :submenu_popup_class, :any, default: nil, doc: ~s|Extra classes for a submenu popup|
   attr :trigger_class, :any, default: nil, doc: "Extra classes for the trigger wrapper"
   attr :popup_class, :any, default: nil, doc: "Extra classes for the popup surface"
@@ -124,7 +129,7 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
             :if={it[:type] == "label"}
             role="presentation"
             data-part="group-label"
-            class={["chelekom-context_menu__group-label", it[:class]]}
+            class={["chelekom-context_menu__group-label", @group_label_class, it[:class]]}
           >
             {render_slot(it)}
           </div>
