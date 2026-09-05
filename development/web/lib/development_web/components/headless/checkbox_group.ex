@@ -34,6 +34,12 @@ defmodule DevelopmentWeb.Components.Headless.CheckboxGroup do
 
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :input_class, :any, default: nil, doc: ~s|Extra classes for `data-part="input"`|
+  attr :item_class, :any, default: nil, doc: ~s|Extra classes for every `data-part="item"`|
+
+  attr :indicator_class, :any,
+    default: nil,
+    doc: ~s|Extra classes for every `data-part="indicator"`|
+
   attr :label_class, :any, default: nil, doc: "Extra classes for the group label"
   attr :rest, :global
 
@@ -91,8 +97,8 @@ defmodule DevelopmentWeb.Components.Headless.CheckboxGroup do
         checked={@parent_checked}
         indeterminate={@parent_indeterminate}
         disabled={@disabled}
-        item_class={all[:item_class]}
-        indicator_class={all[:indicator_class]}
+        item_class={[@item_class, all[:item_class]]}
+        indicator_class={[@indicator_class, all[:indicator_class]]}
         input_class={@input_class}
         indicator_icon={@indicator_icon}
       >
@@ -106,8 +112,8 @@ defmodule DevelopmentWeb.Components.Headless.CheckboxGroup do
         value={item.value}
         checked={item[:checked] || false}
         disabled={@disabled || item[:disabled] || false}
-        item_class={item[:item_class]}
-        indicator_class={item[:indicator_class]}
+        item_class={[@item_class, item[:item_class]]}
+        indicator_class={[@indicator_class, item[:indicator_class]]}
         input_class={@input_class}
         indicator_icon={@indicator_icon}
       >

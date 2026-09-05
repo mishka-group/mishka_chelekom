@@ -2259,7 +2259,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "collapsible-hero"} = assigns) do
     ~H"""
-    <.collapsible id="daisyui-collapsible-hero" class="w-80">
+    <.collapsible
+      panel_class="h-[var(--accordion-panel-height)] overflow-hidden px-4 pb-4 text-[0.875rem] [color:color-mix(in_oklab,var(--color-base-content)_70%,transparent)] motion-safe:[transition:height_0.2s_ease-out,padding-bottom_0.2s_ease-out] data-starting-style:h-0 data-starting-style:pb-0 data-ending-style:h-0 data-ending-style:pb-0"
+      trigger_class="d-collapse-title flex items-center justify-between gap-4 text-[0.875rem] font-semibold text-start cursor-pointer select-none hover:not-data-disabled:bg-base-content/6 focus-visible:outline-2 focus-visible:outline-primary focus-visible:-outline-offset-2 data-disabled:cursor-not-allowed data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_30%,transparent)] not-has-[>*]:after:content-[''] not-has-[>*]:after:absolute not-has-[>*]:after:block not-has-[>*]:after:top-1/2 not-has-[>*]:after:end-[1.4rem] not-has-[>*]:after:h-2 not-has-[>*]:after:w-2 not-has-[>*]:after:[transform:translateY(-100%)_rotate(45deg)] not-has-[>*]:after:[transform-origin:75%_75%] not-has-[>*]:after:[box-shadow:2px_2px] not-has-[>*]:after:pointer-events-none motion-safe:not-has-[>*]:after:[transition:all_0.2s_cubic-bezier(0.4,0,0.2,1)] motion-safe:data-[panel-open]:not-has-[>*]:after:[transform:translateY(-50%)_rotate(225deg)]"
+      item_class="d-collapse block border-[length:var(--border)] border-solid border-base-300 bg-base-100 text-base-content"
+      id="daisyui-collapsible-hero"
+      class="w-80"
+    >
       <:trigger>How do I create an account?</:trigger>
       Click the "Sign up" button in the top right corner and follow the prompts.
     </.collapsible>
@@ -2268,7 +2274,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "collapsible-plain"} = assigns) do
     ~H"""
-    <.collapsible id="daisyui-collapsible-plain" class="w-80" item_class="!border-0 !bg-transparent">
+    <.collapsible
+      panel_class="h-[var(--accordion-panel-height)] overflow-hidden px-4 pb-4 text-[0.875rem] [color:color-mix(in_oklab,var(--color-base-content)_70%,transparent)] motion-safe:[transition:height_0.2s_ease-out,padding-bottom_0.2s_ease-out] data-starting-style:h-0 data-starting-style:pb-0 data-ending-style:h-0 data-ending-style:pb-0"
+      trigger_class="d-collapse-title flex items-center justify-between gap-4 text-[0.875rem] font-semibold text-start cursor-pointer select-none hover:not-data-disabled:bg-base-content/6 focus-visible:outline-2 focus-visible:outline-primary focus-visible:-outline-offset-2 data-disabled:cursor-not-allowed data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_30%,transparent)] not-has-[>*]:after:content-[''] not-has-[>*]:after:absolute not-has-[>*]:after:block not-has-[>*]:after:top-1/2 not-has-[>*]:after:end-[1.4rem] not-has-[>*]:after:h-2 not-has-[>*]:after:w-2 not-has-[>*]:after:[transform:translateY(-100%)_rotate(45deg)] not-has-[>*]:after:[transform-origin:75%_75%] not-has-[>*]:after:[box-shadow:2px_2px] not-has-[>*]:after:pointer-events-none motion-safe:not-has-[>*]:after:[transition:all_0.2s_cubic-bezier(0.4,0,0.2,1)] motion-safe:data-[panel-open]:not-has-[>*]:after:[transform:translateY(-50%)_rotate(225deg)]"
+      id="daisyui-collapsible-plain"
+      class="w-80"
+      item_class="d-collapse block border-[length:var(--border)] border-solid border-base-300 bg-base-100 text-base-content !border-0 !bg-transparent"
+    >
       <:trigger>Without border or background</:trigger>
       The same disclosure with the card treatment removed.
     </.collapsible>
@@ -2277,7 +2289,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "collapsible-plus"} = assigns) do
     ~H"""
-    <.collapsible id="daisyui-collapsible-plus" class="w-80" trigger_class="group">
+    <.collapsible
+      panel_class="h-[var(--accordion-panel-height)] overflow-hidden px-4 pb-4 text-[0.875rem] [color:color-mix(in_oklab,var(--color-base-content)_70%,transparent)] motion-safe:[transition:height_0.2s_ease-out,padding-bottom_0.2s_ease-out] data-starting-style:h-0 data-starting-style:pb-0 data-ending-style:h-0 data-ending-style:pb-0"
+      item_class="d-collapse block border-[length:var(--border)] border-solid border-base-300 bg-base-100 text-base-content"
+      id="daisyui-collapsible-plus"
+      class="w-80"
+      trigger_class="d-collapse-title flex items-center justify-between gap-4 text-[0.875rem] font-semibold text-start cursor-pointer select-none hover:not-data-disabled:bg-base-content/6 focus-visible:outline-2 focus-visible:outline-primary focus-visible:-outline-offset-2 data-disabled:cursor-not-allowed data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_30%,transparent)] not-has-[>*]:after:content-[''] not-has-[>*]:after:absolute not-has-[>*]:after:block not-has-[>*]:after:top-1/2 not-has-[>*]:after:end-[1.4rem] not-has-[>*]:after:h-2 not-has-[>*]:after:w-2 not-has-[>*]:after:[transform:translateY(-100%)_rotate(45deg)] not-has-[>*]:after:[transform-origin:75%_75%] not-has-[>*]:after:[box-shadow:2px_2px] not-has-[>*]:after:pointer-events-none motion-safe:not-has-[>*]:after:[transition:all_0.2s_cubic-bezier(0.4,0,0.2,1)] motion-safe:data-[panel-open]:not-has-[>*]:after:[transform:translateY(-50%)_rotate(225deg)] group"
+    >
       <:trigger>
         Plus / minus
         <svg
@@ -2299,9 +2317,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "collapsible-icon-start"} = assigns) do
     ~H"""
     <.collapsible
+      panel_class="h-[var(--accordion-panel-height)] overflow-hidden px-4 pb-4 text-[0.875rem] [color:color-mix(in_oklab,var(--color-base-content)_70%,transparent)] motion-safe:[transition:height_0.2s_ease-out,padding-bottom_0.2s_ease-out] data-starting-style:h-0 data-starting-style:pb-0 data-ending-style:h-0 data-ending-style:pb-0"
+      item_class="d-collapse block border-[length:var(--border)] border-solid border-base-300 bg-base-100 text-base-content"
       id="daisyui-collapsible-icon-start"
       class="w-80"
-      trigger_class="group flex-row-reverse justify-end"
+      trigger_class="d-collapse-title flex items-center justify-between gap-4 text-[0.875rem] font-semibold text-start cursor-pointer select-none hover:not-data-disabled:bg-base-content/6 focus-visible:outline-2 focus-visible:outline-primary focus-visible:-outline-offset-2 data-disabled:cursor-not-allowed data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_30%,transparent)] not-has-[>*]:after:content-[''] not-has-[>*]:after:absolute not-has-[>*]:after:block not-has-[>*]:after:top-1/2 not-has-[>*]:after:end-[1.4rem] not-has-[>*]:after:h-2 not-has-[>*]:after:w-2 not-has-[>*]:after:[transform:translateY(-100%)_rotate(45deg)] not-has-[>*]:after:[transform-origin:75%_75%] not-has-[>*]:after:[box-shadow:2px_2px] not-has-[>*]:after:pointer-events-none motion-safe:not-has-[>*]:after:[transition:all_0.2s_cubic-bezier(0.4,0,0.2,1)] motion-safe:data-[panel-open]:not-has-[>*]:after:[transform:translateY(-50%)_rotate(225deg)] group flex-row-reverse justify-end"
     >
       <:trigger>
         Icon at the start
@@ -2323,7 +2343,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "collapsible-open"} = assigns) do
     ~H"""
-    <.collapsible id="daisyui-collapsible-open" class="w-80" open>
+    <.collapsible
+      panel_class="h-[var(--accordion-panel-height)] overflow-hidden px-4 pb-4 text-[0.875rem] [color:color-mix(in_oklab,var(--color-base-content)_70%,transparent)] motion-safe:[transition:height_0.2s_ease-out,padding-bottom_0.2s_ease-out] data-starting-style:h-0 data-starting-style:pb-0 data-ending-style:h-0 data-ending-style:pb-0"
+      trigger_class="d-collapse-title flex items-center justify-between gap-4 text-[0.875rem] font-semibold text-start cursor-pointer select-none hover:not-data-disabled:bg-base-content/6 focus-visible:outline-2 focus-visible:outline-primary focus-visible:-outline-offset-2 data-disabled:cursor-not-allowed data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_30%,transparent)] not-has-[>*]:after:content-[''] not-has-[>*]:after:absolute not-has-[>*]:after:block not-has-[>*]:after:top-1/2 not-has-[>*]:after:end-[1.4rem] not-has-[>*]:after:h-2 not-has-[>*]:after:w-2 not-has-[>*]:after:[transform:translateY(-100%)_rotate(45deg)] not-has-[>*]:after:[transform-origin:75%_75%] not-has-[>*]:after:[box-shadow:2px_2px] not-has-[>*]:after:pointer-events-none motion-safe:not-has-[>*]:after:[transition:all_0.2s_cubic-bezier(0.4,0,0.2,1)] motion-safe:data-[panel-open]:not-has-[>*]:after:[transform:translateY(-50%)_rotate(225deg)]"
+      item_class="d-collapse block border-[length:var(--border)] border-solid border-base-300 bg-base-100 text-base-content"
+      id="daisyui-collapsible-open"
+      class="w-80"
+      open
+    >
       <:trigger>Open from the start</:trigger>
       daisyUI's `collapse-open`; ours is the `open` attribute.
     </.collapsible>
@@ -2332,7 +2359,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "collapsible-close"} = assigns) do
     ~H"""
-    <.collapsible id="daisyui-collapsible-close" class="w-80" disabled>
+    <.collapsible
+      panel_class="h-[var(--accordion-panel-height)] overflow-hidden px-4 pb-4 text-[0.875rem] [color:color-mix(in_oklab,var(--color-base-content)_70%,transparent)] motion-safe:[transition:height_0.2s_ease-out,padding-bottom_0.2s_ease-out] data-starting-style:h-0 data-starting-style:pb-0 data-ending-style:h-0 data-ending-style:pb-0"
+      trigger_class="d-collapse-title flex items-center justify-between gap-4 text-[0.875rem] font-semibold text-start cursor-pointer select-none hover:not-data-disabled:bg-base-content/6 focus-visible:outline-2 focus-visible:outline-primary focus-visible:-outline-offset-2 data-disabled:cursor-not-allowed data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_30%,transparent)] not-has-[>*]:after:content-[''] not-has-[>*]:after:absolute not-has-[>*]:after:block not-has-[>*]:after:top-1/2 not-has-[>*]:after:end-[1.4rem] not-has-[>*]:after:h-2 not-has-[>*]:after:w-2 not-has-[>*]:after:[transform:translateY(-100%)_rotate(45deg)] not-has-[>*]:after:[transform-origin:75%_75%] not-has-[>*]:after:[box-shadow:2px_2px] not-has-[>*]:after:pointer-events-none motion-safe:not-has-[>*]:after:[transition:all_0.2s_cubic-bezier(0.4,0,0.2,1)] motion-safe:data-[panel-open]:not-has-[>*]:after:[transform:translateY(-50%)_rotate(225deg)]"
+      item_class="d-collapse block border-[length:var(--border)] border-solid border-base-300 bg-base-100 text-base-content"
+      id="daisyui-collapsible-close"
+      class="w-80"
+      disabled
+    >
       <:trigger>Closed, and it stays closed</:trigger>
       daisyUI's `collapse-close`; ours is the `disabled` attribute.
     </.collapsible>
@@ -2342,9 +2376,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "collapsible-custom-colors"} = assigns) do
     ~H"""
     <.collapsible
+      panel_class="h-[var(--accordion-panel-height)] overflow-hidden px-4 pb-4 text-[0.875rem] [color:color-mix(in_oklab,var(--color-base-content)_70%,transparent)] motion-safe:[transition:height_0.2s_ease-out,padding-bottom_0.2s_ease-out] data-starting-style:h-0 data-starting-style:pb-0 data-ending-style:h-0 data-ending-style:pb-0"
+      trigger_class="d-collapse-title flex items-center justify-between gap-4 text-[0.875rem] font-semibold text-start cursor-pointer select-none hover:not-data-disabled:bg-base-content/6 focus-visible:outline-2 focus-visible:outline-primary focus-visible:-outline-offset-2 data-disabled:cursor-not-allowed data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_30%,transparent)] not-has-[>*]:after:content-[''] not-has-[>*]:after:absolute not-has-[>*]:after:block not-has-[>*]:after:top-1/2 not-has-[>*]:after:end-[1.4rem] not-has-[>*]:after:h-2 not-has-[>*]:after:w-2 not-has-[>*]:after:[transform:translateY(-100%)_rotate(45deg)] not-has-[>*]:after:[transform-origin:75%_75%] not-has-[>*]:after:[box-shadow:2px_2px] not-has-[>*]:after:pointer-events-none motion-safe:not-has-[>*]:after:[transition:all_0.2s_cubic-bezier(0.4,0,0.2,1)] motion-safe:data-[panel-open]:not-has-[>*]:after:[transform:translateY(-50%)_rotate(225deg)]"
       id="daisyui-collapsible-custom"
       class="w-80"
-      item_class="!border-primary !bg-primary text-primary-content"
+      item_class="d-collapse block border-[length:var(--border)] border-solid border-base-300 bg-base-100 text-base-content !border-primary !bg-primary text-primary-content"
     >
       <:trigger>Custom colors</:trigger>
       A primary card, painted with utilities on the item part.
@@ -6475,7 +6511,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── checkbox_group ──────────────────────────────────────────────────────
   def example(%{section: "checkbox_group-hero"} = assigns) do
     ~H"""
-    <.checkbox_group id="daisyui-checkbox_group-hero">
+    <.checkbox_group
+      input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
+      indicator_class="d-checkbox grid place-items-center [&>svg]:w-[70%] [&>svg]:h-[70%] data-unchecked:[&>svg]:hidden data-checked:bg-[var(--d-input-color,#0000)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+      item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
+      class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4"
+      id="daisyui-checkbox_group-hero"
+    >
       <:indicator_icon>
         <svg
           class="block"
