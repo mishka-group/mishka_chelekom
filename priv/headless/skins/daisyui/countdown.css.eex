@@ -1,28 +1,10 @@
-/* countdown — daisyUI skin.
+/* countdown — daisyUI skin (residual).
  *
- * daisyUI's rolling digits are pure CSS and they live on `.countdown > *`, not on `.countdown`, so
- * `@apply` on either the root or the digit carries none of them — this is the same descendant trap
- * as everywhere else in this skin, just with a 100-entry content list on the other side of it.
- *
- * The mechanism, mirrored below: the element is a 1em-tall clipped box, and `::before` / `::after`
- * each hold a column of every number from 00 to 99, shifted up by `--value` lines. Changing
- * `--value` moves `top`, and `top` is animatable, which is what makes the digits roll. `::after`
- * carries the ones, `::before` the tens and hundreds, and `--digits` forces leading zeroes.
+ * The layout is in the examples' markup. What stays is the rolling digit, and it cannot be a
+ * class: daisyUI's mechanism is a `::before` / `::after` pair whose `content` is a hundred-line
+ * column of numbers, shifted by `--value` so `top` animates. A pseudo-element takes no class, and
+ * the content string carries `\A` escapes that no arbitrary value survives.
  */
-
-.chelekom-countdown {
-  display: inline-flex;
-  align-items: baseline;
-  gap: calc(0.25rem * 2);
-  line-height: 1em;
-}
-
-.chelekom-countdown__unit {
-  display: inline-flex;
-  align-items: baseline;
-  gap: calc(0.25rem * 1);
-}
-
 .chelekom-countdown__digit {
   visibility: hidden;
   position: relative;
@@ -75,11 +57,3 @@
   inset-inline-start: 0;
 }
 
-.chelekom-countdown__label {
-  font-size: 0.75rem;
-  opacity: 60%;
-}
-
-.chelekom-countdown__separator {
-  padding-inline: calc(0.25rem * 0.5);
-}

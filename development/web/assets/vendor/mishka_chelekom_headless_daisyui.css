@@ -653,90 +653,6 @@
   }
 }
 /* <<< tooltip */
-
-/* >>> radio */
-@layer components {
-  [data-skin=daisyui] {
-    /* radio — daisyUI skin (indicator paints `radio`; the dot is daisyUI's own ::before). */
-
-    .chelekom-radio {
-      display: inline-flex;
-      align-items: center;
-      gap: calc(0.25rem * 2);
-      cursor: pointer;
-      font-size: 0.875rem;
-      color: var(--color-base-content);
-    }
-
-    .chelekom-radio:disabled,
-    .chelekom-radio[data-disabled] {
-      cursor: not-allowed;
-      opacity: 20%;
-    }
-
-    .chelekom-radio[data-readonly] {
-      cursor: default;
-    }
-
-    /* daisyUI's `radio` IS the input; ours is a separate indicator beside a native input kept for form
-     * submission, so the native one gets out of the way. */
-    .chelekom-radio__input {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .chelekom-radio__indicator {
-      @apply d-radio;
-    }
-
-    /* The size modifiers are gated on `[type=radio]`, which our indicator is not — so honour daisyUI's
-     * own scale here. Same story as `toggle-*` and `range-*`. */
-    .chelekom-radio__indicator.d-radio-xs {
-      --d-size: calc(var(--size-selector, 0.25rem) * 4);
-    }
-
-    .chelekom-radio__indicator.d-radio-sm {
-      --d-size: calc(var(--size-selector, 0.25rem) * 5);
-    }
-
-    .chelekom-radio__indicator.d-radio-md {
-      --d-size: calc(var(--size-selector, 0.25rem) * 6);
-    }
-
-    .chelekom-radio__indicator.d-radio-lg {
-      --d-size: calc(var(--size-selector, 0.25rem) * 7);
-    }
-
-    .chelekom-radio__indicator.d-radio-xl {
-      --d-size: calc(var(--size-selector, 0.25rem) * 8);
-    }
-
-    /* daisyUI keys the filled dot off `:checked` / `[aria-checked]`, both of which live on our root
-     * button rather than on the indicator — the indicator carries `data-checked` instead. */
-    .chelekom-radio__indicator[data-checked] {
-      border-color: currentcolor;
-      background-color: var(--color-base-100);
-    }
-
-    .chelekom-radio__indicator[data-checked]:before {
-      background-color: currentcolor;
-    }
-
-    .chelekom-radio:focus-visible .chelekom-radio__indicator {
-      outline: 2px solid currentColor;
-      outline-offset: 2px;
-    }
-
-    .chelekom-radio__label {
-      user-select: none;
-    }
-  }
-}
-/* <<< radio */
-
 /* >>> slider */
 @layer components {
   [data-skin=daisyui] {
@@ -2493,31 +2409,13 @@
 /* >>> countdown */
 @layer components {
   [data-skin=daisyui] {
-    /* countdown — daisyUI skin.
+    /* countdown — daisyUI skin (residual).
      *
-     * daisyUI's rolling digits are pure CSS and they live on `.countdown > *`, not on `.countdown`, so
-     * `@apply` on either the root or the digit carries none of them — this is the same descendant trap
-     * as everywhere else in this skin, just with a 100-entry content list on the other side of it.
-     *
-     * The mechanism, mirrored below: the element is a 1em-tall clipped box, and `::before` / `::after`
-     * each hold a column of every number from 00 to 99, shifted up by `--value` lines. Changing
-     * `--value` moves `top`, and `top` is animatable, which is what makes the digits roll. `::after`
-     * carries the ones, `::before` the tens and hundreds, and `--digits` forces leading zeroes.
+     * The layout is in the examples' markup. What stays is the rolling digit, and it cannot be a
+     * class: daisyUI's mechanism is a `::before` / `::after` pair whose `content` is a hundred-line
+     * column of numbers, shifted by `--value` so `top` animates. A pseudo-element takes no class, and
+     * the content string carries `\A` escapes that no arbitrary value survives.
      */
-
-    .chelekom-countdown {
-      display: inline-flex;
-      align-items: baseline;
-      gap: calc(0.25rem * 2);
-      line-height: 1em;
-    }
-
-    .chelekom-countdown__unit {
-      display: inline-flex;
-      align-items: baseline;
-      gap: calc(0.25rem * 1);
-    }
-
     .chelekom-countdown__digit {
       visibility: hidden;
       position: relative;
@@ -2568,15 +2466,6 @@
       width: 1ch;
       top: calc(var(--value-ones) * -1em);
       inset-inline-start: 0;
-    }
-
-    .chelekom-countdown__label {
-      font-size: 0.75rem;
-      opacity: 60%;
-    }
-
-    .chelekom-countdown__separator {
-      padding-inline: calc(0.25rem * 0.5);
     }
   }
 }
@@ -3116,86 +3005,7 @@
   }
 }
 /* <<< calendar */
-/* >>> alert_dialog */
-@layer components {
-  [data-skin=daisyui] {
-    /* alert_dialog — daisyUI skin.
-     *
-     * daisyUI's `modal` is a `<dialog>` with `modal-box` inside and `modal-backdrop` behind. Ours is
-     * not a `<dialog>` — an alert dialog must never be dismissed by Escape or by clicking away, and
-     * `<dialog>` gives both away for free — so `modal-box` is borrowed for the panel and the backdrop
-     * is drawn here rather than taken from a class that expects the native element.
-     */
-
-    /* The trigger is a real button, so it takes daisyUI's button — same as the plain dialog's. */
-    .chelekom-alert-dialog__trigger {
-      @apply d-btn;
-    }
-
-    .chelekom-alert-dialog__popup {
-      @apply d-modal-box;
-
-      /* The base stylesheet already pins and centres this panel, with `transform`. Repeating that here
-       * as `translate` does not override it — the two compose, and the dialog lands a full width and
-       * height off-centre. All this layer owes is the depth. */
-      z-index: 60;
-
-      /* `modal-box` is drawn closed — scaled down and transparent — because inside a `modal` it is the
-       * `modal-open` state that reveals it. This panel has no `modal` around it, so it has to undo
-       * that or it opens invisible. */
-      scale: 100%;
-      opacity: 1;
-    }
-
-    .chelekom-alert-dialog__popup[data-closed] {
-      display: none;
-    }
-
-    .chelekom-alert-dialog__backdrop {
-      position: fixed;
-      inset: 0;
-      z-index: 50;
-      background-color: oklch(0% 0 0 / 0.4);
-    }
-
-    .chelekom-alert-dialog__backdrop[data-closed] {
-      display: none;
-    }
-
-    .chelekom-alert-dialog__title {
-      font-size: 1.125rem;
-      font-weight: 700;
-    }
-
-    .chelekom-alert-dialog__description {
-      padding-top: calc(0.25rem * 2);
-      opacity: 75%;
-    }
-
-    .chelekom-alert-dialog__actions {
-      @apply d-modal-action;
-    }
-
-    /* `modal-action` lays the row out but leaves the buttons to the caller, and there are no classes
-     * here to leave them to. The last one is the action the dialog is asking about — the one the copy
-     * names — so it carries the weight and the rest step back. */
-    .chelekom-alert-dialog__actions button,
-    .chelekom-alert-dialog__actions a {
-      @apply d-btn d-btn-sm;
-    }
-
-    /* Ghost only on the ones stepping back: `btn-ghost` forces a transparent background, and on the
-     * confirming button it would beat `btn-primary` to it — leaving coloured text on nothing. */
-    .chelekom-alert-dialog__actions > :not(:last-child) {
-      @apply d-btn-ghost;
-    }
-
-    .chelekom-alert-dialog__actions > :last-child {
-      @apply d-btn-primary;
-    }
-  }
-}
-/* <<< alert_dialog *//* >>> combobox */
+/* >>> combobox */
 @layer components {
   [data-skin=daisyui] {
     /* combobox — daisyUI skin.
@@ -3581,7 +3391,8 @@
     }
   }
 }
-/* <<< popover *//* >>> tree */
+/* <<< popover */
+/* >>> tree */
 @layer components {
   [data-skin=daisyui] {
     /* tree — daisyUI skin.

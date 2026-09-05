@@ -127,6 +127,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   @colors ~w(primary secondary accent neutral info success warning error)
   @sizes ~w(xs sm md lg xl)
+  # daisyUI's `radio-*` modifiers carry no size; these are the steps the skin gave each one.
+  @radio_steps %{
+    "xs" => "[--d-size:calc(var(--size-selector,0.25rem)*4)]",
+    "sm" => "[--d-size:calc(var(--size-selector,0.25rem)*5)]",
+    "md" => "[--d-size:calc(var(--size-selector,0.25rem)*6)]",
+    "lg" => "[--d-size:calc(var(--size-selector,0.25rem)*7)]",
+    "xl" => "[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+  }
 
   @sections %{
     "accordion" => [
@@ -1862,24 +1870,52 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "radio-hero"} = assigns) do
     ~H"""
     <div class="flex flex-col gap-2">
-      <.radio id="daisyui-radio-a" name="radio-hero" value="a" checked>Option A</.radio>
-      <.radio id="daisyui-radio-b" name="radio-hero" value="b">Option B</.radio>
+      <.radio
+        label_class="select-none"
+        indicator_class="d-radio data-checked:border-current data-checked:bg-base-100 data-checked:before:bg-current group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2"
+        input_class="absolute w-px h-px opacity-0 pointer-events-none"
+        class="group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] text-base-content disabled:cursor-not-allowed disabled:opacity-20 data-disabled:cursor-not-allowed data-disabled:opacity-20 data-readonly:cursor-default"
+        id="daisyui-radio-a"
+        name="radio-hero"
+        value="a"
+        checked
+      >
+        Option A
+      </.radio>
+      <.radio
+        label_class="select-none"
+        indicator_class="d-radio data-checked:border-current data-checked:bg-base-100 data-checked:before:bg-current group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2"
+        input_class="absolute w-px h-px opacity-0 pointer-events-none"
+        class="group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] text-base-content disabled:cursor-not-allowed disabled:opacity-20 data-disabled:cursor-not-allowed data-disabled:opacity-20 data-readonly:cursor-default"
+        id="daisyui-radio-b"
+        name="radio-hero"
+        value="b"
+      >
+        Option B
+      </.radio>
     </div>
     """
   end
 
   def example(%{section: "radio-sizes"} = assigns) do
-    assigns = assign(assigns, :sizes, @sizes)
+    assigns = assigns |> assign(:sizes, @sizes) |> assign(:radio_steps, @radio_steps)
 
     ~H"""
     <div class="flex flex-col gap-2">
       <.radio
         :for={size <- @sizes}
+        label_class="select-none"
+        input_class="absolute w-px h-px opacity-0 pointer-events-none"
+        class="group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] text-base-content disabled:cursor-not-allowed disabled:opacity-20 data-disabled:cursor-not-allowed data-disabled:opacity-20 data-readonly:cursor-default"
         id={"daisyui-radio-size-#{size}"}
         name={"radio-size-#{size}"}
         value={size}
         checked
-        indicator_class={"d-radio-#{size}"}
+        indicator_class={[
+          "d-radio data-checked:border-current data-checked:bg-base-100 data-checked:before:bg-current group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2",
+          "d-radio-#{size}",
+          @radio_steps[size]
+        ]}
       >
         radio-{size}
       </.radio>
@@ -1894,11 +1930,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-wrap gap-4">
       <.radio
         :for={color <- @colors}
+        label_class="select-none"
+        input_class="absolute w-px h-px opacity-0 pointer-events-none"
+        class="group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] text-base-content disabled:cursor-not-allowed disabled:opacity-20 data-disabled:cursor-not-allowed data-disabled:opacity-20 data-readonly:cursor-default"
         id={"daisyui-radio-#{color}"}
         name={"radio-#{color}"}
         value={color}
         checked
-        indicator_class={"d-radio-#{color}"}
+        indicator_class={[
+          "d-radio data-checked:border-current data-checked:bg-base-100 data-checked:before:bg-current group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2",
+          "d-radio-#{color}"
+        ]}
       >
         {color}
       </.radio>
@@ -1909,10 +1951,29 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "radio-disabled"} = assigns) do
     ~H"""
     <div class="flex flex-col gap-2">
-      <.radio id="daisyui-radio-dis-on" name="radio-dis" value="on" checked disabled>
+      <.radio
+        label_class="select-none"
+        indicator_class="d-radio data-checked:border-current data-checked:bg-base-100 data-checked:before:bg-current group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2"
+        input_class="absolute w-px h-px opacity-0 pointer-events-none"
+        class="group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] text-base-content disabled:cursor-not-allowed disabled:opacity-20 data-disabled:cursor-not-allowed data-disabled:opacity-20 data-readonly:cursor-default"
+        id="daisyui-radio-dis-on"
+        name="radio-dis"
+        value="on"
+        checked
+        disabled
+      >
         Disabled, selected
       </.radio>
-      <.radio id="daisyui-radio-dis-off" name="radio-dis2" value="off" disabled>
+      <.radio
+        label_class="select-none"
+        indicator_class="d-radio data-checked:border-current data-checked:bg-base-100 data-checked:before:bg-current group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2"
+        input_class="absolute w-px h-px opacity-0 pointer-events-none"
+        class="group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] text-base-content disabled:cursor-not-allowed disabled:opacity-20 data-disabled:cursor-not-allowed data-disabled:opacity-20 data-readonly:cursor-default"
+        id="daisyui-radio-dis-off"
+        name="radio-dis2"
+        value="off"
+        disabled
+      >
         Disabled
       </.radio>
     </div>
@@ -1922,11 +1983,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "radio-custom-colors"} = assigns) do
     ~H"""
     <.radio
+      label_class="select-none"
+      input_class="absolute w-px h-px opacity-0 pointer-events-none"
+      class="group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] text-base-content disabled:cursor-not-allowed disabled:opacity-20 data-disabled:cursor-not-allowed data-disabled:opacity-20 data-readonly:cursor-default"
       id="daisyui-radio-custom"
       name="radio-custom"
       value="custom"
       checked
-      indicator_class="border-red-300 bg-red-100 text-red-600 data-[checked]:border-red-600 data-[checked]:bg-red-200"
+      indicator_class="d-radio data-checked:border-current data-checked:bg-base-100 data-checked:before:bg-current group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2 border-red-300 bg-red-100 text-red-600 data-[checked]:border-red-600 data-[checked]:bg-red-200"
     >
       Custom colors
     </.radio>
@@ -5696,16 +5760,26 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── countdown ─────────────────────────────────────────────────────────────
   def example(%{section: "countdown-hero"} = assigns) do
     ~H"""
-    <.countdown id="daisyui-countdown-hero" target={countdown_target(:launch)} />
+    <.countdown
+      separator_class="px-[calc(0.25rem*0.5)]"
+      label_class="text-[0.75rem] opacity-60"
+      unit_class="inline-flex items-baseline gap-1"
+      class="inline-flex items-baseline gap-2 leading-[1em]"
+      id="daisyui-countdown-hero"
+      target={countdown_target(:launch)}
+    />
     """
   end
 
   def example(%{section: "countdown-large"} = assigns) do
     ~H"""
     <.countdown
+      separator_class="px-[calc(0.25rem*0.5)]"
+      label_class="text-[0.75rem] opacity-60"
+      unit_class="inline-flex items-baseline gap-1"
       id="daisyui-countdown-large"
       target={countdown_target(:launch)}
-      class="font-mono text-4xl"
+      class="inline-flex items-baseline gap-2 font-mono text-4xl"
     />
     """
   end
@@ -5713,10 +5787,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "countdown-clock"} = assigns) do
     ~H"""
     <.countdown
+      separator_class="px-[calc(0.25rem*0.5)]"
+      label_class="text-[0.75rem] opacity-60"
+      unit_class="inline-flex items-baseline gap-1"
       id="daisyui-countdown-clock"
       target={countdown_target(:launch)}
       units={~w(hours minutes seconds)}
-      class="font-mono text-2xl"
+      class="inline-flex items-baseline gap-2 font-mono text-2xl"
     />
     """
   end
@@ -5724,11 +5801,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "countdown-colons"} = assigns) do
     ~H"""
     <.countdown
+      separator_class="px-[calc(0.25rem*0.5)]"
+      label_class="text-[0.75rem] opacity-60"
+      unit_class="inline-flex items-baseline gap-1"
       id="daisyui-countdown-colons"
       target={countdown_target(:launch)}
       units={~w(hours minutes seconds)}
       separator=":"
-      class="font-mono text-2xl"
+      class="inline-flex items-baseline gap-2 font-mono text-2xl"
     />
     """
   end
@@ -5736,11 +5816,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "countdown-labels"} = assigns) do
     ~H"""
     <.countdown
+      separator_class="px-[calc(0.25rem*0.5)]"
+      label_class="text-[0.75rem] opacity-60"
+      unit_class="inline-flex items-baseline gap-1"
       id="daisyui-countdown-labels"
       target={countdown_target(:launch)}
       show_labels
       labels={%{"days" => "days", "hours" => "hours", "minutes" => "min", "seconds" => "sec"}}
-      class="font-mono text-2xl"
+      class="inline-flex items-baseline gap-2 font-mono text-2xl"
     />
     """
   end
@@ -5748,10 +5831,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "countdown-labels-under"} = assigns) do
     ~H"""
     <.countdown
+      separator_class="px-[calc(0.25rem*0.5)]"
+      label_class="text-[0.75rem] opacity-60"
+      unit_class="inline-flex items-baseline gap-1"
       id="daisyui-countdown-labels-under"
       target={countdown_target(:launch)}
       show_labels
-      class="font-mono text-3xl [&_[data-part=unit]]:flex-col [&_[data-part=unit]]:items-center gap-5"
+      class="inline-flex items-baseline gap-2 font-mono text-3xl [&_[data-part=unit]]:flex-col [&_[data-part=unit]]:items-center gap-5"
     />
     """
   end
@@ -5759,10 +5845,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "countdown-boxes"} = assigns) do
     ~H"""
     <.countdown
+      separator_class="px-[calc(0.25rem*0.5)]"
+      label_class="text-[0.75rem] opacity-60"
+      unit_class="inline-flex items-baseline gap-1"
       id="daisyui-countdown-boxes"
       target={countdown_target(:launch)}
       show_labels
       class={[
+        "inline-flex items-baseline gap-2",
         "font-mono text-3xl gap-3",
         "[&_[data-part=unit]]:flex-col [&_[data-part=unit]]:items-center",
         "[&_[data-part=unit]]:rounded-box [&_[data-part=unit]]:bg-neutral",
@@ -5775,12 +5865,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "countdown-short"} = assigns) do
     ~H"""
     <.countdown
+      separator_class="px-[calc(0.25rem*0.5)]"
+      label_class="text-[0.75rem] opacity-60"
+      unit_class="inline-flex items-baseline gap-1"
       id="daisyui-countdown-short"
       seconds={10}
       units={~w(seconds)}
       show_labels
       on_complete="daisyui_countdown_complete"
-      class="font-mono text-3xl"
+      class="inline-flex items-baseline gap-2 font-mono text-3xl"
     />
     """
   end
@@ -5788,21 +5881,23 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── alert_dialog ────────────────────────────────────────────────────────
   def example(%{section: "alert_dialog-hero"} = assigns) do
     ~H"""
-    <.alert_dialog id="daisyui-alert_dialog-hero">
+    <.alert_dialog
+      actions_class="d-modal-action"
+      description_class="pt-2 opacity-75"
+      title_class="text-[1.125rem] font-bold"
+      backdrop_class="fixed inset-0 z-50 bg-[oklch(0%_0_0/0.4)] data-closed:hidden"
+      popup_class="d-modal-box z-[60] [scale:100%] opacity-100 data-closed:hidden"
+      trigger_class="d-btn"
+      id="daisyui-alert_dialog-hero"
+    >
       <:trigger>Discard draft</:trigger>
       <:title>Discard draft?</:title>
       <:description>You can’t undo this action.</:description>
       <:actions>
-        <button
-          type="button"
-          data-close
-        >
+        <button type="button" data-close class="d-btn d-btn-sm d-btn-ghost">
           Cancel
         </button>
-        <button
-          type="button"
-          data-close
-        >
+        <button type="button" data-close class="d-btn d-btn-sm d-btn-primary">
           Discard
         </button>
       </:actions>
@@ -5812,7 +5907,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "alert_dialog-detached-triggers-controlled"} = assigns) do
     ~H"""
-    <.alert_dialog id="daisyui-alert_dialog-detached-triggers-controlled">
+    <.alert_dialog
+      actions_class="d-modal-action"
+      description_class="pt-2 opacity-75"
+      title_class="text-[1.125rem] font-bold"
+      backdrop_class="fixed inset-0 z-50 bg-[oklch(0%_0_0/0.4)] data-closed:hidden"
+      popup_class="d-modal-box z-[60] [scale:100%] opacity-100 data-closed:hidden"
+      trigger_class="d-btn"
+      id="daisyui-alert_dialog-detached-triggers-controlled"
+    >
       <:trigger>Discard</:trigger>
       <:title>Discard draft?</:title>
       <:description>This action cannot be undone.</:description>
@@ -5836,21 +5939,23 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "alert_dialog-detached-triggers-simple"} = assigns) do
     ~H"""
-    <.alert_dialog id="daisyui-alert_dialog-detached-triggers-simple">
+    <.alert_dialog
+      actions_class="d-modal-action"
+      description_class="pt-2 opacity-75"
+      title_class="text-[1.125rem] font-bold"
+      backdrop_class="fixed inset-0 z-50 bg-[oklch(0%_0_0/0.4)] data-closed:hidden"
+      popup_class="d-modal-box z-[60] [scale:100%] opacity-100 data-closed:hidden"
+      trigger_class="d-btn"
+      id="daisyui-alert_dialog-detached-triggers-simple"
+    >
       <:trigger>Discard draft</:trigger>
       <:title>Discard draft?</:title>
       <:description>This action cannot be undone.</:description>
       <:actions>
-        <button
-          type="button"
-          data-close
-        >
+        <button type="button" data-close class="d-btn d-btn-sm d-btn-ghost">
           Cancel
         </button>
-        <button
-          type="button"
-          data-close
-        >
+        <button type="button" data-close class="d-btn d-btn-sm d-btn-primary">
           Discard
         </button>
       </:actions>

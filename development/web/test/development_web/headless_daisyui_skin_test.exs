@@ -161,12 +161,41 @@ defmodule DevelopmentWeb.HeadlessDaisyUISkinTest do
     |> Enum.join()
   end
 
-  defp utility_painted?(source) do
-    ~r/\b[a-z_]+_class=(?:"([^"]*)"|\{\[?([^}]*)\]?\})/
+  # A component can be partly converted: `countdown` moved its layout into markup and kept only the
+  # rolling digit, `loading_overlay` only its spinner. So the question is not "does this hero paint
+  # anything" but "does it paint a part the stylesheet is still painting" — which the stylesheet
+  # itself answers.
+  defp still_styled(name) do
+    prefixes = ["chelekom-#{name}__", "chelekom-#{String.replace(name, "_", "-")}__"]
+
+    for prefix <- prefixes,
+        [_, part] <- Regex.scan(~r/#{Regex.escape(prefix)}([a-z0-9_-]+)/, @skin_css),
+        into: MapSet.new(),
+        do: String.replace(part, "-", "_")
+  end
+
+  defp utility_painted?(source, parts) do
+    ~r/\b([a-z_]+)_class=/
     |> Regex.scan(source)
-    |> Enum.flat_map(fn m -> m |> Enum.drop(1) |> Enum.join(" ") |> String.split(~r/[\s",]+/) end)
+    |> Enum.any?(fn [whole, attr] ->
+      MapSet.member?(parts, attr) and utility?(attr_value(source, whole))
+    end)
+  end
+
+  # A class value is painting if any token in it is a Tailwind utility rather than one of
+  # daisyUI's own classes.
+  defp utility?(value) do
+    value
+    |> String.split(~r/[\s",]+/)
     |> Enum.reject(&(&1 == "" or String.starts_with?(&1, "d-") or String.contains?(&1, "@")))
     |> Enum.any?()
+  end
+
+  defp attr_value(source, attr) do
+    case Regex.run(~r/#{Regex.escape(attr)}(?:"([^"]*)"|\{\[?([^}]*)\]?\})/, source) do
+      [_ | rest] -> Enum.join(rest, " ")
+      _ -> ""
+    end
   end
 
   test "a component is painted by its skin or by its markup, never by neither" do
@@ -175,8 +204,8 @@ defmodule DevelopmentWeb.HeadlessDaisyUISkinTest do
       source = HeadlessDaisyUIExamples.source(id)
 
       if skinned_in_css?(name) do
-        refute utility_painted?(own_attrs(source, name)),
-               "#{id}: the hero hand-paints a part while the skin still styles it"
+        refute utility_painted?(own_attrs(source, name), still_styled(name)),
+               "#{id}: the hero hand-paints a part the skin still styles"
       else
         assert styled_in_markup?(own_attrs(source, name)),
                "#{id}: the skin region is gone, so the hero must carry the styling itself"
