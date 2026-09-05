@@ -40,6 +40,13 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
     doc: "Optional pushEventTo target for on_open_change"
 
   attr :class, :any, default: nil, doc: "Extra classes for the root"
+
+  attr :item_class, :any,
+    default: nil,
+    doc: ~s|Extra classes for every row — item, link, checkbox, radio and submenu trigger|
+
+  attr :separator_class, :any, default: nil, doc: ~s|Extra classes for `data-part="separator"`|
+  attr :submenu_popup_class, :any, default: nil, doc: ~s|Extra classes for a submenu popup|
   attr :trigger_class, :any, default: nil, doc: "Extra classes for the trigger wrapper"
   attr :popup_class, :any, default: nil, doc: "Extra classes for the popup surface"
 
@@ -110,7 +117,7 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
             data-part="separator"
             data-orientation="horizontal"
             aria-orientation="horizontal"
-            class={["chelekom-context_menu__separator", it[:class]]}
+            class={["chelekom-context_menu__separator", @separator_class, it[:class]]}
           >
           </div>
           <div
@@ -134,7 +141,7 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
             data-on-change={it[:on_change]}
             data-on-change-target={it[:on_change_target]}
             tabindex="-1"
-            class={["chelekom-context_menu__checkbox-item", it[:class]]}
+            class={["chelekom-context_menu__checkbox-item", @item_class, it[:class]]}
           >
             <span
               data-part="checkbox-item-indicator"
@@ -160,7 +167,7 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
             data-on-change={it[:on_change]}
             data-on-change-target={it[:on_change_target]}
             tabindex="-1"
-            class={["chelekom-context_menu__radio-item", it[:class]]}
+            class={["chelekom-context_menu__radio-item", @item_class, it[:class]]}
           >
             <span
               data-part="radio-item-indicator"
@@ -178,7 +185,7 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
             data-part="link-item"
             data-label={it[:label]}
             tabindex="-1"
-            class={["chelekom-context_menu__link-item", it[:class]]}
+            class={["chelekom-context_menu__link-item", @item_class, it[:class]]}
           >{render_slot(it)}</a>
           <button
             :if={it[:type] in [nil, "item"]}
@@ -189,7 +196,7 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
             data-keep-open={it[:keep_open] == true}
             data-label={it[:label]}
             tabindex="-1"
-            class={["chelekom-context_menu__item", it[:class]]}
+            class={["chelekom-context_menu__item", @item_class, it[:class]]}
           >
             {render_slot(it)}
           </button>
@@ -209,7 +216,7 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
             data-disabled={sm[:disabled] == true}
             data-label={sm[:label]}
             tabindex="-1"
-            class={["chelekom-context_menu__submenu-trigger", sm[:trigger_class]]}
+            class={["chelekom-context_menu__submenu-trigger", @item_class, sm[:trigger_class]]}
           >
             {sm[:label]}
             <span
@@ -225,7 +232,7 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
             tabindex="-1"
             hidden
             data-closed
-            class={["chelekom-context_menu__submenu-popup", sm[:popup_class]]}
+            class={["chelekom-context_menu__submenu-popup", @submenu_popup_class, sm[:popup_class]]}
           >
             {render_slot(sm)}
           </div>

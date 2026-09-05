@@ -4,126 +4,7 @@
  * `data-*` state the headless components already emit. Behavior, markup and ARIA are
  * untouched. Generated per component by `mix mishka.ui.gen.headless <name> --skin daisyui`;
  * each block below is rewritten in place on regeneration.
- */
-/* >>> select */
-@layer components {
-  [data-skin=daisyui] {
-    /* select — daisyUI skin (trigger paints `select`, popup paints `menu`). */
-
-    .chelekom-select {
-      display: block;
-      width: clamp(3rem, 20rem, 100%);
-    }
-
-    .chelekom-select__label {
-      @apply d-label;
-      display: flex;
-      margin-bottom: calc(0.25rem * 1);
-      font-size: 0.875rem;
-    }
-
-    .chelekom-select__trigger {
-      @apply d-select;
-      width: 100%;
-      cursor: pointer;
-      text-align: start;
-    }
-
-    .chelekom-select__trigger[data-readonly] {
-      cursor: default;
-    }
-
-    .chelekom-select__value {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .chelekom-select__value[data-placeholder] {
-      color: color-mix(in oklab, var(--color-base-content) 50%, transparent);
-    }
-
-    .chelekom-select__icon {
-      display: none;
-    }
-
-    .chelekom-select__positioner {
-      z-index: 50;
-    }
-
-    .chelekom-select__popup {
-      @apply d-menu;
-      width: var(--anchor-width, max-content);
-      min-width: 10rem;
-      max-height: 20rem;
-      overflow-y: auto;
-      flex-wrap: nowrap;
-      border: var(--border) solid var(--color-base-300);
-      border-radius: var(--radius-box);
-      background-color: var(--color-base-100);
-      color: var(--color-base-content);
-      box-shadow: 0 4px 6px -1px oklch(0% 0 0 / 0.1), 0 2px 4px -2px oklch(0% 0 0 / 0.1);
-    }
-
-    .chelekom-select__group-label {
-      @apply d-menu-title;
-    }
-
-    .chelekom-select__group-list {
-      display: flex;
-      flex-direction: column;
-      margin-inline-start: 0;
-      padding-inline-start: 0;
-    }
-
-    .chelekom-select__group-list:before {
-      display: none;
-    }
-
-    .chelekom-select__option {
-      display: grid;
-      grid-auto-flow: column;
-      grid-auto-columns: minmax(auto, max-content) auto;
-      align-items: center;
-      gap: calc(0.25rem * 2);
-      padding-inline: calc(0.25rem * 3);
-      padding-block: calc(0.25rem * 1.5);
-      border-radius: var(--radius-field);
-      text-align: start;
-      cursor: pointer;
-      user-select: none;
-      transition-property: color, background-color, box-shadow;
-      transition-duration: 0.2s;
-      transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
-    }
-
-    .chelekom-select__option[data-highlighted]:not([data-selected]) {
-      background-color: color-mix(in oklab, var(--color-base-content) 10%, transparent);
-    }
-
-    .chelekom-select__option[data-selected] {
-      @apply d-menu-active;
-    }
-
-    .chelekom-select__option[data-disabled] {
-      pointer-events: none;
-      color: color-mix(in oklab, var(--color-base-content) 20%, transparent);
-    }
-
-    .chelekom-select__indicator {
-      font-size: 0.75rem;
-      line-height: 1;
-    }
-
-    .chelekom-select__text {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-  }
-}
-/* <<< select */
-/* >>> radio_group */
+ *//* >>> radio_group */
 @layer components {
   [data-skin=daisyui] {
     /* radio_group — daisyUI skin (each item paints `radio`, the group lays them out). */
@@ -806,214 +687,6 @@
   }
 }
 /* <<< calendar */
-/* >>> combobox */
-@layer components {
-  [data-skin=daisyui] {
-    /* combobox — daisyUI skin.
-     *
-     * Same surfaces as the autocomplete — `input` for the control, `dropdown-content menu` for the
-     * list — with two additions daisyUI has nothing for: the chips a multi-select shows inside the
-     * control, and the "create this one" row at the bottom of the list.
-     *
-     * The control is drawn rather than given `input`, because it has to grow to fit the chips and
-     * `input` is a fixed-height row.
-     */
-
-    .chelekom-combobox__control {
-      border-radius: var(--radius-field);
-      border: var(--border) solid color-mix(in oklab, var(--color-base-content) 20%, #0000);
-      background-color: var(--color-base-100);
-      color: var(--color-base-content);
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: calc(0.25rem * 1.5);
-      padding: calc(0.25rem * 1.5);
-      min-height: calc(var(--size-field, 0.25rem) * 10);
-    }
-
-    .chelekom-combobox__control:focus-within {
-      outline: 2px solid var(--color-base-content);
-      outline-offset: 2px;
-    }
-
-    .chelekom-combobox__input {
-      flex: 1;
-      min-width: 6rem;
-      border: none;
-      background: transparent;
-      outline: none;
-      font-size: 0.875rem;
-    }
-
-    .chelekom-combobox__chip {
-      @apply d-badge d-badge-neutral d-badge-sm;
-
-      gap: calc(0.25rem * 1);
-    }
-
-    .chelekom-combobox__chip-remove {
-      cursor: pointer;
-      opacity: 70%;
-    }
-
-    .chelekom-combobox__popup {
-      @apply d-menu d-dropdown-content;
-
-      position: absolute;
-      z-index: 50;
-      max-height: 16rem;
-      overflow-y: auto;
-      width: 100%;
-      border-radius: var(--radius-box);
-      background-color: var(--color-base-100);
-      box-shadow: 0 4px 12px oklch(0% 0 0 / 0.12);
-    }
-
-    .chelekom-combobox__popup[data-closed] {
-      display: none;
-    }
-
-    .chelekom-combobox__item {
-      border-radius: var(--radius-field);
-      padding-inline: calc(0.25rem * 3);
-      padding-block: calc(0.25rem * 1.5);
-      cursor: pointer;
-    }
-
-    .chelekom-combobox__item[data-highlighted] {
-      background-color: color-mix(in oklab, var(--color-base-content) 10%, transparent);
-    }
-
-    .chelekom-combobox__item[aria-selected="true"] {
-      @apply d-menu-active;
-    }
-
-    .chelekom-combobox__group-label {
-      padding-inline: calc(0.25rem * 3);
-      font-size: 0.75rem;
-      opacity: 60%;
-    }
-
-    .chelekom-combobox__empty {
-      padding: calc(0.25rem * 3);
-      font-size: 0.875rem;
-      opacity: 65%;
-    }
-
-    .chelekom-combobox__create {
-      border-top: var(--border) solid color-mix(in oklab, var(--color-base-content) 12%, #0000);
-      padding: calc(0.25rem * 2) calc(0.25rem * 3);
-      cursor: pointer;
-      font-size: 0.875rem;
-    }
-
-    .chelekom-combobox__trigger,
-    .chelekom-combobox__clear {
-      @apply d-btn d-btn-xs d-btn-circle d-btn-ghost;
-    }
-  }
-}
-/* <<< combobox */
-
-/* >>> context_menu */
-@layer components {
-  [data-skin=daisyui] {
-    /* context_menu — daisyUI skin.
-     *
-     * daisyUI's right-click menu is the same thing as its dropdown: `dropdown-content menu` in a box.
-     * The whole surface is painted from that, and the extra parts our menu has — checkbox and radio
-     * items, group labels, submenu chevrons — are drawn to match, since daisyUI's menu has no
-     * equivalent for any of them.
-     */
-
-    /* Nothing about a right-click area announces itself, which is why every demo of one draws a
-     * dashed stage around it — without that the trigger is a line of text that happens to be live. */
-    .chelekom-context_menu__trigger {
-      display: grid;
-      place-items: center;
-      min-height: calc(0.25rem * 32);
-      border-radius: var(--radius-box);
-      border: 2px dashed color-mix(in oklab, var(--color-base-content) 20%, #0000);
-      padding: calc(0.25rem * 4);
-      color: color-mix(in oklab, var(--color-base-content) 70%, #0000);
-      user-select: none;
-    }
-
-    .chelekom-context_menu__popup,
-    .chelekom-context_menu__submenu-popup {
-      @apply d-menu d-dropdown-content;
-
-      position: absolute;
-      z-index: 50;
-      min-width: 13rem;
-      border-radius: var(--radius-box);
-      background-color: var(--color-base-100);
-      box-shadow: 0 4px 12px oklch(0% 0 0 / 0.12);
-    }
-
-    .chelekom-context_menu__popup[data-closed],
-    .chelekom-context_menu__submenu-popup[data-closed] {
-      display: none;
-    }
-
-    .chelekom-context_menu__item,
-    .chelekom-context_menu__link-item,
-    .chelekom-context_menu__checkbox-item,
-    .chelekom-context_menu__radio-item,
-    .chelekom-context_menu__submenu-trigger {
-      display: flex;
-      align-items: center;
-      gap: calc(0.25rem * 2);
-      border-radius: var(--radius-field);
-      padding-inline: calc(0.25rem * 3);
-      padding-block: calc(0.25rem * 1.5);
-      cursor: pointer;
-      white-space: nowrap;
-    }
-
-    .chelekom-context_menu__item[data-highlighted],
-    .chelekom-context_menu__link-item[data-highlighted],
-    .chelekom-context_menu__checkbox-item[data-highlighted],
-    .chelekom-context_menu__radio-item[data-highlighted],
-    .chelekom-context_menu__submenu-trigger[data-highlighted] {
-      background-color: color-mix(in oklab, var(--color-base-content) 10%, transparent);
-    }
-
-    .chelekom-context_menu__item[data-disabled] {
-      pointer-events: none;
-      opacity: 40%;
-    }
-
-    /* The indicator column is reserved whether or not the item is checked, so the labels line up. */
-    .chelekom-context_menu__indicator,
-    .chelekom-context_menu__indicator {
-      display: inline-grid;
-      place-items: center;
-      width: calc(0.25rem * 4);
-      flex-shrink: 0;
-    }
-
-    .chelekom-context_menu__group-label {
-      padding-inline: calc(0.25rem * 3);
-      padding-block: calc(0.25rem * 1.5);
-      font-size: 0.75rem;
-      opacity: 60%;
-    }
-
-    .chelekom-context_menu__separator {
-      height: 1px;
-      margin-block: calc(0.25rem * 1);
-      background-color: color-mix(in oklab, var(--color-base-content) 12%, transparent);
-    }
-
-    .chelekom-context_menu__chevron {
-      margin-inline-start: auto;
-      opacity: 60%;
-    }
-  }
-}
-/* <<< context_menu */
 /* >>> navigation_menu */
 @layer components {
   [data-skin=daisyui] {
@@ -1100,91 +773,6 @@
   }
 }
 /* <<< navigation_menu */
-/* >>> autocomplete */
-@layer components {
-  [data-skin=daisyui] {
-    /* autocomplete — daisyUI skin.
-     *
-     * The field is daisyUI's `input`; the list that drops out of it is `dropdown-content menu`, the
-     * same surface every other menu on the page uses. The parts daisyUI has no equivalent for — the
-     * empty message, the loading status, the group labels — are drawn to match it.
-     */
-
-    .chelekom-autocomplete__input {
-      @apply d-input;
-
-      width: 100%;
-    }
-
-    .chelekom-autocomplete__popup {
-      @apply d-menu d-dropdown-content;
-
-      position: absolute;
-      z-index: 50;
-      max-height: 16rem;
-      overflow-y: auto;
-      width: 100%;
-      border-radius: var(--radius-box);
-      background-color: var(--color-base-100);
-      box-shadow: 0 4px 12px oklch(0% 0 0 / 0.12);
-    }
-
-    .chelekom-autocomplete__popup[data-closed] {
-      display: none;
-    }
-
-    /* An option is often a label plus a trailing note — a category, a shortcut. On the Base UI page a
-     * utility class held those apart; with no classes they run together into "New fileApplication". */
-    .chelekom-autocomplete__item {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      gap: calc(0.25rem * 2);
-      border-radius: var(--radius-field);
-      padding-inline: calc(0.25rem * 3);
-      padding-block: calc(0.25rem * 1.5);
-      cursor: pointer;
-    }
-
-    .chelekom-autocomplete__item > :last-child:not(:only-child) {
-      flex-shrink: 0;
-      font-size: 0.75rem;
-      opacity: 60%;
-    }
-
-    .chelekom-autocomplete__item[data-highlighted] {
-      background-color: color-mix(in oklab, var(--color-base-content) 10%, transparent);
-    }
-
-    .chelekom-autocomplete__item[aria-selected="true"] {
-      @apply d-menu-active;
-    }
-
-    .chelekom-autocomplete__group-label {
-      padding-inline: calc(0.25rem * 3);
-      padding-block: calc(0.25rem * 1);
-      font-size: 0.75rem;
-      opacity: 60%;
-    }
-
-
-    .chelekom-autocomplete__clear {
-      @apply d-btn d-btn-xs d-btn-circle d-btn-ghost;
-    }
-
-    .chelekom-autocomplete__empty {
-      padding: calc(0.25rem * 3);
-      font-size: 0.875rem;
-      opacity: 65%;
-    }
-
-    .chelekom-autocomplete__group-list {
-      display: contents;
-    }
-  }
-}
-/* <<< autocomplete */
 /* >>> loading_overlay */
 @layer components {
   [data-skin=daisyui] {
@@ -1373,3 +961,89 @@
   }
 }
 /* <<< fab */
+
+/* >>> autocomplete */
+@layer components {
+  [data-skin=daisyui] {
+    /* autocomplete — daisyUI skin.
+     *
+     * The field is daisyUI's `input`; the list that drops out of it is `dropdown-content menu`, the
+     * same surface every other menu on the page uses. The parts daisyUI has no equivalent for — the
+     * empty message, the loading status, the group labels — are drawn to match it.
+     */
+
+    .chelekom-autocomplete__input {
+      @apply d-input;
+
+      width: 100%;
+    }
+
+    .chelekom-autocomplete__popup {
+      @apply d-menu d-dropdown-content;
+
+      position: absolute;
+      z-index: 50;
+      max-height: 16rem;
+      overflow-y: auto;
+      width: 100%;
+      border-radius: var(--radius-box);
+      background-color: var(--color-base-100);
+      box-shadow: 0 4px 12px oklch(0% 0 0 / 0.12);
+    }
+
+    .chelekom-autocomplete__popup[data-closed] {
+      display: none;
+    }
+
+    /* An option is often a label plus a trailing note — a category, a shortcut. On the Base UI page a
+     * utility class held those apart; with no classes they run together into "New fileApplication". */
+    .chelekom-autocomplete__item {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: calc(0.25rem * 2);
+      border-radius: var(--radius-field);
+      padding-inline: calc(0.25rem * 3);
+      padding-block: calc(0.25rem * 1.5);
+      cursor: pointer;
+    }
+
+    .chelekom-autocomplete__item > :last-child:not(:only-child) {
+      flex-shrink: 0;
+      font-size: 0.75rem;
+      opacity: 60%;
+    }
+
+    .chelekom-autocomplete__item[data-highlighted] {
+      background-color: color-mix(in oklab, var(--color-base-content) 10%, transparent);
+    }
+
+    .chelekom-autocomplete__item[aria-selected="true"] {
+      @apply d-menu-active;
+    }
+
+    .chelekom-autocomplete__group-label {
+      padding-inline: calc(0.25rem * 3);
+      padding-block: calc(0.25rem * 1);
+      font-size: 0.75rem;
+      opacity: 60%;
+    }
+
+
+    .chelekom-autocomplete__clear {
+      @apply d-btn d-btn-xs d-btn-circle d-btn-ghost;
+    }
+
+    .chelekom-autocomplete__empty {
+      padding: calc(0.25rem * 3);
+      font-size: 0.875rem;
+      opacity: 65%;
+    }
+
+    .chelekom-autocomplete__group-list {
+      display: contents;
+    }
+  }
+}
+/* <<< autocomplete */

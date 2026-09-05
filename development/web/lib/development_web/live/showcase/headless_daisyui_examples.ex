@@ -4123,7 +4123,24 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── select ────────────────────────────────────────────────────────────────
   def example(%{section: "select-hero"} = assigns) do
     ~H"""
-    <.select id="daisyui-select-hero" label="Apple" placeholder="Select apple" value="fuji">
+    <.select
+      item_text_class="overflow-hidden text-ellipsis whitespace-nowrap"
+      item_indicator_class="text-[0.75rem] leading-none"
+      item_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:not-data-selected:bg-base-content/10 data-selected:d-menu-active data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+      group_list_class="flex flex-col ms-0 ps-0 before:hidden"
+      group_label_class="px-3 py-2 [color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] text-[0.875rem] font-semibold"
+      popup_class="d-menu w-[var(--anchor-width,max-content)] min-w-40 max-h-80 overflow-y-auto flex-nowrap border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+      positioner_class="z-50"
+      icon_class="hidden"
+      value_class="overflow-hidden text-ellipsis whitespace-nowrap data-placeholder:[color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+      trigger_class="d-select w-full cursor-pointer text-start data-readonly:cursor-default"
+      label_class="d-label flex mb-1 text-[0.875rem]"
+      class="block w-[clamp(3rem,20rem,100%)]"
+      id="daisyui-select-hero"
+      label="Apple"
+      placeholder="Select apple"
+      value="fuji"
+    >
       <:option value="gala">Gala</:option>
       <:option value="fuji">Fuji</:option>
       <:option value="honeycrisp">Honeycrisp</:option>
@@ -4136,9 +4153,20 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "select-ghost"} = assigns) do
     ~H"""
     <.select
+      item_text_class="overflow-hidden text-ellipsis whitespace-nowrap"
+      item_indicator_class="text-[0.75rem] leading-none"
+      item_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:not-data-selected:bg-base-content/10 data-selected:d-menu-active data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+      group_list_class="flex flex-col ms-0 ps-0 before:hidden"
+      group_label_class="px-3 py-2 [color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] text-[0.875rem] font-semibold"
+      popup_class="d-menu w-[var(--anchor-width,max-content)] min-w-40 max-h-80 overflow-y-auto flex-nowrap border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+      positioner_class="z-50"
+      icon_class="hidden"
+      value_class="overflow-hidden text-ellipsis whitespace-nowrap data-placeholder:[color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+      label_class="d-label flex mb-1 text-[0.875rem]"
+      class="block w-[clamp(3rem,20rem,100%)]"
       id="daisyui-select-ghost"
       placeholder="Pick a font"
-      trigger_class="d-select-ghost"
+      trigger_class="d-select w-full cursor-pointer text-start data-readonly:cursor-default d-select-ghost"
     >
       <:option value="inter">Inter</:option>
       <:option value="mono">JetBrains Mono</:option>
@@ -4154,10 +4182,23 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-wrap gap-3">
       <.select
         :for={color <- @colors}
+        item_text_class="overflow-hidden text-ellipsis whitespace-nowrap"
+        item_indicator_class="text-[0.75rem] leading-none"
+        item_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:not-data-selected:bg-base-content/10 data-selected:d-menu-active data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+        group_list_class="flex flex-col ms-0 ps-0 before:hidden"
+        group_label_class="px-3 py-2 [color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] text-[0.875rem] font-semibold"
+        popup_class="d-menu w-[var(--anchor-width,max-content)] min-w-40 max-h-80 overflow-y-auto flex-nowrap border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+        positioner_class="z-50"
+        icon_class="hidden"
+        value_class="overflow-hidden text-ellipsis whitespace-nowrap data-placeholder:[color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+        label_class="d-label flex mb-1 text-[0.875rem]"
         id={"daisyui-select-#{color}"}
         placeholder={color}
-        class="w-44"
-        trigger_class={"d-select-#{color}"}
+        class="block w-44"
+        trigger_class={[
+          "d-select w-full cursor-pointer text-start data-readonly:cursor-default",
+          "d-select-#{color}"
+        ]}
       >
         <:option value="one">One</:option>
         <:option value="two">Two</:option>
@@ -4173,10 +4214,23 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-col items-start gap-3">
       <.select
         :for={size <- @sizes}
+        item_text_class="overflow-hidden text-ellipsis whitespace-nowrap"
+        item_indicator_class="text-[0.75rem] leading-none"
+        item_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:not-data-selected:bg-base-content/10 data-selected:d-menu-active data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+        group_list_class="flex flex-col ms-0 ps-0 before:hidden"
+        group_label_class="px-3 py-2 [color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] text-[0.875rem] font-semibold"
+        popup_class="d-menu w-[var(--anchor-width,max-content)] min-w-40 max-h-80 overflow-y-auto flex-nowrap border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+        positioner_class="z-50"
+        icon_class="hidden"
+        value_class="overflow-hidden text-ellipsis whitespace-nowrap data-placeholder:[color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+        label_class="d-label flex mb-1 text-[0.875rem]"
         id={"daisyui-select-size-#{size}"}
         placeholder={size_label(size)}
-        class="w-56"
-        trigger_class={"d-select-#{size}"}
+        class="block w-56"
+        trigger_class={[
+          "d-select w-full cursor-pointer text-start data-readonly:cursor-default",
+          "d-select-#{size}"
+        ]}
       >
         <:option value="apple">{size_label(size)} Apple</:option>
         <:option value="orange">{size_label(size)} Orange</:option>
@@ -4189,10 +4243,41 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "select-disabled"} = assigns) do
     ~H"""
     <div class="flex flex-col items-start gap-3">
-      <.select id="daisyui-select-disabled" placeholder="You can't touch this" disabled>
+      <.select
+        item_text_class="overflow-hidden text-ellipsis whitespace-nowrap"
+        item_indicator_class="text-[0.75rem] leading-none"
+        item_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:not-data-selected:bg-base-content/10 data-selected:d-menu-active data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+        group_list_class="flex flex-col ms-0 ps-0 before:hidden"
+        group_label_class="px-3 py-2 [color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] text-[0.875rem] font-semibold"
+        popup_class="d-menu w-[var(--anchor-width,max-content)] min-w-40 max-h-80 overflow-y-auto flex-nowrap border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+        positioner_class="z-50"
+        icon_class="hidden"
+        value_class="overflow-hidden text-ellipsis whitespace-nowrap data-placeholder:[color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+        trigger_class="d-select w-full cursor-pointer text-start data-readonly:cursor-default"
+        label_class="d-label flex mb-1 text-[0.875rem]"
+        class="block w-[clamp(3rem,20rem,100%)]"
+        id="daisyui-select-disabled"
+        placeholder="You can't touch this"
+        disabled
+      >
         <:option value="one">One</:option>
       </.select>
-      <.select id="daisyui-select-option-disabled" placeholder="One option is out">
+      <.select
+        item_text_class="overflow-hidden text-ellipsis whitespace-nowrap"
+        item_indicator_class="text-[0.75rem] leading-none"
+        item_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:not-data-selected:bg-base-content/10 data-selected:d-menu-active data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+        group_list_class="flex flex-col ms-0 ps-0 before:hidden"
+        group_label_class="px-3 py-2 [color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] text-[0.875rem] font-semibold"
+        popup_class="d-menu w-[var(--anchor-width,max-content)] min-w-40 max-h-80 overflow-y-auto flex-nowrap border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+        positioner_class="z-50"
+        icon_class="hidden"
+        value_class="overflow-hidden text-ellipsis whitespace-nowrap data-placeholder:[color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+        trigger_class="d-select w-full cursor-pointer text-start data-readonly:cursor-default"
+        label_class="d-label flex mb-1 text-[0.875rem]"
+        class="block w-[clamp(3rem,20rem,100%)]"
+        id="daisyui-select-option-disabled"
+        placeholder="One option is out"
+      >
         <:option value="one">Available</:option>
         <:option value="two" disabled>Sold out</:option>
       </.select>
@@ -4202,7 +4287,23 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "select-grouped"} = assigns) do
     ~H"""
-    <.select id="daisyui-select-grouped" label="Produce" placeholder="Select produce">
+    <.select
+      item_text_class="overflow-hidden text-ellipsis whitespace-nowrap"
+      item_indicator_class="text-[0.75rem] leading-none"
+      item_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:not-data-selected:bg-base-content/10 data-selected:d-menu-active data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+      group_list_class="flex flex-col ms-0 ps-0 before:hidden"
+      group_label_class="px-3 py-2 [color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] text-[0.875rem] font-semibold"
+      popup_class="d-menu w-[var(--anchor-width,max-content)] min-w-40 max-h-80 overflow-y-auto flex-nowrap border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+      positioner_class="z-50"
+      icon_class="hidden"
+      value_class="overflow-hidden text-ellipsis whitespace-nowrap data-placeholder:[color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+      trigger_class="d-select w-full cursor-pointer text-start data-readonly:cursor-default"
+      label_class="d-label flex mb-1 text-[0.875rem]"
+      class="block w-[clamp(3rem,20rem,100%)]"
+      id="daisyui-select-grouped"
+      label="Produce"
+      placeholder="Select produce"
+    >
       <:option value="gala" group="Apples">Gala</:option>
       <:option value="fuji" group="Apples">Fuji</:option>
       <:option value="honeycrisp" group="Apples">Honeycrisp</:option>
@@ -4216,6 +4317,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "select-multiple"} = assigns) do
     ~H"""
     <.select
+      item_text_class="overflow-hidden text-ellipsis whitespace-nowrap"
+      item_indicator_class="text-[0.75rem] leading-none"
+      item_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:not-data-selected:bg-base-content/10 data-selected:d-menu-active data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+      group_list_class="flex flex-col ms-0 ps-0 before:hidden"
+      group_label_class="px-3 py-2 [color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] text-[0.875rem] font-semibold"
+      popup_class="d-menu w-[var(--anchor-width,max-content)] min-w-40 max-h-80 overflow-y-auto flex-nowrap border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+      positioner_class="z-50"
+      icon_class="hidden"
+      value_class="overflow-hidden text-ellipsis whitespace-nowrap data-placeholder:[color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+      trigger_class="d-select w-full cursor-pointer text-start data-readonly:cursor-default"
+      label_class="d-label flex mb-1 text-[0.875rem]"
+      class="block w-[clamp(3rem,20rem,100%)]"
       id="daisyui-select-multiple"
       label="Languages"
       placeholder="Select languages"
@@ -4235,6 +4348,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <form phx-submit="daisyui_select_submit" class="flex items-end gap-3">
       <.select
+        item_text_class="overflow-hidden text-ellipsis whitespace-nowrap"
+        item_indicator_class="text-[0.75rem] leading-none"
+        item_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:not-data-selected:bg-base-content/10 data-selected:d-menu-active data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+        group_list_class="flex flex-col ms-0 ps-0 before:hidden"
+        group_label_class="px-3 py-2 [color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] text-[0.875rem] font-semibold"
+        popup_class="d-menu w-[var(--anchor-width,max-content)] min-w-40 max-h-80 overflow-y-auto flex-nowrap border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+        positioner_class="z-50"
+        icon_class="hidden"
+        value_class="overflow-hidden text-ellipsis whitespace-nowrap data-placeholder:[color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+        trigger_class="d-select w-full cursor-pointer text-start data-readonly:cursor-default"
+        label_class="d-label flex mb-1 text-[0.875rem]"
+        class="block w-[clamp(3rem,20rem,100%)]"
         id="daisyui-select-form"
         name="apple"
         label="Apple"
@@ -7305,6 +7430,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div>
       <label for="daisyui-combobox-hero">Choose a fruit</label>
       <.combobox
+        clear_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
+        trigger_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
+        create_class="border-t-[length:var(--border)] border-solid border-t-[color-mix(in_oklab,var(--color-base-content)_12%,#0000)] py-2 px-3 cursor-pointer text-[0.875rem]"
+        empty_class="p-3 text-[0.875rem] opacity-65"
+        group_label_class="px-3 text-[0.75rem] opacity-60"
+        item_class="rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer data-highlighted:bg-base-content/10 aria-selected:d-menu-active"
+        popup_class="d-menu absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+        chip_remove_class="cursor-pointer opacity-70"
+        chip_class="d-badge d-badge-neutral d-badge-sm gap-1"
+        input_class="flex-1 min-w-24 border-none bg-transparent outline-none text-[0.875rem]"
+        control_class="flex flex-wrap items-center gap-[calc(0.25rem*1.5)] p-[calc(0.25rem*1.5)] min-h-[calc(var(--size-field,0.25rem)*10)] rounded-[var(--radius-field)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_20%,#0000)] bg-base-100 text-base-content focus-within:outline-2 focus-within:outline-base-content focus-within:outline-offset-2"
         id="daisyui-combobox-hero"
         clear
         trigger
@@ -7453,6 +7589,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         Assign reviewers
       </label>
       <.combobox
+        clear_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
+        trigger_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
+        create_class="border-t-[length:var(--border)] border-solid border-t-[color-mix(in_oklab,var(--color-base-content)_12%,#0000)] py-2 px-3 cursor-pointer text-[0.875rem]"
+        empty_class="p-3 text-[0.875rem] opacity-65"
+        group_label_class="px-3 text-[0.75rem] opacity-60"
+        item_class="rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer data-highlighted:bg-base-content/10 aria-selected:d-menu-active"
+        popup_class="d-menu absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+        chip_remove_class="cursor-pointer opacity-70"
+        chip_class="d-badge d-badge-neutral d-badge-sm gap-1"
+        input_class="flex-1 min-w-24 border-none bg-transparent outline-none text-[0.875rem]"
+        control_class="flex flex-wrap items-center gap-[calc(0.25rem*1.5)] p-[calc(0.25rem*1.5)] min-h-[calc(var(--size-field,0.25rem)*10)] rounded-[var(--radius-field)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_20%,#0000)] bg-base-100 text-base-content focus-within:outline-2 focus-within:outline-base-content focus-within:outline-offset-2"
         id="daisyui-combobox-async-multiple"
         multiple
         placeholder="e.g. Michael"
@@ -7594,6 +7741,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div>
       <label for="daisyui-combobox-async-single">Assign reviewer</label>
       <.combobox
+        clear_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
+        trigger_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
+        create_class="border-t-[length:var(--border)] border-solid border-t-[color-mix(in_oklab,var(--color-base-content)_12%,#0000)] py-2 px-3 cursor-pointer text-[0.875rem]"
+        empty_class="p-3 text-[0.875rem] opacity-65"
+        group_label_class="px-3 text-[0.75rem] opacity-60"
+        item_class="rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer data-highlighted:bg-base-content/10 aria-selected:d-menu-active"
+        popup_class="d-menu absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+        chip_remove_class="cursor-pointer opacity-70"
+        chip_class="d-badge d-badge-neutral d-badge-sm gap-1"
+        input_class="flex-1 min-w-24 border-none bg-transparent outline-none text-[0.875rem]"
+        control_class="flex flex-wrap items-center gap-[calc(0.25rem*1.5)] p-[calc(0.25rem*1.5)] min-h-[calc(var(--size-field,0.25rem)*10)] rounded-[var(--radius-field)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_20%,#0000)] bg-base-100 text-base-content focus-within:outline-2 focus-within:outline-base-content focus-within:outline-offset-2"
         id="daisyui-combobox-async-single"
         clear
         trigger
@@ -7658,6 +7816,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         Labels
       </label>
       <.combobox
+        clear_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
+        trigger_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
+        create_class="border-t-[length:var(--border)] border-solid border-t-[color-mix(in_oklab,var(--color-base-content)_12%,#0000)] py-2 px-3 cursor-pointer text-[0.875rem]"
+        empty_class="p-3 text-[0.875rem] opacity-65"
+        group_label_class="px-3 text-[0.75rem] opacity-60"
+        item_class="rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer data-highlighted:bg-base-content/10 aria-selected:d-menu-active"
+        popup_class="d-menu absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+        chip_remove_class="cursor-pointer opacity-70"
+        chip_class="d-badge d-badge-neutral d-badge-sm gap-1"
+        input_class="flex-1 min-w-24 border-none bg-transparent outline-none text-[0.875rem]"
+        control_class="flex flex-wrap items-center gap-[calc(0.25rem*1.5)] p-[calc(0.25rem*1.5)] min-h-[calc(var(--size-field,0.25rem)*10)] rounded-[var(--radius-field)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_20%,#0000)] bg-base-100 text-base-content focus-within:outline-2 focus-within:outline-base-content focus-within:outline-offset-2"
         id="daisyui-combobox-creatable"
         multiple
         creatable
@@ -7717,7 +7886,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── context_menu ────────────────────────────────────────────────────────
   def example(%{section: "context_menu-hero"} = assigns) do
     ~H"""
-    <.context_menu id="daisyui-context_menu-hero">
+    <.context_menu
+      chevron_class="ms-auto opacity-60"
+      separator_class="h-px my-1 bg-base-content/12"
+      group_label_class="px-3 py-[calc(0.25rem*1.5)] text-[0.75rem] opacity-60"
+      indicator_class="inline-grid place-items-center w-4 shrink-0"
+      item_class="flex items-center gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer whitespace-nowrap data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:opacity-40"
+      submenu_popup_class="d-menu absolute z-50 min-w-52 rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+      popup_class="d-menu absolute z-50 min-w-52 rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+      trigger_class="grid place-items-center min-h-32 rounded-[var(--radius-box)] [border:2px_dashed_color-mix(in_oklab,var(--color-base-content)_20%,#0000)] p-4 [color:color-mix(in_oklab,var(--color-base-content)_70%,#0000)] select-none"
+      id="daisyui-context_menu-hero"
+    >
       <:trigger>Right click here</:trigger>
       <:item>
         Add to Library
@@ -7745,12 +7924,25 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "context_menu-submenu"} = assigns) do
     ~H"""
-    <.context_menu id="daisyui-context_menu-submenu">
+    <.context_menu
+      chevron_class="ms-auto opacity-60"
+      separator_class="h-px my-1 bg-base-content/12"
+      group_label_class="px-3 py-[calc(0.25rem*1.5)] text-[0.75rem] opacity-60"
+      indicator_class="inline-grid place-items-center w-4 shrink-0"
+      item_class="flex items-center gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer whitespace-nowrap data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:opacity-40"
+      submenu_popup_class="d-menu absolute z-50 min-w-52 rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+      popup_class="d-menu absolute z-50 min-w-52 rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+      trigger_class="grid place-items-center min-h-32 rounded-[var(--radius-box)] [border:2px_dashed_color-mix(in_oklab,var(--color-base-content)_20%,#0000)] p-4 [color:color-mix(in_oklab,var(--color-base-content)_70%,#0000)] select-none"
+      id="daisyui-context_menu-submenu"
+    >
       <:trigger>Right click here</:trigger>
-      <.context_menu_item>
+      <.context_menu_item class="flex items-center gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer whitespace-nowrap data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:opacity-40">
         Add to Library
       </.context_menu_item>
       <.context_menu_submenu
+        chevron_class="ms-auto opacity-60"
+        popup_class="d-menu absolute z-50 min-w-52 rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+        trigger_class="flex items-center gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer whitespace-nowrap data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:opacity-40"
         id="daisyui-context_menu-submenu-playlist"
         label="Add to Playlist"
       >
@@ -7759,32 +7951,32 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
             <path d="M6 12V4l4.5 4z" />
           </svg>
         </:chevron>
-        <.context_menu_item>
+        <.context_menu_item class="flex items-center gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer whitespace-nowrap data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:opacity-40">
           Get Up!
         </.context_menu_item>
-        <.context_menu_item>
+        <.context_menu_item class="flex items-center gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer whitespace-nowrap data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:opacity-40">
           Inside Out
         </.context_menu_item>
-        <.context_menu_item>
+        <.context_menu_item class="flex items-center gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer whitespace-nowrap data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:opacity-40">
           Night Beats
         </.context_menu_item>
-        <.context_menu_separator />
-        <.context_menu_item>
+        <.context_menu_separator class="h-px my-1 bg-base-content/12" />
+        <.context_menu_item class="flex items-center gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer whitespace-nowrap data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:opacity-40">
           New playlist…
         </.context_menu_item>
       </.context_menu_submenu>
-      <.context_menu_separator />
-      <.context_menu_item>
+      <.context_menu_separator class="h-px my-1 bg-base-content/12" />
+      <.context_menu_item class="flex items-center gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer whitespace-nowrap data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:opacity-40">
         Play Next
       </.context_menu_item>
-      <.context_menu_item>
+      <.context_menu_item class="flex items-center gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer whitespace-nowrap data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:opacity-40">
         Play Last
       </.context_menu_item>
-      <.context_menu_separator />
-      <.context_menu_item>
+      <.context_menu_separator class="h-px my-1 bg-base-content/12" />
+      <.context_menu_item class="flex items-center gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer whitespace-nowrap data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:opacity-40">
         Favorite
       </.context_menu_item>
-      <.context_menu_item>
+      <.context_menu_item class="flex items-center gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer whitespace-nowrap data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:opacity-40">
         Share
       </.context_menu_item>
     </.context_menu>
@@ -9545,6 +9737,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div>
       <label for="daisyui-combobox-grouped">Select produce</label>
       <.combobox
+        clear_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
+        trigger_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
+        create_class="border-t-[length:var(--border)] border-solid border-t-[color-mix(in_oklab,var(--color-base-content)_12%,#0000)] py-2 px-3 cursor-pointer text-[0.875rem]"
+        empty_class="p-3 text-[0.875rem] opacity-65"
+        group_label_class="px-3 text-[0.75rem] opacity-60"
+        item_class="rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer data-highlighted:bg-base-content/10 aria-selected:d-menu-active"
+        popup_class="d-menu absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+        chip_remove_class="cursor-pointer opacity-70"
+        chip_class="d-badge d-badge-neutral d-badge-sm gap-1"
+        input_class="flex-1 min-w-24 border-none bg-transparent outline-none text-[0.875rem]"
+        control_class="flex flex-wrap items-center gap-[calc(0.25rem*1.5)] p-[calc(0.25rem*1.5)] min-h-[calc(var(--size-field,0.25rem)*10)] rounded-[var(--radius-field)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_20%,#0000)] bg-base-100 text-base-content focus-within:outline-2 focus-within:outline-base-content focus-within:outline-offset-2"
         id="daisyui-combobox-grouped"
         clear
         trigger
@@ -9642,6 +9845,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         Country
       </label>
       <.combobox
+        clear_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
+        trigger_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
+        create_class="border-t-[length:var(--border)] border-solid border-t-[color-mix(in_oklab,var(--color-base-content)_12%,#0000)] py-2 px-3 cursor-pointer text-[0.875rem]"
+        empty_class="p-3 text-[0.875rem] opacity-65"
+        group_label_class="px-3 text-[0.75rem] opacity-60"
+        item_class="rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer data-highlighted:bg-base-content/10 aria-selected:d-menu-active"
+        popup_class="d-menu absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+        chip_remove_class="cursor-pointer opacity-70"
+        chip_class="d-badge d-badge-neutral d-badge-sm gap-1"
+        input_class="flex-1 min-w-24 border-none bg-transparent outline-none text-[0.875rem]"
+        control_class="flex flex-wrap items-center gap-[calc(0.25rem*1.5)] p-[calc(0.25rem*1.5)] min-h-[calc(var(--size-field,0.25rem)*10)] rounded-[var(--radius-field)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_20%,#0000)] bg-base-100 text-base-content focus-within:outline-2 focus-within:outline-base-content focus-within:outline-offset-2"
         id="daisyui-combobox-input-inside-popup"
         placeholder="e.g. United Kingdom"
       >
@@ -9690,6 +9904,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         Programming languages
       </label>
       <.combobox
+        clear_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
+        trigger_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
+        create_class="border-t-[length:var(--border)] border-solid border-t-[color-mix(in_oklab,var(--color-base-content)_12%,#0000)] py-2 px-3 cursor-pointer text-[0.875rem]"
+        empty_class="p-3 text-[0.875rem] opacity-65"
+        group_label_class="px-3 text-[0.75rem] opacity-60"
+        item_class="rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer data-highlighted:bg-base-content/10 aria-selected:d-menu-active"
+        popup_class="d-menu absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+        chip_remove_class="cursor-pointer opacity-70"
+        chip_class="d-badge d-badge-neutral d-badge-sm gap-1"
+        input_class="flex-1 min-w-24 border-none bg-transparent outline-none text-[0.875rem]"
+        control_class="flex flex-wrap items-center gap-[calc(0.25rem*1.5)] p-[calc(0.25rem*1.5)] min-h-[calc(var(--size-field,0.25rem)*10)] rounded-[var(--radius-field)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_20%,#0000)] bg-base-100 text-base-content focus-within:outline-2 focus-within:outline-base-content focus-within:outline-offset-2"
         id="daisyui-combobox-multiple"
         multiple
         placeholder="e.g. TypeScript"
