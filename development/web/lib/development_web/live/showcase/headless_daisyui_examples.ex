@@ -5078,6 +5078,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "menu-hero"} = assigns) do
     ~H"""
     <.menu
+      indicator_class="inline-flex w-4 justify-center text-[0.75rem] leading-none"
       chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
       group_label_class="d-menu-title block"
       separator_class="h-px my-2 mx-1 bg-base-content/10"
@@ -5116,6 +5117,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-wrap gap-3">
       <.menu
         :for={{side, align} <- @placements}
+        indicator_class="inline-flex w-4 justify-center text-[0.75rem] leading-none"
         chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
         group_label_class="d-menu-title block"
         separator_class="h-px my-2 mx-1 bg-base-content/10"
@@ -5139,6 +5141,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "menu-hover"} = assigns) do
     ~H"""
     <.menu
+      indicator_class="inline-flex w-4 justify-center text-[0.75rem] leading-none"
       chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
       group_label_class="d-menu-title block"
       separator_class="h-px my-2 mx-1 bg-base-content/10"
@@ -5164,6 +5167,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-wrap gap-3">
       <.menu
         :for={size <- @sizes}
+        indicator_class="inline-flex w-4 justify-center text-[0.75rem] leading-none"
         chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
         group_label_class="d-menu-title block"
         separator_class="h-px my-2 mx-1 bg-base-content/10"
@@ -5190,6 +5194,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
     ~H"""
     <.menu
+      indicator_class="inline-flex w-4 justify-center text-[0.75rem] leading-none"
       chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
       group_label_class="d-menu-title block"
       separator_class="h-px my-2 mx-1 bg-base-content/10"
@@ -5214,6 +5219,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
     ~H"""
     <.menu
+      indicator_class="inline-flex w-4 justify-center text-[0.75rem] leading-none"
       chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
       group_label_class="d-menu-title block"
       separator_class="h-px my-2 mx-1 bg-base-content/10"
@@ -5237,6 +5243,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
     ~H"""
     <.menu
+      indicator_class="inline-flex w-4 justify-center text-[0.75rem] leading-none"
       chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
       group_label_class="d-menu-title block"
       separator_class="h-px my-2 mx-1 bg-base-content/10"
@@ -5251,7 +5258,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <.menu_item
         :for={{label, path} <- @nav}
         label={label}
-        class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)] d-tooltip d-tooltip-right"
+        class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)] [&.d-tooltip]:inline-block d-tooltip d-tooltip-right"
         data-tip={label}
       >
         <.nav_icon path={path} />
@@ -5263,6 +5270,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "menu-badges"} = assigns) do
     ~H"""
     <.menu
+      indicator_class="inline-flex w-4 justify-center text-[0.75rem] leading-none"
       chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
       group_label_class="d-menu-title block"
       separator_class="h-px my-2 mx-1 bg-base-content/10"
@@ -5290,6 +5298,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "menu-active"} = assigns) do
     ~H"""
     <.menu
+      indicator_class="inline-flex w-4 justify-center text-[0.75rem] leading-none"
       chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
       group_label_class="d-menu-title block"
       separator_class="h-px my-2 mx-1 bg-base-content/10"
@@ -5311,6 +5320,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "menu-disabled"} = assigns) do
     ~H"""
     <.menu
+      indicator_class="inline-flex w-4 justify-center text-[0.75rem] leading-none"
       chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
       group_label_class="d-menu-title block"
       separator_class="h-px my-2 mx-1 bg-base-content/10"
@@ -5333,6 +5343,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "menu-title"} = assigns) do
     ~H"""
     <.menu
+      indicator_class="inline-flex w-4 justify-center text-[0.75rem] leading-none"
       chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
       group_label_class="d-menu-title block"
       separator_class="h-px my-2 mx-1 bg-base-content/10"
@@ -5366,6 +5377,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "menu-title-parent"} = assigns) do
     ~H"""
     <.menu
+      indicator_class="inline-flex w-4 justify-center text-[0.75rem] leading-none"
       chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
       group_label_class="d-menu-title block"
       separator_class="h-px my-2 mx-1 bg-base-content/10"
@@ -5400,6 +5412,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "menu-submenu"} = assigns) do
     ~H"""
     <.menu
+      indicator_class="inline-flex w-4 justify-center text-[0.75rem] leading-none"
       chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
       group_label_class="d-menu-title block"
       separator_class="h-px my-2 mx-1 bg-base-content/10"
@@ -5438,6 +5451,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "menu-file-tree"} = assigns) do
     ~H"""
     <.menu
+      indicator_class="inline-flex w-4 justify-center text-[0.75rem] leading-none"
       chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
       group_label_class="d-menu-title block"
       separator_class="h-px my-2 mx-1 bg-base-content/10"
@@ -5498,6 +5512,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "menu-horizontal-submenu"} = assigns) do
     ~H"""
     <.menu
+      indicator_class="inline-flex w-4 justify-center text-[0.75rem] leading-none"
       chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
       group_label_class="d-menu-title block"
       separator_class="h-px my-2 mx-1 bg-base-content/10"
@@ -5536,6 +5551,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "menu-horizontal"} = assigns) do
     ~H"""
     <.menu
+      indicator_class="inline-flex w-4 justify-center text-[0.75rem] leading-none"
       chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
       group_label_class="d-menu-title block"
       separator_class="h-px my-2 mx-1 bg-base-content/10"
@@ -5557,6 +5573,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "menu-responsive"} = assigns) do
     ~H"""
     <.menu
+      indicator_class="inline-flex w-4 justify-center text-[0.75rem] leading-none"
       chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
       group_label_class="d-menu-title block"
       separator_class="h-px my-2 mx-1 bg-base-content/10"
@@ -5578,6 +5595,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "menu-flush"} = assigns) do
     ~H"""
     <.menu
+      indicator_class="inline-flex w-4 justify-center text-[0.75rem] leading-none"
       chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
       group_label_class="d-menu-title block"
       separator_class="h-px my-2 mx-1 bg-base-content/10"
@@ -5599,6 +5617,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "menu-rich"} = assigns) do
     ~H"""
     <.menu
+      indicator_class="inline-flex w-4 justify-center text-[0.75rem] leading-none"
       chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
       group_label_class="d-menu-title block"
       separator_class="h-px my-2 mx-1 bg-base-content/10"
@@ -5612,18 +5631,23 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <:trigger>View options</:trigger>
       <.menu_group label_class="d-menu-title block" id="daisyui-menu-panels" label="Panels">
         <.menu_checkbox
+          indicator_class="inline-flex w-4 justify-center text-[0.75rem] leading-none"
           class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
           checked
         >
           Sidebar
         </.menu_checkbox>
-        <.menu_checkbox class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]">
+        <.menu_checkbox
+          indicator_class="inline-flex w-4 justify-center text-[0.75rem] leading-none"
+          class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+        >
           Terminal
         </.menu_checkbox>
       </.menu_group>
       <.menu_separator class="h-px my-2 mx-1 bg-base-content/10" />
       <.menu_radio_group label_class="d-menu-title block" id="daisyui-menu-sort" label="Sort by">
         <.menu_radio
+          indicator_class="inline-flex w-4 justify-center text-[0.75rem] leading-none"
           class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
           name="sort"
           value="name"
@@ -5632,6 +5656,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
           Name
         </.menu_radio>
         <.menu_radio
+          indicator_class="inline-flex w-4 justify-center text-[0.75rem] leading-none"
           class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
           name="sort"
           value="date"
@@ -5662,6 +5687,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "menu-card"} = assigns) do
     ~H"""
     <.menu
+      indicator_class="inline-flex w-4 justify-center text-[0.75rem] leading-none"
       chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
       group_label_class="d-menu-title block"
       separator_class="h-px my-2 mx-1 bg-base-content/10"
@@ -5816,13 +5842,33 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── calendar ──────────────────────────────────────────────────────────────
   def example(%{section: "calendar-hero"} = assigns) do
     ~H"""
-    <.calendar id="daisyui-calendar-hero" month={~D[2026-03-01]} today={~D[2026-03-17]} />
+    <.calendar
+      day_class="grid place-items-center w-9 h-9 rounded-[var(--radius-field)] text-[0.875rem] cursor-pointer [transition:background-color_0.15s_ease-out] hover:bg-base-content/10 focus-visible:outline-2 focus-visible:outline-base-content focus-visible:outline-offset-2 data-outside:opacity-35 aria-[current=date]:[box-shadow:inset_0_0_0_1px_var(--color-primary)] aria-[current=date]:font-semibold data-selected:bg-primary data-selected:text-primary-content data-selected:hover:bg-primary data-in-range:bg-[color-mix(in_oklab,var(--color-primary)_18%,transparent)] data-in-range:rounded-none data-range-start:rounded-se-none data-range-start:rounded-ee-none data-range-end:rounded-ss-none data-range-end:rounded-es-none aria-disabled:cursor-not-allowed aria-disabled:opacity-30! aria-disabled:hover:bg-transparent"
+      cell_class="p-px"
+      weekday_class="p-1 text-[0.75rem] font-medium opacity-60"
+      grid_class="border-collapse"
+      heading_class="font-semibold"
+      control_class="d-btn d-btn-ghost d-btn-sm d-btn-circle"
+      header_class="flex items-center justify-between gap-2"
+      class="inline-flex flex-col gap-2 p-3 rounded-[var(--radius-box)] bg-base-100 text-base-content"
+      id="daisyui-calendar-hero"
+      month={~D[2026-03-01]}
+      today={~D[2026-03-17]}
+    />
     """
   end
 
   def example(%{section: "calendar-selected"} = assigns) do
     ~H"""
     <.calendar
+      day_class="grid place-items-center w-9 h-9 rounded-[var(--radius-field)] text-[0.875rem] cursor-pointer [transition:background-color_0.15s_ease-out] hover:bg-base-content/10 focus-visible:outline-2 focus-visible:outline-base-content focus-visible:outline-offset-2 data-outside:opacity-35 aria-[current=date]:[box-shadow:inset_0_0_0_1px_var(--color-primary)] aria-[current=date]:font-semibold data-selected:bg-primary data-selected:text-primary-content data-selected:hover:bg-primary data-in-range:bg-[color-mix(in_oklab,var(--color-primary)_18%,transparent)] data-in-range:rounded-none data-range-start:rounded-se-none data-range-start:rounded-ee-none data-range-end:rounded-ss-none data-range-end:rounded-es-none aria-disabled:cursor-not-allowed aria-disabled:opacity-30! aria-disabled:hover:bg-transparent"
+      cell_class="p-px"
+      weekday_class="p-1 text-[0.75rem] font-medium opacity-60"
+      grid_class="border-collapse"
+      heading_class="font-semibold"
+      control_class="d-btn d-btn-ghost d-btn-sm d-btn-circle"
+      header_class="flex items-center justify-between gap-2"
+      class="inline-flex flex-col gap-2 p-3 rounded-[var(--radius-box)] bg-base-100 text-base-content"
       id="daisyui-calendar-selected"
       month={~D[2026-03-01]}
       today={~D[2026-03-17]}
@@ -5834,6 +5880,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "calendar-range"} = assigns) do
     ~H"""
     <.calendar
+      day_class="grid place-items-center w-9 h-9 rounded-[var(--radius-field)] text-[0.875rem] cursor-pointer [transition:background-color_0.15s_ease-out] hover:bg-base-content/10 focus-visible:outline-2 focus-visible:outline-base-content focus-visible:outline-offset-2 data-outside:opacity-35 aria-[current=date]:[box-shadow:inset_0_0_0_1px_var(--color-primary)] aria-[current=date]:font-semibold data-selected:bg-primary data-selected:text-primary-content data-selected:hover:bg-primary data-in-range:bg-[color-mix(in_oklab,var(--color-primary)_18%,transparent)] data-in-range:rounded-none data-range-start:rounded-se-none data-range-start:rounded-ee-none data-range-end:rounded-ss-none data-range-end:rounded-es-none aria-disabled:cursor-not-allowed aria-disabled:opacity-30! aria-disabled:hover:bg-transparent"
+      cell_class="p-px"
+      weekday_class="p-1 text-[0.75rem] font-medium opacity-60"
+      grid_class="border-collapse"
+      heading_class="font-semibold"
+      control_class="d-btn d-btn-ghost d-btn-sm d-btn-circle"
+      header_class="flex items-center justify-between gap-2"
+      class="inline-flex flex-col gap-2 p-3 rounded-[var(--radius-box)] bg-base-100 text-base-content"
       id="daisyui-calendar-range"
       mode="range"
       month={~D[2026-03-01]}
@@ -5846,6 +5900,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "calendar-multiple"} = assigns) do
     ~H"""
     <.calendar
+      day_class="grid place-items-center w-9 h-9 rounded-[var(--radius-field)] text-[0.875rem] cursor-pointer [transition:background-color_0.15s_ease-out] hover:bg-base-content/10 focus-visible:outline-2 focus-visible:outline-base-content focus-visible:outline-offset-2 data-outside:opacity-35 aria-[current=date]:[box-shadow:inset_0_0_0_1px_var(--color-primary)] aria-[current=date]:font-semibold data-selected:bg-primary data-selected:text-primary-content data-selected:hover:bg-primary data-in-range:bg-[color-mix(in_oklab,var(--color-primary)_18%,transparent)] data-in-range:rounded-none data-range-start:rounded-se-none data-range-start:rounded-ee-none data-range-end:rounded-ss-none data-range-end:rounded-es-none aria-disabled:cursor-not-allowed aria-disabled:opacity-30! aria-disabled:hover:bg-transparent"
+      cell_class="p-px"
+      weekday_class="p-1 text-[0.75rem] font-medium opacity-60"
+      grid_class="border-collapse"
+      heading_class="font-semibold"
+      control_class="d-btn d-btn-ghost d-btn-sm d-btn-circle"
+      header_class="flex items-center justify-between gap-2"
+      class="inline-flex flex-col gap-2 p-3 rounded-[var(--radius-box)] bg-base-100 text-base-content"
       id="daisyui-calendar-multiple"
       mode="multiple"
       month={~D[2026-03-01]}
@@ -5858,6 +5920,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "calendar-bounds"} = assigns) do
     ~H"""
     <.calendar
+      day_class="grid place-items-center w-9 h-9 rounded-[var(--radius-field)] text-[0.875rem] cursor-pointer [transition:background-color_0.15s_ease-out] hover:bg-base-content/10 focus-visible:outline-2 focus-visible:outline-base-content focus-visible:outline-offset-2 data-outside:opacity-35 aria-[current=date]:[box-shadow:inset_0_0_0_1px_var(--color-primary)] aria-[current=date]:font-semibold data-selected:bg-primary data-selected:text-primary-content data-selected:hover:bg-primary data-in-range:bg-[color-mix(in_oklab,var(--color-primary)_18%,transparent)] data-in-range:rounded-none data-range-start:rounded-se-none data-range-start:rounded-ee-none data-range-end:rounded-ss-none data-range-end:rounded-es-none aria-disabled:cursor-not-allowed aria-disabled:opacity-30! aria-disabled:hover:bg-transparent"
+      cell_class="p-px"
+      weekday_class="p-1 text-[0.75rem] font-medium opacity-60"
+      grid_class="border-collapse"
+      heading_class="font-semibold"
+      control_class="d-btn d-btn-ghost d-btn-sm d-btn-circle"
+      header_class="flex items-center justify-between gap-2"
+      class="inline-flex flex-col gap-2 p-3 rounded-[var(--radius-box)] bg-base-100 text-base-content"
       id="daisyui-calendar-bounds"
       month={~D[2026-03-01]}
       today={~D[2026-03-17]}
@@ -5870,6 +5940,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "calendar-disabled-dates"} = assigns) do
     ~H"""
     <.calendar
+      day_class="grid place-items-center w-9 h-9 rounded-[var(--radius-field)] text-[0.875rem] cursor-pointer [transition:background-color_0.15s_ease-out] hover:bg-base-content/10 focus-visible:outline-2 focus-visible:outline-base-content focus-visible:outline-offset-2 data-outside:opacity-35 aria-[current=date]:[box-shadow:inset_0_0_0_1px_var(--color-primary)] aria-[current=date]:font-semibold data-selected:bg-primary data-selected:text-primary-content data-selected:hover:bg-primary data-in-range:bg-[color-mix(in_oklab,var(--color-primary)_18%,transparent)] data-in-range:rounded-none data-range-start:rounded-se-none data-range-start:rounded-ee-none data-range-end:rounded-ss-none data-range-end:rounded-es-none aria-disabled:cursor-not-allowed aria-disabled:opacity-30! aria-disabled:hover:bg-transparent"
+      cell_class="p-px"
+      weekday_class="p-1 text-[0.75rem] font-medium opacity-60"
+      grid_class="border-collapse"
+      heading_class="font-semibold"
+      control_class="d-btn d-btn-ghost d-btn-sm d-btn-circle"
+      header_class="flex items-center justify-between gap-2"
+      class="inline-flex flex-col gap-2 p-3 rounded-[var(--radius-box)] bg-base-100 text-base-content"
       id="daisyui-calendar-disabled-dates"
       month={~D[2026-03-01]}
       today={~D[2026-03-17]}
@@ -5881,6 +5959,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "calendar-sunday"} = assigns) do
     ~H"""
     <.calendar
+      day_class="grid place-items-center w-9 h-9 rounded-[var(--radius-field)] text-[0.875rem] cursor-pointer [transition:background-color_0.15s_ease-out] hover:bg-base-content/10 focus-visible:outline-2 focus-visible:outline-base-content focus-visible:outline-offset-2 data-outside:opacity-35 aria-[current=date]:[box-shadow:inset_0_0_0_1px_var(--color-primary)] aria-[current=date]:font-semibold data-selected:bg-primary data-selected:text-primary-content data-selected:hover:bg-primary data-in-range:bg-[color-mix(in_oklab,var(--color-primary)_18%,transparent)] data-in-range:rounded-none data-range-start:rounded-se-none data-range-start:rounded-ee-none data-range-end:rounded-ss-none data-range-end:rounded-es-none aria-disabled:cursor-not-allowed aria-disabled:opacity-30! aria-disabled:hover:bg-transparent"
+      cell_class="p-px"
+      weekday_class="p-1 text-[0.75rem] font-medium opacity-60"
+      grid_class="border-collapse"
+      heading_class="font-semibold"
+      control_class="d-btn d-btn-ghost d-btn-sm d-btn-circle"
+      header_class="flex items-center justify-between gap-2"
+      class="inline-flex flex-col gap-2 p-3 rounded-[var(--radius-box)] bg-base-100 text-base-content"
       id="daisyui-calendar-sunday"
       month={~D[2026-03-01]}
       today={~D[2026-03-17]}
@@ -5892,6 +5978,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "calendar-compact"} = assigns) do
     ~H"""
     <.calendar
+      day_class="grid place-items-center w-9 h-9 rounded-[var(--radius-field)] text-[0.875rem] cursor-pointer [transition:background-color_0.15s_ease-out] hover:bg-base-content/10 focus-visible:outline-2 focus-visible:outline-base-content focus-visible:outline-offset-2 data-outside:opacity-35 aria-[current=date]:[box-shadow:inset_0_0_0_1px_var(--color-primary)] aria-[current=date]:font-semibold data-selected:bg-primary data-selected:text-primary-content data-selected:hover:bg-primary data-in-range:bg-[color-mix(in_oklab,var(--color-primary)_18%,transparent)] data-in-range:rounded-none data-range-start:rounded-se-none data-range-start:rounded-ee-none data-range-end:rounded-ss-none data-range-end:rounded-es-none aria-disabled:cursor-not-allowed aria-disabled:opacity-30! aria-disabled:hover:bg-transparent"
+      cell_class="p-px"
+      weekday_class="p-1 text-[0.75rem] font-medium opacity-60"
+      grid_class="border-collapse"
+      heading_class="font-semibold"
+      control_class="d-btn d-btn-ghost d-btn-sm d-btn-circle"
+      header_class="flex items-center justify-between gap-2"
+      class="inline-flex flex-col gap-2 p-3 rounded-[var(--radius-box)] bg-base-100 text-base-content"
       id="daisyui-calendar-compact"
       month={~D[2027-02-01]}
       today={~D[2027-02-17]}
@@ -5904,6 +5998,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "calendar-live"} = assigns) do
     ~H"""
     <.calendar
+      day_class="grid place-items-center w-9 h-9 rounded-[var(--radius-field)] text-[0.875rem] cursor-pointer [transition:background-color_0.15s_ease-out] hover:bg-base-content/10 focus-visible:outline-2 focus-visible:outline-base-content focus-visible:outline-offset-2 data-outside:opacity-35 aria-[current=date]:[box-shadow:inset_0_0_0_1px_var(--color-primary)] aria-[current=date]:font-semibold data-selected:bg-primary data-selected:text-primary-content data-selected:hover:bg-primary data-in-range:bg-[color-mix(in_oklab,var(--color-primary)_18%,transparent)] data-in-range:rounded-none data-range-start:rounded-se-none data-range-start:rounded-ee-none data-range-end:rounded-ss-none data-range-end:rounded-es-none aria-disabled:cursor-not-allowed aria-disabled:opacity-30! aria-disabled:hover:bg-transparent"
+      cell_class="p-px"
+      weekday_class="p-1 text-[0.75rem] font-medium opacity-60"
+      grid_class="border-collapse"
+      heading_class="font-semibold"
+      control_class="d-btn d-btn-ghost d-btn-sm d-btn-circle"
+      header_class="flex items-center justify-between gap-2"
+      class="inline-flex flex-col gap-2 p-3 rounded-[var(--radius-box)] bg-base-100 text-base-content"
       id="daisyui-calendar-live"
       month={~D[2026-03-01]}
       today={~D[2026-03-17]}
@@ -8191,7 +8293,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.menubar
       popup_class="d-menu absolute z-50 min-w-48 rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
-      trigger_class="rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer hover:bg-base-content/10 aria-expanded:bg-base-content/10"
+      trigger_class="rounded-[var(--radius-field)] px-3! py-[calc(0.25rem*1.5)]! cursor-pointer hover:bg-base-content/10 aria-expanded:bg-base-content/10"
       class="d-menu d-menu-horizontal p-1 gap-1"
       id="daisyui-menubar-hero"
     >

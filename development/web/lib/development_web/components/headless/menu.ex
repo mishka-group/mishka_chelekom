@@ -62,6 +62,11 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
 
   attr :separator_class, :any, default: nil, doc: ~s|Extra classes for `data-part="separator"`|
   attr :group_label_class, :any, default: nil, doc: ~s|Extra classes for a group label|
+
+  attr :indicator_class, :any,
+    default: nil,
+    doc: ~s|Extra classes for `data-part="checkbox-item-indicator"` and `"radio-item-indicator"`|
+
   attr :trigger_class, :any, default: nil, doc: "Extra classes for the trigger button part"
   attr :popup_class, :any, default: nil, doc: "Extra classes for the popup part"
 
@@ -186,7 +191,7 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
               aria-hidden="true"
               data-checked={it[:checked] == true}
               data-unchecked={it[:checked] != true}
-              class={["chelekom-menu__indicator", it[:indicator_class]]}
+              class={["chelekom-menu__indicator", @indicator_class, it[:indicator_class]]}
             >{if @check_icon != [], do: render_slot(@check_icon), else: "✓"}</span>
             {render_slot(it)}
           </button>
@@ -212,7 +217,7 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
               aria-hidden="true"
               data-checked={it[:checked] == true}
               data-unchecked={it[:checked] != true}
-              class={["chelekom-menu__indicator", it[:indicator_class]]}
+              class={["chelekom-menu__indicator", @indicator_class, it[:indicator_class]]}
             >{if @check_icon != [], do: render_slot(@check_icon), else: "●"}</span>
             {render_slot(it)}
           </button>
