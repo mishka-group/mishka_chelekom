@@ -1326,63 +1326,7 @@
     }
   }
 }
-/* <<< drawer */
-/* >>> field */
-@layer components {
-  [data-skin=daisyui] {
-    /* field — daisyUI skin (label + control + help/error, daisyUI's `label` and `validator-hint`). */
-
-    .chelekom-field {
-      display: flex;
-      flex-direction: column;
-      gap: calc(0.25rem * 1);
-      color: var(--color-base-content);
-    }
-
-    .chelekom-field__label {
-      @apply d-label;
-      font-size: 0.875rem;
-    }
-
-    /* The control part is a WRAPPER around whatever the caller renders, not the input itself — so
-     * daisyUI's `input` box goes on the control inside it. */
-    .chelekom-field__control {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .chelekom-field__control > :is(input, select, textarea) {
-      @apply d-input;
-      width: 100%;
-    }
-
-    .chelekom-field__description {
-      font-size: 0.75rem;
-      color: color-mix(in oklab, var(--color-base-content) 60%, transparent);
-    }
-
-    /* daisyUI's `validator-hint` is the message under an invalid control; ours is the error part, shown
-     * off the `data-invalid` the field already sets rather than off `:user-invalid`. */
-    .chelekom-field__error {
-      font-size: 0.75rem;
-      color: var(--color-error);
-    }
-
-    .chelekom-field[data-invalid] .chelekom-field__control > :is(input, select, textarea) {
-      --d-input-color: var(--color-error);
-    }
-
-    .chelekom-field[data-valid] .chelekom-field__control > :is(input, select, textarea) {
-      --d-input-color: var(--color-success);
-    }
-
-    .chelekom-field[data-disabled] {
-      opacity: 60%;
-    }
-  }
-}
-/* <<< field */
-/* >>> text_input */
+/* <<< drawer *//* >>> text_input */
 @layer components {
   [data-skin=daisyui] {
     /* text_input — daisyUI skin.
@@ -3503,72 +3447,6 @@
   }
 }
 /* <<< alert_dialog */
-
-/* >>> spoiler */
-@layer components {
-  [data-skin=daisyui] {
-    /* spoiler — daisyUI skin.
-     *
-     * daisyUI's nearest thing is `collapse`, but a collapse hides its content behind a title bar. A
-     * spoiler shows the beginning and clips the rest, so the box itself is drawn here and only the
-     * toggle borrows daisyUI — `btn btn-sm btn-ghost`, the same treatment its own inline actions get.
-     *
-     * The fade over the clipped edge is the part that makes it read as "there is more": without it a
-     * hard cut looks like the text simply ended.
-     */
-
-    .chelekom-spoiler {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: calc(0.25rem * 2);
-      color: var(--color-base-content);
-    }
-
-    .chelekom-spoiler__content {
-      position: relative;
-      overflow: hidden;
-      /* Collapsed by default, so the clamp is right before any JS runs; the root gains
-       * `data-expanded` when the control is used. */
-      max-height: 6rem;
-      transition: max-height 0.2s ease-out;
-    }
-
-    .chelekom-spoiler[data-expanded] .chelekom-spoiler__content {
-      max-height: 60rem;
-    }
-
-    .chelekom-spoiler__content::after {
-      content: "";
-      position: absolute;
-      inset-inline: 0;
-      bottom: 0;
-      height: 2.5rem;
-      background: linear-gradient(to bottom, #0000, var(--color-base-100));
-      pointer-events: none;
-    }
-
-    /* Both labels are always in the DOM; exactly one of them is shown. */
-    .chelekom-spoiler[data-expanded] .chelekom-spoiler__content::after {
-      display: none;
-    }
-
-    .chelekom-spoiler [data-part="hide-label"],
-    .chelekom-spoiler[data-expanded] [data-part="show-label"] {
-      display: none;
-    }
-
-    .chelekom-spoiler[data-expanded] [data-part="hide-label"] {
-      display: inline;
-    }
-
-    .chelekom-spoiler__control {
-      @apply d-btn d-btn-sm d-btn-ghost;
-    }
-  }
-}
-/* <<< spoiler */
-
 /* >>> color_picker */
 @layer components {
   [data-skin=daisyui] {
@@ -3852,64 +3730,7 @@
   }
 }
 /* <<< context_menu */
-
-/* >>> editor */
-@layer components {
-  [data-skin=daisyui] {
-    /* editor — daisyUI skin.
-     *
-     * daisyUI has no editor. The frame is a `textarea`'s box so the control matches the other fields
-     * on a form, and the toolbar is a strip of `btn btn-sm btn-ghost` — daisyUI's own treatment for a
-     * row of small actions.
-     */
-
-    /* Full width, like the textarea it stands in for: as a flex item an authoring surface that shrinks
-     * to its toolbar is a column of buttons with nowhere to write. */
-    .chelekom-editor {
-      width: 100%;
-      border-radius: var(--radius-field);
-      border: var(--border) solid color-mix(in oklab, var(--color-base-content) 20%, #0000);
-      background-color: var(--color-base-100);
-      color: var(--color-base-content);
-      overflow: hidden;
-    }
-
-    .chelekom-editor:focus-within {
-      outline: 2px solid var(--color-base-content);
-      outline-offset: 2px;
-    }
-
-    .chelekom-editor__toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: calc(0.25rem * 1);
-      border-bottom: var(--border) solid color-mix(in oklab, var(--color-base-content) 12%, #0000);
-      padding: calc(0.25rem * 1);
-    }
-
-    .chelekom-editor__toolbar button {
-      @apply d-btn d-btn-sm d-btn-ghost;
-    }
-
-    /* The pressed state of a formatting button is `aria-pressed`, not a class the caller toggles. */
-    .chelekom-editor__toolbar button[aria-pressed="true"] {
-      @apply d-btn-active;
-    }
-
-    .chelekom-editor__surface {
-      min-height: 8rem;
-      padding: calc(0.25rem * 3);
-      outline: none;
-    }
-
-    .chelekom-editor__surface:empty::before {
-      content: attr(data-placeholder);
-      opacity: 45%;
-    }
-  }
-}
-/* <<< editor *//* >>> hue_slider */
+/* >>> hue_slider */
 @layer components {
   [data-skin=daisyui] {
     /* hue_slider — daisyUI skin.
@@ -4222,82 +4043,7 @@
     }
   }
 }
-/* <<< popover *//* >>> scroll_area */
-@layer components {
-  [data-skin=daisyui] {
-    /* scroll_area — daisyUI skin.
-     *
-     * daisyUI has no scroll area. The custom scrollbar is drawn from theme tokens and sized from the
-     * `--scroll-area-thumb-*` variables the engine measures, so the thumb stays proportional to the
-     * content rather than a fixed height.
-     */
-
-    /* The height is the skin's, not the component's: a scroll area with no bound grows to its content
-     * and never scrolls, so classless markup needs one. Any height set on the root still wins. */
-    .chelekom-scroll_area {
-      position: relative;
-      overflow: hidden;
-      height: calc(0.25rem * 60);
-      color: var(--color-base-content);
-    }
-
-    .chelekom-scroll_area__viewport {
-      height: 100%;
-      width: 100%;
-      overflow: auto;
-      scrollbar-width: none;
-    }
-
-    .chelekom-scroll_area__viewport::-webkit-scrollbar {
-      display: none;
-    }
-
-    .chelekom-scroll_area__scrollbar {
-      position: absolute;
-      display: flex;
-      touch-action: none;
-      user-select: none;
-      padding: 2px;
-      opacity: 0;
-      transition: opacity 0.2s ease-out;
-    }
-
-    /* The bar appears while it is relevant — during a scroll, or while the pointer is over the area —
-     * and stays out of the way otherwise. */
-    .chelekom-scroll_area[data-hovering] .chelekom-scroll_area__scrollbar,
-    .chelekom-scroll_area[data-scrolling] .chelekom-scroll_area__scrollbar {
-      opacity: 1;
-    }
-
-    .chelekom-scroll_area__scrollbar[data-orientation="vertical"] {
-      inset-block: 0;
-      inset-inline-end: 0;
-      width: calc(0.25rem * 2.5);
-    }
-
-    .chelekom-scroll_area__scrollbar[data-orientation="horizontal"] {
-      inset-inline: 0;
-      bottom: 0;
-      flex-direction: column;
-      height: calc(0.25rem * 2.5);
-    }
-
-    .chelekom-scroll_area__thumb {
-      flex: 1;
-      border-radius: calc(infinity * 1px);
-      background-color: color-mix(in oklab, var(--color-base-content) 30%, transparent);
-    }
-
-    .chelekom-scroll_area__thumb:hover {
-      background-color: color-mix(in oklab, var(--color-base-content) 45%, transparent);
-    }
-
-    .chelekom-scroll_area__corner {
-      background-color: transparent;
-    }
-  }
-}
-/* <<< scroll_area */
+/* <<< popover */
 /* >>> segmented_control */
 @layer components {
   [data-skin=daisyui] {
@@ -4360,68 +4106,7 @@
   }
 }
 /* <<< segmented_control */
-/* >>> splitter */
-@layer components {
-  [data-skin=daisyui] {
-    /* splitter — daisyUI skin.
-     *
-     * daisyUI has no splitter. The handle is the only part with any real design in it: it has to be
-     * wide enough to grab and narrow enough not to look like a gap, so it stays hairline until the
-     * pointer is on it and thickens with the theme's primary while dragging.
-     */
-
-    /* Bordered and bounded, like daisyUI's `card`: without a height the two panels collapse onto one
-     * line and the handle between them reads as a stray hairline rather than something to drag. */
-    .chelekom-splitter {
-      display: flex;
-      width: 100%;
-      height: calc(0.25rem * 48);
-      overflow: hidden;
-      border-radius: var(--radius-box);
-      border: var(--border) solid color-mix(in oklab, var(--color-base-content) 12%, #0000);
-      background-color: var(--color-base-100);
-      color: var(--color-base-content);
-    }
-
-    .chelekom-splitter[data-orientation="vertical"] {
-      flex-direction: column;
-    }
-
-    .chelekom-splitter__panel {
-      overflow: auto;
-      min-width: 0;
-      min-height: 0;
-      padding: calc(0.25rem * 4);
-    }
-
-    .chelekom-splitter__resizer {
-      flex-shrink: 0;
-      background-color: color-mix(in oklab, var(--color-base-content) 12%, transparent);
-      transition: background-color 0.15s ease-out;
-    }
-
-    .chelekom-splitter[data-orientation="horizontal"] .chelekom-splitter__resizer {
-      width: calc(0.25rem * 1);
-      cursor: col-resize;
-    }
-
-    .chelekom-splitter[data-orientation="vertical"] .chelekom-splitter__resizer {
-      height: calc(0.25rem * 1);
-      cursor: row-resize;
-    }
-
-    .chelekom-splitter__resizer:hover,
-    .chelekom-splitter__resizer[data-dragging] {
-      background-color: var(--color-primary);
-    }
-
-    .chelekom-splitter__resizer:focus-visible {
-      outline: 2px solid var(--color-primary);
-      outline-offset: 1px;
-    }
-  }
-}
-/* <<< splitter *//* >>> toggle_group */
+/* >>> toggle_group */
 @layer components {
   [data-skin=daisyui] {
     /* toggle_group — daisyUI skin.

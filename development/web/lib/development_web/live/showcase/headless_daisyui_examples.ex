@@ -2820,17 +2820,47 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── field ─────────────────────────────────────────────────────────────────
   def example(%{section: "field-hero"} = assigns) do
     ~H"""
-    <.field :let={f} id="daisyui-field-hero" label="Email" class="w-xs">
-      <input type="email" id={f.id} name={f.name} placeholder="you@example.com" />
+    <.field
+      :let={f}
+      error_class="text-[0.75rem] text-error"
+      description_class="text-[0.75rem] text-base-content/60"
+      control_class="flex flex-col"
+      label_class="d-label text-[0.875rem]"
+      id="daisyui-field-hero"
+      label="Email"
+      class="group flex flex-col gap-1 text-base-content data-disabled:opacity-60 w-xs"
+    >
+      <input
+        type="email"
+        id={f.id}
+        name={f.name}
+        placeholder="you@example.com"
+        class="d-input w-full group-data-[invalid]:[--d-input-color:var(--color-error)] group-data-[valid]:[--d-input-color:var(--color-success)]"
+      />
     </.field>
     """
   end
 
   def example(%{section: "field-description"} = assigns) do
     ~H"""
-    <.field :let={f} id="daisyui-field-desc" label="Page title" class="w-xs">
+    <.field
+      :let={f}
+      error_class="text-[0.75rem] text-error"
+      description_class="text-[0.75rem] text-base-content/60"
+      control_class="flex flex-col"
+      label_class="d-label text-[0.875rem]"
+      id="daisyui-field-desc"
+      label="Page title"
+      class="group flex flex-col gap-1 text-base-content data-disabled:opacity-60 w-xs"
+    >
       <:description>You can edit the title later from settings.</:description>
-      <input type="text" id={f.id} name={f.name} placeholder="My awesome page" />
+      <input
+        type="text"
+        id={f.id}
+        name={f.name}
+        placeholder="My awesome page"
+        class="d-input w-full group-data-[invalid]:[--d-input-color:var(--color-error)] group-data-[valid]:[--d-input-color:var(--color-success)]"
+      />
     </.field>
     """
   end
@@ -2839,28 +2869,71 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.field
       :let={f}
+      error_class="text-[0.75rem] text-error"
+      description_class="text-[0.75rem] text-base-content/60"
+      control_class="flex flex-col"
+      label_class="d-label text-[0.875rem]"
       id="daisyui-field-invalid"
       label="Email"
       errors={["is not a valid address"]}
-      class="w-xs"
+      class="group flex flex-col gap-1 text-base-content data-disabled:opacity-60 w-xs"
     >
-      <input type="email" id={f.id} name={f.name} value="not-an-email" />
+      <input
+        type="email"
+        id={f.id}
+        name={f.name}
+        value="not-an-email"
+        class="d-input w-full group-data-[invalid]:[--d-input-color:var(--color-error)] group-data-[valid]:[--d-input-color:var(--color-success)]"
+      />
     </.field>
     """
   end
 
   def example(%{section: "field-valid"} = assigns) do
     ~H"""
-    <.field :let={f} id="daisyui-field-valid" label="Email" valid class="w-xs">
-      <input type="email" id={f.id} name={f.name} value="you@example.com" />
+    <.field
+      :let={f}
+      error_class="text-[0.75rem] text-error"
+      description_class="text-[0.75rem] text-base-content/60"
+      control_class="flex flex-col"
+      label_class="d-label text-[0.875rem]"
+      id="daisyui-field-valid"
+      label="Email"
+      valid
+      class="group flex flex-col gap-1 text-base-content data-disabled:opacity-60 w-xs"
+    >
+      <input
+        type="email"
+        id={f.id}
+        name={f.name}
+        value="you@example.com"
+        class="d-input w-full group-data-[invalid]:[--d-input-color:var(--color-error)] group-data-[valid]:[--d-input-color:var(--color-success)]"
+      />
     </.field>
     """
   end
 
   def example(%{section: "field-disabled"} = assigns) do
     ~H"""
-    <.field :let={f} id="daisyui-field-disabled" label="Email" disabled class="w-xs">
-      <input type="email" id={f.id} name={f.name} disabled placeholder="Not editable" />
+    <.field
+      :let={f}
+      error_class="text-[0.75rem] text-error"
+      description_class="text-[0.75rem] text-base-content/60"
+      control_class="flex flex-col"
+      label_class="d-label text-[0.875rem]"
+      id="daisyui-field-disabled"
+      label="Email"
+      disabled
+      class="group flex flex-col gap-1 text-base-content data-disabled:opacity-60 w-xs"
+    >
+      <input
+        type="email"
+        id={f.id}
+        name={f.name}
+        disabled
+        placeholder="Not editable"
+        class="d-input w-full group-data-[invalid]:[--d-input-color:var(--color-error)] group-data-[valid]:[--d-input-color:var(--color-success)]"
+      />
     </.field>
     """
   end
@@ -6444,6 +6517,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "editor-hero"} = assigns) do
     ~H"""
     <.editor
+      surface_class="min-h-32 p-3 [outline:none] empty:before:content-[attr(data-placeholder)] empty:before:opacity-45"
+      toolbar_class="flex flex-wrap items-center gap-1 border-b-[length:var(--border)] border-solid border-b-[color-mix(in_oklab,var(--color-base-content)_12%,#0000)] p-1"
+      class="w-full rounded-[var(--radius-field)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_20%,#0000)] bg-base-100 text-base-content overflow-hidden focus-within:outline-2 focus-within:outline-base-content focus-within:outline-offset-2"
       id="daisyui-editor-hero"
       value="<p>A rich-text surface. Select a word and use the toolbar.</p>"
     >
@@ -6452,6 +6528,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
           :for={{command, label} <- [{"bold", "B"}, {"italic", "I"}, {"underline", "U"}]}
           type="button"
           data-editor-command={command}
+          class="d-btn d-btn-sm d-btn-ghost aria-pressed:d-btn-active"
         >{label}</button>
       </:toolbar>
     </.editor>
@@ -7578,6 +7655,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "scroll_area-hero"} = assigns) do
     ~H"""
     <.scroll_area
+      corner_class="bg-transparent"
+      thumb_class="flex-1 rounded-[calc(infinity*1px)] bg-base-content/30 hover:bg-base-content/45"
+      scrollbar_class="absolute flex touch-none select-none p-[2px] opacity-0 [transition:opacity_0.2s_ease-out] group-data-[hovering]:opacity-100 group-data-[scrolling]:opacity-100 data-[orientation=vertical]:inset-y-0 data-[orientation=vertical]:end-0 data-[orientation=vertical]:w-[calc(0.25rem*2.5)] data-[orientation=horizontal]:inset-x-0 data-[orientation=horizontal]:bottom-0 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-[calc(0.25rem*2.5)]"
+      viewport_class="h-full w-full overflow-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      class="group relative overflow-hidden h-[calc(0.25rem*60)] text-base-content"
       id="daisyui-scroll_area-hero"
       orientation="vertical"
     >
@@ -7607,6 +7689,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "scroll_area-both"} = assigns) do
     ~H"""
     <.scroll_area
+      corner_class="bg-transparent"
+      thumb_class="flex-1 rounded-[calc(infinity*1px)] bg-base-content/30 hover:bg-base-content/45"
+      scrollbar_class="absolute flex touch-none select-none p-[2px] opacity-0 [transition:opacity_0.2s_ease-out] group-data-[hovering]:opacity-100 group-data-[scrolling]:opacity-100 data-[orientation=vertical]:inset-y-0 data-[orientation=vertical]:end-0 data-[orientation=vertical]:w-[calc(0.25rem*2.5)] data-[orientation=horizontal]:inset-x-0 data-[orientation=horizontal]:bottom-0 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-[calc(0.25rem*2.5)]"
+      viewport_class="h-full w-full overflow-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      class="group relative overflow-hidden h-[calc(0.25rem*60)] text-base-content"
       id="daisyui-scroll_area-both"
       orientation="both"
     >
@@ -7622,6 +7709,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "scroll_area-scroll-fade"} = assigns) do
     ~H"""
     <.scroll_area
+      corner_class="bg-transparent"
+      thumb_class="flex-1 rounded-[calc(infinity*1px)] bg-base-content/30 hover:bg-base-content/45"
+      scrollbar_class="absolute flex touch-none select-none p-[2px] opacity-0 [transition:opacity_0.2s_ease-out] group-data-[hovering]:opacity-100 group-data-[scrolling]:opacity-100 data-[orientation=vertical]:inset-y-0 data-[orientation=vertical]:end-0 data-[orientation=vertical]:w-[calc(0.25rem*2.5)] data-[orientation=horizontal]:inset-x-0 data-[orientation=horizontal]:bottom-0 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-[calc(0.25rem*2.5)]"
+      viewport_class="h-full w-full overflow-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      class="group relative overflow-hidden h-[calc(0.25rem*60)] text-base-content"
       id="daisyui-scroll_area-scroll-fade"
       orientation="vertical"
     >
@@ -7696,6 +7788,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "splitter-hero"} = assigns) do
     ~H"""
     <.splitter
+      resizer_class="shrink-0 bg-base-content/12 [transition:background-color_0.15s_ease-out] group-data-[orientation=horizontal]:w-1 group-data-[orientation=horizontal]:cursor-col-resize group-data-[orientation=vertical]:h-1 group-data-[orientation=vertical]:cursor-row-resize hover:bg-primary data-dragging:bg-primary focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-1"
+      panel_class="overflow-auto min-w-0 min-h-0 p-4"
+      class="group flex w-full h-[calc(0.25rem*48)] overflow-hidden rounded-[var(--radius-box)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_12%,#0000)] bg-base-100 text-base-content data-[orientation=vertical]:flex-col"
       id="daisyui-splitter"
       default_size={45}
     >
@@ -8373,7 +8468,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── spoiler ───────────────────────────────────────────────────────────────
   def example(%{section: "spoiler-hero"} = assigns) do
     ~H"""
-    <.spoiler id="daisyui-spoiler-hero" class="w-96">
+    <.spoiler
+      control_class="d-btn d-btn-sm d-btn-ghost"
+      hide_label_class="hidden group-data-[expanded]:inline"
+      show_label_class="group-data-[expanded]:hidden"
+      content_class="relative overflow-hidden max-h-24 [transition:max-height_0.2s_ease-out] group-data-[expanded]:max-h-[60rem] after:content-[''] after:absolute after:inset-x-0 after:bottom-0 after:h-10 after:bg-[linear-gradient(to_bottom,#0000,var(--color-base-100))] after:pointer-events-none group-data-[expanded]:after:hidden"
+      id="daisyui-spoiler-hero"
+      class="group flex flex-col items-start gap-2 text-base-content w-96"
+    >
       <p>
         Chelekom's headless line ships behaviour and semantics, and no styling at all. Each component
         names its parts with <code>data-part</code>
@@ -8387,7 +8489,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "spoiler-expanded"} = assigns) do
     ~H"""
-    <.spoiler id="daisyui-spoiler-expanded" expanded class="w-96">
+    <.spoiler
+      control_class="d-btn d-btn-sm d-btn-ghost"
+      hide_label_class="hidden group-data-[expanded]:inline"
+      show_label_class="group-data-[expanded]:hidden"
+      content_class="relative overflow-hidden max-h-24 [transition:max-height_0.2s_ease-out] group-data-[expanded]:max-h-[60rem] after:content-[''] after:absolute after:inset-x-0 after:bottom-0 after:h-10 after:bg-[linear-gradient(to_bottom,#0000,var(--color-base-100))] after:pointer-events-none group-data-[expanded]:after:hidden"
+      id="daisyui-spoiler-expanded"
+      expanded
+      class="group flex flex-col items-start gap-2 text-base-content w-96"
+    >
       <p>
         Already unfolded, because the server said so — no flash of collapsed content while the
         socket connects.
@@ -8399,10 +8509,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "spoiler-labels"} = assigns) do
     ~H"""
     <.spoiler
+      control_class="d-btn d-btn-sm d-btn-ghost"
+      hide_label_class="hidden group-data-[expanded]:inline"
+      show_label_class="group-data-[expanded]:hidden"
+      content_class="relative overflow-hidden max-h-24 [transition:max-height_0.2s_ease-out] group-data-[expanded]:max-h-[60rem] after:content-[''] after:absolute after:inset-x-0 after:bottom-0 after:h-10 after:bg-[linear-gradient(to_bottom,#0000,var(--color-base-100))] after:pointer-events-none group-data-[expanded]:after:hidden"
       id="daisyui-spoiler-labels"
       show_label="Read the rest"
       hide_label="That's enough"
-      class="w-96"
+      class="group flex flex-col items-start gap-2 text-base-content w-96"
     >
       <p>
         The labels are attributes rather than slots, because a spoiler's control is a word or two —
@@ -9335,11 +9449,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.field
       :let={f}
+      error_class="text-[0.75rem] text-error"
+      description_class="text-[0.75rem] text-base-content/60"
+      control_class="flex flex-col"
       id="daisyui-input-field"
       name="email"
       label="Email"
-      class="d-fieldset w-xs"
-      label_class="d-fieldset-legend"
+      class="group flex-col text-base-content data-disabled:opacity-60 d-fieldset w-xs"
+      label_class="d-label text-[0.875rem] d-fieldset-legend"
     >
       <.text_input
         id={f.id}
@@ -9606,7 +9723,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       phx-submit="daisyui_text_input_submit"
       class="flex flex-wrap items-start gap-6"
     >
-      <.field :let={f} id="daisyui-input-pristine" label="Pristine" class="d-fieldset">
+      <.field
+        :let={f}
+        error_class="text-[0.75rem] text-error"
+        description_class="text-[0.75rem] text-base-content/60"
+        control_class="flex flex-col"
+        label_class="d-label text-[0.875rem]"
+        id="daisyui-input-pristine"
+        label="Pristine"
+        class="group flex-col text-base-content data-disabled:opacity-60 d-fieldset"
+      >
         <.text_input
           field={@pristine[:email]}
           type="email"
@@ -9618,10 +9744,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
       <.field
         :let={f}
+        error_class="text-[0.75rem] text-error"
+        description_class="text-[0.75rem] text-base-content/60"
+        control_class="flex flex-col"
+        label_class="d-label text-[0.875rem]"
         id="daisyui-input-touched"
         label="Touched"
         errors={Enum.map(@touched[:email].errors, &elem(&1, 0))}
-        class="d-fieldset"
+        class="group flex-col text-base-content data-disabled:opacity-60 d-fieldset"
       >
         <.text_input field={@touched[:email]} type="email" describedby={f.describedby} />
       </.field>
@@ -9648,11 +9778,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.field
       :let={f}
+      error_class="text-[0.75rem] text-error"
+      description_class="text-[0.75rem] text-base-content/60"
+      control_class="flex flex-col"
       id="daisyui-textarea-field"
       name="bio"
       label="Your bio"
-      class="d-fieldset w-xs"
-      label_class="d-fieldset-legend"
+      class="group flex-col text-base-content data-disabled:opacity-60 d-fieldset w-xs"
+      label_class="d-label text-[0.875rem] d-fieldset-legend"
     >
       <.textarea id={f.id} name={f.name} placeholder="Bio" describedby={f.describedby} />
       <:description>Optional</:description>
@@ -9726,7 +9859,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       phx-submit="daisyui_textarea_submit"
       class="flex w-xs flex-col gap-2"
     >
-      <.field :let={f} id="daisyui-textarea-form" label="Bio" class="d-fieldset">
+      <.field
+        :let={f}
+        error_class="text-[0.75rem] text-error"
+        description_class="text-[0.75rem] text-base-content/60"
+        control_class="flex flex-col"
+        label_class="d-label text-[0.875rem]"
+        id="daisyui-textarea-form"
+        label="Bio"
+        class="group flex-col text-base-content data-disabled:opacity-60 d-fieldset"
+      >
         <.textarea
           field={@form[:bio]}
           rows={3}
@@ -9757,13 +9899,22 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.field
       :let={f}
+      error_class="text-[0.75rem] text-error"
+      description_class="text-[0.75rem] text-base-content/60"
+      control_class="flex flex-col"
       id="daisyui-file-field"
       name="avatar"
       label="Pick a file"
-      class="d-fieldset w-xs"
-      label_class="d-fieldset-legend"
+      class="group flex-col text-base-content data-disabled:opacity-60 d-fieldset w-xs"
+      label_class="d-label text-[0.875rem] d-fieldset-legend"
     >
-      <.file_input id={f.id} name={f.name} accept="image/*" describedby={f.describedby} />
+      <.file_input
+        id={f.id}
+        name={f.name}
+        accept="image/*"
+        describedby={f.describedby}
+        class="d-input w-full group-data-[invalid]:[--d-input-color:var(--color-error)] group-data-[valid]:[--d-input-color:var(--color-success)]"
+      />
       <:description>Max size 2MB</:description>
     </.field>
     """
@@ -9814,13 +9965,41 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       phx-submit="daisyui_file_input_submit"
       class="flex w-xs flex-col gap-3"
     >
-      <.field :let={f} id="daisyui-file-form-single" label="Attachment" class="d-fieldset">
-        <.file_input field={@form[:attachment]} describedby={f.describedby} />
+      <.field
+        :let={f}
+        error_class="text-[0.75rem] text-error"
+        description_class="text-[0.75rem] text-base-content/60"
+        control_class="flex flex-col"
+        label_class="d-label text-[0.875rem]"
+        id="daisyui-file-form-single"
+        label="Attachment"
+        class="group flex-col text-base-content data-disabled:opacity-60 d-fieldset"
+      >
+        <.file_input
+          field={@form[:attachment]}
+          describedby={f.describedby}
+          class="d-input w-full group-data-[invalid]:[--d-input-color:var(--color-error)] group-data-[valid]:[--d-input-color:var(--color-success)]"
+        />
         <:description>One file, posted as <code>upload[attachment]</code>.</:description>
       </.field>
 
-      <.field :let={f} id="daisyui-file-form-many" label="Gallery" class="d-fieldset">
-        <.file_input field={@form[:gallery]} multiple accept="image/*" describedby={f.describedby} />
+      <.field
+        :let={f}
+        error_class="text-[0.75rem] text-error"
+        description_class="text-[0.75rem] text-base-content/60"
+        control_class="flex flex-col"
+        label_class="d-label text-[0.875rem]"
+        id="daisyui-file-form-many"
+        label="Gallery"
+        class="group flex-col text-base-content data-disabled:opacity-60 d-fieldset"
+      >
+        <.file_input
+          field={@form[:gallery]}
+          multiple
+          accept="image/*"
+          describedby={f.describedby}
+          class="d-input w-full group-data-[invalid]:[--d-input-color:var(--color-error)] group-data-[valid]:[--d-input-color:var(--color-success)]"
+        />
         <:description>
           Several files — the name gains <code>[]</code> so Plug builds a list.
         </:description>
