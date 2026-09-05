@@ -2222,7 +2222,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "toast-hero"} = assigns) do
     ~H"""
     <div class="relative h-28 w-full [transform:translate(0)]">
-      <.toast id="daisyui-toast-hero">
+      <.toast
+        trigger_class="d-btn"
+        close_class="inline-flex items-center justify-center ms-auto rounded-[var(--radius-selector)] cursor-pointer opacity-60 [transition:opacity_0.2s_ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+        content_class="flex flex-col gap-1 text-start"
+        toast_class="d-alert w-max max-w-[min(24rem,calc(100vw-2rem))] motion-safe:[transition:opacity_0.2s_ease-out,translate_0.2s_ease-out] data-starting-style:opacity-0 data-starting-style:[translate:0_0.5rem] data-ending-style:opacity-0 data-ending-style:[translate:0_0.5rem]"
+        viewport_class="d-toast"
+        id="daisyui-toast-hero"
+      >
         <:toast duration={0}>New message arrived.</:toast>
       </.toast>
     </div>
@@ -2234,9 +2241,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-col gap-2">
       <.toast
         :for={color <- ~w(info success warning error)}
+        trigger_class="d-btn"
+        close_class="inline-flex items-center justify-center ms-auto rounded-[var(--radius-selector)] cursor-pointer opacity-60 [transition:opacity_0.2s_ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+        content_class="flex flex-col gap-1 text-start"
         id={"daisyui-toast-#{color}"}
-        viewport_class="!static"
-        toast_class={"d-alert-#{color}"}
+        viewport_class="d-toast !static"
+        toast_class={[
+          "d-alert w-max max-w-[min(24rem,calc(100vw-2rem))] motion-safe:[transition:opacity_0.2s_ease-out,translate_0.2s_ease-out] data-starting-style:opacity-0 data-starting-style:[translate:0_0.5rem] data-ending-style:opacity-0 data-ending-style:[translate:0_0.5rem]",
+          "d-alert-#{color}"
+        ]}
       >
         <:toast duration={0}>alert-{color}</:toast>
       </.toast>
@@ -2256,10 +2269,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="grid grid-cols-3 gap-2">
       <.toast
         :for={{v, h} <- @spots}
+        trigger_class="d-btn"
+        close_class="inline-flex items-center justify-center ms-auto rounded-[var(--radius-selector)] cursor-pointer opacity-60 [transition:opacity_0.2s_ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+        content_class="flex flex-col gap-1 text-start"
         id={"daisyui-toast-#{v}-#{h}"}
         class="relative h-20 [transform:translate(0)]"
-        viewport_class={["d-toast-#{v}", "d-toast-#{h}"]}
-        toast_class="d-alert-info"
+        viewport_class={["d-toast", "d-toast-#{v}", "d-toast-#{h}"]}
+        toast_class="d-alert w-max max-w-[min(24rem,calc(100vw-2rem))] motion-safe:[transition:opacity_0.2s_ease-out,translate_0.2s_ease-out] data-starting-style:opacity-0 data-starting-style:[translate:0_0.5rem] data-ending-style:opacity-0 data-ending-style:[translate:0_0.5rem] d-alert-info"
       >
         <:toast duration={0}>{v}/{h}</:toast>
       </.toast>
@@ -2269,7 +2285,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "toast-live"} = assigns) do
     ~H"""
-    <.toast id="daisyui-toast-live" duration={4000} toast_class="d-alert-success">
+    <.toast
+      trigger_class="d-btn"
+      close_class="inline-flex items-center justify-center ms-auto rounded-[var(--radius-selector)] cursor-pointer opacity-60 [transition:opacity_0.2s_ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
+      content_class="flex flex-col gap-1 text-start"
+      viewport_class="d-toast"
+      id="daisyui-toast-live"
+      duration={4000}
+      toast_class="d-alert w-max max-w-[min(24rem,calc(100vw-2rem))] motion-safe:[transition:opacity_0.2s_ease-out,translate_0.2s_ease-out] data-starting-style:opacity-0 data-starting-style:[translate:0_0.5rem] data-ending-style:opacity-0 data-ending-style:[translate:0_0.5rem] d-alert-success"
+    >
       <:trigger>Show a toast</:trigger>
       <:template>Saved. This one dismisses itself.</:template>
     </.toast>
@@ -4042,7 +4066,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── checkbox ──────────────────────────────────────────────────────────────
   def example(%{section: "checkbox-hero"} = assigns) do
     ~H"""
-    <.checkbox id="daisyui-checkbox-hero" checked>Enable notifications</.checkbox>
+    <.checkbox
+      label_class="select-none"
+      indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:[box-shadow:0_0_#0000_inset,0_8px_0_-4px_oklch(100%_0_0/calc(var(--depth)*0.1))_inset,0_1px_oklch(0%_0_0/calc(var(--depth)*0.1))] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,transparent))] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2"
+      class="group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] text-base-content disabled:cursor-not-allowed disabled:opacity-20 data-disabled:cursor-not-allowed data-disabled:opacity-20 data-readonly:cursor-default"
+      id="daisyui-checkbox-hero"
+      checked
+    >
+      Enable notifications
+    </.checkbox>
     """
   end
 
@@ -4053,9 +4085,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-col gap-3">
       <.checkbox
         :for={size <- @sizes}
+        label_class="select-none"
+        class="group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] text-base-content disabled:cursor-not-allowed disabled:opacity-20 data-disabled:cursor-not-allowed data-disabled:opacity-20 data-readonly:cursor-default"
         id={"daisyui-checkbox-size-#{size}"}
         checked
-        indicator_class={"d-checkbox-#{size}"}
+        indicator_class={[
+          "d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:[box-shadow:0_0_#0000_inset,0_8px_0_-4px_oklch(100%_0_0/calc(var(--depth)*0.1))_inset,0_1px_oklch(0%_0_0/calc(var(--depth)*0.1))] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,transparent))] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2",
+          "d-checkbox-#{size}"
+        ]}
       >
         checkbox-{size}
       </.checkbox>
@@ -4070,9 +4107,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-wrap gap-4">
       <.checkbox
         :for={color <- @colors}
+        label_class="select-none"
+        class="group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] text-base-content disabled:cursor-not-allowed disabled:opacity-20 data-disabled:cursor-not-allowed data-disabled:opacity-20 data-readonly:cursor-default"
         id={"daisyui-checkbox-#{color}"}
         checked
-        indicator_class={"d-checkbox-#{color}"}
+        indicator_class={[
+          "d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:[box-shadow:0_0_#0000_inset,0_8px_0_-4px_oklch(100%_0_0/calc(var(--depth)*0.1))_inset,0_1px_oklch(0%_0_0/calc(var(--depth)*0.1))] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,transparent))] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2",
+          "d-checkbox-#{color}"
+        ]}
       >
         {color}
       </.checkbox>
@@ -4083,24 +4125,51 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "checkbox-disabled"} = assigns) do
     ~H"""
     <div class="flex flex-col gap-3">
-      <.checkbox id="daisyui-checkbox-disabled-on" checked disabled>Disabled, checked</.checkbox>
-      <.checkbox id="daisyui-checkbox-disabled-off" disabled>Disabled, unchecked</.checkbox>
+      <.checkbox
+        label_class="select-none"
+        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:[box-shadow:0_0_#0000_inset,0_8px_0_-4px_oklch(100%_0_0/calc(var(--depth)*0.1))_inset,0_1px_oklch(0%_0_0/calc(var(--depth)*0.1))] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,transparent))] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2"
+        class="group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] text-base-content disabled:cursor-not-allowed disabled:opacity-20 data-disabled:cursor-not-allowed data-disabled:opacity-20 data-readonly:cursor-default"
+        id="daisyui-checkbox-disabled-on"
+        checked
+        disabled
+      >
+        Disabled, checked
+      </.checkbox>
+      <.checkbox
+        label_class="select-none"
+        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:[box-shadow:0_0_#0000_inset,0_8px_0_-4px_oklch(100%_0_0/calc(var(--depth)*0.1))_inset,0_1px_oklch(0%_0_0/calc(var(--depth)*0.1))] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,transparent))] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2"
+        class="group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] text-base-content disabled:cursor-not-allowed disabled:opacity-20 data-disabled:cursor-not-allowed data-disabled:opacity-20 data-readonly:cursor-default"
+        id="daisyui-checkbox-disabled-off"
+        disabled
+      >
+        Disabled, unchecked
+      </.checkbox>
     </div>
     """
   end
 
   def example(%{section: "checkbox-indeterminate"} = assigns) do
     ~H"""
-    <.checkbox id="daisyui-checkbox-mixed" indeterminate>Some selected</.checkbox>
+    <.checkbox
+      label_class="select-none"
+      indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:[box-shadow:0_0_#0000_inset,0_8px_0_-4px_oklch(100%_0_0/calc(var(--depth)*0.1))_inset,0_1px_oklch(0%_0_0/calc(var(--depth)*0.1))] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,transparent))] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2"
+      class="group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] text-base-content disabled:cursor-not-allowed disabled:opacity-20 data-disabled:cursor-not-allowed data-disabled:opacity-20 data-readonly:cursor-default"
+      id="daisyui-checkbox-mixed"
+      indeterminate
+    >
+      Some selected
+    </.checkbox>
     """
   end
 
   def example(%{section: "checkbox-custom-colors"} = assigns) do
     ~H"""
     <.checkbox
+      label_class="select-none"
+      class="group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] text-base-content disabled:cursor-not-allowed disabled:opacity-20 data-disabled:cursor-not-allowed data-disabled:opacity-20 data-readonly:cursor-default"
       id="daisyui-checkbox-custom"
       checked
-      indicator_class="border-indigo-600 bg-indigo-500 text-indigo-800 data-[checked]:border-orange-500 data-[checked]:bg-orange-400 data-[checked]:text-orange-800"
+      indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:[box-shadow:0_0_#0000_inset,0_8px_0_-4px_oklch(100%_0_0/calc(var(--depth)*0.1))_inset,0_1px_oklch(0%_0_0/calc(var(--depth)*0.1))] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,transparent))] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2 border-indigo-600 bg-indigo-500 text-indigo-800 data-[checked]:border-orange-500 data-[checked]:bg-orange-400 data-[checked]:text-orange-800"
     >
       Custom colors
     </.checkbox>
@@ -4112,11 +4181,37 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <form phx-submit="daisyui_checkbox_submit" class="flex flex-col items-start gap-3">
       <fieldset class="d-fieldset">
         <legend class="d-fieldset-legend">Include in export</legend>
-        <.checkbox id="daisyui-checkbox-form-posts" name="posts" value="posts" checked>
+        <.checkbox
+          label_class="select-none"
+          indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:[box-shadow:0_0_#0000_inset,0_8px_0_-4px_oklch(100%_0_0/calc(var(--depth)*0.1))_inset,0_1px_oklch(0%_0_0/calc(var(--depth)*0.1))] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,transparent))] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2"
+          class="group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] text-base-content disabled:cursor-not-allowed disabled:opacity-20 data-disabled:cursor-not-allowed data-disabled:opacity-20 data-readonly:cursor-default"
+          id="daisyui-checkbox-form-posts"
+          name="posts"
+          value="posts"
+          checked
+        >
           Posts
         </.checkbox>
-        <.checkbox id="daisyui-checkbox-form-media" name="media" value="media">Media</.checkbox>
-        <.checkbox id="daisyui-checkbox-form-users" name="users" value="users">Users</.checkbox>
+        <.checkbox
+          label_class="select-none"
+          indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:[box-shadow:0_0_#0000_inset,0_8px_0_-4px_oklch(100%_0_0/calc(var(--depth)*0.1))_inset,0_1px_oklch(0%_0_0/calc(var(--depth)*0.1))] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,transparent))] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2"
+          class="group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] text-base-content disabled:cursor-not-allowed disabled:opacity-20 data-disabled:cursor-not-allowed data-disabled:opacity-20 data-readonly:cursor-default"
+          id="daisyui-checkbox-form-media"
+          name="media"
+          value="media"
+        >
+          Media
+        </.checkbox>
+        <.checkbox
+          label_class="select-none"
+          indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:[box-shadow:0_0_#0000_inset,0_8px_0_-4px_oklch(100%_0_0/calc(var(--depth)*0.1))_inset,0_1px_oklch(0%_0_0/calc(var(--depth)*0.1))] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,transparent))] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2"
+          class="group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] text-base-content disabled:cursor-not-allowed disabled:opacity-20 data-disabled:cursor-not-allowed data-disabled:opacity-20 data-readonly:cursor-default"
+          id="daisyui-checkbox-form-users"
+          name="users"
+          value="users"
+        >
+          Users
+        </.checkbox>
       </fieldset>
       <button type="submit" class="d-btn d-btn-primary d-btn-sm">Export</button>
     </form>
@@ -4126,7 +4221,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── dialog ────────────────────────────────────────────────────────────────
   def example(%{section: "dialog-hero"} = assigns) do
     ~H"""
-    <.dialog id="daisyui-dialog-hero">
+    <.dialog
+      footer_class="d-modal-action"
+      content_class="pt-2 text-[0.875rem] text-base-content"
+      description_class="pt-2 text-[0.875rem] text-base-content/70"
+      title_class="text-[1.125rem] font-bold text-base-content"
+      popup_class="d-modal-box [scale:100%] opacity-100 data-starting-style:[scale:95%] data-starting-style:opacity-0 data-ending-style:[scale:95%] data-ending-style:opacity-0"
+      viewport_class="p-4"
+      backdrop_class="bg-[oklch(0%_0_0/0.4)] [transition:opacity_0.3s_ease-out] data-starting-style:opacity-0 data-ending-style:opacity-0"
+      trigger_class="d-btn"
+      id="daisyui-dialog-hero"
+    >
       <:trigger>View notifications</:trigger>
       <:title>Notifications</:title>
       <:description>You are all caught up. Good job!</:description>
@@ -4139,7 +4244,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "dialog-non-dismissible"} = assigns) do
     ~H"""
-    <.dialog id="daisyui-dialog-sticky" dismissible={false}>
+    <.dialog
+      footer_class="d-modal-action"
+      content_class="pt-2 text-[0.875rem] text-base-content"
+      description_class="pt-2 text-[0.875rem] text-base-content/70"
+      title_class="text-[1.125rem] font-bold text-base-content"
+      popup_class="d-modal-box [scale:100%] opacity-100 data-starting-style:[scale:95%] data-starting-style:opacity-0 data-ending-style:[scale:95%] data-ending-style:opacity-0"
+      viewport_class="p-4"
+      backdrop_class="bg-[oklch(0%_0_0/0.4)] [transition:opacity_0.3s_ease-out] data-starting-style:opacity-0 data-ending-style:opacity-0"
+      trigger_class="d-btn"
+      id="daisyui-dialog-sticky"
+      dismissible={false}
+    >
       <:trigger>Delete workspace</:trigger>
       <:title>Delete this workspace?</:title>
       <:description>
@@ -4155,7 +4271,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "dialog-close-corner"} = assigns) do
     ~H"""
-    <.dialog id="daisyui-dialog-corner" footer_class="!mt-0 absolute right-2 top-2">
+    <.dialog
+      content_class="pt-2 text-[0.875rem] text-base-content"
+      description_class="pt-2 text-[0.875rem] text-base-content/70"
+      title_class="text-[1.125rem] font-bold text-base-content"
+      popup_class="d-modal-box [scale:100%] opacity-100 data-starting-style:[scale:95%] data-starting-style:opacity-0 data-ending-style:[scale:95%] data-ending-style:opacity-0"
+      viewport_class="p-4"
+      backdrop_class="bg-[oklch(0%_0_0/0.4)] [transition:opacity_0.3s_ease-out] data-starting-style:opacity-0 data-ending-style:opacity-0"
+      trigger_class="d-btn"
+      id="daisyui-dialog-corner"
+      footer_class="d-modal-action !mt-0 absolute right-2 top-2"
+    >
       <:trigger>Open</:trigger>
       <:title>Press ESC or click ✕ to close</:title>
       <:description>The close button is the footer part, pinned to the corner.</:description>
@@ -4168,7 +4294,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "dialog-wide"} = assigns) do
     ~H"""
-    <.dialog id="daisyui-dialog-wide" popup_class="w-11/12 max-w-5xl">
+    <.dialog
+      footer_class="d-modal-action"
+      content_class="pt-2 text-[0.875rem] text-base-content"
+      description_class="pt-2 text-[0.875rem] text-base-content/70"
+      title_class="text-[1.125rem] font-bold text-base-content"
+      viewport_class="p-4"
+      backdrop_class="bg-[oklch(0%_0_0/0.4)] [transition:opacity_0.3s_ease-out] data-starting-style:opacity-0 data-ending-style:opacity-0"
+      trigger_class="d-btn"
+      id="daisyui-dialog-wide"
+      popup_class="d-modal-box [scale:100%] opacity-100 data-starting-style:[scale:95%] data-starting-style:opacity-0 data-ending-style:[scale:95%] data-ending-style:opacity-0 w-11/12 max-w-5xl"
+    >
       <:trigger>Open wide dialog</:trigger>
       <:title>Release notes</:title>
       <:description>
@@ -4184,9 +4320,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "dialog-responsive"} = assigns) do
     ~H"""
     <.dialog
+      footer_class="d-modal-action"
+      content_class="pt-2 text-[0.875rem] text-base-content"
+      description_class="pt-2 text-[0.875rem] text-base-content/70"
+      title_class="text-[1.125rem] font-bold text-base-content"
+      backdrop_class="bg-[oklch(0%_0_0/0.4)] [transition:opacity_0.3s_ease-out] data-starting-style:opacity-0 data-ending-style:opacity-0"
+      trigger_class="d-btn"
       id="daisyui-dialog-responsive"
-      viewport_class="items-end sm:items-center"
-      popup_class="w-full max-w-none rounded-b-none sm:w-11/12 sm:max-w-lg sm:rounded-box"
+      viewport_class="p-4 items-end sm:items-center"
+      popup_class="d-modal-box [scale:100%] opacity-100 data-starting-style:[scale:95%] data-starting-style:opacity-0 data-ending-style:[scale:95%] data-ending-style:opacity-0 w-full max-w-none rounded-b-none sm:w-11/12 sm:max-w-lg sm:rounded-box"
     >
       <:trigger>Open responsive dialog</:trigger>
       <:title>Bottom sheet on mobile</:title>
@@ -7184,6 +7326,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "number_field-hero"} = assigns) do
     ~H"""
     <.number_field
+      scrub_area_label_class="text-[0.875rem] opacity-70"
+      scrub_cursor_class="fixed z-[60] pointer-events-none"
+      scrub_area_class="cursor-ew-resize select-none"
+      increment_class="d-btn d-join-item disabled:d-btn-disabled"
+      decrement_class="d-btn d-join-item disabled:d-btn-disabled"
+      input_class="d-input d-join-item text-center tabular-nums"
+      group_class="d-join"
+      class="inline-flex flex-col gap-1"
       id="daisyui-number_field-hero"
       value={100}
       scrub_cursor
@@ -8530,6 +8680,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "segmented-control-hero"} = assigns) do
     ~H"""
     <.segmented_control
+      item_class="d-btn d-btn-sm d-btn-ghost [border:none] flex-1 data-checked:bg-base-100 data-checked:[box-shadow:0_1px_2px_oklch(0%_0_0/0.08)] has-[input:checked]:bg-base-100 has-[input:checked]:[box-shadow:0_1px_2px_oklch(0%_0_0/0.08)] has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-current has-[input:focus-visible]:outline-offset-2 group-data-[disabled]:pointer-events-none group-data-[disabled]:opacity-50"
+      input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
+      class="group inline-flex items-stretch rounded-[var(--radius-field)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_12%,#0000)] bg-base-200 p-[calc(0.25rem*0.5)] gap-[calc(0.25rem*0.5)]"
       id="daisyui-segmented-hero"
       name="view"
       value="list"
@@ -8547,6 +8700,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       class="flex flex-col items-start gap-3"
     >
       <.segmented_control
+        item_class="d-btn d-btn-sm d-btn-ghost [border:none] flex-1 data-checked:bg-base-100 data-checked:[box-shadow:0_1px_2px_oklch(0%_0_0/0.08)] has-[input:checked]:bg-base-100 has-[input:checked]:[box-shadow:0_1px_2px_oklch(0%_0_0/0.08)] has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-current has-[input:focus-visible]:outline-offset-2 group-data-[disabled]:pointer-events-none group-data-[disabled]:opacity-50"
+        input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
+        class="group inline-flex items-stretch rounded-[var(--radius-field)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_12%,#0000)] bg-base-200 p-[calc(0.25rem*0.5)] gap-[calc(0.25rem*0.5)]"
         id="daisyui-segmented-form"
         name="density"
         value="cosy"
@@ -8560,6 +8716,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "segmented-control-disabled"} = assigns) do
     ~H"""
     <.segmented_control
+      item_class="d-btn d-btn-sm d-btn-ghost [border:none] flex-1 data-checked:bg-base-100 data-checked:[box-shadow:0_1px_2px_oklch(0%_0_0/0.08)] has-[input:checked]:bg-base-100 has-[input:checked]:[box-shadow:0_1px_2px_oklch(0%_0_0/0.08)] has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-current has-[input:focus-visible]:outline-offset-2 group-data-[disabled]:pointer-events-none group-data-[disabled]:opacity-50"
+      input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
+      class="group inline-flex items-stretch rounded-[var(--radius-field)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_12%,#0000)] bg-base-200 p-[calc(0.25rem*0.5)] gap-[calc(0.25rem*0.5)]"
       id="daisyui-segmented-disabled"
       name="view_off"
       value="grid"
@@ -8573,7 +8732,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── toggle_group ──────────────────────────────────────────────────────────
   def example(%{section: "toggle-group-hero"} = assigns) do
     ~H"""
-    <.toggle_group id="daisyui-toggle-group-hero" value="center">
+    <.toggle_group
+      item_class="d-btn rounded-none first:rounded-ss-[var(--radius-field)] first:rounded-es-[var(--radius-field)] last:rounded-se-[var(--radius-field)] last:rounded-ee-[var(--radius-field)] group-data-[orientation=vertical]:first:[border-radius:var(--radius-field)_var(--radius-field)_0_0] group-data-[orientation=vertical]:last:[border-radius:0_0_var(--radius-field)_var(--radius-field)] not-first:[margin-inline-start:calc(var(--border,1px)*-1)] group-data-[orientation=vertical]:not-first:[margin-inline-start:0] group-data-[orientation=vertical]:not-first:[margin-block-start:calc(var(--border,1px)*-1)] data-pressed:d-btn-active focus-visible:z-[2] group-data-[disabled]:d-btn-disabled"
+      class="group inline-flex items-stretch data-[orientation=vertical]:flex-col"
+      id="daisyui-toggle-group-hero"
+      value="center"
+    >
       <:item value="left">Left</:item>
       <:item value="center">Center</:item>
       <:item value="right">Right</:item>
@@ -8583,7 +8747,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "toggle-group-multiple"} = assigns) do
     ~H"""
-    <.toggle_group id="daisyui-toggle-group-multiple" multiple value={["bold", "italic"]}>
+    <.toggle_group
+      item_class="d-btn rounded-none first:rounded-ss-[var(--radius-field)] first:rounded-es-[var(--radius-field)] last:rounded-se-[var(--radius-field)] last:rounded-ee-[var(--radius-field)] group-data-[orientation=vertical]:first:[border-radius:var(--radius-field)_var(--radius-field)_0_0] group-data-[orientation=vertical]:last:[border-radius:0_0_var(--radius-field)_var(--radius-field)] not-first:[margin-inline-start:calc(var(--border,1px)*-1)] group-data-[orientation=vertical]:not-first:[margin-inline-start:0] group-data-[orientation=vertical]:not-first:[margin-block-start:calc(var(--border,1px)*-1)] data-pressed:d-btn-active focus-visible:z-[2] group-data-[disabled]:d-btn-disabled"
+      class="group inline-flex items-stretch data-[orientation=vertical]:flex-col"
+      id="daisyui-toggle-group-multiple"
+      multiple
+      value={["bold", "italic"]}
+    >
       <:item value="bold"><span class="font-bold">B</span></:item>
       <:item value="italic"><span class="italic">I</span></:item>
       <:item value="underline"><span class="underline">U</span></:item>
@@ -8593,7 +8763,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "toggle-group-vertical"} = assigns) do
     ~H"""
-    <.toggle_group id="daisyui-toggle-group-vertical" orientation="vertical" value="center">
+    <.toggle_group
+      item_class="d-btn rounded-none first:rounded-ss-[var(--radius-field)] first:rounded-es-[var(--radius-field)] last:rounded-se-[var(--radius-field)] last:rounded-ee-[var(--radius-field)] group-data-[orientation=vertical]:first:[border-radius:var(--radius-field)_var(--radius-field)_0_0] group-data-[orientation=vertical]:last:[border-radius:0_0_var(--radius-field)_var(--radius-field)] not-first:[margin-inline-start:calc(var(--border,1px)*-1)] group-data-[orientation=vertical]:not-first:[margin-inline-start:0] group-data-[orientation=vertical]:not-first:[margin-block-start:calc(var(--border,1px)*-1)] data-pressed:d-btn-active focus-visible:z-[2] group-data-[disabled]:d-btn-disabled"
+      class="group inline-flex items-stretch data-[orientation=vertical]:flex-col"
+      id="daisyui-toggle-group-vertical"
+      orientation="vertical"
+      value="center"
+    >
       <:item value="left">Left</:item>
       <:item value="center">Center</:item>
       <:item value="right">Right</:item>
@@ -8603,7 +8779,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "toggle-group-disabled"} = assigns) do
     ~H"""
-    <.toggle_group id="daisyui-toggle-group-disabled" value="center" disabled>
+    <.toggle_group
+      item_class="d-btn rounded-none first:rounded-ss-[var(--radius-field)] first:rounded-es-[var(--radius-field)] last:rounded-se-[var(--radius-field)] last:rounded-ee-[var(--radius-field)] group-data-[orientation=vertical]:first:[border-radius:var(--radius-field)_var(--radius-field)_0_0] group-data-[orientation=vertical]:last:[border-radius:0_0_var(--radius-field)_var(--radius-field)] not-first:[margin-inline-start:calc(var(--border,1px)*-1)] group-data-[orientation=vertical]:not-first:[margin-inline-start:0] group-data-[orientation=vertical]:not-first:[margin-block-start:calc(var(--border,1px)*-1)] data-pressed:d-btn-active focus-visible:z-[2] group-data-[disabled]:d-btn-disabled"
+      class="group inline-flex items-stretch data-[orientation=vertical]:flex-col"
+      id="daisyui-toggle-group-disabled"
+      value="center"
+      disabled
+    >
       <:item value="left">Left</:item>
       <:item value="center">Center</:item>
     </.toggle_group>
@@ -8617,7 +8799,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       phx-change="daisyui_toggle_group_change"
       class="flex flex-col items-start gap-3"
     >
-      <.toggle_group id="daisyui-toggle-group-form" name="format" multiple value={["bold"]}>
+      <.toggle_group
+        item_class="d-btn rounded-none first:rounded-ss-[var(--radius-field)] first:rounded-es-[var(--radius-field)] last:rounded-se-[var(--radius-field)] last:rounded-ee-[var(--radius-field)] group-data-[orientation=vertical]:first:[border-radius:var(--radius-field)_var(--radius-field)_0_0] group-data-[orientation=vertical]:last:[border-radius:0_0_var(--radius-field)_var(--radius-field)] not-first:[margin-inline-start:calc(var(--border,1px)*-1)] group-data-[orientation=vertical]:not-first:[margin-inline-start:0] group-data-[orientation=vertical]:not-first:[margin-block-start:calc(var(--border,1px)*-1)] data-pressed:d-btn-active focus-visible:z-[2] group-data-[disabled]:d-btn-disabled"
+        class="group inline-flex items-stretch data-[orientation=vertical]:flex-col"
+        id="daisyui-toggle-group-form"
+        name="format"
+        multiple
+        value={["bold"]}
+      >
         <:item value="bold"><span class="font-bold">B</span></:item>
         <:item value="italic"><span class="italic">I</span></:item>
       </.toggle_group>
@@ -8778,8 +8967,27 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "chip-hero"} = assigns) do
     ~H"""
     <div class="flex flex-wrap items-center gap-2">
-      <.chip id="daisyui-chip-a" name="tag_a" value="elixir" checked>Elixir</.chip>
-      <.chip id="daisyui-chip-b" name="tag_b" value="phoenix">Phoenix</.chip>
+      <.chip
+        label_class="group-has-[input:checked]:text-base-100"
+        input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
+        class="group d-badge d-badge-outline relative cursor-pointer select-none data-disabled:cursor-not-allowed data-disabled:opacity-50 has-[input:checked]:bg-current has-[input:checked]:border-current has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-current has-[input:focus-visible]:outline-offset-2"
+        id="daisyui-chip-a"
+        name="tag_a"
+        value="elixir"
+        checked
+      >
+        Elixir
+      </.chip>
+      <.chip
+        label_class="group-has-[input:checked]:text-base-100"
+        input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
+        class="group d-badge d-badge-outline relative cursor-pointer select-none data-disabled:cursor-not-allowed data-disabled:opacity-50 has-[input:checked]:bg-current has-[input:checked]:border-current has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-current has-[input:focus-visible]:outline-offset-2"
+        id="daisyui-chip-b"
+        name="tag_b"
+        value="phoenix"
+      >
+        Phoenix
+      </.chip>
     </div>
     """
   end
@@ -8791,11 +8999,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-wrap items-center gap-2">
       <.chip
         :for={color <- @colors}
+        label_class="group-has-[input:checked]:text-base-100"
+        input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
         id={"daisyui-chip-#{color}"}
         name={"tag_#{color}"}
         value={color}
         checked={color == "primary"}
-        class={"d-badge-#{color}"}
+        class={[
+          "group d-badge d-badge-outline relative cursor-pointer select-none data-disabled:cursor-not-allowed data-disabled:opacity-50 has-[input:checked]:bg-current has-[input:checked]:border-current has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-current has-[input:focus-visible]:outline-offset-2",
+          "d-badge-#{color}"
+        ]}
       >
         {color}
       </.chip>
@@ -8810,10 +9023,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-wrap items-center gap-2">
       <.chip
         :for={size <- @sizes}
+        label_class="group-has-[input:checked]:text-base-100"
+        input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
         id={"daisyui-chip-size-#{size}"}
         name={"tag_size_#{size}"}
         value={size}
-        class={"d-badge-#{size}"}
+        class={[
+          "group d-badge d-badge-outline relative cursor-pointer select-none data-disabled:cursor-not-allowed data-disabled:opacity-50 has-[input:checked]:bg-current has-[input:checked]:border-current has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-current has-[input:focus-visible]:outline-offset-2",
+          "d-badge-#{size}"
+        ]}
       >
         {size}
       </.chip>
@@ -8826,6 +9044,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-wrap items-center gap-2">
       <.chip
         :for={tag <- ~w(Elixir Phoenix LiveView Ecto)}
+        label_class="group-has-[input:checked]:text-base-100"
+        input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
+        class="group d-badge d-badge-outline relative cursor-pointer select-none data-disabled:cursor-not-allowed data-disabled:opacity-50 has-[input:checked]:bg-current has-[input:checked]:border-current has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-current has-[input:focus-visible]:outline-offset-2"
         id={"daisyui-chip-multi-#{tag}"}
         name={"tags[#{tag}]"}
         value={tag}
@@ -8842,6 +9063,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-wrap items-center gap-2">
       <.chip
         :for={size <- ~w(Small Medium Large)}
+        label_class="group-has-[input:checked]:text-base-100"
+        input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
+        class="group d-badge d-badge-outline relative cursor-pointer select-none data-disabled:cursor-not-allowed data-disabled:opacity-50 has-[input:checked]:bg-current has-[input:checked]:border-current has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-current has-[input:focus-visible]:outline-offset-2"
         id={"daisyui-chip-one-#{size}"}
         type="radio"
         name="chip_size"
@@ -8857,8 +9081,28 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "chip-disabled"} = assigns) do
     ~H"""
     <div class="flex flex-wrap items-center gap-2">
-      <.chip id="daisyui-chip-on" name="chip_on" value="on" checked>Available</.chip>
-      <.chip id="daisyui-chip-off" name="chip_off" value="off" disabled>Sold out</.chip>
+      <.chip
+        label_class="group-has-[input:checked]:text-base-100"
+        input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
+        class="group d-badge d-badge-outline relative cursor-pointer select-none data-disabled:cursor-not-allowed data-disabled:opacity-50 has-[input:checked]:bg-current has-[input:checked]:border-current has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-current has-[input:focus-visible]:outline-offset-2"
+        id="daisyui-chip-on"
+        name="chip_on"
+        value="on"
+        checked
+      >
+        Available
+      </.chip>
+      <.chip
+        label_class="group-has-[input:checked]:text-base-100"
+        input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
+        class="group d-badge d-badge-outline relative cursor-pointer select-none data-disabled:cursor-not-allowed data-disabled:opacity-50 has-[input:checked]:bg-current has-[input:checked]:border-current has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-current has-[input:focus-visible]:outline-offset-2"
+        id="daisyui-chip-off"
+        name="chip_off"
+        value="off"
+        disabled
+      >
+        Sold out
+      </.chip>
     </div>
     """
   end
