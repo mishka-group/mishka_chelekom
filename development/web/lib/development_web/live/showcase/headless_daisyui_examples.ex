@@ -5712,7 +5712,20 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     assigns = assign(assigns, :rows, @crew)
 
     ~H"""
-    <.table id="daisyui-table-hero" rows={@rows} caption="Crew" row_id={&"hero-#{&1.id}"}>
+    <.table
+      row_class="data-selected:bg-base-content/6"
+      empty_class="text-center py-8 opacity-60"
+      select_class="d-checkbox d-checkbox-sm"
+      cell_class="data-[align=center]:text-center data-[align=end]:text-end"
+      header_class="data-[align=center]:text-center data-[align=end]:text-end"
+      sort_class="inline-flex items-center gap-1 cursor-pointer [font:inherit] text-inherit hover:underline focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2 after:content-['↕'] after:opacity-30 data-[dir=asc]:after:content-['↑'] data-[dir=asc]:after:opacity-100 data-[dir=desc]:after:content-['↓'] data-[dir=desc]:after:opacity-100"
+      caption_class="data-hidden:absolute data-hidden:w-px data-hidden:h-px data-hidden:p-0 data-hidden:-m-px data-hidden:overflow-hidden data-hidden:[clip-path:inset(50%)] data-hidden:whitespace-nowrap data-hidden:border-0 not-data-hidden:[caption-side:top] not-data-hidden:py-2 not-data-hidden:text-start not-data-hidden:font-semibold"
+      class="d-table"
+      id="daisyui-table-hero"
+      rows={@rows}
+      caption="Crew"
+      row_id={&"hero-#{&1.id}"}
+    >
       <:col :let={row} label="#" align="end">{row.id}</:col>
       <:col :let={row} label="Name" row_header>{row.name}</:col>
       <:col :let={row} label="Job">{row.job}</:col>
@@ -5726,7 +5739,20 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
     ~H"""
     <div class="rounded-box border border-base-content/5 bg-base-100 overflow-hidden">
-      <.table id="daisyui-table-bordered" rows={@rows} caption="Crew" row_id={&"bordered-#{&1.id}"}>
+      <.table
+        row_class="data-selected:bg-base-content/6"
+        empty_class="text-center py-8 opacity-60"
+        select_class="d-checkbox d-checkbox-sm"
+        cell_class="data-[align=center]:text-center data-[align=end]:text-end"
+        header_class="data-[align=center]:text-center data-[align=end]:text-end"
+        sort_class="inline-flex items-center gap-1 cursor-pointer [font:inherit] text-inherit hover:underline focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2 after:content-['↕'] after:opacity-30 data-[dir=asc]:after:content-['↑'] data-[dir=asc]:after:opacity-100 data-[dir=desc]:after:content-['↓'] data-[dir=desc]:after:opacity-100"
+        caption_class="data-hidden:absolute data-hidden:w-px data-hidden:h-px data-hidden:p-0 data-hidden:-m-px data-hidden:overflow-hidden data-hidden:[clip-path:inset(50%)] data-hidden:whitespace-nowrap data-hidden:border-0 not-data-hidden:[caption-side:top] not-data-hidden:py-2 not-data-hidden:text-start not-data-hidden:font-semibold"
+        class="d-table"
+        id="daisyui-table-bordered"
+        rows={@rows}
+        caption="Crew"
+        row_id={&"bordered-#{&1.id}"}
+      >
         <:col :let={row} label="Name" row_header>{row.name}</:col>
         <:col :let={row} label="Job">{row.job}</:col>
       </.table>
@@ -5739,6 +5765,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
     ~H"""
     <.table
+      row_class="data-selected:bg-base-content/6"
+      empty_class="text-center py-8 opacity-60"
+      select_class="d-checkbox d-checkbox-sm"
+      cell_class="data-[align=center]:text-center data-[align=end]:text-end"
+      header_class="data-[align=center]:text-center data-[align=end]:text-end"
+      sort_class="inline-flex items-center gap-1 cursor-pointer [font:inherit] text-inherit hover:underline focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2 after:content-['↕'] after:opacity-30 data-[dir=asc]:after:content-['↑'] data-[dir=asc]:after:opacity-100 data-[dir=desc]:after:content-['↓'] data-[dir=desc]:after:opacity-100"
+      caption_class="data-hidden:absolute data-hidden:w-px data-hidden:h-px data-hidden:p-0 data-hidden:-m-px data-hidden:overflow-hidden data-hidden:[clip-path:inset(50%)] data-hidden:whitespace-nowrap data-hidden:border-0 not-data-hidden:[caption-side:top] not-data-hidden:py-2 not-data-hidden:text-start not-data-hidden:font-semibold"
+      class="d-table"
       id="daisyui-table-active"
       rows={@rows}
       caption="Crew"
@@ -5756,11 +5790,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
     ~H"""
     <.table
+      empty_class="text-center py-8 opacity-60"
+      select_class="d-checkbox d-checkbox-sm"
+      cell_class="data-[align=center]:text-center data-[align=end]:text-end"
+      header_class="data-[align=center]:text-center data-[align=end]:text-end"
+      sort_class="inline-flex items-center gap-1 cursor-pointer [font:inherit] text-inherit hover:underline focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2 after:content-['↕'] after:opacity-30 data-[dir=asc]:after:content-['↑'] data-[dir=asc]:after:opacity-100 data-[dir=desc]:after:content-['↓'] data-[dir=desc]:after:opacity-100"
+      caption_class="data-hidden:absolute data-hidden:w-px data-hidden:h-px data-hidden:p-0 data-hidden:-m-px data-hidden:overflow-hidden data-hidden:[clip-path:inset(50%)] data-hidden:whitespace-nowrap data-hidden:border-0 not-data-hidden:[caption-side:top] not-data-hidden:py-2 not-data-hidden:text-start not-data-hidden:font-semibold"
+      class="d-table"
       id="daisyui-table-hover"
       rows={@rows}
       caption="Crew"
       row_id={&"hover-#{&1.id}"}
-      row_class="d-table-row-hover"
+      row_class="data-selected:bg-base-content/6 d-table-row-hover"
     >
       <:col :let={row} label="Name" row_header>{row.name}</:col>
       <:col :let={row} label="Job">{row.job}</:col>
@@ -5773,11 +5814,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
     ~H"""
     <.table
+      row_class="data-selected:bg-base-content/6"
+      empty_class="text-center py-8 opacity-60"
+      select_class="d-checkbox d-checkbox-sm"
+      cell_class="data-[align=center]:text-center data-[align=end]:text-end"
+      header_class="data-[align=center]:text-center data-[align=end]:text-end"
+      sort_class="inline-flex items-center gap-1 cursor-pointer [font:inherit] text-inherit hover:underline focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2 after:content-['↕'] after:opacity-30 data-[dir=asc]:after:content-['↑'] data-[dir=asc]:after:opacity-100 data-[dir=desc]:after:content-['↓'] data-[dir=desc]:after:opacity-100"
+      caption_class="data-hidden:absolute data-hidden:w-px data-hidden:h-px data-hidden:p-0 data-hidden:-m-px data-hidden:overflow-hidden data-hidden:[clip-path:inset(50%)] data-hidden:whitespace-nowrap data-hidden:border-0 not-data-hidden:[caption-side:top] not-data-hidden:py-2 not-data-hidden:text-start not-data-hidden:font-semibold"
       id="daisyui-table-zebra"
       rows={@rows}
       caption="Crew"
       row_id={&"zebra-#{&1.id}"}
-      class="d-table-zebra"
+      class="d-table d-table-zebra"
     >
       <:col :let={row} label="Name" row_header>{row.name}</:col>
       <:col :let={row} label="Job">{row.job}</:col>
@@ -5789,7 +5837,20 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     assigns = assign(assigns, :rows, @crew)
 
     ~H"""
-    <.table id="daisyui-table-visual" rows={@rows} caption="Crew" row_id={&"visual-#{&1.id}"}>
+    <.table
+      row_class="data-selected:bg-base-content/6"
+      empty_class="text-center py-8 opacity-60"
+      select_class="d-checkbox d-checkbox-sm"
+      cell_class="data-[align=center]:text-center data-[align=end]:text-end"
+      header_class="data-[align=center]:text-center data-[align=end]:text-end"
+      sort_class="inline-flex items-center gap-1 cursor-pointer [font:inherit] text-inherit hover:underline focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2 after:content-['↕'] after:opacity-30 data-[dir=asc]:after:content-['↑'] data-[dir=asc]:after:opacity-100 data-[dir=desc]:after:content-['↓'] data-[dir=desc]:after:opacity-100"
+      caption_class="data-hidden:absolute data-hidden:w-px data-hidden:h-px data-hidden:p-0 data-hidden:-m-px data-hidden:overflow-hidden data-hidden:[clip-path:inset(50%)] data-hidden:whitespace-nowrap data-hidden:border-0 not-data-hidden:[caption-side:top] not-data-hidden:py-2 not-data-hidden:text-start not-data-hidden:font-semibold"
+      class="d-table"
+      id="daisyui-table-visual"
+      rows={@rows}
+      caption="Crew"
+      row_id={&"visual-#{&1.id}"}
+    >
       <:col :let={row} label="Name" row_header>
         <span class="flex items-center gap-3">
           <span class="d-badge d-badge-neutral size-8 rounded-full">{String.first(row.name)}</span>
@@ -5811,11 +5872,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
     ~H"""
     <.table
+      row_class="data-selected:bg-base-content/6"
+      empty_class="text-center py-8 opacity-60"
+      select_class="d-checkbox d-checkbox-sm"
+      cell_class="data-[align=center]:text-center data-[align=end]:text-end"
+      header_class="data-[align=center]:text-center data-[align=end]:text-end"
+      sort_class="inline-flex items-center gap-1 cursor-pointer [font:inherit] text-inherit hover:underline focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2 after:content-['↕'] after:opacity-30 data-[dir=asc]:after:content-['↑'] data-[dir=asc]:after:opacity-100 data-[dir=desc]:after:content-['↓'] data-[dir=desc]:after:opacity-100"
+      caption_class="data-hidden:absolute data-hidden:w-px data-hidden:h-px data-hidden:p-0 data-hidden:-m-px data-hidden:overflow-hidden data-hidden:[clip-path:inset(50%)] data-hidden:whitespace-nowrap data-hidden:border-0 not-data-hidden:[caption-side:top] not-data-hidden:py-2 not-data-hidden:text-start not-data-hidden:font-semibold"
       id="daisyui-table-xs"
       rows={@rows}
       caption="Crew"
       row_id={&"xs-#{&1.id}"}
-      class="d-table-xs"
+      class="d-table d-table-xs"
     >
       <:col :let={row} label="Name" row_header>{row.name}</:col>
       <:col :let={row} label="Job">{row.job}</:col>
@@ -5830,11 +5898,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <div class="h-48 overflow-x-auto">
       <.table
+        row_class="data-selected:bg-base-content/6"
+        empty_class="text-center py-8 opacity-60"
+        select_class="d-checkbox d-checkbox-sm"
+        cell_class="data-[align=center]:text-center data-[align=end]:text-end"
+        header_class="data-[align=center]:text-center data-[align=end]:text-end"
+        sort_class="inline-flex items-center gap-1 cursor-pointer [font:inherit] text-inherit hover:underline focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2 after:content-['↕'] after:opacity-30 data-[dir=asc]:after:content-['↑'] data-[dir=asc]:after:opacity-100 data-[dir=desc]:after:content-['↓'] data-[dir=desc]:after:opacity-100"
+        caption_class="data-hidden:absolute data-hidden:w-px data-hidden:h-px data-hidden:p-0 data-hidden:-m-px data-hidden:overflow-hidden data-hidden:[clip-path:inset(50%)] data-hidden:whitespace-nowrap data-hidden:border-0 not-data-hidden:[caption-side:top] not-data-hidden:py-2 not-data-hidden:text-start not-data-hidden:font-semibold"
         id="daisyui-table-pinned"
         rows={Enum.with_index(@rows) |> Enum.map(fn {r, i} -> %{r | id: i} end)}
         caption="Crew"
         row_id={&"pinned-#{&1.id}"}
-        class="d-table-pin-rows"
+        class="d-table d-table-pin-rows"
       >
         <:col :let={row} label="Name" row_header>{row.name}</:col>
         <:col :let={row} label="Job">{row.job}</:col>
@@ -5849,11 +5924,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <div class="h-48 w-full overflow-x-auto">
       <.table
+        row_class="data-selected:bg-base-content/6"
+        empty_class="text-center py-8 opacity-60"
+        select_class="d-checkbox d-checkbox-sm"
+        cell_class="data-[align=center]:text-center data-[align=end]:text-end"
+        header_class="data-[align=center]:text-center data-[align=end]:text-end"
+        sort_class="inline-flex items-center gap-1 cursor-pointer [font:inherit] text-inherit hover:underline focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2 after:content-['↕'] after:opacity-30 data-[dir=asc]:after:content-['↑'] data-[dir=asc]:after:opacity-100 data-[dir=desc]:after:content-['↓'] data-[dir=desc]:after:opacity-100"
+        caption_class="data-hidden:absolute data-hidden:w-px data-hidden:h-px data-hidden:p-0 data-hidden:-m-px data-hidden:overflow-hidden data-hidden:[clip-path:inset(50%)] data-hidden:whitespace-nowrap data-hidden:border-0 not-data-hidden:[caption-side:top] not-data-hidden:py-2 not-data-hidden:text-start not-data-hidden:font-semibold"
         id="daisyui-table-pinned-cols"
         rows={@rows}
         caption="Crew"
         row_id={&"pincols-#{&1.id}"}
-        class="d-table-pin-rows d-table-pin-cols"
+        class="d-table d-table-pin-rows d-table-pin-cols"
       >
         <:col :let={row} label="Name" row_header>{row.name}</:col>
         <:col :let={row} label="Job">{row.job}</:col>
@@ -5870,6 +5952,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
     ~H"""
     <.table
+      row_class="data-selected:bg-base-content/6"
+      empty_class="text-center py-8 opacity-60"
+      select_class="d-checkbox d-checkbox-sm"
+      cell_class="data-[align=center]:text-center data-[align=end]:text-end"
+      header_class="data-[align=center]:text-center data-[align=end]:text-end"
+      sort_class="inline-flex items-center gap-1 cursor-pointer [font:inherit] text-inherit hover:underline focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2 after:content-['↕'] after:opacity-30 data-[dir=asc]:after:content-['↑'] data-[dir=asc]:after:opacity-100 data-[dir=desc]:after:content-['↓'] data-[dir=desc]:after:opacity-100"
+      caption_class="data-hidden:absolute data-hidden:w-px data-hidden:h-px data-hidden:p-0 data-hidden:-m-px data-hidden:overflow-hidden data-hidden:[clip-path:inset(50%)] data-hidden:whitespace-nowrap data-hidden:border-0 not-data-hidden:[caption-side:top] not-data-hidden:py-2 not-data-hidden:text-start not-data-hidden:font-semibold"
+      class="d-table"
       id="daisyui-table-sortable"
       rows={@rows}
       caption="Crew, sortable"
@@ -5890,6 +5980,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
     ~H"""
     <.table
+      row_class="data-selected:bg-base-content/6"
+      empty_class="text-center py-8 opacity-60"
+      select_class="d-checkbox d-checkbox-sm"
+      cell_class="data-[align=center]:text-center data-[align=end]:text-end"
+      header_class="data-[align=center]:text-center data-[align=end]:text-end"
+      sort_class="inline-flex items-center gap-1 cursor-pointer [font:inherit] text-inherit hover:underline focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2 after:content-['↕'] after:opacity-30 data-[dir=asc]:after:content-['↑'] data-[dir=asc]:after:opacity-100 data-[dir=desc]:after:content-['↓'] data-[dir=desc]:after:opacity-100"
+      caption_class="data-hidden:absolute data-hidden:w-px data-hidden:h-px data-hidden:p-0 data-hidden:-m-px data-hidden:overflow-hidden data-hidden:[clip-path:inset(50%)] data-hidden:whitespace-nowrap data-hidden:border-0 not-data-hidden:[caption-side:top] not-data-hidden:py-2 not-data-hidden:text-start not-data-hidden:font-semibold"
+      class="d-table"
       id="daisyui-table-selectable"
       rows={@rows}
       caption="Crew, selectable"
@@ -5906,7 +6004,20 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "table-empty"} = assigns) do
     ~H"""
-    <.table id="daisyui-table-empty" rows={[]} caption="No crew" show_caption>
+    <.table
+      row_class="data-selected:bg-base-content/6"
+      empty_class="text-center py-8 opacity-60"
+      select_class="d-checkbox d-checkbox-sm"
+      cell_class="data-[align=center]:text-center data-[align=end]:text-end"
+      header_class="data-[align=center]:text-center data-[align=end]:text-end"
+      sort_class="inline-flex items-center gap-1 cursor-pointer [font:inherit] text-inherit hover:underline focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2 after:content-['↕'] after:opacity-30 data-[dir=asc]:after:content-['↑'] data-[dir=asc]:after:opacity-100 data-[dir=desc]:after:content-['↓'] data-[dir=desc]:after:opacity-100"
+      caption_class="data-hidden:absolute data-hidden:w-px data-hidden:h-px data-hidden:p-0 data-hidden:-m-px data-hidden:overflow-hidden data-hidden:[clip-path:inset(50%)] data-hidden:whitespace-nowrap data-hidden:border-0 not-data-hidden:[caption-side:top] not-data-hidden:py-2 not-data-hidden:text-start not-data-hidden:font-semibold"
+      class="d-table"
+      id="daisyui-table-empty"
+      rows={[]}
+      caption="No crew"
+      show_caption
+    >
       <:col label="Name" />
       <:col label="Job" />
       <:empty>Nobody has signed on yet.</:empty>
@@ -8819,6 +8930,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "tree-hero"} = assigns) do
     ~H"""
     <.tree
+      label_text_class="inline-flex items-center gap-[calc(0.25rem*1.5)] min-w-0 [&_svg]:shrink-0"
+      loader_class="d-loading d-loading-spinner d-loading-xs"
+      subtree_class="ms-4 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,var(--color-base-content)_12%,#0000)] ps-2"
+      expand_icon_class="inline-grid place-items-center w-4 h-4 shrink-0 rounded-[calc(0.25rem*0.5)] [transition:rotate_0.15s_ease-out] data-expanded:[rotate:90deg]"
+      drag_handle_class="cursor-grab opacity-0 [transition:opacity_0.15s_ease-out] group-hover/label:opacity-55"
+      label_class="group/label flex items-center gap-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] px-2 py-1 cursor-pointer hover:bg-base-content/10 aria-selected:d-menu-active"
+      class="d-menu block w-full p-1 text-base-content"
       id="daisyui-tree-hero"
       aria_label="Project files"
       select_on_click
@@ -8893,6 +9011,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       placeholder="Choose a category…"
     >
       <.tree
+        label_text_class="inline-flex items-center gap-[calc(0.25rem*1.5)] min-w-0 [&_svg]:shrink-0"
+        loader_class="d-loading d-loading-spinner d-loading-xs"
+        subtree_class="ms-4 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,var(--color-base-content)_12%,#0000)] ps-2"
+        expand_icon_class="inline-grid place-items-center w-4 h-4 shrink-0 rounded-[calc(0.25rem*0.5)] [transition:rotate_0.15s_ease-out] data-expanded:[rotate:90deg]"
+        drag_handle_class="cursor-grab opacity-0 [transition:opacity_0.15s_ease-out] group-hover/label:opacity-55"
+        label_class="group/label flex items-center gap-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] px-2 py-1 cursor-pointer hover:bg-base-content/10 aria-selected:d-menu-active"
+        class="d-menu block w-full p-1 text-base-content"
         id="daisyui-tree-select-tree"
         nodes={[
           %{
@@ -10011,37 +10136,58 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── rating ────────────────────────────────────────────────────────────────
   def example(%{section: "rating-hero"} = assigns) do
     ~H"""
-    <.rating id="daisyui-rating-hero" value={3} />
+    <.rating
+      item_class="d-mask d-mask-star rounded-none bg-base-content opacity-20 w-[calc(var(--d-size)*1)] h-[calc(var(--d-size)*1)] cursor-pointer motion-safe:animate-[rating_0.25s_ease-out] aria-checked:opacity-100 has-[~[aria-checked=true]]:opacity-100 focus-visible:[scale:1.1] motion-safe:focus-visible:[transition:scale_0.2s_ease-out] active:focus:animate-none active:focus:[scale:1.1] disabled:cursor-not-allowed group-aria-readonly:cursor-default data-clear:w-2 data-clear:bg-transparent group-data-[precision='0.5']:not-data-clear:w-[calc(var(--d-size)*0.5)] data-[half=first]:[mask-size:200%] data-[half=first]:[mask-position:left] data-[half=second]:[mask-size:200%] data-[half=second]:[mask-position:right] rtl:data-[half=first]:[mask-position:right] rtl:data-[half=second]:[mask-position:left]"
+      class="group d-rating [&.d-rating-xs]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [&.d-rating-sm]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [&.d-rating-md]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [&.d-rating-lg]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [&.d-rating-xl]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+      id="daisyui-rating-hero"
+      value={3}
+    />
     """
   end
 
   def example(%{section: "rating-readonly"} = assigns) do
     ~H"""
     <.rating
+      class="group d-rating [&.d-rating-xs]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [&.d-rating-sm]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [&.d-rating-md]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [&.d-rating-lg]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [&.d-rating-xl]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
       id="daisyui-rating-readonly"
       value={4}
       readonly
       label="Average rating"
-      item_class="bg-orange-400"
+      item_class="d-mask d-mask-star rounded-none bg-base-content opacity-20 w-[calc(var(--d-size)*1)] h-[calc(var(--d-size)*1)] cursor-pointer motion-safe:animate-[rating_0.25s_ease-out] aria-checked:opacity-100 has-[~[aria-checked=true]]:opacity-100 focus-visible:[scale:1.1] motion-safe:focus-visible:[transition:scale_0.2s_ease-out] active:focus:animate-none active:focus:[scale:1.1] disabled:cursor-not-allowed group-aria-readonly:cursor-default data-clear:w-2 data-clear:bg-transparent group-data-[precision='0.5']:not-data-clear:w-[calc(var(--d-size)*0.5)] data-[half=first]:[mask-size:200%] data-[half=first]:[mask-position:left] data-[half=second]:[mask-size:200%] data-[half=second]:[mask-position:right] rtl:data-[half=first]:[mask-position:right] rtl:data-[half=second]:[mask-position:left] bg-orange-400"
     />
     """
   end
 
   def example(%{section: "rating-star2"} = assigns) do
     ~H"""
-    <.rating id="daisyui-rating-star2" value={2} item_class="d-mask-star-2 bg-warning" />
+    <.rating
+      class="group d-rating [&.d-rating-xs]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [&.d-rating-sm]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [&.d-rating-md]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [&.d-rating-lg]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [&.d-rating-xl]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+      id="daisyui-rating-star2"
+      value={2}
+      item_class="d-mask d-mask-star rounded-none bg-base-content opacity-20 w-[calc(var(--d-size)*1)] h-[calc(var(--d-size)*1)] cursor-pointer motion-safe:animate-[rating_0.25s_ease-out] aria-checked:opacity-100 has-[~[aria-checked=true]]:opacity-100 focus-visible:[scale:1.1] motion-safe:focus-visible:[transition:scale_0.2s_ease-out] active:focus:animate-none active:focus:[scale:1.1] disabled:cursor-not-allowed group-aria-readonly:cursor-default data-clear:w-2 data-clear:bg-transparent group-data-[precision='0.5']:not-data-clear:w-[calc(var(--d-size)*0.5)] data-[half=first]:[mask-size:200%] data-[half=first]:[mask-position:left] data-[half=second]:[mask-size:200%] data-[half=second]:[mask-position:right] rtl:data-[half=first]:[mask-position:right] rtl:data-[half=second]:[mask-position:left] d-mask-star-2 bg-warning"
+    />
     """
   end
 
   def example(%{section: "rating-heart"} = assigns) do
     ~H"""
-    <.rating id="daisyui-rating-heart" value={3} item_class="d-mask-heart bg-red-400" />
+    <.rating
+      class="group d-rating [&.d-rating-xs]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [&.d-rating-sm]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [&.d-rating-md]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [&.d-rating-lg]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [&.d-rating-xl]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+      id="daisyui-rating-heart"
+      value={3}
+      item_class="d-mask d-mask-star rounded-none bg-base-content opacity-20 w-[calc(var(--d-size)*1)] h-[calc(var(--d-size)*1)] cursor-pointer motion-safe:animate-[rating_0.25s_ease-out] aria-checked:opacity-100 has-[~[aria-checked=true]]:opacity-100 focus-visible:[scale:1.1] motion-safe:focus-visible:[transition:scale_0.2s_ease-out] active:focus:animate-none active:focus:[scale:1.1] disabled:cursor-not-allowed group-aria-readonly:cursor-default data-clear:w-2 data-clear:bg-transparent group-data-[precision='0.5']:not-data-clear:w-[calc(var(--d-size)*0.5)] data-[half=first]:[mask-size:200%] data-[half=first]:[mask-position:left] data-[half=second]:[mask-size:200%] data-[half=second]:[mask-position:right] rtl:data-[half=first]:[mask-position:right] rtl:data-[half=second]:[mask-position:left] d-mask-heart bg-red-400"
+    />
     """
   end
 
   def example(%{section: "rating-green"} = assigns) do
     ~H"""
-    <.rating id="daisyui-rating-green" value={4} item_class="d-mask-star-2 bg-green-500" />
+    <.rating
+      class="group d-rating [&.d-rating-xs]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [&.d-rating-sm]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [&.d-rating-md]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [&.d-rating-lg]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [&.d-rating-xl]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+      id="daisyui-rating-green"
+      value={4}
+      item_class="d-mask d-mask-star rounded-none bg-base-content opacity-20 w-[calc(var(--d-size)*1)] h-[calc(var(--d-size)*1)] cursor-pointer motion-safe:animate-[rating_0.25s_ease-out] aria-checked:opacity-100 has-[~[aria-checked=true]]:opacity-100 focus-visible:[scale:1.1] motion-safe:focus-visible:[transition:scale_0.2s_ease-out] active:focus:animate-none active:focus:[scale:1.1] disabled:cursor-not-allowed group-aria-readonly:cursor-default data-clear:w-2 data-clear:bg-transparent group-data-[precision='0.5']:not-data-clear:w-[calc(var(--d-size)*0.5)] data-[half=first]:[mask-size:200%] data-[half=first]:[mask-position:left] data-[half=second]:[mask-size:200%] data-[half=second]:[mask-position:right] rtl:data-[half=first]:[mask-position:right] rtl:data-[half=second]:[mask-position:left] d-mask-star-2 bg-green-500"
+    />
     """
   end
 
@@ -10054,8 +10200,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         :for={size <- @sizes}
         id={"daisyui-rating-#{size}"}
         value={3}
-        class={"d-rating-#{size}"}
-        item_class="d-mask-star-2 bg-orange-400"
+        class={[
+          "group d-rating [&.d-rating-xs]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [&.d-rating-sm]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [&.d-rating-md]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [&.d-rating-lg]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [&.d-rating-xl]:[--d-size:calc(var(--size-selector,0.25rem)*8)]",
+          "d-rating-#{size}"
+        ]}
+        item_class="d-mask d-mask-star rounded-none bg-base-content opacity-20 w-[calc(var(--d-size)*1)] h-[calc(var(--d-size)*1)] cursor-pointer motion-safe:animate-[rating_0.25s_ease-out] aria-checked:opacity-100 has-[~[aria-checked=true]]:opacity-100 focus-visible:[scale:1.1] motion-safe:focus-visible:[transition:scale_0.2s_ease-out] active:focus:animate-none active:focus:[scale:1.1] disabled:cursor-not-allowed group-aria-readonly:cursor-default data-clear:w-2 data-clear:bg-transparent group-data-[precision='0.5']:not-data-clear:w-[calc(var(--d-size)*0.5)] data-[half=first]:[mask-size:200%] data-[half=first]:[mask-position:left] data-[half=second]:[mask-size:200%] data-[half=second]:[mask-position:right] rtl:data-[half=first]:[mask-position:right] rtl:data-[half=second]:[mask-position:left] d-mask-star-2 bg-orange-400"
       />
     </div>
     """
@@ -10064,10 +10213,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "rating-hidden"} = assigns) do
     ~H"""
     <.rating
+      class="group d-rating [&.d-rating-xs]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [&.d-rating-sm]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [&.d-rating-md]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [&.d-rating-lg]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [&.d-rating-xl]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
       id="daisyui-rating-hidden"
       value={2}
       clearable
-      item_class="d-mask-star-2 bg-green-500"
+      item_class="d-mask d-mask-star rounded-none bg-base-content opacity-20 w-[calc(var(--d-size)*1)] h-[calc(var(--d-size)*1)] cursor-pointer motion-safe:animate-[rating_0.25s_ease-out] aria-checked:opacity-100 has-[~[aria-checked=true]]:opacity-100 focus-visible:[scale:1.1] motion-safe:focus-visible:[transition:scale_0.2s_ease-out] active:focus:animate-none active:focus:[scale:1.1] disabled:cursor-not-allowed group-aria-readonly:cursor-default data-clear:w-2 data-clear:bg-transparent group-data-[precision='0.5']:not-data-clear:w-[calc(var(--d-size)*0.5)] data-[half=first]:[mask-size:200%] data-[half=first]:[mask-position:left] data-[half=second]:[mask-size:200%] data-[half=second]:[mask-position:right] rtl:data-[half=first]:[mask-position:right] rtl:data-[half=second]:[mask-position:left] d-mask-star-2 bg-green-500"
     />
     """
   end
@@ -10075,11 +10225,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "rating-half"} = assigns) do
     ~H"""
     <.rating
+      class="group d-rating [&.d-rating-xs]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [&.d-rating-sm]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [&.d-rating-md]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [&.d-rating-lg]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [&.d-rating-xl]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
       id="daisyui-rating-half"
       value={2.5}
       precision={0.5}
       clearable
-      item_class="d-mask-star-2 bg-green-500"
+      item_class="d-mask d-mask-star rounded-none bg-base-content opacity-20 w-[calc(var(--d-size)*1)] h-[calc(var(--d-size)*1)] cursor-pointer motion-safe:animate-[rating_0.25s_ease-out] aria-checked:opacity-100 has-[~[aria-checked=true]]:opacity-100 focus-visible:[scale:1.1] motion-safe:focus-visible:[transition:scale_0.2s_ease-out] active:focus:animate-none active:focus:[scale:1.1] disabled:cursor-not-allowed group-aria-readonly:cursor-default data-clear:w-2 data-clear:bg-transparent group-data-[precision='0.5']:not-data-clear:w-[calc(var(--d-size)*0.5)] data-[half=first]:[mask-size:200%] data-[half=first]:[mask-position:left] data-[half=second]:[mask-size:200%] data-[half=second]:[mask-position:right] rtl:data-[half=first]:[mask-position:right] rtl:data-[half=second]:[mask-position:left] d-mask-star-2 bg-green-500"
     />
     """
   end
@@ -10093,12 +10244,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       class="flex flex-col items-center gap-3"
     >
       <.rating
+        class="group d-rating [&.d-rating-xs]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [&.d-rating-sm]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [&.d-rating-md]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [&.d-rating-lg]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [&.d-rating-xl]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
         id="daisyui-rating-form"
         name="score"
         value={3.5}
         precision={0.5}
         label="Your score"
-        item_class="bg-orange-400"
+        item_class="d-mask d-mask-star rounded-none bg-base-content opacity-20 w-[calc(var(--d-size)*1)] h-[calc(var(--d-size)*1)] cursor-pointer motion-safe:animate-[rating_0.25s_ease-out] aria-checked:opacity-100 has-[~[aria-checked=true]]:opacity-100 focus-visible:[scale:1.1] motion-safe:focus-visible:[transition:scale_0.2s_ease-out] active:focus:animate-none active:focus:[scale:1.1] disabled:cursor-not-allowed group-aria-readonly:cursor-default data-clear:w-2 data-clear:bg-transparent group-data-[precision='0.5']:not-data-clear:w-[calc(var(--d-size)*0.5)] data-[half=first]:[mask-size:200%] data-[half=first]:[mask-position:left] data-[half=second]:[mask-size:200%] data-[half=second]:[mask-position:right] rtl:data-[half=first]:[mask-position:right] rtl:data-[half=second]:[mask-position:left] bg-orange-400"
       />
       <button type="submit" class="d-btn d-btn-primary d-btn-sm">Save</button>
     </form>
