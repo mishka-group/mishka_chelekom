@@ -2088,14 +2088,36 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── slider ────────────────────────────────────────────────────────────────
   def example(%{section: "slider-hero"} = assigns) do
     ~H"""
-    <.slider id="daisyui-slider-hero" value={40} label="Volume" class="max-w-xs" />
+    <.slider
+      thumb_class="w-[var(--d-range-thumb-size)] h-[var(--d-range-thumb-size)] rounded-[calc(infinity*1px)] bg-[var(--d-range-thumb,var(--color-base-100))] text-[var(--d-range-bg,currentColor)] [box-shadow:0_0_0_3px_var(--d-range-bg,currentColor)_inset,0_0_0_var(--border)_var(--d-range-bg,currentColor),0_1px_3px_-1px_oklch(0%_0_0/calc(var(--depth)*0.3))] cursor-grab data-dragging:cursor-grabbing focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2"
+      indicator_class="h-full rounded-[inherit] bg-[var(--d-range-bg,currentColor)] opacity-[var(--d-range-fill,1)] group-data-[orientation=vertical]:w-full"
+      track_class="relative w-full h-2 rounded-[calc(infinity*1px)] bg-base-content/10 group-data-[orientation=vertical]:w-2 group-data-[orientation=vertical]:h-full"
+      control_class="relative flex items-center w-full h-[calc(var(--size-field,0.25rem)*6)] cursor-pointer touch-none group-data-[orientation=vertical]:w-auto group-data-[orientation=vertical]:h-48"
+      value_class="text-[0.875rem]"
+      label_class="text-[0.875rem]"
+      id="daisyui-slider-hero"
+      value={40}
+      label="Volume"
+      class="group [--d-range-thumb-size:calc(var(--size-selector,0.25rem)*6)] flex flex-col gap-1 w-full data-disabled:cursor-not-allowed data-disabled:opacity-30 [&.d-range-xs]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*4)] [&.d-range-sm]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*5)] [&.d-range-md]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*6)] [&.d-range-lg]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*7)] [&.d-range-xl]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*8)] max-w-xs"
+    />
     """
   end
 
   def example(%{section: "slider-steps"} = assigns) do
     ~H"""
     <div class="w-full max-w-xs">
-      <.slider id="daisyui-slider-steps" value={50} step={25} />
+      <.slider
+        thumb_class="w-[var(--d-range-thumb-size)] h-[var(--d-range-thumb-size)] rounded-[calc(infinity*1px)] bg-[var(--d-range-thumb,var(--color-base-100))] text-[var(--d-range-bg,currentColor)] [box-shadow:0_0_0_3px_var(--d-range-bg,currentColor)_inset,0_0_0_var(--border)_var(--d-range-bg,currentColor),0_1px_3px_-1px_oklch(0%_0_0/calc(var(--depth)*0.3))] cursor-grab data-dragging:cursor-grabbing focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2"
+        indicator_class="h-full rounded-[inherit] bg-[var(--d-range-bg,currentColor)] opacity-[var(--d-range-fill,1)] group-data-[orientation=vertical]:w-full"
+        track_class="relative w-full h-2 rounded-[calc(infinity*1px)] bg-base-content/10 group-data-[orientation=vertical]:w-2 group-data-[orientation=vertical]:h-full"
+        control_class="relative flex items-center w-full h-[calc(var(--size-field,0.25rem)*6)] cursor-pointer touch-none group-data-[orientation=vertical]:w-auto group-data-[orientation=vertical]:h-48"
+        value_class="text-[0.875rem]"
+        label_class="text-[0.875rem]"
+        class="group [--d-range-thumb-size:calc(var(--size-selector,0.25rem)*6)] flex flex-col gap-1 w-full data-disabled:cursor-not-allowed data-disabled:opacity-30 [&.d-range-xs]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*4)] [&.d-range-sm]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*5)] [&.d-range-md]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*6)] [&.d-range-lg]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*7)] [&.d-range-xl]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*8)]"
+        id="daisyui-slider-steps"
+        value={50}
+        step={25}
+      />
       <div class="mt-2 flex justify-between px-1 text-xs opacity-60">
         <span :for={n <- ~w(0 25 50 75 100)}>{n}</span>
       </div>
@@ -2110,9 +2132,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex w-full max-w-xs flex-col gap-3">
       <.slider
         :for={color <- @colors}
+        thumb_class="w-[var(--d-range-thumb-size)] h-[var(--d-range-thumb-size)] rounded-[calc(infinity*1px)] bg-[var(--d-range-thumb,var(--color-base-100))] text-[var(--d-range-bg,currentColor)] [box-shadow:0_0_0_3px_var(--d-range-bg,currentColor)_inset,0_0_0_var(--border)_var(--d-range-bg,currentColor),0_1px_3px_-1px_oklch(0%_0_0/calc(var(--depth)*0.3))] cursor-grab data-dragging:cursor-grabbing focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2"
+        indicator_class="h-full rounded-[inherit] bg-[var(--d-range-bg,currentColor)] opacity-[var(--d-range-fill,1)] group-data-[orientation=vertical]:w-full"
+        track_class="relative w-full h-2 rounded-[calc(infinity*1px)] bg-base-content/10 group-data-[orientation=vertical]:w-2 group-data-[orientation=vertical]:h-full"
+        control_class="relative flex items-center w-full h-[calc(var(--size-field,0.25rem)*6)] cursor-pointer touch-none group-data-[orientation=vertical]:w-auto group-data-[orientation=vertical]:h-48"
+        value_class="text-[0.875rem]"
+        label_class="text-[0.875rem]"
         id={"daisyui-slider-#{color}"}
         value={60}
-        class={"d-range-#{color}"}
+        class={[
+          "group [--d-range-thumb-size:calc(var(--size-selector,0.25rem)*6)] flex flex-col gap-1 w-full data-disabled:cursor-not-allowed data-disabled:opacity-30 [&.d-range-xs]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*4)] [&.d-range-sm]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*5)] [&.d-range-md]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*6)] [&.d-range-lg]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*7)] [&.d-range-xl]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*8)]",
+          "d-range-#{color}"
+        ]}
       />
     </div>
     """
@@ -2125,9 +2156,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex w-full max-w-xs flex-col gap-3">
       <.slider
         :for={size <- @sizes}
+        thumb_class="w-[var(--d-range-thumb-size)] h-[var(--d-range-thumb-size)] rounded-[calc(infinity*1px)] bg-[var(--d-range-thumb,var(--color-base-100))] text-[var(--d-range-bg,currentColor)] [box-shadow:0_0_0_3px_var(--d-range-bg,currentColor)_inset,0_0_0_var(--border)_var(--d-range-bg,currentColor),0_1px_3px_-1px_oklch(0%_0_0/calc(var(--depth)*0.3))] cursor-grab data-dragging:cursor-grabbing focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2"
+        indicator_class="h-full rounded-[inherit] bg-[var(--d-range-bg,currentColor)] opacity-[var(--d-range-fill,1)] group-data-[orientation=vertical]:w-full"
+        track_class="relative w-full h-2 rounded-[calc(infinity*1px)] bg-base-content/10 group-data-[orientation=vertical]:w-2 group-data-[orientation=vertical]:h-full"
+        control_class="relative flex items-center w-full h-[calc(var(--size-field,0.25rem)*6)] cursor-pointer touch-none group-data-[orientation=vertical]:w-auto group-data-[orientation=vertical]:h-48"
+        value_class="text-[0.875rem]"
+        label_class="text-[0.875rem]"
         id={"daisyui-slider-size-#{size}"}
         value={60}
-        class={"d-range-#{size}"}
+        class={[
+          "group [--d-range-thumb-size:calc(var(--size-selector,0.25rem)*6)] flex flex-col gap-1 w-full data-disabled:cursor-not-allowed data-disabled:opacity-30 [&.d-range-xs]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*4)] [&.d-range-sm]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*5)] [&.d-range-md]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*6)] [&.d-range-lg]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*7)] [&.d-range-xl]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*8)]",
+          "d-range-#{size}"
+        ]}
       />
     </div>
     """
@@ -2136,22 +2176,49 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "slider-custom"} = assigns) do
     ~H"""
     <.slider
+      thumb_class="w-[var(--d-range-thumb-size)] h-[var(--d-range-thumb-size)] rounded-[calc(infinity*1px)] bg-[var(--d-range-thumb,var(--color-base-100))] text-[var(--d-range-bg,currentColor)] [box-shadow:0_0_0_3px_var(--d-range-bg,currentColor)_inset,0_0_0_var(--border)_var(--d-range-bg,currentColor),0_1px_3px_-1px_oklch(0%_0_0/calc(var(--depth)*0.3))] cursor-grab data-dragging:cursor-grabbing focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2"
+      indicator_class="h-full rounded-[inherit] bg-[var(--d-range-bg,currentColor)] opacity-[var(--d-range-fill,1)] group-data-[orientation=vertical]:w-full"
+      track_class="relative w-full h-2 rounded-[calc(infinity*1px)] bg-base-content/10 group-data-[orientation=vertical]:w-2 group-data-[orientation=vertical]:h-full"
+      control_class="relative flex items-center w-full h-[calc(var(--size-field,0.25rem)*6)] cursor-pointer touch-none group-data-[orientation=vertical]:w-auto group-data-[orientation=vertical]:h-48"
+      value_class="text-[0.875rem]"
+      label_class="text-[0.875rem]"
       id="daisyui-slider-custom"
       value={40}
-      class="max-w-xs text-blue-300 [--d-range-bg:orange] [--d-range-fill:0] [--d-range-thumb:blue]"
+      class="group [--d-range-thumb-size:calc(var(--size-selector,0.25rem)*6)] flex flex-col gap-1 w-full data-disabled:cursor-not-allowed data-disabled:opacity-30 [&.d-range-xs]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*4)] [&.d-range-sm]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*5)] [&.d-range-md]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*6)] [&.d-range-lg]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*7)] [&.d-range-xl]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*8)] max-w-xs text-blue-300 [--d-range-bg:orange] [--d-range-fill:0] [--d-range-thumb:blue]"
     />
     """
   end
 
   def example(%{section: "slider-vertical"} = assigns) do
     ~H"""
-    <.slider id="daisyui-slider-vertical" value={40} orientation="vertical" />
+    <.slider
+      thumb_class="w-[var(--d-range-thumb-size)] h-[var(--d-range-thumb-size)] rounded-[calc(infinity*1px)] bg-[var(--d-range-thumb,var(--color-base-100))] text-[var(--d-range-bg,currentColor)] [box-shadow:0_0_0_3px_var(--d-range-bg,currentColor)_inset,0_0_0_var(--border)_var(--d-range-bg,currentColor),0_1px_3px_-1px_oklch(0%_0_0/calc(var(--depth)*0.3))] cursor-grab data-dragging:cursor-grabbing focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2"
+      indicator_class="h-full rounded-[inherit] bg-[var(--d-range-bg,currentColor)] opacity-[var(--d-range-fill,1)] group-data-[orientation=vertical]:w-full"
+      track_class="relative w-full h-2 rounded-[calc(infinity*1px)] bg-base-content/10 group-data-[orientation=vertical]:w-2 group-data-[orientation=vertical]:h-full"
+      control_class="relative flex items-center w-full h-[calc(var(--size-field,0.25rem)*6)] cursor-pointer touch-none group-data-[orientation=vertical]:w-auto group-data-[orientation=vertical]:h-48"
+      value_class="text-[0.875rem]"
+      label_class="text-[0.875rem]"
+      class="group [--d-range-thumb-size:calc(var(--size-selector,0.25rem)*6)] flex flex-col gap-1 w-full data-disabled:cursor-not-allowed data-disabled:opacity-30 [&.d-range-xs]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*4)] [&.d-range-sm]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*5)] [&.d-range-md]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*6)] [&.d-range-lg]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*7)] [&.d-range-xl]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*8)]"
+      id="daisyui-slider-vertical"
+      value={40}
+      orientation="vertical"
+    />
     """
   end
 
   def example(%{section: "slider-range"} = assigns) do
     ~H"""
-    <.slider id="daisyui-slider-two" values={[25, 75]} class="max-w-xs d-range-primary" />
+    <.slider
+      thumb_class="w-[var(--d-range-thumb-size)] h-[var(--d-range-thumb-size)] rounded-[calc(infinity*1px)] bg-[var(--d-range-thumb,var(--color-base-100))] text-[var(--d-range-bg,currentColor)] [box-shadow:0_0_0_3px_var(--d-range-bg,currentColor)_inset,0_0_0_var(--border)_var(--d-range-bg,currentColor),0_1px_3px_-1px_oklch(0%_0_0/calc(var(--depth)*0.3))] cursor-grab data-dragging:cursor-grabbing focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2"
+      indicator_class="h-full rounded-[inherit] bg-[var(--d-range-bg,currentColor)] opacity-[var(--d-range-fill,1)] group-data-[orientation=vertical]:w-full"
+      track_class="relative w-full h-2 rounded-[calc(infinity*1px)] bg-base-content/10 group-data-[orientation=vertical]:w-2 group-data-[orientation=vertical]:h-full"
+      control_class="relative flex items-center w-full h-[calc(var(--size-field,0.25rem)*6)] cursor-pointer touch-none group-data-[orientation=vertical]:w-auto group-data-[orientation=vertical]:h-48"
+      value_class="text-[0.875rem]"
+      label_class="text-[0.875rem]"
+      id="daisyui-slider-two"
+      values={[25, 75]}
+      class="group [--d-range-thumb-size:calc(var(--size-selector,0.25rem)*6)] flex flex-col gap-1 w-full data-disabled:cursor-not-allowed data-disabled:opacity-30 [&.d-range-xs]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*4)] [&.d-range-sm]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*5)] [&.d-range-md]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*6)] [&.d-range-lg]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*7)] [&.d-range-xl]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*8)] max-w-xs d-range-primary"
+    />
     """
   end
 
@@ -9871,7 +9938,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── pagination ────────────────────────────────────────────────────────────
   def example(%{section: "pagination-hero"} = assigns) do
     ~H"""
-    <.pagination id="daisyui-pagination-hero" total={4} page={2} show_controls={false} />
+    <.pagination
+      control_class="d-btn rounded-none focus-visible:z-[2] hover:z-[1] aria-[current=page]:d-btn-active aria-[current=page]:pointer-events-none group-first/item:rounded-ss-[var(--radius-field)] group-first/item:rounded-es-[var(--radius-field)] group-last/item:rounded-se-[var(--radius-field)] group-last/item:rounded-ee-[var(--radius-field)] group-not-first/item:[margin-inline-start:calc(var(--border,1px)*-1)] [input&]:appearance-none [input&]:cursor-pointer [input&]:after:content-[attr(data-page)] [input&]:checked:d-btn-active"
+      ellipsis_class="inline-flex items-center px-3 opacity-60 select-none"
+      item_class="group/item"
+      list_class="inline-flex items-stretch"
+      id="daisyui-pagination-hero"
+      total={4}
+      page={2}
+      show_controls={false}
+    />
     """
   end
 
@@ -9882,11 +9958,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-col items-center gap-3">
       <.pagination
         :for={size <- @sizes}
+        ellipsis_class="inline-flex items-center px-3 opacity-60 select-none"
+        item_class="group/item"
+        list_class="inline-flex items-stretch"
         id={"daisyui-pagination-#{size}"}
         total={4}
         page={2}
         show_controls={false}
-        control_class={"d-btn-#{size}"}
+        control_class={[
+          "d-btn rounded-none focus-visible:z-[2] hover:z-[1] aria-[current=page]:d-btn-active aria-[current=page]:pointer-events-none group-first/item:rounded-ss-[var(--radius-field)] group-first/item:rounded-es-[var(--radius-field)] group-last/item:rounded-se-[var(--radius-field)] group-last/item:rounded-ee-[var(--radius-field)] group-not-first/item:[margin-inline-start:calc(var(--border,1px)*-1)] [input&]:appearance-none [input&]:cursor-pointer [input&]:after:content-[attr(data-page)] [input&]:checked:d-btn-active",
+          "d-btn-#{size}"
+        ]}
       />
     </div>
     """
@@ -9895,9 +9977,34 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "pagination-disabled"} = assigns) do
     ~H"""
     <div class="flex flex-col items-center gap-3">
-      <.pagination id="daisyui-pagination-disabled" total={4} page={2} disabled />
-      <.pagination id="daisyui-pagination-at-first" total={4} page={1} />
-      <.pagination id="daisyui-pagination-at-last" total={4} page={4} />
+      <.pagination
+        control_class="d-btn rounded-none focus-visible:z-[2] hover:z-[1] aria-[current=page]:d-btn-active aria-[current=page]:pointer-events-none group-first/item:rounded-ss-[var(--radius-field)] group-first/item:rounded-es-[var(--radius-field)] group-last/item:rounded-se-[var(--radius-field)] group-last/item:rounded-ee-[var(--radius-field)] group-not-first/item:[margin-inline-start:calc(var(--border,1px)*-1)] [input&]:appearance-none [input&]:cursor-pointer [input&]:after:content-[attr(data-page)] [input&]:checked:d-btn-active"
+        ellipsis_class="inline-flex items-center px-3 opacity-60 select-none"
+        item_class="group/item"
+        list_class="inline-flex items-stretch"
+        id="daisyui-pagination-disabled"
+        total={4}
+        page={2}
+        disabled
+      />
+      <.pagination
+        control_class="d-btn rounded-none focus-visible:z-[2] hover:z-[1] aria-[current=page]:d-btn-active aria-[current=page]:pointer-events-none group-first/item:rounded-ss-[var(--radius-field)] group-first/item:rounded-es-[var(--radius-field)] group-last/item:rounded-se-[var(--radius-field)] group-last/item:rounded-ee-[var(--radius-field)] group-not-first/item:[margin-inline-start:calc(var(--border,1px)*-1)] [input&]:appearance-none [input&]:cursor-pointer [input&]:after:content-[attr(data-page)] [input&]:checked:d-btn-active"
+        ellipsis_class="inline-flex items-center px-3 opacity-60 select-none"
+        item_class="group/item"
+        list_class="inline-flex items-stretch"
+        id="daisyui-pagination-at-first"
+        total={4}
+        page={1}
+      />
+      <.pagination
+        control_class="d-btn rounded-none focus-visible:z-[2] hover:z-[1] aria-[current=page]:d-btn-active aria-[current=page]:pointer-events-none group-first/item:rounded-ss-[var(--radius-field)] group-first/item:rounded-es-[var(--radius-field)] group-last/item:rounded-se-[var(--radius-field)] group-last/item:rounded-ee-[var(--radius-field)] group-not-first/item:[margin-inline-start:calc(var(--border,1px)*-1)] [input&]:appearance-none [input&]:cursor-pointer [input&]:after:content-[attr(data-page)] [input&]:checked:d-btn-active"
+        ellipsis_class="inline-flex items-center px-3 opacity-60 select-none"
+        item_class="group/item"
+        list_class="inline-flex items-stretch"
+        id="daisyui-pagination-at-last"
+        total={4}
+        page={4}
+      />
     </div>
     """
   end
@@ -9905,11 +10012,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "pagination-xs"} = assigns) do
     ~H"""
     <.pagination
+      ellipsis_class="inline-flex items-center px-3 opacity-60 select-none"
+      item_class="group/item"
+      list_class="inline-flex items-stretch"
       id="daisyui-pagination-extra-small"
       total={4}
       page={2}
       show_controls={false}
-      control_class="d-btn-xs"
+      control_class="d-btn rounded-none focus-visible:z-[2] hover:z-[1] aria-[current=page]:d-btn-active aria-[current=page]:pointer-events-none group-first/item:rounded-ss-[var(--radius-field)] group-first/item:rounded-es-[var(--radius-field)] group-last/item:rounded-se-[var(--radius-field)] group-last/item:rounded-ee-[var(--radius-field)] group-not-first/item:[margin-inline-start:calc(var(--border,1px)*-1)] [input&]:appearance-none [input&]:cursor-pointer [input&]:after:content-[attr(data-page)] [input&]:checked:d-btn-active d-btn-xs"
     />
     """
   end
@@ -9917,6 +10027,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "pagination-edges"} = assigns) do
     ~H"""
     <.pagination
+      ellipsis_class="inline-flex items-center px-3 opacity-60 select-none"
+      item_class="group/item"
+      list_class="inline-flex items-stretch"
       id="daisyui-pagination-edges"
       total={10}
       page={5}
@@ -9925,7 +10038,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       next_label="Next"
       first_label="First"
       last_label="Last"
-      control_class="d-btn-outline"
+      control_class="d-btn rounded-none focus-visible:z-[2] hover:z-[1] aria-[current=page]:d-btn-active aria-[current=page]:pointer-events-none group-first/item:rounded-ss-[var(--radius-field)] group-first/item:rounded-es-[var(--radius-field)] group-last/item:rounded-se-[var(--radius-field)] group-last/item:rounded-ee-[var(--radius-field)] group-not-first/item:[margin-inline-start:calc(var(--border,1px)*-1)] [input&]:appearance-none [input&]:cursor-pointer [input&]:after:content-[attr(data-page)] [input&]:checked:d-btn-active d-btn-outline"
     />
     """
   end
@@ -9934,6 +10047,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <form id="daisyui-pagination-radio-form" phx-change="daisyui_pagination_change">
       <.pagination
+        control_class="d-btn rounded-none focus-visible:z-[2] hover:z-[1] aria-[current=page]:d-btn-active aria-[current=page]:pointer-events-none group-first/item:rounded-ss-[var(--radius-field)] group-first/item:rounded-es-[var(--radius-field)] group-last/item:rounded-se-[var(--radius-field)] group-last/item:rounded-ee-[var(--radius-field)] group-not-first/item:[margin-inline-start:calc(var(--border,1px)*-1)] [input&]:appearance-none [input&]:cursor-pointer [input&]:after:content-[attr(data-page)] [input&]:checked:d-btn-active"
+        ellipsis_class="inline-flex items-center px-3 opacity-60 select-none"
+        item_class="group/item"
+        list_class="inline-flex items-stretch"
         id="daisyui-pagination-radio"
         total={4}
         page={2}
@@ -9949,6 +10066,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-col items-center gap-3">
       <.pagination
         :for={page <- [1, 7, 50, 100]}
+        control_class="d-btn rounded-none focus-visible:z-[2] hover:z-[1] aria-[current=page]:d-btn-active aria-[current=page]:pointer-events-none group-first/item:rounded-ss-[var(--radius-field)] group-first/item:rounded-es-[var(--radius-field)] group-last/item:rounded-se-[var(--radius-field)] group-last/item:rounded-ee-[var(--radius-field)] group-not-first/item:[margin-inline-start:calc(var(--border,1px)*-1)] [input&]:appearance-none [input&]:cursor-pointer [input&]:after:content-[attr(data-page)] [input&]:checked:d-btn-active"
+        ellipsis_class="inline-flex items-center px-3 opacity-60 select-none"
+        item_class="group/item"
+        list_class="inline-flex items-stretch"
         id={"daisyui-pagination-w#{page}"}
         total={100}
         page={page}
@@ -9960,6 +10081,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "pagination-links"} = assigns) do
     ~H"""
     <.pagination
+      control_class="d-btn rounded-none focus-visible:z-[2] hover:z-[1] aria-[current=page]:d-btn-active aria-[current=page]:pointer-events-none group-first/item:rounded-ss-[var(--radius-field)] group-first/item:rounded-es-[var(--radius-field)] group-last/item:rounded-se-[var(--radius-field)] group-last/item:rounded-ee-[var(--radius-field)] group-not-first/item:[margin-inline-start:calc(var(--border,1px)*-1)] [input&]:appearance-none [input&]:cursor-pointer [input&]:after:content-[attr(data-page)] [input&]:checked:d-btn-active"
+      ellipsis_class="inline-flex items-center px-3 opacity-60 select-none"
+      item_class="group/item"
+      list_class="inline-flex items-stretch"
       id="daisyui-pagination-links"
       total={7}
       page={3}
@@ -9971,6 +10096,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "pagination-interactive"} = assigns) do
     ~H"""
     <.pagination
+      control_class="d-btn rounded-none focus-visible:z-[2] hover:z-[1] aria-[current=page]:d-btn-active aria-[current=page]:pointer-events-none group-first/item:rounded-ss-[var(--radius-field)] group-first/item:rounded-es-[var(--radius-field)] group-last/item:rounded-se-[var(--radius-field)] group-last/item:rounded-ee-[var(--radius-field)] group-not-first/item:[margin-inline-start:calc(var(--border,1px)*-1)] [input&]:appearance-none [input&]:cursor-pointer [input&]:after:content-[attr(data-page)] [input&]:checked:d-btn-active"
+      ellipsis_class="inline-flex items-center px-3 opacity-60 select-none"
+      item_class="group/item"
+      list_class="inline-flex items-stretch"
       id="daisyui-pagination-interactive"
       total={12}
       page={4}

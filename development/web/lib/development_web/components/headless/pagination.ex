@@ -61,6 +61,7 @@ defmodule DevelopmentWeb.Components.Headless.Pagination do
   attr :ellipsis_label, :string, default: "…", doc: "Content of the ellipsis"
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :list_class, :any, default: nil, doc: ~s|Extra classes for `data-part="list"`|
+  attr :ellipsis_class, :any, default: nil, doc: ~s|Extra classes for `data-part="ellipsis"`|
   attr :control_class, :any, default: nil, doc: "Extra classes for every control"
   attr :item_class, :any, default: nil, doc: ~s|Extra classes for `data-part="item"`|
   attr :rest, :global
@@ -122,7 +123,7 @@ defmodule DevelopmentWeb.Components.Headless.Pagination do
             :if={entry == :ellipsis}
             data-part="ellipsis"
             aria-hidden="true"
-            class={["chelekom-pagination__ellipsis", @control_class]}
+            class={["chelekom-pagination__ellipsis", @ellipsis_class]}
           >{@ellipsis_label}</span>
 
           <.page_control
