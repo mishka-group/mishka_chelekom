@@ -2072,6 +2072,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div>
       <div id="daisyui-radio-group-label" class="mb-2 text-sm font-bold">Plan</div>
       <.radio_group
+        item_class="inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none before:content-[''] before:relative before:inline-block before:shrink-0 before:cursor-pointer before:appearance-none before:rounded-full before:p-1 before:align-middle before:[border:var(--border)_solid_var(--input-color,color-mix(in_srgb,currentColor_20%,#0000))] before:[box-shadow:0_1px_oklch(0%_0_0/calc(var(--depth)*0.1))_inset] before:[--d-size:calc(var(--size-selector,0.25rem)*6)] before:w-[var(--d-size)] before:h-[var(--d-size)] before:[color:var(--input-color,currentColor)] data-checked:before:[border-color:currentcolor] data-checked:before:bg-base-100 data-checked:before:[box-shadow:0_0_0_4px_currentColor_inset] aria-checked:before:[border-color:currentcolor] aria-checked:before:bg-base-100 aria-checked:before:[box-shadow:0_0_0_4px_currentColor_inset] data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-disabled:cursor-not-allowed group-data-disabled:opacity-20 focus-visible:before:outline-2 focus-visible:before:outline-current focus-visible:before:outline-offset-2 [.d-radio-xs_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-radio-xs_&]:before:p-0.5 [.d-radio-sm_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-radio-sm_&]:before:p-[0.1875rem] [.d-radio-md_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-radio-md_&]:before:p-1 [.d-radio-lg_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-radio-lg_&]:before:p-[0.3125rem] [.d-radio-xl_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*8)] [.d-radio-xl_&]:before:p-1.5"
+        class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4"
         id="daisyui-radio-group"
         name="plan"
         value="pro"
@@ -6549,6 +6551,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.fab_frame>
       <.fab
+        main_action_class="d-btn-lg"
+        action_class="d-btn d-btn-circle flex items-center gap-2 has-[[data-part=label]]:rounded-[var(--radius-field)] has-[[data-part=label]]:w-auto has-[[data-part=label]]:px-4 data-disabled:pointer-events-none data-disabled:opacity-50 group-data-[direction=flower]:absolute group-data-[direction=flower]:end-0 group-data-[direction=flower]:bottom-0 group-data-[direction=flower]:data-[index='0']:[translate:0_calc(0.25rem*-14)] group-data-[direction=flower]:data-[index='1']:[translate:calc(0.25rem*-10)_calc(0.25rem*-10)] group-data-[direction=flower]:data-[index='2']:[translate:calc(0.25rem*-14)_0]"
+        popup_class="flex flex-col-reverse [align-items:inherit] gap-2 relative data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center group-data-[direction=flower]:block! group-data-[direction=flower]:w-12 group-data-[direction=flower]:h-12"
+        icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
+        trigger_class="d-btn d-btn-circle d-btn-lg grid place-items-center [transition:rotate_0.2s_cubic-bezier(0.4,0,0.2,1),opacity_0.2s_cubic-bezier(0.4,0,0.2,1)] group-has-[[data-part=popup][data-open]]:[rotate:45deg] .as-[[data-part=icon][data-state=open]]:[rotate:none]"
+        class="group pointer-events-none fixed z-[999] flex items-end gap-2 text-[length:var(--text-sm)] whitespace-nowrap select-none [&>*]:pointer-events-auto data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[placement=top-end]:end-4 data-[placement=top-end]:top-4 data-[placement=top-start]:start-4 data-[placement=top-start]:top-4 data-[placement=top-start]:items-start"
         id="daisyui-fab-hero"
         label="Actions"
         contained
@@ -6566,6 +6574,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.fab_frame>
       <.fab
+        main_action_class="d-btn-lg"
+        action_class="d-btn d-btn-circle flex items-center gap-2 has-[[data-part=label]]:rounded-[var(--radius-field)] has-[[data-part=label]]:w-auto has-[[data-part=label]]:px-4 data-disabled:pointer-events-none data-disabled:opacity-50 group-data-[direction=flower]:absolute group-data-[direction=flower]:end-0 group-data-[direction=flower]:bottom-0 group-data-[direction=flower]:data-[index='0']:[translate:0_calc(0.25rem*-14)] group-data-[direction=flower]:data-[index='1']:[translate:calc(0.25rem*-10)_calc(0.25rem*-10)] group-data-[direction=flower]:data-[index='2']:[translate:calc(0.25rem*-14)_0]"
+        popup_class="flex flex-col-reverse [align-items:inherit] gap-2 relative data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center group-data-[direction=flower]:block! group-data-[direction=flower]:w-12 group-data-[direction=flower]:h-12"
+        icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
+        trigger_class="d-btn d-btn-circle d-btn-lg grid place-items-center [transition:rotate_0.2s_cubic-bezier(0.4,0,0.2,1),opacity_0.2s_cubic-bezier(0.4,0,0.2,1)] group-has-[[data-part=popup][data-open]]:[rotate:45deg] .as-[[data-part=icon][data-state=open]]:[rotate:none]"
+        class="group pointer-events-none fixed z-[999] flex items-end gap-2 text-[length:var(--text-sm)] whitespace-nowrap select-none [&>*]:pointer-events-auto data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[placement=top-end]:end-4 data-[placement=top-end]:top-4 data-[placement=top-start]:start-4 data-[placement=top-start]:top-4 data-[placement=top-start]:items-start"
         id="daisyui-fab-icons"
         label="Actions"
         contained
@@ -6583,6 +6597,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.fab_frame>
       <.fab
+        main_action_class="d-btn-lg"
+        action_class="d-btn d-btn-circle flex items-center gap-2 has-[[data-part=label]]:rounded-[var(--radius-field)] has-[[data-part=label]]:w-auto has-[[data-part=label]]:px-4 data-disabled:pointer-events-none data-disabled:opacity-50 group-data-[direction=flower]:absolute group-data-[direction=flower]:end-0 group-data-[direction=flower]:bottom-0 group-data-[direction=flower]:data-[index='0']:[translate:0_calc(0.25rem*-14)] group-data-[direction=flower]:data-[index='1']:[translate:calc(0.25rem*-10)_calc(0.25rem*-10)] group-data-[direction=flower]:data-[index='2']:[translate:calc(0.25rem*-14)_0]"
+        popup_class="flex flex-col-reverse [align-items:inherit] gap-2 relative data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center group-data-[direction=flower]:block! group-data-[direction=flower]:w-12 group-data-[direction=flower]:h-12"
+        icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
+        trigger_class="d-btn d-btn-circle d-btn-lg grid place-items-center [transition:rotate_0.2s_cubic-bezier(0.4,0,0.2,1),opacity_0.2s_cubic-bezier(0.4,0,0.2,1)] group-has-[[data-part=popup][data-open]]:[rotate:45deg] .as-[[data-part=icon][data-state=open]]:[rotate:none]"
+        class="group pointer-events-none fixed z-[999] flex items-end gap-2 text-[length:var(--text-sm)] whitespace-nowrap select-none [&>*]:pointer-events-auto data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[placement=top-end]:end-4 data-[placement=top-end]:top-4 data-[placement=top-start]:start-4 data-[placement=top-start]:top-4 data-[placement=top-start]:items-start"
         id="daisyui-fab-labels"
         label="Actions"
         contained
@@ -6601,6 +6621,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.fab_frame>
       <.fab
+        main_action_class="d-btn-lg"
+        action_class="d-btn d-btn-circle flex items-center gap-2 has-[[data-part=label]]:rounded-[var(--radius-field)] has-[[data-part=label]]:w-auto has-[[data-part=label]]:px-4 data-disabled:pointer-events-none data-disabled:opacity-50 group-data-[direction=flower]:absolute group-data-[direction=flower]:end-0 group-data-[direction=flower]:bottom-0 group-data-[direction=flower]:data-[index='0']:[translate:0_calc(0.25rem*-14)] group-data-[direction=flower]:data-[index='1']:[translate:calc(0.25rem*-10)_calc(0.25rem*-10)] group-data-[direction=flower]:data-[index='2']:[translate:calc(0.25rem*-14)_0]"
+        popup_class="flex flex-col-reverse [align-items:inherit] gap-2 relative data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center group-data-[direction=flower]:block! group-data-[direction=flower]:w-12 group-data-[direction=flower]:h-12"
+        icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
+        trigger_class="d-btn d-btn-circle d-btn-lg grid place-items-center [transition:rotate_0.2s_cubic-bezier(0.4,0,0.2,1),opacity_0.2s_cubic-bezier(0.4,0,0.2,1)] group-has-[[data-part=popup][data-open]]:[rotate:45deg] .as-[[data-part=icon][data-state=open]]:[rotate:none]"
+        class="group pointer-events-none fixed z-[999] flex items-end gap-2 text-[length:var(--text-sm)] whitespace-nowrap select-none [&>*]:pointer-events-auto data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[placement=top-end]:end-4 data-[placement=top-end]:top-4 data-[placement=top-start]:start-4 data-[placement=top-start]:top-4 data-[placement=top-start]:items-start"
         id="daisyui-fab-rectangle"
         label="Actions"
         contained
@@ -6617,6 +6643,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.fab_frame>
       <.fab
+        main_action_class="d-btn-lg"
+        action_class="d-btn d-btn-circle flex items-center gap-2 has-[[data-part=label]]:rounded-[var(--radius-field)] has-[[data-part=label]]:w-auto has-[[data-part=label]]:px-4 data-disabled:pointer-events-none data-disabled:opacity-50 group-data-[direction=flower]:absolute group-data-[direction=flower]:end-0 group-data-[direction=flower]:bottom-0 group-data-[direction=flower]:data-[index='0']:[translate:0_calc(0.25rem*-14)] group-data-[direction=flower]:data-[index='1']:[translate:calc(0.25rem*-10)_calc(0.25rem*-10)] group-data-[direction=flower]:data-[index='2']:[translate:calc(0.25rem*-14)_0]"
+        popup_class="flex flex-col-reverse [align-items:inherit] gap-2 relative data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center group-data-[direction=flower]:block! group-data-[direction=flower]:w-12 group-data-[direction=flower]:h-12"
+        icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
+        trigger_class="d-btn d-btn-circle d-btn-lg grid place-items-center [transition:rotate_0.2s_cubic-bezier(0.4,0,0.2,1),opacity_0.2s_cubic-bezier(0.4,0,0.2,1)] group-has-[[data-part=popup][data-open]]:[rotate:45deg] .as-[[data-part=icon][data-state=open]]:[rotate:none]"
+        class="group pointer-events-none fixed z-[999] flex items-end gap-2 text-[length:var(--text-sm)] whitespace-nowrap select-none [&>*]:pointer-events-auto data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[placement=top-end]:end-4 data-[placement=top-end]:top-4 data-[placement=top-start]:start-4 data-[placement=top-start]:top-4 data-[placement=top-start]:items-start"
         id="daisyui-fab-close"
         label="Actions"
         contained
@@ -6634,6 +6666,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.fab_frame>
       <.fab
+        main_action_class="d-btn-lg"
+        action_class="d-btn d-btn-circle flex items-center gap-2 has-[[data-part=label]]:rounded-[var(--radius-field)] has-[[data-part=label]]:w-auto has-[[data-part=label]]:px-4 data-disabled:pointer-events-none data-disabled:opacity-50 group-data-[direction=flower]:absolute group-data-[direction=flower]:end-0 group-data-[direction=flower]:bottom-0 group-data-[direction=flower]:data-[index='0']:[translate:0_calc(0.25rem*-14)] group-data-[direction=flower]:data-[index='1']:[translate:calc(0.25rem*-10)_calc(0.25rem*-10)] group-data-[direction=flower]:data-[index='2']:[translate:calc(0.25rem*-14)_0]"
+        popup_class="flex flex-col-reverse [align-items:inherit] gap-2 relative data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center group-data-[direction=flower]:block! group-data-[direction=flower]:w-12 group-data-[direction=flower]:h-12"
+        icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
+        trigger_class="d-btn d-btn-circle d-btn-lg grid place-items-center [transition:rotate_0.2s_cubic-bezier(0.4,0,0.2,1),opacity_0.2s_cubic-bezier(0.4,0,0.2,1)] group-has-[[data-part=popup][data-open]]:[rotate:45deg] .as-[[data-part=icon][data-state=open]]:[rotate:none]"
+        class="group pointer-events-none fixed z-[999] flex items-end gap-2 text-[length:var(--text-sm)] whitespace-nowrap select-none [&>*]:pointer-events-auto data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[placement=top-end]:end-4 data-[placement=top-end]:top-4 data-[placement=top-start]:start-4 data-[placement=top-start]:top-4 data-[placement=top-start]:items-start"
         id="daisyui-fab-main"
         label="Actions"
         contained
@@ -6651,6 +6689,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.fab_frame>
       <.fab
+        main_action_class="d-btn-lg"
+        action_class="d-btn d-btn-circle flex items-center gap-2 has-[[data-part=label]]:rounded-[var(--radius-field)] has-[[data-part=label]]:w-auto has-[[data-part=label]]:px-4 data-disabled:pointer-events-none data-disabled:opacity-50 group-data-[direction=flower]:absolute group-data-[direction=flower]:end-0 group-data-[direction=flower]:bottom-0 group-data-[direction=flower]:data-[index='0']:[translate:0_calc(0.25rem*-14)] group-data-[direction=flower]:data-[index='1']:[translate:calc(0.25rem*-10)_calc(0.25rem*-10)] group-data-[direction=flower]:data-[index='2']:[translate:calc(0.25rem*-14)_0]"
+        popup_class="flex flex-col-reverse [align-items:inherit] gap-2 relative data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center group-data-[direction=flower]:block! group-data-[direction=flower]:w-12 group-data-[direction=flower]:h-12"
+        icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
+        trigger_class="d-btn d-btn-circle d-btn-lg grid place-items-center [transition:rotate_0.2s_cubic-bezier(0.4,0,0.2,1),opacity_0.2s_cubic-bezier(0.4,0,0.2,1)] group-has-[[data-part=popup][data-open]]:[rotate:45deg] .as-[[data-part=icon][data-state=open]]:[rotate:none]"
+        class="group pointer-events-none fixed z-[999] flex items-end gap-2 text-[length:var(--text-sm)] whitespace-nowrap select-none [&>*]:pointer-events-auto data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[placement=top-end]:end-4 data-[placement=top-end]:top-4 data-[placement=top-start]:start-4 data-[placement=top-start]:top-4 data-[placement=top-start]:items-start"
         id="daisyui-fab-single"
         label="Compose"
         contained
@@ -6665,6 +6709,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.fab_frame>
       <.fab
+        main_action_class="d-btn-lg"
+        action_class="d-btn d-btn-circle flex items-center gap-2 has-[[data-part=label]]:rounded-[var(--radius-field)] has-[[data-part=label]]:w-auto has-[[data-part=label]]:px-4 data-disabled:pointer-events-none data-disabled:opacity-50 group-data-[direction=flower]:absolute group-data-[direction=flower]:end-0 group-data-[direction=flower]:bottom-0 group-data-[direction=flower]:data-[index='0']:[translate:0_calc(0.25rem*-14)] group-data-[direction=flower]:data-[index='1']:[translate:calc(0.25rem*-10)_calc(0.25rem*-10)] group-data-[direction=flower]:data-[index='2']:[translate:calc(0.25rem*-14)_0]"
+        popup_class="flex flex-col-reverse [align-items:inherit] gap-2 relative data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center group-data-[direction=flower]:block! group-data-[direction=flower]:w-12 group-data-[direction=flower]:h-12"
+        icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
+        trigger_class="d-btn d-btn-circle d-btn-lg grid place-items-center [transition:rotate_0.2s_cubic-bezier(0.4,0,0.2,1),opacity_0.2s_cubic-bezier(0.4,0,0.2,1)] group-has-[[data-part=popup][data-open]]:[rotate:45deg] .as-[[data-part=icon][data-state=open]]:[rotate:none]"
+        class="group pointer-events-none fixed z-[999] flex items-end gap-2 text-[length:var(--text-sm)] whitespace-nowrap select-none [&>*]:pointer-events-auto data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[placement=top-end]:end-4 data-[placement=top-end]:top-4 data-[placement=top-start]:start-4 data-[placement=top-start]:top-4 data-[placement=top-start]:items-start"
         id="daisyui-fab-flower"
         label="Actions"
         contained
@@ -6683,6 +6733,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.fab_frame>
       <.fab
+        main_action_class="d-btn-lg"
+        action_class="d-btn d-btn-circle flex items-center gap-2 has-[[data-part=label]]:rounded-[var(--radius-field)] has-[[data-part=label]]:w-auto has-[[data-part=label]]:px-4 data-disabled:pointer-events-none data-disabled:opacity-50 group-data-[direction=flower]:absolute group-data-[direction=flower]:end-0 group-data-[direction=flower]:bottom-0 group-data-[direction=flower]:data-[index='0']:[translate:0_calc(0.25rem*-14)] group-data-[direction=flower]:data-[index='1']:[translate:calc(0.25rem*-10)_calc(0.25rem*-10)] group-data-[direction=flower]:data-[index='2']:[translate:calc(0.25rem*-14)_0]"
+        popup_class="flex flex-col-reverse [align-items:inherit] gap-2 relative data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center group-data-[direction=flower]:block! group-data-[direction=flower]:w-12 group-data-[direction=flower]:h-12"
+        icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
+        trigger_class="d-btn d-btn-circle d-btn-lg grid place-items-center [transition:rotate_0.2s_cubic-bezier(0.4,0,0.2,1),opacity_0.2s_cubic-bezier(0.4,0,0.2,1)] group-has-[[data-part=popup][data-open]]:[rotate:45deg] .as-[[data-part=icon][data-state=open]]:[rotate:none]"
+        class="group pointer-events-none fixed z-[999] flex items-end gap-2 text-[length:var(--text-sm)] whitespace-nowrap select-none [&>*]:pointer-events-auto data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[placement=top-end]:end-4 data-[placement=top-end]:top-4 data-[placement=top-start]:start-4 data-[placement=top-start]:top-4 data-[placement=top-start]:items-start"
         id="daisyui-fab-flower-main"
         label="Actions"
         contained
@@ -6703,6 +6759,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-wrap gap-4">
       <.fab_frame :for={{dir, place} <- [{"down", "top-start"}, {"right", "bottom-start"}]}>
         <.fab
+          main_action_class="d-btn-lg"
+          action_class="d-btn d-btn-circle flex items-center gap-2 has-[[data-part=label]]:rounded-[var(--radius-field)] has-[[data-part=label]]:w-auto has-[[data-part=label]]:px-4 data-disabled:pointer-events-none data-disabled:opacity-50 group-data-[direction=flower]:absolute group-data-[direction=flower]:end-0 group-data-[direction=flower]:bottom-0 group-data-[direction=flower]:data-[index='0']:[translate:0_calc(0.25rem*-14)] group-data-[direction=flower]:data-[index='1']:[translate:calc(0.25rem*-10)_calc(0.25rem*-10)] group-data-[direction=flower]:data-[index='2']:[translate:calc(0.25rem*-14)_0]"
+          popup_class="flex flex-col-reverse [align-items:inherit] gap-2 relative data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center group-data-[direction=flower]:block! group-data-[direction=flower]:w-12 group-data-[direction=flower]:h-12"
+          icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
+          trigger_class="d-btn d-btn-circle d-btn-lg grid place-items-center [transition:rotate_0.2s_cubic-bezier(0.4,0,0.2,1),opacity_0.2s_cubic-bezier(0.4,0,0.2,1)] group-has-[[data-part=popup][data-open]]:[rotate:45deg] .as-[[data-part=icon][data-state=open]]:[rotate:none]"
+          class="group pointer-events-none fixed z-[999] flex items-end gap-2 text-[length:var(--text-sm)] whitespace-nowrap select-none [&>*]:pointer-events-auto data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[placement=top-end]:end-4 data-[placement=top-end]:top-4 data-[placement=top-start]:start-4 data-[placement=top-start]:top-4 data-[placement=top-start]:items-start"
           id={"daisyui-fab-#{dir}"}
           label={"Actions #{dir}"}
           contained
@@ -10754,7 +10816,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── radio_group ───────────────────────────────────────────────────────────
   def example(%{section: "radio-group-hero"} = assigns) do
     ~H"""
-    <.radio_group id="daisyui-radio-group-hero" name="plan" value="team">
+    <.radio_group
+      item_class="inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none before:content-[''] before:relative before:inline-block before:shrink-0 before:cursor-pointer before:appearance-none before:rounded-full before:p-1 before:align-middle before:[border:var(--border)_solid_var(--input-color,color-mix(in_srgb,currentColor_20%,#0000))] before:[box-shadow:0_1px_oklch(0%_0_0/calc(var(--depth)*0.1))_inset] before:[--d-size:calc(var(--size-selector,0.25rem)*6)] before:w-[var(--d-size)] before:h-[var(--d-size)] before:[color:var(--input-color,currentColor)] data-checked:before:[border-color:currentcolor] data-checked:before:bg-base-100 data-checked:before:[box-shadow:0_0_0_4px_currentColor_inset] aria-checked:before:[border-color:currentcolor] aria-checked:before:bg-base-100 aria-checked:before:[box-shadow:0_0_0_4px_currentColor_inset] data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-disabled:cursor-not-allowed group-data-disabled:opacity-20 focus-visible:before:outline-2 focus-visible:before:outline-current focus-visible:before:outline-offset-2 [.d-radio-xs_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-radio-xs_&]:before:p-0.5 [.d-radio-sm_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-radio-sm_&]:before:p-[0.1875rem] [.d-radio-md_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-radio-md_&]:before:p-1 [.d-radio-lg_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-radio-lg_&]:before:p-[0.3125rem] [.d-radio-xl_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*8)] [.d-radio-xl_&]:before:p-1.5"
+      class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4"
+      id="daisyui-radio-group-hero"
+      name="plan"
+      value="team"
+    >
       <:option value="solo">Solo</:option>
       <:option value="team">Team</:option>
       <:option value="enterprise">Enterprise</:option>
@@ -10765,6 +10833,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "radio-group-horizontal"} = assigns) do
     ~H"""
     <.radio_group
+      item_class="inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none before:content-[''] before:relative before:inline-block before:shrink-0 before:cursor-pointer before:appearance-none before:rounded-full before:p-1 before:align-middle before:[border:var(--border)_solid_var(--input-color,color-mix(in_srgb,currentColor_20%,#0000))] before:[box-shadow:0_1px_oklch(0%_0_0/calc(var(--depth)*0.1))_inset] before:[--d-size:calc(var(--size-selector,0.25rem)*6)] before:w-[var(--d-size)] before:h-[var(--d-size)] before:[color:var(--input-color,currentColor)] data-checked:before:[border-color:currentcolor] data-checked:before:bg-base-100 data-checked:before:[box-shadow:0_0_0_4px_currentColor_inset] aria-checked:before:[border-color:currentcolor] aria-checked:before:bg-base-100 aria-checked:before:[box-shadow:0_0_0_4px_currentColor_inset] data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-disabled:cursor-not-allowed group-data-disabled:opacity-20 focus-visible:before:outline-2 focus-visible:before:outline-current focus-visible:before:outline-offset-2 [.d-radio-xs_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-radio-xs_&]:before:p-0.5 [.d-radio-sm_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-radio-sm_&]:before:p-[0.1875rem] [.d-radio-md_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-radio-md_&]:before:p-1 [.d-radio-lg_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-radio-lg_&]:before:p-[0.3125rem] [.d-radio-xl_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*8)] [.d-radio-xl_&]:before:p-1.5"
+      class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4"
       id="daisyui-radio-group-horizontal"
       name="plan_row"
       value="team"
@@ -10784,11 +10854,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-col gap-3">
       <.radio_group
         :for={size <- @sizes}
+        item_class="inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none before:content-[''] before:relative before:inline-block before:shrink-0 before:cursor-pointer before:appearance-none before:rounded-full before:p-1 before:align-middle before:[border:var(--border)_solid_var(--input-color,color-mix(in_srgb,currentColor_20%,#0000))] before:[box-shadow:0_1px_oklch(0%_0_0/calc(var(--depth)*0.1))_inset] before:[--d-size:calc(var(--size-selector,0.25rem)*6)] before:w-[var(--d-size)] before:h-[var(--d-size)] before:[color:var(--input-color,currentColor)] data-checked:before:[border-color:currentcolor] data-checked:before:bg-base-100 data-checked:before:[box-shadow:0_0_0_4px_currentColor_inset] aria-checked:before:[border-color:currentcolor] aria-checked:before:bg-base-100 aria-checked:before:[box-shadow:0_0_0_4px_currentColor_inset] data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-disabled:cursor-not-allowed group-data-disabled:opacity-20 focus-visible:before:outline-2 focus-visible:before:outline-current focus-visible:before:outline-offset-2 [.d-radio-xs_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-radio-xs_&]:before:p-0.5 [.d-radio-sm_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-radio-sm_&]:before:p-[0.1875rem] [.d-radio-md_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-radio-md_&]:before:p-1 [.d-radio-lg_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-radio-lg_&]:before:p-[0.3125rem] [.d-radio-xl_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*8)] [.d-radio-xl_&]:before:p-1.5"
         id={"daisyui-radio-group-#{size}"}
         name={"plan_#{size}"}
         value="team"
         orientation="horizontal"
-        class={"d-radio-#{size}"}
+        class={[
+          "group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4",
+          "d-radio-#{size}"
+        ]}
       >
         <:option value="solo">Solo</:option>
         <:option value="team">{size}</:option>
@@ -10804,11 +10878,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-col gap-2">
       <.radio_group
         :for={color <- @colors}
+        item_class="inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none before:content-[''] before:relative before:inline-block before:shrink-0 before:cursor-pointer before:appearance-none before:rounded-full before:p-1 before:align-middle before:[border:var(--border)_solid_var(--input-color,color-mix(in_srgb,currentColor_20%,#0000))] before:[box-shadow:0_1px_oklch(0%_0_0/calc(var(--depth)*0.1))_inset] before:[--d-size:calc(var(--size-selector,0.25rem)*6)] before:w-[var(--d-size)] before:h-[var(--d-size)] before:[color:var(--input-color,currentColor)] data-checked:before:[border-color:currentcolor] data-checked:before:bg-base-100 data-checked:before:[box-shadow:0_0_0_4px_currentColor_inset] aria-checked:before:[border-color:currentcolor] aria-checked:before:bg-base-100 aria-checked:before:[box-shadow:0_0_0_4px_currentColor_inset] data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-disabled:cursor-not-allowed group-data-disabled:opacity-20 focus-visible:before:outline-2 focus-visible:before:outline-current focus-visible:before:outline-offset-2 [.d-radio-xs_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-radio-xs_&]:before:p-0.5 [.d-radio-sm_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-radio-sm_&]:before:p-[0.1875rem] [.d-radio-md_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-radio-md_&]:before:p-1 [.d-radio-lg_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-radio-lg_&]:before:p-[0.3125rem] [.d-radio-xl_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*8)] [.d-radio-xl_&]:before:p-1.5"
         id={"daisyui-radio-group-#{color}"}
         name={"plan_#{color}"}
         value="on"
         orientation="horizontal"
-        class={"text-#{color}"}
+        class={[
+          "group flex flex-col gap-2 data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4",
+          "text-#{color}"
+        ]}
       >
         <:option value="on">{color}</:option>
         <:option value="off">off</:option>
@@ -10820,12 +10898,25 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "radio-group-disabled"} = assigns) do
     ~H"""
     <div class="flex flex-col gap-4">
-      <.radio_group id="daisyui-radio-group-disabled" name="plan_off" value="team" disabled>
+      <.radio_group
+        item_class="inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none before:content-[''] before:relative before:inline-block before:shrink-0 before:cursor-pointer before:appearance-none before:rounded-full before:p-1 before:align-middle before:[border:var(--border)_solid_var(--input-color,color-mix(in_srgb,currentColor_20%,#0000))] before:[box-shadow:0_1px_oklch(0%_0_0/calc(var(--depth)*0.1))_inset] before:[--d-size:calc(var(--size-selector,0.25rem)*6)] before:w-[var(--d-size)] before:h-[var(--d-size)] before:[color:var(--input-color,currentColor)] data-checked:before:[border-color:currentcolor] data-checked:before:bg-base-100 data-checked:before:[box-shadow:0_0_0_4px_currentColor_inset] aria-checked:before:[border-color:currentcolor] aria-checked:before:bg-base-100 aria-checked:before:[box-shadow:0_0_0_4px_currentColor_inset] data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-disabled:cursor-not-allowed group-data-disabled:opacity-20 focus-visible:before:outline-2 focus-visible:before:outline-current focus-visible:before:outline-offset-2 [.d-radio-xs_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-radio-xs_&]:before:p-0.5 [.d-radio-sm_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-radio-sm_&]:before:p-[0.1875rem] [.d-radio-md_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-radio-md_&]:before:p-1 [.d-radio-lg_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-radio-lg_&]:before:p-[0.3125rem] [.d-radio-xl_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*8)] [.d-radio-xl_&]:before:p-1.5"
+        class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4"
+        id="daisyui-radio-group-disabled"
+        name="plan_off"
+        value="team"
+        disabled
+      >
         <:option value="solo">Solo</:option>
         <:option value="team">Team</:option>
       </.radio_group>
 
-      <.radio_group id="daisyui-radio-group-one-off" name="plan_one" value="solo">
+      <.radio_group
+        item_class="inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none before:content-[''] before:relative before:inline-block before:shrink-0 before:cursor-pointer before:appearance-none before:rounded-full before:p-1 before:align-middle before:[border:var(--border)_solid_var(--input-color,color-mix(in_srgb,currentColor_20%,#0000))] before:[box-shadow:0_1px_oklch(0%_0_0/calc(var(--depth)*0.1))_inset] before:[--d-size:calc(var(--size-selector,0.25rem)*6)] before:w-[var(--d-size)] before:h-[var(--d-size)] before:[color:var(--input-color,currentColor)] data-checked:before:[border-color:currentcolor] data-checked:before:bg-base-100 data-checked:before:[box-shadow:0_0_0_4px_currentColor_inset] aria-checked:before:[border-color:currentcolor] aria-checked:before:bg-base-100 aria-checked:before:[box-shadow:0_0_0_4px_currentColor_inset] data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-disabled:cursor-not-allowed group-data-disabled:opacity-20 focus-visible:before:outline-2 focus-visible:before:outline-current focus-visible:before:outline-offset-2 [.d-radio-xs_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-radio-xs_&]:before:p-0.5 [.d-radio-sm_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-radio-sm_&]:before:p-[0.1875rem] [.d-radio-md_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-radio-md_&]:before:p-1 [.d-radio-lg_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-radio-lg_&]:before:p-[0.3125rem] [.d-radio-xl_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*8)] [.d-radio-xl_&]:before:p-1.5"
+        class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4"
+        id="daisyui-radio-group-one-off"
+        name="plan_one"
+        value="solo"
+      >
         <:option value="solo">Solo</:option>
         <:option value="team" disabled>Team (sold out)</:option>
         <:option value="enterprise">Enterprise</:option>
@@ -10836,7 +10927,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "radio-group-readonly"} = assigns) do
     ~H"""
-    <.radio_group id="daisyui-radio-group-readonly" name="plan_ro" value="team" readonly>
+    <.radio_group
+      item_class="inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none before:content-[''] before:relative before:inline-block before:shrink-0 before:cursor-pointer before:appearance-none before:rounded-full before:p-1 before:align-middle before:[border:var(--border)_solid_var(--input-color,color-mix(in_srgb,currentColor_20%,#0000))] before:[box-shadow:0_1px_oklch(0%_0_0/calc(var(--depth)*0.1))_inset] before:[--d-size:calc(var(--size-selector,0.25rem)*6)] before:w-[var(--d-size)] before:h-[var(--d-size)] before:[color:var(--input-color,currentColor)] data-checked:before:[border-color:currentcolor] data-checked:before:bg-base-100 data-checked:before:[box-shadow:0_0_0_4px_currentColor_inset] aria-checked:before:[border-color:currentcolor] aria-checked:before:bg-base-100 aria-checked:before:[box-shadow:0_0_0_4px_currentColor_inset] data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-disabled:cursor-not-allowed group-data-disabled:opacity-20 focus-visible:before:outline-2 focus-visible:before:outline-current focus-visible:before:outline-offset-2 [.d-radio-xs_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-radio-xs_&]:before:p-0.5 [.d-radio-sm_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-radio-sm_&]:before:p-[0.1875rem] [.d-radio-md_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-radio-md_&]:before:p-1 [.d-radio-lg_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-radio-lg_&]:before:p-[0.3125rem] [.d-radio-xl_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*8)] [.d-radio-xl_&]:before:p-1.5"
+      class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4"
+      id="daisyui-radio-group-readonly"
+      name="plan_ro"
+      value="team"
+      readonly
+    >
       <:option value="solo">Solo</:option>
       <:option value="team">Team</:option>
       <:option value="enterprise">Enterprise</:option>
@@ -10852,7 +10950,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       phx-submit="daisyui_radio_group_submit"
       class="flex flex-col items-start gap-3"
     >
-      <.radio_group id="daisyui-radio-group-form" name="plan_form" value="team">
+      <.radio_group
+        item_class="inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none before:content-[''] before:relative before:inline-block before:shrink-0 before:cursor-pointer before:appearance-none before:rounded-full before:p-1 before:align-middle before:[border:var(--border)_solid_var(--input-color,color-mix(in_srgb,currentColor_20%,#0000))] before:[box-shadow:0_1px_oklch(0%_0_0/calc(var(--depth)*0.1))_inset] before:[--d-size:calc(var(--size-selector,0.25rem)*6)] before:w-[var(--d-size)] before:h-[var(--d-size)] before:[color:var(--input-color,currentColor)] data-checked:before:[border-color:currentcolor] data-checked:before:bg-base-100 data-checked:before:[box-shadow:0_0_0_4px_currentColor_inset] aria-checked:before:[border-color:currentcolor] aria-checked:before:bg-base-100 aria-checked:before:[box-shadow:0_0_0_4px_currentColor_inset] data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-disabled:cursor-not-allowed group-data-disabled:opacity-20 focus-visible:before:outline-2 focus-visible:before:outline-current focus-visible:before:outline-offset-2 [.d-radio-xs_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-radio-xs_&]:before:p-0.5 [.d-radio-sm_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-radio-sm_&]:before:p-[0.1875rem] [.d-radio-md_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-radio-md_&]:before:p-1 [.d-radio-lg_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-radio-lg_&]:before:p-[0.3125rem] [.d-radio-xl_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*8)] [.d-radio-xl_&]:before:p-1.5"
+        class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4"
+        id="daisyui-radio-group-form"
+        name="plan_form"
+        value="team"
+      >
         <:option value="solo">Solo</:option>
         <:option value="team">Team</:option>
         <:option value="enterprise">Enterprise</:option>

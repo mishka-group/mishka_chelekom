@@ -52,6 +52,10 @@ defmodule DevelopmentWeb.Components.Headless.Fab do
   attr :popup_class, :any, default: nil, doc: ~s|Extra classes for `data-part="popup"`|
   attr :action_class, :any, default: nil, doc: ~s|Extra classes for every `data-part="action"`|
 
+  attr :main_action_class, :any,
+    default: nil,
+    doc: ~s|Extra classes for `data-part="main-action"`, on top of `action_class`|
+
   attr :icon_class, :any,
     default: nil,
     doc: ~s|Extra classes for the trigger's `data-part="icon"`|
@@ -143,7 +147,7 @@ defmodule DevelopmentWeb.Components.Headless.Fab do
           action={main}
           part="main-action"
           index={-1}
-          class={@action_class}
+          class={[@action_class, @main_action_class]}
           action_icon_class={@action_icon_class}
           label_class={@label_class}
         />
