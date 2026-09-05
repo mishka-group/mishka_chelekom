@@ -215,7 +215,8 @@
     }
   }
 }
-/* <<< menu *//* >>> radio_group */
+/* <<< menu */
+/* >>> radio_group */
 @layer components {
   [data-skin=daisyui] {
     /* radio_group — daisyUI skin (each item paints `radio`, the group lays them out). */
@@ -303,90 +304,6 @@
   }
 }
 /* <<< radio_group */
-/* >>> drawer */
-@layer components {
-  [data-skin=daisyui] {
-    /* drawer — daisyUI skin.
-     *
-     * daisyUI's `drawer` is a CSS-only sidebar: a hidden checkbox, a `drawer-side` that slides via
-     * `translate`, and a label acting as the overlay. Ours is a real popup the Drawer engine positions
-     * and swipes, so this is daisyUI's `drawer-side` / `drawer-overlay` look written against our parts,
-     * keyed off the `data-side` and `data-open` the engine already sets.
-     */
-
-    .chelekom-drawer__trigger {
-      @apply d-btn;
-    }
-
-    .chelekom-drawer__backdrop {
-      background-color: oklch(0% 0 0 / 0.4);
-      transition: opacity 0.3s ease-out;
-    }
-
-    .chelekom-drawer__backdrop[data-starting-style],
-    .chelekom-drawer__backdrop[data-ending-style] {
-      opacity: 0;
-    }
-
-    .chelekom-drawer__popup {
-      display: flex;
-      flex-direction: column;
-      gap: calc(0.25rem * 3);
-      min-width: 18rem;
-      max-width: min(24rem, 90vw);
-      padding: calc(0.25rem * 6);
-      background-color: var(--color-base-100);
-      color: var(--color-base-content);
-      box-shadow: oklch(0% 0 0 / 0.25) 0 25px 50px -12px;
-    }
-
-    .chelekom-drawer__popup[data-side="bottom"],
-    .chelekom-drawer__popup[data-side="top"] {
-      max-width: none;
-      width: 100%;
-      max-height: 90vh;
-    }
-
-    .chelekom-drawer__popup[data-side="bottom"] {
-      border-start-start-radius: var(--radius-box);
-      border-start-end-radius: var(--radius-box);
-    }
-
-    .chelekom-drawer__popup[data-side="top"] {
-      border-end-start-radius: var(--radius-box);
-      border-end-end-radius: var(--radius-box);
-    }
-
-    .chelekom-drawer__handle {
-      align-self: center;
-      width: calc(0.25rem * 10);
-      height: calc(0.25rem * 1);
-      border-radius: calc(infinity * 1px);
-      background-color: color-mix(in oklab, var(--color-base-content) 20%, transparent);
-    }
-
-    .chelekom-drawer__title {
-      font-size: 1.125rem;
-      font-weight: 700;
-    }
-
-    .chelekom-drawer__description {
-      font-size: 0.875rem;
-      color: color-mix(in oklab, var(--color-base-content) 70%, transparent);
-    }
-
-    .chelekom-drawer__content {
-      flex: 1 1 auto;
-      overflow-y: auto;
-      font-size: 0.875rem;
-    }
-
-    .chelekom-drawer__footer {
-      @apply d-modal-action;
-    }
-  }
-}
-/* <<< drawer */
 /* >>> stepper */
 @layer components {
   [data-skin=daisyui] {
@@ -988,56 +905,7 @@
     }
   }
 }
-/* <<< countdown */
-
-/* >>> theme_controller */
-@layer components {
-  [data-skin=daisyui] {
-    /* theme_controller — daisyUI skin.
-     *
-     * daisyUI has no styling of its own here: `theme-controller` is a *mechanism*, not a look — its
-     * examples borrow `toggle`, `checkbox`, `swap`, `btn` and `dropdown` for the visible part. So this
-     * fragment lays the options out and leaves the control's appearance to whichever daisyUI class the
-     * caller puts on `input_class`, exactly as daisyUI's own page does.
-     *
-     * The one thing worth painting here is the selected state, because ours is a real attribute
-     * (`data-checked`) rather than a `:checked` pseudo-class that only reaches its own input.
-     */
-
-    .chelekom-theme-controller {
-      display: inline-flex;
-      align-items: center;
-      gap: calc(0.25rem * 2);
-      flex-wrap: wrap;
-    }
-
-    .chelekom-theme-controller__option {
-      cursor: pointer;
-    }
-
-    /* Our own row layout — but only when the caller has not put a daisyUI layout class on the option.
-     * `toggle` and `swap` are grids that place their children into counted columns, so an inline-flex
-     * with a gap of its own competes for the display property and, worse, eats the space the grid was
-     * going to give the glyphs: a 40px toggle came out with 8px icons instead of 16px. */
-    .chelekom-theme-controller__option:not(:is(.d-toggle, .d-swap)) {
-      display: inline-flex;
-      align-items: center;
-      gap: calc(0.25rem * 2);
-    }
-
-    .chelekom-theme-controller__label {
-      user-select: none;
-    }
-
-    /* An option rendered as a button (`input_class="sr-only"`, label styled as a `btn`) needs the
-     * chosen one to stand out; daisyUI's active treatment is what marks it. */
-    .chelekom-theme-controller__option[data-checked] .chelekom-theme-controller__label:is(.d-btn) {
-      @apply d-btn-active;
-    }
-  }
-}
-/* <<< theme_controller */
-/* >>> table */
+/* <<< countdown *//* >>> table */
 @layer components {
   [data-skin=daisyui] {
     /* table — daisyUI skin.
@@ -1137,106 +1005,6 @@
   }
 }
 /* <<< table */
-
-/* >>> carousel */
-@layer components {
-  [data-skin=daisyui] {
-    /* carousel — daisyUI skin.
-     *
-     * daisyUI's carousel is `carousel` on the scroll container and `carousel-item` on the children,
-     * with `carousel-start/center/end` choosing the snap alignment and `carousel-vertical` the axis.
-     * Ours has a root *around* the scroller — it needs somewhere to hang the controls and the
-     * indicators — so `carousel` goes on the viewport rather than the root, and the snap alignment is
-     * read from `data-snap` on the root instead of from a class the caller has to remember.
-     */
-
-    .chelekom-carousel {
-      display: flex;
-      flex-direction: column;
-      gap: calc(0.25rem * 2);
-      max-width: 100%;
-    }
-
-    .chelekom-carousel__viewport {
-      @apply d-carousel;
-
-      max-width: 100%;
-    }
-
-    .chelekom-carousel__viewport:focus-visible {
-      outline: 2px solid currentcolor;
-      outline-offset: 2px;
-    }
-
-    .chelekom-carousel[data-orientation="vertical"] .chelekom-carousel__viewport {
-      @apply d-carousel-vertical;
-    }
-
-    .chelekom-carousel__slide {
-      @apply d-carousel-item;
-    }
-
-    /* daisyUI puts the alignment on the container as a class; the component already knows it, so the
-     * skin reads the attribute and the caller does not have to repeat themselves. */
-    .chelekom-carousel[data-snap="start"] .chelekom-carousel__slide {
-      scroll-snap-align: start;
-    }
-
-    .chelekom-carousel[data-snap="center"] .chelekom-carousel__slide {
-      scroll-snap-align: center;
-    }
-
-    .chelekom-carousel[data-snap="end"] .chelekom-carousel__slide {
-      scroll-snap-align: end;
-    }
-
-    .chelekom-carousel[data-snap="none"] .chelekom-carousel__viewport {
-      scroll-snap-type: none;
-    }
-
-    .chelekom-carousel__controls {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: calc(0.25rem * 2);
-    }
-
-    .chelekom-carousel__control {
-      @apply d-btn d-btn-circle d-btn-sm;
-    }
-
-    .chelekom-carousel__indicators {
-      display: flex;
-      align-items: center;
-      gap: calc(0.25rem * 1);
-    }
-
-    /* daisyUI's own indicator example uses `btn btn-xs`; a dot reads better at this size and still
-     * meets the 24px target once the padding is counted. */
-    .chelekom-carousel__indicator {
-      width: calc(0.25rem * 2);
-      height: calc(0.25rem * 2);
-      padding: calc(0.25rem * 2);
-      box-sizing: content-box;
-      border-radius: calc(infinity * 1px);
-      background-clip: content-box;
-      background-color: color-mix(in oklab, var(--color-base-content) 25%, transparent);
-      cursor: pointer;
-      transition: background-color 0.2s ease-out;
-    }
-
-    .chelekom-carousel__indicator[data-current] {
-      background-color: var(--color-base-content);
-    }
-
-    .chelekom-carousel__indicator:focus-visible {
-      outline: 2px solid currentcolor;
-      outline-offset: -2px;
-    }
-  }
-}
-/* <<< carousel */
-
 /* >>> calendar */
 @layer components {
   [data-skin=daisyui] {

@@ -2882,7 +2882,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── drawer ────────────────────────────────────────────────────────────────
   def example(%{section: "drawer-hero"} = assigns) do
     ~H"""
-    <.drawer id="daisyui-drawer-hero">
+    <.drawer
+      footer_class="d-modal-action"
+      content_class="flex-auto overflow-y-auto text-[0.875rem]"
+      description_class="text-[0.875rem] [color:color-mix(in_oklab,var(--color-base-content)_70%,transparent)]"
+      title_class="text-[1.125rem] font-bold"
+      handle_class="self-center w-10 h-1 rounded-[calc(infinity*1px)] bg-base-content/20"
+      popup_class="flex flex-col gap-3 min-w-72 max-w-[min(24rem,90vw)] p-6 bg-base-100 text-base-content [box-shadow:oklch(0%_0_0/0.25)_0_25px_50px_-12px] data-[side=bottom]:max-w-none data-[side=bottom]:w-full data-[side=bottom]:max-h-[90vh] data-[side=top]:max-w-none data-[side=top]:w-full data-[side=top]:max-h-[90vh] data-[side=bottom]:rounded-ss-[var(--radius-box)] data-[side=bottom]:rounded-se-[var(--radius-box)] data-[side=top]:rounded-es-[var(--radius-box)] data-[side=top]:rounded-ee-[var(--radius-box)]"
+      backdrop_class="bg-[oklch(0%_0_0/0.4)] [transition:opacity_0.3s_ease-out] data-starting-style:opacity-0 data-ending-style:opacity-0"
+      trigger_class="d-btn"
+      id="daisyui-drawer-hero"
+    >
       <:trigger>Open drawer</:trigger>
       <:title>Navigation</:title>
       <:description>The overlay closes it, and so does Escape.</:description>
@@ -2897,7 +2907,19 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "drawer-sides"} = assigns) do
     ~H"""
     <div class="flex flex-wrap gap-3">
-      <.drawer :for={side <- ~w(left right top bottom)} id={"daisyui-drawer-#{side}"} side={side}>
+      <.drawer
+        :for={side <- ~w(left right top bottom)}
+        footer_class="d-modal-action"
+        content_class="flex-auto overflow-y-auto text-[0.875rem]"
+        description_class="text-[0.875rem] [color:color-mix(in_oklab,var(--color-base-content)_70%,transparent)]"
+        title_class="text-[1.125rem] font-bold"
+        handle_class="self-center w-10 h-1 rounded-[calc(infinity*1px)] bg-base-content/20"
+        popup_class="flex flex-col gap-3 min-w-72 max-w-[min(24rem,90vw)] p-6 bg-base-100 text-base-content [box-shadow:oklch(0%_0_0/0.25)_0_25px_50px_-12px] data-[side=bottom]:max-w-none data-[side=bottom]:w-full data-[side=bottom]:max-h-[90vh] data-[side=top]:max-w-none data-[side=top]:w-full data-[side=top]:max-h-[90vh] data-[side=bottom]:rounded-ss-[var(--radius-box)] data-[side=bottom]:rounded-se-[var(--radius-box)] data-[side=top]:rounded-es-[var(--radius-box)] data-[side=top]:rounded-ee-[var(--radius-box)]"
+        backdrop_class="bg-[oklch(0%_0_0/0.4)] [transition:opacity_0.3s_ease-out] data-starting-style:opacity-0 data-ending-style:opacity-0"
+        trigger_class="d-btn"
+        id={"daisyui-drawer-#{side}"}
+        side={side}
+      >
         <:trigger>{side}</:trigger>
         <:title>{side} drawer</:title>
         <p>Opened from the {side}.</p>
@@ -2911,7 +2933,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "drawer-handle"} = assigns) do
     ~H"""
-    <.drawer id="daisyui-drawer-handle" side="bottom">
+    <.drawer
+      footer_class="d-modal-action"
+      content_class="flex-auto overflow-y-auto text-[0.875rem]"
+      description_class="text-[0.875rem] [color:color-mix(in_oklab,var(--color-base-content)_70%,transparent)]"
+      title_class="text-[1.125rem] font-bold"
+      handle_class="self-center w-10 h-1 rounded-[calc(infinity*1px)] bg-base-content/20"
+      popup_class="flex flex-col gap-3 min-w-72 max-w-[min(24rem,90vw)] p-6 bg-base-100 text-base-content [box-shadow:oklch(0%_0_0/0.25)_0_25px_50px_-12px] data-[side=bottom]:max-w-none data-[side=bottom]:w-full data-[side=bottom]:max-h-[90vh] data-[side=top]:max-w-none data-[side=top]:w-full data-[side=top]:max-h-[90vh] data-[side=bottom]:rounded-ss-[var(--radius-box)] data-[side=bottom]:rounded-se-[var(--radius-box)] data-[side=top]:rounded-es-[var(--radius-box)] data-[side=top]:rounded-ee-[var(--radius-box)]"
+      backdrop_class="bg-[oklch(0%_0_0/0.4)] [transition:opacity_0.3s_ease-out] data-starting-style:opacity-0 data-ending-style:opacity-0"
+      trigger_class="d-btn"
+      id="daisyui-drawer-handle"
+      side="bottom"
+    >
       <:trigger>Open bottom sheet</:trigger>
       <:handle></:handle>
       <:title>Bottom sheet</:title>
@@ -2923,7 +2956,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "drawer-non-dismissible"} = assigns) do
     ~H"""
-    <.drawer id="daisyui-drawer-sticky" dismissible={false}>
+    <.drawer
+      footer_class="d-modal-action"
+      content_class="flex-auto overflow-y-auto text-[0.875rem]"
+      description_class="text-[0.875rem] [color:color-mix(in_oklab,var(--color-base-content)_70%,transparent)]"
+      title_class="text-[1.125rem] font-bold"
+      handle_class="self-center w-10 h-1 rounded-[calc(infinity*1px)] bg-base-content/20"
+      popup_class="flex flex-col gap-3 min-w-72 max-w-[min(24rem,90vw)] p-6 bg-base-100 text-base-content [box-shadow:oklch(0%_0_0/0.25)_0_25px_50px_-12px] data-[side=bottom]:max-w-none data-[side=bottom]:w-full data-[side=bottom]:max-h-[90vh] data-[side=top]:max-w-none data-[side=top]:w-full data-[side=top]:max-h-[90vh] data-[side=bottom]:rounded-ss-[var(--radius-box)] data-[side=bottom]:rounded-se-[var(--radius-box)] data-[side=top]:rounded-es-[var(--radius-box)] data-[side=top]:rounded-ee-[var(--radius-box)]"
+      backdrop_class="bg-[oklch(0%_0_0/0.4)] [transition:opacity_0.3s_ease-out] data-starting-style:opacity-0 data-ending-style:opacity-0"
+      trigger_class="d-btn"
+      id="daisyui-drawer-sticky"
+      dismissible={false}
+    >
       <:trigger>Open sticky drawer</:trigger>
       <:title>Finish this first</:title>
       <:description>Clicking the overlay will not close this one.</:description>
@@ -5455,7 +5499,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── carousel ──────────────────────────────────────────────────────────────
   def example(%{section: "carousel-hero"} = assigns) do
     ~H"""
-    <.carousel id="daisyui-carousel-hero" label="Photos" class="w-80">
+    <.carousel
+      indicator_class="w-2 h-2 p-2 [box-sizing:content-box] rounded-[calc(infinity*1px)] [background-clip:content-box] bg-base-content/25 cursor-pointer [transition:background-color_0.2s_ease-out] data-current:bg-base-content focus-visible:outline-2 focus-visible:outline-current focus-visible:-outline-offset-2"
+      indicators_class="flex items-center gap-1"
+      control_class="d-btn d-btn-circle d-btn-sm"
+      controls_class="flex items-center justify-center gap-2"
+      slide_class="d-carousel-item group-data-[snap=start]:[scroll-snap-align:start] group-data-[snap=center]:[scroll-snap-align:center] group-data-[snap=end]:[scroll-snap-align:end]"
+      viewport_class="d-carousel max-w-full focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2 group-data-[orientation=vertical]:d-carousel-vertical group-data-[snap=none]:[scroll-snap-type:none]"
+      id="daisyui-carousel-hero"
+      label="Photos"
+      class="group flex flex-col gap-2 max-w-full w-80"
+    >
       <:slide :for={n <- 1..5} class="w-48"><.carousel_slide n={n} /></:slide>
     </.carousel>
     """
@@ -5463,7 +5517,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "carousel-center"} = assigns) do
     ~H"""
-    <.carousel id="daisyui-carousel-center" label="Photos" snap="center" class="w-80">
+    <.carousel
+      indicator_class="w-2 h-2 p-2 [box-sizing:content-box] rounded-[calc(infinity*1px)] [background-clip:content-box] bg-base-content/25 cursor-pointer [transition:background-color_0.2s_ease-out] data-current:bg-base-content focus-visible:outline-2 focus-visible:outline-current focus-visible:-outline-offset-2"
+      indicators_class="flex items-center gap-1"
+      control_class="d-btn d-btn-circle d-btn-sm"
+      controls_class="flex items-center justify-center gap-2"
+      slide_class="d-carousel-item group-data-[snap=start]:[scroll-snap-align:start] group-data-[snap=center]:[scroll-snap-align:center] group-data-[snap=end]:[scroll-snap-align:end]"
+      viewport_class="d-carousel max-w-full focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2 group-data-[orientation=vertical]:d-carousel-vertical group-data-[snap=none]:[scroll-snap-type:none]"
+      id="daisyui-carousel-center"
+      label="Photos"
+      snap="center"
+      class="group flex flex-col gap-2 max-w-full w-80"
+    >
       <:slide :for={n <- 1..5} class="w-48"><.carousel_slide n={n} /></:slide>
     </.carousel>
     """
@@ -5471,7 +5536,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "carousel-end"} = assigns) do
     ~H"""
-    <.carousel id="daisyui-carousel-end" label="Photos" snap="end" class="w-80">
+    <.carousel
+      indicator_class="w-2 h-2 p-2 [box-sizing:content-box] rounded-[calc(infinity*1px)] [background-clip:content-box] bg-base-content/25 cursor-pointer [transition:background-color_0.2s_ease-out] data-current:bg-base-content focus-visible:outline-2 focus-visible:outline-current focus-visible:-outline-offset-2"
+      indicators_class="flex items-center gap-1"
+      control_class="d-btn d-btn-circle d-btn-sm"
+      controls_class="flex items-center justify-center gap-2"
+      slide_class="d-carousel-item group-data-[snap=start]:[scroll-snap-align:start] group-data-[snap=center]:[scroll-snap-align:center] group-data-[snap=end]:[scroll-snap-align:end]"
+      viewport_class="d-carousel max-w-full focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2 group-data-[orientation=vertical]:d-carousel-vertical group-data-[snap=none]:[scroll-snap-type:none]"
+      id="daisyui-carousel-end"
+      label="Photos"
+      snap="end"
+      class="group flex flex-col gap-2 max-w-full w-80"
+    >
       <:slide :for={n <- 1..5} class="w-48"><.carousel_slide n={n} /></:slide>
     </.carousel>
     """
@@ -5479,7 +5555,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "carousel-full"} = assigns) do
     ~H"""
-    <.carousel id="daisyui-carousel-full" label="Photos" class="w-80">
+    <.carousel
+      indicator_class="w-2 h-2 p-2 [box-sizing:content-box] rounded-[calc(infinity*1px)] [background-clip:content-box] bg-base-content/25 cursor-pointer [transition:background-color_0.2s_ease-out] data-current:bg-base-content focus-visible:outline-2 focus-visible:outline-current focus-visible:-outline-offset-2"
+      indicators_class="flex items-center gap-1"
+      control_class="d-btn d-btn-circle d-btn-sm"
+      controls_class="flex items-center justify-center gap-2"
+      slide_class="d-carousel-item group-data-[snap=start]:[scroll-snap-align:start] group-data-[snap=center]:[scroll-snap-align:center] group-data-[snap=end]:[scroll-snap-align:end]"
+      viewport_class="d-carousel max-w-full focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2 group-data-[orientation=vertical]:d-carousel-vertical group-data-[snap=none]:[scroll-snap-type:none]"
+      id="daisyui-carousel-full"
+      label="Photos"
+      class="group flex flex-col gap-2 max-w-full w-80"
+    >
       <:slide :for={n <- 1..4} class="w-full"><.carousel_slide n={n} /></:slide>
     </.carousel>
     """
@@ -5488,11 +5574,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "carousel-vertical"} = assigns) do
     ~H"""
     <.carousel
+      indicator_class="w-2 h-2 p-2 [box-sizing:content-box] rounded-[calc(infinity*1px)] [background-clip:content-box] bg-base-content/25 cursor-pointer [transition:background-color_0.2s_ease-out] data-current:bg-base-content focus-visible:outline-2 focus-visible:outline-current focus-visible:-outline-offset-2"
+      indicators_class="flex items-center gap-1"
+      control_class="d-btn d-btn-circle d-btn-sm"
+      controls_class="flex items-center justify-center gap-2"
+      slide_class="d-carousel-item group-data-[snap=start]:[scroll-snap-align:start] group-data-[snap=center]:[scroll-snap-align:center] group-data-[snap=end]:[scroll-snap-align:end]"
       id="daisyui-carousel-vertical"
       label="Photos"
       orientation="vertical"
-      class="w-64"
-      viewport_class="h-64"
+      class="group flex flex-col gap-2 max-w-full w-64"
+      viewport_class="d-carousel max-w-full focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2 group-data-[orientation=vertical]:d-carousel-vertical group-data-[snap=none]:[scroll-snap-type:none] h-64"
     >
       <:slide :for={n <- 1..4} class="h-64"><.carousel_slide n={n} /></:slide>
     </.carousel>
@@ -5501,7 +5592,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "carousel-half"} = assigns) do
     ~H"""
-    <.carousel id="daisyui-carousel-half" label="Photos" class="w-80">
+    <.carousel
+      indicator_class="w-2 h-2 p-2 [box-sizing:content-box] rounded-[calc(infinity*1px)] [background-clip:content-box] bg-base-content/25 cursor-pointer [transition:background-color_0.2s_ease-out] data-current:bg-base-content focus-visible:outline-2 focus-visible:outline-current focus-visible:-outline-offset-2"
+      indicators_class="flex items-center gap-1"
+      control_class="d-btn d-btn-circle d-btn-sm"
+      controls_class="flex items-center justify-center gap-2"
+      slide_class="d-carousel-item group-data-[snap=start]:[scroll-snap-align:start] group-data-[snap=center]:[scroll-snap-align:center] group-data-[snap=end]:[scroll-snap-align:end]"
+      viewport_class="d-carousel max-w-full focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2 group-data-[orientation=vertical]:d-carousel-vertical group-data-[snap=none]:[scroll-snap-type:none]"
+      id="daisyui-carousel-half"
+      label="Photos"
+      class="group flex flex-col gap-2 max-w-full w-80"
+    >
       <:slide :for={n <- 1..6} class="w-1/2"><.carousel_slide n={n} /></:slide>
     </.carousel>
     """
@@ -5510,10 +5611,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "carousel-full-bleed"} = assigns) do
     ~H"""
     <.carousel
+      indicator_class="w-2 h-2 p-2 [box-sizing:content-box] rounded-[calc(infinity*1px)] [background-clip:content-box] bg-base-content/25 cursor-pointer [transition:background-color_0.2s_ease-out] data-current:bg-base-content focus-visible:outline-2 focus-visible:outline-current focus-visible:-outline-offset-2"
+      indicators_class="flex items-center gap-1"
+      control_class="d-btn d-btn-circle d-btn-sm"
+      controls_class="flex items-center justify-center gap-2"
+      slide_class="d-carousel-item group-data-[snap=start]:[scroll-snap-align:start] group-data-[snap=center]:[scroll-snap-align:center] group-data-[snap=end]:[scroll-snap-align:end]"
+      viewport_class="d-carousel max-w-full focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2 group-data-[orientation=vertical]:d-carousel-vertical group-data-[snap=none]:[scroll-snap-type:none]"
       id="daisyui-carousel-full-bleed"
       label="Photos"
       snap="center"
-      class="max-w-md space-x-4 rounded-box bg-neutral p-4"
+      class="group flex flex-col gap-2 max-w-full max-w-md space-x-4 rounded-box bg-neutral p-4"
     >
       <:slide :for={n <- 1..5} class="w-48"><.carousel_slide n={n} /></:slide>
     </.carousel>
@@ -5522,7 +5629,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "carousel-indicators"} = assigns) do
     ~H"""
-    <.carousel id="daisyui-carousel-indicators" label="Photos" class="w-80" show_indicators>
+    <.carousel
+      indicator_class="w-2 h-2 p-2 [box-sizing:content-box] rounded-[calc(infinity*1px)] [background-clip:content-box] bg-base-content/25 cursor-pointer [transition:background-color_0.2s_ease-out] data-current:bg-base-content focus-visible:outline-2 focus-visible:outline-current focus-visible:-outline-offset-2"
+      indicators_class="flex items-center gap-1"
+      control_class="d-btn d-btn-circle d-btn-sm"
+      controls_class="flex items-center justify-center gap-2"
+      slide_class="d-carousel-item group-data-[snap=start]:[scroll-snap-align:start] group-data-[snap=center]:[scroll-snap-align:center] group-data-[snap=end]:[scroll-snap-align:end]"
+      viewport_class="d-carousel max-w-full focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2 group-data-[orientation=vertical]:d-carousel-vertical group-data-[snap=none]:[scroll-snap-type:none]"
+      id="daisyui-carousel-indicators"
+      label="Photos"
+      class="group flex flex-col gap-2 max-w-full w-80"
+      show_indicators
+    >
       <:slide :for={n <- 1..4} class="w-full"><.carousel_slide n={n} /></:slide>
     </.carousel>
     """
@@ -5531,9 +5649,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "carousel-controls"} = assigns) do
     ~H"""
     <.carousel
+      indicator_class="w-2 h-2 p-2 [box-sizing:content-box] rounded-[calc(infinity*1px)] [background-clip:content-box] bg-base-content/25 cursor-pointer [transition:background-color_0.2s_ease-out] data-current:bg-base-content focus-visible:outline-2 focus-visible:outline-current focus-visible:-outline-offset-2"
+      indicators_class="flex items-center gap-1"
+      control_class="d-btn d-btn-circle d-btn-sm"
+      controls_class="flex items-center justify-center gap-2"
+      slide_class="d-carousel-item group-data-[snap=start]:[scroll-snap-align:start] group-data-[snap=center]:[scroll-snap-align:center] group-data-[snap=end]:[scroll-snap-align:end]"
+      viewport_class="d-carousel max-w-full focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2 group-data-[orientation=vertical]:d-carousel-vertical group-data-[snap=none]:[scroll-snap-type:none]"
       id="daisyui-carousel-controls"
       label="Photos"
-      class="w-80"
+      class="group flex flex-col gap-2 max-w-full w-80"
       show_controls
       show_indicators
     >
@@ -5545,9 +5669,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "carousel-autoplay"} = assigns) do
     ~H"""
     <.carousel
+      indicator_class="w-2 h-2 p-2 [box-sizing:content-box] rounded-[calc(infinity*1px)] [background-clip:content-box] bg-base-content/25 cursor-pointer [transition:background-color_0.2s_ease-out] data-current:bg-base-content focus-visible:outline-2 focus-visible:outline-current focus-visible:-outline-offset-2"
+      indicators_class="flex items-center gap-1"
+      control_class="d-btn d-btn-circle d-btn-sm"
+      controls_class="flex items-center justify-center gap-2"
+      slide_class="d-carousel-item group-data-[snap=start]:[scroll-snap-align:start] group-data-[snap=center]:[scroll-snap-align:center] group-data-[snap=end]:[scroll-snap-align:end]"
+      viewport_class="d-carousel max-w-full focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2 group-data-[orientation=vertical]:d-carousel-vertical group-data-[snap=none]:[scroll-snap-type:none]"
       id="daisyui-carousel-autoplay"
       label="Photos"
-      class="w-80"
+      class="group flex flex-col gap-2 max-w-full w-80"
       autoplay={2500}
       loop
       show_indicators
@@ -5560,9 +5690,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "carousel-live"} = assigns) do
     ~H"""
     <.carousel
+      indicator_class="w-2 h-2 p-2 [box-sizing:content-box] rounded-[calc(infinity*1px)] [background-clip:content-box] bg-base-content/25 cursor-pointer [transition:background-color_0.2s_ease-out] data-current:bg-base-content focus-visible:outline-2 focus-visible:outline-current focus-visible:-outline-offset-2"
+      indicators_class="flex items-center gap-1"
+      control_class="d-btn d-btn-circle d-btn-sm"
+      controls_class="flex items-center justify-center gap-2"
+      slide_class="d-carousel-item group-data-[snap=start]:[scroll-snap-align:start] group-data-[snap=center]:[scroll-snap-align:center] group-data-[snap=end]:[scroll-snap-align:end]"
+      viewport_class="d-carousel max-w-full focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2 group-data-[orientation=vertical]:d-carousel-vertical group-data-[snap=none]:[scroll-snap-type:none]"
       id="daisyui-carousel-live"
       label="Photos"
-      class="w-80"
+      class="group flex flex-col gap-2 max-w-full w-80"
       show_controls
       on_change="daisyui_carousel_change"
     >
@@ -5957,6 +6093,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.theme_preview id="daisyui-theme-hero-box">
       <.theme_controller
+        label_class="select-none group-data-[checked]/option:[&.d-btn]:d-btn-active"
+        option_class="group/option cursor-pointer not-[:is(.d-toggle,.d-swap,.d-btn)]:inline-flex not-[:is(.d-toggle,.d-swap,.d-btn)]:items-center not-[:is(.d-toggle,.d-swap,.d-btn)]:gap-2"
+        class="inline-flex items-center gap-2 flex-wrap"
         id="daisyui-theme-hero"
         target="#daisyui-theme-hero-box"
         value="light"
@@ -5974,6 +6113,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.theme_preview id="daisyui-theme-toggle-box">
       <.theme_controller
+        label_class="select-none group-data-[checked]/option:[&.d-btn]:d-btn-active"
+        option_class="group/option cursor-pointer not-[:is(.d-toggle,.d-swap,.d-btn)]:inline-flex not-[:is(.d-toggle,.d-swap,.d-btn)]:items-center not-[:is(.d-toggle,.d-swap,.d-btn)]:gap-2"
+        class="inline-flex items-center gap-2 flex-wrap"
         id="daisyui-theme-toggle"
         target="#daisyui-theme-toggle-box"
         value="light"
@@ -5991,6 +6133,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.theme_preview id="daisyui-theme-checkbox-box">
       <.theme_controller
+        label_class="select-none group-data-[checked]/option:[&.d-btn]:d-btn-active"
+        option_class="group/option cursor-pointer not-[:is(.d-toggle,.d-swap,.d-btn)]:inline-flex not-[:is(.d-toggle,.d-swap,.d-btn)]:items-center not-[:is(.d-toggle,.d-swap,.d-btn)]:gap-2"
+        class="inline-flex items-center gap-2 flex-wrap"
         id="daisyui-theme-checkbox"
         target="#daisyui-theme-checkbox-box"
         value="light"
@@ -6008,6 +6153,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.theme_preview id="daisyui-theme-text-box">
       <.theme_controller
+        label_class="select-none group-data-[checked]/option:[&.d-btn]:d-btn-active"
+        option_class="group/option cursor-pointer not-[:is(.d-toggle,.d-swap,.d-btn)]:inline-flex not-[:is(.d-toggle,.d-swap,.d-btn)]:items-center not-[:is(.d-toggle,.d-swap,.d-btn)]:gap-2"
+        class="inline-flex items-center gap-2 flex-wrap"
         id="daisyui-theme-text"
         target="#daisyui-theme-text-box"
         value="light"
@@ -6025,12 +6173,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.theme_preview id="daisyui-theme-swap-box">
       <.theme_controller
+        label_class="select-none group-data-[checked]/option:[&.d-btn]:d-btn-active"
+        class="inline-flex items-center gap-2 flex-wrap"
         id="daisyui-theme-swap"
         target="#daisyui-theme-swap-box"
         value="light"
         switch
         wrap_label={false}
-        option_class="d-swap d-swap-rotate"
+        option_class="group/option cursor-pointer not-[:is(.d-toggle,.d-swap,.d-btn)]:inline-flex not-[:is(.d-toggle,.d-swap,.d-btn)]:items-center not-[:is(.d-toggle,.d-swap,.d-btn)]:gap-2 d-swap d-swap-rotate"
       >
         <:option value="light" />
         <:option value="dark">
@@ -6046,12 +6196,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.theme_preview id="daisyui-theme-inside-box">
       <.theme_controller
+        label_class="select-none group-data-[checked]/option:[&.d-btn]:d-btn-active"
+        class="inline-flex items-center gap-2 flex-wrap"
         id="daisyui-theme-inside"
         target="#daisyui-theme-inside-box"
         value="light"
         switch
         wrap_label={false}
-        option_class="d-toggle text-base-content"
+        option_class="group/option cursor-pointer not-[:is(.d-toggle,.d-swap,.d-btn)]:inline-flex not-[:is(.d-toggle,.d-swap,.d-btn)]:items-center not-[:is(.d-toggle,.d-swap,.d-btn)]:gap-2 d-toggle text-base-content"
       >
         <:option value="light" />
         <:option value="dark">
@@ -6069,12 +6221,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <details class="d-dropdown">
         <summary class="d-btn m-1">Theme</summary>
         <.theme_controller
+          label_class="select-none group-data-[checked]/option:[&.d-btn]:d-btn-active"
           id="daisyui-theme-dropdown"
           target="#daisyui-theme-dropdown-box"
           value="light"
-          class="d-dropdown-content z-1 w-52 rounded-box bg-base-300 p-2 shadow-2xl"
+          class="inline-flex items-center gap-2 flex-wrap d-dropdown-content z-1 w-52 rounded-box bg-base-300 p-2 shadow-2xl"
           input_class="sr-only"
-          option_class="d-btn d-btn-sm d-btn-block d-btn-ghost justify-start"
+          option_class="group/option cursor-pointer not-[:is(.d-toggle,.d-swap,.d-btn)]:inline-flex not-[:is(.d-toggle,.d-swap,.d-btn)]:items-center not-[:is(.d-toggle,.d-swap,.d-btn)]:gap-2 d-btn d-btn-sm d-btn-block d-btn-ghost justify-start"
         >
           <:option value="light" label="Light" />
           <:option value="dark" label="Dark" />
@@ -6089,6 +6242,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.theme_preview id="daisyui-theme-icons-box">
       <.theme_controller
+        label_class="select-none group-data-[checked]/option:[&.d-btn]:d-btn-active"
+        option_class="group/option cursor-pointer not-[:is(.d-toggle,.d-swap,.d-btn)]:inline-flex not-[:is(.d-toggle,.d-swap,.d-btn)]:items-center not-[:is(.d-toggle,.d-swap,.d-btn)]:gap-2"
+        class="inline-flex items-center gap-2 flex-wrap"
         id="daisyui-theme-icons"
         target="#daisyui-theme-icons-box"
         value="light"
@@ -6108,6 +6264,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.theme_preview id="daisyui-theme-colors-box">
       <.theme_controller
+        label_class="select-none group-data-[checked]/option:[&.d-btn]:d-btn-active"
+        option_class="group/option cursor-pointer not-[:is(.d-toggle,.d-swap,.d-btn)]:inline-flex not-[:is(.d-toggle,.d-swap,.d-btn)]:items-center not-[:is(.d-toggle,.d-swap,.d-btn)]:gap-2"
+        class="inline-flex items-center gap-2 flex-wrap"
         id="daisyui-theme-colors"
         target="#daisyui-theme-colors-box"
         value="light"
@@ -6125,6 +6284,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.theme_preview id="daisyui-theme-radio-box">
       <.theme_controller
+        label_class="select-none group-data-[checked]/option:[&.d-btn]:d-btn-active"
+        option_class="group/option cursor-pointer not-[:is(.d-toggle,.d-swap,.d-btn)]:inline-flex not-[:is(.d-toggle,.d-swap,.d-btn)]:items-center not-[:is(.d-toggle,.d-swap,.d-btn)]:gap-2"
+        class="inline-flex items-center gap-2 flex-wrap"
         id="daisyui-theme-radio"
         target="#daisyui-theme-radio-box"
         value="light"
@@ -6143,11 +6305,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.theme_preview id="daisyui-theme-buttons-box">
       <.theme_controller
+        option_class="group/option cursor-pointer not-[:is(.d-toggle,.d-swap,.d-btn)]:inline-flex not-[:is(.d-toggle,.d-swap,.d-btn)]:items-center not-[:is(.d-toggle,.d-swap,.d-btn)]:gap-2"
+        class="inline-flex items-center gap-2 flex-wrap"
         id="daisyui-theme-buttons"
         target="#daisyui-theme-buttons-box"
         value="light"
         input_class="sr-only"
-        label_class="d-btn d-btn-sm"
+        label_class="select-none group-data-[checked]/option:[&.d-btn]:d-btn-active d-btn d-btn-sm"
       >
         <:option value="light">Light</:option>
         <:option value="dark">Dark</:option>
@@ -6161,6 +6325,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.theme_preview id="daisyui-theme-system-box">
       <.theme_controller
+        label_class="select-none group-data-[checked]/option:[&.d-btn]:d-btn-active"
+        option_class="group/option cursor-pointer not-[:is(.d-toggle,.d-swap,.d-btn)]:inline-flex not-[:is(.d-toggle,.d-swap,.d-btn)]:items-center not-[:is(.d-toggle,.d-swap,.d-btn)]:gap-2"
+        class="inline-flex items-center gap-2 flex-wrap"
         id="daisyui-theme-system"
         target="#daisyui-theme-system-box"
         value="system"
@@ -6178,6 +6345,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.theme_preview id="daisyui-theme-persist-box">
       <.theme_controller
+        label_class="select-none group-data-[checked]/option:[&.d-btn]:d-btn-active"
+        option_class="group/option cursor-pointer not-[:is(.d-toggle,.d-swap,.d-btn)]:inline-flex not-[:is(.d-toggle,.d-swap,.d-btn)]:items-center not-[:is(.d-toggle,.d-swap,.d-btn)]:gap-2"
+        class="inline-flex items-center gap-2 flex-wrap"
         id="daisyui-theme-persist"
         target="#daisyui-theme-persist-box"
         storage_key="chelekom-demo-theme"
