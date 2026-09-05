@@ -193,33 +193,38 @@ defmodule DevelopmentWeb.HeadlessClassPassthroughTest do
              Enum.map_join(dead, ", ", fn {n, _, a} -> "#{n}.#{a}" end)
   end
 
-  # The point of the exercise. Every part the daisyUI skin paints has to be reachable from markup,
-  # or a consumer who copies an example out of the gallery cannot restyle it without also taking
-  # the stylesheet. Reachability is a property of the element, not of the attribute list: a part
-  # rendered per slot entry is reached through that slot's own `class`, which no amount of
-  # metadata can map back to a part name. So read the elements.
-  test "every part the daisyUI skin paints sits in a class list that takes a value" do
-    css = File.read!("assets/vendor/mishka_chelekom_headless_daisyui.css")
+  # The point of the exercise. The daisyUI skin now ships no CSS at all — every rule was replaced
+  # by classes in the gallery's own markup — so the property that has to hold is the one that made
+  # that possible: every class name a component renders must sit in a class list that takes a
+  # value. A consumer who copies an example cannot restyle a part that hard-codes its class.
+  # Reachability is a property of the element, not of the attribute list: a part rendered per slot
+  # entry is reached through that slot's own `class`, which no metadata can map back to a part
+  # name. So read the elements.
+  test "the retired daisyUI skin leaves no stylesheet behind" do
+    refute File.exists?("assets/vendor/mishka_chelekom_headless_daisyui.css"),
+           "the skin was retired, but its stylesheet is still on disk"
+  end
 
-    painted =
-      ~r/\.chelekom-([a-z0-9_-]+)__([a-z0-9_-]+)/
-      |> Regex.scan(css)
-      |> Enum.map(fn [_, comp, part] -> {String.replace(comp, "-", "_"), part} end)
-      |> Enum.uniq()
-
-    refute painted == []
-
+  test "every class name a component renders sits in a class list that takes a value" do
     sources = Map.new(modules(), fn {name, _} -> {name, File.read!(source_path(name))} end)
 
+    # `chelekom-sr-only` is a visually-hidden helper, not a stylable part: letting a caller
+    # restyle it would let them reveal or break the screen-reader text.
+    named =
+      for {comp, src} <- sources,
+          [_, cls] <- Regex.scan(~r/"(chelekom-[a-z0-9_-]+(?:__[a-z0-9_-]+)?)"/, src),
+          cls != "chelekom-sr-only",
+          do: {comp, cls}
+
+    refute named == []
+
     unreachable =
-      for {comp, part} <- painted,
-          src = Map.get(sources, comp),
-          src != nil,
-          not reachable?(src, comp, part),
-          do: "  #{comp}: #{part}"
+      for {comp, cls} <- Enum.uniq(named),
+          not reachable_class?(Map.fetch!(sources, comp), cls),
+          do: "  #{comp}: #{cls}"
 
     assert unreachable == [],
-           "the skin paints these parts but nothing can add a class to them:\n" <>
+           "these class names are rendered but nothing can add a class to them:\n" <>
              Enum.join(unreachable, "\n")
   end
 
@@ -227,13 +232,11 @@ defmodule DevelopmentWeb.HeadlessClassPassthroughTest do
   # end; a list is open, and only counts if it actually interpolates something. Match the list
   # lazily — `item[:class]` puts a `]` inside it, so a character class cannot find the end. A slot
   # entry reaches its class three ways: `@root_class`, `item[:class]`, or `grp.class`.
-  defp reachable?(src, comp, part) do
-    names = Enum.map([comp, String.replace(comp, "_", "-")], &"chelekom-#{&1}__#{part}")
-
+  defp reachable_class?(src, cls) do
     ~r/class=\{\[(.*?)\]\}/s
     |> Regex.scan(src)
     |> Enum.any?(fn [_, body] ->
-      Enum.any?(names, &(body =~ ~r/"#{Regex.escape(&1)}(\s[^"]*)?"/)) and
+      body =~ ~r/"#{Regex.escape(cls)}(\s[^"]*)?"/ and
         body =~ ~r/@[a-z0-9_]+|\[:[a-z0-9_]+\]|[a-z0-9_]+\.[a-z0-9_]*class\b/
     end)
   end

@@ -26,9 +26,6 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless.Components do
   * `--module-prefix` - Prefix for module names
   * `--no-save` - Use prefixes without saving them to config
   * `--with-npm` - Also generate components that install npm packages (skipped by default)
-  * `--skin` - Also install a design-system skin for each component (e.g. `--skin daisyui`)
-  * `--skin-prefix` - The prefix the skin's Tailwind plugin is loaded with (e.g. `--skin-prefix d-`)
-  * `--skin-scope` - Restrict the skin to a subtree (e.g. `--skin-scope "[data-skin=daisyui]"`)
   """
 
   def info(_argv, _composing_task) do
@@ -43,10 +40,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless.Components do
         module_prefix: :string,
         no_save: :boolean,
         no_npm: :boolean,
-        with_npm: :boolean,
-        skin: :string,
-        skin_prefix: :string,
-        skin_scope: :string
+        with_npm: :boolean
       ],
       aliases: [e: :exclude]
     }
@@ -73,9 +67,6 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless.Components do
       ["--sub", "--yes"]
       |> Core.append_arg("--component-prefix", options[:component_prefix])
       |> Core.append_arg("--module-prefix", options[:module_prefix])
-      |> Core.append_arg("--skin", options[:skin])
-      |> Core.append_arg("--skin-prefix", options[:skin_prefix])
-      |> Core.append_arg("--skin-scope", options[:skin_scope])
       |> then(&if(options[:no_npm], do: &1 ++ ["--no-npm"], else: &1))
 
     igniter =

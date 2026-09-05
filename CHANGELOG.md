@@ -11,14 +11,12 @@
   attributes carried a value list before; 364 do now
 - The CMS bundle carries each component's `doc_url`, so a consumer can link to the page that explains
   the component it is offering
-- Add a daisyUI skin for the whole headless line. `mix mishka.ui.gen.headless <name> --skin daisyui`
-  appends the component's block to `assets/vendor/mishka_chelekom_headless_daisyui.css` and imports it
-  into `app.css`, so markup carrying no styling classes at all is painted entirely by the stylesheet.
-  All 92 headless components ship one; the design system itself stays your dependency
-- Add `--skin`, `--skin-prefix` and `--skin-scope` to `mix mishka.ui.gen.headless` and
-  `mix mishka.ui.gen.headless.components`. The prefix is read from the `@plugin` block in `app.css`
-  rather than asked for, so `--skin-prefix` is only an override, and `--skin-scope` confines a skin to
-  a subtree (`[data-skin=daisyui]`) so more than one can sit on the same page
+- The daisyUI gallery paints all 92 headless components with daisyUI and Tailwind classes in the
+  examples' own markup. Copying an example gives you the component *and* its look; there is no
+  stylesheet to take with it. The design system itself stays your dependency
+- A `*_class` attribute for every part a component renders, so any part can be restyled from
+  markup. This is what makes the class-only gallery possible, and it is enforced by a test that
+  reads the components' own sources
 - Add 17 headless components, taking the line from 75 to 92: `alert`, `breadcrumb`, `button`,
   `calendar`, `card`, `carousel`, `countdown`, `dock`, `fab`, `file_input`, `pagination`, `rating`,
   `stepper`, `table`, `text_input`, `textarea` and `theme_controller`

@@ -1,7 +1,8 @@
 defmodule DevelopmentWeb.HeadlessDaisyUISkinTest do
   @moduledoc """
-  The daisyUI skin's contract: the *same* headless component, painted by a stylesheet instead of by
-  utility classes. These tests read the component list from
+  The daisyUI gallery's contract: the *same* headless component, painted entirely by classes in
+  the examples' own markup — the skin stylesheet it once shipped is gone. These tests read the
+  component list from
   `DevelopmentWeb.Showcase.HeadlessDaisyUIExamples`, so every component that gains a skin is
   covered the moment its examples land.
 
@@ -10,7 +11,7 @@ defmodule DevelopmentWeb.HeadlessDaisyUISkinTest do
     * both galleries mount and render that component's parts;
     * the ARIA/`data-*` surface the engines drive is identical in both — the skin cannot have
       changed behavior;
-    * the daisyUI markup carries no per-part styling classes, which is the whole point.
+    * every component carries its styling in its own markup, since nothing else paints it.
   """
   use DevelopmentWeb.ConnCase
   import Phoenix.LiveViewTest
@@ -111,14 +112,6 @@ defmodule DevelopmentWeb.HeadlessDaisyUISkinTest do
     end
   end
 
-  # A component is painted in exactly one place, and which one is readable from the generated
-  # stylesheet: while its `/* >>> name */` region is there the skin owns the styling and the
-  # examples must stay clean; once the region is gone the markup is the only thing left, so the
-  # examples have to carry it or the component renders bare. Deriving the rule from the artifact
-  # means a component converts by deleting its skin fragment, with no list to keep in step.
-  @skin_css File.read!("assets/vendor/mishka_chelekom_headless_daisyui.css")
-  defp skinned_in_css?(name), do: String.contains?(@skin_css, "/* >>> #{name} */")
-
   # Handing a part daisyUI's own class (`input_class="d-radio"`) is not hand-painting — it is the
   # same opt-in the skin would make with `@apply`, just spelled in markup. Painting is a Tailwind
   # utility: a class on a part that daisyUI did not give us.
@@ -161,36 +154,6 @@ defmodule DevelopmentWeb.HeadlessDaisyUISkinTest do
     |> Enum.join()
   end
 
-  # A component can be partly converted: `countdown` moved its layout into markup and kept only the
-  # rolling digit, `loading_overlay` only its spinner. So the question is not "does this hero paint
-  # anything" but "does it paint a part the stylesheet is still painting" — which the stylesheet
-  # itself answers.
-  defp still_styled(name) do
-    prefixes = ["chelekom-#{name}__", "chelekom-#{String.replace(name, "_", "-")}__"]
-
-    for prefix <- prefixes,
-        [_, part] <- Regex.scan(~r/#{Regex.escape(prefix)}([a-z0-9_-]+)/, @skin_css),
-        into: MapSet.new(),
-        do: String.replace(part, "-", "_")
-  end
-
-  defp utility_painted?(source, parts) do
-    ~r/\b([a-z_]+)_class=/
-    |> Regex.scan(source)
-    |> Enum.any?(fn [whole, attr] ->
-      MapSet.member?(parts, attr) and utility?(attr_value(source, whole))
-    end)
-  end
-
-  # A class value is painting if any token in it is a Tailwind utility rather than one of
-  # daisyUI's own classes.
-  defp utility?(value) do
-    value
-    |> String.split(~r/[\s",]+/)
-    |> Enum.reject(&(&1 == "" or String.starts_with?(&1, "d-") or String.contains?(&1, "@")))
-    |> Enum.any?()
-  end
-
   defp attr_value(source, attr) do
     case Regex.run(~r/#{Regex.escape(attr)}(?:"([^"]*)"|\{\[?([^}]*)\]?\})/, source) do
       [_ | rest] -> Enum.join(rest, " ")
@@ -198,31 +161,24 @@ defmodule DevelopmentWeb.HeadlessDaisyUISkinTest do
     end
   end
 
-  test "a component is painted by its skin or by its markup, never by neither" do
+  test "every component carries its styling in its own markup" do
     for name <- @skinned do
       id = HeadlessDaisyUIExamples.hero(name)
       source = HeadlessDaisyUIExamples.source(id)
 
-      if skinned_in_css?(name) do
-        refute utility_painted?(own_attrs(source, name), still_styled(name)),
-               "#{id}: the hero hand-paints a part the skin still styles"
-      else
-        assert styled_in_markup?(own_attrs(source, name)),
-               "#{id}: the skin region is gone, so the hero must carry the styling itself"
-      end
+      assert styled_in_markup?(own_attrs(source, name)),
+             "#{id}: nothing paints this component any more — the hero has to carry the styling"
     end
   end
 
-  test "the conversion is progressing and the stylesheet is shrinking" do
-    converted = Enum.reject(@skinned, &skinned_in_css?/1)
+  # The end state of the conversion, and the reason the tests above can be unconditional: the skin
+  # shipped a stylesheet per component, and there is none left to ship.
+  test "the daisyUI skin ships no stylesheet at all" do
+    refute File.exists?("assets/vendor/mishka_chelekom_headless_daisyui.css"),
+           "the skin is retired, but its stylesheet is still on disk"
 
-    assert converted != [],
-           "no component has moved its styling into markup yet"
-
-    for name <- converted do
-      refute @skin_css =~ "chelekom-#{String.replace(name, "_", "-")}__",
-             "#{name}: converted, but the stylesheet still carries rules for its parts"
-    end
+    refute File.read!("assets/css/app.css") =~ "mishka_chelekom_headless_daisyui",
+           "app.css still imports the retired skin stylesheet"
   end
 
   test "variant examples reach daisyUI's own modifiers rather than re-implementing them" do
