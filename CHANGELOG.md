@@ -17,6 +17,13 @@
 - A `*_class` attribute for every part a component renders, so any part can be restyled from
   markup. This is what makes the class-only gallery possible, and it is enforced by a test that
   reads the components' own sources
+- Known divergence from the stylesheet it replaces: a few parts whose CSS declared
+  `color: var(--color-base-content)` no longer declare it, so under a **dark** `data-theme` they
+  inherit the surrounding colour instead of following the theme (`slider` and its descendants,
+  `pagination`'s ellipsis). Painting it back is not the fix — the declaration used to *lose* to
+  daisyUI's own colour modifiers (`range-primary` and friends) from `@layer components`, and the
+  same value written as a utility *wins*, flattening every coloured variant. Set the colour on
+  your own container if you place these in a dark subtree
 - Add 17 headless components, taking the line from 75 to 92: `alert`, `breadcrumb`, `button`,
   `calendar`, `card`, `carousel`, `countdown`, `dock`, `fab`, `file_input`, `pagination`, `rating`,
   `stepper`, `table`, `text_input`, `textarea` and `theme_controller`

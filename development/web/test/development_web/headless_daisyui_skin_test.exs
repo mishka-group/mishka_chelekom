@@ -12,6 +12,21 @@ defmodule DevelopmentWeb.HeadlessDaisyUISkinTest do
     * the ARIA/`data-*` surface the engines drive is identical in both — the skin cannot have
       changed behavior;
     * every component carries its styling in its own markup, since nothing else paints it.
+
+  What these tests do *not* cover, and what the conversion was checked against instead: the
+  stylesheet was removed component by component, and each step was verified by diffing 59 computed
+  properties (plus `::before`/`::after` and geometry) for every element on all 98 gallery pages
+  against the pre-conversion build at `9a9577b0`. That comparison is static and single-theme, so
+  three axes were checked separately and are worth re-checking by hand after a large change:
+
+    * interaction — 21 components render popups/panels only after a click, so a static diff sees
+      them closed (`dialog`, `drawer`, `popover`, `tooltip`, `preview_card`, `menu`,
+      `context_menu`, `menubar`, `navigation_menu`, `fab`, `select`, `combobox`, `autocomplete`,
+      `color_input`, `tree_select`, `accordion`, `collapsible`, `spoiler`, `burger`, `tree`,
+      `alert_dialog`);
+    * dark `data-theme` — swept once against the same baseline; clean apart from the colour
+      divergence the CHANGELOG records;
+    * RTL — swept once against the same baseline; no divergence.
   """
   use DevelopmentWeb.ConnCase
   import Phoenix.LiveViewTest
