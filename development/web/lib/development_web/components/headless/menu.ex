@@ -55,6 +55,13 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
   attr :close_delay, :integer, default: 0, doc: "Hover close delay (ms)"
   attr :loop, :boolean, default: true, doc: "Loop arrow-key focus past the ends"
   attr :class, :any, default: nil, doc: "Extra classes for the root"
+
+  attr :item_class, :any,
+    default: nil,
+    doc: ~s|Extra classes for every row — item, link, checkbox, radio and submenu trigger|
+
+  attr :separator_class, :any, default: nil, doc: ~s|Extra classes for `data-part="separator"`|
+  attr :group_label_class, :any, default: nil, doc: ~s|Extra classes for a group label|
   attr :trigger_class, :any, default: nil, doc: "Extra classes for the trigger button part"
   attr :popup_class, :any, default: nil, doc: "Extra classes for the popup part"
 
@@ -148,14 +155,14 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
             data-part="separator"
             data-orientation="horizontal"
             aria-orientation="horizontal"
-            class={["chelekom-menu__separator", it[:class]]}
+            class={["chelekom-menu__separator", @separator_class, it[:class]]}
           >
           </div>
           <div
             :if={it[:type] == "label"}
             role="presentation"
             data-part="group-label"
-            class={["chelekom-menu__group-label", it[:class]]}
+            class={["chelekom-menu__group-label", @group_label_class, it[:class]]}
           >
             {render_slot(it)}
           </div>
@@ -172,7 +179,7 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
             data-on-change={it[:on_change]}
             data-on-change-target={it[:on_change_target]}
             tabindex="-1"
-            class={["chelekom-menu__checkbox-item", it[:class]]}
+            class={["chelekom-menu__checkbox-item", @item_class, it[:class]]}
           >
             <span
               data-part="checkbox-item-indicator"
@@ -198,7 +205,7 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
             data-on-change={it[:on_change]}
             data-on-change-target={it[:on_change_target]}
             tabindex="-1"
-            class={["chelekom-menu__radio-item", it[:class]]}
+            class={["chelekom-menu__radio-item", @item_class, it[:class]]}
           >
             <span
               data-part="radio-item-indicator"
@@ -216,7 +223,7 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
             data-part="link-item"
             data-label={it[:label]}
             tabindex="-1"
-            class={["chelekom-menu__link-item", it[:class]]}
+            class={["chelekom-menu__link-item", @item_class, it[:class]]}
           >{render_slot(it)}</a>
           <button
             :if={it[:type] in [nil, "item"]}
@@ -227,7 +234,7 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
             data-keep-open={it[:keep_open] == true}
             data-label={it[:label]}
             tabindex="-1"
-            class={["chelekom-menu__item", it[:class]]}
+            class={["chelekom-menu__item", @item_class, it[:class]]}
           >
             {render_slot(it)}
           </button>
@@ -247,7 +254,7 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
             data-disabled={sm[:disabled] == true}
             data-label={sm[:label]}
             tabindex="-1"
-            class={["chelekom-menu__submenu-trigger", @submenu_trigger_class]}
+            class={["chelekom-menu__submenu-trigger", @item_class, @submenu_trigger_class]}
           >
             {sm[:label]}
             <span

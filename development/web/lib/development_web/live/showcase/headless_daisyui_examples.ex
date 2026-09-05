@@ -4952,7 +4952,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── menu ──────────────────────────────────────────────────────────────────
   def example(%{section: "menu-hero"} = assigns) do
     ~H"""
-    <.menu id="daisyui-menu-hero" side_offset={8}>
+    <.menu
+      chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+      group_label_class="d-menu-title block"
+      separator_class="h-px my-2 mx-1 bg-base-content/10"
+      item_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+      submenu_popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+      popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+      trigger_class="d-btn"
+      id="daisyui-menu-hero"
+      side_offset={8}
+    >
       <:trigger>Song</:trigger>
       <:item>Add to Library</:item>
       <:item>Add to Playlist</:item>
@@ -4981,6 +4991,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-wrap gap-3">
       <.menu
         :for={{side, align} <- @placements}
+        chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+        group_label_class="d-menu-title block"
+        separator_class="h-px my-2 mx-1 bg-base-content/10"
+        item_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+        submenu_popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+        popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+        trigger_class="d-btn"
         id={"daisyui-menu-#{side}-#{align}"}
         side={side}
         align={align}
@@ -4996,7 +5013,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "menu-hover"} = assigns) do
     ~H"""
-    <.menu id="daisyui-menu-hover" open_on_hover side_offset={8}>
+    <.menu
+      chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+      group_label_class="d-menu-title block"
+      separator_class="h-px my-2 mx-1 bg-base-content/10"
+      item_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+      submenu_popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+      popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+      trigger_class="d-btn"
+      id="daisyui-menu-hover"
+      open_on_hover
+      side_offset={8}
+    >
       <:trigger>Hover me</:trigger>
       <:item>Item one</:item>
       <:item>Item two</:item>
@@ -5011,9 +5039,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-wrap gap-3">
       <.menu
         :for={size <- @sizes}
+        chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+        group_label_class="d-menu-title block"
+        separator_class="h-px my-2 mx-1 bg-base-content/10"
+        item_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+        submenu_popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+        trigger_class="d-btn"
         id={"daisyui-menu-size-#{size}"}
         side_offset={8}
-        popup_class={"d-menu-#{size}"}
+        popup_class={[
+          "d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]",
+          "d-menu-#{size}"
+        ]}
       >
         <:trigger>menu-{size}</:trigger>
         <:item>Item one</:item>
@@ -5027,7 +5064,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     assigns = assign(assigns, :nav, @nav)
 
     ~H"""
-    <.menu id="daisyui-menu-icons" side_offset={8}>
+    <.menu
+      chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+      group_label_class="d-menu-title block"
+      separator_class="h-px my-2 mx-1 bg-base-content/10"
+      item_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+      submenu_popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+      popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+      trigger_class="d-btn"
+      id="daisyui-menu-icons"
+      side_offset={8}
+    >
       <:trigger>Workspace</:trigger>
       <:item :for={{label, path} <- @nav}>
         <.nav_icon path={path} />
@@ -5041,7 +5088,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     assigns = assign(assigns, :nav, @nav)
 
     ~H"""
-    <.menu id="daisyui-menu-icons-only" side_offset={8} popup_class="!min-w-0 w-fit">
+    <.menu
+      chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+      group_label_class="d-menu-title block"
+      separator_class="h-px my-2 mx-1 bg-base-content/10"
+      item_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+      submenu_popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+      trigger_class="d-btn"
+      id="daisyui-menu-icons-only"
+      side_offset={8}
+      popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)] !min-w-0 w-fit"
+    >
       <:trigger>Rail</:trigger>
       <:item :for={{label, path} <- @nav} label={label}>
         <.nav_icon path={path} />
@@ -5054,12 +5111,22 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     assigns = assign(assigns, :nav, @nav)
 
     ~H"""
-    <.menu id="daisyui-menu-tooltip" side_offset={8} popup_class="!min-w-0 w-fit">
+    <.menu
+      chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+      group_label_class="d-menu-title block"
+      separator_class="h-px my-2 mx-1 bg-base-content/10"
+      item_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+      submenu_popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+      trigger_class="d-btn"
+      id="daisyui-menu-tooltip"
+      side_offset={8}
+      popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)] !min-w-0 w-fit"
+    >
       <:trigger>Rail</:trigger>
       <.menu_item
         :for={{label, path} <- @nav}
         label={label}
-        class="d-tooltip d-tooltip-right"
+        class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)] d-tooltip d-tooltip-right"
         data-tip={label}
       >
         <.nav_icon path={path} />
@@ -5070,7 +5137,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "menu-badges"} = assigns) do
     ~H"""
-    <.menu id="daisyui-menu-badges" side_offset={8}>
+    <.menu
+      chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+      group_label_class="d-menu-title block"
+      separator_class="h-px my-2 mx-1 bg-base-content/10"
+      item_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+      submenu_popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+      popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+      trigger_class="d-btn"
+      id="daisyui-menu-badges"
+      side_offset={8}
+    >
       <:trigger>Inbox</:trigger>
       <:item>
         <.nav_icon path="M3 8l9 6 9-6M3 8v8h18V8" /> Messages
@@ -5087,7 +5164,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "menu-active"} = assigns) do
     ~H"""
-    <.menu id="daisyui-menu-active" side_offset={8}>
+    <.menu
+      chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+      group_label_class="d-menu-title block"
+      separator_class="h-px my-2 mx-1 bg-base-content/10"
+      item_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+      submenu_popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+      popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+      trigger_class="d-btn"
+      id="daisyui-menu-active"
+      side_offset={8}
+    >
       <:trigger>Section</:trigger>
       <:item>Overview</:item>
       <:item class="d-menu-active">Projects</:item>
@@ -5098,7 +5185,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "menu-disabled"} = assigns) do
     ~H"""
-    <.menu id="daisyui-menu-disabled" side_offset={8}>
+    <.menu
+      chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+      group_label_class="d-menu-title block"
+      separator_class="h-px my-2 mx-1 bg-base-content/10"
+      item_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+      submenu_popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+      popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+      trigger_class="d-btn"
+      id="daisyui-menu-disabled"
+      side_offset={8}
+    >
       <:trigger>Actions</:trigger>
       <:item>Rename</:item>
       <:item>Duplicate</:item>
@@ -5110,12 +5207,32 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "menu-title"} = assigns) do
     ~H"""
-    <.menu id="daisyui-menu-title" side_offset={8}>
+    <.menu
+      chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+      group_label_class="d-menu-title block"
+      separator_class="h-px my-2 mx-1 bg-base-content/10"
+      item_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+      submenu_popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+      popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+      trigger_class="d-btn"
+      id="daisyui-menu-title"
+      side_offset={8}
+    >
       <:trigger>Account</:trigger>
-      <.menu_group id="daisyui-menu-title-group" label="Signed in as shahryar">
-        <.menu_item>Profile</.menu_item>
-        <.menu_item>Billing</.menu_item>
-        <.menu_item>Sign out</.menu_item>
+      <.menu_group
+        label_class="d-menu-title block"
+        id="daisyui-menu-title-group"
+        label="Signed in as shahryar"
+      >
+        <.menu_item class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]">
+          Profile
+        </.menu_item>
+        <.menu_item class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]">
+          Billing
+        </.menu_item>
+        <.menu_item class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]">
+          Sign out
+        </.menu_item>
       </.menu_group>
     </.menu>
     """
@@ -5123,15 +5240,33 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "menu-title-parent"} = assigns) do
     ~H"""
-    <.menu id="daisyui-menu-title-parent" side_offset={8}>
+    <.menu
+      chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+      group_label_class="d-menu-title block"
+      separator_class="h-px my-2 mx-1 bg-base-content/10"
+      item_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+      submenu_popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+      popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+      trigger_class="d-btn"
+      id="daisyui-menu-title-parent"
+      side_offset={8}
+    >
       <:trigger>Docs</:trigger>
-      <.menu_group id="daisyui-menu-parent-a" label="Getting started">
-        <.menu_item>Install</.menu_item>
-        <.menu_item>Configure</.menu_item>
+      <.menu_group label_class="d-menu-title block" id="daisyui-menu-parent-a" label="Getting started">
+        <.menu_item class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]">
+          Install
+        </.menu_item>
+        <.menu_item class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]">
+          Configure
+        </.menu_item>
       </.menu_group>
-      <.menu_group id="daisyui-menu-parent-b" label="Components">
-        <.menu_item>Accordion</.menu_item>
-        <.menu_item>Select</.menu_item>
+      <.menu_group label_class="d-menu-title block" id="daisyui-menu-parent-b" label="Components">
+        <.menu_item class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]">
+          Accordion
+        </.menu_item>
+        <.menu_item class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]">
+          Select
+        </.menu_item>
       </.menu_group>
     </.menu>
     """
@@ -5139,34 +5274,98 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "menu-submenu"} = assigns) do
     ~H"""
-    <.menu id="daisyui-menu-submenu" side_offset={8}>
+    <.menu
+      chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+      group_label_class="d-menu-title block"
+      separator_class="h-px my-2 mx-1 bg-base-content/10"
+      item_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+      submenu_popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+      popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+      trigger_class="d-btn"
+      id="daisyui-menu-submenu"
+      side_offset={8}
+    >
       <:trigger>File</:trigger>
-      <.menu_item>New</.menu_item>
-      <.menu_submenu id="daisyui-menu-submenu-open" label="Open recent">
-        <.menu_item>chelekom.ex</.menu_item>
-        <.menu_item>app.css</.menu_item>
+      <.menu_item class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]">
+        New
+      </.menu_item>
+      <.menu_submenu
+        chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+        popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+        trigger_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+        id="daisyui-menu-submenu-open"
+        label="Open recent"
+      >
+        <.menu_item class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]">
+          chelekom.ex
+        </.menu_item>
+        <.menu_item class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]">
+          app.css
+        </.menu_item>
       </.menu_submenu>
-      <.menu_item>Save</.menu_item>
+      <.menu_item class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]">
+        Save
+      </.menu_item>
     </.menu>
     """
   end
 
   def example(%{section: "menu-file-tree"} = assigns) do
     ~H"""
-    <.menu id="daisyui-menu-tree" side_offset={8} popup_class="d-menu-xs w-60">
+    <.menu
+      chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+      group_label_class="d-menu-title block"
+      separator_class="h-px my-2 mx-1 bg-base-content/10"
+      item_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+      submenu_popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+      trigger_class="d-btn"
+      id="daisyui-menu-tree"
+      side_offset={8}
+      popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)] d-menu-xs w-60"
+    >
       <:trigger>Files</:trigger>
-      <.menu_submenu id="daisyui-menu-tree-lib" label="lib">
-        <.menu_submenu id="daisyui-menu-tree-web" label="my_app_web">
-          <.menu_item>router.ex</.menu_item>
-          <.menu_item>endpoint.ex</.menu_item>
+      <.menu_submenu
+        chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+        popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+        trigger_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+        id="daisyui-menu-tree-lib"
+        label="lib"
+      >
+        <.menu_submenu
+          chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+          popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+          trigger_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+          id="daisyui-menu-tree-web"
+          label="my_app_web"
+        >
+          <.menu_item class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]">
+            router.ex
+          </.menu_item>
+          <.menu_item class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]">
+            endpoint.ex
+          </.menu_item>
         </.menu_submenu>
-        <.menu_item>application.ex</.menu_item>
+        <.menu_item class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]">
+          application.ex
+        </.menu_item>
       </.menu_submenu>
-      <.menu_submenu id="daisyui-menu-tree-assets" label="assets">
-        <.menu_item>app.css</.menu_item>
-        <.menu_item>app.js</.menu_item>
+      <.menu_submenu
+        chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+        popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+        trigger_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+        id="daisyui-menu-tree-assets"
+        label="assets"
+      >
+        <.menu_item class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]">
+          app.css
+        </.menu_item>
+        <.menu_item class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]">
+          app.js
+        </.menu_item>
       </.menu_submenu>
-      <.menu_item>mix.exs</.menu_item>
+      <.menu_item class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]">
+        mix.exs
+      </.menu_item>
     </.menu>
     """
   end
@@ -5174,24 +5373,54 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "menu-horizontal-submenu"} = assigns) do
     ~H"""
     <.menu
+      chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+      group_label_class="d-menu-title block"
+      separator_class="h-px my-2 mx-1 bg-base-content/10"
+      item_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+      submenu_popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+      trigger_class="d-btn"
       id="daisyui-menu-horizontal-submenu"
       side_offset={8}
-      popup_class="d-menu-horizontal !min-w-0"
+      popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)] d-menu-horizontal !min-w-0"
     >
       <:trigger>Toolbar</:trigger>
-      <.menu_item>Cut</.menu_item>
-      <.menu_submenu id="daisyui-menu-horizontal-submenu-paste" label="Paste as">
-        <.menu_item>Plain text</.menu_item>
-        <.menu_item>Markdown</.menu_item>
+      <.menu_item class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]">
+        Cut
+      </.menu_item>
+      <.menu_submenu
+        chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+        popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+        trigger_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+        id="daisyui-menu-horizontal-submenu-paste"
+        label="Paste as"
+      >
+        <.menu_item class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]">
+          Plain text
+        </.menu_item>
+        <.menu_item class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]">
+          Markdown
+        </.menu_item>
       </.menu_submenu>
-      <.menu_item>Copy</.menu_item>
+      <.menu_item class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]">
+        Copy
+      </.menu_item>
     </.menu>
     """
   end
 
   def example(%{section: "menu-horizontal"} = assigns) do
     ~H"""
-    <.menu id="daisyui-menu-horizontal" side_offset={8} popup_class="d-menu-horizontal !min-w-0">
+    <.menu
+      chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+      group_label_class="d-menu-title block"
+      separator_class="h-px my-2 mx-1 bg-base-content/10"
+      item_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+      submenu_popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+      trigger_class="d-btn"
+      id="daisyui-menu-horizontal"
+      side_offset={8}
+      popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)] d-menu-horizontal !min-w-0"
+    >
       <:trigger>Toolbar</:trigger>
       <:item>Cut</:item>
       <:item>Copy</:item>
@@ -5203,9 +5432,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "menu-responsive"} = assigns) do
     ~H"""
     <.menu
+      chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+      group_label_class="d-menu-title block"
+      separator_class="h-px my-2 mx-1 bg-base-content/10"
+      item_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+      submenu_popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+      trigger_class="d-btn"
       id="daisyui-menu-responsive"
       side_offset={8}
-      popup_class="d-menu-vertical lg:d-menu-horizontal lg:!min-w-0"
+      popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)] d-menu-vertical lg:d-menu-horizontal lg:!min-w-0"
     >
       <:trigger>Responsive</:trigger>
       <:item>Overview</:item>
@@ -5218,9 +5453,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "menu-flush"} = assigns) do
     ~H"""
     <.menu
+      chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+      group_label_class="d-menu-title block"
+      separator_class="h-px my-2 mx-1 bg-base-content/10"
+      item_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+      submenu_popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+      trigger_class="d-btn"
       id="daisyui-menu-flush"
       side_offset={8}
-      popup_class="!p-0 overflow-hidden [&_[data-part=item]]:rounded-none"
+      popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)] !p-0 overflow-hidden [&_[data-part=item]]:rounded-none"
     >
       <:trigger>Flush</:trigger>
       <:item>Overview</:item>
@@ -5232,21 +5473,62 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "menu-rich"} = assigns) do
     ~H"""
-    <.menu id="daisyui-menu-rich" side_offset={8}>
+    <.menu
+      chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+      group_label_class="d-menu-title block"
+      separator_class="h-px my-2 mx-1 bg-base-content/10"
+      item_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+      submenu_popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+      popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+      trigger_class="d-btn"
+      id="daisyui-menu-rich"
+      side_offset={8}
+    >
       <:trigger>View options</:trigger>
-      <.menu_group id="daisyui-menu-panels" label="Panels">
-        <.menu_checkbox checked>Sidebar</.menu_checkbox>
-        <.menu_checkbox>Terminal</.menu_checkbox>
+      <.menu_group label_class="d-menu-title block" id="daisyui-menu-panels" label="Panels">
+        <.menu_checkbox
+          class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+          checked
+        >
+          Sidebar
+        </.menu_checkbox>
+        <.menu_checkbox class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]">
+          Terminal
+        </.menu_checkbox>
       </.menu_group>
-      <.menu_separator />
-      <.menu_radio_group id="daisyui-menu-sort" label="Sort by">
-        <.menu_radio name="sort" value="name" checked>Name</.menu_radio>
-        <.menu_radio name="sort" value="date">Date modified</.menu_radio>
+      <.menu_separator class="h-px my-2 mx-1 bg-base-content/10" />
+      <.menu_radio_group label_class="d-menu-title block" id="daisyui-menu-sort" label="Sort by">
+        <.menu_radio
+          class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+          name="sort"
+          value="name"
+          checked
+        >
+          Name
+        </.menu_radio>
+        <.menu_radio
+          class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+          name="sort"
+          value="date"
+        >
+          Date modified
+        </.menu_radio>
       </.menu_radio_group>
-      <.menu_separator />
-      <.menu_submenu id="daisyui-menu-share" label="Share">
-        <.menu_link href="#">Copy link</.menu_link>
-        <.menu_item>Email</.menu_item>
+      <.menu_separator class="h-px my-2 mx-1 bg-base-content/10" />
+      <.menu_submenu
+        chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+        popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+        trigger_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+        id="daisyui-menu-share"
+        label="Share"
+      >
+        <.menu_link
+          class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+          href="#"
+        >Copy link</.menu_link>
+        <.menu_item class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]">
+          Email
+        </.menu_item>
       </.menu_submenu>
     </.menu>
     """
@@ -5254,7 +5536,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "menu-card"} = assigns) do
     ~H"""
-    <.menu id="daisyui-menu-card" side_offset={8} popup_class="w-64 !p-0">
+    <.menu
+      chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+      group_label_class="d-menu-title block"
+      separator_class="h-px my-2 mx-1 bg-base-content/10"
+      item_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+      submenu_popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+      trigger_class="d-btn"
+      id="daisyui-menu-card"
+      side_offset={8}
+      popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)] w-64 !p-0"
+    >
       <:trigger>Account</:trigger>
       <div class="d-card d-card-sm">
         <div class="d-card-body">
