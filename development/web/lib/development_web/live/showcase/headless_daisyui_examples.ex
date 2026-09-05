@@ -1775,7 +1775,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── tooltip ───────────────────────────────────────────────────────────────
   def example(%{section: "tooltip-hero"} = assigns) do
     ~H"""
-    <.tooltip id="daisyui-tooltip-hero">
+    <.tooltip
+      arrow_class="w-2 h-2 rotate-45 bg-[var(--d-tt-bg)]"
+      popup_class="z-[60] max-w-80 w-max rounded-[var(--radius-field)] px-2 py-1 bg-[var(--d-tt-bg,var(--color-neutral))] text-neutral-content text-[0.875rem] leading-5 text-center whitespace-normal motion-safe:[transition:opacity_0.15s_ease-out,scale_0.15s_ease-out] data-starting-style:opacity-0 data-starting-style:[scale:0.96] data-ending-style:opacity-0 data-ending-style:[scale:0.96] [&.d-tooltip-primary]:text-primary-content [&.d-tooltip-secondary]:text-secondary-content [&.d-tooltip-accent]:text-accent-content [&.d-tooltip-info]:text-info-content [&.d-tooltip-success]:text-success-content [&.d-tooltip-warning]:text-warning-content [&.d-tooltip-error]:text-error-content"
+      trigger_class="[text-decoration:underline_dotted] [text-underline-offset:2px] cursor-help"
+      class="inline-block"
+      id="daisyui-tooltip-hero"
+    >
       <:trigger><span class="d-btn">Hover me</span></:trigger>
       hello
     </.tooltip>
@@ -1785,7 +1791,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "tooltip-open"} = assigns) do
     ~H"""
     <div class="pt-10">
-      <.tooltip id="daisyui-tooltip-open" open>
+      <.tooltip
+        arrow_class="w-2 h-2 rotate-45 bg-[var(--d-tt-bg)]"
+        popup_class="z-[60] max-w-80 w-max rounded-[var(--radius-field)] px-2 py-1 bg-[var(--d-tt-bg,var(--color-neutral))] text-neutral-content text-[0.875rem] leading-5 text-center whitespace-normal motion-safe:[transition:opacity_0.15s_ease-out,scale_0.15s_ease-out] data-starting-style:opacity-0 data-starting-style:[scale:0.96] data-ending-style:opacity-0 data-ending-style:[scale:0.96] [&.d-tooltip-primary]:text-primary-content [&.d-tooltip-secondary]:text-secondary-content [&.d-tooltip-accent]:text-accent-content [&.d-tooltip-info]:text-info-content [&.d-tooltip-success]:text-success-content [&.d-tooltip-warning]:text-warning-content [&.d-tooltip-error]:text-error-content"
+        trigger_class="[text-decoration:underline_dotted] [text-underline-offset:2px] cursor-help"
+        class="inline-block"
+        id="daisyui-tooltip-open"
+        open
+      >
         <:trigger><span class="d-btn">Always open</span></:trigger>
         hello
       </.tooltip>
@@ -1798,6 +1811,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="grid grid-cols-2 gap-10 p-10">
       <.tooltip
         :for={side <- ~w(top bottom left right)}
+        arrow_class="w-2 h-2 rotate-45 bg-[var(--d-tt-bg)]"
+        popup_class="z-[60] max-w-80 w-max rounded-[var(--radius-field)] px-2 py-1 bg-[var(--d-tt-bg,var(--color-neutral))] text-neutral-content text-[0.875rem] leading-5 text-center whitespace-normal motion-safe:[transition:opacity_0.15s_ease-out,scale_0.15s_ease-out] data-starting-style:opacity-0 data-starting-style:[scale:0.96] data-ending-style:opacity-0 data-ending-style:[scale:0.96] [&.d-tooltip-primary]:text-primary-content [&.d-tooltip-secondary]:text-secondary-content [&.d-tooltip-accent]:text-accent-content [&.d-tooltip-info]:text-info-content [&.d-tooltip-success]:text-success-content [&.d-tooltip-warning]:text-warning-content [&.d-tooltip-error]:text-error-content"
+        trigger_class="[text-decoration:underline_dotted] [text-underline-offset:2px] cursor-help"
+        class="inline-block"
         id={"daisyui-tooltip-#{side}"}
         side={side}
         open
@@ -1814,6 +1831,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex gap-10 p-10">
       <.tooltip
         :for={align <- ~w(start center end)}
+        arrow_class="w-2 h-2 rotate-45 bg-[var(--d-tt-bg)]"
+        popup_class="z-[60] max-w-80 w-max rounded-[var(--radius-field)] px-2 py-1 bg-[var(--d-tt-bg,var(--color-neutral))] text-neutral-content text-[0.875rem] leading-5 text-center whitespace-normal motion-safe:[transition:opacity_0.15s_ease-out,scale_0.15s_ease-out] data-starting-style:opacity-0 data-starting-style:[scale:0.96] data-ending-style:opacity-0 data-ending-style:[scale:0.96] [&.d-tooltip-primary]:text-primary-content [&.d-tooltip-secondary]:text-secondary-content [&.d-tooltip-accent]:text-accent-content [&.d-tooltip-info]:text-info-content [&.d-tooltip-success]:text-success-content [&.d-tooltip-warning]:text-warning-content [&.d-tooltip-error]:text-error-content"
+        trigger_class="[text-decoration:underline_dotted] [text-underline-offset:2px] cursor-help"
+        class="inline-block"
         id={"daisyui-tooltip-align-#{align}"}
         align={align}
         open
@@ -1832,9 +1853,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-wrap gap-6 p-10">
       <.tooltip
         :for={color <- @colors}
+        arrow_class="w-2 h-2 rotate-45 bg-[var(--d-tt-bg)]"
+        trigger_class="[text-decoration:underline_dotted] [text-underline-offset:2px] cursor-help"
+        class="inline-block"
         id={"daisyui-tooltip-#{color}"}
         open
-        popup_class={"d-tooltip-#{color}"}
+        popup_class={[
+          "z-[60] max-w-80 w-max rounded-[var(--radius-field)] px-2 py-1 bg-[var(--d-tt-bg,var(--color-neutral))] text-neutral-content text-[0.875rem] leading-5 text-center whitespace-normal motion-safe:[transition:opacity_0.15s_ease-out,scale_0.15s_ease-out] data-starting-style:opacity-0 data-starting-style:[scale:0.96] data-ending-style:opacity-0 data-ending-style:[scale:0.96] [&.d-tooltip-primary]:text-primary-content [&.d-tooltip-secondary]:text-secondary-content [&.d-tooltip-accent]:text-accent-content [&.d-tooltip-info]:text-info-content [&.d-tooltip-success]:text-success-content [&.d-tooltip-warning]:text-warning-content [&.d-tooltip-error]:text-error-content",
+          "d-tooltip-#{color}"
+        ]}
       >
         <:trigger><span class="d-btn">{color}</span></:trigger>
         {color}
@@ -1846,7 +1873,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "tooltip-rich"} = assigns) do
     ~H"""
     <div class="pt-16">
-      <.tooltip id="daisyui-tooltip-rich" open popup_class="max-w-56">
+      <.tooltip
+        arrow_class="w-2 h-2 rotate-45 bg-[var(--d-tt-bg)]"
+        trigger_class="[text-decoration:underline_dotted] [text-underline-offset:2px] cursor-help"
+        class="inline-block"
+        id="daisyui-tooltip-rich"
+        open
+        popup_class="z-[60] w-max rounded-[var(--radius-field)] px-2 py-1 bg-[var(--d-tt-bg,var(--color-neutral))] text-neutral-content text-[0.875rem] leading-5 text-center whitespace-normal motion-safe:[transition:opacity_0.15s_ease-out,scale_0.15s_ease-out] data-starting-style:opacity-0 data-starting-style:[scale:0.96] data-ending-style:opacity-0 data-ending-style:[scale:0.96] [&.d-tooltip-primary]:text-primary-content [&.d-tooltip-secondary]:text-secondary-content [&.d-tooltip-accent]:text-accent-content [&.d-tooltip-info]:text-info-content [&.d-tooltip-success]:text-success-content [&.d-tooltip-warning]:text-warning-content [&.d-tooltip-error]:text-error-content max-w-56"
+      >
         <:trigger><span class="d-btn">Rich content</span></:trigger>
         <div class="space-y-1 text-left">
           <div class="text-base font-bold">You are doing well</div>
@@ -1859,7 +1893,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "tooltip-responsive"} = assigns) do
     ~H"""
-    <.tooltip id="daisyui-tooltip-responsive" class="hidden lg:inline-block">
+    <.tooltip
+      arrow_class="w-2 h-2 rotate-45 bg-[var(--d-tt-bg)]"
+      popup_class="z-[60] max-w-80 w-max rounded-[var(--radius-field)] px-2 py-1 bg-[var(--d-tt-bg,var(--color-neutral))] text-neutral-content text-[0.875rem] leading-5 text-center whitespace-normal motion-safe:[transition:opacity_0.15s_ease-out,scale_0.15s_ease-out] data-starting-style:opacity-0 data-starting-style:[scale:0.96] data-ending-style:opacity-0 data-ending-style:[scale:0.96] [&.d-tooltip-primary]:text-primary-content [&.d-tooltip-secondary]:text-secondary-content [&.d-tooltip-accent]:text-accent-content [&.d-tooltip-info]:text-info-content [&.d-tooltip-success]:text-success-content [&.d-tooltip-warning]:text-warning-content [&.d-tooltip-error]:text-error-content"
+      trigger_class="[text-decoration:underline_dotted] [text-underline-offset:2px] cursor-help"
+      id="daisyui-tooltip-responsive"
+      class="inline-block hidden lg:inline-block"
+    >
       <:trigger><span class="d-btn">Large screens only</span></:trigger>
       only above lg
     </.tooltip>
@@ -7590,6 +7630,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "popover-hero"} = assigns) do
     ~H"""
     <.popover
+      arrow_class="absolute w-2 h-2 rotate-45 border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_10%,#0000)] bg-base-100 group-data-[side=bottom]:-top-1 group-data-[side=bottom]:[border-inline-end:none] group-data-[side=bottom]:[border-block-end:none] group-data-[side=top]:-bottom-1 group-data-[side=top]:[border-inline-start:none] group-data-[side=top]:[border-block-start:none] group-data-[side=right]:-start-1 group-data-[side=right]:[border-inline-end:none] group-data-[side=right]:[border-block-start:none] group-data-[side=left]:-end-1 group-data-[side=left]:[border-inline-start:none] group-data-[side=left]:[border-block-end:none]"
+      backdrop_class="fixed inset-0 z-40 bg-[oklch(0%_0_0/0.2)]"
+      footer_class="flex justify-end gap-2 pt-3"
+      description_class="text-[0.875rem] opacity-70"
+      title_class="font-semibold"
+      popup_class="group absolute z-50 min-w-64 rounded-[var(--radius-box)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_10%,#0000)] bg-base-100 text-base-content p-4 [box-shadow:0_8px_24px_oklch(0%_0_0/0.14)] data-closed:hidden"
+      trigger_class="d-btn"
       id="daisyui-popover-hero"
       side_offset={8}
     >
@@ -7604,6 +7651,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "popover-detached-triggers-controlled"} = assigns) do
     ~H"""
     <.popover
+      arrow_class="absolute w-2 h-2 rotate-45 border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_10%,#0000)] bg-base-100 group-data-[side=bottom]:-top-1 group-data-[side=bottom]:[border-inline-end:none] group-data-[side=bottom]:[border-block-end:none] group-data-[side=top]:-bottom-1 group-data-[side=top]:[border-inline-start:none] group-data-[side=top]:[border-block-start:none] group-data-[side=right]:-start-1 group-data-[side=right]:[border-inline-end:none] group-data-[side=right]:[border-block-start:none] group-data-[side=left]:-end-1 group-data-[side=left]:[border-inline-start:none] group-data-[side=left]:[border-block-end:none]"
+      backdrop_class="fixed inset-0 z-40 bg-[oklch(0%_0_0/0.2)]"
+      footer_class="flex justify-end gap-2 pt-3"
+      description_class="text-[0.875rem] opacity-70"
+      title_class="font-semibold"
+      popup_class="group absolute z-50 min-w-64 rounded-[var(--radius-box)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_10%,#0000)] bg-base-100 text-base-content p-4 [box-shadow:0_8px_24px_oklch(0%_0_0/0.14)] data-closed:hidden"
+      trigger_class="d-btn"
       id="daisyui-popover-detached-triggers-controlled"
       side_offset={8}
     >
@@ -7618,6 +7672,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "popover-detached-triggers-full"} = assigns) do
     ~H"""
     <.popover
+      arrow_class="absolute w-2 h-2 rotate-45 border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_10%,#0000)] bg-base-100 group-data-[side=bottom]:-top-1 group-data-[side=bottom]:[border-inline-end:none] group-data-[side=bottom]:[border-block-end:none] group-data-[side=top]:-bottom-1 group-data-[side=top]:[border-inline-start:none] group-data-[side=top]:[border-block-start:none] group-data-[side=right]:-start-1 group-data-[side=right]:[border-inline-end:none] group-data-[side=right]:[border-block-start:none] group-data-[side=left]:-end-1 group-data-[side=left]:[border-inline-start:none] group-data-[side=left]:[border-block-end:none]"
+      backdrop_class="fixed inset-0 z-40 bg-[oklch(0%_0_0/0.2)]"
+      footer_class="flex justify-end gap-2 pt-3"
+      description_class="text-[0.875rem] opacity-70"
+      title_class="font-semibold"
+      popup_class="group absolute z-50 min-w-64 rounded-[var(--radius-box)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_10%,#0000)] bg-base-100 text-base-content p-4 [box-shadow:0_8px_24px_oklch(0%_0_0/0.14)] data-closed:hidden"
+      trigger_class="d-btn"
       id="daisyui-popover-detached-triggers-full"
       side_offset={8}
     >
@@ -7653,6 +7714,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "popover-detached-triggers-simple"} = assigns) do
     ~H"""
     <.popover
+      arrow_class="absolute w-2 h-2 rotate-45 border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_10%,#0000)] bg-base-100 group-data-[side=bottom]:-top-1 group-data-[side=bottom]:[border-inline-end:none] group-data-[side=bottom]:[border-block-end:none] group-data-[side=top]:-bottom-1 group-data-[side=top]:[border-inline-start:none] group-data-[side=top]:[border-block-start:none] group-data-[side=right]:-start-1 group-data-[side=right]:[border-inline-end:none] group-data-[side=right]:[border-block-start:none] group-data-[side=left]:-end-1 group-data-[side=left]:[border-inline-start:none] group-data-[side=left]:[border-block-end:none]"
+      backdrop_class="fixed inset-0 z-40 bg-[oklch(0%_0_0/0.2)]"
+      footer_class="flex justify-end gap-2 pt-3"
+      description_class="text-[0.875rem] opacity-70"
+      title_class="font-semibold"
+      popup_class="group absolute z-50 min-w-64 rounded-[var(--radius-box)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_10%,#0000)] bg-base-100 text-base-content p-4 [box-shadow:0_8px_24px_oklch(0%_0_0/0.14)] data-closed:hidden"
+      trigger_class="d-btn"
       id="daisyui-popover-detached-triggers-simple"
       side_offset={8}
     >
@@ -8675,6 +8743,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "popover-open-on-hover"} = assigns) do
     ~H"""
     <.popover
+      arrow_class="absolute w-2 h-2 rotate-45 border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_10%,#0000)] bg-base-100 group-data-[side=bottom]:-top-1 group-data-[side=bottom]:[border-inline-end:none] group-data-[side=bottom]:[border-block-end:none] group-data-[side=top]:-bottom-1 group-data-[side=top]:[border-inline-start:none] group-data-[side=top]:[border-block-start:none] group-data-[side=right]:-start-1 group-data-[side=right]:[border-inline-end:none] group-data-[side=right]:[border-block-start:none] group-data-[side=left]:-end-1 group-data-[side=left]:[border-inline-start:none] group-data-[side=left]:[border-block-end:none]"
+      backdrop_class="fixed inset-0 z-40 bg-[oklch(0%_0_0/0.2)]"
+      footer_class="flex justify-end gap-2 pt-3"
+      description_class="text-[0.875rem] opacity-70"
+      title_class="font-semibold"
+      popup_class="group absolute z-50 min-w-64 rounded-[var(--radius-box)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_10%,#0000)] bg-base-100 text-base-content p-4 [box-shadow:0_8px_24px_oklch(0%_0_0/0.14)] data-closed:hidden"
+      trigger_class="d-btn"
       id="daisyui-popover-open-on-hover"
       open_on_hover
       side_offset={8}
@@ -10400,7 +10475,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── card ──────────────────────────────────────────────────────────────────
   def example(%{section: "card-hero"} = assigns) do
     ~H"""
-    <.card id="daisyui-card-hero" class="d-card bg-base-100 w-80 shadow-sm">
+    <.card
+      figure_class="flex items-center justify-center overflow-hidden group-[.d-image-full]:overflow-hidden group-[.d-image-full]:rounded-[inherit]! group-[.d-image-full]:[&_:is(img,svg,picture,video)]:h-full group-[.d-image-full]:[&_:is(img,svg,picture,video)]:object-cover group-[.d-image-full]:[&_:is(img,svg,picture,video)]:brightness-[28%]"
+      actions_class="d-card-actions"
+      title_class="d-card-title group-[.d-card-xs]:[--d-cardtitle-fs:0.875rem] group-[.d-card-sm]:[--d-cardtitle-fs:1rem] group-[.d-card-md]:[--d-cardtitle-fs:1.125rem] group-[.d-card-lg]:[--d-cardtitle-fs:1.25rem] group-[.d-card-xl]:[--d-cardtitle-fs:1.375rem]"
+      body_class="d-card-body group-[.d-card-xs]:[--d-card-p:0.5rem] group-[.d-card-xs]:[--d-card-fs:0.6875rem] group-[.d-card-sm]:[--d-card-p:1rem] group-[.d-card-sm]:[--d-card-fs:0.75rem] group-[.d-card-md]:[--d-card-p:1.5rem] group-[.d-card-md]:[--d-card-fs:0.875rem] group-[.d-card-lg]:[--d-card-p:2rem] group-[.d-card-lg]:[--d-card-fs:1rem] group-[.d-card-xl]:[--d-card-p:2.5rem] group-[.d-card-xl]:[--d-card-fs:1.125rem] group-[.d-image-full]:relative group-[.d-image-full]:text-neutral-content"
+      id="daisyui-card-hero"
+      class="group d-card focus-visible:outline-current aria-checked:outline-current has-[:checked]:outline-current aria-checked:focus-visible:outline-offset-4 has-[:checked:focus-visible]:outline-offset-4 d-card bg-base-100 w-80 shadow-sm"
+    >
       <:figure><.card_image /></:figure>
       <:title>Shoes!</:title>
       If a dog chews shoes whose shoes does he choose?
@@ -10415,7 +10497,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "card-pricing"} = assigns) do
     ~H"""
-    <.card id="daisyui-card-pricing" class="bg-base-100 w-80 shadow-sm">
+    <.card
+      figure_class="flex items-center justify-center overflow-hidden group-[.d-image-full]:overflow-hidden group-[.d-image-full]:rounded-[inherit]! group-[.d-image-full]:[&_:is(img,svg,picture,video)]:h-full group-[.d-image-full]:[&_:is(img,svg,picture,video)]:object-cover group-[.d-image-full]:[&_:is(img,svg,picture,video)]:brightness-[28%]"
+      actions_class="d-card-actions"
+      title_class="d-card-title group-[.d-card-xs]:[--d-cardtitle-fs:0.875rem] group-[.d-card-sm]:[--d-cardtitle-fs:1rem] group-[.d-card-md]:[--d-cardtitle-fs:1.125rem] group-[.d-card-lg]:[--d-cardtitle-fs:1.25rem] group-[.d-card-xl]:[--d-cardtitle-fs:1.375rem]"
+      body_class="d-card-body group-[.d-card-xs]:[--d-card-p:0.5rem] group-[.d-card-xs]:[--d-card-fs:0.6875rem] group-[.d-card-sm]:[--d-card-p:1rem] group-[.d-card-sm]:[--d-card-fs:0.75rem] group-[.d-card-md]:[--d-card-p:1.5rem] group-[.d-card-md]:[--d-card-fs:0.875rem] group-[.d-card-lg]:[--d-card-p:2rem] group-[.d-card-lg]:[--d-card-fs:1rem] group-[.d-card-xl]:[--d-card-p:2.5rem] group-[.d-card-xl]:[--d-card-fs:1.125rem] group-[.d-image-full]:relative group-[.d-image-full]:text-neutral-content"
+      id="daisyui-card-pricing"
+      class="group d-card focus-visible:outline-current aria-checked:outline-current has-[:checked]:outline-current aria-checked:focus-visible:outline-offset-4 has-[:checked:focus-visible]:outline-offset-4 bg-base-100 w-80 shadow-sm"
+    >
       <:title>Pro plan</:title>
       <div class="flex flex-col gap-2">
         <span class="text-2xl font-semibold">$29<span class="text-sm font-normal">/mo</span></span>
@@ -10439,8 +10528,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-wrap items-start gap-3">
       <.card
         :for={size <- @sizes}
+        figure_class="flex items-center justify-center overflow-hidden group-[.d-image-full]:overflow-hidden group-[.d-image-full]:rounded-[inherit]! group-[.d-image-full]:[&_:is(img,svg,picture,video)]:h-full group-[.d-image-full]:[&_:is(img,svg,picture,video)]:object-cover group-[.d-image-full]:[&_:is(img,svg,picture,video)]:brightness-[28%]"
+        actions_class="d-card-actions"
+        title_class="d-card-title group-[.d-card-xs]:[--d-cardtitle-fs:0.875rem] group-[.d-card-sm]:[--d-cardtitle-fs:1rem] group-[.d-card-md]:[--d-cardtitle-fs:1.125rem] group-[.d-card-lg]:[--d-cardtitle-fs:1.25rem] group-[.d-card-xl]:[--d-cardtitle-fs:1.375rem]"
+        body_class="d-card-body group-[.d-card-xs]:[--d-card-p:0.5rem] group-[.d-card-xs]:[--d-card-fs:0.6875rem] group-[.d-card-sm]:[--d-card-p:1rem] group-[.d-card-sm]:[--d-card-fs:0.75rem] group-[.d-card-md]:[--d-card-p:1.5rem] group-[.d-card-md]:[--d-card-fs:0.875rem] group-[.d-card-lg]:[--d-card-p:2rem] group-[.d-card-lg]:[--d-card-fs:1rem] group-[.d-card-xl]:[--d-card-p:2.5rem] group-[.d-card-xl]:[--d-card-fs:1.125rem] group-[.d-image-full]:relative group-[.d-image-full]:text-neutral-content"
         id={"daisyui-card-#{size}"}
-        class={"d-card-#{size} bg-base-100 w-52 shadow-sm"}
+        class={[
+          "group d-card focus-visible:outline-current aria-checked:outline-current has-[:checked]:outline-current aria-checked:focus-visible:outline-offset-4 has-[:checked:focus-visible]:outline-offset-4",
+          "d-card-#{size} bg-base-100 w-52 shadow-sm"
+        ]}
       >
         <:title>card-{size}</:title>
         A card with the {size} padding scale.
@@ -10451,7 +10547,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "card-border"} = assigns) do
     ~H"""
-    <.card id="daisyui-card-border" class="d-card-border bg-base-100 w-80">
+    <.card
+      figure_class="flex items-center justify-center overflow-hidden group-[.d-image-full]:overflow-hidden group-[.d-image-full]:rounded-[inherit]! group-[.d-image-full]:[&_:is(img,svg,picture,video)]:h-full group-[.d-image-full]:[&_:is(img,svg,picture,video)]:object-cover group-[.d-image-full]:[&_:is(img,svg,picture,video)]:brightness-[28%]"
+      actions_class="d-card-actions"
+      title_class="d-card-title group-[.d-card-xs]:[--d-cardtitle-fs:0.875rem] group-[.d-card-sm]:[--d-cardtitle-fs:1rem] group-[.d-card-md]:[--d-cardtitle-fs:1.125rem] group-[.d-card-lg]:[--d-cardtitle-fs:1.25rem] group-[.d-card-xl]:[--d-cardtitle-fs:1.375rem]"
+      body_class="d-card-body group-[.d-card-xs]:[--d-card-p:0.5rem] group-[.d-card-xs]:[--d-card-fs:0.6875rem] group-[.d-card-sm]:[--d-card-p:1rem] group-[.d-card-sm]:[--d-card-fs:0.75rem] group-[.d-card-md]:[--d-card-p:1.5rem] group-[.d-card-md]:[--d-card-fs:0.875rem] group-[.d-card-lg]:[--d-card-p:2rem] group-[.d-card-lg]:[--d-card-fs:1rem] group-[.d-card-xl]:[--d-card-p:2.5rem] group-[.d-card-xl]:[--d-card-fs:1.125rem] group-[.d-image-full]:relative group-[.d-image-full]:text-neutral-content"
+      id="daisyui-card-border"
+      class="group d-card focus-visible:outline-current aria-checked:outline-current has-[:checked]:outline-current aria-checked:focus-visible:outline-offset-4 has-[:checked:focus-visible]:outline-offset-4 d-card-border bg-base-100 w-80"
+    >
       <:title>Bordered</:title>
       A card with a solid border instead of a shadow.
     </.card>
@@ -10460,7 +10563,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "card-dash"} = assigns) do
     ~H"""
-    <.card id="daisyui-card-dash" class="d-card-dash bg-base-100 w-80">
+    <.card
+      figure_class="flex items-center justify-center overflow-hidden group-[.d-image-full]:overflow-hidden group-[.d-image-full]:rounded-[inherit]! group-[.d-image-full]:[&_:is(img,svg,picture,video)]:h-full group-[.d-image-full]:[&_:is(img,svg,picture,video)]:object-cover group-[.d-image-full]:[&_:is(img,svg,picture,video)]:brightness-[28%]"
+      actions_class="d-card-actions"
+      title_class="d-card-title group-[.d-card-xs]:[--d-cardtitle-fs:0.875rem] group-[.d-card-sm]:[--d-cardtitle-fs:1rem] group-[.d-card-md]:[--d-cardtitle-fs:1.125rem] group-[.d-card-lg]:[--d-cardtitle-fs:1.25rem] group-[.d-card-xl]:[--d-cardtitle-fs:1.375rem]"
+      body_class="d-card-body group-[.d-card-xs]:[--d-card-p:0.5rem] group-[.d-card-xs]:[--d-card-fs:0.6875rem] group-[.d-card-sm]:[--d-card-p:1rem] group-[.d-card-sm]:[--d-card-fs:0.75rem] group-[.d-card-md]:[--d-card-p:1.5rem] group-[.d-card-md]:[--d-card-fs:0.875rem] group-[.d-card-lg]:[--d-card-p:2rem] group-[.d-card-lg]:[--d-card-fs:1rem] group-[.d-card-xl]:[--d-card-p:2.5rem] group-[.d-card-xl]:[--d-card-fs:1.125rem] group-[.d-image-full]:relative group-[.d-image-full]:text-neutral-content"
+      id="daisyui-card-dash"
+      class="group d-card focus-visible:outline-current aria-checked:outline-current has-[:checked]:outline-current aria-checked:focus-visible:outline-offset-4 has-[:checked:focus-visible]:outline-offset-4 d-card-dash bg-base-100 w-80"
+    >
       <:title>Dashed</:title>
       A card with a dashed border — reads as a placeholder or a drop target.
     </.card>
@@ -10469,7 +10579,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "card-badge"} = assigns) do
     ~H"""
-    <.card id="daisyui-card-badge" class="bg-base-100 w-80 shadow-sm">
+    <.card
+      figure_class="flex items-center justify-center overflow-hidden group-[.d-image-full]:overflow-hidden group-[.d-image-full]:rounded-[inherit]! group-[.d-image-full]:[&_:is(img,svg,picture,video)]:h-full group-[.d-image-full]:[&_:is(img,svg,picture,video)]:object-cover group-[.d-image-full]:[&_:is(img,svg,picture,video)]:brightness-[28%]"
+      actions_class="d-card-actions"
+      title_class="d-card-title group-[.d-card-xs]:[--d-cardtitle-fs:0.875rem] group-[.d-card-sm]:[--d-cardtitle-fs:1rem] group-[.d-card-md]:[--d-cardtitle-fs:1.125rem] group-[.d-card-lg]:[--d-cardtitle-fs:1.25rem] group-[.d-card-xl]:[--d-cardtitle-fs:1.375rem]"
+      body_class="d-card-body group-[.d-card-xs]:[--d-card-p:0.5rem] group-[.d-card-xs]:[--d-card-fs:0.6875rem] group-[.d-card-sm]:[--d-card-p:1rem] group-[.d-card-sm]:[--d-card-fs:0.75rem] group-[.d-card-md]:[--d-card-p:1.5rem] group-[.d-card-md]:[--d-card-fs:0.875rem] group-[.d-card-lg]:[--d-card-p:2rem] group-[.d-card-lg]:[--d-card-fs:1rem] group-[.d-card-xl]:[--d-card-p:2.5rem] group-[.d-card-xl]:[--d-card-fs:1.125rem] group-[.d-image-full]:relative group-[.d-image-full]:text-neutral-content"
+      id="daisyui-card-badge"
+      class="group d-card focus-visible:outline-current aria-checked:outline-current has-[:checked]:outline-current aria-checked:focus-visible:outline-offset-4 has-[:checked:focus-visible]:outline-offset-4 bg-base-100 w-80 shadow-sm"
+    >
       <:title>
         Shoes!
         <div class="d-badge d-badge-secondary">NEW</div>
@@ -10485,7 +10602,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "card-bottom-image"} = assigns) do
     ~H"""
-    <.card id="daisyui-card-bottom" figure_position="end" class="bg-base-100 w-80 shadow-sm">
+    <.card
+      figure_class="flex items-center justify-center overflow-hidden group-[.d-image-full]:overflow-hidden group-[.d-image-full]:rounded-[inherit]! group-[.d-image-full]:[&_:is(img,svg,picture,video)]:h-full group-[.d-image-full]:[&_:is(img,svg,picture,video)]:object-cover group-[.d-image-full]:[&_:is(img,svg,picture,video)]:brightness-[28%]"
+      actions_class="d-card-actions"
+      title_class="d-card-title group-[.d-card-xs]:[--d-cardtitle-fs:0.875rem] group-[.d-card-sm]:[--d-cardtitle-fs:1rem] group-[.d-card-md]:[--d-cardtitle-fs:1.125rem] group-[.d-card-lg]:[--d-cardtitle-fs:1.25rem] group-[.d-card-xl]:[--d-cardtitle-fs:1.375rem]"
+      body_class="d-card-body group-[.d-card-xs]:[--d-card-p:0.5rem] group-[.d-card-xs]:[--d-card-fs:0.6875rem] group-[.d-card-sm]:[--d-card-p:1rem] group-[.d-card-sm]:[--d-card-fs:0.75rem] group-[.d-card-md]:[--d-card-p:1.5rem] group-[.d-card-md]:[--d-card-fs:0.875rem] group-[.d-card-lg]:[--d-card-p:2rem] group-[.d-card-lg]:[--d-card-fs:1rem] group-[.d-card-xl]:[--d-card-p:2.5rem] group-[.d-card-xl]:[--d-card-fs:1.125rem] group-[.d-image-full]:relative group-[.d-image-full]:text-neutral-content"
+      id="daisyui-card-bottom"
+      figure_position="end"
+      class="group d-card focus-visible:outline-current aria-checked:outline-current has-[:checked]:outline-current aria-checked:focus-visible:outline-offset-4 has-[:checked:focus-visible]:outline-offset-4 bg-base-100 w-80 shadow-sm"
+    >
       <:title>Shoes!</:title>
       If a dog chews shoes whose shoes does he choose?
       <:figure><.card_image /></:figure>
@@ -10495,7 +10620,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "card-centered"} = assigns) do
     ~H"""
-    <.card id="daisyui-card-centered" class="bg-base-100 w-80 shadow-sm">
+    <.card
+      figure_class="flex items-center justify-center overflow-hidden group-[.d-image-full]:overflow-hidden group-[.d-image-full]:rounded-[inherit]! group-[.d-image-full]:[&_:is(img,svg,picture,video)]:h-full group-[.d-image-full]:[&_:is(img,svg,picture,video)]:object-cover group-[.d-image-full]:[&_:is(img,svg,picture,video)]:brightness-[28%]"
+      actions_class="d-card-actions"
+      title_class="d-card-title group-[.d-card-xs]:[--d-cardtitle-fs:0.875rem] group-[.d-card-sm]:[--d-cardtitle-fs:1rem] group-[.d-card-md]:[--d-cardtitle-fs:1.125rem] group-[.d-card-lg]:[--d-cardtitle-fs:1.25rem] group-[.d-card-xl]:[--d-cardtitle-fs:1.375rem]"
+      body_class="d-card-body group-[.d-card-xs]:[--d-card-p:0.5rem] group-[.d-card-xs]:[--d-card-fs:0.6875rem] group-[.d-card-sm]:[--d-card-p:1rem] group-[.d-card-sm]:[--d-card-fs:0.75rem] group-[.d-card-md]:[--d-card-p:1.5rem] group-[.d-card-md]:[--d-card-fs:0.875rem] group-[.d-card-lg]:[--d-card-p:2rem] group-[.d-card-lg]:[--d-card-fs:1rem] group-[.d-card-xl]:[--d-card-p:2.5rem] group-[.d-card-xl]:[--d-card-fs:1.125rem] group-[.d-image-full]:relative group-[.d-image-full]:text-neutral-content"
+      id="daisyui-card-centered"
+      class="group d-card focus-visible:outline-current aria-checked:outline-current has-[:checked]:outline-current aria-checked:focus-visible:outline-offset-4 has-[:checked:focus-visible]:outline-offset-4 bg-base-100 w-80 shadow-sm"
+    >
       <:figure><.card_image class="rounded-xl" /></:figure>
       <div class="flex flex-col items-center gap-2 pt-2 text-center">
         <h3 class="d-card-title">Shoes!</h3>
@@ -10508,7 +10640,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "card-image-overlay"} = assigns) do
     ~H"""
-    <.card id="daisyui-card-overlay" class="d-image-full w-80 shadow-sm">
+    <.card
+      figure_class="flex items-center justify-center overflow-hidden group-[.d-image-full]:overflow-hidden group-[.d-image-full]:rounded-[inherit]! group-[.d-image-full]:[&_:is(img,svg,picture,video)]:h-full group-[.d-image-full]:[&_:is(img,svg,picture,video)]:object-cover group-[.d-image-full]:[&_:is(img,svg,picture,video)]:brightness-[28%]"
+      actions_class="d-card-actions"
+      title_class="d-card-title group-[.d-card-xs]:[--d-cardtitle-fs:0.875rem] group-[.d-card-sm]:[--d-cardtitle-fs:1rem] group-[.d-card-md]:[--d-cardtitle-fs:1.125rem] group-[.d-card-lg]:[--d-cardtitle-fs:1.25rem] group-[.d-card-xl]:[--d-cardtitle-fs:1.375rem]"
+      body_class="d-card-body group-[.d-card-xs]:[--d-card-p:0.5rem] group-[.d-card-xs]:[--d-card-fs:0.6875rem] group-[.d-card-sm]:[--d-card-p:1rem] group-[.d-card-sm]:[--d-card-fs:0.75rem] group-[.d-card-md]:[--d-card-p:1.5rem] group-[.d-card-md]:[--d-card-fs:0.875rem] group-[.d-card-lg]:[--d-card-p:2rem] group-[.d-card-lg]:[--d-card-fs:1rem] group-[.d-card-xl]:[--d-card-p:2.5rem] group-[.d-card-xl]:[--d-card-fs:1.125rem] group-[.d-image-full]:relative group-[.d-image-full]:text-neutral-content"
+      id="daisyui-card-overlay"
+      class="group d-card focus-visible:outline-current aria-checked:outline-current has-[:checked]:outline-current aria-checked:focus-visible:outline-offset-4 has-[:checked:focus-visible]:outline-offset-4 d-image-full w-80 shadow-sm"
+    >
       <:figure><.card_image /></:figure>
       <:title>Shoes!</:title>
       If a dog chews shoes whose shoes does he choose?
@@ -10523,7 +10662,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "card-no-image"} = assigns) do
     ~H"""
-    <.card id="daisyui-card-no-image" class="bg-base-100 w-80 shadow-sm">
+    <.card
+      figure_class="flex items-center justify-center overflow-hidden group-[.d-image-full]:overflow-hidden group-[.d-image-full]:rounded-[inherit]! group-[.d-image-full]:[&_:is(img,svg,picture,video)]:h-full group-[.d-image-full]:[&_:is(img,svg,picture,video)]:object-cover group-[.d-image-full]:[&_:is(img,svg,picture,video)]:brightness-[28%]"
+      actions_class="d-card-actions"
+      title_class="d-card-title group-[.d-card-xs]:[--d-cardtitle-fs:0.875rem] group-[.d-card-sm]:[--d-cardtitle-fs:1rem] group-[.d-card-md]:[--d-cardtitle-fs:1.125rem] group-[.d-card-lg]:[--d-cardtitle-fs:1.25rem] group-[.d-card-xl]:[--d-cardtitle-fs:1.375rem]"
+      body_class="d-card-body group-[.d-card-xs]:[--d-card-p:0.5rem] group-[.d-card-xs]:[--d-card-fs:0.6875rem] group-[.d-card-sm]:[--d-card-p:1rem] group-[.d-card-sm]:[--d-card-fs:0.75rem] group-[.d-card-md]:[--d-card-p:1.5rem] group-[.d-card-md]:[--d-card-fs:0.875rem] group-[.d-card-lg]:[--d-card-p:2rem] group-[.d-card-lg]:[--d-card-fs:1rem] group-[.d-card-xl]:[--d-card-p:2.5rem] group-[.d-card-xl]:[--d-card-fs:1.125rem] group-[.d-image-full]:relative group-[.d-image-full]:text-neutral-content"
+      id="daisyui-card-no-image"
+      class="group d-card focus-visible:outline-current aria-checked:outline-current has-[:checked]:outline-current aria-checked:focus-visible:outline-offset-4 has-[:checked:focus-visible]:outline-offset-4 bg-base-100 w-80 shadow-sm"
+    >
       <:title>Card title</:title>
       A card with no image at all — just a padded box with a heading.
       <:actions>
@@ -10537,7 +10683,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "card-custom-color"} = assigns) do
     ~H"""
-    <.card id="daisyui-card-custom" class="bg-primary text-primary-content w-80">
+    <.card
+      figure_class="flex items-center justify-center overflow-hidden group-[.d-image-full]:overflow-hidden group-[.d-image-full]:rounded-[inherit]! group-[.d-image-full]:[&_:is(img,svg,picture,video)]:h-full group-[.d-image-full]:[&_:is(img,svg,picture,video)]:object-cover group-[.d-image-full]:[&_:is(img,svg,picture,video)]:brightness-[28%]"
+      actions_class="d-card-actions"
+      title_class="d-card-title group-[.d-card-xs]:[--d-cardtitle-fs:0.875rem] group-[.d-card-sm]:[--d-cardtitle-fs:1rem] group-[.d-card-md]:[--d-cardtitle-fs:1.125rem] group-[.d-card-lg]:[--d-cardtitle-fs:1.25rem] group-[.d-card-xl]:[--d-cardtitle-fs:1.375rem]"
+      body_class="d-card-body group-[.d-card-xs]:[--d-card-p:0.5rem] group-[.d-card-xs]:[--d-card-fs:0.6875rem] group-[.d-card-sm]:[--d-card-p:1rem] group-[.d-card-sm]:[--d-card-fs:0.75rem] group-[.d-card-md]:[--d-card-p:1.5rem] group-[.d-card-md]:[--d-card-fs:0.875rem] group-[.d-card-lg]:[--d-card-p:2rem] group-[.d-card-lg]:[--d-card-fs:1rem] group-[.d-card-xl]:[--d-card-p:2.5rem] group-[.d-card-xl]:[--d-card-fs:1.125rem] group-[.d-image-full]:relative group-[.d-image-full]:text-neutral-content"
+      id="daisyui-card-custom"
+      class="group d-card focus-visible:outline-current aria-checked:outline-current has-[:checked]:outline-current aria-checked:focus-visible:outline-offset-4 has-[:checked:focus-visible]:outline-offset-4 bg-primary text-primary-content w-80"
+    >
       <:title>Card title</:title>
       Theme colors on the root; everything inside inherits them.
       <:actions>
@@ -10551,7 +10704,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "card-neutral"} = assigns) do
     ~H"""
-    <.card id="daisyui-card-neutral" class="bg-neutral text-neutral-content w-80">
+    <.card
+      figure_class="flex items-center justify-center overflow-hidden group-[.d-image-full]:overflow-hidden group-[.d-image-full]:rounded-[inherit]! group-[.d-image-full]:[&_:is(img,svg,picture,video)]:h-full group-[.d-image-full]:[&_:is(img,svg,picture,video)]:object-cover group-[.d-image-full]:[&_:is(img,svg,picture,video)]:brightness-[28%]"
+      actions_class="d-card-actions"
+      title_class="d-card-title group-[.d-card-xs]:[--d-cardtitle-fs:0.875rem] group-[.d-card-sm]:[--d-cardtitle-fs:1rem] group-[.d-card-md]:[--d-cardtitle-fs:1.125rem] group-[.d-card-lg]:[--d-cardtitle-fs:1.25rem] group-[.d-card-xl]:[--d-cardtitle-fs:1.375rem]"
+      body_class="d-card-body group-[.d-card-xs]:[--d-card-p:0.5rem] group-[.d-card-xs]:[--d-card-fs:0.6875rem] group-[.d-card-sm]:[--d-card-p:1rem] group-[.d-card-sm]:[--d-card-fs:0.75rem] group-[.d-card-md]:[--d-card-p:1.5rem] group-[.d-card-md]:[--d-card-fs:0.875rem] group-[.d-card-lg]:[--d-card-p:2rem] group-[.d-card-lg]:[--d-card-fs:1rem] group-[.d-card-xl]:[--d-card-p:2.5rem] group-[.d-card-xl]:[--d-card-fs:1.125rem] group-[.d-image-full]:relative group-[.d-image-full]:text-neutral-content"
+      id="daisyui-card-neutral"
+      class="group d-card focus-visible:outline-current aria-checked:outline-current has-[:checked]:outline-current aria-checked:focus-visible:outline-offset-4 has-[:checked:focus-visible]:outline-offset-4 bg-neutral text-neutral-content w-80"
+    >
       <div class="flex flex-col items-center gap-2 text-center">
         <h3 class="d-card-title">Cookies!</h3>
         <p>We are using cookies for no reason.</p>
@@ -10566,7 +10726,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "card-actions-top"} = assigns) do
     ~H"""
-    <.card id="daisyui-card-actions-top" class="bg-base-100 w-80 shadow-sm">
+    <.card
+      figure_class="flex items-center justify-center overflow-hidden group-[.d-image-full]:overflow-hidden group-[.d-image-full]:rounded-[inherit]! group-[.d-image-full]:[&_:is(img,svg,picture,video)]:h-full group-[.d-image-full]:[&_:is(img,svg,picture,video)]:object-cover group-[.d-image-full]:[&_:is(img,svg,picture,video)]:brightness-[28%]"
+      actions_class="d-card-actions"
+      title_class="d-card-title group-[.d-card-xs]:[--d-cardtitle-fs:0.875rem] group-[.d-card-sm]:[--d-cardtitle-fs:1rem] group-[.d-card-md]:[--d-cardtitle-fs:1.125rem] group-[.d-card-lg]:[--d-cardtitle-fs:1.25rem] group-[.d-card-xl]:[--d-cardtitle-fs:1.375rem]"
+      body_class="d-card-body group-[.d-card-xs]:[--d-card-p:0.5rem] group-[.d-card-xs]:[--d-card-fs:0.6875rem] group-[.d-card-sm]:[--d-card-p:1rem] group-[.d-card-sm]:[--d-card-fs:0.75rem] group-[.d-card-md]:[--d-card-p:1.5rem] group-[.d-card-md]:[--d-card-fs:0.875rem] group-[.d-card-lg]:[--d-card-p:2rem] group-[.d-card-lg]:[--d-card-fs:1rem] group-[.d-card-xl]:[--d-card-p:2.5rem] group-[.d-card-xl]:[--d-card-fs:1.125rem] group-[.d-image-full]:relative group-[.d-image-full]:text-neutral-content"
+      id="daisyui-card-actions-top"
+      class="group d-card focus-visible:outline-current aria-checked:outline-current has-[:checked]:outline-current aria-checked:focus-visible:outline-offset-4 has-[:checked:focus-visible]:outline-offset-4 bg-base-100 w-80 shadow-sm"
+    >
       <:actions>
         <div class="ml-auto flex gap-1">
           <button type="button" class="d-btn d-btn-square d-btn-sm" aria-label="Archive">
@@ -10585,7 +10752,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "card-side"} = assigns) do
     ~H"""
-    <.card id="daisyui-card-side" class="d-card-side bg-base-100 w-96 shadow-sm">
+    <.card
+      figure_class="flex items-center justify-center overflow-hidden group-[.d-image-full]:overflow-hidden group-[.d-image-full]:rounded-[inherit]! group-[.d-image-full]:[&_:is(img,svg,picture,video)]:h-full group-[.d-image-full]:[&_:is(img,svg,picture,video)]:object-cover group-[.d-image-full]:[&_:is(img,svg,picture,video)]:brightness-[28%]"
+      actions_class="d-card-actions"
+      title_class="d-card-title group-[.d-card-xs]:[--d-cardtitle-fs:0.875rem] group-[.d-card-sm]:[--d-cardtitle-fs:1rem] group-[.d-card-md]:[--d-cardtitle-fs:1.125rem] group-[.d-card-lg]:[--d-cardtitle-fs:1.25rem] group-[.d-card-xl]:[--d-cardtitle-fs:1.375rem]"
+      body_class="d-card-body group-[.d-card-xs]:[--d-card-p:0.5rem] group-[.d-card-xs]:[--d-card-fs:0.6875rem] group-[.d-card-sm]:[--d-card-p:1rem] group-[.d-card-sm]:[--d-card-fs:0.75rem] group-[.d-card-md]:[--d-card-p:1.5rem] group-[.d-card-md]:[--d-card-fs:0.875rem] group-[.d-card-lg]:[--d-card-p:2rem] group-[.d-card-lg]:[--d-card-fs:1rem] group-[.d-card-xl]:[--d-card-p:2.5rem] group-[.d-card-xl]:[--d-card-fs:1.125rem] group-[.d-image-full]:relative group-[.d-image-full]:text-neutral-content"
+      id="daisyui-card-side"
+      class="group d-card focus-visible:outline-current aria-checked:outline-current has-[:checked]:outline-current aria-checked:focus-visible:outline-offset-4 has-[:checked:focus-visible]:outline-offset-4 d-card-side bg-base-100 w-96 shadow-sm"
+    >
       <:figure><.card_image class="w-32" /></:figure>
       <:title>New movie is released!</:title>
       Click the button to watch on Jetflix app.
@@ -10600,7 +10774,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "card-responsive"} = assigns) do
     ~H"""
-    <.card id="daisyui-card-responsive" class="bg-base-100 w-96 shadow-sm sm:d-card-side">
+    <.card
+      figure_class="flex items-center justify-center overflow-hidden group-[.d-image-full]:overflow-hidden group-[.d-image-full]:rounded-[inherit]! group-[.d-image-full]:[&_:is(img,svg,picture,video)]:h-full group-[.d-image-full]:[&_:is(img,svg,picture,video)]:object-cover group-[.d-image-full]:[&_:is(img,svg,picture,video)]:brightness-[28%]"
+      actions_class="d-card-actions"
+      title_class="d-card-title group-[.d-card-xs]:[--d-cardtitle-fs:0.875rem] group-[.d-card-sm]:[--d-cardtitle-fs:1rem] group-[.d-card-md]:[--d-cardtitle-fs:1.125rem] group-[.d-card-lg]:[--d-cardtitle-fs:1.25rem] group-[.d-card-xl]:[--d-cardtitle-fs:1.375rem]"
+      body_class="d-card-body group-[.d-card-xs]:[--d-card-p:0.5rem] group-[.d-card-xs]:[--d-card-fs:0.6875rem] group-[.d-card-sm]:[--d-card-p:1rem] group-[.d-card-sm]:[--d-card-fs:0.75rem] group-[.d-card-md]:[--d-card-p:1.5rem] group-[.d-card-md]:[--d-card-fs:0.875rem] group-[.d-card-lg]:[--d-card-p:2rem] group-[.d-card-lg]:[--d-card-fs:1rem] group-[.d-card-xl]:[--d-card-p:2.5rem] group-[.d-card-xl]:[--d-card-fs:1.125rem] group-[.d-image-full]:relative group-[.d-image-full]:text-neutral-content"
+      id="daisyui-card-responsive"
+      class="group d-card focus-visible:outline-current aria-checked:outline-current has-[:checked]:outline-current aria-checked:focus-visible:outline-offset-4 has-[:checked:focus-visible]:outline-offset-4 bg-base-100 w-96 shadow-sm sm:d-card-side"
+    >
       <:figure><.card_image class="sm:w-32" /></:figure>
       <:title>Responsive</:title>
       Vertical below <code>sm</code>, horizontal from <code>sm</code>
@@ -10614,8 +10795,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-wrap gap-3">
       <.card
         :for={{plan, price, checked} <- [{"Starter", "$0", true}, {"Team", "$29", false}]}
+        figure_class="flex items-center justify-center overflow-hidden group-[.d-image-full]:overflow-hidden group-[.d-image-full]:rounded-[inherit]! group-[.d-image-full]:[&_:is(img,svg,picture,video)]:h-full group-[.d-image-full]:[&_:is(img,svg,picture,video)]:object-cover group-[.d-image-full]:[&_:is(img,svg,picture,video)]:brightness-[28%]"
+        actions_class="d-card-actions"
+        title_class="d-card-title group-[.d-card-xs]:[--d-cardtitle-fs:0.875rem] group-[.d-card-sm]:[--d-cardtitle-fs:1rem] group-[.d-card-md]:[--d-cardtitle-fs:1.125rem] group-[.d-card-lg]:[--d-cardtitle-fs:1.25rem] group-[.d-card-xl]:[--d-cardtitle-fs:1.375rem]"
+        body_class="d-card-body group-[.d-card-xs]:[--d-card-p:0.5rem] group-[.d-card-xs]:[--d-card-fs:0.6875rem] group-[.d-card-sm]:[--d-card-p:1rem] group-[.d-card-sm]:[--d-card-fs:0.75rem] group-[.d-card-md]:[--d-card-p:1.5rem] group-[.d-card-md]:[--d-card-fs:0.875rem] group-[.d-card-lg]:[--d-card-p:2rem] group-[.d-card-lg]:[--d-card-fs:1rem] group-[.d-card-xl]:[--d-card-p:2.5rem] group-[.d-card-xl]:[--d-card-fs:1.125rem] group-[.d-image-full]:relative group-[.d-image-full]:text-neutral-content"
         id={"daisyui-card-select-#{String.downcase(plan)}"}
-        class="d-card-border bg-base-100 w-48 cursor-pointer"
+        class="group d-card focus-visible:outline-current aria-checked:outline-current has-[:checked]:outline-current aria-checked:focus-visible:outline-offset-4 has-[:checked:focus-visible]:outline-offset-4 d-card-border bg-base-100 w-48 cursor-pointer"
       >
         <:title>{plan}</:title>
         <label class="flex items-center gap-2">
@@ -10630,9 +10815,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "card-link"} = assigns) do
     ~H"""
     <.card
+      figure_class="flex items-center justify-center overflow-hidden group-[.d-image-full]:overflow-hidden group-[.d-image-full]:rounded-[inherit]! group-[.d-image-full]:[&_:is(img,svg,picture,video)]:h-full group-[.d-image-full]:[&_:is(img,svg,picture,video)]:object-cover group-[.d-image-full]:[&_:is(img,svg,picture,video)]:brightness-[28%]"
+      actions_class="d-card-actions"
+      title_class="d-card-title group-[.d-card-xs]:[--d-cardtitle-fs:0.875rem] group-[.d-card-sm]:[--d-cardtitle-fs:1rem] group-[.d-card-md]:[--d-cardtitle-fs:1.125rem] group-[.d-card-lg]:[--d-cardtitle-fs:1.25rem] group-[.d-card-xl]:[--d-cardtitle-fs:1.375rem]"
+      body_class="d-card-body group-[.d-card-xs]:[--d-card-p:0.5rem] group-[.d-card-xs]:[--d-card-fs:0.6875rem] group-[.d-card-sm]:[--d-card-p:1rem] group-[.d-card-sm]:[--d-card-fs:0.75rem] group-[.d-card-md]:[--d-card-p:1.5rem] group-[.d-card-md]:[--d-card-fs:0.875rem] group-[.d-card-lg]:[--d-card-p:2rem] group-[.d-card-lg]:[--d-card-fs:1rem] group-[.d-card-xl]:[--d-card-p:2.5rem] group-[.d-card-xl]:[--d-card-fs:1.125rem] group-[.d-image-full]:relative group-[.d-image-full]:text-neutral-content"
       id="daisyui-card-link"
       navigate="/showcase/headless-daisyui/card"
-      class="d-card-border bg-base-100 w-80 transition hover:shadow-md"
+      class="group d-card focus-visible:outline-current aria-checked:outline-current has-[:checked]:outline-current aria-checked:focus-visible:outline-offset-4 has-[:checked:focus-visible]:outline-offset-4 d-card-border bg-base-100 w-80 transition hover:shadow-md"
     >
       <:title>The whole card is the link</:title>
       The root renders as an anchor, so there is one focus stop and one click target — not a link
