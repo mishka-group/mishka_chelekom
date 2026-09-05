@@ -1179,7 +1179,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     assigns = assign(assigns, :faq, @faq)
 
     ~H"""
-    <.accordion id="daisyui-accordion-hero" collapsible heading_level={3} class="max-w-80">
+    <.accordion
+      panel_class="h-[var(--accordion-panel-height)] overflow-hidden px-4 pb-4 text-[0.875rem] [color:color-mix(in_oklab,var(--color-base-content)_70%,transparent)] motion-safe:[transition:height_0.2s_ease-out,padding-bottom_0.2s_ease-out] data-starting-style:h-0 data-starting-style:pb-0 data-ending-style:h-0 data-ending-style:pb-0"
+      trigger_class="d-collapse-title flex items-center justify-between gap-4 text-[0.875rem] font-medium text-start cursor-pointer select-none hover:not-data-disabled:bg-base-content/6 focus-visible:outline-2 focus-visible:outline-primary focus-visible:-outline-offset-2 data-disabled:cursor-not-allowed data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_30%,transparent)] not-has-[>*]:after:content-[''] not-has-[>*]:after:absolute not-has-[>*]:after:block not-has-[>*]:after:top-1/2 not-has-[>*]:after:end-[1.4rem] not-has-[>*]:after:h-2 not-has-[>*]:after:w-2 not-has-[>*]:after:[transform:translateY(-100%)_rotate(45deg)] not-has-[>*]:after:[transform-origin:75%_75%] not-has-[>*]:after:[box-shadow:2px_2px] not-has-[>*]:after:pointer-events-none motion-safe:not-has-[>*]:after:[transition:all_0.2s_cubic-bezier(0.4,0,0.2,1)] motion-safe:data-[panel-open]:not-has-[>*]:after:[transform:translateY(-50%)_rotate(225deg)]"
+      heading_class="m-0"
+      item_class="d-collapse block rounded-none not-first:[border-top:var(--border)_solid_var(--color-base-300)]"
+      id="daisyui-accordion-hero"
+      collapsible
+      heading_level={3}
+      class="flex flex-col w-full overflow-hidden border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content max-w-80"
+    >
       <:item :for={{question, answer} <- @faq} title={question}>{answer}</:item>
     </.accordion>
     """
@@ -1189,7 +1198,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     assigns = assign(assigns, :faq, @faq)
 
     ~H"""
-    <.accordion id="daisyui-accordion-multiple" multiple collapsible class="max-w-80">
+    <.accordion
+      panel_class="h-[var(--accordion-panel-height)] overflow-hidden px-4 pb-4 text-[0.875rem] [color:color-mix(in_oklab,var(--color-base-content)_70%,transparent)] motion-safe:[transition:height_0.2s_ease-out,padding-bottom_0.2s_ease-out] data-starting-style:h-0 data-starting-style:pb-0 data-ending-style:h-0 data-ending-style:pb-0"
+      trigger_class="d-collapse-title flex items-center justify-between gap-4 text-[0.875rem] font-medium text-start cursor-pointer select-none hover:not-data-disabled:bg-base-content/6 focus-visible:outline-2 focus-visible:outline-primary focus-visible:-outline-offset-2 data-disabled:cursor-not-allowed data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_30%,transparent)] not-has-[>*]:after:content-[''] not-has-[>*]:after:absolute not-has-[>*]:after:block not-has-[>*]:after:top-1/2 not-has-[>*]:after:end-[1.4rem] not-has-[>*]:after:h-2 not-has-[>*]:after:w-2 not-has-[>*]:after:[transform:translateY(-100%)_rotate(45deg)] not-has-[>*]:after:[transform-origin:75%_75%] not-has-[>*]:after:[box-shadow:2px_2px] not-has-[>*]:after:pointer-events-none motion-safe:not-has-[>*]:after:[transition:all_0.2s_cubic-bezier(0.4,0,0.2,1)] motion-safe:data-[panel-open]:not-has-[>*]:after:[transform:translateY(-50%)_rotate(225deg)]"
+      heading_class="m-0"
+      item_class="d-collapse block rounded-none not-first:[border-top:var(--border)_solid_var(--color-base-300)]"
+      id="daisyui-accordion-multiple"
+      multiple
+      collapsible
+      class="flex flex-col w-full overflow-hidden border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content max-w-80"
+    >
       <:item :for={{question, answer} <- @faq} title={question}>{answer}</:item>
     </.accordion>
     """
@@ -1199,7 +1217,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     assigns = assign(assigns, :faq, @faq)
 
     ~H"""
-    <.accordion id="daisyui-accordion-plus" collapsible class="max-w-80">
+    <.accordion
+      panel_class="h-[var(--accordion-panel-height)] overflow-hidden px-4 pb-4 text-[0.875rem] [color:color-mix(in_oklab,var(--color-base-content)_70%,transparent)] motion-safe:[transition:height_0.2s_ease-out,padding-bottom_0.2s_ease-out] data-starting-style:h-0 data-starting-style:pb-0 data-ending-style:h-0 data-ending-style:pb-0"
+      trigger_class="d-collapse-title flex items-center justify-between gap-4 text-[0.875rem] font-medium text-start cursor-pointer select-none hover:not-data-disabled:bg-base-content/6 focus-visible:outline-2 focus-visible:outline-primary focus-visible:-outline-offset-2 data-disabled:cursor-not-allowed data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_30%,transparent)] not-has-[>*]:after:content-[''] not-has-[>*]:after:absolute not-has-[>*]:after:block not-has-[>*]:after:top-1/2 not-has-[>*]:after:end-[1.4rem] not-has-[>*]:after:h-2 not-has-[>*]:after:w-2 not-has-[>*]:after:[transform:translateY(-100%)_rotate(45deg)] not-has-[>*]:after:[transform-origin:75%_75%] not-has-[>*]:after:[box-shadow:2px_2px] not-has-[>*]:after:pointer-events-none motion-safe:not-has-[>*]:after:[transition:all_0.2s_cubic-bezier(0.4,0,0.2,1)] motion-safe:data-[panel-open]:not-has-[>*]:after:[transform:translateY(-50%)_rotate(225deg)]"
+      heading_class="m-0"
+      item_class="d-collapse block rounded-none not-first:[border-top:var(--border)_solid_var(--color-base-300)]"
+      id="daisyui-accordion-plus"
+      collapsible
+      class="flex flex-col w-full overflow-hidden border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content max-w-80"
+    >
       <:trigger_icon>
         <svg
           width="14"
@@ -1226,9 +1252,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
     ~H"""
     <.accordion
+      panel_class="h-[var(--accordion-panel-height)] overflow-hidden px-4 pb-4 text-[0.875rem] [color:color-mix(in_oklab,var(--color-base-content)_70%,transparent)] motion-safe:[transition:height_0.2s_ease-out,padding-bottom_0.2s_ease-out] data-starting-style:h-0 data-starting-style:pb-0 data-ending-style:h-0 data-ending-style:pb-0"
+      trigger_class="d-collapse-title flex items-center justify-between gap-4 text-[0.875rem] font-medium text-start cursor-pointer select-none hover:not-data-disabled:bg-base-content/6 focus-visible:outline-2 focus-visible:outline-primary focus-visible:-outline-offset-2 data-disabled:cursor-not-allowed data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_30%,transparent)] not-has-[>*]:after:content-[''] not-has-[>*]:after:absolute not-has-[>*]:after:block not-has-[>*]:after:top-1/2 not-has-[>*]:after:end-[1.4rem] not-has-[>*]:after:h-2 not-has-[>*]:after:w-2 not-has-[>*]:after:[transform:translateY(-100%)_rotate(45deg)] not-has-[>*]:after:[transform-origin:75%_75%] not-has-[>*]:after:[box-shadow:2px_2px] not-has-[>*]:after:pointer-events-none motion-safe:not-has-[>*]:after:[transition:all_0.2s_cubic-bezier(0.4,0,0.2,1)] motion-safe:data-[panel-open]:not-has-[>*]:after:[transform:translateY(-50%)_rotate(225deg)]"
+      heading_class="m-0"
+      item_class="d-collapse block"
       id="daisyui-accordion-separated"
       collapsible
-      class="max-w-80 gap-2 overflow-visible border-0 bg-transparent"
+      class="flex flex-col w-full border-base-300 rounded-[var(--radius-box)] text-base-content max-w-80 gap-2 overflow-visible border-0 bg-transparent"
     >
       <:item
         :for={{question, answer} <- @faq}
@@ -4077,7 +4107,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── switch ────────────────────────────────────────────────────────────────
   def example(%{section: "switch-hero"} = assigns) do
     ~H"""
-    <.switch id="daisyui-switch-hero" checked>Notifications</.switch>
+    <.switch
+      label_class="select-none"
+      off_icon_class="text-base-100 opacity-100 [rotate:0deg] group-data-[checked]/track:opacity-0 group-data-[checked]/track:[rotate:15deg]"
+      on_icon_class="text-base-100 opacity-0 [rotate:-15deg] group-data-[checked]/track:opacity-100 group-data-[checked]/track:[rotate:0deg]"
+      thumb_class="hidden"
+      track_class="group/track d-toggle [--d-size:var(--d-switch-size)] data-checked:[grid-template-columns:1fr_1fr_0fr] data-checked:bg-base-100 data-checked:[--d-input-color:var(--d-switch-on)] group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2"
+      class="group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] text-base-content [--d-switch-on:var(--d-input-color,var(--color-base-content))] [--d-switch-size:var(--d-size,calc(var(--size-selector,0.25rem)*6))] disabled:cursor-not-allowed disabled:opacity-20 data-disabled:cursor-not-allowed data-disabled:opacity-20 data-readonly:cursor-default [&.d-toggle-xs]:[--d-switch-size:calc(var(--size-selector,0.25rem)*4)] [&.d-toggle-sm]:[--d-switch-size:calc(var(--size-selector,0.25rem)*5)] [&.d-toggle-md]:[--d-switch-size:calc(var(--size-selector,0.25rem)*6)] [&.d-toggle-lg]:[--d-switch-size:calc(var(--size-selector,0.25rem)*7)] [&.d-toggle-xl]:[--d-switch-size:calc(var(--size-selector,0.25rem)*8)]"
+      id="daisyui-switch-hero"
+      checked
+    >
+      Notifications
+    </.switch>
     """
   end
 
@@ -4088,9 +4129,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-col gap-3">
       <.switch
         :for={size <- @sizes}
+        label_class="select-none"
+        off_icon_class="text-base-100 opacity-100 [rotate:0deg] group-data-[checked]/track:opacity-0 group-data-[checked]/track:[rotate:15deg]"
+        on_icon_class="text-base-100 opacity-0 [rotate:-15deg] group-data-[checked]/track:opacity-100 group-data-[checked]/track:[rotate:0deg]"
+        thumb_class="hidden"
+        track_class="group/track d-toggle [--d-size:var(--d-switch-size)] data-checked:[grid-template-columns:1fr_1fr_0fr] data-checked:bg-base-100 data-checked:[--d-input-color:var(--d-switch-on)] group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2"
         id={"daisyui-switch-size-#{size}"}
         checked
-        class={"d-toggle-#{size}"}
+        class={[
+          "group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] text-base-content [--d-switch-on:var(--d-input-color,var(--color-base-content))] [--d-switch-size:var(--d-size,calc(var(--size-selector,0.25rem)*6))] disabled:cursor-not-allowed disabled:opacity-20 data-disabled:cursor-not-allowed data-disabled:opacity-20 data-readonly:cursor-default [&.d-toggle-xs]:[--d-switch-size:calc(var(--size-selector,0.25rem)*4)] [&.d-toggle-sm]:[--d-switch-size:calc(var(--size-selector,0.25rem)*5)] [&.d-toggle-md]:[--d-switch-size:calc(var(--size-selector,0.25rem)*6)] [&.d-toggle-lg]:[--d-switch-size:calc(var(--size-selector,0.25rem)*7)] [&.d-toggle-xl]:[--d-switch-size:calc(var(--size-selector,0.25rem)*8)]",
+          "d-toggle-#{size}"
+        ]}
       >
         toggle-{size}
       </.switch>
@@ -4105,9 +4154,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-wrap gap-4">
       <.switch
         :for={color <- @colors}
+        label_class="select-none"
+        off_icon_class="text-base-100 opacity-100 [rotate:0deg] group-data-[checked]/track:opacity-0 group-data-[checked]/track:[rotate:15deg]"
+        on_icon_class="text-base-100 opacity-0 [rotate:-15deg] group-data-[checked]/track:opacity-100 group-data-[checked]/track:[rotate:0deg]"
+        thumb_class="hidden"
+        track_class="group/track d-toggle [--d-size:var(--d-switch-size)] data-checked:[grid-template-columns:1fr_1fr_0fr] data-checked:bg-base-100 data-checked:[--d-input-color:var(--d-switch-on)] group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2"
         id={"daisyui-switch-#{color}"}
         checked
-        class={"d-toggle-#{color}"}
+        class={[
+          "group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] text-base-content [--d-switch-on:var(--d-input-color,var(--color-base-content))] [--d-switch-size:var(--d-size,calc(var(--size-selector,0.25rem)*6))] disabled:cursor-not-allowed disabled:opacity-20 data-disabled:cursor-not-allowed data-disabled:opacity-20 data-readonly:cursor-default [&.d-toggle-xs]:[--d-switch-size:calc(var(--size-selector,0.25rem)*4)] [&.d-toggle-sm]:[--d-switch-size:calc(var(--size-selector,0.25rem)*5)] [&.d-toggle-md]:[--d-switch-size:calc(var(--size-selector,0.25rem)*6)] [&.d-toggle-lg]:[--d-switch-size:calc(var(--size-selector,0.25rem)*7)] [&.d-toggle-xl]:[--d-switch-size:calc(var(--size-selector,0.25rem)*8)]",
+          "d-toggle-#{color}"
+        ]}
       >
         {color}
       </.switch>
@@ -4118,15 +4175,47 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "switch-disabled"} = assigns) do
     ~H"""
     <div class="flex flex-col gap-3">
-      <.switch id="daisyui-switch-disabled-on" checked disabled>Disabled, on</.switch>
-      <.switch id="daisyui-switch-disabled-off" disabled>Disabled, off</.switch>
+      <.switch
+        label_class="select-none"
+        off_icon_class="text-base-100 opacity-100 [rotate:0deg] group-data-[checked]/track:opacity-0 group-data-[checked]/track:[rotate:15deg]"
+        on_icon_class="text-base-100 opacity-0 [rotate:-15deg] group-data-[checked]/track:opacity-100 group-data-[checked]/track:[rotate:0deg]"
+        thumb_class="hidden"
+        track_class="group/track d-toggle [--d-size:var(--d-switch-size)] data-checked:[grid-template-columns:1fr_1fr_0fr] data-checked:bg-base-100 data-checked:[--d-input-color:var(--d-switch-on)] group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2"
+        class="group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] text-base-content [--d-switch-on:var(--d-input-color,var(--color-base-content))] [--d-switch-size:var(--d-size,calc(var(--size-selector,0.25rem)*6))] disabled:cursor-not-allowed disabled:opacity-20 data-disabled:cursor-not-allowed data-disabled:opacity-20 data-readonly:cursor-default [&.d-toggle-xs]:[--d-switch-size:calc(var(--size-selector,0.25rem)*4)] [&.d-toggle-sm]:[--d-switch-size:calc(var(--size-selector,0.25rem)*5)] [&.d-toggle-md]:[--d-switch-size:calc(var(--size-selector,0.25rem)*6)] [&.d-toggle-lg]:[--d-switch-size:calc(var(--size-selector,0.25rem)*7)] [&.d-toggle-xl]:[--d-switch-size:calc(var(--size-selector,0.25rem)*8)]"
+        id="daisyui-switch-disabled-on"
+        checked
+        disabled
+      >
+        Disabled, on
+      </.switch>
+      <.switch
+        label_class="select-none"
+        off_icon_class="text-base-100 opacity-100 [rotate:0deg] group-data-[checked]/track:opacity-0 group-data-[checked]/track:[rotate:15deg]"
+        on_icon_class="text-base-100 opacity-0 [rotate:-15deg] group-data-[checked]/track:opacity-100 group-data-[checked]/track:[rotate:0deg]"
+        thumb_class="hidden"
+        track_class="group/track d-toggle [--d-size:var(--d-switch-size)] data-checked:[grid-template-columns:1fr_1fr_0fr] data-checked:bg-base-100 data-checked:[--d-input-color:var(--d-switch-on)] group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2"
+        class="group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] text-base-content [--d-switch-on:var(--d-input-color,var(--color-base-content))] [--d-switch-size:var(--d-size,calc(var(--size-selector,0.25rem)*6))] disabled:cursor-not-allowed disabled:opacity-20 data-disabled:cursor-not-allowed data-disabled:opacity-20 data-readonly:cursor-default [&.d-toggle-xs]:[--d-switch-size:calc(var(--size-selector,0.25rem)*4)] [&.d-toggle-sm]:[--d-switch-size:calc(var(--size-selector,0.25rem)*5)] [&.d-toggle-md]:[--d-switch-size:calc(var(--size-selector,0.25rem)*6)] [&.d-toggle-lg]:[--d-switch-size:calc(var(--size-selector,0.25rem)*7)] [&.d-toggle-xl]:[--d-switch-size:calc(var(--size-selector,0.25rem)*8)]"
+        id="daisyui-switch-disabled-off"
+        disabled
+      >
+        Disabled, off
+      </.switch>
     </div>
     """
   end
 
   def example(%{section: "switch-icons"} = assigns) do
     ~H"""
-    <.switch id="daisyui-switch-icons" checked class="d-toggle-lg">
+    <.switch
+      label_class="select-none"
+      off_icon_class="text-base-100 opacity-100 [rotate:0deg] group-data-[checked]/track:opacity-0 group-data-[checked]/track:[rotate:15deg]"
+      on_icon_class="text-base-100 opacity-0 [rotate:-15deg] group-data-[checked]/track:opacity-100 group-data-[checked]/track:[rotate:0deg]"
+      thumb_class="hidden"
+      track_class="group/track d-toggle [--d-size:var(--d-switch-size)] data-checked:[grid-template-columns:1fr_1fr_0fr] data-checked:bg-base-100 data-checked:[--d-input-color:var(--d-switch-on)] group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2"
+      id="daisyui-switch-icons"
+      checked
+      class="group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] text-base-content [--d-switch-on:var(--d-input-color,var(--color-base-content))] [--d-switch-size:var(--d-size,calc(var(--size-selector,0.25rem)*6))] disabled:cursor-not-allowed disabled:opacity-20 data-disabled:cursor-not-allowed data-disabled:opacity-20 data-readonly:cursor-default [&.d-toggle-xs]:[--d-switch-size:calc(var(--size-selector,0.25rem)*4)] [&.d-toggle-sm]:[--d-switch-size:calc(var(--size-selector,0.25rem)*5)] [&.d-toggle-md]:[--d-switch-size:calc(var(--size-selector,0.25rem)*6)] [&.d-toggle-lg]:[--d-switch-size:calc(var(--size-selector,0.25rem)*7)] [&.d-toggle-xl]:[--d-switch-size:calc(var(--size-selector,0.25rem)*8)] d-toggle-lg"
+    >
       <:on_icon>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" class="size-full">
           <path d="M20 6 9 17l-5-5" />
@@ -4144,9 +4233,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "switch-custom-colors"} = assigns) do
     ~H"""
     <.switch
+      label_class="select-none"
+      off_icon_class="text-base-100 opacity-100 [rotate:0deg] group-data-[checked]/track:opacity-0 group-data-[checked]/track:[rotate:15deg]"
+      on_icon_class="text-base-100 opacity-0 [rotate:-15deg] group-data-[checked]/track:opacity-100 group-data-[checked]/track:[rotate:0deg]"
+      thumb_class="hidden"
+      class="group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] text-base-content [--d-switch-on:var(--d-input-color,var(--color-base-content))] [--d-switch-size:var(--d-size,calc(var(--size-selector,0.25rem)*6))] disabled:cursor-not-allowed disabled:opacity-20 data-disabled:cursor-not-allowed data-disabled:opacity-20 data-readonly:cursor-default [&.d-toggle-xs]:[--d-switch-size:calc(var(--size-selector,0.25rem)*4)] [&.d-toggle-sm]:[--d-switch-size:calc(var(--size-selector,0.25rem)*5)] [&.d-toggle-md]:[--d-switch-size:calc(var(--size-selector,0.25rem)*6)] [&.d-toggle-lg]:[--d-switch-size:calc(var(--size-selector,0.25rem)*7)] [&.d-toggle-xl]:[--d-switch-size:calc(var(--size-selector,0.25rem)*8)]"
       id="daisyui-switch-custom"
       checked
-      track_class="border-indigo-600 bg-indigo-500 text-indigo-800 data-[checked]:border-orange-500 data-[checked]:bg-orange-400 data-[checked]:text-orange-800"
+      track_class="group/track d-toggle [--d-size:var(--d-switch-size)] data-checked:[grid-template-columns:1fr_1fr_0fr] data-checked:bg-base-100 data-checked:[--d-input-color:var(--d-switch-on)] group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2 border-indigo-600 bg-indigo-500 text-indigo-800 data-[checked]:border-orange-500 data-[checked]:bg-orange-400 data-[checked]:text-orange-800"
     >
       Custom colors
     </.switch>
@@ -4158,9 +4252,43 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <form phx-submit="daisyui_switch_submit" class="flex flex-col items-start gap-3">
       <fieldset class="d-fieldset">
         <legend class="d-fieldset-legend">Notify me about</legend>
-        <.switch id="daisyui-switch-form-email" name="email" checked>Email</.switch>
-        <.switch id="daisyui-switch-form-push" name="push">Push</.switch>
-        <.switch id="daisyui-switch-form-sms" name="sms">SMS</.switch>
+        <.switch
+          label_class="select-none"
+          off_icon_class="text-base-100 opacity-100 [rotate:0deg] group-data-[checked]/track:opacity-0 group-data-[checked]/track:[rotate:15deg]"
+          on_icon_class="text-base-100 opacity-0 [rotate:-15deg] group-data-[checked]/track:opacity-100 group-data-[checked]/track:[rotate:0deg]"
+          thumb_class="hidden"
+          track_class="group/track d-toggle [--d-size:var(--d-switch-size)] data-checked:[grid-template-columns:1fr_1fr_0fr] data-checked:bg-base-100 data-checked:[--d-input-color:var(--d-switch-on)] group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2"
+          class="group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] text-base-content [--d-switch-on:var(--d-input-color,var(--color-base-content))] [--d-switch-size:var(--d-size,calc(var(--size-selector,0.25rem)*6))] disabled:cursor-not-allowed disabled:opacity-20 data-disabled:cursor-not-allowed data-disabled:opacity-20 data-readonly:cursor-default [&.d-toggle-xs]:[--d-switch-size:calc(var(--size-selector,0.25rem)*4)] [&.d-toggle-sm]:[--d-switch-size:calc(var(--size-selector,0.25rem)*5)] [&.d-toggle-md]:[--d-switch-size:calc(var(--size-selector,0.25rem)*6)] [&.d-toggle-lg]:[--d-switch-size:calc(var(--size-selector,0.25rem)*7)] [&.d-toggle-xl]:[--d-switch-size:calc(var(--size-selector,0.25rem)*8)]"
+          id="daisyui-switch-form-email"
+          name="email"
+          checked
+        >
+          Email
+        </.switch>
+        <.switch
+          label_class="select-none"
+          off_icon_class="text-base-100 opacity-100 [rotate:0deg] group-data-[checked]/track:opacity-0 group-data-[checked]/track:[rotate:15deg]"
+          on_icon_class="text-base-100 opacity-0 [rotate:-15deg] group-data-[checked]/track:opacity-100 group-data-[checked]/track:[rotate:0deg]"
+          thumb_class="hidden"
+          track_class="group/track d-toggle [--d-size:var(--d-switch-size)] data-checked:[grid-template-columns:1fr_1fr_0fr] data-checked:bg-base-100 data-checked:[--d-input-color:var(--d-switch-on)] group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2"
+          class="group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] text-base-content [--d-switch-on:var(--d-input-color,var(--color-base-content))] [--d-switch-size:var(--d-size,calc(var(--size-selector,0.25rem)*6))] disabled:cursor-not-allowed disabled:opacity-20 data-disabled:cursor-not-allowed data-disabled:opacity-20 data-readonly:cursor-default [&.d-toggle-xs]:[--d-switch-size:calc(var(--size-selector,0.25rem)*4)] [&.d-toggle-sm]:[--d-switch-size:calc(var(--size-selector,0.25rem)*5)] [&.d-toggle-md]:[--d-switch-size:calc(var(--size-selector,0.25rem)*6)] [&.d-toggle-lg]:[--d-switch-size:calc(var(--size-selector,0.25rem)*7)] [&.d-toggle-xl]:[--d-switch-size:calc(var(--size-selector,0.25rem)*8)]"
+          id="daisyui-switch-form-push"
+          name="push"
+        >
+          Push
+        </.switch>
+        <.switch
+          label_class="select-none"
+          off_icon_class="text-base-100 opacity-100 [rotate:0deg] group-data-[checked]/track:opacity-0 group-data-[checked]/track:[rotate:15deg]"
+          on_icon_class="text-base-100 opacity-0 [rotate:-15deg] group-data-[checked]/track:opacity-100 group-data-[checked]/track:[rotate:0deg]"
+          thumb_class="hidden"
+          track_class="group/track d-toggle [--d-size:var(--d-switch-size)] data-checked:[grid-template-columns:1fr_1fr_0fr] data-checked:bg-base-100 data-checked:[--d-input-color:var(--d-switch-on)] group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2"
+          class="group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] text-base-content [--d-switch-on:var(--d-input-color,var(--color-base-content))] [--d-switch-size:var(--d-size,calc(var(--size-selector,0.25rem)*6))] disabled:cursor-not-allowed disabled:opacity-20 data-disabled:cursor-not-allowed data-disabled:opacity-20 data-readonly:cursor-default [&.d-toggle-xs]:[--d-switch-size:calc(var(--size-selector,0.25rem)*4)] [&.d-toggle-sm]:[--d-switch-size:calc(var(--size-selector,0.25rem)*5)] [&.d-toggle-md]:[--d-switch-size:calc(var(--size-selector,0.25rem)*6)] [&.d-toggle-lg]:[--d-switch-size:calc(var(--size-selector,0.25rem)*7)] [&.d-toggle-xl]:[--d-switch-size:calc(var(--size-selector,0.25rem)*8)]"
+          id="daisyui-switch-form-sms"
+          name="sms"
+        >
+          SMS
+        </.switch>
       </fieldset>
       <button type="submit" class="d-btn d-btn-primary d-btn-sm">Save</button>
     </form>
@@ -10026,13 +10154,29 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── text_input ────────────────────────────────────────────────────────────
   def example(%{section: "text-input-hero"} = assigns) do
     ~H"""
-    <.text_input id="daisyui-input-hero" name="username" placeholder="Type here" />
+    <.text_input
+      end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
+      start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
+      input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
+      class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
+      id="daisyui-input-hero"
+      name="username"
+      placeholder="Type here"
+    />
     """
   end
 
   def example(%{section: "text-input-label-inside"} = assigns) do
     ~H"""
-    <.text_input id="daisyui-input-label-inside" name="path" placeholder="daisyui.com">
+    <.text_input
+      end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
+      start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
+      input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
+      class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
+      id="daisyui-input-label-inside"
+      name="path"
+      placeholder="daisyui.com"
+    >
       <:start_section>https://</:start_section>
     </.text_input>
     """
@@ -10040,7 +10184,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "text-input-label-end"} = assigns) do
     ~H"""
-    <.text_input id="daisyui-input-label-end" name="domain" placeholder="mysite">
+    <.text_input
+      end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
+      start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
+      input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
+      class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
+      id="daisyui-input-label-end"
+      name="domain"
+      placeholder="mysite"
+    >
       <:end_section>.com</:end_section>
     </.text_input>
     """
@@ -10049,9 +10201,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "text-input-ghost"} = assigns) do
     ~H"""
     <.text_input
+      end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
+      start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
+      input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
       id="daisyui-input-ghost"
       name="ghost"
-      class="d-input-ghost"
+      class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] d-input-ghost"
       placeholder="Type here"
     />
     """
@@ -10065,7 +10220,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       class="d-fieldset data-disabled:opacity-60 d-fieldset w-xs"
     >
       <:legend>What is your name?</:legend>
-      <.text_input id="daisyui-input-fieldset-control" name="name" placeholder="Your name" />
+      <.text_input
+        end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
+        start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
+        input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
+        class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
+        id="daisyui-input-fieldset-control"
+        name="name"
+        placeholder="Your name"
+      />
       <p class="d-label">Optional</p>
     </.fieldset>
     """
@@ -10085,6 +10248,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       label_class="d-label text-[0.875rem] d-fieldset-legend"
     >
       <.text_input
+        end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
+        start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
+        input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
+        class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
         id={f.id}
         name={f.name}
         type="email"
@@ -10103,9 +10270,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-col gap-2">
       <.text_input
         :for={color <- @colors}
+        end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
+        start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
+        input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
         id={"daisyui-input-#{color}"}
         name={color}
-        class={"d-input-#{color}"}
+        class={[
+          "group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]",
+          "d-input-#{color}"
+        ]}
         placeholder={String.capitalize(color)}
       />
     </div>
@@ -10119,9 +10292,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-col gap-2">
       <.text_input
         :for={size <- @sizes}
+        end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
+        start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
+        input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
         id={"daisyui-input-size-#{size}"}
         name={size}
-        class={"d-input-#{size}"}
+        class={[
+          "group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]",
+          "d-input-#{size}"
+        ]}
         placeholder={"Size #{size}"}
       />
     </div>
@@ -10131,8 +10310,26 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "text-input-disabled"} = assigns) do
     ~H"""
     <div class="flex flex-col gap-2">
-      <.text_input id="daisyui-input-disabled" name="disabled" placeholder="You can't type" disabled />
-      <.text_input id="daisyui-input-disabled-value" name="disabled_value" value="Locked" disabled />
+      <.text_input
+        end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
+        start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
+        input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
+        class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
+        id="daisyui-input-disabled"
+        name="disabled"
+        placeholder="You can't type"
+        disabled
+      />
+      <.text_input
+        end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
+        start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
+        input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
+        class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
+        id="daisyui-input-disabled-value"
+        name="disabled_value"
+        value="Locked"
+        disabled
+      />
     </div>
     """
   end
@@ -10141,6 +10338,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <div>
       <.text_input
+        end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
+        start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
+        input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
+        class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
         id="daisyui-input-datalist"
         name="browser"
         placeholder="Pick a browser"
@@ -10157,19 +10358,43 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "text-input-date"} = assigns) do
     ~H"""
-    <.text_input id="daisyui-input-date" name="date" type="date" />
+    <.text_input
+      end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
+      start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
+      input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
+      class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
+      id="daisyui-input-date"
+      name="date"
+      type="date"
+    />
     """
   end
 
   def example(%{section: "text-input-time"} = assigns) do
     ~H"""
-    <.text_input id="daisyui-input-time" name="time" type="time" />
+    <.text_input
+      end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
+      start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
+      input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
+      class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
+      id="daisyui-input-time"
+      name="time"
+      type="time"
+    />
     """
   end
 
   def example(%{section: "text-input-datetime"} = assigns) do
     ~H"""
-    <.text_input id="daisyui-input-datetime" name="at" type="datetime-local" />
+    <.text_input
+      end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
+      start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
+      input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
+      class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
+      id="daisyui-input-datetime"
+      name="at"
+      type="datetime-local"
+    />
     """
   end
 
@@ -10177,9 +10402,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <div class="w-xs">
       <.text_input
+        end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
+        start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
+        input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
         id="daisyui-input-username"
         name="username"
-        class="d-validator"
+        class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] d-validator"
         placeholder="Username"
         required
         pattern="[A-Za-z][A-Za-z0-9\-]*"
@@ -10200,7 +10428,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "text-input-search"} = assigns) do
     ~H"""
-    <.text_input id="daisyui-input-search" name="q" type="search" placeholder="Search" required>
+    <.text_input
+      end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
+      start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
+      input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
+      class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
+      id="daisyui-input-search"
+      name="q"
+      type="search"
+      placeholder="Search"
+      required
+    >
       <:start_section>
         <.field_icon path="M11 19a8 8 0 100-16 8 8 0 000 16zM21 21l-4.35-4.35" />
       </:start_section>
@@ -10212,10 +10450,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <div class="w-xs">
       <.text_input
+        end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
+        start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
+        input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
         id="daisyui-input-email"
         name="email"
         type="email"
-        class="d-validator"
+        class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] d-validator"
         placeholder="mail@site.com"
         required
       >
@@ -10232,10 +10473,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <form id="daisyui-input-join-form" phx-submit="daisyui_text_input_submit" class="d-join">
       <.text_input
+        end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
+        start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
+        input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
         id="daisyui-input-join"
         name="email"
         type="email"
-        class="d-join-item"
+        class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] d-join-item"
         placeholder="Enter your email"
         required
       />
@@ -10248,10 +10492,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <div class="w-xs">
       <.text_input
+        end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
+        start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
+        input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
         id="daisyui-input-password"
         name="password"
         type="password"
-        class="d-validator"
+        class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] d-validator"
         placeholder="Password"
         required
         minlength="8"
@@ -10273,10 +10520,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <div class="w-xs">
       <.text_input
+        end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
+        start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
+        input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
         id="daisyui-input-number"
         name="quantity"
         type="number"
-        class="d-validator"
+        class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] d-validator"
         placeholder="Between 1 and 10"
         required
         min="1"
@@ -10292,10 +10542,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <div class="w-xs">
       <.text_input
+        end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
+        start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
+        input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
         id="daisyui-input-tel"
         name="phone"
         type="tel"
-        class="d-validator tabular-nums"
+        class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] d-validator tabular-nums"
         placeholder="Phone"
         required
         pattern="[0-9]*"
@@ -10316,10 +10569,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <div class="w-xs">
       <.text_input
+        end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
+        start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
+        input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
         id="daisyui-input-url"
         name="url"
         type="url"
-        class="d-validator"
+        class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] d-validator"
         placeholder="https://"
         required
       >
@@ -10360,6 +10616,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         class="group flex-col text-base-content data-disabled:opacity-60 d-fieldset"
       >
         <.text_input
+          end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
+          start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
+          input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
+          class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
           field={@pristine[:email]}
           type="email"
           placeholder="you@example.com"
@@ -10379,7 +10639,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         errors={Enum.map(@touched[:email].errors, &elem(&1, 0))}
         class="group flex-col text-base-content data-disabled:opacity-60 d-fieldset"
       >
-        <.text_input field={@touched[:email]} type="email" describedby={f.describedby} />
+        <.text_input
+          end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
+          start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
+          input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
+          class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
+          field={@touched[:email]}
+          type="email"
+          describedby={f.describedby}
+        />
       </.field>
 
       <button type="submit" class="d-btn d-btn-primary self-center">Save</button>
@@ -10390,13 +10658,25 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── textarea ──────────────────────────────────────────────────────────────
   def example(%{section: "textarea-hero"} = assigns) do
     ~H"""
-    <.textarea id="daisyui-textarea-hero" name="bio" placeholder="Bio" />
+    <.textarea
+      textarea_class="w-full flex-1 resize-y data-[resize=none]:resize-none data-[resize=horizontal]:resize-x data-[resize=both]:resize group-data-[disabled]:resize-none appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
+      class="group d-textarea flex focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
+      id="daisyui-textarea-hero"
+      name="bio"
+      placeholder="Bio"
+    />
     """
   end
 
   def example(%{section: "textarea-ghost"} = assigns) do
     ~H"""
-    <.textarea id="daisyui-textarea-ghost" name="ghost" class="d-textarea-ghost" placeholder="Bio" />
+    <.textarea
+      textarea_class="w-full flex-1 resize-y data-[resize=none]:resize-none data-[resize=horizontal]:resize-x data-[resize=both]:resize group-data-[disabled]:resize-none appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
+      id="daisyui-textarea-ghost"
+      name="ghost"
+      class="group d-textarea flex focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] d-textarea-ghost"
+      placeholder="Bio"
+    />
     """
   end
 
@@ -10413,7 +10693,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       class="group flex-col text-base-content data-disabled:opacity-60 d-fieldset w-xs"
       label_class="d-label text-[0.875rem] d-fieldset-legend"
     >
-      <.textarea id={f.id} name={f.name} placeholder="Bio" describedby={f.describedby} />
+      <.textarea
+        textarea_class="w-full flex-1 resize-y data-[resize=none]:resize-none data-[resize=horizontal]:resize-x data-[resize=both]:resize group-data-[disabled]:resize-none appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
+        class="group d-textarea flex focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
+        id={f.id}
+        name={f.name}
+        placeholder="Bio"
+        describedby={f.describedby}
+      />
       <:description>Optional</:description>
     </.field>
     """
@@ -10426,10 +10713,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-col gap-2">
       <.textarea
         :for={color <- @colors}
+        textarea_class="w-full flex-1 resize-y data-[resize=none]:resize-none data-[resize=horizontal]:resize-x data-[resize=both]:resize group-data-[disabled]:resize-none appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
         id={"daisyui-textarea-#{color}"}
         name={color}
         rows={2}
-        class={"d-textarea-#{color}"}
+        class={[
+          "group d-textarea flex focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]",
+          "d-textarea-#{color}"
+        ]}
         placeholder={String.capitalize(color)}
       />
     </div>
@@ -10443,10 +10734,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-col gap-2">
       <.textarea
         :for={size <- @sizes}
+        textarea_class="w-full flex-1 resize-y data-[resize=none]:resize-none data-[resize=horizontal]:resize-x data-[resize=both]:resize group-data-[disabled]:resize-none appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
         id={"daisyui-textarea-size-#{size}"}
         name={size}
         rows={2}
-        class={"d-textarea-#{size}"}
+        class={[
+          "group d-textarea flex focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]",
+          "d-textarea-#{size}"
+        ]}
         placeholder={"Size #{size}"}
       />
     </div>
@@ -10456,8 +10751,22 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "textarea-disabled"} = assigns) do
     ~H"""
     <div class="flex flex-col gap-2">
-      <.textarea id="daisyui-textarea-disabled" name="disabled" placeholder="You can't type" disabled />
-      <.textarea id="daisyui-textarea-disabled-value" name="locked" value="Locked" disabled />
+      <.textarea
+        textarea_class="w-full flex-1 resize-y data-[resize=none]:resize-none data-[resize=horizontal]:resize-x data-[resize=both]:resize group-data-[disabled]:resize-none appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
+        class="group d-textarea flex focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
+        id="daisyui-textarea-disabled"
+        name="disabled"
+        placeholder="You can't type"
+        disabled
+      />
+      <.textarea
+        textarea_class="w-full flex-1 resize-y data-[resize=none]:resize-none data-[resize=horizontal]:resize-x data-[resize=both]:resize group-data-[disabled]:resize-none appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
+        class="group d-textarea flex focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
+        id="daisyui-textarea-disabled-value"
+        name="locked"
+        value="Locked"
+        disabled
+      />
     </div>
     """
   end
@@ -10465,6 +10774,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "textarea-autosize"} = assigns) do
     ~H"""
     <.textarea
+      textarea_class="w-full flex-1 resize-y data-[resize=none]:resize-none data-[resize=horizontal]:resize-x data-[resize=both]:resize group-data-[disabled]:resize-none appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
+      class="group d-textarea flex focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
       id="daisyui-textarea-autosize"
       name="notes"
       placeholder="Keep typing — this grows to six rows, then scrolls"
@@ -10496,6 +10807,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         class="group flex-col text-base-content data-disabled:opacity-60 d-fieldset"
       >
         <.textarea
+          textarea_class="w-full flex-1 resize-y data-[resize=none]:resize-none data-[resize=horizontal]:resize-x data-[resize=both]:resize group-data-[disabled]:resize-none appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
+          class="group d-textarea flex focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
           field={@form[:bio]}
           rows={3}
           placeholder="Tell us about yourself"
