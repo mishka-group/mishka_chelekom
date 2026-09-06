@@ -8,6 +8,7 @@ defmodule MishkaChelekom.Generators.Assets do
   alias Igniter.Project.Application, as: IAPP
   alias IgniterJs.Parsers.Javascript.Parser, as: JsParser
   alias IgniterJs.Parsers.Javascript.Formatter, as: JsFormatter
+  alias IgniterJs.Parsers.CSS.Formatter, as: CssFormatter
   alias MishkaChelekom.Generators.Core
   alias MishkaChelekom.Generators.Npm
   alias MishkaChelekom.Config
@@ -345,10 +346,25 @@ defmodule MishkaChelekom.Generators.Assets do
   end
 
   defp create_mishka_css(igniter, vendor_css_path) do
-    mishka_css_content = Config.generate_css_content(igniter)
+    write_vendor_css(igniter, vendor_css_path, Config.generate_css_content(igniter))
+  end
 
-    Igniter.create_or_update_file(igniter, vendor_css_path, mishka_css_content, fn source ->
-      Rewrite.Source.update(source, :content, mishka_css_content)
+  @doc """
+  Write a stylesheet this library owns, formatted.
+
+  Only for files under `assets/vendor/` — never for a file the user writes in,
+  which is patched in place instead.
+  """
+  @spec write_vendor_css(Igniter.t(), String.t(), String.t()) :: Igniter.t()
+  def write_vendor_css(igniter, path, content) do
+    formatted =
+      case CssFormatter.format(content, :content) do
+        {:ok, _, output} -> output
+        {:error, _, _reason} -> content
+      end
+
+    Igniter.create_or_update_file(igniter, path, formatted, fn source ->
+      Rewrite.Source.update(source, :content, formatted)
     end)
   end
 
@@ -398,11 +414,7 @@ defmodule MishkaChelekom.Generators.Assets do
 
       igniter
       |> Core.ensure_user_config()
-      |> Igniter.create_or_update_file(
-        "assets/vendor/mishka_chelekom_headless.css",
-        css,
-        &Rewrite.Source.update(&1, :content, css)
-      )
+      |> write_vendor_css("assets/vendor/mishka_chelekom_headless.css", css)
       |> add_vendor_import("assets/css/app.css", "../vendor/mishka_chelekom_headless.css")
     end
   end
