@@ -11,7 +11,6 @@ defmodule MishkaChelekom.Generators.Assets do
   alias MishkaChelekom.Generators.Core
   alias MishkaChelekom.Generators.Npm
   alias MishkaChelekom.Config
-  alias MishkaChelekom.SimpleCSSUtilities
 
   @doc """
   Copies a component's JS engine files into `assets/vendor/`, wires their imports/hooks into
@@ -356,18 +355,11 @@ defmodule MishkaChelekom.Generators.Assets do
   defp import_and_setup_theme(igniter, app_css_path) do
     theme_path = Core.lib_priv("assets/css/theme.css")
 
-    with {:ok, css_content} <- File.read(app_css_path),
-         {:ok, theme_content} <- SimpleCSSUtilities.read_theme_content(theme_path),
-         {:ok, updated_content} <-
-           SimpleCSSUtilities.add_import_and_theme(
-             css_content,
-             "../vendor/mishka_chelekom.css",
-             theme_content
-           ) do
+    with {:ok, theme_content} <- File.read(theme_path),
+         {:ok, theme_body} <- theme_declarations(theme_content, theme_path) do
       igniter
-      |> Igniter.create_or_update_file(app_css_path, updated_content, fn source ->
-        Rewrite.Source.update(source, :content, updated_content)
-      end)
+      |> add_vendor_import(app_css_path, "../vendor/mishka_chelekom.css")
+      |> IgniterCss.Codemods.ensure_at_rule_block(app_css_path, "theme", nil, theme_body)
     else
       {:error, :enoent} ->
         Igniter.add_issue(igniter, """
@@ -377,6 +369,19 @@ defmodule MishkaChelekom.Generators.Assets do
 
       {:error, reason} ->
         Igniter.add_issue(igniter, "Error processing CSS file: #{inspect(reason)}")
+    end
+  end
+
+  defp theme_declarations(theme_content, theme_path) do
+    case IgniterCss.get_at_rules(theme_content, "theme") do
+      {:ok, [%IgniterCss.AtRule{body: body} | _]} when is_binary(body) ->
+        {:ok, body}
+
+      {:ok, _} ->
+        {:error, "#{theme_path} does not contain an `@theme` block"}
+
+      {:error, reason} ->
+        {:error, reason}
     end
   end
 

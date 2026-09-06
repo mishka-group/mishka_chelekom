@@ -67,24 +67,18 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.HeadlessTest do
     end
 
     test "the headless @import is inserted AFTER tailwindcss, and deduped on re-run" do
-      {:ok, :added, css} =
-        MishkaChelekom.SimpleCSSUtilities.add_import(
-          ~s|@import "tailwindcss";|,
-          "../vendor/mishka_chelekom_headless.css"
-        )
+      import_path = "../vendor/mishka_chelekom_headless.css"
 
-      {tailwind_at, _} = :binary.match(css, "tailwindcss")
-      {headless_at, _} = :binary.match(css, "mishka_chelekom_headless")
+      assert {:ok, added} = IgniterCss.add_import(~s|@import "tailwindcss";|, import_path)
+      assert added.changed
+
+      {tailwind_at, _} = :binary.match(added.source, "tailwindcss")
+      {headless_at, _} = :binary.match(added.source, "mishka_chelekom_headless")
       assert tailwind_at < headless_at
 
-      # re-running detects it and does not add a second copy
-      assert {:ok, :exists, again} =
-               MishkaChelekom.SimpleCSSUtilities.add_import(
-                 css,
-                 "../vendor/mishka_chelekom_headless.css"
-               )
-
-      assert length(String.split(again, "../vendor/mishka_chelekom_headless.css")) == 2
+      assert {:ok, again} = IgniterCss.add_import(added.source, import_path)
+      refute again.changed
+      assert length(String.split(again.source, import_path)) == 2
     end
   end
 

@@ -159,35 +159,14 @@ defmodule MishkaChelekom.Config do
   end
 
   defp apply_css_overrides(css_content, overrides) do
-    # Parse the :root section and replace variables
     Enum.reduce(overrides, css_content, fn {key, value}, acc ->
-      # Convert atom key to CSS variable name
       css_var = "--#{String.replace(to_string(key), "_", "-")}"
 
-      # Replace the variable value in the CSS
-      regex = ~r/#{Regex.escape(css_var)}:\s*[^;]+;/
-      replacement = "#{css_var}: #{value};"
-
-      if Regex.match?(regex, acc) do
-        Regex.replace(regex, acc, replacement)
-      else
-        # If variable doesn't exist, add it to the :root section
-        add_variable_to_root(acc, css_var, value)
+      case IgniterCss.set_declaration(acc, ":root", css_var, to_string(value), create_rule: true) do
+        {:ok, %IgniterCss.Outcome{source: updated}} -> updated
+        {:error, _reason} -> acc
       end
     end)
-  end
-
-  defp add_variable_to_root(css_content, var_name, value) do
-    # Find the :root block and add the variable
-    case Regex.run(~r/:root\s*\{([^}]*)\}/s, css_content) do
-      [full_match, root_content] ->
-        new_root_content = String.trim_trailing(root_content) <> "\n    #{var_name}: #{value};\n"
-        String.replace(css_content, full_match, ":root {#{new_root_content}}")
-
-      _ ->
-        # If no :root block exists, create one
-        ":root {\n    #{var_name}: #{value};\n}\n\n" <> css_content
-    end
   end
 
   @doc """
