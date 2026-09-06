@@ -66,7 +66,7 @@ defmodule MishkaChelekom.MixProject do
       # checkout is already on 0.38, and neither project has published NIF artifacts for the
       # version we want — so both are built here from source (`IGNITERCSS_BUILD=1`, `IGNITERJS_BUILD=1`),
       # which is also what lets us add to `igniter_css` and use it in the same breath.
-      {:igniter_js, path: "../igniter_js", override: true},
+      {:igniter_js, "~> 0.5.0"},
       {:igniter_css, path: "../igniter_css", override: true},
       {:rustler, ">= 0.0.0", only: [:dev, :test]},
       {:owl, "~> 0.13"},
