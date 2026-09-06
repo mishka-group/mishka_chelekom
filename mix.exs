@@ -56,19 +56,8 @@ defmodule MishkaChelekom.MixProject do
       {:guarded_struct, "~> 0.1.1"},
       # Layer 3 declarative config DSL (already present transitively via guarded_struct).
       {:spark, "~> 2.7"},
-      # LOCAL DEVELOPMENT ONLY — restore the hex versions before release:
-      #
-      #     {:igniter_js, "~> 0.4.11"},
-      #     {:igniter_css, "~> 0.2"},
-      #
-      # `igniter_css` main needs `rustler ~> 0.38` and the hex `igniter_js` 0.4.11 still pins
-      # `~> 0.36.2`, so the two cannot resolve together from hex today. The local `igniter_js`
-      # checkout is already on 0.38, and neither project has published NIF artifacts for the
-      # version we want — so both are built here from source (`IGNITERCSS_BUILD=1`, `IGNITERJS_BUILD=1`),
-      # which is also what lets us add to `igniter_css` and use it in the same breath.
       {:igniter_js, "~> 0.5.0"},
-      {:igniter_css, path: "../igniter_css", override: true},
-      {:rustler, ">= 0.0.0", only: [:dev, :test]},
+      {:igniter_css, "~> 1.0"},
       {:owl, "~> 0.13"},
       {:ex_doc, "~> 0.40.3", only: :dev, runtime: false},
       # Checks the lockfile against the Elixir security advisories. The harness apps have
