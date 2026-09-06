@@ -275,7 +275,7 @@ defmodule MishkaMob.Components.MishkaFloatingWindow do
   def nudge(props, direction) do
     props = Map.new(props)
     {x, y} = position(props)
-    step = Map.get(props, :step, @step)
+    step = Map.get(props, :step) || @step
 
     moved =
       case direction do
@@ -375,6 +375,23 @@ defmodule MishkaMob.Components.MishkaFloatingWindow do
     dragging? = dragging?(props)
     strip = if dragging?, do: :primary, else: :surface_raised
 
+    # Both test tags go on through `tag/2` rather than being interpolated: a
+    # window with no `id` derives nil part ids, an inline `id={nil}` still lands
+    # in the props map, and `:json` encodes an atom as a string — so every
+    # untagged window used to reach the bridge carrying the testTag "nil".
+    bar =
+      ~MOB"""
+      <Box width={w} height={handle} background={strip} align={:leading}>
+        <Row fill_width={true} align={:center}>
+          <Box width={gutter} />
+          <Box width={title_width(props)}>
+            {title(props, dragging?)}
+          </Box>
+        </Row>
+      </Box>
+      """
+      |> tag(handle_id(id, dragging?))
+
     ~MOB"""
     <Box
       offset_x={x}
@@ -385,24 +402,11 @@ defmodule MishkaMob.Components.MishkaFloatingWindow do
       corner_radius={:radius_md}
       border_color={:border}
       border_width={1}
-      id={part_id(id, :window)}
     >
-      <Box
-        width={w}
-        height={handle}
-        background={strip}
-        align={:leading}
-        id={handle_id(id, dragging?)}
-      >
-        <Row fill_width={true} align={:center}>
-          <Box width={gutter} />
-          <Box width={title_width(props)}>
-            {title(props, dragging?)}
-          </Box>
-        </Row>
-      </Box>
+      {bar}
     </Box>
     """
+    |> tag(part_id(id, :window))
   end
 
   # The title stops where the ✕ starts. The ✕ is a layer-3 overlay at a computed
@@ -481,13 +485,13 @@ defmodule MishkaMob.Components.MishkaFloatingWindow do
       offset_y={y + chrome}
       width={width(props)}
       height={max(height(props) - chrome, 0)}
-      id={part_id(Map.get(props, :id), :body)}
     >
       <Column fill_width={true} padding={:space_md}>
         {children}
       </Column>
     </Box>
     """
+    |> tag(part_id(Map.get(props, :id), :body))
   end
 
   defp close(props) do
@@ -507,11 +511,11 @@ defmodule MishkaMob.Components.MishkaFloatingWindow do
           height={touch}
           align={:center}
           on_tap={handler}
-          id={part_id(Map.get(props, :id), :close)}
         >
           <Text text="✕" text_size={:sm} text_color={:muted} />
         </Box>
         """
+        |> tag(part_id(Map.get(props, :id), :close))
     end
   end
 
@@ -535,11 +539,11 @@ defmodule MishkaMob.Components.MishkaFloatingWindow do
           height={touch}
           align={:center}
           on_tap={Event.handler(Map.get(props, :on_move), direction)}
-          id={part_id(id, {:nudge, direction})}
         >
           <Text text={glyph} text_size={:sm} text_color={:muted} />
         </Box>
         """
+        |> tag(part_id(id, {:nudge, direction}))
       end)
     else
       []
@@ -595,9 +599,9 @@ defmodule MishkaMob.Components.MishkaFloatingWindow do
 
   # ── Props ──────────────────────────────────────────────────────────────────
 
-  defp position(props), do: {Map.get(props, :x, 0), Map.get(props, :y, 0)}
-  defp width(props), do: Map.get(props, :width, @width)
-  defp height(props), do: Map.get(props, :height, @height)
+  defp position(props), do: {Map.get(props, :x) || 0, Map.get(props, :y) || 0}
+  defp width(props), do: Map.get(props, :width) || @width
+  defp height(props), do: Map.get(props, :height) || @height
 
   defp bounds(props) do
     case Map.get(props, :bounds) do
@@ -609,7 +613,11 @@ defmodule MishkaMob.Components.MishkaFloatingWindow do
   defp dragging?(props), do: truthy?(Map.get(props, :dragging, false))
 
   defp nudges?(props) do
-    Map.get(props, :on_move) != nil and truthy?(Map.get(props, :show_nudges, true))
+    # `nil` means "not given", not `false`: `Map.get/3` hands back its default
+    # only when the key is ABSENT, so a keyword-built props map carrying an
+    # unset key as an explicit nil used to read as a deliberate `false`.
+    # Only a real `false` turns this off.
+    Map.get(props, :on_move) != nil and Map.get(props, :show_nudges) != false
   end
 
   defp tag(node, nil), do: node

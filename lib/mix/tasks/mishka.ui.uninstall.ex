@@ -1046,11 +1046,8 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
         content =
           source
           |> Rewrite.Source.get(:content)
-          # Remove the @import for this vendored stylesheet
-          |> String.replace(~r/@import\s+["']\.\.\/vendor\/#{Regex.escape(file)}["'];?\n?/, "")
+          |> drop_import("../vendor/#{file}")
           |> remove_theme_block(kind)
-          # Clean up multiple blank lines
-          |> String.replace(~r/\n{3,}/, "\n\n")
           |> String.trim()
           |> Kernel.<>("\n")
 
@@ -1062,10 +1059,19 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   end
 
   # The `@theme` block is only injected by the styled stylesheet install.
+  defp drop_import(content, url), do: patch_css(content, &IgniterCss.remove_import(&1, url))
+
   defp remove_theme_block(content, :styled),
-    do: String.replace(content, ~r/\n*@theme\s*\{[^}]*\}\n*/s, "\n")
+    do: patch_css(content, &IgniterCss.remove_at_rule(&1, "theme"))
 
   defp remove_theme_block(content, _), do: content
+
+  defp patch_css(content, fun) do
+    case fun.(content) do
+      {:ok, %IgniterCss.Outcome{source: updated}} -> updated
+      {:error, _reason} -> content
+    end
+  end
 
   defp maybe_remove_config(%{assigns: %{plan: %{remaining: r}}} = igniter) when r != [],
     do: igniter

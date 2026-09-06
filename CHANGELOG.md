@@ -11,8 +11,35 @@
   attributes carried a value list before; 364 do now
 - The CMS bundle carries each component's `doc_url`, so a consumer can link to the page that explains
   the component it is offering
+- The daisyUI gallery paints all 92 headless components with daisyUI and Tailwind classes in the
+  examples' own markup. Copying an example gives you the component *and* its look; there is no
+  stylesheet to take with it. The design system itself stays your dependency
+- A `*_class` attribute for every part a component renders, so any part can be restyled from
+  markup. This is what makes the class-only gallery possible, and it is enforced by a test that
+  reads the components' own sources
+- Known divergence from the stylesheet it replaces: a few parts whose CSS declared
+  `color: var(--color-base-content)` no longer declare it, so under a **dark** `data-theme` they
+  inherit the surrounding colour instead of following the theme (`slider` and its descendants,
+  `pagination`'s ellipsis). Painting it back is not the fix — the declaration used to *lose* to
+  daisyUI's own colour modifiers (`range-primary` and friends) from `@layer components`, and the
+  same value written as a utility *wins*, flattening every coloured variant. Set the colour on
+  your own container if you place these in a dark subtree
+- Add 17 headless components, taking the line from 75 to 92: `alert`, `breadcrumb`, `button`,
+  `calendar`, `card`, `carousel`, `countdown`, `dock`, `fab`, `file_input`, `pagination`, `rating`,
+  `stepper`, `table`, `text_input`, `textarea` and `theme_controller`
+- The headless `switch` takes `:on_icon` and `:off_icon` slots. Both render inside the track, after
+  the thumb, and carry `data-checked`/`data-unchecked`, so a skin can cross-fade them rather than
+  swapping one element for another
 
 ### Bug fixes:
+- The headless `radio_group` never went horizontal. Its root hardcoded `data-orientation="vertical"`
+  while the JS engine was already reading that attribute to decide which arrow keys move the
+  selection, so the option was unreachable: there is an `orientation` attribute now, and the
+  keyboard follows it
+- **Breaking**: `id` is required on the headless `avatar`. It was optional, but the hook that tracks
+  the image's loading state keys off it, so an avatar without one silently never resolved its
+  fallback. Phoenix reports the missing attribute at compile time, so an affected call site is a
+  warning rather than something to hunt for at runtime
 - A guarded helper clause keeps its discriminators. `Discriminators.extract_head/1` stripped the
   `when` guard when building its lookup key while the exporter wrote that guard INTO the clause's
   `args`, so the two signatures could never match and all 867 guarded clauses in the kit shipped with

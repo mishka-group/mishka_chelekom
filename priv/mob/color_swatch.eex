@@ -62,12 +62,32 @@ defmodule <%= @module %> do
   @spec <%= @component_prefix %>color_swatch(map() | keyword(), [map()]) :: map()
   def <%= @component_prefix %>color_swatch(props \\ %{}, content \\ []) do
     props = Map.new(props)
-    size = Map.get(props, :size, 36)
-    radius = radius(Map.get(props, :shape, :rounded), size)
+    size = Map.get(props, :size) || 36
+    radius = radius(Map.get(props, :shape) || :rounded, size)
     color = Map.get(props, :color)
     disabled? = truthy?(Map.get(props, :disabled, false))
     selected? = truthy?(Map.get(props, :selected, false))
-    checks? = Map.get(props, :checkerboard, translucent?(color))
+    # `nil` means "not given", not "yes": the fallback clause of
+    # `checkerboard/3` matches anything but `false`, so a props map carrying
+    # `checkerboard: nil` used to draw the grid under an opaque colour.
+    checks? =
+      case Map.get(props, :checkerboard) do
+        nil -> translucent?(color)
+        given -> given
+      end
+
+    # A swatch with no `color` must not paint one. An inline `background={nil}`
+    # still lands in the props map, and `:json` encodes an atom as a string, so
+    # the wire carries "background":"nil" for the bridge to resolve as a colour
+    # token. `put/3` is the rule already used for `on_tap` and `id`: a key that
+    # was never put is simply not there.
+    well =
+      ~MOB"""
+      <Box width={size} height={size} corner_radius={radius} align={:center}>
+        {overlay(selected?, content)}
+      </Box>
+      """
+      |> put(:background, color)
 
     node = ~MOB"""
     <Box
@@ -79,9 +99,7 @@ defmodule <%= @module %> do
       border_width={if(selected?, do: 2, else: 1)}
     >
       {checkerboard(checks?, size, radius)}
-      <Box width={size} height={size} corner_radius={radius} background={color} align={:center}>
-        {overlay(selected?, content)}
-      </Box>
+      {well}
     </Box>
     """
 

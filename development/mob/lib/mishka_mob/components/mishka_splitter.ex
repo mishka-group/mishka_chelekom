@@ -159,8 +159,8 @@ defmodule MishkaMob.Components.MishkaSplitter do
   # splitter — it must, to be a stable ruler — so without this every tap
   # anywhere in either pane would teleport the split to the finger.
   defp begin_drag(at, props) do
-    extent = Map.get(props, :extent, @extent)
-    grip = Map.get(props, :grip, @grip)
+    extent = Map.get(props, :extent) || @extent
+    grip = Map.get(props, :grip) || @grip
     divider = extent * split(props) / 100
 
     if abs(at - divider) <= grip do
@@ -175,10 +175,14 @@ defmodule MishkaMob.Components.MishkaSplitter do
   defp follow(_at, nil, props), do: split(props)
 
   defp follow(at, %{offset: offset}, props) do
-    extent = Map.get(props, :extent, @extent)
+    extent = Map.get(props, :extent) || @extent
     percent = (at - offset) / max(extent, 1) * 100
 
-    Color.clamp(percent * 1.0, Map.get(props, :min, 10) * 1.0, Map.get(props, :max, 90) * 1.0)
+    Color.clamp(
+      percent * 1.0,
+      (Map.get(props, :min) || 10) * 1.0,
+      (Map.get(props, :max) || 90) * 1.0
+    )
   end
 
   # The NIF sends `phase` as an ATOM (:began / :dragging / :ended). Comparing it
@@ -217,7 +221,7 @@ defmodule MishkaMob.Components.MishkaSplitter do
   @spec sizes(map() | keyword()) :: {float(), float()}
   def sizes(props) do
     props = Map.new(props)
-    extent = Map.get(props, :extent, @extent)
+    extent = Map.get(props, :extent) || @extent
     percent = split(props)
     first = extent * percent / 100
 
@@ -235,9 +239,9 @@ defmodule MishkaMob.Components.MishkaSplitter do
     props = Map.new(props)
 
     Color.clamp(
-      Map.get(props, :value, 50),
-      Map.get(props, :min, 10),
-      Map.get(props, :max, 90)
+      Map.get(props, :value) || 50,
+      Map.get(props, :min) || 10,
+      Map.get(props, :max) || 90
     )
   end
 
@@ -290,7 +294,7 @@ defmodule MishkaMob.Components.MishkaSplitter do
   # An inert spacer where the divider sits, so the panes leave a gutter. The
   # thing you actually drag is the STATIC overlay below.
   defp divider(props, axis) do
-    grip = Map.get(props, :grip, @grip)
+    grip = Map.get(props, :grip) || @grip
 
     if axis == :vertical do
       ~MOB(<Box width={grip} fill_height={true} />)
@@ -311,8 +315,8 @@ defmodule MishkaMob.Components.MishkaSplitter do
   # Static and full-extent means `x` maps straight to a percentage, the way
   # MishkaHueSlider maps x to a hue.
   defp overlay(props, axis) do
-    extent = Map.get(props, :extent, @extent)
-    grip = Map.get(props, :grip, @grip)
+    extent = Map.get(props, :extent) || @extent
+    grip = Map.get(props, :grip) || @grip
     {w, h} = if axis == :vertical, do: {@reach, extent}, else: {extent, @reach}
 
     canvas_node(w, h, grip_ops(w, h, axis, props, extent, grip), props)
@@ -339,7 +343,7 @@ defmodule MishkaMob.Components.MishkaSplitter do
   # extent, so where the grip appears IS the split. A canvas has no children, so
   # this is drawn rather than boxed.
   defp grip_ops(width, height, axis, props, extent, grip) do
-    ink = Map.get(props, :grip_color, if(disabled?(props), do: @grip_off, else: @grip_on))
+    ink = Map.get(props, :grip_color) || if(disabled?(props), do: @grip_off, else: @grip_on)
     at = extent * split(props) / 100
 
     if axis == :vertical do
@@ -369,7 +373,7 @@ defmodule MishkaMob.Components.MishkaSplitter do
   def grip_id(_), do: nil
 
   defp orientation(props) do
-    case Map.get(props, :orientation, :horizontal) do
+    case Map.get(props, :orientation) || :horizontal do
       :vertical -> :vertical
       "vertical" -> :vertical
       _ -> :horizontal

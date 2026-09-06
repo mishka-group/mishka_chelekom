@@ -82,22 +82,20 @@ defmodule <%= @module %> do
   defp scrim(props, content, ctx) do
     # Local, not `@scrim`: a module attribute inside a ~MOB expression is
     # rewritten to `assigns.scrim`.
-    fill = Map.get(props, :scrim_color, @scrim)
+    fill = Map.get(props, :scrim_color) || @scrim
     radius = Map.get(props, :corner_radius)
 
-    node = ~MOB"""
-    <Box
-      fill_width={true}
-      fill_height={true}
-      align={:center}
-      background={fill}
-      corner_radius={radius}
-    >
+    # `corner_radius` has no default — the scrim is square unless the caller
+    # matches it to the region it covers. Merged rather than interpolated: an
+    # inline `corner_radius={nil}` still lands in the props map, and `:json`
+    # encodes an atom as a string, so the bridge received the radius token "nil".
+    ~MOB"""
+    <Box fill_width={true} fill_height={true} align={:center} background={fill}>
       {body(props, content)}
     </Box>
     """
-
-    %{node | props: Map.put(node.props, :on_tap, absorb(ctx))}
+    |> put(:corner_radius, radius)
+    |> put(:on_tap, absorb(ctx))
   end
 
   # The indicator and its label sit on a panel, not loose on the scrim. Mob's
@@ -114,8 +112,8 @@ defmodule <%= @module %> do
   # one construction that behaves the same on both.
   defp body(props, []) do
     label = Map.get(props, :label)
-    color = Map.get(props, :color, :primary)
-    panel = Map.get(props, :panel_color, :surface)
+    color = Map.get(props, :color) || :primary
+    panel = Map.get(props, :panel_color) || :surface
     bar = @bar
     pad = @pad
     width = @bar + 2 * @pad
@@ -160,6 +158,9 @@ defmodule <%= @module %> do
     </Box>
     """
   end
+
+  defp put(node, _key, nil), do: node
+  defp put(node, key, value), do: %{node | props: Map.put(node.props, key, value)}
 
   defp absorb(%{screen: pid}) when is_pid(pid), do: {pid, @absorb}
   defp absorb(_ctx), do: {self(), @absorb}

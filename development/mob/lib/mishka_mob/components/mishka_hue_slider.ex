@@ -57,9 +57,9 @@ defmodule MishkaMob.Components.MishkaHueSlider do
   @spec hue_slider(map() | keyword()) :: map()
   def hue_slider(props \\ %{}) do
     props = Map.new(props)
-    hue = normalize_hue(Map.get(props, :value, 0))
-    width = Map.get(props, :width, @width)
-    height = Map.get(props, :height, @height)
+    hue = normalize_hue(Map.get(props, :value) || 0)
+    width = Map.get(props, :width) || @width
+    height = Map.get(props, :height) || @height
 
     strip =
       canvas_node(

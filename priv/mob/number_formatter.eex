@@ -38,14 +38,14 @@ defmodule <%= @module %> do
   @spec <%= @component_prefix %>number_formatter(map() | keyword()) :: map()
   def <%= @component_prefix %>number_formatter(props \\ %{}) do
     props = Map.new(props)
-    text = format(Map.get(props, :value, 0), props)
+    text = format(Map.get(props, :value) || 0, props)
 
     ~MOB"""
     <Text
       text={text}
-      text_size={Map.get(props, :text_size, :base)}
-      text_color={Map.get(props, :text_color, :on_surface)}
-      font_weight={Map.get(props, :font_weight, :regular)}
+      text_size={Map.get(props, :text_size) || :base}
+      text_color={Map.get(props, :text_color) || :on_surface}
+      font_weight={Map.get(props, :font_weight) || :regular}
     />
     """
   end
@@ -100,12 +100,13 @@ defmodule <%= @module %> do
     {integer, decimals} = parts(value, Map.get(opts, :decimals))
     {sign, digits} = split_sign(integer)
 
-    grouped = group(digits, separator(Map.get(opts, :thousand_separator, ",")))
-    radix = Map.get(opts, :decimal_separator, ".")
+    grouped = group(digits, separator(Map.get(opts, :thousand_separator)))
+    radix = Map.get(opts, :decimal_separator) || "."
 
     body = if decimals == "", do: grouped, else: grouped <> radix <> decimals
 
-    to_string(Map.get(opts, :prefix, "")) <> sign <> body <> to_string(Map.get(opts, :suffix, ""))
+    to_string(Map.get(opts, :prefix) || "") <>
+      sign <> body <> to_string(Map.get(opts, :suffix) || "")
   end
 
   defp parts(value, nil) do
@@ -134,9 +135,13 @@ defmodule <%= @module %> do
   defp split_sign("-" <> digits), do: {"-", digits}
   defp split_sign(digits), do: {"", digits}
 
+  # `nil` is "not given", not "off". `Map.get/3` hands back its default only
+  # when the key is ABSENT, and a keyword-built opts map carries an unset key
+  # as an explicit nil — which used to disable grouping silently. `false` and
+  # `""` are the two documented ways to turn grouping off, and both still do.
+  defp separator(nil), do: ","
   defp separator(true), do: ","
   defp separator(false), do: ""
-  defp separator(nil), do: ""
   defp separator(text) when is_binary(text), do: text
   defp separator(_), do: ","
 

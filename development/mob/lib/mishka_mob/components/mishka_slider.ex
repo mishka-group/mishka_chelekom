@@ -99,9 +99,9 @@ defmodule MishkaMob.Components.MishkaSlider do
   @spec slider(map() | keyword()) :: map()
   def slider(props \\ %{}) do
     props = Map.new(props)
-    min = Map.get(props, :min, 0)
-    max = Map.get(props, :max, 100)
-    value = Map.get(props, :value, min)
+    min = Map.get(props, :min) || 0
+    max = Map.get(props, :max) || 100
+    value = Map.get(props, :value) || min
 
     track =
       ~MOB(<Slider min={min} max={max} value={value} />)

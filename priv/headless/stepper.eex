@@ -1,0 +1,179 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Headless **stepper** — an ordered list of steps with one of them current (Mantine Stepper parity).
+
+  State is derived, not repeated: give the root an `active` index and every earlier step is
+  `complete`, the one at `active` is `current`, the rest are `incomplete`. A step can override its
+  own `state` when the flow is not linear — a skipped step, one that failed validation. The current
+  step carries `aria-current="step"`, which is what makes a screen reader announce where you are in
+  a flow that otherwise looks like a list of words.
+
+  `horizontal_from` is the responsive form: vertical on a narrow screen, horizontal from that
+  breakpoint up. It is an attribute rather than a pair of utility classes because a skin's
+  orientation rules have to reach the *steps*, and a `lg:`-prefixed class is a different class name
+  that no descendant selector of ours can match.
+
+  It is an `<ol>` for the same reason a breadcrumb is: the order is the meaning. Steps are inert
+  markup until you give them somewhere to go — `on_select` makes each one a `<button>` that pushes
+  its index, and `navigate`/`patch`/`href` make it a link. A step that is not reachable yet renders
+  as plain text rather than a disabled control, so it never takes a tab stop it cannot use.
+
+  Parts: `step`, `indicator`, `content`, `label`, `description`, `action`. The indicator holds the
+  step's own content when you give it any — an icon, a checkmark — and otherwise the skin numbers
+  it. A selectable step gets an `action` that covers the whole step rather than wrapping it, so the
+  step itself stays a plain grid container and the click target is still the entire step.
+
+  Ships **no** colors, sizing or spacing — style via `chelekom-stepper*` and the
+  `data-state` / `data-orientation` hooks.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/stepper
+  """
+  use Phoenix.Component
+
+  alias Phoenix.LiveView.JS
+
+  @doc type: :component
+  attr :id, :string, default: nil, doc: "Unique id"
+  attr :label, :string, default: nil, doc: "Accessible name for the list"
+
+  attr :active, :integer,
+    default: 0,
+    doc: "Zero-based index of the current step; earlier steps are complete"
+
+  attr :orientation, :string,
+    default: "horizontal",
+    values: ~w(horizontal vertical),
+    doc: "Layout direction, reflected as data-orientation"
+
+  attr :horizontal_from, :string,
+    default: nil,
+    values: [nil, "sm", "md", "lg", "xl"],
+    doc: "Breakpoint at which a vertical stepper turns horizontal (data-orientation-from)"
+
+  attr :on_select, :any,
+    default: nil,
+    doc: "A JS command or LiveView event name; makes every selectable step a button"
+
+  attr :allow_next, :boolean,
+    default: false,
+    doc: "Also let steps after the current one be selected"
+
+  attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :step_class, :any, default: nil, doc: ~s|Extra classes for `data-part="step"`|
+  attr :indicator_class, :any, default: nil, doc: ~s|Extra classes for `data-part="indicator"`|
+  attr :action_class, :any, default: nil, doc: ~s|Extra classes for `data-part="action"`|
+  attr :content_class, :any, default: nil, doc: ~s|Extra classes for `data-part="content"`|
+  attr :description_class, :any, default: nil, doc: ~s|Extra classes for `data-part="description"`|
+  attr :label_class, :any, default: nil, doc: ~s|Extra classes for `data-part="label"`|
+  attr :rest, :global
+
+  slot :step, doc: "One step" do
+    attr :label, :string, doc: "The step's visible name"
+    attr :description, :string, doc: "Secondary line under the label"
+    attr :content, :string, doc: "Overrides the number the skin would draw in the indicator"
+    attr :state, :string, doc: "Force complete | current | incomplete"
+    attr :navigate, :string
+    attr :patch, :string
+    attr :href, :string
+    attr :disabled, :boolean
+    attr :class, :any
+  end
+
+  def <%= @component_prefix %>stepper(assigns) do
+    ~H"""
+    <ol
+      id={@id}
+      aria-label={@label}
+      data-part="root"
+      data-orientation={@orientation}
+      data-orientation-from={@horizontal_from}
+      class={["chelekom-stepper", @class]}
+      {@rest}
+    >
+      <li
+        :for={{step, index} <- Enum.with_index(@step)}
+        data-part="step"
+        data-index={index}
+        data-state={state_of(step, index, @active)}
+        data-disabled={step[:disabled]}
+        aria-current={state_of(step, index, @active) == "current" && "step"}
+        class={["chelekom-stepper__step", @step_class, step[:class]]}
+      >
+        <span
+          data-part="indicator"
+          data-content={step[:content]}
+          aria-hidden="true"
+          class={["chelekom-stepper__indicator", @indicator_class]}
+        >{if step[:inner_block], do: render_slot(step)}</span>
+
+        <span data-part="content" class={["chelekom-stepper__content", @content_class]}>
+          <span
+            :if={step[:label]}
+            id={@id && "#{@id}-label-#{index}"}
+            data-part="label"
+            class={["chelekom-stepper__label", @label_class]}
+          >{step[:label]}</span>
+          <span
+            :if={step[:description]}
+            data-part="description"
+            class={["chelekom-stepper__description", @description_class]}
+          >{step[:description]}</span>
+        </span>
+
+        <.dynamic_tag
+          :if={selectable?(step, index, @active, @on_select, @allow_next)}
+          tag_name={if link?(step), do: "a", else: "button"}
+          data-part="action"
+          aria-labelledby={@id && step[:label] && "#{@id}-label-#{index}"}
+          phx-click={!link?(step) && select_action(@on_select, index)}
+          class={["chelekom-stepper__action", @action_class]}
+          {action_attrs(step)}
+        >{if !(@id && step[:label]), do: step[:label]}</.dynamic_tag>
+      </li>
+    </ol>
+    """
+  end
+
+  # Earlier than the current step means done, later means not reached yet — but a flow that skips or
+  # fails a step needs to say so, which is what an explicit `state` is for.
+  defp state_of(step, index, active) do
+    cond do
+      state = step[:state] -> state
+      index < active -> "complete"
+      index == active -> "current"
+      true -> "incomplete"
+    end
+  end
+
+  # A step you cannot reach renders as text, not as a disabled button: a control that can never be
+  # used should not take a tab stop to discover that.
+  defp selectable?(step, index, active, on_select, allow_next) do
+    cond do
+      step[:disabled] -> false
+      link?(step) -> true
+      is_nil(on_select) -> false
+      allow_next -> true
+      true -> index <= active
+    end
+  end
+
+  defp link?(step), do: step[:navigate] || step[:patch] || step[:href]
+
+  # `dynamic_tag` takes tag-specific attributes only through a spread, so `type` rides along with
+  # the link attributes rather than being written out.
+  defp action_attrs(step) do
+    if link?(step), do: link_attrs(step), else: %{"type" => "button"}
+  end
+
+  defp link_attrs(%{navigate: navigate}) when is_binary(navigate),
+    do: %{"href" => navigate, "data-phx-link" => "redirect", "data-phx-link-state" => "push"}
+
+  defp link_attrs(%{patch: patch}) when is_binary(patch),
+    do: %{"href" => patch, "data-phx-link" => "patch", "data-phx-link-state" => "push"}
+
+  defp link_attrs(%{href: href}) when is_binary(href), do: %{"href" => href}
+  defp link_attrs(_), do: %{}
+
+  defp select_action(%JS{} = js, _index), do: js
+  defp select_action(event, index) when is_binary(event), do: JS.push(event, value: %{index: index})
+end

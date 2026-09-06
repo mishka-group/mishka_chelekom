@@ -51,6 +51,10 @@ defmodule DevelopmentWeb.Components.Headless.Accordion do
     doc: "LiveView event pushed when the open set changes"
 
   attr :class, :any, default: nil
+  attr :heading_class, :any, default: nil, doc: ~s|Extra classes for `data-part="header"`|
+  attr :item_class, :any, default: nil, doc: ~s|Extra classes for every `data-part="item"`|
+  attr :trigger_class, :any, default: nil, doc: ~s|Extra classes for every `data-part="trigger"`|
+  attr :panel_class, :any, default: nil, doc: ~s|Extra classes for every `data-part="panel"`|
   attr :rest, :global
 
   slot :item, required: true do
@@ -95,12 +99,12 @@ defmodule DevelopmentWeb.Components.Headless.Accordion do
         data-open={item.__open__}
         data-disabled={item.__disabled__}
         data-on-open-change={item[:on_open_change]}
-        class={["chelekom-accordion__item", item[:class]]}
+        class={["chelekom-accordion__item", @item_class, item[:class]]}
       >
         <.dynamic_tag
           tag_name={"h#{@heading_level}"}
           data-part="header"
-          class="chelekom-accordion__heading"
+          class={["chelekom-accordion__heading", @heading_class]}
         >
           <button
             type="button"
@@ -112,7 +116,7 @@ defmodule DevelopmentWeb.Components.Headless.Accordion do
             aria-expanded={to_string(item.__open__)}
             aria-disabled={item.__disabled__ && "true"}
             tabindex={if item.__tabstop__, do: "0", else: "-1"}
-            class={["chelekom-accordion__trigger", item[:trigger_class]]}
+            class={["chelekom-accordion__trigger", @trigger_class, item[:trigger_class]]}
           >
             {item.title}{render_slot(@trigger_icon)}
           </button>
@@ -128,7 +132,7 @@ defmodule DevelopmentWeb.Components.Headless.Accordion do
           data-open={item.__open__}
           data-closed={!item.__open__}
           hidden={!item.__open__ && panel_hidden(@hidden_until_found)}
-          class={["chelekom-accordion__panel", item[:content_class]]}
+          class={["chelekom-accordion__panel", @panel_class, item[:content_class]]}
         >
           {render_slot(item)}
         </div>

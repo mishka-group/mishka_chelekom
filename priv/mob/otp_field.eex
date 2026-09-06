@@ -117,8 +117,8 @@ defmodule <%= @module %> do
   @spec <%= @component_prefix %>otp_field(map() | keyword()) :: map()
   def <%= @component_prefix %>otp_field(props \\ %{}) do
     props = Map.new(props)
-    length = Map.get(props, :length, 6)
-    value = Map.get(props, :value, "")
+    length = Map.get(props, :length) || 6
+    value = Map.get(props, :value) || ""
     disabled? = truthy?(Map.get(props, :disabled, false))
     chars = String.graphemes(value)
     # The slot the next character lands in. Focus would tell us on the web; here
@@ -217,7 +217,7 @@ defmodule <%= @module %> do
       placeholder=""
       enabled={not disabled?}
       caret="end"
-      keyboard={keyboard(Map.get(props, :validation_type, :numeric))}
+      keyboard={keyboard(Map.get(props, :validation_type) || :numeric)}
       fill_width={true}
       background={:transparent}
       text_color={:transparent}
@@ -247,7 +247,7 @@ defmodule <%= @module %> do
   end
 
   defp slot_box(text, filled?, active?, props, disabled?) do
-    accent = Map.get(props, :color, :primary)
+    accent = Map.get(props, :color) || :primary
     # A caret only in the slot the next character lands in, and only while the
     # field actually has focus — otherwise every OTP on a page would look live.
     caret? =
@@ -256,14 +256,9 @@ defmodule <%= @module %> do
 
     # A fixed width, not `weight: 1`: weight is Compose-only and iOS ignores it,
     # which would leave the slots sized to their content there.
-    width = Map.get(props, :slot_width, 44)
+    width = Map.get(props, :slot_width) || 44
 
-    border =
-      cond do
-        disabled? -> :border
-        filled? or active? -> accent
-        true -> :border
-      end
+    border = slot_border(accent, filled? or active?, disabled?)
 
     ~MOB"""
     <Box
@@ -279,6 +274,12 @@ defmodule <%= @module %> do
     </Box>
     """
   end
+
+  # A slot only takes the accent while it is live: a disabled field keeps the
+  # plain border however full it is.
+  defp slot_border(_accent, _lit?, true), do: :border
+  defp slot_border(accent, true, _disabled?), do: accent
+  defp slot_border(_accent, _lit?, _disabled?), do: :border
 
   # Mob has no blink, so the caret is a steady bar. A blinking one would need a
   # per-frame re-render of the whole screen, which is a bad trade for a cursor.

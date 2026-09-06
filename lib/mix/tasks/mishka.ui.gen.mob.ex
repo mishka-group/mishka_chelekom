@@ -89,7 +89,18 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob do
       example: @example,
       positional: [:component],
       group: :mishka_chelekom,
-      composes: ["mishka.ui.gen.mob", "mishka.ui.gen.mob.kit"],
+      # NOT "mishka.ui.gen.mob". This task does compose itself at run time, for
+      # `necessary:` siblings — but `composes:` is not a record of that. It is
+      # the list Igniter merges OPTION SCHEMAS from, and a task's own schema is
+      # already the one being merged into.
+      #
+      # `Igniter.Util.Info.recursively_compose_schema/4` walks the list with no
+      # visited set, so naming yourself here is unbounded recursion: it never
+      # returns, and because each level merges a keyword list that is one entry
+      # longer than the last, the process sits at ~90% CPU in binary and list
+      # building with no output at all. That is what #78 reported as "hangs" —
+      # 23 minutes, zero output, no component written.
+      composes: ["mishka.ui.gen.mob.kit"],
       schema: [
         module: :string,
         component_prefix: :string,

@@ -14,7 +14,16 @@ defmodule MishkaMob.HomeScreenTest do
 
   test "shows the Mishka section and the compact demos section" do
     view = mount_screen(HomeScreen)
-    text = String.downcase(text(view))
+
+    # The home screen is one top-level `:list` (see Mob.List) so the native
+    # side only inflates the visible rows — `render/1` itself returns
+    # `children: []`, with the real content in `props.items`. `Mob.Screen`
+    # expands that at runtime before it ever reaches native; do the same
+    # expansion here so the assertion sees what the device actually shows.
+    list_renderers = view.socket.__mob__[:list_renderers] || %{}
+    expanded = Mob.List.expand(tree(view), list_renderers, self())
+
+    text = String.downcase(text(expanded))
     assert text =~ "mishka chelekom"
     assert text =~ "demos & device"
   end

@@ -56,7 +56,8 @@ defmodule MishkaChelekom.MixProject do
       {:guarded_struct, "~> 0.1.1"},
       # Layer 3 declarative config DSL (already present transitively via guarded_struct).
       {:spark, "~> 2.7"},
-      {:igniter_js, "~> 0.4.11"},
+      {:igniter_js, "~> 0.5.0"},
+      {:igniter_css, "~> 1.0"},
       {:owl, "~> 0.13"},
       {:ex_doc, "~> 0.40.3", only: :dev, runtime: false},
       # Checks the lockfile against the Elixir security advisories. The harness apps have

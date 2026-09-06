@@ -114,7 +114,7 @@ defmodule MishkaMob.Components.MishkaPillsInput do
   # text inside it — which is all this component can know, since the pills are
   # the caller's nodes and may be avatars or swatches with no text at all.
   defp rows(pills, props) do
-    space = Map.get(props, :space, 6)
+    space = Map.get(props, :space) || 6
     gap = ~MOB(<Spacer size={space} />)
 
     lines =
@@ -142,7 +142,7 @@ defmodule MishkaMob.Components.MishkaPillsInput do
   # pills are uniform, an avatar row say. Left unset, the width estimate decides.
   defp chunk(pills, props) do
     case Map.get(props, :per_row) do
-      nil -> pack(pills, Map.get(props, :wrap_chars, 34))
+      nil -> pack(pills, Map.get(props, :wrap_chars) || 34)
       n -> Enum.chunk_every(pills, max(n, 1))
     end
   end
@@ -210,8 +210,8 @@ defmodule MishkaMob.Components.MishkaPillsInput do
   defp draft(props, disabled?) do
     node = ~MOB"""
     <TextField
-      value={Map.get(props, :draft, "")}
-      placeholder={Map.get(props, :placeholder, "")}
+      value={Map.get(props, :draft) || ""}
+      placeholder={Map.get(props, :placeholder) || ""}
       return_key="done"
       fill_width={true}
       background={:transparent}

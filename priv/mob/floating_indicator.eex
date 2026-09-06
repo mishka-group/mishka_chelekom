@@ -96,7 +96,7 @@ defmodule <%= @module %> do
     disabled? =
       truthy?(Map.get(props, :disabled, false)) or truthy?(Map.get(entry, :disabled, false))
 
-    fill = if active?, do: Map.get(props, :color, :surface_raised), else: :transparent
+    fill = if active?, do: Map.get(props, :color) || :surface_raised, else: :transparent
 
     ink =
       cond do
@@ -127,7 +127,7 @@ defmodule <%= @module %> do
   end
 
   defp orientation(props) do
-    case Map.get(props, :orientation, :horizontal) do
+    case Map.get(props, :orientation) || :horizontal do
       :vertical -> :vertical
       "vertical" -> :vertical
       _ -> :horizontal

@@ -26,6 +26,7 @@ defmodule <%= @module %> do
 
   attr :disabled, :boolean, default: false, doc: "Disable the button (also sets data-disabled)"
   attr :class, :any, default: nil, doc: "Extra classes for the button"
+  attr :icon_class, :any, default: nil, doc: ~s|Extra classes for `data-part="icon"`|
   attr :rest, :global, doc: "Any button/global attrs, e.g. phx-click"
 
   slot :inner_block, doc: "Custom icon; falls back to a built-in ✕ when empty"
@@ -41,7 +42,12 @@ defmodule <%= @module %> do
       class={["chelekom-close-button", @class]}
       {@rest}
     >
-      <span :if={@inner_block == []} data-part="icon" aria-hidden="true">✕</span>
+      <span
+        :if={@inner_block == []}
+        data-part="icon"
+        aria-hidden="true"
+        class={["chelekom-close-button__icon", @icon_class]}
+      >✕</span>
       {render_slot(@inner_block)}
     </button>
     """

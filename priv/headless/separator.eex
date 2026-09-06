@@ -27,6 +27,7 @@ defmodule <%= @module %> do
     doc: "If true, the separator is purely visual (role=none)"
 
   attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :label_class, :any, default: nil, doc: ~s|Extra classes for `data-part="label"`|
   attr :rest, :global
 
   slot :inner_block, doc: "Optional label for a labelled separator"
@@ -41,7 +42,7 @@ defmodule <%= @module %> do
       class={["chelekom-separator", @class]}
       {@rest}
     >
-      <span :if={@inner_block != []} data-part="label" class="chelekom-separator__label">
+      <span :if={@inner_block != []} data-part="label" class={["chelekom-separator__label", @label_class]}>
         {render_slot(@inner_block)}
       </span>
     </div>

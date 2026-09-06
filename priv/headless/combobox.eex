@@ -67,6 +67,7 @@ defmodule <%= @module %> do
     default: nil,
     doc: "Class for the `create-label` text wrapper (only used when a `create_icon` is given)"
 
+  attr :group_list_class, :any, default: nil, doc: ~s|Extra classes for `data-part="group-list"`|
   attr :rest, :global
 
   slot :option, required: true do
@@ -201,7 +202,7 @@ defmodule <%= @module %> do
               >
                 {grp.label}
               </span>
-              <ul role="presentation" class="chelekom-combobox__group-list">
+              <ul role="presentation" class={["chelekom-combobox__group-list", @group_list_class]}>
                 <.option
                   :for={opt <- grp.options}
                   opt={opt}

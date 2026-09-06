@@ -1,7 +1,10 @@
 defmodule Mishka.AssetsDepsTest do
   @moduledoc """
   `mix mishka.assets.deps <deps>` — installs JS asset dependencies into `assets/package.json`.
-  `--test` keeps every case offline (no real package-manager execution).
+
+  `--test` only suppresses the banner and the spinner; it does *not* stop the task from shelling
+  out. The staged cases below stay offline because `stage/2` never runs the queued task, but the
+  end-to-end case really does invoke the package manager — so it has to put every lockfile back.
   """
   use ExUnit.Case, async: false
   import MishkaCliHelper
@@ -16,8 +19,15 @@ defmodule Mishka.AssetsDepsTest do
 
   describe "real end-to-end" do
     test "mix mishka.assets.deps --test runs end-to-end against assets/package.json" do
-      # snapshot both files so a generated lockfile (or package.json edit) is fully undone
-      snaps = Enum.map(["assets/package.json", "assets/package-lock.json"], &snapshot/1)
+      # This case really installs, so every artifact the run can touch has to be restored — which
+      # lockfile appears depends on which package manager the machine has. Missing `bun.lock` here
+      # leaked a stray `accordion` pin into the committed lockfile after every full test run.
+      snaps =
+        Enum.map(
+          ~w(assets/package.json assets/package-lock.json assets/bun.lock assets/yarn.lock),
+          &snapshot/1
+        )
+
       on_exit(fn -> Enum.each(snaps, &restore/1) end)
 
       mix!("mishka.assets.deps", ["accordion", "--test", "--yes"])

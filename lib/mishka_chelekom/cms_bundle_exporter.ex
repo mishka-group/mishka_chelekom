@@ -306,10 +306,12 @@ defmodule MishkaChelekom.CmsBundleExporter do
 
     walked = Enum.reduce(nodes, init, &accumulate_node/2)
 
+    {rows, orphans} = walked.public_defs |> Enum.reverse() |> group_public_def_clauses()
+
     %{
       walked
-      | public_defs: walked.public_defs |> Enum.reverse() |> group_public_def_clauses(),
-        private_helpers: walked.private_helpers |> Enum.reverse(),
+      | public_defs: rows,
+        private_helpers: Enum.reverse(walked.private_helpers) ++ orphans,
         module_attrs: Enum.reverse(walked.module_attrs),
         prelude_lines: Enum.reverse(walked.prelude_lines)
     }
@@ -427,12 +429,7 @@ defmodule MishkaChelekom.CmsBundleExporter do
           pending_doc: nil
       }
     else
-      # Public def without ~H — treat as a delegating clause of a
-      # multi-clause public def (`def fn(%{field: ...} = assigns) do
-      # ... call_self end`). Don't reset pending_attrs; the next ~H-
-      # bodied clause picks them up.
-      helper = head_to_helper_entry(head, body, :public, [], [])
-      %{acc | private_helpers: [helper | acc.private_helpers]}
+      accumulate_bodiless_def(acc, head, body, fn_name, args_ast, guard)
     end
   end
 
@@ -457,6 +454,93 @@ defmodule MishkaChelekom.CmsBundleExporter do
   end
 
   defp accumulate_node(_, acc), do: acc
+
+  # A public def with no `~H` is one of two very different things, and the difference decides whether
+  # `field={@form[:x]}` works at all in the consuming CMS.
+  #
+  # It is a DELEGATING CLAUSE when it takes one map-patterned argument and calls itself — the shape
+  # every field component in this kit opens with:
+  #
+  #     def text_field(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
+  #       assigns
+  #       |> assign(field: nil, id: assigns.id || field.id)
+  #       |> assign(:errors, Enum.map(errors, &translate_error(&1)))
+  #       |> assign_new(:name, fn -> field.name end)
+  #       |> assign_new(:value, fn -> field.value end)
+  #       |> text_field()
+  #     end
+  #
+  # That clause is the ENTIRE bridge between a Phoenix form and this kit: it is what turns a
+  # `%Phoenix.HTML.FormField{}` into the `name`, `value`, `id` and translated `errors` the rendering
+  # clauses read. Shipping it as an ordinary helper — which is what used to happen — put it on the
+  # module under its own name where nothing calls it, so a CMS page passing `field=` fell through to
+  # the catch-all clause, which reads `@name`, which no longer exists. Every field component in the
+  # kit was affected and the symptom was a bare `(KeyError) key :name not found`.
+  #
+  # So it ships as a real clause instead, in source order, with no template and its trailing
+  # self-call removed: the body's value IS the normalised assigns, and re-dispatching them is the
+  # consumer's job. Anything else — a genuine public helper like `convert_to_mb/1` — is unchanged.
+  defp accumulate_bodiless_def(acc, head, body, fn_name, args_ast, guard) do
+    case delegating_clause?(args_ast, body, fn_name) do
+      true ->
+        clause = %{
+          name: to_string(fn_name),
+          match: match_string(args_ast),
+          guard: stringify_guard(guard),
+          body: maybe_to_string(without_self_call(body, fn_name)),
+          template: nil,
+          delegates: true,
+          attrs: [],
+          slots: [],
+          doc_examples: [],
+          __helper__: head_to_helper_entry(head, body, :public, [], [])
+        }
+
+        %{acc | public_defs: [clause | acc.public_defs]}
+
+      false ->
+        helper = head_to_helper_entry(head, body, :public, [], [])
+        %{acc | private_helpers: [helper | acc.private_helpers]}
+    end
+  end
+
+  # Read off the SHAPE, never off a list of names: one argument, that argument a map pattern, and a
+  # call to the same function somewhere in the body.
+  defp delegating_clause?([single], body, fn_name),
+    do: map_pattern?(single) and calls_itself?(body, fn_name)
+
+  defp delegating_clause?(_args, _body, _fn_name), do: false
+
+  # BOTH SIDES OF THE MATCH, because `=` in a head is symmetric: `%{field: f} = assigns` and
+  # `assigns = %{field: f}` are the same pattern to Elixir, and following only the left of it made
+  # the recognition depend on which one the author typed first. A kit written the second way had its
+  # bridge shipped as a helper nothing calls — the dead-code regression this check exists to prevent,
+  # reintroduced for a component whose only difference is argument order.
+  defp map_pattern?({:=, _, [left, right]}), do: map_pattern?(left) or map_pattern?(right)
+  defp map_pattern?({:%{}, _, _}), do: true
+  defp map_pattern?(_other), do: false
+
+  defp calls_itself?(body, fn_name) do
+    {_node, found} =
+      Macro.prewalk(body, false, fn
+        {^fn_name, _, args} = node, _acc when is_list(args) -> {node, true}
+        other, acc -> {other, acc}
+      end)
+
+    found
+  end
+
+  # `assigns |> … |> text_field()` becomes `assigns |> …`, and `text_field(assigns)` becomes
+  # `assigns`. Only the LAST expression is rewritten, because that is the dispatch; a self-call
+  # anywhere else would be recursion the clause means to keep.
+  defp without_self_call({:__block__, meta, statements}, fn_name) do
+    {leading, [last]} = Enum.split(statements, -1)
+    {:__block__, meta, leading ++ [without_self_call(last, fn_name)]}
+  end
+
+  defp without_self_call({:|>, _, [lhs, {fn_name, _, []}]}, fn_name), do: lhs
+  defp without_self_call({fn_name, _, [arg]}, fn_name), do: arg
+  defp without_self_call(other, _fn_name), do: other
 
   defp parse_import([{:__aliases__, _, parts}]) do
     full = Enum.map_join(parts, ".", &Atom.to_string/1)
@@ -578,16 +662,33 @@ defmodule MishkaChelekom.CmsBundleExporter do
   defp attr_name_to_string({name, _, _}) when is_atom(name), do: Atom.to_string(name)
   defp attr_name_to_string(other), do: to_string(other)
 
+  # A STRUCT DEFAULT CANNOT SURVIVE JSON, so it is dropped — and dropping it silently made two very
+  # different attributes look identical to the consumer:
+  #
+  #     attr :on_show, JS, default: %JS{}                    # had a default, it just could not travel
+  #     attr :field, Phoenix.HTML.FormField                  # never had one, and must not get one
+  #
+  # MishkaCMS could only guess, and it guessed the same way for both: rebuild an empty struct. That
+  # is right for `%JS{}` and wrong for `field`, where an empty `%Phoenix.HTML.FormField{}` is not
+  # "no field" — it is a field whose `form` is nil, which is what every `used_input?/1` call in this
+  # kit dereferences. So the fact travels instead of the value: `default_struct` says a default was
+  # there, and the consumer rebuilds it from the attribute's own declared type.
   defp attr_opts_to_map(opts) when is_list(opts) do
     Enum.reduce(opts, %{}, fn {k, v}, acc ->
-      case opt_value(v) do
-        :__drop__ -> acc
-        value -> Map.put(acc, Atom.to_string(k), value)
+      case {k, opt_value(v)} do
+        {:default, :__drop__} -> struct_default(acc, v)
+        {_key, :__drop__} -> acc
+        {_key, value} -> Map.put(acc, Atom.to_string(k), value)
       end
     end)
   end
 
   defp attr_opts_to_map(_), do: %{}
+
+  defp struct_default(acc, {:%, _, [_alias, {:%{}, _, []}]}),
+    do: Map.put(acc, "default_struct", true)
+
+  defp struct_default(acc, _other), do: acc
 
   defp opt_value(v) when is_binary(v) or is_number(v) or is_boolean(v) or is_nil(v), do: v
   defp opt_value(v) when is_atom(v), do: Atom.to_string(v)
@@ -813,22 +914,46 @@ defmodule MishkaChelekom.CmsBundleExporter do
   ## Pattern-matched function heads (def icon(%{...})) emit multiple
   ## entries with the same name. Group them into one entry with a
   ## `clauses: [...]` list while preserving ordering.
+  # The PRIMARY is the first clause that actually renders, because its template, attrs and slots are
+  # what the component row is built from. A delegating clause renders nothing, so it can never be
+  # primary — but it still has to be DISPATCHED FIRST, before the catch-all swallows it. Those two
+  # facts pull in opposite directions, and the row resolves them with `__primary_index__`: where the
+  # primary sits among its siblings in SOURCE order, which is the only order dispatch can be built
+  # from. `__extra_clauses__` stays the single list of the others, so every later pass —
+  # `rewrite_sibling_refs/3`, `append_total_catch_alls/1`, `maybe_base64/2` — keeps rewriting exactly
+  # what it rewrote before. Carrying a second copy of the clause list here instead looked simpler and
+  # was wrong: the rewrite passes updated one copy, the encoder read the other, and every clause
+  # template shipped with its sibling calls un-rewritten.
   defp group_public_def_clauses(defs) do
     {by_name, order} =
       Enum.reduce(defs, {%{}, []}, fn d, {by_name, order} ->
         case Map.get(by_name, d.name) do
-          nil ->
-            {Map.put(by_name, d.name, %{primary: d, extra_clauses: []}), order ++ [d.name]}
-
-          %{primary: _p, extra_clauses: ec} = entry ->
-            {Map.put(by_name, d.name, %{entry | extra_clauses: ec ++ [d]}), order}
+          nil -> {Map.put(by_name, d.name, [d]), order ++ [d.name]}
+          clauses -> {Map.put(by_name, d.name, clauses ++ [d]), order}
         end
       end)
 
-    Enum.map(order, fn name ->
-      %{primary: p, extra_clauses: ec} = Map.fetch!(by_name, name)
-      Map.put(p, :__extra_clauses__, ec)
+    Enum.reduce(order, {[], []}, fn name, {rows, orphans} ->
+      case row(Map.fetch!(by_name, name)) do
+        {:ok, row} -> {rows ++ [row], orphans}
+        {:orphans, helpers} -> {rows, orphans ++ helpers}
+      end
     end)
+  end
+
+  # A group with no rendering clause at all was never a component: it is a public recursive helper
+  # that happens to take a map, so it goes back where it came from rather than being dropped.
+  defp row(clauses) do
+    case Enum.find(clauses, &(!is_nil(&1.template))) do
+      nil ->
+        {:orphans, Enum.map(clauses, & &1.__helper__)}
+
+      primary ->
+        {:ok,
+         primary
+         |> Map.put(:__extra_clauses__, List.delete(clauses, primary))
+         |> Map.put(:__primary_index__, Enum.find_index(clauses, &(&1 == primary)))}
+    end
   end
 
   defp resolve_aliased_attrs(component, aliases_map) do
@@ -1187,14 +1312,15 @@ defmodule MishkaChelekom.CmsBundleExporter do
           nil
 
         list ->
-          all = [c | list]
-
-          Enum.map(all, fn entry ->
+          list
+          |> List.insert_at(Map.get(c, :__primary_index__) || 0, c)
+          |> Enum.map(fn entry ->
             %{
               "match" => entry.match,
               "guard" => entry[:guard],
               "body" => entry.body,
-              "template" => entry.template
+              "template" => entry.template,
+              "delegates" => entry[:delegates] == true
             }
           end)
       end

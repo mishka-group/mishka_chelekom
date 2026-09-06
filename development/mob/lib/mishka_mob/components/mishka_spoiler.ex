@@ -77,8 +77,8 @@ defmodule MishkaMob.Components.MishkaSpoiler do
     props = Map.new(props)
 
     if expanded?,
-      do: Map.get(props, :hide_label, "Show less"),
-      else: Map.get(props, :show_label, "Show more")
+      do: Map.get(props, :hide_label) || "Show less",
+      else: Map.get(props, :show_label) || "Show more"
   end
 
   # A text control, not a panel header: it belongs to the content above it.
@@ -91,8 +91,8 @@ defmodule MishkaMob.Components.MishkaSpoiler do
   # row, where a stray tap anywhere on the line would toggle it.
   defp control(props, expanded?) do
     text = label(props, expanded?)
-    color = Map.get(props, :color, :primary)
-    pad = Map.get(props, :padding, 10)
+    color = Map.get(props, :color) || :primary
+    pad = Map.get(props, :padding) || 10
 
     node = ~MOB"""
     <Box padding_top={pad} padding_bottom={pad} fill_width={false}>

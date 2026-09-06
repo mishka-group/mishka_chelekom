@@ -40,7 +40,10 @@ defmodule <%= @module %> do
     doc: "phx-click for the control row — flip `opened` server-side when controlling the group"
 
   attr :class, :any, default: nil, doc: "Extra classes for the root"
-  attr :label_class, :any, default: nil, doc: "Extra classes for the label row"
+  attr :control_class, :any, default: nil, doc: ~s|Extra classes for `data-part="control"`|
+  attr :icon_class, :any, default: nil, doc: ~s|Extra classes for `data-part="icon"`|
+  attr :label_class, :any, default: nil, doc: ~s|Extra classes for `data-part="label"`|
+  attr :trailing_class, :any, default: nil, doc: ~s|Extra classes for `data-part="trailing"`|
   attr :children_class, :any, default: nil, doc: "Extra classes for the nested container"
   attr :rest, :global
 
@@ -63,11 +66,20 @@ defmodule <%= @module %> do
       <summary
         data-part="control"
         phx-click={@on_toggle}
-        class={["chelekom-nav-link__control", @label_class]}
+        class={["chelekom-nav-link__control", @control_class]}
       >
-        <span :if={@icon != []} data-part="icon">{render_slot(@icon)}</span>
-        <span data-part="label">{@label || render_slot(@inner_block)}</span>
-        <span :if={@trailing != []} data-part="trailing">{render_slot(@trailing)}</span>
+        <span
+        :if={@icon != []}
+        data-part="icon"
+        class={["chelekom-nav-link__icon", @icon_class]}
+      >{render_slot(@icon)}</span>
+        <span data-part="label" class={["chelekom-nav-link__label", @label_class]}>{@label ||
+          render_slot(@inner_block)}</span>
+        <span
+        :if={@trailing != []}
+        data-part="trailing"
+        class={["chelekom-nav-link__trailing", @trailing_class]}
+      >{render_slot(@trailing)}</span>
       </summary>
       <div data-part="children" class={["chelekom-nav-link__children", @children_class]}>
         {render_slot(@children)}
@@ -85,9 +97,18 @@ defmodule <%= @module %> do
       class={["chelekom-nav-link", @class]}
       {@rest}
     >
-      <span :if={@icon != []} data-part="icon">{render_slot(@icon)}</span>
-      <span data-part="label">{@label || render_slot(@inner_block)}</span>
-      <span :if={@trailing != []} data-part="trailing">{render_slot(@trailing)}</span>
+      <span
+        :if={@icon != []}
+        data-part="icon"
+        class={["chelekom-nav-link__icon", @icon_class]}
+      >{render_slot(@icon)}</span>
+      <span data-part="label" class={["chelekom-nav-link__label", @label_class]}>{@label ||
+          render_slot(@inner_block)}</span>
+      <span
+        :if={@trailing != []}
+        data-part="trailing"
+        class={["chelekom-nav-link__trailing", @trailing_class]}
+      >{render_slot(@trailing)}</span>
     </.link>
     """
   end

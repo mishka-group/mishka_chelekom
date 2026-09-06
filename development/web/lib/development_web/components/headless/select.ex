@@ -77,6 +77,7 @@ defmodule DevelopmentWeb.Components.Headless.Select do
 
   attr :item_text_class, :any, default: nil, doc: "Extra classes for each item-text part"
 
+  attr :group_list_class, :any, default: nil, doc: ~s|Extra classes for `data-part="group-list"`|
   attr :rest, :global
 
   slot :icon, doc: "Custom trigger icon (replaces the default caret glyph)"
@@ -216,7 +217,7 @@ defmodule DevelopmentWeb.Components.Headless.Select do
                 >
                   {grp.label}
                 </span>
-                <ul role="presentation" class="chelekom-select__group-list">
+                <ul role="presentation" class={["chelekom-select__group-list", @group_list_class]}>
                   <.option
                     :for={opt <- grp.options}
                     opt={opt}

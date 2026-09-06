@@ -46,8 +46,8 @@ defmodule MishkaMob.Components.MishkaMarquee do
   @spec marquee(map() | keyword(), [map()]) :: map()
   def marquee(props \\ %{}, content \\ []) do
     props = Map.new(props)
-    repeat = max(Map.get(props, :repeat, 2), 1)
-    space = Map.get(props, :space, 24)
+    repeat = max(Map.get(props, :repeat) || 2, 1)
+    space = Map.get(props, :space) || 24
 
     groups =
       1..repeat

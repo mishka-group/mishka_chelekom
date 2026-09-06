@@ -12,7 +12,9 @@ defmodule DevelopmentWeb.Components.Headless.Switch do
   (submitted when on, default `"on"`), `unchecked_value` (submitted when off — adds a companion hidden
   input), `on_change` (LiveView event `{checked}`). State attributes (root + thumb): `data-checked`,
   `data-unchecked`, `data-disabled`, `data-readonly`, `data-required`. Parts: `input` (hidden
-  checkbox), `thumb`, `label`. Style via `chelekom-switch*` — ships **no** colors or spacing.
+  checkbox), `track`, `thumb`, optional `on_icon`/`off_icon` (rendered inside the track after the
+  thumb, so a skin can cross-fade them), `label`. Style via `chelekom-switch*` — ships **no**
+  colors or spacing.
 
   WAI-ARIA APG: https://www.w3.org/WAI/ARIA/apg/patterns/switch/
 
@@ -49,8 +51,13 @@ defmodule DevelopmentWeb.Components.Headless.Switch do
   attr :track_class, :any, default: nil, doc: "Extra classes for the track part (the switch box)"
   attr :thumb_class, :any, default: nil, doc: "Extra classes for the thumb part (the sliding dot)"
   attr :label_class, :any, default: nil, doc: "Extra classes for the label part"
+  attr :input_class, :any, default: nil, doc: ~s|Extra classes for `data-part="input"`|
+  attr :off_icon_class, :any, default: nil, doc: ~s|Extra classes for `data-part="off-icon"`|
+  attr :on_icon_class, :any, default: nil, doc: ~s|Extra classes for `data-part="on-icon"`|
   attr :rest, :global
 
+  slot :on_icon, doc: "Optional icon rendered inside the track, shown while on"
+  slot :off_icon, doc: "Optional icon rendered inside the track, shown while off"
   slot :inner_block, doc: "Optional label content"
 
   def switch(assigns) do
@@ -93,7 +100,7 @@ defmodule DevelopmentWeb.Components.Headless.Switch do
         form={@form}
         tabindex="-1"
         aria-hidden="true"
-        class="chelekom-switch__input chelekom-sr-only"
+        class={["chelekom-switch__input chelekom-sr-only", @input_class]}
       />
       <span
         data-part="track"
@@ -109,6 +116,22 @@ defmodule DevelopmentWeb.Components.Headless.Switch do
           class={["chelekom-switch__thumb", @thumb_class]}
           aria-hidden="true"
         ></span>
+        <span
+          :if={@on_icon != []}
+          data-part="on-icon"
+          data-checked={@checked}
+          data-unchecked={!@checked}
+          class={["chelekom-switch__on-icon", @on_icon_class]}
+          aria-hidden="true"
+        >{render_slot(@on_icon)}</span>
+        <span
+          :if={@off_icon != []}
+          data-part="off-icon"
+          data-checked={@checked}
+          data-unchecked={!@checked}
+          class={["chelekom-switch__off-icon", @off_icon_class]}
+          aria-hidden="true"
+        >{render_slot(@off_icon)}</span>
       </span>
       <span
         :if={@inner_block != []}

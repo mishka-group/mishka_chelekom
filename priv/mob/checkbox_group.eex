@@ -199,7 +199,7 @@ defmodule <%= @module %> do
     label = Map.get(props, :label)
     items = items(children)
     rows = Enum.map(items, &row(&1, props))
-    space = Map.get(props, :space, 12)
+    space = Map.get(props, :space) || 12
     spaced = Enum.intersperse(rows, ~MOB(<Spacer size={space} />))
 
     ~MOB"""
@@ -232,8 +232,8 @@ defmodule <%= @module %> do
       checked: item.id in List.wrap(Map.get(props, :value, [])),
       disabled: truthy?(Map.get(props, :disabled, false)) or item.disabled,
       on_toggle: item_tag(props, item.id),
-      color: Map.get(props, :color, :primary),
-      size: Map.get(props, :size, 22),
+      color: Map.get(props, :color) || :primary,
+      size: Map.get(props, :size) || 22,
       id: row_id(Map.get(props, :id), item.id)
     )
   end
@@ -254,13 +254,13 @@ defmodule <%= @module %> do
 
       box =
         <%= @module_prefix_camel %>Checkbox.<%= @component_prefix %>checkbox(
-          label: Map.get(props, :select_all_label, "Select all"),
+          label: Map.get(props, :select_all_label) || "Select all",
           checked: checked?,
           indeterminate: mixed?,
           disabled: truthy?(Map.get(props, :disabled, false)),
           on_toggle: Map.get(props, :on_select_all),
-          color: Map.get(props, :color, :primary),
-          size: Map.get(props, :size, 22),
+          color: Map.get(props, :color) || :primary,
+          size: Map.get(props, :size) || 22,
           id: row_id(Map.get(props, :id), "all")
         )
 

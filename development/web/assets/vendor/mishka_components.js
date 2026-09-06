@@ -48,6 +48,12 @@ import EditorLexical from "./editor_lexical.js";
 import EditorMilkDown from "./editor_milk_down.js";
 import EditorCodeMirror from "./editor_code_mirror.js";
 import Chart from "./chart.js";
+import Autosize from "./autosize.js";
+import Countdown from "./countdown.js";
+import ThemeController from "./theme_controller.js";
+import Indeterminate from "./indeterminate.js";
+import HeadlessCarousel from "./headless_carousel.js";
+import Calendar from "./calendar.js";
 const Components = {
   Tooltip,
   PreviewCard,
@@ -99,5 +105,11 @@ const Components = {
   EditorMilkDown,
   EditorCodeMirror,
   Chart,
+  Autosize,
+  Countdown,
+  ThemeController,
+  Indeterminate,
+  HeadlessCarousel,
+  Calendar,
 };
 export default Components;

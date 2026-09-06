@@ -100,11 +100,43 @@ defmodule MishkaMob.Components.MishkaThemeIcon do
   | `radius` | `:none :sm :md :lg :full` or dp | `:md` | Corner radius. |
   | `gradient` | `{from, to}` / `%{from:, to:}` | `{:primary, :secondary}` | Used by `variant: :gradient`. |
   | `icon_color` | color token / ARGB int | variant's | Overrides the glyph colour. |
+  | `border_color` | color token / ARGB int | variant's | Overrides the variant's border, or draws one where it has none. |
+  | `border_width` | number (dp) | `1` | Read only when a border colour is in play. |
+  | `shadow` | string | `nil` | Drop shadow on the container. See below. |
   | `on_tap` | event tag | — | `{:tap, tag}`. |
   | `on_long_press` | event tag | — | `{:tap, {tag, label}}`. |
 
   Not ported: `class` (there is no CSS), `rest` (no DOM attributes), and
   `role` / `aria-*` — see the `label` section for what happens to them instead.
+
+  ## The shadow is yours too
+
+  The variants say how the container is *painted*; none of them says how far it
+  floats. A tinted disc with no shadow reads as a patch of colour, and the
+  design that wants it to sit above the page is the one that knows how high —
+  so `shadow` is a string handed to the container untouched, in CSS
+  `box-shadow` order and units of dp:
+
+      shadow: "0 1 2 0 #0D1A1917"
+
+  `dx dy blur spread #AARRGGBB`. Stack layers by separating them with a
+  vertical bar, ambient first, key light second, exactly as CSS does:
+
+      shadow: "0 1 2 0 #0D1A1917 | 0 8 16 -12 #801A1917"
+
+  It rides the container — the node that carries the `corner_radius`, the fill
+  and the `on_tap` — so the shadow follows the rounded silhouette and every
+  variant can take one. Omit it and the container carries no `shadow` key at
+  all, not a null one.
+
+  ## Overriding the variant's border
+
+  `:outline` and `:default` draw a 1dp border and the other five draw none.
+  That is a default, not a rule: `border_color` replaces the variant's choice
+  (and gives a `:filled` or `:light` container a hairline it otherwise cannot
+  have), and `border_width` thickens whichever colour is in play. Setting
+  `border_width` alone still draws nothing, because the renderer honours a
+  border on a box only when the colour is set and the width is non-zero.
   """
 
   import Bitwise
@@ -149,6 +181,12 @@ defmodule MishkaMob.Components.MishkaThemeIcon do
 
       theme_icon(%{icon: "★", variant: :light, color: :error, id: "ti-star"})
 
+      theme_icon(%{
+        icon: "★",
+        radius: :full,
+        shadow: "0 1 2 0 #0D1A1917 | 0 8 16 -12 #801A1917"
+      })
+
       <MishkaThemeIcon id="ti-logo" label="Home" on_tap={:go_home}>
         {[logo()]}
       </MishkaThemeIcon>
@@ -161,16 +199,22 @@ defmodule MishkaMob.Components.MishkaThemeIcon do
     variant = variant(props)
     size = size(props)
     radius = radius(props)
-    color = Map.get(props, :color, :primary)
+    color = Map.get(props, :color) || :primary
     skin = skin(variant, color)
     id = Map.get(props, :id)
+
+    # The variant proposes a border; the caller disposes. Width is only ever
+    # written alongside a colour, because the renderer draws a border on a box
+    # only when it has both — a lone width would serialise and paint nothing.
+    border_color = Map.get(props, :border_color) || skin.border
 
     container =
       %{width: size, height: size, align: :center, corner_radius: radius}
       |> put_some(:id, id)
       |> put_some(:background, skin.background)
-      |> put_some(:border_color, skin.border)
-      |> put_some(:border_width, skin.border && 1)
+      |> put_some(:border_color, border_color)
+      |> put_some(:border_width, border_color && (Map.get(props, :border_width) || 1))
+      |> put_some(:shadow, Map.get(props, :shadow))
       |> put_some(:on_tap, Event.handler(Map.get(props, :on_tap)))
       |> put_some(
         :on_long_press,
@@ -205,7 +249,7 @@ defmodule MishkaMob.Components.MishkaThemeIcon do
             props: %{
               text: to_string(glyph),
               text_size: round(size * 0.55),
-              text_color: Map.get(props, :icon_color, skin.icon),
+              text_color: Map.get(props, :icon_color) || skin.icon,
               max_lines: 1
             },
             children: []
@@ -337,19 +381,19 @@ defmodule MishkaMob.Components.MishkaThemeIcon do
   # ── Scales ────────────────────────────────────────────────────────────────
 
   defp variant(props) do
-    variant = Map.get(props, :variant, :filled)
+    variant = Map.get(props, :variant) || :filled
     if variant in @variants, do: variant, else: :filled
   end
 
   defp size(props) do
-    case Map.get(props, :size, :md) do
+    case Map.get(props, :size) || :md do
       n when is_number(n) -> n
       token -> Map.get(@sizes, token, @sizes.md)
     end
   end
 
   defp radius(props) do
-    case Map.get(props, :radius, :md) do
+    case Map.get(props, :radius) || :md do
       n when is_number(n) -> n
       token -> Map.get(@radii, token, :radius_md)
     end

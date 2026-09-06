@@ -28,6 +28,7 @@ defmodule DevelopmentWeb.Components.Headless.HueSlider do
   attr :control_class, :any, default: nil
   attr :track_class, :any, default: nil
   attr :thumb_class, :any, default: nil
+  attr :indicator_class, :any, default: nil, doc: ~s|Extra classes for `data-part="indicator"`|
   attr :rest, :global
 
   def hue_slider(assigns) do
@@ -61,7 +62,7 @@ defmodule DevelopmentWeb.Components.Headless.HueSlider do
           <div
             data-part="indicator"
             data-orientation="horizontal"
-            class="chelekom-hue-slider__indicator"
+            class={["chelekom-hue-slider__indicator", @indicator_class]}
           >
           </div>
           <span

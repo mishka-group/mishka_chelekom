@@ -97,16 +97,6 @@ defmodule MishkaChelekom.Test.Runtime.DemoHarness do
   4. Replace `HeexTagExtractor`/`Rewriter` with the official tokenizer.
   """
 
-  # In chelekom's test env we read the bundle from the same path the
-  # exporter writes to (`priv/components/<kit>.json`). The runtime CMS
-  # uses `priv/cms_ui_kits/` instead, but the harness here is meant to
-  # verify the kit-author flow before the bundle ships.
-  @bundle_path Path.join([
-                 :code.priv_dir(:mishka_chelekom),
-                 "components",
-                 "chelekom.json"
-               ])
-
   @type failure :: %{
           component: String.t(),
           file: String.t(),
@@ -303,11 +293,7 @@ defmodule MishkaChelekom.Test.Runtime.DemoHarness do
 
   ## ─── private ───────────────────────────────────────────────────────
 
-  defp default_bundle_path("chelekom"), do: @bundle_path
-
-  defp default_bundle_path(kit_name) do
-    Path.join([:code.priv_dir(:mishka_chelekom), "components", "#{kit_name}.json"])
-  end
+  defp default_bundle_path(kit_name), do: MishkaChelekom.CmsBundle.Location.bundle!(kit_name)
 
   # Compile every bundle component into a loaded BEAM module so the
   # runtime dispatcher (`LiveViewHelpers.component/1`) can resolve

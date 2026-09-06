@@ -207,7 +207,7 @@ defmodule <%= @module %> do
     """
   end
 
-  defp placeholder(props), do: Map.get(props, :placeholder, @placeholder)
+  defp placeholder(props), do: Map.get(props, :placeholder) || @placeholder
 
   # The web's `@label not in [nil, ""]`: an empty string is what a cleared form
   # field hands back, and it is not a selection.

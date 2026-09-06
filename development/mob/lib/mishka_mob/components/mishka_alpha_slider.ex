@@ -53,10 +53,10 @@ defmodule MishkaMob.Components.MishkaAlphaSlider do
   @spec alpha_slider(map() | keyword()) :: map()
   def alpha_slider(props \\ %{}) do
     props = Map.new(props)
-    alpha = Color.clamp(Map.get(props, :value, 100), 0, 100)
-    width = Map.get(props, :width, @width)
-    height = Map.get(props, :height, @height)
-    rgb = base_rgb(Map.get(props, :color, "#000000"))
+    alpha = Color.clamp(Map.get(props, :value) || 100, 0, 100)
+    width = Map.get(props, :width) || @width
+    height = Map.get(props, :height) || @height
+    rgb = base_rgb(Map.get(props, :color) || "#000000")
 
     strip =
       canvas_node(

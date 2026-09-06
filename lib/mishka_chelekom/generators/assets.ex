@@ -8,10 +8,10 @@ defmodule MishkaChelekom.Generators.Assets do
   alias Igniter.Project.Application, as: IAPP
   alias IgniterJs.Parsers.Javascript.Parser, as: JsParser
   alias IgniterJs.Parsers.Javascript.Formatter, as: JsFormatter
+  alias IgniterJs.Parsers.CSS.Formatter, as: CssFormatter
   alias MishkaChelekom.Generators.Core
   alias MishkaChelekom.Generators.Npm
   alias MishkaChelekom.Config
-  alias MishkaChelekom.SimpleCSSUtilities
 
   @doc """
   Copies a component's JS engine files into `assets/vendor/`, wires their imports/hooks into
@@ -346,28 +346,36 @@ defmodule MishkaChelekom.Generators.Assets do
   end
 
   defp create_mishka_css(igniter, vendor_css_path) do
-    mishka_css_content = Config.generate_css_content(igniter)
+    write_vendor_css(igniter, vendor_css_path, Config.generate_css_content(igniter))
+  end
 
-    Igniter.create_or_update_file(igniter, vendor_css_path, mishka_css_content, fn source ->
-      Rewrite.Source.update(source, :content, mishka_css_content)
+  @doc """
+  Write a stylesheet this library owns, formatted.
+
+  Only for files under `assets/vendor/` — never for a file the user writes in,
+  which is patched in place instead.
+  """
+  @spec write_vendor_css(Igniter.t(), String.t(), String.t()) :: Igniter.t()
+  def write_vendor_css(igniter, path, content) do
+    formatted =
+      case CssFormatter.format(content, :content) do
+        {:ok, _, output} -> output
+        {:error, _, _reason} -> content
+      end
+
+    Igniter.create_or_update_file(igniter, path, formatted, fn source ->
+      Rewrite.Source.update(source, :content, formatted)
     end)
   end
 
   defp import_and_setup_theme(igniter, app_css_path) do
     theme_path = Core.lib_priv("assets/css/theme.css")
 
-    with {:ok, css_content} <- File.read(app_css_path),
-         {:ok, theme_content} <- SimpleCSSUtilities.read_theme_content(theme_path),
-         {:ok, updated_content} <-
-           SimpleCSSUtilities.add_import_and_theme(
-             css_content,
-             "../vendor/mishka_chelekom.css",
-             theme_content
-           ) do
+    with {:ok, theme_content} <- File.read(theme_path),
+         {:ok, theme_body} <- theme_declarations(theme_content, theme_path) do
       igniter
-      |> Igniter.create_or_update_file(app_css_path, updated_content, fn source ->
-        Rewrite.Source.update(source, :content, updated_content)
-      end)
+      |> add_vendor_import(app_css_path, "../vendor/mishka_chelekom.css")
+      |> IgniterCss.Codemods.ensure_at_rule_block(app_css_path, "theme", nil, theme_body)
     else
       {:error, :enoent} ->
         Igniter.add_issue(igniter, """
@@ -377,6 +385,19 @@ defmodule MishkaChelekom.Generators.Assets do
 
       {:error, reason} ->
         Igniter.add_issue(igniter, "Error processing CSS file: #{inspect(reason)}")
+    end
+  end
+
+  defp theme_declarations(theme_content, theme_path) do
+    case IgniterCss.get_at_rules(theme_content, "theme") do
+      {:ok, [%IgniterCss.AtRule{body: body} | _]} when is_binary(body) ->
+        {:ok, body}
+
+      {:ok, _} ->
+        {:error, "#{theme_path} does not contain an `@theme` block"}
+
+      {:error, reason} ->
+        {:error, reason}
     end
   end
 
@@ -393,42 +414,19 @@ defmodule MishkaChelekom.Generators.Assets do
 
       igniter
       |> Core.ensure_user_config()
-      |> Igniter.create_or_update_file(
-        "assets/vendor/mishka_chelekom_headless.css",
-        css,
-        &Rewrite.Source.update(&1, :content, css)
-      )
+      |> write_vendor_css("assets/vendor/mishka_chelekom_headless.css", css)
       |> add_vendor_import("assets/css/app.css", "../vendor/mishka_chelekom_headless.css")
     end
   end
 
-  # Idempotently adds a vendor `@import` to app.css using the same parser the styled side uses
-  # (regex dedup + correct Tailwind-4 ordering), so it never duplicates and never lands before
-  # `@import "tailwindcss";`. Never rewrites the rest of the user's app.css.
   defp add_vendor_import(igniter, app_css, import_path) do
-    case File.read(app_css) do
-      {:ok, content} ->
-        case SimpleCSSUtilities.add_import(content, import_path) do
-          {:ok, :exists, _} ->
-            igniter
-
-          {:ok, :added, updated} ->
-            Igniter.create_or_update_file(igniter, app_css, updated, fn source ->
-              Rewrite.Source.update(source, :content, updated)
-            end)
-
-          {:error, _, _} ->
-            Igniter.add_notice(
-              igniter,
-              "Could not update #{app_css} — add `@import \"#{import_path}\";` manually."
-            )
-        end
-
-      _ ->
-        Igniter.add_notice(
-          igniter,
-          "Could not find #{app_css} — add `@import \"#{import_path}\";` manually."
-        )
+    if File.exists?(app_css) or igniter.rewrite.sources[app_css] do
+      IgniterCss.Codemods.add_import(igniter, app_css, import_path)
+    else
+      Igniter.add_notice(
+        igniter,
+        "Could not find #{app_css} — add `@import \"#{import_path}\";` manually."
+      )
     end
   end
 end

@@ -66,6 +66,10 @@ defmodule DevelopmentWeb.Components.Headless.Autocomplete do
     doc:
       "Render the list in normal flow (static, always open) instead of a floating popup — e.g. a command palette"
 
+  attr :clear_class, :any, default: nil, doc: ~s|Extra classes for `data-part="clear"`|
+  attr :item_class, :any, default: nil, doc: ~s|Extra classes for every `data-part="item"`|
+  attr :group_label_class, :any, default: nil, doc: ~s|Extra classes for every group label|
+  attr :group_list_class, :any, default: nil, doc: ~s|Extra classes for every group list|
   attr :rest, :global
 
   slot :option, required: true do
@@ -121,7 +125,7 @@ defmodule DevelopmentWeb.Components.Headless.Autocomplete do
         data-part="clear"
         data-hidden
         aria-label="Clear"
-        class="chelekom-autocomplete__clear"
+        class={["chelekom-autocomplete__clear", @clear_class]}
       >
         ×
       </button>
@@ -152,14 +156,18 @@ defmodule DevelopmentWeb.Components.Headless.Autocomplete do
               <span
                 id={"#{@id}-grp-#{gi}"}
                 data-part="group-label"
-                class={["chelekom-autocomplete__group-label", grp.group_label_class]}
+                class={[
+                  "chelekom-autocomplete__group-label",
+                  @group_label_class,
+                  grp.group_label_class
+                ]}
               >
                 {grp.label}
               </span>
               <ul
                 role="presentation"
                 data-part="group-list"
-                class={["chelekom-autocomplete__group-list", grp.group_list_class]}
+                class={["chelekom-autocomplete__group-list", @group_list_class, grp.group_list_class]}
               >
                 <li
                   :for={opt <- grp.options}
@@ -169,7 +177,7 @@ defmodule DevelopmentWeb.Components.Headless.Autocomplete do
                   data-value={opt.value}
                   data-label={opt[:label] || opt.value}
                   aria-selected={to_string(opt.value == @value)}
-                  class={["chelekom-autocomplete__item", opt[:class]]}
+                  class={["chelekom-autocomplete__item", @item_class, opt[:class]]}
                 >
                   {render_slot(opt)}
                 </li>
@@ -184,7 +192,7 @@ defmodule DevelopmentWeb.Components.Headless.Autocomplete do
               data-value={opt.value}
               data-label={opt[:label] || opt.value}
               aria-selected={to_string(opt.value == @value)}
-              class={["chelekom-autocomplete__item", opt[:class]]}
+              class={["chelekom-autocomplete__item", @item_class, opt[:class]]}
             >
               {render_slot(opt)}
             </li>

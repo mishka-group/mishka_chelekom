@@ -104,7 +104,7 @@ defmodule MishkaMob.Components.MishkaMaskInput do
 
     node = ~MOB"""
     <TextField
-      value={Map.get(props, :value, "")}
+      value={Map.get(props, :value) || ""}
       placeholder={Map.get(props, :placeholder) || mask || ""}
       keyboard={Map.get(props, :keyboard) || keyboard_for(mask)}
       max_length={max_length(mask)}
