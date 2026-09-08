@@ -328,13 +328,19 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
         # preserved in `extra.module` of each js_hook entry. The bundle
         # is shipped global; MishkaCMS keys global hooks under that
         # exact prefix at runtime.
-        hook_modules =
+        # WHAT THE RUNTIME WILL CALL EACH HOOK, paired with what the source calls it.
+        # `JavaScriptCompiler.format_hook_name/2` rebuilds the live key from the ROW NAME — kebab
+        # split, capitalised, joined, and `Global` in front for a site-less row — so a row named
+        # `chelekom-floating` is reachable as `GlobalChelekomFloating` and as nothing else. Deriving
+        # the replacement from `extra.module` alone was right only while the row name and the module
+        # agreed, which is exactly what namespacing them ends.
+        hook_renames =
           js_hooks
-          |> Enum.map(fn h -> get_in(h, ["extra", "module"]) end)
-          |> Enum.reject(&is_nil/1)
+          |> Enum.map(fn h -> {get_in(h, ["extra", "module"]), live_hook_key(h["name"])} end)
+          |> Enum.reject(fn {module, _key} -> is_nil(module) end)
           |> Enum.uniq()
 
-        components = prefix_phx_hooks(components, hook_modules)
+        components = prefix_phx_hooks(components, hook_renames)
 
         # Populate per-component `examples[]` by extracting real
         # invocations from `priv/demos/<comp>_live.html.heex` showcase
@@ -438,7 +444,20 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
       # round-trip cleanly through that pipeline we ship the kebab form
       # in `name` and rewrite component templates to the install-target
       # prefix in `prefix_phx_hooks/2` (mix-task-level pass).
-      hook_name = pascal_to_kebab(pascal_name)
+      # NAMESPACED BY THE KIT, like every other row this bundle installs.
+      #
+      # 136 components ship as `chelekom-*` and the theme ships as `chelekom-theme`; the hooks shipped
+      # as bare `floating`, `carousel`, `sidebar`. Three costs, and only the first is cosmetic: the
+      # admin's hook list put a kit's rows among the site's own with nothing saying where they came
+      # from; `UiKitHandler.uninstall_kit!/2` purges components by the `<kit>-` prefix but hooks by
+      # exact name, so the two rules disagreed about what belongs to a kit; and a second kit shipping
+      # its own `carousel` would have overwritten this one, since the name IS the key.
+      #
+      # The bare name is carried in `extra.replaces` so an install over an older bundle removes the
+      # row it is renaming rather than leaving both — and removes exactly that one, named by the
+      # bundle, rather than every hook that happens to share the word.
+      bare_name = pascal_to_kebab(pascal_name)
+      hook_name = kit_prefix(kit_name) <> bare_name
       file_name = stringify_script_field(s, :file)
       raw_content = find_js_content(dir, file_name) || ""
 
@@ -458,7 +477,8 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
         "extra" => %{
           "ui_kit" => kit_name,
           "ui_kit_version" => kit_version,
-          "module" => pascal_name
+          "module" => pascal_name,
+          "replaces" => bare_name
         }
       }
     end)
@@ -471,6 +491,11 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
   # Convert PascalCase identifier (e.g. "GalleryFilter") to kebab-case
   # ("gallery-filter"). Single-word names ("Carousel") become bare
   # lowercase ("carousel"). Splits on capital-letter boundaries.
+  # `chelekom` -> `chelekom-`. A kit with no name namespaces nothing rather than shipping a stray
+  # hyphen, which would make the row unreachable by every prefix rule that then reads it.
+  defp kit_prefix(kit_name) when is_binary(kit_name) and kit_name != "", do: kit_name <> "-"
+  defp kit_prefix(_unnamed), do: ""
+
   defp pascal_to_kebab(""), do: ""
 
   defp pascal_to_kebab(name) when is_binary(name) do
@@ -487,21 +512,22 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
   # `Global<PascalCase>`. Doing this rewrite at the converter is the
   # last step needed to keep the bundle install-and-go.
   #
-  # `hook_modules` is the set of PascalCase hook module names from the
-  # bundle's js_hooks (e.g. ~w[Carousel Clipboard GalleryFilter]). We
-  # only rewrite refs that match one of these — host-app or third-party
-  # phx-hook attributes are left alone.
-  defp prefix_phx_hooks(components, hook_modules) when hook_modules == [] or hook_modules == nil,
+  # `hook_renames` pairs each PascalCase module name the SOURCE writes
+  # (e.g. "GalleryFilter") with the key the RUNTIME will answer to
+  # ("GlobalChelekomGalleryFilter"). Only refs matching one of these are
+  # rewritten — host-app or third-party phx-hook attributes are left
+  # alone.
+  defp prefix_phx_hooks(components, hook_renames) when hook_renames == [] or hook_renames == nil,
     do: components
 
-  defp prefix_phx_hooks(components, hook_modules) do
+  defp prefix_phx_hooks(components, hook_renames) do
     Enum.map(components, fn c ->
       c
-      |> update_in(["template"], &rewrite_phx_hooks(&1, hook_modules))
-      |> update_in(["body"], &rewrite_phx_hooks(&1, hook_modules))
+      |> update_in(["template"], &rewrite_phx_hooks(&1, hook_renames))
+      |> update_in(["body"], &rewrite_phx_hooks(&1, hook_renames))
       |> update_in(["helpers"], fn helpers ->
         Enum.map(helpers || [], fn h ->
-          Map.update(h, "code", h["code"], &rewrite_phx_hooks(&1, hook_modules))
+          Map.update(h, "code", h["code"], &rewrite_phx_hooks(&1, hook_renames))
         end)
       end)
       |> update_in(["extra", "clauses"], fn clauses ->
@@ -512,8 +538,8 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
           list when is_list(list) ->
             Enum.map(list, fn cl ->
               cl
-              |> Map.update("template", cl["template"], &rewrite_phx_hooks(&1, hook_modules))
-              |> Map.update("body", cl["body"], &rewrite_phx_hooks(&1, hook_modules))
+              |> Map.update("template", cl["template"], &rewrite_phx_hooks(&1, hook_renames))
+              |> Map.update("body", cl["body"], &rewrite_phx_hooks(&1, hook_renames))
             end)
         end
       end)
@@ -523,17 +549,20 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
   defp rewrite_phx_hooks(nil, _), do: nil
   defp rewrite_phx_hooks("", _), do: ""
 
-  defp rewrite_phx_hooks(text, hook_modules) when is_binary(text) do
-    Enum.reduce(hook_modules, text, fn module_name, acc ->
-      String.replace(
-        acc,
-        ~s(phx-hook="#{module_name}"),
-        ~s(phx-hook="Global#{module_name}")
-      )
+  defp rewrite_phx_hooks(text, hook_renames) when is_binary(text) do
+    Enum.reduce(hook_renames, text, fn {module_name, live_key}, acc ->
+      String.replace(acc, ~s(phx-hook="#{module_name}"), ~s(phx-hook="#{live_key}"))
     end)
   end
 
   defp rewrite_phx_hooks(other, _), do: other
+
+  # The mirror of `MishkaCmsCore.Runtime.Compilers.JavaScriptCompiler.format_hook_name/2` for a
+  # site-less row: kebab split, each part capitalised, joined, `Global` in front. Every bundle row
+  # ships `site_id: nil`, so that is the only branch this needs.
+  defp live_hook_key(name) when is_binary(name) do
+    "Global" <> (name |> String.split("-") |> Enum.map_join("", &String.capitalize/1))
+  end
 
   # Read Chelekom's two-file theme (CSS variables on :root + the @theme
   # block mapping --color-* to those variables) and emit ONE Stylesheet
