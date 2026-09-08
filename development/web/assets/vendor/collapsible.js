@@ -1,3 +1,8 @@
+// The three sentences anything outside a component can say to it. A component that wants to be
+// openable from elsewhere dispatches these at itself from `data-pb-open` / `data-pb-close` /
+// `data-pb-toggle` and listens for them here; a component that does not, ignores them.
+const OPEN_COMMANDS = ["chelekom:open", "chelekom:close", "chelekom:toggle"];
+
 const Collapsible = {
   mounted() {
     this.initElements();
@@ -70,6 +75,58 @@ const Collapsible = {
 
     this.el.addEventListener("click", this.boundHandleClick);
     this.el.addEventListener("keydown", this.boundHandleKeydown);
+
+    this.setupOpenCommands();
+  },
+
+  // OPENED BY SOMETHING THAT IS NOT ONE OF ITS OWN TRIGGERS.
+  //
+  // The two listeners above answer this component's own headers. This one answers the page: a
+  // button elsewhere that says "open that panel", written by an author in a page builder or by a
+  // developer who never gets a reference to this hook. What either can write into markup is a
+  // `Phoenix.LiveView.JS` command, and a hook method is not one — so the command is a dispatch and
+  // this is the ear for it. The component declares the pair in its own template:
+  //
+  //     data-pb-open={JS.dispatch("chelekom:open", to: "##{@id}")}
+  //
+  // A collapsible is the one shape in the set that opens something SMALLER than itself: an
+  // accordion holds many panels and the command names one, in `detail.item`. Naming none opens the
+  // first, which is the whole of a `collapse` and the sensible default for an accordion — better
+  // than refusing, which would read to the author as a button that does nothing.
+  //
+  // `event.target !== this.el` is load-bearing: `JS.dispatch` sends a bubbling CustomEvent, so a
+  // collapse nested inside an accordion would otherwise open both.
+  setupOpenCommands() {
+    this.boundOpenCommand = this.handleOpenCommand.bind(this);
+
+    for (const name of OPEN_COMMANDS) {
+      this.el.addEventListener(name, this.boundOpenCommand);
+    }
+  },
+
+  handleOpenCommand(event) {
+    if (event.target !== this.el) return;
+
+    const itemId = event.detail?.item ?? this.itemMap.keys().next().value;
+    if (!itemId || !this.itemMap.has(itemId)) return;
+
+    if (event.type === "chelekom:open") {
+      this.openItem(itemId);
+    } else if (event.type === "chelekom:close") {
+      this.closeItem(itemId);
+    } else {
+      this.toggleItem(itemId);
+    }
+  },
+
+  teardownOpenCommands() {
+    if (!this.boundOpenCommand) return;
+
+    for (const name of OPEN_COMMANDS) {
+      this.el.removeEventListener(name, this.boundOpenCommand);
+    }
+
+    this.boundOpenCommand = null;
   },
 
   processInitialState() {
@@ -295,6 +352,8 @@ const Collapsible = {
   },
 
   destroyed() {
+    this.teardownOpenCommands();
+
     if (this.el && this.boundHandleClick) {
       this.el.removeEventListener("click", this.boundHandleClick);
       this.el.removeEventListener("keydown", this.boundHandleKeydown);

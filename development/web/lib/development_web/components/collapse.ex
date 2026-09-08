@@ -9,6 +9,7 @@ defmodule DevelopmentWeb.Components.Collapse do
   **Documentation:** https://mishka.tools/chelekom/docs/collapse
   """
   use Phoenix.Component
+  alias Phoenix.LiveView.JS
 
   @doc """
     The `collapse` component provides a toggle mechanism to show or hide content. It's commonly used
@@ -83,6 +84,9 @@ defmodule DevelopmentWeb.Components.Collapse do
     <div
       id={@id}
       phx-hook="Collapsible"
+      data-pb-open={JS.dispatch("chelekom:open", to: "##{@id}")}
+      data-pb-close={JS.dispatch("chelekom:close", to: "##{@id}")}
+      data-pb-toggle={JS.dispatch("chelekom:toggle", to: "##{@id}")}
       data-multiple="false"
       data-collapsible="true"
       data-duration={@duration}
