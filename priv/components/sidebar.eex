@@ -115,8 +115,14 @@ defmodule <%= @module %> do
       id={@id}
       phx-click-away={hide_sidebar(@on_hide_away, @id, @hide_position)}
       phx-remove={hide_sidebar(@id, @hide_position)}
-      data-pb-open={show_sidebar(@id, @position)}
-      data-pb-close={hide_sidebar(@id, @hide_position)}
+      <%!-- `@hide_position`, not `@position`: the first is which way it slides away and is what
+            `phx-remove` and `phx-click-away` both pass; the second is a layout position whose
+            default `"start"` `hide_position/1` does not match, so opening was a no-op. --%>
+      data-pb-open={show_sidebar(@id, @hide_position)}
+      <%!-- The same command `phx-remove` already carries, named rather than written out
+            again: `hide_sidebar/2` serialises to hundreds of bytes of JSON and this element
+            would otherwise have shipped it twice. --%>
+      data-pb-close={JS.exec("phx-remove", to: "##{@id}")}
       role="complementary"
       class={[
         "fixed h-screen transition-transform z-10 overflow-x-hidden",

@@ -112,7 +112,10 @@ defmodule <%= @module %> do
       phx-remove={hide_modal(@id)}
       data-cancel={JS.exec(@on_cancel, "phx-remove")}
       data-pb-open={show_modal(@id)}
-      data-pb-close={hide_modal(@id)}
+      <%!-- The same command `phx-remove` already carries, named rather than written out
+            again: `hide_modal/1` serialises to hundreds of bytes of JSON and this element
+            would otherwise have shipped it twice. --%>
+      data-pb-close={JS.exec("phx-remove", to: "##{@id}")}
       class={["relative z-50 hidden", @class]}
     >
       <div
