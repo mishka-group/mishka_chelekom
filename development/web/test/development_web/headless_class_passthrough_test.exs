@@ -41,10 +41,11 @@ defmodule DevelopmentWeb.HeadlessClassPassthroughTest do
     end
   end
 
+  # No `:boolean` clause: `probe_value/1` answers `true` for those before it gets here, on purpose —
+  # a part only shows up in the markup when the thing it belongs to is asked for.
   defp sample(:string), do: "probe"
   defp sample(:integer), do: 1
   defp sample(:float), do: 1.0
-  defp sample(:boolean), do: false
   defp sample(:list), do: [%{}]
   defp sample(:map), do: %{}
   defp sample(:atom), do: nil

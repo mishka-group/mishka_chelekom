@@ -169,13 +169,6 @@ defmodule DevelopmentWeb.HeadlessDaisyUISkinTest do
     |> Enum.join()
   end
 
-  defp attr_value(source, attr) do
-    case Regex.run(~r/#{Regex.escape(attr)}(?:"([^"]*)"|\{\[?([^}]*)\]?\})/, source) do
-      [_ | rest] -> Enum.join(rest, " ")
-      _ -> ""
-    end
-  end
-
   test "every component carries its styling in its own markup" do
     for name <- @skinned do
       id = HeadlessDaisyUIExamples.hero(name)
