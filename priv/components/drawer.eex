@@ -98,6 +98,8 @@ defmodule <%= @module %> do
       id={@id}
       phx-mounted={@show && show_drawer(@on_show, @id, @position)}
       phx-remove={hide_drawer(@id, @position)}
+      data-pb-open={show_drawer(@id, @position)}
+      data-pb-close={hide_drawer(@id, @position)}
       class={[
         "fixed z-50 transition-transform",
         "[&:not(.drawer-showed)_.drawer-overlay]:opacity-0 [&.drawer-showed_.drawer-overlay]:opacity-100",

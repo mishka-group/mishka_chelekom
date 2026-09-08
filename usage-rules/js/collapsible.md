@@ -188,3 +188,36 @@ let liveSocket = new LiveSocket("/live", Socket, {
   hooks: { Collapsible }
 })
 ```
+
+## Opened From Outside Itself
+
+The root element answers three custom DOM events, so anything on the page can open a panel without
+holding a reference to the hook:
+
+| Event | Effect |
+|-------|--------|
+| `chelekom:open` | `openItem(id)` |
+| `chelekom:close` | `closeItem(id)` |
+| `chelekom:toggle` | `toggleItem(id)` |
+
+The component declares them on its own root, which is what makes them discoverable and what the
+MishkaCMS page builder reads:
+
+```heex
+data-pb-open={JS.dispatch("chelekom:open", to: "##{@id}")}
+data-pb-close={JS.dispatch("chelekom:close", to: "##{@id}")}
+data-pb-toggle={JS.dispatch("chelekom:toggle", to: "##{@id}")}
+```
+
+Events arriving from a nested component are ignored (`event.target !== this.el`), so a collapse inside an accordion
+does not open its ancestor on the way up. See "Opening a Component From Somewhere Else" in the
+top-level usage rules.
+
+Which panel: `detail.item` names one, and naming none uses the first. That is the whole of a
+`collapse`, and the sensible reading of "open this accordion" for an `accordion`:
+
+```javascript
+element.dispatchEvent(
+  new CustomEvent("chelekom:open", { detail: { item: "faq-shipping" } }),
+);
+```

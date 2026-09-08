@@ -169,6 +169,7 @@ defmodule <%= @module %> do
           transition: "duration-100"
         )
       }
+      data-pb-toggle={JS.exec("phx-open-mega", to: "##{@id}")}
       class={[
         "[&>.mega-menu-content]:invisible [&>.mega-menu-content]:opacity-0",
         "[&>.mega-menu-content.show-mega-menu]:visible [&>.mega-menu-content.show-mega-menu]:opacity-100",
