@@ -21,6 +21,14 @@ defmodule MishkaChelekom.CmsBundle.ShowcaseCoverageTest do
 
   defp entry(path), do: path |> File.read!() |> Jason.decode!()
 
+  # `chelekom-mega-menu` -> `mega menu`. What the tile beside the label already says, so a label
+  # equal to it is a label that adds nothing.
+  defp bare_name(entry) do
+    entry["name"]
+    |> String.replace_prefix("chelekom-", "")
+    |> String.replace("-", " ")
+  end
+
   test "there are showcase files to check" do
     assert length(@showcase) > 100,
            "the wildcard matched nothing — every test here would vacuously pass"
@@ -53,9 +61,8 @@ defmodule MishkaChelekom.CmsBundle.ShowcaseCoverageTest do
     lazy =
       for path <- @showcase,
           entry = entry(path),
-          bare = String.replace_prefix(entry["name"], "chelekom-", "") |> String.replace("-", " "),
           example <- entry["examples"],
-          String.downcase(String.trim(example["label"])) == bare,
+          bare_name(entry) == String.downcase(String.trim(example["label"])),
           do: {entry["name"], example["label"]}
 
     assert lazy == [], "these labels only repeat the component name: #{inspect(lazy)}"
