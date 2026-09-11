@@ -151,6 +151,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"select-hero", "Select",
        "daisyUI's `select` on the trigger and `menu` on the listbox, arrow and radii from the active theme."},
       {"select-ghost", "Ghost", "daisyUI's `select-ghost` — no background until focus."},
+      {"select-height", "Custom dropdown height",
+       "daisyUI caps the native picker; ours caps the popup, which is the same idea."},
       {"select-colors", "Colors", "All eight `select-*` colors."},
       {"select-sizes", "Sizes", "`select-xs` through `select-xl`."},
       {"select-disabled", "Disabled", "The disabled trigger, plus a per-option disabled row."},
@@ -376,6 +378,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
        "daisyUI's `swap`, as a two-state button; ours keys off `data-pressed`."},
       {"toggle-states", "Pressed and disabled", "The three states side by side."},
       {"toggle-icons", "With icons", "An icon that changes with the pressed state."},
+      {"toggle-swap-rotate", "Swap with rotate effect",
+       "daisyUI's `swap-rotate`, activated by class rather than a checkbox."},
+      {"toggle-swap-flip", "Swap with flip effect", "daisyUI's `swap-flip`."},
       {"toggle-form", "In a form", "The toggle submitting a value, via `name`."}
     ],
     "code" => [
@@ -3055,6 +3060,54 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     """
   end
 
+  def example(%{section: "toggle-swap-rotate"} = assigns) do
+    ~H"""
+    <div class="flex items-center gap-6">
+      <.toggle
+        input_class="absolute w-px h-px opacity-0 pointer-events-none"
+        id="daisyui-toggle-swap-rotate-on"
+        pressed
+        class="d-swap d-swap-rotate d-swap-active cursor-pointer text-2xl font-semibold"
+      >
+        <div class="d-swap-on">ON</div>
+        <div class="d-swap-off">OFF</div>
+      </.toggle>
+      <.toggle
+        input_class="absolute w-px h-px opacity-0 pointer-events-none"
+        id="daisyui-toggle-swap-rotate-off"
+        class="d-swap d-swap-rotate cursor-pointer text-2xl font-semibold"
+      >
+        <div class="d-swap-on">ON</div>
+        <div class="d-swap-off">OFF</div>
+      </.toggle>
+    </div>
+    """
+  end
+
+  def example(%{section: "toggle-swap-flip"} = assigns) do
+    ~H"""
+    <div class="flex items-center gap-6">
+      <.toggle
+        input_class="absolute w-px h-px opacity-0 pointer-events-none"
+        id="daisyui-toggle-swap-flip-on"
+        pressed
+        class="d-swap d-swap-flip d-swap-active cursor-pointer text-4xl"
+      >
+        <div class="d-swap-on">😈</div>
+        <div class="d-swap-off">😇</div>
+      </.toggle>
+      <.toggle
+        input_class="absolute w-px h-px opacity-0 pointer-events-none"
+        id="daisyui-toggle-swap-flip-off"
+        class="d-swap d-swap-flip cursor-pointer text-4xl"
+      >
+        <div class="d-swap-on">😈</div>
+        <div class="d-swap-off">😇</div>
+      </.toggle>
+    </div>
+    """
+  end
+
   def example(%{section: "toggle-form"} = assigns) do
     ~H"""
     <form phx-submit="daisyui_switch_submit" class="flex items-center gap-3">
@@ -4201,6 +4254,34 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <:option value="inter">Inter</:option>
       <:option value="mono">JetBrains Mono</:option>
       <:option value="serif">Source Serif</:option>
+    </.select>
+    """
+  end
+
+  def example(%{section: "select-height"} = assigns) do
+    ~H"""
+    <.select
+      item_text_class="overflow-hidden text-ellipsis whitespace-nowrap"
+      item_indicator_class="text-[0.75rem] leading-none"
+      item_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:not-data-selected:bg-base-content/10 data-selected:d-menu-active data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+      group_list_class="flex flex-col ms-0 ps-0 before:hidden"
+      group_label_class="px-3 py-2 [color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] text-[0.875rem] font-semibold"
+      positioner_class="z-50"
+      icon_class="hidden"
+      value_class="overflow-hidden text-ellipsis whitespace-nowrap data-placeholder:[color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+      label_class="px-3 py-2 [color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] text-[0.875rem] font-semibold"
+      popup_class="d-menu w-[var(--anchor-width,max-content)] min-w-40 max-h-32 overflow-y-auto flex-nowrap border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+      class="block w-[clamp(3rem,20rem,100%)]"
+      id="daisyui-select-height"
+      placeholder="Pick a color"
+      trigger_class="d-select w-full cursor-pointer text-start data-readonly:cursor-default"
+    >
+      <:option value="crimson">Crimson</:option>
+      <:option value="amber">Amber</:option>
+      <:option value="velvet">Velvet</:option>
+      <:option value="teal">Teal</:option>
+      <:option value="indigo">Indigo</:option>
+      <:option value="olive">Olive</:option>
     </.select>
     """
   end
