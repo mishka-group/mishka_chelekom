@@ -347,6 +347,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ],
     "otp_field" => [
       {"otp_field-hero", "OTP input", "Six `input` boxes in a row, daisyUI's OTP recipe."},
+      {"otp_field-six", "OTP with 6 digits",
+       "daisyUI's six-slot code; ours is the `length` attribute."},
       {"otp_field-joined", "OTP joined",
        "daisyUI's `otp-joined` — the boxes share their edges, so the row reads as one field."},
       {"otp_field-sizes", "OTP with different sizes",
@@ -485,6 +487,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
        "Icons with no labels — daisyUI's compact rail, as a dropdown."},
       {"menu-icons-tooltip", "Icon only, with tooltip",
        "daisyUI's `tooltip` + `data-tip` on each row, since the label is gone."},
+      {"menu-icons-only-horizontal", "Icon only, horizontal",
+       "daisyUI's icon rail laid out across instead of down."},
+      {"menu-icons-tooltip-horizontal", "Icon only, horizontal, with tooltip",
+       "The same rail, each icon naming itself through `tooltip`."},
       {"menu-badges", "With icons and a badge",
        "daisyUI's `badge badge-xs` pushed to the end of the row."},
       {"menu-active", "Active item", "daisyUI's `menu-active` marking the current page."},
@@ -990,6 +996,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"pagination-xs", "Extra small buttons", "daisyUI's `btn-xs`."},
       {"pagination-edges", "First / last as well as previous / next",
        "daisyUI's equal-width outline prev/next, plus `show_edges` for the ends."},
+      {"pagination-equal-width", "Prev / next as equal-width outline buttons",
+       "daisyUI's two-button pager: `join grid grid-cols-2` with the page numbers left out."},
       {"pagination-radio", "Using radio inputs",
        "daisyUI's radio pagination. `name` renders radios instead of buttons, so the choice posts with a surrounding form and needs no JS at all."},
       {"pagination-window", "The window at work",
@@ -2721,6 +2729,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       input_class="d-input w-[calc(var(--size-field,0.25rem)*12)] px-0 text-center tabular-nums focus-within:border-base-content/20 focus-within:outline-base-content/30"
       class="inline-flex items-center gap-2 data-disabled:cursor-not-allowed data-disabled:opacity-50"
       id="daisyui-otp-hero"
+      length={4}
+    />
+    """
+  end
+
+  def example(%{section: "otp_field-six"} = assigns) do
+    ~H"""
+    <.otp_field
+      separator_class="text-base-content/40 select-none"
+      input_class="d-input w-[calc(var(--size-field,0.25rem)*12)] px-0 text-center tabular-nums focus-within:border-base-content/20 focus-within:outline-base-content/30"
+      class="inline-flex items-center gap-2 data-disabled:cursor-not-allowed data-disabled:opacity-50"
+      id="daisyui-otp-six"
     />
     """
   end
@@ -5536,6 +5556,59 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       id="daisyui-menu-tooltip"
       side_offset={8}
       popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)] !min-w-0 w-fit"
+    >
+      <:trigger>Rail</:trigger>
+      <.menu_item
+        :for={{label, path} <- @nav}
+        label={label}
+        class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)] [&.d-tooltip]:inline-block d-tooltip d-tooltip-right"
+        data-tip={label}
+      >
+        <.nav_icon path={path} />
+      </.menu_item>
+    </.menu>
+    """
+  end
+
+  def example(%{section: "menu-icons-only-horizontal"} = assigns) do
+    assigns = assign(assigns, :nav, @nav)
+
+    ~H"""
+    <.menu
+      indicator_class="inline-flex w-4 justify-center text-[0.75rem] leading-none"
+      chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+      group_label_class="d-menu-title block"
+      separator_class="h-px my-2 mx-1 bg-base-content/10"
+      item_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+      submenu_popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+      trigger_class="d-btn"
+      id="daisyui-menu-icons-only-horizontal"
+      side_offset={8}
+      popup_class="d-menu d-menu-horizontal flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)] !min-w-0 w-fit"
+    >
+      <:trigger>Rail</:trigger>
+      <:item :for={{label, path} <- @nav} label={label}>
+        <.nav_icon path={path} />
+      </:item>
+    </.menu>
+    """
+  end
+
+  def example(%{section: "menu-icons-tooltip-horizontal"} = assigns) do
+    assigns = assign(assigns, :nav, @nav)
+
+    ~H"""
+    <.menu
+      indicator_class="inline-flex w-4 justify-center text-[0.75rem] leading-none"
+      chevron_class="justify-self-end [color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)]"
+      group_label_class="d-menu-title block"
+      separator_class="h-px my-2 mx-1 bg-base-content/10"
+      item_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]"
+      submenu_popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)]"
+      trigger_class="d-btn"
+      id="daisyui-menu-tooltip-horizontal"
+      side_offset={8}
+      popup_class="d-menu d-menu-horizontal flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)] !min-w-0 w-fit"
     >
       <:trigger>Rail</:trigger>
       <.menu_item
@@ -11975,6 +12048,21 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       first_label="First"
       last_label="Last"
       control_class="d-btn rounded-none focus-visible:z-[2] hover:z-[1] aria-[current=page]:d-btn-active aria-[current=page]:pointer-events-none group-first/item:rounded-ss-[var(--radius-field)] group-first/item:rounded-es-[var(--radius-field)] group-last/item:rounded-se-[var(--radius-field)] group-last/item:rounded-ee-[var(--radius-field)] group-not-first/item:[margin-inline-start:calc(var(--border,1px)*-1)] [input&]:appearance-none [input&]:cursor-pointer [input&]:after:content-[attr(data-page)] [input&]:checked:d-btn-active d-btn-outline"
+    />
+    """
+  end
+
+  def example(%{section: "pagination-equal-width"} = assigns) do
+    ~H"""
+    <.pagination
+      item_class="group/item flex has-[[data-part=page]]:hidden has-[[data-part=ellipsis]]:hidden"
+      list_class="d-join grid grid-cols-2"
+      control_class="d-join-item d-btn d-btn-outline w-full"
+      id="daisyui-pagination-equal-width"
+      total={10}
+      page={5}
+      previous_label="Previous page"
+      next_label="Next"
     />
     """
   end
