@@ -86,6 +86,7 @@ defmodule DevelopmentWeb.Components.Headless.Fab do
     attr :navigate, :string
     attr :href, :string
     attr :disabled, :boolean
+    attr :tip, :string, doc: "Tooltip text (daisyUI reads `data-tip`)"
     attr :class, :any
   end
 
@@ -173,6 +174,7 @@ defmodule DevelopmentWeb.Components.Headless.Fab do
       data-disabled={@action[:disabled]}
       aria-label={@action.label}
       phx-click={!@action[:disabled] && !link?(@action) && @action[:on_click]}
+      data-tip={@action[:tip]}
       class={["chelekom-fab__action", @class, @action[:class]]}
       {button_attrs(@action)}
     >

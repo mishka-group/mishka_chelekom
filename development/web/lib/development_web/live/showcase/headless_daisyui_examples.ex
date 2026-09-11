@@ -593,6 +593,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"fab-flower", "Flower", "daisyUI's quarter-circle arrangement, from `data-direction`."},
       {"fab-flower-main", "Flower with a main action",
        "daisyUI shows the quarter-circle both ways; this is the one where the trigger becomes an action of its own once the dial is open."},
+      {"fab-flower-icons", "Flower with SVG icons",
+       "daisyUI's flower dial with icons in every action and in the main action."},
+      {"fab-flower-tooltip", "Flower with tooltips",
+       "daisyUI wraps each action in `tooltip` with `data-tip`; ours is the action's own `tip`."},
       {"fab-directions", "Other directions",
        "Not on daisyUI's page. The dial can fan down, left or right as well as up."}
     ],
@@ -6754,7 +6758,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         main_action_class="d-btn-lg"
         action_class="d-btn d-btn-circle flex items-center gap-2 has-[[data-part=label]]:rounded-[var(--radius-field)] has-[[data-part=label]]:w-auto has-[[data-part=label]]:px-4 data-disabled:pointer-events-none data-disabled:opacity-50 group-data-[direction=flower]:absolute group-data-[direction=flower]:end-0 group-data-[direction=flower]:bottom-0 group-data-[direction=flower]:data-[index='0']:[translate:0_calc(0.25rem*-14)] group-data-[direction=flower]:data-[index='1']:[translate:calc(0.25rem*-10)_calc(0.25rem*-10)] group-data-[direction=flower]:data-[index='2']:[translate:calc(0.25rem*-14)_0]"
         popup_class="flex flex-col-reverse [align-items:inherit] gap-2 relative data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center group-data-[direction=flower]:block! group-data-[direction=flower]:w-12 group-data-[direction=flower]:h-12"
-        icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
+        icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:not-only:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
         trigger_class="d-btn d-btn-circle d-btn-lg grid place-items-center [transition:rotate_0.2s_cubic-bezier(0.4,0,0.2,1),opacity_0.2s_cubic-bezier(0.4,0,0.2,1)] group-has-[[data-part=popup][data-open]]:[rotate:45deg] .as-[[data-part=icon][data-state=open]]:[rotate:none]"
         class="group pointer-events-none fixed z-[999] flex items-end gap-2 text-[length:var(--text-sm)] whitespace-nowrap select-none [&>*]:pointer-events-auto data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[placement=top-end]:end-4 data-[placement=top-end]:top-4 data-[placement=top-start]:start-4 data-[placement=top-start]:top-4 data-[placement=top-start]:items-start"
         id="daisyui-fab-hero"
@@ -6777,7 +6781,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         main_action_class="d-btn-lg"
         action_class="d-btn d-btn-circle flex items-center gap-2 has-[[data-part=label]]:rounded-[var(--radius-field)] has-[[data-part=label]]:w-auto has-[[data-part=label]]:px-4 data-disabled:pointer-events-none data-disabled:opacity-50 group-data-[direction=flower]:absolute group-data-[direction=flower]:end-0 group-data-[direction=flower]:bottom-0 group-data-[direction=flower]:data-[index='0']:[translate:0_calc(0.25rem*-14)] group-data-[direction=flower]:data-[index='1']:[translate:calc(0.25rem*-10)_calc(0.25rem*-10)] group-data-[direction=flower]:data-[index='2']:[translate:calc(0.25rem*-14)_0]"
         popup_class="flex flex-col-reverse [align-items:inherit] gap-2 relative data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center group-data-[direction=flower]:block! group-data-[direction=flower]:w-12 group-data-[direction=flower]:h-12"
-        icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
+        icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:not-only:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
         trigger_class="d-btn d-btn-circle d-btn-lg grid place-items-center [transition:rotate_0.2s_cubic-bezier(0.4,0,0.2,1),opacity_0.2s_cubic-bezier(0.4,0,0.2,1)] group-has-[[data-part=popup][data-open]]:[rotate:45deg] .as-[[data-part=icon][data-state=open]]:[rotate:none]"
         class="group pointer-events-none fixed z-[999] flex items-end gap-2 text-[length:var(--text-sm)] whitespace-nowrap select-none [&>*]:pointer-events-auto data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[placement=top-end]:end-4 data-[placement=top-end]:top-4 data-[placement=top-start]:start-4 data-[placement=top-start]:top-4 data-[placement=top-start]:items-start"
         id="daisyui-fab-icons"
@@ -6800,7 +6804,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         main_action_class="d-btn-lg"
         action_class="d-btn d-btn-circle flex items-center gap-2 has-[[data-part=label]]:rounded-[var(--radius-field)] has-[[data-part=label]]:w-auto has-[[data-part=label]]:px-4 data-disabled:pointer-events-none data-disabled:opacity-50 group-data-[direction=flower]:absolute group-data-[direction=flower]:end-0 group-data-[direction=flower]:bottom-0 group-data-[direction=flower]:data-[index='0']:[translate:0_calc(0.25rem*-14)] group-data-[direction=flower]:data-[index='1']:[translate:calc(0.25rem*-10)_calc(0.25rem*-10)] group-data-[direction=flower]:data-[index='2']:[translate:calc(0.25rem*-14)_0]"
         popup_class="flex flex-col-reverse [align-items:inherit] gap-2 relative data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center group-data-[direction=flower]:block! group-data-[direction=flower]:w-12 group-data-[direction=flower]:h-12"
-        icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
+        icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:not-only:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
         trigger_class="d-btn d-btn-circle d-btn-lg grid place-items-center [transition:rotate_0.2s_cubic-bezier(0.4,0,0.2,1),opacity_0.2s_cubic-bezier(0.4,0,0.2,1)] group-has-[[data-part=popup][data-open]]:[rotate:45deg] .as-[[data-part=icon][data-state=open]]:[rotate:none]"
         class="group pointer-events-none fixed z-[999] flex items-end gap-2 text-[length:var(--text-sm)] whitespace-nowrap select-none [&>*]:pointer-events-auto data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[placement=top-end]:end-4 data-[placement=top-end]:top-4 data-[placement=top-start]:start-4 data-[placement=top-start]:top-4 data-[placement=top-start]:items-start"
         id="daisyui-fab-labels"
@@ -6824,7 +6828,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         main_action_class="d-btn-lg"
         action_class="d-btn d-btn-circle flex items-center gap-2 has-[[data-part=label]]:rounded-[var(--radius-field)] has-[[data-part=label]]:w-auto has-[[data-part=label]]:px-4 data-disabled:pointer-events-none data-disabled:opacity-50 group-data-[direction=flower]:absolute group-data-[direction=flower]:end-0 group-data-[direction=flower]:bottom-0 group-data-[direction=flower]:data-[index='0']:[translate:0_calc(0.25rem*-14)] group-data-[direction=flower]:data-[index='1']:[translate:calc(0.25rem*-10)_calc(0.25rem*-10)] group-data-[direction=flower]:data-[index='2']:[translate:calc(0.25rem*-14)_0]"
         popup_class="flex flex-col-reverse [align-items:inherit] gap-2 relative data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center group-data-[direction=flower]:block! group-data-[direction=flower]:w-12 group-data-[direction=flower]:h-12"
-        icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
+        icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:not-only:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
         trigger_class="d-btn d-btn-circle d-btn-lg grid place-items-center [transition:rotate_0.2s_cubic-bezier(0.4,0,0.2,1),opacity_0.2s_cubic-bezier(0.4,0,0.2,1)] group-has-[[data-part=popup][data-open]]:[rotate:45deg] .as-[[data-part=icon][data-state=open]]:[rotate:none]"
         class="group pointer-events-none fixed z-[999] flex items-end gap-2 text-[length:var(--text-sm)] whitespace-nowrap select-none [&>*]:pointer-events-auto data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[placement=top-end]:end-4 data-[placement=top-end]:top-4 data-[placement=top-start]:start-4 data-[placement=top-start]:top-4 data-[placement=top-start]:items-start"
         id="daisyui-fab-rectangle"
@@ -6846,7 +6850,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         main_action_class="d-btn-lg"
         action_class="d-btn d-btn-circle flex items-center gap-2 has-[[data-part=label]]:rounded-[var(--radius-field)] has-[[data-part=label]]:w-auto has-[[data-part=label]]:px-4 data-disabled:pointer-events-none data-disabled:opacity-50 group-data-[direction=flower]:absolute group-data-[direction=flower]:end-0 group-data-[direction=flower]:bottom-0 group-data-[direction=flower]:data-[index='0']:[translate:0_calc(0.25rem*-14)] group-data-[direction=flower]:data-[index='1']:[translate:calc(0.25rem*-10)_calc(0.25rem*-10)] group-data-[direction=flower]:data-[index='2']:[translate:calc(0.25rem*-14)_0]"
         popup_class="flex flex-col-reverse [align-items:inherit] gap-2 relative data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center group-data-[direction=flower]:block! group-data-[direction=flower]:w-12 group-data-[direction=flower]:h-12"
-        icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
+        icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:not-only:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
         trigger_class="d-btn d-btn-circle d-btn-lg grid place-items-center [transition:rotate_0.2s_cubic-bezier(0.4,0,0.2,1),opacity_0.2s_cubic-bezier(0.4,0,0.2,1)] group-has-[[data-part=popup][data-open]]:[rotate:45deg] .as-[[data-part=icon][data-state=open]]:[rotate:none]"
         class="group pointer-events-none fixed z-[999] flex items-end gap-2 text-[length:var(--text-sm)] whitespace-nowrap select-none [&>*]:pointer-events-auto data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[placement=top-end]:end-4 data-[placement=top-end]:top-4 data-[placement=top-start]:start-4 data-[placement=top-start]:top-4 data-[placement=top-start]:items-start"
         id="daisyui-fab-close"
@@ -6869,7 +6873,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         main_action_class="d-btn-lg"
         action_class="d-btn d-btn-circle flex items-center gap-2 has-[[data-part=label]]:rounded-[var(--radius-field)] has-[[data-part=label]]:w-auto has-[[data-part=label]]:px-4 data-disabled:pointer-events-none data-disabled:opacity-50 group-data-[direction=flower]:absolute group-data-[direction=flower]:end-0 group-data-[direction=flower]:bottom-0 group-data-[direction=flower]:data-[index='0']:[translate:0_calc(0.25rem*-14)] group-data-[direction=flower]:data-[index='1']:[translate:calc(0.25rem*-10)_calc(0.25rem*-10)] group-data-[direction=flower]:data-[index='2']:[translate:calc(0.25rem*-14)_0]"
         popup_class="flex flex-col-reverse [align-items:inherit] gap-2 relative data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center group-data-[direction=flower]:block! group-data-[direction=flower]:w-12 group-data-[direction=flower]:h-12"
-        icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
+        icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:not-only:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
         trigger_class="d-btn d-btn-circle d-btn-lg grid place-items-center [transition:rotate_0.2s_cubic-bezier(0.4,0,0.2,1),opacity_0.2s_cubic-bezier(0.4,0,0.2,1)] group-has-[[data-part=popup][data-open]]:[rotate:45deg] .as-[[data-part=icon][data-state=open]]:[rotate:none]"
         class="group pointer-events-none fixed z-[999] flex items-end gap-2 text-[length:var(--text-sm)] whitespace-nowrap select-none [&>*]:pointer-events-auto data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[placement=top-end]:end-4 data-[placement=top-end]:top-4 data-[placement=top-start]:start-4 data-[placement=top-start]:top-4 data-[placement=top-start]:items-start"
         id="daisyui-fab-main"
@@ -6892,7 +6896,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         main_action_class="d-btn-lg"
         action_class="d-btn d-btn-circle flex items-center gap-2 has-[[data-part=label]]:rounded-[var(--radius-field)] has-[[data-part=label]]:w-auto has-[[data-part=label]]:px-4 data-disabled:pointer-events-none data-disabled:opacity-50 group-data-[direction=flower]:absolute group-data-[direction=flower]:end-0 group-data-[direction=flower]:bottom-0 group-data-[direction=flower]:data-[index='0']:[translate:0_calc(0.25rem*-14)] group-data-[direction=flower]:data-[index='1']:[translate:calc(0.25rem*-10)_calc(0.25rem*-10)] group-data-[direction=flower]:data-[index='2']:[translate:calc(0.25rem*-14)_0]"
         popup_class="flex flex-col-reverse [align-items:inherit] gap-2 relative data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center group-data-[direction=flower]:block! group-data-[direction=flower]:w-12 group-data-[direction=flower]:h-12"
-        icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
+        icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:not-only:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
         trigger_class="d-btn d-btn-circle d-btn-lg grid place-items-center [transition:rotate_0.2s_cubic-bezier(0.4,0,0.2,1),opacity_0.2s_cubic-bezier(0.4,0,0.2,1)] group-has-[[data-part=popup][data-open]]:[rotate:45deg] .as-[[data-part=icon][data-state=open]]:[rotate:none]"
         class="group pointer-events-none fixed z-[999] flex items-end gap-2 text-[length:var(--text-sm)] whitespace-nowrap select-none [&>*]:pointer-events-auto data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[placement=top-end]:end-4 data-[placement=top-end]:top-4 data-[placement=top-start]:start-4 data-[placement=top-start]:top-4 data-[placement=top-start]:items-start"
         id="daisyui-fab-single"
@@ -6912,7 +6916,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         main_action_class="d-btn-lg"
         action_class="d-btn d-btn-circle flex items-center gap-2 has-[[data-part=label]]:rounded-[var(--radius-field)] has-[[data-part=label]]:w-auto has-[[data-part=label]]:px-4 data-disabled:pointer-events-none data-disabled:opacity-50 group-data-[direction=flower]:absolute group-data-[direction=flower]:end-0 group-data-[direction=flower]:bottom-0 group-data-[direction=flower]:data-[index='0']:[translate:0_calc(0.25rem*-14)] group-data-[direction=flower]:data-[index='1']:[translate:calc(0.25rem*-10)_calc(0.25rem*-10)] group-data-[direction=flower]:data-[index='2']:[translate:calc(0.25rem*-14)_0]"
         popup_class="flex flex-col-reverse [align-items:inherit] gap-2 relative data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center group-data-[direction=flower]:block! group-data-[direction=flower]:w-12 group-data-[direction=flower]:h-12"
-        icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
+        icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:not-only:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
         trigger_class="d-btn d-btn-circle d-btn-lg grid place-items-center [transition:rotate_0.2s_cubic-bezier(0.4,0,0.2,1),opacity_0.2s_cubic-bezier(0.4,0,0.2,1)] group-has-[[data-part=popup][data-open]]:[rotate:45deg] .as-[[data-part=icon][data-state=open]]:[rotate:none]"
         class="group pointer-events-none fixed z-[999] flex items-end gap-2 text-[length:var(--text-sm)] whitespace-nowrap select-none [&>*]:pointer-events-auto data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[placement=top-end]:end-4 data-[placement=top-end]:top-4 data-[placement=top-start]:start-4 data-[placement=top-start]:top-4 data-[placement=top-start]:items-start"
         id="daisyui-fab-flower"
@@ -6936,7 +6940,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         main_action_class="d-btn-lg"
         action_class="d-btn d-btn-circle flex items-center gap-2 has-[[data-part=label]]:rounded-[var(--radius-field)] has-[[data-part=label]]:w-auto has-[[data-part=label]]:px-4 data-disabled:pointer-events-none data-disabled:opacity-50 group-data-[direction=flower]:absolute group-data-[direction=flower]:end-0 group-data-[direction=flower]:bottom-0 group-data-[direction=flower]:data-[index='0']:[translate:0_calc(0.25rem*-14)] group-data-[direction=flower]:data-[index='1']:[translate:calc(0.25rem*-10)_calc(0.25rem*-10)] group-data-[direction=flower]:data-[index='2']:[translate:calc(0.25rem*-14)_0]"
         popup_class="flex flex-col-reverse [align-items:inherit] gap-2 relative data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center group-data-[direction=flower]:block! group-data-[direction=flower]:w-12 group-data-[direction=flower]:h-12"
-        icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
+        icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:not-only:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
         trigger_class="d-btn d-btn-circle d-btn-lg grid place-items-center [transition:rotate_0.2s_cubic-bezier(0.4,0,0.2,1),opacity_0.2s_cubic-bezier(0.4,0,0.2,1)] group-has-[[data-part=popup][data-open]]:[rotate:45deg] .as-[[data-part=icon][data-state=open]]:[rotate:none]"
         class="group pointer-events-none fixed z-[999] flex items-end gap-2 text-[length:var(--text-sm)] whitespace-nowrap select-none [&>*]:pointer-events-auto data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[placement=top-end]:end-4 data-[placement=top-end]:top-4 data-[placement=top-start]:start-4 data-[placement=top-start]:top-4 data-[placement=top-start]:items-start"
         id="daisyui-fab-flower-main"
@@ -6954,6 +6958,56 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     """
   end
 
+  def example(%{section: "fab-flower-icons"} = assigns) do
+    ~H"""
+    <.fab_frame>
+      <.fab
+        main_action_class="d-btn-lg"
+        action_class="d-btn d-btn-circle flex items-center gap-2 has-[[data-part=label]]:rounded-[var(--radius-field)] has-[[data-part=label]]:w-auto has-[[data-part=label]]:px-4 data-disabled:pointer-events-none data-disabled:opacity-50 group-data-[direction=flower]:absolute group-data-[direction=flower]:end-0 group-data-[direction=flower]:bottom-0 group-data-[direction=flower]:data-[index='0']:[translate:0_calc(0.25rem*-14)] group-data-[direction=flower]:data-[index='1']:[translate:calc(0.25rem*-10)_calc(0.25rem*-10)] group-data-[direction=flower]:data-[index='2']:[translate:calc(0.25rem*-14)_0]"
+        popup_class="flex flex-col-reverse [align-items:inherit] gap-2 relative data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center group-data-[direction=flower]:block! group-data-[direction=flower]:w-12 group-data-[direction=flower]:h-12"
+        icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:not-only:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
+        trigger_class="d-btn d-btn-circle d-btn-lg grid place-items-center [transition:rotate_0.2s_cubic-bezier(0.4,0,0.2,1),opacity_0.2s_cubic-bezier(0.4,0,0.2,1)] group-has-[[data-part=popup][data-open]]:[rotate:45deg] .as-[[data-part=icon][data-state=open]]:[rotate:none]"
+        class="group pointer-events-none fixed z-[999] flex items-end gap-2 text-[length:var(--text-sm)] whitespace-nowrap select-none [&>*]:pointer-events-auto data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[placement=top-end]:end-4 data-[placement=top-end]:top-4 data-[placement=top-start]:start-4 data-[placement=top-start]:top-4 data-[placement=top-start]:items-start"
+        id="daisyui-fab-flower-icons"
+        label="Actions"
+        contained
+        direction="flower"
+      >
+        <:icon><.dock_icon path="M12 5v14M5 12h14" /></:icon>
+        <:action label="Camera"><.dock_icon path="M4 8h3l2-2h6l2 2h3v10H4z" /></:action>
+        <:action label="Gallery"><.dock_icon path="M4 5h16v14H4zm3 9 3-3 3 3 4-5" /></:action>
+        <:action label="Voice"><.dock_icon path="M12 4v10m-4-4a4 4 0 0 0 8 0M8 20h8" /></:action>
+        <:main_action label="Compose"><.dock_icon path="M4 20h4L20 8l-4-4L4 16z" /></:main_action>
+      </.fab>
+    </.fab_frame>
+    """
+  end
+
+  def example(%{section: "fab-flower-tooltip"} = assigns) do
+    ~H"""
+    <.fab_frame>
+      <.fab
+        main_action_class="d-btn-lg"
+        action_class="d-btn d-btn-circle flex items-center gap-2 has-[[data-part=label]]:rounded-[var(--radius-field)] has-[[data-part=label]]:w-auto has-[[data-part=label]]:px-4 data-disabled:pointer-events-none data-disabled:opacity-50 group-data-[direction=flower]:absolute group-data-[direction=flower]:end-0 group-data-[direction=flower]:bottom-0 group-data-[direction=flower]:data-[index='0']:[translate:0_calc(0.25rem*-14)] group-data-[direction=flower]:data-[index='1']:[translate:calc(0.25rem*-10)_calc(0.25rem*-10)] group-data-[direction=flower]:data-[index='2']:[translate:calc(0.25rem*-14)_0] d-tooltip d-tooltip-left"
+        popup_class="flex flex-col-reverse [align-items:inherit] gap-2 relative data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center group-data-[direction=flower]:block! group-data-[direction=flower]:w-12 group-data-[direction=flower]:h-12"
+        icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:not-only:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
+        trigger_class="d-btn d-btn-circle d-btn-lg grid place-items-center [transition:rotate_0.2s_cubic-bezier(0.4,0,0.2,1),opacity_0.2s_cubic-bezier(0.4,0,0.2,1)] group-has-[[data-part=popup][data-open]]:[rotate:45deg] .as-[[data-part=icon][data-state=open]]:[rotate:none]"
+        class="group pointer-events-none fixed z-[999] flex items-end gap-2 text-[length:var(--text-sm)] whitespace-nowrap select-none [&>*]:pointer-events-auto data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[placement=top-end]:end-4 data-[placement=top-end]:top-4 data-[placement=top-start]:start-4 data-[placement=top-start]:top-4 data-[placement=top-start]:items-start"
+        id="daisyui-fab-flower-tooltip"
+        label="Actions"
+        contained
+        direction="flower"
+      >
+        <:icon>F</:icon>
+        <:action label="Share" tip="Label A">A</:action>
+        <:action label="Copy" tip="Label B">B</:action>
+        <:action label="Edit" tip="Label C">C</:action>
+        <:main_action label="Main action">M</:main_action>
+      </.fab>
+    </.fab_frame>
+    """
+  end
+
   def example(%{section: "fab-directions"} = assigns) do
     ~H"""
     <div class="flex flex-wrap gap-4">
@@ -6962,7 +7016,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
           main_action_class="d-btn-lg"
           action_class="d-btn d-btn-circle flex items-center gap-2 has-[[data-part=label]]:rounded-[var(--radius-field)] has-[[data-part=label]]:w-auto has-[[data-part=label]]:px-4 data-disabled:pointer-events-none data-disabled:opacity-50 group-data-[direction=flower]:absolute group-data-[direction=flower]:end-0 group-data-[direction=flower]:bottom-0 group-data-[direction=flower]:data-[index='0']:[translate:0_calc(0.25rem*-14)] group-data-[direction=flower]:data-[index='1']:[translate:calc(0.25rem*-10)_calc(0.25rem*-10)] group-data-[direction=flower]:data-[index='2']:[translate:calc(0.25rem*-14)_0]"
           popup_class="flex flex-col-reverse [align-items:inherit] gap-2 relative data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center group-data-[direction=flower]:block! group-data-[direction=flower]:w-12 group-data-[direction=flower]:h-12"
-          icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
+          icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:not-only:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
           trigger_class="d-btn d-btn-circle d-btn-lg grid place-items-center [transition:rotate_0.2s_cubic-bezier(0.4,0,0.2,1),opacity_0.2s_cubic-bezier(0.4,0,0.2,1)] group-has-[[data-part=popup][data-open]]:[rotate:45deg] .as-[[data-part=icon][data-state=open]]:[rotate:none]"
           class="group pointer-events-none fixed z-[999] flex items-end gap-2 text-[length:var(--text-sm)] whitespace-nowrap select-none [&>*]:pointer-events-auto data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[placement=top-end]:end-4 data-[placement=top-end]:top-4 data-[placement=top-start]:start-4 data-[placement=top-start]:top-4 data-[placement=top-start]:items-start"
           id={"daisyui-fab-#{dir}"}
