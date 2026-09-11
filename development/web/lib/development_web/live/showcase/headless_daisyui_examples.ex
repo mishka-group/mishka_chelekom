@@ -320,8 +320,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"collapsible-open", "Force open", "daisyUI's `collapse-open` — our `open` attribute."},
       {"collapsible-close", "Force close",
        "daisyUI's `collapse-close` — ours is `disabled`, which also takes the trigger out of play."},
-      {"collapsible-custom-colors", "Custom colors",
-       "A primary card, the way daisyUI's colour recipe does it."}
+      {"collapsible-custom-colors", "Custom colors that work with focus",
+       "daisyUI's `bg-primary` / `focus:bg-secondary`. Our trigger is a real button, so the recolour hangs off `focus-within` on the item."},
+      {"collapsible-custom-colors-open", "Custom colors that work with the open state",
+       "daisyUI recolours on `peer-checked` from its hidden checkbox. We have no checkbox, so the item reads the trigger's `has-[[data-panel-open]]`."}
     ],
     "toast" => [
       {"toast-hero", "Toast with an alert inside",
@@ -726,20 +728,20 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "combobox" => [
-      {"combobox-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+      {"combobox-hero", "Combobox",
+       "daisyUI has no combobox, so the field borrows `input` and the list borrows `dropdown-content menu` — a filterable listbox wearing daisyUI's own chrome."},
       {"combobox-async-multiple", "Async Multiple",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+       "Options fetched as you type, kept as `badge badge-neutral` chips inside the `input`."},
       {"combobox-async-single", "Async Single",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+       "The same fetch-as-you-type, resolving to a single value."},
       {"combobox-creatable", "Creatable",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+       "An extra row under the list offers the typed text as a new option."},
       {"combobox-grouped", "Grouped",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+       "Options under headings, the way daisyUI's `menu-title` splits a menu."},
       {"combobox-input-inside-popup", "Input Inside Popup",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+       "The filter field moves into the popup, leaving a `btn` as the anchor."},
       {"combobox-multiple", "Multiple",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+       "Several values at once; the `input` grows and the chips wrap inside it."}
     ],
     "context_menu" => [
       {"context_menu-hero", "Hero",
@@ -2467,14 +2469,29 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "collapsible-custom-colors"} = assigns) do
     ~H"""
     <.collapsible
-      panel_class="h-[var(--accordion-panel-height)] overflow-hidden px-4 pb-4 text-[0.875rem] [color:color-mix(in_oklab,var(--color-base-content)_70%,transparent)] motion-safe:[transition:height_0.2s_ease-out,padding-bottom_0.2s_ease-out] data-starting-style:h-0 data-starting-style:pb-0 data-ending-style:h-0 data-ending-style:pb-0"
-      trigger_class="d-collapse-title flex items-center justify-between gap-4 text-[0.875rem] font-semibold text-start cursor-pointer select-none hover:not-data-disabled:bg-base-content/6 focus-visible:outline-2 focus-visible:outline-primary focus-visible:-outline-offset-2 data-disabled:cursor-not-allowed data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_30%,transparent)] not-has-[>*]:after:content-[''] not-has-[>*]:after:absolute not-has-[>*]:after:block not-has-[>*]:after:top-1/2 not-has-[>*]:after:end-[1.4rem] not-has-[>*]:after:h-2 not-has-[>*]:after:w-2 not-has-[>*]:after:[transform:translateY(-100%)_rotate(45deg)] not-has-[>*]:after:[transform-origin:75%_75%] not-has-[>*]:after:[box-shadow:2px_2px] not-has-[>*]:after:pointer-events-none motion-safe:not-has-[>*]:after:[transition:all_0.2s_cubic-bezier(0.4,0,0.2,1)] motion-safe:data-[panel-open]:not-has-[>*]:after:[transform:translateY(-50%)_rotate(225deg)]"
+      panel_class="h-[var(--accordion-panel-height)] overflow-hidden px-4 pb-4 text-[0.875rem] motion-safe:[transition:height_0.2s_ease-out,padding-bottom_0.2s_ease-out] data-starting-style:h-0 data-starting-style:pb-0 data-ending-style:h-0 data-ending-style:pb-0"
+      trigger_class="d-collapse-title flex items-center justify-between gap-4 text-[0.875rem] font-semibold text-start cursor-pointer select-none focus-visible:outline-2 focus-visible:outline-current focus-visible:-outline-offset-2 not-has-[>*]:after:content-[''] not-has-[>*]:after:absolute not-has-[>*]:after:block not-has-[>*]:after:top-1/2 not-has-[>*]:after:end-[1.4rem] not-has-[>*]:after:h-2 not-has-[>*]:after:w-2 not-has-[>*]:after:[transform:translateY(-100%)_rotate(45deg)] not-has-[>*]:after:[transform-origin:75%_75%] not-has-[>*]:after:[box-shadow:2px_2px] not-has-[>*]:after:pointer-events-none motion-safe:not-has-[>*]:after:[transition:all_0.2s_cubic-bezier(0.4,0,0.2,1)] motion-safe:data-[panel-open]:not-has-[>*]:after:[transform:translateY(-50%)_rotate(225deg)]"
       id="daisyui-collapsible-custom"
       class="w-80"
-      item_class="d-collapse block border-[length:var(--border)] border-solid border-base-300 bg-base-100 text-base-content !border-primary !bg-primary text-primary-content"
+      item_class="d-collapse block bg-primary text-primary-content focus-within:bg-secondary focus-within:text-secondary-content motion-safe:[transition:background-color_0.2s_ease-out,color_0.2s_ease-out]"
     >
-      <:trigger>Custom colors</:trigger>
-      A primary card, painted with utilities on the item part.
+      <:trigger>How do I create an account?</:trigger>
+      Click the "Sign Up" button in the top right corner and follow the registration process.
+    </.collapsible>
+    """
+  end
+
+  def example(%{section: "collapsible-custom-colors-open"} = assigns) do
+    ~H"""
+    <.collapsible
+      panel_class="h-[var(--accordion-panel-height)] overflow-hidden px-4 pb-4 text-[0.875rem] motion-safe:[transition:height_0.2s_ease-out,padding-bottom_0.2s_ease-out] data-starting-style:h-0 data-starting-style:pb-0 data-ending-style:h-0 data-ending-style:pb-0"
+      trigger_class="d-collapse-title flex items-center justify-between gap-4 text-[0.875rem] font-semibold text-start cursor-pointer select-none focus-visible:outline-2 focus-visible:outline-current focus-visible:-outline-offset-2 not-has-[>*]:after:content-[''] not-has-[>*]:after:absolute not-has-[>*]:after:block not-has-[>*]:after:top-1/2 not-has-[>*]:after:end-[1.4rem] not-has-[>*]:after:h-2 not-has-[>*]:after:w-2 not-has-[>*]:after:[transform:translateY(-100%)_rotate(45deg)] not-has-[>*]:after:[transform-origin:75%_75%] not-has-[>*]:after:[box-shadow:2px_2px] not-has-[>*]:after:pointer-events-none motion-safe:not-has-[>*]:after:[transition:all_0.2s_cubic-bezier(0.4,0,0.2,1)] motion-safe:data-[panel-open]:not-has-[>*]:after:[transform:translateY(-50%)_rotate(225deg)]"
+      id="daisyui-collapsible-custom-open"
+      class="w-80"
+      item_class="d-collapse block bg-primary text-primary-content has-[[data-panel-open]]:bg-secondary has-[[data-panel-open]]:text-secondary-content motion-safe:[transition:background-color_0.2s_ease-out,color_0.2s_ease-out]"
+    >
+      <:trigger>How do I create an account?</:trigger>
+      Click the "Sign Up" button in the top right corner and follow the registration process.
     </.collapsible>
     """
   end
@@ -8028,15 +8045,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <.combobox
         clear_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
         trigger_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
-        create_class="border-t-[length:var(--border)] border-solid border-t-[color-mix(in_oklab,var(--color-base-content)_12%,#0000)] py-2 px-3 cursor-pointer text-[0.875rem]"
+        create_class="flex flex-row items-center gap-2 border-t-[length:var(--border)] border-solid border-t-[color-mix(in_oklab,var(--color-base-content)_12%,#0000)] py-2 px-3 cursor-pointer text-[0.875rem] [&>*]:w-auto [&>*]:p-0 [&>*]:rounded-none [&>*]:bg-transparent"
         empty_class="p-3 text-[0.875rem] opacity-65"
-        group_label_class="px-3 text-[0.75rem] opacity-60"
-        item_class="rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer data-highlighted:bg-base-content/10 aria-selected:d-menu-active"
-        popup_class="d-menu absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+        group_label_class="d-menu-title"
+        item_class="flex flex-row items-center gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer [&>*]:w-auto [&>*]:p-0 [&>*]:rounded-none [&>*]:bg-transparent [&>[data-part=indicator]]:invisible aria-selected:[&>[data-part=indicator]]:visible data-highlighted:bg-base-content/10 aria-selected:d-menu-active"
+        popup_class="d-menu absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 shadow-sm data-closed:hidden"
         chip_remove_class="cursor-pointer opacity-70"
         chip_class="d-badge d-badge-neutral d-badge-sm gap-1"
         input_class="flex-1 min-w-24 border-none bg-transparent outline-none text-[0.875rem]"
-        control_class="flex flex-wrap items-center gap-[calc(0.25rem*1.5)] p-[calc(0.25rem*1.5)] min-h-[calc(var(--size-field,0.25rem)*10)] rounded-[var(--radius-field)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_20%,#0000)] bg-base-100 text-base-content focus-within:outline-2 focus-within:outline-base-content focus-within:outline-offset-2"
+        control_class="d-input h-auto min-h-[calc(var(--size-field,0.25rem)*10)] flex-wrap items-center gap-[calc(0.25rem*1.5)] py-[calc(0.25rem*1.5)] whitespace-normal"
         id="daisyui-combobox-hero"
         clear
         trigger
@@ -8076,7 +8093,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         <:option
           :for={
             f <-
-              ~w(Apple Banana Orange Pineapple Grape Mango Strawberry Blueberry Raspberry Blackberry Cherry Peach Pear Plum Kiwi Watermelon Cantaloupe Honeydew Papaya Guava Lychee Pomegranate Apricot Grapefruit Passionfruit)
+              ~w(Apple Banana Orange Pineapple Grape Mango Strawberry)
           }
           value={String.downcase(f)}
         >
@@ -8187,15 +8204,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <.combobox
         clear_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
         trigger_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
-        create_class="border-t-[length:var(--border)] border-solid border-t-[color-mix(in_oklab,var(--color-base-content)_12%,#0000)] py-2 px-3 cursor-pointer text-[0.875rem]"
+        create_class="flex flex-row items-center gap-2 border-t-[length:var(--border)] border-solid border-t-[color-mix(in_oklab,var(--color-base-content)_12%,#0000)] py-2 px-3 cursor-pointer text-[0.875rem] [&>*]:w-auto [&>*]:p-0 [&>*]:rounded-none [&>*]:bg-transparent"
         empty_class="p-3 text-[0.875rem] opacity-65"
-        group_label_class="px-3 text-[0.75rem] opacity-60"
-        item_class="rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer data-highlighted:bg-base-content/10 aria-selected:d-menu-active"
-        popup_class="d-menu absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+        group_label_class="d-menu-title"
+        item_class="flex flex-row items-center gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer [&>*]:w-auto [&>*]:p-0 [&>*]:rounded-none [&>*]:bg-transparent [&>[data-part=indicator]]:invisible aria-selected:[&>[data-part=indicator]]:visible data-highlighted:bg-base-content/10 aria-selected:d-menu-active"
+        popup_class="d-menu absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 shadow-sm data-closed:hidden"
         chip_remove_class="cursor-pointer opacity-70"
         chip_class="d-badge d-badge-neutral d-badge-sm gap-1"
         input_class="flex-1 min-w-24 border-none bg-transparent outline-none text-[0.875rem]"
-        control_class="flex flex-wrap items-center gap-[calc(0.25rem*1.5)] p-[calc(0.25rem*1.5)] min-h-[calc(var(--size-field,0.25rem)*10)] rounded-[var(--radius-field)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_20%,#0000)] bg-base-100 text-base-content focus-within:outline-2 focus-within:outline-base-content focus-within:outline-offset-2"
+        control_class="d-input h-auto min-h-[calc(var(--size-field,0.25rem)*10)] flex-wrap items-center gap-[calc(0.25rem*1.5)] py-[calc(0.25rem*1.5)] whitespace-normal"
         id="daisyui-combobox-async-multiple"
         multiple
         placeholder="e.g. Michael"
@@ -8227,13 +8244,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
           </svg>
         </:item_indicator>
         <:option :for={u <- @users} value={u.id}>
-          <span>
-            <span>{u.name}</span>
-            <span>{u.email}</span>
-            <span>
-              <span>@{u.username}</span>
-              <span>{u.title}</span>
+          <span class="flex min-w-0 flex-1 items-center gap-3">
+            <span class="flex min-w-0 flex-col">
+              <span class="truncate">
+                <span class="font-medium">{u.name}</span>
+                <span class="ms-1 text-[0.75rem] opacity-60">@{u.username}</span>
+              </span>
+              <span class="truncate text-[0.75rem] opacity-60">{u.email}</span>
             </span>
+            <span class="ms-auto shrink-0 text-[0.75rem] opacity-60">{u.title}</span>
           </span>
         </:option>
         <:empty>Try a different search term.</:empty>
@@ -8339,15 +8358,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <.combobox
         clear_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
         trigger_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
-        create_class="border-t-[length:var(--border)] border-solid border-t-[color-mix(in_oklab,var(--color-base-content)_12%,#0000)] py-2 px-3 cursor-pointer text-[0.875rem]"
+        create_class="flex flex-row items-center gap-2 border-t-[length:var(--border)] border-solid border-t-[color-mix(in_oklab,var(--color-base-content)_12%,#0000)] py-2 px-3 cursor-pointer text-[0.875rem] [&>*]:w-auto [&>*]:p-0 [&>*]:rounded-none [&>*]:bg-transparent"
         empty_class="p-3 text-[0.875rem] opacity-65"
-        group_label_class="px-3 text-[0.75rem] opacity-60"
-        item_class="rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer data-highlighted:bg-base-content/10 aria-selected:d-menu-active"
-        popup_class="d-menu absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+        group_label_class="d-menu-title"
+        item_class="flex flex-row items-center gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer [&>*]:w-auto [&>*]:p-0 [&>*]:rounded-none [&>*]:bg-transparent [&>[data-part=indicator]]:invisible aria-selected:[&>[data-part=indicator]]:visible data-highlighted:bg-base-content/10 aria-selected:d-menu-active"
+        popup_class="d-menu absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 shadow-sm data-closed:hidden"
         chip_remove_class="cursor-pointer opacity-70"
         chip_class="d-badge d-badge-neutral d-badge-sm gap-1"
         input_class="flex-1 min-w-24 border-none bg-transparent outline-none text-[0.875rem]"
-        control_class="flex flex-wrap items-center gap-[calc(0.25rem*1.5)] p-[calc(0.25rem*1.5)] min-h-[calc(var(--size-field,0.25rem)*10)] rounded-[var(--radius-field)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_20%,#0000)] bg-base-100 text-base-content focus-within:outline-2 focus-within:outline-base-content focus-within:outline-offset-2"
+        control_class="d-input h-auto min-h-[calc(var(--size-field,0.25rem)*10)] flex-wrap items-center gap-[calc(0.25rem*1.5)] py-[calc(0.25rem*1.5)] whitespace-normal"
         id="daisyui-combobox-async-single"
         clear
         trigger
@@ -8385,13 +8404,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
           </svg>
         </:item_indicator>
         <:option :for={u <- @users} value={u.id}>
-          <span>
-            <span>{u.name}</span>
-            <span>{u.email}</span>
-            <span>
-              <span>@{u.username}</span>
-              <span>{u.title}</span>
+          <span class="flex min-w-0 flex-1 items-center gap-3">
+            <span class="flex min-w-0 flex-col">
+              <span class="truncate">
+                <span class="font-medium">{u.name}</span>
+                <span class="ms-1 text-[0.75rem] opacity-60">@{u.username}</span>
+              </span>
+              <span class="truncate text-[0.75rem] opacity-60">{u.email}</span>
             </span>
+            <span class="ms-auto shrink-0 text-[0.75rem] opacity-60">{u.title}</span>
           </span>
         </:option>
         <:empty>Try a different search term.</:empty>
@@ -8414,15 +8435,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <.combobox
         clear_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
         trigger_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
-        create_class="border-t-[length:var(--border)] border-solid border-t-[color-mix(in_oklab,var(--color-base-content)_12%,#0000)] py-2 px-3 cursor-pointer text-[0.875rem]"
+        create_class="flex flex-row items-center gap-2 border-t-[length:var(--border)] border-solid border-t-[color-mix(in_oklab,var(--color-base-content)_12%,#0000)] py-2 px-3 cursor-pointer text-[0.875rem] [&>*]:w-auto [&>*]:p-0 [&>*]:rounded-none [&>*]:bg-transparent"
         empty_class="p-3 text-[0.875rem] opacity-65"
-        group_label_class="px-3 text-[0.75rem] opacity-60"
-        item_class="rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer data-highlighted:bg-base-content/10 aria-selected:d-menu-active"
-        popup_class="d-menu absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+        group_label_class="d-menu-title"
+        item_class="flex flex-row items-center gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer [&>*]:w-auto [&>*]:p-0 [&>*]:rounded-none [&>*]:bg-transparent [&>[data-part=indicator]]:invisible aria-selected:[&>[data-part=indicator]]:visible data-highlighted:bg-base-content/10 aria-selected:d-menu-active"
+        popup_class="d-menu absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 shadow-sm data-closed:hidden"
         chip_remove_class="cursor-pointer opacity-70"
         chip_class="d-badge d-badge-neutral d-badge-sm gap-1"
         input_class="flex-1 min-w-24 border-none bg-transparent outline-none text-[0.875rem]"
-        control_class="flex flex-wrap items-center gap-[calc(0.25rem*1.5)] p-[calc(0.25rem*1.5)] min-h-[calc(var(--size-field,0.25rem)*10)] rounded-[var(--radius-field)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_20%,#0000)] bg-base-100 text-base-content focus-within:outline-2 focus-within:outline-base-content focus-within:outline-offset-2"
+        control_class="d-input h-auto min-h-[calc(var(--size-field,0.25rem)*10)] flex-wrap items-center gap-[calc(0.25rem*1.5)] py-[calc(0.25rem*1.5)] whitespace-normal"
         id="daisyui-combobox-creatable"
         multiple
         creatable
@@ -10418,15 +10439,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <.combobox
         clear_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
         trigger_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
-        create_class="border-t-[length:var(--border)] border-solid border-t-[color-mix(in_oklab,var(--color-base-content)_12%,#0000)] py-2 px-3 cursor-pointer text-[0.875rem]"
+        create_class="flex flex-row items-center gap-2 border-t-[length:var(--border)] border-solid border-t-[color-mix(in_oklab,var(--color-base-content)_12%,#0000)] py-2 px-3 cursor-pointer text-[0.875rem] [&>*]:w-auto [&>*]:p-0 [&>*]:rounded-none [&>*]:bg-transparent"
         empty_class="p-3 text-[0.875rem] opacity-65"
-        group_label_class="px-3 text-[0.75rem] opacity-60"
-        item_class="rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer data-highlighted:bg-base-content/10 aria-selected:d-menu-active"
-        popup_class="d-menu absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+        group_label_class="d-menu-title"
+        item_class="flex flex-row items-center gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer [&>*]:w-auto [&>*]:p-0 [&>*]:rounded-none [&>*]:bg-transparent [&>[data-part=indicator]]:invisible aria-selected:[&>[data-part=indicator]]:visible data-highlighted:bg-base-content/10 aria-selected:d-menu-active"
+        popup_class="d-menu absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 shadow-sm data-closed:hidden"
         chip_remove_class="cursor-pointer opacity-70"
         chip_class="d-badge d-badge-neutral d-badge-sm gap-1"
         input_class="flex-1 min-w-24 border-none bg-transparent outline-none text-[0.875rem]"
-        control_class="flex flex-wrap items-center gap-[calc(0.25rem*1.5)] p-[calc(0.25rem*1.5)] min-h-[calc(var(--size-field,0.25rem)*10)] rounded-[var(--radius-field)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_20%,#0000)] bg-base-100 text-base-content focus-within:outline-2 focus-within:outline-base-content focus-within:outline-offset-2"
+        control_class="d-input h-auto min-h-[calc(var(--size-field,0.25rem)*10)] flex-wrap items-center gap-[calc(0.25rem*1.5)] py-[calc(0.25rem*1.5)] whitespace-normal"
         id="daisyui-combobox-grouped"
         clear
         trigger
@@ -10526,15 +10547,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <.combobox
         clear_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
         trigger_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
-        create_class="border-t-[length:var(--border)] border-solid border-t-[color-mix(in_oklab,var(--color-base-content)_12%,#0000)] py-2 px-3 cursor-pointer text-[0.875rem]"
+        create_class="flex flex-row items-center gap-2 border-t-[length:var(--border)] border-solid border-t-[color-mix(in_oklab,var(--color-base-content)_12%,#0000)] py-2 px-3 cursor-pointer text-[0.875rem] [&>*]:w-auto [&>*]:p-0 [&>*]:rounded-none [&>*]:bg-transparent"
         empty_class="p-3 text-[0.875rem] opacity-65"
-        group_label_class="px-3 text-[0.75rem] opacity-60"
-        item_class="rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer data-highlighted:bg-base-content/10 aria-selected:d-menu-active"
-        popup_class="d-menu absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+        group_label_class="d-menu-title"
+        item_class="flex flex-row items-center gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer [&>*]:w-auto [&>*]:p-0 [&>*]:rounded-none [&>*]:bg-transparent [&>[data-part=indicator]]:invisible aria-selected:[&>[data-part=indicator]]:visible data-highlighted:bg-base-content/10 aria-selected:d-menu-active"
+        popup_class="d-menu absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 shadow-sm data-closed:hidden"
         chip_remove_class="cursor-pointer opacity-70"
         chip_class="d-badge d-badge-neutral d-badge-sm gap-1"
         input_class="flex-1 min-w-24 border-none bg-transparent outline-none text-[0.875rem]"
-        control_class="flex flex-wrap items-center gap-[calc(0.25rem*1.5)] p-[calc(0.25rem*1.5)] min-h-[calc(var(--size-field,0.25rem)*10)] rounded-[var(--radius-field)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_20%,#0000)] bg-base-100 text-base-content focus-within:outline-2 focus-within:outline-base-content focus-within:outline-offset-2"
+        control_class="d-input h-auto min-h-[calc(var(--size-field,0.25rem)*10)] flex-wrap items-center gap-[calc(0.25rem*1.5)] py-[calc(0.25rem*1.5)] whitespace-normal"
         id="daisyui-combobox-input-inside-popup"
         placeholder="e.g. United Kingdom"
       >
@@ -10585,15 +10606,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <.combobox
         clear_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
         trigger_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
-        create_class="border-t-[length:var(--border)] border-solid border-t-[color-mix(in_oklab,var(--color-base-content)_12%,#0000)] py-2 px-3 cursor-pointer text-[0.875rem]"
+        create_class="flex flex-row items-center gap-2 border-t-[length:var(--border)] border-solid border-t-[color-mix(in_oklab,var(--color-base-content)_12%,#0000)] py-2 px-3 cursor-pointer text-[0.875rem] [&>*]:w-auto [&>*]:p-0 [&>*]:rounded-none [&>*]:bg-transparent"
         empty_class="p-3 text-[0.875rem] opacity-65"
-        group_label_class="px-3 text-[0.75rem] opacity-60"
-        item_class="rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer data-highlighted:bg-base-content/10 aria-selected:d-menu-active"
-        popup_class="d-menu absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+        group_label_class="d-menu-title"
+        item_class="flex flex-row items-center gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer [&>*]:w-auto [&>*]:p-0 [&>*]:rounded-none [&>*]:bg-transparent [&>[data-part=indicator]]:invisible aria-selected:[&>[data-part=indicator]]:visible data-highlighted:bg-base-content/10 aria-selected:d-menu-active"
+        popup_class="d-menu absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 shadow-sm data-closed:hidden"
         chip_remove_class="cursor-pointer opacity-70"
         chip_class="d-badge d-badge-neutral d-badge-sm gap-1"
         input_class="flex-1 min-w-24 border-none bg-transparent outline-none text-[0.875rem]"
-        control_class="flex flex-wrap items-center gap-[calc(0.25rem*1.5)] p-[calc(0.25rem*1.5)] min-h-[calc(var(--size-field,0.25rem)*10)] rounded-[var(--radius-field)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_20%,#0000)] bg-base-100 text-base-content focus-within:outline-2 focus-within:outline-base-content focus-within:outline-offset-2"
+        control_class="d-input h-auto min-h-[calc(var(--size-field,0.25rem)*10)] flex-wrap items-center gap-[calc(0.25rem*1.5)] py-[calc(0.25rem*1.5)] whitespace-normal"
         id="daisyui-combobox-multiple"
         multiple
         placeholder="e.g. TypeScript"
