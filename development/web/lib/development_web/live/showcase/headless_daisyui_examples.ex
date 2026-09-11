@@ -925,6 +925,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
        "Checkbox chips: each carries its own name, so any number can be on."},
       {"chip-single", "Choose one",
        "Radio chips sharing a name — the browser enforces the single choice, no JS involved."},
+      {"chip-soft", "Soft style", "daisyUI's `badge-soft`, on a selectable chip."},
+      {"chip-outline-style", "Outline style", "daisyUI's `badge-outline`."},
+      {"chip-dash", "Dash style", "daisyUI's `badge-dash`."},
+      {"chip-ghost", "Ghost", "daisyUI's `badge-ghost`."},
       {"chip-disabled", "Disabled", "One chip ruled out of the set."}
     ],
     "radio_group" => [
@@ -7526,7 +7530,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.checkbox_group
       input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
-      indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+      indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-focus-visible/item:outline-2 group-focus-visible/item:outline-current group-focus-visible/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
       item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
       class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4"
       id="daisyui-checkbox_group-hero"
@@ -7557,7 +7561,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <form class="flex flex-col gap-4">
       <.checkbox_group
         input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
-        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-focus-visible/item:outline-2 group-focus-visible/item:outline-current group-focus-visible/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
         item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
         class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4"
         id="daisyui-checkbox_group-form"
@@ -7577,7 +7581,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-col gap-4">
       <.checkbox_group
         input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
-        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-focus-visible/item:outline-2 group-focus-visible/item:outline-current group-focus-visible/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
         item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
         class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4 d-checkbox-xs"
         id="daisyui-checkbox_group-size-xs"
@@ -7589,7 +7593,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       </.checkbox_group>
       <.checkbox_group
         input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
-        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-focus-visible/item:outline-2 group-focus-visible/item:outline-current group-focus-visible/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
         item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
         class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4 d-checkbox-sm"
         id="daisyui-checkbox_group-size-sm"
@@ -7601,7 +7605,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       </.checkbox_group>
       <.checkbox_group
         input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
-        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-focus-visible/item:outline-2 group-focus-visible/item:outline-current group-focus-visible/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
         item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
         class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4 d-checkbox-md"
         id="daisyui-checkbox_group-size-md"
@@ -7613,7 +7617,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       </.checkbox_group>
       <.checkbox_group
         input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
-        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-focus-visible/item:outline-2 group-focus-visible/item:outline-current group-focus-visible/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
         item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
         class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4 d-checkbox-lg"
         id="daisyui-checkbox_group-size-lg"
@@ -7625,7 +7629,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       </.checkbox_group>
       <.checkbox_group
         input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
-        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-focus-visible/item:outline-2 group-focus-visible/item:outline-current group-focus-visible/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
         item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
         class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4 d-checkbox-xl"
         id="daisyui-checkbox_group-size-xl"
@@ -7644,7 +7648,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-col gap-4">
       <.checkbox_group
         input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
-        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-focus-visible/item:outline-2 group-focus-visible/item:outline-current group-focus-visible/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
         item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
         class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4 d-checkbox-primary"
         id="daisyui-checkbox_group-color-primary"
@@ -7656,7 +7660,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       </.checkbox_group>
       <.checkbox_group
         input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
-        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-focus-visible/item:outline-2 group-focus-visible/item:outline-current group-focus-visible/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
         item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
         class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4 d-checkbox-secondary"
         id="daisyui-checkbox_group-color-secondary"
@@ -7668,7 +7672,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       </.checkbox_group>
       <.checkbox_group
         input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
-        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-focus-visible/item:outline-2 group-focus-visible/item:outline-current group-focus-visible/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
         item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
         class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4 d-checkbox-accent"
         id="daisyui-checkbox_group-color-accent"
@@ -7680,7 +7684,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       </.checkbox_group>
       <.checkbox_group
         input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
-        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-focus-visible/item:outline-2 group-focus-visible/item:outline-current group-focus-visible/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
         item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
         class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4 d-checkbox-neutral"
         id="daisyui-checkbox_group-color-neutral"
@@ -7692,7 +7696,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       </.checkbox_group>
       <.checkbox_group
         input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
-        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-focus-visible/item:outline-2 group-focus-visible/item:outline-current group-focus-visible/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
         item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
         class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4 d-checkbox-info"
         id="daisyui-checkbox_group-color-info"
@@ -7704,7 +7708,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       </.checkbox_group>
       <.checkbox_group
         input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
-        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-focus-visible/item:outline-2 group-focus-visible/item:outline-current group-focus-visible/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
         item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
         class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4 d-checkbox-success"
         id="daisyui-checkbox_group-color-success"
@@ -7716,7 +7720,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       </.checkbox_group>
       <.checkbox_group
         input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
-        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-focus-visible/item:outline-2 group-focus-visible/item:outline-current group-focus-visible/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
         item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
         class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4 d-checkbox-warning"
         id="daisyui-checkbox_group-color-warning"
@@ -7728,7 +7732,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       </.checkbox_group>
       <.checkbox_group
         input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
-        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-focus-visible/item:outline-2 group-focus-visible/item:outline-current group-focus-visible/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
         item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
         class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4 d-checkbox-error"
         id="daisyui-checkbox_group-color-error"
@@ -7747,7 +7751,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-col gap-4">
       <.checkbox_group
         input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
-        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-focus-visible/item:outline-2 group-focus-visible/item:outline-current group-focus-visible/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
         item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
         class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4"
         id="daisyui-checkbox_group-disabled-all"
@@ -7760,7 +7764,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       </.checkbox_group>
       <.checkbox_group
         input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
-        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-focus-visible/item:outline-2 group-focus-visible/item:outline-current group-focus-visible/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
         item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
         class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4"
         id="daisyui-checkbox_group-disabled-item"
@@ -7778,7 +7782,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.checkbox_group
       input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
-      indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+      indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-focus-visible/item:outline-2 group-focus-visible/item:outline-current group-focus-visible/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
       item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
       class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4"
       id="daisyui-checkbox_group-select-all"
@@ -7796,7 +7800,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.checkbox_group
       input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
-      indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)] border-indigo-600 bg-indigo-500 data-checked:border-orange-500 data-checked:bg-orange-400 data-checked:text-orange-800"
+      indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-focus-visible/item:outline-2 group-focus-visible/item:outline-current group-focus-visible/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)] border-indigo-600 bg-indigo-500 data-checked:border-orange-500 data-checked:bg-orange-400 data-checked:text-orange-800"
       item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
       class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4"
       id="daisyui-checkbox_group-custom-colors"
@@ -11071,6 +11075,118 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         disabled
       >
         Sold out
+      </.chip>
+    </div>
+    """
+  end
+
+  def example(%{section: "chip-soft"} = assigns) do
+    ~H"""
+    <div class="flex flex-wrap items-center gap-2">
+      <.chip
+        label_class="group-has-[input:checked]:text-base-100"
+        input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
+        class="group d-badge d-badge-soft relative cursor-pointer select-none data-disabled:cursor-not-allowed data-disabled:opacity-50 has-[input:checked]:bg-current has-[input:checked]:border-current has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-current has-[input:focus-visible]:outline-offset-2"
+        id="daisyui-chip-soft-a"
+        name="soft-a"
+        value="elixir"
+        checked
+      >
+        Elixir
+      </.chip>
+      <.chip
+        label_class="group-has-[input:checked]:text-base-100"
+        input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
+        class="group d-badge d-badge-soft relative cursor-pointer select-none data-disabled:cursor-not-allowed data-disabled:opacity-50 has-[input:checked]:bg-current has-[input:checked]:border-current has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-current has-[input:focus-visible]:outline-offset-2"
+        id="daisyui-chip-soft-b"
+        name="soft-b"
+        value="phoenix"
+      >
+        Phoenix
+      </.chip>
+    </div>
+    """
+  end
+
+  def example(%{section: "chip-outline-style"} = assigns) do
+    ~H"""
+    <div class="flex flex-wrap items-center gap-2">
+      <.chip
+        label_class="group-has-[input:checked]:text-base-100"
+        input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
+        class="group d-badge d-badge-outline relative cursor-pointer select-none data-disabled:cursor-not-allowed data-disabled:opacity-50 has-[input:checked]:bg-current has-[input:checked]:border-current has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-current has-[input:focus-visible]:outline-offset-2"
+        id="daisyui-chip-outline-style-a"
+        name="outline-style-a"
+        value="elixir"
+        checked
+      >
+        Elixir
+      </.chip>
+      <.chip
+        label_class="group-has-[input:checked]:text-base-100"
+        input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
+        class="group d-badge d-badge-outline relative cursor-pointer select-none data-disabled:cursor-not-allowed data-disabled:opacity-50 has-[input:checked]:bg-current has-[input:checked]:border-current has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-current has-[input:focus-visible]:outline-offset-2"
+        id="daisyui-chip-outline-style-b"
+        name="outline-style-b"
+        value="phoenix"
+      >
+        Phoenix
+      </.chip>
+    </div>
+    """
+  end
+
+  def example(%{section: "chip-dash"} = assigns) do
+    ~H"""
+    <div class="flex flex-wrap items-center gap-2">
+      <.chip
+        label_class="group-has-[input:checked]:text-base-100"
+        input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
+        class="group d-badge d-badge-dash relative cursor-pointer select-none data-disabled:cursor-not-allowed data-disabled:opacity-50 has-[input:checked]:bg-current has-[input:checked]:border-current has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-current has-[input:focus-visible]:outline-offset-2"
+        id="daisyui-chip-dash-a"
+        name="dash-a"
+        value="elixir"
+        checked
+      >
+        Elixir
+      </.chip>
+      <.chip
+        label_class="group-has-[input:checked]:text-base-100"
+        input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
+        class="group d-badge d-badge-dash relative cursor-pointer select-none data-disabled:cursor-not-allowed data-disabled:opacity-50 has-[input:checked]:bg-current has-[input:checked]:border-current has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-current has-[input:focus-visible]:outline-offset-2"
+        id="daisyui-chip-dash-b"
+        name="dash-b"
+        value="phoenix"
+      >
+        Phoenix
+      </.chip>
+    </div>
+    """
+  end
+
+  def example(%{section: "chip-ghost"} = assigns) do
+    ~H"""
+    <div class="flex flex-wrap items-center gap-2">
+      <.chip
+        label_class="group-has-[input:checked]:text-base-100"
+        input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
+        class="group d-badge d-badge-ghost relative cursor-pointer select-none data-disabled:cursor-not-allowed data-disabled:opacity-50 has-[input:checked]:bg-current has-[input:checked]:border-current has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-current has-[input:focus-visible]:outline-offset-2"
+        id="daisyui-chip-ghost-a"
+        name="ghost-a"
+        value="elixir"
+        checked
+      >
+        Elixir
+      </.chip>
+      <.chip
+        label_class="group-has-[input:checked]:text-base-100"
+        input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
+        class="group d-badge d-badge-ghost relative cursor-pointer select-none data-disabled:cursor-not-allowed data-disabled:opacity-50 has-[input:checked]:bg-current has-[input:checked]:border-current has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-current has-[input:focus-visible]:outline-offset-2"
+        id="daisyui-chip-ghost-b"
+        name="ghost-b"
+        value="phoenix"
+      >
+        Phoenix
       </.chip>
     </div>
     """
