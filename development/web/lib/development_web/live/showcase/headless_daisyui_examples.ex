@@ -9730,7 +9730,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.pills_input
       input_class="flex-1 min-w-24 border-none bg-transparent outline-none text-[0.875rem]"
-      class="rounded-[var(--radius-field)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_20%,#0000)] bg-base-100 text-base-content flex flex-wrap items-center gap-[calc(0.25rem*1.5)] p-[calc(0.25rem*1.5)] min-h-[calc(var(--size-field,0.25rem)*10)] focus-within:outline-2 focus-within:outline-base-content focus-within:outline-offset-2"
+      class="d-input h-auto min-h-[calc(var(--size-field,0.25rem)*10)] flex-wrap items-center gap-[calc(0.25rem*1.5)] py-[calc(0.25rem*1.5)] whitespace-normal focus-within:border-base-content/20 focus-within:outline-base-content/30"
       id="daisyui-pills-input"
       placeholder="Add a tag…"
     >
@@ -10233,11 +10233,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.scroller
       control_class="d-btn d-btn-circle d-btn-sm shrink-0 disabled:d-btn-disabled"
-      viewport_class="flex gap-2 overflow-x-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-      class="relative flex items-center gap-2 text-base-content"
+      viewport_class="flex gap-2 snap-x snap-mandatory overflow-x-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      class="relative flex w-full max-w-sm items-center gap-2 text-base-content"
       id="daisyui-scroller"
     >
-      <div :for={n <- 1..10}>
+      <div
+        :for={n <- 1..10}
+        class="grid size-16 shrink-0 snap-start place-items-center rounded-[var(--radius-box)] bg-base-200 text-[0.875rem] font-medium"
+      >
         {n}
       </div>
     </.scroller>
@@ -10301,7 +10304,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       input_class="flex-1 min-w-24 border-none bg-transparent outline-none text-[0.875rem]"
       remove_class="cursor-pointer opacity-70 hover:opacity-100"
       tag_class="d-badge d-badge-neutral d-badge-sm gap-1"
-      class="rounded-[var(--radius-field)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_20%,#0000)] bg-base-100 text-base-content flex flex-wrap items-center gap-[calc(0.25rem*1.5)] p-[calc(0.25rem*1.5)] min-h-[calc(var(--size-field,0.25rem)*10)] focus-within:outline-2 focus-within:outline-base-content focus-within:outline-offset-2"
+      class="d-input h-auto min-h-[calc(var(--size-field,0.25rem)*10)] flex-wrap items-center gap-[calc(0.25rem*1.5)] py-[calc(0.25rem*1.5)] whitespace-normal focus-within:border-base-content/20 focus-within:outline-base-content/30"
       id="daisyui-tags-input"
       tags={["Design", "Engineering", "Product"]}
       placeholder="Add a tag…"
