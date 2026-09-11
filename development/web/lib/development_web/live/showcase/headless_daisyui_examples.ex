@@ -7549,7 +7549,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
           {tag.value}
         </:option>
         <:empty>
-          <div>
+          <div class="p-3 text-[0.875rem] opacity-65">
             No tags found.
           </div>
         </:empty>
@@ -7577,15 +7577,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
           :for={movie <- daisyui_autocomplete_movies()}
           value={movie.title}
         >
-          <span>
-            <span>{movie.title}</span>
-            <span>
+          <span class="flex min-w-0 flex-1 items-center gap-3">
+            <span class="truncate">{movie.title}</span>
+            <span class="ms-auto shrink-0 text-[0.75rem] opacity-60">
               {movie.year}
             </span>
           </span>
         </:option>
         <:empty>
-          <div>
+          <div class="p-3 text-[0.875rem] opacity-65">
             No movies found in the Top 100 IMDb movies.
           </div>
         </:empty>
@@ -7617,7 +7617,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
           {tag.value}
         </:option>
         <:empty>
-          <div>
+          <div class="p-3 text-[0.875rem] opacity-65">
             No tags found.
           </div>
         </:empty>
@@ -7646,8 +7646,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
           value={item.label}
           group="Suggestions"
         >
-          <span>{item.label}</span>
-          <span>
+          <span class="truncate">{item.label}</span>
+          <span class="ms-auto shrink-0 text-[0.75rem] opacity-60">
             Application
           </span>
         </:option>
@@ -7656,30 +7656,30 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
           value={item.label}
           group="Commands"
         >
-          <span>{item.label}</span>
-          <span>
+          <span class="truncate">{item.label}</span>
+          <span class="ms-auto shrink-0 text-[0.75rem] opacity-60">
             Command
           </span>
         </:option>
         <:empty>
-          <div>
+          <div class="p-3 text-[0.875rem] opacity-65">
             No results found.
           </div>
         </:empty>
       </.autocomplete>
-      <div>
-        <div>
+      <div class="flex items-center gap-4 border-t-[length:var(--border)] border-solid border-t-base-content/10 px-3 py-2 text-[0.75rem] opacity-60">
+        <div class="flex items-center gap-1">
           <span>Activate</span>
-          <kbd>
+          <kbd class="d-kbd d-kbd-sm">
             Enter
           </kbd>
         </div>
-        <div>
+        <div class="flex items-center gap-1">
           <span>Actions</span>
-          <kbd>
+          <kbd class="d-kbd d-kbd-sm">
             Cmd
           </kbd>
-          <kbd>
+          <kbd class="d-kbd d-kbd-sm">
             K
           </kbd>
         </div>
@@ -9055,35 +9055,47 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       </:icon>
 
       <:item label="Overview">
-        <ul>
+        <ul class="grid gap-1">
           <li>
-            <a href="#">
-              <h3>Quick Start</h3>
-              <p>
+            <a
+              href="#"
+              class="block rounded-[var(--radius-field)] p-3 hover:bg-base-content/10 focus-visible:outline-2 focus-visible:outline-base-content/30 focus-visible:outline-offset-2"
+            >
+              <h3 class="text-[0.875rem] font-medium">Quick Start</h3>
+              <p class="mt-1 text-[0.75rem] leading-relaxed opacity-60">
                 Install and assemble your first component.
               </p>
             </a>
           </li>
           <li>
-            <a href="#">
-              <h3>Accessibility</h3>
-              <p>
+            <a
+              href="#"
+              class="block rounded-[var(--radius-field)] p-3 hover:bg-base-content/10 focus-visible:outline-2 focus-visible:outline-base-content/30 focus-visible:outline-offset-2"
+            >
+              <h3 class="text-[0.875rem] font-medium">Accessibility</h3>
+              <p class="mt-1 text-[0.75rem] leading-relaxed opacity-60">
                 Learn how we build accessible components.
               </p>
             </a>
           </li>
           <li>
-            <a href="#">
-              <h3>Releases</h3>
-              <p>
+            <a
+              href="#"
+              class="block rounded-[var(--radius-field)] p-3 hover:bg-base-content/10 focus-visible:outline-2 focus-visible:outline-base-content/30 focus-visible:outline-offset-2"
+            >
+              <h3 class="text-[0.875rem] font-medium">Releases</h3>
+              <p class="mt-1 text-[0.75rem] leading-relaxed opacity-60">
                 See what's new in the latest Base UI versions.
               </p>
             </a>
           </li>
           <li>
-            <a href="#">
-              <h3>About</h3>
-              <p>
+            <a
+              href="#"
+              class="block rounded-[var(--radius-field)] p-3 hover:bg-base-content/10 focus-visible:outline-2 focus-visible:outline-base-content/30 focus-visible:outline-offset-2"
+            >
+              <h3 class="text-[0.875rem] font-medium">About</h3>
+              <p class="mt-1 text-[0.75rem] leading-relaxed opacity-60">
                 Learn more about Base UI and our mission.
               </p>
             </a>
@@ -9092,27 +9104,36 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       </:item>
 
       <:item label="Handbook">
-        <ul>
+        <ul class="grid gap-1">
           <li>
-            <a href="#">
-              <h3>Styling</h3>
-              <p>
+            <a
+              href="#"
+              class="block rounded-[var(--radius-field)] p-3 hover:bg-base-content/10 focus-visible:outline-2 focus-visible:outline-base-content/30 focus-visible:outline-offset-2"
+            >
+              <h3 class="text-[0.875rem] font-medium">Styling</h3>
+              <p class="mt-1 text-[0.75rem] leading-relaxed opacity-60">
                 Base UI components can be styled with plain CSS, Tailwind CSS, CSS-in-JS, or CSS Modules.
               </p>
             </a>
           </li>
           <li>
-            <a href="#">
-              <h3>Animation</h3>
-              <p>
+            <a
+              href="#"
+              class="block rounded-[var(--radius-field)] p-3 hover:bg-base-content/10 focus-visible:outline-2 focus-visible:outline-base-content/30 focus-visible:outline-offset-2"
+            >
+              <h3 class="text-[0.875rem] font-medium">Animation</h3>
+              <p class="mt-1 text-[0.75rem] leading-relaxed opacity-60">
                 Base UI components can be animated with CSS transitions, CSS animations, or JavaScript libraries.
               </p>
             </a>
           </li>
           <li>
-            <a href="#">
-              <h3>Composition</h3>
-              <p>
+            <a
+              href="#"
+              class="block rounded-[var(--radius-field)] p-3 hover:bg-base-content/10 focus-visible:outline-2 focus-visible:outline-base-content/30 focus-visible:outline-offset-2"
+            >
+              <h3 class="text-[0.875rem] font-medium">Composition</h3>
+              <p class="mt-1 text-[0.75rem] leading-relaxed opacity-60">
                 Base UI components can be replaced and composed with your own existing components.
               </p>
             </a>
@@ -9210,59 +9231,77 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       </:icon>
 
       <:item label="Overview">
-        <ul>
+        <ul class="grid gap-1">
           <li>
-            <a href="#">
-              <h3>Quick Start</h3>
-              <p>
+            <a
+              href="#"
+              class="block rounded-[var(--radius-field)] p-3 hover:bg-base-content/10 focus-visible:outline-2 focus-visible:outline-base-content/30 focus-visible:outline-offset-2"
+            >
+              <h3 class="text-[0.875rem] font-medium">Quick Start</h3>
+              <p class="mt-1 text-[0.75rem] leading-relaxed opacity-60">
                 Install and assemble your first component.
               </p>
             </a>
           </li>
           <li>
-            <a href="#">
-              <h3>Accessibility</h3>
-              <p>
+            <a
+              href="#"
+              class="block rounded-[var(--radius-field)] p-3 hover:bg-base-content/10 focus-visible:outline-2 focus-visible:outline-base-content/30 focus-visible:outline-offset-2"
+            >
+              <h3 class="text-[0.875rem] font-medium">Accessibility</h3>
+              <p class="mt-1 text-[0.75rem] leading-relaxed opacity-60">
                 Learn how we build accessible components.
               </p>
             </a>
           </li>
           <li>
-            <a href="#">
-              <h3>Releases</h3>
-              <p>
+            <a
+              href="#"
+              class="block rounded-[var(--radius-field)] p-3 hover:bg-base-content/10 focus-visible:outline-2 focus-visible:outline-base-content/30 focus-visible:outline-offset-2"
+            >
+              <h3 class="text-[0.875rem] font-medium">Releases</h3>
+              <p class="mt-1 text-[0.75rem] leading-relaxed opacity-60">
                 See what's new in the latest Base UI versions.
               </p>
             </a>
           </li>
           <li>
-            <div>
+            <div class="flex flex-col rounded-[var(--radius-field)] p-3">
               <span>Handbook</span>
-              <p>
+              <p class="mt-1 text-[0.75rem] leading-relaxed opacity-60">
                 How to use Base UI effectively.
               </p>
             </div>
-            <ul>
+            <ul class="grid gap-1">
               <li>
-                <a href="#">
-                  <h3>Styling</h3>
-                  <p>
+                <a
+                  href="#"
+                  class="block rounded-[var(--radius-field)] p-3 hover:bg-base-content/10 focus-visible:outline-2 focus-visible:outline-base-content/30 focus-visible:outline-offset-2"
+                >
+                  <h3 class="text-[0.875rem] font-medium">Styling</h3>
+                  <p class="mt-1 text-[0.75rem] leading-relaxed opacity-60">
                     Base UI components can be styled with plain CSS, Tailwind CSS, CSS-in-JS, or CSS Modules.
                   </p>
                 </a>
               </li>
               <li>
-                <a href="#">
-                  <h3>Animation</h3>
-                  <p>
+                <a
+                  href="#"
+                  class="block rounded-[var(--radius-field)] p-3 hover:bg-base-content/10 focus-visible:outline-2 focus-visible:outline-base-content/30 focus-visible:outline-offset-2"
+                >
+                  <h3 class="text-[0.875rem] font-medium">Animation</h3>
+                  <p class="mt-1 text-[0.75rem] leading-relaxed opacity-60">
                     Base UI components can be animated with CSS transitions, CSS animations, or JavaScript libraries.
                   </p>
                 </a>
               </li>
               <li>
-                <a href="#">
-                  <h3>Composition</h3>
-                  <p>
+                <a
+                  href="#"
+                  class="block rounded-[var(--radius-field)] p-3 hover:bg-base-content/10 focus-visible:outline-2 focus-visible:outline-base-content/30 focus-visible:outline-offset-2"
+                >
+                  <h3 class="text-[0.875rem] font-medium">Composition</h3>
+                  <p class="mt-1 text-[0.75rem] leading-relaxed opacity-60">
                     Base UI components can be replaced and composed with your own existing components.
                   </p>
                 </a>
@@ -9297,72 +9336,78 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       </:icon>
 
       <:item label="Product">
-        <div>
-          <ul>
+        <div class="flex gap-4 p-2">
+          <ul class="grid gap-1">
             <li>
-              <div>
-                <span>
+              <div class="flex flex-col rounded-[var(--radius-field)] p-3">
+                <span class="text-[0.875rem] font-medium">
                   Developers
                 </span>
-                <span>
+                <span class="text-[0.75rem] opacity-60">
                   Go from idea to UI faster.
                 </span>
               </div>
             </li>
             <li>
-              <div>
-                <span>
+              <div class="flex flex-col rounded-[var(--radius-field)] p-3">
+                <span class="text-[0.875rem] font-medium">
                   Design Systems
                 </span>
-                <span>
+                <span class="text-[0.75rem] opacity-60">
                   Keep patterns aligned across teams.
                 </span>
               </div>
             </li>
             <li>
-              <div>
-                <span>
+              <div class="flex flex-col rounded-[var(--radius-field)] p-3">
+                <span class="text-[0.875rem] font-medium">
                   Engineering Leads
                 </span>
-                <span>
+                <span class="text-[0.75rem] opacity-60">
                   Roll out shared UI without drag.
                 </span>
               </div>
             </li>
             <li>
-              <div>
-                <span>
+              <div class="flex flex-col rounded-[var(--radius-field)] p-3">
+                <span class="text-[0.875rem] font-medium">
                   Startups
                 </span>
-                <span>
+                <span class="text-[0.75rem] opacity-60">
                   Ship polished basics while things change.
                 </span>
               </div>
             </li>
           </ul>
-          <div>
+          <div class="flex-1">
             <div>
               <div>
-                <h4>
+                <h4 class="text-[0.875rem] font-medium">
                   Build product UI without giving up control
                 </h4>
-                <p>
+                <p class="mt-1 text-[0.75rem] leading-relaxed opacity-60">
                   Start with accessible parts and shape them to your app instead of working around a preset design system.
                 </p>
               </div>
-              <ul>
+              <ul class="grid gap-1">
                 <li>
-                  <a href="#">
-                    <h5>Quick start</h5>
-                    <p>
+                  <a
+                    href="#"
+                    class="block rounded-[var(--radius-field)] p-3 hover:bg-base-content/10 focus-visible:outline-2 focus-visible:outline-base-content/30 focus-visible:outline-offset-2"
+                  >
+                    <h5 class="text-[0.875rem] font-medium">Quick start</h5>
+                    <p class="mt-1 text-[0.75rem] leading-relaxed opacity-60">
                       Install Base UI and get your first interactive primitive on screen fast.
                     </p>
                   </a>
                 </li>
                 <li>
-                  <a href="#">
-                    <h5>Composition</h5>
-                    <p>
+                  <a
+                    href="#"
+                    class="block rounded-[var(--radius-field)] p-3 hover:bg-base-content/10 focus-visible:outline-2 focus-visible:outline-base-content/30 focus-visible:outline-offset-2"
+                  >
+                    <h5 class="text-[0.875rem] font-medium">Composition</h5>
+                    <p class="mt-1 text-[0.75rem] leading-relaxed opacity-60">
                       Wrap and combine parts to match your product structure without hacks.
                     </p>
                   </a>
@@ -9374,34 +9419,43 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       </:item>
 
       <:item label="Learn">
-        <div>
+        <div class="flex gap-4 p-2">
           <div>
-            <h4>Where teams usually start</h4>
-            <p>
+            <h4 class="text-[0.875rem] font-medium">Where teams usually start</h4>
+            <p class="mt-1 text-[0.75rem] leading-relaxed opacity-60">
               These are the docs people reach for first when they are turning a prototype into shared UI.
             </p>
           </div>
-          <ul>
+          <ul class="grid gap-1">
             <li>
-              <a href="#">
-                <h5>Accessibility handbook</h5>
-                <p>
+              <a
+                href="#"
+                class="block rounded-[var(--radius-field)] p-3 hover:bg-base-content/10 focus-visible:outline-2 focus-visible:outline-base-content/30 focus-visible:outline-offset-2"
+              >
+                <h5 class="text-[0.875rem] font-medium">Accessibility handbook</h5>
+                <p class="mt-1 text-[0.75rem] leading-relaxed opacity-60">
                   Take a practical pass over focus order, semantics, and keyboard support.
                 </p>
               </a>
             </li>
             <li>
-              <a href="#">
-                <h5>Composition handbook</h5>
-                <p>
+              <a
+                href="#"
+                class="block rounded-[var(--radius-field)] p-3 hover:bg-base-content/10 focus-visible:outline-2 focus-visible:outline-base-content/30 focus-visible:outline-offset-2"
+              >
+                <h5 class="text-[0.875rem] font-medium">Composition handbook</h5>
+                <p class="mt-1 text-[0.75rem] leading-relaxed opacity-60">
                   Learn when to wrap parts, share behavior, and expose flexible APIs.
                 </p>
               </a>
             </li>
             <li>
-              <a href="#">
-                <h5>Styling handbook</h5>
-                <p>
+              <a
+                href="#"
+                class="block rounded-[var(--radius-field)] p-3 hover:bg-base-content/10 focus-visible:outline-2 focus-visible:outline-base-content/30 focus-visible:outline-offset-2"
+              >
+                <h5 class="text-[0.875rem] font-medium">Styling handbook</h5>
+                <p class="mt-1 text-[0.75rem] leading-relaxed opacity-60">
                   Apply tokens and state styles without fighting the underlying markup.
                 </p>
               </a>
@@ -9708,7 +9762,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "preview_card-detached-triggers-controlled"} = assigns) do
     ~H"""
     <div>
-      <p>
+      <p class="text-[0.875rem] leading-relaxed">
         Discover
         <.preview_card
           arrow_class="absolute w-2 h-2 rotate-45 border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_10%,#0000)] bg-base-100"
@@ -9720,8 +9774,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         >
           <:trigger>typography</:trigger>
           <:arrow></:arrow>
-          <div>
+          <div class="flex flex-col gap-3">
             <img
+              class="h-[150px] w-full rounded-[var(--radius-box)] object-cover"
               width="224"
               height="150"
               src="https://images.unsplash.com/photo-1619615391095-dfa29e1672ef?q=80&w=448&h=300"
@@ -9743,14 +9798,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         >
           <:trigger>design</:trigger>
           <:arrow></:arrow>
-          <div>
+          <div class="flex flex-col gap-3">
             <img
+              class="h-[150px] w-full rounded-[var(--radius-box)] object-cover"
               width="241"
               height="240"
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Braun_ABW30_%28schwarz%29.jpg/250px-Braun_ABW30_%28schwarz%29.jpg"
               alt="Braun ABW30"
             />
-            <p>
+            <p class="text-[0.875rem] leading-relaxed">
               A <strong>design</strong> is the concept or proposal for an object, process, or system.
             </p>
           </div>
@@ -9766,14 +9822,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         >
           <:trigger>art</:trigger>
           <:arrow></:arrow>
-          <div>
+          <div class="flex flex-col gap-3">
             <img
+              class="h-[150px] w-full rounded-[var(--radius-box)] object-cover"
               width="206"
               height="240"
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/MonaLisa_sfumato.jpeg/250px-MonaLisa_sfumato.jpeg"
               alt="Mona Lisa"
             />
-            <p>
+            <p class="text-[0.875rem] leading-relaxed">
               <strong>Art</strong>
               is a diverse range of cultural activity centered around works utilizing
               creative or imaginative talents, which are expected to evoke a worthwhile experience,
@@ -9786,6 +9843,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       </p>
       <button
         type="button"
+        class="d-btn d-btn-sm"
         phx-click={
           Phoenix.LiveView.JS.focus(
             to: "#baseui-preview_card-detached-triggers-controlled-design [data-part=trigger]"
@@ -9836,8 +9894,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       >
         <:trigger>design</:trigger>
         <:arrow></:arrow>
-        <div>
+        <div class="flex flex-col gap-3">
           <img
+            class="h-[150px] w-full rounded-[var(--radius-box)] object-cover"
             width="250"
             height="249"
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Braun_ABW30_%28schwarz%29.jpg/250px-Braun_ABW30_%28schwarz%29.jpg"
@@ -9859,8 +9918,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       >
         <:trigger>art</:trigger>
         <:arrow></:arrow>
-        <div>
+        <div class="flex flex-col gap-3">
           <img
+            class="h-[150px] w-full rounded-[var(--radius-box)] object-cover"
             width="250"
             height="290"
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/MonaLisa_sfumato.jpeg/250px-MonaLisa_sfumato.jpeg"
@@ -10392,7 +10452,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
           </span>
         </:option>
         <:empty>
-          <div>
+          <div class="p-3 text-[0.875rem] opacity-65">
             No results found.
           </div>
         </:empty>
@@ -10425,7 +10485,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
             {emoji.emoji}
           </:option>
           <:empty>
-            <div>
+            <div class="p-3 text-[0.875rem] opacity-65">
               No emojis found
             </div>
           </:empty>
@@ -10458,7 +10518,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
           {tag.value}
         </:option>
         <:empty>
-          <div>
+          <div class="p-3 text-[0.875rem] opacity-65">
             No tags found.
           </div>
         </:empty>
@@ -10516,7 +10576,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
           {tag.value}
         </:option>
         <:empty>
-          <div>
+          <div class="p-3 text-[0.875rem] opacity-65">
             No results found.
           </div>
         </:empty>
