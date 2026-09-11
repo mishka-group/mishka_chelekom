@@ -694,8 +694,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
        "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
     ],
     "checkbox_group" => [
-      {"checkbox_group-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+      {"checkbox_group-hero", "Checkbox group",
+       "A group of checkboxes sharing one label; the tick is daisyUI's own clip-path."},
+      {"checkbox_group-form", "With fieldset and label",
+       "Submitted as real form fields, one entry per checked value."},
+      {"checkbox_group-sizes", "Sizes", "`checkbox-xs` through `checkbox-xl`, set on the group."},
+      {"checkbox_group-colors", "Colors", "All eight `checkbox-*` colors, set on the group."},
+      {"checkbox_group-disabled", "Disabled", "The whole group, and a single item."},
+      {"checkbox_group-select-all", "Indeterminate",
+       "The tristate parent. daisyUI needs JavaScript to set `.indeterminate`; ours is derived server-side."},
+      {"checkbox_group-custom-colors", "Checkbox group with custom colors",
+       "Arbitrary Tailwind colors on the indicator, checked and unchecked."}
     ],
     "color_input" => [
       {"color_input-hero", "Hero",
@@ -7517,24 +7526,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.checkbox_group
       input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
-      indicator_class="d-checkbox grid place-items-center [&>svg]:w-[70%] [&>svg]:h-[70%] data-unchecked:[&>svg]:hidden data-checked:bg-[var(--d-input-color,#0000)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+      indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
       item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
       class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4"
       id="daisyui-checkbox_group-hero"
     >
-      <:indicator_icon>
-        <svg
-          class="block"
-          width="16"
-          height="16"
-          viewBox="0 0 16 16"
-          fill="none"
-          stroke="currentColor"
-        >
-          <path d="m2.5 8.5 4 4 7-9" />
-        </svg>
-      </:indicator_icon>
-
       <:label>Apples</:label>
 
       <:item
@@ -7556,6 +7552,263 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   end
 
   # ── color_input ─────────────────────────────────────────────────────────
+  def example(%{section: "checkbox_group-form"} = assigns) do
+    ~H"""
+    <form class="flex flex-col gap-4">
+      <.checkbox_group
+        input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
+        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+        item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
+        class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4"
+        id="daisyui-checkbox_group-form"
+      >
+        <:label>Pick your apples</:label>
+        <:item value="fuji-apple" checked>Fuji</:item>
+        <:item value="gala-apple">Gala</:item>
+        <:item value="granny-smith-apple">Granny Smith</:item>
+      </.checkbox_group>
+      <button type="submit" class="d-btn d-btn-sm w-fit">Submit</button>
+    </form>
+    """
+  end
+
+  def example(%{section: "checkbox_group-sizes"} = assigns) do
+    ~H"""
+    <div class="flex flex-col gap-4">
+      <.checkbox_group
+        input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
+        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+        item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
+        class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4 d-checkbox-xs"
+        id="daisyui-checkbox_group-size-xs"
+      >
+        <:label>xs</:label>
+        <:item value="fuji-apple" checked>Fuji</:item>
+        <:item value="gala-apple">Gala</:item>
+        <:item value="granny-smith-apple">Granny Smith</:item>
+      </.checkbox_group>
+      <.checkbox_group
+        input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
+        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+        item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
+        class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4 d-checkbox-sm"
+        id="daisyui-checkbox_group-size-sm"
+      >
+        <:label>sm</:label>
+        <:item value="fuji-apple" checked>Fuji</:item>
+        <:item value="gala-apple">Gala</:item>
+        <:item value="granny-smith-apple">Granny Smith</:item>
+      </.checkbox_group>
+      <.checkbox_group
+        input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
+        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+        item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
+        class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4 d-checkbox-md"
+        id="daisyui-checkbox_group-size-md"
+      >
+        <:label>md</:label>
+        <:item value="fuji-apple" checked>Fuji</:item>
+        <:item value="gala-apple">Gala</:item>
+        <:item value="granny-smith-apple">Granny Smith</:item>
+      </.checkbox_group>
+      <.checkbox_group
+        input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
+        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+        item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
+        class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4 d-checkbox-lg"
+        id="daisyui-checkbox_group-size-lg"
+      >
+        <:label>lg</:label>
+        <:item value="fuji-apple" checked>Fuji</:item>
+        <:item value="gala-apple">Gala</:item>
+        <:item value="granny-smith-apple">Granny Smith</:item>
+      </.checkbox_group>
+      <.checkbox_group
+        input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
+        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+        item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
+        class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4 d-checkbox-xl"
+        id="daisyui-checkbox_group-size-xl"
+      >
+        <:label>xl</:label>
+        <:item value="fuji-apple" checked>Fuji</:item>
+        <:item value="gala-apple">Gala</:item>
+        <:item value="granny-smith-apple">Granny Smith</:item>
+      </.checkbox_group>
+    </div>
+    """
+  end
+
+  def example(%{section: "checkbox_group-colors"} = assigns) do
+    ~H"""
+    <div class="flex flex-col gap-4">
+      <.checkbox_group
+        input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
+        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+        item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
+        class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4 d-checkbox-primary"
+        id="daisyui-checkbox_group-color-primary"
+      >
+        <:label>primary</:label>
+        <:item value="fuji-apple" checked>Fuji</:item>
+        <:item value="gala-apple">Gala</:item>
+        <:item value="granny-smith-apple">Granny Smith</:item>
+      </.checkbox_group>
+      <.checkbox_group
+        input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
+        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+        item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
+        class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4 d-checkbox-secondary"
+        id="daisyui-checkbox_group-color-secondary"
+      >
+        <:label>secondary</:label>
+        <:item value="fuji-apple" checked>Fuji</:item>
+        <:item value="gala-apple">Gala</:item>
+        <:item value="granny-smith-apple">Granny Smith</:item>
+      </.checkbox_group>
+      <.checkbox_group
+        input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
+        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+        item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
+        class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4 d-checkbox-accent"
+        id="daisyui-checkbox_group-color-accent"
+      >
+        <:label>accent</:label>
+        <:item value="fuji-apple" checked>Fuji</:item>
+        <:item value="gala-apple">Gala</:item>
+        <:item value="granny-smith-apple">Granny Smith</:item>
+      </.checkbox_group>
+      <.checkbox_group
+        input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
+        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+        item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
+        class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4 d-checkbox-neutral"
+        id="daisyui-checkbox_group-color-neutral"
+      >
+        <:label>neutral</:label>
+        <:item value="fuji-apple" checked>Fuji</:item>
+        <:item value="gala-apple">Gala</:item>
+        <:item value="granny-smith-apple">Granny Smith</:item>
+      </.checkbox_group>
+      <.checkbox_group
+        input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
+        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+        item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
+        class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4 d-checkbox-info"
+        id="daisyui-checkbox_group-color-info"
+      >
+        <:label>info</:label>
+        <:item value="fuji-apple" checked>Fuji</:item>
+        <:item value="gala-apple">Gala</:item>
+        <:item value="granny-smith-apple">Granny Smith</:item>
+      </.checkbox_group>
+      <.checkbox_group
+        input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
+        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+        item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
+        class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4 d-checkbox-success"
+        id="daisyui-checkbox_group-color-success"
+      >
+        <:label>success</:label>
+        <:item value="fuji-apple" checked>Fuji</:item>
+        <:item value="gala-apple">Gala</:item>
+        <:item value="granny-smith-apple">Granny Smith</:item>
+      </.checkbox_group>
+      <.checkbox_group
+        input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
+        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+        item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
+        class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4 d-checkbox-warning"
+        id="daisyui-checkbox_group-color-warning"
+      >
+        <:label>warning</:label>
+        <:item value="fuji-apple" checked>Fuji</:item>
+        <:item value="gala-apple">Gala</:item>
+        <:item value="granny-smith-apple">Granny Smith</:item>
+      </.checkbox_group>
+      <.checkbox_group
+        input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
+        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+        item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
+        class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4 d-checkbox-error"
+        id="daisyui-checkbox_group-color-error"
+      >
+        <:label>error</:label>
+        <:item value="fuji-apple" checked>Fuji</:item>
+        <:item value="gala-apple">Gala</:item>
+        <:item value="granny-smith-apple">Granny Smith</:item>
+      </.checkbox_group>
+    </div>
+    """
+  end
+
+  def example(%{section: "checkbox_group-disabled"} = assigns) do
+    ~H"""
+    <div class="flex flex-col gap-4">
+      <.checkbox_group
+        input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
+        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+        item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
+        class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4"
+        id="daisyui-checkbox_group-disabled-all"
+        disabled
+      >
+        <:label>Whole group disabled</:label>
+        <:item value="fuji-apple" checked>Fuji</:item>
+        <:item value="gala-apple">Gala</:item>
+        <:item value="granny-smith-apple">Granny Smith</:item>
+      </.checkbox_group>
+      <.checkbox_group
+        input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
+        indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+        item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
+        class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4"
+        id="daisyui-checkbox_group-disabled-item"
+      >
+        <:label>One item disabled</:label>
+        <:item value="fuji-apple" checked>Fuji</:item>
+        <:item value="gala-apple" disabled>Gala</:item>
+        <:item value="granny-smith-apple">Granny Smith</:item>
+      </.checkbox_group>
+    </div>
+    """
+  end
+
+  def example(%{section: "checkbox_group-select-all"} = assigns) do
+    ~H"""
+    <.checkbox_group
+      input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
+      indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)]"
+      item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
+      class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4"
+      id="daisyui-checkbox_group-select-all"
+    >
+      <:label>Apples</:label>
+      <:select_all>Select all</:select_all>
+      <:item value="fuji-apple" checked>Fuji</:item>
+      <:item value="gala-apple">Gala</:item>
+      <:item value="granny-smith-apple">Granny Smith</:item>
+    </.checkbox_group>
+    """
+  end
+
+  def example(%{section: "checkbox_group-custom-colors"} = assigns) do
+    ~H"""
+    <.checkbox_group
+      input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
+      indicator_class="d-checkbox data-checked:bg-[var(--d-input-color,#0000)] data-checked:before:opacity-100 data-checked:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_0%,70%_0%,70%_100%)] data-indeterminate:bg-[var(--d-input-color,color-mix(in_oklab,var(--color-base-content)_20%,#0000))] data-indeterminate:before:opacity-100 data-indeterminate:before:[rotate:0deg] data-indeterminate:before:[translate:0_-35%] data-indeterminate:before:[clip-path:polygon(20%_100%,20%_80%,50%_80%,50%_80%,80%_80%,80%_100%)] group-has-[input:focus-visible]/item:outline-2 group-has-[input:focus-visible]/item:outline-current group-has-[input:focus-visible]/item:outline-offset-2 [.d-checkbox-xs_&]:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-checkbox-sm_&]:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-checkbox-md_&]:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-checkbox-lg_&]:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-checkbox-xl_&]:[--d-size:calc(var(--size-selector,0.25rem)*8)] border-indigo-600 bg-indigo-500 data-checked:border-orange-500 data-checked:bg-orange-400 data-checked:text-orange-800"
+      item_class="group/item inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:opacity-20"
+      class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4"
+      id="daisyui-checkbox_group-custom-colors"
+    >
+      <:label>Apples</:label>
+      <:item value="fuji-apple" checked>Fuji</:item>
+      <:item value="gala-apple">Gala</:item>
+      <:item value="granny-smith-apple">Granny Smith</:item>
+    </.checkbox_group>
+    """
+  end
+
   def example(%{section: "color_input-hero"} = assigns) do
     ~H"""
     <.color_input
