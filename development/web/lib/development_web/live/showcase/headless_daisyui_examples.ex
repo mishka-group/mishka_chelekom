@@ -6755,20 +6755,19 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.fab_frame>
       <.fab
-        main_action_class="d-btn-lg"
-        action_class="d-btn d-btn-circle flex items-center gap-2 has-[[data-part=label]]:rounded-[var(--radius-field)] has-[[data-part=label]]:w-auto has-[[data-part=label]]:px-4 data-disabled:pointer-events-none data-disabled:opacity-50 group-data-[direction=flower]:absolute group-data-[direction=flower]:end-0 group-data-[direction=flower]:bottom-0 group-data-[direction=flower]:data-[index='0']:[translate:0_calc(0.25rem*-14)] group-data-[direction=flower]:data-[index='1']:[translate:calc(0.25rem*-10)_calc(0.25rem*-10)] group-data-[direction=flower]:data-[index='2']:[translate:calc(0.25rem*-14)_0]"
-        popup_class="flex flex-col-reverse [align-items:inherit] gap-2 relative data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center group-data-[direction=flower]:block! group-data-[direction=flower]:w-12 group-data-[direction=flower]:h-12"
+        action_class="d-btn d-btn-lg d-btn-circle"
+        popup_class="flex flex-col-reverse items-end gap-2 data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center"
         icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:not-only:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
-        trigger_class="d-btn d-btn-circle d-btn-lg grid place-items-center [transition:rotate_0.2s_cubic-bezier(0.4,0,0.2,1),opacity_0.2s_cubic-bezier(0.4,0,0.2,1)] group-has-[[data-part=popup][data-open]]:[rotate:45deg] .as-[[data-part=icon][data-state=open]]:[rotate:none]"
-        class="group pointer-events-none fixed z-[999] flex items-end gap-2 text-[length:var(--text-sm)] whitespace-nowrap select-none [&>*]:pointer-events-auto data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[placement=top-end]:end-4 data-[placement=top-end]:top-4 data-[placement=top-start]:start-4 data-[placement=top-start]:top-4 data-[placement=top-start]:items-start"
+        trigger_class="d-btn d-btn-lg d-btn-circle grid place-items-center d-btn-primary"
+        class="group pointer-events-none fixed z-[999] flex flex-col-reverse items-end gap-2 text-[0.875rem] whitespace-nowrap select-none [&>*]:pointer-events-auto has-[[data-part=main-action]]:has-[[data-part=popup][data-open]]:[&>[data-part=trigger]]:opacity-0 data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[direction=down]:flex-col data-[direction=left]:flex-row-reverse data-[direction=left]:items-center data-[direction=right]:flex-row data-[direction=right]:items-center"
         id="daisyui-fab-hero"
         label="Actions"
         contained
       >
-        <:icon>+</:icon>
-        <:action label="Share">A</:action>
-        <:action label="Copy">B</:action>
-        <:action label="Edit">C</:action>
+        <:icon>F</:icon>
+        <:action label="A">A</:action>
+        <:action label="B">B</:action>
+        <:action label="C">C</:action>
       </.fab>
     </.fab_frame>
     """
@@ -6778,20 +6777,19 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.fab_frame>
       <.fab
-        main_action_class="d-btn-lg"
-        action_class="d-btn d-btn-circle flex items-center gap-2 has-[[data-part=label]]:rounded-[var(--radius-field)] has-[[data-part=label]]:w-auto has-[[data-part=label]]:px-4 data-disabled:pointer-events-none data-disabled:opacity-50 group-data-[direction=flower]:absolute group-data-[direction=flower]:end-0 group-data-[direction=flower]:bottom-0 group-data-[direction=flower]:data-[index='0']:[translate:0_calc(0.25rem*-14)] group-data-[direction=flower]:data-[index='1']:[translate:calc(0.25rem*-10)_calc(0.25rem*-10)] group-data-[direction=flower]:data-[index='2']:[translate:calc(0.25rem*-14)_0]"
-        popup_class="flex flex-col-reverse [align-items:inherit] gap-2 relative data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center group-data-[direction=flower]:block! group-data-[direction=flower]:w-12 group-data-[direction=flower]:h-12"
+        action_class="d-btn d-btn-lg d-btn-circle"
+        popup_class="flex flex-col-reverse items-end gap-2 data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center"
         icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:not-only:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
-        trigger_class="d-btn d-btn-circle d-btn-lg grid place-items-center [transition:rotate_0.2s_cubic-bezier(0.4,0,0.2,1),opacity_0.2s_cubic-bezier(0.4,0,0.2,1)] group-has-[[data-part=popup][data-open]]:[rotate:45deg] .as-[[data-part=icon][data-state=open]]:[rotate:none]"
-        class="group pointer-events-none fixed z-[999] flex items-end gap-2 text-[length:var(--text-sm)] whitespace-nowrap select-none [&>*]:pointer-events-auto data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[placement=top-end]:end-4 data-[placement=top-end]:top-4 data-[placement=top-start]:start-4 data-[placement=top-start]:top-4 data-[placement=top-start]:items-start"
+        trigger_class="d-btn d-btn-lg d-btn-circle grid place-items-center d-btn-secondary"
+        class="group pointer-events-none fixed z-[999] flex flex-col-reverse items-end gap-2 text-[0.875rem] whitespace-nowrap select-none [&>*]:pointer-events-auto has-[[data-part=main-action]]:has-[[data-part=popup][data-open]]:[&>[data-part=trigger]]:opacity-0 data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[direction=down]:flex-col data-[direction=left]:flex-row-reverse data-[direction=left]:items-center data-[direction=right]:flex-row data-[direction=right]:items-center"
         id="daisyui-fab-icons"
         label="Actions"
         contained
       >
         <:icon><.dock_icon path="M12 5v14M5 12h14" /></:icon>
-        <:action label="Share"><.dock_icon path="M4 12v8h16v-8M12 3v13M8 7l4-4 4 4" /></:action>
-        <:action label="Copy"><.dock_icon path="M9 9h10v10H9zM5 15V5h10" /></:action>
-        <:action label="Edit"><.dock_icon path="M4 20h4L20 8l-4-4L4 16z" /></:action>
+        <:action label="Camera"><.dock_icon path="M4 8h3l2-2h6l2 2h3v10H4z" /></:action>
+        <:action label="Gallery"><.dock_icon path="M4 5h16v14H4zm3 9 3-3 3 3 4-5" /></:action>
+        <:action label="Voice"><.dock_icon path="M12 4v10m-4-4a4 4 0 0 0 8 0M8 20h8" /></:action>
       </.fab>
     </.fab_frame>
     """
@@ -6801,21 +6799,21 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.fab_frame>
       <.fab
-        main_action_class="d-btn-lg"
-        action_class="d-btn d-btn-circle flex items-center gap-2 has-[[data-part=label]]:rounded-[var(--radius-field)] has-[[data-part=label]]:w-auto has-[[data-part=label]]:px-4 data-disabled:pointer-events-none data-disabled:opacity-50 group-data-[direction=flower]:absolute group-data-[direction=flower]:end-0 group-data-[direction=flower]:bottom-0 group-data-[direction=flower]:data-[index='0']:[translate:0_calc(0.25rem*-14)] group-data-[direction=flower]:data-[index='1']:[translate:calc(0.25rem*-10)_calc(0.25rem*-10)] group-data-[direction=flower]:data-[index='2']:[translate:calc(0.25rem*-14)_0]"
-        popup_class="flex flex-col-reverse [align-items:inherit] gap-2 relative data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center group-data-[direction=flower]:block! group-data-[direction=flower]:w-12 group-data-[direction=flower]:h-12"
+        action_class="flex h-12 items-center gap-2 border-0 bg-transparent p-0 shadow-none"
+        action_icon_class="d-btn d-btn-lg d-btn-circle"
+        label_class="order-first"
+        popup_class="flex flex-col-reverse items-end gap-2 data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center"
         icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:not-only:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
-        trigger_class="d-btn d-btn-circle d-btn-lg grid place-items-center [transition:rotate_0.2s_cubic-bezier(0.4,0,0.2,1),opacity_0.2s_cubic-bezier(0.4,0,0.2,1)] group-has-[[data-part=popup][data-open]]:[rotate:45deg] .as-[[data-part=icon][data-state=open]]:[rotate:none]"
-        class="group pointer-events-none fixed z-[999] flex items-end gap-2 text-[length:var(--text-sm)] whitespace-nowrap select-none [&>*]:pointer-events-auto data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[placement=top-end]:end-4 data-[placement=top-end]:top-4 data-[placement=top-start]:start-4 data-[placement=top-start]:top-4 data-[placement=top-start]:items-start"
+        trigger_class="d-btn d-btn-lg d-btn-circle grid place-items-center d-btn-success"
+        class="group pointer-events-none fixed z-[999] flex flex-col-reverse items-end gap-2 text-[0.875rem] whitespace-nowrap select-none [&>*]:pointer-events-auto has-[[data-part=main-action]]:has-[[data-part=popup][data-open]]:[&>[data-part=trigger]]:opacity-0 data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[direction=down]:flex-col data-[direction=left]:flex-row-reverse data-[direction=left]:items-center data-[direction=right]:flex-row data-[direction=right]:items-center"
         id="daisyui-fab-labels"
         label="Actions"
         contained
       >
-        <:icon><.dock_icon path="M12 5v14M5 12h14" /></:icon>
-        <:action label="Share" show_label>
-          <.dock_icon path="M4 12v8h16v-8M12 3v13M8 7l4-4 4 4" />
-        </:action>
-        <:action label="Copy" show_label><.dock_icon path="M9 9h10v10H9zM5 15V5h10" /></:action>
+        <:icon>F</:icon>
+        <:action label="Label B" show_label>A</:action>
+        <:action label="Label C" show_label>B</:action>
+        <:action label="Label D" show_label>C</:action>
       </.fab>
     </.fab_frame>
     """
@@ -6825,19 +6823,19 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.fab_frame>
       <.fab
-        main_action_class="d-btn-lg"
-        action_class="d-btn d-btn-circle flex items-center gap-2 has-[[data-part=label]]:rounded-[var(--radius-field)] has-[[data-part=label]]:w-auto has-[[data-part=label]]:px-4 data-disabled:pointer-events-none data-disabled:opacity-50 group-data-[direction=flower]:absolute group-data-[direction=flower]:end-0 group-data-[direction=flower]:bottom-0 group-data-[direction=flower]:data-[index='0']:[translate:0_calc(0.25rem*-14)] group-data-[direction=flower]:data-[index='1']:[translate:calc(0.25rem*-10)_calc(0.25rem*-10)] group-data-[direction=flower]:data-[index='2']:[translate:calc(0.25rem*-14)_0]"
-        popup_class="flex flex-col-reverse [align-items:inherit] gap-2 relative data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center group-data-[direction=flower]:block! group-data-[direction=flower]:w-12 group-data-[direction=flower]:h-12"
+        action_class="d-btn d-btn-lg"
+        popup_class="flex flex-col-reverse items-end gap-2 data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center"
         icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:not-only:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
-        trigger_class="d-btn d-btn-circle d-btn-lg grid place-items-center [transition:rotate_0.2s_cubic-bezier(0.4,0,0.2,1),opacity_0.2s_cubic-bezier(0.4,0,0.2,1)] group-has-[[data-part=popup][data-open]]:[rotate:45deg] .as-[[data-part=icon][data-state=open]]:[rotate:none]"
-        class="group pointer-events-none fixed z-[999] flex items-end gap-2 text-[length:var(--text-sm)] whitespace-nowrap select-none [&>*]:pointer-events-auto data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[placement=top-end]:end-4 data-[placement=top-end]:top-4 data-[placement=top-start]:start-4 data-[placement=top-start]:top-4 data-[placement=top-start]:items-start"
+        trigger_class="d-btn d-btn-lg d-btn-circle grid place-items-center d-btn-success"
+        class="group pointer-events-none fixed z-[999] flex flex-col-reverse items-end gap-2 text-[0.875rem] whitespace-nowrap select-none [&>*]:pointer-events-auto has-[[data-part=main-action]]:has-[[data-part=popup][data-open]]:[&>[data-part=trigger]]:opacity-0 data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[direction=down]:flex-col data-[direction=left]:flex-row-reverse data-[direction=left]:items-center data-[direction=right]:flex-row data-[direction=right]:items-center"
         id="daisyui-fab-rectangle"
         label="Actions"
         contained
       >
-        <:icon>+</:icon>
-        <:action label="Add a page" show_label>+</:action>
-        <:action label="Add a folder" show_label>▸</:action>
+        <:icon>F</:icon>
+        <:action label="Button A">Button A</:action>
+        <:action label="Button B">Button B</:action>
+        <:action label="Button C">Button C</:action>
       </.fab>
     </.fab_frame>
     """
@@ -6847,20 +6845,22 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.fab_frame>
       <.fab
-        main_action_class="d-btn-lg"
-        action_class="d-btn d-btn-circle flex items-center gap-2 has-[[data-part=label]]:rounded-[var(--radius-field)] has-[[data-part=label]]:w-auto has-[[data-part=label]]:px-4 data-disabled:pointer-events-none data-disabled:opacity-50 group-data-[direction=flower]:absolute group-data-[direction=flower]:end-0 group-data-[direction=flower]:bottom-0 group-data-[direction=flower]:data-[index='0']:[translate:0_calc(0.25rem*-14)] group-data-[direction=flower]:data-[index='1']:[translate:calc(0.25rem*-10)_calc(0.25rem*-10)] group-data-[direction=flower]:data-[index='2']:[translate:calc(0.25rem*-14)_0]"
-        popup_class="flex flex-col-reverse [align-items:inherit] gap-2 relative data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center group-data-[direction=flower]:block! group-data-[direction=flower]:w-12 group-data-[direction=flower]:h-12"
+        action_class="flex h-12 items-center gap-2 border-0 bg-transparent p-0 shadow-none"
+        action_icon_class="d-btn d-btn-lg d-btn-circle"
+        label_class="order-first"
+        popup_class="flex flex-col-reverse items-end gap-2 data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center"
         icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:not-only:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
-        trigger_class="d-btn d-btn-circle d-btn-lg grid place-items-center [transition:rotate_0.2s_cubic-bezier(0.4,0,0.2,1),opacity_0.2s_cubic-bezier(0.4,0,0.2,1)] group-has-[[data-part=popup][data-open]]:[rotate:45deg] .as-[[data-part=icon][data-state=open]]:[rotate:none]"
-        class="group pointer-events-none fixed z-[999] flex items-end gap-2 text-[length:var(--text-sm)] whitespace-nowrap select-none [&>*]:pointer-events-auto data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[placement=top-end]:end-4 data-[placement=top-end]:top-4 data-[placement=top-start]:start-4 data-[placement=top-start]:top-4 data-[placement=top-start]:items-start"
+        trigger_class="d-btn d-btn-lg d-btn-circle grid place-items-center d-btn-info"
+        class="group pointer-events-none fixed z-[999] flex flex-col-reverse items-end gap-2 text-[0.875rem] whitespace-nowrap select-none [&>*]:pointer-events-auto has-[[data-part=main-action]]:has-[[data-part=popup][data-open]]:[&>[data-part=trigger]]:opacity-0 data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[direction=down]:flex-col data-[direction=left]:flex-row-reverse data-[direction=left]:items-center data-[direction=right]:flex-row data-[direction=right]:items-center"
         id="daisyui-fab-close"
         label="Actions"
         contained
       >
-        <:icon><.dock_icon path="M12 5v14M5 12h14" /></:icon>
-        <:close_icon><.dock_icon path="M6 6l12 12M18 6L6 18" /></:close_icon>
-        <:action label="Share" show_label>A</:action>
-        <:action label="Copy" show_label>B</:action>
+        <:icon>F</:icon>
+        <:close_icon>✕</:close_icon>
+        <:action label="Label A" show_label>A</:action>
+        <:action label="Label B" show_label>B</:action>
+        <:action label="Label C" show_label>C</:action>
       </.fab>
     </.fab_frame>
     """
@@ -6870,20 +6870,23 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.fab_frame>
       <.fab
-        main_action_class="d-btn-lg"
-        action_class="d-btn d-btn-circle flex items-center gap-2 has-[[data-part=label]]:rounded-[var(--radius-field)] has-[[data-part=label]]:w-auto has-[[data-part=label]]:px-4 data-disabled:pointer-events-none data-disabled:opacity-50 group-data-[direction=flower]:absolute group-data-[direction=flower]:end-0 group-data-[direction=flower]:bottom-0 group-data-[direction=flower]:data-[index='0']:[translate:0_calc(0.25rem*-14)] group-data-[direction=flower]:data-[index='1']:[translate:calc(0.25rem*-10)_calc(0.25rem*-10)] group-data-[direction=flower]:data-[index='2']:[translate:calc(0.25rem*-14)_0]"
-        popup_class="flex flex-col-reverse [align-items:inherit] gap-2 relative data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center group-data-[direction=flower]:block! group-data-[direction=flower]:w-12 group-data-[direction=flower]:h-12"
+        action_class="flex h-12 items-center gap-2 border-0 bg-transparent p-0 shadow-none"
+        action_icon_class="d-btn d-btn-lg d-btn-circle"
+        label_class="order-first"
+        main_action_class="d-btn d-btn-lg d-btn-circle absolute end-0 bottom-0 d-btn-secondary"
+        popup_class="flex flex-col-reverse items-end gap-2 data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center"
         icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:not-only:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
-        trigger_class="d-btn d-btn-circle d-btn-lg grid place-items-center [transition:rotate_0.2s_cubic-bezier(0.4,0,0.2,1),opacity_0.2s_cubic-bezier(0.4,0,0.2,1)] group-has-[[data-part=popup][data-open]]:[rotate:45deg] .as-[[data-part=icon][data-state=open]]:[rotate:none]"
-        class="group pointer-events-none fixed z-[999] flex items-end gap-2 text-[length:var(--text-sm)] whitespace-nowrap select-none [&>*]:pointer-events-auto data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[placement=top-end]:end-4 data-[placement=top-end]:top-4 data-[placement=top-start]:start-4 data-[placement=top-start]:top-4 data-[placement=top-start]:items-start"
-        id="daisyui-fab-main"
+        trigger_class="d-btn d-btn-lg d-btn-circle grid place-items-center d-btn-primary"
+        class="group pointer-events-none fixed z-[999] flex flex-col-reverse items-end gap-2 text-[0.875rem] whitespace-nowrap select-none [&>*]:pointer-events-auto has-[[data-part=main-action]]:has-[[data-part=popup][data-open]]:[&>[data-part=trigger]]:opacity-0 data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[direction=down]:flex-col data-[direction=left]:flex-row-reverse data-[direction=left]:items-center data-[direction=right]:flex-row data-[direction=right]:items-center"
+        id="daisyui-fab-main-action"
         label="Actions"
         contained
       >
-        <:icon><.dock_icon path="M12 5v14M5 12h14" /></:icon>
-        <:action label="Share" show_label>A</:action>
-        <:action label="Copy" show_label>B</:action>
-        <:main_action label="Compose"><.dock_icon path="M4 20h4L20 8l-4-4L4 16z" /></:main_action>
+        <:icon>F</:icon>
+        <:action label="Label A" show_label>A</:action>
+        <:action label="Label B" show_label>B</:action>
+        <:action label="Label C" show_label>C</:action>
+        <:main_action label="Main Action">M</:main_action>
       </.fab>
     </.fab_frame>
     """
@@ -6893,41 +6896,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.fab_frame>
       <.fab
-        main_action_class="d-btn-lg"
-        action_class="d-btn d-btn-circle flex items-center gap-2 has-[[data-part=label]]:rounded-[var(--radius-field)] has-[[data-part=label]]:w-auto has-[[data-part=label]]:px-4 data-disabled:pointer-events-none data-disabled:opacity-50 group-data-[direction=flower]:absolute group-data-[direction=flower]:end-0 group-data-[direction=flower]:bottom-0 group-data-[direction=flower]:data-[index='0']:[translate:0_calc(0.25rem*-14)] group-data-[direction=flower]:data-[index='1']:[translate:calc(0.25rem*-10)_calc(0.25rem*-10)] group-data-[direction=flower]:data-[index='2']:[translate:calc(0.25rem*-14)_0]"
-        popup_class="flex flex-col-reverse [align-items:inherit] gap-2 relative data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center group-data-[direction=flower]:block! group-data-[direction=flower]:w-12 group-data-[direction=flower]:h-12"
+        action_class="d-btn d-btn-lg d-btn-circle"
+        popup_class="flex flex-col-reverse items-end gap-2 data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center"
         icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:not-only:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
-        trigger_class="d-btn d-btn-circle d-btn-lg grid place-items-center [transition:rotate_0.2s_cubic-bezier(0.4,0,0.2,1),opacity_0.2s_cubic-bezier(0.4,0,0.2,1)] group-has-[[data-part=popup][data-open]]:[rotate:45deg] .as-[[data-part=icon][data-state=open]]:[rotate:none]"
-        class="group pointer-events-none fixed z-[999] flex items-end gap-2 text-[length:var(--text-sm)] whitespace-nowrap select-none [&>*]:pointer-events-auto data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[placement=top-end]:end-4 data-[placement=top-end]:top-4 data-[placement=top-start]:start-4 data-[placement=top-start]:top-4 data-[placement=top-start]:items-start"
+        trigger_class="d-btn d-btn-lg d-btn-circle grid place-items-center d-btn-primary"
+        class="group pointer-events-none fixed z-[999] flex flex-col-reverse items-end gap-2 text-[0.875rem] whitespace-nowrap select-none [&>*]:pointer-events-auto has-[[data-part=main-action]]:has-[[data-part=popup][data-open]]:[&>[data-part=trigger]]:opacity-0 data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[direction=down]:flex-col data-[direction=left]:flex-row-reverse data-[direction=left]:items-center data-[direction=right]:flex-row data-[direction=right]:items-center"
         id="daisyui-fab-single"
-        label="Compose"
-        contained
-      >
-        <:icon><.dock_icon path="M4 20h4L20 8l-4-4L4 16z" /></:icon>
-      </.fab>
-    </.fab_frame>
-    """
-  end
-
-  def example(%{section: "fab-flower"} = assigns) do
-    ~H"""
-    <.fab_frame>
-      <.fab
-        main_action_class="d-btn-lg"
-        action_class="d-btn d-btn-circle flex items-center gap-2 has-[[data-part=label]]:rounded-[var(--radius-field)] has-[[data-part=label]]:w-auto has-[[data-part=label]]:px-4 data-disabled:pointer-events-none data-disabled:opacity-50 group-data-[direction=flower]:absolute group-data-[direction=flower]:end-0 group-data-[direction=flower]:bottom-0 group-data-[direction=flower]:data-[index='0']:[translate:0_calc(0.25rem*-14)] group-data-[direction=flower]:data-[index='1']:[translate:calc(0.25rem*-10)_calc(0.25rem*-10)] group-data-[direction=flower]:data-[index='2']:[translate:calc(0.25rem*-14)_0]"
-        popup_class="flex flex-col-reverse [align-items:inherit] gap-2 relative data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center group-data-[direction=flower]:block! group-data-[direction=flower]:w-12 group-data-[direction=flower]:h-12"
-        icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:not-only:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
-        trigger_class="d-btn d-btn-circle d-btn-lg grid place-items-center [transition:rotate_0.2s_cubic-bezier(0.4,0,0.2,1),opacity_0.2s_cubic-bezier(0.4,0,0.2,1)] group-has-[[data-part=popup][data-open]]:[rotate:45deg] .as-[[data-part=icon][data-state=open]]:[rotate:none]"
-        class="group pointer-events-none fixed z-[999] flex items-end gap-2 text-[length:var(--text-sm)] whitespace-nowrap select-none [&>*]:pointer-events-auto data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[placement=top-end]:end-4 data-[placement=top-end]:top-4 data-[placement=top-start]:start-4 data-[placement=top-start]:top-4 data-[placement=top-start]:items-start"
-        id="daisyui-fab-flower"
         label="Actions"
         contained
-        direction="flower"
       >
-        <:icon><.dock_icon path="M12 5v14M5 12h14" /></:icon>
-        <:action label="Share">A</:action>
-        <:action label="Copy">B</:action>
-        <:action label="Edit">C</:action>
+        <:icon>F</:icon>
       </.fab>
     </.fab_frame>
     """
@@ -6935,24 +6913,47 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "fab-flower-main"} = assigns) do
     ~H"""
-    <.fab_frame>
+    <.fab_frame size="h-64 w-80">
       <.fab
-        main_action_class="d-btn-lg"
-        action_class="d-btn d-btn-circle flex items-center gap-2 has-[[data-part=label]]:rounded-[var(--radius-field)] has-[[data-part=label]]:w-auto has-[[data-part=label]]:px-4 data-disabled:pointer-events-none data-disabled:opacity-50 group-data-[direction=flower]:absolute group-data-[direction=flower]:end-0 group-data-[direction=flower]:bottom-0 group-data-[direction=flower]:data-[index='0']:[translate:0_calc(0.25rem*-14)] group-data-[direction=flower]:data-[index='1']:[translate:calc(0.25rem*-10)_calc(0.25rem*-10)] group-data-[direction=flower]:data-[index='2']:[translate:calc(0.25rem*-14)_0]"
-        popup_class="flex flex-col-reverse [align-items:inherit] gap-2 relative data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center group-data-[direction=flower]:block! group-data-[direction=flower]:w-12 group-data-[direction=flower]:h-12"
+        action_class="d-btn d-btn-lg d-btn-circle absolute end-0 bottom-0 data-[index='0']:[translate:-106px_0] data-[index='1']:[translate:-91px_-53px] data-[index='2']:[translate:-53px_-91px] data-[index='3']:[translate:0_-106px] data-[index='-1']:[translate:0_0]"
+        main_action_class="d-btn d-btn-lg d-btn-circle absolute end-0 bottom-0"
+        popup_class="absolute end-0 bottom-0! h-12 w-12 data-closed:hidden"
         icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:not-only:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
-        trigger_class="d-btn d-btn-circle d-btn-lg grid place-items-center [transition:rotate_0.2s_cubic-bezier(0.4,0,0.2,1),opacity_0.2s_cubic-bezier(0.4,0,0.2,1)] group-has-[[data-part=popup][data-open]]:[rotate:45deg] .as-[[data-part=icon][data-state=open]]:[rotate:none]"
-        class="group pointer-events-none fixed z-[999] flex items-end gap-2 text-[length:var(--text-sm)] whitespace-nowrap select-none [&>*]:pointer-events-auto data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[placement=top-end]:end-4 data-[placement=top-end]:top-4 data-[placement=top-start]:start-4 data-[placement=top-start]:top-4 data-[placement=top-start]:items-start"
+        trigger_class="d-btn d-btn-lg d-btn-circle grid place-items-center d-btn-success"
+        class="group pointer-events-none fixed z-[999] flex flex-col-reverse items-end gap-2 text-[0.875rem] whitespace-nowrap select-none [&>*]:pointer-events-auto has-[[data-part=main-action]]:has-[[data-part=popup][data-open]]:[&>[data-part=trigger]]:opacity-0 data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[direction=down]:flex-col data-[direction=left]:flex-row-reverse data-[direction=left]:items-center data-[direction=right]:flex-row data-[direction=right]:items-center"
         id="daisyui-fab-flower-main"
         label="Actions"
         contained
-        direction="flower"
       >
-        <:icon><.dock_icon path="M12 5v14M5 12h14" /></:icon>
-        <:action label="Share">A</:action>
-        <:action label="Copy">B</:action>
-        <:action label="Edit">C</:action>
-        <:main_action label="Compose"><.dock_icon path="M4 20h4L20 8l-4-4L4 16z" /></:main_action>
+        <:icon>F</:icon>
+        <:action label="A">A</:action>
+        <:action label="B">B</:action>
+        <:action label="C">C</:action>
+        <:action label="D">D</:action>
+        <:main_action label="M">M</:main_action>
+      </.fab>
+    </.fab_frame>
+    """
+  end
+
+  def example(%{section: "fab-flower"} = assigns) do
+    ~H"""
+    <.fab_frame size="h-64 w-80">
+      <.fab
+        action_class="d-btn d-btn-lg d-btn-circle absolute end-0 bottom-0 data-[index='0']:[translate:-106px_0] data-[index='1']:[translate:-91px_-53px] data-[index='2']:[translate:-53px_-91px] data-[index='3']:[translate:0_-106px] data-[index='-1']:[translate:0_0]"
+        popup_class="absolute end-0 bottom-0! h-12 w-12 data-closed:hidden"
+        icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:not-only:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
+        trigger_class="d-btn d-btn-lg d-btn-circle grid place-items-center d-btn-primary"
+        class="group pointer-events-none fixed z-[999] flex flex-col-reverse items-end gap-2 text-[0.875rem] whitespace-nowrap select-none [&>*]:pointer-events-auto has-[[data-part=main-action]]:has-[[data-part=popup][data-open]]:[&>[data-part=trigger]]:opacity-0 data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[direction=down]:flex-col data-[direction=left]:flex-row-reverse data-[direction=left]:items-center data-[direction=right]:flex-row data-[direction=right]:items-center"
+        id="daisyui-fab-flower"
+        label="Actions"
+        contained
+      >
+        <:icon>F</:icon>
+        <:action label="A">A</:action>
+        <:action label="B">B</:action>
+        <:action label="C">C</:action>
+        <:action label="D">D</:action>
       </.fab>
     </.fab_frame>
     """
@@ -6960,23 +6961,23 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "fab-flower-icons"} = assigns) do
     ~H"""
-    <.fab_frame>
+    <.fab_frame size="h-64 w-80">
       <.fab
-        main_action_class="d-btn-lg"
-        action_class="d-btn d-btn-circle flex items-center gap-2 has-[[data-part=label]]:rounded-[var(--radius-field)] has-[[data-part=label]]:w-auto has-[[data-part=label]]:px-4 data-disabled:pointer-events-none data-disabled:opacity-50 group-data-[direction=flower]:absolute group-data-[direction=flower]:end-0 group-data-[direction=flower]:bottom-0 group-data-[direction=flower]:data-[index='0']:[translate:0_calc(0.25rem*-14)] group-data-[direction=flower]:data-[index='1']:[translate:calc(0.25rem*-10)_calc(0.25rem*-10)] group-data-[direction=flower]:data-[index='2']:[translate:calc(0.25rem*-14)_0]"
-        popup_class="flex flex-col-reverse [align-items:inherit] gap-2 relative data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center group-data-[direction=flower]:block! group-data-[direction=flower]:w-12 group-data-[direction=flower]:h-12"
+        action_class="d-btn d-btn-lg d-btn-circle absolute end-0 bottom-0 data-[index='0']:[translate:-106px_0] data-[index='1']:[translate:-91px_-53px] data-[index='2']:[translate:-53px_-91px] data-[index='3']:[translate:0_-106px] data-[index='-1']:[translate:0_0]"
+        main_action_class="d-btn d-btn-lg d-btn-circle absolute end-0 bottom-0 d-btn-primary"
+        popup_class="absolute end-0 bottom-0! h-12 w-12 data-closed:hidden"
         icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:not-only:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
-        trigger_class="d-btn d-btn-circle d-btn-lg grid place-items-center [transition:rotate_0.2s_cubic-bezier(0.4,0,0.2,1),opacity_0.2s_cubic-bezier(0.4,0,0.2,1)] group-has-[[data-part=popup][data-open]]:[rotate:45deg] .as-[[data-part=icon][data-state=open]]:[rotate:none]"
-        class="group pointer-events-none fixed z-[999] flex items-end gap-2 text-[length:var(--text-sm)] whitespace-nowrap select-none [&>*]:pointer-events-auto data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[placement=top-end]:end-4 data-[placement=top-end]:top-4 data-[placement=top-start]:start-4 data-[placement=top-start]:top-4 data-[placement=top-start]:items-start"
+        trigger_class="d-btn d-btn-lg d-btn-circle grid place-items-center"
+        class="group pointer-events-none fixed z-[999] flex flex-col-reverse items-end gap-2 text-[0.875rem] whitespace-nowrap select-none [&>*]:pointer-events-auto has-[[data-part=main-action]]:has-[[data-part=popup][data-open]]:[&>[data-part=trigger]]:opacity-0 data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[direction=down]:flex-col data-[direction=left]:flex-row-reverse data-[direction=left]:items-center data-[direction=right]:flex-row data-[direction=right]:items-center"
         id="daisyui-fab-flower-icons"
         label="Actions"
         contained
-        direction="flower"
       >
         <:icon><.dock_icon path="M12 5v14M5 12h14" /></:icon>
         <:action label="Camera"><.dock_icon path="M4 8h3l2-2h6l2 2h3v10H4z" /></:action>
         <:action label="Gallery"><.dock_icon path="M4 5h16v14H4zm3 9 3-3 3 3 4-5" /></:action>
         <:action label="Voice"><.dock_icon path="M12 4v10m-4-4a4 4 0 0 0 8 0M8 20h8" /></:action>
+        <:action label="Edit"><.dock_icon path="M4 20h4L20 8l-4-4L4 16z" /></:action>
         <:main_action label="Compose"><.dock_icon path="M4 20h4L20 8l-4-4L4 16z" /></:main_action>
       </.fab>
     </.fab_frame>
@@ -6985,24 +6986,24 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "fab-flower-tooltip"} = assigns) do
     ~H"""
-    <.fab_frame>
+    <.fab_frame size="h-64 w-80">
       <.fab
-        main_action_class="d-btn-lg"
-        action_class="d-btn d-btn-circle flex items-center gap-2 has-[[data-part=label]]:rounded-[var(--radius-field)] has-[[data-part=label]]:w-auto has-[[data-part=label]]:px-4 data-disabled:pointer-events-none data-disabled:opacity-50 group-data-[direction=flower]:absolute group-data-[direction=flower]:end-0 group-data-[direction=flower]:bottom-0 group-data-[direction=flower]:data-[index='0']:[translate:0_calc(0.25rem*-14)] group-data-[direction=flower]:data-[index='1']:[translate:calc(0.25rem*-10)_calc(0.25rem*-10)] group-data-[direction=flower]:data-[index='2']:[translate:calc(0.25rem*-14)_0] d-tooltip d-tooltip-left"
-        popup_class="flex flex-col-reverse [align-items:inherit] gap-2 relative data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center group-data-[direction=flower]:block! group-data-[direction=flower]:w-12 group-data-[direction=flower]:h-12"
+        action_class="d-btn d-btn-lg d-btn-circle absolute end-0 bottom-0 data-[index='0']:[translate:-106px_0] data-[index='1']:[translate:-91px_-53px] data-[index='2']:[translate:-53px_-91px] data-[index='3']:[translate:0_-106px] data-[index='-1']:[translate:0_0] d-tooltip d-tooltip-left"
+        main_action_class="d-btn d-btn-lg d-btn-circle absolute end-0 bottom-0 d-btn-success"
+        popup_class="absolute end-0 bottom-0! h-12 w-12 data-closed:hidden"
         icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:not-only:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
-        trigger_class="d-btn d-btn-circle d-btn-lg grid place-items-center [transition:rotate_0.2s_cubic-bezier(0.4,0,0.2,1),opacity_0.2s_cubic-bezier(0.4,0,0.2,1)] group-has-[[data-part=popup][data-open]]:[rotate:45deg] .as-[[data-part=icon][data-state=open]]:[rotate:none]"
-        class="group pointer-events-none fixed z-[999] flex items-end gap-2 text-[length:var(--text-sm)] whitespace-nowrap select-none [&>*]:pointer-events-auto data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[placement=top-end]:end-4 data-[placement=top-end]:top-4 data-[placement=top-start]:start-4 data-[placement=top-start]:top-4 data-[placement=top-start]:items-start"
+        trigger_class="d-btn d-btn-lg d-btn-circle grid place-items-center d-btn-info"
+        class="group pointer-events-none fixed z-[999] flex flex-col-reverse items-end gap-2 text-[0.875rem] whitespace-nowrap select-none [&>*]:pointer-events-auto has-[[data-part=main-action]]:has-[[data-part=popup][data-open]]:[&>[data-part=trigger]]:opacity-0 data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[direction=down]:flex-col data-[direction=left]:flex-row-reverse data-[direction=left]:items-center data-[direction=right]:flex-row data-[direction=right]:items-center"
         id="daisyui-fab-flower-tooltip"
         label="Actions"
         contained
-        direction="flower"
       >
         <:icon>F</:icon>
-        <:action label="Share" tip="Label A">A</:action>
-        <:action label="Copy" tip="Label B">B</:action>
-        <:action label="Edit" tip="Label C">C</:action>
-        <:main_action label="Main action">M</:main_action>
+        <:action label="A" tip="Label A">A</:action>
+        <:action label="B" tip="Label B">B</:action>
+        <:action label="C" tip="Label C">C</:action>
+        <:action label="D" tip="Label D">D</:action>
+        <:main_action label="M">M</:main_action>
       </.fab>
     </.fab_frame>
     """
@@ -7010,27 +7011,38 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "fab-directions"} = assigns) do
     ~H"""
-    <div class="flex flex-wrap gap-4">
-      <.fab_frame :for={{dir, place} <- [{"down", "top-start"}, {"right", "bottom-start"}]}>
-        <.fab
-          main_action_class="d-btn-lg"
-          action_class="d-btn d-btn-circle flex items-center gap-2 has-[[data-part=label]]:rounded-[var(--radius-field)] has-[[data-part=label]]:w-auto has-[[data-part=label]]:px-4 data-disabled:pointer-events-none data-disabled:opacity-50 group-data-[direction=flower]:absolute group-data-[direction=flower]:end-0 group-data-[direction=flower]:bottom-0 group-data-[direction=flower]:data-[index='0']:[translate:0_calc(0.25rem*-14)] group-data-[direction=flower]:data-[index='1']:[translate:calc(0.25rem*-10)_calc(0.25rem*-10)] group-data-[direction=flower]:data-[index='2']:[translate:calc(0.25rem*-14)_0]"
-          popup_class="flex flex-col-reverse [align-items:inherit] gap-2 relative data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center group-data-[direction=flower]:block! group-data-[direction=flower]:w-12 group-data-[direction=flower]:h-12"
-          icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:not-only:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
-          trigger_class="d-btn d-btn-circle d-btn-lg grid place-items-center [transition:rotate_0.2s_cubic-bezier(0.4,0,0.2,1),opacity_0.2s_cubic-bezier(0.4,0,0.2,1)] group-has-[[data-part=popup][data-open]]:[rotate:45deg] .as-[[data-part=icon][data-state=open]]:[rotate:none]"
-          class="group pointer-events-none fixed z-[999] flex items-end gap-2 text-[length:var(--text-sm)] whitespace-nowrap select-none [&>*]:pointer-events-auto data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[placement=top-end]:end-4 data-[placement=top-end]:top-4 data-[placement=top-start]:start-4 data-[placement=top-start]:top-4 data-[placement=top-start]:items-start"
-          id={"daisyui-fab-#{dir}"}
-          label={"Actions #{dir}"}
-          contained
-          direction={dir}
-          placement={place}
-        >
-          <:icon>+</:icon>
-          <:action label="Share">A</:action>
-          <:action label="Copy">B</:action>
-        </.fab>
-      </.fab_frame>
-    </div>
+    <.fab_frame>
+      <.fab
+        action_class="d-btn d-btn-lg d-btn-circle"
+        popup_class="flex flex-col-reverse items-end gap-2 data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center"
+        icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:not-only:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
+        trigger_class="d-btn d-btn-lg d-btn-circle grid place-items-center d-btn-primary"
+        class="group pointer-events-none fixed z-[999] flex flex-col-reverse items-end gap-2 text-[0.875rem] whitespace-nowrap select-none [&>*]:pointer-events-auto has-[[data-part=main-action]]:has-[[data-part=popup][data-open]]:[&>[data-part=trigger]]:opacity-0 data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[direction=down]:flex-col data-[direction=left]:flex-row-reverse data-[direction=left]:items-center data-[direction=right]:flex-row data-[direction=right]:items-center"
+        id="daisyui-fab-down"
+        label="Fan down"
+        direction="down"
+        contained
+      >
+        <:icon>+</:icon>
+        <:action label="A">A</:action>
+        <:action label="B">B</:action>
+      </.fab>
+      <.fab
+        action_class="d-btn d-btn-lg d-btn-circle"
+        popup_class="flex flex-col-reverse items-end gap-2 data-closed:hidden group-data-[direction=down]:flex-col group-data-[direction=left]:flex-row-reverse group-data-[direction=left]:items-center group-data-[direction=right]:flex-row group-data-[direction=right]:items-center"
+        icon_class="data-[state=open]:hidden group-has-[[data-part=popup][data-open]]:data-[state=closed]:not-only:hidden group-has-[[data-part=popup][data-open]]:data-[state=open]:block"
+        trigger_class="d-btn d-btn-lg d-btn-circle grid place-items-center d-btn-primary"
+        class="group pointer-events-none fixed z-[999] flex flex-col-reverse items-end gap-2 text-[0.875rem] whitespace-nowrap select-none [&>*]:pointer-events-auto has-[[data-part=main-action]]:has-[[data-part=popup][data-open]]:[&>[data-part=trigger]]:opacity-0 data-contained:absolute data-[placement=bottom-end]:end-4 data-[placement=bottom-end]:bottom-4 data-[placement=bottom-start]:start-4 data-[placement=bottom-start]:bottom-4 data-[placement=bottom-start]:items-start data-[direction=down]:flex-col data-[direction=left]:flex-row-reverse data-[direction=left]:items-center data-[direction=right]:flex-row data-[direction=right]:items-center"
+        id="daisyui-fab-right"
+        label="Fan right"
+        direction="right"
+        contained
+      >
+        <:icon>+</:icon>
+        <:action label="A">A</:action>
+        <:action label="B">B</:action>
+      </.fab>
+    </.fab_frame>
     """
   end
 
@@ -13404,13 +13416,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   end
 
   attr :paint, :string, default: "tailwind", values: ~w(tailwind css theme)
+  attr :size, :string, default: "h-56 w-72"
   slot :inner_block, required: true
 
   # A daisyUI fab is `position: fixed`; a contained one is `absolute`, so it needs a positioned
   # ancestor — and nine fabs all pinned to the viewport corner would land on top of each other.
   defp fab_frame(assigns) do
     ~H"""
-    <.preview_frame paint={@paint} class="relative h-48 w-64 overflow-hidden">
+    <.preview_frame paint={@paint} class={["relative overflow-hidden", @size]}>
       {render_slot(@inner_block)}
     </.preview_frame>
     """
