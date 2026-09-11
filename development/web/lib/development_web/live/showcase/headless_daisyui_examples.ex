@@ -2585,7 +2585,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       class="d-fieldset data-disabled:opacity-60 w-xs"
     >
       <:legend>Page title</:legend>
-      <input type="text" class="d-input" placeholder="My awesome page" />
+      <input
+        type="text"
+        class="d-input focus-within:border-base-content/20"
+        placeholder="My awesome page"
+      />
       <p class="d-label">You can edit page title later on from settings</p>
     </.fieldset>
     """
@@ -2599,7 +2603,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       class="d-fieldset data-disabled:opacity-60 w-xs rounded-box border border-base-300 bg-base-200 p-4"
     >
       <:legend>Page title</:legend>
-      <input type="text" class="d-input" placeholder="My awesome page" />
+      <input
+        type="text"
+        class="d-input focus-within:border-base-content/20"
+        placeholder="My awesome page"
+      />
       <p class="d-label">You can edit page title later on from settings</p>
     </.fieldset>
     """
@@ -2614,11 +2622,19 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     >
       <:legend>Page details</:legend>
       <label class="d-label">Title</label>
-      <input type="text" class="d-input" placeholder="My awesome page" />
+      <input
+        type="text"
+        class="d-input focus-within:border-base-content/20"
+        placeholder="My awesome page"
+      />
       <label class="d-label">Slug</label>
-      <input type="text" class="d-input" placeholder="my-awesome-page" />
+      <input
+        type="text"
+        class="d-input focus-within:border-base-content/20"
+        placeholder="my-awesome-page"
+      />
       <label class="d-label">Author</label>
-      <input type="text" class="d-input" placeholder="Name" />
+      <input type="text" class="d-input focus-within:border-base-content/20" placeholder="Name" />
     </.fieldset>
     """
   end
@@ -2648,9 +2664,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     >
       <:legend>Login</:legend>
       <label class="d-label">Email</label>
-      <input type="email" class="d-input" placeholder="Email" />
+      <input type="email" class="d-input focus-within:border-base-content/20" placeholder="Email" />
       <label class="d-label">Password</label>
-      <input type="password" class="d-input" placeholder="Password" />
+      <input
+        type="password"
+        class="d-input focus-within:border-base-content/20"
+        placeholder="Password"
+      />
       <button type="button" class="d-btn d-btn-neutral mt-4">Login</button>
     </.fieldset>
     """
@@ -2665,7 +2685,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       class="d-fieldset data-disabled:opacity-60 w-xs rounded-box border border-base-300 bg-base-200 p-4"
     >
       <:legend>Disabled group</:legend>
-      <input type="text" class="d-input" placeholder="Cannot type here" />
+      <input
+        type="text"
+        class="d-input focus-within:border-base-content/20"
+        placeholder="Cannot type here"
+      />
       <button type="button" class="d-btn">Cannot click either</button>
     </.fieldset>
     """
@@ -2676,7 +2700,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.otp_field
       separator_class="text-base-content/40 select-none"
-      input_class="d-input w-[calc(var(--size-field,0.25rem)*12)] px-0 text-center tabular-nums"
+      input_class="d-input w-[calc(var(--size-field,0.25rem)*12)] px-0 text-center tabular-nums focus-within:border-base-content/20"
       class="inline-flex items-center gap-2 data-disabled:cursor-not-allowed data-disabled:opacity-50"
       id="daisyui-otp-hero"
     />
@@ -2707,7 +2731,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         id={"daisyui-otp-#{size}"}
         length={4}
         input_class={[
-          "d-input w-[calc(var(--size-field,0.25rem)*12)] px-0 text-center tabular-nums",
+          "d-input w-[calc(var(--size-field,0.25rem)*12)] px-0 text-center tabular-nums focus-within:border-base-content/20",
           "d-input-#{size}"
         ]}
       />
@@ -2727,7 +2751,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         id={"daisyui-otp-#{color}"}
         length={4}
         input_class={[
-          "d-input w-[calc(var(--size-field,0.25rem)*12)] px-0 text-center tabular-nums",
+          "d-input w-[calc(var(--size-field,0.25rem)*12)] px-0 text-center tabular-nums focus-within:border-base-content/20",
           "d-input-#{color}"
         ]}
       />
@@ -2739,7 +2763,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.otp_field
       separator_class="text-base-content/40 select-none"
-      input_class="d-input w-[calc(var(--size-field,0.25rem)*12)] px-0 text-center tabular-nums"
+      input_class="d-input w-[calc(var(--size-field,0.25rem)*12)] px-0 text-center tabular-nums focus-within:border-base-content/20"
       class="inline-flex items-center gap-2 data-disabled:cursor-not-allowed data-disabled:opacity-50"
       id="daisyui-otp-groups"
       group={3}
@@ -2752,7 +2776,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.otp_field
       separator_class="text-base-content/40 select-none"
-      input_class="d-input w-[calc(var(--size-field,0.25rem)*12)] px-0 text-center tabular-nums"
+      input_class="d-input w-[calc(var(--size-field,0.25rem)*12)] px-0 text-center tabular-nums focus-within:border-base-content/20"
       class="inline-flex items-center gap-2 data-disabled:cursor-not-allowed data-disabled:opacity-50"
       id="daisyui-otp-masked"
       mask
@@ -2765,7 +2789,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.otp_field
       separator_class="text-base-content/40 select-none"
-      input_class="d-input w-[calc(var(--size-field,0.25rem)*12)] px-0 text-center tabular-nums"
+      input_class="d-input w-[calc(var(--size-field,0.25rem)*12)] px-0 text-center tabular-nums focus-within:border-base-content/20"
       class="inline-flex items-center gap-2 data-disabled:cursor-not-allowed data-disabled:opacity-50"
       id="daisyui-otp-alnum"
       length={5}
@@ -2779,7 +2803,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.otp_field
       separator_class="text-base-content/40 select-none"
-      input_class="d-input w-[calc(var(--size-field,0.25rem)*12)] px-0 text-center tabular-nums"
+      input_class="d-input w-[calc(var(--size-field,0.25rem)*12)] px-0 text-center tabular-nums focus-within:border-base-content/20"
       class="inline-flex items-center gap-2 data-disabled:cursor-not-allowed data-disabled:opacity-50"
       id="daisyui-otp-disabled"
       value="123456"
@@ -3238,7 +3262,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         id={f.id}
         name={f.name}
         placeholder="you@example.com"
-        class="d-input w-full group-data-[invalid]:[--d-input-color:var(--color-error)] group-data-[valid]:[--d-input-color:var(--color-success)]"
+        class="d-input w-full group-data-[invalid]:[--d-input-color:var(--color-error)] group-data-[valid]:[--d-input-color:var(--color-success)] focus-within:border-base-content/20 group-data-[invalid]:focus-within:border-[var(--d-input-color)] group-data-[valid]:focus-within:border-[var(--d-input-color)]"
       />
     </.field>
     """
@@ -3262,7 +3286,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         id={f.id}
         name={f.name}
         placeholder="My awesome page"
-        class="d-input w-full group-data-[invalid]:[--d-input-color:var(--color-error)] group-data-[valid]:[--d-input-color:var(--color-success)]"
+        class="d-input w-full group-data-[invalid]:[--d-input-color:var(--color-error)] group-data-[valid]:[--d-input-color:var(--color-success)] focus-within:border-base-content/20 group-data-[invalid]:focus-within:border-[var(--d-input-color)] group-data-[valid]:focus-within:border-[var(--d-input-color)]"
       />
     </.field>
     """
@@ -3286,7 +3310,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         id={f.id}
         name={f.name}
         value="not-an-email"
-        class="d-input w-full group-data-[invalid]:[--d-input-color:var(--color-error)] group-data-[valid]:[--d-input-color:var(--color-success)]"
+        class="d-input w-full group-data-[invalid]:[--d-input-color:var(--color-error)] group-data-[valid]:[--d-input-color:var(--color-success)] focus-within:border-base-content/20 group-data-[invalid]:focus-within:border-[var(--d-input-color)] group-data-[valid]:focus-within:border-[var(--d-input-color)]"
       />
     </.field>
     """
@@ -3310,7 +3334,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         id={f.id}
         name={f.name}
         value="you@example.com"
-        class="d-input w-full group-data-[invalid]:[--d-input-color:var(--color-error)] group-data-[valid]:[--d-input-color:var(--color-success)]"
+        class="d-input w-full group-data-[invalid]:[--d-input-color:var(--color-error)] group-data-[valid]:[--d-input-color:var(--color-success)] focus-within:border-base-content/20 group-data-[invalid]:focus-within:border-[var(--d-input-color)] group-data-[valid]:focus-within:border-[var(--d-input-color)]"
       />
     </.field>
     """
@@ -3335,7 +3359,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         name={f.name}
         disabled
         placeholder="Not editable"
-        class="d-input w-full group-data-[invalid]:[--d-input-color:var(--color-error)] group-data-[valid]:[--d-input-color:var(--color-success)]"
+        class="d-input w-full group-data-[invalid]:[--d-input-color:var(--color-error)] group-data-[valid]:[--d-input-color:var(--color-success)] focus-within:border-base-content/20 group-data-[invalid]:focus-within:border-[var(--d-input-color)] group-data-[valid]:focus-within:border-[var(--d-input-color)]"
       />
     </.field>
     """
@@ -7440,7 +7464,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         group_label_class="grid gap-2 items-center rounded-[var(--radius-field)] transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] px-3 py-1 text-[0.75rem] opacity-60"
         item_class="flex flex-row items-center justify-between gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer [&>:last-child:not(:only-child)]:shrink-0 [&>:last-child:not(:only-child)]:text-[0.75rem] [&>:last-child:not(:only-child)]:opacity-60 data-highlighted:bg-base-content/10 aria-selected:outline-none aria-selected:[color:var(--menu-active-fg)] aria-selected:[background-color:var(--menu-active-bg)] aria-selected:[background-size:auto,calc(var(--noise)*100%)] aria-selected:[background-image:none,var(--fx-noise)] forced-colors:aria-selected:outline-2 forced-colors:aria-selected:outline-offset-2 forced-colors:aria-selected:outline-transparent"
         popup_class="flex flex-col flex-nowrap overflow-y-auto overflow-x-hidden p-2 text-[0.875rem] [&_li]:relative [&_li]:flex [&_li]:shrink-0 [&_li:not([data-part=item])]:flex-col [&_li:not([data-part=item])]:flex-wrap [&_li:not([data-part=item])]:items-stretch [&_li_ul]:relative [&_li_ul]:ms-4 [&_li_ul]:ps-2 [&_li_ul]:whitespace-nowrap [&_li_ul]:before:content-[''] [&_li_ul]:before:absolute [&_li_ul]:before:start-0 [&_li_ul]:before:top-3 [&_li_ul]:before:bottom-3 [&_li_ul]:before:w-[var(--border)] [&_li_ul]:before:bg-base-content [&_li_ul]:before:opacity-10 [--menu-active-fg:var(--color-neutral-content)] [--menu-active-bg:var(--color-neutral)] absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 shadow-sm data-closed:hidden"
-        input_class="d-input w-full"
+        input_class="d-input w-full focus-within:border-base-content/20"
         id="daisyui-autocomplete-hero"
         placeholder="e.g. feature"
       >
@@ -7471,7 +7495,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         group_label_class="grid gap-2 items-center rounded-[var(--radius-field)] transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] px-3 py-1 text-[0.75rem] opacity-60"
         item_class="flex flex-row items-center justify-between gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer [&>:last-child:not(:only-child)]:shrink-0 [&>:last-child:not(:only-child)]:text-[0.75rem] [&>:last-child:not(:only-child)]:opacity-60 data-highlighted:bg-base-content/10 aria-selected:outline-none aria-selected:[color:var(--menu-active-fg)] aria-selected:[background-color:var(--menu-active-bg)] aria-selected:[background-size:auto,calc(var(--noise)*100%)] aria-selected:[background-image:none,var(--fx-noise)] forced-colors:aria-selected:outline-2 forced-colors:aria-selected:outline-offset-2 forced-colors:aria-selected:outline-transparent"
         popup_class="flex flex-col flex-nowrap overflow-y-auto overflow-x-hidden p-2 text-[0.875rem] [&_li]:relative [&_li]:flex [&_li]:shrink-0 [&_li:not([data-part=item])]:flex-col [&_li:not([data-part=item])]:flex-wrap [&_li:not([data-part=item])]:items-stretch [&_li_ul]:relative [&_li_ul]:ms-4 [&_li_ul]:ps-2 [&_li_ul]:whitespace-nowrap [&_li_ul]:before:content-[''] [&_li_ul]:before:absolute [&_li_ul]:before:start-0 [&_li_ul]:before:top-3 [&_li_ul]:before:bottom-3 [&_li_ul]:before:w-[var(--border)] [&_li_ul]:before:bg-base-content [&_li_ul]:before:opacity-10 [--menu-active-fg:var(--color-neutral-content)] [--menu-active-bg:var(--color-neutral)] absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 shadow-sm data-closed:hidden"
-        input_class="d-input w-full"
+        input_class="d-input w-full focus-within:border-base-content/20"
         id="daisyui-autocomplete-async"
         placeholder="e.g. Pulp Fiction or 1994"
       >
@@ -7507,7 +7531,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         group_label_class="grid gap-2 items-center rounded-[var(--radius-field)] transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] px-3 py-1 text-[0.75rem] opacity-60"
         item_class="flex flex-row items-center justify-between gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer [&>:last-child:not(:only-child)]:shrink-0 [&>:last-child:not(:only-child)]:text-[0.75rem] [&>:last-child:not(:only-child)]:opacity-60 data-highlighted:bg-base-content/10 aria-selected:outline-none aria-selected:[color:var(--menu-active-fg)] aria-selected:[background-color:var(--menu-active-bg)] aria-selected:[background-size:auto,calc(var(--noise)*100%)] aria-selected:[background-image:none,var(--fx-noise)] forced-colors:aria-selected:outline-2 forced-colors:aria-selected:outline-offset-2 forced-colors:aria-selected:outline-transparent"
         popup_class="flex flex-col flex-nowrap overflow-y-auto overflow-x-hidden p-2 text-[0.875rem] [&_li]:relative [&_li]:flex [&_li]:shrink-0 [&_li:not([data-part=item])]:flex-col [&_li:not([data-part=item])]:flex-wrap [&_li:not([data-part=item])]:items-stretch [&_li_ul]:relative [&_li_ul]:ms-4 [&_li_ul]:ps-2 [&_li_ul]:whitespace-nowrap [&_li_ul]:before:content-[''] [&_li_ul]:before:absolute [&_li_ul]:before:start-0 [&_li_ul]:before:top-3 [&_li_ul]:before:bottom-3 [&_li_ul]:before:w-[var(--border)] [&_li_ul]:before:bg-base-content [&_li_ul]:before:opacity-10 [--menu-active-fg:var(--color-neutral-content)] [--menu-active-bg:var(--color-neutral)] absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 shadow-sm data-closed:hidden"
-        input_class="d-input w-full"
+        input_class="d-input w-full focus-within:border-base-content/20"
         id="daisyui-autocomplete-auto-highlight"
         placeholder="e.g. feature"
         auto_highlight
@@ -7537,7 +7561,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         clear_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
         group_label_class="px-3 py-1 text-[0.75rem] opacity-60"
         item_class="flex flex-row items-center justify-between gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer [&>:last-child:not(:only-child)]:shrink-0 [&>:last-child:not(:only-child)]:text-[0.75rem] [&>:last-child:not(:only-child)]:opacity-60 data-highlighted:bg-base-content/10 aria-selected:outline-none aria-selected:[color:var(--menu-active-fg)] aria-selected:[background-color:var(--menu-active-bg)] aria-selected:[background-size:auto,calc(var(--noise)*100%)] aria-selected:[background-image:none,var(--fx-noise)] forced-colors:aria-selected:outline-2 forced-colors:aria-selected:outline-offset-2 forced-colors:aria-selected:outline-transparent"
-        input_class="d-input w-full"
+        input_class="d-input w-full focus-within:border-base-content/20"
         id="daisyui-autocomplete-command-palette"
         placeholder="Search for apps and commands…"
         auto_highlight
@@ -8042,7 +8066,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         chip_remove_class="cursor-pointer opacity-70"
         chip_class="d-badge d-badge-neutral d-badge-sm gap-1"
         input_class="flex-1 min-w-24 border-none bg-transparent outline-none text-[0.875rem]"
-        control_class="d-input h-auto min-h-[calc(var(--size-field,0.25rem)*10)] flex-wrap items-center gap-[calc(0.25rem*1.5)] py-[calc(0.25rem*1.5)] whitespace-normal"
+        control_class="d-input h-auto min-h-[calc(var(--size-field,0.25rem)*10)] flex-wrap items-center gap-[calc(0.25rem*1.5)] py-[calc(0.25rem*1.5)] whitespace-normal focus-within:border-base-content/20"
         id="daisyui-combobox-hero"
         clear
         trigger
@@ -8201,7 +8225,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         chip_remove_class="cursor-pointer opacity-70"
         chip_class="d-badge d-badge-neutral d-badge-sm gap-1"
         input_class="flex-1 min-w-24 border-none bg-transparent outline-none text-[0.875rem]"
-        control_class="d-input h-auto min-h-[calc(var(--size-field,0.25rem)*10)] flex-wrap items-center gap-[calc(0.25rem*1.5)] py-[calc(0.25rem*1.5)] whitespace-normal"
+        control_class="d-input h-auto min-h-[calc(var(--size-field,0.25rem)*10)] flex-wrap items-center gap-[calc(0.25rem*1.5)] py-[calc(0.25rem*1.5)] whitespace-normal focus-within:border-base-content/20"
         id="daisyui-combobox-async-multiple"
         multiple
         placeholder="e.g. Michael"
@@ -8355,7 +8379,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         chip_remove_class="cursor-pointer opacity-70"
         chip_class="d-badge d-badge-neutral d-badge-sm gap-1"
         input_class="flex-1 min-w-24 border-none bg-transparent outline-none text-[0.875rem]"
-        control_class="d-input h-auto min-h-[calc(var(--size-field,0.25rem)*10)] flex-wrap items-center gap-[calc(0.25rem*1.5)] py-[calc(0.25rem*1.5)] whitespace-normal"
+        control_class="d-input h-auto min-h-[calc(var(--size-field,0.25rem)*10)] flex-wrap items-center gap-[calc(0.25rem*1.5)] py-[calc(0.25rem*1.5)] whitespace-normal focus-within:border-base-content/20"
         id="daisyui-combobox-async-single"
         clear
         trigger
@@ -8432,7 +8456,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         chip_remove_class="cursor-pointer opacity-70"
         chip_class="d-badge d-badge-neutral d-badge-sm gap-1"
         input_class="flex-1 min-w-24 border-none bg-transparent outline-none text-[0.875rem]"
-        control_class="d-input h-auto min-h-[calc(var(--size-field,0.25rem)*10)] flex-wrap items-center gap-[calc(0.25rem*1.5)] py-[calc(0.25rem*1.5)] whitespace-normal"
+        control_class="d-input h-auto min-h-[calc(var(--size-field,0.25rem)*10)] flex-wrap items-center gap-[calc(0.25rem*1.5)] py-[calc(0.25rem*1.5)] whitespace-normal focus-within:border-base-content/20"
         id="daisyui-combobox-creatable"
         multiple
         creatable
@@ -8783,7 +8807,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "mask_input-hero"} = assigns) do
     ~H"""
     <.mask_input
-      class="d-input"
+      class="d-input focus-within:border-base-content/20"
       id="daisyui-mask-input"
       mask="(999) 999-9999"
       placeholder="(___) ___-____"
@@ -10280,7 +10304,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         group_label_class="grid gap-2 items-center rounded-[var(--radius-field)] transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] px-3 py-1 text-[0.75rem] opacity-60"
         item_class="flex flex-row items-center justify-between gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer [&>:last-child:not(:only-child)]:shrink-0 [&>:last-child:not(:only-child)]:text-[0.75rem] [&>:last-child:not(:only-child)]:opacity-60 data-highlighted:bg-base-content/10 aria-selected:outline-none aria-selected:[color:var(--menu-active-fg)] aria-selected:[background-color:var(--menu-active-bg)] aria-selected:[background-size:auto,calc(var(--noise)*100%)] aria-selected:[background-image:none,var(--fx-noise)] forced-colors:aria-selected:outline-2 forced-colors:aria-selected:outline-offset-2 forced-colors:aria-selected:outline-transparent"
         popup_class="flex flex-col flex-nowrap overflow-y-auto overflow-x-hidden p-2 text-[0.875rem] [&_li]:relative [&_li]:flex [&_li]:shrink-0 [&_li:not([data-part=item])]:flex-col [&_li:not([data-part=item])]:flex-wrap [&_li:not([data-part=item])]:items-stretch [&_li_ul]:relative [&_li_ul]:ms-4 [&_li_ul]:ps-2 [&_li_ul]:whitespace-nowrap [&_li_ul]:before:content-[''] [&_li_ul]:before:absolute [&_li_ul]:before:start-0 [&_li_ul]:before:top-3 [&_li_ul]:before:bottom-3 [&_li_ul]:before:w-[var(--border)] [&_li_ul]:before:bg-base-content [&_li_ul]:before:opacity-10 [--menu-active-fg:var(--color-neutral-content)] [--menu-active-bg:var(--color-neutral)] absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 shadow-sm data-closed:hidden"
-        input_class="d-input w-full"
+        input_class="d-input w-full focus-within:border-base-content/20"
         id="daisyui-autocomplete-fuzzy-matching"
         placeholder="e.g. React"
       >
@@ -10315,7 +10339,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
           group_label_class="grid gap-2 items-center rounded-[var(--radius-field)] transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] px-3 py-1 text-[0.75rem] opacity-60"
           item_class="flex flex-row items-center justify-between gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer [&>:last-child:not(:only-child)]:shrink-0 [&>:last-child:not(:only-child)]:text-[0.75rem] [&>:last-child:not(:only-child)]:opacity-60 data-highlighted:bg-base-content/10 aria-selected:outline-none aria-selected:[color:var(--menu-active-fg)] aria-selected:[background-color:var(--menu-active-bg)] aria-selected:[background-size:auto,calc(var(--noise)*100%)] aria-selected:[background-image:none,var(--fx-noise)] forced-colors:aria-selected:outline-2 forced-colors:aria-selected:outline-offset-2 forced-colors:aria-selected:outline-transparent"
           popup_class="flex flex-col flex-nowrap overflow-y-auto overflow-x-hidden p-2 text-[0.875rem] [&_li]:relative [&_li]:flex [&_li]:shrink-0 [&_li:not([data-part=item])]:flex-col [&_li:not([data-part=item])]:flex-wrap [&_li:not([data-part=item])]:items-stretch [&_li_ul]:relative [&_li_ul]:ms-4 [&_li_ul]:ps-2 [&_li_ul]:whitespace-nowrap [&_li_ul]:before:content-[''] [&_li_ul]:before:absolute [&_li_ul]:before:start-0 [&_li_ul]:before:top-3 [&_li_ul]:before:bottom-3 [&_li_ul]:before:w-[var(--border)] [&_li_ul]:before:bg-base-content [&_li_ul]:before:opacity-10 [--menu-active-fg:var(--color-neutral-content)] [--menu-active-bg:var(--color-neutral)] absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 shadow-sm data-closed:hidden"
-          input_class="d-input w-full"
+          input_class="d-input w-full focus-within:border-base-content/20"
           id="daisyui-autocomplete-grid"
           placeholder="Search emojis…"
         >
@@ -10348,7 +10372,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         group_label_class="grid gap-2 items-center rounded-[var(--radius-field)] transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] px-3 py-1 text-[0.75rem] opacity-60"
         item_class="flex flex-row items-center justify-between gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer [&>:last-child:not(:only-child)]:shrink-0 [&>:last-child:not(:only-child)]:text-[0.75rem] [&>:last-child:not(:only-child)]:opacity-60 data-highlighted:bg-base-content/10 aria-selected:outline-none aria-selected:[color:var(--menu-active-fg)] aria-selected:[background-color:var(--menu-active-bg)] aria-selected:[background-size:auto,calc(var(--noise)*100%)] aria-selected:[background-image:none,var(--fx-noise)] forced-colors:aria-selected:outline-2 forced-colors:aria-selected:outline-offset-2 forced-colors:aria-selected:outline-transparent"
         popup_class="flex flex-col flex-nowrap overflow-y-auto overflow-x-hidden p-2 text-[0.875rem] [&_li]:relative [&_li]:flex [&_li]:shrink-0 [&_li:not([data-part=item])]:flex-col [&_li:not([data-part=item])]:flex-wrap [&_li:not([data-part=item])]:items-stretch [&_li_ul]:relative [&_li_ul]:ms-4 [&_li_ul]:ps-2 [&_li_ul]:whitespace-nowrap [&_li_ul]:before:content-[''] [&_li_ul]:before:absolute [&_li_ul]:before:start-0 [&_li_ul]:before:top-3 [&_li_ul]:before:bottom-3 [&_li_ul]:before:w-[var(--border)] [&_li_ul]:before:bg-base-content [&_li_ul]:before:opacity-10 [--menu-active-fg:var(--color-neutral-content)] [--menu-active-bg:var(--color-neutral)] absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 shadow-sm data-closed:hidden"
-        input_class="d-input w-full"
+        input_class="d-input w-full focus-within:border-base-content/20"
         id="daisyui-autocomplete-grouped"
         placeholder="e.g. feature"
       >
@@ -10380,7 +10404,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         group_label_class="grid gap-2 items-center rounded-[var(--radius-field)] transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] px-3 py-1 text-[0.75rem] opacity-60"
         item_class="flex flex-row items-center justify-between gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer [&>:last-child:not(:only-child)]:shrink-0 [&>:last-child:not(:only-child)]:text-[0.75rem] [&>:last-child:not(:only-child)]:opacity-60 data-highlighted:bg-base-content/10 aria-selected:outline-none aria-selected:[color:var(--menu-active-fg)] aria-selected:[background-color:var(--menu-active-bg)] aria-selected:[background-size:auto,calc(var(--noise)*100%)] aria-selected:[background-image:none,var(--fx-noise)] forced-colors:aria-selected:outline-2 forced-colors:aria-selected:outline-offset-2 forced-colors:aria-selected:outline-transparent"
         popup_class="flex flex-col flex-nowrap overflow-y-auto overflow-x-hidden p-2 text-[0.875rem] [&_li]:relative [&_li]:flex [&_li]:shrink-0 [&_li:not([data-part=item])]:flex-col [&_li:not([data-part=item])]:flex-wrap [&_li:not([data-part=item])]:items-stretch [&_li_ul]:relative [&_li_ul]:ms-4 [&_li_ul]:ps-2 [&_li_ul]:whitespace-nowrap [&_li_ul]:before:content-[''] [&_li_ul]:before:absolute [&_li_ul]:before:start-0 [&_li_ul]:before:top-3 [&_li_ul]:before:bottom-3 [&_li_ul]:before:w-[var(--border)] [&_li_ul]:before:bg-base-content [&_li_ul]:before:opacity-10 [--menu-active-fg:var(--color-neutral-content)] [--menu-active-bg:var(--color-neutral)] absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 shadow-sm data-closed:hidden"
-        input_class="d-input w-full"
+        input_class="d-input w-full focus-within:border-base-content/20"
         id="daisyui-autocomplete-inline"
         placeholder="e.g. feature"
         auto_highlight
@@ -10407,7 +10431,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         group_label_class="grid gap-2 items-center rounded-[var(--radius-field)] transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] px-3 py-1 text-[0.75rem] opacity-60"
         item_class="flex flex-row items-center justify-between gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer [&>:last-child:not(:only-child)]:shrink-0 [&>:last-child:not(:only-child)]:text-[0.75rem] [&>:last-child:not(:only-child)]:opacity-60 data-highlighted:bg-base-content/10 aria-selected:outline-none aria-selected:[color:var(--menu-active-fg)] aria-selected:[background-color:var(--menu-active-bg)] aria-selected:[background-size:auto,calc(var(--noise)*100%)] aria-selected:[background-image:none,var(--fx-noise)] forced-colors:aria-selected:outline-2 forced-colors:aria-selected:outline-offset-2 forced-colors:aria-selected:outline-transparent"
         popup_class="flex flex-col flex-nowrap overflow-y-auto overflow-x-hidden p-2 text-[0.875rem] [&_li]:relative [&_li]:flex [&_li]:shrink-0 [&_li:not([data-part=item])]:flex-col [&_li:not([data-part=item])]:flex-wrap [&_li:not([data-part=item])]:items-stretch [&_li_ul]:relative [&_li_ul]:ms-4 [&_li_ul]:ps-2 [&_li_ul]:whitespace-nowrap [&_li_ul]:before:content-[''] [&_li_ul]:before:absolute [&_li_ul]:before:start-0 [&_li_ul]:before:top-3 [&_li_ul]:before:bottom-3 [&_li_ul]:before:w-[var(--border)] [&_li_ul]:before:bg-base-content [&_li_ul]:before:opacity-10 [--menu-active-fg:var(--color-neutral-content)] [--menu-active-bg:var(--color-neutral)] absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 shadow-sm data-closed:hidden"
-        input_class="d-input w-full"
+        input_class="d-input w-full focus-within:border-base-content/20"
         id="daisyui-autocomplete-limit"
         placeholder="e.g. component"
       >
@@ -10457,7 +10481,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         chip_remove_class="cursor-pointer opacity-70"
         chip_class="d-badge d-badge-neutral d-badge-sm gap-1"
         input_class="flex-1 min-w-24 border-none bg-transparent outline-none text-[0.875rem]"
-        control_class="d-input h-auto min-h-[calc(var(--size-field,0.25rem)*10)] flex-wrap items-center gap-[calc(0.25rem*1.5)] py-[calc(0.25rem*1.5)] whitespace-normal"
+        control_class="d-input h-auto min-h-[calc(var(--size-field,0.25rem)*10)] flex-wrap items-center gap-[calc(0.25rem*1.5)] py-[calc(0.25rem*1.5)] whitespace-normal focus-within:border-base-content/20"
         id="daisyui-combobox-grouped"
         clear
         trigger
@@ -10565,7 +10589,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         chip_remove_class="cursor-pointer opacity-70"
         chip_class="d-badge d-badge-neutral d-badge-sm gap-1"
         input_class="flex-1 min-w-24 border-none bg-transparent outline-none text-[0.875rem]"
-        control_class="d-input h-auto min-h-[calc(var(--size-field,0.25rem)*10)] flex-wrap items-center gap-[calc(0.25rem*1.5)] py-[calc(0.25rem*1.5)] whitespace-normal"
+        control_class="d-input h-auto min-h-[calc(var(--size-field,0.25rem)*10)] flex-wrap items-center gap-[calc(0.25rem*1.5)] py-[calc(0.25rem*1.5)] whitespace-normal focus-within:border-base-content/20"
         id="daisyui-combobox-input-inside-popup"
         placeholder="e.g. United Kingdom"
       >
@@ -10624,7 +10648,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         chip_remove_class="cursor-pointer opacity-70"
         chip_class="d-badge d-badge-neutral d-badge-sm gap-1"
         input_class="flex-1 min-w-24 border-none bg-transparent outline-none text-[0.875rem]"
-        control_class="d-input h-auto min-h-[calc(var(--size-field,0.25rem)*10)] flex-wrap items-center gap-[calc(0.25rem*1.5)] py-[calc(0.25rem*1.5)] whitespace-normal"
+        control_class="d-input h-auto min-h-[calc(var(--size-field,0.25rem)*10)] flex-wrap items-center gap-[calc(0.25rem*1.5)] py-[calc(0.25rem*1.5)] whitespace-normal focus-within:border-base-content/20"
         id="daisyui-combobox-multiple"
         multiple
         placeholder="e.g. TypeScript"
@@ -12149,7 +12173,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
       start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
       input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
-      class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
+      class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] focus-within:border-base-content/20 data-invalid:focus-within:border-[var(--d-input-color)] data-valid:focus-within:border-[var(--d-input-color)]"
       id="daisyui-input-hero"
       name="username"
       placeholder="Type here"
@@ -12163,7 +12187,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
       start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
       input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
-      class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
+      class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] focus-within:border-base-content/20 data-invalid:focus-within:border-[var(--d-input-color)] data-valid:focus-within:border-[var(--d-input-color)]"
       id="daisyui-input-label-inside"
       name="path"
       placeholder="daisyui.com"
@@ -12179,7 +12203,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
       start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
       input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
-      class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
+      class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] focus-within:border-base-content/20 data-invalid:focus-within:border-[var(--d-input-color)] data-valid:focus-within:border-[var(--d-input-color)]"
       id="daisyui-input-label-end"
       name="domain"
       placeholder="mysite"
@@ -12197,7 +12221,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
       id="daisyui-input-ghost"
       name="ghost"
-      class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] d-input-ghost"
+      class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] d-input-ghost focus-within:border-base-content/20 data-invalid:focus-within:border-[var(--d-input-color)] data-valid:focus-within:border-[var(--d-input-color)]"
       placeholder="Type here"
     />
     """
@@ -12215,7 +12239,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
         start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
         input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
-        class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
+        class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] focus-within:border-base-content/20 data-invalid:focus-within:border-[var(--d-input-color)] data-valid:focus-within:border-[var(--d-input-color)]"
         id="daisyui-input-fieldset-control"
         name="name"
         placeholder="Your name"
@@ -12242,7 +12266,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
         start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
         input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
-        class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
+        class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] focus-within:border-base-content/20 data-invalid:focus-within:border-[var(--d-input-color)] data-valid:focus-within:border-[var(--d-input-color)]"
         id={f.id}
         name={f.name}
         type="email"
@@ -12267,7 +12291,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         id={"daisyui-input-#{color}"}
         name={color}
         class={[
-          "group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]",
+          "group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] focus-within:border-base-content/20 data-invalid:focus-within:border-[var(--d-input-color)] data-valid:focus-within:border-[var(--d-input-color)]",
           "d-input-#{color}"
         ]}
         placeholder={String.capitalize(color)}
@@ -12289,7 +12313,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         id={"daisyui-input-size-#{size}"}
         name={size}
         class={[
-          "group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]",
+          "group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] focus-within:border-base-content/20 data-invalid:focus-within:border-[var(--d-input-color)] data-valid:focus-within:border-[var(--d-input-color)]",
           "d-input-#{size}"
         ]}
         placeholder={"Size #{size}"}
@@ -12305,7 +12329,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
         start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
         input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
-        class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
+        class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] focus-within:border-base-content/20 data-invalid:focus-within:border-[var(--d-input-color)] data-valid:focus-within:border-[var(--d-input-color)]"
         id="daisyui-input-disabled"
         name="disabled"
         placeholder="You can't type"
@@ -12315,7 +12339,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
         start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
         input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
-        class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
+        class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] focus-within:border-base-content/20 data-invalid:focus-within:border-[var(--d-input-color)] data-valid:focus-within:border-[var(--d-input-color)]"
         id="daisyui-input-disabled-value"
         name="disabled_value"
         value="Locked"
@@ -12332,7 +12356,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
         start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
         input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
-        class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
+        class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] focus-within:border-base-content/20 data-invalid:focus-within:border-[var(--d-input-color)] data-valid:focus-within:border-[var(--d-input-color)]"
         id="daisyui-input-datalist"
         name="browser"
         placeholder="Pick a browser"
@@ -12353,7 +12377,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
       start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
       input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
-      class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
+      class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] focus-within:border-base-content/20 data-invalid:focus-within:border-[var(--d-input-color)] data-valid:focus-within:border-[var(--d-input-color)]"
       id="daisyui-input-date"
       name="date"
       type="date"
@@ -12367,7 +12391,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
       start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
       input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
-      class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
+      class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] focus-within:border-base-content/20 data-invalid:focus-within:border-[var(--d-input-color)] data-valid:focus-within:border-[var(--d-input-color)]"
       id="daisyui-input-time"
       name="time"
       type="time"
@@ -12381,7 +12405,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
       start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
       input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
-      class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
+      class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] focus-within:border-base-content/20 data-invalid:focus-within:border-[var(--d-input-color)] data-valid:focus-within:border-[var(--d-input-color)]"
       id="daisyui-input-datetime"
       name="at"
       type="datetime-local"
@@ -12398,7 +12422,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
         id="daisyui-input-username"
         name="username"
-        class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] d-validator"
+        class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] d-validator focus-within:border-base-content/20 data-invalid:focus-within:border-[var(--d-input-color)] data-valid:focus-within:border-[var(--d-input-color)]"
         placeholder="Username"
         required
         pattern="[A-Za-z][A-Za-z0-9\-]*"
@@ -12423,7 +12447,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
       start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
       input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
-      class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
+      class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] focus-within:border-base-content/20 data-invalid:focus-within:border-[var(--d-input-color)] data-valid:focus-within:border-[var(--d-input-color)]"
       id="daisyui-input-search"
       name="q"
       type="search"
@@ -12447,7 +12471,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         id="daisyui-input-email"
         name="email"
         type="email"
-        class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] d-validator"
+        class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] d-validator focus-within:border-base-content/20 data-invalid:focus-within:border-[var(--d-input-color)] data-valid:focus-within:border-[var(--d-input-color)]"
         placeholder="mail@site.com"
         required
       >
@@ -12470,7 +12494,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         id="daisyui-input-join"
         name="email"
         type="email"
-        class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] d-join-item"
+        class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] d-join-item focus-within:border-base-content/20 data-invalid:focus-within:border-[var(--d-input-color)] data-valid:focus-within:border-[var(--d-input-color)]"
         placeholder="Enter your email"
         required
       />
@@ -12489,7 +12513,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         id="daisyui-input-password"
         name="password"
         type="password"
-        class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] d-validator"
+        class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] d-validator focus-within:border-base-content/20 data-invalid:focus-within:border-[var(--d-input-color)] data-valid:focus-within:border-[var(--d-input-color)]"
         placeholder="Password"
         required
         minlength="8"
@@ -12517,7 +12541,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         id="daisyui-input-number"
         name="quantity"
         type="number"
-        class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] d-validator"
+        class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] d-validator focus-within:border-base-content/20 data-invalid:focus-within:border-[var(--d-input-color)] data-valid:focus-within:border-[var(--d-input-color)]"
         placeholder="Between 1 and 10"
         required
         min="1"
@@ -12539,7 +12563,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         id="daisyui-input-tel"
         name="phone"
         type="tel"
-        class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] d-validator tabular-nums"
+        class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] d-validator tabular-nums focus-within:border-base-content/20 data-invalid:focus-within:border-[var(--d-input-color)] data-valid:focus-within:border-[var(--d-input-color)]"
         placeholder="Phone"
         required
         pattern="[0-9]*"
@@ -12566,7 +12590,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         id="daisyui-input-url"
         name="url"
         type="url"
-        class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] d-validator"
+        class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] d-validator focus-within:border-base-content/20 data-invalid:focus-within:border-[var(--d-input-color)] data-valid:focus-within:border-[var(--d-input-color)]"
         placeholder="https://"
         required
       >
@@ -12610,7 +12634,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
           end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
           start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
           input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
-          class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
+          class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] focus-within:border-base-content/20 data-invalid:focus-within:border-[var(--d-input-color)] data-valid:focus-within:border-[var(--d-input-color)]"
           field={@pristine[:email]}
           type="email"
           placeholder="you@example.com"
@@ -12634,7 +12658,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
           end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
           start_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] -ms-3 me-3 border-e-[length:var(--border)] border-solid border-e-[color-mix(in_oklab,currentColor_10%,#0000)]"
           input_class="h-full w-full relative inline-flex text-start appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
-          class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
+          class="group d-input focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] focus-within:border-base-content/20 data-invalid:focus-within:border-[var(--d-input-color)] data-valid:focus-within:border-[var(--d-input-color)]"
           field={@touched[:email]}
           type="email"
           describedby={f.describedby}
@@ -12651,7 +12675,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.textarea
       textarea_class="w-full flex-1 resize-y data-[resize=none]:resize-none data-[resize=horizontal]:resize-x data-[resize=both]:resize group-data-[disabled]:resize-none appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
-      class="group d-textarea flex focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
+      class="group d-textarea flex focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] focus-within:border-base-content/20 data-invalid:focus-within:border-[var(--d-input-color)] data-valid:focus-within:border-[var(--d-input-color)]"
       id="daisyui-textarea-hero"
       name="bio"
       placeholder="Bio"
@@ -12665,7 +12689,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       textarea_class="w-full flex-1 resize-y data-[resize=none]:resize-none data-[resize=horizontal]:resize-x data-[resize=both]:resize group-data-[disabled]:resize-none appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
       id="daisyui-textarea-ghost"
       name="ghost"
-      class="group d-textarea flex focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] d-textarea-ghost"
+      class="group d-textarea flex focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] d-textarea-ghost focus-within:border-base-content/20 data-invalid:focus-within:border-[var(--d-input-color)] data-valid:focus-within:border-[var(--d-input-color)]"
       placeholder="Bio"
     />
     """
@@ -12686,7 +12710,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     >
       <.textarea
         textarea_class="w-full flex-1 resize-y data-[resize=none]:resize-none data-[resize=horizontal]:resize-x data-[resize=both]:resize group-data-[disabled]:resize-none appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
-        class="group d-textarea flex focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
+        class="group d-textarea flex focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] focus-within:border-base-content/20 data-invalid:focus-within:border-[var(--d-input-color)] data-valid:focus-within:border-[var(--d-input-color)]"
         id={f.id}
         name={f.name}
         placeholder="Bio"
@@ -12709,7 +12733,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         name={color}
         rows={2}
         class={[
-          "group d-textarea flex focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]",
+          "group d-textarea flex focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] focus-within:border-base-content/20 data-invalid:focus-within:border-[var(--d-input-color)] data-valid:focus-within:border-[var(--d-input-color)]",
           "d-textarea-#{color}"
         ]}
         placeholder={String.capitalize(color)}
@@ -12730,7 +12754,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         name={size}
         rows={2}
         class={[
-          "group d-textarea flex focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]",
+          "group d-textarea flex focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] focus-within:border-base-content/20 data-invalid:focus-within:border-[var(--d-input-color)] data-valid:focus-within:border-[var(--d-input-color)]",
           "d-textarea-#{size}"
         ]}
         placeholder={"Size #{size}"}
@@ -12744,7 +12768,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-col gap-2">
       <.textarea
         textarea_class="w-full flex-1 resize-y data-[resize=none]:resize-none data-[resize=horizontal]:resize-x data-[resize=both]:resize group-data-[disabled]:resize-none appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
-        class="group d-textarea flex focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
+        class="group d-textarea flex focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] focus-within:border-base-content/20 data-invalid:focus-within:border-[var(--d-input-color)] data-valid:focus-within:border-[var(--d-input-color)]"
         id="daisyui-textarea-disabled"
         name="disabled"
         placeholder="You can't type"
@@ -12752,7 +12776,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       />
       <.textarea
         textarea_class="w-full flex-1 resize-y data-[resize=none]:resize-none data-[resize=horizontal]:resize-x data-[resize=both]:resize group-data-[disabled]:resize-none appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
-        class="group d-textarea flex focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
+        class="group d-textarea flex focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] focus-within:border-base-content/20 data-invalid:focus-within:border-[var(--d-input-color)] data-valid:focus-within:border-[var(--d-input-color)]"
         id="daisyui-textarea-disabled-value"
         name="locked"
         value="Locked"
@@ -12766,7 +12790,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.textarea
       textarea_class="w-full flex-1 resize-y data-[resize=none]:resize-none data-[resize=horizontal]:resize-x data-[resize=both]:resize group-data-[disabled]:resize-none appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
-      class="group d-textarea flex focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
+      class="group d-textarea flex focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] focus-within:border-base-content/20 data-invalid:focus-within:border-[var(--d-input-color)] data-valid:focus-within:border-[var(--d-input-color)]"
       id="daisyui-textarea-autosize"
       name="notes"
       placeholder="Keep typing — this grows to six rows, then scrolls"
@@ -12799,7 +12823,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       >
         <.textarea
           textarea_class="w-full flex-1 resize-y data-[resize=none]:resize-none data-[resize=horizontal]:resize-x data-[resize=both]:resize group-data-[disabled]:resize-none appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
-          class="group d-textarea flex focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)]"
+          class="group d-textarea flex focus-within:[--d-input-color:var(--color-base-content)] focus-within:[box-shadow:0_1px_color-mix(in_oklab,var(--d-input-color)_calc(var(--depth)*10%),#0000)] focus-within:outline-2 focus-within:outline-[var(--d-input-color)] focus-within:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:border-base-200 data-disabled:bg-base-200 data-disabled:[box-shadow:none] data-invalid:[--d-input-color:var(--color-error)] data-valid:[--d-input-color:var(--color-success)] focus-within:border-base-content/20 data-invalid:focus-within:border-[var(--d-input-color)] data-valid:focus-within:border-[var(--d-input-color)]"
           field={@form[:bio]}
           rows={3}
           placeholder="Tell us about yourself"
