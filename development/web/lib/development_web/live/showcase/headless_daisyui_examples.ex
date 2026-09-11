@@ -166,17 +166,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     "switch" => [
       {"switch-hero", "Toggle",
        "daisyUI's `toggle`: the track is the box, the knob its ::before."},
+      {"switch-form", "With fieldset and label",
+       "Three toggles in a fieldset, submitted as real form fields."},
       {"switch-sizes", "Sizes", "`toggle-xs` through `toggle-xl`."},
       {"switch-colors", "Colors", "All eight `toggle-*` colors."},
       {"switch-disabled", "Disabled", "On and off, both disabled."},
+      {"switch-indeterminate", "Indeterminate",
+       "The mixed state, derived on the server. daisyUI sets `.indeterminate` from JavaScript and ships no styling for it."},
       {"switch-icons", "Toggle with icons inside",
        "daisyUI puts two icons on the knob and cross-fades them; our switch grew `:on_icon` / `:off_icon` slots so the skin can do the same."},
       {"switch-custom-colors", "Custom colors",
-       "daisyUI's custom-color recipe, with `data-checked` standing in for `:checked`."},
-      {"switch-indeterminate", "Indeterminate",
-       "The mixed state, derived on the server. daisyUI sets `.indeterminate` from JavaScript and ships no styling for it."},
-      {"switch-form", "With fieldset and label",
-       "Three toggles in a fieldset, submitted as real form fields."}
+       "daisyUI's custom-color recipe, with `data-checked` standing in for `:checked`."}
     ],
     "checkbox" => [
       {"checkbox-hero", "Checkbox",
@@ -209,6 +209,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"tabs-border", "tabs-border",
        "daisyUI's `tabs-border`, opted into with its real classes rather than drawn by the skin."},
       {"tabs-lift", "tabs-lift", "daisyUI's `tabs-lift`, including its notched corners."},
+      {"tabs-icons", "tabs-lift with icons",
+       "daisyUI's lifted tabs with an icon beside each label."},
       {"tabs-box", "tabs-box", "daisyUI's `tabs-box`."},
       {"tabs-sizes", "Sizes", "`tabs-xs` through `tabs-xl` on the lift style."},
       {"tabs-bottom", "Tabs on the bottom",
@@ -306,6 +308,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"separator-colors", "Colors", "All eight `divider-*` colors."},
       {"separator-positions", "Positions",
        "daisyUI's `divider-start` and `divider-end` move the label off centre."},
+      {"separator-positions-horizontal", "Positions, horizontal",
+       "The same start/center/end, on a `divider-horizontal`."},
       {"separator-responsive", "Responsive",
        "Vertical on a wide screen, horizontal on a narrow one — daisyUI's `lg:divider-horizontal`."}
     ],
@@ -370,6 +374,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"semi_circle_progress-values", "Values", "0, 25, 50, 75 and 100 percent."},
       {"semi_circle_progress-colors", "Colors",
        "The colour utilities, since both arcs are `currentColor`."},
+      {"semi_circle_progress-filled", "With background color and border",
+       "daisyUI's filled dial — the ring sits on a coloured, bordered disc."},
       {"semi_circle_progress-sizes", "Sizes", "Sized by a width utility on the root."}
     ],
     "drawer" => [
@@ -2351,6 +2357,28 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     """
   end
 
+  def example(%{section: "separator-positions-horizontal"} = assigns) do
+    ~H"""
+    <div class="flex h-24 w-full max-w-md">
+      <div class="grid grow place-items-center text-[0.875rem]">A</div>
+      <.separator
+        label_class="px-2 text-[0.875rem] text-base-content"
+        class="d-divider d-divider-horizontal d-divider-start"
+      >
+        Start
+      </.separator>
+      <div class="grid grow place-items-center text-[0.875rem]">B</div>
+      <.separator
+        label_class="px-2 text-[0.875rem] text-base-content"
+        class="d-divider d-divider-horizontal d-divider-end"
+      >
+        End
+      </.separator>
+      <div class="grid grow place-items-center text-[0.875rem]">C</div>
+    </div>
+    """
+  end
+
   def example(%{section: "separator-responsive"} = assigns) do
     ~H"""
     <div class="flex w-full flex-col lg:flex-row">
@@ -2954,6 +2982,24 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         id={"daisyui-semi-#{color}"}
         value={70}
         class={["inline-grid place-items-center", "text-#{color}"]}
+      >
+        70%
+      </.semi_circle_progress>
+    </div>
+    """
+  end
+
+  def example(%{section: "semi_circle_progress-filled"} = assigns) do
+    ~H"""
+    <div class="flex flex-wrap items-end gap-4">
+      <.semi_circle_progress
+        label_class="text-[1.125rem] font-semibold"
+        indicator_class="[stroke:currentColor] [stroke-linecap:round] motion-safe:transition-[stroke-dashoffset] motion-safe:duration-300 motion-safe:ease-[ease-out]"
+        track_class="[stroke:color-mix(in_oklab,currentColor_20%,transparent)] [stroke-linecap:round]"
+        svg_class="overflow-visible"
+        id="daisyui-semi-filled"
+        value={70}
+        class="inline-grid place-items-center rounded-[calc(infinity*1px)] border-[length:var(--border)] border-solid border-primary bg-primary p-2 text-primary-content"
       >
         70%
       </.semi_circle_progress>
@@ -5229,6 +5275,34 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <:tab value="overview" class="d-tab">Overview</:tab>
       <:tab value="projects" class="d-tab">Projects</:tab>
       <:tab value="account" class="d-tab">Account</:tab>
+      <:panel value="overview">Workspace stats and activity.</:panel>
+      <:panel value="projects">Milestones and deadlines.</:panel>
+      <:panel value="account">Billing, members and API keys.</:panel>
+    </.tabs>
+    """
+  end
+
+  def example(%{section: "tabs-icons"} = assigns) do
+    ~H"""
+    <.tabs
+      panel_class="text-[0.875rem] focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
+      panels_class="pt-4 group-data-[orientation=vertical]:pt-0 group-data-[orientation=vertical]:ps-4"
+      indicator_class="absolute bottom-[calc(var(--border)*-1)] left-[var(--active-tab-left,0)] w-[var(--active-tab-width,0)] h-0.5 bg-base-content pointer-events-none motion-safe:[transition:left_0.2s_ease-out,width_0.2s_ease-out,top_0.2s_ease-out,height_0.2s_ease-out] [.d-tabs_&]:hidden group-data-[orientation=vertical]:bottom-auto group-data-[orientation=vertical]:left-auto group-data-[orientation=vertical]:end-[calc(var(--border)*-1)] group-data-[orientation=vertical]:top-[var(--active-tab-top,0)] group-data-[orientation=vertical]:w-0.5 group-data-[orientation=vertical]:h-[var(--active-tab-height,0)]"
+      tab_class="not-[.d-tab]:relative not-[.d-tab]:inline-flex not-[.d-tab]:items-center not-[.d-tab]:justify-center not-[.d-tab]:h-[calc(var(--size-field,0.25rem)*10)] not-[.d-tab]:px-3 not-[.d-tab]:text-[0.875rem] not-[.d-tab]:cursor-pointer not-[.d-tab]:select-none not-[.d-tab]:whitespace-nowrap not-[.d-tab]:[color:color-mix(in_oklab,var(--color-base-content)_50%,transparent)] not-[.d-tab]:[transition:color_0.2s_ease-out] not-[.d-tab]:hover:not-data-disabled:text-base-content not-[.d-tab]:data-active:text-base-content data-disabled:cursor-not-allowed data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)] focus-visible:outline-2 focus-visible:outline-primary focus-visible:-outline-offset-2"
+      class="group flex flex-col text-base-content data-[orientation=vertical]:flex-row"
+      id="daisyui-tabs-icons"
+      default_value="overview"
+      list_class="relative flex flex-wrap not-[.d-tabs]:border-b-[length:var(--border)] not-[.d-tabs]:border-solid not-[.d-tabs]:border-b-base-300 group-data-[orientation=vertical]:flex-col group-data-[orientation=vertical]:border-b-0 group-data-[orientation=vertical]:border-e-[length:var(--border)] group-data-[orientation=vertical]:border-e-base-300 d-tabs d-tabs-lift"
+    >
+      <:tab value="overview" class="d-tab gap-2">
+        <.dock_icon path="M4 5h16v14H4zm0 5h16" />Overview
+      </:tab>
+      <:tab value="projects" class="d-tab gap-2">
+        <.dock_icon path="M4 7h5l2 2h9v9H4z" />Projects
+      </:tab>
+      <:tab value="account" class="d-tab gap-2">
+        <.dock_icon path="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm-8 8a8 8 0 0 1 16 0" />Account
+      </:tab>
       <:panel value="overview">Workspace stats and activity.</:panel>
       <:panel value="projects">Milestones and deadlines.</:panel>
       <:panel value="account">Billing, members and API keys.</:panel>
