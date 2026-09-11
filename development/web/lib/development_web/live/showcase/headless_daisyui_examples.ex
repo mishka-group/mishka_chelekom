@@ -5725,7 +5725,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       link_class="flex items-center gap-2 [a&]:cursor-pointer [a&]:hover:underline focus:outline-none focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2"
       item_class="flex items-center"
       list_class="flex min-h-min items-center whitespace-nowrap"
-      class="d-breadcrumbs"
+      class="max-w-full overflow-x-auto py-2"
       id="daisyui-breadcrumb-hero"
     >
       <:item href="#">Home</:item>
@@ -5743,7 +5743,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       link_class="flex items-center gap-2 [a&]:cursor-pointer [a&]:hover:underline focus:outline-none focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2"
       item_class="flex items-center"
       list_class="flex min-h-min items-center whitespace-nowrap"
-      class="d-breadcrumbs"
+      class="max-w-full overflow-x-auto py-2"
       id="daisyui-breadcrumb-icons"
     >
       <:item href="#">
@@ -5768,7 +5768,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       item_class="flex items-center"
       list_class="flex min-h-min items-center whitespace-nowrap"
       id="daisyui-breadcrumb-max-width"
-      class="d-breadcrumbs max-w-xs"
+      class="max-w-xs overflow-x-auto py-2"
     >
       <:item href="#">Long text 1</:item>
       <:item href="#">Long text 2</:item>
@@ -5787,7 +5787,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       link_class="flex items-center gap-2 [a&]:cursor-pointer [a&]:hover:underline focus:outline-none focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2"
       item_class="flex items-center"
       list_class="flex min-h-min items-center whitespace-nowrap"
-      class="d-breadcrumbs"
+      class="max-w-full overflow-x-auto py-2"
       id="daisyui-breadcrumb-separator"
     >
       <:separator><span class="px-2 opacity-40">›</span></:separator>
@@ -5806,7 +5806,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       link_class="flex items-center gap-2 [a&]:cursor-pointer [a&]:hover:underline focus:outline-none focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2"
       item_class="flex items-center"
       list_class="flex min-h-min items-center whitespace-nowrap"
-      class="d-breadcrumbs"
+      class="max-w-full overflow-x-auto py-2"
       id="daisyui-breadcrumb-collapsed"
       max_items={4}
     >
@@ -5828,7 +5828,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       link_class="flex items-center gap-2 [a&]:cursor-pointer [a&]:hover:underline focus:outline-none focus-visible:outline-2 focus-visible:outline-current focus-visible:outline-offset-2"
       item_class="flex items-center"
       list_class="flex min-h-min items-center whitespace-nowrap"
-      class="d-breadcrumbs"
+      class="max-w-full overflow-x-auto py-2"
       id="daisyui-breadcrumb-expandable"
       max_items={3}
       boundary={1}
