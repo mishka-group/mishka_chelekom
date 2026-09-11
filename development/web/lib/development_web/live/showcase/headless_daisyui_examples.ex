@@ -3075,11 +3075,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── code ──────────────────────────────────────────────────────────────────
   def example(%{section: "code-hero"} = assigns) do
     ~H"""
-    <.code class="d-mockup-code" id="daisyui-code-hero" block>
-      <pre data-prefix="$"><code>mix mishka.ui.gen.headless select --skin daisyui</code></pre>
-      <pre data-prefix=">" class="text-warning"><code>installing…</code></pre>
-      <pre data-prefix=">" class="text-success"><code>Done</code></pre>
-    </.code>
+    <div class="d-mockup-code w-full">
+      <.code phx-no-format id="daisyui-code-hero-0" block data-prefix="$">mix mishka.ui.gen.headless select --skin daisyui</.code>
+      <.code phx-no-format id="daisyui-code-hero-1" block data-prefix=">" class="text-warning">installing…</.code>
+      <.code phx-no-format id="daisyui-code-hero-2" block data-prefix=">" class="text-success">Done</.code>
+    </div>
     """
   end
 
@@ -3087,7 +3087,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <p class="text-sm">
       Run
-      <.code class="d-mockup-code" id="daisyui-code-inline">mix mishka.ui.gen.headless</.code>
+      <.code
+        class="rounded-[var(--radius-field)] bg-base-200 px-1.5 py-0.5 font-mono text-[0.9em]"
+        id="daisyui-code-inline"
+      >
+        mix mishka.ui.gen.headless
+      </.code>
       to generate a component.
     </p>
     """
@@ -3095,47 +3100,53 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "code-multi"} = assigns) do
     ~H"""
-    <.code class="d-mockup-code" id="daisyui-code-multi" block>
-      <pre data-prefix="1"><code>defmodule MyApp.Page do</code></pre>
-      <pre data-prefix="2"><code>  use MyAppWeb, :live_view</code></pre>
-      <pre data-prefix="3"><code>end</code></pre>
-    </.code>
+    <div class="d-mockup-code w-full">
+      <.code phx-no-format id="daisyui-code-multi-0" block data-prefix="1">defmodule MyApp.Page do</.code>
+      <.code phx-no-format id="daisyui-code-multi-1" block data-prefix="2">  use MyAppWeb, :live_view</.code>
+      <.code phx-no-format id="daisyui-code-multi-2" block data-prefix="3">end</.code>
+    </div>
     """
   end
 
   def example(%{section: "code-highlight"} = assigns) do
     ~H"""
-    <.code class="d-mockup-code" id="daisyui-code-highlight" block>
-      <pre data-prefix="1"><code>mix deps.get</code></pre>
-      <pre data-prefix="2" class="bg-warning text-warning-content"><code>mix deps.compile</code></pre>
-      <pre data-prefix="3"><code>mix phx.server</code></pre>
-    </.code>
+    <div class="d-mockup-code w-full">
+      <.code phx-no-format id="daisyui-code-highlight-0" block data-prefix="1">mix deps.get</.code>
+      <.code
+        phx-no-format
+        id="daisyui-code-highlight-1"
+        block
+        data-prefix="2"
+        class="bg-warning text-warning-content"
+      >mix deps.compile</.code>
+      <.code phx-no-format id="daisyui-code-highlight-2" block data-prefix="3">mix phx.server</.code>
+    </div>
     """
   end
 
   def example(%{section: "code-scroll"} = assigns) do
     ~H"""
-    <.code class="d-mockup-code" id="daisyui-code-scroll" block>
-      <pre data-prefix="$"><code>mix mishka.ui.gen.headless select --skin daisyui --skin-scope "[data-skin=daisyui]" --skin-prefix d- --yes</code></pre>
-    </.code>
+    <div class="d-mockup-code w-full">
+      <.code phx-no-format id="daisyui-code-scroll-0" block data-prefix="~">mix mishka.ui.gen.headless select --skin daisyui --skin-scope '[data-skin=daisyui]' --skin-prefix d- --yes</.code>
+    </div>
     """
   end
 
   def example(%{section: "code-no-prefix"} = assigns) do
     ~H"""
-    <.code class="d-mockup-code" id="daisyui-code-no-prefix" block>
-      <pre><code>{"%{status: :ok}"}</code></pre>
-      <pre><code>{"%{status: :error}"}</code></pre>
-    </.code>
+    <div class="d-mockup-code w-full">
+      <.code phx-no-format id="daisyui-code-no-prefix-0" block>{"%{status: :ok}"}</.code>
+      <.code phx-no-format id="daisyui-code-no-prefix-1" block>{"%{status: :error}"}</.code>
+    </div>
     """
   end
 
   def example(%{section: "code-color"} = assigns) do
     ~H"""
-    <.code id="daisyui-code-color" block class="d-mockup-code bg-primary text-primary-content">
-      <pre data-prefix="$"><code>mix phx.server</code></pre>
-      <pre data-prefix=">"><code>Running DevelopmentWeb.Endpoint</code></pre>
-    </.code>
+    <div class="d-mockup-code bg-primary text-primary-content w-full">
+      <.code phx-no-format id="daisyui-code-color-0" block data-prefix="$">mix phx.server</.code>
+      <.code phx-no-format id="daisyui-code-color-1" block data-prefix=">">Running DevelopmentWeb.Endpoint</.code>
+    </div>
     """
   end
 
