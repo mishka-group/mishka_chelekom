@@ -399,6 +399,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ],
     "field" => [
       {"field-hero", "Label and input", "daisyUI's `label` and `input`, wired by the field."},
+      {"field-floating", "Floating label",
+       "daisyUI's `floating-label`: the label rides inside the field and lifts when it has content."},
+      {"field-floating-sizes", "Floating label sizes",
+       "The label follows the input's size, `input-xs` through `input-xl`."},
+      {"field-floating-responsive", "Responsive floating label",
+       "One field whose size steps up at each breakpoint."},
       {"field-description", "With help text", "A description under the control."},
       {"field-invalid", "Invalid",
        "daisyUI's `validator-hint`; ours is the error part off `data-invalid`."},
@@ -785,8 +791,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
        "Static highlighting inside running text, the way `<mark>` is meant to read."}
     ],
     "marquee" => [
-      {"marquee-hero", "Hero",
-       "A row of names scrolling on a loop, faded at both edges with a mask."}
+      {"marquee-hero", "Marquee",
+       "A row that scrolls on a loop. The content is rendered twice so `translateX(-50%)` repeats seamlessly — the keyframes are yours to define, then reach them with `animate-[…]`."}
     ],
     "mask_input" => [
       {"mask_input-hero", "Hero",
@@ -3275,6 +3281,77 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         name={f.name}
         placeholder="you@example.com"
         class="d-input w-full group-data-[invalid]:[--d-input-color:var(--color-error)] group-data-[valid]:[--d-input-color:var(--color-success)] focus-within:border-base-content/20 focus-within:outline-base-content/30 group-data-[invalid]:focus-within:border-[var(--d-input-color)] group-data-[invalid]:focus-within:outline-[var(--d-input-color)] group-data-[valid]:focus-within:border-[var(--d-input-color)] group-data-[valid]:focus-within:outline-[var(--d-input-color)]"
+      />
+    </.field>
+    """
+  end
+
+  def example(%{section: "field-floating"} = assigns) do
+    ~H"""
+    <.field
+      :let={f}
+      control_class="d-floating-label"
+      id="daisyui-field-floating"
+      class="w-xs"
+    >
+      <span>Your name</span>
+      <input
+        type="text"
+        id={f.id}
+        name={f.name}
+        aria-label="Your name"
+        placeholder="Your name"
+        class="d-input w-full group-data-[invalid]:[--d-input-color:var(--color-error)] group-data-[valid]:[--d-input-color:var(--color-success)] focus-within:border-base-content/20 focus-within:outline-base-content/30 group-data-[invalid]:focus-within:border-[var(--d-input-color)] group-data-[invalid]:focus-within:outline-[var(--d-input-color)] group-data-[valid]:focus-within:border-[var(--d-input-color)] group-data-[valid]:focus-within:outline-[var(--d-input-color)]"
+      />
+    </.field>
+    """
+  end
+
+  def example(%{section: "field-floating-sizes"} = assigns) do
+    assigns = assign(assigns, :sizes, ~w(xs sm md lg xl))
+
+    ~H"""
+    <div class="flex flex-col gap-3">
+      <.field
+        :let={f}
+        :for={size <- @sizes}
+        control_class="d-floating-label"
+        id={"daisyui-field-floating-#{size}"}
+        class="w-xs"
+      >
+        <span>Size {size}</span>
+        <input
+          type="text"
+          id={f.id}
+          name={f.name}
+          aria-label={"Size #{size}"}
+          placeholder={"Size #{size}"}
+          class={[
+            "d-input w-full group-data-[invalid]:[--d-input-color:var(--color-error)] group-data-[valid]:[--d-input-color:var(--color-success)] focus-within:border-base-content/20 focus-within:outline-base-content/30 group-data-[invalid]:focus-within:border-[var(--d-input-color)] group-data-[invalid]:focus-within:outline-[var(--d-input-color)] group-data-[valid]:focus-within:border-[var(--d-input-color)] group-data-[valid]:focus-within:outline-[var(--d-input-color)]",
+            "d-input-#{size}"
+          ]}
+        />
+      </.field>
+    </div>
+    """
+  end
+
+  def example(%{section: "field-floating-responsive"} = assigns) do
+    ~H"""
+    <.field
+      :let={f}
+      control_class="d-floating-label"
+      id="daisyui-field-floating-responsive"
+      class="w-xs"
+    >
+      <span>Your email</span>
+      <input
+        type="text"
+        id={f.id}
+        name={f.name}
+        aria-label="Your email"
+        placeholder="you@example.com"
+        class="d-input w-full group-data-[invalid]:[--d-input-color:var(--color-error)] group-data-[valid]:[--d-input-color:var(--color-success)] focus-within:border-base-content/20 focus-within:outline-base-content/30 group-data-[invalid]:focus-within:border-[var(--d-input-color)] group-data-[invalid]:focus-within:outline-[var(--d-input-color)] group-data-[valid]:focus-within:border-[var(--d-input-color)] group-data-[valid]:focus-within:outline-[var(--d-input-color)] d-input-xs sm:d-input-sm md:d-input-md lg:d-input-lg xl:d-input-xl"
       />
     </.field>
     """
@@ -8859,12 +8936,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "marquee-hero"} = assigns) do
     ~H"""
     <div>
-      <style>
-        @keyframes chelekom-marquee-x { from { transform: translateX(0) } to { transform: translateX(-50%) } }
-      </style>
       <.marquee
         group_class="flex items-center gap-6 px-3"
-        track_class="flex w-max"
+        track_class="flex w-max motion-safe:animate-[chelekom-marquee-x_20s_linear_infinite]"
         class="overflow-hidden [mask-image:linear-gradient(to_right,#0000,#000_8%,#000_92%,#0000)] text-base-content"
       >
         <span class="text-[0.875rem] font-medium opacity-70">React</span>
