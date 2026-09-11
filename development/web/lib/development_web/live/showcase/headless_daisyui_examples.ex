@@ -928,6 +928,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"chip-soft", "Soft style", "daisyUI's `badge-soft`, on a selectable chip."},
       {"chip-outline-style", "Outline style", "daisyUI's `badge-outline`."},
       {"chip-dash", "Dash style", "daisyUI's `badge-dash`."},
+      {"chip-neutral-outline-dash", "Neutral, outline and dash",
+       "daisyUI's neutral badge in both bordered styles."},
       {"chip-ghost", "Ghost", "daisyUI's `badge-ghost`."},
       {"chip-disabled", "Disabled", "One chip ruled out of the set."}
     ],
@@ -10966,47 +10968,47 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   end
 
   def example(%{section: "chip-colors"} = assigns) do
-    assigns = assign(assigns, :colors, @colors)
+    assigns =
+      assign(assigns, :colors, ~w(primary secondary accent neutral info success warning error))
 
     ~H"""
     <div class="flex flex-wrap items-center gap-2">
       <.chip
-        :for={color <- @colors}
+        :for={v <- @colors}
         label_class="group-has-[input:checked]:text-base-100"
         input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
-        id={"daisyui-chip-#{color}"}
-        name={"tag_#{color}"}
-        value={color}
-        checked={color == "primary"}
+        id={"daisyui-chip-colors-#{v}"}
+        name={"chip_colors_#{v}"}
+        value={v}
         class={[
-          "group d-badge d-badge-outline relative cursor-pointer select-none data-disabled:cursor-not-allowed data-disabled:opacity-50 has-[input:checked]:bg-current has-[input:checked]:border-current has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-current has-[input:focus-visible]:outline-offset-2",
-          "d-badge-#{color}"
+          "group d-badge relative cursor-pointer select-none data-disabled:cursor-not-allowed data-disabled:opacity-50 has-[input:checked]:bg-current has-[input:checked]:border-current has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-current has-[input:focus-visible]:outline-offset-2",
+          "d-badge-#{v}"
         ]}
       >
-        {color}
+        {v}
       </.chip>
     </div>
     """
   end
 
   def example(%{section: "chip-sizes"} = assigns) do
-    assigns = assign(assigns, :sizes, @sizes)
+    assigns = assign(assigns, :sizes, ~w(xs sm md lg xl))
 
     ~H"""
     <div class="flex flex-wrap items-center gap-2">
       <.chip
-        :for={size <- @sizes}
+        :for={v <- @sizes}
         label_class="group-has-[input:checked]:text-base-100"
         input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
-        id={"daisyui-chip-size-#{size}"}
-        name={"tag_size_#{size}"}
-        value={size}
+        id={"daisyui-chip-sizes-#{v}"}
+        name={"chip_sizes_#{v}"}
+        value={v}
         class={[
-          "group d-badge d-badge-outline relative cursor-pointer select-none data-disabled:cursor-not-allowed data-disabled:opacity-50 has-[input:checked]:bg-current has-[input:checked]:border-current has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-current has-[input:focus-visible]:outline-offset-2",
-          "d-badge-#{size}"
+          "group d-badge relative cursor-pointer select-none data-disabled:cursor-not-allowed data-disabled:opacity-50 has-[input:checked]:bg-current has-[input:checked]:border-current has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-current has-[input:focus-visible]:outline-offset-2",
+          "d-badge-#{v}"
         ]}
       >
-        {size}
+        {v}
       </.chip>
     </div>
     """
@@ -11081,84 +11083,96 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   end
 
   def example(%{section: "chip-soft"} = assigns) do
+    assigns = assign(assigns, :colors, ~w(primary secondary accent info success warning error))
+
     ~H"""
     <div class="flex flex-wrap items-center gap-2">
       <.chip
+        :for={v <- @colors}
         label_class="group-has-[input:checked]:text-base-100"
         input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
-        class="group d-badge d-badge-soft relative cursor-pointer select-none data-disabled:cursor-not-allowed data-disabled:opacity-50 has-[input:checked]:bg-current has-[input:checked]:border-current has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-current has-[input:focus-visible]:outline-offset-2"
-        id="daisyui-chip-soft-a"
-        name="soft-a"
-        value="elixir"
-        checked
+        id={"daisyui-chip-soft-#{v}"}
+        name={"chip_soft_#{v}"}
+        value={v}
+        class={[
+          "group d-badge relative cursor-pointer select-none data-disabled:cursor-not-allowed data-disabled:opacity-50 has-[input:checked]:bg-current has-[input:checked]:border-current has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-current has-[input:focus-visible]:outline-offset-2",
+          "d-badge-soft d-badge-#{v}"
+        ]}
       >
-        Elixir
-      </.chip>
-      <.chip
-        label_class="group-has-[input:checked]:text-base-100"
-        input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
-        class="group d-badge d-badge-soft relative cursor-pointer select-none data-disabled:cursor-not-allowed data-disabled:opacity-50 has-[input:checked]:bg-current has-[input:checked]:border-current has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-current has-[input:focus-visible]:outline-offset-2"
-        id="daisyui-chip-soft-b"
-        name="soft-b"
-        value="phoenix"
-      >
-        Phoenix
+        {v}
       </.chip>
     </div>
     """
   end
 
   def example(%{section: "chip-outline-style"} = assigns) do
+    assigns = assign(assigns, :colors, ~w(primary secondary accent info success warning error))
+
     ~H"""
     <div class="flex flex-wrap items-center gap-2">
       <.chip
+        :for={v <- @colors}
         label_class="group-has-[input:checked]:text-base-100"
         input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
-        class="group d-badge d-badge-outline relative cursor-pointer select-none data-disabled:cursor-not-allowed data-disabled:opacity-50 has-[input:checked]:bg-current has-[input:checked]:border-current has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-current has-[input:focus-visible]:outline-offset-2"
-        id="daisyui-chip-outline-style-a"
-        name="outline-style-a"
-        value="elixir"
-        checked
+        id={"daisyui-chip-outline-style-#{v}"}
+        name={"chip_outline-style_#{v}"}
+        value={v}
+        class={[
+          "group d-badge relative cursor-pointer select-none data-disabled:cursor-not-allowed data-disabled:opacity-50 has-[input:checked]:bg-current has-[input:checked]:border-current has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-current has-[input:focus-visible]:outline-offset-2",
+          "d-badge-outline d-badge-#{v}"
+        ]}
       >
-        Elixir
-      </.chip>
-      <.chip
-        label_class="group-has-[input:checked]:text-base-100"
-        input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
-        class="group d-badge d-badge-outline relative cursor-pointer select-none data-disabled:cursor-not-allowed data-disabled:opacity-50 has-[input:checked]:bg-current has-[input:checked]:border-current has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-current has-[input:focus-visible]:outline-offset-2"
-        id="daisyui-chip-outline-style-b"
-        name="outline-style-b"
-        value="phoenix"
-      >
-        Phoenix
+        {v}
       </.chip>
     </div>
     """
   end
 
   def example(%{section: "chip-dash"} = assigns) do
+    assigns = assign(assigns, :colors, ~w(primary secondary accent info success warning error))
+
+    ~H"""
+    <div class="flex flex-wrap items-center gap-2">
+      <.chip
+        :for={v <- @colors}
+        label_class="group-has-[input:checked]:text-base-100"
+        input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
+        id={"daisyui-chip-dash-#{v}"}
+        name={"chip_dash_#{v}"}
+        value={v}
+        class={[
+          "group d-badge relative cursor-pointer select-none data-disabled:cursor-not-allowed data-disabled:opacity-50 has-[input:checked]:bg-current has-[input:checked]:border-current has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-current has-[input:focus-visible]:outline-offset-2",
+          "d-badge-dash d-badge-#{v}"
+        ]}
+      >
+        {v}
+      </.chip>
+    </div>
+    """
+  end
+
+  def example(%{section: "chip-neutral-outline-dash"} = assigns) do
     ~H"""
     <div class="flex flex-wrap items-center gap-2">
       <.chip
         label_class="group-has-[input:checked]:text-base-100"
         input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
-        class="group d-badge d-badge-dash relative cursor-pointer select-none data-disabled:cursor-not-allowed data-disabled:opacity-50 has-[input:checked]:bg-current has-[input:checked]:border-current has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-current has-[input:focus-visible]:outline-offset-2"
-        id="daisyui-chip-dash-a"
-        name="dash-a"
-        value="elixir"
-        checked
+        id="daisyui-chip-neutral-outline"
+        name="chip_neutral_outline"
+        value="outline"
+        class="group d-badge relative cursor-pointer select-none data-disabled:cursor-not-allowed data-disabled:opacity-50 has-[input:checked]:bg-current has-[input:checked]:border-current has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-current has-[input:focus-visible]:outline-offset-2 d-badge-neutral d-badge-outline"
       >
-        Elixir
+        Outline
       </.chip>
       <.chip
         label_class="group-has-[input:checked]:text-base-100"
         input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
-        class="group d-badge d-badge-dash relative cursor-pointer select-none data-disabled:cursor-not-allowed data-disabled:opacity-50 has-[input:checked]:bg-current has-[input:checked]:border-current has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-current has-[input:focus-visible]:outline-offset-2"
-        id="daisyui-chip-dash-b"
-        name="dash-b"
-        value="phoenix"
+        id="daisyui-chip-neutral-dash"
+        name="chip_neutral_dash"
+        value="dash"
+        class="group d-badge relative cursor-pointer select-none data-disabled:cursor-not-allowed data-disabled:opacity-50 has-[input:checked]:bg-current has-[input:checked]:border-current has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-current has-[input:focus-visible]:outline-offset-2 d-badge-neutral d-badge-dash"
       >
-        Phoenix
+        Dash
       </.chip>
     </div>
     """
@@ -11170,23 +11184,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <.chip
         label_class="group-has-[input:checked]:text-base-100"
         input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
-        class="group d-badge d-badge-ghost relative cursor-pointer select-none data-disabled:cursor-not-allowed data-disabled:opacity-50 has-[input:checked]:bg-current has-[input:checked]:border-current has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-current has-[input:focus-visible]:outline-offset-2"
-        id="daisyui-chip-ghost-a"
-        name="ghost-a"
-        value="elixir"
-        checked
+        id="daisyui-chip-ghost"
+        name="chip_ghost"
+        value="ghost"
+        class="group d-badge relative cursor-pointer select-none data-disabled:cursor-not-allowed data-disabled:opacity-50 has-[input:checked]:bg-current has-[input:checked]:border-current has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-current has-[input:focus-visible]:outline-offset-2 d-badge-ghost"
       >
-        Elixir
-      </.chip>
-      <.chip
-        label_class="group-has-[input:checked]:text-base-100"
-        input_class="absolute w-px h-px p-0 -m-px overflow-hidden [clip-path:inset(50%)] whitespace-nowrap border-0"
-        class="group d-badge d-badge-ghost relative cursor-pointer select-none data-disabled:cursor-not-allowed data-disabled:opacity-50 has-[input:checked]:bg-current has-[input:checked]:border-current has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-current has-[input:focus-visible]:outline-offset-2"
-        id="daisyui-chip-ghost-b"
-        name="ghost-b"
-        value="phoenix"
-      >
-        Phoenix
+        Ghost
       </.chip>
     </div>
     """
