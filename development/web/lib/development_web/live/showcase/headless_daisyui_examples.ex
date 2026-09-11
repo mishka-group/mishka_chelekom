@@ -173,6 +173,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
        "daisyUI puts two icons on the knob and cross-fades them; our switch grew `:on_icon` / `:off_icon` slots so the skin can do the same."},
       {"switch-custom-colors", "Custom colors",
        "daisyUI's custom-color recipe, with `data-checked` standing in for `:checked`."},
+      {"switch-indeterminate", "Indeterminate",
+       "The mixed state, derived on the server. daisyUI sets `.indeterminate` from JavaScript and ships no styling for it."},
       {"switch-form", "With fieldset and label",
        "Three toggles in a fieldset, submitted as real form fields."}
     ],
@@ -4627,6 +4629,48 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     >
       Custom colors
     </.switch>
+    """
+  end
+
+  def example(%{section: "switch-indeterminate"} = assigns) do
+    ~H"""
+    <div class="flex flex-col gap-3">
+      <.switch
+        label_class="select-none"
+        off_icon_class="text-base-100 opacity-100 [rotate:0deg] group-data-[checked]/track:opacity-0 group-data-[checked]/track:[rotate:15deg]"
+        on_icon_class="text-base-100 opacity-0 [rotate:-15deg] group-data-[checked]/track:opacity-100 group-data-[checked]/track:[rotate:0deg]"
+        thumb_class="hidden"
+        track_class="group/track d-toggle [--d-size:var(--d-switch-size)] data-checked:[grid-template-columns:1fr_1fr_0fr] data-checked:bg-base-100 data-checked:[--d-input-color:var(--d-switch-on)] group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2 data-indeterminate:[grid-template-columns:1fr_1fr_1fr] data-indeterminate:bg-base-content/20"
+        class="group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] text-base-content [--d-switch-on:var(--d-input-color,var(--color-base-content))] [--d-switch-size:var(--d-size,calc(var(--size-selector,0.25rem)*6))] disabled:cursor-not-allowed disabled:opacity-20 data-disabled:cursor-not-allowed data-disabled:opacity-20 data-readonly:cursor-default [&.d-toggle-xs]:[--d-switch-size:calc(var(--size-selector,0.25rem)*4)] [&.d-toggle-sm]:[--d-switch-size:calc(var(--size-selector,0.25rem)*5)] [&.d-toggle-md]:[--d-switch-size:calc(var(--size-selector,0.25rem)*6)] [&.d-toggle-lg]:[--d-switch-size:calc(var(--size-selector,0.25rem)*7)] [&.d-toggle-xl]:[--d-switch-size:calc(var(--size-selector,0.25rem)*8)]"
+        id="daisyui-switch-indeterminate"
+        indeterminate
+      >
+        Some selected
+      </.switch>
+      <.switch
+        label_class="select-none"
+        off_icon_class="text-base-100 opacity-100 [rotate:0deg] group-data-[checked]/track:opacity-0 group-data-[checked]/track:[rotate:15deg]"
+        on_icon_class="text-base-100 opacity-0 [rotate:-15deg] group-data-[checked]/track:opacity-100 group-data-[checked]/track:[rotate:0deg]"
+        thumb_class="hidden"
+        track_class="group/track d-toggle [--d-size:var(--d-switch-size)] data-checked:[grid-template-columns:1fr_1fr_0fr] data-checked:bg-base-100 data-checked:[--d-input-color:var(--d-switch-on)] group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2 data-indeterminate:[grid-template-columns:1fr_1fr_1fr] data-indeterminate:bg-base-content/20"
+        class="group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] text-base-content [--d-switch-on:var(--d-input-color,var(--color-base-content))] [--d-switch-size:var(--d-size,calc(var(--size-selector,0.25rem)*6))] disabled:cursor-not-allowed disabled:opacity-20 data-disabled:cursor-not-allowed data-disabled:opacity-20 data-readonly:cursor-default [&.d-toggle-xs]:[--d-switch-size:calc(var(--size-selector,0.25rem)*4)] [&.d-toggle-sm]:[--d-switch-size:calc(var(--size-selector,0.25rem)*5)] [&.d-toggle-md]:[--d-switch-size:calc(var(--size-selector,0.25rem)*6)] [&.d-toggle-lg]:[--d-switch-size:calc(var(--size-selector,0.25rem)*7)] [&.d-toggle-xl]:[--d-switch-size:calc(var(--size-selector,0.25rem)*8)]"
+        id="daisyui-switch-indeterminate-on"
+        checked
+      >
+        All selected
+      </.switch>
+      <.switch
+        label_class="select-none"
+        off_icon_class="text-base-100 opacity-100 [rotate:0deg] group-data-[checked]/track:opacity-0 group-data-[checked]/track:[rotate:15deg]"
+        on_icon_class="text-base-100 opacity-0 [rotate:-15deg] group-data-[checked]/track:opacity-100 group-data-[checked]/track:[rotate:0deg]"
+        thumb_class="hidden"
+        track_class="group/track d-toggle [--d-size:var(--d-switch-size)] data-checked:[grid-template-columns:1fr_1fr_0fr] data-checked:bg-base-100 data-checked:[--d-input-color:var(--d-switch-on)] group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2 data-indeterminate:[grid-template-columns:1fr_1fr_1fr] data-indeterminate:bg-base-content/20"
+        class="group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] text-base-content [--d-switch-on:var(--d-input-color,var(--color-base-content))] [--d-switch-size:var(--d-size,calc(var(--size-selector,0.25rem)*6))] disabled:cursor-not-allowed disabled:opacity-20 data-disabled:cursor-not-allowed data-disabled:opacity-20 data-readonly:cursor-default [&.d-toggle-xs]:[--d-switch-size:calc(var(--size-selector,0.25rem)*4)] [&.d-toggle-sm]:[--d-switch-size:calc(var(--size-selector,0.25rem)*5)] [&.d-toggle-md]:[--d-switch-size:calc(var(--size-selector,0.25rem)*6)] [&.d-toggle-lg]:[--d-switch-size:calc(var(--size-selector,0.25rem)*7)] [&.d-toggle-xl]:[--d-switch-size:calc(var(--size-selector,0.25rem)*8)]"
+        id="daisyui-switch-indeterminate-off"
+      >
+        None selected
+      </.switch>
+    </div>
     """
   end
 

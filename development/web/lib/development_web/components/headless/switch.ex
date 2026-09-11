@@ -8,10 +8,15 @@ defmodule DevelopmentWeb.Components.Headless.Switch do
   `disabled` ignores interaction. ARIA: `role="switch"` + `aria-checked` (+ `aria-readonly`/
   `aria-required`).
 
+  `indeterminate` is the third state a "select all" switch needs: `aria-checked="mixed"` with
+  `data-indeterminate`, derived on the server so it is right on first paint — daisyUI sets its own
+  from JavaScript, since `indeterminate` is a DOM property and cannot be server-rendered. The next
+  toggle resolves it to on and clears the attribute.
+
   Options mirror Base UI: `checked`, `disabled`, `readonly`, `required`, `name`, `form`, `value`
   (submitted when on, default `"on"`), `unchecked_value` (submitted when off — adds a companion hidden
   input), `on_change` (LiveView event `{checked}`). State attributes (root + thumb): `data-checked`,
-  `data-unchecked`, `data-disabled`, `data-readonly`, `data-required`. Parts: `input` (hidden
+  `data-unchecked`, `data-indeterminate`, `data-disabled`, `data-readonly`, `data-required`. Parts: `input` (hidden
   checkbox), `track`, `thumb`, optional `on_icon`/`off_icon` (rendered inside the track after the
   thumb, so a skin can cross-fade them), `label`. Style via `chelekom-switch*` — ships **no**
   colors or spacing.
@@ -26,6 +31,11 @@ defmodule DevelopmentWeb.Components.Headless.Switch do
   attr :id, :string, required: true, doc: "Unique id (anchors aria relationships)"
   attr :name, :string, default: nil, doc: "Name for the hidden form input"
   attr :checked, :boolean, default: false, doc: "Initial/controlled on state"
+
+  attr :indeterminate, :boolean,
+    default: false,
+    doc: "Neither on nor off (aria-checked=\"mixed\"); the next toggle resolves it to on"
+
   attr :disabled, :boolean, default: false, doc: "Ignore interaction (data-disabled)"
 
   attr :readonly, :boolean,
@@ -67,13 +77,14 @@ defmodule DevelopmentWeb.Components.Headless.Switch do
       type="button"
       phx-hook="Toggle"
       role="switch"
-      aria-checked={to_string(@checked)}
+      aria-checked={(@indeterminate && "mixed") || to_string(@checked)}
       aria-labelledby={(@inner_block != [] && "#{@id}-label") || nil}
       aria-readonly={@readonly && "true"}
       aria-required={@required && "true"}
       disabled={@disabled}
-      data-checked={@checked}
-      data-unchecked={!@checked}
+      data-checked={@checked && !@indeterminate}
+      data-unchecked={!@checked && !@indeterminate}
+      data-indeterminate={@indeterminate}
       data-disabled={@disabled}
       data-readonly={@readonly}
       data-required={@required}
@@ -94,7 +105,7 @@ defmodule DevelopmentWeb.Components.Headless.Switch do
         data-part="input"
         name={@name}
         value={@value}
-        checked={@checked}
+        checked={@checked && !@indeterminate}
         required={@required}
         disabled={@disabled}
         form={@form}
@@ -104,31 +115,35 @@ defmodule DevelopmentWeb.Components.Headless.Switch do
       />
       <span
         data-part="track"
-        data-checked={@checked}
-        data-unchecked={!@checked}
+        data-checked={@checked && !@indeterminate}
+        data-unchecked={!@checked && !@indeterminate}
+        data-indeterminate={@indeterminate}
         class={["chelekom-switch__track", @track_class]}
         aria-hidden="true"
       >
         <span
           data-part="thumb"
-          data-checked={@checked}
-          data-unchecked={!@checked}
+          data-checked={@checked && !@indeterminate}
+          data-unchecked={!@checked && !@indeterminate}
+          data-indeterminate={@indeterminate}
           class={["chelekom-switch__thumb", @thumb_class]}
           aria-hidden="true"
         ></span>
         <span
           :if={@on_icon != []}
           data-part="on-icon"
-          data-checked={@checked}
-          data-unchecked={!@checked}
+          data-checked={@checked && !@indeterminate}
+          data-unchecked={!@checked && !@indeterminate}
+          data-indeterminate={@indeterminate}
           class={["chelekom-switch__on-icon", @on_icon_class]}
           aria-hidden="true"
         >{render_slot(@on_icon)}</span>
         <span
           :if={@off_icon != []}
           data-part="off-icon"
-          data-checked={@checked}
-          data-unchecked={!@checked}
+          data-checked={@checked && !@indeterminate}
+          data-unchecked={!@checked && !@indeterminate}
+          data-indeterminate={@indeterminate}
           class={["chelekom-switch__off-icon", @off_icon_class]}
           aria-hidden="true"
         >{render_slot(@off_icon)}</span>
