@@ -672,37 +672,37 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ],
     "alert_dialog" => [
       {"alert_dialog-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+       "daisyUI's `modal` with a `btn` pair, except it never dismisses on a click outside — the choice has to be made."},
       {"alert_dialog-detached-triggers-controlled", "Detached triggers controlled",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+       "One dialog, several `btn` triggers, with the open state held on the server."},
       {"alert_dialog-detached-triggers-simple", "Detached triggers simple",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+       "The same shared dialog, opened straight from each trigger without a server round trip."}
     ],
     "autocomplete" => [
       {"autocomplete-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+       "daisyUI has no autocomplete, so the field is an `input` and the suggestions a `dropdown-content menu`."},
       {"autocomplete-async", "Async",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+       "Suggestions fetched as you type, with the list left in place while the request is in flight."},
       {"autocomplete-auto-highlight", "Auto highlight",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+       "The first match is highlighted as you type, so Enter takes it without an arrow key."},
       {"autocomplete-command-palette", "Command palette",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+       "A ⌘K palette: grouped actions with a trailing hint on each row."},
       {"autocomplete-fuzzy-matching", "Fuzzy matching",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+       "Matches on letters scattered through the title, each row carrying its description underneath."},
       {"autocomplete-grid", "Grid",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+       "Options laid out as a grid rather than a list — arrow keys move in two dimensions."},
       {"autocomplete-grouped", "Grouped",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+       "Suggestions under headings, using daisyUI's `menu-title` for the section labels."},
       {"autocomplete-inline", "Inline",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+       "The best match is completed into the field itself, with the added text selected."},
       {"autocomplete-limit", "Limit",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+       "A long list capped to a handful of rows so the popup stays a sensible height."}
     ],
     "chart" => [
       {"chart-breakdown", "Breakdown",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+       "A composed chart driven from the server; daisyUI ships no chart, so only the surrounding `card` is its."},
       {"chart-dashboard", "Dashboard",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+       "Several charts sharing one theme, reading their colours from daisyUI's palette variables."}
     ],
     "checkbox_group" => [
       {"checkbox_group-hero", "Checkbox group",
@@ -719,15 +719,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ],
     "color_input" => [
       {"color_input-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+       "A hex field paired with a native swatch, wearing daisyUI's `input`."}
     ],
     "color_picker" => [
       {"color_picker-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+       "Saturation area, hue and alpha together — no daisyUI equivalent, so only the `card` around it is."}
     ],
     "color_swatch" => [
       {"color_swatch-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+       "A single colour chip at a few sizes, using daisyUI's `rounded-box` and border tokens."}
     ],
     "combobox" => [
       {"combobox-hero", "Combobox",
@@ -747,55 +747,53 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ],
     "context_menu" => [
       {"context_menu-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+       "Right-click anywhere in the box for a `dropdown-content menu` positioned at the cursor."},
       {"context_menu-submenu", "Submenu",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+       "The same menu with a nested submenu that opens on hover or on arrow."}
     ],
     "editor" => [
       {"editor-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+       "A rich-text editor with a `join`ed `btn` toolbar; the editing surface itself is ours."}
     ],
     "empty_state" => [
       {"empty_state-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+       "The nothing-here panel — an icon, a heading and a line of explanation."},
       {"empty_state-actions", "With actions",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+       "The same panel with `btn` and `btn-ghost` calls to action underneath."}
     ],
     "floating_indicator" => [
       {"floating_indicator-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+       "A pill that slides between the active item, measuring its target rather than animating a fixed distance."}
     ],
     "floating_window" => [
       {"floating_window-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+       "A draggable, resizable window; daisyUI has no equivalent, so the chrome borrows `card` and `btn`."}
     ],
     "highlight" => [
-      {"highlight-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+      {"highlight-hero", "Hero", "Search terms marked inside a paragraph as you type."}
     ],
     "json_input" => [
       {"json_input-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+       "A JSON field that validates as you type, turning daisyUI's `input-error` on when it cannot parse."}
     ],
     "mark" => [
       {"mark-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+       "Static highlighting inside running text, the way `<mark>` is meant to read."}
     ],
     "marquee" => [
       {"marquee-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+       "A row of names scrolling on a loop, faded at both edges with a mask."}
     ],
     "mask_input" => [
       {"mask_input-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+       "An `input` that formats as you type — phone, card and date patterns."}
     ],
     "menubar" => [
       {"menubar-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+       "An application menu bar: `menu menu-horizontal` across the top, each menu a `dropdown-content menu`."}
     ],
     "meter" => [
-      {"meter-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+      {"meter-hero", "Hero", "A gauge for a measured value, coloured by which band it falls in."}
     ],
     "navigation_menu" => [
       {"navigation_menu-hero", "Megamenu",
@@ -810,103 +808,101 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ],
     "number_field" => [
       {"number_field-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+       "A stepper `input` with `btn` increment and decrement, holding to repeat and dragging to scrub."}
     ],
     "number_formatter" => [
       {"number_formatter-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+       "Numbers rendered with separators, currency and decimal places, without a wrapper component."}
     ],
     "overflow_list" => [
       {"overflow_list-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+       "Items that fit are shown; the rest collapse into a counted `badge`."}
     ],
     "pills_input" => [
       {"pills_input-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+       "Free text entered as removable `badge` pills inside an `input`."}
     ],
     "popover" => [
       {"popover-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+       "daisyUI's `dropdown` is a menu; this is the same anchored surface holding arbitrary content in a `card`."},
       {"popover-detached-triggers-controlled", "Detached Triggers Controlled",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+       "One popover shared by several `btn` triggers, with the open state on the server."},
       {"popover-detached-triggers-full", "Detached Triggers Full",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+       "A profile card reused across triggers — avatar, plan and account links."},
       {"popover-detached-triggers-simple", "Detached Triggers Simple",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+       "The same sharing, opened directly from each trigger."},
       {"popover-open-on-hover", "Open On Hover",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+       "Opens on hover with a delay, and stays open while the pointer is on the panel."}
     ],
     "preview_card" => [
       {"preview_card-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+       "A link preview on hover: a `card` with an image and a paragraph, arrow pointing back at the word."},
       {"preview_card-detached-triggers-controlled", "Detached Triggers Controlled",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+       "One preview shared by several links, driven from the server."},
       {"preview_card-detached-triggers-full", "Detached Triggers Full",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+       "The same preview with the full card body."},
       {"preview_card-detached-triggers-simple", "Detached Triggers Simple",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+       "The same sharing, without the server round trip."}
     ],
     "rolling_number" => [
       {"rolling_number-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+       "Digits that roll to a new value, the trick daisyUI uses for `countdown` applied to any number."}
     ],
     "scroll_area" => [
       {"scroll_area-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+       "A custom scrollbar that only appears while scrolling or hovering."},
       {"scroll_area-both", "Both",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
+       "The same, scrolling in both directions with a corner between the bars."},
       {"scroll_area-scroll-fade", "Scroll Fade",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+       "Edges fade while there is more content past them in that direction."}
     ],
     "scroller" => [
-      {"scroller-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+      {"scroller-hero", "Hero", "A horizontal strip with snap points and `btn-circle` arrows."}
     ],
     "sparkline" => [
       {"sparkline-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."},
-      {"sparkline-types", "Types",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+       "A pure-SVG trend line small enough to sit inside a line of text."},
+      {"sparkline-types", "Types", "The same data as a line, an area and bars."}
     ],
     "splitter" => [
       {"splitter-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+       "Two panes with a draggable divider, sized in percentages and clamped at both ends."}
     ],
     "tags_input" => [
       {"tags_input-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+       "Tags committed on Enter or comma and removed on Backspace, shown as `badge` pills."}
     ],
     "theme_icon" => [
       {"theme_icon-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+       "The sun-and-moon toggle daisyUI puts in its navbar, as a real button with `aria-pressed`."}
     ],
     "toolbar" => [
       {"toolbar-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+       "A `join`ed row of controls sharing one roving tab stop, so it is a single stop in the page's tab order."}
     ],
     "tree" => [
       {"tree-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+       "An expandable tree; daisyUI's nearest is a nested `menu`, which this borrows for the rows."}
     ],
     "tree_select" => [
       {"tree_select-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+       "The same tree with checkboxes, where a parent reflects its children as a mixed state."}
     ],
     "visually_hidden" => [
       {"visually_hidden-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+       "Text left for screen readers and taken out of the visual layout — tab to the button to reveal it."}
     ],
     "alpha_slider" => [
       {"alpha_slider-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+       "An opacity track over a checkerboard, showing the colour at every stop."}
     ],
     "angle_slider" => [
       {"angle_slider-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+       "A dial for degrees, draggable around the circle or nudged with arrow keys."}
     ],
     "hue_slider" => [
       {"hue_slider-hero", "Hero",
-       "The same markup as the Base UI page with every styling class removed — the skin does all of it."}
+       "The full hue wheel as a track, the input a colour picker is built from."}
     ],
     "action_icon" => [
       {"action-icon-hero", "Action icon",
@@ -7443,7 +7439,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         clear_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
         group_label_class="grid gap-2 items-center rounded-[var(--radius-field)] transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] px-3 py-1 text-[0.75rem] opacity-60"
         item_class="flex flex-row items-center justify-between gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer [&>:last-child:not(:only-child)]:shrink-0 [&>:last-child:not(:only-child)]:text-[0.75rem] [&>:last-child:not(:only-child)]:opacity-60 data-highlighted:bg-base-content/10 aria-selected:outline-none aria-selected:[color:var(--menu-active-fg)] aria-selected:[background-color:var(--menu-active-bg)] aria-selected:[background-size:auto,calc(var(--noise)*100%)] aria-selected:[background-image:none,var(--fx-noise)] forced-colors:aria-selected:outline-2 forced-colors:aria-selected:outline-offset-2 forced-colors:aria-selected:outline-transparent"
-        popup_class="flex flex-col flex-wrap p-2 text-[0.875rem] [&_li]:relative [&_li]:flex [&_li]:shrink-0 [&_li:not([data-part=item])]:flex-col [&_li:not([data-part=item])]:flex-wrap [&_li:not([data-part=item])]:items-stretch [&_li_ul]:relative [&_li_ul]:ms-4 [&_li_ul]:ps-2 [&_li_ul]:whitespace-nowrap [&_li_ul]:before:content-[''] [&_li_ul]:before:absolute [&_li_ul]:before:start-0 [&_li_ul]:before:top-3 [&_li_ul]:before:bottom-3 [&_li_ul]:before:w-[var(--border)] [&_li_ul]:before:bg-base-content [&_li_ul]:before:opacity-10 [--menu-active-fg:var(--color-neutral-content)] [--menu-active-bg:var(--color-neutral)] absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+        popup_class="flex flex-col flex-wrap p-2 text-[0.875rem] [&_li]:relative [&_li]:flex [&_li]:shrink-0 [&_li:not([data-part=item])]:flex-col [&_li:not([data-part=item])]:flex-wrap [&_li:not([data-part=item])]:items-stretch [&_li_ul]:relative [&_li_ul]:ms-4 [&_li_ul]:ps-2 [&_li_ul]:whitespace-nowrap [&_li_ul]:before:content-[''] [&_li_ul]:before:absolute [&_li_ul]:before:start-0 [&_li_ul]:before:top-3 [&_li_ul]:before:bottom-3 [&_li_ul]:before:w-[var(--border)] [&_li_ul]:before:bg-base-content [&_li_ul]:before:opacity-10 [--menu-active-fg:var(--color-neutral-content)] [--menu-active-bg:var(--color-neutral)] absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 shadow-sm data-closed:hidden"
         input_class="d-input w-full"
         id="daisyui-autocomplete-hero"
         placeholder="e.g. feature"
@@ -7474,7 +7470,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         clear_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
         group_label_class="grid gap-2 items-center rounded-[var(--radius-field)] transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] px-3 py-1 text-[0.75rem] opacity-60"
         item_class="flex flex-row items-center justify-between gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer [&>:last-child:not(:only-child)]:shrink-0 [&>:last-child:not(:only-child)]:text-[0.75rem] [&>:last-child:not(:only-child)]:opacity-60 data-highlighted:bg-base-content/10 aria-selected:outline-none aria-selected:[color:var(--menu-active-fg)] aria-selected:[background-color:var(--menu-active-bg)] aria-selected:[background-size:auto,calc(var(--noise)*100%)] aria-selected:[background-image:none,var(--fx-noise)] forced-colors:aria-selected:outline-2 forced-colors:aria-selected:outline-offset-2 forced-colors:aria-selected:outline-transparent"
-        popup_class="flex flex-col flex-wrap p-2 text-[0.875rem] [&_li]:relative [&_li]:flex [&_li]:shrink-0 [&_li:not([data-part=item])]:flex-col [&_li:not([data-part=item])]:flex-wrap [&_li:not([data-part=item])]:items-stretch [&_li_ul]:relative [&_li_ul]:ms-4 [&_li_ul]:ps-2 [&_li_ul]:whitespace-nowrap [&_li_ul]:before:content-[''] [&_li_ul]:before:absolute [&_li_ul]:before:start-0 [&_li_ul]:before:top-3 [&_li_ul]:before:bottom-3 [&_li_ul]:before:w-[var(--border)] [&_li_ul]:before:bg-base-content [&_li_ul]:before:opacity-10 [--menu-active-fg:var(--color-neutral-content)] [--menu-active-bg:var(--color-neutral)] absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+        popup_class="flex flex-col flex-wrap p-2 text-[0.875rem] [&_li]:relative [&_li]:flex [&_li]:shrink-0 [&_li:not([data-part=item])]:flex-col [&_li:not([data-part=item])]:flex-wrap [&_li:not([data-part=item])]:items-stretch [&_li_ul]:relative [&_li_ul]:ms-4 [&_li_ul]:ps-2 [&_li_ul]:whitespace-nowrap [&_li_ul]:before:content-[''] [&_li_ul]:before:absolute [&_li_ul]:before:start-0 [&_li_ul]:before:top-3 [&_li_ul]:before:bottom-3 [&_li_ul]:before:w-[var(--border)] [&_li_ul]:before:bg-base-content [&_li_ul]:before:opacity-10 [--menu-active-fg:var(--color-neutral-content)] [--menu-active-bg:var(--color-neutral)] absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 shadow-sm data-closed:hidden"
         input_class="d-input w-full"
         id="daisyui-autocomplete-async"
         placeholder="e.g. Pulp Fiction or 1994"
@@ -7510,7 +7506,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         clear_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
         group_label_class="grid gap-2 items-center rounded-[var(--radius-field)] transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] px-3 py-1 text-[0.75rem] opacity-60"
         item_class="flex flex-row items-center justify-between gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer [&>:last-child:not(:only-child)]:shrink-0 [&>:last-child:not(:only-child)]:text-[0.75rem] [&>:last-child:not(:only-child)]:opacity-60 data-highlighted:bg-base-content/10 aria-selected:outline-none aria-selected:[color:var(--menu-active-fg)] aria-selected:[background-color:var(--menu-active-bg)] aria-selected:[background-size:auto,calc(var(--noise)*100%)] aria-selected:[background-image:none,var(--fx-noise)] forced-colors:aria-selected:outline-2 forced-colors:aria-selected:outline-offset-2 forced-colors:aria-selected:outline-transparent"
-        popup_class="flex flex-col flex-wrap p-2 text-[0.875rem] [&_li]:relative [&_li]:flex [&_li]:shrink-0 [&_li:not([data-part=item])]:flex-col [&_li:not([data-part=item])]:flex-wrap [&_li:not([data-part=item])]:items-stretch [&_li_ul]:relative [&_li_ul]:ms-4 [&_li_ul]:ps-2 [&_li_ul]:whitespace-nowrap [&_li_ul]:before:content-[''] [&_li_ul]:before:absolute [&_li_ul]:before:start-0 [&_li_ul]:before:top-3 [&_li_ul]:before:bottom-3 [&_li_ul]:before:w-[var(--border)] [&_li_ul]:before:bg-base-content [&_li_ul]:before:opacity-10 [--menu-active-fg:var(--color-neutral-content)] [--menu-active-bg:var(--color-neutral)] absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+        popup_class="flex flex-col flex-wrap p-2 text-[0.875rem] [&_li]:relative [&_li]:flex [&_li]:shrink-0 [&_li:not([data-part=item])]:flex-col [&_li:not([data-part=item])]:flex-wrap [&_li:not([data-part=item])]:items-stretch [&_li_ul]:relative [&_li_ul]:ms-4 [&_li_ul]:ps-2 [&_li_ul]:whitespace-nowrap [&_li_ul]:before:content-[''] [&_li_ul]:before:absolute [&_li_ul]:before:start-0 [&_li_ul]:before:top-3 [&_li_ul]:before:bottom-3 [&_li_ul]:before:w-[var(--border)] [&_li_ul]:before:bg-base-content [&_li_ul]:before:opacity-10 [--menu-active-fg:var(--color-neutral-content)] [--menu-active-bg:var(--color-neutral)] absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 shadow-sm data-closed:hidden"
         input_class="d-input w-full"
         id="daisyui-autocomplete-auto-highlight"
         placeholder="e.g. feature"
@@ -8502,8 +8498,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       group_label_class="px-3 py-[calc(0.25rem*1.5)] text-[0.75rem] opacity-60"
       indicator_class="inline-grid place-items-center w-4 shrink-0"
       item_class="flex items-center gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer whitespace-nowrap data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:opacity-40"
-      submenu_popup_class="d-menu absolute z-50 min-w-52 rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
-      popup_class="d-menu absolute z-50 min-w-52 rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+      submenu_popup_class="d-menu absolute z-50 min-w-52 rounded-[var(--radius-box)] bg-base-100 shadow-sm data-closed:hidden"
+      popup_class="d-menu absolute z-50 min-w-52 rounded-[var(--radius-box)] bg-base-100 shadow-sm data-closed:hidden"
       trigger_class="grid place-items-center min-h-32 rounded-[var(--radius-box)] [border:2px_dashed_color-mix(in_oklab,var(--color-base-content)_20%,#0000)] p-4 [color:color-mix(in_oklab,var(--color-base-content)_70%,#0000)] select-none"
       id="daisyui-context_menu-hero"
     >
@@ -8540,8 +8536,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       group_label_class="px-3 py-[calc(0.25rem*1.5)] text-[0.75rem] opacity-60"
       indicator_class="inline-grid place-items-center w-4 shrink-0"
       item_class="flex items-center gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer whitespace-nowrap data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:opacity-40"
-      submenu_popup_class="d-menu absolute z-50 min-w-52 rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
-      popup_class="d-menu absolute z-50 min-w-52 rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+      submenu_popup_class="d-menu absolute z-50 min-w-52 rounded-[var(--radius-box)] bg-base-100 shadow-sm data-closed:hidden"
+      popup_class="d-menu absolute z-50 min-w-52 rounded-[var(--radius-box)] bg-base-100 shadow-sm data-closed:hidden"
       trigger_class="grid place-items-center min-h-32 rounded-[var(--radius-box)] [border:2px_dashed_color-mix(in_oklab,var(--color-base-content)_20%,#0000)] p-4 [color:color-mix(in_oklab,var(--color-base-content)_70%,#0000)] select-none"
       id="daisyui-context_menu-submenu"
     >
@@ -8551,7 +8547,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       </.context_menu_item>
       <.context_menu_submenu
         chevron_class="ms-auto opacity-60"
-        popup_class="d-menu absolute z-50 min-w-52 rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+        popup_class="d-menu absolute z-50 min-w-52 rounded-[var(--radius-box)] bg-base-100 shadow-sm data-closed:hidden"
         trigger_class="flex items-center gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer whitespace-nowrap data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:opacity-40"
         id="daisyui-context_menu-submenu-playlist"
         label="Add to Playlist"
@@ -8773,11 +8769,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         track_class="flex w-max"
         class="overflow-hidden [mask-image:linear-gradient(to_right,#0000,#000_8%,#000_92%,#0000)] text-base-content"
       >
-        <span>React</span>
-        <span>Vue</span>
-        <span>Svelte</span>
-        <span>Solid</span>
-        <span>Angular</span>
+        <span class="text-[0.875rem] font-medium opacity-70">React</span>
+        <span class="text-[0.875rem] font-medium opacity-70">Vue</span>
+        <span class="text-[0.875rem] font-medium opacity-70">Svelte</span>
+        <span class="text-[0.875rem] font-medium opacity-70">Solid</span>
+        <span class="text-[0.875rem] font-medium opacity-70">Angular</span>
       </.marquee>
     </div>
     """
@@ -8800,7 +8796,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "menubar-hero"} = assigns) do
     ~H"""
     <.menubar
-      popup_class="d-menu absolute z-50 min-w-48 rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+      popup_class="d-menu absolute z-50 min-w-48 rounded-[var(--radius-box)] bg-base-100 shadow-sm data-closed:hidden"
       trigger_class="rounded-[var(--radius-field)] px-3! py-[calc(0.25rem*1.5)]! cursor-pointer hover:bg-base-content/10 aria-expanded:bg-base-content/10"
       class="d-menu d-menu-horizontal p-1 gap-1"
       id="daisyui-menubar-hero"
@@ -8809,24 +8805,28 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         <button
           type="button"
           role="menuitem"
+          class="flex w-full items-center gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] text-start cursor-pointer hover:bg-base-content/10 data-highlighted:bg-base-content/10 data-disabled:cursor-not-allowed data-disabled:opacity-40"
         >
           New
         </button>
         <button
           type="button"
           role="menuitem"
+          class="flex w-full items-center gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] text-start cursor-pointer hover:bg-base-content/10 data-highlighted:bg-base-content/10 data-disabled:cursor-not-allowed data-disabled:opacity-40"
         >
           Open
         </button>
         <button
           type="button"
           role="menuitem"
+          class="flex w-full items-center gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] text-start cursor-pointer hover:bg-base-content/10 data-highlighted:bg-base-content/10 data-disabled:cursor-not-allowed data-disabled:opacity-40"
         >
           Save
         </button>
         <button
           type="button"
           role="menuitem"
+          class="flex w-full items-center gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] text-start cursor-pointer hover:bg-base-content/10 data-highlighted:bg-base-content/10 data-disabled:cursor-not-allowed data-disabled:opacity-40"
         >
           Export
           <svg class="block" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
@@ -8836,11 +8836,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         <div
           data-part="separator"
           role="separator"
+          class="my-1 h-px bg-base-content/10"
         >
         </div>
         <button
           type="button"
           role="menuitem"
+          class="flex w-full items-center gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] text-start cursor-pointer hover:bg-base-content/10 data-highlighted:bg-base-content/10 data-disabled:cursor-not-allowed data-disabled:opacity-40"
         >
           Print
         </button>
@@ -8850,18 +8852,21 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         <button
           type="button"
           role="menuitem"
+          class="flex w-full items-center gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] text-start cursor-pointer hover:bg-base-content/10 data-highlighted:bg-base-content/10 data-disabled:cursor-not-allowed data-disabled:opacity-40"
         >
           Cut
         </button>
         <button
           type="button"
           role="menuitem"
+          class="flex w-full items-center gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] text-start cursor-pointer hover:bg-base-content/10 data-highlighted:bg-base-content/10 data-disabled:cursor-not-allowed data-disabled:opacity-40"
         >
           Copy
         </button>
         <button
           type="button"
           role="menuitem"
+          class="flex w-full items-center gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] text-start cursor-pointer hover:bg-base-content/10 data-highlighted:bg-base-content/10 data-disabled:cursor-not-allowed data-disabled:opacity-40"
         >
           Paste
         </button>
@@ -8871,18 +8876,21 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         <button
           type="button"
           role="menuitem"
+          class="flex w-full items-center gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] text-start cursor-pointer hover:bg-base-content/10 data-highlighted:bg-base-content/10 data-disabled:cursor-not-allowed data-disabled:opacity-40"
         >
           Zoom In
         </button>
         <button
           type="button"
           role="menuitem"
+          class="flex w-full items-center gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] text-start cursor-pointer hover:bg-base-content/10 data-highlighted:bg-base-content/10 data-disabled:cursor-not-allowed data-disabled:opacity-40"
         >
           Zoom Out
         </button>
         <button
           type="button"
           role="menuitem"
+          class="flex w-full items-center gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] text-start cursor-pointer hover:bg-base-content/10 data-highlighted:bg-base-content/10 data-disabled:cursor-not-allowed data-disabled:opacity-40"
         >
           Layout
           <svg class="block" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
@@ -8892,11 +8900,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         <div
           data-part="separator"
           role="separator"
+          class="my-1 h-px bg-base-content/10"
         >
         </div>
         <button
           type="button"
           role="menuitem"
+          class="flex w-full items-center gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] text-start cursor-pointer hover:bg-base-content/10 data-highlighted:bg-base-content/10 data-disabled:cursor-not-allowed data-disabled:opacity-40"
         >
           Full Screen
         </button>
@@ -9372,7 +9382,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   # ── number_formatter ────────────────────────────────────────────────────
   def example(%{section: "number_formatter-hero"} = assigns) do
     ~H"""
-    <div>
+    <div class="flex flex-col gap-1 text-[0.875rem]">
       <p>
         Revenue:
         <.number_formatter
@@ -9509,25 +9519,31 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     >
       <:trigger>Profile</:trigger>
       <:arrow></:arrow>
-      <div>
-        <h2>
-          Jason Eventon
-        </h2>
-        <span>
+      <div class="flex flex-col gap-3">
+        <div class="flex items-center gap-3">
           <img
+            class="size-12 shrink-0 rounded-full object-cover"
             src="https://images.unsplash.com/photo-1543610892-0b1f7e6d8ac1?w=128&h=128&dpr=2&q=80"
             width="48"
             height="48"
+            alt="Jason Eventon"
           />
-        </span>
-        <span>
-          Pro plan
-        </span>
-        <div>
-          <a href="#">
+          <span class="flex min-w-0 flex-col">
+            <h2 class="truncate font-semibold">Jason Eventon</h2>
+            <span class="text-[0.75rem] opacity-60">Pro plan</span>
+          </span>
+        </div>
+        <div class="flex flex-col border-t-[length:var(--border)] border-solid border-t-base-content/10 pt-2">
+          <a
+            href="#"
+            class="rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] text-[0.875rem] hover:bg-base-content/10"
+          >
             Profile settings
           </a>
-          <a href="#">
+          <a
+            href="#"
+            class="rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] text-[0.875rem] hover:bg-base-content/10"
+          >
             Log out
           </a>
         </div>
@@ -9572,14 +9588,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       >
         <:trigger>typography</:trigger>
         <:arrow></:arrow>
-        <div>
+        <div class="flex flex-col gap-3">
           <img
+            class="h-[150px] w-full rounded-[var(--radius-box)] object-cover"
             width="224"
             height="150"
             src="https://images.unsplash.com/photo-1619615391095-dfa29e1672ef?q=80&w=448&h=300"
             alt="Station Hofplein signage in Rotterdam, Netherlands"
           />
-          <p>
+          <p class="text-[0.875rem] leading-relaxed">
             <strong>Typography</strong> is the art and science of arranging type to make written
             language clear, visually appealing, and effective in communication.
           </p>
@@ -9612,7 +9629,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
               src="https://images.unsplash.com/photo-1619615391095-dfa29e1672ef?q=80&w=448&h=300"
               alt="Station Hofplein signage in Rotterdam, Netherlands"
             />
-            <p>
+            <p class="text-[0.875rem] leading-relaxed">
               <strong>Typography</strong> is the art and science of arranging type.
             </p>
           </div>
@@ -9697,14 +9714,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       >
         <:trigger>typography</:trigger>
         <:arrow></:arrow>
-        <div>
+        <div class="flex flex-col gap-3">
           <img
+            class="h-[150px] w-full rounded-[var(--radius-box)] object-cover"
             width="224"
             height="150"
             src="https://images.unsplash.com/photo-1619615391095-dfa29e1672ef?q=80&w=448&h=300"
             alt="Station Hofplein signage in Rotterdam, Netherlands"
           />
-          <p>
+          <p class="text-[0.875rem] leading-relaxed">
             <strong>Typography</strong> is the art and science of arranging type.
           </p>
         </div>
@@ -9778,14 +9796,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       >
         <:trigger>typography</:trigger>
         <:arrow></:arrow>
-        <div>
+        <div class="flex flex-col gap-3">
           <img
+            class="h-[150px] w-full rounded-[var(--radius-box)] object-cover"
             width="224"
             height="150"
             src="https://images.unsplash.com/photo-1619615391095-dfa29e1672ef?q=80&w=448&h=300"
             alt="Station Hofplein signage in Rotterdam, Netherlands"
           />
-          <p>
+          <p class="text-[0.875rem] leading-relaxed">
             <strong>Typography</strong> is the art and science of arranging type to make
             written language clear, visually appealing, and effective in communication.
           </p>
@@ -9827,7 +9846,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       id="daisyui-scroll_area-hero"
       orientation="vertical"
     >
-      <p>
+      <p class="text-[0.875rem] leading-relaxed not-first:mt-3">
         Vernacular architecture is building done outside any academic tradition, and without
         professional guidance. It is not a particular architectural movement or style, but
         rather a broad category, encompassing a wide range and variety of building types, with
@@ -9836,7 +9855,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         environment, as estimated in 1995 by Amos Rapoport, as measured against the small
         percentage of new buildings every year designed by architects and built by engineers.
       </p>
-      <p>
+      <p class="text-[0.875rem] leading-relaxed not-first:mt-3">
         This type of architecture usually serves immediate, local needs, is constrained by the
         materials available in its particular region and reflects local traditions and cultural
         practices. The study of vernacular architecture does not examine formally schooled
@@ -9881,7 +9900,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       id="daisyui-scroll_area-scroll-fade"
       orientation="vertical"
     >
-      <p>
+      <p class="text-[0.875rem] leading-relaxed not-first:mt-3">
         Vernacular architecture is building done outside any academic tradition, and without
         professional guidance. It is not a particular architectural movement or style, but
         rather a broad category, encompassing a wide range and variety of building types, with
@@ -9890,7 +9909,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         environment, as estimated in 1995 by Amos Rapoport, as measured against the small
         percentage of new buildings every year designed by architects and built by engineers.
       </p>
-      <p>
+      <p class="text-[0.875rem] leading-relaxed not-first:mt-3">
         This type of architecture usually serves immediate, local needs, is constrained by the
         materials available in its particular region and reflects local traditions and cultural
         practices. The study of vernacular architecture does not examine formally schooled
@@ -10145,7 +10164,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "tree_select-hero"} = assigns) do
     ~H"""
     <.tree_select
-      panel_class="absolute z-50 max-h-72 overflow-auto w-full rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+      panel_class="absolute z-50 max-h-72 overflow-auto w-full rounded-[var(--radius-box)] bg-base-100 shadow-sm data-closed:hidden"
       value_class="overflow-hidden text-ellipsis whitespace-nowrap"
       trigger_class="d-select flex items-center justify-between w-full cursor-pointer text-start"
       class="relative text-base-content"
@@ -10260,7 +10279,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         clear_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
         group_label_class="grid gap-2 items-center rounded-[var(--radius-field)] transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] px-3 py-1 text-[0.75rem] opacity-60"
         item_class="flex flex-row items-center justify-between gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer [&>:last-child:not(:only-child)]:shrink-0 [&>:last-child:not(:only-child)]:text-[0.75rem] [&>:last-child:not(:only-child)]:opacity-60 data-highlighted:bg-base-content/10 aria-selected:outline-none aria-selected:[color:var(--menu-active-fg)] aria-selected:[background-color:var(--menu-active-bg)] aria-selected:[background-size:auto,calc(var(--noise)*100%)] aria-selected:[background-image:none,var(--fx-noise)] forced-colors:aria-selected:outline-2 forced-colors:aria-selected:outline-offset-2 forced-colors:aria-selected:outline-transparent"
-        popup_class="flex flex-col flex-wrap p-2 text-[0.875rem] [&_li]:relative [&_li]:flex [&_li]:shrink-0 [&_li:not([data-part=item])]:flex-col [&_li:not([data-part=item])]:flex-wrap [&_li:not([data-part=item])]:items-stretch [&_li_ul]:relative [&_li_ul]:ms-4 [&_li_ul]:ps-2 [&_li_ul]:whitespace-nowrap [&_li_ul]:before:content-[''] [&_li_ul]:before:absolute [&_li_ul]:before:start-0 [&_li_ul]:before:top-3 [&_li_ul]:before:bottom-3 [&_li_ul]:before:w-[var(--border)] [&_li_ul]:before:bg-base-content [&_li_ul]:before:opacity-10 [--menu-active-fg:var(--color-neutral-content)] [--menu-active-bg:var(--color-neutral)] absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+        popup_class="flex flex-col flex-wrap p-2 text-[0.875rem] [&_li]:relative [&_li]:flex [&_li]:shrink-0 [&_li:not([data-part=item])]:flex-col [&_li:not([data-part=item])]:flex-wrap [&_li:not([data-part=item])]:items-stretch [&_li_ul]:relative [&_li_ul]:ms-4 [&_li_ul]:ps-2 [&_li_ul]:whitespace-nowrap [&_li_ul]:before:content-[''] [&_li_ul]:before:absolute [&_li_ul]:before:start-0 [&_li_ul]:before:top-3 [&_li_ul]:before:bottom-3 [&_li_ul]:before:w-[var(--border)] [&_li_ul]:before:bg-base-content [&_li_ul]:before:opacity-10 [--menu-active-fg:var(--color-neutral-content)] [--menu-active-bg:var(--color-neutral)] absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 shadow-sm data-closed:hidden"
         input_class="d-input w-full"
         id="daisyui-autocomplete-fuzzy-matching"
         placeholder="e.g. React"
@@ -10269,11 +10288,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
           :for={doc <- daisyui_autocomplete_docs()}
           value={doc.title}
         >
-          <span>
-            <span>
-              <span>{doc.title}</span>
-            </span>
-            <span>{doc.description}</span>
+          <span class="flex min-w-0 flex-col">
+            <span class="truncate font-medium">{doc.title}</span>
+            <span class="truncate text-[0.75rem] opacity-60">{doc.description}</span>
           </span>
         </:option>
         <:empty>
@@ -10297,7 +10314,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
           clear_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
           group_label_class="grid gap-2 items-center rounded-[var(--radius-field)] transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] px-3 py-1 text-[0.75rem] opacity-60"
           item_class="flex flex-row items-center justify-between gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer [&>:last-child:not(:only-child)]:shrink-0 [&>:last-child:not(:only-child)]:text-[0.75rem] [&>:last-child:not(:only-child)]:opacity-60 data-highlighted:bg-base-content/10 aria-selected:outline-none aria-selected:[color:var(--menu-active-fg)] aria-selected:[background-color:var(--menu-active-bg)] aria-selected:[background-size:auto,calc(var(--noise)*100%)] aria-selected:[background-image:none,var(--fx-noise)] forced-colors:aria-selected:outline-2 forced-colors:aria-selected:outline-offset-2 forced-colors:aria-selected:outline-transparent"
-          popup_class="flex flex-col flex-wrap p-2 text-[0.875rem] [&_li]:relative [&_li]:flex [&_li]:shrink-0 [&_li:not([data-part=item])]:flex-col [&_li:not([data-part=item])]:flex-wrap [&_li:not([data-part=item])]:items-stretch [&_li_ul]:relative [&_li_ul]:ms-4 [&_li_ul]:ps-2 [&_li_ul]:whitespace-nowrap [&_li_ul]:before:content-[''] [&_li_ul]:before:absolute [&_li_ul]:before:start-0 [&_li_ul]:before:top-3 [&_li_ul]:before:bottom-3 [&_li_ul]:before:w-[var(--border)] [&_li_ul]:before:bg-base-content [&_li_ul]:before:opacity-10 [--menu-active-fg:var(--color-neutral-content)] [--menu-active-bg:var(--color-neutral)] absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+          popup_class="flex flex-col flex-wrap p-2 text-[0.875rem] [&_li]:relative [&_li]:flex [&_li]:shrink-0 [&_li:not([data-part=item])]:flex-col [&_li:not([data-part=item])]:flex-wrap [&_li:not([data-part=item])]:items-stretch [&_li_ul]:relative [&_li_ul]:ms-4 [&_li_ul]:ps-2 [&_li_ul]:whitespace-nowrap [&_li_ul]:before:content-[''] [&_li_ul]:before:absolute [&_li_ul]:before:start-0 [&_li_ul]:before:top-3 [&_li_ul]:before:bottom-3 [&_li_ul]:before:w-[var(--border)] [&_li_ul]:before:bg-base-content [&_li_ul]:before:opacity-10 [--menu-active-fg:var(--color-neutral-content)] [--menu-active-bg:var(--color-neutral)] absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 shadow-sm data-closed:hidden"
           input_class="d-input w-full"
           id="daisyui-autocomplete-grid"
           placeholder="Search emojis…"
@@ -10330,7 +10347,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         clear_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
         group_label_class="grid gap-2 items-center rounded-[var(--radius-field)] transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] px-3 py-1 text-[0.75rem] opacity-60"
         item_class="flex flex-row items-center justify-between gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer [&>:last-child:not(:only-child)]:shrink-0 [&>:last-child:not(:only-child)]:text-[0.75rem] [&>:last-child:not(:only-child)]:opacity-60 data-highlighted:bg-base-content/10 aria-selected:outline-none aria-selected:[color:var(--menu-active-fg)] aria-selected:[background-color:var(--menu-active-bg)] aria-selected:[background-size:auto,calc(var(--noise)*100%)] aria-selected:[background-image:none,var(--fx-noise)] forced-colors:aria-selected:outline-2 forced-colors:aria-selected:outline-offset-2 forced-colors:aria-selected:outline-transparent"
-        popup_class="flex flex-col flex-wrap p-2 text-[0.875rem] [&_li]:relative [&_li]:flex [&_li]:shrink-0 [&_li:not([data-part=item])]:flex-col [&_li:not([data-part=item])]:flex-wrap [&_li:not([data-part=item])]:items-stretch [&_li_ul]:relative [&_li_ul]:ms-4 [&_li_ul]:ps-2 [&_li_ul]:whitespace-nowrap [&_li_ul]:before:content-[''] [&_li_ul]:before:absolute [&_li_ul]:before:start-0 [&_li_ul]:before:top-3 [&_li_ul]:before:bottom-3 [&_li_ul]:before:w-[var(--border)] [&_li_ul]:before:bg-base-content [&_li_ul]:before:opacity-10 [--menu-active-fg:var(--color-neutral-content)] [--menu-active-bg:var(--color-neutral)] absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+        popup_class="flex flex-col flex-wrap p-2 text-[0.875rem] [&_li]:relative [&_li]:flex [&_li]:shrink-0 [&_li:not([data-part=item])]:flex-col [&_li:not([data-part=item])]:flex-wrap [&_li:not([data-part=item])]:items-stretch [&_li_ul]:relative [&_li_ul]:ms-4 [&_li_ul]:ps-2 [&_li_ul]:whitespace-nowrap [&_li_ul]:before:content-[''] [&_li_ul]:before:absolute [&_li_ul]:before:start-0 [&_li_ul]:before:top-3 [&_li_ul]:before:bottom-3 [&_li_ul]:before:w-[var(--border)] [&_li_ul]:before:bg-base-content [&_li_ul]:before:opacity-10 [--menu-active-fg:var(--color-neutral-content)] [--menu-active-bg:var(--color-neutral)] absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 shadow-sm data-closed:hidden"
         input_class="d-input w-full"
         id="daisyui-autocomplete-grouped"
         placeholder="e.g. feature"
@@ -10362,7 +10379,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         clear_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
         group_label_class="grid gap-2 items-center rounded-[var(--radius-field)] transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] px-3 py-1 text-[0.75rem] opacity-60"
         item_class="flex flex-row items-center justify-between gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer [&>:last-child:not(:only-child)]:shrink-0 [&>:last-child:not(:only-child)]:text-[0.75rem] [&>:last-child:not(:only-child)]:opacity-60 data-highlighted:bg-base-content/10 aria-selected:outline-none aria-selected:[color:var(--menu-active-fg)] aria-selected:[background-color:var(--menu-active-bg)] aria-selected:[background-size:auto,calc(var(--noise)*100%)] aria-selected:[background-image:none,var(--fx-noise)] forced-colors:aria-selected:outline-2 forced-colors:aria-selected:outline-offset-2 forced-colors:aria-selected:outline-transparent"
-        popup_class="flex flex-col flex-wrap p-2 text-[0.875rem] [&_li]:relative [&_li]:flex [&_li]:shrink-0 [&_li:not([data-part=item])]:flex-col [&_li:not([data-part=item])]:flex-wrap [&_li:not([data-part=item])]:items-stretch [&_li_ul]:relative [&_li_ul]:ms-4 [&_li_ul]:ps-2 [&_li_ul]:whitespace-nowrap [&_li_ul]:before:content-[''] [&_li_ul]:before:absolute [&_li_ul]:before:start-0 [&_li_ul]:before:top-3 [&_li_ul]:before:bottom-3 [&_li_ul]:before:w-[var(--border)] [&_li_ul]:before:bg-base-content [&_li_ul]:before:opacity-10 [--menu-active-fg:var(--color-neutral-content)] [--menu-active-bg:var(--color-neutral)] absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+        popup_class="flex flex-col flex-wrap p-2 text-[0.875rem] [&_li]:relative [&_li]:flex [&_li]:shrink-0 [&_li:not([data-part=item])]:flex-col [&_li:not([data-part=item])]:flex-wrap [&_li:not([data-part=item])]:items-stretch [&_li_ul]:relative [&_li_ul]:ms-4 [&_li_ul]:ps-2 [&_li_ul]:whitespace-nowrap [&_li_ul]:before:content-[''] [&_li_ul]:before:absolute [&_li_ul]:before:start-0 [&_li_ul]:before:top-3 [&_li_ul]:before:bottom-3 [&_li_ul]:before:w-[var(--border)] [&_li_ul]:before:bg-base-content [&_li_ul]:before:opacity-10 [--menu-active-fg:var(--color-neutral-content)] [--menu-active-bg:var(--color-neutral)] absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 shadow-sm data-closed:hidden"
         input_class="d-input w-full"
         id="daisyui-autocomplete-inline"
         placeholder="e.g. feature"
@@ -10389,7 +10406,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         clear_class="d-btn d-btn-xs d-btn-circle d-btn-ghost"
         group_label_class="grid gap-2 items-center rounded-[var(--radius-field)] transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] px-3 py-1 text-[0.75rem] opacity-60"
         item_class="flex flex-row items-center justify-between gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] cursor-pointer [&>:last-child:not(:only-child)]:shrink-0 [&>:last-child:not(:only-child)]:text-[0.75rem] [&>:last-child:not(:only-child)]:opacity-60 data-highlighted:bg-base-content/10 aria-selected:outline-none aria-selected:[color:var(--menu-active-fg)] aria-selected:[background-color:var(--menu-active-bg)] aria-selected:[background-size:auto,calc(var(--noise)*100%)] aria-selected:[background-image:none,var(--fx-noise)] forced-colors:aria-selected:outline-2 forced-colors:aria-selected:outline-offset-2 forced-colors:aria-selected:outline-transparent"
-        popup_class="flex flex-col flex-wrap p-2 text-[0.875rem] [&_li]:relative [&_li]:flex [&_li]:shrink-0 [&_li:not([data-part=item])]:flex-col [&_li:not([data-part=item])]:flex-wrap [&_li:not([data-part=item])]:items-stretch [&_li_ul]:relative [&_li_ul]:ms-4 [&_li_ul]:ps-2 [&_li_ul]:whitespace-nowrap [&_li_ul]:before:content-[''] [&_li_ul]:before:absolute [&_li_ul]:before:start-0 [&_li_ul]:before:top-3 [&_li_ul]:before:bottom-3 [&_li_ul]:before:w-[var(--border)] [&_li_ul]:before:bg-base-content [&_li_ul]:before:opacity-10 [--menu-active-fg:var(--color-neutral-content)] [--menu-active-bg:var(--color-neutral)] absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 [box-shadow:0_4px_12px_oklch(0%_0_0/0.12)] data-closed:hidden"
+        popup_class="flex flex-col flex-wrap p-2 text-[0.875rem] [&_li]:relative [&_li]:flex [&_li]:shrink-0 [&_li:not([data-part=item])]:flex-col [&_li:not([data-part=item])]:flex-wrap [&_li:not([data-part=item])]:items-stretch [&_li_ul]:relative [&_li_ul]:ms-4 [&_li_ul]:ps-2 [&_li_ul]:whitespace-nowrap [&_li_ul]:before:content-[''] [&_li_ul]:before:absolute [&_li_ul]:before:start-0 [&_li_ul]:before:top-3 [&_li_ul]:before:bottom-3 [&_li_ul]:before:w-[var(--border)] [&_li_ul]:before:bg-base-content [&_li_ul]:before:opacity-10 [--menu-active-fg:var(--color-neutral-content)] [--menu-active-bg:var(--color-neutral)] absolute z-50 max-h-64 overflow-y-auto w-full rounded-[var(--radius-box)] bg-base-100 shadow-sm data-closed:hidden"
         input_class="d-input w-full"
         id="daisyui-autocomplete-limit"
         placeholder="e.g. component"
