@@ -1861,6 +1861,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       trigger_class="[text-decoration:underline_dotted] [text-underline-offset:2px] cursor-help"
       class="inline-block"
       id="daisyui-tooltip-hero"
+      side_offset={8}
     >
       <:trigger><span class="d-btn">Hover me</span></:trigger>
       hello
@@ -1877,6 +1878,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         trigger_class="[text-decoration:underline_dotted] [text-underline-offset:2px] cursor-help"
         class="inline-block"
         id="daisyui-tooltip-open"
+        side_offset={8}
         open
       >
         <:trigger><span class="d-btn">Always open</span></:trigger>
@@ -1896,6 +1898,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         trigger_class="[text-decoration:underline_dotted] [text-underline-offset:2px] cursor-help"
         class="inline-block"
         id={"daisyui-tooltip-#{side}"}
+        side_offset={8}
         side={side}
         open
       >
@@ -1916,6 +1919,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         trigger_class="[text-decoration:underline_dotted] [text-underline-offset:2px] cursor-help"
         class="inline-block"
         id={"daisyui-tooltip-align-#{align}"}
+        side_offset={8}
         align={align}
         open
       >
@@ -1937,6 +1941,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         trigger_class="[text-decoration:underline_dotted] [text-underline-offset:2px] cursor-help"
         class="inline-block"
         id={"daisyui-tooltip-#{color}"}
+        side_offset={8}
         open
         popup_class={[
           "z-[60] max-w-80 w-max rounded-[var(--radius-field)] px-2 py-1 bg-[var(--d-tt-bg,var(--color-neutral))] text-neutral-content text-[0.75rem] leading-4 text-center whitespace-normal motion-safe:[transition:opacity_0.15s_ease-out,scale_0.15s_ease-out] data-starting-style:opacity-0 data-starting-style:[scale:0.96] data-ending-style:opacity-0 data-ending-style:[scale:0.96] [&.d-tooltip-primary]:text-primary-content [&.d-tooltip-secondary]:text-secondary-content [&.d-tooltip-accent]:text-accent-content [&.d-tooltip-info]:text-info-content [&.d-tooltip-success]:text-success-content [&.d-tooltip-warning]:text-warning-content [&.d-tooltip-error]:text-error-content",
@@ -1958,6 +1963,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         trigger_class="[text-decoration:underline_dotted] [text-underline-offset:2px] cursor-help"
         class="inline-block"
         id="daisyui-tooltip-rich"
+        side_offset={8}
         open
         popup_class="z-[60] w-max rounded-[var(--radius-field)] px-2 py-1 bg-[var(--d-tt-bg,var(--color-neutral))] text-neutral-content text-[0.75rem] leading-4 text-center whitespace-normal motion-safe:[transition:opacity_0.15s_ease-out,scale_0.15s_ease-out] data-starting-style:opacity-0 data-starting-style:[scale:0.96] data-ending-style:opacity-0 data-ending-style:[scale:0.96] [&.d-tooltip-primary]:text-primary-content [&.d-tooltip-secondary]:text-secondary-content [&.d-tooltip-accent]:text-accent-content [&.d-tooltip-info]:text-info-content [&.d-tooltip-success]:text-success-content [&.d-tooltip-warning]:text-warning-content [&.d-tooltip-error]:text-error-content max-w-56"
       >
@@ -1978,6 +1984,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       popup_class="z-[60] max-w-80 w-max rounded-[var(--radius-field)] px-2 py-1 bg-[var(--d-tt-bg,var(--color-neutral))] text-neutral-content text-[0.75rem] leading-4 text-center whitespace-normal motion-safe:[transition:opacity_0.15s_ease-out,scale_0.15s_ease-out] data-starting-style:opacity-0 data-starting-style:[scale:0.96] data-ending-style:opacity-0 data-ending-style:[scale:0.96] [&.d-tooltip-primary]:text-primary-content [&.d-tooltip-secondary]:text-secondary-content [&.d-tooltip-accent]:text-accent-content [&.d-tooltip-info]:text-info-content [&.d-tooltip-success]:text-success-content [&.d-tooltip-warning]:text-warning-content [&.d-tooltip-error]:text-error-content"
       trigger_class="[text-decoration:underline_dotted] [text-underline-offset:2px] cursor-help"
       id="daisyui-tooltip-responsive"
+      side_offset={8}
       class="inline-block hidden lg:inline-block"
     >
       <:trigger><span class="d-btn">Large screens only</span></:trigger>
