@@ -3075,35 +3075,6 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     """
   end
 
-  def example(%{section: "semi_circle_progress-thickness"} = assigns) do
-    ~H"""
-    <div class="flex flex-wrap items-end gap-6">
-      <.semi_circle_progress
-        label_class="text-[1.125rem] font-semibold"
-        indicator_class="[stroke-width:4] [stroke:currentColor] [stroke-linecap:round] motion-safe:transition-[stroke-dashoffset] motion-safe:duration-300 motion-safe:ease-[ease-out]"
-        track_class="[stroke-width:4] [stroke:color-mix(in_oklab,currentColor_20%,transparent)] [stroke-linecap:round]"
-        svg_class="overflow-visible w-40"
-        class="inline-grid place-items-center text-base-content"
-        id="daisyui-semi-thin"
-        value={70}
-      >
-        70%
-      </.semi_circle_progress>
-      <.semi_circle_progress
-        label_class="text-[1.125rem] font-semibold"
-        indicator_class="[stroke-width:36] [stroke:currentColor] [stroke-linecap:round] motion-safe:transition-[stroke-dashoffset] motion-safe:duration-300 motion-safe:ease-[ease-out]"
-        track_class="[stroke-width:36] [stroke:color-mix(in_oklab,currentColor_20%,transparent)] [stroke-linecap:round]"
-        svg_class="overflow-visible w-40"
-        class="inline-grid place-items-center text-base-content"
-        id="daisyui-semi-thick"
-        value={70}
-      >
-        70%
-      </.semi_circle_progress>
-    </div>
-    """
-  end
-
   # ── drawer ────────────────────────────────────────────────────────────────
   def example(%{section: "drawer-hero"} = assigns) do
     ~H"""
@@ -3638,7 +3609,6 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <.nav_link
         children_class="ms-4 ps-2 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,var(--color-base-content)_10%,transparent)]"
         control_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-out hover:not-data-disabled:bg-base-content/10 data-active:bg-neutral data-active:text-neutral-content aria-current:bg-neutral aria-current:text-neutral-content data-disabled:pointer-events-none data-disabled:text-base-content/20"
-        class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-out hover:not-data-disabled:bg-base-content/10 data-active:bg-neutral data-active:text-neutral-content aria-current:bg-neutral aria-current:text-neutral-content data-disabled:pointer-events-none data-disabled:text-base-content/20"
         id="daisyui-nav-nested"
         label="Components"
         default_opened
@@ -3649,7 +3619,6 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
             control_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-out hover:not-data-disabled:bg-base-content/10 data-active:bg-neutral data-active:text-neutral-content aria-current:bg-neutral aria-current:text-neutral-content data-disabled:pointer-events-none data-disabled:text-base-content/20"
             class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-out hover:not-data-disabled:bg-base-content/10 data-active:bg-neutral data-active:text-neutral-content aria-current:bg-neutral aria-current:text-neutral-content data-disabled:pointer-events-none data-disabled:text-base-content/20"
             id="daisyui-nav-nested-a"
-            class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-out hover:not-data-disabled:bg-base-content/10 data-active:bg-neutral data-active:text-neutral-content aria-current:bg-neutral aria-current:text-neutral-content data-disabled:pointer-events-none data-disabled:text-base-content/20"
             href="#"
             label="Accordion"
           />
@@ -3658,7 +3627,6 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
             control_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-out hover:not-data-disabled:bg-base-content/10 data-active:bg-neutral data-active:text-neutral-content aria-current:bg-neutral aria-current:text-neutral-content data-disabled:pointer-events-none data-disabled:text-base-content/20"
             class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-out hover:not-data-disabled:bg-base-content/10 data-active:bg-neutral data-active:text-neutral-content aria-current:bg-neutral aria-current:text-neutral-content data-disabled:pointer-events-none data-disabled:text-base-content/20"
             id="daisyui-nav-nested-b"
-            class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-out hover:not-data-disabled:bg-base-content/10 data-active:bg-neutral data-active:text-neutral-content aria-current:bg-neutral aria-current:text-neutral-content data-disabled:pointer-events-none data-disabled:text-base-content/20"
             href="#"
             label="Select"
             active
