@@ -52,14 +52,14 @@ defmodule MishkaChelekom.MixProject do
 
   defp deps do
     [
-      {:igniter, "~> 0.6 and >= 0.8.2"},
+      {:igniter, "~> 0.6 and >= 0.8.4"},
       {:guarded_struct, "~> 0.1.1"},
       # Layer 3 declarative config DSL (already present transitively via guarded_struct).
       {:spark, "~> 2.7"},
       {:igniter_js, "~> 0.5.0"},
       {:igniter_css, "~> 1.0"},
       {:owl, "~> 0.13"},
-      {:ex_doc, "~> 0.40.3", only: :dev, runtime: false},
+      {:ex_doc, "~> 0.40.4", only: :dev, runtime: false},
       # Checks the lockfile against the Elixir security advisories. The harness apps have
       # carried it for a while; this project did not, which is how a HIGH-severity bandit
       # advisory sat in all three lockfiles unnoticed. Not forced on consumers.
@@ -78,7 +78,7 @@ defmodule MishkaChelekom.MixProject do
        compile: false,
        depth: 1,
        only: :dev},
-      {:plug, "~> 1.18 and >= 1.20.0"},
+      {:plug, "~> 1.18 and >= 1.20.3"},
       {:usage_rules, "~> 1.2", only: :test},
       {:anubis_mcp, "~> 1.6"},
       {:bandit, "~> 1.12", optional: true},
