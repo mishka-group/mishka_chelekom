@@ -2561,7 +2561,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <.toast
         trigger_class="d-btn"
         close_class="inline-flex items-center justify-center ms-auto rounded-[var(--radius-selector)] cursor-pointer opacity-60 [transition:opacity_0.2s_ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
-        content_class="flex flex-col gap-1 text-start"
+        content_class="flex items-center gap-2 text-start"
         toast_class="d-alert w-max max-w-[min(24rem,calc(100vw-2rem))] motion-safe:[transition:opacity_0.2s_ease-out,translate_0.2s_ease-out] data-starting-style:opacity-0 data-starting-style:[translate:0_0.5rem] data-ending-style:opacity-0 data-ending-style:[translate:0_0.5rem]"
         viewport_class="d-toast"
         id="daisyui-toast-hero"
@@ -2574,17 +2574,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "toast-colors"} = assigns) do
     ~H"""
-    <div class="grid gap-2 sm:grid-cols-2">
+    <div class="flex flex-col gap-2">
       <.toast
         :for={color <- ~w(info success warning error)}
         trigger_class="d-btn"
         close_class="inline-flex items-center justify-center ms-auto rounded-[var(--radius-selector)] cursor-pointer opacity-60 [transition:opacity_0.2s_ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
-        content_class="flex flex-col gap-1 text-start"
+        content_class="flex items-center gap-2 text-start"
         id={"daisyui-toast-#{color}"}
-        class="relative h-20 [transform:translate(0)]"
-        viewport_class="d-toast d-toast-bottom d-toast-end"
+        class="relative h-14 w-full [transform:translate(0)]"
+        viewport_class="d-toast d-toast-top d-toast-start"
         toast_class={[
-          "d-alert w-max max-w-[min(24rem,calc(100vw-2rem))] motion-safe:[transition:opacity_0.2s_ease-out,translate_0.2s_ease-out] data-starting-style:opacity-0 data-starting-style:[translate:0_0.5rem] data-ending-style:opacity-0 data-ending-style:[translate:0_0.5rem]",
+          "d-alert max-w-full motion-safe:[transition:opacity_0.2s_ease-out,translate_0.2s_ease-out] data-starting-style:opacity-0 data-starting-style:[translate:0_0.5rem] data-ending-style:opacity-0 data-ending-style:[translate:0_0.5rem]",
           "d-alert-#{color}"
         ]}
       >
@@ -2608,7 +2608,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         :for={{v, h} <- @spots}
         trigger_class="d-btn"
         close_class="inline-flex items-center justify-center ms-auto rounded-[var(--radius-selector)] cursor-pointer opacity-60 [transition:opacity_0.2s_ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
-        content_class="flex flex-col gap-1 text-start"
+        content_class="flex items-center gap-2 text-start"
         id={"daisyui-toast-#{v}-#{h}"}
         class="relative h-20 [transform:translate(0)]"
         viewport_class={["d-toast", "d-toast-#{v}", "d-toast-#{h}"]}
@@ -2625,7 +2625,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <.toast
       trigger_class="d-btn"
       close_class="inline-flex items-center justify-center ms-auto rounded-[var(--radius-selector)] cursor-pointer opacity-60 [transition:opacity_0.2s_ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
-      content_class="flex flex-col gap-1 text-start"
+      content_class="flex items-center gap-2 text-start"
       viewport_class="d-toast"
       id="daisyui-toast-live"
       duration={4000}
