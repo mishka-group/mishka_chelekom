@@ -3527,6 +3527,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <.nav_link
         children_class="ms-4 ps-2 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,var(--color-base-content)_10%,transparent)]"
         control_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-out hover:not-data-disabled:bg-base-content/10 data-active:bg-neutral data-active:text-neutral-content aria-current:bg-neutral aria-current:text-neutral-content data-disabled:pointer-events-none data-disabled:text-base-content/20"
+        class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-out hover:not-data-disabled:bg-base-content/10 data-active:bg-neutral data-active:text-neutral-content aria-current:bg-neutral aria-current:text-neutral-content data-disabled:pointer-events-none data-disabled:text-base-content/20"
         id="daisyui-nav-hero"
         href="#"
         label="Dashboard"
@@ -3534,6 +3535,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <.nav_link
         children_class="ms-4 ps-2 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,var(--color-base-content)_10%,transparent)]"
         control_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-out hover:not-data-disabled:bg-base-content/10 data-active:bg-neutral data-active:text-neutral-content aria-current:bg-neutral aria-current:text-neutral-content data-disabled:pointer-events-none data-disabled:text-base-content/20"
+        class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-out hover:not-data-disabled:bg-base-content/10 data-active:bg-neutral data-active:text-neutral-content aria-current:bg-neutral aria-current:text-neutral-content data-disabled:pointer-events-none data-disabled:text-base-content/20"
         id="daisyui-nav-hero-2"
         href="#"
         label="Projects"
@@ -3548,6 +3550,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <.nav_link
         children_class="ms-4 ps-2 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,var(--color-base-content)_10%,transparent)]"
         control_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-out hover:not-data-disabled:bg-base-content/10 data-active:bg-neutral data-active:text-neutral-content aria-current:bg-neutral aria-current:text-neutral-content data-disabled:pointer-events-none data-disabled:text-base-content/20"
+        class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-out hover:not-data-disabled:bg-base-content/10 data-active:bg-neutral data-active:text-neutral-content aria-current:bg-neutral aria-current:text-neutral-content data-disabled:pointer-events-none data-disabled:text-base-content/20"
         id="daisyui-nav-active-1"
         href="#"
         label="Overview"
@@ -3555,6 +3558,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <.nav_link
         children_class="ms-4 ps-2 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,var(--color-base-content)_10%,transparent)]"
         control_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-out hover:not-data-disabled:bg-base-content/10 data-active:bg-neutral data-active:text-neutral-content aria-current:bg-neutral aria-current:text-neutral-content data-disabled:pointer-events-none data-disabled:text-base-content/20"
+        class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-out hover:not-data-disabled:bg-base-content/10 data-active:bg-neutral data-active:text-neutral-content aria-current:bg-neutral aria-current:text-neutral-content data-disabled:pointer-events-none data-disabled:text-base-content/20"
         id="daisyui-nav-active-2"
         href="#"
         label="Projects"
@@ -3563,6 +3567,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <.nav_link
         children_class="ms-4 ps-2 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,var(--color-base-content)_10%,transparent)]"
         control_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-out hover:not-data-disabled:bg-base-content/10 data-active:bg-neutral data-active:text-neutral-content aria-current:bg-neutral aria-current:text-neutral-content data-disabled:pointer-events-none data-disabled:text-base-content/20"
+        class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-out hover:not-data-disabled:bg-base-content/10 data-active:bg-neutral data-active:text-neutral-content aria-current:bg-neutral aria-current:text-neutral-content data-disabled:pointer-events-none data-disabled:text-base-content/20"
         id="daisyui-nav-active-3"
         href="#"
         label="Settings"
@@ -3577,6 +3582,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <.nav_link
         children_class="ms-4 ps-2 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,var(--color-base-content)_10%,transparent)]"
         control_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-out hover:not-data-disabled:bg-base-content/10 data-active:bg-neutral data-active:text-neutral-content aria-current:bg-neutral aria-current:text-neutral-content data-disabled:pointer-events-none data-disabled:text-base-content/20"
+        class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-out hover:not-data-disabled:bg-base-content/10 data-active:bg-neutral data-active:text-neutral-content aria-current:bg-neutral aria-current:text-neutral-content data-disabled:pointer-events-none data-disabled:text-base-content/20"
         id="daisyui-nav-nested"
         label="Components"
         default_opened
@@ -3585,14 +3591,18 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
           <.nav_link
             children_class="ms-4 ps-2 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,var(--color-base-content)_10%,transparent)]"
             control_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-out hover:not-data-disabled:bg-base-content/10 data-active:bg-neutral data-active:text-neutral-content aria-current:bg-neutral aria-current:text-neutral-content data-disabled:pointer-events-none data-disabled:text-base-content/20"
+            class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-out hover:not-data-disabled:bg-base-content/10 data-active:bg-neutral data-active:text-neutral-content aria-current:bg-neutral aria-current:text-neutral-content data-disabled:pointer-events-none data-disabled:text-base-content/20"
             id="daisyui-nav-nested-a"
+            class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-out hover:not-data-disabled:bg-base-content/10 data-active:bg-neutral data-active:text-neutral-content aria-current:bg-neutral aria-current:text-neutral-content data-disabled:pointer-events-none data-disabled:text-base-content/20"
             href="#"
             label="Accordion"
           />
           <.nav_link
             children_class="ms-4 ps-2 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,var(--color-base-content)_10%,transparent)]"
             control_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-out hover:not-data-disabled:bg-base-content/10 data-active:bg-neutral data-active:text-neutral-content aria-current:bg-neutral aria-current:text-neutral-content data-disabled:pointer-events-none data-disabled:text-base-content/20"
+            class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-out hover:not-data-disabled:bg-base-content/10 data-active:bg-neutral data-active:text-neutral-content aria-current:bg-neutral aria-current:text-neutral-content data-disabled:pointer-events-none data-disabled:text-base-content/20"
             id="daisyui-nav-nested-b"
+            class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-out hover:not-data-disabled:bg-base-content/10 data-active:bg-neutral data-active:text-neutral-content aria-current:bg-neutral aria-current:text-neutral-content data-disabled:pointer-events-none data-disabled:text-base-content/20"
             href="#"
             label="Select"
             active
@@ -3612,6 +3622,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         :for={{label, path} <- @nav}
         children_class="ms-4 ps-2 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,var(--color-base-content)_10%,transparent)]"
         control_class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-out hover:not-data-disabled:bg-base-content/10 data-active:bg-neutral data-active:text-neutral-content aria-current:bg-neutral aria-current:text-neutral-content data-disabled:pointer-events-none data-disabled:text-base-content/20"
+        class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-out hover:not-data-disabled:bg-base-content/10 data-active:bg-neutral data-active:text-neutral-content aria-current:bg-neutral aria-current:text-neutral-content data-disabled:pointer-events-none data-disabled:text-base-content/20"
         id={"daisyui-nav-icon-#{label}"}
         href="#"
         label={label}
@@ -9148,9 +9159,6 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
           class="flex w-full items-center gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] text-start cursor-pointer hover:bg-base-content/10 data-highlighted:bg-base-content/10 data-disabled:cursor-not-allowed data-disabled:opacity-40"
         >
           Export
-          <svg class="block" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-            <path d="M6 12V4l4.5 4z" />
-          </svg>
         </button>
         <div
           data-part="separator"
@@ -9212,9 +9220,6 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
           class="flex w-full items-center gap-2 rounded-[var(--radius-field)] px-3 py-[calc(0.25rem*1.5)] text-start cursor-pointer hover:bg-base-content/10 data-highlighted:bg-base-content/10 data-disabled:cursor-not-allowed data-disabled:opacity-40"
         >
           Layout
-          <svg class="block" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-            <path d="M6 12V4l4.5 4z" />
-          </svg>
         </button>
         <div
           data-part="separator"
@@ -9276,7 +9281,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       </:icon>
 
       <:item label="Overview">
-        <ul class="grid gap-1">
+        <ul class="grid w-[min(90vw,20rem)] gap-1">
           <li>
             <a
               href="#"
@@ -9325,7 +9330,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       </:item>
 
       <:item label="Handbook">
-        <ul class="grid gap-1">
+        <ul class="grid w-[min(90vw,20rem)] gap-1">
           <li>
             <a
               href="#"
@@ -9452,7 +9457,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       </:icon>
 
       <:item label="Overview">
-        <ul class="grid gap-1">
+        <ul class="grid w-[min(90vw,20rem)] gap-1">
           <li>
             <a
               href="#"
@@ -9493,7 +9498,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
                 How to use Base UI effectively.
               </p>
             </div>
-            <ul class="grid gap-1">
+            <ul class="grid w-[min(90vw,20rem)] gap-1">
               <li>
                 <a
                   href="#"
@@ -9557,8 +9562,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       </:icon>
 
       <:item label="Product">
-        <div class="flex gap-4 p-2">
-          <ul class="grid gap-1">
+        <div class="flex w-[44rem] max-w-[calc(100vw-9rem)] flex-col gap-4 p-2 [&>*]:min-w-0 [&_ul]:w-auto sm:flex-row">
+          <ul class="grid w-[min(90vw,20rem)] gap-1">
             <li>
               <div class="flex flex-col rounded-[var(--radius-field)] p-3">
                 <span class="text-[0.875rem] font-medium">
@@ -9610,7 +9615,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
                   Start with accessible parts and shape them to your app instead of working around a preset design system.
                 </p>
               </div>
-              <ul class="grid gap-1">
+              <ul class="grid w-[min(90vw,20rem)] gap-1">
                 <li>
                   <a
                     href="#"
@@ -9640,14 +9645,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       </:item>
 
       <:item label="Learn">
-        <div class="flex gap-4 p-2">
+        <div class="flex w-[44rem] max-w-[calc(100vw-9rem)] flex-col gap-4 p-2 [&>*]:min-w-0 [&_ul]:w-auto sm:flex-row">
           <div>
             <h4 class="text-[0.875rem] font-medium">Where teams usually start</h4>
             <p class="mt-1 text-[0.75rem] leading-relaxed opacity-60">
               These are the docs people reach for first when they are turning a prototype into shared UI.
             </p>
           </div>
-          <ul class="grid gap-1">
+          <ul class="grid w-[min(90vw,20rem)] gap-1">
             <li>
               <a
                 href="#"
