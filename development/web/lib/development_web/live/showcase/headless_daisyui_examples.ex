@@ -12030,7 +12030,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "pagination-hero"} = assigns) do
     ~H"""
     <.pagination
-      control_class="d-btn rounded-none focus-visible:z-[2] hover:z-[1] aria-[current=page]:d-btn-active aria-[current=page]:pointer-events-none group-first/item:rounded-ss-[var(--radius-field)] group-first/item:rounded-es-[var(--radius-field)] group-last/item:rounded-se-[var(--radius-field)] group-last/item:rounded-ee-[var(--radius-field)] group-not-first/item:[margin-inline-start:calc(var(--border,1px)*-1)] [input&]:appearance-none [input&]:cursor-pointer [input&]:after:content-[attr(data-page)] [input&]:checked:d-btn-active"
+      control_class="d-btn rounded-none focus-visible:z-[2] hover:z-[1] aria-[current=page]:d-btn-active aria-[current=page]:bg-[color-mix(in_oklab,var(--color-base-200),#000_5%)] aria-[current=page]:text-base-content aria-[current=page]:border-[color-mix(in_oklab,var(--color-base-200),#000_7%)] aria-[current=page]:pointer-events-none group-first/item:rounded-ss-[var(--radius-field)] group-first/item:rounded-es-[var(--radius-field)] group-last/item:rounded-se-[var(--radius-field)] group-last/item:rounded-ee-[var(--radius-field)] group-not-first/item:[margin-inline-start:calc(var(--border,1px)*-1)] [input&]:appearance-none [input&]:cursor-pointer [input&]:after:content-[attr(data-page)] [input&]:checked:d-btn-active"
       ellipsis_class="inline-flex items-center px-3 opacity-60 select-none"
       item_class="group/item"
       list_class="inline-flex items-stretch"
@@ -12057,7 +12057,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         page={2}
         show_controls={false}
         control_class={[
-          "d-btn rounded-none focus-visible:z-[2] hover:z-[1] aria-[current=page]:d-btn-active aria-[current=page]:pointer-events-none group-first/item:rounded-ss-[var(--radius-field)] group-first/item:rounded-es-[var(--radius-field)] group-last/item:rounded-se-[var(--radius-field)] group-last/item:rounded-ee-[var(--radius-field)] group-not-first/item:[margin-inline-start:calc(var(--border,1px)*-1)] [input&]:appearance-none [input&]:cursor-pointer [input&]:after:content-[attr(data-page)] [input&]:checked:d-btn-active",
+          "d-btn rounded-none focus-visible:z-[2] hover:z-[1] aria-[current=page]:d-btn-active aria-[current=page]:bg-[color-mix(in_oklab,var(--color-base-200),#000_5%)] aria-[current=page]:text-base-content aria-[current=page]:border-[color-mix(in_oklab,var(--color-base-200),#000_7%)] aria-[current=page]:pointer-events-none group-first/item:rounded-ss-[var(--radius-field)] group-first/item:rounded-es-[var(--radius-field)] group-last/item:rounded-se-[var(--radius-field)] group-last/item:rounded-ee-[var(--radius-field)] group-not-first/item:[margin-inline-start:calc(var(--border,1px)*-1)] [input&]:appearance-none [input&]:cursor-pointer [input&]:after:content-[attr(data-page)] [input&]:checked:d-btn-active",
           "d-btn-#{size}"
         ]}
       />
@@ -12069,7 +12069,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <div class="flex flex-col items-center gap-3">
       <.pagination
-        control_class="d-btn rounded-none focus-visible:z-[2] hover:z-[1] aria-[current=page]:d-btn-active aria-[current=page]:pointer-events-none group-first/item:rounded-ss-[var(--radius-field)] group-first/item:rounded-es-[var(--radius-field)] group-last/item:rounded-se-[var(--radius-field)] group-last/item:rounded-ee-[var(--radius-field)] group-not-first/item:[margin-inline-start:calc(var(--border,1px)*-1)] [input&]:appearance-none [input&]:cursor-pointer [input&]:after:content-[attr(data-page)] [input&]:checked:d-btn-active"
+        control_class="d-btn rounded-none focus-visible:z-[2] hover:z-[1] aria-[current=page]:d-btn-active aria-[current=page]:bg-[color-mix(in_oklab,var(--color-base-200),#000_5%)] aria-[current=page]:text-base-content aria-[current=page]:border-[color-mix(in_oklab,var(--color-base-200),#000_7%)] aria-[current=page]:pointer-events-none group-first/item:rounded-ss-[var(--radius-field)] group-first/item:rounded-es-[var(--radius-field)] group-last/item:rounded-se-[var(--radius-field)] group-last/item:rounded-ee-[var(--radius-field)] group-not-first/item:[margin-inline-start:calc(var(--border,1px)*-1)] [input&]:appearance-none [input&]:cursor-pointer [input&]:after:content-[attr(data-page)] [input&]:checked:d-btn-active"
         ellipsis_class="inline-flex items-center px-3 opacity-60 select-none"
         item_class="group/item"
         list_class="inline-flex items-stretch"
@@ -12079,7 +12079,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         disabled
       />
       <.pagination
-        control_class="d-btn rounded-none focus-visible:z-[2] hover:z-[1] aria-[current=page]:d-btn-active aria-[current=page]:pointer-events-none group-first/item:rounded-ss-[var(--radius-field)] group-first/item:rounded-es-[var(--radius-field)] group-last/item:rounded-se-[var(--radius-field)] group-last/item:rounded-ee-[var(--radius-field)] group-not-first/item:[margin-inline-start:calc(var(--border,1px)*-1)] [input&]:appearance-none [input&]:cursor-pointer [input&]:after:content-[attr(data-page)] [input&]:checked:d-btn-active"
+        control_class="d-btn rounded-none focus-visible:z-[2] hover:z-[1] aria-[current=page]:d-btn-active aria-[current=page]:bg-[color-mix(in_oklab,var(--color-base-200),#000_5%)] aria-[current=page]:text-base-content aria-[current=page]:border-[color-mix(in_oklab,var(--color-base-200),#000_7%)] aria-[current=page]:pointer-events-none group-first/item:rounded-ss-[var(--radius-field)] group-first/item:rounded-es-[var(--radius-field)] group-last/item:rounded-se-[var(--radius-field)] group-last/item:rounded-ee-[var(--radius-field)] group-not-first/item:[margin-inline-start:calc(var(--border,1px)*-1)] [input&]:appearance-none [input&]:cursor-pointer [input&]:after:content-[attr(data-page)] [input&]:checked:d-btn-active"
         ellipsis_class="inline-flex items-center px-3 opacity-60 select-none"
         item_class="group/item"
         list_class="inline-flex items-stretch"
@@ -12088,7 +12088,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         page={1}
       />
       <.pagination
-        control_class="d-btn rounded-none focus-visible:z-[2] hover:z-[1] aria-[current=page]:d-btn-active aria-[current=page]:pointer-events-none group-first/item:rounded-ss-[var(--radius-field)] group-first/item:rounded-es-[var(--radius-field)] group-last/item:rounded-se-[var(--radius-field)] group-last/item:rounded-ee-[var(--radius-field)] group-not-first/item:[margin-inline-start:calc(var(--border,1px)*-1)] [input&]:appearance-none [input&]:cursor-pointer [input&]:after:content-[attr(data-page)] [input&]:checked:d-btn-active"
+        control_class="d-btn rounded-none focus-visible:z-[2] hover:z-[1] aria-[current=page]:d-btn-active aria-[current=page]:bg-[color-mix(in_oklab,var(--color-base-200),#000_5%)] aria-[current=page]:text-base-content aria-[current=page]:border-[color-mix(in_oklab,var(--color-base-200),#000_7%)] aria-[current=page]:pointer-events-none group-first/item:rounded-ss-[var(--radius-field)] group-first/item:rounded-es-[var(--radius-field)] group-last/item:rounded-se-[var(--radius-field)] group-last/item:rounded-ee-[var(--radius-field)] group-not-first/item:[margin-inline-start:calc(var(--border,1px)*-1)] [input&]:appearance-none [input&]:cursor-pointer [input&]:after:content-[attr(data-page)] [input&]:checked:d-btn-active"
         ellipsis_class="inline-flex items-center px-3 opacity-60 select-none"
         item_class="group/item"
         list_class="inline-flex items-stretch"
@@ -12110,7 +12110,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       total={4}
       page={2}
       show_controls={false}
-      control_class="d-btn rounded-none focus-visible:z-[2] hover:z-[1] aria-[current=page]:d-btn-active aria-[current=page]:pointer-events-none group-first/item:rounded-ss-[var(--radius-field)] group-first/item:rounded-es-[var(--radius-field)] group-last/item:rounded-se-[var(--radius-field)] group-last/item:rounded-ee-[var(--radius-field)] group-not-first/item:[margin-inline-start:calc(var(--border,1px)*-1)] [input&]:appearance-none [input&]:cursor-pointer [input&]:after:content-[attr(data-page)] [input&]:checked:d-btn-active d-btn-xs"
+      control_class="d-btn rounded-none focus-visible:z-[2] hover:z-[1] aria-[current=page]:d-btn-active aria-[current=page]:bg-[color-mix(in_oklab,var(--color-base-200),#000_5%)] aria-[current=page]:text-base-content aria-[current=page]:border-[color-mix(in_oklab,var(--color-base-200),#000_7%)] aria-[current=page]:pointer-events-none group-first/item:rounded-ss-[var(--radius-field)] group-first/item:rounded-es-[var(--radius-field)] group-last/item:rounded-se-[var(--radius-field)] group-last/item:rounded-ee-[var(--radius-field)] group-not-first/item:[margin-inline-start:calc(var(--border,1px)*-1)] [input&]:appearance-none [input&]:cursor-pointer [input&]:after:content-[attr(data-page)] [input&]:checked:d-btn-active d-btn-xs"
     />
     """
   end
@@ -12129,7 +12129,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       next_label="Next"
       first_label="First"
       last_label="Last"
-      control_class="d-btn rounded-none focus-visible:z-[2] hover:z-[1] aria-[current=page]:d-btn-active aria-[current=page]:pointer-events-none group-first/item:rounded-ss-[var(--radius-field)] group-first/item:rounded-es-[var(--radius-field)] group-last/item:rounded-se-[var(--radius-field)] group-last/item:rounded-ee-[var(--radius-field)] group-not-first/item:[margin-inline-start:calc(var(--border,1px)*-1)] [input&]:appearance-none [input&]:cursor-pointer [input&]:after:content-[attr(data-page)] [input&]:checked:d-btn-active d-btn-outline"
+      control_class="d-btn rounded-none focus-visible:z-[2] hover:z-[1] aria-[current=page]:d-btn-active aria-[current=page]:bg-[color-mix(in_oklab,var(--color-base-200),#000_5%)] aria-[current=page]:text-base-content aria-[current=page]:border-[color-mix(in_oklab,var(--color-base-200),#000_7%)] aria-[current=page]:pointer-events-none group-first/item:rounded-ss-[var(--radius-field)] group-first/item:rounded-es-[var(--radius-field)] group-last/item:rounded-se-[var(--radius-field)] group-last/item:rounded-ee-[var(--radius-field)] group-not-first/item:[margin-inline-start:calc(var(--border,1px)*-1)] [input&]:appearance-none [input&]:cursor-pointer [input&]:after:content-[attr(data-page)] [input&]:checked:d-btn-active d-btn-outline"
     />
     """
   end
@@ -12153,7 +12153,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <form id="daisyui-pagination-radio-form" phx-change="daisyui_pagination_change">
       <.pagination
-        control_class="d-btn rounded-none focus-visible:z-[2] hover:z-[1] aria-[current=page]:d-btn-active aria-[current=page]:pointer-events-none group-first/item:rounded-ss-[var(--radius-field)] group-first/item:rounded-es-[var(--radius-field)] group-last/item:rounded-se-[var(--radius-field)] group-last/item:rounded-ee-[var(--radius-field)] group-not-first/item:[margin-inline-start:calc(var(--border,1px)*-1)] [input&]:appearance-none [input&]:cursor-pointer [input&]:after:content-[attr(data-page)] [input&]:checked:d-btn-active"
+        control_class="d-btn rounded-none focus-visible:z-[2] hover:z-[1] aria-[current=page]:d-btn-active aria-[current=page]:bg-[color-mix(in_oklab,var(--color-base-200),#000_5%)] aria-[current=page]:text-base-content aria-[current=page]:border-[color-mix(in_oklab,var(--color-base-200),#000_7%)] aria-[current=page]:pointer-events-none group-first/item:rounded-ss-[var(--radius-field)] group-first/item:rounded-es-[var(--radius-field)] group-last/item:rounded-se-[var(--radius-field)] group-last/item:rounded-ee-[var(--radius-field)] group-not-first/item:[margin-inline-start:calc(var(--border,1px)*-1)] [input&]:appearance-none [input&]:cursor-pointer [input&]:after:content-[attr(data-page)] [input&]:checked:d-btn-active"
         ellipsis_class="inline-flex items-center px-3 opacity-60 select-none"
         item_class="group/item"
         list_class="inline-flex items-stretch"
@@ -12172,7 +12172,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-col items-center gap-3">
       <.pagination
         :for={page <- [1, 7, 50, 100]}
-        control_class="d-btn rounded-none focus-visible:z-[2] hover:z-[1] aria-[current=page]:d-btn-active aria-[current=page]:pointer-events-none group-first/item:rounded-ss-[var(--radius-field)] group-first/item:rounded-es-[var(--radius-field)] group-last/item:rounded-se-[var(--radius-field)] group-last/item:rounded-ee-[var(--radius-field)] group-not-first/item:[margin-inline-start:calc(var(--border,1px)*-1)] [input&]:appearance-none [input&]:cursor-pointer [input&]:after:content-[attr(data-page)] [input&]:checked:d-btn-active"
+        control_class="d-btn rounded-none focus-visible:z-[2] hover:z-[1] aria-[current=page]:d-btn-active aria-[current=page]:bg-[color-mix(in_oklab,var(--color-base-200),#000_5%)] aria-[current=page]:text-base-content aria-[current=page]:border-[color-mix(in_oklab,var(--color-base-200),#000_7%)] aria-[current=page]:pointer-events-none group-first/item:rounded-ss-[var(--radius-field)] group-first/item:rounded-es-[var(--radius-field)] group-last/item:rounded-se-[var(--radius-field)] group-last/item:rounded-ee-[var(--radius-field)] group-not-first/item:[margin-inline-start:calc(var(--border,1px)*-1)] [input&]:appearance-none [input&]:cursor-pointer [input&]:after:content-[attr(data-page)] [input&]:checked:d-btn-active"
         ellipsis_class="inline-flex items-center px-3 opacity-60 select-none"
         item_class="group/item"
         list_class="inline-flex items-stretch"
@@ -12187,7 +12187,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "pagination-links"} = assigns) do
     ~H"""
     <.pagination
-      control_class="d-btn rounded-none focus-visible:z-[2] hover:z-[1] aria-[current=page]:d-btn-active aria-[current=page]:pointer-events-none group-first/item:rounded-ss-[var(--radius-field)] group-first/item:rounded-es-[var(--radius-field)] group-last/item:rounded-se-[var(--radius-field)] group-last/item:rounded-ee-[var(--radius-field)] group-not-first/item:[margin-inline-start:calc(var(--border,1px)*-1)] [input&]:appearance-none [input&]:cursor-pointer [input&]:after:content-[attr(data-page)] [input&]:checked:d-btn-active"
+      control_class="d-btn rounded-none focus-visible:z-[2] hover:z-[1] aria-[current=page]:d-btn-active aria-[current=page]:bg-[color-mix(in_oklab,var(--color-base-200),#000_5%)] aria-[current=page]:text-base-content aria-[current=page]:border-[color-mix(in_oklab,var(--color-base-200),#000_7%)] aria-[current=page]:pointer-events-none group-first/item:rounded-ss-[var(--radius-field)] group-first/item:rounded-es-[var(--radius-field)] group-last/item:rounded-se-[var(--radius-field)] group-last/item:rounded-ee-[var(--radius-field)] group-not-first/item:[margin-inline-start:calc(var(--border,1px)*-1)] [input&]:appearance-none [input&]:cursor-pointer [input&]:after:content-[attr(data-page)] [input&]:checked:d-btn-active"
       ellipsis_class="inline-flex items-center px-3 opacity-60 select-none"
       item_class="group/item"
       list_class="inline-flex items-stretch"
@@ -12202,7 +12202,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "pagination-interactive"} = assigns) do
     ~H"""
     <.pagination
-      control_class="d-btn rounded-none focus-visible:z-[2] hover:z-[1] aria-[current=page]:d-btn-active aria-[current=page]:pointer-events-none group-first/item:rounded-ss-[var(--radius-field)] group-first/item:rounded-es-[var(--radius-field)] group-last/item:rounded-se-[var(--radius-field)] group-last/item:rounded-ee-[var(--radius-field)] group-not-first/item:[margin-inline-start:calc(var(--border,1px)*-1)] [input&]:appearance-none [input&]:cursor-pointer [input&]:after:content-[attr(data-page)] [input&]:checked:d-btn-active"
+      control_class="d-btn rounded-none focus-visible:z-[2] hover:z-[1] aria-[current=page]:d-btn-active aria-[current=page]:bg-[color-mix(in_oklab,var(--color-base-200),#000_5%)] aria-[current=page]:text-base-content aria-[current=page]:border-[color-mix(in_oklab,var(--color-base-200),#000_7%)] aria-[current=page]:pointer-events-none group-first/item:rounded-ss-[var(--radius-field)] group-first/item:rounded-es-[var(--radius-field)] group-last/item:rounded-se-[var(--radius-field)] group-last/item:rounded-ee-[var(--radius-field)] group-not-first/item:[margin-inline-start:calc(var(--border,1px)*-1)] [input&]:appearance-none [input&]:cursor-pointer [input&]:after:content-[attr(data-page)] [input&]:checked:d-btn-active"
       ellipsis_class="inline-flex items-center px-3 opacity-60 select-none"
       item_class="group/item"
       list_class="inline-flex items-stretch"
