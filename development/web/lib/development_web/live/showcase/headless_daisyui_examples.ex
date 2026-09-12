@@ -12633,7 +12633,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       name="email"
       label="Email"
       class="group flex-col text-base-content data-disabled:opacity-60 d-fieldset w-xs"
-      label_class="d-label text-[0.875rem] d-fieldset-legend"
+      label_class="d-fieldset-legend"
     >
       <.text_input
         end_section_class="flex h-[calc(100%-0.5rem)] items-center px-3 whitespace-nowrap text-[length:inherit] ms-3 -me-3 border-s-[length:var(--border)] border-solid border-s-[color-mix(in_oklab,currentColor_10%,#0000)]"
@@ -13079,7 +13079,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       name="bio"
       label="Your bio"
       class="group flex-col text-base-content data-disabled:opacity-60 d-fieldset w-xs"
-      label_class="d-label text-[0.875rem] d-fieldset-legend"
+      label_class="d-fieldset-legend"
     >
       <.textarea
         textarea_class="w-full flex-1 resize-y data-[resize=none]:resize-none data-[resize=horizontal]:resize-x data-[resize=both]:resize group-data-[disabled]:resize-none appearance-none bg-transparent [border:none] text-[length:inherit] placeholder:text-base-content placeholder:opacity-50 focus:outline-none focus-within:outline-none forced-colors:focus:outline-2 forced-colors:focus:outline-transparent forced-colors:focus:outline-offset-2 group-data-[disabled]:cursor-not-allowed group-data-[disabled]:[color:color-mix(in_oklab,var(--color-base-content)_40%,transparent)] group-data-[disabled]:placeholder:text-base-content group-data-[disabled]:placeholder:opacity-20"
@@ -13241,7 +13241,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       name="avatar"
       label="Pick a file"
       class="group flex-col text-base-content data-disabled:opacity-60 d-fieldset w-xs"
-      label_class="d-label text-[0.875rem] d-fieldset-legend"
+      label_class="d-fieldset-legend"
     >
       <.file_input
         id={f.id}
