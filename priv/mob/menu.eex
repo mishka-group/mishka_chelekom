@@ -223,29 +223,28 @@ defmodule <%= @module %> do
     color =
       cond do
         disabled? -> :muted
-        truthy?(Map.get(item, :danger, false)) -> Map.get(props, :danger_color, :error)
+        truthy?(Map.get(item, :danger, false)) -> Map.get(props, :danger_color) || :error
         true -> :on_surface
       end
 
-    node = ~MOB"""
-    <Box
-      fill_width={true}
-      padding={:space_sm}
-      corner_radius={:radius_sm}
-      id={Map.get(item, :test_id)}
-    >
-      <Row fill_width={true}>
-        <Text text={icon} text_size={:base} text_color={color} :if={is_binary(icon)} />
-        <Spacer size={10} :if={is_binary(icon)} />
-        <Text text={Map.get(item, :label)} text_size={:base} text_color={color} />
-      </Row>
-    </Box>
-    """
+    # `test_id` is merged rather than interpolated. An item built without one
+    # carries `test_id: nil`, an inline `id={nil}` still lands in the props map,
+    # and `:json` encodes an atom as a string — so every untagged row reached
+    # the bridge with the testTag "nil", and a test looking for one row found
+    # whichever came first.
+    node =
+      ~MOB"""
+      <Box fill_width={true} padding={:space_sm} corner_radius={:radius_sm}>
+        <Row fill_width={true}>
+          <Text text={icon} text_size={:base} text_color={color} :if={is_binary(icon)} />
+          <Spacer size={10} :if={is_binary(icon)} />
+          <Text text={Map.get(item, :label) || ""} text_size={:base} text_color={color} />
+        </Row>
+      </Box>
+      """
+      |> put(:id, Map.get(item, :test_id))
 
-    case tap(props, item, disabled?) do
-      nil -> node
-      handler -> %{node | props: Map.put(node.props, :on_tap, handler)}
-    end
+    put(node, :on_tap, tap(props, item, disabled?))
   end
 
   defp row(%{type: @checkbox, props: item}, props) do
@@ -325,6 +324,9 @@ defmodule <%= @module %> do
     }
     |> row(props)
   end
+
+  defp put(node, _key, nil), do: node
+  defp put(node, key, value), do: %{node | props: Map.put(node.props, key, value)}
 
   defp state_tag(nil, _checked?), do: nil
   defp state_tag(id, true), do: id <> "-checked"

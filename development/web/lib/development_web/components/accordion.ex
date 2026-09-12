@@ -9,6 +9,7 @@ defmodule DevelopmentWeb.Components.Accordion do
   **Documentation:** https://mishka.tools/chelekom/docs/accordion
   """
   use Phoenix.Component
+  alias Phoenix.LiveView.JS
   import Phoenix.LiveView.Utils, only: [random_id: 0]
   import DevelopmentWeb.Components.Icon, only: [icon: 1]
 
@@ -75,6 +76,9 @@ defmodule DevelopmentWeb.Components.Accordion do
     <div
       id={@id}
       phx-hook="Collapsible"
+      data-pb-open={JS.dispatch("chelekom:open", to: "##{@id}")}
+      data-pb-close={JS.dispatch("chelekom:close", to: "##{@id}")}
+      data-pb-toggle={JS.dispatch("chelekom:toggle", to: "##{@id}")}
       data-multiple={to_string(@multiple)}
       data-collapsible={to_string(@collapsible)}
       data-duration={@duration}

@@ -70,7 +70,7 @@ defmodule MishkaMob.Components.MishkaToast.Queue do
     now = Keyword.get_lazy(opts, :now, fn -> System.monotonic_time(:millisecond) end)
 
     Enum.reject(toasts, fn toast ->
-      case {Map.get(toast, :at), Map.get(toast, :duration, duration)} do
+      case {Map.get(toast, :at), Map.get(toast, :duration) || duration} do
         {nil, _} -> false
         {_at, sticky} when not is_integer(sticky) or sticky <= 0 -> false
         {at, dur} -> now - at >= dur

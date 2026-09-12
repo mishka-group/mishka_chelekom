@@ -24,6 +24,12 @@ defmodule DevelopmentWeb.Components.Headless.RadioGroup do
   attr :id, :string, required: true
   attr :name, :string, default: nil, doc: "Name for the hidden form input"
   attr :value, :string, default: nil, doc: "Currently selected value"
+
+  attr :orientation, :string,
+    default: "vertical",
+    values: ~w(vertical horizontal),
+    doc: "Which way the options run; the engine's arrow keys follow it"
+
   attr :disabled, :boolean, default: false, doc: "Disable the whole group (data-disabled)"
   attr :readonly, :boolean, default: false, doc: "Block changing the selection (aria-readonly)"
   attr :required, :boolean, default: false, doc: "Require a selection for form submit"
@@ -34,6 +40,7 @@ defmodule DevelopmentWeb.Components.Headless.RadioGroup do
 
   attr :on_change, :string, default: nil, doc: "LiveView event pushed on selection ({value})"
   attr :class, :any, default: nil
+  attr :item_class, :any, default: nil, doc: ~s|Extra classes for `data-part="item"`|
   attr :rest, :global
 
   slot :option, required: true, doc: "A radio option" do
@@ -54,7 +61,7 @@ defmodule DevelopmentWeb.Components.Headless.RadioGroup do
       id={@id}
       phx-hook="RadioGroup"
       role="radiogroup"
-      data-orientation="vertical"
+      data-orientation={@orientation}
       data-disabled={@disabled}
       data-on-change={@on_change}
       aria-disabled={@disabled && "true"}
@@ -84,7 +91,7 @@ defmodule DevelopmentWeb.Components.Headless.RadioGroup do
         data-unchecked={opt.value != @value}
         data-disabled={@disabled || opt[:disabled]}
         tabindex={if i == @tabbable, do: "0", else: "-1"}
-        class="chelekom-radio-group__item"
+        class={["chelekom-radio-group__item", @item_class]}
       >
         {render_slot(opt)}
       </button>

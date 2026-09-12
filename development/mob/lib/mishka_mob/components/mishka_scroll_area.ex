@@ -67,7 +67,9 @@ defmodule MishkaMob.Components.MishkaScrollArea do
   @spec scroll_area(map() | keyword(), [map()]) :: map()
   def scroll_area(props \\ %{}, content \\ []) do
     props = Map.new(props)
-    axis = if Map.get(props, :orientation, :vertical) == :horizontal, do: "horizontal", else: nil
+
+    axis =
+      if (Map.get(props, :orientation) || :vertical) == :horizontal, do: "horizontal", else: nil
 
     scroller =
       ~MOB"""

@@ -98,6 +98,7 @@ defmodule <%= @module %> do
   attr :decrement_class, :any, default: nil, doc: "Extra classes for the decrement button part"
   attr :increment_class, :any, default: nil, doc: "Extra classes for the increment button part"
   attr :input_class, :any, default: nil, doc: "Extra classes for the input part"
+  attr :hidden_class, :any, default: nil, doc: ~s|Extra classes for `data-part="hidden-input"`|
   attr :rest, :global
 
   slot :scrub_area, doc: "Optional drag region (e.g. a label) that scrubs the value"
@@ -226,7 +227,7 @@ defmodule <%= @module %> do
         disabled={@disabled}
         aria-hidden="true"
         tabindex="-1"
-        class="chelekom-number_field__hidden"
+        class={["chelekom-number_field__hidden", @hidden_class]}
         style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;"
       />
     </div>

@@ -1,0 +1,138 @@
+defmodule DevelopmentWeb.Components.Headless.Dock do
+  @moduledoc """
+  Headless **dock** — the bar of destinations pinned to the bottom of a phone-shaped layout.
+
+  It is a `<nav>` with an accessible name, because that is what it is: the primary navigation of
+  the view, not a toolbar. The active destination carries `aria-current="page"` as well as
+  `data-active`, so it is announced as the current one rather than merely coloured differently.
+
+  Items are links by default — `navigate`/`patch`/`href` — and become buttons when given
+  `on_select`, for a dock that switches a panel instead of a route. An item without either is a
+  plain `<span>`: a dock entry that goes nowhere should not take a tab stop.
+
+  `position` puts the bar at the bottom (the default) or the top, and `contained` drops the fixed
+  positioning so the dock can sit inside a device mockup or a card instead of the viewport — which
+  is the only way to show one in a page that already has a dock.
+
+  Parts: `item`, `icon`, `label`. Labels can be hidden wholesale with `show_labels={false}` and stay
+  available to screen readers, which is what an icon-only dock should do rather than dropping the
+  text entirely.
+
+  Ships **no** colors, sizing or spacing — style via `chelekom-dock*` and the
+  `data-active` / `data-position` hooks.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/dock
+  """
+  use Phoenix.Component
+
+  alias Phoenix.LiveView.JS
+
+  @doc type: :component
+  attr :id, :string, default: nil, doc: "Unique id"
+  attr :label, :string, default: "Primary", doc: "Accessible name for the nav landmark"
+
+  attr :position, :string,
+    default: "bottom",
+    values: ~w(bottom top),
+    doc: "Which edge the bar is pinned to"
+
+  attr :contained, :boolean,
+    default: false,
+    doc: "Drop the fixed positioning so the dock sits inside its container"
+
+  attr :show_labels, :boolean,
+    default: true,
+    doc: "When false the labels stay in the DOM for screen readers but are visually hidden"
+
+  attr :class, :any, default: nil, doc: "Extra classes for the root"
+  attr :item_class, :any, default: nil, doc: ~s|Extra classes for `data-part="item"`|
+  attr :label_class, :any, default: nil, doc: ~s|Extra classes for `data-part="label"`|
+  attr :icon_class, :any, default: nil, doc: ~s|Extra classes for `data-part="icon"`|
+  attr :rest, :global
+
+  slot :item, doc: "One destination; the slot body is the icon" do
+    attr :label, :string, doc: "The destination's name"
+    attr :active, :boolean, doc: "Marks this the current destination"
+    attr :navigate, :string
+    attr :patch, :string
+    attr :href, :string
+    attr :on_select, :any, doc: "A JS command or event name; renders a button instead of a link"
+    attr :disabled, :boolean
+    attr :class, :any
+  end
+
+  def dock(assigns) do
+    ~H"""
+    <nav
+      id={@id}
+      aria-label={@label}
+      data-part="root"
+      data-position={@position}
+      data-contained={@contained}
+      class={["chelekom-dock", @class]}
+      {@rest}
+    >
+      <.dynamic_tag
+        :for={{item, index} <- Enum.with_index(@item)}
+        tag_name={item_tag(item)}
+        data-part="item"
+        data-index={index}
+        data-active={item[:active]}
+        data-disabled={item[:disabled]}
+        aria-current={item[:active] && "page"}
+        aria-disabled={item[:disabled] && "true"}
+        phx-click={!item[:disabled] && !link?(item) && select_action(item, index)}
+        class={["chelekom-dock__item", @item_class, item[:class]]}
+        {item_attrs(item)}
+      >
+        <span data-part="icon" aria-hidden="true" class={["chelekom-dock__icon", @icon_class]}>{render_slot(
+          item
+        )}</span>
+        <span
+          :if={item[:label]}
+          data-part="label"
+          data-hidden={!@show_labels}
+          class={["chelekom-dock__label", @label_class]}
+        >{item[:label]}</span>
+      </.dynamic_tag>
+    </nav>
+    """
+  end
+
+  # A destination that goes nowhere is text, not a dead button.
+  defp item_tag(item) do
+    cond do
+      link?(item) -> "a"
+      item[:on_select] -> "button"
+      true -> "span"
+    end
+  end
+
+  defp link?(item), do: item[:navigate] || item[:patch] || item[:href]
+
+  # `dynamic_tag` only takes tag-specific attributes through a spread, so `type` and `disabled`
+  # travel with the link attributes rather than being written out.
+  defp item_attrs(item) do
+    cond do
+      link?(item) -> link_attrs(item)
+      item[:on_select] -> %{"type" => "button", "disabled" => !!item[:disabled]}
+      true -> %{}
+    end
+  end
+
+  defp link_attrs(%{navigate: navigate}) when is_binary(navigate),
+    do: %{"href" => navigate, "data-phx-link" => "redirect", "data-phx-link-state" => "push"}
+
+  defp link_attrs(%{patch: patch}) when is_binary(patch),
+    do: %{"href" => patch, "data-phx-link" => "patch", "data-phx-link-state" => "push"}
+
+  defp link_attrs(%{href: href}) when is_binary(href), do: %{"href" => href}
+  defp link_attrs(_), do: %{}
+
+  defp select_action(%{on_select: %JS{} = js}, _index), do: js
+
+  defp select_action(%{on_select: event}, index) when is_binary(event),
+    do: JS.push(event, value: %{index: index})
+
+  defp select_action(_item, _index), do: nil
+end

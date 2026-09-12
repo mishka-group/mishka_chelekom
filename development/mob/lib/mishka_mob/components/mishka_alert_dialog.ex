@@ -227,7 +227,7 @@ defmodule MishkaMob.Components.MishkaAlertDialog do
         id: Map.get(props, :id),
         on_tap: Map.get(props, :on_tap),
         variant: Map.get(props, :variant) || :neutral,
-        close: Map.get(props, :close, true)
+        close: Map.get(props, :close) != false
       ],
       ctx
     )

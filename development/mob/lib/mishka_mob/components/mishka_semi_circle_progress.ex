@@ -82,10 +82,10 @@ defmodule MishkaMob.Components.MishkaSemiCircleProgress do
   @spec semi_circle_progress(map() | keyword()) :: map()
   def semi_circle_progress(props \\ %{}) do
     props = Map.new(props)
-    min = Map.get(props, :min, 0)
+    min = Map.get(props, :min) || 0
     fraction = MishkaProgress.fraction(Map.put_new(props, :value, min)) || 0.0
-    size = Map.get(props, :size, 140)
-    stroke = Map.get(props, :thickness, size * @thickness_ratio)
+    size = Map.get(props, :size) || 140
+    stroke = Map.get(props, :thickness) || size * @thickness_ratio
 
     gauge = centre(stack(props, fraction, size, stroke))
     caption = caption(Map.get(props, :label))
@@ -113,7 +113,7 @@ defmodule MishkaMob.Components.MishkaSemiCircleProgress do
     radius = centre - stroke
 
     [Mob.Canvas.arc(centre, centre, radius, 180, 360, color: @track, width: stroke)] ++
-      indicator(centre, radius, stroke, fraction, Map.get(props, :color, :primary))
+      indicator(centre, radius, stroke, fraction, Map.get(props, :color) || :primary)
   end
 
   # Guard the computed SWEEP, not the fraction: a round cap with nothing to

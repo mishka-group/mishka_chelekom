@@ -47,8 +47,8 @@ defmodule <%= @module %> do
     # near-black text and the legend becomes hard to read. So the ink is a prop
     # too; <%= @module_prefix_camel %>Mark learned the same lesson, which is why its fill and ink are
     # a matched pair rather than one overridable half.
-    color = if disabled?, do: :muted, else: Map.get(props, :color, :on_surface)
-    space = Map.get(props, :space, 14)
+    color = if disabled?, do: :muted, else: Map.get(props, :color) || :on_surface
+    space = Map.get(props, :space) || 14
 
     group = ~MOB"""
     <Column fill_width={true}>

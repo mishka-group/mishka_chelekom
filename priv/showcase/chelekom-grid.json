@@ -1,7 +1,7 @@
 {
   "name": "chelekom-grid",
   "furnishing": {
-    "body": "<div class=\"col-span-12 rounded-lg border border-neutral-200 p-6 sm:col-span-4 dark:border-neutral-700\">First column</div>\n<div class=\"col-span-12 rounded-lg border border-neutral-200 p-6 sm:col-span-4 dark:border-neutral-700\">Second column</div>\n<div class=\"col-span-12 rounded-lg border border-neutral-200 p-6 sm:col-span-4 dark:border-neutral-700\">Third column</div>",
+    "body": "<div class=\"col-span-12 sm:col-span-4\"></div>\n<div class=\"col-span-12 sm:col-span-4\"></div>\n<div class=\"col-span-12 sm:col-span-4\"></div>",
     "slots": []
   },
   "examples": [

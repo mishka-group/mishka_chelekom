@@ -16,6 +16,7 @@ defmodule DevelopmentWeb.Components.Navbar do
   **Documentation:** https://mishka.tools/chelekom/docs/navbar
   """
   use Phoenix.Component
+  alias Phoenix.LiveView.JS
   import DevelopmentWeb.Components.Icon, only: [icon: 1]
   use Gettext, backend: DevelopmentWeb.Gettext
 
@@ -160,6 +161,7 @@ defmodule DevelopmentWeb.Components.Navbar do
     <nav
       id={@id}
       role="navigation"
+      data-pb-toggle={JS.toggle_class("show-nav-menu", to: "##{@id}")}
       class={[
         "relative",
         "[&.show-nav-menu_.nav-menu]:block [&.show-nav-menu_.nav-menu]:opacity-100",

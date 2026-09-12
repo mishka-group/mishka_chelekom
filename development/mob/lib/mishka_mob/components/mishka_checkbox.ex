@@ -108,7 +108,7 @@ defmodule MishkaMob.Components.MishkaCheckbox do
   # metrics rather than of scale. Two canvas lines have no metrics: they land
   # exactly where the arithmetic puts them, at any size, on both platforms.
   defp indicator(props, checked?, mixed?, disabled?) do
-    size = Map.get(props, :size, 22)
+    size = Map.get(props, :size) || 22
     fill = fill(props, checked?, disabled?)
     mark = mark(size, checked?, mixed?, glyph_color(props, disabled?))
 
@@ -195,11 +195,11 @@ defmodule MishkaMob.Components.MishkaCheckbox do
   # Thick enough to read at 14dp, thin enough not to fill the box at 40dp.
   defp stroke(size), do: Kernel.max(size * 0.12, 1.5)
 
-  defp fill(props, true, false), do: Map.get(props, :color, :primary)
+  defp fill(props, true, false), do: Map.get(props, :color) || :primary
   defp fill(_props, _checked, _disabled), do: :surface_raised
 
   defp glyph_color(_props, true), do: :muted
-  defp glyph_color(props, _), do: Map.get(props, :text_color, :on_primary)
+  defp glyph_color(props, _), do: Map.get(props, :text_color) || :on_primary
 
   defp handler(_props, true), do: nil
   defp handler(props, _), do: Event.handler(Map.get(props, :on_toggle))

@@ -98,6 +98,11 @@ defmodule <%= @module %> do
       id={@id}
       phx-mounted={@show && show_drawer(@on_show, @id, @position)}
       phx-remove={hide_drawer(@id, @position)}
+      data-pb-open={show_drawer(@id, @position)}
+      <%!-- The same command `phx-remove` already carries, named rather than written out
+            again: `hide_drawer/2` serialises to hundreds of bytes of JSON and this element
+            would otherwise have shipped it twice. --%>
+      data-pb-close={JS.exec("phx-remove", to: "##{@id}")}
       class={[
         "fixed z-50 transition-transform",
         "[&:not(.drawer-showed)_.drawer-overlay]:opacity-0 [&.drawer-showed_.drawer-overlay]:opacity-100",

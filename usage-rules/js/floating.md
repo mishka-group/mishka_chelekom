@@ -172,3 +172,27 @@ let liveSocket = new LiveSocket("/live", Socket, {
   hooks: { Floating }
 })
 ```
+
+## Opened From Outside Itself
+
+The root element answers three custom DOM events, so anything on the page can open the floating content without
+holding a reference to the hook:
+
+| Event | Effect |
+|-------|--------|
+| `chelekom:open` | `show()` — the same reveal the trigger performs |
+| `chelekom:close` | `hide()` |
+| `chelekom:toggle` | `handleClick()` — closes every other open dropdown first, exactly as a trigger click does |
+
+The component declares them on its own root, which is what makes them discoverable and what the
+MishkaCMS page builder reads:
+
+```heex
+data-pb-open={JS.dispatch("chelekom:open", to: "##{@id}")}
+data-pb-close={JS.dispatch("chelekom:close", to: "##{@id}")}
+data-pb-toggle={JS.dispatch("chelekom:toggle", to: "##{@id}")}
+```
+
+Events arriving from a nested component are ignored (`event.target !== this.el`), so a dropdown inside a drawer
+does not open its ancestor on the way up. See "Opening a Component From Somewhere Else" in the
+top-level usage rules.

@@ -132,6 +132,13 @@ defmodule DevelopmentWeb.Components.SpeedDial do
     ~H"""
     <div
       id={@id}
+      data-pb-toggle={
+        @id &&
+          JS.toggle_class("show-speed-dial",
+            to: "##{@id}-speed-dial-content",
+            transition: "duration-100"
+          )
+      }
       class={[
         "fixed group",
         "[&_.speed-dial-content]:invisible [&_.speed-dial-content]:opacity-0",

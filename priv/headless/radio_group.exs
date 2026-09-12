@@ -23,7 +23,7 @@
           element: "div",
           role: "radiogroup",
           aria: ["aria-orientation", "aria-disabled", "aria-readonly", "aria-required"],
-          data_attributes: ["data-disabled"]
+          data_attributes: ["data-orientation", "data-disabled"]
         ],
         parts: [
           item: [
@@ -37,7 +37,10 @@
               "data-highlighted"
             ]
           ],
-          hidden_input: [element: "input", note: "carries the value (+ required) for form submission"]
+          hidden_input: [
+            element: "input",
+            note: "carries the value (+ required) for form submission"
+          ]
         ]
       ],
       aria_pattern: [

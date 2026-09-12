@@ -27,6 +27,8 @@ defmodule DevelopmentWeb.Components.Headless.Spoiler do
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :content_class, :any, default: nil, doc: "Extra classes for the content region"
   attr :control_class, :any, default: nil, doc: "Extra classes for the toggle"
+  attr :show_label_class, :any, default: nil, doc: ~s|Extra classes for `data-part="show-label"`|
+  attr :hide_label_class, :any, default: nil, doc: ~s|Extra classes for `data-part="hide-label"`|
   attr :rest, :global
 
   slot :inner_block, required: true, doc: "The (possibly long) content"
@@ -58,8 +60,8 @@ defmodule DevelopmentWeb.Components.Headless.Spoiler do
         }
         class={["chelekom-spoiler__control", @control_class]}
       >
-        <span data-part="show-label">{@show_label}</span>
-        <span data-part="hide-label">{@hide_label}</span>
+        <span data-part="show-label" class={["chelekom-spoiler__show-label", @show_label_class]}>{@show_label}</span>
+        <span data-part="hide-label" class={["chelekom-spoiler__hide-label", @hide_label_class]}>{@hide_label}</span>
       </button>
     </div>
     """

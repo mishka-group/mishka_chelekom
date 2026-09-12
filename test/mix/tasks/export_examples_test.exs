@@ -113,8 +113,7 @@ defmodule Mix.Tasks.Mishka.Ui.ExportExamplesTest do
 
     setup do
       bundle =
-        :code.priv_dir(:mishka_chelekom)
-        |> Path.join("components/chelekom.json")
+        MishkaChelekom.CmsBundle.Location.bundle!("chelekom")
         |> File.read!()
         |> Jason.decode!()
 
@@ -191,8 +190,7 @@ defmodule Mix.Tasks.Mishka.Ui.ExportExamplesTest do
   describe "shipped bundle — per-option example contract" do
     setup do
       bundle =
-        :code.priv_dir(:mishka_chelekom)
-        |> Path.join("components/chelekom.json")
+        MishkaChelekom.CmsBundle.Location.bundle!("chelekom")
         |> File.read!()
         |> Jason.decode!()
 

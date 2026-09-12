@@ -1,3 +1,8 @@
+// The three sentences anything outside a component can say to it. A component that wants to be
+// openable from elsewhere dispatches these at itself from `data-pb-open` / `data-pb-close` /
+// `data-pb-toggle` and listens for them here; a component that does not, ignores them.
+const OPEN_COMMANDS = ["chelekom:open", "chelekom:close", "chelekom:toggle"];
+
 const Floating = {
   mounted() {
     this.initElements();
@@ -230,6 +235,53 @@ const Floating = {
     document.addEventListener("keydown", this.boundHandleKeydown);
     window.addEventListener("resize", this.updatePositionDebounced);
     window.addEventListener("scroll", this.updatePositionDebounced, true);
+
+    this.setupOpenCommands();
+  },
+
+  // OPENED BY SOMETHING THAT IS NOT ITS OWN TRIGGER.
+  //
+  // Everything above answers to this component's own parts. This answers to the page: a button
+  // somewhere else that says "open that dropdown", written by an author in a page builder or by a
+  // developer who never gets a reference to this hook.
+  //
+  // The only thing either of them can write into markup is a `Phoenix.LiveView.JS` command, and a
+  // hook method is not one — so the command they write is a dispatch, and this is the ear for it.
+  // The component declares the pair in its own template, which is what keeps this discoverable:
+  //
+  //     data-pb-open={JS.dispatch("chelekom:open", to: "##{@id}")}
+  //
+  // `event.target !== this.el` is load-bearing, not defensive dressing. `JS.dispatch` sends a
+  // bubbling CustomEvent, so a dropdown opened inside a drawer would otherwise open the drawer on
+  // the way up.
+  setupOpenCommands() {
+    this.boundOpenCommand = this.handleOpenCommand.bind(this);
+
+    for (const name of OPEN_COMMANDS) {
+      this.el.addEventListener(name, this.boundOpenCommand);
+    }
+  },
+
+  handleOpenCommand(event) {
+    if (event.target !== this.el) return;
+
+    if (event.type === "chelekom:open") {
+      this.show();
+    } else if (event.type === "chelekom:close") {
+      this.hide();
+    } else {
+      // The same toggle the trigger runs, so "open" from a button and "open" from a click agree
+      // about closing every other dropdown on the page.
+      this.handleClick(event);
+    }
+  },
+
+  teardownOpenCommands() {
+    if (!this.boundOpenCommand) return;
+
+    for (const name of OPEN_COMMANDS) {
+      this.el.removeEventListener(name, this.boundOpenCommand);
+    }
   },
 
   getFloatingType() {
@@ -572,6 +624,8 @@ const Floating = {
   },
 
   destroyed() {
+    this.teardownOpenCommands();
+
     if (this.showTimeout) {
       clearTimeout(this.showTimeout);
       this.showTimeout = null;

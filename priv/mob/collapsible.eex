@@ -67,13 +67,13 @@ defmodule <%= @module %> do
     props = Map.new(props)
     open? = truthy?(Map.get(props, :open, false))
     disabled? = truthy?(Map.get(props, :disabled, false))
-    padding = Map.get(props, :padding, :space_md)
+    padding = Map.get(props, :padding) || :space_md
 
     ~MOB"""
     <Box
       fill_width={true}
-      background={Map.get(props, :background, :surface_raised)}
-      corner_radius={Map.get(props, :corner_radius, :radius_md)}
+      background={Map.get(props, :background) || :surface_raised}
+      corner_radius={Map.get(props, :corner_radius) || :radius_md}
     >
       <Column fill_width={true}>
         {trigger(props, open?, disabled?, padding)}
@@ -93,7 +93,7 @@ defmodule <%= @module %> do
     # near-black text and the title becomes hard to read. So the ink is a prop
     # too; <%= @module_prefix_camel %>Mark learned the same lesson, which is why its fill and ink are
     # a matched pair rather than one overridable half.
-    color = if disabled?, do: :muted, else: Map.get(props, :color, :on_surface)
+    color = if disabled?, do: :muted, else: Map.get(props, :color) || :on_surface
 
     # Widened to {pid, tag}; a bare atom would serialise as an ordinary prop and
     # the trigger would render fine but never fire.
@@ -102,12 +102,16 @@ defmodule <%= @module %> do
         do: nil,
         else: Event.handler(Map.get(props, :on_toggle))
 
-    chevron? = truthy?(Map.get(props, :chevron, true))
+    # `nil` means "not given", not `false`: `Map.get/3` hands back its default
+    # only when the key is ABSENT, so a keyword-built props map carrying an
+    # unset key as an explicit nil used to read as a deliberate `false`.
+    # Only a real `false` turns this off.
+    chevron? = Map.get(props, :chevron) != false
 
     node = ~MOB"""
     <Box fill_width={true} padding={padding}>
       <Row fill_width={true}>
-        <Text text={Map.get(props, :title)} text_size={:lg} text_color={color} />
+        <Text text={Map.get(props, :title) || ""} text_size={:lg} text_color={color} />
         <Spacer weight={1} :if={chevron?} />
         <Text
           text={if(open?, do: "▾", else: "▸")}

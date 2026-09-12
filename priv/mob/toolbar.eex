@@ -469,11 +469,11 @@ defmodule <%= @module %> do
   def <%= @component_prefix %>toolbar(props \\ %{}, children \\ []) do
     props = Map.new(props)
     items = List.wrap(children)
-    overflow = Map.get(props, :overflow, :none)
+    overflow = Map.get(props, :overflow) || :none
 
     {shown, hidden} =
       if overflow == :collapse do
-        split(items, Map.get(props, :visible, 3))
+        split(items, Map.get(props, :visible) || 3)
       else
         {items, []}
       end
@@ -485,7 +485,7 @@ defmodule <%= @module %> do
       |> chunk_groups()
       |> Enum.flat_map(&group_nodes(&1, ctx))
       |> Kernel.++(overflow_nodes(hidden, ctx))
-      |> Enum.intersperse(gap(Map.get(props, :space, 8)))
+      |> Enum.intersperse(gap(Map.get(props, :space) || 8))
 
     strip = if ctx.vertical?, do: column(nodes), else: row(nodes)
 
@@ -497,9 +497,9 @@ defmodule <%= @module %> do
 
     ~MOB"""
     <Box
-      background={Map.get(props, :background, :surface_raised)}
-      corner_radius={Map.get(props, :corner_radius, :radius_md)}
-      padding={Map.get(props, :padding, :space_sm)}
+      background={Map.get(props, :background) || :surface_raised}
+      corner_radius={Map.get(props, :corner_radius) || :radius_md}
+      padding={Map.get(props, :padding) || :space_sm}
       fill_width={ctx.vertical? == false}
     >
       {body}
@@ -512,7 +512,7 @@ defmodule <%= @module %> do
   # Everything an item needs, resolved once. The alternative was threading six
   # arguments through four render clauses.
   defp context(props, overflow) do
-    vertical? = Map.get(props, :orientation, :horizontal) == :vertical
+    vertical? = (Map.get(props, :orientation) || :horizontal) == :vertical
 
     %{
       props: props,
@@ -520,7 +520,11 @@ defmodule <%= @module %> do
       vertical?: vertical?,
       overflow: overflow,
       disabled?: truthy?(Map.get(props, :disabled, false)),
-      focusable?: truthy?(Map.get(props, :focusable_when_disabled, true)),
+      # `nil` means "not given", not `false`: `Map.get/3` hands back its default
+      # only when the key is ABSENT, so a keyword-built props map carrying an
+      # unset key as an explicit nil used to read as a deliberate `false`.
+      # Only a real `false` turns this off.
+      focusable?: Map.get(props, :focusable_when_disabled) != false,
       # A weight divides a bounded main axis. Under :scroll there is no bound to
       # divide, and in a Column the main axis is height, which an input must not
       # be allowed to eat.
@@ -545,7 +549,7 @@ defmodule <%= @module %> do
     inner =
       items
       |> Enum.map(&item(&1, ctx))
-      |> Enum.intersperse(gap(Map.get(ctx.props, :space, 8)))
+      |> Enum.intersperse(gap(Map.get(ctx.props, :space) || 8))
 
     lane = if ctx.vertical?, do: column(inner), else: row(inner)
 
@@ -555,7 +559,7 @@ defmodule <%= @module %> do
     node = ~MOB"""
     <Box
       fill_width={false}
-      background={Map.get(ctx.props, :group_background, :surface)}
+      background={Map.get(ctx.props, :group_background) || :surface}
       corner_radius={:radius_sm}
       padding={2}
     >
@@ -570,14 +574,14 @@ defmodule <%= @module %> do
 
   defp item(%{type: @button, props: item}, ctx) do
     disabled? = disabled?(item, ctx)
-    ink = if disabled?, do: :muted, else: Map.get(ctx.props, :item_color, :on_surface)
+    ink = if disabled?, do: :muted, else: Map.get(ctx.props, :item_color) || :on_surface
 
     face(item, ink, ctx, disabled?, false)
   end
 
   defp item(%{type: @link, props: item}, ctx) do
     disabled? = disabled?(item, ctx)
-    ink = if disabled?, do: :muted, else: Map.get(ctx.props, :link_color, :primary)
+    ink = if disabled?, do: :muted, else: Map.get(ctx.props, :link_color) || :primary
 
     face(item, ink, ctx, disabled?, true)
   end
@@ -591,7 +595,7 @@ defmodule <%= @module %> do
     field =
       ~MOB"""
       <TextField
-        value={Map.get(item, :value, "")}
+        value={Map.get(item, :value) || ""}
         placeholder={Map.get(item, :placeholder)}
         fill_width={true}
         background={:transparent}

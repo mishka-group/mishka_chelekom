@@ -11,6 +11,7 @@ defmodule DevelopmentWeb.Components.Dropdown do
   """
 
   use Phoenix.Component
+  alias Phoenix.LiveView.JS
 
   @doc """
   A `dropdown` component that displays a list of options or content when triggered.
@@ -117,6 +118,9 @@ defmodule DevelopmentWeb.Components.Dropdown do
       data-clickable={to_string(@clickable)}
       data-smart-position={to_string(@smart_position)}
       phx-hook="Floating"
+      data-pb-open={JS.dispatch("chelekom:open", to: "##{@id}")}
+      data-pb-close={JS.dispatch("chelekom:close", to: "##{@id}")}
+      data-pb-toggle={JS.dispatch("chelekom:toggle", to: "##{@id}")}
       class={[
         "relative [&>.dropdown-content]:invisible [&>.dropdown-content]:opacity-0",
         "[&>.dropdown-content.show-dropdown]:visible [&>.dropdown-content.show-dropdown]:opacity-100",

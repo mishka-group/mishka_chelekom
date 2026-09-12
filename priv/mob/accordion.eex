@@ -113,7 +113,7 @@ defmodule <%= @module %> do
 
     items
     |> Enum.map(&item_node(&1, props))
-    |> Enum.intersperse(gap(Map.get(props, :space, 8)))
+    |> Enum.intersperse(gap(Map.get(props, :space) || 8))
     |> column()
   end
 
@@ -158,7 +158,7 @@ defmodule <%= @module %> do
       props = Map.get(item, :props, %{})
 
       %{
-        id: Map.get(props, :id, index),
+        id: Map.get(props, :id) || index,
         title: Map.get(props, :title),
         disabled: truthy?(Map.get(props, :disabled, false)),
         body: Map.get(item, :children, [])
@@ -176,9 +176,11 @@ defmodule <%= @module %> do
 
     %{
       type: :box,
-      props:
-        %{fill_width: true, background: Map.get(props, :background, :surface_raised)}
-        |> maybe_put(:corner_radius, Map.get(props, :corner_radius, :radius_md)),
+      props: %{
+        fill_width: true,
+        background: Map.get(props, :background) || :surface_raised,
+        corner_radius: Map.get(props, :corner_radius) || :radius_md
+      },
       children: [%{type: :column, props: %{fill_width: true}, children: inner}]
     }
   end
@@ -192,8 +194,12 @@ defmodule <%= @module %> do
     # near-black text and the title becomes hard to read. So the ink is a prop
     # too; <%= @module_prefix_camel %>Mark learned the same lesson, which is why its fill and ink are
     # a matched pair rather than one overridable half.
-    text_color = if disabled?, do: :muted, else: Map.get(props, :color, :on_surface)
+    text_color = if disabled?, do: :muted, else: Map.get(props, :color) || :on_surface
 
+    # `nil` means "not given", not `false`: `Map.get/3` hands back its default
+    # only when the key is ABSENT, so a keyword-built props map carrying an
+    # unset key as an explicit nil used to read as a deliberate `false`.
+    # Only a real `false` turns this off.
     row =
       [
         %{
@@ -202,13 +208,13 @@ defmodule <%= @module %> do
           children: []
         }
       ] ++
-        if truthy?(Map.get(props, :chevron, true)) do
+        if Map.get(props, :chevron) != false do
           [flex_spacer(), chevron(open?, text_color)]
         else
           []
         end
 
-    box_props = %{fill_width: true, padding: Map.get(props, :padding, :space_md)}
+    box_props = %{fill_width: true, padding: Map.get(props, :padding) || :space_md}
 
     box_props =
       case tap_target(props, item, open?, disabled?) do
@@ -226,7 +232,7 @@ defmodule <%= @module %> do
   defp panel(item, props) do
     %{
       type: :column,
-      props: %{fill_width: true, padding: Map.get(props, :padding, :space_md)},
+      props: %{fill_width: true, padding: Map.get(props, :padding) || :space_md},
       children: item.body
     }
   end
@@ -262,7 +268,7 @@ defmodule <%= @module %> do
     next =
       toggle(List.wrap(Map.get(props, :open, [])), item.id,
         multiple: truthy?(Map.get(props, :multiple, false)),
-        collapsible: truthy?(Map.get(props, :collapsible, true))
+        collapsible: Map.get(props, :collapsible) != false
       )
 
     {pid, {tag, next}}
@@ -315,9 +321,6 @@ defmodule <%= @module %> do
   defp column(children), do: %{type: :column, props: %{fill_width: true}, children: children}
   defp gap(size), do: %{type: :spacer, props: %{size: size}, children: []}
   defp flex_spacer, do: %{type: :spacer, props: %{weight: 1}, children: []}
-
-  defp maybe_put(map, _key, nil), do: map
-  defp maybe_put(map, key, value), do: Map.put(map, key, value)
 
   defp tap?({pid, _tag}) when is_pid(pid), do: true
   defp tap?(_), do: false

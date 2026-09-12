@@ -50,6 +50,7 @@ defmodule DevelopmentWeb.Components.Headless.TagsInput do
   attr :tag_class, :any, default: nil, doc: "Extra classes for each tag"
   attr :remove_class, :any, default: nil, doc: "Extra classes for each remove button"
   attr :input_class, :any, default: nil, doc: "Extra classes for the draft input"
+  attr :tag_label_class, :any, default: nil, doc: ~s|Extra classes for `data-part="tag-label"`|
   attr :rest, :global
 
   def tags_input(assigns) do
@@ -63,7 +64,7 @@ defmodule DevelopmentWeb.Components.Headless.TagsInput do
       {@rest}
     >
       <span :for={tag <- @tags} data-part="tag" class={["chelekom-tags-input__tag", @tag_class]}>
-        <span data-part="tag-label">{tag}</span>
+        <span data-part="tag-label" class={["chelekom-tags-input__tag-label", @tag_label_class]}>{tag}</span>
         <button
           type="button"
           data-part="remove"

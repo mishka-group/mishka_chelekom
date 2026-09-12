@@ -26,6 +26,11 @@ defmodule DevelopmentWeb.Components.Headless.OverflowList do
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :item_class, :any, default: nil, doc: "Extra classes for each item"
   attr :counter_class, :any, default: nil, doc: "Extra classes for the counter"
+
+  attr :counter_value_class, :any,
+    default: nil,
+    doc: ~s|Extra classes for `data-part="counter-value"`|
+
   attr :rest, :global
 
   slot :item, required: true, doc: "One entry per list item (order = priority)"
@@ -50,7 +55,10 @@ defmodule DevelopmentWeb.Components.Headless.OverflowList do
         data-hidden=""
         class={["chelekom-overflow-list__counter", @counter_class]}
       >
-        +<span data-part="counter-value">0</span>
+        +<span
+          data-part="counter-value"
+          class={["chelekom-overflow-list__counter-value", @counter_value_class]}
+        >0</span>
       </span>
     </div>
     """

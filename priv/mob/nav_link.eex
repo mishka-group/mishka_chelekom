@@ -111,7 +111,6 @@ defmodule <%= @module %> do
       background={if(active?, do: :surface_raised, else: :transparent)}
       corner_radius={:radius_sm}
       padding={:space_sm}
-      id={id}
     >
       <Row fill_width={true} align={:center}>
         {leading(props, id)}
@@ -122,6 +121,7 @@ defmodule <%= @module %> do
       </Row>
     </Box>
     """
+    |> put(:id, id)
     |> put(:on_tap, handler(props, parent?, disabled?))
   end
 
@@ -151,22 +151,22 @@ defmodule <%= @module %> do
     # `font_weight`, not `weight`: a bare `weight` on a Text is read by the
     # PARENT Row/Column as a layout weight and does nothing to the font.
     font_weight = if active?, do: :semibold, else: :regular
-    label = Map.get(props, :label, "")
+    label = Map.get(props, :label) || ""
     label_tag = ink_tag(id, active?, disabled?)
 
     # `max_lines` matters because the row squeezes: a Text narrower than its
     # content wraps character by character, which turns a long nav label into a
     # column of letters.
-    text = ~MOB"""
-    <Text
-      text={label}
-      text_size={:base}
-      text_color={ink}
-      font_weight={font_weight}
-      max_lines={1}
-      id={label_tag}
-    />
-    """
+    # Every test tag goes on through `put/3`, the rule the list-glyph clause
+    # below already follows: a link with no `id` derives nil part tags, an
+    # inline `id={nil}` still lands in the props map, and `:json` encodes an
+    # atom as a string — so an untagged link reached the bridge carrying the
+    # testTag "nil", which every other untagged link also answered to.
+    text =
+      ~MOB"""
+      <Text text={label} text_size={:base} text_color={ink} font_weight={font_weight} max_lines={1} />
+      """
+      |> put(:id, label_tag)
 
     case Map.get(props, :description) do
       nil ->
@@ -189,7 +189,8 @@ defmodule <%= @module %> do
     chevron = if opened?, do: "▾", else: "▸"
     chevron_tag = tag(id, if(opened?, do: "-open", else: "-closed"))
 
-    ~MOB(<Text text={chevron} text_size={:sm} text_color={:muted} id={chevron_tag} />)
+    ~MOB(<Text text={chevron} text_size={:sm} text_color={:muted} />)
+    |> put(:id, chevron_tag)
   end
 
   defp trailing(props, _parent?, _opened?, id) do
@@ -204,7 +205,8 @@ defmodule <%= @module %> do
   defp glyph([], _size, _tag), do: nil
 
   defp glyph(text, size, tag) when is_binary(text) do
-    ~MOB(<Text text={text} text_size={size} text_color={:muted} id={tag} />)
+    ~MOB(<Text text={text} text_size={size} text_color={:muted} />)
+    |> put(:id, tag)
   end
 
   # `render_slot` returns a list, so several nodes are a legitimate slot. A Row
@@ -236,7 +238,7 @@ defmodule <%= @module %> do
   defp nested(_children, false, _props), do: nil
 
   defp nested(children, true, props) do
-    indent = Map.get(props, :indent, 16)
+    indent = Map.get(props, :indent) || 16
 
     ~MOB"""
     <Row fill_width={true}>

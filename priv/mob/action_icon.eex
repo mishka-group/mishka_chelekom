@@ -27,9 +27,42 @@ defmodule <%= @module %> do
   | `shape` | `:rounded` `:circle` | `:rounded` | `:circle` uses an exact `size / 2` radius. |
   | `color` | color token / ARGB int | `:on_surface` | Glyph colour. |
   | `background` | color token / ARGB int | `:surface_raised` | Fill when `variant: :filled`. |
+  | `shadow` | string | `nil` | Drop shadow on the tap target. See below. |
+  | `border_color` | color token / ARGB int | `nil` | Hairline colour. Nothing draws unless you set it. |
+  | `border_width` | number (dp) | `1` | Read only when `border_color` is set. |
 
   `label` is not ported: it is an `aria-label`, and Mob exposes no accessible
   name on a box. `type` (submit/reset) is form plumbing.
+
+  ## A floating disc is defined by its shadow
+
+  `variant: :filled` paints a fill and stops there, which reads as a flat patch
+  rather than as a button sitting above the page. The shadow is the whole
+  difference, and it is the caller's to choose — so `shadow` is a string handed
+  to the container untouched, in CSS `box-shadow` order and units of dp:
+
+      shadow: "0 1 2 0 #0D1A1917"
+
+  `dx dy blur spread #AARRGGBB`. Stack layers by separating them with a
+  vertical bar, ambient first, key light second, exactly as CSS does:
+
+      shadow: "0 1 2 0 #0D1A1917 | 0 8 16 -12 #801A1917"
+
+  Omit it and the node carries no `shadow` key at all — not a null one — so
+  nothing about an existing icon changes.
+
+  `disabled` does not touch it. It mutes the glyph and drops a `:filled` fill
+  because it has no other way to say "inert", but a shadow it was handed is a
+  deliberate choice, and quietly withdrawing a prop the caller passed is the
+  behaviour this component exists to avoid. Pass the flatter shadow yourself
+  when the disabled state should sit lower.
+
+  ## Borders
+
+  A hairline is `border_color` plus `border_width`; `border_width` alone draws
+  nothing, because the renderer needs both (it honours a border on a box only
+  when the colour is set and the width is non-zero). The default is no border,
+  which is what this component has always drawn.
 
   ## Children carry their own disabled state
 
@@ -54,29 +87,34 @@ defmodule <%= @module %> do
 
       <%= @component_prefix %>action_icon(icon: "⋯", on_tap: :menu)
       <%= @component_prefix %>action_icon(icon: "←", variant: :filled, shape: :circle, on_tap: :back)
+
+      <%= @component_prefix %>action_icon(
+        icon: "→",
+        variant: :filled,
+        shape: :circle,
+        shadow: "0 1 2 0 #0D1A1917 | 0 8 16 -12 #801A1917",
+        on_tap: :next
+      )
   """
   @spec <%= @component_prefix %>action_icon(map() | keyword(), [map()]) :: map()
   def <%= @component_prefix %>action_icon(props \\ %{}, content \\ []) do
     props = Map.new(props)
     disabled? = truthy?(Map.get(props, :disabled, false))
-    size = Map.get(props, :size, 40)
+    size = Map.get(props, :size) || 40
 
     node = ~MOB"""
     <Box
       width={size}
       height={size}
       align={:center}
-      corner_radius={radius(Map.get(props, :shape, :rounded), size)}
+      corner_radius={radius(Map.get(props, :shape) || :rounded, size)}
       background={background(props, disabled?)}
     >
       {glyph(props, content, disabled?)}
     </Box>
     """
 
-    case handler(props, disabled?) do
-      nil -> node
-      tap -> %{node | props: Map.put(node.props, :on_tap, tap)}
-    end
+    %{node | props: Map.merge(node.props, container(props, disabled?))}
   end
 
   @doc """
@@ -96,8 +134,12 @@ defmodule <%= @module %> do
   # first `)` closes the sigil, so a call with arguments cannot be interpolated
   # there.
   defp glyph(props, [], disabled?) do
-    color = if disabled?, do: :muted, else: Map.get(props, :color, :on_surface)
-    icon = Map.get(props, :icon)
+    color = if disabled?, do: :muted, else: Map.get(props, :color) || :on_surface
+    # A missing label must render as nothing, not as the word "nil": an
+    # interpolated nil still lands in the props map, and `:json` encodes an
+    # atom as a string, so the wire carries "text":"nil" and the widget
+    # draws it.
+    icon = Map.get(props, :icon) || ""
 
     ~MOB"""
     <Text text={icon} text_size={:lg} text_color={color} />
@@ -113,11 +155,29 @@ defmodule <%= @module %> do
   # <%= @module_prefix_camel %>Chip resolves its background the same way.
   defp background(props, disabled?) do
     cond do
-      Map.get(props, :variant, :plain) != :filled -> :transparent
+      (Map.get(props, :variant) || :plain) != :filled -> :transparent
       disabled? -> :surface
-      true -> Map.get(props, :background, :surface_raised)
+      true -> Map.get(props, :background) || :surface_raised
     end
   end
+
+  # Container props that are absent unless the caller asks for them, merged onto
+  # the sigil's node rather than written inside it: an attribute interpolating
+  # `nil` still lands in the map, and the renderer serialises it as a JSON
+  # `null` the native side then has to interpret. A key that was never put is
+  # simply not there. `on_tap` has always been merged this way; the rest join it.
+  defp container(props, disabled?) do
+    border_color = Map.get(props, :border_color)
+
+    %{}
+    |> put_some(:on_tap, handler(props, disabled?))
+    |> put_some(:shadow, Map.get(props, :shadow))
+    |> put_some(:border_color, border_color)
+    |> put_some(:border_width, border_color && (Map.get(props, :border_width) || 1))
+  end
+
+  defp put_some(map, _key, nil), do: map
+  defp put_some(map, key, value), do: Map.put(map, key, value)
 
   defp handler(_props, true), do: nil
   defp handler(props, _), do: Event.handler(Map.get(props, :on_tap))

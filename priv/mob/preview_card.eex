@@ -285,7 +285,7 @@ defmodule <%= @module %> do
     opts = [
       side: side,
       align: align,
-      side_offset: Map.get(props, :side_offset, 8),
+      side_offset: Map.get(props, :side_offset) || 8,
       # A tap anywhere outside the card closes it. The web dismisses on
       # pointer-leave, which a touch screen has no equivalent of; an outside tap
       # is the equivalent a finger CAN make, and without it the only way out was
@@ -408,13 +408,13 @@ defmodule <%= @module %> do
       props: %{
         text: Map.fetch!(@glyphs, side),
         text_size: :sm,
-        text_color: Map.get(props, :arrow_color, :border),
+        text_color: Map.get(props, :arrow_color) || :border,
         max_lines: 1
       },
       children: []
     }
     |> put(:id, tag(id, "-arrow-#{align}"))
-    |> put(offset_key, nudge(Map.get(props, :align_offset, 0)))
+    |> put(offset_key, nudge(Map.get(props, :align_offset) || 0))
   end
 
   defp nudge(offset) when is_number(offset) and offset != 0, do: offset
@@ -468,7 +468,7 @@ defmodule <%= @module %> do
           initials: initials,
           src: image,
           size: 48,
-          background: Map.get(props, :avatar_color, :primary),
+          background: Map.get(props, :avatar_color) || :primary,
           color: :on_primary
         )
       ]

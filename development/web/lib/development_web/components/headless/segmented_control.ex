@@ -31,6 +31,7 @@ defmodule DevelopmentWeb.Components.Headless.SegmentedControl do
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :item_class, :any, default: nil, doc: "Extra classes for each segment"
   attr :input_class, :any, default: nil, doc: "Extra classes for the hidden radios (e.g. sr-only)"
+  attr :label_class, :any, default: nil, doc: ~s|Extra classes for `data-part="label"`|
   attr :rest, :global
 
   def segmented_control(assigns) do
@@ -59,7 +60,9 @@ defmodule DevelopmentWeb.Components.Headless.SegmentedControl do
           data-part="input"
           class={["chelekom-segmented-control__input", @input_class]}
         />
-        <span data-part="label">{sc_label(opt)}</span>
+        <span data-part="label" class={["chelekom-segmented-control__label", @label_class]}>{sc_label(
+          opt
+        )}</span>
       </label>
     </div>
     """

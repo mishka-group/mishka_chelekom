@@ -212,7 +212,7 @@ defmodule <%= @module %> do
   defp trigger(props, labels) do
     disabled? = truthy?(Map.get(props, :disabled, false))
     chosen? = List.wrap(Map.get(props, :value)) != []
-    text = display(Map.get(props, :value), labels, Map.get(props, :placeholder, "Select…"))
+    text = display(Map.get(props, :value), labels, Map.get(props, :placeholder) || "Select…")
 
     color =
       cond do

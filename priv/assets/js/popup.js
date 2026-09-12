@@ -1,7 +1,7 @@
 // Popup — headless floating + dismissal engine (popover / menu / tooltip / select).
 //
-// A `[data-part="trigger"]` opens a `[data-part="popup"]`; outside-click and Escape close
-// it. `data-trigger="hover"` (tooltip) opens on hover/focus instead of click and never traps
+// A `[data-part="trigger"]` opens a `[data-part="popup"]`; clicking the trigger again,
+// choosing a menu item, an outside click and Escape all close it. `data-trigger="hover"` (tooltip) opens on hover/focus instead of click and never traps
 // focus. Positioning is lightweight: the popup is placed on the side given by
 // `data-side` (top|right|bottom|left, default bottom) with `data-align` (start|center|end).
 //
@@ -23,6 +23,7 @@ const Popup = {
 
     this.boundOutside = this.handleOutside.bind(this);
     this.boundKeydown = this.handleKeydown.bind(this);
+    this.boundSelect = this.handleSelect.bind(this);
 
     if (this.trigger && this.popup) {
       if (this.popup.id) this.trigger.setAttribute("aria-controls", this.popup.id);
@@ -70,6 +71,7 @@ const Popup = {
 
     document.addEventListener("click", this.boundOutside, true);
     document.addEventListener("keydown", this.boundKeydown, true);
+    this.popup.addEventListener("click", this.boundSelect);
 
     if (!this.hover) {
       const first = this.popup.querySelector(
@@ -79,6 +81,12 @@ const Popup = {
     }
   },
 
+  handleSelect(event) {
+    const item = event.target.closest('[role="menuitem"]');
+    if (!item || !this.popup.contains(item) || item.hasAttribute("aria-haspopup")) return;
+    this.hide();
+  },
+
   hide() {
     if (!this.popup || !this.isOpen()) return;
     this.popup.toggleAttribute("data-open", false);
@@ -86,6 +94,7 @@ const Popup = {
     if (this.trigger) this.trigger.setAttribute("aria-expanded", "false");
     document.removeEventListener("click", this.boundOutside, true);
     document.removeEventListener("keydown", this.boundKeydown, true);
+    this.popup.removeEventListener("click", this.boundSelect);
   },
 
   position() {

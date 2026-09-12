@@ -172,9 +172,7 @@ defmodule Mix.Tasks.Mishka.Ui.Css.Config do
     css_content = Config.generate_css_content(igniter)
 
     igniter
-    |> Igniter.create_or_update_file(vendor_css_path, css_content, fn source ->
-      Rewrite.Source.update(source, :content, css_content)
-    end)
+    |> MishkaChelekom.Generators.Assets.write_vendor_css(vendor_css_path, css_content)
     |> Igniter.add_notice("""
     CSS file regenerated with your configuration.
 

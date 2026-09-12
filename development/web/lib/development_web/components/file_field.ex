@@ -34,9 +34,14 @@ defmodule DevelopmentWeb.Components.FileField do
 
   ## Examples
 
+  A plain file input needs a `name`, or a `field` to take one from — the same rule as every other
+  field in this kit, and the reason no example below is written with no attributes at all.
+
   ```elixir
-  <.file_field color="danger" />
-  <.file_field target={:avatar} uploads={@uploads} dropzone/>
+  <.file_field name="attachment" label="Attach a file" />
+  <.file_field field={@form[:resume]} label="Attach your résumé" />
+  <.file_field name="documents[]" label="Supporting documents" multiple />
+  <.file_field target={:avatar} uploads={@uploads} dropzone />
   ```
   """
   @doc type: :component
@@ -100,7 +105,48 @@ defmodule DevelopmentWeb.Components.FileField do
     |> file_field()
   end
 
-  def file_field(%{dropzone: true, dropzone_type: "file"} = assigns) do
+  def file_field(%{dropzone: dropzone, dropzone_type: type} = assigns)
+      when dropzone != true or type not in ["file", "image"] do
+    ~H"""
+    <div
+      id={if @live, do: @id}
+      class={[
+        rounded_size(@rounded),
+        color_class(@color),
+        space_class(@space),
+        @class
+      ]}
+    >
+      <.label :if={@label} for={if @live, do: @upload.ref, else: @id}>{@label}</.label>
+
+      <%= if @live do %>
+        <.live_file_input
+          upload={@upload}
+          class={[
+            "file-field block w-full cursor-pointer focus:outline-none file:border-0 file:cursor-pointer",
+            "file:py-3 file:px-8 file:font-bold file:-ms-4 file:me-4"
+          ]}
+          {@rest}
+        />
+      <% else %>
+        <input
+          name={@name}
+          id={@id}
+          class={[
+            "file-field block w-full cursor-pointer focus:outline-none file:border-0 file:cursor-pointer",
+            "file:py-3 file:px-8 file:font-bold file:-ms-4 file:me-4"
+          ]}
+          type="file"
+          {@rest}
+        />
+      <% end %>
+
+      <.error :for={msg <- @errors} icon={@error_icon}>{msg}</.error>
+    </div>
+    """
+  end
+
+  def file_field(%{dropzone_type: "file"} = assigns) do
     targeted_upload = assigns.uploads[assigns.target]
 
     assigns =
@@ -196,7 +242,7 @@ defmodule DevelopmentWeb.Components.FileField do
     """
   end
 
-  def file_field(%{dropzone: true, dropzone_type: "image"} = assigns) do
+  def file_field(%{dropzone_type: "image"} = assigns) do
     targeted_upload = assigns.uploads[assigns.target]
 
     assigns =
@@ -283,46 +329,6 @@ defmodule DevelopmentWeb.Components.FileField do
           </div>
         <% end %>
       </div>
-    </div>
-    """
-  end
-
-  def file_field(assigns) do
-    ~H"""
-    <div
-      id={if @live, do: @id}
-      class={[
-        rounded_size(@rounded),
-        color_class(@color),
-        space_class(@space),
-        @class
-      ]}
-    >
-      <.label :if={@label} for={if @live, do: @upload.ref, else: @id}>{@label}</.label>
-
-      <%= if @live do %>
-        <.live_file_input
-          upload={@upload}
-          class={[
-            "file-field block w-full cursor-pointer focus:outline-none file:border-0 file:cursor-pointer",
-            "file:py-3 file:px-8 file:font-bold file:-ms-4 file:me-4"
-          ]}
-          {@rest}
-        />
-      <% else %>
-        <input
-          name={@name}
-          id={@id}
-          class={[
-            "file-field block w-full cursor-pointer focus:outline-none file:border-0 file:cursor-pointer",
-            "file:py-3 file:px-8 file:font-bold file:-ms-4 file:me-4"
-          ]}
-          type="file"
-          {@rest}
-        />
-      <% end %>
-
-      <.error :for={msg <- @errors} icon={@error_icon}>{msg}</.error>
     </div>
     """
   end

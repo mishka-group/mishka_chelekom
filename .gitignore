@@ -34,3 +34,11 @@ mishka_chelekom-*.tar
 /config
 .elixir-tools
 .elixir_ls
+
+# `mix mishka.ui.export <dir> --cms --name <kit>` writes to `<dir>/<kit>.json` and takes no output
+# path, so exporting `priv/components` leaves an 11 MB bundle there. It is a build artifact — every
+# export and every export-suite run rewrites it in full, which buries real diffs and lets it drift
+# from the copy that ships. The copy that ships is `priv/cms_ui_kits/<kit>.json`, which IS tracked.
+# `MishkaChelekom.CmsBundle.Location` is what the readers ask, so a clone that has never exported
+# still finds a bundle.
+/priv/components/*.json

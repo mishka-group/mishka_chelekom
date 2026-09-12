@@ -68,8 +68,8 @@ defmodule <%= @module %> do
   def <%= @component_prefix %>color_picker(props \\ %{}) do
     props = Map.new(props)
     {h, s, v} = hsv(props)
-    width = Map.get(props, :width, @width)
-    height = Map.get(props, :height, @height)
+    width = Map.get(props, :width) || @width
+    height = Map.get(props, :height) || @height
 
     area =
       canvas_node(
@@ -206,9 +206,9 @@ defmodule <%= @module %> do
     props = Map.new(props)
 
     {
-      normalize_hue(Map.get(props, :hue, 210)),
-      Color.clamp(Map.get(props, :saturation, 76), 0, 100),
-      Color.clamp(Map.get(props, :value, 96), 0, 100)
+      normalize_hue(Map.get(props, :hue) || 210),
+      Color.clamp(Map.get(props, :saturation) || 76, 0, 100),
+      Color.clamp(Map.get(props, :value) || 96, 0, 100)
     }
   end
 

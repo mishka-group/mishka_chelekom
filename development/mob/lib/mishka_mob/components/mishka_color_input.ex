@@ -73,7 +73,7 @@ defmodule MishkaMob.Components.MishkaColorInput do
   def color_input(props \\ %{}) do
     props = Map.new(props)
     disabled? = truthy?(Map.get(props, :disabled, false))
-    text = Map.get(props, :value, @default)
+    text = Map.get(props, :value) || @default
     swatch = swatch_argb(text)
 
     field =
@@ -207,12 +207,12 @@ defmodule MishkaMob.Components.MishkaColorInput do
 
   # The picker's position: explicit props win, otherwise it follows the field.
   defp picker_hsv(props) do
-    {dh, ds, dv} = Color.hex_to_hsv(Map.get(props, :value, @default), {210, 76, 96})
+    {dh, ds, dv} = Color.hex_to_hsv(Map.get(props, :value) || @default, {210, 76, 96})
 
     {
-      Map.get(props, :hue, dh),
-      Map.get(props, :saturation, ds),
-      Map.get(props, :value_pct, dv)
+      Map.get(props, :hue) || dh,
+      Map.get(props, :saturation) || ds,
+      Map.get(props, :value_pct) || dv
     }
   end
 

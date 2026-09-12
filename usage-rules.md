@@ -352,6 +352,88 @@ Some components require JavaScript hooks (carousel, clipboard, combobox, etc.). 
 2. Imported in `assets/vendor/mishka_components.js`
 3. Added to LiveSocket hooks in `assets/js/app.js`
 
+## Opening a Component From Somewhere Else
+
+A modal, a drawer and a dropdown render their own content closed, and each closes itself
+differently: a modal is `display:none` twice over, a drawer is pushed off-screen by a transform, a
+dropdown is opened by its hook. So there is no one command that opens "a component" — but there is
+one place to ask.
+
+A component that can be opened from outside itself declares the command on its **root element**:
+
+| Attribute | Means |
+|-----------|-------|
+| `data-pb-open` | open this |
+| `data-pb-close` | close this |
+| `data-pb-toggle` | open it if closed, close it if open |
+
+The value is an ordinary `Phoenix.LiveView.JS` command, so anything holding a reference to the
+element can run it with `JS.exec/2` and needs to know nothing else about the component:
+
+```heex
+<button phx-click={JS.exec("data-pb-open", to: "#my-dialog")}>Open</button>
+```
+
+Declare only the verbs the component can honestly answer. A `data-pb-toggle` on something that
+cannot toggle is worse than no attribute at all: the caller gets a control that looks like it works.
+
+### If the command is a function
+
+Name it. This is the modal, the drawer and the sidebar:
+
+```heex
+<div id={@id} data-pb-open={show_modal(@id)} data-pb-close={hide_modal(@id)}>
+```
+
+### If the command is a class
+
+Toggle it, on whichever element the component's own selectors key on. This is the navbar, the
+mega-menu and the speed dial:
+
+```heex
+<nav id={@id} data-pb-toggle={JS.toggle_class("show-nav-menu", to: "##{@id}")}>
+```
+
+### If the component is opened by a hook
+
+A hook method is not a `JS` command and cannot be written into an attribute. Dispatch an event at
+yourself and listen for it — this is the dropdown, the popover, the tooltip, the accordion and the
+collapse:
+
+```heex
+<div id={@id} phx-hook="Floating" data-pb-open={JS.dispatch("chelekom:open", to: "##{@id}")}>
+```
+
+```javascript
+setupOpenCommands() {
+  this.boundOpenCommand = this.handleOpenCommand.bind(this);
+
+  for (const name of ["chelekom:open", "chelekom:close", "chelekom:toggle"]) {
+    this.el.addEventListener(name, this.boundOpenCommand);
+  }
+},
+
+handleOpenCommand(event) {
+  // `JS.dispatch` bubbles, so a dropdown inside a drawer would otherwise open the drawer too.
+  if (event.target !== this.el) return;
+
+  if (event.type === "chelekom:open") this.show();
+  else if (event.type === "chelekom:close") this.hide();
+  else this.toggle();
+},
+```
+
+Remove the listeners in `destroyed()`. Your own component may use any event name you like — the
+attribute is the contract; the event is between your template and your hook.
+
+### For component authors shipping into MishkaCMS
+
+The page builder reads these three attributes off a component's root and offers the component in the
+"On click" target list, so an author can put a button on a page and open it with no code. It reads
+the **root element only**, because that is the element carrying the class the click points at.
+Declaring nothing still works; the builder falls back to inferring that the component renders closed
+and to a generic show/hide, which is right for some components and does nothing for the rest.
+
 ## Updating Components
 
 To update a component with new options:

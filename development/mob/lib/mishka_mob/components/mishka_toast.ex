@@ -171,15 +171,15 @@ defmodule MishkaMob.Components.MishkaToast do
   end
 
   defp viewport(props, toasts, close_content) do
-    space = Map.get(props, :space, 10)
+    space = Map.get(props, :space) || 10
 
     stack =
       toasts
       |> Enum.map(&card(&1, props, close_content))
       |> Enum.intersperse(~MOB(<Spacer size={space} />))
 
-    top? = Map.get(props, :position, :bottom) == :top
-    pad = Map.get(props, :padding, :space_lg)
+    top? = (Map.get(props, :position) || :bottom) == :top
+    pad = Map.get(props, :padding) || :space_lg
 
     ~MOB"""
     <Box fill_width={true} fill_height={true} padding={pad}>
@@ -202,7 +202,7 @@ defmodule MishkaMob.Components.MishkaToast do
   # `<Box weight={1}>` around the flexible part is the house idiom for this
   # shape; MishkaCombobox and MishkaNumberField wrap their inputs the same way.
   defp card(toast, props, close_content) do
-    bar = accent(Map.get(toast, :variant, :info))
+    bar = accent(Map.get(toast, :variant) || :info)
 
     ~MOB"""
     <Box fill_width={true} background={:surface} corner_radius={:radius_md} padding={:space_md}>
@@ -249,7 +249,7 @@ defmodule MishkaMob.Components.MishkaToast do
   end
 
   defp close(props, id, content) do
-    icon = Map.get(props, :close_icon, "✕")
+    icon = Map.get(props, :close_icon) || "✕"
 
     case Event.handler(Map.get(props, :on_dismiss)) do
       nil ->

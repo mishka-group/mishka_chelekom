@@ -88,13 +88,17 @@ defmodule MishkaMob.Components.MishkaScroller do
         content
       )
 
-    if truthy?(Map.get(props, :controls, true)) do
+    # `nil` means "not given", not `false`: `Map.get/3` hands back its default
+    # only when the key is ABSENT, so a keyword-built props map carrying an
+    # unset key as an explicit nil used to read as a deliberate `false`.
+    # Only a real `false` turns this off.
+    if Map.get(props, :controls) != false do
       id = Map.get(props, :id)
 
       ~MOB"""
       <Column fill_width={true}>
         {rail}
-        <Spacer size={Map.get(props, :space, 8)} />
+        <Spacer size={Map.get(props, :space) || 8} />
         <Row fill_width={true}>
           <Spacer weight={1} />
           {tag(arrow("‹", Map.get(props, :on_prev)), suffix(id, "-prev"))}
@@ -200,8 +204,4 @@ defmodule MishkaMob.Components.MishkaScroller do
 
   defp maybe(opts, _key, nil), do: opts
   defp maybe(opts, key, value), do: Keyword.put(opts, key, value)
-
-  defp truthy?(nil), do: false
-  defp truthy?(false), do: false
-  defp truthy?(_), do: true
 end

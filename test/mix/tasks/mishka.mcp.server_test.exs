@@ -44,8 +44,7 @@ defmodule Mix.Tasks.Mishka.Mcp.ServerTest do
     test "HTTP server responds on root endpoint", %{port: port} do
       {:ok, pid} = MCPSupervisor.start_link(port: port)
 
-      # Give the server time to start
-      Process.sleep(100)
+      await_server(port)
 
       # Test root endpoint
       {:ok, response} = :httpc.request(:get, {~c"http://localhost:#{port}/", []}, [], [])
@@ -60,7 +59,7 @@ defmodule Mix.Tasks.Mishka.Mcp.ServerTest do
 
     test "HTTP server returns 404 for unknown routes", %{port: port} do
       {:ok, pid} = MCPSupervisor.start_link(port: port)
-      Process.sleep(100)
+      await_server(port)
 
       {:ok, response} = :httpc.request(:get, {~c"http://localhost:#{port}/unknown", []}, [], [])
       {{_, status_code, _}, _headers, body} = response
@@ -73,7 +72,7 @@ defmodule Mix.Tasks.Mishka.Mcp.ServerTest do
 
     test "MCP endpoint accepts POST requests with correct headers", %{port: port} do
       {:ok, pid} = MCPSupervisor.start_link(port: port)
-      Process.sleep(100)
+      await_server(port)
 
       # Send an MCP initialize request with proper MCP headers
       body =
@@ -109,7 +108,7 @@ defmodule Mix.Tasks.Mishka.Mcp.ServerTest do
 
     test "MCP endpoint responds to requests", %{port: port} do
       {:ok, pid} = MCPSupervisor.start_link(port: port)
-      Process.sleep(100)
+      await_server(port)
 
       # Test that the endpoint exists and responds
       body = Jason.encode!(%{jsonrpc: "2.0", method: "ping", id: 1, params: %{}})
@@ -237,6 +236,29 @@ defmodule Mix.Tasks.Mishka.Mcp.ServerTest do
           val -> Application.put_env(:mishka_chelekom, :mcp_transport, val)
         end
       end
+    end
+  end
+
+  # `start_link/1` returns as soon as the supervisor is up, which is not the same moment the
+  # listener accepts connections. Sleeping a fixed 100ms guesses at that gap; on a loaded machine
+  # the guess can be short, and the request then fails for a reason that has nothing to do with
+  # what the test is checking. Wait for the port to actually answer instead.
+  defp await_server(port, deadline \\ 2_000) do
+    started = System.monotonic_time(:millisecond)
+
+    Stream.repeatedly(fn ->
+      case :httpc.request(:get, {~c"http://localhost:#{port}/", []}, [{:timeout, 250}], []) do
+        {:ok, _} -> :ready
+        {:error, _} -> :not_yet
+      end
+    end)
+    |> Enum.find(fn
+      :ready -> true
+      :not_yet -> System.monotonic_time(:millisecond) - started > deadline
+    end)
+    |> case do
+      :ready -> :ok
+      _ -> flunk("MCP server on port #{port} did not accept a connection within #{deadline}ms")
     end
   end
 end

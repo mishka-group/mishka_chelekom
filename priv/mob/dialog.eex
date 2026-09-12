@@ -359,8 +359,12 @@ defmodule <%= @module %> do
     # An alert dialog keeps its backdrop inert so the user must choose. Note the
     # `if` rather than `dismissible? && close`: the latter yields `false`, which
     # would be attached as an on_tap prop instead of omitting the handler.
+    # `nil` means "not given", not `false`: `Map.get/3` hands back its default
+    # only when the key is ABSENT, so a keyword-built props map carrying an
+    # unset key as an explicit nil used to read as a deliberate `false`.
+    # Only a real `false` turns this off.
     close =
-      if truthy?(Map.get(props, :dismissible, true)) do
+      if Map.get(props, :dismissible) != false do
         dismiss_handler(props)
       end
 
@@ -371,7 +375,7 @@ defmodule <%= @module %> do
         fill_width={true}
         fill_height={true}
         align={:center}
-        padding={Map.get(props, :inset, :space_lg)}
+        padding={Map.get(props, :inset) || :space_lg}
       >
         {panel(props, id, slots, content, actions, ctx)}
       </Box>
@@ -385,7 +389,7 @@ defmodule <%= @module %> do
   # difference of colour alone, and a device test cannot read a colour.
   defp scrim(props, id, close) do
     dim? = dim?(props)
-    fill = Map.get(props, :scrim_color, if(dim?, do: @scrim, else: @clear))
+    fill = Map.get(props, :scrim_color) || if(dim?, do: @scrim, else: @clear)
     tag = part_tag(id, if(dim?, do: "backdrop-modal", else: "backdrop-plain"))
     node = ~MOB(<Box fill_width={true} fill_height={true} background={fill} />)
 
@@ -403,11 +407,11 @@ defmodule <%= @module %> do
 
     node = ~MOB"""
     <Box
-      width={Map.get(props, :width, 320)}
-      background={Map.get(props, :background, :surface)}
-      corner_radius={Map.get(props, :corner_radius, :radius_lg)}
+      width={Map.get(props, :width) || 320}
+      background={Map.get(props, :background) || :surface}
+      corner_radius={Map.get(props, :corner_radius) || :radius_lg}
     >
-      <Column fill_width={true} padding={Map.get(props, :padding, :space_lg)}>
+      <Column fill_width={true} padding={Map.get(props, :padding) || :space_lg}>
         {heading(title, description, id)}
         {block(content, part_tag(id, "content"))}
         {footer_row(footer, id)}
@@ -577,7 +581,9 @@ defmodule <%= @module %> do
   # arrives just as legitimately as a boolean — and "trap-focus", whose whole
   # meaning was the focus trap, is left rendering as the plain backdrop.
   defp dim?(props) do
-    case Map.get(props, :modal, true) do
+    case Map.get(props, :modal) do
+      # `nil` is an absent key, which means the default — `true`.
+      nil -> true
       true -> true
       "true" -> true
       _ -> false

@@ -39,6 +39,7 @@ defmodule DevelopmentWeb.Components.Headless.ToggleGroup do
   attr :form, :string, default: nil, doc: "Form id owning the hidden input(s)"
   attr :on_change, :string, default: nil, doc: "LiveView event pushed on change ({value})"
   attr :class, :any, default: nil
+  attr :item_class, :any, default: nil, doc: ~s|Extra classes for every `data-part="item"`|
   attr :rest, :global
 
   slot :item, required: true, doc: "A toggle button" do
@@ -115,7 +116,7 @@ defmodule DevelopmentWeb.Components.Headless.ToggleGroup do
         data-disabled={@disabled || item[:disabled]}
         tabindex={if i == @tabbable, do: "0", else: "-1"}
         aria-label={item[:"aria-label"]}
-        class={["chelekom-toggle-group__item", item[:class]]}
+        class={["chelekom-toggle-group__item", @item_class, item[:class]]}
       >
         {render_slot(item)}
       </button>

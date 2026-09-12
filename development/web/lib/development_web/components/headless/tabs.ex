@@ -49,6 +49,8 @@ defmodule DevelopmentWeb.Components.Headless.Tabs do
     default: nil,
     doc: ~s|Extra classes for the wrapper around all panels (`data-part="panels"`)|
 
+  attr :tab_class, :any, default: nil, doc: ~s|Extra classes for every `data-part="tab"`|
+  attr :panel_class, :any, default: nil, doc: ~s|Extra classes for every `data-part="panel"`|
   attr :rest, :global
 
   slot :tab, required: true, doc: "A tab label" do
@@ -110,7 +112,7 @@ defmodule DevelopmentWeb.Components.Headless.Tabs do
           data-orientation={@orientation}
           disabled={tab[:disabled]}
           tabindex={if @tab_value.(tab, i) == @active, do: "0", else: "-1"}
-          class={["chelekom-tabs__tab", tab[:class]]}
+          class={["chelekom-tabs__tab", @tab_class, tab[:class]]}
         >
           {render_slot(tab)}
         </button>
@@ -137,7 +139,7 @@ defmodule DevelopmentWeb.Components.Headless.Tabs do
           hidden={(panel[:value] || "#{@id}-#{i}") != @active}
           data-hidden={(panel[:value] || "#{@id}-#{i}") != @active}
           tabindex="0"
-          class={["chelekom-tabs__panel", panel[:class]]}
+          class={["chelekom-tabs__panel", @panel_class, panel[:class]]}
         >
           {render_slot(panel)}
         </div>

@@ -7,15 +7,19 @@
   "examples": [
     {
       "label": "Résumé upload on a job application",
-      "source": "<.component component_name=\"chelekom-file-field\" site=\"Global\" id=\"apply-resume\" name=\"application[resume]\" label=\"Attach your résumé (PDF or Word, up to 5 MB)\" class=\"max-w-md\" />"
+      "source": "<div class=\"max-w-md space-y-2\">\n  <.component component_name=\"chelekom-file-field\" site=\"Global\" id=\"apply-resume\" name=\"application[resume]\" value=\"\" label=\"Attach your résumé\" />\n  <p class=\"text-xs text-gray-500 dark:text-gray-400\">PDF or Word, up to 5 MB. A person reads every application — nothing here is screened automatically.</p>\n</div>"
     },
     {
-      "label": "Profile photo field rejecting an oversized image",
-      "source": "<.component component_name=\"chelekom-file-field\" site=\"Global\" id=\"profile-avatar-upload\" name=\"user[avatar]\" label=\"Profile photo\" errors={[\"That image is larger than 2 MB. Please choose a smaller file.\"]} class=\"max-w-md\" />"
+      "label": "Supporting documents, several at once",
+      "source": "<div class=\"max-w-md space-y-2\">\n  <.component component_name=\"chelekom-file-field\" site=\"Global\" id=\"claim-documents\" name=\"claim[documents][]\" value=\"\" label=\"Supporting documents\" multiple />\n  <p class=\"text-xs text-gray-500 dark:text-gray-400\">Hold Shift to pick more than one. Photographs of paper receipts are fine.</p>\n</div>"
     },
     {
-      "label": "Receipt attachment on an expense claim",
-      "source": "<.component component_name=\"chelekom-file-field\" site=\"Global\" id=\"expense-receipt\" name=\"expense[receipt]\" label=\"Receipt or invoice\" color=\"primary\" space=\"small\" class=\"max-w-md\" />"
+      "label": "Profile photo rejected for being too large",
+      "source": "<div class=\"max-w-md\">\n  <.component component_name=\"chelekom-file-field\" site=\"Global\" id=\"profile-avatar\" name=\"user[avatar]\" value=\"\" label=\"Profile photo\" errors={[\"That image is larger than 2 MB. Please choose a smaller one.\"]} />\n</div>"
+    },
+    {
+      "label": "Receipt on an expense claim, with the field emphasised",
+      "source": "<div class=\"max-w-md space-y-2\">\n  <.component component_name=\"chelekom-file-field\" site=\"Global\" id=\"expense-receipt\" name=\"expense[receipt]\" value=\"\" label=\"Receipt or invoice\" color=\"primary\" space=\"small\" />\n  <p class=\"text-xs text-gray-500 dark:text-gray-400\">Claims without a receipt are held until finance can match them to a card statement.</p>\n</div>"
     }
   ]
 }

@@ -20,7 +20,7 @@ defmodule DevelopmentWeb.Components.Headless.Avatar do
   use Phoenix.Component
 
   @doc type: :component
-  attr :id, :string, default: nil, doc: "Optional unique id for the root element"
+  attr :id, :string, required: true, doc: "Unique id (required by the hook)"
   attr :src, :string, default: nil, doc: "Image source; when nil only the fallback renders"
   attr :alt, :string, default: "", doc: "Alternative text for the image"
   attr :width, :any, default: nil, doc: "Image width attribute"

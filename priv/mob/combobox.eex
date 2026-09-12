@@ -193,7 +193,7 @@ defmodule <%= @module %> do
     options =
       children |> Enum.filter(&match?(%{type: :mishka_select_option}, &1)) |> Enum.map(& &1.props)
 
-    matches = filter(options, Map.get(props, :query), mode: Map.get(props, :filter, :contains))
+    matches = filter(options, Map.get(props, :query), mode: Map.get(props, :filter) || :contains)
 
     ~MOB"""
     <Column fill_width={true}>
@@ -214,7 +214,7 @@ defmodule <%= @module %> do
   # block of chips with a field stranded underneath. It only drops to a row of
   # its own when the last chip row is already full.
   defp control(props, options, disabled?) do
-    budget = Map.get(props, :wrap_chars, 34)
+    budget = Map.get(props, :wrap_chars) || 34
     {rows, used} = chip_rows(props, options, disabled?, budget)
     field = field_row(props, disabled?)
 
@@ -226,7 +226,7 @@ defmodule <%= @module %> do
         rows ->
           {init, [last]} = Enum.split(rows, -1)
           # The field needs room for its placeholder plus the two buttons.
-          cost = String.length(Map.get(props, :placeholder, "Search…") || "") + 8
+          cost = String.length(Map.get(props, :placeholder) || "Search…") + 8
 
           if used + cost <= budget,
             do: init ++ [join(last, field)],
@@ -237,11 +237,11 @@ defmodule <%= @module %> do
     ~MOB"""
     <Box
       fill_width={true}
-      background={Map.get(props, :background, :surface)}
-      corner_radius={Map.get(props, :corner_radius, :radius_sm)}
-      padding={Map.get(props, :padding, :space_sm)}
-      border_color={Map.get(props, :border_color, :border)}
-      border_width={Map.get(props, :border_width, 1)}
+      background={Map.get(props, :background) || :surface}
+      corner_radius={Map.get(props, :corner_radius) || :radius_sm}
+      padding={Map.get(props, :padding) || :space_sm}
+      border_color={Map.get(props, :border_color) || :border}
+      border_width={Map.get(props, :border_width) || 1}
     >
       <Column fill_width={true}>
         {lines}
@@ -259,7 +259,7 @@ defmodule <%= @module %> do
       <Box weight={1}>
         {input(props, disabled?)}
       </Box>
-      {button(Map.get(props, :clear_icon, "✕"), :on_clear, props, disabled?,
+      {button(Map.get(props, :clear_icon) || "✕", :on_clear, props, disabled?,
          truthy?(Map.get(props, :clear, false)))}
       {button(trigger_icon(props), :on_toggle, props, disabled?,
          truthy?(Map.get(props, :trigger, false)))}
@@ -337,8 +337,8 @@ defmodule <%= @module %> do
   defp input(props, disabled?) do
     node = ~MOB"""
     <TextField
-      value={Map.get(props, :query, "")}
-      placeholder={Map.get(props, :placeholder, "Search…")}
+      value={Map.get(props, :query) || ""}
+      placeholder={Map.get(props, :placeholder) || "Search…"}
       fill_width={true}
       background={:transparent}
       enabled={not disabled?}
@@ -401,7 +401,9 @@ defmodule <%= @module %> do
       case rows do
         [] ->
           <%= @module_prefix_camel %>Menu.<%= @component_prefix %>menu(%{open: true}, [
-            <%= @module_prefix_camel %>Menu.item(:__empty__, Map.get(props, :empty_text, "No matches"), disabled: true)
+            <%= @module_prefix_camel %>Menu.item(:__empty__, Map.get(props, :empty_text) || "No matches",
+              disabled: true
+            )
           ])
 
         rows ->
@@ -438,12 +440,12 @@ defmodule <%= @module %> do
   # Offered only when nothing matches the query EXACTLY — the web offers to
   # create "Pear" even while "Pears" is on screen, and so does this.
   defp create_row(props, matches, disabled?) do
-    query = String.trim(Map.get(props, :query, "") || "")
+    query = String.trim(Map.get(props, :query) || "")
 
     exact? = Enum.any?(matches, &(fold(Map.get(&1, :label)) == fold(query)))
 
     if truthy?(Map.get(props, :creatable, false)) and query != "" and not exact? and not disabled? do
-      label = Map.get(props, :create_label, "Create")
+      label = Map.get(props, :create_label) || "Create"
 
       [
         <%= @module_prefix_camel %>Menu.item(:__create__, ~s(#{label} "#{query}"),

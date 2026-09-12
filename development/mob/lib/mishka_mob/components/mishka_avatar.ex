@@ -57,8 +57,8 @@ defmodule MishkaMob.Components.MishkaAvatar do
   @spec avatar(map() | keyword(), [map()]) :: map()
   def avatar(props \\ %{}, fallback \\ []) do
     props = Map.new(props)
-    size = Map.get(props, :size, 44)
-    radius = radius(Map.get(props, :shape, :circle), size)
+    size = Map.get(props, :size) || 44
+    radius = radius(Map.get(props, :shape) || :circle, size)
     back = fallback(props, size, radius, fallback)
 
     id = Map.get(props, :id)
@@ -106,13 +106,13 @@ defmodule MishkaMob.Components.MishkaAvatar do
       width={size}
       height={size}
       corner_radius={radius}
-      background={Map.get(props, :background, :surface_raised)}
+      background={Map.get(props, :background) || :surface_raised}
       align={:center}
     >
       <Text
-        text={Map.get(props, :initials, "")}
-        text_size={Map.get(props, :text_size, :lg)}
-        text_color={Map.get(props, :color, :on_surface)}
+        text={Map.get(props, :initials) || ""}
+        text_size={Map.get(props, :text_size) || :lg}
+        text_color={Map.get(props, :color) || :on_surface}
       />
     </Box>
     """
@@ -124,7 +124,7 @@ defmodule MishkaMob.Components.MishkaAvatar do
       width={size}
       height={size}
       corner_radius={radius}
-      background={Map.get(props, :background, :surface_raised)}
+      background={Map.get(props, :background) || :surface_raised}
       align={:center}
     >
       {children}

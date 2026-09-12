@@ -129,6 +129,7 @@ defmodule DevelopmentWeb.Components.EmailField do
     assigns
     |> assign(field: nil, id: assigns.id || field.id)
     |> assign(:errors, Enum.map(errors, &translate_error(&1)))
+    |> assign_new(:name, fn -> field.name end)
     |> assign_new(:value, fn -> field.value end)
     |> email_field()
   end

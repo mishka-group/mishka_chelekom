@@ -84,7 +84,7 @@ defmodule <%= @module %> do
     props = Map.new(props)
     id = Map.get(props, :id)
     {shown, hidden} = split(items, props)
-    space = Map.get(props, :space, 6)
+    space = Map.get(props, :space) || 6
 
     items =
       shown
@@ -197,8 +197,8 @@ defmodule <%= @module %> do
   def split(items, props \\ %{}) do
     props = Map.new(props)
     items = List.wrap(items)
-    floor = max(Map.get(props, :min_visible, 1), 0)
-    take = items |> length() |> min(max(Map.get(props, :visible, 3), floor))
+    floor = max(Map.get(props, :min_visible) || 1, 0)
+    take = items |> length() |> min(max(Map.get(props, :visible) || 3, floor))
 
     Enum.split(items, take)
   end

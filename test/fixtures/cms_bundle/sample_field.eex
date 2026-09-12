@@ -1,0 +1,29 @@
+defmodule <%= @module %> do
+  use Phoenix.Component
+
+  @doc """
+  A field component whose bridge clause is written `assigns = %{field: ...}` — the argument order
+  Elixir accepts either way round, and the one an exporter reading only the left of the match is
+  blind to.
+  """
+  attr :field, Phoenix.HTML.FormField, default: nil
+  attr :id, :string, default: nil
+  attr :name, :string
+  attr :value, :string
+  attr :size, :string, default: "small"
+  attr :rest, :global
+
+  def sample_field(assigns = %{field: %Phoenix.HTML.FormField{} = field}) do
+    assigns
+    |> assign(field: nil, id: assigns.id || field.id)
+    |> assign_new(:name, fn -> field.name end)
+    |> assign_new(:value, fn -> field.value end)
+    |> sample_field()
+  end
+
+  def sample_field(assigns) do
+    ~H"""
+    <input id={@id} name={@name} value={@value} class={[@size]} {@rest} />
+    """
+  end
+end

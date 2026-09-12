@@ -163,5 +163,5 @@ defmodule DevelopmentWeb.Showcase.JsonMeta do
     _ -> %{by_function: %{}, by_component: %{}}
   end
 
-  defp json_path, do: Path.join([:code.priv_dir(:mishka_chelekom), "components", "chelekom.json"])
+  defp json_path, do: MishkaChelekom.CmsBundle.Location.bundle("chelekom")
 end

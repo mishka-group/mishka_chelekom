@@ -33,6 +33,7 @@ defmodule DevelopmentWeb.Components.Headless.ColorInput do
   attr :area_class, :any, default: nil
   attr :thumb_class, :any, default: nil
   attr :hue_class, :any, default: nil
+  attr :controls_class, :any, default: nil, doc: ~s|Extra classes for `data-part="controls"`|
   attr :rest, :global
 
   def color_input(assigns) do
@@ -91,7 +92,7 @@ defmodule DevelopmentWeb.Components.Headless.ColorInput do
         <div data-part="area" class={["chelekom-color-input__area", @area_class]}>
           <span data-part="area-thumb" class={["chelekom-color-input__thumb", @thumb_class]}></span>
         </div>
-        <div data-part="controls" class="chelekom-color-input__controls">
+        <div data-part="controls" class={["chelekom-color-input__controls", @controls_class]}>
           <input
             data-part="hue"
             type="range"

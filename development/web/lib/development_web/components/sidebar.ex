@@ -115,6 +115,8 @@ defmodule DevelopmentWeb.Components.Sidebar do
       id={@id}
       phx-click-away={hide_sidebar(@on_hide_away, @id, @hide_position)}
       phx-remove={hide_sidebar(@id, @hide_position)}
+      data-pb-open={show_sidebar(@id, @hide_position)}
+      data-pb-close={JS.exec("phx-remove", to: "##{@id}")}
       role="complementary"
       class={[
         "fixed h-screen transition-transform z-10 overflow-x-hidden",

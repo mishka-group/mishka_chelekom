@@ -66,11 +66,15 @@ defmodule <%= @module %> do
   defp with_id(node, id), do: %{node | props: Map.put(node.props, :id, id)}
 
   defp inline(props) do
-    text = Map.get(props, :text)
-    size = Map.get(props, :text_size, :sm)
-    color = Map.get(props, :color, :on_surface)
-    fill = Map.get(props, :background, :surface_raised)
-    pad = Map.get(props, :padding, 4)
+    # A missing label must render as nothing, not as the word "nil": an
+    # interpolated nil still lands in the props map, and `:json` encodes an
+    # atom as a string, so the wire carries "text":"nil" and the widget
+    # draws it.
+    text = Map.get(props, :text) || ""
+    size = Map.get(props, :text_size) || :sm
+    color = Map.get(props, :color) || :on_surface
+    fill = Map.get(props, :background) || :surface_raised
+    pad = Map.get(props, :padding) || 4
 
     # fill_width={false} is what makes it INLINE. A Box given neither width nor
     # fill_width fills its parent, so `<code>` in a sentence came out as a
@@ -87,15 +91,19 @@ defmodule <%= @module %> do
   # Code lines do not wrap, so a block scrolls horizontally rather than
   # truncating whatever runs past the edge.
   defp block(props) do
-    text = Map.get(props, :text)
-    size = Map.get(props, :text_size, :sm)
-    color = Map.get(props, :color, :on_surface)
-    fill = Map.get(props, :background, :surface_raised)
-    pad = Map.get(props, :padding, :space_md)
+    text = Map.get(props, :text) || ""
+    size = Map.get(props, :text_size) || :sm
+    color = Map.get(props, :color) || :on_surface
+    fill = Map.get(props, :background) || :surface_raised
+    pad = Map.get(props, :padding) || :space_md
     line = ~MOB(<Text text={text} text_size={size} text_color={color} font="monospace" />)
 
+    # `nil` means "not given", not `false`: `Map.get/3` hands back its default
+    # only when the key is ABSENT, so a keyword-built props map carrying an
+    # unset key as an explicit nil used to read as a deliberate `false`.
+    # Only a real `false` turns this off.
     body =
-      if truthy?(Map.get(props, :scroll, true)) do
+      if Map.get(props, :scroll) != false do
         ~MOB"""
         <Scroll axis="horizontal">
           {line}

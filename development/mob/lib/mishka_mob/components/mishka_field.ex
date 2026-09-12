@@ -64,7 +64,7 @@ defmodule MishkaMob.Components.MishkaField do
     props = Map.new(props)
     errors = props |> Map.get(:errors, []) |> List.wrap() |> Enum.reject(&(&1 in [nil, ""]))
     disabled? = truthy?(Map.get(props, :disabled, false))
-    space = Map.get(props, :space, 6)
+    space = Map.get(props, :space) || 6
 
     ~MOB"""
     <Column fill_width={true}>
@@ -82,8 +82,8 @@ defmodule MishkaMob.Components.MishkaField do
   # theme. It used to be a hardcoded 0xFFDC2626, which stayed the same shade of
   # red whatever the theme did — the one colour in the component that could not
   # be themed, on the one element that most needs to stand out.
-  defp danger(props), do: Map.get(props, :error_color, :error)
-  defp size(props), do: Map.get(props, :text_size, :sm)
+  defp danger(props), do: Map.get(props, :error_color) || :error
+  defp size(props), do: Map.get(props, :text_size) || :sm
 
   @doc """
   Whether a set of props describes a field in an invalid state — exposed so a
@@ -111,7 +111,7 @@ defmodule MishkaMob.Components.MishkaField do
   defp label(props, disabled?) do
     text = Map.get(props, :label)
     required? = truthy?(Map.get(props, :required, false))
-    color = if disabled?, do: :muted, else: Map.get(props, :label_color, :on_surface)
+    color = if disabled?, do: :muted, else: Map.get(props, :label_color) || :on_surface
     danger = danger(props)
     size = size(props)
 
@@ -133,7 +133,7 @@ defmodule MishkaMob.Components.MishkaField do
   # happens, and now what is documented.
   defp footer(props, [], space) do
     description = Map.get(props, :description)
-    color = Map.get(props, :description_color, :muted)
+    color = Map.get(props, :description_color) || :muted
     size = size(props)
 
     ~MOB"""

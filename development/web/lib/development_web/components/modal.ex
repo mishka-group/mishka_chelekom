@@ -111,6 +111,8 @@ defmodule DevelopmentWeb.Components.Modal do
       phx-mounted={@show && show_modal(@id)}
       phx-remove={hide_modal(@id)}
       data-cancel={JS.exec(@on_cancel, "phx-remove")}
+      data-pb-open={show_modal(@id)}
+      data-pb-close={JS.exec("phx-remove", to: "##{@id}")}
       class={["relative z-50 hidden", @class]}
     >
       <div

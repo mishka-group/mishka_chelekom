@@ -27,6 +27,8 @@ defmodule MishkaChelekom.CmsBundleExporterTest do
     card_eex = File.read!(Path.join(@fixture_dir, "sample_card.eex"))
     widget_exs = File.read!(Path.join(@fixture_dir, "sample_widget.exs"))
     widget_eex = File.read!(Path.join(@fixture_dir, "sample_widget.eex"))
+    field_exs = File.read!(Path.join(@fixture_dir, "sample_field.exs"))
+    field_eex = File.read!(Path.join(@fixture_dir, "sample_field.eex"))
 
     {:ok,
      button_exs: button_exs,
@@ -34,7 +36,9 @@ defmodule MishkaChelekom.CmsBundleExporterTest do
      card_exs: card_exs,
      card_eex: card_eex,
      widget_exs: widget_exs,
-     widget_eex: widget_eex}
+     widget_eex: widget_eex,
+     field_exs: field_exs,
+     field_eex: field_eex}
   end
 
   defp by_name(components, name), do: Enum.find(components, &(&1["name"] == name))
@@ -260,6 +264,37 @@ defmodule MishkaChelekom.CmsBundleExporterTest do
         refute h["args"] in [nil, ""], "blank args on #{h["name"]}"
         refute h["code"] in [nil, ""], "blank code on #{h["name"]}"
       end
+    end
+  end
+
+  ## ─── The bridge clause between a Phoenix form and a kit ────────────
+
+  # The clause that turns a `%Phoenix.HTML.FormField{}` into `name`, `value`, `id` and translated
+  # errors is the whole bridge between a Phoenix form and this kit. Shipped as an ordinary helper it
+  # lands on the module under a name nothing calls, and `field={@form[:x]}` falls through to a clause
+  # reading `@name`, which raises `(KeyError) key :name not found` on the visitor's page. It is
+  # recognised by SHAPE, and `assigns = %{field: ...}` is the same shape as `%{field: ...} = assigns`
+  # — Elixir accepts either order, so an exporter that reads only one of them ships dead code again
+  # for a kit whose only difference is which side of the match the author wrote first.
+  describe "convert/5 — a delegating clause, whichever way round the match is written" do
+    test "ships as a real clause and not as a helper", %{field_exs: e, field_eex: t} do
+      {:ok, %{components: cps}} = CmsBundleExporter.convert(e, t, "kit", "1.0")
+      field = by_name(cps, "kit-sample-field")
+
+      assert [bridge] = Enum.filter(field["extra"]["clauses"], & &1["delegates"])
+      assert bridge["match"] =~ "Phoenix.HTML.FormField"
+      refute "sample_field" in Enum.map(field["helpers"], & &1["name"])
+    end
+
+    test "with its trailing self-call removed, so the body IS the normalised assigns",
+         %{field_exs: e, field_eex: t} do
+      {:ok, %{components: cps}} = CmsBundleExporter.convert(e, t, "kit", "1.0")
+      field = by_name(cps, "kit-sample-field")
+
+      assert [bridge] = Enum.filter(field["extra"]["clauses"], & &1["delegates"])
+      assert bridge["body"] =~ "assign_new(:name"
+      refute bridge["body"] =~ "|> sample_field()"
+      assert bridge["template"] == nil
     end
   end
 

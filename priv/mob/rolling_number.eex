@@ -52,9 +52,9 @@ defmodule <%= @module %> do
   @spec <%= @component_prefix %>rolling_number(map() | keyword()) :: map()
   def <%= @component_prefix %>rolling_number(props \\ %{}) do
     props = Map.new(props)
-    text = format(Map.get(props, :value, 0), Map.get(props, :separator, ","))
-    size = Map.get(props, :text_size, :"2xl")
-    color = Map.get(props, :color, :on_surface)
+    text = format(Map.get(props, :value) || 0, Map.get(props, :separator) || ",")
+    size = Map.get(props, :text_size) || :"2xl"
+    color = Map.get(props, :color) || :on_surface
 
     ~MOB"""
     <Text text={text} text_size={size} text_color={color} />

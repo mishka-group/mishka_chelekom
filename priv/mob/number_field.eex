@@ -176,8 +176,8 @@ defmodule <%= @module %> do
   def <%= @component_prefix %>number_field(props \\ %{}) do
     props = Map.new(props)
     disabled? = truthy?(Map.get(props, :disabled, false))
-    amount = Map.get(props, :step, 1)
-    decimals = Map.get(props, :decimals, decimals_for(amount))
+    amount = Map.get(props, :step) || 1
+    decimals = Map.get(props, :decimals) || decimals_for(amount)
     value = Map.get(props, :value)
     text = display(value, props, decimals)
 
@@ -189,10 +189,10 @@ defmodule <%= @module %> do
     ~MOB"""
     <Box
       fill_width={truthy?(Map.get(props, :fill_width, false))}
-      background={Map.get(props, :background, :surface)}
-      corner_radius={Map.get(props, :corner_radius, :radius_sm)}
-      border_color={Map.get(props, :border_color, :border)}
-      border_width={Map.get(props, :border_width, 1)}
+      background={Map.get(props, :background) || :surface}
+      corner_radius={Map.get(props, :corner_radius) || :radius_sm}
+      border_color={Map.get(props, :border_color) || :border}
+      border_width={Map.get(props, :border_width) || 1}
     >
       <Row>
         {stepper("−", :down, props, disabled? or at_bound?(value, :down, props))}
@@ -285,7 +285,7 @@ defmodule <%= @module %> do
   end
 
   defp display(value, props, decimals),
-    do: format(value, Map.get(props, :format, :plain), decimals)
+    do: format(value, Map.get(props, :format) || :plain, decimals)
 
   # The value slot is a FIXED width unless the strip is asked to span. `weight`
   # makes a child take everything left over, so a weighted slot forced the whole
@@ -322,8 +322,8 @@ defmodule <%= @module %> do
     ~MOB"""
     <Box
       width={1}
-      height={Map.get(props, :size, 56)}
-      background={Map.get(props, :border_color, :border)}
+      height={Map.get(props, :size) || 56}
+      background={Map.get(props, :border_color) || :border}
     />
     """
   end
@@ -332,8 +332,8 @@ defmodule <%= @module %> do
     node = ~MOB"""
     <TextField
       value={text}
-      placeholder={Map.get(props, :placeholder, "")}
-      keyboard={if(Map.get(props, :step, 1) == trunc(Map.get(props, :step, 1)), do: "number", else: "decimal")}
+      placeholder={Map.get(props, :placeholder) || ""}
+      keyboard={keyboard_for(Map.get(props, :step) || 1)}
       fill_width={true}
       text_align="center"
       background={:transparent}
@@ -354,7 +354,7 @@ defmodule <%= @module %> do
   # look pressable, which is what the web does with its own disabled attribute.
   defp stepper(glyph, direction, props, inert?) do
     color = if inert?, do: :muted, else: :on_surface
-    size = Map.get(props, :size, 56)
+    size = Map.get(props, :size) || 56
 
     node = ~MOB"""
     <Box width={size} height={size} align={:center} background={:transparent}>
@@ -371,6 +371,12 @@ defmodule <%= @module %> do
       {pid, tag} -> %{node | props: Map.put(node.props, :on_tap, {pid, {tag, direction}})}
     end
   end
+
+  # A whole-number step wants the plain number pad; a fractional one needs the
+  # decimal point. A non-numeric step fails the guard and gets the decimal pad
+  # rather than raising inside a node build.
+  defp keyboard_for(step) when is_number(step) and step == trunc(step), do: "number"
+  defp keyboard_for(_step), do: "decimal"
 
   defp tag(node, nil), do: node
   defp tag(node, id), do: %{node | props: Map.put(node.props, :id, id)}

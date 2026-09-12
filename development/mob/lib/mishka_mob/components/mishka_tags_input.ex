@@ -122,11 +122,11 @@ defmodule MishkaMob.Components.MishkaTagsInput do
     ~MOB"""
     <Box
       fill_width={true}
-      background={Map.get(props, :background, :surface)}
-      corner_radius={Map.get(props, :corner_radius, :radius_md)}
-      padding={Map.get(props, :padding, :space_sm)}
-      border_color={Map.get(props, :border_color, :border)}
-      border_width={Map.get(props, :border_width, 1)}
+      background={Map.get(props, :background) || :surface}
+      corner_radius={Map.get(props, :corner_radius) || :radius_md}
+      padding={Map.get(props, :padding) || :space_sm}
+      border_color={Map.get(props, :border_color) || :border}
+      border_width={Map.get(props, :border_width) || 1}
     >
       <Column fill_width={true}>
         {tokens(tags, props, disabled?)}
@@ -169,8 +169,8 @@ defmodule MishkaMob.Components.MishkaTagsInput do
   defp tokens([], _props, _disabled?), do: ~MOB(<Column />)
 
   defp tokens(tags, props, disabled?) do
-    space = Map.get(props, :space, 6)
-    budget = Map.get(props, :wrap_chars, 34)
+    space = Map.get(props, :space) || 6
+    budget = Map.get(props, :wrap_chars) || 34
 
     rows =
       tags
@@ -219,8 +219,8 @@ defmodule MishkaMob.Components.MishkaTagsInput do
   defp draft(props, disabled?) do
     node = ~MOB"""
     <TextField
-      value={Map.get(props, :draft, "")}
-      placeholder={Map.get(props, :placeholder, "Add a tag…")}
+      value={Map.get(props, :draft) || ""}
+      placeholder={Map.get(props, :placeholder) || "Add a tag…"}
       return_key="done"
       fill_width={true}
       background={:transparent}

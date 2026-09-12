@@ -4,6 +4,8 @@ defmodule MishkaMob.Components.MishkaSwitchTest do
 
   alias MishkaMob.Components.MishkaSwitch
 
+  doctest MishkaMob.Components.MishkaSwitch
+
   describe "native mapping" do
     test "is Mob's Toggle widget, not a hand-built track and thumb" do
       assert %{type: :toggle, children: []} = MishkaSwitch.switch()

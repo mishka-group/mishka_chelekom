@@ -268,7 +268,7 @@ defmodule MishkaMob.Components.MishkaTree do
   @spec tree(map() | keyword()) :: map()
   def tree(props \\ %{}) do
     props = Map.new(props)
-    rows = props |> Map.get(:nodes, []) |> visible(Map.get(props, :expanded, []))
+    rows = (Map.get(props, :nodes) || []) |> visible(Map.get(props, :expanded) || [])
     nodes = Enum.map(rows, &row(&1, props))
 
     ~MOB"""
@@ -650,7 +650,11 @@ defmodule MishkaMob.Components.MishkaTree do
 
   defp children(node), do: node |> Map.get(:children) |> List.wrap()
 
-  defp selectable?(node), do: truthy?(Map.get(node, :selectable, true))
+  # `nil` means "not given", not `false`: `Map.get/3` hands back its default
+  # only when the key is ABSENT, so a keyword-built props map carrying an
+  # unset key as an explicit nil used to read as a deliberate `false`.
+  # Only a real `false` turns this off.
+  defp selectable?(node), do: Map.get(node, :selectable) != false
   defp disabled?(node), do: truthy?(Map.get(node, :disabled, false))
   defp pickable?(node), do: selectable?(node) and not disabled?(node)
 
@@ -663,7 +667,7 @@ defmodule MishkaMob.Components.MishkaTree do
     pick? = selectable?(node)
     selected? = pick? and value in List.wrap(Map.get(props, :selected, []))
     loading? = value in List.wrap(Map.get(props, :loading, []))
-    offset = Map.get(props, :level_offset, @indent) * depth
+    offset = (Map.get(props, :level_offset) || @indent) * depth
 
     parts =
       guides(depth, props) ++
@@ -758,7 +762,7 @@ defmodule MishkaMob.Components.MishkaTree do
   # Guide lines are drawn per level so they line up with the indent.
   defp guides(depth, props) do
     if flag?(props, :with_lines, false) and depth > 0 do
-      step = Map.get(props, :level_offset, @indent)
+      step = Map.get(props, :level_offset) || @indent
 
       Enum.map(1..depth, fn _ ->
         ~MOB"""
@@ -786,10 +790,7 @@ defmodule MishkaMob.Components.MishkaTree do
         id = tree_id(props)
         ink = if off?, do: :muted, else: :on_surface
 
-        glyph =
-          if expanded?,
-            do: Map.get(props, :collapse_icon, @collapse_glyph),
-            else: Map.get(props, :expand_icon, @expand_glyph)
+        glyph = arrow_glyph(props, expanded?)
 
         # The glyph says which way the branch is pointing and nothing else does,
         # so the state goes into a tag on the arrow itself. It cannot go on the
@@ -816,6 +817,9 @@ defmodule MishkaMob.Components.MishkaTree do
     end
   end
 
+  defp arrow_glyph(props, true), do: Map.get(props, :collapse_icon) || @collapse_glyph
+  defp arrow_glyph(props, _expanded?), do: Map.get(props, :expand_icon) || @expand_glyph
+
   # The real Checkbox, not a ☑ of our own. Drawing the glyph here was one line
   # shorter and meant a checkbox inside a tree looked nothing like a checkbox in
   # a form — a hollow ☐ beside the component's filled tick. MishkaCheckbox
@@ -831,9 +835,9 @@ defmodule MishkaMob.Components.MishkaTree do
       # set at all.
       state =
         check_state(
-          Map.get(props, :nodes, []),
+          Map.get(props, :nodes) || [],
           node.value,
-          Map.get(props, :checked, []),
+          Map.get(props, :checked) || [],
           strictly: flag?(props, :check_strictly, false)
         )
 
@@ -896,7 +900,7 @@ defmodule MishkaMob.Components.MishkaTree do
   defp loader(_props, _id, _value, false), do: []
 
   defp loader(props, id, value, true) do
-    glyph = Map.get(props, :loader_icon, @loader_glyph)
+    glyph = Map.get(props, :loader_icon) || @loader_glyph
 
     [
       ~MOB(<Spacer size={6} />),
@@ -954,7 +958,16 @@ defmodule MishkaMob.Components.MishkaTree do
     end
   end
 
-  defp flag?(props, key, default), do: truthy?(Map.get(props, key, default))
+  # `nil` means "not given", NOT `false`: a keyword-built props map carries an
+  # unset key as an explicit nil, and `Map.get/3` only returns its default when
+  # the key is ABSENT. `||` cannot serve here — every caller with a `true`
+  # default would then read an explicit `false` as the default.
+  defp flag?(props, key, default) do
+    case Map.get(props, key) do
+      nil -> default
+      value -> truthy?(value)
+    end
+  end
 
   defp put(node, _key, nil), do: node
   defp put(node, key, value), do: %{node | props: Map.put(node.props, key, value)}

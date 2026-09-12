@@ -184,7 +184,7 @@ defmodule MishkaMob.Components.MishkaNavigationMenu do
   end
 
   defp orientation(props) do
-    case Map.get(props, :orientation, :horizontal) do
+    case Map.get(props, :orientation) || :horizontal do
       :vertical -> :vertical
       "vertical" -> :vertical
       _ -> :horizontal

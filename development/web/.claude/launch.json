@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "development-web",
+      "runtimeExecutable": "mix",
+      "runtimeArgs": ["phx.server"],
+      "port": 4002
+    }
+  ]
+}

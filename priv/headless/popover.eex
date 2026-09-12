@@ -71,6 +71,8 @@ defmodule <%= @module %> do
   attr :description_class, :any, default: nil, doc: "Extra classes for the description part"
   attr :content_class, :any, default: nil, doc: "Extra classes for the content part"
   attr :arrow_class, :any, default: nil, doc: "Extra classes for the arrow part"
+  attr :backdrop_class, :any, default: nil, doc: ~s|Extra classes for `data-part="backdrop"`|
+  attr :footer_class, :any, default: nil, doc: ~s|Extra classes for `data-part="footer"`|
   attr :rest, :global
 
   slot :trigger, required: true, doc: "The button that opens the popover"
@@ -119,7 +121,7 @@ defmodule <%= @module %> do
       <div
         :if={@modal != false}
         data-part="backdrop"
-        class="chelekom-popover__backdrop"
+        class={["chelekom-popover__backdrop", @backdrop_class]}
         aria-hidden="true"
       >
       </div>
@@ -158,7 +160,7 @@ defmodule <%= @module %> do
         <div data-part="content" class={["chelekom-popover__content", @content_class]}>
           {render_slot(@inner_block)}
         </div>
-        <div :if={@close != []} data-part="footer" class="chelekom-popover__footer">
+        <div :if={@close != []} data-part="footer" class={["chelekom-popover__footer", @footer_class]}>
           {render_slot(@close)}
         </div>
       </div>

@@ -69,7 +69,11 @@ defmodule Development.MixProject do
       # editing templates/JS/CSS in ../../priv reflects live when regenerating here.
       # See README.md. (Path is ../../ since this app moved under development/web/.)
       {:mishka_chelekom, path: "../../", only: [:dev, :test]},
-      {:igniter, "~> 0.7", only: [:dev, :test]},
+      {:igniter, "~> 0.8 and >= 0.8.3", only: [:dev, :test]},
+      # LOCAL DEVELOPMENT ONLY — mishka_chelekom currently takes igniter_js/igniter_css as path
+      # deps and neither has published NIF artifacts for the version we need, so both are built
+      # from source here (see config/config.exs). Drops out with their hex releases.
+      {:rustler, ">= 0.0.0", only: [:dev, :test]},
       # Quality gate — see `mix precommit` and CLAUDE.md. Latest versions.
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:sobelow, "~> 0.14", only: [:dev, :test], runtime: false},

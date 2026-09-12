@@ -5,6 +5,26 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   """
   use Phoenix.Component
 
+  import DevelopmentWeb.Components.Headless.Alert
+  import DevelopmentWeb.Components.Headless.Breadcrumb
+  import DevelopmentWeb.Components.Headless.Button
+  import DevelopmentWeb.Components.Headless.Calendar
+  import DevelopmentWeb.Components.Headless.Card
+  import DevelopmentWeb.Components.Headless.Carousel
+  import DevelopmentWeb.Components.Headless.Countdown
+  import DevelopmentWeb.Components.Headless.Dock
+  import DevelopmentWeb.Components.Headless.Editor
+  import DevelopmentWeb.Components.Headless.Fab
+  import DevelopmentWeb.Components.Headless.FileInput
+  import DevelopmentWeb.Components.Headless.Pagination
+  import DevelopmentWeb.Components.Headless.RadioGroup
+  import DevelopmentWeb.Components.Headless.Rating
+  import DevelopmentWeb.Components.Headless.Sparkline
+  import DevelopmentWeb.Components.Headless.Stepper
+  import DevelopmentWeb.Components.Headless.Table
+  import DevelopmentWeb.Components.Headless.TextInput
+  import DevelopmentWeb.Components.Headless.Textarea
+  import DevelopmentWeb.Components.Headless.ThemeController
   import DevelopmentWeb.Components.Headless.Accordion
   import DevelopmentWeb.Components.Headless.ActionIcon
   import DevelopmentWeb.Components.Headless.AlertDialog
@@ -80,6 +100,118 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
 
   alias DevelopmentWeb.Showcase.ExampleSource
   alias Phoenix.LiveView.JS
+
+  def sections("alert"),
+    do: [
+      {"alert-hero", "Hero", "An inline message with a title, a body and a dismiss button."},
+      {"alert-urgency", "Urgency",
+       "A polite status and an assertive alert: the urgency picks the role, not the colour."}
+    ]
+
+  def sections("breadcrumb"),
+    do: [
+      {"breadcrumb-hero", "Hero",
+       "A trail whose last crumb is text, not a link — you are already there."},
+      {"breadcrumb-collapsed", "Collapsed", "A long trail with its middle elided."}
+    ]
+
+  def sections("button"),
+    do: [
+      {"button-hero", "Hero", "The filled and outlined buttons, plus a disabled one."},
+      {"button-loading", "Loading", "A button that keeps its width while it waits."},
+      {"button-link", "As a link", "The same button rendered as an anchor."}
+    ]
+
+  def sections("calendar"),
+    do: [
+      {"calendar-hero", "Hero", "A month grid with today outlined and one day selected."},
+      {"calendar-range", "Range", "A start, an end, and the days between them."}
+    ]
+
+  def sections("card"),
+    do: [
+      {"card-hero", "Hero", "A titled card with body copy and an action."},
+      {"card-link", "As a link", "The whole card is one anchor, and one focus stop."}
+    ]
+
+  def sections("carousel"),
+    do: [
+      {"carousel-hero", "Hero", "A scroll-snap strip with indicators."},
+      {"carousel-controls", "With controls", "Previous and next, disabled at the ends."}
+    ]
+
+  def sections("countdown"),
+    do: [
+      {"countdown-hero", "Hero", "Days, hours, minutes and seconds, ticking."},
+      {"countdown-clock", "Clock", "Hours to seconds, colon-separated."}
+    ]
+
+  def sections("dock"),
+    do: [{"dock-hero", "Hero", "Three destinations pinned inside a frame, one current."}]
+
+  def sections("editor"),
+    do: [{"editor-hero", "Hero", "A rich-text surface with a bold/italic toolbar."}]
+
+  def sections("fab"),
+    do: [{"fab-hero", "Hero", "A floating button that fans out into three actions."}]
+
+  def sections("file_input"),
+    do: [
+      {"file_input-hero", "Hero", "The native picker, with its own button styled."},
+      {"file_input-field", "In a field", "Wrapped in a field, with a description."}
+    ]
+
+  def sections("pagination"),
+    do: [
+      {"pagination-hero", "Hero", "A computed window over ten pages."},
+      {"pagination-window", "Long range", "A hundred pages, still seven controls wide."}
+    ]
+
+  def sections("radio_group"),
+    do: [
+      {"radio_group-hero", "Hero", "Three options; selection follows focus, as APG asks."},
+      {"radio_group-disabled", "Disabled option",
+       "One option ruled out, the rest still navigable."}
+    ]
+
+  def sections("rating"),
+    do: [
+      {"rating-hero", "Hero", "Five stars, keyboard-navigable because it is a radio group."},
+      {"rating-half", "Half stars", "Two half-width controls per star."}
+    ]
+
+  def sections("sparkline"),
+    do: [
+      {"sparkline-hero", "Hero", "A line with the last point marked."},
+      {"sparkline-types", "Types", "Line, area and bars over the same numbers."}
+    ]
+
+  def sections("stepper"),
+    do: [
+      {"stepper-hero", "Hero", "Four steps with the third current; the rest is derived."},
+      {"stepper-vertical", "Vertical", "The same flow, stacked."}
+    ]
+
+  def sections("table"),
+    do: [
+      {"table-hero", "Hero", "A captioned table with row headers."},
+      {"table-sortable", "Sortable", "A header button and aria-sort on the sorted column."}
+    ]
+
+  def sections("text_input"),
+    do: [
+      {"text_input-hero", "Hero", "A text field with a leading section."},
+      {"text_input-invalid", "Invalid", "The same field carrying an error."}
+    ]
+
+  def sections("textarea"),
+    do: [
+      {"textarea-hero", "Hero", "A multi-line field."},
+      {"textarea-autosize", "Autosize", "It grows with the content, up to six rows."}
+    ]
+
+  def sections("theme_controller"),
+    do: [{"theme_controller-hero", "Hero", "Three themes, applied to the preview box only."}]
 
   def sections("chart"),
     do: [
@@ -602,6 +734,616 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
   def has?(component), do: sections(component) != []
 
   def source(id), do: ExampleSource.code(__MODULE__, id)
+
+  # ── alert ─────────────────────────────────────────────────────────────────
+  def example(%{section: "alert-hero"} = assigns) do
+    ~H"""
+    <.alert
+      id="baseui-alert-hero"
+      dismissible
+      class="flex w-96 items-start gap-3 rounded-md border border-neutral-200 bg-white p-3 text-sm text-neutral-950 dark:border-neutral-800 dark:bg-neutral-950 dark:text-white"
+      title_class="font-medium"
+      content_class="flex-1"
+      close_class="rounded-sm text-neutral-500 hover:text-neutral-950 dark:hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-950 dark:focus-visible:outline-white"
+    >
+      <:title>Draft saved</:title>
+      Your changes are stored locally until you publish.
+    </.alert>
+    """
+  end
+
+  def example(%{section: "alert-urgency"} = assigns) do
+    ~H"""
+    <div class="flex w-96 flex-col gap-2">
+      <.alert
+        id="baseui-alert-polite"
+        urgency="polite"
+        class="rounded-md border border-neutral-200 bg-white p-3 text-sm text-neutral-950 dark:border-neutral-800 dark:bg-neutral-950 dark:text-white"
+      >
+        Saved a moment ago.
+      </.alert>
+      <.alert
+        id="baseui-alert-assertive"
+        urgency="assertive"
+        class="rounded-md border border-red-600 bg-white p-3 text-sm text-red-700 dark:border-red-500 dark:bg-neutral-950 dark:text-red-400"
+      >
+        Could not reach the server.
+      </.alert>
+    </div>
+    """
+  end
+
+  # ── breadcrumb ────────────────────────────────────────────────────────────
+  def example(%{section: "breadcrumb-hero"} = assigns) do
+    ~H"""
+    <.breadcrumb
+      id="baseui-breadcrumb-hero"
+      class="text-sm text-neutral-600 dark:text-neutral-400"
+      list_class="flex items-center gap-1"
+      item_class="flex items-center gap-1"
+      separator_class="px-1 text-neutral-400 dark:text-neutral-600"
+    >
+      <:item href="#">Home</:item>
+      <:item href="#">Projects</:item>
+      <:item>Chelekom</:item>
+    </.breadcrumb>
+    """
+  end
+
+  def example(%{section: "breadcrumb-collapsed"} = assigns) do
+    ~H"""
+    <.breadcrumb
+      id="baseui-breadcrumb-collapsed"
+      max_items={3}
+      class="text-sm text-neutral-600 dark:text-neutral-400"
+      list_class="flex items-center gap-1"
+      item_class="flex items-center gap-1"
+      separator_class="px-1 text-neutral-400 dark:text-neutral-600"
+    >
+      <:item href="#">Home</:item>
+      <:item href="#">Projects</:item>
+      <:item href="#">Chelekom</:item>
+      <:item href="#">Headless</:item>
+      <:item>Breadcrumb</:item>
+    </.breadcrumb>
+    """
+  end
+
+  # ── button ────────────────────────────────────────────────────────────────
+  def example(%{section: "button-hero"} = assigns) do
+    ~H"""
+    <div class="flex items-center gap-3">
+      <.button
+        id="baseui-button-primary"
+        class="inline-flex items-center justify-center gap-2 rounded-md border px-3 py-1.5 text-sm font-medium border-neutral-950 bg-neutral-950 text-white dark:border-white dark:bg-white dark:text-neutral-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-950 dark:focus-visible:outline-white data-[disabled]:border-neutral-500 data-[disabled]:bg-transparent data-[disabled]:text-neutral-500"
+      >Save changes</.button>
+      <.button
+        id="baseui-button-ghost"
+        class="inline-flex items-center justify-center gap-2 rounded-md border px-3 py-1.5 text-sm font-medium border-neutral-200 text-neutral-950 dark:border-neutral-800 dark:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-950 dark:focus-visible:outline-white"
+      >Cancel</.button>
+      <.button
+        id="baseui-button-disabled"
+        disabled
+        class="inline-flex items-center justify-center gap-2 rounded-md border px-3 py-1.5 text-sm font-medium border-neutral-950 bg-neutral-950 text-white dark:border-white dark:bg-white dark:text-neutral-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-950 dark:focus-visible:outline-white data-[disabled]:border-neutral-500 data-[disabled]:bg-transparent data-[disabled]:text-neutral-500"
+      >Unavailable</.button>
+    </div>
+    """
+  end
+
+  def example(%{section: "button-loading"} = assigns) do
+    ~H"""
+    <.button
+      id="baseui-button-loading"
+      loading
+      class="inline-flex items-center justify-center gap-2 rounded-md border px-3 py-1.5 text-sm font-medium border-neutral-950 bg-neutral-950 text-white dark:border-white dark:bg-white dark:text-neutral-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-950 dark:focus-visible:outline-white data-[disabled]:border-neutral-500 data-[disabled]:bg-transparent data-[disabled]:text-neutral-500"
+    >
+      <:loader>
+        <svg viewBox="0 0 16 16" class="size-4 animate-spin" fill="none" stroke="currentColor">
+          <circle cx="8" cy="8" r="6" stroke-opacity="0.25" />
+          <path d="M14 8a6 6 0 0 0-6-6" />
+        </svg>
+      </:loader>
+      Publishing
+    </.button>
+    """
+  end
+
+  def example(%{section: "button-link"} = assigns) do
+    ~H"""
+    <.button
+      id="baseui-button-link"
+      href="#"
+      class="inline-flex items-center justify-center gap-2 rounded-md border px-3 py-1.5 text-sm font-medium border-neutral-200 text-neutral-950 dark:border-neutral-800 dark:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-950 dark:focus-visible:outline-white"
+    >Read the docs</.button>
+    """
+  end
+
+  # ── calendar ──────────────────────────────────────────────────────────────
+  def example(%{section: "calendar-hero"} = assigns) do
+    ~H"""
+    <.calendar
+      id="baseui-calendar-hero"
+      month={~D[2026-03-01]}
+      today={~D[2026-03-17]}
+      value={~D[2026-03-12]}
+      class="inline-flex flex-col gap-2 rounded-lg border border-neutral-200 bg-white p-3 text-neutral-950 dark:border-neutral-800 dark:bg-neutral-950 dark:text-white [&_[data-part=header]]:flex [&_[data-part=header]]:items-center [&_[data-part=header]]:justify-between [&_[data-part=heading]]:text-sm [&_[data-part=heading]]:font-medium [&_[data-part=weekday]]:p-1 [&_[data-part=weekday]]:text-xs [&_[data-part=weekday]]:font-normal [&_[data-part=weekday]]:text-neutral-500 [&_[data-part=previous]]:size-7 [&_[data-part=next]]:size-7 [&_[data-part=previous]]:rounded-md [&_[data-part=next]]:rounded-md [&_[data-part=previous]]:hover:bg-neutral-100 [&_[data-part=next]]:hover:bg-neutral-100 dark:[&_[data-part=previous]]:hover:bg-neutral-800 dark:[&_[data-part=next]]:hover:bg-neutral-800"
+      day_class="grid size-8 place-items-center rounded-md text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800 data-[outside]:text-neutral-400 dark:data-[outside]:text-neutral-600 aria-[current=date]:ring-1 aria-[current=date]:ring-neutral-950 dark:aria-[current=date]:ring-white data-[selected]:bg-neutral-950 data-[selected]:text-white dark:data-[selected]:bg-white dark:data-[selected]:text-neutral-950 aria-[disabled=true]:text-neutral-300 dark:aria-[disabled=true]:text-neutral-700"
+    />
+    """
+  end
+
+  def example(%{section: "calendar-range"} = assigns) do
+    ~H"""
+    <.calendar
+      id="baseui-calendar-range"
+      mode="range"
+      month={~D[2026-03-01]}
+      today={~D[2026-03-17]}
+      value={{~D[2026-03-09], ~D[2026-03-18]}}
+      class="inline-flex flex-col gap-2 rounded-lg border border-neutral-200 bg-white p-3 text-neutral-950 dark:border-neutral-800 dark:bg-neutral-950 dark:text-white [&_[data-part=header]]:flex [&_[data-part=header]]:items-center [&_[data-part=header]]:justify-between [&_[data-part=heading]]:text-sm [&_[data-part=heading]]:font-medium [&_[data-part=weekday]]:p-1 [&_[data-part=weekday]]:text-xs [&_[data-part=weekday]]:font-normal [&_[data-part=weekday]]:text-neutral-500 [&_[data-part=previous]]:size-7 [&_[data-part=next]]:size-7 [&_[data-part=previous]]:rounded-md [&_[data-part=next]]:rounded-md [&_[data-part=previous]]:hover:bg-neutral-100 [&_[data-part=next]]:hover:bg-neutral-100 dark:[&_[data-part=previous]]:hover:bg-neutral-800 dark:[&_[data-part=next]]:hover:bg-neutral-800"
+      day_class="grid size-8 place-items-center rounded-md text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800 data-[outside]:text-neutral-400 dark:data-[outside]:text-neutral-600 aria-[current=date]:ring-1 aria-[current=date]:ring-neutral-950 dark:aria-[current=date]:ring-white data-[selected]:bg-neutral-950 data-[selected]:text-white dark:data-[selected]:bg-white dark:data-[selected]:text-neutral-950 aria-[disabled=true]:text-neutral-300 dark:aria-[disabled=true]:text-neutral-700 data-[in-range]:rounded-none data-[in-range]:bg-neutral-100 dark:data-[in-range]:bg-neutral-800"
+    />
+    """
+  end
+
+  # ── card ──────────────────────────────────────────────────────────────────
+  def example(%{section: "card-hero"} = assigns) do
+    ~H"""
+    <.card
+      id="baseui-card-hero"
+      class="w-80 rounded-lg border border-neutral-200 bg-white text-neutral-950 dark:border-neutral-800 dark:bg-neutral-950 dark:text-white"
+      body_class="flex flex-col gap-2 p-4"
+      title_class="text-base font-medium"
+      actions_class="flex justify-end pt-2"
+    >
+      <:title>Weekly digest</:title>
+      <span class="text-sm text-neutral-600 dark:text-neutral-400">
+        A summary of everything that changed since Monday.
+      </span>
+      <:actions>
+        <button
+          type="button"
+          class="inline-flex items-center justify-center gap-2 rounded-md border px-3 py-1.5 text-sm font-medium border-neutral-200 text-neutral-950 dark:border-neutral-800 dark:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-950 dark:focus-visible:outline-white"
+        >Read</button>
+      </:actions>
+    </.card>
+    """
+  end
+
+  def example(%{section: "card-link"} = assigns) do
+    ~H"""
+    <.card
+      id="baseui-card-link"
+      href="#"
+      class="block w-80 rounded-lg border border-neutral-200 bg-white text-neutral-950 hover:bg-neutral-100 dark:border-neutral-800 dark:bg-neutral-950 dark:text-white dark:hover:bg-neutral-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-950 dark:focus-visible:outline-white"
+      body_class="flex flex-col gap-1 p-4"
+      title_class="text-base font-medium"
+    >
+      <:title>Changelog</:title>
+      <span class="text-sm text-neutral-600 dark:text-neutral-400">
+        One anchor, one focus stop — not a link inside a clickable box.
+      </span>
+    </.card>
+    """
+  end
+
+  # ── carousel ──────────────────────────────────────────────────────────────
+  def example(%{section: "carousel-hero"} = assigns) do
+    ~H"""
+    <.carousel
+      id="baseui-carousel-hero"
+      label="Panels"
+      class="flex w-80 flex-col gap-2"
+      show_indicators
+      viewport_class="flex snap-x snap-mandatory overflow-x-auto"
+      slide_class="w-full shrink-0 snap-start"
+    >
+      <:slide :for={n <- 1..4}><.baseui_panel n={n} /></:slide>
+    </.carousel>
+    """
+  end
+
+  def example(%{section: "carousel-controls"} = assigns) do
+    ~H"""
+    <.carousel
+      id="baseui-carousel-controls"
+      label="Panels"
+      class="flex w-80 flex-col gap-2"
+      show_controls
+      show_indicators
+      viewport_class="flex snap-x snap-mandatory overflow-x-auto"
+      slide_class="w-full shrink-0 snap-start"
+    >
+      <:slide :for={n <- 1..4}><.baseui_panel n={n} /></:slide>
+    </.carousel>
+    """
+  end
+
+  # ── countdown ─────────────────────────────────────────────────────────────
+  def example(%{section: "countdown-hero"} = assigns) do
+    ~H"""
+    <.countdown
+      id="baseui-countdown-hero"
+      seconds={2 * 86_400 + 5 * 3_600 + 42 * 60 + 17}
+      show_labels
+      class="flex items-end gap-4 text-neutral-950 dark:text-white"
+      unit_class="flex flex-col items-center"
+      digit_class="text-2xl font-medium tabular-nums"
+      label_class="text-xs text-neutral-500"
+    />
+    """
+  end
+
+  def example(%{section: "countdown-clock"} = assigns) do
+    ~H"""
+    <.countdown
+      id="baseui-countdown-clock"
+      seconds={5 * 3_600 + 42 * 60 + 17}
+      units={~w(hours minutes seconds)}
+      separator=":"
+      class="flex items-center text-2xl font-medium tabular-nums text-neutral-950 dark:text-white"
+      unit_class="flex items-center"
+    />
+    """
+  end
+
+  # ── dock ──────────────────────────────────────────────────────────────────
+  def example(%{section: "dock-hero"} = assigns) do
+    ~H"""
+    <div class="relative h-40 w-72 overflow-hidden rounded-lg border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950">
+      <.dock
+        id="baseui-dock-hero"
+        label="Sections"
+        contained
+        class="flex items-stretch justify-around border-t border-neutral-200 bg-white p-1 dark:border-neutral-800 dark:bg-neutral-950"
+        item_class="flex flex-1 flex-col items-center gap-1 rounded-md py-2 text-xs text-neutral-600 hover:bg-neutral-100 data-[active]:text-neutral-950 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:data-[active]:text-white"
+      >
+        <:item label="Home" href="#"><.baseui_glyph path="M3 11l9-8 9 8M5 10v10h14V10" /></:item>
+        <:item label="Inbox" href="#" active>
+          <.baseui_glyph path="M3 7h18v10H3zM3 7l9 6 9-6" />
+        </:item>
+        <:item label="Settings" href="#">
+          <.baseui_glyph path="M12 8a4 4 0 100 8 4 4 0 000-8z" />
+        </:item>
+      </.dock>
+    </div>
+    """
+  end
+
+  # ── editor ────────────────────────────────────────────────────────────────
+  def example(%{section: "editor-hero"} = assigns) do
+    ~H"""
+    <.editor
+      id="baseui-editor-hero"
+      value="<p>A rich-text surface. Select a word and use the toolbar.</p>"
+      class="w-96 overflow-hidden rounded-md border border-neutral-200 bg-white text-sm text-neutral-950 dark:border-neutral-800 dark:bg-neutral-950 dark:text-white"
+      toolbar_class="flex items-center gap-1 border-b border-neutral-200 p-1 dark:border-neutral-800"
+      surface_class="min-h-24 p-3 outline-none"
+    >
+      <:toolbar>
+        <button
+          :for={{command, label} <- [{"bold", "B"}, {"italic", "I"}, {"underline", "U"}]}
+          type="button"
+          data-editor-command={command}
+          class="size-7 rounded-sm text-sm text-neutral-600 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:bg-neutral-800"
+        >{label}</button>
+      </:toolbar>
+    </.editor>
+    """
+  end
+
+  # ── fab ───────────────────────────────────────────────────────────────────
+  def example(%{section: "fab-hero"} = assigns) do
+    ~H"""
+    <div class="relative h-48 w-64 overflow-hidden rounded-lg border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950">
+      <.fab
+        id="baseui-fab-hero"
+        label="Actions"
+        contained
+        class="absolute bottom-3 right-3 flex flex-col items-end gap-2"
+        trigger_class="size-12 rounded-full border border-neutral-950 bg-neutral-950 text-lg text-white dark:border-white dark:bg-white dark:text-neutral-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-950 dark:focus-visible:outline-white"
+        popup_class="flex flex-col items-end gap-2"
+        action_class="inline-flex size-10 items-center justify-center rounded-full border border-neutral-200 bg-white text-sm text-neutral-950 hover:bg-neutral-100 dark:border-neutral-800 dark:bg-neutral-950 dark:text-white dark:hover:bg-neutral-800"
+      >
+        <:icon>+</:icon>
+        <:action label="Share">S</:action>
+        <:action label="Copy">C</:action>
+        <:action label="Edit">E</:action>
+      </.fab>
+    </div>
+    """
+  end
+
+  # ── file_input ────────────────────────────────────────────────────────────
+  def example(%{section: "file_input-hero"} = assigns) do
+    ~H"""
+    <.file_input
+      id="baseui-file-hero"
+      name="attachment"
+      class="w-80 rounded-md border border-neutral-200 text-sm text-neutral-950 dark:border-neutral-800 dark:text-white file:mr-3 file:cursor-pointer file:border-0 file:bg-neutral-950 file:px-3 file:py-1.5 file:text-sm file:text-white dark:file:bg-white dark:file:text-neutral-950"
+    />
+    """
+  end
+
+  def example(%{section: "file_input-field"} = assigns) do
+    ~H"""
+    <.field
+      :let={f}
+      id="baseui-file-field"
+      name="avatar"
+      label="Avatar"
+      class="flex w-80 flex-col gap-1"
+      label_class="text-sm font-medium text-neutral-950 dark:text-white"
+      description_class="text-xs text-neutral-500"
+    >
+      <.file_input
+        id={f.id}
+        name={f.name}
+        accept="image/*"
+        describedby={f.describedby}
+        class="w-80 rounded-md border border-neutral-200 text-sm text-neutral-950 dark:border-neutral-800 dark:text-white file:mr-3 file:cursor-pointer file:border-0 file:bg-neutral-950 file:px-3 file:py-1.5 file:text-sm file:text-white dark:file:bg-white dark:file:text-neutral-950"
+      />
+      <:description>PNG or JPG, up to 2MB.</:description>
+    </.field>
+    """
+  end
+
+  # ── pagination ────────────────────────────────────────────────────────────
+  def example(%{section: "pagination-hero"} = assigns) do
+    ~H"""
+    <.pagination
+      id="baseui-pagination-hero"
+      total={10}
+      page={4}
+      list_class="flex items-center gap-1"
+      control_class="inline-flex min-w-8 items-center justify-center rounded-md border px-2 py-1 text-sm border-neutral-200 text-neutral-950 dark:border-neutral-800 dark:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 aria-[current=page]:bg-neutral-950 aria-[current=page]:text-white dark:aria-[current=page]:bg-white dark:aria-[current=page]:text-neutral-950 disabled:text-neutral-400 dark:disabled:text-neutral-600"
+    />
+    """
+  end
+
+  def example(%{section: "pagination-window"} = assigns) do
+    ~H"""
+    <.pagination
+      id="baseui-pagination-window"
+      total={100}
+      page={50}
+      show_edges
+      list_class="flex items-center gap-1"
+      control_class="inline-flex min-w-8 items-center justify-center rounded-md border px-2 py-1 text-sm border-neutral-200 text-neutral-950 dark:border-neutral-800 dark:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 aria-[current=page]:bg-neutral-950 aria-[current=page]:text-white dark:aria-[current=page]:bg-white dark:aria-[current=page]:text-neutral-950 disabled:text-neutral-400 dark:disabled:text-neutral-600"
+    />
+    """
+  end
+
+  # ── radio_group ───────────────────────────────────────────────────────────
+  def example(%{section: "radio_group-hero"} = assigns) do
+    ~H"""
+    <.radio_group
+      id="baseui-radio-group-hero"
+      name="plan"
+      value="team"
+      class="flex flex-col gap-2 text-sm text-neutral-950 dark:text-white [&_[data-part=item]]:flex [&_[data-part=item]]:items-center [&_[data-part=item]]:gap-2 [&_[data-part=item]]:rounded-md [&_[data-part=item]]:border [&_[data-part=item]]:border-neutral-200 [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-2 dark:[&_[data-part=item]]:border-neutral-800 [&_[data-part=item][data-checked]]:border-neutral-950 dark:[&_[data-part=item][data-checked]]:border-white"
+    >
+      <:option value="solo">Solo</:option>
+      <:option value="team">Team</:option>
+      <:option value="enterprise">Enterprise</:option>
+    </.radio_group>
+    """
+  end
+
+  def example(%{section: "radio_group-disabled"} = assigns) do
+    ~H"""
+    <.radio_group
+      id="baseui-radio-group-disabled"
+      name="plan_disabled"
+      value="solo"
+      class="flex flex-col gap-2 text-sm text-neutral-950 dark:text-white [&_[data-part=item]]:flex [&_[data-part=item]]:items-center [&_[data-part=item]]:gap-2 [&_[data-part=item]]:rounded-md [&_[data-part=item]]:border [&_[data-part=item]]:border-neutral-200 [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-2 dark:[&_[data-part=item]]:border-neutral-800 [&_[data-part=item][data-disabled]]:text-neutral-400 dark:[&_[data-part=item][data-disabled]]:text-neutral-600"
+    >
+      <:option value="solo">Solo</:option>
+      <:option value="team" disabled>Team (sold out)</:option>
+      <:option value="enterprise">Enterprise</:option>
+    </.radio_group>
+    """
+  end
+
+  # ── rating ────────────────────────────────────────────────────────────────
+  def example(%{section: "rating-hero"} = assigns) do
+    ~H"""
+    <.rating
+      id="baseui-rating-hero"
+      value={3}
+      class="flex gap-1"
+      item_class="h-6 w-6 bg-neutral-300 dark:bg-neutral-700 data-[checked]:bg-amber-400 [&:has(~[aria-checked=true])]:bg-amber-400 [mask-repeat:no-repeat] [mask-position:center] [mask-size:contain] [mask-image:url(data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%3E%3Cpath%20fill%3D%27black%27%20d%3D%27M12%202l3%206.5%207%20.9-5%204.8%201.3%207-6.3-3.4L5.7%2021%207%2014.2%202%209.4l7-.9z%27%2F%3E%3C%2Fsvg%3E)]"
+    />
+    """
+  end
+
+  def example(%{section: "rating-half"} = assigns) do
+    ~H"""
+    <.rating
+      id="baseui-rating-half"
+      value={2.5}
+      precision={0.5}
+      class="flex"
+      item_class="h-6 w-6 bg-neutral-300 dark:bg-neutral-700 data-[checked]:bg-amber-400 [&:has(~[aria-checked=true])]:bg-amber-400 [mask-repeat:no-repeat] [mask-position:center] [mask-size:contain] [mask-image:url(data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%3E%3Cpath%20fill%3D%27black%27%20d%3D%27M12%202l3%206.5%207%20.9-5%204.8%201.3%207-6.3-3.4L5.7%2021%207%2014.2%202%209.4l7-.9z%27%2F%3E%3C%2Fsvg%3E)] data-[half=first]:w-3 data-[half=first]:[mask-size:200%] data-[half=first]:[mask-position:left] data-[half=second]:w-3 data-[half=second]:[mask-size:200%] data-[half=second]:[mask-position:right]"
+    />
+    """
+  end
+
+  # ── sparkline ─────────────────────────────────────────────────────────────
+  def example(%{section: "sparkline-hero"} = assigns) do
+    ~H"""
+    <.sparkline
+      values={[4, 7, 5, 9, 8, 12, 10, 14]}
+      last_point
+      color="currentColor"
+      aria_label="Weekly signups, trending up"
+      class="h-10 w-40 text-neutral-950 dark:text-white"
+    />
+    """
+  end
+
+  def example(%{section: "sparkline-types"} = assigns) do
+    ~H"""
+    <div class="flex items-center gap-6 text-neutral-950 dark:text-white">
+      <.sparkline
+        :for={type <- ~w(line area bar)}
+        values={[4, 7, 5, 9, 8, 12, 10, 14]}
+        type={type}
+        color="currentColor"
+        aria_label={"Weekly signups as a #{type}"}
+        class="h-10 w-32"
+      />
+    </div>
+    """
+  end
+
+  # ── stepper ───────────────────────────────────────────────────────────────
+  def example(%{section: "stepper-hero"} = assigns) do
+    ~H"""
+    <.stepper
+      id="baseui-stepper-hero"
+      label="Checkout"
+      active={2}
+      class="inline-grid auto-cols-fr grid-flow-col gap-2 text-sm text-neutral-950 dark:text-white"
+      step_class="flex items-center gap-2 [&_[data-part=indicator]]:grid [&_[data-part=indicator]]:size-7 [&_[data-part=indicator]]:place-items-center [&_[data-part=indicator]]:rounded-full [&_[data-part=indicator]]:border [&_[data-part=indicator]]:border-neutral-300 dark:[&_[data-part=indicator]]:border-neutral-700 [&_[data-part=label]]:text-sm [&_[data-part=description]]:text-xs [&_[data-part=description]]:text-neutral-500 data-[state=complete]:[&_[data-part=indicator]]:border-neutral-950 data-[state=complete]:[&_[data-part=indicator]]:bg-neutral-950 data-[state=complete]:[&_[data-part=indicator]]:text-white data-[state=current]:[&_[data-part=indicator]]:border-neutral-950 dark:data-[state=complete]:[&_[data-part=indicator]]:border-white dark:data-[state=complete]:[&_[data-part=indicator]]:bg-white dark:data-[state=complete]:[&_[data-part=indicator]]:text-neutral-950 dark:data-[state=current]:[&_[data-part=indicator]]:border-white"
+    >
+      <:step label="Cart"><.baseui_check /></:step>
+      <:step label="Address"><.baseui_check /></:step>
+      <:step label="Payment">3</:step>
+      <:step label="Done">4</:step>
+    </.stepper>
+    """
+  end
+
+  def example(%{section: "stepper-vertical"} = assigns) do
+    ~H"""
+    <.stepper
+      id="baseui-stepper-vertical"
+      label="Checkout"
+      active={1}
+      orientation="vertical"
+      class="flex flex-col gap-4 text-sm text-neutral-950 dark:text-white"
+      step_class="flex items-center gap-2 [&_[data-part=indicator]]:grid [&_[data-part=indicator]]:size-7 [&_[data-part=indicator]]:place-items-center [&_[data-part=indicator]]:rounded-full [&_[data-part=indicator]]:border [&_[data-part=indicator]]:border-neutral-300 dark:[&_[data-part=indicator]]:border-neutral-700 [&_[data-part=label]]:text-sm [&_[data-part=description]]:text-xs [&_[data-part=description]]:text-neutral-500 data-[state=complete]:[&_[data-part=indicator]]:border-neutral-950 data-[state=complete]:[&_[data-part=indicator]]:bg-neutral-950 data-[state=complete]:[&_[data-part=indicator]]:text-white data-[state=current]:[&_[data-part=indicator]]:border-neutral-950 dark:data-[state=complete]:[&_[data-part=indicator]]:border-white dark:data-[state=complete]:[&_[data-part=indicator]]:bg-white dark:data-[state=complete]:[&_[data-part=indicator]]:text-neutral-950 dark:data-[state=current]:[&_[data-part=indicator]]:border-white"
+    >
+      <:step label="Cart" description="Two items"><.baseui_check /></:step>
+      <:step label="Address" description="Where it goes">2</:step>
+      <:step label="Payment" description="How you pay">3</:step>
+    </.stepper>
+    """
+  end
+
+  # ── table ─────────────────────────────────────────────────────────────────
+  def example(%{section: "table-hero"} = assigns) do
+    ~H"""
+    <.table
+      id="baseui-table-hero"
+      rows={baseui_crew()}
+      caption="Crew"
+      row_id={&"baseui-crew-#{&1.id}"}
+      class="w-96 border-collapse text-sm text-neutral-950 dark:text-white [&_[data-part=header]]:border-b [&_[data-part=header]]:border-neutral-200 [&_[data-part=header]]:p-2 [&_[data-part=header]]:text-left [&_[data-part=header]]:font-medium dark:[&_[data-part=header]]:border-neutral-800 [&_[data-part=caption]]:sr-only [&_[data-align=end]]:text-right [&_[data-align=center]]:text-center [&_[data-part=sort]]:inline-flex [&_[data-part=sort]]:items-center [&_[data-part=sort]]:gap-1 [&_[data-part=sort]]:after:text-neutral-400 [&_[data-part=sort]]:after:content-['↕'] [&_[data-part=sort][data-dir=asc]]:after:content-['↑'] [&_[data-part=sort][data-dir=desc]]:after:content-['↓'] [&_[data-part=sort][data-dir]]:after:text-neutral-950 dark:[&_[data-part=sort][data-dir]]:after:text-white"
+      cell_class="border-b border-neutral-100 p-2 dark:border-neutral-900"
+    >
+      <:col :let={row} label="Name" row_header>{row.name}</:col>
+      <:col :let={row} label="Job">{row.job}</:col>
+      <:col :let={row} label="Colour" align="end">{row.color}</:col>
+    </.table>
+    """
+  end
+
+  def example(%{section: "table-sortable"} = assigns) do
+    ~H"""
+    <.table
+      id="baseui-table-sortable"
+      rows={baseui_crew()}
+      caption="Crew, sortable"
+      row_id={&"baseui-sorted-#{&1.id}"}
+      sort_by="name"
+      sort_dir="asc"
+      on_sort="baseui_table_sort"
+      class="w-96 border-collapse text-sm text-neutral-950 dark:text-white [&_[data-part=header]]:border-b [&_[data-part=header]]:border-neutral-200 [&_[data-part=header]]:p-2 [&_[data-part=header]]:text-left [&_[data-part=header]]:font-medium dark:[&_[data-part=header]]:border-neutral-800 [&_[data-part=caption]]:sr-only [&_[data-align=end]]:text-right [&_[data-align=center]]:text-center [&_[data-part=sort]]:inline-flex [&_[data-part=sort]]:items-center [&_[data-part=sort]]:gap-1 [&_[data-part=sort]]:after:text-neutral-400 [&_[data-part=sort]]:after:content-['↕'] [&_[data-part=sort][data-dir=asc]]:after:content-['↑'] [&_[data-part=sort][data-dir=desc]]:after:content-['↓'] [&_[data-part=sort][data-dir]]:after:text-neutral-950 dark:[&_[data-part=sort][data-dir]]:after:text-white"
+      cell_class="border-b border-neutral-100 p-2 dark:border-neutral-900"
+    >
+      <:col :let={row} label="Name" key="name" row_header>{row.name}</:col>
+      <:col :let={row} label="Job" key="job">{row.job}</:col>
+    </.table>
+    """
+  end
+
+  # ── text_input ────────────────────────────────────────────────────────────
+  def example(%{section: "text_input-hero"} = assigns) do
+    ~H"""
+    <.text_input
+      id="baseui-text-input-hero"
+      name="site"
+      placeholder="example.com"
+      class="flex w-80 items-center rounded-md border border-neutral-200 bg-white text-sm text-neutral-950 dark:border-neutral-800 dark:bg-neutral-950 dark:text-white focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-neutral-950 dark:focus-within:outline-white [&_[data-part=input]]:w-full [&_[data-part=input]]:bg-transparent [&_[data-part=input]]:px-3 [&_[data-part=input]]:py-1.5 [&_[data-part=input]]:outline-none [&_[data-part=start-section]]:pl-3 [&_[data-part=start-section]]:text-neutral-500"
+    >
+      <:start_section>https://</:start_section>
+    </.text_input>
+    """
+  end
+
+  def example(%{section: "text_input-invalid"} = assigns) do
+    ~H"""
+    <.text_input
+      id="baseui-text-input-invalid"
+      name="email"
+      type="email"
+      value="nope"
+      errors={["must have the @ sign"]}
+      class="flex w-80 items-center rounded-md border border-neutral-200 bg-white text-sm text-neutral-950 dark:border-neutral-800 dark:bg-neutral-950 dark:text-white focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-neutral-950 dark:focus-within:outline-white [&_[data-part=input]]:w-full [&_[data-part=input]]:bg-transparent [&_[data-part=input]]:px-3 [&_[data-part=input]]:py-1.5 [&_[data-part=input]]:outline-none [&_[data-part=start-section]]:pl-3 [&_[data-part=start-section]]:text-neutral-500 data-[invalid]:border-red-600 dark:data-[invalid]:border-red-500"
+    />
+    """
+  end
+
+  # ── textarea ──────────────────────────────────────────────────────────────
+  def example(%{section: "textarea-hero"} = assigns) do
+    ~H"""
+    <.textarea
+      id="baseui-textarea-hero"
+      name="bio"
+      rows={3}
+      placeholder="Tell us about yourself"
+      class="w-80 rounded-md border border-neutral-200 bg-white text-sm text-neutral-950 dark:border-neutral-800 dark:bg-neutral-950 dark:text-white focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-neutral-950 dark:focus-within:outline-white [&_[data-part=textarea]]:w-full [&_[data-part=textarea]]:bg-transparent [&_[data-part=textarea]]:p-3 [&_[data-part=textarea]]:outline-none"
+    />
+    """
+  end
+
+  def example(%{section: "textarea-autosize"} = assigns) do
+    ~H"""
+    <.textarea
+      id="baseui-textarea-autosize"
+      name="notes"
+      autosize
+      min_rows={2}
+      max_rows={6}
+      placeholder="Keep typing — this grows to six rows, then scrolls"
+      class="w-80 rounded-md border border-neutral-200 bg-white text-sm text-neutral-950 dark:border-neutral-800 dark:bg-neutral-950 dark:text-white focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-neutral-950 dark:focus-within:outline-white [&_[data-part=textarea]]:w-full [&_[data-part=textarea]]:bg-transparent [&_[data-part=textarea]]:p-3 [&_[data-part=textarea]]:outline-none"
+    />
+    """
+  end
+
+  # ── theme_controller ──────────────────────────────────────────────────────
+  def example(%{section: "theme_controller-hero"} = assigns) do
+    ~H"""
+    <div
+      id="baseui-theme-box"
+      class="flex w-72 flex-col items-center gap-3 rounded-lg border border-neutral-200 bg-white p-6 text-neutral-950 data-[theme=dark]:border-neutral-800 data-[theme=dark]:bg-neutral-950 data-[theme=dark]:text-white"
+    >
+      <.theme_controller
+        id="baseui-theme-hero"
+        target="#baseui-theme-box"
+        value="light"
+        class="flex items-center gap-4 text-sm"
+        option_class="flex items-center gap-1.5"
+      >
+        <:option value="light">Light</:option>
+        <:option value="dark">Dark</:option>
+      </.theme_controller>
+      <p class="text-xs text-neutral-500">This box follows the choice above.</p>
+    </div>
+    """
+  end
 
   def example(%{section: "chart-dashboard"} = assigns) do
     ~H"""
@@ -6627,6 +7369,53 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       %{emoji: "🚀", name: "rocket", group: "Travel"},
       %{emoji: "❤️", name: "heart", group: "Symbols"},
       %{emoji: "👍", name: "thumbs up", group: "People"}
+    ]
+  end
+
+  # Flat panels rather than remote images: the gallery has to render identically offline and in a
+  # test, and the demo is about the carousel, not the photography.
+  attr :n, :integer, required: true
+
+  defp baseui_panel(assigns) do
+    ~H"""
+    <div class="grid h-28 place-items-center rounded-md border border-neutral-200 bg-neutral-100 text-2xl font-medium text-neutral-950 dark:border-neutral-800 dark:bg-neutral-900 dark:text-white">
+      {@n}
+    </div>
+    """
+  end
+
+  defp baseui_check(assigns) do
+    ~H"""
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" class="size-3.5">
+      <path d="m3 8 3.5 3.5L13 5" />
+    </svg>
+    """
+  end
+
+  attr :path, :string, required: true
+
+  defp baseui_glyph(assigns) do
+    ~H"""
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="size-5"
+      aria-hidden="true"
+    >
+      <path d={@path} />
+    </svg>
+    """
+  end
+
+  defp baseui_crew do
+    [
+      %{id: 1, name: "Cy Ganderton", job: "Quality Control", color: "Blue"},
+      %{id: 2, name: "Hart Hagerty", job: "Desktop Support", color: "Purple"},
+      %{id: 3, name: "Brice Swyre", job: "Tax Accountant", color: "Red"}
     ]
   end
 end

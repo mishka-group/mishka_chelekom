@@ -31,6 +31,15 @@ defmodule DevelopmentWeb.Components.Headless.Toolbar do
     doc: "Keep disabled items in the roving order"
 
   attr :class, :any, default: nil
+  attr :group_class, :any, default: nil, doc: ~s|Extra classes for every `data-part="group"`|
+  attr :button_class, :any, default: nil, doc: ~s|Extra classes for every `data-part="button"`|
+  attr :link_class, :any, default: nil, doc: ~s|Extra classes for every `data-part="link"`|
+  attr :input_class, :any, default: nil, doc: ~s|Extra classes for every `data-part="input"`|
+
+  attr :separator_class, :any,
+    default: nil,
+    doc: ~s|Extra classes for every `data-part="separator"`|
+
   attr :rest, :global
 
   slot :item, required: true, doc: "A toolbar control" do
@@ -76,7 +85,7 @@ defmodule DevelopmentWeb.Components.Headless.Toolbar do
             aria-label={grp.label}
             data-orientation={@orientation}
             data-disabled={@disabled}
-            class={["chelekom-toolbar__group", grp.class]}
+            class={["chelekom-toolbar__group", @group_class, grp.class]}
           >
             <.toolbar_item
               :for={item <- grp.items}
@@ -84,6 +93,7 @@ defmodule DevelopmentWeb.Components.Headless.Toolbar do
               orientation={@orientation}
               disabled={@disabled}
               first={@first}
+              classes={part_classes(assigns)}
             />
           </div>
         <% else %>
@@ -93,6 +103,7 @@ defmodule DevelopmentWeb.Components.Headless.Toolbar do
             orientation={@orientation}
             disabled={@disabled}
             first={@first}
+            classes={part_classes(assigns)}
           />
         <% end %>
       <% end %>
@@ -100,10 +111,20 @@ defmodule DevelopmentWeb.Components.Headless.Toolbar do
     """
   end
 
+  defp part_classes(assigns) do
+    %{
+      button: assigns[:button_class],
+      link: assigns[:link_class],
+      input: assigns[:input_class],
+      separator: assigns[:separator_class]
+    }
+  end
+
   attr :item, :map, required: true
   attr :orientation, :string, required: true
   attr :disabled, :boolean, required: true
   attr :first, :map, required: true
+  attr :classes, :map, required: true
 
   defp toolbar_item(%{item: %{type: "separator"}} = assigns) do
     ~H"""
@@ -112,7 +133,7 @@ defmodule DevelopmentWeb.Components.Headless.Toolbar do
       role="separator"
       aria-orientation={if @orientation == "horizontal", do: "vertical", else: "horizontal"}
       data-orientation={@orientation}
-      class={["chelekom-toolbar__separator", @item[:class]]}
+      class={["chelekom-toolbar__separator", @classes[:separator], @item[:class]]}
     >
     </div>
     """
@@ -126,7 +147,7 @@ defmodule DevelopmentWeb.Components.Headless.Toolbar do
       aria-label={@item[:label]}
       data-orientation={@orientation}
       tabindex={if @item == @first, do: "0", else: "-1"}
-      class={["chelekom-toolbar__link", @item[:class]]}
+      class={["chelekom-toolbar__link", @classes[:link], @item[:class]]}
     >
       {render_slot(@item)}
     </a>
@@ -149,7 +170,7 @@ defmodule DevelopmentWeb.Components.Headless.Toolbar do
       data-focusable
       data-orientation={@orientation}
       tabindex={if @item == @first, do: "0", else: "-1"}
-      class={["chelekom-toolbar__input", @item[:class]]}
+      class={["chelekom-toolbar__input", @classes[:input], @item[:class]]}
     />
     """
   end
@@ -168,7 +189,7 @@ defmodule DevelopmentWeb.Components.Headless.Toolbar do
       data-focusable
       data-orientation={@orientation}
       tabindex={if @item == @first, do: "0", else: "-1"}
-      class={["chelekom-toolbar__button", @item[:class]]}
+      class={["chelekom-toolbar__button", @classes[:button], @item[:class]]}
     >
       {render_slot(@item)}
     </button>

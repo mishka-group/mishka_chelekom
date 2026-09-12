@@ -66,8 +66,8 @@ defmodule <%= @module %> do
   @spec <%= @component_prefix %>angle_slider(map() | keyword()) :: map()
   def <%= @component_prefix %>angle_slider(props \\ %{}) do
     props = Map.new(props)
-    angle = normalize_angle(Map.get(props, :value, 0))
-    size = Map.get(props, :size, @size)
+    angle = normalize_angle(Map.get(props, :value) || 0)
+    size = Map.get(props, :size) || @size
 
     dial =
       canvas_node(
@@ -184,7 +184,7 @@ defmodule <%= @module %> do
   def dial(size, angle, props) do
     center = size / 2
     radius = center - @ring
-    accent = Map.get(props, :color, @accent)
+    accent = Map.get(props, :color) || @accent
 
     ring =
       [Mob.Canvas.circle(center, center, radius, color: @track, width: @ring)] ++
@@ -227,11 +227,15 @@ defmodule <%= @module %> do
   end
 
   defp reading(center, angle, props) do
-    if truthy?(Map.get(props, :show_value, true)) do
+    # `nil` means "not given", not `false`: `Map.get/3` hands back its default
+    # only when the key is ABSENT, so a keyword-built props map carrying an
+    # unset key as an explicit nil used to read as a deliberate `false`.
+    # Only a real `false` turns this off.
+    if Map.get(props, :show_value) != false do
       [
         Mob.Canvas.text(center, center - 11, "#{round(angle)}°",
           size: 22,
-          color: Map.get(props, :text_color, :on_surface),
+          color: Map.get(props, :text_color) || :on_surface,
           weight: :semibold,
           anchor: :center
         )
@@ -275,8 +279,4 @@ defmodule <%= @module %> do
     </Column>
     """
   end
-
-  defp truthy?(nil), do: false
-  defp truthy?(false), do: false
-  defp truthy?(_), do: true
 end

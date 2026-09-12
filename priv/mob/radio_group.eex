@@ -139,7 +139,7 @@ defmodule <%= @module %> do
     # Side by side, an option that fills the width takes the WHOLE row and
     # pushes its siblings off-screen. Stacked, filling is what makes the label
     # part of the tap target, so it stays the default.
-    fill? = Map.get(props, :orientation, :vertical) != :horizontal
+    fill? = (Map.get(props, :orientation) || :vertical) != :horizontal
 
     children
     |> Enum.filter(&match?(%{type: @option_type}, &1))
@@ -149,8 +149,8 @@ defmodule <%= @module %> do
         checked: Map.get(option, :id) == value,
         disabled: group_disabled? or truthy?(Map.get(option, :disabled, false)),
         on_select: option_tag(props, Map.get(option, :id)),
-        color: Map.get(props, :color, :primary),
-        size: Map.get(props, :size, 22),
+        color: Map.get(props, :color) || :primary,
+        size: Map.get(props, :size) || 22,
         fill_width: fill?,
         id: option_id(Map.get(props, :id), Map.get(option, :id))
       )
@@ -172,10 +172,10 @@ defmodule <%= @module %> do
   defp option_tag(props, id), do: Event.handler(Map.get(props, :on_change), id)
 
   defp layout(options, props) do
-    space = Map.get(props, :space, 12)
+    space = Map.get(props, :space) || 12
     spaced = Enum.intersperse(options, ~MOB(<Spacer size={space} />))
 
-    if Map.get(props, :orientation, :vertical) == :horizontal do
+    if (Map.get(props, :orientation) || :vertical) == :horizontal do
       ~MOB(<Row fill_width={true}>
   {spaced}
 </Row>)

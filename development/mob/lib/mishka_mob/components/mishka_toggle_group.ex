@@ -127,8 +127,8 @@ defmodule MishkaMob.Components.MishkaToggleGroup do
   @spec toggle_group(map() | keyword(), [map()]) :: map()
   def toggle_group(props \\ %{}, children \\ []) do
     props = Map.new(props)
-    space = Map.get(props, :space, 8)
-    vertical? = Map.get(props, :orientation, :horizontal) == :vertical
+    space = Map.get(props, :space) || 8
+    vertical? = (Map.get(props, :orientation) || :horizontal) == :vertical
 
     buttons =
       children
@@ -139,7 +139,11 @@ defmodule MishkaMob.Components.MishkaToggleGroup do
     # The CONTAINER's own width, distinct from each item's. A group that fills
     # cannot be wrapped in a hugging track: the track would stretch to the screen
     # edge around three short buttons, which is what a segmented bar must not do.
-    fill? = truthy?(Map.get(props, :fill_width, true))
+    # `nil` means "not given", not `false`: `Map.get/3` hands back its default
+    # only when the key is ABSENT, so a keyword-built props map carrying an
+    # unset key as an explicit nil used to read as a deliberate `false`.
+    # Only a real `false` turns this off.
+    fill? = Map.get(props, :fill_width) != false
 
     if vertical? do
       ~MOB(<Column fill_width={fill?}>

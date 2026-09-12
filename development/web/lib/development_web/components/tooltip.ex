@@ -18,6 +18,7 @@ defmodule DevelopmentWeb.Components.Tooltip do
   **Documentation:** https://mishka.tools/chelekom/docs/tooltip
   """
   use Phoenix.Component
+  alias Phoenix.LiveView.JS
   import Phoenix.LiveView.Utils, only: [random_id: 0]
 
   @doc """
@@ -117,6 +118,12 @@ defmodule DevelopmentWeb.Components.Tooltip do
       :if={@inline}
       id={@id}
       phx-hook="Floating"
+      data-pb-open={JS.dispatch("chelekom:open", to: "##{@id}")}
+      data-pb-close={JS.dispatch("chelekom:close", to: "##{@id}")}
+      data-pb-toggle={JS.dispatch("chelekom:toggle", to: "##{@id}")}
+      data-pb-open={JS.dispatch("chelekom:open", to: "##{@id}")}
+      data-pb-close={JS.dispatch("chelekom:close", to: "##{@id}")}
+      data-pb-toggle={JS.dispatch("chelekom:toggle", to: "##{@id}")}
       data-position={@position}
       data-smart-position="false"
       data-clickable={to_string(@clickable)}

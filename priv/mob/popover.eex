@@ -322,7 +322,11 @@ defmodule <%= @module %> do
   # trigger and the outside tap alike. `dismissible: false` opts out, for a
   # popover that must be answered rather than dismissed.
   defp dismiss_handler(props) do
-    if truthy?(Map.get(props, :dismissible, true)) do
+    # `nil` means "not given", not `false`: `Map.get/3` hands back its default
+    # only when the key is ABSENT, so a keyword-built props map carrying an
+    # unset key as an explicit nil used to read as a deliberate `false`.
+    # Only a real `false` turns this off.
+    if Map.get(props, :dismissible) != false do
       Event.handler(Map.get(props, :on_open_change), false)
     end
   end
@@ -334,7 +338,7 @@ defmodule <%= @module %> do
     [
       side: side,
       align: align,
-      side_offset: Map.get(props, :side_offset, @side_offset),
+      side_offset: Map.get(props, :side_offset) || @side_offset,
       align_offset: Map.get(props, :align_offset),
       panel_offset_x: Map.get(props, :offset_x),
       panel_offset_y: Map.get(props, :offset_y),
@@ -355,7 +359,17 @@ defmodule <%= @module %> do
   @spec panel(map() | keyword(), [map()]) :: map()
   def panel(props \\ %{}, content \\ []) do
     props = Map.new(props)
-    fill? = Map.get(props, :fill_width, if(Map.get(props, :width), do: nil, else: true))
+    # `nil` means "not given": with an explicit width the panel hugs it (the
+    # prop is dropped rather than pinned to a boolean), and without one it
+    # fills. `Map.get/3` applies that only when the key is ABSENT, so a props
+    # map carrying `fill_width: nil` used to skip the "no width, so fill" half
+    # and hug instead. `||` cannot serve here — `false` is a real value, and
+    # so is the computed `nil`.
+    fill? =
+      case Map.get(props, :fill_width) do
+        nil -> if Map.get(props, :width), do: nil, else: true
+        given -> given
+      end
 
     # The inner Column follows the outer Box. A filling child forces its Box to
     # the maximum constraint in Compose, so a Column pinned to `true` made a
@@ -365,11 +379,11 @@ defmodule <%= @module %> do
     node =
       ~MOB"""
       <Box
-        background={Map.get(props, :background, :surface)}
-        corner_radius={Map.get(props, :corner_radius, :radius_md)}
-        padding={Map.get(props, :padding, :space_md)}
-        border_color={Map.get(props, :border_color, :border)}
-        border_width={Map.get(props, :border_width, 1)}
+        background={Map.get(props, :background) || :surface}
+        corner_radius={Map.get(props, :corner_radius) || :radius_md}
+        padding={Map.get(props, :padding) || :space_md}
+        border_color={Map.get(props, :border_color) || :border}
+        border_width={Map.get(props, :border_width) || 1}
       >
         <Column fill_width={fill? != false}>
           {content}
@@ -527,7 +541,7 @@ defmodule <%= @module %> do
           [node]
       end
 
-    if truthy?(Map.get(props, :chevron, true)) do
+    if Map.get(props, :chevron) != false do
       glyph = if open?, do: "▴", else: "▾"
 
       [
@@ -604,7 +618,7 @@ defmodule <%= @module %> do
   end
 
   defp beak_node(glyph, props, id, _side) when is_binary(glyph) do
-    fill = Map.get(props, :background, :surface)
+    fill = Map.get(props, :background) || :surface
 
     put(~MOB"<Text text={glyph} text_size={:sm} text_color={fill} />", :id, arrow_id(id))
   end
@@ -630,8 +644,8 @@ defmodule <%= @module %> do
   defp beak_glyph(:left), do: "▶"
 
   defp body(props, content, id) do
-    ink = Map.get(props, :color, :on_surface)
-    muted = Map.get(props, :muted_color, :muted)
+    ink = Map.get(props, :color) || :on_surface
+    muted = Map.get(props, :muted_color) || :muted
 
     [title_part(props, id, ink), description_part(props, id, muted), content, footer(props, id)]
     |> Enum.reject(&(&1 == []))

@@ -34,6 +34,7 @@ defmodule DevelopmentWeb.Components.Headless.Checkbox do
   attr :class, :any, default: nil, doc: "Extra classes for the root"
   attr :indicator_class, :any, default: nil, doc: "Extra classes for the indicator box"
   attr :label_class, :any, default: nil, doc: "Extra classes for the label"
+  attr :input_class, :any, default: nil, doc: ~s|Extra classes for `data-part="input"`|
   attr :rest, :global
 
   slot :indicator, doc: "Visual content of the indicator box (e.g. a check svg)"
@@ -71,7 +72,7 @@ defmodule DevelopmentWeb.Components.Headless.Checkbox do
         required={@required}
         tabindex="-1"
         aria-hidden="true"
-        class="chelekom-checkbox__input chelekom-sr-only"
+        class={["chelekom-checkbox__input chelekom-sr-only", @input_class]}
       />
       <span
         data-part="indicator"
