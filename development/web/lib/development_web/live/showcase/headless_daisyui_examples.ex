@@ -1857,7 +1857,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.tooltip
       arrow_class="w-2 h-2 rotate-45 bg-[var(--d-tt-bg)]"
-      popup_class="z-[60] max-w-80 w-max rounded-[var(--radius-field)] px-2 py-1 bg-[var(--d-tt-bg,var(--color-neutral))] text-neutral-content text-[0.875rem] leading-5 text-center whitespace-normal motion-safe:[transition:opacity_0.15s_ease-out,scale_0.15s_ease-out] data-starting-style:opacity-0 data-starting-style:[scale:0.96] data-ending-style:opacity-0 data-ending-style:[scale:0.96] [&.d-tooltip-primary]:text-primary-content [&.d-tooltip-secondary]:text-secondary-content [&.d-tooltip-accent]:text-accent-content [&.d-tooltip-info]:text-info-content [&.d-tooltip-success]:text-success-content [&.d-tooltip-warning]:text-warning-content [&.d-tooltip-error]:text-error-content"
+      popup_class="z-[60] max-w-80 w-max rounded-[var(--radius-field)] px-2 py-1 bg-[var(--d-tt-bg,var(--color-neutral))] text-neutral-content text-[0.75rem] leading-4 text-center whitespace-normal motion-safe:[transition:opacity_0.15s_ease-out,scale_0.15s_ease-out] data-starting-style:opacity-0 data-starting-style:[scale:0.96] data-ending-style:opacity-0 data-ending-style:[scale:0.96] [&.d-tooltip-primary]:text-primary-content [&.d-tooltip-secondary]:text-secondary-content [&.d-tooltip-accent]:text-accent-content [&.d-tooltip-info]:text-info-content [&.d-tooltip-success]:text-success-content [&.d-tooltip-warning]:text-warning-content [&.d-tooltip-error]:text-error-content"
       trigger_class="[text-decoration:underline_dotted] [text-underline-offset:2px] cursor-help"
       class="inline-block"
       id="daisyui-tooltip-hero"
@@ -1873,7 +1873,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="pt-10">
       <.tooltip
         arrow_class="w-2 h-2 rotate-45 bg-[var(--d-tt-bg)]"
-        popup_class="z-[60] max-w-80 w-max rounded-[var(--radius-field)] px-2 py-1 bg-[var(--d-tt-bg,var(--color-neutral))] text-neutral-content text-[0.875rem] leading-5 text-center whitespace-normal motion-safe:[transition:opacity_0.15s_ease-out,scale_0.15s_ease-out] data-starting-style:opacity-0 data-starting-style:[scale:0.96] data-ending-style:opacity-0 data-ending-style:[scale:0.96] [&.d-tooltip-primary]:text-primary-content [&.d-tooltip-secondary]:text-secondary-content [&.d-tooltip-accent]:text-accent-content [&.d-tooltip-info]:text-info-content [&.d-tooltip-success]:text-success-content [&.d-tooltip-warning]:text-warning-content [&.d-tooltip-error]:text-error-content"
+        popup_class="z-[60] max-w-80 w-max rounded-[var(--radius-field)] px-2 py-1 bg-[var(--d-tt-bg,var(--color-neutral))] text-neutral-content text-[0.75rem] leading-4 text-center whitespace-normal motion-safe:[transition:opacity_0.15s_ease-out,scale_0.15s_ease-out] data-starting-style:opacity-0 data-starting-style:[scale:0.96] data-ending-style:opacity-0 data-ending-style:[scale:0.96] [&.d-tooltip-primary]:text-primary-content [&.d-tooltip-secondary]:text-secondary-content [&.d-tooltip-accent]:text-accent-content [&.d-tooltip-info]:text-info-content [&.d-tooltip-success]:text-success-content [&.d-tooltip-warning]:text-warning-content [&.d-tooltip-error]:text-error-content"
         trigger_class="[text-decoration:underline_dotted] [text-underline-offset:2px] cursor-help"
         class="inline-block"
         id="daisyui-tooltip-open"
@@ -1892,7 +1892,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <.tooltip
         :for={side <- ~w(top bottom left right)}
         arrow_class="w-2 h-2 rotate-45 bg-[var(--d-tt-bg)]"
-        popup_class="z-[60] max-w-80 w-max rounded-[var(--radius-field)] px-2 py-1 bg-[var(--d-tt-bg,var(--color-neutral))] text-neutral-content text-[0.875rem] leading-5 text-center whitespace-normal motion-safe:[transition:opacity_0.15s_ease-out,scale_0.15s_ease-out] data-starting-style:opacity-0 data-starting-style:[scale:0.96] data-ending-style:opacity-0 data-ending-style:[scale:0.96] [&.d-tooltip-primary]:text-primary-content [&.d-tooltip-secondary]:text-secondary-content [&.d-tooltip-accent]:text-accent-content [&.d-tooltip-info]:text-info-content [&.d-tooltip-success]:text-success-content [&.d-tooltip-warning]:text-warning-content [&.d-tooltip-error]:text-error-content"
+        popup_class="z-[60] max-w-80 w-max rounded-[var(--radius-field)] px-2 py-1 bg-[var(--d-tt-bg,var(--color-neutral))] text-neutral-content text-[0.75rem] leading-4 text-center whitespace-normal motion-safe:[transition:opacity_0.15s_ease-out,scale_0.15s_ease-out] data-starting-style:opacity-0 data-starting-style:[scale:0.96] data-ending-style:opacity-0 data-ending-style:[scale:0.96] [&.d-tooltip-primary]:text-primary-content [&.d-tooltip-secondary]:text-secondary-content [&.d-tooltip-accent]:text-accent-content [&.d-tooltip-info]:text-info-content [&.d-tooltip-success]:text-success-content [&.d-tooltip-warning]:text-warning-content [&.d-tooltip-error]:text-error-content"
         trigger_class="[text-decoration:underline_dotted] [text-underline-offset:2px] cursor-help"
         class="inline-block"
         id={"daisyui-tooltip-#{side}"}
@@ -1912,7 +1912,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <.tooltip
         :for={align <- ~w(start center end)}
         arrow_class="w-2 h-2 rotate-45 bg-[var(--d-tt-bg)]"
-        popup_class="z-[60] max-w-80 w-max rounded-[var(--radius-field)] px-2 py-1 bg-[var(--d-tt-bg,var(--color-neutral))] text-neutral-content text-[0.875rem] leading-5 text-center whitespace-normal motion-safe:[transition:opacity_0.15s_ease-out,scale_0.15s_ease-out] data-starting-style:opacity-0 data-starting-style:[scale:0.96] data-ending-style:opacity-0 data-ending-style:[scale:0.96] [&.d-tooltip-primary]:text-primary-content [&.d-tooltip-secondary]:text-secondary-content [&.d-tooltip-accent]:text-accent-content [&.d-tooltip-info]:text-info-content [&.d-tooltip-success]:text-success-content [&.d-tooltip-warning]:text-warning-content [&.d-tooltip-error]:text-error-content"
+        popup_class="z-[60] max-w-80 w-max rounded-[var(--radius-field)] px-2 py-1 bg-[var(--d-tt-bg,var(--color-neutral))] text-neutral-content text-[0.75rem] leading-4 text-center whitespace-normal motion-safe:[transition:opacity_0.15s_ease-out,scale_0.15s_ease-out] data-starting-style:opacity-0 data-starting-style:[scale:0.96] data-ending-style:opacity-0 data-ending-style:[scale:0.96] [&.d-tooltip-primary]:text-primary-content [&.d-tooltip-secondary]:text-secondary-content [&.d-tooltip-accent]:text-accent-content [&.d-tooltip-info]:text-info-content [&.d-tooltip-success]:text-success-content [&.d-tooltip-warning]:text-warning-content [&.d-tooltip-error]:text-error-content"
         trigger_class="[text-decoration:underline_dotted] [text-underline-offset:2px] cursor-help"
         class="inline-block"
         id={"daisyui-tooltip-align-#{align}"}
@@ -1939,7 +1939,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         id={"daisyui-tooltip-#{color}"}
         open
         popup_class={[
-          "z-[60] max-w-80 w-max rounded-[var(--radius-field)] px-2 py-1 bg-[var(--d-tt-bg,var(--color-neutral))] text-neutral-content text-[0.875rem] leading-5 text-center whitespace-normal motion-safe:[transition:opacity_0.15s_ease-out,scale_0.15s_ease-out] data-starting-style:opacity-0 data-starting-style:[scale:0.96] data-ending-style:opacity-0 data-ending-style:[scale:0.96] [&.d-tooltip-primary]:text-primary-content [&.d-tooltip-secondary]:text-secondary-content [&.d-tooltip-accent]:text-accent-content [&.d-tooltip-info]:text-info-content [&.d-tooltip-success]:text-success-content [&.d-tooltip-warning]:text-warning-content [&.d-tooltip-error]:text-error-content",
+          "z-[60] max-w-80 w-max rounded-[var(--radius-field)] px-2 py-1 bg-[var(--d-tt-bg,var(--color-neutral))] text-neutral-content text-[0.75rem] leading-4 text-center whitespace-normal motion-safe:[transition:opacity_0.15s_ease-out,scale_0.15s_ease-out] data-starting-style:opacity-0 data-starting-style:[scale:0.96] data-ending-style:opacity-0 data-ending-style:[scale:0.96] [&.d-tooltip-primary]:text-primary-content [&.d-tooltip-secondary]:text-secondary-content [&.d-tooltip-accent]:text-accent-content [&.d-tooltip-info]:text-info-content [&.d-tooltip-success]:text-success-content [&.d-tooltip-warning]:text-warning-content [&.d-tooltip-error]:text-error-content",
           "d-tooltip-#{color}"
         ]}
       >
@@ -1959,7 +1959,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         class="inline-block"
         id="daisyui-tooltip-rich"
         open
-        popup_class="z-[60] w-max rounded-[var(--radius-field)] px-2 py-1 bg-[var(--d-tt-bg,var(--color-neutral))] text-neutral-content text-[0.875rem] leading-5 text-center whitespace-normal motion-safe:[transition:opacity_0.15s_ease-out,scale_0.15s_ease-out] data-starting-style:opacity-0 data-starting-style:[scale:0.96] data-ending-style:opacity-0 data-ending-style:[scale:0.96] [&.d-tooltip-primary]:text-primary-content [&.d-tooltip-secondary]:text-secondary-content [&.d-tooltip-accent]:text-accent-content [&.d-tooltip-info]:text-info-content [&.d-tooltip-success]:text-success-content [&.d-tooltip-warning]:text-warning-content [&.d-tooltip-error]:text-error-content max-w-56"
+        popup_class="z-[60] w-max rounded-[var(--radius-field)] px-2 py-1 bg-[var(--d-tt-bg,var(--color-neutral))] text-neutral-content text-[0.75rem] leading-4 text-center whitespace-normal motion-safe:[transition:opacity_0.15s_ease-out,scale_0.15s_ease-out] data-starting-style:opacity-0 data-starting-style:[scale:0.96] data-ending-style:opacity-0 data-ending-style:[scale:0.96] [&.d-tooltip-primary]:text-primary-content [&.d-tooltip-secondary]:text-secondary-content [&.d-tooltip-accent]:text-accent-content [&.d-tooltip-info]:text-info-content [&.d-tooltip-success]:text-success-content [&.d-tooltip-warning]:text-warning-content [&.d-tooltip-error]:text-error-content max-w-56"
       >
         <:trigger><span class="d-btn">Rich content</span></:trigger>
         <div class="space-y-1 text-left">
@@ -1975,7 +1975,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.tooltip
       arrow_class="w-2 h-2 rotate-45 bg-[var(--d-tt-bg)]"
-      popup_class="z-[60] max-w-80 w-max rounded-[var(--radius-field)] px-2 py-1 bg-[var(--d-tt-bg,var(--color-neutral))] text-neutral-content text-[0.875rem] leading-5 text-center whitespace-normal motion-safe:[transition:opacity_0.15s_ease-out,scale_0.15s_ease-out] data-starting-style:opacity-0 data-starting-style:[scale:0.96] data-ending-style:opacity-0 data-ending-style:[scale:0.96] [&.d-tooltip-primary]:text-primary-content [&.d-tooltip-secondary]:text-secondary-content [&.d-tooltip-accent]:text-accent-content [&.d-tooltip-info]:text-info-content [&.d-tooltip-success]:text-success-content [&.d-tooltip-warning]:text-warning-content [&.d-tooltip-error]:text-error-content"
+      popup_class="z-[60] max-w-80 w-max rounded-[var(--radius-field)] px-2 py-1 bg-[var(--d-tt-bg,var(--color-neutral))] text-neutral-content text-[0.75rem] leading-4 text-center whitespace-normal motion-safe:[transition:opacity_0.15s_ease-out,scale_0.15s_ease-out] data-starting-style:opacity-0 data-starting-style:[scale:0.96] data-ending-style:opacity-0 data-ending-style:[scale:0.96] [&.d-tooltip-primary]:text-primary-content [&.d-tooltip-secondary]:text-secondary-content [&.d-tooltip-accent]:text-accent-content [&.d-tooltip-info]:text-info-content [&.d-tooltip-success]:text-success-content [&.d-tooltip-warning]:text-warning-content [&.d-tooltip-error]:text-error-content"
       trigger_class="[text-decoration:underline_dotted] [text-underline-offset:2px] cursor-help"
       id="daisyui-tooltip-responsive"
       class="inline-block hidden lg:inline-block"
@@ -2167,11 +2167,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         label_class="text-[0.875rem]"
         class="group [--d-range-thumb-size:calc(var(--size-selector,0.25rem)*6)] flex flex-col gap-1 w-full data-disabled:cursor-not-allowed data-disabled:opacity-30 [&.d-range-xs]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*4)] [&.d-range-sm]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*5)] [&.d-range-md]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*6)] [&.d-range-lg]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*7)] [&.d-range-xl]:[--d-range-thumb-size:calc(var(--size-selector,0.25rem)*8)]"
         id="daisyui-slider-steps"
-        value={50}
+        value={25}
         step={25}
       />
-      <div class="mt-2 flex justify-between px-1 text-xs opacity-60">
-        <span :for={n <- ~w(0 25 50 75 100)}>{n}</span>
+      <div class="mt-2 flex justify-between px-2.5 text-xs">
+        <span :for={_ <- 1..5}>|</span>
+      </div>
+      <div class="mt-2 flex justify-between px-2.5 text-xs">
+        <span :for={n <- ~w(1 2 3 4 5)}>{n}</span>
       </div>
     </div>
     """
@@ -2564,14 +2567,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "toast-colors"} = assigns) do
     ~H"""
-    <div class="flex flex-col gap-2">
+    <div class="grid gap-2 sm:grid-cols-2">
       <.toast
         :for={color <- ~w(info success warning error)}
         trigger_class="d-btn"
         close_class="inline-flex items-center justify-center ms-auto rounded-[var(--radius-selector)] cursor-pointer opacity-60 [transition:opacity_0.2s_ease-out] hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-current"
         content_class="flex flex-col gap-1 text-start"
         id={"daisyui-toast-#{color}"}
-        viewport_class="d-toast !static"
+        class="relative h-20 [transform:translate(0)]"
+        viewport_class="d-toast d-toast-bottom d-toast-end"
         toast_class={[
           "d-alert w-max max-w-[min(24rem,calc(100vw-2rem))] motion-safe:[transition:opacity_0.2s_ease-out,translate_0.2s_ease-out] data-starting-style:opacity-0 data-starting-style:[translate:0_0.5rem] data-ending-style:opacity-0 data-ending-style:[translate:0_0.5rem]",
           "d-alert-#{color}"
@@ -3254,49 +3258,27 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "toggle-swap-rotate"} = assigns) do
     ~H"""
-    <div class="flex items-center gap-6">
-      <.toggle
-        input_class="absolute w-px h-px opacity-0 pointer-events-none"
-        id="daisyui-toggle-swap-rotate-on"
-        pressed
-        class="d-swap d-swap-rotate d-swap-active cursor-pointer text-2xl font-semibold"
-      >
-        <div class="d-swap-on">ON</div>
-        <div class="d-swap-off">OFF</div>
-      </.toggle>
-      <.toggle
-        input_class="absolute w-px h-px opacity-0 pointer-events-none"
-        id="daisyui-toggle-swap-rotate-off"
-        class="d-swap d-swap-rotate cursor-pointer text-2xl font-semibold"
-      >
-        <div class="d-swap-on">ON</div>
-        <div class="d-swap-off">OFF</div>
-      </.toggle>
-    </div>
+    <.toggle
+      input_class="absolute w-px h-px opacity-0 pointer-events-none"
+      id="daisyui-toggle-swap-rotate"
+      class="d-swap d-swap-rotate data-pressed:d-swap-active cursor-pointer text-2xl font-semibold"
+    >
+      <div class="d-swap-on">ON</div>
+      <div class="d-swap-off">OFF</div>
+    </.toggle>
     """
   end
 
   def example(%{section: "toggle-swap-flip"} = assigns) do
     ~H"""
-    <div class="flex items-center gap-6">
-      <.toggle
-        input_class="absolute w-px h-px opacity-0 pointer-events-none"
-        id="daisyui-toggle-swap-flip-on"
-        pressed
-        class="d-swap d-swap-flip d-swap-active cursor-pointer text-4xl"
-      >
-        <div class="d-swap-on">😈</div>
-        <div class="d-swap-off">😇</div>
-      </.toggle>
-      <.toggle
-        input_class="absolute w-px h-px opacity-0 pointer-events-none"
-        id="daisyui-toggle-swap-flip-off"
-        class="d-swap d-swap-flip cursor-pointer text-4xl"
-      >
-        <div class="d-swap-on">😈</div>
-        <div class="d-swap-off">😇</div>
-      </.toggle>
-    </div>
+    <.toggle
+      input_class="absolute w-px h-px opacity-0 pointer-events-none"
+      id="daisyui-toggle-swap-flip"
+      class="d-swap d-swap-flip data-pressed:d-swap-active cursor-pointer text-4xl"
+    >
+      <div class="d-swap-on">😈</div>
+      <div class="d-swap-off">😇</div>
+    </.toggle>
     """
   end
 
@@ -10427,7 +10409,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <.splitter
       resizer_class="shrink-0 bg-base-content/12 [transition:background-color_0.15s_ease-out] group-data-[orientation=horizontal]:w-1 group-data-[orientation=horizontal]:cursor-col-resize group-data-[orientation=vertical]:h-1 group-data-[orientation=vertical]:cursor-row-resize hover:bg-primary data-dragging:bg-primary focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-1"
       panel_class="overflow-auto min-w-0 min-h-0 p-4"
-      class="group flex w-full h-[calc(0.25rem*48)] overflow-hidden rounded-[var(--radius-box)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_12%,#0000)] bg-base-100 text-base-content data-[orientation=vertical]:flex-col"
+      class="group flex w-full h-[calc(0.25rem*48)] overflow-hidden rounded-[var(--radius-box)] border-[length:var(--border)] border-solid border-[color-mix(in_oklab,var(--color-base-content)_12%,#0000)] bg-base-100 text-base-content data-[orientation=vertical]:flex-col [&_[data-part=panel][data-index='0']]:shrink-0 [&_[data-part=panel][data-index='1']]:flex-1 data-[orientation=horizontal]:[&_[data-part=panel][data-index='0']]:w-[var(--chelekom-splitter-pos)] data-[orientation=vertical]:[&_[data-part=panel][data-index='0']]:h-[var(--chelekom-splitter-pos)]"
       id="daisyui-splitter"
       default_size={45}
     >
