@@ -370,14 +370,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       {"anchor-in-text", "In a paragraph", "The link inline in body copy, as the docs show it."}
     ],
     "semi_circle_progress" => [
-      {"semi_circle_progress-hero", "Radial progress", "daisyUI's `radial-progress`, as an arc."},
+      {"semi_circle_progress-hero", "Radial progress",
+       "daisyUI's `radial-progress` ring, drawn as an SVG arc closed into a full circle."},
       {"semi_circle_progress-values", "Different values",
        "0, 20, 60, 80 and 100 percent — daisyUI's own set."},
       {"semi_circle_progress-colors", "Custom color",
        "All eight colour utilities, since both arcs are `currentColor`."},
       {"semi_circle_progress-filled", "With background color and border",
        "daisyUI's filled dial — the ring sits on a coloured, bordered disc."},
-      {"semi_circle_progress-sizes", "Sizes", "Sized by a width utility on the root."},
+      {"semi_circle_progress-sizes", "Sizes", "Sized by a width utility on the svg."},
       {"semi_circle_progress-thickness", "Custom size and custom thickness",
        "daisyUI varies `--thickness` directly; ours is `stroke-width` on the track and indicator."}
     ],
@@ -2940,11 +2941,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "semi_circle_progress-hero"} = assigns) do
     ~H"""
     <.semi_circle_progress
-      label_class="text-[1.125rem] font-semibold"
+      shape="full"
+      label_class="text-[0.875rem] font-semibold"
       indicator_class="[stroke-width:16] [stroke:currentColor] [stroke-linecap:round] motion-safe:transition-[stroke-dashoffset] motion-safe:duration-300 motion-safe:ease-[ease-out]"
-      track_class="[stroke-width:16] [stroke:color-mix(in_oklab,currentColor_20%,transparent)] [stroke-linecap:round]"
-      svg_class="overflow-visible"
-      class="inline-grid place-items-center text-base-content"
+      track_class="[stroke-width:16] [stroke:color-mix(in_oklab,currentColor_20%,transparent)]"
+      svg_class="overflow-visible w-20"
+      class="inline-grid place-items-center *:[grid-area:1/1] text-base-content"
       id="daisyui-semi-hero"
       value={70}
       label="Progress"
@@ -2956,14 +2958,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "semi_circle_progress-values"} = assigns) do
     ~H"""
-    <div class="flex flex-wrap items-end gap-4">
+    <div class="flex flex-wrap items-center gap-4">
       <.semi_circle_progress
         :for={v <- [0, 20, 60, 80, 100]}
-        label_class="text-[1.125rem] font-semibold"
+        shape="full"
+        label_class="text-[0.875rem] font-semibold"
         indicator_class="[stroke-width:16] [stroke:currentColor] [stroke-linecap:round] motion-safe:transition-[stroke-dashoffset] motion-safe:duration-300 motion-safe:ease-[ease-out]"
-        track_class="[stroke-width:16] [stroke:color-mix(in_oklab,currentColor_20%,transparent)] [stroke-linecap:round]"
-        svg_class="overflow-visible"
-        class="inline-grid place-items-center text-base-content"
+        track_class="[stroke-width:16] [stroke:color-mix(in_oklab,currentColor_20%,transparent)]"
+        svg_class="overflow-visible w-20"
+        class="inline-grid place-items-center *:[grid-area:1/1] text-base-content"
         id={"daisyui-semi-#{v}"}
         value={v}
       >
@@ -2975,16 +2978,17 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "semi_circle_progress-colors"} = assigns) do
     ~H"""
-    <div class="flex flex-wrap items-end gap-4">
+    <div class="flex flex-wrap items-center gap-4">
       <.semi_circle_progress
         :for={color <- ~w(primary secondary accent neutral info success warning error)}
-        label_class="text-[1.125rem] font-semibold"
+        shape="full"
+        label_class="text-[0.875rem] font-semibold"
         indicator_class="[stroke-width:16] [stroke:currentColor] [stroke-linecap:round] motion-safe:transition-[stroke-dashoffset] motion-safe:duration-300 motion-safe:ease-[ease-out]"
-        track_class="[stroke-width:16] [stroke:color-mix(in_oklab,currentColor_20%,transparent)] [stroke-linecap:round]"
-        svg_class="overflow-visible"
+        track_class="[stroke-width:16] [stroke:color-mix(in_oklab,currentColor_20%,transparent)]"
+        svg_class="overflow-visible w-20"
         id={"daisyui-semi-#{color}"}
         value={70}
-        class={["inline-grid place-items-center", "text-#{color}"]}
+        class={["inline-grid place-items-center *:[grid-area:1/1]", "text-#{color}"]}
       >
         70%
       </.semi_circle_progress>
@@ -2994,15 +2998,34 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
 
   def example(%{section: "semi_circle_progress-filled"} = assigns) do
     ~H"""
-    <div class="flex flex-wrap items-end gap-4">
+    <.semi_circle_progress
+      shape="full"
+      label_class="text-[0.875rem] font-semibold"
+      indicator_class="[stroke-width:16] [stroke:currentColor] [stroke-linecap:round] motion-safe:transition-[stroke-dashoffset] motion-safe:duration-300 motion-safe:ease-[ease-out]"
+      track_class="[stroke-width:16] [stroke:color-mix(in_oklab,currentColor_20%,transparent)]"
+      svg_class="overflow-visible w-20"
+      class="inline-grid place-items-center *:[grid-area:1/1] rounded-[calc(infinity*1px)] border-4 border-solid border-primary bg-primary p-1 text-primary-content"
+      id="daisyui-semi-filled"
+      value={70}
+    >
+      70%
+    </.semi_circle_progress>
+    """
+  end
+
+  def example(%{section: "semi_circle_progress-sizes"} = assigns) do
+    ~H"""
+    <div class="flex flex-wrap items-center gap-4">
       <.semi_circle_progress
-        label_class="text-[1.125rem] font-semibold"
+        :for={w <- ~w(w-16 w-24 w-40)}
+        shape="full"
+        label_class="text-[0.875rem] font-semibold"
         indicator_class="[stroke-width:16] [stroke:currentColor] [stroke-linecap:round] motion-safe:transition-[stroke-dashoffset] motion-safe:duration-300 motion-safe:ease-[ease-out]"
-        track_class="[stroke-width:16] [stroke:color-mix(in_oklab,currentColor_20%,transparent)] [stroke-linecap:round]"
-        svg_class="overflow-visible"
-        id="daisyui-semi-filled"
+        track_class="[stroke-width:16] [stroke:color-mix(in_oklab,currentColor_20%,transparent)]"
+        svg_class={["overflow-visible", w]}
+        class="inline-grid place-items-center *:[grid-area:1/1] text-base-content"
+        id={"daisyui-semi-size-#{w}"}
         value={70}
-        class="inline-grid place-items-center rounded-[calc(infinity*1px)] border-[length:var(--border)] border-solid border-primary bg-primary p-2 text-primary-content"
       >
         70%
       </.semi_circle_progress>
@@ -3010,18 +3033,30 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     """
   end
 
-  def example(%{section: "semi_circle_progress-sizes"} = assigns) do
+  def example(%{section: "semi_circle_progress-thickness"} = assigns) do
     ~H"""
-    <div class="flex flex-wrap items-end gap-4">
+    <div class="flex flex-wrap items-center gap-6">
       <.semi_circle_progress
-        :for={w <- ~w(w-20 w-28 w-40)}
-        label_class="text-[1.125rem] font-semibold"
-        indicator_class="[stroke-width:16] [stroke:currentColor] [stroke-linecap:round] motion-safe:transition-[stroke-dashoffset] motion-safe:duration-300 motion-safe:ease-[ease-out]"
-        track_class="[stroke-width:16] [stroke:color-mix(in_oklab,currentColor_20%,transparent)] [stroke-linecap:round]"
-        svg_class="overflow-visible"
-        id={"daisyui-semi-size-#{w}"}
+        shape="full"
+        label_class="text-[0.875rem] font-semibold"
+        indicator_class="[stroke-width:4] [stroke:currentColor] [stroke-linecap:round] motion-safe:transition-[stroke-dashoffset] motion-safe:duration-300 motion-safe:ease-[ease-out]"
+        track_class="[stroke-width:4] [stroke:color-mix(in_oklab,currentColor_20%,transparent)]"
+        svg_class="overflow-visible w-40"
+        class="inline-grid place-items-center *:[grid-area:1/1] text-base-content"
+        id="daisyui-semi-thin"
         value={70}
-        class={["inline-grid place-items-center text-base-content", w]}
+      >
+        70%
+      </.semi_circle_progress>
+      <.semi_circle_progress
+        shape="full"
+        label_class="text-[0.875rem] font-semibold"
+        indicator_class="[stroke-width:36] [stroke:currentColor] [stroke-linecap:round] motion-safe:transition-[stroke-dashoffset] motion-safe:duration-300 motion-safe:ease-[ease-out]"
+        track_class="[stroke-width:36] [stroke:color-mix(in_oklab,currentColor_20%,transparent)]"
+        svg_class="overflow-visible w-40"
+        class="inline-grid place-items-center *:[grid-area:1/1] text-base-content"
+        id="daisyui-semi-thick"
+        value={70}
       >
         70%
       </.semi_circle_progress>
