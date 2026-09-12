@@ -9,7 +9,7 @@
     "@lexical/rich-text": "0.48.0",
     "@lexical/utils": "0.48.0",
     "@milkdown/kit": "7.21.3",
-    "@tiptap/core": "3.28.0",
+    "@tiptap/core": "3.30.4",
     "@tiptap/pm": "3.28.0",
     "@tiptap/starter-kit": "3.28.0",
     "echarts": "6.1.0",
