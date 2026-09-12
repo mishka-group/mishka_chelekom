@@ -371,12 +371,15 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ],
     "semi_circle_progress" => [
       {"semi_circle_progress-hero", "Radial progress", "daisyUI's `radial-progress`, as an arc."},
-      {"semi_circle_progress-values", "Values", "0, 25, 50, 75 and 100 percent."},
-      {"semi_circle_progress-colors", "Colors",
-       "The colour utilities, since both arcs are `currentColor`."},
+      {"semi_circle_progress-values", "Different values",
+       "0, 20, 60, 80 and 100 percent — daisyUI's own set."},
+      {"semi_circle_progress-colors", "Custom color",
+       "All eight colour utilities, since both arcs are `currentColor`."},
       {"semi_circle_progress-filled", "With background color and border",
        "daisyUI's filled dial — the ring sits on a coloured, bordered disc."},
-      {"semi_circle_progress-sizes", "Sizes", "Sized by a width utility on the root."}
+      {"semi_circle_progress-sizes", "Sizes", "Sized by a width utility on the root."},
+      {"semi_circle_progress-thickness", "Custom size and custom thickness",
+       "daisyUI varies `--thickness` directly; ours is `stroke-width` on the track and indicator."}
     ],
     "drawer" => [
       {"drawer-hero", "Drawer", "daisyUI's sidebar drawer with an overlay."},
@@ -2938,8 +2941,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <.semi_circle_progress
       label_class="text-[1.125rem] font-semibold"
-      indicator_class="[stroke:currentColor] [stroke-linecap:round] motion-safe:transition-[stroke-dashoffset] motion-safe:duration-300 motion-safe:ease-[ease-out]"
-      track_class="[stroke:color-mix(in_oklab,currentColor_20%,transparent)] [stroke-linecap:round]"
+      indicator_class="[stroke-width:16] [stroke:currentColor] [stroke-linecap:round] motion-safe:transition-[stroke-dashoffset] motion-safe:duration-300 motion-safe:ease-[ease-out]"
+      track_class="[stroke-width:16] [stroke:color-mix(in_oklab,currentColor_20%,transparent)] [stroke-linecap:round]"
       svg_class="overflow-visible"
       class="inline-grid place-items-center text-base-content"
       id="daisyui-semi-hero"
@@ -2955,10 +2958,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <div class="flex flex-wrap items-end gap-4">
       <.semi_circle_progress
-        :for={v <- [0, 25, 50, 75, 100]}
+        :for={v <- [0, 20, 60, 80, 100]}
         label_class="text-[1.125rem] font-semibold"
-        indicator_class="[stroke:currentColor] [stroke-linecap:round] motion-safe:transition-[stroke-dashoffset] motion-safe:duration-300 motion-safe:ease-[ease-out]"
-        track_class="[stroke:color-mix(in_oklab,currentColor_20%,transparent)] [stroke-linecap:round]"
+        indicator_class="[stroke-width:16] [stroke:currentColor] [stroke-linecap:round] motion-safe:transition-[stroke-dashoffset] motion-safe:duration-300 motion-safe:ease-[ease-out]"
+        track_class="[stroke-width:16] [stroke:color-mix(in_oklab,currentColor_20%,transparent)] [stroke-linecap:round]"
         svg_class="overflow-visible"
         class="inline-grid place-items-center text-base-content"
         id={"daisyui-semi-#{v}"}
@@ -2974,10 +2977,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <div class="flex flex-wrap items-end gap-4">
       <.semi_circle_progress
-        :for={color <- ~w(primary secondary accent success warning error)}
+        :for={color <- ~w(primary secondary accent neutral info success warning error)}
         label_class="text-[1.125rem] font-semibold"
-        indicator_class="[stroke:currentColor] [stroke-linecap:round] motion-safe:transition-[stroke-dashoffset] motion-safe:duration-300 motion-safe:ease-[ease-out]"
-        track_class="[stroke:color-mix(in_oklab,currentColor_20%,transparent)] [stroke-linecap:round]"
+        indicator_class="[stroke-width:16] [stroke:currentColor] [stroke-linecap:round] motion-safe:transition-[stroke-dashoffset] motion-safe:duration-300 motion-safe:ease-[ease-out]"
+        track_class="[stroke-width:16] [stroke:color-mix(in_oklab,currentColor_20%,transparent)] [stroke-linecap:round]"
         svg_class="overflow-visible"
         id={"daisyui-semi-#{color}"}
         value={70}
@@ -2994,8 +2997,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-wrap items-end gap-4">
       <.semi_circle_progress
         label_class="text-[1.125rem] font-semibold"
-        indicator_class="[stroke:currentColor] [stroke-linecap:round] motion-safe:transition-[stroke-dashoffset] motion-safe:duration-300 motion-safe:ease-[ease-out]"
-        track_class="[stroke:color-mix(in_oklab,currentColor_20%,transparent)] [stroke-linecap:round]"
+        indicator_class="[stroke-width:16] [stroke:currentColor] [stroke-linecap:round] motion-safe:transition-[stroke-dashoffset] motion-safe:duration-300 motion-safe:ease-[ease-out]"
+        track_class="[stroke-width:16] [stroke:color-mix(in_oklab,currentColor_20%,transparent)] [stroke-linecap:round]"
         svg_class="overflow-visible"
         id="daisyui-semi-filled"
         value={70}
@@ -3013,12 +3016,41 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       <.semi_circle_progress
         :for={w <- ~w(w-20 w-28 w-40)}
         label_class="text-[1.125rem] font-semibold"
-        indicator_class="[stroke:currentColor] [stroke-linecap:round] motion-safe:transition-[stroke-dashoffset] motion-safe:duration-300 motion-safe:ease-[ease-out]"
-        track_class="[stroke:color-mix(in_oklab,currentColor_20%,transparent)] [stroke-linecap:round]"
+        indicator_class="[stroke-width:16] [stroke:currentColor] [stroke-linecap:round] motion-safe:transition-[stroke-dashoffset] motion-safe:duration-300 motion-safe:ease-[ease-out]"
+        track_class="[stroke-width:16] [stroke:color-mix(in_oklab,currentColor_20%,transparent)] [stroke-linecap:round]"
         svg_class="overflow-visible"
         id={"daisyui-semi-size-#{w}"}
         value={70}
         class={["inline-grid place-items-center text-base-content", w]}
+      >
+        70%
+      </.semi_circle_progress>
+    </div>
+    """
+  end
+
+  def example(%{section: "semi_circle_progress-thickness"} = assigns) do
+    ~H"""
+    <div class="flex flex-wrap items-end gap-6">
+      <.semi_circle_progress
+        label_class="text-[1.125rem] font-semibold"
+        indicator_class="[stroke-width:4] [stroke:currentColor] [stroke-linecap:round] motion-safe:transition-[stroke-dashoffset] motion-safe:duration-300 motion-safe:ease-[ease-out]"
+        track_class="[stroke-width:4] [stroke:color-mix(in_oklab,currentColor_20%,transparent)] [stroke-linecap:round]"
+        svg_class="overflow-visible w-40"
+        class="inline-grid place-items-center text-base-content"
+        id="daisyui-semi-thin"
+        value={70}
+      >
+        70%
+      </.semi_circle_progress>
+      <.semi_circle_progress
+        label_class="text-[1.125rem] font-semibold"
+        indicator_class="[stroke-width:36] [stroke:currentColor] [stroke-linecap:round] motion-safe:transition-[stroke-dashoffset] motion-safe:duration-300 motion-safe:ease-[ease-out]"
+        track_class="[stroke-width:36] [stroke:color-mix(in_oklab,currentColor_20%,transparent)] [stroke-linecap:round]"
+        svg_class="overflow-visible w-40"
+        class="inline-grid place-items-center text-base-content"
+        id="daisyui-semi-thick"
+        value={70}
       >
         70%
       </.semi_circle_progress>
@@ -10072,7 +10104,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
         class="d-btn d-btn-sm"
         phx-click={
           Phoenix.LiveView.JS.focus(
-            to: "#baseui-preview_card-detached-triggers-controlled-design [data-part=trigger]"
+            to: "#daisyui-preview_card-detached-triggers-controlled-design [data-part=trigger]"
           )
         }
       >
@@ -11753,15 +11785,33 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "radio-group-hero"} = assigns) do
     ~H"""
     <.radio_group
-      item_class="inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none before:content-[''] before:relative before:inline-block before:shrink-0 before:cursor-pointer before:appearance-none before:rounded-full before:p-1 before:align-middle before:[border:var(--border)_solid_var(--input-color,color-mix(in_srgb,currentColor_20%,#0000))] before:[box-shadow:0_1px_oklch(0%_0_0/calc(var(--depth)*0.1))_inset] before:[--d-size:calc(var(--size-selector,0.25rem)*6)] before:w-[var(--d-size)] before:h-[var(--d-size)] before:[color:var(--input-color,currentColor)] data-checked:before:[border-color:currentcolor] data-checked:before:bg-base-100 data-checked:before:[box-shadow:0_0_0_4px_currentColor_inset] aria-checked:before:[border-color:currentcolor] aria-checked:before:bg-base-100 aria-checked:before:[box-shadow:0_0_0_4px_currentColor_inset] data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-disabled:cursor-not-allowed group-data-disabled:opacity-20 focus-visible:before:outline-2 focus-visible:before:outline-current focus-visible:before:outline-offset-2 [.d-radio-xs_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-radio-xs_&]:before:p-0.5 [.d-radio-sm_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-radio-sm_&]:before:p-[0.1875rem] [.d-radio-md_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-radio-md_&]:before:p-1 [.d-radio-lg_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-radio-lg_&]:before:p-[0.3125rem] [.d-radio-xl_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*8)] [.d-radio-xl_&]:before:p-1.5"
+      item_class="group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20"
       class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4"
       id="daisyui-radio-group-hero"
       name="plan"
       value="team"
     >
-      <:option value="solo">Solo</:option>
-      <:option value="team">Team</:option>
-      <:option value="enterprise">Enterprise</:option>
+      <:option value="solo">
+        <span
+          class="d-radio group-data-checked:border-current group-data-checked:bg-base-100 group-data-checked:before:bg-current group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2"
+          aria-hidden="true"
+        ></span>
+        Solo
+      </:option>
+      <:option value="team">
+        <span
+          class="d-radio group-data-checked:border-current group-data-checked:bg-base-100 group-data-checked:before:bg-current group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2"
+          aria-hidden="true"
+        ></span>
+        Team
+      </:option>
+      <:option value="enterprise">
+        <span
+          class="d-radio group-data-checked:border-current group-data-checked:bg-base-100 group-data-checked:before:bg-current group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2"
+          aria-hidden="true"
+        ></span>
+        Enterprise
+      </:option>
     </.radio_group>
     """
   end
@@ -11769,39 +11819,74 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "radio-group-horizontal"} = assigns) do
     ~H"""
     <.radio_group
-      item_class="inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none before:content-[''] before:relative before:inline-block before:shrink-0 before:cursor-pointer before:appearance-none before:rounded-full before:p-1 before:align-middle before:[border:var(--border)_solid_var(--input-color,color-mix(in_srgb,currentColor_20%,#0000))] before:[box-shadow:0_1px_oklch(0%_0_0/calc(var(--depth)*0.1))_inset] before:[--d-size:calc(var(--size-selector,0.25rem)*6)] before:w-[var(--d-size)] before:h-[var(--d-size)] before:[color:var(--input-color,currentColor)] data-checked:before:[border-color:currentcolor] data-checked:before:bg-base-100 data-checked:before:[box-shadow:0_0_0_4px_currentColor_inset] aria-checked:before:[border-color:currentcolor] aria-checked:before:bg-base-100 aria-checked:before:[box-shadow:0_0_0_4px_currentColor_inset] data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-disabled:cursor-not-allowed group-data-disabled:opacity-20 focus-visible:before:outline-2 focus-visible:before:outline-current focus-visible:before:outline-offset-2 [.d-radio-xs_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-radio-xs_&]:before:p-0.5 [.d-radio-sm_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-radio-sm_&]:before:p-[0.1875rem] [.d-radio-md_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-radio-md_&]:before:p-1 [.d-radio-lg_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-radio-lg_&]:before:p-[0.3125rem] [.d-radio-xl_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*8)] [.d-radio-xl_&]:before:p-1.5"
+      item_class="group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20"
       class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4"
       id="daisyui-radio-group-horizontal"
       name="plan_row"
       value="team"
       orientation="horizontal"
     >
-      <:option value="solo">Solo</:option>
-      <:option value="team">Team</:option>
-      <:option value="enterprise">Enterprise</:option>
+      <:option value="solo">
+        <span
+          class="d-radio group-data-checked:border-current group-data-checked:bg-base-100 group-data-checked:before:bg-current group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2"
+          aria-hidden="true"
+        ></span>
+        Solo
+      </:option>
+      <:option value="team">
+        <span
+          class="d-radio group-data-checked:border-current group-data-checked:bg-base-100 group-data-checked:before:bg-current group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2"
+          aria-hidden="true"
+        ></span>
+        Team
+      </:option>
+      <:option value="enterprise">
+        <span
+          class="d-radio group-data-checked:border-current group-data-checked:bg-base-100 group-data-checked:before:bg-current group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2"
+          aria-hidden="true"
+        ></span>
+        Enterprise
+      </:option>
     </.radio_group>
     """
   end
 
   def example(%{section: "radio-group-sizes"} = assigns) do
-    assigns = assign(assigns, :sizes, @sizes)
+    assigns = assigns |> assign(:sizes, @sizes) |> assign(:radio_steps, @radio_steps)
 
     ~H"""
     <div class="flex flex-col gap-3">
       <.radio_group
         :for={size <- @sizes}
-        item_class="inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none before:content-[''] before:relative before:inline-block before:shrink-0 before:cursor-pointer before:appearance-none before:rounded-full before:p-1 before:align-middle before:[border:var(--border)_solid_var(--input-color,color-mix(in_srgb,currentColor_20%,#0000))] before:[box-shadow:0_1px_oklch(0%_0_0/calc(var(--depth)*0.1))_inset] before:[--d-size:calc(var(--size-selector,0.25rem)*6)] before:w-[var(--d-size)] before:h-[var(--d-size)] before:[color:var(--input-color,currentColor)] data-checked:before:[border-color:currentcolor] data-checked:before:bg-base-100 data-checked:before:[box-shadow:0_0_0_4px_currentColor_inset] aria-checked:before:[border-color:currentcolor] aria-checked:before:bg-base-100 aria-checked:before:[box-shadow:0_0_0_4px_currentColor_inset] data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-disabled:cursor-not-allowed group-data-disabled:opacity-20 focus-visible:before:outline-2 focus-visible:before:outline-current focus-visible:before:outline-offset-2 [.d-radio-xs_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-radio-xs_&]:before:p-0.5 [.d-radio-sm_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-radio-sm_&]:before:p-[0.1875rem] [.d-radio-md_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-radio-md_&]:before:p-1 [.d-radio-lg_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-radio-lg_&]:before:p-[0.3125rem] [.d-radio-xl_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*8)] [.d-radio-xl_&]:before:p-1.5"
+        item_class="group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20"
         id={"daisyui-radio-group-#{size}"}
         name={"plan_#{size}"}
         value="team"
         orientation="horizontal"
-        class={[
-          "group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4",
-          "d-radio-#{size}"
-        ]}
+        class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4"
       >
-        <:option value="solo">Solo</:option>
-        <:option value="team">{size}</:option>
+        <:option value="solo">
+          <span
+            class={[
+              "d-radio group-data-checked:border-current group-data-checked:bg-base-100 group-data-checked:before:bg-current group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2",
+              "d-radio-#{size}",
+              @radio_steps[size]
+            ]}
+            aria-hidden="true"
+          ></span>
+          Solo
+        </:option>
+        <:option value="team">
+          <span
+            class={[
+              "d-radio group-data-checked:border-current group-data-checked:bg-base-100 group-data-checked:before:bg-current group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2",
+              "d-radio-#{size}",
+              @radio_steps[size]
+            ]}
+            aria-hidden="true"
+          ></span>
+          {size}
+        </:option>
       </.radio_group>
     </div>
     """
@@ -11814,18 +11899,33 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     <div class="flex flex-col gap-2">
       <.radio_group
         :for={color <- @colors}
-        item_class="inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none before:content-[''] before:relative before:inline-block before:shrink-0 before:cursor-pointer before:appearance-none before:rounded-full before:p-1 before:align-middle before:[border:var(--border)_solid_var(--input-color,color-mix(in_srgb,currentColor_20%,#0000))] before:[box-shadow:0_1px_oklch(0%_0_0/calc(var(--depth)*0.1))_inset] before:[--d-size:calc(var(--size-selector,0.25rem)*6)] before:w-[var(--d-size)] before:h-[var(--d-size)] before:[color:var(--input-color,currentColor)] data-checked:before:[border-color:currentcolor] data-checked:before:bg-base-100 data-checked:before:[box-shadow:0_0_0_4px_currentColor_inset] aria-checked:before:[border-color:currentcolor] aria-checked:before:bg-base-100 aria-checked:before:[box-shadow:0_0_0_4px_currentColor_inset] data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-disabled:cursor-not-allowed group-data-disabled:opacity-20 focus-visible:before:outline-2 focus-visible:before:outline-current focus-visible:before:outline-offset-2 [.d-radio-xs_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-radio-xs_&]:before:p-0.5 [.d-radio-sm_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-radio-sm_&]:before:p-[0.1875rem] [.d-radio-md_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-radio-md_&]:before:p-1 [.d-radio-lg_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-radio-lg_&]:before:p-[0.3125rem] [.d-radio-xl_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*8)] [.d-radio-xl_&]:before:p-1.5"
+        item_class="group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20"
         id={"daisyui-radio-group-#{color}"}
         name={"plan_#{color}"}
         value="on"
         orientation="horizontal"
-        class={[
-          "group flex flex-col gap-2 data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4",
-          "text-#{color}"
-        ]}
+        class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4"
       >
-        <:option value="on">{color}</:option>
-        <:option value="off">off</:option>
+        <:option value="on">
+          <span
+            class={[
+              "d-radio group-data-checked:border-current group-data-checked:bg-base-100 group-data-checked:before:bg-current group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2",
+              "d-radio-#{color}"
+            ]}
+            aria-hidden="true"
+          ></span>
+          {color}
+        </:option>
+        <:option value="off">
+          <span
+            class={[
+              "d-radio group-data-checked:border-current group-data-checked:bg-base-100 group-data-checked:before:bg-current group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2",
+              "d-radio-#{color}"
+            ]}
+            aria-hidden="true"
+          ></span>
+          off
+        </:option>
       </.radio_group>
     </div>
     """
@@ -11835,27 +11935,57 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
     ~H"""
     <div class="flex flex-col gap-4">
       <.radio_group
-        item_class="inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none before:content-[''] before:relative before:inline-block before:shrink-0 before:cursor-pointer before:appearance-none before:rounded-full before:p-1 before:align-middle before:[border:var(--border)_solid_var(--input-color,color-mix(in_srgb,currentColor_20%,#0000))] before:[box-shadow:0_1px_oklch(0%_0_0/calc(var(--depth)*0.1))_inset] before:[--d-size:calc(var(--size-selector,0.25rem)*6)] before:w-[var(--d-size)] before:h-[var(--d-size)] before:[color:var(--input-color,currentColor)] data-checked:before:[border-color:currentcolor] data-checked:before:bg-base-100 data-checked:before:[box-shadow:0_0_0_4px_currentColor_inset] aria-checked:before:[border-color:currentcolor] aria-checked:before:bg-base-100 aria-checked:before:[box-shadow:0_0_0_4px_currentColor_inset] data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-disabled:cursor-not-allowed group-data-disabled:opacity-20 focus-visible:before:outline-2 focus-visible:before:outline-current focus-visible:before:outline-offset-2 [.d-radio-xs_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-radio-xs_&]:before:p-0.5 [.d-radio-sm_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-radio-sm_&]:before:p-[0.1875rem] [.d-radio-md_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-radio-md_&]:before:p-1 [.d-radio-lg_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-radio-lg_&]:before:p-[0.3125rem] [.d-radio-xl_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*8)] [.d-radio-xl_&]:before:p-1.5"
+        item_class="group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20"
         class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4"
         id="daisyui-radio-group-disabled"
         name="plan_off"
         value="team"
         disabled
       >
-        <:option value="solo">Solo</:option>
-        <:option value="team">Team</:option>
+        <:option value="solo">
+          <span
+            class="d-radio group-data-checked:border-current group-data-checked:bg-base-100 group-data-checked:before:bg-current group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2"
+            aria-hidden="true"
+          ></span>
+          Solo
+        </:option>
+        <:option value="team">
+          <span
+            class="d-radio group-data-checked:border-current group-data-checked:bg-base-100 group-data-checked:before:bg-current group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2"
+            aria-hidden="true"
+          ></span>
+          Team
+        </:option>
       </.radio_group>
 
       <.radio_group
-        item_class="inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none before:content-[''] before:relative before:inline-block before:shrink-0 before:cursor-pointer before:appearance-none before:rounded-full before:p-1 before:align-middle before:[border:var(--border)_solid_var(--input-color,color-mix(in_srgb,currentColor_20%,#0000))] before:[box-shadow:0_1px_oklch(0%_0_0/calc(var(--depth)*0.1))_inset] before:[--d-size:calc(var(--size-selector,0.25rem)*6)] before:w-[var(--d-size)] before:h-[var(--d-size)] before:[color:var(--input-color,currentColor)] data-checked:before:[border-color:currentcolor] data-checked:before:bg-base-100 data-checked:before:[box-shadow:0_0_0_4px_currentColor_inset] aria-checked:before:[border-color:currentcolor] aria-checked:before:bg-base-100 aria-checked:before:[box-shadow:0_0_0_4px_currentColor_inset] data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-disabled:cursor-not-allowed group-data-disabled:opacity-20 focus-visible:before:outline-2 focus-visible:before:outline-current focus-visible:before:outline-offset-2 [.d-radio-xs_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-radio-xs_&]:before:p-0.5 [.d-radio-sm_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-radio-sm_&]:before:p-[0.1875rem] [.d-radio-md_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-radio-md_&]:before:p-1 [.d-radio-lg_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-radio-lg_&]:before:p-[0.3125rem] [.d-radio-xl_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*8)] [.d-radio-xl_&]:before:p-1.5"
+        item_class="group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20"
         class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4"
         id="daisyui-radio-group-one-off"
         name="plan_one"
         value="solo"
       >
-        <:option value="solo">Solo</:option>
-        <:option value="team" disabled>Team (sold out)</:option>
-        <:option value="enterprise">Enterprise</:option>
+        <:option value="solo">
+          <span
+            class="d-radio group-data-checked:border-current group-data-checked:bg-base-100 group-data-checked:before:bg-current group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2"
+            aria-hidden="true"
+          ></span>
+          Solo
+        </:option>
+        <:option value="team" disabled>
+          <span
+            class="d-radio group-data-checked:border-current group-data-checked:bg-base-100 group-data-checked:before:bg-current group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2"
+            aria-hidden="true"
+          ></span>
+          Team (sold out)
+        </:option>
+        <:option value="enterprise">
+          <span
+            class="d-radio group-data-checked:border-current group-data-checked:bg-base-100 group-data-checked:before:bg-current group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2"
+            aria-hidden="true"
+          ></span>
+          Enterprise
+        </:option>
       </.radio_group>
     </div>
     """
@@ -11864,16 +11994,34 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "radio-group-readonly"} = assigns) do
     ~H"""
     <.radio_group
-      item_class="inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none before:content-[''] before:relative before:inline-block before:shrink-0 before:cursor-pointer before:appearance-none before:rounded-full before:p-1 before:align-middle before:[border:var(--border)_solid_var(--input-color,color-mix(in_srgb,currentColor_20%,#0000))] before:[box-shadow:0_1px_oklch(0%_0_0/calc(var(--depth)*0.1))_inset] before:[--d-size:calc(var(--size-selector,0.25rem)*6)] before:w-[var(--d-size)] before:h-[var(--d-size)] before:[color:var(--input-color,currentColor)] data-checked:before:[border-color:currentcolor] data-checked:before:bg-base-100 data-checked:before:[box-shadow:0_0_0_4px_currentColor_inset] aria-checked:before:[border-color:currentcolor] aria-checked:before:bg-base-100 aria-checked:before:[box-shadow:0_0_0_4px_currentColor_inset] data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-disabled:cursor-not-allowed group-data-disabled:opacity-20 focus-visible:before:outline-2 focus-visible:before:outline-current focus-visible:before:outline-offset-2 [.d-radio-xs_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-radio-xs_&]:before:p-0.5 [.d-radio-sm_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-radio-sm_&]:before:p-[0.1875rem] [.d-radio-md_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-radio-md_&]:before:p-1 [.d-radio-lg_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-radio-lg_&]:before:p-[0.3125rem] [.d-radio-xl_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*8)] [.d-radio-xl_&]:before:p-1.5"
+      item_class="group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20"
       class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4"
       id="daisyui-radio-group-readonly"
       name="plan_ro"
       value="team"
       readonly
     >
-      <:option value="solo">Solo</:option>
-      <:option value="team">Team</:option>
-      <:option value="enterprise">Enterprise</:option>
+      <:option value="solo">
+        <span
+          class="d-radio group-data-checked:border-current group-data-checked:bg-base-100 group-data-checked:before:bg-current group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2"
+          aria-hidden="true"
+        ></span>
+        Solo
+      </:option>
+      <:option value="team">
+        <span
+          class="d-radio group-data-checked:border-current group-data-checked:bg-base-100 group-data-checked:before:bg-current group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2"
+          aria-hidden="true"
+        ></span>
+        Team
+      </:option>
+      <:option value="enterprise">
+        <span
+          class="d-radio group-data-checked:border-current group-data-checked:bg-base-100 group-data-checked:before:bg-current group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2"
+          aria-hidden="true"
+        ></span>
+        Enterprise
+      </:option>
     </.radio_group>
     """
   end
@@ -11887,15 +12035,33 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       class="flex flex-col items-start gap-3"
     >
       <.radio_group
-        item_class="inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none before:content-[''] before:relative before:inline-block before:shrink-0 before:cursor-pointer before:appearance-none before:rounded-full before:p-1 before:align-middle before:[border:var(--border)_solid_var(--input-color,color-mix(in_srgb,currentColor_20%,#0000))] before:[box-shadow:0_1px_oklch(0%_0_0/calc(var(--depth)*0.1))_inset] before:[--d-size:calc(var(--size-selector,0.25rem)*6)] before:w-[var(--d-size)] before:h-[var(--d-size)] before:[color:var(--input-color,currentColor)] data-checked:before:[border-color:currentcolor] data-checked:before:bg-base-100 data-checked:before:[box-shadow:0_0_0_4px_currentColor_inset] aria-checked:before:[border-color:currentcolor] aria-checked:before:bg-base-100 aria-checked:before:[box-shadow:0_0_0_4px_currentColor_inset] data-disabled:cursor-not-allowed data-disabled:opacity-20 group-data-disabled:cursor-not-allowed group-data-disabled:opacity-20 focus-visible:before:outline-2 focus-visible:before:outline-current focus-visible:before:outline-offset-2 [.d-radio-xs_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*4)] [.d-radio-xs_&]:before:p-0.5 [.d-radio-sm_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*5)] [.d-radio-sm_&]:before:p-[0.1875rem] [.d-radio-md_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*6)] [.d-radio-md_&]:before:p-1 [.d-radio-lg_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*7)] [.d-radio-lg_&]:before:p-[0.3125rem] [.d-radio-xl_&]:before:[--d-size:calc(var(--size-selector,0.25rem)*8)] [.d-radio-xl_&]:before:p-1.5"
+        item_class="group inline-flex items-center gap-2 cursor-pointer text-[0.875rem] select-none data-disabled:cursor-not-allowed data-disabled:opacity-20"
         class="group flex flex-col gap-2 text-base-content data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:gap-4"
         id="daisyui-radio-group-form"
         name="plan_form"
         value="team"
       >
-        <:option value="solo">Solo</:option>
-        <:option value="team">Team</:option>
-        <:option value="enterprise">Enterprise</:option>
+        <:option value="solo">
+          <span
+            class="d-radio group-data-checked:border-current group-data-checked:bg-base-100 group-data-checked:before:bg-current group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2"
+            aria-hidden="true"
+          ></span>
+          Solo
+        </:option>
+        <:option value="team">
+          <span
+            class="d-radio group-data-checked:border-current group-data-checked:bg-base-100 group-data-checked:before:bg-current group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2"
+            aria-hidden="true"
+          ></span>
+          Team
+        </:option>
+        <:option value="enterprise">
+          <span
+            class="d-radio group-data-checked:border-current group-data-checked:bg-base-100 group-data-checked:before:bg-current group-focus-visible:outline-2 group-focus-visible:outline-current group-focus-visible:outline-offset-2"
+            aria-hidden="true"
+          ></span>
+          Enterprise
+        </:option>
       </.radio_group>
       <button type="submit" class="d-btn d-btn-primary d-btn-sm">Save</button>
     </form>
