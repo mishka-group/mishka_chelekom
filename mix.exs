@@ -4,9 +4,13 @@ defmodule MishkaChelekom.MixProject do
   @version "0.0.10-alpha.8"
   @source_url "https://github.com/mishka-group/mishka_chelekom"
 
+  @app :mishka_chelekom
+
   def project do
+    warn_if_misnamed()
+
     [
-      app: :mishka_chelekom,
+      app: @app,
       name: "Mishka Chelekom",
       version: @version,
       elixir: "~> 1.18",
@@ -91,6 +95,42 @@ defmodule MishkaChelekom.MixProject do
       # Production-installed users are unaffected — `optional` is never auto-installed.
       {:phoenix_live_view, "~> 1.2", optional: true}
     ]
+  end
+
+  # MIX NEVER MENTIONS THE NAME YOU GAVE IT. A dependency declared under the wrong app name — a
+  # `{:mihka_chelekom, github: "mishka-group/mishka_chelekom"}` with the `s` dropped — is fetched
+  # happily into `deps/mihka_chelekom`, and only then does the graph go wrong: Mix keys a
+  # dependency's own dependencies on the name it was declared with, so ours are never attached to
+  # us, `anubis_mcp` is not compiled before we are, and the build dies on ten screens of
+  #
+  #   module Anubis.Server.Component is not loaded and could not be found
+  #
+  # which says nothing about the cause and sends the reader to the MCP code, or to Anubis, or to
+  # their Elixir version. The directory we were unpacked into carries the name that was typed, so we
+  # can read it and say so — once, before the errors, in the words of the fix.
+  #
+  # Only for a managed dependency: a path dep legitimately lives in a directory named whatever its
+  # author cloned it as, and warning about that would be noise.
+  defp warn_if_misnamed do
+    declared = Path.basename(__DIR__)
+
+    if Path.basename(Path.dirname(__DIR__)) == "deps" and declared != Atom.to_string(@app) do
+      IO.warn(
+        """
+        #{@app} was declared as :#{declared}, and the two have to match.
+
+            {:#{declared}, github: "mishka-group/mishka_chelekom"}   # what your mix.exs says
+            {:#{@app}, github: "mishka-group/mishka_chelekom"}   # what it has to say
+
+        Mix attaches a dependency's own dependencies to the name it was declared with, so under any
+        other name ours are not attached at all — anubis_mcp is then not compiled before this
+        library, and the errors below are the result rather than the cause.
+
+        Fix the name in mix.exs, then run: mix deps.clean :#{declared} && mix deps.get
+        """,
+        []
+      )
+    end
   end
 
   defp description() do
