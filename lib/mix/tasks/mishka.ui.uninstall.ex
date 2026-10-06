@@ -2,6 +2,7 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   use Igniter.Mix.Task
   alias IgniterJs.Parsers.Javascript.Parser, as: JsParser
   alias IgniterJs.Parsers.Javascript.Formatter, as: JsFormatter
+  alias MishkaChelekom.Generators.Assets
   alias MishkaChelekom.Generators.Core
   alias MishkaChelekom.Config
   alias MishkaChelekom.Generators.Mob.Locations, as: MobLocations
@@ -1042,36 +1043,27 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     path = "assets/css/app.css"
 
     if Igniter.exists?(igniter, path) do
-      Igniter.update_file(igniter, path, fn source ->
-        content =
-          source
-          |> Rewrite.Source.get(:content)
-          |> drop_import("../vendor/#{file}")
-          |> remove_theme_block(kind)
-          |> String.trim()
-          |> Kernel.<>("\n")
-
-        Rewrite.Source.update(source, :content, content)
-      end)
+      igniter
+      |> IgniterCss.Codemods.remove_import(path, "../vendor/#{file}")
+      |> remove_theme_tokens(path, kind)
     else
       igniter
     end
   end
 
-  # The `@theme` block is only injected by the styled stylesheet install.
-  defp drop_import(content, url), do: patch_css(content, &IgniterCss.remove_import(&1, url))
+  # Only the styled install sets tokens in `@theme`. Uninstall takes back Chelekom's and leaves
+  # the project's own — and a token the project has changed since is the project's.
+  defp remove_theme_tokens(igniter, path, :styled) do
+    case Assets.theme_declarations() do
+      {:ok, tokens} ->
+        IgniterCss.Codemods.remove_at_rule_declarations(igniter, path, "theme", "", tokens)
 
-  defp remove_theme_block(content, :styled),
-    do: patch_css(content, &IgniterCss.remove_at_rule(&1, "theme"))
-
-  defp remove_theme_block(content, _), do: content
-
-  defp patch_css(content, fun) do
-    case fun.(content) do
-      {:ok, %IgniterCss.Outcome{source: updated}} -> updated
-      {:error, _reason} -> content
+      {:error, reason} ->
+        Igniter.add_issue(igniter, "Could not remove Chelekom's theme tokens: #{reason}")
     end
   end
+
+  defp remove_theme_tokens(igniter, _path, _kind), do: igniter
 
   defp maybe_remove_config(%{assigns: %{plan: %{remaining: r}}} = igniter) when r != [],
     do: igniter
