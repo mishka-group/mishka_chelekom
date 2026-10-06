@@ -373,9 +373,12 @@ defmodule MishkaChelekom.Generators.Assets do
 
     with {:ok, theme_content} <- File.read(theme_path),
          {:ok, theme_body} <- theme_declarations(theme_content, theme_path) do
+      # THE `@theme` BLOCK IS SHARED WITH THE APP: Chelekom sets its own tokens and leaves the
+      # project's — `--font-caveat`, `--color-brand` — with their comments. Replacing the whole
+      # body wiped them on every generation (#511).
       igniter
       |> add_vendor_import(app_css_path, "../vendor/mishka_chelekom.css")
-      |> IgniterCss.Codemods.ensure_at_rule_block(app_css_path, "theme", nil, theme_body)
+      |> IgniterCss.Codemods.ensure_at_rule_declarations(app_css_path, "theme", nil, theme_body)
     else
       {:error, :enoent} ->
         Igniter.add_issue(igniter, """

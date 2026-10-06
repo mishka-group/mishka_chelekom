@@ -57,7 +57,15 @@ defmodule MishkaChelekom.MixProject do
       # Layer 3 declarative config DSL (already present transitively via guarded_struct).
       {:spark, "~> 2.7"},
       {:igniter_js, "~> 0.5"},
-      {:igniter_css, "~> 1.0"},
+      # LOCAL DEVELOPMENT ONLY — restore the hex version before release:
+      #
+      #     {:igniter_css, "~> 1.1"},
+      #
+      # The `@theme` merge (#511) needs `IgniterCss.ensure_at_rule_declarations/5`, which is not on
+      # hex yet and has no published NIF artifact, so `igniter_css` is built here from source
+      # (`IGNITERCSS_BUILD=1`). Both lines below, and this note, come out with its release.
+      {:igniter_css, path: "../igniter_css", override: true},
+      {:rustler, "~> 0.38.0", only: [:dev, :test]},
       {:owl, "~> 0.13"},
       {:ex_doc, "~> 0.40", only: :dev, runtime: false},
       # Checks the lockfile against the Elixir security advisories. The harness apps have
