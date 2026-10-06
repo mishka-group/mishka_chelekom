@@ -338,7 +338,7 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
         js_hooks =
           component_results
           |> Enum.flat_map(fn {_cs, ss, exs_path} ->
-            Enum.map(ss, fn s -> {s, Path.dirname(exs_path)} end)
+            Enum.map(ss, fn s -> {s, Path.dirname(exs_path), exs_path} end)
           end)
           |> aggregate_js_hooks(bundle_name, bundle_version, base64)
 
@@ -448,8 +448,8 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
   # final shape — direct create-params for `Runtime.JsHook`.
   defp aggregate_js_hooks(script_dir_pairs, kit_name, kit_version, base64?) do
     script_dir_pairs
-    |> Enum.uniq_by(fn {s, _dir} -> s[:module] || s["module"] end)
-    |> Enum.map(fn {s, dir} ->
+    |> Enum.uniq_by(fn {s, _dir, _exs_path} -> s[:module] || s["module"] end)
+    |> Enum.map(fn {s, dir, exs_path} ->
       pascal_name = stringify_script_field(s, :module)
       # MishkaCMS stores hook rows in DB by lowercase kebab name and
       # rebuilds the live hook key at boot via
@@ -500,7 +500,52 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
           "replaces" => bare_name
         }
       }
+      |> put_hook_packages(exs_path)
     end)
+  end
+
+  # WHAT THE HOOK IMPORTS AND THE CMS DOES NOT HAVE. A CMS runs no package manager and has no
+  # `assets/vendor/`, so the hook carries both: `npm`, the whole pinned tree its `npm:` pins need —
+  # each entry with its place in `node_modules/`, exact version and integrity hash, see
+  # `MishkaChelekom.CmsBundle.Npm` — and `modules`, the `user_files:` it imports beside itself
+  # (`./chart_extensions.js`), which the CMS writes next to the hook and keeps once someone edits it.
+  # A hook needing neither is unchanged. A tree that cannot be resolved fails the export: a hook
+  # shipped without its packages fails at runtime on an unresolved import instead.
+  defp put_hook_packages(hook, exs_path) do
+    config =
+      case Config.Reader.read!(exs_path) do
+        [{_name, config} | _rest] -> config
+        _none -> []
+      end
+
+    hook
+    |> put_npm(config[:npm] || [])
+    |> put_modules(config[:user_files] || [])
+  end
+
+  defp put_npm(hook, []), do: hook
+
+  defp put_npm(hook, pins) do
+    case MishkaChelekom.CmsBundle.Npm.closure(pins) do
+      {:ok, packages} ->
+        Map.put(hook, "npm", packages)
+
+      {:error, reason} ->
+        raise "the npm packages of #{hook["name"]} cannot be resolved: #{reason}"
+    end
+  end
+
+  defp put_modules(hook, []), do: hook
+
+  defp put_modules(hook, user_files) do
+    Map.put(
+      hook,
+      "modules",
+      Enum.map(user_files, fn item ->
+        file = item[:file] || item["file"]
+        %{"file" => file, "content" => File.read!(Core.lib_priv("assets/js/#{file}"))}
+      end)
+    )
   end
 
   defp stringify_script_field(s, key) do
@@ -562,6 +607,41 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
             end)
         end
       end)
+      |> rewrite_hook_defaults(hook_renames)
+    end)
+  end
+
+  # `phx-hook={@hook}` NAMES ITS HOOK THROUGH AN ATTRIBUTE, and the text above has no hook name in it
+  # to rewrite — the name is the attribute's default, `"Chart"`. Left alone, the headless chart and
+  # editor mounted a hook the runtime registers as `GlobalChelekomHeadlessChart` under its bare
+  # name and never ran. The default of every attribute a template hands to `phx-hook` is rewritten
+  # the way a literal `phx-hook="Chart"` is.
+  defp rewrite_hook_defaults(component, hook_renames) do
+    templates =
+      [
+        component["template"]
+        | Enum.map(get_in(component, ["extra", "clauses"]) || [], & &1["template"])
+      ]
+
+    hook_attrs =
+      for template <- templates,
+          is_binary(template),
+          [_match, attr] <- Regex.scan(~r/phx-hook=\{@(\w+)\}/, template),
+          into: MapSet.new(),
+          do: attr
+
+    renames = Map.new(hook_renames)
+
+    Map.update(component, "attrs", component["attrs"], fn attrs ->
+      Enum.map(attrs || [], fn attr ->
+        with true <- MapSet.member?(hook_attrs, attr["name"]),
+             default when is_binary(default) <- get_in(attr, ["opts", "default"]),
+             {:ok, live_key} <- Map.fetch(renames, default) do
+          put_in(attr, ["opts", "default"], live_key)
+        else
+          _not_a_hook_default -> attr
+        end
+      end)
     end)
   end
 
@@ -579,8 +659,19 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
   # The mirror of `MishkaCmsCore.Runtime.Compilers.JavaScriptCompiler.format_hook_name/2` for a
   # site-less row: kebab split, each part capitalised, joined, `Global` in front. Every bundle row
   # ships `site_id: nil`, so that is the only branch this needs.
+  #
+  # OF THE NAME AS THE CMS STORES IT. Its JsHook slugifies the name on the way in, so
+  # `chelekom_headless-chart` is registered as `GlobalChelekomHeadlessChart`; splitting the bundle's
+  # spelling made `GlobalChelekom_headlessChart`, and every headless component named a hook nothing
+  # registers.
   defp live_hook_key(name) when is_binary(name) do
-    "Global" <> (name |> String.split("-") |> Enum.map_join("", &String.capitalize/1))
+    "Global" <>
+      (name
+       |> String.downcase()
+       |> String.replace(~r/[^a-z0-9]+/, "-")
+       |> String.trim("-")
+       |> String.split("-")
+       |> Enum.map_join("", &String.capitalize/1))
   end
 
   # Read Chelekom's two-file theme (CSS variables on :root + the @theme
