@@ -41,6 +41,22 @@ defmodule MishkaChelekom.ConfigTest do
       assert css =~ "--primary-light: #123456;"
       assert css =~ "--danger-dark: #654321;"
     end
+
+    test "an override that is not a CSS value stops the generation and names it" do
+      for value <- ["", "red; } body { color: blue"] do
+        igniter =
+          project_with_config("""
+          import Config
+
+          config :mishka_chelekom,
+            css_overrides: %{primary_light: #{inspect(value)}}
+          """)
+
+        assert_raise ArgumentError, ~r/css_overrides: primary_light: .* --primary-light/, fn ->
+          Config.generate_css_content(igniter)
+        end
+      end
+    end
   end
 
   describe "generate_css_content/1 (replace strategy)" do

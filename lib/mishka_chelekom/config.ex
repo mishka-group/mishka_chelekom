@@ -158,13 +158,19 @@ defmodule MishkaChelekom.Config do
     end
   end
 
+  # An override that is not a CSS value stops the generation and says which one, rather than
+  # leaving the default in place without a word.
   defp apply_css_overrides(css_content, overrides) do
     Enum.reduce(overrides, css_content, fn {key, value}, acc ->
       css_var = "--#{String.replace(to_string(key), "_", "-")}"
 
       case IgniterCss.set_declaration(acc, ":root", css_var, to_string(value), create_rule: true) do
-        {:ok, %IgniterCss.Outcome{source: updated}} -> updated
-        {:error, _reason} -> acc
+        {:ok, %IgniterCss.Outcome{source: updated}} ->
+          updated
+
+        {:error, reason} ->
+          raise ArgumentError,
+                "css_overrides: #{key}: #{inspect(value)} cannot be set as #{css_var}: #{reason}"
       end
     end)
   end
