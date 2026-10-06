@@ -59,6 +59,30 @@ defmodule MishkaChelekom.ConfigTest do
     end
   end
 
+  describe "default_variables/0" do
+    test "is every :root variable of the stylesheet, at its default, in its order" do
+      variables = Config.default_variables()
+
+      css =
+        File.read!(Path.join(:code.priv_dir(:mishka_chelekom), "assets/css/mishka_chelekom.css"))
+
+      assert {:ok, ^variables} = IgniterCss.get_rule_declarations(css, ":root")
+      assert {"--primary-light", "#007f8c"} in variables
+      assert {"--opacity-base", "10"} in variables
+      assert Enum.all?(variables, fn {name, _} -> String.starts_with?(name, "--") end)
+    end
+
+    test "the sample config lists every one of them, commented out at its default" do
+      {_igniter, _path, sample} = Config.create_sample_config(test_project_with_formatter())
+      sample = String.downcase(sample)
+
+      for {"--" <> name, default} <- Config.default_variables() do
+        line = String.downcase(~s|# #{String.replace(name, "-", "_")}: "#{default}"|)
+        assert sample =~ line, "the sample config does not list #{line}"
+      end
+    end
+  end
+
   describe "generate_css_content/1 (replace strategy)" do
     test "replaces the whole stylesheet with a custom file when configured" do
       custom_path =

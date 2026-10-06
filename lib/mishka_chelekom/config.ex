@@ -176,6 +176,16 @@ defmodule MishkaChelekom.Config do
   end
 
   @doc """
+  The CSS variables of Chelekom's own stylesheet — the ones `css_overrides` sets — with their
+  defaults, in the order the stylesheet declares them on `:root`.
+  """
+  @spec default_variables() :: [{String.t(), String.t()}]
+  def default_variables do
+    {:ok, declarations} = IgniterCss.get_rule_declarations(read_default_css(), ":root")
+    declarations
+  end
+
+  @doc """
   Creates a sample configuration file for users.
   """
   def create_sample_config(igniter) do
@@ -515,7 +525,11 @@ defmodule MishkaChelekom.Config do
         # stepper_canceled_step_border_light: "#fa5252",
         # stepper_canceled_step_border_dark: "#e03131",
         # stepper_separator_completed_border_light: "#14b8a6",
-        # stepper_separator_completed_border_dark: "#099268"
+        # stepper_separator_completed_border_dark: "#099268",
+
+        # === Opacity ===
+        # opacity_base: "10",
+        # overlay_opacity: "100%"
       },
 
       # Strategy for handling CSS
