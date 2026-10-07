@@ -103,7 +103,7 @@ defmodule DevelopmentWeb.Showcase.Meta do
     "checkbox" => "Accessible checkbox supporting checked and indeterminate state.",
     "chip" => "Selectable pill backed by a native checkbox or radio input.",
     "chart" =>
-      "Declarative wrapper over a JS charting engine — ECharts by default, or Chart.js / billboard.js via --engine; the option is a plain map.",
+      "Declarative wrapper over a JS charting engine — ECharts by default, or Chart.js / billboard.js via --lib chartjs / --lib billboard; the option is a plain map.",
     "close_button" => "Icon-only button with a required accessible label, for dismissing UI.",
     "code" => "Inline or block code, semantics only.",
     "collapsible" => "A single trigger/panel pair that expands and collapses.",
