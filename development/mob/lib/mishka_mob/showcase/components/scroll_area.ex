@@ -2,7 +2,7 @@ defmodule MishkaMob.Showcase.Components.ScrollArea do
   @moduledoc """
   Gallery entry for `MishkaMob.Components.MishkaScrollArea`.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
 

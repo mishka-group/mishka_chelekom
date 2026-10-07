@@ -203,9 +203,9 @@ defmodule MishkaMob.Components.MishkaTooltipTest do
     test "the trigger is the anchor and the bubble is the panel, in that order always" do
       node = anchored(MishkaTooltip.tooltip(%{text: "Copy", open: true, id: "tip"}, [control()]))
 
-      assert length(node.children) == 2
-      assert hd(node.children).props.id == "tip-trigger"
-      assert text(List.last(node.children)) =~ "Copy"
+      assert [trigger, bubble] = node.children
+      assert trigger.props.id == "tip-trigger"
+      assert text(bubble) =~ "Copy"
     end
 
     test "side rides on the anchored node, for every side" do
@@ -268,8 +268,8 @@ defmodule MishkaMob.Components.MishkaTooltipTest do
     test "a closed tooltip anchors nothing but still holds its trigger" do
       node = anchored(MishkaTooltip.tooltip(%{text: "x", open: false, id: "tip"}, [control()]))
 
-      assert length(node.children) == 1
-      assert hd(node.children).props.id == "tip-trigger"
+      assert [trigger] = node.children
+      assert trigger.props.id == "tip-trigger"
     end
   end
 
@@ -288,7 +288,7 @@ defmodule MishkaMob.Components.MishkaTooltipTest do
       assert op.fill == true
       assert op.closed == true
       assert op.color == 0xFF7C3AED
-      assert length(op.points) == 3
+      assert [_, _, _] = op.points
     end
 
     test "points back at the trigger on every side" do

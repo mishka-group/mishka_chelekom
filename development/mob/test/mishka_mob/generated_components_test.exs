@@ -39,6 +39,12 @@ defmodule MishkaMob.GeneratedComponentsTest do
 
   import ExUnit.CaptureIO
 
+  alias Generated.Live.{Chip, CloseButton, Color, NumberFormatter, Switch, Tree}
+  alias Generated.Live.Toast.Queue
+
+  # The library checkout's own catalog, not this app's priv: `mishka_chelekom` is
+  # not a dependency here, so there is no application for `Application.app_dir/2`.
+  # credo:disable-for-next-line ExSlop.Check.Warning.PathExpandPriv
   @priv Path.expand("../../../../priv/mob", __DIR__)
 
   setup_all do
@@ -250,13 +256,13 @@ defmodule MishkaMob.GeneratedComponentsTest do
     test "handlers are widened, so a generated component's taps actually fire" do
       # The single easiest thing to break: a bare tag serialises as an ordinary
       # prop and the control renders perfectly and does nothing.
-      node = Generated.Live.Chip.chip(label: "Elixir", on_toggle: :pick)
+      node = Chip.chip(label: "Elixir", on_toggle: :pick)
 
       assert node.props.on_tap == {self(), :pick}
     end
 
     test "a component that composes a sibling produces the sibling's markup" do
-      generated = Generated.Live.CloseButton.close_button(on_tap: :dismiss)
+      generated = CloseButton.close_button(on_tap: :dismiss)
       shipped = MishkaMob.Components.MishkaCloseButton.close_button(on_tap: :dismiss)
 
       assert generated == shipped
@@ -264,13 +270,13 @@ defmodule MishkaMob.GeneratedComponentsTest do
     end
 
     test "pure helpers survive generation intact" do
-      assert Generated.Live.Color.parse("#3b82f6") == {:ok, {59, 130, 246}}
-      assert Generated.Live.NumberFormatter.format(1_234_567) == "1,234,567"
-      assert Generated.Live.Tree.toggle_expand("a", []) == ["a"]
+      assert Color.parse("#3b82f6") == {:ok, {59, 130, 246}}
+      assert NumberFormatter.format(1_234_567) == "1,234,567"
+      assert Tree.toggle_expand("a", []) == ["a"]
       # The drawn switch's thumb arithmetic is public API, and the one piece of
       # geometry a caller is invited to reuse at a call site.
-      assert Generated.Live.Switch.thumb_offset(true, 46, 22, 3) == 9.0
-      assert Generated.Live.Switch.thumb_offset(false, 46, 22, 3) == -9.0
+      assert Switch.thumb_offset(true, 46, 22, 3) == 9.0
+      assert Switch.thumb_offset(false, 46, 22, 3) == -9.0
     end
 
     test "a component with real props renders the same as the shipped one" do
@@ -592,8 +598,8 @@ defmodule MishkaMob.GeneratedComponentsTest do
     test "the toast template carries its nested Queue module" do
       # Queue lives in its own file in this app; a generator writes one file per
       # component, so it has to travel inside the toast template.
-      assert Code.ensure_loaded?(Generated.Live.Toast.Queue)
-      assert Generated.Live.Toast.Queue.push([], %{id: 1}) == [%{id: 1}]
+      assert Code.ensure_loaded?(Queue)
+      assert Queue.push([], %{id: 1}) == [%{id: 1}]
     end
   end
 end

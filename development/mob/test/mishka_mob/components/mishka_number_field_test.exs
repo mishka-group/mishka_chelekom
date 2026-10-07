@@ -164,7 +164,7 @@ defmodule MishkaMob.Components.MishkaNumberFieldTest do
       tree = NF.number_field(value: 999, on_step: :bump)
       taps = tree |> find_all(:box) |> Enum.map(& &1.props[:on_tap]) |> Enum.reject(&is_nil/1)
 
-      assert length(taps) == 2
+      assert [_, _] = taps
     end
 
     test "picks the numeric keypad for whole steps and decimal otherwise" do

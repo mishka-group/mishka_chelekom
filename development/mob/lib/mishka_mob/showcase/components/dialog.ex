@@ -8,7 +8,7 @@ defmodule MishkaMob.Showcase.Components.Dialog do
   shared dialog wearing whichever props opened it would leave a device test
   unable to say which example it had touched.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
 

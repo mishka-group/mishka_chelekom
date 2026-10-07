@@ -3,7 +3,7 @@ defmodule MishkaMob.Showcase.Components.Autocomplete do
   Gallery entry for `MishkaMob.Components.MishkaAutocomplete` and
   `MishkaMob.Components.MishkaPillsInput`.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
   import MishkaMob.Components.MishkaPill, only: [pill: 1]

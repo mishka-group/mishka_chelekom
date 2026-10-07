@@ -16,7 +16,7 @@ defmodule MishkaMob.Showcase.Components.AlertDialog do
   by whichever example happened to print the words. Only a tag says which
   dialog is up.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
 

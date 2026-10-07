@@ -65,7 +65,7 @@ defmodule MishkaMob.Components.MishkaTabsTest do
       tree = MishkaTabs.tabs(%{}, [MishkaTabs.tab(:a, "Only", [])])
 
       # just the strip
-      assert length(tree.children) == 1
+      assert [_] = tree.children
     end
   end
 
@@ -73,7 +73,7 @@ defmodule MishkaMob.Components.MishkaTabsTest do
     test "one trigger per tab, separated by the space gap" do
       tree = build()
 
-      assert length(triggers(tree)) == 3
+      assert [_, _, _] = triggers(tree)
       spacers = Enum.filter(strip(tree).children, &(&1.type == :spacer))
       assert Enum.all?(spacers, &(&1.props.size == 18))
 
@@ -140,7 +140,7 @@ defmodule MishkaMob.Components.MishkaTabsTest do
       stray = %{type: :text, props: %{text: "stray"}, children: []}
       tree = MishkaTabs.expand(%{on_change: :pick}, three() ++ [stray], %{screen: self()})
 
-      assert length(triggers(tree)) == 3
+      assert [_, _, _] = triggers(tree)
       refute text(tree) =~ "stray"
     end
   end
@@ -175,8 +175,7 @@ defmodule MishkaMob.Components.MishkaTabsTest do
       many = for i <- 1..9, do: MishkaTabs.tab(:"t#{i}", "Tab #{i}", panel("body #{i}"))
       tree = MishkaTabs.tabs(%{on_change: :pick}, many)
 
-      assert length(Enum.filter(hd(hd(tree.children).children).children, &(&1.type == :column))) ==
-               9
+      assert Enum.map(triggers(tree), &text/1) == Enum.map(1..9, &"Tab #{&1}")
     end
   end
 

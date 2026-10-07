@@ -3,7 +3,7 @@ defmodule MishkaMob.Showcase.Components.PreviewCard do
   Gallery entry for `MishkaMob.Components.MishkaPreviewCard` and
   `MishkaMob.Components.MishkaScroller`.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
 

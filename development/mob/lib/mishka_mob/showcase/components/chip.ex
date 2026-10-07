@@ -6,7 +6,7 @@ defmodule MishkaMob.Showcase.Components.Chip do
   example toggles membership (checkbox chips), the second replaces the selection
   (radio chips). The difference lives in the handler, not the chip.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
   import MishkaMob.Components.MishkaChip, only: [chip: 1]

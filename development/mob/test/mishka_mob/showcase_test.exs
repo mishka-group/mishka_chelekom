@@ -4,7 +4,11 @@ defmodule MishkaMob.ShowcaseTest do
 
   alias MishkaMob.Components.MishkaMark
   alias MishkaMob.Showcase
-  alias MishkaMob.Showcase.{ComponentScreen, GalleryScreen}
+  alias MishkaMob.Showcase.Components.{ActionIcon, Drawer}
+  alias MishkaMob.Showcase.{ComponentScreen, GalleryScreen, Kit}
+
+  # The Pill page's tokens, in the order it mounts them.
+  @pill_tokens for i <- 0..9, do: :"item_#{i}"
 
   setup do
     # Exactly what the app registers at boot — one catalog, no drift.
@@ -43,7 +47,7 @@ defmodule MishkaMob.ShowcaseTest do
       assert entry.slug == :drawer
       assert entry.name == "Drawer"
       assert entry.category == "Overlays"
-      assert entry.module == MishkaMob.Showcase.Components.Drawer
+      assert entry.module == Drawer
     end
 
     test "the gallery has exactly these categories, and no near-duplicates" do
@@ -227,7 +231,7 @@ defmodule MishkaMob.ShowcaseTest do
     # and mostly empty box. The flexible part must carry the weight instead.
     test "BOTH columns are weighted, so neither can starve the other" do
       [box] =
-        MishkaMob.Showcase.Kit.props_table([
+        Kit.props_table([
           %{name: "a", type: "b", default: "c", description: "d"}
         ]).children
 
@@ -261,7 +265,7 @@ defmodule MishkaMob.ShowcaseTest do
 
     test "every registered component's props table renders" do
       for entry <- Showcase.all(), props = entry.module.props(), props != [] do
-        assert_renderable(MishkaMob.Showcase.Kit.props_table(props))
+        assert_renderable(Kit.props_table(props))
       end
     end
 
@@ -319,7 +323,7 @@ defmodule MishkaMob.ShowcaseTest do
       # A Material Button centres its label; a tappable Box lets the row lay the
       # icon + label out from the leading edge.
       refute Enum.any?(children, &(&1.type == :button))
-      assert length(rows) == 3
+      assert [_, _, _] = rows
       assert Enum.all?(rows, &(&1.props[:on_tap] != nil))
       assert Enum.all?(rows, &(&1.props[:fill_width] == true))
     end
@@ -362,8 +366,8 @@ defmodule MishkaMob.ShowcaseTest do
     end
 
     test "declares a props reference that the ComponentScreen renders" do
-      props = MishkaMob.Showcase.Components.Drawer.props()
-      assert length(props) >= 8
+      props = Drawer.props()
+      assert Enum.count_until(props, 8) == 8
       assert Enum.all?(props, &is_binary(&1.name))
       assert Enum.any?(props, &(&1.name == "side"))
 
@@ -382,7 +386,7 @@ defmodule MishkaMob.ShowcaseTest do
     end
 
     test "the drawer ships a bespoke card face (not the generic skeleton)" do
-      preview = MishkaMob.Showcase.Components.Drawer.card_preview()
+      preview = Drawer.card_preview()
       assert preview.type == :column
       # the mini drawer's side panel is a fixed-width box
       assert find(preview, :box, width: 66)
@@ -486,7 +490,6 @@ defmodule MishkaMob.ShowcaseTest do
         expanded(view) |> find_all(:toggle) |> Enum.reject(&Map.has_key?(&1.props, :on_change))
 
       # the two "Locked" switches, and they keep their rendered state
-      assert length(disabled) == 2
       assert Enum.map(disabled, & &1.props.value) == [true, false]
     end
 
@@ -512,7 +515,7 @@ defmodule MishkaMob.ShowcaseTest do
         |> find_all(:box)
         |> Enum.filter(&(&1.props[:corner_radius] == :radius_pill))
 
-      assert length(pills) > 10
+      assert Enum.count_until(pills, 11) == 11
       assert Enum.all?(pills, &(&1.props[:fill_width] == false))
     end
 
@@ -521,7 +524,7 @@ defmodule MishkaMob.ShowcaseTest do
 
       # Ten tokens chunked three to a row — the wrap is declared, because Mob
       # reports no geometry back and nothing can ask how many fit.
-      assert length(assigns(view).pill_tokens) == 10
+      assert assigns(view).pill_tokens == @pill_tokens
       assert text(expanded(view)) =~ "Item 0"
       assert text(expanded(view)) =~ "Item 9"
 
@@ -535,7 +538,7 @@ defmodule MishkaMob.ShowcaseTest do
         |> render_info({:tap, {:token_drop, :item_3}})
 
       refute :item_3 in assigns(view).pill_tokens
-      assert length(assigns(view).pill_tokens) == 9
+      assert assigns(view).pill_tokens == List.delete(@pill_tokens, :item_3)
       refute text(expanded(view)) =~ "Item 3"
       assert text(expanded(view)) =~ "Item 4"
 
@@ -561,7 +564,7 @@ defmodule MishkaMob.ShowcaseTest do
         |> render_info({:tap, {:token_drop, :item_0}})
         |> render_info({:tap, :token_reset})
 
-      assert length(assigns(view).pill_tokens) == 10
+      assert assigns(view).pill_tokens == @pill_tokens
       assert text(expanded(view)) =~ "Item 0"
     end
 
@@ -582,9 +585,10 @@ defmodule MishkaMob.ShowcaseTest do
       lit =
         expanded(view)
         |> find_all(:box)
-        |> Enum.filter(&(&1.props[:corner_radius] == :radius_pill))
-        |> Enum.filter(&Enum.any?(~w(React Elixir Swift), fn l -> text(&1) =~ l end))
-        |> Enum.filter(&(&1.props[:background] == :primary))
+        |> Enum.filter(fn box ->
+          box.props[:corner_radius] == :radius_pill and box.props[:background] == :primary and
+            Enum.any?(~w(React Elixir Swift), &(text(box) =~ &1))
+        end)
 
       assert [elixir] = lit
       assert text(elixir) =~ "Elixir"
@@ -681,7 +685,7 @@ defmodule MishkaMob.ShowcaseTest do
       # A sample that stops at on_tap={:menu} leaves the reader with a button
       # that renders and does nothing, and no clue where the event goes. This is
       # the gap the OTP and colour pages were fixed for.
-      for example <- MishkaMob.Showcase.Components.ActionIcon.examples() do
+      for example <- ActionIcon.examples() do
         if example.code =~ "on_tap={:" and not (example.code =~ "disabled={true}") do
           assert example.code =~ "handle_info",
                  "#{example.title}: sets on_tap but shows no handler"
@@ -795,10 +799,9 @@ defmodule MishkaMob.ShowcaseTest do
         page
         |> find_all(:box)
         |> Enum.map(& &1.props[:on_tap])
-        |> Enum.reject(&is_nil/1)
-        |> Enum.reject(&match?({_pid, {:set_theme, _}}, &1))
+        |> Enum.reject(&(is_nil(&1) or match?({_pid, {:set_theme, _}}, &1)))
 
-      assert length(taps) == 5
+      assert [_, _, _, _, _] = taps
       assert Enum.all?(taps, &match?({_pid, {:sw_pick, _}}, &1))
     end
 
@@ -864,8 +867,7 @@ defmodule MishkaMob.ShowcaseTest do
         |> expanded()
         |> find_all(:box)
         |> Enum.map(& &1.props[:on_tap])
-        |> Enum.reject(&is_nil/1)
-        |> Enum.reject(&match?({_pid, {:set_theme, _}}, &1))
+        |> Enum.reject(&(is_nil(&1) or match?({_pid, {:set_theme, _}}, &1)))
 
       assert taps == []
     end
@@ -922,7 +924,7 @@ defmodule MishkaMob.ShowcaseTest do
       refute empty?.(filled)
 
       imported = render_info(filled, {:tap, :es_import})
-      assert length(assigns(imported).es_projects) == 3
+      assert assigns(imported).es_projects == ["Imported A", "Imported B", "Untitled 1"]
 
       cleared = render_info(imported, {:tap, :es_reset})
       assert assigns(cleared).es_projects == []

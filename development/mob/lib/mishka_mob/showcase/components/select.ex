@@ -2,7 +2,7 @@ defmodule MishkaMob.Showcase.Components.Select do
   @moduledoc """
   Gallery entry for `MishkaMob.Components.MishkaSelect`.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
   import MishkaMob.Components.MishkaSelect, only: [option: 2]

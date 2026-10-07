@@ -145,7 +145,7 @@ defmodule MishkaMob.Components.MishkaAutocompleteTest do
       # counts Text children and these pills deliberately have none.
       blank = for _ <- 1..5, do: %{type: :box, props: %{}, children: []}
 
-      assert length(MishkaPillsInput.pack(blank, 34)) > 1
+      assert [_, _ | _] = MishkaPillsInput.pack(blank, 34)
     end
 
     test "per_row still takes over when a caller sets it, for uniform pills" do

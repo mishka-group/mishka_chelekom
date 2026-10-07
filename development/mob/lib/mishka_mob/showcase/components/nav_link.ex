@@ -5,7 +5,7 @@ defmodule MishkaMob.Showcase.Components.NavLink do
   `MishkaMob.Components.MishkaNavigationMenu` and
   `MishkaMob.Components.MishkaVisuallyHidden`.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
 

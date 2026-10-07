@@ -76,7 +76,7 @@ defmodule MishkaMob.Components.MishkaAccordionTest do
       tree = expand()
 
       assert tree.type == :column
-      assert length(item_boxes(tree)) == 3
+      assert [_, _, _] = item_boxes(tree)
       assert_renderable(tree)
     end
 
@@ -84,7 +84,7 @@ defmodule MishkaMob.Components.MishkaAccordionTest do
       stray = %{type: :text, props: %{text: "stray"}, children: []}
       tree = expand(p(), [item(:a, "First"), stray])
 
-      assert length(item_boxes(tree)) == 1
+      assert [_] = item_boxes(tree)
       refute text(tree) =~ "stray"
     end
 

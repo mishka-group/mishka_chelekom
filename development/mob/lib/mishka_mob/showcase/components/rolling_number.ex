@@ -6,7 +6,7 @@ defmodule MishkaMob.Showcase.Components.RollingNumber do
   the sequence on a timer. That round trip is the component's whole story, so the
   page drives it rather than describing it.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
 

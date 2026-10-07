@@ -7,7 +7,7 @@ defmodule MishkaMob.Showcase.Components.Toolbar do
   between two bars makes every device assertion ambiguous the moment the second
   one renders the same label — and this page renders nine bars.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
   import MishkaMob.Components.MishkaToggle, only: [toggle: 1]

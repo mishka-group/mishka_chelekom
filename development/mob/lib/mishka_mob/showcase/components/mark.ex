@@ -2,7 +2,7 @@ defmodule MishkaMob.Showcase.Components.Mark do
   @moduledoc """
   Gallery entry for `MishkaMob.Components.MishkaMark`.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
 

@@ -44,7 +44,7 @@ not apply. The web showcase (`../web`) keeps it.
   `MishkaMob.App.on_start/0` — don't ship native Swift/Kotlin unless a widget
   genuinely needs it.
 - A new showcase component is **one module** implementing
-  `MishkaMob.Showcase.Component` + **one `register/1` line** — never a new screen.
+  `use MishkaMob.Showcase.Page` + **one `register/1` line** — never a new screen.
 - `weight` shares the parent's MAIN axis (width in a Row, height in a Column);
   a standalone full-width button uses `fill_width`, not `weight`. A Compose
   `Box` wraps its content (an iOS Box fills width) — full-width sheets are a

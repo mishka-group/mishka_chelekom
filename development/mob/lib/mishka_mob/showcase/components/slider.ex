@@ -5,7 +5,7 @@ defmodule MishkaMob.Showcase.Components.Slider do
   The stepped example is the interesting one: it shows `snap/2` doing in the
   screen what the native widget cannot do in the track.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
 

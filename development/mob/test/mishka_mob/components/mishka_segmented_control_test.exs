@@ -54,7 +54,7 @@ defmodule MishkaMob.Components.MishkaSegmentedControlTest do
 
       assert track(tree).props.background == :surface_raised
       assert track(tree).props.corner_radius == :radius_md
-      assert length(segments(tree)) == 3
+      assert [_, _, _] = segments(tree)
     end
 
     test "unselected segments are transparent so the track shows through" do
@@ -179,7 +179,7 @@ defmodule MishkaMob.Components.MishkaSegmentedControlTest do
     tree = SC.expand(%{value: :day}, opts() ++ [stray], %{screen: self()})
 
     refute text(tree) =~ "stray"
-    assert length(segments(tree)) == 3
+    assert [_, _, _] = segments(tree)
   end
 
   describe "slots" do
@@ -227,7 +227,7 @@ defmodule MishkaMob.Components.MishkaSegmentedControlTest do
       # has no else branch and simply draws nothing. Only an explicit check
       # catches a marker the expander forgot to consume.
       assert find_all(tree, :mishka_segmented_control_option) == []
-      assert length(segments(tree)) == 3
+      assert [_, _, _] = segments(tree)
     end
   end
 

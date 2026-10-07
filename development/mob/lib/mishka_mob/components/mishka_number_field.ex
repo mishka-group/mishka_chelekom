@@ -91,15 +91,13 @@ defmodule MishkaMob.Components.MishkaNumberField do
   def parse(text, opts) when is_binary(text) do
     trimmed = String.trim(text)
 
-    cond do
-      trimmed in ["", "-", "+", ".", "-.", "+."] ->
-        nil
-
-      true ->
-        case Float.parse(trimmed) do
-          {float, ""} -> clamp(maybe_integer(float, trimmed), opts)
-          _ -> nil
-        end
+    if trimmed in ["", "-", "+", ".", "-.", "+."] do
+      nil
+    else
+      case Float.parse(trimmed) do
+        {float, ""} -> clamp(maybe_integer(float, trimmed), opts)
+        _ -> nil
+      end
     end
   end
 
@@ -389,9 +387,15 @@ defmodule MishkaMob.Components.MishkaNumberField do
 
   defp clamp(value, opts) do
     value
-    |> then(fn v -> if (min = Keyword.get(opts, :min)) && v < min, do: min, else: v end)
-    |> then(fn v -> if (max = Keyword.get(opts, :max)) && v > max, do: max, else: v end)
+    |> at_least(Keyword.get(opts, :min))
+    |> at_most(Keyword.get(opts, :max))
   end
+
+  defp at_least(value, min) when is_number(min) and value < min, do: min
+  defp at_least(value, _min), do: value
+
+  defp at_most(value, max) when is_number(max) and value > max, do: max
+  defp at_most(value, _max), do: value
 
   # Keep integers integral: "42" should not become 42.0.
   defp maybe_integer(float, text) do

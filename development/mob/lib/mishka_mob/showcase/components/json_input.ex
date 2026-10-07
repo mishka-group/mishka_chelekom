@@ -3,7 +3,7 @@ defmodule MishkaMob.Showcase.Components.JsonInput do
   Gallery entry for `MishkaMob.Components.MishkaJsonInput` and
   `MishkaMob.Components.MishkaNumberFormatter`.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
 

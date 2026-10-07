@@ -1,6 +1,6 @@
 defmodule MishkaMob.Showcase.Components.ColorInput do
   @moduledoc "Gallery entry for `MishkaMob.Components.MishkaColorInput`."
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
 

@@ -60,7 +60,7 @@ defmodule MishkaMob.Components.MishkaScrollerTest do
     test "with no handler an arrow still renders, but nothing can fire it" do
       bare = MishkaScroller.scroller(%{id: "g"}, []) |> arrows()
 
-      assert length(bare) == 2
+      assert [_, _] = bare
       assert Enum.all?(bare, &(not Map.has_key?(&1.props, :on_tap)))
 
       # It still says which way it points — an invisible control would be worse
@@ -82,12 +82,12 @@ defmodule MishkaMob.Components.MishkaScrollerTest do
     end
 
     test "only accepts a real direction" do
-      # Through apply/3 on purpose. The point of the test is to pass a direction
-      # the guard rejects, and Elixir 1.20's type checker reads the literal
-      # against the `:next | :prev` spec and warns at compile time — a warning
-      # about the test doing exactly what it is there to do.
-      assert_raise FunctionClauseError, fn ->
-        apply(MishkaScroller, :nudge, ["gallery", :sideways])
+      # The rejected directions arrive through the generator, not as literal
+      # arguments: Elixir 1.20's type checker reads a literal against the
+      # `:next | :prev` guard and warns at compile time — a warning about the
+      # test doing exactly what it is there to do.
+      for direction <- [:sideways, "next", nil] do
+        assert_raise FunctionClauseError, fn -> MishkaScroller.nudge("gallery", direction) end
       end
     end
   end

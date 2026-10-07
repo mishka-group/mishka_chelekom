@@ -19,7 +19,7 @@ defmodule MishkaMob.Showcase.Components.Tree do
   and `toggle_expand/3` all take the node list — and the async example builds
   its nodes from a flag, which is not something markup can do.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
 

@@ -6,12 +6,12 @@ defmodule MishkaMob.Showcase.Components.OverflowList do
   cannot measure, so `visible` is declared — which makes the *counter* the
   interesting surface here, not the layout.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
   import MishkaMob.Components.MishkaPill, only: [pill: 1]
 
-  alias MishkaMob.Components.MishkaOverflowList
+  alias MishkaMob.Components.{Event, MishkaOverflowList}
   alias MishkaMob.Showcase.Example
 
   @tags ~w(Design Phoenix Elixir LiveView Tailwind Headless Accessibility)
@@ -246,7 +246,7 @@ defmodule MishkaMob.Showcase.Components.OverflowList do
         width: @surface_width,
         height: @rail_height,
         id: "rail-handle",
-        on_drag: MishkaMob.Components.Event.handler(:width),
+        on_drag: Event.handler(:width),
         draw: [
           # Drawn just OUTSIDE the box, not straddling its edge: at width - 3 it
           # sat on top of the "+N" counter, which lives hard against that edge.
@@ -337,9 +337,9 @@ defmodule MishkaMob.Showcase.Components.OverflowList do
   # badge would snap the width to the finger.
   @impl true
   def handle_change(:width, payload, socket) do
-    x = (payload[:x] || payload["x"] || 0) * 1.0
+    %{phase: phase, x: x} = Event.drag(payload)
 
-    case {phase(payload), socket.assigns.grab} do
+    case {phase, socket.assigns.grab} do
       {:began, _} ->
         # Anything AT or RIGHT OF the box's edge grabs the handle; a touch well
         # inside the box is a touch on a badge and is ignored.
@@ -363,14 +363,6 @@ defmodule MishkaMob.Showcase.Components.OverflowList do
   end
 
   def handle_change(_tag, _value, socket), do: socket
-
-  defp phase(payload) do
-    case payload[:phase] || payload["phase"] do
-      p when p in [:began, "began"] -> :began
-      p when p in [:ended, "ended"] -> :ended
-      _ -> :dragging
-    end
-  end
 
   defp clamp_width(width), do: width |> max(@min_width) |> min(@max_width)
 

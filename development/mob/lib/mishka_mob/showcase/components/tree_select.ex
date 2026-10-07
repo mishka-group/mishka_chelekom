@@ -5,7 +5,7 @@ defmodule MishkaMob.Showcase.Components.TreeSelect do
   Every example carries its own `id` and its own assigns, so a device test can
   say which trigger it tapped and which panel answered.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
 

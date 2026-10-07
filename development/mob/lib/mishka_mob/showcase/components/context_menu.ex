@@ -2,7 +2,7 @@ defmodule MishkaMob.Showcase.Components.ContextMenu do
   @moduledoc """
   Gallery entry for `MishkaMob.Components.MishkaContextMenu`.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
   import MishkaMob.Components.MishkaMenu, only: [item: 3, separator: 0]

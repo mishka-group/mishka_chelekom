@@ -5,7 +5,7 @@ defmodule MishkaMob.Showcase.Components.Collapsible do
   Each example drives its own boolean, so the difference from the Accordion is
   visible: nothing here coordinates with anything else.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
 

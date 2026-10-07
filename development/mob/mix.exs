@@ -18,6 +18,12 @@ defmodule MishkaMob.MixProject do
     [extra_applications: [:logger]]
   end
 
+  # `mix test` refuses to run inside an alias started in :dev, so the whole gate
+  # runs in :test — the env CI tests in.
+  def cli do
+    [preferred_envs: [precommit: :test]]
+  end
+
   defp deps do
     [
       {:mob, "~> 0.9"},
@@ -64,7 +70,10 @@ defmodule MishkaMob.MixProject do
         "deps.unlock --check-unused",
         "format --check-formatted",
         "deps.audit",
-        "hex.audit",
+        # Hex's own tasks live in an archive that is not on the code path once an alias is
+        # already running, so an inline "hex.audit" aborts the gate with "task could not be
+        # found". A nested `mix` resolves it the same way the shell does.
+        "cmd mix hex.audit",
         "credo --strict",
         "xref graph --label compile-connected --fail-above 0",
         "test --warnings-as-errors"

@@ -3,7 +3,7 @@ defmodule MishkaMob.Showcase.Components.FloatingWindow do
   Gallery entry for `MishkaMob.Components.MishkaFloatingWindow` and
   `MishkaMob.Components.MishkaFloatingIndicator`.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
 

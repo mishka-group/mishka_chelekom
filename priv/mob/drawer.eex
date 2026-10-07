@@ -452,9 +452,10 @@ defmodule <%= @module %> do
           {%{open?: boolean(), snap: number() | nil}, map() | nil}
   def swipe(payload, grab, props \\ %{}) do
     props = Map.new(props)
-    at = coordinate(payload, axis(props))
+    gesture = Event.drag(payload)
+    at = Map.fetch!(gesture, axis(props))
 
-    case phase(payload) do
+    case gesture.phase do
       :began -> {state(props), %{at: at, snap: active_snap(props)}}
       :dragging -> {state(props), grab}
       :ended -> {settle(at, grab, props), nil}
@@ -957,26 +958,6 @@ defmodule <%= @module %> do
     else
       nearest
     end
-  end
-
-  # The NIF sends `phase` as an ATOM (:began / :dragging / :ended). Comparing it
-  # against "began" matches nothing and falls through to the :dragging default,
-  # so the anchor is never set and every gesture returns the state unchanged —
-  # the drawer looks completely dead while the arithmetic is fine. Strings are
-  # accepted too, because a payload that has crossed a wire may be either.
-  defp phase(payload) do
-    case payload[:phase] || payload["phase"] do
-      p when p in [:began, "began"] -> :began
-      p when p in [:ended, "ended"] -> :ended
-      _ -> :dragging
-    end
-  end
-
-  # Read x/y only, never dx/dy: on iOS those are cumulative translation and on
-  # Android per-sample deltas, so anything built on them behaves differently on
-  # each platform.
-  defp coordinate(payload, axis) do
-    (payload[axis] || payload[to_string(axis)] || 0) * 1.0
   end
 
   defp axis(props) do

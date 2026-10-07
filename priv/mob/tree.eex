@@ -465,13 +465,13 @@ defmodule <%= @module %> do
       ["a", "c"]
   """
   @spec expanded_values([map()]) :: [term()]
-  def expanded_values(nodes) do
-    Enum.flat_map(List.wrap(nodes), fn node ->
-      case children(node) do
-        [] -> if truthy?(Map.get(node, :has_children, false)), do: [node.value], else: []
-        kids -> [node.value | expanded_values(kids)]
-      end
-    end)
+  def expanded_values(nodes), do: Enum.flat_map(List.wrap(nodes), &branch_values/1)
+
+  defp branch_values(node) do
+    case children(node) do
+      [] -> if truthy?(Map.get(node, :has_children, false)), do: [node.value], else: []
+      kids -> [node.value | expanded_values(kids)]
+    end
   end
 
   @doc """

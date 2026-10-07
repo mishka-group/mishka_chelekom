@@ -4,7 +4,7 @@ defmodule MishkaMob.Showcase.Components.TagsInput do
 
   Fully live: type a tag, press return, tap a ✕ to remove it.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
 

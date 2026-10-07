@@ -6,7 +6,7 @@ defmodule MishkaMob.Showcase.Components.Switch do
   `{:change, tag, value}`, which `MishkaMob.Showcase.ComponentScreen` forwards to
   `handle_change/3`.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
 

@@ -5,7 +5,7 @@ defmodule MishkaMob.Showcase.Components.LoadingOverlay do
   Every example is live: the overlay really covers its region, and the counter
   under the first one proves it really absorbs the taps aimed at what it covers.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
 

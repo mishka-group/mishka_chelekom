@@ -2,7 +2,7 @@ defmodule MishkaMob.Showcase.Components.Toggle do
   @moduledoc """
   Gallery entry for `MishkaMob.Components.MishkaToggle`.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
 

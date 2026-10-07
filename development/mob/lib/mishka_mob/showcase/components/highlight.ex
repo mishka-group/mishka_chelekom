@@ -5,7 +5,7 @@ defmodule MishkaMob.Showcase.Components.Highlight do
   The first example is live: type-free, but the query cycles through buttons so
   the matching is visible rather than described.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
 

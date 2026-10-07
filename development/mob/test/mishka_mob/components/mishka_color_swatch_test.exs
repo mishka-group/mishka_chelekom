@@ -25,7 +25,7 @@ defmodule MishkaMob.Components.MishkaColorSwatchTest do
       tree = MishkaColorSwatch.color_swatch(color: 0x807C3AED)
       tiles = tree |> find_all(:box) |> Enum.filter(&(&1.props[:width] == 18.0))
 
-      assert length(tiles) == 4
+      assert [_, _, _, _] = tiles
     end
 
     test "is skipped for an opaque colour — the nodes would be waste" do

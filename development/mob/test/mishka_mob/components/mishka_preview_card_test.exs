@@ -114,9 +114,9 @@ defmodule MishkaMob.Components.MishkaPreviewCardTest do
         assert tree.props.id == "p-open"
 
         node = anchored(tree)
-        assert length(node.children) == 2
-        assert hd(node.children).props.id == "p-trigger", "#{side} did not anchor the trigger"
-        assert tagged?(List.last(node.children), "p-popup-#{side}")
+        assert [trigger, popup] = node.children
+        assert trigger.props.id == "p-trigger", "#{side} did not anchor the trigger"
+        assert tagged?(popup, "p-popup-#{side}")
       end
     end
 

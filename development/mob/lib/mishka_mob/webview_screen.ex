@@ -1,4 +1,5 @@
 defmodule MishkaMob.WebViewScreen do
+  @moduledoc "WebView demo — a web page, with each JS bridge message shown and echoed back."
   use Mob.Screen
 
   def mount(_params, _session, socket) do

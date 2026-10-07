@@ -3,7 +3,7 @@ defmodule MishkaMob.Showcase.Components.OtpField do
   Gallery entry for `MishkaMob.Components.MishkaOtpField` and
   `MishkaMob.Components.MishkaMaskInput`.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
 

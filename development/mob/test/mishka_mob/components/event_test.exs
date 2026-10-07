@@ -74,4 +74,28 @@ defmodule MishkaMob.Components.EventTest do
       assert Event.handler(:pick, 7) == {self(), {:pick, 7}}
     end
   end
+
+  describe "drag/1" do
+    test "reads the NIF's atom payload, with float coordinates" do
+      assert Event.drag(%{phase: :began, x: 12, y: 4}) == %{phase: :began, x: 12.0, y: 4.0}
+    end
+
+    test "a string-keyed payload with a string phase reads the same" do
+      assert Event.drag(%{"phase" => "ended", "x" => 3.5, "y" => 7}) ==
+               Event.drag(%{phase: :ended, x: 3.5, y: 7})
+    end
+
+    test "missing coordinates are 0.0 and dx/dy are never read" do
+      assert Event.drag(%{phase: :dragging, dx: 40, dy: 40}) ==
+               %{phase: :dragging, x: 0.0, y: 0.0}
+    end
+
+    test "any phase that is not began or ended is :dragging" do
+      for phase <- [:dragging, "dragging", :moved, nil] do
+        assert Event.drag(%{phase: phase, x: 1}).phase == :dragging
+      end
+
+      assert Event.drag(%{x: 1}).phase == :dragging
+    end
+  end
 end

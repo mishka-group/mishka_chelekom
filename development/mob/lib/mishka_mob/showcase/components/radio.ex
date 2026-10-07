@@ -2,7 +2,7 @@ defmodule MishkaMob.Showcase.Components.Radio do
   @moduledoc """
   Gallery entry for `MishkaMob.Components.MishkaRadio`.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
   import MishkaMob.Components.MishkaRadio, only: [radio: 1]

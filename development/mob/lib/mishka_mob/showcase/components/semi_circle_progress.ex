@@ -2,7 +2,7 @@ defmodule MishkaMob.Showcase.Components.SemiCircleProgress do
   @moduledoc """
   Gallery entry for `MishkaMob.Components.MishkaSemiCircleProgress`.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
 

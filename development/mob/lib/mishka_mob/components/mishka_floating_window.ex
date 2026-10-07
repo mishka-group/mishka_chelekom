@@ -234,9 +234,10 @@ defmodule MishkaMob.Components.MishkaFloatingWindow do
   @spec drag(map(), map() | nil, map() | keyword()) :: {{number(), number()}, map() | nil}
   def drag(payload, grab, props \\ %{}) do
     props = Map.new(props)
-    at = point(payload)
+    %{phase: phase, x: x, y: y} = Event.drag(payload)
+    at = {x, y}
 
-    case phase(payload) do
+    case phase do
       :began -> {position(props), take_hold(at, props)}
       :dragging -> {follow(at, grab, props), grab}
       :ended -> {follow(at, grab, props), nil}
@@ -577,25 +578,6 @@ defmodule MishkaMob.Components.MishkaFloatingWindow do
          Color.clamp(y, 0, max(h - height(props), 0))}
     end
   end
-
-  # The NIF sends `phase` as an ATOM (:began / :dragging / :ended). Comparing it
-  # against "began" matches nothing and falls through to the :dragging default,
-  # so the anchor is never set and every drag returns the position unchanged —
-  # the window looks completely dead while the arithmetic is fine. Strings are
-  # accepted too, because a payload that has crossed a wire may be either.
-  defp phase(payload) do
-    case payload[:phase] || payload["phase"] do
-      p when p in [:began, "began"] -> :began
-      p when p in [:ended, "ended"] -> :ended
-      _ -> :dragging
-    end
-  end
-
-  # x/y, never dx/dy: those are cumulative translation on iOS and per-sample
-  # deltas on Android, so a fold built on them drifts on exactly one platform.
-  defp point(payload), do: {coordinate(payload, :x), coordinate(payload, :y)}
-
-  defp coordinate(payload, key), do: (payload[key] || payload[to_string(key)] || 0) * 1.0
 
   # ── Props ──────────────────────────────────────────────────────────────────
 

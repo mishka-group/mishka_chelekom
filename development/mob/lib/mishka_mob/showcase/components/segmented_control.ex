@@ -2,7 +2,7 @@ defmodule MishkaMob.Showcase.Components.SegmentedControl do
   @moduledoc """
   Gallery entry for `MishkaMob.Components.MishkaSegmentedControl`.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
 

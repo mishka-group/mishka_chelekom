@@ -2,7 +2,7 @@ defmodule MishkaMob.Showcase.Components.Splitter do
   @moduledoc """
   Gallery entry for `MishkaMob.Components.MishkaSplitter`.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
 
