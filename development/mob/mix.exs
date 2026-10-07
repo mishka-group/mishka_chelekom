@@ -20,8 +20,8 @@ defmodule MishkaMob.MixProject do
 
   defp deps do
     [
-      {:mob, "~> 0.7"},
-      {:mob_dev, "~> 0.6", only: :dev, runtime: false},
+      {:mob, "~> 0.9"},
+      {:mob_dev, "~> 0.7", only: :dev, runtime: false},
       {:ecto_sqlite3, "~> 0.18"},
       # Showcase plugins — each ships a demo screen the home auto-lists, so a
       # fresh app demonstrates real device capabilities out of the box. Remove

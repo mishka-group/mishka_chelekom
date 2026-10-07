@@ -322,7 +322,7 @@ open/closed here, so a self-dismissing window desynchronises from the screen's
 assign.
 
 **Blocker: this cannot ship from this repo at all.** `deps/mob` is a hex package
-pinned in `mix.lock` (`mob 0.7.20`) with its checksums; anything written into
+pinned in `mix.lock` (`mob 0.9.12`) with its checksums; anything written into
 `deps/` is local scratch that `deps.get`, `deps.clean` and a fresh clone all drop
 — `mix.exs` regenerates its tags fence on every compile for precisely that reason
 — and consumers get the published package, never our copy. Unlike every Android

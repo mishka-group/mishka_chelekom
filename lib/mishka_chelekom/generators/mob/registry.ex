@@ -339,7 +339,7 @@ defmodule MishkaChelekom.Generators.Mob.Registry do
 
         Mob components render native widgets through the Mob runtime. Add it with:
 
-            {:mob, "~> 0.7"}
+            {:mob, "~> 0.9"}
 
         The files will still be generated — they just will not compile until the
         dependency is there.
