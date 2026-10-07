@@ -135,15 +135,29 @@ When using `--import`, creates `lib/your_app_web/components/mishka_components.ex
 
 ```elixir
 defmodule YourAppWeb.Components.MishkaComponents do
+  @moduledoc """
+  `use YourAppWeb.Components.MishkaComponents` imports the generated Mishka Chelekom components.
+
+  `mix mishka.ui.gen.components --import` rewrites this file on every run.
+  """
+
   defmacro __using__(_) do
-    quote do
-      import YourAppWeb.Components.Button, only: [button: 1, button_group: 1]
-      import YourAppWeb.Components.Alert, only: [alert: 1, flash: 1, flash_group: 1]
-      # ... all components
+    for {module, opts} <- imports() do
+      quote do: import(unquote(module), unquote(opts))
     end
+  end
+
+  defp imports do
+    [
+      {YourAppWeb.Components.Button, only: [button: 1, button_group: 1]},
+      {YourAppWeb.Components.Alert, only: [alert: 1, flash: 1, flash_group: 1]}
+      # ... all components
+    ]
   end
 end
 ```
+
+`use` injects one `import` per entry, exactly as if each were written out.
 
 ### Global Mode
 

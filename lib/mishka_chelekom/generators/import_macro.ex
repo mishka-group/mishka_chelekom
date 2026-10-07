@@ -25,17 +25,29 @@ defmodule MishkaChelekom.Generators.ImportMacro do
       module_name =
         Core.module_atom(Macro.underscore(web_module) <> ".components.mishka_components")
 
-      imports = create_import_string(list, web_module, igniter, opts)
+      entries = import_entries(list, web_module, igniter, opts)
 
       igniter
       |> Igniter.create_new_file(
         proper_location,
         """
         defmodule #{module_name} do
+          @moduledoc \"\"\"
+          `use #{module_name}` imports the generated Mishka Chelekom components.
+
+          `mix mishka.ui.gen.components --import` rewrites this file on every run.
+          \"\"\"
+
           defmacro __using__(_) do
-            quote do
-              #{Enum.map(imports, fn item -> "#{item}\n" end)}
+            for {module, opts} <- imports() do
+              quote do: import(unquote(module), unquote(opts))
             end
+          end
+
+          defp imports do
+            [
+              #{Enum.join(entries, ",\n")}
+            ]
           end
         end
         """,
@@ -147,7 +159,7 @@ defmodule MishkaChelekom.Generators.ImportMacro do
     end
   end
 
-  defp create_import_string(list, web_module, igniter, opts) do
+  defp import_entries(list, web_module, igniter, opts) do
     {igniter, new_phoenix?} = new_phoenix(igniter, opts[:global])
     user_config = igniter.assigns[:mishka_user_config] || Config.load_user_config(igniter)
     component_prefix = opts[:component_prefix] || user_config[:component_prefix]
@@ -196,10 +208,12 @@ defmodule MishkaChelekom.Generators.ImportMacro do
 
         prefixed_item = Core.component_atom(prefixed_item)
 
+        module = "#{inspect(web_module)}.Components.#{Core.module_atom("#{prefixed_item}")}"
+
         if child_imports != "" do
-          "import #{inspect(web_module)}.Components.#{Core.module_atom("#{prefixed_item}")}, only: [#{child_imports}]"
+          "{#{module}, only: [#{child_imports}]}"
         else
-          "import #{inspect(web_module)}.Components.#{Core.module_atom("#{prefixed_item}")}"
+          "{#{module}, []}"
         end
       end)
     else

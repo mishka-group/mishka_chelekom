@@ -620,11 +620,13 @@ defmodule DevelopmentWeb.Showcase.TreeDemos do
         end
       end)
     else
-      Enum.map(nodes, fn item ->
-        if is_list(item[:children]),
-          do: Map.put(item, :children, insert_node(item.children, node, target, position)),
-          else: item
-      end)
+      Enum.map(nodes, &insert_into_children(&1, node, target, position))
     end
+  end
+
+  defp insert_into_children(item, node, target, position) do
+    if is_list(item[:children]),
+      do: Map.put(item, :children, insert_node(item.children, node, target, position)),
+      else: item
   end
 end

@@ -8,7 +8,7 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
   use DevelopmentWeb, :live_view
 
   import DevelopmentWeb.Showcase.UI
-  alias DevelopmentWeb.Showcase.{Catalog, Preview, Snippets, JsonMeta, ExampleSource, KitDemo}
+  alias DevelopmentWeb.Showcase.{Catalog, ExampleSource, JsonMeta, KitDemo, Preview, Snippets}
   alias DevelopmentWeb.Showcase.FileFieldFormDemo.{Attachment, Upload}
 
   @sample "Mishka Chelekom"
@@ -90,7 +90,7 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
     if Code.ensure_loaded?(mod) and function_exported?(mod, :sections, 0), do: mod
   end
 
-  defp example(assigns), do: apply(assigns.mod, :example, [assigns])
+  defp example(assigns), do: assigns.mod.example(assigns)
 
   defp example_code(assigns) do
     assigns = assign(assigns, :code, ExampleSource.code(assigns.mod, assigns.section))
@@ -113,19 +113,7 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
     by_attr = Map.new(comp.dims, &{&1.attr, &1})
     flag_names = MapSet.new(comp.flags, & &1.name)
 
-    parsed =
-      Enum.reduce(params, %{}, fn {k, v}, acc ->
-        cond do
-          dim = by_attr[k] ->
-            if v in [nil, ""], do: acc, else: Map.put(acc, String.to_atom(k), cast(v, dim.type))
-
-          k in flag_names ->
-            Map.put(acc, String.to_atom(k), v == "true")
-
-          true ->
-            acc
-        end
-      end)
+    parsed = Enum.reduce(params, %{}, &put_param(&1, &2, by_attr, flag_names))
 
     socket =
       socket
@@ -622,6 +610,19 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
 
   defp default_value(%{kind: :range} = dim), do: dim[:default] || dim[:min] || 0
   defp default_value(%{values: [first | _]}), do: first
+
+  defp put_param({k, v}, acc, by_attr, flag_names) do
+    cond do
+      dim = by_attr[k] ->
+        if v in [nil, ""], do: acc, else: Map.put(acc, String.to_atom(k), cast(v, dim.type))
+
+      k in flag_names ->
+        Map.put(acc, String.to_atom(k), v == "true")
+
+      true ->
+        acc
+    end
+  end
 
   defp cast(v, :atom) when is_binary(v), do: String.to_atom(v)
 

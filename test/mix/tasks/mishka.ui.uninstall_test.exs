@@ -1035,6 +1035,81 @@ defmodule Mix.Tasks.Mishka.Ui.UninstallTest do
     end
   end
 
+  describe "import macro cleanup" do
+    @macro_path "lib/test_web/components/mishka_components.ex"
+
+    defp with_button_and_alert(igniter) do
+      igniter
+      |> Igniter.create_new_file("lib/test_web/components/button.ex", """
+      defmodule TestWeb.Components.Button do
+        use Phoenix.Component
+        def button(assigns), do: ~H"<button>Button</button>"
+      end
+      """)
+      |> Igniter.create_new_file("lib/test_web/components/alert.ex", """
+      defmodule TestWeb.Components.Alert do
+        use Phoenix.Component
+        def alert(assigns), do: ~H"<div>Alert</div>"
+      end
+      """)
+    end
+
+    defp macro_content(igniter) do
+      {_, source} = Rewrite.source(igniter.rewrite, @macro_path)
+      Rewrite.Source.get(source, :content)
+    end
+
+    test "removes the component's entry from imports/0" do
+      igniter =
+        test_project_with_formatter()
+        |> with_button_and_alert()
+        |> Igniter.create_new_file(@macro_path, """
+        defmodule TestWeb.Components.MishkaComponents do
+          @moduledoc false
+
+          defmacro __using__(_) do
+            for {module, opts} <- imports() do
+              quote do: import(unquote(module), unquote(opts))
+            end
+          end
+
+          defp imports do
+            [
+              {TestWeb.Components.Alert, only: [alert: 1]},
+              {TestWeb.Components.Button, only: [button: 1]}
+            ]
+          end
+        end
+        """)
+        |> Igniter.compose_task(Uninstall, ["button", "--yes"])
+
+      content = macro_content(igniter)
+      refute content =~ "TestWeb.Components.Button"
+      assert content =~ "{TestWeb.Components.Alert, only: [alert: 1]}"
+    end
+
+    test "removes the component's import from a macro written by an older generator" do
+      igniter =
+        test_project_with_formatter()
+        |> with_button_and_alert()
+        |> Igniter.create_new_file(@macro_path, """
+        defmodule TestWeb.Components.MishkaComponents do
+          defmacro __using__(_) do
+            quote do
+              import TestWeb.Components.Alert, only: [alert: 1]
+              import TestWeb.Components.Button, only: [button: 1]
+            end
+          end
+        end
+        """)
+        |> Igniter.compose_task(Uninstall, ["button", "--yes"])
+
+      content = macro_content(igniter)
+      refute content =~ "TestWeb.Components.Button"
+      assert content =~ "import TestWeb.Components.Alert, only: [alert: 1]"
+    end
+  end
+
   describe "global import cleanup" do
     test "removes use MishkaComponents from html_helpers when all components removed" do
       igniter =

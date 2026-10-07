@@ -870,6 +870,8 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     )
   end
 
+  # The generated macro lists its imports as `{module, opts}` entries in `imports/0`; one written by
+  # an older generator imports each module directly inside its `quote` block.
   defp remove_imports_from_using(zipper, modules_to_remove) do
     case find_quote_block(zipper) do
       {:ok, quote_zipper} ->
@@ -877,9 +879,27 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
         {:ok, new_zipper}
 
       :error ->
-        {:ok, zipper}
+        remove_import_entries(zipper, modules_to_remove)
     end
   end
+
+  defp remove_import_entries(zipper, modules_to_remove) do
+    with {:ok, body} <- Igniter.Code.Function.move_to_defp(zipper, :imports, 0),
+         {:ok, body} <-
+           Igniter.Code.List.remove_from_list(
+             body,
+             &(import_entry_module(&1.node) in modules_to_remove)
+           ) do
+      {:ok, body}
+    else
+      :error -> {:ok, zipper}
+    end
+  end
+
+  defp import_entry_module({:__block__, _, [{{:__aliases__, _, module_parts}, _opts}]}),
+    do: Module.concat(module_parts)
+
+  defp import_entry_module(_node), do: nil
 
   defp find_quote_block(zipper) do
     case Sourceror.Zipper.find(zipper, fn node ->

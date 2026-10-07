@@ -9,9 +9,9 @@ defmodule DevelopmentWeb.Showcase.KitLive do
   use DevelopmentWeb, :live_view
 
   import DevelopmentWeb.Showcase.UI
-  alias MishkaChelekom.Kit
   alias DevelopmentWeb.Kit, as: DemoKit
   alias DevelopmentWeb.Widgets
+  alias MishkaChelekom.Kit
 
   @kit_path Path.expand("../../kit.ex", __DIR__)
   @external_resource @kit_path

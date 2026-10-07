@@ -59,7 +59,7 @@ defmodule DevelopmentWeb.HeadlessPaginationTest do
     test "siblings widen the run around the current page" do
       for siblings <- 0..3 do
         w = Pagination.window(100, 50, siblings, 1)
-        run = w |> Enum.filter(&is_integer/1) |> Enum.filter(&(&1 > 1 and &1 < 100))
+        run = Enum.filter(w, &(is_integer(&1) and &1 > 1 and &1 < 100))
         assert length(run) == siblings * 2 + 1, "siblings=#{siblings}"
         assert 50 in run
       end

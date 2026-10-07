@@ -4,6 +4,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessCatalog do
   the headless showcase auto-discovers every generated component (no hardcoded list).
   """
 
+  alias DevelopmentWeb.Showcase.Meta
+
   def dir, do: Path.join(:code.priv_dir(:mishka_chelekom), "headless")
 
   def all do
@@ -37,27 +39,29 @@ defmodule DevelopmentWeb.Showcase.HeadlessCatalog do
     {term, _} = Code.eval_file(path)
     cfg = term[String.to_atom(name)]
 
-    if cfg do
-      # headless-only doc metadata (anatomy/aria_pattern/state_attributes/hooks) lives under `:headless`
-      hl = cfg[:headless] || []
-      aria = hl[:aria_pattern] || []
-
-      %{
-        name: name,
-        category: to_string(cfg[:category] || "other"),
-        pattern: aria[:pattern] || "—",
-        keyboard: aria[:keyboard] || [],
-        focus: aria[:focus],
-        anatomy: hl[:anatomy] || [],
-        hooks: hl[:hooks] || [],
-        state: hl[:state_attributes] || [],
-        doc_url: cfg[:doc_url],
-        spec_url: cfg[:spec_url],
-        description: DevelopmentWeb.Showcase.Meta.headless_description(name),
-        sibling: DevelopmentWeb.Showcase.Meta.styled_sibling(name)
-      }
-    end
+    if cfg, do: component(name, cfg)
   rescue
     _ -> nil
+  end
+
+  defp component(name, cfg) do
+    # headless-only doc metadata (anatomy/aria_pattern/state_attributes/hooks) lives under `:headless`
+    hl = cfg[:headless] || []
+    aria = hl[:aria_pattern] || []
+
+    %{
+      name: name,
+      category: to_string(cfg[:category] || "other"),
+      pattern: aria[:pattern] || "—",
+      keyboard: aria[:keyboard] || [],
+      focus: aria[:focus],
+      anatomy: hl[:anatomy] || [],
+      hooks: hl[:hooks] || [],
+      state: hl[:state_attributes] || [],
+      doc_url: cfg[:doc_url],
+      spec_url: cfg[:spec_url],
+      description: Meta.headless_description(name),
+      sibling: Meta.styled_sibling(name)
+    }
   end
 end

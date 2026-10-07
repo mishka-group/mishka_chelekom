@@ -194,7 +194,7 @@ defmodule DevelopmentWeb.Components.Button do
   end
 
   def button(assigns) do
-    assigns = assign_new(assigns, :indicator, fn -> is_indicators?(assigns[:rest]) end)
+    assigns = assign_new(assigns, :indicator, fn -> indicators?(assigns[:rest]) end)
 
     ~H"""
     <button
@@ -398,7 +398,7 @@ defmodule DevelopmentWeb.Components.Button do
   end
 
   def button_link(%{navigate: _navigate} = assigns) do
-    assigns = assign_new(assigns, :indicator, fn -> is_indicators?(assigns[:rest]) end)
+    assigns = assign_new(assigns, :indicator, fn -> indicators?(assigns[:rest]) end)
 
     ~H"""
     <.link
@@ -442,7 +442,7 @@ defmodule DevelopmentWeb.Components.Button do
   end
 
   def button_link(%{patch: _patch} = assigns) do
-    assigns = assign_new(assigns, :indicator, fn -> is_indicators?(assigns[:rest]) end)
+    assigns = assign_new(assigns, :indicator, fn -> indicators?(assigns[:rest]) end)
 
     ~H"""
     <.link
@@ -486,7 +486,7 @@ defmodule DevelopmentWeb.Components.Button do
   end
 
   def button_link(%{href: _href} = assigns) do
-    assigns = assign_new(assigns, :indicator, fn -> is_indicators?(assigns[:rest]) end)
+    assigns = assign_new(assigns, :indicator, fn -> indicators?(assigns[:rest]) end)
 
     ~H"""
     <.link
@@ -2119,7 +2119,7 @@ defmodule DevelopmentWeb.Components.Button do
     Map.drop(rest, all_rest)
   end
 
-  defp is_indicators?(rest) do
+  defp indicators?(rest) do
     Enum.any?(@indicator_positions, &Map.get(rest, String.to_atom(&1)))
   end
 end

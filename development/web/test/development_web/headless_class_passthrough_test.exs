@@ -70,22 +70,21 @@ defmodule DevelopmentWeb.HeadlessClassPassthroughTest do
     # carrying the attributes the slot itself declares.
     slots =
       for s <- meta.slots, into: %{} do
-        entries =
-          for i <- 1..5 do
-            s.attrs
-            |> Enum.reject(&String.ends_with?(to_string(&1.name), "_class"))
-            |> Map.new(&{&1.name, probe_value(&1)})
-            |> Map.merge(%{
-              __slot__: s.name,
-              inner_block: fn _, _ -> "x" end
-            })
-            |> Map.update(:value, "probe-#{i}", fn v -> v || "probe-#{i}" end)
-          end
-
-        {s.name, entries}
+        {s.name, Enum.map(1..5, &slot_entry(s, &1))}
       end
 
     Map.merge(attrs, slots)
+  end
+
+  defp slot_entry(slot, i) do
+    slot.attrs
+    |> Enum.reject(&String.ends_with?(to_string(&1.name), "_class"))
+    |> Map.new(&{&1.name, probe_value(&1)})
+    |> Map.merge(%{
+      __slot__: slot.name,
+      inner_block: fn _, _ -> "x" end
+    })
+    |> Map.update(:value, "probe-#{i}", fn v -> v || "probe-#{i}" end)
   end
 
   defp render(mod, fun, assigns) do
@@ -130,17 +129,18 @@ defmodule DevelopmentWeb.HeadlessClassPassthroughTest do
             {covered, dead, [{name, fun} | unrenderable]}
 
           {:ok, _} ->
-            {ok, bad} =
-              Enum.split_with(attrs, fn attr ->
-                case render(mod, fun, Map.put(base, attr, @sentinel)) do
-                  {:ok, html} -> String.contains?(html, @sentinel)
-                  {:error, _} -> false
-                end
-              end)
+            {ok, bad} = Enum.split_with(attrs, &reaches_markup?(mod, fun, base, &1))
 
             {Enum.map(ok, &{name, fun, &1}) ++ covered, Enum.map(bad, &{name, fun, &1}) ++ dead,
              unrenderable}
         end
+    end
+  end
+
+  defp reaches_markup?(mod, fun, base, attr) do
+    case render(mod, fun, Map.put(base, attr, @sentinel)) do
+      {:ok, html} -> String.contains?(html, @sentinel)
+      {:error, _} -> false
     end
   end
 

@@ -34,38 +34,41 @@ defmodule DevelopmentWeb.Components.Headless.NumberFormatter do
   end
 
   defp format_number(a) do
-    sep =
-      case a.thousand_separator do
-        false -> ""
-        nil -> ""
-        s when is_binary(s) -> s
-        _ -> ","
-      end
-
-    num = to_number(a.value)
-
-    str =
-      cond do
-        a.decimal_scale -> :erlang.float_to_binary(num * 1.0, decimals: a.decimal_scale)
-        is_integer(num) -> Integer.to_string(num)
-        true -> Float.to_string(num)
-      end
+    sep = thousand_separator(a.thousand_separator)
 
     {int_str, frac_str} =
-      case String.split(str, ".") do
-        [i, f] -> {i, f}
-        [i] -> {i, nil}
-      end
+      a.value
+      |> to_number()
+      |> number_text(a.decimal_scale)
+      |> split_decimal()
 
-    {sign, digits} =
-      case int_str do
-        "-" <> rest -> {"-", rest}
-        _ -> {"", int_str}
-      end
-
+    {sign, digits} = split_sign(int_str)
     frac = if frac_str && frac_str != "", do: a.decimal_separator <> frac_str, else: ""
     "#{a.prefix}#{sign}#{group(digits, sep)}#{frac}#{a.suffix}"
   end
+
+  defp thousand_separator(false), do: ""
+  defp thousand_separator(nil), do: ""
+  defp thousand_separator(s) when is_binary(s), do: s
+  defp thousand_separator(_), do: ","
+
+  defp number_text(num, decimal_scale) do
+    cond do
+      decimal_scale -> :erlang.float_to_binary(num * 1.0, decimals: decimal_scale)
+      is_integer(num) -> Integer.to_string(num)
+      true -> Float.to_string(num)
+    end
+  end
+
+  defp split_decimal(str) do
+    case String.split(str, ".") do
+      [i, f] -> {i, f}
+      [i] -> {i, nil}
+    end
+  end
+
+  defp split_sign("-" <> rest), do: {"-", rest}
+  defp split_sign(int_str), do: {"", int_str}
 
   defp to_number(v) when is_number(v), do: v
 

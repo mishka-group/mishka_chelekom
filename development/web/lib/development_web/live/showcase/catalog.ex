@@ -13,6 +13,8 @@ defmodule DevelopmentWeb.Showcase.Catalog do
       [button: [name: "button", category: "general", args: [variant: [...], color: [...]], ...]]
   """
 
+  alias DevelopmentWeb.Showcase.{JsonMeta, Meta}
+
   @visual_dims ~w(variant color size rounded padding space border media_size)a
 
   @type dim :: %{key: String.t(), values: [String.t()]}
@@ -74,57 +76,62 @@ defmodule DevelopmentWeb.Showcase.Catalog do
     name = Path.basename(path, ".exs")
     {term, _bindings} = Code.eval_file(path)
 
-    cfg =
-      cond do
-        is_list(term) and Keyword.has_key?(term, String.to_atom(name)) ->
-          term[String.to_atom(name)]
-
-        is_list(term) and term != [] ->
-          term |> List.first() |> elem(1)
-
-        true ->
-          nil
-      end
-
-    if cfg do
-      args = cfg[:args] || []
-
-      json_attrs = DevelopmentWeb.Showcase.JsonMeta.attrs(name)
-      attr_types = Map.new(json_attrs, &{&1.name, &1.type})
-
-      dims =
-        for key <- @visual_dims, vals = args[key], is_list(vals) and vals != [] do
-          {attr, type} = resolve_attr(key, attr_types)
-
-          %{
-            key: Atom.to_string(key),
-            attr: attr,
-            type: type,
-            values: Enum.map(vals, &to_string/1)
-          }
-        end
-
-      dims =
-        (dims ++ extra_dims(name))
-        |> Enum.uniq_by(& &1.key)
-        |> Enum.reject(&(&1.key in dead_dims(name)))
-
-      %{
-        name: name,
-        category: to_string(cfg[:category] || "other"),
-        doc_url: cfg[:doc_url],
-        description: DevelopmentWeb.Showcase.Meta.styled_description(name),
-        sibling: DevelopmentWeb.Showcase.Meta.headless_sibling(name),
-        args: args,
-        dims: dims,
-        flags:
-          (flags(json_attrs) ++ extra_flags(name))
-          |> Enum.uniq_by(& &1.name)
-          |> Enum.reject(&(&1.name in dead_flags(name)))
-      }
-    end
+    cfg = config(term, name)
+    if cfg, do: component(name, cfg)
   rescue
     _ -> nil
+  end
+
+  defp config(term, name) do
+    cond do
+      is_list(term) and Keyword.has_key?(term, String.to_atom(name)) ->
+        term[String.to_atom(name)]
+
+      is_list(term) and term != [] ->
+        term |> List.first() |> elem(1)
+
+      true ->
+        nil
+    end
+  end
+
+  defp component(name, cfg) do
+    args = cfg[:args] || []
+
+    json_attrs = JsonMeta.attrs(name)
+    attr_types = Map.new(json_attrs, &{&1.name, &1.type})
+
+    %{
+      name: name,
+      category: to_string(cfg[:category] || "other"),
+      doc_url: cfg[:doc_url],
+      description: Meta.styled_description(name),
+      sibling: Meta.headless_sibling(name),
+      args: args,
+      dims: dims(name, args, attr_types),
+      flags:
+        (flags(json_attrs) ++ extra_flags(name))
+        |> Enum.uniq_by(& &1.name)
+        |> Enum.reject(&(&1.name in dead_flags(name)))
+    }
+  end
+
+  defp dims(name, args, attr_types) do
+    dims =
+      for key <- @visual_dims, vals = args[key], is_list(vals) and vals != [] do
+        {attr, type} = resolve_attr(key, attr_types)
+
+        %{
+          key: Atom.to_string(key),
+          attr: attr,
+          type: type,
+          values: Enum.map(vals, &to_string/1)
+        }
+      end
+
+    (dims ++ extra_dims(name))
+    |> Enum.uniq_by(& &1.key)
+    |> Enum.reject(&(&1.key in dead_dims(name)))
   end
 
   defp resolve_attr(:color, types) do

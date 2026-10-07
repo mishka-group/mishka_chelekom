@@ -153,25 +153,27 @@ defmodule <%= @module %> do
     items =
       assigns.item
       |> Enum.with_index()
-      |> Enum.map(fn {item, index} ->
-        id = "#{assigns.id}-#{index}"
-        value = to_string(item[:value] || id)
-
-        open =
-          if is_list(open_set), do: value in open_set, else: item[:open] || false
-
-        item
-        |> Map.put(:__id__, id)
-        |> Map.put(:__index__, index)
-        |> Map.put(:__value__, value)
-        |> Map.put(:__open__, open)
-        |> Map.put(:__disabled__, assigns.disabled || item[:disabled] || false)
-      end)
+      |> Enum.map(fn {item, index} -> prepare_item(item, index, open_set, assigns) end)
 
     # Roving tabindex: the FIRST ENABLED trigger is the single tab stop (computed server-side so it's
     # correct even before the hook runs); a fully-disabled accordion falls back to the first item.
     tab_stop = Enum.find_index(items, &(not &1.__disabled__)) || 0
     Enum.map(items, &Map.put(&1, :__tabstop__, &1.__index__ == tab_stop))
+  end
+
+  defp prepare_item(item, index, open_set, assigns) do
+    id = "#{assigns.id}-#{index}"
+    value = to_string(item[:value] || id)
+
+    open =
+      if is_list(open_set), do: value in open_set, else: item[:open] || false
+
+    item
+    |> Map.put(:__id__, id)
+    |> Map.put(:__index__, index)
+    |> Map.put(:__value__, value)
+    |> Map.put(:__open__, open)
+    |> Map.put(:__disabled__, assigns.disabled || item[:disabled] || false)
   end
 
   # closed-panel `hidden`: "until-found" keeps text findable by the browser; otherwise a plain

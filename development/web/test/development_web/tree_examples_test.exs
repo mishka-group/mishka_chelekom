@@ -10,6 +10,8 @@ defmodule DevelopmentWeb.TreeExamplesTest do
   use DevelopmentWeb.ConnCase
   import Phoenix.LiveViewTest
 
+  alias DevelopmentWeb.Showcase.HeadlessCatalog
+
   @path "/showcase/headless/tree"
 
   defp query(html, selector), do: html |> LazyHTML.from_document() |> LazyHTML.query(selector)
@@ -289,7 +291,7 @@ defmodule DevelopmentWeb.TreeExamplesTest do
     end
 
     test "every headless component carries both urls, so neither link is ever wrong", %{conn: _} do
-      for c <- DevelopmentWeb.Showcase.HeadlessCatalog.all() do
+      for c <- HeadlessCatalog.all() do
         assert c.doc_url, "#{c.name} has no doc_url"
         assert c.spec_url, "#{c.name} has no spec_url"
         assert c.doc_url =~ "mishka.tools", "#{c.name} doc_url is not a Mishka docs link"

@@ -48,10 +48,9 @@ defmodule DevelopmentWeb.Showcase.ExampleSource do
       |> Enum.min(fn -> 0 end)
 
     lines
-    |> Enum.map(fn
+    |> Enum.map_join("\n", fn
       line -> if String.trim(line) == "", do: "", else: String.slice(line, min..-1//1)
     end)
-    |> Enum.join("\n")
     |> String.trim_trailing()
   end
 end
