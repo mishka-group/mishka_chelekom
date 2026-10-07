@@ -54,9 +54,9 @@
       code_mirror: [
         formats: ["text"],
         npm: [
-          %{name: "@codemirror/state", version: "6.7.1"},
-          %{name: "@codemirror/view", version: "6.43.6"},
-          %{name: "@codemirror/commands", version: "6.10.4"},
+          %{name: "@codemirror/state", version: "6.7.6"},
+          %{name: "@codemirror/view", version: "6.43.13"},
+          %{name: "@codemirror/commands", version: "6.11.1"},
           %{name: "@codemirror/language", version: "6.12.4"},
           %{name: "@codemirror/lang-javascript", version: "6.2.5"}
         ],
@@ -72,7 +72,7 @@
       ],
       milk_down: [
         formats: ["markdown"],
-        npm: [%{name: "@milkdown/kit", version: "7.21.3"}],
+        npm: [%{name: "@milkdown/kit", version: "7.22.2"}],
         scripts: [
           %{
             module: "Editor",
@@ -86,10 +86,10 @@
       lexical: [
         formats: ["json"],
         npm: [
-          %{name: "lexical", version: "0.48.0"},
-          %{name: "@lexical/rich-text", version: "0.48.0"},
-          %{name: "@lexical/history", version: "0.48.0"},
-          %{name: "@lexical/utils", version: "0.48.0"}
+          %{name: "lexical", version: "0.52.0"},
+          %{name: "@lexical/rich-text", version: "0.52.0"},
+          %{name: "@lexical/history", version: "0.52.0"},
+          %{name: "@lexical/utils", version: "0.52.0"}
         ],
         scripts: [
           %{

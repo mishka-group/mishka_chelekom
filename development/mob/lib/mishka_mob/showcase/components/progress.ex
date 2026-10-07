@@ -6,7 +6,7 @@ defmodule MishkaMob.Showcase.Components.Progress do
   bar, the readout and the clamping are all visible on device rather than being
   three static screenshots.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
 

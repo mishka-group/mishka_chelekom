@@ -158,15 +158,31 @@ defmodule MishkaChelekom.Config do
     end
   end
 
+  # An override that is not a CSS value stops the generation and says which one, rather than
+  # leaving the default in place without a word.
   defp apply_css_overrides(css_content, overrides) do
     Enum.reduce(overrides, css_content, fn {key, value}, acc ->
       css_var = "--#{String.replace(to_string(key), "_", "-")}"
 
       case IgniterCss.set_declaration(acc, ":root", css_var, to_string(value), create_rule: true) do
-        {:ok, %IgniterCss.Outcome{source: updated}} -> updated
-        {:error, _reason} -> acc
+        {:ok, %IgniterCss.Outcome{source: updated}} ->
+          updated
+
+        {:error, reason} ->
+          raise ArgumentError,
+                "css_overrides: #{key}: #{inspect(value)} cannot be set as #{css_var}: #{reason}"
       end
     end)
+  end
+
+  @doc """
+  The CSS variables of Chelekom's own stylesheet — the ones `css_overrides` sets — with their
+  defaults, in the order the stylesheet declares them on `:root`.
+  """
+  @spec default_variables() :: [{String.t(), String.t()}]
+  def default_variables do
+    {:ok, declarations} = IgniterCss.get_rule_declarations(read_default_css(), ":root")
+    declarations
   end
 
   @doc """
@@ -509,7 +525,11 @@ defmodule MishkaChelekom.Config do
         # stepper_canceled_step_border_light: "#fa5252",
         # stepper_canceled_step_border_dark: "#e03131",
         # stepper_separator_completed_border_light: "#14b8a6",
-        # stepper_separator_completed_border_dark: "#099268"
+        # stepper_separator_completed_border_dark: "#099268",
+
+        # === Opacity ===
+        # opacity_base: "10",
+        # overlay_opacity: "100%"
       },
 
       # Strategy for handling CSS

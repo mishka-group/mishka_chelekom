@@ -6,7 +6,7 @@ defmodule MishkaMob.Showcase.Components.Meter do
   distinction from Progress concrete: a meter reads a measurement, a progress bar
   tracks a task.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
 

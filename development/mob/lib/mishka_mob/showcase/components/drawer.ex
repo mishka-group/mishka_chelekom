@@ -16,7 +16,7 @@ defmodule MishkaMob.Showcase.Components.Drawer do
   write. `<MishkaDrawerFooter>` has no such tension and is used for real, by the
   undismissable sheet whose only way out is its footer.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
 

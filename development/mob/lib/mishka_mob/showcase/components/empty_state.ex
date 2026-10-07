@@ -2,7 +2,7 @@ defmodule MishkaMob.Showcase.Components.EmptyState do
   @moduledoc """
   Gallery entry for `MishkaMob.Components.MishkaEmptyState`.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
 

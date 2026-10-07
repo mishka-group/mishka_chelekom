@@ -26,7 +26,7 @@ config :development, DevelopmentWeb.Endpoint,
 
 # Configure esbuild (the version is required)
 config :esbuild,
-  version: "0.25.4",
+  version: "0.28.2",
   development: [
     args:
       ~w(js/app.js --bundle --target=es2022 --outdir=../priv/static/assets/js --external:/fonts/* --external:/images/* --alias:@=.),
@@ -36,7 +36,7 @@ config :esbuild,
 
 # Configure tailwind (the version is required)
 config :tailwind,
-  version: "4.1.12",
+  version: "4.3.3",
   development: [
     args: ~w(
       --input=assets/css/app.css
@@ -56,8 +56,3 @@ config :phoenix, :json_library, Jason
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"
-
-# LOCAL DEVELOPMENT ONLY — see the note on :rustler in mix.exs.
-config :rustler_precompiled, :force_build,
-  igniter_css: true,
-  igniter_js: true

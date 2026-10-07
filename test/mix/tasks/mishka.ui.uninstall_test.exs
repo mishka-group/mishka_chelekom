@@ -442,6 +442,32 @@ defmodule Mix.Tasks.Mishka.Ui.UninstallTest do
     end
   end
 
+  # `assets/css/app.css` as `mix phx.new` 1.8 writes it.
+  @phoenix_app_css File.read!(Path.expand("../../fixtures/css/phoenix_app.css", __DIR__))
+
+  defp with_styled_button(app_css) do
+    test_project_with_formatter(
+      files: %{
+        "lib/test_web/components/button.ex" => """
+        defmodule TestWeb.Components.Button do
+          use Phoenix.Component
+          def button(assigns), do: ~H"<button>Button</button>"
+        end
+        """,
+        "assets/vendor/mishka_chelekom.css" => "",
+        "assets/css/app.css" => app_css
+      }
+    )
+  end
+
+  defp uninstall_all(igniter),
+    do: Igniter.compose_task(igniter, Uninstall, ["button", "--yes", "--all"])
+
+  defp app_css(igniter) do
+    {_, source} = Rewrite.source(igniter.rewrite, "assets/css/app.css")
+    Rewrite.Source.get(source, :content)
+  end
+
   describe "--include-css option" do
     test "removes CSS file when --all and --include-css are used" do
       igniter =
@@ -488,87 +514,155 @@ defmodule Mix.Tasks.Mishka.Ui.UninstallTest do
       refute "assets/vendor/mishka_chelekom.css" in igniter.rms
     end
 
-    test "removes @import and @theme block from app.css when CSS is removed" do
+    test "removes the @import and Chelekom's tokens, and keeps the project's own @theme" do
       igniter =
-        test_project_with_formatter()
-        |> Igniter.create_new_file("lib/test_web/components/button.ex", """
-        defmodule TestWeb.Components.Button do
-          use Phoenix.Component
-          def button(assigns), do: ~H"<button>Button</button>"
-        end
-        """)
-        |> Igniter.create_new_file("assets/vendor/mishka_chelekom.css", """
-        /* Mishka Chelekom styles */
-        """)
-        |> Igniter.create_new_file("assets/css/app.css", """
+        with_styled_button("""
         @import "tailwindcss";
         @import "../vendor/mishka_chelekom.css";
 
         @theme {
           --color-primary: blue;
           --color-secondary: green;
+          --color-primary-light: var(--primary-light);
         }
 
         .my-custom-class {
           color: red;
         }
         """)
-        |> Igniter.compose_task(Uninstall, ["button", "--yes", "--all"])
+        |> uninstall_all()
 
-      # CSS file should be removed
       assert "assets/vendor/mishka_chelekom.css" in igniter.rms
 
-      # app.css should have @import and @theme removed but keep other content
-      {_, source} = Rewrite.source(igniter.rewrite, "assets/css/app.css")
-      content = Rewrite.Source.get(source, :content)
+      assert app_css(igniter) == """
+             @import "tailwindcss";
 
-      refute content =~ "@import \"../vendor/mishka_chelekom.css\""
-      refute content =~ "@theme"
-      refute content =~ "--color-primary"
-      # Should keep other content
-      assert content =~ "@import \"tailwindcss\""
-      assert content =~ ".my-custom-class"
+             @theme {
+               --color-primary: blue;
+               --color-secondary: green;
+             }
+
+             .my-custom-class {
+               color: red;
+             }
+             """
     end
 
-    test "removes multiline @theme block from app.css" do
+    test "a generation and then an uninstall give the stock Phoenix app.css back" do
       igniter =
-        test_project_with_formatter()
-        |> Igniter.create_new_file("lib/test_web/components/button.ex", """
-        defmodule TestWeb.Components.Button do
-          use Phoenix.Component
-          def button(assigns), do: ~H"<button>Button</button>"
-        end
+        @phoenix_app_css
+        |> with_styled_button()
+        |> MishkaChelekom.Generators.Assets.setup_styled_css([])
+
+      assert app_css(igniter) =~ "--color-primary-light: var(--primary-light);"
+      assert app_css(uninstall_all(igniter)) == @phoenix_app_css
+    end
+
+    test "a generation and then an uninstall leave the project's @theme as it was" do
+      original = """
+      @import "tailwindcss";
+
+      @theme {
+        /* Custom font family */
+        --font-caveat: "caveat", cursive;
+
+        /* Brand */
+        --color-brand: #1eb0ff;
+      }
+      """
+
+      igniter =
+        original
+        |> with_styled_button()
+        |> MishkaChelekom.Generators.Assets.setup_styled_css([])
+
+      assert app_css(igniter) =~ "--color-base-border-light"
+      assert app_css(uninstall_all(igniter)) == original
+    end
+
+    test "@theme inline is the project's, and stays" do
+      igniter =
+        with_styled_button("""
+        @import "tailwindcss";
+        @import "../vendor/mishka_chelekom.css";
+
+        @theme inline {
+          --color-primary-light: var(--primary-light);
+        }
         """)
-        |> Igniter.create_new_file("assets/vendor/mishka_chelekom.css", "")
-        |> Igniter.create_new_file("assets/css/app.css", """
+        |> uninstall_all()
+
+      assert app_css(igniter) == """
+             @import "tailwindcss";
+
+             @theme inline {
+               --color-primary-light: var(--primary-light);
+             }
+             """
+    end
+
+    test "a Chelekom token the project changed is the project's now, and stays" do
+      igniter =
+        with_styled_button("""
         @import "tailwindcss";
         @import "../vendor/mishka_chelekom.css";
 
         @theme {
-          --color-primary: oklch(0.6 0.118 184);
-          --color-secondary: oklch(0.7 0.1 200);
-          --spacing-sm: 0.5rem;
-          --spacing-md: 1rem;
-          --spacing-lg: 2rem;
-        }
-
-        body {
-          font-family: sans-serif;
+          --color-primary-light: #0ea5e9;
+          --color-danger-light: var(--danger-light);
         }
         """)
-        |> Igniter.compose_task(Uninstall, ["button", "--yes", "--all"])
+        |> uninstall_all()
 
-      {_, source} = Rewrite.source(igniter.rewrite, "assets/css/app.css")
-      content = Rewrite.Source.get(source, :content)
+      assert app_css(igniter) == """
+             @import "tailwindcss";
 
-      # @theme block should be completely removed
-      refute content =~ "@theme"
-      refute content =~ "--color-primary"
-      refute content =~ "--spacing-sm"
-      # Other content preserved
-      assert content =~ "@import \"tailwindcss\""
-      assert content =~ "body"
-      assert content =~ "font-family"
+             @theme {
+               --color-primary-light: #0ea5e9;
+             }
+             """
+    end
+
+    test "an app.css with nothing of Chelekom's in it is left byte for byte" do
+      css = "@import \"tailwindcss\";\r\n\r\n.a {\r\n  color: red;\r\n}\r\n\r\n\r\n"
+      igniter = css |> with_styled_button() |> uninstall_all()
+
+      assert "assets/vendor/mishka_chelekom.css" in igniter.rms
+      assert app_css(igniter) == css
+    end
+
+    test "an app.css igniter_css cannot read stops the uninstall and names the file" do
+      assert_raise RuntimeError, ~r/failed on assets\/css\/app.css/, fn ->
+        ".a { color: red;\n" |> with_styled_button() |> uninstall_all()
+      end
+    end
+
+    test "a headless uninstall takes only its own import, and leaves the theme" do
+      css = """
+      @import "tailwindcss";
+      @import "../vendor/mishka_chelekom.css";
+      @import "../vendor/mishka_chelekom_headless.css";
+
+      @theme {
+        --color-primary-light: var(--primary-light);
+      }
+      """
+
+      igniter =
+        test_project_with_formatter(
+          files: %{
+            "lib/test_web/components/headless/editor.ex" =>
+              "defmodule TestWeb.Components.Headless.Editor do\nend\n",
+            "assets/vendor/mishka_chelekom_headless.css" => "",
+            "assets/css/app.css" => css
+          }
+        )
+        |> Igniter.compose_task(Uninstall, ["editor", "--headless", "--yes", "--all"])
+
+      assert "assets/vendor/mishka_chelekom_headless.css" in igniter.rms
+
+      assert app_css(igniter) ==
+               String.replace(css, ~s|@import "../vendor/mishka_chelekom_headless.css";\n|, "")
     end
   end
 
@@ -938,6 +1032,81 @@ defmodule Mix.Tasks.Mishka.Ui.UninstallTest do
       # Both icon and button should be in removal list
       assert {"icon", :styled} in result.assigns.components
       assert {"button", :styled} in result.assigns.components
+    end
+  end
+
+  describe "import macro cleanup" do
+    @macro_path "lib/test_web/components/mishka_components.ex"
+
+    defp with_button_and_alert(igniter) do
+      igniter
+      |> Igniter.create_new_file("lib/test_web/components/button.ex", """
+      defmodule TestWeb.Components.Button do
+        use Phoenix.Component
+        def button(assigns), do: ~H"<button>Button</button>"
+      end
+      """)
+      |> Igniter.create_new_file("lib/test_web/components/alert.ex", """
+      defmodule TestWeb.Components.Alert do
+        use Phoenix.Component
+        def alert(assigns), do: ~H"<div>Alert</div>"
+      end
+      """)
+    end
+
+    defp macro_content(igniter) do
+      {_, source} = Rewrite.source(igniter.rewrite, @macro_path)
+      Rewrite.Source.get(source, :content)
+    end
+
+    test "removes the component's entry from imports/0" do
+      igniter =
+        test_project_with_formatter()
+        |> with_button_and_alert()
+        |> Igniter.create_new_file(@macro_path, """
+        defmodule TestWeb.Components.MishkaComponents do
+          @moduledoc false
+
+          defmacro __using__(_) do
+            for {module, opts} <- imports() do
+              quote do: import(unquote(module), unquote(opts))
+            end
+          end
+
+          defp imports do
+            [
+              {TestWeb.Components.Alert, only: [alert: 1]},
+              {TestWeb.Components.Button, only: [button: 1]}
+            ]
+          end
+        end
+        """)
+        |> Igniter.compose_task(Uninstall, ["button", "--yes"])
+
+      content = macro_content(igniter)
+      refute content =~ "TestWeb.Components.Button"
+      assert content =~ "{TestWeb.Components.Alert, only: [alert: 1]}"
+    end
+
+    test "removes the component's import from a macro written by an older generator" do
+      igniter =
+        test_project_with_formatter()
+        |> with_button_and_alert()
+        |> Igniter.create_new_file(@macro_path, """
+        defmodule TestWeb.Components.MishkaComponents do
+          defmacro __using__(_) do
+            quote do
+              import TestWeb.Components.Alert, only: [alert: 1]
+              import TestWeb.Components.Button, only: [button: 1]
+            end
+          end
+        end
+        """)
+        |> Igniter.compose_task(Uninstall, ["button", "--yes"])
+
+      content = macro_content(igniter)
+      refute content =~ "TestWeb.Components.Button"
+      assert content =~ "import TestWeb.Components.Alert, only: [alert: 1]"
     end
   end
 

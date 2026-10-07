@@ -39,7 +39,7 @@ defmodule MishkaMob.Components.MishkaCollapsibleTest do
       tree = MishkaCollapsible.collapsible(p(%{open: true}), [])
 
       # only the trigger's own column remains
-      assert length(find_all(tree, :column)) == 1
+      assert [_] = find_all(tree, :column)
     end
   end
 

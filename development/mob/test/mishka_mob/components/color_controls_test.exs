@@ -307,7 +307,7 @@ defmodule MishkaMob.Components.ColorControlsTest do
 
       # A swatch, a hex readout and a slider per axis are all things a SCREEN
       # builds around the picker. The picker is the two canvases.
-      assert tree |> find_all(:canvas) |> length() == 2
+      assert [_, _] = find_all(tree, :canvas)
       refute find(tree, :slider)
       refute tree |> find_all(:text) |> Enum.any?(&String.starts_with?(&1.props.text, "#"))
     end
@@ -339,7 +339,7 @@ defmodule MishkaMob.Components.ColorControlsTest do
 
       # Both the swatch and the ▾ trigger. The swatch is the most colour-like
       # thing on the row, so it is what a finger reaches for first.
-      assert length(taps) == 2
+      assert [_, _] = taps
       assert Enum.all?(taps, &(&1 == {self(), :open}))
     end
 

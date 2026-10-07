@@ -4510,9 +4510,17 @@
         {
           "args": "assigns",
           "attrs": [],
-          "code": "open_set =\n  case assigns.value || assigns.initial_open do\n    nil -> nil\n    list -> Enum.map(list, &to_string/1)\n  end\n\nitems =\n  assigns.item\n  |> Enum.with_index()\n  |> Enum.map(fn {item, index} ->\n    id = \"#{assigns.id}-#{index}\"\n    value = to_string(item[:value] || id)\n\n    open =\n      if is_list(open_set) do\n        value in open_set\n      else\n        item[:open] || false\n      end\n\n    item\n    |> Map.put(:__id__, id)\n    |> Map.put(:__index__, index)\n    |> Map.put(:__value__, value)\n    |> Map.put(:__open__, open)\n    |> Map.put(:__disabled__, assigns.disabled || item[:disabled] || false)\n  end)\n\ntab_stop = Enum.find_index(items, &(not &1.__disabled__)) || 0\nEnum.map(items, &Map.put(&1, :__tabstop__, &1.__index__ == tab_stop))",
+          "code": "open_set =\n  case assigns.value || assigns.initial_open do\n    nil -> nil\n    list -> Enum.map(list, &to_string/1)\n  end\n\nitems =\n  assigns.item\n  |> Enum.with_index()\n  |> Enum.map(fn {item, index} -> prepare_item(item, index, open_set, assigns) end)\n\ntab_stop = Enum.find_index(items, &(not &1.__disabled__)) || 0\nEnum.map(items, &Map.put(&1, :__tabstop__, &1.__index__ == tab_stop))",
           "discriminators": [],
           "name": "prepare_items",
+          "slots": []
+        },
+        {
+          "args": "item, index, open_set, assigns",
+          "attrs": [],
+          "code": "id = \"#{assigns.id}-#{index}\"\nvalue = to_string(item[:value] || id)\n\nopen =\n  if is_list(open_set) do\n    value in open_set\n  else\n    item[:open] || false\n  end\n\nitem\n|> Map.put(:__id__, id)\n|> Map.put(:__index__, index)\n|> Map.put(:__value__, value)\n|> Map.put(:__open__, open)\n|> Map.put(:__disabled__, assigns.disabled || item[:disabled] || false)",
+          "discriminators": [],
+          "name": "prepare_item",
           "slots": []
         },
         {
@@ -7096,9 +7104,17 @@
         {
           "args": "text, queries",
           "attrs": [],
-          "code": "queries = Enum.reject(queries, &(&1 in [nil, \"\"]))\n\nif queries == [] do\n  [text: text]\nelse\n  pattern = queries |> Enum.map(&Regex.escape/1) |> Enum.join(\"|\")\n  re = Regex.compile!(\"(\" <> pattern <> \")\", \"iu\")\n  match_re = Regex.compile!(\"\\\\A(?:\" <> pattern <> \")\\\\z\", \"iu\")\n\n  re\n  |> Regex.split(text, include_captures: true, trim: false)\n  |> Enum.reject(&(&1 == \"\"))\n  |> Enum.map(fn s ->\n    if Regex.match?(match_re, s) do\n      {:mark, s}\n    else\n      {:text, s}\n    end\n  end)\nend",
+          "code": "queries = Enum.reject(queries, &(&1 in [nil, \"\"]))\n\nif queries == [] do\n  [text: text]\nelse\n  pattern = Enum.map_join(queries, \"|\", &Regex.escape/1)\n  re = Regex.compile!(\"(\" <> pattern <> \")\", \"iu\")\n  match_re = Regex.compile!(\"\\\\A(?:\" <> pattern <> \")\\\\z\", \"iu\")\n\n  re\n  |> Regex.split(text, include_captures: true, trim: false)\n  |> Enum.reject(&(&1 == \"\"))\n  |> Enum.map(&tag_segment(&1, match_re))\nend",
           "discriminators": [],
           "name": "highlight_parts",
+          "slots": []
+        },
+        {
+          "args": "segment, match_re",
+          "attrs": [],
+          "code": "if Regex.match?(match_re, segment) do\n  {:mark, segment}\nelse\n  {:text, segment}\nend",
+          "discriminators": [],
+          "name": "tag_segment",
           "slots": []
         }
       ],
@@ -11004,7 +11020,7 @@
           "slots": []
         },
         {
-          "args": "%Phoenix.LiveView.JS{} = js",
+          "args": "%JS{} = js",
           "attrs": [],
           "code": "js",
           "discriminators": [],
@@ -11014,7 +11030,7 @@
         {
           "args": "event when is_binary(event)",
           "attrs": [],
-          "code": "Phoenix.LiveView.JS.push(event)",
+          "code": "JS.push(event)",
           "discriminators": [],
           "name": "expand_action",
           "slots": []
@@ -11182,9 +11198,73 @@
         {
           "args": "a",
           "attrs": [],
-          "code": "sep =\n  case a.thousand_separator do\n    false -> \"\"\n    nil -> \"\"\n    s when is_binary(s) -> s\n    _ -> \",\"\n  end\n\nnum = to_number(a.value)\n\nstr =\n  cond do\n    a.decimal_scale -> :erlang.float_to_binary(num * 1.0, decimals: a.decimal_scale)\n    is_integer(num) -> Integer.to_string(num)\n    true -> Float.to_string(num)\n  end\n\n{int_str, frac_str} =\n  case String.split(str, \".\") do\n    [i, f] -> {i, f}\n    [i] -> {i, nil}\n  end\n\n{sign, digits} =\n  case int_str do\n    \"-\" <> rest -> {\"-\", rest}\n    _ -> {\"\", int_str}\n  end\n\nfrac =\n  if frac_str && frac_str != \"\" do\n    a.decimal_separator <> frac_str\n  else\n    \"\"\n  end\n\n\"#{a.prefix}#{sign}#{group(digits, sep)}#{frac}#{a.suffix}\"",
+          "code": "sep = thousand_separator(a.thousand_separator)\n{int_str, frac_str} = a.value |> to_number() |> number_text(a.decimal_scale) |> split_decimal()\n{sign, digits} = split_sign(int_str)\n\nfrac =\n  if frac_str && frac_str != \"\" do\n    a.decimal_separator <> frac_str\n  else\n    \"\"\n  end\n\n\"#{a.prefix}#{sign}#{group(digits, sep)}#{frac}#{a.suffix}\"",
           "discriminators": [],
           "name": "format_number",
+          "slots": []
+        },
+        {
+          "args": "false",
+          "attrs": [],
+          "code": "\"\"",
+          "discriminators": [],
+          "name": "thousand_separator",
+          "slots": []
+        },
+        {
+          "args": "nil",
+          "attrs": [],
+          "code": "\"\"",
+          "discriminators": [],
+          "name": "thousand_separator",
+          "slots": []
+        },
+        {
+          "args": "s when is_binary(s)",
+          "attrs": [],
+          "code": "s",
+          "discriminators": [],
+          "name": "thousand_separator",
+          "slots": []
+        },
+        {
+          "args": "_",
+          "attrs": [],
+          "code": "\",\"",
+          "discriminators": [],
+          "name": "thousand_separator",
+          "slots": []
+        },
+        {
+          "args": "num, decimal_scale",
+          "attrs": [],
+          "code": "cond do\n  decimal_scale -> :erlang.float_to_binary(num * 1.0, decimals: decimal_scale)\n  is_integer(num) -> Integer.to_string(num)\n  true -> Float.to_string(num)\nend",
+          "discriminators": [],
+          "name": "number_text",
+          "slots": []
+        },
+        {
+          "args": "str",
+          "attrs": [],
+          "code": "case String.split(str, \".\") do\n  [i, f] -> {i, f}\n  [i] -> {i, nil}\nend",
+          "discriminators": [],
+          "name": "split_decimal",
+          "slots": []
+        },
+        {
+          "args": "\"-\" <> rest",
+          "attrs": [],
+          "code": "{\"-\", rest}",
+          "discriminators": [],
+          "name": "split_sign",
+          "slots": []
+        },
+        {
+          "args": "int_str",
+          "attrs": [],
+          "code": "{\"\", int_str}",
+          "discriminators": [],
+          "name": "split_sign",
           "slots": []
         },
         {
@@ -12962,9 +13042,17 @@
         {
           "args": "nodes",
           "attrs": [],
-          "code": "Enum.flat_map(nodes, fn node ->\n  case Map.get(node, :children) || [] do\n    [] ->\n      if Map.get(node, :has_children, false) do\n        [node.value]\n      else\n        []\n      end\n\n    children ->\n      [node.value | all_parent_values(children)]\n  end\nend)",
+          "code": "Enum.flat_map(nodes, &parent_values/1)",
           "discriminators": [],
           "name": "all_parent_values",
+          "slots": []
+        },
+        {
+          "args": "node",
+          "attrs": [],
+          "code": "case Map.get(node, :children) || [] do\n  [] ->\n    if Map.get(node, :has_children, false) do\n      [node.value]\n    else\n      []\n    end\n\n  children ->\n    [node.value | all_parent_values(children)]\nend",
+          "discriminators": [],
+          "name": "parent_values",
           "slots": []
         },
         {

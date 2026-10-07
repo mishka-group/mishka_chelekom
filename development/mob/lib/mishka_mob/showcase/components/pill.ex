@@ -5,7 +5,7 @@ defmodule MishkaMob.Showcase.Components.Pill do
   The first example is live: the pills really are removable, and a reset button
   brings them back.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
   import MishkaMob.Components.MishkaPill, only: [pill: 1]

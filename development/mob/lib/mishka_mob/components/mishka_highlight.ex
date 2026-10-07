@@ -149,10 +149,12 @@ defmodule MishkaMob.Components.MishkaHighlight do
       splitter
       |> Regex.split(text, include_captures: true, trim: false)
       |> Enum.reject(&(&1 == ""))
-      |> Enum.map(fn run ->
-        if Regex.match?(whole, run), do: {:mark, run}, else: {:text, run}
-      end)
+      |> Enum.map(&classify(&1, whole))
     end
+  end
+
+  defp classify(run, whole) do
+    if Regex.match?(whole, run), do: {:mark, run}, else: {:text, run}
   end
 
   @doc """

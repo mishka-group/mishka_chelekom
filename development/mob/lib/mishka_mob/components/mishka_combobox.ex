@@ -276,13 +276,7 @@ defmodule MishkaMob.Components.MishkaCombobox do
     chosen = List.wrap(Map.get(props, :value))
 
     if truthy?(Map.get(props, :multiple, false)) and chosen != [] do
-      labels =
-        Enum.map(chosen, fn id ->
-          case Enum.find(options, &(Map.get(&1, :id) == id)) do
-            nil -> {id, to_string(id)}
-            option -> {id, Map.get(option, :label)}
-          end
-        end)
+      labels = Enum.map(chosen, &chosen_label(&1, options))
 
       # Reuse the tags input's packing rule rather than inventing a second one:
       # wrap the LABELS, then cut the {id, label} list to the same row lengths.
@@ -309,6 +303,14 @@ defmodule MishkaMob.Components.MishkaCombobox do
       {rows, used}
     else
       {[], 0}
+    end
+  end
+
+  # A chosen id with no matching option still gets a chip, labelled with the id.
+  defp chosen_label(id, options) do
+    case Enum.find(options, &(Map.get(&1, :id) == id)) do
+      nil -> {id, to_string(id)}
+      option -> {id, Map.get(option, :label)}
     end
   end
 

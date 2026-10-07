@@ -82,7 +82,8 @@ mix deploy                               # then deploy as normal
 
 1. Write it in `lib/mishka_mob/components/mishka_<name>.ex`, exposing both
    `expand/3` (the composite tag) and a function component.
-2. Add a gallery page under `lib/mishka_mob/showcase/components/`.
+2. Add a gallery page under `lib/mishka_mob/showcase/components/` — a module
+   that `use MishkaMob.Showcase.Page`.
 3. Register both in `MishkaMob.Showcase`'s `@catalog` — app boot and the tests
    read the same list, so they cannot drift.
 4. Write tests, run `mix mishka.mob.sync` from the repository root so `priv/mob`

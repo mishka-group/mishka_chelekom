@@ -306,7 +306,7 @@ defmodule MishkaMob.Components.MishkaAccordion do
 
       # A trigger carries one on_tap, so the extras are silently unreachable —
       # exactly the kind of prop that renders perfectly and does nothing.
-      length(wired) > 1 ->
+      match?([_, _ | _], wired) ->
         Logger.warning(
           "[MishkaAccordion] #{inspect(wired)} are all set, but a tap can only send one " <>
             "message. #{inspect(hd(wired))} wins; the rest will never fire."

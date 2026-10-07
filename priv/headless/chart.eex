@@ -1,7 +1,7 @@
 defmodule <%= @module %> do
   @moduledoc """
   Headless **chart** — a declarative wrapper over a JavaScript charting engine (Apache **ECharts**
-  by default; **Chart.js** or **billboard.js** via `--engine`).
+  by default; **Chart.js** or **billboard.js** via `--lib chartjs` / `--lib billboard`).
 
   You write the engine's option object as a plain Elixir map and pass it to `option`. The map is
   JSON-encoded and handed to the engine on the client, so the entire chart spec lives server-side
@@ -65,7 +65,7 @@ defmodule <%= @module %> do
   for a generated description of the data.
 
   Needs one npm package, installed for you by the generator: `echarts` (Apache-2.0) — or `chart.js`
-  / `billboard.js` (both MIT) when you pass `--engine`.
+  / `billboard.js` (both MIT) when you pass `--lib chartjs` / `--lib billboard`.
 
   Ships **no** colors, spacing or typography of its own — size it with `height` / `width`, style the
   box via `chelekom-chart*`, and drive the palette from the `--chart-*` custom properties.

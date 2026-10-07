@@ -27,7 +27,7 @@
     ],
 
     # Multi-engine shape, exactly like the editor. There is ONE <.chart> markup, ONE hook name
-    # (Chart) and ONE installed file (chart.js); the only thing --engine changes is which engine
+    # (Chart) and ONE installed file (chart.js); the only thing --lib changes is which engine
     # file is copied and which npm package is installed. Every entry MUST register the same hook
     # module (asserted by the catalog-integrity test) so the template never branches. Adding a
     # fourth engine is this data plus one file — no change to the component's markup or public API.
@@ -60,7 +60,7 @@
         ]
       ],
       billboard: [
-        npm: [%{name: "billboard.js", version: "4.0.3"}],
+        npm: [%{name: "billboard.js", version: "4.1.1"}],
         scripts: [
           %{
             module: "Chart",

@@ -3,7 +3,7 @@ defmodule MishkaMob.Showcase.Components.ActionIcon do
   Gallery entry for `MishkaMob.Components.MishkaActionIcon` and its
   `MishkaMob.Components.MishkaCloseButton` wrapper.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
 

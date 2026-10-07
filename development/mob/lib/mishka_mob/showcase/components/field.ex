@@ -3,11 +3,12 @@ defmodule MishkaMob.Showcase.Components.Field do
   Gallery entry for `MishkaMob.Components.MishkaField` and
   `MishkaMob.Components.MishkaFieldset`.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
   import MishkaMob.Components.MishkaField, only: [field: 2]
 
+  alias MishkaMob.Components.MishkaSegmentedControl
   alias MishkaMob.Showcase.Example
 
   @impl true
@@ -432,10 +433,10 @@ defmodule MishkaMob.Showcase.Components.Field do
   @roles [{:owner, "Owner"}, {:admin, "Admin"}, {:member, "Member"}]
 
   defp role_picker(value) do
-    MishkaMob.Components.MishkaSegmentedControl.segmented_control(
+    MishkaSegmentedControl.segmented_control(
       %{value: value, on_change: :fld_role, id: "fld-role", text_size: :sm},
       Enum.map(@roles, fn {id, label} ->
-        MishkaMob.Components.MishkaSegmentedControl.option(id, label)
+        MishkaSegmentedControl.option(id, label)
       end)
     )
   end

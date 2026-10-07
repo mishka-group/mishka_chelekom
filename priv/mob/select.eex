@@ -262,18 +262,18 @@ defmodule <%= @module %> do
       chosen = List.wrap(Map.get(props, :value))
       id = Map.get(props, :id)
 
-      items =
-        options
-        |> group_runs()
-        |> Enum.flat_map(fn {group, run} ->
-          heading = if is_binary(group), do: [<%= @module_prefix_camel %>Menu.label(group)], else: []
-          heading ++ Enum.map(run, &item(&1, chosen, id))
-        end)
+      items = options |> group_runs() |> Enum.flat_map(&group_items(&1, chosen, id))
 
       <%= @module_prefix_camel %>Menu.<%= @component_prefix %>menu(%{open: true, on_select: Map.get(props, :on_select)}, items)
     else
       ~MOB(<Column />)
     end
+  end
+
+  # A named group is introduced by its heading; an ungrouped run is not.
+  defp group_items({group, run}, chosen, select_id) do
+    heading = if is_binary(group), do: [<%= @module_prefix_camel %>Menu.label(group)], else: []
+    heading ++ Enum.map(run, &item(&1, chosen, select_id))
   end
 
   defp item(option, chosen, select_id) do

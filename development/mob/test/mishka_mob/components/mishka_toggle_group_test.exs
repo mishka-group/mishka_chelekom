@@ -56,7 +56,7 @@ defmodule MishkaMob.Components.MishkaToggleGroupTest do
     test "one button per item, separated by the space gap" do
       tree = build(%{space: 20})
 
-      assert length(buttons(tree)) == 3
+      assert [_, _, _] = buttons(tree)
       assert Enum.all?(Enum.filter(tree.children, &(&1.type == :spacer)), &(&1.props.size == 20))
     end
 
@@ -122,7 +122,7 @@ defmodule MishkaMob.Components.MishkaToggleGroupTest do
       joined = build(%{space: 0})
 
       assert Enum.filter(joined.children, &(&1.type == :spacer)) == []
-      assert length(buttons(joined)) == 3
+      assert [_, _, _] = buttons(joined)
     end
   end
 
@@ -175,7 +175,7 @@ defmodule MishkaMob.Components.MishkaToggleGroupTest do
     tree = Group.expand(%{value: :a}, items() ++ [stray], %{screen: self()})
 
     refute text(tree) =~ "stray"
-    assert length(buttons(tree)) == 3
+    assert [_, _, _] = buttons(tree)
   end
 
   test "every variant renders" do

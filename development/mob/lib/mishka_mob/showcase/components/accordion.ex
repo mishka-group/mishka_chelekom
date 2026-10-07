@@ -7,7 +7,7 @@ defmodule MishkaMob.Showcase.Components.Accordion do
   and each demonstrates a different mode of the headless component
   (`multiple`, `collapsible`, per-item `disabled`).
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
 

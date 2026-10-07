@@ -1,7 +1,7 @@
 defmodule MishkaChelekom.MixProject do
   use Mix.Project
 
-  @version "0.0.10-alpha.8"
+  @version "0.0.10-alpha.9"
   @source_url "https://github.com/mishka-group/mishka_chelekom"
 
   def project do
@@ -57,7 +57,7 @@ defmodule MishkaChelekom.MixProject do
       # Layer 3 declarative config DSL (already present transitively via guarded_struct).
       {:spark, "~> 2.7"},
       {:igniter_js, "~> 0.5"},
-      {:igniter_css, "~> 1.0"},
+      {:igniter_css, "~> 1.1"},
       {:owl, "~> 0.13"},
       {:ex_doc, "~> 0.40", only: :dev, runtime: false},
       # Checks the lockfile against the Elixir security advisories. The harness apps have

@@ -2,7 +2,7 @@ defmodule MishkaMob.Showcase.Components.CheckboxGroup do
   @moduledoc """
   Gallery entry for `MishkaMob.Components.MishkaCheckboxGroup`.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
   import MishkaMob.Components.MishkaCheckboxGroup, only: [item: 2]

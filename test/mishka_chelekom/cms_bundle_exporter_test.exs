@@ -276,6 +276,34 @@ defmodule MishkaChelekom.CmsBundleExporterTest do
         refute h["code"] in [nil, ""], "blank code on #{h["name"]}"
       end
     end
+
+    test "a zero-arity helper exports the same with or without parentheses" do
+      exs = """
+      [sample_zero: [name: "sample_zero", category: "general", args: [], necessary: []]]
+      """
+
+      helpers = fn head ->
+        eex = """
+        defmodule <%= @module %> do
+          use Phoenix.Component
+
+          def sample_zero(assigns), do: ~H"<div class={classes()}></div>"
+
+          #{head}
+            ["flex"]
+          end
+        end
+        """
+
+        {:ok, %{components: [cp]}} = CmsBundleExporter.convert(exs, eex, "kit", "1.0")
+        cp["helpers"]
+      end
+
+      assert [%{"name" => "classes", "args" => "", "code" => ~s(["flex"])}] =
+               helpers.("defp classes do")
+
+      assert helpers.("defp classes do") == helpers.("defp classes() do")
+    end
   end
 
   ## ─── The bridge clause between a Phoenix form and a kit ────────────

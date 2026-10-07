@@ -90,5 +90,26 @@ defmodule MishkaChelekom.MCP.Resources.ListCssVariablesTest do
         assert text =~ to_string(name), "#{name} is missing from the rendered docs"
       end)
     end
+
+    test "the variables and their defaults are the stylesheet's, read with igniter_css" do
+      {:reply, response, _frame} = ListCssVariables.read(%{}, %Frame{})
+      text = response.contents["text"]
+      variables = MishkaChelekom.Config.default_variables()
+
+      assert ListCssVariables.variable_count() == length(variables)
+
+      for {"--" <> name, default} <- variables do
+        row = "| `#{String.replace(name, "-", "_")}` | `#{default}` |"
+        assert text =~ row, "#{row} is missing from the rendered docs"
+      end
+    end
+
+    test "every variable described is one the stylesheet declares, and every one is described" do
+      declared = ListCssVariables.all_variable_names()
+      described = ListCssVariables.described_variable_names()
+
+      assert described -- declared == []
+      assert declared -- described == []
+    end
   end
 end

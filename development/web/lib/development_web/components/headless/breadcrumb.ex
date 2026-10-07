@@ -23,6 +23,8 @@ defmodule DevelopmentWeb.Components.Headless.Breadcrumb do
   """
   use Phoenix.Component
 
+  alias Phoenix.LiveView.JS
+
   @doc type: :component
   attr :id, :string, default: nil, doc: "Unique id"
   attr :label, :string, default: "Breadcrumb", doc: "Accessible name for the nav landmark"
@@ -157,8 +159,8 @@ defmodule DevelopmentWeb.Components.Headless.Breadcrumb do
 
   defp link?(entry), do: entry[:navigate] || entry[:patch] || entry[:href]
 
-  defp expand_action(%Phoenix.LiveView.JS{} = js), do: js
-  defp expand_action(event) when is_binary(event), do: Phoenix.LiveView.JS.push(event)
+  defp expand_action(%JS{} = js), do: js
+  defp expand_action(event) when is_binary(event), do: JS.push(event)
 
   # Collapsing is arithmetic, not a widget: keep `boundary` crumbs at each end and stand one
   # ellipsis in for everything between. Below the threshold the list is returned untouched, so

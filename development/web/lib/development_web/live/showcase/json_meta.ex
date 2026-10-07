@@ -9,6 +9,9 @@ defmodule DevelopmentWeb.Showcase.JsonMeta do
   `extra.component` so a `button` page can also surface `button_group` examples.
   """
 
+  alias MishkaChelekom.CmsBundle.Location
+  alias Phoenix.LiveView.HTMLFormatter
+
   @doc "Normalized attribute list for a component: `[%{name, type, default, values, doc}]`."
   def attrs(name) do
     case entry(name) do
@@ -64,7 +67,7 @@ defmodule DevelopmentWeb.Showcase.JsonMeta do
   defp format_heex(s) do
     formatted =
       s
-      |> Phoenix.LiveView.HTMLFormatter.format(line_length: 80)
+      |> HTMLFormatter.format(line_length: 80)
       |> String.trim_trailing()
 
     if String.trim(formatted) == "", do: :error, else: {:ok, formatted}
@@ -163,5 +166,5 @@ defmodule DevelopmentWeb.Showcase.JsonMeta do
     _ -> %{by_function: %{}, by_component: %{}}
   end
 
-  defp json_path, do: MishkaChelekom.CmsBundle.Location.bundle("chelekom")
+  defp json_path, do: Location.bundle("chelekom")
 end

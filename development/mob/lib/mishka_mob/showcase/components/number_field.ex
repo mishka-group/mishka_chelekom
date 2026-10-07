@@ -2,7 +2,7 @@ defmodule MishkaMob.Showcase.Components.NumberField do
   @moduledoc """
   Gallery entry for `MishkaMob.Components.MishkaNumberField`.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
 

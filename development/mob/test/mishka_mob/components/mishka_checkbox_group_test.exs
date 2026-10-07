@@ -215,7 +215,7 @@ defmodule MishkaMob.Components.MishkaCheckboxGroupTest do
     tree = Group.expand(%{value: []}, items() ++ [stray], %{screen: self()})
 
     refute text(tree) =~ "stray"
-    assert length(rows(tree)) == 3
+    assert [_, _, _] = rows(tree)
   end
 
   test "every variant renders" do

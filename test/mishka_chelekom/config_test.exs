@@ -41,6 +41,46 @@ defmodule MishkaChelekom.ConfigTest do
       assert css =~ "--primary-light: #123456;"
       assert css =~ "--danger-dark: #654321;"
     end
+
+    test "an override that is not a CSS value stops the generation and names it" do
+      for value <- ["", "red; } body { color: blue"] do
+        igniter =
+          project_with_config("""
+          import Config
+
+          config :mishka_chelekom,
+            css_overrides: %{primary_light: #{inspect(value)}}
+          """)
+
+        assert_raise ArgumentError, ~r/css_overrides: primary_light: .* --primary-light/, fn ->
+          Config.generate_css_content(igniter)
+        end
+      end
+    end
+  end
+
+  describe "default_variables/0" do
+    test "is every :root variable of the stylesheet, at its default, in its order" do
+      variables = Config.default_variables()
+
+      css =
+        File.read!(Path.join(:code.priv_dir(:mishka_chelekom), "assets/css/mishka_chelekom.css"))
+
+      assert {:ok, ^variables} = IgniterCss.get_rule_declarations(css, ":root")
+      assert {"--primary-light", "#007f8c"} in variables
+      assert {"--opacity-base", "10"} in variables
+      assert Enum.all?(variables, fn {name, _} -> String.starts_with?(name, "--") end)
+    end
+
+    test "the sample config lists every one of them, commented out at its default" do
+      {_igniter, _path, sample} = Config.create_sample_config(test_project_with_formatter())
+      sample = String.downcase(sample)
+
+      for {"--" <> name, default} <- Config.default_variables() do
+        line = String.downcase(~s|# #{String.replace(name, "-", "_")}: "#{default}"|)
+        assert sample =~ line, "the sample config does not list #{line}"
+      end
+    end
   end
 
   describe "generate_css_content/1 (replace strategy)" do

@@ -32,6 +32,24 @@
   swapping one element for another
 
 ### Bug fixes:
+- A styled generation no longer wipes a project's own `@theme` tokens (#511). Chelekom's tokens are
+  set in the plain `@theme` with igniter_css 1.1's `ensure_at_rule_declarations` — a token it already
+  has only changes value, a missing one is appended — and the project's `--font-*` / `--color-*` and
+  their comments stay; a project's `@theme inline` is left alone
+- `mix mishka.ui.uninstall --include-css` takes back only what the install set: the vendor `@import`
+  and Chelekom's tokens. It deleted every `@theme` block, the project's own and `@theme inline`
+  included, and rewrote the whole file even when nothing in it was Chelekom's. A generation followed
+  by an uninstall now gives `app.css` back byte for byte; a token the project changed stays
+- The first JS hook generated into a project with no `assets/vendor/mishka_components.js` was never
+  registered — the registry was created from its empty template and the update skipped — so a lone
+  headless `chart` never mounted
+- A `css_overrides` value that is not CSS stops the generation and names the override, instead of
+  being dropped while the default shipped
+- The MCP `list_css_variables` resource reads the variables and their defaults from the stylesheet;
+  its hand-kept copy (and the sample `config.exs`) had lost `--opacity-base` and `--overlay-opacity`
+- The chart's docs named an `--engine` option the generator rejects; it is `--lib chartjs` /
+  `--lib billboard`
+- `--cms` export no longer crashes on a helper written `defp x` without parentheses
 - The headless `radio_group` never went horizontal. Its root hardcoded `data-orientation="vertical"`
   while the JS engine was already reading that attribute to decide which arrow keys move the
   selection, so the option was unreachable: there is an `orientation` attribute now, and the
@@ -186,6 +204,7 @@ Phoenix component it mirrors.
 - Add the Headless section to the README [Commit](https://github.com/mishka-group/mishka_chelekom/commit/c23668dc)
 - Tighten all 116 usage rules, fix the Kit doc, bump versions and add the v0.0.9 roadmap [Commit](https://github.com/mishka-group/mishka_chelekom/commit/080e90fd)
 - Shorten every usage rule [Commit](https://github.com/mishka-group/mishka_chelekom/commit/f6f8594f)
+- Generated components pass `mix credo --strict`: the `--import` macro carries a `@moduledoc` and lists its imports as `{module, opts}` entries in `imports/0` instead of one long `quote` block (`mix mishka.ui.uninstall` edits both this shape and the older one), and the styled and headless templates credo flagged are refactored without changing their rendered markup
 
 ### Bugs:
 

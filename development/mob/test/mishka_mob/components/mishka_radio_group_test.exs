@@ -38,7 +38,7 @@ defmodule MishkaMob.Components.MishkaRadioGroupTest do
       tree = build(%{value: :pro})
       dots = tree |> find_all(:box) |> Enum.filter(&(&1.props[:border_width] == 2))
 
-      assert length(dots) == 1
+      assert [_] = dots
     end
 
     test "no value means nothing is checked" do
@@ -244,7 +244,7 @@ defmodule MishkaMob.Components.MishkaRadioGroupTest do
     tree = MishkaRadioGroup.expand(%{value: :free}, opts() ++ [stray], %{screen: self()})
 
     refute text(tree) =~ "stray"
-    assert length(rows(tree)) == 3
+    assert [_, _, _] = rows(tree)
   end
 
   test "every variant renders" do

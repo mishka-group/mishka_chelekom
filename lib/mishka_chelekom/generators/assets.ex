@@ -221,6 +221,34 @@ defmodule MishkaChelekom.Generators.Assets do
     match?({:ok, _}, content) and String.contains?(elem(content, 1), "mishka.assets.install")
   end
 
+  @components_js "assets/vendor/mishka_components.js"
+
+  # Igniter writes the template and SKIPS the updater when it creates a file, so a registry created
+  # by `create_or_update_file/4` never imported the very script it was created for — the first
+  # hook of a project that had no registry yet never mounted. Create it, then always register.
+  defp register_hook(igniter, item, template) do
+    igniter
+    |> Igniter.create_or_update_file(@components_js, template, & &1)
+    |> Igniter.update_file(@components_js, fn source ->
+      with original_content <- Rewrite.Source.get(source, :content),
+           {:ok, _, imported} <- JsParser.insert_imports(original_content, "#{item.imports}"),
+           {:ok, _, extended} <-
+             JsParser.extend_var_object_by_object_names(imported, "Components", "#{item.module}"),
+           {:ok, _, formatted} <- JsFormatter.format(extended) do
+        Rewrite.Source.update(source, :content, formatted)
+      else
+        {:error, _, error} ->
+          Rewrite.Source.add_issue(source, """
+          Note:
+          When you see this error, it means there is a syntax issue in the part you are trying to import.
+          Please review the relevant file again.
+
+          Full errors: "#{inspect(error)}"
+          """)
+      end
+    end)
+  end
+
   defp update_js_files(igniter, _template_config, scripts) do
     files = Enum.filter(scripts, &(&1.type == "file"))
 
@@ -258,35 +286,7 @@ defmodule MishkaChelekom.Generators.Assets do
             |> Igniter.create_or_update_file("assets/vendor/#{installed}", content, fn source ->
               Rewrite.Source.update(source, :content, content)
             end)
-            |> Igniter.create_or_update_file(
-              "assets/vendor/mishka_components.js",
-              caller_js,
-              fn source ->
-                with original_content <- Rewrite.Source.get(source, :content),
-                     {:ok, _, imported} <-
-                       JsParser.insert_imports(original_content, "#{item.imports}"),
-                     {:ok, _, extended} <-
-                       JsParser.extend_var_object_by_object_names(
-                         imported,
-                         "Components",
-                         "#{item.module}"
-                       ),
-                     {:ok, _, formatted} <- JsFormatter.format(extended) do
-                  Rewrite.Source.update(source, :content, formatted)
-                else
-                  {:error, _, error} ->
-                    msg = """
-                    Note:
-                    When you see this error, it means there is a syntax issue in the part you are trying to import.
-                    Please review the relevant file again.
-
-                    Full Erros: "#{inspect(error)}"
-                    """
-
-                    Rewrite.Source.add_issue(source, msg)
-                end
-              end
-            )
+            |> register_hook(item, caller_js)
           else
             acc
             |> Igniter.add_issue("The requested JavaScript file does not exist.")
@@ -369,35 +369,48 @@ defmodule MishkaChelekom.Generators.Assets do
   end
 
   defp import_and_setup_theme(igniter, app_css_path) do
-    theme_path = Core.lib_priv("assets/css/theme.css")
-
-    with {:ok, theme_content} <- File.read(theme_path),
-         {:ok, theme_body} <- theme_declarations(theme_content, theme_path) do
+    with true <- Igniter.exists?(igniter, app_css_path),
+         {:ok, tokens} <- theme_declarations() do
+      # THE `@theme` BLOCK IS SHARED WITH THE APP: Chelekom sets its own tokens and leaves the
+      # project's — `--font-caveat`, `--color-brand` — with their comments (#511). `""` is the
+      # plain `@theme`; a project's `@theme inline` is not Chelekom's to write in.
       igniter
-      |> add_vendor_import(app_css_path, "../vendor/mishka_chelekom.css")
-      |> IgniterCss.Codemods.ensure_at_rule_block(app_css_path, "theme", nil, theme_body)
+      |> IgniterCss.Codemods.add_import(app_css_path, "../vendor/mishka_chelekom.css")
+      |> IgniterCss.Codemods.ensure_at_rule_declarations(app_css_path, "theme", "", tokens)
     else
-      {:error, :enoent} ->
-        Igniter.add_issue(igniter, """
-        The app.css file does not exist at #{app_css_path}.
-        Please ensure your Phoenix application has been properly set up with assets.
+      false ->
+        Igniter.add_notice(igniter, """
+        Could not find #{app_css_path} — add `@import "../vendor/mishka_chelekom.css";` and the
+        `@theme` block of #{Core.lib_priv("assets/css/theme.css")} to your stylesheet manually.
         """)
 
       {:error, reason} ->
-        Igniter.add_issue(igniter, "Error processing CSS file: #{inspect(reason)}")
+        Igniter.add_issue(igniter, "Could not set up Chelekom's theme: #{reason}")
     end
   end
 
-  defp theme_declarations(theme_content, theme_path) do
-    case IgniterCss.get_at_rules(theme_content, "theme") do
-      {:ok, [%IgniterCss.AtRule{body: body} | _]} when is_binary(body) ->
-        {:ok, body}
+  @doc """
+  The tokens Chelekom keeps in a project's `@theme`: the declarations of the `@theme` block in
+  its own `theme.css`. The styled install sets them and `mix mishka.ui.uninstall` takes them
+  back, leaving the project's own.
+  """
+  @spec theme_declarations() :: {:ok, String.t()} | {:error, String.t()}
+  def theme_declarations do
+    theme_path = Core.lib_priv("assets/css/theme.css")
+
+    with {:read, {:ok, theme_content}} <- {:read, File.read(theme_path)},
+         {:ok, [%IgniterCss.AtRule{body: body} | _]} when is_binary(body) <-
+           IgniterCss.get_at_rules(theme_content, "theme", "") do
+      {:ok, body}
+    else
+      {:read, {:error, posix}} ->
+        {:error, "cannot read #{theme_path}: #{:file.format_error(posix)}"}
 
       {:ok, _} ->
         {:error, "#{theme_path} does not contain an `@theme` block"}
 
       {:error, reason} ->
-        {:error, reason}
+        {:error, "cannot read #{theme_path}: #{reason}"}
     end
   end
 
@@ -420,7 +433,7 @@ defmodule MishkaChelekom.Generators.Assets do
   end
 
   defp add_vendor_import(igniter, app_css, import_path) do
-    if File.exists?(app_css) or igniter.rewrite.sources[app_css] do
+    if Igniter.exists?(igniter, app_css) do
       IgniterCss.Codemods.add_import(igniter, app_css, import_path)
     else
       Igniter.add_notice(

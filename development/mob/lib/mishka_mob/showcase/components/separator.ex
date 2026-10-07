@@ -6,7 +6,7 @@ defmodule MishkaMob.Showcase.Components.Separator do
   Chelekom component as an interpolated function call — the same split HEEx
   makes between `<div>` and `<.function_component />`.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
 

@@ -249,7 +249,7 @@ defmodule DevelopmentWeb.Components.Breadcrumb do
 
   defp size_class(params) when is_binary(params), do: params
 
-  defp default_classes() do
+  defp default_classes do
     [
       "flex items-center transition-all ease-in-out duration-100 group"
     ]

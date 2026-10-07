@@ -108,7 +108,7 @@ defmodule MishkaMob.Components.MishkaMenuTest do
       tree = build()
       lines = tree |> find_all(:box) |> Enum.filter(&(&1.props[:height] == 1))
 
-      assert length(lines) == 1
+      assert [_] = lines
     end
 
     test "a label is muted and small, and is not tappable" do

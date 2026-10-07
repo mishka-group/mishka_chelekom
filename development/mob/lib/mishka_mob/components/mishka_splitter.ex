@@ -146,9 +146,10 @@ defmodule MishkaMob.Components.MishkaSplitter do
   def drag(payload, grab, props \\ %{}) do
     props = Map.new(props)
     axis = if orientation(props) == :vertical, do: :y, else: :x
-    at = coordinate(payload, axis)
+    gesture = Event.drag(payload)
+    at = Map.fetch!(gesture, axis)
 
-    case phase(payload) do
+    case gesture.phase do
       :began -> begin_drag(at, props)
       :ended -> {follow(at, grab, props), nil}
       :dragging -> {follow(at, grab, props), grab}
@@ -183,25 +184,6 @@ defmodule MishkaMob.Components.MishkaSplitter do
       (Map.get(props, :min) || 10) * 1.0,
       (Map.get(props, :max) || 90) * 1.0
     )
-  end
-
-  # The NIF sends `phase` as an ATOM (:began / :dragging / :ended). Comparing it
-  # against "began" matched nothing and fell through to the :dragging default,
-  # so the anchor was never set and every drag returned the split unchanged —
-  # the divider looked completely dead while the arithmetic was fine. Strings
-  # are accepted too, because a payload that has crossed a wire may be either.
-  defp phase(payload) do
-    case payload[:phase] || payload["phase"] do
-      p when p in [:began, "began"] -> :began
-      p when p in [:ended, "ended"] -> :ended
-      _ -> :dragging
-    end
-  end
-
-  defp coordinate(payload, axis) do
-    key = if axis == :y, do: :y, else: :x
-    value = payload[key] || payload[to_string(key)] || 0
-    value * 1.0
   end
 
   @doc """

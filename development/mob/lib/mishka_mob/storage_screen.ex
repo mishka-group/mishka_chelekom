@@ -1,4 +1,5 @@
 defmodule MishkaMob.StorageScreen do
+  @moduledoc "Storage demo — write, list and delete a test file in the documents directory."
   use Mob.Screen
 
   def mount(_params, _session, socket) do

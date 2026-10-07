@@ -132,10 +132,10 @@ defmodule MishkaMob.Components.MishkaHighlightTest do
       sensitive =
         MishkaHighlight.highlight(text: @sentence, highlight: "this", case_sensitive: true)
 
-      assert length(find_all(sensitive, :box)) == 1
+      insensitive = MishkaHighlight.highlight(text: @sentence, highlight: "this")
 
-      assert length(find_all(MishkaHighlight.highlight(text: @sentence, highlight: "this"), :box)) ==
-               3
+      assert [_] = find_all(sensitive, :box)
+      assert [_, _, _] = find_all(insensitive, :box)
     end
   end
 
@@ -156,7 +156,7 @@ defmodule MishkaMob.Components.MishkaHighlightTest do
 
       assert tree.type == :column
       rows = find_all(tree, :row)
-      assert length(rows) > 1
+      assert [_, _ | _] = rows
 
       # No line is over budget, and none begins with a space — breaks land AFTER
       # whitespace so a wrapped line is never indented by its separator.

@@ -5,7 +5,7 @@ defmodule MishkaMob.Showcase.Components.Checkbox do
   The "select all" example is the one worth reading: it is the tristate parent
   from the web component, rebuilt as a reducer in the screen with `toggle/1`.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
   import MishkaMob.Components.MishkaCheckbox, only: [checkbox: 1]

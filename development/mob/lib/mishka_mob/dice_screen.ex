@@ -26,10 +26,7 @@ defmodule MishkaMob.DiceScreen do
         "—"
       end
 
-    history_text =
-      assigns.history
-      |> Enum.map(&Map.fetch!(@faces, &1))
-      |> Enum.join("  ")
+    history_text = Enum.map_join(assigns.history, "  ", &Map.fetch!(@faces, &1))
 
     history_section =
       if assigns.history != [] do

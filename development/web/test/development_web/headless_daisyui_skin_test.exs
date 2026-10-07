@@ -143,8 +143,7 @@ defmodule DevelopmentWeb.HeadlessDaisyUISkinTest do
   defp own_attrs(source, name) do
     ~r/<\.#{Regex.escape(name)}(?=[\s\/>])/
     |> Regex.scan(source, return: :index)
-    |> Enum.map(fn [{start, len}] -> attrs_after(source, start + len) end)
-    |> Enum.join(" ")
+    |> Enum.map_join(" ", fn [{start, len}] -> attrs_after(source, start + len) end)
   end
 
   # `Regex.scan/3` with `return: :index` hands back byte offsets, and this file has multibyte
@@ -153,20 +152,25 @@ defmodule DevelopmentWeb.HeadlessDaisyUISkinTest do
     source
     |> binary_part(from, byte_size(source) - from)
     |> String.graphemes()
-    |> Enum.reduce_while({[], 0, nil}, fn c, {acc, depth, quote_char} ->
-      cond do
-        quote_char && c == quote_char -> {:cont, {[c | acc], depth, nil}}
-        quote_char -> {:cont, {[c | acc], depth, quote_char}}
-        c in ["\"", "'"] -> {:cont, {[c | acc], depth, c}}
-        c == "{" -> {:cont, {[c | acc], depth + 1, nil}}
-        c == "}" -> {:cont, {[c | acc], depth - 1, nil}}
-        c == ">" and depth == 0 -> {:halt, {acc, depth, nil}}
-        true -> {:cont, {[c | acc], depth, nil}}
-      end
-    end)
+    |> Enum.reduce_while({[], 0, nil}, &scan_attr_char/2)
     |> elem(0)
     |> Enum.reverse()
     |> Enum.join()
+  end
+
+  # Inside a quoted value every character is kept, and only its closing quote ends it.
+  defp scan_attr_char(c, {acc, depth, quote_char}) when is_binary(quote_char) do
+    {:cont, {[c | acc], depth, if(c == quote_char, do: nil, else: quote_char)}}
+  end
+
+  defp scan_attr_char(c, {acc, depth, nil}) do
+    cond do
+      c in ["\"", "'"] -> {:cont, {[c | acc], depth, c}}
+      c == "{" -> {:cont, {[c | acc], depth + 1, nil}}
+      c == "}" -> {:cont, {[c | acc], depth - 1, nil}}
+      c == ">" and depth == 0 -> {:halt, {acc, depth, nil}}
+      true -> {:cont, {[c | acc], depth, nil}}
+    end
   end
 
   test "every component carries its styling in its own markup" do

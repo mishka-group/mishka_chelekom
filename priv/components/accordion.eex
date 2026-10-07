@@ -163,8 +163,8 @@ defmodule <%= @module %> do
       |> Enum.map(& &1[:id])
 
     cond do
-      length(initial_open) > 0 -> Enum.join(initial_open, ",")
-      length(slot_open_items) > 0 -> Enum.join(slot_open_items, ",")
+      initial_open != [] -> Enum.join(initial_open, ",")
+      slot_open_items != [] -> Enum.join(slot_open_items, ",")
       true -> ""
     end
   end

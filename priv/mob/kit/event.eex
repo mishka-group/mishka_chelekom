@@ -1,6 +1,7 @@
 defmodule <%= @namespace %>.Event do
   @moduledoc """
-  Normalises the event handlers a Chelekom component accepts.
+  Normalises the event handlers a Chelekom component accepts, and the drag
+  payloads those handlers receive (`drag/1`).
 
   Mob's renderer only registers a handler when the prop is `{screen_pid, tag}`
   (see the `on_tap` / `on_change` clauses in `Mob.Renderer`). Anything else —
@@ -60,4 +61,43 @@ defmodule <%= @namespace %>.Event do
   def handler(nil, _value), do: nil
   def handler({pid, tag}, value) when is_pid(pid), do: {pid, {tag, value}}
   def handler(tag, value), do: {self(), {tag, value}}
+
+  @doc """
+  Read the payload of a `{:drag, tag, payload}` message as `%{phase: _, x: _, y: _}`.
+
+  The NIF sends atom keys and an atom `phase` (`:began`, `:dragging`, `:ended`);
+  a payload that has crossed a wire has string keys and a string phase. Comparing
+  an atom phase against `"began"` matches nothing, so a fold written for one
+  shape never anchors on the other and the control looks dead while its
+  arithmetic is fine. Both shapes come out of here as the same map.
+
+  `x` and `y` are floats, `0.0` when absent. `dx`/`dy` are not read: they are
+  cumulative translation on iOS and per-sample deltas on Android, so anything
+  built on them behaves differently on each platform. A phase that is neither
+  began nor ended reads as `:dragging`.
+
+      drag(%{phase: :began, x: 12, y: 4})        #=> %{phase: :began, x: 12.0, y: 4.0}
+      drag(%{"phase" => "ended", "x" => 3.5})    #=> %{phase: :ended, x: 3.5, y: 0.0}
+      drag(%{phase: :moved})                     #=> %{phase: :dragging, x: 0.0, y: 0.0}
+  """
+  @spec drag(map()) :: %{phase: :began | :dragging | :ended, x: float(), y: float()}
+  def drag(payload) do
+    fields = Map.new(payload, fn {key, value} -> {drag_key(key), value} end)
+
+    %{
+      phase: drag_phase(Map.get(fields, :phase)),
+      x: (Map.get(fields, :x) || 0) * 1.0,
+      y: (Map.get(fields, :y) || 0) * 1.0
+    }
+  end
+
+  # Only the keys read above are converted, so a payload never mints an atom.
+  defp drag_key("phase"), do: :phase
+  defp drag_key("x"), do: :x
+  defp drag_key("y"), do: :y
+  defp drag_key(key), do: key
+
+  defp drag_phase(phase) when phase in [:began, "began"], do: :began
+  defp drag_phase(phase) when phase in [:ended, "ended"], do: :ended
+  defp drag_phase(_phase), do: :dragging
 end

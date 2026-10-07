@@ -64,7 +64,7 @@ defmodule MishkaMob.Components.MishkaFieldTest do
 
       assert text(tree) =~ "Too short."
       assert text(tree) =~ "Already taken."
-      assert length(find_all(tree, :row)) == 2
+      assert [_, _] = find_all(tree, :row)
       assert text(tree) =~ "✕"
     end
 

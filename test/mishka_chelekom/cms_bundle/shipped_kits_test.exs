@@ -50,7 +50,7 @@ defmodule MishkaChelekom.CmsBundle.ShippedKitsTest do
   end
 
   test "there are kits to check" do
-    assert @kits != []
+    refute Enum.empty?(@kits)
   end
 
   for path <- @kits do

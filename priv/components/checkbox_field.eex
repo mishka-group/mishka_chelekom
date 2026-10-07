@@ -17,8 +17,8 @@ defmodule <%= @module %> do
   """
 
   use Phoenix.Component
-  alias Phoenix.LiveView.Utils
   alias Phoenix.HTML.Form
+  alias Phoenix.LiveView.Utils
   import <%= inspect(@web_module) %>.Components.<%= @module_prefix_camel %>Icon, only: [<%= @component_prefix %>icon: 1]
 
   <%= if is_nil(@type) or "checkbox" in @type do %>
@@ -97,7 +97,7 @@ defmodule <%= @module %> do
     end)
     |> assign_new(:value, fn -> field.value end)
     |> assign_new(:checked, fn ->
-      Phoenix.HTML.Form.normalize_value("checkbox", assigns[:value])
+      Form.normalize_value("checkbox", assigns[:value])
     end)
     |> <%= @component_prefix %>checkbox_field()
   end

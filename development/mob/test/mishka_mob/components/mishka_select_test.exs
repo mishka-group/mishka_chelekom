@@ -127,7 +127,7 @@ defmodule MishkaMob.Components.MishkaSelectTest do
     test "an empty option set renders no list even when open" do
       tree = S.select(%{open: true}, [])
 
-      assert length(find_all(tree, :box)) == 1
+      assert [_] = find_all(tree, :box)
     end
   end
 

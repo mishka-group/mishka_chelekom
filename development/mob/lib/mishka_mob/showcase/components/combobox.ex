@@ -4,7 +4,7 @@ defmodule MishkaMob.Showcase.Components.Combobox do
 
   Fully live: type to filter, tap to choose, ✕ to clear.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
   import MishkaMob.Components.MishkaCombobox, only: [option: 2, option: 3]

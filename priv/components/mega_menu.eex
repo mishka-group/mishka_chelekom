@@ -229,7 +229,7 @@ defmodule <%= @module %> do
     """
   end
 
-  defp trigger_mega_menu(),
+  defp trigger_mega_menu,
     do: "hover:[&>.mega-menu-content]:visible hover:[&>.mega-menu-content]:opacity-100"
 
   defp top_gap("none"), do: "[&>.mega-menu-content]:mt-0"

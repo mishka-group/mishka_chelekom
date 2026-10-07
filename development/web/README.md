@@ -10,7 +10,7 @@ Git-tracked but **never shipped to Hex** — the root `mix.exs` `files:` whiteli
 
 | Phoenix | LiveView | Tailwind | esbuild | Elixir |
 |---|---|---|---|---|
-| 1.8.x | 1.2.x | 4.x.x (CSS-first, no config file) | 0.25.x | ~> 1.18 |
+| 1.8.x | 1.2.x | 4.x.x (CSS-first, no config file) | 0.28.x | ~> 1.18 |
 
 ## How it's wired
 

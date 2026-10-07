@@ -8,7 +8,7 @@ defmodule MishkaMob.Showcase.Components.ThemeIcon do
   column, so two examples bound to the same assign are indistinguishable to a
   device test, and so are two icons with the same tag.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
 

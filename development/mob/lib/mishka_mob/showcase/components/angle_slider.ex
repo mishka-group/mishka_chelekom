@@ -1,6 +1,6 @@
 defmodule MishkaMob.Showcase.Components.AngleSlider do
   @moduledoc "Gallery entry for `MishkaMob.Components.MishkaAngleSlider`."
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
 

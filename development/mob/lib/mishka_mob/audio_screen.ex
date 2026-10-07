@@ -1,4 +1,5 @@
 defmodule MishkaMob.AudioScreen do
+  @moduledoc "Audio playback demo — play and stop a test track, and set the app volume."
   use Mob.Screen
 
   @test_audio "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"

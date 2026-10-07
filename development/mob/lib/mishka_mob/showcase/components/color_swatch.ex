@@ -2,7 +2,7 @@ defmodule MishkaMob.Showcase.Components.ColorSwatch do
   @moduledoc """
   Gallery entry for `MishkaMob.Components.MishkaColorSwatch`.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
   import MishkaMob.Components.MishkaColorSwatch, only: [color_swatch: 1]

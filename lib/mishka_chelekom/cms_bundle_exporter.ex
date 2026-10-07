@@ -865,6 +865,8 @@ defmodule MishkaChelekom.CmsBundleExporter do
   defp encode_map_term(_), do: :__drop__
 
   defp decompose_head({:when, _, [{name, _, args}, guard]}), do: {name, args, guard}
+  # A zero-arity head written without parentheses (`defp default_classes do`) has no args list.
+  defp decompose_head({name, _, args}) when is_atom(args), do: {name, [], nil}
   defp decompose_head({name, _, args}), do: {name, args, nil}
 
   defp match_string([{:assigns, _, _}]), do: nil

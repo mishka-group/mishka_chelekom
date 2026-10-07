@@ -182,7 +182,7 @@ defmodule MishkaMob.Components.MishkaThemeIconTest do
       ops = canvas_ops(icon(%{variant: :gradient}))
 
       assert Enum.all?(ops, &(&1.op == :path and &1.fill == true))
-      assert Enum.all?(ops, &(length(&1.points) == 4))
+      assert Enum.all?(ops, &match?([_, _, _, _], &1.points))
     end
 
     test "neighbouring bands share their edge exactly" do
@@ -406,8 +406,8 @@ defmodule MishkaMob.Components.MishkaThemeIconTest do
       once = MishkaMarquee.marquee(%{repeat: 1}, content())
       thrice = MishkaMarquee.marquee(%{repeat: 3}, content())
 
-      assert length(find_all(once, :text)) == 1
-      assert length(find_all(thrice, :text)) == 3
+      assert [_] = find_all(once, :text)
+      assert [_, _, _] = find_all(thrice, :text)
     end
 
     test "repeats are separated by the space gap, with no trailing gap" do
@@ -415,12 +415,12 @@ defmodule MishkaMob.Components.MishkaThemeIconTest do
       row = find(tree, :row)
 
       gaps = Enum.filter(row.children, &(&1.type == :spacer))
-      assert length(gaps) == 2
+      assert [_, _] = gaps
       assert Enum.all?(gaps, &(&1.props.size == 40))
     end
 
     test "a repeat below one still renders the content once" do
-      assert length(find_all(MishkaMarquee.marquee(%{repeat: 0}, content()), :text)) == 1
+      assert [_] = find_all(MishkaMarquee.marquee(%{repeat: 0}, content()), :text)
     end
 
     test "height and id are passed to the scroller" do

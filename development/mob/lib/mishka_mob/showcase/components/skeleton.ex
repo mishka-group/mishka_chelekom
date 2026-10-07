@@ -5,7 +5,7 @@ defmodule MishkaMob.Showcase.Components.Skeleton do
   The first example is live: it swaps the placeholder for the real row, which is
   the only way to see whether the two actually line up.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
 

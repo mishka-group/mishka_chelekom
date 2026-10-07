@@ -53,14 +53,18 @@ defmodule DevelopmentWeb.Components.Headless.Highlight do
     if queries == [] do
       [{:text, text}]
     else
-      pattern = queries |> Enum.map(&Regex.escape/1) |> Enum.join("|")
+      pattern = Enum.map_join(queries, "|", &Regex.escape/1)
       re = Regex.compile!("(" <> pattern <> ")", "iu")
       match_re = Regex.compile!("\\A(?:" <> pattern <> ")\\z", "iu")
 
       re
       |> Regex.split(text, include_captures: true, trim: false)
       |> Enum.reject(&(&1 == ""))
-      |> Enum.map(fn s -> if Regex.match?(match_re, s), do: {:mark, s}, else: {:text, s} end)
+      |> Enum.map(&tag_segment(&1, match_re))
     end
+  end
+
+  defp tag_segment(segment, match_re) do
+    if Regex.match?(match_re, segment), do: {:mark, segment}, else: {:text, segment}
   end
 end

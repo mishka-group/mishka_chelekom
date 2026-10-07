@@ -1,53 +1,14 @@
 defmodule MishkaMob.Showcase do
   @moduledoc """
-  Registry + contract for the component gallery.
+  Registry for the component gallery.
 
-  Each showcased component is a module that `use MishkaMob.Showcase` and
-  implements `entry/0` (metadata) and `examples/0` (a list of
-  `#{inspect(__MODULE__)}.Example`). Register them at boot (see
-  `MishkaMob.App.on_start/0`). The generic `GalleryScreen` and
-  `ComponentScreen` read this registry — so **adding a component to the gallery
-  is one module + one register call, no new screen**.
-
-  ## Author a component showcase
-
-      defmodule MyApp.Showcase.Components.Badge do
-        use MishkaMob.Showcase
-        alias MishkaMob.Showcase.Example
-
-        @impl true
-        def entry do
-          %{slug: :badge, name: "Badge", category: "Data display", order: 0,
-            description: "A small status/count label."}
-        end
-
-        @impl true
-        def examples do
-          [%Example{title: "Colors", description: "One per semantic token.",
-                    code: "<Badge color={:primary} text=\\"New\\" />",
-                    render: fn _assigns -> badge_row() end}]
-        end
-      end
-
-  Then `MishkaMob.Showcase.register(MyApp.Showcase.Components.Badge)`.
-
-  ## Interactive / overlay components
-
-  Static components only need `entry/0` + `examples/0` (each example's `render`
-  returns an inline preview node). Components that need state or an overlay
-  (Drawer, Modal, …) also override:
-
-    * `mount/1`  — seed the screen's assigns (`socket -> socket`)
-    * `handle/2` — react to a tapped tag (`(tag, socket) -> socket`)
-    * `overlay/1` — a node rendered at the **screen root** (`assigns -> node | nil`),
-      so a drawer's panel stacks over the whole page while the example card
-      shows only the inline "Open" buttons.
-
-  `ComponentScreen` delegates its `mount`, tap events, and root overlay to
-  these, so every component drives itself through one generic screen.
+  Each showcased component is a page: a module that `use MishkaMob.Showcase.Page`
+  (the contract) and returns its examples as a list of
+  `#{inspect(__MODULE__)}.Example`. Register the pages at boot (see
+  `MishkaMob.App.on_start/0`). The generic `GalleryScreen` and `ComponentScreen`
+  read this registry — so **adding a component to the gallery is one module +
+  one register call, no new screen**.
   """
-
-  alias MishkaMob.Showcase.Kit
 
   @pt_key {__MODULE__, :components}
 
@@ -67,34 +28,6 @@ defmodule MishkaMob.Showcase do
             render: (map() -> map())
           }
   end
-
-  @typedoc "Component metadata returned by `entry/0` (the registry adds `:module`)."
-  @type entry :: %{
-          required(:slug) => atom(),
-          required(:name) => String.t(),
-          required(:category) => String.t(),
-          optional(:description) => String.t(),
-          optional(:order) => integer()
-        }
-
-  @callback entry() :: entry()
-  @callback examples() :: [Example.t()]
-  @callback mount(socket :: term()) :: term()
-  @callback handle(tag :: term(), socket :: term()) :: term()
-  @callback overlay(assigns :: map()) :: map() | nil
-  @callback card_preview() :: map()
-  @callback props() :: [%{required(:name) => String.t(), optional(atom()) => String.t()}]
-  @doc """
-  Handle a value-carrying event — `{:change, tag, value}` from a Toggle, Slider,
-  TextField, … — as opposed to `handle/2`'s bare taps.
-  """
-  @callback handle_change(tag :: term(), value :: term(), socket :: term()) :: term()
-  @optional_callbacks mount: 1,
-                      handle: 2,
-                      handle_change: 3,
-                      overlay: 1,
-                      card_preview: 0,
-                      props: 0
 
   @doc "Register a showcase component module. Overwrites any prior registration for its slug."
   @spec register(module()) :: :ok
@@ -357,31 +290,4 @@ defmodule MishkaMob.Showcase do
   end
 
   defp with_module(module), do: Map.put(module.entry(), :module, module)
-
-  @doc false
-  defmacro __using__(_opts) do
-    quote do
-      @behaviour MishkaMob.Showcase
-
-      @impl true
-      def mount(socket), do: socket
-      @impl true
-      def handle(_tag, socket), do: socket
-      @impl true
-      def overlay(_assigns), do: nil
-      @impl true
-      def card_preview, do: unquote(Kit).skeleton_preview()
-      @impl true
-      def props, do: []
-      @impl true
-      def handle_change(_tag, _value, socket), do: socket
-
-      defoverridable mount: 1,
-                     handle: 2,
-                     handle_change: 3,
-                     overlay: 1,
-                     card_preview: 0,
-                     props: 0
-    end
-  end
 end

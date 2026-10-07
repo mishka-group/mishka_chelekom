@@ -86501,7 +86501,7 @@
         {
           "args": "initial_open, items",
           "attrs": [],
-          "code": "slot_open_items = items |> Enum.filter(&(&1[:open] == true)) |> Enum.map(& &1[:id])\n\ncond do\n  length(initial_open) > 0 -> Enum.join(initial_open, \",\")\n  length(slot_open_items) > 0 -> Enum.join(slot_open_items, \",\")\n  true -> \"\"\nend",
+          "code": "slot_open_items = items |> Enum.filter(&(&1[:open] == true)) |> Enum.map(& &1[:id])\n\ncond do\n  initial_open != [] -> Enum.join(initial_open, \",\")\n  slot_open_items != [] -> Enum.join(slot_open_items, \",\")\n  true -> \"\"\nend",
           "discriminators": [],
           "name": "format_initial_open",
           "slots": []
@@ -109258,7 +109258,7 @@
           "type": "global"
         }
       ],
-      "body": "assigns =\n  assign_new(assigns, :checked, fn ->\n    Phoenix.HTML.Form.normalize_value(\"checkbox\", assigns[:value])\n  end)",
+      "body": "assigns =\n  assign_new(assigns, :checked, fn -> Form.normalize_value(\"checkbox\", assigns[:value]) end)",
       "dependencies": [
         "chelekom-icon"
       ],
@@ -109278,7 +109278,7 @@
             "template": null
           },
           {
-            "body": "assigns =\n  assign_new(assigns, :checked, fn ->\n    Phoenix.HTML.Form.normalize_value(\"checkbox\", assigns[:value])\n  end)",
+            "body": "assigns =\n  assign_new(assigns, :checked, fn -> Form.normalize_value(\"checkbox\", assigns[:value]) end)",
             "delegates": false,
             "guard": null,
             "match": "%{type: \"checkbox\"} = assigns",
@@ -109486,7 +109486,7 @@
           "slots": []
         },
         "module_attributes": [],
-        "prelude": null,
+        "prelude": "alias Phoenix.HTML.Form",
         "ui_kit": "chelekom",
         "ui_kit_version": "0.0.10-alpha.8"
       },
@@ -109554,7 +109554,7 @@
           "slots": []
         },
         "module_attributes": [],
-        "prelude": null,
+        "prelude": "alias Phoenix.HTML.Form",
         "ui_kit": "chelekom",
         "ui_kit_version": "0.0.10-alpha.8"
       },
@@ -109622,7 +109622,7 @@
           "slots": []
         },
         "module_attributes": [],
-        "prelude": null,
+        "prelude": "alias Phoenix.HTML.Form",
         "ui_kit": "chelekom",
         "ui_kit_version": "0.0.10-alpha.8"
       },
@@ -173631,7 +173631,7 @@
           "type": "global"
         }
       ],
-      "body": "assigns =\n  assign_new(assigns, :checked, fn ->\n    Phoenix.HTML.Form.normalize_value(\"checkbox\", assigns[:value])\n  end)",
+      "body": "assigns =\n  assign_new(assigns, :checked, fn -> Form.normalize_value(\"checkbox\", assigns[:value]) end)",
       "dependencies": [
         "chelekom-icon"
       ],
@@ -173650,7 +173650,7 @@
             "template": null
           },
           {
-            "body": "assigns =\n  assign_new(assigns, :checked, fn ->\n    Phoenix.HTML.Form.normalize_value(\"checkbox\", assigns[:value])\n  end)",
+            "body": "assigns =\n  assign_new(assigns, :checked, fn -> Form.normalize_value(\"checkbox\", assigns[:value]) end)",
             "delegates": false,
             "guard": null,
             "match": null,
@@ -181595,7 +181595,7 @@
       "extra": {
         "clauses": [
           {
-            "body": "new_id = assigns.id || field.id\n\nerrors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil)\n|> assign(\n  id:\n    if assigns.multiple do\n      new_id <> \"_#{Utils.random_id()}\"\n    else\n      new_id\n    end\n)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn ->\n  if assigns.multiple do\n    field.name <> \"[]\"\n  else\n    field.name\n  end\nend)\n|> assign_new(:value, fn -> field.value end)\n|> assign_new(:checked, fn -> Phoenix.HTML.Form.normalize_value(\"checkbox\", assigns[:value]) end)",
+            "body": "new_id = assigns.id || field.id\n\nerrors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil)\n|> assign(\n  id:\n    if assigns.multiple do\n      new_id <> \"_#{Utils.random_id()}\"\n    else\n      new_id\n    end\n)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign_new(:name, fn ->\n  if assigns.multiple do\n    field.name <> \"[]\"\n  else\n    field.name\n  end\nend)\n|> assign_new(:value, fn -> field.value end)\n|> assign_new(:checked, fn -> Form.normalize_value(\"checkbox\", assigns[:value]) end)",
             "delegates": true,
             "guard": null,
             "match": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
@@ -181889,7 +181889,7 @@
           "slots": []
         },
         "module_attributes": [],
-        "prelude": "alias Phoenix.LiveView.Utils\nalias Phoenix.HTML.Form",
+        "prelude": "alias Phoenix.HTML.Form\nalias Phoenix.LiveView.Utils",
         "ui_kit": "chelekom",
         "ui_kit_version": "0.0.10-alpha.8"
       },
@@ -182987,7 +182987,7 @@
           ]
         },
         "module_attributes": [],
-        "prelude": "alias Phoenix.LiveView.Utils\nalias Phoenix.HTML.Form",
+        "prelude": "alias Phoenix.HTML.Form\nalias Phoenix.LiveView.Utils",
         "ui_kit": "chelekom",
         "ui_kit_version": "0.0.10-alpha.8"
       },
@@ -202323,7 +202323,7 @@
       "extra": {
         "clauses": [
           {
-            "body": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nselect =\n  case field.value do\n    val when is_integer(val) ->\n      val\n\n    val when is_float(val) ->\n      val\n\n    val when is_binary(val) and val != \"\" ->\n      case Float.parse(val) do\n        {f, \"\"} ->\n          if f == trunc(f) do\n            trunc(f)\n          else\n            f\n          end\n\n        _ ->\n          0\n      end\n\n    _ ->\n      0\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign(:name, field.name)\n|> assign(:select, select)\n|> assign(\n  :interactive,\n  if assigns.disabled do\n    false\n  else\n    true\n  end\n)",
+            "body": "errors =\n  if Phoenix.Component.used_input?(field) do\n    field.errors\n  else\n    []\n  end\n\nassigns\n|> assign(field: nil, id: assigns.id || field.id)\n|> assign(:errors, Enum.map(errors, &translate_error(&1)))\n|> assign(:name, field.name)\n|> assign(:select, rating_value(field.value))\n|> assign(\n  :interactive,\n  if assigns.disabled do\n    false\n  else\n    true\n  end\n)",
             "delegates": true,
             "guard": null,
             "match": "%{field: %Phoenix.HTML.FormField{} = field} = assigns",
@@ -203361,9 +203361,33 @@
         {
           "args": "field, %{params: params, data: data} = _form",
           "attrs": [],
-          "code": "val = params[Atom.to_string(field)] || Map.get(data, field)\n\ncase val do\n  v when is_integer(v) ->\n    v\n\n  v when is_float(v) ->\n    v\n\n  v when is_binary(v) and v != \"\" ->\n    case Float.parse(v) do\n      {f, \"\"} ->\n        if f == trunc(f) do\n          trunc(f)\n        else\n          f\n        end\n\n      _ ->\n        0\n    end\n\n  _ ->\n    0\nend",
+          "code": "rating_value(params[Atom.to_string(field)] || Map.get(data, field))",
           "discriminators": [],
           "name": "rating_select",
+          "slots": []
+        },
+        {
+          "args": "value when is_integer(value) or is_float(value)",
+          "attrs": [],
+          "code": "value",
+          "discriminators": [],
+          "name": "rating_value",
+          "slots": []
+        },
+        {
+          "args": "value when is_binary(value) and value != \"\"",
+          "attrs": [],
+          "code": "case Float.parse(value) do\n  {f, \"\"} ->\n    if f == trunc(f) do\n      trunc(f)\n    else\n      f\n    end\n\n  _ ->\n    0\nend",
+          "discriminators": [],
+          "name": "rating_value",
+          "slots": []
+        },
+        {
+          "args": "_value",
+          "attrs": [],
+          "code": "0",
+          "discriminators": [],
+          "name": "rating_value",
           "slots": []
         },
         {
@@ -224987,7 +225011,7 @@
           "attrs": [],
           "code": "Enum.any?(@indicator_positions, &Map.get(rest, String.to_atom(&1)))",
           "discriminators": [],
-          "name": "is_indicators?",
+          "name": "indicators?",
           "slots": []
         }
       ],
@@ -225220,7 +225244,7 @@
           "type": "global"
         }
       ],
-      "body": "assigns = assign_new(assigns, :indicator, fn -> is_indicators?(assigns[:rest]) end)",
+      "body": "assigns = assign_new(assigns, :indicator, fn -> indicators?(assigns[:rest]) end)",
       "dependencies": [
         "chelekom-icon"
       ],
@@ -234962,7 +234986,7 @@
           "attrs": [],
           "code": "Enum.any?(@indicator_positions, &Map.get(rest, String.to_atom(&1)))",
           "discriminators": [],
-          "name": "is_indicators?",
+          "name": "indicators?",
           "slots": []
         }
       ],
@@ -238276,7 +238300,7 @@
           "attrs": [],
           "code": "Enum.any?(@indicator_positions, &Map.get(rest, String.to_atom(&1)))",
           "discriminators": [],
-          "name": "is_indicators?",
+          "name": "indicators?",
           "slots": []
         }
       ],
@@ -238510,7 +238534,7 @@
           "type": "global"
         }
       ],
-      "body": "assigns = assign_new(assigns, :indicator, fn -> is_indicators?(assigns[:rest]) end)",
+      "body": "assigns = assign_new(assigns, :indicator, fn -> indicators?(assigns[:rest]) end)",
       "dependencies": [
         "chelekom-icon"
       ],
@@ -238522,21 +238546,21 @@
       "extra": {
         "clauses": [
           {
-            "body": "assigns = assign_new(assigns, :indicator, fn -> is_indicators?(assigns[:rest]) end)",
+            "body": "assigns = assign_new(assigns, :indicator, fn -> indicators?(assigns[:rest]) end)",
             "delegates": false,
             "guard": null,
             "match": "%{navigate: _navigate} = assigns",
             "template": "<.link\n  navigate={@navigate}\n  id={@id}\n  class={[\n    default_classes(@rest[:pinging], @indicator),\n    size_class(@size, @rest[:circle]),\n    color_variant(@variant, @color, @indicator),\n    rounded_size(@rounded),\n    border_size(@border, @variant),\n    @full_width && \"w-full\",\n    @font_weight,\n    @line_height,\n    @display,\n    @class\n  ]}\n  {drop_rest(@rest)}\n>\n  <span\n    :for={loading <- @loading}\n    :if={is_nil(loading[:position]) || loading[:position] == \"start\"}\n    class={loading[:class]}\n  >\n    {render_slot(loading)}\n  </span>\n\n  <.button_indicator position=\"left\" size={@indicator_size} class={@indicator_class} {@rest} />\n  <.component component_name=\"chelekom-icon\" site={assigns[:site]} :if={icon_position(@icon, @rest) == \"left\"} name={@icon} class={@icon_class} />\n  <span :if={(@inner_block && render_slot(@inner_block)) || @title} class={[@content_class]}>\n    {render_slot(@inner_block) || @title}\n  </span>\n  <.component component_name=\"chelekom-icon\" site={assigns[:site]} :if={icon_position(@icon, @rest) == \"right\"} name={@icon} class={@icon_class} />\n  <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />\n\n  <span :for={loading <- @loading} :if={loading[:position] == \"end\"} class={loading[:class]}>\n    {render_slot(loading)}\n  </span>\n</.link>\n"
           },
           {
-            "body": "assigns = assign_new(assigns, :indicator, fn -> is_indicators?(assigns[:rest]) end)",
+            "body": "assigns = assign_new(assigns, :indicator, fn -> indicators?(assigns[:rest]) end)",
             "delegates": false,
             "guard": null,
             "match": "%{patch: _patch} = assigns",
             "template": "<.link\n  patch={@patch}\n  id={@id}\n  class={[\n    default_classes(@rest[:pinging], @indicator),\n    size_class(@size, @rest[:circle]),\n    color_variant(@variant, @color, @indicator),\n    rounded_size(@rounded),\n    border_size(@border, @variant),\n    @full_width && \"w-full\",\n    @font_weight,\n    @line_height,\n    @display,\n    @class\n  ]}\n  {drop_rest(@rest)}\n>\n  <span\n    :for={loading <- @loading}\n    :if={is_nil(loading[:position]) || loading[:position] == \"start\"}\n    class={loading[:class]}\n  >\n    {render_slot(loading)}\n  </span>\n\n  <.button_indicator position=\"left\" size={@indicator_size} class={@indicator_class} {@rest} />\n  <.component component_name=\"chelekom-icon\" site={assigns[:site]} :if={icon_position(@icon, @rest) == \"left\"} name={@icon} />\n  <span :if={(@inner_block && render_slot(@inner_block)) || @title} class={[@content_class]}>\n    {render_slot(@inner_block) || @title}\n  </span>\n  <.component component_name=\"chelekom-icon\" site={assigns[:site]} :if={icon_position(@icon, @rest) == \"right\"} name={@icon} />\n  <.button_indicator size={@indicator_size} class={@indicator_class} {@rest} />\n\n  <span :for={loading <- @loading} :if={loading[:position] == \"end\"} class={loading[:class]}>\n    {render_slot(loading)}\n  </span>\n</.link>\n"
           },
           {
-            "body": "assigns = assign_new(assigns, :indicator, fn -> is_indicators?(assigns[:rest]) end)",
+            "body": "assigns = assign_new(assigns, :indicator, fn -> indicators?(assigns[:rest]) end)",
             "delegates": false,
             "guard": null,
             "match": "%{href: _href} = assigns",
@@ -241643,7 +241667,7 @@
           "attrs": [],
           "code": "Enum.any?(@indicator_positions, &Map.get(rest, String.to_atom(&1)))",
           "discriminators": [],
-          "name": "is_indicators?",
+          "name": "indicators?",
           "slots": []
         }
       ],
@@ -244720,7 +244744,7 @@
           "attrs": [],
           "code": "Enum.any?(@indicator_positions, &Map.get(rest, String.to_atom(&1)))",
           "discriminators": [],
-          "name": "is_indicators?",
+          "name": "indicators?",
           "slots": []
         }
       ],

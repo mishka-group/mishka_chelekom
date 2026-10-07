@@ -5,7 +5,7 @@ defmodule MishkaMob.Showcase.Components.Toast do
   The toasts really stack, dedup and cap — the buttons drive the queue functions,
   and `overlay/1` renders the viewport over the whole page.
   """
-  use MishkaMob.Showcase
+  use MishkaMob.Showcase.Page
 
   import Mob.Sigil
   import MishkaMob.Components.MishkaToast, only: [toast: 1]

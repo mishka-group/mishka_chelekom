@@ -91,29 +91,11 @@ defmodule DevelopmentWeb.Components.Rating do
   def rating(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
     errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
 
-    select =
-      case field.value do
-        val when is_integer(val) ->
-          val
-
-        val when is_float(val) ->
-          val
-
-        val when is_binary(val) and val != "" ->
-          case Float.parse(val) do
-            {f, ""} -> if f == trunc(f), do: trunc(f), else: f
-            _ -> 0
-          end
-
-        _ ->
-          0
-      end
-
     assigns
     |> assign(field: nil, id: assigns.id || field.id)
     |> assign(:errors, Enum.map(errors, &translate_error(&1)))
     |> assign(:name, field.name)
-    |> assign(:select, select)
+    |> assign(:select, rating_value(field.value))
     |> assign(:interactive, if(assigns.disabled, do: false, else: true))
     |> rating()
   end
@@ -344,25 +326,21 @@ defmodule DevelopmentWeb.Components.Rating do
   ```
   """
   def rating_select(field, %{params: params, data: data} = _form) do
-    val = params[Atom.to_string(field)] || Map.get(data, field)
+    rating_value(params[Atom.to_string(field)] || Map.get(data, field))
+  end
 
-    case val do
-      v when is_integer(v) ->
-        v
+  # A form value read as a rating: numbers pass through, a numeric string is parsed (a whole
+  # number comes back as an integer), and anything else is no rating at all.
+  defp rating_value(value) when is_integer(value) or is_float(value), do: value
 
-      v when is_float(v) ->
-        v
-
-      v when is_binary(v) and v != "" ->
-        case Float.parse(v) do
-          {f, ""} -> if f == trunc(f), do: trunc(f), else: f
-          _ -> 0
-        end
-
-      _ ->
-        0
+  defp rating_value(value) when is_binary(value) and value != "" do
+    case Float.parse(value) do
+      {f, ""} -> if f == trunc(f), do: trunc(f), else: f
+      _ -> 0
     end
   end
+
+  defp rating_value(_value), do: 0
 
   @doc type: :component
   attr :for, :string, default: nil, doc: "Specifies the form which is associated with"

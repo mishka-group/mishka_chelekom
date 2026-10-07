@@ -408,13 +408,13 @@ defmodule DevelopmentWeb.Components.Headless.Tree do
   defp expanded_set(values, _nodes) when is_list(values), do: MapSet.new(values)
   defp expanded_set(_other, _nodes), do: MapSet.new()
 
-  defp all_parent_values(nodes) do
-    Enum.flat_map(nodes, fn node ->
-      case Map.get(node, :children) || [] do
-        [] -> if(Map.get(node, :has_children, false), do: [node.value], else: [])
-        children -> [node.value | all_parent_values(children)]
-      end
-    end)
+  defp all_parent_values(nodes), do: Enum.flat_map(nodes, &parent_values/1)
+
+  defp parent_values(node) do
+    case Map.get(node, :children) || [] do
+      [] -> if(Map.get(node, :has_children, false), do: [node.value], else: [])
+      children -> [node.value | all_parent_values(children)]
+    end
   end
 
   # A parent's checked state is derived from its leaves so the first render already agrees
