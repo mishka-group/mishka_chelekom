@@ -308,24 +308,31 @@ defmodule MishkaChelekom.KitTest do
     test "a `color` rule with a `color:` partner is rejected at compile time" do
       # The Spark verifier raises a DslError during compilation; Code.eval_string surfaces it as a
       # compiler diagnostic, so capture it that way (a real `.ex` file hard-fails to compile).
-      {_, diagnostics} =
-        Code.with_diagnostics(fn ->
-          try do
-            Code.eval_string("""
-            defmodule BadOwnAxisKit#{System.unique_integer([:positive])} do
-              use MishkaChelekom.Kit
-              customize :x do
-                from :button
-                color :brand, "bg-x!", color: :danger
+      # Spark also prints it as a warning, which `mix test --warnings-as-errors` counts against
+      # the whole suite, so stderr is captured too — and holds the same message.
+      stderr =
+        ExUnit.CaptureIO.capture_io(:stderr, fn ->
+          {_, diagnostics} =
+            Code.with_diagnostics(fn ->
+              try do
+                Code.eval_string("""
+                defmodule BadOwnAxisKit#{System.unique_integer([:positive])} do
+                  use MishkaChelekom.Kit
+                  customize :x do
+                    from :button
+                    color :brand, "bg-x!", color: :danger
+                  end
+                end
+                """)
+              rescue
+                _ -> :ok
               end
-            end
-            """)
-          rescue
-            _ -> :ok
-          end
+            end)
+
+          assert Enum.any?(diagnostics, &(to_string(&1.message) =~ "OWN axis"))
         end)
 
-      assert Enum.any?(diagnostics, &(to_string(&1.message) =~ "OWN axis"))
+      assert stderr =~ "OWN axis"
     end
   end
 
