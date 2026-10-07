@@ -60,7 +60,7 @@
         ]
       ],
       billboard: [
-        npm: [%{name: "billboard.js", version: "4.0.3"}],
+        npm: [%{name: "billboard.js", version: "4.1.1"}],
         scripts: [
           %{
             module: "Chart",
