@@ -227,6 +227,68 @@ defmodule MishkaChelekom.Generators.AssetsNpmTest do
     end
   end
 
+  describe "the hook registry, assets/vendor/mishka_components.js" do
+    @editor %{
+      module: "Editor",
+      type: "file",
+      file: "editor_tiptap.js",
+      imports: ~s(import Editor from "./editor_tiptap.js";)
+    }
+    @chart %{
+      module: "Chart",
+      type: "file",
+      file: "chart_echarts.js",
+      as: "chart.js",
+      imports: ~s(import Chart from "./chart.js";)
+    }
+
+    defp registry(igniter), do: source_content(igniter, "assets/vendor/mishka_components.js")
+
+    test "a project with no registry yet gets one that imports its first hook" do
+      igniter = project_with_assets() |> Assets.wire_scripts(config(scripts: [@chart]))
+
+      assert registry(igniter) =~ ~s(import Chart from "./chart.js")
+      assert registry(igniter) =~ ~r/const Components = \{\s*Chart,?\s*\}/
+      assert source_content(igniter, "assets/js/app.js") =~ "...MishkaComponents"
+    end
+
+    test "every script of one generation is registered, the first included" do
+      igniter = project_with_assets() |> Assets.wire_scripts(config(scripts: [@editor, @chart]))
+
+      assert registry(igniter) =~ ~s(import Editor from "./editor_tiptap.js")
+      assert registry(igniter) =~ ~s(import Chart from "./chart.js")
+    end
+
+    test "a registry that is already there keeps its hooks and gains the new one" do
+      existing = """
+      import Carousel from "./carousel.js";
+
+      const Components = {
+        Carousel,
+      };
+
+      export default Components;
+      """
+
+      igniter =
+        project_with_assets(%{"assets/vendor/mishka_components.js" => existing})
+        |> Assets.wire_scripts(config(scripts: [@chart]))
+
+      assert registry(igniter) =~ ~s(import Carousel from "./carousel.js")
+      assert registry(igniter) =~ ~s(import Chart from "./chart.js")
+    end
+
+    test "wiring twice registers the hook once" do
+      once = project_with_assets() |> Assets.wire_scripts(config(scripts: [@chart]))
+
+      twice =
+        project_with_assets(%{"assets/vendor/mishka_components.js" => registry(once)})
+        |> Assets.wire_scripts(config(scripts: [@chart]))
+
+      assert registry(twice) == registry(once)
+    end
+  end
+
   describe "projects without a JS pipeline" do
     test "an API-only app gets a notice instead of a stray package.json" do
       igniter =

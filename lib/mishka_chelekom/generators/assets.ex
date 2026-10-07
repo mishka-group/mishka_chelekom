@@ -221,6 +221,34 @@ defmodule MishkaChelekom.Generators.Assets do
     match?({:ok, _}, content) and String.contains?(elem(content, 1), "mishka.assets.install")
   end
 
+  @components_js "assets/vendor/mishka_components.js"
+
+  # Igniter writes the template and SKIPS the updater when it creates a file, so a registry created
+  # by `create_or_update_file/4` never imported the very script it was created for — the first
+  # hook of a project that had no registry yet never mounted. Create it, then always register.
+  defp register_hook(igniter, item, template) do
+    igniter
+    |> Igniter.create_or_update_file(@components_js, template, & &1)
+    |> Igniter.update_file(@components_js, fn source ->
+      with original_content <- Rewrite.Source.get(source, :content),
+           {:ok, _, imported} <- JsParser.insert_imports(original_content, "#{item.imports}"),
+           {:ok, _, extended} <-
+             JsParser.extend_var_object_by_object_names(imported, "Components", "#{item.module}"),
+           {:ok, _, formatted} <- JsFormatter.format(extended) do
+        Rewrite.Source.update(source, :content, formatted)
+      else
+        {:error, _, error} ->
+          Rewrite.Source.add_issue(source, """
+          Note:
+          When you see this error, it means there is a syntax issue in the part you are trying to import.
+          Please review the relevant file again.
+
+          Full errors: "#{inspect(error)}"
+          """)
+      end
+    end)
+  end
+
   defp update_js_files(igniter, _template_config, scripts) do
     files = Enum.filter(scripts, &(&1.type == "file"))
 
@@ -258,35 +286,7 @@ defmodule MishkaChelekom.Generators.Assets do
             |> Igniter.create_or_update_file("assets/vendor/#{installed}", content, fn source ->
               Rewrite.Source.update(source, :content, content)
             end)
-            |> Igniter.create_or_update_file(
-              "assets/vendor/mishka_components.js",
-              caller_js,
-              fn source ->
-                with original_content <- Rewrite.Source.get(source, :content),
-                     {:ok, _, imported} <-
-                       JsParser.insert_imports(original_content, "#{item.imports}"),
-                     {:ok, _, extended} <-
-                       JsParser.extend_var_object_by_object_names(
-                         imported,
-                         "Components",
-                         "#{item.module}"
-                       ),
-                     {:ok, _, formatted} <- JsFormatter.format(extended) do
-                  Rewrite.Source.update(source, :content, formatted)
-                else
-                  {:error, _, error} ->
-                    msg = """
-                    Note:
-                    When you see this error, it means there is a syntax issue in the part you are trying to import.
-                    Please review the relevant file again.
-
-                    Full Erros: "#{inspect(error)}"
-                    """
-
-                    Rewrite.Source.add_issue(source, msg)
-                end
-              end
-            )
+            |> register_hook(item, caller_js)
           else
             acc
             |> Igniter.add_issue("The requested JavaScript file does not exist.")
