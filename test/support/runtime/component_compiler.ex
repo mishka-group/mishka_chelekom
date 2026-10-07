@@ -469,18 +469,12 @@ defmodule MishkaChelekom.Test.Runtime.Compilers.ComponentCompiler do
     # AST tuple. Avoids the `quote do x -> y end` form which doesn't
     # reliably produce arrow clauses outside case/fn/cond contexts.
     arrow_asts =
-      Enum.map(clauses, fn clause ->
-        pattern_ast = parse_clause_match(Map.get(clause, :match))
-        body_ast = parse_clause_body(Map.get(clause, :body))
-        template_ast = compile_clause_template(Map.get(clause, :template, ""), params)
+      clauses
+      |> Enum.with_index()
+      |> Enum.map(fn {clause, index} ->
+        head = arrow_head(parse_clause_match(Map.get(clause, :match)), clause, index)
 
-        branch_body =
-          quote do
-            unquote(body_ast)
-            unquote(template_ast)
-          end
-
-        {:->, [], [[guarded(pattern_ast, Map.get(clause, :guard))], branch_body]}
+        {:->, [], [[head], branch(clause, params, title_atom, index)]}
       end)
 
     # Construct the case node manually rather than going through
@@ -521,11 +515,60 @@ defmodule MishkaChelekom.Test.Runtime.Compilers.ComponentCompiler do
   # case, so `floating` is always present. Without the guard that pattern
   # matches every call and the floating-label branch swallows the
   # default `floating: "none"`, raising FunctionClauseError downstream.
-  defp guarded(pattern_ast, guard) when guard in [nil, ""], do: pattern_ast
+  #
+  # A delegating clause (`delegates: true`) renders nothing: its body normalises the assigns —
+  # `field={@form[:email]}` into the `name`, `value`, `id` and `errors` the rendering clauses read
+  # — and the component is entered again with them, as `MishkaCmsCore`'s compiler does. Each
+  # delegating clause marks itself spent, so it runs at most once per render.
+  defp branch(%{delegates: true} = clause, _params, title_atom, index) do
+    body_ast = parse_clause_body(Map.get(clause, :body))
+    marker = spent_key(index)
 
-  defp guarded(pattern_ast, guard) when is_binary(guard) do
-    {:when, [], [pattern_ast, Code.string_to_quoted!(guard)]}
+    quote do
+      normalised = unquote(body_ast)
+      apply(__MODULE__, unquote(title_atom), [Map.put(normalised, unquote(marker), true)])
+    end
   end
+
+  defp branch(clause, params, _title_atom, _index) do
+    body_ast = parse_clause_body(Map.get(clause, :body))
+    template_ast = compile_clause_template(Map.get(clause, :template) || "", params)
+
+    quote do
+      unquote(body_ast)
+      unquote(template_ast)
+    end
+  end
+
+  # A clause's own guard and, for a delegating one, the marker test — combined into ONE guard,
+  # because `pattern when a when b` is a guard sequence (an OR).
+  defp arrow_head(pattern_ast, clause, index) do
+    clause
+    |> Map.get(:guard)
+    |> parse_clause_guard()
+    |> both(unspent(clause, index))
+    |> applied(pattern_ast)
+  end
+
+  defp parse_clause_guard(guard) when guard in [nil, ""], do: nil
+  defp parse_clause_guard(guard) when is_binary(guard), do: Code.string_to_quoted!(guard)
+
+  defp unspent(%{delegates: true}, index) do
+    quote do
+      not :erlang.is_map_key(unquote(spent_key(index)), var!(assigns))
+    end
+  end
+
+  defp unspent(_clause, _index), do: nil
+
+  defp both(nil, marker), do: marker
+  defp both(guard, nil), do: guard
+  defp both(guard, marker), do: quote(do: unquote(guard) and unquote(marker))
+
+  defp applied(nil, pattern_ast), do: pattern_ast
+  defp applied(guard_ast, pattern_ast), do: {:when, [], [pattern_ast, guard_ast]}
+
+  defp spent_key(index), do: :"__delegated_#{index}__"
 
   defp parse_clause_match(nil), do: quote(do: var!(assigns))
   defp parse_clause_match(""), do: quote(do: var!(assigns))
@@ -1034,16 +1077,21 @@ defmodule MishkaChelekom.Test.Runtime.Compilers.ComponentCompiler do
   # has no clause for `nil`. Reinstate a zero-arity struct default
   # `%Module{}` when the attr type points at a real, loadable struct
   # module and no other default was provided.
+  #
+  # Only when the bundle says there was one (`default_struct: true`), as `MishkaCmsCore`'s compiler
+  # does: `attr :field, Phoenix.HTML.FormField` never had a default, and an empty `%FormField{}` is
+  # not "no field" — it is one whose `form` is nil, which every field component's delegating clause
+  # hands to `Phoenix.Component.used_input?/1`, raising `BadMapError`.
   defp coerce_default_for_type(opts, struct_module) when is_atom(struct_module) do
     cond do
       Keyword.has_key?(opts, :default) ->
-        opts
+        Keyword.delete(opts, :default_struct)
 
-      struct_module?(struct_module) ->
-        Keyword.put(opts, :default, struct(struct_module))
+      Keyword.get(opts, :default_struct) == true and struct_module?(struct_module) ->
+        opts |> Keyword.delete(:default_struct) |> Keyword.put(:default, struct(struct_module))
 
       true ->
-        opts
+        Keyword.delete(opts, :default_struct)
     end
   end
 
@@ -1069,7 +1117,19 @@ defmodule MishkaChelekom.Test.Runtime.Compilers.ComponentCompiler do
 
   defp decode_atom_term(other), do: other
 
-  @valid_attr_opt_keys [:required, :default, :examples, :values, :doc, :include, :exclude]
+  # `:default_struct` is not one of Phoenix's options and never reaches `attr/3` — it survives this
+  # filter only so `coerce_default_for_type/2` can read it, and every branch of that function deletes
+  # it again.
+  @valid_attr_opt_keys [
+    :required,
+    :default,
+    :default_struct,
+    :examples,
+    :values,
+    :doc,
+    :include,
+    :exclude
+  ]
 
   # Helper attrs round-trip from DB with STRING keys (`%{"default" =>
   # "small"}`); top-level attrs that flow through Ash arrive atom-
