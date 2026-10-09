@@ -15,7 +15,7 @@
     },
     {
       "label": "Author byline with avatar, name and publish date",
-      "source": "<.component component_name=\"chelekom-flex\" site=\"Global\" id=\"flex-author-byline\" align=\"center\" gap=\"small\">\n  <.component component_name=\"chelekom-avatar\" site=\"Global\" src=\"/images/avatar-3.svg\" rounded=\"full\" size=\"medium\" />\n  <div>\n    <div class=\"font-semibold\">Nadia Rahimi</div>\n    <div class=\"text-sm\">Published 12 March 2025 · 6 min read</div>\n  </div>\n</.component>"
+      "source": "<.component component_name=\"chelekom-flex\" site=\"Global\" id=\"flex-author-byline\" align=\"center\" gap=\"small\">\n  <.component component_name=\"chelekom-avatar\" site=\"Global\" src=\"/images/person-3.svg\" rounded=\"full\" size=\"medium\" />\n  <div>\n    <div class=\"font-semibold\">Nadia Rahimi</div>\n    <div class=\"text-sm\">Published 12 March 2025 · 6 min read</div>\n  </div>\n</.component>"
     }
   ]
 }

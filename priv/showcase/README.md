@@ -220,17 +220,32 @@ These are not style preferences. Each one is a way the block fails to render.
 
 ## Pictures — `media/`
 
-A block shows the pictures it is written with, so they ship with it. Put the file
-in `priv/showcase/media/` and write it as `/images/<file>`:
+A block shows the pictures it is written with, so they ship with it. `priv/showcase/media/`
+holds the kit's samples, grouped by name:
+
+| Prefix | What it is |
+|---|---|
+| `scene-*` | a picture of a place or a thing |
+| `person-*` | a picture of a person |
+| `mark-*` | a logo |
+| `video-*.url` | one `https://` address of a sample video — too big to write inline |
+
+Write a picture as `/images/<file>`:
 
 ```
-<.component component_name="chelekom-image" site="Global" src="/images/card-2.svg" alt="…" />
+<.component component_name="chelekom-image" site="Global" src="/images/scene-2.svg" alt="…" />
 ```
 
-The export writes every `/images/<file>` that `media/` holds into the bundle as a
-`data:` address — in examples and furnishings alike — so a CMS installing the kit
-draws it with nothing of its own to serve. Keep them small (the SVGs here are
-under 1 KB); an address `media/` does not hold is left as it is.
+The export (`MishkaChelekom.CmsBundle.Showcase`) writes every `/images/<file>` an example, a demo
+example or a furnishing draws into the bundle:
+
+* a file `media/` holds, as a `data:` address;
+* any other picture or video as a sample of its kind, picked by its name so one file is always
+  one sample — a video a `video-*` address, an `.svg` a `mark-*`, a picture in a round or avatar
+  tag (`rounded-full`, `avatar`) a `person-*`, any other picture a `scene-*`.
+
+So the documentation's own pictures need nothing here; a showcase source names the sample it
+wants. Keep samples small — the SVGs here are under 1 KB.
 
 ## How it reaches the bundle
 

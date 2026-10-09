@@ -93,40 +93,6 @@ defmodule MishkaChelekom.CmsBundle.ShowcaseTest do
              ]
     end
 
-    # A CMS installing the kit has no `/images/` of its own.
-    test "a picture the showcase ships travels with the block, as a data address", %{dir: dir} do
-      File.mkdir_p!(Path.join(dir, "media"))
-
-      File.write!(
-        Path.join([dir, "media", "dot.svg"]),
-        ~s(<svg xmlns="http://www.w3.org/2000/svg"/>)
-      )
-
-      write!(dir, "chelekom-card", %{
-        "name" => "chelekom-card",
-        "furnishing" => %{"body" => "", "slots" => [], "attrs" => %{"src" => "/images/dot.svg"}},
-        "examples" => [
-          %{
-            "label" => "Pictured card",
-            "source" =>
-              ~s(<.component><img src="/images/dot.svg"><img src="/images/elsewhere.jpg"></.component>)
-          }
-        ]
-      })
-
-      [result] = Showcase.overlay([@harvested], dir)
-
-      inlined =
-        "data:image/svg+xml;base64," <>
-          Base.encode64(~s(<svg xmlns="http://www.w3.org/2000/svg"/>))
-
-      assert [source] = result["examples"]
-      assert source =~ ~s(src="#{inlined}")
-      assert source =~ ~s(src="/images/elsewhere.jpg")
-      assert result["extra"]["furnishing"]["attrs"]["src"] == inlined
-      assert hd(result["extra"]["examples"])["label"] == "Pictured card"
-    end
-
     # The demo harness renders these, and nothing about authoring a nicer example
     # makes them less true.
     test "the harvested demo_examples survive", %{dir: dir} do
@@ -295,6 +261,84 @@ defmodule MishkaChelekom.CmsBundle.ShowcaseTest do
       })
 
       assert Showcase.overlay([@harvested], dir) == [@harvested]
+    end
+  end
+
+  # A CMS installing the kit has no `/images/` of its own: every example's pictures and videos are
+  # written as the samples `media/` holds — the file itself, or a sample of its kind.
+  describe "overlay/2 — pictures" do
+    @scenes ~w(scene-1.svg scene-2.svg)
+    @people ~w(person-1.svg person-2.svg)
+
+    setup %{dir: dir} do
+      media = Path.join(dir, "media")
+      File.mkdir_p!(media)
+
+      for name <- @scenes ++ @people ++ ["mark-1.svg"],
+          do: File.write!(Path.join(media, name), ~s(<svg id="#{name}"/>))
+
+      File.write!(Path.join(media, "video-1.url"), "https://videos.test/sample.mp4\n")
+      :ok
+    end
+
+    defp data(name), do: "data:image/svg+xml;base64," <> Base.encode64(~s(<svg id="#{name}"/>))
+
+    defp component(source),
+      do: %{
+        "name" => "kit-card",
+        "examples" => [source],
+        "extra" => %{
+          "examples" => [%{"label" => "One", "source" => source}],
+          "demo_examples" => [%{"source" => source}],
+          "furnishing" => %{"body" => source, "attrs" => %{"src" => "/images/scene-2.svg"}},
+          "untouched" => source
+        }
+      }
+
+    defp resolved(source, dir) do
+      [component] = Showcase.overlay([component(source)], dir)
+      component
+    end
+
+    test "a file the kit holds is that file, wherever an example draws it", %{dir: dir} do
+      c = resolved(~s(<img src="/images/scene-1.svg">), dir)
+      written = ~s(<img src="#{data("scene-1.svg")}">)
+
+      assert c["examples"] == [written]
+      assert hd(c["extra"]["examples"])["source"] == written
+      assert hd(c["extra"]["demo_examples"])["source"] == written
+      assert c["extra"]["furnishing"]["body"] == written
+      assert c["extra"]["furnishing"]["attrs"]["src"] == data("scene-2.svg")
+      assert c["extra"]["untouched"] == ~s(<img src="/images/scene-1.svg">)
+    end
+
+    test "a picture it does not hold is a sample of its kind, the same one for the same file",
+         %{dir: dir} do
+      source =
+        ~s(<img src="/images/photo.jpg"><.component component_name="kit-avatar" src="/images/ada.jpg" />) <>
+          ~s(<img class="rounded-full" src="/images/bob.png"><img src="/images/logo-white.svg">) <>
+          ~s(<video><source src="/images/clip.mp4"></video><a href="/images/terms.pdf">x</a>)
+
+      [first, second] = for _ <- 1..2, do: hd(resolved(source, dir)["examples"])
+
+      assert first == second
+
+      [scene, ada, bob, mark, clip] =
+        Regex.scan(~r/(?:src)="([^"]+)"/, first, capture: :all_but_first) |> List.flatten()
+
+      assert scene in Enum.map(@scenes, &data/1)
+      assert ada in Enum.map(@people, &data/1)
+      assert bob in Enum.map(@people, &data/1)
+      assert mark == data("mark-1.svg")
+      assert clip == "https://videos.test/sample.mp4"
+      assert first =~ ~s(href="/images/terms.pdf")
+    end
+
+    test "a kit with no media is left as it is", %{dir: dir} do
+      File.rm_rf!(Path.join(dir, "media"))
+      component = component(~s(<img src="/images/photo.jpg">))
+
+      assert Showcase.overlay([component], dir) == [component]
     end
   end
 end

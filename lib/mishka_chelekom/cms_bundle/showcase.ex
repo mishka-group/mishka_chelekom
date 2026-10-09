@@ -61,13 +61,34 @@ defmodule MishkaChelekom.CmsBundle.Showcase do
   not watching the export run. A malformed one is skipped and named
   rather than raising, so one bad file costs its own component and the
   bundle still ships.
+
+  ## Pictures
+
+  An example — authored in `priv/showcase/` or harvested from the documentation's demos — draws
+  `/images/<file>`, a path no CMS serves. `priv/showcase/media/` holds the kit's samples, in groups
+  named by their prefix:
+
+    * `scene-*` — pictures of places and things;
+    * `person-*` — pictures of people;
+    * `mark-*` — a logo;
+    * `video-*.url` — the address of a sample video, which is too big to write inline.
+
+  Every `/images/<file>` in an example, a demo example or a furnishing becomes:
+
+    * the file itself, as a `data:` address, when `media/` holds it;
+    * otherwise a sample of its kind — a video becomes a `video-*` address, a vector (`.svg`) a
+      `mark-*`, a picture whose tag is round or an avatar's (`rounded-full`, `avatar`) a `person-*`,
+      any other picture a `scene-*` — picked by the file's name, so one file is always one sample.
+
+  A path no sample answers for is left as it is.
   """
 
   require Logger
 
   @doc """
   Lays authored examples over harvested ones, for every component that has a
-  showcase file.
+  showcase file, then writes every `/images/<file>` any example draws as a
+  sample the kit ships in `media/` — see "Pictures" below.
 
   Returns `components` unchanged when the directory does not exist — a kit
   that has authored nothing is not in an error state.
@@ -76,7 +97,7 @@ defmodule MishkaChelekom.CmsBundle.Showcase do
   def overlay(components, dir) do
     case File.dir?(dir) do
       false -> components
-      true -> apply_index(components, index(dir, media(dir)))
+      true -> components |> apply_index(index(dir)) |> with_samples(dir)
     end
   end
 
@@ -195,46 +216,14 @@ defmodule MishkaChelekom.CmsBundle.Showcase do
   # of it — `_schema.json`, which authors validate against. Without this it would
   # be read as a component's showcase, fail validation, and log a warning on every
   # export.
-  defp index(dir, media) do
+  defp index(dir) do
     dir
     |> Path.join("*.json")
     |> Path.wildcard()
     |> Enum.reject(&String.starts_with?(Path.basename(&1), "_"))
     |> Enum.flat_map(&read/1)
-    |> Map.new(fn {name, json} -> {name, inlined(json, media)} end)
+    |> Map.new()
   end
-
-  # THE PICTURES A BLOCK SHOWS TRAVEL WITH IT. `/images/card-1.svg` in a showcase source is the
-  # file `media/card-1.svg` beside it, written into the bundle as a `data:` address: a CMS
-  # installing the kit has no `/images/` of its own, and every sample picture drew broken.
-  @media_types %{
-    ".svg" => "image/svg+xml",
-    ".png" => "image/png",
-    ".jpg" => "image/jpeg",
-    ".jpeg" => "image/jpeg",
-    ".webp" => "image/webp",
-    ".gif" => "image/gif"
-  }
-
-  defp media(dir) do
-    for path <- Path.wildcard(Path.join([dir, "media", "*"])),
-        type = Map.get(@media_types, String.downcase(Path.extname(path))),
-        {:ok, bytes} <- [File.read(path)],
-        into: %{},
-        do: {"/images/" <> Path.basename(path), "data:#{type};base64," <> Base.encode64(bytes)}
-  end
-
-  defp inlined(json, media) when map_size(media) == 0, do: json
-
-  defp inlined(%{} = map, media),
-    do: Map.new(map, fn {key, value} -> {key, inlined(value, media)} end)
-
-  defp inlined(list, media) when is_list(list), do: Enum.map(list, &inlined(&1, media))
-
-  defp inlined(text, media) when is_binary(text),
-    do: Regex.replace(~r{/images/[A-Za-z0-9_.\-]+}, text, &Map.get(media, &1, &1))
-
-  defp inlined(other, _media), do: other
 
   defp read(path) do
     with {:ok, raw} <- File.read(path),
@@ -266,4 +255,128 @@ defmodule MishkaChelekom.CmsBundle.Showcase do
        do: String.trim(source) != "" and String.trim(label) != ""
 
   defp example?(_example), do: false
+
+  @pictures %{
+    ".svg" => "image/svg+xml",
+    ".png" => "image/png",
+    ".jpg" => "image/jpeg",
+    ".jpeg" => "image/jpeg",
+    ".webp" => "image/webp",
+    ".gif" => "image/gif",
+    ".avif" => "image/avif"
+  }
+
+  @videos ~w(.mp4 .webm .ogg .ogv .mov .m4v)
+
+  @path ~r{/images/[A-Za-z0-9_.\-]+}
+
+  defp with_samples(components, dir) do
+    samples = samples(Path.join(dir, "media"))
+
+    case map_size(samples.files) do
+      0 -> components
+      _held -> Enum.map(components, &component(&1, samples))
+    end
+  end
+
+  defp component(component, samples) do
+    component
+    |> Map.new(fn
+      {"examples", examples} -> {"examples", written(examples, samples)}
+      {"extra", %{} = extra} -> {"extra", Map.new(extra, &extra(&1, samples))}
+      other -> other
+    end)
+  end
+
+  defp extra({key, value}, samples) when key in ["examples", "demo_examples", "furnishing"],
+    do: {key, written(value, samples)}
+
+  defp extra(other, _samples), do: other
+
+  defp samples(dir) do
+    files = Path.wildcard(Path.join(dir, "*"))
+
+    pictures =
+      for path <- files,
+          type = Map.get(@pictures, String.downcase(Path.extname(path))),
+          {:ok, bytes} <- [File.read(path)],
+          into: %{},
+          do: {Path.basename(path), "data:#{type};base64," <> Base.encode64(bytes)}
+
+    videos =
+      for path <- files,
+          Path.extname(path) == ".url",
+          {:ok, text} <- [File.read(path)],
+          address = String.trim(text),
+          String.starts_with?(address, "https://"),
+          into: %{},
+          do: {Path.basename(path, ".url"), address}
+
+    %{
+      files: Map.new(pictures, fn {name, data} -> {"/images/" <> name, data} end),
+      scene: group(pictures, "scene-"),
+      person: group(pictures, "person-"),
+      mark: group(pictures, "mark-"),
+      video: group(videos, "video-")
+    }
+  end
+
+  defp group(held, prefix) do
+    for {name, value} <- Enum.sort(held), String.starts_with?(name, prefix), do: value
+  end
+
+  defp written(%{} = map, samples), do: Map.new(map, fn {k, v} -> {k, written(v, samples)} end)
+  defp written(list, samples) when is_list(list), do: Enum.map(list, &written(&1, samples))
+  defp written(text, samples) when is_binary(text), do: text(text, samples)
+  defp written(other, _samples), do: other
+
+  # From the last path back, so the places of the ones before it stay where they were.
+  defp text(text, samples) do
+    @path
+    |> Regex.scan(text, return: :index)
+    |> Enum.reverse()
+    |> Enum.reduce(text, fn [{at, length}], text ->
+      path = binary_part(text, at, length)
+      after_at = at + length
+
+      binary_part(text, 0, at) <>
+        sample(path, tag(text, at, after_at), samples) <>
+        binary_part(text, after_at, byte_size(text) - after_at)
+    end)
+  end
+
+  # The tag the path is written in: from the `<` before it to the `>` after it.
+  defp tag(text, at, after_at) do
+    before = text |> binary_part(0, at) |> String.split("<") |> List.last()
+
+    rest =
+      text |> binary_part(after_at, byte_size(text) - after_at) |> String.split(">", parts: 2)
+
+    before <> hd(rest)
+  end
+
+  defp sample(path, tag, samples) do
+    extension = path |> Path.extname() |> String.downcase()
+
+    case {Map.fetch(samples.files, path), kind(extension, tag)} do
+      {{:ok, data}, _kind} -> data
+      {:error, nil} -> path
+      {:error, kind} -> pick(Map.fetch!(samples, kind), path)
+    end
+  end
+
+  defp kind(extension, _tag) when extension in @videos, do: :video
+  defp kind(".svg", _tag), do: :mark
+
+  defp kind(extension, tag) when is_map_key(@pictures, extension) do
+    case String.contains?(tag, ["rounded-full", "avatar"]) do
+      true -> :person
+      false -> :scene
+    end
+  end
+
+  defp kind(_extension, _tag), do: nil
+
+  defp pick([], path), do: path
+  defp pick(group, path), do: Enum.at(group, :erlang.phash2(path, length(group)))
 end

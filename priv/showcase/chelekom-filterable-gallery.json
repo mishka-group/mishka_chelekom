@@ -11,17 +11,17 @@
       ],
       "media": [
         {
-          ":src": "/images/card-1.svg",
+          ":src": "/images/scene-1.svg",
           ":alt": "Rebrand for Parsian Retail",
           ":category": "Branding"
         },
         {
-          ":src": "/images/card-2.svg",
+          ":src": "/images/scene-2.svg",
           ":alt": "Booking flow for Alborz Travel",
           ":category": "Web design"
         },
         {
-          ":src": "/images/card-3.svg",
+          ":src": "/images/scene-3.svg",
           ":alt": "Autumn catalogue spread",
           ":category": "Print"
         }
@@ -31,15 +31,15 @@
   "examples": [
     {
       "label": "Studio portfolio grid filtered by project type",
-      "source": "<.component component_name=\"chelekom-filterable-gallery\" site=\"Global\" id=\"filterable-gallery-studio-portfolio\" filters={[\"Branding\", \"Web design\", \"Print\"]} media={[%{src: \"/images/card-1.svg\", alt: \"Rebrand for Parsian Retail\", category: \"Branding\"}, %{src: \"/images/card-2.svg\", alt: \"Booking flow for Alborz Travel\", category: \"Web design\"}, %{src: \"/images/card-3.svg\", alt: \"Autumn catalogue spread\", category: \"Print\"}, %{src: \"/images/card-4.svg\", alt: \"Packaging system for Damavand Tea\", category: [\"Branding\", \"Print\"]}, %{src: \"/images/card-5.svg\", alt: \"Marketing site for Mishka CMS\", category: \"Web design\"}]} />"
+      "source": "<.component component_name=\"chelekom-filterable-gallery\" site=\"Global\" id=\"filterable-gallery-studio-portfolio\" filters={[\"Branding\", \"Web design\", \"Print\"]} media={[%{src: \"/images/scene-1.svg\", alt: \"Rebrand for Parsian Retail\", category: \"Branding\"}, %{src: \"/images/scene-2.svg\", alt: \"Booking flow for Alborz Travel\", category: \"Web design\"}, %{src: \"/images/scene-3.svg\", alt: \"Autumn catalogue spread\", category: \"Print\"}, %{src: \"/images/scene-4.svg\", alt: \"Packaging system for Damavand Tea\", category: [\"Branding\", \"Print\"]}, %{src: \"/images/scene-5.svg\", alt: \"Marketing site for Mishka CMS\", category: \"Web design\"}]} />"
     },
     {
       "label": "Team photo wall filtered by department",
-      "source": "<.component component_name=\"chelekom-filterable-gallery\" site=\"Global\" id=\"filterable-gallery-team-photos\" default_filter=\"Everyone\" cols=\"four\" gap=\"medium\" filters={[\"Engineering\", \"Design\", \"Support\"]} media={[%{src: \"/images/avatar-1.svg\", alt: \"Nadia Rahimi, product designer\", category: \"Design\"}, %{src: \"/images/avatar-2.svg\", alt: \"Omid Karimi, backend engineer\", category: \"Engineering\"}, %{src: \"/images/avatar-3.svg\", alt: \"Sara Ahmadi, design lead\", category: \"Design\"}, %{src: \"/images/avatar-4.svg\", alt: \"Reza Sadeghi, support engineer\", category: [\"Support\", \"Engineering\"]}, %{src: \"/images/avatar-5.svg\", alt: \"Leila Moradi, customer support\", category: \"Support\"}, %{src: \"/images/avatar-6.svg\", alt: \"Kaveh Nouri, platform engineer\", category: \"Engineering\"}]} />"
+      "source": "<.component component_name=\"chelekom-filterable-gallery\" site=\"Global\" id=\"filterable-gallery-team-photos\" default_filter=\"Everyone\" cols=\"four\" gap=\"medium\" filters={[\"Engineering\", \"Design\", \"Support\"]} media={[%{src: \"/images/person-1.svg\", alt: \"Nadia Rahimi, product designer\", category: \"Design\"}, %{src: \"/images/person-2.svg\", alt: \"Omid Karimi, backend engineer\", category: \"Engineering\"}, %{src: \"/images/person-3.svg\", alt: \"Sara Ahmadi, design lead\", category: \"Design\"}, %{src: \"/images/person-4.svg\", alt: \"Reza Sadeghi, support engineer\", category: [\"Support\", \"Engineering\"]}, %{src: \"/images/person-5.svg\", alt: \"Leila Moradi, customer support\", category: \"Support\"}, %{src: \"/images/person-6.svg\", alt: \"Kaveh Nouri, platform engineer\", category: \"Engineering\"}]} />"
     },
     {
       "label": "Furniture lookbook, two columns with a hover zoom",
-      "source": "<.component component_name=\"chelekom-filterable-gallery\" site=\"Global\" id=\"filterable-gallery-furniture-lookbook\" cols=\"two\" gap=\"large\" animation=\"scale-up\" animation_size=\"small\" default_filter=\"Whole collection\" filters={[\"Seating\", \"Tables\", \"Storage\"]} media={[%{src: \"/images/card-1.svg\", alt: \"Alborz lounge chair in walnut\", category: \"Seating\"}, %{src: \"/images/card-3.svg\", alt: \"Damavand dining table\", category: \"Tables\"}, %{src: \"/images/card-4.svg\", alt: \"Zagros sideboard in oak\", category: \"Storage\"}, %{src: \"/images/card-5.svg\", alt: \"Caspian bench with storage\", category: [\"Seating\", \"Storage\"]}]} />"
+      "source": "<.component component_name=\"chelekom-filterable-gallery\" site=\"Global\" id=\"filterable-gallery-furniture-lookbook\" cols=\"two\" gap=\"large\" animation=\"scale-up\" animation_size=\"small\" default_filter=\"Whole collection\" filters={[\"Seating\", \"Tables\", \"Storage\"]} media={[%{src: \"/images/scene-1.svg\", alt: \"Alborz lounge chair in walnut\", category: \"Seating\"}, %{src: \"/images/scene-3.svg\", alt: \"Damavand dining table\", category: \"Tables\"}, %{src: \"/images/scene-4.svg\", alt: \"Zagros sideboard in oak\", category: \"Storage\"}, %{src: \"/images/scene-5.svg\", alt: \"Caspian bench with storage\", category: [\"Seating\", \"Storage\"]}]} />"
     }
   ]
 }
