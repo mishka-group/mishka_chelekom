@@ -20,7 +20,7 @@
     },
     {
       "label": "Inline glossary term inside body copy",
-      "source": "<.component component_name=\"chelekom-tooltip\" site=\"Global\" id=\"tooltip-inline-ttl\" inline={true} position=\"top\" width=\"large\">\n  <:trigger>\n    <span class=\"underline decoration-dotted underline-offset-4 cursor-help\">TTL</span>\n  </:trigger>\n  <:content>Time to live: how long an edge server may serve a cached copy before asking your origin again.</:content>\n</.component>"
+      "source": "<.component component_name=\"chelekom-tooltip\" site=\"Global\" id=\"tooltip-inline-glossary-term\" inline={true} position=\"top\" width=\"large\">\n  <:trigger>\n    <span class=\"underline decoration-dotted underline-offset-4 cursor-help\">TTL</span>\n  </:trigger>\n  <:content>Time to live: how long an edge server may serve a cached copy before asking your origin again.</:content>\n</.component>"
     },
     {
       "label": "Icon-only toolbar button with its label",

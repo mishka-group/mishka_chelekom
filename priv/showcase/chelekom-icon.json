@@ -2,7 +2,10 @@
   "name": "chelekom-icon",
   "furnishing": {
     "body": "",
-    "slots": []
+    "slots": [],
+    "attrs": {
+      "name": "hero-sparkles"
+    }
   },
   "examples": [
     {

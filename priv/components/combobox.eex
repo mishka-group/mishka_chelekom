@@ -91,7 +91,7 @@ defmodule <%= @module %> do
   attr :value, :any, doc: "Value of input"
   attr :field, Phoenix.HTML.FormField, doc: "a form field struct retrieved from the form"
 
-  attr :options, :list, doc: "the options to pass to Phoenix.HTML.Form.options_for_select/2"
+  attr :options, :list, default: [], doc: "the options to pass to Phoenix.HTML.Form.options_for_select/2"
   attr :errors, :list, default: [], doc: "List of error messages to be displayed"
 
   attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"

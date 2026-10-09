@@ -7,11 +7,11 @@
   "examples": [
     {
       "label": "Save confirmation and an error, stacked top-right",
-      "source": "<.component component_name=\"chelekom-flash-group\" site=\"Global\" id=\"flash-group-site\" position=\"top_right\" flash={%{\"info\" => \"Your changes have been saved.\", \"error\" => \"We could not reach the server — retrying.\"}} />"
+      "source": "<.component component_name=\"chelekom-flash-group\" site=\"Global\" id=\"flash-group-save-and-error\" position=\"top_right\" flash={%{\"info\" => \"Your changes have been saved.\", \"error\" => \"We could not reach the server — retrying.\"}} />"
     },
     {
       "label": "Admin stack anchored bottom-left, shadowed",
-      "source": "<.component component_name=\"chelekom-flash-group\" site=\"Global\" id=\"flash-group-admin\" position=\"bottom_left\" variant=\"shadow\" flash={%{\"info\" => \"Cache cleared for 3 sites.\"}} />"
+      "source": "<.component component_name=\"chelekom-flash-group\" site=\"Global\" id=\"flash-group-admin-stack\" position=\"bottom_left\" variant=\"shadow\" flash={%{\"info\" => \"Cache cleared for 3 sites.\"}} />"
     }
   ]
 }

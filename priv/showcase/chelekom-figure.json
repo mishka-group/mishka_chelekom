@@ -1,13 +1,13 @@
 {
   "name": "chelekom-figure",
   "furnishing": {
-    "body": "<img src=\"/images/card-1.jpg\" alt=\"Terraced rooftops at sunrise\" class=\"w-full rounded-lg\" />\n<figcaption class=\"mt-2 text-sm\">Terraced rooftops at sunrise</figcaption>",
+    "body": "<img src=\"/images/scene-1.svg\" alt=\"Terraced rooftops at sunrise\" class=\"w-full rounded-lg\" />\n<figcaption class=\"mt-2 text-sm\">Terraced rooftops at sunrise</figcaption>",
     "slots": []
   },
   "examples": [
     {
       "label": "Article photo with a credit caption",
-      "source": "<.component component_name=\"chelekom-figure\" site=\"Global\" id=\"figure-article-photo\" class=\"max-w-lg\">\n  <img src=\"/images/card-2.jpg\" alt=\"Morning light over the Si-o-se-pol bridge\" class=\"w-full rounded-lg\" />\n  <.component component_name=\"chelekom-figcaption\" site=\"Global\" size=\"small\" color=\"silver\" class=\"mt-2\">Photo by Sara Ahmadi — Isfahan, March 2025</.component>\n</.component>"
+      "source": "<.component component_name=\"chelekom-figure\" site=\"Global\" id=\"figure-article-photo\" class=\"max-w-lg\">\n  <img src=\"/images/scene-2.svg\" alt=\"Morning light over the Si-o-se-pol bridge\" class=\"w-full rounded-lg\" />\n  <.component component_name=\"chelekom-figcaption\" site=\"Global\" size=\"small\" color=\"silver\" class=\"mt-2\">Photo by Sara Ahmadi — Isfahan, March 2025</.component>\n</.component>"
     },
     {
       "label": "Customer pull quote with attribution",
@@ -15,7 +15,7 @@
     },
     {
       "label": "Side-by-side product shots with a shared caption",
-      "source": "<.component component_name=\"chelekom-figure\" site=\"Global\" id=\"figure-product-pair\" class=\"max-w-2xl\">\n  <div class=\"grid grid-cols-2 gap-3\">\n    <img src=\"/images/card-3.jpg\" alt=\"The Alborz lounge chair in walnut\" class=\"w-full rounded-lg\" />\n    <img src=\"/images/card-4.jpg\" alt=\"The Alborz lounge chair in white oak\" class=\"w-full rounded-lg\" />\n  </div>\n  <.component component_name=\"chelekom-figcaption\" site=\"Global\" size=\"small\" color=\"silver\" class=\"mt-2\">The Alborz lounge chair, shown in walnut (left) and white oak (right).</.component>\n</.component>"
+      "source": "<.component component_name=\"chelekom-figure\" site=\"Global\" id=\"figure-product-pair\" class=\"max-w-2xl\">\n  <div class=\"grid grid-cols-2 gap-3\">\n    <img src=\"/images/scene-3.svg\" alt=\"The Alborz lounge chair in walnut\" class=\"w-full rounded-lg\" />\n    <img src=\"/images/scene-4.svg\" alt=\"The Alborz lounge chair in white oak\" class=\"w-full rounded-lg\" />\n  </div>\n  <.component component_name=\"chelekom-figcaption\" site=\"Global\" size=\"small\" color=\"silver\" class=\"mt-2\">The Alborz lounge chair, shown in walnut (left) and white oak (right).</.component>\n</.component>"
     }
   ]
 }

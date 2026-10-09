@@ -16,7 +16,7 @@
   "examples": [
     {
       "label": "Product tour video with a poster frame",
-      "source": "<.component component_name=\"chelekom-video\" site=\"Global\" id=\"video-product-tour\" ratio=\"video\" rounded=\"large\" thumbnail=\"/images/card-1.jpg\" controls preload=\"none\">\n  <:source src=\"https://mdn.github.io/shared-assets/videos/flower.webm\" type=\"video/webm\" />\n  <:source src=\"https://mdn.github.io/shared-assets/videos/flower.mp4\" type=\"video/mp4\" />\n</.component>"
+      "source": "<.component component_name=\"chelekom-video\" site=\"Global\" id=\"video-product-tour\" ratio=\"video\" rounded=\"large\" thumbnail=\"/images/scene-1.svg\" controls preload=\"none\">\n  <:source src=\"https://mdn.github.io/shared-assets/videos/flower.webm\" type=\"video/webm\" />\n  <:source src=\"https://mdn.github.io/shared-assets/videos/flower.mp4\" type=\"video/mp4\" />\n</.component>"
     },
     {
       "label": "Tutorial video with English captions",
@@ -24,7 +24,7 @@
     },
     {
       "label": "Muted looping clip behind a section heading",
-      "source": "<.component component_name=\"chelekom-video\" site=\"Global\" id=\"video-hero-loop\" ratio=\"video\" rounded=\"extra_large\" thumbnail=\"/images/card-2.jpg\" autoplay muted loop playsinline>\n  <:source src=\"https://mdn.github.io/shared-assets/videos/flower.mp4\" type=\"video/mp4\" />\n</.component>"
+      "source": "<.component component_name=\"chelekom-video\" site=\"Global\" id=\"video-hero-loop\" ratio=\"video\" rounded=\"extra_large\" thumbnail=\"/images/scene-2.svg\" autoplay muted loop playsinline>\n  <:source src=\"https://mdn.github.io/shared-assets/videos/flower.mp4\" type=\"video/mp4\" />\n</.component>"
     }
   ]
 }

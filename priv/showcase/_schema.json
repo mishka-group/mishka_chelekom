@@ -25,6 +25,11 @@
           "type": "string",
           "description": "HEEx written between the component's tags. An empty string means genuinely empty and is honoured — a spinner has nothing to say. Never write <:inner_block>; the HEEx compiler rejects the name."
         },
+        "attrs": {
+          "type": "object",
+          "description": "What the component itself arrives set to — the attributes a plain drop needs to draw anything at all (a progress ring's `value`, a pager's `total`), or to look like itself (a gallery's `cols`). Written verbatim; default options otherwise.",
+          "additionalProperties": true
+        },
         "slots": {
           "type": "array",
           "description": "Sample <:name> entries, for a component whose content is a list. Repeat a slot name to place several entries.",
@@ -77,7 +82,7 @@
           "source": {
             "type": "string",
             "minLength": 1,
-            "description": "Complete, self-contained HEEx in the CMS runtime form — <.component component_name=\"…\" site=\"Global\" …>, including every nested child. Only declared attributes and slots; only option values present in the component's helpers[].discriminators; required attributes supplied and ids literal and unique. No daisyUI, no style= or <style>, no :let, no phx- handlers needing their own LiveView, no invented image URLs. The bundle's `requires` is DERIVED from this markup — you do not declare it."
+            "description": "Complete, self-contained HEEx in the CMS runtime form — <.component component_name=\"…\" site=\"Global\" …>, including every nested child. Only declared attributes and slots; only option values present in the component's helpers[].discriminators; required attributes supplied and ids literal and unique; an example whose outermost invocation is the component itself carries an id naming it — the component name without the kit prefix, then what the block is (`timeline-order-tracking`). No daisyUI, no style= or <style>, no :let, no phx- handlers needing their own LiveView, no invented image URLs. The bundle's `requires` is DERIVED from this markup — you do not declare it."
           }
         }
       }

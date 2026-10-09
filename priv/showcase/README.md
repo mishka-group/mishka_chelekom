@@ -141,6 +141,24 @@ Three to five. Not twelve, and not one per variant.
 The reader is scanning for a block to use. `"Outline variant"` tells them nothing
 they cannot see, and the wizard covers it anyway.
 
+### The root's `id` names the block too
+
+An example whose outermost invocation is the component itself is a block a CMS
+editor can place as it is, and the editor names it by that invocation's `id`:
+the component's name without the kit prefix, then two or three words saying what
+the block is.
+
+```
+✅  id="timeline-order-tracking"     on chelekom-timeline   →  "Order tracking"
+✅  id="table-team-roster"           on chelekom-table      →  "Team roster"
+
+❌  id="tbl-team-roster"             an abbreviation reads as a word
+❌  id="showcase-cbc-plans"          so does a prefix of the file's own
+❌  no id                            the block is "Example 1"
+```
+
+Ids nested inside the block start with the root's, so they stay unique with it.
+
 ### `requires` is derived — you do not declare it
 
 MishkaCMS installs a kit **minimal by default** — only the default variant — and
@@ -190,7 +208,7 @@ These are not style preferences. Each one is a way the block fails to render.
 5. **Ids unique within the file**, or two examples fight over the same element.
 6. **Self-contained.** No assigns the CMS will not have, no `:let`, no `phx-`
    handlers needing a LiveView of their own, no comprehensions over data that does
-   not exist, no invented image URLs.
+   not exist, no invented image URLs — a picture is one of `media/`, below.
 7. **Plain Tailwind utilities only.** No daisyUI, no `<style>` blocks, no `style=`
    attributes — the CMS compiles Tailwind from the server-rendered markup, and a
    class it never sees gets no rule.
@@ -199,6 +217,35 @@ These are not style preferences. Each one is a way the block fails to render.
    decision impossible.
 
 ---
+
+## Pictures — `media/`
+
+A block shows the pictures it is written with, so they ship with it. `priv/showcase/media/`
+holds the kit's samples, grouped by name:
+
+| Prefix | What it is |
+|---|---|
+| `scene-*` | a picture of a place or a thing |
+| `person-*` | a picture of a person |
+| `mark-*` | a logo |
+| `video-*.url` | one `https://` address of a sample video — too big to write inline |
+
+Write a picture as `/images/<file>`:
+
+```
+<.component component_name="chelekom-image" site="Global" src="/images/scene-2.svg" alt="…" />
+```
+
+The export (`MishkaChelekom.CmsBundle.Showcase`) writes every `/images/<file>` an example, a demo
+example or a furnishing draws into the bundle:
+
+* a file `media/` holds, as a `data:` address;
+* any other picture or video as a sample of its kind, picked by its name so one file is always
+  one sample — a video a `video-*` address, an `.svg` a `mark-*`, a picture in a round or avatar
+  tag (`rounded-full`, `avatar`) a `person-*`, any other picture a `scene-*`.
+
+So the documentation's own pictures need nothing here; a showcase source names the sample it
+wants. Keep samples small — the SVGs here are under 1 KB.
 
 ## How it reaches the bundle
 
@@ -232,6 +279,7 @@ own component; the bundle still ships.
 - [ ] Every attribute and slot exists on the component it is written on — including nested children
 - [ ] Every option value appears in that component's discriminators
 - [ ] Required attributes supplied; ids literal and unique
+- [ ] A block's root `id` is the component's name, then what the block is
 - [ ] `furnishing` uses default options only
-- [ ] No daisyUI, no `style=`, no `:let`, no invented URLs
+- [ ] No daisyUI, no `style=`, no `:let`, no invented URLs; pictures are files in `media/`
 - [ ] Non-default options declared in `non_default_options`

@@ -236,6 +236,77 @@ defmodule MishkaChelekom.CmsBundleExporterTest do
     end
   end
 
+  describe "convert/5 — defaults written as a module attribute or a word list" do
+    # A default that names a module attribute is that attribute's value, and `~w(...)` is the list
+    # of words it spells: exported as calls, neither reached the bundle, and a CMS drawing the
+    # component without them handed its body `nil`.
+    test "are exported as the values they are", %{widget_exs: e} do
+      eex = ~S'''
+      defmodule <%= @module %> do
+        use Phoenix.Component
+
+        @month_names ~w(January February)
+
+        attr :month_names, :list, default: @month_names
+        attr :units, :list, default: ~w(days hours)
+        attr :side, :string, default: "top", values: ~w(top bottom)
+        attr :unknown, :list, default: @not_defined_here
+        attr :rest, :global, include: ~w(form list)
+
+        def sample_widget(assigns) do
+          ~H"""
+          <div {@rest}>{Enum.join(@month_names ++ @units, " ")}</div>
+          """
+        end
+      end
+      '''
+
+      {:ok, %{components: cps}} = CmsBundleExporter.convert(e, eex, "kit", "1.0")
+      opts = Map.new(by_name(cps, "kit-sample-widget")["attrs"], &{&1["name"], &1["opts"]})
+
+      assert opts["month_names"]["default"] == ["January", "February"]
+      assert opts["units"]["default"] == ["days", "hours"]
+      assert opts["side"]["values"] == ["top", "bottom"]
+      assert opts["rest"]["include"] == ["form", "list"]
+      refute Map.has_key?(opts["unknown"], "default")
+    end
+
+    test "a module attribute is exported as its words, or named when JSON cannot carry it",
+         %{widget_exs: e} do
+      eex = ~S'''
+      defmodule <%= @module %> do
+        use Phoenix.Component
+
+        @sides ~w(top bottom)
+        @sizes [{"days", 86_400}]
+
+        attr :rest, :global
+
+        def sample_widget(assigns) do
+          ~H"""
+          <div {@rest} />
+          """
+        end
+      end
+      '''
+
+      log =
+        ExUnit.CaptureLog.capture_log(fn ->
+          {:ok, %{components: cps}} = CmsBundleExporter.convert(e, eex, "kit", "1.0")
+
+          send(
+            self(),
+            {:attributes, by_name(cps, "kit-sample-widget")["extra"]["module_attributes"]}
+          )
+        end)
+
+      assert_received {:attributes, attributes}
+      assert %{"name" => "sides", "value" => ["top", "bottom"]} in attributes
+      refute Enum.any?(attributes, &(&1["name"] == "sizes"))
+      assert log =~ "@sizes"
+    end
+  end
+
   ## ─── Helpers extraction ─────────────────────────────────────────────
 
   describe "convert/5 — helpers" do
