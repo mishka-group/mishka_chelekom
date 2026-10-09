@@ -76,7 +76,7 @@ defmodule MishkaChelekom.CmsBundle.Showcase do
   def overlay(components, dir) do
     case File.dir?(dir) do
       false -> components
-      true -> apply_index(components, index(dir))
+      true -> apply_index(components, index(dir, media(dir)))
     end
   end
 
@@ -195,14 +195,46 @@ defmodule MishkaChelekom.CmsBundle.Showcase do
   # of it — `_schema.json`, which authors validate against. Without this it would
   # be read as a component's showcase, fail validation, and log a warning on every
   # export.
-  defp index(dir) do
+  defp index(dir, media) do
     dir
     |> Path.join("*.json")
     |> Path.wildcard()
     |> Enum.reject(&String.starts_with?(Path.basename(&1), "_"))
     |> Enum.flat_map(&read/1)
-    |> Map.new()
+    |> Map.new(fn {name, json} -> {name, inlined(json, media)} end)
   end
+
+  # THE PICTURES A BLOCK SHOWS TRAVEL WITH IT. `/images/card-1.svg` in a showcase source is the
+  # file `media/card-1.svg` beside it, written into the bundle as a `data:` address: a CMS
+  # installing the kit has no `/images/` of its own, and every sample picture drew broken.
+  @media_types %{
+    ".svg" => "image/svg+xml",
+    ".png" => "image/png",
+    ".jpg" => "image/jpeg",
+    ".jpeg" => "image/jpeg",
+    ".webp" => "image/webp",
+    ".gif" => "image/gif"
+  }
+
+  defp media(dir) do
+    for path <- Path.wildcard(Path.join([dir, "media", "*"])),
+        type = Map.get(@media_types, String.downcase(Path.extname(path))),
+        {:ok, bytes} <- [File.read(path)],
+        into: %{},
+        do: {"/images/" <> Path.basename(path), "data:#{type};base64," <> Base.encode64(bytes)}
+  end
+
+  defp inlined(json, media) when map_size(media) == 0, do: json
+
+  defp inlined(%{} = map, media),
+    do: Map.new(map, fn {key, value} -> {key, inlined(value, media)} end)
+
+  defp inlined(list, media) when is_list(list), do: Enum.map(list, &inlined(&1, media))
+
+  defp inlined(text, media) when is_binary(text),
+    do: Regex.replace(~r{/images/[A-Za-z0-9_.\-]+}, text, &Map.get(media, &1, &1))
+
+  defp inlined(other, _media), do: other
 
   defp read(path) do
     with {:ok, raw} <- File.read(path),

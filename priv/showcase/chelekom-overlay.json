@@ -7,7 +7,7 @@
   "examples": [
     {
       "label": "Photo tile with a caption bar over the image",
-      "source": "<div class=\"relative w-full max-w-sm overflow-hidden rounded-xl\">\n  <.component component_name=\"chelekom-image\" site=\"Global\" src=\"/images/card-1.jpg\" alt=\"Sunlight across a kitchen counter\" class=\"h-64 w-full object-cover\" />\n  <.component component_name=\"chelekom-overlay\" site=\"Global\" id=\"overlay-photo-caption\" color=\"dark\" opacity=\"tinted\" class=\"flex items-end\">\n    <div class=\"w-full p-4\">\n      <div class=\"text-lg font-semibold text-white\">Morning light, 6:40 a.m.</div>\n      <div class=\"text-sm text-zinc-200\">Shot on a 35 mm lens, straight out of camera.</div>\n    </div>\n  </.component>\n</div>"
+      "source": "<div class=\"relative w-full max-w-sm overflow-hidden rounded-xl\">\n  <.component component_name=\"chelekom-image\" site=\"Global\" src=\"/images/card-1.svg\" alt=\"Sunlight across a kitchen counter\" class=\"h-64 w-full object-cover\" />\n  <.component component_name=\"chelekom-overlay\" site=\"Global\" id=\"overlay-photo-caption\" color=\"dark\" opacity=\"tinted\" class=\"flex items-end\">\n    <div class=\"w-full p-4\">\n      <div class=\"text-lg font-semibold text-white\">Morning light, 6:40 a.m.</div>\n      <div class=\"text-sm text-zinc-200\">Shot on a 35 mm lens, straight out of camera.</div>\n    </div>\n  </.component>\n</div>"
     },
     {
       "label": "Report panel dimmed while the numbers load",

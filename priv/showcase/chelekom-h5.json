@@ -11,7 +11,7 @@
     },
     {
       "label": "Team member card with name and role",
-      "source": "<div class=\"max-w-xs rounded-2xl border border-zinc-200 p-6 text-center\">\n  <.component component_name=\"chelekom-image\" site=\"Global\" src=\"/images/avatar4.jpg\" alt=\"Portrait of Nima Rasti\" rounded=\"full\" width={96} height={96} class=\"mx-auto size-24 object-cover\" />\n  <.component component_name=\"chelekom-h5\" site=\"Global\" font_weight=\"font-semibold\" class=\"mt-4\">Nima Rasti</.component>\n  <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\" class=\"mt-1 text-zinc-500\">Head of Platform</.component>\n</div>"
+      "source": "<div class=\"max-w-xs rounded-2xl border border-zinc-200 p-6 text-center\">\n  <.component component_name=\"chelekom-image\" site=\"Global\" src=\"/images/avatar-4.svg\" alt=\"Portrait of Nima Rasti\" rounded=\"full\" width={96} height={96} class=\"mx-auto size-24 object-cover\" />\n  <.component component_name=\"chelekom-h5\" site=\"Global\" font_weight=\"font-semibold\" class=\"mt-4\">Nima Rasti</.component>\n  <.component component_name=\"chelekom-p\" site=\"Global\" size=\"small\" class=\"mt-1 text-zinc-500\">Head of Platform</.component>\n</div>"
     }
   ]
 }

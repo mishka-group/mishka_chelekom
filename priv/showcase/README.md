@@ -208,7 +208,7 @@ These are not style preferences. Each one is a way the block fails to render.
 5. **Ids unique within the file**, or two examples fight over the same element.
 6. **Self-contained.** No assigns the CMS will not have, no `:let`, no `phx-`
    handlers needing a LiveView of their own, no comprehensions over data that does
-   not exist, no invented image URLs.
+   not exist, no invented image URLs — a picture is one of `media/`, below.
 7. **Plain Tailwind utilities only.** No daisyUI, no `<style>` blocks, no `style=`
    attributes — the CMS compiles Tailwind from the server-rendered markup, and a
    class it never sees gets no rule.
@@ -217,6 +217,20 @@ These are not style preferences. Each one is a way the block fails to render.
    decision impossible.
 
 ---
+
+## Pictures — `media/`
+
+A block shows the pictures it is written with, so they ship with it. Put the file
+in `priv/showcase/media/` and write it as `/images/<file>`:
+
+```
+<.component component_name="chelekom-image" site="Global" src="/images/card-2.svg" alt="…" />
+```
+
+The export writes every `/images/<file>` that `media/` holds into the bundle as a
+`data:` address — in examples and furnishings alike — so a CMS installing the kit
+draws it with nothing of its own to serve. Keep them small (the SVGs here are
+under 1 KB); an address `media/` does not hold is left as it is.
 
 ## How it reaches the bundle
 
@@ -252,5 +266,5 @@ own component; the bundle still ships.
 - [ ] Required attributes supplied; ids literal and unique
 - [ ] A block's root `id` is the component's name, then what the block is
 - [ ] `furnishing` uses default options only
-- [ ] No daisyUI, no `style=`, no `:let`, no invented URLs
+- [ ] No daisyUI, no `style=`, no `:let`, no invented URLs; pictures are files in `media/`
 - [ ] Non-default options declared in `non_default_options`

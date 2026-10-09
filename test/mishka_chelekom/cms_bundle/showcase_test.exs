@@ -93,6 +93,40 @@ defmodule MishkaChelekom.CmsBundle.ShowcaseTest do
              ]
     end
 
+    # A CMS installing the kit has no `/images/` of its own.
+    test "a picture the showcase ships travels with the block, as a data address", %{dir: dir} do
+      File.mkdir_p!(Path.join(dir, "media"))
+
+      File.write!(
+        Path.join([dir, "media", "dot.svg"]),
+        ~s(<svg xmlns="http://www.w3.org/2000/svg"/>)
+      )
+
+      write!(dir, "chelekom-card", %{
+        "name" => "chelekom-card",
+        "furnishing" => %{"body" => "", "slots" => [], "attrs" => %{"src" => "/images/dot.svg"}},
+        "examples" => [
+          %{
+            "label" => "Pictured card",
+            "source" =>
+              ~s(<.component><img src="/images/dot.svg"><img src="/images/elsewhere.jpg"></.component>)
+          }
+        ]
+      })
+
+      [result] = Showcase.overlay([@harvested], dir)
+
+      inlined =
+        "data:image/svg+xml;base64," <>
+          Base.encode64(~s(<svg xmlns="http://www.w3.org/2000/svg"/>))
+
+      assert [source] = result["examples"]
+      assert source =~ ~s(src="#{inlined}")
+      assert source =~ ~s(src="/images/elsewhere.jpg")
+      assert result["extra"]["furnishing"]["attrs"]["src"] == inlined
+      assert hd(result["extra"]["examples"])["label"] == "Pictured card"
+    end
+
     # The demo harness renders these, and nothing about authoring a nicer example
     # makes them less true.
     test "the harvested demo_examples survive", %{dir: dir} do
