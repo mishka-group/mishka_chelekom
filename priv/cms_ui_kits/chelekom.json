@@ -153493,7 +153493,7 @@
         }
       ],
       "stateful": false,
-      "template": "<video\n  id={@id}\n  class={[\n    width_class(@width),\n    height_class(@height),\n    rounded_size(@rounded),\n    aspect_ratio(@ratio),\n    caption_size(@caption_size),\n    caption_background(@caption_background),\n    caption_opacity(@caption_opacity),\n    @class\n  ]}\n  poster={@thumbnail}\n  {@rest}\n>\n  <source :for={source <- @source} src={source.src} type={source.type} />\n\n  <track\n    :for={track <- @track}\n    src={track.src}\n    label={track.label || \"English\"}\n    kind={track.kind || \"subtitles\"}\n    srclang={track.srclang || \"en\"}\n    default={track.default}\n  />\n\n  {gettext(\"Your browser does not support the video tag.\")}\n</video>\n",
+      "template": "<video\n  id={@id}\n  class={[\n    width_class(@width),\n    height_class(@height),\n    rounded_size(@rounded),\n    aspect_ratio(@ratio),\n    caption_size(@caption_size),\n    caption_background(@caption_background),\n    caption_opacity(@caption_opacity),\n    @class\n  ]}\n  poster={@thumbnail}\n  {@rest}\n>\n  <source :for={source <- @source} src={source.src} type={source.type} />\n\n  <track\n    :for={track <- @track}\n    src={track.src}\n    label={Map.get(track, :label) || \"English\"}\n    kind={Map.get(track, :kind) || \"subtitles\"}\n    srclang={Map.get(track, :srclang) || \"en\"}\n    default={Map.get(track, :default)}\n  />\n\n  {gettext(\"Your browser does not support the video tag.\")}\n</video>\n",
       "type": "media"
     },
     {

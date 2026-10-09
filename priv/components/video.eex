@@ -131,10 +131,10 @@ defmodule <%= @module %> do
       <track
         :for={track <- @track}
         src={track.src}
-        label={track.label || "English"}
-        kind={track.kind || "subtitles"}
-        srclang={track.srclang || "en"}
-        default={track.default}
+        label={Map.get(track, :label) || "English"}
+        kind={Map.get(track, :kind) || "subtitles"}
+        srclang={Map.get(track, :srclang) || "en"}
+        default={Map.get(track, :default)}
       />
 
       {gettext("Your browser does not support the video tag.")}
