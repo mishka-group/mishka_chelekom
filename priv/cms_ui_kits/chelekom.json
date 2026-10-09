@@ -97272,6 +97272,7 @@
         {
           "name": "options",
           "opts": {
+            "default": [],
             "doc": "the options to pass to Phoenix.HTML.Form.options_for_select/2"
           },
           "type": "list"
