@@ -23,8 +23,6 @@ defmodule <%= @module %> do
   """
   use Phoenix.Component
 
-  @sizes [{"days", 86_400}, {"hours", 3_600}, {"minutes", 60}, {"seconds", 1}]
-
   @doc type: :component
   attr :id, :string, required: true, doc: "Unique id (carries the Countdown hook)"
 
@@ -131,7 +129,7 @@ defmodule <%= @module %> do
   """
   @spec split(integer(), [String.t()]) :: [{String.t(), non_neg_integer()}]
   def split(remaining, units) do
-    shown = Enum.filter(@sizes, fn {name, _} -> name in units end)
+    shown = Enum.filter(sizes(), fn {name, _} -> name in units end)
 
     {parts, _left} =
       Enum.map_reduce(shown, max(remaining, 0), fn {name, size}, left ->
@@ -140,6 +138,10 @@ defmodule <%= @module %> do
 
     parts
   end
+
+  # A function rather than a module attribute: a bundle carries a helper's code as it is, and a
+  # list of tuples has no JSON form to carry an attribute's value in.
+  defp sizes, do: [{"days", 86_400}, {"hours", 3_600}, {"minutes", 60}, {"seconds", 1}]
 
   # Rendered server-side so the first paint is already correct, and correct again after a
   # reconnect — the hook only keeps it moving between renders.

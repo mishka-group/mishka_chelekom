@@ -31,6 +31,8 @@ defmodule MishkaChelekom.CmsBundleExporter do
       9. `emit_components/3`        one component-params per public def
   """
 
+  require Logger
+
   @type component_params :: map()
   @type js_hook :: %{required(String.t()) => term()}
 
@@ -389,6 +391,7 @@ defmodule MishkaChelekom.CmsBundleExporter do
       aliases: %{},
       prelude_lines: [],
       module_attrs: [],
+      attribute_values: %{},
       pending_attrs: [],
       pending_slots: [],
       pending_doc: nil,
@@ -415,6 +418,7 @@ defmodule MishkaChelekom.CmsBundleExporter do
       aliases: %{},
       prelude_lines: [],
       module_attrs: [],
+      attribute_values: %{},
       pending_attrs: [],
       pending_slots: [],
       pending_doc: nil,
@@ -436,10 +440,18 @@ defmodule MishkaChelekom.CmsBundleExporter do
        when name in @ignored_attributes,
        do: acc
 
-  # Module attribute (e.g. @indicator_positions [...])
+  # Module attribute (e.g. @indicator_positions [...]). Its value is also kept as written, for an
+  # `attr` below that defaults to it — `default: @month_names`.
   defp accumulate_node({:@, _, [{name, _, [value]}]}, acc) do
+    acc = %{acc | attribute_values: Map.put(acc.attribute_values, name, value)}
+
     case stringify_value(value) do
       :__unencodable__ ->
+        Logger.warning(
+          "[CmsBundleExporter] @#{name} holds a value JSON cannot carry (#{Macro.to_string(value) |> String.slice(0, 60)}); " <>
+            "a template or helper reading it gets nil in the bundle — hold it in a function instead"
+        )
+
         acc
 
       stringified ->
@@ -482,7 +494,8 @@ defmodule MishkaChelekom.CmsBundleExporter do
 
   # attr :name, :type, opts
   defp accumulate_node({:attr, _, args}, acc) do
-    %{acc | pending_attrs: acc.pending_attrs ++ [parse_attr_call(args)]}
+    attr = args |> resolve_default(acc.attribute_values) |> parse_attr_call()
+    %{acc | pending_attrs: acc.pending_attrs ++ [attr]}
   end
 
   # slot :name, opts [, do: ...]
@@ -696,6 +709,24 @@ defmodule MishkaChelekom.CmsBundleExporter do
 
   defp parse_use(_), do: :skip
 
+  # A DEFAULT NAMING A MODULE ATTRIBUTE IS THAT ATTRIBUTE'S VALUE. `attr :month_names, :list,
+  # default: @month_names` was exported with no default at all — a call is not a literal — and
+  # a CMS drawing the calendar without one handed its body `nil` to enumerate.
+  defp resolve_default([name, type, opts], values) when is_list(opts) do
+    case Keyword.fetch(opts, :default) do
+      {:ok, {:@, _, [{attribute, _, context}]}} when is_atom(context) ->
+        case Map.fetch(values, attribute) do
+          {:ok, value} -> [name, type, Keyword.put(opts, :default, value)]
+          :error -> [name, type, opts]
+        end
+
+      _literal_or_absent ->
+        [name, type, opts]
+    end
+  end
+
+  defp resolve_default(args, _values), do: args
+
   defp parse_attr_call([name, type | rest]) do
     opts =
       case rest do
@@ -820,6 +851,12 @@ defmodule MishkaChelekom.CmsBundleExporter do
       :error -> :__drop__
     end
   end
+
+  # `~w(days hours minutes seconds)` is the list of words it spells — `a` and `s` lists alike,
+  # as a JSON list of strings.
+  defp opt_value({:sigil_w, _, [{:<<>>, _, [words]}, modifiers]})
+       when is_binary(words) and modifiers in [[], ~c"a", ~c"s"],
+       do: String.split(words)
 
   # Bare function call `f(arg1, arg2)` — can't represent in JSON.
   defp opt_value({fun, _, args}) when is_atom(fun) and is_list(args), do: :__drop__
@@ -1013,8 +1050,14 @@ defmodule MishkaChelekom.CmsBundleExporter do
   defp stringify_value(value) when is_atom(value), do: to_string(value)
 
   defp stringify_value(list) when is_list(list) do
-    Enum.map(list, &stringify_value/1)
+    case Enum.map(list, &stringify_value/1) do
+      values -> if(:__unencodable__ in values, do: :__unencodable__, else: values)
+    end
   end
+
+  defp stringify_value({:sigil_w, _, [{:<<>>, _, [words]}, modifiers]})
+       when is_binary(words) and modifiers in [[], ~c"a", ~c"s"],
+       do: String.split(words)
 
   defp stringify_value(_), do: :__unencodable__
 

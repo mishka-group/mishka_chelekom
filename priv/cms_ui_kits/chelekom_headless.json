@@ -52,7 +52,12 @@
         {
           "name": "rest",
           "opts": {
-            "doc": "Any button/global attrs, e.g. phx-click"
+            "doc": "Any button/global attrs, e.g. phx-click",
+            "include": [
+              "form",
+              "name",
+              "value"
+            ]
           },
           "type": "global"
         }
@@ -388,7 +393,16 @@
           "name": "title_level",
           "opts": {
             "default": "h3",
-            "doc": "Heading element for the `:title` slot; `div` opts out of the document outline"
+            "doc": "Heading element for the `:title` slot; `div` opts out of the document outline",
+            "values": [
+              "h1",
+              "h2",
+              "h3",
+              "h4",
+              "h5",
+              "h6",
+              "div"
+            ]
           },
           "type": "string"
         },
@@ -396,7 +410,11 @@
           "name": "figure_position",
           "opts": {
             "default": "start",
-            "doc": "Render the figure before or after the body"
+            "doc": "Render the figure before or after the body",
+            "values": [
+              "start",
+              "end"
+            ]
           },
           "type": "string"
         },
@@ -472,7 +490,15 @@
         },
         {
           "name": "rest",
-          "opts": {},
+          "opts": {
+            "include": [
+              "download",
+              "hreflang",
+              "referrerpolicy",
+              "rel",
+              "target"
+            ]
+          },
           "type": "global"
         }
       ],
@@ -611,7 +637,13 @@
           "name": "side",
           "opts": {
             "default": "bottom",
-            "doc": "Preferred side to anchor the popup"
+            "doc": "Preferred side to anchor the popup",
+            "values": [
+              "top",
+              "right",
+              "bottom",
+              "left"
+            ]
           },
           "type": "string"
         },
@@ -619,7 +651,12 @@
           "name": "align",
           "opts": {
             "default": "center",
-            "doc": "Alignment along the side"
+            "doc": "Alignment along the side",
+            "values": [
+              "start",
+              "center",
+              "end"
+            ]
           },
           "type": "string"
         },
@@ -988,7 +1025,11 @@
         {
           "name": "rest",
           "opts": {
-            "doc": "Any input/global attrs"
+            "doc": "Any input/global attrs",
+            "include": [
+              "capture",
+              "form"
+            ]
           },
           "type": "global"
         }
@@ -1071,7 +1112,11 @@
         {
           "name": "orientation",
           "opts": {
-            "default": "horizontal"
+            "default": "horizontal",
+            "values": [
+              "horizontal",
+              "vertical"
+            ]
           },
           "type": "string"
         },
@@ -2941,7 +2986,13 @@
           "name": "side",
           "opts": {
             "default": "right",
-            "doc": "Edge the drawer slides from"
+            "doc": "Edge the drawer slides from",
+            "values": [
+              "left",
+              "right",
+              "top",
+              "bottom"
+            ]
           },
           "type": "string"
         },
@@ -4056,7 +4107,11 @@
         {
           "name": "orientation",
           "opts": {
-            "default": "horizontal"
+            "default": "horizontal",
+            "values": [
+              "horizontal",
+              "vertical"
+            ]
           },
           "type": "string"
         },
@@ -4397,7 +4452,11 @@
           "name": "orientation",
           "opts": {
             "default": "vertical",
-            "doc": "Arrow-key navigation axis"
+            "doc": "Arrow-key navigation axis",
+            "values": [
+              "vertical",
+              "horizontal"
+            ]
           },
           "type": "string"
         },
@@ -4669,7 +4728,11 @@
         {
           "name": "shape",
           "opts": {
-            "default": "semi"
+            "default": "semi",
+            "values": [
+              "semi",
+              "full"
+            ]
           },
           "type": "string"
         },
@@ -5041,7 +5104,11 @@
         {
           "name": "rest",
           "opts": {
-            "doc": "Any input/global attrs, e.g. phx-change, required"
+            "doc": "Any input/global attrs, e.g. phx-change, required",
+            "include": [
+              "required",
+              "form"
+            ]
           },
           "type": "global"
         }
@@ -5105,7 +5172,11 @@
           "name": "position",
           "opts": {
             "default": "bottom",
-            "doc": "Which edge the bar is pinned to"
+            "doc": "Which edge the bar is pinned to",
+            "values": [
+              "bottom",
+              "top"
+            ]
           },
           "type": "string"
         },
@@ -5544,7 +5615,11 @@
           "name": "filter",
           "opts": {
             "default": "contains",
-            "doc": "Match mode for the typed query"
+            "doc": "Match mode for the typed query",
+            "values": [
+              "contains",
+              "starts_with"
+            ]
           },
           "type": "string"
         },
@@ -6075,7 +6150,13 @@
           "name": "side",
           "opts": {
             "default": "top",
-            "doc": "Preferred side"
+            "doc": "Preferred side",
+            "values": [
+              "top",
+              "right",
+              "bottom",
+              "left"
+            ]
           },
           "type": "string"
         },
@@ -6083,7 +6164,12 @@
           "name": "align",
           "opts": {
             "default": "center",
-            "doc": "Alignment along the side"
+            "doc": "Alignment along the side",
+            "values": [
+              "start",
+              "center",
+              "end"
+            ]
           },
           "type": "string"
         },
@@ -6139,7 +6225,13 @@
           "name": "track_cursor_axis",
           "opts": {
             "default": "none",
-            "doc": "Follow the cursor along an axis"
+            "doc": "Follow the cursor along an axis",
+            "values": [
+              "none",
+              "x",
+              "y",
+              "both"
+            ]
           },
           "type": "string"
         },
@@ -6304,6 +6396,12 @@
         {
           "name": "units",
           "opts": {
+            "default": [
+              "days",
+              "hours",
+              "minutes",
+              "seconds"
+            ],
             "doc": "Which units to show, largest first; the largest one absorbs everything above it"
           },
           "type": "list"
@@ -6401,17 +6499,7 @@
         "doc_examples": [],
         "doc_url": "https://mishka.tools/chelekom/docs/headless/countdown",
         "function": "countdown",
-        "module_attributes": [
-          {
-            "name": "sizes",
-            "value": [
-              "__unencodable__",
-              "__unencodable__",
-              "__unencodable__",
-              "__unencodable__"
-            ]
-          }
-        ],
+        "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
         "ui_kit_version": "0.0.10-alpha.8"
@@ -6429,9 +6517,17 @@
         {
           "args": "remaining, units",
           "attrs": [],
-          "code": "shown = Enum.filter(@sizes, fn {name, _} -> name in units end)\n\n{parts, _left} =\n  Enum.map_reduce(shown, max(remaining, 0), fn {name, size}, left ->\n    {{name, div(left, size)}, rem(left, size)}\n  end)\n\nparts",
+          "code": "shown = Enum.filter(sizes(), fn {name, _} -> name in units end)\n\n{parts, _left} =\n  Enum.map_reduce(shown, max(remaining, 0), fn {name, size}, left ->\n    {{name, div(left, size)}, rem(left, size)}\n  end)\n\nparts",
           "discriminators": [],
           "name": "split",
+          "slots": []
+        },
+        {
+          "args": "",
+          "attrs": [],
+          "code": "[{\"days\", 86400}, {\"hours\", 3600}, {\"minutes\", 60}, {\"seconds\", 1}]",
+          "discriminators": [],
+          "name": "sizes",
           "slots": []
         },
         {
@@ -6541,7 +6637,12 @@
           "name": "urgency",
           "opts": {
             "default": "polite",
-            "doc": "How the message is announced: status | alert | plain region"
+            "doc": "How the message is announced: status | alert | plain region",
+            "values": [
+              "polite",
+              "assertive",
+              "off"
+            ]
           },
           "type": "string"
         },
@@ -6745,7 +6846,11 @@
         {
           "name": "orientation",
           "opts": {
-            "default": "horizontal"
+            "default": "horizontal",
+            "values": [
+              "horizontal",
+              "vertical"
+            ]
           },
           "type": "string"
         },
@@ -8234,7 +8339,14 @@
         {
           "name": "rest",
           "opts": {
-            "doc": "Any input/global attrs, e.g. phx-change, required"
+            "doc": "Any input/global attrs, e.g. phx-change, required",
+            "include": [
+              "form",
+              "maxlength",
+              "minlength",
+              "readonly",
+              "required"
+            ]
           },
           "type": "global"
         }
@@ -8281,7 +8393,11 @@
         {
           "name": "orientation",
           "opts": {
-            "default": "horizontal"
+            "default": "horizontal",
+            "values": [
+              "horizontal",
+              "vertical"
+            ]
           },
           "type": "string"
         },
@@ -8414,7 +8530,21 @@
           "name": "type",
           "opts": {
             "default": "text",
-            "doc": "Native input type"
+            "doc": "Native input type",
+            "values": [
+              "text",
+              "email",
+              "password",
+              "search",
+              "tel",
+              "url",
+              "number",
+              "date",
+              "time",
+              "datetime-local",
+              "month",
+              "week"
+            ]
           },
           "type": "string"
         },
@@ -8531,7 +8661,21 @@
         {
           "name": "rest",
           "opts": {
-            "doc": "Any input/global attrs, e.g. phx-change"
+            "doc": "Any input/global attrs, e.g. phx-change",
+            "include": [
+              "autocomplete",
+              "autofocus",
+              "form",
+              "inputmode",
+              "list",
+              "max",
+              "maxlength",
+              "min",
+              "minlength",
+              "pattern",
+              "size",
+              "step"
+            ]
           },
           "type": "global"
         }
@@ -9145,7 +9289,13 @@
           "name": "side",
           "opts": {
             "default": "bottom",
-            "doc": "Preferred side to anchor the popup"
+            "doc": "Preferred side to anchor the popup",
+            "values": [
+              "top",
+              "right",
+              "bottom",
+              "left"
+            ]
           },
           "type": "string"
         },
@@ -9153,7 +9303,12 @@
           "name": "align",
           "opts": {
             "default": "start",
-            "doc": "Alignment along the side"
+            "doc": "Alignment along the side",
+            "values": [
+              "start",
+              "center",
+              "end"
+            ]
           },
           "type": "string"
         },
@@ -9901,7 +10056,11 @@
         {
           "name": "orientation",
           "opts": {
-            "default": "horizontal"
+            "default": "horizontal",
+            "values": [
+              "horizontal",
+              "vertical"
+            ]
           },
           "type": "string"
         },
@@ -10422,7 +10581,11 @@
           "name": "orientation",
           "opts": {
             "default": "vertical",
-            "doc": "Which way the options run; the engine's arrow keys follow it"
+            "doc": "Which way the options run; the engine's arrow keys follow it",
+            "values": [
+              "vertical",
+              "horizontal"
+            ]
           },
           "type": "string"
         },
@@ -11350,7 +11513,12 @@
           "name": "mode",
           "opts": {
             "default": "single",
-            "doc": "How many days can be picked"
+            "doc": "How many days can be picked",
+            "values": [
+              "single",
+              "multiple",
+              "range"
+            ]
           },
           "type": "string"
         },
@@ -11421,6 +11589,20 @@
         {
           "name": "month_names",
           "opts": {
+            "default": [
+              "January",
+              "February",
+              "March",
+              "April",
+              "May",
+              "June",
+              "July",
+              "August",
+              "September",
+              "October",
+              "November",
+              "December"
+            ],
             "doc": "Month names, January first"
           },
           "type": "list"
@@ -11428,6 +11610,15 @@
         {
           "name": "weekday_names",
           "opts": {
+            "default": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
             "doc": "Weekday names, Monday first"
           },
           "type": "list"
@@ -11435,6 +11626,15 @@
         {
           "name": "weekday_abbreviations",
           "opts": {
+            "default": [
+              "Mo",
+              "Tu",
+              "We",
+              "Th",
+              "Fr",
+              "Sa",
+              "Su"
+            ],
             "doc": "Short weekday names, Monday first"
           },
           "type": "list"
@@ -11552,7 +11752,49 @@
         "doc_examples": [],
         "doc_url": "https://mishka.tools/chelekom/docs/headless/calendar",
         "function": "calendar",
-        "module_attributes": [],
+        "module_attributes": [
+          {
+            "name": "month_names",
+            "value": [
+              "January",
+              "February",
+              "March",
+              "April",
+              "May",
+              "June",
+              "July",
+              "August",
+              "September",
+              "October",
+              "November",
+              "December"
+            ]
+          },
+          {
+            "name": "weekday_names",
+            "value": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ]
+          },
+          {
+            "name": "weekday_short",
+            "value": [
+              "Mo",
+              "Tu",
+              "We",
+              "Th",
+              "Fr",
+              "Sa",
+              "Su"
+            ]
+          }
+        ],
         "prelude": null,
         "ui_kit": "chelekom_headless",
         "ui_kit_version": "0.0.10-alpha.8"
@@ -13206,7 +13448,17 @@
         {
           "name": "rest",
           "opts": {
-            "doc": "Any textarea/global attrs, e.g. phx-change, required"
+            "doc": "Any textarea/global attrs, e.g. phx-change, required",
+            "include": [
+              "autocomplete",
+              "cols",
+              "form",
+              "maxlength",
+              "minlength",
+              "readonly",
+              "required",
+              "wrap"
+            ]
           },
           "type": "global"
         }
@@ -14537,7 +14789,13 @@
           "name": "resize",
           "opts": {
             "default": "vertical",
-            "doc": "Native resize handle direction; forced to `none` while autosizing"
+            "doc": "Native resize handle direction; forced to `none` while autosizing",
+            "values": [
+              "none",
+              "vertical",
+              "horizontal",
+              "both"
+            ]
           },
           "type": "string"
         },
@@ -14567,7 +14825,16 @@
         {
           "name": "rest",
           "opts": {
-            "doc": "Any textarea/global attrs, e.g. phx-change"
+            "doc": "Any textarea/global attrs, e.g. phx-change",
+            "include": [
+              "autocomplete",
+              "autofocus",
+              "form",
+              "maxlength",
+              "minlength",
+              "spellcheck",
+              "wrap"
+            ]
           },
           "type": "global"
         }
@@ -15531,7 +15798,16 @@
         {
           "name": "rest",
           "opts": {
-            "doc": "Any anchor/global attrs (target, rel, phx-*, …)"
+            "doc": "Any anchor/global attrs (target, rel, phx-*, …)",
+            "include": [
+              "download",
+              "hreflang",
+              "referrerpolicy",
+              "rel",
+              "replace",
+              "target",
+              "type"
+            ]
           },
           "type": "global"
         }
@@ -15625,7 +15901,11 @@
           "name": "orientation",
           "opts": {
             "default": "horizontal",
-            "doc": "Layout direction, reflected as data-orientation"
+            "doc": "Layout direction, reflected as data-orientation",
+            "values": [
+              "horizontal",
+              "vertical"
+            ]
           },
           "type": "string"
         },
@@ -16147,7 +16427,13 @@
           "name": "snap",
           "opts": {
             "default": "start",
-            "doc": "Where a slide comes to rest"
+            "doc": "Where a slide comes to rest",
+            "values": [
+              "start",
+              "center",
+              "end",
+              "none"
+            ]
           },
           "type": "string"
         },
@@ -16155,7 +16441,11 @@
           "name": "orientation",
           "opts": {
             "default": "horizontal",
-            "doc": "Which way it scrolls"
+            "doc": "Which way it scrolls",
+            "values": [
+              "horizontal",
+              "vertical"
+            ]
           },
           "type": "string"
         },
@@ -16451,21 +16741,36 @@
         {
           "name": "orientation",
           "opts": {
-            "default": "horizontal"
+            "default": "horizontal",
+            "values": [
+              "horizontal",
+              "vertical"
+            ]
           },
           "type": "string"
         },
         {
           "name": "side",
           "opts": {
-            "default": "bottom"
+            "default": "bottom",
+            "values": [
+              "top",
+              "right",
+              "bottom",
+              "left"
+            ]
           },
           "type": "string"
         },
         {
           "name": "align",
           "opts": {
-            "default": "center"
+            "default": "center",
+            "values": [
+              "start",
+              "center",
+              "end"
+            ]
           },
           "type": "string"
         },
@@ -16664,7 +16969,12 @@
         {
           "name": "orientation",
           "opts": {
-            "default": "vertical"
+            "default": "vertical",
+            "values": [
+              "vertical",
+              "horizontal",
+              "both"
+            ]
           },
           "type": "string"
         },
@@ -16829,7 +17139,11 @@
           "name": "filter",
           "opts": {
             "default": "contains",
-            "doc": "Match mode for the typed query"
+            "doc": "Match mode for the typed query",
+            "values": [
+              "contains",
+              "starts_with"
+            ]
           },
           "type": "string"
         },
@@ -17048,7 +17362,13 @@
           "name": "side",
           "opts": {
             "default": "bottom",
-            "doc": "Preferred side to anchor the popup"
+            "doc": "Preferred side to anchor the popup",
+            "values": [
+              "top",
+              "right",
+              "bottom",
+              "left"
+            ]
           },
           "type": "string"
         },
@@ -17056,7 +17376,12 @@
           "name": "align",
           "opts": {
             "default": "center",
-            "doc": "Alignment along the side"
+            "doc": "Alignment along the side",
+            "values": [
+              "start",
+              "center",
+              "end"
+            ]
           },
           "type": "string"
         },
@@ -17222,7 +17547,11 @@
           "name": "orientation",
           "opts": {
             "default": "horizontal",
-            "doc": "Axis of the separator"
+            "doc": "Axis of the separator",
+            "values": [
+              "horizontal",
+              "vertical"
+            ]
           },
           "type": "string"
         },
@@ -17353,7 +17682,11 @@
           "name": "sort_dir",
           "opts": {
             "default": "asc",
-            "doc": "Which way the sorted column runs"
+            "doc": "Which way the sorted column runs",
+            "values": [
+              "asc",
+              "desc"
+            ]
           },
           "type": "string"
         },
@@ -18063,7 +18396,13 @@
           "name": "placement",
           "opts": {
             "default": "bottom-end",
-            "doc": "Which corner the button floats in"
+            "doc": "Which corner the button floats in",
+            "values": [
+              "bottom-end",
+              "bottom-start",
+              "top-end",
+              "top-start"
+            ]
           },
           "type": "string"
         },
@@ -18079,7 +18418,14 @@
           "name": "direction",
           "opts": {
             "default": "up",
-            "doc": "Where the actions fan out; `flower` is daisyUI's quarter-circle"
+            "doc": "Where the actions fan out; `flower` is daisyUI's quarter-circle",
+            "values": [
+              "up",
+              "down",
+              "left",
+              "right",
+              "flower"
+            ]
           },
           "type": "string"
         },
@@ -18910,7 +19256,9 @@
             "default": "button",
             "doc": "Native button type (ignored by the link form)",
             "values": [
-              "button"
+              "button",
+              "submit",
+              "reset"
             ]
           },
           "type": "string"
@@ -19029,7 +19377,15 @@
         {
           "name": "rest",
           "opts": {
-            "doc": "Any button/anchor/global attrs, e.g. phx-click"
+            "doc": "Any button/anchor/global attrs, e.g. phx-click",
+            "include": [
+              "download",
+              "hreflang",
+              "referrerpolicy",
+              "rel",
+              "replace",
+              "target"
+            ]
           },
           "type": "global"
         }
