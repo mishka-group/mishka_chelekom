@@ -25,6 +25,11 @@
           "type": "string",
           "description": "HEEx written between the component's tags. An empty string means genuinely empty and is honoured — a spinner has nothing to say. Never write <:inner_block>; the HEEx compiler rejects the name."
         },
+        "attrs": {
+          "type": "object",
+          "description": "What the component itself arrives set to — the attributes a plain drop needs to draw anything at all (a progress ring's `value`, a pager's `total`), or to look like itself (a gallery's `cols`). Written verbatim; default options otherwise.",
+          "additionalProperties": true
+        },
         "slots": {
           "type": "array",
           "description": "Sample <:name> entries, for a component whose content is a list. Repeat a slot name to place several entries.",

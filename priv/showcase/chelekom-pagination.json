@@ -2,7 +2,10 @@
   "name": "chelekom-pagination",
   "furnishing": {
     "body": "",
-    "slots": []
+    "slots": [],
+    "attrs": {
+      "total": 8
+    }
   },
   "examples": [
     {

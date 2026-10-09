@@ -2,7 +2,10 @@
   "name": "chelekom-ring-progress",
   "furnishing": {
     "body": "",
-    "slots": []
+    "slots": [],
+    "attrs": {
+      "value": 72
+    }
   },
   "examples": [
     {

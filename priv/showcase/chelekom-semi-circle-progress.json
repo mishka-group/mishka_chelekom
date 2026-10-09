@@ -2,7 +2,10 @@
   "name": "chelekom-semi-circle-progress",
   "furnishing": {
     "body": "",
-    "slots": []
+    "slots": [],
+    "attrs": {
+      "value": 64
+    }
   },
   "examples": [
     {

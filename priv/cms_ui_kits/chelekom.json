@@ -22640,6 +22640,9 @@
         ],
         "function": "icon",
         "furnishing": {
+          "attrs": {
+            "name": "hero-sparkles"
+          },
           "body": "",
           "slots": []
         },
@@ -25515,6 +25518,9 @@
         ],
         "function": "semi_circle_progress",
         "furnishing": {
+          "attrs": {
+            "value": 64
+          },
           "body": "",
           "slots": []
         },
@@ -27104,6 +27110,9 @@
         ],
         "function": "ring_progress",
         "furnishing": {
+          "attrs": {
+            "value": 72
+          },
           "body": "",
           "slots": []
         },
@@ -55383,6 +55392,9 @@
         ],
         "function": "pagination",
         "furnishing": {
+          "attrs": {
+            "total": 8
+          },
           "body": "",
           "slots": []
         },
@@ -241772,6 +241784,9 @@
         ],
         "function": "back",
         "furnishing": {
+          "attrs": {
+            "navigate": "/blog"
+          },
           "body": "Back to all articles",
           "slots": []
         },

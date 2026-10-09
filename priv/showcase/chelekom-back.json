@@ -2,7 +2,10 @@
   "name": "chelekom-back",
   "furnishing": {
     "body": "Back to all articles",
-    "slots": []
+    "slots": [],
+    "attrs": {
+      "navigate": "/blog"
+    }
   },
   "examples": [
     {
