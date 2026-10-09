@@ -7,11 +7,11 @@
   "examples": [
     {
       "label": "Return link at the foot of an article",
-      "source": "<.component component_name=\"chelekom-back\" site=\"Global\" navigate=\"/blog\">Back to all articles</.component>"
+      "source": "<.component component_name=\"chelekom-back\" id=\"back-article-return\" site=\"Global\" navigate=\"/blog\">Back to all articles</.component>"
     },
     {
       "label": "Way out of a settings page, under the form",
-      "source": "<.component component_name=\"chelekom-back\" site=\"Global\" navigate=\"/admin/dashboard\">Back to the dashboard</.component>"
+      "source": "<.component component_name=\"chelekom-back\" id=\"back-settings-exit\" site=\"Global\" navigate=\"/admin/dashboard\">Back to the dashboard</.component>"
     },
     {
       "label": "Above the heading, where a detail page usually carries it",

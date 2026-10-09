@@ -13,11 +13,11 @@
   "examples": [
     {
       "label": "Team listing header with an invite action",
-      "source": "<.component component_name=\"chelekom-header\" site=\"Global\" class=\"mb-8\">\n  Team members\n  <:subtitle>Everyone with access to this workspace, and what they are allowed to change.</:subtitle>\n  <:actions>\n    <.component component_name=\"chelekom-button\" site=\"Global\" variant=\"default\" color=\"primary\" icon=\"hero-user-plus\">Invite member</.component>\n  </:actions>\n</.component>"
+      "source": "<.component component_name=\"chelekom-header\" id=\"header-team-listing\" site=\"Global\" class=\"mb-8\">\n  Team members\n  <:subtitle>Everyone with access to this workspace, and what they are allowed to change.</:subtitle>\n  <:actions>\n    <.component component_name=\"chelekom-button\" site=\"Global\" variant=\"default\" color=\"primary\" icon=\"hero-user-plus\">Invite member</.component>\n  </:actions>\n</.component>"
     },
     {
       "label": "Billing settings header with two actions",
-      "source": "<.component component_name=\"chelekom-header\" site=\"Global\" class=\"mb-8 border-b border-zinc-200 pb-6\">\n  Billing\n  <:subtitle>Your plan renews on 12 September. Invoices are emailed to the workspace owner.</:subtitle>\n  <:actions>\n    <div class=\"flex items-center gap-3\">\n      <.component component_name=\"chelekom-button\" site=\"Global\" variant=\"outline\" color=\"natural\" icon=\"hero-arrow-down-tray\">Download invoices</.component>\n      <.component component_name=\"chelekom-button\" site=\"Global\" variant=\"default\" color=\"primary\">Change plan</.component>\n    </div>\n  </:actions>\n</.component>"
+      "source": "<.component component_name=\"chelekom-header\" id=\"header-billing-settings\" site=\"Global\" class=\"mb-8 border-b border-zinc-200 pb-6\">\n  Billing\n  <:subtitle>Your plan renews on 12 September. Invoices are emailed to the workspace owner.</:subtitle>\n  <:actions>\n    <div class=\"flex items-center gap-3\">\n      <.component component_name=\"chelekom-button\" site=\"Global\" variant=\"outline\" color=\"natural\" icon=\"hero-arrow-down-tray\">Download invoices</.component>\n      <.component component_name=\"chelekom-button\" site=\"Global\" variant=\"default\" color=\"primary\">Change plan</.component>\n    </div>\n  </:actions>\n</.component>"
     },
     {
       "label": "Centered marketing section header above a feature grid",

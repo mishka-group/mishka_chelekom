@@ -32,11 +32,11 @@
     },
     {
       "label": "Shop category trail with a slash separator",
-      "source": "<.component component_name=\"chelekom-breadcrumb\" site=\"Global\" id=\"breadcrumb-shop\" color=\"natural\" separator_icon=\"hero-slash\" separator_icon_class=\"opacity-40\">\n  <:item link=\"/\">Home</:item>\n  <:item link=\"/shop\">Shop</:item>\n  <:item link=\"/shop/audio\">Audio</:item>\n  <:item>Studio Pro X2 Headphones</:item>\n</.component>"
+      "source": "<.component component_name=\"chelekom-breadcrumb\" site=\"Global\" id=\"breadcrumb-shop-category\" color=\"natural\" separator_icon=\"hero-slash\" separator_icon_class=\"opacity-40\">\n  <:item link=\"/\">Home</:item>\n  <:item link=\"/shop\">Shop</:item>\n  <:item link=\"/shop/audio\">Audio</:item>\n  <:item>Studio Pro X2 Headphones</:item>\n</.component>"
     },
     {
       "label": "Admin settings trail with section icons",
-      "source": "<.component component_name=\"chelekom-breadcrumb\" site=\"Global\" id=\"breadcrumb-admin\" color=\"primary\">\n  <:item icon=\"hero-squares-2x2\" link=\"/admin/dashboard\">Dashboard</:item>\n  <:item icon=\"hero-cog-6-tooth\" link=\"/admin/dashboard/settings\">Settings</:item>\n  <:item icon=\"hero-users\">Roles and permissions</:item>\n</.component>"
+      "source": "<.component component_name=\"chelekom-breadcrumb\" site=\"Global\" id=\"breadcrumb-admin-settings\" color=\"primary\">\n  <:item icon=\"hero-squares-2x2\" link=\"/admin/dashboard\">Dashboard</:item>\n  <:item icon=\"hero-cog-6-tooth\" link=\"/admin/dashboard/settings\">Settings</:item>\n  <:item icon=\"hero-users\">Roles and permissions</:item>\n</.component>"
     }
   ]
 }
