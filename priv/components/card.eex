@@ -481,7 +481,7 @@ defmodule <%= @module %> do
   <%= if is_nil(@variant) or "default" in @variant do %>
   <%= if is_nil(@color) or "white" in @color do %>
   defp color_variant("default", "white") do
-    ["[&:not(:has(.overlay))]:bg-default-white-bg text-black"]
+    ["[&:not(:has(.overlay))]:bg-white text-black"]
   end
   <% end %>
   <%= if is_nil(@color) or "dark" in @color do %>

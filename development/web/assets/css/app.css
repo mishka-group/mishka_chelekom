@@ -450,6 +450,24 @@
     --color-stepper-separator-completed-border-dark: var(
         --stepper-separator-completed-border-dark
     );
+    --color-primary-bordered-hover-light: var(--primary-bordered-hover-light);
+    --color-primary-bordered-hover-dark: var(--primary-bordered-hover-dark);
+    --color-secondary-bordered-hover-light: var(--secondary-bordered-hover-light);
+    --color-secondary-bordered-hover-dark: var(--secondary-bordered-hover-dark);
+    --color-success-bordered-hover-light: var(--success-bordered-hover-light);
+    --color-success-bordered-hover-dark: var(--success-bordered-hover-dark);
+    --color-warning-bordered-hover-light: var(--warning-bordered-hover-light);
+    --color-warning-bordered-hover-dark: var(--warning-bordered-hover-dark);
+    --color-danger-bordered-hover-light: var(--danger-bordered-hover-light);
+    --color-danger-bordered-hover-dark: var(--danger-bordered-hover-dark);
+    --color-info-bordered-hover-light: var(--info-bordered-hover-light);
+    --color-info-bordered-hover-dark: var(--info-bordered-hover-dark);
+    --color-misc-bordered-hover-light: var(--misc-bordered-hover-light);
+    --color-misc-bordered-hover-dark: var(--misc-bordered-hover-dark);
+    --color-dawn-bordered-hover-light: var(--dawn-bordered-hover-light);
+    --color-dawn-bordered-hover-dark: var(--dawn-bordered-hover-dark);
+    --color-silver-bordered-hover-light: var(--silver-bordered-hover-light);
+    --color-silver-bordered-hover-dark: var(--silver-bordered-hover-dark);
 }
 @layer components {
   .btn {

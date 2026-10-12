@@ -453,7 +453,7 @@ defmodule DevelopmentWeb.Components.Card do
   end
 
   defp color_variant("default", "white") do
-    ["[&:not(:has(.overlay))]:bg-default-white-bg text-black"]
+    ["[&:not(:has(.overlay))]:bg-white text-black"]
   end
 
   defp color_variant("default", "dark") do

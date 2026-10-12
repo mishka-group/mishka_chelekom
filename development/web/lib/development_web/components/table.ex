@@ -697,7 +697,7 @@ defmodule DevelopmentWeb.Components.Table do
   end
 
   defp color_variant("bordered", "white") do
-    "[&_table]:bg-white text-table-white-text border-table-white-border [&_*]:divide-table-white-border [&_td]:border-table-white-border [&_th]:border-table-white-border"
+    "[&_table]:bg-white text-black border-bordered-white-border [&_*]:divide-bordered-white-border [&_td]:border-bordered-white-border [&_th]:border-bordered-white-border"
   end
 
   defp color_variant("bordered", "natural") do
@@ -791,7 +791,7 @@ defmodule DevelopmentWeb.Components.Table do
   end
 
   defp color_variant("bordered", "dark") do
-    "[&_table]:bg-default-dark-bg text-white border-table-dark-border [&_*]:divide-table-dark-border [&_td]:border-table-dark-border [&_th]:border-table-dark-border"
+    "[&_table]:bg-default-dark-bg text-white border-bordered-dark-border [&_*]:divide-bordered-dark-border [&_td]:border-bordered-dark-border [&_th]:border-bordered-dark-border"
   end
 
   defp color_variant("outline", "natural") do
@@ -1054,7 +1054,7 @@ defmodule DevelopmentWeb.Components.Table do
 
   defp color_variant("hoverable", "white") do
     [
-      "[&_table]:bg-white [&_table_tbody_tr]:hover:bg-table-white-border text-table-white-text"
+      "[&_table]:bg-white [&_table_tbody_tr]:hover:bg-bordered-white-border text-black"
     ]
   end
 
@@ -1136,7 +1136,7 @@ defmodule DevelopmentWeb.Components.Table do
 
   defp color_variant("stripped", "white") do
     [
-      "[&_table]:bg-white odd:[&_table_tbody_tr]:bg-table-white-border text-table-white-text"
+      "[&_table]:bg-white odd:[&_table_tbody_tr]:bg-bordered-white-border text-black"
     ]
   end
 
