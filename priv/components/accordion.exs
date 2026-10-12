@@ -51,6 +51,12 @@
         module: "Collapsible",
         imports: "import Collapsible from \"./collapsible.js\";"
       }
+    ],
+    docs: [
+      stateful: false,
+      js_module: true,
+      js: true,
+      accessible: false
     ]
   ]
 ]

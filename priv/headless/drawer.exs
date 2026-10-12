@@ -96,6 +96,12 @@
         "data-expanded"
       ],
       hooks: ["Drawer"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: true,
+      accessible: true
     ]
   ]
 ]

@@ -63,6 +63,12 @@
         "data-starting-style"
       ],
       hooks: ["Popover"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: true,
+      accessible: true
     ]
   ]
 ]

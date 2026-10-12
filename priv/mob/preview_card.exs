@@ -11,6 +11,12 @@
       composite_tag: "preview_card",
       function: "preview_card",
       kit: ["anchored", "event"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false
     ]
   ]
 ]

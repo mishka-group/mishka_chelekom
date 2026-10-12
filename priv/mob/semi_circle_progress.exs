@@ -16,6 +16,12 @@
       composite_tag: "semi_circle_progress",
       function: "semi_circle_progress",
       kit: []
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false
     ]
   ]
 ]

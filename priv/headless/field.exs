@@ -57,6 +57,12 @@
         "data-focused"
       ],
       hooks: ["Field"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: true,
+      accessible: true
     ]
   ]
 ]

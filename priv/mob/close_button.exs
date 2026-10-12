@@ -11,6 +11,12 @@
       composite_tag: "close_button",
       function: "close_button",
       kit: []
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false
     ]
   ]
 ]

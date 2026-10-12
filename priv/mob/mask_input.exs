@@ -11,6 +11,12 @@
       composite_tag: "mask_input",
       function: "mask_input",
       kit: ["event"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false
     ]
   ]
 ]

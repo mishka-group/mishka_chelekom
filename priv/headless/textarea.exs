@@ -60,6 +60,12 @@
         "data-resize"
       ],
       hooks: ["Autosize"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: true,
+      accessible: true
     ]
   ]
 ]

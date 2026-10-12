@@ -11,6 +11,12 @@
       composite_tag: "code",
       function: "code",
       kit: []
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false
     ]
   ]
 ]

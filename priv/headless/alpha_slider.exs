@@ -35,6 +35,12 @@
       aria_pattern: [pattern: "Slider", keyboard: ["Arrow ±step", "Home → 0 · End → 100"]],
       state_attributes: ["data-disabled", "data-dragging"],
       hooks: ["Slider"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: true,
+      accessible: true
     ]
   ]
 ]

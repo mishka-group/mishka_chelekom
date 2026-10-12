@@ -41,6 +41,12 @@
       ],
       state_attributes: [],
       hooks: []
+    ],
+    docs: [
+      stateful: false,
+      js_module: true,
+      js: false,
+      accessible: true
     ]
   ]
 ]

@@ -11,6 +11,12 @@
       composite_tag: "radio_group",
       function: "radio_group",
       kit: ["event"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false
     ]
   ]
 ]

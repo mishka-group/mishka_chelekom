@@ -67,6 +67,12 @@
       ],
       state_attributes: ["data-sort-by", "data-sort-dir", "data-selected", "data-indeterminate"],
       hooks: ["Indeterminate"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: true,
+      js: true,
+      accessible: true
     ]
   ]
 ]

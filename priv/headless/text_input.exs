@@ -51,6 +51,12 @@
         "data-required"
       ],
       hooks: []
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: true
     ]
   ]
 ]

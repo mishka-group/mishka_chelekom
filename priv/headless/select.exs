@@ -80,6 +80,12 @@
         "data-popup-open"
       ],
       hooks: ["Select"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: true,
+      accessible: true
     ]
   ]
 ]

@@ -44,6 +44,12 @@
       ],
       state_attributes: ["data-x", "data-y", "data-dragging"],
       hooks: ["FloatingWindow"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: true,
+      accessible: true
     ]
   ]
 ]

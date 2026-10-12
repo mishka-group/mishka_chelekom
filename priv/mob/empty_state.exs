@@ -11,6 +11,12 @@
       composite_tag: "empty_state",
       function: "empty_state",
       kit: []
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false
     ]
   ]
 ]

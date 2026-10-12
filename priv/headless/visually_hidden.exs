@@ -21,6 +21,12 @@
       aria_pattern: [pattern: "Visually hidden (utility)", keyboard: []],
       state_attributes: [],
       hooks: []
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: true
     ]
   ]
 ]

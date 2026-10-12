@@ -11,6 +11,12 @@
       composite_tag: "autocomplete",
       function: "autocomplete",
       kit: ["anchored"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false
     ]
   ]
 ]

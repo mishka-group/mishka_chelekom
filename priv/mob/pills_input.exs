@@ -11,6 +11,12 @@
       composite_tag: "pills_input",
       function: "pills_input",
       kit: ["event"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false
     ]
   ]
 ]

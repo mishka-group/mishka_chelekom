@@ -67,6 +67,12 @@
       ],
       state_attributes: ["data-current", "data-index", "data-orientation", "data-snap"],
       hooks: ["HeadlessCarousel"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: true,
+      accessible: true
     ]
   ]
 ]

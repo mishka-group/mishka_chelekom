@@ -67,6 +67,12 @@
       ],
       state_attributes: ["data-open", "data-closed", "data-direction", "data-placement"],
       hooks: ["Popup"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: true,
+      js: true,
+      accessible: true
     ]
   ]
 ]

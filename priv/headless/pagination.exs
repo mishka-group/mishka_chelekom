@@ -47,6 +47,12 @@
       ],
       state_attributes: ["data-page", "data-current", "data-total"],
       hooks: []
+    ],
+    docs: [
+      stateful: false,
+      js_module: true,
+      js: false,
+      accessible: true
     ]
   ]
 ]

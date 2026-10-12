@@ -24,6 +24,12 @@
       aria_pattern: [pattern: "Scroller (no formal APG pattern)", keyboard: []],
       state_attributes: ["data-disabled"],
       hooks: ["Scroller"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: true,
+      accessible: true
     ]
   ]
 ]

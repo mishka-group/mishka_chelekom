@@ -11,6 +11,12 @@
       composite_tag: "rolling_number",
       function: "rolling_number",
       kit: []
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false
     ]
   ]
 ]

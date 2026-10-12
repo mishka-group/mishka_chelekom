@@ -19,6 +19,12 @@
         module: "Clipboard",
         imports: "import Clipboard from \"./clipboard.js\";"
       }
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: true,
+      accessible: false
     ]
   ]
 ]

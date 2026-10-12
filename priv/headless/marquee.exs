@@ -23,6 +23,12 @@
       aria_pattern: [pattern: "Marquee (no formal APG pattern)", keyboard: []],
       state_attributes: [],
       hooks: []
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: true
     ]
   ]
 ]

@@ -38,6 +38,12 @@
       ],
       state_attributes: ["data-disabled", "data-dragging"],
       hooks: ["Slider"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: true,
+      accessible: true
     ]
   ]
 ]

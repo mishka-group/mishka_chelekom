@@ -28,6 +28,12 @@
       ],
       state_attributes: ["data-mask"],
       hooks: ["MaskInput"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: true,
+      accessible: true
     ]
   ]
 ]

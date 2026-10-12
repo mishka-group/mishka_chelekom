@@ -11,6 +11,12 @@
       composite_tag: "otp_field",
       function: "otp_field",
       kit: ["event"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false
     ]
   ]
 ]

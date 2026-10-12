@@ -294,6 +294,19 @@ This project ensures optimal performance by minimizing dependencies and leveragi
 
 We appreciate any contribution to MishkaChelekom. Just create a PR!! 🎉🥳
 
+A new component is a `.eex` template and a `.exs` options file in `priv/components`, `priv/headless` or `priv/mob`. Its `.exs` ends with a `docs:` block, the facts its docs page shows as badges, all four required and each `true` or `false`:
+
+```elixir
+docs: [stateful: false, js_module: true, js: false, accessible: false]
+```
+
+- `stateful` — it is a `Phoenix.LiveComponent` (badge "Stateful", else "Stateless")
+- `js_module` — it uses LiveView's `Phoenix.LiveView.JS` at least once ("JS-module")
+- `js` — it uses a JS hook: draws a `phx-hook` or ships `scripts` ("JS")
+- `accessible` — it has been reviewed accessible ("Accessible"); every headless component is
+
+The generators and the export ignore the block. `mix mishka.ui.export` describes the rest of the `.exs`.
+
 ---
 
 ### Community & Support

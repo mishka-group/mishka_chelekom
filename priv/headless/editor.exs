@@ -168,6 +168,12 @@
       ],
       state_attributes: ["data-disabled", "data-readonly", "data-empty", "data-focused"],
       hooks: ["Editor"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: true,
+      accessible: true
     ]
   ]
 ]

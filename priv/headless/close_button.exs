@@ -26,6 +26,12 @@
       aria_pattern: [pattern: "Button", keyboard: ["Enter / Space — activate"]],
       state_attributes: ["data-disabled"],
       hooks: []
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: true
     ]
   ]
 ]

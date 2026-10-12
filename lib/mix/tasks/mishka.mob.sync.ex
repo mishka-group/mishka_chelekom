@@ -20,8 +20,10 @@ defmodule Mix.Tasks.Mishka.Mob.Sync do
     * `priv/mob/<name>.eex` — the component, with its module name, namespace and
       public function turned into EEx assigns
     * `priv/mob/<name>.exs` — the catalog: category and doc_url lifted from the
-      matching headless catalog, plus `necessary` (sibling components) and
-      `mob: [kit: …]` (shared support modules)
+      matching headless catalog, plus `necessary` (sibling components),
+      `mob: [kit: …]` (shared support modules) and `docs: […]`, kept as the
+      catalog already declares it — a new component's is all `false`, so set its
+      facts by hand before committing
     * `priv/mob/kit/<name>.eex` — the shared `Event` and `Color` modules, which
       are not components and are vendored by `mix mishka.ui.gen.mob.kit`
 
@@ -104,7 +106,8 @@ defmodule Mix.Tasks.Mishka.Mob.Sync do
             Mob.catalog(name,
               necessary: necessary(name, source, known),
               kit: Mob.kit_dependencies(Enum.join([source | companions], "\n")),
-              function: Mob.public_function(name, source)
+              function: Mob.public_function(name, source),
+              docs: Mob.declared_docs(name)
             )
         }
       end)

@@ -11,6 +11,12 @@
       composite_tag: "separator",
       function: "separator",
       kit: []
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false
     ]
   ]
 ]

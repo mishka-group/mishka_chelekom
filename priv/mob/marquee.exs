@@ -11,6 +11,12 @@
       composite_tag: "marquee",
       function: "marquee",
       kit: []
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false
     ]
   ]
 ]

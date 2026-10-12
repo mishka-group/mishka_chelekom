@@ -34,6 +34,12 @@
       ],
       state_attributes: ["data-pressed", "data-disabled"],
       hooks: ["Toggle"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: true,
+      accessible: true
     ]
   ]
 ]

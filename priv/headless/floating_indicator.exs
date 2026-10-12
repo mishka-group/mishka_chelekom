@@ -35,6 +35,12 @@
       ],
       state_attributes: ["data-active"],
       hooks: ["FloatingIndicator"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: true,
+      accessible: true
     ]
   ]
 ]

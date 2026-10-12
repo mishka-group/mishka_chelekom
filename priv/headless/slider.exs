@@ -68,6 +68,12 @@
       ],
       state_attributes: ["data-orientation", "data-dragging", "data-disabled", "data-index"],
       hooks: ["Slider"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: true,
+      accessible: true
     ]
   ]
 ]

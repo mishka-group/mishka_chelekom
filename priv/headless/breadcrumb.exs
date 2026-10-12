@@ -42,6 +42,12 @@
       ],
       state_attributes: ["data-collapsed", "data-index", "aria-current"],
       hooks: []
+    ],
+    docs: [
+      stateful: false,
+      js_module: true,
+      js: false,
+      accessible: true
     ]
   ]
 ]

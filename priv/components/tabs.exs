@@ -27,6 +27,12 @@
     optional: [],
     necessary: ["badge", "icon", "scroll_area"],
     required: false,
-    precompile: false
+    precompile: false,
+    docs: [
+      stateful: false,
+      js_module: true,
+      js: false,
+      accessible: false
+    ]
   ]
 ]

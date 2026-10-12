@@ -11,6 +11,12 @@
       composite_tag: "number_formatter",
       function: "number_formatter",
       kit: []
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false
     ]
   ]
 ]

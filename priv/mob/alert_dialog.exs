@@ -11,6 +11,12 @@
       composite_tag: "alert_dialog",
       function: "alert_dialog",
       kit: ["event"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false
     ]
   ]
 ]

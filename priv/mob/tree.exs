@@ -11,6 +11,12 @@
       composite_tag: "tree",
       function: "tree",
       kit: ["event"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false
     ]
   ]
 ]

@@ -43,6 +43,12 @@
       ],
       state_attributes: ["data-figure-position"],
       hooks: []
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: true
     ]
   ]
 ]

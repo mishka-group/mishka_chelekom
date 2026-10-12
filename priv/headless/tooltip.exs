@@ -45,6 +45,12 @@
       ],
       state_attributes: ["data-open", "data-closed", "data-side", "data-align", "data-popup-open", "data-starting-style"],
       hooks: ["Tooltip"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: true,
+      accessible: true
     ]
   ]
 ]

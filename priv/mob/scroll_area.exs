@@ -11,6 +11,12 @@
       composite_tag: "scroll_area",
       function: "scroll_area",
       kit: []
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false
     ]
   ]
 ]

@@ -11,6 +11,12 @@
       composite_tag: "context_menu",
       function: "context_menu",
       kit: ["anchored", "event"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false
     ]
   ]
 ]

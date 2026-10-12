@@ -11,6 +11,12 @@
       composite_tag: "skeleton",
       function: "skeleton",
       kit: []
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false
     ]
   ]
 ]

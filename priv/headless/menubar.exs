@@ -63,6 +63,12 @@
         "data-pressed"
       ],
       hooks: ["Menubar"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: true,
+      accessible: true
     ]
   ]
 ]

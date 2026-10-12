@@ -11,6 +11,12 @@
       composite_tag: "theme_icon",
       function: "theme_icon",
       kit: ["event"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false
     ]
   ]
 ]

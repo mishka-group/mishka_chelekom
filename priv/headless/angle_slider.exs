@@ -35,6 +35,12 @@
       ],
       state_attributes: ["data-value", "data-dragging", "data-disabled"],
       hooks: ["AngleSlider"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: true,
+      accessible: true
     ]
   ]
 ]

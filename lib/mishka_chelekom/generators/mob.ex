@@ -43,6 +43,10 @@ defmodule MishkaChelekom.Generators.Mob do
   # generated popover will not compile without it.
   @kit_modules ~w(anchored color event)
 
+  # The `docs:` block of a catalog, in the order it is written, each fact as a
+  # component that has not declared it yet reads.
+  @docs_facts [stateful: false, js_module: false, js: false, accessible: false]
+
   @doc "The Mob application's component directory, relative to the library root."
   @spec source_dir() :: String.t()
   def source_dir, do: "development/mob/lib/mishka_mob/components"
@@ -285,13 +289,24 @@ defmodule MishkaChelekom.Generators.Mob do
 
   `category` and `doc_url` are lifted from the matching headless catalog when one
   exists, so the two layers cannot describe the same component differently.
+
+  `docs` is the `docs:` block, the facts the component's docs page shows as
+  badges. They are declared by hand, never derived, so pass the ones its catalog
+  already holds (`declared_docs/1`) and a sync keeps them; a fact not passed is
+  written `false`, which a new component's author then corrects.
   """
   @spec catalog(String.t(), keyword()) :: String.t()
   def catalog(component, opts) do
     necessary = Keyword.get(opts, :necessary, [])
     kit = Keyword.get(opts, :kit, [])
     function = Keyword.get(opts, :function)
+    declared = Keyword.get(opts, :docs, [])
     {category, doc_url} = headless_metadata(component)
+
+    docs =
+      Enum.map_join(@docs_facts, ",\n", fn {fact, default} ->
+        "      #{fact}: #{inspect(Keyword.get(declared, fact, default))}"
+      end)
 
     """
     [
@@ -307,10 +322,30 @@ defmodule MishkaChelekom.Generators.Mob do
           composite_tag: "#{component}",
           function: #{inspect(function)},
           kit: #{inspect(kit)}
+        ],
+        docs: [
+    #{docs}
         ]
       ]
     ]
     """
+  end
+
+  @doc """
+  The `docs:` block `priv/mob/<component>.exs` declares, `[]` when there is no
+  such catalog yet or it declares none.
+  """
+  @spec declared_docs(String.t()) :: keyword()
+  def declared_docs(component) do
+    path = Core.lib_priv("mob/#{component}.exs")
+
+    with true <- File.exists?(path),
+         config when is_list(config) <- Config.Reader.read!(path)[String.to_atom(component)],
+         docs when is_list(docs) <- Keyword.get(config, :docs) do
+      docs
+    else
+      _ -> []
+    end
   end
 
   @doc """

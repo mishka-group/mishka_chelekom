@@ -11,6 +11,12 @@
       composite_tag: "collapsible",
       function: "collapsible",
       kit: ["event"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false
     ]
   ]
 ]

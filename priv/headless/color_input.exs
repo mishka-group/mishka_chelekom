@@ -50,6 +50,12 @@
       ],
       state_attributes: ["data-value", "data-dragging"],
       hooks: ["ColorPicker"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: true,
+      js: true,
+      accessible: true
     ]
   ]
 ]

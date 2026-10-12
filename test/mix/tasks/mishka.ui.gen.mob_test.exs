@@ -379,4 +379,16 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.MobTest do
       refute Enum.any?(paths, &String.contains?(&1, "package.json"))
     end
   end
+
+  describe "the catalog's docs block" do
+    test "never reaches the generator, so nothing it writes depends on it" do
+      declared = Config.Reader.read!("priv/mob/chip.exs")[:chip]
+      assert Keyword.has_key?(declared, :docs)
+
+      igniter = gen(["chip", "--yes"])
+
+      assert igniter.assigns.template_config == Keyword.delete(declared, :docs)
+      assert content(igniter, "lib/test/components/chip.ex")
+    end
+  end
 end

@@ -11,6 +11,12 @@
       composite_tag: "menubar",
       function: "menubar",
       kit: ["anchored", "event"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false
     ]
   ]
 ]

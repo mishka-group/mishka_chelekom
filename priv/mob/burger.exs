@@ -11,6 +11,12 @@
       composite_tag: "burger",
       function: "burger",
       kit: ["event"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false
     ]
   ]
 ]

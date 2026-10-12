@@ -32,6 +32,12 @@
       aria_pattern: [pattern: "Overflow list (no formal APG pattern)", keyboard: []],
       state_attributes: ["data-hidden"],
       hooks: ["OverflowList"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: true,
+      accessible: true
     ]
   ]
 ]

@@ -26,6 +26,12 @@
       aria_pattern: [pattern: "Status (live region)", keyboard: []],
       state_attributes: ["data-visible"],
       hooks: []
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: true
     ]
   ]
 ]

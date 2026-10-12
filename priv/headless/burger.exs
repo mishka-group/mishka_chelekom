@@ -29,6 +29,12 @@
       aria_pattern: [pattern: "Disclosure", keyboard: ["Enter / Space — toggle"]],
       state_attributes: ["data-opened", "data-disabled"],
       hooks: []
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: true
     ]
   ]
 ]

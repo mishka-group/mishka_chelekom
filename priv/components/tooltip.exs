@@ -30,6 +30,12 @@
     optional: [],
     necessary: [],
     required: false,
-    precompile: false
+    precompile: false,
+    docs: [
+      stateful: false,
+      js_module: true,
+      js: true,
+      accessible: false
+    ]
   ]
 ]

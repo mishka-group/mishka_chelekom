@@ -65,6 +65,12 @@
       ],
       state_attributes: ["data-checked", "data-unchecked", "data-indeterminate", "data-disabled"],
       hooks: ["Toggle", "CheckboxGroup"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: true,
+      accessible: true
     ]
   ]
 ]

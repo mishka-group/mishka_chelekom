@@ -11,6 +11,12 @@
       composite_tag: "select",
       function: "select",
       kit: ["anchored", "event"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false
     ]
   ]
 ]

@@ -108,6 +108,10 @@ defmodule MishkaChelekom.Generators.Core do
   For `:styled`, names prefixed `component_`/`preset_`/`template_` resolve against the host
   app's `priv/mishka_chelekom/{components,presets,templates}`; everything else (and all
   `:headless` names) resolves against the library `priv/`.
+
+  The catalog's `docs:` block is left out of `config`. It states the facts the component's docs
+  page shows as badges, and nothing a generator writes depends on it, so every generator — they
+  all read their catalog here — produces the same files whether the block is there or not.
   """
   @spec fetch_catalog(Igniter.t(), String.t(), layer()) ::
           {:ok, %{component: String.t(), path: String.t(), config: keyword()}}
@@ -122,8 +126,11 @@ defmodule MishkaChelekom.Generators.Core do
         config = Elixir.Config.Reader.read!(config_path)[component_atom(component)]
 
         case validate_catalog(config) do
-          {:ok, config} -> {:ok, %{component: component, path: path, config: config}}
-          {:error, reason} -> {:error, {:bad_catalog, reason, config_path}}
+          {:ok, config} ->
+            {:ok, %{component: component, path: path, config: Keyword.delete(config, :docs)}}
+
+          {:error, reason} ->
+            {:error, {:bad_catalog, reason, config_path}}
         end
 
       _ ->

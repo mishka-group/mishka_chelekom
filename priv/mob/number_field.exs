@@ -11,6 +11,12 @@
       composite_tag: "number_field",
       function: "number_field",
       kit: ["event"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false
     ]
   ]
 ]

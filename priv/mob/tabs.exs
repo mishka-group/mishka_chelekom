@@ -11,6 +11,12 @@
       composite_tag: "tabs",
       function: "tabs",
       kit: ["event"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false
     ]
   ]
 ]

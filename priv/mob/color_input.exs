@@ -11,6 +11,12 @@
       composite_tag: "color_input",
       function: "color_input",
       kit: ["anchored", "color", "event"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false
     ]
   ]
 ]

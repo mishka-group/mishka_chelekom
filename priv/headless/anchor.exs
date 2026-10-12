@@ -21,6 +21,12 @@
       aria_pattern: [pattern: "Link (no formal APG pattern)", keyboard: ["Enter — follow"]],
       state_attributes: [],
       hooks: []
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: true
     ]
   ]
 ]

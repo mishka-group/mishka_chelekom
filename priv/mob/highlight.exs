@@ -11,6 +11,12 @@
       composite_tag: "highlight",
       function: "highlight",
       kit: []
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false
     ]
   ]
 ]

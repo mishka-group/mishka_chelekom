@@ -11,6 +11,12 @@
       composite_tag: "action_icon",
       function: "action_icon",
       kit: ["event"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false
     ]
   ]
 ]

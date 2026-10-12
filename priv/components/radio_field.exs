@@ -28,6 +28,12 @@
     optional: [],
     necessary: ["icon"],
     required: false,
-    precompile: false
+    precompile: false,
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false
+    ]
   ]
 ]

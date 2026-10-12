@@ -11,6 +11,12 @@
       composite_tag: "floating_window",
       function: "floating_window",
       kit: ["color", "event"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false
     ]
   ]
 ]

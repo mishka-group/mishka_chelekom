@@ -399,4 +399,57 @@ defmodule Mix.Tasks.Mishka.Ui.ExportTest do
       assert file["necessary"] == ["alert"]
     end
   end
+
+  # The JSON the export writes for the kit's own `priv/<layer>/<name>` pair, copied into a directory
+  # of its own: its `.exs` as the kit ships it, or the same options without the docs block.
+  defp exported(layer, name, docs?, args) do
+    dir = Path.join(System.tmp_dir!(), "export_docs_#{System.unique_integer([:positive])}")
+    File.mkdir_p!(dir)
+    on_exit(fn -> File.rm_rf!(dir) end)
+
+    exs = File.read!("priv/#{layer}/#{name}.exs")
+    assert exs =~ "docs: ["
+
+    File.cp!("priv/#{layer}/#{name}.eex", Path.join(dir, "#{name}.eex"))
+    File.write!(Path.join(dir, "#{name}.exs"), if(docs?, do: exs, else: without_docs(exs)))
+
+    igniter =
+      test_project_with_formatter()
+      |> Igniter.compose_task("mishka.ui.export", [dir, "--test" | args])
+
+    assert igniter.issues == []
+
+    igniter.rewrite.sources
+    |> Enum.find_value(fn {path, source} ->
+      if String.ends_with?(path, ".json"), do: Rewrite.Source.get(source, :content)
+    end)
+    |> Jason.decode!()
+  end
+
+  defp without_docs(exs) do
+    {[{key, config}], _binding} = Code.eval_string(exs)
+
+    inspect([{key, Keyword.delete(config, :docs)}], limit: :infinity, printable_limit: :infinity)
+  end
+
+  describe "a catalog's docs block" do
+    test "the default export does not carry it" do
+      json = exported("components", "alert", true, [])
+
+      assert json == exported("components", "alert", false, [])
+      assert [file] = json["files"]
+      refute Map.has_key?(file, "docs")
+    end
+
+    test "the CMS bundle does not carry it, for a styled or a headless component" do
+      cms = ["--cms", "--name", "kit", "--bundle-name", "kit", "--bundle-version", "1.0.0"]
+
+      for {layer, name} <- [{"components", "alert"}, {"headless", "popover"}] do
+        bundle = exported(layer, name, true, cms)
+
+        assert bundle == exported(layer, name, false, cms), "#{layer}/#{name}"
+        assert [_ | _] = bundle["components"]
+      end
+    end
+  end
 end

@@ -23,6 +23,12 @@
       aria_pattern: [pattern: "Textbox (multiline)", keyboard: []],
       state_attributes: ["data-invalid"],
       hooks: []
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: true
     ]
   ]
 ]

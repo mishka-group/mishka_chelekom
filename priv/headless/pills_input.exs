@@ -24,6 +24,12 @@
       aria_pattern: [pattern: "Pills input (text field + tokens)", keyboard: ["Enter — add via on_add"]],
       state_attributes: ["data-disabled"],
       hooks: []
+    ],
+    docs: [
+      stateful: false,
+      js_module: true,
+      js: false,
+      accessible: true
     ]
   ]
 ]

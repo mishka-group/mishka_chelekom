@@ -11,6 +11,12 @@
       composite_tag: "hue_slider",
       function: "hue_slider",
       kit: ["color", "event"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false
     ]
   ]
 ]

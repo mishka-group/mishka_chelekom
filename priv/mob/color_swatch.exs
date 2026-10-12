@@ -11,6 +11,12 @@
       composite_tag: "color_swatch",
       function: "color_swatch",
       kit: ["event"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false
     ]
   ]
 ]

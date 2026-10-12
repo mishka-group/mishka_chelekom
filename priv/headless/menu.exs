@@ -100,6 +100,12 @@
         "data-starting-style"
       ],
       hooks: ["Menu"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: true,
+      accessible: true
     ]
   ]
 ]

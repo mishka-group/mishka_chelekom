@@ -39,6 +39,12 @@
       ],
       state_attributes: ["data-disabled"],
       hooks: []
+    ],
+    docs: [
+      stateful: false,
+      js_module: true,
+      js: false,
+      accessible: true
     ]
   ]
 ]

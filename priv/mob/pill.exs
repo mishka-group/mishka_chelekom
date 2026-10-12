@@ -11,6 +11,12 @@
       composite_tag: "pill",
       function: "pill",
       kit: ["event"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false
     ]
   ]
 ]

@@ -54,6 +54,12 @@
       ],
       state_attributes: ["data-checked", "data-unchecked", "data-disabled", "data-highlighted"],
       hooks: ["RadioGroup"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: true,
+      accessible: true
     ]
   ]
 ]

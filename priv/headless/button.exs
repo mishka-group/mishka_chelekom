@@ -37,6 +37,12 @@
       ],
       state_attributes: ["data-disabled", "data-loading"],
       hooks: []
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: true
     ]
   ]
 ]
