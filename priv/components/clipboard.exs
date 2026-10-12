@@ -24,8 +24,7 @@
       stateful: false,
       js_module: false,
       js: true,
-      accessible: false,
-      base_ui: false
+      accessible: false
     ]
   ]
 ]

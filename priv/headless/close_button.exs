@@ -31,8 +31,7 @@
       stateful: false,
       js_module: false,
       js: false,
-      accessible: true,
-      base_ui: true
+      accessible: true
     ]
   ]
 ]
