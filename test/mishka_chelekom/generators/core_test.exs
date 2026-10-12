@@ -90,5 +90,19 @@ defmodule MishkaChelekom.Generators.CoreTest do
       assert {:error, {:not_found, path}} = Core.fetch_catalog(igniter, "nope_nope", :headless)
       assert String.ends_with?(path, Path.join("headless", "nope_nope.eex"))
     end
+
+    test "hands every generator its catalog without the docs block, and nothing else changed" do
+      igniter = test_project_with_formatter()
+
+      for {layer, dir} <- [styled: "components", headless: "headless", mob: "mob"],
+          path <- Path.wildcard("priv/#{dir}/*.exs") do
+        name = Path.basename(path, ".exs")
+        declared = Config.Reader.read!(path)[String.to_atom(name)]
+
+        assert Keyword.has_key?(declared, :docs), "#{path} declares no docs block"
+        assert {:ok, %{config: config}} = Core.fetch_catalog(igniter, name, layer)
+        assert config == Keyword.delete(declared, :docs), "#{path}"
+      end
+    end
   end
 end

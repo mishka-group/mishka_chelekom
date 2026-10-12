@@ -1,6 +1,7 @@
 defmodule MishkaChelekom.CatalogIntegrityTest do
   @moduledoc """
-  Cross-catalog invariants for every `priv/{components,headless}/*.exs`.
+  Cross-catalog invariants for every `priv/{components,headless}/*.exs`, and the docs facts every
+  `.exs` under `priv` declares, Mob's included.
 
   Everything here is derived from the filesystem, so a new component is covered the moment its
   catalog lands — no list to keep in sync. These are the mistakes that produce a component which
@@ -11,6 +12,12 @@ defmodule MishkaChelekom.CatalogIntegrityTest do
   @catalogs Path.wildcard("priv/{components,headless}/*.exs")
   @templates Path.wildcard("priv/{components,headless}/*.eex")
   @engines Path.wildcard("priv/assets/js/*.js") |> Enum.map(&Path.basename/1)
+
+  # Every options file under `priv`, Mob's included: each declares its docs facts.
+  @documented Path.wildcard("priv/**/*.exs")
+
+  # The facts of a catalog's `docs:` block, in the order it writes them.
+  @docs_facts [:stateful, :js_module, :js, :accessible]
 
   # Permissive only. A copyleft or license-key-gated package would put a legal or blank-page
   # burden on every consumer who generates the component.
@@ -172,6 +179,89 @@ defmodule MishkaChelekom.CatalogIntegrityTest do
             do: "#{name}/#{lib} -> #{script.file}"
 
       assert missing == [], "libs reference JS engines that do not exist: #{inspect(missing)}"
+    end
+  end
+
+  # A catalog and its `docs:` block, `nil` for either it does not have.
+  defp docs(path) do
+    {_name, cfg} = config(path)
+    {cfg, if(is_list(cfg), do: Keyword.get(cfg, :docs))}
+  end
+
+  defp fact(docs, fact) when is_list(docs), do: Keyword.get(docs, fact)
+  defp fact(_docs, _fact), do: nil
+
+  defp scripts(cfg) when is_list(cfg) do
+    libs = Enum.flat_map(cfg[:libs] || [], fn {_lib, opts} -> opts[:scripts] || [] end)
+    (cfg[:scripts] || []) ++ libs
+  end
+
+  defp scripts(_cfg), do: []
+
+  defp live_component?(path),
+    do: File.read!(Path.rootname(path) <> ".eex") =~ ~r/use\s+Phoenix\.LiveComponent\b/
+
+  describe "docs facts" do
+    test "there are options files to check, of all three layers" do
+      assert length(@documented) > 200,
+             "the wildcard matched almost nothing — every test here would vacuously pass"
+
+      assert @documented |> Enum.map(&Path.dirname/1) |> Enum.uniq() |> Enum.sort() ==
+               ~w(priv/components priv/headless priv/mob)
+    end
+
+    test "every options file declares exactly the four facts, in order, each true or false" do
+      wrong =
+        for path <- @documented,
+            {_cfg, docs} = docs(path),
+            not (is_list(docs) and Keyword.keys(docs) == @docs_facts and
+                   Enum.all?(Keyword.values(docs), &is_boolean/1)),
+            do: "#{path}: #{inspect(docs)}"
+
+      assert wrong == [],
+             "every .exs needs `docs: [stateful: _, js_module: _, js: _, accessible: _]`, each " <>
+               "a boolean (see the README's Contributing):\n" <> Enum.join(wrong, "\n")
+    end
+
+    test "the docs block is the catalog's last key" do
+      wrong =
+        for path <- @documented,
+            {cfg, _docs} = docs(path),
+            is_list(cfg) and cfg |> Keyword.keys() |> List.last() != :docs,
+            do: path
+
+      assert wrong == [], "these put a key after `docs:`: #{inspect(wrong)}"
+    end
+
+    test "every headless component is accessible" do
+      wrong =
+        for path <- @documented,
+            String.starts_with?(path, "priv/headless/"),
+            {_cfg, docs} = docs(path),
+            fact(docs, :accessible) != true,
+            do: path
+
+      assert wrong == [], "headless components not declared accessible: #{inspect(wrong)}"
+    end
+
+    test "a component that ships scripts uses a JS hook" do
+      wrong =
+        for path <- @documented,
+            {cfg, docs} = docs(path),
+            scripts(cfg) != [] and fact(docs, :js) != true,
+            do: path
+
+      assert wrong == [], "these ship scripts but declare `js: false`: #{inspect(wrong)}"
+    end
+
+    test "a component is stateful exactly when its template is a Phoenix.LiveComponent" do
+      wrong =
+        for path <- @documented,
+            {_cfg, docs} = docs(path),
+            fact(docs, :stateful) != live_component?(path),
+            do: "#{path}: stateful: #{inspect(fact(docs, :stateful))}"
+
+      assert wrong == [], Enum.join(wrong, "\n")
     end
   end
 end

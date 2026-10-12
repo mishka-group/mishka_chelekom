@@ -90,7 +90,7 @@ cd .. && cd .. && mix mishka.mob.sync --yes
 
 ## 7. Check the `.exs`
 
-`priv/mob/<name>.exs` — `doc_url` (should be `/chelekom/docs/mob/<hyphenated>`), `necessary`, `category`, `mob: function/kit`. `mix test test/mishka_chelekom/generators/mob_test.exs` in the repo root covers the invariants.
+`priv/mob/<name>.exs` — `doc_url` (should be `/chelekom/docs/mob/<hyphenated>`), `necessary`, `category`, `mob: function/kit`, and `docs:` — the four badge facts of its docs page, which the sync keeps as declared and writes all `false` for a new component, so set them by hand (see the README's Contributing). `mix test test/mishka_chelekom/generators/mob_test.exs test/mishka_chelekom/catalog_integrity_test.exs` in the repo root covers the invariants.
 
 ## Give text-less controls an `:id`
 

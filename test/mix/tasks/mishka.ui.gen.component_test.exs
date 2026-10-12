@@ -288,4 +288,17 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentTest do
       assert String.ends_with?(path, "non_existent.eex")
     end
   end
+
+  describe "the catalog's docs block" do
+    test "never reaches the generator, so nothing it writes depends on it" do
+      declared = Config.Reader.read!("priv/components/alert.exs")[:alert]
+      assert Keyword.has_key?(declared, :docs)
+
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.compose_task(Component, ["alert", "--yes"])
+
+      assert igniter.assigns.template_config == Keyword.delete(declared, :docs)
+    end
+  end
 end

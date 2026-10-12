@@ -91,4 +91,18 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.HeadlessTest do
       assert Enum.join(igniter.issues, " ") =~ "not found in priv/headless/"
     end
   end
+
+  describe "the catalog's docs block" do
+    test "never reaches the generator, so nothing it writes depends on it" do
+      declared = Config.Reader.read!("priv/headless/popover.exs")[:popover]
+      assert Keyword.has_key?(declared, :docs)
+
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.compose_task(Headless, ["popover", "--yes"])
+
+      assert igniter.assigns.template_config == Keyword.delete(declared, :docs)
+      assert source_content(igniter, "lib/test_web/components/headless/popover.ex")
+    end
+  end
 end

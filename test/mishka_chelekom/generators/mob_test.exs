@@ -147,6 +147,49 @@ defmodule MishkaChelekom.Generators.MobTest do
     end
   end
 
+  describe "catalog/2 and the docs block" do
+    test "writes every committed catalog back byte for byte, its docs block kept" do
+      # What `mix mishka.mob.sync` writes for a component — formatted, as Igniter writes it — from
+      # what its catalog declares. A sync that dropped or reset the hand-declared docs facts would
+      # show here first.
+      for path <- @catalogs do
+        {name, config} = config(path)
+
+        written =
+          name
+          |> Mob.catalog(
+            necessary: config[:necessary],
+            kit: get_in(config, [:mob, :kit]),
+            function: get_in(config, [:mob, :function]),
+            docs: Mob.declared_docs(name)
+          )
+          |> Code.format_string!()
+          |> IO.iodata_to_binary()
+
+        assert written <> "\n" == File.read!(path), "#{name}: the sync would rewrite its catalog"
+      end
+    end
+
+    test "a component with no catalog yet declares every fact false" do
+      name = "not_a_mob_component"
+      assert Mob.declared_docs(name) == []
+
+      {[{_key, config}], _binding} = name |> Mob.catalog([]) |> Code.eval_string()
+
+      assert config[:docs] == [stateful: false, js_module: false, js: false, accessible: false]
+      assert config |> Keyword.keys() |> List.last() == :docs
+    end
+
+    test "a declared fact is written as declared, and an unknown one is dropped" do
+      {[{_key, config}], _binding} =
+        "chip"
+        |> Mob.catalog(docs: [accessible: true, stateful: false, base_ui: true])
+        |> Code.eval_string()
+
+      assert config[:docs] == [stateful: false, js_module: false, js: false, accessible: true]
+    end
+  end
+
   describe "template hygiene" do
     test "no template mentions the development application" do
       leaked = Enum.filter(@templates, &(File.read!(&1) =~ "MishkaMob"))

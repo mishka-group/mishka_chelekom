@@ -109,6 +109,23 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
   `priv/components/icon.exs` is the example: 49 of this kit's components declare it `necessary`, so
   deselecting it would leave a third of the kit unable to draw.
 
+  ## What a component's `.exs` says to its docs page
+
+  Every `.exs` in `priv/components`, `priv/headless` and `priv/mob` ends with a `docs:` block: the
+  facts its page on mishka.tools shows as badges. They are declared by hand, not read from the code,
+  so a new component fills in all four, each `true` or `false`:
+
+      docs: [stateful: false, js_module: true, js: false, accessible: false]
+
+    * `stateful` — it is a `Phoenix.LiveComponent` ("Stateful"; `false` shows "Stateless")
+    * `js_module` — it uses LiveView's `Phoenix.LiveView.JS` at least once ("JS-module")
+    * `js` — it uses a JS hook: it draws a `phx-hook` or ships `scripts` ("JS")
+    * `accessible` — it has been reviewed accessible ("Accessible"); every headless one is
+
+  Neither export carries the block and no generator reads it, so it changes nothing in a bundle or
+  a generated file. Its `stateful` describes the component; the top-level `stateful: true` above is
+  what makes the CMS install it as a live component.
+
   ## Shipping a live component
 
   A `stateful` component gets an id, assigns of its own that survive the hosting page's re-renders,
