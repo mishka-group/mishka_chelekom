@@ -118,15 +118,17 @@ defmodule MishkaChelekom.CmsBundle.EditorHintsTest do
 
     # Every hint is authoritative, so on an attribute that already carries its options any of them —
     # the `text` override included — would replace the dropdown rather than refine it.
-    test "nothing is claimed over an attribute that ships its own values" do
+    test "nothing is claimed over an attribute that ships its own values or examples" do
       result =
         annotate("chelekom-badge", [
           attr("icon_class", %{"values" => ["sm", "lg"]}),
-          attr("icon", %{"values" => ["hero-star", "hero-bell"]})
+          attr("icon", %{"values" => ["hero-star", "hero-bell"]}),
+          attr("icon_size", %{"examples" => ["small", "large"]})
         ])
 
       refute editor(result, 0)
       refute editor(result, 1)
+      refute editor(result, 2)
     end
   end
 

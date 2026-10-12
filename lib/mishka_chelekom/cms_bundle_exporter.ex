@@ -33,6 +33,8 @@ defmodule MishkaChelekom.CmsBundleExporter do
 
   require Logger
 
+  alias MishkaChelekom.CmsBundle.AttrValues
+
   @type component_params :: map()
   @type js_hook :: %{required(String.t()) => term()}
 
@@ -135,6 +137,7 @@ defmodule MishkaChelekom.CmsBundleExporter do
       # safely (e.g. base-only).
       condition_index = MishkaChelekom.CmsBundle.Discriminators.build_index(eex_source)
       sibling_names = walked.public_defs |> MapSet.new(& &1.name) |> MapSet.union(extra_siblings)
+      axes = AttrValues.axes(config[:args], Enum.map(walked.public_defs, & &1.name))
 
       components =
         walked.public_defs
@@ -144,6 +147,7 @@ defmodule MishkaChelekom.CmsBundleExporter do
         |> Enum.map(&rewrite_sibling_refs(&1, sibling_names, kit_name))
         |> Enum.map(&inject_match_destructure/1)
         |> Enum.map(&attach_helper_discriminators(&1, condition_index))
+        |> Enum.map(&declare_attr_values(&1, axes))
         |> Enum.map(&append_total_catch_alls/1)
         |> Enum.map(&slug_names(&1, kit_name))
         |> Enum.map(&maybe_base64(&1, base64?))
@@ -253,6 +257,11 @@ defmodule MishkaChelekom.CmsBundleExporter do
 
     %{component | __private_helpers__: helpers}
   end
+
+  # What each attribute accepts, read before `append_total_catch_alls/1` adds clauses the source
+  # never wrote — see `MishkaChelekom.CmsBundle.AttrValues`.
+  defp declare_attr_values(component, axes),
+    do: Map.put(component, :__declared__, AttrValues.declare(component, axes))
 
   # Append a TOTAL catch-all (`def name(_, …), do: ""`) after the last clause of each multi-clause
   # narrowable dispatcher (`color_variant`/`size_class`/`padding_size`/…), so a component stays
@@ -988,61 +997,6 @@ defmodule MishkaChelekom.CmsBundleExporter do
     }
   end
 
-  # The component's own config already lists what each axis accepts:
-  #
-  #     args: [variant: ["default", "outline", …], color: ["white", "base", …], …]
-  #
-  # …and until now the CMS bundle threw it away, leaving a consumer to recover the same lists from
-  # the `<%= if %>` gating around each helper clause. That recovery is lossy — alert's fourteen
-  # colours came back as eleven — so the authoritative list is written onto the attribute itself,
-  # where `attr :color, :string, values: […]` would have put it.
-  #
-  # An `.eex` that already declares `values:` wins: it is the more specific statement, and a few
-  # components legitimately accept less than the generator can produce.
-  defp put_declared_values(opts, attr_name, args) do
-    with nil <- Map.get(opts, "values"),
-         values when is_list(values) <- declared_values(args, attr_name),
-         true <- default_allowed?(opts, values) do
-      Map.put(opts, "values", values)
-    else
-      _keep -> opts
-    end
-  end
-
-  # `attr :rounded, :string, values: [...], default: ""` does not compile — Phoenix requires the
-  # default to be one of the values, and several components declare `""` to mean "unset" while their
-  # config lists only real sizes. The list is dropped for those rather than emitted, because a bundle
-  # whose components cannot be compiled is worse than one that says less about them.
-  defp default_allowed?(opts, values) do
-    case Map.fetch(opts, "default") do
-      {:ok, nil} -> true
-      {:ok, default} -> default in values
-      :error -> true
-    end
-  end
-
-  defp declared_values(args, attr_name) when is_list(args) do
-    key = safe_key(attr_name)
-
-    case key && Keyword.get(args, key) do
-      values when is_list(values) -> Enum.filter(values, &is_binary/1)
-      _none -> nil
-    end
-  end
-
-  defp declared_values(_args, _attr_name), do: nil
-
-  # `String.to_existing_atom/1` because the keys come from a component's own config, and a name that
-  # names no existing atom cannot be a key in it.
-  defp safe_key(name) when is_binary(name) do
-    String.to_existing_atom(name)
-  rescue
-    ArgumentError -> nil
-  end
-
-  defp safe_key(name) when is_atom(name), do: name
-  defp safe_key(_name), do: nil
-
   defp stringify_value(value)
        when is_binary(value) or is_number(value) or is_boolean(value) or is_nil(value),
        do: value
@@ -1266,7 +1220,6 @@ defmodule MishkaChelekom.CmsBundleExporter do
     |> Map.put(:__kit_version__, kit_version)
     |> Map.put(:__category__, config[:category])
     |> Map.put(:__doc_url__, config[:doc_url])
-    |> Map.put(:__args__, config[:args] || [])
     |> Map.put(:__necessary__, config[:necessary] || [])
     |> Map.put(:__scripts__, config[:scripts] || [])
     |> Map.put(:__required__, config[:required] == true)
@@ -1447,7 +1400,7 @@ defmodule MishkaChelekom.CmsBundleExporter do
 
     attrs =
       Enum.map(c.attrs, fn a ->
-        opts = a.opts |> stringify_keys() |> put_declared_values(a.name, c.__args__)
+        opts = a.opts |> stringify_keys() |> AttrValues.put(Map.get(c.__declared__, a.name))
         base = %{"name" => a.name, "type" => a.type, "opts" => opts}
 
         if Map.has_key?(a, :struct_name),
