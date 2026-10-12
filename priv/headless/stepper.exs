@@ -53,6 +53,13 @@
       ],
       state_attributes: ["data-state", "data-orientation", "data-orientation-from", "data-index", "data-disabled"],
       hooks: []
+    ],
+    docs: [
+      stateful: false,
+      js_module: true,
+      js: false,
+      accessible: true,
+      base_ui: true
     ]
   ]
 ]

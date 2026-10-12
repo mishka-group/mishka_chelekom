@@ -12,6 +12,13 @@
     optional: [],
     necessary: [],
     required: true,
-    precompile: true
+    precompile: true,
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false,
+      base_ui: false
+    ]
   ]
 ]

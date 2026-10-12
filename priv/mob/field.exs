@@ -11,6 +11,13 @@
       composite_tag: "field",
       function: "field",
       kit: []
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false,
+      base_ui: false
     ]
   ]
 ]

@@ -11,6 +11,13 @@
       composite_tag: "drawer",
       function: nil,
       kit: ["anchored", "event"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false,
+      base_ui: false
     ]
   ]
 ]

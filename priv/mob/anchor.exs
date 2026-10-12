@@ -11,6 +11,13 @@
       composite_tag: "anchor",
       function: "anchor",
       kit: ["event"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false,
+      base_ui: false
     ]
   ]
 ]

@@ -69,6 +69,13 @@
       ],
       state_attributes: ["data-open", "data-closed", "data-modal", "data-nested", "data-nested-dialog-open", "data-starting-style"],
       hooks: ["FocusTrap"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: true,
+      accessible: true,
+      base_ui: true
     ]
   ]
 ]

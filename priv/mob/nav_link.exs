@@ -11,6 +11,13 @@
       composite_tag: "nav_link",
       function: "nav_link",
       kit: ["event"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false,
+      base_ui: false
     ]
   ]
 ]

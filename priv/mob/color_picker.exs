@@ -11,6 +11,13 @@
       composite_tag: "color_picker",
       function: "color_picker",
       kit: ["color", "event"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false,
+      base_ui: false
     ]
   ]
 ]

@@ -36,6 +36,13 @@
         module: "Carousel",
         imports: "import Carousel from \"./carousel.js\";"
       }
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: true,
+      accessible: false,
+      base_ui: false
     ]
   ]
 ]

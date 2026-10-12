@@ -40,6 +40,13 @@
         module: "Floating",
         imports: "import Floating from \"./floating.js\";"
       }
+    ],
+    docs: [
+      stateful: false,
+      js_module: true,
+      js: true,
+      accessible: false,
+      base_ui: false
     ]
   ]
 ]

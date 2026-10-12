@@ -50,6 +50,13 @@
       ],
       state_attributes: ["data-pressed", "data-disabled", "data-orientation", "data-multiple"],
       hooks: ["ToggleGroup"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: true,
+      accessible: true,
+      base_ui: true
     ]
   ]
 ]

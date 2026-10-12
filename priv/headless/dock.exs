@@ -46,6 +46,13 @@
       ],
       state_attributes: ["data-active", "data-position", "data-contained", "data-hidden"],
       hooks: []
+    ],
+    docs: [
+      stateful: false,
+      js_module: true,
+      js: false,
+      accessible: true,
+      base_ui: true
     ]
   ]
 ]

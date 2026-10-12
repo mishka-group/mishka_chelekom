@@ -37,6 +37,13 @@
         module: "Combobox",
         imports: "import Combobox from \"./combobox.js\";"
       }
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: true,
+      accessible: false,
+      base_ui: false
     ]
   ]
 ]

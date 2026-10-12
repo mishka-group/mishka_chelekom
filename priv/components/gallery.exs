@@ -21,6 +21,13 @@
         module: "GalleryFilter",
         imports: "import GalleryFilter from \"./galleryFilter.js\";"
       }
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: true,
+      accessible: false,
+      base_ui: false
     ]
   ]
 ]

@@ -11,6 +11,13 @@
       composite_tag: "toast",
       function: "toast",
       kit: ["event"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false,
+      base_ui: false
     ]
   ]
 ]

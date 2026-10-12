@@ -41,6 +41,13 @@
       aria_pattern: [pattern: "Progressbar", keyboard: []],
       state_attributes: ["data-indeterminate", "data-progressing", "data-complete"],
       hooks: []
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: true,
+      base_ui: true
     ]
   ]
 ]

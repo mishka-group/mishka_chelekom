@@ -25,6 +25,13 @@
       aria_pattern: [pattern: "Rolling number (no formal APG pattern)", keyboard: []],
       state_attributes: [],
       hooks: ["RollingNumber"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: true,
+      accessible: true,
+      base_ui: true
     ]
   ]
 ]

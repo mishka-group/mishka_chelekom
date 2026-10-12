@@ -79,6 +79,13 @@
         "data-range-end"
       ],
       hooks: ["Calendar"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: true,
+      js: true,
+      accessible: true,
+      base_ui: true
     ]
   ]
 ]

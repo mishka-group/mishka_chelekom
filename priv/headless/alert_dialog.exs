@@ -53,6 +53,13 @@
       ],
       state_attributes: ["data-open", "data-closed"],
       hooks: ["FocusTrap"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: true,
+      accessible: true,
+      base_ui: true
     ]
   ]
 ]

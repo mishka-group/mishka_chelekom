@@ -11,6 +11,13 @@
       composite_tag: "checkbox_group",
       function: "checkbox_group",
       kit: ["event"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false,
+      base_ui: false
     ]
   ]
 ]

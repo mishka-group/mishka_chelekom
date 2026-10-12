@@ -31,6 +31,13 @@
       aria_pattern: [pattern: "Empty state (no formal APG pattern)", keyboard: []],
       state_attributes: ["data-align"],
       hooks: []
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: true,
+      base_ui: true
     ]
   ]
 ]

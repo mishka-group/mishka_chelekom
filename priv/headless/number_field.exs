@@ -63,6 +63,13 @@
       ],
       state_attributes: ["data-disabled", "data-readonly", "data-required", "data-scrubbing"],
       hooks: ["NumberField"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: true,
+      accessible: true,
+      base_ui: true
     ]
   ]
 ]

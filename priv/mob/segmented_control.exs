@@ -11,6 +11,13 @@
       composite_tag: "segmented_control",
       function: "segmented_control",
       kit: ["event"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false,
+      base_ui: false
     ]
   ]
 ]

@@ -31,6 +31,13 @@
       aria_pattern: [pattern: "Color picker (no formal APG pattern)", keyboard: ["Hue: Arrow keys (native range)"]],
       state_attributes: ["data-value", "data-dragging"],
       hooks: ["ColorPicker"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: true,
+      accessible: true,
+      base_ui: true
     ]
   ]
 ]

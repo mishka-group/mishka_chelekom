@@ -57,6 +57,13 @@
       ],
       state_attributes: ["data-orientation", "data-disabled", "data-focusable"],
       hooks: ["Toolbar"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: true,
+      accessible: true,
+      base_ui: true
     ]
   ]
 ]

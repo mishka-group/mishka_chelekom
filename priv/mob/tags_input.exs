@@ -11,6 +11,13 @@
       composite_tag: "tags_input",
       function: "tags_input",
       kit: ["event"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false,
+      base_ui: false
     ]
   ]
 ]

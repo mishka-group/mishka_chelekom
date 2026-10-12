@@ -11,6 +11,13 @@
       composite_tag: "angle_slider",
       function: "angle_slider",
       kit: ["color", "event"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false,
+      base_ui: false
     ]
   ]
 ]

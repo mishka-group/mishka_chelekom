@@ -125,6 +125,13 @@
       ],
       state_attributes: ["data-empty"],
       hooks: ["Chart"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: true,
+      accessible: true,
+      base_ui: true
     ]
   ]
 ]

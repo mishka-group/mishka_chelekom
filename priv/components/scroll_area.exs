@@ -20,6 +20,13 @@
         module: "ScrollArea",
         imports: "import ScrollArea from \"./scrollArea.js\";"
       }
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: true,
+      accessible: false,
+      base_ui: false
     ]
   ]
 ]

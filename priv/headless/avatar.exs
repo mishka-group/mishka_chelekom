@@ -36,6 +36,13 @@
       aria_pattern: [pattern: "Avatar (no formal APG pattern)", keyboard: []],
       state_attributes: ["data-status"],
       hooks: ["Avatar"]
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: true,
+      accessible: true,
+      base_ui: true
     ]
   ]
 ]

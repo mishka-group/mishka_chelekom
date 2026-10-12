@@ -36,6 +36,13 @@
         module: "Sidebar",
         imports: "import Sidebar from \"./sidebar.js\";"
       }
+    ],
+    docs: [
+      stateful: false,
+      js_module: true,
+      js: true,
+      accessible: false,
+      base_ui: false
     ]
   ]
 ]

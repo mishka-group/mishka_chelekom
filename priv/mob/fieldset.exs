@@ -11,6 +11,13 @@
       composite_tag: "fieldset",
       function: "fieldset",
       kit: []
+    ],
+    docs: [
+      stateful: false,
+      js_module: false,
+      js: false,
+      accessible: false,
+      base_ui: false
     ]
   ]
 ]
