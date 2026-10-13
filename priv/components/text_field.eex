@@ -173,7 +173,7 @@ defmodule <%= @module %> do
             value={@value}
             class={[
               "disabled:opacity-80 block w-full z-[2] focus:ring-0 placeholder:text-transparent pb-1 pt-2.5 px-2",
-              "text-[16px] sm:font-inherit appearance-none bg-transparent border-0 focus:outline-none peer",
+              "text-[16px] sm:text-[length:inherit] appearance-none bg-transparent border-0 focus:outline-none peer",
               @input_class
             ]}
             placeholder=" "
@@ -712,7 +712,7 @@ defmodule <%= @module %> do
   <%= if is_nil(@color) or "natural" in @color do %>
   defp color_variant("bordered", "natural", floating) do
     [
-      "text-natural-bordered-text-light dark:text-natural-hover-dark [&_.text-field-wrapper:not(:has(.text-field-error))]:bordered-text-natural-bordered-text-light",
+      "text-natural-bordered-text-light dark:text-natural-hover-dark [&_.text-field-wrapper:not(:has(.text-field-error))]:border-natural-bordered-text-light",
       "[&_.text-field-wrapper:not(:has(.text-field-error))]:bg-natural-bordered-bg-light",
       "dark:[&_.text-field-wrapper:not(:has(.text-field-error))]:bg-natural-bordered-bg-dark",
       "dark:[&_.text-field-wrapper:not(:has(.text-field-error))]:border-silver-light",

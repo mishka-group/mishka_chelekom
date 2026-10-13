@@ -425,7 +425,7 @@ defmodule DevelopmentWeb.Components.Footer do
   defp color_variant("bordered", "natural") do
     [
       "text-natural-bordered-text-light border-natural-bordered-text-light bg-natural-bordered-bg-light",
-      "dark:text-natural-bordered-text-dark dark:border-natural-bordered-dark dark:bg-natural-bordered-bg-dark"
+      "dark:text-natural-bordered-text-dark dark:border-natural-border-dark dark:bg-natural-bordered-bg-dark"
     ]
   end
 
