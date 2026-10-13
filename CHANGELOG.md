@@ -53,6 +53,12 @@
   `natural-bordered-dark` (footer), `primary-inverted-gradient-indicator-dark` (button),
   `custom-black-100` (file_field) and the `*-bg-*` / `*-ring-*` / `dark-*` set of date_time_field's
   bordered variant. A test now holds every theme colour a template names to the theme
+- The floating hook (dropdown, tooltip, popover) reads no layout while it mounts. It read the page's
+  direction and placed its hidden content on mount, and each of those reads, right after the
+  previous hook moved its content to `<body>`, made the browser restyle the whole page: a page with
+  142 tooltips took about three seconds to show after a LiveView navigation, and about 0.4 seconds
+  now. The direction is read and the content placed when it is shown, and a scroll or a resize
+  places only the content that is open
 - A styled generation no longer wipes a project's own `@theme` tokens (#511). Chelekom's tokens are
   set in the plain `@theme` with igniter_css 1.1's `ensure_at_rule_declarations` — a token it already
   has only changes value, a missing one is appended — and the project's `--font-*` / `--color-*` and

@@ -30,15 +30,15 @@ const Floating = {
 
     this.floatingType = this.getFloatingType();
 
-    this.isRTL = getComputedStyle(document.documentElement).direction === "rtl";
-
     this.cleanupDuplicateIds();
 
+    // NOTHING IS MEASURED WHILE MOUNTING. A page can mount a hundred of these in one patch, and a
+    // layout read after the DOM changed makes the browser restyle the whole page, once per hook.
+    // The content is hidden until it is shown, and `show()` places it then.
     this.setupFloatingContent();
     this.setupEventListeners();
 
     this.forcedWidth = null;
-    this.updatePosition();
   },
 
   cleanupDuplicateIds() {
@@ -435,8 +435,12 @@ const Floating = {
     }
   },
 
+  // Places the content while it is shown; hidden content is left where it is, so a scroll or a
+  // resize measures only the open ones.
   updatePosition() {
-    if (!this.trigger || !this.floatingContent) return;
+    if (!this.trigger || !this.floatingContent || this.floatingContent.hidden) return;
+
+    const isRTL = getComputedStyle(document.documentElement).direction === "rtl";
 
     const originalDisplay = this.trigger.style.display;
     const isSpan = this.trigger.tagName.toLowerCase() === "span";
@@ -484,14 +488,14 @@ const Floating = {
     } else if (pos === "left") {
       top =
         rect.top + window.scrollY + (rect.height - content.offsetHeight) / 2;
-      left = this.isRTL
+      left = isRTL
         ? rect.right + window.scrollX + gap
         : rect.left + window.scrollX - content.offsetWidth - gap;
       content.style.transform = "none";
     } else if (pos === "right") {
       top =
         rect.top + window.scrollY + (rect.height - content.offsetHeight) / 2;
-      left = this.isRTL
+      left = isRTL
         ? rect.left + window.scrollX - content.offsetWidth - gap
         : rect.right + window.scrollX + gap;
       content.style.transform = "none";
