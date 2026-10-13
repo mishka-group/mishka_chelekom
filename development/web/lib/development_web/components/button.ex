@@ -702,8 +702,7 @@ defmodule DevelopmentWeb.Components.Button do
               "default_gradient",
               "outline_gradient",
               "inverted_gradient"
-            ],
-       do: nil
+            ], do: nil
 
   defp border_size("none", _), do: nil
   defp border_size("extra_small", _), do: "border"
@@ -1790,9 +1789,9 @@ defmodule DevelopmentWeb.Components.Button do
       "dark:disabled:from-natural-disabled-dark dark:disabled:to-natural-disabled-dark dark:disabled:text-natural-disabled-dark",
       "hover:disabled:bg-white dark:hover:disabled:before:bg-bordered-dark-bg",
       indicator &&
-        "[&>.indicator]:bg-primary-indicator-light dark:[&>.indicator]:bg-primary-inverted-gradient-indicator-dark",
+        "[&>.indicator]:bg-primary-indicator-light dark:[&>.indicator]:bg-primary-indicator-dark",
       indicator &&
-        "[&:hover>.indicator]:bg-primary-inverted-gradient-indicator-dark dark:[&:hover>.indicator]:bg-primary-indicator-light"
+        "[&:hover>.indicator]:bg-primary-indicator-dark dark:[&:hover>.indicator]:bg-primary-indicator-light"
     ]
   end
 
@@ -2102,7 +2101,7 @@ defmodule DevelopmentWeb.Components.Button do
   defp default_classes(pinging, indicator) do
     [
       "phx-submit-loading:opacity-75 cursor-pointer relative gap-2 items-center",
-      "transition-all ease-in-ou duration-100 group",
+      "transition-all ease-in-out duration-100 group",
       "disabled:cursor-not-allowed",
       "focus:outline-none",
       indicator &&

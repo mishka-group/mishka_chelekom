@@ -1539,7 +1539,7 @@ defmodule DevelopmentWeb.Components.Pagination do
 
   defp default_classes do
     [
-      "w-fit flex [&.grouped-pagination>*]::flex-1 [&:not(.grouped-pagination)]:justify-start [&:not(.grouped-pagination)]:items-center [&:not(.grouped-pagination)]:flex-wrap  [&_.pagination-button.active-pagination-button]:font-medium [&.grouped-pagination]:overflow-hidden"
+      "w-fit flex [&.grouped-pagination>*]:flex-1 [&:not(.grouped-pagination)]:justify-start [&:not(.grouped-pagination)]:items-center [&:not(.grouped-pagination)]:flex-wrap  [&_.pagination-button.active-pagination-button]:font-medium [&.grouped-pagination]:overflow-hidden"
     ]
   end
 

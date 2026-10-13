@@ -1892,8 +1892,8 @@ defmodule <%= @module %> do
       "disabled:from-natural-disabled-light disabled:to-natural-disabled-light disabled:text-natural-disabled-light",
       "dark:disabled:from-natural-disabled-dark dark:disabled:to-natural-disabled-dark dark:disabled:text-natural-disabled-dark",
       "hover:disabled:bg-white dark:hover:disabled:before:bg-bordered-dark-bg",
-      indicator && "[&>.indicator]:bg-primary-indicator-light dark:[&>.indicator]:bg-primary-inverted-gradient-indicator-dark",
-      indicator && "[&:hover>.indicator]:bg-primary-inverted-gradient-indicator-dark dark:[&:hover>.indicator]:bg-primary-indicator-light"
+      indicator && "[&>.indicator]:bg-primary-indicator-light dark:[&>.indicator]:bg-primary-indicator-dark",
+      indicator && "[&:hover>.indicator]:bg-primary-indicator-dark dark:[&:hover>.indicator]:bg-primary-indicator-light"
     ]
   end
   <% end %>
@@ -2239,7 +2239,7 @@ defmodule <%= @module %> do
   defp default_classes(pinging, indicator) do
     [
       "phx-submit-loading:opacity-75 cursor-pointer relative gap-2 items-center",
-      "transition-all ease-in-ou duration-100 group",
+      "transition-all ease-in-out duration-100 group",
       "disabled:cursor-not-allowed",
       "focus:outline-none",
       indicator &&

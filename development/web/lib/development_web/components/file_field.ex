@@ -223,7 +223,7 @@ defmodule DevelopmentWeb.Components.FileField do
               phx-click="cancel-upload"
               phx-value-ref={entry.ref}
               aria-label={gettext("Cancel upload for %{file}", file: entry.client_name)}
-              class="absolute top-2 right-2 text-custom-black-100/60 hover:text-custome-black-100"
+              class="absolute top-2 right-2 opacity-60 hover:opacity-100"
             >
               <.icon name="hero-x-mark" class="size-4" />
             </button>

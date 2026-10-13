@@ -153,7 +153,7 @@ defmodule DevelopmentWeb.Components.NativeSelect do
         id={@id}
         multiple={@multiple}
         class={[
-          "select-field appearance-none block w-full text-[16px] sm:font-inherit py-1 px-2",
+          "select-field appearance-none block w-full text-[16px] sm:text-[length:inherit] py-1 px-2",
           @multiple && "select-multiple-option",
           @errors != [] && "select-field-error",
           @min_height,
