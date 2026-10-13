@@ -16877,7 +16877,7 @@
           "type": "global"
         }
       ],
-      "body": "first_trigger = Enum.find_index(assigns.item, &(&1.inner_block != nil)) || 0\nopen_value = assigns.value || (assigns.open && assigns.default_value) || nil\nassigns = assign(assigns, first_trigger: first_trigger, open_value: open_value)",
+      "body": "first_trigger = Enum.find_index(assigns.item, &dropdown?/1) || 0\nopen_value = assigns.value || (assigns.open && assigns.default_value) || nil\nassigns = assign(assigns, first_trigger: first_trigger, open_value: open_value)",
       "dependencies": [
         "navigation_menu.js"
       ],
@@ -16894,7 +16894,16 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "heex",
-      "helpers": [],
+      "helpers": [
+        {
+          "args": "item",
+          "attrs": [],
+          "code": "is_nil(item[:href]) and item.inner_block != nil",
+          "discriminators": [],
+          "name": "dropdown?",
+          "slots": []
+        }
+      ],
       "name": "chelekom_headless-navigation-menu",
       "permissions": [],
       "precompile": false,
@@ -16947,13 +16956,13 @@
           ],
           "name": "item",
           "opts": {
-            "doc": "A nav item: a plain link, or a dropdown if it has body content",
+            "doc": "A nav item: a link when it has an `href` or no body content, else a dropdown",
             "required": true
           }
         }
       ],
       "stateful": false,
-      "template": "<nav\n  id={@id}\n  phx-hook=\"GlobalChelekomHeadlessNavigationMenu\"\n  data-part=\"root\"\n  data-orientation={@orientation}\n  data-side={@side}\n  data-align={@align}\n  data-delay={@delay}\n  data-close-delay={@close_delay}\n  data-value={@open_value}\n  class={[\"chelekom-navigation_menu\", @class]}\n  {@rest}\n>\n  <ul data-part=\"list\" class={[\"chelekom-navigation_menu__list\", @list_class]}>\n    <li\n      :for={{item, i} <- Enum.with_index(@item)}\n      data-part=\"item\"\n      data-value={item[:value] || \"#{@id}-item-#{i}\"}\n      class={[\"chelekom-navigation_menu__item\", @item_class]}\n    >\n      <a\n        :if={item.inner_block == nil}\n        data-part=\"link\"\n        href={item[:href] || \"#\"}\n        data-active={item[:active]}\n        aria-current={item[:active] && \"page\"}\n        class={[\"chelekom-navigation_menu__link\", @link_class]}\n      >\n        {item.label}\n      </a>\n\n      <button\n        :if={item.inner_block != nil}\n        type=\"button\"\n        data-part=\"trigger\"\n        data-value={item[:value] || \"#{@id}-item-#{i}\"}\n        data-base-ui-navigation-menu-trigger\n        aria-haspopup=\"menu\"\n        aria-controls={\"#{@id}-popup\"}\n        aria-expanded=\"false\"\n        tabindex={if i == @first_trigger, do: \"0\", else: \"-1\"}\n        class={[\"chelekom-navigation_menu__trigger\", @trigger_class]}\n      >\n        {item.label}\n        <span\n          data-part=\"icon\"\n          aria-hidden=\"true\"\n          class={[\"chelekom-navigation_menu__icon\", @icon_class]}\n        >{if @icon != [], do: render_slot(@icon), else: \"▾\"}</span>\n      </button>\n\n      <div\n        :if={item.inner_block != nil}\n        data-part=\"content\"\n        data-value={item[:value] || \"#{@id}-item-#{i}\"}\n        hidden\n        class={[\"chelekom-navigation_menu__content\", item[:content_class] || @content_class]}\n      >\n        {render_slot(item)}\n      </div>\n    </li>\n  </ul>\n\n  <div\n    data-part=\"positioner\"\n    data-closed\n    class={[\"chelekom-navigation_menu__positioner\", @positioner_class]}\n  >\n    <nav\n      data-part=\"popup\"\n      id={\"#{@id}-popup\"}\n      tabindex=\"-1\"\n      data-closed\n      class={[\"chelekom-navigation_menu__popup\", @popup_class]}\n    >\n      <div data-part=\"viewport\" class={[\"chelekom-navigation_menu__viewport\", @viewport_class]}>\n      </div>\n      <div\n        :if={@arrow}\n        data-part=\"arrow\"\n        aria-hidden=\"true\"\n        class={[\"chelekom-navigation_menu__arrow\", @arrow_class]}\n      >\n      </div>\n    </nav>\n  </div>\n</nav>\n",
+      "template": "<nav\n  id={@id}\n  phx-hook=\"GlobalChelekomHeadlessNavigationMenu\"\n  data-part=\"root\"\n  data-orientation={@orientation}\n  data-side={@side}\n  data-align={@align}\n  data-delay={@delay}\n  data-close-delay={@close_delay}\n  data-value={@open_value}\n  class={[\"chelekom-navigation_menu\", @class]}\n  {@rest}\n>\n  <ul data-part=\"list\" class={[\"chelekom-navigation_menu__list\", @list_class]}>\n    <li\n      :for={{item, i} <- Enum.with_index(@item)}\n      data-part=\"item\"\n      data-value={item[:value] || \"#{@id}-item-#{i}\"}\n      class={[\"chelekom-navigation_menu__item\", @item_class]}\n    >\n      <a\n        :if={!dropdown?(item)}\n        data-part=\"link\"\n        href={item[:href] || \"#\"}\n        data-active={item[:active]}\n        aria-current={item[:active] && \"page\"}\n        class={[\"chelekom-navigation_menu__link\", @link_class]}\n      >\n        {item.label}\n      </a>\n\n      <button\n        :if={dropdown?(item)}\n        type=\"button\"\n        data-part=\"trigger\"\n        data-value={item[:value] || \"#{@id}-item-#{i}\"}\n        data-base-ui-navigation-menu-trigger\n        aria-haspopup=\"menu\"\n        aria-controls={\"#{@id}-popup\"}\n        aria-expanded=\"false\"\n        tabindex={if i == @first_trigger, do: \"0\", else: \"-1\"}\n        class={[\"chelekom-navigation_menu__trigger\", @trigger_class]}\n      >\n        {item.label}\n        <span\n          data-part=\"icon\"\n          aria-hidden=\"true\"\n          class={[\"chelekom-navigation_menu__icon\", @icon_class]}\n        >{if @icon != [], do: render_slot(@icon), else: \"▾\"}</span>\n      </button>\n\n      <div\n        :if={dropdown?(item)}\n        data-part=\"content\"\n        data-value={item[:value] || \"#{@id}-item-#{i}\"}\n        hidden\n        class={[\"chelekom-navigation_menu__content\", item[:content_class] || @content_class]}\n      >\n        {render_slot(item)}\n      </div>\n    </li>\n  </ul>\n\n  <div\n    data-part=\"positioner\"\n    data-closed\n    class={[\"chelekom-navigation_menu__positioner\", @positioner_class]}\n  >\n    <nav\n      data-part=\"popup\"\n      id={\"#{@id}-popup\"}\n      tabindex=\"-1\"\n      data-closed\n      class={[\"chelekom-navigation_menu__popup\", @popup_class]}\n    >\n      <div data-part=\"viewport\" class={[\"chelekom-navigation_menu__viewport\", @viewport_class]}>\n      </div>\n      <div\n        :if={@arrow}\n        data-part=\"arrow\"\n        aria-hidden=\"true\"\n        class={[\"chelekom-navigation_menu__arrow\", @arrow_class]}\n      >\n      </div>\n    </nav>\n  </div>\n</nav>\n",
       "type": "navigation"
     },
     {

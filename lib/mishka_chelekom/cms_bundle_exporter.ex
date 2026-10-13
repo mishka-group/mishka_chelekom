@@ -136,7 +136,7 @@ defmodule MishkaChelekom.CmsBundleExporter do
       # list to each helper so the MishkaCMS installer can narrow
       # safely (e.g. base-only).
       condition_index = MishkaChelekom.CmsBundle.Discriminators.build_index(eex_source)
-      sibling_names = walked.public_defs |> MapSet.new(& &1.name) |> MapSet.union(extra_siblings)
+      sibling_names = sibling_names(walked, extra_siblings)
       axes = AttrValues.axes(config[:args], Enum.map(walked.public_defs, & &1.name))
 
       components =
@@ -155,6 +155,17 @@ defmodule MishkaChelekom.CmsBundleExporter do
 
       {:ok, %{components: components, scripts: config[:scripts] || []}}
     end
+  end
+
+  # A `<.label>` in `text_field.eex` calls the file's own `defp label`, as Elixir resolves it: a
+  # local function wins over every other file's public one. Another file's public function of that
+  # name is no sibling here, or the field draws `input_field`'s label in place of its own.
+  defp sibling_names(walked, extra_siblings) do
+    own_helpers = MapSet.new(walked.private_helpers, & &1.name)
+
+    walked.public_defs
+    |> MapSet.new(& &1.name)
+    |> MapSet.union(MapSet.difference(extra_siblings, own_helpers))
   end
 
   # A live component's module IS the component: one `render/1`, one row, one name. Three source
@@ -726,6 +737,8 @@ defmodule MishkaChelekom.CmsBundleExporter do
   # default: @month_names` was exported with no default at all — a call is not a literal — and
   # a CMS drawing the calendar without one handed its body `nil` to enumerate.
   defp resolve_default([name, type, opts], values) when is_list(opts) do
+    opts = resolve_include(opts, values)
+
     case Keyword.fetch(opts, :default) do
       {:ok, {:@, _, [{attribute, _, context}]}} when is_atom(context) ->
         case Map.fetch(values, attribute) do
@@ -739,6 +752,26 @@ defmodule MishkaChelekom.CmsBundleExporter do
   end
 
   defp resolve_default(args, _values), do: args
+
+  # A GLOBAL'S `include:` NAMING A MODULE ATTRIBUTE IS THAT ATTRIBUTE'S WORDS. The button's
+  # `~w(disabled … circle) ++ @indicator_positions` was exported with no `include` at all, so a CMS
+  # had no list of the HTML attributes the button takes through `@rest`.
+  defp resolve_include(opts, values) do
+    case Keyword.fetch(opts, :include) do
+      {:ok, include} -> Keyword.put(opts, :include, with_attribute_values(include, values))
+      :error -> opts
+    end
+  end
+
+  defp with_attribute_values(ast, values) do
+    Macro.prewalk(ast, fn
+      {:@, _, [{attribute, _, context}]} = node when is_atom(context) ->
+        Map.get(values, attribute, node)
+
+      node ->
+        node
+    end)
+  end
 
   defp parse_attr_call([name, type | rest]) do
     opts =
@@ -870,6 +903,14 @@ defmodule MishkaChelekom.CmsBundleExporter do
   defp opt_value({:sigil_w, _, [{:<<>>, _, [words]}, modifiers]})
        when is_binary(words) and modifiers in [[], ~c"a", ~c"s"],
        do: String.split(words)
+
+  # `left ++ right` of two lists the exporter can read is the one list they make.
+  defp opt_value({:++, _, [left, right]}) do
+    case {opt_value(left), opt_value(right)} do
+      {left, right} when is_list(left) and is_list(right) -> left ++ right
+      _unreadable -> :__drop__
+    end
+  end
 
   # Bare function call `f(arg1, arg2)` — can't represent in JSON.
   defp opt_value({fun, _, args}) when is_atom(fun) and is_list(args), do: :__drop__
