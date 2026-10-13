@@ -144,10 +144,10 @@ defmodule MishkaChelekom.CmsBundleExporter do
         |> Enum.map(&attach_component_metadata(&1, walked, config, kit_name, kit_version))
         |> Enum.map(&resolve_aliased_attrs(&1, walked.aliases))
         |> Enum.map(&drop_unrepresentable_defaults/1)
-        |> Enum.map(&rewrite_sibling_refs(&1, sibling_names, kit_name))
         |> Enum.map(&inject_match_destructure/1)
         |> Enum.map(&attach_helper_discriminators(&1, condition_index))
-        |> Enum.map(&declare_attr_values(&1, axes))
+        |> declare_attr_values(axes)
+        |> Enum.map(&rewrite_sibling_refs(&1, sibling_names, kit_name))
         |> Enum.map(&append_total_catch_alls/1)
         |> Enum.map(&slug_names(&1, kit_name))
         |> Enum.map(&maybe_base64(&1, base64?))
@@ -258,10 +258,14 @@ defmodule MishkaChelekom.CmsBundleExporter do
     %{component | __private_helpers__: helpers}
   end
 
-  # What each attribute accepts, read before `append_total_catch_alls/1` adds clauses the source
-  # never wrote — see `MishkaChelekom.CmsBundle.AttrValues`.
-  defp declare_attr_values(component, axes),
-    do: Map.put(component, :__declared__, AttrValues.declare(component, axes))
+  # What each attribute accepts, read before `rewrite_sibling_refs/3` turns a call to a sibling into
+  # `<.component>` and before `append_total_catch_alls/1` adds clauses the source never wrote — see
+  # `MishkaChelekom.CmsBundle.AttrValues`.
+  defp declare_attr_values(components, axes) do
+    Enum.map(components, fn component ->
+      Map.put(component, :__declared__, AttrValues.declare(component, axes, components))
+    end)
+  end
 
   # Append a TOTAL catch-all (`def name(_, …), do: ""`) after the last clause of each multi-clause
   # narrowable dispatcher (`color_variant`/`size_class`/`padding_size`/…), so a component stays

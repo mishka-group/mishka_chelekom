@@ -508,10 +508,12 @@ defmodule MishkaChelekom.CmsBundleExporterTest do
       refute Map.has_key?(opts(button, "size"), "examples")
     end
 
-    # What a child component does with it cannot be read from here.
-    test "an attribute handed on to another component stays closed", %{notice: notice} do
-      assert opts(notice, "padding")["values"] == ["small", "large"]
-      refute Map.has_key?(opts(notice, "padding"), "examples")
+    # `sample_notice_button` never reads the `padding` it is handed, so `padding_size/1` alone
+    # decides, and it takes any class string.
+    test "an attribute handed on to another component is read where that component reads it",
+         %{notice: notice} do
+      assert opts(notice, "padding")["examples"] == ["small", "large"]
+      refute Map.has_key?(opts(notice, "padding"), "values")
     end
 
     # `kind` is named for no axis, but every clause matching on its position sits inside an
