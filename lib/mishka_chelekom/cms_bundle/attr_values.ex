@@ -23,6 +23,14 @@ defmodule MishkaChelekom.CmsBundle.AttrValues do
       comparison, a class list or an HTML attribute, or a helper clause that does not parse — is
       closed.
 
+    * **Where a passed attribute goes.** An attribute handed to another function component of the
+      same file — `{assigns}` spread into it, or `variant={@variant}` — is read where that
+      component reads it, through as many components as it is passed along. `chelekom-progress`
+      spreads its assigns into `progress_section`, which spreads them into
+      `progress_section_simple`, whose `color_variant(@variant, @color)` takes any class string:
+      `variant=""` is as valid there as `variant="base"`. A component that declares its own
+      `values:` for the attribute, or one this file does not define, closes it.
+
   A `values:` the `.eex` writes itself is never replaced: it is the template saying so.
   """
 
@@ -33,6 +41,7 @@ defmodule MishkaChelekom.CmsBundle.AttrValues do
 
   @declarable_types ~w(string any atom)
   @comparisons [:==, :!=, :===, :!==]
+  @position :__position__
 
   @doc """
   The axes of a component's `args`: every list whose values are not all names of the component's
@@ -64,13 +73,19 @@ defmodule MishkaChelekom.CmsBundle.AttrValues do
   The declaration of every attribute of `component` that has a list to ship, keyed by attribute
   name. An attribute whose `.eex` declares `values:`, or that no axis reaches, is absent.
 
-  `component` is the exporter's own shape: `:attrs`, `:template`, `:body`, `:__extra_clauses__`
-  and `:__private_helpers__` (each helper with `:name`, `:args` and `:discriminators`).
+  `component` is the exporter's own shape: `:name`, `:attrs`, `:template`, `:body`,
+  `:__extra_clauses__` and `:__private_helpers__` (each helper with `:name`, `:args`, `:code`,
+  `:attrs` and `:discriminators`). `siblings` are the public components of the same file, in that
+  shape, with their templates as the source writes them.
   """
-  @spec declare(map(), %{String.t() => [String.t()]}) :: %{String.t() => declaration()}
-  def declare(component, axes) do
-    clauses = helper_clauses(Map.get(component, :__private_helpers__, []))
-    uses = uses(component, Map.keys(clauses))
+  @spec declare(map(), %{String.t() => [String.t()]}, [map()]) :: %{
+          String.t() => declaration()
+        }
+  def declare(component, axes, siblings \\ []) do
+    helper_list = Map.get(component, :__private_helpers__, [])
+    clauses = helper_clauses(helper_list)
+    helpers = MapSet.new(Map.keys(clauses))
+    uses = uses(component, helpers, callees(helper_list, siblings, helpers))
 
     for attr <- Map.get(component, :attrs, []),
         attr.type in @declarable_types,
@@ -138,31 +153,52 @@ defmodule MishkaChelekom.CmsBundle.AttrValues do
   ## ─── Openness ──────────────────────────────────────────────────────
 
   defp open?(uses, clauses) do
-    positions =
-      Enum.map(uses, fn
-        {:helper, helper, arity, index, call} ->
-          position(Map.get(clauses, helper, []), arity, index, call)
-
-        other ->
-          other
-      end)
+    positions = Enum.map(uses, &position_of(&1, clauses, MapSet.new()))
 
     :open in positions and Enum.all?(positions, &(&1 in [:open, :tolerant, :harmless]))
   end
 
-  # `:open` — a clause takes any binary in this position and matches what the call passes in the
-  # others. `:tolerant` — a clause leaves this position unconstrained, so a class string here falls
-  # through to it. Anything else, or a helper with a clause that does not parse, is `:closed`.
-  defp position(clauses, arity, index, call) do
-    heads = Enum.filter(clauses, &(&1 == :unparsed or length(&1.params) == arity))
+  defp position_of({:helper, helper, arity, index, call}, clauses, seen) do
+    case MapSet.member?(seen, {helper, arity, index}) do
+      true ->
+        :harmless
 
-    cond do
-      heads == [] or :unparsed in heads -> :closed
-      Enum.any?(heads, &open_at?(&1, index, call)) -> :open
-      Enum.any?(heads, &tolerant_at?(&1, index, call)) -> :tolerant
-      true -> :closed
+      false ->
+        position(clauses, helper, arity, index, call, MapSet.put(seen, {helper, arity, index}))
     end
   end
+
+  defp position_of(use, _clauses, _seen), do: use
+
+  # `:open` — a clause takes any binary in this position and matches what the call passes in the
+  # others, or leaves it unconstrained and hands it on to a position that is open. `:tolerant` — a
+  # clause leaves this position unconstrained and its body takes a class string wherever it hands
+  # the value on, so one falls through to it. Anything else, or a helper with a clause that does not
+  # parse, is `:closed`.
+  defp position(clauses, helper, arity, index, call, seen) do
+    heads =
+      Enum.filter(
+        Map.get(clauses, helper, []),
+        &(&1 == :unparsed or length(&1.params) == arity)
+      )
+
+    cond do
+      heads == [] or :unparsed in heads ->
+        :closed
+
+      Enum.any?(heads, &open_at?(&1, index, call)) ->
+        :open
+
+      true ->
+        heads
+        |> Enum.map(&unconstrained_at(&1, index, call, clauses, seen))
+        |> Enum.min_by(&rank/1, fn -> :closed end)
+    end
+  end
+
+  defp rank(:open), do: 0
+  defp rank(:tolerant), do: 1
+  defp rank(:closed), do: 2
 
   defp open_at?(%{params: params, guard: guard}, index, call) do
     case Enum.at(params, index) do
@@ -174,13 +210,44 @@ defmodule MishkaChelekom.CmsBundle.AttrValues do
     end
   end
 
-  defp tolerant_at?(%{params: params, guard: guard}, index, call) do
+  defp unconstrained_at(%{params: params, guard: guard} = head, index, call, clauses, seen) do
     case Enum.at(params, index) do
       {var, _, ctx} when is_atom(var) and is_atom(ctx) ->
-        others_accept?(params, index, call) and not mentions?(guard, var)
+        if others_accept?(params, index, call) and not mentions?(guard, var),
+          do: body_position(head.body, var, clauses, seen),
+          else: :closed
 
       _constrained ->
-        false
+        :closed
+    end
+  end
+
+  # `dock_item_class(item, …, variant)` leaves `variant` unconstrained and hands it to
+  # `item_color_class/3`, which has no catch-all: the body is read like a template, the variable in
+  # place of the attribute.
+  defp body_position(body, var, clauses, seen) do
+    case {Atom.to_string(var), body} do
+      {"_" <> _unused, _body} ->
+        :tolerant
+
+      {_used, :unparsed} ->
+        :closed
+
+      {_used, body} ->
+        positions =
+          body
+          |> Macro.prewalk(fn
+            {^var, _, ctx} when is_atom(ctx) -> {:@, [], [{@position, [], nil}]}
+            node -> node
+          end)
+          |> walk({:top, :result}, MapSet.new(Map.keys(clauses)), [])
+          |> Enum.map(fn {_name, use} -> position_of(use, clauses, seen) end)
+
+        cond do
+          not Enum.all?(positions, &(&1 in [:open, :tolerant, :harmless])) -> :closed
+          :open in positions -> :open
+          true -> :tolerant
+        end
     end
   end
 
@@ -277,43 +344,146 @@ defmodule MishkaChelekom.CmsBundle.AttrValues do
   end
 
   defp head(helper) do
+    discriminators = Map.get(helper, :discriminators, [])
+
     case Code.string_to_quoted("fn #{helper.args || ""} -> nil end") do
       {:ok, {:fn, _, [{:->, _, [[{:when, _, params_and_guard}], _]}]}} ->
         {params, [guard]} = Enum.split(params_and_guard, -1)
-        %{params: params, guard: guard, discriminators: Map.get(helper, :discriminators, [])}
+        %{params: params, guard: guard, body: body(helper), discriminators: discriminators}
 
       {:ok, {:fn, _, [{:->, _, [params, _]}]}} ->
-        %{params: params, guard: nil, discriminators: Map.get(helper, :discriminators, [])}
+        %{params: params, guard: nil, body: body(helper), discriminators: discriminators}
 
       _unparsed ->
         :unparsed
     end
   end
 
+  defp body(%{code: code}) when is_binary(code) do
+    case Code.string_to_quoted(code) do
+      {:ok, ast} -> ast
+      {:error, _reason} -> :unparsed
+    end
+  end
+
+  defp body(_helper), do: :unparsed
+
   ## ─── Uses of each attribute ────────────────────────────────────────
 
   # Every place a component reads each of its attributes, as `{:helper, name, arity, index, args}`,
   # `:harmless` (a comparison, a condition, a class list, an HTML attribute, rendered text) or
-  # `:unknown`. A reference the parse did not reach — counted in the raw text — is `:unknown`.
-  defp uses(component, helper_names) do
-    helpers = MapSet.new(helper_names)
-    clauses = Map.get(component, :__extra_clauses__, [])
-
-    templates = Enum.filter([component.template | Enum.map(clauses, & &1.template)], &is_binary/1)
-    bodies = Enum.filter([component.body | Enum.map(clauses, & &1.body)], &is_binary/1)
-
-    found =
-      Enum.flat_map(templates, &template_uses(&1, helpers)) ++
-        Enum.flat_map(bodies, &code_uses(&1, {:top, :code}, helpers))
-
-    by_attr = Enum.group_by(found, &elem(&1, 0), &elem(&1, 1))
+  # `:unknown`. A reference the parse did not reach — counted in the raw text — is `:unknown`. An
+  # attribute passed to another function component is read where that component reads it.
+  defp uses(component, helpers, callees) do
+    source = public_source(component, helpers)
 
     Map.new(Map.get(component, :attrs, []), fn %{name: name} ->
-      parsed = Map.get(by_attr, name, [])
-      written = Enum.sum(Enum.map(templates ++ bodies, &count_refs(&1, name)))
-      missed = List.duplicate(:unknown, max(written - length(parsed), 0))
-      {name, parsed ++ missed}
+      {name, attr_uses(source, name, callees, MapSet.new())}
     end)
+  end
+
+  defp attr_uses(source, name, callees, seen) do
+    direct = for {^name, use} <- source.found, do: use
+
+    spread =
+      for {:spread, callee, set} <- source.found, name not in set, do: {:pass, callee, name}
+
+    written = Enum.sum(Enum.map(source.texts, &count_refs(&1, name)))
+    missed = List.duplicate(:unknown, max(written - length(direct), 0))
+
+    Enum.flat_map(direct ++ spread, &follow(&1, callees, seen)) ++ missed
+  end
+
+  # A component this file does not define, or one that declares its own `values:` for the
+  # attribute, closes it. A component already followed for this attribute adds nothing.
+  defp follow({:pass, callee, name}, callees, seen) do
+    case Map.fetch(callees, callee) do
+      :error ->
+        [:unknown]
+
+      {:ok, source} ->
+        cond do
+          MapSet.member?(seen, {callee, name}) -> []
+          MapSet.member?(source.closed, name) -> [:unknown]
+          true -> attr_uses(source, name, callees, MapSet.put(seen, {callee, name}))
+        end
+    end
+  end
+
+  defp follow(use, _callees, _seen), do: [use]
+
+  ## ─── Function components of the file ──────────────────────────────
+
+  # Every function component an attribute can be passed to, by name: the file's public components
+  # and each `defp` whose body holds a `~H`. The clauses of one name are read as one.
+  defp callees(helper_list, siblings, helpers) do
+    private =
+      for helper <- helper_list,
+          source = private_source(helper, helpers),
+          source != nil,
+          do: {to_string(helper.name), source}
+
+    public =
+      for sibling <- siblings, do: {to_string(sibling.name), public_source(sibling, helpers)}
+
+    (private ++ public)
+    |> Enum.group_by(&elem(&1, 0), &elem(&1, 1))
+    |> Map.new(fn {name, sources} -> {name, Enum.reduce(sources, &merge_sources/2)} end)
+  end
+
+  defp public_source(component, helpers) do
+    clauses = Map.get(component, :__extra_clauses__, [])
+
+    read_source(
+      [component.template | Enum.map(clauses, & &1.template)],
+      [component.body | Enum.map(clauses, & &1.body)],
+      Map.get(component, :attrs, []),
+      helpers
+    )
+  end
+
+  # The `~H` of a private function component is lifted out of its code, so each reference is read
+  # once: in the template, or in the code around it.
+  defp private_source(%{code: code} = helper, helpers) when is_binary(code) do
+    with {:ok, ast} <- Code.string_to_quoted(code),
+         {stripped, [_ | _] = templates} <- lift_templates(ast) do
+      read_source(templates, [Macro.to_string(stripped)], Map.get(helper, :attrs, []), helpers)
+    else
+      _no_template -> nil
+    end
+  end
+
+  defp private_source(_helper, _helpers), do: nil
+
+  defp lift_templates(ast) do
+    Macro.prewalk(ast, [], fn
+      {:sigil_H, _, [{:<<>>, _, [template]}, _modifiers]}, acc when is_binary(template) ->
+        {nil, [template | acc]}
+
+      node, acc ->
+        {node, acc}
+    end)
+  end
+
+  defp read_source(templates, bodies, attrs, helpers) do
+    templates = Enum.filter(templates, &is_binary/1)
+    bodies = Enum.filter(bodies, &is_binary/1)
+
+    %{
+      found:
+        Enum.flat_map(templates, &template_uses(&1, helpers)) ++
+          Enum.flat_map(bodies, &code_uses(&1, {:top, :code}, helpers)),
+      texts: templates ++ bodies,
+      closed: MapSet.new(for %{name: name, opts: %{"values" => _}} <- attrs, do: name)
+    }
+  end
+
+  defp merge_sources(source, acc) do
+    %{
+      found: acc.found ++ source.found,
+      texts: acc.texts ++ source.texts,
+      closed: MapSet.union(acc.closed, source.closed)
+    }
   end
 
   defp count_refs(text, name) do
@@ -329,13 +499,20 @@ defmodule MishkaChelekom.CmsBundle.AttrValues do
     end
   end
 
-  defp token_uses({kind, _name, attrs, _meta}, helpers)
+  defp token_uses({kind, name, attrs, _meta}, helpers)
        when kind in [:tag, :local_component, :remote_component, :slot] and is_list(attrs) do
-    context = if kind == :tag, do: :html, else: :component
+    callee = if kind == :local_component, do: to_string(name)
+    explicit = MapSet.new(for {attr, _value, _meta} <- attrs, is_binary(attr), do: attr)
 
     Enum.flat_map(attrs, fn
-      {attr, {:expr, code, _}, _} -> code_uses(code, {:top, {context, to_string(attr)}}, helpers)
-      _literal -> []
+      {:root, {:expr, code, _}, _} when kind != :tag ->
+        spread_uses(code, callee, explicit, helpers)
+
+      {attr, {:expr, code, _}, _} ->
+        code_uses(code, {:top, attr_context(kind, callee, to_string(attr))}, helpers)
+
+      _literal ->
+        []
     end)
   end
 
@@ -349,6 +526,18 @@ defmodule MishkaChelekom.CmsBundle.AttrValues do
     do: code_uses(code, {:top, :text}, helpers)
 
   defp token_uses(_token, _helpers), do: []
+
+  # `{assigns}` hands every attribute to the component under its own name, save those the tag
+  # sets itself: Phoenix merges the explicit attributes over the spread.
+  defp spread_uses(code, callee, explicit, helpers) do
+    case Code.string_to_quoted(code) do
+      {:ok, {:assigns, _, ctx}} when is_atom(ctx) -> [{:spread, callee, explicit}]
+      _other -> code_uses(code, {:top, {:component, nil, "root"}}, helpers)
+    end
+  end
+
+  defp attr_context(:tag, _callee, attr), do: {:html, attr}
+  defp attr_context(_component, callee, attr), do: {:component, callee, attr}
 
   defp code_uses(code, context, helpers) do
     case Code.string_to_quoted(code) do
@@ -411,10 +600,16 @@ defmodule MishkaChelekom.CmsBundle.AttrValues do
     end
   end
 
-  defp use_of({:list, {:top, {_context, "class"}}}, _helpers), do: :harmless
   defp use_of({:list, {:top, {:html, _attr}}}, _helpers), do: :harmless
+  defp use_of({:list, {:top, {:component, _callee, "class"}}}, _helpers), do: :harmless
   defp use_of({:top, {:html, _attr}}, _helpers), do: :harmless
-  defp use_of({:top, {:component, "class"}}, _helpers), do: :harmless
+  defp use_of({:top, {:component, _callee, "class"}}, _helpers), do: :harmless
+
+  defp use_of({:top, {:component, callee, attr}}, _helpers) when is_binary(callee),
+    do: {:pass, callee, attr}
+
   defp use_of({:top, :text}, _helpers), do: :harmless
+  defp use_of({:top, :result}, _helpers), do: :harmless
+  defp use_of({:list, {:top, :result}}, _helpers), do: :harmless
   defp use_of(_parent, _helpers), do: :unknown
 end

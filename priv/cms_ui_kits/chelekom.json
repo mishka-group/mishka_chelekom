@@ -23053,7 +23053,7 @@
           "opts": {
             "default": "base",
             "doc": "Determines the style",
-            "values": [
+            "examples": [
               "default",
               "gradient",
               "base"
@@ -28470,7 +28470,7 @@
           "opts": {
             "default": "base",
             "doc": "Determines the style",
-            "values": [
+            "examples": [
               "default",
               "gradient",
               "base"
@@ -61270,7 +61270,14 @@
           "name": "dismiss_size",
           "opts": {
             "default": "small",
-            "doc": "Add custom classes to control dismiss sizes"
+            "doc": "Add custom classes to control dismiss sizes",
+            "examples": [
+              "extra_small",
+              "small",
+              "medium",
+              "large",
+              "extra_large"
+            ]
           },
           "type": "string"
         },
@@ -110103,7 +110110,7 @@
           "opts": {
             "default": "large",
             "doc": "Determines the overall size of the elements, including padding, font size, and other items",
-            "values": [
+            "examples": [
               "extra_small",
               "small",
               "medium",
@@ -110117,7 +110124,14 @@
           "name": "space",
           "opts": {
             "default": "",
-            "doc": "Space between items"
+            "doc": "Space between items",
+            "examples": [
+              "extra_small",
+              "small",
+              "medium",
+              "large",
+              "extra_large"
+            ]
           },
           "type": "string"
         },
@@ -110157,7 +110171,7 @@
           "opts": {
             "default": "transparent",
             "doc": "Determines the style",
-            "values": [
+            "examples": [
               "default",
               "bordered",
               "outline",
