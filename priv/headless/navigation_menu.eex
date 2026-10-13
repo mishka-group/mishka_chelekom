@@ -7,7 +7,7 @@ defmodule <%= @module %> do
   item's content into the viewport and **morphs the popup's size** (`--popup-width/height`) from the old
   to the new content, sliding it via `data-activation-direction` (computed from the prev-vs-next trigger).
   Hover opens after `delay` and closes after `close_delay`; switching between already-open items is
-  instant. Label-only / `href` items render a plain `link`.
+  instant. An item with an `href`, or with no body content, renders a plain `link`.
 
   Options mirror Base UI Root: `value`/`default_value` (the open item's id), `delay`, `close_delay`,
   `orientation` (horizontal | vertical), plus `side`/`align`/`arrow`. State attributes: positioner/popup
@@ -52,7 +52,7 @@ defmodule <%= @module %> do
 
   slot :item,
     required: true,
-    doc: "A nav item: a plain link, or a dropdown if it has body content" do
+    doc: "A nav item: a link when it has an `href` or no body content, else a dropdown" do
     attr :label, :string, required: true
     attr :href, :string
     attr :value, :string, doc: "Stable id for this item (defaults to a generated one)"
@@ -61,7 +61,7 @@ defmodule <%= @module %> do
   end
 
   def <%= @component_prefix %>navigation_menu(assigns) do
-    first_trigger = Enum.find_index(assigns.item, &(&1.inner_block != nil)) || 0
+    first_trigger = Enum.find_index(assigns.item, &dropdown?/1) || 0
     open_value = assigns.value || (assigns.open && assigns.default_value) || nil
     assigns = assign(assigns, first_trigger: first_trigger, open_value: open_value)
 
@@ -87,7 +87,7 @@ defmodule <%= @module %> do
           class={["chelekom-navigation_menu__item", @item_class]}
         >
           <a
-            :if={item.inner_block == nil}
+            :if={!dropdown?(item)}
             data-part="link"
             href={item[:href] || "#"}
             data-active={item[:active]}
@@ -98,7 +98,7 @@ defmodule <%= @module %> do
           </a>
 
           <button
-            :if={item.inner_block != nil}
+            :if={dropdown?(item)}
             type="button"
             data-part="trigger"
             data-value={item[:value] || "#{@id}-item-#{i}"}
@@ -118,7 +118,7 @@ defmodule <%= @module %> do
           </button>
 
           <div
-            :if={item.inner_block != nil}
+            :if={dropdown?(item)}
             data-part="content"
             data-value={item[:value] || "#{@id}-item-#{i}"}
             hidden
@@ -155,4 +155,6 @@ defmodule <%= @module %> do
     </nav>
     """
   end
+
+  defp dropdown?(item), do: is_nil(item[:href]) and item.inner_block != nil
 end
