@@ -55,7 +55,10 @@ defmodule DevelopmentWeb.Components.Rating do
 
   attr :color, :string, default: "warning", doc: "Determines color theme"
   attr :count, :integer, default: 5, doc: "Number of stars to display"
-  attr :select, :any, default: 0, doc: "Integer or float value for selected stars"
+
+  attr :select, :any,
+    default: 0,
+    doc: "Integer or float value for selected stars, or its text such as \"3\" or \"2.5\""
 
   attr :params, :map,
     default: %{},
@@ -101,6 +104,8 @@ defmodule DevelopmentWeb.Components.Rating do
   end
 
   def rating(assigns) do
+    assigns = assign(assigns, :select, rating_value(assigns.select))
+
     ~H"""
     <div id={@id && "#{@id}-wrapper"}>
       <.label :if={@label}>{@label}</.label>
@@ -260,10 +265,6 @@ defmodule DevelopmentWeb.Components.Rating do
       <% else %>
         <path
           fill="currentColor"
-          class={[
-            @fill_percentage >= 100 && "opacity-100",
-            @fill_percentage < 100 && "opacity-20"
-          ]}
           d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
         />
       <% end %>

@@ -203022,7 +203022,7 @@
           "name": "select",
           "opts": {
             "default": 0,
-            "doc": "Integer or float value for selected stars"
+            "doc": "Integer or float value for selected stars, or its text such as \"3\" or \"2.5\""
           },
           "type": "any"
         },
@@ -203119,7 +203119,7 @@
           "type": "global"
         }
       ],
-      "body": null,
+      "body": "assigns = assign(assigns, :select, rating_value(assigns.select))",
       "dependencies": [],
       "examples": [
         "<div class=\"max-w-sm rounded-xl border border-gray-200 dark:border-gray-700 p-5\">\n  <div class=\"flex items-center gap-4\">\n    <span class=\"text-4xl font-semibold leading-none\">4.5</span>\n    <div>\n      <.component component_name=\"chelekom-rating\" site=\"Global\" id=\"product-avg-rating\" select={4.5} size=\"medium\" />\n      <.component component_name=\"chelekom-small\" site=\"Global\" class=\"block mt-1 text-gray-500\">Based on 1,284 verified reviews</.component>\n    </div>\n  </div>\n</div>",
@@ -203136,7 +203136,7 @@
             "template": null
           },
           {
-            "body": null,
+            "body": "assigns = assign(assigns, :select, rating_value(assigns.select))",
             "delegates": false,
             "guard": null,
             "match": null,
@@ -204129,7 +204129,7 @@
               "type": "any"
             }
           ],
-          "code": "~H\"\"\"\n<svg\n  xmlns=\"http://www.w3.org/2000/svg\"\n  viewBox=\"0 0 24 24\"\n  class={[\"rating-icon transition-all delay-100\", @fill_percentage > 0 && \"rated\"]}\n>\n  <%= if @fill_percentage > 0 and @fill_percentage < 100 do %>\n    <defs>\n      <linearGradient id={\"star-fill-#{@id}-#{@item}\"} x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"0%\">\n        <stop offset=\"0%\" stop-color=\"currentColor\"></stop>\n        <stop offset={\"#{@fill_percentage}%\"} stop-color=\"currentColor\"></stop>\n        <stop\n          offset={\"#{@fill_percentage}%\"}\n          stop-color=\"currentColor\"\n          stop-opacity=\"0.2\"\n        >\n        </stop>\n        <stop offset=\"100%\" stop-color=\"currentColor\" stop-opacity=\"0.2\"></stop>\n      </linearGradient>\n    </defs>\n    <path\n      class=\"opacity-100 transition-all delay-100 group-hover:opacity-0 fraction-path\"\n      fill={\"url(#star-fill-#{@id}-#{@item})\"}\n      d=\"M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z\"\n    />\n    <path\n      class=\"opacity-0 transition-all delay-100 group-hover:opacity-100 full-path\"\n      fill=\"currentColor\"\n      d=\"M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z\"\n    />\n  <% else %>\n    <path\n      fill=\"currentColor\"\n      class={[\n        @fill_percentage >= 100 && \"opacity-100\",\n        @fill_percentage < 100 && \"opacity-20\"\n      ]}\n      d=\"M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z\"\n    />\n  <% end %>\n</svg>\n\"\"\"",
+          "code": "~H\"\"\"\n<svg\n  xmlns=\"http://www.w3.org/2000/svg\"\n  viewBox=\"0 0 24 24\"\n  class={[\"rating-icon transition-all delay-100\", @fill_percentage > 0 && \"rated\"]}\n>\n  <%= if @fill_percentage > 0 and @fill_percentage < 100 do %>\n    <defs>\n      <linearGradient id={\"star-fill-#{@id}-#{@item}\"} x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"0%\">\n        <stop offset=\"0%\" stop-color=\"currentColor\"></stop>\n        <stop offset={\"#{@fill_percentage}%\"} stop-color=\"currentColor\"></stop>\n        <stop\n          offset={\"#{@fill_percentage}%\"}\n          stop-color=\"currentColor\"\n          stop-opacity=\"0.2\"\n        >\n        </stop>\n        <stop offset=\"100%\" stop-color=\"currentColor\" stop-opacity=\"0.2\"></stop>\n      </linearGradient>\n    </defs>\n    <path\n      class=\"opacity-100 transition-all delay-100 group-hover:opacity-0 fraction-path\"\n      fill={\"url(#star-fill-#{@id}-#{@item})\"}\n      d=\"M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z\"\n    />\n    <path\n      class=\"opacity-0 transition-all delay-100 group-hover:opacity-100 full-path\"\n      fill=\"currentColor\"\n      d=\"M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z\"\n    />\n  <% else %>\n    <path\n      fill=\"currentColor\"\n      d=\"M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z\"\n    />\n  <% end %>\n</svg>\n\"\"\"",
           "discriminators": [],
           "name": "star_svg",
           "slots": []
