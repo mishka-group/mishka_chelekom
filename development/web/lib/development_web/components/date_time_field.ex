@@ -196,7 +196,7 @@ defmodule DevelopmentWeb.Components.DateTimeField do
             value={@value}
             class={[
               "disabled:opacity-80 block w-full z-[2] focus:ring-0 placeholder:text-transparent pb-1 pt-2.5 px-2",
-              "text-[16px] sm:font-inherit appearance-none bg-transparent border-0 focus:outline-none peer",
+              "text-[16px] sm:text-[length:inherit] appearance-none bg-transparent border-0 focus:outline-none peer",
               @input_class
             ]}
             placeholder=" "
@@ -703,17 +703,17 @@ defmodule DevelopmentWeb.Components.DateTimeField do
       "dark:[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-natural-border-dark",
       "[&_.date-time-field-wrapper.date-time-field-error]:bg-rose-700",
       "[&_.date-time-field-wrapper>input]:placeholder:text-natural-light dark:[&_.date-time-field-wrapper>input]:placeholder:text-natural-dark",
-      "focus-within:[&_.date-time-field-wrapper]:ring-natural-ring-light dark:focus-within:[&_.date-time-field-wrapper]:ring-natural-ring-dark",
+      "focus-within:[&_.date-time-field-wrapper]:ring-natural-light dark:focus-within:[&_.date-time-field-wrapper]:ring-natural-dark",
       floating == "outer" &&
-        "[&_.date-time-field-wrapper_.floating-label]:bg-natural-border-dark dark:[&_.date-time-field-wrapper_.floating-label]:bg-natural-border-darker"
+        "[&_.date-time-field-wrapper_.floating-label]:bg-natural-border-dark dark:[&_.date-time-field-wrapper_.floating-label]:bg-natural-bordered-bg-dark"
     ]
   end
 
   defp color_variant("bordered", "primary", floating) do
     [
       "text-primary-light dark:text-primary-dark [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-primary-light",
-      "[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:bg-primary-bg-light",
-      "dark:[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:bg-primary-bg-dark",
+      "[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:bg-primary-bordered-bg-light",
+      "dark:[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:bg-primary-bordered-bg-dark",
       "dark:[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-primary-dark",
       "[&_.date-time-field-wrapper.date-time-field-error]:bg-rose-700",
       "[&_.date-time-field-wrapper>input]:placeholder:text-primary-light dark:[&_.date-time-field-wrapper>input]:placeholder:text-primary-dark",
@@ -768,12 +768,12 @@ defmodule DevelopmentWeb.Components.DateTimeField do
   defp color_variant("bordered", "danger", floating) do
     [
       "text-danger-light dark:text-danger-dark [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-danger-light",
-      "[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:bg-danger-bg-light",
-      "dark:[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:bg-danger-bg-dark",
+      "[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:bg-danger-bordered-bg-light",
+      "dark:[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:bg-danger-bordered-bg-dark",
       "dark:[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-danger-dark",
       "[&_.date-time-field-wrapper.date-time-field-error]:bg-rose-700",
       "[&_.date-time-field-wrapper>input]:placeholder:text-danger-light dark:[&_.date-time-field-wrapper>input]:placeholder:text-danger-dark",
-      "focus-within:[&_.date-time-field-wrapper]:ring-danger-ring-light dark:focus-within:[&_.date-time-field-wrapper]:ring-danger-ring-dark",
+      "focus-within:[&_.date-time-field-wrapper]:ring-danger-light dark:focus-within:[&_.date-time-field-wrapper]:ring-danger-dark",
       floating == "outer" &&
         "[&_.date-time-field-wrapper_.floating-label]:bg-silver-light dark:[&_.date-time-field-wrapper_.floating-label]:bg-silver-dark"
     ]
@@ -782,12 +782,12 @@ defmodule DevelopmentWeb.Components.DateTimeField do
   defp color_variant("bordered", "info", floating) do
     [
       "text-info-light dark:text-info-dark [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-info-light",
-      "[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:bg-info-bg-light",
-      "dark:[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:bg-info-bg-dark",
+      "[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:bg-info-bordered-bg-light",
+      "dark:[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:bg-info-bordered-bg-dark",
       "dark:[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-info-dark",
       "[&_.date-time-field-wrapper.date-time-field-error]:bg-rose-700",
       "[&_.date-time-field-wrapper>input]:placeholder:text-info-light dark:[&_.date-time-field-wrapper>input]:placeholder:text-info-dark",
-      "focus-within:[&_.date-time-field-wrapper]:ring-info-ring-light dark:focus-within:[&_.date-time-field-wrapper]:ring-info-ring-dark",
+      "focus-within:[&_.date-time-field-wrapper]:ring-info-light dark:focus-within:[&_.date-time-field-wrapper]:ring-info-dark",
       floating == "outer" &&
         "[&_.date-time-field-wrapper_.floating-label]:bg-silver-light dark:[&_.date-time-field-wrapper_.floating-label]:bg-silver-dark"
     ]
@@ -796,12 +796,12 @@ defmodule DevelopmentWeb.Components.DateTimeField do
   defp color_variant("bordered", "misc", floating) do
     [
       "text-misc-light dark:text-misc-dark [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-misc-light",
-      "[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:bg-misc-bg-light",
-      "dark:[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:bg-misc-bg-dark",
+      "[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:bg-misc-bordered-bg-light",
+      "dark:[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:bg-misc-bordered-bg-dark",
       "dark:[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-misc-dark",
       "[&_.date-time-field-wrapper.date-time-field-error]:bg-rose-700",
       "[&_.date-time-field-wrapper>input]:placeholder:text-misc-light dark:[&_.date-time-field-wrapper>input]:placeholder:text-misc-dark",
-      "focus-within:[&_.date-time-field-wrapper]:ring-misc-ring-light dark:focus-within:[&_.date-time-field-wrapper]:ring-misc-ring-dark",
+      "focus-within:[&_.date-time-field-wrapper]:ring-misc-light dark:focus-within:[&_.date-time-field-wrapper]:ring-misc-dark",
       floating == "outer" &&
         "[&_.date-time-field-wrapper_.floating-label]:bg-silver-light dark:[&_.date-time-field-wrapper_.floating-label]:bg-silver-dark"
     ]
@@ -810,12 +810,12 @@ defmodule DevelopmentWeb.Components.DateTimeField do
   defp color_variant("bordered", "dawn", floating) do
     [
       "text-dawn-light dark:text-dawn-dark [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-dawn-light",
-      "[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:bg-dawn-bg-light",
-      "dark:[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:bg-dawn-bg-dark",
+      "[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:bg-dawn-bordered-bg-light",
+      "dark:[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:bg-dawn-bordered-bg-dark",
       "dark:[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-dawn-dark",
       "[&_.date-time-field-wrapper.date-time-field-error]:bg-rose-700",
       "[&_.date-time-field-wrapper>input]:placeholder:text-dawn-light dark:[&_.date-time-field-wrapper>input]:placeholder:text-dawn-dark",
-      "focus-within:[&_.date-time-field-wrapper]:ring-dawn-ring-light dark:focus-within:[&_.date-time-field-wrapper]:ring-dawn-ring-dark",
+      "focus-within:[&_.date-time-field-wrapper]:ring-dawn-light dark:focus-within:[&_.date-time-field-wrapper]:ring-dawn-dark",
       floating == "outer" &&
         "[&_.date-time-field-wrapper_.floating-label]:bg-silver-light dark:[&_.date-time-field-wrapper_.floating-label]:bg-silver-dark"
     ]
@@ -824,12 +824,12 @@ defmodule DevelopmentWeb.Components.DateTimeField do
   defp color_variant("bordered", "silver", floating) do
     [
       "text-silver-light dark:text-silver-dark [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-silver-light",
-      "[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:bg-silver-bg-light",
-      "dark:[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:bg-silver-bg-dark",
+      "[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:bg-silver-bordered-bg-light",
+      "dark:[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:bg-silver-bordered-bg-dark",
       "dark:[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-silver-dark",
       "[&_.date-time-field-wrapper.date-time-field-error]:bg-rose-700",
       "[&_.date-time-field-wrapper>input]:placeholder:text-silver-light dark:[&_.date-time-field-wrapper>input]:placeholder:text-silver-dark",
-      "focus-within:[&_.date-time-field-wrapper]:ring-silver-ring-light dark:focus-within:[&_.date-time-field-wrapper]:ring-silver-ring-dark",
+      "focus-within:[&_.date-time-field-wrapper]:ring-silver-light dark:focus-within:[&_.date-time-field-wrapper]:ring-silver-dark",
       floating == "outer" &&
         "[&_.date-time-field-wrapper_.floating-label]:bg-silver-light dark:[&_.date-time-field-wrapper_.floating-label]:bg-silver-dark"
     ]
@@ -837,9 +837,9 @@ defmodule DevelopmentWeb.Components.DateTimeField do
 
   defp color_variant("bordered", "dark", floating) do
     [
-      "[&_.date-time-field-wrapper]:bg-dark-bg text-dark-text [&_.date-time-field-wrapper]:border-dark-border text-white",
-      "[&_.date-time-field-wrapper>input]:placeholder:text-white focus-within:[&_.date-time-field-wrapper]:ring-dark-border",
-      floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-dark-bg"
+      "[&_.date-time-field-wrapper]:bg-default-dark-bg [&_.date-time-field-wrapper]:border-bordered-dark-border text-white",
+      "[&_.date-time-field-wrapper>input]:placeholder:text-white focus-within:[&_.date-time-field-wrapper]:ring-bordered-dark-border",
+      floating == "outer" && "[&_.date-time-field-wrapper_.floating-label]:bg-default-dark-bg"
     ]
   end
 

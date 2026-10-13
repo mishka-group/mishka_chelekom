@@ -1,0 +1,75 @@
+defmodule <%= @module %> do
+  @moduledoc "Sample notice — attribute values: open, closed, bound to an axis, and declared."
+
+  use Phoenix.Component
+
+  @doc type: :component
+  attr :kind, :atom, default: :natural
+  attr :variant, :string, default: "default"
+  attr :size, :string, default: "small"
+  attr :rounded, :string, default: ""
+  attr :padding, :string, default: "small"
+  attr :tone, :string, default: "soft", values: ["soft", "loud"]
+  attr :rest, :global
+
+  def <%= @component_prefix %>sample_notice(assigns) do
+    ~H"""
+    <div
+      class={[
+        color_variant(@variant, @kind),
+        size_class(@size, :text),
+        rounded_size(@rounded),
+        padding_size(@padding),
+        @tone == "loud" && "font-bold"
+      ]}
+      {@rest}
+    >
+      <.sample_notice_button padding={@padding} />
+    </div>
+    """
+  end
+
+  @doc type: :component
+  attr :type, :string, default: "button"
+  attr :size, :string, default: "small"
+
+  def <%= @component_prefix %>sample_notice_button(assigns) do
+    ~H"""
+    <button type={@type} class={[size_class(@size, :text), icon_size(@size)]}>x</button>
+    """
+  end
+
+  <%= if is_nil(@variant) or "default" in @variant do %>
+    <%= if is_nil(@color) or "primary" in @color do %>
+  defp color_variant("default", :primary), do: "bg-blue-600"
+    <% end %>
+    <%= if is_nil(@color) or "danger" in @color do %>
+  defp color_variant("default", kind) when kind in [:danger, :error], do: "bg-red-600"
+    <% end %>
+  <% end %>
+  <%= if is_nil(@variant) or "outline" in @variant do %>
+    <%= if is_nil(@color) or "natural" in @color do %>
+  defp color_variant("outline", :natural), do: "border-gray-600"
+    <% end %>
+  <% end %>
+  defp color_variant(params, _) when is_binary(params), do: params
+
+  <%= if is_nil(@size) or "small" in @size do %>
+  defp size_class("small", :text), do: "text-sm"
+  <% end %>
+  <%= if is_nil(@size) or "large" in @size do %>
+  defp size_class("large", :text), do: "text-lg"
+  <% end %>
+  defp size_class(params, :text) when is_binary(params), do: params
+
+  defp icon_size("small"), do: "size-4"
+  defp icon_size("large"), do: "size-6"
+
+  defp rounded_size("small"), do: "rounded"
+  defp rounded_size("large"), do: "rounded-lg"
+  defp rounded_size(params) when is_binary(params), do: params
+
+  defp padding_size("small"), do: "p-2"
+  defp padding_size("large"), do: "p-4"
+  defp padding_size(params) when is_binary(params), do: params
+end

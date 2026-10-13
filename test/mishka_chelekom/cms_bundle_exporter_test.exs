@@ -470,6 +470,68 @@ defmodule MishkaChelekom.CmsBundleExporterTest do
     end
   end
 
+  ## ─── What each attribute accepts ──────────────────────────────────
+
+  describe "convert/5 — what each attribute accepts" do
+    setup do
+      exs = File.read!(Path.join(@fixture_dir, "sample_notice.exs"))
+      eex = File.read!(Path.join(@fixture_dir, "sample_notice.eex"))
+      {:ok, %{components: cps}} = CmsBundleExporter.convert(exs, eex, "kit", "1.0")
+
+      {:ok,
+       notice: by_name(cps, "kit-sample-notice"), button: by_name(cps, "kit-sample-notice-button")}
+    end
+
+    defp opts(component, name),
+      do: Enum.find(component["attrs"], &(&1["name"] == name))["opts"]
+
+    # `size_class(params, :text) when is_binary(params)` takes any class: `size="py-1 px-2"` is as
+    # valid as `size="small"`, so the list is shipped as Phoenix's non-exhaustive `examples`.
+    test "an attribute whose helpers all end in a catch-all `is_binary` clause ships `examples`",
+         %{notice: notice} do
+      assert opts(notice, "size")["examples"] == ["small", "large"]
+      refute Map.has_key?(opts(notice, "size"), "values")
+
+      assert opts(notice, "variant")["examples"] == ["default", "outline"]
+      refute Map.has_key?(opts(notice, "variant"), "values")
+    end
+
+    # `examples` has no rule about the default, so an open attribute whose default is `""` keeps a
+    # list a closed one would have to drop.
+    test "an open attribute keeps its list whatever its default", %{notice: notice} do
+      assert opts(notice, "rounded")["default"] == ""
+      assert opts(notice, "rounded")["examples"] == ["small", "large"]
+    end
+
+    test "an attribute a helper without a catch-all also reads stays closed", %{button: button} do
+      assert opts(button, "size")["values"] == ["small", "large"]
+      refute Map.has_key?(opts(button, "size"), "examples")
+    end
+
+    # What a child component does with it cannot be read from here.
+    test "an attribute handed on to another component stays closed", %{notice: notice} do
+      assert opts(notice, "padding")["values"] == ["small", "large"]
+      refute Map.has_key?(opts(notice, "padding"), "examples")
+    end
+
+    # `kind` is named for no axis, but every clause matching on its position sits inside an
+    # `<%= if … in @color %>`, so it takes the colours — the reason `kind="danger"` drew nothing.
+    test "an attribute in a position an axis gates takes that axis's values", %{notice: notice} do
+      assert opts(notice, "kind")["values"] == ["primary", "danger", "natural"]
+    end
+
+    # `type` and `only` choose which functions the generator writes; they are no attribute's list.
+    test "the generator's function list reaches no attribute", %{button: button} do
+      refute Map.has_key?(opts(button, "type"), "values")
+      refute Map.has_key?(opts(button, "type"), "examples")
+    end
+
+    test "a `values:` the template declares is kept as it is", %{notice: notice} do
+      assert opts(notice, "tone")["values"] == ["soft", "loud"]
+      refute Map.has_key?(opts(notice, "tone"), "examples")
+    end
+  end
+
   ## ─── Discriminators ────────────────────────────────────────────────
 
   describe "convert/5 — discriminators" do

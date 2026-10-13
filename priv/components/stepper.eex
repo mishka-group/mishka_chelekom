@@ -100,7 +100,7 @@ defmodule <%= @module %> do
       role="list"
       id={@id}
       class={[
-        "group flex flex-row flex-start items-center flex-wrap gap-y-5",
+        "group flex flex-row justify-start items-center flex-wrap gap-y-5",
         "[&_.stepper-separator:last-child]:hidden",
         step_visibility(),
         size_class(@size),

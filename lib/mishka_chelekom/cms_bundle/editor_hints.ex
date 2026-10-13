@@ -99,13 +99,16 @@ defmodule MishkaChelekom.CmsBundle.EditorHints do
   defp decided_by_type?(attr), do: type(attr) in @settled_by_type
 
   # AN ATTRIBUTE THAT SHIPS ITS OWN VALUES IS A DROPDOWN, and the bundle has already said so in the
-  # only way that carries the options with it. Every hint below is authoritative, so claiming one
+  # only way that carries the options with it — `values` for a closed list, `examples` for one the
+  # attribute also accepts any class string beside. Every hint below is authoritative, so claiming one
   # here would REPLACE the list rather than refine it — the widest kind of wrong this module can be.
   defp from_a_list?(attr) do
-    case get_in(attr, ["opts", "values"]) do
-      values when is_list(values) -> values != []
-      _other -> false
-    end
+    Enum.any?(["values", "examples"], fn key ->
+      case get_in(attr, ["opts", key]) do
+        list when is_list(list) -> list != []
+        _other -> false
+      end
+    end)
   end
 
   # A CONTROL WORD, THEN A QUALIFIER THAT TAKES IT BACK. `icon_class` styles an icon and
