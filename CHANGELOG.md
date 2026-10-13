@@ -1,6 +1,13 @@
 # Changelog for MishkaChelekom 0.0.10
 
 ### Features:
+- The CMS bundle says which attributes also take a class string. Where every helper an attribute
+  reaches ends in a `defp helper(params) when is_binary(params)` catch-all — `size`, `rounded`,
+  `padding`, `space`, most `variant`s — the template draws `size="py-1 px-2"` as readily as
+  `size="small"`, and the bundle now ships the named list as Phoenix's non-exhaustive
+  `opts.examples` instead of a closed `opts.values`, so a consumer that validates against `values`
+  stops refusing it. 311 attributes ship `examples`; an attribute this cannot read in full stays
+  closed
 - The CMS bundle carries each attribute's own option list. A component's `args:` config already
   enumerates what `variant`, `color`, `size`, `rounded` and `padding` accept, and the exporter threw
   it away — a consumer had to recover the same lists from the `<%= if %>` gating around each helper
@@ -32,6 +39,20 @@
   swapping one element for another
 
 ### Bug fixes:
+- The CMS bundle's value lists come from the axis an attribute is gated on, not only from its name.
+  `alert` and `flash` take their colour through `kind`, which carried no list, so a consumer that
+  casts values dropped `kind="danger"` and every alert drew `natural`; `kind` now carries the
+  `color` list. `type` and `only` in a component's `args` choose which functions the generator
+  writes, and that list no longer reaches an attribute: `input_button`'s HTML `type` shipped
+  `["button_group", "button", …]`
+- Classes Tailwind drew nothing for: `ease-in-ou` (button), `::flex-1` (pagination), `flex-start`
+  (stepper), `fill-opacity-*` (rating), `sm:font-inherit` (ten fields, now
+  `sm:text-[length:inherit]`), `bordered-text-…` (text_field), and theme colours the theme never
+  defined — `*-bordered-hover-*` (accordion, now in the theme for every colour), `progress-bg`
+  (gradient progress, now the track's own colour), `table-*` (table), `default-white-bg` (card),
+  `natural-bordered-dark` (footer), `primary-inverted-gradient-indicator-dark` (button),
+  `custom-black-100` (file_field) and the `*-bg-*` / `*-ring-*` / `dark-*` set of date_time_field's
+  bordered variant. A test now holds every theme colour a template names to the theme
 - The floating hook (dropdown, tooltip, popover) reads no layout while it mounts. It read the page's
   direction and placed its hidden content on mount, and each of those reads, right after the
   previous hook moved its content to `<body>`, made the browser restyle the whole page: a page with

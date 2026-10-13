@@ -207,6 +207,96 @@ defmodule MishkaChelekom.CmsBundleExporterTest do
       helper_names = Enum.map(btn["helpers"], & &1["name"])
       assert "sample_button_indicator" in helper_names
     end
+
+    test "a file's own defp wins over another file's public function of the same name" do
+      exs = """
+      [sample_text: [name: "sample_text", category: "forms", args: [], necessary: []]]
+      """
+
+      eex = """
+      defmodule <%= @module %> do
+        use Phoenix.Component
+
+        attr :label, :string, default: nil
+        attr :label_class, :string, default: nil
+        attr :errors, :list, default: []
+
+        def sample_text(assigns) do
+          ~H\"\"\"
+          <div>
+            <.label :if={@label} class={@label_class}>{@label}</.label>
+            <.error :for={msg <- @errors}>{msg}</.error>
+            <.icon name="hero-x-mark" />
+          </div>
+          \"\"\"
+        end
+
+        attr :class, :any, default: nil
+        slot :inner_block, required: true
+
+        defp label(assigns) do
+          ~H\"\"\"
+          <label class={["font-semibold", @class]}>{render_slot(@inner_block)}</label>
+          \"\"\"
+        end
+      end
+      """
+
+      {:ok, %{components: [text]}} =
+        CmsBundleExporter.convert(exs, eex, "kit", "1.0",
+          extra_siblings: MapSet.new(["label", "error", "icon"])
+        )
+
+      assert text["template"] =~ "<.label :if={@label} class={@label_class}>"
+      refute text["template"] =~ ~s|component_name="kit-label"|
+      assert text["template"] =~ ~s|<.component component_name="kit-error"|
+      assert text["template"] =~ ~s|<.component component_name="kit-icon"|
+      assert "label" in Enum.map(text["helpers"], & &1["name"])
+    end
+
+    test "a global's include list built from a module attribute ships every word" do
+      exs = """
+      [sample_dot: [name: "sample_dot", category: "general", args: [], necessary: []]]
+      """
+
+      eex = """
+      defmodule <%= @module %> do
+        use Phoenix.Component
+
+        @positions ["top_left", "bottom_right"]
+
+        attr :rest, :global, include: ~w(pinging circle) ++ @positions ++ ["disabled"]
+
+        def sample_dot(assigns) do
+          ~H\"\"\"
+          <span {@rest}></span>
+          \"\"\"
+        end
+
+        attr :other, :global, include: @positions
+
+        def sample_dot_two(assigns) do
+          ~H\"\"\"
+          <span {@other}></span>
+          \"\"\"
+        end
+      end
+      """
+
+      {:ok, %{components: cps}} = CmsBundleExporter.convert(exs, eex, "kit", "1.0")
+
+      include = fn component, name ->
+        get_in(Enum.find(by_name(cps, component)["attrs"], &(&1["name"] == name)), [
+          "opts",
+          "include"
+        ])
+      end
+
+      assert include.("kit-sample-dot", "rest") ==
+               ["pinging", "circle", "top_left", "bottom_right", "disabled"]
+
+      assert include.("kit-sample-dot-two", "other") == ["top_left", "bottom_right"]
+    end
   end
 
   ## ─── Module-aliased attr type resolution ────────────────────────────
@@ -467,6 +557,70 @@ defmodule MishkaChelekom.CmsBundleExporterTest do
 
       assert btn["extra"]["doc_url"]
       assert btn["type"] != ""
+    end
+  end
+
+  ## ─── What each attribute accepts ──────────────────────────────────
+
+  describe "convert/5 — what each attribute accepts" do
+    setup do
+      exs = File.read!(Path.join(@fixture_dir, "sample_notice.exs"))
+      eex = File.read!(Path.join(@fixture_dir, "sample_notice.eex"))
+      {:ok, %{components: cps}} = CmsBundleExporter.convert(exs, eex, "kit", "1.0")
+
+      {:ok,
+       notice: by_name(cps, "kit-sample-notice"), button: by_name(cps, "kit-sample-notice-button")}
+    end
+
+    defp opts(component, name),
+      do: Enum.find(component["attrs"], &(&1["name"] == name))["opts"]
+
+    # `size_class(params, :text) when is_binary(params)` takes any class: `size="py-1 px-2"` is as
+    # valid as `size="small"`, so the list is shipped as Phoenix's non-exhaustive `examples`.
+    test "an attribute whose helpers all end in a catch-all `is_binary` clause ships `examples`",
+         %{notice: notice} do
+      assert opts(notice, "size")["examples"] == ["small", "large"]
+      refute Map.has_key?(opts(notice, "size"), "values")
+
+      assert opts(notice, "variant")["examples"] == ["default", "outline"]
+      refute Map.has_key?(opts(notice, "variant"), "values")
+    end
+
+    # `examples` has no rule about the default, so an open attribute whose default is `""` keeps a
+    # list a closed one would have to drop.
+    test "an open attribute keeps its list whatever its default", %{notice: notice} do
+      assert opts(notice, "rounded")["default"] == ""
+      assert opts(notice, "rounded")["examples"] == ["small", "large"]
+    end
+
+    test "an attribute a helper without a catch-all also reads stays closed", %{button: button} do
+      assert opts(button, "size")["values"] == ["small", "large"]
+      refute Map.has_key?(opts(button, "size"), "examples")
+    end
+
+    # `sample_notice_button` never reads the `padding` it is handed, so `padding_size/1` alone
+    # decides, and it takes any class string.
+    test "an attribute handed on to another component is read where that component reads it",
+         %{notice: notice} do
+      assert opts(notice, "padding")["examples"] == ["small", "large"]
+      refute Map.has_key?(opts(notice, "padding"), "values")
+    end
+
+    # `kind` is named for no axis, but every clause matching on its position sits inside an
+    # `<%= if … in @color %>`, so it takes the colours — the reason `kind="danger"` drew nothing.
+    test "an attribute in a position an axis gates takes that axis's values", %{notice: notice} do
+      assert opts(notice, "kind")["values"] == ["primary", "danger", "natural"]
+    end
+
+    # `type` and `only` choose which functions the generator writes; they are no attribute's list.
+    test "the generator's function list reaches no attribute", %{button: button} do
+      refute Map.has_key?(opts(button, "type"), "values")
+      refute Map.has_key?(opts(button, "type"), "examples")
+    end
+
+    test "a `values:` the template declares is kept as it is", %{notice: notice} do
+      assert opts(notice, "tone")["values"] == ["soft", "loud"]
+      refute Map.has_key?(opts(notice, "tone"), "examples")
     end
   end
 

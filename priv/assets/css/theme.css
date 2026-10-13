@@ -48,6 +48,8 @@
   --color-primary-bordered-text-dark: var(--primary-bordered-text-dark);
   --color-primary-bordered-bg-light: var(--primary-bordered-bg-light);
   --color-primary-bordered-bg-dark: var(--primary-bordered-bg-dark);
+  --color-primary-bordered-hover-light: var(--primary-bordered-hover-light);
+  --color-primary-bordered-hover-dark: var(--primary-bordered-hover-dark);
   --color-primary-indicator-light: var(--primary-indicator-light);
   --color-primary-indicator-dark: var(--primary-indicator-dark);
 
@@ -59,6 +61,8 @@
   --color-secondary-bordered-text-dark: var(--secondary-bordered-text-dark);
   --color-secondary-bordered-bg-light: var(--secondary-bordered-bg-light);
   --color-secondary-bordered-bg-dark: var(--secondary-bordered-bg-dark);
+  --color-secondary-bordered-hover-light: var(--secondary-bordered-hover-light);
+  --color-secondary-bordered-hover-dark: var(--secondary-bordered-hover-dark);
   --color-secondary-indicator-light: var(--secondary-indicator-light);
   --color-secondary-indicator-dark: var(--secondary-indicator-dark);
 
@@ -70,6 +74,8 @@
   --color-success-bordered-text-dark: var(--success-bordered-text-dark);
   --color-success-bordered-bg-light: var(--success-bordered-bg-light);
   --color-success-bordered-bg-dark: var(--success-bordered-bg-dark);
+  --color-success-bordered-hover-light: var(--success-bordered-hover-light);
+  --color-success-bordered-hover-dark: var(--success-bordered-hover-dark);
   --color-success-indicator-light: var(--success-indicator-light);
   --color-success-indicator-alt-light: var(--success-indicator-alt-light);
   --color-success-indicator-dark: var(--success-indicator-dark);
@@ -82,6 +88,8 @@
   --color-warning-bordered-text-dark: var(--warning-bordered-text-dark);
   --color-warning-bordered-bg-light: var(--warning-bordered-bg-light);
   --color-warning-bordered-bg-dark: var(--warning-bordered-bg-dark);
+  --color-warning-bordered-hover-light: var(--warning-bordered-hover-light);
+  --color-warning-bordered-hover-dark: var(--warning-bordered-hover-dark);
   --color-warning-indicator-light: var(--warning-indicator-light);
   --color-warning-indicator-alt-light: var(--warning-indicator-alt-light);
   --color-warning-indicator-dark: var(--warning-indicator-dark);
@@ -94,6 +102,8 @@
   --color-danger-bordered-text-dark: var(--danger-bordered-text-dark);
   --color-danger-bordered-bg-light: var(--danger-bordered-bg-light);
   --color-danger-bordered-bg-dark: var(--danger-bordered-bg-dark);
+  --color-danger-bordered-hover-light: var(--danger-bordered-hover-light);
+  --color-danger-bordered-hover-dark: var(--danger-bordered-hover-dark);
   --color-danger-indicator-light: var(--danger-indicator-light);
   --color-danger-indicator-alt-light: var(--danger-indicator-alt-light);
   --color-danger-indicator-dark: var(--danger-indicator-dark);
@@ -106,6 +116,8 @@
   --color-info-bordered-text-dark: var(--info-bordered-text-dark);
   --color-info-bordered-bg-light: var(--info-bordered-bg-light);
   --color-info-bordered-bg-dark: var(--info-bordered-bg-dark);
+  --color-info-bordered-hover-light: var(--info-bordered-hover-light);
+  --color-info-bordered-hover-dark: var(--info-bordered-hover-dark);
   --color-info-indicator-light: var(--info-indicator-light);
   --color-info-indicator-alt-light: var(--info-indicator-alt-light);
   --color-info-indicator-dark: var(--info-indicator-dark);
@@ -118,6 +130,8 @@
   --color-misc-bordered-text-dark: var(--misc-bordered-text-dark);
   --color-misc-bordered-bg-light: var(--misc-bordered-bg-light);
   --color-misc-bordered-bg-dark: var(--misc-bordered-bg-dark);
+  --color-misc-bordered-hover-light: var(--misc-bordered-hover-light);
+  --color-misc-bordered-hover-dark: var(--misc-bordered-hover-dark);
   --color-misc-indicator-light: var(--misc-indicator-light);
   --color-misc-indicator-alt-light: var(--misc-indicator-alt-light);
   --color-misc-indicator-dark: var(--misc-indicator-dark);
@@ -130,6 +144,8 @@
   --color-dawn-bordered-text-dark: var(--dawn-bordered-text-dark);
   --color-dawn-bordered-bg-light: var(--dawn-bordered-bg-light);
   --color-dawn-bordered-bg-dark: var(--dawn-bordered-bg-dark);
+  --color-dawn-bordered-hover-light: var(--dawn-bordered-hover-light);
+  --color-dawn-bordered-hover-dark: var(--dawn-bordered-hover-dark);
   --color-dawn-indicator-light: var(--dawn-indicator-light);
   --color-dawn-indicator-alt-light: var(--dawn-indicator-alt-light);
   --color-dawn-indicator-dark: var(--dawn-indicator-dark);
@@ -144,6 +160,8 @@
   --color-silver-bordered-text-dark: var(--silver-bordered-text-dark);
   --color-silver-bordered-bg-light: var(--silver-bordered-bg-light);
   --color-silver-bordered-bg-dark: var(--silver-bordered-bg-dark);
+  --color-silver-bordered-hover-light: var(--silver-bordered-hover-light);
+  --color-silver-bordered-hover-dark: var(--silver-bordered-hover-dark);
   --color-silver-indicator-light: var(--silver-indicator-light);
   --color-silver-indicator-alt-light: var(--silver-indicator-alt-light);
   --color-silver-indicator-dark: var(--silver-indicator-dark);
