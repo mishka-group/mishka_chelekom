@@ -207,6 +207,96 @@ defmodule MishkaChelekom.CmsBundleExporterTest do
       helper_names = Enum.map(btn["helpers"], & &1["name"])
       assert "sample_button_indicator" in helper_names
     end
+
+    test "a file's own defp wins over another file's public function of the same name" do
+      exs = """
+      [sample_text: [name: "sample_text", category: "forms", args: [], necessary: []]]
+      """
+
+      eex = """
+      defmodule <%= @module %> do
+        use Phoenix.Component
+
+        attr :label, :string, default: nil
+        attr :label_class, :string, default: nil
+        attr :errors, :list, default: []
+
+        def sample_text(assigns) do
+          ~H\"\"\"
+          <div>
+            <.label :if={@label} class={@label_class}>{@label}</.label>
+            <.error :for={msg <- @errors}>{msg}</.error>
+            <.icon name="hero-x-mark" />
+          </div>
+          \"\"\"
+        end
+
+        attr :class, :any, default: nil
+        slot :inner_block, required: true
+
+        defp label(assigns) do
+          ~H\"\"\"
+          <label class={["font-semibold", @class]}>{render_slot(@inner_block)}</label>
+          \"\"\"
+        end
+      end
+      """
+
+      {:ok, %{components: [text]}} =
+        CmsBundleExporter.convert(exs, eex, "kit", "1.0",
+          extra_siblings: MapSet.new(["label", "error", "icon"])
+        )
+
+      assert text["template"] =~ "<.label :if={@label} class={@label_class}>"
+      refute text["template"] =~ ~s|component_name="kit-label"|
+      assert text["template"] =~ ~s|<.component component_name="kit-error"|
+      assert text["template"] =~ ~s|<.component component_name="kit-icon"|
+      assert "label" in Enum.map(text["helpers"], & &1["name"])
+    end
+
+    test "a global's include list built from a module attribute ships every word" do
+      exs = """
+      [sample_dot: [name: "sample_dot", category: "general", args: [], necessary: []]]
+      """
+
+      eex = """
+      defmodule <%= @module %> do
+        use Phoenix.Component
+
+        @positions ["top_left", "bottom_right"]
+
+        attr :rest, :global, include: ~w(pinging circle) ++ @positions ++ ["disabled"]
+
+        def sample_dot(assigns) do
+          ~H\"\"\"
+          <span {@rest}></span>
+          \"\"\"
+        end
+
+        attr :other, :global, include: @positions
+
+        def sample_dot_two(assigns) do
+          ~H\"\"\"
+          <span {@other}></span>
+          \"\"\"
+        end
+      end
+      """
+
+      {:ok, %{components: cps}} = CmsBundleExporter.convert(exs, eex, "kit", "1.0")
+
+      include = fn component, name ->
+        get_in(Enum.find(by_name(cps, component)["attrs"], &(&1["name"] == name)), [
+          "opts",
+          "include"
+        ])
+      end
+
+      assert include.("kit-sample-dot", "rest") ==
+               ["pinging", "circle", "top_left", "bottom_right", "disabled"]
+
+      assert include.("kit-sample-dot-two", "other") == ["top_left", "bottom_right"]
+    end
   end
 
   ## ─── Module-aliased attr type resolution ────────────────────────────
