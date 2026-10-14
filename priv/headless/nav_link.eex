@@ -14,7 +14,7 @@ defmodule <%= @module %> do
 
   Ships **no** styling — style via `chelekom-nav-link*` and the `data-active` / `[open]` hooks.
 
-  **Documentation:** https://mishka.tools/chelekom/docs/headless/nav_link
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/nav-link
   """
   use Phoenix.Component
 

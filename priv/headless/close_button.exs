@@ -2,7 +2,7 @@
   close_button: [
     name: "close_button",
     category: "buttons",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/close_button",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/close-button",
     spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/button/",
     args: [type: ["close_button"], only: ["close_button"], helpers: [], module: ""],
     optional: [],

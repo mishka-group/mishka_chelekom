@@ -12,7 +12,7 @@ defmodule DevelopmentWeb.Components.Headless.TreeSelect do
 
   Ships **no** styling — style via `chelekom-tree-select*`.
 
-  **Documentation:** https://mishka.tools/chelekom/docs/headless/tree_select
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/tree-select
   """
   use Phoenix.Component
   alias Phoenix.LiveView.JS

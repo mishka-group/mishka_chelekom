@@ -12,7 +12,7 @@ defmodule <%= @module %> do
 
   Ships **no** styling — style via `chelekom-angle-slider` and its parts.
 
-  **Documentation:** https://mishka.tools/chelekom/docs/headless/angle_slider
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/angle-slider
   """
   use Phoenix.Component
 

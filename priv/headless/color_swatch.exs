@@ -2,7 +2,7 @@
   color_swatch: [
     name: "color_swatch",
     category: "data display",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/color_swatch",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/color-swatch",
     spec_url: "https://www.w3.org/WAI/ARIA/apg/",
     args: [type: ["color_swatch"], only: ["color_swatch"], helpers: [], module: ""],
     optional: [],

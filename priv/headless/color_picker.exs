@@ -2,7 +2,7 @@
   color_picker: [
     name: "color_picker",
     category: "forms",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/color_picker",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/color-picker",
     spec_url: "https://www.w3.org/WAI/ARIA/apg/",
     args: [type: ["color_picker"], only: ["color_picker"], helpers: [], module: ""],
     optional: [],

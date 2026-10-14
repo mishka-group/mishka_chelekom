@@ -10,7 +10,7 @@ defmodule <%= @module %> do
 
   Ships **no** styling — style via `chelekom-floating-indicator` and its parts.
 
-  **Documentation:** https://mishka.tools/chelekom/docs/headless/floating_indicator
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/floating-indicator
   """
   use Phoenix.Component
 

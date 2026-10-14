@@ -2,7 +2,7 @@
   visually_hidden: [
     name: "visually_hidden",
     category: "misc",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/visually_hidden",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/visually-hidden",
     spec_url: "https://www.w3.org/WAI/ARIA/apg/",
     args: [type: ["visually_hidden"], only: ["visually_hidden"], helpers: [], module: ""],
     optional: [],

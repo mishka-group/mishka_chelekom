@@ -2,7 +2,7 @@
   rolling_number: [
     name: "rolling_number",
     category: "data display",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/rolling_number",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/rolling-number",
     spec_url: "https://www.w3.org/WAI/ARIA/apg/",
     args: [type: ["rolling_number"], only: ["rolling_number"], helpers: [], module: ""],
     optional: [],

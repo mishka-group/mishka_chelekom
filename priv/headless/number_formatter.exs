@@ -2,7 +2,7 @@
   number_formatter: [
     name: "number_formatter",
     category: "data display",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/number_formatter",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/number-formatter",
     spec_url: "https://www.w3.org/WAI/ARIA/apg/",
     args: [type: ["number_formatter"], only: ["number_formatter"], helpers: [], module: ""],
     optional: [],

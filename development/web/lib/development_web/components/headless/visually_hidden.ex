@@ -6,7 +6,7 @@ defmodule DevelopmentWeb.Components.Headless.VisuallyHidden do
   Applies the standard visually-hidden CSS inline so it works with **no** stylesheet —
   use it for extra labels, live-region text, or skip-link content.
 
-  **Documentation:** https://mishka.tools/chelekom/docs/headless/visually_hidden
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/visually-hidden
   """
   use Phoenix.Component
 

@@ -9,7 +9,7 @@ defmodule DevelopmentWeb.Components.Headless.ActionIcon do
 
   WAI-ARIA APG: Button pattern.
 
-  **Documentation:** https://mishka.tools/chelekom/docs/headless/action_icon
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/action-icon
   """
   use Phoenix.Component
 

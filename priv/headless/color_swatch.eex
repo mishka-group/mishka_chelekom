@@ -10,7 +10,7 @@ defmodule <%= @module %> do
 
   Ships **no** sizing or shape — style via `chelekom-color-swatch`.
 
-  **Documentation:** https://mishka.tools/chelekom/docs/headless/color_swatch
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/color-swatch
   """
   use Phoenix.Component
 

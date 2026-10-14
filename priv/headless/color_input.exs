@@ -2,7 +2,7 @@
   color_input: [
     name: "color_input",
     category: "forms",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/color_input",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/color-input",
     spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/",
     args: [type: ["color_input"], only: ["color_input"], helpers: [], module: ""],
     optional: [],

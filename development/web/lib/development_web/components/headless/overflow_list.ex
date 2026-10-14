@@ -11,7 +11,7 @@ defmodule DevelopmentWeb.Components.Headless.OverflowList do
 
   Ships **no** styling — style via `chelekom-overflow-list` and hide `[data-hidden]` parts yourself.
 
-  **Documentation:** https://mishka.tools/chelekom/docs/headless/overflow_list
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/overflow-list
   """
   use Phoenix.Component
 

@@ -2,7 +2,7 @@
   text_input: [
     name: "text_input",
     category: "forms",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/text_input",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/text-input",
     spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/textbox/",
     args: [type: ["text_input"], only: ["text_input"], helpers: [], module: ""],
     optional: [],

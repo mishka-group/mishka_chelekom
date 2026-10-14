@@ -20,7 +20,7 @@ defmodule <%= @module %> do
   Ships **no** colors, sizing or spacing — style via `chelekom-file-input` and the
   `data-invalid` / `data-disabled` hooks.
 
-  **Documentation:** https://mishka.tools/chelekom/docs/headless/file_input
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/file-input
   """
   use Phoenix.Component
 

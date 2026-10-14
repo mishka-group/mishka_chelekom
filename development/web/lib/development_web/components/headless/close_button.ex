@@ -13,7 +13,7 @@ defmodule DevelopmentWeb.Components.Headless.CloseButton do
 
   WAI-ARIA APG: Button pattern. Keep the `label` meaningful (e.g. "Close dialog").
 
-  **Documentation:** https://mishka.tools/chelekom/docs/headless/close_button
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/close-button
   """
   use Phoenix.Component
 

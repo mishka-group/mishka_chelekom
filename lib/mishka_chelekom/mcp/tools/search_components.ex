@@ -198,7 +198,7 @@ defmodule MishkaChelekom.MCP.Tools.SearchComponents do
         name: name,
         category: category,
         generator: "mix mishka.ui.gen.component #{name}",
-        docs: "https://mishka.tools/chelekom/docs/#{name}"
+        docs: MishkaChelekom.MCP.ComponentConfig.get_doc_url(name)
       }
     end)
   end

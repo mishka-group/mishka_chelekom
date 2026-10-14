@@ -23,7 +23,7 @@ defmodule DevelopmentWeb.Components.Headless.TextInput do
   Ships **no** colors, sizing or spacing — style via `chelekom-text-input*` and the
   `data-invalid` / `data-valid` / `data-disabled` hooks.
 
-  **Documentation:** https://mishka.tools/chelekom/docs/headless/text_input
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/text-input
   """
   use Phoenix.Component
 

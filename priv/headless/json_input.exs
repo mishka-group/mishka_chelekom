@@ -2,7 +2,7 @@
   json_input: [
     name: "json_input",
     category: "forms",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/json_input",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/json-input",
     spec_url: "https://www.w3.org/WAI/ARIA/apg/",
     args: [type: ["json_input"], only: ["json_input"], helpers: [], module: ""],
     optional: [],

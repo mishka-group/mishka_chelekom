@@ -2,7 +2,7 @@
   file_input: [
     name: "file_input",
     category: "forms",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/file_input",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/file-input",
     spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/textbox/",
     args: [type: ["file_input"], only: ["file_input"], helpers: [], module: ""],
     optional: [],

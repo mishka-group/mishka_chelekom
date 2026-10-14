@@ -2,7 +2,7 @@
   tree_select: [
     name: "tree_select",
     category: "forms",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/tree_select",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/tree-select",
     spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/combobox/",
     args: [type: ["tree_select"], only: ["tree_select"], helpers: [], module: ""],
     optional: [],

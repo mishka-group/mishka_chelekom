@@ -2,7 +2,7 @@
   overflow_list: [
     name: "overflow_list",
     category: "data",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/overflow_list",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/overflow-list",
     spec_url: "https://www.w3.org/WAI/ARIA/apg/",
     args: [type: ["overflow_list"], only: ["overflow_list"], helpers: [], module: ""],
     optional: [],

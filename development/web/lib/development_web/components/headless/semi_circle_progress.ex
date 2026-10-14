@@ -12,7 +12,7 @@ defmodule DevelopmentWeb.Components.Headless.SemiCircleProgress do
 
   Ships **no** styling — style via `chelekom-semi-circle-progress*`.
 
-  **Documentation:** https://mishka.tools/chelekom/docs/headless/semi_circle_progress
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/semi-circle-progress
   """
   use Phoenix.Component
 

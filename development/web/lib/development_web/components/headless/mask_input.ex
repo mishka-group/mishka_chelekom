@@ -10,7 +10,7 @@ defmodule DevelopmentWeb.Components.Headless.MaskInput do
 
   Ships **no** styling — style via `chelekom-mask-input`.
 
-  **Documentation:** https://mishka.tools/chelekom/docs/headless/mask_input
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/mask-input
   """
   use Phoenix.Component
 

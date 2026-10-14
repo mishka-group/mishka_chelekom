@@ -2,7 +2,7 @@
   action_icon: [
     name: "action_icon",
     category: "buttons",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/action_icon",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/action-icon",
     spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/button/",
     args: [type: ["action_icon"], only: ["action_icon"], helpers: [], module: ""],
     optional: [],

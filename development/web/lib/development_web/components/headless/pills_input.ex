@@ -10,7 +10,7 @@ defmodule DevelopmentWeb.Components.Headless.PillsInput do
 
   Ships **no** styling — style via `chelekom-pills-input*` and the `data-disabled` hook.
 
-  **Documentation:** https://mishka.tools/chelekom/docs/headless/pills_input
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/pills-input
   """
   use Phoenix.Component
   alias Phoenix.LiveView.JS
