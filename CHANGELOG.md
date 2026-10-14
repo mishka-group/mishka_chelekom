@@ -42,7 +42,8 @@
 - The floating hook (dropdown, popover, tooltip) measures its content out of the flow. The content
   is moved to `<body>` and was measured as a static block there, as wide as the page, before it was
   made absolute, so the viewport clamp pushed a menu opening under its trigger to the left edge of the
-  page. It is made absolute before it is measured
+  page. It is made absolute, and given its width, before it is measured; the first open of a menu
+  whose classes stretch it to the page's width was still measured page-wide
 - The CMS bundle's value lists come from the axis an attribute is gated on, not only from its name.
   `alert` and `flash` take their colour through `kind`, which carried no list, so a consumer that
   casts values dropped `kind="danger"` and every alert drew `natural`; `kind` now carries the

@@ -435,6 +435,16 @@ const Floating = {
     }
   },
 
+  // The content sits in <body>, where a static block stretches to the page's width. It is taken
+  // out of the flow before any size is read, so every size read is its own.
+  takeOutOfFlow(content) {
+    if (content.style.position !== "absolute") {
+      content.style.position = "absolute";
+      content.style.left = "0px";
+      content.style.top = "0px";
+    }
+  },
+
   // Places the content while it is shown; hidden content is left where it is, so a scroll or a
   // resize measures only the open ones.
   updatePosition() {
@@ -451,13 +461,7 @@ const Floating = {
 
     const content = this.floatingContent;
 
-    // The content sits in <body>, where a static block stretches to the page's width. It is taken
-    // out of the flow first so every size read below is its own.
-    if (content.style.position !== "absolute") {
-      content.style.position = "absolute";
-      content.style.left = "0px";
-      content.style.top = "0px";
-    }
+    this.takeOutOfFlow(content);
 
     const rect = this.trigger.getBoundingClientRect();
     const gap = 5;
@@ -572,17 +576,20 @@ const Floating = {
     content.style.transition = "none";
 
     this.setVisibility(content, true);
-    this.updatePosition();
+    this.takeOutOfFlow(content);
 
-    const triggerWidth = this.trigger.offsetWidth;
+    // The width is settled before the content is placed: a class can stretch the content to the
+    // page's width until it has one of its own, and the placement clamps by what it measures.
     if (!this.forcedWidth) {
-      const contentWidth = content.offsetWidth;
-      if (contentWidth < triggerWidth) {
+      content.style.width = "auto";
+      const triggerWidth = this.trigger.offsetWidth;
+      if (content.offsetWidth < triggerWidth) {
         this.forcedWidth = triggerWidth;
       }
     }
 
     content.style.width = this.forcedWidth ? `${this.forcedWidth}px` : "auto";
+    this.updatePosition();
 
     content.offsetHeight;
     content.style.transition = transition;

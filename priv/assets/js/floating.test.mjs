@@ -33,7 +33,9 @@ class FakeElement {
 
   get offsetWidth() {
     reads.push("offsetWidth");
-    return this.staticWidth && this.style.position !== "absolute" ? this.staticWidth : 120;
+    const stretched =
+      this.staticWidth && (this.style.position !== "absolute" || !this.style.width);
+    return stretched ? this.staticWidth : 120;
   }
 
   get offsetHeight() {
@@ -247,4 +249,17 @@ test("content already placed keeps its place while it is measured again", () => 
 
   assert.ok(seen.length > 0);
   assert.ok(seen.every((left) => left === "777px"));
+});
+
+test("the first show settles the width before it places a content a class stretches to the page", () => {
+  const { hook, content } = mount({}, 1280);
+  hook.show();
+
+  assert.equal(content.style.width, "auto");
+  assert.equal(content.style.left, `${(50 + 150) / 2}px`);
+  assert.equal(content.style.transform, "translateX(-50%)");
+
+  hook.hide();
+  hook.show();
+  assert.equal(content.style.left, `${(50 + 150) / 2}px`);
 });
