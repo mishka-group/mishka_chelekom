@@ -449,8 +449,17 @@ const Floating = {
       this.trigger.style.display = "inline-block";
     }
 
-    const rect = this.trigger.getBoundingClientRect();
     const content = this.floatingContent;
+
+    // The content sits in <body>, where a static block stretches to the page's width. It is taken
+    // out of the flow first so every size read below is its own.
+    if (content.style.position !== "absolute") {
+      content.style.position = "absolute";
+      content.style.left = "0px";
+      content.style.top = "0px";
+    }
+
+    const rect = this.trigger.getBoundingClientRect();
     const gap = 5;
     let pos = this.position;
 
@@ -546,7 +555,6 @@ const Floating = {
       }
     }
 
-    content.style.position = "absolute";
     content.style.top = `${top}px`;
     content.style.left = `${left}px`;
 
