@@ -44,6 +44,7 @@ defmodule DevelopmentWeb.Components.Timeline do
     <.timeline_section
       size="double_large"
       image="https://example.com/profile.jpg"
+      alt="Profile photo"
     >
       <.card padding="large" rounded="large">
         <div class="items-center justify-between">
@@ -69,6 +70,7 @@ defmodule DevelopmentWeb.Components.Timeline do
     <.timeline_section
       size="double_large"
       image="https://example.com/profile.jpg"
+      alt="Profile photo"
     >
       <.card padding="large" rounded="large">
         <div class="items-center justify-between mb-3 sm:flex">
@@ -158,6 +160,7 @@ defmodule DevelopmentWeb.Components.Timeline do
   <.timeline_section
     size="double_large"
     image="https://example.com/profile.jpg"
+    alt="Profile photo"
   >
     <.card padding="large" rounded="large">
       <div class="items-center justify-between mb-3 sm:flex">
@@ -197,6 +200,11 @@ defmodule DevelopmentWeb.Components.Timeline do
 
   attr :bullet_icon, :string, default: nil, doc: "Determines bullet icon"
   attr :image, :string, default: nil, doc: "Image displayed alongside of an item"
+
+  attr :alt, :string,
+    default: "",
+    doc: "Alternative text of the image, an empty string marks it as decorative"
+
   attr :title, :string, default: nil, doc: "Specifies the title of the element"
   attr :time, :string, default: nil, doc: "Specifies the time"
   attr :description, :string, default: nil, doc: "Determines a short description"
@@ -271,7 +279,7 @@ defmodule DevelopmentWeb.Components.Timeline do
           bullet_size(@size),
           @bullet_class
         ]}>
-          <img class={["rounded-full shadow-md", @image_class]} src={@image} alt={@image} />
+          <img class={["rounded-full shadow-md", @image_class]} src={@image} alt={@alt} />
         </div>
         <div class={[
           "timeline-horizontal-line hidden sm:flex w-full",
@@ -349,7 +357,7 @@ defmodule DevelopmentWeb.Components.Timeline do
             bullet_size(@size),
             @bullet_class
           ]}>
-            <img class={["rounded-full shadow-md", @image_class]} src={@image} alt={@image} />
+            <img class={["rounded-full shadow-md", @image_class]} src={@image} alt={@alt} />
           </div>
         </div>
       </div>

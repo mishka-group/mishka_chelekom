@@ -19,6 +19,7 @@ defmodule DevelopmentWeb.Components.PasswordField do
   use Phoenix.Component
   alias Phoenix.LiveView.JS
   import Phoenix.LiveView.Utils, only: [random_id: 0]
+  use Gettext, backend: DevelopmentWeb.Gettext
   import DevelopmentWeb.Components.Icon, only: [icon: 1]
 
   @doc """
@@ -201,10 +202,14 @@ defmodule DevelopmentWeb.Components.PasswordField do
           class={["flex items-center justify-center shrink-0 pe-2", @show_pass_class]}
         >
           <button
+            type="button"
             class="leading-6 focus:outline-none"
+            aria-label={gettext("Show password")}
+            aria-pressed="false"
             phx-click={
               JS.toggle_class("hero-eye-slash password-field-icon")
               |> JS.toggle_attribute({"type", "password", "text"}, to: "##{@id}")
+              |> JS.toggle_attribute({"aria-pressed", "true", "false"})
             }
           >
             <.icon name="hero-eye" class="password-field-icon" />
@@ -277,10 +282,14 @@ defmodule DevelopmentWeb.Components.PasswordField do
           class={["flex items-center justify-center shrink-0 pe-2", @show_pass_class]}
         >
           <button
+            type="button"
             class="leading-6 focus:outline-none"
+            aria-label={gettext("Show password")}
+            aria-pressed="false"
             phx-click={
               JS.toggle_class("hero-eye-slash password-field-icon")
               |> JS.toggle_attribute({"type", "password", "text"}, to: "##{@id}")
+              |> JS.toggle_attribute({"aria-pressed", "true", "false"})
             }
           >
             <.icon name="hero-eye" class="password-field-icon" />

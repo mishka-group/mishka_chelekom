@@ -16,6 +16,7 @@ defmodule DevelopmentWeb.Components.SearchField do
   """
   use Phoenix.Component
   import DevelopmentWeb.Components.Icon, only: [icon: 1]
+  use Gettext, backend: DevelopmentWeb.Gettext
 
   @doc """
   Renders a `search_field` component that allows users to input search queries.
@@ -197,7 +198,11 @@ defmodule DevelopmentWeb.Components.SearchField do
           :if={@search_button}
           class={["flex items-center justify-center shrink-0 pe-2", @search_button_class]}
         >
-          <button class="flex items-center justify-center leading-5 focus:outline-none">
+          <button
+            type="submit"
+            class="flex items-center justify-center leading-5 focus:outline-none"
+            aria-label={gettext("Search")}
+          >
             <.icon name="hero-magnifying-glass" class="search-field-icon" />
           </button>
         </div>
@@ -268,7 +273,11 @@ defmodule DevelopmentWeb.Components.SearchField do
           :if={@search_button}
           class={["flex items-center justify-center shrink-0 pe-2", @search_button_class]}
         >
-          <button class="flex items-center justify-center leading-5 focus:outline-none">
+          <button
+            type="submit"
+            class="flex items-center justify-center leading-5 focus:outline-none"
+            aria-label={gettext("Search")}
+          >
             <.icon name="hero-magnifying-glass" class="search-field-icon" />
           </button>
         </div>
