@@ -12,7 +12,7 @@ defmodule DevelopmentWeb.Components.Headless.ColorInput do
 
   Ships **no** styling — style via `chelekom-color-input*`.
 
-  **Documentation:** https://mishka.tools/chelekom/docs/headless/color_input
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/color-input
   """
   use Phoenix.Component
   alias Phoenix.LiveView.JS

@@ -2,7 +2,7 @@
   angle_slider: [
     name: "angle_slider",
     category: "forms",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/angle_slider",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/angle-slider",
     spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/slider/",
     args: [type: ["angle_slider"], only: ["angle_slider"], helpers: [], module: ""],
     optional: [],

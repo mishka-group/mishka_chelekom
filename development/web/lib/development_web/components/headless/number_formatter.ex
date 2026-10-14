@@ -7,7 +7,7 @@ defmodule DevelopmentWeb.Components.Headless.NumberFormatter do
 
   Ships **no** styling — style via `chelekom-number-formatter`.
 
-  **Documentation:** https://mishka.tools/chelekom/docs/headless/number_formatter
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/number-formatter
   """
   use Phoenix.Component
 

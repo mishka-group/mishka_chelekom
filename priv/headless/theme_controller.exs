@@ -2,7 +2,7 @@
   theme_controller: [
     name: "theme_controller",
     category: "actions",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/theme_controller",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/theme-controller",
     spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/radio/",
     args: [type: ["theme_controller"], only: ["theme_controller"], helpers: [], module: ""],
     optional: [],

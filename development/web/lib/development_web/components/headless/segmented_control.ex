@@ -13,7 +13,7 @@ defmodule DevelopmentWeb.Components.Headless.SegmentedControl do
 
   WAI-ARIA APG: Radio group (the native radios carry the semantics).
 
-  **Documentation:** https://mishka.tools/chelekom/docs/headless/segmented_control
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/segmented-control
   """
   use Phoenix.Component
 

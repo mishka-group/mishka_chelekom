@@ -16,7 +16,7 @@ defmodule <%= @module %> do
   WAI-ARIA: a text field plus removable token buttons; each remove button is labelled
   ("Remove <tag>"). For suggestions/autocomplete, compose with the `autocomplete` component.
 
-  **Documentation:** https://mishka.tools/chelekom/docs/headless/tags_input
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/tags-input
   """
   use Phoenix.Component
   alias Phoenix.LiveView.JS

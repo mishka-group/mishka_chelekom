@@ -9,7 +9,7 @@ defmodule DevelopmentWeb.Components.Headless.JsonInput do
 
   Ships **no** styling — style via `chelekom-json-input` and the `data-invalid` hook.
 
-  **Documentation:** https://mishka.tools/chelekom/docs/headless/json_input
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/json-input
   """
   use Phoenix.Component
 

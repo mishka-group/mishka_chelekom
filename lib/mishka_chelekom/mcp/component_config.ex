@@ -56,7 +56,7 @@ defmodule MishkaChelekom.MCP.ComponentConfig do
         name: name_str,
         category: Keyword.get(config, :category, "general"),
         generator: "mix mishka.ui.gen.component #{name_str}",
-        docs: Keyword.get(config, :doc_url, "https://mishka.tools/chelekom/docs/#{name_str}")
+        docs: Keyword.get(config, :doc_url, default_doc_url(name_str))
       }
     end)
   end
@@ -70,16 +70,15 @@ defmodule MishkaChelekom.MCP.ComponentConfig do
     case get_component(name) do
       nil ->
         # Default URL for unknown components
-        url_name = String.replace(name, "_", "-")
-        "https://mishka.tools/chelekom/docs/#{url_name}"
+        default_doc_url(name)
 
       config ->
-        Keyword.get(
-          config,
-          :doc_url,
-          "https://mishka.tools/chelekom/docs/#{String.replace(name, "_", "-")}"
-        )
+        Keyword.get(config, :doc_url, default_doc_url(name))
     end
+  end
+
+  defp default_doc_url(name) do
+    "https://mishka.tools/chelekom/docs/" <> String.replace(name, "_", "-")
   end
 
   @doc """
@@ -89,8 +88,7 @@ defmodule MishkaChelekom.MCP.ComponentConfig do
     load_all()
     |> Enum.map(fn {name, config} ->
       name_str = to_string(name)
-      url = Keyword.get(config, :doc_url, "https://mishka.tools/chelekom/docs/#{name_str}")
-      {name_str, url}
+      {name_str, Keyword.get(config, :doc_url, default_doc_url(name_str))}
     end)
     |> Enum.into(%{})
   end

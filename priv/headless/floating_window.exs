@@ -2,7 +2,7 @@
   floating_window: [
     name: "floating_window",
     category: "overlays",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/floating_window",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/floating-window",
     spec_url: "https://www.w3.org/TR/wai-aria-1.2/#dialog",
     args: [type: ["floating_window"], only: ["floating_window"], helpers: [], module: ""],
     optional: [],

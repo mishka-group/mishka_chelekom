@@ -12,7 +12,7 @@ defmodule DevelopmentWeb.Components.Headless.FloatingWindow do
   The root must be **positioned** — put it inside a `position: relative` stage and give it
   `absolute`. Ships **no** styling otherwise — style via `chelekom-floating-window` and its parts.
 
-  **Documentation:** https://mishka.tools/chelekom/docs/headless/floating_window
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/floating-window
   """
   use Phoenix.Component
 

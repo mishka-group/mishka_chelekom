@@ -8,7 +8,7 @@ defmodule DevelopmentWeb.Components.Headless.ColorPicker do
 
   Ships **no** styling — style via `chelekom-color-picker*`.
 
-  **Documentation:** https://mishka.tools/chelekom/docs/headless/color_picker
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/color-picker
   """
   use Phoenix.Component
 

@@ -11,7 +11,7 @@ defmodule <%= @module %> do
 
   Ships **no** styling — style via `chelekom-loading-overlay` and the `data-visible` hook.
 
-  **Documentation:** https://mishka.tools/chelekom/docs/headless/loading_overlay
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/loading-overlay
   """
   use Phoenix.Component
 

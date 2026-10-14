@@ -21,7 +21,7 @@ defmodule DevelopmentWeb.Components.Headless.ThemeController do
 
   Ships **no** colors, sizing or spacing — style via `chelekom-theme-controller*`.
 
-  **Documentation:** https://mishka.tools/chelekom/docs/headless/theme_controller
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/theme-controller
   """
   use Phoenix.Component
 

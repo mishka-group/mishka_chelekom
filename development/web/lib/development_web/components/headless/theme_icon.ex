@@ -7,7 +7,7 @@ defmodule DevelopmentWeb.Components.Headless.ThemeIcon do
 
   Ships **no** styling — style via `chelekom-theme-icon`.
 
-  **Documentation:** https://mishka.tools/chelekom/docs/headless/theme_icon
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/theme-icon
   """
   use Phoenix.Component
 

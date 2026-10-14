@@ -2,7 +2,7 @@
   semi_circle_progress: [
     name: "semi_circle_progress",
     category: "feedback",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/semi_circle_progress",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/semi-circle-progress",
     spec_url: "https://www.w3.org/TR/wai-aria-1.2/#progressbar",
     args: [type: ["semi_circle_progress"], only: ["semi_circle_progress"], helpers: [], module: ""],
     optional: [],

@@ -2,7 +2,7 @@
   tags_input: [
     name: "tags_input",
     category: "forms",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/tags_input",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/tags-input",
     spec_url: "https://www.w3.org/WAI/ARIA/apg/",
     args: [type: ["tags_input"], only: ["tags_input"], helpers: [], module: ""],
     optional: [],

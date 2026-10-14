@@ -9,7 +9,7 @@ defmodule DevelopmentWeb.Components.Headless.RollingNumber do
 
   Ships **no** styling — style via `chelekom-rolling-number`.
 
-  **Documentation:** https://mishka.tools/chelekom/docs/headless/rolling_number
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/rolling-number
   """
   use Phoenix.Component
 

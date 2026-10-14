@@ -11,7 +11,7 @@ defmodule <%= @module %> do
 
   WAI-ARIA APG: Slider pattern.
 
-  **Documentation:** https://mishka.tools/chelekom/docs/headless/alpha_slider
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/alpha-slider
   """
   use Phoenix.Component
 

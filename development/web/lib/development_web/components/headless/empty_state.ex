@@ -18,7 +18,7 @@ defmodule DevelopmentWeb.Components.Headless.EmptyState do
   `aria-live="polite"` region) via `rest` so assistive tech announces it. The indicator is
   decorative; keep meaningful information in the title/description text.
 
-  **Documentation:** https://mishka.tools/chelekom/docs/headless/empty_state
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/empty-state
   """
   use Phoenix.Component
 

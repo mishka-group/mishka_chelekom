@@ -2,7 +2,7 @@
   loading_overlay: [
     name: "loading_overlay",
     category: "feedback",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/loading_overlay",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/loading-overlay",
     spec_url: "https://www.w3.org/TR/wai-aria-1.2/#aria-live",
     args: [type: ["loading_overlay"], only: ["loading_overlay"], helpers: [], module: ""],
     optional: [],

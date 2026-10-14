@@ -2,7 +2,7 @@
   theme_icon: [
     name: "theme_icon",
     category: "data display",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/theme_icon",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/theme-icon",
     spec_url: "https://www.w3.org/WAI/ARIA/apg/",
     args: [type: ["theme_icon"], only: ["theme_icon"], helpers: [], module: ""],
     optional: [],

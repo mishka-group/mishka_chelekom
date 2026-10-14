@@ -10,7 +10,7 @@ defmodule DevelopmentWeb.Components.Headless.HueSlider do
 
   WAI-ARIA APG: Slider pattern.
 
-  **Documentation:** https://mishka.tools/chelekom/docs/headless/hue_slider
+  **Documentation:** https://mishka.tools/chelekom/docs/headless/hue-slider
   """
   use Phoenix.Component
 

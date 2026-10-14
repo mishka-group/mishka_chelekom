@@ -2,7 +2,7 @@
   segmented_control: [
     name: "segmented_control",
     category: "forms",
-    doc_url: "https://mishka.tools/chelekom/docs/headless/segmented_control",
+    doc_url: "https://mishka.tools/chelekom/docs/headless/segmented-control",
     spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/radio/",
     args: [type: ["segmented_control"], only: ["segmented_control"], helpers: [], module: ""],
     optional: [],
