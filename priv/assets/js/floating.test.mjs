@@ -33,7 +33,9 @@ class FakeElement {
 
   get offsetWidth() {
     reads.push("offsetWidth");
-    return 120;
+    const stretched =
+      this.staticWidth && (this.style.position !== "absolute" || !this.style.width);
+    return stretched ? this.staticWidth : 120;
   }
 
   get offsetHeight() {
@@ -156,7 +158,7 @@ beforeEach(() => {
 
 const { default: Floating } = await import("./floating.js");
 
-function mount(attrs = {}) {
+function mount(attrs = {}, staticWidth = null) {
   const el = new FakeElement("div", { "data-clickable": "true", ...attrs });
   const trigger = new FakeElement("button", { "data-floating-trigger": "" });
   const content = new FakeElement("div", { "data-floating-content": "", role: "menu" });
@@ -167,6 +169,7 @@ function mount(attrs = {}) {
   const hook = Object.create(Floating);
   hook.el = el;
   hook.mounted();
+  content.staticWidth = staticWidth;
   return { hook, trigger, content };
 }
 
@@ -211,4 +214,52 @@ test("a content placed beside its trigger reads the page's direction when it is 
   hook.show();
   assert.ok(reads.includes("getComputedStyle"));
   assert.equal(content.style.left, `${150 + 5}px`);
+});
+
+test("the content is measured at its own size, not the width of a body it has not left yet", () => {
+  const { hook, content } = mount({}, 1280);
+  hook.show();
+
+  assert.equal(content.style.left, `${(50 + 150) / 2}px`);
+  assert.equal(content.style.transform, "translateX(-50%)");
+});
+
+test("smart positioning measures the content out of the flow too", () => {
+  const { hook, content } = mount(
+    { "data-smart-position": "true", "data-position": "right" },
+    1280,
+  );
+  hook.show();
+
+  assert.equal(content.style.left, `${150 + 5}px`);
+});
+
+test("content already placed keeps its place while it is measured again", () => {
+  const { hook, content } = mount({}, 1280);
+  hook.show();
+  content.style.left = "777px";
+  const seen = [];
+  Object.defineProperty(content, "offsetHeight", {
+    get() {
+      seen.push(content.style.left);
+      return 40;
+    },
+  });
+  hook.updatePosition();
+
+  assert.ok(seen.length > 0);
+  assert.ok(seen.every((left) => left === "777px"));
+});
+
+test("the first show settles the width before it places a content a class stretches to the page", () => {
+  const { hook, content } = mount({}, 1280);
+  hook.show();
+
+  assert.equal(content.style.width, "auto");
+  assert.equal(content.style.left, `${(50 + 150) / 2}px`);
+  assert.equal(content.style.transform, "translateX(-50%)");
+
+  hook.hide();
+  hook.show();
+  assert.equal(content.style.left, `${(50 + 150) / 2}px`);
 });
