@@ -80,6 +80,14 @@ defmodule <%= @module %> do
 
   attr :indicator, :boolean, default: false, doc: "Specifies whether to show element indicators"
   attr :control, :boolean, default: true, doc: "Determines whether to show navigation controls"
+
+  attr :previous_label, :string,
+    default: nil,
+    doc: "Accessible name of the previous button, translated \"Previous slide\" when not set"
+
+  attr :next_label, :string,
+    default: nil,
+    doc: "Accessible name of the next button, translated \"Next slide\" when not set"
   attr :active_index, :integer, default: 0, doc: "Index of the active slide (starts at 0)"
   attr :autoplay, :boolean, default: false, doc: "Enable or disable autoplay functionality"
 
@@ -157,7 +165,9 @@ defmodule <%= @module %> do
     >
       <button
         :if={@control}
+        type="button"
         id={"#{@id}-carousel-prev"}
+        aria-label={@previous_label || gettext("Previous slide")}
         class="absolute left-0 inset-y-0 z-20 p-4 bg-black/10 hover:bg-black/30 transition focus:outline-none"
       >
         <.<%= @component_prefix %>icon name="hero-chevron-left" class="size-7 text-white" />
@@ -165,7 +175,9 @@ defmodule <%= @module %> do
 
       <button
         :if={@control}
+        type="button"
         id={"#{@id}-carousel-next"}
+        aria-label={@next_label || gettext("Next slide")}
         class="absolute right-0 inset-y-0 z-20 p-4 bg-black/10 hover:bg-black/30 transition focus:outline-none"
       >
         <.<%= @component_prefix %>icon name="hero-chevron-right" class="size-7 text-white" />
