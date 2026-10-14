@@ -42,17 +42,20 @@ defmodule DevelopmentWeb.Components.Carousel do
       title="This is a dummy title 1"
       description="This is a description for our carousel and this is a dummy text"
       image="https://example.com/slides/1.webp"
+      alt="Carousel slide 1"
       navigate="/examples/navbar"
     />
     <:slide
       content_position="center"
       title="This is a dummy title 2"
       image="https://example.com/slides/2.webp"
+      alt="Carousel slide 2"
     />
     <:slide
       content_position="start"
       title="This is a dummy title 3"
       image="https://example.com/slides/3.webp"
+      alt="Carousel slide 3"
     />
   </.carousel>
   ```
@@ -77,6 +80,15 @@ defmodule DevelopmentWeb.Components.Carousel do
 
   attr :indicator, :boolean, default: false, doc: "Specifies whether to show element indicators"
   attr :control, :boolean, default: true, doc: "Determines whether to show navigation controls"
+
+  attr :previous_label, :string,
+    default: nil,
+    doc: "Accessible name of the previous button, translated \"Previous slide\" when not set"
+
+  attr :next_label, :string,
+    default: nil,
+    doc: "Accessible name of the next button, translated \"Next slide\" when not set"
+
   attr :active_index, :integer, default: 0, doc: "Index of the active slide (starts at 0)"
   attr :autoplay, :boolean, default: false, doc: "Enable or disable autoplay functionality"
 
@@ -100,6 +112,10 @@ defmodule DevelopmentWeb.Components.Carousel do
 
   slot :slide, required: true do
     attr :image, :string, doc: "Image displayed alongside of an item"
+
+    attr :alt, :string,
+      doc: "Alternative text of the slide image, an empty string marks it as decorative"
+
     attr :image_class, :string, doc: "Determines custom class for the image"
 
     attr :navigate, :string,
@@ -150,7 +166,9 @@ defmodule DevelopmentWeb.Components.Carousel do
     >
       <button
         :if={@control}
+        type="button"
         id={"#{@id}-carousel-prev"}
+        aria-label={@previous_label || gettext("Previous slide")}
         class="absolute left-0 inset-y-0 z-20 p-4 bg-black/10 hover:bg-black/30 transition focus:outline-none"
       >
         <.icon name="hero-chevron-left" class="size-7 text-white" />
@@ -158,7 +176,9 @@ defmodule DevelopmentWeb.Components.Carousel do
 
       <button
         :if={@control}
+        type="button"
         id={"#{@id}-carousel-next"}
+        aria-label={@next_label || gettext("Next slide")}
         class="absolute right-0 inset-y-0 z-20 p-4 bg-black/10 hover:bg-black/30 transition focus:outline-none"
       >
         <.icon name="hero-chevron-right" class="size-7 text-white" />
@@ -207,6 +227,11 @@ defmodule DevelopmentWeb.Components.Carousel do
 
   attr :href, :string, default: nil, doc: "Sets the URL for an external link."
   attr :image, :string, required: true, doc: "Image displayed alongside of an item"
+
+  attr :alt, :string,
+    default: "",
+    doc: "Alternative text of the image, an empty string marks it as decorative"
+
   attr :image_class, :string, default: nil, doc: "Sets classes for images"
   attr :index, :integer, required: true, doc: "Determines item index"
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
@@ -219,6 +244,7 @@ defmodule DevelopmentWeb.Components.Carousel do
         <.image
           class={["max-w-full", @image_class]}
           src={@image}
+          alt={@alt}
           id={"#{@id}-carousel-slide-image-#{@index}"}
         />
       </div>
@@ -233,6 +259,7 @@ defmodule DevelopmentWeb.Components.Carousel do
       <.image
         class={["max-w-full", @image_class]}
         src={@image}
+        alt={@alt}
         id={"#{@id}-carousel-slide-image-#{@index}"}
       />
     </div>

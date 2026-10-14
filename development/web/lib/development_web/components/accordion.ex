@@ -52,6 +52,10 @@ defmodule DevelopmentWeb.Components.Accordion do
     attr :icon_class, :string, doc: "Additional CSS classes for the item icon"
     attr :icon_wrapper_class, :string, doc: "Additional CSS classes for the item icon wrapper"
     attr :image, :string, doc: "Optional image source URL"
+
+    attr :alt, :string,
+      doc: "Alternative text of the image, an empty string marks it as decorative"
+
     attr :image_class, :string, doc: "Additional CSS classes for the image"
     attr :trigger_class, :string, doc: "Additional CSS classes for the trigger"
     attr :content_class, :string, doc: "Additional CSS classes for the content"
@@ -124,6 +128,7 @@ defmodule DevelopmentWeb.Components.Accordion do
               :if={!is_nil(item[:image])}
               class={["accordion-title-media shrink-0", item[:image_class]]}
               src={item[:image]}
+              alt={item[:alt] || ""}
             />
 
             <div class="flex-1">

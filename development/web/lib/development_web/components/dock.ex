@@ -93,7 +93,10 @@ defmodule DevelopmentWeb.Components.Dock do
 
   slot :item, required: true, doc: "Specifies an item entry of the dock" do
     attr :icon, :string, doc: "Icon displayed in the item"
-    attr :label, :string, doc: "Label rendered under the icon"
+
+    attr :label, :string,
+      doc: "Label rendered under the icon, kept as screen reader text when labels are hidden"
+
     attr :badge, :string, doc: "Optional badge text or count rendered above the icon"
     attr :active, :boolean, doc: "Marks the item as active"
 
@@ -277,6 +280,9 @@ defmodule DevelopmentWeb.Components.Dock do
       :if={@show_labels and @item[:label]}
       class={["dock-label", @label_class, @item[:label_class]]}
     >
+      {@item[:label]}
+    </span>
+    <span :if={!@show_labels and @item[:label]} class="dock-label-sr sr-only">
       {@item[:label]}
     </span>
     <span :if={@item[:active]} class="dock-active-indicator sr-only">

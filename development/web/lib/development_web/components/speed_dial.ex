@@ -44,7 +44,7 @@ defmodule DevelopmentWeb.Components.SpeedDial do
 
   ```elixir
   <.speed_dial icon="hero-plus" space="large" icon_animated id="test-1" size="extra_small" clickable>
-    <:item icon="hero-home" href="/examples/navbar" color="danger"></:item>
+    <:item icon="hero-home" label="Home" href="/examples/navbar" color="danger"></:item>
     <:item icon="hero-bars-3" href="/examples/navbar" variant="shadow" color="misc">11</:item>
     <:item icon="hero-chart-bar" href="/examples/navbar" variant="unbordered" color="warning">
     </:item>
@@ -108,6 +108,10 @@ defmodule DevelopmentWeb.Components.SpeedDial do
 
   slot :item, required: false, doc: "Specifies item slot of a speed dial" do
     attr :icon, :string, doc: "Icon displayed alongside of an item"
+
+    attr :label, :string,
+      doc: "Accessible name of the item, rendered as `aria-label` on a link item"
+
     attr :class, :any, doc: "Custom CSS class for additional styling"
 
     attr :navigate, :string,
@@ -235,6 +239,7 @@ defmodule DevelopmentWeb.Components.SpeedDial do
   attr :color, :string, default: "primary", doc: "Determines color theme"
   attr :variant, :string, default: "default", doc: "Determines the style"
   attr :icon, :string, default: nil, doc: "Icon displayed alongside of an item"
+  attr :label, :string, default: nil, doc: "Accessible name of the item"
   attr :icon_class, :string, default: nil, doc: "Determines custom class for the icon"
   attr :content_class, :string, default: nil, doc: "Determines custom class for the content"
   attr :index, :integer, required: true, doc: "Determines item index"
@@ -249,6 +254,7 @@ defmodule DevelopmentWeb.Components.SpeedDial do
       class={["block speed-dial-base flex flex-col", color_variant(@variant, @color)]}
       role="menuitem"
       tabindex="0"
+      aria-label={@label}
       navigate={@navigate}
       patch={@patch}
       href={@href}
