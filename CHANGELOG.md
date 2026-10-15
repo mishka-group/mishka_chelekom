@@ -51,6 +51,10 @@
   `spinner`, `stat`, `stat_group`, `stepper`, `stepper_section`, `tr`, `tabs`, `timeline_section`,
   and the labels of `file_field`, `radio_field`, `range_field`, `rating` and `toggle_field`. The
   modal's `hidden` is its closed state, not a display, and stays
+- An avatar keeps its size in a flex row. Its root clips its content, which lets a flex parent
+  shrink it, so the initials of an avatar without an image (`+20`, `SB`) were cut off in a narrow row
+- A breadcrumb wraps to the next line in a narrow parent instead of overlapping its items; its icons
+  and separators keep their size, and a separator stays at the end of the item before it
 - The floating hook (dropdown, popover, tooltip) measures its content out of the flow. The content
   is moved to `<body>` and was measured as a static block there, as wide as the page, before it was
   made absolute, so the viewport clamp pushed a menu opening under its trigger to the left edge of the

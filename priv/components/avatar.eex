@@ -94,7 +94,7 @@ defmodule <%= @module %> do
   def <%= @component_prefix %>avatar(%{src: src, rounded: "full"} = assigns) when not is_nil(src) do
     ~H"""
     <div class={[
-      "relative w-fit select-none",
+      "relative w-fit shrink-0 select-none",
       size_class(@size, :image)
     ]}>
       <img
@@ -118,7 +118,7 @@ defmodule <%= @module %> do
     ~H"""
     <div
       class={[
-        "relative overflow-hidden select-none",
+        "relative shrink-0 overflow-hidden select-none",
         color_class(@color),
         rounded_size(@rounded),
         border_class(@border),
@@ -140,7 +140,7 @@ defmodule <%= @module %> do
 
   def <%= @component_prefix %>avatar(%{src: src} = assigns) when not is_nil(src) do
     ~H"""
-    <div class="relative w-fit select-none">
+    <div class="relative w-fit shrink-0 select-none">
       <img
         id={@id}
         src={@src}
@@ -163,7 +163,7 @@ defmodule <%= @module %> do
     ~H"""
     <div
       class={[
-        "relative overflow-hidden select-none",
+        "relative shrink-0 overflow-hidden select-none",
         color_class(@color),
         rounded_size(@rounded),
         border_class(@border),
