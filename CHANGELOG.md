@@ -63,6 +63,9 @@
   `2.5 of 5`
 - The headless stylesheet hides a closed `fab` dial, as it hides every other popup. The dial stayed
   on the page unless the skin added `data-closed:hidden`
+- The `icon` docs describe what it renders: a `hero-` name, `class` and global attributes. They
+  listed `variant`, `size`, `color`, `animate`, `aria_label` and non-Heroicon names it never took.
+  Its `doc_url` is its docs page instead of `internal`
 - The floating hook (dropdown, popover, tooltip) measures its content out of the flow. The content
   is moved to `<body>` and was measured as a static block there, as wide as the page, before it was
   made absolute, so the viewport clamp pushed a menu opening under its trigger to the left edge of the

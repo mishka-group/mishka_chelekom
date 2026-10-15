@@ -2,7 +2,7 @@
   icon: [
     name: "icon",
     category: "media",
-    doc_url: "internal",
+    doc_url: "https://mishka.tools/chelekom/docs/icon",
     args: [
       type: ["icon"],
       only: ["icon"],
