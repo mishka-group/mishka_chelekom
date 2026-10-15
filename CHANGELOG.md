@@ -59,6 +59,10 @@
   it is a string. A key that was present but nil chose its clause anyway, so a destination that came
   out empty turned the headless button into a link, and sent `button_link` and the anchor to
   `href="#"` instead of their `href`
+- The headless `rating` reads a whole star as `3 of 5`, not `3.0 of 5`; a half star still reads
+  `2.5 of 5`
+- The headless stylesheet hides a closed `fab` dial, as it hides every other popup. The dial stayed
+  on the page unless the skin added `data-closed:hidden`
 - The floating hook (dropdown, popover, tooltip) measures its content out of the flow. The content
   is moved to `<body>` and was measured as a static block there, as wide as the page, before it was
   made absolute, so the viewport clamp pushed a menu opening under its trigger to the left edge of the
