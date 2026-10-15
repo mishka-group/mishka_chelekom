@@ -18231,7 +18231,7 @@
       "dependencies": [
         "chelekom-badge",
         "chelekom-icon",
-        "chelekom-scroll_area"
+        "chelekom-scroll-area"
       ],
       "examples": [
         "<.component component_name=\"chelekom-tabs\" site=\"Global\" id=\"tabs-product-detail\" padding=\"small\" content_padding=\"small\" gap=\"small\" class=\"w-full\">\n  <:tab>Description</:tab>\n  <:tab>Specification</:tab>\n  <:tab>Reviews</:tab>\n  <:panel>\n    <div class=\"space-y-3 pt-4\">\n      <p class=\"text-sm leading-6 opacity-80\">The Meridian desk shelf is cut from a single walnut board, so the grain runs unbroken from one leg to the other. It lifts a 27-inch monitor to a comfortable eye line and leaves room underneath for a full-size keyboard.</p>\n      <p class=\"text-sm leading-6 opacity-80\">Every shelf is finished by hand with a plant-based hardwax oil that can be refreshed at home rather than sent back to us.</p>\n    </div>\n  </:panel>\n  <:panel>\n    <dl class=\"grid grid-cols-2 gap-x-6 gap-y-3 pt-4 text-sm\">\n      <dt class=\"opacity-70\">Dimensions</dt>\n      <dd>600 x 220 x 120 mm</dd>\n      <dt class=\"opacity-70\">Material</dt>\n      <dd>Solid European walnut</dd>\n      <dt class=\"opacity-70\">Load rating</dt>\n      <dd>25 kg</dd>\n      <dt class=\"opacity-70\">Weight</dt>\n      <dd>3.4 kg</dd>\n    </dl>\n  </:panel>\n  <:panel>\n    <div class=\"space-y-4 pt-4\">\n      <div class=\"flex items-center gap-2\">\n        <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-star\" class=\"size-4 text-amber-500\" />\n        <span class=\"text-sm font-semibold\">4.8 out of 5</span>\n        <span class=\"text-sm opacity-70\">from 214 verified buyers</span>\n      </div>\n      <blockquote class=\"border-l-2 border-gray-200 pl-3 text-sm leading-6 opacity-80 dark:border-gray-700\">Solid, heavy and completely flat. The oil finish is warmer than the photos suggest.</blockquote>\n    </div>\n  </:panel>\n</.component>",
@@ -98609,7 +98609,7 @@
       ],
       "body": "assigns =\n  assigns\n  |> assign_new(:id, fn -> \"combo-#{random_id()}\" end)\n  |> assign_new(:name, fn -> nil end)\n  |> assign_new(:options, fn -> [] end)\n  |> assign_new(:option, fn -> [] end)\n  |> assign_new(:value, fn -> Map.get(assigns, :value, []) end)\n  |> then(fn a ->\n    if a.creatable do\n      assign(a, :searchable, true)\n    else\n      a\n    end\n  end)",
       "dependencies": [
-        "chelekom-scroll_area",
+        "chelekom-scroll-area",
         "chelekom-icon",
         "combobox.js"
       ],

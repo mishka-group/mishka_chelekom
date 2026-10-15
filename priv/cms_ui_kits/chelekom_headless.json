@@ -78,7 +78,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-action-icon",
+      "name": "chelekom-headless-action-icon",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -367,7 +367,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-slider",
+      "name": "chelekom-headless-slider",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -574,7 +574,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-card",
+      "name": "chelekom-headless-card",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -874,7 +874,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-popover",
+      "name": "chelekom-headless-popover",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -1072,7 +1072,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-file-input",
+      "name": "chelekom-headless-file-input",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -1218,7 +1218,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-tabs",
+      "name": "chelekom-headless-tabs",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -1316,7 +1316,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-visually-hidden",
+      "name": "chelekom-headless-visually-hidden",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -1385,7 +1385,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-code",
+      "name": "chelekom-headless-code",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -1494,7 +1494,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-pills-input",
+      "name": "chelekom-headless-pills-input",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -1637,7 +1637,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-progress",
+      "name": "chelekom-headless-progress",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -1763,7 +1763,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-radio",
+      "name": "chelekom-headless-radio",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -1872,7 +1872,7 @@
       ],
       "body": null,
       "dependencies": [
-        "chelekom_headless-tree"
+        "chelekom-headless-tree"
       ],
       "examples": [],
       "extra": {
@@ -1897,7 +1897,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-tree-select",
+      "name": "chelekom-headless-tree-select",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -2036,7 +2036,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-splitter",
+      "name": "chelekom-headless-splitter",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -2206,7 +2206,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-alpha-slider",
+      "name": "chelekom-headless-alpha-slider",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -2364,7 +2364,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-alert-dialog",
+      "name": "chelekom-headless-alert-dialog",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -2807,7 +2807,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-pagination",
+      "name": "chelekom-headless-pagination",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -2952,7 +2952,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-hue-slider",
+      "name": "chelekom-headless-hue-slider",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -3324,7 +3324,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-drawer",
+      "name": "chelekom-headless-drawer",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -3518,7 +3518,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-context-menu",
+      "name": "chelekom-headless-context-menu",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -3719,7 +3719,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-context-menu-item",
+      "name": "chelekom-headless-context-menu-item",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -3815,7 +3815,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-context-menu-checkbox",
+      "name": "chelekom-headless-context-menu-checkbox",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -3896,7 +3896,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-context-menu-radio-group",
+      "name": "chelekom-headless-context-menu-radio-group",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -4007,7 +4007,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-context-menu-radio",
+      "name": "chelekom-headless-context-menu-radio",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -4082,7 +4082,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-context-menu-link",
+      "name": "chelekom-headless-context-menu-link",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -4146,7 +4146,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-context-menu-separator",
+      "name": "chelekom-headless-context-menu-separator",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -4212,7 +4212,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-context-menu-group",
+      "name": "chelekom-headless-context-menu-group",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -4310,7 +4310,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-context-menu-submenu",
+      "name": "chelekom-headless-context-menu-submenu",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -4394,7 +4394,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-marquee",
+      "name": "chelekom-headless-marquee",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -4599,7 +4599,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-accordion",
+      "name": "chelekom-headless-accordion",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -4823,7 +4823,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-semi-circle-progress",
+      "name": "chelekom-headless-semi-circle-progress",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -5011,7 +5011,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-segmented-control",
+      "name": "chelekom-headless-segmented-control",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -5129,7 +5129,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-chip",
+      "name": "chelekom-headless-chip",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -5329,7 +5329,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-dock",
+      "name": "chelekom-headless-dock",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -5549,7 +5549,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-color-input",
+      "name": "chelekom-headless-color-input",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -5896,7 +5896,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-combobox",
+      "name": "chelekom-headless-combobox",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -6094,7 +6094,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-empty-state",
+      "name": "chelekom-headless-empty-state",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -6331,7 +6331,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-tooltip",
+      "name": "chelekom-headless-tooltip",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -6611,7 +6611,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-countdown",
+      "name": "chelekom-headless-countdown",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -6785,7 +6785,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-alert",
+      "name": "chelekom-headless-alert",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -7030,7 +7030,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-toolbar",
+      "name": "chelekom-headless-toolbar",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -7223,7 +7223,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-highlight",
+      "name": "chelekom-headless-highlight",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -7357,7 +7357,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-field",
+      "name": "chelekom-headless-field",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -7522,7 +7522,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-chart",
+      "name": "chelekom-headless-chart",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -7731,7 +7731,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-editor",
+      "name": "chelekom-headless-editor",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -7865,7 +7865,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-meter",
+      "name": "chelekom-headless-meter",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -7997,7 +7997,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-angle-slider",
+      "name": "chelekom-headless-angle-slider",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -8153,7 +8153,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-nav-link",
+      "name": "chelekom-headless-nav-link",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -8250,7 +8250,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-color-swatch",
+      "name": "chelekom-headless-color-swatch",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -8369,7 +8369,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-mask-input",
+      "name": "chelekom-headless-mask-input",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -8480,7 +8480,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-menubar",
+      "name": "chelekom-headless-menubar",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -8711,7 +8711,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-text-input",
+      "name": "chelekom-headless-text-input",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -8836,7 +8836,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-floating-window",
+      "name": "chelekom-headless-floating-window",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -8988,7 +8988,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-avatar",
+      "name": "chelekom-headless-avatar",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -9202,7 +9202,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-dialog",
+      "name": "chelekom-headless-dialog",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -9464,7 +9464,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-menu",
+      "name": "chelekom-headless-menu",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -9665,7 +9665,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-menu-item",
+      "name": "chelekom-headless-menu-item",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -9762,7 +9762,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-menu-checkbox",
+      "name": "chelekom-headless-menu-checkbox",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -9844,7 +9844,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-menu-radio-group",
+      "name": "chelekom-headless-menu-radio-group",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -9956,7 +9956,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-menu-radio",
+      "name": "chelekom-headless-menu-radio",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -10031,7 +10031,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-menu-link",
+      "name": "chelekom-headless-menu-link",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -10095,7 +10095,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-menu-separator",
+      "name": "chelekom-headless-menu-separator",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -10162,7 +10162,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-menu-group",
+      "name": "chelekom-headless-menu-group",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -10261,7 +10261,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-menu-submenu",
+      "name": "chelekom-headless-menu-submenu",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -10400,7 +10400,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-toggle-group",
+      "name": "chelekom-headless-toggle-group",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -10531,7 +10531,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-overflow-list",
+      "name": "chelekom-headless-overflow-list",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -10667,7 +10667,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-radio-group",
+      "name": "chelekom-headless-radio-group",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -10902,7 +10902,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-checkbox-group",
+      "name": "chelekom-headless-checkbox-group",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -11223,7 +11223,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-breadcrumb",
+      "name": "chelekom-headless-breadcrumb",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -11471,7 +11471,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-number-formatter",
+      "name": "chelekom-headless-number-formatter",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -12018,7 +12018,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-calendar",
+      "name": "chelekom-headless-calendar",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -12460,7 +12460,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-sparkline",
+      "name": "chelekom-headless-sparkline",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -12641,7 +12641,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-switch",
+      "name": "chelekom-headless-switch",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -13338,7 +13338,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-tree",
+      "name": "chelekom-headless-tree",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -13479,7 +13479,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-json-input",
+      "name": "chelekom-headless-json-input",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -13579,7 +13579,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-pill",
+      "name": "chelekom-headless-pill",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -13648,7 +13648,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-theme-icon",
+      "name": "chelekom-headless-theme-icon",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -13835,7 +13835,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-theme-controller",
+      "name": "chelekom-headless-theme-controller",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -13932,7 +13932,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-loading-overlay",
+      "name": "chelekom-headless-loading-overlay",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -14018,7 +14018,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-close-button",
+      "name": "chelekom-headless-close-button",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -14132,7 +14132,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-spoiler",
+      "name": "chelekom-headless-spoiler",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -14453,7 +14453,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-select",
+      "name": "chelekom-headless-select",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -14658,7 +14658,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-tags-input",
+      "name": "chelekom-headless-tags-input",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -14872,7 +14872,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-textarea",
+      "name": "chelekom-headless-textarea",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -14966,7 +14966,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-scroller",
+      "name": "chelekom-headless-scroller",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -15043,7 +15043,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-fieldset",
+      "name": "chelekom-headless-fieldset",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -15377,7 +15377,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-number-field",
+      "name": "chelekom-headless-number-field",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -15540,7 +15540,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-collapsible",
+      "name": "chelekom-headless-collapsible",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -15724,7 +15724,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-checkbox",
+      "name": "chelekom-headless-checkbox",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -15850,7 +15850,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-anchor",
+      "name": "chelekom-headless-anchor",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -16093,7 +16093,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-stepper",
+      "name": "chelekom-headless-stepper",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -16393,7 +16393,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-otp-field",
+      "name": "chelekom-headless-otp-field",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -16587,7 +16587,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-carousel",
+      "name": "chelekom-headless-carousel",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -16668,7 +16668,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-mark",
+      "name": "chelekom-headless-mark",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -16904,7 +16904,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-navigation-menu",
+      "name": "chelekom-headless-navigation-menu",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -17058,7 +17058,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-scroll-area",
+      "name": "chelekom-headless-scroll-area",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -17272,7 +17272,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-autocomplete",
+      "name": "chelekom-headless-autocomplete",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -17506,7 +17506,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-preview-card",
+      "name": "chelekom-headless-preview-card",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -17609,7 +17609,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-separator",
+      "name": "chelekom-headless-separator",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -17914,7 +17914,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-table",
+      "name": "chelekom-headless-table",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -18091,7 +18091,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-color-picker",
+      "name": "chelekom-headless-color-picker",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -18169,7 +18169,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-rolling-number",
+      "name": "chelekom-headless-rolling-number",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -18387,7 +18387,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-rating",
+      "name": "chelekom-headless-rating",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -18653,7 +18653,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-fab",
+      "name": "chelekom-headless-fab",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -18853,7 +18853,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-floating-indicator",
+      "name": "chelekom-headless-floating-indicator",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -18996,7 +18996,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-toast",
+      "name": "chelekom-headless-toast",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -19127,7 +19127,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-burger",
+      "name": "chelekom-headless-burger",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -19244,7 +19244,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-toggle",
+      "name": "chelekom-headless-toggle",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -19425,28 +19425,28 @@
             "delegates": false,
             "guard": "is_binary(navigate)",
             "match": "%{navigate: navigate} = assigns",
-            "template": "<.link\n  navigate={@navigate}\n  id={@id}\n  role=\"button\"\n  aria-disabled={(@disabled || @loading) && \"true\"}\n  aria-busy={@loading && \"true\"}\n  data-disabled={@disabled}\n  data-loading={@loading}\n  class={[\"chelekom-button\", @class]}\n  {@rest}\n><.component component_name=\"chelekom_headless-button-content\" site={assigns[:site]} {assigns} /></.link>\n"
+            "template": "<.link\n  navigate={@navigate}\n  id={@id}\n  role=\"button\"\n  aria-disabled={(@disabled || @loading) && \"true\"}\n  aria-busy={@loading && \"true\"}\n  data-disabled={@disabled}\n  data-loading={@loading}\n  class={[\"chelekom-button\", @class]}\n  {@rest}\n><.component component_name=\"chelekom-headless-button-content\" site={assigns[:site]} {assigns} /></.link>\n"
           },
           {
             "body": null,
             "delegates": false,
             "guard": "is_binary(patch)",
             "match": "%{patch: patch} = assigns",
-            "template": "<.link\n  patch={@patch}\n  id={@id}\n  role=\"button\"\n  aria-disabled={(@disabled || @loading) && \"true\"}\n  aria-busy={@loading && \"true\"}\n  data-disabled={@disabled}\n  data-loading={@loading}\n  class={[\"chelekom-button\", @class]}\n  {@rest}\n><.component component_name=\"chelekom_headless-button-content\" site={assigns[:site]} {assigns} /></.link>\n"
+            "template": "<.link\n  patch={@patch}\n  id={@id}\n  role=\"button\"\n  aria-disabled={(@disabled || @loading) && \"true\"}\n  aria-busy={@loading && \"true\"}\n  data-disabled={@disabled}\n  data-loading={@loading}\n  class={[\"chelekom-button\", @class]}\n  {@rest}\n><.component component_name=\"chelekom-headless-button-content\" site={assigns[:site]} {assigns} /></.link>\n"
           },
           {
             "body": null,
             "delegates": false,
             "guard": "is_binary(href)",
             "match": "%{href: href} = assigns",
-            "template": "<a\n  id={@id}\n  href={@href}\n  role=\"button\"\n  aria-disabled={(@disabled || @loading) && \"true\"}\n  aria-busy={@loading && \"true\"}\n  data-disabled={@disabled}\n  data-loading={@loading}\n  class={[\"chelekom-button\", @class]}\n  {@rest}\n><.component component_name=\"chelekom_headless-button-content\" site={assigns[:site]} {assigns} /></a>\n"
+            "template": "<a\n  id={@id}\n  href={@href}\n  role=\"button\"\n  aria-disabled={(@disabled || @loading) && \"true\"}\n  aria-busy={@loading && \"true\"}\n  data-disabled={@disabled}\n  data-loading={@loading}\n  class={[\"chelekom-button\", @class]}\n  {@rest}\n><.component component_name=\"chelekom-headless-button-content\" site={assigns[:site]} {assigns} /></a>\n"
           },
           {
             "body": null,
             "delegates": false,
             "guard": null,
             "match": null,
-            "template": "<button\n  id={@id}\n  type={@type}\n  form={@form}\n  name={@name}\n  value={@value}\n  disabled={@disabled || @loading}\n  aria-busy={@loading && \"true\"}\n  data-disabled={@disabled}\n  data-loading={@loading}\n  class={[\"chelekom-button\", @class]}\n  {@rest}\n><.component component_name=\"chelekom_headless-button-content\" site={assigns[:site]} {assigns} /></button>\n"
+            "template": "<button\n  id={@id}\n  type={@type}\n  form={@form}\n  name={@name}\n  value={@value}\n  disabled={@disabled || @loading}\n  aria-busy={@loading && \"true\"}\n  data-disabled={@disabled}\n  data-loading={@loading}\n  class={[\"chelekom-button\", @class]}\n  {@rest}\n><.component component_name=\"chelekom-headless-button-content\" site={assigns[:site]} {assigns} /></button>\n"
           }
         ],
         "component": "button",
@@ -19460,7 +19460,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-button",
+      "name": "chelekom-headless-button",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -19497,7 +19497,7 @@
         }
       ],
       "stateful": false,
-      "template": "<.link\n  navigate={@navigate}\n  id={@id}\n  role=\"button\"\n  aria-disabled={(@disabled || @loading) && \"true\"}\n  aria-busy={@loading && \"true\"}\n  data-disabled={@disabled}\n  data-loading={@loading}\n  class={[\"chelekom-button\", @class]}\n  {@rest}\n><.component component_name=\"chelekom_headless-button-content\" site={assigns[:site]} {assigns} /></.link>\n",
+      "template": "<.link\n  navigate={@navigate}\n  id={@id}\n  role=\"button\"\n  aria-disabled={(@disabled || @loading) && \"true\"}\n  aria-busy={@loading && \"true\"}\n  data-disabled={@disabled}\n  data-loading={@loading}\n  class={[\"chelekom-button\", @class]}\n  {@rest}\n><.component component_name=\"chelekom-headless-button-content\" site={assigns[:site]} {assigns} /></.link>\n",
       "type": "buttons"
     },
     {
@@ -19569,7 +19569,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-button-content",
+      "name": "chelekom-headless-button-content",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -20925,7 +20925,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-slider",
+      "name": "chelekom-headless-slider",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -20940,7 +20940,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-popover",
+      "name": "chelekom-headless-popover",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -20955,7 +20955,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-tabs",
+      "name": "chelekom-headless-tabs",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -20970,7 +20970,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-radio",
+      "name": "chelekom-headless-radio",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -20985,7 +20985,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-splitter",
+      "name": "chelekom-headless-splitter",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21000,7 +21000,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-focus-trap",
+      "name": "chelekom-headless-focus-trap",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21015,7 +21015,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-drawer",
+      "name": "chelekom-headless-drawer",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21030,7 +21030,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-context-menu",
+      "name": "chelekom-headless-context-menu",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21045,7 +21045,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-disclosure",
+      "name": "chelekom-headless-disclosure",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21060,7 +21060,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-color-picker",
+      "name": "chelekom-headless-color-picker",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21075,7 +21075,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-headless-combobox",
+      "name": "chelekom-headless-headless-combobox",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21090,7 +21090,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-tooltip",
+      "name": "chelekom-headless-tooltip",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21105,7 +21105,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-countdown",
+      "name": "chelekom-headless-countdown",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21120,7 +21120,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-toolbar",
+      "name": "chelekom-headless-toolbar",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21135,7 +21135,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-field",
+      "name": "chelekom-headless-field",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21156,7 +21156,7 @@
           "file": "chart_extensions.js"
         }
       ],
-      "name": "chelekom_headless-chart",
+      "name": "chelekom-headless-chart",
       "npm": [
         {
           "integrity": "sha512-q0yaFPggC9FUdsWH4blavRWFmxdrIodbkoKNAjJudAI6CA9gNPxHtV2RcZNEepZVlk4yvBYkOkbk6HIVpIyHZA==",
@@ -21197,7 +21197,7 @@
           "file": "editor_extensions.js"
         }
       ],
-      "name": "chelekom_headless-editor",
+      "name": "chelekom-headless-editor",
       "npm": [
         {
           "integrity": "sha512-gUuD5WAYfbDxNSSJya/emh2KSzXZXLUYKW4fEnc1AQ5FE2twzh4LJ9UlKFIawigrUCAksWI5Fy1hRbv+5m4ZdQ==",
@@ -21466,7 +21466,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-angle-slider",
+      "name": "chelekom-headless-angle-slider",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21481,7 +21481,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-mask-input",
+      "name": "chelekom-headless-mask-input",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21496,7 +21496,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-menubar",
+      "name": "chelekom-headless-menubar",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21511,7 +21511,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-floating-window",
+      "name": "chelekom-headless-floating-window",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21526,7 +21526,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-avatar",
+      "name": "chelekom-headless-avatar",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21541,7 +21541,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-menu",
+      "name": "chelekom-headless-menu",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21556,7 +21556,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-toggle-group",
+      "name": "chelekom-headless-toggle-group",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21571,7 +21571,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-overflow-list",
+      "name": "chelekom-headless-overflow-list",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21586,7 +21586,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-radio-group",
+      "name": "chelekom-headless-radio-group",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21601,7 +21601,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-toggle",
+      "name": "chelekom-headless-toggle",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21616,7 +21616,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-checkbox-group",
+      "name": "chelekom-headless-checkbox-group",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21631,7 +21631,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-calendar",
+      "name": "chelekom-headless-calendar",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21646,7 +21646,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-tree",
+      "name": "chelekom-headless-tree",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21661,7 +21661,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-theme-controller",
+      "name": "chelekom-headless-theme-controller",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21676,7 +21676,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-select",
+      "name": "chelekom-headless-select",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21691,7 +21691,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-autosize",
+      "name": "chelekom-headless-autosize",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21706,7 +21706,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-scroller",
+      "name": "chelekom-headless-scroller",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21721,7 +21721,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-number-field",
+      "name": "chelekom-headless-number-field",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21736,7 +21736,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-otp",
+      "name": "chelekom-headless-otp",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21751,7 +21751,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-headless-carousel",
+      "name": "chelekom-headless-headless-carousel",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21766,7 +21766,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-navigation-menu",
+      "name": "chelekom-headless-navigation-menu",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21781,7 +21781,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-scroll-area",
+      "name": "chelekom-headless-scroll-area",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21796,7 +21796,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-preview-card",
+      "name": "chelekom-headless-preview-card",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21811,7 +21811,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-indeterminate",
+      "name": "chelekom-headless-indeterminate",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21826,7 +21826,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-rolling-number",
+      "name": "chelekom-headless-rolling-number",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21841,7 +21841,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-popup",
+      "name": "chelekom-headless-popup",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21856,7 +21856,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-floating-indicator",
+      "name": "chelekom-headless-floating-indicator",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21871,7 +21871,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-toast-region",
+      "name": "chelekom-headless-toast-region",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21889,7 +21889,7 @@
       },
       "format": "css",
       "kind": "theme",
-      "name": "chelekom_headless-theme",
+      "name": "chelekom-headless-theme",
       "permissions": [],
       "priority": 50,
       "site_id": null
