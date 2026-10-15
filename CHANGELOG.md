@@ -39,6 +39,18 @@
   swapping one element for another
 
 ### Bug fixes:
+- A display utility in a component's `class` replaces the component's own. Tailwind writes display
+  utilities in name order, not in class-list order, so the button's default `inline-flex` beat a
+  caller's `hidden` and `class="hidden md:flex"` never hid it. Where a component's own display sits
+  on the element that takes the caller's `class`, it now steps aside when that class names one
+  (`hidden`, `block`, `grid`, …); a display behind a variant (`max-md:hidden`) leaves it in place,
+  and the button's `display` attribute steps aside the same way. Changed: `avatar_group`, `badge`
+  (and its dismiss button), `button`, `button_group`, `button_link`, `input_button`, `card_title`,
+  `chat`, `checkbox_card`, `group_checkbox`, the `combobox` option, `gallery`, `indicator`, `flex`,
+  `grid`, `header`, `pagination` (and its buttons), the `progress` sections, `group_radio`, `shape`,
+  `spinner`, `stat`, `stat_group`, `stepper`, `stepper_section`, `tr`, `tabs`, `timeline_section`,
+  and the labels of `file_field`, `radio_field`, `range_field`, `rating` and `toggle_field`. The
+  modal's `hidden` is its closed state, not a display, and stays
 - The floating hook (dropdown, popover, tooltip) measures its content out of the flow. The content
   is moved to `<body>` and was measured as a static block there, as wide as the page, before it was
   made absolute, so the viewport clamp pushed a menu opening under its trigger to the left edge of the

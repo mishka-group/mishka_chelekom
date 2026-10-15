@@ -69,7 +69,7 @@ defmodule <%= @module %> do
       class={[
         indicator_size(@size),
         color_class(@color),
-        "indicator block rounded-full absolute -translate-y-1/2 -translate-x-1/2 right-auto top-0 left-0 indicator-top-left",
+        display_class("indicator block rounded-full absolute -translate-y-1/2 -translate-x-1/2 right-auto top-0 left-0 indicator-top-left", @class),
         !is_nil(@rest[:pinging]) && "animate-ping",
         @class
       ]}
@@ -85,7 +85,7 @@ defmodule <%= @module %> do
       class={[
         indicator_size(@size),
         color_class(@color),
-        "indicator block rounded-full absolute top-0 -translate-y-1/2 translate-x-1/2 right-1/2",
+        display_class("indicator block rounded-full absolute top-0 -translate-y-1/2 translate-x-1/2 right-1/2", @class),
         !is_nil(@rest[:pinging]) && "animate-ping",
         @class
       ]}
@@ -101,7 +101,7 @@ defmodule <%= @module %> do
       class={[
         indicator_size(@size),
         color_class(@color),
-        "indicator block rounded-full absolute -translate-y-1/2 translate-x-1/2 left-auto top-0 right-0 indicator-top-right",
+        display_class("indicator block rounded-full absolute -translate-y-1/2 translate-x-1/2 left-auto top-0 right-0 indicator-top-right", @class),
         !is_nil(@rest[:pinging]) && "animate-ping",
         @class
       ]}
@@ -117,7 +117,7 @@ defmodule <%= @module %> do
       class={[
         indicator_size(@size),
         color_class(@color),
-        "indicator block rounded-full absolute -translate-y-1/2 -translate-x-1/2 right-auto left-0 top-2/4",
+        display_class("indicator block rounded-full absolute -translate-y-1/2 -translate-x-1/2 right-auto left-0 top-2/4", @class),
         !is_nil(@rest[:pinging]) && "animate-ping",
         @class
       ]}
@@ -133,7 +133,7 @@ defmodule <%= @module %> do
       class={[
         indicator_size(@size),
         color_class(@color),
-        "indicator block rounded-full absolute -translate-y-1/2 translate-x-1/2 left-auto right-0 top-2/4",
+        display_class("indicator block rounded-full absolute -translate-y-1/2 translate-x-1/2 left-auto right-0 top-2/4", @class),
         !is_nil(@rest[:pinging]) && "animate-ping",
         @class
       ]}
@@ -149,7 +149,7 @@ defmodule <%= @module %> do
       class={[
         indicator_size(@size),
         color_class(@color),
-        "indicator block rounded-full absolute translate-y-1/2 -translate-x-1/2 right-auto bottom-0 left-0 indicator-bottom-left",
+        display_class("indicator block rounded-full absolute translate-y-1/2 -translate-x-1/2 right-auto bottom-0 left-0 indicator-bottom-left", @class),
         !is_nil(@rest[:pinging]) && "animate-ping",
         @class
       ]}
@@ -165,7 +165,7 @@ defmodule <%= @module %> do
       class={[
         indicator_size(@size),
         color_class(@color),
-        "indicator block rounded-full absolute translate-y-1/2 translate-x-1/2 bottom-0 right-1/2",
+        display_class("indicator block rounded-full absolute translate-y-1/2 translate-x-1/2 bottom-0 right-1/2", @class),
         !is_nil(@rest[:pinging]) && "animate-ping",
         @class
       ]}
@@ -181,7 +181,7 @@ defmodule <%= @module %> do
       class={[
         indicator_size(@size),
         color_class(@color),
-        "indicator block rounded-full absolute translate-y-1/2 translate-x-1/2 left-auto bottom-0 right-0 indicator-bottom-right",
+        display_class("indicator block rounded-full absolute translate-y-1/2 translate-x-1/2 left-auto bottom-0 right-0 indicator-bottom-right", @class),
         !is_nil(@rest[:pinging]) && "animate-ping",
         @class
       ]}
@@ -197,7 +197,7 @@ defmodule <%= @module %> do
       class={[
         indicator_size(@size),
         color_class(@color),
-        "block indicator rounded-full",
+        display_class("block indicator rounded-full", @class),
         !is_nil(@rest[:pinging]) && "animate-ping",
         @class
       ]}
@@ -283,4 +283,24 @@ defmodule <%= @module %> do
 
     Map.drop(rest, all_rest)
   end
+
+  # A display utility in the caller's class replaces the component's own: Tailwind orders display
+  # utilities by name, not by where they appear, so a caller's `hidden` loses to `inline-flex`.
+  defp display_class(default, class) do
+    if Enum.any?(class_tokens(class), &display_utility?/1) do
+      default |> class_tokens() |> Enum.reject(&display_utility?/1)
+    else
+      default
+    end
+  end
+
+  defp display_utility?(token) do
+    token in ~w(block inline-block inline flex inline-flex table inline-table table-caption
+      table-cell table-column table-column-group table-footer-group table-header-group
+      table-row-group table-row flow-root grid inline-grid contents list-item hidden)
+  end
+
+  defp class_tokens(class) when is_binary(class), do: String.split(class)
+  defp class_tokens(class) when is_list(class), do: Enum.flat_map(class, &class_tokens/1)
+  defp class_tokens(_class), do: []
 end
