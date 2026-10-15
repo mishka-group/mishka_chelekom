@@ -153,7 +153,7 @@ defmodule DevelopmentWeb.Components.Pagination do
       :if={show_pagination?(@rest[:hide_one_page], @total)}
       id={@id}
       class={[
-        default_classes(),
+        display_class(default_classes(), @class),
         color_variant(@variant, @color),
         border_size(@border, @variant),
         rounded_size(@rounded),
@@ -286,7 +286,10 @@ defmodule DevelopmentWeb.Components.Pagination do
   defp item_button(assigns) do
     ~H"""
     <button
-      class={["pagination-control flex items-center justify-center cursor-pointer", @class]}
+      class={[
+        display_class("pagination-control flex items-center justify-center cursor-pointer", @class),
+        @class
+      ]}
       aria-disabled={@disabled}
       aria-label={@aria_label}
       phx-click={
@@ -1547,4 +1550,24 @@ defmodule DevelopmentWeb.Components.Pagination do
   defp show_pagination?(true, total) when total <= 1, do: false
   defp show_pagination?(_, total) when total > 1, do: true
   defp show_pagination?(_, _), do: false
+
+  # A display utility in the caller's class replaces the component's own: Tailwind orders display
+  # utilities by name, not by where they appear, so a caller's `hidden` loses to `inline-flex`.
+  defp display_class(default, class) do
+    if Enum.any?(class_tokens(class), &display_utility?/1) do
+      default |> class_tokens() |> Enum.reject(&display_utility?/1)
+    else
+      default
+    end
+  end
+
+  defp display_utility?(token) do
+    token in ~w(block inline-block inline flex inline-flex table inline-table table-caption
+      table-cell table-column table-column-group table-footer-group table-header-group
+      table-row-group table-row flow-root grid inline-grid contents list-item hidden)
+  end
+
+  defp class_tokens(class) when is_binary(class), do: String.split(class)
+  defp class_tokens(class) when is_list(class), do: Enum.flat_map(class, &class_tokens/1)
+  defp class_tokens(_class), do: []
 end

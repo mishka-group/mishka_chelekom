@@ -107,7 +107,7 @@ defmodule DevelopmentWeb.Components.Headless.Rating do
         data-checked={checked?(value, @value)}
         data-unchecked={!checked?(value, @value)}
         aria-checked={to_string(checked?(value, @value))}
-        aria-label={"#{value} of #{@count}"}
+        aria-label={"#{star_number(value)} of #{@count}"}
         tabindex={tabindex(value, @value, @clearable, @values)}
         disabled={@disabled}
         class={["chelekom-rating__item", @item_class]}
@@ -131,6 +131,10 @@ defmodule DevelopmentWeb.Components.Headless.Rating do
   end
 
   defp checked?(value, current), do: to_float(value) == to_float(current)
+
+  # A whole star is read as `3 of 5`, not `3.0 of 5`.
+  defp star_number(value) when value == trunc(value), do: trunc(value)
+  defp star_number(value), do: value
 
   defp to_float(value) when is_float(value), do: value
   defp to_float(value) when is_integer(value), do: value * 1.0

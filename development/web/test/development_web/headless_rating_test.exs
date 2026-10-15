@@ -120,10 +120,16 @@ defmodule DevelopmentWeb.HeadlessRatingTest do
     assert has_attr?(disabled, "[data-part=item]", "disabled")
   end
 
+  defp labels(doc),
+    do: doc |> LazyHTML.query("[data-part=item]") |> LazyHTML.attribute("aria-label")
+
   test "every star says what it means, not just that it is a radio" do
-    doc = stars(%{count: 5, value: 1})
-    labels = doc |> LazyHTML.query("[data-part=item]") |> LazyHTML.attribute("aria-label")
-    assert labels == Enum.map(1..5, &"#{&1}.0 of 5")
+    assert labels(stars(%{count: 5, value: 1})) == Enum.map(1..5, &"#{&1} of 5")
+  end
+
+  test "a whole star reads as a whole number, a half star keeps its half" do
+    labels = labels(stars(%{count: 3, precision: 0.5, value: 1}))
+    assert labels == ["0.5 of 3", "1 of 3", "1.5 of 3", "2 of 3", "2.5 of 3", "3 of 3"]
   end
 
   test "on_change rides on the root for the hook to push" do

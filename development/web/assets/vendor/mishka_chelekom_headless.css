@@ -19,7 +19,8 @@
 .chelekom-menubar__popup[data-closed],
 .chelekom-navigation_menu__panel[data-closed],
 .chelekom-combobox__popup[data-closed],
-.chelekom-autocomplete__popup[data-closed] {
+.chelekom-autocomplete__popup[data-closed],
+.chelekom-fab__popup[data-closed] {
   display: none;
 }
 

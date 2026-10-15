@@ -25,7 +25,7 @@ defmodule DevelopmentWeb.Components.Headless.Anchor do
 
   slot :inner_block, required: true, doc: "The link text/content"
 
-  def anchor(%{navigate: _navigate} = assigns) do
+  def anchor(%{navigate: navigate} = assigns) when is_binary(navigate) do
     ~H"""
     <.link navigate={@navigate} id={@id} class={["chelekom-anchor", @class]} {@rest}>{render_slot(
       @inner_block
@@ -33,7 +33,7 @@ defmodule DevelopmentWeb.Components.Headless.Anchor do
     """
   end
 
-  def anchor(%{patch: _patch} = assigns) do
+  def anchor(%{patch: patch} = assigns) when is_binary(patch) do
     ~H"""
     <.link patch={@patch} id={@id} class={["chelekom-anchor", @class]} {@rest}>{render_slot(
       @inner_block

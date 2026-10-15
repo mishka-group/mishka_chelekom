@@ -105,7 +105,7 @@ defmodule DevelopmentWeb.Components.Layout do
     <div
       id={@id}
       class={[
-        "flex",
+        display_class("flex", @class),
         direction_class(@direction),
         justify_class(@justify),
         align_class(@align),
@@ -222,7 +222,7 @@ defmodule DevelopmentWeb.Components.Layout do
     <div
       id={@id}
       class={[
-        "grid",
+        display_class("grid", @class),
         cols_class(@cols),
         rows_class(@rows),
         auto_cols_class(@auto_cols),
@@ -382,4 +382,24 @@ defmodule DevelopmentWeb.Components.Layout do
   defp place_self_class("center"), do: "place-self-center"
   defp place_self_class("stretch"), do: "place-self-stretch"
   defp place_self_class(param) when is_binary(param), do: param
+
+  # A display utility in the caller's class replaces the component's own: Tailwind orders display
+  # utilities by name, not by where they appear, so a caller's `hidden` loses to `inline-flex`.
+  defp display_class(default, class) do
+    if Enum.any?(class_tokens(class), &display_utility?/1) do
+      default |> class_tokens() |> Enum.reject(&display_utility?/1)
+    else
+      default
+    end
+  end
+
+  defp display_utility?(token) do
+    token in ~w(block inline-block inline flex inline-flex table inline-table table-caption
+      table-cell table-column table-column-group table-footer-group table-header-group
+      table-row-group table-row flow-root grid inline-grid contents list-item hidden)
+  end
+
+  defp class_tokens(class) when is_binary(class), do: String.split(class)
+  defp class_tokens(class) when is_list(class), do: Enum.flat_map(class, &class_tokens/1)
+  defp class_tokens(_class), do: []
 end
