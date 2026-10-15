@@ -2,10 +2,16 @@ defmodule MishkaChelekom.CmsBundle.ShippedKitsTest do
   @moduledoc """
   The kits in `priv/cms_ui_kits/`, read the way a CMS reads them.
 
-  A CMS registers each hook under its row name slugified — `chelekom_headless-chart` is
-  `GlobalChelekomHeadlessChart` — so a component that names any other key mounts nothing, and
-  nothing says so. A hook that imports packages ships them, pinned and hashed, and the files it
-  imports from beside itself.
+  A CMS stores every component, hook and stylesheet under its name slugified, and rewrites nothing
+  that refers to one. A row must already carry that name, and every component a template calls, a
+  `dependencies` list holds or an example requires must be a component of the same kit by it —
+  `chelekom_headless-button` called `chelekom_headless-button-content`, stored as
+  `chelekom-headless-button-content`, and every headless button failed to render its label.
+
+  A CMS registers each hook as `Global` and its stored name in PascalCase —
+  `chelekom-headless-chart` is `GlobalChelekomHeadlessChart` — so a component that names any other
+  key mounts nothing, and nothing says so. A hook that imports packages ships them, pinned and
+  hashed, and the files it imports from beside itself.
   """
   use ExUnit.Case, async: true
 
@@ -49,12 +55,65 @@ defmodule MishkaChelekom.CmsBundle.ShippedKitsTest do
     literal ++ defaults
   end
 
+  # Lowercase letters and digits, single hyphens between: what slugifying leaves, and nothing else.
+  @stored ~r/^[a-z0-9]+(-[a-z0-9]+)*$/
+
+  # Every string in a component, base64 or not: templates, clause templates, bodies, helpers, examples.
+  defp strings(value) when is_map(value), do: value |> Map.values() |> Enum.flat_map(&strings/1)
+  defp strings(value) when is_list(value), do: Enum.flat_map(value, &strings/1)
+  defp strings("base64:" <> encoded), do: [Base.decode64!(encoded)]
+  defp strings(value) when is_binary(value), do: [value]
+  defp strings(_other), do: []
+
+  defp required(%{"requires" => %{"components" => names}} = value),
+    do: names ++ required(Map.delete(value, "requires"))
+
+  defp required(value) when is_map(value), do: value |> Map.values() |> Enum.flat_map(&required/1)
+  defp required(value) when is_list(value), do: Enum.flat_map(value, &required/1)
+  defp required(_other), do: []
+
+  defp references(component) do
+    called =
+      for text <- strings(component),
+          [_, name] <- Regex.scan(~r/component_name="([^"]+)"/, text),
+          do: {"component_name", name}
+
+    depended =
+      for name <- component["dependencies"] || [],
+          not String.ends_with?(name, ".js"),
+          do: {"dependencies", name}
+
+    called ++ depended ++ Enum.map(required(component), &{"requires", &1})
+  end
+
   test "there are kits to check" do
     refute Enum.empty?(@kits)
   end
 
   for path <- @kits do
     @path path
+
+    test "every row of #{Path.basename(path)} carries the name a CMS stores it under" do
+      kit = @path |> File.read!() |> Jason.decode!()
+
+      for section <- ~w(components js_hooks stylesheets), row <- kit[section] || [] do
+        assert row["name"] =~ @stored, "#{section}: #{inspect(row["name"])}"
+      end
+    end
+
+    test "every component #{Path.basename(path)} refers to is one of its own" do
+      kit = @path |> File.read!() |> Jason.decode!()
+      names = MapSet.new(kit["components"], & &1["name"])
+
+      missing =
+        for component <- kit["components"],
+            {where, name} <- references(component),
+            not MapSet.member?(names, name),
+            do: "#{component["name"]} #{where}: #{name}"
+
+      assert missing == []
+      assert Enum.any?(kit["components"], &(references(&1) != []))
+    end
 
     test "every hook a component of #{Path.basename(path)} names is one its kit registers" do
       kit = @path |> File.read!() |> Jason.decode!()

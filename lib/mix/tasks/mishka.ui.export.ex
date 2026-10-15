@@ -493,7 +493,7 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
       # row it is renaming rather than leaving both — and removes exactly that one, named by the
       # bundle, rather than every hook that happens to share the word.
       bare_name = pascal_to_kebab(pascal_name)
-      hook_name = kit_prefix(kit_name) <> bare_name
+      hook_name = MishkaChelekom.CmsBundle.Name.stored(kit_prefix(kit_name) <> bare_name)
       file_name = stringify_script_field(s, :file)
       raw_content = find_js_content(dir, file_name) || ""
 
@@ -684,9 +684,7 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
   defp live_hook_key(name) when is_binary(name) do
     "Global" <>
       (name
-       |> String.downcase()
-       |> String.replace(~r/[^a-z0-9]+/, "-")
-       |> String.trim("-")
+       |> MishkaChelekom.CmsBundle.Name.stored()
        |> String.split("-")
        |> Enum.map_join("", &String.capitalize/1))
   end
@@ -735,7 +733,7 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
 
         [
           %{
-            "name" => "#{kit_name}-theme",
+            "name" => MishkaChelekom.CmsBundle.Name.component(kit_name, "theme"),
             "site_id" => nil,
             "format" => "css",
             "kind" => "theme",

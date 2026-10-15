@@ -63,6 +63,15 @@
   `2.5 of 5`
 - The headless stylesheet hides a closed `fab` dial, as it hides every other popup. The dial stayed
   on the page unless the skin added `data-closed:hidden`
+- The CMS bundle names every row the way a CMS stores it, and every reference by that name. A CMS
+  slugifies each component, hook and stylesheet name as it saves the row and rewrites nothing that
+  refers to one; the exporter slugified only the part after the kit's name, so the headless kit
+  shipped `chelekom_headless-button` calling `chelekom_headless-button-content`, stored as
+  `chelekom-headless-button-content`, and every headless button failed to render its label. The
+  same rule missed `dependencies`: `chelekom-scroll_area` (tabs, combobox) and
+  `chelekom_headless-tree` (tree_select) named rows that do not exist. One function now gives the
+  name a row is written under, a template calls, a dependency lists and a hook key is built from,
+  and a test fails on a row not in its stored form or a reference to a component its kit does not have
 - The `icon` docs describe what it renders: a `hero-` name, `class` and global attributes. They
   listed `variant`, `size`, `color`, `animate`, `aria_label` and non-Heroicon names it never took.
   Its `doc_url` is its docs page instead of `internal`

@@ -405,11 +405,9 @@ defmodule MishkaChelekom.CmsBundle.Heex do
   # Access form returns `nil`, and the runtime helper coerces `nil` →
   # "Global".
   defp open_replacement(name, kit_name) do
-    target = kit_name <> "-" <> slug(name)
+    target = MishkaChelekom.CmsBundle.Name.component(kit_name, name)
     ~s|<.component component_name="#{target}" site={assigns[:site]}|
   end
-
-  defp slug(name), do: name |> String.downcase() |> String.replace("_", "-")
 
   ## ─── source slicing (line/column → byte) ───────────────────────────
 
