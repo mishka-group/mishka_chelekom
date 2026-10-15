@@ -342,7 +342,7 @@ defmodule <%= @module %> do
     doc: "Defines the path for navigation within the application using a `navigate` attribute."
 
   attr :patch, :string, doc: "Specifies the path for navigation using a LiveView patch"
-  attr :href, :string, doc: "Sets the URL for an external link"
+  attr :href, :string, default: nil, doc: "Sets the URL for an external link"
   attr :variant, :string, default: "base", doc: "Determines the style"
   attr :color, :string, default: "base", doc: "Determines color theme"
   attr :rounded, :string, default: "large", doc: ""
@@ -392,7 +392,7 @@ defmodule <%= @module %> do
       doc: "Determines the element position"
   end
 
-  def <%= @component_prefix %>button_link(%{navigate: _navigate} = assigns) do
+  def <%= @component_prefix %>button_link(%{navigate: navigate} = assigns) when is_binary(navigate) do
     assigns = assign_new(assigns, :indicator, fn -> indicators?(assigns[:rest]) end)
 
     ~H"""
@@ -436,7 +436,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def <%= @component_prefix %>button_link(%{patch: _patch} = assigns) do
+  def <%= @component_prefix %>button_link(%{patch: patch} = assigns) when is_binary(patch) do
     assigns = assign_new(assigns, :indicator, fn -> indicators?(assigns[:rest]) end)
 
     ~H"""

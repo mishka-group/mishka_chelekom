@@ -55,6 +55,10 @@
   shrink it, so the initials of an avatar without an image (`+20`, `SB`) were cut off in a narrow row
 - A breadcrumb wraps to the next line in a narrow parent instead of overlapping its items; its icons
   and separators keep their size, and a separator stays at the end of the item before it
+- `button_link`, the headless `button` and the headless `anchor` take `navigate` or `patch` only when
+  it is a string. A key that was present but nil chose its clause anyway, so a destination that came
+  out empty turned the headless button into a link, and sent `button_link` and the anchor to
+  `href="#"` instead of their `href`
 - The floating hook (dropdown, popover, tooltip) measures its content out of the flow. The content
   is moved to `<body>` and was measured as a static block there, as wide as the page, before it was
   made absolute, so the viewport clamp pushed a menu opening under its trigger to the left edge of the
