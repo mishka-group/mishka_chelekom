@@ -68,11 +68,14 @@
   `chelekom-navigation_menu__panel`, `chelekom-navigation_menu__popup-root`, and the tab panel's
   `[data-closed]`)
 - What wins on the same element changed with it. The rules were unlayered, so they beat every
-  utility; as utilities, a state class (`data-closed:hidden!`, `group-data-closed/drawer:opacity-0!`)
-  still beats a caller's, and a plain one follows Tailwind's order, so a caller's class on the same
-  property can now win: a skin's `z-50`, `max-h-full`, `relative` or disabled `opacity-40` applies
-  where the stylesheet used to override it, and a Kit part class (`[&_[data-part=popup]]:…`) beats
-  any of them that is not `!important`. What must hold is `!important`: hiding a closed popup, backdrop or filtered item, a disabled
+  utility; as utilities, a state class (`data-closed:hidden!`,
+  `group-data-closed/drawer:opacity-0!`) still beats a caller's, and a plain one follows Tailwind's
+  order, so a caller's class on the same property can now win: a skin's `z-50`, `max-h-full`,
+  `relative` or disabled `opacity-40` applies where the stylesheet used to override it, and a Kit
+  part class (`[&_[data-part=popup]]:…`) beats any of them that is not `!important`. The old
+  `[data-part="item"][data-disabled]` and `[data-hidden]` selectors also reached markup an app
+  renders itself, such as a menubar's items; only the components' own item parts carry those classes
+  now. What must hold is `!important`: hiding a closed popup, backdrop or filtered item, a disabled
   item's `pointer-events-none`, the unchecked and unselected indicators, a hidden tab panel or
   navigation-menu content, the scrub cursor, the scroll area's scrollbar placement and thumb size,
   and the editor's `[&_.cm-editor]:[outline:none]!`, which has to beat the unlayered `<style>`
