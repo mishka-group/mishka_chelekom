@@ -25,8 +25,8 @@
 // calls its plugin list, so switching engines does not mean re-learning this file.
 //
 // Content Security Policy. The TipTap engine injects no `<style>` (the ProseMirror base rules are
-// in mishka_chelekom_headless.css), so a strict `style-src-elem` needs nothing from you. Two
-// optional keys change that:
+// Tailwind classes on the editor's surface), so a strict `style-src-elem` needs nothing from you.
+// Two optional keys change that:
 //
 //     export default {
 //       injectCSS: true,    // TipTap: inject its own stylesheet (default false)

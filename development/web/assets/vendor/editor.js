@@ -120,9 +120,9 @@ const Editor = {
     const config = userConfig || {};
 
     // TipTap 3 appends a `<style data-tiptap-style>` to <head> unless told not to, and a strict
-    // `style-src-elem` CSP blocks that element. The same ProseMirror base rules ship in
-    // mishka_chelekom_headless.css instead, so the engine adds no CSS of its own. Set `injectCSS: true`
-    // (and `injectNonce` for a nonce-based CSP) in editor_extensions.js to take TipTap's own back.
+    // `style-src-elem` CSP blocks that element. The same ProseMirror base rules are Tailwind classes
+    // on the surface (editor.eex), so the engine adds no CSS of its own. Set `injectCSS: true` (and
+    // `injectNonce` for a nonce-based CSP) in editor_extensions.js to take TipTap's own back.
     this.editor = new TipTapEditor({
       element: el,
       injectCSS: config.injectCSS ?? false,

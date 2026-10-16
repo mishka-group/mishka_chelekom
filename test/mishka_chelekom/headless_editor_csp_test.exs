@@ -4,20 +4,28 @@ defmodule MishkaChelekom.HeadlessEditorCspTest do
 
   TipTap 3 injects a `<style data-tiptap-style>` into `<head>` unless it is told not to, and
   `style-src-elem 'self' 'nonce-…'` blocks that element. The engine therefore turns it off, and the
-  ProseMirror base rules TipTap would have injected ship in the headless stylesheet instead.
+  ProseMirror base rules TipTap would have injected are Tailwind classes on the editor's surface,
+  not rules in the headless stylesheet.
   """
   use ExUnit.Case, async: true
 
   @js Path.expand("../../priv/assets/js", __DIR__)
   @stylesheet Path.expand("../../priv/assets/css/mishka_chelekom_headless.css", __DIR__)
+  @template Path.expand("../../priv/headless/editor.eex", __DIR__)
   @kit Path.expand("../../priv/cms_ui_kits/chelekom_headless.json", __DIR__)
 
   @engines ~w(editor_tiptap.js editor_code_mirror.js editor_milk_down.js editor_lexical.js)
 
   defp read_js(file), do: @js |> Path.join(file) |> File.read!()
 
-  defp css do
-    @stylesheet |> File.read!() |> String.replace(~r/\s+/, " ")
+  defp surface_classes(source) do
+    [_, surface] = String.split(source, ~s("chelekom-editor__surface"), parts: 2)
+    [classes, _] = String.split(surface, "@surface_class", parts: 2)
+
+    ~r/"([^"]+)"/
+    |> Regex.scan(classes, capture: :all_but_first)
+    |> List.flatten()
+    |> Enum.flat_map(&String.split/1)
   end
 
   describe "the TipTap engine" do
@@ -48,51 +56,55 @@ defmodule MishkaChelekom.HeadlessEditorCspTest do
     end
   end
 
-  describe "the headless stylesheet" do
-    test "carries the rules TipTap would have injected for .ProseMirror" do
-      css = css()
-      scope = ".chelekom-editor__surface .ProseMirror"
+  describe "the editor's surface" do
+    test "carries the ProseMirror base rules TipTap would have injected as Tailwind classes" do
+      classes = surface_classes(File.read!(@template))
 
-      for declaration <- [
-            "position: relative;",
-            "word-wrap: break-word;",
-            "white-space: pre-wrap; white-space: break-spaces;",
-            "font-variant-ligatures: none;",
-            ~s(font-feature-settings: "liga" 0;)
+      for rule <- [
+            "[&_.ProseMirror]:relative",
+            "[&_.ProseMirror]:break-words",
+            "[&_.ProseMirror]:[font-variant-ligatures:none]",
+            "[&_.ProseMirror]:[font-feature-settings:'liga'_0]",
+            "[&_.ProseMirror_[contenteditable=false]]:whitespace-normal",
+            "[&_.ProseMirror_[contenteditable=false]_[contenteditable=true]]:whitespace-pre-wrap",
+            "[&_.ProseMirror_pre]:whitespace-pre-wrap",
+            "[&_img.ProseMirror-separator]:inline!",
+            "[&_.ProseMirror-gapcursor]:hidden",
+            "[&_.ProseMirror-gapcursor]:absolute",
+            "[&_.ProseMirror-focused_.ProseMirror-gapcursor]:block",
+            "[&_.ProseMirror-gapcursor]:after:border-current",
+            "[&_.ProseMirror-gapcursor]:after:animate-pulse",
+            "[&_.ProseMirror-hideselection_*]:caret-transparent",
+            "[&_.ProseMirror-hideselection_*::selection]:bg-transparent"
           ] do
-        assert css =~ ~r/#{Regex.escape(scope)} \{[^}]*#{Regex.escape(declaration)}/,
-               "#{scope} lacks #{declaration}"
+        assert rule in classes, "the surface lacks #{rule}"
       end
-
-      assert css =~ ~r/#{Regex.escape(scope)} \[contenteditable="false"\] \{ white-space: normal;/
-      assert css =~ ~r/#{Regex.escape(scope)} pre \{ white-space: pre-wrap;/
     end
 
-    test "carries the gap cursor and hidden selection rules" do
-      css = css()
-      surface = ".chelekom-editor__surface"
-
-      for selector <- [
-            "#{surface} .ProseMirror-gapcursor",
-            "#{surface} .ProseMirror-focused .ProseMirror-gapcursor",
-            "#{surface} .ProseMirror-gapcursor::after",
-            "#{surface} .ProseMirror-hideselection *::selection",
-            "#{surface} .ProseMirror-hideselection *::-moz-selection",
-            "#{surface} .ProseMirror-hideselection *",
-            "#{surface} img.ProseMirror-separator"
-          ] do
-        assert css =~ selector <> " {", "the stylesheet lacks #{selector}"
-      end
-
-      assert css =~ "@keyframes chelekom-editor-cursor-blink"
-      assert css =~ "caret-color: transparent;"
+    test "merges them with the caller's surface_class after the component's own classes" do
+      assert File.read!(@template) =~
+               ~r/class=\{\[\s*"chelekom-editor__surface",.*\[&_\.ProseMirror-hideselection_\*::selection\]:bg-transparent",\s*@surface_class\s*\]\}/s
     end
 
-    test "declares no colour of its own" do
-      [_, editor_rules] = String.split(css(), "/* Editor:", parts: 2)
-      declarations = String.replace(editor_rules, ~r{/\*.*?\*/}s, "")
+    test "uses no arbitrary-keyframes animation, only Tailwind's own" do
+      classes = surface_classes(File.read!(@template))
 
-      refute declarations =~ ~r/:[^;{}]*(\bblack\b|\bwhite\b|#[0-9a-fA-F]{3,8}\b|rgba?\()/
+      assert Enum.filter(classes, &(&1 =~ "animate-")) ==
+               ["[&_.ProseMirror-gapcursor]:after:animate-pulse"]
+    end
+  end
+
+  test "the headless stylesheet gains no ProseMirror base rule" do
+    css = File.read!(@stylesheet)
+
+    for name <- [
+          "gapcursor",
+          "hideselection",
+          "ProseMirror-separator",
+          "ligatures",
+          "keyframes chelekom-editor"
+        ] do
+      refute css =~ name, "the stylesheet mentions #{name}"
     end
   end
 
@@ -108,11 +120,18 @@ defmodule MishkaChelekom.HeadlessEditorCspTest do
       assert hook["content"] =~ "injectNonce: config.injectNonce"
     end
 
-    test "ships the rules that replace TipTap's stylesheet", %{kit: kit} do
+    test "ships the surface classes that replace TipTap's stylesheet", %{kit: kit} do
+      editor = Enum.find(kit["components"], &(&1["name"] == "chelekom-headless-editor"))
+
+      assert editor["template"] =~ "[&_.ProseMirror-gapcursor]:after:animate-pulse"
+      assert editor["template"] =~ "[&_.ProseMirror_[contenteditable=false]]:whitespace-normal"
+    end
+
+    test "ships a stylesheet without the editor's ProseMirror base rules", %{kit: kit} do
       theme = Enum.find(kit["stylesheets"], &(&1["name"] == "chelekom-headless-theme"))
 
-      assert theme["content"] =~ ".chelekom-editor__surface .ProseMirror-gapcursor"
-      assert theme["content"] =~ "@keyframes chelekom-editor-cursor-blink"
+      refute theme["content"] =~ "ProseMirror-gapcursor"
+      refute theme["content"] =~ "chelekom-editor-cursor-blink"
     end
   end
 end

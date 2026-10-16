@@ -22,10 +22,11 @@ defmodule DevelopmentWeb.Components.Headless.Editor do
 
   Under a strict Content Security Policy the default TipTap engine needs no `'unsafe-inline'` or
   nonce for styles: it does not inject TipTap's own `<style>`, and the ProseMirror base rules it
-  would have added (`white-space`, gap cursor, hidden selection) are in `mishka_chelekom_headless.css`
-  under `.chelekom-editor__surface`. Set `injectCSS: true` and `injectNonce` in `editor_extensions.js`
-  to take TipTap's stylesheet instead. The CodeMirror engine always mounts a `<style>` of its own;
-  give it your nonce with the same `injectNonce` key.
+  would have added (`position`, `overflow-wrap`, ligatures off, `contenteditable="false"` spans, the
+  gap cursor, the hidden selection) are Tailwind classes on the `surface`, merged with your
+  `surface_class`. Set `injectCSS: true` and `injectNonce` in `editor_extensions.js` to take TipTap's
+  stylesheet instead. The CodeMirror engine always mounts a `<style>` of its own; give it your nonce
+  with the same `injectNonce` key.
 
   Ships **no** colors, spacing or typography — style via `chelekom-editor*`, the `data-empty` /
   `data-focused` state, and `data-active` on toolbar buttons. Under Tailwind Preflight, headings
@@ -141,7 +142,16 @@ defmodule DevelopmentWeb.Components.Headless.Editor do
         aria-label={(is_nil(@label_id) && "Rich text editor") || nil}
         aria-labelledby={@label_id}
         aria-describedby={@describedby_id}
-        class={["chelekom-editor__surface", @surface_class]}
+        class={[
+          "chelekom-editor__surface",
+          "[&_.ProseMirror]:relative [&_.ProseMirror]:break-words [&_.ProseMirror]:[font-variant-ligatures:none] [&_.ProseMirror]:[font-feature-settings:'liga'_0]",
+          "[&_.ProseMirror_[contenteditable=false]]:whitespace-normal [&_.ProseMirror_[contenteditable=false]_[contenteditable=true]]:whitespace-pre-wrap [&_.ProseMirror_pre]:whitespace-pre-wrap",
+          "[&_img.ProseMirror-separator]:inline! [&_img.ProseMirror-separator]:m-0! [&_img.ProseMirror-separator]:size-0! [&_img.ProseMirror-separator]:border-none!",
+          "[&_.ProseMirror-gapcursor]:hidden [&_.ProseMirror-gapcursor]:pointer-events-none [&_.ProseMirror-gapcursor]:absolute [&_.ProseMirror-gapcursor]:m-0 [&_.ProseMirror-focused_.ProseMirror-gapcursor]:block",
+          "[&_.ProseMirror-gapcursor]:after:content-[''] [&_.ProseMirror-gapcursor]:after:block [&_.ProseMirror-gapcursor]:after:absolute [&_.ProseMirror-gapcursor]:after:-top-0.5 [&_.ProseMirror-gapcursor]:after:w-5 [&_.ProseMirror-gapcursor]:after:border-t [&_.ProseMirror-gapcursor]:after:border-current [&_.ProseMirror-gapcursor]:after:animate-pulse",
+          "[&_.ProseMirror-hideselection_*]:caret-transparent [&_.ProseMirror-hideselection_*::selection]:bg-transparent",
+          @surface_class
+        ]}
       >
       </div>
     </div>
