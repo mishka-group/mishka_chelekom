@@ -72,7 +72,7 @@ defmodule DevelopmentWeb.Components.Headless.Checkbox do
         required={@required}
         tabindex="-1"
         aria-hidden="true"
-        class={["chelekom-checkbox__input sr-only", @input_class]}
+        class={["chelekom-checkbox__input chelekom-sr-only", @input_class]}
       />
       <span
         data-part="indicator"

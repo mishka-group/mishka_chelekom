@@ -120,7 +120,7 @@ defmodule DevelopmentWeb.Components.Headless.Select do
       data-no-hover={!@highlight_on_hover}
       data-on-change={@on_change}
       data-on-open-change={@on_open_change}
-      class={["chelekom-select", "relative", @class]}
+      class={["chelekom-select", @class]}
       {@rest}
     >
       <label
@@ -132,7 +132,7 @@ defmodule DevelopmentWeb.Components.Headless.Select do
         {@label}
       </label>
 
-      <span data-part="value-inputs" class="sr-only">
+      <span data-part="value-inputs" class="chelekom-sr-only">
         <%= for v <- @values do %>
           <input
             :if={@name}
@@ -200,7 +200,7 @@ defmodule DevelopmentWeb.Components.Headless.Select do
           role="listbox"
           aria-multiselectable={@multiple && "true"}
           data-closed
-          class={["chelekom-select__popup", "absolute z-40 data-closed:hidden!", @popup_class]}
+          class={["chelekom-select__popup", @popup_class]}
         >
           <%= for {grp, gi} <- Enum.with_index(@groups) do %>
             <%= if grp.label do %>
@@ -264,21 +264,12 @@ defmodule DevelopmentWeb.Components.Headless.Select do
       data-selected={@opt.value in @values}
       data-disabled={@opt[:disabled]}
       tabindex="-1"
-      class={[
-        "chelekom-select__option",
-        "group/select-option data-disabled:pointer-events-none! data-disabled:opacity-50",
-        @item_class,
-        @opt[:class]
-      ]}
+      class={["chelekom-select__option", @item_class, @opt[:class]]}
     >
       <span
         data-part="item-indicator"
         aria-hidden="true"
-        class={[
-          "chelekom-select__indicator",
-          "group-not-data-selected/select-option:invisible!",
-          @item_indicator_class
-        ]}
+        class={["chelekom-select__indicator", @item_indicator_class]}
       >
         <%= if @item_indicator != [] do %>
           {render_slot(@item_indicator)}

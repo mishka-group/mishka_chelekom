@@ -160,11 +160,7 @@ defmodule DevelopmentWeb.Components.Headless.NumberField do
         <span
           :if={@scrub_cursor}
           data-part="scrub-area-cursor"
-          class={[
-            "chelekom-number_field__scrub-cursor",
-            "not-data-scrubbing:hidden!",
-            @scrub_cursor_class
-          ]}
+          class={["chelekom-number_field__scrub-cursor", @scrub_cursor_class]}
         >
           {render_slot(@scrub_cursor_icon)}
         </span>

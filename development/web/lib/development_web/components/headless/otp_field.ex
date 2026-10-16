@@ -123,7 +123,7 @@ defmodule DevelopmentWeb.Components.Headless.OtpField do
       data-on-change={@on_change}
       data-on-complete={@on_complete}
       data-on-invalid={@on_invalid}
-      class={["chelekom-otp_field", "inline-flex gap-2", @class]}
+      class={["chelekom-otp_field", @class]}
       {@rest}
     >
       <input

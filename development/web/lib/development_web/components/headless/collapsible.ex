@@ -70,11 +70,7 @@ defmodule DevelopmentWeb.Components.Headless.Collapsible do
         data-open={@open}
         data-disabled={@disabled}
         data-on-open-change={@on_open_change}
-        class={[
-          "chelekom-collapsible__item",
-          "data-disabled:pointer-events-none! data-disabled:opacity-50",
-          @item_class
-        ]}
+        class={["chelekom-collapsible__item", @item_class]}
       >
         <button
           type="button"

@@ -103,7 +103,7 @@ defmodule DevelopmentWeb.Components.Headless.Slider do
       data-name={@name}
       data-on-change={@on_change}
       data-on-commit={@on_commit}
-      class={["chelekom-slider", "relative", @class]}
+      class={["chelekom-slider", @class]}
       {@rest}
     >
       <label
@@ -133,7 +133,7 @@ defmodule DevelopmentWeb.Components.Headless.Slider do
         <div
           data-part="track"
           data-orientation={@orientation}
-          class={["chelekom-slider__track", "relative", @track_class]}
+          class={["chelekom-slider__track", @track_class]}
         >
           <div
             data-part="indicator"
@@ -156,7 +156,7 @@ defmodule DevelopmentWeb.Components.Headless.Slider do
             aria-label={thumb_label(@thumb_labels, @label, i, @multiple)}
             aria-labelledby={@label && !@thumb_labels && "#{@id}-label"}
             tabindex={if @disabled, do: "-1", else: "0"}
-            class={["chelekom-slider__thumb", "absolute", @thumb_class]}
+            class={["chelekom-slider__thumb", @thumb_class]}
           >
             <input
               :if={@name}

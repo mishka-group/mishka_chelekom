@@ -111,7 +111,7 @@ defmodule DevelopmentWeb.Components.Headless.Switch do
         form={@form}
         tabindex="-1"
         aria-hidden="true"
-        class={["chelekom-switch__input sr-only", @input_class]}
+        class={["chelekom-switch__input chelekom-sr-only", @input_class]}
       />
       <span
         data-part="track"

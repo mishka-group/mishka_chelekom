@@ -37,18 +37,13 @@ defmodule DevelopmentWeb.Components.Headless.ScrollArea do
       id={@id}
       phx-hook="ScrollArea"
       data-orientation={@orientation}
-      class={["chelekom-scroll_area", "group/scroll-area relative", @class]}
+      class={["chelekom-scroll_area", @class]}
       {@rest}
     >
       <div
         data-part="viewport"
         tabindex="0"
-        class={[
-          "chelekom-scroll_area__viewport",
-          "h-full w-full overflow-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
-          "group-data-[orientation=horizontal]/scroll-area:overflow-y-hidden group-data-[orientation=vertical]/scroll-area:overflow-x-hidden",
-          @viewport_class
-        ]}
+        class={["chelekom-scroll_area__viewport", @viewport_class]}
       >
         <div data-part="content" class={["chelekom-scroll_area__content", @content_class]}>
           {render_slot(@inner_block)}
@@ -59,20 +54,12 @@ defmodule DevelopmentWeb.Components.Headless.ScrollArea do
         :if={@orientation in ~w(vertical both)}
         data-part="scrollbar"
         data-orientation="vertical"
-        class={[
-          "chelekom-scroll_area__scrollbar",
-          "absolute! data-[orientation=vertical]:top-0! data-[orientation=vertical]:right-0! data-[orientation=vertical]:bottom-0!",
-          @scrollbar_class
-        ]}
+        class={["chelekom-scroll_area__scrollbar", @scrollbar_class]}
       >
         <div
           data-part="thumb"
           data-orientation="vertical"
-          class={[
-            "chelekom-scroll_area__thumb",
-            "data-[orientation=vertical]:h-(--scroll-area-thumb-height,2.5rem)!",
-            @thumb_class
-          ]}
+          class={["chelekom-scroll_area__thumb", @thumb_class]}
         >
         </div>
       </div>
@@ -81,20 +68,12 @@ defmodule DevelopmentWeb.Components.Headless.ScrollArea do
         :if={@orientation in ~w(horizontal both)}
         data-part="scrollbar"
         data-orientation="horizontal"
-        class={[
-          "chelekom-scroll_area__scrollbar",
-          "absolute! data-[orientation=horizontal]:right-0! data-[orientation=horizontal]:bottom-0! data-[orientation=horizontal]:left-0!",
-          @scrollbar_class
-        ]}
+        class={["chelekom-scroll_area__scrollbar", @scrollbar_class]}
       >
         <div
           data-part="thumb"
           data-orientation="horizontal"
-          class={[
-            "chelekom-scroll_area__thumb",
-            "data-[orientation=horizontal]:w-(--scroll-area-thumb-width,2.5rem)!",
-            @thumb_class
-          ]}
+          class={["chelekom-scroll_area__thumb", @thumb_class]}
         >
         </div>
       </div>

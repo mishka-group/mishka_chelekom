@@ -131,7 +131,7 @@ defmodule DevelopmentWeb.Components.Headless.Fab do
         data-closed
         role="menu"
         aria-label={@label}
-        class={["chelekom-fab__popup", "data-closed:hidden!", @popup_class]}
+        class={["chelekom-fab__popup", @popup_class]}
       >
         <.fab_button
           :for={{action, index} <- Enum.with_index(@action)}

@@ -67,7 +67,7 @@ defmodule DevelopmentWeb.Components.Headless.PreviewCard do
       data-close-on-escape={to_string(@close_on_escape)}
       data-on-open-change={@on_open_change}
       data-on-open-change-target={@on_open_change_target}
-      class={["chelekom-preview_card", "relative", @class]}
+      class={["chelekom-preview_card", @class]}
       data-open={@open}
       data-closed={!@open}
       {@rest}
@@ -86,7 +86,7 @@ defmodule DevelopmentWeb.Components.Headless.PreviewCard do
         data-part="popup"
         role="dialog"
         data-side={@side}
-        class={["chelekom-preview_card__popup", "fixed z-50 data-closed:hidden!", @popup_class]}
+        class={["chelekom-preview_card__popup", @popup_class]}
         data-closed
         hidden
       >
