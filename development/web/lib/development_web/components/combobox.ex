@@ -166,8 +166,8 @@ defmodule DevelopmentWeb.Components.Combobox do
   def combobox(%{multiple: true} = assigns) do
     assigns =
       assigns
-      |> assign_new(:id, fn -> "combo-#{random_id()}" end)
       |> assign_new(:name, fn -> nil end)
+      |> then(&assign(&1, :id, &1.id || combobox_id(&1.name)))
       |> assign_new(:options, fn -> [] end)
       |> assign_new(:option, fn -> [] end)
       |> assign_new(:value, fn -> Map.get(assigns, :value, []) end)
@@ -389,8 +389,8 @@ defmodule DevelopmentWeb.Components.Combobox do
   def combobox(assigns) do
     assigns =
       assigns
-      |> assign_new(:id, fn -> "combo-#{random_id()}" end)
       |> assign_new(:name, fn -> nil end)
+      |> then(&assign(&1, :id, &1.id || combobox_id(&1.name)))
       |> assign_new(:options, fn -> [] end)
       |> assign_new(:option, fn -> [] end)
       |> assign_new(:value, fn -> Map.get(assigns, :value) end)
@@ -635,6 +635,15 @@ defmodule DevelopmentWeb.Components.Combobox do
       </svg>
     </div>
     """
+  end
+
+  defp combobox_id(nil), do: "combo-#{random_id()}"
+
+  defp combobox_id(name) do
+    case name |> to_string() |> String.replace(~r/\W+/, "_") |> String.trim("_") do
+      "" -> combobox_id(nil)
+      slug -> "combo-" <> slug
+    end
   end
 
   attr :id, :string, default: nil, doc: "Unique identifier"

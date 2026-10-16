@@ -20,14 +20,22 @@ defmodule DevelopmentWeb.Components.Dropdown do
   ## Examples
 
   ```elixir
-  <.dropdown relative="relative" position="right">
+  <.dropdown
+    id="dropdown-right"
+    relative="relative"
+    position="right"
+    space="small"
+    rounded="large"
+    width="w-full"
+    padding="extra_small"
+  >
     <:trigger>
       <.button color="primary" icon="hero-chevron-down" right_icon>
         Dropdown Right
       </.button>
     </:trigger>
 
-    <:content space="small" rounded="large" width="full" padding="extra_small">
+    <:content>
       <.list size="small">
         <:item padding="extra_small" icon="hero-envelope">Dashboard</:item>
         <:item padding="extra_small" icon="hero-camera">Settings</:item>
@@ -37,14 +45,22 @@ defmodule DevelopmentWeb.Components.Dropdown do
     </:content>
   </.dropdown>
 
-  <.dropdown relative="relative" clickable>
-    <:trigger trigger_id="test-1">
+  <.dropdown
+    id="dropdown-button"
+    relative="relative"
+    clickable
+    space="small"
+    rounded="large"
+    width="w-full"
+    padding="extra_small"
+  >
+    <:trigger>
       <.button color="primary" icon="hero-chevron-down" right_icon>
         Dropdown Button
       </.button>
     </:trigger>
 
-    <:content id="test-1" space="small" rounded="large" width="full" padding="extra_small">
+    <:content>
       <.list size="small">
         <:item padding="extra_small" icon="hero-envelope">Dashboard</:item>
         <:item padding="extra_small" icon="hero-camera">Settings</:item>
@@ -193,7 +209,6 @@ defmodule DevelopmentWeb.Components.Dropdown do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :trigger_id, :string, default: nil, doc: "Identifies what is the triggered element id"
   attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 

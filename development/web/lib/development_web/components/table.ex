@@ -434,6 +434,17 @@ defmodule DevelopmentWeb.Components.Table do
     ]
   end
 
+  defp rounded_size("none", variant) when variant in ["separated", "base_separated"] do
+    [
+      "[&_.border-separate_tr_td:first-child]:rounded-s-none",
+      "[&_.border-separate_tr_td:last-child]:rounded-e-none",
+      "[&_.border-separate_tr_th:first-child]:rounded-s-none",
+      "[&_.border-separate_tr_th:last-child]:rounded-e-none"
+    ]
+  end
+
+  defp rounded_size("none", _), do: "rounded-none"
+
   defp rounded_size("extra_small", _), do: "rounded-sm"
 
   defp rounded_size("small", _), do: "rounded"

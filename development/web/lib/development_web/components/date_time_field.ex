@@ -124,7 +124,7 @@ defmodule DevelopmentWeb.Components.DateTimeField do
 
   attr :floating, :string, default: "none", doc: "none, inner, outer"
   attr :error_icon, :string, default: nil, doc: "Icon to be displayed alongside error messages"
-  attr :label, :string, doc: "Specifies text for the label"
+  attr :label, :string, default: nil, doc: "Specifies text for the label"
 
   slot :start_section, required: false, doc: "Renders heex content in start of an element" do
     attr :class, :any, doc: "Custom CSS class for additional styling"
@@ -137,8 +137,8 @@ defmodule DevelopmentWeb.Components.DateTimeField do
   end
 
   attr :errors, :list, default: [], doc: "List of error messages to be displayed"
-  attr :name, :any, doc: "Name of input"
-  attr :value, :any, doc: "Value of input"
+  attr :name, :any, default: nil, doc: "Name of input"
+  attr :value, :any, default: nil, doc: "Value of input"
 
   attr :field, Phoenix.HTML.FormField, doc: "a form field struct retrieved from the form"
 
@@ -154,8 +154,8 @@ defmodule DevelopmentWeb.Components.DateTimeField do
     assigns
     |> assign(field: nil, id: assigns.id || field.id)
     |> assign(:errors, Enum.map(errors, &translate_error(&1)))
-    |> assign_new(:name, fn -> field.name end)
-    |> assign_new(:value, fn -> field.value end)
+    |> assign(:name, assigns.name || field.name)
+    |> assign(:value, assigns.value || field.value)
     |> date_time_field()
   end
 

@@ -56,7 +56,7 @@ defmodule DevelopmentWeb.Components.Image do
     doc:
       "Specifies the intended display size of the image in the layout for different viewport conditions"
 
-  attr :ismap, :string, default: nil, doc: "Make the image act as a server-side image map"
+  attr :ismap, :boolean, default: false, doc: "Make the image act as a server-side image map"
 
   attr :filter, :string, default: "", doc: "Utilities for applying filters"
   attr :filter_size, :string, default: "", doc: "Utilities for applying filters sizes"
@@ -112,6 +112,8 @@ defmodule DevelopmentWeb.Components.Image do
   defp rounded_size("extra_large"), do: "rounded-xl"
 
   defp rounded_size("full"), do: "rounded-full"
+
+  defp rounded_size("none"), do: "rounded-none"
 
   defp rounded_size(params) when is_binary(params), do: params
 

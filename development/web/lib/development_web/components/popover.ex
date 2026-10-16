@@ -32,17 +32,16 @@ defmodule DevelopmentWeb.Components.Popover do
   ```elixir
   <p>
     Due to its central geographic location in Southern Europe,
-    <.popover inline clickable>
-      <:trigger inline class="text-blue-400">Italy</:trigger>
-      <:content
-        id="popover-1"
-        rounded="large"
-        width="quadruple_large"
-        color="light"
-        padding="none"
-        class="grid grid-cols-5"
-        inline
-      >
+    <.popover
+      id="popover-1"
+      inline
+      clickable
+      rounded="large"
+      width="quadruple_large"
+      padding="none"
+    >
+      <:trigger class="text-blue-400">Italy</:trigger>
+      <:content class="grid grid-cols-5">
         <span class="block p-2 space-y-5 col-span-3">
           <span class="font-semibold block">About Italy</span>
           <span class="block">
@@ -62,9 +61,9 @@ defmodule DevelopmentWeb.Components.Popover do
     has historically been home to myriad peoples and cultures. In addition to the various ancient peoples dispersed throughout what is now modern-day Italy, the most predominant being the Indo-European Italic peoples who gave the peninsula its name, beginning from the classical era, Phoenicians and Carthaginians founded colonies mostly in insular Italy.
   </p>
 
-  <.popover clickable>
-    <:trigger trigger_id="popover-2" class="text-blue-400">Hover or Click here</:trigger>
-    <:content id="popover-2" color="light" rounded="large" padding="medium">
+  <.popover id="popover-2" clickable rounded="large" padding="medium">
+    <:trigger class="text-blue-400">Hover or Click here</:trigger>
+    <:content>
       <div class="p-4">
         <h4 class="text-lg font-semibold">Popover Title</h4>
         <p class="mt-2">This is a simple popover example with content that can be customized.</p>
@@ -276,6 +275,8 @@ defmodule DevelopmentWeb.Components.Popover do
   defp rounded_size("large"), do: "rounded-lg"
 
   defp rounded_size("extra_large"), do: "rounded-xl"
+
+  defp rounded_size("none"), do: "rounded-none"
 
   defp rounded_size(params) when is_binary(params), do: params
 

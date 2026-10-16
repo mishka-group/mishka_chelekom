@@ -259,6 +259,8 @@ defmodule DevelopmentWeb.Components.Gallery do
 
   defp rounded_size("full"), do: "rounded-full"
 
+  defp rounded_size("none"), do: "rounded-none"
+
   defp rounded_size(params) when is_binary(params), do: params
 
   defp shadow_class("extra_small"), do: "shadow-sm"

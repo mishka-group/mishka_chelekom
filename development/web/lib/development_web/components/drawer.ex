@@ -6,7 +6,7 @@ defmodule DevelopmentWeb.Components.Drawer do
   ## Features:
   - **Positioning:** Drawers can be positioned on the left, right, top, or bottom of the screen.
   - **Styling Variants:** Offers several styling options like `default`, `outline`,
-  `transparent`, `shadow`, and `unbordered`.
+  `transparent`, `bordered`, and `gradient`.
   - **Color Themes:** Supports a variety of predefined color themes, including `primary`,
   `secondary`, `success`, `danger`, `info`, and more.
   - **Customizable:** Allows customization of border style, size, border radius,

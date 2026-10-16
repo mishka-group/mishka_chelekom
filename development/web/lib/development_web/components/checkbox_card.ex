@@ -74,7 +74,7 @@ defmodule DevelopmentWeb.Components.CheckboxCard do
 
   attr :error_icon, :string, default: nil, doc: "Icon to be displayed alongside error messages"
   attr :errors, :list, default: [], doc: "List of error messages to be displayed"
-  attr :name, :any, doc: "Name of input"
+  attr :name, :any, default: nil, doc: "Name of input"
   attr :value, :any, doc: "Value of input"
 
   attr :rest, :global,
@@ -108,7 +108,7 @@ defmodule DevelopmentWeb.Components.CheckboxCard do
     |> assign(field: nil)
     |> assign(id: assigns.id || field.id)
     |> assign(:errors, Enum.map(errors, &translate_error(&1)))
-    |> assign_new(:name, fn -> field.name <> "[]" end)
+    |> assign(:name, assigns.name || field.name <> "[]")
     |> assign_new(:value, fn -> field.value end)
     |> assign(:multiple, true)
     |> checkbox_card()

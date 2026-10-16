@@ -657,6 +657,8 @@ defmodule DevelopmentWeb.Components.Tabs do
   defp rounded_size("full", "nav_pills"),
     do: "[&_.tab-trigger]:rounded-full [&_.tab-nav-pills]:rounded-full"
 
+  defp rounded_size("none", _), do: nil
+
   defp rounded_size(params, _) when is_binary(params), do: [params]
 
   defp color_variant("base", _) do

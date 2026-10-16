@@ -209,7 +209,7 @@ defmodule DevelopmentWeb.Components.Toast do
 
     <.toast
       id="toast-3"
-      variant="unbordered"
+      variant="bordered"
       color="warning"
       content_border="small"
       border_position="start"

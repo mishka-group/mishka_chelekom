@@ -119,8 +119,8 @@ defmodule DevelopmentWeb.Components.Progress do
 
   ## Attributes
     - value: The progress value (0 to 100)
-    - size: The SVG size (width), default is 100
-    - thickness: The stroke width of the circle, default is 10
+    - size: The SVG size (width), default is 200
+    - thickness: The stroke width of the circle, default is 12
     - color: Determines the color theme; default is "natural"
   """
   attr :id, :string, default: nil, doc: "HTML ID for the container"
@@ -225,7 +225,7 @@ defmodule DevelopmentWeb.Components.Progress do
     - max: maximum progress value (default is 100)
     - size: size of the SVG (width and height, default is 120)
     - thickness: width of the circle stroke (default is 10)
-    - progress_color: stroke color for the progress circle (default is "#00aaff")
+    - color: Determines the color theme; default is "natural"
   """
   @doc type: :component
   attr :id, :string,
@@ -552,6 +552,10 @@ defmodule DevelopmentWeb.Components.Progress do
 
   defp rounded_size("full") do
     "rounded-full [&:not(.vertical-progress)_.progress-section:last-of-type]:rounded-e-full"
+  end
+
+  defp rounded_size("none") do
+    "rounded-none [&:not(.vertical-progress)_.progress-section:last-of-type]:rounded-e-none"
   end
 
   defp rounded_size(params) when is_binary(params), do: params

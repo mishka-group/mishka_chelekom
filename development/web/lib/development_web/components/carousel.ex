@@ -226,7 +226,7 @@ defmodule DevelopmentWeb.Components.Carousel do
     doc: "Specifies the path for navigation using a LiveView patch."
 
   attr :href, :string, default: nil, doc: "Sets the URL for an external link."
-  attr :image, :string, required: true, doc: "Image displayed alongside of an item"
+  attr :image, :string, default: nil, doc: "Image displayed alongside of an item"
 
   attr :alt, :string,
     default: "",
@@ -240,7 +240,7 @@ defmodule DevelopmentWeb.Components.Carousel do
        when is_binary(nav) or is_binary(pat) or is_binary(hrf) do
     ~H"""
     <.link navigate={@navigate} patch={@patch} href={@href}>
-      <div class="relative">
+      <div :if={@image} class="relative">
         <.image
           class={["max-w-full", @image_class]}
           src={@image}
@@ -255,7 +255,7 @@ defmodule DevelopmentWeb.Components.Carousel do
 
   defp slide_image(assigns) do
     ~H"""
-    <div class="relative">
+    <div :if={@image} class="relative">
       <.image
         class={["max-w-full", @image_class]}
         src={@image}

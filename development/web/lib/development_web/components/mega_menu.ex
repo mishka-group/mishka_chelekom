@@ -272,6 +272,8 @@ defmodule DevelopmentWeb.Components.MegaMenu do
 
   defp rounded_size("extra_large"), do: "[&>.mega-menu-content]:rounded-xl"
 
+  defp rounded_size("none"), do: "[&>.mega-menu-content]:rounded-none"
+
   defp rounded_size(params) when is_binary(params), do: params
 
   defp size_class("extra_small"), do: "text-xs"

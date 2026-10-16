@@ -267,6 +267,8 @@ defmodule DevelopmentWeb.Components.Tooltip do
 
   defp rounded_size("extra_large"), do: "rounded-xl"
 
+  defp rounded_size("none"), do: "rounded-none"
+
   defp rounded_size(params) when is_binary(params), do: params
 
   defp border_class(_, variant) when variant in ["default", "shadow", "gradient"],
