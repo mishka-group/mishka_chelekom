@@ -29,29 +29,59 @@ Always prefer the official documentation over guessing or hallucinating componen
 
 ## Using with usage_rules Package
 
-This library supports the [usage_rules](https://hexdocs.pm/usage_rules/) package for LLM agent integration.
+This library supports the [usage_rules](https://hexdocs.pm/usage_rules/) package (1.2 and later) for LLM agent integration.
 
 ### Setup
 
 ```elixir
-# Add to mix.exs
-{:usage_rules, "~> 0.2"}
-
-# Sync rules to your project
-mix usage_rules.sync
+# mix.exs, in deps/0
+{:usage_rules, "~> 1.2", only: :dev}
 ```
 
 ### Configuration
 
-In `config/config.exs`:
+The configuration lives in `project/0` of your `mix.exs`. `file` is the file the rules are written to
+(`"CLAUDE.md"`, `"AGENTS.md"`, `"CURSOR.md"`, etc.) and `usage_rules` lists the packages to include:
 
 ```elixir
-config :usage_rules,
-  output_file: "CLAUDE.md",  # or "CURSOR.md", "AGENTS.md", etc.
-  packages: [:mishka_chelekom]
+def project do
+  [
+    app: :my_app,
+    # ...
+    usage_rules: [
+      file: "CLAUDE.md",
+      usage_rules: [:mishka_chelekom]
+    ]
+  ]
+end
 ```
 
-This will automatically include Mishka Chelekom's usage rules in your agent's context.
+Then sync the rules into the file:
+
+```bash
+mix usage_rules.sync
+```
+
+`:mishka_chelekom` inlines this file and the top-level sub-rules (`usage-rules/mix-tasks.md`) into
+your agent's context. The packages in the file but not in the configuration are removed on each sync.
+
+### Per-component rules
+
+The component, headless, JS and docs rules live in sub-folders of `usage-rules/`. Name the ones you
+use as `sub_rules`, relative to `usage-rules/` and without `.md`, so the agent loads only what the
+project generated:
+
+```elixir
+usage_rules: [
+  file: "CLAUDE.md",
+  usage_rules: [
+    {:mishka_chelekom, sub_rules: ["components/button", "components/modal", "docs/kit"]}
+  ]
+]
+```
+
+To link the files instead of inlining them, add `link: :markdown` (or `link: :at`) to the options:
+`{:mishka_chelekom, sub_rules: ["components/button"], link: :markdown}`.
 
 ## Compatibility
 

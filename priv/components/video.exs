@@ -4,7 +4,7 @@
     category: "media",
     doc_url: "https://mishka.tools/chelekom/docs/video",
     args: [
-      rounded: ["extra_small", "small", "medium", "large", "extra_large"],
+      rounded: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       only: ["video"],
       helpers: [],
       module: ""

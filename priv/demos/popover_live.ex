@@ -51,7 +51,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.PopoverLive do
   defp code_string(1) do
     """
     <!--This popover is clickable -->
-    <!--so use a unique ID for the content, and reference that ID in the trigger_id -->
+    <!--so give the popover a unique id -->
      <.popover clickable id="uniqu_id" rounded="small" width="large" color="dawn" padding="small">
       <:trigger class="custom_class">
         <.button color="dawn" size="small">popover trigger</.button>
@@ -105,8 +105,8 @@ defmodule MishkaWeb.ChelekomLive.Docs.PopoverLive do
     <!--if you add clickable to popover keep in mind use unique IDs-->
     <p>
       Learn more about
-        <.popover clickable inline>
-          <:trigger trigger_id="unique_id">Mishka Chelekom</:trigger>
+        <.popover clickable inline id="unique_id">
+          <:trigger>Mishka Chelekom</:trigger>
           <:content>
             <span class="p-4 block">
               <span class="text-lg font-semibold block">About Mishka Chelekom</span>

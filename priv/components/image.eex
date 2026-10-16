@@ -56,7 +56,7 @@ defmodule <%= @module %> do
     doc:
       "Specifies the intended display size of the image in the layout for different viewport conditions"
 
-  attr :ismap, :string, default: nil, doc: "Make the image act as a server-side image map"
+  attr :ismap, :boolean, default: false, doc: "Make the image act as a server-side image map"
 
   attr :filter, :string, default: "", doc: "Utilities for applying filters"
   attr :filter_size, :string, default: "", doc: "Utilities for applying filters sizes"
@@ -118,6 +118,9 @@ defmodule <%= @module %> do
   <% end %>
   <%= if is_nil(@rounded) or "full" in @rounded do %>
   defp rounded_size("full"), do: "rounded-full"
+  <% end %>
+  <%= if is_nil(@rounded) or "none" in @rounded do %>
+  defp rounded_size("none"), do: "rounded-none"
   <% end %>
   defp rounded_size(params) when is_binary(params), do: params
 

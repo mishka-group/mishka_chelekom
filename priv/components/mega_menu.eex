@@ -277,6 +277,9 @@ defmodule <%= @module %> do
   <%= if is_nil(@rounded) or "extra_large" in @rounded do %>
   defp rounded_size("extra_large"), do: "[&>.mega-menu-content]:rounded-xl"
   <% end %>
+  <%= if is_nil(@rounded) or "none" in @rounded do %>
+  defp rounded_size("none"), do: "[&>.mega-menu-content]:rounded-none"
+  <% end %>
   defp rounded_size(params) when is_binary(params), do: params
   <%= if is_nil(@size) or "extra_small" in @size do %>
   defp size_class("extra_small"), do: "text-xs"

@@ -171,7 +171,7 @@ defmodule DevelopmentWeb.Showcase.Examples.NativeSelect do
       >
         <:option value="nl" selected>NL</:option>
         <:option value="usa">USA</:option>
-        <:option value="uae" disabled="true">UAE</:option>
+        <:option value="uae" disabled>UAE</:option>
       </.native_select>
     </div>
     """

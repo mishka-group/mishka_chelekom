@@ -49,7 +49,7 @@ None (necessary, optional, or JavaScript).
 
 | Option | Values |
 |--------|--------|
-| Variants | `base`, `default`, `outline`, `transparent`, `shadow`, `unbordered` |
+| Variants | `base`, `default`, `outline`, `transparent`, `shadow`, `bordered` |
 | Colors | `base`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `light`, `misc`, `dawn`, `silver` |
 | Sizes | `extra_small`, `small`, `medium`, `large`, `extra_large` |
 | Space / Padding | `extra_small`, `small`, `medium`, `large`, `extra_large` |

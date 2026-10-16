@@ -20,7 +20,7 @@
         "misc",
         "dawn"
       ],
-      rounded: ["extra_small", "small", "medium", "large", "extra_large"],
+      rounded: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       space: ["extra_small", "small", "medium", "large", "extra_large"],
       size: ["extra_small", "small", "medium", "large", "extra_large"],
       padding: [

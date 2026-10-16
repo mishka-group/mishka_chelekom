@@ -2,7 +2,7 @@ defmodule <%= @module %> do
   @moduledoc """
   The `<%= @module %>` module provides a customizable footer component for Phoenix applications,
   allowing for various styles, colors, and layout options. It supports different design variants
-  such as default, outline, transparent, shadow, and unbordered.
+  such as default, outline, transparent, shadow, and bordered.
 
   ### Features:
 
@@ -215,6 +215,9 @@ defmodule <%= @module %> do
   <% end %>
   <%= if is_nil(@rounded) or "extra_large" in @rounded do %>
   defp rounded_size("extra_large"), do: "rounded-t-xl"
+  <% end %>
+  <%= if is_nil(@rounded) or "none" in @rounded do %>
+  defp rounded_size("none"), do: "rounded-t-none"
   <% end %>
   defp rounded_size(params) when is_binary(params), do: params
 

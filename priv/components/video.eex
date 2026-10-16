@@ -184,6 +184,9 @@ defmodule <%= @module %> do
   <%= if is_nil(@rounded) or "extra_large" in @rounded do %>
   defp rounded_size("extra_large"), do: "rounded-xl"
   <% end %>
+  <%= if is_nil(@rounded) or "none" in @rounded do %>
+  defp rounded_size("none"), do: "rounded-none"
+  <% end %>
   defp rounded_size(params) when is_binary(params), do: params
 
   defp caption_size("extra_small"), do: "[&::cue]:text-xs"

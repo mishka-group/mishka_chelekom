@@ -87,7 +87,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.FieldsetLive do
     [
       name: "fieldset",
       args: [
-        variant: ["default", "outline", "unbordered", "shadow", "transparent", "gradient", "base"],
+        variant: ["default", "outline", "bordered", "shadow", "transparent", "gradient", "base"],
         color: [
           "base",
           "natural",

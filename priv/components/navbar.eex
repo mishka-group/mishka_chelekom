@@ -34,16 +34,31 @@ defmodule <%= @module %> do
     <:list><.link navigate="/examples/sidebar">List</.link></:list>
 
     <:list>
-      <.<%= @component_prefix %>dropdown relative="md:relative" width="w-full" clickable>
-        <:trigger width="full" trigger_id="test-31">
+      <.<%= @component_prefix %>dropdown
+        id="navbar-dropdown"
+        relative="md:relative"
+        width="w-full"
+        clickable
+        space="small"
+        rounded="large"
+        padding="extra_small"
+      >
+        <:trigger>
           <button class="text-start w-full block">Dropdown</button>
         </:trigger>
 
-        <:content space="small" id="test-31" rounded="large" width="large" padding="extra_small">
+        <:content>
           <ul class="space-y-5">
             <li>
-              <.<%= @component_prefix %>dropdown width="w-full" position="right" clickable>
-                <:trigger trigger_id="test-19">
+              <.<%= @component_prefix %>dropdown
+                id="navbar-nested-dropdown"
+                width="w-full"
+                position="right"
+                clickable
+                rounded="large"
+                padding="extra_small"
+              >
+                <:trigger>
                   <button class={[
                     "py-1 px-2 text-start w-full flex items-center justify-between hover:bg-gray-200"
                   ]}
@@ -52,7 +67,7 @@ defmodule <%= @module %> do
                   </button>
                 </:trigger>
 
-                <:content id="test-19" rounded="large" width="large" padding="extra_small">
+                <:content>
                   <ul class="space-y-5">
                     <li>
                       <.link class="py-1 px-2 block hover:bg-gray-200" navigate="/examples/list">
@@ -356,6 +371,9 @@ defmodule <%= @module %> do
   <% end %>
   <%= if is_nil(@rounded) or "extra_large" in @rounded do %>
   defp rounded_size("extra_large"), do: "rounded-b-xl"
+  <% end %>
+  <%= if is_nil(@rounded) or "none" in @rounded do %>
+  defp rounded_size("none"), do: "rounded-b-none"
   <% end %>
   defp rounded_size(params) when is_binary(params), do: params
 

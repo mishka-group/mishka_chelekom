@@ -73,8 +73,8 @@ defmodule <%= @module %> do
   attr :label, :string, default: nil, doc: "Specifies text for the label"
   attr :multiple, :boolean, default: false, doc: "the multiple flag for select inputs"
   attr :errors, :list, default: [], doc: "List of error messages to be displayed"
-  attr :name, :any, doc: "Name of input"
-  attr :value, :any, doc: "Value of input"
+  attr :name, :any, default: nil, doc: "Name of input"
+  attr :value, :any, default: nil, doc: "Value of input"
 
   attr :field, Phoenix.HTML.FormField, doc: "a form field struct retrieved from the form"
 
@@ -92,10 +92,11 @@ defmodule <%= @module %> do
     |> assign(field: nil)
     |> assign(id: if(assigns.multiple, do: new_id <> "_#{Utils.random_id()}", else: new_id))
     |> assign(:errors, Enum.map(errors, &translate_error(&1)))
-    |> assign_new(:name, fn ->
-      if assigns.multiple, do: field.name <> "[]", else: field.name
-    end)
-    |> assign_new(:value, fn -> field.value end)
+    |> assign(
+      :name,
+      assigns.name || if(assigns.multiple, do: field.name <> "[]", else: field.name)
+    )
+    |> assign(:value, assigns.value || field.value)
     |> assign_new(:checked, fn ->
       Form.normalize_value("checkbox", assigns[:value])
     end)
@@ -189,8 +190,8 @@ defmodule <%= @module %> do
   attr :reverse, :boolean, default: false, doc: "Switches the order of the element and label"
   attr :error_icon, :string, default: nil, doc: "Icon to be displayed alongside error messages"
   attr :errors, :list, default: [], doc: "List of error messages to be displayed"
-  attr :name, :any, doc: "Name of input"
-  attr :value, :any, doc: "Value of input"
+  attr :name, :any, default: nil, doc: "Name of input"
+  attr :value, :any, default: nil, doc: "Value of input"
 
   attr :rest, :global,
     include: ~w(autocomplete disabled form indeterminate readonly required title autofocus),
@@ -213,8 +214,8 @@ defmodule <%= @module %> do
     |> assign(field: nil)
     |> assign(id: assigns.id || field.id)
     |> assign(:errors, Enum.map(errors, &translate_error(&1)))
-    |> assign_new(:name, fn -> field.name <> "[]" end)
-    |> assign_new(:value, fn -> field.value end)
+    |> assign(:name, assigns.name || field.name <> "[]")
+    |> assign(:value, assigns.value || field.value)
     |> assign(:multiple, true)
     |> <%= @component_prefix %>group_checkbox()
   end

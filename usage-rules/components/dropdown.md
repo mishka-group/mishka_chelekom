@@ -35,33 +35,56 @@ mix mishka.ui.gen.component dropdown --module MyAppWeb.Components.CustomDropdown
 
 ### `dropdown/1`
 
+The style attributes of `dropdown/1` style its content; the `content` slot takes only `class`.
+
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `id` | `:string` | `nil` | Unique identifier |
-| `clickable` | `:boolean` | `false` | Activate on click (default: hover) |
+| `id` | `:string` | **required** | Unique identifier |
+| `clickable` | `:boolean` | `true` | Activate on click; `clickable={false}` activates on hover |
 | `position` | `:string` | `"bottom"` | `top`, `bottom`, `left`, `right` |
 | `relative` | `:string` | `nil` | Position context class |
+| `width` | `:string` | `"w-fit"` | Width class of the dropdown and its content (`w-fit`, `w-full`, ...) |
+| `variant` | `:string` | `"base"` | Style variant |
+| `color` | `:string` | `"natural"` | Color theme |
+| `size` | `:string` | `""` | Content size |
+| `space` | `:string` | `""` | Space between items |
+| `rounded` | `:string` | `""` | Border radius |
+| `padding` | `:string` | `"none"` | Content padding |
+| `border` | `:string` | `"extra_small"` | Border width |
+| `font_weight` | `:string` | `"font-normal"` | Font weight class |
+| `smart_position` | `:boolean` | `false` | Move the content when it does not fit |
+| `nomobile` | `:boolean` | `false` | Disable the dropdown on mobile |
 | `class` | `:any` | `nil` | Custom CSS class |
 
 ### `dropdown_content/1`
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
+| `id` | `:string` | `nil` | Unique identifier |
 | `variant` | `:string` | `"base"` | Style variant |
-| `color` | `:string` | `"base"` | Color theme |
-| `size` | `:string` | `"medium"` | Content size |
-| `space` | `:string` | `"small"` | Space between items |
-| `rounded` | `:string` | `"medium"` | Border radius |
-| `padding` | `:string` | `"small"` | Content padding |
-| `width` | `:string` | `nil` | `full`, `fit`, custom |
+| `color` | `:string` | `"natural"` | Color theme |
+| `size` | `:string` | `""` | Content size |
+| `space` | `:string` | `""` | Space between items |
+| `rounded` | `:string` | `""` | Border radius |
+| `padding` | `:string` | `"none"` | Content padding |
+| `width` | `:string` | `"extra_large"` | `extra_small` to `quadruple_large`, `full`, custom |
+| `border` | `:string` | `"extra_small"` | Border width |
+| `font_weight` | `:string` | `"font-normal"` | Font weight class |
+| `class` | `:any` | `nil` | Custom CSS class |
+
+### `dropdown_trigger/1`
+
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `id` | `:string` | `nil` | Unique identifier |
 | `class` | `:any` | `nil` | Custom CSS class |
 
 ## Slots
 
-| Slot | Description |
-|------|-------------|
-| `trigger` | The element that activates the dropdown |
-| `content` | The dropdown content, with attributes for styling |
+| Slot | Attributes | Description |
+|------|------------|-------------|
+| `trigger` | `class` | The element that activates the dropdown |
+| `content` | `class` | The dropdown content |
 
 ## Available Options
 
@@ -70,7 +93,8 @@ mix mishka.ui.gen.component dropdown --module MyAppWeb.Components.CustomDropdown
 | Variants | `base`, `default`, `outline`, `bordered`, `shadow`, `gradient` |
 | Colors | `base`, `natural`, `white`, `dark`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn` |
 | Sizes | `extra_small`, `small`, `medium`, `large`, `extra_large` |
-| Space / Padding / Rounded | `extra_small`, `small`, `medium`, `large`, `extra_large`, `none` |
+| Padding / Rounded | `extra_small`, `small`, `medium`, `large`, `extra_large`, `none` |
+| Space | `extra_small`, `small`, `medium`, `large`, `extra_large` |
 | Position | `top`, `bottom`, `left`, `right` |
 
 ## Usage Examples
@@ -78,14 +102,14 @@ mix mishka.ui.gen.component dropdown --module MyAppWeb.Components.CustomDropdown
 ### Basic Dropdown (Hover)
 
 ```heex
-<.dropdown relative="relative">
+<.dropdown id="hover-dropdown" relative="relative" clickable={false} space="small" rounded="large" padding="small">
   <:trigger>
     <.button color="primary">
       Hover Me
       <.icon name="hero-chevron-down" class="size-4" />
     </.button>
   </:trigger>
-  <:content space="small" rounded="large" padding="small">
+  <:content>
     <.list size="small">
       <:item padding="extra_small">Option 1</:item>
       <:item padding="extra_small">Option 2</:item>
@@ -98,7 +122,7 @@ mix mishka.ui.gen.component dropdown --module MyAppWeb.Components.CustomDropdown
 ### Click Activated (`clickable`) + Positions
 
 ```heex
-<.dropdown relative="relative" clickable>
+<.dropdown id="click-dropdown" relative="relative" clickable>
   <:trigger>
     <.button color="primary" icon="hero-chevron-down" right_icon>
       Click Me
@@ -114,7 +138,7 @@ mix mishka.ui.gen.component dropdown --module MyAppWeb.Components.CustomDropdown
 </.dropdown>
 
 <%!-- position accepts: top, bottom (default), left, right --%>
-<.dropdown relative="relative" position="top">
+<.dropdown id="top-dropdown" relative="relative" position="top">
   <:trigger><.button>Top</.button></:trigger>
   <:content>Content above</:content>
 </.dropdown>
@@ -123,11 +147,11 @@ mix mishka.ui.gen.component dropdown --module MyAppWeb.Components.CustomDropdown
 ### With Icons
 
 ```heex
-<.dropdown relative="relative" clickable>
+<.dropdown id="icons-dropdown" relative="relative" clickable space="small" rounded="large">
   <:trigger>
     <.button icon="hero-ellipsis-vertical" circle />
   </:trigger>
-  <:content space="small" rounded="large">
+  <:content>
     <.list size="small">
       <:item padding="extra_small" icon="hero-pencil">Edit</:item>
       <:item padding="extra_small" icon="hero-document-duplicate">Duplicate</:item>
@@ -140,11 +164,19 @@ mix mishka.ui.gen.component dropdown --module MyAppWeb.Components.CustomDropdown
 ### Styled Content
 
 ```heex
-<.dropdown relative="relative" clickable>
+<.dropdown
+  id="styled-dropdown"
+  relative="relative"
+  clickable
+  variant="shadow"
+  color="white"
+  rounded="large"
+  padding="medium"
+>
   <:trigger>
     <.button color="primary">Options</.button>
   </:trigger>
-  <:content variant="shadow" color="white" rounded="large" padding="medium" width="fit">
+  <:content>
     <div class="min-w-48">
       <p class="font-semibold mb-2">Actions</p>
       <.list size="small">
@@ -162,7 +194,14 @@ mix mishka.ui.gen.component dropdown --module MyAppWeb.Components.CustomDropdown
 ### User Menu
 
 ```heex
-<.dropdown relative="relative" clickable>
+<.dropdown
+  id="user-menu"
+  relative="relative"
+  clickable
+  variant="shadow"
+  rounded="large"
+  padding="none"
+>
   <:trigger>
     <button class="flex items-center gap-2">
       <.avatar src={@current_user.avatar} size="small" rounded="full" />
@@ -170,7 +209,7 @@ mix mishka.ui.gen.component dropdown --module MyAppWeb.Components.CustomDropdown
       <.icon name="hero-chevron-down" class="size-4" />
     </button>
   </:trigger>
-  <:content variant="shadow" rounded="large" padding="none" width="fit">
+  <:content>
     <div class="min-w-48">
       <div class="p-3 border-b">
         <p class="font-semibold">{@current_user.name}</p>
@@ -197,11 +236,18 @@ mix mishka.ui.gen.component dropdown --module MyAppWeb.Components.CustomDropdown
 ### Action Menu (per-row, with `phx-click`)
 
 ```heex
-<.dropdown :for={item <- @items} relative="relative" clickable>
+<.dropdown
+  :for={item <- @items}
+  id={"row-menu-#{item.id}"}
+  relative="relative"
+  clickable
+  variant="shadow"
+  rounded="medium"
+>
   <:trigger>
     <.button icon="hero-ellipsis-horizontal" variant="transparent" size="small" />
   </:trigger>
-  <:content variant="shadow" rounded="medium">
+  <:content>
     <.list size="small">
       <:item padding="extra_small">
         <button phx-click="edit" phx-value-id={item.id} class="flex items-center gap-2 w-full">
@@ -222,13 +268,13 @@ mix mishka.ui.gen.component dropdown --module MyAppWeb.Components.CustomDropdown
 
 ```heex
 <nav class="flex items-center gap-4">
-  <.dropdown relative="relative">
+  <.dropdown id="products-menu" relative="relative" variant="shadow" rounded="large" padding="medium">
     <:trigger>
       <button class="flex items-center gap-1">
         Products <.icon name="hero-chevron-down" class="size-4" />
       </button>
     </:trigger>
-    <:content variant="shadow" rounded="large" padding="medium">
+    <:content>
       <div class="grid grid-cols-2 gap-4 min-w-80">
         <a href="/products/software" class="p-3 hover:bg-gray-50 rounded-lg">
           <.icon name="hero-computer-desktop" class="size-6 text-primary-500" />

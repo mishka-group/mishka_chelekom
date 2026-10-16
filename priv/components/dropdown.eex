@@ -21,14 +21,22 @@ defmodule <%= @module %> do
   ## Examples
 
   ```elixir
-  <.<%= @component_prefix %>dropdown relative="relative" position="right">
+  <.<%= @component_prefix %>dropdown
+    id="dropdown-right"
+    relative="relative"
+    position="right"
+    space="small"
+    rounded="large"
+    width="w-full"
+    padding="extra_small"
+  >
     <:trigger>
       <.<%= @component_prefix %>button color="primary" icon="hero-chevron-down" right_icon>
         Dropdown Right
       </.<%= @component_prefix %>button>
     </:trigger>
 
-    <:content space="small" rounded="large" width="full" padding="extra_small">
+    <:content>
       <.<%= @component_prefix %>list size="small">
         <:item padding="extra_small" icon="hero-envelope">Dashboard</:item>
         <:item padding="extra_small" icon="hero-camera">Settings</:item>
@@ -38,14 +46,22 @@ defmodule <%= @module %> do
     </:content>
   </.<%= @component_prefix %>dropdown>
 
-  <.<%= @component_prefix %>dropdown relative="relative" clickable>
-    <:trigger trigger_id="test-1">
+  <.<%= @component_prefix %>dropdown
+    id="dropdown-button"
+    relative="relative"
+    clickable
+    space="small"
+    rounded="large"
+    width="w-full"
+    padding="extra_small"
+  >
+    <:trigger>
       <.<%= @component_prefix %>button color="primary" icon="hero-chevron-down" right_icon>
         Dropdown Button
       </.<%= @component_prefix %>button>
     </:trigger>
 
-    <:content id="test-1" space="small" rounded="large" width="full" padding="extra_small">
+    <:content>
       <.<%= @component_prefix %>list size="small">
         <:item padding="extra_small" icon="hero-envelope">Dashboard</:item>
         <:item padding="extra_small" icon="hero-camera">Settings</:item>
@@ -195,7 +211,6 @@ defmodule <%= @module %> do
     default: nil,
     doc: "A unique identifier is used to manage state and interaction"
 
-  attr :trigger_id, :string, default: nil, doc: "Identifies what is the triggered element id"
   attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 

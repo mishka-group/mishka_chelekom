@@ -85,7 +85,7 @@ mix mishka.ui.gen.component text_field
 
 <.text_field name="search" placeholder="Search...">
   <:end_section>
-    <.button size="small" variant="ghost">
+    <.button size="small" variant="transparent">
       <.icon name="hero-magnifying-glass" class="size-4" />
     </.button>
   </:end_section>

@@ -41,7 +41,7 @@ Value labels at different positions.
 
 | Attribute | Type | Description |
 |-----------|------|-------------|
-| `position` | `:string` | `start`, `middle`, or `end` |
+| `position` | `:string` | `start` (default), `middle`, `end`, `quarter`, `three-quarters`, `two-thirds`, `one-thirds`, or a class |
 
 ## Usage Examples
 

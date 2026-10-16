@@ -9,7 +9,7 @@ defmodule <%= @module %> do
   ## Features
 
   - **Customizable Appearance:** Supports various size, color, and style options, including
-  `default`, `outline`, `shadow`, and `unbordered` variants. Users can control the
+  `default`, `bordered`, `shadow`, and `gradient` variants. Users can control the
   overall size, border radius, padding, and spacing between elements to fit different design requirements.
   - **Action Configuration:** The `SpeedDial` component can hold multiple action items,
   each with individual icons, colors, and navigation paths. Items can link to different parts
@@ -46,7 +46,7 @@ defmodule <%= @module %> do
   <.speed_dial icon="hero-plus" space="large" icon_animated id="test-1" size="extra_small" clickable>
     <:item icon="hero-home" label="Home" href="/examples/navbar" color="danger"></:item>
     <:item icon="hero-bars-3" href="/examples/navbar" variant="shadow" color="misc">11</:item>
-    <:item icon="hero-chart-bar" href="/examples/navbar" variant="unbordered" color="warning">
+    <:item icon="hero-chart-bar" href="/examples/navbar" variant="bordered" color="warning">
     </:item>
   </.speed_dial>
   ```

@@ -78,7 +78,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.MenuLive do
         size: "extra_small",
         rounded: "large",
         color: "misc",
-        variant: "menu",
+        variant: "transparent",
         icon: "",
         icon_class: "",
         sub_items: [

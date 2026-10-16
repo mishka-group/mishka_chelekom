@@ -176,14 +176,9 @@
             <strong>Note:</strong>
             If you want to use a clickable popover, apply the
             <.custom_inline_code>clickable</.custom_inline_code>
-            prop to the <.custom_inline_code>popover</.custom_inline_code>, and make sure to provide a
-            <.custom_inline_code>trigger_id</.custom_inline_code>
-            prop to the
-            <.custom_inline_code>:trigger</.custom_inline_code>
-            slot, which should match the unique ID of the
-            <.custom_inline_code>:content</.custom_inline_code>
-            slot
-            you want to display
+            prop to the <.custom_inline_code>popover</.custom_inline_code>, and give it a unique
+            <.custom_inline_code>id</.custom_inline_code>
+            prop
             <.link class="text-rose-800" patch={~p"/chelekom/docs/popover#popover-clickable"}>
               (See more)
             </.link>
@@ -1244,20 +1239,6 @@
               </:row>
 
               <:row>
-                <.table_td>trigger_id</.table_td>
-
-                <.table_td>string</.table_td>
-
-                <.table_td>No</.table_td>
-
-                <.table_td>
-                  Identifies the element that is triggered by this popover. Default is <strong>nil</strong>.
-                  <strong>Notice:</strong>
-                  When the dropdown is clickable, this prop is required.
-                </.table_td>
-              </:row>
-
-              <:row>
                 <.table_td>class</.table_td>
 
                 <.table_td>string</.table_td>
@@ -1308,16 +1289,6 @@
 
                 <.table_th>Description</.table_th>
               </:header>
-
-              <:row>
-                <.table_td>trigger_id</.table_td>
-
-                <.table_td>string</.table_td>
-
-                <.table_td>Yes</.table_td>
-
-                <.table_td>A unique identifier used to manage state and interaction.</.table_td>
-              </:row>
 
               <:row>
                 <.table_td>inline</.table_td>

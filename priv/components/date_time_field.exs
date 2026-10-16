@@ -22,7 +22,7 @@
       ],
       size: ["extra_small", "small", "medium", "large", "extra_large"],
       space: ["extra_small", "small", "medium", "large", "extra_large"],
-      rounded: ["extra_small", "small", "medium", "large", "extra_large", "none"],
+      rounded: ["extra_small", "small", "medium", "large", "extra_large", "none", "full"],
       only: ["date_time_field"],
       helpers: [],
       module: ""

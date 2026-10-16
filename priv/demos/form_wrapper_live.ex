@@ -100,17 +100,17 @@ defmodule MishkaWeb.ChelekomLive.Docs.FormsLive do
 
   defp code_string(4) do
     """
-    <.text_field variant="unbordered" color="white" />
-    <.text_field variant="unbordered" color="primary" />
-    <.textarea_field variant="unbordered" color="secondary" />
-    <.tel_field variant="unbordered" color="dark" />
-    <.text_field variant="unbordered" color="success" />
-    <.email_field variant="unbordered" color="warning" />
-    <.text_field variant="unbordered" color="danger" />
-    <.text_field variant="unbordered" color="info" />
-    <.text_field variant="unbordered" color="light" />
-    <.number_field variant="unbordered" color="misc" />
-    <.text_field variant="unbordered" color="dawn" />
+    <.text_field variant="bordered" color="white" />
+    <.text_field variant="bordered" color="primary" />
+    <.textarea_field variant="bordered" color="secondary" />
+    <.tel_field variant="bordered" color="dark" />
+    <.text_field variant="bordered" color="success" />
+    <.email_field variant="bordered" color="warning" />
+    <.text_field variant="bordered" color="danger" />
+    <.text_field variant="bordered" color="info" />
+    <.text_field variant="bordered" color="light" />
+    <.number_field variant="bordered" color="misc" />
+    <.text_field variant="bordered" color="dawn" />
     """
   end
 
@@ -299,7 +299,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.FormsLive do
     [
       name: "form_wrapper",
       args: [
-        variant: ["default", "outline", "transparent", "shadow", "unbordered", "base"],
+        variant: ["default", "outline", "transparent", "shadow", "bordered", "base"],
         color: [
           "base",
           "white",

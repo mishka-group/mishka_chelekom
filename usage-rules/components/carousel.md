@@ -43,7 +43,7 @@ mix mishka.ui.gen.component carousel --module MyAppWeb.Components.CustomCarousel
 
 | Attribute | Type | Description |
 |-----------|------|-------------|
-| `image` | `:string` | Slide image URL |
+| `image` | `:string` | Slide image URL; a slide without one renders its title and description only |
 | `image_class` | `:string` | Image styling class |
 | `title` | `:string` | Slide title |
 | `title_class` | `:string` | Title styling class |

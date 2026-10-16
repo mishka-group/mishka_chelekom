@@ -35,7 +35,7 @@
       padding: ["extra_small", "small", "medium", "large", "extra_large"],
       space: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       type: ["accordion"],
-      rounded: ["extra_small", "small", "medium", "large", "extra_large", "full"],
+      rounded: ["extra_small", "small", "medium", "large", "extra_large", "full", "none"],
       only: ["accordion"],
       helpers: [],
       module: ""

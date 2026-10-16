@@ -39,6 +39,65 @@
   swapping one element for another
 
 ### Bug fixes:
+- A form field renders without `name`, `value` or `label`. `<.email_field name="x" />` raised
+  `KeyError :value`, because `name` and `value` had no default and nothing read from a field
+  supplied them. `name` and `value` default to nil on `email_field`, `text_field`, `number_field`,
+  `password_field`, `tel_field`, `url_field`, `search_field`, `textarea_field`, `range_field`,
+  `input`, `checkbox_field`, `group_checkbox`, `radio_field`, `group_radio` and `date_time_field`
+  (and `label` on the last); `name` on `checkbox_card`, `radio_card`, `color_field`, `file_field`,
+  `native_select` and `toggle_field`; `for` on `form_wrapper`; `options` on `input`. The field
+  clause takes `field.name` and `field.value` when the caller gave none, since a default that is
+  there already is never replaced by `assign_new/3`. A `toggle_field` bound to a true field is
+  checked, and a `color_field` bound to a field shows its color, where both ignored the field's
+  value. A test renders every generated component with only its required attributes
+- The banner's `border_position` and `rounded_position` name the edge: `top` draws `border-t`
+  (and rounds the top corners, `rounded-t`), `bottom` draws `border-b` (and rounds the bottom
+  corners, `rounded-b`). `top` drew `border-b`, and `rounded_position` was inverted, so `top`
+  rounded the bottom corners. `border_position` defaults to `bottom`, which is what `top` drew, so
+  a banner with neither attribute looks as before; an explicit `top` or `bottom` on either
+  attribute now names the edge it says. A test reads every `border_position` and
+  `rounded_position` clause for the edge it names
+- `rounded="none"` draws no radius on `footer`, `form_wrapper`, `gallery`, `image`, `mega_menu`,
+  `navbar`, `popover`, `progress`, `table`, `table_content`, `toggle_field`, `tooltip`, `video`
+  and the base `tabs`; it was printed as the class `none`. The catalogs that lacked `none` list
+  it, so the CLI offers it. A test fails on a rounded helper with no clause for `none`
+- The `image` `ismap` attribute is a boolean (`<.image ismap />`), not a string, and is off by
+  default
+- `dropdown_trigger` no longer declares `trigger_id`, which nothing read
+- The `dropdown`, `popover` and `navbar` examples put `space`, `rounded`, `width`, `padding`, `id`
+  and `trigger_id` on the `:trigger` and `:content` slots, which take only `class`, and left out
+  the `id` the component needs. They are attributes of the component now, and a test fails on a
+  slot attribute in a documented example that no component declares. The same fix is in the
+  dropdown and popover usage rules, where the popover's content is the `:content` slot, not the
+  inner block
+- `variant="unbordered"` is `bordered` in the `drawer`, `footer`, `jumbotron`, `menu`,
+  `speed_dial`, `tel_field` and `toast` docs, the demos and the usage rules, and `variant="ghost"`
+  is `transparent`; the accordion in the `menu` example is `transparent`, not `menu`. A test fails
+  on a variant in a template or usage rule that no catalog or `color_variant/2` clause has
+- The `progress` docs give the semi-circle defaults its attributes declare (200 and 12) and name
+  the ring's `color`, not a `progress_color` it never took. The `jumbotron` usage rules name its
+  `border_size` and its `top`, `bottom` and `vertical` border positions
+- The usage_rules setup in `usage-rules.md` is the 1.2 one:
+  `usage_rules: [file: "CLAUDE.md", usage_rules: [:mishka_chelekom]]` in `project/0`, then
+  `mix usage_rules.sync`, and `{:mishka_chelekom, sub_rules: ["components/button"]}` for one
+  component's rules
+- A `carousel` slide without an `image` renders its title and description, and no picture; it
+  raised `KeyError :image`
+- A `range_field` `<:range_value>` without a `position` sits at the start; it raised
+  `FunctionClauseError`
+- A `combobox` with no `id` takes one from its `name` (`name="user[role]"` is `combo-user_role`),
+  the same on every render, and a random one only with neither. It was `-combo`, because the
+  attribute's nil default left `assign_new/3` nothing to fill in
+- The `native_select` option slot's `disabled` is a boolean (`<:option disabled>`)
+- The catalogs of `accordion`, `checkbox_card`, `checkbox_field`, `color_field`, `combobox`,
+  `date_time_field`, `gallery` and `radio_card` list the `none` and `full` rounded values their
+  templates have a clause for, and a test fails on a clause the catalog does not list
+- The `file_field` docs and usage rules say what `live` and `dropzone` need (`upload`, or `uploads`
+  and `target`); the dropzone examples in the usage rules passed `upload` alone
+- The `popover` demo docs and the `navbar` and `popover` demo samples no longer give a slot a
+  `trigger_id`, and the `menu` demo's accordion variant is `transparent`
+- The `usage_rules` sync test runs the 1.2 configuration (`usage_rules:` in `mix.exs`) instead of
+  the 0.1 command-line form
 - The headless editor adds no inline `<style>` of its own, so it draws under a strict Content Security
   Policy (`style-src-elem 'self' 'nonce-…'`) without a console error. TipTap 3 appends a
   `<style data-tiptap-style>` to `<head>` by default, and the policy blocks it; the TipTap engine now

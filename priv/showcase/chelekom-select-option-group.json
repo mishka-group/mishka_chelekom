@@ -33,7 +33,7 @@
     },
     {
       "label": "Shipping destinations grouped by region",
-      "source": "<div class=\"max-w-sm\">\n  <.component component_name=\"chelekom-label\" site=\"Global\" for=\"checkout-destination\">Ship to</.component>\n  <select id=\"checkout-destination\" name=\"destination\" class=\"mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-transparent px-3 py-2 text-sm\">\n    <option value=\"\">Choose a destination</option>\n    <.component component_name=\"chelekom-select-option-group\" site=\"Global\" id=\"ship-group-eu\" label=\"European Union\">\n      <:option value=\"de\">Germany — 2 to 4 days</:option>\n      <:option value=\"fr\">France — 2 to 4 days</:option>\n      <:option value=\"es\">Spain — 3 to 5 days</:option>\n      <:option value=\"gr\" disabled=\"true\">Greece — temporarily unavailable</:option>\n    </.component>\n  </select>\n</div>"
+      "source": "<div class=\"max-w-sm\">\n  <.component component_name=\"chelekom-label\" site=\"Global\" for=\"checkout-destination\">Ship to</.component>\n  <select id=\"checkout-destination\" name=\"destination\" class=\"mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-transparent px-3 py-2 text-sm\">\n    <option value=\"\">Choose a destination</option>\n    <.component component_name=\"chelekom-select-option-group\" site=\"Global\" id=\"ship-group-eu\" label=\"European Union\">\n      <:option value=\"de\">Germany — 2 to 4 days</:option>\n      <:option value=\"fr\">France — 2 to 4 days</:option>\n      <:option value=\"es\">Spain — 3 to 5 days</:option>\n      <:option value=\"gr\" disabled>Greece — temporarily unavailable</:option>\n    </.component>\n  </select>\n</div>"
     }
   ]
 }

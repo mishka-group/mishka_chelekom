@@ -18,63 +18,84 @@ None (necessary, optional, or JS).
 
 ## Attributes
 
+The style attributes of `popover/1` style its content; the `trigger` and `content` slots take only `class`.
+
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
+| `id` | `:string` | **required** | Unique identifier |
 | `variant` | `:string` | `"base"` | Style variant — `base`, `default`, `shadow`, `bordered`, `gradient` |
-| `color` | `:string` | `"base"` | Color theme — `base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn` |
-| `size` | `:string` | `"medium"` | Content size |
-| `padding` | `:string` | `"small"` | Content padding |
-| `rounded` | `:string` | `"medium"` | Border radius |
-| `space` | `:string` | `"small"` | Trigger spacing |
+| `color` | `:string` | `"natural"` | Color theme — `base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn` |
+| `size` | `:string` | `"small"` | Content size |
+| `padding` | `:string` | `"small"` | Content padding — `none`, `extra_small`, `small`, `medium`, `large`, `extra_large` |
+| `rounded` | `:string` | `"medium"` | Border radius — `none`, `extra_small`, `small`, `medium`, `large`, `extra_large` |
+| `border` | `:string` | `"extra_small"` | Border width |
+| `space` | `:string` | `""` | Space between items in the content |
+| `width` | `:string` | `"fit"` | Content minimum width — `extra_small` to `quadruple_large`, or a class |
+| `text_position` | `:string` | `"start"` | Text alignment of the content |
+| `font_weight` | `:string` | `"font-normal"` | Font weight class |
 | `position` | `:string` | `"top"` | Popover position — `top`, `bottom`, `left`, `right` |
 | `clickable` | `:boolean` | `false` | Click (instead of hover) to activate |
 | `inline` | `:boolean` | `false` | Inline display |
+| `show_arrow` | `:boolean` | `true` | Show the arrow (not drawn for `base` and `bordered`) |
+| `show_delay` | `:integer` | `0` | Delay before showing (ms) |
+| `hide_delay` | `:integer` | `200` | Delay before hiding (ms) |
+| `class` | `:any` | `nil` | Custom CSS class |
+| `trigger_class` | `:string` | `""` | CSS class of the trigger wrapper |
+| `content_class` | `:string` | `""` | CSS class of the content wrapper |
+| `arrow_class` | `:string` | `""` | CSS class of the arrow |
 
 ## Slots
 
-- `trigger` — element that triggers the popover.
-- `inner_block` — popover content.
+| Slot | Attributes | Description |
+|------|------------|-------------|
+| `trigger` | `class` | Element that triggers the popover |
+| `content` | `class` | Popover content |
+| `inner_block` | | Trigger element when there is no `trigger` slot |
 
 ## Usage Examples
 
 ### Basic (hover) and click-activated
 
 ```heex
-<.popover>
+<.popover id="hover-popover">
   <:trigger>
     <.button>Hover Me</.button>
   </:trigger>
-  <p>Popover content appears here.</p>
+  <:content>
+    <p>Popover content appears here.</p>
+  </:content>
 </.popover>
 
-<.popover clickable>
+<.popover id="click-popover" clickable>
   <:trigger>
     <.button>Click Me</.button>
   </:trigger>
-  <p>This popover is triggered by click.</p>
+  <:content>
+    <p>This popover is triggered by click.</p>
+  </:content>
 </.popover>
 ```
 
 ### Positions
 
 ```heex
-<.popover position="top"><:trigger>Top</:trigger>Content</.popover>
-<.popover position="bottom"><:trigger>Bottom</:trigger>Content</.popover>
-<.popover position="left"><:trigger>Left</:trigger>Content</.popover>
-<.popover position="right"><:trigger>Right</:trigger>Content</.popover>
+<.popover id="popover-top" position="top"><:trigger>Top</:trigger><:content>Content</:content></.popover>
+<.popover id="popover-bottom" position="bottom"><:trigger>Bottom</:trigger><:content>Content</:content></.popover>
+<.popover id="popover-left" position="left"><:trigger>Left</:trigger><:content>Content</:content></.popover>
+<.popover id="popover-right" position="right"><:trigger>Right</:trigger><:content>Content</:content></.popover>
 ```
 
 ### Variants
 
 ```heex
-<.popover variant="default" color="white">
+<.popover id="popover-default" variant="default" color="white">
   <:trigger>Default</:trigger>
-  Content
+  <:content>Content</:content>
 </.popover>
 
-<.popover variant="shadow" color="white">
+<.popover id="popover-shadow" variant="shadow" color="white">
   <:trigger>Shadow</:trigger>
-  Content
+  <:content>Content</:content>
 </.popover>
 ```
 
@@ -83,11 +104,13 @@ None (necessary, optional, or JS).
 ```heex
 <p>
   Learn more about
-  <.popover inline variant="shadow">
+  <.popover id="feature-popover" inline variant="shadow">
     <:trigger>
       <span class="text-primary-500 underline cursor-pointer">this feature</span>
     </:trigger>
-    <p>Detailed explanation of the feature.</p>
+    <:content>
+      <p>Detailed explanation of the feature.</p>
+    </:content>
   </.popover>
   in our docs.
 </p>
@@ -100,11 +123,13 @@ None (necessary, optional, or JS).
 ```heex
 <div class="flex items-center gap-2">
   <label>Email</label>
-  <.popover variant="shadow" color="dark" size="small">
+  <.popover id="email-help" variant="shadow" color="dark" size="small">
     <:trigger>
       <.icon name="hero-question-mark-circle" class="size-4 text-gray-400 cursor-help" />
     </:trigger>
-    <p class="text-white text-sm">We'll never share your email.</p>
+    <:content>
+      <p class="text-white text-sm">We'll never share your email.</p>
+    </:content>
   </.popover>
 </div>
 ```
@@ -112,19 +137,21 @@ None (necessary, optional, or JS).
 ### User card popover (`padding="none"` for custom layout)
 
 ```heex
-<.popover variant="shadow" padding="none">
+<.popover id="user-card" variant="shadow" padding="none">
   <:trigger>
     <.avatar src={@user.avatar} size="small" class="cursor-pointer" />
   </:trigger>
-  <div class="p-4 min-w-48">
-    <div class="flex items-center gap-3 mb-3">
-      <.avatar src={@user.avatar} size="medium" />
-      <div>
-        <p class="font-bold">{@user.name}</p>
-        <p class="text-sm text-gray-500">{@user.role}</p>
+  <:content>
+    <div class="p-4 min-w-48">
+      <div class="flex items-center gap-3 mb-3">
+        <.avatar src={@user.avatar} size="medium" />
+        <div>
+          <p class="font-bold">{@user.name}</p>
+          <p class="text-sm text-gray-500">{@user.role}</p>
+        </div>
       </div>
+      <.button size="small" full_width>View Profile</.button>
     </div>
-    <.button size="small" full_width>View Profile</.button>
-  </div>
+  </:content>
 </.popover>
 ```

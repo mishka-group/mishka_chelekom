@@ -30,7 +30,7 @@
         "triple_large",
         "quadruple_large"
       ],
-      rounded: ["extra_small", "small", "medium", "large", "extra_large", "full"],
+      rounded: ["extra_small", "small", "medium", "large", "extra_large", "full", "none"],
       type: ["progress", "progress_section", "semi_circle_progress", "ring_progress"],
       only: ["progress", "progress_section", "semi_circle_progress", "ring_progress"],
       helpers: [],

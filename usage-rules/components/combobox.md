@@ -26,7 +26,7 @@ mix mishka.ui.gen.component combobox --module MyAppWeb.Components.CustomCombobox
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `id` | `:string` | auto-generated | Unique identifier |
+| `id` | `:string` | from `name` | Unique identifier; `combo-` plus the `name` when not given, random when there is no `name` either |
 | `name` | `:string` | `nil` | Input field name |
 | `variant` | `:string` | `"base"` | Style variant — `base`, `default`, `bordered` |
 | `color` | `:string` | `"natural"` | Color theme — `base`, `natural`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn` |
