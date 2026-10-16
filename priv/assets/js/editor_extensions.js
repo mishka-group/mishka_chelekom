@@ -23,6 +23,19 @@
 //
 // Engines other than TipTap read the same shape: `extensions` is handed to whatever the engine
 // calls its plugin list, so switching engines does not mean re-learning this file.
+//
+// Content Security Policy. The TipTap engine injects no `<style>` (the ProseMirror base rules are
+// Tailwind classes on the editor's surface), so a strict `style-src-elem` needs nothing from you.
+// Two optional keys change that:
+//
+//     export default {
+//       injectCSS: true,    // TipTap: inject its own stylesheet (default false)
+//       injectNonce: document.querySelector('meta[name="csp-nonce"]')?.content,
+//     };
+//
+// `injectNonce` is the nonce put on a `<style>` the engine injects: TipTap's when `injectCSS` is
+// on, and CodeMirror's always (it cannot run without its own stylesheet). Lexical and Milkdown
+// inject none.
 
 export default {
   extensions: [],

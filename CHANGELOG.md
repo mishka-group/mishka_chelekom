@@ -39,6 +39,26 @@
   swapping one element for another
 
 ### Bug fixes:
+- The headless editor adds no inline `<style>` of its own, so it draws under a strict Content Security
+  Policy (`style-src-elem 'self' 'nonce-…'`) without a console error. TipTap 3 appends a
+  `<style data-tiptap-style>` to `<head>` by default, and the policy blocks it; the TipTap engine now
+  passes `injectCSS: config.injectCSS ?? false`. The ProseMirror base rules that style carried
+  (`position`, `overflow-wrap`, ligatures off, `contenteditable="false"` spans, `pre`, the separator
+  image, the gap cursor, the hidden selection) are Tailwind classes on the editor's `surface`, merged
+  with `surface_class`, so TipTap and Milkdown keep them. The editor's own rules in
+  `mishka_chelekom_headless.css` (the surface fill, no outline, `white-space`, the empty-document
+  placeholder) are surface classes too and left the stylesheet, so the editor is styled once; every
+  other headless component keeps its stylesheet rules. The gap cursor draws in the current text
+  colour rather than black and pulses with Tailwind's `animate-pulse` instead of a hard blink.
+  `injectCSS: true` and `injectNonce` in `editor_extensions.js` bring TipTap's own stylesheet back,
+  with a nonce. CodeMirror cannot run without the `<style>` it mounts, so the same `injectNonce` key
+  reaches its `EditorView.cspNonce`; Lexical and Milkdown inject none. Generate the editor again
+  after upgrading, since the stylesheet no longer carries its rules
+- The headless editor's toolbar marks a mark toggled at a collapsed cursor at once. Bold with nothing
+  selected only sets the stored marks, a transaction that changes neither the document nor the
+  selection, so the TipTap engine, which repainted `data-active` from `onUpdate` and
+  `onSelectionUpdate`, showed it one keystroke late. It repaints on every transaction now, once per
+  keystroke. Milkdown, Lexical and CodeMirror have no toolbar commands, so nothing lags there
 - A display utility in a component's `class` replaces the component's own. Tailwind writes display
   utilities in name order, not in class-list order, so the button's default `inline-flex` beat a
   caller's `hidden` and `class="hidden md:flex"` never hid it. Where a component's own display sits

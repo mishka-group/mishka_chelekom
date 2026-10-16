@@ -92,6 +92,9 @@ const Editor = {
           // state is mid-transaction.
           this.schedule(update.state.doc.toString());
         }),
+        // CodeMirror mounts its own `<style>` into <head> and cannot run without it. Under a
+        // nonce-based `style-src-elem` CSP it is allowed only when it carries the page's nonce.
+        ...(config.injectNonce ? [EditorView.cspNonce.of(config.injectNonce)] : []),
         ...(config.extensions || []),
       ],
     });

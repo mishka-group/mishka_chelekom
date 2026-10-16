@@ -119,13 +119,22 @@ const Editor = {
 
     const config = userConfig || {};
 
+    // TipTap 3 appends a `<style data-tiptap-style>` to <head> unless told not to, and a strict
+    // `style-src-elem` CSP blocks that element. The same ProseMirror base rules are Tailwind classes
+    // on the surface (editor.eex), so the engine adds no CSS of its own. Set `injectCSS: true` (and
+    // `injectNonce` for a nonce-based CSP) in editor_extensions.js to take TipTap's own back.
     this.editor = new TipTapEditor({
       element: el,
+      injectCSS: config.injectCSS ?? false,
+      injectNonce: config.injectNonce,
       extensions: [StarterKit.configure(config.starterKit || {}), ...(config.extensions || [])],
       content: parseInitial(el.getAttribute("data-value"), this.format),
       editable: el.getAttribute("data-editable") !== "false",
       onUpdate: () => this.schedule(),
-      onSelectionUpdate: () => this.render(),
+      // Every transaction, not only a selection or document change: a mark toggled at a collapsed
+      // cursor (Bold with nothing selected) only sets the stored marks, and the toolbar must show
+      // it before the next keystroke. One render per transaction, so schedule() does not render.
+      onTransaction: () => this.render(),
       onFocus: () => {
         this.render();
         this.push(this.onFocus);
@@ -237,7 +246,6 @@ const Editor = {
   },
 
   schedule() {
-    this.render();
     // Server-applied content must not echo straight back as a user edit.
     if (this.remote) return;
     if (this.timer) clearTimeout(this.timer);
