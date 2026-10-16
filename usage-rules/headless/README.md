@@ -78,8 +78,14 @@ See per-component docs in this folder, and `hooks.md` for the JS engines.
   `Components.Headless.<Name>`) — import both freely and call `<.button>` (styled) alongside
   `<.dialog>` (headless). On a name collision (e.g. a future styled `tabs`), alias one import or
   use a fully-qualified call.
-- Headless components install a tiny functional stylesheet (`assets/vendor/chelekom_headless.css`,
-  imported into `app.css`) that only handles visibility/positioning — no opinionated styling.
+- Headless components carry their functional styling (visibility, positioning, the drawer's slide)
+  as Tailwind classes on their own parts, listed before your `*_class`, so the app's Tailwind build
+  must scan the generated components (Phoenix's `@source "../../lib/<app>_web"` does). The state
+  that must hold (a closed popup hidden, a disabled item inert) is `!important`; on any other
+  property your class competes by Tailwind's usual order, and a Kit part class always wins. They also
+  install a tiny stylesheet (`assets/vendor/mishka_chelekom_headless.css`, imported into `app.css`)
+  holding only what a class cannot say: the navigation menu's `@keyframes` and the drawer's
+  page-indent rule for `[data-drawer-content]`.
 - Both layers share the **same JS assembly**: a component's `scripts:` entries are copied into
   `assets/vendor/` and spliced into `mishka_components.js`, then `app.js`.
 - Generated components have **zero runtime dependency** on `mishka_chelekom`; Layer-3

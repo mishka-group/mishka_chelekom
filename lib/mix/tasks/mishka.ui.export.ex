@@ -766,9 +766,9 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
   # boundary so the output is debuggable in the compiled CSS.
   # A LAYER SHIPS ITS OWN SHEET. The two filenames were hardcoded, so a headless export carried the
   # styled kit's theme byte-for-byte — colours, spacing, typography, all of it — while
-  # `mishka_chelekom_headless.css` says in its own header that it is functional only and that
-  # styling is the consuming app's job. Installing both kits wrote two `:theme` rows with identical
-  # content, and the headless one contradicted the one thing it exists to promise.
+  # `mishka_chelekom_headless.css` carries no styling of its own, which is the consuming app's job.
+  # Installing both kits wrote two `:theme` rows with identical content, and the headless one
+  # contradicted the one thing it exists to promise.
   defp stylesheet_sources("headless"), do: ["mishka_chelekom_headless.css"]
   defp stylesheet_sources(_layer), do: ["mishka_chelekom.css", "theme.css"]
 

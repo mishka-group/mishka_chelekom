@@ -58,6 +58,38 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.HeadlessTest do
       assert igniter.rewrite.sources["priv/mishka_chelekom/config.exs"]
     end
 
+    test "the installed stylesheet styles no component part" do
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.compose_task(Headless, ["dialog", "--yes"])
+
+      css = source_content(igniter, "assets/vendor/mishka_chelekom_headless.css")
+
+      assert css =~ "@keyframes chelekom-nm-right"
+      refute css =~ ".chelekom-"
+
+      assert source_content(igniter, "lib/test_web/components/headless/dialog.ex") =~
+               "data-closed:hidden"
+
+      refute Enum.any?(igniter.notices, &(&1 =~ "generate every installed one again"))
+    end
+
+    test "replacing a stylesheet with part rules says to generate the components again" do
+      igniter =
+        test_project_with_formatter(
+          files: %{
+            "assets/vendor/mishka_chelekom_headless.css" =>
+              ".chelekom-dialog__popup[data-closed] { display: none; }\n"
+          }
+        )
+        |> Igniter.compose_task(Headless, ["dialog", "--yes"])
+
+      refute source_content(igniter, "assets/vendor/mishka_chelekom_headless.css") =~
+               ".chelekom-"
+
+      assert Enum.any?(igniter.notices, &(&1 =~ "generate every installed one again"))
+    end
+
     test "does not install the base CSS for a --sub generation" do
       igniter =
         test_project_with_formatter()

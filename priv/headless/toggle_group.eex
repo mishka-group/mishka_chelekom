@@ -83,7 +83,7 @@ defmodule <%= @module %> do
       class={["chelekom-toggle-group", @class]}
       {@rest}
     >
-      <span data-part="value-inputs" class="chelekom-sr-only">
+      <span data-part="value-inputs" class="sr-only">
         <%%= for v <- @values do %>
           <input
             :if={@name}
@@ -116,7 +116,7 @@ defmodule <%= @module %> do
         data-disabled={@disabled || item[:disabled]}
         tabindex={if i == @tabbable, do: "0", else: "-1"}
         aria-label={item[:"aria-label"]}
-        class={["chelekom-toggle-group__item", @item_class, item[:class]]}
+        class={["chelekom-toggle-group__item", "data-disabled:pointer-events-none! data-disabled:opacity-50", @item_class, item[:class]]}
       >
         {render_slot(item)}
       </button>

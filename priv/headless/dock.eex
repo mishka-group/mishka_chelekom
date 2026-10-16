@@ -82,7 +82,7 @@ defmodule <%= @module %> do
         aria-current={item[:active] && "page"}
         aria-disabled={item[:disabled] && "true"}
         phx-click={!item[:disabled] && !link?(item) && select_action(item, index)}
-        class={["chelekom-dock__item", @item_class, item[:class]]}
+        class={["chelekom-dock__item", "data-disabled:pointer-events-none! data-disabled:opacity-50", @item_class, item[:class]]}
         {item_attrs(item)}
       >
         <span data-part="icon" aria-hidden="true" class={["chelekom-dock__icon", @icon_class]}>{render_slot(item)}</span>

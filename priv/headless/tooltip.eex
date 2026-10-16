@@ -80,7 +80,7 @@ defmodule <%= @module %> do
       data-close-on-escape={to_string(@close_on_escape)}
       data-on-open-change={@on_open_change}
       data-on-open-change-target={@on_open_change_target}
-      class={["chelekom-tooltip", @class]}
+      class={["chelekom-tooltip", "relative", @class]}
       data-open={@open}
       data-closed={!@open}
       {@rest}
@@ -98,7 +98,7 @@ defmodule <%= @module %> do
         id={"#{@id}-popup"}
         data-part="popup"
         role="tooltip"
-        class={["chelekom-tooltip__popup", @popup_class]}
+        class={["chelekom-tooltip__popup", "fixed z-50 data-closed:hidden!", @popup_class]}
         data-closed
         hidden
       >

@@ -49,7 +49,7 @@ defmodule <%= @module %> do
         :for={opt <- @options}
         data-part="item"
         data-disabled={@disabled || sc_disabled(opt)}
-        class={["chelekom-segmented-control__item", @item_class]}
+        class={["chelekom-segmented-control__item", "data-disabled:pointer-events-none! data-disabled:opacity-50", @item_class]}
       >
         <input
           type="radio"
