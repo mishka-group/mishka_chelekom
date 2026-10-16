@@ -25,15 +25,15 @@ defmodule MishkaChelekom.CmsBundleExporter do
       7. `rewrite_sibling_refs/3`   HEEx tokenizer pass on every public
                                     fn's `~H""` content; rewrite sibling
                                     tags to `<.component component_name=
-                                    "<kit>-<X-slug>" .../>`
-      8. `slug_names/2`             apply lowercase + hyphen rewrite to
-                                    every emitted name
+                                    "<kit>-<X>" .../>` under its stored name
+      8. `slug_names/2`             give every emitted row the name a CMS
+                                    stores it under (`CmsBundle.Name`)
       9. `emit_components/3`        one component-params per public def
   """
 
   require Logger
 
-  alias MishkaChelekom.CmsBundle.AttrValues
+  alias MishkaChelekom.CmsBundle.{AttrValues, Name}
 
   @type component_params :: map()
   @type js_hook :: %{required(String.t()) => term()}
@@ -1358,8 +1358,7 @@ defmodule MishkaChelekom.CmsBundleExporter do
   end
 
   defp slug_names(component, kit_name) do
-    slug = slug(source_name(component))
-    Map.put(component, :__slug_name__, "#{kit_name}-#{slug}")
+    Map.put(component, :__slug_name__, Name.component(kit_name, source_name(component)))
   end
 
   # A live component is named after its MODULE, not after the function carrying its `~H` — that
@@ -1368,13 +1367,6 @@ defmodule MishkaChelekom.CmsBundleExporter do
   # `.exs`'s `name` is the module's own name and is already on the row.
   defp source_name(%{__live_component__: true} = component), do: component.__component_filename__
   defp source_name(component), do: component.name
-
-  defp slug(name) do
-    name
-    |> to_string()
-    |> String.downcase()
-    |> String.replace("_", "-")
-  end
 
   defp maybe_base64(component, false), do: component
 
@@ -1390,10 +1382,10 @@ defmodule MishkaChelekom.CmsBundleExporter do
   defp encode_b64(""), do: ""
   defp encode_b64(s) when is_binary(s), do: "base64:" <> Base.encode64(s)
 
-  # Component dependencies = sibling components from `.exs` `necessary:` (prefixed with the kit name,
-  # e.g. `icon` -> `chelekom-icon`) plus the JS-hook files from `scripts:` (e.g. `collapsible.js`).
+  # Component dependencies = sibling components from `.exs` `necessary:` under their stored names
+  # (`scroll_area` -> `chelekom-scroll-area`) plus the JS-hook files from `scripts:` (`collapsible.js`).
   defp build_dependencies(necessary, scripts, kit_name) do
-    sibling_deps = Enum.map(necessary || [], &"#{kit_name}-#{&1}")
+    sibling_deps = Enum.map(necessary || [], &Name.component(kit_name, &1))
 
     script_deps =
       (scripts || [])

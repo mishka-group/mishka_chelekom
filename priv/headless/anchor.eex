@@ -25,7 +25,7 @@ defmodule <%= @module %> do
 
   slot :inner_block, required: true, doc: "The link text/content"
 
-  def <%= @component_prefix %>anchor(%{navigate: _navigate} = assigns) do
+  def <%= @component_prefix %>anchor(%{navigate: navigate} = assigns) when is_binary(navigate) do
     ~H"""
     <.link navigate={@navigate} id={@id} class={["chelekom-anchor", @class]} {@rest}>{render_slot(
       @inner_block
@@ -33,7 +33,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def <%= @component_prefix %>anchor(%{patch: _patch} = assigns) do
+  def <%= @component_prefix %>anchor(%{patch: patch} = assigns) when is_binary(patch) do
     ~H"""
     <.link patch={@patch} id={@id} class={["chelekom-anchor", @class]} {@rest}>{render_slot(
       @inner_block

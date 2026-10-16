@@ -78,7 +78,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-action-icon",
+      "name": "chelekom-headless-action-icon",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -367,7 +367,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-slider",
+      "name": "chelekom-headless-slider",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -574,7 +574,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-card",
+      "name": "chelekom-headless-card",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -874,7 +874,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-popover",
+      "name": "chelekom-headless-popover",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -1072,7 +1072,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-file-input",
+      "name": "chelekom-headless-file-input",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -1218,7 +1218,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-tabs",
+      "name": "chelekom-headless-tabs",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -1316,7 +1316,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-visually-hidden",
+      "name": "chelekom-headless-visually-hidden",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -1385,7 +1385,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-code",
+      "name": "chelekom-headless-code",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -1494,7 +1494,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-pills-input",
+      "name": "chelekom-headless-pills-input",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -1637,7 +1637,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-progress",
+      "name": "chelekom-headless-progress",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -1763,7 +1763,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-radio",
+      "name": "chelekom-headless-radio",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -1872,7 +1872,7 @@
       ],
       "body": null,
       "dependencies": [
-        "chelekom_headless-tree"
+        "chelekom-headless-tree"
       ],
       "examples": [],
       "extra": {
@@ -1897,7 +1897,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-tree-select",
+      "name": "chelekom-headless-tree-select",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -2036,7 +2036,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-splitter",
+      "name": "chelekom-headless-splitter",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -2206,7 +2206,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-alpha-slider",
+      "name": "chelekom-headless-alpha-slider",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -2364,7 +2364,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-alert-dialog",
+      "name": "chelekom-headless-alert-dialog",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -2807,7 +2807,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-pagination",
+      "name": "chelekom-headless-pagination",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -2952,7 +2952,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-hue-slider",
+      "name": "chelekom-headless-hue-slider",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -3324,7 +3324,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-drawer",
+      "name": "chelekom-headless-drawer",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -3518,7 +3518,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-context-menu",
+      "name": "chelekom-headless-context-menu",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -3719,7 +3719,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-context-menu-item",
+      "name": "chelekom-headless-context-menu-item",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -3815,7 +3815,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-context-menu-checkbox",
+      "name": "chelekom-headless-context-menu-checkbox",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -3896,7 +3896,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-context-menu-radio-group",
+      "name": "chelekom-headless-context-menu-radio-group",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -4007,7 +4007,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-context-menu-radio",
+      "name": "chelekom-headless-context-menu-radio",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -4082,7 +4082,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-context-menu-link",
+      "name": "chelekom-headless-context-menu-link",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -4146,7 +4146,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-context-menu-separator",
+      "name": "chelekom-headless-context-menu-separator",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -4212,7 +4212,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-context-menu-group",
+      "name": "chelekom-headless-context-menu-group",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -4310,7 +4310,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-context-menu-submenu",
+      "name": "chelekom-headless-context-menu-submenu",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -4394,7 +4394,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-marquee",
+      "name": "chelekom-headless-marquee",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -4599,7 +4599,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-accordion",
+      "name": "chelekom-headless-accordion",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -4823,7 +4823,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-semi-circle-progress",
+      "name": "chelekom-headless-semi-circle-progress",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -5011,7 +5011,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-segmented-control",
+      "name": "chelekom-headless-segmented-control",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -5129,7 +5129,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-chip",
+      "name": "chelekom-headless-chip",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -5329,7 +5329,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-dock",
+      "name": "chelekom-headless-dock",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -5549,7 +5549,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-color-input",
+      "name": "chelekom-headless-color-input",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -5896,7 +5896,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-combobox",
+      "name": "chelekom-headless-combobox",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -6094,7 +6094,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-empty-state",
+      "name": "chelekom-headless-empty-state",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -6331,7 +6331,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-tooltip",
+      "name": "chelekom-headless-tooltip",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -6611,7 +6611,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-countdown",
+      "name": "chelekom-headless-countdown",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -6785,7 +6785,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-alert",
+      "name": "chelekom-headless-alert",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -7030,7 +7030,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-toolbar",
+      "name": "chelekom-headless-toolbar",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -7223,7 +7223,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-highlight",
+      "name": "chelekom-headless-highlight",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -7357,7 +7357,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-field",
+      "name": "chelekom-headless-field",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -7522,7 +7522,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-chart",
+      "name": "chelekom-headless-chart",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -7731,7 +7731,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-editor",
+      "name": "chelekom-headless-editor",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -7865,7 +7865,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-meter",
+      "name": "chelekom-headless-meter",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -7997,7 +7997,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-angle-slider",
+      "name": "chelekom-headless-angle-slider",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -8153,7 +8153,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-nav-link",
+      "name": "chelekom-headless-nav-link",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -8250,7 +8250,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-color-swatch",
+      "name": "chelekom-headless-color-swatch",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -8369,7 +8369,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-mask-input",
+      "name": "chelekom-headless-mask-input",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -8480,7 +8480,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-menubar",
+      "name": "chelekom-headless-menubar",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -8711,7 +8711,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-text-input",
+      "name": "chelekom-headless-text-input",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -8836,7 +8836,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-floating-window",
+      "name": "chelekom-headless-floating-window",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -8988,7 +8988,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-avatar",
+      "name": "chelekom-headless-avatar",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -9202,7 +9202,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-dialog",
+      "name": "chelekom-headless-dialog",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -9464,7 +9464,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-menu",
+      "name": "chelekom-headless-menu",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -9665,7 +9665,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-menu-item",
+      "name": "chelekom-headless-menu-item",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -9762,7 +9762,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-menu-checkbox",
+      "name": "chelekom-headless-menu-checkbox",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -9844,7 +9844,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-menu-radio-group",
+      "name": "chelekom-headless-menu-radio-group",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -9956,7 +9956,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-menu-radio",
+      "name": "chelekom-headless-menu-radio",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -10031,7 +10031,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-menu-link",
+      "name": "chelekom-headless-menu-link",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -10095,7 +10095,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-menu-separator",
+      "name": "chelekom-headless-menu-separator",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -10162,7 +10162,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-menu-group",
+      "name": "chelekom-headless-menu-group",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -10261,7 +10261,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-menu-submenu",
+      "name": "chelekom-headless-menu-submenu",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -10400,7 +10400,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-toggle-group",
+      "name": "chelekom-headless-toggle-group",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -10531,7 +10531,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-overflow-list",
+      "name": "chelekom-headless-overflow-list",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -10667,7 +10667,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-radio-group",
+      "name": "chelekom-headless-radio-group",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -10902,7 +10902,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-checkbox-group",
+      "name": "chelekom-headless-checkbox-group",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -11223,7 +11223,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-breadcrumb",
+      "name": "chelekom-headless-breadcrumb",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -11471,7 +11471,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-number-formatter",
+      "name": "chelekom-headless-number-formatter",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -12018,7 +12018,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-calendar",
+      "name": "chelekom-headless-calendar",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -12460,7 +12460,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-sparkline",
+      "name": "chelekom-headless-sparkline",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -12641,7 +12641,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-switch",
+      "name": "chelekom-headless-switch",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -13338,7 +13338,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-tree",
+      "name": "chelekom-headless-tree",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -13479,7 +13479,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-json-input",
+      "name": "chelekom-headless-json-input",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -13579,7 +13579,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-pill",
+      "name": "chelekom-headless-pill",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -13648,7 +13648,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-theme-icon",
+      "name": "chelekom-headless-theme-icon",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -13835,7 +13835,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-theme-controller",
+      "name": "chelekom-headless-theme-controller",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -13932,7 +13932,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-loading-overlay",
+      "name": "chelekom-headless-loading-overlay",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -14018,7 +14018,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-close-button",
+      "name": "chelekom-headless-close-button",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -14132,7 +14132,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-spoiler",
+      "name": "chelekom-headless-spoiler",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -14453,7 +14453,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-select",
+      "name": "chelekom-headless-select",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -14658,7 +14658,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-tags-input",
+      "name": "chelekom-headless-tags-input",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -14858,7 +14858,7 @@
             "delegates": false,
             "guard": null,
             "match": null,
-            "template": "<div\n  data-part=\"root\"\n  data-invalid={@invalid?}\n  data-valid={@valid && !@invalid?}\n  data-disabled={@disabled}\n  data-readonly={@readonly}\n  data-required={@required}\n  data-autosize={@autosize}\n  class={[\"chelekom-textarea\", @class]}\n>\n  <textarea\n    id={@id}\n    name={@name}\n    rows={@rows || @min_rows}\n    placeholder={@placeholder}\n    disabled={@disabled}\n    readonly={@readonly}\n    required={@required}\n    aria-invalid={@invalid? && \"true\"}\n    aria-describedby={@describedby}\n    phx-hook={@autosize && \"Autosize\"}\n    data-min-rows={@autosize && @min_rows}\n    data-max-rows={@autosize && @max_rows}\n    data-part=\"textarea\"\n    data-resize={@resize}\n    class={[\"chelekom-textarea__textarea\", @textarea_class]}\n    {@rest}\n  >{Phoenix.HTML.Form.normalize_value(\"textarea\", @value)}</textarea>\n</div>\n"
+            "template": "<div\n  data-part=\"root\"\n  data-invalid={@invalid?}\n  data-valid={@valid && !@invalid?}\n  data-disabled={@disabled}\n  data-readonly={@readonly}\n  data-required={@required}\n  data-autosize={@autosize}\n  class={[\"chelekom-textarea\", @class]}\n>\n  <textarea\n    id={@id}\n    name={@name}\n    rows={@rows || @min_rows}\n    placeholder={@placeholder}\n    disabled={@disabled}\n    readonly={@readonly}\n    required={@required}\n    aria-invalid={@invalid? && \"true\"}\n    aria-describedby={@describedby}\n    phx-hook={@autosize && \"GlobalChelekomHeadlessAutosize\"}\n    data-min-rows={@autosize && @min_rows}\n    data-max-rows={@autosize && @max_rows}\n    data-part=\"textarea\"\n    data-resize={@resize}\n    class={[\"chelekom-textarea__textarea\", @textarea_class]}\n    {@rest}\n  >{Phoenix.HTML.Form.normalize_value(\"textarea\", @value)}</textarea>\n</div>\n"
           }
         ],
         "component": "textarea",
@@ -14872,7 +14872,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-textarea",
+      "name": "chelekom-headless-textarea",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -14880,7 +14880,7 @@
       "site_id": null,
       "slots": [],
       "stateful": false,
-      "template": "<div\n  data-part=\"root\"\n  data-invalid={@invalid?}\n  data-valid={@valid && !@invalid?}\n  data-disabled={@disabled}\n  data-readonly={@readonly}\n  data-required={@required}\n  data-autosize={@autosize}\n  class={[\"chelekom-textarea\", @class]}\n>\n  <textarea\n    id={@id}\n    name={@name}\n    rows={@rows || @min_rows}\n    placeholder={@placeholder}\n    disabled={@disabled}\n    readonly={@readonly}\n    required={@required}\n    aria-invalid={@invalid? && \"true\"}\n    aria-describedby={@describedby}\n    phx-hook={@autosize && \"Autosize\"}\n    data-min-rows={@autosize && @min_rows}\n    data-max-rows={@autosize && @max_rows}\n    data-part=\"textarea\"\n    data-resize={@resize}\n    class={[\"chelekom-textarea__textarea\", @textarea_class]}\n    {@rest}\n  >{Phoenix.HTML.Form.normalize_value(\"textarea\", @value)}</textarea>\n</div>\n",
+      "template": "<div\n  data-part=\"root\"\n  data-invalid={@invalid?}\n  data-valid={@valid && !@invalid?}\n  data-disabled={@disabled}\n  data-readonly={@readonly}\n  data-required={@required}\n  data-autosize={@autosize}\n  class={[\"chelekom-textarea\", @class]}\n>\n  <textarea\n    id={@id}\n    name={@name}\n    rows={@rows || @min_rows}\n    placeholder={@placeholder}\n    disabled={@disabled}\n    readonly={@readonly}\n    required={@required}\n    aria-invalid={@invalid? && \"true\"}\n    aria-describedby={@describedby}\n    phx-hook={@autosize && \"GlobalChelekomHeadlessAutosize\"}\n    data-min-rows={@autosize && @min_rows}\n    data-max-rows={@autosize && @max_rows}\n    data-part=\"textarea\"\n    data-resize={@resize}\n    class={[\"chelekom-textarea__textarea\", @textarea_class]}\n    {@rest}\n  >{Phoenix.HTML.Form.normalize_value(\"textarea\", @value)}</textarea>\n</div>\n",
       "type": "forms"
     },
     {
@@ -14966,7 +14966,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-scroller",
+      "name": "chelekom-headless-scroller",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -15043,7 +15043,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-fieldset",
+      "name": "chelekom-headless-fieldset",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -15377,7 +15377,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-number-field",
+      "name": "chelekom-headless-number-field",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -15540,7 +15540,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-collapsible",
+      "name": "chelekom-headless-collapsible",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -15724,7 +15724,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-checkbox",
+      "name": "chelekom-headless-checkbox",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -15820,15 +15820,15 @@
           {
             "body": null,
             "delegates": false,
-            "guard": null,
-            "match": "%{navigate: _navigate} = assigns",
+            "guard": "is_binary(navigate)",
+            "match": "%{navigate: navigate} = assigns",
             "template": "<.link navigate={@navigate} id={@id} class={[\"chelekom-anchor\", @class]} {@rest}>{render_slot(\n  @inner_block\n)}</.link>\n"
           },
           {
             "body": null,
             "delegates": false,
-            "guard": null,
-            "match": "%{patch: _patch} = assigns",
+            "guard": "is_binary(patch)",
+            "match": "%{patch: patch} = assigns",
             "template": "<.link patch={@patch} id={@id} class={[\"chelekom-anchor\", @class]} {@rest}>{render_slot(\n  @inner_block\n)}</.link>\n"
           },
           {
@@ -15850,7 +15850,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-anchor",
+      "name": "chelekom-headless-anchor",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -16093,7 +16093,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-stepper",
+      "name": "chelekom-headless-stepper",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -16393,7 +16393,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-otp-field",
+      "name": "chelekom-headless-otp-field",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -16587,7 +16587,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-carousel",
+      "name": "chelekom-headless-carousel",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -16668,7 +16668,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-mark",
+      "name": "chelekom-headless-mark",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -16904,7 +16904,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-navigation-menu",
+      "name": "chelekom-headless-navigation-menu",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -17058,7 +17058,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-scroll-area",
+      "name": "chelekom-headless-scroll-area",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -17272,7 +17272,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-autocomplete",
+      "name": "chelekom-headless-autocomplete",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -17506,7 +17506,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-preview-card",
+      "name": "chelekom-headless-preview-card",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -17609,7 +17609,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-separator",
+      "name": "chelekom-headless-separator",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -17914,7 +17914,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-table",
+      "name": "chelekom-headless-table",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -18091,7 +18091,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-color-picker",
+      "name": "chelekom-headless-color-picker",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -18169,7 +18169,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-rolling-number",
+      "name": "chelekom-headless-rolling-number",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -18323,6 +18323,22 @@
           "slots": []
         },
         {
+          "args": "value when value == trunc(value)",
+          "attrs": [],
+          "code": "trunc(value)",
+          "discriminators": [],
+          "name": "star_number",
+          "slots": []
+        },
+        {
+          "args": "value",
+          "attrs": [],
+          "code": "value",
+          "discriminators": [],
+          "name": "star_number",
+          "slots": []
+        },
+        {
           "args": "value when is_float(value)",
           "attrs": [],
           "code": "value",
@@ -18371,7 +18387,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-rating",
+      "name": "chelekom-headless-rating",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -18379,7 +18395,7 @@
       "site_id": null,
       "slots": [],
       "stateful": false,
-      "template": "<div\n  id={@id}\n  role=\"radiogroup\"\n  aria-label={@label}\n  aria-readonly={@readonly && \"true\"}\n  phx-hook=\"GlobalChelekomHeadlessRadioGroup\"\n  data-part=\"root\"\n  data-orientation=\"horizontal\"\n  data-disabled={@disabled}\n  data-precision={@precision}\n  data-on-change={@on_change}\n  class={[\"chelekom-rating\", @class]}\n  {@rest}\n>\n  <input type=\"hidden\" name={@name} value={to_string(@value)} />\n\n  <button\n    :if={@clearable}\n    type=\"button\"\n    role=\"radio\"\n    data-part=\"item\"\n    data-value=\"0\"\n    data-clear\n    data-checked={checked?(0, @value)}\n    data-unchecked={!checked?(0, @value)}\n    aria-checked={to_string(checked?(0, @value))}\n    aria-label=\"No rating\"\n    tabindex={tabindex(0, @value, @clearable, @values)}\n    disabled={@disabled}\n    class={[\"chelekom-rating__item\", @item_class]}\n  />\n\n  <button\n    :for={{value, index} <- Enum.with_index(@values)}\n    type=\"button\"\n    role=\"radio\"\n    data-part=\"item\"\n    data-value={value}\n    data-half={@precision == 0.5 && if(rem(index, 2) == 0, do: \"first\", else: \"second\")}\n    data-checked={checked?(value, @value)}\n    data-unchecked={!checked?(value, @value)}\n    aria-checked={to_string(checked?(value, @value))}\n    aria-label={\"#{value} of #{@count}\"}\n    tabindex={tabindex(value, @value, @clearable, @values)}\n    disabled={@disabled}\n    class={[\"chelekom-rating__item\", @item_class]}\n  />\n</div>\n",
+      "template": "<div\n  id={@id}\n  role=\"radiogroup\"\n  aria-label={@label}\n  aria-readonly={@readonly && \"true\"}\n  phx-hook=\"GlobalChelekomHeadlessRadioGroup\"\n  data-part=\"root\"\n  data-orientation=\"horizontal\"\n  data-disabled={@disabled}\n  data-precision={@precision}\n  data-on-change={@on_change}\n  class={[\"chelekom-rating\", @class]}\n  {@rest}\n>\n  <input type=\"hidden\" name={@name} value={to_string(@value)} />\n\n  <button\n    :if={@clearable}\n    type=\"button\"\n    role=\"radio\"\n    data-part=\"item\"\n    data-value=\"0\"\n    data-clear\n    data-checked={checked?(0, @value)}\n    data-unchecked={!checked?(0, @value)}\n    aria-checked={to_string(checked?(0, @value))}\n    aria-label=\"No rating\"\n    tabindex={tabindex(0, @value, @clearable, @values)}\n    disabled={@disabled}\n    class={[\"chelekom-rating__item\", @item_class]}\n  />\n\n  <button\n    :for={{value, index} <- Enum.with_index(@values)}\n    type=\"button\"\n    role=\"radio\"\n    data-part=\"item\"\n    data-value={value}\n    data-half={@precision == 0.5 && if(rem(index, 2) == 0, do: \"first\", else: \"second\")}\n    data-checked={checked?(value, @value)}\n    data-unchecked={!checked?(value, @value)}\n    aria-checked={to_string(checked?(value, @value))}\n    aria-label={\"#{star_number(value)} of #{@count}\"}\n    tabindex={tabindex(value, @value, @clearable, @values)}\n    disabled={@disabled}\n    class={[\"chelekom-rating__item\", @item_class]}\n  />\n</div>\n",
       "type": "forms"
     },
     {
@@ -18637,7 +18653,7 @@
           "slots": []
         }
       ],
-      "name": "chelekom_headless-fab",
+      "name": "chelekom-headless-fab",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -18837,7 +18853,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-floating-indicator",
+      "name": "chelekom-headless-floating-indicator",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -18980,7 +18996,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-toast",
+      "name": "chelekom-headless-toast",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -19111,7 +19127,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-burger",
+      "name": "chelekom-headless-burger",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -19228,7 +19244,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-toggle",
+      "name": "chelekom-headless-toggle",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -19407,30 +19423,30 @@
           {
             "body": null,
             "delegates": false,
-            "guard": null,
-            "match": "%{navigate: _navigate} = assigns",
-            "template": "<.link\n  navigate={@navigate}\n  id={@id}\n  role=\"button\"\n  aria-disabled={(@disabled || @loading) && \"true\"}\n  aria-busy={@loading && \"true\"}\n  data-disabled={@disabled}\n  data-loading={@loading}\n  class={[\"chelekom-button\", @class]}\n  {@rest}\n><.component component_name=\"chelekom_headless-button-content\" site={assigns[:site]} {assigns} /></.link>\n"
+            "guard": "is_binary(navigate)",
+            "match": "%{navigate: navigate} = assigns",
+            "template": "<.link\n  navigate={@navigate}\n  id={@id}\n  role=\"button\"\n  aria-disabled={(@disabled || @loading) && \"true\"}\n  aria-busy={@loading && \"true\"}\n  data-disabled={@disabled}\n  data-loading={@loading}\n  class={[\"chelekom-button\", @class]}\n  {@rest}\n><.component component_name=\"chelekom-headless-button-content\" site={assigns[:site]} {assigns} /></.link>\n"
           },
           {
             "body": null,
             "delegates": false,
-            "guard": null,
-            "match": "%{patch: _patch} = assigns",
-            "template": "<.link\n  patch={@patch}\n  id={@id}\n  role=\"button\"\n  aria-disabled={(@disabled || @loading) && \"true\"}\n  aria-busy={@loading && \"true\"}\n  data-disabled={@disabled}\n  data-loading={@loading}\n  class={[\"chelekom-button\", @class]}\n  {@rest}\n><.component component_name=\"chelekom_headless-button-content\" site={assigns[:site]} {assigns} /></.link>\n"
+            "guard": "is_binary(patch)",
+            "match": "%{patch: patch} = assigns",
+            "template": "<.link\n  patch={@patch}\n  id={@id}\n  role=\"button\"\n  aria-disabled={(@disabled || @loading) && \"true\"}\n  aria-busy={@loading && \"true\"}\n  data-disabled={@disabled}\n  data-loading={@loading}\n  class={[\"chelekom-button\", @class]}\n  {@rest}\n><.component component_name=\"chelekom-headless-button-content\" site={assigns[:site]} {assigns} /></.link>\n"
           },
           {
             "body": null,
             "delegates": false,
             "guard": "is_binary(href)",
             "match": "%{href: href} = assigns",
-            "template": "<a\n  id={@id}\n  href={@href}\n  role=\"button\"\n  aria-disabled={(@disabled || @loading) && \"true\"}\n  aria-busy={@loading && \"true\"}\n  data-disabled={@disabled}\n  data-loading={@loading}\n  class={[\"chelekom-button\", @class]}\n  {@rest}\n><.component component_name=\"chelekom_headless-button-content\" site={assigns[:site]} {assigns} /></a>\n"
+            "template": "<a\n  id={@id}\n  href={@href}\n  role=\"button\"\n  aria-disabled={(@disabled || @loading) && \"true\"}\n  aria-busy={@loading && \"true\"}\n  data-disabled={@disabled}\n  data-loading={@loading}\n  class={[\"chelekom-button\", @class]}\n  {@rest}\n><.component component_name=\"chelekom-headless-button-content\" site={assigns[:site]} {assigns} /></a>\n"
           },
           {
             "body": null,
             "delegates": false,
             "guard": null,
             "match": null,
-            "template": "<button\n  id={@id}\n  type={@type}\n  form={@form}\n  name={@name}\n  value={@value}\n  disabled={@disabled || @loading}\n  aria-busy={@loading && \"true\"}\n  data-disabled={@disabled}\n  data-loading={@loading}\n  class={[\"chelekom-button\", @class]}\n  {@rest}\n><.component component_name=\"chelekom_headless-button-content\" site={assigns[:site]} {assigns} /></button>\n"
+            "template": "<button\n  id={@id}\n  type={@type}\n  form={@form}\n  name={@name}\n  value={@value}\n  disabled={@disabled || @loading}\n  aria-busy={@loading && \"true\"}\n  data-disabled={@disabled}\n  data-loading={@loading}\n  class={[\"chelekom-button\", @class]}\n  {@rest}\n><.component component_name=\"chelekom-headless-button-content\" site={assigns[:site]} {assigns} /></button>\n"
           }
         ],
         "component": "button",
@@ -19444,7 +19460,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-button",
+      "name": "chelekom-headless-button",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -19481,7 +19497,7 @@
         }
       ],
       "stateful": false,
-      "template": "<.link\n  navigate={@navigate}\n  id={@id}\n  role=\"button\"\n  aria-disabled={(@disabled || @loading) && \"true\"}\n  aria-busy={@loading && \"true\"}\n  data-disabled={@disabled}\n  data-loading={@loading}\n  class={[\"chelekom-button\", @class]}\n  {@rest}\n><.component component_name=\"chelekom_headless-button-content\" site={assigns[:site]} {assigns} /></.link>\n",
+      "template": "<.link\n  navigate={@navigate}\n  id={@id}\n  role=\"button\"\n  aria-disabled={(@disabled || @loading) && \"true\"}\n  aria-busy={@loading && \"true\"}\n  data-disabled={@disabled}\n  data-loading={@loading}\n  class={[\"chelekom-button\", @class]}\n  {@rest}\n><.component component_name=\"chelekom-headless-button-content\" site={assigns[:site]} {assigns} /></.link>\n",
       "type": "buttons"
     },
     {
@@ -19553,7 +19569,7 @@
       },
       "format": "heex",
       "helpers": [],
-      "name": "chelekom_headless-button-content",
+      "name": "chelekom-headless-button-content",
       "permissions": [],
       "precompile": false,
       "priority": 50,
@@ -20909,7 +20925,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-slider",
+      "name": "chelekom-headless-slider",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -20924,7 +20940,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-popover",
+      "name": "chelekom-headless-popover",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -20939,7 +20955,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-tabs",
+      "name": "chelekom-headless-tabs",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -20954,7 +20970,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-radio",
+      "name": "chelekom-headless-radio",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -20969,7 +20985,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-splitter",
+      "name": "chelekom-headless-splitter",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -20984,7 +21000,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-focus-trap",
+      "name": "chelekom-headless-focus-trap",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -20999,7 +21015,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-drawer",
+      "name": "chelekom-headless-drawer",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21014,7 +21030,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-context-menu",
+      "name": "chelekom-headless-context-menu",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21029,7 +21045,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-disclosure",
+      "name": "chelekom-headless-disclosure",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21044,7 +21060,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-color-picker",
+      "name": "chelekom-headless-color-picker",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21059,7 +21075,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-headless-combobox",
+      "name": "chelekom-headless-headless-combobox",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21074,7 +21090,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-tooltip",
+      "name": "chelekom-headless-tooltip",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21089,7 +21105,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-countdown",
+      "name": "chelekom-headless-countdown",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21104,7 +21120,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-toolbar",
+      "name": "chelekom-headless-toolbar",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21119,7 +21135,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-field",
+      "name": "chelekom-headless-field",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21140,7 +21156,7 @@
           "file": "chart_extensions.js"
         }
       ],
-      "name": "chelekom_headless-chart",
+      "name": "chelekom-headless-chart",
       "npm": [
         {
           "integrity": "sha512-q0yaFPggC9FUdsWH4blavRWFmxdrIodbkoKNAjJudAI6CA9gNPxHtV2RcZNEepZVlk4yvBYkOkbk6HIVpIyHZA==",
@@ -21181,7 +21197,7 @@
           "file": "editor_extensions.js"
         }
       ],
-      "name": "chelekom_headless-editor",
+      "name": "chelekom-headless-editor",
       "npm": [
         {
           "integrity": "sha512-gUuD5WAYfbDxNSSJya/emh2KSzXZXLUYKW4fEnc1AQ5FE2twzh4LJ9UlKFIawigrUCAksWI5Fy1hRbv+5m4ZdQ==",
@@ -21450,7 +21466,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-angle-slider",
+      "name": "chelekom-headless-angle-slider",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21465,7 +21481,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-mask-input",
+      "name": "chelekom-headless-mask-input",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21480,7 +21496,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-menubar",
+      "name": "chelekom-headless-menubar",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21495,7 +21511,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-floating-window",
+      "name": "chelekom-headless-floating-window",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21510,7 +21526,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-avatar",
+      "name": "chelekom-headless-avatar",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21525,7 +21541,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-menu",
+      "name": "chelekom-headless-menu",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21540,7 +21556,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-toggle-group",
+      "name": "chelekom-headless-toggle-group",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21555,7 +21571,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-overflow-list",
+      "name": "chelekom-headless-overflow-list",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21570,7 +21586,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-radio-group",
+      "name": "chelekom-headless-radio-group",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21585,7 +21601,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-toggle",
+      "name": "chelekom-headless-toggle",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21600,7 +21616,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-checkbox-group",
+      "name": "chelekom-headless-checkbox-group",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21615,7 +21631,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-calendar",
+      "name": "chelekom-headless-calendar",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21630,7 +21646,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-tree",
+      "name": "chelekom-headless-tree",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21645,7 +21661,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-theme-controller",
+      "name": "chelekom-headless-theme-controller",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21660,7 +21676,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-select",
+      "name": "chelekom-headless-select",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21675,7 +21691,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-autosize",
+      "name": "chelekom-headless-autosize",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21690,7 +21706,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-scroller",
+      "name": "chelekom-headless-scroller",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21705,7 +21721,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-number-field",
+      "name": "chelekom-headless-number-field",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21720,7 +21736,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-otp",
+      "name": "chelekom-headless-otp",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21735,7 +21751,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-headless-carousel",
+      "name": "chelekom-headless-headless-carousel",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21750,7 +21766,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-navigation-menu",
+      "name": "chelekom-headless-navigation-menu",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21765,7 +21781,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-scroll-area",
+      "name": "chelekom-headless-scroll-area",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21780,7 +21796,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-preview-card",
+      "name": "chelekom-headless-preview-card",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21795,7 +21811,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-indeterminate",
+      "name": "chelekom-headless-indeterminate",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21810,7 +21826,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-rolling-number",
+      "name": "chelekom-headless-rolling-number",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21825,7 +21841,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-popup",
+      "name": "chelekom-headless-popup",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21840,7 +21856,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-floating-indicator",
+      "name": "chelekom-headless-floating-indicator",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21855,7 +21871,7 @@
         "ui_kit_version": "0.0.10-alpha.9"
       },
       "format": "js",
-      "name": "chelekom_headless-toast-region",
+      "name": "chelekom-headless-toast-region",
       "permissions": [],
       "priority": 50,
       "site_id": null
@@ -21865,7 +21881,7 @@
   "stylesheets": [
     {
       "active": true,
-      "content": "/* === mishka_chelekom_headless.css === */\n/* Mishka Chelekom — headless base styles.\n *\n * FUNCTIONAL ONLY: visibility, positioning and accessibility primitives that make the\n * headless components behave. NO colors, spacing, typography or other opinionated styling —\n * that is the consuming app's job (target the `chelekom-*` classes and `data-*` state).\n *\n * State convention (paired-presence): elements carry `data-open` or `data-closed`.\n */\n\n/* Closed overlays are removed from the layout. */\n.chelekom-popover__popup[data-closed],\n.chelekom-menu__popup[data-closed],\n.chelekom-menu__submenu-popup[data-closed],\n.chelekom-tooltip__popup[data-closed],\n.chelekom-select__popup[data-closed],\n.chelekom-preview_card__popup[data-closed],\n.chelekom-context_menu__popup[data-closed],\n.chelekom-context_menu__submenu-popup[data-closed],\n.chelekom-menubar__popup[data-closed],\n.chelekom-navigation_menu__panel[data-closed],\n.chelekom-combobox__popup[data-closed],\n.chelekom-autocomplete__popup[data-closed] {\n  display: none;\n}\n\n/* The selected-item check lives in EVERY option (Base UI conditionally renders ItemIndicator);\n   reveal it only on the selected option. `visibility` keeps the reserved column so rows don't shift. */\n.chelekom-select__option:not([data-selected]) .chelekom-select__indicator {\n  visibility: hidden;\n}\n\n/* Alert dialog: the root is a passthrough so the trigger stays in normal flow\n * (always visible/clickable). The backdrop + popup are fixed overlays shown only\n * while open; the popup is centered by default. */\n.chelekom-alert-dialog {\n  display: contents;\n}\n\n.chelekom-alert-dialog__backdrop {\n  position: fixed;\n  inset: 0;\n  z-index: 40;\n}\n\n.chelekom-alert-dialog__popup {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  z-index: 50;\n}\n\n.chelekom-alert-dialog[data-closed] .chelekom-alert-dialog__backdrop,\n.chelekom-alert-dialog__popup[data-closed] {\n  display: none;\n}\n\n/* Drawer: the root is a passthrough so the trigger stays in normal flow (always\n * visible/clickable). The viewport + backdrop are fixed overlays; the popup is pinned to\n * an edge and slides via the --drawer-* vars. Size/colors/padding stay consumer-owned. */\n.chelekom-drawer {\n  display: contents;\n}\n\n.chelekom-drawer__viewport {\n  position: fixed;\n  inset: 0;\n  z-index: 50;\n  overflow: hidden;\n  pointer-events: none;\n}\n\n.chelekom-drawer__backdrop {\n  position: fixed;\n  inset: 0;\n  z-index: 40;\n  transition: opacity 450ms cubic-bezier(0.32, 0.72, 0, 1);\n}\n\n.chelekom-drawer__backdrop[data-swiping] {\n  transition-duration: 0ms;\n}\n\n.chelekom-drawer[data-closed] .chelekom-drawer__backdrop {\n  opacity: 0;\n  pointer-events: none;\n}\n\n.chelekom-drawer__popup {\n  position: absolute;\n  pointer-events: auto;\n  transition: transform 450ms cubic-bezier(0.32, 0.72, 0, 1);\n}\n\n.chelekom-drawer__popup[data-swiping] {\n  transition-duration: 0ms;\n  user-select: none;\n}\n\n.chelekom-drawer__popup[data-ending-style] {\n  transition-duration: calc(450ms * var(--drawer-swipe-strength, 1));\n}\n\n.chelekom-drawer__popup[data-side=\"right\"] {\n  top: 0;\n  right: 0;\n  height: 100%;\n  transform: translatex(var(--drawer-swipe-movement-x, 0px));\n}\n.chelekom-drawer__popup[data-side=\"right\"][data-closed],\n.chelekom-drawer__popup[data-side=\"right\"][data-starting-style],\n.chelekom-drawer__popup[data-side=\"right\"][data-ending-style] {\n  transform: translatex(100%);\n}\n\n.chelekom-drawer__popup[data-side=\"left\"] {\n  top: 0;\n  left: 0;\n  height: 100%;\n  transform: translatex(var(--drawer-swipe-movement-x, 0px));\n}\n.chelekom-drawer__popup[data-side=\"left\"][data-closed],\n.chelekom-drawer__popup[data-side=\"left\"][data-starting-style],\n.chelekom-drawer__popup[data-side=\"left\"][data-ending-style] {\n  transform: translatex(-100%);\n}\n\n.chelekom-drawer__popup[data-side=\"bottom\"] {\n  left: 0;\n  right: 0;\n  bottom: 0;\n  width: 100%;\n  transform: translatey(\n      calc(\n          var(--drawer-snap-point-offset, 0px) +\n          var(--drawer-swipe-movement-y, 0px)\n        )\n    );\n}\n.chelekom-drawer__popup[data-side=\"bottom\"][data-closed],\n.chelekom-drawer__popup[data-side=\"bottom\"][data-starting-style],\n.chelekom-drawer__popup[data-side=\"bottom\"][data-ending-style] {\n  transform: translatey(100%);\n}\n\n.chelekom-drawer__popup[data-side=\"top\"] {\n  left: 0;\n  right: 0;\n  top: 0;\n  width: 100%;\n  transform: translatey(var(--drawer-swipe-movement-y, 0px));\n}\n.chelekom-drawer__popup[data-side=\"top\"][data-closed],\n.chelekom-drawer__popup[data-side=\"top\"][data-starting-style],\n.chelekom-drawer__popup[data-side=\"top\"][data-ending-style] {\n  transform: translatey(-100%);\n}\n\n.chelekom-drawer__swipe-area {\n  pointer-events: auto;\n  touch-action: none;\n}\n\n/* Page indent (iOS-style): the hook toggles data-active on [data-drawer-content] while a\n * drawer under the same [data-drawer-provider] is open; the scale/radius stay consumer-owned. */\n[data-drawer-content] {\n  transform-origin: center top;\n  transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1) , border-radius\n    0.25s cubic-bezier(0.32, 0.72, 0, 1);\n}\n\n/* OTP boxes lay out in a row by default. */\n.chelekom-otp_field {\n  display: inline-flex;\n  gap: 0.5rem;\n}\n\n/* Dialog: the root is a passthrough so the trigger stays in normal flow (always visible).\n * The backdrop + viewport are fixed overlays; the viewport centers the popup and scrolls\n * tall dialogs. Colors/size/padding stay consumer-owned. */\n.chelekom-dialog {\n  display: contents;\n}\n\n.chelekom-dialog__backdrop {\n  position: fixed;\n  inset: 0;\n  z-index: 40;\n}\n\n.chelekom-dialog__viewport {\n  position: fixed;\n  inset: 0;\n  z-index: 50;\n  display: grid;\n  place-items: center;\n  overflow-y: auto;\n  pointer-events: none;\n}\n\n.chelekom-dialog__popup {\n  position: relative;\n  max-height: 90vh;\n  overflow: auto;\n  pointer-events: auto;\n}\n\n.chelekom-dialog[data-closed] .chelekom-dialog__backdrop,\n.chelekom-dialog__popup[data-closed] {\n  display: none;\n}\n\n/* Disclosure: panel hidden when collapsed. */\n.chelekom-disclosure__panel[data-closed] {\n  display: none;\n}\n\n/* Tabs: only the active panel is shown. */\n.chelekom-tabs__panel[data-closed] {\n  display: none;\n}\n\n/* Floating popups position relative to their anchor; the JS engine sets the offsets. */\n.chelekom-popover,\n.chelekom-menu,\n.chelekom-tooltip,\n.chelekom-select {\n  position: relative;\n}\n\n.chelekom-popover,\n.chelekom-menu,\n.chelekom-tooltip,\n.chelekom-select,\n.chelekom-preview_card,\n.chelekom-context_menu,\n.chelekom-combobox,\n.chelekom-autocomplete,\n.chelekom-navigation_menu__popup-root,\n.chelekom-menubar__menu {\n  position: relative;\n}\n\n.chelekom-popover__popup,\n.chelekom-menu__popup,\n.chelekom-tooltip__popup,\n.chelekom-select__popup,\n.chelekom-preview_card__popup,\n.chelekom-context_menu__popup,\n.chelekom-menubar__popup,\n.chelekom-navigation_menu__panel,\n.chelekom-combobox__popup,\n.chelekom-autocomplete__popup {\n  position: absolute;\n  z-index: 40;\n}\n\n/* Context menu: the engine positions the popups `fixed` at the cursor (inline left/top),\n * so keep them above content and hide the checkbox/radio indicator until checked. */\n.chelekom-context_menu__popup,\n.chelekom-context_menu__submenu-popup {\n  position: fixed;\n  z-index: 50;\n}\n\n.chelekom-context_menu__indicator[data-unchecked] {\n  visibility: hidden;\n}\n\n/* Menu: the engine anchors the popups to the trigger via inline fixed left/top. */\n.chelekom-menu__popup,\n.chelekom-menu__submenu-popup {\n  position: fixed;\n  z-index: 50;\n}\n\n.chelekom-menu__indicator[data-unchecked] {\n  visibility: hidden;\n}\n\n/* Popover: the engine anchors the popup to the trigger via inline fixed left/top. */\n.chelekom-popover__popup {\n  position: fixed;\n  z-index: 50;\n}\n\n.chelekom-popover__backdrop {\n  position: fixed;\n  inset: 0;\n  z-index: 40;\n}\n\n.chelekom-popover[data-closed] .chelekom-popover__backdrop {\n  display: none;\n}\n\n/* Preview card: hover-card popup anchored to the trigger via inline fixed left/top. */\n.chelekom-preview_card__popup {\n  position: fixed;\n  z-index: 50;\n}\n\n/* Tooltip: hover popup anchored to the trigger via inline fixed left/top. */\n.chelekom-tooltip__popup {\n  position: fixed;\n  z-index: 50;\n}\n\n/* Roving / composite items: the engine moves a single tabindex=0 and marks the active one. */\n[data-part=\"item\"][data-disabled] {\n  pointer-events: none;\n  opacity: 0.5;\n}\n\n/* Combobox/autocomplete: non-matching options (and empty groups / the empty-state) are hidden by\n   the engine via data-hidden; the empty-state is shown only when nothing matches. */\n[data-part=\"item\"][data-hidden],\n[data-part=\"group\"][data-hidden],\n[data-part=\"empty\"][data-hidden] {\n  display: none;\n}\n\n/* Navigation-menu panel hidden when collapsed. (The collapsible is NOT listed here: like the\n   accordion it carries the `hidden` attribute, which the JS engine times after the exit transition,\n   so the panel stays visible while collapsing — a `[data-closed] { display:none }` would snap it shut.) */\n.chelekom-navigation_menu__panel[data-closed] {\n  display: none;\n}\n\n/* Slider: the engine positions the indicator + thumbs inline (Base UI style — left/top/bottom plus\n   the `translate` property, so consumers can still add their own `transform`); the track is the\n   positioning context. */\n.chelekom-slider {\n  position: relative;\n}\n.chelekom-slider__track {\n  position: relative;\n}\n.chelekom-slider__thumb {\n  position: absolute;\n}\n\n/* Progress / meter: the engine-free indicator width is driven by a CSS var on the element. */\n/* progress/meter fill width+height are set inline by the component (see the indicator's\n   `style`) so the headless component ships zero styling here — consumers use plain Tailwind. */\n\n/* Toast: positioning + the collapsible stack are entirely consumer CSS — the engine only writes the\n   layout vars (--toast-index / --toast-offset-y / --toast-height on each toast, --toast-frontmost-height\n   on the viewport) and toggles data-expanded / data-limited / data-behind / data-starting|ending-style.\n   Style the viewport (fixed/anchored) and the toasts (absolute), e.g. transform from the vars. */\n\n/* Visually-hidden helper for native inputs backing headless form controls. */\n.chelekom-sr-only {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  padding: 0;\n  margin: -1px;\n  overflow: hidden;\n  clip: rect(0, 0, 0, 0);\n  white-space: nowrap;\n  border: 0;\n}\n/* Scroll area: hide the native scrollbar; the ScrollArea hook drives the custom scrollbar/thumb. The\n   thumb sizes itself from the hook-set CSS vars; scrollbars overlay the edges per data-orientation. */\n.chelekom-scroll_area {\n  position: relative;\n}\n.chelekom-scroll_area__viewport {\n  width: 100%;\n  height: 100%;\n  overflow: auto;\n  scrollbar-width: none;\n  -ms-overflow-style: none;\n}\n.chelekom-scroll_area__viewport::-webkit-scrollbar {\n  display: none;\n}\n.chelekom-scroll_area[data-orientation=\"vertical\"]\n  .chelekom-scroll_area__viewport {\n  overflow-x: hidden;\n}\n.chelekom-scroll_area[data-orientation=\"horizontal\"]\n  .chelekom-scroll_area__viewport {\n  overflow-y: hidden;\n}\n.chelekom-scroll_area__scrollbar {\n  position: absolute;\n}\n.chelekom-scroll_area__scrollbar[data-orientation=\"vertical\"] {\n  top: 0;\n  right: 0;\n  bottom: 0;\n}\n.chelekom-scroll_area__scrollbar[data-orientation=\"horizontal\"] {\n  left: 0;\n  right: 0;\n  bottom: 0;\n}\n.chelekom-scroll_area__thumb[data-orientation=\"vertical\"] {\n  height: var(--scroll-area-thumb-height, 2.5rem);\n}\n.chelekom-scroll_area__thumb[data-orientation=\"horizontal\"] {\n  width: var(--scroll-area-thumb-width, 2.5rem);\n}\n/* Navigation menu: the engine moves the active item's content into the shared viewport and MORPHS the\n   popup size via --popup-width/height (the positioner holds the final --positioner-width/height). */\n.chelekom-navigation_menu {\n  position: relative;\n}\n.chelekom-navigation_menu__list {\n  display: flex;\n}\n.chelekom-navigation_menu[data-orientation=\"vertical\"]\n  .chelekom-navigation_menu__list {\n  flex-direction: column;\n}\n.chelekom-navigation_menu__positioner {\n  position: absolute;\n  z-index: 40;\n  width: var(--positioner-width, auto);\n  height: var(--positioner-height, auto);\n}\n.chelekom-navigation_menu__positioner[data-closed] {\n  display: none;\n}\n.chelekom-navigation_menu__popup {\n  position: relative;\n  width: var(--popup-width, auto);\n  height: var(--popup-height, auto);\n  overflow: hidden;\n  transition: width 0.2s ease , height 0.2s ease;\n}\n.chelekom-navigation_menu__positioner[data-instant]\n  .chelekom-navigation_menu__popup {\n  transition: none;\n}\n.chelekom-navigation_menu__viewport {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  overflow: hidden;\n}\n.chelekom-navigation_menu__content[hidden] {\n  display: none !important;\n}\n@keyframes chelekom-nm-right {\n  from {\n    transform: translatex(35px);\n    opacity: 0;\n  }\n  to {\n    transform: none;\n    opacity: 1;\n  }\n}\n@keyframes chelekom-nm-left {\n  from {\n    transform: translatex(-35px);\n    opacity: 0;\n  }\n  to {\n    transform: none;\n    opacity: 1;\n  }\n}\n@keyframes chelekom-nm-down {\n  from {\n    transform: translatey(18px);\n    opacity: 0;\n  }\n  to {\n    transform: none;\n    opacity: 1;\n  }\n}\n@keyframes chelekom-nm-up {\n  from {\n    transform: translatey(-18px);\n    opacity: 0;\n  }\n  to {\n    transform: none;\n    opacity: 1;\n  }\n}\n.chelekom-navigation_menu__content[data-activation-direction=\"right\"] {\n  animation: chelekom-nm-right 0.2s ease;\n}\n.chelekom-navigation_menu__content[data-activation-direction=\"left\"] {\n  animation: chelekom-nm-left 0.2s ease;\n}\n.chelekom-navigation_menu__content[data-activation-direction=\"down\"] {\n  animation: chelekom-nm-down 0.2s ease;\n}\n.chelekom-navigation_menu__content[data-activation-direction=\"up\"] {\n  animation: chelekom-nm-up 0.2s ease;\n}\n/* Tabs: the tablist is the positioning context for the indicator; the hook publishes --active-tab-*\n   on it (and the indicator). Inactive panels carry `hidden`. */\n.chelekom-tabs__list {\n  position: relative;\n}\n.chelekom-tabs__panel[hidden] {\n  display: none;\n}\n\n/* The scrub-area virtual cursor is shown only while scrubbing (the NumberField hook toggles\n * data-scrubbing on it); hide it otherwise so it never lingers at the viewport origin (top-left)\n * after a scrub ends. */\n[data-part=\"scrub-area-cursor\"]:not([data-scrubbing]) {\n  display: none;\n}\n\n/* Editor: the editing surface. Functional only — the editable area must FILL the surface, the\n * caret must not be boxed in, and an empty document must still show its placeholder.\n *\n * Every engine nests its editable node differently: TipTap renders `.ProseMirror` directly,\n * Milkdown wraps it in `.milkdown`, CodeMirror builds `.cm-editor > .cm-scroller`. Each wrapper\n * has to stretch, or a click below the last line lands on a non-editable box and no caret\n * appears — the user has to aim at the text itself.\n *\n * Deliberately NOT here: typography. Under Tailwind Preflight the editor's headings, lists and\n * blockquotes render flat, and styling them is the consuming app's job — see the showcase demo. */\n.chelekom-editor__surface {\n  display: flex;\n  flex-direction: column;\n}\n\n.chelekom-editor__surface > *,\n.chelekom-editor__surface .milkdown {\n  flex: 1 1 auto;\n  min-width: 0;\n}\n\n.chelekom-editor__surface .milkdown {\n  display: flex;\n  flex-direction: column;\n}\n\n.chelekom-editor__surface .ProseMirror,\n.chelekom-editor__surface .cm-editor {\n  flex: 1 1 auto;\n  outline: none;\n}\n\n.chelekom-editor__surface .ProseMirror {\n  white-space: pre-wrap;\n  word-break: break-word;\n}\n\n/* `attr()` reads from the element the pseudo-element belongs to, so each engine mirrors\n * data-placeholder onto its own editable node. Floating it with zero height overlays it on the\n * first line instead of pushing the caret down. */\n.chelekom-editor[data-empty] .chelekom-editor__surface .ProseMirror::before,\n.chelekom-editor[data-empty]\n  .chelekom-editor__surface\n  [data-part=\"lexical-content\"]::before {\n  content: attr(data-placeholder);\n  float: left;\n  height: 0;\n  pointer-events: none;\n}\n",
+      "content": "/* === mishka_chelekom_headless.css === */\n/* Mishka Chelekom — headless base styles.\n *\n * FUNCTIONAL ONLY: visibility, positioning and accessibility primitives that make the\n * headless components behave. NO colors, spacing, typography or other opinionated styling —\n * that is the consuming app's job (target the `chelekom-*` classes and `data-*` state).\n *\n * State convention (paired-presence): elements carry `data-open` or `data-closed`.\n */\n\n/* Closed overlays are removed from the layout. */\n.chelekom-popover__popup[data-closed],\n.chelekom-menu__popup[data-closed],\n.chelekom-menu__submenu-popup[data-closed],\n.chelekom-tooltip__popup[data-closed],\n.chelekom-select__popup[data-closed],\n.chelekom-preview_card__popup[data-closed],\n.chelekom-context_menu__popup[data-closed],\n.chelekom-context_menu__submenu-popup[data-closed],\n.chelekom-menubar__popup[data-closed],\n.chelekom-navigation_menu__panel[data-closed],\n.chelekom-combobox__popup[data-closed],\n.chelekom-autocomplete__popup[data-closed],\n.chelekom-fab__popup[data-closed] {\n  display: none;\n}\n\n/* The selected-item check lives in EVERY option (Base UI conditionally renders ItemIndicator);\n   reveal it only on the selected option. `visibility` keeps the reserved column so rows don't shift. */\n.chelekom-select__option:not([data-selected]) .chelekom-select__indicator {\n  visibility: hidden;\n}\n\n/* Alert dialog: the root is a passthrough so the trigger stays in normal flow\n * (always visible/clickable). The backdrop + popup are fixed overlays shown only\n * while open; the popup is centered by default. */\n.chelekom-alert-dialog {\n  display: contents;\n}\n\n.chelekom-alert-dialog__backdrop {\n  position: fixed;\n  inset: 0;\n  z-index: 40;\n}\n\n.chelekom-alert-dialog__popup {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  z-index: 50;\n}\n\n.chelekom-alert-dialog[data-closed] .chelekom-alert-dialog__backdrop,\n.chelekom-alert-dialog__popup[data-closed] {\n  display: none;\n}\n\n/* Drawer: the root is a passthrough so the trigger stays in normal flow (always\n * visible/clickable). The viewport + backdrop are fixed overlays; the popup is pinned to\n * an edge and slides via the --drawer-* vars. Size/colors/padding stay consumer-owned. */\n.chelekom-drawer {\n  display: contents;\n}\n\n.chelekom-drawer__viewport {\n  position: fixed;\n  inset: 0;\n  z-index: 50;\n  overflow: hidden;\n  pointer-events: none;\n}\n\n.chelekom-drawer__backdrop {\n  position: fixed;\n  inset: 0;\n  z-index: 40;\n  transition: opacity 450ms cubic-bezier(0.32, 0.72, 0, 1);\n}\n\n.chelekom-drawer__backdrop[data-swiping] {\n  transition-duration: 0ms;\n}\n\n.chelekom-drawer[data-closed] .chelekom-drawer__backdrop {\n  opacity: 0;\n  pointer-events: none;\n}\n\n.chelekom-drawer__popup {\n  position: absolute;\n  pointer-events: auto;\n  transition: transform 450ms cubic-bezier(0.32, 0.72, 0, 1);\n}\n\n.chelekom-drawer__popup[data-swiping] {\n  transition-duration: 0ms;\n  user-select: none;\n}\n\n.chelekom-drawer__popup[data-ending-style] {\n  transition-duration: calc(450ms * var(--drawer-swipe-strength, 1));\n}\n\n.chelekom-drawer__popup[data-side=\"right\"] {\n  top: 0;\n  right: 0;\n  height: 100%;\n  transform: translatex(var(--drawer-swipe-movement-x, 0px));\n}\n.chelekom-drawer__popup[data-side=\"right\"][data-closed],\n.chelekom-drawer__popup[data-side=\"right\"][data-starting-style],\n.chelekom-drawer__popup[data-side=\"right\"][data-ending-style] {\n  transform: translatex(100%);\n}\n\n.chelekom-drawer__popup[data-side=\"left\"] {\n  top: 0;\n  left: 0;\n  height: 100%;\n  transform: translatex(var(--drawer-swipe-movement-x, 0px));\n}\n.chelekom-drawer__popup[data-side=\"left\"][data-closed],\n.chelekom-drawer__popup[data-side=\"left\"][data-starting-style],\n.chelekom-drawer__popup[data-side=\"left\"][data-ending-style] {\n  transform: translatex(-100%);\n}\n\n.chelekom-drawer__popup[data-side=\"bottom\"] {\n  left: 0;\n  right: 0;\n  bottom: 0;\n  width: 100%;\n  transform: translatey(\n      calc(\n          var(--drawer-snap-point-offset, 0px) +\n          var(--drawer-swipe-movement-y, 0px)\n        )\n    );\n}\n.chelekom-drawer__popup[data-side=\"bottom\"][data-closed],\n.chelekom-drawer__popup[data-side=\"bottom\"][data-starting-style],\n.chelekom-drawer__popup[data-side=\"bottom\"][data-ending-style] {\n  transform: translatey(100%);\n}\n\n.chelekom-drawer__popup[data-side=\"top\"] {\n  left: 0;\n  right: 0;\n  top: 0;\n  width: 100%;\n  transform: translatey(var(--drawer-swipe-movement-y, 0px));\n}\n.chelekom-drawer__popup[data-side=\"top\"][data-closed],\n.chelekom-drawer__popup[data-side=\"top\"][data-starting-style],\n.chelekom-drawer__popup[data-side=\"top\"][data-ending-style] {\n  transform: translatey(-100%);\n}\n\n.chelekom-drawer__swipe-area {\n  pointer-events: auto;\n  touch-action: none;\n}\n\n/* Page indent (iOS-style): the hook toggles data-active on [data-drawer-content] while a\n * drawer under the same [data-drawer-provider] is open; the scale/radius stay consumer-owned. */\n[data-drawer-content] {\n  transform-origin: center top;\n  transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1) , border-radius\n    0.25s cubic-bezier(0.32, 0.72, 0, 1);\n}\n\n/* OTP boxes lay out in a row by default. */\n.chelekom-otp_field {\n  display: inline-flex;\n  gap: 0.5rem;\n}\n\n/* Dialog: the root is a passthrough so the trigger stays in normal flow (always visible).\n * The backdrop + viewport are fixed overlays; the viewport centers the popup and scrolls\n * tall dialogs. Colors/size/padding stay consumer-owned. */\n.chelekom-dialog {\n  display: contents;\n}\n\n.chelekom-dialog__backdrop {\n  position: fixed;\n  inset: 0;\n  z-index: 40;\n}\n\n.chelekom-dialog__viewport {\n  position: fixed;\n  inset: 0;\n  z-index: 50;\n  display: grid;\n  place-items: center;\n  overflow-y: auto;\n  pointer-events: none;\n}\n\n.chelekom-dialog__popup {\n  position: relative;\n  max-height: 90vh;\n  overflow: auto;\n  pointer-events: auto;\n}\n\n.chelekom-dialog[data-closed] .chelekom-dialog__backdrop,\n.chelekom-dialog__popup[data-closed] {\n  display: none;\n}\n\n/* Disclosure: panel hidden when collapsed. */\n.chelekom-disclosure__panel[data-closed] {\n  display: none;\n}\n\n/* Tabs: only the active panel is shown. */\n.chelekom-tabs__panel[data-closed] {\n  display: none;\n}\n\n/* Floating popups position relative to their anchor; the JS engine sets the offsets. */\n.chelekom-popover,\n.chelekom-menu,\n.chelekom-tooltip,\n.chelekom-select {\n  position: relative;\n}\n\n.chelekom-popover,\n.chelekom-menu,\n.chelekom-tooltip,\n.chelekom-select,\n.chelekom-preview_card,\n.chelekom-context_menu,\n.chelekom-combobox,\n.chelekom-autocomplete,\n.chelekom-navigation_menu__popup-root,\n.chelekom-menubar__menu {\n  position: relative;\n}\n\n.chelekom-popover__popup,\n.chelekom-menu__popup,\n.chelekom-tooltip__popup,\n.chelekom-select__popup,\n.chelekom-preview_card__popup,\n.chelekom-context_menu__popup,\n.chelekom-menubar__popup,\n.chelekom-navigation_menu__panel,\n.chelekom-combobox__popup,\n.chelekom-autocomplete__popup {\n  position: absolute;\n  z-index: 40;\n}\n\n/* Context menu: the engine positions the popups `fixed` at the cursor (inline left/top),\n * so keep them above content and hide the checkbox/radio indicator until checked. */\n.chelekom-context_menu__popup,\n.chelekom-context_menu__submenu-popup {\n  position: fixed;\n  z-index: 50;\n}\n\n.chelekom-context_menu__indicator[data-unchecked] {\n  visibility: hidden;\n}\n\n/* Menu: the engine anchors the popups to the trigger via inline fixed left/top. */\n.chelekom-menu__popup,\n.chelekom-menu__submenu-popup {\n  position: fixed;\n  z-index: 50;\n}\n\n.chelekom-menu__indicator[data-unchecked] {\n  visibility: hidden;\n}\n\n/* Popover: the engine anchors the popup to the trigger via inline fixed left/top. */\n.chelekom-popover__popup {\n  position: fixed;\n  z-index: 50;\n}\n\n.chelekom-popover__backdrop {\n  position: fixed;\n  inset: 0;\n  z-index: 40;\n}\n\n.chelekom-popover[data-closed] .chelekom-popover__backdrop {\n  display: none;\n}\n\n/* Preview card: hover-card popup anchored to the trigger via inline fixed left/top. */\n.chelekom-preview_card__popup {\n  position: fixed;\n  z-index: 50;\n}\n\n/* Tooltip: hover popup anchored to the trigger via inline fixed left/top. */\n.chelekom-tooltip__popup {\n  position: fixed;\n  z-index: 50;\n}\n\n/* Roving / composite items: the engine moves a single tabindex=0 and marks the active one. */\n[data-part=\"item\"][data-disabled] {\n  pointer-events: none;\n  opacity: 0.5;\n}\n\n/* Combobox/autocomplete: non-matching options (and empty groups / the empty-state) are hidden by\n   the engine via data-hidden; the empty-state is shown only when nothing matches. */\n[data-part=\"item\"][data-hidden],\n[data-part=\"group\"][data-hidden],\n[data-part=\"empty\"][data-hidden] {\n  display: none;\n}\n\n/* Navigation-menu panel hidden when collapsed. (The collapsible is NOT listed here: like the\n   accordion it carries the `hidden` attribute, which the JS engine times after the exit transition,\n   so the panel stays visible while collapsing — a `[data-closed] { display:none }` would snap it shut.) */\n.chelekom-navigation_menu__panel[data-closed] {\n  display: none;\n}\n\n/* Slider: the engine positions the indicator + thumbs inline (Base UI style — left/top/bottom plus\n   the `translate` property, so consumers can still add their own `transform`); the track is the\n   positioning context. */\n.chelekom-slider {\n  position: relative;\n}\n.chelekom-slider__track {\n  position: relative;\n}\n.chelekom-slider__thumb {\n  position: absolute;\n}\n\n/* Progress / meter: the engine-free indicator width is driven by a CSS var on the element. */\n/* progress/meter fill width+height are set inline by the component (see the indicator's\n   `style`) so the headless component ships zero styling here — consumers use plain Tailwind. */\n\n/* Toast: positioning + the collapsible stack are entirely consumer CSS — the engine only writes the\n   layout vars (--toast-index / --toast-offset-y / --toast-height on each toast, --toast-frontmost-height\n   on the viewport) and toggles data-expanded / data-limited / data-behind / data-starting|ending-style.\n   Style the viewport (fixed/anchored) and the toasts (absolute), e.g. transform from the vars. */\n\n/* Visually-hidden helper for native inputs backing headless form controls. */\n.chelekom-sr-only {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  padding: 0;\n  margin: -1px;\n  overflow: hidden;\n  clip: rect(0, 0, 0, 0);\n  white-space: nowrap;\n  border: 0;\n}\n/* Scroll area: hide the native scrollbar; the ScrollArea hook drives the custom scrollbar/thumb. The\n   thumb sizes itself from the hook-set CSS vars; scrollbars overlay the edges per data-orientation. */\n.chelekom-scroll_area {\n  position: relative;\n}\n.chelekom-scroll_area__viewport {\n  width: 100%;\n  height: 100%;\n  overflow: auto;\n  scrollbar-width: none;\n  -ms-overflow-style: none;\n}\n.chelekom-scroll_area__viewport::-webkit-scrollbar {\n  display: none;\n}\n.chelekom-scroll_area[data-orientation=\"vertical\"]\n  .chelekom-scroll_area__viewport {\n  overflow-x: hidden;\n}\n.chelekom-scroll_area[data-orientation=\"horizontal\"]\n  .chelekom-scroll_area__viewport {\n  overflow-y: hidden;\n}\n.chelekom-scroll_area__scrollbar {\n  position: absolute;\n}\n.chelekom-scroll_area__scrollbar[data-orientation=\"vertical\"] {\n  top: 0;\n  right: 0;\n  bottom: 0;\n}\n.chelekom-scroll_area__scrollbar[data-orientation=\"horizontal\"] {\n  left: 0;\n  right: 0;\n  bottom: 0;\n}\n.chelekom-scroll_area__thumb[data-orientation=\"vertical\"] {\n  height: var(--scroll-area-thumb-height, 2.5rem);\n}\n.chelekom-scroll_area__thumb[data-orientation=\"horizontal\"] {\n  width: var(--scroll-area-thumb-width, 2.5rem);\n}\n/* Navigation menu: the engine moves the active item's content into the shared viewport and MORPHS the\n   popup size via --popup-width/height (the positioner holds the final --positioner-width/height). */\n.chelekom-navigation_menu {\n  position: relative;\n}\n.chelekom-navigation_menu__list {\n  display: flex;\n}\n.chelekom-navigation_menu[data-orientation=\"vertical\"]\n  .chelekom-navigation_menu__list {\n  flex-direction: column;\n}\n.chelekom-navigation_menu__positioner {\n  position: absolute;\n  z-index: 40;\n  width: var(--positioner-width, auto);\n  height: var(--positioner-height, auto);\n}\n.chelekom-navigation_menu__positioner[data-closed] {\n  display: none;\n}\n.chelekom-navigation_menu__popup {\n  position: relative;\n  width: var(--popup-width, auto);\n  height: var(--popup-height, auto);\n  overflow: hidden;\n  transition: width 0.2s ease , height 0.2s ease;\n}\n.chelekom-navigation_menu__positioner[data-instant]\n  .chelekom-navigation_menu__popup {\n  transition: none;\n}\n.chelekom-navigation_menu__viewport {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  overflow: hidden;\n}\n.chelekom-navigation_menu__content[hidden] {\n  display: none !important;\n}\n@keyframes chelekom-nm-right {\n  from {\n    transform: translatex(35px);\n    opacity: 0;\n  }\n  to {\n    transform: none;\n    opacity: 1;\n  }\n}\n@keyframes chelekom-nm-left {\n  from {\n    transform: translatex(-35px);\n    opacity: 0;\n  }\n  to {\n    transform: none;\n    opacity: 1;\n  }\n}\n@keyframes chelekom-nm-down {\n  from {\n    transform: translatey(18px);\n    opacity: 0;\n  }\n  to {\n    transform: none;\n    opacity: 1;\n  }\n}\n@keyframes chelekom-nm-up {\n  from {\n    transform: translatey(-18px);\n    opacity: 0;\n  }\n  to {\n    transform: none;\n    opacity: 1;\n  }\n}\n.chelekom-navigation_menu__content[data-activation-direction=\"right\"] {\n  animation: chelekom-nm-right 0.2s ease;\n}\n.chelekom-navigation_menu__content[data-activation-direction=\"left\"] {\n  animation: chelekom-nm-left 0.2s ease;\n}\n.chelekom-navigation_menu__content[data-activation-direction=\"down\"] {\n  animation: chelekom-nm-down 0.2s ease;\n}\n.chelekom-navigation_menu__content[data-activation-direction=\"up\"] {\n  animation: chelekom-nm-up 0.2s ease;\n}\n/* Tabs: the tablist is the positioning context for the indicator; the hook publishes --active-tab-*\n   on it (and the indicator). Inactive panels carry `hidden`. */\n.chelekom-tabs__list {\n  position: relative;\n}\n.chelekom-tabs__panel[hidden] {\n  display: none;\n}\n\n/* The scrub-area virtual cursor is shown only while scrubbing (the NumberField hook toggles\n * data-scrubbing on it); hide it otherwise so it never lingers at the viewport origin (top-left)\n * after a scrub ends. */\n[data-part=\"scrub-area-cursor\"]:not([data-scrubbing]) {\n  display: none;\n}\n\n/* Editor: the editing surface. Functional only — the editable area must FILL the surface, the\n * caret must not be boxed in, and an empty document must still show its placeholder.\n *\n * Every engine nests its editable node differently: TipTap renders `.ProseMirror` directly,\n * Milkdown wraps it in `.milkdown`, CodeMirror builds `.cm-editor > .cm-scroller`. Each wrapper\n * has to stretch, or a click below the last line lands on a non-editable box and no caret\n * appears — the user has to aim at the text itself.\n *\n * Deliberately NOT here: typography. Under Tailwind Preflight the editor's headings, lists and\n * blockquotes render flat, and styling them is the consuming app's job — see the showcase demo. */\n.chelekom-editor__surface {\n  display: flex;\n  flex-direction: column;\n}\n\n.chelekom-editor__surface > *,\n.chelekom-editor__surface .milkdown {\n  flex: 1 1 auto;\n  min-width: 0;\n}\n\n.chelekom-editor__surface .milkdown {\n  display: flex;\n  flex-direction: column;\n}\n\n.chelekom-editor__surface .ProseMirror,\n.chelekom-editor__surface .cm-editor {\n  flex: 1 1 auto;\n  outline: none;\n}\n\n.chelekom-editor__surface .ProseMirror {\n  white-space: pre-wrap;\n  word-break: break-word;\n}\n\n/* `attr()` reads from the element the pseudo-element belongs to, so each engine mirrors\n * data-placeholder onto its own editable node. Floating it with zero height overlays it on the\n * first line instead of pushing the caret down. */\n.chelekom-editor[data-empty] .chelekom-editor__surface .ProseMirror::before,\n.chelekom-editor[data-empty]\n  .chelekom-editor__surface\n  [data-part=\"lexical-content\"]::before {\n  content: attr(data-placeholder);\n  float: left;\n  height: 0;\n  pointer-events: none;\n}\n",
       "description": "chelekom_headless theme — CSS variables and @theme color tokens",
       "extra": {
         "ui_kit": "chelekom_headless",
@@ -21873,7 +21889,7 @@
       },
       "format": "css",
       "kind": "theme",
-      "name": "chelekom_headless-theme",
+      "name": "chelekom-headless-theme",
       "permissions": [],
       "priority": 50,
       "site_id": null

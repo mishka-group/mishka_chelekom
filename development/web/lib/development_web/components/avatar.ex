@@ -93,7 +93,7 @@ defmodule DevelopmentWeb.Components.Avatar do
   def avatar(%{src: src, rounded: "full"} = assigns) when not is_nil(src) do
     ~H"""
     <div class={[
-      "relative w-fit select-none",
+      "relative w-fit shrink-0 select-none",
       size_class(@size, :image)
     ]}>
       <img
@@ -117,7 +117,7 @@ defmodule DevelopmentWeb.Components.Avatar do
     ~H"""
     <div
       class={[
-        "relative overflow-hidden select-none",
+        "relative shrink-0 overflow-hidden select-none",
         color_class(@color),
         rounded_size(@rounded),
         border_class(@border),
@@ -139,7 +139,7 @@ defmodule DevelopmentWeb.Components.Avatar do
 
   def avatar(%{src: src} = assigns) when not is_nil(src) do
     ~H"""
-    <div class="relative w-fit select-none">
+    <div class="relative w-fit shrink-0 select-none">
       <img
         id={@id}
         src={@src}
@@ -162,7 +162,7 @@ defmodule DevelopmentWeb.Components.Avatar do
     ~H"""
     <div
       class={[
-        "relative overflow-hidden select-none",
+        "relative shrink-0 overflow-hidden select-none",
         color_class(@color),
         rounded_size(@rounded),
         border_class(@border),
@@ -218,7 +218,7 @@ defmodule DevelopmentWeb.Components.Avatar do
     <div
       id={@id}
       class={[
-        "flex items-center rtl:space-x-reverse",
+        display_class("flex items-center rtl:space-x-reverse", @class),
         space_class(@space),
         @class
       ]}
@@ -580,4 +580,24 @@ defmodule DevelopmentWeb.Components.Avatar do
   defp space_class("none"), do: nil
 
   defp space_class(params) when is_binary(params), do: params
+
+  # A display utility in the caller's class replaces the component's own: Tailwind orders display
+  # utilities by name, not by where they appear, so a caller's `hidden` loses to `inline-flex`.
+  defp display_class(default, class) do
+    if Enum.any?(class_tokens(class), &display_utility?/1) do
+      default |> class_tokens() |> Enum.reject(&display_utility?/1)
+    else
+      default
+    end
+  end
+
+  defp display_utility?(token) do
+    token in ~w(block inline-block inline flex inline-flex table inline-table table-caption
+      table-cell table-column table-column-group table-footer-group table-header-group
+      table-row-group table-row flow-root grid inline-grid contents list-item hidden)
+  end
+
+  defp class_tokens(class) when is_binary(class), do: String.split(class)
+  defp class_tokens(class) when is_list(class), do: Enum.flat_map(class, &class_tokens/1)
+  defp class_tokens(_class), do: []
 end

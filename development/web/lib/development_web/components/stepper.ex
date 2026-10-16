@@ -82,7 +82,7 @@ defmodule DevelopmentWeb.Components.Stepper do
     <div
       role="list"
       class={[
-        "vertical-stepper relative flex flex-col",
+        display_class("vertical-stepper relative flex flex-col", @class),
         "[&_.vertical-step:last-child_.stepper-separator]:hidden",
         step_visibility(),
         border_class(@border),
@@ -105,7 +105,7 @@ defmodule DevelopmentWeb.Components.Stepper do
       role="list"
       id={@id}
       class={[
-        "group flex flex-row justify-start items-center flex-wrap gap-y-5",
+        display_class("group flex flex-row justify-start items-center flex-wrap gap-y-5", @class),
         "[&_.stepper-separator:last-child]:hidden",
         step_visibility(),
         size_class(@size),
@@ -220,7 +220,7 @@ defmodule DevelopmentWeb.Components.Stepper do
       aria-current={@step == "current" && "step"}
       class={[
         "stepper-#{@step}-step cursor-pointer",
-        "vertical-step overflow-hidden flex flex-row text-start gap-4",
+        display_class("vertical-step overflow-hidden flex flex-row text-start gap-4", @class),
         @class
       ]}
       disabled={!@clickable}
@@ -294,7 +294,7 @@ defmodule DevelopmentWeb.Components.Stepper do
       aria-current={@step == "current" && "step"}
       class={[
         "stepper-#{@step}-step cursor-pointer",
-        "text-start flex flex-nowrap shrink-0 items-center",
+        display_class("text-start flex flex-nowrap shrink-0 items-center", @class),
         @reverse && "flex-row-reverse text-end",
         "group-[.col-step]:flex-col group-[.col-step]:gap-3",
         content_space(@space, @reverse),
@@ -1015,4 +1015,24 @@ defmodule DevelopmentWeb.Components.Stepper do
   end
 
   defp color_variant(params, _) when is_binary(params), do: params
+
+  # A display utility in the caller's class replaces the component's own: Tailwind orders display
+  # utilities by name, not by where they appear, so a caller's `hidden` loses to `inline-flex`.
+  defp display_class(default, class) do
+    if Enum.any?(class_tokens(class), &display_utility?/1) do
+      default |> class_tokens() |> Enum.reject(&display_utility?/1)
+    else
+      default
+    end
+  end
+
+  defp display_utility?(token) do
+    token in ~w(block inline-block inline flex inline-flex table inline-table table-caption
+      table-cell table-column table-column-group table-footer-group table-header-group
+      table-row-group table-row flow-root grid inline-grid contents list-item hidden)
+  end
+
+  defp class_tokens(class) when is_binary(class), do: String.split(class)
+  defp class_tokens(class) when is_list(class), do: Enum.flat_map(class, &class_tokens/1)
+  defp class_tokens(_class), do: []
 end

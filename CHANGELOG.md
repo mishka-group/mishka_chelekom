@@ -39,6 +39,49 @@
   swapping one element for another
 
 ### Bug fixes:
+- A display utility in a component's `class` replaces the component's own. Tailwind writes display
+  utilities in name order, not in class-list order, so the button's default `inline-flex` beat a
+  caller's `hidden` and `class="hidden md:flex"` never hid it. Where a component's own display sits
+  on the element that takes the caller's `class`, it now steps aside when that class names one
+  (`hidden`, `block`, `grid`, …); a display behind a variant (`max-md:hidden`) leaves it in place,
+  and the button's `display` attribute steps aside the same way. Changed: `avatar_group`, `badge`
+  (and its dismiss button), `button`, `button_group`, `button_link`, `input_button`, `card_title`,
+  `chat`, `checkbox_card`, `group_checkbox`, the `combobox` option, `gallery`, `indicator`, `flex`,
+  `grid`, `header`, `pagination` (and its buttons), the `progress` sections, `group_radio`, `shape`,
+  `spinner`, `stat`, `stat_group`, `stepper`, `stepper_section`, `tr`, `tabs`, `timeline_section`,
+  and the labels of `file_field`, `radio_field`, `range_field`, `rating` and `toggle_field`. The
+  modal's `hidden` is its closed state, not a display, and stays
+- An avatar keeps its size in a flex row. Its root clips its content, which lets a flex parent
+  shrink it, so the initials of an avatar without an image (`+20`, `SB`) were cut off in a narrow row
+- A breadcrumb wraps to the next line in a narrow parent instead of overlapping its items; its icons
+  and separators keep their size, and a separator stays at the end of the item before it
+- `button_link`, the headless `button` and the headless `anchor` take `navigate` or `patch` only when
+  it is a string. A key that was present but nil chose its clause anyway, so a destination that came
+  out empty turned the headless button into a link, and sent `button_link` and the anchor to
+  `href="#"` instead of their `href`
+- The headless `rating` reads a whole star as `3 of 5`, not `3.0 of 5`; a half star still reads
+  `2.5 of 5`
+- The headless stylesheet hides a closed `fab` dial, as it hides every other popup. The dial stayed
+  on the page unless the skin added `data-closed:hidden`
+- The CMS bundle names every row the way a CMS stores it, and every reference by that name. A CMS
+  slugifies each component, hook and stylesheet name as it saves the row and rewrites nothing that
+  refers to one; the exporter slugified only the part after the kit's name, so the headless kit
+  shipped `chelekom_headless-button` calling `chelekom_headless-button-content`, stored as
+  `chelekom-headless-button-content`, and every headless button failed to render its label. The
+  same rule missed `dependencies`: `chelekom-scroll_area` (tabs, combobox) and
+  `chelekom_headless-tree` (tree_select) named rows that do not exist. One function now gives the
+  name a row is written under, a template calls, a dependency lists and a hook key is built from,
+  and a test fails on a row not in its stored form or a reference to a component its kit does not have
+- The CMS bundle names a hook by the key a CMS registers it under wherever a template names one,
+  not only in a literal `phx-hook="…"` or an attribute's default. The headless `textarea` shipped
+  `phx-hook={@autosize && "Autosize"}`, so on a CMS page the browser logged
+  `unknown hook found for "Autosize"` and the textarea never grew; it ships
+  `GlobalChelekomHeadlessAutosize`. Every string inside a `phx-hook={…}`, and the default of every
+  attribute one reads, is rewritten, and the shipped-kits test fails on any hook a component names
+  that its kit does not register
+- The `icon` docs describe what it renders: a `hero-` name, `class` and global attributes. They
+  listed `variant`, `size`, `color`, `animate`, `aria_label` and non-Heroicon names it never took.
+  Its `doc_url` is its docs page instead of `internal`
 - The floating hook (dropdown, popover, tooltip) measures its content out of the flow. The content
   is moved to `<body>` and was measured as a static block there, as wide as the page, before it was
   made absolute, so the viewport clamp pushed a menu opening under its trigger to the left edge of the

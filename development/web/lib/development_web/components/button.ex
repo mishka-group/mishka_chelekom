@@ -99,7 +99,7 @@ defmodule DevelopmentWeb.Components.Button do
       id={@id}
       role="group"
       class={[
-        default_classes(:grouped, false),
+        display_class(default_classes(:grouped, false), @class),
         variation(@variation),
         rounded_size(@rounded),
         border_class(@color),
@@ -210,7 +210,7 @@ defmodule DevelopmentWeb.Components.Button do
         @full_width && "w-full",
         @line_height,
         @font_weight,
-        @display,
+        display_class(@display, @class),
         @class
       ]}
       {drop_rest(@rest)}
@@ -308,7 +308,7 @@ defmodule DevelopmentWeb.Components.Button do
         @full_width && "w-full",
         @font_weight,
         @line_height,
-        @display,
+        display_class(@display, @class),
         @class
       ]}
       {@rest}
@@ -344,7 +344,7 @@ defmodule DevelopmentWeb.Components.Button do
     doc: "Defines the path for navigation within the application using a `navigate` attribute."
 
   attr :patch, :string, doc: "Specifies the path for navigation using a LiveView patch"
-  attr :href, :string, doc: "Sets the URL for an external link"
+  attr :href, :string, default: nil, doc: "Sets the URL for an external link"
   attr :variant, :string, default: "base", doc: "Determines the style"
   attr :color, :string, default: "base", doc: "Determines color theme"
   attr :rounded, :string, default: "large", doc: ""
@@ -397,7 +397,7 @@ defmodule DevelopmentWeb.Components.Button do
       doc: "Determines the element position"
   end
 
-  def button_link(%{navigate: _navigate} = assigns) do
+  def button_link(%{navigate: navigate} = assigns) when is_binary(navigate) do
     assigns = assign_new(assigns, :indicator, fn -> indicators?(assigns[:rest]) end)
 
     ~H"""
@@ -413,7 +413,7 @@ defmodule DevelopmentWeb.Components.Button do
         @full_width && "w-full",
         @font_weight,
         @line_height,
-        @display,
+        display_class(@display, @class),
         @class
       ]}
       {drop_rest(@rest)}
@@ -441,7 +441,7 @@ defmodule DevelopmentWeb.Components.Button do
     """
   end
 
-  def button_link(%{patch: _patch} = assigns) do
+  def button_link(%{patch: patch} = assigns) when is_binary(patch) do
     assigns = assign_new(assigns, :indicator, fn -> indicators?(assigns[:rest]) end)
 
     ~H"""
@@ -457,7 +457,7 @@ defmodule DevelopmentWeb.Components.Button do
         @full_width && "w-full",
         @font_weight,
         @line_height,
-        @display,
+        display_class(@display, @class),
         @class
       ]}
       {drop_rest(@rest)}
@@ -501,7 +501,7 @@ defmodule DevelopmentWeb.Components.Button do
         @full_width && "w-full",
         @font_weight,
         @line_height,
-        @display,
+        display_class(@display, @class),
         @class
       ]}
       {drop_rest(@rest)}
@@ -702,7 +702,8 @@ defmodule DevelopmentWeb.Components.Button do
               "default_gradient",
               "outline_gradient",
               "inverted_gradient"
-            ], do: nil
+            ],
+       do: nil
 
   defp border_size("none", _), do: nil
   defp border_size("extra_small", _), do: "border"
@@ -2121,4 +2122,24 @@ defmodule DevelopmentWeb.Components.Button do
   defp indicators?(rest) do
     Enum.any?(@indicator_positions, &Map.get(rest, String.to_atom(&1)))
   end
+
+  # A display utility in the caller's class replaces the component's own: Tailwind orders display
+  # utilities by name, not by where they appear, so a caller's `hidden` loses to `inline-flex`.
+  defp display_class(default, class) do
+    if Enum.any?(class_tokens(class), &display_utility?/1) do
+      default |> class_tokens() |> Enum.reject(&display_utility?/1)
+    else
+      default
+    end
+  end
+
+  defp display_utility?(token) do
+    token in ~w(block inline-block inline flex inline-flex table inline-table table-caption
+      table-cell table-column table-column-group table-footer-group table-header-group
+      table-row-group table-row flow-root grid inline-grid contents list-item hidden)
+  end
+
+  defp class_tokens(class) when is_binary(class), do: String.split(class)
+  defp class_tokens(class) when is_list(class), do: Enum.flat_map(class, &class_tokens/1)
+  defp class_tokens(_class), do: []
 end

@@ -59,7 +59,7 @@ defmodule DevelopmentWeb.Components.Headless.Button do
   slot :loader, doc: "Shown while loading — bring your own spinner"
   slot :inner_block, doc: "Label content, used when the label attr is not set"
 
-  def button(%{navigate: _navigate} = assigns) do
+  def button(%{navigate: navigate} = assigns) when is_binary(navigate) do
     ~H"""
     <.link
       navigate={@navigate}
@@ -75,7 +75,7 @@ defmodule DevelopmentWeb.Components.Headless.Button do
     """
   end
 
-  def button(%{patch: _patch} = assigns) do
+  def button(%{patch: patch} = assigns) when is_binary(patch) do
     ~H"""
     <.link
       patch={@patch}

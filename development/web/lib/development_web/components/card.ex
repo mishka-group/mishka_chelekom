@@ -184,7 +184,7 @@ defmodule DevelopmentWeb.Components.Card do
     <div
       id={@id}
       class={[
-        "card-section flex items-center gap-2",
+        display_class("card-section flex items-center gap-2", @class),
         padding_size(@padding),
         content_position(@position),
         size_class(@size),
@@ -863,4 +863,24 @@ defmodule DevelopmentWeb.Components.Card do
   end
 
   defp color_variant(params, _) when is_binary(params), do: params
+
+  # A display utility in the caller's class replaces the component's own: Tailwind orders display
+  # utilities by name, not by where they appear, so a caller's `hidden` loses to `inline-flex`.
+  defp display_class(default, class) do
+    if Enum.any?(class_tokens(class), &display_utility?/1) do
+      default |> class_tokens() |> Enum.reject(&display_utility?/1)
+    else
+      default
+    end
+  end
+
+  defp display_utility?(token) do
+    token in ~w(block inline-block inline flex inline-flex table inline-table table-caption
+      table-cell table-column table-column-group table-footer-group table-header-group
+      table-row-group table-row flow-root grid inline-grid contents list-item hidden)
+  end
+
+  defp class_tokens(class) when is_binary(class), do: String.split(class)
+  defp class_tokens(class) when is_list(class), do: Enum.flat_map(class, &class_tokens/1)
+  defp class_tokens(_class), do: []
 end

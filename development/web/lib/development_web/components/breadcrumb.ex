@@ -107,7 +107,7 @@ defmodule DevelopmentWeb.Components.Breadcrumb do
           <.icon
             :if={!is_nil(item[:icon])}
             name={item[:icon]}
-            class={["breadcrumb-icon", item[:icon_class]]}
+            class={["breadcrumb-icon shrink-0", item[:icon_class]]}
           />
           <.link
             :if={!is_nil(item[:link])}
@@ -121,11 +121,11 @@ defmodule DevelopmentWeb.Components.Breadcrumb do
           <.icon
             :if={@separator_icon && index < Enum.count(@item)}
             name={@separator_icon}
-            class={["separator-icon", @separator_icon_class]}
+            class={["separator-icon shrink-0", @separator_icon_class]}
           />
           <span
             :if={@separator_text && !@separator_icon && index < Enum.count(@item)}
-            class={["separator-text", @separator_text_class]}
+            class={["separator-text shrink-0", @separator_text_class]}
           >
             {@separator_text}
           </span>
@@ -251,7 +251,7 @@ defmodule DevelopmentWeb.Components.Breadcrumb do
 
   defp default_classes do
     [
-      "flex items-center transition-all ease-in-out duration-100 group"
+      "flex flex-wrap items-center transition-all ease-in-out duration-100 group"
     ]
   end
 end
