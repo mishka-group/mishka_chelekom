@@ -45,43 +45,15 @@
   passes `injectCSS: config.injectCSS ?? false`. The ProseMirror base rules that style carried
   (`position`, `overflow-wrap`, ligatures off, `contenteditable="false"` spans, `pre`, the separator
   image, the gap cursor, the hidden selection) are Tailwind classes on the editor's `surface`, merged
-  with `surface_class`, so TipTap and Milkdown keep them and the headless stylesheet gains no rule.
-  The gap cursor draws in the current text colour rather than black and pulses with Tailwind's
-  `animate-pulse` instead of a hard blink. `injectCSS: true` and `injectNonce` in
-  `editor_extensions.js` bring TipTap's own stylesheet back, with a nonce. CodeMirror cannot run
-  without the `<style>` it mounts, so the same `injectNonce` key reaches its `EditorView.cspNonce`;
-  Lexical and Milkdown inject none
-- The headless components carry their functional styling as Tailwind classes on their own parts,
-  listed after each part's `chelekom-*` class and before its `*_class`, instead of as rules in
-  `mishka_chelekom_headless.css`: the overlay roots' `contents` passthrough, every backdrop,
-  viewport and popup's position and stacking, each closed popup's `data-closed:hidden!`, the
-  drawer's per-side placement and slide (`data-[side=right]:data-closed:[transform:translateX(100%)]`
-  and its swipe and ending durations), the select's check, the menus' unchecked indicators, a
-  disabled item's `opacity-50` and a filtered one's `data-hidden:hidden!`, the scroll area's hidden
-  native scrollbar and its own scrollbars' edges, the navigation menu's morphing popup and content
-  animations, the OTP row, the slider and tab list positioning, the number field's scrub cursor and
-  the editor surface (fill, outline, `white-space`, the placeholder). The visually hidden inputs use
-  Tailwind's `sr-only`, which clips with `clip-path: inset(50%)` where the old rule used `clip`. The
-  stylesheet keeps only what a class cannot say: the navigation menu's four `@keyframes` and the
-  page-indent rule for `[data-drawer-content]`, an element the app renders. Four rules matched
-  nothing any template renders and are gone (`chelekom-disclosure__panel`,
-  `chelekom-navigation_menu__panel`, `chelekom-navigation_menu__popup-root`, and the tab panel's
-  `[data-closed]`)
-- What wins on the same element changed with it. The rules were unlayered, so they beat every
-  utility; as utilities, a state class (`data-closed:hidden!`,
-  `group-data-closed/drawer:opacity-0!`) still beats a caller's, and a plain one follows Tailwind's
-  order, so a caller's class on the same property can now win: a skin's `z-50`, `max-h-full`,
-  `relative` or disabled `opacity-40` applies where the stylesheet used to override it, and a Kit
-  part class (`[&_[data-part=popup]]:…`) beats any of them that is not `!important`. The old
-  `[data-part="item"][data-disabled]` and `[data-hidden]` selectors also reached markup an app
-  renders itself, such as a menubar's items; only the components' own item parts carry those classes
-  now. What must hold is `!important`: hiding a closed popup, backdrop or filtered item, a disabled
-  item's `pointer-events-none`, the unchecked and unselected indicators, a hidden tab panel or
-  navigation-menu content, the scrub cursor, the scroll area's scrollbar placement and thumb size,
-  and the editor's `[&_.cm-editor]:[outline:none]!`, which has to beat the unlayered `<style>`
-  CodeMirror mounts. Generate every installed headless component again after upgrading: a component
-  from an earlier version relied on the rules the stylesheet no longer has, and the generator says
-  so when it replaces a stylesheet that still holds them
+  with `surface_class`, so TipTap and Milkdown keep them. The editor's own rules in
+  `mishka_chelekom_headless.css` (the surface fill, no outline, `white-space`, the empty-document
+  placeholder) are surface classes too and left the stylesheet, so the editor is styled once; every
+  other headless component keeps its stylesheet rules. The gap cursor draws in the current text
+  colour rather than black and pulses with Tailwind's `animate-pulse` instead of a hard blink.
+  `injectCSS: true` and `injectNonce` in `editor_extensions.js` bring TipTap's own stylesheet back,
+  with a nonce. CodeMirror cannot run without the `<style>` it mounts, so the same `injectNonce` key
+  reaches its `EditorView.cspNonce`; Lexical and Milkdown inject none. Generate the editor again
+  after upgrading, since the stylesheet no longer carries its rules
 - The headless editor's toolbar marks a mark toggled at a collapsed cursor at once. Bold with nothing
   selected only sets the stored marks, a transaction that changes neither the document nor the
   selection, so the TipTap engine, which repainted `data-active` from `onUpdate` and
