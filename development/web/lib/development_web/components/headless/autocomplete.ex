@@ -104,7 +104,7 @@ defmodule DevelopmentWeb.Components.Headless.Autocomplete do
       data-autohighlight={@auto_highlight}
       data-filter={@filter}
       data-inline={@inline}
-      class={["chelekom-autocomplete", @class]}
+      class={["chelekom-autocomplete", "relative", @class]}
       {@rest}
     >
       <input
@@ -134,7 +134,7 @@ defmodule DevelopmentWeb.Components.Headless.Autocomplete do
         data-part="status"
         role="status"
         aria-live="polite"
-        class={["chelekom-sr-only", @status_class]}
+        class={["sr-only", @status_class]}
       >
       </div>
       <ul
@@ -143,7 +143,10 @@ defmodule DevelopmentWeb.Components.Headless.Autocomplete do
         role="listbox"
         data-open={@inline}
         data-closed={!@inline}
-        class={[!@inline && "chelekom-autocomplete__popup", @popup_class]}
+        class={[
+          !@inline && "chelekom-autocomplete__popup absolute z-40 data-closed:hidden!",
+          @popup_class
+        ]}
       >
         <%= for {grp, gi} <- Enum.with_index(@groups) do %>
           <%= if grp.label do %>
@@ -151,7 +154,7 @@ defmodule DevelopmentWeb.Components.Headless.Autocomplete do
               role="group"
               aria-labelledby={"#{@id}-grp-#{gi}"}
               data-part="group"
-              class={["chelekom-autocomplete__group", grp.group_class]}
+              class={["chelekom-autocomplete__group", "data-hidden:hidden!", grp.group_class]}
             >
               <span
                 id={"#{@id}-grp-#{gi}"}
@@ -177,7 +180,12 @@ defmodule DevelopmentWeb.Components.Headless.Autocomplete do
                   data-value={opt.value}
                   data-label={opt[:label] || opt.value}
                   aria-selected={to_string(opt.value == @value)}
-                  class={["chelekom-autocomplete__item", @item_class, opt[:class]]}
+                  class={[
+                    "chelekom-autocomplete__item",
+                    "data-hidden:hidden!",
+                    @item_class,
+                    opt[:class]
+                  ]}
                 >
                   {render_slot(opt)}
                 </li>
@@ -192,7 +200,7 @@ defmodule DevelopmentWeb.Components.Headless.Autocomplete do
               data-value={opt.value}
               data-label={opt[:label] || opt.value}
               aria-selected={to_string(opt.value == @value)}
-              class={["chelekom-autocomplete__item", @item_class, opt[:class]]}
+              class={["chelekom-autocomplete__item", "data-hidden:hidden!", @item_class, opt[:class]]}
             >
               {render_slot(opt)}
             </li>
@@ -203,7 +211,7 @@ defmodule DevelopmentWeb.Components.Headless.Autocomplete do
           data-part="empty"
           data-hidden
           role="presentation"
-          class={["chelekom-autocomplete__empty", @empty_class]}
+          class={["chelekom-autocomplete__empty", "data-hidden:hidden!", @empty_class]}
         >
           {render_slot(@empty)}
         </li>

@@ -153,7 +153,11 @@ defmodule DevelopmentWeb.Components.Headless.CheckboxGroup do
       data-indeterminate={@indeterminate}
       data-value={@value}
       data-part="item"
-      class={["chelekom-checkbox_group__item", @item_class]}
+      class={[
+        "chelekom-checkbox_group__item",
+        "data-disabled:pointer-events-none! data-disabled:opacity-50",
+        @item_class
+      ]}
     >
       <input
         :if={@name}
@@ -165,7 +169,7 @@ defmodule DevelopmentWeb.Components.Headless.CheckboxGroup do
         disabled={@disabled}
         tabindex="-1"
         aria-hidden="true"
-        class={["chelekom-checkbox_group__input chelekom-sr-only", @input_class]}
+        class={["chelekom-checkbox_group__input sr-only", @input_class]}
       />
       <span
         data-part="indicator"

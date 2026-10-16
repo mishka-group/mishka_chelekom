@@ -77,7 +77,7 @@ defmodule DevelopmentWeb.Components.Headless.RadioGroup do
         value={@value}
         form={@form}
         required={@required}
-        class="chelekom-sr-only"
+        class="sr-only"
       />
       <button
         :for={{opt, i} <- Enum.with_index(@option)}
@@ -91,7 +91,11 @@ defmodule DevelopmentWeb.Components.Headless.RadioGroup do
         data-unchecked={opt.value != @value}
         data-disabled={@disabled || opt[:disabled]}
         tabindex={if i == @tabbable, do: "0", else: "-1"}
-        class={["chelekom-radio-group__item", @item_class]}
+        class={[
+          "chelekom-radio-group__item",
+          "data-disabled:pointer-events-none! data-disabled:opacity-50",
+          @item_class
+        ]}
       >
         {render_slot(opt)}
       </button>

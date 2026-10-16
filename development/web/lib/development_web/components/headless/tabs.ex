@@ -96,7 +96,7 @@ defmodule DevelopmentWeb.Components.Headless.Tabs do
         role="tablist"
         data-part="tablist"
         aria-orientation={@orientation}
-        class={["chelekom-tabs__list", @list_class]}
+        class={["chelekom-tabs__list", "relative", @list_class]}
       >
         <button
           :for={{tab, i} <- Enum.with_index(@tab)}
@@ -139,7 +139,7 @@ defmodule DevelopmentWeb.Components.Headless.Tabs do
           hidden={(panel[:value] || "#{@id}-#{i}") != @active}
           data-hidden={(panel[:value] || "#{@id}-#{i}") != @active}
           tabindex="0"
-          class={["chelekom-tabs__panel", @panel_class, panel[:class]]}
+          class={["chelekom-tabs__panel", "[&[hidden]]:hidden!", @panel_class, panel[:class]]}
         >
           {render_slot(panel)}
         </div>

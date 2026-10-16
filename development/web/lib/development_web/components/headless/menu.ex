@@ -130,7 +130,7 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
       data-loop={to_string(@loop)}
       data-on-open-change={@on_open_change}
       data-on-open-change-target={@on_open_change_target}
-      class={["chelekom-menu", @class]}
+      class={["chelekom-menu", "relative", @class]}
       {@rest}
     >
       <button
@@ -150,7 +150,7 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
         tabindex="-1"
         hidden
         data-closed
-        class={["chelekom-menu__popup", @popup_class]}
+        class={["chelekom-menu__popup", "fixed z-50 data-closed:hidden!", @popup_class]}
       >
         {render_slot(@inner_block)}
         <div :for={it <- @item} style="display: contents">
@@ -191,7 +191,12 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
               aria-hidden="true"
               data-checked={it[:checked] == true}
               data-unchecked={it[:checked] != true}
-              class={["chelekom-menu__indicator", @indicator_class, it[:indicator_class]]}
+              class={[
+                "chelekom-menu__indicator",
+                "data-unchecked:invisible!",
+                @indicator_class,
+                it[:indicator_class]
+              ]}
             >{if @check_icon != [], do: render_slot(@check_icon), else: "✓"}</span>
             {render_slot(it)}
           </button>
@@ -217,7 +222,12 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
               aria-hidden="true"
               data-checked={it[:checked] == true}
               data-unchecked={it[:checked] != true}
-              class={["chelekom-menu__indicator", @indicator_class, it[:indicator_class]]}
+              class={[
+                "chelekom-menu__indicator",
+                "data-unchecked:invisible!",
+                @indicator_class,
+                it[:indicator_class]
+              ]}
             >{if @check_icon != [], do: render_slot(@check_icon), else: "●"}</span>
             {render_slot(it)}
           </button>
@@ -239,7 +249,12 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
             data-keep-open={it[:keep_open] == true}
             data-label={it[:label]}
             tabindex="-1"
-            class={["chelekom-menu__item", @item_class, it[:class]]}
+            class={[
+              "chelekom-menu__item",
+              "data-disabled:pointer-events-none! data-disabled:opacity-50",
+              @item_class,
+              it[:class]
+            ]}
           >
             {render_slot(it)}
           </button>
@@ -275,7 +290,11 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
             tabindex="-1"
             hidden
             data-closed
-            class={["chelekom-menu__submenu-popup", @submenu_popup_class]}
+            class={[
+              "chelekom-menu__submenu-popup",
+              "fixed z-50 data-closed:hidden!",
+              @submenu_popup_class
+            ]}
           >
             {render_slot(sm)}
           </div>
@@ -304,7 +323,11 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
       data-keep-open={@keep_open}
       data-label={@label}
       tabindex="-1"
-      class={["chelekom-menu__item", @class]}
+      class={[
+        "chelekom-menu__item",
+        "data-disabled:pointer-events-none! data-disabled:opacity-50",
+        @class
+      ]}
       {@rest}
     >
       {render_slot(@inner_block)}
@@ -347,7 +370,7 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
         aria-hidden="true"
         data-checked={@checked}
         data-unchecked={!@checked}
-        class={["chelekom-menu__indicator", @indicator_class]}
+        class={["chelekom-menu__indicator", "data-unchecked:invisible!", @indicator_class]}
       >{if @indicator != [], do: render_slot(@indicator), else: "✓"}</span>
       {render_slot(@inner_block)}
     </button>
@@ -429,7 +452,7 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
         aria-hidden="true"
         data-checked={@checked}
         data-unchecked={!@checked}
-        class={["chelekom-menu__indicator", @indicator_class]}
+        class={["chelekom-menu__indicator", "data-unchecked:invisible!", @indicator_class]}
       >{if @indicator != [], do: render_slot(@indicator), else: "●"}</span>
       {render_slot(@inner_block)}
     </button>
@@ -554,7 +577,7 @@ defmodule DevelopmentWeb.Components.Headless.Menu do
         tabindex="-1"
         hidden
         data-closed
-        class={["chelekom-menu__submenu-popup", @popup_class]}
+        class={["chelekom-menu__submenu-popup", "fixed z-50 data-closed:hidden!", @popup_class]}
       >
         {render_slot(@inner_block)}
       </div>

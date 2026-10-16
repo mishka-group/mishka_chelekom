@@ -99,7 +99,12 @@ defmodule DevelopmentWeb.Components.Headless.Accordion do
         data-open={item.__open__}
         data-disabled={item.__disabled__}
         data-on-open-change={item[:on_open_change]}
-        class={["chelekom-accordion__item", @item_class, item[:class]]}
+        class={[
+          "chelekom-accordion__item",
+          "data-disabled:pointer-events-none! data-disabled:opacity-50",
+          @item_class,
+          item[:class]
+        ]}
       >
         <.dynamic_tag
           tag_name={"h#{@heading_level}"}

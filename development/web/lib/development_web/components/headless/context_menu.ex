@@ -99,7 +99,7 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
       data-disabled={to_string(@disabled)}
       data-on-open-change={@on_open_change}
       data-on-open-change-target={@on_open_change_target}
-      class={["chelekom-context_menu", @class]}
+      class={["chelekom-context_menu", "relative", @class]}
       {@rest}
     >
       <div data-part="trigger" class={["chelekom-context_menu__trigger", @trigger_class]}>
@@ -112,7 +112,7 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
         tabindex="-1"
         hidden
         data-closed
-        class={["chelekom-context_menu__popup", @popup_class]}
+        class={["chelekom-context_menu__popup", "fixed z-50 data-closed:hidden!", @popup_class]}
       >
         {render_slot(@inner_block)}
         <div :for={it <- @item} style="display: contents">
@@ -153,7 +153,11 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
               aria-hidden="true"
               data-checked={it[:checked] == true}
               data-unchecked={it[:checked] != true}
-              class={["chelekom-context_menu__indicator", @indicator_class]}
+              class={[
+                "chelekom-context_menu__indicator",
+                "data-unchecked:invisible!",
+                @indicator_class
+              ]}
             >✓</span>
             {render_slot(it)}
           </button>
@@ -179,7 +183,11 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
               aria-hidden="true"
               data-checked={it[:checked] == true}
               data-unchecked={it[:checked] != true}
-              class={["chelekom-context_menu__indicator", @indicator_class]}
+              class={[
+                "chelekom-context_menu__indicator",
+                "data-unchecked:invisible!",
+                @indicator_class
+              ]}
             >●</span>
             {render_slot(it)}
           </button>
@@ -201,7 +209,12 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
             data-keep-open={it[:keep_open] == true}
             data-label={it[:label]}
             tabindex="-1"
-            class={["chelekom-context_menu__item", @item_class, it[:class]]}
+            class={[
+              "chelekom-context_menu__item",
+              "data-disabled:pointer-events-none! data-disabled:opacity-50",
+              @item_class,
+              it[:class]
+            ]}
           >
             {render_slot(it)}
           </button>
@@ -237,7 +250,12 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
             tabindex="-1"
             hidden
             data-closed
-            class={["chelekom-context_menu__submenu-popup", @submenu_popup_class, sm[:popup_class]]}
+            class={[
+              "chelekom-context_menu__submenu-popup",
+              "fixed z-50 data-closed:hidden!",
+              @submenu_popup_class,
+              sm[:popup_class]
+            ]}
           >
             {render_slot(sm)}
           </div>
@@ -266,7 +284,11 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
       data-keep-open={@keep_open}
       data-label={@label}
       tabindex="-1"
-      class={["chelekom-context_menu__item", @class]}
+      class={[
+        "chelekom-context_menu__item",
+        "data-disabled:pointer-events-none! data-disabled:opacity-50",
+        @class
+      ]}
       {@rest}
     >
       {render_slot(@inner_block)}
@@ -313,7 +335,7 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
         aria-hidden="true"
         data-checked={@checked}
         data-unchecked={!@checked}
-        class={["chelekom-context_menu__indicator", @indicator_class]}
+        class={["chelekom-context_menu__indicator", "data-unchecked:invisible!", @indicator_class]}
       >{if @indicator != [], do: render_slot(@indicator), else: "✓"}</span>
       {render_slot(@inner_block)}
     </button>
@@ -404,7 +426,7 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
         aria-hidden="true"
         data-checked={@checked}
         data-unchecked={!@checked}
-        class={["chelekom-context_menu__indicator", @indicator_class]}
+        class={["chelekom-context_menu__indicator", "data-unchecked:invisible!", @indicator_class]}
       >{if @indicator != [], do: render_slot(@indicator), else: "●"}</span>
       {render_slot(@inner_block)}
     </button>
@@ -540,7 +562,11 @@ defmodule DevelopmentWeb.Components.Headless.ContextMenu do
         tabindex="-1"
         hidden
         data-closed
-        class={["chelekom-context_menu__submenu-popup", @popup_class]}
+        class={[
+          "chelekom-context_menu__submenu-popup",
+          "fixed z-50 data-closed:hidden!",
+          @popup_class
+        ]}
       >
         {render_slot(@inner_block)}
       </div>

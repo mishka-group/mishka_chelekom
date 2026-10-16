@@ -57,7 +57,7 @@ defmodule DevelopmentWeb.Components.Headless.AlertDialog do
       data-close-on-outside="false"
       data-on-open-change={@on_open_change}
       data-on-open-change-target={@on_open_change_target}
-      class={["chelekom-alert-dialog", @class]}
+      class={["chelekom-alert-dialog", "group/alert-dialog contents", @class]}
       data-open={@open}
       data-closed={!@open}
       {@rest}
@@ -76,7 +76,11 @@ defmodule DevelopmentWeb.Components.Headless.AlertDialog do
 
       <div
         data-part="backdrop"
-        class={["chelekom-alert-dialog__backdrop", @backdrop_class]}
+        class={[
+          "chelekom-alert-dialog__backdrop",
+          "fixed inset-0 z-40 group-data-closed/alert-dialog:hidden!",
+          @backdrop_class
+        ]}
         aria-hidden="true"
       >
       </div>
@@ -87,7 +91,11 @@ defmodule DevelopmentWeb.Components.Headless.AlertDialog do
         aria-modal="true"
         aria-labelledby={@labelledby || "#{@id}-title"}
         aria-describedby={@describedby || "#{@id}-desc"}
-        class={["chelekom-alert-dialog__popup", @popup_class]}
+        class={[
+          "chelekom-alert-dialog__popup",
+          "fixed top-1/2 left-1/2 z-50 [transform:translate(-50%,-50%)] data-closed:hidden!",
+          @popup_class
+        ]}
         tabindex="-1"
         data-open={@open}
         data-closed={!@open}

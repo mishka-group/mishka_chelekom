@@ -81,7 +81,7 @@ defmodule DevelopmentWeb.Components.Headless.Toggle do
         form={@form}
         tabindex="-1"
         aria-hidden="true"
-        class={["chelekom-toggle__input chelekom-sr-only", @input_class]}
+        class={["chelekom-toggle__input sr-only", @input_class]}
       />
       {render_slot(@inner_block)}
     </button>

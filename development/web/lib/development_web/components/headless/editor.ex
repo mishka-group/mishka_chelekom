@@ -96,7 +96,7 @@ defmodule DevelopmentWeb.Components.Headless.Editor do
       data-part="root"
       data-disabled={@disabled}
       data-readonly={@readonly}
-      class={["chelekom-editor", @class]}
+      class={["chelekom-editor", "group/editor", @class]}
       {@rest}
     >
       <div
@@ -144,6 +144,11 @@ defmodule DevelopmentWeb.Components.Headless.Editor do
         aria-describedby={@describedby_id}
         class={[
           "chelekom-editor__surface",
+          "flex flex-col *:min-w-0 *:flex-auto [&_.milkdown]:flex [&_.milkdown]:min-w-0 [&_.milkdown]:flex-auto [&_.milkdown]:flex-col",
+          "[&_.ProseMirror]:flex-auto [&_.ProseMirror]:[outline:none] [&_.cm-editor]:flex-auto [&_.cm-editor]:[outline:none]!",
+          "[&_.ProseMirror]:whitespace-pre-wrap [&_.ProseMirror]:[word-break:break-word]",
+          "group-data-empty/editor:[&_.ProseMirror]:before:pointer-events-none group-data-empty/editor:[&_.ProseMirror]:before:float-left group-data-empty/editor:[&_.ProseMirror]:before:h-0 group-data-empty/editor:[&_.ProseMirror]:before:content-[attr(data-placeholder)]",
+          "group-data-empty/editor:[&_[data-part=lexical-content]]:before:pointer-events-none group-data-empty/editor:[&_[data-part=lexical-content]]:before:float-left group-data-empty/editor:[&_[data-part=lexical-content]]:before:h-0 group-data-empty/editor:[&_[data-part=lexical-content]]:before:content-[attr(data-placeholder)]",
           "[&_.ProseMirror]:relative [&_.ProseMirror]:break-words [&_.ProseMirror]:[font-variant-ligatures:none] [&_.ProseMirror]:[font-feature-settings:'liga'_0]",
           "[&_.ProseMirror_[contenteditable=false]]:whitespace-normal [&_.ProseMirror_[contenteditable=false]_[contenteditable=true]]:whitespace-pre-wrap [&_.ProseMirror_pre]:whitespace-pre-wrap",
           "[&_img.ProseMirror-separator]:inline! [&_img.ProseMirror-separator]:m-0! [&_img.ProseMirror-separator]:size-0! [&_img.ProseMirror-separator]:border-none!",
