@@ -62,7 +62,7 @@ defmodule <%= @module %> do
         :for={{menu, i} <- Enum.with_index(@menu)}
         id={"#{@id}-menu-#{i}"}
         data-part="menu"
-        class={["chelekom-menubar__menu", "relative", @menu_class]}
+        class={["chelekom-menubar__menu", @menu_class]}
       >
         <button
           type="button"
@@ -85,7 +85,7 @@ defmodule <%= @module %> do
           role="menu"
           aria-label={menu.label}
           data-closed
-          class={["chelekom-menubar__popup", "absolute z-40 data-closed:hidden!", @popup_class]}
+          class={["chelekom-menubar__popup", @popup_class]}
         >
           {render_slot(menu)}
         </div>

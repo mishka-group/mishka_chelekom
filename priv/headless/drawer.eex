@@ -10,8 +10,8 @@ defmodule <%= @module %> do
   Vertical drawers (`side="bottom"`/`"top"`) accept `snap_points`. You can also drive `open`
   from the server and listen with `on_open_change` / `on_snap_point_change`.
 
-  Ships **no** colors or spacing — only functional Tailwind classes (per-side positioning + the
-  slide, driven by `data-side` and the `--drawer-*` CSS vars). Style the `chelekom-drawer*` classes
+  Ships **no** colors or spacing — only functional CSS (per-side positioning + the slide,
+  driven by `data-side` and the `--drawer-*` CSS vars). Style the `chelekom-drawer*` classes
   and the `data-open`/`data-closed`/`data-side`/`data-swiping`/`data-expanded`/... state.
 
   **Documentation:** https://mishka.tools/chelekom/docs/headless/drawer
@@ -130,7 +130,7 @@ defmodule <%= @module %> do
       data-on-open-change-target={@on_open_change_target}
       data-on-snap-point-change={@on_snap_point_change}
       data-on-snap-point-change-target={@on_snap_point_change_target}
-      class={["chelekom-drawer", "group/drawer contents", @class]}
+      class={["chelekom-drawer", @class]}
       data-open={@open}
       data-closed={!@open}
       {@rest}
@@ -150,7 +150,7 @@ defmodule <%= @module %> do
         role="presentation"
         aria-hidden="true"
         data-swipe-direction={@area_dir}
-        class={["chelekom-drawer__swipe-area", "pointer-events-auto touch-none", @swipe_area_class]}
+        class={["chelekom-drawer__swipe-area", @swipe_area_class]}
       >
         {render_slot(@swipe_area_inner)}
       </div>
@@ -158,45 +158,20 @@ defmodule <%= @module %> do
       <div
         :if={@modal != false}
         data-part="backdrop"
-        class={[
-          "chelekom-drawer__backdrop",
-          "fixed inset-0 z-40 [transition:opacity_450ms_cubic-bezier(0.32,0.72,0,1)] data-swiping:duration-0",
-          "group-data-closed/drawer:pointer-events-none! group-data-closed/drawer:opacity-0!",
-          @backdrop_class
-        ]}
+        class={["chelekom-drawer__backdrop", @backdrop_class]}
         aria-hidden="true"
         style="--drawer-swipe-progress:0;"
       >
       </div>
 
-      <div
-        data-part="viewport"
-        class={[
-          "chelekom-drawer__viewport",
-          "pointer-events-none fixed inset-0 z-50 overflow-hidden",
-          @viewport_class
-        ]}
-      >
+      <div data-part="viewport" class={["chelekom-drawer__viewport", @viewport_class]}>
         <div
           data-part="popup"
           role="dialog"
           aria-modal={if @modal == true, do: "true"}
           aria-labelledby={@labelledby || (@title != [] && "#{@id}-title") || nil}
           aria-describedby={@describedby || (@description != [] && "#{@id}-desc") || nil}
-          class={[
-            "chelekom-drawer__popup",
-            "pointer-events-auto absolute [transition:transform_450ms_cubic-bezier(0.32,0.72,0,1)]",
-            "data-swiping:duration-0 data-swiping:select-none data-ending-style:duration-[calc(450ms*var(--drawer-swipe-strength,1))]",
-            "data-[side=right]:top-0 data-[side=right]:right-0 data-[side=right]:h-full data-[side=right]:[transform:translateX(var(--drawer-swipe-movement-x,0px))]",
-            "data-[side=right]:data-closed:[transform:translateX(100%)] data-[side=right]:data-starting-style:[transform:translateX(100%)] data-[side=right]:data-ending-style:[transform:translateX(100%)]",
-            "data-[side=left]:top-0 data-[side=left]:left-0 data-[side=left]:h-full data-[side=left]:[transform:translateX(var(--drawer-swipe-movement-x,0px))]",
-            "data-[side=left]:data-closed:[transform:translateX(-100%)] data-[side=left]:data-starting-style:[transform:translateX(-100%)] data-[side=left]:data-ending-style:[transform:translateX(-100%)]",
-            "data-[side=bottom]:right-0 data-[side=bottom]:bottom-0 data-[side=bottom]:left-0 data-[side=bottom]:w-full data-[side=bottom]:[transform:translateY(calc(var(--drawer-snap-point-offset,0px)_+_var(--drawer-swipe-movement-y,0px)))]",
-            "data-[side=bottom]:data-closed:[transform:translateY(100%)] data-[side=bottom]:data-starting-style:[transform:translateY(100%)] data-[side=bottom]:data-ending-style:[transform:translateY(100%)]",
-            "data-[side=top]:top-0 data-[side=top]:right-0 data-[side=top]:left-0 data-[side=top]:w-full data-[side=top]:[transform:translateY(var(--drawer-swipe-movement-y,0px))]",
-            "data-[side=top]:data-closed:[transform:translateY(-100%)] data-[side=top]:data-starting-style:[transform:translateY(-100%)] data-[side=top]:data-ending-style:[transform:translateY(-100%)]",
-            @popup_class
-          ]}
+          class={["chelekom-drawer__popup", @popup_class]}
           data-side={@side}
           data-modal={to_string(@modal)}
           tabindex="-1"

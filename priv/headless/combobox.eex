@@ -101,7 +101,7 @@ defmodule <%= @module %> do
       data-name={@name}
       data-on-change={@on_change}
       data-on-create={@on_create}
-      class={["chelekom-combobox", "relative", @class]}
+      class={["chelekom-combobox", @class]}
       {@rest}
     >
       <div data-part="control" class={["chelekom-combobox__control", @control_class]}>
@@ -185,7 +185,7 @@ defmodule <%= @module %> do
         role="listbox"
         aria-multiselectable={@multiple && "true"}
         data-closed
-        class={["chelekom-combobox__popup", "absolute z-40 data-closed:hidden!", @popup_class]}
+        class={["chelekom-combobox__popup", @popup_class]}
       >
         <%%= for {grp, gi} <- Enum.with_index(@groups) do %>
           <%%= if grp.label do %>
@@ -193,7 +193,7 @@ defmodule <%= @module %> do
               role="group"
               aria-labelledby={"#{@id}-grp-#{gi}"}
               data-part="group"
-              class={["chelekom-combobox__group", "data-hidden:hidden!", @group_class]}
+              class={["chelekom-combobox__group", @group_class]}
             >
               <span
                 id={"#{@id}-grp-#{gi}"}
@@ -234,7 +234,7 @@ defmodule <%= @module %> do
           data-part="empty"
           data-hidden
           role="presentation"
-          class={["chelekom-combobox__empty", "data-hidden:hidden!", @empty_class]}
+          class={["chelekom-combobox__empty", @empty_class]}
         >
           {render_slot(@empty)}
         </li>
@@ -284,12 +284,7 @@ defmodule <%= @module %> do
       data-selected={@selected}
       aria-selected={to_string(@selected)}
       aria-disabled={(@opt[:disabled] && "true") || nil}
-      class={[
-        "chelekom-combobox__item",
-        "data-disabled:pointer-events-none! data-disabled:opacity-50 data-hidden:hidden!",
-        @item_class,
-        @opt[:class]
-      ]}
+      class={["chelekom-combobox__item", @item_class, @opt[:class]]}
     >
       <span
         data-part="indicator"

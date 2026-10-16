@@ -44,7 +44,7 @@ defmodule <%= @module %> do
       <span
         :for={item <- @item}
         data-part="item"
-        class={["chelekom-overflow-list__item", "data-hidden:hidden!", @item_class]}
+        class={["chelekom-overflow-list__item", @item_class]}
       >{render_slot(item)}</span>
       <span
         data-part="counter"

@@ -102,7 +102,7 @@ defmodule <%= @module %> do
       data-final-focus={@final_focus}
       data-on-open-change={@on_open_change}
       data-on-open-change-target={@on_open_change_target}
-      class={["chelekom-popover", "group/popover relative", @class]}
+      class={["chelekom-popover", @class]}
       data-open={@open}
       data-closed={!@open}
       {@rest}
@@ -121,7 +121,7 @@ defmodule <%= @module %> do
       <div
         :if={@modal != false}
         data-part="backdrop"
-        class={["chelekom-popover__backdrop", "fixed inset-0 z-40 group-data-closed/popover:hidden!", @backdrop_class]}
+        class={["chelekom-popover__backdrop", @backdrop_class]}
         aria-hidden="true"
       >
       </div>
@@ -133,7 +133,7 @@ defmodule <%= @module %> do
         aria-modal={if @modal == true, do: "true"}
         aria-labelledby={@labelledby || (@title != [] && "#{@id}-title") || nil}
         aria-describedby={@describedby || (@description != [] && "#{@id}-desc") || nil}
-        class={["chelekom-popover__popup", "fixed z-50 data-closed:hidden!", @popup_class]}
+        class={["chelekom-popover__popup", @popup_class]}
         tabindex="-1"
         data-closed
         hidden

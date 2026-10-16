@@ -76,17 +76,10 @@ defmodule <%= @module %> do
       data-delay={@delay}
       data-close-delay={@close_delay}
       data-value={@open_value}
-      class={["chelekom-navigation_menu", "group/navigation-menu relative", @class]}
+      class={["chelekom-navigation_menu", @class]}
       {@rest}
     >
-      <ul
-        data-part="list"
-        class={[
-          "chelekom-navigation_menu__list",
-          "flex group-data-[orientation=vertical]/navigation-menu:flex-col",
-          @list_class
-        ]}
-      >
+      <ul data-part="list" class={["chelekom-navigation_menu__list", @list_class]}>
         <li
           :for={{item, i} <- Enum.with_index(@item)}
           data-part="item"
@@ -129,12 +122,7 @@ defmodule <%= @module %> do
             data-part="content"
             data-value={item[:value] || "#{@id}-item-#{i}"}
             hidden
-            class={[
-              "chelekom-navigation_menu__content",
-              "[&[hidden]]:hidden! data-[activation-direction=right]:animate-[chelekom-nm-right_0.2s_ease] data-[activation-direction=left]:animate-[chelekom-nm-left_0.2s_ease]",
-              "data-[activation-direction=down]:animate-[chelekom-nm-down_0.2s_ease] data-[activation-direction=up]:animate-[chelekom-nm-up_0.2s_ease]",
-              item[:content_class] || @content_class
-            ]}
+            class={["chelekom-navigation_menu__content", item[:content_class] || @content_class]}
           >
             {render_slot(item)}
           </div>
@@ -144,28 +132,16 @@ defmodule <%= @module %> do
       <div
         data-part="positioner"
         data-closed
-        class={[
-          "chelekom-navigation_menu__positioner",
-          "group/navigation-menu-positioner absolute z-40 h-(--positioner-height,auto) w-(--positioner-width,auto) data-closed:hidden!",
-          @positioner_class
-        ]}
+        class={["chelekom-navigation_menu__positioner", @positioner_class]}
       >
         <nav
           data-part="popup"
           id={"#{@id}-popup"}
           tabindex="-1"
           data-closed
-          class={[
-            "chelekom-navigation_menu__popup",
-            "relative h-(--popup-height,auto) w-(--popup-width,auto) overflow-hidden [transition:width_0.2s_ease,height_0.2s_ease]",
-            "group-data-instant/navigation-menu-positioner:[transition:none]",
-            @popup_class
-          ]}
+          class={["chelekom-navigation_menu__popup", @popup_class]}
         >
-          <div
-            data-part="viewport"
-            class={["chelekom-navigation_menu__viewport", "relative h-full w-full overflow-hidden", @viewport_class]}
-          >
+          <div data-part="viewport" class={["chelekom-navigation_menu__viewport", @viewport_class]}>
           </div>
           <div
             :if={@arrow}

@@ -77,7 +77,7 @@ defmodule <%= @module %> do
       data-on-open-change-target={@on_open_change_target}
       data-initial-focus={@initial_focus}
       data-final-focus={@final_focus}
-      class={["chelekom-dialog", "group/dialog contents", @class]}
+      class={["chelekom-dialog", @class]}
       data-open={@open}
       data-closed={!@open}
       {@rest}
@@ -97,34 +97,19 @@ defmodule <%= @module %> do
       <div
         :if={@modal != false}
         data-part="backdrop"
-        class={[
-          "chelekom-dialog__backdrop",
-          "fixed inset-0 z-40 group-data-closed/dialog:hidden!",
-          @backdrop_class
-        ]}
+        class={["chelekom-dialog__backdrop", @backdrop_class]}
         aria-hidden="true"
       >
       </div>
 
-      <div
-        data-part="viewport"
-        class={[
-          "chelekom-dialog__viewport",
-          "pointer-events-none fixed inset-0 z-50 grid place-items-center overflow-y-auto",
-          @viewport_class
-        ]}
-      >
+      <div data-part="viewport" class={["chelekom-dialog__viewport", @viewport_class]}>
         <div
           data-part="popup"
           role="dialog"
           aria-modal={if @modal == true, do: "true"}
           aria-labelledby={@labelledby || (@title != [] && "#{@id}-title") || nil}
           aria-describedby={@describedby || (@description != [] && "#{@id}-desc") || nil}
-          class={[
-            "chelekom-dialog__popup",
-            "pointer-events-auto relative max-h-[90vh] overflow-auto data-closed:hidden!",
-            @popup_class
-          ]}
+          class={["chelekom-dialog__popup", @popup_class]}
           data-modal={to_string(@modal)}
           tabindex="-1"
           data-open={@open}
