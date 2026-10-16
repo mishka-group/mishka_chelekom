@@ -131,7 +131,10 @@ const Editor = {
       content: parseInitial(el.getAttribute("data-value"), this.format),
       editable: el.getAttribute("data-editable") !== "false",
       onUpdate: () => this.schedule(),
-      onSelectionUpdate: () => this.render(),
+      // Every transaction, not only a selection or document change: a mark toggled at a collapsed
+      // cursor (Bold with nothing selected) only sets the stored marks, and the toolbar must show
+      // it before the next keystroke. One render per transaction, so schedule() does not render.
+      onTransaction: () => this.render(),
       onFocus: () => {
         this.render();
         this.push(this.onFocus);
@@ -243,7 +246,6 @@ const Editor = {
   },
 
   schedule() {
-    this.render();
     // Server-applied content must not echo straight back as a user edit.
     if (this.remote) return;
     if (this.timer) clearTimeout(this.timer);

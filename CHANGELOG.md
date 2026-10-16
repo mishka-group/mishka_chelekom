@@ -79,6 +79,11 @@
   CodeMirror mounts. Generate every installed headless component again after upgrading: a component
   from an earlier version relied on the rules the stylesheet no longer has, and the generator says
   so when it replaces a stylesheet that still holds them
+- The headless editor's toolbar marks a mark toggled at a collapsed cursor at once. Bold with nothing
+  selected only sets the stored marks, a transaction that changes neither the document nor the
+  selection, so the TipTap engine, which repainted `data-active` from `onUpdate` and
+  `onSelectionUpdate`, showed it one keystroke late. It repaints on every transaction now, once per
+  keystroke. Milkdown, Lexical and CodeMirror have no toolbar commands, so nothing lags there
 - A display utility in a component's `class` replaces the component's own. Tailwind writes display
   utilities in name order, not in class-list order, so the button's default `inline-flex` beat a
   caller's `hidden` and `class="hidden md:flex"` never hid it. Where a component's own display sits
