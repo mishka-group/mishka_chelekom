@@ -631,19 +631,22 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
   # `phx-hook={@hook}` NAMES ITS HOOK THROUGH AN ATTRIBUTE, and the text above has no hook name in it
   # to rewrite — the name is the attribute's default, `"Chart"`. Left alone, the headless chart and
   # editor mounted a hook the runtime registers as `GlobalChelekomHeadlessChart` under its bare
-  # name and never ran. The default of every attribute a template hands to `phx-hook` is rewritten
-  # the way a literal `phx-hook="Chart"` is.
+  # name and never ran. The default of every attribute a `phx-hook` expression reads is rewritten
+  # the way a literal `phx-hook="Chart"` is; a default that names no hook of the kit is left alone.
   defp rewrite_hook_defaults(component, hook_renames) do
-    templates =
-      [
-        component["template"]
-        | Enum.map(get_in(component, ["extra", "clauses"]) || [], & &1["template"])
-      ]
+    texts =
+      [component["template"], component["body"]] ++
+        Enum.flat_map(
+          get_in(component, ["extra", "clauses"]) || [],
+          &[&1["template"], &1["body"]]
+        ) ++
+        Enum.map(component["helpers"] || [], & &1["code"])
 
     hook_attrs =
-      for template <- templates,
-          is_binary(template),
-          [_match, attr] <- Regex.scan(~r/phx-hook=\{@(\w+)\}/, template),
+      for text <- texts,
+          is_binary(text),
+          expression <- hook_expressions(text),
+          [_match, attr] <- Regex.scan(~r/@(\w+)/, expression),
           into: MapSet.new(),
           do: attr
 
@@ -665,15 +668,77 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
   defp rewrite_phx_hooks(nil, _), do: nil
   defp rewrite_phx_hooks("", _), do: ""
 
+  # A HOOK IS NAMED IN AN EXPRESSION AS OFTEN AS IN A LITERAL. `phx-hook={@autosize && "Autosize"}`
+  # carried the library's own name to a CMS that registers the hook as
+  # `GlobalChelekomHeadlessAutosize`, so the textarea logged `unknown hook found for "Autosize"` and
+  # never grew. Inside a `phx-hook={…}`, every string that is a hook's source name becomes its key.
   defp rewrite_phx_hooks(text, hook_renames) when is_binary(text) do
-    Enum.reduce(hook_renames, text, fn {module_name, live_key}, acc ->
-      String.replace(acc, ~s(phx-hook="#{module_name}"), ~s(phx-hook="#{live_key}"))
+    renames = Map.new(hook_renames)
+
+    literal =
+      Enum.reduce(hook_renames, text, fn {module_name, live_key}, acc ->
+        String.replace(acc, ~s(phx-hook="#{module_name}"), ~s(phx-hook="#{live_key}"))
+      end)
+
+    map_hook_expressions(literal, fn expression ->
+      Regex.replace(~r/"([A-Za-z][A-Za-z0-9]*)"/, expression, fn whole, name ->
+        case Map.fetch(renames, name) do
+          {:ok, live_key} -> ~s("#{live_key}")
+          :error -> whole
+        end
+      end)
     end)
   end
 
   defp rewrite_phx_hooks(other, _), do: other
 
-  # The mirror of `MishkaCmsCore.Runtime.Compilers.JavaScriptCompiler.format_hook_name/2` for a
+  # The Elixir expression of every `phx-hook={…}` in `text`, braces balanced.
+  defp hook_expressions(text) do
+    text
+    |> split_hook_expressions()
+    |> Enum.flat_map(fn
+      {:expression, expression} -> [expression]
+      {:text, _text} -> []
+    end)
+  end
+
+  defp map_hook_expressions(text, fun) do
+    text
+    |> split_hook_expressions()
+    |> Enum.map_join(fn
+      {:expression, expression} -> fun.(expression) <> "}"
+      {:text, text} -> text
+    end)
+  end
+
+  # `text` cut into the expressions of its `phx-hook={…}` attributes and everything around them;
+  # joined back (an expression followed by its closing brace) it is `text` again. An expression
+  # that never closes is left as text.
+  defp split_hook_expressions(text) do
+    with [before, rest] <- :binary.split(text, "phx-hook={"),
+         {:ok, expression, after_expression} <- take_expression(rest, 1, []) do
+      [{:text, before <> "phx-hook={"}, {:expression, expression}] ++
+        split_hook_expressions(after_expression)
+    else
+      _no_expression -> [{:text, text}]
+    end
+  end
+
+  defp take_expression(<<"}", rest::binary>>, 1, acc),
+    do: {:ok, acc |> Enum.reverse() |> IO.iodata_to_binary(), rest}
+
+  defp take_expression(<<"}", rest::binary>>, depth, acc),
+    do: take_expression(rest, depth - 1, ["}" | acc])
+
+  defp take_expression(<<"{", rest::binary>>, depth, acc),
+    do: take_expression(rest, depth + 1, ["{" | acc])
+
+  defp take_expression(<<char::utf8, rest::binary>>, depth, acc),
+    do: take_expression(rest, depth, [<<char::utf8>> | acc])
+
+  defp take_expression(<<>>, _depth, _acc), do: :unterminated
+
+  # The mirror of `MishkaCmsCore.Runtime.Compilers.JavaScriptCompiler.browser_name/2` for a
   # site-less row: kebab split, each part capitalised, joined, `Global` in front. Every bundle row
   # ships `site_id: nil`, so that is the only branch this needs.
   #

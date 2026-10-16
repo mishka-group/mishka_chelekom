@@ -10,7 +10,7 @@ defmodule MishkaChelekom.CmsBundle.ShippedKitsTest do
 
   A CMS registers each hook as `Global` and its stored name in PascalCase —
   `chelekom-headless-chart` is `GlobalChelekomHeadlessChart` — so a component that names any other
-  key mounts nothing, and nothing says so. A hook that imports packages ships them, pinned and
+  key, literally or inside a `phx-hook={…}` expression, mounts nothing, and nothing says so. A hook that imports packages ships them, pinned and
   hashed, and the files it imports from beside itself.
   """
   use ExUnit.Case, async: true
@@ -28,20 +28,49 @@ defmodule MishkaChelekom.CmsBundle.ShippedKitsTest do
     end)
   end
 
-  defp templates(component) do
+  defp code(component) do
     clauses = get_in(component, ["extra", "clauses"]) || []
-    Enum.filter([component["template"] | Enum.map(clauses, & &1["template"])], &is_binary/1)
+
+    [component["template"], component["body"]]
+    |> Enum.concat(Enum.flat_map(clauses, &[&1["template"], &1["body"]]))
+    |> Enum.concat(Enum.map(component["helpers"] || [], & &1["code"]))
+    |> Enum.filter(&is_binary/1)
   end
 
-  # Every hook key a component can mount: a literal `phx-hook="…"`, or the default of the attribute
-  # a `phx-hook={@…}` reads.
+  # The Elixir expression of every `phx-hook={…}` in `text`, braces balanced.
+  defp hook_expressions(text) do
+    case :binary.split(text, "phx-hook={") do
+      [_before, rest] ->
+        {expression, rest} = take_expression(rest, 1, "")
+        [expression | hook_expressions(rest)]
+
+      [_text] ->
+        []
+    end
+  end
+
+  defp take_expression("}" <> rest, 1, acc), do: {acc, rest}
+  defp take_expression("}" <> rest, depth, acc), do: take_expression(rest, depth - 1, acc <> "}")
+  defp take_expression("{" <> rest, depth, acc), do: take_expression(rest, depth + 1, acc <> "{")
+
+  defp take_expression(<<char::utf8, rest::binary>>, depth, acc),
+    do: take_expression(rest, depth, acc <> <<char::utf8>>)
+
+  defp take_expression("", _depth, acc), do: {acc, ""}
+
+  # Every hook key a component can mount: a literal `phx-hook="…"`, a string inside a
+  # `phx-hook={…}`, and the string default of every attribute such an expression reads.
   defp named_hooks(component) do
-    texts = templates(component)
+    texts = code(component)
     literal = for text <- texts, [_, key] <- Regex.scan(~r/phx-hook="([^"]+)"/, text), do: key
+    expressions = Enum.flat_map(texts, &hook_expressions/1)
+
+    quoted =
+      for expression <- expressions, [_, key] <- Regex.scan(~r/"([^"]+)"/, expression), do: key
 
     attrs =
-      for text <- texts,
-          [_, attr] <- Regex.scan(~r/phx-hook=\{@(\w+)\}/, text),
+      for expression <- expressions,
+          [_, attr] <- Regex.scan(~r/@(\w+)/, expression),
           uniq: true,
           do: attr
 
@@ -52,7 +81,7 @@ defmodule MishkaChelekom.CmsBundle.ShippedKitsTest do
           is_binary(default),
           do: default
 
-    literal ++ defaults
+    literal ++ quoted ++ defaults
   end
 
   # Lowercase letters and digits, single hyphens between: what slugifying leaves, and nothing else.
@@ -119,12 +148,14 @@ defmodule MishkaChelekom.CmsBundle.ShippedKitsTest do
       kit = @path |> File.read!() |> Jason.decode!()
       registered = registered(kit)
 
-      for component <- kit["components"],
-          key <- named_hooks(component),
-          String.starts_with?(key, "Global") do
-        assert key in registered,
-               "#{component["name"]} names #{key}, which #{kit["name"]} does not register"
-      end
+      unknown =
+        for component <- kit["components"],
+            key <- named_hooks(component),
+            key not in registered,
+            do: "#{component["name"]}: #{key}"
+
+      assert unknown == []
+      assert Enum.any?(kit["components"], &(named_hooks(&1) != []))
     end
 
     test "every hook of #{Path.basename(path)} ships its packages and modules whole" do

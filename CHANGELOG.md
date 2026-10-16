@@ -72,6 +72,13 @@
   `chelekom_headless-tree` (tree_select) named rows that do not exist. One function now gives the
   name a row is written under, a template calls, a dependency lists and a hook key is built from,
   and a test fails on a row not in its stored form or a reference to a component its kit does not have
+- The CMS bundle names a hook by the key a CMS registers it under wherever a template names one,
+  not only in a literal `phx-hook="…"` or an attribute's default. The headless `textarea` shipped
+  `phx-hook={@autosize && "Autosize"}`, so on a CMS page the browser logged
+  `unknown hook found for "Autosize"` and the textarea never grew; it ships
+  `GlobalChelekomHeadlessAutosize`. Every string inside a `phx-hook={…}`, and the default of every
+  attribute one reads, is rewritten, and the shipped-kits test fails on any hook a component names
+  that its kit does not register
 - The `icon` docs describe what it renders: a `hero-` name, `class` and global attributes. They
   listed `variant`, `size`, `color`, `animate`, `aria_label` and non-Heroicon names it never took.
   Its `doc_url` is its docs page instead of `internal`
