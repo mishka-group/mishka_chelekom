@@ -20,6 +20,13 @@ defmodule <%= @module %> do
   Needs an npm package (installed for you by the generator): `@tiptap/core`, `@tiptap/pm` and
   `@tiptap/starter-kit`, all MIT.
 
+  Under a strict Content Security Policy the default TipTap engine needs no `'unsafe-inline'` or
+  nonce for styles: it does not inject TipTap's own `<style>`, and the ProseMirror base rules it
+  would have added (`white-space`, gap cursor, hidden selection) are in `mishka_chelekom_headless.css`
+  under `.chelekom-editor__surface`. Set `injectCSS: true` and `injectNonce` in `editor_extensions.js`
+  to take TipTap's stylesheet instead. The CodeMirror engine always mounts a `<style>` of its own;
+  give it your nonce with the same `injectNonce` key.
+
   Ships **no** colors, spacing or typography — style via `chelekom-editor*`, the `data-empty` /
   `data-focused` state, and `data-active` on toolbar buttons. Under Tailwind Preflight, headings
   and lists render flat until you style them; that is deliberate, and the showcase demo shows one

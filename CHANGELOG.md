@@ -39,6 +39,16 @@
   swapping one element for another
 
 ### Bug fixes:
+- The headless editor adds no inline `<style>` of its own, so it draws under a strict Content Security
+  Policy (`style-src-elem 'self' 'nonce-…'`) without a console error. TipTap 3 appends a
+  `<style data-tiptap-style>` to `<head>` by default, and the policy blocks it; the TipTap engine now
+  passes `injectCSS: config.injectCSS ?? false`, and the ProseMirror base rules that style carried
+  (`position`, `white-space`, ligatures off, `contenteditable="false"` spans, the gap cursor, the hidden
+  selection) are in `mishka_chelekom_headless.css` under `.chelekom-editor__surface`, so TipTap and
+  Milkdown keep them. `injectCSS: true` and `injectNonce` in `editor_extensions.js` bring TipTap's own
+  stylesheet back, with a nonce. CodeMirror cannot run without the `<style>` it mounts, so the same
+  `injectNonce` key reaches its `EditorView.cspNonce`; Lexical and Milkdown inject none. The gap
+  cursor draws in the current text colour rather than black
 - A display utility in a component's `class` replaces the component's own. Tailwind writes display
   utilities in name order, not in class-list order, so the button's default `inline-flex` beat a
   caller's `hidden` and `class="hidden md:flex"` never hid it. Where a component's own display sits

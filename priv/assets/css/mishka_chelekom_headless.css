@@ -545,9 +545,79 @@
   outline: none;
 }
 
+/* ProseMirror base rules (TipTap, Milkdown). TipTap's engine is told not to inject its own
+ * `<style>` — a strict `style-src-elem` CSP blocks one — so the same rules live here instead. */
 .chelekom-editor__surface .ProseMirror {
+  position: relative;
+  word-wrap: break-word;
   white-space: pre-wrap;
+  white-space: break-spaces;
   word-break: break-word;
+  -webkit-font-variant-ligatures: none;
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0;
+}
+
+.chelekom-editor__surface .ProseMirror [contenteditable="false"] {
+  white-space: normal;
+}
+
+.chelekom-editor__surface
+  .ProseMirror
+  [contenteditable="false"]
+  [contenteditable="true"] {
+  white-space: pre-wrap;
+}
+
+.chelekom-editor__surface .ProseMirror pre {
+  white-space: pre-wrap;
+}
+
+.chelekom-editor__surface img.ProseMirror-separator {
+  display: inline !important;
+  border: none !important;
+  margin: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.chelekom-editor__surface .ProseMirror-gapcursor {
+  display: none;
+  pointer-events: none;
+  position: absolute;
+  margin: 0;
+}
+
+.chelekom-editor__surface .ProseMirror-focused .ProseMirror-gapcursor {
+  display: block;
+}
+
+.chelekom-editor__surface .ProseMirror-gapcursor::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: -2px;
+  width: 20px;
+  border-top: 1px solid currentcolor;
+  animation: chelekom-editor-cursor-blink 1.1s steps(2, start) infinite;
+}
+
+@keyframes chelekom-editor-cursor-blink {
+  to {
+    visibility: hidden;
+  }
+}
+
+.chelekom-editor__surface .ProseMirror-hideselection *::selection {
+  background: transparent;
+}
+
+.chelekom-editor__surface .ProseMirror-hideselection *::-moz-selection {
+  background: transparent;
+}
+
+.chelekom-editor__surface .ProseMirror-hideselection * {
+  caret-color: transparent;
 }
 
 /* `attr()` reads from the element the pseudo-element belongs to, so each engine mirrors
