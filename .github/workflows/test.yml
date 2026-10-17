@@ -14,13 +14,8 @@ jobs:
 
     strategy:
       matrix:
-        elixir: ["1.18.4"]
-        otp: ["28"]
-        include:
-          - elixir: "1.18.1"
-            otp: "27.2"
-          - elixir: "1.20.2"
-            otp: "29.0.2"
+        elixir: ["1.20.4"]
+        otp: ["29.1.2"]
 
     steps:
       - uses: actions/checkout@v5
@@ -83,8 +78,8 @@ jobs:
       - name: Set up Elixir
         uses: erlef/setup-beam@v1.20.4
         with:
-          elixir-version: "1.19.5"
-          otp-version: "28"
+          elixir-version: "1.20.4"
+          otp-version: "29.1.2"
 
       - name: Install Hex and Rebar
         run: |
@@ -111,8 +106,8 @@ jobs:
       - name: Set up Elixir
         uses: erlef/setup-beam@v1.20.4
         with:
-          elixir-version: "1.20.2"
-          otp-version: "29.0.2"
+          elixir-version: "1.20.4"
+          otp-version: "29.1.2"
 
       - name: Install Hex and Rebar
         run: |

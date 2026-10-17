@@ -13,11 +13,11 @@ permissions:
   contents: read
 
 env:
-  ELIXIR_VERSION: "1.18.4"
-  OTP_VERSION: "28"
-  WEB_ELIXIR_VERSION: "1.19.5"
-  MOB_ELIXIR_VERSION: "1.20.2"
-  MOB_OTP_VERSION: "29.0.2"
+  ELIXIR_VERSION: "1.20.4"
+  OTP_VERSION: "29.1.2"
+  WEB_ELIXIR_VERSION: "1.20.4"
+  MOB_ELIXIR_VERSION: "1.20.4"
+  MOB_OTP_VERSION: "29.1.2"
   ANDROID_NDK_VERSION: "27.2.12479018"
   JAVA_VERSION: "17"
 
@@ -171,9 +171,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { dir: ".", elixir: "1.18.4", otp: "28" }
-          - { dir: "development/web", elixir: "1.19.5", otp: "28" }
-          - { dir: "development/mob", elixir: "1.20.2", otp: "29.0.2" }
+          - { dir: ".", elixir: "1.20.4", otp: "29.1.2" }
+          - { dir: "development/web", elixir: "1.20.4", otp: "29.1.2" }
+          - { dir: "development/mob", elixir: "1.20.4", otp: "29.1.2" }
     steps:
       - uses: actions/checkout@v5
       - uses: erlef/setup-beam@v1.20.4

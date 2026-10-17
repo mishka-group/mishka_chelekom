@@ -17,8 +17,8 @@ jobs:
       - name: Set up Elixir
         uses: erlef/setup-beam@v1.20.4
         with:
-          elixir-version: "1.18.4"
-          otp-version: "28"
+          elixir-version: "1.20.4"
+          otp-version: "29.1.2"
 
       - name: Submit Mix dependencies
         uses: erlef/mix-dependency-submission@v1.2.1
