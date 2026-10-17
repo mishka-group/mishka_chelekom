@@ -169,7 +169,7 @@ defmodule DevelopmentWeb.Components.Carousel do
         type="button"
         id={"#{@id}-carousel-prev"}
         aria-label={@previous_label || gettext("Previous slide")}
-        class="absolute left-0 inset-y-0 z-20 p-4 bg-black/10 hover:bg-black/30 transition focus:outline-hidden"
+        class="absolute left-0 inset-y-0 z-20 p-4 bg-black/10 hover:bg-black/30 transition focus:outline-hidden cursor-pointer"
       >
         <.icon name="hero-chevron-left" class="size-7 text-white" />
       </button>
@@ -179,7 +179,7 @@ defmodule DevelopmentWeb.Components.Carousel do
         type="button"
         id={"#{@id}-carousel-next"}
         aria-label={@next_label || gettext("Next slide")}
-        class="absolute right-0 inset-y-0 z-20 p-4 bg-black/10 hover:bg-black/30 transition focus:outline-hidden"
+        class="absolute right-0 inset-y-0 z-20 p-4 bg-black/10 hover:bg-black/30 transition focus:outline-hidden cursor-pointer"
       >
         <.icon name="hero-chevron-right" class="size-7 text-white" />
       </button>
@@ -347,7 +347,7 @@ defmodule DevelopmentWeb.Components.Carousel do
         :for={indicator_item <- 1..@count//1}
         id={"#{@id}-carousel-indicator-#{indicator_item}"}
         data-indicator-index={"#{indicator_item}"}
-        class={["carousel-indicator", indicator_item == @active && @active_class]}
+        class={["carousel-indicator cursor-pointer", indicator_item == @active && @active_class]}
         aria-label={gettext("Go to slide %{index}", index: indicator_item)}
       />
     </div>

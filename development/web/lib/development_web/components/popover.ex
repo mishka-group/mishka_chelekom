@@ -140,7 +140,10 @@ defmodule DevelopmentWeb.Components.Popover do
       class={@class}
       {@rest}
     >
-      <span data-floating-trigger class={@trigger_class}>
+      <span
+        data-floating-trigger
+        class={[@clickable && "cursor-pointer [&_button]:cursor-pointer", @trigger_class]}
+      >
         <span :for={trigger <- @trigger} :if={@trigger != []} class={trigger[:class]}>
           {render_slot(trigger)}
         </span>
@@ -202,7 +205,10 @@ defmodule DevelopmentWeb.Components.Popover do
       class={@class}
       {@rest}
     >
-      <div data-floating-trigger class={@trigger_class}>
+      <div
+        data-floating-trigger
+        class={[@clickable && "cursor-pointer [&_button]:cursor-pointer", @trigger_class]}
+      >
         <span :for={trigger <- @trigger} :if={@trigger != []} class={trigger[:class]}>
           {render_slot(trigger)}
         </span>

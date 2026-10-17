@@ -206,7 +206,7 @@ defmodule DevelopmentWeb.Components.Gallery do
             :if={@filter == []}
             data-gallery-filter
             data-category={@default_filter}
-            class="filter-btn bg-white border rounded-sm py-1.5 px-3 leading-5 text-base-text-light border-base-border-light hover:bg-base-hover-light dark:bg-base-bg-dark dark:text-base-text-dark dark:border-base-border-dark dark:hover:bg-base-hover-dark disabled:bg-base-disabled-bg-light disabled:text-base-disabled-text-light dark:disabled:bg-base-disabled-bg-dark dark:disabled:text-base-disabled-text-dark disabled:border-base-disabled-border-light dark:disabled:border-base-disabled-border-dark shadow-xs"
+            class="filter-btn cursor-pointer bg-white border rounded-sm py-1.5 px-3 leading-5 text-base-text-light border-base-border-light hover:bg-base-hover-light dark:bg-base-bg-dark dark:text-base-text-dark dark:border-base-border-dark dark:hover:bg-base-hover-dark disabled:bg-base-disabled-bg-light disabled:text-base-disabled-text-light dark:disabled:bg-base-disabled-bg-dark dark:disabled:text-base-disabled-text-dark disabled:border-base-disabled-border-light dark:disabled:border-base-disabled-border-dark shadow-xs"
           >
             {@default_filter}
           </button>
@@ -221,7 +221,7 @@ defmodule DevelopmentWeb.Components.Gallery do
             :if={@filter == []}
             data-gallery-filter
             data-category={filter}
-            class="filter-btn bg-white border rounded-sm py-1.5 px-3 leading-5 text-base-text-light border-base-border-light hover:bg-base-hover-light dark:bg-base-bg-dark dark:text-base-text-dark dark:border-base-border-dark dark:hover:bg-base-hover-dark disabled:bg-base-disabled-bg-light disabled:text-base-disabled-text-light dark:disabled:bg-base-disabled-bg-dark dark:disabled:text-base-disabled-text-dark disabled:border-base-disabled-border-light dark:disabled:border-base-disabled-border-dark shadow-xs"
+            class="filter-btn cursor-pointer bg-white border rounded-sm py-1.5 px-3 leading-5 text-base-text-light border-base-border-light hover:bg-base-hover-light dark:bg-base-bg-dark dark:text-base-text-dark dark:border-base-border-dark dark:hover:bg-base-hover-dark disabled:bg-base-disabled-bg-light disabled:text-base-disabled-text-light dark:disabled:bg-base-disabled-bg-dark dark:disabled:text-base-disabled-text-dark disabled:border-base-disabled-border-light dark:disabled:border-base-disabled-border-dark shadow-xs"
           >
             {filter}
           </button>

@@ -152,7 +152,7 @@ defmodule DevelopmentWeb.Components.Modal do
                 <button
                   phx-click={JS.exec("data-cancel", to: "##{@id}")}
                   type="button"
-                  class={["p-2 hover:opacity-60", @close_class]}
+                  class={["p-2 hover:opacity-60 cursor-pointer", @close_class]}
                   aria-label={gettext("close")}
                 >
                   <.icon name="hero-x-mark-solid" class={@icon_class} />

@@ -37,7 +37,7 @@ defmodule DevelopmentWeb.Components.Clipboard do
   ### Basic copy button with static text
       <.clipboard text="Some text to copy">
         <:trigger>
-          <button class="btn">Copy</button>
+          <button class="btn cursor-pointer">Copy</button>
         </:trigger>
       </.clipboard>
 
@@ -46,7 +46,7 @@ defmodule DevelopmentWeb.Components.Clipboard do
 
       <.clipboard target_selector="#my-text">
         <:trigger>
-          <button class="btn">Copy from element</button>
+          <button class="btn cursor-pointer">Copy from element</button>
         </:trigger>
       </.clipboard>
 
@@ -57,7 +57,7 @@ defmodule DevelopmentWeb.Components.Clipboard do
         copy_error_text="Copy failed. Try again!"
       >
         <:trigger>
-          <button class="btn">Copy now</button>
+          <button class="btn cursor-pointer">Copy now</button>
         </:trigger>
       </.clipboard>
 
@@ -77,7 +77,7 @@ defmodule DevelopmentWeb.Components.Clipboard do
         error_class="bg-red-200"
       >
         <:trigger>
-          <button class="btn">📋 Copy</button>
+          <button class="btn cursor-pointer">📋 Copy</button>
         </:trigger>
       </.clipboard>
   """
@@ -205,7 +205,7 @@ defmodule DevelopmentWeb.Components.Clipboard do
       </span>
 
       <span
-        class={["clipboard-trigger", @trigger_class]}
+        class={["clipboard-trigger cursor-pointer", @trigger_class]}
         role="button"
         tabindex="0"
         aria-describedby={@status_id}

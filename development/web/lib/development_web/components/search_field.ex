@@ -200,7 +200,7 @@ defmodule DevelopmentWeb.Components.SearchField do
         >
           <button
             type="submit"
-            class="flex items-center justify-center leading-5 focus:outline-hidden"
+            class="flex items-center justify-center leading-5 cursor-pointer focus:outline-hidden"
             aria-label={gettext("Search")}
           >
             <.icon name="hero-magnifying-glass" class="search-field-icon" />
@@ -275,7 +275,7 @@ defmodule DevelopmentWeb.Components.SearchField do
         >
           <button
             type="submit"
-            class="flex items-center justify-center leading-5 focus:outline-hidden"
+            class="flex items-center justify-center leading-5 cursor-pointer focus:outline-hidden"
             aria-label={gettext("Search")}
           >
             <.icon name="hero-magnifying-glass" class="search-field-icon" />

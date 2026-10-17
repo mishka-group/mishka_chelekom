@@ -195,7 +195,7 @@ defmodule DevelopmentWeb.Components.Banner do
     ~H"""
     <button
       type="button"
-      class="group shrink-0"
+      class="group shrink-0 cursor-pointer"
       aria-label={gettext("close")}
       phx-click={JS.push("dismiss", value: Map.merge(%{id: @id}, @params)) |> hide_banner("##{@id}")}
     >

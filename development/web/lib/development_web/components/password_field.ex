@@ -203,7 +203,7 @@ defmodule DevelopmentWeb.Components.PasswordField do
         >
           <button
             type="button"
-            class="leading-6 focus:outline-hidden"
+            class="leading-6 cursor-pointer focus:outline-hidden"
             aria-label={gettext("Show password")}
             aria-pressed="false"
             phx-click={
@@ -283,7 +283,7 @@ defmodule DevelopmentWeb.Components.PasswordField do
         >
           <button
             type="button"
-            class="leading-6 focus:outline-hidden"
+            class="leading-6 cursor-pointer focus:outline-hidden"
             aria-label={gettext("Show password")}
             aria-pressed="false"
             phx-click={

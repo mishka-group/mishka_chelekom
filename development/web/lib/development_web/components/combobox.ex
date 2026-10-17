@@ -230,7 +230,7 @@ defmodule DevelopmentWeb.Components.Combobox do
 
         <div phx-update="ignore" id={"#{@id}-combo-wrapper"} class="relative">
           <button
-            class="combobox-trigger w-full text-start py-1 flex items-center justify-between focus:outline-hidden border border-base-border-light dark:border-base-border-dark"
+            class="combobox-trigger w-full text-start py-1 flex items-center justify-between cursor-pointer focus:outline-hidden border border-base-border-light dark:border-base-border-dark"
             role="combobox"
             aria-haspopup="listbox"
             aria-expanded="false"
@@ -264,7 +264,12 @@ defmodule DevelopmentWeb.Components.Combobox do
             </div>
 
             <div class="flex items-center gap-1">
-              <div class="shrink-0" data-part="clear-combobox-button" role="button" hidden>
+              <div
+                class="shrink-0 cursor-pointer"
+                data-part="clear-combobox-button"
+                role="button"
+                hidden
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -450,7 +455,7 @@ defmodule DevelopmentWeb.Components.Combobox do
 
         <div id={"#{@id}-combo-wrapper"} class="relative" phx-update="ignore">
           <button
-            class="combobox-trigger w-full text-start py-1 flex items-center justify-between focus:outline-hidden border border-base-border-light dark:border-base-border-dark"
+            class="combobox-trigger w-full text-start py-1 flex items-center justify-between cursor-pointer focus:outline-hidden border border-base-border-light dark:border-base-border-dark"
             role="combobox"
             aria-haspopup="listbox"
             aria-expanded="false"
@@ -477,7 +482,12 @@ defmodule DevelopmentWeb.Components.Combobox do
             </div>
 
             <div class="flex items-center gap-1">
-              <div class="shrink-0" data-part="clear-combobox-button" role="button" hidden>
+              <div
+                class="shrink-0 cursor-pointer"
+                data-part="clear-combobox-button"
+                role="button"
+                hidden
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"

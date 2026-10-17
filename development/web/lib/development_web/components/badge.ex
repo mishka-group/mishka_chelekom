@@ -188,7 +188,7 @@ defmodule DevelopmentWeb.Components.Badge do
       type={@type}
       class={[
         display_class(
-          "dismiss-button inline-flex justify-center items-center w-fit shrink-0",
+          "dismiss-button inline-flex justify-center items-center w-fit shrink-0 cursor-pointer",
           @class
         ),
         @class

@@ -58,6 +58,7 @@ const Collapsible = {
       const panelId = `${collapsibleId}-panel-${itemId}`;
 
       trigger.setAttribute("role", "button");
+      trigger.classList.add("cursor-pointer");
       trigger.setAttribute("aria-controls", panelId);
       trigger.setAttribute("aria-expanded", "false");
       trigger.setAttribute("id", headerId);

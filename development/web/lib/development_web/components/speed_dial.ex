@@ -198,7 +198,7 @@ defmodule DevelopmentWeb.Components.SpeedDial do
         type="button"
         aria-haspopup="menu"
         aria-controls={"#{@id}-speed-dial-content"}
-        class={["speed-dial-base", color_variant(@variant, @color), @trigger_class]}
+        class={["speed-dial-base cursor-pointer", color_variant(@variant, @color), @trigger_class]}
         phx-click={
           @id &&
             JS.toggle_class("show-speed-dial",

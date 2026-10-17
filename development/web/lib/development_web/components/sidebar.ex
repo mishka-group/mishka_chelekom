@@ -140,7 +140,7 @@ defmodule DevelopmentWeb.Components.Sidebar do
             aria-label={gettext("Minimize sidebar")}
             class={[
               "size-8 flex items-center justify-center leading-5",
-              "rounded-sm focus:outline-hidden bg-gray-500/10 border border-gray-200",
+              "rounded-sm cursor-pointer focus:outline-hidden bg-gray-500/10 border border-gray-200",
               "dark:border-gray-700 m-2 text-gray-500",
               @hide_button_class
             ]}
@@ -155,7 +155,7 @@ defmodule DevelopmentWeb.Components.Sidebar do
         ]}>
           <button
             type="button"
-            class={["dismiss-sidebar-button focus:outline-hidden", @close_button_class]}
+            class={["dismiss-sidebar-button cursor-pointer focus:outline-hidden", @close_button_class]}
             aria-label={gettext("Close sidebar")}
             phx-click={JS.exec(@on_hide, "phx-remove", to: "##{@id}")}
           >

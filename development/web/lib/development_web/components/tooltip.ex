@@ -32,7 +32,7 @@ defmodule DevelopmentWeb.Components.Tooltip do
   ```elixir
   <.tooltip position="bottom">
     <:trigger>
-      <button class="p-2 bg-orange-700">
+      <button class="p-2 bg-orange-700 cursor-pointer">
         This is Tooltip a long text for bottom tooltip
       </button>
     </:trigger>
@@ -41,14 +41,14 @@ defmodule DevelopmentWeb.Components.Tooltip do
 
   <.tooltip color="warning" position="left">
     <:trigger>
-      <button class="p-2 bg-orange-700">This is Tooltip left</button>
+      <button class="p-2 bg-orange-700 cursor-pointer">This is Tooltip left</button>
     </:trigger>
     <:content>This is text</:content>
   </.tooltip>
 
   <.tooltip color="light" position="left">
     <:trigger>
-      <button class="p-2 bg-red-500 text-white">
+      <button class="p-2 bg-red-500 text-white cursor-pointer">
         <.icon name="hero-trash" />
       </button>
     </:trigger>
@@ -57,7 +57,7 @@ defmodule DevelopmentWeb.Components.Tooltip do
 
   <.tooltip color="dark" position="right">
     <:trigger>
-      <button class="p-2 bg-orange-700">This is Tooltip right</button>
+      <button class="p-2 bg-orange-700 cursor-pointer">This is Tooltip right</button>
     </:trigger>
     <:content>This is text</:content>
   </.tooltip>

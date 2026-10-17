@@ -291,7 +291,7 @@ defmodule DevelopmentWeb.Components.Toast do
     ~H"""
     <button
       type="button"
-      class={["shrink-0 leading-5", @class]}
+      class={["shrink-0 leading-5 cursor-pointer", @class]}
       aria-label={gettext("close")}
       phx-click={JS.push("dismiss", value: Map.merge(%{id: @id}, @params)) |> hide_toast("##{@id}")}
     >

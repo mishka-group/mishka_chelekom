@@ -293,7 +293,7 @@ defmodule DevelopmentWeb.Components.Dock do
 
   defp dock_item_class(item, base_item_class, active_class, color, variant) do
     [
-      "dock-item w-full h-full px-2 py-1.5 rounded-sm",
+      "dock-item w-full h-full px-2 py-1.5 rounded-sm cursor-pointer",
       item_color_class(variant, item[:color] || color, item[:active]),
       base_item_class,
       item[:class],

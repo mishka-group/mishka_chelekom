@@ -39,6 +39,7 @@ const Clipboard = {
 
     if (!this.triggerEl.getAttribute("role")) {
       this.triggerEl.setAttribute("role", "button");
+      this.triggerEl.classList.add("cursor-pointer");
     }
 
     if (!this.triggerEl.getAttribute("aria-label")) {

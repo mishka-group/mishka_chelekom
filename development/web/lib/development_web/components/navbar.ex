@@ -44,7 +44,7 @@ defmodule DevelopmentWeb.Components.Navbar do
         padding="extra_small"
       >
         <:trigger>
-          <button class="text-start w-full block">Dropdown</button>
+          <button class="text-start w-full block cursor-pointer">Dropdown</button>
         </:trigger>
 
         <:content>
@@ -60,7 +60,7 @@ defmodule DevelopmentWeb.Components.Navbar do
               >
                 <:trigger>
                   <button class={[
-                    "py-1 px-2 text-start w-full flex items-center justify-between hover:bg-gray-200"
+                    "py-1 px-2 text-start w-full flex items-center justify-between hover:bg-gray-200 cursor-pointer"
                   ]}
                   >
                     Nested Dropdown <.icon name="hero-chevron-right" />

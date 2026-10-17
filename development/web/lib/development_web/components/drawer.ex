@@ -144,7 +144,7 @@ defmodule DevelopmentWeb.Components.Drawer do
             type="button"
             phx-click={JS.exec(@on_hide, "phx-remove", to: "##{@id}")}
             aria-label={gettext("Close menu")}
-            class={@close_class}
+            class={["cursor-pointer", @close_class]}
           >
             <.icon name="hero-x-mark" />
             <span class="sr-only">{gettext("Close menu")}</span>

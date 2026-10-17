@@ -45,7 +45,7 @@ defmodule DevelopmentWeb.Components.NumberField do
     errors={["Enter name"]}
   >
     <:end_section>
-      <button><.icon name="hero-clipboard-document" class="size-6" /></button>
+      <button class="cursor-pointer"><.icon name="hero-clipboard-document" class="size-6" /></button>
     </:end_section>
   </.number_field>
   ```
