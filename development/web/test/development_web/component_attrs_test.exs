@@ -241,8 +241,8 @@ defmodule DevelopmentWeb.ComponentAttrsTest do
   describe "banner edges" do
     @border_top ~w(border-t border-t-2 border-t-[3px] border-t-4 border-t-[5px])
     @border_bottom ~w(border-b border-b-2 border-b-[3px] border-b-4 border-b-[5px])
-    @rounded_top ~w(rounded-t-xs rounded-t rounded-t-md rounded-t-lg rounded-t-xl)
-    @rounded_bottom ~w(rounded-b-xs rounded-b rounded-b-md rounded-b-lg rounded-b-xl)
+    @rounded_top ~w(rounded-t-xs rounded-t-sm rounded-t-md rounded-t-lg rounded-t-xl)
+    @rounded_bottom ~w(rounded-b-xs rounded-b-sm rounded-b-md rounded-b-lg rounded-b-xl)
     @sizes ~w(extra_small small medium large extra_large)
 
     defp banner_tokens(assigns) do
