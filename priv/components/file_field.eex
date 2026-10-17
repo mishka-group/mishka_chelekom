@@ -200,7 +200,7 @@ defmodule <%= @module %> do
       <div aria-live="polite" class="mt-5 space-y-4">
         <%%= for entry <- @entries do %>
           <div
-            class="upload-item border rounded-sm relative p-3"
+            class="upload-item border border-base-border-light dark:border-base-border-dark rounded-sm relative p-3"
             role="group"
             aria-label={gettext("Uploading %{file}", file: entry.client_name)}
           >

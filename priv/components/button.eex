@@ -2193,11 +2193,11 @@ defmodule <%= @module %> do
   defp icon_position(_icon, _), do: "left"
 
   defp variation("horizontal") do
-    "flex-row [&>*:not(:last-child)]:border-r"
+    "flex-row [&>*:not(:last-child)]:border-r [:where(&)>:where(:not(:last-child))]:border-base-border-light dark:[:where(&)>:where(:not(:last-child))]:border-base-border-dark"
   end
 
   defp variation("vertical") do
-    "flex-col [&>*:not(:last-child)]:border-b"
+    "flex-col [&>*:not(:last-child)]:border-b [:where(&)>:where(:not(:last-child))]:border-base-border-light dark:[:where(&)>:where(:not(:last-child))]:border-base-border-dark"
   end
 
   defp indicator_size("extra_small"), do: "size-2!"

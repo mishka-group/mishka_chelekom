@@ -144,7 +144,7 @@ defmodule <%= @module %> do
             id={"toggle-button-#{@id}"}
             data-sidebar-selector={"##{@id}"}
             aria-label={gettext("Minimize sidebar")}
-            class={["size-8 flex items-center justify-center leading-5","rounded-sm focus:outline-hidden bg-gray-500/10 border","dark:border-gray-700 m-2 text-gray-500", @hide_button_class]}
+            class={["size-8 flex items-center justify-center leading-5","rounded-sm focus:outline-hidden bg-gray-500/10 border border-gray-200","dark:border-gray-700 m-2 text-gray-500", @hide_button_class]}
           >
             <.<%= @component_prefix %>icon name="hero-chevron-right" class={["minimize-icon size-5", @minimize_icon_class]}/>
             <span class="sr-only">{gettext("Minimize sidebar")}</span>

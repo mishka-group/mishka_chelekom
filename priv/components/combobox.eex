@@ -227,7 +227,7 @@ defmodule <%= @module %> do
 
         <div phx-update="ignore" id={"#{@id}-combo-wrapper"} class="relative">
           <button
-            class="combobox-trigger w-full text-start py-1 flex items-center justify-between focus:outline-hidden border"
+            class="combobox-trigger w-full text-start py-1 flex items-center justify-between focus:outline-hidden border border-base-border-light dark:border-base-border-dark"
             role="combobox"
             aria-haspopup="listbox"
             aria-expanded="false"
@@ -447,7 +447,7 @@ defmodule <%= @module %> do
 
         <div id={"#{@id}-combo-wrapper"} class="relative" phx-update="ignore">
           <button
-            class="combobox-trigger w-full text-start py-1 flex items-center justify-between focus:outline-hidden border"
+            class="combobox-trigger w-full text-start py-1 flex items-center justify-between focus:outline-hidden border border-base-border-light dark:border-base-border-dark"
             role="combobox"
             aria-haspopup="listbox"
             aria-expanded="false"

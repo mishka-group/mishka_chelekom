@@ -166,7 +166,7 @@ defmodule <%= @module %> do
           src={caption[:image]}
           alt={caption[:alt] || gettext("Author image")}
         />
-        <div class={["flex items-center divide-x-2 rtl:divide-x-reverse", caption[:content_class]]}>
+        <div class={["flex items-center divide-x-2 divide-base-border-light dark:divide-base-border-dark rtl:divide-x-reverse", caption[:content_class]]}>
           {render_slot(caption)}
         </div>
       </div>

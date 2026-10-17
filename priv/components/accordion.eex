@@ -515,7 +515,8 @@ defmodule <%= @module %> do
   defp color_variant("bordered", "white") do
     [
       "bg-white text-black border-bordered-white-border",
-      "[&>.accordion-item>.accordion-trigger]:hover:bg-bordered-white-border"
+      "[&>.accordion-item>.accordion-trigger]:hover:bg-bordered-white-border",
+      "[&>.accordion-item:not(:first-child)]:border-t-bordered-white-border"
     ]
   end
 <% end %>
@@ -524,7 +525,8 @@ defmodule <%= @module %> do
   defp color_variant("bordered", "dark") do
     [
       "bg-bordered-dark-bg text-white border-bordered-dark-border",
-      "[&>.accordion-item>.accordion-trigger]:hover:bg-bordered-dark-border"
+      "[&>.accordion-item>.accordion-trigger]:hover:bg-bordered-dark-border",
+      "[&>.accordion-item:not(:first-child)]:border-t-bordered-dark-border"
     ]
   end
 <% end %>
