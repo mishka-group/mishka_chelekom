@@ -34,16 +34,31 @@ defmodule DevelopmentWeb.Components.Navbar do
     <:list><.link navigate="/examples/sidebar">List</.link></:list>
 
     <:list>
-      <.dropdown relative="md:relative" width="w-full" clickable>
-        <:trigger width="full" trigger_id="test-31">
+      <.dropdown
+        id="navbar-dropdown"
+        relative="md:relative"
+        width="w-full"
+        clickable
+        space="small"
+        rounded="large"
+        padding="extra_small"
+      >
+        <:trigger>
           <button class="text-start w-full block">Dropdown</button>
         </:trigger>
 
-        <:content space="small" id="test-31" rounded="large" width="large" padding="extra_small">
+        <:content>
           <ul class="space-y-5">
             <li>
-              <.dropdown width="w-full" position="right" clickable>
-                <:trigger trigger_id="test-19">
+              <.dropdown
+                id="navbar-nested-dropdown"
+                width="w-full"
+                position="right"
+                clickable
+                rounded="large"
+                padding="extra_small"
+              >
+                <:trigger>
                   <button class={[
                     "py-1 px-2 text-start w-full flex items-center justify-between hover:bg-gray-200"
                   ]}
@@ -52,7 +67,7 @@ defmodule DevelopmentWeb.Components.Navbar do
                   </button>
                 </:trigger>
 
-                <:content id="test-19" rounded="large" width="large" padding="extra_small">
+                <:content>
                   <ul class="space-y-5">
                     <li>
                       <.link class="py-1 px-2 block hover:bg-gray-200" navigate="/examples/list">
@@ -338,7 +353,7 @@ defmodule DevelopmentWeb.Components.Navbar do
   defp border_class("extra_large", _), do: "border-b-[5px]"
   defp border_class(params, _) when is_binary(params), do: params
 
-  defp rounded_size("extra_small"), do: "rounded-b-sm"
+  defp rounded_size("extra_small"), do: "rounded-b-xs"
 
   defp rounded_size("small"), do: "rounded-b"
 
@@ -347,6 +362,8 @@ defmodule DevelopmentWeb.Components.Navbar do
   defp rounded_size("large"), do: "rounded-b-lg"
 
   defp rounded_size("extra_large"), do: "rounded-b-xl"
+
+  defp rounded_size("none"), do: "rounded-b-none"
 
   defp rounded_size(params) when is_binary(params), do: params
 

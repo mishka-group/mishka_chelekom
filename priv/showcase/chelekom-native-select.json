@@ -29,7 +29,7 @@
   "examples": [
     {
       "label": "Country picker in a checkout address form",
-      "source": "<div class=\"max-w-sm\">\n  <.component component_name=\"chelekom-native-select\" site=\"Global\" id=\"select-checkout-country\" name=\"country\" label=\"Country or region\" description=\"We show prices and delivery times for this country.\" size=\"small\" rounded=\"medium\">\n    <:option value=\"\" disabled=\"disabled\" selected>Select a country</:option>\n    <:option value=\"de\">Germany</:option>\n    <:option value=\"fr\">France</:option>\n    <:option value=\"nl\">Netherlands</:option>\n    <:option value=\"es\">Spain</:option>\n    <:option value=\"it\">Italy</:option>\n    <:option value=\"gb\">United Kingdom</:option>\n  </.component>\n</div>"
+      "source": "<div class=\"max-w-sm\">\n  <.component component_name=\"chelekom-native-select\" site=\"Global\" id=\"select-checkout-country\" name=\"country\" label=\"Country or region\" description=\"We show prices and delivery times for this country.\" size=\"small\" rounded=\"medium\">\n    <:option value=\"\" disabled selected>Select a country</:option>\n    <:option value=\"de\">Germany</:option>\n    <:option value=\"fr\">France</:option>\n    <:option value=\"nl\">Netherlands</:option>\n    <:option value=\"es\">Spain</:option>\n    <:option value=\"it\">Italy</:option>\n    <:option value=\"gb\">United Kingdom</:option>\n  </.component>\n</div>"
     },
     {
       "label": "Support ticket priority with helper text",

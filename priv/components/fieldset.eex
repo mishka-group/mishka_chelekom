@@ -145,7 +145,7 @@ defmodule <%= @module %> do
   <% end %>
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp rounded_size("extra_small") do
-   "[&_.fieldset-field]:rounded-sm [&_.fieldset-legend]:rounded-t-sm"
+   "[&_.fieldset-field]:rounded-xs [&_.fieldset-legend]:rounded-t-xs"
   end
   <% end %>
   <%= if is_nil(@rounded) or "small" in @rounded do %>

@@ -47,7 +47,7 @@ mix mishka.ui.gen.component fieldset --module MyAppWeb.Components.CustomFieldset
 
 | Option | Values |
 |--------|--------|
-| Variant | `base`, `default`, `outline`, `unbordered`, `shadow`, `transparent`, `gradient` |
+| Variant | `base`, `default`, `outline`, `bordered`, `shadow`, `transparent`, `gradient` |
 | Color | `base`, `natural`, `white`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn` |
 | Size | `extra_small`, `small`, `medium`, `large`, `extra_large` |
 | Space / Padding | `extra_small`, `small`, `medium`, `large`, `extra_large`, `none` |

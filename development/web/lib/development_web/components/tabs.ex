@@ -612,7 +612,7 @@ defmodule DevelopmentWeb.Components.Tabs do
 
   defp rounded_size("none", "default"), do: nil
 
-  defp rounded_size("extra_small", "default"), do: "[&_.tab-trigger]:rounded-t-sm"
+  defp rounded_size("extra_small", "default"), do: "[&_.tab-trigger]:rounded-t-xs"
 
   defp rounded_size("small", "default"), do: "[&_.tab-trigger]:rounded-t"
 
@@ -624,7 +624,7 @@ defmodule DevelopmentWeb.Components.Tabs do
 
   defp rounded_size("none", "pills"), do: "[&_.tab-trigger]:rounded-none"
 
-  defp rounded_size("extra_small", "pills"), do: "[&_.tab-trigger]:rounded-sm"
+  defp rounded_size("extra_small", "pills"), do: "[&_.tab-trigger]:rounded-xs"
 
   defp rounded_size("small", "pills"), do: "[&_.tab-trigger]:rounded"
 
@@ -640,7 +640,7 @@ defmodule DevelopmentWeb.Components.Tabs do
     do: "[&_.tab-trigger]:rounded-none [&_.tab-nav-pills]:rounded-none"
 
   defp rounded_size("extra_small", "nav_pills"),
-    do: "[&_.tab-trigger]:rounded-sm [&_.tab-nav-pills]:rounded-sm"
+    do: "[&_.tab-trigger]:rounded-xs [&_.tab-nav-pills]:rounded-xs"
 
   defp rounded_size("small", "nav_pills"),
     do: "[&_.tab-trigger]:rounded [&_.tab-nav-pills]:rounded"
@@ -656,6 +656,8 @@ defmodule DevelopmentWeb.Components.Tabs do
 
   defp rounded_size("full", "nav_pills"),
     do: "[&_.tab-trigger]:rounded-full [&_.tab-nav-pills]:rounded-full"
+
+  defp rounded_size("none", _), do: nil
 
   defp rounded_size(params, _) when is_binary(params), do: [params]
 

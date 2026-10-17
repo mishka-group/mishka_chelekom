@@ -2,7 +2,7 @@ defmodule DevelopmentWeb.Components.Footer do
   @moduledoc """
   The `DevelopmentWeb.Components.Footer` module provides a customizable footer component for Phoenix applications,
   allowing for various styles, colors, and layout options. It supports different design variants
-  such as default, outline, transparent, shadow, and unbordered.
+  such as default, outline, transparent, shadow, and bordered.
 
   ### Features:
 
@@ -189,7 +189,7 @@ defmodule DevelopmentWeb.Components.Footer do
   defp border_class("extra_large", _), do: "border-t-[5px]"
   defp border_class(params, _) when is_binary(params), do: params
 
-  defp rounded_size("extra_small"), do: "rounded-t-sm"
+  defp rounded_size("extra_small"), do: "rounded-t-xs"
 
   defp rounded_size("small"), do: "rounded-t"
 
@@ -198,6 +198,8 @@ defmodule DevelopmentWeb.Components.Footer do
   defp rounded_size("large"), do: "rounded-t-lg"
 
   defp rounded_size("extra_large"), do: "rounded-t-xl"
+
+  defp rounded_size("none"), do: "rounded-t-none"
 
   defp rounded_size(params) when is_binary(params), do: params
 

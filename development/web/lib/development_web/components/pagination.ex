@@ -536,7 +536,7 @@ defmodule DevelopmentWeb.Components.Pagination do
 
   defp rounded_size("extra_small"),
     do:
-      "[&.grouped-pagination]:rounded-sm [&:not(.grouped-pagination)_.pagination-button]:rounded-sm"
+      "[&.grouped-pagination]:rounded-xs [&:not(.grouped-pagination)_.pagination-button]:rounded-xs"
 
   defp rounded_size("small"),
     do: "[&.grouped-pagination]:rounded [&:not(.grouped-pagination)_.pagination-button]:rounded"

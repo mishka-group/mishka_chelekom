@@ -383,7 +383,7 @@ defmodule DevelopmentWeb.Components.TableContent do
 
   defp padding_size(params) when is_binary(params), do: params
 
-  defp rounded_size("extra_small"), do: "rounded-sm"
+  defp rounded_size("extra_small"), do: "rounded-xs"
 
   defp rounded_size("small"), do: "rounded"
 
@@ -392,6 +392,8 @@ defmodule DevelopmentWeb.Components.TableContent do
   defp rounded_size("large"), do: "rounded-lg"
 
   defp rounded_size("extra_large"), do: "rounded-xl"
+
+  defp rounded_size("none"), do: "rounded-none"
 
   defp rounded_size(params) when is_binary(params), do: params
 

@@ -238,7 +238,7 @@ defmodule <%= @module %> do
 
 
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
-  defp rounded_size("extra_small"), do: "rounded-sm"
+  defp rounded_size("extra_small"), do: "rounded-xs"
   <% end %>
   <%= if is_nil(@rounded) or "small" in @rounded do %>
   defp rounded_size("small"), do: "rounded"
@@ -255,9 +255,12 @@ defmodule <%= @module %> do
   <%= if is_nil(@rounded) or "full" in @rounded do %>
   defp rounded_size("full"), do: "rounded-full"
   <% end %>
+  <%= if is_nil(@rounded) or "none" in @rounded do %>
+  defp rounded_size("none"), do: "rounded-none"
+  <% end %>
   defp rounded_size(params) when is_binary(params), do: params
 
-  defp shadow_class("extra_small"), do: "shadow-sm"
+  defp shadow_class("extra_small"), do: "shadow-xs"
   defp shadow_class("small"), do: "shadow"
   defp shadow_class("medium"), do: "shadow-md"
   defp shadow_class("large"), do: "shadow-lg"

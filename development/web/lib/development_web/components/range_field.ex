@@ -83,8 +83,8 @@ defmodule DevelopmentWeb.Components.RangeField do
   attr :error_icon, :string, default: nil, doc: "Icon to be displayed alongside error messages"
   attr :label, :string, default: nil, doc: "Specifies text for the label"
   attr :errors, :list, default: [], doc: "List of error messages to be displayed"
-  attr :name, :any, doc: "Name of input"
-  attr :value, :any, doc: "Value of input"
+  attr :name, :any, default: nil, doc: "Name of input"
+  attr :value, :any, default: nil, doc: "Value of input"
 
   attr :field, Phoenix.HTML.FormField, doc: "a form field struct retrieved from the form"
 
@@ -95,7 +95,10 @@ defmodule DevelopmentWeb.Components.RangeField do
 
   slot :range_value, required: false do
     attr :class, :any, doc: "Custom CSS class for additional styling"
-    attr :position, :any, required: false, doc: "Determines the element position"
+
+    attr :position, :any,
+      required: false,
+      doc: "Determines the element position, `start` when not given"
   end
 
   @spec range_field(map()) :: Phoenix.LiveView.Rendered.t()
@@ -105,8 +108,8 @@ defmodule DevelopmentWeb.Components.RangeField do
     assigns
     |> assign(field: nil, id: assigns.id || field.id)
     |> assign(:errors, Enum.map(errors, &translate_error(&1)))
-    |> assign_new(:name, fn -> field.name end)
-    |> assign_new(:value, fn -> field.value end)
+    |> assign(:name, assigns.name || field.name)
+    |> assign(:value, assigns.value || field.value)
     |> range_field()
   end
 
@@ -217,6 +220,7 @@ defmodule DevelopmentWeb.Components.RangeField do
     """
   end
 
+  defp value_position(nil), do: value_position("start")
   defp value_position("start"), do: "start-0"
   defp value_position("end"), do: "end-0"
   defp value_position("middle"), do: "start-1/2"

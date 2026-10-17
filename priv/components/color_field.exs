@@ -19,7 +19,7 @@
         "dawn"
       ],
       size: ["extra_small", "small", "medium", "large", "extra_large"],
-      rounded: ["extra_small", "small", "medium", "large", "extra_large"],
+      rounded: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       only: ["color_field"],
       helpers: [],
       module: ""

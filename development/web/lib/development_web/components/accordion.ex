@@ -997,7 +997,7 @@ defmodule DevelopmentWeb.Components.Accordion do
 
   defp rounded_class("extra_small", variant)
        when variant in ["base_separated", "outline_separated", "bordered_separated"] do
-    "[&>.accordion-item]:rounded-sm"
+    "[&>.accordion-item]:rounded-xs"
   end
 
   defp rounded_class("small", variant)
@@ -1022,7 +1022,7 @@ defmodule DevelopmentWeb.Components.Accordion do
 
   defp rounded_class("none", _), do: nil
 
-  defp rounded_class("extra_small", _), do: "rounded-sm"
+  defp rounded_class("extra_small", _), do: "rounded-xs"
 
   defp rounded_class("small", _), do: "rounded"
 

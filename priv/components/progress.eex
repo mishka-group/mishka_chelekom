@@ -121,8 +121,8 @@ defmodule <%= @module %> do
 
   ## Attributes
     - value: The progress value (0 to 100)
-    - size: The SVG size (width), default is 100
-    - thickness: The stroke width of the circle, default is 10
+    - size: The SVG size (width), default is 200
+    - thickness: The stroke width of the circle, default is 12
     - color: Determines the color theme; default is "natural"
   """
   attr :id, :string, default: nil, doc: "HTML ID for the container"
@@ -229,7 +229,7 @@ defmodule <%= @module %> do
     - max: maximum progress value (default is 100)
     - size: size of the SVG (width and height, default is 120)
     - thickness: width of the circle stroke (default is 10)
-    - progress_color: stroke color for the progress circle (default is "#00aaff")
+    - color: Determines the color theme; default is "natural"
   """
   @doc type: :component
   attr :id, :string,
@@ -543,7 +543,7 @@ defmodule <%= @module %> do
 
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp rounded_size("extra_small") do
-   "rounded-sm [&:not(.vertical-progress)_.progress-section:last-of-type]:rounded-e-sm"
+   "rounded-xs [&:not(.vertical-progress)_.progress-section:last-of-type]:rounded-e-xs"
   end
   <% end %>
   <%= if is_nil(@rounded) or "small" in @rounded do %>
@@ -569,6 +569,11 @@ defmodule <%= @module %> do
   <%= if is_nil(@rounded) or "full" in @rounded do %>
   defp rounded_size("full") do
     "rounded-full [&:not(.vertical-progress)_.progress-section:last-of-type]:rounded-e-full"
+  end
+  <% end %>
+  <%= if is_nil(@rounded) or "none" in @rounded do %>
+  defp rounded_size("none") do
+    "rounded-none [&:not(.vertical-progress)_.progress-section:last-of-type]:rounded-e-none"
   end
   <% end %>
   defp rounded_size(params) when is_binary(params), do: params

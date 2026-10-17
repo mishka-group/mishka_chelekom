@@ -21,7 +21,7 @@
         "dawn"
       ],
       padding: ["extra_small", "small", "medium", "large", "extra_large", "none"],
-      rounded: ["extra_small", "small", "medium", "large", "extra_large"],
+      rounded: ["extra_small", "small", "medium", "large", "extra_large", "none"],
       space: ["extra_small", "small", "medium", "large", "extra_large"],
       only: ["navbar", "header"],
       helpers: [],

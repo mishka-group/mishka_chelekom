@@ -45,9 +45,9 @@ mix mishka.ui.gen.component banner --module MyAppWeb.Components.CustomBanner
 | `color` | `:string` | `"natural"` | `natural`, `white`, `dark`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn` |
 | `size` | `:string` | `"large"` | `extra_small`, `small`, `medium`, `large`, `extra_large` |
 | `border` | `:string` | `"extra_small"` | Border width |
-| `border_position` | `:string` | `"top"` | `top`, `bottom`, `full`, `none` |
+| `border_position` | `:string` | `"bottom"` | Edge the border is drawn on: `top`, `bottom`, `full`, `none` |
 | `rounded` | `:string` | `"none"` | Border radius |
-| `rounded_position` | `:string` | `"none"` | `top`, `bottom`, `all`, `none` |
+| `rounded_position` | `:string` | `"none"` | Edge whose corners are rounded: `top`, `bottom`, `all`, `none` |
 | `space` | `:string` | `"extra_small"` | Space between content items; `extra_small`\|`small`\|`medium`\|`large`\|`extra_large`\|`none` |
 | `padding` | `:string` | `"extra_small"` | Padding size; `extra_small`\|`small`\|`medium`\|`large`\|`extra_large`\|`none` |
 | `vertical_position` | `:string` | `"top"` | `top`, `bottom` |

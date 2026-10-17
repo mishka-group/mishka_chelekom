@@ -38,7 +38,10 @@ mix mishka.ui.gen.component file_field --module MyAppWeb.Components.CustomFileFi
 | `size` | `:string` | `"medium"` | Component size |
 | `space` | `:string` | `"medium"` | Space between elements |
 | `rounded` | `:string` | `"medium"` | Border radius |
-| `upload` | `:any` | `nil` | Phoenix LiveView upload reference |
+| `live` | `:boolean` | `false` | Use a LiveView upload; **requires** `upload` |
+| `upload` | `:any` | `nil` | A single `Phoenix.LiveView.UploadConfig` (`@uploads.avatar`); **required** with `live` |
+| `uploads` | `:any` | `nil` | The `@uploads` map; **required** with `dropzone` |
+| `target` | `:atom` | `nil` | Name of the upload in `uploads` (`:avatar`); **required** with `dropzone` |
 | `accept` | `:string` | `nil` | Accepted file types |
 | `multiple` | `:boolean` | `false` | Allow multiple files |
 | `max_size` | `:integer` | `nil` | Max file size in bytes |
@@ -49,6 +52,9 @@ mix mishka.ui.gen.component file_field --module MyAppWeb.Components.CustomFileFi
 | `error_icon` | `:string` | `nil` | Error icon |
 | `errors` | `:list` | `[]` | Error messages |
 | `class` | `:any` | `nil` | Custom CSS class |
+
+`live` needs `upload`, and `dropzone` needs `uploads` and `target`. Without them the component
+raises `KeyError`. A plain file input needs only a `name`, or a `field`.
 
 ## Slots
 
@@ -89,14 +95,16 @@ mix mishka.ui.gen.component file_field --module MyAppWeb.Components.CustomFileFi
 
 ```heex
 <.file_field
-  name="files"
+  uploads={@uploads}
+  target={:files}
   dropzone={true}
   dropzone_title="Drop files here"
   dropzone_description="or click to browse"
 />
 
 <.file_field
-  upload={@uploads.avatar}
+  uploads={@uploads}
+  target={:avatar}
   dropzone={true}
   dropzone_title="Upload your photo"
   dropzone_description="PNG, JPG up to 10MB"
@@ -111,15 +119,15 @@ mix mishka.ui.gen.component file_field --module MyAppWeb.Components.CustomFileFi
 <.file_field name="f3" variant="bordered" label="Bordered" />
 <.file_field name="f4" variant="shadow" label="Shadow" />
 
-<.file_field name="f5" dropzone={true} color="primary" />
-<.file_field name="f6" dropzone={true} color="success" />
-<.file_field name="f7" dropzone={true} color="info" />
+<.file_field uploads={@uploads} target={:f5} dropzone={true} color="primary" />
+<.file_field uploads={@uploads} target={:f6} dropzone={true} color="success" />
+<.file_field uploads={@uploads} target={:f7} dropzone={true} color="info" />
 ```
 
 ### Custom Dropzone Content (`inner_block` slot)
 
 ```heex
-<.file_field upload={@uploads.files} dropzone={true}>
+<.file_field uploads={@uploads} target={:files} dropzone={true}>
   <div class="text-center">
     <.icon name="hero-photo" class="size-12 mx-auto text-gray-400" />
     <p class="mt-2 font-medium">Upload Images</p>
@@ -135,7 +143,8 @@ mix mishka.ui.gen.component file_field --module MyAppWeb.Components.CustomFileFi
 ```heex
 <.form for={@form} phx-submit="save" phx-change="validate">
   <.file_field
-    upload={@uploads.avatar}
+    uploads={@uploads}
+    target={:avatar}
     dropzone={true}
     color="primary"
     rounded="large"
@@ -160,7 +169,8 @@ mix mishka.ui.gen.component file_field --module MyAppWeb.Components.CustomFileFi
 ```heex
 <.form for={@form} phx-submit="upload" phx-change="validate">
   <.file_field
-    upload={@uploads.documents}
+    uploads={@uploads}
+    target={:documents}
     dropzone={true}
     dropzone_title="Upload Documents"
     dropzone_description="PDF, DOC, DOCX up to 25MB each"

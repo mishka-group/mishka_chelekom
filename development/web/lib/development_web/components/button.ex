@@ -1992,7 +1992,7 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp border_class(params) when is_binary(params), do: params
 
-  defp rounded_size("extra_small"), do: "rounded-sm [&.gradient-button:before]:rounded-[1px]"
+  defp rounded_size("extra_small"), do: "rounded-xs [&.gradient-button:before]:rounded-[1px]"
 
   defp rounded_size("small"), do: "rounded [&.gradient-button:before]:rounded-[2px]"
 

@@ -42,7 +42,12 @@ defmodule DevelopmentWeb.Components.FileField do
   <.file_field field={@form[:resume]} label="Attach your résumé" />
   <.file_field name="documents[]" label="Supporting documents" multiple />
   <.file_field target={:avatar} uploads={@uploads} dropzone />
+  <.file_field upload={@uploads.avatar} live />
   ```
+
+  `live` needs `upload`, a single `Phoenix.LiveView.UploadConfig` such as `@uploads.avatar`.
+  `dropzone` needs `uploads`, the `@uploads` map, and `target`, the atom naming the upload in it.
+  Without them the component raises `KeyError`.
   """
   @doc type: :component
   attr :id, :string,
@@ -68,17 +73,18 @@ defmodule DevelopmentWeb.Components.FileField do
   attr :dashed, :boolean, default: true, doc: "Determines dashed border"
   attr :error_icon, :string, default: nil, doc: "Icon to be displayed alongside error messages"
   attr :errors, :list, default: [], doc: "List of error messages to be displayed"
-  attr :uploads, :any, doc: "LiveView upload map"
+  attr :uploads, :any, doc: "LiveView upload map, required with `dropzone`"
 
   attr :upload, :any,
-    doc: "A single `Phoenix.LiveView.UploadConfig`, used when `live` is set without a dropzone"
+    doc:
+      "A single `Phoenix.LiveView.UploadConfig`, required when `live` is set without a dropzone"
 
-  attr :name, :any, doc: "Name of input"
+  attr :name, :any, default: nil, doc: "Name of input"
   attr :value, :any, doc: "Value of input"
 
   attr :dropzone, :boolean, default: false, doc: ""
   attr :dropzone_type, :string, default: "file", doc: "file, image"
-  attr :target, :atom, doc: "Name of upload input when is used as Live Upload"
+  attr :target, :atom, doc: "Name of the upload in `uploads`, required with `dropzone`"
   attr :dropzone_icon, :string, default: "hero-cloud-arrow-up", doc: ""
   attr :dropzone_title, :string, default: "Click to upload, or drag and drop a file", doc: ""
   attr :dropzone_description, :string, default: nil, doc: "Specifies description for dropzone"
@@ -98,9 +104,10 @@ defmodule DevelopmentWeb.Components.FileField do
     assigns
     |> assign(field: nil, id: assigns.id || field.id)
     |> assign(:errors, Enum.map(errors, &translate_error(&1)))
-    |> assign_new(:name, fn ->
-      if assigns.rest[:multiple], do: field.name <> "[]", else: field.name
-    end)
+    |> assign(
+      :name,
+      assigns.name || if(assigns.rest[:multiple], do: field.name <> "[]", else: field.name)
+    )
     |> assign_new(:value, fn -> field.value end)
     |> file_field()
   end
@@ -392,7 +399,7 @@ defmodule DevelopmentWeb.Components.FileField do
   defp rounded_size("none"), do: nil
 
   defp rounded_size("extra_small"),
-    do: "[&_.file-field]:rounded-sm [&_.dropzone-wrapper]:rounded-sm"
+    do: "[&_.file-field]:rounded-xs [&_.dropzone-wrapper]:rounded-xs"
 
   defp rounded_size("small"), do: "[&_.file-field]:rounded [&_.dropzone-wrapper]:rounded"
 

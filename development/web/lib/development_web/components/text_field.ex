@@ -114,8 +114,8 @@ defmodule DevelopmentWeb.Components.TextField do
   end
 
   attr :errors, :list, default: [], doc: "List of error messages to be displayed"
-  attr :name, :any, doc: "Name of input"
-  attr :value, :any, doc: "Value of input"
+  attr :name, :any, default: nil, doc: "Name of input"
+  attr :value, :any, default: nil, doc: "Value of input"
 
   attr :field, Phoenix.HTML.FormField, doc: "a form field struct retrieved from the form"
 
@@ -132,8 +132,8 @@ defmodule DevelopmentWeb.Components.TextField do
     assigns
     |> assign(field: nil, id: assigns.id || field.id)
     |> assign(:errors, Enum.map(errors, &translate_error(&1)))
-    |> assign_new(:name, fn -> field.name end)
-    |> assign_new(:value, fn -> field.value end)
+    |> assign(:name, assigns.name || field.name)
+    |> assign(:value, assigns.value || field.value)
     |> text_field()
   end
 
@@ -330,7 +330,7 @@ defmodule DevelopmentWeb.Components.TextField do
 
   defp size_class(params) when is_binary(params), do: params
 
-  defp rounded_size("extra_small"), do: "[&_.text-field-wrapper]:rounded-sm"
+  defp rounded_size("extra_small"), do: "[&_.text-field-wrapper]:rounded-xs"
 
   defp rounded_size("small"), do: "[&_.text-field-wrapper]:rounded"
 

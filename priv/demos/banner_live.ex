@@ -136,7 +136,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.BannerLive do
     """
     <.banner border_position="top">Border top of Banner</.banner>
     <.banner border_position="bottom">Border bottom of Banner</.banner>
-    <.banner border_position="all">Border full of Banner</.banner>
+    <.banner border_position="full">Border full of Banner</.banner>
     <.banner border_position="none">No border on Banner</.banner>
     """
   end

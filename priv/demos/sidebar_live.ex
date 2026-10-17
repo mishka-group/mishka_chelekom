@@ -61,7 +61,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.SidebarLive do
 
     <.sidebar id="unique_id" variant="transparent" color="secondary"></.sidebar>
 
-    <.sidebar id="unique_id" variant="unbordered" color="dark"></.sidebar>
+    <.sidebar id="unique_id" variant="bordered" color="dark"></.sidebar>
 
     <.sidebar id="unique_id" variant="shadow" color="success"></.sidebar>
 
@@ -69,7 +69,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.SidebarLive do
 
     <.sidebar id="unique_id" variant="shadow" color="danger"></.sidebar>
 
-    <.sidebar id="unique_id" variant="unbordered" color="info"></.sidebar>
+    <.sidebar id="unique_id" variant="bordered" color="info"></.sidebar>
 
     <.sidebar id="unique_id" variant="transparent" color="light"></.sidebar>
 

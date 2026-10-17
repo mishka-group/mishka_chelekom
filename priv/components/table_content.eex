@@ -394,7 +394,7 @@ defmodule <%= @module %> do
   defp padding_size(params) when is_binary(params), do: params
 
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
-  defp rounded_size("extra_small"), do: "rounded-sm"
+  defp rounded_size("extra_small"), do: "rounded-xs"
   <% end %>
   <%= if is_nil(@rounded) or "small" in @rounded do %>
   defp rounded_size("small"), do: "rounded"
@@ -407,6 +407,9 @@ defmodule <%= @module %> do
   <% end %>
   <%= if is_nil(@rounded) or "extra_large" in @rounded do %>
   defp rounded_size("extra_large"), do: "rounded-xl"
+  <% end %>
+  <%= if is_nil(@rounded) or "none" in @rounded do %>
+  defp rounded_size("none"), do: "rounded-none"
   <% end %>
   defp rounded_size(params) when is_binary(params), do: params
 

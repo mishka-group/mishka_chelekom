@@ -65,7 +65,7 @@ defmodule DevelopmentWeb.Components.ToggleField do
   attr :label, :string, default: nil, doc: "Specifies text for the label"
 
   attr :errors, :list, default: [], doc: "List of error messages to be displayed"
-  attr :name, :any, doc: "Name of input"
+  attr :name, :any, default: nil, doc: "Name of input"
   attr :value, :any, default: nil
 
   attr :field, Phoenix.HTML.FormField, doc: "a form field struct retrieved from the form"
@@ -82,8 +82,8 @@ defmodule DevelopmentWeb.Components.ToggleField do
     assigns
     |> assign(field: nil, id: assigns.id || field.id)
     |> assign(:errors, Enum.map(errors, &translate_error(&1)))
-    |> assign_new(:name, fn -> field.name end)
-    |> assign_new(:value, fn -> field.value end)
+    |> assign(:name, assigns.name || field.name)
+    |> assign(:value, assigns.value || field.value)
     |> toggle_field()
   end
 
@@ -177,7 +177,7 @@ defmodule DevelopmentWeb.Components.ToggleField do
   end
 
   defp rounded_size("extra_small"),
-    do: "[&_.toggle-field-base]:rounded-sm [&_.toggle-field-circle]:rounded-sm"
+    do: "[&_.toggle-field-base]:rounded-xs [&_.toggle-field-circle]:rounded-xs"
 
   defp rounded_size("small"),
     do: "[&_.toggle-field-base]:rounded [&_.toggle-field-circle]:rounded"
@@ -193,6 +193,9 @@ defmodule DevelopmentWeb.Components.ToggleField do
 
   defp rounded_size("full"),
     do: "[&_.toggle-field-base]:rounded-full [&_.toggle-field-circle]:rounded-full"
+
+  defp rounded_size("none"),
+    do: "[&_.toggle-field-base]:rounded-none [&_.toggle-field-circle]:rounded-none"
 
   defp rounded_size(params) when is_binary(params), do: params
 

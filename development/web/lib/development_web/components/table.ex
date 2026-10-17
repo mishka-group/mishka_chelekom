@@ -346,10 +346,10 @@ defmodule DevelopmentWeb.Components.Table do
 
   defp rounded_size("extra_small", "separated") do
     [
-      "[&_.border-separate_tr_td:first-child]:rounded-s-sm",
-      "[&_.border-separate_tr_td:last-child]:rounded-e-sm",
-      "[&_.border-separate_tr_th:first-child]:rounded-s-sm",
-      "[&_.border-separate_tr_th:last-child]:rounded-e-sm"
+      "[&_.border-separate_tr_td:first-child]:rounded-s-xs",
+      "[&_.border-separate_tr_td:last-child]:rounded-e-xs",
+      "[&_.border-separate_tr_th:first-child]:rounded-s-xs",
+      "[&_.border-separate_tr_th:last-child]:rounded-e-xs"
     ]
   end
 
@@ -391,10 +391,10 @@ defmodule DevelopmentWeb.Components.Table do
 
   defp rounded_size("extra_small", "base_separated") do
     [
-      "[&_.border-separate_tr_td:first-child]:rounded-s-sm",
-      "[&_.border-separate_tr_td:last-child]:rounded-e-sm",
-      "[&_.border-separate_tr_th:first-child]:rounded-s-sm",
-      "[&_.border-separate_tr_th:last-child]:rounded-e-sm"
+      "[&_.border-separate_tr_td:first-child]:rounded-s-xs",
+      "[&_.border-separate_tr_td:last-child]:rounded-e-xs",
+      "[&_.border-separate_tr_th:first-child]:rounded-s-xs",
+      "[&_.border-separate_tr_th:last-child]:rounded-e-xs"
     ]
   end
 
@@ -434,7 +434,18 @@ defmodule DevelopmentWeb.Components.Table do
     ]
   end
 
-  defp rounded_size("extra_small", _), do: "rounded-sm"
+  defp rounded_size("none", variant) when variant in ["separated", "base_separated"] do
+    [
+      "[&_.border-separate_tr_td:first-child]:rounded-s-none",
+      "[&_.border-separate_tr_td:last-child]:rounded-e-none",
+      "[&_.border-separate_tr_th:first-child]:rounded-s-none",
+      "[&_.border-separate_tr_th:last-child]:rounded-e-none"
+    ]
+  end
+
+  defp rounded_size("none", _), do: "rounded-none"
+
+  defp rounded_size("extra_small", _), do: "rounded-xs"
 
   defp rounded_size("small", _), do: "rounded"
 

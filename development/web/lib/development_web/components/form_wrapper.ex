@@ -55,7 +55,7 @@ defmodule DevelopmentWeb.Components.FormWrapper do
     doc:
       "Determines the overall size of the elements, including padding, font size, and other items"
 
-  attr :for, :any, required: false, doc: "the data structure for the form"
+  attr :for, :any, default: nil, doc: "the data structure for the form"
   attr :as, :any, default: nil, doc: "the server side parameter to collect all input under"
 
   attr :rest, :global,
@@ -154,7 +154,7 @@ defmodule DevelopmentWeb.Components.FormWrapper do
 
   defp size_class(params) when is_binary(params), do: params
 
-  defp rounded_size("extra_small"), do: "rounded-sm"
+  defp rounded_size("extra_small"), do: "rounded-xs"
 
   defp rounded_size("small"), do: "rounded"
 
@@ -165,6 +165,8 @@ defmodule DevelopmentWeb.Components.FormWrapper do
   defp rounded_size("extra_large"), do: "rounded-xl"
 
   defp rounded_size("full"), do: "rounded-full"
+
+  defp rounded_size("none"), do: "rounded-none"
 
   defp rounded_size(params) when is_binary(params), do: params
 

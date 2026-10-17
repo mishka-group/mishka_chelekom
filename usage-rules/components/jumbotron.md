@@ -28,8 +28,8 @@ None (no other components, no JavaScript).
 | `size` | `:string` | `"medium"` | Text size: `extra_small`, `small`, `medium`, `large`, `extra_large` |
 | `space` | `:string` | `"medium"` | Space between elements: `extra_small`, `small`, `medium`, `large`, `extra_large` |
 | `padding` | `:string` | `"large"` | Content padding: `extra_small`, `small`, `medium`, `large`, `extra_large`, `double_large`, `triple_large`, `quadruple_large`, `none` |
-| `border` | `:string` | `"none"` | Border size |
-| `border_position` | `:string` | `nil` | `top`, `bottom`, `left`, `right` |
+| `border_size` | `:string` | `"extra_small"` | Border size: `none`, `extra_small`, `small`, `medium`, `large`, `extra_large` |
+| `border_position` | `:string` | `"bottom"` | `top`, `bottom`, `vertical` |
 | `class` | `:any` | `nil` | Custom CSS class |
 
 ## Slots
@@ -67,7 +67,7 @@ None (no other components, no JavaScript).
 ### With Border
 
 ```heex
-<.jumbotron variant="transparent" border="medium" border_position="left" color="primary">
+<.jumbotron variant="outline" border_size="medium" border_position="top" color="primary">
   <h2 class="text-2xl font-bold">Featured Content</h2>
   <p>Important announcement or highlight.</p>
 </.jumbotron>
@@ -143,8 +143,8 @@ None (no other components, no JavaScript).
   variant="outline"
   color="success"
   padding="extra_large"
-  border="small"
-  border_position="left"
+  border_size="small"
+  border_position="vertical"
 >
   <div class="flex items-start gap-4">
     <.icon name="hero-check-badge" class="size-10 text-success-500" />

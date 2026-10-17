@@ -166,8 +166,8 @@ defmodule DevelopmentWeb.Components.Combobox do
   def combobox(%{multiple: true} = assigns) do
     assigns =
       assigns
-      |> assign_new(:id, fn -> "combo-#{random_id()}" end)
       |> assign_new(:name, fn -> nil end)
+      |> then(&assign(&1, :id, &1.id || combobox_id(&1.name)))
       |> assign_new(:options, fn -> [] end)
       |> assign_new(:option, fn -> [] end)
       |> assign_new(:value, fn -> Map.get(assigns, :value, []) end)
@@ -389,8 +389,8 @@ defmodule DevelopmentWeb.Components.Combobox do
   def combobox(assigns) do
     assigns =
       assigns
-      |> assign_new(:id, fn -> "combo-#{random_id()}" end)
       |> assign_new(:name, fn -> nil end)
+      |> then(&assign(&1, :id, &1.id || combobox_id(&1.name)))
       |> assign_new(:options, fn -> [] end)
       |> assign_new(:option, fn -> [] end)
       |> assign_new(:value, fn -> Map.get(assigns, :value) end)
@@ -637,6 +637,15 @@ defmodule DevelopmentWeb.Components.Combobox do
     """
   end
 
+  defp combobox_id(nil), do: "combo-#{random_id()}"
+
+  defp combobox_id(name) do
+    case name |> to_string() |> String.replace(~r/\W+/, "_") |> String.trim("_") do
+      "" -> combobox_id(nil)
+      slug -> "combo-" <> slug
+    end
+  end
+
   attr :id, :string, default: nil, doc: "Unique identifier"
   attr :for, :string, default: nil, doc: "Specifies the form which is associated with"
   attr :class, :any, default: nil, doc: "Custom CSS class for additional styling"
@@ -700,7 +709,7 @@ defmodule DevelopmentWeb.Components.Combobox do
 
   defp rounded_size("extra_small") do
     [
-      "[&_.combobox-trigger]:rounded-sm",
+      "[&_.combobox-trigger]:rounded-xs",
       "[&_.combobox-pill]:rounded-[0.0625rem]"
     ]
   end
@@ -1246,7 +1255,7 @@ defmodule DevelopmentWeb.Components.Combobox do
     ]
   end
 
-  defp dropdown_rounded_size("extra_small"), do: "rounded-sm"
+  defp dropdown_rounded_size("extra_small"), do: "rounded-xs"
   defp dropdown_rounded_size("small"), do: "rounded"
   defp dropdown_rounded_size("medium"), do: "rounded-md"
   defp dropdown_rounded_size("large"), do: "rounded-lg"
@@ -1264,7 +1273,7 @@ defmodule DevelopmentWeb.Components.Combobox do
   defp dropdown_border_size("extra_large", _), do: "border-[5px]"
   defp dropdown_border_size(params, _) when is_binary(params), do: params
 
-  defp dropdown_search_input_rounded("extra_small"), do: "[&_.combobox-search-input]:rounded-sm"
+  defp dropdown_search_input_rounded("extra_small"), do: "[&_.combobox-search-input]:rounded-xs"
   defp dropdown_search_input_rounded("small"), do: "[&_.combobox-search-input]:rounded"
   defp dropdown_search_input_rounded("medium"), do: "[&_.combobox-search-input]:rounded-md"
   defp dropdown_search_input_rounded("large"), do: "[&_.combobox-search-input]:rounded-lg"

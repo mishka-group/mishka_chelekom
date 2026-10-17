@@ -140,7 +140,7 @@ None (no components, no JS).
 <div class="flex gap-2">
   <.tooltip position="bottom">
     <:trigger>
-      <.button variant="ghost" size="small">
+      <.button variant="transparent" size="small">
         <.icon name="hero-pencil" class="size-4" />
       </.button>
     </:trigger>
@@ -149,7 +149,7 @@ None (no components, no JS).
 
   <.tooltip position="bottom">
     <:trigger>
-      <.button variant="ghost" size="small">
+      <.button variant="transparent" size="small">
         <.icon name="hero-trash" class="size-4" />
       </.button>
     </:trigger>

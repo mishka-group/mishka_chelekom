@@ -204,7 +204,7 @@ defmodule <%= @module %> do
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp rounded_size("extra_small", "normal") do
     [
-      "[&>.chat-section-bubble]:rounded-e-sm [&>.chat-section-bubble]:rounded-es-sm"
+      "[&>.chat-section-bubble]:rounded-e-xs [&>.chat-section-bubble]:rounded-es-xs"
     ]
   end
   <% end %>
@@ -239,7 +239,7 @@ defmodule <%= @module %> do
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp rounded_size("extra_small", "flipped") do
     [
-      "[&>.chat-section-bubble]:rounded-s-sm [&>.chat-section-bubble]:rounded-ee-sm"
+      "[&>.chat-section-bubble]:rounded-s-xs [&>.chat-section-bubble]:rounded-ee-xs"
     ]
   end
   <% end %>

@@ -175,32 +175,37 @@ defmodule MishkaWeb.ChelekomLive.Docs.NavbarLive do
     """
     <.navbar relative>
       <:list>
-        <.dropdown width="w-full" relative="md:relative" clickable>
-          <:trigger width="full" trigger_id="unique_id_1">
+        <.dropdown
+          id="unique_id_1"
+          width="w-full"
+          relative="md:relative"
+          clickable
+          space="small"
+          rounded="large"
+          padding="extra_small"
+        >
+          <:trigger>
             <button class="text-start w-full block">Dropdown</button>
           </:trigger>
 
-          <:content
-            space="small"
-            id="unique_id_1"
-            rounded="large"
-            width="large"
-            padding="extra_small"
-          >
+          <:content>
             <ul class="space-y-5">
               <li>
-                <.dropdown width="w-full" position="right" nomobile clickable>
-                  <:trigger trigger_id="unique_id_2">
+                <.dropdown
+                  id="unique_id_2"
+                  width="w-full"
+                  position="right"
+                  nomobile
+                  clickable
+                  space="small"
+                  rounded="large"
+                  padding="extra_small"
+                >
+                  <:trigger>
                     <button class="py-1 px-2">dropdown nested</button>
                   </:trigger>
 
-                  <:content
-                    id="unique_id_2"
-                    space="small"
-                    rounded="large"
-                    width="large"
-                    padding="extra_small"
-                  >
+                  <:content>
                     <ul class="space-y-5">
                       <li class="py-1 px-2">Docs</li>
                       <li class="py-1 px-2">Footer</li>
@@ -211,18 +216,20 @@ defmodule MishkaWeb.ChelekomLive.Docs.NavbarLive do
               <li class="py-1 px-2">Memory</li>
               <li class="py-1 px-2">Design</li>
               <li>
-                <.dropdown width="w-full" position="right" clickable>
-                  <:trigger trigger_id="unique_id_3">
+                <.dropdown
+                  id="unique_id_3"
+                  width="w-full"
+                  position="right"
+                  clickable
+                  space="small"
+                  rounded="large"
+                  padding="extra_small"
+                >
+                  <:trigger>
                     <button class="py-1 px-2">Dropdown</button>
                   </:trigger>
 
-                  <:content
-                    id="unique_id_3"
-                    space="small"
-                    rounded="large"
-                    width="large"
-                    padding="extra_small"
-                  >
+                  <:content>
                     <ul class="space-y-5">
                       <li class="py-1 px-2">Security</li>
                       <li class="py-1 px-2">Roadmap</li>

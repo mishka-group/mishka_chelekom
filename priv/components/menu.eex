@@ -38,7 +38,7 @@ defmodule <%= @module %> do
         navigate="/"
         size="extra_small"
         color="misc"
-        variant="unbordered"
+        variant="bordered"
         rounded="large"
         class="w-full"
         display="flex"
@@ -54,7 +54,7 @@ defmodule <%= @module %> do
       <.<%= @component_prefix %>button_link
         size="extra_small"
         color="misc"
-        variant="unbordered"
+        variant="bordered"
         rounded="large"
         class="w-full"
         display="flex"
@@ -73,7 +73,7 @@ defmodule <%= @module %> do
         size="extra_small"
         rounded="large"
         color="misc"
-        variant="menu"
+        variant="transparent"
       >
         <:item title="Menu item" icon_class="size-5" icon="hero-bookmark">
           <ul class="pl-5 space-y-3 mt-3">
@@ -81,7 +81,7 @@ defmodule <%= @module %> do
               navigate="/examples/indicator"
               size="extra_small"
               color="misc"
-              variant="unbordered"
+              variant="bordered"
               rounded="large"
               class="w-full"
               display="flex"
@@ -95,7 +95,7 @@ defmodule <%= @module %> do
               navigate="/examples/image"
               size="extra_small"
               color="misc"
-              variant="unbordered"
+              variant="bordered"
               rounded="large"
               class="w-full"
               display="flex"
@@ -109,7 +109,7 @@ defmodule <%= @module %> do
               navigate="/examples/rating"
               size="extra_small"
               color="misc"
-              variant="unbordered"
+              variant="bordered"
               rounded="large"
               class="w-full"
               display="flex"
@@ -120,7 +120,7 @@ defmodule <%= @module %> do
             </.<%= @component_prefix %>button_link>
 
             <.<%= @component_prefix %>accordion
-              variant="menu"
+              variant="transparent"
               padding="none"
               size="extra_small"
               rounded="large"
@@ -133,7 +133,7 @@ defmodule <%= @module %> do
                     navigate="/examples/popover"
                     size="extra_small"
                     color="misc"
-                    variant="unbordered"
+                    variant="bordered"
                     rounded="large"
                     class="w-full"
                     display="flex"
@@ -147,7 +147,7 @@ defmodule <%= @module %> do
                     navigate="/examples/overlay"
                     size="extra_small"
                     color="misc"
-                    variant="unbordered"
+                    variant="bordered"
                     rounded="large"
                     class="w-full"
                     display="flex"
@@ -169,7 +169,7 @@ defmodule <%= @module %> do
         navigate="/examples/modal"
         size="extra_small"
         color="misc"
-        variant="unbordered"
+        variant="bordered"
         rounded="large"
         class="w-full"
         display="flex"
@@ -185,7 +185,7 @@ defmodule <%= @module %> do
         navigate="/examples/list"
         size="extra_small"
         color="misc"
-        variant="unbordered"
+        variant="bordered"
         rounded="large"
         class="w-full"
         display="flex"
@@ -208,7 +208,7 @@ defmodule <%= @module %> do
       title: "Dashboard",
       size: "extra_small",
       color: "misc",
-      variant: "unbordered",
+      variant: "bordered",
       rounded: "large",
       class: "w-full",
       display: "flex",
@@ -222,7 +222,7 @@ defmodule <%= @module %> do
       title: "Footer",
       size: "extra_small",
       color: "misc",
-      variant: "unbordered",
+      variant: "bordered",
       rounded: "large",
       class: "w-full",
       display: "flex",
@@ -236,7 +236,7 @@ defmodule <%= @module %> do
       size: "extra_small",
       rounded: "large",
       color: "misc",
-      variant: "menu",
+      variant: "transparent",
       icon: "hero-bookmark",
       icon_class: "size-5",
       sub_items: [
@@ -245,7 +245,7 @@ defmodule <%= @module %> do
           title: "Indicator",
           size: "extra_small",
           color: "misc",
-          variant: "unbordered",
+          variant: "bordered",
           rounded: "large",
           class: "w-full",
           display: "flex",
@@ -257,7 +257,7 @@ defmodule <%= @module %> do
           title: "Image",
           size: "extra_small",
           color: "misc",
-          variant: "unbordered",
+          variant: "bordered",
           rounded: "large",
           class: "w-full",
           display: "flex",
@@ -269,7 +269,7 @@ defmodule <%= @module %> do
           title: "Rating",
           size: "extra_small",
           color: "misc",
-          variant: "unbordered",
+          variant: "bordered",
           rounded: "large",
           class: "w-full",
           display: "flex",
@@ -279,7 +279,7 @@ defmodule <%= @module %> do
         %{
           id: "Invoice",
           title: "Invoice",
-          variant: "menu",
+          variant: "transparent",
           padding: "pl-5 space-y-3 mt-3",
           size: "extra_small",
           rounded: "large",
@@ -292,7 +292,7 @@ defmodule <%= @module %> do
               title: "Popover",
               size: "extra_small",
               color: "misc",
-              variant: "unbordered",
+              variant: "bordered",
               rounded: "large",
               class: "w-full",
               display: "flex",
@@ -304,7 +304,7 @@ defmodule <%= @module %> do
               title: "Overlay",
               size: "extra_small",
               color: "misc",
-              variant: "unbordered",
+              variant: "bordered",
               rounded: "large",
               class: "w-full",
               display: "flex",
@@ -320,7 +320,7 @@ defmodule <%= @module %> do
       title: "Modal",
       size: "extra_small",
       color: "misc",
-      variant: "unbordered",
+      variant: "bordered",
       rounded: "large",
       class: "w-full",
       display: "flex",

@@ -109,8 +109,8 @@ defmodule <%= @module %> do
   end
 
   attr :errors, :list, default: [], doc: "List of error messages to be displayed"
-  attr :name, :any, doc: "Name of input"
-  attr :value, :any, doc: "Value of input"
+  attr :name, :any, default: nil, doc: "Name of input"
+  attr :value, :any, default: nil, doc: "Value of input"
 
   attr :field, Phoenix.HTML.FormField, doc: "a form field struct retrieved from the form"
 
@@ -127,8 +127,8 @@ defmodule <%= @module %> do
     assigns
     |> assign(field: nil, id: assigns.id || field.id)
     |> assign(:errors, Enum.map(errors, &translate_error(&1)))
-    |> assign_new(:name, fn -> field.name end)
-    |> assign_new(:value, fn -> field.value end)
+    |> assign(:name, assigns.name || field.name)
+    |> assign(:value, assigns.value || field.value)
     |> <%= @component_prefix %>textarea_field()
   end
 
@@ -293,7 +293,7 @@ defmodule <%= @module %> do
   defp height_size(params) when is_binary(params), do: params
 
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
-  defp rounded_size("extra_small"), do: "[&_.textarea-field-wrapper]:rounded-sm"
+  defp rounded_size("extra_small"), do: "[&_.textarea-field-wrapper]:rounded-xs"
   <% end %>
   <%= if is_nil(@rounded) or "small" in @rounded do %>
   defp rounded_size("small"), do: "[&_.textarea-field-wrapper]:rounded"

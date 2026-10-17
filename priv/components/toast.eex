@@ -206,7 +206,7 @@ defmodule <%= @module %> do
 
     <.<%= @component_prefix %>toast
       id="toast-3"
-      variant="unbordered"
+      variant="bordered"
       color="warning"
       content_border="small"
       border_position="start"
@@ -388,7 +388,7 @@ defmodule <%= @module %> do
 
 
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
-  defp rounded_size("extra_small"), do: "rounded-sm"
+  defp rounded_size("extra_small"), do: "rounded-xs"
   <% end %>
   <%= if is_nil(@rounded) or "small" in @rounded do %>
   defp rounded_size("small"), do: "rounded"

@@ -95,14 +95,14 @@ defmodule DevelopmentWeb.Components.NativeSelect do
     doc: "Specifies if the select input allows multiple selections"
 
   attr :errors, :list, default: [], doc: "List of error messages to be displayed"
-  attr :name, :any, doc: "Name of input"
+  attr :name, :any, default: nil, doc: "Name of input"
 
   slot :inner_block, required: false, doc: "Inner block that renders HEEx content"
 
   slot :option, required: false do
     attr :value, :string, doc: "Value of each select option"
     attr :selected, :boolean, required: false, doc: "Specifies this option is selected"
-    attr :disabled, :string, required: false, doc: "Specifies this option is disabled"
+    attr :disabled, :boolean, required: false, doc: "Specifies this option is disabled"
   end
 
   attr :field, Phoenix.HTML.FormField, doc: "a form field struct retrieved from the form"
@@ -119,9 +119,10 @@ defmodule DevelopmentWeb.Components.NativeSelect do
     assigns
     |> assign(field: nil, id: assigns.id || field.id)
     |> assign(:errors, Enum.map(errors, &translate_error(&1)))
-    |> assign_new(:name, fn ->
-      if assigns.rest[:multiple], do: field.name <> "[]", else: field.name
-    end)
+    |> assign(
+      :name,
+      assigns.name || if(assigns.rest[:multiple], do: field.name <> "[]", else: field.name)
+    )
     |> assign_new(:value, fn -> field.value end)
     |> native_select()
   end
@@ -202,7 +203,7 @@ defmodule DevelopmentWeb.Components.NativeSelect do
   slot :option, required: false, doc: "Option slot for select" do
     attr :value, :string, doc: "Value of each select option"
     attr :selected, :boolean, required: false, doc: "Specifies this option is selected"
-    attr :disabled, :string, required: false, doc: "Specifies this option is disabled"
+    attr :disabled, :boolean, required: false, doc: "Specifies this option is disabled"
   end
 
   def select_option_group(assigns) do
@@ -277,7 +278,7 @@ defmodule DevelopmentWeb.Components.NativeSelect do
 
   defp size_class(params) when is_binary(params), do: params
 
-  defp rounded_size("extra_small"), do: "[&_.select-field]:rounded-sm"
+  defp rounded_size("extra_small"), do: "[&_.select-field]:rounded-xs"
 
   defp rounded_size("small"), do: "[&_.select-field]:rounded"
 

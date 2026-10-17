@@ -87,15 +87,15 @@ defmodule DevelopmentWeb.Components.Banner do
 
   attr :border_position, :string,
     values: ["top", "bottom", "full", "none"],
-    default: "top",
-    doc: ""
+    default: "bottom",
+    doc: "The edge the border is drawn on"
 
   attr :rounded, :string, default: "none", doc: "Determines the border radius"
 
   attr :rounded_position, :string,
     values: ["top", "bottom", "all", "none"],
     default: "none",
-    doc: ""
+    doc: "The edge whose corners are rounded"
 
   attr :space, :string, default: "extra_small", doc: "Space between items"
 
@@ -286,27 +286,27 @@ defmodule DevelopmentWeb.Components.Banner do
 
   defp position_class(params, _) when is_binary(params), do: params
 
-  defp rounded_size("extra_small", "top"), do: "rounded-b-sm"
+  defp rounded_size("extra_small", "top"), do: "rounded-t-xs"
 
-  defp rounded_size("small", "top"), do: "rounded-b"
+  defp rounded_size("small", "top"), do: "rounded-t"
 
-  defp rounded_size("medium", "top"), do: "rounded-b-md"
+  defp rounded_size("medium", "top"), do: "rounded-t-md"
 
-  defp rounded_size("large", "top"), do: "rounded-b-lg"
+  defp rounded_size("large", "top"), do: "rounded-t-lg"
 
-  defp rounded_size("extra_large", "top"), do: "rounded-b-xl"
+  defp rounded_size("extra_large", "top"), do: "rounded-t-xl"
 
-  defp rounded_size("extra_small", "bottom"), do: "rounded-t-sm"
+  defp rounded_size("extra_small", "bottom"), do: "rounded-b-xs"
 
-  defp rounded_size("small", "bottom"), do: "rounded-t"
+  defp rounded_size("small", "bottom"), do: "rounded-b"
 
-  defp rounded_size("medium", "bottom"), do: "rounded-t-md"
+  defp rounded_size("medium", "bottom"), do: "rounded-b-md"
 
-  defp rounded_size("large", "bottom"), do: "rounded-t-lg"
+  defp rounded_size("large", "bottom"), do: "rounded-b-lg"
 
-  defp rounded_size("extra_large", "bottom"), do: "rounded-t-xl"
+  defp rounded_size("extra_large", "bottom"), do: "rounded-b-xl"
 
-  defp rounded_size("extra_small", "all"), do: "rounded-sm"
+  defp rounded_size("extra_small", "all"), do: "rounded-xs"
 
   defp rounded_size("small", "all"), do: "rounded"
 
@@ -339,11 +339,11 @@ defmodule DevelopmentWeb.Components.Banner do
        do: nil
 
   defp border_class("none", _, _), do: nil
-  defp border_class("extra_small", "top", _), do: "border-b"
-  defp border_class("small", "top", _), do: "border-b-2"
-  defp border_class("medium", "top", _), do: "border-b-[3px]"
-  defp border_class("large", "top", _), do: "border-b-4"
-  defp border_class("extra_large", "top", _), do: "border-b-[5px]"
+  defp border_class("extra_small", "top", _), do: "border-t"
+  defp border_class("small", "top", _), do: "border-t-2"
+  defp border_class("medium", "top", _), do: "border-t-[3px]"
+  defp border_class("large", "top", _), do: "border-t-4"
+  defp border_class("extra_large", "top", _), do: "border-t-[5px]"
 
   defp border_class("extra_small", "bottom", _), do: "border-b"
   defp border_class("small", "bottom", _), do: "border-b-2"

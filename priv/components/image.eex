@@ -56,7 +56,7 @@ defmodule <%= @module %> do
     doc:
       "Specifies the intended display size of the image in the layout for different viewport conditions"
 
-  attr :ismap, :string, default: nil, doc: "Make the image act as a server-side image map"
+  attr :ismap, :boolean, default: false, doc: "Make the image act as a server-side image map"
 
   attr :filter, :string, default: "", doc: "Utilities for applying filters"
   attr :filter_size, :string, default: "", doc: "Utilities for applying filters sizes"
@@ -102,7 +102,7 @@ defmodule <%= @module %> do
   end
 
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
-  defp rounded_size("extra_small"), do: "rounded-sm"
+  defp rounded_size("extra_small"), do: "rounded-xs"
   <% end %>
   <%= if is_nil(@rounded) or "small" in @rounded do %>
   defp rounded_size("small"), do: "rounded"
@@ -119,16 +119,19 @@ defmodule <%= @module %> do
   <%= if is_nil(@rounded) or "full" in @rounded do %>
   defp rounded_size("full"), do: "rounded-full"
   <% end %>
+  <%= if is_nil(@rounded) or "none" in @rounded do %>
+  defp rounded_size("none"), do: "rounded-none"
+  <% end %>
   defp rounded_size(params) when is_binary(params), do: params
 
-  defp shadow_size("extra_small"), do: "shadow-sm"
+  defp shadow_size("extra_small"), do: "shadow-xs"
   defp shadow_size("small"), do: "shadow"
   defp shadow_size("medium"), do: "shadow-md"
   defp shadow_size("large"), do: "shadow-lg"
   defp shadow_size("extra_large"), do: "shadow-xl"
   defp shadow_size(params) when is_binary(params), do: params
 
-  defp filter_class("blur", "extra_small"), do: "blur-sm"
+  defp filter_class("blur", "extra_small"), do: "blur-xs"
   defp filter_class("blur", "small"), do: "blur"
   defp filter_class("blur", "medium"), do: "blur-md"
   defp filter_class("blur", "large"), do: "blur-lg"
