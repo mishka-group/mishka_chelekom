@@ -233,8 +233,7 @@ defmodule DevelopmentWeb.Components.Blockquote do
   defp space_class(params) when is_binary(params), do: params
 
   defp border_class(_, _, variant)
-       when variant in ["default", "shadow", "transparent", "gradient"],
-       do: nil
+       when variant in ["default", "shadow", "transparent", "gradient"], do: nil
 
   defp border_class(_, "none", _), do: nil
 

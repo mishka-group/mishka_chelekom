@@ -311,8 +311,7 @@ defmodule DevelopmentWeb.Components.Dock do
   end
 
   defp item_color_class(variant, _color, _active)
-       when variant in ["base", "default", "shadow", "gradient"],
-       do: nil
+       when variant in ["base", "default", "shadow", "gradient"], do: nil
 
   defp item_color_class("bordered", _color, true),
     do: "bg-black/5 dark:bg-white/10"
