@@ -163,7 +163,7 @@ defmodule DevelopmentWeb.Components.RangeField do
           id={@id}
           class={[
             "range-field bg-transparent cursor-pointer appearance-none disabled:opacity-50",
-            "disabled:pointer-events-none focus:outline-none",
+            "disabled:pointer-events-none focus:outline-hidden",
             "[&::-webkit-slider-runnable-track]:w-full [&::-webkit-slider-thumb]:rounded-full",
             "[&::-webkit-slider-runnable-track]:bg-natural-disabled-light dark:[&::-webkit-slider-runnable-track]:bg-silver-bordered-bg-dark",
             "[&::-webkit-slider-thumb]:bg-natural-disabled-light dark:[&::-webkit-slider-thumb]:bg-silver-bordered-bg-dark",

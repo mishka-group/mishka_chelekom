@@ -34,7 +34,7 @@ defmodule DevelopmentWeb.Components.Shape do
   <.shape variant="squircle" size="medium" src="/avatar.jpg" alt="User avatar" />
 
   <.shape variant="hexagon" size="large">
-    <div class="bg-gradient-to-br from-primary-light to-primary-dark size-full" />
+    <div class="bg-linear-to-br from-primary-light to-primary-dark size-full" />
   </.shape>
   ```
   """

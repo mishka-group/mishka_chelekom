@@ -264,7 +264,7 @@ defmodule DevelopmentWeb.Components.MegaMenu do
 
   defp rounded_size("extra_small"), do: "[&>.mega-menu-content]:rounded-xs"
 
-  defp rounded_size("small"), do: "[&>.mega-menu-content]:rounded"
+  defp rounded_size("small"), do: "[&>.mega-menu-content]:rounded-sm"
 
   defp rounded_size("medium"), do: "[&>.mega-menu-content]:rounded-md"
 
@@ -314,7 +314,7 @@ defmodule DevelopmentWeb.Components.MegaMenu do
 
   defp color_variant("base", _) do
     [
-      "[&>.mega-menu-content]:bg-white text-base-text-light [&>.mega-menu-content]:border-base-border-light [&>.mega-menu-content]:shadow-sm",
+      "[&>.mega-menu-content]:bg-white text-base-text-light [&>.mega-menu-content]:border-base-border-light [&>.mega-menu-content]:shadow-xs",
       "dark:[&>.mega-menu-content]:bg-base-bg-dark dark:text-base-text-dark dark:[&>.mega-menu-content]:border-base-border-dark"
     ]
   end
@@ -605,70 +605,70 @@ defmodule DevelopmentWeb.Components.MegaMenu do
 
   defp color_variant("gradient", "natural") do
     [
-      "[&>.mega-menu-content]:bg-gradient-to-br [&>.mega-menu-content]:from-gradient-natural-from-light [&>.mega-menu-content]:to-gradient-natural-to-light text-white",
+      "[&>.mega-menu-content]:bg-linear-to-br [&>.mega-menu-content]:from-gradient-natural-from-light [&>.mega-menu-content]:to-gradient-natural-to-light text-white",
       "dark:[&>.mega-menu-content]:from-gradient-natural-from-dark dark:[&>.mega-menu-content]:to-white dark:text-black"
     ]
   end
 
   defp color_variant("gradient", "primary") do
     [
-      "[&>.mega-menu-content]:bg-gradient-to-br [&>.mega-menu-content]:from-gradient-primary-from-light [&>.mega-menu-content]:to-gradient-primary-to-light text-white",
+      "[&>.mega-menu-content]:bg-linear-to-br [&>.mega-menu-content]:from-gradient-primary-from-light [&>.mega-menu-content]:to-gradient-primary-to-light text-white",
       "dark:[&>.mega-menu-content]:from-gradient-primary-from-dark dark:[&>.mega-menu-content]:to-gradient-primary-to-dark dark:text-black"
     ]
   end
 
   defp color_variant("gradient", "secondary") do
     [
-      "[&>.mega-menu-content]:bg-gradient-to-br [&>.mega-menu-content]:from-gradient-secondary-from-light [&>.mega-menu-content]:to-gradient-secondary-to-light text-white",
+      "[&>.mega-menu-content]:bg-linear-to-br [&>.mega-menu-content]:from-gradient-secondary-from-light [&>.mega-menu-content]:to-gradient-secondary-to-light text-white",
       "dark:[&>.mega-menu-content]:from-gradient-secondary-from-dark dark:[&>.mega-menu-content]:to-gradient-secondary-to-dark dark:text-black"
     ]
   end
 
   defp color_variant("gradient", "success") do
     [
-      "[&>.mega-menu-content]:bg-gradient-to-br [&>.mega-menu-content]:from-gradient-success-from-light [&>.mega-menu-content]:to-gradient-success-to-light text-white",
+      "[&>.mega-menu-content]:bg-linear-to-br [&>.mega-menu-content]:from-gradient-success-from-light [&>.mega-menu-content]:to-gradient-success-to-light text-white",
       "dark:[&>.mega-menu-content]:from-gradient-success-from-dark dark:[&>.mega-menu-content]:to-gradient-success-to-dark dark:text-black"
     ]
   end
 
   defp color_variant("gradient", "warning") do
     [
-      "[&>.mega-menu-content]:bg-gradient-to-br [&>.mega-menu-content]:from-gradient-warning-from-light [&>.mega-menu-content]:to-gradient-warning-to-light text-white",
+      "[&>.mega-menu-content]:bg-linear-to-br [&>.mega-menu-content]:from-gradient-warning-from-light [&>.mega-menu-content]:to-gradient-warning-to-light text-white",
       "dark:[&>.mega-menu-content]:from-gradient-warning-from-dark dark:[&>.mega-menu-content]:to-gradient-warning-to-dark dark:text-black"
     ]
   end
 
   defp color_variant("gradient", "danger") do
     [
-      "[&>.mega-menu-content]:bg-gradient-to-br [&>.mega-menu-content]:from-gradient-danger-from-light [&>.mega-menu-content]:to-gradient-danger-to-light text-white",
+      "[&>.mega-menu-content]:bg-linear-to-br [&>.mega-menu-content]:from-gradient-danger-from-light [&>.mega-menu-content]:to-gradient-danger-to-light text-white",
       "dark:[&>.mega-menu-content]:from-gradient-danger-from-dark dark:[&>.mega-menu-content]:to-gradient-danger-to-dark dark:text-black"
     ]
   end
 
   defp color_variant("gradient", "info") do
     [
-      "[&>.mega-menu-content]:bg-gradient-to-br [&>.mega-menu-content]:from-gradient-info-from-light [&>.mega-menu-content]:to-gradient-info-to-light text-white",
+      "[&>.mega-menu-content]:bg-linear-to-br [&>.mega-menu-content]:from-gradient-info-from-light [&>.mega-menu-content]:to-gradient-info-to-light text-white",
       "dark:[&>.mega-menu-content]:from-gradient-info-from-dark dark:[&>.mega-menu-content]:to-gradient-info-to-dark dark:text-black"
     ]
   end
 
   defp color_variant("gradient", "misc") do
     [
-      "[&>.mega-menu-content]:bg-gradient-to-br [&>.mega-menu-content]:from-gradient-misc-from-light [&>.mega-menu-content]:to-gradient-misc-to-light text-white",
+      "[&>.mega-menu-content]:bg-linear-to-br [&>.mega-menu-content]:from-gradient-misc-from-light [&>.mega-menu-content]:to-gradient-misc-to-light text-white",
       "dark:[&>.mega-menu-content]:from-gradient-misc-from-dark dark:[&>.mega-menu-content]:to-gradient-misc-to-dark dark:text-black"
     ]
   end
 
   defp color_variant("gradient", "dawn") do
     [
-      "[&>.mega-menu-content]:bg-gradient-to-br [&>.mega-menu-content]:from-gradient-dawn-from-light [&>.mega-menu-content]:to-gradient-dawn-to-light text-white",
+      "[&>.mega-menu-content]:bg-linear-to-br [&>.mega-menu-content]:from-gradient-dawn-from-light [&>.mega-menu-content]:to-gradient-dawn-to-light text-white",
       "dark:[&>.mega-menu-content]:from-gradient-dawn-from-dark dark:[&>.mega-menu-content]:to-gradient-dawn-to-dark dark:text-black"
     ]
   end
 
   defp color_variant("gradient", "silver") do
     [
-      "[&>.mega-menu-content]:bg-gradient-to-br [&>.mega-menu-content]:from-gradient-silver-from-light [&>.mega-menu-content]:to-gradient-silver-to-light text-white",
+      "[&>.mega-menu-content]:bg-linear-to-br [&>.mega-menu-content]:from-gradient-silver-from-light [&>.mega-menu-content]:to-gradient-silver-to-light text-white",
       "dark:[&>.mega-menu-content]:from-gradient-silver-from-dark dark:[&>.mega-menu-content]:to-gradient-silver-to-dark dark:text-black"
     ]
   end

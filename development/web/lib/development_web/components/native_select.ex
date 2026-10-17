@@ -135,7 +135,7 @@ defmodule DevelopmentWeb.Components.NativeSelect do
       border_class(@border, @variant),
       size_class(@size),
       space_class(@space),
-      "[&_.select-field]:focus-within:outline-none",
+      "[&_.select-field]:focus-within:outline-hidden",
       @ring && "[&_.select-field]:focus-within:ring-1",
       @class
     ]}>
@@ -280,7 +280,7 @@ defmodule DevelopmentWeb.Components.NativeSelect do
 
   defp rounded_size("extra_small"), do: "[&_.select-field]:rounded-xs"
 
-  defp rounded_size("small"), do: "[&_.select-field]:rounded"
+  defp rounded_size("small"), do: "[&_.select-field]:rounded-sm"
 
   defp rounded_size("medium"), do: "[&_.select-field]:rounded-md"
 
@@ -326,7 +326,7 @@ defmodule DevelopmentWeb.Components.NativeSelect do
 
   defp color_variant("base", _) do
     [
-      "text-base-text-light dark:text-base-text-dark [&_.select-field:not(:has(.select-field-error))]:border-base-border-light [&_.select-field]:shadow-sm",
+      "text-base-text-light dark:text-base-text-dark [&_.select-field:not(:has(.select-field-error))]:border-base-border-light [&_.select-field]:shadow-xs",
       "[&_.select-field:not(:has(.select-field-error))]:bg-white",
       "dark:[&_.select-field:not(:has(.select-field-error))]:bg-base-bg-dark",
       "dark:[&_.select-field:not(:has(.select-field-error))]:border-base-border-dark",

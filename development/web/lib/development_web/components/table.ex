@@ -355,10 +355,10 @@ defmodule DevelopmentWeb.Components.Table do
 
   defp rounded_size("small", "separated") do
     [
-      "[&_.border-separate_tr_td:first-child]:rounded-s",
-      "[&_.border-separate_tr_td:last-child]:rounded-e",
-      "[&_.border-separate_tr_th:first-child]:rounded-s",
-      "[&_.border-separate_tr_th:last-child]:rounded-e"
+      "[&_.border-separate_tr_td:first-child]:rounded-s-sm",
+      "[&_.border-separate_tr_td:last-child]:rounded-e-sm",
+      "[&_.border-separate_tr_th:first-child]:rounded-s-sm",
+      "[&_.border-separate_tr_th:last-child]:rounded-e-sm"
     ]
   end
 
@@ -400,10 +400,10 @@ defmodule DevelopmentWeb.Components.Table do
 
   defp rounded_size("small", "base_separated") do
     [
-      "[&_.border-separate_tr_td:first-child]:rounded-s",
-      "[&_.border-separate_tr_td:last-child]:rounded-e",
-      "[&_.border-separate_tr_th:first-child]:rounded-s",
-      "[&_.border-separate_tr_th:last-child]:rounded-e"
+      "[&_.border-separate_tr_td:first-child]:rounded-s-sm",
+      "[&_.border-separate_tr_td:last-child]:rounded-e-sm",
+      "[&_.border-separate_tr_th:first-child]:rounded-s-sm",
+      "[&_.border-separate_tr_th:last-child]:rounded-e-sm"
     ]
   end
 
@@ -447,7 +447,7 @@ defmodule DevelopmentWeb.Components.Table do
 
   defp rounded_size("extra_small", _), do: "rounded-xs"
 
-  defp rounded_size("small", _), do: "rounded"
+  defp rounded_size("small", _), do: "rounded-sm"
 
   defp rounded_size("medium", _), do: "rounded-md"
 
@@ -675,7 +675,7 @@ defmodule DevelopmentWeb.Components.Table do
       "border-base-border-light dark:border-base-border-dark",
       "[&_*]:divide-base-border-light [&_td]:border-base-border-light [&_th]:border-base-border-light",
       "dark:[&_*]:divide-base-border-dark dark:[&_td]:border-base-border-dark dark:[&_th]:border-base-border-dark",
-      "shadow-sm"
+      "shadow-xs"
     ]
   end
 

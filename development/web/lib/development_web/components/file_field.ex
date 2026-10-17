@@ -130,7 +130,7 @@ defmodule DevelopmentWeb.Components.FileField do
         <.live_file_input
           upload={@upload}
           class={[
-            "file-field block w-full cursor-pointer focus:outline-none file:border-0 file:cursor-pointer",
+            "file-field block w-full cursor-pointer focus:outline-hidden file:border-0 file:cursor-pointer",
             "file:py-3 file:px-8 file:font-bold file:-ms-4 file:me-4"
           ]}
           {@rest}
@@ -140,7 +140,7 @@ defmodule DevelopmentWeb.Components.FileField do
           name={@name}
           id={@id}
           class={[
-            "file-field block w-full cursor-pointer focus:outline-none file:border-0 file:cursor-pointer",
+            "file-field block w-full cursor-pointer focus:outline-hidden file:border-0 file:cursor-pointer",
             "file:py-3 file:px-8 file:font-bold file:-ms-4 file:me-4"
           ]}
           type="file"
@@ -200,7 +200,7 @@ defmodule DevelopmentWeb.Components.FileField do
       <div aria-live="polite" class="mt-5 space-y-4">
         <%= for entry <- @entries do %>
           <div
-            class="upload-item border rounded relative p-3"
+            class="upload-item border border-base-border-light dark:border-base-border-dark rounded-sm relative p-3"
             role="group"
             aria-label={gettext("Uploading %{file}", file: entry.client_name)}
           >
@@ -305,9 +305,9 @@ defmodule DevelopmentWeb.Components.FileField do
               aria-label={gettext("Uploading %{file}", file: entry.client_name)}
               class="relative"
             >
-              <div class="rounded w-24 h-24 overflow-hidden">
+              <div class="rounded-sm w-24 h-24 overflow-hidden">
                 <figure class="w-full h-full object-cover">
-                  <.live_img_preview entry={entry} class="w-full h-full object-cover rounded" />
+                  <.live_img_preview entry={entry} class="w-full h-full object-cover rounded-sm" />
                 </figure>
               </div>
 
@@ -316,7 +316,7 @@ defmodule DevelopmentWeb.Components.FileField do
                 phx-click="cancel-upload"
                 phx-value-ref={entry.ref}
                 aria-label={gettext("Cancel upload for %{file}", file: entry.client_name)}
-                class="bg-black/30 rounded p-px text-white flex justify-center items-center absolute top-2 right-2 z-10"
+                class="bg-black/30 rounded-sm p-px text-white flex justify-center items-center absolute top-2 right-2 z-10"
               >
                 <.icon name="hero-x-mark" class="size-4" />
               </button>
@@ -401,7 +401,7 @@ defmodule DevelopmentWeb.Components.FileField do
   defp rounded_size("extra_small"),
     do: "[&_.file-field]:rounded-xs [&_.dropzone-wrapper]:rounded-xs"
 
-  defp rounded_size("small"), do: "[&_.file-field]:rounded [&_.dropzone-wrapper]:rounded"
+  defp rounded_size("small"), do: "[&_.file-field]:rounded-sm [&_.dropzone-wrapper]:rounded-sm"
 
   defp rounded_size("medium"), do: "[&_.file-field]:rounded-md [&_.dropzone-wrapper]:rounded-md"
 
@@ -518,7 +518,7 @@ defmodule DevelopmentWeb.Components.FileField do
 
   defp color_variant("base", _) do
     [
-      "text-base-text-light [&_.dropzone-wrapper]:border-base-border-light [&_.dropzone-wrapper]:bg-white shadow-sm",
+      "text-base-text-light [&_.dropzone-wrapper]:border-base-border-light [&_.dropzone-wrapper]:bg-white shadow-xs",
       "dark:text-base-text-dark dark:[&_.dropzone-wrapper]:border-base-border-dark dark:[&_.dropzone-wrapper]:bg-base-bg-dark"
     ]
   end

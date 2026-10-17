@@ -156,7 +156,7 @@ defmodule DevelopmentWeb.Components.FormWrapper do
 
   defp rounded_size("extra_small"), do: "rounded-xs"
 
-  defp rounded_size("small"), do: "rounded"
+  defp rounded_size("small"), do: "rounded-sm"
 
   defp rounded_size("medium"), do: "rounded-md"
 
@@ -208,7 +208,7 @@ defmodule DevelopmentWeb.Components.FormWrapper do
 
   defp color_variant("base", _) do
     [
-      "bg-white text-base-text-light border-base-border-light shadow-sm",
+      "bg-white text-base-text-light border-base-border-light shadow-xs",
       "dark:bg-base-bg-dark dark:text-base-text-dark dark:border-base-border-dark"
     ]
   end

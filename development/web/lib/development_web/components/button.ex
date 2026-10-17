@@ -719,7 +719,7 @@ defmodule DevelopmentWeb.Components.Button do
       "dark:bg-base-bg-dark dark:text-base-text-dark dark:border-base-border-dark dark:hover:bg-base-hover-dark",
       "disabled:bg-base-disabled-bg-light disabled:text-base-disabled-text-light dark:disabled:bg-base-disabled-bg-dark dark:disabled:text-base-disabled-text-dark",
       "disabled:border-base-disabled-border-light dark:disabled:border-base-disabled-border-dark",
-      "shadow-sm",
+      "shadow-xs",
       indicator && "[&>.indicator]:bg-base-border-light dark:[&>.indicator]:bg-base-border-dark"
     ]
   end
@@ -1507,7 +1507,7 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("default_gradient", "natural", indicator) do
     [
-      "bg-gradient-to-br hover:bg-gradient-to-bl",
+      "bg-linear-to-br hover:bg-linear-to-bl",
       "from-gradient-natural-from-light to-gradient-natural-to-light text-white",
       "dark:from-gradient-natural-from-dark dark:to-white dark:text-black",
       "disabled:text-disabled-text-light dark:disabled:bg-disabled-bg-dark dark:disabled:text-disabled-text-dark",
@@ -1519,7 +1519,7 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("default_gradient", "primary", indicator) do
     [
-      "bg-gradient-to-br hover:bg-gradient-to-bl",
+      "bg-linear-to-br hover:bg-linear-to-bl",
       "from-gradient-primary-from-light to-gradient-primary-to-light text-white",
       "dark:from-gradient-primary-from-dark dark:to-gradient-primary-to-dark dark:text-black",
       "disabled:text-disabled-text-light dark:disabled:bg-disabled-bg-dark dark:disabled:text-disabled-text-dark",
@@ -1532,7 +1532,7 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("default_gradient", "secondary", indicator) do
     [
-      "bg-gradient-to-br hover:bg-gradient-to-bl",
+      "bg-linear-to-br hover:bg-linear-to-bl",
       "from-gradient-secondary-from-light to-gradient-secondary-to-light text-white",
       "dark:from-gradient-secondary-from-dark dark:to-gradient-secondary-to-dark dark:text-black",
       "disabled:text-disabled-text-light dark:disabled:bg-disabled-bg-dark dark:disabled:text-disabled-text-dark",
@@ -1545,7 +1545,7 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("default_gradient", "success", indicator) do
     [
-      "bg-gradient-to-br hover:bg-gradient-to-bl",
+      "bg-linear-to-br hover:bg-linear-to-bl",
       "from-gradient-success-from-light to-gradient-success-to-light text-white",
       "dark:from-gradient-success-from-dark dark:to-gradient-success-to-dark dark:text-black",
       "disabled:text-disabled-text-light dark:disabled:bg-disabled-bg-dark dark:disabled:text-disabled-text-dark",
@@ -1558,7 +1558,7 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("default_gradient", "warning", indicator) do
     [
-      "bg-gradient-to-br hover:bg-gradient-to-bl",
+      "bg-linear-to-br hover:bg-linear-to-bl",
       "from-gradient-warning-from-light to-gradient-warning-to-light text-white",
       "dark:from-gradient-warning-from-dark dark:to-gradient-warning-to-dark dark:text-black",
       "disabled:text-disabled-text-light dark:disabled:bg-disabled-bg-dark dark:disabled:text-disabled-text-dark",
@@ -1571,7 +1571,7 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("default_gradient", "danger", indicator) do
     [
-      "bg-gradient-to-br hover:bg-gradient-to-bl",
+      "bg-linear-to-br hover:bg-linear-to-bl",
       "from-gradient-danger-from-light to-gradient-danger-to-light text-white",
       "dark:from-gradient-danger-from-dark dark:to-gradient-danger-to-dark dark:text-black",
       "disabled:text-disabled-text-light dark:disabled:bg-disabled-bg-dark dark:disabled:text-disabled-text-dark",
@@ -1584,7 +1584,7 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("default_gradient", "info", indicator) do
     [
-      "bg-gradient-to-br hover:bg-gradient-to-bl",
+      "bg-linear-to-br hover:bg-linear-to-bl",
       "from-gradient-info-from-light to-gradient-info-to-light text-white",
       "dark:from-gradient-info-from-dark dark:to-gradient-info-to-dark dark:text-black",
       "disabled:text-disabled-text-light dark:disabled:bg-disabled-bg-dark dark:disabled:text-disabled-text-dark",
@@ -1597,7 +1597,7 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("default_gradient", "misc", indicator) do
     [
-      "bg-gradient-to-br hover:bg-gradient-to-bl",
+      "bg-linear-to-br hover:bg-linear-to-bl",
       "from-gradient-misc-from-light to-gradient-misc-to-light text-white",
       "dark:from-gradient-misc-from-dark dark:to-gradient-misc-to-dark dark:text-black",
       "disabled:text-disabled-text-light dark:disabled:bg-disabled-bg-dark dark:disabled:text-disabled-text-dark",
@@ -1610,7 +1610,7 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("default_gradient", "dawn", indicator) do
     [
-      "bg-gradient-to-br hover:bg-gradient-to-bl",
+      "bg-linear-to-br hover:bg-linear-to-bl",
       "from-gradient-dawn-from-light to-gradient-dawn-to-light text-white",
       "dark:from-gradient-dawn-from-dark dark:to-gradient-dawn-to-dark dark:text-black",
       "disabled:text-disabled-text-light dark:disabled:bg-disabled-bg-dark dark:disabled:text-disabled-text-dark",
@@ -1623,7 +1623,7 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("default_gradient", "silver", indicator) do
     [
-      "bg-gradient-to-br hover:bg-gradient-to-bl",
+      "bg-linear-to-br hover:bg-linear-to-bl",
       "from-gradient-silver-from-light to-gradient-silver-to-light text-white",
       "dark:from-gradient-silver-from-dark dark:to-gradient-silver-to-dark dark:text-black",
       "disabled:text-disabled-text-light dark:disabled:bg-disabled-bg-dark dark:disabled:text-disabled-text-dark",
@@ -1635,7 +1635,7 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("outline_gradient", "natural", indicator) do
     [
-      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-gradient-to-br hover:bg-gradient-to-bl",
+      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-linear-to-br hover:bg-linear-to-bl",
       "from-gradient-natural-from-light to-gradient-natural-to-light text-natural-light hover:text-natural-hover-light",
       "dark:from-gradient-natural-from-dark dark:to-white dark:text-natural-dark dark:hover:text-natural-hover-dark",
       "before:bg-white dark:before:bg-bordered-dark-bg before:absolute before:inset-[2px] before:z-0",
@@ -1647,7 +1647,7 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("outline_gradient", "primary", indicator) do
     [
-      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-gradient-to-br hover:bg-gradient-to-bl",
+      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-linear-to-br hover:bg-linear-to-bl",
       "from-gradient-primary-from-light to-gradient-primary-to-light text-primary-light hover:text-primary-hover-light",
       "dark:from-gradient-primary-from-dark dark:to-gradient-primary-to-dark dark:text-primary-dark dark:hover:text-primary-hover-dark",
       "before:bg-white dark:before:bg-bordered-dark-bg before:absolute before:inset-[2px] before:z-0",
@@ -1660,7 +1660,7 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("outline_gradient", "secondary", indicator) do
     [
-      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-gradient-to-br hover:bg-gradient-to-bl",
+      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-linear-to-br hover:bg-linear-to-bl",
       "from-gradient-secondary-from-light to-gradient-secondary-to-light text-secondary-light hover:text-secondary-hover-light",
       "dark:from-gradient-secondary-from-dark dark:to-gradient-secondary-to-dark dark:text-secondary-dark dark:hover:text-secondary-hover-dark",
       "before:bg-white dark:before:bg-bordered-dark-bg before:absolute before:inset-[2px] before:z-0",
@@ -1673,7 +1673,7 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("outline_gradient", "success", indicator) do
     [
-      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-gradient-to-br hover:bg-gradient-to-bl",
+      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-linear-to-br hover:bg-linear-to-bl",
       "from-gradient-success-from-light to-gradient-success-to-light text-success-light hover:text-success-hover-light",
       "dark:from-gradient-success-from-dark dark:to-gradient-success-to-dark dark:text-success-dark dark:hover:text-success-hover-dark",
       "before:bg-white dark:before:bg-bordered-dark-bg before:absolute before:inset-[2px] before:z-0",
@@ -1686,7 +1686,7 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("outline_gradient", "warning", indicator) do
     [
-      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-gradient-to-br hover:bg-gradient-to-bl",
+      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-linear-to-br hover:bg-linear-to-bl",
       "from-gradient-warning-from-light to-gradient-warning-to-light text-warning-light hover:text-warning-hover-light",
       "dark:from-gradient-warning-from-dark dark:to-gradient-warning-to-dark dark:text-warning-dark dark:hover:text-warning-hover-dark",
       "before:bg-white dark:before:bg-bordered-dark-bg before:absolute before:inset-[2px] before:z-0",
@@ -1699,7 +1699,7 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("outline_gradient", "danger", indicator) do
     [
-      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-gradient-to-br hover:bg-gradient-to-bl",
+      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-linear-to-br hover:bg-linear-to-bl",
       "from-gradient-danger-from-light to-gradient-danger-to-light text-danger-light hover:text-danger-hover-light",
       "dark:from-gradient-danger-from-dark dark:to-gradient-danger-to-dark dark:text-danger-dark dark:hover:text-danger-hover-dark",
       "before:bg-white dark:before:bg-bordered-dark-bg before:absolute before:inset-[2px] before:z-0",
@@ -1712,7 +1712,7 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("outline_gradient", "info", indicator) do
     [
-      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-gradient-to-br hover:bg-gradient-to-bl",
+      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-linear-to-br hover:bg-linear-to-bl",
       "from-gradient-info-from-light to-gradient-info-to-light text-info-light hover:text-info-hover-light",
       "dark:from-gradient-info-from-dark dark:to-gradient-info-to-dark dark:text-info-dark dark:hover:text-info-hover-dark",
       "before:bg-white dark:before:bg-bordered-dark-bg before:absolute before:inset-[2px] before:z-0",
@@ -1725,7 +1725,7 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("outline_gradient", "misc", indicator) do
     [
-      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-gradient-to-br hover:bg-gradient-to-bl",
+      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-linear-to-br hover:bg-linear-to-bl",
       "from-gradient-misc-from-light to-gradient-misc-to-light text-misc-light hover:text-misc-hover-light",
       "dark:from-gradient-misc-from-dark dark:to-gradient-misc-to-dark dark:text-misc-dark dark:hover:text-misc-hover-dark",
       "before:bg-white dark:before:bg-bordered-dark-bg before:absolute before:inset-[2px] before:z-0",
@@ -1738,7 +1738,7 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("outline_gradient", "dawn", indicator) do
     [
-      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-gradient-to-br hover:bg-gradient-to-bl",
+      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-linear-to-br hover:bg-linear-to-bl",
       "from-gradient-dawn-from-light to-gradient-dawn-to-light text-dawn-light hover:text-dawn-hover-light",
       "dark:from-gradient-dawn-from-dark dark:to-gradient-dawn-to-dark dark:text-dawn-dark dark:hover:text-dawn-dark",
       "before:bg-white dark:before:bg-bordered-dark-bg before:absolute before:inset-[2px] before:z-0",
@@ -1751,7 +1751,7 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("outline_gradient", "silver", indicator) do
     [
-      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-gradient-to-br hover:bg-gradient-to-bl",
+      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-linear-to-br hover:bg-linear-to-bl",
       "from-gradient-silver-from-light to-gradient-silver-to-light text-silver-light hover:text-silver-hover-light",
       "dark:from-gradient-silver-from-dark dark:to-gradient-silver-to-dark dark:text-silver-dark dark:hover:text-silver-hover-dark",
       "before:bg-white dark:before:bg-bordered-dark-bg before:absolute before:inset-[2px] before:z-0",
@@ -1764,7 +1764,7 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("inverted_gradient", "natural", indicator) do
     [
-      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-gradient-to-br hover:bg-gradient-to-bl",
+      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-linear-to-br hover:bg-linear-to-bl",
       "from-gradient-natural-from-light to-gradient-natural-to-light text-natural-light hover:text-white",
       "dark:from-gradient-natural-from-dark dark:to-white dark:text-natural-dark dark:hover:text-black",
       "before:bg-white dark:before:bg-bordered-dark-bg before:transition",
@@ -1780,7 +1780,7 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("inverted_gradient", "primary", indicator) do
     [
-      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-gradient-to-br hover:bg-gradient-to-bl",
+      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-linear-to-br hover:bg-linear-to-bl",
       "from-gradient-primary-from-light to-gradient-primary-to-light text-primary-light hover:text-white",
       "dark:from-gradient-primary-from-dark dark:to-gradient-primary-to-dark dark:text-primary-dark dark:hover:text-black",
       "before:bg-white dark:before:bg-bordered-dark-bg before:transition",
@@ -1798,7 +1798,7 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("inverted_gradient", "secondary", indicator) do
     [
-      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-gradient-to-br hover:bg-gradient-to-bl",
+      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-linear-to-br hover:bg-linear-to-bl",
       "from-gradient-secondary-from-light to-gradient-secondary-to-light text-secondary-light hover:text-white",
       "dark:from-gradient-secondary-from-dark dark:to-gradient-secondary-to-dark dark:text-secondary-dark dark:hover:text-black",
       "before:bg-white dark:before:bg-bordered-dark-bg before:transition",
@@ -1816,7 +1816,7 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("inverted_gradient", "success", indicator) do
     [
-      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-gradient-to-br hover:bg-gradient-to-bl",
+      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-linear-to-br hover:bg-linear-to-bl",
       "from-gradient-success-from-light to-gradient-success-to-light text-success-light hover:text-white",
       "dark:from-gradient-success-from-dark dark:to-gradient-success-to-dark dark:text-success-dark dark:hover:text-black",
       "before:bg-white dark:before:bg-bordered-dark-bg before:transition",
@@ -1834,7 +1834,7 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("inverted_gradient", "warning", indicator) do
     [
-      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-gradient-to-br hover:bg-gradient-to-bl",
+      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-linear-to-br hover:bg-linear-to-bl",
       "from-gradient-warning-from-light to-gradient-warning-to-light text-warning-light hover:text-white",
       "dark:from-gradient-warning-from-dark dark:to-gradient-warning-to-dark dark:text-warning-dark dark:hover:text-black",
       "before:bg-white dark:before:bg-bordered-dark-bg before:transition",
@@ -1852,7 +1852,7 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("inverted_gradient", "danger", indicator) do
     [
-      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-gradient-to-br hover:bg-gradient-to-bl",
+      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-linear-to-br hover:bg-linear-to-bl",
       "from-gradient-danger-from-light to-gradient-danger-to-light text-danger-light hover:text-white",
       "dark:from-gradient-danger-from-dark dark:to-gradient-danger-to-dark dark:text-danger-dark dark:hover:text-black",
       "before:bg-white dark:before:bg-bordered-dark-bg before:transition",
@@ -1870,7 +1870,7 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("inverted_gradient", "info", indicator) do
     [
-      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-gradient-to-br hover:bg-gradient-to-bl",
+      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-linear-to-br hover:bg-linear-to-bl",
       "from-gradient-info-from-light to-gradient-info-to-light text-info-light hover:text-white",
       "dark:from-gradient-info-from-dark dark:to-gradient-info-to-dark dark:text-info-dark dark:hover:text-black",
       "before:bg-white dark:before:bg-bordered-dark-bg before:transition",
@@ -1888,7 +1888,7 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("inverted_gradient", "misc", indicator) do
     [
-      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-gradient-to-br hover:bg-gradient-to-bl",
+      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-linear-to-br hover:bg-linear-to-bl",
       "from-gradient-misc-from-light to-gradient-misc-to-light text-misc-light hover:text-white",
       "dark:from-gradient-misc-from-dark dark:to-gradient-misc-to-dark dark:text-misc-dark dark:hover:text-black",
       "before:bg-white dark:before:bg-bordered-dark-bg before:transition",
@@ -1906,7 +1906,7 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("inverted_gradient", "dawn", indicator) do
     [
-      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-gradient-to-br hover:bg-gradient-to-bl",
+      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-linear-to-br hover:bg-linear-to-bl",
       "from-gradient-dawn-from-light to-gradient-dawn-to-light text-dawn-light hover:text-white",
       "dark:from-gradient-dawn-from-dark dark:to-gradient-dawn-to-dark dark:text-dawn-dark dark:hover:text-black",
       "before:bg-white dark:before:bg-bordered-dark-bg before:transition",
@@ -1924,7 +1924,7 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp color_variant("inverted_gradient", "silver", indicator) do
     [
-      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-gradient-to-br hover:bg-gradient-to-bl",
+      "gradient-button [&>*]:relative [&>*]:z-[1] relative bg-linear-to-br hover:bg-linear-to-bl",
       "from-gradient-silver-from-light to-gradient-silver-to-light text-silver-light hover:text-white",
       "dark:from-gradient-silver-from-dark dark:to-gradient-silver-to-dark dark:text-silver-dark dark:hover:text-black",
       "before:bg-white dark:before:bg-bordered-dark-bg before:transition",
@@ -1994,7 +1994,7 @@ defmodule DevelopmentWeb.Components.Button do
 
   defp rounded_size("extra_small"), do: "rounded-xs [&.gradient-button:before]:rounded-[1px]"
 
-  defp rounded_size("small"), do: "rounded [&.gradient-button:before]:rounded-[2px]"
+  defp rounded_size("small"), do: "rounded-sm [&.gradient-button:before]:rounded-[2px]"
 
   defp rounded_size("medium"), do: "rounded-md [&.gradient-button:before]:rounded-[4px]"
 
@@ -2056,18 +2056,18 @@ defmodule DevelopmentWeb.Components.Button do
   defp icon_position(_icon, _), do: "left"
 
   defp variation("horizontal") do
-    "flex-row [&>*:not(:last-child)]:border-r"
+    "flex-row [&>*:not(:last-child)]:border-r [:where(&)>:where(:not(:last-child))]:border-base-border-light dark:[:where(&)>:where(:not(:last-child))]:border-base-border-dark"
   end
 
   defp variation("vertical") do
-    "flex-col [&>*:not(:last-child)]:border-b"
+    "flex-col [&>*:not(:last-child)]:border-b [:where(&)>:where(:not(:last-child))]:border-base-border-light dark:[:where(&)>:where(:not(:last-child))]:border-base-border-dark"
   end
 
-  defp indicator_size("extra_small"), do: "!size-2"
-  defp indicator_size("small"), do: "!size-2.5"
-  defp indicator_size("medium"), do: "!size-3"
-  defp indicator_size("large"), do: "!size-3.5"
-  defp indicator_size("extra_large"), do: "!size-4"
+  defp indicator_size("extra_small"), do: "size-2!"
+  defp indicator_size("small"), do: "size-2.5!"
+  defp indicator_size("medium"), do: "size-3!"
+  defp indicator_size("large"), do: "size-3.5!"
+  defp indicator_size("extra_large"), do: "size-4!"
   defp indicator_size(params) when is_binary(params), do: params
 
   defp content_position("start") do
@@ -2104,7 +2104,7 @@ defmodule DevelopmentWeb.Components.Button do
       "phx-submit-loading:opacity-75 cursor-pointer relative gap-2 items-center",
       "transition-all ease-in-out duration-100 group",
       "disabled:cursor-not-allowed",
-      "focus:outline-none",
+      "focus:outline-hidden",
       indicator &&
         "[&>.indicator]:inline-block [&>.indicator]:shrink-0 [&>.indicator]:rounded-full",
       !is_nil(pinging) && "[&>.indicator]:animate-ping"

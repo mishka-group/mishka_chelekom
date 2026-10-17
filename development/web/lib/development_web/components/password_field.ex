@@ -172,7 +172,7 @@ defmodule DevelopmentWeb.Components.PasswordField do
             placeholder=" "
             class={[
               "disabled:opacity-80 block w-full z-[2] focus:ring-0 placeholder:text-transparent pb-1 pt-2.5 px-2",
-              "text-[16px] sm:text-[length:inherit] appearance-none bg-transparent border-0 focus:outline-none peer",
+              "text-[16px] sm:text-[length:inherit] appearance-none bg-transparent border-0 focus:outline-hidden peer",
               @input_class
             ]}
             {@rest}
@@ -203,7 +203,7 @@ defmodule DevelopmentWeb.Components.PasswordField do
         >
           <button
             type="button"
-            class="leading-6 focus:outline-none"
+            class="leading-6 focus:outline-hidden"
             aria-label={gettext("Show password")}
             aria-pressed="false"
             phx-click={
@@ -265,7 +265,7 @@ defmodule DevelopmentWeb.Components.PasswordField do
           placeholder={@placeholder}
           class={[
             "flex-1 py-1 px-2 text-sm disabled:opacity-80 block w-full appearance-none",
-            "bg-transparent border-0 focus:outline-none focus:ring-0",
+            "bg-transparent border-0 focus:outline-hidden focus:ring-0",
             @input_class
           ]}
           {@rest}
@@ -283,7 +283,7 @@ defmodule DevelopmentWeb.Components.PasswordField do
         >
           <button
             type="button"
-            class="leading-6 focus:outline-none"
+            class="leading-6 focus:outline-hidden"
             aria-label={gettext("Show password")}
             aria-pressed="false"
             phx-click={
@@ -365,7 +365,7 @@ defmodule DevelopmentWeb.Components.PasswordField do
 
   defp rounded_size("extra_small"), do: "[&_.password-field-wrapper]:rounded-xs"
 
-  defp rounded_size("small"), do: "[&_.password-field-wrapper]:rounded"
+  defp rounded_size("small"), do: "[&_.password-field-wrapper]:rounded-sm"
 
   defp rounded_size("medium"), do: "[&_.password-field-wrapper]:rounded-md"
 
@@ -413,7 +413,7 @@ defmodule DevelopmentWeb.Components.PasswordField do
       "[&_.password-field-wrapper.password-field-error]:border-rose-700",
       "[&_.password-field-wrapper>input]:placeholder:text-base-text-light dark:[&_.password-field-wrapper>input]:placeholder:text-base-text-dark",
       "focus-within:[&_.password-field-wrapper]:ring-base-border-light dark:focus-within:[&_.password-field-wrapper]:ring-base-border-light",
-      "[&_.password-field-wrapper]:shadow-sm",
+      "[&_.password-field-wrapper]:shadow-xs",
       floating == "outer" &&
         "[&_.password-field-wrapper_.floating-label]:bg-white dark:[&_.password-field-wrapper_.floating-label]:bg-base-bg-dark"
     ]

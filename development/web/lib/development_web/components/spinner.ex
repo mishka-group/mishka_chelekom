@@ -174,9 +174,9 @@ defmodule DevelopmentWeb.Components.Spinner do
   defp spinner_content(%{type: "bars"} = assigns) do
     ~H"""
     <span class="sr-only">{gettext("Loading...")}</span>
-    <span class="block rounded-sm animate-bounce [animation-delay:-0.4s]"></span>
-    <span class="block rounded-sm animate-bounce [animation-delay:-0.2s]"></span>
-    <span class="block rounded-sm animate-bounce"></span>
+    <span class="block rounded-xs animate-bounce [animation-delay:-0.4s]"></span>
+    <span class="block rounded-xs animate-bounce [animation-delay:-0.2s]"></span>
+    <span class="block rounded-xs animate-bounce"></span>
     """
   end
 

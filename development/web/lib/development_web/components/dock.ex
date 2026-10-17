@@ -293,7 +293,7 @@ defmodule DevelopmentWeb.Components.Dock do
 
   defp dock_item_class(item, base_item_class, active_class, color, variant) do
     [
-      "dock-item w-full h-full px-2 py-1.5 rounded",
+      "dock-item w-full h-full px-2 py-1.5 rounded-sm",
       item_color_class(variant, item[:color] || color, item[:active]),
       base_item_class,
       item[:class],
@@ -311,7 +311,8 @@ defmodule DevelopmentWeb.Components.Dock do
   end
 
   defp item_color_class(variant, _color, _active)
-       when variant in ["base", "default", "shadow", "gradient"], do: nil
+       when variant in ["base", "default", "shadow", "gradient"],
+       do: nil
 
   defp item_color_class("bordered", _color, true),
     do: "bg-black/5 dark:bg-white/10"
@@ -333,10 +334,10 @@ defmodule DevelopmentWeb.Components.Dock do
     do: "fixed top-0 left-0 right-0 z-40"
 
   defp position_class("fixed_bottom_center"),
-    do: "fixed bottom-4 left-1/2 -translate-x-1/2 !w-fit z-40"
+    do: "fixed bottom-4 left-1/2 -translate-x-1/2 w-fit! z-40"
 
   defp position_class("fixed_top_center"),
-    do: "fixed top-4 left-1/2 -translate-x-1/2 !w-fit z-40"
+    do: "fixed top-4 left-1/2 -translate-x-1/2 w-fit! z-40"
 
   defp position_class(params) when is_binary(params), do: params
 
@@ -428,7 +429,7 @@ defmodule DevelopmentWeb.Components.Dock do
 
   defp rounded_size("extra_small"), do: "rounded-xs"
 
-  defp rounded_size("small"), do: "rounded"
+  defp rounded_size("small"), do: "rounded-sm"
 
   defp rounded_size("medium"), do: "rounded-md"
 
@@ -442,7 +443,7 @@ defmodule DevelopmentWeb.Components.Dock do
 
   defp color_variant("base", _) do
     [
-      "bg-white text-base-text-light border-base-border-light shadow-sm",
+      "bg-white text-base-text-light border-base-border-light shadow-xs",
       "dark:bg-base-bg-dark dark:text-base-text-dark dark:border-base-border-dark"
     ]
   end
@@ -653,70 +654,70 @@ defmodule DevelopmentWeb.Components.Dock do
 
   defp color_variant("gradient", "natural") do
     [
-      "bg-gradient-to-br from-gradient-natural-from-light to-gradient-natural-to-light text-white",
+      "bg-linear-to-br from-gradient-natural-from-light to-gradient-natural-to-light text-white",
       "dark:from-gradient-natural-from-dark dark:to-white dark:text-black"
     ]
   end
 
   defp color_variant("gradient", "primary") do
     [
-      "bg-gradient-to-br from-gradient-primary-from-light to-gradient-primary-to-light text-white",
+      "bg-linear-to-br from-gradient-primary-from-light to-gradient-primary-to-light text-white",
       "dark:from-gradient-primary-from-dark dark:to-gradient-primary-to-dark dark:text-black"
     ]
   end
 
   defp color_variant("gradient", "secondary") do
     [
-      "bg-gradient-to-br from-gradient-secondary-from-light to-gradient-secondary-to-light text-white",
+      "bg-linear-to-br from-gradient-secondary-from-light to-gradient-secondary-to-light text-white",
       "dark:from-gradient-secondary-from-dark dark:to-gradient-secondary-to-dark dark:text-black"
     ]
   end
 
   defp color_variant("gradient", "success") do
     [
-      "bg-gradient-to-br from-gradient-success-from-light to-gradient-success-to-light text-white",
+      "bg-linear-to-br from-gradient-success-from-light to-gradient-success-to-light text-white",
       "dark:from-gradient-success-from-dark dark:to-gradient-success-to-dark dark:text-black"
     ]
   end
 
   defp color_variant("gradient", "warning") do
     [
-      "bg-gradient-to-br from-gradient-warning-from-light to-gradient-warning-to-light text-white",
+      "bg-linear-to-br from-gradient-warning-from-light to-gradient-warning-to-light text-white",
       "dark:from-gradient-warning-from-dark dark:to-gradient-warning-to-dark dark:text-black"
     ]
   end
 
   defp color_variant("gradient", "danger") do
     [
-      "bg-gradient-to-br from-gradient-danger-from-light to-gradient-danger-to-light text-white",
+      "bg-linear-to-br from-gradient-danger-from-light to-gradient-danger-to-light text-white",
       "dark:from-gradient-danger-from-dark dark:to-gradient-danger-to-dark dark:text-black"
     ]
   end
 
   defp color_variant("gradient", "info") do
     [
-      "bg-gradient-to-br from-gradient-info-from-light to-gradient-info-to-light text-white",
+      "bg-linear-to-br from-gradient-info-from-light to-gradient-info-to-light text-white",
       "dark:from-gradient-info-from-dark dark:to-gradient-info-to-dark dark:text-black"
     ]
   end
 
   defp color_variant("gradient", "misc") do
     [
-      "bg-gradient-to-br from-gradient-misc-from-light to-gradient-misc-to-light text-white",
+      "bg-linear-to-br from-gradient-misc-from-light to-gradient-misc-to-light text-white",
       "dark:from-gradient-misc-from-dark dark:to-gradient-misc-to-dark dark:text-black"
     ]
   end
 
   defp color_variant("gradient", "dawn") do
     [
-      "bg-gradient-to-br from-gradient-dawn-from-light to-gradient-dawn-to-light text-white",
+      "bg-linear-to-br from-gradient-dawn-from-light to-gradient-dawn-to-light text-white",
       "dark:from-gradient-dawn-from-dark dark:to-gradient-dawn-to-dark dark:text-black"
     ]
   end
 
   defp color_variant("gradient", "silver") do
     [
-      "bg-gradient-to-br from-gradient-silver-from-light to-gradient-silver-to-light text-white",
+      "bg-linear-to-br from-gradient-silver-from-light to-gradient-silver-to-light text-white",
       "dark:from-gradient-silver-from-dark dark:to-gradient-silver-to-dark dark:text-black"
     ]
   end

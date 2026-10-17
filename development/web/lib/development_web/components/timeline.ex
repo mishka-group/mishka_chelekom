@@ -58,7 +58,7 @@ defmodule DevelopmentWeb.Components.Timeline do
             </a>
             to
             <span class={[
-              "bg-gray-100 text-gray-800 text-xs font-normal me-2 px-2.5 py-0.5 rounded",
+              "bg-gray-100 text-gray-800 text-xs font-normal me-2 px-2.5 py-0.5 rounded-sm",
               "dark:bg-gray-600 dark:text-gray-300"
             ]}>
               Funny Group

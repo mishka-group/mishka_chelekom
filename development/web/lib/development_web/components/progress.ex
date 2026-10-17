@@ -448,7 +448,7 @@ defmodule DevelopmentWeb.Components.Progress do
           id={"#{@id}-tooltip"}
           class={[
             "absolute z-50 transition-all ease-in-out delay-100 duration-200 w-fit max-w-52",
-            "progress-tooltip p-1 text-center bg-natural-light text-white dark:bg-natural-disabled-light dark:text-black rounded",
+            "progress-tooltip p-1 text-center bg-natural-light text-white dark:bg-natural-disabled-light dark:text-black rounded-sm",
             tooltip[:class]
           ]}
         >
@@ -535,7 +535,7 @@ defmodule DevelopmentWeb.Components.Progress do
   end
 
   defp rounded_size("small") do
-    "rounded [&:not(.vertical-progress)_.progress-section:last-of-type]:rounded-e"
+    "rounded-sm [&:not(.vertical-progress)_.progress-section:last-of-type]:rounded-e-sm"
   end
 
   defp rounded_size("medium") do
@@ -674,9 +674,9 @@ defmodule DevelopmentWeb.Components.Progress do
 
   defp color_variant("gradient", "natural") do
     [
-      "[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l",
+      "[&:not(.progress-vertical)]:bg-linear-to-r rtl:[&:not(.progress-vertical)]:bg-linear-to-l",
       "[&:not(.progress-vertical)]:from-gradient-natural-from-light [&:not(.progress-vertical)]:via-gradient-natural-to-light [&:not(.progress-vertical)]:to-default-light-gray text-white",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-default-light-gray [&.progress-vertical]:to-gradient-natural-to-light [&.progress-vertical]:via-gradient-natural-to-light",
+      "[&.progress-vertical]:bg-linear-to-b [&.progress-vertical]:from-default-light-gray [&.progress-vertical]:to-gradient-natural-to-light [&.progress-vertical]:via-gradient-natural-to-light",
       "dark:[&:not(.progress-vertical)]:from-gradient-natural-from-dark dark:[&:not(.progress-vertical)]:via-white dark:[&:not(.progress-vertical)]:to-default-gray text-black",
       "dark:[&.progress-vertical]:to-gradient-natural-from-dark dark:[&.progress-vertical]:via-gradient-natural-from-dark dark:[&.progress-vertical]:from-default-gray"
     ]
@@ -684,9 +684,9 @@ defmodule DevelopmentWeb.Components.Progress do
 
   defp color_variant("gradient", "primary") do
     [
-      "[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l",
+      "[&:not(.progress-vertical)]:bg-linear-to-r rtl:[&:not(.progress-vertical)]:bg-linear-to-l",
       "[&:not(.progress-vertical)]:from-gradient-primary-from-light [&:not(.progress-vertical)]:via-gradient-primary-to-light [&:not(.progress-vertical)]:to-default-light-gray text-white",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-default-light-gray [&.progress-vertical]:to-gradient-primary-to-light [&.progress-vertical]:via-gradient-primary-to-light",
+      "[&.progress-vertical]:bg-linear-to-b [&.progress-vertical]:from-default-light-gray [&.progress-vertical]:to-gradient-primary-to-light [&.progress-vertical]:via-gradient-primary-to-light",
       "dark:[&:not(.progress-vertical)]:from-gradient-primary-from-dark dark:[&:not(.progress-vertical)]:via-gradient-primary-to-dark dark:[&:not(.progress-vertical)]:to-default-gray text-black",
       "dark:[&.progress-vertical]:to-gradient-primary-to-dark dark:[&.progress-vertical]:via-gradient-primary-to-dark dark:[&.progress-vertical]:from-default-gray"
     ]
@@ -694,9 +694,9 @@ defmodule DevelopmentWeb.Components.Progress do
 
   defp color_variant("gradient", "secondary") do
     [
-      "[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l",
+      "[&:not(.progress-vertical)]:bg-linear-to-r rtl:[&:not(.progress-vertical)]:bg-linear-to-l",
       "[&:not(.progress-vertical)]:from-gradient-secondary-from-light [&:not(.progress-vertical)]:via-gradient-secondary-to-light [&:not(.progress-vertical)]:to-default-light-gray text-white",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-default-light-gray [&.progress-vertical]:to-gradient-secondary-to-light [&.progress-vertical]:via-gradient-secondary-to-light",
+      "[&.progress-vertical]:bg-linear-to-b [&.progress-vertical]:from-default-light-gray [&.progress-vertical]:to-gradient-secondary-to-light [&.progress-vertical]:via-gradient-secondary-to-light",
       "dark:[&:not(.progress-vertical)]:from-gradient-secondary-from-dark dark:[&:not(.progress-vertical)]:via-gradient-secondary-to-dark dark:[&:not(.progress-vertical)]:to-default-gray text-black",
       "dark:[&.progress-vertical]:to-gradient-secondary-to-dark dark:[&.progress-vertical]:via-gradient-secondary-to-dark dark:[&.progress-vertical]:from-default-gray"
     ]
@@ -704,9 +704,9 @@ defmodule DevelopmentWeb.Components.Progress do
 
   defp color_variant("gradient", "success") do
     [
-      "[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l",
+      "[&:not(.progress-vertical)]:bg-linear-to-r rtl:[&:not(.progress-vertical)]:bg-linear-to-l",
       "[&:not(.progress-vertical)]:from-gradient-success-from-light [&:not(.progress-vertical)]:via-gradient-success-to-light [&:not(.progress-vertical)]:to-default-light-gray text-white",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-default-light-gray [&.progress-vertical]:to-gradient-success-to-light [&.progress-vertical]:via-gradient-success-to-light",
+      "[&.progress-vertical]:bg-linear-to-b [&.progress-vertical]:from-default-light-gray [&.progress-vertical]:to-gradient-success-to-light [&.progress-vertical]:via-gradient-success-to-light",
       "dark:[&:not(.progress-vertical)]:from-gradient-success-from-dark dark:[&:not(.progress-vertical)]:via-gradient-success-to-dark dark:[&:not(.progress-vertical)]:to-default-gray text-black",
       "dark:[&.progress-vertical]:to-gradient-success-to-dark dark:[&.progress-vertical]:via-gradient-success-to-dark dark:[&.progress-vertical]:from-default-gray"
     ]
@@ -714,9 +714,9 @@ defmodule DevelopmentWeb.Components.Progress do
 
   defp color_variant("gradient", "warning") do
     [
-      "[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l",
+      "[&:not(.progress-vertical)]:bg-linear-to-r rtl:[&:not(.progress-vertical)]:bg-linear-to-l",
       "[&:not(.progress-vertical)]:from-gradient-warning-from-light [&:not(.progress-vertical)]:via-gradient-warning-to-light [&:not(.progress-vertical)]:to-default-light-gray text-white",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-default-light-gray [&.progress-vertical]:to-gradient-warning-to-light [&.progress-vertical]:via-gradient-warning-from-light",
+      "[&.progress-vertical]:bg-linear-to-b [&.progress-vertical]:from-default-light-gray [&.progress-vertical]:to-gradient-warning-to-light [&.progress-vertical]:via-gradient-warning-from-light",
       "dark:[&:not(.progress-vertical)]:from-gradient-warning-from-dark dark:[&:not(.progress-vertical)]:via-gradient-warning-to-dark dark:[&:not(.progress-vertical)]:to-default-gray text-black",
       "dark:[&.progress-vertical]:to-gradient-warning-to-dark dark:[&.progress-vertical]:via-gradient-warning-to-dark dark:[&.progress-vertical]:from-default-gray"
     ]
@@ -724,9 +724,9 @@ defmodule DevelopmentWeb.Components.Progress do
 
   defp color_variant("gradient", "danger") do
     [
-      "[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l",
+      "[&:not(.progress-vertical)]:bg-linear-to-r rtl:[&:not(.progress-vertical)]:bg-linear-to-l",
       "[&:not(.progress-vertical)]:from-gradient-danger-from-light [&:not(.progress-vertical)]:via-gradient-danger-to-light [&:not(.progress-vertical)]:to-default-light-gray text-white",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-default-light-gray [&.progress-vertical]:to-gradient-danger-to-light [&.progress-vertical]:via-gradient-danger-to-light",
+      "[&.progress-vertical]:bg-linear-to-b [&.progress-vertical]:from-default-light-gray [&.progress-vertical]:to-gradient-danger-to-light [&.progress-vertical]:via-gradient-danger-to-light",
       "dark:[&:not(.progress-vertical)]:from-gradient-danger-from-dark dark:[&:not(.progress-vertical)]:via-gradient-danger-to-dark dark:[&:not(.progress-vertical)]:to-default-gray text-black",
       "dark:[&.progress-vertical]:to-gradient-danger-to-dark dark:[&.progress-vertical]:via-gradient-danger-to-dark dark:[&.progress-vertical]:from-default-gray"
     ]
@@ -734,9 +734,9 @@ defmodule DevelopmentWeb.Components.Progress do
 
   defp color_variant("gradient", "info") do
     [
-      "[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l",
+      "[&:not(.progress-vertical)]:bg-linear-to-r rtl:[&:not(.progress-vertical)]:bg-linear-to-l",
       "[&:not(.progress-vertical)]:from-gradient-info-from-light [&:not(.progress-vertical)]:via-gradient-info-to-light [&:not(.progress-vertical)]:to-default-light-gray text-white",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-default-light-gray [&.progress-vertical]:to-gradient-info-to-light [&.progress-vertical]:via-gradient-info-to-light",
+      "[&.progress-vertical]:bg-linear-to-b [&.progress-vertical]:from-default-light-gray [&.progress-vertical]:to-gradient-info-to-light [&.progress-vertical]:via-gradient-info-to-light",
       "dark:[&:not(.progress-vertical)]:from-gradient-info-from-dark dark:[&:not(.progress-vertical)]:via-gradient-info-to-dark dark:[&:not(.progress-vertical)]:to-default-gray text-black",
       "dark:[&.progress-vertical]:to-gradient-info-to-dark dark:[&.progress-vertical]:via-gradient-info-to-dark dark:[&.progress-vertical]:from-default-gray"
     ]
@@ -744,9 +744,9 @@ defmodule DevelopmentWeb.Components.Progress do
 
   defp color_variant("gradient", "misc") do
     [
-      "[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l",
+      "[&:not(.progress-vertical)]:bg-linear-to-r rtl:[&:not(.progress-vertical)]:bg-linear-to-l",
       "[&:not(.progress-vertical)]:from-gradient-misc-from-light [&:not(.progress-vertical)]:via-gradient-misc-to-light [&:not(.progress-vertical)]:to-default-light-gray text-white",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-default-light-gray [&.progress-vertical]:to-gradient-misc-to-light [&.progress-vertical]:via-gradient-misc-to-light",
+      "[&.progress-vertical]:bg-linear-to-b [&.progress-vertical]:from-default-light-gray [&.progress-vertical]:to-gradient-misc-to-light [&.progress-vertical]:via-gradient-misc-to-light",
       "dark:[&:not(.progress-vertical)]:from-gradient-misc-from-dark dark:[&:not(.progress-vertical)]:via-gradient-misc-to-dark dark:[&:not(.progress-vertical)]:to-default-gray text-black",
       "dark:[&.progress-vertical]:to-gradient-misc-to-dark dark:[&.progress-vertical]:via-gradient-misc-to-dark dark:[&.progress-vertical]:from-default-gray"
     ]
@@ -754,9 +754,9 @@ defmodule DevelopmentWeb.Components.Progress do
 
   defp color_variant("gradient", "dawn") do
     [
-      "[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l",
+      "[&:not(.progress-vertical)]:bg-linear-to-r rtl:[&:not(.progress-vertical)]:bg-linear-to-l",
       "[&:not(.progress-vertical)]:from-gradient-dawn-from-light [&:not(.progress-vertical)]:via-gradient-dawn-to-light [&:not(.progress-vertical)]:to-default-light-gray text-white",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-default-light-gray [&.progress-vertical]:to-gradient-dawn-to-light [&.progress-vertical]:via-gradient-dawn-to-light",
+      "[&.progress-vertical]:bg-linear-to-b [&.progress-vertical]:from-default-light-gray [&.progress-vertical]:to-gradient-dawn-to-light [&.progress-vertical]:via-gradient-dawn-to-light",
       "dark:[&:not(.progress-vertical)]:from-gradient-dawn-from-dark dark:[&:not(.progress-vertical)]:via-gradient-dawn-to-dark dark:[&:not(.progress-vertical)]:to-default-gray text-black",
       "dark:[&.progress-vertical]:to-gradient-dawn-to-dark dark:[&.progress-vertical]:via-gradient-dawn-to-dark dark:[&.progress-vertical]:from-default-gray"
     ]
@@ -764,9 +764,9 @@ defmodule DevelopmentWeb.Components.Progress do
 
   defp color_variant("gradient", "silver") do
     [
-      "[&:not(.progress-vertical)]:bg-gradient-to-r rtl:[&:not(.progress-vertical)]:bg-gradient-to-l",
+      "[&:not(.progress-vertical)]:bg-linear-to-r rtl:[&:not(.progress-vertical)]:bg-linear-to-l",
       "[&:not(.progress-vertical)]:from-gradient-silver-from-light [&:not(.progress-vertical)]:via-gradient-silver-to-light [&:not(.progress-vertical)]:to-default-light-gray text-white",
-      "[&.progress-vertical]:bg-gradient-to-b [&.progress-vertical]:from-default-light-gray [&.progress-vertical]:to-gradient-silver-to-light [&.progress-vertical]:via-gradient-silver-from-light",
+      "[&.progress-vertical]:bg-linear-to-b [&.progress-vertical]:from-default-light-gray [&.progress-vertical]:to-gradient-silver-to-light [&.progress-vertical]:via-gradient-silver-from-light",
       "dark:[&:not(.progress-vertical)]:from-gradient-silver-from-dark dark:[&:not(.progress-vertical)]:via-gradient-silver-to-dark dark:[&:not(.progress-vertical)]:to-default-gray text-black",
       "dark:[&.progress-vertical]:to-gradient-silver-to-dark dark:[&.progress-vertical]:via-gradient-silver-to-dark dark:[&.progress-vertical]:from-default-gray"
     ]

@@ -230,7 +230,7 @@ defmodule DevelopmentWeb.Components.Combobox do
 
         <div phx-update="ignore" id={"#{@id}-combo-wrapper"} class="relative">
           <button
-            class="combobox-trigger w-full text-start py-1 flex items-center justify-between focus:outline-none border"
+            class="combobox-trigger w-full text-start py-1 flex items-center justify-between focus:outline-hidden border border-base-border-light dark:border-base-border-dark"
             role="combobox"
             aria-haspopup="listbox"
             aria-expanded="false"
@@ -317,7 +317,7 @@ defmodule DevelopmentWeb.Components.Combobox do
                 aria-autocomplete="list"
                 aria-activedescendant=""
                 aria-label={@search_placeholder}
-                class="combobox-search-input border appearance-none bg-transparent px-2 py-1 w-full focus:outline-none"
+                class="combobox-search-input border appearance-none bg-transparent px-2 py-1 w-full focus:outline-hidden"
                 placeholder={@search_placeholder}
               />
             </div>
@@ -367,7 +367,7 @@ defmodule DevelopmentWeb.Components.Combobox do
 
                 <div
                   :if={@creatable}
-                  class="combobox-create-option combobox-option cursor-pointer rounded flex items-center gap-2"
+                  class="combobox-create-option combobox-option cursor-pointer rounded-sm flex items-center gap-2"
                   data-part="create-option"
                   role="option"
                   hidden
@@ -450,7 +450,7 @@ defmodule DevelopmentWeb.Components.Combobox do
 
         <div id={"#{@id}-combo-wrapper"} class="relative" phx-update="ignore">
           <button
-            class="combobox-trigger w-full text-start py-1 flex items-center justify-between focus:outline-none border"
+            class="combobox-trigger w-full text-start py-1 flex items-center justify-between focus:outline-hidden border border-base-border-light dark:border-base-border-dark"
             role="combobox"
             aria-haspopup="listbox"
             aria-expanded="false"
@@ -529,7 +529,7 @@ defmodule DevelopmentWeb.Components.Combobox do
                 aria-autocomplete="list"
                 aria-activedescendant=""
                 aria-label={@search_placeholder}
-                class="combobox-search-input border appearance-none bg-transparent px-2 py-1 w-full focus:outline-none"
+                class="combobox-search-input border appearance-none bg-transparent px-2 py-1 w-full focus:outline-hidden"
                 data-part="search"
                 placeholder={@search_placeholder}
               />
@@ -580,7 +580,7 @@ defmodule DevelopmentWeb.Components.Combobox do
 
                 <div
                   :if={@creatable}
-                  class="combobox-create-option combobox-option cursor-pointer rounded flex items-center gap-2"
+                  class="combobox-create-option combobox-option cursor-pointer rounded-sm flex items-center gap-2"
                   data-part="create-option"
                   role="option"
                   hidden
@@ -611,7 +611,7 @@ defmodule DevelopmentWeb.Components.Combobox do
       role="option"
       class={[
         display_class(
-          "combobox-option cursor-pointer rounded flex justify-between items-center",
+          "combobox-option cursor-pointer rounded-sm flex justify-between items-center",
           @class
         ),
         @class
@@ -716,7 +716,7 @@ defmodule DevelopmentWeb.Components.Combobox do
 
   defp rounded_size("small") do
     [
-      "[&_.combobox-trigger]:rounded",
+      "[&_.combobox-trigger]:rounded-sm",
       "[&_.combobox-pill]:rounded-[0.13rem]"
     ]
   end
@@ -807,7 +807,7 @@ defmodule DevelopmentWeb.Components.Combobox do
 
   defp color_variant("base", _) do
     [
-      "[&_.combobox-trigger]:bg-white text-black [&_.combobox-trigger]:border-base-border-light [&_.combobox-trigger]:shadow-sm",
+      "[&_.combobox-trigger]:bg-white text-black [&_.combobox-trigger]:border-base-border-light [&_.combobox-trigger]:shadow-xs",
       "dark:[&_.combobox-trigger]:bg-base-bg-dark dark:text-base-text-dark dark:[&_.combobox-trigger]:border-base-border-dark",
       "[&_.combobox-pill]:text-black [&_.combobox-pill]:bg-base-border-light"
     ]
@@ -1007,7 +1007,7 @@ defmodule DevelopmentWeb.Components.Combobox do
 
   defp dropdown_color_variant("base", _) do
     [
-      "bg-white border-base-border-light shadow text-base-text-light dark:text-base-text-dark",
+      "bg-white border-base-border-light shadow-sm text-base-text-light dark:text-base-text-dark",
       "dark:bg-base-bg-dark dark:border-base-border-dark",
       "[&_.combobox-search-input]:border-base-border-light dark:[&_.combobox-search-input]:border-base-border-dark",
       "[&_.combobox-option[data-combobox-navigate]]:bg-base-border-light dark:[&_.combobox-option[data-combobox-navigate]]:bg-base-border-dark [&_.combobox-option[data-combobox-navigate]]:text-black dark:[&_.combobox-option[data-combobox-navigate]]:text-base-text-dark",
@@ -1256,7 +1256,7 @@ defmodule DevelopmentWeb.Components.Combobox do
   end
 
   defp dropdown_rounded_size("extra_small"), do: "rounded-xs"
-  defp dropdown_rounded_size("small"), do: "rounded"
+  defp dropdown_rounded_size("small"), do: "rounded-sm"
   defp dropdown_rounded_size("medium"), do: "rounded-md"
   defp dropdown_rounded_size("large"), do: "rounded-lg"
   defp dropdown_rounded_size("extra_large"), do: "rounded-xl"
@@ -1274,7 +1274,7 @@ defmodule DevelopmentWeb.Components.Combobox do
   defp dropdown_border_size(params, _) when is_binary(params), do: params
 
   defp dropdown_search_input_rounded("extra_small"), do: "[&_.combobox-search-input]:rounded-xs"
-  defp dropdown_search_input_rounded("small"), do: "[&_.combobox-search-input]:rounded"
+  defp dropdown_search_input_rounded("small"), do: "[&_.combobox-search-input]:rounded-sm"
   defp dropdown_search_input_rounded("medium"), do: "[&_.combobox-search-input]:rounded-md"
   defp dropdown_search_input_rounded("large"), do: "[&_.combobox-search-input]:rounded-lg"
   defp dropdown_search_input_rounded("extra_large"), do: "[&_.combobox-search-input]:rounded-xl"

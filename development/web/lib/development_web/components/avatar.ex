@@ -384,7 +384,7 @@ defmodule DevelopmentWeb.Components.Avatar do
 
   defp rounded_size("extra_small"), do: "rounded-xs"
 
-  defp rounded_size("small"), do: "rounded"
+  defp rounded_size("small"), do: "rounded-sm"
 
   defp rounded_size("medium"), do: "rounded-md"
 
@@ -426,66 +426,66 @@ defmodule DevelopmentWeb.Components.Avatar do
 
   defp size_class("extra_small", :image) do
     [
-      "[&>img]:size-8 [&_.indicator-top-left]:!top-0 [&_.indicator-top-left]:!left-0",
-      "[&_.indicator-top-right]:!top-0 [&_.indicator-top-right]:!right-0",
-      "[&_.indicator-bottom-right]:!bottom-0 [&_.indicator-bottom-right]:!right-0",
-      "[&_.indicator-bottom-left]:!bottom-0 [&_.indicator-bottom-left]:!left-0",
-      "[&_.indicator-top-left]:!translate-y-0 [&_.indicator-top-left]:!translate-x-0",
-      "[&_.indicator-top-right]:!translate-y-0 [&_.indicator-top-right]:!translate-x-0",
-      "[&_.indicator-bottom-right]:!translate-y-0 [&_.indicator-bottom-right]:!translate-x-0",
-      "[&_.indicator-bottom-left]:!translate-y-0 [&_.indicator-bottom-left]:!translate-x-0"
+      "[&>img]:size-8 [&_.indicator-top-left]:top-0! [&_.indicator-top-left]:left-0!",
+      "[&_.indicator-top-right]:top-0! [&_.indicator-top-right]:right-0!",
+      "[&_.indicator-bottom-right]:bottom-0! [&_.indicator-bottom-right]:right-0!",
+      "[&_.indicator-bottom-left]:bottom-0! [&_.indicator-bottom-left]:left-0!",
+      "[&_.indicator-top-left]:translate-y-0! [&_.indicator-top-left]:translate-x-0!",
+      "[&_.indicator-top-right]:translate-y-0! [&_.indicator-top-right]:translate-x-0!",
+      "[&_.indicator-bottom-right]:translate-y-0! [&_.indicator-bottom-right]:translate-x-0!",
+      "[&_.indicator-bottom-left]:translate-y-0! [&_.indicator-bottom-left]:translate-x-0!"
     ]
   end
 
   defp size_class("small", :image) do
     [
-      "[&>img]:size-9 [&_.indicator-top-left]:!top-0 [&_.indicator-top-left]:!left-0",
-      "[&_.indicator-top-right]:!top-0 [&_.indicator-top-right]:!right-0",
-      "[&_.indicator-bottom-right]:!bottom-0 [&_.indicator-bottom-right]:!right-0",
-      "[&_.indicator-bottom-left]:!bottom-0 [&_.indicator-bottom-left]:!left-0",
-      "[&_.indicator-top-left]:!translate-y-0 [&_.indicator-top-left]:!translate-x-0",
-      "[&_.indicator-top-right]:!translate-y-0 [&_.indicator-top-right]:!translate-x-0",
-      "[&_.indicator-bottom-right]:!translate-y-0 [&_.indicator-bottom-right]:!translate-x-0",
-      "[&_.indicator-bottom-left]:!translate-y-0 [&_.indicator-bottom-left]:!translate-x-0"
+      "[&>img]:size-9 [&_.indicator-top-left]:top-0! [&_.indicator-top-left]:left-0!",
+      "[&_.indicator-top-right]:top-0! [&_.indicator-top-right]:right-0!",
+      "[&_.indicator-bottom-right]:bottom-0! [&_.indicator-bottom-right]:right-0!",
+      "[&_.indicator-bottom-left]:bottom-0! [&_.indicator-bottom-left]:left-0!",
+      "[&_.indicator-top-left]:translate-y-0! [&_.indicator-top-left]:translate-x-0!",
+      "[&_.indicator-top-right]:translate-y-0! [&_.indicator-top-right]:translate-x-0!",
+      "[&_.indicator-bottom-right]:translate-y-0! [&_.indicator-bottom-right]:translate-x-0!",
+      "[&_.indicator-bottom-left]:translate-y-0! [&_.indicator-bottom-left]:translate-x-0!"
     ]
   end
 
   defp size_class("medium", :image) do
     [
-      "[&>img]:size-10 [&_.indicator-top-left]:!top-0 [&_.indicator-top-left]:!left-0",
-      "[&_.indicator-top-right]:!top-0 [&_.indicator-top-right]:!right-0",
-      "[&_.indicator-bottom-right]:!bottom-0 [&_.indicator-bottom-right]:!right-0",
-      "[&_.indicator-bottom-left]:!bottom-0 [&_.indicator-bottom-left]:!left-0",
-      "[&_.indicator-top-left]:!translate-y-0 [&_.indicator-top-left]:!translate-x-0",
-      "[&_.indicator-top-right]:!translate-y-0 [&_.indicator-top-right]:!translate-x-0",
-      "[&_.indicator-bottom-right]:!translate-y-0 [&_.indicator-bottom-right]:!translate-x-0",
-      "[&_.indicator-bottom-left]:!translate-y-0 [&_.indicator-bottom-left]:!translate-x-0"
+      "[&>img]:size-10 [&_.indicator-top-left]:top-0! [&_.indicator-top-left]:left-0!",
+      "[&_.indicator-top-right]:top-0! [&_.indicator-top-right]:right-0!",
+      "[&_.indicator-bottom-right]:bottom-0! [&_.indicator-bottom-right]:right-0!",
+      "[&_.indicator-bottom-left]:bottom-0! [&_.indicator-bottom-left]:left-0!",
+      "[&_.indicator-top-left]:translate-y-0! [&_.indicator-top-left]:translate-x-0!",
+      "[&_.indicator-top-right]:translate-y-0! [&_.indicator-top-right]:translate-x-0!",
+      "[&_.indicator-bottom-right]:translate-y-0! [&_.indicator-bottom-right]:translate-x-0!",
+      "[&_.indicator-bottom-left]:translate-y-0! [&_.indicator-bottom-left]:translate-x-0!"
     ]
   end
 
   defp size_class("large", :image) do
     [
-      "[&>img]:size-11 [&_.indicator-top-left]:!top-0.5 [&_.indicator-top-left]:!left-0.5",
-      "[&_.indicator-top-right]:!top-0.5 [&_.indicator-top-right]:!right-0.5",
-      "[&_.indicator-bottom-right]:!bottom-0.5 [&_.indicator-bottom-right]:!right-0.5",
-      "[&_.indicator-bottom-left]:!bottom-0.5 [&_.indicator-bottom-left]:!left-0.5",
-      "[&_.indicator-top-left]:!translate-y-0 [&_.indicator-top-left]:!translate-x-0",
-      "[&_.indicator-top-right]:!translate-y-0 [&_.indicator-top-right]:!translate-x-0",
-      "[&_.indicator-bottom-right]:!translate-y-0 [&_.indicator-bottom-right]:!translate-x-0",
-      "[&_.indicator-bottom-left]:!translate-y-0 [&_.indicator-bottom-left]:!translate-x-0"
+      "[&>img]:size-11 [&_.indicator-top-left]:top-0.5! [&_.indicator-top-left]:left-0.5!",
+      "[&_.indicator-top-right]:top-0.5! [&_.indicator-top-right]:right-0.5!",
+      "[&_.indicator-bottom-right]:bottom-0.5! [&_.indicator-bottom-right]:right-0.5!",
+      "[&_.indicator-bottom-left]:bottom-0.5! [&_.indicator-bottom-left]:left-0.5!",
+      "[&_.indicator-top-left]:translate-y-0! [&_.indicator-top-left]:translate-x-0!",
+      "[&_.indicator-top-right]:translate-y-0! [&_.indicator-top-right]:translate-x-0!",
+      "[&_.indicator-bottom-right]:translate-y-0! [&_.indicator-bottom-right]:translate-x-0!",
+      "[&_.indicator-bottom-left]:translate-y-0! [&_.indicator-bottom-left]:translate-x-0!"
     ]
   end
 
   defp size_class("extra_large", :image) do
     [
-      "[&>img]:size-12 [&_.indicator-top-left]:!top-0.5 [&_.indicator-top-left]:!left-0.5",
-      "[&_.indicator-top-right]:!top-0.5 [&_.indicator-top-right]:!right-0.5",
-      "[&_.indicator-bottom-right]:!bottom-0.5 [&_.indicator-bottom-right]:!right-0.5",
-      "[&_.indicator-bottom-left]:!bottom-0.5 [&_.indicator-bottom-left]:!left-0.5",
-      "[&_.indicator-top-left]:!translate-y-0 [&_.indicator-top-left]:!translate-x-0",
-      "[&_.indicator-top-right]:!translate-y-0 [&_.indicator-top-right]:!translate-x-0",
-      "[&_.indicator-bottom-right]:!translate-y-0 [&_.indicator-bottom-right]:!translate-x-0",
-      "[&_.indicator-bottom-left]:!translate-y-0 [&_.indicator-bottom-left]:!translate-x-0"
+      "[&>img]:size-12 [&_.indicator-top-left]:top-0.5! [&_.indicator-top-left]:left-0.5!",
+      "[&_.indicator-top-right]:top-0.5! [&_.indicator-top-right]:right-0.5!",
+      "[&_.indicator-bottom-right]:bottom-0.5! [&_.indicator-bottom-right]:right-0.5!",
+      "[&_.indicator-bottom-left]:bottom-0.5! [&_.indicator-bottom-left]:left-0.5!",
+      "[&_.indicator-top-left]:translate-y-0! [&_.indicator-top-left]:translate-x-0!",
+      "[&_.indicator-top-right]:translate-y-0! [&_.indicator-top-right]:translate-x-0!",
+      "[&_.indicator-bottom-right]:translate-y-0! [&_.indicator-bottom-right]:translate-x-0!",
+      "[&_.indicator-bottom-left]:translate-y-0! [&_.indicator-bottom-left]:translate-x-0!"
     ]
   end
 
@@ -494,73 +494,73 @@ defmodule DevelopmentWeb.Components.Avatar do
 
   defp size_class("extra_small", :text) do
     [
-      "size-8 text-xs [&_.indicator-top-left]:!top-0 [&_.indicator-top-left]:!left-0",
-      "[&_.indicator-top-right]:!top-0 [&_.indicator-top-right]:!right-0",
-      "[&_.indicator-bottom-right]:!bottom-0 [&_.indicator-bottom-right]:!right-0",
-      "[&_.indicator-bottom-left]:!bottom-0 [&_.indicator-bottom-left]:!left-0",
-      "[&_.indicator-top-left]:!translate-y-0 [&_.indicator-top-left]:!translate-x-0",
-      "[&_.indicator-top-right]:!translate-y-0 [&_.indicator-top-right]:!translate-x-0",
-      "[&_.indicator-bottom-right]:!translate-y-0 [&_.indicator-bottom-right]:!translate-x-0",
-      "[&_.indicator-bottom-left]:!translate-y-0 [&_.indicator-bottom-left]:!translate-x-0"
+      "size-8 text-xs [&_.indicator-top-left]:top-0! [&_.indicator-top-left]:left-0!",
+      "[&_.indicator-top-right]:top-0! [&_.indicator-top-right]:right-0!",
+      "[&_.indicator-bottom-right]:bottom-0! [&_.indicator-bottom-right]:right-0!",
+      "[&_.indicator-bottom-left]:bottom-0! [&_.indicator-bottom-left]:left-0!",
+      "[&_.indicator-top-left]:translate-y-0! [&_.indicator-top-left]:translate-x-0!",
+      "[&_.indicator-top-right]:translate-y-0! [&_.indicator-top-right]:translate-x-0!",
+      "[&_.indicator-bottom-right]:translate-y-0! [&_.indicator-bottom-right]:translate-x-0!",
+      "[&_.indicator-bottom-left]:translate-y-0! [&_.indicator-bottom-left]:translate-x-0!"
     ]
   end
 
   defp size_class("small", :text) do
     [
-      "size-9 text-sm [&_.indicator-top-left]:!top-0 [&_.indicator-top-left]:!left-0",
-      "[&_.indicator-top-right]:!top-0 [&_.indicator-top-right]:!right-0",
-      "[&_.indicator-bottom-right]:!bottom-0 [&_.indicator-bottom-right]:!right-0",
-      "[&_.indicator-bottom-left]:!bottom-0 [&_.indicator-bottom-left]:!left-0",
-      "[&_.indicator-top-left]:!translate-y-0 [&_.indicator-top-left]:!translate-x-0",
-      "[&_.indicator-top-right]:!translate-y-0 [&_.indicator-top-right]:!translate-x-0",
-      "[&_.indicator-bottom-right]:!translate-y-0 [&_.indicator-bottom-right]:!translate-x-0",
-      "[&_.indicator-bottom-left]:!translate-y-0 [&_.indicator-bottom-left]:!translate-x-0"
+      "size-9 text-sm [&_.indicator-top-left]:top-0! [&_.indicator-top-left]:left-0!",
+      "[&_.indicator-top-right]:top-0! [&_.indicator-top-right]:right-0!",
+      "[&_.indicator-bottom-right]:bottom-0! [&_.indicator-bottom-right]:right-0!",
+      "[&_.indicator-bottom-left]:bottom-0! [&_.indicator-bottom-left]:left-0!",
+      "[&_.indicator-top-left]:translate-y-0! [&_.indicator-top-left]:translate-x-0!",
+      "[&_.indicator-top-right]:translate-y-0! [&_.indicator-top-right]:translate-x-0!",
+      "[&_.indicator-bottom-right]:translate-y-0! [&_.indicator-bottom-right]:translate-x-0!",
+      "[&_.indicator-bottom-left]:translate-y-0! [&_.indicator-bottom-left]:translate-x-0!"
     ]
   end
 
   defp size_class("medium", :text) do
     [
-      "size-10 text-base [&_.indicator-top-left]:!top-0 [&_.indicator-top-left]:!left-0",
-      "[&_.indicator-top-right]:!top-0 [&_.indicator-top-right]:!right-0",
-      "[&_.indicator-bottom-right]:!bottom-0 [&_.indicator-bottom-right]:!right-0",
-      "[&_.indicator-bottom-left]:!bottom-0 [&_.indicator-bottom-left]:!left-0",
-      "[&_.indicator-top-left]:!translate-y-0 [&_.indicator-top-left]:!translate-x-0",
-      "[&_.indicator-top-right]:!translate-y-0 [&_.indicator-top-right]:!translate-x-0",
-      "[&_.indicator-bottom-right]:!translate-y-0 [&_.indicator-bottom-right]:!translate-x-0",
-      "[&_.indicator-bottom-left]:!translate-y-0 [&_.indicator-bottom-left]:!translate-x-0"
+      "size-10 text-base [&_.indicator-top-left]:top-0! [&_.indicator-top-left]:left-0!",
+      "[&_.indicator-top-right]:top-0! [&_.indicator-top-right]:right-0!",
+      "[&_.indicator-bottom-right]:bottom-0! [&_.indicator-bottom-right]:right-0!",
+      "[&_.indicator-bottom-left]:bottom-0! [&_.indicator-bottom-left]:left-0!",
+      "[&_.indicator-top-left]:translate-y-0! [&_.indicator-top-left]:translate-x-0!",
+      "[&_.indicator-top-right]:translate-y-0! [&_.indicator-top-right]:translate-x-0!",
+      "[&_.indicator-bottom-right]:translate-y-0! [&_.indicator-bottom-right]:translate-x-0!",
+      "[&_.indicator-bottom-left]:translate-y-0! [&_.indicator-bottom-left]:translate-x-0!"
     ]
   end
 
   defp size_class("large", :text) do
     [
-      "size-11 text-lg [&_.indicator-top-left]:!top-0.5 [&_.indicator-top-left]:!left-0.5",
-      "[&_.indicator-top-right]:!top-0.5 [&_.indicator-top-right]:!right-0.5",
-      "[&_.indicator-bottom-right]:!bottom-0.5 [&_.indicator-bottom-right]:!right-0.5",
-      "[&_.indicator-bottom-left]:!bottom-0.5 [&_.indicator-bottom-left]:!left-0.5",
-      "[&_.indicator-top-left]:!translate-y-0 [&_.indicator-top-left]:!translate-x-0",
-      "[&_.indicator-top-right]:!translate-y-0 [&_.indicator-top-right]:!translate-x-0",
-      "[&_.indicator-bottom-right]:!translate-y-0 [&_.indicator-bottom-right]:!translate-x-0",
-      "[&_.indicator-bottom-left]:!translate-y-0 [&_.indicator-bottom-left]:!translate-x-0"
+      "size-11 text-lg [&_.indicator-top-left]:top-0.5! [&_.indicator-top-left]:left-0.5!",
+      "[&_.indicator-top-right]:top-0.5! [&_.indicator-top-right]:right-0.5!",
+      "[&_.indicator-bottom-right]:bottom-0.5! [&_.indicator-bottom-right]:right-0.5!",
+      "[&_.indicator-bottom-left]:bottom-0.5! [&_.indicator-bottom-left]:left-0.5!",
+      "[&_.indicator-top-left]:translate-y-0! [&_.indicator-top-left]:translate-x-0!",
+      "[&_.indicator-top-right]:translate-y-0! [&_.indicator-top-right]:translate-x-0!",
+      "[&_.indicator-bottom-right]:translate-y-0! [&_.indicator-bottom-right]:translate-x-0!",
+      "[&_.indicator-bottom-left]:translate-y-0! [&_.indicator-bottom-left]:translate-x-0!"
     ]
   end
 
   defp size_class("extra_large", :text) do
     [
-      "size-12 text-xl [&_.indicator-top-left]:!top-0.5 [&_.indicator-top-left]:!left-0.5",
-      "[&_.indicator-top-right]:!top-0.5 [&_.indicator-top-right]:!right-0.5",
-      "[&_.indicator-bottom-right]:!bottom-0.5 [&_.indicator-bottom-right]:!right-0.5",
-      "[&_.indicator-bottom-left]:!bottom-0.5 [&_.indicator-bottom-left]:!left-0.5",
-      "[&_.indicator-top-left]:!translate-y-0 [&_.indicator-top-left]:!translate-x-0",
-      "[&_.indicator-top-right]:!translate-y-0 [&_.indicator-top-right]:!translate-x-0",
-      "[&_.indicator-bottom-right]:!translate-y-0 [&_.indicator-bottom-right]:!translate-x-0",
-      "[&_.indicator-bottom-left]:!translate-y-0 [&_.indicator-bottom-left]:!translate-x-0"
+      "size-12 text-xl [&_.indicator-top-left]:top-0.5! [&_.indicator-top-left]:left-0.5!",
+      "[&_.indicator-top-right]:top-0.5! [&_.indicator-top-right]:right-0.5!",
+      "[&_.indicator-bottom-right]:bottom-0.5! [&_.indicator-bottom-right]:right-0.5!",
+      "[&_.indicator-bottom-left]:bottom-0.5! [&_.indicator-bottom-left]:left-0.5!",
+      "[&_.indicator-top-left]:translate-y-0! [&_.indicator-top-left]:translate-x-0!",
+      "[&_.indicator-top-right]:translate-y-0! [&_.indicator-top-right]:translate-x-0!",
+      "[&_.indicator-bottom-right]:translate-y-0! [&_.indicator-bottom-right]:translate-x-0!",
+      "[&_.indicator-bottom-left]:translate-y-0! [&_.indicator-bottom-left]:translate-x-0!"
     ]
   end
 
   defp size_class(params, :text) when is_binary(params), do: params
 
   defp shadow_class("extra_small"), do: "shadow-xs"
-  defp shadow_class("small"), do: "shadow"
+  defp shadow_class("small"), do: "shadow-sm"
   defp shadow_class("medium"), do: "shadow-md"
   defp shadow_class("large"), do: "shadow-lg"
   defp shadow_class("extra_large"), do: "shadow-xl"

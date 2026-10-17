@@ -138,7 +138,7 @@ defmodule DevelopmentWeb.Components.CheckboxCard do
           class={[
             "checkbox-card-wrapper flex items-start cursor-pointer",
             "has-[:disabled]:pointer-events-none has-[:disabled]:opacity-50",
-            "has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-blue-400",
+            "has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-blue-400",
             "has-[:focus-visible]:outline-offset-[-2px] transition-all",
             @reverse && "flex-row-reverse",
             border_class(@border, @variant),
@@ -264,7 +264,7 @@ defmodule DevelopmentWeb.Components.CheckboxCard do
 
   defp rounded_size("extra_small"), do: "rounded-xs"
 
-  defp rounded_size("small"), do: "rounded"
+  defp rounded_size("small"), do: "rounded-sm"
 
   defp rounded_size("medium"), do: "rounded-md"
 
@@ -397,7 +397,7 @@ defmodule DevelopmentWeb.Components.CheckboxCard do
 
   defp color_variant("base", _) do
     [
-      "bg-white text-base-text-light border-base-border-light shadow-sm",
+      "bg-white text-base-text-light border-base-border-light shadow-xs",
       "dark:bg-base-bg-dark dark:text-base-text-dark dark:border-base-border-dark",
       "checked:[&_.checkbox-card-input]:text-base-text-light",
       "dark:checked:[&_.checkbox-card-input]:text-base-disabled-text-dark",

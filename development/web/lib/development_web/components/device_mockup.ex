@@ -157,7 +157,7 @@ defmodule DevelopmentWeb.Components.DeviceMockup do
         <div class="mock-base h-[46px] w-[3px] absolute -start-[17px] top-[124px] rounded-s-lg"></div>
         <div class="mock-base h-[46px] w-[3px] absolute -start-[17px] top-[178px] rounded-s-lg"></div>
         <div class="mock-base h-[64px] w-[3px] absolute -end-[17px] top-[142px] rounded-e-lg"></div>
-        <div class="rounded overflow-hidden w-[272px] h-[572px] bg-white dark:bg-default-device-dark">
+        <div class="rounded-sm overflow-hidden w-[272px] h-[572px] bg-white dark:bg-default-device-dark">
           <.image
             :if={!is_nil(@image)}
             class={@image_class || "w-[272px] h-[572px]"}
@@ -175,7 +175,7 @@ defmodule DevelopmentWeb.Components.DeviceMockup do
     ~H"""
     <div class={["max-w-fit md:max-w-[512px]", color_class(@color), @class]}>
       <div class="mock-base relative mx-auto border-[8px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
-        <div class="rounded overflow-hidden h-[156px] md:h-[278px] bg-white dark:bg-default-device-dark">
+        <div class="rounded-sm overflow-hidden h-[156px] md:h-[278px] bg-white dark:bg-default-device-dark">
           <.image
             :if={!is_nil(@image)}
             class={@image_class || "h-[140px] md:h-[262px] w-full"}
@@ -185,7 +185,7 @@ defmodule DevelopmentWeb.Components.DeviceMockup do
           {render_slot(@inner_block)}
         </div>
       </div>
-      <div class="mock-darker-base relative mx-auto rounded-b-xl rounded-t-sm h-[17px] max-w-[351px] md:h-[21px] md:max-w-[597px]">
+      <div class="mock-darker-base relative mx-auto rounded-b-xl rounded-t-xs h-[17px] max-w-[351px] md:h-[21px] md:max-w-[597px]">
         <div class="mock-base absolute left-1/2 top-0 -translate-x-1/2 rounded-b-xl w-[56px] h-[5px] md:w-[96px] md:h-[8px]">
         </div>
       </div>

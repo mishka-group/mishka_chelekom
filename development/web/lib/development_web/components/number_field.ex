@@ -161,7 +161,7 @@ defmodule DevelopmentWeb.Components.NumberField do
             value={@value}
             class={[
               "disabled:opacity-80 block w-full z-[2] focus:ring-0 placeholder:text-transparent pb-1 pt-2.5 px-2",
-              "text-[16px] sm:text-[length:inherit] appearance-none bg-transparent border-0 focus:outline-none peer",
+              "text-[16px] sm:text-[length:inherit] appearance-none bg-transparent border-0 focus:outline-hidden peer",
               @controls == "fixed" &&
                 "[&::-webkit-outer-spin-button]:opacity-100 [&::-webkit-inner-spin-button]:opacity-100",
               @controls == "hide" &&
@@ -242,7 +242,7 @@ defmodule DevelopmentWeb.Components.NumberField do
           placeholder={@placeholder}
           class={[
             "flex-1 py-1 px-2 text-sm disabled:opacity-80 block w-full appearance-none",
-            "bg-transparent border-0 focus:outline-none focus:ring-0",
+            "bg-transparent border-0 focus:outline-hidden focus:ring-0",
             @controls == "fixed" &&
               "[&::-webkit-outer-spin-button]:opacity-100 [&::-webkit-inner-spin-button]:opacity-100",
             @controls == "hide" &&
@@ -324,7 +324,7 @@ defmodule DevelopmentWeb.Components.NumberField do
 
   defp rounded_size("extra_small"), do: "[&_.number-field-wrapper]:rounded-xs"
 
-  defp rounded_size("small"), do: "[&_.number-field-wrapper]:rounded"
+  defp rounded_size("small"), do: "[&_.number-field-wrapper]:rounded-sm"
 
   defp rounded_size("medium"), do: "[&_.number-field-wrapper]:rounded-md"
 
@@ -372,7 +372,7 @@ defmodule DevelopmentWeb.Components.NumberField do
       "[&_.number-field-wrapper.number-field-error]:border-rose-700",
       "[&_.number-field-wrapper>input]:placeholder:text-base-text-light dark:[&_.number-field-wrapper>input]:placeholder:text-base-text-dark",
       "focus-within:[&_.number-field-wrapper]:ring-base-border-light dark:focus-within:[&_.number-field-wrapper]:ring-base-border-light",
-      "[&_.number-field-wrapper]:shadow-sm",
+      "[&_.number-field-wrapper]:shadow-xs",
       floating == "outer" &&
         "[&_.number-field-wrapper_.floating-label]:bg-white dark:[&_.number-field-wrapper_.floating-label]:bg-base-bg-dark"
     ]

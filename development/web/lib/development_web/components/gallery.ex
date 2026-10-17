@@ -206,7 +206,7 @@ defmodule DevelopmentWeb.Components.Gallery do
             :if={@filter == []}
             data-gallery-filter
             data-category={@default_filter}
-            class="filter-btn bg-white border rounded py-1.5 px-3 leading-5 text-base-text-light border-base-border-light hover:bg-base-hover-light dark:bg-base-bg-dark dark:text-base-text-dark dark:border-base-border-dark dark:hover:bg-base-hover-dark disabled:bg-base-disabled-bg-light disabled:text-base-disabled-text-light dark:disabled:bg-base-disabled-bg-dark dark:disabled:text-base-disabled-text-dark disabled:border-base-disabled-border-light dark:disabled:border-base-disabled-border-dark shadow-sm"
+            class="filter-btn bg-white border rounded-sm py-1.5 px-3 leading-5 text-base-text-light border-base-border-light hover:bg-base-hover-light dark:bg-base-bg-dark dark:text-base-text-dark dark:border-base-border-dark dark:hover:bg-base-hover-dark disabled:bg-base-disabled-bg-light disabled:text-base-disabled-text-light dark:disabled:bg-base-disabled-bg-dark dark:disabled:text-base-disabled-text-dark disabled:border-base-disabled-border-light dark:disabled:border-base-disabled-border-dark shadow-xs"
           >
             {@default_filter}
           </button>
@@ -221,7 +221,7 @@ defmodule DevelopmentWeb.Components.Gallery do
             :if={@filter == []}
             data-gallery-filter
             data-category={filter}
-            class="filter-btn bg-white border rounded py-1.5 px-3 leading-5 text-base-text-light border-base-border-light hover:bg-base-hover-light dark:bg-base-bg-dark dark:text-base-text-dark dark:border-base-border-dark dark:hover:bg-base-hover-dark disabled:bg-base-disabled-bg-light disabled:text-base-disabled-text-light dark:disabled:bg-base-disabled-bg-dark dark:disabled:text-base-disabled-text-dark disabled:border-base-disabled-border-light dark:disabled:border-base-disabled-border-dark shadow-sm"
+            class="filter-btn bg-white border rounded-sm py-1.5 px-3 leading-5 text-base-text-light border-base-border-light hover:bg-base-hover-light dark:bg-base-bg-dark dark:text-base-text-dark dark:border-base-border-dark dark:hover:bg-base-hover-dark disabled:bg-base-disabled-bg-light disabled:text-base-disabled-text-light dark:disabled:bg-base-disabled-bg-dark dark:disabled:text-base-disabled-text-dark disabled:border-base-disabled-border-light dark:disabled:border-base-disabled-border-dark shadow-xs"
           >
             {filter}
           </button>
@@ -249,7 +249,7 @@ defmodule DevelopmentWeb.Components.Gallery do
 
   defp rounded_size("extra_small"), do: "rounded-xs"
 
-  defp rounded_size("small"), do: "rounded"
+  defp rounded_size("small"), do: "rounded-sm"
 
   defp rounded_size("medium"), do: "rounded-md"
 
@@ -264,7 +264,7 @@ defmodule DevelopmentWeb.Components.Gallery do
   defp rounded_size(params) when is_binary(params), do: params
 
   defp shadow_class("extra_small"), do: "shadow-xs"
-  defp shadow_class("small"), do: "shadow"
+  defp shadow_class("small"), do: "shadow-sm"
   defp shadow_class("medium"), do: "shadow-md"
   defp shadow_class("large"), do: "shadow-lg"
   defp shadow_class("extra_large"), do: "shadow-xl"

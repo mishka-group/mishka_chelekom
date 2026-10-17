@@ -151,7 +151,7 @@ defmodule DevelopmentWeb.Components.Fieldset do
   end
 
   defp rounded_size("small") do
-    "[&_.fieldset-field]:rounded [&_.fieldset-legend]:rounded-t"
+    "[&_.fieldset-field]:rounded-sm [&_.fieldset-legend]:rounded-t-sm"
   end
 
   defp rounded_size("medium") do
@@ -209,7 +209,7 @@ defmodule DevelopmentWeb.Components.Fieldset do
 
   defp color_variant("base", _) do
     [
-      "text-base-text-light [&_.fieldset-field]:border-base-border-light [&_.fieldset-field]:bg-white [&_.fieldset-field]:shadow-sm",
+      "text-base-text-light [&_.fieldset-field]:border-base-border-light [&_.fieldset-field]:bg-white [&_.fieldset-field]:shadow-xs",
       "dark:text-base-text-dark dark:[&_.fieldset-field]:border-base-border-dark dark:[&_.fieldset-field]:bg-base-bg-dark"
     ]
   end

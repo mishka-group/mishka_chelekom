@@ -230,15 +230,15 @@ defmodule DevelopmentWeb.Components.Indicator do
     """
   end
 
-  defp indicator_size("extra_small"), do: "!size-2"
+  defp indicator_size("extra_small"), do: "size-2!"
 
-  defp indicator_size("small"), do: "!size-2.5"
+  defp indicator_size("small"), do: "size-2.5!"
 
-  defp indicator_size("medium"), do: "!size-3"
+  defp indicator_size("medium"), do: "size-3!"
 
-  defp indicator_size("large"), do: "!size-3.5"
+  defp indicator_size("large"), do: "size-3.5!"
 
-  defp indicator_size("extra_large"), do: "!size-4"
+  defp indicator_size("extra_large"), do: "size-4!"
 
   defp indicator_size(params) when is_binary(params), do: params
 

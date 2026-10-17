@@ -62,7 +62,7 @@ defmodule DevelopmentWeb.Components.ScrollArea do
     >
       <div
         class={[
-          "w-full overflow-auto relative scroll-viewport focus:outline-none",
+          "w-full overflow-auto relative scroll-viewport focus:outline-hidden",
           "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
           @height
         ]}

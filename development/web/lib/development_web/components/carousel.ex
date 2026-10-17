@@ -169,7 +169,7 @@ defmodule DevelopmentWeb.Components.Carousel do
         type="button"
         id={"#{@id}-carousel-prev"}
         aria-label={@previous_label || gettext("Previous slide")}
-        class="absolute left-0 inset-y-0 z-20 p-4 bg-black/10 hover:bg-black/30 transition focus:outline-none"
+        class="absolute left-0 inset-y-0 z-20 p-4 bg-black/10 hover:bg-black/30 transition focus:outline-hidden"
       >
         <.icon name="hero-chevron-left" class="size-7 text-white" />
       </button>
@@ -179,7 +179,7 @@ defmodule DevelopmentWeb.Components.Carousel do
         type="button"
         id={"#{@id}-carousel-next"}
         aria-label={@next_label || gettext("Next slide")}
-        class="absolute right-0 inset-y-0 z-20 p-4 bg-black/10 hover:bg-black/30 transition focus:outline-none"
+        class="absolute right-0 inset-y-0 z-20 p-4 bg-black/10 hover:bg-black/30 transition focus:outline-hidden"
       >
         <.icon name="hero-chevron-right" class="size-7 text-white" />
       </button>
@@ -340,7 +340,7 @@ defmodule DevelopmentWeb.Components.Carousel do
         "[&>.carousel-indicator]:h-1 [&>.carousel-indicator]:w-6 [&>.carousel-indicator]:bg-white",
         "[&>.carousel-indicator.active-indicator]:opacity-100",
         "[&>.carousel-indicator]:opacity-40 [&>.carousel-indicator]:transition-all",
-        "[&>.carousel-indicator]:duration-500 [&>.carousel-indicator]:ease-in-out shadow"
+        "[&>.carousel-indicator]:duration-500 [&>.carousel-indicator]:ease-in-out shadow-sm"
       ]}
     >
       <button

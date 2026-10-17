@@ -203,7 +203,7 @@ defmodule DevelopmentWeb.Components.ColorField do
 
   defp rounded_size("extra_small"), do: "[&_.color-field-wrapper_.color-input]:rounded-xs"
 
-  defp rounded_size("small"), do: "[&_.color-field-wrapper_.color-input]:rounded"
+  defp rounded_size("small"), do: "[&_.color-field-wrapper_.color-input]:rounded-sm"
 
   defp rounded_size("medium"), do: "[&_.color-field-wrapper_.color-input]:rounded-md"
 

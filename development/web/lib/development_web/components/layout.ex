@@ -40,7 +40,7 @@ defmodule DevelopmentWeb.Components.Layout do
   </.flex>
 
   <.flex justify="center" align="center" class="h-32 bg-gray-100">
-    <div class="bg-pink-300 p-2 rounded">Centered</div>
+    <div class="bg-pink-300 p-2 rounded-sm">Centered</div>
   </.flex>
   """
   @doc type: :component
@@ -142,10 +142,10 @@ defmodule DevelopmentWeb.Components.Layout do
   </.grid>
 
   <.grid cols="two" rows="two" class="h-32 bg-gray-100">
-    <div class="bg-pink-300 p-2 rounded">Grid Item</div>
-    <div class="bg-blue-300 p-2 rounded">Grid Item</div>
-    <div class="bg-green-300 p-2 rounded">Grid Item</div>
-    <div class="bg-yellow-300 p-2 rounded">Grid Item</div>
+    <div class="bg-pink-300 p-2 rounded-sm">Grid Item</div>
+    <div class="bg-blue-300 p-2 rounded-sm">Grid Item</div>
+    <div class="bg-green-300 p-2 rounded-sm">Grid Item</div>
+    <div class="bg-yellow-300 p-2 rounded-sm">Grid Item</div>
   </.grid>
   """
 

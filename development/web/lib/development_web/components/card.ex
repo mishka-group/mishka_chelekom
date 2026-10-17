@@ -356,7 +356,7 @@ defmodule DevelopmentWeb.Components.Card do
 
   defp rounded_size("extra_small"), do: "rounded-xs"
 
-  defp rounded_size("small"), do: "rounded"
+  defp rounded_size("small"), do: "rounded-sm"
 
   defp rounded_size("medium"), do: "rounded-md"
 
@@ -447,7 +447,7 @@ defmodule DevelopmentWeb.Components.Card do
 
   defp color_variant("base", _) do
     [
-      "[&:not(:has(.overlay))]:bg-white text-base-text-light border-base-border-light shadow-sm",
+      "[&:not(:has(.overlay))]:bg-white text-base-text-light border-base-border-light shadow-xs",
       "dark:[&:not(:has(.overlay))]:bg-base-bg-dark dark:text-base-text-dark dark:border-base-border-dark"
     ]
   end
@@ -794,70 +794,70 @@ defmodule DevelopmentWeb.Components.Card do
 
   defp color_variant("gradient", "natural") do
     [
-      "[&:not(:has(.overlay))]:bg-gradient-to-br from-gradient-natural-from-light to-gradient-natural-to-light text-white",
+      "[&:not(:has(.overlay))]:bg-linear-to-br from-gradient-natural-from-light to-gradient-natural-to-light text-white",
       "dark:from-gradient-natural-from-dark dark:to-white dark:text-black"
     ]
   end
 
   defp color_variant("gradient", "primary") do
     [
-      "[&:not(:has(.overlay))]:bg-gradient-to-br from-gradient-primary-from-light to-gradient-primary-to-light text-white",
+      "[&:not(:has(.overlay))]:bg-linear-to-br from-gradient-primary-from-light to-gradient-primary-to-light text-white",
       "dark:from-gradient-primary-from-dark dark:to-gradient-primary-to-dark dark:text-black"
     ]
   end
 
   defp color_variant("gradient", "secondary") do
     [
-      "[&:not(:has(.overlay))]:bg-gradient-to-br from-gradient-secondary-from-light to-gradient-secondary-to-light text-white",
+      "[&:not(:has(.overlay))]:bg-linear-to-br from-gradient-secondary-from-light to-gradient-secondary-to-light text-white",
       "dark:from-gradient-secondary-from-dark dark:to-gradient-secondary-to-dark dark:text-black"
     ]
   end
 
   defp color_variant("gradient", "success") do
     [
-      "[&:not(:has(.overlay))]:bg-gradient-to-br from-gradient-success-from-light to-gradient-success-to-light text-white",
+      "[&:not(:has(.overlay))]:bg-linear-to-br from-gradient-success-from-light to-gradient-success-to-light text-white",
       "dark:from-gradient-success-from-dark dark:to-gradient-success-to-dark dark:text-black"
     ]
   end
 
   defp color_variant("gradient", "warning") do
     [
-      "[&:not(:has(.overlay))]:bg-gradient-to-br from-gradient-warning-from-light to-gradient-warning-to-light text-white",
+      "[&:not(:has(.overlay))]:bg-linear-to-br from-gradient-warning-from-light to-gradient-warning-to-light text-white",
       "dark:from-gradient-warning-from-dark dark:to-gradient-warning-to-dark dark:text-black"
     ]
   end
 
   defp color_variant("gradient", "danger") do
     [
-      "[&:not(:has(.overlay))]:bg-gradient-to-br from-gradient-danger-from-light to-gradient-danger-to-light text-white",
+      "[&:not(:has(.overlay))]:bg-linear-to-br from-gradient-danger-from-light to-gradient-danger-to-light text-white",
       "dark:from-gradient-danger-from-dark dark:to-gradient-danger-to-dark dark:text-black"
     ]
   end
 
   defp color_variant("gradient", "info") do
     [
-      "[&:not(:has(.overlay))]:bg-gradient-to-br from-gradient-info-from-light to-gradient-info-to-light text-white",
+      "[&:not(:has(.overlay))]:bg-linear-to-br from-gradient-info-from-light to-gradient-info-to-light text-white",
       "dark:from-gradient-info-from-dark dark:to-gradient-info-to-dark dark:text-black"
     ]
   end
 
   defp color_variant("gradient", "misc") do
     [
-      "[&:not(:has(.overlay))]:bg-gradient-to-br from-gradient-misc-from-light to-gradient-misc-to-light text-white",
+      "[&:not(:has(.overlay))]:bg-linear-to-br from-gradient-misc-from-light to-gradient-misc-to-light text-white",
       "dark:from-gradient-misc-from-dark dark:to-gradient-misc-to-dark dark:text-black"
     ]
   end
 
   defp color_variant("gradient", "dawn") do
     [
-      "[&:not(:has(.overlay))]:bg-gradient-to-br from-gradient-dawn-from-light to-gradient-dawn-to-light text-white",
+      "[&:not(:has(.overlay))]:bg-linear-to-br from-gradient-dawn-from-light to-gradient-dawn-to-light text-white",
       "dark:from-gradient-dawn-from-dark dark:to-gradient-dawn-to-dark dark:text-black"
     ]
   end
 
   defp color_variant("gradient", "silver") do
     [
-      "[&:not(:has(.overlay))]:bg-gradient-to-br from-gradient-silver-from-light to-gradient-silver-to-light text-white",
+      "[&:not(:has(.overlay))]:bg-linear-to-br from-gradient-silver-from-light to-gradient-silver-to-light text-white",
       "dark:from-gradient-silver-from-dark dark:to-gradient-silver-to-dark dark:text-black"
     ]
   end

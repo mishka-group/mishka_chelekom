@@ -816,7 +816,7 @@ defmodule DevelopmentWeb.Components.Stepper do
 
   defp color_variant("gradient", "natural") do
     [
-      "[&_.stepper-step]:bg-gradient-to-br [&_.stepper-step]:from-gradient-natural-from-light [&_.stepper-step]:to-gradient-natural-to-light [&_.stepper-step]:text-white",
+      "[&_.stepper-step]:bg-linear-to-br [&_.stepper-step]:from-gradient-natural-from-light [&_.stepper-step]:to-gradient-natural-to-light [&_.stepper-step]:text-white",
       "dark:[&_.stepper-step]:from-gradient-natural-from-dark dark:[&_.stepper-step]:to-natural-dark dark:[&_.stepper-step]:text-black",
       "[&_.stepper-step]:text-natural-bordered-text-light [&_.stepper-loading-icon]:fill-stepper-loading-icon-fill",
       "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-natural-bordered-text-light",
@@ -836,7 +836,7 @@ defmodule DevelopmentWeb.Components.Stepper do
 
   defp color_variant("gradient", "primary") do
     [
-      "[&_.stepper-step]:bg-gradient-to-br [&_.stepper-step]:from-gradient-primary-from-light [&_.stepper-step]:to-gradient-primary-to-light [&_.stepper-step]:text-white",
+      "[&_.stepper-step]:bg-linear-to-br [&_.stepper-step]:from-gradient-primary-from-light [&_.stepper-step]:to-gradient-primary-to-light [&_.stepper-step]:text-white",
       "dark:[&_.stepper-step]:from-gradient-primary-from-dark dark:[&_.stepper-step]:to-gradient-primary-to-dark dark:[&_.stepper-step]:text-black",
       "[&_.stepper-loading-icon]:fill-stepper-loading-icon-fill",
       "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-primary-bordered-text-light",
@@ -856,7 +856,7 @@ defmodule DevelopmentWeb.Components.Stepper do
 
   defp color_variant("gradient", "secondary") do
     [
-      "[&_.stepper-step]:bg-gradient-to-br [&_.stepper-step]:from-gradient-secondary-from-light [&_.stepper-step]:to-gradient-secondary-to-light [&_.stepper-step]:text-white",
+      "[&_.stepper-step]:bg-linear-to-br [&_.stepper-step]:from-gradient-secondary-from-light [&_.stepper-step]:to-gradient-secondary-to-light [&_.stepper-step]:text-white",
       "dark:[&_.stepper-step]:from-gradient-secondary-from-dark dark:[&_.stepper-step]:to-gradient-secondary-to-dark dark:[&_.stepper-step]:text-black",
       "[&_.stepper-loading-icon]:fill-stepper-loading-icon-fill",
       "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-secondary-bordered-text-light",
@@ -876,7 +876,7 @@ defmodule DevelopmentWeb.Components.Stepper do
 
   defp color_variant("gradient", "success") do
     [
-      "[&_.stepper-step]:bg-gradient-to-br [&_.stepper-step]:from-gradient-success-from-light [&_.stepper-step]:to-gradient-success-to-light [&_.stepper-step]:text-white",
+      "[&_.stepper-step]:bg-linear-to-br [&_.stepper-step]:from-gradient-success-from-light [&_.stepper-step]:to-gradient-success-to-light [&_.stepper-step]:text-white",
       "dark:[&_.stepper-step]:from-gradient-success-from-dark dark:[&_.stepper-step]:to-gradient-success-to-dark dark:[&_.stepper-step]:text-black",
       "[&_.stepper-loading-icon]:fill-stepper-loading-icon-fill",
       "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-success-bordered-text-light",
@@ -896,7 +896,7 @@ defmodule DevelopmentWeb.Components.Stepper do
 
   defp color_variant("gradient", "warning") do
     [
-      "[&_.stepper-step]:bg-gradient-to-br [&_.stepper-step]:from-gradient-warning-from-light [&_.stepper-step]:to-gradient-warning-to-light [&_.stepper-step]:text-white",
+      "[&_.stepper-step]:bg-linear-to-br [&_.stepper-step]:from-gradient-warning-from-light [&_.stepper-step]:to-gradient-warning-to-light [&_.stepper-step]:text-white",
       "dark:[&_.stepper-step]:from-gradient-warning-from-dark dark:[&_.stepper-step]:to-gradient-warning-to-dark dark:[&_.stepper-step]:text-black",
       "[&_.stepper-loading-icon]:fill-stepper-loading-icon-fill",
       "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-warning-bordered-text-light",
@@ -916,7 +916,7 @@ defmodule DevelopmentWeb.Components.Stepper do
 
   defp color_variant("gradient", "danger") do
     [
-      "[&_.stepper-step]:bg-gradient-to-br [&_.stepper-step]:from-gradient-danger-from-light [&_.stepper-step]:to-gradient-danger-to-light [&_.stepper-step]:text-white",
+      "[&_.stepper-step]:bg-linear-to-br [&_.stepper-step]:from-gradient-danger-from-light [&_.stepper-step]:to-gradient-danger-to-light [&_.stepper-step]:text-white",
       "dark:[&_.stepper-step]:from-gradient-danger-from-dark dark:[&_.stepper-step]:to-gradient-danger-to-dark dark:[&_.stepper-step]:text-black",
       "[&_.stepper-loading-icon]:fill-stepper-loading-icon-fill",
       "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-danger-bordered-text-light",
@@ -936,7 +936,7 @@ defmodule DevelopmentWeb.Components.Stepper do
 
   defp color_variant("gradient", "info") do
     [
-      "[&_.stepper-step]:bg-gradient-to-br [&_.stepper-step]:from-gradient-info-from-light [&_.stepper-step]:to-gradient-info-to-light [&_.stepper-step]:text-white",
+      "[&_.stepper-step]:bg-linear-to-br [&_.stepper-step]:from-gradient-info-from-light [&_.stepper-step]:to-gradient-info-to-light [&_.stepper-step]:text-white",
       "dark:[&_.stepper-step]:from-gradient-info-from-dark dark:[&_.stepper-step]:to-gradient-info-to-dark dark:[&_.stepper-step]:text-black",
       "[&_.stepper-loading-icon]:fill-stepper-loading-icon-fill",
       "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-info-bordered-text-light",
@@ -956,7 +956,7 @@ defmodule DevelopmentWeb.Components.Stepper do
 
   defp color_variant("gradient", "misc") do
     [
-      "[&_.stepper-step]:bg-gradient-to-br [&_.stepper-step]:from-gradient-misc-from-light [&_.stepper-step]:to-gradient-misc-to-light [&_.stepper-step]:text-white",
+      "[&_.stepper-step]:bg-linear-to-br [&_.stepper-step]:from-gradient-misc-from-light [&_.stepper-step]:to-gradient-misc-to-light [&_.stepper-step]:text-white",
       "dark:[&_.stepper-step]:from-gradient-misc-from-dark dark:[&_.stepper-step]:to-gradient-misc-to-dark dark:[&_.stepper-step]:text-black",
       "[&_.stepper-loading-icon]:fill-stepper-loading-icon-fill",
       "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-misc-bordered-text-light",
@@ -976,7 +976,7 @@ defmodule DevelopmentWeb.Components.Stepper do
 
   defp color_variant("gradient", "dawn") do
     [
-      "[&_.stepper-step]:bg-gradient-to-br [&_.stepper-step]:from-gradient-dawn-from-light [&_.stepper-step]:to-gradient-dawn-to-light [&_.stepper-step]:text-white",
+      "[&_.stepper-step]:bg-linear-to-br [&_.stepper-step]:from-gradient-dawn-from-light [&_.stepper-step]:to-gradient-dawn-to-light [&_.stepper-step]:text-white",
       "dark:[&_.stepper-step]:from-gradient-dawn-from-dark dark:[&_.stepper-step]:to-gradient-dawn-to-dark dark:[&_.stepper-step]:text-black",
       "[&_.stepper-loading-icon]:fill-stepper-loading-icon-fill",
       "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-dawn-bordered-text-light",
@@ -996,7 +996,7 @@ defmodule DevelopmentWeb.Components.Stepper do
 
   defp color_variant("gradient", "silver") do
     [
-      "[&_.stepper-step]:bg-gradient-to-br [&_.stepper-step]:from-gradient-silver-from-light [&_.stepper-step]:to-gradient-silver-to-light [&_.stepper-step]:text-white",
+      "[&_.stepper-step]:bg-linear-to-br [&_.stepper-step]:from-gradient-silver-from-light [&_.stepper-step]:to-gradient-silver-to-light [&_.stepper-step]:text-white",
       "dark:[&_.stepper-step]:from-gradient-silver-from-dark dark:[&_.stepper-step]:to-gradient-silver-to-dark dark:[&_.stepper-step]:text-black",
       "[&_.stepper-loading-icon]:fill-stepper-loading-icon-fill",
       "[&_.stepper-step]:border-transparent [&_.stepper-current-step_.stepper-step]:border-silver-bordered-text-light",

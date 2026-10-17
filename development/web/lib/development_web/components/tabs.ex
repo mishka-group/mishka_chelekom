@@ -166,7 +166,7 @@ defmodule DevelopmentWeb.Components.Tabs do
         height="h-full"
         width="w-fit"
         padding="none"
-        class="!h-full"
+        class="h-full!"
       >
         <div
           role="tablist"
@@ -614,7 +614,7 @@ defmodule DevelopmentWeb.Components.Tabs do
 
   defp rounded_size("extra_small", "default"), do: "[&_.tab-trigger]:rounded-t-xs"
 
-  defp rounded_size("small", "default"), do: "[&_.tab-trigger]:rounded-t"
+  defp rounded_size("small", "default"), do: "[&_.tab-trigger]:rounded-t-sm"
 
   defp rounded_size("medium", "default"), do: "[&_.tab-trigger]:rounded-t-md"
 
@@ -626,7 +626,7 @@ defmodule DevelopmentWeb.Components.Tabs do
 
   defp rounded_size("extra_small", "pills"), do: "[&_.tab-trigger]:rounded-xs"
 
-  defp rounded_size("small", "pills"), do: "[&_.tab-trigger]:rounded"
+  defp rounded_size("small", "pills"), do: "[&_.tab-trigger]:rounded-sm"
 
   defp rounded_size("medium", "pills"), do: "[&_.tab-trigger]:rounded-md"
 
@@ -643,7 +643,7 @@ defmodule DevelopmentWeb.Components.Tabs do
     do: "[&_.tab-trigger]:rounded-xs [&_.tab-nav-pills]:rounded-xs"
 
   defp rounded_size("small", "nav_pills"),
-    do: "[&_.tab-trigger]:rounded [&_.tab-nav-pills]:rounded"
+    do: "[&_.tab-trigger]:rounded-sm [&_.tab-nav-pills]:rounded-sm"
 
   defp rounded_size("medium", "nav_pills"),
     do: "[&_.tab-trigger]:rounded-md [&_.tab-nav-pills]:rounded-md"

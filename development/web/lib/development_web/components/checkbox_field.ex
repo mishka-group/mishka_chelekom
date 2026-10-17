@@ -322,7 +322,7 @@ defmodule DevelopmentWeb.Components.CheckboxField do
 
   defp rounded_size("extra_small"), do: "[&_.checkbox-field-wrapper_.checkbox-input]:rounded-xs"
 
-  defp rounded_size("small"), do: "[&_.checkbox-field-wrapper_.checkbox-input]:rounded"
+  defp rounded_size("small"), do: "[&_.checkbox-field-wrapper_.checkbox-input]:rounded-sm"
 
   defp rounded_size("medium"), do: "[&_.checkbox-field-wrapper_.checkbox-input]:rounded-md"
 

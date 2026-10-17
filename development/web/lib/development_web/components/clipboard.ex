@@ -72,7 +72,7 @@ defmodule DevelopmentWeb.Components.Clipboard do
       <.clipboard
         text="Accessible text"
         text_description="Copies the accessible text to your clipboard"
-        class="rounded border p-2"
+        class="rounded-sm border p-2"
         success_class="bg-green-200"
         error_class="bg-red-200"
       >

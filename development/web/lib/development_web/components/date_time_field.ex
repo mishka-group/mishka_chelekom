@@ -196,7 +196,7 @@ defmodule DevelopmentWeb.Components.DateTimeField do
             value={@value}
             class={[
               "disabled:opacity-80 block w-full z-[2] focus:ring-0 placeholder:text-transparent pb-1 pt-2.5 px-2",
-              "text-[16px] sm:text-[length:inherit] appearance-none bg-transparent border-0 focus:outline-none peer",
+              "text-[16px] sm:text-[length:inherit] appearance-none bg-transparent border-0 focus:outline-hidden peer",
               @input_class
             ]}
             placeholder=" "
@@ -273,7 +273,7 @@ defmodule DevelopmentWeb.Components.DateTimeField do
           placeholder={@placeholder}
           class={[
             "flex-1 py-1 px-2 text-sm disabled:opacity-80 block w-full appearance-none",
-            "bg-transparent border-0 focus:outline-none focus:ring-0",
+            "bg-transparent border-0 focus:outline-hidden focus:ring-0",
             @input_class
           ]}
           {@rest}
@@ -365,7 +365,7 @@ defmodule DevelopmentWeb.Components.DateTimeField do
 
   defp rounded_size("extra_small"), do: "[&_.date-time-field-wrapper]:rounded-xs"
 
-  defp rounded_size("small"), do: "[&_.date-time-field-wrapper]:rounded"
+  defp rounded_size("small"), do: "[&_.date-time-field-wrapper]:rounded-sm"
 
   defp rounded_size("medium"), do: "[&_.date-time-field-wrapper]:rounded-md"
 
@@ -413,7 +413,7 @@ defmodule DevelopmentWeb.Components.DateTimeField do
       "[&_.date-time-field-wrapper.date-time-field-error]:border-rose-700",
       "[&_.date-time-field-wrapper>input]:placeholder:text-base-text-light dark:[&_.date-time-field-wrapper>input]:placeholder:text-base-text-dark",
       "focus-within:[&_.date-time-field-wrapper]:ring-base-border-light dark:focus-within:[&_.date-time-field-wrapper]:ring-base-border-light",
-      "[&_.date-time-field-wrapper]:shadow-sm",
+      "[&_.date-time-field-wrapper]:shadow-xs",
       floating == "outer" &&
         "[&_.date-time-field-wrapper_.floating-label]:bg-white dark:[&_.date-time-field-wrapper_.floating-label]:bg-base-bg-dark"
     ]
