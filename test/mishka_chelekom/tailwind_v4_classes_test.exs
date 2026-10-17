@@ -11,27 +11,31 @@ defmodule MishkaChelekom.TailwindV4ClassesTest do
   use ExUnit.Case, async: true
 
   # `{pattern, what to write instead}` for a utility with no variants, `!` or `/opacity`.
-  @removed [
-    {~r/^(?:bg|text|border|divide|ring|placeholder)-opacity-\d+$/, "the /opacity modifier"},
-    {~r/^flex-shrink(?:-\d+)?$/, "shrink-*"},
-    {~r/^flex-grow(?:-\d+)?$/, "grow-*"},
-    {~r/^overflow-ellipsis$/, "text-ellipsis"},
-    {~r/^decoration-(?:slice|clone)$/, "box-decoration-slice / box-decoration-clone"},
-    {~r/^outline-none$/, "outline-hidden"},
-    {~r/^transform-none$/, "translate-none, scale-none or rotate-none"},
-    {~r/^bg-gradient-to-(?:t|tr|r|br|b|bl|l|tl)$/, "bg-linear-to-*"},
-    {~r/^rounded-(?:t|b|s|e|l|r|tl|tr|bl|br|ss|se|es|ee)$/, "rounded-<side>-sm"}
-  ]
+  defp removed_rules do
+    [
+      {~r/^(?:bg|text|border|divide|ring|placeholder)-opacity-\d+$/, "the /opacity modifier"},
+      {~r/^flex-shrink(?:-\d+)?$/, "shrink-*"},
+      {~r/^flex-grow(?:-\d+)?$/, "grow-*"},
+      {~r/^overflow-ellipsis$/, "text-ellipsis"},
+      {~r/^decoration-(?:slice|clone)$/, "box-decoration-slice / box-decoration-clone"},
+      {~r/^outline-none$/, "outline-hidden"},
+      {~r/^transform-none$/, "translate-none, scale-none or rotate-none"},
+      {~r/^bg-gradient-to-(?:t|tr|r|br|b|bl|l|tl)$/, "bg-linear-to-*"},
+      {~r/^rounded-(?:t|b|s|e|l|r|tl|tr|bl|br|ss|se|es|ee)$/, "rounded-<side>-sm"}
+    ]
+  end
 
   # Names that are a v3 size only when they stand without a step; checked in a class list.
-  @bare [
-    {~r/^rounded$/, "rounded-sm"},
-    {~r/^shadow$/, "shadow-sm"},
-    {~r/^drop-shadow$/, "drop-shadow-sm"},
-    {~r/^blur$/, "blur-sm"},
-    {~r/^backdrop-blur$/, "backdrop-blur-sm"},
-    {~r/^ring$/, "ring-3"}
-  ]
+  defp bare_rules do
+    [
+      {~r/^rounded$/, "rounded-sm"},
+      {~r/^shadow$/, "shadow-sm"},
+      {~r/^drop-shadow$/, "drop-shadow-sm"},
+      {~r/^blur$/, "blur-sm"},
+      {~r/^backdrop-blur$/, "backdrop-blur-sm"},
+      {~r/^ring$/, "ring-3"}
+    ]
+  end
 
   @utility_words ~w(flex block hidden inline grid relative absolute fixed sticky border rounded
     shadow blur ring outline transition transform truncate underline italic uppercase lowercase
@@ -130,10 +134,10 @@ defmodule MishkaChelekom.TailwindV4ClassesTest do
     {segments, raw, utility} = split(class)
 
     removed =
-      for {pattern, instead} <- @removed, Regex.match?(pattern, utility), do: instead
+      for {pattern, instead} <- removed_rules(), Regex.match?(pattern, utility), do: instead
 
     bare =
-      for {pattern, instead} <- @bare,
+      for {pattern, instead} <- bare_rules(),
           Regex.match?(pattern, utility),
           in_list? or segments != [],
           do: instead
