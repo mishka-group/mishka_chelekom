@@ -11,8 +11,43 @@
 // The option here is the billboard.js config WITHOUT `bindto` (the hook binds it), e.g.
 // `%{data: %{columns: [["Sales", 120, 200, 150]], type: "bar"}}`, passed through raw.
 // Server -> client live updates: `push_event("chelekom:chart", %{id:, option:, resize:})`.
+//
+// billboard.js's ESM build (the one a bundler picks) is modular: it draws a chart type only after
+// that type's module has been called, and throws while mounting otherwise; zoom, subchart, data
+// selection, regions and grid lines likewise stay off until their module has been called. A config
+// crosses the LiveView wire as JSON, so its types are the strings the billboard docs write
+// (`type: "bar"`, `types: %{"Sales" => "area"}`). Before every generate the hook replaces
+// `data.type` and each value of `data.types` with its module's call (which returns the same string)
+// and calls the module of every feature the config turns on. An unknown type warns once in the
+// console and draws as a line. Everything else in the config is untouched.
 
-import bb from "billboard.js";
+import bb, {
+  area,
+  areaLineRange,
+  areaSpline,
+  areaSplineRange,
+  areaStep,
+  areaStepRange,
+  bar,
+  bubble,
+  candlestick,
+  donut,
+  funnel,
+  gauge,
+  grid,
+  line,
+  pie,
+  polar,
+  radar,
+  regions,
+  scatter,
+  selection,
+  spline,
+  step,
+  subchart,
+  treemap,
+  zoom,
+} from "billboard.js";
 // Developer-owned, created once by the generator and never regenerated. See its header.
 import userConfig from "./chart_extensions.js";
 
@@ -118,6 +153,70 @@ function resolveSentinels(node) {
   return node;
 }
 
+// ---- modules ------------------------------------------------------------------------------------
+
+// Every billboard.js chart type, keyed by the string a config names it with. Each entry calls the
+// imported binding rather than a copy of it: a billboard module replaces itself with a plain getter
+// after its first call, so only the first chart of a type pays for the registration.
+const TYPES = new Map([
+  ["line", () => line()],
+  ["spline", () => spline()],
+  ["step", () => step()],
+  ["area", () => area()],
+  ["area-spline", () => areaSpline()],
+  ["area-step", () => areaStep()],
+  ["area-line-range", () => areaLineRange()],
+  ["area-spline-range", () => areaSplineRange()],
+  ["area-step-range", () => areaStepRange()],
+  ["bar", () => bar()],
+  ["scatter", () => scatter()],
+  ["bubble", () => bubble()],
+  ["candlestick", () => candlestick()],
+  ["pie", () => pie()],
+  ["donut", () => donut()],
+  ["gauge", () => gauge()],
+  ["polar", () => polar()],
+  ["radar", () => radar()],
+  ["funnel", () => funnel()],
+  ["treemap", () => treemap()],
+]);
+
+const warnedTypes = new Set();
+
+// A type string becomes its module's call. An unknown one warns once per name and draws as a line,
+// so a mistyped series never stops the chart, or the page's LiveView, from mounting.
+export function moduleType(type) {
+  const register = TYPES.get(type);
+  if (register) return register();
+  const name = String(type);
+  if (!warnedTypes.has(name)) {
+    warnedTypes.add(name);
+    console.warn(`[Chart] billboard.js has no "${name}" chart type; drawing it as a line.`);
+  }
+  return line();
+}
+
+// Resolves `data.type` and every value of `data.types` in place. billboard draws a series with no
+// type as a line, so the line module is called whenever `data.type` is unset.
+function resolveTypes(data) {
+  if (data.type == null) line();
+  else data.type = moduleType(data.type);
+  if (data.types && typeof data.types === "object") {
+    for (const id of Object.keys(data.types)) data.types[id] = moduleType(data.types[id]);
+  }
+}
+
+// Calls the module of each feature the config turns on, leaving the config's own values as written.
+// Grid is always called: besides `grid.x` / `grid.y` lines it draws the hover focus line, which
+// billboard shows by default (`grid.focus.show`).
+function resolveFeatures(config) {
+  grid();
+  if (config.zoom?.enabled) zoom();
+  if (config.subchart?.show) subchart();
+  if (config.data.selection?.enabled) selection();
+  if (Array.isArray(config.regions) && config.regions.length) regions();
+}
+
 // ---- hook ---------------------------------------------------------------------------------------
 
 const Chart = {
@@ -188,6 +287,8 @@ const Chart = {
     config.bindto = this.el;
     // billboard requires a data block; an empty one renders an empty chart instead of throwing.
     config.data = config.data || { columns: [] };
+    resolveTypes(config.data);
+    resolveFeatures(config);
     if (!config.color) config.color = { pattern: palette };
     if (this.onClick) {
       config.data.onclick = (d) =>

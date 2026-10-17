@@ -327,6 +327,4 @@ You can support this project through the "[Sponsor](https://github.com/sponsors/
 
 #### 🏆 Logo Tier Sponsors
 
-<a href="https://croox.com/" target="_blank" rel="noopener noreferrer">
-  <img width="267" height="100" alt="croox" src="https://github.com/user-attachments/assets/6a885323-3a8a-4141-aa67-a6329605adf1" />
-</a>
+...

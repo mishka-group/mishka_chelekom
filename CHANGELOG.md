@@ -39,6 +39,14 @@
   swapping one element for another
 
 ### Bug fixes:
+- The headless `chart` draws with `--lib billboard`. A bundler resolves `billboard.js` to its ESM
+  build, which draws a chart type only after that type's module has been called, so every chart
+  threw "Please, make sure if 'line' module has been imported" while mounting and the page's
+  LiveView never connected. The engine now imports all twenty billboard type modules and replaces
+  `data.type` and each value of `data.types` with its module's call; it also calls the grid module,
+  and the zoom, subchart, data selection and regions modules when the config turns them on. The
+  config keeps the string types the billboard docs show, and an unknown type warns once in the
+  console and draws as a line
 - Generated components lay out the same on every Elixir. 31 helper clauses (21 in 16 styled
   templates, among them `dock`, `blockquote`, `button` and `table`, and 10 in the headless `card`,
   `chart`, `dock`, `sparkline` and `stepper`) were written `defp name(args) when guard, do: value`.
