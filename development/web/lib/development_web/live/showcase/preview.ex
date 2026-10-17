@@ -907,7 +907,7 @@ defmodule DevelopmentWeb.Showcase.Preview do
       id={@id}
       {@props}
       list_wrapper_class="ps-2.5"
-      class="relative! h-auto! z-0! translate-none! max-w-full w-full max-h-72 rounded-sm"
+      class="relative! h-auto! z-0! translate-none max-w-full w-full max-h-72 rounded-sm"
     >
       <:item icon="hero-home" label="Dashboard" link="/" class="mb-2 text-sm" />
       <:item icon="hero-inbox" label="Messages" link="/" class="mb-2 text-sm" />
@@ -946,7 +946,7 @@ defmodule DevelopmentWeb.Showcase.Preview do
           @side? && "h-full!",
           !@side? && "inset-x-0! w-full!"
         ]}
-        overlay_class="!absolute"
+        overlay_class="absolute!"
         {@props}
       >
         <ul class="space-y-1 text-sm">
@@ -987,8 +987,8 @@ defmodule DevelopmentWeb.Showcase.Preview do
         id={@modal_id}
         title="Delete project?"
         class="absolute! inset-0!"
-        overlay_class="!absolute"
-        wrapper_class="!absolute"
+        overlay_class="absolute!"
+        wrapper_class="absolute!"
         {@props}
       >
         <div class="space-y-4">

@@ -453,8 +453,8 @@ defmodule DevelopmentWeb.Showcase.KitDemo do
         size="medium"
         class="absolute! inset-0! block!"
         overlay_class="absolute! bg-transparent!"
-        wrapper_class="!absolute"
-        focus_wrap_class="!block"
+        wrapper_class="absolute!"
+        focus_wrap_class="block!"
       >
         <p class="text-sm">
           This panel is recoloured by the Kit's brand rule, applied straight to the
