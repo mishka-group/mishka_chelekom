@@ -101,8 +101,8 @@ defmodule Mix.Tasks.Mishka.Ui.UninstallTest do
             "name" => "test",
             "dependencies" => %{
               # ours, untouched since we wrote it -> removable
-              "@tiptap/core" => "3.28.0",
-              "@tiptap/pm" => "3.28.0",
+              "@tiptap/core" => "3.32.0",
+              "@tiptap/pm" => "3.32.0",
               # the project pinned its own version -> must survive
               "@tiptap/starter-kit" => "9.9.9"
             }

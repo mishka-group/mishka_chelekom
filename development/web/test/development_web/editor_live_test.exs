@@ -266,7 +266,7 @@ defmodule DevelopmentWeb.EditorLiveTest do
       pkg = "assets/package.json" |> File.read!() |> Jason.decode!()
 
       for name <- ~w(@tiptap/core @tiptap/pm @tiptap/starter-kit) do
-        assert pkg["dependencies"][name] == "3.28.0",
+        assert pkg["dependencies"][name] == "3.32.0",
                "#{name} must be pinned exactly — peer-pinned packages drifting apart yields two " <>
                  "prosemirror-model copies and an opaque runtime RangeError"
 

@@ -4381,7 +4381,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   defp editor_extensions_snippet do
     """
     # 1. install the package with the tool you already have
-    mix mishka.assets.deps @tiptap/extension-table@3.28.0
+    mix mishka.assets.deps @tiptap/extension-table@3.32.0
 
     # 2. register it in assets/vendor/editor_extensions.js — YOUR file, never overwritten
     import Table from "@tiptap/extension-table";

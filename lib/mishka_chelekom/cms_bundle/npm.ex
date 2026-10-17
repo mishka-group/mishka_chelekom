@@ -196,9 +196,10 @@ defmodule MishkaChelekom.CmsBundle.Npm do
   end
 
   # THE NEWEST VERSION WHOSE PEERS FIT WHAT IS ALREADY PLACED, else the newest. `@tiptap/starter-kit`
-  # 3.28.0 takes its extensions at `^3.28.0`; the newest of those wants `@tiptap/core ^3.31.4`, so
-  # taking it would place a second `@tiptap/core` — and a second ProseMirror — under every extension,
-  # which fails at runtime. The newest one that accepts the pinned 3.28.0 keeps a single copy.
+  # pinned at an exact version takes its extensions at a caret range on it; once a later release of
+  # one of those wants a newer `@tiptap/core` than the pinned one, taking it would place a second
+  # `@tiptap/core` — and a second ProseMirror — under every extension, which fails at runtime. The
+  # newest one that accepts the pinned `@tiptap/core` keeps a single copy.
   defp newest(doc, range, name, fits?) do
     candidates = candidates(doc, range)
 

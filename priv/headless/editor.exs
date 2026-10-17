@@ -14,9 +14,9 @@
     # drift there yields two prosemirror-model instances — which fails at runtime with an opaque
     # RangeError, not at install time. The catalog-integrity test enforces the x.y.z shape.
     npm: [
-      %{name: "@tiptap/core", version: "3.28.0"},
-      %{name: "@tiptap/pm", version: "3.28.0"},
-      %{name: "@tiptap/starter-kit", version: "3.28.0"}
+      %{name: "@tiptap/core", version: "3.32.0"},
+      %{name: "@tiptap/pm", version: "3.32.0"},
+      %{name: "@tiptap/starter-kit", version: "3.32.0"}
     ],
 
     license: [
@@ -35,9 +35,9 @@
         default: true,
         formats: ["json", "html"],
         npm: [
-          %{name: "@tiptap/core", version: "3.28.0"},
-          %{name: "@tiptap/pm", version: "3.28.0"},
-          %{name: "@tiptap/starter-kit", version: "3.28.0"}
+          %{name: "@tiptap/core", version: "3.32.0"},
+          %{name: "@tiptap/pm", version: "3.32.0"},
+          %{name: "@tiptap/starter-kit", version: "3.32.0"}
         ],
         scripts: [
           %{
@@ -55,9 +55,9 @@
         formats: ["text"],
         npm: [
           %{name: "@codemirror/state", version: "6.7.6"},
-          %{name: "@codemirror/view", version: "6.43.13"},
+          %{name: "@codemirror/view", version: "6.43.14"},
           %{name: "@codemirror/commands", version: "6.11.1"},
-          %{name: "@codemirror/language", version: "6.12.4"},
+          %{name: "@codemirror/language", version: "6.13.1"},
           %{name: "@codemirror/lang-javascript", version: "6.2.5"}
         ],
         scripts: [
@@ -72,7 +72,7 @@
       ],
       milk_down: [
         formats: ["markdown"],
-        npm: [%{name: "@milkdown/kit", version: "7.22.2"}],
+        npm: [%{name: "@milkdown/kit", version: "7.22.3"}],
         scripts: [
           %{
             module: "Editor",
