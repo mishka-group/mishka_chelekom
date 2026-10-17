@@ -66,7 +66,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.ShapeLive do
   defp code(:content) do
     """
     <.shape variant="hexagon" size="large">
-      <div class="bg-gradient-to-br from-primary-light to-primary-dark size-full
+      <div class="bg-linear-to-br from-primary-light to-primary-dark size-full
                   flex items-center justify-center text-white">
         AB
       </div>

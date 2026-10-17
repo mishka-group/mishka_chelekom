@@ -185,7 +185,7 @@ mix mishka.ui.gen.component gallery --module MyAppWeb.Components.CustomGallery
 <.gallery cols={3} gap="medium">
   <div :for={image <- @images} class="relative group">
     <.gallery_media src={image.url} alt={image.title} rounded="large" />
-    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition rounded-large flex items-end p-4">
+    <div class="absolute inset-0 bg-linear-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition rounded-large flex items-end p-4">
       <div class="text-white">
         <p class="font-bold">{image.title}</p>
         <p class="text-sm">{image.description}</p>

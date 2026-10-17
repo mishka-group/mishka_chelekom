@@ -61,7 +61,7 @@ Custom content to display inside the device screen (used instead of, or alongsid
 
 ```heex
 <.device_mockup type="iphone">
-  <div class="flex items-center justify-center h-full bg-gradient-to-b from-blue-500 to-purple-600">
+  <div class="flex items-center justify-center h-full bg-linear-to-b from-blue-500 to-purple-600">
     <p class="text-white text-xl">App Preview</p>
   </div>
 </.device_mockup>
