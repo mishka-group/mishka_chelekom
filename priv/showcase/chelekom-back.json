@@ -18,7 +18,7 @@
     },
     {
       "label": "Above the heading, where a detail page usually carries it",
-      "source": "<div class=\"space-y-2\">\n  <.component component_name=\"chelekom-back\" site=\"Global\" class=\"!mt-0\" navigate=\"/shop/products\">Back to products</.component>\n  <.component component_name=\"chelekom-h1\" site=\"Global\">Merino crew neck</.component>\n</div>"
+      "source": "<div class=\"space-y-2\">\n  <.component component_name=\"chelekom-back\" site=\"Global\" class=\"mt-0!\" navigate=\"/shop/products\">Back to products</.component>\n  <.component component_name=\"chelekom-h1\" site=\"Global\">Merino crew neck</.component>\n</div>"
     }
   ]
 }

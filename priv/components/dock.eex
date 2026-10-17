@@ -309,10 +309,10 @@ defmodule <%= @module %> do
     do: "fixed top-0 left-0 right-0 z-40"
 
   defp position_class("fixed_bottom_center"),
-    do: "fixed bottom-4 left-1/2 -translate-x-1/2 !w-fit z-40"
+    do: "fixed bottom-4 left-1/2 -translate-x-1/2 w-fit! z-40"
 
   defp position_class("fixed_top_center"),
-    do: "fixed top-4 left-1/2 -translate-x-1/2 !w-fit z-40"
+    do: "fixed top-4 left-1/2 -translate-x-1/2 w-fit! z-40"
 
   defp position_class(params) when is_binary(params), do: params
 

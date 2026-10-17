@@ -173,7 +173,7 @@ defmodule <%= @module %> do
         rounded_size(@rounded),
         padding_size(@padding),
         "[&>.stat-base]:flex-1",
-        "[&>.stat-base]:!border-0 [&>.stat-base]:!rounded-none [&>.stat-base]:!shadow-none",
+        "[&>.stat-base]:border-0! [&>.stat-base]:rounded-none! [&>.stat-base]:shadow-none!",
         @class
       ]}
       {@rest}
@@ -190,15 +190,15 @@ defmodule <%= @module %> do
 
   defp divider_class("horizontal"),
     do:
-      "[&>.stat-base+.stat-base]:!border-l [&>.stat-base+.stat-base]:border-base-border-light dark:[&>.stat-base+.stat-base]:border-base-border-dark"
+      "[&>.stat-base+.stat-base]:border-l! [&>.stat-base+.stat-base]:border-base-border-light dark:[&>.stat-base+.stat-base]:border-base-border-dark"
 
   defp divider_class("vertical"),
     do:
-      "[&>.stat-base+.stat-base]:!border-t [&>.stat-base+.stat-base]:border-base-border-light dark:[&>.stat-base+.stat-base]:border-base-border-dark"
+      "[&>.stat-base+.stat-base]:border-t! [&>.stat-base+.stat-base]:border-base-border-light dark:[&>.stat-base+.stat-base]:border-base-border-dark"
 
   defp divider_class("responsive"),
     do:
-      "[&>.stat-base+.stat-base]:!border-t [&>.stat-base+.stat-base]:border-base-border-light dark:[&>.stat-base+.stat-base]:border-base-border-dark lg:[&>.stat-base+.stat-base]:!border-t-0 lg:[&>.stat-base+.stat-base]:!border-l"
+      "[&>.stat-base+.stat-base]:border-t! [&>.stat-base+.stat-base]:border-base-border-light dark:[&>.stat-base+.stat-base]:border-base-border-dark lg:[&>.stat-base+.stat-base]:border-t-0! lg:[&>.stat-base+.stat-base]:border-l!"
 
   defp divider_class(_), do: nil
 
@@ -238,9 +238,9 @@ defmodule <%= @module %> do
   <% end %>
   defp size_class(_), do: nil
 
-  defp trend_class("up"), do: "!opacity-100 text-success-light dark:text-success-dark"
-  defp trend_class("down"), do: "!opacity-100 text-danger-light dark:text-danger-dark"
-  defp trend_class("neutral"), do: "!opacity-100 text-natural-light dark:text-natural-dark"
+  defp trend_class("up"), do: "opacity-100! text-success-light dark:text-success-dark"
+  defp trend_class("down"), do: "opacity-100! text-danger-light dark:text-danger-dark"
+  defp trend_class("neutral"), do: "opacity-100! text-natural-light dark:text-natural-dark"
   defp trend_class(_), do: nil
 
   defp trend_icon("up"), do: "hero-arrow-trending-up"

@@ -34,7 +34,7 @@
             <div class="grid sm:grid-cols-2 gap-5">
               <.card
                 rounded="large"
-                class="relative h-[450px] lg:h-[350] col-span-2 sm:col-span-1 !shadow-xs"
+                class="relative h-[450px] lg:h-[350] col-span-2 sm:col-span-1 shadow-xs!"
               >
                 <.card_media
                   src={~p"/images/card-1.jpg"}
@@ -54,13 +54,13 @@
               <.card
                 rounded="large"
                 padding="medium"
-                class="relative col-span-2 sm:col-span-1 !shadow-xs"
+                class="relative col-span-2 sm:col-span-1 shadow-xs!"
               >
                 <.card_media
                   src={~p"/images/card-2.jpg"}
                   alt="Mishka chelekom card example"
                   rounded="large"
-                  class="shadow-md [&>img]:!w-full"
+                  class="shadow-md [&>img]:w-full!"
                 />
                 <.card_content class="">
                   <div class="text-xl font-bold">Nature Photography</div>
@@ -71,7 +71,7 @@
                 </.card_content>
               </.card>
 
-              <.card rounded="large" class="!shadow-xs col-span-2 flex flex-nowrap">
+              <.card rounded="large" class="shadow-xs! col-span-2 flex flex-nowrap">
                 <.card_media
                   src={~p"/images/card-3.jpg"}
                   alt="Mishka chelekom card example"
@@ -1391,7 +1391,7 @@
                     src={~p"/images/card-4.jpg"}
                     alt="Mishka chelekom product card"
                     rounded="large"
-                    class="[&>img]:!w-full"
+                    class="[&>img]:w-full!"
                   />
                   <h2 class="text-[23px] mt-10 leading-6 mb-2 font-semibold flex justify-between items-center">
                     <div>

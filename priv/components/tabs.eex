@@ -158,7 +158,7 @@ defmodule <%= @module %> do
         height="h-full"
         width="w-fit"
         padding="none"
-        class="!h-full"
+        class="h-full!"
       >
         <div
           role="tablist"

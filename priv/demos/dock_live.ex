@@ -273,11 +273,11 @@ defmodule MishkaWeb.ChelekomLive.Docs.DockLive do
       border="none"
       show_labels={false}
       class={[
-        "!bottom-8 px-3",
-        "!bg-white/60 dark:!bg-base-bg-dark/60 backdrop-blur-xl backdrop-saturate-150",
-        "!border !border-base-border-light/40 dark:!border-base-border-dark/40",
-        "!shadow-xl",
-        "!text-base-text-light dark:!text-base-text-dark"
+        "bottom-8! px-3",
+        "bg-white/60! dark:bg-base-bg-dark/60! backdrop-blur-xl backdrop-saturate-150",
+        "border! border-base-border-light/40! dark:border-base-border-dark/40!",
+        "shadow-xl!",
+        "text-base-text-light! dark:text-base-text-dark!"
       ]}
     >
       <:item icon="hero-home" navigate="/" active />
