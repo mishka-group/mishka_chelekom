@@ -131,7 +131,7 @@ defmodule <%= @module %> do
           class={[
             "radio-card-wrapper flex items-start cursor-pointer",
             "has-[:disabled]:pointer-events-none has-[:disabled]:opacity-50",
-            "has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-blue-400",
+            "has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-blue-400",
             "has-[:focus-visible]:outline-offset-[-2px] transition-all",
             @reverse && "flex-row-reverse",
             border_class(@border, @variant),

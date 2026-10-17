@@ -136,7 +136,7 @@ defmodule <%= @module %> do
       border_class(@border, @variant),
       size_class(@size),
       space_class(@space),
-      "[&_.select-field]:focus-within:outline-none",
+      "[&_.select-field]:focus-within:outline-hidden",
       @ring && "[&_.select-field]:focus-within:ring-1",
       @class
     ]}>

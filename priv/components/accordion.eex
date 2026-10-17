@@ -110,7 +110,7 @@ defmodule <%= @module %> do
           data-collapsible-trigger={item.id}
           class={[
             "accordion-trigger cursor-pointer w-full text-left flex items-center justify-between",
-            "transition-colors duration-200 focus:outline-none overflow-hidden",
+            "transition-colors duration-200 focus:outline-hidden overflow-hidden",
             item[:trigger_class]
           ]}
         >

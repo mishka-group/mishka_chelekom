@@ -227,7 +227,7 @@ defmodule <%= @module %> do
 
         <div phx-update="ignore" id={"#{@id}-combo-wrapper"} class="relative">
           <button
-            class="combobox-trigger w-full text-start py-1 flex items-center justify-between focus:outline-none border"
+            class="combobox-trigger w-full text-start py-1 flex items-center justify-between focus:outline-hidden border"
             role="combobox"
             aria-haspopup="listbox"
             aria-expanded="false"
@@ -314,7 +314,7 @@ defmodule <%= @module %> do
                 aria-autocomplete="list"
                 aria-activedescendant=""
                 aria-label={@search_placeholder}
-                class="combobox-search-input border appearance-none bg-transparent px-2 py-1 w-full focus:outline-none"
+                class="combobox-search-input border appearance-none bg-transparent px-2 py-1 w-full focus:outline-hidden"
                 placeholder={@search_placeholder}
               />
             </div>
@@ -447,7 +447,7 @@ defmodule <%= @module %> do
 
         <div id={"#{@id}-combo-wrapper"} class="relative" phx-update="ignore">
           <button
-            class="combobox-trigger w-full text-start py-1 flex items-center justify-between focus:outline-none border"
+            class="combobox-trigger w-full text-start py-1 flex items-center justify-between focus:outline-hidden border"
             role="combobox"
             aria-haspopup="listbox"
             aria-expanded="false"
@@ -526,7 +526,7 @@ defmodule <%= @module %> do
                 aria-autocomplete="list"
                 aria-activedescendant=""
                 aria-label={@search_placeholder}
-                class="combobox-search-input border appearance-none bg-transparent px-2 py-1 w-full focus:outline-none"
+                class="combobox-search-input border appearance-none bg-transparent px-2 py-1 w-full focus:outline-hidden"
                 data-part="search"
                 placeholder={@search_placeholder}
               />

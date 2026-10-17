@@ -168,7 +168,7 @@ defmodule <%= @module %> do
             value={@value}
             class={[
               "disabled:opacity-80 block w-full z-[2] focus:ring-0 placeholder:text-transparent pb-1 pt-2.5 px-2",
-              "text-[16px] sm:text-[length:inherit] appearance-none bg-transparent border-0 focus:outline-none peer",
+              "text-[16px] sm:text-[length:inherit] appearance-none bg-transparent border-0 focus:outline-hidden peer",
               @input_class
             ]}
             placeholder=" "
@@ -197,7 +197,7 @@ defmodule <%= @module %> do
         <div :if={@search_button} class={["flex items-center justify-center shrink-0 pe-2", @search_button_class]}>
           <button
             type="submit"
-            class="flex items-center justify-center leading-5 focus:outline-none"
+            class="flex items-center justify-center leading-5 focus:outline-hidden"
             aria-label={gettext("Search")}
           >
             <.<%= @component_prefix %>icon name="hero-magnifying-glass" class="search-field-icon" />
@@ -254,7 +254,7 @@ defmodule <%= @module %> do
           placeholder={@placeholder}
           class={[
             "flex-1 py-1 px-2 text-sm disabled:opacity-80 block w-full appearance-none",
-            "bg-transparent border-0 focus:outline-none focus:ring-0",
+            "bg-transparent border-0 focus:outline-hidden focus:ring-0",
             @input_class
           ]}
           {@rest}
@@ -269,7 +269,7 @@ defmodule <%= @module %> do
         <div :if={@search_button} class={["flex items-center justify-center shrink-0 pe-2", @search_button_class]}>
           <button
             type="submit"
-            class="flex items-center justify-center leading-5 focus:outline-none"
+            class="flex items-center justify-center leading-5 focus:outline-hidden"
             aria-label={gettext("Search")}
           >
             <.<%= @component_prefix %>icon name="hero-magnifying-glass" class="search-field-icon" />

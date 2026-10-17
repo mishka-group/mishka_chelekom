@@ -2241,7 +2241,7 @@ defmodule <%= @module %> do
       "phx-submit-loading:opacity-75 cursor-pointer relative gap-2 items-center",
       "transition-all ease-in-out duration-100 group",
       "disabled:cursor-not-allowed",
-      "focus:outline-none",
+      "focus:outline-hidden",
       indicator &&
         "[&>.indicator]:inline-block [&>.indicator]:shrink-0 [&>.indicator]:rounded-full",
       !is_nil(pinging) && "[&>.indicator]:animate-ping"

@@ -144,7 +144,7 @@ defmodule <%= @module %> do
             id={"toggle-button-#{@id}"}
             data-sidebar-selector={"##{@id}"}
             aria-label={gettext("Minimize sidebar")}
-            class={["size-8 flex items-center justify-center leading-5","rounded-sm focus:outline-none bg-gray-500/10 border","dark:border-gray-700 m-2 text-gray-500", @hide_button_class]}
+            class={["size-8 flex items-center justify-center leading-5","rounded-sm focus:outline-hidden bg-gray-500/10 border","dark:border-gray-700 m-2 text-gray-500", @hide_button_class]}
           >
             <.<%= @component_prefix %>icon name="hero-chevron-right" class={["minimize-icon size-5", @minimize_icon_class]}/>
             <span class="sr-only">{gettext("Minimize sidebar")}</span>
@@ -153,7 +153,7 @@ defmodule <%= @module %> do
         <div class={["flex justify-end pt-2 px-2 mb-1 md:hidden dismiss-sidebar-wrapper", @close_wrapper_class]}>
           <button
             type="button"
-            class={["dismiss-sidebar-button focus:outline-none", @close_button_class]}
+            class={["dismiss-sidebar-button focus:outline-hidden", @close_button_class]}
             aria-label={gettext("Close sidebar")}
             phx-click={JS.exec(@on_hide, "phx-remove", to: "##{@id}")}
           >
