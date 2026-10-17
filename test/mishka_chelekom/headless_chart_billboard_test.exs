@@ -7,6 +7,10 @@ defmodule MishkaChelekom.HeadlessChartBillboardTest do
   module, and the feature modules a config turns on, by name, and maps each type string to its
   module's call. `chart_billboard.test.mjs` (run with `node --test` in `priv/assets/js`) generates
   charts through the hook against a stand-in that throws the same way.
+
+  It also draws on a page whose Content Security Policy allows no inline style: the engine adopts
+  one constructable stylesheet instead of writing a `<style>`, and its tooltip colors each swatch
+  with an SVG `fill` instead of a `style` attribute.
   """
   use ExUnit.Case, async: true
 
@@ -89,6 +93,33 @@ defmodule MishkaChelekom.HeadlessChartBillboardTest do
 
     assert types_at < generate_at
     assert features_at < generate_at
+  end
+
+  describe "under a style-src with no 'unsafe-inline'" do
+    test "adopts one stylesheet for the page and never adds it twice", %{source: source} do
+      [_, mounted] = Regex.run(~r/\n  mounted\(\) \{(.*?)\n  \},/s, source)
+      [_, adopt] = Regex.run(~r/function adoptStyles\(\) \{(.*?)\n\}/s, source)
+
+      assert mounted =~ "adoptStyles();"
+      assert adopt =~ "sheet.replaceSync(BILLBOARD_CSS);"
+      assert adopt =~ "if (!document.adoptedStyleSheets.includes(sheet)) {"
+      assert adopt =~ "document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];"
+    end
+
+    test "keeps the injectStyles: false opt-out for the sheet and the tooltip", %{source: source} do
+      assert source =~ "const stylesOn = () => userConfig?.billboard?.injectStyles !== false;"
+      assert source =~ ~r/function adoptStyles\(\) \{\n  if \(!stylesOn\(\)\) return;/
+      assert source =~ "if (stylesOn()) resolveTooltip(config);"
+    end
+
+    test "colors the tooltip swatch with an SVG fill the sheet sizes", %{source: source} do
+      [_, template] = Regex.run(~r/const TOOLTIP_TEMPLATE =(.*?);\n/s, source)
+      [_, css] = Regex.run(~r/const BILLBOARD_CSS = `(.*?)`;/s, source)
+
+      refute template =~ "style="
+      assert template =~ ~s(fill="{=COLOR}")
+      assert css =~ ".bb-tooltip td > svg {"
+    end
   end
 
   test "the catalog installs this engine with billboard.js 4, whose module list this is" do

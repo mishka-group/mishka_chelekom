@@ -30,6 +30,19 @@ defmodule MishkaChelekom.CatalogIntegrityTest do
 
   defp configs, do: Enum.map(@catalogs, &config/1)
 
+  @inline_styles [
+    {~r/createElement\(\s*["'`]style["'`]/, "creates a <style> element"},
+    {~r/setAttribute\(\s*["'`]style["'`]/, "sets a style attribute"},
+    {~r/<style[\s>]/, "writes a <style> tag"},
+    {~r/\sstyle=\\?["'`]/, "writes a style attribute into markup"}
+  ]
+
+  defp strip_comments(source) do
+    source
+    |> String.replace(~r{/\*.*?\*/}s, "")
+    |> String.replace(~r{^\s*//.*$}m, "")
+  end
+
   defp configs_with(key) do
     configs()
     |> Enum.filter(fn {_name, cfg} -> is_list(cfg) and Keyword.get(cfg, key, []) != [] end)
@@ -83,6 +96,31 @@ defmodule MishkaChelekom.CatalogIntegrityTest do
             do: "#{name}: imports #{inspect(script.imports)} but installs as #{installed}"
 
       assert wrong == [], Enum.join(wrong, "\n")
+    end
+
+    # A Content Security Policy whose style-src has no 'unsafe-inline' refuses a <style> element and a
+    # style attribute, whether written as markup or set with setAttribute. Styles set through the
+    # CSSOM (`el.style.x`, `style.cssText`, `setProperty`, an adopted stylesheet) are not refused.
+    test "no engine writes a <style> element or a style attribute" do
+      found =
+        for file <- @engines,
+            {pattern, what} <- @inline_styles,
+            Path.join("priv/assets/js", file) |> File.read!() |> strip_comments() =~ pattern,
+            do: "#{file} #{what}"
+
+      assert found == [], Enum.join(found, "\n")
+    end
+
+    test "nor does the JS the CMS kits ship" do
+      found =
+        for kit <- Path.wildcard("priv/cms_ui_kits/*.json"),
+            hook <- kit |> File.read!() |> Jason.decode!() |> Map.fetch!("js_hooks"),
+            content <- [hook["content"] | Enum.map(hook["modules"] || [], & &1["content"])],
+            {pattern, what} <- @inline_styles,
+            strip_comments(content) =~ pattern,
+            do: "#{Path.basename(kit)} #{hook["name"]} #{what}"
+
+      assert found == [], Enum.join(found, "\n")
     end
   end
 

@@ -39,6 +39,17 @@
   swapping one element for another
 
 ### Bug fixes:
+- The headless `chart` keeps its styling with `--lib billboard` under a Content Security Policy
+  that allows no inline style. The engine wrote billboard's stylesheet into a `<style>` element,
+  which a `style-src` without `'unsafe-inline'` or a nonce refuses, so lines filled in black and
+  the axes and tooltips lost their look. It now adds the same rules once per page as an adopted
+  constructable stylesheet, which no `style-src` governs, and adopts it again after a LiveView
+  navigation only if the page dropped it. Its tooltip, unless the config names a template of its
+  own, draws each series' swatch as an SVG circle filled through its `fill` attribute instead of
+  billboard's `style` attribute. `billboard: { injectStyles: false }` in `chart_extensions.js`
+  still turns both off; a browser without constructable stylesheets warns once and draws the charts
+  unstyled. A test now fails on any hook in the library, or in the CMS kits, that writes a
+  `<style>` element or a `style` attribute
 - The headless `chart` draws with `--lib billboard`. A bundler resolves `billboard.js` to its ESM
   build, which draws a chart type only after that type's module has been called, so every chart
   threw "Please, make sure if 'line' module has been imported" while mounting and the page's

@@ -19,7 +19,12 @@
 // (`type: "bar"`, `types: %{"Sales" => "area"}`). Before every generate the hook replaces
 // `data.type` and each value of `data.types` with its module's call (which returns the same string)
 // and calls the module of every feature the config turns on. An unknown type warns once in the
-// console and draws as a line. Everything else in the config is untouched.
+// console and draws as a line. Everything else in the config is untouched, except a tooltip that
+// names no template of its own (see TOOLTIP_TEMPLATE).
+//
+// Content Security Policy: the engine styles billboard through an adopted stylesheet (see
+// BILLBOARD_CSS) and draws the tooltip swatch without a `style` attribute, so a `style-src` with
+// neither `'unsafe-inline'` nor a nonce needs nothing from you.
 
 import bb, {
   area,
@@ -51,13 +56,18 @@ import bb, {
 // Developer-owned, created once by the generator and never regenerated. See its header.
 import userConfig from "./chart_extensions.js";
 
-const STYLE_ID = "chelekom-billboard-styles";
-
 // billboard.js ships its own stylesheet (dist/billboard.css); without it a line <path> defaults to a
 // filled black blob and axes/tooltips are unstyled. Rather than force a build-pipeline change on the
-// consumer, we inject the essential rules once. Colors read the --chart-* custom properties, so this
-// themes with light/dark for free. Trimmed from billboard.js (MIT). Opt out with
-// `billboard: { injectStyles: false }` in chart_extensions.js if you import the full CSS yourself.
+// consumer, the first chart on a page adds the essential rules as one constructable stylesheet in
+// `document.adoptedStyleSheets`, which every chart after it, and every LiveView navigation, reuses.
+// A Content Security Policy's `style-src` does not govern an adopted sheet, so it applies without
+// `'unsafe-inline'` or a nonce; the engine writes no <style> element. A browser without
+// constructable stylesheets (before Safari 16.4 / Firefox 101) gets one console warning and
+// unstyled charts. billboard's `export()` copies the rules of `document.styleSheets`, which holds
+// no adopted sheet, so an exported image is drawn without these. Colors read the --chart-* custom
+// properties, so this themes with light/dark for free. Trimmed from billboard.js (MIT). Opt out
+// with `billboard: { injectStyles: false }` in chart_extensions.js if you import the full CSS
+// yourself.
 const BILLBOARD_CSS = `
 .bb svg { font-family: inherit; font-size: 11px; -webkit-tap-highlight-color: rgba(0,0,0,0); }
 .bb text, .bb-legend-item text { fill: var(--chart-text, #64748b); user-select: none; }
@@ -73,19 +83,56 @@ const BILLBOARD_CSS = `
 .bb-chart-arcs-title { fill: var(--chart-text, #64748b); font-size: 1.3em; }
 .bb-tooltip { border-spacing: 0; background: rgba(15,23,42,0.95); color: #f8fafc; border-radius: 6px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.25); font-size: 11px; }
 .bb-tooltip th { padding: 4px 9px; text-align: left; font-weight: 600; background: rgba(255,255,255,0.08); }
+.bb-tooltip th:empty { display: none; }
 .bb-tooltip td { padding: 4px 9px; }
 .bb-tooltip td.value { text-align: right; }
-.bb-tooltip td .bb-tooltip-name span { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
+.bb-tooltip td > svg { display: inline-block; width: 8px; height: 8px; margin-right: 5px; vertical-align: middle; }
 .bb-defocused { opacity: 0.25 !important; }
 `;
 
-function injectStyles() {
-  if (userConfig?.billboard?.injectStyles === false) return;
-  if (document.getElementById(STYLE_ID)) return;
-  const style = document.createElement("style");
-  style.id = STYLE_ID;
-  style.textContent = BILLBOARD_CSS;
-  document.head.appendChild(style);
+// billboard's own tooltip draws each series' swatch as `<span style="background-color:…">`, an
+// inline style attribute that a `style-src` without `'unsafe-inline'` refuses. Unless
+// `injectStyles` is false, a config that names no `tooltip.contents.template` gets billboard's
+// table with the swatch drawn as an SVG circle colored by its `fill` attribute, which no
+// `style-src` governs; on a chart without a title, such as a pie, the empty title row is hidden. A
+// template or a contents function of your own is left as written.
+const TOOLTIP_TEMPLATE =
+  '<table class="{=CLASS_TOOLTIP}"><tbody><tr><th colspan="2">{=TITLE}</th></tr>' +
+  '{{<tr class="{=CLASS_TOOLTIP_NAME}"><td class="name">' +
+  '<svg width="8" height="8" viewBox="0 0 10 10">' +
+  '<circle cx="5" cy="5" r="5" fill="{=COLOR}"></circle></svg>' +
+  '{=NAME}</td><td class="value">{=VALUE}</td></tr>}}</tbody></table>';
+
+const stylesOn = () => userConfig?.billboard?.injectStyles !== false;
+
+let sheet = null;
+let warnedNoSheet = false;
+
+// Builds the page's sheet once and adopts it unless it already is, so a remount never adds a copy.
+function adoptStyles() {
+  if (!stylesOn()) return;
+  if (!sheet) {
+    const supported =
+      typeof CSSStyleSheet === "function" &&
+      "adoptedStyleSheets" in document &&
+      typeof CSSStyleSheet.prototype.replaceSync === "function";
+    if (!supported) {
+      if (!warnedNoSheet) {
+        warnedNoSheet = true;
+        console.warn(
+          "[Chart] This browser cannot adopt a constructable stylesheet, so billboard.js " +
+            "charts are drawn unstyled. Import billboard.js/dist/billboard.css and set " +
+            "`billboard: { injectStyles: false }` in chart_extensions.js.",
+        );
+      }
+      return;
+    }
+    sheet = new CSSStyleSheet();
+    sheet.replaceSync(BILLBOARD_CSS);
+  }
+  if (!document.adoptedStyleSheets.includes(sheet)) {
+    document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
+  }
 }
 
 // ---- pure helpers -------------------------------------------------------------------------------
@@ -217,11 +264,21 @@ function resolveFeatures(config) {
   if (Array.isArray(config.regions) && config.regions.length) regions();
 }
 
+// Gives a tooltip with no template of its own the engine's (see TOOLTIP_TEMPLATE), keeping the rest
+// of `tooltip` and `tooltip.contents` as written.
+function resolveTooltip(config) {
+  const tooltip = config.tooltip ?? {};
+  if (typeof tooltip !== "object") return;
+  const contents = tooltip.contents ?? {};
+  if (typeof contents !== "object" || contents.template != null) return;
+  config.tooltip = { ...tooltip, contents: { ...contents, template: TOOLTIP_TEMPLATE } };
+}
+
 // ---- hook ---------------------------------------------------------------------------------------
 
 const Chart = {
   mounted() {
-    injectStyles();
+    adoptStyles();
     const el = this.el;
     this.rootId = el.getAttribute("data-root-id");
     this.onClick = el.getAttribute("data-on-click");
@@ -289,6 +346,7 @@ const Chart = {
     config.data = config.data || { columns: [] };
     resolveTypes(config.data);
     resolveFeatures(config);
+    if (stylesOn()) resolveTooltip(config);
     if (!config.color) config.color = { pattern: palette };
     if (this.onClick) {
       config.data.onclick = (d) =>

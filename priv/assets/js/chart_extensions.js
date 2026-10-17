@@ -17,8 +17,8 @@
 //               the sentinel, e.g. "chelekom:unit:kg" calls unit(value, "kg").
 //
 //   billboard   Engine-specific knobs. `injectStyles: false` opts out of the compact stylesheet the
-//               billboard engine injects (set it if you import billboard.js/dist/billboard.css
-//               yourself).
+//               billboard engine adopts into the page, and of its tooltip markup (set it if you
+//               import billboard.js/dist/billboard.css yourself).
 
 export default {
   palette: [],
