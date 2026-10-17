@@ -278,7 +278,7 @@ defmodule DevelopmentWeb.Components.NativeSelect do
 
   defp size_class(params) when is_binary(params), do: params
 
-  defp rounded_size("extra_small"), do: "[&_.select-field]:rounded-sm"
+  defp rounded_size("extra_small"), do: "[&_.select-field]:rounded-xs"
 
   defp rounded_size("small"), do: "[&_.select-field]:rounded"
 

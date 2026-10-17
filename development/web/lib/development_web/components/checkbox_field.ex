@@ -320,7 +320,7 @@ defmodule DevelopmentWeb.Components.CheckboxField do
 
   defp size_class(params) when is_binary(params), do: params
 
-  defp rounded_size("extra_small"), do: "[&_.checkbox-field-wrapper_.checkbox-input]:rounded-sm"
+  defp rounded_size("extra_small"), do: "[&_.checkbox-field-wrapper_.checkbox-input]:rounded-xs"
 
   defp rounded_size("small"), do: "[&_.checkbox-field-wrapper_.checkbox-input]:rounded"
 

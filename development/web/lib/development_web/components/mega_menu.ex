@@ -262,7 +262,7 @@ defmodule DevelopmentWeb.Components.MegaMenu do
 
   defp border_class(params, _) when is_binary(params), do: params
 
-  defp rounded_size("extra_small"), do: "[&>.mega-menu-content]:rounded-sm"
+  defp rounded_size("extra_small"), do: "[&>.mega-menu-content]:rounded-xs"
 
   defp rounded_size("small"), do: "[&>.mega-menu-content]:rounded"
 

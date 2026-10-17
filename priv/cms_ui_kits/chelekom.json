@@ -1284,7 +1284,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -3542,7 +3542,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -5755,7 +5755,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -7988,7 +7988,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -10178,7 +10178,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -13015,7 +13015,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -16249,7 +16249,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -19733,7 +19733,7 @@
         {
           "args": "\"extra_small\", \"default\"",
           "attrs": [],
-          "code": "\"[&_.tab-trigger]:rounded-t-sm\"",
+          "code": "\"[&_.tab-trigger]:rounded-t-xs\"",
           "discriminators": [],
           "name": "rounded_size",
           "slots": []
@@ -19781,7 +19781,7 @@
         {
           "args": "\"extra_small\", \"pills\"",
           "attrs": [],
-          "code": "\"[&_.tab-trigger]:rounded-sm\"",
+          "code": "\"[&_.tab-trigger]:rounded-xs\"",
           "discriminators": [],
           "name": "rounded_size",
           "slots": []
@@ -19837,7 +19837,7 @@
         {
           "args": "\"extra_small\", \"nav_pills\"",
           "attrs": [],
-          "code": "\"[&_.tab-trigger]:rounded-sm [&_.tab-nav-pills]:rounded-sm\"",
+          "code": "\"[&_.tab-trigger]:rounded-xs [&_.tab-nav-pills]:rounded-xs\"",
           "discriminators": [],
           "name": "rounded_size",
           "slots": []
@@ -21431,7 +21431,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"[&_.date-time-field-wrapper]:rounded-sm\"",
+          "code": "\"[&_.date-time-field-wrapper]:rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -24335,7 +24335,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm [&:not(.vertical-progress)_.progress-section:last-of-type]:rounded-e-sm\"",
+          "code": "\"rounded-xs [&:not(.vertical-progress)_.progress-section:last-of-type]:rounded-e-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -26054,7 +26054,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm [&:not(.vertical-progress)_.progress-section:last-of-type]:rounded-e-sm\"",
+          "code": "\"rounded-xs [&:not(.vertical-progress)_.progress-section:last-of-type]:rounded-e-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -27701,7 +27701,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm [&:not(.vertical-progress)_.progress-section:last-of-type]:rounded-e-sm\"",
+          "code": "\"rounded-xs [&:not(.vertical-progress)_.progress-section:last-of-type]:rounded-e-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -29078,7 +29078,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm [&:not(.vertical-progress)_.progress-section:last-of-type]:rounded-e-sm\"",
+          "code": "\"rounded-xs [&:not(.vertical-progress)_.progress-section:last-of-type]:rounded-e-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -31961,7 +31961,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"[&_.text-field-wrapper]:rounded-sm\"",
+          "code": "\"[&_.text-field-wrapper]:rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -34339,7 +34339,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -36223,7 +36223,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -38058,7 +38058,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -39668,7 +39668,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -39789,7 +39789,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"shadow-sm\"",
+          "code": "\"shadow-xs\"",
           "discriminators": [],
           "name": "shadow_class",
           "slots": []
@@ -40591,7 +40591,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -40712,7 +40712,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"shadow-sm\"",
+          "code": "\"shadow-xs\"",
           "discriminators": [],
           "name": "shadow_class",
           "slots": []
@@ -41656,7 +41656,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -41777,7 +41777,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"shadow-sm\"",
+          "code": "\"shadow-xs\"",
           "discriminators": [],
           "name": "shadow_class",
           "slots": []
@@ -44121,7 +44121,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-b-sm\"",
+          "code": "\"rounded-b-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -45785,7 +45785,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-b-sm\"",
+          "code": "\"rounded-b-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -47564,7 +47564,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"[&_.password-field-wrapper]:rounded-sm\"",
+          "code": "\"[&_.password-field-wrapper]:rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -52758,7 +52758,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"[&>.mega-menu-content]:rounded-sm\"",
+          "code": "\"[&>.mega-menu-content]:rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -57008,7 +57008,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"[&.grouped-pagination]:rounded-sm [&:not(.grouped-pagination)_.pagination-button]:rounded-sm\"",
+          "code": "\"[&.grouped-pagination]:rounded-xs [&:not(.grouped-pagination)_.pagination-button]:rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -60511,7 +60511,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"[&_.speed-dial-base]:rounded-sm\"",
+          "code": "\"[&_.speed-dial-base]:rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -64365,7 +64365,7 @@
         {
           "args": "\"extra_small\", \"top\"",
           "attrs": [],
-          "code": "\"rounded-t-sm\"",
+          "code": "\"rounded-t-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -64440,7 +64440,7 @@
         {
           "args": "\"extra_small\", \"bottom\"",
           "attrs": [],
-          "code": "\"rounded-b-sm\"",
+          "code": "\"rounded-b-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -64515,7 +64515,7 @@
         {
           "args": "\"extra_small\", \"all\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -67577,7 +67577,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -83667,7 +83667,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -85469,7 +85469,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -89901,7 +89901,7 @@
         {
           "args": "\"extra_small\", variant when variant in [\"base_separated\", \"outline_separated\", \"bordered_separated\"]",
           "attrs": [],
-          "code": "\"[&>.accordion-item]:rounded-sm\"",
+          "code": "\"[&>.accordion-item]:rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -89991,7 +89991,7 @@
         {
           "args": "\"extra_small\", _",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -97358,7 +97358,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -99575,7 +99575,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "[\"[&_.combobox-trigger]:rounded-sm\", \"[&_.combobox-pill]:rounded-[0.0625rem]\"]",
+          "code": "[\"[&_.combobox-trigger]:rounded-xs\", \"[&_.combobox-pill]:rounded-[0.0625rem]\"]",
           "discriminators": [],
           "name": "rounded_size",
           "slots": []
@@ -100717,7 +100717,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [],
           "name": "dropdown_rounded_size",
           "slots": []
@@ -100845,7 +100845,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"[&_.combobox-search-input]:rounded-sm\"",
+          "code": "\"[&_.combobox-search-input]:rounded-xs\"",
           "discriminators": [],
           "name": "dropdown_search_input_rounded",
           "slots": []
@@ -102067,7 +102067,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -104197,7 +104197,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -106001,7 +106001,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -109071,7 +109071,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -111902,7 +111902,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"[&:not(.list-items-gap)]:rounded-sm [&.list-items-gap>li]:rounded-sm\"",
+          "code": "\"[&:not(.list-items-gap)]:rounded-xs [&.list-items-gap>li]:rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -114749,7 +114749,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"[&:not(.list-items-gap)]:rounded-sm [&.list-items-gap>li]:rounded-sm\"",
+          "code": "\"[&:not(.list-items-gap)]:rounded-xs [&.list-items-gap>li]:rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -117767,7 +117767,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"[&:not(.list-items-gap)]:rounded-sm [&.list-items-gap>li]:rounded-sm\"",
+          "code": "\"[&:not(.list-items-gap)]:rounded-xs [&.list-items-gap>li]:rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -120656,7 +120656,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"[&:not(.list-items-gap)]:rounded-sm [&.list-items-gap>li]:rounded-sm\"",
+          "code": "\"[&:not(.list-items-gap)]:rounded-xs [&.list-items-gap>li]:rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -123705,7 +123705,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"[&:not(.list-items-gap)]:rounded-sm [&.list-items-gap>li]:rounded-sm\"",
+          "code": "\"[&:not(.list-items-gap)]:rounded-xs [&.list-items-gap>li]:rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -132712,7 +132712,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -133197,7 +133197,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"shadow-sm\"",
+          "code": "\"shadow-xs\"",
           "discriminators": [],
           "name": "shadow_class",
           "slots": []
@@ -134155,7 +134155,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -134640,7 +134640,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"shadow-sm\"",
+          "code": "\"shadow-xs\"",
           "discriminators": [],
           "name": "shadow_class",
           "slots": []
@@ -135638,7 +135638,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -137866,7 +137866,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"[&_.url-field-wrapper]:rounded-sm\"",
+          "code": "\"[&_.url-field-wrapper]:rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -140507,7 +140507,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"[&_.tel-field-wrapper]:rounded-sm\"",
+          "code": "\"[&_.tel-field-wrapper]:rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -143618,7 +143618,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"[&_.file-field]:rounded-sm [&_.dropzone-wrapper]:rounded-sm\"",
+          "code": "\"[&_.file-field]:rounded-xs [&_.dropzone-wrapper]:rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -148090,7 +148090,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-t-sm\"",
+          "code": "\"rounded-t-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -150061,7 +150061,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-t-sm\"",
+          "code": "\"rounded-t-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -152205,7 +152205,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"[&_.select-field]:rounded-sm\"",
+          "code": "\"[&_.select-field]:rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -153543,7 +153543,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"[&_.select-field]:rounded-sm\"",
+          "code": "\"[&_.select-field]:rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -155112,7 +155112,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -156272,7 +156272,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -158122,7 +158122,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -160082,7 +160082,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -162459,7 +162459,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"[&_.email-field-wrapper]:rounded-sm\"",
+          "code": "\"[&_.email-field-wrapper]:rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -164600,7 +164600,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"[&_.search-field-wrapper]:rounded-sm\"",
+          "code": "\"[&_.search-field-wrapper]:rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -167129,7 +167129,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"[&_.fieldset-field]:rounded-sm [&_.fieldset-legend]:rounded-t-sm\"",
+          "code": "\"[&_.fieldset-field]:rounded-xs [&_.fieldset-legend]:rounded-t-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -171341,7 +171341,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"[&_.number-field-wrapper]:rounded-sm\"",
+          "code": "\"[&_.number-field-wrapper]:rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -176336,7 +176336,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"[&_.toggle-field-base]:rounded-sm [&_.toggle-field-circle]:rounded-sm\"",
+          "code": "\"[&_.toggle-field-base]:rounded-xs [&_.toggle-field-circle]:rounded-xs\"",
           "discriminators": [],
           "name": "rounded_size",
           "slots": []
@@ -180642,7 +180642,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -181889,7 +181889,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -184671,7 +184671,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"[&_.checkbox-field-wrapper_.checkbox-input]:rounded-sm\"",
+          "code": "\"[&_.checkbox-field-wrapper_.checkbox-input]:rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -185823,7 +185823,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"[&_.checkbox-field-wrapper_.checkbox-input]:rounded-sm\"",
+          "code": "\"[&_.checkbox-field-wrapper_.checkbox-input]:rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -187151,7 +187151,7 @@
         {
           "args": "\"extra_small\", \"separated\"",
           "attrs": [],
-          "code": "[\n  \"[&_.border-separate_tr_td:first-child]:rounded-s-sm\",\n  \"[&_.border-separate_tr_td:last-child]:rounded-e-sm\",\n  \"[&_.border-separate_tr_th:first-child]:rounded-s-sm\",\n  \"[&_.border-separate_tr_th:last-child]:rounded-e-sm\"\n]",
+          "code": "[\n  \"[&_.border-separate_tr_td:first-child]:rounded-s-xs\",\n  \"[&_.border-separate_tr_td:last-child]:rounded-e-xs\",\n  \"[&_.border-separate_tr_th:first-child]:rounded-s-xs\",\n  \"[&_.border-separate_tr_th:last-child]:rounded-e-xs\"\n]",
           "discriminators": [],
           "name": "rounded_size",
           "slots": []
@@ -187191,7 +187191,7 @@
         {
           "args": "\"extra_small\", \"base_separated\"",
           "attrs": [],
-          "code": "[\n  \"[&_.border-separate_tr_td:first-child]:rounded-s-sm\",\n  \"[&_.border-separate_tr_td:last-child]:rounded-e-sm\",\n  \"[&_.border-separate_tr_th:first-child]:rounded-s-sm\",\n  \"[&_.border-separate_tr_th:last-child]:rounded-e-sm\"\n]",
+          "code": "[\n  \"[&_.border-separate_tr_td:first-child]:rounded-s-xs\",\n  \"[&_.border-separate_tr_td:last-child]:rounded-e-xs\",\n  \"[&_.border-separate_tr_th:first-child]:rounded-s-xs\",\n  \"[&_.border-separate_tr_th:last-child]:rounded-e-xs\"\n]",
           "discriminators": [],
           "name": "rounded_size",
           "slots": []
@@ -187247,7 +187247,7 @@
         {
           "args": "\"extra_small\", _",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [],
           "name": "rounded_size",
           "slots": []
@@ -190012,7 +190012,7 @@
         {
           "args": "\"extra_small\", \"separated\"",
           "attrs": [],
-          "code": "[\n  \"[&_.border-separate_tr_td:first-child]:rounded-s-sm\",\n  \"[&_.border-separate_tr_td:last-child]:rounded-e-sm\",\n  \"[&_.border-separate_tr_th:first-child]:rounded-s-sm\",\n  \"[&_.border-separate_tr_th:last-child]:rounded-e-sm\"\n]",
+          "code": "[\n  \"[&_.border-separate_tr_td:first-child]:rounded-s-xs\",\n  \"[&_.border-separate_tr_td:last-child]:rounded-e-xs\",\n  \"[&_.border-separate_tr_th:first-child]:rounded-s-xs\",\n  \"[&_.border-separate_tr_th:last-child]:rounded-e-xs\"\n]",
           "discriminators": [],
           "name": "rounded_size",
           "slots": []
@@ -190052,7 +190052,7 @@
         {
           "args": "\"extra_small\", \"base_separated\"",
           "attrs": [],
-          "code": "[\n  \"[&_.border-separate_tr_td:first-child]:rounded-s-sm\",\n  \"[&_.border-separate_tr_td:last-child]:rounded-e-sm\",\n  \"[&_.border-separate_tr_th:first-child]:rounded-s-sm\",\n  \"[&_.border-separate_tr_th:last-child]:rounded-e-sm\"\n]",
+          "code": "[\n  \"[&_.border-separate_tr_td:first-child]:rounded-s-xs\",\n  \"[&_.border-separate_tr_td:last-child]:rounded-e-xs\",\n  \"[&_.border-separate_tr_th:first-child]:rounded-s-xs\",\n  \"[&_.border-separate_tr_th:last-child]:rounded-e-xs\"\n]",
           "discriminators": [],
           "name": "rounded_size",
           "slots": []
@@ -190108,7 +190108,7 @@
         {
           "args": "\"extra_small\", _",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [],
           "name": "rounded_size",
           "slots": []
@@ -192799,7 +192799,7 @@
         {
           "args": "\"extra_small\", \"separated\"",
           "attrs": [],
-          "code": "[\n  \"[&_.border-separate_tr_td:first-child]:rounded-s-sm\",\n  \"[&_.border-separate_tr_td:last-child]:rounded-e-sm\",\n  \"[&_.border-separate_tr_th:first-child]:rounded-s-sm\",\n  \"[&_.border-separate_tr_th:last-child]:rounded-e-sm\"\n]",
+          "code": "[\n  \"[&_.border-separate_tr_td:first-child]:rounded-s-xs\",\n  \"[&_.border-separate_tr_td:last-child]:rounded-e-xs\",\n  \"[&_.border-separate_tr_th:first-child]:rounded-s-xs\",\n  \"[&_.border-separate_tr_th:last-child]:rounded-e-xs\"\n]",
           "discriminators": [],
           "name": "rounded_size",
           "slots": []
@@ -192839,7 +192839,7 @@
         {
           "args": "\"extra_small\", \"base_separated\"",
           "attrs": [],
-          "code": "[\n  \"[&_.border-separate_tr_td:first-child]:rounded-s-sm\",\n  \"[&_.border-separate_tr_td:last-child]:rounded-e-sm\",\n  \"[&_.border-separate_tr_th:first-child]:rounded-s-sm\",\n  \"[&_.border-separate_tr_th:last-child]:rounded-e-sm\"\n]",
+          "code": "[\n  \"[&_.border-separate_tr_td:first-child]:rounded-s-xs\",\n  \"[&_.border-separate_tr_td:last-child]:rounded-e-xs\",\n  \"[&_.border-separate_tr_th:first-child]:rounded-s-xs\",\n  \"[&_.border-separate_tr_th:last-child]:rounded-e-xs\"\n]",
           "discriminators": [],
           "name": "rounded_size",
           "slots": []
@@ -192895,7 +192895,7 @@
         {
           "args": "\"extra_small\", _",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [],
           "name": "rounded_size",
           "slots": []
@@ -195573,7 +195573,7 @@
         {
           "args": "\"extra_small\", \"separated\"",
           "attrs": [],
-          "code": "[\n  \"[&_.border-separate_tr_td:first-child]:rounded-s-sm\",\n  \"[&_.border-separate_tr_td:last-child]:rounded-e-sm\",\n  \"[&_.border-separate_tr_th:first-child]:rounded-s-sm\",\n  \"[&_.border-separate_tr_th:last-child]:rounded-e-sm\"\n]",
+          "code": "[\n  \"[&_.border-separate_tr_td:first-child]:rounded-s-xs\",\n  \"[&_.border-separate_tr_td:last-child]:rounded-e-xs\",\n  \"[&_.border-separate_tr_th:first-child]:rounded-s-xs\",\n  \"[&_.border-separate_tr_th:last-child]:rounded-e-xs\"\n]",
           "discriminators": [],
           "name": "rounded_size",
           "slots": []
@@ -195613,7 +195613,7 @@
         {
           "args": "\"extra_small\", \"base_separated\"",
           "attrs": [],
-          "code": "[\n  \"[&_.border-separate_tr_td:first-child]:rounded-s-sm\",\n  \"[&_.border-separate_tr_td:last-child]:rounded-e-sm\",\n  \"[&_.border-separate_tr_th:first-child]:rounded-s-sm\",\n  \"[&_.border-separate_tr_th:last-child]:rounded-e-sm\"\n]",
+          "code": "[\n  \"[&_.border-separate_tr_td:first-child]:rounded-s-xs\",\n  \"[&_.border-separate_tr_td:last-child]:rounded-e-xs\",\n  \"[&_.border-separate_tr_th:first-child]:rounded-s-xs\",\n  \"[&_.border-separate_tr_th:last-child]:rounded-e-xs\"\n]",
           "discriminators": [],
           "name": "rounded_size",
           "slots": []
@@ -195669,7 +195669,7 @@
         {
           "args": "\"extra_small\", _",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [],
           "name": "rounded_size",
           "slots": []
@@ -198842,7 +198842,7 @@
         {
           "args": "\"extra_small\", \"normal\"",
           "attrs": [],
-          "code": "[\"[&>.chat-section-bubble]:rounded-e-sm [&>.chat-section-bubble]:rounded-es-sm\"]",
+          "code": "[\"[&>.chat-section-bubble]:rounded-e-xs [&>.chat-section-bubble]:rounded-es-xs\"]",
           "discriminators": [
             {
               "axis": "rounded",
@@ -198917,7 +198917,7 @@
         {
           "args": "\"extra_small\", \"flipped\"",
           "attrs": [],
-          "code": "[\"[&>.chat-section-bubble]:rounded-s-sm [&>.chat-section-bubble]:rounded-ee-sm\"]",
+          "code": "[\"[&>.chat-section-bubble]:rounded-s-xs [&>.chat-section-bubble]:rounded-ee-xs\"]",
           "discriminators": [
             {
               "axis": "rounded",
@@ -200975,7 +200975,7 @@
         {
           "args": "\"extra_small\", \"normal\"",
           "attrs": [],
-          "code": "[\"[&>.chat-section-bubble]:rounded-e-sm [&>.chat-section-bubble]:rounded-es-sm\"]",
+          "code": "[\"[&>.chat-section-bubble]:rounded-e-xs [&>.chat-section-bubble]:rounded-es-xs\"]",
           "discriminators": [
             {
               "axis": "rounded",
@@ -201050,7 +201050,7 @@
         {
           "args": "\"extra_small\", \"flipped\"",
           "attrs": [],
-          "code": "[\"[&>.chat-section-bubble]:rounded-s-sm [&>.chat-section-bubble]:rounded-ee-sm\"]",
+          "code": "[\"[&>.chat-section-bubble]:rounded-s-xs [&>.chat-section-bubble]:rounded-ee-xs\"]",
           "discriminators": [
             {
               "axis": "rounded",
@@ -210467,7 +210467,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -211883,7 +211883,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -213846,7 +213846,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -217519,7 +217519,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -219806,7 +219806,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -221786,7 +221786,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"[&_.color-field-wrapper_.color-input]:rounded-sm\"",
+          "code": "\"[&_.color-field-wrapper_.color-input]:rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -222722,7 +222722,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -224671,7 +224671,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm\"",
+          "code": "\"rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -224792,7 +224792,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"shadow-sm\"",
+          "code": "\"shadow-xs\"",
           "discriminators": [],
           "name": "shadow_size",
           "slots": []
@@ -224840,7 +224840,7 @@
         {
           "args": "\"blur\", \"extra_small\"",
           "attrs": [],
-          "code": "\"blur-sm\"",
+          "code": "\"blur-xs\"",
           "discriminators": [],
           "name": "filter_class",
           "slots": []
@@ -227872,7 +227872,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm [&.gradient-button:before]:rounded-[1px]\"",
+          "code": "\"rounded-xs [&.gradient-button:before]:rounded-[1px]\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -237909,7 +237909,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm [&.gradient-button:before]:rounded-[1px]\"",
+          "code": "\"rounded-xs [&.gradient-button:before]:rounded-[1px]\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -241256,7 +241256,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm [&.gradient-button:before]:rounded-[1px]\"",
+          "code": "\"rounded-xs [&.gradient-button:before]:rounded-[1px]\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -244691,7 +244691,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm [&.gradient-button:before]:rounded-[1px]\"",
+          "code": "\"rounded-xs [&.gradient-button:before]:rounded-[1px]\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -247811,7 +247811,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"rounded-sm [&.gradient-button:before]:rounded-[1px]\"",
+          "code": "\"rounded-xs [&.gradient-button:before]:rounded-[1px]\"",
           "discriminators": [
             {
               "axis": "rounded",
@@ -248949,7 +248949,7 @@
         {
           "args": "\"extra_small\"",
           "attrs": [],
-          "code": "\"[&_.textarea-field-wrapper]:rounded-sm\"",
+          "code": "\"[&_.textarea-field-wrapper]:rounded-xs\"",
           "discriminators": [
             {
               "axis": "rounded",

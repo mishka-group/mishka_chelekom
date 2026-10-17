@@ -823,7 +823,7 @@ defmodule DevelopmentWeb.Components.Badge do
 
   defp color_variant(params, _) when is_binary(params), do: params
 
-  defp rounded_size("extra_small"), do: "rounded-sm"
+  defp rounded_size("extra_small"), do: "rounded-xs"
 
   defp rounded_size("small"), do: "rounded"
 

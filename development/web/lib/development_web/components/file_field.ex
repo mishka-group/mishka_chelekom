@@ -399,7 +399,7 @@ defmodule DevelopmentWeb.Components.FileField do
   defp rounded_size("none"), do: nil
 
   defp rounded_size("extra_small"),
-    do: "[&_.file-field]:rounded-sm [&_.dropzone-wrapper]:rounded-sm"
+    do: "[&_.file-field]:rounded-xs [&_.dropzone-wrapper]:rounded-xs"
 
   defp rounded_size("small"), do: "[&_.file-field]:rounded [&_.dropzone-wrapper]:rounded"
 

@@ -531,7 +531,7 @@ defmodule DevelopmentWeb.Components.Progress do
   defp position_class(_), do: position_class("top")
 
   defp rounded_size("extra_small") do
-    "rounded-sm [&:not(.vertical-progress)_.progress-section:last-of-type]:rounded-e-sm"
+    "rounded-xs [&:not(.vertical-progress)_.progress-section:last-of-type]:rounded-e-xs"
   end
 
   defp rounded_size("small") do

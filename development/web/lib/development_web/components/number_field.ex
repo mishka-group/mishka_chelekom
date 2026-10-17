@@ -322,7 +322,7 @@ defmodule DevelopmentWeb.Components.NumberField do
 
   defp size_class(params) when is_binary(params), do: params
 
-  defp rounded_size("extra_small"), do: "[&_.number-field-wrapper]:rounded-sm"
+  defp rounded_size("extra_small"), do: "[&_.number-field-wrapper]:rounded-xs"
 
   defp rounded_size("small"), do: "[&_.number-field-wrapper]:rounded"
 

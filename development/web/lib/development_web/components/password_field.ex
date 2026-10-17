@@ -363,7 +363,7 @@ defmodule DevelopmentWeb.Components.PasswordField do
 
   defp size_class(params) when is_binary(params), do: params
 
-  defp rounded_size("extra_small"), do: "[&_.password-field-wrapper]:rounded-sm"
+  defp rounded_size("extra_small"), do: "[&_.password-field-wrapper]:rounded-xs"
 
   defp rounded_size("small"), do: "[&_.password-field-wrapper]:rounded"
 

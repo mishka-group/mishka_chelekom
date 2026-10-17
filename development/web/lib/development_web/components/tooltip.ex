@@ -257,7 +257,7 @@ defmodule DevelopmentWeb.Components.Tooltip do
 
   defp arrow_position_class(_), do: arrow_position_class("top")
 
-  defp rounded_size("extra_small"), do: "rounded-sm"
+  defp rounded_size("extra_small"), do: "rounded-xs"
 
   defp rounded_size("small"), do: "rounded"
 

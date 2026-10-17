@@ -89,7 +89,7 @@ defmodule DevelopmentWeb.Components.Skeleton do
     """
   end
 
-  defp rounded_size("extra_small"), do: "rounded-sm"
+  defp rounded_size("extra_small"), do: "rounded-xs"
 
   defp rounded_size("small"), do: "rounded"
 

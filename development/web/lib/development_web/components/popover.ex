@@ -266,7 +266,7 @@ defmodule DevelopmentWeb.Components.Popover do
   defp border_class("none", _), do: nil
   defp border_class(params, _) when is_binary(params), do: params
 
-  defp rounded_size("extra_small"), do: "rounded-sm"
+  defp rounded_size("extra_small"), do: "rounded-xs"
 
   defp rounded_size("small"), do: "rounded"
 

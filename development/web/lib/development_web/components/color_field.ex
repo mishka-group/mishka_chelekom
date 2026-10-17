@@ -201,7 +201,7 @@ defmodule DevelopmentWeb.Components.ColorField do
 
   defp size_class(params) when is_binary(params), do: params
 
-  defp rounded_size("extra_small"), do: "[&_.color-field-wrapper_.color-input]:rounded-sm"
+  defp rounded_size("extra_small"), do: "[&_.color-field-wrapper_.color-input]:rounded-xs"
 
   defp rounded_size("small"), do: "[&_.color-field-wrapper_.color-input]:rounded"
 

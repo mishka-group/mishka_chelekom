@@ -147,7 +147,7 @@ defmodule DevelopmentWeb.Components.Fieldset do
   defp rounded_size("none"), do: nil
 
   defp rounded_size("extra_small") do
-    "[&_.fieldset-field]:rounded-sm [&_.fieldset-legend]:rounded-t-sm"
+    "[&_.fieldset-field]:rounded-xs [&_.fieldset-legend]:rounded-t-xs"
   end
 
   defp rounded_size("small") do

@@ -201,7 +201,7 @@ defmodule DevelopmentWeb.Components.Chat do
 
   defp rounded_size("extra_small", "normal") do
     [
-      "[&>.chat-section-bubble]:rounded-e-sm [&>.chat-section-bubble]:rounded-es-sm"
+      "[&>.chat-section-bubble]:rounded-e-xs [&>.chat-section-bubble]:rounded-es-xs"
     ]
   end
 
@@ -231,7 +231,7 @@ defmodule DevelopmentWeb.Components.Chat do
 
   defp rounded_size("extra_small", "flipped") do
     [
-      "[&>.chat-section-bubble]:rounded-s-sm [&>.chat-section-bubble]:rounded-ee-sm"
+      "[&>.chat-section-bubble]:rounded-s-xs [&>.chat-section-bubble]:rounded-ee-xs"
     ]
   end
 

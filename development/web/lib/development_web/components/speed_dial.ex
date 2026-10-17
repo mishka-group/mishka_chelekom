@@ -385,7 +385,7 @@ defmodule DevelopmentWeb.Components.SpeedDial do
 
   defp rounded_size("none"), do: nil
 
-  defp rounded_size("extra_small"), do: "[&_.speed-dial-base]:rounded-sm"
+  defp rounded_size("extra_small"), do: "[&_.speed-dial-base]:rounded-xs"
 
   defp rounded_size("small"), do: "[&_.speed-dial-base]:rounded"
 

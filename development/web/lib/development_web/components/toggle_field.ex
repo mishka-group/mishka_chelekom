@@ -177,7 +177,7 @@ defmodule DevelopmentWeb.Components.ToggleField do
   end
 
   defp rounded_size("extra_small"),
-    do: "[&_.toggle-field-base]:rounded-sm [&_.toggle-field-circle]:rounded-sm"
+    do: "[&_.toggle-field-base]:rounded-xs [&_.toggle-field-circle]:rounded-xs"
 
   defp rounded_size("small"),
     do: "[&_.toggle-field-base]:rounded [&_.toggle-field-circle]:rounded"

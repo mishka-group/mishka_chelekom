@@ -189,7 +189,7 @@ defmodule DevelopmentWeb.Components.Footer do
   defp border_class("extra_large", _), do: "border-t-[5px]"
   defp border_class(params, _) when is_binary(params), do: params
 
-  defp rounded_size("extra_small"), do: "rounded-t-sm"
+  defp rounded_size("extra_small"), do: "rounded-t-xs"
 
   defp rounded_size("small"), do: "rounded-t"
 

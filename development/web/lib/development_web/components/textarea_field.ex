@@ -289,7 +289,7 @@ defmodule DevelopmentWeb.Components.TextareaField do
 
   defp height_size(params) when is_binary(params), do: params
 
-  defp rounded_size("extra_small"), do: "[&_.textarea-field-wrapper]:rounded-sm"
+  defp rounded_size("extra_small"), do: "[&_.textarea-field-wrapper]:rounded-xs"
 
   defp rounded_size("small"), do: "[&_.textarea-field-wrapper]:rounded"
 

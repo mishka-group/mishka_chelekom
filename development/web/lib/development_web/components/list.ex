@@ -419,7 +419,7 @@ defmodule DevelopmentWeb.Components.List do
   defp content_position(params) when is_binary(params), do: params
 
   defp rounded_size("extra_small"),
-    do: "[&:not(.list-items-gap)]:rounded-sm [&.list-items-gap>li]:rounded-sm"
+    do: "[&:not(.list-items-gap)]:rounded-xs [&.list-items-gap>li]:rounded-xs"
 
   defp rounded_size("small"), do: "[&:not(.list-items-gap)]:rounded [&.list-items-gap>li]:rounded"
 

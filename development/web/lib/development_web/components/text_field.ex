@@ -330,7 +330,7 @@ defmodule DevelopmentWeb.Components.TextField do
 
   defp size_class(params) when is_binary(params), do: params
 
-  defp rounded_size("extra_small"), do: "[&_.text-field-wrapper]:rounded-sm"
+  defp rounded_size("extra_small"), do: "[&_.text-field-wrapper]:rounded-xs"
 
   defp rounded_size("small"), do: "[&_.text-field-wrapper]:rounded"
 

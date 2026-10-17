@@ -286,7 +286,7 @@ defmodule DevelopmentWeb.Components.Banner do
 
   defp position_class(params, _) when is_binary(params), do: params
 
-  defp rounded_size("extra_small", "top"), do: "rounded-t-sm"
+  defp rounded_size("extra_small", "top"), do: "rounded-t-xs"
 
   defp rounded_size("small", "top"), do: "rounded-t"
 
@@ -296,7 +296,7 @@ defmodule DevelopmentWeb.Components.Banner do
 
   defp rounded_size("extra_large", "top"), do: "rounded-t-xl"
 
-  defp rounded_size("extra_small", "bottom"), do: "rounded-b-sm"
+  defp rounded_size("extra_small", "bottom"), do: "rounded-b-xs"
 
   defp rounded_size("small", "bottom"), do: "rounded-b"
 
@@ -306,7 +306,7 @@ defmodule DevelopmentWeb.Components.Banner do
 
   defp rounded_size("extra_large", "bottom"), do: "rounded-b-xl"
 
-  defp rounded_size("extra_small", "all"), do: "rounded-sm"
+  defp rounded_size("extra_small", "all"), do: "rounded-xs"
 
   defp rounded_size("small", "all"), do: "rounded"
 

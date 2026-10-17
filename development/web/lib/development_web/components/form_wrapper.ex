@@ -154,7 +154,7 @@ defmodule DevelopmentWeb.Components.FormWrapper do
 
   defp size_class(params) when is_binary(params), do: params
 
-  defp rounded_size("extra_small"), do: "rounded-sm"
+  defp rounded_size("extra_small"), do: "rounded-xs"
 
   defp rounded_size("small"), do: "rounded"
 

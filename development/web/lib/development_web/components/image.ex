@@ -101,7 +101,7 @@ defmodule DevelopmentWeb.Components.Image do
     """
   end
 
-  defp rounded_size("extra_small"), do: "rounded-sm"
+  defp rounded_size("extra_small"), do: "rounded-xs"
 
   defp rounded_size("small"), do: "rounded"
 
@@ -117,14 +117,14 @@ defmodule DevelopmentWeb.Components.Image do
 
   defp rounded_size(params) when is_binary(params), do: params
 
-  defp shadow_size("extra_small"), do: "shadow-sm"
+  defp shadow_size("extra_small"), do: "shadow-xs"
   defp shadow_size("small"), do: "shadow"
   defp shadow_size("medium"), do: "shadow-md"
   defp shadow_size("large"), do: "shadow-lg"
   defp shadow_size("extra_large"), do: "shadow-xl"
   defp shadow_size(params) when is_binary(params), do: params
 
-  defp filter_class("blur", "extra_small"), do: "blur-sm"
+  defp filter_class("blur", "extra_small"), do: "blur-xs"
   defp filter_class("blur", "small"), do: "blur"
   defp filter_class("blur", "medium"), do: "blur-md"
   defp filter_class("blur", "large"), do: "blur-lg"
