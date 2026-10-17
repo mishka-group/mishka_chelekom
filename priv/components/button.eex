@@ -707,7 +707,7 @@ defmodule <%= @module %> do
       "dark:bg-base-bg-dark dark:text-base-text-dark dark:border-base-border-dark dark:hover:bg-base-hover-dark",
       "disabled:bg-base-disabled-bg-light disabled:text-base-disabled-text-light dark:disabled:bg-base-disabled-bg-dark dark:disabled:text-base-disabled-text-dark",
       "disabled:border-base-disabled-border-light dark:disabled:border-base-disabled-border-dark",
-      "shadow-sm",
+      "shadow-xs",
       indicator && "[&>.indicator]:bg-base-border-light dark:[&>.indicator]:bg-base-border-dark",
     ]
   end
@@ -2121,7 +2121,7 @@ defmodule <%= @module %> do
   defp rounded_size("extra_small"), do: "rounded-xs [&.gradient-button:before]:rounded-[1px]"
   <% end %>
   <%= if is_nil(@rounded) or "small" in @rounded do %>
-  defp rounded_size("small"), do: "rounded [&.gradient-button:before]:rounded-[2px]"
+  defp rounded_size("small"), do: "rounded-sm [&.gradient-button:before]:rounded-[2px]"
   <% end %>
   <%= if is_nil(@rounded) or "medium" in @rounded do %>
   defp rounded_size("medium"), do: "rounded-md [&.gradient-button:before]:rounded-[4px]"

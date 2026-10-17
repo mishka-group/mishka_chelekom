@@ -329,7 +329,7 @@ defmodule <%= @module %> do
   defp rounded_size("extra_small"), do: "[&_.checkbox-field-wrapper_.checkbox-input]:rounded-xs"
   <% end %>
   <%= if is_nil(@rounded) or "small" in @rounded do %>
-  defp rounded_size("small"), do: "[&_.checkbox-field-wrapper_.checkbox-input]:rounded"
+  defp rounded_size("small"), do: "[&_.checkbox-field-wrapper_.checkbox-input]:rounded-sm"
   <% end %>
   <%= if is_nil(@rounded) or "medium" in @rounded do %>
   defp rounded_size("medium"), do: "[&_.checkbox-field-wrapper_.checkbox-input]:rounded-md"

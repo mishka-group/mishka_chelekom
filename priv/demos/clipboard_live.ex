@@ -81,7 +81,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.ClipboardLive do
     """
     <.clipboard text="Invite Code: CHELEKOM123" success_class="bg-green-500 text-white">
       <:trigger>
-        <button class="px-3 py-1 border rounded">Copy Code</button>
+        <button class="px-3 py-1 border rounded-sm">Copy Code</button>
       </:trigger>
     </.clipboard>
 
@@ -108,7 +108,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.ClipboardLive do
     """
     <.clipboard text="this-will-fail!" error_class="bg-red-500 text-white">
       <:trigger>
-        <button class="px-3 py-1 border rounded">Copy Text</button>
+        <button class="px-3 py-1 border rounded-sm">Copy Text</button>
       </:trigger>
     </.clipboard>
     """
@@ -194,7 +194,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.ClipboardLive do
     """
     <.clipboard text="https://mishka.tools/chelekom">
       <:trigger>
-        <button class="bg-blue-500 text-white px-3 py-1 rounded">Copy Link</button>
+        <button class="bg-blue-500 text-white px-3 py-1 rounded-sm">Copy Link</button>
       </:trigger>
     </.clipboard>
     """
@@ -208,7 +208,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.ClipboardLive do
       status_class="text-green-600 font-semibold text-sm mt-1"
     >
       <:trigger>
-        <button class="px-3 py-1 border rounded">Copy</button>
+        <button class="px-3 py-1 border rounded-sm">Copy</button>
       </:trigger>
     </.clipboard>
     """

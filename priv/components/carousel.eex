@@ -339,7 +339,7 @@ defmodule <%= @module %> do
         "[&>.carousel-indicator]:h-1 [&>.carousel-indicator]:w-6 [&>.carousel-indicator]:bg-white",
         "[&>.carousel-indicator.active-indicator]:opacity-100",
         "[&>.carousel-indicator]:opacity-40 [&>.carousel-indicator]:transition-all",
-        "[&>.carousel-indicator]:duration-500 [&>.carousel-indicator]:ease-in-out shadow"
+        "[&>.carousel-indicator]:duration-500 [&>.carousel-indicator]:ease-in-out shadow-sm"
       ]}
     >
       <button

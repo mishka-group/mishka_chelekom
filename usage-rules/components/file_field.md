@@ -178,7 +178,7 @@ raises `KeyError`. A plain file input needs only a `name`, or a `field`.
   />
 
   <div :if={@uploads.documents.entries != []} class="mt-4 space-y-2">
-    <div :for={entry <- @uploads.documents.entries} class="flex items-center gap-4 p-3 bg-gray-50 rounded">
+    <div :for={entry <- @uploads.documents.entries} class="flex items-center gap-4 p-3 bg-gray-50 rounded-sm">
       <.icon name="hero-document" class="size-6" />
       <div class="flex-1">
         <p class="font-medium">{entry.client_name}</p>

@@ -184,10 +184,10 @@ mix mishka.ui.gen.component mega_menu --module MyAppWeb.Components.CustomMegaMen
     <div>
       <h4 class="font-bold mb-4">Learn</h4>
       <.list variant="transparent" size="small">
-        <:item icon="hero-book-open" padding="small" class="hover:bg-gray-50 rounded">
+        <:item icon="hero-book-open" padding="small" class="hover:bg-gray-50 rounded-sm">
           Documentation
         </:item>
-        <:item icon="hero-academic-cap" padding="small" class="hover:bg-gray-50 rounded">
+        <:item icon="hero-academic-cap" padding="small" class="hover:bg-gray-50 rounded-sm">
           Tutorials
         </:item>
       </.list>
@@ -195,10 +195,10 @@ mix mishka.ui.gen.component mega_menu --module MyAppWeb.Components.CustomMegaMen
     <div>
       <h4 class="font-bold mb-4">Community</h4>
       <.list variant="transparent" size="small">
-        <:item icon="hero-user-group" padding="small" class="hover:bg-gray-50 rounded">
+        <:item icon="hero-user-group" padding="small" class="hover:bg-gray-50 rounded-sm">
           Forum
         </:item>
-        <:item icon="hero-code-bracket" padding="small" class="hover:bg-gray-50 rounded">
+        <:item icon="hero-code-bracket" padding="small" class="hover:bg-gray-50 rounded-sm">
           GitHub
         </:item>
       </.list>

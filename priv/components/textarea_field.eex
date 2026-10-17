@@ -296,7 +296,7 @@ defmodule <%= @module %> do
   defp rounded_size("extra_small"), do: "[&_.textarea-field-wrapper]:rounded-xs"
   <% end %>
   <%= if is_nil(@rounded) or "small" in @rounded do %>
-  defp rounded_size("small"), do: "[&_.textarea-field-wrapper]:rounded"
+  defp rounded_size("small"), do: "[&_.textarea-field-wrapper]:rounded-sm"
   <% end %>
   <%= if is_nil(@rounded) or "medium" in @rounded do %>
   defp rounded_size("medium"), do: "[&_.textarea-field-wrapper]:rounded-md"
@@ -356,7 +356,7 @@ defmodule <%= @module %> do
       "[&_.textarea-field-wrapper.textarea-field-error]:border-rose-700",
       "[&_.textarea-field-wrapper>input]:placeholder:text-base-text-light dark:[&_.textarea-field-wrapper>input]:placeholder:text-base-text-dark",
       "focus-within:[&_.textarea-field-wrapper]:ring-base-border-light dark:focus-within:[&_.textarea-field-wrapper]:ring-base-border-light",
-      "[&_.textarea-field-wrapper]:shadow-sm",
+      "[&_.textarea-field-wrapper]:shadow-xs",
       floating == "outer" &&
         "[&_.textarea-field-wrapper_.floating-label]:bg-white dark:[&_.textarea-field-wrapper_.floating-label]:bg-base-bg-dark"
     ]

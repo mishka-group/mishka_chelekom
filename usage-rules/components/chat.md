@@ -168,7 +168,7 @@ mix mishka.ui.gen.component chat --module MyAppWeb.Components.CustomChat
   <.chat_section>
     Here's the document you requested.
     <:meta>
-      <div class="mt-2 p-2 bg-gray-100 rounded flex items-center gap-2">
+      <div class="mt-2 p-2 bg-gray-100 rounded-sm flex items-center gap-2">
         <.icon name="hero-document" class="size-5" />
         <span>report.pdf</span>
         <.link href="/downloads/report.pdf" class="text-primary-500">Download</.link>

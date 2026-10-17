@@ -187,7 +187,7 @@ mix mishka.ui.gen.component banner --module MyAppWeb.Components.CustomBanner
 ```heex
 <.banner
   id="custom-banner"
-  class="backdrop-blur-sm"
+  class="backdrop-blur-xs"
   content_wrapper_class="max-w-4xl mx-auto"
   font_weight="font-medium"
   color="natural"

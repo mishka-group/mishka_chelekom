@@ -126,10 +126,10 @@ Transparent variant plus per-item `class` (e.g. hover styling) is the pattern fo
 
 ```heex
 <.list variant="transparent" size="small">
-  <:item icon="hero-home" padding="small" class="hover:bg-gray-100 rounded cursor-pointer">
+  <:item icon="hero-home" padding="small" class="hover:bg-gray-100 rounded-sm cursor-pointer">
     Dashboard
   </:item>
-  <:item icon="hero-users" padding="small" class="hover:bg-gray-100 rounded cursor-pointer">
+  <:item icon="hero-users" padding="small" class="hover:bg-gray-100 rounded-sm cursor-pointer">
     Users
   </:item>
 </.list>

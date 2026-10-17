@@ -425,7 +425,7 @@ defmodule <%= @module %> do
     do: "[&:not(.list-items-gap)]:rounded-xs [&.list-items-gap>li]:rounded-xs"
   <% end %>
   <%= if is_nil(@rounded) or "small" in @rounded do %>
-  defp rounded_size("small"), do: "[&:not(.list-items-gap)]:rounded [&.list-items-gap>li]:rounded"
+  defp rounded_size("small"), do: "[&:not(.list-items-gap)]:rounded-sm [&.list-items-gap>li]:rounded-sm"
   <% end %>
   <%= if is_nil(@rounded) or "medium" in @rounded do %>
   defp rounded_size("medium"),
@@ -592,7 +592,7 @@ defmodule <%= @module %> do
  <%= if is_nil(@variant) or "base" in @variant do %>
   defp color_variant("base", _, hoverable) do
     [
-      "bg-white text-base-text-light border-base-border-light shadow-sm",
+      "bg-white text-base-text-light border-base-border-light shadow-xs",
       "dark:bg-base-bg-dark dark:text-base-text-dark dark:border-base-border-dark",
       "[&>li:not(:last-child)]:border-base-border-light dark:[&>li:not(:last-child)]:border-base-border-dark",
       hoverable && "[&_li]:hover:bg-base-hover-light dark:[&_li]:hover:bg-base-hover-dark"

@@ -437,7 +437,7 @@ defmodule <%= @module %> do
   defp rounded_size("extra_small"), do: "rounded-xs"
   <% end %>
   <%= if is_nil(@rounded) or "small" in @rounded do %>
-  defp rounded_size("small"), do: "rounded"
+  defp rounded_size("small"), do: "rounded-sm"
   <% end %>
   <%= if is_nil(@rounded) or "medium" in @rounded do %>
   defp rounded_size("medium"), do: "rounded-md"
@@ -636,7 +636,7 @@ defmodule <%= @module %> do
 
 
   defp shadow_class("extra_small"), do: "shadow-xs"
-  defp shadow_class("small"), do: "shadow"
+  defp shadow_class("small"), do: "shadow-sm"
   defp shadow_class("medium"), do: "shadow-md"
   defp shadow_class("large"), do: "shadow-lg"
   defp shadow_class("extra_large"), do: "shadow-xl"

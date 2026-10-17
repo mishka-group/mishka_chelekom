@@ -211,7 +211,7 @@ defmodule <%= @module %> do
   <%= if is_nil(@rounded) or "small" in @rounded do %>
   defp rounded_size("small", "normal") do
     [
-      "[&>.chat-section-bubble]:rounded-e [&>.chat-section-bubble]:rounded-es"
+      "[&>.chat-section-bubble]:rounded-e-sm [&>.chat-section-bubble]:rounded-es-sm"
     ]
   end
   <% end %>
@@ -246,7 +246,7 @@ defmodule <%= @module %> do
   <%= if is_nil(@rounded) or "small" in @rounded do %>
   defp rounded_size("small", "flipped") do
     [
-      "[&>.chat-section-bubble]:rounded-s [&>.chat-section-bubble]:rounded-ee"
+      "[&>.chat-section-bubble]:rounded-s-sm [&>.chat-section-bubble]:rounded-ee-sm"
     ]
   end
   <% end %>
@@ -345,7 +345,7 @@ defmodule <%= @module %> do
   defp color_variant("base", _) do
     [
       "[&>.chat-section-bubble]:bg-white [&>.chat-section-bubble]:text-base-text-light",
-      "[&>.chat-section-bubble]:border-base-border-light [&>.chat-section-bubble]:shadow-sm",
+      "[&>.chat-section-bubble]:border-base-border-light [&>.chat-section-bubble]:shadow-xs",
       "dark:[&>.chat-section-bubble]:bg-base-bg-dark dark:[&>.chat-section-bubble]:text-base-text-dark",
       "dark:[&>.chat-section-bubble]:border-base-border-dark"
     ]

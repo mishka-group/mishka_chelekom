@@ -200,7 +200,7 @@ defmodule <%= @module %> do
       <div aria-live="polite" class="mt-5 space-y-4">
         <%%= for entry <- @entries do %>
           <div
-            class="upload-item border rounded relative p-3"
+            class="upload-item border rounded-sm relative p-3"
             role="group"
             aria-label={gettext("Uploading %{file}", file: entry.client_name)}
           >
@@ -305,9 +305,9 @@ defmodule <%= @module %> do
               aria-label={gettext("Uploading %{file}", file: entry.client_name)}
               class="relative"
             >
-              <div class="rounded w-24 h-24 overflow-hidden">
+              <div class="rounded-sm w-24 h-24 overflow-hidden">
                 <figure class="w-full h-full object-cover">
-                  <.live_img_preview entry={entry} class="w-full h-full object-cover rounded" />
+                  <.live_img_preview entry={entry} class="w-full h-full object-cover rounded-sm" />
                 </figure>
               </div>
 
@@ -316,7 +316,7 @@ defmodule <%= @module %> do
                 phx-click="cancel-upload"
                 phx-value-ref={entry.ref}
                 aria-label={gettext("Cancel upload for %{file}", file: entry.client_name)}
-                class="bg-black/30 rounded p-px text-white flex justify-center items-center absolute top-2 right-2 z-10"
+                class="bg-black/30 rounded-sm p-px text-white flex justify-center items-center absolute top-2 right-2 z-10"
               >
                 <.<%= @component_prefix %>icon name="hero-x-mark" class="size-4" />
               </button>
@@ -410,7 +410,7 @@ defmodule <%= @module %> do
     do: "[&_.file-field]:rounded-xs [&_.dropzone-wrapper]:rounded-xs"
   <% end %>
   <%= if is_nil(@rounded) or "small" in @rounded do %>
-  defp rounded_size("small"), do: "[&_.file-field]:rounded [&_.dropzone-wrapper]:rounded"
+  defp rounded_size("small"), do: "[&_.file-field]:rounded-sm [&_.dropzone-wrapper]:rounded-sm"
   <% end %>
   <%= if is_nil(@rounded) or "medium" in @rounded do %>
   defp rounded_size("medium"), do: "[&_.file-field]:rounded-md [&_.dropzone-wrapper]:rounded-md"
@@ -560,7 +560,7 @@ defmodule <%= @module %> do
   <%= if is_nil(@variant) or "base" in @variant do %>
   defp color_variant("base", _) do
     [
-      "text-base-text-light [&_.dropzone-wrapper]:border-base-border-light [&_.dropzone-wrapper]:bg-white shadow-sm",
+      "text-base-text-light [&_.dropzone-wrapper]:border-base-border-light [&_.dropzone-wrapper]:bg-white shadow-xs",
       "dark:text-base-text-dark dark:[&_.dropzone-wrapper]:border-base-border-dark dark:[&_.dropzone-wrapper]:bg-base-bg-dark"
     ]
   end

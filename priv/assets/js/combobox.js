@@ -707,7 +707,7 @@ let Combobox = {
     el.classList.add(
       "combobox-option",
       "cursor-pointer",
-      "rounded",
+      "rounded-sm",
       "flex",
       "justify-between",
       "items-center",

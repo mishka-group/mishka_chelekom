@@ -51,9 +51,9 @@ mix mishka.ui.gen.component sidebar
   <div class="p-4">
     <h2 class="text-white font-bold mb-4">Menu</h2>
     <nav class="space-y-2">
-      <a href="#" class="block text-white hover:bg-white/10 p-2 rounded">Home</a>
-      <a href="#" class="block text-white hover:bg-white/10 p-2 rounded">Products</a>
-      <a href="#" class="block text-white hover:bg-white/10 p-2 rounded">Settings</a>
+      <a href="#" class="block text-white hover:bg-white/10 p-2 rounded-sm">Home</a>
+      <a href="#" class="block text-white hover:bg-white/10 p-2 rounded-sm">Products</a>
+      <a href="#" class="block text-white hover:bg-white/10 p-2 rounded-sm">Settings</a>
     </nav>
   </div>
 </.sidebar>
@@ -95,15 +95,15 @@ Toggling is driven by dispatching the `"toggle-sidebar"` JS event to the sidebar
     </div>
 
     <nav class="flex-1 p-4 space-y-1">
-      <a href="/" class="flex items-center gap-3 text-white p-2 rounded hover:bg-white/10">
+      <a href="/" class="flex items-center gap-3 text-white p-2 rounded-sm hover:bg-white/10">
         <.icon name="hero-home" class="size-5" />
         <span>Dashboard</span>
       </a>
-      <a href="/users" class="flex items-center gap-3 text-white p-2 rounded hover:bg-white/10">
+      <a href="/users" class="flex items-center gap-3 text-white p-2 rounded-sm hover:bg-white/10">
         <.icon name="hero-users" class="size-5" />
         <span>Users</span>
       </a>
-      <a href="/settings" class="flex items-center gap-3 text-white p-2 rounded hover:bg-white/10">
+      <a href="/settings" class="flex items-center gap-3 text-white p-2 rounded-sm hover:bg-white/10">
         <.icon name="hero-cog-6-tooth" class="size-5" />
         <span>Settings</span>
       </a>

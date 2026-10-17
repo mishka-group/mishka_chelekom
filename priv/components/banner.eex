@@ -292,7 +292,7 @@ defmodule <%= @module %> do
   defp rounded_size("extra_small", "top"), do: "rounded-t-xs"
   <% end %>
   <%= if is_nil(@rounded) or "small" in @rounded do %>
-  defp rounded_size("small", "top"), do: "rounded-t"
+  defp rounded_size("small", "top"), do: "rounded-t-sm"
   <% end %>
   <%= if is_nil(@rounded) or "medium" in @rounded do %>
   defp rounded_size("medium", "top"), do: "rounded-t-md"
@@ -307,7 +307,7 @@ defmodule <%= @module %> do
   defp rounded_size("extra_small", "bottom"), do: "rounded-b-xs"
   <% end %>
   <%= if is_nil(@rounded) or "small" in @rounded do %>
-  defp rounded_size("small", "bottom"), do: "rounded-b"
+  defp rounded_size("small", "bottom"), do: "rounded-b-sm"
   <% end %>
   <%= if is_nil(@rounded) or "medium" in @rounded do %>
   defp rounded_size("medium", "bottom"), do: "rounded-b-md"
@@ -322,7 +322,7 @@ defmodule <%= @module %> do
   defp rounded_size("extra_small", "all"), do: "rounded-xs"
   <% end %>
   <%= if is_nil(@rounded) or "small" in @rounded do %>
-  defp rounded_size("small", "all"), do: "rounded"
+  defp rounded_size("small", "all"), do: "rounded-sm"
   <% end %>
   <%= if is_nil(@rounded) or "medium" in @rounded do %>
   defp rounded_size("medium", "all"), do: "rounded-md"
@@ -388,7 +388,7 @@ defmodule <%= @module %> do
   <%= if is_nil(@variant) or "base" in @variant do %>
   defp color_variant("base", _) do
     [
-      "bg-white text-base-text-light border-base-border-light shadow-sm",
+      "bg-white text-base-text-light border-base-border-light shadow-xs",
       "dark:bg-base-bg-dark dark:text-base-text-dark dark:border-base-border-dark"
     ]
   end

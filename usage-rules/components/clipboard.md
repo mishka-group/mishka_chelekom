@@ -62,7 +62,7 @@ Content sources are prioritized in this order:
 ```heex
 <.clipboard text="Text to copy">
   <:trigger>
-    <button class="px-4 py-2 bg-blue-500 text-white rounded">
+    <button class="px-4 py-2 bg-blue-500 text-white rounded-sm">
       Copy
     </button>
   </:trigger>
@@ -72,7 +72,7 @@ Content sources are prioritized in this order:
 ### Copy from Element (`target_selector`)
 
 ```heex
-<div id="code-block" class="p-4 bg-gray-100 rounded">
+<div id="code-block" class="p-4 bg-gray-100 rounded-sm">
   npm install mishka_chelekom
 </div>
 
@@ -95,7 +95,7 @@ Content sources are prioritized in this order:
   error_class="bg-red-500 text-white"
 >
   <:trigger>
-    <button class="px-4 py-2 border rounded transition-colors">Copy</button>
+    <button class="px-4 py-2 border rounded-sm transition-colors">Copy</button>
   </:trigger>
 </.clipboard>
 ```
@@ -116,7 +116,7 @@ Content sources are prioritized in this order:
 <!-- show_status_text=false suppresses the visible status message (icon-only triggers) -->
 <.clipboard text="Secret value" show_status_text={false}>
   <:trigger>
-    <button class="p-2 hover:bg-gray-100 rounded">
+    <button class="p-2 hover:bg-gray-100 rounded-sm">
       <.icon name="hero-clipboard" class="size-5" />
     </button>
   </:trigger>
@@ -168,7 +168,7 @@ end
   </pre>
   <.clipboard target_selector="#code-example" class="absolute top-2 right-2">
     <:trigger>
-      <button class="p-2 bg-gray-700 hover:bg-gray-600 rounded text-gray-300">
+      <button class="p-2 bg-gray-700 hover:bg-gray-600 rounded-sm text-gray-300">
         <.icon name="hero-clipboard" class="size-4" />
       </button>
     </:trigger>
@@ -185,11 +185,11 @@ end
     type="text"
     value={@share_url}
     readonly
-    class="flex-1 px-3 py-2 border rounded"
+    class="flex-1 px-3 py-2 border rounded-sm"
   />
   <.clipboard target_selector="#share-link">
     <:trigger>
-      <button class="px-4 py-2 bg-primary-500 text-white rounded">
+      <button class="px-4 py-2 bg-primary-500 text-white rounded-sm">
         Copy Link
       </button>
     </:trigger>
@@ -201,11 +201,11 @@ end
 
 ```heex
 <div :for={color <- @colors} class="flex items-center gap-2">
-  <div class="size-8 rounded" style={"background-color: #{color}"} />
+  <div class="size-8 rounded-sm" style={"background-color: #{color}"} />
   <span id={"color-#{color}"} class="font-mono text-sm">{color}</span>
   <.clipboard text={color} show_status_text={false}>
     <:trigger>
-      <button class="p-1 hover:bg-gray-100 rounded">
+      <button class="p-1 hover:bg-gray-100 rounded-sm">
         <.icon name="hero-clipboard" class="size-4" />
       </button>
     </:trigger>

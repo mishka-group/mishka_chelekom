@@ -73,9 +73,9 @@ hide_drawer(js \\ %JS{}, id, options)
 <.drawer id="left-drawer">
   <:header>Navigation</:header>
   <nav class="space-y-2">
-    <a href="/" class="block p-2 hover:bg-gray-100 rounded">Home</a>
-    <a href="/about" class="block p-2 hover:bg-gray-100 rounded">About</a>
-    <a href="/contact" class="block p-2 hover:bg-gray-100 rounded">Contact</a>
+    <a href="/" class="block p-2 hover:bg-gray-100 rounded-sm">Home</a>
+    <a href="/about" class="block p-2 hover:bg-gray-100 rounded-sm">About</a>
+    <a href="/contact" class="block p-2 hover:bg-gray-100 rounded-sm">Contact</a>
   </nav>
 </.drawer>
 
@@ -140,7 +140,7 @@ Use `hide_close={true}` and close manually via `hide_drawer/1,2`:
     </div>
   </:header>
   <nav class="space-y-1">
-    <a :for={item <- @nav_items} href={item.path} class="block p-3 hover:bg-gray-100 rounded">
+    <a :for={item <- @nav_items} href={item.path} class="block p-3 hover:bg-gray-100 rounded-sm">
       {item.label}
     </a>
   </nav>
@@ -159,7 +159,7 @@ Use `hide_close={true}` and close manually via `hide_drawer/1,2`:
   <:header>Shopping Cart ({@cart_count})</:header>
   <div class="space-y-4">
     <div :for={item <- @cart_items} class="flex gap-4 border-b pb-4">
-      <img src={item.image} class="w-16 h-16 object-cover rounded" />
+      <img src={item.image} class="w-16 h-16 object-cover rounded-sm" />
       <div class="flex-1">
         <p class="font-medium">{item.name}</p>
         <p class="text-gray-500">${item.price}</p>

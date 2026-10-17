@@ -65,7 +65,7 @@ mix mishka.ui.gen.component scroll_area
 ```heex
 <.scroll_area id="horizontal-scroll" horizontal vertical={false}>
   <div class="flex gap-4 w-max">
-    <div :for={i <- 1..10} class="w-48 h-32 bg-gray-200 rounded">
+    <div :for={i <- 1..10} class="w-48 h-32 bg-gray-200 rounded-sm">
       Item {i}
     </div>
   </div>
@@ -115,7 +115,7 @@ mix mishka.ui.gen.component scroll_area
 ```heex
 <.scroll_area id="sidebar-nav" height="h-[calc(100vh-4rem)]" padding="small">
   <nav class="space-y-2">
-    <a :for={item <- @nav_items} href={item.path} class="block p-2 rounded hover:bg-gray-100">
+    <a :for={item <- @nav_items} href={item.path} class="block p-2 rounded-sm hover:bg-gray-100">
       {item.label}
     </a>
   </nav>

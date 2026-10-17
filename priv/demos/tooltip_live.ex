@@ -510,7 +510,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.TooltipLive do
       color="success"
     >
       <:trigger>
-        <button class="bg-green-500 text-white px-4 py-2 rounded">Click for tooltip</button>
+        <button class="bg-green-500 text-white px-4 py-2 rounded-sm">Click for tooltip</button>
       </:trigger>
     </.tooltip>
     """

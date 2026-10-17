@@ -211,7 +211,7 @@ defmodule <%= @module %> do
   defp rounded_size("extra_small"), do: "[&_.color-field-wrapper_.color-input]:rounded-xs"
   <% end %>
   <%= if is_nil(@rounded) or "small" in @rounded do %>
-  defp rounded_size("small"), do: "[&_.color-field-wrapper_.color-input]:rounded"
+  defp rounded_size("small"), do: "[&_.color-field-wrapper_.color-input]:rounded-sm"
   <% end %>
   <%= if is_nil(@rounded) or "medium" in @rounded do %>
   defp rounded_size("medium"), do: "[&_.color-field-wrapper_.color-input]:rounded-md"

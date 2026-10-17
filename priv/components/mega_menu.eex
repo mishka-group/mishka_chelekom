@@ -266,7 +266,7 @@ defmodule <%= @module %> do
   defp rounded_size("extra_small"), do: "[&>.mega-menu-content]:rounded-xs"
   <% end %>
   <%= if is_nil(@rounded) or "small" in @rounded do %>
-  defp rounded_size("small"), do: "[&>.mega-menu-content]:rounded"
+  defp rounded_size("small"), do: "[&>.mega-menu-content]:rounded-sm"
   <% end %>
   <%= if is_nil(@rounded) or "medium" in @rounded do %>
   defp rounded_size("medium"), do: "[&>.mega-menu-content]:rounded-md"
@@ -335,7 +335,7 @@ defmodule <%= @module %> do
   <%= if is_nil(@variant) or "base" in @variant do %>
   defp color_variant("base", _) do
     [
-      "[&>.mega-menu-content]:bg-white text-base-text-light [&>.mega-menu-content]:border-base-border-light [&>.mega-menu-content]:shadow-sm",
+      "[&>.mega-menu-content]:bg-white text-base-text-light [&>.mega-menu-content]:border-base-border-light [&>.mega-menu-content]:shadow-xs",
       "dark:[&>.mega-menu-content]:bg-base-bg-dark dark:text-base-text-dark dark:[&>.mega-menu-content]:border-base-border-dark"
     ]
   end

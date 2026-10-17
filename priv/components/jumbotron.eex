@@ -194,7 +194,7 @@ defmodule <%= @module %> do
   <%= if is_nil(@variant) or "base" in @variant do %>
   defp color_variant("base", _) do
     [
-      "bg-white text-base-text-light border-base-border-light shadow-sm",
+      "bg-white text-base-text-light border-base-border-light shadow-xs",
       "dark:bg-base-bg-dark dark:text-base-text-dark dark:border-base-border-dark"
     ]
   end

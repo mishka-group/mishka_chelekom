@@ -113,7 +113,7 @@ defmodule <%= @module %> do
           name={@name}
           value="true"
           checked={@checked}
-          class="rounded h-8 p-1 border border-zinc-300 text-zinc-900 focus:ring-0"
+          class="rounded-sm h-8 p-1 border border-zinc-300 text-zinc-900 focus:ring-0"
           {@rest}
         /> {@label}
       </label>
@@ -131,7 +131,7 @@ defmodule <%= @module %> do
       <select
         id={@id}
         name={@name}
-        class="mt-2 block w-full rounded-md h-8 p-1 border border-zinc-300 bg-white shadow-sm focus:border-zinc-400 focus:ring-0 sm:text-sm"
+        class="mt-2 block w-full rounded-md h-8 p-1 border border-zinc-300 bg-white shadow-xs focus:border-zinc-400 focus:ring-0 sm:text-sm"
         multiple={@multiple}
         {@rest}
       >

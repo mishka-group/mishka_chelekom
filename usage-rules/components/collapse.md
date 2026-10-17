@@ -69,9 +69,9 @@ Use `event_handler` to override the default event name.
 ```heex
 <.collapse id="open-collapse" open={true} duration={500}>
   <:trigger>
-    <button class="px-4 py-2 bg-blue-500 text-white rounded">Settings</button>
+    <button class="px-4 py-2 bg-blue-500 text-white rounded-sm">Settings</button>
   </:trigger>
-  <div class="p-4 border rounded mt-2">
+  <div class="p-4 border rounded-sm mt-2">
     <p>Visible by default; uses a 500ms animation.</p>
   </div>
 </.collapse>
@@ -82,7 +82,7 @@ Use `event_handler` to override the default event name.
 ```heex
 <.collapse id="server-collapse" server_events={true}>
   <:trigger>
-    <button class="px-4 py-2 border rounded">Track Toggle</button>
+    <button class="px-4 py-2 border rounded-sm">Track Toggle</button>
   </:trigger>
   <div class="p-4">Opening/closing this sends events to the server.</div>
 </.collapse>
@@ -132,7 +132,7 @@ end
 ```heex
 <.collapse id="icon-collapse">
   <:trigger>
-    <button class="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded w-full justify-between">
+    <button class="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-sm w-full justify-between">
       <span>More Options</span>
       <.icon name="hero-chevron-down" class="size-5 transition-transform" />
     </button>
@@ -169,7 +169,7 @@ end
 <nav class="space-y-1">
   <.collapse id="menu-products">
     <:trigger>
-      <button class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 rounded">
+      <button class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 rounded-sm">
         <span class="flex items-center gap-2">
           <.icon name="hero-cube" class="size-5" /> Products
         </span>
@@ -177,9 +177,9 @@ end
       </button>
     </:trigger>
     <div class="ml-6 space-y-1">
-      <a href="/products/all" class="block px-4 py-2 hover:bg-gray-100 rounded">All Products</a>
-      <a href="/products/new" class="block px-4 py-2 hover:bg-gray-100 rounded">New Arrivals</a>
-      <a href="/products/sale" class="block px-4 py-2 hover:bg-gray-100 rounded">On Sale</a>
+      <a href="/products/all" class="block px-4 py-2 hover:bg-gray-100 rounded-sm">All Products</a>
+      <a href="/products/new" class="block px-4 py-2 hover:bg-gray-100 rounded-sm">New Arrivals</a>
+      <a href="/products/sale" class="block px-4 py-2 hover:bg-gray-100 rounded-sm">On Sale</a>
     </div>
   </.collapse>
 </nav>
@@ -215,12 +215,12 @@ end
 ```heex
 <.collapse id="filters" open={@show_filters} server_events={true}>
   <:trigger>
-    <button class="flex items-center gap-2 px-4 py-2 border rounded">
+    <button class="flex items-center gap-2 px-4 py-2 border rounded-sm">
       <.icon name="hero-funnel" class="size-5" /> Filters
       <.badge :if={@active_filter_count > 0} color="primary">{@active_filter_count}</.badge>
     </button>
   </:trigger>
-  <div class="p-4 mt-2 border rounded space-y-4">
+  <div class="p-4 mt-2 border rounded-sm space-y-4">
     <div>
       <label class="font-medium">Category</label>
       <.group_checkbox field={@form[:categories]} variation="vertical">

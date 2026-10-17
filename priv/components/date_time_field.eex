@@ -371,7 +371,7 @@ defmodule <%= @module %> do
   defp rounded_size("extra_small"), do: "[&_.date-time-field-wrapper]:rounded-xs"
   <% end %>
   <%= if is_nil(@rounded) or "small" in @rounded do %>
-  defp rounded_size("small"), do: "[&_.date-time-field-wrapper]:rounded"
+  defp rounded_size("small"), do: "[&_.date-time-field-wrapper]:rounded-sm"
   <% end %>
   <%= if is_nil(@rounded) or "medium" in @rounded do %>
   defp rounded_size("medium"), do: "[&_.date-time-field-wrapper]:rounded-md"
@@ -431,7 +431,7 @@ defmodule <%= @module %> do
       "[&_.date-time-field-wrapper.date-time-field-error]:border-rose-700",
       "[&_.date-time-field-wrapper>input]:placeholder:text-base-text-light dark:[&_.date-time-field-wrapper>input]:placeholder:text-base-text-dark",
       "focus-within:[&_.date-time-field-wrapper]:ring-base-border-light dark:focus-within:[&_.date-time-field-wrapper]:ring-base-border-light",
-      "[&_.date-time-field-wrapper]:shadow-sm",
+      "[&_.date-time-field-wrapper]:shadow-xs",
       floating == "outer" &&
         "[&_.date-time-field-wrapper_.floating-label]:bg-white dark:[&_.date-time-field-wrapper_.floating-label]:bg-base-bg-dark"
     ]

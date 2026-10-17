@@ -1199,7 +1199,7 @@ defmodule <%= @module %> do
 <%= if is_nil(@rounded) or "small" in @rounded do %>
   defp rounded_class("small", variant)
        when variant in ["base_separated", "outline_separated", "bordered_separated"] do
-    "[&>.accordion-item]:rounded"
+    "[&>.accordion-item]:rounded-sm"
   end
 <% end %>
 
@@ -1233,7 +1233,7 @@ defmodule <%= @module %> do
 <% end %>
 
 <%= if is_nil(@rounded) or "small" in @rounded do %>
-  defp rounded_class("small", _), do: "rounded"
+  defp rounded_class("small", _), do: "rounded-sm"
 <% end %>
 
 <%= if is_nil(@rounded) or "medium" in @rounded do %>

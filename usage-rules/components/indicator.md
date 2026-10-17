@@ -144,7 +144,7 @@ defp status_color(_), do: "natural"
 ### Color-Only Status Dots (Task / Connection)
 
 ```heex
-<div :for={task <- @tasks} class="flex items-center gap-3 p-3 border rounded">
+<div :for={task <- @tasks} class="flex items-center gap-3 p-3 border rounded-sm">
   <.indicator color={task_status_color(task.status)} size="small" />
   <span class="flex-1">{task.title}</span>
   <span class="text-sm text-gray-500">{task.due_date}</span>

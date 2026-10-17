@@ -270,7 +270,7 @@ defmodule <%= @module %> do
 
   defp dock_item_class(item, base_item_class, active_class, color, variant) do
     [
-      "dock-item w-full h-full px-2 py-1.5 rounded",
+      "dock-item w-full h-full px-2 py-1.5 rounded-sm",
       item_color_class(variant, item[:color] || color, item[:active]),
       base_item_class,
       item[:class],
@@ -429,7 +429,7 @@ defmodule <%= @module %> do
   defp rounded_size("extra_small"), do: "rounded-xs"
   <% end %>
   <%= if is_nil(@rounded) or "small" in @rounded do %>
-  defp rounded_size("small"), do: "rounded"
+  defp rounded_size("small"), do: "rounded-sm"
   <% end %>
   <%= if is_nil(@rounded) or "medium" in @rounded do %>
   defp rounded_size("medium"), do: "rounded-md"
@@ -448,7 +448,7 @@ defmodule <%= @module %> do
   <%= if is_nil(@variant) or "base" in @variant do %>
   defp color_variant("base", _) do
     [
-      "bg-white text-base-text-light border-base-border-light shadow-sm",
+      "bg-white text-base-text-light border-base-border-light shadow-xs",
       "dark:bg-base-bg-dark dark:text-base-text-dark dark:border-base-border-dark"
     ]
   end

@@ -290,7 +290,7 @@ defmodule <%= @module %> do
   defp rounded_size("extra_small"), do: "[&_.select-field]:rounded-xs"
   <% end %>
   <%= if is_nil(@rounded) or "small" in @rounded do %>
-  defp rounded_size("small"), do: "[&_.select-field]:rounded"
+  defp rounded_size("small"), do: "[&_.select-field]:rounded-sm"
   <% end %>
   <%= if is_nil(@rounded) or "medium" in @rounded do %>
   defp rounded_size("medium"), do: "[&_.select-field]:rounded-md"
@@ -349,7 +349,7 @@ defmodule <%= @module %> do
   <%= if is_nil(@variant) or "base" in @variant do %>
   defp color_variant("base", _) do
     [
-      "text-base-text-light dark:text-base-text-dark [&_.select-field:not(:has(.select-field-error))]:border-base-border-light [&_.select-field]:shadow-sm",
+      "text-base-text-light dark:text-base-text-dark [&_.select-field:not(:has(.select-field-error))]:border-base-border-light [&_.select-field]:shadow-xs",
       "[&_.select-field:not(:has(.select-field-error))]:bg-white",
       "dark:[&_.select-field:not(:has(.select-field-error))]:bg-base-bg-dark",
       "dark:[&_.select-field:not(:has(.select-field-error))]:border-base-border-dark",
