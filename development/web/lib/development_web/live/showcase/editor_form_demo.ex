@@ -2,7 +2,7 @@ defmodule DevelopmentWeb.Showcase.EditorFormDemo do
   @moduledoc """
   `editor` inside a Phoenix `<.form>`. The engine mirrors the document into a hidden textarea and
   dispatches `input`, so `phx-change "validate"` fires as you type (debounced in the engine) and
-  Save submits it as `post[body]`. The toolbar buttons are plain `<button data-editor-command>` —
+  Save submits it as `post[body]`. The toolbar buttons are plain buttons with a `data-editor-command` attribute —
   the engine wires them and marks the active ones with `data-active`. Nothing is persisted.
   """
   use DevelopmentWeb, :live_component
@@ -48,11 +48,21 @@ defmodule DevelopmentWeb.Showcase.EditorFormDemo do
           surface_class={surface_class()}
         >
           <:toolbar>
-            <button :for={{cmd, label} <- marks()} type="button" data-editor-command={cmd}>
+            <button
+              :for={{cmd, label} <- marks()}
+              class="cursor-pointer"
+              type="button"
+              data-editor-command={cmd}
+            >
               {label}
             </button>
             <span class="mx-1 w-px self-stretch bg-[var(--c-base-300)]"></span>
-            <button :for={{cmd, label} <- blocks()} type="button" data-editor-command={cmd}>
+            <button
+              :for={{cmd, label} <- blocks()}
+              class="cursor-pointer"
+              type="button"
+              data-editor-command={cmd}
+            >
               {label}
             </button>
           </:toolbar>
@@ -60,7 +70,7 @@ defmodule DevelopmentWeb.Showcase.EditorFormDemo do
 
         <button
           type="submit"
-          class="mt-3 rounded-md bg-[var(--c-primary)] px-3 py-1.5 text-sm font-medium text-primary-content"
+          class="mt-3 rounded-md bg-[var(--c-primary)] px-3 py-1.5 text-sm font-medium text-primary-content cursor-pointer"
         >
           Save
         </button>

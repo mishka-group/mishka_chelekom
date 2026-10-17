@@ -287,7 +287,7 @@ defmodule DevelopmentWeb.Showcase.Examples.FileField do
             type="submit"
             disabled={uploading?(@uploads.showcase_attachment)}
             class={[
-              "rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content",
+              "rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content cursor-pointer disabled:cursor-not-allowed",
               uploading?(@uploads.showcase_attachment) && "opacity-50 cursor-not-allowed"
             ]}
           >
@@ -296,7 +296,7 @@ defmodule DevelopmentWeb.Showcase.Examples.FileField do
           <button
             type="button"
             phx-click="attachment_reset"
-            class="rounded-md border border-[var(--c-base-300)] px-4 py-1.5 text-sm"
+            class="rounded-md border border-[var(--c-base-300)] px-4 py-1.5 text-sm cursor-pointer"
           >
             Reset
           </button>

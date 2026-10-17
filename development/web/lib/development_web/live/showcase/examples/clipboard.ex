@@ -29,7 +29,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Clipboard do
     <div class="flex flex-wrap items-center gap-4">
       <.clipboard text="hello@mishka.tools">
         <:trigger>
-          <button class="px-3 py-1 border rounded-sm">Copy Email</button>
+          <button class="px-3 py-1 border rounded-sm cursor-pointer">Copy Email</button>
         </:trigger>
       </.clipboard>
     </div>
@@ -43,7 +43,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Clipboard do
 
       <.clipboard target_selector="#ex-clipboard-copy-me">
         <:trigger>
-          <button class="px-3 py-1 border rounded-sm">Copy Link</button>
+          <button class="px-3 py-1 border rounded-sm cursor-pointer">Copy Link</button>
         </:trigger>
       </.clipboard>
     </div>
@@ -55,7 +55,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Clipboard do
     <div class="flex flex-wrap items-center gap-4">
       <.clipboard text="https://mishka.tools" timeout={4000}>
         <:trigger>
-          <button class="px-3 py-1 border rounded-sm">Copy URL</button>
+          <button class="px-3 py-1 border rounded-sm cursor-pointer">Copy URL</button>
         </:trigger>
       </.clipboard>
     </div>
@@ -67,7 +67,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Clipboard do
     <div class="flex flex-wrap items-center gap-4">
       <.clipboard text="Invite Code: CHELEKOM123" success_class="bg-green-500 text-white">
         <:trigger>
-          <button class="px-3 py-1 border rounded-sm">Copy Code</button>
+          <button class="px-3 py-1 border rounded-sm cursor-pointer">Copy Code</button>
         </:trigger>
       </.clipboard>
     </div>
@@ -79,7 +79,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Clipboard do
     <div class="flex flex-wrap items-center gap-4">
       <.clipboard text="https://mishka.tools" copy_success_text="Link copied successfully!">
         <:trigger>
-          <button class="px-3 py-1 border rounded-sm">Copy Link</button>
+          <button class="px-3 py-1 border rounded-sm cursor-pointer">Copy Link</button>
         </:trigger>
       </.clipboard>
     </div>
@@ -94,7 +94,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Clipboard do
           Invite code: <span class="font-mono">CHELEKOM2025</span>
         </:content>
         <:trigger>
-          <button class="px-3 py-1 border rounded-sm">Copy Code</button>
+          <button class="px-3 py-1 border rounded-sm cursor-pointer">Copy Code</button>
         </:trigger>
       </.clipboard>
     </div>
@@ -113,7 +113,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Clipboard do
         copy_error_text="Copy failed"
       >
         <:trigger>
-          <button class="px-4 py-1 border rounded-sm">Copy</button>
+          <button class="px-4 py-1 border rounded-sm cursor-pointer">Copy</button>
         </:trigger>
       </.clipboard>
     </div>

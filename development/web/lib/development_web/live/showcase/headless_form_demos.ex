@@ -70,7 +70,7 @@ defmodule DevelopmentWeb.Showcase.NumberFieldFormDemo do
         <p :for={e <- f[:qty].errors} class="text-sm text-[var(--c-error)]">{H.err(e)}</p>
         <button
           type="submit"
-          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content"
+          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content cursor-pointer"
         >
           Order
         </button>
@@ -152,7 +152,7 @@ defmodule DevelopmentWeb.Showcase.ComboboxFormDemo do
         <p :for={e <- f[:fruit].errors} class="text-sm text-[var(--c-error)]">{H.err(e)}</p>
         <button
           type="submit"
-          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content"
+          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content cursor-pointer"
         >
           Save
         </button>
@@ -241,7 +241,7 @@ defmodule DevelopmentWeb.Showcase.CheckboxGroupFormDemo do
         <p :for={e <- f[:toppings].errors} class="text-sm text-[var(--c-error)]">{H.err(e)}</p>
         <button
           type="submit"
-          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content"
+          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content cursor-pointer"
         >
           Save
         </button>
@@ -335,7 +335,7 @@ defmodule DevelopmentWeb.Showcase.CheckboxFormDemo do
         <p :for={e <- f[:terms].errors} class="text-sm text-[var(--c-error)]">{H.err(e)}</p>
         <button
           type="submit"
-          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content"
+          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content cursor-pointer"
         >
           Sign up
         </button>
@@ -427,7 +427,7 @@ defmodule DevelopmentWeb.Showcase.AutocompleteFormDemo do
         <p :for={e <- f[:city].errors} class="text-sm text-[var(--c-error)]">{H.err(e)}</p>
         <button
           type="submit"
-          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content"
+          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content cursor-pointer"
         >
           Save
         </button>
@@ -541,7 +541,7 @@ defmodule DevelopmentWeb.Showcase.FieldsetFormDemo do
         </Fieldset.fieldset>
         <button
           type="submit"
-          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content"
+          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content cursor-pointer"
         >
           Save
         </button>
@@ -630,7 +630,7 @@ defmodule DevelopmentWeb.Showcase.RadioFormDemo do
         <p :for={msg <- H.field_errors(f[:plan])} class="text-sm text-[var(--c-error)]">{msg}</p>
         <button
           type="submit"
-          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content"
+          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content cursor-pointer"
         >
           Subscribe
         </button>
@@ -718,7 +718,7 @@ defmodule DevelopmentWeb.Showcase.RadioGroupFormDemo do
         <p :for={msg <- H.field_errors(f[:plan])} class="text-sm text-[var(--c-error)]">{msg}</p>
         <button
           type="submit"
-          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content"
+          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content cursor-pointer"
         >
           Subscribe
         </button>
@@ -812,7 +812,7 @@ defmodule DevelopmentWeb.Showcase.SelectFormDemo do
         <p :for={msg <- H.field_errors(f[:country])} class="text-sm text-[var(--c-error)]">{msg}</p>
         <button
           type="submit"
-          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content"
+          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content cursor-pointer"
         >
           Continue
         </button>
@@ -910,7 +910,7 @@ defmodule DevelopmentWeb.Showcase.SliderFormDemo do
         <p :for={msg <- H.field_errors(f[:budget])} class="text-sm text-[var(--c-error)]">{msg}</p>
         <button
           type="submit"
-          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content"
+          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content cursor-pointer"
         >
           Save budget
         </button>
@@ -1010,7 +1010,7 @@ defmodule DevelopmentWeb.Showcase.SliderRangeFormDemo do
         <div class="flex gap-2">
           <button
             type="submit"
-            class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content"
+            class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content cursor-pointer"
           >
             Apply filter
           </button>
@@ -1018,7 +1018,7 @@ defmodule DevelopmentWeb.Showcase.SliderRangeFormDemo do
             type="button"
             phx-target={@myself}
             phx-click="reset"
-            class="rounded-md border border-[var(--c-base-300)] px-4 py-1.5 text-sm font-medium"
+            class="rounded-md border border-[var(--c-base-300)] px-4 py-1.5 text-sm font-medium cursor-pointer"
           >
             Reset
           </button>
@@ -1134,7 +1134,7 @@ defmodule DevelopmentWeb.Showcase.SwitchFormDemo do
         </div>
         <button
           type="submit"
-          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content"
+          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content cursor-pointer"
         >
           Save settings
         </button>
@@ -1228,7 +1228,7 @@ defmodule DevelopmentWeb.Showcase.ToggleFormDemo do
         </div>
         <button
           type="submit"
-          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content"
+          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content cursor-pointer"
         >
           Save settings
         </button>
@@ -1336,7 +1336,7 @@ defmodule DevelopmentWeb.Showcase.ToggleGroupFormDemo do
         </div>
         <button
           type="submit"
-          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content"
+          class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content cursor-pointer"
         >
           Apply formatting
         </button>
@@ -1417,7 +1417,7 @@ defmodule DevelopmentWeb.Showcase.TabsServerDemo do
           phx-target={@myself}
           phx-click="set"
           phx-value-v="settings"
-          class="rounded-sm bg-[var(--c-primary)] px-2.5 py-1 text-xs font-medium text-primary-content"
+          class="rounded-sm bg-[var(--c-primary)] px-2.5 py-1 text-xs font-medium text-primary-content cursor-pointer"
         >
           Set to Settings (from server)
         </button>
@@ -1480,11 +1480,14 @@ defmodule DevelopmentWeb.Showcase.AlertDialogDemo do
         <:title>Delete this item?</:title>
         <:description>This permanently removes the item. This action cannot be undone.</:description>
         <:actions>
-          <button class="rounded-md border border-[var(--c-base-300)] px-3 py-1.5 text-sm" data-close>
+          <button
+            class="rounded-md border border-[var(--c-base-300)] px-3 py-1.5 text-sm cursor-pointer"
+            data-close
+          >
             Cancel
           </button>
           <button
-            class="rounded-md bg-[var(--c-error)] px-3 py-1.5 text-sm font-medium text-error-content"
+            class="rounded-md bg-[var(--c-error)] px-3 py-1.5 text-sm font-medium text-error-content cursor-pointer"
             data-close
             phx-target={@myself}
             phx-click="delete"

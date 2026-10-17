@@ -1386,7 +1386,7 @@ defmodule DevelopmentWeb.Showcase.Preview do
             type="button"
             phx-click={hide_alert("##{@id}")}
             aria-label="close"
-            class="group shrink-0 p-1 -m-1"
+            class="group shrink-0 p-1 -m-1 cursor-pointer"
           >
             <.icon name="hero-x-mark-solid" class="alert-icon opacity-40 group-hover:opacity-70" />
           </button>

@@ -63,7 +63,7 @@ defmodule DevelopmentWeb.Showcase.PillDemo do
             phx-click="add"
             phx-value-tag={tag}
             phx-target={@myself}
-            class="rounded-full border border-dashed border-[var(--c-base-300)] px-2.5 py-0.5 text-sm text-[var(--c-base-content)]/60 hover:border-[var(--c-primary)] hover:text-[var(--c-primary)]"
+            class="rounded-full border border-dashed border-[var(--c-base-300)] px-2.5 py-0.5 text-sm text-[var(--c-base-content)]/60 hover:border-[var(--c-primary)] hover:text-[var(--c-primary)] cursor-pointer"
           >
             + {tag}
           </button>
@@ -71,7 +71,7 @@ defmodule DevelopmentWeb.Showcase.PillDemo do
 
         <button
           type="submit"
-          class="mt-3 rounded-md border border-[var(--c-base-300)] px-3 py-1.5 text-sm hover:bg-[var(--c-base-200)]"
+          class="mt-3 rounded-md border border-[var(--c-base-300)] px-3 py-1.5 text-sm hover:bg-[var(--c-base-200)] cursor-pointer"
         >
           Submit
         </button>

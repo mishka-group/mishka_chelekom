@@ -202,11 +202,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         </label>
       </div>
       <:close>
-        <button class="rounded-md border border-[var(--c-base-300)] px-3 py-1.5 text-sm" data-close>
+        <button
+          class="rounded-md border border-[var(--c-base-300)] px-3 py-1.5 text-sm cursor-pointer"
+          data-close
+        >
           Cancel
         </button>
         <button
-          class="rounded-md bg-[var(--c-primary)] px-3 py-1.5 text-sm font-medium text-primary-content"
+          class="rounded-md bg-[var(--c-primary)] px-3 py-1.5 text-sm font-medium text-primary-content cursor-pointer"
           data-close
         >
           Apply
@@ -331,8 +334,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       <:title>Delete account?</:title>
       <:description>This permanently removes your account and cannot be undone.</:description>
       <:actions>
-        <button class={@btn} data-close>Cancel</button>
-        <button class={[@btn, "bg-[var(--c-error)] text-error-content"]} data-close>Delete</button>
+        <button class={["cursor-pointer", @btn]} data-close>Cancel</button>
+        <button class={["cursor-pointer", @btn, "bg-[var(--c-error)] text-error-content"]} data-close>Delete</button>
       </:actions>
     </.alert_dialog>
     """
@@ -426,7 +429,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       <:actions>
         <button
           type="button"
-          class="rounded-md border border-[var(--c-base-300)] px-3 py-1.5 text-sm hover:bg-[var(--c-base-200)]"
+          class="rounded-md border border-[var(--c-base-300)] px-3 py-1.5 text-sm hover:bg-[var(--c-base-200)] cursor-pointer"
         >
           Clear filters
         </button>
@@ -600,7 +603,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     <div class="max-w-md">
       <button
         type="button"
-        class="rounded-md border border-[var(--c-base-300)] px-3 py-1.5 text-sm hover:bg-[var(--c-base-200)]"
+        class="rounded-md border border-[var(--c-base-300)] px-3 py-1.5 text-sm hover:bg-[var(--c-base-200)] cursor-pointer"
       >
         ★
         <.visually_hidden>Add to favorites</.visually_hidden>
@@ -1024,12 +1027,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       surface_class={editor_surface_class()}
     >
       <:toolbar>
-        <button type="button" data-editor-command="bold">B</button>
-        <button type="button" data-editor-command="italic">I</button>
-        <button type="button" data-editor-command="strike">S</button>
-        <button type="button" data-editor-command="h2">H2</button>
-        <button type="button" data-editor-command="bullet_list">• List</button>
-        <button type="button" data-editor-command="blockquote">❝</button>
+        <button class="cursor-pointer" type="button" data-editor-command="bold">B</button>
+        <button class="cursor-pointer" type="button" data-editor-command="italic">I</button>
+        <button class="cursor-pointer" type="button" data-editor-command="strike">S</button>
+        <button class="cursor-pointer" type="button" data-editor-command="h2">H2</button>
+        <button class="cursor-pointer" type="button" data-editor-command="bullet_list">• List</button>
+        <button class="cursor-pointer" type="button" data-editor-command="blockquote">❝</button>
       </:toolbar>
     </.editor>
     """
@@ -1313,14 +1316,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       <:close>
         <button
           type="button"
-          class="rounded-md border border-[var(--c-base-300)] px-3 py-1.5 text-sm"
+          class="rounded-md border border-[var(--c-base-300)] px-3 py-1.5 text-sm cursor-pointer"
           data-close
         >
           Cancel
         </button>
         <button
           type="button"
-          class="rounded-md bg-[var(--c-base-content)] px-3 py-1.5 text-sm text-[var(--c-base-100)]"
+          class="rounded-md bg-[var(--c-base-content)] px-3 py-1.5 text-sm text-[var(--c-base-100)] cursor-pointer"
           data-close
         >
           Confirm
@@ -1462,22 +1465,22 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         class="inline-flex gap-1 rounded-md border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-1 [&_[data-part=trigger]]:rounded-sm [&_[data-part=trigger]]:px-3 [&_[data-part=trigger]]:py-1.5 [&_[data-part=trigger]]:text-sm [&_[data-part=trigger][data-popup-open]]:bg-[var(--c-base-200)] [&_[data-part=trigger][data-disabled]]:opacity-40 [&_[data-part=trigger][data-disabled]]:cursor-not-allowed [&_[data-part=popup]]:mt-1 [&_[data-part=popup]]:min-w-44 [&_[data-part=popup]]:rounded-md [&_[data-part=popup]]:border [&_[data-part=popup]]:border-[var(--c-base-300)] [&_[data-part=popup]]:bg-[var(--c-base-100)] [&_[data-part=popup]]:p-1 [&_[data-part=popup]]:shadow-lg [&_[role=menuitem]]:block [&_[role=menuitem]]:w-full [&_[role=menuitem]]:rounded-sm [&_[role=menuitem]]:px-3 [&_[role=menuitem]]:py-1.5 [&_[role=menuitem]]:text-left [&_[role=menuitem]]:text-sm [&_[role=menuitem]]:outline-none [&_[role=menuitem][data-highlighted]]:bg-[var(--c-base-200)]"
       >
         <:menu label="File">
-          <button type="button" role="menuitem">New file</button>
-          <button type="button" role="menuitem">Open…</button>
-          <button type="button" role="menuitem">Save</button>
+          <button class="cursor-pointer" type="button" role="menuitem">New file</button>
+          <button class="cursor-pointer" type="button" role="menuitem">Open…</button>
+          <button class="cursor-pointer" type="button" role="menuitem">Save</button>
         </:menu>
         <:menu label="Edit">
-          <button type="button" role="menuitem">Undo</button>
-          <button type="button" role="menuitem">Redo</button>
-          <button type="button" role="menuitem">Cut</button>
+          <button class="cursor-pointer" type="button" role="menuitem">Undo</button>
+          <button class="cursor-pointer" type="button" role="menuitem">Redo</button>
+          <button class="cursor-pointer" type="button" role="menuitem">Cut</button>
         </:menu>
         <:menu label="View">
-          <button type="button" role="menuitem">Zoom in</button>
-          <button type="button" role="menuitem">Zoom out</button>
-          <button type="button" role="menuitem">Full screen</button>
+          <button class="cursor-pointer" type="button" role="menuitem">Zoom in</button>
+          <button class="cursor-pointer" type="button" role="menuitem">Zoom out</button>
+          <button class="cursor-pointer" type="button" role="menuitem">Full screen</button>
         </:menu>
         <:menu label="Help" disabled>
-          <button type="button" role="menuitem">About</button>
+          <button class="cursor-pointer" type="button" role="menuitem">About</button>
         </:menu>
       </.menubar>
     </div>
@@ -1622,7 +1625,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       <:close>
         <button
           type="button"
-          class="rounded-md border border-[var(--c-base-300)] px-3 py-1.5 text-sm"
+          class="rounded-md border border-[var(--c-base-300)] px-3 py-1.5 text-sm cursor-pointer"
           data-close
         >
           Close
@@ -2818,7 +2821,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
             <:actions>
               <button
                 type="button"
-                class="rounded-md border border-[var(--c-base-300)] px-3 py-1.5 text-sm hover:bg-[var(--c-base-200)]"
+                class="rounded-md border border-[var(--c-base-300)] px-3 py-1.5 text-sm hover:bg-[var(--c-base-200)] cursor-pointer"
               >
                 Retry
               </button>

@@ -50,7 +50,7 @@ defmodule DevelopmentWeb.Showcase.AngleSliderFormDemo do
         />
         <button
           type="submit"
-          class="mt-4 block rounded-md bg-[var(--c-primary)] px-3 py-1.5 text-sm font-medium text-primary-content"
+          class="mt-4 block rounded-md bg-[var(--c-primary)] px-3 py-1.5 text-sm font-medium text-primary-content cursor-pointer"
         >
           Save
         </button>

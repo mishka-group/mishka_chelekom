@@ -51,7 +51,7 @@ defmodule DevelopmentWeb.Showcase.ColorPickerFormDemo do
           <code class="text-sm">{@color}</code>
           <button
             type="submit"
-            class="rounded-md bg-[var(--c-primary)] px-3 py-1.5 text-sm font-medium text-primary-content"
+            class="rounded-md bg-[var(--c-primary)] px-3 py-1.5 text-sm font-medium text-primary-content cursor-pointer"
           >
             Save
           </button>

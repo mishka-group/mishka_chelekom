@@ -26,7 +26,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Collapse do
     <div class="flex flex-col gap-4">
       <.collapse id="ex-collapse-basic">
         <:trigger>
-          <button class="px-4 py-2 bg-blue-500 text-white rounded-sm hover:bg-blue-600">
+          <button class="px-4 py-2 bg-blue-500 text-white rounded-sm hover:bg-blue-600 cursor-pointer">
             Toggle Content
           </button>
         </:trigger>
@@ -44,7 +44,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Collapse do
     <div class="flex flex-col gap-4">
       <.collapse id="ex-collapse-open" open={true}>
         <:trigger>
-          <button class="px-4 py-2 bg-green-500 text-white rounded-sm hover:bg-green-600">
+          <button class="px-4 py-2 bg-green-500 text-white rounded-sm hover:bg-green-600 cursor-pointer">
             Toggle (Initially Open)
           </button>
         </:trigger>
@@ -62,7 +62,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Collapse do
     <div class="flex flex-col gap-4">
       <.collapse id="ex-collapse-slow" duration={500}>
         <:trigger>
-          <button class="px-4 py-2 bg-purple-500 text-white rounded-sm hover:bg-purple-600">
+          <button class="px-4 py-2 bg-purple-500 text-white rounded-sm hover:bg-purple-600 cursor-pointer">
             Slow Animation (500ms)
           </button>
         </:trigger>
@@ -80,7 +80,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Collapse do
     <div class="flex flex-col gap-4">
       <.collapse id="ex-collapse-server" server_events={true}>
         <:trigger>
-          <button class="px-4 py-2 bg-red-500 text-white rounded-sm hover:bg-red-600">
+          <button class="px-4 py-2 bg-red-500 text-white rounded-sm hover:bg-red-600 cursor-pointer">
             Server Events Enabled
           </button>
         </:trigger>

@@ -113,7 +113,7 @@ defmodule DevelopmentWeb.Showcase.TreeSelectFormDemo do
         </.tree_select>
         <button
           type="submit"
-          class="mt-3 block rounded-md bg-[var(--c-primary)] px-3 py-1.5 text-sm font-medium text-primary-content"
+          class="mt-3 block rounded-md bg-[var(--c-primary)] px-3 py-1.5 text-sm font-medium text-primary-content cursor-pointer"
         >
           Save
         </button>

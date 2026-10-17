@@ -57,7 +57,7 @@ defmodule DevelopmentWeb.Showcase.UI do
         phx-hook="Copy"
         id={"copy-#{:erlang.phash2(@code)}"}
         data-clipboard={@code}
-        class="absolute right-2 top-2 btn btn-xs btn-ghost opacity-0 group-hover:opacity-100 transition"
+        class="absolute right-2 top-2 btn btn-xs btn-ghost opacity-0 group-hover:opacity-100 transition cursor-pointer"
       >
         Copy
       </button>

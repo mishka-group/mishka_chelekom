@@ -540,7 +540,7 @@ defmodule DevelopmentWeb.Showcase.Examples.MegaMenu do
         id="ex-mega_menu-trigger-1"
       >
         <:trigger>
-          <button class="py-2 px-10 text-lg text-gray-200 bg-slate-600 rounded-full">
+          <button class="py-2 px-10 text-lg text-gray-200 bg-slate-600 rounded-full cursor-pointer">
             open mega menu
           </button>
         </:trigger>

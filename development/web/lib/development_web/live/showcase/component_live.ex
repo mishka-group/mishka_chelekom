@@ -326,7 +326,7 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
                     type="button"
                     phx-click="toggle_example"
                     phx-value-id={s.id}
-                    class="flex w-full items-center justify-between px-4 py-3 text-left text-sm font-medium hover:bg-[var(--c-base-100)]"
+                    class="flex w-full items-center justify-between px-4 py-3 text-left text-sm font-medium hover:bg-[var(--c-base-100)] cursor-pointer"
                   >
                     {s.title}
                     <span class={[
@@ -444,7 +444,11 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
                 </label>
               </form>
 
-              <button type="button" phx-click="reset" class="btn btn-ghost btn-xs w-full">
+              <button
+                type="button"
+                phx-click="reset"
+                class="btn btn-ghost btn-xs w-full cursor-pointer"
+              >
                 Reset
               </button>
             </div>

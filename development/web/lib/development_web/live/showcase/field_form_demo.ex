@@ -235,7 +235,7 @@ defmodule DevelopmentWeb.Showcase.FieldFormDemo do
         <div class="flex flex-wrap items-center gap-3 pt-1">
           <button
             type="submit"
-            class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content"
+            class="rounded-md bg-[var(--c-primary)] px-4 py-1.5 text-sm font-medium text-primary-content cursor-pointer"
           >
             Create account
           </button>
@@ -243,7 +243,7 @@ defmodule DevelopmentWeb.Showcase.FieldFormDemo do
             type="button"
             phx-target={@myself}
             phx-click="reset"
-            class="rounded-md border border-[var(--c-base-300)] px-4 py-1.5 text-sm"
+            class="rounded-md border border-[var(--c-base-300)] px-4 py-1.5 text-sm cursor-pointer"
           >
             Reset
           </button>

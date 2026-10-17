@@ -114,13 +114,13 @@ defmodule DevelopmentWeb.Showcase.HeadlessKitDemo do
       <:description>This permanently removes your account and cannot be undone.</:description>
       <:actions>
         <button
-          class="rounded-md border border-amber-200 bg-amber-50 px-3 py-1.5 text-sm font-medium text-amber-950 hover:bg-amber-100 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-50 dark:hover:bg-amber-900/40"
+          class="rounded-md border border-amber-200 bg-amber-50 px-3 py-1.5 text-sm font-medium text-amber-950 hover:bg-amber-100 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-50 dark:hover:bg-amber-900/40 cursor-pointer"
           data-close
         >
           Cancel
         </button>
         <button
-          class="rounded-md bg-amber-500 px-3 py-1.5 text-sm font-medium text-white hover:bg-amber-600 dark:bg-amber-400 dark:text-amber-950 dark:hover:bg-amber-300"
+          class="rounded-md bg-amber-500 px-3 py-1.5 text-sm font-medium text-white hover:bg-amber-600 dark:bg-amber-400 dark:text-amber-950 dark:hover:bg-amber-300 cursor-pointer"
           data-close
         >
           Delete
@@ -248,8 +248,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessKitDemo do
         Tab cycles inside; Escape, the backdrop, or the close button dismiss it.
       </p>
       <:close>
-        <button type="button" data-close>Cancel</button>
-        <button type="button" data-close>Confirm</button>
+        <button class="cursor-pointer" type="button" data-close>Cancel</button>
+        <button class="cursor-pointer" type="button" data-close>Confirm</button>
       </:close>
     </.my_dialog>
     """
@@ -263,7 +263,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessKitDemo do
       <:description>A focus-trapped panel that slides in from the edge.</:description>
       <p class="mt-2 text-sm">Drawer body — same behavior as dialog, with a side.</p>
       <:close>
-        <button data-close>Close</button>
+        <button class="cursor-pointer" data-close>Close</button>
       </:close>
     </.my_drawer>
     """
@@ -336,10 +336,10 @@ defmodule DevelopmentWeb.Showcase.HeadlessKitDemo do
       <:item type="separator" />
       <:item disabled>Archive</:item>
       <:submenu label="Share">
-        <button type="button" role="menuitem" data-part="item" tabindex="-1">
+        <button class="cursor-pointer" type="button" role="menuitem" data-part="item" tabindex="-1">
           Copy link
         </button>
-        <button type="button" role="menuitem" data-part="item" tabindex="-1">
+        <button class="cursor-pointer" type="button" role="menuitem" data-part="item" tabindex="-1">
           Email
         </button>
       </:submenu>
@@ -351,19 +351,19 @@ defmodule DevelopmentWeb.Showcase.HeadlessKitDemo do
     ~H"""
     <.my_menubar id="hl-menubar-skin" class="w-full max-w-md">
       <:menu label="File">
-        <button type="button" role="menuitem">New file</button>
-        <button type="button" role="menuitem">Open…</button>
-        <button type="button" role="menuitem">Save</button>
+        <button class="cursor-pointer" type="button" role="menuitem">New file</button>
+        <button class="cursor-pointer" type="button" role="menuitem">Open…</button>
+        <button class="cursor-pointer" type="button" role="menuitem">Save</button>
       </:menu>
       <:menu label="Edit">
-        <button type="button" role="menuitem">Undo</button>
-        <button type="button" role="menuitem">Redo</button>
-        <button type="button" role="menuitem">Cut</button>
+        <button class="cursor-pointer" type="button" role="menuitem">Undo</button>
+        <button class="cursor-pointer" type="button" role="menuitem">Redo</button>
+        <button class="cursor-pointer" type="button" role="menuitem">Cut</button>
       </:menu>
       <:menu label="View">
-        <button type="button" role="menuitem">Zoom in</button>
-        <button type="button" role="menuitem">Zoom out</button>
-        <button type="button" role="menuitem">Full screen</button>
+        <button class="cursor-pointer" type="button" role="menuitem">Zoom in</button>
+        <button class="cursor-pointer" type="button" role="menuitem">Zoom out</button>
+        <button class="cursor-pointer" type="button" role="menuitem">Full screen</button>
       </:menu>
     </.my_menubar>
     """

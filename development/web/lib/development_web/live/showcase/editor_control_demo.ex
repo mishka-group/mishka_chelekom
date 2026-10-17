@@ -59,7 +59,7 @@ defmodule DevelopmentWeb.Showcase.EditorControlDemo do
           phx-click="push"
           phx-value-sample={sample}
           phx-target={@myself}
-          class="rounded-md border border-[var(--c-base-300)] px-2.5 py-1 text-sm hover:bg-[var(--c-base-200)]"
+          class="rounded-md border border-[var(--c-base-300)] px-2.5 py-1 text-sm hover:bg-[var(--c-base-200)] cursor-pointer"
         >
           {label}
         </button>
@@ -68,7 +68,7 @@ defmodule DevelopmentWeb.Showcase.EditorControlDemo do
           type="button"
           phx-click="toggle_editable"
           phx-target={@myself}
-          class="ml-auto rounded-md border border-[var(--c-base-300)] px-2.5 py-1 text-sm hover:bg-[var(--c-base-200)]"
+          class="ml-auto rounded-md border border-[var(--c-base-300)] px-2.5 py-1 text-sm hover:bg-[var(--c-base-200)] cursor-pointer"
         >
           {(@editable && "Make read-only") || "Make editable"}
         </button>

@@ -233,7 +233,7 @@ defmodule DevelopmentWeb.Showcase.TreeDemos do
             }
             phx-click={event}
             phx-target={@myself}
-            class="rounded-sm border border-[var(--c-base-300)] px-2 py-1 text-xs hover:bg-[var(--c-base-200)]"
+            class="rounded-sm border border-[var(--c-base-300)] px-2 py-1 text-xs hover:bg-[var(--c-base-200)] cursor-pointer"
           >
             {label}
           </button>
@@ -307,7 +307,7 @@ defmodule DevelopmentWeb.Showcase.TreeDemos do
           <div class="flex items-center gap-3 border-t border-[var(--c-base-300)] pt-3">
             <button
               type="submit"
-              class="rounded-sm bg-[var(--c-primary)] px-3 py-1 text-xs font-medium text-white"
+              class="rounded-sm bg-[var(--c-primary)] px-3 py-1 text-xs font-medium text-white cursor-pointer"
             >
               Save permissions
             </button>

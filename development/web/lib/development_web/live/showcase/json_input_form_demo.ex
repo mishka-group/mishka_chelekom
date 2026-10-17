@@ -49,7 +49,7 @@ defmodule DevelopmentWeb.Showcase.JsonInputFormDemo do
         />
         <button
           type="submit"
-          class="mt-2 rounded-md bg-[var(--c-primary)] px-3 py-1.5 text-sm font-medium text-primary-content"
+          class="mt-2 rounded-md bg-[var(--c-primary)] px-3 py-1.5 text-sm font-medium text-primary-content cursor-pointer"
         >
           Validate &amp; format
         </button>

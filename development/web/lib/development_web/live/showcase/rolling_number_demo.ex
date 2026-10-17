@@ -26,7 +26,7 @@ defmodule DevelopmentWeb.Showcase.RollingNumberDemo do
         type="button"
         phx-target={@myself}
         phx-click="randomize"
-        class="rounded-md border border-[var(--c-base-300)] px-3 py-1.5 text-sm hover:bg-[var(--c-base-200)]"
+        class="rounded-md border border-[var(--c-base-300)] px-3 py-1.5 text-sm hover:bg-[var(--c-base-200)] cursor-pointer"
       >
         Randomize
       </button>
