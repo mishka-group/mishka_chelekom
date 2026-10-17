@@ -913,8 +913,9 @@ defmodule DevelopmentWeb.Components.Accordion do
   defp color_variant(params, _) when is_binary(params), do: params
 
   defp space_class(_, variant)
-       when variant not in ["base_separated", "outline_separated", "bordered_separated"],
-       do: nil
+       when variant not in ["base_separated", "outline_separated", "bordered_separated"] do
+    nil
+  end
 
   defp space_class("extra_small", _), do: "space-y-1"
 
@@ -994,8 +995,9 @@ defmodule DevelopmentWeb.Components.Accordion do
   defp border_class(_, _), do: nil
 
   defp rounded_class("none", variant)
-       when variant in ["base_separated", "outline_separated", "bordered_separated"],
-       do: nil
+       when variant in ["base_separated", "outline_separated", "bordered_separated"] do
+    nil
+  end
 
   defp rounded_class("extra_small", variant)
        when variant in ["base_separated", "outline_separated", "bordered_separated"] do

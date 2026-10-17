@@ -354,8 +354,9 @@ defmodule DevelopmentWeb.Components.TableContent do
   defp space_size(params) when is_binary(params), do: params
 
   defp border_class(_, variant)
-       when variant in ["default", "shadow", "transparent", "gradient"],
-       do: nil
+       when variant in ["default", "shadow", "transparent", "gradient"] do
+    nil
+  end
 
   defp border_class("none", _), do: "border-0"
   defp border_class("extra_small", _), do: "border"

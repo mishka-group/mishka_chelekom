@@ -481,8 +481,9 @@ defmodule DevelopmentWeb.Components.Table do
               "hoverable",
               "separated",
               "base_separated"
-            ],
-       do: nil
+            ] do
+    nil
+  end
 
   defp border_class("extra_small", _), do: "border"
   defp border_class("small", _), do: "border-2"
@@ -492,8 +493,9 @@ defmodule DevelopmentWeb.Components.Table do
   defp border_class(params, _) when is_binary(params), do: [params]
 
   defp cols_border(_, variant)
-       when variant in ["default", "shadow", "transparent", "stripped", "hoverable", "separated"],
-       do: nil
+       when variant in ["default", "shadow", "transparent", "stripped", "hoverable", "separated"] do
+    nil
+  end
 
   defp cols_border("extra_small", _) do
     [
@@ -538,8 +540,9 @@ defmodule DevelopmentWeb.Components.Table do
   defp cols_border(params, _) when is_binary(params), do: [params]
 
   defp rows_border(_, variant)
-       when variant in ["default", "shadow", "transparent", "stripped", "hoverable", "separated"],
-       do: nil
+       when variant in ["default", "shadow", "transparent", "stripped", "hoverable", "separated"] do
+    nil
+  end
 
   defp rows_border("none", "base_separated"), do: nil
 
@@ -600,8 +603,9 @@ defmodule DevelopmentWeb.Components.Table do
               "hoverable",
               "separated",
               "base_separated"
-            ],
-       do: nil
+            ] do
+    nil
+  end
 
   defp header_border("extra_small", _), do: "[&_table]:divide-y"
   defp header_border("small", _), do: "[&_table]:divide-y-2"
@@ -622,8 +626,9 @@ defmodule DevelopmentWeb.Components.Table do
               "base_hoverable",
               "base_stripped",
               "outline"
-            ],
-       do: nil
+            ] do
+    nil
+  end
 
   defp rows_space("extra_small", _), do: "[&_table]:border-spacing-y-0.5"
   defp rows_space("small", _), do: "[&_table]:border-spacing-y-1"

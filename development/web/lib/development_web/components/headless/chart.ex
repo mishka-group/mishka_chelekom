@@ -166,6 +166,7 @@ defmodule DevelopmentWeb.Components.Headless.Chart do
   defp encode_option(nil), do: "{}"
   defp encode_option(json) when is_binary(json), do: json
 
-  defp encode_option(option) when is_map(option) or is_list(option),
-    do: Phoenix.json_library().encode!(option)
+  defp encode_option(option) when is_map(option) or is_list(option) do
+    Phoenix.json_library().encode!(option)
+  end
 end

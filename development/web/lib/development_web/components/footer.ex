@@ -178,8 +178,10 @@ defmodule DevelopmentWeb.Components.Footer do
 
   defp padding_size(params) when is_binary(params), do: params
 
-  defp border_class(_, variant) when variant in ["default", "shadow", "transparent", "gradient"],
-    do: nil
+  defp border_class(_, variant)
+       when variant in ["default", "shadow", "transparent", "gradient"] do
+    nil
+  end
 
   defp border_class("none", _), do: "border-t-0"
   defp border_class("extra_small", _), do: "border-t"

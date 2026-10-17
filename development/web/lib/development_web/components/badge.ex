@@ -839,8 +839,9 @@ defmodule DevelopmentWeb.Components.Badge do
 
   defp rounded_size(params) when is_binary(params), do: params
 
-  defp border_size(_, variant) when variant in ["default", "shadow", "transparent", "gradient"],
-    do: nil
+  defp border_size(_, variant) when variant in ["default", "shadow", "transparent", "gradient"] do
+    nil
+  end
 
   defp border_size("none", _), do: nil
   defp border_size("extra_small", _), do: "border"

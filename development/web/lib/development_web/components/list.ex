@@ -440,8 +440,9 @@ defmodule DevelopmentWeb.Components.List do
     do: "[&:not(.list-items-gap)]:rounded-none [&.list-items-gap>li]:rounded-none"
 
   defp variant_space(_, variant)
-       when variant not in ["outline_separated", "bordered_separated", "base_separated"],
-       do: nil
+       when variant not in ["outline_separated", "bordered_separated", "base_separated"] do
+    nil
+  end
 
   defp variant_space("extra_small", _), do: "list-items-gap space-y-2"
 

@@ -170,8 +170,10 @@ defmodule DevelopmentWeb.Components.Fieldset do
 
   defp rounded_size(params) when is_binary(params), do: params
 
-  defp border_class(_, variant) when variant in ["default", "shadow", "transparent", "gradient"],
-    do: nil
+  defp border_class(_, variant)
+       when variant in ["default", "shadow", "transparent", "gradient"] do
+    nil
+  end
 
   defp border_class("none", _), do: nil
   defp border_class("extra_small", _), do: "[&_.fieldset-field]:border"

@@ -373,8 +373,9 @@ defmodule DevelopmentWeb.Components.Pagination do
               "transparent",
               "subtle",
               "gradient"
-            ],
-       do: nil
+            ] do
+    nil
+  end
 
   defp border_size("none", _), do: "[&:not(.grouped-pagination)_.pagination-button]:border-0"
 

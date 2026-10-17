@@ -335,8 +335,9 @@ defmodule DevelopmentWeb.Components.Banner do
   defp space_class(params) when is_binary(params), do: params
 
   defp border_class(_, _, variant)
-       when variant in ["default", "shadow", "transparent", "gradient"],
-       do: nil
+       when variant in ["default", "shadow", "transparent", "gradient"] do
+    nil
+  end
 
   defp border_class("none", _, _), do: nil
   defp border_class("extra_small", "top", _), do: "border-t"

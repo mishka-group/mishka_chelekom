@@ -39,6 +39,14 @@
   swapping one element for another
 
 ### Bug fixes:
+- Generated components lay out the same on every Elixir. 31 helper clauses (21 in 16 styled
+  templates, among them `dock`, `blockquote`, `button` and `table`, and 10 in the headless `card`,
+  `chart`, `dock`, `sparkline` and `stepper`) were written `defp name(args) when guard, do: value`.
+  Once that outgrows a line, Elixir 1.18 puts `do:` on a line of its own and 1.19 and later keep it
+  after the guard, so a file generated on one failed `mix format --check-formatted` on the other.
+  They are written with `do ... end`, which every version lays out alike, and
+  `TemplateFormatStabilityTest` fails on a new guard clause that takes `do:` and does not fit on
+  one line
 - The buttons in the demos and the usage rules show the pointer: 213 examples across `priv/demos`
   and `usage-rules` (the table, clipboard, collapse, navbar and dropdown demos, the component,
   headless and hook rules) name `cursor-pointer`, so what a reader copies keeps the cursor v3's

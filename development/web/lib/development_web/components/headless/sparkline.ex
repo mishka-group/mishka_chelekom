@@ -240,8 +240,9 @@ defmodule DevelopmentWeb.Components.Headless.Sparkline do
   defp marker_for(_last, _points, _r), do: nil
 
   defp baseline_for(true, %{span: span, lo: lo, hi: hi} = scale)
-       when span != 0.0 and lo <= 0.0 and hi >= 0.0,
-       do: fmt(scale.pad + hi / span * scale.innerh)
+       when span != 0.0 and lo <= 0.0 and hi >= 0.0 do
+    fmt(scale.pad + hi / span * scale.innerh)
+  end
 
   defp baseline_for(_show, _scale), do: nil
 

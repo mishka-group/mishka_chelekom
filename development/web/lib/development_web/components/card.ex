@@ -343,8 +343,10 @@ defmodule DevelopmentWeb.Components.Card do
     """
   end
 
-  defp border_class(_, variant) when variant in ["default", "shadow", "transparent", "gradient"],
-    do: nil
+  defp border_class(_, variant)
+       when variant in ["default", "shadow", "transparent", "gradient"] do
+    nil
+  end
 
   defp border_class("none", _), do: nil
   defp border_class("extra_small", _), do: "border"

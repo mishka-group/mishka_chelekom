@@ -1096,8 +1096,9 @@ defmodule <%= @module %> do
   defp color_variant(params, _) when is_binary(params), do: params
 
   defp space_class(_, variant)
-       when variant not in ["base_separated", "outline_separated", "bordered_separated"],
-       do: nil
+       when variant not in ["base_separated", "outline_separated", "bordered_separated"] do
+    nil
+  end
 
   <%= if is_nil(@space) or "extra_small" in @space do %>
     defp space_class("extra_small", _), do: "space-y-1"
@@ -1187,8 +1188,9 @@ defmodule <%= @module %> do
   defp border_class(_, _), do: nil
 <%= if is_nil(@rounded) or "none" in @rounded do %>
   defp rounded_class("none", variant)
-       when variant in ["base_separated", "outline_separated", "bordered_separated"],
-       do: nil
+       when variant in ["base_separated", "outline_separated", "bordered_separated"] do
+    nil
+  end
 <% end %>
 
 <%= if is_nil(@rounded) or "extra_small" in @rounded do %>

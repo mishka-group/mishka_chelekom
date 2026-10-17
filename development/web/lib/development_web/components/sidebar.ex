@@ -255,8 +255,9 @@ defmodule DevelopmentWeb.Components.Sidebar do
   defp position_class(params) when is_binary(params), do: params
 
   defp border_class(_, _, variant)
-       when variant in ["default", "shadow", "transparent", "gradient"],
-       do: nil
+       when variant in ["default", "shadow", "transparent", "gradient"] do
+    nil
+  end
 
   defp border_class("none", _, _), do: "border-0"
   defp border_class("extra_small", "start", _), do: "border-e"

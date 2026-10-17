@@ -120,19 +120,22 @@ defmodule DevelopmentWeb.Components.Headless.Dock do
     end
   end
 
-  defp link_attrs(%{navigate: navigate}) when is_binary(navigate),
-    do: %{"href" => navigate, "data-phx-link" => "redirect", "data-phx-link-state" => "push"}
+  defp link_attrs(%{navigate: navigate}) when is_binary(navigate) do
+    %{"href" => navigate, "data-phx-link" => "redirect", "data-phx-link-state" => "push"}
+  end
 
-  defp link_attrs(%{patch: patch}) when is_binary(patch),
-    do: %{"href" => patch, "data-phx-link" => "patch", "data-phx-link-state" => "push"}
+  defp link_attrs(%{patch: patch}) when is_binary(patch) do
+    %{"href" => patch, "data-phx-link" => "patch", "data-phx-link-state" => "push"}
+  end
 
   defp link_attrs(%{href: href}) when is_binary(href), do: %{"href" => href}
   defp link_attrs(_), do: %{}
 
   defp select_action(%{on_select: %JS{} = js}, _index), do: js
 
-  defp select_action(%{on_select: event}, index) when is_binary(event),
-    do: JS.push(event, value: %{index: index})
+  defp select_action(%{on_select: event}, index) when is_binary(event) do
+    JS.push(event, value: %{index: index})
+  end
 
   defp select_action(_item, _index), do: nil
 end
