@@ -241,8 +241,8 @@ defmodule DevelopmentWeb.ComponentAttrsTest do
   describe "banner edges" do
     @border_top ~w(border-t border-t-2 border-t-[3px] border-t-4 border-t-[5px])
     @border_bottom ~w(border-b border-b-2 border-b-[3px] border-b-4 border-b-[5px])
-    @rounded_top ~w(rounded-t-sm rounded-t rounded-t-md rounded-t-lg rounded-t-xl)
-    @rounded_bottom ~w(rounded-b-sm rounded-b rounded-b-md rounded-b-lg rounded-b-xl)
+    @rounded_top ~w(rounded-t-xs rounded-t rounded-t-md rounded-t-lg rounded-t-xl)
+    @rounded_bottom ~w(rounded-b-xs rounded-b rounded-b-md rounded-b-lg rounded-b-xl)
     @sizes ~w(extra_small small medium large extra_large)
 
     defp banner_tokens(assigns) do
@@ -274,6 +274,64 @@ defmodule DevelopmentWeb.ComponentAttrsTest do
         assert top in top_tokens and bottom not in top_tokens, "top #{size}"
         assert bottom in bottom_tokens and top not in bottom_tokens, "bottom #{size}"
       end
+    end
+  end
+
+  describe "extra_small and small" do
+    defp size_tokens(module, name, info, attrs) do
+      slots =
+        for slot <- info.slots, into: %{}, do: {slot.name, slot_entries(slot.name, slot.attrs)}
+
+      media = if Enum.any?(info.attrs, &(&1.name == :src)), do: %{src: "x"}, else: %{}
+
+      assigns =
+        info |> required_assigns() |> Map.merge(slots) |> Map.merge(media) |> Map.merge(attrs)
+
+      module |> render(name, assigns) |> class_tokens() |> Enum.map(&v4_step/1)
+    end
+
+    # Tailwind v4 gives a bare `rounded`, `shadow` or `blur` the step of its `-sm`.
+    defp v4_step(class) do
+      bare =
+        ~r/(^|:)(rounded(?:-(?:t|b|s|e|l|r|tl|tr|bl|br|ss|se|es|ee))?|shadow|blur|drop-shadow|backdrop-blur)$/
+
+      Regex.replace(bare, class, "\\1\\2-sm")
+    end
+
+    defp same_classes(attr) do
+      for {module, name, info} <- components(),
+          not String.contains?(inspect(module), ".Headless."),
+          Enum.any?(info.attrs, &(&1.name == attr)) do
+        try do
+          small = size_tokens(module, name, info, %{attr => "small"})
+          extra_small = size_tokens(module, name, info, %{attr => "extra_small"})
+          {inspect(module), name, small == extra_small}
+        rescue
+          _error -> {inspect(module), name, :unrenderable}
+        end
+      end
+    end
+
+    test "never render the same rounded classes" do
+      results = same_classes(:rounded)
+
+      assert for({module, name, true} <- results, do: {module, name}) == []
+      assert Enum.count(results, &(elem(&1, 2) == false)) > 30
+    end
+
+    test "never render the same shadow classes" do
+      results = same_classes(:shadow)
+
+      assert for({module, name, true} <- results, do: {module, name}) == []
+      assert Enum.count(results, &(elem(&1, 2) == false)) >= 2
+    end
+
+    test "never render the same blur on an image" do
+      blur = fn size -> %{filter: "blur", filter_size: size} end
+      info = component(Image, :image)
+
+      assert size_tokens(Image, :image, info, blur.("extra_small")) !=
+               size_tokens(Image, :image, info, blur.("small"))
     end
   end
 

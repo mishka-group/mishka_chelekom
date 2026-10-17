@@ -293,7 +293,7 @@ defmodule <%= @module %> do
   defp height_size(params) when is_binary(params), do: params
 
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
-  defp rounded_size("extra_small"), do: "[&_.textarea-field-wrapper]:rounded-sm"
+  defp rounded_size("extra_small"), do: "[&_.textarea-field-wrapper]:rounded-xs"
   <% end %>
   <%= if is_nil(@rounded) or "small" in @rounded do %>
   defp rounded_size("small"), do: "[&_.textarea-field-wrapper]:rounded"

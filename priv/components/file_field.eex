@@ -407,7 +407,7 @@ defmodule <%= @module %> do
   <% end %>
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp rounded_size("extra_small"),
-    do: "[&_.file-field]:rounded-sm [&_.dropzone-wrapper]:rounded-sm"
+    do: "[&_.file-field]:rounded-xs [&_.dropzone-wrapper]:rounded-xs"
   <% end %>
   <%= if is_nil(@rounded) or "small" in @rounded do %>
   defp rounded_size("small"), do: "[&_.file-field]:rounded [&_.dropzone-wrapper]:rounded"

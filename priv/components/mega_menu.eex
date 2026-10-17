@@ -263,7 +263,7 @@ defmodule <%= @module %> do
   defp border_class(params, _) when is_binary(params), do: params
 
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
-  defp rounded_size("extra_small"), do: "[&>.mega-menu-content]:rounded-sm"
+  defp rounded_size("extra_small"), do: "[&>.mega-menu-content]:rounded-xs"
   <% end %>
   <%= if is_nil(@rounded) or "small" in @rounded do %>
   defp rounded_size("small"), do: "[&>.mega-menu-content]:rounded"

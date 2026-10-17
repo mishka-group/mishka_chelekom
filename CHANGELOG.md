@@ -39,6 +39,16 @@
   swapping one element for another
 
 ### Bug fixes:
+- `extra_small` and `small` are two sizes again. Tailwind v4 moved the scale of `rounded`,
+  `shadow`, `blur`, `drop-shadow` and `backdrop-blur` down one step, so `rounded-sm` and a bare
+  `rounded` are both 0.25rem, and 50 components mapped `extra_small` to the first and `small` to
+  the second: a banner at either size measured 4px. `extra_small` is `rounded-xs` now, with its
+  side forms (`rounded-t-xs`, `rounded-b-xs`, `rounded-s-xs`, `rounded-e-xs`, `rounded-es-xs`,
+  `rounded-ee-xs`), the 0.125rem that `rounded-sm` was in v3. The same fix is `shadow-xs` in the
+  `avatar`, `gallery` and `image` shadow sizes and `blur-xs` in the `image` blur filter. `small`
+  is as it was; the sizes from `medium` up did not move. `drop-shadow` and `backdrop-blur` have no
+  size helper in the kit. A test reads every helper for two sizes whose classes are one value in
+  v4, with a table of the known pairs
 - A form field renders without `name`, `value` or `label`. `<.email_field name="x" />` raised
   `KeyError :value`, because `name` and `value` had no default and nothing read from a field
   supplied them. `name` and `value` default to nil on `email_field`, `text_field`, `number_field`,

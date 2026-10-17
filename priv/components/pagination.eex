@@ -535,7 +535,7 @@ defmodule <%= @module %> do
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
   defp rounded_size("extra_small"),
     do:
-      "[&.grouped-pagination]:rounded-sm [&:not(.grouped-pagination)_.pagination-button]:rounded-sm"
+      "[&.grouped-pagination]:rounded-xs [&:not(.grouped-pagination)_.pagination-button]:rounded-xs"
   <% end %>
   <%= if is_nil(@rounded) or "small" in @rounded do %>
   defp rounded_size("small"),

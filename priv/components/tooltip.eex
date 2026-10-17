@@ -259,7 +259,7 @@ import Phoenix.LiveView.Utils, only: [random_id: 0]
   defp arrow_position_class(_), do: arrow_position_class("top")
 
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
-  defp rounded_size("extra_small"), do: "rounded-sm"
+  defp rounded_size("extra_small"), do: "rounded-xs"
   <% end %>
   <%= if is_nil(@rounded) or "small" in @rounded do %>
   defp rounded_size("small"), do: "rounded"

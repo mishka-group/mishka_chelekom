@@ -289,7 +289,7 @@ defmodule <%= @module %> do
   defp position_class(params, _) when is_binary(params), do: params
 
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
-  defp rounded_size("extra_small", "top"), do: "rounded-t-sm"
+  defp rounded_size("extra_small", "top"), do: "rounded-t-xs"
   <% end %>
   <%= if is_nil(@rounded) or "small" in @rounded do %>
   defp rounded_size("small", "top"), do: "rounded-t"
@@ -304,7 +304,7 @@ defmodule <%= @module %> do
   defp rounded_size("extra_large", "top"), do: "rounded-t-xl"
   <% end %>
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
-  defp rounded_size("extra_small", "bottom"), do: "rounded-b-sm"
+  defp rounded_size("extra_small", "bottom"), do: "rounded-b-xs"
   <% end %>
   <%= if is_nil(@rounded) or "small" in @rounded do %>
   defp rounded_size("small", "bottom"), do: "rounded-b"
@@ -319,7 +319,7 @@ defmodule <%= @module %> do
   defp rounded_size("extra_large", "bottom"), do: "rounded-b-xl"
   <% end %>
   <%= if is_nil(@rounded) or "extra_small" in @rounded do %>
-  defp rounded_size("extra_small", "all"), do: "rounded-sm"
+  defp rounded_size("extra_small", "all"), do: "rounded-xs"
   <% end %>
   <%= if is_nil(@rounded) or "small" in @rounded do %>
   defp rounded_size("small", "all"), do: "rounded"

@@ -332,7 +332,7 @@ defmodule <%= @module %> do
   defp size_class(params) when is_binary(params), do: params
 
   <%= if is_nil(@rounded) or "medium" in @rounded do %>
-  defp rounded_size("extra_small"), do: "[&_.number-field-wrapper]:rounded-sm"
+  defp rounded_size("extra_small"), do: "[&_.number-field-wrapper]:rounded-xs"
   <% end %>
   <%= if is_nil(@rounded) or "small" in @rounded do %>
   defp rounded_size("small"), do: "[&_.number-field-wrapper]:rounded"
