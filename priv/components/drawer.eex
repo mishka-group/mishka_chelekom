@@ -789,7 +789,7 @@ defmodule <%= @module %> do
     - `position` (string): The position of the drawer, such as "left", "right", "top", or "bottom".
 
   ## Behavior:
-  Removes the CSS class that keeps the drawer off-screen and adds the class `"transform-none"`
+  Removes the CSS class that keeps the drawer off-screen and adds the class `"translate-none"`
   to bring the drawer into view.
 
   ## Examples:
@@ -802,7 +802,7 @@ defmodule <%= @module %> do
   """
   def show_drawer(js \\ %JS{}, id, position) when is_binary(id) do
     JS.remove_class(js, translate_position(position), to: "##{id}")
-    |> JS.add_class("transform-none", to: "##{id}")
+    |> JS.add_class("translate-none", to: "##{id}")
     |> JS.add_class("drawer-showed", to: "##{id}")
   end
 
@@ -815,7 +815,7 @@ defmodule <%= @module %> do
     - `position` (string): The position of the drawer, such as "left", "right", "top", or "bottom".
 
   ## Behavior:
-  Removes the `"transform-none"` CSS class that keeps the drawer visible and adds the class based on the drawer's position (e.g., `"-translate-x-full"` for a left-positioned drawer) to move the drawer off-screen.
+  Removes the `"translate-none"` CSS class that keeps the drawer visible and adds the class based on the drawer's position (e.g., `"-translate-x-full"` for a left-positioned drawer) to move the drawer off-screen.
 
   ## Examples:
 
@@ -828,7 +828,7 @@ defmodule <%= @module %> do
   def hide_drawer(js \\ %JS{}, id, position) do
     js
     |> JS.remove_class("drawer-showed", to: "##{id}")
-    |> JS.remove_class("transform-none", to: "##{id}")
+    |> JS.remove_class("translate-none", to: "##{id}")
     |> JS.add_class(translate_position(position), to: "##{id}")
   end
 end
