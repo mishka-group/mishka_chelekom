@@ -141,7 +141,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   # (driven by the indicator's own data-checked / data-indeterminate state attributes).
   defp checkbox_class do
     "inline-flex cursor-pointer items-center gap-2 [&[data-disabled]]:cursor-not-allowed [&[data-disabled]]:opacity-50 " <>
-      "[&_[data-part=indicator]]:grid [&_[data-part=indicator]]:size-5 [&_[data-part=indicator]]:place-items-center [&_[data-part=indicator]]:rounded [&_[data-part=indicator]]:border [&_[data-part=indicator]]:border-[var(--c-base-300)] [&_[data-part=indicator]]:bg-[var(--c-base-100)] [&_[data-part=indicator]]:text-xs [&_[data-part=indicator]]:leading-none [&_[data-part=indicator]]:text-[var(--c-base-100)] " <>
+      "[&_[data-part=indicator]]:grid [&_[data-part=indicator]]:size-5 [&_[data-part=indicator]]:place-items-center [&_[data-part=indicator]]:rounded-sm [&_[data-part=indicator]]:border [&_[data-part=indicator]]:border-[var(--c-base-300)] [&_[data-part=indicator]]:bg-[var(--c-base-100)] [&_[data-part=indicator]]:text-xs [&_[data-part=indicator]]:leading-none [&_[data-part=indicator]]:text-[var(--c-base-100)] " <>
       "[&_[data-part=indicator][data-checked]]:border-[var(--c-base-content)] [&_[data-part=indicator][data-checked]]:bg-[var(--c-base-content)] [&_[data-part=indicator][data-checked]]:after:content-['✓'] " <>
       "[&_[data-part=indicator][data-indeterminate]]:border-[var(--c-base-content)] [&_[data-part=indicator][data-indeterminate]]:bg-[var(--c-base-content)] [&_[data-part=indicator][data-indeterminate]]:after:content-['–'] " <>
       "[&_[data-part=label]]:text-sm"
@@ -152,9 +152,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   defp checkbox_group_class do
     "flex w-64 flex-col gap-0.5 rounded-md border border-[var(--c-base-300)] p-3 " <>
       "[&_[data-part=label]]:mb-1 [&_[data-part=label]]:block [&_[data-part=label]]:text-sm [&_[data-part=label]]:font-semibold " <>
-      "[&_[data-part=item]]:flex [&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:items-center [&_[data-part=item]]:gap-2 [&_[data-part=item]]:rounded [&_[data-part=item]]:px-2 [&_[data-part=item]]:py-1 [&_[data-part=item]]:text-sm [&_[data-part=item]:hover]:bg-[var(--c-base-200)] [&_[data-part=item][data-disabled]]:cursor-not-allowed [&_[data-part=item][data-disabled]]:opacity-50 " <>
+      "[&_[data-part=item]]:flex [&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:items-center [&_[data-part=item]]:gap-2 [&_[data-part=item]]:rounded-sm [&_[data-part=item]]:px-2 [&_[data-part=item]]:py-1 [&_[data-part=item]]:text-sm [&_[data-part=item]:hover]:bg-[var(--c-base-200)] [&_[data-part=item][data-disabled]]:cursor-not-allowed [&_[data-part=item][data-disabled]]:opacity-50 " <>
       "[&_[data-part=item][data-parent]]:mb-1 [&_[data-part=item][data-parent]]:border-b [&_[data-part=item][data-parent]]:border-[var(--c-base-300)] [&_[data-part=item][data-parent]]:pb-1.5 [&_[data-part=item][data-parent]]:font-medium " <>
-      "[&_[data-part=indicator]]:grid [&_[data-part=indicator]]:size-5 [&_[data-part=indicator]]:shrink-0 [&_[data-part=indicator]]:place-items-center [&_[data-part=indicator]]:rounded [&_[data-part=indicator]]:border [&_[data-part=indicator]]:border-[var(--c-base-300)] [&_[data-part=indicator]]:bg-[var(--c-base-100)] [&_[data-part=indicator]]:text-xs [&_[data-part=indicator]]:leading-none [&_[data-part=indicator]]:text-[var(--c-base-100)] " <>
+      "[&_[data-part=indicator]]:grid [&_[data-part=indicator]]:size-5 [&_[data-part=indicator]]:shrink-0 [&_[data-part=indicator]]:place-items-center [&_[data-part=indicator]]:rounded-sm [&_[data-part=indicator]]:border [&_[data-part=indicator]]:border-[var(--c-base-300)] [&_[data-part=indicator]]:bg-[var(--c-base-100)] [&_[data-part=indicator]]:text-xs [&_[data-part=indicator]]:leading-none [&_[data-part=indicator]]:text-[var(--c-base-100)] " <>
       "[&_[data-part=indicator][data-checked]]:border-[var(--c-base-content)] [&_[data-part=indicator][data-checked]]:bg-[var(--c-base-content)] [&_[data-part=indicator][data-checked]]:after:content-['✓'] " <>
       "[&_[data-part=indicator][data-indeterminate]]:border-[var(--c-base-content)] [&_[data-part=indicator][data-indeterminate]]:bg-[var(--c-base-content)] [&_[data-part=indicator][data-indeterminate]]:after:content-['–']"
   end
@@ -165,16 +165,16 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     [
       "relative w-64",
       "[&_[data-part=control]]:flex [&_[data-part=control]]:flex-wrap [&_[data-part=control]]:items-center [&_[data-part=control]]:gap-1 [&_[data-part=control]]:rounded-md [&_[data-part=control]]:border [&_[data-part=control]]:border-[var(--c-base-300)] [&_[data-part=control]]:bg-[var(--c-base-100)] [&_[data-part=control]]:px-2 [&_[data-part=control]]:py-1 [&_[data-part=control]]:focus-within:ring-2 [&_[data-part=control]]:focus-within:ring-[var(--c-primary)]/30",
-      "[&_[data-part=chips]]:contents [&_[data-part=chip]]:inline-flex [&_[data-part=chip]]:items-center [&_[data-part=chip]]:gap-1 [&_[data-part=chip]]:rounded [&_[data-part=chip]]:bg-[var(--c-base-200)] [&_[data-part=chip]]:px-1.5 [&_[data-part=chip]]:py-0.5 [&_[data-part=chip]]:text-sm [&_[data-part=chip-remove]]:text-[var(--c-base-content)]/50 [&_[data-part=chip-remove]]:hover:text-[var(--c-base-content)]",
+      "[&_[data-part=chips]]:contents [&_[data-part=chip]]:inline-flex [&_[data-part=chip]]:items-center [&_[data-part=chip]]:gap-1 [&_[data-part=chip]]:rounded-sm [&_[data-part=chip]]:bg-[var(--c-base-200)] [&_[data-part=chip]]:px-1.5 [&_[data-part=chip]]:py-0.5 [&_[data-part=chip]]:text-sm [&_[data-part=chip-remove]]:text-[var(--c-base-content)]/50 [&_[data-part=chip-remove]]:hover:text-[var(--c-base-content)]",
       "[&_[data-part=input]]:min-w-16 [&_[data-part=input]]:flex-1 [&_[data-part=input]]:border-0 [&_[data-part=input]]:bg-transparent [&_[data-part=input]]:px-1 [&_[data-part=input]]:py-0.5 [&_[data-part=input]]:text-sm [&_[data-part=input]]:outline-none",
       "[&_[data-part=clear]]:shrink-0 [&_[data-part=clear]]:px-1 [&_[data-part=clear]]:text-[var(--c-base-content)]/40 [&_[data-part=clear]]:hover:text-[var(--c-base-content)] [&_[data-part=clear][data-hidden]]:hidden",
       "[&_[data-part=trigger]]:shrink-0 [&_[data-part=trigger]]:px-1 [&_[data-part=trigger]]:text-[var(--c-base-content)]/40 [&_[data-part=trigger]]:hover:text-[var(--c-base-content)]",
       "[&_[data-part=popup]]:absolute [&_[data-part=popup]]:left-0 [&_[data-part=popup]]:right-0 [&_[data-part=popup]]:top-full [&_[data-part=popup]]:z-10 [&_[data-part=popup]]:mt-1 [&_[data-part=popup]]:max-h-56 [&_[data-part=popup]]:overflow-auto [&_[data-part=popup]]:rounded-md [&_[data-part=popup]]:border [&_[data-part=popup]]:border-[var(--c-base-300)] [&_[data-part=popup]]:bg-[var(--c-base-100)] [&_[data-part=popup]]:p-1 [&_[data-part=popup]]:shadow-lg [&_[data-part=popup][data-closed]]:hidden",
       "[&_[data-part=group-label]]:block [&_[data-part=group-label]]:px-3 [&_[data-part=group-label]]:pb-1 [&_[data-part=group-label]]:pt-2 [&_[data-part=group-label]]:text-xs [&_[data-part=group-label]]:font-medium [&_[data-part=group-label]]:uppercase [&_[data-part=group-label]]:tracking-wide [&_[data-part=group-label]]:text-[var(--c-base-content)]/40",
-      "[&_[data-part=item]]:flex [&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:items-center [&_[data-part=item]]:gap-2 [&_[data-part=item]]:rounded [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1.5 [&_[data-part=item][data-highlighted]]:bg-[var(--c-base-200)] [&_[data-part=item][data-disabled]]:cursor-not-allowed [&_[data-part=item][data-disabled]]:opacity-40",
+      "[&_[data-part=item]]:flex [&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:items-center [&_[data-part=item]]:gap-2 [&_[data-part=item]]:rounded-sm [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1.5 [&_[data-part=item][data-highlighted]]:bg-[var(--c-base-200)] [&_[data-part=item][data-disabled]]:cursor-not-allowed [&_[data-part=item][data-disabled]]:opacity-40",
       "[&_[data-part=indicator]]:w-4 [&_[data-part=indicator]]:shrink-0 [&_[data-part=indicator]]:text-xs [&_[data-part=item][data-selected]_[data-part=indicator]]:after:content-['✓']",
       "[&_[data-part=empty]]:px-3 [&_[data-part=empty]]:py-2 [&_[data-part=empty]]:text-sm [&_[data-part=empty]]:text-[var(--c-base-content)]/50",
-      "[&_[data-part=create]]:cursor-pointer [&_[data-part=create]]:rounded [&_[data-part=create]]:px-3 [&_[data-part=create]]:py-1.5 [&_[data-part=create]]:text-sm [&_[data-part=create]]:text-[var(--c-primary)] [&_[data-part=create]]:hover:bg-[var(--c-base-200)] [&_[data-part=create][data-hidden]]:hidden"
+      "[&_[data-part=create]]:cursor-pointer [&_[data-part=create]]:rounded-sm [&_[data-part=create]]:px-3 [&_[data-part=create]]:py-1.5 [&_[data-part=create]]:text-sm [&_[data-part=create]]:text-[var(--c-primary)] [&_[data-part=create]]:hover:bg-[var(--c-base-200)] [&_[data-part=create][data-hidden]]:hidden"
     ]
   end
 
@@ -352,7 +352,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         "[&_[data-part=clear]]:absolute [&_[data-part=clear]]:right-2 [&_[data-part=clear]]:top-1.5 [&_[data-part=clear]]:text-[var(--c-base-content)]/40 [&_[data-part=clear]]:hover:text-[var(--c-base-content)] [&_[data-part=clear][data-hidden]]:hidden",
         "[&_[data-part=popup]]:mt-1 [&_[data-part=popup]]:max-h-56 [&_[data-part=popup]]:w-64 [&_[data-part=popup]]:overflow-auto [&_[data-part=popup]]:rounded-md [&_[data-part=popup]]:border [&_[data-part=popup]]:border-[var(--c-base-300)] [&_[data-part=popup]]:bg-[var(--c-base-100)] [&_[data-part=popup]]:p-1 [&_[data-part=popup]]:shadow-lg",
         "[&_[data-part=group-label]]:block [&_[data-part=group-label]]:px-3 [&_[data-part=group-label]]:pb-1 [&_[data-part=group-label]]:pt-2 [&_[data-part=group-label]]:text-xs [&_[data-part=group-label]]:font-medium [&_[data-part=group-label]]:uppercase [&_[data-part=group-label]]:tracking-wide [&_[data-part=group-label]]:text-[var(--c-base-content)]/40",
-        "[&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:rounded [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1.5 [&_[data-part=item][data-highlighted]]:bg-[var(--c-base-200)] [&_[data-part=item][aria-selected=true]]:font-semibold",
+        "[&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:rounded-sm [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1.5 [&_[data-part=item][data-highlighted]]:bg-[var(--c-base-200)] [&_[data-part=item][aria-selected=true]]:font-semibold",
         "[&_[data-part=empty]]:px-3 [&_[data-part=empty]]:py-2 [&_[data-part=empty]]:text-sm [&_[data-part=empty]]:text-[var(--c-base-content)]/50"
       ]}
     >
@@ -619,7 +619,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       <.highlight
         text="Phoenix LiveView builds rich, real-time apps — and LiveView needs little JavaScript."
         highlight={["LiveView", "real-time"]}
-        mark_class="rounded bg-yellow-200 px-0.5 text-neutral-900"
+        mark_class="rounded-sm bg-yellow-200 px-0.5 text-neutral-900"
       />
     </p>
     """
@@ -629,7 +629,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     ~H"""
     <p class="max-w-md text-sm text-[var(--c-base-content)]/80">
       Search matched
-      <.mark class="rounded bg-yellow-200 px-0.5 text-neutral-900">Phoenix LiveView</.mark>
+      <.mark class="rounded-sm bg-yellow-200 px-0.5 text-neutral-900">Phoenix LiveView</.mark>
       in this sentence — the highlight also carries meaning for assistive tech.
     </p>
     """
@@ -640,7 +640,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     <div class="space-y-3">
       <p class="text-sm text-[var(--c-base-content)]/80">
         Install with
-        <.code class="rounded bg-[var(--c-base-300)]/60 px-1.5 py-0.5 font-mono text-[0.85em]">
+        <.code class="rounded-sm bg-[var(--c-base-300)]/60 px-1.5 py-0.5 font-mono text-[0.85em]">
           mix mishka.ui.gen.headless code
         </.code>
         and go.
@@ -735,7 +735,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         aria_label="Categories"
         class="text-sm select-none"
         node_class="[&[data-selectable=false]>[data-part=label]]:font-medium [&[data-selectable=false]>[data-part=label]]:text-[var(--c-base-content)]/60"
-        label_class="flex items-center gap-1 rounded px-2 py-1 cursor-pointer [padding-left:calc(var(--label-offset)+0.5rem)] hover:bg-[var(--c-base-200)] data-[selected]:bg-[var(--c-primary)]/10 data-[selected]:font-medium data-[selected]:text-[var(--c-primary)]"
+        label_class="flex items-center gap-1 rounded-sm px-2 py-1 cursor-pointer [padding-left:calc(var(--label-offset)+0.5rem)] hover:bg-[var(--c-base-200)] data-[selected]:bg-[var(--c-primary)]/10 data-[selected]:font-medium data-[selected]:text-[var(--c-primary)]"
         label_text_class="truncate"
         expand_icon_class="inline-block w-3 text-center text-[var(--c-base-content)]/50"
       >
@@ -753,12 +753,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       label="Color"
       class="relative inline-block w-56"
       control_class="flex items-center gap-2 rounded-md border border-[var(--c-base-300)] bg-[var(--c-base-100)] px-2 py-1.5 focus-within:ring-2 focus-within:ring-[var(--c-primary)]/30"
-      preview_class="size-5 shrink-0 rounded border border-[var(--c-base-300)]"
+      preview_class="size-5 shrink-0 rounded-sm border border-[var(--c-base-300)]"
       text_class="w-24 bg-transparent font-mono text-sm outline-none"
-      trigger_class="ml-auto rounded p-1 text-[var(--c-base-content)]/50 hover:bg-[var(--c-base-200)]"
+      trigger_class="ml-auto rounded-sm p-1 text-[var(--c-base-content)]/50 hover:bg-[var(--c-base-200)]"
       panel_class="absolute left-0 z-20 mt-2 w-56 rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-3 shadow-lg"
       area_class="relative h-36 w-full cursor-crosshair rounded-md"
-      thumb_class="block size-3 rounded-full border-2 border-white shadow"
+      thumb_class="block size-3 rounded-full border-2 border-white shadow-sm"
       hue_class="mt-3 w-full"
     />
     """
@@ -793,7 +793,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       active="list"
       label="View"
       class={floating_indicator_class()}
-      indicator_class="rounded-md bg-[var(--c-primary)] shadow"
+      indicator_class="rounded-md bg-[var(--c-primary)] shadow-sm"
       target_class="relative z-10 rounded-md px-3 py-1.5 text-sm font-medium text-[var(--c-base-content)]/70 transition-colors outline-none aria-pressed:text-primary-content"
     >
       <:target value="list">List</:target>
@@ -1459,7 +1459,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       </p>
       <.menubar
         id={@id}
-        class="inline-flex gap-1 rounded-md border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-1 [&_[data-part=trigger]]:rounded [&_[data-part=trigger]]:px-3 [&_[data-part=trigger]]:py-1.5 [&_[data-part=trigger]]:text-sm [&_[data-part=trigger][data-popup-open]]:bg-[var(--c-base-200)] [&_[data-part=trigger][data-disabled]]:opacity-40 [&_[data-part=trigger][data-disabled]]:cursor-not-allowed [&_[data-part=popup]]:mt-1 [&_[data-part=popup]]:min-w-44 [&_[data-part=popup]]:rounded-md [&_[data-part=popup]]:border [&_[data-part=popup]]:border-[var(--c-base-300)] [&_[data-part=popup]]:bg-[var(--c-base-100)] [&_[data-part=popup]]:p-1 [&_[data-part=popup]]:shadow-lg [&_[role=menuitem]]:block [&_[role=menuitem]]:w-full [&_[role=menuitem]]:rounded [&_[role=menuitem]]:px-3 [&_[role=menuitem]]:py-1.5 [&_[role=menuitem]]:text-left [&_[role=menuitem]]:text-sm [&_[role=menuitem]]:outline-none [&_[role=menuitem][data-highlighted]]:bg-[var(--c-base-200)]"
+        class="inline-flex gap-1 rounded-md border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-1 [&_[data-part=trigger]]:rounded-sm [&_[data-part=trigger]]:px-3 [&_[data-part=trigger]]:py-1.5 [&_[data-part=trigger]]:text-sm [&_[data-part=trigger][data-popup-open]]:bg-[var(--c-base-200)] [&_[data-part=trigger][data-disabled]]:opacity-40 [&_[data-part=trigger][data-disabled]]:cursor-not-allowed [&_[data-part=popup]]:mt-1 [&_[data-part=popup]]:min-w-44 [&_[data-part=popup]]:rounded-md [&_[data-part=popup]]:border [&_[data-part=popup]]:border-[var(--c-base-300)] [&_[data-part=popup]]:bg-[var(--c-base-100)] [&_[data-part=popup]]:p-1 [&_[data-part=popup]]:shadow-lg [&_[role=menuitem]]:block [&_[role=menuitem]]:w-full [&_[role=menuitem]]:rounded-sm [&_[role=menuitem]]:px-3 [&_[role=menuitem]]:py-1.5 [&_[role=menuitem]]:text-left [&_[role=menuitem]]:text-sm [&_[role=menuitem]]:outline-none [&_[role=menuitem][data-highlighted]]:bg-[var(--c-base-200)]"
       >
         <:menu label="File">
           <button type="button" role="menuitem">New file</button>
@@ -1616,7 +1616,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         <input
           type="text"
           placeholder="focus lands here…"
-          class="mt-1 w-full rounded border border-[var(--c-base-300)] px-2 py-1 text-sm outline-none focus:border-[var(--c-primary)]"
+          class="mt-1 w-full rounded-sm border border-[var(--c-base-300)] px-2 py-1 text-sm outline-none focus:border-[var(--c-primary)]"
         />
       </label>
       <:close>
@@ -1689,7 +1689,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
         <.scroll_area id={@id} orientation="vertical" class={scroll_area_class()}>
           <p class="text-sm font-semibold">Scrollable region</p>
           <ul class="mt-2 space-y-2 text-sm">
-            <li :for={n <- 1..20} class="rounded border border-[var(--c-base-200)] px-2 py-1.5">
+            <li :for={n <- 1..20} class="rounded-sm border border-[var(--c-base-200)] px-2 py-1.5">
               Item {n}
             </li>
           </ul>
@@ -2277,7 +2277,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "[&_[data-part=toast]]:[--gap:0.6rem] [&_[data-part=toast]]:[--peek:0.6rem] [&_[data-part=toast]]:[--scale:calc(max(0,1-(var(--toast-index)*0.1)))] [&_[data-part=toast]]:[--shrink:calc(1-var(--scale))] [&_[data-part=toast]]:[--height:var(--toast-frontmost-height,var(--toast-height))] [&_[data-part=toast]]:absolute [&_[data-part=toast]]:inset-x-0 [&_[data-part=toast]]:z-[calc(1000-var(--toast-index))] [&_[data-part=toast]]:h-[var(--height)] [&_[data-part=toast]]:rounded-md [&_[data-part=toast]]:border [&_[data-part=toast]]:border-[var(--c-base-300)] [&_[data-part=toast]]:bg-[var(--c-base-100)] [&_[data-part=toast]]:shadow-lg [&_[data-part=toast]]:[transition:transform_0.5s_cubic-bezier(0.22,1,0.36,1),opacity_0.4s,height_0.15s]",
       "[&_[data-part=toast][data-expanded]]:[transform:translateY(var(--offset-y))] [&_[data-part=toast][data-expanded]]:h-[var(--toast-height)] [&_[data-part=toast][data-ending-style]]:opacity-0 [&_[data-part=toast][data-limited]]:opacity-0",
       "[&_[data-part=content]]:flex [&_[data-part=content]]:h-full [&_[data-part=content]]:items-start [&_[data-part=content]]:gap-3 [&_[data-part=content]]:overflow-hidden [&_[data-part=content]]:p-3 [&_[data-part=content]]:text-sm [&_[data-part=content]]:transition-opacity [&_[data-part=content][data-behind]]:opacity-0",
-      "[&_[data-part=close]]:ml-auto [&_[data-part=close]]:shrink-0 [&_[data-part=close]]:rounded [&_[data-part=close]]:px-1.5 [&_[data-part=close]]:text-lg [&_[data-part=close]]:leading-none [&_[data-part=close]]:text-[var(--c-base-content)]/40 [&_[data-part=close]]:hover:text-[var(--c-base-content)]",
+      "[&_[data-part=close]]:ml-auto [&_[data-part=close]]:shrink-0 [&_[data-part=close]]:rounded-sm [&_[data-part=close]]:px-1.5 [&_[data-part=close]]:text-lg [&_[data-part=close]]:leading-none [&_[data-part=close]]:text-[var(--c-base-content)]/40 [&_[data-part=close]]:hover:text-[var(--c-base-content)]",
       toast_anchor(anchor)
     ]
   end
@@ -3454,9 +3454,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
             style="display:none"
             class="mt-2 w-48 rounded-md border border-[var(--c-base-300)] p-2 text-sm"
           >
-            <a href="#" class="block rounded px-2 py-1 hover:bg-[var(--c-base-200)]">Home</a>
-            <a href="#" class="block rounded px-2 py-1 hover:bg-[var(--c-base-200)]">Projects</a>
-            <a href="#" class="block rounded px-2 py-1 hover:bg-[var(--c-base-200)]">Settings</a>
+            <a href="#" class="block rounded-sm px-2 py-1 hover:bg-[var(--c-base-200)]">Home</a>
+            <a href="#" class="block rounded-sm px-2 py-1 hover:bg-[var(--c-base-200)]">Projects</a>
+            <a href="#" class="block rounded-sm px-2 py-1 hover:bg-[var(--c-base-200)]">Settings</a>
           </nav>
         </div>
       </details>
@@ -4120,7 +4120,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     [
       "[&_[data-part=trigger]]:flex [&_[data-part=trigger]]:h-48 [&_[data-part=trigger]]:w-64 [&_[data-part=trigger]]:select-none [&_[data-part=trigger]]:items-center [&_[data-part=trigger]]:justify-center [&_[data-part=trigger]]:rounded-lg [&_[data-part=trigger]]:border [&_[data-part=trigger]]:border-dashed [&_[data-part=trigger]]:border-[var(--c-base-300)] [&_[data-part=trigger]]:text-sm [&_[data-part=trigger]]:text-[var(--c-base-content)]/60",
       "[&_[role=menu]]:min-w-52 [&_[role=menu]]:rounded-lg [&_[role=menu]]:border [&_[role=menu]]:border-[var(--c-base-300)] [&_[role=menu]]:bg-[var(--c-base-100)] [&_[role=menu]]:p-1 [&_[role=menu]]:text-sm [&_[role=menu]]:shadow-lg [&_[role=menu]]:outline-none [&_[role=menu]]:origin-top-left [&_[role=menu]]:transition [&_[role=menu]]:duration-150 [&_[role=menu][data-starting-style]]:scale-95 [&_[role=menu][data-starting-style]]:opacity-0",
-      "[&_[role^=menuitem]]:flex [&_[role^=menuitem]]:w-full [&_[role^=menuitem]]:cursor-default [&_[role^=menuitem]]:select-none [&_[role^=menuitem]]:items-center [&_[role^=menuitem]]:gap-2 [&_[role^=menuitem]]:rounded [&_[role^=menuitem]]:px-2 [&_[role^=menuitem]]:py-1.5 [&_[role^=menuitem]]:text-left [&_[role^=menuitem]]:text-[var(--c-base-content)] [&_[role^=menuitem]]:no-underline [&_[role^=menuitem]]:outline-none",
+      "[&_[role^=menuitem]]:flex [&_[role^=menuitem]]:w-full [&_[role^=menuitem]]:cursor-default [&_[role^=menuitem]]:select-none [&_[role^=menuitem]]:items-center [&_[role^=menuitem]]:gap-2 [&_[role^=menuitem]]:rounded-sm [&_[role^=menuitem]]:px-2 [&_[role^=menuitem]]:py-1.5 [&_[role^=menuitem]]:text-left [&_[role^=menuitem]]:text-[var(--c-base-content)] [&_[role^=menuitem]]:no-underline [&_[role^=menuitem]]:outline-none",
       "[&_[role^=menuitem][data-highlighted]]:bg-[var(--c-base-200)] [&_[role^=menuitem][data-disabled]]:opacity-40",
       "[&_[data-part$=indicator]]:inline-flex [&_[data-part$=indicator]]:w-4 [&_[data-part$=indicator]]:shrink-0 [&_[data-part$=indicator]]:justify-center [&_[data-part$=indicator]]:text-xs [&_[data-part$=indicator]]:text-[var(--c-primary)]",
       "[&_[data-part=submenu-chevron]]:ml-auto [&_[data-part=submenu-chevron]]:text-[var(--c-base-content)]/40",
@@ -4145,7 +4145,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   def tree_class do
     [
       "w-64 select-none text-sm",
-      "[&_[data-part=label]]:flex [&_[data-part=label]]:items-center [&_[data-part=label]]:gap-1.5 [&_[data-part=label]]:rounded [&_[data-part=label]]:py-1 [&_[data-part=label]]:pr-2 [&_[data-part=label]]:pl-[calc(var(--label-offset)+0.375rem)] [&_[data-part=label]:hover]:bg-[var(--c-base-200)]",
+      "[&_[data-part=label]]:flex [&_[data-part=label]]:items-center [&_[data-part=label]]:gap-1.5 [&_[data-part=label]]:rounded-sm [&_[data-part=label]]:py-1 [&_[data-part=label]]:pr-2 [&_[data-part=label]]:pl-[calc(var(--label-offset)+0.375rem)] [&_[data-part=label]:hover]:bg-[var(--c-base-200)]",
       "[&_[data-part=label][data-selected]]:bg-[var(--c-primary)]/15 [&_[data-part=label][data-selected]]:font-medium",
       "[&_[data-part=expand-icon]]:grid [&_[data-part=expand-icon]]:size-4 [&_[data-part=expand-icon]]:shrink-0 [&_[data-part=expand-icon]]:place-items-center [&_[data-part=expand-icon]]:text-[var(--c-base-content)]/40 [&_[data-part=expand-icon]]:transition-transform [&_[data-part=expand-icon]]:duration-100",
       "[&_[data-expanded=true]>[data-part=label]>[data-part=expand-icon]]:rotate-90",
@@ -4188,7 +4188,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     [
       "[&_[data-part=trigger]]:inline-flex [&_[data-part=trigger]]:items-center [&_[data-part=trigger]]:gap-1 [&_[data-part=trigger]]:rounded-md [&_[data-part=trigger]]:border [&_[data-part=trigger]]:border-[var(--c-base-300)] [&_[data-part=trigger]]:px-3 [&_[data-part=trigger]]:py-1.5 [&_[data-part=trigger]]:text-sm [&_[data-part=trigger][data-popup-open]]:bg-[var(--c-base-200)]",
       "[&_[role=menu]]:min-w-52 [&_[role=menu]]:rounded-lg [&_[role=menu]]:border [&_[role=menu]]:border-[var(--c-base-300)] [&_[role=menu]]:bg-[var(--c-base-100)] [&_[role=menu]]:p-1 [&_[role=menu]]:text-sm [&_[role=menu]]:shadow-lg [&_[role=menu]]:outline-none [&_[role=menu]]:transition [&_[role=menu]]:duration-150 [&_[role=menu][data-starting-style]]:opacity-0 [&_[role=menu][data-starting-style]]:scale-95 [&_[role=menu]]:origin-top",
-      "[&_[role^=menuitem]]:flex [&_[role^=menuitem]]:w-full [&_[role^=menuitem]]:cursor-default [&_[role^=menuitem]]:select-none [&_[role^=menuitem]]:items-center [&_[role^=menuitem]]:gap-2 [&_[role^=menuitem]]:rounded [&_[role^=menuitem]]:px-2 [&_[role^=menuitem]]:py-1.5 [&_[role^=menuitem]]:text-left [&_[role^=menuitem]]:text-[var(--c-base-content)] [&_[role^=menuitem]]:no-underline [&_[role^=menuitem]]:outline-none",
+      "[&_[role^=menuitem]]:flex [&_[role^=menuitem]]:w-full [&_[role^=menuitem]]:cursor-default [&_[role^=menuitem]]:select-none [&_[role^=menuitem]]:items-center [&_[role^=menuitem]]:gap-2 [&_[role^=menuitem]]:rounded-sm [&_[role^=menuitem]]:px-2 [&_[role^=menuitem]]:py-1.5 [&_[role^=menuitem]]:text-left [&_[role^=menuitem]]:text-[var(--c-base-content)] [&_[role^=menuitem]]:no-underline [&_[role^=menuitem]]:outline-none",
       "[&_[role^=menuitem][data-highlighted]]:bg-[var(--c-base-200)] [&_[role^=menuitem][data-disabled]]:opacity-40",
       "[&_[data-part$=indicator]]:inline-flex [&_[data-part$=indicator]]:w-4 [&_[data-part$=indicator]]:shrink-0 [&_[data-part$=indicator]]:justify-center [&_[data-part$=indicator]]:text-xs [&_[data-part$=indicator]]:text-[var(--c-primary)]",
       "[&_[data-part=submenu-chevron]]:ml-auto [&_[data-part=submenu-chevron]]:text-[var(--c-base-content)]/40",
@@ -4215,9 +4215,9 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     [
       "flex max-w-full flex-wrap items-center gap-1 rounded-md border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-1",
       "[&_[data-part=group]]:flex [&_[data-part=group]]:gap-1",
-      "[&_[data-part=button]]:rounded [&_[data-part=button]]:px-2.5 [&_[data-part=button]]:py-1.5 [&_[data-part=button]]:text-sm [&_[data-part=button]]:outline-none [&_[data-part=button]:hover]:bg-[var(--c-base-200)] focus-visible:[&_[data-part=button]]:ring-2 focus-visible:[&_[data-part=button]]:ring-[var(--c-primary)]/40 [&_[data-part=button][data-disabled]]:opacity-40 [&_[data-part=button][data-disabled]]:cursor-not-allowed",
+      "[&_[data-part=button]]:rounded-sm [&_[data-part=button]]:px-2.5 [&_[data-part=button]]:py-1.5 [&_[data-part=button]]:text-sm [&_[data-part=button]]:outline-none [&_[data-part=button]:hover]:bg-[var(--c-base-200)] focus-visible:[&_[data-part=button]]:ring-2 focus-visible:[&_[data-part=button]]:ring-[var(--c-primary)]/40 [&_[data-part=button][data-disabled]]:opacity-40 [&_[data-part=button][data-disabled]]:cursor-not-allowed",
       "[&_[data-part=separator]]:mx-1 [&_[data-part=separator][data-orientation=horizontal]]:h-5 [&_[data-part=separator][data-orientation=horizontal]]:w-px [&_[data-part=separator][data-orientation=vertical]]:h-px [&_[data-part=separator][data-orientation=vertical]]:w-5 [&_[data-part=separator]]:bg-[var(--c-base-300)]",
-      "[&_[data-part=input]]:w-24 [&_[data-part=input]]:min-w-0 [&_[data-part=input]]:rounded [&_[data-part=input]]:border [&_[data-part=input]]:border-[var(--c-base-300)] [&_[data-part=input]]:bg-[var(--c-base-100)] [&_[data-part=input]]:px-2 [&_[data-part=input]]:py-1 [&_[data-part=input]]:text-sm [&_[data-part=input]]:outline-none focus-visible:[&_[data-part=input]]:ring-2 focus-visible:[&_[data-part=input]]:ring-[var(--c-primary)]/40",
+      "[&_[data-part=input]]:w-24 [&_[data-part=input]]:min-w-0 [&_[data-part=input]]:rounded-sm [&_[data-part=input]]:border [&_[data-part=input]]:border-[var(--c-base-300)] [&_[data-part=input]]:bg-[var(--c-base-100)] [&_[data-part=input]]:px-2 [&_[data-part=input]]:py-1 [&_[data-part=input]]:text-sm [&_[data-part=input]]:outline-none focus-visible:[&_[data-part=input]]:ring-2 focus-visible:[&_[data-part=input]]:ring-[var(--c-primary)]/40",
       "[&_[data-part=link]]:ml-auto [&_[data-part=link]]:px-2 [&_[data-part=link]]:text-sm [&_[data-part=link]]:text-[var(--c-primary)] [&_[data-part=link]]:underline-offset-2 [&_[data-part=link]:hover]:underline [&_[data-part=link]]:outline-none focus-visible:[&_[data-part=link]]:ring-2 focus-visible:[&_[data-part=link]]:ring-[var(--c-primary)]/40"
     ]
   end
@@ -4240,11 +4240,11 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   defp navigation_menu_class do
     [
       "flex gap-1 rounded-md border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-1",
-      "[&_[data-part=link]]:block [&_[data-part=link]]:rounded [&_[data-part=link]]:px-3 [&_[data-part=link]]:py-1.5 [&_[data-part=link]]:text-sm [&_[data-part=link]]:hover:bg-[var(--c-base-200)] [&_[data-part=link][data-active]]:font-semibold",
-      "[&_[data-part=trigger]]:flex [&_[data-part=trigger]]:items-center [&_[data-part=trigger]]:gap-1 [&_[data-part=trigger]]:rounded [&_[data-part=trigger]]:px-3 [&_[data-part=trigger]]:py-1.5 [&_[data-part=trigger]]:text-sm [&_[data-part=trigger]]:hover:bg-[var(--c-base-200)] [&_[data-part=trigger][data-popup-open]]:bg-[var(--c-base-200)]",
+      "[&_[data-part=link]]:block [&_[data-part=link]]:rounded-sm [&_[data-part=link]]:px-3 [&_[data-part=link]]:py-1.5 [&_[data-part=link]]:text-sm [&_[data-part=link]]:hover:bg-[var(--c-base-200)] [&_[data-part=link][data-active]]:font-semibold",
+      "[&_[data-part=trigger]]:flex [&_[data-part=trigger]]:items-center [&_[data-part=trigger]]:gap-1 [&_[data-part=trigger]]:rounded-sm [&_[data-part=trigger]]:px-3 [&_[data-part=trigger]]:py-1.5 [&_[data-part=trigger]]:text-sm [&_[data-part=trigger]]:hover:bg-[var(--c-base-200)] [&_[data-part=trigger][data-popup-open]]:bg-[var(--c-base-200)]",
       "[&_[data-part=icon]]:text-[0.6rem] [&_[data-part=icon]]:transition-transform [&_[data-part=icon][data-open]]:rotate-180",
       "[&_[data-part=popup]]:rounded-md [&_[data-part=popup]]:border [&_[data-part=popup]]:border-[var(--c-base-300)] [&_[data-part=popup]]:bg-[var(--c-base-100)] [&_[data-part=popup]]:shadow-lg",
-      "[&_[data-part=content]_a]:block [&_[data-part=content]_a]:rounded [&_[data-part=content]_a]:px-3 [&_[data-part=content]_a]:py-1.5 [&_[data-part=content]_a]:text-sm [&_[data-part=content]_a]:hover:bg-[var(--c-base-200)]",
+      "[&_[data-part=content]_a]:block [&_[data-part=content]_a]:rounded-sm [&_[data-part=content]_a]:px-3 [&_[data-part=content]_a]:py-1.5 [&_[data-part=content]_a]:text-sm [&_[data-part=content]_a]:hover:bg-[var(--c-base-200)]",
       "[&_[data-part=arrow]]:absolute [&_[data-part=arrow]]:-top-1 [&_[data-part=arrow]]:-ml-1.5 [&_[data-part=arrow]]:size-2.5 [&_[data-part=arrow]]:rotate-45 [&_[data-part=arrow]]:border-l [&_[data-part=arrow]]:border-t [&_[data-part=arrow]]:border-[var(--c-base-300)] [&_[data-part=arrow]]:bg-[var(--c-base-100)]"
     ]
   end
@@ -4403,7 +4403,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   defp editor_toolbar_class do
     [
       "flex flex-wrap items-center gap-1 border-b border-[var(--c-base-300)] p-1.5",
-      "[&>button]:rounded [&>button]:px-2 [&>button]:py-1 [&>button]:text-sm [&>button]:text-[var(--c-base-content)]/70",
+      "[&>button]:rounded-sm [&>button]:px-2 [&>button]:py-1 [&>button]:text-sm [&>button]:text-[var(--c-base-content)]/70",
       "[&>button:hover]:bg-[var(--c-base-200)]",
       "[&>button[data-active]]:bg-[var(--c-primary)]/10 [&>button[data-active]]:font-semibold [&>button[data-active]]:text-[var(--c-primary)]"
     ]
@@ -4418,8 +4418,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "[&_ul]:my-1 [&_ul]:list-disc [&_ul]:pl-6",
       "[&_ol]:my-1 [&_ol]:list-decimal [&_ol]:pl-6",
       "[&_blockquote]:my-2 [&_blockquote]:border-l-2 [&_blockquote]:border-[var(--c-base-300)] [&_blockquote]:pl-3 [&_blockquote]:text-[var(--c-base-content)]/70",
-      "[&_code]:rounded [&_code]:bg-[var(--c-base-200)] [&_code]:px-1 [&_code]:font-mono [&_code]:text-[0.85em]",
-      "[&_pre]:my-2 [&_pre]:overflow-x-auto [&_pre]:rounded [&_pre]:bg-[var(--c-base-200)] [&_pre]:p-2"
+      "[&_code]:rounded-sm [&_code]:bg-[var(--c-base-200)] [&_code]:px-1 [&_code]:font-mono [&_code]:text-[0.85em]",
+      "[&_pre]:my-2 [&_pre]:overflow-x-auto [&_pre]:rounded-sm [&_pre]:bg-[var(--c-base-200)] [&_pre]:p-2"
     ]
   end
 
@@ -4441,7 +4441,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
     [
       "w-56 space-y-3",
       "[&_[data-part=area]]:relative [&_[data-part=area]]:h-36 [&_[data-part=area]]:w-full [&_[data-part=area]]:cursor-crosshair [&_[data-part=area]]:rounded-lg [&_[data-part=area]]:ring-1 [&_[data-part=area]]:ring-black/10",
-      "[&_[data-part=area-thumb]]:size-3.5 [&_[data-part=area-thumb]]:rounded-full [&_[data-part=area-thumb]]:border-2 [&_[data-part=area-thumb]]:border-white [&_[data-part=area-thumb]]:shadow [&_[data-part=area-thumb]]:ring-1 [&_[data-part=area-thumb]]:ring-black/30",
+      "[&_[data-part=area-thumb]]:size-3.5 [&_[data-part=area-thumb]]:rounded-full [&_[data-part=area-thumb]]:border-2 [&_[data-part=area-thumb]]:border-white [&_[data-part=area-thumb]]:shadow-sm [&_[data-part=area-thumb]]:ring-1 [&_[data-part=area-thumb]]:ring-black/30",
       "[&_[data-part=controls]]:flex [&_[data-part=controls]]:items-center [&_[data-part=controls]]:gap-3",
       "[&_[data-part=preview]]:size-8 [&_[data-part=preview]]:shrink-0 [&_[data-part=preview]]:rounded-full [&_[data-part=preview]]:ring-1 [&_[data-part=preview]]:ring-black/10",
       "[&_[data-part=hue]]:h-3 [&_[data-part=hue]]:w-full [&_[data-part=hue]]:cursor-pointer [&_[data-part=hue]]:appearance-none [&_[data-part=hue]]:rounded-full [&_[data-part=hue]]:[background:linear-gradient(to_right,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)]"
@@ -4500,7 +4500,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   defp angle_slider_class do
     "relative block size-28 rounded-full border-2 border-[var(--c-base-300)] bg-[var(--c-base-100)] outline-none cursor-grab focus:ring-2 focus:ring-[var(--c-primary)]/40 data-[dragging]:cursor-grabbing " <>
       "[&_[data-part=thumb-layer]]:absolute [&_[data-part=thumb-layer]]:inset-0 " <>
-      "[&_[data-part=thumb]]:absolute [&_[data-part=thumb]]:left-1/2 [&_[data-part=thumb]]:top-0 [&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:-translate-x-1/2 [&_[data-part=thumb]]:-translate-y-1/2 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:bg-[var(--c-primary)] [&_[data-part=thumb]]:shadow " <>
+      "[&_[data-part=thumb]]:absolute [&_[data-part=thumb]]:left-1/2 [&_[data-part=thumb]]:top-0 [&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:-translate-x-1/2 [&_[data-part=thumb]]:-translate-y-1/2 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:bg-[var(--c-primary)] [&_[data-part=thumb]]:shadow-sm " <>
       "[&_[data-part=value]]:absolute [&_[data-part=value]]:inset-0 [&_[data-part=value]]:grid [&_[data-part=value]]:place-items-center [&_[data-part=value]]:text-sm [&_[data-part=value]]:font-medium [&_[data-part=value]]:text-[var(--c-base-content)]"
   end
 
@@ -4598,7 +4598,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "[&_[data-part=control]]:relative [&_[data-part=control]]:flex [&_[data-part=control]]:h-4 [&_[data-part=control]]:cursor-pointer [&_[data-part=control]]:items-center",
       "[&_[data-part=track]]:relative [&_[data-part=track]]:h-3 [&_[data-part=track]]:w-full [&_[data-part=track]]:overflow-hidden [&_[data-part=track]]:rounded-full [&_[data-part=track]]:[background-image:linear-gradient(to_right,transparent,var(--chelekom-alpha-color)),conic-gradient(#ccc_25%,#fff_0_50%,#ccc_0_75%,#fff_0)] [&_[data-part=track]]:[background-size:100%_100%,10px_10px]",
       "[&_[data-part=indicator]]:hidden",
-      "[&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border-2 [&_[data-part=thumb]]:border-white [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:ring-1 [&_[data-part=thumb]]:ring-black/30 [&_[data-part=thumb]]:outline-none [&_[data-part=thumb]:focus-visible]:ring-2 [&_[data-part=thumb]:focus-visible]:ring-[var(--c-primary)]"
+      "[&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border-2 [&_[data-part=thumb]]:border-white [&_[data-part=thumb]]:shadow-sm [&_[data-part=thumb]]:ring-1 [&_[data-part=thumb]]:ring-black/30 [&_[data-part=thumb]]:outline-none [&_[data-part=thumb]:focus-visible]:ring-2 [&_[data-part=thumb]:focus-visible]:ring-[var(--c-primary)]"
     ]
   end
 
@@ -4610,7 +4610,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "[&_[data-part=control]]:relative [&_[data-part=control]]:flex [&_[data-part=control]]:h-4 [&_[data-part=control]]:cursor-pointer [&_[data-part=control]]:items-center",
       "[&_[data-part=track]]:relative [&_[data-part=track]]:h-3 [&_[data-part=track]]:w-full [&_[data-part=track]]:rounded-full [&_[data-part=track]]:[background:linear-gradient(to_right,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)]",
       "[&_[data-part=indicator]]:hidden",
-      "[&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border-2 [&_[data-part=thumb]]:border-white [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:ring-1 [&_[data-part=thumb]]:ring-black/30 [&_[data-part=thumb]]:outline-none [&_[data-part=thumb]:focus-visible]:ring-2 [&_[data-part=thumb]:focus-visible]:ring-[var(--c-primary)]"
+      "[&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border-2 [&_[data-part=thumb]]:border-white [&_[data-part=thumb]]:shadow-sm [&_[data-part=thumb]]:ring-1 [&_[data-part=thumb]]:ring-black/30 [&_[data-part=thumb]]:outline-none [&_[data-part=thumb]:focus-visible]:ring-2 [&_[data-part=thumb]:focus-visible]:ring-[var(--c-primary)]"
     ]
   end
 
@@ -4619,7 +4619,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   defp tags_input_class do
     [
       "flex flex-wrap items-center gap-1.5 rounded-md border border-[var(--c-base-300)] bg-[var(--c-base-100)] px-2 py-1.5 text-sm cursor-text focus-within:ring-2 focus-within:ring-[var(--c-primary)]/30",
-      "[&_[data-part=tag]]:inline-flex [&_[data-part=tag]]:items-center [&_[data-part=tag]]:gap-1 [&_[data-part=tag]]:rounded [&_[data-part=tag]]:bg-[var(--c-base-200)] [&_[data-part=tag]]:py-0.5 [&_[data-part=tag]]:pr-1 [&_[data-part=tag]]:pl-2",
+      "[&_[data-part=tag]]:inline-flex [&_[data-part=tag]]:items-center [&_[data-part=tag]]:gap-1 [&_[data-part=tag]]:rounded-sm [&_[data-part=tag]]:bg-[var(--c-base-200)] [&_[data-part=tag]]:py-0.5 [&_[data-part=tag]]:pr-1 [&_[data-part=tag]]:pl-2",
       "[&_[data-part=remove]]:inline-flex [&_[data-part=remove]]:size-4 [&_[data-part=remove]]:items-center [&_[data-part=remove]]:justify-center [&_[data-part=remove]]:rounded-full [&_[data-part=remove]]:leading-none [&_[data-part=remove]]:text-[var(--c-base-content)]/50 [&_[data-part=remove]]:hover:bg-[var(--c-base-300)] [&_[data-part=remove]]:hover:text-[var(--c-base-content)]",
       "[&_[data-part=input]]:min-w-24 [&_[data-part=input]]:flex-1 [&_[data-part=input]]:border-0 [&_[data-part=input]]:bg-transparent [&_[data-part=input]]:p-0.5 [&_[data-part=input]]:outline-none"
     ]
@@ -4641,7 +4641,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
   defp toggle_group_class do
     [
       "inline-flex gap-1 rounded-md border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-1 data-[orientation=vertical]:flex-col data-[disabled]:opacity-60",
-      "[&_[data-part=item]]:rounded [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1.5 [&_[data-part=item]]:text-sm [&_[data-part=item]]:text-[var(--c-base-content)] [&_[data-part=item]]:transition-colors [&_[data-part=item]]:outline-none",
+      "[&_[data-part=item]]:rounded-sm [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1.5 [&_[data-part=item]]:text-sm [&_[data-part=item]]:text-[var(--c-base-content)] [&_[data-part=item]]:transition-colors [&_[data-part=item]]:outline-none",
       "[&_[data-part=item]]:not-data-disabled:hover:bg-[var(--c-base-200)]",
       "[&_[data-part=item][data-pressed]]:bg-[var(--c-base-content)] [&_[data-part=item][data-pressed]]:text-[var(--c-base-100)]",
       "[&_[data-part=item]]:focus-visible:ring-2 [&_[data-part=item]]:focus-visible:ring-[var(--c-primary)]/40",
@@ -4669,7 +4669,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "[&_[data-part=track]]:inline-flex [&_[data-part=track]]:h-6 [&_[data-part=track]]:w-11 [&_[data-part=track]]:shrink-0 [&_[data-part=track]]:items-center [&_[data-part=track]]:rounded-full [&_[data-part=track]]:border [&_[data-part=track]]:border-[var(--c-base-300)] [&_[data-part=track]]:p-0.5 [&_[data-part=track]]:transition-colors",
       "[&_[data-part=track][data-checked]]:bg-[var(--c-primary)] [&_[data-part=track][data-unchecked]]:bg-[var(--c-base-300)]",
       "[&:focus-visible_[data-part=track]]:ring-2 [&:focus-visible_[data-part=track]]:ring-[var(--c-primary)]/40",
-      "[&_[data-part=thumb]]:block [&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:bg-[var(--c-base-100)] [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:transition-transform [&_[data-part=thumb][data-checked]]:translate-x-5"
+      "[&_[data-part=thumb]]:block [&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:bg-[var(--c-base-100)] [&_[data-part=thumb]]:shadow-sm [&_[data-part=thumb]]:transition-transform [&_[data-part=thumb][data-checked]]:translate-x-5"
     ]
   end
 
@@ -4682,7 +4682,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "[&_[data-part=control]]:flex [&_[data-part=control]]:touch-none [&_[data-part=control]]:select-none [&_[data-part=control][data-orientation=horizontal]]:w-56 [&_[data-part=control][data-orientation=horizontal]]:items-center [&_[data-part=control][data-orientation=horizontal]]:py-3 [&_[data-part=control][data-orientation=vertical]]:h-40 [&_[data-part=control][data-orientation=vertical]]:justify-center [&_[data-part=control][data-orientation=vertical]]:px-3",
       "[&_[data-part=track]]:relative [&_[data-part=track]]:rounded-full [&_[data-part=track]]:bg-[var(--c-base-300)] [&_[data-part=track][data-orientation=horizontal]]:h-1.5 [&_[data-part=track][data-orientation=horizontal]]:w-full [&_[data-part=track][data-orientation=vertical]]:w-1.5 [&_[data-part=track][data-orientation=vertical]]:h-full",
       "[&_[data-part=indicator]]:rounded-full [&_[data-part=indicator]]:bg-[var(--c-primary)]",
-      "[&_[data-part=thumb]]:block [&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border [&_[data-part=thumb]]:border-[var(--c-base-300)] [&_[data-part=thumb]]:bg-[var(--c-base-100)] [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:cursor-grab [&_[data-part=thumb]]:outline-none focus:[&_[data-part=thumb]]:ring-2 focus:[&_[data-part=thumb]]:ring-[var(--c-primary)]",
+      "[&_[data-part=thumb]]:block [&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border [&_[data-part=thumb]]:border-[var(--c-base-300)] [&_[data-part=thumb]]:bg-[var(--c-base-100)] [&_[data-part=thumb]]:shadow-sm [&_[data-part=thumb]]:cursor-grab [&_[data-part=thumb]]:outline-none focus:[&_[data-part=thumb]]:ring-2 focus:[&_[data-part=thumb]]:ring-[var(--c-primary)]",
       "[&_[data-part=thumb][data-dragging]]:cursor-grabbing"
     ]
   end
@@ -4699,7 +4699,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessPreview do
       "[&_[data-part=positioner]]:relative",
       "[&_[data-part=popup]]:absolute [&_[data-part=popup]]:left-0 [&_[data-part=popup]]:right-0 [&_[data-part=popup]]:top-full [&_[data-part=popup]]:z-10 [&_[data-part=popup]]:mt-1 [&_[data-part=popup]]:max-h-60 [&_[data-part=popup]]:overflow-auto [&_[data-part=popup]]:rounded-md [&_[data-part=popup]]:border [&_[data-part=popup]]:border-[var(--c-base-300)] [&_[data-part=popup]]:bg-[var(--c-base-100)] [&_[data-part=popup]]:p-1 [&_[data-part=popup]]:shadow-lg [&_[data-part=popup][data-closed]]:hidden",
       "[&_[data-part=group-label]]:block [&_[data-part=group-label]]:px-2 [&_[data-part=group-label]]:pb-1 [&_[data-part=group-label]]:pt-2 [&_[data-part=group-label]]:text-xs [&_[data-part=group-label]]:font-medium [&_[data-part=group-label]]:uppercase [&_[data-part=group-label]]:tracking-wide [&_[data-part=group-label]]:text-[var(--c-base-content)]/40",
-      "[&_[data-part=item]]:flex [&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:items-center [&_[data-part=item]]:gap-2 [&_[data-part=item]]:rounded [&_[data-part=item]]:px-2 [&_[data-part=item]]:py-1.5 [&_[data-part=item]]:outline-none [&_[data-part=item][data-highlighted]]:bg-[var(--c-base-200)] [&_[data-part=item][data-selected]]:font-semibold [&_[data-part=item][data-disabled]]:cursor-not-allowed [&_[data-part=item][data-disabled]]:opacity-40",
+      "[&_[data-part=item]]:flex [&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:items-center [&_[data-part=item]]:gap-2 [&_[data-part=item]]:rounded-sm [&_[data-part=item]]:px-2 [&_[data-part=item]]:py-1.5 [&_[data-part=item]]:outline-none [&_[data-part=item][data-highlighted]]:bg-[var(--c-base-200)] [&_[data-part=item][data-selected]]:font-semibold [&_[data-part=item][data-disabled]]:cursor-not-allowed [&_[data-part=item][data-disabled]]:opacity-40",
       "[&_[data-part=item-indicator]]:w-4 [&_[data-part=item-indicator]]:shrink-0 [&_[data-part=item-indicator]]:text-xs [&_[data-part=item-indicator]]:opacity-0 [&_[data-part=item][data-selected]_[data-part=item-indicator]]:opacity-100"
     ]
   end

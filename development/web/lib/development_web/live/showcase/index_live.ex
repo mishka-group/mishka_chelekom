@@ -97,7 +97,7 @@ defmodule DevelopmentWeb.Showcase.IndexLive do
         {@title} <span class="badge badge-sm">{@count}</span>
       </div>
       <p class="text-sm text-[var(--c-base-content)]/70">{@desc}</p>
-      <code class="block text-xs bg-[var(--c-base-300)]/70 rounded px-2 py-1 overflow-x-auto">
+      <code class="block text-xs bg-[var(--c-base-300)]/70 rounded-sm px-2 py-1 overflow-x-auto">
         {@code}
       </code>
     </div>
@@ -124,7 +124,7 @@ defmodule DevelopmentWeb.Showcase.IndexLive do
           <li :for={c <- items}>
             <.link
               navigate={@href.(c.name)}
-              class="group flex items-center gap-1.5 rounded px-2 py-1 text-sm hover:bg-[var(--c-base-100)]"
+              class="group flex items-center gap-1.5 rounded-sm px-2 py-1 text-sm hover:bg-[var(--c-base-100)]"
             >
               <span class="capitalize truncate">{String.replace(c.name, "_", " ")}</span>
               <span

@@ -436,7 +436,7 @@ defmodule DevelopmentWeb.Showcase.ComponentLive do
                     name={flag.name}
                     value="true"
                     checked={@props[String.to_atom(flag.name)] == true}
-                    class="size-4 rounded border-[var(--c-base-300)] accent-current"
+                    class="size-4 rounded-sm border-[var(--c-base-300)] accent-current"
                   />
                   <span class="text-sm capitalize text-[var(--c-base-content)]/70">
                     {String.replace(flag.name, "_", " ")}

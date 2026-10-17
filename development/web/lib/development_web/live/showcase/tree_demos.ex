@@ -233,7 +233,7 @@ defmodule DevelopmentWeb.Showcase.TreeDemos do
             }
             phx-click={event}
             phx-target={@myself}
-            class="rounded border border-[var(--c-base-300)] px-2 py-1 text-xs hover:bg-[var(--c-base-200)]"
+            class="rounded-sm border border-[var(--c-base-300)] px-2 py-1 text-xs hover:bg-[var(--c-base-200)]"
           >
             {label}
           </button>
@@ -307,7 +307,7 @@ defmodule DevelopmentWeb.Showcase.TreeDemos do
           <div class="flex items-center gap-3 border-t border-[var(--c-base-300)] pt-3">
             <button
               type="submit"
-              class="rounded bg-[var(--c-primary)] px-3 py-1 text-xs font-medium text-white"
+              class="rounded-sm bg-[var(--c-primary)] px-3 py-1 text-xs font-medium text-white"
             >
               Save permissions
             </button>
@@ -316,7 +316,7 @@ defmodule DevelopmentWeb.Showcase.TreeDemos do
             </span>
           </div>
         </form>
-        <div :if={@saved} class="mt-3 rounded bg-[var(--c-base-200)] p-3 text-xs">
+        <div :if={@saved} class="mt-3 rounded-sm bg-[var(--c-base-200)] p-3 text-xs">
           <div class="mb-1 font-semibold">params["permissions"]</div>
           <pre class="whitespace-pre-wrap break-all">{inspect(@saved, pretty: true)}</pre>
         </div>
@@ -355,7 +355,7 @@ defmodule DevelopmentWeb.Showcase.TreeDemos do
               </svg>
             </:expand_icon>
           </Tree.tree>
-          <div class="rounded bg-[var(--c-base-200)] p-3 text-xs">
+          <div class="rounded-sm bg-[var(--c-base-200)] p-3 text-xs">
             <div class="mb-1 font-semibold text-[var(--c-base-content)]/60">Server received</div>
             <div :if={!@opened} class="text-[var(--c-base-content)]/40">Click a file…</div>
             <div :if={@opened} class="space-y-1">
@@ -469,7 +469,7 @@ defmodule DevelopmentWeb.Showcase.TreeDemos do
             value={@query}
             placeholder="Try “package” or “tsx”…"
             autocomplete="off"
-            class="w-full rounded border border-[var(--c-base-300)] bg-[var(--c-base-100)] px-2 py-1 text-sm"
+            class="w-full rounded-sm border border-[var(--c-base-300)] bg-[var(--c-base-100)] px-2 py-1 text-sm"
           />
         </form>
         <div class="mt-3">

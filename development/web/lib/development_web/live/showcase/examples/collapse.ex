@@ -26,12 +26,12 @@ defmodule DevelopmentWeb.Showcase.Examples.Collapse do
     <div class="flex flex-col gap-4">
       <.collapse id="ex-collapse-basic">
         <:trigger>
-          <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+          <button class="px-4 py-2 bg-blue-500 text-white rounded-sm hover:bg-blue-600">
             Toggle Content
           </button>
         </:trigger>
 
-        <div class="p-4 bg-gray-100 mt-2 rounded">
+        <div class="p-4 bg-gray-100 mt-2 rounded-sm">
           This content will be hidden/shown when clicking the trigger button.
         </div>
       </.collapse>
@@ -44,12 +44,12 @@ defmodule DevelopmentWeb.Showcase.Examples.Collapse do
     <div class="flex flex-col gap-4">
       <.collapse id="ex-collapse-open" open={true}>
         <:trigger>
-          <button class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+          <button class="px-4 py-2 bg-green-500 text-white rounded-sm hover:bg-green-600">
             Toggle (Initially Open)
           </button>
         </:trigger>
 
-        <div class="p-4 bg-green-100 mt-2 rounded">
+        <div class="p-4 bg-green-100 mt-2 rounded-sm">
           This content is initially visible when the page loads.
         </div>
       </.collapse>
@@ -62,12 +62,12 @@ defmodule DevelopmentWeb.Showcase.Examples.Collapse do
     <div class="flex flex-col gap-4">
       <.collapse id="ex-collapse-slow" duration={500}>
         <:trigger>
-          <button class="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600">
+          <button class="px-4 py-2 bg-purple-500 text-white rounded-sm hover:bg-purple-600">
             Slow Animation (500ms)
           </button>
         </:trigger>
 
-        <div class="p-4 bg-purple-100 mt-2 rounded">
+        <div class="p-4 bg-purple-100 mt-2 rounded-sm">
           This collapse animation takes 500ms instead of the default 200ms.
         </div>
       </.collapse>
@@ -80,12 +80,12 @@ defmodule DevelopmentWeb.Showcase.Examples.Collapse do
     <div class="flex flex-col gap-4">
       <.collapse id="ex-collapse-server" server_events={true}>
         <:trigger>
-          <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
+          <button class="px-4 py-2 bg-red-500 text-white rounded-sm hover:bg-red-600">
             Server Events Enabled
           </button>
         </:trigger>
 
-        <div class="p-4 bg-red-100 mt-2 rounded">
+        <div class="p-4 bg-red-100 mt-2 rounded-sm">
           This collapse sends open/close events to the LiveView server.
           Check your browser's network tab to see the events.
         </div>

@@ -36,7 +36,7 @@ defmodule DevelopmentWeb.Showcase.Examples.ScrollArea do
         class="mx-auto"
         content_class="py-7 px-1"
       >
-        <div class="flex gap-4 [&>*]:rounded-lg [&>*]:shadow-sm">
+        <div class="flex gap-4 [&>*]:rounded-lg [&>*]:shadow-xs">
           <div class="min-w-[300px] h-[300px] bg-gray-100 dark:bg-gray-800 p-4">Card 1</div>
           <div class="min-w-[300px] h-[300px] bg-gray-100 dark:bg-gray-800 p-4">Card 2</div>
           <div class="min-w-[300px] h-[300px] bg-gray-100 dark:bg-gray-800 p-4">Card 3</div>
@@ -56,7 +56,7 @@ defmodule DevelopmentWeb.Showcase.Examples.ScrollArea do
         height="h-[300px]"
         content_class="py-7 px-1"
       >
-        <div class="grid lg:grid-cols-2 gap-4 [&>*]:rounded-lg [&>*]:shadow-sm">
+        <div class="grid lg:grid-cols-2 gap-4 [&>*]:rounded-lg [&>*]:shadow-xs">
           <div class="min-w-[200px] bg-gray-100 dark:bg-gray-800 p-4">
             <h3 class="font-bold mb-2">Better Organization</h3>
             <p>

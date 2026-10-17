@@ -64,7 +64,7 @@ defmodule DevelopmentWeb.Showcase.ColorSwatchDemo do
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
                 fill="currentColor"
-                class="size-4 text-white opacity-0 drop-shadow"
+                class="size-4 text-white opacity-0 drop-shadow-sm"
               >
                 <path
                   fill-rule="evenodd"

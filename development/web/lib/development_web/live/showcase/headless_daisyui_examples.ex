@@ -2396,14 +2396,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
   def example(%{section: "separator-responsive"} = assigns) do
     ~H"""
     <div class="flex w-full flex-col lg:flex-row">
-      <div class="grid h-20 flex-grow place-items-center rounded-box bg-base-300">content</div>
+      <div class="grid h-20 grow place-items-center rounded-box bg-base-300">content</div>
       <.separator
         label_class="px-2 text-[0.875rem] text-base-content"
         class="d-divider lg:d-divider-horizontal"
       >
         OR
       </.separator>
-      <div class="grid h-20 flex-grow place-items-center rounded-box bg-base-300">content</div>
+      <div class="grid h-20 grow place-items-center rounded-box bg-base-300">content</div>
     </div>
     """
   end
@@ -2430,7 +2430,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       trigger_class="d-collapse-title flex items-center justify-between gap-4 text-[0.875rem] font-semibold text-start cursor-pointer select-none hover:not-data-disabled:bg-base-content/6 focus-visible:outline-2 focus-visible:outline-primary focus-visible:-outline-offset-2 data-disabled:cursor-not-allowed data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_30%,transparent)] not-has-[>*]:after:content-[''] not-has-[>*]:after:absolute not-has-[>*]:after:block not-has-[>*]:after:top-1/2 not-has-[>*]:after:end-[1.4rem] not-has-[>*]:after:h-2 not-has-[>*]:after:w-2 not-has-[>*]:after:[transform:translateY(-100%)_rotate(45deg)] not-has-[>*]:after:[transform-origin:75%_75%] not-has-[>*]:after:[box-shadow:2px_2px] not-has-[>*]:after:pointer-events-none motion-safe:not-has-[>*]:after:[transition:all_0.2s_cubic-bezier(0.4,0,0.2,1)] motion-safe:data-[panel-open]:not-has-[>*]:after:[transform:translateY(-50%)_rotate(225deg)]"
       id="daisyui-collapsible-plain"
       class="w-80"
-      item_class="d-collapse block border-[length:var(--border)] border-solid border-base-300 bg-base-100 text-base-content !border-0 !bg-transparent"
+      item_class="d-collapse block border-[length:var(--border)] border-solid border-base-300 bg-base-100 text-base-content border-0! bg-transparent!"
     >
       <:trigger>Without border or background</:trigger>
       The same disclosure with the card treatment removed.
@@ -5168,7 +5168,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       backdrop_class="bg-[oklch(0%_0_0/0.4)] [transition:opacity_0.3s_ease-out] data-starting-style:opacity-0 data-ending-style:opacity-0"
       trigger_class="d-btn"
       id="daisyui-dialog-corner"
-      footer_class="d-modal-action !mt-0 absolute right-2 top-2"
+      footer_class="d-modal-action mt-0! absolute right-2 top-2"
     >
       <:trigger>Open</:trigger>
       <:title>Press ESC or click ✕ to close</:title>
@@ -5405,7 +5405,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       default_value="overview"
       class="group flex flex-col text-base-content data-[orientation=vertical]:flex-row flex-col-reverse"
       list_class="relative flex flex-wrap not-[.d-tabs]:border-b-[length:var(--border)] not-[.d-tabs]:border-solid not-[.d-tabs]:border-b-base-300 group-data-[orientation=vertical]:flex-col group-data-[orientation=vertical]:border-b-0 group-data-[orientation=vertical]:border-e-[length:var(--border)] group-data-[orientation=vertical]:border-e-base-300 d-tabs d-tabs-lift d-tabs-bottom"
-      panels_class="pt-4 group-data-[orientation=vertical]:pt-0 group-data-[orientation=vertical]:ps-4 !pt-0 pb-4"
+      panels_class="pt-4 group-data-[orientation=vertical]:pt-0 group-data-[orientation=vertical]:ps-4 pt-0! pb-4"
     >
       <:tab value="overview" class="d-tab">Overview</:tab>
       <:tab value="projects" class="d-tab">Projects</:tab>
@@ -5640,7 +5640,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       trigger_class="d-btn"
       id="daisyui-menu-icons-only"
       side_offset={8}
-      popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)] !min-w-0 w-fit"
+      popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)] min-w-0! w-fit"
     >
       <:trigger>Rail</:trigger>
       <:item :for={{label, path} <- @nav} label={label}>
@@ -5664,7 +5664,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       trigger_class="d-btn"
       id="daisyui-menu-tooltip"
       side_offset={8}
-      popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)] !min-w-0 w-fit"
+      popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)] min-w-0! w-fit"
     >
       <:trigger>Rail</:trigger>
       <.menu_item
@@ -5693,7 +5693,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       trigger_class="d-btn"
       id="daisyui-menu-icons-only-horizontal"
       side_offset={8}
-      popup_class="d-menu d-menu-horizontal flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)] !min-w-0 w-fit"
+      popup_class="d-menu d-menu-horizontal flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)] min-w-0! w-fit"
     >
       <:trigger>Rail</:trigger>
       <:item :for={{label, path} <- @nav} label={label}>
@@ -5717,7 +5717,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       trigger_class="d-btn"
       id="daisyui-menu-tooltip-horizontal"
       side_offset={8}
-      popup_class="d-menu d-menu-horizontal flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)] !min-w-0 w-fit"
+      popup_class="d-menu d-menu-horizontal flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)] min-w-0! w-fit"
     >
       <:trigger>Rail</:trigger>
       <.menu_item
@@ -5986,7 +5986,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       trigger_class="d-btn"
       id="daisyui-menu-horizontal-submenu"
       side_offset={8}
-      popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)] d-menu-horizontal !min-w-0"
+      popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)] d-menu-horizontal min-w-0!"
     >
       <:trigger>Toolbar</:trigger>
       <.menu_item class="grid grid-flow-col [grid-auto-columns:minmax(auto,max-content)_auto_max-content] items-center gap-2 w-full px-3 py-[calc(0.25rem*1.5)] rounded-[var(--radius-field)] text-[0.875rem] text-start cursor-pointer select-none transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0,0,0.2,1)] data-highlighted:bg-base-content/10 data-disabled:pointer-events-none data-disabled:[color:color-mix(in_oklab,var(--color-base-content)_20%,transparent)]">
@@ -6025,7 +6025,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       trigger_class="d-btn"
       id="daisyui-menu-horizontal"
       side_offset={8}
-      popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)] d-menu-horizontal !min-w-0"
+      popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)] d-menu-horizontal min-w-0!"
     >
       <:trigger>Toolbar</:trigger>
       <:item>Cut</:item>
@@ -6047,7 +6047,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       trigger_class="d-btn"
       id="daisyui-menu-responsive"
       side_offset={8}
-      popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)] d-menu-vertical lg:d-menu-horizontal lg:!min-w-0"
+      popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)] d-menu-vertical lg:d-menu-horizontal lg:min-w-0!"
     >
       <:trigger>Responsive</:trigger>
       <:item>Overview</:item>
@@ -6069,7 +6069,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       trigger_class="d-btn"
       id="daisyui-menu-flush"
       side_offset={8}
-      popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)] !p-0 overflow-hidden [&_[data-part=item]]:rounded-none"
+      popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)] p-0! overflow-hidden [&_[data-part=item]]:rounded-none"
     >
       <:trigger>Flush</:trigger>
       <:item>Overview</:item>
@@ -6161,7 +6161,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessDaisyUIExamples do
       trigger_class="d-btn"
       id="daisyui-menu-card"
       side_offset={8}
-      popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)] w-64 !p-0"
+      popup_class="d-menu flex-nowrap min-w-48 border-[length:var(--border)] border-solid border-base-300 rounded-[var(--radius-box)] bg-base-100 text-base-content [box-shadow:0_4px_6px_-1px_oklch(0%_0_0/0.1),0_2px_4px_-2px_oklch(0%_0_0/0.1)] w-64 p-0!"
     >
       <:trigger>Account</:trigger>
       <div class="d-card d-card-sm">

@@ -180,7 +180,7 @@ defmodule DevelopmentWeb.Showcase.ComboboxFormDemo do
       "[&_[data-part=input]]:flex-1 [&_[data-part=input]]:border-0 [&_[data-part=input]]:bg-transparent [&_[data-part=input]]:px-1 [&_[data-part=input]]:text-sm [&_[data-part=input]]:outline-none",
       "[&_[data-part=clear]]:px-1 [&_[data-part=clear]]:text-[var(--c-base-content)]/40 [&_[data-part=clear][data-hidden]]:hidden",
       "[&_[data-part=popup]]:absolute [&_[data-part=popup]]:left-0 [&_[data-part=popup]]:right-0 [&_[data-part=popup]]:top-full [&_[data-part=popup]]:z-10 [&_[data-part=popup]]:mt-1 [&_[data-part=popup]]:max-h-56 [&_[data-part=popup]]:overflow-auto [&_[data-part=popup]]:rounded-md [&_[data-part=popup]]:border [&_[data-part=popup]]:border-[var(--c-base-300)] [&_[data-part=popup]]:bg-[var(--c-base-100)] [&_[data-part=popup]]:p-1 [&_[data-part=popup]]:shadow-lg [&_[data-part=popup][data-closed]]:hidden",
-      "[&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:rounded [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1.5 [&_[data-part=item][data-highlighted]]:bg-[var(--c-base-200)] [&_[data-part=item][data-selected]]:font-semibold",
+      "[&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:rounded-sm [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1.5 [&_[data-part=item][data-highlighted]]:bg-[var(--c-base-200)] [&_[data-part=item][data-selected]]:font-semibold",
       "[&_[data-part=empty]]:px-3 [&_[data-part=empty]]:py-2 [&_[data-part=empty]]:text-sm [&_[data-part=empty]]:text-[var(--c-base-content)]/50"
     ]
   end
@@ -267,8 +267,8 @@ defmodule DevelopmentWeb.Showcase.CheckboxGroupFormDemo do
     [
       "flex w-64 flex-col gap-1 rounded-md border border-[var(--c-base-300)] p-3",
       "[&_[data-part=label]]:mb-1 [&_[data-part=label]]:block [&_[data-part=label]]:text-sm [&_[data-part=label]]:font-semibold",
-      "[&_[data-part=item]]:flex [&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:items-center [&_[data-part=item]]:gap-2 [&_[data-part=item]]:rounded [&_[data-part=item]]:px-2 [&_[data-part=item]]:py-1 [&_[data-part=item]]:text-sm",
-      "[&_[data-part=indicator]]:grid [&_[data-part=indicator]]:size-5 [&_[data-part=indicator]]:place-items-center [&_[data-part=indicator]]:rounded [&_[data-part=indicator]]:border [&_[data-part=indicator]]:border-[var(--c-base-300)] [&_[data-part=indicator]]:text-xs [&_[data-part=indicator]]:text-[var(--c-base-100)]",
+      "[&_[data-part=item]]:flex [&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:items-center [&_[data-part=item]]:gap-2 [&_[data-part=item]]:rounded-sm [&_[data-part=item]]:px-2 [&_[data-part=item]]:py-1 [&_[data-part=item]]:text-sm",
+      "[&_[data-part=indicator]]:grid [&_[data-part=indicator]]:size-5 [&_[data-part=indicator]]:place-items-center [&_[data-part=indicator]]:rounded-sm [&_[data-part=indicator]]:border [&_[data-part=indicator]]:border-[var(--c-base-300)] [&_[data-part=indicator]]:text-xs [&_[data-part=indicator]]:text-[var(--c-base-100)]",
       "[&_[data-part=indicator][data-checked]]:border-[var(--c-base-content)] [&_[data-part=indicator][data-checked]]:bg-[var(--c-base-content)] [&_[data-part=indicator][data-checked]]:after:content-['✓']"
     ]
   end
@@ -359,7 +359,7 @@ defmodule DevelopmentWeb.Showcase.CheckboxFormDemo do
   defp cb_class do
     [
       "inline-flex cursor-pointer items-center gap-2",
-      "[&_[data-part=indicator]]:grid [&_[data-part=indicator]]:size-5 [&_[data-part=indicator]]:place-items-center [&_[data-part=indicator]]:rounded [&_[data-part=indicator]]:border [&_[data-part=indicator]]:border-[var(--c-base-300)] [&_[data-part=indicator]]:text-xs [&_[data-part=indicator]]:text-[var(--c-base-100)]",
+      "[&_[data-part=indicator]]:grid [&_[data-part=indicator]]:size-5 [&_[data-part=indicator]]:place-items-center [&_[data-part=indicator]]:rounded-sm [&_[data-part=indicator]]:border [&_[data-part=indicator]]:border-[var(--c-base-300)] [&_[data-part=indicator]]:text-xs [&_[data-part=indicator]]:text-[var(--c-base-100)]",
       "[&_[data-part=indicator][data-checked]]:border-[var(--c-base-content)] [&_[data-part=indicator][data-checked]]:bg-[var(--c-base-content)] [&_[data-part=indicator][data-checked]]:after:content-['✓']",
       "[&_[data-part=label]]:text-sm"
     ]
@@ -454,7 +454,7 @@ defmodule DevelopmentWeb.Showcase.AutocompleteFormDemo do
       "[&_[data-part=input]]:w-full [&_[data-part=input]]:rounded-md [&_[data-part=input]]:border [&_[data-part=input]]:border-[var(--c-base-300)] [&_[data-part=input]]:px-3 [&_[data-part=input]]:py-1.5 [&_[data-part=input]]:pr-8 [&_[data-part=input]]:outline-none",
       "[&_[data-part=clear]]:absolute [&_[data-part=clear]]:right-2 [&_[data-part=clear]]:top-1.5 [&_[data-part=clear]]:text-[var(--c-base-content)]/40 [&_[data-part=clear][data-hidden]]:hidden",
       "[&_[data-part=popup]]:absolute [&_[data-part=popup]]:left-0 [&_[data-part=popup]]:right-0 [&_[data-part=popup]]:top-full [&_[data-part=popup]]:z-10 [&_[data-part=popup]]:mt-1 [&_[data-part=popup]]:max-h-56 [&_[data-part=popup]]:overflow-auto [&_[data-part=popup]]:rounded-md [&_[data-part=popup]]:border [&_[data-part=popup]]:border-[var(--c-base-300)] [&_[data-part=popup]]:bg-[var(--c-base-100)] [&_[data-part=popup]]:p-1 [&_[data-part=popup]]:shadow-lg [&_[data-part=popup][data-closed]]:hidden",
-      "[&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:rounded [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1.5 [&_[data-part=item][data-highlighted]]:bg-[var(--c-base-200)] [&_[data-part=item][aria-selected=true]]:font-semibold",
+      "[&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:rounded-sm [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1.5 [&_[data-part=item][data-highlighted]]:bg-[var(--c-base-200)] [&_[data-part=item][aria-selected=true]]:font-semibold",
       "[&_[data-part=empty]]:px-3 [&_[data-part=empty]]:py-2 [&_[data-part=empty]]:text-sm [&_[data-part=empty]]:text-[var(--c-base-content)]/50"
     ]
   end
@@ -842,7 +842,7 @@ defmodule DevelopmentWeb.Showcase.SelectFormDemo do
       "[&_[data-part=icon]]:text-[var(--c-base-content)]/50 [&_[data-part=icon][data-popup-open]]:rotate-180",
       "[&_[data-part=positioner]]:relative",
       "[&_[data-part=popup]]:absolute [&_[data-part=popup]]:left-0 [&_[data-part=popup]]:right-0 [&_[data-part=popup]]:top-full [&_[data-part=popup]]:z-10 [&_[data-part=popup]]:mt-1 [&_[data-part=popup]]:max-h-60 [&_[data-part=popup]]:overflow-auto [&_[data-part=popup]]:rounded-md [&_[data-part=popup]]:border [&_[data-part=popup]]:border-[var(--c-base-300)] [&_[data-part=popup]]:bg-[var(--c-base-100)] [&_[data-part=popup]]:p-1 [&_[data-part=popup]]:shadow-lg [&_[data-part=popup][data-closed]]:hidden",
-      "[&_[data-part=item]]:flex [&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:items-center [&_[data-part=item]]:gap-2 [&_[data-part=item]]:rounded [&_[data-part=item]]:px-2 [&_[data-part=item]]:py-1.5 [&_[data-part=item]]:outline-none [&_[data-part=item][data-highlighted]]:bg-[var(--c-base-200)] [&_[data-part=item][data-selected]]:font-semibold",
+      "[&_[data-part=item]]:flex [&_[data-part=item]]:cursor-pointer [&_[data-part=item]]:items-center [&_[data-part=item]]:gap-2 [&_[data-part=item]]:rounded-sm [&_[data-part=item]]:px-2 [&_[data-part=item]]:py-1.5 [&_[data-part=item]]:outline-none [&_[data-part=item][data-highlighted]]:bg-[var(--c-base-200)] [&_[data-part=item][data-selected]]:font-semibold",
       "[&_[data-part=item-indicator]]:w-4 [&_[data-part=item-indicator]]:shrink-0 [&_[data-part=item-indicator]]:text-xs [&_[data-part=item-indicator]]:opacity-0 [&_[data-part=item][data-selected]_[data-part=item-indicator]]:opacity-100"
     ]
   end
@@ -939,7 +939,7 @@ defmodule DevelopmentWeb.Showcase.SliderFormDemo do
       "[&_[data-part=control]]:flex [&_[data-part=control]]:w-64 [&_[data-part=control]]:items-center [&_[data-part=control]]:touch-none [&_[data-part=control]]:select-none [&_[data-part=control]]:py-3",
       "[&_[data-part=track]]:relative [&_[data-part=track]]:h-1.5 [&_[data-part=track]]:w-full [&_[data-part=track]]:rounded-full [&_[data-part=track]]:bg-[var(--c-base-300)]",
       "[&_[data-part=indicator]]:rounded-full [&_[data-part=indicator]]:bg-[var(--c-primary)]",
-      "[&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border [&_[data-part=thumb]]:border-[var(--c-base-300)] [&_[data-part=thumb]]:bg-[var(--c-base-100)] [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:cursor-grab [&_[data-part=thumb]]:outline-none focus:[&_[data-part=thumb]]:ring-2 focus:[&_[data-part=thumb]]:ring-[var(--c-primary)]"
+      "[&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border [&_[data-part=thumb]]:border-[var(--c-base-300)] [&_[data-part=thumb]]:bg-[var(--c-base-100)] [&_[data-part=thumb]]:shadow-sm [&_[data-part=thumb]]:cursor-grab [&_[data-part=thumb]]:outline-none focus:[&_[data-part=thumb]]:ring-2 focus:[&_[data-part=thumb]]:ring-[var(--c-primary)]"
     ]
   end
 end
@@ -1041,7 +1041,7 @@ defmodule DevelopmentWeb.Showcase.SliderRangeFormDemo do
       "[&_[data-part=control]]:flex [&_[data-part=control]]:w-64 [&_[data-part=control]]:items-center [&_[data-part=control]]:touch-none [&_[data-part=control]]:select-none [&_[data-part=control]]:py-3",
       "[&_[data-part=track]]:relative [&_[data-part=track]]:h-1.5 [&_[data-part=track]]:w-full [&_[data-part=track]]:rounded-full [&_[data-part=track]]:bg-[var(--c-base-300)]",
       "[&_[data-part=indicator]]:rounded-full [&_[data-part=indicator]]:bg-[var(--c-primary)]",
-      "[&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border [&_[data-part=thumb]]:border-[var(--c-base-300)] [&_[data-part=thumb]]:bg-[var(--c-base-100)] [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:cursor-grab [&_[data-part=thumb]]:outline-none focus:[&_[data-part=thumb]]:ring-2 focus:[&_[data-part=thumb]]:ring-[var(--c-primary)]"
+      "[&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border [&_[data-part=thumb]]:border-[var(--c-base-300)] [&_[data-part=thumb]]:bg-[var(--c-base-100)] [&_[data-part=thumb]]:shadow-sm [&_[data-part=thumb]]:cursor-grab [&_[data-part=thumb]]:outline-none focus:[&_[data-part=thumb]]:ring-2 focus:[&_[data-part=thumb]]:ring-[var(--c-primary)]"
     ]
   end
 
@@ -1161,7 +1161,7 @@ defmodule DevelopmentWeb.Showcase.SwitchFormDemo do
       "[&_[data-part=track]]:inline-flex [&_[data-part=track]]:h-6 [&_[data-part=track]]:w-11 [&_[data-part=track]]:shrink-0 [&_[data-part=track]]:items-center [&_[data-part=track]]:rounded-full [&_[data-part=track]]:border [&_[data-part=track]]:border-[var(--c-base-300)] [&_[data-part=track]]:p-0.5 [&_[data-part=track]]:transition-colors",
       "[&_[data-part=track][data-checked]]:bg-[var(--c-primary)] [&_[data-part=track][data-unchecked]]:bg-[var(--c-base-300)]",
       "[&:focus-visible_[data-part=track]]:ring-2 [&:focus-visible_[data-part=track]]:ring-[var(--c-primary)]/40",
-      "[&_[data-part=thumb]]:block [&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:bg-[var(--c-base-100)] [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:transition-transform [&_[data-part=thumb][data-checked]]:translate-x-5"
+      "[&_[data-part=thumb]]:block [&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:bg-[var(--c-base-100)] [&_[data-part=thumb]]:shadow-sm [&_[data-part=thumb]]:transition-transform [&_[data-part=thumb][data-checked]]:translate-x-5"
     ]
   end
 end
@@ -1362,7 +1362,7 @@ defmodule DevelopmentWeb.Showcase.ToggleGroupFormDemo do
   defp tgc do
     [
       "inline-flex gap-1 rounded-md border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-1",
-      "[&_[data-part=item]]:rounded [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1.5 [&_[data-part=item]]:text-sm [&_[data-part=item]]:text-[var(--c-base-content)] [&_[data-part=item]]:outline-none [&_[data-part=item]]:not-data-disabled:hover:bg-[var(--c-base-200)]",
+      "[&_[data-part=item]]:rounded-sm [&_[data-part=item]]:px-3 [&_[data-part=item]]:py-1.5 [&_[data-part=item]]:text-sm [&_[data-part=item]]:text-[var(--c-base-content)] [&_[data-part=item]]:outline-none [&_[data-part=item]]:not-data-disabled:hover:bg-[var(--c-base-200)]",
       "[&_[data-part=item][data-pressed]]:bg-[var(--c-primary)] [&_[data-part=item][data-pressed]]:text-primary-content",
       "[&_[data-part=item]]:focus-visible:ring-2 [&_[data-part=item]]:focus-visible:ring-[var(--c-primary)]/40"
     ]
@@ -1417,7 +1417,7 @@ defmodule DevelopmentWeb.Showcase.TabsServerDemo do
           phx-target={@myself}
           phx-click="set"
           phx-value-v="settings"
-          class="rounded bg-[var(--c-primary)] px-2.5 py-1 text-xs font-medium text-primary-content"
+          class="rounded-sm bg-[var(--c-primary)] px-2.5 py-1 text-xs font-medium text-primary-content"
         >
           Set to Settings (from server)
         </button>

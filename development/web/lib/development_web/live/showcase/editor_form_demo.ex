@@ -99,7 +99,7 @@ defmodule DevelopmentWeb.Showcase.EditorFormDemo do
 
   defp toolbar_class do
     "flex flex-wrap items-center gap-1 border-b border-[var(--c-base-300)] p-1.5 " <>
-      "[&>button]:rounded [&>button]:px-2 [&>button]:py-1 [&>button]:text-sm " <>
+      "[&>button]:rounded-sm [&>button]:px-2 [&>button]:py-1 [&>button]:text-sm " <>
       "[&>button]:text-[var(--c-base-content)]/70 [&>button:hover]:bg-[var(--c-base-200)] " <>
       "[&>button[data-active]]:bg-[var(--c-primary)]/10 [&>button[data-active]]:text-[var(--c-primary)] " <>
       "[&>button[data-active]]:font-semibold"
@@ -115,8 +115,8 @@ defmodule DevelopmentWeb.Showcase.EditorFormDemo do
       "[&_ul]:my-1 [&_ul]:list-disc [&_ul]:pl-6 " <>
       "[&_ol]:my-1 [&_ol]:list-decimal [&_ol]:pl-6 " <>
       "[&_blockquote]:my-2 [&_blockquote]:border-l-2 [&_blockquote]:border-[var(--c-base-300)] [&_blockquote]:pl-3 [&_blockquote]:text-[var(--c-base-content)]/70 " <>
-      "[&_code]:rounded [&_code]:bg-[var(--c-base-200)] [&_code]:px-1 [&_code]:font-mono [&_code]:text-[0.85em] " <>
-      "[&_pre]:my-2 [&_pre]:overflow-x-auto [&_pre]:rounded [&_pre]:bg-[var(--c-base-200)] [&_pre]:p-2 " <>
+      "[&_code]:rounded-sm [&_code]:bg-[var(--c-base-200)] [&_code]:px-1 [&_code]:font-mono [&_code]:text-[0.85em] " <>
+      "[&_pre]:my-2 [&_pre]:overflow-x-auto [&_pre]:rounded-sm [&_pre]:bg-[var(--c-base-200)] [&_pre]:p-2 " <>
       "before:text-[var(--c-base-content)]/40"
   end
 end

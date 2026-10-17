@@ -182,16 +182,16 @@ defmodule DevelopmentWeb.Showcase.Examples.TableContent do
     ~H"""
     <div class="flex flex-wrap items-start gap-4">
       <.table_content id="ex-table_content-icons" variant="bordered" padding="extra_small">
-        <.content_item icon="hero-tag" icon_class="!size-8 text-rose-300">
+        <.content_item icon="hero-tag" icon_class="size-8! text-rose-300">
           <.link href="#overview">Overview</.link>
         </.content_item>
-        <.content_item icon="hero-tag" icon_class="!size-8 text-rose-300">
+        <.content_item icon="hero-tag" icon_class="size-8! text-rose-300">
           <.link href="#colors">Color and Variants</.link>
         </.content_item>
-        <.content_item icon="hero-tag" icon_class="!size-8 text-rose-300">
+        <.content_item icon="hero-tag" icon_class="size-8! text-rose-300">
           <.link href="#padding">Padding</.link>
         </.content_item>
-        <.content_item icon="hero-tag" icon_class="!size-8 text-rose-300">
+        <.content_item icon="hero-tag" icon_class="size-8! text-rose-300">
           <.link href="#size">Size</.link>
         </.content_item>
       </.table_content>

@@ -56,7 +56,7 @@ defmodule DevelopmentWeb.Showcase.TagsInputDemo do
   defp fc do
     [
       "flex flex-wrap items-center gap-1.5 rounded-md border border-[var(--c-base-300)] bg-[var(--c-base-100)] px-2 py-1.5 text-sm cursor-text focus-within:ring-2 focus-within:ring-[var(--c-primary)]/30 [&[data-disabled]]:opacity-60",
-      "[&_[data-part=tag]]:inline-flex [&_[data-part=tag]]:items-center [&_[data-part=tag]]:gap-1 [&_[data-part=tag]]:rounded [&_[data-part=tag]]:bg-[var(--c-base-200)] [&_[data-part=tag]]:py-0.5 [&_[data-part=tag]]:pr-1 [&_[data-part=tag]]:pl-2",
+      "[&_[data-part=tag]]:inline-flex [&_[data-part=tag]]:items-center [&_[data-part=tag]]:gap-1 [&_[data-part=tag]]:rounded-sm [&_[data-part=tag]]:bg-[var(--c-base-200)] [&_[data-part=tag]]:py-0.5 [&_[data-part=tag]]:pr-1 [&_[data-part=tag]]:pl-2",
       "[&_[data-part=remove]]:inline-flex [&_[data-part=remove]]:size-4 [&_[data-part=remove]]:items-center [&_[data-part=remove]]:justify-center [&_[data-part=remove]]:rounded-full [&_[data-part=remove]]:leading-none [&_[data-part=remove]]:text-[var(--c-base-content)]/50 [&_[data-part=remove]]:hover:bg-[var(--c-base-300)] [&_[data-part=remove]]:hover:text-[var(--c-base-content)]",
       "[&_[data-part=input]]:min-w-24 [&_[data-part=input]]:flex-1 [&_[data-part=input]]:border-0 [&_[data-part=input]]:bg-transparent [&_[data-part=input]]:p-0.5 [&_[data-part=input]]:outline-none"
     ]

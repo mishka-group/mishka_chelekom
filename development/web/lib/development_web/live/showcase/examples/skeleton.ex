@@ -27,14 +27,14 @@ defmodule DevelopmentWeb.Showcase.Examples.Skeleton do
   def example(%{section: "overview"} = assigns) do
     ~H"""
     <div class="grid sm:grid-cols-2 gap-5 w-full">
-      <.card rounded="large" padding="medium" space="small" class="!shadow-xs">
+      <.card rounded="large" padding="medium" space="small" class="shadow-xs!">
         <.skeleton width="full" rounded="large" height="h-20" animated />
         <.skeleton width="w-3/4" height="h-2" animated />
         <.skeleton width="w-2/3" height="h-2" animated />
         <.skeleton width="w-1/2" height="h-2" animated />
         <.skeleton width="w-1/2" height="h-2" animated />
       </.card>
-      <.card rounded="large" padding="medium" space="small" class="!shadow-xs">
+      <.card rounded="large" padding="medium" space="small" class="shadow-xs!">
         <.skeleton width="w-16" height="h-16" class="mx-auto" rounded="full" />
         <.skeleton width="w-1/3" height="h-3" class="mx-auto" />
         <.skeleton width="w-full" height="h-3" />

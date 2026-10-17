@@ -42,7 +42,7 @@ defmodule DevelopmentWeb.Showcase.FloatingWindowDemo do
             <button
               type="button"
               phx-click={JS.hide(to: "##{@id}-win")}
-              class="rounded p-0.5 leading-none text-[var(--c-base-content)]/50 hover:bg-[var(--c-base-300)]"
+              class="rounded-sm p-0.5 leading-none text-[var(--c-base-content)]/50 hover:bg-[var(--c-base-300)]"
               aria-label="Close"
             >
               ✕

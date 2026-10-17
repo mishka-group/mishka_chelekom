@@ -344,7 +344,7 @@ defmodule DevelopmentWeb.Showcase.Preview do
       <span class="absolute left-3 top-3 text-xs text-[var(--c-base-content)]/40">
         hover / click the button ↘
       </span>
-      <.speed_dial id={@id} {@props} icon="hero-plus" class="!absolute !bottom-4 !end-4">
+      <.speed_dial id={@id} {@props} icon="hero-plus" class="absolute! bottom-4! end-4!">
         <:item icon="hero-share" />
         <:item icon="hero-pencil-square" />
         <:item icon="hero-document-duplicate" />
@@ -907,7 +907,7 @@ defmodule DevelopmentWeb.Showcase.Preview do
       id={@id}
       {@props}
       list_wrapper_class="ps-2.5"
-      class="!relative !h-auto !z-0 !transform-none max-w-full w-full max-h-72 rounded"
+      class="relative! h-auto! z-0! translate-none! max-w-full w-full max-h-72 rounded-sm"
     >
       <:item icon="hero-home" label="Dashboard" link="/" class="mb-2 text-sm" />
       <:item icon="hero-inbox" label="Messages" link="/" class="mb-2 text-sm" />
@@ -942,24 +942,24 @@ defmodule DevelopmentWeb.Showcase.Preview do
         id={@drawer_id}
         title="Menu"
         class={[
-          "!absolute !z-10",
-          @side? && "!h-full",
-          !@side? && "!inset-x-0 !w-full"
+          "absolute! z-10!",
+          @side? && "h-full!",
+          !@side? && "inset-x-0! w-full!"
         ]}
         overlay_class="!absolute"
         {@props}
       >
         <ul class="space-y-1 text-sm">
-          <li class="flex items-center gap-2 rounded px-3 py-2 hover:bg-black/10 cursor-pointer">
+          <li class="flex items-center gap-2 rounded-sm px-3 py-2 hover:bg-black/10 cursor-pointer">
             <.icon name="hero-home" class="size-4" /> Dashboard
           </li>
-          <li class="flex items-center gap-2 rounded px-3 py-2 hover:bg-black/10 cursor-pointer">
+          <li class="flex items-center gap-2 rounded-sm px-3 py-2 hover:bg-black/10 cursor-pointer">
             <.icon name="hero-inbox" class="size-4" /> Inbox
           </li>
-          <li class="flex items-center gap-2 rounded px-3 py-2 hover:bg-black/10 cursor-pointer">
+          <li class="flex items-center gap-2 rounded-sm px-3 py-2 hover:bg-black/10 cursor-pointer">
             <.icon name="hero-star" class="size-4" /> Favorites
           </li>
-          <li class="flex items-center gap-2 rounded px-3 py-2 hover:bg-black/10 cursor-pointer">
+          <li class="flex items-center gap-2 rounded-sm px-3 py-2 hover:bg-black/10 cursor-pointer">
             <.icon name="hero-cog-6-tooth" class="size-4" /> Settings
           </li>
         </ul>
@@ -986,7 +986,7 @@ defmodule DevelopmentWeb.Showcase.Preview do
       <.modal
         id={@modal_id}
         title="Delete project?"
-        class="!absolute !inset-0"
+        class="absolute! inset-0!"
         overlay_class="!absolute"
         wrapper_class="!absolute"
         {@props}
@@ -1029,13 +1029,13 @@ defmodule DevelopmentWeb.Showcase.Preview do
         <div class="flex items-center gap-3">
           <div class="size-10 shrink-0 rounded-full bg-[var(--c-base-300)]"></div>
           <div class="space-y-2">
-            <div class="h-3 w-32 rounded bg-[var(--c-base-300)]"></div>
-            <div class="h-2.5 w-20 rounded bg-[var(--c-base-200)]"></div>
+            <div class="h-3 w-32 rounded-sm bg-[var(--c-base-300)]"></div>
+            <div class="h-2.5 w-20 rounded-sm bg-[var(--c-base-200)]"></div>
           </div>
         </div>
-        <div class="h-2.5 w-full rounded bg-[var(--c-base-200)]"></div>
-        <div class="h-2.5 w-5/6 rounded bg-[var(--c-base-200)]"></div>
-        <div class="h-2.5 w-2/3 rounded bg-[var(--c-base-200)]"></div>
+        <div class="h-2.5 w-full rounded-sm bg-[var(--c-base-200)]"></div>
+        <div class="h-2.5 w-5/6 rounded-sm bg-[var(--c-base-200)]"></div>
+        <div class="h-2.5 w-2/3 rounded-sm bg-[var(--c-base-200)]"></div>
         <div class="mt-4 h-9 w-28 rounded-lg bg-[var(--c-base-300)]"></div>
       </div>
       <.overlay id={@id} {@props}>
@@ -1201,8 +1201,8 @@ defmodule DevelopmentWeb.Showcase.Preview do
 
         <div class="flex items-center justify-between px-4 pt-2 pb-3">
           <div class="space-y-1.5">
-            <div class="h-2 w-14 rounded bg-gray-200"></div>
-            <div class="h-3.5 w-24 rounded bg-gray-300"></div>
+            <div class="h-2 w-14 rounded-sm bg-gray-200"></div>
+            <div class="h-3.5 w-24 rounded-sm bg-gray-300"></div>
           </div>
           <div class="size-9 rounded-full bg-gray-200"></div>
         </div>
@@ -1219,8 +1219,8 @@ defmodule DevelopmentWeb.Showcase.Preview do
           <div :for={_ <- 1..3} class="flex items-center gap-3">
             <div class="size-10 shrink-0 rounded-xl bg-gray-200"></div>
             <div class="flex-1 space-y-1.5">
-              <div class="h-2.5 w-3/4 rounded bg-gray-200"></div>
-              <div class="h-2 w-1/2 rounded bg-gray-100"></div>
+              <div class="h-2.5 w-3/4 rounded-sm bg-gray-200"></div>
+              <div class="h-2 w-1/2 rounded-sm bg-gray-100"></div>
             </div>
           </div>
         </div>
@@ -1239,7 +1239,7 @@ defmodule DevelopmentWeb.Showcase.Preview do
   def show(%{component: "dock"} = assigns) do
     ~H"""
     <div class="relative w-full max-w-[300px] overflow-hidden">
-      <.dock id={@id} {@props} class="!relative !w-full !translate-x-0 !bottom-auto !top-auto">
+      <.dock id={@id} {@props} class="relative! w-full! translate-x-0! bottom-auto! top-auto!">
         <:item icon="hero-home" label="Home" navigate="/" active />
         <:item icon="hero-inbox" label="Inbox" navigate="/inbox" badge="3" />
         <:item icon="hero-bell" label="Alerts" navigate="/alerts" badge="9+" />
@@ -1507,7 +1507,7 @@ defmodule DevelopmentWeb.Showcase.Preview do
     ~H"""
     <.banner
       id={@id}
-      class="!relative !z-auto w-full max-w-md"
+      class="relative! z-auto! w-full max-w-md"
       rounded_position="all"
       border_position="full"
       {@props}

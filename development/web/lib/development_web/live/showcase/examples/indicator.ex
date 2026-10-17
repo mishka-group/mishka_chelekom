@@ -88,7 +88,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Indicator do
 
   def example(%{section: "positions"} = assigns) do
     ~H"""
-    <div class="flex justify-center text-zinc-50 items-center relative bg-zinc-500 rounded w-60 h-20 mx-auto">
+    <div class="flex justify-center text-zinc-50 items-center relative bg-zinc-500 rounded-sm w-60 h-20 mx-auto">
       <span>Indicator Wrapper</span>
       <.indicator color="info" pinging size="medium" top_left />
       <.indicator color="dawn" size="medium" top_center />

@@ -227,7 +227,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessGalleryLive do
       data-skin={@skin == :daisyui && "daisyui"}
       class="min-h-screen bg-[var(--c-base-200)] text-[var(--c-base-content)]"
     >
-      <header class="sticky top-0 z-30 border-b border-[var(--c-base-300)] bg-[var(--c-base-100)]/90 backdrop-blur">
+      <header class="sticky top-0 z-30 border-b border-[var(--c-base-300)] bg-[var(--c-base-100)]/90 backdrop-blur-sm">
         <div class="mx-auto flex max-w-3xl items-center justify-between gap-4 px-4 py-3">
           <.link
             navigate={~p"/showcase/headless"}

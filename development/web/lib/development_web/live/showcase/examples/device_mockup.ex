@@ -33,9 +33,9 @@ defmodule DevelopmentWeb.Showcase.Examples.DeviceMockup do
     <div class="flex flex-wrap items-start gap-4">
       <.device_mockup>
         <div class="pt-10 px-4 space-y-2">
-          <div class="h-3 w-24 bg-gray-300 rounded"></div>
+          <div class="h-3 w-24 bg-gray-300 rounded-sm"></div>
           <div class="h-24 w-full bg-gray-200 rounded-lg"></div>
-          <div class="h-3 w-32 bg-gray-300 rounded"></div>
+          <div class="h-3 w-32 bg-gray-300 rounded-sm"></div>
         </div>
       </.device_mockup>
     </div>
@@ -47,9 +47,9 @@ defmodule DevelopmentWeb.Showcase.Examples.DeviceMockup do
     <div class="flex flex-wrap items-start gap-4">
       <.device_mockup type="android">
         <div class="pt-10 px-4 space-y-2">
-          <div class="h-3 w-24 bg-gray-300 rounded"></div>
+          <div class="h-3 w-24 bg-gray-300 rounded-sm"></div>
           <div class="h-24 w-full bg-gray-200 rounded-lg"></div>
-          <div class="h-3 w-32 bg-gray-300 rounded"></div>
+          <div class="h-3 w-32 bg-gray-300 rounded-sm"></div>
         </div>
       </.device_mockup>
     </div>
@@ -114,7 +114,7 @@ defmodule DevelopmentWeb.Showcase.Examples.DeviceMockup do
     <div class="flex flex-wrap items-start gap-4">
       <.device_mockup :for={c <- ~w(silver primary success info danger)} type="android" color={c}>
         <div class="pt-10 px-4 space-y-2">
-          <div class="h-3 w-24 bg-gray-300 rounded"></div>
+          <div class="h-3 w-24 bg-gray-300 rounded-sm"></div>
           <div class="h-20 w-full bg-gray-200 rounded-lg"></div>
         </div>
       </.device_mockup>

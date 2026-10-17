@@ -125,7 +125,7 @@ defmodule DevelopmentWeb.Showcase.EditorEnginesDemo do
       "[&_h2]:mt-2 [&_h2]:mb-1 [&_h2]:text-lg [&_h2]:font-semibold " <>
       "[&_p]:my-1 [&_ul]:my-1 [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:my-1 [&_ol]:list-decimal [&_ol]:pl-6 " <>
       "[&_blockquote]:my-2 [&_blockquote]:border-l-2 [&_blockquote]:border-[var(--c-base-300)] [&_blockquote]:pl-3 " <>
-      "[&_code]:rounded [&_code]:bg-[var(--c-base-200)] [&_code]:px-1 [&_code]:font-mono [&_code]:text-[0.85em] " <>
+      "[&_code]:rounded-sm [&_code]:bg-[var(--c-base-200)] [&_code]:px-1 [&_code]:font-mono [&_code]:text-[0.85em] " <>
       "[&_a]:text-[var(--c-primary)] [&_a]:underline"
   end
 end

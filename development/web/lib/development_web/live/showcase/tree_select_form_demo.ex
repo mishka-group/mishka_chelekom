@@ -104,7 +104,7 @@ defmodule DevelopmentWeb.Showcase.TreeSelectFormDemo do
             aria_label="Categories"
             class="text-sm select-none"
             node_class="[&[data-selectable=false]>[data-part=label]]:font-medium [&[data-selectable=false]>[data-part=label]]:text-[var(--c-base-content)]/60"
-            label_class="flex items-center gap-1 rounded px-2 py-1 cursor-pointer [padding-left:calc(var(--label-offset)+0.5rem)] hover:bg-[var(--c-base-200)] data-[selected]:bg-[var(--c-primary)]/10 data-[selected]:font-medium data-[selected]:text-[var(--c-primary)]"
+            label_class="flex items-center gap-1 rounded-sm px-2 py-1 cursor-pointer [padding-left:calc(var(--label-offset)+0.5rem)] hover:bg-[var(--c-base-200)] data-[selected]:bg-[var(--c-primary)]/10 data-[selected]:font-medium data-[selected]:text-[var(--c-primary)]"
             label_text_class="truncate"
             expand_icon_class="inline-block w-3 text-center text-[var(--c-base-content)]/50"
           >

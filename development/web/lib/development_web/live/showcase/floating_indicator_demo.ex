@@ -28,7 +28,7 @@ defmodule DevelopmentWeb.Showcase.FloatingIndicatorDemo do
         on_change="select"
         label="Sections"
         class={group()}
-        indicator_class="rounded-md bg-[var(--c-primary)] shadow"
+        indicator_class="rounded-md bg-[var(--c-primary)] shadow-sm"
         target_class={target()}
       >
         <:target value="overview">Overview</:target>

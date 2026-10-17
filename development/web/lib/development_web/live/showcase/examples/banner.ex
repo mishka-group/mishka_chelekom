@@ -12,7 +12,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Banner do
 
   Note: the generated `<.banner>` renders `fixed z-50` (a screen-pinned overlay). The doc shows
   banners one at a time via a `@banner_pos` toggle. For an inline showcase we pass
-  `class="!static !w-full"` so each banner flows in the column instead of overlapping the viewport.
+  `class="static! w-full!"` so each banner flows in the column instead of overlapping the viewport.
   """
   use DevelopmentWeb, :html
 
@@ -36,7 +36,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Banner do
         id={"ex-banner-variant-#{v}"}
         variant={v}
         color="primary"
-        class="!static !w-full"
+        class="static! w-full!"
       >
         {String.capitalize(v)} variant
       </.banner>
@@ -52,7 +52,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Banner do
         id={"ex-banner-color-#{c}"}
         variant="default"
         color={c}
-        class="!static !w-full"
+        class="static! w-full!"
       >
         {String.capitalize(c)} banner
       </.banner>
@@ -69,7 +69,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Banner do
         variant="default"
         color="info"
         border={b}
-        class="!static !w-full"
+        class="static! w-full!"
       >
         Border {b}
       </.banner>
@@ -87,7 +87,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Banner do
         color="secondary"
         border="medium"
         border_position={p}
-        class="!static !w-full"
+        class="static! w-full!"
       >
         Border position {p}
       </.banner>
@@ -105,7 +105,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Banner do
         color="success"
         rounded={r}
         rounded_position="all"
-        class="!static !w-full"
+        class="static! w-full!"
       >
         Rounded {r}
       </.banner>
@@ -122,7 +122,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Banner do
         variant="default"
         color="dawn"
         padding={p}
-        class="!static !w-full"
+        class="static! w-full!"
       >
         Padding {p}
       </.banner>
@@ -138,7 +138,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Banner do
         variant="default"
         color="primary"
         font_weight="font-thin"
-        class="!static !w-full"
+        class="static! w-full!"
       >
         Font thin
       </.banner>
@@ -147,7 +147,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Banner do
         variant="default"
         color="secondary"
         font_weight="font-medium"
-        class="!static !w-full"
+        class="static! w-full!"
       >
         Font medium
       </.banner>
@@ -156,7 +156,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Banner do
         variant="default"
         color="warning"
         font_weight="font-black"
-        class="!static !w-full"
+        class="static! w-full!"
       >
         Font black
       </.banner>

@@ -37,7 +37,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Sidebar do
         size="medium"
         hide_position="left"
         list_wrapper_class="ps-2.5"
-        class="!relative !h-auto !z-0 max-h-72 w-64 rounded"
+        class="relative! h-auto! z-0! max-h-72 w-64 rounded-sm"
       >
         <:item icon="hero-home" label="Dashboard" link="/" class="mb-3 text-[14px]" />
         <:item icon="hero-envelope" label="Messages" link="/" class="mb-3 text-[14px]" />
@@ -57,7 +57,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Sidebar do
       <.sidebar
         id="ex-sidebar-base"
         hide_position="left"
-        class="!relative !h-auto !z-0 max-h-72 w-64 rounded"
+        class="relative! h-auto! z-0! max-h-72 w-64 rounded-sm"
       >
         <:item icon="hero-home" icon_class="size-6" label="Dashboard" link="/" class="mb-3" />
         <:item icon="hero-envelope" icon_class="size-6" label="Messages" link="/" class="mb-3" />
@@ -72,7 +72,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Sidebar do
         variant="default"
         position="end"
         hide_position="right"
-        class="!relative !h-auto !z-0 max-h-72 w-64 rounded"
+        class="relative! h-auto! z-0! max-h-72 w-64 rounded-sm"
       >
         <ul>
           <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Home</li>
@@ -95,7 +95,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Sidebar do
         border="extra_small"
         variant="bordered"
         hide_position="left"
-        class="!relative !h-auto !z-0 max-h-72 w-64 rounded"
+        class="relative! h-auto! z-0! max-h-72 w-64 rounded-sm"
       >
         <ul>
           <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Home</li>
@@ -112,7 +112,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Sidebar do
         position="end"
         variant="bordered"
         hide_position="right"
-        class="!relative !h-auto !z-0 max-h-72 w-64 rounded"
+        class="relative! h-auto! z-0! max-h-72 w-64 rounded-sm"
       >
         <ul>
           <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Home</li>
@@ -134,7 +134,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Sidebar do
         variant="default"
         size="extra_small"
         hide_position="left"
-        class="!relative !h-auto !z-0 max-h-72 rounded"
+        class="relative! h-auto! z-0! max-h-72 rounded-sm"
       >
         <ul>
           <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Home</li>
@@ -151,7 +151,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Sidebar do
         position="end"
         variant="default"
         hide_position="right"
-        class="!relative !h-auto !z-0 max-h-72 rounded"
+        class="relative! h-auto! z-0! max-h-72 rounded-sm"
       >
         <ul>
           <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Home</li>
@@ -173,7 +173,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Sidebar do
         color="info"
         border="extra_small"
         hide_position="left"
-        class="!relative !h-auto !z-0 max-h-72 w-64 rounded"
+        class="relative! h-auto! z-0! max-h-72 w-64 rounded-sm"
       >
         <ul>
           <li class="py-2 px-3 hover:bg-stone-400 cursor-pointer">Home</li>
@@ -190,7 +190,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Sidebar do
         border="extra_large"
         position="end"
         hide_position="right"
-        class="!relative !h-auto !z-0 max-h-72 w-64 rounded"
+        class="relative! h-auto! z-0! max-h-72 w-64 rounded-sm"
       >
         <ul>
           <li class="py-2 px-3 hover:bg-purple-400 cursor-pointer">Home</li>
@@ -211,7 +211,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Sidebar do
         border="extra_small"
         hide_position="left"
         minimize
-        class="!relative !h-auto !z-0 max-h-72 w-64 rounded"
+        class="relative! h-auto! z-0! max-h-72 w-64 rounded-sm"
       >
         <:item icon="hero-home" icon_class="size-6" label="Dashboard" link="/" class="mb-3" />
         <:item icon="hero-envelope" icon_class="size-6" label="Messages" link="/" class="mb-3" />
@@ -234,7 +234,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Sidebar do
         variant="default"
         hide_position="left"
         list_wrapper_class="ps-2.5"
-        class="!relative !h-auto !z-0 max-h-72 w-64 rounded"
+        class="relative! h-auto! z-0! max-h-72 w-64 rounded-sm"
       >
         <:item icon="hero-home" icon_class="size-6" label="Dashboard" link="/" class="mb-3" />
         <:item icon="hero-document-text" icon_class="size-6" label="Reports" link="/" class="mb-3" />

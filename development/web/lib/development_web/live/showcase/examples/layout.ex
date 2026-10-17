@@ -56,13 +56,13 @@ defmodule DevelopmentWeb.Showcase.Examples.Layout do
           </.card_content>
         </.card>
 
-        <.card rounded="large" class="col-span-2 sm:col-span-1 bg-white dark:bg-blue-900 !shadow-xs">
+        <.card rounded="large" class="col-span-2 sm:col-span-1 bg-white dark:bg-blue-900 shadow-xs!">
           <.card_content padding="medium">
             <div class="font-semibold text-black dark:text-white">Grid – Column 2</div>
           </.card_content>
         </.card>
 
-        <.card rounded="large" class="col-span-2 bg-white dark:bg-blue-950 !shadow-xs">
+        <.card rounded="large" class="col-span-2 bg-white dark:bg-blue-950 shadow-xs!">
           <.card_content padding="medium">
             <div class="font-semibold text-black dark:text-white">Grid – Full Width Card</div>
           </.card_content>
@@ -75,13 +75,13 @@ defmodule DevelopmentWeb.Showcase.Examples.Layout do
   def example(%{section: "flex"} = assigns) do
     ~H"""
     <.flex gap="small">
-      <div class="bg-blue-100 dark:bg-blue-900 p-2 rounded text-gray-900 dark:text-gray-100">
+      <div class="bg-blue-100 dark:bg-blue-900 p-2 rounded-sm text-gray-900 dark:text-gray-100">
         Item A
       </div>
-      <div class="bg-blue-200 dark:bg-blue-800 p-2 rounded text-gray-900 dark:text-gray-100">
+      <div class="bg-blue-200 dark:bg-blue-800 p-2 rounded-sm text-gray-900 dark:text-gray-100">
         Item B
       </div>
-      <div class="bg-blue-200 dark:bg-blue-800 p-2 rounded text-gray-900 dark:text-gray-100">
+      <div class="bg-blue-200 dark:bg-blue-800 p-2 rounded-sm text-gray-900 dark:text-gray-100">
         Item C
       </div>
     </.flex>
@@ -91,10 +91,10 @@ defmodule DevelopmentWeb.Showcase.Examples.Layout do
   def example(%{section: "direction"} = assigns) do
     ~H"""
     <.flex direction="col" gap="medium">
-      <div class="bg-blue-100 dark:bg-blue-900 p-2 rounded text-gray-900 dark:text-gray-100">
+      <div class="bg-blue-100 dark:bg-blue-900 p-2 rounded-sm text-gray-900 dark:text-gray-100">
         Item A
       </div>
-      <div class="bg-blue-200 dark:bg-blue-800 p-2 rounded text-gray-900 dark:text-gray-100">
+      <div class="bg-blue-200 dark:bg-blue-800 p-2 rounded-sm text-gray-900 dark:text-gray-100">
         Item B
       </div>
     </.flex>
@@ -104,7 +104,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Layout do
   def example(%{section: "justify"} = assigns) do
     ~H"""
     <.flex justify="center" class="h-32 p-3 bg-gray-100 dark:bg-gray-800">
-      <div class="bg-pink-300 dark:bg-pink-800 p-2 rounded text-gray-900 dark:text-gray-100">
+      <div class="bg-pink-300 dark:bg-pink-800 p-2 rounded-sm text-gray-900 dark:text-gray-100">
         Centered
       </div>
     </.flex>
@@ -114,7 +114,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Layout do
   def example(%{section: "align"} = assigns) do
     ~H"""
     <.flex align="center" class="h-32 bg-green-50 dark:bg-green-900">
-      <div class="bg-green-300 dark:bg-green-700 p-2 rounded text-gray-900 dark:text-gray-100">
+      <div class="bg-green-300 dark:bg-green-700 p-2 rounded-sm text-gray-900 dark:text-gray-100">
         Vertically centered
       </div>
     </.flex>
@@ -124,13 +124,13 @@ defmodule DevelopmentWeb.Showcase.Examples.Layout do
   def example(%{section: "wrap"} = assigns) do
     ~H"""
     <.flex wrap="wrap" gap="small">
-      <div class="bg-purple-100 dark:bg-purple-800 p-2 rounded w-1/2 text-gray-900 dark:text-gray-100">
+      <div class="bg-purple-100 dark:bg-purple-800 p-2 rounded-sm w-1/2 text-gray-900 dark:text-gray-100">
         1
       </div>
-      <div class="bg-purple-200 dark:bg-purple-700 p-2 rounded w-1/2 text-gray-900 dark:text-gray-100">
+      <div class="bg-purple-200 dark:bg-purple-700 p-2 rounded-sm w-1/2 text-gray-900 dark:text-gray-100">
         2
       </div>
-      <div class="bg-purple-300 dark:bg-purple-600 p-2 rounded w-1/2 text-gray-900 dark:text-gray-100">
+      <div class="bg-purple-300 dark:bg-purple-600 p-2 rounded-sm w-1/2 text-gray-900 dark:text-gray-100">
         3
       </div>
     </.flex>
@@ -140,13 +140,13 @@ defmodule DevelopmentWeb.Showcase.Examples.Layout do
   def example(%{section: "grid"} = assigns) do
     ~H"""
     <.grid cols="three" gap="medium">
-      <div class="p-2 rounded bg-blue-100 dark:bg-blue-800 text-black dark:text-white">
+      <div class="p-2 rounded-sm bg-blue-100 dark:bg-blue-800 text-black dark:text-white">
         Col 1
       </div>
-      <div class="p-2 rounded bg-blue-200 dark:bg-blue-900 text-black dark:text-white">
+      <div class="p-2 rounded-sm bg-blue-200 dark:bg-blue-900 text-black dark:text-white">
         Col 2
       </div>
-      <div class="p-2 rounded bg-blue-300 dark:bg-blue-950 text-black dark:text-white">
+      <div class="p-2 rounded-sm bg-blue-300 dark:bg-blue-950 text-black dark:text-white">
         Col 3
       </div>
     </.grid>
@@ -156,10 +156,10 @@ defmodule DevelopmentWeb.Showcase.Examples.Layout do
   def example(%{section: "grid-place"} = assigns) do
     ~H"""
     <.grid cols="two" place_items="center" class="h-64" gap="medium">
-      <div class="p-2 rounded bg-orange-100 dark:bg-orange-700 text-black dark:text-white">
+      <div class="p-2 rounded-sm bg-orange-100 dark:bg-orange-700 text-black dark:text-white">
         1
       </div>
-      <div class="p-2 rounded bg-orange-200 dark:bg-orange-800 text-black dark:text-white">
+      <div class="p-2 rounded-sm bg-orange-200 dark:bg-orange-800 text-black dark:text-white">
         2
       </div>
     </.grid>

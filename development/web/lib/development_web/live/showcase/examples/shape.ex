@@ -34,7 +34,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Shape do
         <.shape
           variant={shape}
           size="medium"
-          class="bg-gradient-to-br from-primary-light to-misc-light dark:from-primary-dark dark:to-misc-dark"
+          class="bg-linear-to-br from-primary-light to-misc-light dark:from-primary-dark dark:to-misc-dark"
         />
         <span class="text-[11px] font-mono opacity-70">{shape}</span>
       </div>
@@ -49,7 +49,7 @@ defmodule DevelopmentWeb.Showcase.Examples.Shape do
         :for={s <- ~w(extra_small small medium large extra_large)}
         variant="hexagon"
         size={s}
-        class="bg-gradient-to-br from-primary-light to-info-light dark:from-primary-dark dark:to-info-dark"
+        class="bg-linear-to-br from-primary-light to-info-light dark:from-primary-dark dark:to-info-dark"
       />
     </div>
     """
@@ -78,15 +78,15 @@ defmodule DevelopmentWeb.Showcase.Examples.Shape do
     ~H"""
     <div class="flex flex-wrap gap-3">
       <.shape variant="hexagon" size="large">
-        <div class="bg-gradient-to-br from-primary-light to-primary-dark size-full flex items-center justify-center text-white font-bold">
+        <div class="bg-linear-to-br from-primary-light to-primary-dark size-full flex items-center justify-center text-white font-bold">
           AB
         </div>
       </.shape>
       <.shape variant="star" size="large">
-        <div class="bg-gradient-to-br from-warning-light to-danger-light size-full" />
+        <div class="bg-linear-to-br from-warning-light to-danger-light size-full" />
       </.shape>
       <.shape variant="heart" size="large">
-        <div class="bg-gradient-to-br from-danger-light to-misc-light size-full" />
+        <div class="bg-linear-to-br from-danger-light to-misc-light size-full" />
       </.shape>
     </div>
     """

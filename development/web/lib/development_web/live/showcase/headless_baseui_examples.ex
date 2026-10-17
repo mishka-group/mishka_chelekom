@@ -2087,7 +2087,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
     <.color_picker
       id="baseui-color-picker"
       value="#e8590c"
-      class="w-56 space-y-3 [&_[data-part=area]]:relative [&_[data-part=area]]:h-36 [&_[data-part=area]]:w-full [&_[data-part=area]]:cursor-crosshair [&_[data-part=area]]:rounded-lg [&_[data-part=area]]:ring-1 [&_[data-part=area]]:ring-black/10 [&_[data-part=area-thumb]]:size-3.5 [&_[data-part=area-thumb]]:rounded-full [&_[data-part=area-thumb]]:border-2 [&_[data-part=area-thumb]]:border-white [&_[data-part=area-thumb]]:shadow [&_[data-part=area-thumb]]:ring-1 [&_[data-part=area-thumb]]:ring-black/30 [&_[data-part=controls]]:flex [&_[data-part=controls]]:items-center [&_[data-part=controls]]:gap-3 [&_[data-part=preview]]:size-8 [&_[data-part=preview]]:shrink-0 [&_[data-part=preview]]:rounded-full [&_[data-part=preview]]:ring-1 [&_[data-part=preview]]:ring-black/10 [&_[data-part=hue]]:h-3 [&_[data-part=hue]]:w-full [&_[data-part=hue]]:cursor-pointer [&_[data-part=hue]]:appearance-none [&_[data-part=hue]]:rounded-full [&_[data-part=hue]]:[background:linear-gradient(to_right,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)]"
+      class="w-56 space-y-3 [&_[data-part=area]]:relative [&_[data-part=area]]:h-36 [&_[data-part=area]]:w-full [&_[data-part=area]]:cursor-crosshair [&_[data-part=area]]:rounded-lg [&_[data-part=area]]:ring-1 [&_[data-part=area]]:ring-black/10 [&_[data-part=area-thumb]]:size-3.5 [&_[data-part=area-thumb]]:rounded-full [&_[data-part=area-thumb]]:border-2 [&_[data-part=area-thumb]]:border-white [&_[data-part=area-thumb]]:shadow-sm [&_[data-part=area-thumb]]:ring-1 [&_[data-part=area-thumb]]:ring-black/30 [&_[data-part=controls]]:flex [&_[data-part=controls]]:items-center [&_[data-part=controls]]:gap-3 [&_[data-part=preview]]:size-8 [&_[data-part=preview]]:shrink-0 [&_[data-part=preview]]:rounded-full [&_[data-part=preview]]:ring-1 [&_[data-part=preview]]:ring-black/10 [&_[data-part=hue]]:h-3 [&_[data-part=hue]]:w-full [&_[data-part=hue]]:cursor-pointer [&_[data-part=hue]]:appearance-none [&_[data-part=hue]]:rounded-full [&_[data-part=hue]]:[background:linear-gradient(to_right,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)]"
     />
     """
   end
@@ -2213,7 +2213,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       tags={["Design", "Engineering", "Product"]}
       placeholder="Add a tag…"
       on_remove={JS.hide(to: {:closest, "[data-part=tag]"})}
-      class="flex w-80 flex-wrap items-center gap-1.5 rounded-lg border border-neutral-300 bg-white px-2 py-1.5 text-sm cursor-text focus-within:ring-2 focus-within:ring-neutral-400 dark:border-neutral-700 dark:bg-neutral-900 [&_[data-part=tag]]:inline-flex [&_[data-part=tag]]:items-center [&_[data-part=tag]]:gap-1 [&_[data-part=tag]]:rounded [&_[data-part=tag]]:bg-neutral-100 [&_[data-part=tag]]:py-0.5 [&_[data-part=tag]]:pr-1 [&_[data-part=tag]]:pl-2 dark:[&_[data-part=tag]]:bg-neutral-800 [&_[data-part=remove]]:inline-flex [&_[data-part=remove]]:size-4 [&_[data-part=remove]]:items-center [&_[data-part=remove]]:justify-center [&_[data-part=remove]]:rounded-full [&_[data-part=remove]]:text-neutral-500 [&_[data-part=remove]]:hover:bg-neutral-200 dark:[&_[data-part=remove]]:hover:bg-neutral-700 [&_[data-part=input]]:min-w-24 [&_[data-part=input]]:flex-1 [&_[data-part=input]]:border-0 [&_[data-part=input]]:bg-transparent [&_[data-part=input]]:p-0.5 [&_[data-part=input]]:outline-none"
+      class="flex w-80 flex-wrap items-center gap-1.5 rounded-lg border border-neutral-300 bg-white px-2 py-1.5 text-sm cursor-text focus-within:ring-2 focus-within:ring-neutral-400 dark:border-neutral-700 dark:bg-neutral-900 [&_[data-part=tag]]:inline-flex [&_[data-part=tag]]:items-center [&_[data-part=tag]]:gap-1 [&_[data-part=tag]]:rounded-sm [&_[data-part=tag]]:bg-neutral-100 [&_[data-part=tag]]:py-0.5 [&_[data-part=tag]]:pr-1 [&_[data-part=tag]]:pl-2 dark:[&_[data-part=tag]]:bg-neutral-800 [&_[data-part=remove]]:inline-flex [&_[data-part=remove]]:size-4 [&_[data-part=remove]]:items-center [&_[data-part=remove]]:justify-center [&_[data-part=remove]]:rounded-full [&_[data-part=remove]]:text-neutral-500 [&_[data-part=remove]]:hover:bg-neutral-200 dark:[&_[data-part=remove]]:hover:bg-neutral-700 [&_[data-part=input]]:min-w-24 [&_[data-part=input]]:flex-1 [&_[data-part=input]]:border-0 [&_[data-part=input]]:bg-transparent [&_[data-part=input]]:p-0.5 [&_[data-part=input]]:outline-none"
     />
     """
   end
@@ -2390,7 +2390,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
         id="baseui-alpha-slider"
         value={50}
         color="#e8590c"
-        class="block w-full [&_[data-part=control]]:relative [&_[data-part=control]]:flex [&_[data-part=control]]:h-4 [&_[data-part=control]]:cursor-pointer [&_[data-part=control]]:items-center [&_[data-part=track]]:relative [&_[data-part=track]]:h-3 [&_[data-part=track]]:w-full [&_[data-part=track]]:overflow-hidden [&_[data-part=track]]:rounded-full [&_[data-part=track]]:[background-image:linear-gradient(to_right,transparent,var(--chelekom-alpha-color)),conic-gradient(#ccc_25%,#fff_0_50%,#ccc_0_75%,#fff_0)] [&_[data-part=track]]:[background-size:100%_100%,10px_10px] [&_[data-part=indicator]]:hidden [&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border-2 [&_[data-part=thumb]]:border-white [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:ring-1 [&_[data-part=thumb]]:ring-black/30 [&_[data-part=thumb]]:outline-none"
+        class="block w-full [&_[data-part=control]]:relative [&_[data-part=control]]:flex [&_[data-part=control]]:h-4 [&_[data-part=control]]:cursor-pointer [&_[data-part=control]]:items-center [&_[data-part=track]]:relative [&_[data-part=track]]:h-3 [&_[data-part=track]]:w-full [&_[data-part=track]]:overflow-hidden [&_[data-part=track]]:rounded-full [&_[data-part=track]]:[background-image:linear-gradient(to_right,transparent,var(--chelekom-alpha-color)),conic-gradient(#ccc_25%,#fff_0_50%,#ccc_0_75%,#fff_0)] [&_[data-part=track]]:[background-size:100%_100%,10px_10px] [&_[data-part=indicator]]:hidden [&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border-2 [&_[data-part=thumb]]:border-white [&_[data-part=thumb]]:shadow-sm [&_[data-part=thumb]]:ring-1 [&_[data-part=thumb]]:ring-black/30 [&_[data-part=thumb]]:outline-none"
       />
     </div>
     """
@@ -2402,7 +2402,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       <.hue_slider
         id="baseui-hue-slider"
         value={140}
-        class="block w-full [&_[data-part=control]]:relative [&_[data-part=control]]:flex [&_[data-part=control]]:h-4 [&_[data-part=control]]:cursor-pointer [&_[data-part=control]]:items-center [&_[data-part=track]]:relative [&_[data-part=track]]:h-3 [&_[data-part=track]]:w-full [&_[data-part=track]]:rounded-full [&_[data-part=track]]:[background:linear-gradient(to_right,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)] [&_[data-part=indicator]]:hidden [&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border-2 [&_[data-part=thumb]]:border-white [&_[data-part=thumb]]:shadow [&_[data-part=thumb]]:ring-1 [&_[data-part=thumb]]:ring-black/30 [&_[data-part=thumb]]:outline-none"
+        class="block w-full [&_[data-part=control]]:relative [&_[data-part=control]]:flex [&_[data-part=control]]:h-4 [&_[data-part=control]]:cursor-pointer [&_[data-part=control]]:items-center [&_[data-part=track]]:relative [&_[data-part=track]]:h-3 [&_[data-part=track]]:w-full [&_[data-part=track]]:rounded-full [&_[data-part=track]]:[background:linear-gradient(to_right,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)] [&_[data-part=indicator]]:hidden [&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:border-2 [&_[data-part=thumb]]:border-white [&_[data-part=thumb]]:shadow-sm [&_[data-part=thumb]]:ring-1 [&_[data-part=thumb]]:ring-black/30 [&_[data-part=thumb]]:outline-none"
       />
     </div>
     """
@@ -2582,7 +2582,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
         multiple={false}
         aria_label="Categories"
         class="text-sm select-none"
-        label_class="flex items-center gap-1 rounded px-2 py-1 cursor-pointer [padding-left:calc(var(--label-offset)+0.5rem)] hover:bg-neutral-100 data-[selected]:bg-neutral-900/5 data-[selected]:font-medium dark:hover:bg-neutral-700 dark:data-[selected]:bg-white/10"
+        label_class="flex items-center gap-1 rounded-sm px-2 py-1 cursor-pointer [padding-left:calc(var(--label-offset)+0.5rem)] hover:bg-neutral-100 data-[selected]:bg-neutral-900/5 data-[selected]:font-medium dark:hover:bg-neutral-700 dark:data-[selected]:bg-white/10"
         label_text_class="truncate"
         expand_icon_class="inline-block w-3 text-center text-neutral-400"
       >
@@ -2600,12 +2600,12 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       label="Color"
       class="relative inline-block w-56"
       control_class="flex items-center gap-2 rounded-lg border border-neutral-300 bg-white px-2 py-1.5 focus-within:ring-2 focus-within:ring-neutral-400 dark:border-neutral-700 dark:bg-neutral-900"
-      preview_class="size-5 shrink-0 rounded border border-neutral-300 dark:border-neutral-600"
+      preview_class="size-5 shrink-0 rounded-sm border border-neutral-300 dark:border-neutral-600"
       text_class="w-24 bg-transparent font-mono text-sm text-neutral-900 outline-none dark:text-neutral-100"
-      trigger_class="ml-auto rounded p-1 text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800"
+      trigger_class="ml-auto rounded-sm p-1 text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800"
       panel_class="absolute left-0 z-20 mt-2 w-56 rounded-lg border border-neutral-200 bg-white p-3 shadow-lg dark:border-neutral-700 dark:bg-neutral-800"
       area_class="relative h-36 w-full cursor-crosshair rounded-md"
-      thumb_class="block size-3 rounded-full border-2 border-white shadow"
+      thumb_class="block size-3 rounded-full border-2 border-white shadow-sm"
       hue_class="mt-3 w-full"
     />
     """
@@ -2643,7 +2643,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
         "relative inline-flex gap-1 rounded-lg bg-neutral-100 p-1 dark:bg-neutral-800 " <>
           "[&_[data-part=indicator]]:absolute [&_[data-part=indicator]]:left-0 [&_[data-part=indicator]]:top-0 [&_[data-part=indicator]]:transition-all [&_[data-part=indicator]]:duration-200 [&_[data-part=indicator]]:ease-out"
       }
-      indicator_class="rounded-md bg-white shadow dark:bg-neutral-600"
+      indicator_class="rounded-md bg-white shadow-sm dark:bg-neutral-600"
       target_class="relative z-10 rounded-md px-3 py-1.5 text-sm font-medium text-neutral-500 transition-colors outline-none aria-pressed:text-neutral-900 dark:aria-pressed:text-white"
     >
       <:target value="day">Day</:target>
@@ -2780,7 +2780,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
       <.highlight
         text="Search results for phoenix — the Phoenix framework is fast."
         highlight="phoenix"
-        mark_class="rounded bg-lime-200 px-0.5 text-neutral-900"
+        mark_class="rounded-sm bg-lime-200 px-0.5 text-neutral-900"
       />
     </p>
     """
@@ -2790,8 +2790,8 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
     ~H"""
     <p class="max-w-sm text-sm text-neutral-700 dark:text-neutral-300">
       The quick brown
-      <.mark class="rounded bg-yellow-200 px-0.5 text-neutral-900">fox</.mark>
-      jumps over the lazy <.mark class="rounded bg-lime-200 px-0.5 text-neutral-900">dog</.mark>.
+      <.mark class="rounded-sm bg-yellow-200 px-0.5 text-neutral-900">fox</.mark>
+      jumps over the lazy <.mark class="rounded-sm bg-lime-200 px-0.5 text-neutral-900">dog</.mark>.
     </p>
     """
   end
@@ -2801,7 +2801,7 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
     <div class="w-80 space-y-3">
       <p class="text-sm text-neutral-700 dark:text-neutral-300">
         Run
-        <.code class="rounded bg-neutral-100 px-1.5 py-0.5 font-mono text-[0.85em] text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100">
+        <.code class="rounded-sm bg-neutral-100 px-1.5 py-0.5 font-mono text-[0.85em] text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100">
           npm install
         </.code>
         first.
@@ -6969,14 +6969,14 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
         group="Alignment"
         group_class="flex"
         label="Align left"
-        class="flex h-8 min-w-8 items-center justify-center gap-2 border-0 bg-transparent px-3 font-[inherit] text-sm leading-none whitespace-nowrap font-normal text-neutral-950 select-none hover:not-data-[disabled]:bg-neutral-100 active:not-data-[disabled]:not-data-[pressed]:bg-neutral-200 data-[pressed]:bg-neutral-950 data-[pressed]:text-white data-[pressed]:hover:not-data-[disabled]:bg-neutral-950 data-[pressed]:hover:not-data-[disabled]:text-white data-[popup-open]:!bg-neutral-100 data-[popup-open]:!text-neutral-950 dark:text-white dark:hover:not-data-[disabled]:bg-neutral-800 dark:active:not-data-[disabled]:not-data-[pressed]:bg-neutral-700 dark:data-[pressed]:bg-white dark:data-[pressed]:text-neutral-950 dark:data-[pressed]:hover:not-data-[disabled]:bg-white dark:data-[pressed]:hover:not-data-[disabled]:text-neutral-950 dark:data-[popup-open]:!bg-neutral-800 dark:data-[popup-open]:!text-white focus-visible:bg-transparent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-neutral-950 dark:focus-visible:outline-white"
+        class="flex h-8 min-w-8 items-center justify-center gap-2 border-0 bg-transparent px-3 font-[inherit] text-sm leading-none whitespace-nowrap font-normal text-neutral-950 select-none hover:not-data-[disabled]:bg-neutral-100 active:not-data-[disabled]:not-data-[pressed]:bg-neutral-200 data-[pressed]:bg-neutral-950 data-[pressed]:text-white data-[pressed]:hover:not-data-[disabled]:bg-neutral-950 data-[pressed]:hover:not-data-[disabled]:text-white data-[popup-open]:bg-neutral-100! data-[popup-open]:text-neutral-950! dark:text-white dark:hover:not-data-[disabled]:bg-neutral-800 dark:active:not-data-[disabled]:not-data-[pressed]:bg-neutral-700 dark:data-[pressed]:bg-white dark:data-[pressed]:text-neutral-950 dark:data-[pressed]:hover:not-data-[disabled]:bg-white dark:data-[pressed]:hover:not-data-[disabled]:text-neutral-950 dark:data-[popup-open]:bg-neutral-800! dark:data-[popup-open]:text-white! focus-visible:bg-transparent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-neutral-950 dark:focus-visible:outline-white"
       >
         Align Left
       </:item>
       <:item
         group="Alignment"
         label="Align right"
-        class="flex h-8 min-w-8 items-center justify-center gap-2 border-0 bg-transparent px-3 font-[inherit] text-sm leading-none whitespace-nowrap font-normal text-neutral-950 select-none hover:not-data-[disabled]:bg-neutral-100 active:not-data-[disabled]:not-data-[pressed]:bg-neutral-200 data-[pressed]:bg-neutral-950 data-[pressed]:text-white data-[pressed]:hover:not-data-[disabled]:bg-neutral-950 data-[pressed]:hover:not-data-[disabled]:text-white data-[popup-open]:!bg-neutral-100 data-[popup-open]:!text-neutral-950 dark:text-white dark:hover:not-data-[disabled]:bg-neutral-800 dark:active:not-data-[disabled]:not-data-[pressed]:bg-neutral-700 dark:data-[pressed]:bg-white dark:data-[pressed]:text-neutral-950 dark:data-[pressed]:hover:not-data-[disabled]:bg-white dark:data-[pressed]:hover:not-data-[disabled]:text-neutral-950 dark:data-[popup-open]:!bg-neutral-800 dark:data-[popup-open]:!text-white focus-visible:bg-transparent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-neutral-950 dark:focus-visible:outline-white"
+        class="flex h-8 min-w-8 items-center justify-center gap-2 border-0 bg-transparent px-3 font-[inherit] text-sm leading-none whitespace-nowrap font-normal text-neutral-950 select-none hover:not-data-[disabled]:bg-neutral-100 active:not-data-[disabled]:not-data-[pressed]:bg-neutral-200 data-[pressed]:bg-neutral-950 data-[pressed]:text-white data-[pressed]:hover:not-data-[disabled]:bg-neutral-950 data-[pressed]:hover:not-data-[disabled]:text-white data-[popup-open]:bg-neutral-100! data-[popup-open]:text-neutral-950! dark:text-white dark:hover:not-data-[disabled]:bg-neutral-800 dark:active:not-data-[disabled]:not-data-[pressed]:bg-neutral-700 dark:data-[pressed]:bg-white dark:data-[pressed]:text-neutral-950 dark:data-[pressed]:hover:not-data-[disabled]:bg-white dark:data-[pressed]:hover:not-data-[disabled]:text-neutral-950 dark:data-[popup-open]:bg-neutral-800! dark:data-[popup-open]:text-white! focus-visible:bg-transparent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-neutral-950 dark:focus-visible:outline-white"
       >
         Align Right
       </:item>
@@ -6985,21 +6985,21 @@ defmodule DevelopmentWeb.Showcase.HeadlessBaseUIExamples do
         group="Numerical format"
         group_class="flex"
         label="Format as currency"
-        class="flex h-8 min-w-8 items-center justify-center gap-2 border-0 bg-transparent font-[inherit] text-sm leading-none whitespace-nowrap font-normal text-neutral-950 select-none hover:not-data-[disabled]:bg-neutral-100 active:not-data-[disabled]:not-data-[pressed]:bg-neutral-200 data-[pressed]:bg-neutral-950 data-[pressed]:text-white data-[pressed]:hover:not-data-[disabled]:bg-neutral-950 data-[pressed]:hover:not-data-[disabled]:text-white data-[popup-open]:!bg-neutral-100 data-[popup-open]:!text-neutral-950 dark:text-white dark:hover:not-data-[disabled]:bg-neutral-800 dark:active:not-data-[disabled]:not-data-[pressed]:bg-neutral-700 dark:data-[pressed]:bg-white dark:data-[pressed]:text-neutral-950 dark:data-[pressed]:hover:not-data-[disabled]:bg-white dark:data-[pressed]:hover:not-data-[disabled]:text-neutral-950 dark:data-[popup-open]:!bg-neutral-800 dark:data-[popup-open]:!text-white focus-visible:bg-transparent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-neutral-950 dark:focus-visible:outline-white"
+        class="flex h-8 min-w-8 items-center justify-center gap-2 border-0 bg-transparent font-[inherit] text-sm leading-none whitespace-nowrap font-normal text-neutral-950 select-none hover:not-data-[disabled]:bg-neutral-100 active:not-data-[disabled]:not-data-[pressed]:bg-neutral-200 data-[pressed]:bg-neutral-950 data-[pressed]:text-white data-[pressed]:hover:not-data-[disabled]:bg-neutral-950 data-[pressed]:hover:not-data-[disabled]:text-white data-[popup-open]:bg-neutral-100! data-[popup-open]:text-neutral-950! dark:text-white dark:hover:not-data-[disabled]:bg-neutral-800 dark:active:not-data-[disabled]:not-data-[pressed]:bg-neutral-700 dark:data-[pressed]:bg-white dark:data-[pressed]:text-neutral-950 dark:data-[pressed]:hover:not-data-[disabled]:bg-white dark:data-[pressed]:hover:not-data-[disabled]:text-neutral-950 dark:data-[popup-open]:bg-neutral-800! dark:data-[popup-open]:text-white! focus-visible:bg-transparent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-neutral-950 dark:focus-visible:outline-white"
       >
         $
       </:item>
       <:item
         group="Numerical format"
         label="Format as percent"
-        class="flex h-8 min-w-8 items-center justify-center gap-2 border-0 bg-transparent font-[inherit] text-sm leading-none whitespace-nowrap font-normal text-neutral-950 select-none hover:not-data-[disabled]:bg-neutral-100 active:not-data-[disabled]:not-data-[pressed]:bg-neutral-200 data-[pressed]:bg-neutral-950 data-[pressed]:text-white data-[pressed]:hover:not-data-[disabled]:bg-neutral-950 data-[pressed]:hover:not-data-[disabled]:text-white data-[popup-open]:!bg-neutral-100 data-[popup-open]:!text-neutral-950 dark:text-white dark:hover:not-data-[disabled]:bg-neutral-800 dark:active:not-data-[disabled]:not-data-[pressed]:bg-neutral-700 dark:data-[pressed]:bg-white dark:data-[pressed]:text-neutral-950 dark:data-[pressed]:hover:not-data-[disabled]:bg-white dark:data-[pressed]:hover:not-data-[disabled]:text-neutral-950 dark:data-[popup-open]:!bg-neutral-800 dark:data-[popup-open]:!text-white focus-visible:bg-transparent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-neutral-950 dark:focus-visible:outline-white"
+        class="flex h-8 min-w-8 items-center justify-center gap-2 border-0 bg-transparent font-[inherit] text-sm leading-none whitespace-nowrap font-normal text-neutral-950 select-none hover:not-data-[disabled]:bg-neutral-100 active:not-data-[disabled]:not-data-[pressed]:bg-neutral-200 data-[pressed]:bg-neutral-950 data-[pressed]:text-white data-[pressed]:hover:not-data-[disabled]:bg-neutral-950 data-[pressed]:hover:not-data-[disabled]:text-white data-[popup-open]:bg-neutral-100! data-[popup-open]:text-neutral-950! dark:text-white dark:hover:not-data-[disabled]:bg-neutral-800 dark:active:not-data-[disabled]:not-data-[pressed]:bg-neutral-700 dark:data-[pressed]:bg-white dark:data-[pressed]:text-neutral-950 dark:data-[pressed]:hover:not-data-[disabled]:bg-white dark:data-[pressed]:hover:not-data-[disabled]:text-neutral-950 dark:data-[popup-open]:bg-neutral-800! dark:data-[popup-open]:text-white! focus-visible:bg-transparent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-neutral-950 dark:focus-visible:outline-white"
       >
         %
       </:item>
       <:item type="separator" class="m-1 h-4 w-px bg-neutral-950 dark:bg-white" />
       <:item
         label="Font family"
-        class="flex h-8 min-w-32 cursor-default items-center justify-between gap-2 border-0 bg-transparent px-2 font-[inherit] text-sm leading-none whitespace-nowrap font-normal text-neutral-950 select-none hover:not-data-[disabled]:bg-neutral-100 active:not-data-[disabled]:not-data-[pressed]:bg-neutral-200 data-[pressed]:bg-neutral-950 data-[pressed]:text-white data-[pressed]:hover:not-data-[disabled]:bg-neutral-950 data-[pressed]:hover:not-data-[disabled]:text-white data-[popup-open]:!bg-neutral-100 data-[popup-open]:!text-neutral-950 dark:text-white dark:hover:not-data-[disabled]:bg-neutral-800 dark:active:not-data-[disabled]:not-data-[pressed]:bg-neutral-700 dark:data-[pressed]:bg-white dark:data-[pressed]:text-neutral-950 dark:data-[pressed]:hover:not-data-[disabled]:bg-white dark:data-[pressed]:hover:not-data-[disabled]:text-neutral-950 dark:data-[popup-open]:!bg-neutral-800 dark:data-[popup-open]:!text-white focus-visible:bg-transparent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-neutral-950 dark:focus-visible:outline-white"
+        class="flex h-8 min-w-32 cursor-default items-center justify-between gap-2 border-0 bg-transparent px-2 font-[inherit] text-sm leading-none whitespace-nowrap font-normal text-neutral-950 select-none hover:not-data-[disabled]:bg-neutral-100 active:not-data-[disabled]:not-data-[pressed]:bg-neutral-200 data-[pressed]:bg-neutral-950 data-[pressed]:text-white data-[pressed]:hover:not-data-[disabled]:bg-neutral-950 data-[pressed]:hover:not-data-[disabled]:text-white data-[popup-open]:bg-neutral-100! data-[popup-open]:text-neutral-950! dark:text-white dark:hover:not-data-[disabled]:bg-neutral-800 dark:active:not-data-[disabled]:not-data-[pressed]:bg-neutral-700 dark:data-[pressed]:bg-white dark:data-[pressed]:text-neutral-950 dark:data-[pressed]:hover:not-data-[disabled]:bg-white dark:data-[pressed]:hover:not-data-[disabled]:text-neutral-950 dark:data-[popup-open]:bg-neutral-800! dark:data-[popup-open]:text-white! focus-visible:bg-transparent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-neutral-950 dark:focus-visible:outline-white"
       >
         Helvetica
         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" class="block">

@@ -77,7 +77,7 @@ defmodule DevelopmentWeb.Showcase.AngleSliderFormDemo do
   defp dial do
     "relative block size-32 rounded-full border-2 border-[var(--c-base-300)] bg-[var(--c-base-100)] outline-none cursor-grab focus:ring-2 focus:ring-[var(--c-primary)]/40 data-[dragging]:cursor-grabbing " <>
       "[&_[data-part=thumb-layer]]:absolute [&_[data-part=thumb-layer]]:inset-0 " <>
-      "[&_[data-part=thumb]]:absolute [&_[data-part=thumb]]:left-1/2 [&_[data-part=thumb]]:top-0 [&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:-translate-x-1/2 [&_[data-part=thumb]]:-translate-y-1/2 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:bg-[var(--c-primary)] [&_[data-part=thumb]]:shadow " <>
+      "[&_[data-part=thumb]]:absolute [&_[data-part=thumb]]:left-1/2 [&_[data-part=thumb]]:top-0 [&_[data-part=thumb]]:size-4 [&_[data-part=thumb]]:-translate-x-1/2 [&_[data-part=thumb]]:-translate-y-1/2 [&_[data-part=thumb]]:rounded-full [&_[data-part=thumb]]:bg-[var(--c-primary)] [&_[data-part=thumb]]:shadow-sm " <>
       "[&_[data-part=value]]:absolute [&_[data-part=value]]:inset-0 [&_[data-part=value]]:grid [&_[data-part=value]]:place-items-center [&_[data-part=value]]:text-sm [&_[data-part=value]]:font-medium [&_[data-part=value]]:text-[var(--c-base-content)]"
   end
 end

@@ -68,7 +68,7 @@ defmodule DevelopmentWeb.Showcase.ColorPickerFormDemo do
     [
       "w-56 space-y-3",
       "[&_[data-part=area]]:relative [&_[data-part=area]]:h-36 [&_[data-part=area]]:w-full [&_[data-part=area]]:cursor-crosshair [&_[data-part=area]]:rounded-lg [&_[data-part=area]]:ring-1 [&_[data-part=area]]:ring-black/10",
-      "[&_[data-part=area-thumb]]:size-3.5 [&_[data-part=area-thumb]]:rounded-full [&_[data-part=area-thumb]]:border-2 [&_[data-part=area-thumb]]:border-white [&_[data-part=area-thumb]]:shadow [&_[data-part=area-thumb]]:ring-1 [&_[data-part=area-thumb]]:ring-black/30",
+      "[&_[data-part=area-thumb]]:size-3.5 [&_[data-part=area-thumb]]:rounded-full [&_[data-part=area-thumb]]:border-2 [&_[data-part=area-thumb]]:border-white [&_[data-part=area-thumb]]:shadow-sm [&_[data-part=area-thumb]]:ring-1 [&_[data-part=area-thumb]]:ring-black/30",
       "[&_[data-part=controls]]:flex [&_[data-part=controls]]:items-center [&_[data-part=controls]]:gap-3",
       "[&_[data-part=preview]]:size-8 [&_[data-part=preview]]:shrink-0 [&_[data-part=preview]]:rounded-full [&_[data-part=preview]]:ring-1 [&_[data-part=preview]]:ring-black/10",
       "[&_[data-part=hue]]:h-3 [&_[data-part=hue]]:w-full [&_[data-part=hue]]:cursor-pointer [&_[data-part=hue]]:appearance-none [&_[data-part=hue]]:rounded-full [&_[data-part=hue]]:[background:linear-gradient(to_right,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)]"

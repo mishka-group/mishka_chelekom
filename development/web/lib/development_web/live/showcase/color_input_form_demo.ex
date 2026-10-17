@@ -45,12 +45,12 @@ defmodule DevelopmentWeb.Showcase.ColorInputFormDemo do
           label="Brand color"
           class="relative inline-block w-56"
           control_class="flex items-center gap-2 rounded-md border border-[var(--c-base-300)] bg-[var(--c-base-100)] px-2 py-1.5 focus-within:ring-2 focus-within:ring-[var(--c-primary)]/30"
-          preview_class="size-5 shrink-0 rounded border border-[var(--c-base-300)]"
+          preview_class="size-5 shrink-0 rounded-sm border border-[var(--c-base-300)]"
           text_class="w-24 bg-transparent font-mono text-sm outline-none"
-          trigger_class="ml-auto rounded p-1 text-[var(--c-base-content)]/50 hover:bg-[var(--c-base-200)]"
+          trigger_class="ml-auto rounded-sm p-1 text-[var(--c-base-content)]/50 hover:bg-[var(--c-base-200)]"
           panel_class="absolute left-0 z-20 mt-2 w-56 rounded-lg border border-[var(--c-base-300)] bg-[var(--c-base-100)] p-3 shadow-lg"
           area_class="relative h-36 w-full cursor-crosshair rounded-md"
-          thumb_class="block size-3 rounded-full border-2 border-white shadow"
+          thumb_class="block size-3 rounded-full border-2 border-white shadow-sm"
           hue_class="mt-3 w-full"
         />
         <button

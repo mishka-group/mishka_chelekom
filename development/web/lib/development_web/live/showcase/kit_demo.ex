@@ -62,7 +62,7 @@ defmodule DevelopmentWeb.Showcase.KitDemo do
 
   def demo(%{component: "banner"} = assigns) do
     ~H"""
-    <.banner_kit id="banner-kit-demo" color="brand" class="!static !w-full">
+    <.banner_kit id="banner-kit-demo" color="brand" class="static! w-full!">
       Brand banner
     </.banner_kit>
     """
@@ -221,9 +221,9 @@ defmodule DevelopmentWeb.Showcase.KitDemo do
     <div class="flex flex-wrap items-start gap-4">
       <.device_mockup_kit id="device_mockup-kit-demo" color="brand">
         <div class="pt-10 px-4 space-y-2">
-          <div class="h-3 w-24 bg-gray-300 rounded"></div>
+          <div class="h-3 w-24 bg-gray-300 rounded-sm"></div>
           <div class="h-24 w-full bg-gray-200 rounded-lg"></div>
-          <div class="h-3 w-32 bg-gray-300 rounded"></div>
+          <div class="h-3 w-32 bg-gray-300 rounded-sm"></div>
         </div>
       </.device_mockup_kit>
     </div>
@@ -260,14 +260,14 @@ defmodule DevelopmentWeb.Showcase.KitDemo do
         position="left"
         size="small"
         title="Brand Drawer"
-        class="!absolute !h-full !translate-x-0"
-        overlay_class="!absolute !bg-transparent"
+        class="absolute! h-full! translate-x-0!"
+        overlay_class="absolute! bg-transparent!"
       >
         <ul class="text-sm">
-          <li class="py-2 px-3 rounded hover:bg-white/15 cursor-pointer">Home</li>
-          <li class="py-2 px-3 rounded hover:bg-white/15 cursor-pointer">Inbox</li>
-          <li class="py-2 px-3 rounded hover:bg-white/15 cursor-pointer">Settings</li>
-          <li class="py-2 px-3 rounded hover:bg-white/15 cursor-pointer">Profile</li>
+          <li class="py-2 px-3 rounded-sm hover:bg-white/15 cursor-pointer">Home</li>
+          <li class="py-2 px-3 rounded-sm hover:bg-white/15 cursor-pointer">Inbox</li>
+          <li class="py-2 px-3 rounded-sm hover:bg-white/15 cursor-pointer">Settings</li>
+          <li class="py-2 px-3 rounded-sm hover:bg-white/15 cursor-pointer">Profile</li>
         </ul>
       </.drawer_kit>
     </div>
@@ -293,10 +293,10 @@ defmodule DevelopmentWeb.Showcase.KitDemo do
 
         <:content class="bg-fuchsia-600! text-white! border-fuchsia-600!">
           <ul class="text-sm">
-            <li class="px-3 py-1.5 cursor-pointer rounded hover:bg-white/15">Dashboard</li>
-            <li class="px-3 py-1.5 cursor-pointer rounded hover:bg-white/15">Settings</li>
-            <li class="px-3 py-1.5 cursor-pointer rounded hover:bg-white/15">Earning</li>
-            <li class="px-3 py-1.5 cursor-pointer rounded hover:bg-white/15">Sign out</li>
+            <li class="px-3 py-1.5 cursor-pointer rounded-sm hover:bg-white/15">Dashboard</li>
+            <li class="px-3 py-1.5 cursor-pointer rounded-sm hover:bg-white/15">Settings</li>
+            <li class="px-3 py-1.5 cursor-pointer rounded-sm hover:bg-white/15">Earning</li>
+            <li class="px-3 py-1.5 cursor-pointer rounded-sm hover:bg-white/15">Sign out</li>
           </ul>
         </:content>
       </.dropdown_kit>
@@ -451,8 +451,8 @@ defmodule DevelopmentWeb.Showcase.KitDemo do
         color="brand"
         title="Brand modal"
         size="medium"
-        class="!absolute !inset-0 !block"
-        overlay_class="!absolute !bg-transparent"
+        class="absolute! inset-0! block!"
+        overlay_class="absolute! bg-transparent!"
         wrapper_class="!absolute"
         focus_wrap_class="!block"
       >
@@ -680,7 +680,7 @@ defmodule DevelopmentWeb.Showcase.KitDemo do
         color="brand"
         hide_position="left"
         list_wrapper_class="ps-2.5"
-        class="!relative !h-auto !z-0 max-h-72 w-64 rounded"
+        class="relative! h-auto! z-0! max-h-72 w-64 rounded-sm"
       >
         <:item icon="hero-home" label="Dashboard" link="/" class="mb-3 text-[14px]" />
         <:item icon="hero-envelope" label="Messages" link="/" class="mb-3 text-[14px]" />
