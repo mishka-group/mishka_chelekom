@@ -45,7 +45,7 @@ defmodule <%= @module %> do
     errors={["Enter name"]}
   >
     <:end_section>
-      <button><.<%= @component_prefix %>icon name="hero-clipboard-document" class="size-6" /></button>
+      <button class="cursor-pointer"><.<%= @component_prefix %>icon name="hero-clipboard-document" class="size-6" /></button>
     </:end_section>
   </.<%= @component_prefix %>number_field>
   ```

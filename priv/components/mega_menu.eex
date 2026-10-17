@@ -33,7 +33,7 @@ defmodule <%= @module %> do
   ```elixir
   <.mega_menu id="mega" space="small" rounded="large" padding="extra_small" top_gap="large" clickable>
     <:trigger>
-      <button class="text-start w-full block">MegaMenu</button>
+      <button class="text-start w-full block cursor-pointer">MegaMenu</button>
     </:trigger>
 
     <div>
@@ -193,7 +193,7 @@ defmodule <%= @module %> do
         role="button"
         aria-haspopup="true"
         phx-click={@id && JS.exec("phx-open-mega", to: "##{@id}")}
-        class={["flex items-center", @title_class]}
+        class={["flex items-center cursor-pointer", @title_class]}
       >
         <.<%= @component_prefix %>icon :if={!is_nil(@icon)} name={@icon} class={["mega-menu-icon", @icon_class]} />
         <span>{@title}</span>

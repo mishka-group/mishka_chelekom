@@ -244,6 +244,108 @@ defmodule MishkaChelekom.TailwindV4ClassesTest do
     end
   end
 
+  describe "clickable elements" do
+    # Tailwind v3 gave `button` and `[role=button]` a pointer cursor; v4 leaves the browser's.
+    defp clickable_without_pointer(path, text) do
+      for tag <- opening_tags(text),
+          clickable?(tag),
+          not pointer?(tag, text),
+          do: "#{path}: #{tag |> String.replace(~r/\s+/, " ") |> String.slice(0, 90)}"
+    end
+
+    defp opening_tags(text) do
+      for [{start, _length}] <- Regex.scan(~r/<[a-z][a-z0-9]*\b/, text, return: :index) do
+        rest = binary_part(text, start, byte_size(text) - start)
+        binary_part(rest, 0, tag_end(rest, 0, 0, nil) + 1)
+      end
+    end
+
+    defp tag_end(<<>>, position, _depth, _quote), do: max(position - 1, 0)
+
+    defp tag_end(<<char, rest::binary>>, position, depth, quote) when quote == char,
+      do: tag_end(rest, position + 1, depth, nil)
+
+    defp tag_end(<<_char, rest::binary>>, position, depth, quote) when not is_nil(quote),
+      do: tag_end(rest, position + 1, depth, quote)
+
+    defp tag_end(<<char, rest::binary>>, position, depth, nil) when char in [?", ?'],
+      do: tag_end(rest, position + 1, depth, char)
+
+    defp tag_end(<<?{, rest::binary>>, position, depth, nil),
+      do: tag_end(rest, position + 1, depth + 1, nil)
+
+    defp tag_end(<<?}, rest::binary>>, position, depth, nil),
+      do: tag_end(rest, position + 1, depth - 1, nil)
+
+    defp tag_end(<<?>, _rest::binary>>, position, 0, nil), do: position
+
+    defp tag_end(<<_char, rest::binary>>, position, depth, nil),
+      do: tag_end(rest, position + 1, depth, nil)
+
+    defp clickable?(tag),
+      do: String.starts_with?(tag, "<button") or String.contains?(tag, ~s(role="button"))
+
+    # The tag names `cursor-pointer`, or builds its classes in a helper of the template that does.
+    defp pointer?(tag, text) do
+      String.contains?(tag, "cursor-pointer") or
+        tag
+        |> helper_calls()
+        |> Enum.any?(&(&1 |> helper_body(text) |> String.contains?("cursor-pointer")))
+    end
+
+    defp helper_calls(tag) do
+      case Regex.run(~r/\bclass=\{(.*)\}/s, tag, capture: :all_but_first) do
+        [classes] ->
+          ~r/\b([a-z_][a-z0-9_]*)\(/
+          |> Regex.scan(classes, capture: :all_but_first)
+          |> List.flatten()
+          |> Enum.uniq()
+
+        _ ->
+          []
+      end
+    end
+
+    defp helper_body(name, text) do
+      case Regex.run(~r/\n  defp #{name}\(.*?(?=\n  defp (?!#{name}\()|\n  def |\z)/s, text) do
+        [body] -> body
+        _ -> ""
+      end
+    end
+
+    test "every button and role=button in a styled template has a pointer cursor" do
+      violations =
+        for path <- Path.wildcard("priv/components/*.eex"),
+            problem <- clickable_without_pointer(path, File.read!(path)),
+            do: problem
+
+      assert Enum.take(violations, 20) == []
+    end
+
+    test "a button without cursor-pointer is found" do
+      assert clickable_without_pointer("t.eex", ~s(<button type="button" class={["a", @class]}>)) !=
+               []
+
+      assert clickable_without_pointer("t.eex", ~s(<div role="button" class="a">)) != []
+
+      assert clickable_without_pointer("t.eex", ~s(<button class={["a cursor-pointer", @class]}>)) ==
+               []
+
+      assert clickable_without_pointer("t.eex", ~s(<div class="a">)) == []
+
+      helper = """
+      <button class={[pick(@a)]}>
+
+        defp pick(_a), do: "cursor-pointer"
+      """
+
+      assert clickable_without_pointer("t.eex", helper) == []
+
+      assert clickable_without_pointer("t.eex", String.replace(helper, "cursor-pointer", "x")) !=
+               []
+    end
+  end
+
   describe "the check" do
     test "reads a v3 class and a v4 class apart" do
       v3 =

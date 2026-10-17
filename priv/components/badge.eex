@@ -186,7 +186,7 @@ defmodule <%= @module %> do
     ~H"""
     <button
       type={@type}
-      class={[display_class("dismiss-button inline-flex justify-center items-center w-fit shrink-0", @class), @class]}
+      class={[display_class("dismiss-button inline-flex justify-center items-center w-fit shrink-0 cursor-pointer", @class), @class]}
       aria-label={gettext("close")}
       phx-click={JS.push("dismiss", value: Map.merge(%{id: @id}, @params)) |> hide_badge("##{@id}")}
     >

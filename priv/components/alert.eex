@@ -112,7 +112,7 @@ defmodule <%= @module %> do
       aria-live="assertive"
       aria-labelledby={@title && @id && "#{@id}-title"}
       class={[
-        "flash-alert leading-5",
+        "flash-alert leading-5 cursor-pointer",
         border_class(@border, @variant),
         color_variant(@variant, @kind),
         position_class(@position),
@@ -135,7 +135,7 @@ defmodule <%= @module %> do
           <div class={@content_class}>{msg}</div>
         </div>
 
-        <button type="button" class={["group shrink-0", @button_class]} aria-label={gettext("close")}>
+        <button type="button" class={["group shrink-0 cursor-pointer", @button_class]} aria-label={gettext("close")}>
           <.<%= @component_prefix %>icon name="hero-x-mark-solid" class="alert-icon opacity-40 group-hover:opacity-70" />
         </button>
       </div>

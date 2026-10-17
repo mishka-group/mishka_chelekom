@@ -20,7 +20,7 @@ defmodule <%= @module %> do
 
         <.<%= @component_prefix %>collapse id="my-collapse">
           <:trigger>
-            <button class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg">
+            <button class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg cursor-pointer">
               Toggle Content
             </button>
           </:trigger>
@@ -52,7 +52,7 @@ defmodule <%= @module %> do
           event_handler="notifications-component"
         >
           <:trigger>
-            <button class="flex items-center gap-2">
+            <button class="flex items-center gap-2 cursor-pointer">
               <span>Notifications</span>
               <span class="badge">{@unread_count}</span>
             </button>
@@ -97,7 +97,7 @@ defmodule <%= @module %> do
       class={@class}
     >
       <div class="collapse-item">
-        <div data-collapsible-trigger={@item_id} class="collapse-trigger">
+        <div data-collapsible-trigger={@item_id} class="collapse-trigger cursor-pointer [&_button]:cursor-pointer">
           {render_slot(@trigger)}
         </div>
 
