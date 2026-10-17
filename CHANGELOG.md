@@ -39,6 +39,68 @@
   swapping one element for another
 
 ### Bug fixes:
+- The buttons in the demos and the usage rules show the pointer: 213 examples across `priv/demos`
+  and `usage-rules` (the table, clipboard, collapse, navbar and dropdown demos, the component,
+  headless and hook rules) name `cursor-pointer`, so what a reader copies keeps the cursor v3's
+  preflight gave it. `TailwindV4ClassesTest` reads them as it reads the templates
+- The development showcase's own buttons show the pointer too: the alert preview's dismiss button, a
+  button a page puts in a component's slot, the form-demo submit buttons and the rest — 101 of them.
+  The templates' pointer test never saw them, since they are page markup, so a second test reads the
+  pages. And the sidebar preview can be closed: it held `translate-none!` on its root, which the
+  close command, removing `translate-none`, cannot take away; a test now holds the classes
+  `hide_sidebar`, `show_sidebar`, `hide_drawer` and `show_drawer` add and remove against the roots
+  they are rendered on and against the previews
+- Buttons keep the pointer cursor. Tailwind v3's preflight set `cursor: pointer` on `button` and
+  `[role=button]`; v4's does not, so every clickable the templates render showed the arrow. Each of
+  them carries `cursor-pointer` itself now: 31 elements across `alert`,
+  `badge`, `banner`, `carousel` (arrows and indicators), `clipboard`, `collapse`, `combobox` (trigger
+  and clear button), `dock`, `drawer`, `file_field`, `gallery` (filters), `mega_menu`, `modal`,
+  `password_field`, `search_field`, `sidebar`, `speed_dial` and `toast`, plus the flash `alert`, which
+  dismisses on click, and the trigger of a `clickable` `popover`. The `collapse` trigger also sets it
+  on a `button` inside, which the arrow would otherwise reach through the wrapper. The examples in
+  the component docs use it on their buttons too. The clipboard and
+  collapsible hooks add the class to an element they mark `role=button`. `TailwindV4ClassesTest` fails
+  on a `button` or `role=button` in a styled template that names no `cursor-pointer`, itself or in
+  the helper that builds its classes
+- The daisyUI gallery's focus rings draw in v4. `focus:outline-none` sets the outline style to none
+  and `focus-visible:outline-2` only sets a width, so the breadcrumb links and the `forced-colors`
+  fallbacks of the menu, select and tabs examples (48 classes) never drew a ring; each now has
+  `outline-solid` under the same variants, as the Base UI examples do
+- The class names the kit ships are Tailwind v4's, not v3's. v4 kept most v3 names as aliases, so
+  nothing failed to compile — a class just meant something other than what it was written for. Every
+  class in the templates, demos, showcase examples, usage rules and hooks was compiled with Tailwind
+  4.3.3 and none is a name v4 dropped (`bg-opacity-*`, `flex-shrink-*`, `overflow-ellipsis` and the
+  rest of that list are not in the kit); what was left is below, and `TailwindV4ClassesTest` reads
+  every class string, the showcase examples and the exported bundles for any of it
+- The renamed scale takes its v4 names: `shadow-sm` is `shadow-xs` (39 base variants), a bare
+  `shadow` is `shadow-sm`, `blur` is `blur-sm`, `backdrop-blur-sm` is `backdrop-blur-xs`, `rounded-sm`
+  is `rounded-xs` and a bare `rounded` is `rounded-sm`, with every side and corner form (`rounded-t`
+  is `rounded-t-sm`, `rounded-s` is `rounded-s-sm`, `rounded-ee` is `rounded-ee-sm`). 148 classes in
+  the templates; the size each one draws does not change
+- `focus:outline-none` is `focus:outline-hidden` in the 38 places the templates use it. v4's
+  `outline-none` removes the outline for forced-colors users too; `outline-hidden` is the v3 class,
+  an invisible outline that still shows there. The checkbox and radio card focus ring drops the bare
+  `outline` it set beside `outline-2`, which sets the style in v4
+- `bg-gradient-to-*` is `bg-linear-to-*` in the 371 gradient classes of the buttons, badges, alerts,
+  banners, cards, pagination, progress, stepper, chat and mega menu, with their `hover:`, `rtl:` and
+  arbitrary-variant forms. The `from-`, `via-` and `to-` stops are as they were
+- The important modifier is written at the end (`top-0!`, `[&_.indicator-top-left]:translate-x-0!`,
+  `size-2!`), v4's spelling; the leading `!` is only accepted as a deprecated form. 187 classes, most
+  of them the avatar indicator positions
+- The drawer and the sidebar bring a panel back into view with `translate-none` where they added
+  `transform-none`. v4 moves a panel with the `translate` property, which `transform-none` does not
+  reset, so a custom position class that survived the removal of `-translate-x-full` would have
+  stayed in place
+- A border or divider has a colour of its own. Tailwind v4 draws `border`, `border-*` and `divide-*`
+  in `currentColor` where v3 drew gray-200, so a width class with no colour followed the text colour.
+  Every component was rendered with each variant and colour and its widths matched to colours: the
+  bordered `white` and `dark` accordion draw their item separators in the wrapper's border colour,
+  as every other colour does; a button group's separators are `base-border-light` /
+  `base-border-dark` (through `:where()`, so a button with its own border colour keeps it); the
+  default `combobox` trigger takes the same pair; the `dropdown` gradient variant draws no border,
+  like the gradient variant of every other component; the sidebar toggle, the file field's upload
+  item and the blockquote's caption divider take a colour. A render test of the generated components
+  fails on a border or divider that has none
 - `extra_small` and `small` are two sizes again. Tailwind v4 moved the scale of `rounded`,
   `shadow`, `blur`, `drop-shadow` and `backdrop-blur` down one step, so `rounded-sm` and a bare
   `rounded` are both 0.25rem, and 50 components mapped `extra_small` to the first and `small` to
