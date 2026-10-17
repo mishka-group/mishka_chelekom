@@ -57,7 +57,7 @@ mix mishka.ui.gen.component mega_menu --module MyAppWeb.Components.CustomMegaMen
 ```heex
 <.mega_menu>
   <:trigger>
-    <button class="flex items-center gap-1">
+    <button class="flex items-center gap-1 cursor-pointer">
       Products <.icon name="hero-chevron-down" class="size-4" />
     </button>
   </:trigger>
@@ -109,7 +109,7 @@ mix mishka.ui.gen.component mega_menu --module MyAppWeb.Components.CustomMegaMen
 <nav class="flex items-center gap-6">
   <.mega_menu variant="shadow" padding="large" rounded="large">
     <:trigger>
-      <button class="flex items-center gap-1 font-medium">
+      <button class="flex items-center gap-1 font-medium cursor-pointer">
         Shop <.icon name="hero-chevron-down" class="size-4" />
       </button>
     </:trigger>
@@ -152,7 +152,7 @@ mix mishka.ui.gen.component mega_menu --module MyAppWeb.Components.CustomMegaMen
 ```heex
 <.mega_menu variant="shadow" padding="extra_large">
   <:trigger>
-    <button class="flex items-center gap-1">
+    <button class="flex items-center gap-1 cursor-pointer">
       Products <.icon name="hero-chevron-down" class="size-4" />
     </button>
   </:trigger>
@@ -176,7 +176,7 @@ mix mishka.ui.gen.component mega_menu --module MyAppWeb.Components.CustomMegaMen
 ```heex
 <.mega_menu variant="shadow" color="white">
   <:trigger>
-    <button class="flex items-center gap-1">
+    <button class="flex items-center gap-1 cursor-pointer">
       Resources <.icon name="hero-chevron-down" class="size-4" />
     </button>
   </:trigger>

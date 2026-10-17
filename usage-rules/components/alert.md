@@ -177,8 +177,8 @@ mix mishka.ui.gen.component alert --module MyAppWeb.Components.CustomAlert
 </.flash>
 
 <%# Programmatic show/hide in LiveView %>
-<button phx-click={show_alert("#my-alert")}>Show Alert</button>
-<button phx-click={hide_alert("#my-alert")}>Hide Alert</button>
+<button class="cursor-pointer" phx-click={show_alert("#my-alert")}>Show Alert</button>
+<button class="cursor-pointer" phx-click={hide_alert("#my-alert")}>Hide Alert</button>
 
 <.alert id="my-alert" kind={:success} title="Dynamic Alert" hidden>
   This alert can be shown/hidden programmatically.

@@ -31,7 +31,7 @@ JS hook (`Clipboard`) for copying text to clipboard with visual feedback and acc
   <span class="clipboard-content">Text to copy</span>
 
   <!-- Copy button -->
-  <button class="clipboard-button">
+  <button class="clipboard-button cursor-pointer">
     <span class="clipboard-default-label">Copy</span>
     <span class="clipboard-success-label hidden">Copied!</span>
     <span class="clipboard-error-label hidden">Failed!</span>

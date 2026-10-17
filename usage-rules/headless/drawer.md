@@ -27,7 +27,7 @@ Paired-presence `data-open`/`data-closed` on root + popup (toggled by `FocusTrap
   <:title>Filters</:title>
   <:description>Refine the results.</:description>
   <p>…filter controls…</p>
-  <:close><button data-close>Done</button></:close>
+  <:close><button class="cursor-pointer" data-close>Done</button></:close>
 </.drawer>
 ```
 Attrs: `id` (req), `open`, `side` (default `right`), `labelledby`, `describedby`, `class`, `rest`.

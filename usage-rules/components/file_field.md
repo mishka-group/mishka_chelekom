@@ -184,7 +184,7 @@ raises `KeyError`. A plain file input needs only a `name`, or a `field`.
         <p class="font-medium">{entry.client_name}</p>
         <.progress value={entry.progress} size="small" color="primary" />
       </div>
-      <button type="button" phx-click="cancel-upload" phx-value-ref={entry.ref}>
+      <button class="cursor-pointer" type="button" phx-click="cancel-upload" phx-value-ref={entry.ref}>
         <.icon name="hero-x-mark" class="size-5" />
       </button>
     </div>

@@ -42,7 +42,7 @@ Outside-click and `Escape` (via document listeners added on open) both trigger `
 ```heex
 <.tooltip id="save-tip" side="top">
   <:trigger>
-    <button type="button">Save</button>
+    <button class="cursor-pointer" type="button">Save</button>
   </:trigger>
   Saves your changes to the server.
 </.tooltip>

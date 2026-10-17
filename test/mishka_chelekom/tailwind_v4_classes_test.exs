@@ -322,6 +322,38 @@ defmodule MishkaChelekom.TailwindV4ClassesTest do
       assert Enum.take(violations, 20) == []
     end
 
+    # An example a reader copies: its buttons name the class themselves. Inline code is prose, and
+    # a button that is always disabled shows no pointer.
+    defp example_buttons_without_pointer(path, text) do
+      for tag <- text |> String.replace(~r/`[^`\n]*`/, "") |> opening_tags(),
+          clickable?(tag),
+          not String.contains?(tag, "cursor-pointer"),
+          not Regex.match?(~r/\sdisabled(?=[\s>\/])/, tag),
+          do: "#{path}: #{tag |> String.replace(~r/\s+/, " ") |> String.slice(0, 90)}"
+    end
+
+    test "every button and role=button in a demo or a usage rule has a pointer cursor" do
+      paths =
+        Path.wildcard("priv/demos/*.{ex,heex}") ++
+          Path.wildcard("usage-rules/**/*.md") ++ ["usage-rules.md"]
+
+      violations =
+        for path <- paths,
+            problem <- example_buttons_without_pointer(path, File.read!(path)),
+            do: problem
+
+      assert length(paths) > 150
+      assert Enum.take(violations, 20) == []
+    end
+
+    test "an example button without cursor-pointer is found" do
+      assert example_buttons_without_pointer("t.md", ~s(<button phx-click="x">Go</button>)) != []
+      assert example_buttons_without_pointer("t.md", ~s(<div role="button" class="a">)) != []
+      assert example_buttons_without_pointer("t.md", ~s(<button class="a cursor-pointer">)) == []
+      assert example_buttons_without_pointer("t.md", ~s(<button disabled>Off</button>)) == []
+      assert example_buttons_without_pointer("t.md", "A `<button>` is plain.") == []
+    end
+
     test "a button without cursor-pointer is found" do
       assert clickable_without_pointer("t.eex", ~s(<button type="button" class={["a", @class]}>)) !=
                []

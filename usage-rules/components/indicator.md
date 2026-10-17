@@ -85,7 +85,7 @@ mix mishka.ui.gen.component indicator --module MyAppWeb.Components.CustomIndicat
 ### Ping Animation + Conditional Render (Notification Bell)
 
 ```heex
-<button class="relative p-2 hover:bg-gray-100 rounded-lg">
+<button class="relative p-2 hover:bg-gray-100 rounded-lg cursor-pointer">
   <.icon name="hero-bell" class="size-6" />
   <.indicator :if={@unread_count > 0} color="danger" ping />
 </button>

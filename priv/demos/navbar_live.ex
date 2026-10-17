@@ -185,7 +185,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.NavbarLive do
           padding="extra_small"
         >
           <:trigger>
-            <button class="text-start w-full block">Dropdown</button>
+            <button class="text-start w-full block cursor-pointer">Dropdown</button>
           </:trigger>
 
           <:content>
@@ -202,7 +202,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.NavbarLive do
                   padding="extra_small"
                 >
                   <:trigger>
-                    <button class="py-1 px-2">dropdown nested</button>
+                    <button class="py-1 px-2 cursor-pointer">dropdown nested</button>
                   </:trigger>
 
                   <:content>
@@ -226,7 +226,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.NavbarLive do
                   padding="extra_small"
                 >
                   <:trigger>
-                    <button class="py-1 px-2">Dropdown</button>
+                    <button class="py-1 px-2 cursor-pointer">Dropdown</button>
                   </:trigger>
 
                   <:content>

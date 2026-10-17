@@ -104,7 +104,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.DeviceMockupLive do
           </div>
         <div class="space-y-5">
           <div class="text-xs">By signing up you accepted terms of services</div>
-          <button class="p-1 bg-teal-500 text-white rounded-lg">Sign up</button>
+          <button class="p-1 bg-teal-500 text-white rounded-lg cursor-pointer">Sign up</button>
         </div>
       </div>
     </.device_mockup>

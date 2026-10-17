@@ -62,7 +62,7 @@ Content sources are prioritized in this order:
 ```heex
 <.clipboard text="Text to copy">
   <:trigger>
-    <button class="px-4 py-2 bg-blue-500 text-white rounded-sm">
+    <button class="px-4 py-2 bg-blue-500 text-white rounded-sm cursor-pointer">
       Copy
     </button>
   </:trigger>
@@ -78,7 +78,7 @@ Content sources are prioritized in this order:
 
 <.clipboard target_selector="#code-block">
   <:trigger>
-    <button class="text-sm text-blue-500">Copy command</button>
+    <button class="text-sm text-blue-500 cursor-pointer">Copy command</button>
   </:trigger>
 </.clipboard>
 ```
@@ -95,7 +95,7 @@ Content sources are prioritized in this order:
   error_class="bg-red-500 text-white"
 >
   <:trigger>
-    <button class="px-4 py-2 border rounded-sm transition-colors">Copy</button>
+    <button class="px-4 py-2 border rounded-sm transition-colors cursor-pointer">Copy</button>
   </:trigger>
 </.clipboard>
 ```
@@ -106,7 +106,7 @@ Content sources are prioritized in this order:
 <!-- dynamic_label updates the trigger's label text on copy -->
 <.clipboard text="API Key: abc123" dynamic_label={true}>
   <:trigger>
-    <button class="flex items-center gap-2">
+    <button class="flex items-center gap-2 cursor-pointer">
       <.icon name="hero-clipboard" class="size-5" />
       <span>Copy API Key</span>
     </button>
@@ -116,7 +116,7 @@ Content sources are prioritized in this order:
 <!-- show_status_text=false suppresses the visible status message (icon-only triggers) -->
 <.clipboard text="Secret value" show_status_text={false}>
   <:trigger>
-    <button class="p-2 hover:bg-gray-100 rounded-sm">
+    <button class="p-2 hover:bg-gray-100 rounded-sm cursor-pointer">
       <.icon name="hero-clipboard" class="size-5" />
     </button>
   </:trigger>
@@ -130,7 +130,7 @@ Used when neither `text` nor `target_selector` is provided.
 ```heex
 <.clipboard>
   <:trigger>
-    <button class="btn">Copy Code</button>
+    <button class="btn cursor-pointer">Copy Code</button>
   </:trigger>
   <:content>
 defmodule MyApp do
@@ -149,7 +149,7 @@ end
   text_description="Your unique API key for authentication"
 >
   <:trigger>
-    <button class="btn btn-primary">
+    <button class="btn btn-primary cursor-pointer">
       <.icon name="hero-key" class="size-5" />
       Copy Key
     </button>
@@ -168,7 +168,7 @@ end
   </pre>
   <.clipboard target_selector="#code-example" class="absolute top-2 right-2">
     <:trigger>
-      <button class="p-2 bg-gray-700 hover:bg-gray-600 rounded-sm text-gray-300">
+      <button class="p-2 bg-gray-700 hover:bg-gray-600 rounded-sm text-gray-300 cursor-pointer">
         <.icon name="hero-clipboard" class="size-4" />
       </button>
     </:trigger>
@@ -189,7 +189,7 @@ end
   />
   <.clipboard target_selector="#share-link">
     <:trigger>
-      <button class="px-4 py-2 bg-primary-500 text-white rounded-sm">
+      <button class="px-4 py-2 bg-primary-500 text-white rounded-sm cursor-pointer">
         Copy Link
       </button>
     </:trigger>
@@ -205,7 +205,7 @@ end
   <span id={"color-#{color}"} class="font-mono text-sm">{color}</span>
   <.clipboard text={color} show_status_text={false}>
     <:trigger>
-      <button class="p-1 hover:bg-gray-100 rounded-sm">
+      <button class="p-1 hover:bg-gray-100 rounded-sm cursor-pointer">
         <.icon name="hero-clipboard" class="size-4" />
       </button>
     </:trigger>

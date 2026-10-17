@@ -39,7 +39,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.CollapseLive do
     <!-- Basic collapse example -->
     <.collapse id="basic-collapse">
       <:trigger>
-        <button class="px-4 py-2 bg-blue-500 text-white rounded-sm hover:bg-blue-600">
+        <button class="px-4 py-2 bg-blue-500 text-white rounded-sm hover:bg-blue-600 cursor-pointer">
           Toggle Content
         </button>
       </:trigger>
@@ -56,7 +56,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.CollapseLive do
     <!-- Initially open collapse -->
     <.collapse id="open-collapse" open={true}>
       <:trigger>
-        <button class="px-4 py-2 bg-green-500 text-white rounded-sm hover:bg-green-600">
+        <button class="px-4 py-2 bg-green-500 text-white rounded-sm hover:bg-green-600 cursor-pointer">
           Toggle (Initially Open)
         </button>
       </:trigger>
@@ -73,7 +73,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.CollapseLive do
     <!-- Custom duration collapse -->
     <.collapse id="slow-collapse" duration={500}>
       <:trigger>
-        <button class="px-4 py-2 bg-purple-500 text-white rounded-sm hover:bg-purple-600">
+        <button class="px-4 py-2 bg-purple-500 text-white rounded-sm hover:bg-purple-600 cursor-pointer">
           Slow Animation (500ms)
         </button>
       </:trigger>
@@ -90,7 +90,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.CollapseLive do
     <!-- Lazy loading collapse -->
     <.collapse id="lazy-collapse" lazy={true}>
       <:trigger>
-        <button class="px-4 py-2 bg-orange-500 text-white rounded-sm hover:bg-orange-600">
+        <button class="px-4 py-2 bg-orange-500 text-white rounded-sm hover:bg-orange-600 cursor-pointer">
           Lazy Loaded Content
         </button>
       </:trigger>
@@ -108,7 +108,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.CollapseLive do
     <!-- Server events collapse -->
     <.collapse id="server-collapse" server_events={true}>
       <:trigger>
-        <button class="px-4 py-2 bg-red-500 text-white rounded-sm hover:bg-red-600">
+        <button class="px-4 py-2 bg-red-500 text-white rounded-sm hover:bg-red-600 cursor-pointer">
           Server Events Enabled
         </button>
       </:trigger>

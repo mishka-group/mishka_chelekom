@@ -118,7 +118,7 @@ mix mishka.ui.gen.component toast
 >
   <div class="flex items-center justify-between gap-4">
     <span>{@flash["info"]}</span>
-    <button phx-click={hide_toast("#flash-info")}>
+    <button class="cursor-pointer" phx-click={hide_toast("#flash-info")}>
       <.icon name="hero-x-mark" class="size-4" />
     </button>
   </div>

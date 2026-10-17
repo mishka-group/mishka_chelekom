@@ -203,7 +203,7 @@ The style attributes of `dropdown/1` style its content; the `content` slot takes
   padding="none"
 >
   <:trigger>
-    <button class="flex items-center gap-2">
+    <button class="flex items-center gap-2 cursor-pointer">
       <.avatar src={@current_user.avatar} size="small" rounded="full" />
       <span>{@current_user.name}</span>
       <.icon name="hero-chevron-down" class="size-4" />
@@ -250,12 +250,12 @@ The style attributes of `dropdown/1` style its content; the `content` slot takes
   <:content>
     <.list size="small">
       <:item padding="extra_small">
-        <button phx-click="edit" phx-value-id={item.id} class="flex items-center gap-2 w-full">
+        <button phx-click="edit" phx-value-id={item.id} class="flex items-center gap-2 w-full cursor-pointer">
           <.icon name="hero-pencil" class="size-4" /> Edit
         </button>
       </:item>
       <:item padding="extra_small">
-        <button phx-click="delete" phx-value-id={item.id} class="flex items-center gap-2 w-full text-red-500">
+        <button phx-click="delete" phx-value-id={item.id} class="flex items-center gap-2 w-full text-red-500 cursor-pointer">
           <.icon name="hero-trash" class="size-4" /> Delete
         </button>
       </:item>
@@ -270,7 +270,7 @@ The style attributes of `dropdown/1` style its content; the `content` slot takes
 <nav class="flex items-center gap-4">
   <.dropdown id="products-menu" relative="relative" variant="shadow" rounded="large" padding="medium">
     <:trigger>
-      <button class="flex items-center gap-1">
+      <button class="flex items-center gap-1 cursor-pointer">
         Products <.icon name="hero-chevron-down" class="size-4" />
       </button>
     </:trigger>

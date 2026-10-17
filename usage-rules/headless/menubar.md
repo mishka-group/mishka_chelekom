@@ -62,19 +62,19 @@ Paired-presence (Base-UI style) attrs on each **popup**, toggled by `Popup`, mut
 ```heex
 <.menubar id="app-menubar">
   <:menu label="File">
-    <button type="button" role="menuitem" phx-click="new">New</button>
-    <button type="button" role="menuitem" phx-click="open">Open</button>
-    <button type="button" role="menuitem" phx-click="save">Save</button>
+    <button class="cursor-pointer" type="button" role="menuitem" phx-click="new">New</button>
+    <button class="cursor-pointer" type="button" role="menuitem" phx-click="open">Open</button>
+    <button class="cursor-pointer" type="button" role="menuitem" phx-click="save">Save</button>
   </:menu>
 
   <:menu label="Edit">
-    <button type="button" role="menuitem" phx-click="undo">Undo</button>
-    <button type="button" role="menuitem" phx-click="redo">Redo</button>
+    <button class="cursor-pointer" type="button" role="menuitem" phx-click="undo">Undo</button>
+    <button class="cursor-pointer" type="button" role="menuitem" phx-click="redo">Redo</button>
   </:menu>
 
   <:menu label="View">
-    <button type="button" role="menuitem" phx-click="zoom_in">Zoom In</button>
-    <button type="button" role="menuitem" phx-click="zoom_out">Zoom Out</button>
+    <button class="cursor-pointer" type="button" role="menuitem" phx-click="zoom_in">Zoom In</button>
+    <button class="cursor-pointer" type="button" role="menuitem" phx-click="zoom_out">Zoom Out</button>
   </:menu>
 </.menubar>
 ```

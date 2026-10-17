@@ -39,8 +39,8 @@ The hook expects this DOM structure:
 ```html
 <div id="carousel-1" phx-hook="Carousel" data-autoplay="true">
   <!-- Navigation Buttons -->
-  <button id="carousel-1-carousel-prev">Previous</button>
-  <button id="carousel-1-carousel-next">Next</button>
+  <button class="cursor-pointer" id="carousel-1-carousel-prev">Previous</button>
+  <button class="cursor-pointer" id="carousel-1-carousel-next">Next</button>
 
   <!-- Slides -->
   <div id="carousel-1-carousel-slide-1" class="slide">Slide 1</div>
@@ -48,8 +48,8 @@ The hook expects this DOM structure:
 
   <!-- Indicators -->
   <div class="carousel-indicators">
-    <button data-carousel-indicator="1"></button>
-    <button data-carousel-indicator="2"></button>
+    <button class="cursor-pointer" data-carousel-indicator="1"></button>
+    <button class="cursor-pointer" data-carousel-indicator="2"></button>
   </div>
 </div>
 ```

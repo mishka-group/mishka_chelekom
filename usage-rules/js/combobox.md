@@ -42,7 +42,7 @@ The hook manages this DOM structure:
   </select>
 
   <div class="relative">
-    <button class="combobox-trigger" role="combobox">
+    <button class="combobox-trigger cursor-pointer" role="combobox">
       <span class="combobox-value">Select...</span>
     </button>
 

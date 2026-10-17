@@ -41,7 +41,7 @@
           <.custom_code_wrapper code_class="text-xs" elements_class="py-20" code={@code_1}>
             <.collapse id="basic-collapse">
               <:trigger>
-                <button class="px-4 py-2 bg-blue-500 text-white rounded-sm hover:bg-blue-600">
+                <button class="px-4 py-2 bg-blue-500 text-white rounded-sm hover:bg-blue-600 cursor-pointer">
                   Toggle Content
                 </button>
               </:trigger>
@@ -65,7 +65,7 @@
           <.custom_code_wrapper code_class="text-xs" elements_class="py-20" code={@code_2}>
             <.collapse id="open-collapse" open={true}>
               <:trigger>
-                <button class="px-4 py-2 bg-green-500 text-white rounded-sm hover:bg-green-600">
+                <button class="px-4 py-2 bg-green-500 text-white rounded-sm hover:bg-green-600 cursor-pointer">
                   Toggle (Initially Open)
                 </button>
               </:trigger>
@@ -91,7 +91,7 @@
           <.custom_code_wrapper code_class="text-xs" elements_class="py-20" code={@code_3}>
             <.collapse id="slow-collapse" duration={500}>
               <:trigger>
-                <button class="px-4 py-2 bg-purple-500 text-white rounded-sm hover:bg-purple-600">
+                <button class="px-4 py-2 bg-purple-500 text-white rounded-sm hover:bg-purple-600 cursor-pointer">
                   Slow Animation (500ms)
                 </button>
               </:trigger>
@@ -124,7 +124,7 @@
           <.custom_code_wrapper code_class="text-xs" elements_class="py-20" code={@code_5}>
             <.collapse id="server-collapse" server_events={true}>
               <:trigger>
-                <button class="px-4 py-2 bg-red-500 text-white rounded-sm hover:bg-red-600">
+                <button class="px-4 py-2 bg-red-500 text-white rounded-sm hover:bg-red-600 cursor-pointer">
                   Server Events Enabled
                 </button>
               </:trigger>

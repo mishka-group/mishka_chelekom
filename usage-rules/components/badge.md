@@ -173,8 +173,8 @@ end
 ### Programmatic Show/Hide
 
 ```heex
-<button phx-click={show_badge("#my-badge")}>Show Badge</button>
-<button phx-click={hide_badge("#my-badge")}>Hide Badge</button>
+<button class="cursor-pointer" phx-click={show_badge("#my-badge")}>Show Badge</button>
+<button class="cursor-pointer" phx-click={hide_badge("#my-badge")}>Hide Badge</button>
 
 <.badge id="my-badge" color="success" hidden>
   Revealed!
@@ -187,7 +187,7 @@ end
 
 ```heex
 <div class="relative">
-  <button class="p-2">
+  <button class="p-2 cursor-pointer">
     <.icon name="hero-bell" class="size-6" />
   </button>
   <.badge badge_position="top-right" circle color="danger" size="extra_small">

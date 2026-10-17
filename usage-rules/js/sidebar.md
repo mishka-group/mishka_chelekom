@@ -34,7 +34,7 @@ The hook is attached to the minimize button:
 
 ```html
 <aside id="main-sidebar" class="w-64">
-  <button
+  <button class="cursor-pointer"
     phx-hook="Sidebar"
     data-original-width="w-64"
     data-sidebar-selector="#main-sidebar"
@@ -125,7 +125,7 @@ The hook is attached to the minimize button:
 <div>
   <!-- Mobile toggle button -->
   <button
-    class="md:hidden"
+    class="md:hidden cursor-pointer"
     phx-click={JS.toggle(to: "#mobile-sidebar")}
   >
     <.icon name="hero-bars-3" class="size-6" />

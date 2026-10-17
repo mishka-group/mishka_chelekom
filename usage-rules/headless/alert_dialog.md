@@ -62,8 +62,8 @@ Paired-presence (Base-UI style) attrs, toggled by `FocusTrap` on both root and p
   <p>This action cannot be undone. Are you absolutely sure?</p>
 
   <:actions>
-    <button type="button" data-close>Cancel</button>
-    <button type="button" phx-click="delete_account" data-close>Delete</button>
+    <button class="cursor-pointer" type="button" data-close>Cancel</button>
+    <button class="cursor-pointer" type="button" phx-click="delete_account" data-close>Delete</button>
   </:actions>
 </.alert_dialog>
 ```

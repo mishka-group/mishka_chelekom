@@ -49,7 +49,7 @@ The engine flips `data-open`/`data-closed` on `show()`/`hide()` and keeps `aria-
   <div class="chelekom-popover__panel">
     <p>Signed in as <strong>alex@example.com</strong></p>
     <a href="/settings">Settings</a>
-    <button type="button">Sign out</button>
+    <button class="cursor-pointer" type="button">Sign out</button>
   </div>
 </.popover>
 ```

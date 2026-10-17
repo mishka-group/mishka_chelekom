@@ -210,8 +210,8 @@ end
 ## Programmatic Show/Hide
 
 ```heex
-<button phx-click={show_banner("#promo")}>Show Promo</button>
-<button phx-click={hide_banner("#promo")}>Hide Promo</button>
+<button class="cursor-pointer" phx-click={show_banner("#promo")}>Show Promo</button>
+<button class="cursor-pointer" phx-click={hide_banner("#promo")}>Hide Promo</button>
 
 <.banner id="promo" color="primary" hidden>
   Special promotion content!

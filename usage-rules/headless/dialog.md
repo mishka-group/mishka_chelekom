@@ -66,8 +66,8 @@ Paired-presence (Base-UI style) attrs, toggled by `FocusTrap` on both root and p
   <p>Are you sure you want to permanently delete this project?</p>
 
   <:close>
-    <button type="button" data-close>Cancel</button>
-    <button type="button" phx-click="delete" data-close>Delete</button>
+    <button class="cursor-pointer" type="button" data-close>Cancel</button>
+    <button class="cursor-pointer" type="button" phx-click="delete" data-close>Delete</button>
   </:close>
 </.dialog>
 ```

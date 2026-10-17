@@ -49,7 +49,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.ClipboardLive do
     """
     <.clipboard text="hello@mishka.tools">
       <:trigger>
-        <button>Copy Email</button>
+        <button class="cursor-pointer">Copy Email</button>
       </:trigger>
     </.clipboard>
     """
@@ -61,7 +61,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.ClipboardLive do
 
     <.clipboard target_selector="#copy-me">
       <:trigger>
-        <button>Copy Link</button>
+        <button class="cursor-pointer">Copy Link</button>
       </:trigger>
     </.clipboard>
     """
@@ -71,7 +71,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.ClipboardLive do
     """
     <.clipboard text="https://mishka.tools" timeout={4000}>
       <:trigger>
-        <button>Copy URL</button>
+        <button class="cursor-pointer">Copy URL</button>
       </:trigger>
     </.clipboard>
     """
@@ -81,7 +81,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.ClipboardLive do
     """
     <.clipboard text="Invite Code: CHELEKOM123" success_class="bg-green-500 text-white">
       <:trigger>
-        <button class="px-3 py-1 border rounded-sm">Copy Code</button>
+        <button class="px-3 py-1 border rounded-sm cursor-pointer">Copy Code</button>
       </:trigger>
     </.clipboard>
 
@@ -94,7 +94,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.ClipboardLive do
         success_class="text-emerald-500 dark:text-emerald-800"
       >
         <:trigger>
-          <button class="">
+          <button class="cursor-pointer">
             <span class="mr-1">copy</span>
             <.icon name="hero-clipboard-document-list" class="size-4" />
           </button>
@@ -108,7 +108,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.ClipboardLive do
     """
     <.clipboard text="this-will-fail!" error_class="bg-red-500 text-white">
       <:trigger>
-        <button class="px-3 py-1 border rounded-sm">Copy Text</button>
+        <button class="px-3 py-1 border rounded-sm cursor-pointer">Copy Text</button>
       </:trigger>
     </.clipboard>
     """
@@ -118,7 +118,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.ClipboardLive do
     """
     <.clipboard text="https://chelekom.tools" copy_success_text="Link copied successfully!">
       <:trigger>
-        <button>Copy Link</button>
+        <button class="cursor-pointer">Copy Link</button>
       </:trigger>
     </.clipboard>
     """
@@ -128,7 +128,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.ClipboardLive do
     """
     <.clipboard text={@maybe_invalid_value} copy_error_text="Oops! Something went wrong.">
       <:trigger>
-        <button>Try Copy</button>
+        <button class="cursor-pointer">Try Copy</button>
       </:trigger>
     </.clipboard>
     """
@@ -138,7 +138,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.ClipboardLive do
     """
     <.clipboard text="shahryar@mishka.tools" copy_button_label="Copy email address to clipboard">
       <:trigger>
-        <button aria-hidden="true">📋</button>
+        <button class="cursor-pointer" aria-hidden="true">📋</button>
       </:trigger>
     </.clipboard>
     """
@@ -148,7 +148,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.ClipboardLive do
     """
     <.clipboard text="shahryar@mishka.tools" copy_button_aria_label="Copy email">
       <:trigger>
-        <button aria-hidden="true">📧</button>
+        <button class="cursor-pointer" aria-hidden="true">📧</button>
       </:trigger>
     </.clipboard>
     """
@@ -158,7 +158,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.ClipboardLive do
     """
     <.clipboard text="shahryar@mishka.tools" copy_button_aria_label="Copy email">
       <:trigger>
-        <button aria-hidden="true">📧</button>
+        <button class="cursor-pointer" aria-hidden="true">📧</button>
       </:trigger>
     </.clipboard>
     """
@@ -171,7 +171,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.ClipboardLive do
       text_description="This button copies the documentation link to your clipboard"
     >
       <:trigger>
-        <button aria-hidden="true">🔗</button>
+        <button class="cursor-pointer" aria-hidden="true">🔗</button>
       </:trigger>
     </.clipboard>
     """
@@ -184,7 +184,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.ClipboardLive do
         Invite code: <span class="font-mono">CHELEKOM2025</span>
       </:content>
       <:trigger>
-        <button>Copy Code</button>
+        <button class="cursor-pointer">Copy Code</button>
       </:trigger>
     </.clipboard>
     """
@@ -194,7 +194,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.ClipboardLive do
     """
     <.clipboard text="https://mishka.tools/chelekom">
       <:trigger>
-        <button class="bg-blue-500 text-white px-3 py-1 rounded-sm">Copy Link</button>
+        <button class="bg-blue-500 text-white px-3 py-1 rounded-sm cursor-pointer">Copy Link</button>
       </:trigger>
     </.clipboard>
     """
@@ -208,7 +208,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.ClipboardLive do
       status_class="text-green-600 font-semibold text-sm mt-1"
     >
       <:trigger>
-        <button class="px-3 py-1 border rounded-sm">Copy</button>
+        <button class="px-3 py-1 border rounded-sm cursor-pointer">Copy</button>
       </:trigger>
     </.clipboard>
     """
@@ -223,7 +223,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.ClipboardLive do
       copy_success_text="Copied!"
     >
       <:trigger>
-        <button class="btn btn-primary">Copy</button>
+        <button class="btn btn-primary cursor-pointer">Copy</button>
       </:trigger>
     </.clipboard>
     """
@@ -240,7 +240,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.ClipboardLive do
       dynamic_label={true}
     >
       <:trigger>
-        <button>
+        <button class="cursor-pointer">
           📋 Copy
         </button>
       </:trigger>
@@ -254,7 +254,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.ClipboardLive do
       content_class="block mt-2"
       >
       <:trigger>
-        <button class="btn btn-primary">Copy</button>
+        <button class="btn btn-primary cursor-pointer">Copy</button>
       </:trigger>
       <:content>
         Invite code: <span class="font-mono">CHELEKOM2025</span>

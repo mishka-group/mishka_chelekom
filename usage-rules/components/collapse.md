@@ -56,7 +56,7 @@ Use `event_handler` to override the default event name.
 ```heex
 <.collapse id="basic-collapse">
   <:trigger>
-    <button class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg">
+    <button class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg cursor-pointer">
       Toggle Content
     </button>
   </:trigger>
@@ -69,7 +69,7 @@ Use `event_handler` to override the default event name.
 ```heex
 <.collapse id="open-collapse" open={true} duration={500}>
   <:trigger>
-    <button class="px-4 py-2 bg-blue-500 text-white rounded-sm">Settings</button>
+    <button class="px-4 py-2 bg-blue-500 text-white rounded-sm cursor-pointer">Settings</button>
   </:trigger>
   <div class="p-4 border rounded-sm mt-2">
     <p>Visible by default; uses a 500ms animation.</p>
@@ -82,7 +82,7 @@ Use `event_handler` to override the default event name.
 ```heex
 <.collapse id="server-collapse" server_events={true}>
   <:trigger>
-    <button class="px-4 py-2 border rounded-sm">Track Toggle</button>
+    <button class="px-4 py-2 border rounded-sm cursor-pointer">Track Toggle</button>
   </:trigger>
   <div class="p-4">Opening/closing this sends events to the server.</div>
 </.collapse>
@@ -103,7 +103,7 @@ end
 ```heex
 <.collapse id="custom-collapse" server_events={true} event_handler="panel_toggled">
   <:trigger>
-    <button class="btn">Toggle Panel</button>
+    <button class="btn cursor-pointer">Toggle Panel</button>
   </:trigger>
   <div class="p-4">Panel content</div>
 </.collapse>
@@ -121,7 +121,7 @@ end
 ```heex
 <.collapse id="mounted-collapse" keep_mounted={true}>
   <:trigger>
-    <button class="btn">Toggle (Keep Mounted)</button>
+    <button class="btn cursor-pointer">Toggle (Keep Mounted)</button>
   </:trigger>
   <div class="p-4">This content stays in the DOM even when hidden.</div>
 </.collapse>
@@ -132,7 +132,7 @@ end
 ```heex
 <.collapse id="icon-collapse">
   <:trigger>
-    <button class="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-sm w-full justify-between">
+    <button class="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-sm w-full justify-between cursor-pointer">
       <span>More Options</span>
       <.icon name="hero-chevron-down" class="size-5 transition-transform" />
     </button>
@@ -153,7 +153,7 @@ end
 <div class="space-y-2">
   <.collapse :for={{question, answer, index} <- Enum.with_index(@faqs)} id={"faq-#{index}"}>
     <:trigger>
-      <button class="flex items-center justify-between w-full p-4 text-left bg-gray-50 hover:bg-gray-100 rounded-lg">
+      <button class="flex items-center justify-between w-full p-4 text-left bg-gray-50 hover:bg-gray-100 rounded-lg cursor-pointer">
         <span class="font-medium">{question}</span>
         <.icon name="hero-plus" class="size-5" />
       </button>
@@ -169,7 +169,7 @@ end
 <nav class="space-y-1">
   <.collapse id="menu-products">
     <:trigger>
-      <button class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 rounded-sm">
+      <button class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 rounded-sm cursor-pointer">
         <span class="flex items-center gap-2">
           <.icon name="hero-cube" class="size-5" /> Products
         </span>
@@ -215,7 +215,7 @@ end
 ```heex
 <.collapse id="filters" open={@show_filters} server_events={true}>
   <:trigger>
-    <button class="flex items-center gap-2 px-4 py-2 border rounded-sm">
+    <button class="flex items-center gap-2 px-4 py-2 border rounded-sm cursor-pointer">
       <.icon name="hero-funnel" class="size-5" /> Filters
       <.badge :if={@active_filter_count > 0} color="primary">{@active_filter_count}</.badge>
     </button>

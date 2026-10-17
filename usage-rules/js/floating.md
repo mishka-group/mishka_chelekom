@@ -26,7 +26,7 @@ Expects a trigger and content element:
 ```html
 <div id="dropdown-1" phx-hook="Floating" data-position="bottom" data-floating-type="dropdown">
   <div data-floating-trigger="true" class="dropdown-trigger">
-    <button>Open Menu</button>
+    <button class="cursor-pointer">Open Menu</button>
   </div>
 
   <div class="dropdown-content">

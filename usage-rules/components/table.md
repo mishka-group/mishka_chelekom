@@ -179,13 +179,13 @@ mix mishka.ui.gen.component table
 ```heex
 <.table>
   <:header>
-    <button phx-click="sort" phx-value-field="name" class="flex items-center gap-1">
+    <button phx-click="sort" phx-value-field="name" class="flex items-center gap-1 cursor-pointer">
       Name
       <.icon name="hero-chevron-up-down" class="size-4" />
     </button>
   </:header>
   <:header>
-    <button phx-click="sort" phx-value-field="date" class="flex items-center gap-1">
+    <button phx-click="sort" phx-value-field="date" class="flex items-center gap-1 cursor-pointer">
       Date
       <.icon name="hero-chevron-up-down" class="size-4" />
     </button>

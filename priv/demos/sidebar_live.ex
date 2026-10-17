@@ -123,7 +123,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.SidebarLive do
 
   defp code_string(6) do
     """
-    <button
+    <button class="cursor-pointer"
       phx-click={Sidebar.show_sidebar("unique_sidebar_id", "hide_poistion_value")}
     >
       Open Sidebar

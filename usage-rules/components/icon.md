@@ -98,7 +98,7 @@ None (necessary, optional, or JavaScript).
 ### Loading State
 
 ```heex
-<button class="flex items-center gap-2" disabled={@loading}>
+<button class="flex items-center gap-2 cursor-pointer disabled:cursor-not-allowed" disabled={@loading}>
   <.icon :if={@loading} name="hero-arrow-path" class="size-5 animate-spin" />
   <.icon :if={!@loading} name="hero-paper-airplane" class="size-5" />
   {@loading && "Sending..." || "Send"}

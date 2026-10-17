@@ -175,7 +175,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.MegaMenuLive do
     """
     <.mega_menu>
        <:trigger>
-        <button>Trigger button</button>
+        <button class="cursor-pointer">Trigger button</button>
       </:trigger>
     </.mega_menu>
 

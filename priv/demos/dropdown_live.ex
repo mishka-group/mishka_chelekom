@@ -166,7 +166,7 @@ defmodule MishkaWeb.ChelekomLive.Docs.DropdownLive do
             <li>
               <.dropdown position="right" nomobile>
                 <:trigger>
-                  <button>Nested Dropdown</button>
+                  <button class="cursor-pointer">Nested Dropdown</button>
                 </:trigger>
 
                 <:content

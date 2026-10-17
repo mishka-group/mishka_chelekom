@@ -35,9 +35,9 @@ GalleryFilter
 <div id="gallery-1" phx-hook="GalleryFilter" data-default-filter="All">
   <!-- Filter Buttons -->
   <div class="filter-buttons">
-    <button data-gallery-filter data-category="All">All</button>
-    <button data-gallery-filter data-category="Nature">Nature</button>
-    <button data-gallery-filter data-category="City">City</button>
+    <button class="cursor-pointer" data-gallery-filter data-category="All">All</button>
+    <button class="cursor-pointer" data-gallery-filter data-category="Nature">Nature</button>
+    <button class="cursor-pointer" data-gallery-filter data-category="City">City</button>
   </div>
 
   <!-- Gallery Items -->

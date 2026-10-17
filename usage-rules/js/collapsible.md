@@ -34,7 +34,7 @@ Single/multiple open mode; smooth height-based CSS transitions; optional LiveVie
 ```html
 <div id="accordion-1" phx-hook="Collapsible" data-multiple="false">
   <div class="accordion-item">
-    <button class="accordion-trigger" aria-expanded="false">
+    <button class="accordion-trigger cursor-pointer" aria-expanded="false">
       Section 1
     </button>
     <div class="accordion-content" role="region">
@@ -42,7 +42,7 @@ Single/multiple open mode; smooth height-based CSS transitions; optional LiveVie
     </div>
   </div>
   <div class="accordion-item">
-    <button class="accordion-trigger" aria-expanded="false">
+    <button class="accordion-trigger cursor-pointer" aria-expanded="false">
       Section 2
     </button>
     <div class="accordion-content" role="region">

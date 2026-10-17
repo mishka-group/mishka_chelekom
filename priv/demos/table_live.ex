@@ -217,21 +217,21 @@ defmodule MishkaWeb.ChelekomLive.Docs.TableLive do
         <.td>Alice Johnson</.td>
         <.td>34</.td>
         <.td>No. 5 Broadway, New York, NY 10004, United States</.td>
-        <.td><button>Edit</button></.td>
+        <.td><button class="cursor-pointer">Edit</button></.td>
       </.tr>
 
       <.tr>
         <.td>Michael Scott</.td>
         <.td>45</.td>
         <.td>Scranton, No. 2 Paper Road</.td>
-        <.td><button>Edit</button></.td>
+        <.td><button class="cursor-pointer">Edit</button></.td>
       </.tr>
 
       <.tr>
         <.td>Emily Carter</.td>
         <.td>29</.td>
         <.td>San Francisco, No. 10 Bay Street</.td>
-        <.td><button>Edit</button></.td>
+        <.td><button class="cursor-pointer">Edit</button></.td>
       </.tr>
     </.table>
     """
@@ -253,21 +253,21 @@ defmodule MishkaWeb.ChelekomLive.Docs.TableLive do
         <.td>Alice Johnson</.td>
         <.td>34</.td>
         <.td>No. 5 Broadway, New York, NY 10004, United States</.td>
-        <.td><button>Edit</button></.td>
+        <.td><button class="cursor-pointer">Edit</button></.td>
       </.tr>
 
       <.tr>
         <.td>Michael Scott</.td>
         <.td>45</.td>
         <.td>Scranton, No. 2 Paper Road</.td>
-        <.td><button>Edit</button></.td>
+        <.td><button class="cursor-pointer">Edit</button></.td>
       </.tr>
 
       <.tr>
         <.td>Emily Carter</.td>
         <.td>29</.td>
         <.td>San Francisco, No. 10 Bay Street</.td>
-        <.td><button>Edit</button></.td>
+        <.td><button class="cursor-pointer">Edit</button></.td>
       </.tr>
     </.table>
 

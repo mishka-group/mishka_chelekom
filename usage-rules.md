@@ -401,7 +401,7 @@ The value is an ordinary `Phoenix.LiveView.JS` command, so anything holding a re
 element can run it with `JS.exec/2` and needs to know nothing else about the component:
 
 ```heex
-<button phx-click={JS.exec("data-pb-open", to: "#my-dialog")}>Open</button>
+<button class="cursor-pointer" phx-click={JS.exec("data-pb-open", to: "#my-dialog")}>Open</button>
 ```
 
 Declare only the verbs the component can honestly answer. A `data-pb-toggle` on something that
