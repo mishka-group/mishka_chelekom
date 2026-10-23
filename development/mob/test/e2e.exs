@@ -54,7 +54,7 @@ defmodule MishkaMob.E2E do
   @generated_dirs ~w(build .gradle .cxx jniLibs)
   @adb_ms 15_000
   # Each attach attempt waits 3 seconds for the node to register.
-  @boot_attempts 15
+  @boot_attempts 20
 
   @switches [
     device: :keep,
