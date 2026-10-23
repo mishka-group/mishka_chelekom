@@ -7,6 +7,7 @@ defmodule MishkaMob.MixProject do
       version: "0.1.0",
       elixir: "~> 1.18",
       start_permanent: false,
+      elixirc_paths: elixirc_paths(Mix.env()),
       deps: deps(),
       aliases: aliases(),
       erlc_paths: ["src"],
@@ -17,6 +18,12 @@ defmodule MishkaMob.MixProject do
   def application do
     [extra_applications: [:logger]]
   end
+
+  # test/support holds the device suite's driver and case template. It is compiled
+  # in :test only: the :dev build is what gets pushed to a phone, and ExUnit has
+  # no business there.
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_env), do: ["lib"]
 
   # `mix test` refuses to run inside an alias started in :dev, so the whole gate
   # runs in :test — the env CI tests in.
