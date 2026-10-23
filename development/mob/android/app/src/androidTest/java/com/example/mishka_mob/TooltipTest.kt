@@ -234,43 +234,6 @@ class TooltipTest {
                 .assertIsDisplayed()
         }
     }
-    /**
-     * A REAL touch, through the system — not compose.performClick.
-     *
-     * The panel lives in its own window, and an outside tap only reaches it as
-     * the window manager delivering ACTION_OUTSIDE to a touch-modal window.
-     * Compose's synthetic click is injected straight into one window's
-     * semantics tree and never crosses that boundary, so it can neither dismiss
-     * the popup nor prove that a finger would.
-     */
-    private fun tapOutsideAt(xDp: Float, yDp: Float) {
-        val density = compose.activity.resources.displayMetrics.density
-        val x = xDp * density
-        val y = yDp * density
-        val instr = androidx.test.platform.app.InstrumentationRegistry.getInstrumentation()
-        val down = android.os.SystemClock.uptimeMillis()
-
-        // UiDevice, not Instrumentation.sendPointerSync. The panel is its own window, and
-        // androidx's own PopupDismissTest says why: "Need to click via UiDevice as this
-        // click has to propagate to multiple windows". sendPointerSync goes through the
-        // inject-into-self path, which on API 34+ refuses any event landing outside a
-        // window this app owns — the exact IllegalArgumentException CI was throwing.
-        //
-        // UiDevice takes SCREEN coordinates, so the activity's own offset has to be added
-        // back: elementFrames is relative to the activity window.
-        val origin = intArrayOf(0, 0)
-        compose.activity.window.decorView.getLocationOnScreen(origin)
-        val sx = (origin[0] + x).toInt()
-        val sy = (origin[1] + y).toInt()
-
-        android.util.Log.i("TapProbe", "window=(${x},${y}) origin=(${origin[0]},${origin[1]}) screen=($sx,$sy)")
-
-        androidx.test.uiautomator.UiDevice
-            .getInstance(androidx.test.platform.app.InstrumentationRegistry.getInstrumentation())
-            .click(sx, sy)
-
-        compose.waitForIdle()
-    }
 
     private fun frameOf(tag: String): androidx.compose.ui.geometry.Rect? {
         val json = org.json.JSONObject(MobBridge.elementFrames())
@@ -295,8 +258,7 @@ class TooltipTest {
         Thread.sleep(500)
 
         val bubble = frameOf("tip-copy-open") ?: error("the bubble has no frame")
-        tapOutsideAt(10f, bubble.bottom + 120f)
-
-        compose.waitUntil(10_000) { !tagged("tip-copy-open") }
+        val trigger = frameOf("tip-copy-trigger") ?: error("the trigger has no frame")
+        compose.tapOutside(bubble, trigger) { !tagged("tip-copy-open") }
     }
 }
