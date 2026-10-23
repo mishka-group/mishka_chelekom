@@ -37,25 +37,37 @@ cd development/mob && mix test
 
 # 2. compile the app (what Android Studio needs to see the change)
 cd development/mob/android && ./gradlew assembleDebug
-./gradlew assembleDebugAndroidTest
 
 # 3. deploy to the emulator/device (native rebuild + BEAM push)
 cd development/mob && mix android.native
 
-# 4. run the e2e suite on the device
-cd development/mob && mix e2e                 # all of them
-mix e2e OtpFieldTest                          # one class
+# 4. run the device suite
+cd development/mob && mix e2e                 # every device test, on every attached device
+mix e2e popover                               # one file (popover_test.exs, PopoverTest, ...)
+mix e2e --device emulator-5554                # only this device
 ```
 
-`mix e2e` builds the test APK, installs **only** that (never the app package),
-and runs the instrumentation. It raises when tests fail, because `am instrument`
-exits 0 either way and the verdict is only in its output.
+`mix e2e` is the whole of step 3 and 4 for a day-to-day change. For each attached
+device it installs the APK **only if something native changed** (the Kotlin and JNI
+under `android/`, `priv/`, `config/`, `mob.exs`, `mix.lock`), attaches to the running app
+over Erlang distribution, and hot-loads the modules of your `:dev` build that differ
+from the ones the app has loaded. Then it runs `mix test --only device` once per
+device, in parallel: with two devices attached (a phone and an emulator, say) the
+files of `test/device` are split between them, and one summary comes out at the end.
+It raises when a test fails. How the tests are written and how they drive the app:
+[`test/device/README.md`](test/device/README.md); the runner's options:
+the moduledoc of [`test/e2e.exs`](test/e2e.exs).
 
-**Not `./gradlew connectedDebugAndroidTest`.** That task reinstalls the app APK,
-and Android wipes `/data/user/0/<pkg>/files/` on any reinstall — which is where
-the entire OTP release lives. The BEAM then has no boot file and the app dies
-with `cannot get bootfile` about a second after `onCreate`. Installing only the
-test APK avoids the whole problem.
+**Never `mix mob.push --all`** while the suite is in use: it also pushes the host's
+`mob_nif.beam` over the device's, which breaks the harness. `mix e2e` pushes only this
+app's own modules.
+
+**Not `./gradlew connectedDebugAndroidTest`, and not Android Studio's Run button for
+the app.** Both reinstall the app APK, and Android wipes `/data/user/0/<pkg>/files/`
+on any reinstall — which is where the entire OTP release lives. The BEAM then has no
+boot file and the app dies with `cannot get bootfile` about a second after `onCreate`.
+`mix android.native` installs the APK and pushes the release again; `mix e2e` runs it
+for you when it has to.
 
 The same trap catches Android Studio's **Run** button: it installs the APK and
 leaves the app unable to boot until `mix android.native` re-pushes the release.
@@ -64,8 +76,9 @@ modules but not the release.
 
 Step 2 is only needed when you want Android Studio to pick a change up — step 3
 rebuilds natively on its own. If you changed **only** Elixir, skip both and use
-`mix mob.push`, which hot-pushes the changed modules into the running app
-without rebuilding anything. That is the fast path, and it is most of the day.
+`mix e2e` (which hot-loads what changed), or `mix mob.push` to look at the app
+yourself: it hot-pushes the changed modules into the running app without
+rebuilding anything. That is the fast path, and it is most of the day.
 
 ## No device? Use an emulator
 
@@ -119,7 +132,7 @@ does nothing.
 | | Where | Run with | What it can see |
 |---|---|---|---|
 | **Unit** | `test/mishka_mob/` | `mix test` | The node tree a component returns |
-| **E2E** | `android/app/src/androidTest/` | `mix e2e` | What the device actually draws and does |
+| **Device** | `test/device/` | `mix e2e` | What the device actually draws and does |
 
 Most coverage belongs in the unit tests: they are fast, they run everywhere, and
 `Mob.ScreenCase` asserts on the rendered tree far more precisely than a device
@@ -133,43 +146,45 @@ while typing into the first slot of an OTP inserted at the front. A device is
 the only place those are observable, which is the argument for the second suite
 — and the reason to keep it small rather than mirroring the first.
 
-### Writing e2e tests
+### Writing device tests
 
-They are Compose UI tests, so they read like Playwright: find a node, click it,
-type into it, assert. They run **inside** the app process on the device; they do
-not drive Android Studio, which is only one way to launch them (the green ▶ in
-the gutter of a test class).
+They are ExUnit tests that run on your Mac and drive the real app on the device over
+Erlang distribution (`Mob.Test`): real touches and key events dispatched inside the
+app process, the screen's layout read back as frames. One app runs for the whole
+suite and each test remounts the page it needs, so a test is a few lines:
 
-```kotlin
-compose.onNodeWithText("OTP Field").performClick()
-compose.onNodeWithTag("otp-code").performTextInput("123456")
-compose.onNodeWithText("6 of 6 digits").assertIsDisplayed()
+```elixir
+defmodule MishkaMob.Device.PopoverTest do
+  use MishkaMob.DeviceCase, page: :popover
+
+  test "tapping the trigger opens the panel" do
+    refute_shown("pop-panel")
+
+    tap("pop-trigger-closed")
+
+    assert_shown("pop-panel")
+  end
+end
 ```
 
-Four properties of this app shape every test you will write here:
-
-**The BEAM boots asynchronously.** Nothing is on screen when the Activity
-appears, so every entry point has to `waitUntil` for content rather than assume
-it.
-
-**The BEAM outlives the Activity.** Relaunching `MainActivity` does not reset
-the app — the screen stack is whatever the previous test left behind. Tests
-navigate themselves to a known place and reset the state they depend on.
+`test/device/README.md` has the helpers and the rules that keep them honest. Three
+properties of this app shape every test:
 
 **To target a widget, give it an `id`.** The bridge turns an `:id` prop into a
-Compose `testTag`. Without one there is often nothing to match on — the OTP
-input is invisible by design, so its `id` is the only handle it has. Matching on
-text is also ambiguous more often than you would expect: a field's value shows up
-as `EditableText`, so `onNodeWithText("1")` can match both a slot and the input
-behind it, and Compose refuses ambiguous matches.
+Compose `testTag` and records its frame; the frame table knows only tagged nodes.
+Without one there is often nothing to find — the OTP input is invisible by design,
+so its `id` is the only handle it has. Assert on tags rather than text: a page
+shows its own code sample, so any phrase in it is on screen whether or not the
+component rendered it.
 
 **Never press system back.** Back at the gallery pops the app's root screen and
 Android leaves the app — the launcher becomes the resumed activity and every
 later query silently runs against the home screen, which reads as a timeout
 rather than as navigation walking out of the app. Use the showcase's own
-`← Back` button. And when a click seems to do nothing, check whether the node is
-off-screen: the gallery and each page are `Scroll`s, so most nodes exist in the
-semantics tree but need `performScrollTo()` first.
+`← Back` button, or `fresh_page/2`, which resets the stack.
+
+**Nothing else may drive the device while the suite runs.** A phone someone is
+using, or an emulator another run is on, makes taps land on the wrong screen.
 
 ## Android Studio
 

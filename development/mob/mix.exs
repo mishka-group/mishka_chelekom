@@ -52,6 +52,8 @@ defmodule MishkaMob.MixProject do
       # like blanket rescue, narrator docs, redundant Enum chains, etc).
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:ex_slop, "~> 0.4.2", only: [:dev, :test], runtime: false},
+      # The device suite's report for CI: `mix e2e --report DIR` asks for it.
+      {:junit_formatter, "~> 3.4", only: :test, runtime: false},
       {:mix_audit, "~> 2.1", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.4", only: [:dev], runtime: false}
     ]
@@ -96,9 +98,14 @@ defmodule MishkaMob.MixProject do
 
       # Device tests. `mix test` covers the node trees; this covers what the
       # screen actually does, which is the only place bridge behaviour shows up.
+      # Every attached device runs its share of test/device in parallel; the APK
+      # is installed only when native code changed, the Elixir is hot-loaded.
       #
-      #     mix e2e                 # every device test
-      #     mix e2e OtpFieldTest    # one class
+      #     mix e2e                          # every device test, on every device
+      #     mix e2e otp_field                # one file
+      #     mix e2e --device emulator-5554   # one device
+      #
+      # The options are documented in the moduledoc of test/e2e.exs.
       e2e: [&e2e/1]
     ]
   end
@@ -250,148 +257,10 @@ defmodule MishkaMob.MixProject do
     end
   end
 
-  @test_apk "android/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk"
-  @runner "com.example.mishka_mob.test/androidx.test.runner.AndroidJUnitRunner"
-
-  # Deliberately NOT `gradlew connectedDebugAndroidTest`. That reinstalls the app
-  # APK, and Android wipes the app's files/ directory on any reinstall — which is
-  # where the whole OTP release lives, so the BEAM dies with `cannot get
-  # bootfile` a second after onCreate. Installing only the TEST apk leaves the
-  # app package untouched.
-  # Every @Test relaunches MainActivity, and past roughly 70-85 launches in one process
-  # the app dies at the next Activity teardown — Compose's SlotTable miscounts its own
-  # gap and close() throws. 397 tests in a single `am instrument` sails past that, so
-  # the suite could never finish. Each invocation gets its own app process, so batching
-  # keeps every process well under the threshold.
-  #
-  # This is containment, not a cure: the launch-count bug is real and still open. It
-  # just isn't reachable by anything a user does, and it should not hold the suite (or
-  # a release) hostage while it is investigated.
-  @launch_budget 40
-
+  # Loaded when the alias runs, not at every `mix` invocation, and kept out of lib/ because
+  # lib/ is what gets pushed to a phone. See the module for what `mix e2e` does and takes.
   defp e2e(args) do
-    cmd!(Path.expand("android/gradlew"), ["assembleDebugAndroidTest"], "android")
-    cmd!("adb", ["install", "-r", @test_apk])
-
-    batches =
-      case args do
-        [] -> test_classes() |> batch_by_launches(@launch_budget)
-        names -> [Enum.map(names, &qualify/1)]
-      end
-
-    if length(batches) > 1 do
-      Mix.shell().info(
-        "Running #{length(batches)} batches (≤#{@launch_budget} Activity launches each)\n"
-      )
-    end
-
-    failed =
-      batches
-      |> Enum.with_index(1)
-      |> Enum.reduce([], fn {classes, i}, acc ->
-        if length(batches) > 1 do
-          Mix.shell().info("── batch #{i}/#{length(batches)} ─────────────────────────")
-        end
-
-        case instrument(classes) do
-          :ok -> acc
-          {:failed, tests} -> if retried_ok?(tests), do: acc, else: [i | acc]
-        end
-      end)
-
-    unless failed == [] do
-      Mix.raise(
-        "device tests failed in batch(es) #{failed |> Enum.reverse() |> Enum.join(", ")} " <>
-          "— see the output above"
-      )
-    end
-  end
-
-  # The tests that failed, and only those, get one more run, and one that fails again
-  # fails the suite. The release job's emulator is slower than a phone, and a few tests
-  # that pass on every phone race a re-render there: a different handful each run
-  # (FloatingWindow and Pill on one, Popover, PreviewCard and Tooltip on the next), while
-  # the same suite passes whole on a device. A run that crashed names no test, and is
-  # not retried.
-  defp retried_ok?([]), do: false
-
-  defp retried_ok?(tests) do
-    Mix.shell().info(
-      "\nRetrying #{length(tests)} failed test(s) once: #{Enum.join(tests, ", ")}\n"
-    )
-
-    instrument(tests) == :ok
-  end
-
-  # One `am instrument` run. Streams as it goes: the runner prints each class when it
-  # finishes, but capturing into a string withholds all of it until the command returns,
-  # which makes a wedged suite indistinguishable from a slow one and leaves a killed run
-  # with no test output at all. `tee` keeps a copy because the verdict is read back out
-  # of the text — `am instrument` exits 0 whether tests pass or fail.
-  defp instrument(classes) do
-    log = Path.join(System.tmp_dir!(), "mob_e2e_#{System.unique_integer([:positive])}.log")
-    filter = if classes == [], do: [], else: ["-e", "class", Enum.join(classes, ",")]
-    instrument = Enum.join(["am", "instrument", "-w"] ++ filter ++ [@runner], " ")
-
-    System.cmd("sh", ["-c", "adb shell #{instrument} 2>&1 | tee #{log}"],
-      into: IO.stream(:stdio, :line)
-    )
-
-    out = File.read!(log)
-    File.rm(log)
-
-    cond do
-      String.contains?(out, "FAILURES!!!") -> {:failed, failed_tests(out)}
-      String.contains?(out, "OK (") -> :ok
-      true -> {:failed, []}
-    end
-  end
-
-  # JUnit's summary names each failure as `1) a_test_method(com.example.mishka_mob.SomeTest)`;
-  # `am instrument -e class` takes it back as `com.example.mishka_mob.SomeTest#a_test_method`.
-  defp failed_tests(out) do
-    ~r/^\d+\) (\w+)\(([\w.]+)\)\r?$/m
-    |> Regex.scan(out, capture: :all_but_first)
-    |> Enum.map(fn [method, class] -> "#{class}##{method}" end)
-    |> Enum.uniq()
-  end
-
-  # Every *Test.kt, paired with its @Test count — the number of Activity launches it
-  # will cost. Read from source so a new class is batched the moment it lands.
-  defp test_classes do
-    "android/app/src/androidTest/**/*Test.kt"
-    |> Path.wildcard()
-    |> Enum.sort()
-    |> Enum.map(fn path ->
-      tests = path |> File.read!() |> then(&Regex.scan(~r/^\s*@Test\b/m, &1)) |> length()
-      {qualify(Path.basename(path, ".kt")), max(tests, 1)}
-    end)
-  end
-
-  # Greedy pack, in the runner's own order, so a batch reads as a contiguous run.
-  defp batch_by_launches(classes, budget) do
-    classes
-    |> Enum.reduce({[], [], 0}, fn {name, tests}, {done, current, spent} ->
-      if current != [] and spent + tests > budget,
-        do: {[Enum.reverse(current) | done], [name], tests},
-        else: {done, [name | current], spent + tests}
-    end)
-    |> then(fn {done, current, _} -> Enum.reverse([Enum.reverse(current) | done]) end)
-    |> Enum.reject(&(&1 == []))
-  end
-
-  defp qualify(name) do
-    if String.contains?(name, "."), do: name, else: "com.example.mishka_mob." <> name
-  end
-
-  # System.cmd resolves the binary against PATH, not against :cd — so the
-  # wrapper needs an absolute path even though it runs inside android/.
-  defp cmd!(bin, args, dir \\ ".") do
-    opts = [into: IO.stream(:stdio, :line), cd: dir]
-
-    case System.cmd(bin, args, opts) do
-      {_, 0} -> :ok
-      {_, code} -> Mix.raise("#{bin} #{Enum.join(args, " ")} failed with exit #{code}")
-    end
+    Code.require_file("test/e2e.exs")
+    MishkaMob.E2E.run(args)
   end
 end

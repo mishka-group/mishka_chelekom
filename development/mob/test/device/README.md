@@ -1,23 +1,44 @@
 # Device tests
 
-Host-driven ExUnit tests for the real MishkaMob app on a phone. One app runs for
-the whole suite; each test remounts the page it needs and drives it with real
-in-process touches over Erlang distribution (`Mob.Test`). This replaces the
-Compose instrumentation in `android/app/src/androidTest`, which relaunched the
+Host-driven ExUnit tests for the real MishkaMob app on a phone or an emulator. One app
+runs for the whole suite; each test remounts the page it needs and drives it with real
+in-process touches over Erlang distribution (`Mob.Test`). They replaced the Compose
+instrumentation that lived in `android/app/src/androidTest`, which relaunched the
 Activity for every test.
 
 ## Running
 
 ```sh
-# once: build and install an app that has the harness (this branch's MobBridge.kt)
-ASDF_ZIG_VERSION=0.17.0-dev.269+ebff43698 JAVA_HOME=/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home \
-  mix android.native --device <adb serial>
+mix e2e                          # the whole suite, on every attached device
+mix e2e popover                  # one file (popover_test.exs, PopoverTest, ...)
+mix e2e test/device/popover_test.exs:61   # one test
+mix e2e --device emulator-5554   # only this device
+```
 
-# attach the tunnels without restarting the app (after a replug or an adb restart)
-mix mob.connect --no-iex --no-restart
+`mix e2e` (the runner is `test/e2e.exs`; its moduledoc lists the options) does what used to
+be done by hand, per device:
 
-mix test --only device                              # the whole device suite
-mix test --only device test/device/popover_test.exs # one class
+1. installs the APK with `mix android.native` **only if something native changed** since it
+   last did (the Kotlin and JNI under `android/`, `priv/`, `config/`, `mob.exs`,
+   `mix.lock`), and otherwise leaves the install alone;
+2. attaches to the running app in the Mac's EPMD, with the adb tunnels `mix mob.connect`
+   sets up, restarting the app only if it does not answer;
+3. hot-loads the modules of this app's `:dev` build that differ (by MD5) from the ones the
+   app has loaded. Only this app's: never `mob_nif`, which is why it is not `mix mob.push`
+   (`--all` overwrites the app's `mob_nif.beam` and the harness stops answering, and plain
+   `mix mob.push` pushes nothing for beams that were compiled before it ran);
+4. runs `mix test --only device` once per device in its own OS process, with
+   `MOB_DEVICE_NODE` and `MIX_TEST_PARTITION` set and `--partitions` equal to the number of
+   devices, so a phone and an emulator each take half of the files. One summary at the end.
+
+On the build machine (`mix android.native` needs them):
+`ASDF_ZIG_VERSION=0.17.0-dev.269+ebff43698` and
+`JAVA_HOME=/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home`.
+
+By hand, with one device and the app already running with its tunnels up:
+
+```sh
+mix test --only device                                   # the whole suite
 mix test --only device test/device/popover_test.exs:61   # one test
 ```
 
@@ -25,15 +46,13 @@ A plain `mix test` (and `mix precommit`) excludes `:device` and never touches a
 phone. The suite finds the app in the Mac's EPMD, reads its cookie from
 `~/.mob/dist_cookies`, and checks that the build on the phone can be driven; if
 not it says what to run. `MOB_DEVICE_NODE=<name>@127.0.0.1` picks one when
-several phones are registered.
+several devices are registered (`mix e2e` sets it for each partition).
 
-After a Kotlin change reinstall with `mix android.native`; after an Elixir change
-under `lib/` push with plain `mix mob.push`, or restart and redeploy with
-`mix mob.connect --no-iex`. Never `mix mob.push --all`: it overwrites the app's
-`mob_nif.beam` and the harness stops answering. Changes to the tests themselves need
-neither.
+`mix e2e --report DIR` keeps a JUnit file per partition, each partition's output and the
+device's logcat in `DIR`. CI runs it as two shards, one emulator each
+(`mix e2e --device emulator-5554 --shard 1/2 --report ...`), and uploads `DIR` on failure.
 
-The phone is shared: nothing else should be driving it while the suite runs.
+Nothing else should be driving a device while the suite runs.
 
 ## Writing a test
 
@@ -60,11 +79,7 @@ Address everything by tag, the `:id` of its node. The frame table (`frame/1`,
 `assert_shown/2`) knows only tagged nodes, and a node that left the screen has no
 frame. Assert on tags rather than page text: the page is one eagerly rendered
 tree, and every code sample is text too. If the component you are porting lacks a
-tag you need, add one to its page; the Kotlin tests asked for them the same way.
-
-When porting a Kotlin class, keep one test per `@Test` and keep its comments when
-they explain why. Leave the Kotlin class where it is: `androidTest` is deleted in one
-go, once every class has a device test.
+tag you need, add one to its page.
 
 ## The helpers
 

@@ -33,38 +33,27 @@ grep -c "handle_info" lib/mishka_mob/showcase/components/<name>.ex
 
 Also confirm every sample matches what it actually renders. They drift.
 
-## 4. e2e test
+## 4. Device test
 
-A device test that would have caught the bug you just fixed.
+A device test that would have caught the bug you just fixed. It is an ExUnit file in `test/device/`, run from the Mac against the real app (`test/device/README.md` has the helpers and the rules).
 
 ```bash
-ls android/app/src/androidTest/java/com/example/mishka_mob/
-mix android          # ← DEPLOY THE ELIXIR FIRST. `mix e2e` does not.
-mix e2e <Name>Test
+ls test/device/
+mix e2e <name>          # one file: popover, PopoverTest, popover_test.exs
 ```
 
-**`mix e2e` only builds and runs the Kotlin.** It does not push BEAM files, so without `mix android` you are testing the device's old Elixir and every conclusion you draw is about code you already changed. The tell is a showcase page still quoting a `code:` sample you edited. This cost several wasted runs and one wrong diagnosis.
+`mix e2e` installs the APK only when native code changed and hot-loads the Elixir modules that differ from the app's, so there is no separate deploy step. It does **not** push mob's own modules (`mix mob.push --all` overwrites the device's `mob_nif.beam` and breaks the harness: never use it with the suite).
 
-Assert the thing the node tree cannot show — geometry, hit-testing, a round trip through the screen. If `mix test` could already prove it, it does not belong here.
+Assert the thing the node tree cannot show: geometry, hit-testing, a round trip through the screen. If `mix test` could already prove it, it does not belong here.
 
-### Scroll first, then measure
+### Tap through the helpers, measure settled frames
 
-A node outside the scroll viewport reports `(0, 0, 0, 0)` **whatever its layout**. So a zero rect means one of two completely different things, and measuring before scrolling cannot tell them apart:
+`tap/2` scrolls the page to the tag first and confirms a handler received the touch. A frame is read with `settled_frame/1` (a popup panel follows its anchor a frame behind) and `frame/1` is `nil` for a node that is not laid out. To see what is on screen when a test fails, the failure message of `assert_shown/2` lists the tags near the one you named; `render_tree/0` is the tree the screen produced.
 
-```kotlin
-compose.onAllNodesWithText(label, substring = false)[0].performScrollTo()
-compose.waitForIdle()
-val rect = boundsOf(label)          // only NOW is this worth anything
-```
+For the device's own side of a failure, `mix e2e --report tmp/e2e <name>` keeps its logcat next to the output:
 
-If it is still zero-width after scrolling, it is a real layout bug. To see where a node actually sits — including off-screen — dump the tree, which prints true bounds either way:
-
-```kotlin
-android.util.Log.d("DUMP", compose.onRoot().printToString(maxDepth = 60))
-```
 ```bash
-adb logcat -c && mix e2e <Name>Test >/dev/null 2>&1
-adb logcat -d -s DUMP | grep -B3 "Text = '\[Import\]'"
+grep -E "AndroidRuntime|FATAL|MobBridge" tmp/e2e/logcat-emulator-5554.txt
 ```
 
 ## 5. Props check, both directions
@@ -94,7 +83,7 @@ cd .. && cd .. && mix mishka.mob.sync --yes
 
 ## Give text-less controls an `:id`
 
-Mob turns `:id` into a native testTag, and it is the **only** handle a device test has on a
+Mob turns `:id` into a native testTag and records its frame, and it is the **only** handle a device test has on a
 control that renders no text. Needed so far by the colour-swatch, the tree's disclosure arrows and
 checkboxes, the skeleton's bars, and all four colour canvases — so assume any new drawn or
 icon-only control needs one, and add it with the fix rather than when the test fails.
@@ -156,7 +145,7 @@ Prefer a slot to an opaque list-of-nodes prop: the component can then own the la
 
 ```bash
 mix format --check-formatted && mix compile --warnings-as-errors && mix test
-mix deploy --android && mix e2e
+mix e2e
 ```
 
 Then commit per logical change. **Never push** — that is the user's call.
@@ -164,5 +153,4 @@ Then commit per logical change. **Never push** — that is the user's call.
 ## Traps that cost real time
 
 - A `~S"""` sample containing `~MOB"""` closes the outer heredoc. Use the single-line `~MOB"…"` form inside samples.
-- `performClick` fires at a node's coordinates whether or not they are on screen — always `performScrollTo` first, or the tap misses silently with no exception.
-- Infinite animations and Compose idling: the suite once hit `IdlingResourceTimeoutException` in a run where a page with an indeterminate `Progress` had just been added, and `performScrollTo` waits for idle. But `ProgressTest` later walked exactly such a page with the ordinary helpers and passed, so treat this as a suspect to check rather than a rule. **Do not** "fix" it with `compose.mainClock.autoAdvance = false` — that freezes the whole render loop, and because this app's trees arrive from the BEAM asynchronously, nothing renders at all and every assertion times out.
+- A page shows its own `code:` sample as text, so assert on tags and on strings only the render produces.

@@ -11,7 +11,7 @@ pick up cold.
 
 > Android is the reference implementation for all of these. When you fix the iOS
 > side, port the Android behaviour rather than inventing a second one, and
-> re-run the matching `mix e2e <Component>Test` on both platforms.
+> re-run the matching device test (`mix e2e <component>`) on both platforms.
 
 ---
 
