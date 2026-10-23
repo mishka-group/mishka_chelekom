@@ -161,6 +161,24 @@ defmodule MishkaMob.Components.MishkaPill do
   `fill_width` fills its parent, which made every pill a full-width bar. Pass
   `fill_width={true}` for a pill that really should span its container.
 
+  ## A pill does not shrink, so a row of them needs a budget
+
+  Hugging has a price: the pill is as wide as its content and has no way to be
+  narrower. A `Row` measures its children in order, each against what the
+  previous ones left, so when the pills in a row add up to more than the row,
+  the **last** pill is handed less than it needs — and inside it the last thing
+  to be measured, the ✕. The label has already taken its width, so it is the
+  glyph that is squeezed and clipped sideways, while the first pills in the row
+  look fine.
+
+  Nothing in a `Row` wraps, and Mob reports no geometry back, so the pill
+  cannot notice and the caller has to budget. A pill is `2 × padding`, plus the
+  label, plus `remove_gap`, plus the ✕ wide: at the default 16sp, "Item 0" with
+  a ✕ is about 86dp.
+  Declare the number per row from the narrowest phone you support (360dp, less
+  the page and card padding around the row), and shrink `text_size`,
+  `remove_gap` or `padding` before adding a pill to a row that is already tight.
+
   ## The content row centres, and `content_align` is how you stop it
 
   Everything inside the pill — the `leading` slot, the label, the ✕ — sits in

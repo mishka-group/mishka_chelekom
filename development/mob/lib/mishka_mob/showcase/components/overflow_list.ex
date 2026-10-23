@@ -133,7 +133,7 @@ defmodule MishkaMob.Showcase.Components.OverflowList do
         <MishkaOverflowList
           visible={@visible}
           on_counter={:more}
-        >{tag_pills()}</MishkaOverflowList>
+        >{rail_pills()}</MishkaOverflowList>
 
         def handle_info({:tap, :more}, socket) do
           {:noreply, Mob.Socket.assign(socket, :visible, socket.assigns.visible + 1)}
@@ -143,7 +143,7 @@ defmodule MishkaMob.Showcase.Components.OverflowList do
           ~MOB"""
           <Column fill_width={true}>
             <MishkaOverflowList visible={@visible} on_counter={:more} id="more">
-              {tag_pills()}
+              {rail_pills()}
             </MishkaOverflowList>
             <Spacer size={10} />
             <Text text="Tap +N to reveal one more." text_size={:sm} text_color={:muted} />
@@ -197,6 +197,11 @@ defmodule MishkaMob.Showcase.Components.OverflowList do
 
   defp fit(width), do: MishkaOverflowList.fit(@rail_tags, width)
 
+  # The short labels. The resizable rail needs them so the count swings as you
+  # drag, and the tap-to-reveal example needs them for the opposite reason: each
+  # tap adds an item to a row nothing here can measure, so they have to be words
+  # a few more of which still fit. With "LiveView" as the fourth, one tap
+  # reveals an item that does not fit a 385dp phone.
   defp rail_pills, do: Enum.map(@rail_tags, &pill(label: &1))
 
   defp dp(width), do: width |> round() |> Integer.to_string()
@@ -326,7 +331,7 @@ defmodule MishkaMob.Showcase.Components.OverflowList do
 
   @impl true
   def handle(:more, socket),
-    do: Mob.Socket.assign(socket, :visible, min(socket.assigns.visible + 1, length(@tags)))
+    do: Mob.Socket.assign(socket, :visible, min(socket.assigns.visible + 1, length(@rail_tags)))
 
   def handle(_tag, socket), do: socket
 

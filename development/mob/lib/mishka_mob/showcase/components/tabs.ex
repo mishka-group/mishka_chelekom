@@ -107,7 +107,8 @@ defmodule MishkaMob.Showcase.Components.Tabs do
       },
       %Example{
         title: "Without the indicator",
-        description: "indicator: false drops the underline; colour still marks the active tab.",
+        description:
+          "indicator: false drops the underline; colour and weight still mark the active tab.",
         code: ~S"""
         <MishkaTabs active={@tab} indicator={false} on_change={:pick}>{tabs_list}</MishkaTabs>
         """,
@@ -218,6 +219,12 @@ defmodule MishkaMob.Showcase.Components.Tabs do
         default: ":primary",
         description: "Active label and indicator."
       },
+      %{
+        name: "backdrop",
+        type: "color / ARGB",
+        default: ":surface",
+        description: "The colour behind the strip. The underline is drawn against it."
+      },
       %{name: "space", type: "number", default: "18", description: "Gap between tabs."},
       %{
         name: "scrollable",
@@ -258,7 +265,7 @@ defmodule MishkaMob.Showcase.Components.Tabs do
         <Column>
           <Box width={38} height={8} background={:primary} corner_radius={:radius_sm} />
           <Spacer size={5} />
-          <Box fill_width={true} height={2} background={:primary} corner_radius={:radius_sm} />
+          <Box width={38} height={2} background={:primary} corner_radius={:radius_sm} />
         </Column>
         <Spacer size={12} />
         <Box width={30} height={8} background={:muted} corner_radius={:radius_sm} />

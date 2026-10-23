@@ -38,6 +38,17 @@ defmodule MishkaMob.Components.MishkaToolbar do
   Buttons and links carry the hold; an input does not, because a text field
   consumes its own long press to place a selection.
 
+  ## A link's rule is padding, not a node
+
+  A link is underlined so it does not read as a button. The rule is the colour of
+  a wrapper showing through one pixel of bottom padding under the label, which is
+  painted in whatever the item sits on (the strip's `background`, or the group's
+  `group_background` inside a labelled group). A rule of its own, a `fill_width`
+  Box under the label, would be measured against everything the Row has left and
+  take all of it, leaving the separator and input after the link zero wide. The
+  cost is that a custom background has to be a colour the label can match: a
+  `:transparent` strip falls back to `:background`.
+
   ## Nothing wraps, so overflow is a decision
 
   A `Row` runs off the edge rather than flowing onto a second line, and nothing
@@ -528,9 +539,18 @@ defmodule MishkaMob.Components.MishkaToolbar do
       # A weight divides a bounded main axis. Under :scroll there is no bound to
       # divide, and in a Column the main axis is height, which an input must not
       # be allowed to eat.
-      weighted?: vertical? == false and overflow != :scroll
+      weighted?: vertical? == false and overflow != :scroll,
+      # What an item sits on, which a link's rule has to be painted against.
+      backdrop: backdrop(Map.get(props, :background) || :surface_raised)
     }
   end
+
+  # A link's rule shows through a one-pixel gap under an opaque label, so the
+  # label has to be painted in the colour of whatever is behind it — and a strip
+  # that is itself transparent has nothing to match, so the page it sits on is the
+  # best answer there is.
+  defp backdrop(:transparent), do: :background
+  defp backdrop(color), do: color
 
   # Chunk consecutive items sharing a `:group`, exactly as the web does — an
   # ungrouped run comes back with a nil label and renders bare.
@@ -546,9 +566,12 @@ defmodule MishkaMob.Components.MishkaToolbar do
   defp group_nodes(%{label: nil, items: items}, ctx), do: Enum.map(items, &item(&1, ctx))
 
   defp group_nodes(%{label: label, items: items}, ctx) do
+    fill = Map.get(ctx.props, :group_background) || :surface
+    on_group = %{ctx | backdrop: backdrop(fill)}
+
     inner =
       items
-      |> Enum.map(&item(&1, ctx))
+      |> Enum.map(&item(&1, on_group))
       |> Enum.intersperse(gap(Map.get(ctx.props, :space) || 8))
 
     lane = if ctx.vertical?, do: column(inner), else: row(inner)
@@ -557,12 +580,7 @@ defmodule MishkaMob.Components.MishkaToolbar do
     # prop FILLS its parent, so the first group swallowed the strip and every
     # item after it went off the edge.
     node = ~MOB"""
-    <Box
-      fill_width={false}
-      background={Map.get(ctx.props, :group_background) || :surface}
-      corner_radius={:radius_sm}
-      padding={2}
-    >
+    <Box fill_width={false} background={fill} corner_radius={:radius_sm} padding={2}>
       {lane}
     </Box>
     """
@@ -636,26 +654,36 @@ defmodule MishkaMob.Components.MishkaToolbar do
     <Text text={text} text_size={:base} text_color={ink} max_lines={1} />
     """
 
-    # The rule is a Box with `fill_width` inside a hugging Column, so it is
-    # exactly as wide as the text above it — the trick MishkaAnchor uses, and
-    # the only way to underline anything in Mob.
+    # The rule is the backdrop's own colour showing through, not a node of its
+    # own. The obvious rule, a `fill_width` Box under the label in a Column, is
+    # as wide as the text only where the Column is told a width: in a Row it is
+    # measured against everything the Row has left, so the rule took all of it,
+    # the link grew to the strip's edge, and the separator and input after it
+    # were left zero wide. An outer Box in `ink` with one pixel of bottom
+    # padding, holding a label painted in the backdrop colour, leaves exactly
+    # that pixel visible under the text and nothing wider than the text itself.
     label =
       if rule? do
+        painted = put(caption, :background, ctx.backdrop)
+
         ~MOB"""
-        <Column>
-          {caption}
-          <Box fill_width={true} height={1} background={ink} />
-        </Column>
+        <Box fill_width={false} background={ink} padding_bottom={1}>
+          {painted}
+        </Box>
         """
       else
         caption
       end
 
+    # A link's face is not rounded. A corner radius clips the content, and the
+    # clip's anti-aliased edge lets a little of the `ink` Box show round the
+    # painted label's corners: a faint grey outline round every link.
     ~MOB"""
-    <Box fill_width={false} corner_radius={:radius_sm} padding={:space_sm} align={:center}>
+    <Box fill_width={false} padding={:space_sm} align={:center}>
       {label}
     </Box>
     """
+    |> put(:corner_radius, unless(rule?, do: :radius_sm))
     |> put(:id, item_tag(ctx.id, Map.get(item, :id), disabled?))
     |> put(:on_tap, select(ctx, Map.get(item, :id), disabled?))
     |> put(:on_long_press, hold(ctx, Map.get(item, :id), disabled?))

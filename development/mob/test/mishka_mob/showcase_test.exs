@@ -379,8 +379,9 @@ defmodule MishkaMob.ShowcaseTest do
 
     test "standalone example triggers are full-width, not weight (so they don't collapse)" do
       view = mount_screen(ComponentScreen, %{slug: :drawer})
-      open_sheet = find(view, :button, text: "Open the sheet")
+      open_sheet = find(view, :box, id: "sheet-open")
 
+      assert text(open_sheet) == "Open the sheet"
       assert open_sheet.props.fill_width == true
       refute Map.has_key?(open_sheet.props, :weight)
     end

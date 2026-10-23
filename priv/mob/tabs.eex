@@ -53,11 +53,28 @@ defmodule <%= @module %> do
   | `on_change` | event tag (atom) | — | Sent as `{:tap, {tag, tab_id}}`. |
   | `indicator` | boolean | `true` | Underline the active tab. |
   | `color` | color token / ARGB int | `:primary` | Active label and indicator. |
+  | `backdrop` | color token / ARGB int | `:surface` | The colour behind the strip. See "The underline". |
   | `space` | number | `18` | Gap between tabs. |
   | `scrollable` | boolean | `true` | The strip drags sideways when the tabs overflow. |
   | `id` | string | `nil` | Test tags — see below. |
 
   Per tab (`:mishka_tab` props): `id`, `label`, `disabled`.
+
+  ## The underline, and the colour behind the strip
+
+  The active tab is drawn in `color`, in a heavier weight, with a 2dp underline
+  exactly as wide as its label. Mob has no way to ask for a rule "as wide as the
+  text above it": a Box that fills its parent fills a horizontal `Scroll` not at
+  all and a plain `Row` entirely, so the underline is made the other way round.
+  The label is wrapped in a Box of `color` with 2dp of bottom padding and is
+  itself painted opaque, which leaves exactly that 2dp showing beneath it.
+
+  The cost is that the label has to be painted in the colour of whatever is
+  behind the strip, or the active tab shows as a slightly different rectangle.
+  `backdrop` is that colour. It defaults to `:surface`, which is what a card or
+  a sheet is made of; set it to `:background` for tabs on the bare screen, or to
+  the strip's own fill. Nothing else reads it, and without an underline
+  (`indicator: false`) it is never drawn.
 
   ## The strip scrolls, because a Row cannot wrap
 
@@ -91,6 +108,10 @@ defmodule <%= @module %> do
   alias <%= @namespace %>.Event
 
   @tab_type :mishka_tab
+
+  # The underline's thickness, and the gap between it and the label.
+  @indicator_height 2
+  @label_gap 6
 
   @doc """
   Composite expander (`<<%= @module_prefix_camel %>Tabs>`). Children are `:mishka_tab` nodes.
@@ -241,17 +262,32 @@ defmodule <%= @module %> do
         true -> :on_surface
       end
 
+    indicator? = Map.get(props, :indicator) != false
+    label = label(item, props, text_color, active?)
+    thickness = @indicator_height
+
+    # The underline is the outer Box's own colour showing through a 2dp gap under
+    # the label, which is painted in the colour of whatever is behind the strip.
+    # It is not a Box of its own under the label, because no width can be given
+    # to that Box: with `fill_width` it takes whatever the parent measures it
+    # against, which inside the horizontal Scroll is unbounded and so ZERO (no
+    # underline at all), and inside a plain Row is everything the Row has left
+    # (the first tab swallows the strip). Wrapping the label has neither problem:
+    # the wrapper hugs it, so the underline is exactly as wide as the text.
+    face =
+      if active? and indicator? do
+        ~MOB"""
+        <Box fill_width={false} background={color} padding_bottom={thickness}>
+          {label}
+        </Box>
+        """
+      else
+        label
+      end
+
     node = ~MOB"""
     <Column>
-      <Text text={item.label} text_size={:base} text_color={text_color} />
-      <Spacer size={6} />
-      <Box
-        fill_width={true}
-        height={2}
-        background={color}
-        corner_radius={:radius_sm}
-        :if={active? and Map.get(props, :indicator) != false}
-      />
+      {face}
     </Column>
     """
 
@@ -261,6 +297,28 @@ defmodule <%= @module %> do
       nil -> node
       target -> %{node | props: Map.put(node.props, :on_tap, target)}
     end
+  end
+
+  # The label, which also carries the room the underline needs. Every tab keeps
+  # the same height whether or not it is the active one, so choosing a tab never
+  # moves the strip: the active label's gap sits inside its underline wrapper and
+  # the rest pad their own bottom by the same amount.
+  defp label(item, props, text_color, active?) do
+    indicator? = Map.get(props, :indicator) != false
+    underlined? = active? and indicator?
+    reserve = if indicator?, do: @indicator_height, else: 0
+
+    node = ~MOB"""
+    <Text text={item.label} text_size={:base} text_color={text_color} />
+    """
+
+    node
+    |> put(:padding_bottom, if(underlined?, do: @label_gap, else: @label_gap + reserve))
+    |> put(:background, if(underlined?, do: Map.get(props, :backdrop) || :surface))
+    # The active tab is also set in a heavier weight. The accent colour alone is
+    # not enough: a theme whose primary sits close to its text colour draws the
+    # active tab the same as the rest, and the underline is optional.
+    |> put(:font_weight, if(active?, do: :semibold))
   end
 
   defp trigger_tag(nil, _item, _active?), do: nil
@@ -301,8 +359,13 @@ defmodule <%= @module %> do
     |> tag(if(is_binary(id), do: panel_id(id)))
   end
 
+  # A tab with no panel renders no panel column at all, so there is nothing to tag.
+  defp tag(nil, _id), do: nil
   defp tag(node, nil), do: node
   defp tag(node, id), do: %{node | props: Map.put(node.props, :id, id)}
+
+  defp put(node, _key, nil), do: node
+  defp put(node, key, value), do: %{node | props: Map.put(node.props, key, value)}
 
   defp truthy?(nil), do: false
   defp truthy?(false), do: false

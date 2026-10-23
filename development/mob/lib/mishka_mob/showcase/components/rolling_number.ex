@@ -60,25 +60,23 @@ defmodule MishkaMob.Showcase.Components.RollingNumber do
               <MishkaRollingNumber value={@rn_value} />
             </Box>
             <Spacer size={12} />
-            <Row fill_width={true}>
-              <Button
-                text="Roll to 1,284"
-                background={:primary}
-                text_color={:on_primary}
-                padding={:space_sm}
-                weight={1}
-                on_tap={{self(), :rn_roll}}
-              />
-              <Spacer size={8} />
-              <Button
-                text="Reset"
-                background={:surface_raised}
-                text_color={:on_surface}
-                padding={:space_sm}
-                weight={1}
-                on_tap={{self(), :rn_reset}}
-              />
-            </Row>
+            <Button
+              text="Roll to 1,284"
+              background={:primary}
+              text_color={:on_primary}
+              padding={:space_sm}
+              fill_width={true}
+              on_tap={{self(), :rn_roll}}
+            />
+            <Spacer size={8} />
+            <Button
+              text="Reset"
+              background={:surface_raised}
+              text_color={:on_surface}
+              padding={:space_sm}
+              fill_width={true}
+              on_tap={{self(), :rn_reset}}
+            />
           </Column>
           """
         end
@@ -92,16 +90,16 @@ defmodule MishkaMob.Showcase.Components.RollingNumber do
         """,
         render: fn _assigns ->
           ~MOB"""
-          <Row fill_width={true}>
+          <Column fill_width={true}>
             <Button
               text="Roll down to 42"
               background={:surface_raised}
               text_color={:on_surface}
               padding={:space_sm}
-              weight={1}
+              fill_width={true}
               on_tap={{self(), :rn_down}}
             />
-          </Row>
+          </Column>
           """
         end
       },

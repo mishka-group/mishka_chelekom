@@ -192,7 +192,7 @@ defmodule MishkaMob.Showcase.Components.NumberField do
         name: "placeholder",
         type: "string",
         default: "nil",
-        description: "Shown while empty."
+        description: "Shown while empty. It sets the value slot's width, so it stays on one line."
       },
       %{
         name: "disabled",
@@ -217,7 +217,7 @@ defmodule MishkaMob.Showcase.Components.NumberField do
         name: "size",
         type: "number",
         default: "56",
-        description: "Stepper edge, and the strip's height."
+        description: "Stepper edge, and the strip's height: the value slot is pinned to it."
       },
       %{
         name: "fill_width",
@@ -229,7 +229,8 @@ defmodule MishkaMob.Showcase.Components.NumberField do
         name: "value_width",
         type: "number",
         default: "estimated",
-        description: "The value slot's width. Estimated from the rendered text unless set."
+        description:
+          "The value slot's width. Estimated from the rendered text and the placeholder unless set."
       },
       %{
         name: "background · corner_radius",

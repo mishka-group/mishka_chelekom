@@ -71,6 +71,53 @@ defmodule MishkaMob.Components.MishkaSliderTest do
     end
   end
 
+  describe "vertical" do
+    # The bridge parks the rotated track in a box that is `length` tall and 48dp
+    # wide, and a child cannot be wider than its box: without a width of its own
+    # the node drew a 48dp stub of track and nothing more.
+    test "carries a width as long as the track, so the bridge's box opens up to it" do
+      node = MishkaSlider.slider(value: 40, orientation: :vertical, length: 180)
+
+      assert node.type == :slider
+      assert node.props.orientation == :vertical
+      assert node.props.length == 180
+      assert node.props.width == 180
+    end
+
+    test "names the length it falls back to, so width and track cannot disagree" do
+      node = MishkaSlider.slider(value: 40, orientation: :vertical)
+
+      assert node.props.length == 160
+      assert node.props.width == 160
+    end
+
+    test "reads the orientation spelled as a string, as it comes off the web" do
+      node = MishkaSlider.slider(value: 40, orientation: "vertical", length: 120)
+
+      assert node.props.width == 120
+    end
+
+    test "a two-thumb vertical slider is just as long" do
+      node = MishkaSlider.slider(values: [20, 60], orientation: :vertical, length: 200)
+
+      assert node.props.values == [20, 60]
+      assert node.props.width == 200
+    end
+
+    test "keeps its width when a label wraps it in a column" do
+      tree = MishkaSlider.slider(value: 40, label: "Level", orientation: :vertical, length: 180)
+
+      assert tree.type == :column
+      assert find(tree, :slider).props.width == 180
+    end
+
+    test "a horizontal slider is never given a width: it fills its parent" do
+      for props <- [[value: 40], [value: 40, orientation: :horizontal, length: 180]] do
+        refute Map.has_key?(MishkaSlider.slider(props).props, :width)
+      end
+    end
+  end
+
   describe "label and readout" do
     test "a bare slider is a single node" do
       assert MishkaSlider.slider(value: 40).type == :slider

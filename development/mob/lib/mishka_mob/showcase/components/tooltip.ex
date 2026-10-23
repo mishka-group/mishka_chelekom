@@ -16,6 +16,17 @@ defmodule MishkaMob.Showcase.Components.Tooltip do
 
   @dark_fill 0xFF_11_18_27
 
+  # A bubble floats in a window of its own and takes no room in the page, so an
+  # example that holds several open at once has to leave each one its own: with
+  # the triggers 14dp apart, every bubble landed on its neighbour's trigger and
+  # the first one covered the description above it. Measured on a device: the
+  # body is two 8dp paddings around a line of text, the arrow adds 6dp, and
+  # "side left" is about 70dp wide. The figures carry slack for a larger system
+  # font.
+  @bubble_height 52
+  @bubble_width 96
+  @between 14
+
   @impl true
   def entry do
     %{
@@ -87,8 +98,8 @@ defmodule MishkaMob.Showcase.Components.Tooltip do
         title: "Every side, with an arrow",
         description:
           "side puts the bubble above, below or beside the trigger and turns the arrow to " <>
-            "match. It displaces the layout rather than floating over it — nothing here can " <>
-            "measure a trigger's rectangle.",
+            "match. The bubble floats over the page and takes no room, so each trigger here " <>
+            "is given space for its own.",
         code: ~S"""
         <MishkaTooltip
           id="side-left"
@@ -112,7 +123,8 @@ defmodule MishkaMob.Showcase.Components.Tooltip do
         title: "Align, and the two offsets",
         description:
           "align places the bubble across the side, side_offset is the gap to the trigger " <>
-            "and align_offset nudges along the alignment axis.",
+            "and align_offset nudges along the alignment axis. All three are open at once, " <>
+            "so each has room of its own above it.",
         code: ~S"""
         <MishkaTooltip
           id="align-end"
@@ -144,6 +156,7 @@ defmodule MishkaMob.Showcase.Components.Tooltip do
           id="dismiss-sticky"
           text="Only a second hold closes me"
           open={@sticky?}
+          side={:right}
           close_on_tap={false}
           on_open_change={:sticky}
         >
@@ -158,31 +171,30 @@ defmodule MishkaMob.Showcase.Components.Tooltip do
         """,
         render: fn assigns ->
           ~MOB"""
-          <Row fill_width={true}>
+          <Column fill_width={true}>
             <MishkaTooltip
               id="dismiss-soft"
               text="Tap me to close"
               open={@tip_soft}
-              side={:bottom}
+              side={:right}
               fill_width={false}
               on_open_change={:tip_soft}
             >
               <MishkaActionIcon icon="✕" variant={:filled} />
             </MishkaTooltip>
-            <Spacer size={20} />
+            <Spacer size={14} />
             <MishkaTooltip
               id="dismiss-sticky"
               text="Hold to close"
               open={@tip_sticky}
-              side={:bottom}
+              side={:right}
               fill_width={false}
               close_on_tap={false}
               on_open_change={:tip_sticky}
             >
               <MishkaActionIcon icon="📌" variant={:filled} />
             </MishkaTooltip>
-            <Spacer weight={1} />
-          </Row>
+          </Column>
           """
         end
       },
@@ -290,7 +302,7 @@ defmodule MishkaMob.Showcase.Components.Tooltip do
         name: "side",
         type: ":top :bottom :left :right",
         default: ":top",
-        description: "Which side of the trigger the bubble is stacked on."
+        description: "Which side of the trigger the bubble floats on. Flips when it has no room."
       },
       %{
         name: "align",
@@ -357,13 +369,13 @@ defmodule MishkaMob.Showcase.Components.Tooltip do
         name: "offset_x / offset_y",
         type: "number",
         default: "nil",
-        description: "Static nudge in dp. Not anchoring."
+        description: "Raw nudge on the bubble in dp, applied last."
       },
       %{
         name: "fill_width",
         type: "boolean",
-        default: "true",
-        description: "Turn off to sit several tooltips in one Row."
+        default: "—",
+        description: "No longer read: the trigger always hugs the control it wraps."
       },
       %{
         name: "id",
@@ -422,8 +434,9 @@ defmodule MishkaMob.Showcase.Components.Tooltip do
         <MishkaActionIcon icon={glyph} variant={:filled} />
       </MishkaTooltip>
       """
+      |> staged(side, 6)
     end)
-    |> Enum.intersperse(%{type: :spacer, props: %{size: 14}, children: []})
+    |> Enum.intersperse(gap(@between))
   end
 
   defp alignments do
@@ -432,7 +445,7 @@ defmodule MishkaMob.Showcase.Components.Tooltip do
       {"align-center", :center, "center", 0, 6},
       {"align-end", :end, "end", -12, 16}
     ]
-    |> Enum.map(fn {id, align, label, nudge, gap} ->
+    |> Enum.map(fn {id, align, label, nudge, side_gap} ->
       ~MOB"""
       <MishkaTooltip
         id={id}
@@ -440,14 +453,15 @@ defmodule MishkaMob.Showcase.Components.Tooltip do
         open={true}
         align={align}
         align_offset={nudge}
-        side_offset={gap}
+        side_offset={side_gap}
         arrow={true}
       >
         <MishkaActionIcon icon="◆" variant={:filled} />
       </MishkaTooltip>
       """
+      |> staged(:top, side_gap)
     end)
-    |> Enum.intersperse(%{type: :spacer, props: %{size: 14}, children: []})
+    |> Enum.intersperse(gap(@between))
   end
 
   # The fill is read out of the attribute HERE, not inside the ~MOB below:
@@ -474,9 +488,31 @@ defmodule MishkaMob.Showcase.Components.Tooltip do
         <MishkaActionIcon icon="◐" variant={:filled} />
       </MishkaTooltip>
       """
+      |> staged(:top, 6)
     end)
-    |> Enum.intersperse(%{type: :spacer, props: %{size: 14}, children: []})
+    |> Enum.intersperse(gap(@between))
   end
+
+  # Room for an open bubble on its own side of the trigger, as part of the page.
+  # The tooltip's side_offset is the gap to the trigger, so it counts too. A
+  # bubble on the right needs none: it sits level with the trigger, whose height
+  # it matches, and a column of triggers already clears it.
+  defp staged(tooltip, :top, side_gap),
+    do: %{type: :column, props: %{}, children: [room(side_gap + @bubble_height), tooltip]}
+
+  defp staged(tooltip, :bottom, side_gap),
+    do: %{type: :column, props: %{}, children: [tooltip, room(side_gap + @bubble_height)]}
+
+  defp staged(tooltip, :left, side_gap),
+    do: %{type: :row, props: %{}, children: [across(side_gap + @bubble_width), tooltip]}
+
+  defp staged(tooltip, :right, _side_gap), do: tooltip
+
+  # An empty Box rather than a Spacer: a Spacer's size is both its width and its
+  # height, so a 100dp run of empty space in a Row would also be 100dp tall.
+  defp room(height), do: %{type: :box, props: %{width: 1, height: height}, children: []}
+  defp across(width), do: %{type: :box, props: %{width: width, height: 1}, children: []}
+  defp gap(size), do: %{type: :spacer, props: %{size: size}, children: []}
 
   defp tapped(nil), do: "Tap a control to use it; hold one to see what it does"
   defp tapped(which), do: "tapped #{which}"

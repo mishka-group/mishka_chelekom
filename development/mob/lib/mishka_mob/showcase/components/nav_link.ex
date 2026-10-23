@@ -368,6 +368,12 @@ defmodule MishkaMob.Showcase.Components.NavLink do
         description: "on_tap carries the href back."
       },
       %{
+        name: "Anchor: backdrop",
+        type: "color",
+        default: ":surface",
+        description: "Colour behind the link; the underline shows through under it."
+      },
+      %{
         name: "Anchor: open/1",
         type: "helper",
         default: "—",

@@ -26,6 +26,14 @@ defmodule MishkaMob.Components.MishkaSlider do
   `orientation={:vertical}` turns the control a quarter turn; `length` sets how
   long the track is, since a rotated slider cannot inherit a width.
 
+  A vertical slider is sent with its `width` set to `length` as well. The
+  Android bridge parks the rotated track in a box that is `length` tall and only
+  48dp wide, and a child cannot be wider than the box that holds it, so on its
+  own the track is clipped to a 48dp stub: a thumb with a short run of track
+  either side. Giving the node itself `length` of width is what lets the box
+  open up to the track. The control then takes a `length` by `length` square with
+  the track down its middle, so `length` has to fit the width of its parent.
+
   Two thumbs are a hand-built control, not Compose's `RangeSlider` — that one
   clamps the dragged thumb and then reports the clamped value, so once they meet
   nothing says the finger is still pushing. Owning the drag means always knowing
@@ -49,7 +57,6 @@ defmodule MishkaMob.Components.MishkaSlider do
   | `values` | `[lo, hi]` | `nil` | Two thumbs. Overrides `value`. Android only. |
   | `orientation` | `:horizontal` `:vertical` | `:horizontal` | Android only. |
   | `length` | number | `160` | Track length when vertical. |
-  | `min_gap` | number | `0` | Least distance between the two thumbs. |
   | `min_gap` | number | `0` | Least distance between the two thumbs. |
   | `collision` | `:push` `:stop` | `:push` | What happens when they meet. |
   | `label` | string | `nil` | Caption above the track. |
@@ -86,6 +93,9 @@ defmodule MishkaMob.Components.MishkaSlider do
 
   alias MishkaMob.Components.Event
 
+  # What the bridge falls back to when a vertical slider names no `length`.
+  @default_length 160
+
   @doc "Composite expander (`<MishkaSlider />`). Delegates to `slider/1`."
   @spec expand(map(), [map()], map()) :: map()
   def expand(props, _children, _ctx), do: slider(props)
@@ -102,6 +112,7 @@ defmodule MishkaMob.Components.MishkaSlider do
     min = Map.get(props, :min) || 0
     max = Map.get(props, :max) || 100
     value = Map.get(props, :value) || min
+    length = track_length(props)
 
     track =
       ~MOB(<Slider min={min} max={max} value={value} />)
@@ -111,7 +122,8 @@ defmodule MishkaMob.Components.MishkaSlider do
       |> put_prop(:min_gap, Map.get(props, :min_gap))
       |> put_prop(:collision, Map.get(props, :collision))
       |> put_prop(:orientation, Map.get(props, :orientation))
-      |> put_prop(:length, Map.get(props, :length))
+      |> put_prop(:length, length)
+      |> put_prop(:width, if(vertical?(props), do: length))
       |> put_prop(:on_change, Event.handler(Map.get(props, :on_change)))
 
     case header(props, value) do
@@ -192,6 +204,15 @@ defmodule MishkaMob.Components.MishkaSlider do
   end
 
   def parse_range(_reported), do: :error
+
+  defp vertical?(props), do: Map.get(props, :orientation) in [:vertical, "vertical"]
+
+  # A vertical slider always names its length, so the width that opens the
+  # bridge's box up to the track and the length it draws can never disagree.
+  defp track_length(props) do
+    length = Map.get(props, :length)
+    if vertical?(props), do: length || @default_length, else: length
+  end
 
   defp range_values(props) do
     case Map.get(props, :values) do

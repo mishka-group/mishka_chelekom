@@ -20,7 +20,16 @@ defmodule MishkaMob.Showcase.Components.Pill do
   # Per row, declared rather than measured. Mob reports no geometry back to
   # render/1, so nothing can ask how many pills fit; MishkaOverflowList takes a
   # declared count for the same reason.
+  #
+  # Three have to fit the NARROWEST phone, because a row that is too wide does
+  # not wrap or shrink its pills: the last pill is handed what the others left
+  # and its ✕ is clipped sideways. At the default 16sp a "Item 0 ✕" pill is
+  # about 86dp, three of them with their gaps are 274dp, and a 360dp phone has
+  # 262dp inside the box below. So the tokens are drawn compact: 14sp with a
+  # 6dp ✕ gap is about 77dp a pill, 247dp for the row.
   @per_row 3
+  @token_text_size :sm
+  @token_remove_gap 6
 
   @impl true
   def entry do
@@ -59,7 +68,7 @@ defmodule MishkaMob.Showcase.Components.Pill do
               pills =
                 chunk
                 |> Enum.map(fn tag ->
-                  ~MOB"<MishkaPill label={tag.label} with_remove={true} on_remove={{:drop, tag.id}} />"
+                  ~MOB"<MishkaPill label={tag.label} text_size={:sm} remove_gap={6} with_remove={true} on_remove={{:drop, tag.id}} />"
                 end)
                 |> Enum.intersperse(~MOB(<Spacer size={8} />))
 
@@ -84,7 +93,7 @@ defmodule MishkaMob.Showcase.Components.Pill do
               corner_radius={:radius_md}
               border_color={:border}
               border_width={1}
-              padding={:space_md}
+              padding={:space_sm}
             >
               {token_rows(@pill_tokens)}
             </Box>
@@ -308,7 +317,13 @@ defmodule MishkaMob.Showcase.Components.Pill do
         pills =
           chunk
           |> Enum.map(fn {id, label} ->
-            pill(label: label, with_remove: true, on_remove: {:token_drop, id})
+            pill(
+              label: label,
+              text_size: @token_text_size,
+              remove_gap: @token_remove_gap,
+              with_remove: true,
+              on_remove: {:token_drop, id}
+            )
           end)
           |> Enum.intersperse(%{type: :spacer, props: %{size: 8}, children: []})
 

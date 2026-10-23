@@ -42,6 +42,24 @@ defmodule MishkaMob.Components.MishkaTooltip do
   aside — and `side: :top` only ever meant "earlier in the stack". Nothing
   flipped and nothing clamped, because nothing in flow knows where the edge is.
 
+  ## Leave it room
+
+  Because the bubble takes no space in the page, nothing in the layout makes way
+  for it: an open bubble is drawn over whatever sits within reach of its trigger
+  — the text above it, the next control below it, another tooltip's trigger.
+  The placement is right (each bubble sits `side_offset` off its own trigger and
+  is centred, started or ended by `align`); it is the page that has to be
+  spaced for it. Where several are open at once, leave about
+  `side_offset + 52`dp on the bubble's side of each trigger, or about
+  `side_offset + 96`dp for a short hint on the left or right. A tooltip open on
+  its own needs nothing but the room its text takes.
+
+  The arrow is drawn for the `side` you asked for. When the bubble flips because
+  that side has no room, the node tree has already been built, so the arrow does
+  not turn with it and then points away from the trigger. Keep a trigger that
+  sits at a screen edge on the side that has room, rather than relying on the
+  flip, whenever `arrow` is on.
+
   With NO children there is nothing to anchor to, and that case is unchanged:
   you get the bare bubble for a screen that places its own, and `offset_x` /
   `offset_y` move it directly.

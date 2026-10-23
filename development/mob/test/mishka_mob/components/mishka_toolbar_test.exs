@@ -128,12 +128,75 @@ defmodule MishkaMob.Components.MishkaToolbarTest do
     end
 
     test "a link is tinted and underlined, so colour is not the only difference" do
-      tree = MishkaToolbar.toolbar(%{}, [MishkaToolbar.link(:docs, "Docs")])
+      tree = MishkaToolbar.toolbar(%{id: "tb"}, [MishkaToolbar.link(:docs, "Docs")])
       label = find(tree, :text, text: "Docs")
-      rule = tree |> find_all(:box) |> Enum.find(&(&1.props[:height] == 1))
+      link = tagged(tree, "tb-docs")
+
+      # The rule is the wrapper's own colour showing through one pixel of bottom
+      # padding under the label, so it is exactly as wide as the label.
+      rule = find(link, :box, padding_bottom: 1)
 
       assert label.props.text_color == :primary
       assert rule.props.background == :primary
+      assert rule.props.fill_width == false
+      assert rule.children == [label]
+    end
+
+    test "a link's rule is drawn by padding, not by a Box that fills" do
+      # A `fill_width` Box under the label took everything the Row had left, so the
+      # link grew to the strip's edge and the separator and input after it were
+      # zero wide: the bar drew only "B" and "Docs", with the find box gone.
+      tree = MishkaToolbar.toolbar(%{id: "tb"}, [MishkaToolbar.link(:docs, "Docs")])
+      link = tagged(tree, "tb-docs")
+
+      assert link |> flatten() |> Enum.filter(&(&1.props[:fill_width] == true)) == []
+      assert link |> flatten() |> Enum.filter(&(&1.props[:height] == 1)) == []
+    end
+
+    test "the label is painted in the colour behind it, which is what leaves the rule showing" do
+      docs = [MishkaToolbar.link(:docs, "Docs", group: "Nav")]
+      loose = [MishkaToolbar.link(:docs, "Docs")]
+
+      backdrop = fn props, items ->
+        props |> MishkaToolbar.toolbar(items) |> find(:text, text: "Docs") |> Map.fetch!(:props)
+      end
+
+      assert backdrop.(%{}, loose).background == :surface_raised
+      assert backdrop.(%{background: 0xFF111827}, loose).background == 0xFF111827
+      # A labelled group has its own fill, and that is what its items sit on.
+      assert backdrop.(%{}, docs).background == :surface
+      assert backdrop.(%{group_background: :muted}, docs).background == :muted
+      # A transparent strip has nothing to match, so the page behind it is used.
+      assert backdrop.(%{background: :transparent}, loose).background == :background
+    end
+
+    test "a link's face is not rounded, so no clip edge outlines the painted label" do
+      tree = MishkaToolbar.toolbar(%{id: "tb"}, kinds())
+
+      refute Map.has_key?(tagged(tree, "tb-docs").props, :corner_radius)
+      assert tagged(tree, "tb-bold").props.corner_radius == :radius_sm
+    end
+
+    test "a button's label is not painted, only a link's" do
+      tree = MishkaToolbar.toolbar(%{}, [MishkaToolbar.button(:bold, "Bold")])
+
+      refute Map.has_key?(find(tree, :text, text: "Bold").props, :background)
+    end
+
+    test "every item sits in the row without filling it, so the ones after it keep their width" do
+      tree = MishkaToolbar.toolbar(%{id: "tb"}, kinds())
+      items = find(tree, :row).children |> Enum.reject(&(&1.type == :spacer))
+
+      assert [bold, docs, _separator, find_box] = items
+
+      for item <- [bold, docs] do
+        assert item.props.fill_width == false
+        assert item |> flatten() |> Enum.filter(&(&1.props[:fill_width] == true)) == []
+      end
+
+      # The input is the one flexible item: it takes what the others leave.
+      assert find_box.props.weight == 1
+      refute Map.has_key?(find_box.props, :width)
     end
 
     test "link_color and item_color override the ink" do
