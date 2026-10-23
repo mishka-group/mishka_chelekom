@@ -99,7 +99,18 @@ import android.view.PixelCopy
 import android.view.WindowManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
+import android.content.pm.ApplicationInfo
+import android.os.Looper
+import android.view.InputDevice
+import android.view.KeyCharacterMap
+import android.view.KeyEvent
+import android.view.MotionEvent
+import android.view.View
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.draw.clip
@@ -329,7 +340,8 @@ object MobBridge {
     class ScrollHandle {
         var scrollState: ScrollState? = null // pixel-precise vertical/horizontal scroll
         var lazyState: LazyListState? = null // item-indexed list
-        var viewportPx: Int = 0 // measured viewport extent (for ScrollState kind)
+        var viewportW: Int = 0 // measured viewport width in px (for ScrollState kind)
+        var viewportH: Int = 0 // measured viewport height in px (for ScrollState kind)
         var horizontal: Boolean = false
     }
 
@@ -376,6 +388,7 @@ object MobBridge {
         scrollHandlesById.clear()
         elementFramesById.clear()
         elementViewsById.clear()
+        elementOwnersById.clear()
     }
 
     fun recordElementFrame(id: String, x: Float, y: Float, w: Float, h: Float) {
@@ -396,12 +409,41 @@ object MobBridge {
     //
     // For the main composition the offset is (0,0) at every moment, so existing
     // frames are unchanged.
+    //
+    // A frame outlives the node that wrote it unless something removes it, and a
+    // test that asks "is the panel gone?" of the frame table would read the last
+    // place the panel was. So the node removes its own entry when it leaves the
+    // composition. Only the instance that wrote the entry may remove it: a node
+    // handing its id to a successor in the same pass (a list reorder, a slot
+    // reused for a different node with the same id) must not erase the successor's
+    // frame, which will not be written again until it next moves.
+    private val elementOwnersById = ConcurrentHashMap<String, Any>()
+
+    // The order each window's root view was first seen, as a stand-in for
+    // z-order: a popup opened later is drawn over one opened earlier. Touched on
+    // the main thread only (written from onGloballyPositioned, read by the
+    // synthetic-touch router, which runs on the main thread too).
+    private val windowFirstSeen = java.util.WeakHashMap<View, Long>()
+    private var windowSeq = 0L
+
     @Composable
     fun frameTrackingModifier(id: String): Modifier {
         val view = LocalView.current
+        val owner = remember { Any() }
+        DisposableEffect(id, owner) {
+            onDispose {
+                if (elementOwnersById.remove(id, owner)) {
+                    elementFramesById.remove(id)
+                    elementViewsById.remove(id)
+                }
+            }
+        }
         return Modifier
             .testTag(id)
             .onGloballyPositioned { c ->
+                elementOwnersById[id] = owner
+                val root = view.rootView
+                if (!windowFirstSeen.containsKey(root)) windowFirstSeen[root] = ++windowSeq
                 // positionInWindow + size, NOT boundsInWindow: the latter is
                 // CLIPPED to the window, so a panel taller than its popup's
                 // visible area reported a sliver of its real height (measured:
@@ -446,6 +488,593 @@ object MobBridge {
             o.put(id, arr)
         }
         return o.toString()
+    }
+
+    // ── Host-driven test harness (debug builds only) ──────────────────────────
+    //
+    // What an ExUnit suite running on the developer's machine drives this app with,
+    // over Erlang distribution, through `Mob.Test` (test/support/device_case.ex is
+    // the one consumer). No new NIF is involved: mob_nif.zig binds these methods by
+    // name at load (cacheOptional), so a bridge that defines them is a bridge that
+    // answers `Mob.Test.tap_xy/3`, `long_press_xy/4`, `swipe/5`, `press_down_xy/4`,
+    // `type_text/2`, `delete_backward/1` and `screen_info/1`.
+    //
+    // Everything here is delivered IN-PROCESS: MotionEvents and KeyEvents handed to
+    // this app's own views. No adb, no UiAutomation, no INJECT_EVENTS (a signature
+    // permission no app can hold), no window focus and no system-gesture zones.
+    //
+    // The input half is a no-op outside a debuggable build: a release APK answers
+    // `dispatch_failed` / `no_window` to every one of them, so none of this is an
+    // input-injection surface in something shipped.
+    //
+    // Coordinates are dp in the ACTIVITY WINDOW's space, the space `elementFrames`
+    // reports, so `frame -> centre -> tap` needs no conversion.
+
+    private fun harnessAllowed(activity: Activity): Boolean =
+        (activity.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0
+
+    // Runs `body` on the main looper and blocks the calling (NIF) thread until it
+    // finished, or for `timeoutMs`. Android runs the BEAM with exactly one scheduler
+    // (-S 1:1), so the wait is bounded: an unanswered main thread must cost a
+    // timeout, never a VM that stops running Erlang processes.
+    //
+    // Returns null on timeout. Called ON the main thread it just runs the body.
+    private fun <T> onMainBlocking(timeoutMs: Long = 2000, body: () -> T): T? {
+        if (Looper.myLooper() == Looper.getMainLooper()) return body()
+        val latch = java.util.concurrent.CountDownLatch(1)
+        val out = java.util.concurrent.atomic.AtomicReference<T?>(null)
+        android.os.Handler(Looper.getMainLooper()).post {
+            try {
+                out.set(body())
+            } catch (e: Throwable) {
+                Log.w("MobBridge", "main-thread harness call failed", e)
+            } finally {
+                latch.countDown()
+            }
+        }
+        val answered =
+            try {
+                latch.await(timeoutMs, java.util.concurrent.TimeUnit.MILLISECONDS)
+            } catch (e: InterruptedException) {
+                // Letting this propagate would unwind into JNI with a pending
+                // exception, and the callers in mob_nif.zig do not ExceptionCheck.
+                Thread.currentThread().interrupt()
+                false
+            }
+        return if (answered) out.get() else null
+    }
+
+    /**
+     * The native settle barrier: returns once everything the BEAM committed before
+     * this call is on screen.
+     *
+     * `setRootJson` hops to the main looper, so a render the BEAM has already
+     * committed may still be queued here. This posts BEHIND it (the looper is FIFO),
+     * then waits for the next Choreographer frame, in which Compose recomposes and
+     * lays out the tree that post installed, and then for one more post, which runs
+     * after that frame's traversal finished. After it returns, the composition on
+     * screen, the frame table it fills, and every tap handle it will send belong to
+     * the newest render.
+     *
+     * `Mob.Test.settle/2` is the BEAM half of the same barrier (it proves the
+     * commit); only both together stop a tap carrying the previous render's handle
+     * from being rejected as stale: settle alone dropped 12 of 30 rapid taps, the
+     * pair dropped none in 180.
+     *
+     * It also waits out a navigation's exit animation (see outgoingPages): after a
+     * page change, "the newest render" includes the previous page being gone.
+     *
+     * Must not be called on the main thread (it would wait on itself); there it is
+     * a no-op.
+     */
+    private fun awaitNextFrame(timeoutMs: Long = 3000) {
+        if (Looper.myLooper() == Looper.getMainLooper()) return
+        val deadline = SystemClock.uptimeMillis() + timeoutMs
+        val main = android.os.Handler(Looper.getMainLooper())
+        do {
+            val latch = java.util.concurrent.CountDownLatch(1)
+            main.post {
+                android.view.Choreographer.getInstance().postFrameCallback {
+                    // One more post: it runs after this frame's traversal (layout).
+                    main.post { latch.countDown() }
+                }
+            }
+            try {
+                latch.await(deadline - SystemClock.uptimeMillis(), java.util.concurrent.TimeUnit.MILLISECONDS)
+            } catch (e: InterruptedException) {
+                Thread.currentThread().interrupt()
+                return
+            }
+            // A navigation cross-fades: the outgoing page stays composed, its popup
+            // windows open and its element ids answering, until the exit animation
+            // ends. Keep drawing frames until it has gone, so a test that remounts a
+            // page does not start on top of the previous one.
+        } while (outgoingPages.get() > 0 && SystemClock.uptimeMillis() < deadline)
+    }
+
+    // How many pages are still composed only to play their exit animation. Counted by
+    // MainActivity's AnimatedContent through TrackOutgoingPage.
+    private val outgoingPages = java.util.concurrent.atomic.AtomicInteger(0)
+
+    @Composable
+    fun TrackOutgoingPage(outgoing: Boolean) {
+        DisposableEffect(outgoing) {
+            if (outgoing) outgoingPages.incrementAndGet()
+            onDispose { if (outgoing) outgoingPages.decrementAndGet() }
+        }
+    }
+
+    /**
+     * Called from nif_screen_info via JNI. Returns
+     * [width, height, density, top, bottom, left, right] in dp.
+     *
+     * This is also the native settle barrier (see awaitNextFrame), reached through
+     * `Mob.Test.screen_info/1` because that is the one Mob.Test call that already
+     * reaches the main thread through a slot this bridge owns: nothing in Mob calls
+     * it at runtime, so waiting a frame here costs nothing but a test's own pacing.
+     */
+    @JvmStatic
+    fun screenInfo(): FloatArray {
+        val activity = activityRef?.get() ?: return FloatArray(7)
+        awaitNextFrame()
+        val displayMetrics = activity.resources.displayMetrics
+        val density = displayMetrics.density
+        return onMainBlocking {
+            val result = FloatArray(7)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                val metrics = activity.windowManager.currentWindowMetrics
+                val insets =
+                    metrics.windowInsets.getInsetsIgnoringVisibility(
+                        android.view.WindowInsets.Type.systemBars() or
+                            android.view.WindowInsets.Type.displayCutout()
+                    )
+                result[0] = metrics.bounds.width() / density
+                result[1] = metrics.bounds.height() / density
+                result[2] = density
+                result[3] = insets.top / density
+                result[4] = insets.bottom / density
+                result[5] = insets.left / density
+                result[6] = insets.right / density
+            } else {
+                val decor = activity.window.decorView
+                result[0] = (decor.width.takeIf { it > 0 } ?: displayMetrics.widthPixels) / density
+                result[1] = (decor.height.takeIf { it > 0 } ?: displayMetrics.heightPixels) / density
+                result[2] = density
+                @Suppress("DEPRECATION")
+                decor.rootWindowInsets?.let { insets ->
+                    result[3] = insets.systemWindowInsetTop / density
+                    result[4] = insets.systemWindowInsetBottom / density
+                    result[5] = insets.systemWindowInsetLeft / density
+                    result[6] = insets.systemWindowInsetRight / density
+                }
+            }
+            result
+        } ?: FloatArray(7)
+    }
+
+    // One synthetic gesture at a time. These arrive as `:rpc` calls, so two Erlang
+    // processes can issue them concurrently; without this a tap's DOWN lands in the
+    // middle of a swipe's MOVE stream, with a different downTime, and both gestures
+    // are garbage while both report success.
+    private val gestureMutex = Mutex()
+
+    // Loaded once. `load` walks the key layout files, and these run per input.
+    private val virtualKeyboard: KeyCharacterMap by lazy {
+        KeyCharacterMap.load(KeyCharacterMap.VIRTUAL_KEYBOARD)
+    }
+
+    // Runs `body` on the main thread and waits for it, because the caller is a BEAM
+    // scheduler thread inside a NIF and needs an answer.
+    //
+    // Gestures must be dispatched over REAL elapsed time, not synthesised timestamps
+    // inside one main-thread block, which is why `body` suspends. Android's
+    // long-press detector and Compose's drag/slop handling both wait on posted
+    // callbacks and frame boundaries, so a gesture that runs to completion without
+    // ever yielding the main looper is seen as a single instantaneous touch: a long
+    // press reads as a tap, and a drag never clears touch slop.
+    private fun onMain(timeoutMs: Long = 2000, body: suspend (Activity) -> Boolean): Boolean {
+        val activity = activityRef?.get() ?: return false
+        if (!harnessAllowed(activity)) return false
+
+        // `Dispatchers.Main` always posts, so blocking the main thread here would
+        // wait on a coroutine that can only run on the thread we just blocked.
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            Log.w("MobBridge", "synthetic input called on the main thread; refusing")
+            return false
+        }
+
+        val latch = java.util.concurrent.CountDownLatch(1)
+        val ok = java.util.concurrent.atomic.AtomicBoolean(false)
+
+        val job =
+            mainScope.launch {
+                try {
+                    gestureMutex.withLock { ok.set(body(activity)) }
+                } catch (e: Throwable) {
+                    Log.w("MobBridge", "synthetic input failed", e)
+                    ok.set(false)
+                } finally {
+                    latch.countDown()
+                }
+            }
+
+        val finished =
+            try {
+                latch.await(timeoutMs, java.util.concurrent.TimeUnit.MILLISECONDS)
+            } catch (e: InterruptedException) {
+                Thread.currentThread().interrupt()
+                false
+            }
+
+        if (!finished) {
+            // Don't leave a gesture running against a view the caller has moved on
+            // from; a retry would interleave with it. Cancellation unwinds through
+            // `withPointer`, which sends the CANCEL.
+            job.cancel()
+            return false
+        }
+        return ok.get()
+    }
+
+    /**
+     * The view a finger landing at screen (sx, sy) reaches, the way the window
+     * manager routes one among this app's own windows: the topmost popup window that
+     * contains the point, or that is touch-modal (focusable and not NOT_TOUCH_MODAL,
+     * so it receives outside touches and dismisses on them), and the activity's
+     * decor view otherwise.
+     *
+     * Popup windows are found through the views the frame table already tracks, so a
+     * popup is reachable once any node in it carries an :id.
+     */
+    private fun touchTarget(decor: View, sx: Float, sy: Float): View {
+        val popups =
+            elementViewsById.values
+                .mapNotNull { it.get()?.rootView }
+                .filter { it !== decor && it.isAttachedToWindow }
+                .distinct()
+                .sortedBy { windowFirstSeen[it] ?: 0L }
+        return popups.lastOrNull { v ->
+            val loc = IntArray(2).also { v.getLocationOnScreen(it) }
+            val inside = sx >= loc[0] && sx < loc[0] + v.width && sy >= loc[1] && sy < loc[1] + v.height
+            val flags = (v.layoutParams as? WindowManager.LayoutParams)?.flags
+            val modal =
+                flags != null &&
+                    (flags and
+                        (WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
+                            WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL)) == 0
+            inside || modal
+        } ?: decor
+    }
+
+    private fun densityOf(activity: Activity): Float = activity.resources.displayMetrics.density
+
+    // Guarantees the pointer stream is closed. If an exception or a cancellation
+    // lands between DOWN and UP, the view tree is left believing a finger is still
+    // down, and every later touch in the session is read as a second pointer.
+    private suspend fun withPointer(
+        target: View,
+        sx: Float,
+        sy: Float,
+        down: Long,
+        body: suspend () -> Boolean,
+    ): Boolean {
+        var completed = false
+        try {
+            val result = body()
+            completed = true
+            return result
+        } finally {
+            if (!completed) {
+                motion(target, MotionEvent.ACTION_CANCEL, sx, sy, down, SystemClock.uptimeMillis())
+            }
+        }
+    }
+
+    // Delivers one MotionEvent to `target`; (sx, sy) are SCREEN pixels, converted to
+    // the view's own space here, so a gesture that outlives a window's move still
+    // lands where its finger is.
+    private fun motion(target: View, action: Int, sx: Float, sy: Float, down: Long, at: Long): Boolean {
+        val loc = IntArray(2).also { target.getLocationOnScreen(it) }
+        val event = MotionEvent.obtain(down, at, action, sx - loc[0], sy - loc[1], 0)
+        // Without this the event carries SOURCE_UNKNOWN, and the paths that branch on
+        // isFromSource(SOURCE_TOUCHSCREEN) — hover, mouse-vs-touch slop — take the
+        // wrong one.
+        event.source = InputDevice.SOURCE_TOUCHSCREEN
+        return try {
+            target.dispatchTouchEvent(event)
+        } finally {
+            event.recycle()
+        }
+    }
+
+    // A point in the activity window (dp) as a screen pixel, plus the view that
+    // receives a finger there.
+    private class Touch(val target: View, val sx: Float, val sy: Float)
+
+    private fun touchAt(activity: Activity, x: Float, y: Float): Touch? {
+        val decor = activity.window?.decorView ?: return null
+        val origin = IntArray(2).also { decor.getLocationOnScreen(it) }
+        val density = activity.resources.displayMetrics.density
+        val sx = origin[0] + x * density
+        val sy = origin[1] + y * density
+        return Touch(touchTarget(decor, sx, sy), sx, sy)
+    }
+
+    // Every one of these returns whether the events were actually CONSUMED, not
+    // whether they were sent. `dispatchTouchEvent` and `dispatchKeyEvent` already
+    // tell us; discarding that and returning a bare `true` would make
+    // mob_nif.zig's :dispatch_failed and :no_first_responder unreachable.
+
+    /**
+     * A tap at (x, y) dp: DOWN then UP, to whichever of this app's windows a finger
+     * would reach there (see touchTarget).
+     */
+    @JvmStatic
+    fun tapXy(x: Float, y: Float): Boolean =
+        onMain { activity ->
+            val t = touchAt(activity, x, y)
+            if (t == null || heldPress != null) {
+                false
+            } else {
+                val down = SystemClock.uptimeMillis()
+                withPointer(t.target, t.sx, t.sy, down) {
+                    val pressed = motion(t.target, MotionEvent.ACTION_DOWN, t.sx, t.sy, down, down)
+                    val released =
+                        motion(t.target, MotionEvent.ACTION_UP, t.sx, t.sy, down, SystemClock.uptimeMillis())
+                    pressed || released
+                }
+            }
+        }
+
+    @JvmStatic
+    fun longPressXy(x: Float, y: Float, durationMs: Long): Boolean =
+        onMain(durationMs + 3000) { activity ->
+            val t = touchAt(activity, x, y)
+            if (t == null || heldPress != null) {
+                false
+            } else {
+                val down = SystemClock.uptimeMillis()
+                withPointer(t.target, t.sx, t.sy, down) {
+                    var handled = motion(t.target, MotionEvent.ACTION_DOWN, t.sx, t.sy, down, down)
+                    // Hold for real time, reporting the stationary finger, so the
+                    // long-press timeout actually elapses on the looper.
+                    var now = down
+                    while (now - down < durationMs) {
+                        delay(50)
+                        now = SystemClock.uptimeMillis()
+                        handled = motion(t.target, MotionEvent.ACTION_MOVE, t.sx, t.sy, down, now) || handled
+                    }
+                    motion(t.target, MotionEvent.ACTION_UP, t.sx, t.sy, down, SystemClock.uptimeMillis()) ||
+                        handled
+                }
+            }
+        }
+
+    @JvmStatic
+    fun swipeXy(x1: Float, y1: Float, x2: Float, y2: Float): Boolean =
+        onMain(5000) { activity ->
+            val t = touchAt(activity, x1, y1)
+            if (t == null || heldPress != null) {
+                false
+            } else {
+                val density = densityOf(activity)
+                val ex = t.sx + (x2 - x1) * density
+                val ey = t.sy + (y2 - y1) * density
+                val down = SystemClock.uptimeMillis()
+                val steps = 16
+                withPointer(t.target, t.sx, t.sy, down) {
+                    var handled = motion(t.target, MotionEvent.ACTION_DOWN, t.sx, t.sy, down, down)
+                    // Enough intermediate points, spread over real frames, to clear
+                    // touch slop and give a fling a velocity to work with. A DOWN/UP
+                    // pair with nothing between reads as a tap.
+                    for (step in 1..steps) {
+                        delay(16)
+                        val f = step.toFloat() / steps
+                        handled =
+                            motion(
+                                t.target,
+                                MotionEvent.ACTION_MOVE,
+                                t.sx + (ex - t.sx) * f,
+                                t.sy + (ey - t.sy) * f,
+                                down,
+                                SystemClock.uptimeMillis(),
+                            ) || handled
+                    }
+                    motion(t.target, MotionEvent.ACTION_UP, ex, ey, down, SystemClock.uptimeMillis()) || handled
+                }
+            }
+        }
+
+    // ── Held press ───────────────────────────────────────────────────────────
+    //
+    // A press that stays down across NIF calls, so a test can hold a finger on a
+    // node, look at the app, and only then lift it: press_down_xy, press_move_xy and
+    // press_up_xy in Mob.Test. State lives here, touched only on the main thread.
+    // The other synthetic gestures refuse while a press is held: their DOWN would
+    // restart the view tree's gesture stream under the held finger.
+    private class HeldPress(
+        val target: View,
+        val down: Long,
+        var sx: Float,
+        var sy: Float,
+        val token: Long,
+    )
+
+    private var heldPress: HeldPress? = null
+    private var heldPressToken = 0L
+
+    // Result codes, decoded by mob_nif.zig (pressResult). Keep in sync.
+    private const val PRESS_OK = 0
+    private const val PRESS_DISPATCH_FAILED = 1
+    private const val PRESS_ALREADY_DOWN = 2
+    private const val PRESS_NO_WINDOW = 3
+    private const val PRESS_NOT_DOWN = 4
+    private const val PRESS_WINDOW_GONE = 5
+    private const val PRESS_TIMEOUT = 6
+
+    // onMain for calls that need to say more than yes/no. A false from onMain with
+    // an activity present means the UI thread didn't answer in time (another gesture
+    // holding the mutex, a busy looper) or the body threw: not "no window".
+    private fun onMainCode(timeoutMs: Long = 2000, body: suspend (Activity) -> Int): Int {
+        val activity = activityRef?.get()
+        if (activity == null || !harnessAllowed(activity)) return PRESS_NO_WINDOW
+        var code = PRESS_TIMEOUT
+        val ran =
+            onMain(timeoutMs) { a ->
+                code = body(a)
+                true
+            }
+        return if (ran) code else PRESS_TIMEOUT
+    }
+
+    /**
+     * Puts a finger down at (x, y) dp and leaves it there: a genuine held pointer.
+     * `maxHoldMs` bounds the hold; on expiry the press is CANCELLED (not released),
+     * so a test that dies between down and up cannot leave the app believing a finger
+     * is on the glass.
+     */
+    @JvmStatic
+    fun pressDownXy(x: Float, y: Float, maxHoldMs: Long): Int =
+        onMainCode { activity ->
+            val t = touchAt(activity, x, y)
+            when {
+                heldPress != null -> PRESS_ALREADY_DOWN
+                t == null -> PRESS_NO_WINDOW
+                else -> {
+                    val down = SystemClock.uptimeMillis()
+                    if (!motion(t.target, MotionEvent.ACTION_DOWN, t.sx, t.sy, down, down)) {
+                        // Nothing took the DOWN, so nothing is tracking this pointer;
+                        // close the stream rather than hold a finger no view will see lift.
+                        motion(t.target, MotionEvent.ACTION_CANCEL, t.sx, t.sy, down, SystemClock.uptimeMillis())
+                        PRESS_DISPATCH_FAILED
+                    } else {
+                        val token = ++heldPressToken
+                        heldPress = HeldPress(t.target, down, t.sx, t.sy, token)
+                        mainScope.launch {
+                            delay(maxHoldMs)
+                            val held = heldPress
+                            if (held != null && held.token == token) {
+                                Log.w("MobBridge", "held press exceeded ${maxHoldMs}ms; cancelling it")
+                                heldPress = null
+                                motion(held.target, MotionEvent.ACTION_CANCEL, held.sx, held.sy, held.down,
+                                    SystemClock.uptimeMillis())
+                            }
+                        }
+                        PRESS_OK
+                    }
+                }
+            }
+        }
+
+    /** Moves the held finger to (x, y) dp, in steps over real frames so slop can be crossed. */
+    @JvmStatic
+    fun pressMoveXy(x: Float, y: Float): Int =
+        onMainCode(5000) { activity ->
+            val held = heldPress
+            val decor = activity.window?.decorView
+            when {
+                held == null -> PRESS_NOT_DOWN
+                decor == null || !held.target.isAttachedToWindow -> {
+                    heldPress = null
+                    PRESS_WINDOW_GONE
+                }
+                else -> {
+                    val origin = IntArray(2).also { decor.getLocationOnScreen(it) }
+                    val density = densityOf(activity)
+                    val ex = origin[0] + x * density
+                    val ey = origin[1] + y * density
+                    val sx = held.sx
+                    val sy = held.sy
+                    val steps = 8
+                    for (step in 1..steps) {
+                        delay(16)
+                        // The max-hold timer runs on this dispatcher too, and may
+                        // have cancelled the press between steps.
+                        if (heldPress !== held) return@onMainCode PRESS_NOT_DOWN
+                        val f = step.toFloat() / steps
+                        held.sx = sx + (ex - sx) * f
+                        held.sy = sy + (ey - sy) * f
+                        motion(held.target, MotionEvent.ACTION_MOVE, held.sx, held.sy, held.down,
+                            SystemClock.uptimeMillis())
+                    }
+                    PRESS_OK
+                }
+            }
+        }
+
+    /** Lifts the held finger at (x, y) dp, moving it there first if it is elsewhere. */
+    @JvmStatic
+    fun pressUpXy(x: Float, y: Float): Int =
+        onMainCode { activity ->
+            val held = heldPress
+            val decor = activity.window?.decorView
+            when {
+                held == null -> PRESS_NOT_DOWN
+                decor == null || !held.target.isAttachedToWindow -> {
+                    heldPress = null
+                    PRESS_WINDOW_GONE
+                }
+                else -> {
+                    heldPress = null
+                    val origin = IntArray(2).also { decor.getLocationOnScreen(it) }
+                    val density = densityOf(activity)
+                    val ux = origin[0] + x * density
+                    val uy = origin[1] + y * density
+                    if (ux != held.sx || uy != held.sy) {
+                        motion(held.target, MotionEvent.ACTION_MOVE, ux, uy, held.down, SystemClock.uptimeMillis())
+                    }
+                    motion(held.target, MotionEvent.ACTION_UP, ux, uy, held.down, SystemClock.uptimeMillis())
+                    PRESS_OK
+                }
+            }
+        }
+
+    @JvmStatic
+    fun typeText(text: String): Boolean =
+        onMain { activity ->
+            // Key events rather than an InputConnection: Compose's text fields own
+            // their own connection, and this is the path a real keyboard takes.
+            if (activity.currentFocus == null) {
+                // Nothing focused. Dispatching anyway and returning true is what would
+                // make :no_first_responder unreachable.
+                false
+            } else {
+                val events = virtualKeyboard.getEvents(text.toCharArray())
+                if (events == null) {
+                    // getEvents returns null if ANY character has no key sequence on
+                    // the virtual keyboard (non-ASCII, emoji, accented Latin). The
+                    // whole string is rejected, so the call failed.
+                    Log.w("MobBridge", "typeText: no key sequence available (ASCII only)")
+                    false
+                } else {
+                    var handled = false
+                    for (event in events) {
+                        handled = activity.dispatchKeyEvent(event) || handled
+                    }
+                    handled
+                }
+            }
+        }
+
+    @JvmStatic
+    fun deleteBackward(): Boolean =
+        onMain { activity ->
+            if (activity.currentFocus == null) false else sendKey(activity, KeyEvent.KEYCODE_DEL)
+        }
+
+    // `clearText` is deliberately NOT implemented: backspacing in a loop is
+    // dispatched far faster than the field recomposes, so the events coalesce (about
+    // four of two hundred registered), and Ctrl+A does not select in a Compose text
+    // field. A method that returns true having cleared nothing is worse than an absent
+    // one: `Mob.Test.capabilities/1` reports `clear_text: false` and a call returns
+    // `{:error, :not_loaded}`.
+
+    private fun sendKey(activity: Activity, code: Int, meta: Int = 0): Boolean {
+        val t = SystemClock.uptimeMillis()
+        val pressed = activity.dispatchKeyEvent(KeyEvent(t, t, KeyEvent.ACTION_DOWN, code, 0, meta))
+        val released =
+            activity.dispatchKeyEvent(KeyEvent(t, SystemClock.uptimeMillis(), KeyEvent.ACTION_UP, code, 0, meta))
+        return pressed || released
     }
 
     /**
@@ -514,28 +1143,37 @@ object MobBridge {
      * Mob.Test.scroll_info/2 decodes). Returns null when no scroll view is
      * registered under `id`. `kind` is "pixel" for ScrollState (px units) or
      * "index" for LazyListState (item-index units; viewport = visible items).
+     *
+     * Compose snapshot state may only be read on the main thread: this arrives on
+     * a NIF thread, and reading `ScrollState.value` or `LazyListState.layoutInfo`
+     * there threw IllegalStateException ("Reading a state that was created after
+     * the snapshot was taken") and took the app down. The read is marshalled onto
+     * the main looper and the NIF thread waits for it.
      */
     @JvmStatic
-    fun scrollInfo(id: String): String? {
+    fun scrollInfo(id: String): String? = onMainBlocking { scrollInfoOnMain(id) }
+
+    private fun scrollInfoOnMain(id: String): String? {
         val h = scrollHandlesById[id] ?: return null
 
         h.scrollState?.let { s ->
-            val vp = h.viewportPx.toDouble()
+            val vw = h.viewportW.toDouble()
+            val vh = h.viewportH.toDouble()
             val maxV = s.maxValue.toDouble()
-            val content = maxV + vp
             val off = s.value.toDouble()
             val o = JSONObject()
             if (h.horizontal) {
                 o.put("offset_x", off); o.put("offset_y", 0.0)
-                o.put("content_w", content); o.put("content_h", vp)
-                o.put("viewport_w", vp); o.put("viewport_h", vp)
+                o.put("content_w", maxV + vw); o.put("content_h", vh)
                 o.put("max_x", maxV); o.put("max_y", 0.0)
             } else {
                 o.put("offset_x", 0.0); o.put("offset_y", off)
-                o.put("content_w", vp); o.put("content_h", content)
-                o.put("viewport_w", vp); o.put("viewport_h", vp)
+                o.put("content_w", vw); o.put("content_h", maxV + vh)
                 o.put("max_x", 0.0); o.put("max_y", maxV)
             }
+            // The viewport is its own width and its own height; the two used to
+            // be the same number, so a wide-and-short scroll read as a square.
+            o.put("viewport_w", vw); o.put("viewport_h", vh)
             o.put("kind", "pixel")
             return o.toString()
         }
@@ -764,6 +1402,8 @@ object MobBridge {
                 lazyListStates.clear()
                 scrollHandlesById.clear()
                 elementFramesById.clear()
+                elementViewsById.clear()
+                elementOwnersById.clear()
                 _rootState.value.navKey + 1
             } else {
                 _rootState.value.navKey
@@ -2401,7 +3041,8 @@ private fun RenderNodeInner(node: MobNode, modifier: Modifier) {
                     handle.scrollState = scrollState
                     handle.horizontal = horizontal
                     Modifier.onGloballyPositioned {
-                        handle.viewportPx = if (horizontal) it.size.width else it.size.height
+                        handle.viewportW = it.size.width
+                        handle.viewportH = it.size.height
                     }
                 } else {
                     Modifier

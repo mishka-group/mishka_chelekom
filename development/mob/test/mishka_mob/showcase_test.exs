@@ -283,6 +283,14 @@ defmodule MishkaMob.ShowcaseTest do
   end
 
   describe "ComponentScreen" do
+    test "every page scrolls under the id the device suite addresses it by" do
+      for slug <- [:drawer, :popover, :otp_field] do
+        view = mount_screen(ComponentScreen, %{slug: slug})
+
+        assert Enum.any?(find_all(view, :scroll), &(&1.props[:id] == "page"))
+      end
+    end
+
     test "loads the entry from the slug param and renders its examples + code" do
       view = mount_screen(ComponentScreen, %{slug: :drawer})
 
