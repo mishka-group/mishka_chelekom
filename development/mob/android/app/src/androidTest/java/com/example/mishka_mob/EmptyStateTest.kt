@@ -81,6 +81,9 @@ class EmptyStateTest {
 
     /** Bounds of the topmost placed node reading exactly [label]. */
     private fun boundsOf(label: String): Rect {
+        // The examples run below the fold, and a node outside the viewport is
+        // clipped to nothing. Bring it on screen before measuring it.
+        compose.onAllNodesWithText(label, substring = false)[0].performScrollTo()
         compose.waitForIdle()
 
         val placed = compose.onAllNodesWithText(label, substring = false)

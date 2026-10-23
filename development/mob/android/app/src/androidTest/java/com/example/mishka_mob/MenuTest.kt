@@ -148,7 +148,11 @@ class MenuTest {
             "the submenu opened but revealed no rows"
         }
 
-        // And its rows sit to the RIGHT of the trigger: they are indented.
+        // And its rows sit to the RIGHT of the trigger: they are indented. They open
+        // under the trigger, so on a short screen they start below the fold, and
+        // a node outside the viewport is clipped to nothing: bring them up first.
+        compose.onAllNodesWithTag("row-email", useUnmergedTree = true)[0].performScrollTo()
+        compose.waitForIdle()
         val trigger = compose.onAllNodesWithTag("row-share-open", useUnmergedTree = true)
             .fetchSemanticsNodes().first().boundsInRoot
         val nested = compose.onAllNodesWithTag("row-copy", useUnmergedTree = true)

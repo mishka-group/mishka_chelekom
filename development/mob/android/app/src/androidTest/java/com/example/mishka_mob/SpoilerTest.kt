@@ -73,7 +73,9 @@ class SpoilerTest {
     private fun boundsOf(label: String): Rect {
         compose.waitForIdle()
 
-        val placed = compose.onAllNodesWithText(label, substring = false)
+        // The unmerged tree: the tappable Box merges its Text into itself, so the
+        // merged node reading "Show more" IS the padded Box, not the label.
+        val placed = compose.onAllNodesWithText(label, substring = false, useUnmergedTree = true)
             .fetchSemanticsNodes()
             .map { it.boundsInRoot }
             .filter { it.width > 0f && it.height > 0f }

@@ -99,16 +99,23 @@ class SplitterTest {
                 androidx.compose.ui.geometry.Offset(pane.right + 4f, surface.center.y)
             }
 
-        compose.onRoot().performTouchInput {
-            down(from)
-            // Several steps, not one jump: the component anchors on the "began"
-            // phase and every sample after it is read against that anchor.
-            val steps = 5
-            repeat(steps) {
+        // Several steps, not one jump: the component anchors on the "began"
+        // phase and every sample after it is read against that anchor. And each
+        // step is its own gesture batch with a pause, the way a finger moves. One
+        // batch delivers every sample before the screen re-renders, so the
+        // handle they carry is already a render old by the time native sees the
+        // later ones, and native rejects a stale handle: the split moved one
+        // step and the lift never arrived.
+        compose.onRoot().performTouchInput { down(from) }
+        val steps = 5
+        repeat(steps) {
+            compose.onRoot().performTouchInput {
                 moveBy(androidx.compose.ui.geometry.Offset(dx / steps, dy / steps))
             }
-            up()
+            compose.waitForIdle()
+            Thread.sleep(80)
         }
+        compose.onRoot().performTouchInput { up() }
         compose.waitForIdle()
         Thread.sleep(600)
     }

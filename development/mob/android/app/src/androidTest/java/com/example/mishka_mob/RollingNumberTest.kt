@@ -115,6 +115,11 @@ class RollingNumberTest {
         compose.waitUntil(15_000) { placed("1,284") > 0 }
 
         tap("Roll down to 42")
+        // The number this button rolls is in the "Counting up" card above, which
+        // is taller with its buttons stacked full width: by the time this button
+        // is in view the number is off screen, and an off-screen node has no size
+        // to count. Bring the card back first.
+        compose.onAllNodesWithText("Counting up", substring = false)[0].performScrollTo()
         compose.waitUntil(15_000) { placed("42") > 0 }
         require(placed("1,284") == 0) { "the number never left its previous target" }
     }

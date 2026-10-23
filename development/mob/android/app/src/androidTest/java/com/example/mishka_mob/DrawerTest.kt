@@ -13,6 +13,8 @@ import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performTouchInput
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Before
 import org.junit.Rule
@@ -68,6 +70,14 @@ class DrawerTest {
             ?: error("no laid-out node tagged \"$tag\"")
 
     private fun root(): Rect = compose.onRoot().fetchSemanticsNode().boundsInRoot
+
+    /** The navigation bar's height in px, 0 when the window reports no insets. */
+    private fun navigationBar(): Float =
+        ViewCompat.getRootWindowInsets(compose.activity.window.decorView)
+            ?.getInsets(WindowInsetsCompat.Type.navigationBars())
+            ?.bottom
+            ?.toFloat()
+            ?: 0f
 
     /** Roughly 117dp of vertical travel — past the sheet's 48dp threshold, inside one snap step. */
     private fun step(): Float = root().height * 0.15f
@@ -220,10 +230,11 @@ class DrawerTest {
         tapOnPage("side-open-bottom")
         compose.waitUntil(10_000) { tagged("side-panel") }
         val bottom = boundsOf("side-panel")
-        // The system navigation bar sits below the app's root, so a sheet flush
-        // with the bottom edge stops short of root().bottom by that inset. 4dp
-        // was too tight to be measuring the thing it meant to measure.
-        require(bottom.bottom > root().bottom - 80f) {
+        // The system navigation bar sits below the app's content, so a sheet flush
+        // with the bottom edge stops short of root().bottom by exactly that inset.
+        // A fixed allowance guessed its height: 80px held for gesture navigation
+        // and failed on a phone with the three-button bar (135px).
+        require(bottom.bottom > root().bottom - navigationBar() - 4f) {
             "a bottom sheet floated off its edge: ${bottom.bottom} of ${root().bottom}"
         }
         // A sheet fills the width and hugs its content height. The Android
