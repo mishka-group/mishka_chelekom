@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
       - name: Set up Elixir
         uses: erlef/setup-beam@v1.24.1
@@ -21,6 +21,6 @@ jobs:
           otp-version: "29.1.2"
 
       - name: Submit Mix dependencies
-        uses: erlef/mix-dependency-submission@v1.2.1
+        uses: erlef/mix-dependency-submission@v1.3.5
         with:
           install-deps: true
