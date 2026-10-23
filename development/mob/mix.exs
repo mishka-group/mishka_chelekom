@@ -26,17 +26,17 @@ defmodule MishkaMob.MixProject do
 
   defp deps do
     [
-      {:mob, "~> 0.9"},
-      {:mob_dev, "~> 0.7", only: :dev, runtime: false},
+      {:mob, "~> 0.9.25"},
+      {:mob_dev, "~> 0.7.30", only: :dev, runtime: false},
       {:ecto_sqlite3, "~> 0.18"},
       # Showcase plugins — each ships a demo screen the home auto-lists, so a
       # fresh app demonstrates real device capabilities out of the box. Remove
       # any you don't need (and drop it from config :mob, :plugins in mob.exs);
       # the native build shrinks accordingly. Browse more at
       # https://hexdocs.pm/mob/packages.html.
-      {:mob_camera, "~> 0.1"},
-      {:mob_location, "~> 0.1"},
-      {:mob_biometric, "~> 0.1"},
+      {:mob_camera, "~> 0.1.15"},
+      {:mob_location, "~> 0.2"},
+      {:mob_biometric, "~> 0.2"},
       {:mob_themes, "~> 0.1"},
       # Required by `mix mob.icon` (libvips NIF) to resize the Mishka mark into
       # every launcher / AppIcon size. Dev-only — it never ships on device.
