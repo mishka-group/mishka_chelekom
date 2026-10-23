@@ -683,4 +683,6 @@ jobs:
           name: v${{ needs.version.outputs.version }}
           generate_release_notes: true
           fail_on_unmatched_files: true
+          # 0.0.10-beta.1, -alpha.N, -rc.N: a pre-release, so it never becomes "Latest".
+          prerelease: ${{ contains(needs.version.outputs.version, '-') }}
           files: release/*
