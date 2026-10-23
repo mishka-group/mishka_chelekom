@@ -93,6 +93,7 @@ class ProgressTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Progress")
             compose.onNodeWithText("Progress", substring = false).performScrollTo().performClick()
             compose.waitUntil(60_000) { showing(page) }
         }

@@ -82,6 +82,7 @@ class OverflowListTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Overflow List")
             compose.onAllNodesWithText("Overflow List", substring = false)[0]
                 .performScrollTo()
                 .performClick()

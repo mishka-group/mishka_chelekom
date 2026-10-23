@@ -94,6 +94,7 @@ class NumberFieldTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Number Field")
             compose.onAllNodesWithText("Number Field", substring = false)[0]
                 .performScrollTo()
                 .performClick()

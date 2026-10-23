@@ -124,6 +124,7 @@ class PillTest {
         }
 
         if (!showing(marker)) {
+            compose.revealCard("Pill")
             compose.onNodeWithText("Pill", substring = false).performScrollTo().performClick()
             awaitText(marker)
         }

@@ -121,6 +121,7 @@ class ToolbarTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Toolbar")
             compose.onAllNodesWithText("Toolbar", substring = false)[0]
                 .performScrollTo()
                 .performClick()

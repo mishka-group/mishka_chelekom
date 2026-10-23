@@ -123,6 +123,7 @@ class FloatingWindowTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Floating Window")
             compose.onAllNodesWithText("Floating Window", substring = false)[0]
                 .performScrollTo()
                 .performClick()

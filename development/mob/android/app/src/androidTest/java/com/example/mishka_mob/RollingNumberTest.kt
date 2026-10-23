@@ -78,6 +78,7 @@ class RollingNumberTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Rolling Number")
             compose.onAllNodesWithText("Rolling Number", substring = false)[0]
                 .performScrollTo()
                 .performClick()

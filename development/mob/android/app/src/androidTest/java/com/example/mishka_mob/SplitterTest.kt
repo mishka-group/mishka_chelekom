@@ -146,6 +146,7 @@ class SplitterTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Splitter")
             compose.onAllNodesWithText("Splitter", substring = false)[0]
                 .performScrollTo()
                 .performClick()

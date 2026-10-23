@@ -81,6 +81,7 @@ class SkeletonTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Skeleton")
             compose.onAllNodesWithText("Skeleton", substring = false)[0]
                 .performScrollTo()
                 .performClick()

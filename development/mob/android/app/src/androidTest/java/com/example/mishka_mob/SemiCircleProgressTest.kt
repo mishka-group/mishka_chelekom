@@ -82,6 +82,7 @@ class SemiCircleProgressTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Semi Circle Progress")
             compose.onAllNodesWithText("Semi Circle Progress", substring = false)[0]
                 .performScrollTo()
                 .performClick()

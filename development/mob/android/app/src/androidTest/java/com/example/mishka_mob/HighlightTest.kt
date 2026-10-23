@@ -82,6 +82,7 @@ class HighlightTest {
         }
 
         if (!showing(marker)) {
+            compose.revealCard(card)
             compose.onNodeWithText(card, substring = false).performScrollTo().performClick()
             awaitText(marker)
         }

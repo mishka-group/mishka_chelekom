@@ -168,6 +168,7 @@ class OtpFieldTest {
         if (!showing("A 6-digit code")) {
             // Every card is in the semantics tree but most are off-screen, and a
             // click on an off-screen node does nothing.
+            compose.revealCard("OTP Field")
             compose.onNodeWithText("OTP Field", substring = false)
                 .performScrollTo()
                 .performClick()

@@ -77,6 +77,7 @@ class SeparatorTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Separator")
             compose.onAllNodesWithText("Separator", substring = false)[0]
                 .performScrollTo()
                 .performClick()

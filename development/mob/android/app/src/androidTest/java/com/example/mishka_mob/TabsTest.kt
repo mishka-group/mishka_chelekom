@@ -131,6 +131,7 @@ class TabsTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Tabs")
             compose.onAllNodesWithText("Tabs", substring = false)[0]
                 .performScrollTo()
                 .performClick()

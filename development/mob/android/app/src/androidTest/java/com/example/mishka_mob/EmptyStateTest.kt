@@ -102,6 +102,7 @@ class EmptyStateTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Empty State")
             compose.onNodeWithText("Empty State", substring = false)
                 .performScrollTo()
                 .performClick()

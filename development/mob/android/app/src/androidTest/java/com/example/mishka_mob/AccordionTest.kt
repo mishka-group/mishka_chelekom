@@ -68,6 +68,7 @@ class AccordionTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Accordion")
             compose.onNodeWithText("Accordion", substring = false).performScrollTo().performClick()
             compose.waitUntil(60_000) { showing(page) }
         }

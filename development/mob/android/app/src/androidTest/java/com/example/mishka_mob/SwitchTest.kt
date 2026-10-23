@@ -89,6 +89,7 @@ class SwitchTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Switch")
             compose.onAllNodesWithText("Switch", substring = false)[0]
                 .performScrollTo()
                 .performClick()

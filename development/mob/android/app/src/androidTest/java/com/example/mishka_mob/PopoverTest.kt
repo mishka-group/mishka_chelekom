@@ -166,6 +166,7 @@ class PopoverTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Popover")
             compose.onAllNodesWithText("Popover", substring = false)[0]
                 .performScrollTo()
                 .performClick()

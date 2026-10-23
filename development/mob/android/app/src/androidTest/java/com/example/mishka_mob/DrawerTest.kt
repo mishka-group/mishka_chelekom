@@ -172,6 +172,7 @@ class DrawerTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Drawer")
             compose.onAllNodesWithText("Drawer", substring = false)[0]
                 .performScrollTo()
                 .performClick()

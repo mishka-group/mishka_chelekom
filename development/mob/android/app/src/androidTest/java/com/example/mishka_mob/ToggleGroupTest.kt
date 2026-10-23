@@ -125,6 +125,7 @@ class ToggleGroupTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Toggle Group")
             compose.onAllNodesWithText("Toggle Group", substring = false)[0]
                 .performScrollTo()
                 .performClick()

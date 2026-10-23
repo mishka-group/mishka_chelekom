@@ -129,6 +129,7 @@ class AlertDialogTest {
             Thread.sleep(800)
         }
 
+        compose.revealCard("Alert Dialog")
         compose.onAllNodesWithText("Alert Dialog", substring = false)[0]
             .performScrollTo()
             .performClick()

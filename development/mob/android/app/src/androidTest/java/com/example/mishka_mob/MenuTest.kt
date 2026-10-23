@@ -78,6 +78,7 @@ class MenuTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Menu")
             compose.onAllNodesWithText("Menu", substring = false)[0]
                 .performScrollTo()
                 .performClick()

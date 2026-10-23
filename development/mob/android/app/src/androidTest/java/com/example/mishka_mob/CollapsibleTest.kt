@@ -69,6 +69,7 @@ class CollapsibleTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Collapsible")
             compose.onNodeWithText("Collapsible", substring = false)
                 .performScrollTo()
                 .performClick()

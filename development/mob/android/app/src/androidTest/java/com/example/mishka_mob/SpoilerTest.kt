@@ -92,6 +92,7 @@ class SpoilerTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Spoiler")
             compose.onNodeWithText("Spoiler", substring = false).performScrollTo().performClick()
             compose.waitUntil(60_000) { showing(page) }
         }

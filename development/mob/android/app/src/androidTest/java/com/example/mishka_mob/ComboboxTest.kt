@@ -105,6 +105,7 @@ class ComboboxTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Combobox")
             compose.onAllNodesWithText("Combobox", substring = false)[0]
                 .performScrollTo()
                 .performClick()

@@ -93,6 +93,7 @@ class ToastTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Toast")
             compose.onAllNodesWithText("Toast", substring = false)[0]
                 .performScrollTo()
                 .performClick()

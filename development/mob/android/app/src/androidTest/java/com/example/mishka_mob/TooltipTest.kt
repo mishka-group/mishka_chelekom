@@ -82,6 +82,7 @@ class TooltipTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Tooltip")
             compose.onAllNodesWithText("Tooltip", substring = false)[0]
                 .performScrollTo()
                 .performClick()

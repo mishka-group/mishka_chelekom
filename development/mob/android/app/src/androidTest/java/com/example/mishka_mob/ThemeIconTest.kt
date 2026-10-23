@@ -94,6 +94,7 @@ class ThemeIconTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Theme Icon")
             compose.onAllNodesWithText("Theme Icon", substring = false)[0]
                 .performScrollTo()
                 .performClick()

@@ -92,6 +92,7 @@ class MeterTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Meter")
             compose.onNodeWithText("Meter", substring = false).performScrollTo().performClick()
             compose.waitUntil(60_000) { showing(page) }
         }

@@ -121,6 +121,7 @@ class TreeSelectTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Tree Select")
             compose.onAllNodesWithText("Tree Select", substring = false)[0]
                 .performScrollTo()
                 .performClick()
