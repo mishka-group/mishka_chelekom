@@ -286,7 +286,10 @@ defmodule MishkaMob.MixProject do
           Mix.shell().info("── batch #{i}/#{length(batches)} ─────────────────────────")
         end
 
-        if instrument_ok?(classes), do: acc, else: [i | acc]
+        case instrument(classes) do
+          :ok -> acc
+          {:failed, tests} -> if retried_ok?(tests), do: acc, else: [i | acc]
+        end
       end)
 
     unless failed == [] do
@@ -297,12 +300,28 @@ defmodule MishkaMob.MixProject do
     end
   end
 
+  # The tests that failed, and only those, get one more run, and one that fails again
+  # fails the suite. The release job's emulator is slower than a phone, and a few tests
+  # that pass on every phone race a re-render there: a different handful each run
+  # (FloatingWindow and Pill on one, Popover, PreviewCard and Tooltip on the next), while
+  # the same suite passes whole on a device. A run that crashed names no test, and is
+  # not retried.
+  defp retried_ok?([]), do: false
+
+  defp retried_ok?(tests) do
+    Mix.shell().info(
+      "\nRetrying #{length(tests)} failed test(s) once: #{Enum.join(tests, ", ")}\n"
+    )
+
+    instrument(tests) == :ok
+  end
+
   # One `am instrument` run. Streams as it goes: the runner prints each class when it
   # finishes, but capturing into a string withholds all of it until the command returns,
   # which makes a wedged suite indistinguishable from a slow one and leaves a killed run
   # with no test output at all. `tee` keeps a copy because the verdict is read back out
   # of the text — `am instrument` exits 0 whether tests pass or fail.
-  defp instrument_ok?(classes) do
+  defp instrument(classes) do
     log = Path.join(System.tmp_dir!(), "mob_e2e_#{System.unique_integer([:positive])}.log")
     filter = if classes == [], do: [], else: ["-e", "class", Enum.join(classes, ",")]
     instrument = Enum.join(["am", "instrument", "-w"] ++ filter ++ [@runner], " ")
@@ -314,7 +333,20 @@ defmodule MishkaMob.MixProject do
     out = File.read!(log)
     File.rm(log)
 
-    not String.contains?(out, "FAILURES!!!") and String.contains?(out, "OK (")
+    cond do
+      String.contains?(out, "FAILURES!!!") -> {:failed, failed_tests(out)}
+      String.contains?(out, "OK (") -> :ok
+      true -> {:failed, []}
+    end
+  end
+
+  # JUnit's summary names each failure as `1) a_test_method(com.example.mishka_mob.SomeTest)`;
+  # `am instrument -e class` takes it back as `com.example.mishka_mob.SomeTest#a_test_method`.
+  defp failed_tests(out) do
+    ~r/^\d+\) (\w+)\(([\w.]+)\)\r?$/m
+    |> Regex.scan(out, capture: :all_but_first)
+    |> Enum.map(fn [method, class] -> "#{class}##{method}" end)
+    |> Enum.uniq()
   end
 
   # Every *Test.kt, paired with its @Test count — the number of Activity launches it
