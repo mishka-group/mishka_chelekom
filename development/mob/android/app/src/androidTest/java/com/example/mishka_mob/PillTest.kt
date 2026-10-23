@@ -197,11 +197,17 @@ class PillTest {
 
     @Test
     fun emptying_the_tokens_leaves_a_message() {
+        // One ✕ at a time, and only once the last tap has re-rendered: a tap sent
+        // while the screen is still rendering the previous one carries a stale
+        // handle and is dropped, which on the slower CI emulator left tokens
+        // behind and "No tags left" never came.
         repeat(10) {
-            val crosses = compose.onAllNodesWithText("✕", substring = false).fetchSemanticsNodes()
-            require(crosses.isNotEmpty()) { "ran out of ✕ before the tokens ran out" }
-            compose.onAllNodesWithText("✕", substring = false)[0].performClick()
-            compose.waitForIdle()
+            val before = compose.onAllNodesWithText("✕", substring = false).fetchSemanticsNodes().size
+            require(before > 0) { "ran out of ✕ before the tokens ran out" }
+            compose.onAllNodesWithText("✕", substring = false)[0].performScrollTo().performClick()
+            compose.waitUntil(10_000) {
+                compose.onAllNodesWithText("✕", substring = false).fetchSemanticsNodes().size < before
+            }
         }
 
         awaitText("No tags left", timeoutMs = 15_000)
