@@ -70,4 +70,40 @@ defmodule MishkaMob.Showcase.RollingNumberPageTest do
 
     assert assigns(view).rn_value == 0
   end
+
+  # The walk is a chain of timer messages. Steps already in flight when Reset
+  # arrived landed afterwards and put the old target back over the zero.
+  test "steps still in flight when Reset arrives do not put the old target back" do
+    view =
+      ComponentScreen
+      |> mount_screen(%{slug: :rolling_number})
+      |> render_info({:tap, :rn_roll})
+
+    %{rn_walk: walk} = assigns(view)
+
+    view =
+      view
+      |> render_info({:tap, :rn_reset})
+      |> render_info({:tap, {:rn_step, walk, [1_284]}})
+
+    assert assigns(view).rn_value == 0
+  end
+
+  test "a second roll orphans the steps of the first" do
+    view =
+      ComponentScreen
+      |> mount_screen(%{slug: :rolling_number})
+      |> render_info({:tap, :rn_roll})
+
+    %{rn_walk: first} = assigns(view)
+
+    view = render_info(view, {:tap, :rn_down})
+    %{rn_walk: second, rn_value: value} = assigns(view)
+
+    assert second != first
+
+    view = render_info(view, {:tap, {:rn_step, first, [1_284]}})
+
+    assert assigns(view).rn_value == value
+  end
 end

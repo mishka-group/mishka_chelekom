@@ -78,7 +78,7 @@ defmodule MishkaMob.Showcase.Components.OtpField do
               on_blur={:otp_blur}
             />
             <Spacer size={10} />
-            <Text text={status(@otp_code)} text_size={:sm} text_color={:muted} />
+            <Text text={status(@otp_code)} text_size={:sm} text_color={:muted} id="otp-status" />
           </Column>
           """
         end

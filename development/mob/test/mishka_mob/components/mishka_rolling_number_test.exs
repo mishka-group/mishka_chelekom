@@ -66,6 +66,11 @@ defmodule MishkaMob.Components.MishkaRollingNumberTest do
     assert tree.props.text == "1,234,567"
   end
 
+  test "an id becomes a testTag on the number, and is absent without one" do
+    assert MishkaRollingNumber.rolling_number(value: 1, id: "n").props.id == "n"
+    refute Map.has_key?(MishkaRollingNumber.rolling_number(value: 1).props, :id)
+  end
+
   test "expand/3 delegates to rolling_number/1" do
     assert MishkaRollingNumber.expand(%{value: 1}, [], %{screen: self()}) ==
              MishkaRollingNumber.rolling_number(value: 1)

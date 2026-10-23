@@ -36,6 +36,13 @@ defmodule MishkaMob.Components.MishkaMarkTest do
     assert find(node, :text).props.text_size == :sm
   end
 
+  test "an id becomes a testTag on the Box, and is absent without one" do
+    # A mark draws a fill and a word. A device test that measures one (does it hug
+    # its word, does it share a line with its neighbour) needs a handle on the Box.
+    assert MishkaMark.mark(text: "x", id: "m").props.id == "m"
+    refute Map.has_key?(MishkaMark.mark(text: "x").props, :id)
+  end
+
   test "accepts a map as well as a keyword list" do
     assert MishkaMark.mark(%{text: "x"}) == MishkaMark.mark(text: "x")
   end

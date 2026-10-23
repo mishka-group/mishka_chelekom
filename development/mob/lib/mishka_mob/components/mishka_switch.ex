@@ -34,6 +34,7 @@ defmodule MishkaMob.Components.MishkaSwitch do
   | `track_color` | **ARGB int** | platform default | Track colour when on. |
   | `disabled` | boolean | `false` | Wires no handler, so the control cannot move. |
   | `render` | `:toggle` `:box` | `:toggle` | Which primitive draws the control — the native `Toggle`, or a `Box` track carrying a `Box` thumb. See "Two renderings". |
+  | `id` | string | `nil` | Test tag on the control; the label, when there is one, is tagged `<id>-label`. |
 
   > #### Colour is Android-only, and `track_color` takes no tokens {: .warning}
   >
@@ -199,8 +200,10 @@ defmodule MishkaMob.Components.MishkaSwitch do
 
   The web attrs that exist only to make an `<input>` submit inside an HTML form
   — `name`, `value`, `unchecked_value`, `form`, `required` — have no meaning on
-  a phone: there is no form post, and the screen already holds the value. `id`
-  is dropped too (it exists to anchor `aria-*` relationships in the DOM).
+  a phone: there is no form post, and the screen already holds the value. The
+  web's `id` (it anchors `aria-*` relationships in the DOM) is not ported as such;
+  `id` here is a test handle instead: the bridge turns it into a native testTag and
+  a frame a device test can measure, which a bare `Toggle` has no other way to give.
 
   `readonly` and `disabled` collapse into one thing here: both simply omit the
   handler. Note the platform still paints an *enabled-looking* switch — Mob's
@@ -234,7 +237,7 @@ defmodule MishkaMob.Components.MishkaSwitch do
 
     props
     |> control(render, checked)
-    |> labelled(Map.get(props, :label))
+    |> labelled(Map.get(props, :label), Map.get(props, :id))
   end
 
   @doc """
@@ -274,6 +277,7 @@ defmodule MishkaMob.Components.MishkaSwitch do
   # The native widget: unchanged, and the only thing an existing caller reaches.
   defp control(props, :toggle, checked) do
     ~MOB(<Toggle value={checked} />)
+    |> put_prop(:id, Map.get(props, :id))
     |> put_prop(:color, Map.get(props, :color))
     |> put_prop(:track_color, Map.get(props, :track_color))
     |> put_prop(:on_change, handler(props))
@@ -309,6 +313,7 @@ defmodule MishkaMob.Components.MishkaSwitch do
       {thumb}
     </Box>
     """
+    |> put_prop(:id, Map.get(props, :id))
     |> put_prop(:on_tap, tap_handler(props, disabled?))
   end
 
@@ -355,17 +360,28 @@ defmodule MishkaMob.Components.MishkaSwitch do
   # `<Spacer weight={1} />` is portable despite weight being Compose-only: on
   # iOS a Spacer with no size is a flexible `Spacer()`, which pushes the toggle
   # to the trailing edge just the same.
-  defp labelled(toggle, label) when is_binary(label) do
+  #
+  # The label is tagged `<id>-label` so a device test can measure which side of
+  # the control it sits on: a switch's position relative to its text is the one
+  # thing the `label` prop decides, and nothing in the node tree shows it.
+  defp labelled(toggle, label, id) when is_binary(label) do
+    text =
+      ~MOB(<Text text={label} text_color={:on_surface} />)
+      |> put_prop(:id, label_id(id))
+
     ~MOB"""
     <Row fill_width={true} align={:center}>
-      <Text text={label} text_color={:on_surface} />
+      {text}
       <Spacer weight={1} />
       {toggle}
     </Row>
     """
   end
 
-  defp labelled(toggle, _label), do: toggle
+  defp labelled(toggle, _label, _id), do: toggle
+
+  defp label_id(nil), do: nil
+  defp label_id(id), do: "#{id}-label"
 
   # A disabled switch keeps its handler off, which is what makes it inert:
   # `Toggle` is controlled, so with nothing listening the thumb cannot move.

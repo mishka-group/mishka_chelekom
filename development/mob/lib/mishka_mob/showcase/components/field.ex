@@ -182,6 +182,7 @@ defmodule MishkaMob.Showcase.Components.Field do
               corner_radius={:radius_sm}
               fill_width={true}
               on_tap={{self(), :fld_submit}}
+              id="fld-submit"
             />
             <Spacer size={10} />
             <Button
@@ -191,9 +192,10 @@ defmodule MishkaMob.Showcase.Components.Field do
               corner_radius={:radius_sm}
               fill_width={true}
               on_tap={{self(), :fld_reset}}
+              id="fld-reset"
             />
             <Spacer size={12} />
-            <Text text={summary(@form, @submitted?)} text_size={:sm} text_color={:muted} />
+            <Text text={summary(@form, @submitted?)} text_size={:sm} text_color={:muted} id="fld-summary" />
           </Column>
           """
         end

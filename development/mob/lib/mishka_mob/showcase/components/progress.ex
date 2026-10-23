@@ -45,6 +45,7 @@ defmodule MishkaMob.Showcase.Components.Progress do
             <Spacer size={14} />
             <Row fill_width={true}>
               <Button
+                id="pg-down"
                 text="− 15"
                 background={:surface_raised}
                 text_color={:on_surface}
@@ -54,6 +55,7 @@ defmodule MishkaMob.Showcase.Components.Progress do
               />
               <Spacer size={8} />
               <Button
+                id="pg-up"
                 text="+ 15"
                 background={:primary}
                 text_color={:on_primary}
@@ -77,7 +79,7 @@ defmodule MishkaMob.Showcase.Components.Progress do
           <Column fill_width={true}>
             <MishkaProgress />
             <Spacer size={16} />
-            <MishkaProgress label="Connecting…" />
+            <MishkaProgress label="Connecting…" id="pg-connecting" />
           </Column>
           """
         end

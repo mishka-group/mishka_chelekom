@@ -47,7 +47,12 @@ defmodule MishkaMob.Showcase.Components.Radio do
           <Column fill_width={true}>
             {plan_radios(@rd_plan)}
             <Spacer size={12} />
-            <Text text={"Selected: " <> to_string(@rd_plan)} text_size={:sm} text_color={:muted} />
+            <Text
+              text={"Selected: " <> to_string(@rd_plan)}
+              text_size={:sm}
+              text_color={:muted}
+              id="rd-summary"
+            />
           </Column>
           """
         end

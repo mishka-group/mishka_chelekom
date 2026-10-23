@@ -56,6 +56,7 @@ defmodule MishkaMob.Showcase.Components.SemiCircleProgress do
             <Spacer size={14} />
             <Row fill_width={true}>
               <Button
+                id="sc-down"
                 text="− 15"
                 background={:surface_raised}
                 text_color={:on_surface}
@@ -65,6 +66,7 @@ defmodule MishkaMob.Showcase.Components.SemiCircleProgress do
               />
               <Spacer size={8} />
               <Button
+                id="sc-up"
                 text="+ 15"
                 background={:primary}
                 text_color={:on_primary}

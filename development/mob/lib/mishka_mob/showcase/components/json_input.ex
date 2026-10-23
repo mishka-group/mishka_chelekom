@@ -56,6 +56,7 @@ defmodule MishkaMob.Showcase.Components.JsonInput do
               text={"Parses: " <> inspect(match?({:ok, _}, MishkaJsonInput.validate(@json)))}
               text_size={:sm}
               text_color={:muted}
+              id="json-parses"
             />
           </Column>
           """

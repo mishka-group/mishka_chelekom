@@ -99,6 +99,7 @@ defmodule MishkaMob.Showcase.Components.Pill do
             </Box>
             <Spacer size={14} />
             <Button
+              id="pill-reset"
               text="Reset tokens"
               background={:surface_raised}
               text_color={:on_surface}
@@ -140,7 +141,7 @@ defmodule MishkaMob.Showcase.Components.Pill do
               {picker(:swift, "Swift", @pill_picked)}
             </Row>
             <Spacer size={10} />
-            <Text text={picked_label(@pill_picked)} text_size={:sm} text_color={:muted} />
+            <Text id="pill-picked" text={picked_label(@pill_picked)} text_size={:sm} text_color={:muted} />
           </Column>
           """
         end
@@ -210,6 +211,7 @@ defmodule MishkaMob.Showcase.Components.Pill do
           ~MOB"""
           <Row fill_width={true}>
             <MishkaPill
+              id="pill-locked"
               label="locked"
               with_remove={true}
               disabled={true}
@@ -293,10 +295,17 @@ defmodule MishkaMob.Showcase.Components.Pill do
   # The selected pill is drawn differently — proof on screen that the tap made
   # the round trip rather than being swallowed.
   defp picker(id, label, picked) when id == picked do
-    pill(label: label, background: :primary, color: :on_primary, on_tap: {:pill_pick, id})
+    pill(
+      id: "pick-#{id}",
+      label: label,
+      background: :primary,
+      color: :on_primary,
+      on_tap: {:pill_pick, id}
+    )
   end
 
-  defp picker(id, label, _picked), do: pill(label: label, on_tap: {:pill_pick, id})
+  defp picker(id, label, _picked),
+    do: pill(id: "pick-#{id}", label: label, on_tap: {:pill_pick, id})
 
   defp picked_label(nil), do: "Nothing picked yet — tap a pill."
   defp picked_label(id), do: "Picked: #{id} (sent as {:tap, {:pill_pick, :#{id}}})"
@@ -318,6 +327,7 @@ defmodule MishkaMob.Showcase.Components.Pill do
           chunk
           |> Enum.map(fn {id, label} ->
             pill(
+              id: "tok-#{id}",
               label: label,
               text_size: @token_text_size,
               remove_gap: @token_remove_gap,

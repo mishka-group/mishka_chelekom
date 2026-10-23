@@ -200,6 +200,43 @@ defmodule MishkaMob.Components.MishkaHighlightTest do
     end
   end
 
+  describe "id" do
+    # The marks are the only Boxes in the tree, and a device test addresses them by
+    # their order in the sentence: across every wrapped line, not per line.
+    test "tags the block and numbers the marks in reading order" do
+      tree =
+        MishkaHighlight.highlight(
+          id: "h",
+          text: "Highlight This, definitely THIS and also this!",
+          highlight: "this"
+        )
+
+      assert tree.props.id == "h"
+      assert tree |> find_all(:box) |> Enum.map(& &1.props.id) == ["h-0", "h-1", "h-2"]
+    end
+
+    test "numbering carries on across wrapped lines" do
+      tree =
+        MishkaHighlight.highlight(
+          id: "h",
+          text: "Highlight This, definitely THIS and also this!",
+          highlight: "this",
+          wrap_at: 34
+        )
+
+      assert tree.type == :column
+      assert tree |> find_all(:box) |> Enum.map(& &1.props.id) == ["h-0", "h-1", "h-2"]
+      assert Enum.count(find_all(tree, :row)) == 2
+    end
+
+    test "nothing is tagged without one" do
+      tree = MishkaHighlight.highlight(text: "one two", highlight: "two")
+
+      refute Map.has_key?(tree.props, :id)
+      assert tree |> find_all(:box) |> Enum.all?(&(not Map.has_key?(&1.props, :id)))
+    end
+  end
+
   test "expand/3 delegates to highlight/1" do
     assert MishkaHighlight.expand(%{text: "a", highlight: "a"}, [], %{screen: self()}) ==
              MishkaHighlight.highlight(text: "a", highlight: "a")

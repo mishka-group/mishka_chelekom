@@ -33,9 +33,9 @@ defmodule MishkaMob.Showcase.Components.Mark do
         render: fn _assigns ->
           ~MOB"""
           <Row fill_width={true}>
-            <MishkaMark text="BEAM" />
+            <MishkaMark text="BEAM" id="mark-beam" />
             <Spacer size={8} />
-            <MishkaMark text="on device" />
+            <MishkaMark text="on device" id="mark-device" />
           </Row>
           """
         end
@@ -61,8 +61,13 @@ defmodule MishkaMob.Showcase.Components.Mark do
           ~MOB"""
           <Column fill_width={true}>
             <Row>
-              <MishkaMark text="Error" background={0xFFFECACA} />
-              <Text text=": Invalid input." text_size={:base} text_color={:on_surface} />
+              <MishkaMark text="Error" background={0xFFFECACA} id="mark-error" />
+              <Text
+                text=": Invalid input."
+                text_size={:base}
+                text_color={:on_surface}
+                id="mark-error-rest"
+              />
             </Row>
             <Spacer size={8} />
             <Row>

@@ -58,7 +58,12 @@ defmodule MishkaMob.Showcase.Components.RadioGroup do
               <MishkaRadioGroupOption id={:team} label="Team — 5 seats" />
             </MishkaRadioGroup>
             <Spacer size={12} />
-            <Text text={"Selected: " <> to_string(@rg_plan)} text_size={:sm} text_color={:muted} />
+            <Text
+              text={"Selected: " <> to_string(@rg_plan)}
+              text_size={:sm}
+              text_color={:muted}
+              id="rg-summary"
+            />
           </Column>
           """
         end
@@ -114,7 +119,7 @@ defmodule MishkaMob.Showcase.Components.RadioGroup do
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaRadioGroup label="ONE OPTION OFF" value={@rg_plan} on_change={:rg_plan}>
+            <MishkaRadioGroup label="ONE OPTION OFF" value={@rg_plan} on_change={:rg_plan} id="rg-one">
               <MishkaRadioGroupOption id={:free} label="Free" />
               <MishkaRadioGroupOption id={:team} label="Team (unavailable)" disabled={true} />
             </MishkaRadioGroup>

@@ -46,6 +46,7 @@ defmodule MishkaMob.Showcase.Components.Highlight do
         render: fn _assigns ->
           ~MOB"""
           <MishkaHighlight
+            id="hl-every"
             text="Highlight This, definitely THIS and also this!"
             highlight="this"
             wrap_at={34}
@@ -99,11 +100,9 @@ defmodule MishkaMob.Showcase.Components.Highlight do
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaHighlight text="Mishka Chelekom" highlight={@hl_query} />
+            <MishkaHighlight id="hl-live" text="Mishka Chelekom" highlight={@hl_query} />
             <Spacer size={14} />
-            <Row fill_width={true}>
-              {query_buttons(@hl_query)}
-            </Row>
+            {query_buttons(@hl_query)}
           </Column>
           """
         end
@@ -234,22 +233,39 @@ defmodule MishkaMob.Showcase.Components.Highlight do
   def handle({:hl_query, q}, socket), do: Mob.Socket.assign(socket, :hl_query, q)
   def handle(_tag, socket), do: socket
 
+  # Two rows of two, each button weighted to share its row. As one Row of hugging
+  # buttons the four needed ~330dp against the ~290dp the card has, so the last one
+  # sat half outside the card's clip and no finger could reach it (and with the
+  # default fill_width the first took the whole row and the rest measured zero
+  # wide). A semantic click reached them either way, which is how it went unseen.
   defp query_buttons(current) do
     @queries
-    |> Enum.map(fn q ->
+    |> Enum.map(&query_button(&1, current))
+    |> Enum.chunk_every(2)
+    |> Enum.map(fn pair ->
       %{
-        type: :button,
-        props: %{
-          text: q,
-          background: if(q == current, do: :primary, else: :surface_raised),
-          text_color: if(q == current, do: :on_primary, else: :on_surface),
-          padding: :space_sm,
-          on_tap: {self(), {:hl_query, q}}
-        },
-        children: []
+        type: :row,
+        props: %{fill_width: true},
+        children: Enum.intersperse(pair, %{type: :spacer, props: %{size: 6}, children: []})
       }
     end)
     |> Enum.intersperse(%{type: :spacer, props: %{size: 6}, children: []})
+  end
+
+  defp query_button(q, current) do
+    %{
+      type: :button,
+      props: %{
+        id: "hl-query-#{q}",
+        text: q,
+        background: if(q == current, do: :primary, else: :surface_raised),
+        text_color: if(q == current, do: :on_primary, else: :on_surface),
+        padding: :space_sm,
+        weight: 1,
+        on_tap: {self(), {:hl_query, q}}
+      },
+      children: []
+    }
   end
 
   @impl true
