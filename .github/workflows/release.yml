@@ -20,6 +20,9 @@ env:
   MOB_OTP_VERSION: "29.1.2"
   ANDROID_NDK_VERSION: "27.2.12479018"
   JAVA_VERSION: "17"
+  # The one zig mob_dev's native build accepts (MobDev.Toolchain.required_zig_version/0).
+  # A dev build: ziglang.org drops those, and setup-zig fetches it from the community mirrors.
+  ZIG_VERSION: "0.17.0-dev.269+ebff43698"
 
 jobs:
   version:
@@ -29,7 +32,7 @@ jobs:
       version: ${{ steps.v.outputs.version }}
       publish: ${{ steps.v.outputs.publish }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -70,17 +73,17 @@ jobs:
     needs: version
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
 
-      - uses: erlef/setup-beam@v1.20.4
+      - uses: erlef/setup-beam@v1.24.1
         with:
           elixir-version: ${{ env.ELIXIR_VERSION }}
           otp-version: ${{ env.OTP_VERSION }}
-      - uses: actions/cache@v4.2.4
+      - uses: actions/cache@v6.1.0
         with:
           path: |
             deps
@@ -99,8 +102,8 @@ jobs:
     needs: version
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-      - uses: erlef/setup-beam@v1.20.4
+      - uses: actions/checkout@v7
+      - uses: erlef/setup-beam@v1.24.1
         with:
           elixir-version: ${{ env.WEB_ELIXIR_VERSION }}
           otp-version: ${{ env.OTP_VERSION }}
@@ -118,13 +121,13 @@ jobs:
     needs: version
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
 
-      - uses: erlef/setup-beam@v1.20.4
+      - uses: erlef/setup-beam@v1.24.1
         with:
           elixir-version: ${{ env.WEB_ELIXIR_VERSION }}
           otp-version: ${{ env.OTP_VERSION }}
@@ -148,7 +151,7 @@ jobs:
     container:
       image: semgrep/semgrep
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - run: semgrep scan --config auto priv/assets/js
 
   retire-js:
@@ -156,8 +159,8 @@ jobs:
     needs: version
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: "24"
       - run: npm install -g retire
@@ -175,8 +178,8 @@ jobs:
           - { dir: "development/web", elixir: "1.20.4", otp: "29.1.2" }
           - { dir: "development/mob", elixir: "1.20.4", otp: "29.1.2" }
     steps:
-      - uses: actions/checkout@v5
-      - uses: erlef/setup-beam@v1.20.4
+      - uses: actions/checkout@v7
+      - uses: erlef/setup-beam@v1.24.1
         with:
           elixir-version: ${{ matrix.elixir }}
           otp-version: ${{ matrix.otp }}
@@ -194,8 +197,8 @@ jobs:
     needs: version
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-      - uses: erlef/setup-beam@v1.20.4
+      - uses: actions/checkout@v7
+      - uses: erlef/setup-beam@v1.24.1
         with:
           elixir-version: ${{ env.ELIXIR_VERSION }}
           otp-version: ${{ env.OTP_VERSION }}
@@ -229,7 +232,7 @@ jobs:
             echo "$f: $n components, version $got"
           done
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: cms-bundles
           path: dist/*.json
@@ -240,8 +243,8 @@ jobs:
     needs: version
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-      - uses: erlef/setup-beam@v1.20.4
+      - uses: actions/checkout@v7
+      - uses: erlef/setup-beam@v1.24.1
         with:
           elixir-version: ${{ env.ELIXIR_VERSION }}
           otp-version: ${{ env.OTP_VERSION }}
@@ -254,7 +257,7 @@ jobs:
           tar="mishka_chelekom-${{ needs.version.outputs.version }}.tar"
           test -f "$tar" || { echo "::error::expected $tar, got: $(ls *.tar 2>/dev/null || echo none)"; exit 1; }
           mkdir -p dist && mv "$tar" dist/
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: hex-package
           path: dist/*.tar
@@ -265,8 +268,8 @@ jobs:
     needs: version
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-      - uses: erlef/setup-beam@v1.20.4
+      - uses: actions/checkout@v7
+      - uses: erlef/setup-beam@v1.24.1
         with:
           elixir-version: ${{ env.ELIXIR_VERSION }}
           otp-version: ${{ env.OTP_VERSION }}
@@ -293,7 +296,7 @@ jobs:
           echo "ebin tarball: $mods MishkaChelekom modules"
           echo "OTP $(erl -noshell -eval 'io:format("~s",[erlang:system_info(otp_release)]),halt().')," \
                "Elixir $(elixir -v | tail -1)" >> "$GITHUB_STEP_SUMMARY"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: ebin-package
           path: dist/*.tar.gz
@@ -304,8 +307,8 @@ jobs:
     needs: version
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-      - uses: erlef/setup-beam@v1.20.4
+      - uses: actions/checkout@v7
+      - uses: erlef/setup-beam@v1.24.1
         with:
           elixir-version: ${{ env.MOB_ELIXIR_VERSION }}
           otp-version: ${{ env.MOB_OTP_VERSION }}
@@ -328,31 +331,31 @@ jobs:
       ORG_GRADLE_PROJECT_mobVersionName: ${{ needs.version.outputs.version }}
       ORG_GRADLE_PROJECT_mobVersionCode: ${{ github.run_number }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: ${{ env.JAVA_VERSION }}
 
-      - uses: erlef/setup-beam@v1.20.4
+      - uses: erlef/setup-beam@v1.24.1
         with:
           elixir-version: ${{ env.MOB_ELIXIR_VERSION }}
           otp-version: ${{ env.MOB_OTP_VERSION }}
 
-      - uses: android-actions/setup-android@v3
+      - uses: android-actions/setup-android@v4
 
       - name: Install the pinned NDK
         run: sdkmanager --install "ndk;${{ env.ANDROID_NDK_VERSION }}" "cmake;3.22.1"
 
       - uses: mlugg/setup-zig@v2
         with:
-          version: 0.15.2
+          version: ${{ env.ZIG_VERSION }}
 
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v6
 
       - name: Cache the Mob OTP runtimes
-        uses: actions/cache@v4.2.4
+        uses: actions/cache@v6.1.0
         with:
           path: ~/.mob/cache
           key: ${{ runner.os }}-mob-otp-${{ hashFiles('development/mob/mix.lock') }}
@@ -485,7 +488,7 @@ jobs:
           [ -n "$aab" ] && cp "$aab" "dist/mishka_mob_${v}_android.aab"
           ls -la dist
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: android-apks
           path: development/mob/dist/*
@@ -497,7 +500,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
       - name: Enable KVM for the emulator
         run: |
@@ -506,29 +509,29 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: ${{ env.JAVA_VERSION }}
 
-      - uses: erlef/setup-beam@v1.20.4
+      - uses: erlef/setup-beam@v1.24.1
         with:
           elixir-version: ${{ env.MOB_ELIXIR_VERSION }}
           otp-version: ${{ env.MOB_OTP_VERSION }}
 
-      - uses: android-actions/setup-android@v3
+      - uses: android-actions/setup-android@v4
 
       - name: Install the pinned NDK
         run: sdkmanager --install "ndk;${{ env.ANDROID_NDK_VERSION }}" "cmake;3.22.1"
 
       - uses: mlugg/setup-zig@v2
         with:
-          version: 0.15.2
+          version: ${{ env.ZIG_VERSION }}
 
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v6
 
       - name: Cache the Mob OTP runtimes
-        uses: actions/cache@v4.2.4
+        uses: actions/cache@v6.1.0
         with:
           path: ~/.mob/cache
           key: ${{ runner.os }}-mob-otp-${{ hashFiles('development/mob/mix.lock') }}
@@ -617,7 +620,7 @@ jobs:
 
       - name: Keep the emulator logs on failure
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: android-e2e-logs
           path: |
@@ -647,9 +650,9 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           path: artifacts
 
@@ -677,10 +680,12 @@ jobs:
           ls -la release
 
       - name: Create the release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ github.ref_name }}
           name: v${{ needs.version.outputs.version }}
           generate_release_notes: true
           fail_on_unmatched_files: true
+          # 0.0.10-beta.1, -alpha.N, -rc.N: a pre-release, so it never becomes "Latest".
+          prerelease: ${{ contains(needs.version.outputs.version, '-') }}
           files: release/*
