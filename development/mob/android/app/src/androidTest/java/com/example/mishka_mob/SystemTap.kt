@@ -99,10 +99,13 @@ fun AndroidComposeTestRule<*, MainActivity>.tapOutside(
     dump(device, "before-tap")
 
     val touches = java.util.Collections.synchronizedList(mutableListOf<String>())
+    val popupRoots =
+        onAllNodes(isPopup()).fetchSemanticsNodes(atLeastOneRootRequired = false).mapNotNull {
+            (it.root as? View)?.rootView
+        }
     runOnUiThread {
-        onAllNodes(isPopup()).fetchSemanticsNodes(atLeastOneRootRequired = false).forEach { node ->
-            val top = (node.root as? View)?.rootView
-            top?.setOnTouchListener { _, e ->
+        popupRoots.forEach { top ->
+            top.setOnTouchListener { _, e ->
                 touches += "action=${MotionEvent.actionToString(e.actionMasked)} x=${e.x} y=${e.y}"
                 false
             }
