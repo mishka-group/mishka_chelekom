@@ -25,8 +25,6 @@ defmodule MishkaMob.Device.TreeTest do
   """
   use MishkaMob.DeviceCase, page: :tree
 
-  import MishkaMob.DeviceText
-
   # The caption under the checkbox example, rendered from the same assign.
   @caption "Checked: "
 

@@ -31,45 +31,6 @@ defmodule MishkaMob.Device.AutocompleteTest do
   # inside the card and outside the control.
   defp close_card, do: tap("ac-caption")
 
-  # A tap on a text field raises the keyboard, which resizes the page over the next
-  # ~400ms and scrolls it to keep the caret in view. A tap that has to scroll to its
-  # target, or lands, while that is in flight is lost, so wait for the page to stop
-  # moving before doing anything else. (The harness's own retry would paper over it,
-  # and `stats/0` would count it.)
-  defp tap_field(tag) do
-    tap(tag)
-    settled_frame("page")
-  end
-
-  # What the screen told the field to show. A field that kept its own text while
-  # the screen's assign said otherwise would pass any check on the assign alone.
-  defp field_value(tag) do
-    case node_by_id(render_tree(), tag) do
-      %{props: %{value: value}} -> value
-      other -> flunk("#{tag} carries no value: #{inspect(other)}")
-    end
-  end
-
-  defp node_by_id(%{props: props, children: children} = node, id) do
-    if to_string(Map.get(props, :id, "")) == id,
-      do: node,
-      else: Enum.find_value(children || [], &node_by_id(&1, id))
-  end
-
-  defp node_by_id(_leaf, _id), do: nil
-
-  # How many nodes of the rendered tree read exactly `text`.
-  defp text_count(text), do: text_count(render_tree(), text)
-
-  defp text_count(%{props: props, children: children}, text) do
-    own = if Map.get(props, :text) == text, do: 1, else: 0
-    below = (children || []) |> Enum.map(&text_count(&1, text)) |> Enum.sum()
-
-    own + below
-  end
-
-  defp text_count(_leaf, _text), do: 0
-
   test "the panel is closed until the field is tapped" do
     # It used to be pinned open={true}, standing permanently expanded with
     # every city listed before the user touched anything.
@@ -77,12 +38,12 @@ defmodule MishkaMob.Device.AutocompleteTest do
 
     # Park focus on the OTHER field first, and close its card: the first field's
     # panel must not open for a tap that was never on it.
-    tap_field("ac-any-input")
+    tap("ac-any-input")
     close_card()
 
     refute offered?("ac-city", "Tehran"), "the panel opened without a tap"
 
-    tap_field("ac-city-input")
+    tap("ac-city-input")
 
     assert_eventually(fn -> offered?("ac-city", "Tehran") end,
       message: "tapping the field did not open the panel"
@@ -90,7 +51,7 @@ defmodule MishkaMob.Device.AutocompleteTest do
   end
 
   test "typing filters by PREFIX by default" do
-    tap_field("ac-city-input")
+    tap("ac-city-input")
     type("te")
 
     # :starts_with is the default, which is what "autocomplete" means. A
@@ -113,7 +74,7 @@ defmodule MishkaMob.Device.AutocompleteTest do
   end
 
   test "choosing fills the field and closes" do
-    tap_field("ac-city-input")
+    tap("ac-city-input")
     type("te")
     assert_eventually(fn -> offered?("ac-city", "Tehran") end)
 
@@ -128,13 +89,13 @@ defmodule MishkaMob.Device.AutocompleteTest do
     # same assign. A page-wide search for the word therefore passed even for the
     # bug this component's moduledoc warns about: the assign updated, the field
     # left blank.
-    assert_eventually(fn -> assert field_value("ac-city-input") == "Tehran" end,
+    assert_eventually(fn -> assert value_of("ac-city-input") == "Tehran" end,
       message: "the chosen suggestion did not fill the field"
     )
   end
 
   test "an exactly typed suggestion leaves no dead panel" do
-    tap_field("ac-city-input")
+    tap("ac-city-input")
     type("Tehran")
 
     # Typing reached the screen, and the screen asked for the panel to be open...
@@ -150,7 +111,7 @@ defmodule MishkaMob.Device.AutocompleteTest do
   end
 
   test "a query nothing matches still says so" do
-    tap_field("ac-city-input")
+    tap("ac-city-input")
     type("zzzzz")
 
     # The empty panel is information HERE, the distinction the fix turns on.
@@ -158,7 +119,7 @@ defmodule MishkaMob.Device.AutocompleteTest do
   end
 
   test "tapping outside closes the panel" do
-    tap_field("ac-city-input")
+    tap("ac-city-input")
     type("te")
     assert_eventually(fn -> offered?("ac-city", "Tehran") end)
 
@@ -172,18 +133,18 @@ defmodule MishkaMob.Device.AutocompleteTest do
   end
 
   test "the two examples no longer move in lockstep" do
-    tap_field("ac-city-input")
+    tap("ac-city-input")
     type("te")
-    assert_eventually(fn -> field_value("ac-city-input") == "te" end)
+    assert_eventually(fn -> value_of("ac-city-input") == "te" end)
 
     # They shared one assign, so typing in either rewrote the other's field.
-    other = field_value("ac-any-input")
+    other = value_of("ac-any-input")
 
     refute other == "te", "the second field mirrored the first: #{inspect(other)}"
   end
 
   test "the pills picker adds on tap and removes on a second tap" do
-    tap_field("ac-pills-draft")
+    tap("ac-pills-draft")
     assert_shown("ac-pick-Grace Hopper-idle")
 
     # Tapping a name adds it as a pill.
@@ -198,7 +159,7 @@ defmodule MishkaMob.Device.AutocompleteTest do
   end
 
   test "the same person cannot be added twice" do
-    tap_field("ac-pills-draft")
+    tap("ac-pills-draft")
     assert_shown("ac-pick-Alan Turing-idle")
 
     tap("ac-pick-Alan Turing-idle")
@@ -221,7 +182,7 @@ defmodule MishkaMob.Device.AutocompleteTest do
   end
 
   test "typing filters the pills picker" do
-    tap_field("ac-pills-draft")
+    tap("ac-pills-draft")
     assert_shown("ac-pick-Ada Lovelace-selected")
 
     type("gra")

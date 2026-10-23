@@ -25,15 +25,14 @@ defmodule MishkaMob.Device.ToggleGroupTest do
   """
   use MishkaMob.DeviceCase, page: :toggle_group
 
-  import MishkaMob.DeviceText
-
   @aligns ~w(left center right)
+  @states ~w(pressed idle)
 
   # The item's state, from whichever tag it carries now.
-  defp state_of(prefix), do: Enum.find(~w(pressed idle), &shown?("#{prefix}-#{&1}"))
+  defp state_of(prefix), do: state_of(prefix, @states)
 
   # An item's whole tag, state included: the selection moves and the tag follows.
-  defp item_tag(prefix), do: "#{prefix}-" <> (state_of(prefix) || flunk("#{prefix} is untagged"))
+  defp item_tag(prefix), do: state_tag(prefix, @states)
 
   defp item_frame(prefix), do: frame!(item_tag(prefix))
 

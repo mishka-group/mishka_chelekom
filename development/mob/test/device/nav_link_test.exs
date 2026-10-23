@@ -37,7 +37,7 @@ defmodule MishkaMob.Device.NavLinkTest do
     # carried, so a wrong href would mark the wrong row.
     assert_shown("nav-settings-active")
 
-    assert_eventually(fn -> "Current: /settings" in texts(render_tree()) end,
+    assert_eventually(fn -> "Current: /settings" in texts() end,
       message: "the screen was told the wrong destination"
     )
   end
@@ -141,12 +141,4 @@ defmodule MishkaMob.Device.NavLinkTest do
     %{max_offset: {_x, max_y}} = Mob.Test.scroll_info(device!(), "page")
     assert max_y > 0, "the page does not scroll, so the props table is out of reach"
   end
-
-  defp texts(%{props: props, children: children}) do
-    own = if is_binary(props[:text]), do: [props.text], else: []
-
-    own ++ Enum.flat_map(children || [], &texts/1)
-  end
-
-  defp texts(_leaf), do: []
 end

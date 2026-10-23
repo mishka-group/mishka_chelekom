@@ -55,21 +55,14 @@ defmodule MishkaMob.Device.FloatingWindowTest do
     assert_shown("win-handle")
 
     {x, y} = title_bar("win-window")
-    node = device!()
-    assert :ok = Mob.Test.press_down_xy(node, x, y)
 
-    try do
+    while_pressed({x, y}, fn ->
       # data-dragging on the web; here it has to be in the tag, because the only other
       # place the state shows is the strip's colour.
-      sync()
       assert_shown("win-handle-dragging")
 
-      assert :ok = Mob.Test.press_move_xy(node, x + 20, y)
-      sync()
-    after
-      Mob.Test.press_up_xy(node, x + 20, y)
-      sync()
-    end
+      press_move({x + 20, y})
+    end)
 
     assert_shown("win-handle")
     refute_shown("win-handle-dragging")

@@ -19,8 +19,6 @@ defmodule MishkaMob.Device.AccordionTest do
   """
   use MishkaMob.DeviceCase, page: :accordion
 
-  import MishkaMob.DeviceText
-
   test "a header opens its panel" do
     # The body is only in the tree while the panel is open: a closed item renders
     # its trigger and nothing else, which is what makes this a real assertion

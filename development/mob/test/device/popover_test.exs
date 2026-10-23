@@ -238,14 +238,4 @@ defmodule MishkaMob.Device.PopoverTest do
     %{max_offset: {_x, max_y}} = Mob.Test.scroll_info(device!(), "page")
     assert max_y > 0, "the page does not scroll, so the props table is out of reach"
   end
-
-  # A point outside `panel` that a finger could land on: the left gutter, 80dp
-  # below it, or above it when there is no room below (the panel sits low on the
-  # page when its trigger is).
-  defp outside(panel) do
-    page = frame!("page")
-    below = panel.bottom + 80
-
-    if below < page.bottom, do: {10.0, below}, else: {10.0, panel.top - 80}
-  end
 end

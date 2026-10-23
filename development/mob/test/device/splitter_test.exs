@@ -121,10 +121,12 @@ defmodule MishkaMob.Device.SplitterTest do
   # stable ruler) and the component only engages a drag that starts on the divider, so a
   # touch at the surface's middle misses entirely once the split has moved off 50%.
   #
-  # The grip is first brought to the middle of the page, so the gesture stays inside the
-  # window in both directions.
+  # The grip is first brought to the middle of the page (`center: true`: `scroll_into_view/1`
+  # alone does nothing when the centre is already on screen, which can leave the grip hard
+  # against the bottom with no room to drag down), so the gesture stays inside the window in
+  # both directions.
   defp drag_grip(splitter, dx, dy \\ 0) do
-    surface = centre("#{splitter}-grip")
+    surface = scroll_into_view("#{splitter}-grip", center: true)
     pane = frame!("#{splitter}-pane-1")
 
     from =
@@ -134,25 +136,5 @@ defmodule MishkaMob.Device.SplitterTest do
 
     {x, y} = from
     swipe(from, {x + dx, y + dy})
-  end
-
-  # Scrolls the page so `tag` is on screen and away from both edges. scroll_into_view/1
-  # moves the minimum distance, and does nothing at all when the centre is already on
-  # screen, which can leave the grip hard against the bottom with no room to drag down.
-  defp centre(tag) do
-    grip = scroll_into_view(tag)
-    page = frame!("page")
-    {_x, y} = center(grip)
-    {_px, middle} = center(page)
-
-    if abs(y - middle) > page.height / 4 do
-      node = device!()
-      %{offset: {_ox, offset}} = Mob.Test.scroll_info(node, "page")
-      scale = Mob.Test.screen_info(node).scale
-      :ok = Mob.Test.scroll_to(node, "page", {0.0, offset + (y - middle) * scale})
-      sync()
-    end
-
-    settled_frame(tag)
   end
 end

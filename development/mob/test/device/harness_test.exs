@@ -87,6 +87,104 @@ defmodule MishkaMob.Device.HarnessTest do
     assert Map.has_key?(info.safe_area, :top)
   end
 
+  # The soft keyboard resizes the page for ~400ms after a field takes focus, and a frame
+  # read in that window is a frame in flight. The tap does the waiting, so the page holds
+  # still the moment it returns.
+  @tag page: :autocomplete
+  test "a tap on a text field returns with the page at rest" do
+    tap("ac-city-input", retry: 0)
+
+    at_rest = frame!("page")
+    for _frame <- 1..4, do: barrier()
+
+    assert frame!("page") == at_rest, "the page was still moving when the tap returned"
+  end
+
+  # A field with no on_focus delivers no event, which tap/2 would report as a drop.
+  @tag page: :json_input
+  test "focus reaches a field that has no on_focus, and tap says to use it" do
+    assert_raise ExUnit.AssertionError, ~r/focus\/1/, fn -> tap("json-valid", retry: 0) end
+
+    before = value_of("json-valid")
+    focus("json-valid")
+    type("x")
+
+    assert_eventually(fn -> value_of("json-valid") == before <> "x" end,
+      message: fn ->
+        "the key did not reach the focused field: #{inspect(value_of("json-valid"))}"
+      end
+    )
+  end
+
+  # A canvas drag leaves no Mob.Agent.Receipts entry, so tap/2's default would call the
+  # touch a drop.
+  @tag page: :hue_slider
+  test "a canvas takes touches that leave no receipt" do
+    touch("hue-strip", 0.1)
+    low = readout_int(~r/\A\d+°\z/)
+
+    tap("hue-strip", expect: :any, retry: 0)
+    touch("hue-strip", 0.9)
+
+    assert readout_int(~r/\A\d+°\z/) > low, "the touch on the strip set nothing"
+  end
+
+  # A finger lifted at speed leaves a fling that swallows the next tap.
+  test "a swipe returns once the page has stopped scrolling" do
+    {_x, y} = center(frame!("page"))
+    swipe({100.0, y + 150}, {100.0, y - 150})
+
+    %{offset: at_rest} = Mob.Test.scroll_info(device!(), "page")
+    for _frame <- 1..4, do: barrier()
+
+    assert %{offset: ^at_rest} = Mob.Test.scroll_info(device!(), "page")
+  end
+
+  # Another gesture refuses while a finger is down, so a tap that lands proves it is up.
+  test "while_pressed lifts the finger even when its body fails" do
+    {_x, y} = center(frame!("page"))
+
+    assert_raise RuntimeError, "boom", fn ->
+      while_pressed({1.0, y}, fn -> raise "boom" end)
+    end
+
+    tap("pop-trigger-closed", retry: 0)
+    assert_shown("pop-panel")
+  end
+
+  # Independent of the screen: the tag nearest the middle of the fresh page is pushed up
+  # to a tenth of the way down the viewport by a measured scroll, which is certainly
+  # off-centre, and `center: true` must bring it back.
+  test "scroll_into_view center: true brings a tag that is only on screen to the middle" do
+    node = device!()
+    page = frame!("page")
+    {_x, middle} = center(page)
+
+    tag =
+      frames()
+      |> Enum.filter(fn {tag, {_x, top, _w, height}} ->
+        tag != "page" and height > 0 and top + height / 2 > page.top and
+          top + height / 2 < page.bottom
+      end)
+      |> Enum.min_by(fn {_tag, {_x, top, _w, height}} -> abs(top + height / 2 - middle) end)
+      |> elem(0)
+
+    {_x, y} = tag |> frame!() |> center()
+    %{offset: {_ox, offset}} = Mob.Test.scroll_info(node, "page")
+    pushed_to = page.top + page.height * 0.1
+    :ok = Mob.Test.scroll_to(node, "page", {0.0, offset + (y - pushed_to) * screen().scale})
+    sync()
+
+    {_x, off_centre} = tag |> frame!() |> center()
+    assert middle - off_centre > page.height / 4, "#{tag} was not pushed off-centre"
+    assert scroll_into_view(tag) |> center() |> elem(1) == off_centre, "it is already on screen"
+
+    {_x, centred} = tag |> scroll_into_view(center: true) |> center()
+
+    assert abs(centred - middle) <= page.height / 4 + 1,
+           "#{tag} is still #{abs(centred - middle)}dp from the middle of a #{page.height}dp page"
+  end
+
   test "fresh_page puts a page back to the top, in the default theme" do
     scroll_page(:bottom)
     :rpc.call(device!(), Mob.State, :put, [:theme, :light])

@@ -25,8 +25,8 @@ defmodule MishkaMob.Device.ColorTest do
 
   The touches here are real, but a canvas drag leaves no `Mob.Agent.Receipts` entry, so
   `tap/2` (which proves a handler received the touch by its receipt) cannot be used;
-  `touch/3` is a raw touch followed by the usual settle, and the readout the page renders
-  from its own assign is what proves it landed.
+  `touch/3` is a tap that requires no receipt, at a fraction across and down the canvas,
+  and the readout the page renders from its own assign is what proves it landed.
 
   Run with `mix test --only device test/device/color_test.exs`.
   """
@@ -37,7 +37,6 @@ defmodule MishkaMob.Device.ColorTest do
   # rainbow"), so a substring match returns the prose, and three tests spent a device run
   # comparing that sentence with itself.
   @degrees ~r/^\d+°$/
-  @percent ~r/^\d+%$/
   @hsb ~r/^H (\d+)\s+S (\d+)\s+B (\d+)$/
 
   # ── Hue ────────────────────────────────────────────────────────────────────
@@ -87,10 +86,10 @@ defmodule MishkaMob.Device.ColorTest do
   @tag page: :alpha_slider
   test "tapping the alpha track sets the opacity" do
     touch("alpha-track", 0.15)
-    low = readout_int(@percent)
+    low = percent()
 
     touch("alpha-track", 0.85)
-    high = readout_int(@percent)
+    high = percent()
 
     assert high > low, "opacity went #{low}% then #{high}%; further right should be more"
   end
@@ -101,12 +100,12 @@ defmodule MishkaMob.Device.ColorTest do
     # and stay there rather than rolling over to 0. First at the last pixel a finger can
     # land on, then dragged past the end.
     touch("alpha-track", 1.0)
-    a = readout_int(@percent)
+    a = percent()
 
     touch("alpha-track", 0.9)
     {x, y} = point("alpha-track", 0.9)
     swipe({x, y}, {frame!("alpha-track").right + 30, y})
-    b = readout_int(@percent)
+    b = percent()
 
     assert a >= 99 and b >= 99, "the right edge gave #{a}% then #{b}%"
   end
@@ -230,35 +229,6 @@ defmodule MishkaMob.Device.ColorTest do
 
   # ── helpers ────────────────────────────────────────────────────────────────
 
-  # Touch a canvas at a fraction across and down it.
-  #
-  # A plain touch, not a swipe: `phase` is "began" on touch-down, so a TAP is meant to set
-  # the value outright. That is the behaviour the sliders were rebuilt for: before it, the
-  # only way to change one was a separate slider underneath, which the user asked to have
-  # removed.
-  defp touch(tag, fx, fy \\ 0.5) do
-    {x, y} = point(tag, fx, fy)
-
-    assert :ok = Mob.Test.tap_xy(device!(), x, y)
-    sync()
-  end
-
-  # The point a fraction across and down `tag`, scrolling the page to it first. Kept just
-  # inside the canvas: its right and bottom edges belong to whatever is next to it.
-  defp point(tag, fx, fy \\ 0.5) do
-    frame = scroll_into_view(tag)
-
-    {min(frame.left + frame.width * fx, frame.right - 0.05),
-     min(frame.top + frame.height * fy, frame.bottom - 0.05)}
-  end
-
-  defp readout_int(pattern) do
-    text = readout(pattern) || flunk("no #{inspect(pattern)} readout on screen")
-
-    [digits] = Regex.run(~r/\d+/, text)
-    String.to_integer(digits)
-  end
-
   defp hsb do
     text = readout(@hsb) || flunk("no H/S/B readout on screen")
 
@@ -269,15 +239,6 @@ defmodule MishkaMob.Device.ColorTest do
 
     %{h: h, s: s, b: b}
   end
-
-  # The first rendered Text that is, whole, `pattern`.
-  defp readout(pattern), do: render_tree() |> texts() |> Enum.find(&Regex.match?(pattern, &1))
-
-  defp texts(%{type: :text, props: %{text: text}, children: children}) when is_binary(text),
-    do: [text | Enum.flat_map(children || [], &texts/1)]
-
-  defp texts(%{children: children}), do: Enum.flat_map(children || [], &texts/1)
-  defp texts(_leaf), do: []
 
   defp has_type?(%{type: type, children: children}, wanted),
     do: type == wanted or Enum.any?(children || [], &has_type?(&1, wanted))

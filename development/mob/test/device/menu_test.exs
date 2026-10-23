@@ -26,22 +26,6 @@ defmodule MishkaMob.Device.MenuTest do
     :ok
   end
 
-  # What a text node with this id reads, from the tree the screen rendered.
-  defp text_of(tag) do
-    case node_by_id(render_tree(), tag) do
-      %{props: %{text: text}} -> text
-      other -> flunk("#{tag} carries no text: #{inspect(other)}")
-    end
-  end
-
-  defp node_by_id(%{props: props, children: children} = node, id) do
-    if to_string(Map.get(props, :id, "")) == id,
-      do: node,
-      else: Enum.find_value(children || [], &node_by_id(&1, id))
-  end
-
-  defp node_by_id(_leaf, _id), do: nil
-
   test "a closed menu renders nothing at all" do
     # Close it via a command row, which is what closes the menu.
     tap("row-edit")
@@ -55,7 +39,7 @@ defmodule MishkaMob.Device.MenuTest do
   test "picking a command reports its own id" do
     tap("row-dup")
 
-    assert_eventually(fn -> assert text_of("menu-readout") == "Picked: dup" end)
+    assert_eventually(fn -> assert text_of!("menu-readout") == "Picked: dup" end)
   end
 
   test "ticking a checkbox leaves the menu open" do
@@ -114,7 +98,7 @@ defmodule MishkaMob.Device.MenuTest do
     tap("row-share-closed")
     tap("row-copy")
 
-    assert_eventually(fn -> assert text_of("menu-readout") == "Picked: copy" end)
+    assert_eventually(fn -> assert text_of!("menu-readout") == "Picked: copy" end)
     refute_shown("row-edit")
   end
 
@@ -124,7 +108,7 @@ defmodule MishkaMob.Device.MenuTest do
     tap("row-archive", expect: :none)
 
     assert shown?("row-edit"), "a disabled row closed the menu"
-    assert text_of("menu-readout") == "Nothing picked yet", "a disabled row reported a selection"
+    assert text_of!("menu-readout") == "Nothing picked yet", "a disabled row reported a selection"
   end
 
   test "the page renders every example and the props table" do

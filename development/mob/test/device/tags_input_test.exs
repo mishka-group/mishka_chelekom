@@ -46,7 +46,7 @@ defmodule MishkaMob.Device.TagsInputTest do
 
     # The X is the only part of a token that answers a touch (the pill's body is inert),
     # so that is what the finger goes to.
-    tap_settled("ti-tag-gleam-remove")
+    tap("ti-tag-gleam-remove")
 
     refute_shown("ti-tag-gleam")
     refute "gleam" in Map.fetch!(assigns(), :ti_tags)
@@ -108,7 +108,7 @@ defmodule MishkaMob.Device.TagsInputTest do
 
     a = frame!("ti-tag-averylongtagname")
     b = frame!("ti-tag-anotherlongtagname")
-    screen_width = Mob.Test.screen_info(device!()).width
+    screen_width = screen().width
 
     assert b.top > a.top + 1.4 or b.left >= a.right,
            "long tokens overlap on one row: #{inspect(a)} vs #{inspect(b)}"
@@ -146,46 +146,12 @@ defmodule MishkaMob.Device.TagsInputTest do
     assert max_y > 0, "the page does not scroll, so the props table is out of reach"
   end
 
-  # The soft keyboard that typing brought up is still resizing the page, and the new token
-  # has just re-flowed it: a frame read the instant the typing ends can be a frame in
-  # flight, and a touch aimed at it lands on nothing. Wait for the frame to hold still.
-  defp tap_settled(tag) do
-    scroll_into_view(tag)
-    settled_frame("page")
-    settled_frame(tag)
-
-    tap(tag)
-  end
-
   defp count(tag), do: Enum.count(Map.fetch!(assigns(), :ti_tags), &(&1 == tag))
 
   # Type into the draft and press the return key, which is what commits it.
   defp add_tag(text) do
-    focus_end("ti-draft")
-    for char <- String.graphemes(text), do: type(char)
+    focus("ti-draft")
+    type_each(text)
     type("\n")
   end
-
-  # A real touch in the bottom-right corner of the field, so the caret lands at the end of
-  # the draft. The draft has no on_focus handler, so the touch delivers no event and tap/2
-  # cannot be used.
-  defp focus_end(tag) do
-    scroll_into_view(tag)
-    frame = settled_frame(tag)
-
-    result = Mob.Test.tap_xy(device!(), frame.right - 4, frame.bottom - 4)
-    sync()
-
-    assert result in [:ok, {:error, :no_effect}], "the touch on #{tag} failed: #{inspect(result)}"
-  end
-
-  defp node!(tag), do: find_node(render_tree(), to_string(tag)) || flunk("no node tagged #{tag}")
-
-  defp find_node(%{props: props, children: children} = node, id) do
-    if to_string(Map.get(props, :id, "")) == id,
-      do: node,
-      else: Enum.find_value(children || [], &find_node(&1, id))
-  end
-
-  defp find_node(_leaf, _id), do: nil
 end

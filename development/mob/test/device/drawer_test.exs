@@ -258,16 +258,6 @@ defmodule MishkaMob.Device.DrawerTest do
     for id <- @examples, do: refute(shown?("#{id}-panel"), "#{id} was open on a fresh page")
   end
 
-  # The window the device reports: width and height in dp, and the insets.
-  defp screen, do: Mob.Test.screen_info(device!())
-
-  # Roughly 125dp of vertical travel: past the sheet's 48dp threshold, inside one snap
-  # step (the points are 180, 300 and 440dp).
-  defp step, do: screen().height * 0.15
-
-  # Roughly 150dp sideways, which clears the 64dp default threshold on any density.
-  defp reach, do: screen().width * 0.4
-
   # Opens an example from `trigger` (default: its `<id>-open` button) and waits for it.
   defp open(id, trigger \\ nil) do
     tap(trigger || "#{id}-open")

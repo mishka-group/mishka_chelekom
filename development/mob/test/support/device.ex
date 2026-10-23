@@ -33,6 +33,27 @@ defmodule MishkaMob.Device do
   compares `Mob.Agent.Receipts` before and after: a delivered event leaves a
   receipt, a dropped one does not. A drop is retried once (and counted, see
   `stats/0`), then fails loudly where it happened.
+
+  What produces no receipt is the exception, and says so: `expect: :none` for a
+  control that must do nothing, `expect: :any` (`touch/3`, `focus/1`) for a canvas or a
+  text field with no `on_focus`.
+
+  ## The keyboard and flings
+
+  Focusing a text field raises the soft keyboard, which resizes the page over ~400ms;
+  a frame read or a touch aimed inside that window lands on nothing. So a tap on a
+  field, `focus/1`, and the first touch after typing wait for the page and the target
+  to hold still. A drag ends in a fling, and a touch that lands on a fling stops it
+  instead of reaching its target, so `drag/2` and `swipe/3` return only once the scroll
+  has been still for a few drawn frames. Neither is a sleep: both poll the frame and
+  scroll tables, one read per drawn frame.
+
+  ## Reading the tree
+
+  Native state (a field's own text, a switch's checked, enabled) is unreadable from the
+  host. The helpers under "Reading the render tree" read what the screen asked for
+  instead, addressed by tag: the page is one eagerly rendered tree and every code
+  sample is a text node too, so a page-wide query can be satisfied by a sample.
   """
 
   import ExUnit.Assertions, only: [flunk: 1]
@@ -64,6 +85,16 @@ defmodule MishkaMob.Device do
   @hold_ms 650
   @poll_ms 10
   @eventually_ms 3_000
+  # A drag ends in a fling, and a touch that lands on a fling stops it instead of
+  # reaching what it was aimed at. Idle is this many reads in a row (one per drawn
+  # frame) that agree, within a time bound for a page that never stops animating.
+  @idle_reads 3
+  @idle_ms 2_000
+  # The distance in from a field's corner that a "caret at the end" touch lands.
+  @corner_dp 4
+  # The share of the screen a typical drawer drag travels.
+  @step_share 0.15
+  @reach_share 0.4
 
   # What the bridge in this branch must answer. An app installed from an older
   # build answers false to some of them, and every test would then fail on the
@@ -77,12 +108,19 @@ defmodule MishkaMob.Device do
     :delete_backward,
     :element_frames,
     :scroll_info,
-    :scroll_to
+    :scroll_to,
+    :press_down_xy,
+    :press_move_xy,
+    :press_up_xy
   ]
 
   @node_key {__MODULE__, :node}
   @scale_key {__MODULE__, :scale}
   @stats_key {__MODULE__, :stats}
+  # Per test process: layout that may still be moving because of the soft keyboard.
+  @unsettled_key {__MODULE__, :unsettled}
+  # Per test process: where the held finger is, so the lift lands where it went.
+  @press_key {__MODULE__, :press}
 
   # ── Connecting ──────────────────────────────────────────────────────────────
 
@@ -447,6 +485,181 @@ defmodule MishkaMob.Device do
 
   def tree_has_text?(_leaf, _text), do: false
 
+  # ── Reading the render tree ─────────────────────────────────────────────────
+  #
+  # What the screen asked for, found by tag. The page is one eagerly rendered
+  # tree and every code sample on it is a text node too, so ask a tag, not the
+  # page. Native state (a field's own text, a switch's checked) is not readable
+  # from the host; the tree stands in for it, and a test says so in a comment.
+
+  @doc """
+  The node of the rendered tree whose `:id` is `tag`, or `nil` when none is.
+  """
+  @spec find_node(tag :: tag()) :: map() | nil
+  def find_node(tag), do: find_node(render_tree(), tag)
+
+  @doc """
+  `find_node/1` in a tree you already hold: `render_tree/0`, or a subtree of it.
+  """
+  @spec find_node(tree :: map() | nil, tag :: tag()) :: map() | nil
+  def find_node(%{props: props, children: children} = node, tag) do
+    if to_string(Map.get(props, :id, "")) == to_string(tag),
+      do: node,
+      else: Enum.find_value(children || [], &find_node(&1, tag))
+  end
+
+  def find_node(_leaf, _tag), do: nil
+
+  @doc "`find_node/1`, failing instead of returning `nil`."
+  @spec node!(tag :: tag()) :: map()
+  def node!(tag), do: find_node(tag) || flunk("no node tagged #{tag}")
+
+  @doc """
+  The `text` of the node tagged `tag`, or `nil` when no such node is rendered or
+  it carries none. For a caption that may not be there yet, inside
+  `assert_eventually/2`. `text_of!/1` when it must be.
+  """
+  @spec text_of(tag :: tag()) :: String.t() | nil
+  def text_of(tag) do
+    case find_node(tag) do
+      %{props: %{text: text}} when is_binary(text) -> text
+      _no_text -> nil
+    end
+  end
+
+  @doc "`text_of/1`, failing when there is no such node or it carries no text."
+  @spec text_of!(tag :: tag()) :: String.t()
+  def text_of!(tag) do
+    case find_node(tag) do
+      %{props: %{text: text}} -> text
+      nil -> flunk("no node tagged #{tag}")
+      other -> flunk("#{tag} carries no text: #{inspect(other.props)}")
+    end
+  end
+
+  @doc """
+  The `value` the screen gave the text field tagged `tag`. What the screen told
+  the field to show: a field that kept its own text while the assign said
+  otherwise would pass any check on the assign alone.
+  """
+  @spec value_of(tag :: tag()) :: String.t()
+  def value_of(tag) do
+    case find_node(tag) do
+      %{props: %{value: value}} -> value
+      nil -> flunk("no node tagged #{tag}")
+      other -> flunk("#{tag} carries no value: #{inspect(other.props)}")
+    end
+  end
+
+  @doc """
+  Every `text` rendered in `tree` (default: the whole screen), in tree order.
+  Compare whole (`"3 of 5 bars" in texts()`), never by substring: a code sample
+  quotes the same words.
+  """
+  @spec texts(tree :: map() | nil) :: [String.t()]
+  def texts(tree \\ render_tree())
+
+  def texts(%{props: props, children: children}) do
+    own = if is_binary(props[:text]), do: [props.text], else: []
+
+    own ++ Enum.flat_map(children || [], &texts/1)
+  end
+
+  def texts(_leaf), do: []
+
+  @doc """
+  Every `text` rendered inside the node tagged `tag`, the node included. Empty
+  when there is no such node.
+  """
+  @spec texts_under(tag :: tag()) :: [String.t()]
+  def texts_under(tag) do
+    case find_node(tag) do
+      nil -> []
+      node -> texts(node)
+    end
+  end
+
+  @doc """
+  Does the node tagged `tag` carry `label` as the text of one of its own nodes?
+
+  A page-wide text query cannot say that: an example's source is rendered as a text
+  node too, so a label quoted in a code sample is "on the page" whether or not the
+  live component drew it.
+  """
+  @spec labelled?(tag :: tag(), label :: String.t()) :: boolean()
+  def labelled?(tag, label), do: label in texts_under(tag)
+
+  @doc "How many nodes of the screen read exactly `text`."
+  @spec text_count(text :: String.t()) :: non_neg_integer()
+  def text_count(text), do: Enum.count(texts(), &(&1 == text))
+
+  @doc """
+  Is `text` rendered anywhere in a string prop of the screen? Substring, any
+  node: it answers "did the screen ask for this", so it needs a string no code
+  sample quotes, or an interaction that makes the difference.
+  """
+  @spec showing?(text :: String.t()) :: boolean()
+  def showing?(text), do: tree_has_text?(render_tree(), text)
+
+  @doc """
+  The first rendered text that is, whole, `pattern` (`~r/\\A\\d+°\\z/`), or `nil`.
+
+  Whole, because a page's own description often contains the unit ("Pick a hue,
+  0-360°") and a substring match returns the prose.
+  """
+  @spec readout(pattern :: Regex.t()) :: String.t() | nil
+  def readout(pattern), do: Enum.find(texts(), &Regex.match?(pattern, &1))
+
+  @doc "`readout/1` as the integer it starts with, failing when none is on screen."
+  @spec readout_int(pattern :: Regex.t()) :: integer()
+  def readout_int(pattern) do
+    text = readout(pattern) || flunk("no #{inspect(pattern)} readout on screen")
+
+    [digits] = Regex.run(~r/\d+/, text)
+    String.to_integer(digits)
+  end
+
+  @doc """
+  The percentage the topmost `NN%` readout reports. Topmost, because a page shows
+  several and the first is the one wired to its buttons.
+  """
+  @spec percent() :: integer()
+  def percent, do: readout_int(~r/\A\d+%\z/)
+
+  @doc """
+  Which of `states` the control `prefix` is in, read from the tag it carries now
+  (`"<prefix>-<state>"`), or `nil` when it is in none. Controls that draw their
+  state as a colour put it in the tag, since a colour is not readable.
+  """
+  @spec state_of(prefix :: String.t(), states :: [String.t()]) :: String.t() | nil
+  def state_of(prefix, states), do: Enum.find(states, &shown?("#{prefix}-#{&1}"))
+
+  @doc """
+  `state_of/2` for a state that must exist. Insisting on one, rather than accepting
+  `nil`, means a control that failed to render fails the test instead of quietly
+  satisfying it.
+  """
+  @spec state_of!(prefix :: String.t(), states :: [String.t()]) :: String.t()
+  def state_of!(prefix, states), do: state_of(prefix, states) || flunk("#{prefix} is untagged")
+
+  @doc "The whole tag of `prefix`, state included: the state moves and the tag follows."
+  @spec state_tag(prefix :: String.t(), states :: [String.t()]) :: String.t()
+  def state_tag(prefix, states), do: "#{prefix}-#{state_of!(prefix, states)}"
+
+  @doc """
+  Fails unless every heading is rendered, and the page scrolls (so its props
+  table, the last thing on it, is reachable). The closing test of a page.
+  """
+  @spec assert_headings(headings :: [String.t()]) :: :ok
+  def assert_headings(headings) do
+    for heading <- headings, do: assert_text(heading)
+
+    %{max_offset: {_x, max_y}} = Mob.Test.scroll_info(device!(), @page)
+    if max_y <= 0, do: flunk("the page does not scroll, so the props table is out of reach")
+
+    :ok
+  end
+
   # ── Pages ───────────────────────────────────────────────────────────────────
 
   @doc """
@@ -463,6 +676,7 @@ defmodule MishkaMob.Device do
   @spec fresh_page(slug :: atom(), opts :: keyword()) :: :ok
   def fresh_page(slug, opts \\ []) do
     node = device!()
+    Process.delete(@unsettled_key)
     reset_theme(node, Keyword.get(opts, :theme, @theme))
 
     :ok = Mob.Test.reset_to(node, ComponentScreen, %{slug: slug})
@@ -501,25 +715,39 @@ defmodule MishkaMob.Device do
 
   @doc """
   Scrolls the page so `tag` is on screen, centred when it had to move. A no-op
-  when it already is, and when there is no scroll to move. Pass `in: "<scroll id>"`
-  for a scroll other than the page's. Returns the frame afterwards.
+  when it already is, and when there is no scroll to move. Returns the frame afterwards.
+
+  Options:
+
+    * `:in` - the id of a scroll other than the page's.
+    * `:center` - also bring a tag that is on screen, but more than a quarter of the
+      viewport from its middle, to the middle, and return its settled frame. For a
+      gesture that needs room to travel both ways: a tag whose centre is merely
+      visible can sit hard against an edge, and a drag toward that edge leaves the
+      window.
   """
   @spec scroll_into_view(tag :: tag(), opts :: keyword()) :: frame()
   def scroll_into_view(tag, opts \\ []) do
     scroller = Keyword.get(opts, :in, @page)
+    center? = Keyword.get(opts, :center, false)
     frames = frames()
     target = lookup(frames, tag) || flunk(not_shown_message(tag))
 
-    case lookup(frames, scroller) do
-      nil ->
-        target
+    framed =
+      case lookup(frames, scroller) do
+        nil ->
+          target
 
-      viewport ->
-        if visible?(target, viewport), do: target, else: scroll_to_centre(tag, scroller, viewport)
-    end
+        viewport ->
+          if visible?(target, viewport) and not (center? and off_middle?(target, viewport)),
+            do: target,
+            else: scroll_to_center(tag, scroller, viewport)
+      end
+
+    if center?, do: settled_frame(tag), else: framed
   end
 
-  defp scroll_to_centre(tag, scroller, viewport) do
+  defp scroll_to_center(tag, scroller, viewport) do
     node = device!()
     %{offset: {_x, offset}} = Mob.Test.scroll_info(node, scroller)
     {_cx, wanted} = tag |> frame!() |> center()
@@ -547,7 +775,69 @@ defmodule MishkaMob.Device do
     y >= outer.top and y <= outer.bottom
   end
 
+  defp off_middle?(inner, outer) do
+    {_x, y} = center(inner)
+    {_ox, middle} = center(outer)
+
+    abs(y - middle) > outer.height / 4
+  end
+
   defp scale, do: :persistent_term.get(@scale_key)
+
+  # ── Geometry ────────────────────────────────────────────────────────────────
+
+  @doc """
+  The point a fraction `fx` across and `fy` down `tag` (default: its centre), after
+  scrolling the page to it. Kept just inside the frame: its right and bottom edges
+  belong to whatever is next to it.
+  """
+  @spec point(tag :: tag(), fx :: number(), fy :: number()) :: {float(), float()}
+  def point(tag, fx \\ 0.5, fy \\ 0.5) do
+    frame = scroll_into_view(tag)
+
+    {min(frame.left + frame.width * fx, frame.right - 0.05),
+     min(frame.top + frame.height * fy, frame.bottom - 0.05)}
+  end
+
+  @doc "Do two frames sit on one row? Their centres are less than a frame's height apart."
+  @spec same_row?(a :: frame(), b :: frame()) :: boolean()
+  def same_row?(a, b) do
+    {_x, a_y} = center(a)
+    {_x, b_y} = center(b)
+
+    abs(a_y - b_y) < a.height
+  end
+
+  @doc """
+  A point outside `frame` that a finger could land on: the left gutter, `gap` dp
+  below it, or above it when there is no room below (a panel sits low on the page
+  when its trigger does).
+  """
+  @spec outside(frame :: frame(), gap :: number()) :: {float(), float()}
+  def outside(frame, gap \\ 80) do
+    page = frame!(@page)
+    below = frame.bottom + gap
+
+    if below < page.bottom, do: {10.0, below}, else: {10.0, frame.top - gap}
+  end
+
+  @doc "The window the device reports: `width` and `height` in dp, `scale`, and the insets."
+  @spec screen() :: map()
+  def screen, do: Mob.Test.screen_info(device!())
+
+  @doc """
+  A vertical drag distance, roughly 15% of the screen's height (~125dp): past a
+  sheet's 48dp threshold, inside one of its snap steps.
+  """
+  @spec step() :: float()
+  def step, do: screen().height * @step_share
+
+  @doc """
+  A sideways drag distance, roughly 40% of the screen's width (~150dp): clears a
+  64dp threshold on any density.
+  """
+  @spec reach() :: float()
+  def reach, do: screen().width * @reach_share
 
   # ── Touch ───────────────────────────────────────────────────────────────────
 
@@ -560,21 +850,83 @@ defmodule MishkaMob.Device do
 
     * `:expect` - `:event` (default): the tap must reach a handler, retried once
       if it does not and failed if it still does not. `:none`: it must reach
-      nothing (a disabled control), and the test fails if it does.
+      nothing (a disabled control), and the test fails if it does. `:any`: it only
+      has to be dispatched, and leaves a receipt or not. For what produces none: a
+      canvas, whose drag is a stream and not a discrete event, and a field that
+      already holds focus.
     * `:retry` - how many times a dropped tap is repeated. Default 1; 0 to see raw drops.
+
+  A tap on a text field raises the soft keyboard, which resizes the page over the
+  next ~400ms, so it returns once the page and the field have stopped moving. The
+  first touch after typing waits the same way before it aims. A field with no
+  `on_focus` delivers no event, so a tap on it fails with "reached no handler":
+  use `focus/1`.
   """
   @spec tap(tag :: tag(), opts :: keyword()) :: [Receipt.t()]
   def tap(tag, opts \\ []) do
-    deliver("tap #{tag}", opts, fn ->
-      {x, y} = tag |> scroll_into_view() |> center()
-      Mob.Test.tap_xy(device!(), x, y)
-    end)
+    receipts =
+      deliver("tap #{tag}", opts, fn ->
+        settle_if_unsettled(tag)
+        {x, y} = point(tag)
+        Mob.Test.tap_xy(device!(), x, y)
+      end)
+
+    # A text field reports the edge of gaining focus, and that is how a tap is
+    # known to have landed on one without another round trip to ask.
+    if Enum.any?(receipts, &match?({:focus, _address}, &1.event)), do: settle_layout([tag])
+
+    receipts
   end
 
   @doc "A real touch at `(x, y)` dp of the activity window. Options as in `tap/2`."
   @spec tap_xy(x :: number(), y :: number(), opts :: keyword()) :: [Receipt.t()]
   def tap_xy(x, y, opts \\ []) do
-    deliver("tap at (#{x}, #{y})", opts, fn -> Mob.Test.tap_xy(device!(), x, y) end)
+    deliver("tap at (#{x}, #{y})", opts, fn ->
+      settle_if_unsettled(nil)
+      Mob.Test.tap_xy(device!(), x, y)
+    end)
+  end
+
+  @doc """
+  A real touch a fraction `fx` across and `fy` down `tag` (default: its centre),
+  with no handler required (`tap/2` with `expect: :any`).
+
+  For a canvas, where the position of the touch is the value: its drag reaches the
+  screen as a stream, which leaves no receipt for `tap/2` to find. What proves the
+  touch landed is the readout the page renders from its own assign.
+
+  A plain touch, not a swipe: a canvas reports `phase: "began"` on touch-down, so a
+  tap sets the value outright, which is what the colour sliders were rebuilt to do.
+  """
+  @spec touch(tag :: tag(), fx :: number(), fy :: number()) :: [Receipt.t()]
+  def touch(tag, fx \\ 0.5, fy \\ 0.5) do
+    deliver("touch #{tag} at #{fx}, #{fy}", [expect: :any], fn ->
+      settle_if_unsettled(tag)
+      {x, y} = point(tag, fx, fy)
+      Mob.Test.tap_xy(device!(), x, y)
+    end)
+  end
+
+  @doc """
+  A real touch in the bottom-right corner of the text field `tag`: past the end of
+  its last line, so the caret lands at the end of the text whatever its length. It
+  returns once the keyboard's resize has settled.
+
+  For a field with no `on_focus` handler, which delivers no event and so cannot be
+  tapped, and for one that already has focus. A touch in the middle would leave the
+  caret mid-text.
+  """
+  @spec focus(tag :: tag()) :: :ok
+  def focus(tag) do
+    deliver("focus #{tag}", [expect: :any], fn ->
+      settle_if_unsettled(tag)
+      scroll_into_view(tag)
+      frame = settled_frame(tag)
+
+      Mob.Test.tap_xy(device!(), frame.right - @corner_dp, frame.bottom - @corner_dp)
+    end)
+
+    settle_layout([tag])
   end
 
   @doc """
@@ -585,7 +937,8 @@ defmodule MishkaMob.Device do
   @spec hold(tag :: tag(), ms :: pos_integer(), opts :: keyword()) :: [Receipt.t()]
   def hold(tag, ms \\ @hold_ms, opts \\ []) do
     deliver("hold #{tag}", opts, fn ->
-      {x, y} = tag |> scroll_into_view() |> center()
+      settle_if_unsettled(tag)
+      {x, y} = point(tag)
       Mob.Test.long_press_xy(device!(), x, y, ms)
     end)
   end
@@ -593,25 +946,142 @@ defmodule MishkaMob.Device do
   @doc """
   A real drag from the centre of `tag` by `{dx, dy}` dp, over real frames so touch
   slop is crossed. Scrolls a scroll view, moves a slider.
+
+  It returns once the drag's fling is over (see `swipe/3`), watching `tag` itself
+  too: a scroll view's own offset, or the frame of what the drag moves.
   """
   @spec drag(tag :: tag(), by :: {number(), number()}) :: :ok
   def drag(tag, {dx, dy}) do
-    {x, y} = tag |> scroll_into_view() |> center()
-    swipe({x, y}, {x + dx, y + dy})
+    settle_if_unsettled(tag)
+    {x, y} = point(tag)
+    swipe({x, y}, {x + dx, y + dy}, watch: tag)
   end
 
-  @doc "A real swipe between two points, in dp of the activity window."
-  @spec swipe(from :: {number(), number()}, to :: {number(), number()}) :: :ok
-  def swipe({x1, y1}, {x2, y2}) do
+  @doc """
+  A real swipe between two points, in dp of the activity window.
+
+  A finger lifted at speed leaves a fling, and a touch that lands on a fling stops
+  it instead of reaching its target: taps 90 to 350ms after a drag were lost, even
+  retried. So this returns only once the page's scroll offset (and, with `:watch`, a
+  tag's scroll offset and frame) has held still for #{@idle_reads} drawn frames. A
+  drag on a canvas moves nothing and returns at once. A canvas drag leaves no
+  receipt either (see the `:expect` option of `tap/2`), and none is required.
+  """
+  @spec swipe(from :: {number(), number()}, to :: {number(), number()}, opts :: keyword()) ::
+          :ok
+  def swipe({x1, y1}, {x2, y2}, opts \\ []) do
+    settle_if_unsettled(nil)
     expect_ok!("swipe", Mob.Test.swipe(device!(), x1, y1, x2, y2))
+    sync()
+    await_scroll_idle(Keyword.get(opts, :watch))
+  end
+
+  defp await_scroll_idle(watch) do
+    deadline = System.monotonic_time(:millisecond) + @idle_ms
+    idle_after(watch, scroll_snapshot(watch), 0, deadline)
+  end
+
+  # One read per drawn frame, until `@idle_reads` of them in a row agree.
+  defp idle_after(_watch, _last, @idle_reads, _deadline), do: :ok
+
+  defp idle_after(watch, last, still, deadline) do
+    if System.monotonic_time(:millisecond) >= deadline do
+      :ok
+    else
+      barrier()
+      now = scroll_snapshot(watch)
+
+      if now == last,
+        do: idle_after(watch, now, still + 1, deadline),
+        else: idle_after(watch, now, 0, deadline)
+    end
+  end
+
+  defp scroll_snapshot(watch) do
+    {scroll_offset(@page), watch && scroll_offset(watch), watch && frame(watch)}
+  end
+
+  defp scroll_offset(id) do
+    case Mob.Test.scroll_info(device!(), id) do
+      %{offset: offset} -> offset
+      _not_a_scroll -> nil
+    end
+  end
+
+  # ── Held press ──────────────────────────────────────────────────────────────
+
+  @doc """
+  Puts a finger down at `{x, y}` dp, runs `fun`, and lifts it: the lift is in an
+  `after`, so a failing assertion inside `fun` cannot leave the app believing a
+  finger is on the glass for the rest of the suite. Use `press_move/1` inside to
+  drag the held finger; it lifts where it last was. Returns what `fun` returns.
+
+  The other gestures (`tap/2`, `swipe/3`, `hold/3`) refuse while a finger is down.
+  """
+  @spec while_pressed(at :: {number(), number()}, fun :: (-> result)) :: result
+        when result: term()
+  def while_pressed({x, y} = at, fun) do
+    node = device!()
+    expect_ok!("press down", Mob.Test.press_down_xy(node, x, y))
+    Process.put(@press_key, at)
+    sync()
+
+    try do
+      fun.()
+    after
+      {up_x, up_y} = Process.delete(@press_key)
+      Mob.Test.press_up_xy(node, up_x, up_y)
+      sync()
+    end
+  end
+
+  @doc "Moves the finger `while_pressed/2` holds down to `{x, y}` dp, and waits for the app."
+  @spec press_move(to :: {number(), number()}) :: :ok
+  def press_move({x, y} = to) do
+    expect_ok!("press move", Mob.Test.press_move_xy(device!(), x, y))
+    Process.put(@press_key, to)
     sync()
   end
 
-  @doc "Types `text` (ASCII only) into the focused field. Tap the field first."
+  @doc """
+  Delivers the handler message `tag`'s node carries in `prop` (`:on_tap`,
+  `:on_long_press`, `:on_tap` of an `anchored` node is its dismiss) without a
+  touch. For what a touch cannot reach: a control a modal popup covers, or a
+  handler whose payload is the thing under test. A test that uses it says why in
+  a comment.
+  """
+  @spec event(tag :: tag(), prop :: atom()) :: [Receipt.t()]
+  def event(tag, prop \\ :on_tap) do
+    deliver("#{prop} of #{tag}", [], fn ->
+      case find_node(tag) do
+        %{props: %{^prop => {_pid, handler}}} -> Mob.Test.tap(device!(), handler)
+        other -> flunk("#{tag} has no #{prop}: #{inspect(other && other.props)}")
+      end
+    end)
+  end
+
+  # ── The soft keyboard ───────────────────────────────────────────────────────
+
+  @doc """
+  Types `text` (ASCII only) into the focused field, as one key event. `focus/1` or
+  `tap/2` the field first. For a value the screen sanitises key by key, `type_each/1`.
+  """
   @spec type(text :: String.t()) :: :ok
   def type(text) do
     expect_ok!("type #{inspect(text)}", Mob.Test.type_text(device!(), text))
+    Process.put(@unsettled_key, true)
     sync()
+  end
+
+  @doc """
+  One key at a time, settling between them, as a person types: the screen answers
+  each value before the next key arrives.
+  """
+  @spec type_each(text :: String.t()) :: :ok
+  def type_each(text) do
+    for char <- String.graphemes(text), do: type(char)
+
+    :ok
   end
 
   @doc "Presses backspace `count` times in the focused field."
@@ -619,6 +1089,7 @@ defmodule MishkaMob.Device do
   def delete_backward(count \\ 1) do
     for _press <- 1..count//1 do
       expect_ok!("backspace", Mob.Test.delete_backward(device!()))
+      Process.put(@unsettled_key, true)
       sync()
     end
 
@@ -626,28 +1097,35 @@ defmodule MishkaMob.Device do
   end
 
   @doc """
-  Delivers the handler message `tag`'s node carries in `prop` (`:on_tap`,
-  `:on_long_press`, `:on_tap` of an `anchored` node is its dismiss) without a
-  touch. For what a touch cannot reach: a control a modal popup covers, or a
-  handler whose payload is the thing under test.
+  Replaces what is in the text field `tag` with `text`, the way a person would: a
+  touch to put the caret at the end (`focus/1`), a backspace per character of the
+  value the screen gave the field, then the keys.
+
+  There is no select-all or clear-text in the harness, and a touch in the middle of
+  the field would leave the caret mid-text.
   """
-  @spec event(tag :: tag(), prop :: atom()) :: [Receipt.t()]
-  def event(tag, prop \\ :on_tap) do
-    deliver("#{prop} of #{tag}", [], fn ->
-      case find_node(render_tree(), to_string(tag)) do
-        %{props: %{^prop => {_pid, handler}}} -> Mob.Test.tap(device!(), handler)
-        other -> flunk("#{tag} has no #{prop}: #{inspect(other && other.props)}")
-      end
-    end)
+  @spec replace_text(tag :: tag(), text :: String.t()) :: :ok
+  def replace_text(tag, text) do
+    current = value_of(tag)
+
+    focus(tag)
+    delete_backward(String.length(current))
+    type_each(text)
   end
 
-  defp find_node(%{props: props, children: children} = node, id) do
-    if to_string(Map.get(props, :id, "")) == id,
-      do: node,
-      else: Enum.find_value(children || [], &find_node(&1, id))
+  # The soft keyboard resizes the page over ~400ms after a field is focused, and what
+  # typing adds re-flows it. A frame read inside that window is a frame in flight, and
+  # a touch aimed at it lands on nothing: wait for the frames to hold still.
+  defp settle_layout(tags) do
+    Process.delete(@unsettled_key)
+    for tag <- [@page | tags], do: settled_frame(tag)
+
+    :ok
   end
 
-  defp find_node(_leaf, _id), do: nil
+  defp settle_if_unsettled(tag) do
+    if Process.get(@unsettled_key), do: settle_layout(List.wrap(tag))
+  end
 
   # ── Receipts ────────────────────────────────────────────────────────────────
 
@@ -665,36 +1143,56 @@ defmodule MishkaMob.Device do
     sync()
     fresh = new_receipts(recent_receipts(node), before)
 
-    case {expect, fresh, result} do
-      {_expect, _fresh, {:error, reason}} when reason not in [:dispatch_failed, :no_effect] ->
-        flunk("#{label} failed: #{inspect(reason)}")
+    case judge(label, expect, fresh, result) do
+      {:done, receipts} ->
+        receipts
 
-      {_expect, _fresh, {:badrpc, reason}} ->
-        flunk("#{label} could not reach the app: #{inspect(reason)}")
-
-      {:event, [_ | _], _result} ->
-        reject_unhandled!(label, fresh)
-        fresh
-
-      {:event, [], _result} when retries > 0 ->
+      :dropped when retries > 0 ->
         bump(:retried)
         attempt(label, expect, retries - 1, action)
 
-      {:event, [], result} ->
-        flunk(
-          "#{label} reached no handler (touch result #{inspect(result)}). " <>
-            "No receipt followed it, so the event never arrived: a stale handle, " <>
-            "or a touch that landed on nothing clickable. Last receipts: " <>
-            describe(recent_receipts(node))
-        )
-
-      {:none, [], _result} ->
-        []
-
-      {:none, fresh, _result} ->
-        flunk("#{label} should have done nothing but delivered #{describe(fresh)}")
+      :dropped ->
+        flunk(dropped_message(label, expect, result, node))
     end
   end
+
+  # What a touch and its receipts say about the expectation: done, or dropped (a
+  # touch that may be repeated), or a failure outright.
+  defp judge(label, _expect, _fresh, {:error, reason})
+       when reason not in [:dispatch_failed, :no_effect],
+       do: flunk("#{label} failed: #{inspect(reason)}")
+
+  defp judge(label, _expect, _fresh, {:badrpc, reason}),
+    do: flunk("#{label} could not reach the app: #{inspect(reason)}")
+
+  defp judge(label, :event, [_ | _] = fresh, _result) do
+    reject_unhandled!(label, fresh)
+    {:done, fresh}
+  end
+
+  defp judge(_label, :event, [], _result), do: :dropped
+
+  defp judge(label, :any, fresh, result) when result in [:ok, {:error, :no_effect}] do
+    reject_unhandled!(label, fresh)
+    {:done, fresh}
+  end
+
+  defp judge(_label, :any, _fresh, _result), do: :dropped
+  defp judge(_label, :none, [], _result), do: {:done, []}
+
+  defp judge(label, :none, fresh, _result),
+    do: flunk("#{label} should have done nothing but delivered #{describe(fresh)}")
+
+  defp dropped_message(label, :event, result, node) do
+    "#{label} reached no handler (touch result #{inspect(result)}). " <>
+      "No receipt followed it, so the event never arrived: a stale handle, " <>
+      "a touch that landed on nothing clickable, or a text field with no " <>
+      "on_focus (focus/1 touches those). Last receipts: " <>
+      describe(recent_receipts(node))
+  end
+
+  defp dropped_message(label, :any, result, _node),
+    do: "#{label} was not dispatched to any window (touch result #{inspect(result)})"
 
   defp reject_unhandled!(label, receipts) do
     if Enum.any?(receipts, &Receipt.reached?(&1, :unhandled)) do
@@ -733,7 +1231,7 @@ defmodule MishkaMob.Device do
 
   @doc """
   Counts since the app was connected: `:taps` delivered through `tap/2`, `tap_xy/3`,
-  `hold/3` and `event/2`, and `:retried`, how many of those were dropped and had to
+  `touch/3`, `focus/1`, `hold/3` and `event/2`, and `:retried`, how many of those were dropped and had to
   be repeated. `:retried` should stay 0; a non-zero count means the pacing has a hole.
   """
   @spec stats() :: %{taps: non_neg_integer(), retried: non_neg_integer()}

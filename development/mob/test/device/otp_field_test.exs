@@ -49,7 +49,7 @@ defmodule MishkaMob.Device.OtpFieldTest do
     # and a touch there is what a finger on that box actually does. The field already has
     # focus, so the touch delivers no event of its own.
     field = settled_frame("otp-code")
-    touch(field.left + 1, field.top + field.height / 2)
+    tap_xy(field.left + 1, field.top + field.height / 2, expect: :any)
     type("23")
 
     # Appended, not prepended: 1-2-3, where the bug gave 2-3-1.
@@ -155,39 +155,5 @@ defmodule MishkaMob.Device.OtpFieldTest do
 
   # Does some slot on the page show exactly `digit`? Matched whole, so it cannot be
   # satisfied by a digit inside the caption, the props table or a code sample.
-  defp slot_shows?(digit), do: render_tree() |> texts() |> Enum.member?(digit)
-
-  defp texts(%{type: :text, props: %{text: text}, children: children}),
-    do: [text | Enum.flat_map(children || [], &texts/1)]
-
-  defp texts(%{children: children}), do: Enum.flat_map(children || [], &texts/1)
-  defp texts(_leaf), do: []
-
-  # One key at a time, settling between them, as a person types: the screen sanitises
-  # each value before the next key arrives.
-  defp type_each(text) do
-    for char <- String.graphemes(text), do: type(char)
-
-    :ok
-  end
-
-  # A real touch at a point, with no handler expected: tap_xy/3 would insist an event
-  # followed.
-  defp touch(x, y) do
-    result = Mob.Test.tap_xy(device!(), x, y)
-    sync()
-
-    assert result in [:ok, {:error, :no_effect}],
-           "the touch at (#{x}, #{y}) failed: #{inspect(result)}"
-  end
-
-  defp node!(tag), do: find_node(render_tree(), to_string(tag)) || flunk("no node tagged #{tag}")
-
-  defp find_node(%{props: props, children: children} = node, id) do
-    if to_string(Map.get(props, :id, "")) == id,
-      do: node,
-      else: Enum.find_value(children || [], &find_node(&1, id))
-  end
-
-  defp find_node(_leaf, _id), do: nil
+  defp slot_shows?(digit), do: digit in texts()
 end

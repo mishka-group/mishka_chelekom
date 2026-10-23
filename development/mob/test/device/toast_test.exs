@@ -29,34 +29,6 @@ defmodule MishkaMob.Device.ToastTest do
   """
   use MishkaMob.DeviceCase, page: :toast
 
-  # What a text node with this id reads, from the tree the screen rendered.
-  defp text_of(tag) do
-    case node_by_id(render_tree(), tag) do
-      %{props: %{text: text}} -> text
-      other -> flunk("#{tag} carries no text: #{inspect(other)}")
-    end
-  end
-
-  defp node_by_id(%{props: props, children: children} = node, id) do
-    if to_string(Map.get(props, :id, "")) == id,
-      do: node,
-      else: Enum.find_value(children || [], &node_by_id(&1, id))
-  end
-
-  defp node_by_id(_leaf, _id), do: nil
-
-  # How many nodes of the rendered tree read EXACTLY `text`.
-  defp text_count(text), do: text_count(render_tree(), text)
-
-  defp text_count(%{props: props, children: children}, text) do
-    own = if Map.get(props, :text) == text, do: 1, else: 0
-    below = (children || []) |> Enum.map(&text_count(&1, text)) |> Enum.sum()
-
-    own + below
-  end
-
-  defp text_count(_leaf, _text), do: 0
-
   # The dismiss controls laid out right now, one per card.
   defp close_controls do
     for {tag, {_x, _y, width, height}} <- frames(),
@@ -69,11 +41,11 @@ defmodule MishkaMob.Device.ToastTest do
   test "tapping a button stacks a toast" do
     tap("tst-info")
     assert_shown("tst-1")
-    assert text_of("tst-1-title") == "Heads up"
+    assert text_of!("tst-1-title") == "Heads up"
 
     tap("tst-warning")
     assert_shown("tst-2")
-    assert text_of("tst-2-title") == "Careful"
+    assert text_of!("tst-2-title") == "Careful"
 
     assert shown?("tst-1"), "the second toast replaced the first instead of stacking"
   end
@@ -128,7 +100,7 @@ defmodule MishkaMob.Device.ToastTest do
     for button <- ~w(tst-info tst-success tst-warning tst-danger), do: tap(button)
 
     assert_shown("tst-4")
-    assert text_of("tst-4-title") == "Failed"
+    assert text_of!("tst-4-title") == "Failed"
 
     refute_shown("tst-1")
 

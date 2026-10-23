@@ -17,17 +17,17 @@ defmodule MishkaMob.Device.ToggleTest do
   """
   use MishkaMob.DeviceCase, page: :toggle
 
-  import MishkaMob.DeviceText
+  @states ~w(pressed idle)
 
   # The toggle's state, from whichever tag it carries now: "pressed", "idle", or nil
   # when it is not rendered at all.
-  defp state_of(prefix), do: Enum.find(~w(pressed idle), &shown?("#{prefix}-#{&1}"))
+  defp state_of(prefix), do: state_of(prefix, @states)
 
   # A state that must exist. Insisting on one, rather than accepting nil, means a
   # toggle that failed to render fails the test instead of quietly satisfying it.
-  defp state_of!(prefix), do: state_of(prefix) || flunk("#{prefix} is untagged")
+  defp state_of!(prefix), do: state_of!(prefix, @states)
 
-  defp toggle_frame(prefix), do: frame!("#{prefix}-#{state_of!(prefix)}")
+  defp toggle_frame(prefix), do: frame!(state_tag(prefix, @states))
 
   # Mirrors `summary/3` in the showcase, so the test can predict the line.
   defp expected_summary(bold?, italic?, underline?) do

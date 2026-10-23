@@ -60,7 +60,7 @@ defmodule MishkaMob.Device.RollingNumberTest do
         ] do
       scroll_into_view(tag)
       assert_shown(tag)
-      assert text_of(tag) == rendered, "the grouping example never rendered #{rendered}"
+      assert text_of!(tag) == rendered, "the grouping example never rendered #{rendered}"
     end
   end
 
@@ -76,24 +76,9 @@ defmodule MishkaMob.Device.RollingNumberTest do
   defp assert_reads(tag, text, opts \\ []) do
     assert_shown(tag)
 
-    assert_eventually(fn -> text_of(tag) == text end,
+    assert_eventually(fn -> text_of!(tag) == text end,
       timeout: Keyword.get(opts, :timeout, 3_000),
-      message: fn -> "#{tag} reads #{inspect(text_of(tag))}, not #{inspect(text)}" end
+      message: fn -> "#{tag} reads #{inspect(text_of!(tag))}, not #{inspect(text)}" end
     )
   end
-
-  defp text_of(tag) do
-    case find_node(render_tree(), to_string(tag)) do
-      %{props: %{text: text}} -> text
-      other -> flunk("#{tag} is not a text node: #{inspect(other)}")
-    end
-  end
-
-  defp find_node(%{props: props, children: children} = node, id) do
-    if to_string(Map.get(props, :id, "")) == id,
-      do: node,
-      else: Enum.find_value(children || [], &find_node(&1, id))
-  end
-
-  defp find_node(_leaf, _id), do: nil
 end

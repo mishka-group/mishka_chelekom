@@ -84,15 +84,7 @@ defmodule MishkaMob.Device.SemiCircleProgressTest do
     )
   end
 
-  defp reads?(readout), do: readout in texts(render_tree())
+  defp reads?(readout), do: readout in texts()
 
-  defp percentages, do: Enum.filter(texts(render_tree()), &Regex.match?(~r/\A\d+%\z/, &1))
-
-  defp texts(%{props: props, children: children}) do
-    own = if is_binary(props[:text]), do: [props.text], else: []
-
-    own ++ Enum.flat_map(children || [], &texts/1)
-  end
-
-  defp texts(_leaf), do: []
+  defp percentages, do: Enum.filter(texts(), &Regex.match?(~r/\A\d+%\z/, &1))
 end

@@ -138,7 +138,7 @@ defmodule MishkaMob.Device.JsonInputTest do
   # from the moment the page mounts. A page-wide search for "unexpected byte" is therefore
   # true before a test types anything. Ask the field.
   defp error_of(id) do
-    case find_node(render_tree(), "#{id}-error") do
+    case find_node("#{id}-error") do
       %{props: %{text: text}} -> text
       nil -> nil
     end
@@ -146,44 +146,4 @@ defmodule MishkaMob.Device.JsonInputTest do
 
   # The "Parses: ..." caption under the valid field.
   defp caption, do: node!("json-parses").props.text
-
-  # Replaces what is in the field `tag` with `text`, the way a person would: a touch to
-  # put the caret at the end of the text, backspaces to clear it, then the keys.
-  defp replace_text(tag, text) do
-    current = node!(tag).props.value
-
-    focus_end(tag)
-    delete_backward(String.length(current))
-    type_each(text)
-  end
-
-  # A real touch in the bottom-right corner of the field: past the end of the last line,
-  # so the caret lands at the end of the text whatever its length. This field has no
-  # on_focus handler, so the touch delivers no event and tap/2 cannot be used.
-  defp focus_end(tag) do
-    scroll_into_view(tag)
-    frame = settled_frame(tag)
-
-    result = Mob.Test.tap_xy(device!(), frame.right - 4, frame.bottom - 4)
-    sync()
-
-    assert result in [:ok, {:error, :no_effect}], "the touch on #{tag} failed: #{inspect(result)}"
-  end
-
-  # One key at a time, settling between them, as a person types.
-  defp type_each(text) do
-    for char <- String.graphemes(text), do: type(char)
-
-    :ok
-  end
-
-  defp node!(tag), do: find_node(render_tree(), to_string(tag)) || flunk("no node tagged #{tag}")
-
-  defp find_node(%{props: props, children: children} = node, id) do
-    if to_string(Map.get(props, :id, "")) == id,
-      do: node,
-      else: Enum.find_value(children || [], &find_node(&1, id))
-  end
-
-  defp find_node(_leaf, _id), do: nil
 end

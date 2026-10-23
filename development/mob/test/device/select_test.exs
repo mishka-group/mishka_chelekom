@@ -41,19 +41,11 @@ defmodule MishkaMob.Device.SelectTest do
   defp trigger_shows?(select, text) do
     tag = "#{select}-trigger-" <> if(open?(select), do: "open", else: "closed")
 
-    case node_by_id(render_tree(), tag) do
+    case find_node(tag) do
       nil -> false
       trigger -> tree_has_text?(trigger, text)
     end
   end
-
-  defp node_by_id(%{props: props, children: children} = node, id) do
-    if to_string(Map.get(props, :id, "")) == id,
-      do: node,
-      else: Enum.find_value(children || [], &node_by_id(&1, id))
-  end
-
-  defp node_by_id(_leaf, _id), do: nil
 
   test "the list is hidden until the trigger is tapped" do
     scroll_into_view("sel-country-trigger-closed")

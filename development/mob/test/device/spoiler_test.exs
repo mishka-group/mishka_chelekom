@@ -18,8 +18,6 @@ defmodule MishkaMob.Device.SpoilerTest do
   """
   use MishkaMob.DeviceCase, page: :spoiler
 
-  import MishkaMob.DeviceText
-
   # Roughly what both platforms ask of a tap target, in dp.
   @min_target_dp 44
 

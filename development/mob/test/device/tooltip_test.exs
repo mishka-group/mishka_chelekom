@@ -44,15 +44,6 @@ defmodule MishkaMob.Device.TooltipTest do
     {10.0, page.top + page.height / 2}
   end
 
-  # A point outside `bubble` that a finger could land on: the left gutter, 120dp
-  # below it, or above it when there is no room below.
-  defp outside(bubble) do
-    page = frame!("page")
-    below = bubble.bottom + 120
-
-    if below < page.bottom, do: {10.0, below}, else: {10.0, bubble.top - 120}
-  end
-
   test "holding a control reveals its hint" do
     put_hints_away()
     refute shown?("tip-copy-open"), "this hint was already showing"
@@ -217,7 +208,7 @@ defmodule MishkaMob.Device.TooltipTest do
 
     # A real touch, delivered in-process to the bubble's own window the way the
     # window manager would route a finger outside it.
-    {x, y} = outside(bubble)
+    {x, y} = outside(bubble, 120)
     tap_xy(x, y)
 
     refute_shown("tip-copy-open")

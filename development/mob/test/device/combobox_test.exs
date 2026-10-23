@@ -64,32 +64,6 @@ defmodule MishkaMob.Device.ComboboxTest do
         do: tag
   end
 
-  # What the screen told the field to show.
-  defp field_value(tag) do
-    case node_by_id(render_tree(), tag) do
-      %{props: %{value: value}} -> value
-      other -> flunk("#{tag} carries no value: #{inspect(other)}")
-    end
-  end
-
-  defp node_by_id(%{props: props, children: children} = node, id) do
-    if to_string(Map.get(props, :id, "")) == id,
-      do: node,
-      else: Enum.find_value(children || [], &node_by_id(&1, id))
-  end
-
-  defp node_by_id(_leaf, _id), do: nil
-
-  # A tap on a text field raises the keyboard, which resizes the page over the next
-  # ~400ms and scrolls it to keep the caret in view. A tap that has to scroll to its
-  # target, or lands, while that is in flight is lost, so wait for the page to stop
-  # moving before doing anything else. (The harness's own retry would paper over it,
-  # and `stats/0` would count it.)
-  defp tap_field(tag) do
-    tap(tag)
-    settled_frame("page")
-  end
-
   # A chip is removed by its ✕, which is the chip's trailing glyph and not its
   # centre: tap where a finger would, at the chip's trailing edge inside its padding.
   defp tap_chip_remove(chip) do
@@ -100,7 +74,7 @@ defmodule MishkaMob.Device.ComboboxTest do
   test "typing filters the list" do
     assert listed?("cb-one", "de"), "Germany is missing before filtering"
 
-    tap_field("cb-one-input")
+    tap("cb-one-input")
     type("ira")
 
     assert_eventually(fn -> options_of("cb-one", @countries) == ["ir"] end,
@@ -122,7 +96,7 @@ defmodule MishkaMob.Device.ComboboxTest do
     # otherwise a permanently-rendered row would satisfy the wait below.
     refute_shown("cb-one-empty")
 
-    tap_field("cb-one-input")
+    tap("cb-one-input")
     type("zzzzz")
 
     assert_shown("cb-one-empty")
@@ -131,7 +105,7 @@ defmodule MishkaMob.Device.ComboboxTest do
   end
 
   test "the clear button empties the query" do
-    tap_field("cb-one-input")
+    tap("cb-one-input")
     type("zzzzz")
 
     # Gate on something only the typing can produce. Waiting for a string the page
@@ -151,7 +125,7 @@ defmodule MishkaMob.Device.ComboboxTest do
     # And empties the FIELD, which is what the button is named for: the restored
     # list only proves the query the filter saw is now blank, not that the text the
     # user typed is gone from the box.
-    assert_eventually(fn -> assert field_value("cb-one-input") == "" end,
+    assert_eventually(fn -> assert value_of("cb-one-input") == "" end,
       message: "the ✕ left the query in the field"
     )
   end
@@ -203,7 +177,7 @@ defmodule MishkaMob.Device.ComboboxTest do
     refute picked?("cb-food", "durian"), "a disabled option was selectable"
 
     # Filtering keeps the heading of whatever survives, and drops the rest.
-    tap_field("cb-food-input")
+    tap("cb-food-input")
     type("carrot")
     assert_eventually(fn -> not listed?("cb-food", "apple") end)
 
@@ -216,7 +190,7 @@ defmodule MishkaMob.Device.ComboboxTest do
 
     refute_shown("cb-food-option-create-idle")
 
-    tap_field("cb-food-input")
+    tap("cb-food-input")
     type("Pear")
 
     assert_shown("cb-food-option-create-idle")
@@ -235,7 +209,7 @@ defmodule MishkaMob.Device.ComboboxTest do
 
     # A PARTIAL match still offers to create (the web offers "Ban" while "Banana"
     # is listed), but an exact one must not.
-    tap_field("cb-food-input")
+    tap("cb-food-input")
     type("Ban")
 
     assert_shown("cb-food-option-create-idle")
@@ -255,7 +229,7 @@ defmodule MishkaMob.Device.ComboboxTest do
 
     # A tap into the field focuses it, and a tap is what opens the list. Without
     # this a user has to find the ▾ before they can search.
-    tap_field("cb-one-input")
+    tap("cb-one-input")
 
     assert_eventually(fn -> listed?("cb-one", "ir") end,
       message: "tapping the field did not open the list"
@@ -265,7 +239,7 @@ defmodule MishkaMob.Device.ComboboxTest do
   test "typing opens the list too" do
     # Focus the field, then shut the list through the ▾: the caret stays where it
     # was, so the next keystroke is typed by someone with the list closed.
-    tap_field("cb-one-input")
+    tap("cb-one-input")
     tap("cb-one-on_toggle")
     refute_shown("cb-one-option-ir-idle")
     refute listed?("cb-one", "ir")

@@ -22,8 +22,6 @@ defmodule MishkaMob.Device.TreeSelectTest do
   """
   use MishkaMob.DeviceCase, page: :tree_select
 
-  import MishkaMob.DeviceText
-
   defp open?(select), do: shown?("#{select}-trigger-open")
 
   # Does this select's own value read `text`? The code sample above each example

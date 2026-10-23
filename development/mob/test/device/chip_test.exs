@@ -16,8 +16,6 @@ defmodule MishkaMob.Device.ChipTest do
   """
   use MishkaMob.DeviceCase, page: :chip
 
-  import MishkaMob.DeviceText
-
   test "a chip hugs its label" do
     elixir = scroll_into_view("chip-tag-elixir-checked")
     erlang = frame!("chip-tag-erlang-idle")

@@ -64,24 +64,4 @@ defmodule MishkaMob.Device.MeterTest do
     %{max_offset: {_x, max_y}} = Mob.Test.scroll_info(device!(), "page")
     assert max_y > 0, "the page does not scroll, so the props table is out of reach"
   end
-
-  # The percentage the FIRST gauge reports: topmost, because the page shows several
-  # readouts and only this one is wired to the buttons. Matched whole against a
-  # pattern, since the page's own descriptions mention percentages too.
-  defp percent do
-    case Enum.find(texts(render_tree()), &Regex.match?(~r/\A\d+%\z/, &1)) do
-      nil -> flunk("no percentage readout on screen")
-      readout -> readout |> String.trim_trailing("%") |> String.to_integer()
-    end
-  end
-
-  defp texts(tree \\ render_tree())
-
-  defp texts(%{props: props, children: children}) do
-    own = if is_binary(props[:text]), do: [props.text], else: []
-
-    own ++ Enum.flat_map(children || [], &texts/1)
-  end
-
-  defp texts(_leaf), do: []
 end

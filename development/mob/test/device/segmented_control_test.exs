@@ -25,16 +25,14 @@ defmodule MishkaMob.Device.SegmentedControlTest do
   """
   use MishkaMob.DeviceCase, page: :segmented_control
 
-  import MishkaMob.DeviceText
-
   @views ~w(day week month)
+  @states ~w(selected idle)
 
   # The segment's state, from whichever tag it carries now.
-  defp state_of(prefix), do: Enum.find(~w(selected idle), &shown?("#{prefix}-#{&1}"))
+  defp state_of(prefix), do: state_of(prefix, @states)
 
   # A segment's whole tag, state included: the selection moves and the tag follows.
-  defp segment_tag(prefix),
-    do: "#{prefix}-" <> (state_of(prefix) || flunk("#{prefix} is untagged"))
+  defp segment_tag(prefix), do: state_tag(prefix, @states)
 
   defp segment_frame(prefix), do: frame!(segment_tag(prefix))
 

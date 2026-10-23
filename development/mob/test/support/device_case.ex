@@ -17,9 +17,10 @@ defmodule MishkaMob.DeviceCase do
       `mix test` never goes near a phone. `mix test --only device` runs them;
     * connects to the running app once per module (`MishkaMob.Device.connect!/0`),
       failing with what to do if it is not there or is an older build;
-    * imports `MishkaMob.Device`, the helpers (`tap/2`, `hold/3`, `drag/2`,
+    * imports `MishkaMob.Device`, the helpers (`tap/2`, `focus/1`, `hold/3`, `drag/2`,
       `type/1`, `frame/1`, `scroll_into_view/2`, `assert_shown/2`,
-      `refute_shown/2`, `assert_eventually/2`, ...);
+      `refute_shown/2`, `assert_eventually/2`, `text_of/1`, `texts/0`, ...), which the
+      README beside the tests lists in full (a test keeps no private copy of one);
     * with `page: :slug`, remounts that component's showcase page before every
       test (`MishkaMob.Device.fresh_page/2`), so each test starts from the same
       screen, assigns, scroll offset and theme. Override per test with

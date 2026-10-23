@@ -150,7 +150,7 @@ defmodule MishkaMob.Device.OverflowListTest do
     # visible={2} of seven leaves five hidden, and counter_text turns that count into
     # prose rather than "+5". Read off the counter's own node: the page prints other
     # text of its own.
-    counter = find_node(render_tree(), "worded-counter")
+    counter = find_node("worded-counter")
     assert counter, "the rendered tree has no worded-counter"
     assert tree_has_text?(counter, "5 more"), "counter_text did not replace the +N label"
     refute tree_has_text?(counter, "+5"), "the +N label is still there"
@@ -180,12 +180,4 @@ defmodule MishkaMob.Device.OverflowListTest do
       width > 0 and height > 0 and Regex.match?(item, tag)
     end)
   end
-
-  defp find_node(%{props: props, children: children} = node, id) do
-    if to_string(Map.get(props, :id, "")) == id,
-      do: node,
-      else: Enum.find_value(children || [], &find_node(&1, id))
-  end
-
-  defp find_node(_leaf, _id), do: nil
 end

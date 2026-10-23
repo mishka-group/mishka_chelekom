@@ -51,7 +51,7 @@ defmodule MishkaMob.Device.ProgressTest do
     # value_text overrides the rounded percentage entirely: "3 of 5" is not
     # something the component could derive. Exact, not contained, because the code
     # sample carries the same words.
-    assert "3 of 5" in texts(render_tree()), "value_text did not replace the computed readout"
+    assert "3 of 5" in texts(), "value_text did not replace the computed readout"
   end
 
   test "the indeterminate bar shows no readout" do
@@ -75,21 +75,6 @@ defmodule MishkaMob.Device.ProgressTest do
     %{max_offset: {_x, max_y}} = Mob.Test.scroll_info(device!(), "page")
     assert max_y > 0, "the page does not scroll, so the props table is out of reach"
   end
-
-  defp percent do
-    case Enum.find(texts(render_tree()), &Regex.match?(~r/\A\d+%\z/, &1)) do
-      nil -> flunk("no percentage readout on screen")
-      readout -> readout |> String.trim_trailing("%") |> String.to_integer()
-    end
-  end
-
-  defp texts(%{props: props, children: children}) do
-    own = if is_binary(props[:text]), do: [props.text], else: []
-
-    own ++ Enum.flat_map(children || [], &texts/1)
-  end
-
-  defp texts(_leaf), do: []
 
   # The node directly above the one tagged `id`.
   defp parent_of(%{children: children} = node, id) do

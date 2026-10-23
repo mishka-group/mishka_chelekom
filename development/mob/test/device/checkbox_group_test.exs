@@ -75,9 +75,9 @@ defmodule MishkaMob.Device.CheckboxGroupTest do
     phoenix_checked? = state("cg-langs-phoenix") == "checked"
 
     assert_eventually(
-      fn -> String.contains?(text_of("cg-summary"), "phoenix") == phoenix_checked? end,
+      fn -> String.contains?(text_of!("cg-summary"), "phoenix") == phoenix_checked? end,
       message: fn ->
-        "the summary disagrees with the row: checked=#{phoenix_checked?}, summary=#{text_of("cg-summary")}"
+        "the summary disagrees with the row: checked=#{phoenix_checked?}, summary=#{text_of!("cg-summary")}"
       end
     )
   end
@@ -174,20 +174,4 @@ defmodule MishkaMob.Device.CheckboxGroupTest do
   defp tap_row(prefix, opts \\ []) do
     tap("#{prefix}-#{state(prefix) || flunk("no row tagged #{prefix}")}", opts)
   end
-
-  # The text of the rendered node whose :id is `tag`.
-  defp text_of(tag) do
-    %{props: %{text: text}} =
-      find_node(render_tree(), to_string(tag)) || flunk("no node tagged #{tag}")
-
-    text
-  end
-
-  defp find_node(%{props: props, children: children} = node, id) do
-    if to_string(Map.get(props, :id, "")) == id,
-      do: node,
-      else: Enum.find_value(children || [], &find_node(&1, id))
-  end
-
-  defp find_node(_leaf, _id), do: nil
 end

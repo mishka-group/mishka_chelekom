@@ -21,8 +21,6 @@ defmodule MishkaMob.Device.ToolbarTest do
   """
   use MishkaMob.DeviceCase, page: :toolbar
 
-  import MishkaMob.DeviceText
-
   test "all four item kinds render and each carries its own tag" do
     # button, link, input, separator: the web's <:item> types. A separator draws no
     # text and takes no tag, so the other three are what proves the slot ported at all.

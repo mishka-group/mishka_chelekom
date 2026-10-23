@@ -17,8 +17,6 @@ defmodule MishkaMob.Device.TabsTest do
   """
   use MishkaMob.DeviceCase, page: :tabs
 
-  import MishkaMob.DeviceText
-
   @main ~w(overview specs support)
   @locked ~w(overview locked specs)
 

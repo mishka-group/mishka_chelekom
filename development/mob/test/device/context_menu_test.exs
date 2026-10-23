@@ -20,18 +20,6 @@ defmodule MishkaMob.Device.ContextMenuTest do
 
   defp open?(file), do: shown?("act-#{file}-rename")
 
-  # How many nodes of the rendered tree read exactly `text`.
-  defp text_count(text), do: text_count(render_tree(), text)
-
-  defp text_count(%{props: props, children: children}, text) do
-    own = if Map.get(props, :text) == text, do: 1, else: 0
-    below = (children || []) |> Enum.map(&text_count(&1, text)) |> Enum.sum()
-
-    own + below
-  end
-
-  defp text_count(_leaf, _text), do: 0
-
   test "holding a row opens its actions" do
     refute open?(:report), "this row's menu was already open"
 

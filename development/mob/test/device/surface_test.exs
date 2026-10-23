@@ -33,20 +33,20 @@ defmodule MishkaMob.Device.SurfaceTest do
     test "picking a swatch reaches the screen and comes back" do
       # The readout under the palette is rendered from the assign the tap sets, so
       # this is the round trip and not a local highlight.
-      assert "Violet" in texts(render_tree())
+      assert "Violet" in texts()
 
       tap("swatch-green")
 
-      assert_eventually(fn -> "Green" in texts(render_tree()) end,
+      assert_eventually(fn -> "Green" in texts() end,
         message: "the readout never followed the tap"
       )
 
       assert Map.fetch!(assigns(), :sw_picked) == :green
-      refute "Violet" in texts(render_tree()), "the old pick is still shown"
+      refute "Violet" in texts(), "the old pick is still shown"
 
       tap("swatch-red")
 
-      assert_eventually(fn -> "Red" in texts(render_tree()) end,
+      assert_eventually(fn -> "Red" in texts() end,
         message: "the readout never followed the second tap"
       )
     end
@@ -97,12 +97,4 @@ defmodule MishkaMob.Device.SurfaceTest do
       assert_text("the overlay below is invisible")
     end
   end
-
-  defp texts(%{props: props, children: children}) do
-    own = if is_binary(props[:text]), do: [props.text], else: []
-
-    own ++ Enum.flat_map(children || [], &texts/1)
-  end
-
-  defp texts(_leaf), do: []
 end

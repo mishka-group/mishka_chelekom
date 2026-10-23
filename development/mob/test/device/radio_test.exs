@@ -50,13 +50,13 @@ defmodule MishkaMob.Device.RadioTest do
     # The summary renders from the same assign the radios drive, so it is the honest
     # witness that the composed {:rd_plan, id} tag matched a clause: a ring can repaint
     # without any event arriving.
-    assert text_of("rd-summary") =~ "Selected:", "the example rendered no summary"
+    assert text_of!("rd-summary") =~ "Selected:", "the example rendered no summary"
 
     id = Enum.find(@plans, &(&1 != selected_plan()))
     tap_ring("rd-#{id}")
 
-    assert_eventually(fn -> text_of("rd-summary") == "Selected: #{id}" end,
-      message: fn -> "the summary did not follow the tap to #{id}: #{text_of("rd-summary")}" end
+    assert_eventually(fn -> text_of!("rd-summary") == "Selected: #{id}" end,
+      message: fn -> "the summary did not follow the tap to #{id}: #{text_of!("rd-summary")}" end
     )
   end
 
@@ -141,20 +141,4 @@ defmodule MishkaMob.Device.RadioTest do
   # and the Row's clickable receives it.
   defp tap_ring(prefix),
     do: tap("#{prefix}-#{ring_state(prefix) || flunk("no ring tagged #{prefix}")}")
-
-  # The text of the rendered node whose :id is `tag`.
-  defp text_of(tag) do
-    %{props: %{text: text}} =
-      find_node(render_tree(), to_string(tag)) || flunk("no node tagged #{tag}")
-
-    text
-  end
-
-  defp find_node(%{props: props, children: children} = node, id) do
-    if to_string(Map.get(props, :id, "")) == id,
-      do: node,
-      else: Enum.find_value(children || [], &find_node(&1, id))
-  end
-
-  defp find_node(_leaf, _id), do: nil
 end

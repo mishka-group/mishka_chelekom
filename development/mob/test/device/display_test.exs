@@ -81,13 +81,4 @@ defmodule MishkaMob.Device.DisplayTest do
       assert_headings(["Initials", "Shapes", "Sizes", "In a row", "Props"])
     end
   end
-
-  # Every heading is a text the rendered tree carries, and the page is one long
-  # scroll that reaches its end.
-  defp assert_headings(headings) do
-    for heading <- headings, do: assert_text(heading)
-
-    %{max_offset: {_x, max_y}} = Mob.Test.scroll_info(device!(), "page")
-    assert max_y > 0, "the page does not scroll, so the props table is out of reach"
-  end
 end

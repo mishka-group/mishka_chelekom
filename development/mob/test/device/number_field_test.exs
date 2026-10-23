@@ -132,7 +132,7 @@ defmodule MishkaMob.Device.NumberFieldTest do
     # The caption is read from its own node (`nf-pct-note`) and checked against the field.
     # Asking the whole page whether a substring is somewhere on it would not do: the
     # props table repeats most of this page's prose.
-    note = text_of("nf-pct-note")
+    note = text_of!("nf-pct-note")
 
     # The assign is still the fraction: format changes how the value reads, never what is
     # stored, and the caption inspects the assign itself.
@@ -181,20 +181,4 @@ defmodule MishkaMob.Device.NumberFieldTest do
   end
 
   defp number(tag), do: tag |> value_of() |> String.to_integer()
-
-  # The value the rendered tree gives the text field `tag`.
-  defp value_of(tag), do: node!(tag).props.value
-
-  # The text of the rendered node whose :id is `tag`.
-  defp text_of(tag), do: node!(tag).props.text
-
-  defp node!(tag), do: find_node(render_tree(), to_string(tag)) || flunk("no node tagged #{tag}")
-
-  defp find_node(%{props: props, children: children} = node, id) do
-    if to_string(Map.get(props, :id, "")) == id,
-      do: node,
-      else: Enum.find_value(children || [], &find_node(&1, id))
-  end
-
-  defp find_node(_leaf, _id), do: nil
 end

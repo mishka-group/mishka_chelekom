@@ -123,15 +123,4 @@ defmodule MishkaMob.Device.CheckboxTest do
 
     length(ops)
   end
-
-  # The node of the rendered tree whose :id is `tag`.
-  defp node!(tag), do: find_node(render_tree(), to_string(tag)) || flunk("no node tagged #{tag}")
-
-  defp find_node(%{props: props, children: children} = node, id) do
-    if to_string(Map.get(props, :id, "")) == id,
-      do: node,
-      else: Enum.find_value(children || [], &find_node(&1, id))
-  end
-
-  defp find_node(_leaf, _id), do: nil
 end

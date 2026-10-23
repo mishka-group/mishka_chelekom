@@ -52,7 +52,7 @@ defmodule MishkaMob.Device.SwitchTest do
     tap("sw-airplane")
 
     assert Map.fetch!(assigns(), :sw_airplane), "the touch did not turn the airplane switch on"
-    summary = text_of("sw-summary")
+    summary = text_of!("sw-summary")
 
     assert summary =~ "Bluetooth is off",
            "toggling the unlabelled switch moved the Bluetooth example too: #{summary}"
@@ -96,20 +96,4 @@ defmodule MishkaMob.Device.SwitchTest do
     %{max_offset: {_x, max_y}} = Mob.Test.scroll_info(device!(), "page")
     assert max_y > 0, "the page does not scroll, so the props table is out of reach"
   end
-
-  # The text of the rendered node whose :id is `tag`.
-  defp text_of(tag) do
-    %{props: %{text: text}} =
-      find_node(render_tree(), to_string(tag)) || flunk("no node tagged #{tag}")
-
-    text
-  end
-
-  defp find_node(%{props: props, children: children} = node, id) do
-    if to_string(Map.get(props, :id, "")) == id,
-      do: node,
-      else: Enum.find_value(children || [], &find_node(&1, id))
-  end
-
-  defp find_node(_leaf, _id), do: nil
 end

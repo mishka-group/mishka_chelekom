@@ -44,7 +44,7 @@ defmodule MishkaMob.Device.FieldTest do
   test "submitting reveals every error at once" do
     refute showing?("Pick a role"), "the role error showed before submit"
 
-    tap_settled("fld-submit")
+    tap("fld-submit")
 
     assert_eventually(fn -> showing?("Pick a role") end,
       message: "submit did not reveal the role error"
@@ -87,7 +87,7 @@ defmodule MishkaMob.Device.FieldTest do
 
     # The role strip always shows Owner as chosen, but the form counts the role as
     # unanswered until a segment is tapped, so the tap is what answers it.
-    tap_settled("fld-role-owner-selected")
+    tap("fld-role-owner-selected")
 
     assert_eventually(fn -> Map.fetch!(assigns(), :form).role == :owner end,
       message: "the Owner tap did not record a role"
@@ -163,7 +163,7 @@ defmodule MishkaMob.Device.FieldTest do
       message: "the name error never showed"
     )
 
-    tap_settled("fld-reset")
+    tap("fld-reset")
 
     # Reset clears the touched set as well as the values, so the form goes quiet again
     # rather than complaining about the fields it just emptied.
@@ -196,68 +196,4 @@ defmodule MishkaMob.Device.FieldTest do
     %{max_offset: {_x, max_y}} = Mob.Test.scroll_info(device!(), "page")
     assert max_y > 0, "the page does not scroll, so the props table is out of reach"
   end
-
-  # A touch after typing: the soft keyboard that typing brought up is still resizing the
-  # page, so a frame read the instant the typing ends can be a frame in flight, and a touch
-  # aimed at it lands on nothing. Wait for the frame to hold still.
-  defp tap_settled(tag) do
-    scroll_into_view(tag)
-    settled_frame("page")
-    settled_frame(tag)
-
-    tap(tag)
-  end
-
-  # Is `text` rendered anywhere on the page? The rendered tree, not pixels.
-  defp showing?(text), do: tree_has_text?(render_tree(), text)
-
-  # Replaces what is in the field `tag` with `text`, the way a person would: a touch to
-  # put the caret at the end of the text, backspaces to clear it, then the keys.
-  # There is no select-all or clear-text in the harness (`clear_text` is deliberately
-  # absent on Android), and a touch in the middle of the field would leave the caret
-  # mid-text.
-  defp replace_text(tag, text) do
-    current = value_of(tag)
-
-    focus_end(tag)
-    delete_backward(String.length(current))
-    type_each(text)
-  end
-
-  # A real touch in the bottom-right corner of the field: past the end of the last line,
-  # so the caret lands at the end of the text whatever its length. A field with no
-  # on_focus handler delivers no event for it, which is why this is not tap/2.
-  defp focus_end(tag) do
-    scroll_into_view(tag)
-    frame = settled_frame(tag)
-
-    result = Mob.Test.tap_xy(device!(), frame.right - 4, frame.bottom - 4)
-    sync()
-
-    assert result in [:ok, {:error, :no_effect}], "the touch on #{tag} failed: #{inspect(result)}"
-  end
-
-  # One key at a time, settling between them, as a person types: the screen answers
-  # each value before the next key arrives.
-  defp type_each(text) do
-    for char <- String.graphemes(text), do: type(char)
-
-    :ok
-  end
-
-  # The value the rendered tree gives the text field `tag`.
-  defp value_of(tag) do
-    %{props: %{value: value}} =
-      find_node(render_tree(), to_string(tag)) || flunk("no node tagged #{tag}")
-
-    value
-  end
-
-  defp find_node(%{props: props, children: children} = node, id) do
-    if to_string(Map.get(props, :id, "")) == id,
-      do: node,
-      else: Enum.find_value(children || [], &find_node(&1, id))
-  end
-
-  defp find_node(_leaf, _id), do: nil
 end

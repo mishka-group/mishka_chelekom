@@ -37,8 +37,8 @@ defmodule MishkaMob.Device.RadioGroupTest do
 
     # The summary renders from the same assign, proving a clause matched rather than the
     # ring merely repainting.
-    assert_eventually(fn -> text_of("rg-summary") == "Selected: #{id}" end,
-      message: fn -> "the summary did not follow the tap to #{id}: #{text_of("rg-summary")}" end
+    assert_eventually(fn -> text_of!("rg-summary") == "Selected: #{id}" end,
+      message: fn -> "the summary did not follow the tap to #{id}: #{text_of!("rg-summary")}" end
     )
   end
 
@@ -137,20 +137,4 @@ defmodule MishkaMob.Device.RadioGroupTest do
 
   # A ring's frame whichever state it is in: the selection may have moved.
   defp any_ring(prefix), do: frame("#{prefix}-selected") || frame!("#{prefix}-empty")
-
-  # The text of the rendered node whose :id is `tag`.
-  defp text_of(tag) do
-    %{props: %{text: text}} =
-      find_node(render_tree(), to_string(tag)) || flunk("no node tagged #{tag}")
-
-    text
-  end
-
-  defp find_node(%{props: props, children: children} = node, id) do
-    if to_string(Map.get(props, :id, "")) == id,
-      do: node,
-      else: Enum.find_value(children || [], &find_node(&1, id))
-  end
-
-  defp find_node(_leaf, _id), do: nil
 end

@@ -23,15 +23,6 @@ defmodule MishkaMob.Device.PreviewCardTest do
   """
   use MishkaMob.DeviceCase, page: :preview_card
 
-  # A point outside `popup` that a finger could land on: the left gutter, 80dp below
-  # it, or above it when there is no room below.
-  defp outside(popup) do
-    page = frame!("page")
-    below = popup.bottom + 80
-
-    if below < page.bottom, do: {10.0, below}, else: {10.0, popup.top - 80}
-  end
-
   test "holding a name reveals its card" do
     refute shown?("pc-elixir-open"), "this card was already open"
 

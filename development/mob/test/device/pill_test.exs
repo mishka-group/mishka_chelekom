@@ -129,34 +129,14 @@ defmodule MishkaMob.Device.PillTest do
     assert tree_has_text?(tree, "handle_info"), "no handler shown beside the event props"
   end
 
-  defp same_row?(a, b) do
-    {_x, a_y} = center(a)
-    {_x, b_y} = center(b)
-
-    abs(a_y - b_y) < a.height
-  end
-
   defp token_count,
     do: frames() |> Map.keys() |> Enum.count(&Regex.match?(~r/\Atok-item_\d+\z/, &1))
 
   defp assert_picked(id) do
-    assert_eventually(fn -> String.starts_with?(picked_text(), "Picked: #{id} ") end,
-      message: fn -> "the caption reads #{inspect(picked_text())}, not a pick of #{id}" end
+    assert_eventually(fn -> String.starts_with?(text_of!("pill-picked"), "Picked: #{id} ") end,
+      message: fn ->
+        "the caption reads #{inspect(text_of!("pill-picked"))}, not a pick of #{id}"
+      end
     )
   end
-
-  defp picked_text do
-    case find_node(render_tree(), "pill-picked") do
-      %{props: %{text: text}} -> text
-      other -> flunk("pill-picked is not a text node: #{inspect(other)}")
-    end
-  end
-
-  defp find_node(%{props: props, children: children} = node, id) do
-    if to_string(Map.get(props, :id, "")) == id,
-      do: node,
-      else: Enum.find_value(children || [], &find_node(&1, id))
-  end
-
-  defp find_node(_leaf, _id), do: nil
 end
