@@ -1,7 +1,9 @@
 package com.example.mishka_mob
 
+import android.view.MotionEvent
 import android.view.View
 import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.test.isPopup
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
@@ -71,31 +73,96 @@ fun AndroidComposeTestRule<*, MainActivity>.tapOutside(
     val sy = (origin[1] + y * metrics.density).toInt()
 
     val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
-    var focus = focusedWindow(device)
-    val giveUp = System.currentTimeMillis() + FOCUS_WAIT_MS
-    while (focus == NO_FOCUS && System.currentTimeMillis() < giveUp) {
-        Thread.sleep(250)
-        focus = focusedWindow(device)
+
+    // DIAG-BEGIN
+    val timeline = mutableListOf<String>()
+    fun sample(label: String) {
+        val f = focusedWindow(device)
+        timeline += "$label ${f.removePrefix("mCurrentFocus=")}"
+        return
     }
+    sample("t0")
+    val giveUp = System.currentTimeMillis() + FOCUS_WAIT_MS
+    var attempted = false
+    while (!ours(focusedWindow(device)) && System.currentTimeMillis() < giveUp) {
+        Thread.sleep(500)
+        sample("wait")
+        if (!attempted && System.currentTimeMillis() > giveUp - FOCUS_WAIT_MS / 2) {
+            attempted = true
+            // Re-assert the activity as the top one: a singleTop launch of the activity that is
+            // already on top only re-delivers the intent, which MainActivity ignores.
+            device.executeShellCommand("am start --activity-single-top -n ${activity.packageName}/.MainActivity")
+            sample("after-am-start")
+        }
+    }
+    val focus = focusedWindow(device)
+    dump(device, "before-tap")
+
+    val touches = java.util.Collections.synchronizedList(mutableListOf<String>())
+    runOnUiThread {
+        onAllNodes(isPopup()).fetchSemanticsNodes(atLeastOneRootRequired = false).forEach { node ->
+            val top = (node.root as? View)?.rootView
+            top?.setOnTouchListener { _, e ->
+                touches += "action=${MotionEvent.actionToString(e.actionMasked)} x=${e.x} y=${e.y}"
+                false
+            }
+        }
+    }
+    // DIAG-END
 
     val where = "window=($x,$y)dp origin=(${origin[0]},${origin[1]}) screen=($sx,$sy) $focus"
     android.util.Log.i("TapProbe", where)
+    android.util.Log.i("TapProbe", "timeline: $timeline")
 
     device.click(sx, sy)
     waitForIdle()
 
     try {
         waitUntil(DISMISS_WAIT_MS, dismissed)
+        android.util.Log.i("TapProbe", "dismissed; popup window saw $touches")
     } catch (e: Throwable) {
+        dump(device, "after-tap")
         throw AssertionError(
             "a system tap at $where did not dismiss the popup within ${DISMISS_WAIT_MS}ms; " +
+                "focus timeline: $timeline; popup window saw $touches; " +
                 "focus afterwards: ${focusedWindow(device)}",
             e,
         )
     }
 }
 
-private const val NO_FOCUS = "mCurrentFocus=null"
+// DIAG-BEGIN
+private fun ours(focusLine: String): Boolean =
+    focusLine.contains("com.example.mishka_mob") || focusLine.contains("Pop-Up Window")
+
+private fun dump(device: UiDevice, label: String) {
+    fun log(line: String) = android.util.Log.i("TapProbe", "$label| ${line.take(500)}")
+    val window = device.executeShellCommand("dumpsys window windows").lineSequence().map { it.trim() }
+    window
+        .filter {
+            it.startsWith("Window #") || it.startsWith("mCurrentFocus") || it.startsWith("mFocusedApp") ||
+                it.contains("mViewVisibility") || it.startsWith("isVisible") || it.contains("canReceiveKeys") ||
+                it.startsWith("mAttrs=") || it.startsWith("mHasSurface")
+        }
+        .take(160)
+        .forEach { log("win: $it") }
+    device.executeShellCommand("dumpsys activity activities").lineSequence().map { it.trim() }
+        .filter {
+            it.contains("topResumedActivity") || it.contains("ResumedActivity") || it.contains("mFocusedApp") ||
+                it.contains("mFocusedRootTask") || it.startsWith("* Task{") || it.startsWith("* Hist")
+        }
+        .take(40)
+        .forEach { log("act: $it") }
+    device.executeShellCommand("dumpsys input").lineSequence().map { it.trim() }
+        .filter {
+            it.startsWith("name='") || Regex("^\\d+: name='").containsMatchIn(it) ||
+                it.contains("FocusedApplications") || it.contains("FocusedWindows") ||
+                it.contains("focusedWindow") || it.contains("TouchStates") || it.contains("Window:")
+        }
+        .take(60)
+        .forEach { log("inp: $it") }
+}
+// DIAG-END
 
 /** The window manager's own line for who has input focus, e.g. `mCurrentFocus=Window{… Pop-Up Window}`. */
 private fun focusedWindow(device: UiDevice): String =
@@ -109,5 +176,5 @@ private fun focusedWindow(device: UiDevice): String =
 private const val EDGE_DP = 48f
 private const val BOTTOM_DP = 96f
 private const val GAP_DP = 80f
-private const val FOCUS_WAIT_MS = 10_000L
+private const val FOCUS_WAIT_MS = 12_000L
 private const val DISMISS_WAIT_MS = 10_000L
