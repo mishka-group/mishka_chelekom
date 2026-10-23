@@ -125,6 +125,66 @@ defmodule MishkaMob.Components.MishkaNumberFieldTest do
              |> Enum.any?(&(&1.props[:width] == 200))
     end
 
+    # The platform field draws its placeholder in a text that wraps when the slot
+    # is narrow. In a 96dp slot "How many?" wrapped over three lines, and the
+    # empty strip stood twice as tall as the one holding a value.
+    test "the value slot is wide enough for the placeholder, not just the value" do
+      empty = NF.number_field(value: nil, placeholder: "How many?")
+      bare = NF.number_field(value: nil)
+
+      # "How many?" is about 82dp of text inside 48dp of padding (Material's
+      # 16dp a side and the node's 8dp a side). 130dp still wrapped it on a phone.
+      assert slot(empty).props.width >= 150
+      assert slot(empty).props.width > slot(bare).props.width
+      assert slot(bare).props.width == 96
+    end
+
+    test "the slot keeps its width when a value takes the placeholder's place" do
+      empty = NF.number_field(value: nil, placeholder: "How many?")
+      filled = NF.number_field(value: 3, placeholder: "How many?")
+
+      # Otherwise the strip would change width as the first digit went in.
+      assert slot(filled).props.width == slot(empty).props.width
+    end
+
+    test "a value longer than the placeholder still decides the width" do
+      money = NF.number_field(value: 1999.99, step: 0.01, format: :currency, placeholder: "$")
+
+      assert slot(money).props.width == 40 + 16 * String.length("$1,999.99")
+    end
+
+    test "an explicit value_width beats the estimate for the placeholder" do
+      tree = NF.number_field(value: nil, placeholder: "How many?", value_width: 140)
+
+      assert slot(tree).props.width == 140
+    end
+
+    test "the value slot leaves its height to the field, so the text is never clipped" do
+      # Pinned to `size` and centred, the slot cut the platform field's text to a
+      # sliver on a device: the field keeps its own padding inside the height.
+      for props <- [
+            [value: nil, placeholder: "How many?"],
+            [value: 3],
+            [value: nil, placeholder: "How many?", fill_width: true]
+          ] do
+        refute Map.has_key?(slot(NF.number_field(props)).props, :height)
+      end
+    end
+
+    test "the steppers and the hairlines follow a custom size" do
+      tree = NF.number_field(value: nil, placeholder: "How many?", size: 48)
+      boxes = find_all(tree, :box)
+
+      assert Enum.count(boxes, &(&1.props[:height] == 48)) == 4
+    end
+
+    test "the spanning slot shares the row" do
+      slot = slot(NF.number_field(value: nil, placeholder: "How many?", fill_width: true))
+
+      assert slot.props.weight == 1
+      refute Map.has_key?(slot.props, :width)
+    end
+
     test "the strip hugs by default and spans on request" do
       assert NF.number_field(value: 1).props.fill_width == false
       assert NF.number_field(value: 1, fill_width: true).props.fill_width == true
@@ -199,6 +259,13 @@ defmodule MishkaMob.Components.MishkaNumberFieldTest do
       assert tree |> find_all(:box) |> Enum.all?(&(&1.props[:on_tap] == nil))
       refute Map.has_key?(find(tree, :text_field).props, :on_change)
     end
+  end
+
+  # The Box that holds the platform field, between the two hairlines.
+  defp slot(tree) do
+    tree
+    |> find_all(:box)
+    |> Enum.find(fn box -> Enum.any?(box.children, &(&1.type == :text_field)) end)
   end
 
   test "expand/3 delegates" do

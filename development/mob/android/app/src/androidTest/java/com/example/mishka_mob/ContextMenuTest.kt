@@ -67,6 +67,7 @@ class ContextMenuTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Context Menu")
             compose.onAllNodesWithText("Context Menu", substring = false)[0]
                 .performScrollTo()
                 .performClick()

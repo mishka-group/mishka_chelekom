@@ -95,6 +95,7 @@ class CheckboxGroupTest {
 
         if (!showing(page)) {
             // Exact match: "Checkbox Group" must not open the "Checkbox" card.
+            compose.revealCard("Checkbox Group")
             compose.onAllNodesWithText("Checkbox Group", substring = false)[0]
                 .performScrollTo()
                 .performClick()

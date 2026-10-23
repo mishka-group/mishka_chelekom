@@ -47,6 +47,20 @@ defmodule MishkaMob.Components.MishkaFloatingWindow do
   lets `drag/3` decide whether a touch landed on the handle without asking the
   native side to measure anything.
 
+  ## Size the window to its body
+
+  The body is what the chrome leaves: `height - chrome_height/1`, and its own
+  `:space_md` padding (16dp at the default scale) comes out of the top **and**
+  the bottom of that. Content taller than what remains is **clipped at the
+  body's edge, not scrolled** — a 140dp window with the arrow row has 44dp of
+  body and 12dp of room for content, which cuts a line of text in half.
+
+  Budget it before picking a `height`: `chrome_height/1`, plus two paddings,
+  plus the content. On Material a line of body text is 24dp even at a small
+  `text_size` (unless the `Text` sets `line_height`), and a line that wraps
+  counts again. Nothing here can measure the content, so a window that is too
+  short stays too short.
+
   ## Moving it
 
   `on_move` carries both halves of what WCAG 2.5.7 asks for — the pointer drag,
@@ -88,7 +102,7 @@ defmodule MishkaMob.Components.MishkaFloatingWindow do
   Children are the window's body, except for `<MishkaFloatingWindowHandle>` — the
   web's `<:handle>`, a title bar of your own in place of `label`:
 
-      <MishkaFloatingWindow width={240} height={110} id="custom">
+      <MishkaFloatingWindow width={240} height={136} id="custom">
         <MishkaFloatingWindowHandle>
           <Row align={:center}>
             <Box width={8} height={8} background={:primary} corner_radius={:radius_pill} />

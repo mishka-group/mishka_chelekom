@@ -295,15 +295,31 @@ defmodule MishkaMob.Components.MishkaNavLinkTest do
   end
 
   describe "anchor" do
-    test "renders its label with a rule under it" do
+    test "renders its label with a rule as wide as the text, not the card" do
       tree = MishkaAnchor.anchor(label: "mishka.tools")
 
       assert text(tree) =~ "mishka.tools"
-      assert find(tree, :box).props.height == 1
+      # The rule is the link colour showing through a 1dp gap under the face. A
+      # Box that filled its parent drew it across the whole card.
+      assert %{type: :box, props: %{fill_width: false, background: :primary, padding_bottom: 1}} =
+               tree
+
+      assert find(tree, :column).props.background == :surface
+      refute tree |> find_all(:box) |> Enum.any?(&(&1.props[:fill_width] == true))
+    end
+
+    test "backdrop paints the face, so the rule shows on any surface" do
+      tree = MishkaAnchor.anchor(label: "x", backdrop: :background)
+
+      assert find(tree, :column).props.background == :background
     end
 
     test "the underline can be turned off" do
-      refute MishkaAnchor.anchor(label: "x", underline: false) |> find(:box)
+      tree = MishkaAnchor.anchor(label: "x", underline: false)
+
+      assert tree.props.fill_width == false
+      refute Map.has_key?(tree.props, :padding_bottom)
+      refute Map.has_key?(find(tree, :column).props, :background)
     end
 
     test "children replace the label" do

@@ -98,14 +98,20 @@ class FloatingWindowTest {
      * whole window, so nothing here can be clipped.
      */
     private fun dragFrom(from: Offset, dx: Float, dy: Float = 0f) {
-        compose.onRoot().performTouchInput {
-            down(from)
-            // Several samples, not one jump: the fold anchors on the :began
-            // phase and reads every sample after it against that anchor.
-            val steps = 5
-            repeat(steps) { moveBy(Offset(dx / steps, dy / steps)) }
-            up()
+        // Several samples, not one jump: the fold anchors on the :began phase and
+        // reads every sample after it against that anchor. And each sample is its
+        // own gesture batch with a pause, the way a finger moves: one batch
+        // delivers every sample before the screen re-renders, so the later ones
+        // carry a handle a render old, which native rejects (seen on the CI
+        // emulator: the window moved one step, 158 -> 176).
+        compose.onRoot().performTouchInput { down(from) }
+        val steps = 5
+        repeat(steps) {
+            compose.onRoot().performTouchInput { moveBy(Offset(dx / steps, dy / steps)) }
+            compose.waitForIdle()
+            Thread.sleep(80)
         }
+        compose.onRoot().performTouchInput { up() }
         compose.waitForIdle()
         Thread.sleep(600)
     }
@@ -123,6 +129,7 @@ class FloatingWindowTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Floating Window")
             compose.onAllNodesWithText("Floating Window", substring = false)[0]
                 .performScrollTo()
                 .performClick()

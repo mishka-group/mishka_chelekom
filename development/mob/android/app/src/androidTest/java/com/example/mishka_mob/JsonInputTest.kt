@@ -100,6 +100,7 @@ class JsonInputTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("JSON Input")
             compose.onAllNodesWithText("JSON Input", substring = false)[0]
                 .performScrollTo()
                 .performClick()

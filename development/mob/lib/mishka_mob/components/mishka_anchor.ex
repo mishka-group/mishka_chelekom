@@ -27,8 +27,19 @@ defmodule MishkaMob.Components.MishkaAnchor do
   | `on_tap` | event tag (atom) | — | `{:tap, {tag, href}}`, or `{:tap, tag}` with no href. |
   | `color` | color token / ARGB | `:primary` | Link colour. |
   | `underline` | boolean | `true` | Draw a rule under the text. |
+  | `backdrop` | color token / ARGB | `:surface` | The colour behind the link. See "The underline". |
   | `text_size` | size token | `:base` | Text size. |
   | `disabled` | boolean | `false` | Mutes and unwires. |
+
+  ## The underline
+
+  The rule is exactly as wide as the link. A Box told to fill its parent would
+  span the whole card instead, so the underline is made the other way round: an
+  outer Box in the link colour hugs the text, and the text sits on top of it
+  painted in `backdrop` with a 1dp gap at the bottom, where the link colour
+  shows through. `backdrop` defaults to `:surface`, what a card or a sheet is
+  made of; set it to `:background` for a link on the bare screen. Without an
+  underline it is never drawn.
 
   Not ported: `target` / `rel` / `download` and `navigate` vs `patch` — the
   distinction is a LiveView routing concept, and on a device the screen decides
@@ -65,22 +76,38 @@ defmodule MishkaMob.Components.MishkaAnchor do
         given -> given
       end
 
-    ~MOB"""
+    face = ~MOB"""
     <Column>
       {content}
-      {rule(props, ink)}
     </Column>
     """
+
+    props
+    |> frame(face, ink)
     |> put(:on_tap, handler(props, disabled?))
   end
 
-  defp rule(props, ink) do
+  # The Box hugs the text (`fill_width: false`), so the rule showing through
+  # its 1dp bottom gap is as wide as the link and not the card it sits in.
+  defp frame(props, face, ink) do
     # `nil` means "not given", not `false`: `Map.get/3` hands back its default
     # only when the key is ABSENT, so a keyword-built props map carrying an
     # unset key as an explicit nil used to read as a deliberate `false`.
     # Only a real `false` turns this off.
     if Map.get(props, :underline) != false do
-      ~MOB(<Box fill_width={true} height={1} background={ink} />)
+      painted = put(face, :background, Map.get(props, :backdrop) || :surface)
+
+      ~MOB"""
+      <Box fill_width={false} background={ink} padding_bottom={1}>
+        {painted}
+      </Box>
+      """
+    else
+      ~MOB"""
+      <Box fill_width={false}>
+        {face}
+      </Box>
+      """
     end
   end
 

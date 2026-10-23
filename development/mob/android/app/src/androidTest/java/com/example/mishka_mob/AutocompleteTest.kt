@@ -84,6 +84,7 @@ class AutocompleteTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Autocomplete")
             compose.onAllNodesWithText("Autocomplete", substring = false)[0]
                 .performScrollTo()
                 .performClick()

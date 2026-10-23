@@ -32,7 +32,7 @@ defmodule MishkaMob.Components.MishkaNumberField do
   | `decimals` | integer | derived from `step` | Display precision. |
   | `format` | `:plain` `:currency` `:percent` | `:plain` | How the value reads. |
   | `size` | number | `56` | Stepper edge, and the strip's height. |
-  | `value_width` | number | estimated from the text | The value slot, when not spanning. |
+  | `value_width` | number | estimated from the text and the placeholder | The value slot, when not spanning. |
   | `fill_width` | boolean | `false` | Span the parent instead of hugging. |
   | `background` / `border_color` / `border_width` / `corner_radius` | | | The strip. |
 
@@ -45,6 +45,18 @@ defmodule MishkaMob.Components.MishkaNumberField do
   marooned between them. The inner field therefore draws no box of its own:
   `underline: false` suppresses the platform's indicator line, and the strip
   around it is the only border.
+
+  ## The value slot stays one line
+
+  The platform field draws its placeholder in a text of its own that wraps when
+  the slot is too narrow, and nothing here can tell it to stop: an empty field
+  with `placeholder="How many?"` in a 96dp slot wrapped over three lines and the
+  strip grew to twice the height of the one holding a value. So the slot is
+  sized for the placeholder as well as the value, whether or not the field is
+  empty, which also keeps the strip from changing width as the first digit goes
+  in. The slot's height is left to the field: pinning it to `size` clips the
+  platform field's own text, so an explicit `value_width` too narrow for the
+  placeholder still wraps it.
 
   A stepper goes inert at its bound as well as when disabled — a `+` that cannot
   go up should not look pressable, which is what the web's own `disabled`
@@ -289,6 +301,11 @@ defmodule MishkaMob.Components.MishkaNumberField do
   # makes a child take everything left over, so a weighted slot forced the whole
   # strip to the width of its parent — it hugged in the tree and filled the
   # screen on the device, which is the bug this component started with.
+  #
+  # The slot has no height of its own. Pinned to `size` with the field centred,
+  # it cut the platform field's text down to a sliver: the field keeps its own
+  # inner padding inside whatever height it is given. The width estimate below
+  # is what keeps a placeholder on one line.
   defp value_slot(props, text, disabled?) do
     if truthy?(Map.get(props, :fill_width, false)) do
       ~MOB"""
@@ -306,23 +323,33 @@ defmodule MishkaMob.Components.MishkaNumberField do
   end
 
   # There is no text measurement on this side of the bridge, so the slot's
-  # default width is an estimate from the rendered string: roughly 16dp a
-  # character, never below 96. A fixed 96 clipped "$1,999.99" to "99.99" — a
-  # money string is simply longer than a quantity, and the component knows which
-  # it is rendering. Pass `value_width` to take the decision back.
+  # default width is an estimate from what it may have to show: roughly 16dp a
+  # character of the rendered value, never below 96. A fixed 96 clipped
+  # "$1,999.99" to "99.99" — a money string is simply longer than a quantity,
+  # and the component knows which it is rendering. The placeholder is counted
+  # too, because it wraps instead of clipping: at 12dp a character plus 48dp for
+  # the field's padding (Material's 16dp a side and the node's 8dp a side).
+  # "How many?" wrapped over three lines in 96dp and still over two in 130dp.
+  # Pass `value_width` to take the decision back.
   defp value_width(props, text) do
-    Map.get(props, :value_width) || max(96, 40 + 16 * String.length(text))
+    Map.get(props, :value_width) ||
+      Enum.max([
+        96,
+        40 + 16 * String.length(text),
+        placeholder_width(Map.get(props, :placeholder))
+      ])
   end
+
+  defp placeholder_width(hint) when is_binary(hint), do: 48 + 12 * String.length(hint)
+  defp placeholder_width(_hint), do: 0
+
+  defp size(props), do: Map.get(props, :size) || 56
 
   # A hairline between the stepper and the value, so the strip reads as one
   # control with three parts rather than three controls that happen to touch.
   defp rule(props) do
     ~MOB"""
-    <Box
-      width={1}
-      height={Map.get(props, :size) || 56}
-      background={Map.get(props, :border_color) || :border}
-    />
+    <Box width={1} height={size(props)} background={Map.get(props, :border_color) || :border} />
     """
   end
 
@@ -352,7 +379,7 @@ defmodule MishkaMob.Components.MishkaNumberField do
   # look pressable, which is what the web does with its own disabled attribute.
   defp stepper(glyph, direction, props, inert?) do
     color = if inert?, do: :muted, else: :on_surface
-    size = Map.get(props, :size) || 56
+    size = size(props)
 
     node = ~MOB"""
     <Box width={size} height={size} align={:center} background={:transparent}>

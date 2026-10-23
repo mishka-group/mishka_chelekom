@@ -107,6 +107,7 @@ class RadioTest {
 
         if (!showing(page)) {
             // Exact match: "Radio" must not open the "Radio Group" card.
+            compose.revealCard("Radio")
             compose.onAllNodesWithText("Radio", substring = false)[0]
                 .performScrollTo()
                 .performClick()

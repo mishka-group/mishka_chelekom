@@ -142,6 +142,7 @@ class DialogTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Dialog")
             compose.onAllNodesWithText("Dialog", substring = false)[0]
                 .performScrollTo()
                 .performClick()

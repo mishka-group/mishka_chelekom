@@ -21,7 +21,20 @@ defmodule MishkaMob.Showcase.Components.FloatingWindow do
 
   # Read by the markup AND by the handlers' fold props — see drag_window/1.
   @drag_size {160, 100}
-  @step_size {200, 140}
+  @step_size {200, 160}
+
+  # A window's body gets `height - chrome_height/1`, and the body's own 16dp
+  # padding comes out of both ends of that, so its content really has
+  # `height - chrome - 32`. Whatever does not fit is clipped, not scrolled. A
+  # body line is 24dp (Material's body style keeps its 24sp line height when a
+  # Text only overrides the size), so each window is its content plus a little
+  # for the device's font:
+  #
+  #   * step:     96 chrome + 32 padding + one line                  = 152
+  #   * closable: 48 chrome + 32 padding + line + 8 gap + 42 button  = 154
+  #   * custom:   48 chrome + 32 padding + two lines                 = 128
+  @closable_size {220, 160}
+  @custom_size {240, 136}
 
   # Where the draggable window goes home to. The e2e resets to it before
   # measuring, because the BEAM outlives the Activity and the last test's drag
@@ -107,7 +120,7 @@ defmodule MishkaMob.Showcase.Components.FloatingWindow do
           y={@y}
           bounds={{240, 200}}
           width={200}
-          height={140}
+          height={160}
           step={20}
           label="Layers"
           on_move={:step_move}
@@ -132,7 +145,7 @@ defmodule MishkaMob.Showcase.Components.FloatingWindow do
           "No on_move means no drag surface — and then the body takes taps again, because " <>
             "nothing is laid over it. The ✕ is the one control that lives in the title bar.",
         code: ~S"""
-        <MishkaFloatingWindow label="Console" width={220} height={130} on_close={:close} id="closable">
+        <MishkaFloatingWindow label="Console" width={220} height={160} on_close={:close} id="closable">
           <Button text="Ping" on_tap={{self(), :ping}} />
         </MishkaFloatingWindow>
 
@@ -150,7 +163,7 @@ defmodule MishkaMob.Showcase.Components.FloatingWindow do
             "under the drag surface so the whole bar stays draggable, which also means it " <>
             "takes no taps.",
         code: ~S"""
-        <MishkaFloatingWindow width={240} height={110} id="custom">
+        <MishkaFloatingWindow width={240} height={136} id="custom">
           <MishkaFloatingWindowHandle>
             <Row align={:center}>
               <Box width={8} height={8} background={:primary} corner_radius={:radius_pill} />
@@ -269,7 +282,7 @@ defmodule MishkaMob.Showcase.Components.FloatingWindow do
           on_move={:step_move}
           id="step"
         >
-          {nudge_body(assigns)}
+          {nudge_body()}
         </MishkaFloatingWindow>
       </Box>
       <Spacer size={10} />
@@ -283,15 +296,22 @@ defmodule MishkaMob.Showcase.Components.FloatingWindow do
   end
 
   defp closable_example(assigns) do
+    {win_w, win_h} = @closable_size
+
     ~MOB"""
     <Column fill_width={true}>
-      <Box fill_width={true} height={160} background={:surface_raised} corner_radius={:radius_md}>
+      <Box
+        fill_width={true}
+        height={win_h + 20}
+        background={:surface_raised}
+        corner_radius={:radius_md}
+      >
         <MishkaFloatingWindow
           :if={assigns.open?}
           x={10}
           y={10}
-          width={220}
-          height={130}
+          width={win_w}
+          height={win_h}
           label="Console"
           on_close={:close}
           id="closable"
@@ -319,9 +339,16 @@ defmodule MishkaMob.Showcase.Components.FloatingWindow do
   # <:handle> has. It is decoration: it sits under the drag surface, so the bar
   # stays draggable and the handle itself takes no taps.
   defp custom_example do
+    {win_w, win_h} = @custom_size
+
     ~MOB"""
-    <Box fill_width={true} height={140} background={:surface_raised} corner_radius={:radius_md}>
-      <MishkaFloatingWindow x={8} y={10} width={240} height={110} id="custom">
+    <Box
+      fill_width={true}
+      height={win_h + 20}
+      background={:surface_raised}
+      corner_radius={:radius_md}
+    >
+      <MishkaFloatingWindow x={8} y={10} width={win_w} height={win_h} id="custom">
         <MishkaFloatingWindowHandle>
           <Row align={:center}>
             <Box width={8} height={8} background={:primary} corner_radius={:radius_pill} />
@@ -380,20 +407,10 @@ defmodule MishkaMob.Showcase.Components.FloatingWindow do
     """
   end
 
-  defp nudge_body(assigns) do
-    {x, y} = assigns.step_pos
-
+  # One line, as the code sample shows: the 160dp window leaves 32dp for it.
+  defp nudge_body do
     ~MOB"""
-    <Column fill_width={true}>
-      <Text text="Tap an arrow. It stops at the stage edge." text_size={:sm} text_color={:muted} />
-      <Spacer size={6} />
-      <Text
-        text={"x #{round(x)} · y #{round(y)}"}
-        text_size={:sm}
-        text_color={:on_surface}
-        max_lines={1}
-      />
-    </Column>
+    <Text text="Tap an arrow." text_size={:sm} text_color={:muted} max_lines={1} />
     """
   end
 

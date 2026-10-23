@@ -88,6 +88,7 @@ class TagsInputTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Tags Input")
             compose.onAllNodesWithText("Tags Input", substring = false)[0]
                 .performScrollTo()
                 .performClick()

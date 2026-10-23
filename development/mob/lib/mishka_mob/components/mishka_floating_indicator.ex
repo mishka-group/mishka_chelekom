@@ -20,6 +20,13 @@ defmodule MishkaMob.Components.MishkaFloatingIndicator do
 
   It does not slide. Everything else about it is intact.
 
+  ## Layout
+
+  In a row the targets split the group equally: each carries `weight: 1`, which is
+  the row's own way to share its width. In a stack they keep their natural height
+  and fill the column's width, because a weight on a column's main axis would
+  stretch them instead.
+
   ## Props
 
   | Prop | Values | Default | Meaning |
@@ -122,9 +129,18 @@ defmodule MishkaMob.Components.MishkaFloatingIndicator do
       </Box>
       """
       |> put(:on_tap, handler(props, entry.value, disabled?))
+      |> put(:weight, share(props))
 
     node
   end
+
+  # In a row the targets split the group equally. `fill_width` alone cannot do
+  # that: a Box given no width fills its parent, so the first target would take
+  # the whole row and leave every later one zero wide (with its label wrapped one
+  # letter per line), which is how the group came to show only "Day". `weight`
+  # is the row's own way to share its main axis. A column's main axis is height,
+  # where a weight would stretch the targets, so a stack gets none.
+  defp share(props), do: if(orientation(props) == :horizontal, do: 1)
 
   defp orientation(props) do
     case Map.get(props, :orientation) || :horizontal do

@@ -52,22 +52,43 @@ defmodule MishkaMob.Components.MishkaOverflowListTest do
       assert text(str) =~ "…"
     end
 
-    test "is measured before the items, and never wraps" do
+    test "follows the last item as the next badge in the row, and never wraps" do
       tree = MishkaOverflowList.overflow_list(%{visible: 4, id: "l"}, items(7))
-      [body, _space, counter] = tree.children
+      [%{children: [%{type: :scroll, children: [row]}]}] = tree.children
+      counter = List.last(row.children)
 
-      # Compose measures a Row's UNWEIGHTED children first, in order, against
-      # what is left. With everything unweighted the items ate the row and the
-      # counter — last — was squeezed to a column of characters: "+" over "3".
-      # Weighting the items inverts the order so the counter gets its natural
-      # width and the overflow is what gets clipped.
-      assert body.props.weight == 1
+      # Pinned to the far end of the row, outside the items, the counter sat
+      # across a gap the width of everything the items did not use.
+      assert counter.props.corner_radius == :radius_pill
+      assert text(counter) =~ "+3"
+
+      assert row.children |> Enum.drop(-2) |> List.last() |> Map.get(:props) |> Map.get(:text) ==
+               "i4"
+
       refute Map.has_key?(counter.props, :weight)
       assert counter.props.fill_width == false
 
-      # And a starved Text wraps CHARACTER BY CHARACTER unless told not to,
-      # which is what turned "no room" into a vertical stack rather than a clip.
+      # A starved Text wraps CHARACTER BY CHARACTER unless told not to, which is
+      # what once turned "no room" into a vertical stack of "+" over "3".
       assert find(counter, :text).props.max_lines == 1
+    end
+
+    test "the items and the counter sit in a horizontal scroll, so the one at the edge is clipped, not squeezed" do
+      tree = MishkaOverflowList.overflow_list(%{visible: 4, id: "l"}, items(7))
+      [body] = tree.children
+
+      # A Row hands each child what the previous ones left, so an item that does
+      # not fit is measured NARROWER than its content: a pill's label ellipsises
+      # to "Li…" and its ✕ is squeezed sideways. Only a scroll measures its
+      # children without a width limit, and it clips them at its own edge — the
+      # cut the moduledoc promises. A tree and a screen cannot tell the two
+      # apart except by this node.
+      assert body.props.weight == 1
+      assert [%{type: :scroll, props: %{axis: "horizontal"}, children: [row]}] = body.children
+      assert row.type == :row
+      assert row.props.align == :center
+
+      assert row |> find_all(:text) |> Enum.map(& &1.props.text) == ["i1", "i2", "i3", "i4", "+3"]
     end
 
     test "an empty list renders a row with a body and no counter" do

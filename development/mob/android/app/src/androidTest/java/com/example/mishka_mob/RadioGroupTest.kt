@@ -98,6 +98,7 @@ class RadioGroupTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Radio Group")
             compose.onAllNodesWithText("Radio Group", substring = false)[0]
                 .performScrollTo()
                 .performClick()

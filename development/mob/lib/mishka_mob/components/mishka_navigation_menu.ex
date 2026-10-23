@@ -119,10 +119,17 @@ defmodule MishkaMob.Components.MishkaNavigationMenu do
     ink = if disabled?, do: :muted, else: :on_surface
     key = if trigger?(item), do: :on_open, else: :on_link
     glyph = if trigger?(item), do: if(open?, do: "▾", else: "▸")
+    stack? = orientation(props) == :vertical
 
+    # `fill_width` is load-bearing in a row. A Box given neither a width nor this
+    # prop fills its parent, so the first item would take the whole bar, leave
+    # every later one zero wide, and Compose would wrap their labels one letter
+    # per line: that is the nav that drew only "Products". In the row each item
+    # hugs its label; in the stack it keeps filling, so the whole line taps.
     node =
       ~MOB"""
       <Box
+        fill_width={stack?}
         background={if(open?, do: :surface_raised, else: :transparent)}
         corner_radius={:radius_sm}
         padding={:space_sm}

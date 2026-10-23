@@ -77,6 +77,7 @@ class CheckboxTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Checkbox")
             compose.onAllNodesWithText("Checkbox", substring = false)[0]
                 .performScrollTo()
                 .performClick()

@@ -80,7 +80,9 @@ defmodule MishkaMob.Showcase.Components.Field do
       %Example{
         title: "A whole form",
         description:
-          "Every control type, validated. Errors appear per field once you touch it, and all at once on submit.",
+          "Every control type, validated. Errors appear per field once you touch it, and all at once on submit. " <>
+            "The role strip always shows one segment chosen, so Owner looks picked before you tap it — " <>
+            "the form still counts the role as unanswered until you do.",
         code: ~S"""
         # A field is "touched" the first time it changes — the web calls this
         # used_input?. Submitting touches everything, so nothing stays hidden.
@@ -173,29 +175,23 @@ defmodule MishkaMob.Showcase.Components.Field do
               {[input("Free — contact sales to upgrade", "", nil, false, enabled: false, id: "fld-plan")]}
             </MishkaField>
             <Spacer size={20} />
-            <Row fill_width={true}>
-              <Box weight={1}>
-                <Button
-                  text="Create account"
-                  background={:primary}
-                  text_color={:on_primary}
-                  corner_radius={:radius_sm}
-                  fill_width={true}
-                  on_tap={{self(), :fld_submit}}
-                />
-              </Box>
-              <Spacer size={10} />
-              <Box weight={1}>
-                <Button
-                  text="Reset"
-                  background={:surface_raised}
-                  text_color={:on_surface}
-                  corner_radius={:radius_sm}
-                  fill_width={true}
-                  on_tap={{self(), :fld_reset}}
-                />
-              </Box>
-            </Row>
+            <Button
+              text="Create account"
+              background={:primary}
+              text_color={:on_primary}
+              corner_radius={:radius_sm}
+              fill_width={true}
+              on_tap={{self(), :fld_submit}}
+            />
+            <Spacer size={10} />
+            <Button
+              text="Reset"
+              background={:surface_raised}
+              text_color={:on_surface}
+              corner_radius={:radius_sm}
+              fill_width={true}
+              on_tap={{self(), :fld_reset}}
+            />
             <Spacer size={12} />
             <Text text={summary(@form, @submitted?)} text_size={:sm} text_color={:muted} />
           </Column>

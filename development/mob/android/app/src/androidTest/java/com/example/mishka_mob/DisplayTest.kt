@@ -67,6 +67,7 @@ class DisplayTest {
         }
 
         if (!showing(marker)) {
+            compose.revealCard(card)
             compose.onNodeWithText(card, substring = false).performScrollTo().performClick()
             compose.waitUntil(60_000) { showing(marker) }
         }

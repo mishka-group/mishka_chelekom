@@ -13,6 +13,8 @@ import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.performTextReplacement
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.Before
@@ -168,6 +170,7 @@ class OtpFieldTest {
         if (!showing("A 6-digit code")) {
             // Every card is in the semantics tree but most are off-screen, and a
             // click on an off-screen node does nothing.
+            compose.revealCard("OTP Field")
             compose.onNodeWithText("OTP Field", substring = false)
                 .performScrollTo()
                 .performClick()
@@ -254,8 +257,23 @@ class OtpFieldTest {
 
     // ── the showcase page ────────────────────────────────────────────────────
 
+    /** Put the keyboard away: a test that typed into a field leaves it covering the page. */
+    private fun hideKeyboard() {
+        compose.runOnUiThread {
+            val window = compose.activity.window
+            WindowCompat.getInsetsController(window, window.decorView).hide(WindowInsetsCompat.Type.ime())
+        }
+        compose.waitForIdle()
+        Thread.sleep(400)
+    }
+
     @Test
     fun the_page_renders_every_example_and_the_props_table() {
+        // The page stays open between tests, so an earlier one's keyboard can
+        // still be up, and a heading scrolled to the bottom of the viewport is
+        // then behind it rather than on screen.
+        hideKeyboard()
+
         // The page is a Scroll, so most of it is below the fold.
         // assertIsDisplayed means "visible on screen right now", which is not the
         // question here — scroll each heading into view before asking.
@@ -265,9 +283,14 @@ class OtpFieldTest {
             "Grouped, with a separator",
             "Props",
         )) {
-            compose.onNodeWithText(heading, substring = true)
-                .performScrollTo()
-                .assertIsDisplayed()
+            val node = compose.onNodeWithText(heading, substring = true)
+            node.performScrollTo()
+            compose.waitForIdle()
+            try {
+                node.assertIsDisplayed()
+            } catch (e: AssertionError) {
+                throw AssertionError("\"$heading\" is not on screen after scrolling to it", e)
+            }
         }
     }
 

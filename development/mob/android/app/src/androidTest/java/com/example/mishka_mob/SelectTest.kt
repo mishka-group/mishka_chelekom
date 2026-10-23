@@ -125,6 +125,7 @@ class SelectTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Select")
             compose.onAllNodesWithText("Select", substring = false)[0]
                 .performScrollTo()
                 .performClick()

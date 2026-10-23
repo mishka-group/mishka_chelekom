@@ -85,6 +85,7 @@ class PreviewCardTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Preview Card")
             compose.onAllNodesWithText("Preview Card", substring = false)[0]
                 .performScrollTo()
                 .performClick()

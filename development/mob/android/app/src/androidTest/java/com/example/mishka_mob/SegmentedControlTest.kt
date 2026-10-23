@@ -133,6 +133,7 @@ class SegmentedControlTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Segmented Control")
             compose.onAllNodesWithText("Segmented Control", substring = false)[0]
                 .performScrollTo()
                 .performClick()

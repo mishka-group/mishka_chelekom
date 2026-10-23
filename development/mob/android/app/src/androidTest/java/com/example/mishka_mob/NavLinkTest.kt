@@ -78,6 +78,7 @@ class NavLinkTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Nav Link")
             compose.onAllNodesWithText("Nav Link", substring = false)[0]
                 .performScrollTo()
                 .performClick()

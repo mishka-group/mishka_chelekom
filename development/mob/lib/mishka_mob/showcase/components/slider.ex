@@ -158,7 +158,8 @@ defmodule MishkaMob.Showcase.Components.Slider do
         title: "Vertical",
         description:
           "orientation={:vertical} turns the control a quarter turn. length sets " <>
-            "how long the track is, since a rotated slider cannot inherit a width.",
+            "how long the track is, since a rotated slider cannot inherit a width. The " <>
+            "control takes a length-by-length square with the track down its middle.",
         code: ~S"""
         <MishkaSlider
           value={@level}
@@ -175,10 +176,10 @@ defmodule MishkaMob.Showcase.Components.Slider do
               min={0}
               max={100}
               orientation={:vertical}
-              length={160}
+              length={180}
               on_change={:vertical}
             />
-            <Spacer size={16} />
+            <Spacer size={8} />
             <Text text={"Level #{round(@sl_vertical)}"} text_size={:base} text_color={:on_surface} />
           </Row>
           """
@@ -202,6 +203,18 @@ defmodule MishkaMob.Showcase.Components.Slider do
         type: "number",
         default: "100",
         description: "Upper bound. Always sent — the bridge would otherwise default to 1.0."
+      },
+      %{
+        name: "orientation",
+        type: ":horizontal :vertical",
+        default: ":horizontal",
+        description: "Android only. A vertical slider is sent with its width set to length."
+      },
+      %{
+        name: "length",
+        type: "number",
+        default: "160",
+        description: "Track length when vertical; it must fit the width of the parent."
       },
       %{name: "label", type: "string", default: "nil", description: "Caption above the track."},
       %{

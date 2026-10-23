@@ -64,8 +64,11 @@ class OverflowListTest {
         .takeWhile { tagged("$list-item-$it") }
         .count()
 
+    // The list's own tag, not its first item. The items and the counter sit in a
+    // horizontal Scroll, and performScrollTo only moves the closest scroll
+    // parent: for an item that is the strip, and the page never moves.
     private fun show(list: String) {
-        compose.onAllNodesWithTag("$list-item-1", useUnmergedTree = true)[0].performScrollTo()
+        compose.onAllNodesWithTag(list, useUnmergedTree = true)[0].performScrollTo()
         compose.waitForIdle()
     }
 
@@ -82,6 +85,7 @@ class OverflowListTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Overflow List")
             compose.onAllNodesWithText("Overflow List", substring = false)[0]
                 .performScrollTo()
                 .performClick()

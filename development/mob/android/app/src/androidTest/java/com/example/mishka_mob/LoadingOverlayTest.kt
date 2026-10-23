@@ -103,6 +103,7 @@ class LoadingOverlayTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Loading Overlay")
             compose.onAllNodesWithText("Loading Overlay", substring = false)[0]
                 .performScrollTo()
                 .performClick()

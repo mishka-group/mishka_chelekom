@@ -34,20 +34,34 @@ defmodule MishkaMob.Components.MishkaOverflowList do
   every resize; there is no resize here to push, and `split/2` already hands the
   caller the hidden list), and the `*_class` attrs.
 
-  ## The counter is measured first, and never wraps
+  ## The counter follows the last item
 
-  Two separate things kept the `+N` from being readable.
+  The `+N` is a badge in the same row as the items, right after the last one
+  shown, the way the web draws it. It used to be pinned to the far end of the
+  row, outside the items, which left a gap the width of everything the items
+  did not use. Inside the row's `Scroll` (below) it is measured at its natural
+  width like every item, so it is never squeezed.
 
-  Compose measures a Row's **unweighted** children first, in order, each against
-  what is left — so with everything unweighted the items ate the row and the
-  counter, being last, got the scraps. The items now sit in a weighted Box, which
-  inverts that: the counter takes its natural width and the overflow is what gets
-  clipped, which is the whole point of the component.
+  Its label still carries `max_lines: 1`. A Text squeezed narrower than its
+  content wraps CHARACTER BY CHARACTER, so a starved "+3" once rendered as a
+  vertical stack of "+" and "3". Every pill in this library sets it for the same
+  reason.
 
-  And its label carries `max_lines: 1`. A Text squeezed narrower than its content
-  wraps CHARACTER BY CHARACTER, so a starved "+3" rendered as a vertical stack of
-  "+" and "3" rather than clipping. Every pill in this library sets it for the
-  same reason.
+  ## The item at the edge is clipped, not squeezed
+
+  `visible` is a declared count, so it can be more than the row holds — and
+  `fit/3` is an estimate, so even an honest count can be a few dp optimistic.
+  A plain `Row` would hand the item that straddles the edge whatever width was
+  left, and an item narrower than its content does not clip: a pill's label
+  ellipsises to "Li…" and its ✕ is squeezed sideways. The items and the counter
+  therefore sit in a horizontal `Scroll`, which measures them at their natural
+  width and cuts them at its own edge. The last item you can see is whole up to
+  that edge, and being a scroll, it and the counter after it can be swiped into
+  view.
+
+  That is a fallback, not a layout: a half item is still a half item, and a
+  counter past the edge has to be dragged in to be tapped. Declare a `visible`
+  the row can hold, or ask `fit/3` for one; it leaves room for the counter.
 
   ## The counter must not fill
 
@@ -92,27 +106,34 @@ defmodule MishkaMob.Components.MishkaOverflowList do
       |> Enum.map(fn {item, n} -> tag(item, item_id(id, n)) end)
       |> Enum.intersperse(~MOB(<Spacer size={space} />))
 
-    # The items go in a WEIGHTED box and the counter does not.
+    # The items and then the counter, in one horizontal Scroll that fills the
+    # row (the weighted Box). The counter is the next badge after the last item,
+    # as on the web. Pinned to the row's far end, outside the items, it sat
+    # across a gap the width of everything the items did not use.
     #
-    # Compose measures a Row's unweighted children first, in order, each against
-    # what is left. With everything unweighted the items ate the row and the
-    # counter — last — got the scraps, so "+3" was squeezed into a column of
-    # characters. Weighting the items inverts that: the counter is measured
-    # first at its natural width and the items take the remainder, so the count
-    # is always readable and it is the overflow that gets clipped, which is the
-    # whole point of the component.
-    #
-    # iOS is unaffected either way (an HStack serves fixed-size children first),
-    # and ignores `weight` regardless — IOS_TODO item 13.
+    # The Scroll is what makes "the overflow is clipped" true. A Row hands each
+    # child what the previous ones left, so the item that straddles the edge is
+    # not cut off: it is SQUEEZED, and a pill squeezed narrower than its label
+    # draws "Li…". A Scroll measures its children without a width limit and
+    # clips them at its own edge, so every item, and the counter, keeps its
+    # natural width and the container is what cuts it.
     body = %{
       type: :box,
       props: %{weight: 1},
-      children: [%{type: :row, props: %{align: :center}, children: items}]
+      children: [
+        ~MOB"""
+        <Scroll axis="horizontal">
+          <Row align={:center}>
+            {items ++ counter(hidden, props, space, id)}
+          </Row>
+        </Scroll>
+        """
+      ]
     }
 
     ~MOB"""
     <Row fill_width={true} align={:center}>
-      {[body | counter(hidden, props, space, id)]}
+      {[body]}
     </Row>
     """
     |> tag(id)

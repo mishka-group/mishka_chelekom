@@ -72,6 +72,7 @@ class ChipTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Chip")
             compose.onAllNodesWithText("Chip", substring = false)[0]
                 .performScrollTo()
                 .performClick()

@@ -94,6 +94,7 @@ class NumberFieldTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Number Field")
             compose.onAllNodesWithText("Number Field", substring = false)[0]
                 .performScrollTo()
                 .performClick()
@@ -145,8 +146,11 @@ class NumberFieldTest {
         val hugging = boundsOf("nf-hug-up").right - boundsOf("nf-hug-down").left
         val spanning = boundsOf("nf-wide-up").right - boundsOf("nf-wide-down").left
 
-        require(spanning > hugging * 1.5f) {
-            "fill_width did not span: hugging=$hugging spanning=$spanning"
+        // Spanning has to add at least a stepper's width to the strip. A ratio
+        // (1.5x) depended on how wide the card is: a 384dp phone spans 1.44x.
+        val stepper = boundsOf("nf-wide-up").width
+        require(spanning > hugging + stepper) {
+            "fill_width did not span: hugging=$hugging spanning=$spanning stepper=$stepper"
         }
     }
 

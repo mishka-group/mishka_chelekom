@@ -122,6 +122,7 @@ class TreeTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Tree")
             compose.onNodeWithText("Tree", substring = false).performScrollTo().performClick()
             compose.waitUntil(60_000) { showing(page) }
         }

@@ -514,13 +514,61 @@ defmodule MishkaMob.Components.MishkaDrawerTest do
   end
 
   describe "trigger/2" do
-    test "a string builds a button wired to on_open" do
+    test "a string builds a tappable Box holding the label, wired to on_open" do
       node = MishkaDrawer.trigger("Open", on_open: :open_menu, test_id: "menu-trigger")
 
-      assert node.type == :button
-      assert node.props.text == "Open"
+      assert node.type == :box
+      assert text(node) == "Open"
       assert node.props.on_tap == {self(), :open_menu}
       assert node.props.id == "menu-trigger"
+    end
+
+    test "it is not a :button, whose Material padding left a shared row no room for a label" do
+      # Android's button adds 24dp of content padding a side on top of the node's
+      # own, so five triggers in a row drew as five blank dark slabs and a wider
+      # one clipped "Undismissable" to "Undismis…". A Box applies its padding once.
+      node = MishkaDrawer.trigger("xs", weight: 1)
+
+      assert find_all(node, :button) == []
+      assert node.props.background == :primary
+      assert node.props.corner_radius == :radius_md
+      assert node.props.align == :center
+    end
+
+    test "the label is drawn in the on-primary ink and never wraps" do
+      label = MishkaDrawer.trigger("Open") |> find(:text)
+
+      assert label.props.text == "Open"
+      assert label.props.text_color == :on_primary
+      # A label squeezed narrower than its text is cut with an ellipsis rather
+      # than wrapped one letter per line.
+      assert label.props.max_lines == 1
+    end
+
+    test "padding is lean at the sides so a narrow cell keeps room for its label" do
+      props = MishkaDrawer.trigger("md").props
+
+      assert props.padding_left == :space_sm
+      assert props.padding_right == :space_sm
+      assert props.padding_top == :space_md
+      assert props.padding_bottom == :space_md
+      refute Map.has_key?(props, :padding)
+    end
+
+    test "fill_width defaults to true, and fill_width: false hugs the label" do
+      assert MishkaDrawer.trigger("Open").props.fill_width == true
+      assert MishkaDrawer.trigger("Open", fill_width: false).props.fill_width == false
+    end
+
+    test "five weighted triggers in a row each keep a label" do
+      row =
+        for size <- [:xs, :sm, :md, :lg, :xl] do
+          MishkaDrawer.trigger(Atom.to_string(size), on_open: {:open_size, size}, weight: 1)
+        end
+
+      assert Enum.map(row, &text/1) == ["xs", "sm", "md", "lg", "xl"]
+      assert Enum.all?(row, &(&1.props.weight == 1))
+      assert Enum.all?(row, &(find(&1, :text).props.text_color == :on_primary))
     end
 
     test "a list of nodes builds a tappable Box around them" do
@@ -589,10 +637,8 @@ defmodule MishkaMob.Components.MishkaDrawerTest do
 
       tree = MishkaDrawer.expand(%{open: false}, tags, ctx())
 
-      # A Button carries its label in props rather than in a Text child, so the
-      # labels are read from there rather than through text/1.
       assert %{type: :column, children: [first, second]} = tree
-      assert {first.props.text, second.props.text} == {"One", "Two"}
+      assert {text(first), text(second)} == {"One", "Two"}
       assert {first.props.on_tap, second.props.on_tap} == {{self(), :a}, {self(), :b}}
     end
 
@@ -615,7 +661,8 @@ defmodule MishkaMob.Components.MishkaDrawerTest do
       tag = trigger_tag(%{label: "Open", on_open: :go})
       tree = MishkaDrawer.expand(%{open: false, swipe_area: true, side: :left}, [tag], ctx())
 
-      assert tree.type == :button
+      assert tree.type == :box
+      assert text(tree) == "Open"
       refute find(tree, :canvas)
     end
 

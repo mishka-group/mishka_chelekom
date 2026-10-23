@@ -142,6 +142,7 @@ class ToggleTest {
 
         if (!showing(page)) {
             // Exact match: "Toggle" must not open the "Toggle Group" card.
+            compose.revealCard("Toggle")
             compose.onAllNodesWithText("Toggle", substring = false)[0]
                 .performScrollTo()
                 .performClick()

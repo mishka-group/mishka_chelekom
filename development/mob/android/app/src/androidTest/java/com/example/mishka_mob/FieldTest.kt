@@ -93,6 +93,7 @@ class FieldTest {
         }
 
         if (!showing(page)) {
+            compose.revealCard("Field")
             compose.onAllNodesWithText("Field", substring = false)[0]
                 .performScrollTo()
                 .performClick()

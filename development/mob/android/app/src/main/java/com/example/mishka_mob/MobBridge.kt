@@ -178,6 +178,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -3633,7 +3634,19 @@ private fun MobWebView(node: MobNode, modifier: Modifier) {
 private fun canvasDragModifier(node: MobNode, declaredW: Float, declaredH: Float): Modifier {
     val handle = intProp(node.props, "on_drag") ?: return Modifier
 
-    return Modifier.pointerInput(handle) {
+    // Deliberately NOT keyed on the handle (as mob_new's own bridge does since
+    // Mob 0.7.38). A handle carries its render generation, every drag sample
+    // re-renders the screen, and every render registers fresh handle ints, so a
+    // gesture keyed on the handle was cancelled one sample in: `began` and one
+    // `dragging` arrived, `ended` never did, and a splitter or a window moved a
+    // few pixels and stopped. Keep one gesture alive and send each sample
+    // through the handle of the latest render, which is the only one native
+    // still accepts.
+    val liveHandle by rememberUpdatedState(handle)
+    val liveW by rememberUpdatedState(declaredW)
+    val liveH by rememberUpdatedState(declaredH)
+
+    return Modifier.pointerInput(Unit) {
         awaitEachGesture {
             // requireUnconsumed = false: an enclosing <Scroll> has already seen
             // this down, and that must not stop the strip responding to it.
@@ -3648,11 +3661,11 @@ private fun canvasDragModifier(node: MobNode, declaredW: Float, declaredH: Float
             // finger in exactly the space the ops were authored in. Comparing a
             // pixel position against the dp `width` prop is the thing that must
             // never happen here.
-            val ux = if (declaredW > 0f) declaredW / wPx else 1f
-            val uy = if (declaredH > 0f) declaredH / hPx else 1f
+            val ux = if (liveW > 0f) liveW / wPx else 1f
+            val uy = if (liveH > 0f) liveH / hPx else 1f
 
             var last = down.position
-            MobBridge.nativeSendDrag(handle, down.position.x * ux, down.position.y * uy, 0f, 0f, "began")
+            MobBridge.nativeSendDrag(liveHandle, down.position.x * ux, down.position.y * uy, 0f, 0f, "began")
             down.consume()
 
             var dragging = true
@@ -3664,13 +3677,13 @@ private fun canvasDragModifier(node: MobNode, declaredW: Float, declaredH: Float
                     val d = change.position - last
                     last = change.position
                     MobBridge.nativeSendDrag(
-                        handle, change.position.x * ux, change.position.y * uy,
+                        liveHandle, change.position.x * ux, change.position.y * uy,
                         d.x * ux, d.y * uy, "dragging"
                     )
                     change.consume()
                 } else {
                     MobBridge.nativeSendDrag(
-                        handle, change.position.x * ux, change.position.y * uy, 0f, 0f, "ended"
+                        liveHandle, change.position.x * ux, change.position.y * uy, 0f, 0f, "ended"
                     )
                     change.consume()
                     dragging = false
