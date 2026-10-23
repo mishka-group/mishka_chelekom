@@ -76,7 +76,7 @@ jobs:
         with:
           bun-version: latest
 
-      - uses: erlef/setup-beam@v1.20.4
+      - uses: erlef/setup-beam@v1.24.1
         with:
           elixir-version: ${{ env.ELIXIR_VERSION }}
           otp-version: ${{ env.OTP_VERSION }}
@@ -100,7 +100,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: erlef/setup-beam@v1.20.4
+      - uses: erlef/setup-beam@v1.24.1
         with:
           elixir-version: ${{ env.WEB_ELIXIR_VERSION }}
           otp-version: ${{ env.OTP_VERSION }}
@@ -124,7 +124,7 @@ jobs:
         with:
           bun-version: latest
 
-      - uses: erlef/setup-beam@v1.20.4
+      - uses: erlef/setup-beam@v1.24.1
         with:
           elixir-version: ${{ env.WEB_ELIXIR_VERSION }}
           otp-version: ${{ env.OTP_VERSION }}
@@ -176,7 +176,7 @@ jobs:
           - { dir: "development/mob", elixir: "1.20.4", otp: "29.1.2" }
     steps:
       - uses: actions/checkout@v5
-      - uses: erlef/setup-beam@v1.20.4
+      - uses: erlef/setup-beam@v1.24.1
         with:
           elixir-version: ${{ matrix.elixir }}
           otp-version: ${{ matrix.otp }}
@@ -195,7 +195,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: erlef/setup-beam@v1.20.4
+      - uses: erlef/setup-beam@v1.24.1
         with:
           elixir-version: ${{ env.ELIXIR_VERSION }}
           otp-version: ${{ env.OTP_VERSION }}
@@ -241,7 +241,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: erlef/setup-beam@v1.20.4
+      - uses: erlef/setup-beam@v1.24.1
         with:
           elixir-version: ${{ env.ELIXIR_VERSION }}
           otp-version: ${{ env.OTP_VERSION }}
@@ -266,7 +266,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: erlef/setup-beam@v1.20.4
+      - uses: erlef/setup-beam@v1.24.1
         with:
           elixir-version: ${{ env.ELIXIR_VERSION }}
           otp-version: ${{ env.OTP_VERSION }}
@@ -305,7 +305,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: erlef/setup-beam@v1.20.4
+      - uses: erlef/setup-beam@v1.24.1
         with:
           elixir-version: ${{ env.MOB_ELIXIR_VERSION }}
           otp-version: ${{ env.MOB_OTP_VERSION }}
@@ -335,7 +335,7 @@ jobs:
           distribution: temurin
           java-version: ${{ env.JAVA_VERSION }}
 
-      - uses: erlef/setup-beam@v1.20.4
+      - uses: erlef/setup-beam@v1.24.1
         with:
           elixir-version: ${{ env.MOB_ELIXIR_VERSION }}
           otp-version: ${{ env.MOB_OTP_VERSION }}
@@ -511,7 +511,7 @@ jobs:
           distribution: temurin
           java-version: ${{ env.JAVA_VERSION }}
 
-      - uses: erlef/setup-beam@v1.20.4
+      - uses: erlef/setup-beam@v1.24.1
         with:
           elixir-version: ${{ env.MOB_ELIXIR_VERSION }}
           otp-version: ${{ env.MOB_OTP_VERSION }}
