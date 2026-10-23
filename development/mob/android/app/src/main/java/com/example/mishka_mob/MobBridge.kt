@@ -256,9 +256,10 @@ import androidx.lifecycle.LifecycleOwner
  * Holds the rendered tree and the nav transition to animate.
  *
  * navKey only increments on actual navigation transitions (push/pop/reset).
- * AnimatedContent in MainActivity uses navKey as the contentKey so that
- * same-screen BEAM re-renders (transition == "none") recompose the existing
- * composable in place — no content swap, no focus loss, no keyboard dismissal.
+ * AnimatedContent in MainActivity animates between navKeys, not RootStates, so
+ * that same-screen BEAM re-renders (transition == "none") recompose the existing
+ * composable in place — no content swap, no focus loss, no keyboard dismissal —
+ * and so that it holds nothing per render (see NavPage in MainActivity).
  */
 data class RootState(
     val navKey: Int,
