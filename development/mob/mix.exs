@@ -8,6 +8,9 @@ defmodule MishkaMob.MixProject do
       elixir: "~> 1.18",
       start_permanent: false,
       elixirc_paths: elixirc_paths(Mix.env()),
+      # test/e2e.exs is the runner behind `mix e2e`, not a test: without this a full
+      # `mix test` warns about it, and `--warnings-as-errors` turns that into a failure.
+      test_ignore_filters: ["test/e2e.exs"],
       deps: deps(),
       aliases: aliases(),
       erlc_paths: ["src"],
