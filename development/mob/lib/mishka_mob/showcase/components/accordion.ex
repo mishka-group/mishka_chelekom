@@ -6,6 +6,11 @@ defmodule MishkaMob.Showcase.Components.Accordion do
   `on_toggle` tag, so opening a panel in one example never disturbs another —
   and each demonstrates a different mode of the headless component
   (`multiple`, `collapsible`, per-item `disabled`).
+
+  Each also carries its own `id` (`acc-faq`, `acc-multi`, `acc-locked`, `acc-off`,
+  `acc-watch`), which is what a device test addresses: three examples share item
+  ids such as `:native`, and page text is no help either, since every code sample
+  is text too.
   """
   use MishkaMob.Showcase.Page
 
@@ -59,7 +64,7 @@ defmodule MishkaMob.Showcase.Components.Accordion do
         """,
         render: fn assigns ->
           ~MOB"""
-          <MishkaAccordion open={@acc_faq} on_toggle={:toggle_faq}>
+          <MishkaAccordion open={@acc_faq} on_toggle={:toggle_faq} id="acc-faq">
             <MishkaAccordionItem id={:what} title="What is Mishka Chelekom?">
               {body("A component library for Phoenix — and now a native port for Mob.")}
             </MishkaAccordionItem>
@@ -85,7 +90,7 @@ defmodule MishkaMob.Showcase.Components.Accordion do
         """,
         render: fn assigns ->
           ~MOB"""
-          <MishkaAccordion open={@acc_multi} multiple={true} on_toggle={:toggle_multi}>
+          <MishkaAccordion open={@acc_multi} multiple={true} on_toggle={:toggle_multi} id="acc-multi">
             <MishkaAccordionItem id={:beam} title="The BEAM runs on the device">
               {body("Your Elixir runs on the phone itself — screens are GenServers.")}
             </MishkaAccordionItem>
@@ -111,7 +116,12 @@ defmodule MishkaMob.Showcase.Components.Accordion do
         """,
         render: fn assigns ->
           ~MOB"""
-          <MishkaAccordion open={@acc_locked} collapsible={false} on_toggle={:toggle_locked}>
+          <MishkaAccordion
+            open={@acc_locked}
+            collapsible={false}
+            on_toggle={:toggle_locked}
+            id="acc-locked"
+          >
             <MishkaAccordionItem id={:always} title="This one starts open">
               {body("Tapping this header again will not close it — something must stay open.")}
             </MishkaAccordionItem>
@@ -135,7 +145,7 @@ defmodule MishkaMob.Showcase.Components.Accordion do
         """,
         render: fn assigns ->
           ~MOB"""
-          <MishkaAccordion open={@acc_disabled} on_toggle={:toggle_disabled}>
+          <MishkaAccordion open={@acc_disabled} on_toggle={:toggle_disabled} id="acc-off">
             <MishkaAccordionItem id={:ok} title="I open normally">
               {body("Nothing special about this one.")}
             </MishkaAccordionItem>
@@ -178,7 +188,7 @@ defmodule MishkaMob.Showcase.Components.Accordion do
           # addition — a tap can only send one message.
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaAccordion open={@acc_watched} multiple={true} on_open_change={:acc_watch}>
+            <MishkaAccordion open={@acc_watched} multiple={true} on_open_change={:acc_watch} id="acc-watch">
               <MishkaAccordionItem id={:shipping} title="Shipping">
                 {body("Open and close these — the log below records both.")}
               </MishkaAccordionItem>
@@ -187,7 +197,7 @@ defmodule MishkaMob.Showcase.Components.Accordion do
               </MishkaAccordionItem>
             </MishkaAccordion>
             <Spacer size={12} />
-            <Text text={log_label(@acc_log)} text_size={:sm} text_color={:muted} />
+            <Text id="acc-watch-log" text={log_label(@acc_log)} text_size={:sm} text_color={:muted} />
           </Column>
           """
         end
@@ -275,6 +285,12 @@ defmodule MishkaMob.Showcase.Components.Accordion do
         type: "event tag",
         default: "—",
         description: "{:tap, {tag, next_open_set}} — already resolved. One of the three wins."
+      },
+      %{
+        name: "id",
+        type: "string",
+        default: "nil",
+        description: "Tags: <id>, and per item <id>-<item>-trigger and <id>-<item>-panel."
       },
       %{
         name: "item.id / .title / .disabled",

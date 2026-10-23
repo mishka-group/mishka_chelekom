@@ -4,6 +4,8 @@ defmodule MishkaMob.Components.MishkaChipTest do
 
   alias MishkaMob.Components.MishkaChip
 
+  doctest MishkaMob.Components.MishkaChip
+
   describe "shape" do
     test "is a pill-shaped tappable box holding its label" do
       node = MishkaChip.chip(label: "Elixir", on_toggle: :pick)
@@ -127,5 +129,39 @@ defmodule MishkaMob.Components.MishkaChipTest do
     off = MishkaChip.chip(label: "Locked off", checked: false, disabled: true)
 
     refute on.props.background == off.props.background
+  end
+
+  describe "test tags" do
+    # Checked differs from idle by fill colour alone, which a device test cannot
+    # read, so the state rides in the chip's tag.
+    test "the chip is tagged with its state, and its label with its own tag" do
+      checked = MishkaChip.chip(label: "Elixir", checked: true, id: "lang-elixir")
+      idle = MishkaChip.chip(label: "Elixir", id: "lang-elixir")
+
+      assert checked.props.id == "lang-elixir-checked"
+      assert idle.props.id == "lang-elixir-idle"
+      assert find(checked, :text).props.id == "lang-elixir-label"
+    end
+
+    test "the tag is on the node that carries the tap" do
+      node = MishkaChip.chip(label: "Elixir", id: "lang-elixir", on_toggle: {self(), :pick})
+
+      assert node.props.id == "lang-elixir-idle"
+      assert node.props.on_tap == {self(), :pick}
+    end
+
+    test "a disabled chip is still tagged, and stays checked" do
+      node = MishkaChip.chip(label: "Locked", checked: true, disabled: true, id: "locked")
+
+      assert node.props.id == "locked-checked"
+      refute Map.has_key?(node.props, :on_tap)
+    end
+
+    test "without an id nothing is tagged, and the node is unchanged" do
+      node = MishkaChip.chip(label: "Elixir", checked: true)
+
+      refute Map.has_key?(node.props, :id)
+      refute Map.has_key?(find(node, :text).props, :id)
+    end
   end
 end

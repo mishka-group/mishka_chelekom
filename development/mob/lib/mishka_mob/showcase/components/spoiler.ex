@@ -54,7 +54,7 @@ defmodule MishkaMob.Showcase.Components.Spoiler do
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaSpoiler expanded={@sp_open} preview={para(short())} on_toggle={:sp_open}>
+            <MishkaSpoiler expanded={@sp_open} preview={para(short())} on_toggle={:sp_open} id="sp-more">
               {para(long())}
             </MishkaSpoiler>
           </Column>
@@ -78,6 +78,7 @@ defmodule MishkaMob.Showcase.Components.Spoiler do
               show_label="Read the rest"
               hide_label="Collapse"
               on_toggle={:sp_plain}
+              id="sp-custom"
             >
               {para(long())}
             </MishkaSpoiler>
@@ -94,7 +95,7 @@ defmodule MishkaMob.Showcase.Components.Spoiler do
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaSpoiler expanded={@sp_plain} on_toggle={:sp_plain}>
+            <MishkaSpoiler expanded={@sp_plain} on_toggle={:sp_plain} id="sp-bare">
               {para("Surprise — this was hidden.")}
             </MishkaSpoiler>
           </Column>
@@ -143,6 +144,13 @@ defmodule MishkaMob.Showcase.Components.Spoiler do
         type: "color / ARGB",
         default: ":primary",
         description: "Control colour."
+      },
+      %{
+        name: "id",
+        type: "string",
+        default: "nil",
+        description:
+          "Tags: <id>, <id>-preview or <id>-content, <id>-control (the tap target) and <id>-label."
       }
     ]
   end

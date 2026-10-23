@@ -788,6 +788,7 @@ defmodule MishkaMob.Components.MishkaTreeTest do
       tags = tags(page)
 
       assert "tree-row-lib" in tags
+      assert "cascade-row-lib" in tags
       assert "multi-row-ada" in tags
       assert "async-row-project" in tags
       assert "strict-row-lib" in tags
@@ -806,13 +807,15 @@ defmodule MishkaMob.Components.MishkaTreeTest do
       assert node_with_tag(page, "async-reset").props[:on_tap]
     end
 
-    test "exactly two trees use the default id" do
-      # TreeTest.kt reaches the checkbox example by index — onAllNodesWithTag
-      # (\"tree-toggle-lib\")[1]. A third default-id tree on this page would
-      # silently point that index at the wrong example.
+    test "exactly one tree uses the default id" do
+      # The device frame table is keyed by tag: two trees under one prefix would
+      # overwrite each other's frames, and tree_test.exs could not say which one
+      # it tapped. The checkbox example carries its own prefix for that reason.
       page = page(mount_screen(ComponentScreen, %{slug: :tree}))
 
-      assert Enum.count(tags(page), &(&1 == "tree-toggle-lib")) == 2
+      assert Enum.count(tags(page), &(&1 == "tree-toggle-lib")) == 1
+      assert "cascade-toggle-lib" in tags(page)
+      assert "cascade-check-lib/mishka_mob.ex" in tags(page)
     end
 
     test "expanding one example leaves the others where they were" do

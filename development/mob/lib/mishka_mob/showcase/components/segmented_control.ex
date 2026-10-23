@@ -77,7 +77,12 @@ defmodule MishkaMob.Showcase.Components.SegmentedControl do
               </MishkaSegmentedControl>
             </Row>
             <Spacer size={12} />
-            <Text text={"Value: " <> to_string(@sc_view)} text_size={:sm} text_color={:muted} />
+            <Text
+              id="sc-view-summary"
+              text={"Value: " <> to_string(@sc_view)}
+              text_size={:sm}
+              text_color={:muted}
+            />
           </Column>
           """
         end

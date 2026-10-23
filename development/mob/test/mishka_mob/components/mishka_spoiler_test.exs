@@ -127,4 +127,45 @@ defmodule MishkaMob.Components.MishkaSpoilerTest do
       refute Map.has_key?(find(MishkaSpoiler.spoiler(%{}, []), :box).props, :on_tap)
     end
   end
+
+  describe "test tags" do
+    defp tags(tree) do
+      tree |> flatten() |> Enum.map(& &1.props[:id]) |> Enum.reject(&is_nil/1)
+    end
+
+    test "collapsed, the preview is what is tagged" do
+      tree = MishkaSpoiler.spoiler(%{id: "more", preview: preview(), on_toggle: :more}, content())
+
+      assert tags(tree) == ["more", "more-preview", "more-control", "more-label"]
+    end
+
+    test "expanded, the content is what is tagged" do
+      tree =
+        MishkaSpoiler.spoiler(
+          %{id: "more", expanded: true, preview: preview(), on_toggle: :more},
+          content()
+        )
+
+      assert tags(tree) == ["more", "more-content", "more-control", "more-label"]
+    end
+
+    test "with nothing to show there is no shown node to tag" do
+      assert tags(MishkaSpoiler.spoiler(%{id: "more", on_toggle: :more}, content())) ==
+               ["more", "more-control", "more-label"]
+    end
+
+    test "the control tag is on the padded box that carries the tap, the label inside it" do
+      tree = MishkaSpoiler.spoiler(%{id: "more", on_toggle: {self(), :more}}, [])
+      control = tree |> flatten() |> Enum.find(&(&1.props[:id] == "more-control"))
+      label = tree |> flatten() |> Enum.find(&(&1.props[:id] == "more-label"))
+
+      assert control.props.on_tap == {self(), :more}
+      assert control.props.padding_top == 10
+      assert label.props.text == "Show more"
+    end
+
+    test "without an id nothing is tagged" do
+      assert tags(MishkaSpoiler.spoiler(%{preview: preview(), on_toggle: :more}, content())) == []
+    end
+  end
 end

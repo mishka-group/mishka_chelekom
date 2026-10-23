@@ -4,6 +4,8 @@ defmodule MishkaMob.Components.MishkaCollapsibleTest do
 
   alias MishkaMob.Components.MishkaCollapsible
 
+  doctest MishkaMob.Components.MishkaCollapsible
+
   defp body, do: [%{type: :text, props: %{text: "the region"}, children: []}]
 
   defp p(extra), do: Map.merge(%{title: "Details", on_toggle: :toggle}, extra)
@@ -146,6 +148,43 @@ defmodule MishkaMob.Components.MishkaCollapsibleTest do
         MishkaCollapsible.collapsible(%{title: "Off", color: 0xFFFFFFFF, disabled: true})
 
       assert find(tree, :text).props.text_color == :muted
+    end
+  end
+
+  describe "test tags" do
+    defp tags(tree) do
+      tree |> flatten() |> Enum.map(& &1.props[:id]) |> Enum.reject(&is_nil/1)
+    end
+
+    test "an id tags the root and the trigger, and the region only while open" do
+      assert tags(build(%{id: "ship"})) == ["ship", "ship-trigger"]
+      assert tags(build(%{id: "ship", open: true})) == ["ship", "ship-trigger", "ship-panel"]
+    end
+
+    test "the trigger tag is on the node that carries the tap" do
+      trigger = build(%{id: "ship"}) |> flatten() |> Enum.find(&(&1.props[:id] == "ship-trigger"))
+
+      assert trigger.props.on_tap == {self(), :toggle}
+    end
+
+    test "a disabled trigger keeps its tag but wires no tap" do
+      trigger =
+        build(%{id: "ship", disabled: true})
+        |> flatten()
+        |> Enum.find(&(&1.props[:id] == "ship-trigger"))
+
+      assert trigger
+      refute Map.has_key?(trigger.props, :on_tap)
+    end
+
+    test "an open collapsible with no content has no region to tag" do
+      tree = MishkaCollapsible.collapsible(p(%{id: "ship", open: true}), [])
+
+      assert tags(tree) == ["ship", "ship-trigger"]
+    end
+
+    test "without an id nothing is tagged" do
+      assert tags(build(%{open: true})) == []
     end
   end
 end

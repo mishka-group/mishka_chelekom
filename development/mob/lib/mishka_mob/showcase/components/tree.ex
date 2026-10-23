@@ -8,9 +8,10 @@ defmodule MishkaMob.Showcase.Components.Tree do
   together, and two trees with one `id` emit the same test tags, so nothing on a
   device could say which one it just touched.
 
-  The first two examples deliberately leave `id` at its default (`"tree"`) —
-  that is the pair `TreeTest.kt` addresses by index, and it is also the only
-  place the default prefix is exercised.
+  Only the first example leaves `id` at its default (`"tree"`), which is the one
+  place the default prefix is exercised. The device frame table is keyed by tag,
+  so a second tree under the same prefix would overwrite the first one's frames
+  and a device test could not say which of the two it was driving.
 
   Both spellings of a hierarchy are on the page. The first example and the tree
   select write theirs as `<MishkaTreeNode>` markup, which is the form to reach
@@ -186,6 +187,7 @@ defmodule MishkaMob.Showcase.Components.Tree do
           ~MOB"""
           <Column fill_width={true}>
             <MishkaTree
+              id="cascade"
               nodes={nodes()}
               expanded={@t2_expanded}
               checked={@t2_checked}
@@ -197,7 +199,12 @@ defmodule MishkaMob.Showcase.Components.Tree do
               on_check={:t2_check}
             />
             <Spacer size={10} />
-            <Text text={"Checked: " <> summary(@t2_checked)} text_size={:sm} text_color={:muted} />
+            <Text
+              id="cascade-summary"
+              text={"Checked: " <> summary(@t2_checked)}
+              text_size={:sm}
+              text_color={:muted}
+            />
           </Column>
           """
         end

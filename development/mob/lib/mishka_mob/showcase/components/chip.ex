@@ -60,7 +60,12 @@ defmodule MishkaMob.Showcase.Components.Chip do
               {tag_chips(@chip_tags)}
             </Row>
             <Spacer size={12} />
-            <Text text={"Selected: " <> summary(@chip_tags)} text_size={:sm} text_color={:muted} />
+            <Text
+              id="chip-summary"
+              text={"Selected: " <> summary(@chip_tags)}
+              text_size={:sm}
+              text_color={:muted}
+            />
           </Column>
           """
         end
@@ -93,9 +98,9 @@ defmodule MishkaMob.Showcase.Components.Chip do
         render: fn _assigns ->
           ~MOB"""
           <Row fill_width={true}>
-            <MishkaChip label="Locked on" checked={true} disabled={true} />
+            <MishkaChip label="Locked on" checked={true} disabled={true} id="chip-locked-on" />
             <Spacer size={8} />
-            <MishkaChip label="Locked off" disabled={true} />
+            <MishkaChip label="Locked off" disabled={true} id="chip-locked-off" />
           </Row>
           """
         end
@@ -154,6 +159,12 @@ defmodule MishkaMob.Showcase.Components.Chip do
         type: "color / ARGB",
         default: ":on_primary",
         description: "Label colour when checked."
+      },
+      %{
+        name: "id",
+        type: "string",
+        default: "nil",
+        description: "Tags: <id>-checked or <id>-idle on the chip, <id>-label on its text."
       }
     ]
   end
@@ -171,7 +182,12 @@ defmodule MishkaMob.Showcase.Components.Chip do
   defp tag_chips(selected) do
     @tags
     |> Enum.map(fn {id, label} ->
-      chip(label: label, checked: id in selected, on_toggle: {:chip_tag, id})
+      chip(
+        label: label,
+        checked: id in selected,
+        on_toggle: {:chip_tag, id},
+        id: "chip-tag-#{id}"
+      )
     end)
     |> Enum.intersperse(%{type: :spacer, props: %{size: 8}, children: []})
   end
@@ -179,7 +195,12 @@ defmodule MishkaMob.Showcase.Components.Chip do
   defp size_chips(selected) do
     @sizes
     |> Enum.map(fn {id, label} ->
-      chip(label: label, checked: id == selected, on_toggle: {:chip_size, id})
+      chip(
+        label: label,
+        checked: id == selected,
+        on_toggle: {:chip_size, id},
+        id: "chip-size-#{id}"
+      )
     end)
     |> Enum.intersperse(%{type: :spacer, props: %{size: 8}, children: []})
   end
