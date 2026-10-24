@@ -18,7 +18,10 @@ jobs:
         uses: erlef/setup-beam@v1.24.1
         with:
           elixir-version: "1.20.4"
-          otp-version: "29.1.2"
+          # TEMPORARY pin: OTP >= 29.0.6 limits httpc response headers to 10240 bytes and
+          # GitHub's release redirect sends ~10.8 KB. Move back to the latest OTP once GitHub
+          # shrinks that header or the download libraries pass max_header_size.
+          otp-version: "29.0.5"
 
       - name: Submit Mix dependencies
         uses: erlef/mix-dependency-submission@v1.3.5

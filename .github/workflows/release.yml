@@ -14,10 +14,16 @@ permissions:
 
 env:
   ELIXIR_VERSION: "1.20.4"
-  OTP_VERSION: "29.1.2"
+  # TEMPORARY: OTP 29.0.5 is the newest OTP without httpc's response-header limit
+  # (OTP >= 29.0.6: max_header_size, default 10240 bytes). GitHub's release redirect sends
+  # about 10.8 KB of headers, so precompiled-NIF downloads (rustler_precompiled, elixir_make,
+  # tailwind) fail with {:header_too_long, {:max, 10240}}. Move back to the latest OTP once
+  # GitHub shrinks that header or those libraries pass max_header_size.
+  # Both OTP values below, and the deps-audit matrix, carry this pin.
+  OTP_VERSION: "29.0.5"
   WEB_ELIXIR_VERSION: "1.20.4"
   MOB_ELIXIR_VERSION: "1.20.4"
-  MOB_OTP_VERSION: "29.1.2"
+  MOB_OTP_VERSION: "29.0.5"
   ANDROID_NDK_VERSION: "27.2.12479018"
   JAVA_VERSION: "17"
   # The one zig mob_dev's native build accepts (MobDev.Toolchain.required_zig_version/0).
@@ -88,8 +94,8 @@ jobs:
           path: |
             deps
             _build
-          key: ${{ runner.os }}-rel-mix-${{ env.ELIXIR_VERSION }}-${{ hashFiles('**/mix.lock') }}
-          restore-keys: ${{ runner.os }}-rel-mix-${{ env.ELIXIR_VERSION }}-
+          key: ${{ runner.os }}-rel-mix-${{ env.ELIXIR_VERSION }}-${{ env.OTP_VERSION }}-${{ hashFiles('**/mix.lock') }}
+          restore-keys: ${{ runner.os }}-rel-mix-${{ env.ELIXIR_VERSION }}-${{ env.OTP_VERSION }}-
       - run: mix deps.get
       - run: mix compile --warnings-as-errors
       - run: mix format --check-formatted
@@ -107,6 +113,13 @@ jobs:
         with:
           elixir-version: ${{ env.WEB_ELIXIR_VERSION }}
           otp-version: ${{ env.OTP_VERSION }}
+      - uses: actions/cache@v6.1.0
+        with:
+          path: |
+            development/web/deps
+            development/web/_build
+          key: ${{ runner.os }}-rel-web-idempotency-${{ env.WEB_ELIXIR_VERSION }}-${{ env.OTP_VERSION }}-${{ hashFiles('development/web/mix.lock') }}
+          restore-keys: ${{ runner.os }}-rel-web-idempotency-${{ env.WEB_ELIXIR_VERSION }}-${{ env.OTP_VERSION }}-
       - name: Install development harness deps
         working-directory: development/web
         run: mix deps.get
@@ -174,9 +187,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { dir: ".", elixir: "1.20.4", otp: "29.1.2" }
-          - { dir: "development/web", elixir: "1.20.4", otp: "29.1.2" }
-          - { dir: "development/mob", elixir: "1.20.4", otp: "29.1.2" }
+          # TEMPORARY OTP pin, see OTP_VERSION at the top of this file.
+          - { dir: ".", elixir: "1.20.4", otp: "29.0.5" }
+          - { dir: "development/web", elixir: "1.20.4", otp: "29.0.5" }
+          - { dir: "development/mob", elixir: "1.20.4", otp: "29.0.5" }
     steps:
       - uses: actions/checkout@v7
       - uses: erlef/setup-beam@v1.24.1
@@ -312,6 +326,13 @@ jobs:
         with:
           elixir-version: ${{ env.MOB_ELIXIR_VERSION }}
           otp-version: ${{ env.MOB_OTP_VERSION }}
+      - uses: actions/cache@v6.1.0
+        with:
+          path: |
+            development/mob/deps
+            development/mob/_build
+          key: ${{ runner.os }}-rel-mob-test-${{ env.MOB_ELIXIR_VERSION }}-${{ env.MOB_OTP_VERSION }}-${{ hashFiles('development/mob/mix.lock') }}
+          restore-keys: ${{ runner.os }}-rel-mob-test-${{ env.MOB_ELIXIR_VERSION }}-${{ env.MOB_OTP_VERSION }}-
       - working-directory: development/mob
         run: mix deps.get
       - working-directory: development/mob
