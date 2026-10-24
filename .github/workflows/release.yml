@@ -14,10 +14,16 @@ permissions:
 
 env:
   ELIXIR_VERSION: "1.20.4"
-  OTP_VERSION: "29.1.2"
+  # TEMPORARY: OTP 29.0.5 is the newest OTP without httpc's response-header limit
+  # (OTP >= 29.0.6: max_header_size, default 10240 bytes). GitHub's release redirect sends
+  # about 10.8 KB of headers, so precompiled-NIF downloads (rustler_precompiled, elixir_make,
+  # tailwind) fail with {:header_too_long, {:max, 10240}}. Move back to the latest OTP once
+  # GitHub shrinks that header or those libraries pass max_header_size.
+  # Both OTP values below, and the deps-audit matrix, carry this pin.
+  OTP_VERSION: "29.0.5"
   WEB_ELIXIR_VERSION: "1.20.4"
   MOB_ELIXIR_VERSION: "1.20.4"
-  MOB_OTP_VERSION: "29.1.2"
+  MOB_OTP_VERSION: "29.0.5"
   ANDROID_NDK_VERSION: "27.2.12479018"
   JAVA_VERSION: "17"
   # The one zig mob_dev's native build accepts (MobDev.Toolchain.required_zig_version/0).
@@ -88,8 +94,8 @@ jobs:
           path: |
             deps
             _build
-          key: ${{ runner.os }}-rel-mix-${{ env.ELIXIR_VERSION }}-${{ hashFiles('**/mix.lock') }}
-          restore-keys: ${{ runner.os }}-rel-mix-${{ env.ELIXIR_VERSION }}-
+          key: ${{ runner.os }}-rel-mix-${{ env.ELIXIR_VERSION }}-${{ env.OTP_VERSION }}-${{ hashFiles('**/mix.lock') }}
+          restore-keys: ${{ runner.os }}-rel-mix-${{ env.ELIXIR_VERSION }}-${{ env.OTP_VERSION }}-
       - run: mix deps.get
       - run: mix compile --warnings-as-errors
       - run: mix format --check-formatted
@@ -107,6 +113,13 @@ jobs:
         with:
           elixir-version: ${{ env.WEB_ELIXIR_VERSION }}
           otp-version: ${{ env.OTP_VERSION }}
+      - uses: actions/cache@v6.1.0
+        with:
+          path: |
+            development/web/deps
+            development/web/_build
+          key: ${{ runner.os }}-rel-web-idempotency-${{ env.WEB_ELIXIR_VERSION }}-${{ env.OTP_VERSION }}-${{ hashFiles('development/web/mix.lock') }}
+          restore-keys: ${{ runner.os }}-rel-web-idempotency-${{ env.WEB_ELIXIR_VERSION }}-${{ env.OTP_VERSION }}-
       - name: Install development harness deps
         working-directory: development/web
         run: mix deps.get
@@ -174,9 +187,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { dir: ".", elixir: "1.20.4", otp: "29.1.2" }
-          - { dir: "development/web", elixir: "1.20.4", otp: "29.1.2" }
-          - { dir: "development/mob", elixir: "1.20.4", otp: "29.1.2" }
+          # TEMPORARY OTP pin, see OTP_VERSION at the top of this file.
+          - { dir: ".", elixir: "1.20.4", otp: "29.0.5" }
+          - { dir: "development/web", elixir: "1.20.4", otp: "29.0.5" }
+          - { dir: "development/mob", elixir: "1.20.4", otp: "29.0.5" }
     steps:
       - uses: actions/checkout@v7
       - uses: erlef/setup-beam@v1.24.1
@@ -312,6 +326,13 @@ jobs:
         with:
           elixir-version: ${{ env.MOB_ELIXIR_VERSION }}
           otp-version: ${{ env.MOB_OTP_VERSION }}
+      - uses: actions/cache@v6.1.0
+        with:
+          path: |
+            development/mob/deps
+            development/mob/_build
+          key: ${{ runner.os }}-rel-mob-test-${{ env.MOB_ELIXIR_VERSION }}-${{ env.MOB_OTP_VERSION }}-${{ hashFiles('development/mob/mix.lock') }}
+          restore-keys: ${{ runner.os }}-rel-mob-test-${{ env.MOB_ELIXIR_VERSION }}-${{ env.MOB_OTP_VERSION }}-
       - working-directory: development/mob
         run: mix deps.get
       - working-directory: development/mob
@@ -494,11 +515,23 @@ jobs:
           path: development/mob/dist/*
           if-no-files-found: error
 
+  # The device suite (development/mob/test/device) on an emulator, split into two shards that
+  # run on runners of their own. `mix e2e` does the rest: it installs the APK, attaches to
+  # the app over adb (EPMD reverse, the dist port forward, the cookie mix_dev wrote to
+  # ~/.mob/dist_cookies and the app read on boot), and runs `mix test --only device`
+  # for its partition. The job keeps its id: android-apks and release need it by that name.
   android-e2e:
-    name: Android e2e
+    name: Android e2e (shard ${{ matrix.shard }}/2)
     needs: [version, mob-test]
     runs-on: ubuntu-latest
     timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        # One entry per partition: `mix e2e --shard <entry>/2` below.
+        shard: [1, 2]
+    env:
+      E2E_REPORT: ${{ github.workspace }}/e2e-report
     steps:
       - uses: actions/checkout@v7
 
@@ -588,7 +621,44 @@ jobs:
           '
           cat android/local.properties
 
-      - name: Deploy and run the device suite
+      # The slow part, done before the emulator exists so that Gradle and zig have the
+      # runner to themselves. `mix e2e` below installs this build: its own native step is
+      # then incremental.
+      - name: Build the debug APK
+        working-directory: development/mob
+        run: |
+          set -euo pipefail
+          mix run --no-start \
+            -e 'MobDev.NativeBuild.build_all(platforms: [:android]) |> IO.inspect(label: "native")' \
+            || echo "::notice::native build returned non-zero (expected: no device attached)"
+
+          apk="android/app/build/outputs/apk/debug/app-debug.apk"
+          if [ ! -f "$apk" ]; then
+            echo "::error::native build produced no $apk — the Android chain did not complete"
+            find android/app/build/outputs -name '*.apk' 2>/dev/null || true
+            exit 1
+          fi
+          echo "debug APK: $apk ($(du -h "$apk" | cut -f1))"
+
+      - name: Compile the test build
+        working-directory: development/mob
+        env:
+          MIX_ENV: test
+        run: mix compile
+
+      # A booted AVD with a snapshot starts in seconds instead of a cold boot. The first run
+      # of a key makes it (both shards miss together; the second to save loses harmlessly).
+      - name: Cache the AVD and its snapshot
+        id: avd-cache
+        uses: actions/cache@v6.1.0
+        with:
+          path: |
+            ~/.android/avd/*
+            ~/.android/adb*
+          key: avd-api34-google_apis-x86_64-pixel_6-4096M
+
+      - name: Create the AVD and its snapshot
+        if: steps.avd-cache.outputs.cache-hit != 'true'
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 34
@@ -596,37 +666,41 @@ jobs:
           arch: x86_64
           profile: pixel_6
           ram-size: 4096M
+          force-avd-creation: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: false
+          script: echo "AVD and snapshot generated"
+
+      - name: Run the device suite (shard ${{ matrix.shard }}/2)
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          profile: pixel_6
+          ram-size: 4096M
+          force-avd-creation: false
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
           working-directory: development/mob
-          script: |
-            mix android.native
-            adb logcat -c || true
-            (adb logcat -v time > "$RUNNER_TEMP/logcat.txt" 2>&1 &) || true
-            mix e2e
+          script: mix e2e --device emulator-5554 --shard ${{ matrix.shard }}/2 --report ${{ env.E2E_REPORT }}
 
       - name: Show the crash context from logcat
         if: failure()
         run: |
           set -euo pipefail
-          f="$RUNNER_TEMP/logcat.txt"
+          f="$E2E_REPORT/logcat-emulator-5554.txt"
           [ -f "$f" ] || { echo "no logcat captured"; exit 0; }
-          echo "── TapProbe: geometry at each cross-window tap ────────────────"
-          grep -E "TapProbe" "$f" | sed 's/.*TapProbe[^:]*: //' | head -40 \
-            || echo "(none — the tap sites were never reached)"
-
           echo "── AndroidRuntime / Compose / mob ─────────────────────────────"
           grep -nE "AndroidRuntime|FATAL|Compose|SlotTable|mishka_mob|MobBridge" "$f" \
             | tail -120 || echo "(no matching lines)"
 
-      - name: Keep the emulator logs on failure
+      - name: Keep the JUnit report and logcat on failure
         if: failure()
         uses: actions/upload-artifact@v7
         with:
-          name: android-e2e-logs
-          path: |
-            development/mob/android/app/build/reports/**
-            development/mob/*.log
-            ${{ runner.temp }}/logcat.txt
+          name: android-e2e-report-shard-${{ matrix.shard }}
+          path: ${{ env.E2E_REPORT }}
           if-no-files-found: ignore
 
   release:

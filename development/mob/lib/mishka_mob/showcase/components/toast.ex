@@ -59,15 +59,15 @@ defmodule MishkaMob.Showcase.Components.Toast do
           ~MOB"""
           <Column fill_width={true}>
             <Row fill_width={true}>
-              {btn("Info", :info)}
+              {btn("tst-info", "Info", :info)}
               <Spacer size={8} />
-              {btn("Success", :success)}
+              {btn("tst-success", "Success", :success)}
             </Row>
             <Spacer size={8} />
             <Row fill_width={true}>
-              {btn("Warning", :warning)}
+              {btn("tst-warning", "Warning", :warning)}
               <Spacer size={8} />
-              {btn("Danger", :danger)}
+              {btn("tst-danger", "Danger", :danger)}
             </Row>
           </Column>
           """
@@ -89,9 +89,9 @@ defmodule MishkaMob.Showcase.Components.Toast do
             />
             <Spacer size={12} />
             <Row fill_width={true}>
-              {btn("Repeat me", :info)}
+              {btn("tst-repeat", "Repeat me", :info)}
               <Spacer size={8} />
-              {plain("Clear all", :tst_clear)}
+              {plain("tst-clear", "Clear all", :tst_clear)}
             </Row>
           </Column>
           """
@@ -109,9 +109,9 @@ defmodule MishkaMob.Showcase.Components.Toast do
         render: fn _assigns ->
           ~MOB"""
           <Row fill_width={true}>
-            {plain("Top", :tst_top)}
+            {plain("tst-top", "Top", :tst_top)}
             <Spacer size={8} />
-            {plain("Bottom", :tst_bottom)}
+            {plain("tst-bottom", "Bottom", :tst_bottom)}
           </Row>
           """
         end
@@ -149,7 +149,7 @@ defmodule MishkaMob.Showcase.Components.Toast do
             />
             <Spacer size={12} />
             <Row fill_width={true}>
-              {plain("Toggle markup toast", :tst_toggle_static)}
+              {plain("tst-toggle-markup", "Toggle markup toast", :tst_toggle_static)}
             </Row>
           </Column>
           """
@@ -255,7 +255,7 @@ defmodule MishkaMob.Showcase.Components.Toast do
     position = assigns.tst_position
 
     ~MOB"""
-    <MishkaToast toasts={queued} position={position} on_dismiss={:tst_drop}>
+    <MishkaToast toasts={queued} position={position} on_dismiss={:tst_drop} id="tst">
       <MishkaToastItem id={:welcome} title="Welcome" variant={:info}>
         <Text
           text="Written in markup, not queued — its body is a slot."
@@ -271,7 +271,7 @@ defmodule MishkaMob.Showcase.Components.Toast do
   end
 
   def overlay(assigns) do
-    toast(toasts: assigns.tst, position: assigns.tst_position, on_dismiss: :tst_drop)
+    toast(toasts: assigns.tst, position: assigns.tst_position, on_dismiss: :tst_drop, id: "tst")
   end
 
   @impl true
@@ -311,11 +311,12 @@ defmodule MishkaMob.Showcase.Components.Toast do
   defp title_for(:danger), do: "Failed"
   defp title_for(_), do: "Heads up"
 
-  defp btn(label, variant) do
+  defp btn(id, label, variant) do
     tap = {self(), {:tst_add, variant}}
 
     ~MOB"""
     <Button
+      id={id}
       text={label}
       background={:surface_raised}
       text_color={:on_surface}
@@ -326,11 +327,12 @@ defmodule MishkaMob.Showcase.Components.Toast do
     """
   end
 
-  defp plain(label, tag) do
+  defp plain(id, label, tag) do
     tap = {self(), tag}
 
     ~MOB"""
     <Button
+      id={id}
       text={label}
       background={:primary}
       text_color={:on_primary}

@@ -25,7 +25,11 @@ defmodule MishkaMob.Showcase.Components.RollingNumber do
   end
 
   @impl true
-  def mount(socket), do: Mob.Socket.assign(socket, :rn_value, 0)
+  def mount(socket) do
+    socket
+    |> Mob.Socket.assign(:rn_value, 0)
+    |> Mob.Socket.assign(:rn_walk, 0)
+  end
 
   @impl true
   def examples do
@@ -57,10 +61,11 @@ defmodule MishkaMob.Showcase.Components.RollingNumber do
           ~MOB"""
           <Column fill_width={true}>
             <Box fill_width={true} align={:center}>
-              <MishkaRollingNumber value={@rn_value} />
+              <MishkaRollingNumber value={@rn_value} id="rn-count" />
             </Box>
             <Spacer size={12} />
             <Button
+              id="rn-roll"
               text="Roll to 1,284"
               background={:primary}
               text_color={:on_primary}
@@ -70,6 +75,7 @@ defmodule MishkaMob.Showcase.Components.RollingNumber do
             />
             <Spacer size={8} />
             <Button
+              id="rn-reset"
               text="Reset"
               background={:surface_raised}
               text_color={:on_surface}
@@ -92,6 +98,7 @@ defmodule MishkaMob.Showcase.Components.RollingNumber do
           ~MOB"""
           <Column fill_width={true}>
             <Button
+              id="rn-down"
               text="Roll down to 42"
               background={:surface_raised}
               text_color={:on_surface}
@@ -117,13 +124,13 @@ defmodule MishkaMob.Showcase.Components.RollingNumber do
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaRollingNumber value={1_234_567} text_size={:xl} />
+            <MishkaRollingNumber id="rn-comma" value={1_234_567} text_size={:xl} />
             <Spacer size={8} />
-            <MishkaRollingNumber value={1_234_567} separator=" " text_size={:xl} />
+            <MishkaRollingNumber id="rn-space" value={1_234_567} separator=" " text_size={:xl} />
             <Spacer size={8} />
-            <MishkaRollingNumber value={1_234_567} separator="" text_size={:xl} />
+            <MishkaRollingNumber id="rn-none" value={1_234_567} separator="" text_size={:xl} />
             <Spacer size={8} />
-            <MishkaRollingNumber value={-98_765} text_size={:xl} color={0xFFDC2626} />
+            <MishkaRollingNumber id="rn-negative" value={-98_765} text_size={:xl} color={0xFFDC2626} />
           </Column>
           """
         end
@@ -179,22 +186,32 @@ defmodule MishkaMob.Showcase.Components.RollingNumber do
   end
 
   @impl true
-  def handle(:rn_reset, socket), do: Mob.Socket.assign(socket, :rn_value, 0)
+  def handle(:rn_reset, socket), do: socket |> stop_walking() |> Mob.Socket.assign(:rn_value, 0)
   def handle(:rn_roll, socket), do: roll(socket, 1_284)
   def handle(:rn_down, socket), do: roll(socket, 42)
 
-  def handle({:rn_step, [next | rest]}, socket) do
-    if rest != [], do: Process.send_after(self(), {:tap, {:rn_step, rest}}, 24)
+  # A step belongs to the walk that scheduled it. Without the number, steps still
+  # in flight when Reset (or another roll) arrived landed afterwards and put the
+  # old target back over the new value.
+  def handle({:rn_step, walk, [next | rest]}, %{assigns: %{rn_walk: walk}} = socket) do
+    if rest != [], do: Process.send_after(self(), {:tap, {:rn_step, walk, rest}}, 24)
     Mob.Socket.assign(socket, :rn_value, next)
   end
 
+  def handle({:rn_step, _stale, _steps}, socket), do: socket
   def handle(_tag, socket), do: socket
 
   defp roll(socket, target) do
+    socket = stop_walking(socket)
+    walk = socket.assigns.rn_walk
     [next | rest] = MishkaRollingNumber.steps(socket.assigns.rn_value, target, 18)
-    if rest != [], do: Process.send_after(self(), {:tap, {:rn_step, rest}}, 24)
+    if rest != [], do: Process.send_after(self(), {:tap, {:rn_step, walk, rest}}, 24)
     Mob.Socket.assign(socket, :rn_value, next)
   end
+
+  # Bumping the walk number orphans every step already scheduled.
+  defp stop_walking(socket),
+    do: Mob.Socket.assign(socket, :rn_walk, socket.assigns.rn_walk + 1)
 
   @impl true
   def card_preview do

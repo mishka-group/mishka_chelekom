@@ -354,4 +354,65 @@ defmodule MishkaMob.Components.MishkaAccordionTest do
       assert find(tree, :text).props.text_color == :muted
     end
   end
+
+  describe "test tags" do
+    # A device test reads the screen by the :id of a node. The accordion tags its
+    # root, each item's trigger, and each OPEN item's panel, which only exists while
+    # the item is open.
+    defp tags(tree) do
+      tree |> flatten() |> Enum.map(& &1.props[:id]) |> Enum.reject(&is_nil/1)
+    end
+
+    test "an accordion with an id tags the root, every trigger and each open panel" do
+      tree = expand(p(%{id: "faq", open: [:b]}))
+
+      assert tree.props.id == "faq"
+
+      assert tags(tree) == [
+               "faq",
+               "faq-a-trigger",
+               "faq-b-trigger",
+               "faq-b-panel",
+               "faq-c-trigger"
+             ]
+    end
+
+    test "the panel tag follows the open set" do
+      assert "faq-a-panel" in tags(expand(p(%{id: "faq", open: [:a]})))
+      refute "faq-a-panel" in tags(expand(p(%{id: "faq", open: []})))
+    end
+
+    test "the trigger tag is the node that carries the tap" do
+      tree = expand(p(%{id: "faq"}))
+      trigger = tree |> flatten() |> Enum.find(&(&1.props[:id] == "faq-a-trigger"))
+
+      assert trigger.props.on_tap == {self(), {:toggle, :a}}
+    end
+
+    test "a disabled trigger keeps its tag but wires no tap" do
+      tree =
+        MishkaAccordion.expand(
+          p(%{id: "faq"}),
+          [item(:a, "First", %{disabled: true})],
+          ctx()
+        )
+
+      trigger = tree |> flatten() |> Enum.find(&(&1.props[:id] == "faq-a-trigger"))
+
+      assert trigger
+      refute Map.has_key?(trigger.props, :on_tap)
+    end
+
+    test "without an id nothing is tagged" do
+      assert tags(expand(p(%{open: [:a]}))) == []
+    end
+
+    test "an item id of any term makes a tag" do
+      tree =
+        MishkaAccordion.expand(p(%{id: "faq", open: [0]}), [item(0, "Zero")], ctx())
+
+      assert "faq-0-trigger" in tags(tree)
+      assert "faq-0-panel" in tags(tree)
+    end
+  end
 end

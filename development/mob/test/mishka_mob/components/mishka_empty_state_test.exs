@@ -138,6 +138,44 @@ defmodule MishkaMob.Components.MishkaEmptyStateTest do
     end
   end
 
+  describe "id" do
+    test "tags the block and fans out to the parts that have no other handle" do
+      tree =
+        ES.empty_state(
+          id: "es",
+          indicator: "📭",
+          title: "No messages",
+          description: "Anything you receive lands here."
+        )
+
+      assert tree.props.id == "es"
+      assert find(tree, :text, text: "📭").props.id == "es-indicator"
+      assert find(tree, :text, text: "No messages").props.id == "es-title"
+
+      assert find(tree, :text, text: "Anything you receive lands here.").props.id ==
+               "es-description"
+    end
+
+    test "the leading layout tags the same parts" do
+      tree = ES.empty_state(id: "es", align: :leading, indicator: "🔍", title: "No results")
+
+      assert tree.type == :row
+      assert tree.props.id == "es"
+      assert find(tree, :text, text: "🔍").props.id == "es-indicator"
+      assert find(tree, :text, text: "No results").props.id == "es-title"
+    end
+
+    test "a part that is not rendered is not tagged, and nothing is without an id" do
+      tree = ES.empty_state(id: "es", title: "Only a title")
+
+      assert Enum.map(find_all(tree, :text), & &1.props.id) == ["es-title"]
+
+      plain = ES.empty_state(indicator: "x", title: "t", description: "d")
+      refute Map.has_key?(plain.props, :id)
+      assert find_all(plain, :text) |> Enum.all?(&(not Map.has_key?(&1.props, :id)))
+    end
+  end
+
   test "every variant renders" do
     for props <- [%{}, %{title: "t"}, %{align: :leading, title: "t"}, %{indicator: "x"}] do
       assert_renderable(ES.empty_state(props))

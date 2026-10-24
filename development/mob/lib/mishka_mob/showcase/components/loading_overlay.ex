@@ -66,13 +66,24 @@ defmodule MishkaMob.Showcase.Components.LoadingOverlay do
               background={:surface_raised}
               corner_radius={:radius_md}
               on_tap={{self(), :lo_hit}}
+              id="lo-order-card"
             >
               <Column fill_width={true} padding={:space_md}>
                 <Text text="Order #1042" text_size={:lg} text_color={:on_surface} />
                 <Spacer size={6} />
-                <Text text={hits_label(@lo_hits)} text_size={:sm} text_color={:muted} />
+                <Text
+                  text={hits_label(@lo_hits)}
+                  text_size={:sm}
+                  text_color={:muted}
+                  id={"lo-order-hits-#{@lo_hits}"}
+                />
               </Column>
-              <MishkaLoadingOverlay visible={@lo_busy} label="Saving…" corner_radius={:radius_md} />
+              <MishkaLoadingOverlay
+                id="lo-order"
+                visible={@lo_busy}
+                label="Saving…"
+                corner_radius={:radius_md}
+              />
             </Box>
             <Spacer size={12} />
             <Button
@@ -82,6 +93,7 @@ defmodule MishkaMob.Showcase.Components.LoadingOverlay do
               padding={:space_sm}
               fill_width={true}
               on_tap={{self(), :lo_busy}}
+              id={if(@lo_busy, do: "lo-order-finish", else: "lo-order-start")}
             />
           </Column>
           """
@@ -96,11 +108,17 @@ defmodule MishkaMob.Showcase.Components.LoadingOverlay do
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <Box fill_width={true} height={90} background={:surface_raised} corner_radius={:radius_md}>
+            <Box
+              fill_width={true}
+              height={90}
+              background={:surface_raised}
+              corner_radius={:radius_md}
+              id="lo-prices-card"
+            >
               <Column fill_width={true} padding={:space_md}>
                 <Text text="Refreshing prices" text_size={:base} text_color={:on_surface} />
               </Column>
-              <MishkaLoadingOverlay visible={@lo_plain} corner_radius={:radius_md} />
+              <MishkaLoadingOverlay id="lo-prices" visible={@lo_plain} corner_radius={:radius_md} />
             </Box>
             <Spacer size={12} />
             <Button
@@ -110,6 +128,7 @@ defmodule MishkaMob.Showcase.Components.LoadingOverlay do
               padding={:space_sm}
               fill_width={true}
               on_tap={{self(), :lo_plain}}
+              id={if(@lo_plain, do: "lo-prices-stop", else: "lo-prices-refresh")}
             />
           </Column>
           """
@@ -135,13 +154,20 @@ defmodule MishkaMob.Showcase.Components.LoadingOverlay do
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <Box fill_width={true} height={110} background={:surface_raised} corner_radius={:radius_md}>
+            <Box
+              fill_width={true}
+              height={110}
+              background={:surface_raised}
+              corner_radius={:radius_md}
+              id="lo-upload-card"
+            >
               <Column fill_width={true} padding={:space_md}>
                 <Text text="photo-2048.heic" text_size={:base} text_color={:on_surface} />
                 <Spacer size={4} />
                 <Text text="4.2 MB" text_size={:sm} text_color={:muted} />
               </Column>
               <MishkaLoadingOverlay
+                id="lo-upload"
                 visible={@lo_custom}
                 scrim_color={0xE6111827}
                 panel_color={0xFF1F2937}
@@ -158,6 +184,7 @@ defmodule MishkaMob.Showcase.Components.LoadingOverlay do
               padding={:space_sm}
               fill_width={true}
               on_tap={{self(), :lo_custom}}
+              id={if(@lo_custom, do: "lo-upload-cancel", else: "lo-upload-start")}
             />
           </Column>
           """
@@ -218,6 +245,7 @@ defmodule MishkaMob.Showcase.Components.LoadingOverlay do
               padding={:space_sm}
               fill_width={true}
               on_tap={{self(), :lo_page}}
+              id="lo-sync-start"
             />
           </Column>
           """
@@ -233,15 +261,22 @@ defmodule MishkaMob.Showcase.Components.LoadingOverlay do
         """,
         render: fn _assigns ->
           ~MOB"""
-          <Box fill_width={true} height={70} background={:surface_raised} corner_radius={:radius_md}>
+          <Box
+            fill_width={true}
+            height={70}
+            background={:surface_raised}
+            corner_radius={:radius_md}
+            id="lo-idle-card"
+          >
             <Column fill_width={true} padding={:space_md}>
               <Text
                 text="Nothing covers this — the overlay below is invisible."
                 text_size={:sm}
                 text_color={:muted}
+                id="lo-idle-text"
               />
             </Column>
-            <MishkaLoadingOverlay visible={false} />
+            <MishkaLoadingOverlay id="lo-idle" visible={false} />
           </Box>
           """
         end
@@ -307,7 +342,7 @@ defmodule MishkaMob.Showcase.Components.LoadingOverlay do
     panel = sync_panel()
 
     ~MOB"""
-    <MishkaLoadingOverlay visible={true} scrim_color={0xE6FFFFFF}>
+    <MishkaLoadingOverlay id="lo-sync" visible={true} scrim_color={0xE6FFFFFF}>
       {panel}
     </MishkaLoadingOverlay>
     """
@@ -340,6 +375,7 @@ defmodule MishkaMob.Showcase.Components.LoadingOverlay do
           font_weight={:semibold}
           fill_width={true}
           text_align={:center}
+          id="lo-sync-headline"
         />
         <Spacer size={4} />
         <Text
@@ -359,6 +395,7 @@ defmodule MishkaMob.Showcase.Components.LoadingOverlay do
           padding={:space_sm}
           fill_width={true}
           on_tap={cancel}
+          id="lo-sync-cancel"
         />
       </Column>
     </Box>

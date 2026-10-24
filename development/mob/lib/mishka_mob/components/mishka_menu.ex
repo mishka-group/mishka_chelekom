@@ -90,9 +90,18 @@ defmodule MishkaMob.Components.MishkaMenu do
   @spec separator() :: map()
   def separator, do: %{type: @sep, props: %{}, children: []}
 
-  @doc "A small heading above a group of items."
-  @spec label(String.t()) :: map()
-  def label(text), do: %{type: @label, props: %{text: text}, children: []}
+  @doc """
+  A small heading above a group of items. Option: `:test_id`, the heading's native
+  testTag, so a device test can tell where a group starts.
+  """
+  @spec label(String.t(), keyword()) :: map()
+  def label(text, opts \\ []) do
+    node = %{type: @label, props: %{text: text}, children: []}
+
+    # Left off when absent, so an untagged heading never carries `test_id: nil`
+    # (which `item/3` documents reaching the bridge as the testTag "nil").
+    put(node, :test_id, Keyword.get(opts, :test_id))
+  end
 
   @doc """
   A row that carries a tick. Options: `:checked`, `:disabled`, `:test_id`.
@@ -214,6 +223,7 @@ defmodule MishkaMob.Components.MishkaMenu do
       <Text text={text} text_size={:xs} text_color={:muted} />
     </Box>
     """
+    |> put(:id, Map.get(p, :test_id))
   end
 
   defp row(%{type: @item, props: item}, props) do

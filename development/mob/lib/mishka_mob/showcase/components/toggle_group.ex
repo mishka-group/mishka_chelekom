@@ -99,7 +99,12 @@ defmodule MishkaMob.Showcase.Components.ToggleGroup do
               </Box>
             </Row>
             <Spacer size={12} />
-            <Text text={"Value: " <> inspect(@tgg_align)} text_size={:sm} text_color={:muted} />
+            <Text
+              id="tgg-align-summary"
+              text={"Value: " <> inspect(@tgg_align)}
+              text_size={:sm}
+              text_color={:muted}
+            />
           </Column>
           """
         end

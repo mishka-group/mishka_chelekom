@@ -79,6 +79,7 @@ defmodule MishkaMob.Components.MishkaToast do
   | `close_icon` | string | `"✕"` | Glyph for the dismiss control. |
   | `padding` | spacing token / number | `:space_lg` | Padding around the stack. |
   | `space` | number | `10` | Gap between toasts. |
+  | `id` | string | `nil` | Test tags: `<id>-<toast id>` on a card, `-title` on its title and `-close` on its dismiss control. |
 
   Variants tint the accent bar: `:info` (default), `:success`, `:warning`,
   `:danger`.
@@ -211,55 +212,86 @@ defmodule MishkaMob.Components.MishkaToast do
         <Spacer size={12} />
         <Box weight={1}>
           <Column fill_width={true}>
-            {body(toast)}
+            {body(toast, tag(props, toast, "title"))}
           </Column>
         </Box>
-        {close(props, Map.get(toast, :id), close_content)}
+        {close(props, toast, close_content)}
       </Row>
     </Box>
     """
+    |> put(:id, tag(props, toast, nil))
   end
+
+  # A device test can read neither a glyph nor a position, so a viewport given an
+  # `id` tags each card by its toast's id: `<id>-<toast id>`, with `-title` and
+  # `-close` for the parts a test has to measure.
+  defp tag(props, toast, suffix) do
+    case Map.get(props, :id) do
+      nil -> nil
+      id -> [id, Map.get(toast, :id), suffix] |> Enum.reject(&is_nil/1) |> Enum.join("-")
+    end
+  end
+
+  defp put(node, _key, nil), do: node
+  defp put(node, key, value), do: %{node | props: Map.put(node.props, key, value)}
 
   # Content is the body, and title/description stay a header above it — a
   # `<MishkaToastItem title="...">` with children keeps its title rather than
   # silently losing it. Give no title and the content is the whole card, which is
   # the web `<:toast>` slot's own shape.
-  defp body(toast) do
+  defp body(toast, title_tag) do
     content = List.wrap(Map.get(toast, :content, []))
     titled? = is_binary(Map.get(toast, :title)) or is_binary(Map.get(toast, :description))
 
     cond do
-      content == [] -> [text_block(toast)]
-      titled? -> [text_block(toast), ~MOB(<Spacer size={6} />) | content]
+      content == [] -> [text_block(toast, title_tag)]
+      titled? -> [text_block(toast, title_tag), ~MOB(<Spacer size={6} />) | content]
       true -> content
     end
   end
 
-  defp text_block(toast) do
+  defp text_block(toast, title_tag) do
     title = Map.get(toast, :title)
     description = Map.get(toast, :description)
 
     ~MOB"""
     <Column fill_width={true}>
-      <Text text={title} text_size={:base} text_color={:on_surface} :if={is_binary(title)} />
+      {title_text(title, title_tag)}
       <Spacer size={4} :if={is_binary(title) and is_binary(description)} />
       <Text text={description} text_size={:sm} text_color={:muted} :if={is_binary(description)} />
     </Column>
     """
   end
 
-  defp close(props, id, content) do
+  # A list, so a toast with no title contributes no node at all.
+  defp title_text(title, tag) when is_binary(title) do
+    node =
+      ~MOB"""
+      <Text text={title} text_size={:base} text_color={:on_surface} />
+      """
+      |> put(:id, tag)
+
+    [node]
+  end
+
+  defp title_text(_title, _tag), do: []
+
+  defp close(props, toast, content) do
     icon = Map.get(props, :close_icon) || "✕"
+    id = Map.get(toast, :id)
+    close_tag = tag(props, toast, "close")
 
     case Event.handler(Map.get(props, :on_dismiss)) do
       nil ->
         ~MOB(<Row />)
 
-      {pid, tag} when content == [] ->
-        MishkaActionIcon.action_icon(icon: icon, size: 32, on_tap: {pid, {tag, id}})
+      {pid, event} when content == [] ->
+        [icon: icon, size: 32, on_tap: {pid, {event, id}}]
+        |> MishkaActionIcon.action_icon()
+        |> put(:id, close_tag)
 
-      {pid, tag} ->
-        label(content, {pid, {tag, id}})
+      {pid, event} ->
+        content |> label({pid, {event, id}}) |> put(:id, close_tag)
     end
   end
 

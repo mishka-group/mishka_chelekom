@@ -114,6 +114,26 @@ defmodule MishkaMob.Components.MishkaLoadingOverlayTest do
     end
   end
 
+  describe "test tags" do
+    test "an id names the scrim and the label, the two parts a device test measures" do
+      tree = MishkaLoadingOverlay.loading_overlay(%{visible: true, label: "Saving…", id: "save"})
+
+      assert tree.props.id == "save-scrim"
+      assert [%{props: %{text: "Saving…"}}] = find_all(tree, :text)
+      assert [%{props: %{id: "save-label"}}] = find_all(tree, :text)
+    end
+
+    test "nothing is tagged without an id, and nothing is drawn when hidden" do
+      tree = MishkaLoadingOverlay.loading_overlay(%{visible: true, label: "Saving…"})
+
+      refute Map.has_key?(tree.props, :id)
+      assert find_all(tree, :text) |> Enum.all?(&(not Map.has_key?(&1.props, :id)))
+
+      hidden = MishkaLoadingOverlay.loading_overlay(%{visible: false, id: "save"})
+      refute Map.has_key?(hidden.props, :id)
+    end
+  end
+
   test "every variant renders" do
     variants = [
       %{visible: true},

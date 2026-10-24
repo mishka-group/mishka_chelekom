@@ -172,7 +172,8 @@ defmodule MishkaMob.Showcase.Components.TagsInput do
         name: "id",
         type: "string",
         default: "nil",
-        description: "Tags the draft as <id>-draft and each token as <id>-tag-<tag>."
+        description:
+          "Tags the draft as <id>-draft, each token as <id>-tag-<tag> and its ✕ as <id>-tag-<tag>-remove."
       },
       %{
         name: "add/3 · remove/2 · wrap/2",

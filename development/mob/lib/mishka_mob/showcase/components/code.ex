@@ -47,7 +47,11 @@ defmodule MishkaMob.Showcase.Components.Code do
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaCode block={true} text="def render(assigns), do: ~MOB(<Text text={@title} />)" />
+            <MishkaCode
+              block={true}
+              text="def render(assigns), do: ~MOB(<Text text={@title} />)"
+              id="code-block"
+            />
             <Spacer size={12} />
             <MishkaCode
               block={true}

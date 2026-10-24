@@ -2,6 +2,7 @@ package com.example.mishka_mob
 
 import android.app.Activity
 import android.content.Context
+import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.net.ConnectivityManager
@@ -15,6 +16,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.EnterExitState
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
@@ -28,7 +30,9 @@ import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import java.io.File
@@ -136,12 +140,16 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    // AnimatedContentScope.transition is still marked experimental; the harness's
+    // outgoing-page count (TrackOutgoingPage below) is its only use here.
+    @OptIn(androidx.compose.animation.ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         // Edge-to-edge: lets the content draw behind the (transparent) status
         // and navigation bars instead of being letterboxed by opaque system
         // bars. Must be called BEFORE super.onCreate() per AndroidX docs.
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+        val instantReset = (applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0
 
         MobBridge.init(this)
 
@@ -228,13 +236,25 @@ class MainActivity : ComponentActivity() {
                 )
             } ?: darkColorScheme()
 
+            // What AnimatedContent animates between is the PAGE (a navigation and the
+            // transition that opened it), not the RootState. AnimatedContent keeps one
+            // size entry per target state and removes it when that content leaves, but
+            // in Compose 1.6 the removal is keyed on the content alone, so a content
+            // whose target is replaced in place (same contentKey) removes only the
+            // FIRST state it had. With the RootState as target, every re-render of a
+            // page left an entry behind holding that render's whole MobNode tree, for
+            // the life of the app: ~190KB per tap on the Popover page, and the device
+            // suite died of OutOfMemoryError a few hundred remounts in. Compose 1.12
+            // keys the removal on the state as well. One target per page needs neither.
+            val page = remember(state.navKey) { NavPage(state.navKey, state.transition) }
+
             // Every widget below can see which BEAM render it is looking at,
             // which is how a field tells "Elixir changed my value" apart from
             // "I recomposed because the user typed".
             CompositionLocalProvider(LocalRenderEpoch provides state.epoch) {
             MaterialTheme(colorScheme = colorScheme) {
                 AnimatedContent(
-                    targetState   = state,
+                    targetState   = page,
                     contentKey    = { it.navKey },
                     transitionSpec = {
                         when (targetState.transition) {
@@ -244,16 +264,35 @@ class MainActivity : ComponentActivity() {
                             "pop" ->
                                 slideInHorizontally(animationSpec = tween(300)) { -it / 3 } togetherWith
                                 slideOutHorizontally(animationSpec = tween(300)) { it }
+                            // The showcase never resets its stack; the device suite does,
+                            // once per test, to remount the page under test. A 250ms
+                            // cross-fade each time is minutes over a suite, and keeps the
+                            // outgoing page (popup windows and all) alive underneath the
+                            // next test. Debuggable builds skip it; a release build has
+                            // no harness to reset it.
                             "reset" ->
-                                fadeIn(animationSpec = tween(250)) togetherWith
-                                fadeOut(animationSpec = tween(250))
+                                if (instantReset) EnterTransition.None togetherWith ExitTransition.None
+                                else fadeIn(animationSpec = tween(250)) togetherWith
+                                    fadeOut(animationSpec = tween(250))
                             else ->
                                 EnterTransition.None togetherWith ExitTransition.None
                         }
                     },
                     label = "nav"
-                ) { s ->
-                    s.node?.let { RenderNode(it, modifier = Modifier.fillMaxSize().safeDrawingPadding()) }
+                ) { p ->
+                    // A navigation keeps the outgoing page composed until its exit
+                    // animation ends. The test harness's native barrier waits for that
+                    // (MobBridge.awaitNextFrame): until then the old page's popups are
+                    // still open and its element ids still answer.
+                    MobBridge.TrackOutgoingPage(transition.targetState == EnterExitState.PostExit)
+
+                    // The current page draws the newest tree. A page on its way out
+                    // keeps drawing the last tree it had, not the one replacing it.
+                    val live = MobBridge.rootState.value
+                    val last = remember { arrayOfNulls<MobNode>(1) }
+                    val node = if (live.navKey == p.navKey) live.node else last[0]
+                    SideEffect { last[0] = node }
+                    node?.let { RenderNode(it, modifier = Modifier.fillMaxSize().safeDrawingPadding()) }
                 }
             }
             }
@@ -412,3 +451,10 @@ class MainActivity : ComponentActivity() {
     private fun colorFromMap(map: Map<String, Long>, key: String, fallback: Long): Color =
         Color(map[key] ?: fallback)
 }
+
+/**
+ * One page of the navigation, as AnimatedContent's target: the [RootState.navKey] it
+ * was opened under and the transition that opened it. Re-renders of the page do not
+ * change it, which is the point (see the comment where it is built).
+ */
+private data class NavPage(val navKey: Int, val transition: String)

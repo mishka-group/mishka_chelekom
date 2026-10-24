@@ -34,9 +34,11 @@ defmodule MishkaMob.Showcase.ComponentScreen do
   defp component_page(entry, assigns) do
     examples = entry.module.examples()
 
+    # `id: "page"` is how a device test addresses the page's scroll: Mob.Test's
+    # scroll_info/scroll_to and the frame table all key off it.
     page = %{
       type: :scroll,
-      props: %{background: :background},
+      props: %{background: :background, id: "page"},
       children: [
         %{
           type: :column,

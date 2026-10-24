@@ -51,6 +51,7 @@ defmodule MishkaMob.Components.MishkaPill do
   | `leading_size` | text token / number | whatever `text_size` is | A **string** `leading`'s size, when it should differ from the label's. Ignored by a node. |
   | `content_align` | `:top`, `:center`, `:bottom` | `:center` | Cross-axis alignment inside the pill's content row. See "The content row centres". |
   | `content_fill_width` | boolean | `false` | The content row spans the pill instead of hugging. See "A `weight` is read by the row above it". |
+  | `id` | string | unset | A native testTag on the pill, and `<id>-remove` on its ✕ — see "Test tags". |
 
   Every prop below `disabled_color` is a later addition and every one of them
   defaults to exactly what the pill drew before it existed: the ones with a
@@ -69,7 +70,15 @@ defmodule MishkaMob.Components.MishkaPill do
   until a caller asks for the other thing.
 
   Not ported: `remove_label` (an `aria-label` for the ✕ — Mob exposes no
-  accessible name on a text node) and the `id` / `*_class` attrs.
+  accessible name on a text node) and the `*_class` attrs.
+
+  ## Test tags
+
+  `id` is a native testTag on the root Box, and the ✕ gets `<id>-remove`. A pill
+  draws text and a fill, so a device test that wants to know where it is, how wide
+  it came out, or which ✕ belongs to which token has nothing else to hold on to —
+  and "the ✕ next to Item 3" is a statement about geometry, not about the tree.
+  Like every key in `@box_overrides` it is left off the node when unset.
 
   ## Sizing: padding is applied BEFORE width and height
 
@@ -259,7 +268,7 @@ defmodule MishkaMob.Components.MishkaPill do
   # Root-Box props that must be ABSENT when the caller says nothing, rather than
   # present-and-nil. See `overrides/2` for why the difference is visible.
   @box_overrides ~w(
-    width height align shadow border_color border_width
+    id width height align shadow border_color border_width
     padding_top padding_right padding_bottom padding_left
   )a
 
@@ -500,11 +509,17 @@ defmodule MishkaMob.Components.MishkaPill do
       </Row>
       """
 
-      wire(node, tap(props, disabled?, :on_remove))
+      node
+      |> merge_props(remove_tag(Map.get(props, :id)))
+      |> wire(tap(props, disabled?, :on_remove))
     else
       ~MOB(<Row />)
     end
   end
+
+  # The ✕ row is the tap target, so it is the row that carries the tag.
+  defp remove_tag(nil), do: %{}
+  defp remove_tag(id), do: %{id: "#{id}-remove"}
 
   defp glyph(props, disabled?) do
     ~MOB"""

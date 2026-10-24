@@ -107,6 +107,7 @@ defmodule MishkaMob.Showcase.Components.Combobox do
                     card to close it."
               text_size={:sm}
               text_color={:muted}
+              id="cb-caption"
             />
           </Column>
           """

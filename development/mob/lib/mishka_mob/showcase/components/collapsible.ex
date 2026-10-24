@@ -52,7 +52,12 @@ defmodule MishkaMob.Showcase.Components.Collapsible do
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaCollapsible title="Shipping details" open={@cl_basic} on_toggle={:cl_basic}>
+            <MishkaCollapsible
+              title="Shipping details"
+              open={@cl_basic}
+              on_toggle={:cl_basic}
+              id="cl-basic"
+            >
               {paragraph("Ships in 2–4 working days. Tracking is emailed once the parcel leaves the warehouse.")}
             </MishkaCollapsible>
           </Column>
@@ -78,6 +83,7 @@ defmodule MishkaMob.Showcase.Components.Collapsible do
               open={@cl_plain}
               chevron={false}
               on_toggle={:cl_plain}
+              id="cl-plain"
             >
               {paragraph("Behaviour and structure with no styling — you bring the looks. This port maps that behaviour onto native widgets.")}
             </MishkaCollapsible>
@@ -94,11 +100,11 @@ defmodule MishkaMob.Showcase.Components.Collapsible do
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaCollapsible title="Locked (closed)" disabled={true}>
+            <MishkaCollapsible title="Locked (closed)" disabled={true} id="cl-off">
               {paragraph("You cannot see this.")}
             </MishkaCollapsible>
             <Spacer size={8} />
-            <MishkaCollapsible title="Locked (open)" open={true} disabled={true}>
+            <MishkaCollapsible title="Locked (open)" open={true} disabled={true} id="cl-off-open">
               {paragraph("Held open by the screen, not by the trigger.")}
             </MishkaCollapsible>
           </Column>
@@ -135,6 +141,7 @@ defmodule MishkaMob.Showcase.Components.Collapsible do
               color={0xFFFFFFFF}
               corner_radius={:radius_lg}
               on_toggle={:cl_tinted}
+              id="cl-tinted"
             >
               {[%{type: :text,
                  props: %{text: "Any colour token or ARGB int works here.",
@@ -199,6 +206,12 @@ defmodule MishkaMob.Showcase.Components.Collapsible do
         type: "spacing / number",
         default: ":space_md",
         description: "Padding inside the trigger and the region."
+      },
+      %{
+        name: "id",
+        type: "string",
+        default: "nil",
+        description: "Tags: <id>, <id>-trigger and, while open, <id>-panel."
       }
     ]
   end

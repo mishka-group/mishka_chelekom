@@ -113,6 +113,29 @@ defmodule MishkaMob.Components.MishkaPillTest do
     end
   end
 
+  describe "id" do
+    test "tags the pill, and its ✕ as <id>-remove" do
+      node = MishkaPill.pill(label: "Item 3", id: "tok", with_remove: true, on_remove: :drop)
+
+      assert node.props.id == "tok"
+      assert remove_row(node).props.id == "tok-remove"
+    end
+
+    test "the ✕ keeps its tag when disabled, so a test can try to tap it" do
+      node = MishkaPill.pill(label: "x", id: "tok", with_remove: true, disabled: true)
+
+      assert remove_row(node).props.id == "tok-remove"
+      refute Map.has_key?(remove_row(node).props, :on_tap)
+    end
+
+    test "nothing is tagged without one" do
+      node = MishkaPill.pill(label: "x", with_remove: true)
+
+      refute Map.has_key?(node.props, :id)
+      refute Map.has_key?(remove_row(node).props, :id)
+    end
+  end
+
   test "the label is one line, ellipsised — never a vertical stack of letters" do
     # A Compose Text squeezed narrower than its content wraps CHARACTER BY
     # CHARACTER, so a pill that does not quite fit its row renders as "Ja", "pa",

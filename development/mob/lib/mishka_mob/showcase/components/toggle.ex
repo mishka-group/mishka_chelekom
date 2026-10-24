@@ -75,7 +75,12 @@ defmodule MishkaMob.Showcase.Components.Toggle do
               />
             </Row>
             <Spacer size={12} />
-            <Text text={summary(@tg_bold, @tg_italic, @tg_under)} text_size={:sm} text_color={:muted} />
+            <Text
+              id="tg-summary"
+              text={summary(@tg_bold, @tg_italic, @tg_under)}
+              text_size={:sm}
+              text_color={:muted}
+            />
           </Column>
           """
         end

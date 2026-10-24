@@ -73,6 +73,7 @@ defmodule MishkaMob.Showcase.Components.Checkbox do
               checked={all?(@cb_picked)}
               indeterminate={some?(@cb_picked)}
               on_toggle={:cb_all}
+              id="cb-all"
             />
             <Spacer size={10} />
             <Box fill_width={true} height={1} background={:border} />
@@ -91,9 +92,9 @@ defmodule MishkaMob.Showcase.Components.Checkbox do
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaCheckbox label="Locked on" checked={true} disabled={true} />
+            <MishkaCheckbox label="Locked on" checked={true} disabled={true} id="cb-locked-on" />
             <Spacer size={12} />
-            <MishkaCheckbox label="Locked off" disabled={true} />
+            <MishkaCheckbox label="Locked off" disabled={true} id="cb-locked-off" />
           </Column>
           """
         end
@@ -153,6 +154,12 @@ defmodule MishkaMob.Showcase.Components.Checkbox do
         description: "Fill when checked or mixed."
       },
       %{name: "size", type: "number", default: "22", description: "Indicator edge length."},
+      %{
+        name: "id",
+        type: "string",
+        default: "nil",
+        description: "Test tag on the indicator, suffixed -checked / -mixed / -empty."
+      },
       %{
         name: "toggle/1",
         type: "helper",

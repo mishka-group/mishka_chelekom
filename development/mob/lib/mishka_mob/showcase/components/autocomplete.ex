@@ -94,6 +94,7 @@ defmodule MishkaMob.Showcase.Components.Autocomplete do
                     Choosing a suggestion fills the field."
               text_size={:sm}
               text_color={:muted}
+              id="ac-caption"
             />
             <Spacer size={10} />
             <Text text={"Value: " <> inspect(@ac_query)} text_size={:sm} text_color={:muted} />

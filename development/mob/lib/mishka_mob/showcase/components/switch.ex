@@ -48,9 +48,14 @@ defmodule MishkaMob.Showcase.Components.Switch do
         render: fn assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaSwitch label="Wi-Fi" checked={@sw_wifi} on_change={:wifi} />
+            <MishkaSwitch label="Wi-Fi" checked={@sw_wifi} on_change={:wifi} id="sw-wifi" />
             <Spacer size={4} />
-            <MishkaSwitch label="Bluetooth" checked={@sw_bluetooth} on_change={:bluetooth} />
+            <MishkaSwitch
+              label="Bluetooth"
+              checked={@sw_bluetooth}
+              on_change={:bluetooth}
+              id="sw-bluetooth"
+            />
             <Spacer size={12} />
             <MishkaSeparator />
             <Spacer size={10} />
@@ -58,6 +63,7 @@ defmodule MishkaMob.Showcase.Components.Switch do
               text={"Wi-Fi is " <> onoff(@sw_wifi) <> ", Bluetooth is " <> onoff(@sw_bluetooth)}
               text_size={:sm}
               text_color={:muted}
+              id="sw-summary"
             />
           </Column>
           """
@@ -86,6 +92,7 @@ defmodule MishkaMob.Showcase.Components.Switch do
               color={0xFFFDE68A}
               track_color={0xFF7C3AED}
               on_change={:colored}
+              id="sw-colored"
             />
           </Column>
           """
@@ -100,9 +107,9 @@ defmodule MishkaMob.Showcase.Components.Switch do
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaSwitch label="Locked on" checked={true} disabled={true} />
+            <MishkaSwitch label="Locked on" checked={true} disabled={true} id="sw-locked-on" />
             <Spacer size={4} />
-            <MishkaSwitch label="Locked off" checked={false} disabled={true} />
+            <MishkaSwitch label="Locked off" checked={false} disabled={true} id="sw-locked-off" />
           </Column>
           """
         end
@@ -127,9 +134,9 @@ defmodule MishkaMob.Showcase.Components.Switch do
           ~MOB"""
           <Column fill_width={true}>
             <Row fill_width={true} align={:center}>
-              <MishkaSwitch checked={@sw_airplane} on_change={:airplane} />
+              <MishkaSwitch checked={@sw_airplane} on_change={:airplane} id="sw-airplane" />
               <Spacer size={12} />
-              <Text text="Airplane mode" text_size={:lg} text_color={:on_surface} />
+              <Text text="Airplane mode" text_size={:lg} text_color={:on_surface} id="sw-airplane-label" />
             </Row>
             <Spacer size={10} />
             <Text
@@ -182,6 +189,12 @@ defmodule MishkaMob.Showcase.Components.Switch do
         type: "boolean",
         default: "false",
         description: "Wires no handler, so the control cannot move."
+      },
+      %{
+        name: "id",
+        type: "string",
+        default: "nil",
+        description: "Test tag on the switch; its label is tagged <id>-label."
       }
     ]
   end

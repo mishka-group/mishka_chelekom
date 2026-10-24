@@ -61,6 +61,7 @@ defmodule MishkaMob.Showcase.Components.Skeleton do
             </Box>
             <Spacer size={12} />
             <Button
+              id="sk-toggle"
               text={if(@sk_loaded, do: "Reset", else: "Load")}
               background={:primary}
               text_color={:on_primary}
@@ -219,12 +220,12 @@ defmodule MishkaMob.Showcase.Components.Skeleton do
   defp row(true) do
     ~MOB"""
     <Row fill_width={true} align={:center}>
-      <MishkaAvatar initials="AL" size={40} />
+      <MishkaAvatar initials="AL" size={40} id="sk-avatar" />
       <Spacer size={12} />
       <Column fill_width={true}>
-        <Text text="Ada Lovelace" text_size={:base} text_color={:on_surface} />
+        <Text id="sk-name" text="Ada Lovelace" text_size={:base} text_color={:on_surface} />
         <Spacer size={6} />
-        <Text text="Wrote the first program" text_size={:sm} text_color={:muted} />
+        <Text id="sk-caption" text="Wrote the first program" text_size={:sm} text_color={:muted} />
       </Column>
     </Row>
     """
@@ -233,7 +234,7 @@ defmodule MishkaMob.Showcase.Components.Skeleton do
   defp row(false) do
     ~MOB"""
     <Row fill_width={true} align={:center}>
-      <MishkaSkeleton shape={:circle} size={40} />
+      <MishkaSkeleton shape={:circle} size={40} id="sk-avatar" />
       <Spacer size={12} />
       <Column fill_width={true}>
         <MishkaSkeleton shape={:text} lines={2} last_line={0.5} />

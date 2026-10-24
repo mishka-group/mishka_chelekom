@@ -42,6 +42,7 @@ defmodule MishkaMob.Showcase.Components.Meter do
             <Spacer size={14} />
             <Row fill_width={true}>
               <Button
+                id="mt-down"
                 text="Free up"
                 background={:surface_raised}
                 text_color={:on_surface}
@@ -51,6 +52,7 @@ defmodule MishkaMob.Showcase.Components.Meter do
               />
               <Spacer size={8} />
               <Button
+                id="mt-up"
                 text="Fill up"
                 background={:primary}
                 text_color={:on_primary}

@@ -39,6 +39,7 @@ defmodule MishkaMob.Showcase.Components.EmptyState do
           ~MOB"""
           <Box fill_width={true} background={:surface_raised} corner_radius={:radius_md}>
             <MishkaEmptyState
+              id="es-centred"
               indicator="📭"
               title="No messages"
               description="Anything you receive lands here."
@@ -62,6 +63,7 @@ defmodule MishkaMob.Showcase.Components.EmptyState do
             padding={:space_md}
           >
             <MishkaEmptyState
+              id="es-leading"
               align={:leading}
               indicator="🔍"
               title="No results"
@@ -186,9 +188,15 @@ defmodule MishkaMob.Showcase.Components.EmptyState do
   # The whole point of the component: it is what a list shows INSTEAD of itself.
   defp projects_or_empty([]) do
     ~MOB"""
-    <MishkaEmptyState indicator="📁" title="No projects yet" description="Create one to get started.">
+    <MishkaEmptyState
+      id="es-empty"
+      indicator="📁"
+      title="No projects yet"
+      description="Create one to get started."
+    >
       <MishkaEmptyStateActions>
         <Button
+          id="es-new"
           text="New"
           background={:primary}
           text_color={:on_primary}
@@ -196,6 +204,7 @@ defmodule MishkaMob.Showcase.Components.EmptyState do
           on_tap={{self(), :es_new}}
         />
         <Button
+          id="es-import"
           text="Import"
           background={:surface}
           text_color={:on_surface}
@@ -210,8 +219,10 @@ defmodule MishkaMob.Showcase.Components.EmptyState do
   defp projects_or_empty(projects) do
     rows =
       Enum.map(projects, fn name ->
+        row_id = "es-row-" <> String.replace(name, " ", "-")
+
         ~MOB"""
-        <Row fill_width={true}>
+        <Row fill_width={true} id={row_id}>
           <Text text="📁" text_size={:base} text_color={:muted} />
           <Spacer size={10} />
           <Text text={name} text_size={:base} text_color={:on_surface} />
@@ -225,6 +236,7 @@ defmodule MishkaMob.Showcase.Components.EmptyState do
       {rows}
       <Spacer size={16} />
       <Button
+        id="es-reset"
         text="Delete them all"
         background={:surface}
         text_color={:on_surface}

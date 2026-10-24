@@ -84,6 +84,7 @@ defmodule MishkaMob.Components.MishkaAccordion do
   | `corner_radius` | radius token / number | `:radius_md` | Rounds each item. |
   | `padding` | spacing token / number | `:space_md` | Padding inside the trigger and the panel. |
   | `space` | number | `8` | Gap between items. `0` joins them into one block. |
+  | `id` | string | `nil` | Test tag on the root; each item derives `<id>-<item>-trigger` and `<id>-<item>-panel` from it. |
 
   Per item (`:mishka_accordion_item` props): `id` (any term; falls back to the
   0-based index), `title` (string), `disabled` (boolean).
@@ -115,7 +116,36 @@ defmodule MishkaMob.Components.MishkaAccordion do
     |> Enum.map(&item_node(&1, props))
     |> Enum.intersperse(gap(Map.get(props, :space) || 8))
     |> column()
+    |> put(:id, Map.get(props, :id))
   end
+
+  @doc """
+  The test tag on an item's trigger, given the accordion's `id`.
+
+  The trigger is the tappable header. Whether its panel is open is answered by
+  `panel_tag/2`: the panel is only in the tree while it is open.
+
+      iex> MishkaMob.Components.MishkaAccordion.trigger_tag("faq", :billing)
+      "faq-billing-trigger"
+      iex> MishkaMob.Components.MishkaAccordion.trigger_tag(nil, :billing)
+      nil
+  """
+  @spec trigger_tag(id :: String.t() | nil, item_id :: term()) :: String.t() | nil
+  def trigger_tag(nil, _item_id), do: nil
+  def trigger_tag(id, item_id), do: "#{id}-#{item_id}-trigger"
+
+  @doc """
+  The test tag on an item's panel, given the accordion's `id`. It exists only
+  while the item is open.
+
+      iex> MishkaMob.Components.MishkaAccordion.panel_tag("faq", :billing)
+      "faq-billing-panel"
+      iex> MishkaMob.Components.MishkaAccordion.panel_tag(nil, :billing)
+      nil
+  """
+  @spec panel_tag(id :: String.t() | nil, item_id :: term()) :: String.t() | nil
+  def panel_tag(nil, _item_id), do: nil
+  def panel_tag(id, item_id), do: "#{id}-#{item_id}-panel"
 
   @doc """
   Pure open-set transition for a trigger tap, honouring `multiple` and
@@ -227,6 +257,7 @@ defmodule MishkaMob.Components.MishkaAccordion do
       props: box_props,
       children: [%{type: :row, props: %{fill_width: true}, children: row}]
     }
+    |> put(:id, trigger_tag(Map.get(props, :id), item.id))
   end
 
   defp panel(item, props) do
@@ -235,6 +266,7 @@ defmodule MishkaMob.Components.MishkaAccordion do
       props: %{fill_width: true, padding: Map.get(props, :padding) || :space_md},
       children: item.body
     }
+    |> put(:id, panel_tag(Map.get(props, :id), item.id))
   end
 
   defp chevron(open?, color) do
@@ -321,6 +353,11 @@ defmodule MishkaMob.Components.MishkaAccordion do
   defp column(children), do: %{type: :column, props: %{fill_width: true}, children: children}
   defp gap(size), do: %{type: :spacer, props: %{size: size}, children: []}
   defp flex_spacer, do: %{type: :spacer, props: %{weight: 1}, children: []}
+
+  # A prop left out is a prop the node never carries: `nil` serialises as the
+  # string "nil", and the bridge would tag the node with it.
+  defp put(node, _key, nil), do: node
+  defp put(node, key, value), do: %{node | props: Map.put(node.props, key, value)}
 
   defp tap?({pid, _tag}) when is_pid(pid), do: true
   defp tap?(_), do: false

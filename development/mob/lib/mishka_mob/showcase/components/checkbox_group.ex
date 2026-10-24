@@ -88,7 +88,7 @@ defmodule MishkaMob.Showcase.Components.CheckboxGroup do
               <MishkaCheckboxGroupItem id={:ecto} label="Ecto" />
             </MishkaCheckboxGroup>
             <Spacer size={12} />
-            <Text text={summary(@cg_value)} text_size={:sm} text_color={:muted} />
+            <Text text={summary(@cg_value)} text_size={:sm} text_color={:muted} id="cg-summary" />
           </Column>
           """
         end

@@ -34,8 +34,9 @@ defmodule MishkaMob.Components.MishkaRollingNumber do
   | `separator` | string | `","` | Thousands separator. `""` disables grouping. |
   | `text_size` | size token | `:"2xl"` | Number size. |
   | `color` | color token / ARGB int | `:on_surface` | Number colour. |
+  | `id` | string | — | A native testTag on the number, so a device test can read it. |
 
-  Not ported: `duration` and `locale` (see above), and `id` / `*_class`.
+  Not ported: `duration` and `locale` (see above), and the `*_class` attrs.
   """
 
   import Mob.Sigil
@@ -59,7 +60,13 @@ defmodule MishkaMob.Components.MishkaRollingNumber do
     ~MOB"""
     <Text text={text} text_size={size} text_color={color} />
     """
+    |> with_id(Map.get(props, :id))
   end
+
+  # Mob turns :id into a native testTag. The number is the whole component, and a
+  # page shows several of them: the tag is how a test names the one it means.
+  defp with_id(node, nil), do: node
+  defp with_id(node, id), do: %{node | props: Map.put(node.props, :id, id)}
 
   @doc """
   Group a number's thousands.

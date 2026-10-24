@@ -38,7 +38,7 @@ defmodule MishkaMob.Components.MishkaTagsInput do
   | `background` / `border_color` / `border_width` / `corner_radius` / `padding` | | | The control. |
   | `space` | number | `6` | Gap between tokens. |
   | `wrap_chars` | number | `34` | Roughly how much text fits on one token row. |
-  | `id` | string | `nil` | Tags the draft field and each token's ✕. |
+  | `id` | string | `nil` | Tags the draft field and each token: `<id>-draft`, `<id>-tag-<tag>`, and the token's ✕ as `<id>-tag-<tag>-remove`. |
 
   ## It ships no look of its own worth keeping
 
@@ -197,24 +197,23 @@ defmodule MishkaMob.Components.MishkaTagsInput do
     """
   end
 
+  # Every token's ✕ reads the same glyph, so an exact-text lookup cannot say WHICH tag
+  # it would remove. The tag itself makes the id unique. The id goes to the pill, which
+  # tags its body `<id>-tag-<tag>` and its ✕ `<id>-tag-<tag>-remove`: the ✕ is the
+  # only part of a token that responds to a touch, so it is the part a test has to be
+  # able to reach.
   defp token(tag, props, disabled?) do
-    node =
-      MishkaPill.pill(
-        label: tag,
-        with_remove: true,
-        disabled: disabled?,
-        on_remove: remove_tag(props, tag)
-      )
-
-    # Every token's ✕ reads the same glyph, so an exact-text lookup cannot say
-    # WHICH tag it would remove. The tag itself makes the id unique.
-    tag_node(node, Map.get(props, :id), tag)
+    MishkaPill.pill(
+      label: tag,
+      with_remove: true,
+      disabled: disabled?,
+      on_remove: remove_tag(props, tag),
+      id: token_id(Map.get(props, :id), tag)
+    )
   end
 
-  defp tag_node(node, nil, _tag), do: node
-
-  defp tag_node(node, id, tag),
-    do: %{node | props: Map.put(node.props, :id, "#{id}-tag-#{tag}")}
+  defp token_id(nil, _tag), do: nil
+  defp token_id(id, tag), do: "#{id}-tag-#{tag}"
 
   defp draft(props, disabled?) do
     node = ~MOB"""
