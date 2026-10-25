@@ -1,5 +1,7 @@
 # overflow_list (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/overflow-list
+
 Items on one row, with the ones that do not fit collapsed into a `+N` counter. See
 [README](README.md) for the rules every Mob component shares.
 

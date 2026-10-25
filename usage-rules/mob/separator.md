@@ -1,5 +1,7 @@
 # separator (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/separator
+
 A thematic rule between groups of content, optionally carrying a centred label. See
 [README](README.md) for the rules every Mob component shares.
 

@@ -1,5 +1,7 @@
 # rolling_number (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/rolling-number
+
 A number that counts up to its value. See [README](README.md) for the rules every Mob component
 shares.
 

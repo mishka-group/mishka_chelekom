@@ -1,5 +1,7 @@
 # menu (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/menu
+
 A list of actions revealed from a trigger. See [README](README.md) for the rules every Mob component
 shares.
 

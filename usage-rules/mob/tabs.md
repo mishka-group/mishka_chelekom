@@ -1,5 +1,7 @@
 # tabs (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/tabs
+
 A tab strip with one visible panel. See [README](README.md) for the rules every Mob component
 shares.
 

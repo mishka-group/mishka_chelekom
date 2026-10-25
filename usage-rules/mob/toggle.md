@@ -1,5 +1,7 @@
 # toggle (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/toggle
+
 A button that stays pressed, as in a formatting toolbar's bold or italic. See [README](README.md)
 for the rules every Mob component shares.
 

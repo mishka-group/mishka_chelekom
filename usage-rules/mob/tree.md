@@ -1,5 +1,7 @@
 # tree (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/tree
+
 Hierarchical data — expandable, selectable, checkable, with headers and async branches. See
 [README](README.md) for the event shapes every Mob component shares.
 

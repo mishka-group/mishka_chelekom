@@ -1,5 +1,7 @@
 # action_icon (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/action-icon
+
 A compact icon-only button — the ⋯ on a row, the ← in a header, the ✕ on a card. See
 [README](README.md) for the event shapes every Mob component shares.
 

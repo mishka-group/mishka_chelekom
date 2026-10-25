@@ -1,5 +1,7 @@
 # scroller (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/scroller
+
 A horizontal rail of items with prev/next arrows. See [README](README.md) for the rules every Mob
 component shares.
 

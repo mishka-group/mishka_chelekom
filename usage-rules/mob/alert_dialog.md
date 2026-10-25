@@ -1,5 +1,7 @@
 # alert_dialog (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/alert-dialog
+
 A confirmation modal that demands an explicit choice. See [README](README.md) for the rules every
 Mob component shares.
 

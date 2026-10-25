@@ -1,5 +1,7 @@
 # toolbar (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/toolbar
+
 A strip of related controls, in groups, with separators between them. See [README](README.md) for
 the rules every Mob component shares.
 

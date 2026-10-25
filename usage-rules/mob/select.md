@@ -1,5 +1,7 @@
 # select (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/select
+
 A trigger showing the current choice, and a list to pick from. See [README](README.md) for the rules
 every Mob component shares.
 

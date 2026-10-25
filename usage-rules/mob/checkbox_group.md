@@ -1,5 +1,7 @@
 # checkbox_group (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/checkbox-group
+
 A labelled set of checkboxes with an optional tristate "select all" parent. See
 [README](README.md) for the rules every Mob component shares.
 

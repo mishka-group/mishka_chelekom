@@ -1,5 +1,7 @@
 # autocomplete (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/autocomplete
+
 A text field that suggests completions as you type. See [README](README.md) for the rules every Mob
 component shares.
 

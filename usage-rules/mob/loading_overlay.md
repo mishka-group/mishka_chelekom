@@ -1,5 +1,7 @@
 # loading_overlay (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/loading-overlay
+
 A scrim over a region while it is busy — and, more usefully, a lid on the taps aimed at what it
 covers. See [README](README.md) for the rules every Mob component shares.
 

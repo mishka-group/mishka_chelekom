@@ -1,5 +1,7 @@
 # scroll_area (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/scroll-area
+
 A bounded region whose content scrolls. See [README](README.md) for the rules every Mob component
 shares.
 

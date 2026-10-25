@@ -1,5 +1,7 @@
 # radio_group (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/radio-group
+
 A labelled set of mutually exclusive options. See [README](README.md) for the rules every Mob
 component shares.
 

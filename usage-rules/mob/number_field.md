@@ -1,5 +1,7 @@
 # number_field (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/number-field
+
 A numeric input with decrement and increment buttons. See [README](README.md) for the rules every
 Mob component shares.
 

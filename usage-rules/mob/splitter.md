@@ -1,5 +1,7 @@
 # splitter (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/splitter
+
 Two resizable panes with a draggable divider. See [README](README.md) for the rules every Mob
 component shares.
 

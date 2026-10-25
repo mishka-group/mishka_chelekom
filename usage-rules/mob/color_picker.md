@@ -1,5 +1,7 @@
 # color_picker (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/color-picker
+
 A saturation/brightness square with a hue strip under it. Both are drawn on canvases and both
 are dragged directly. See [hue_slider](hue_slider.md) for the 1-D case this builds on.
 

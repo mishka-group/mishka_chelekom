@@ -1,5 +1,7 @@
 # combobox (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/combobox
+
 A text field that filters a list of options, single or multiple. See [README](README.md) for the
 rules every Mob component shares.
 

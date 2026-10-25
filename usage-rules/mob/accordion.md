@@ -1,5 +1,7 @@
 # accordion (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/accordion
+
 A stack of disclosure items where each header toggles its panel. See
 [README](README.md) for the event shapes every Mob component shares.
 

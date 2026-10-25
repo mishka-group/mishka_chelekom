@@ -1,5 +1,7 @@
 # toggle_group (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/toggle-group
+
 A row of toggle buttons sharing one selection, in single or multiple mode. See
 [README](README.md) for the rules every Mob component shares.
 

@@ -1,5 +1,7 @@
 # segmented_control (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/segmented-control
+
 A joined strip of options where exactly one is always selected. See [README](README.md) for the
 rules every Mob component shares.
 

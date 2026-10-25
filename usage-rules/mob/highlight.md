@@ -1,5 +1,7 @@
 # highlight (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/highlight
+
 Text with matching substrings marked, as in search results. Built on
 [mark](mark.md) — read that one for why a highlight is a `Box` and not a text attribute.
 

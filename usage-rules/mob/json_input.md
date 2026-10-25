@@ -1,5 +1,7 @@
 # json_input (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/json-input
+
 A multi-line field for JSON with a validated error state. See [README](README.md) for the rules
 every Mob component shares.
 

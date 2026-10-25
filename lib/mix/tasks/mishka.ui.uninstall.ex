@@ -37,7 +37,8 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     `mix mishka.ui.uninstall drawer --mob`. A Mob app has no `_web` namespace, no JS hooks
     and no stylesheet, so the JS, npm, CSS and import-macro steps are skipped; instead the
     composite-tag registry (`lib/<app>/components.ex`) is rewritten so it never names a
-    module that was just deleted.
+    module that was just deleted, and the removed tags leave `config :mob, :extra_tags` (the
+    rest of that list is kept).
   * `--dry-run` or `-d` - Preview what would be removed without making changes
   * `--yes` - Skip confirmation prompts
   * `--force` or `-f` - Force removal even if other components depend on it

@@ -1,5 +1,7 @@
 # slider (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/slider
+
 A draggable value along a range, on Mob's native `Slider`. See [README](README.md) for the rules
 every Mob component shares.
 

@@ -1,5 +1,7 @@
 # otp_field (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/otp-field
+
 Segmented one-time-code input: a row of slots the user types into directly. Native widgets, no
 HTML. See [README](README.md) for the event shapes every Mob component shares.
 

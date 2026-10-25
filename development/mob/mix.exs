@@ -148,9 +148,9 @@ defmodule MishkaMob.MixProject do
   # and recompiling Mob makes the sigil accept them. That is what lets the
   # showcase write <MishkaChip /> instead of {chip(...)} — the tag an app writes.
   #
-  # Consumers get this from the CLI instead: `mix mishka.ui.gen.mob` wires
-  # `mix mishka.mob.tags` into their aliases, reading the tags out of the
-  # registry it generates so a --module-prefix is carried through. This copy
+  # Consumers get this from the CLI instead: `mix mishka.ui.gen.mob` adds the
+  # tags to `config :mob, :extra_tags`, reading them out of the registry it
+  # generates so a --module-prefix is carried through. This copy
   # exists because the dev app is not a consumer — it has no generated registry.
   #
   # It lives in mix.exs rather than lib/mix/tasks/ deliberately: a task there

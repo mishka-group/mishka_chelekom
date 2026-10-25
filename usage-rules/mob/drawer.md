@@ -1,5 +1,7 @@
 # drawer (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/drawer
+
 An edge-anchored panel over a dimmed backdrop, with a drag handle, snap points and
 swipe-to-dismiss. See [README](README.md) for the rules every Mob component shares.
 

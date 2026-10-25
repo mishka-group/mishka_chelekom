@@ -1,5 +1,7 @@
 # alpha_slider (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/alpha-slider
+
 An opacity track, 0–100, drawn over a checkerboard so the transparency actually shows through.
 Same shape as [hue_slider](hue_slider.md) — read that one first; this file is the differences.
 
