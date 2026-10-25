@@ -58,6 +58,8 @@ defmodule <%= @module %> do
   is a claim about where two nodes are in relation to each other. The parts are
   bare `Text` nodes, so without a tag each there is nothing for a device test to
   measure. An `indicator` slot brings its own nodes and keeps its own tags.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/empty-state
   """
 
   import Mob.Sigil

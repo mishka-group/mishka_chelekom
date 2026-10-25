@@ -71,6 +71,8 @@ defmodule <%= @module %> do
   the same bug `<%= @namespace %>.<%= @module_prefix_camel %>Pill` documents. iOS's `MobBox` never
   reads `fill_width` at all (`IOS_TODO.md` item 6), so this is an Android fix
   until that lands.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/overflow-list
   """
 
   import Mob.Sigil

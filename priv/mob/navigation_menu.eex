@@ -41,6 +41,8 @@ defmodule <%= @module %> do
   been moved onto it: the viewport is still one shared area in flow, with no
   side to take and nothing to point an arrow at. `:anchored` is Android-only so
   far; on iOS the node falls through to a column.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/navigation-menu
   """
 
   import Mob.Sigil

@@ -85,6 +85,8 @@ defmodule <%= @module %> do
   Not ported: `name`, `form`, `required`, `readonly` (form plumbing), `side`,
   `highlight_on_hover` (the list is in flow, and a touch screen has no hover)
   and the `*_class` attrs.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/select
   """
 
   import Mob.Sigil

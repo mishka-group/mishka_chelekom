@@ -37,6 +37,8 @@ defmodule <%= @module %> do
   | `color` | color token / ARGB | `:surface_raised` | The highlight. |
   | `disabled` | boolean | `false` | Mutes and unwires. |
   | `on_change` | event tag (atom) | — | `{:tap, {tag, value}}` on a target. |
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/floating-indicator
   """
 
   import Mob.Sigil

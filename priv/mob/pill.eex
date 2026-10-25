@@ -259,6 +259,8 @@ defmodule <%= @module %> do
   between the slot and the label. Unset, `leading` puts **nothing** in the tree
   — not an empty `Row`, nothing — so a pill that does not use it builds the
   two-child content row it always did.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/pill
   """
 
   import Mob.Sigil

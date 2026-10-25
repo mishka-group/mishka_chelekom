@@ -64,6 +64,8 @@ defmodule <%= @module %> do
   click away from), and the `*_class` attrs. There is nothing for a long press
   to carry either — the web original has no hover and no context menu, and the
   tree inside owns every gesture but the trigger's tap.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/tree-select
   """
 
   import Mob.Sigil

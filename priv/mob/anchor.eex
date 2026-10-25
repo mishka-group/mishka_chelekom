@@ -44,6 +44,8 @@ defmodule <%= @module %> do
   Not ported: `target` / `rel` / `download` and `navigate` vs `patch` — the
   distinction is a LiveView routing concept, and on a device the screen decides
   how to navigate.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/anchor
   """
 
   import Mob.Sigil

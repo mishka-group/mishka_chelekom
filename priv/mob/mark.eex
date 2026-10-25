@@ -29,6 +29,8 @@ defmodule <%= @module %> do
   highlight has to stay readable against *itself*, so pairing a light fill with
   dark text is more reliable than a `:surface` / `:on_surface` pair that flips
   with the theme and can end up light-on-light.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/mark
   """
 
   import Mob.Sigil

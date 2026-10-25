@@ -68,6 +68,8 @@ defmodule <%= @module %> do
   (Android's bridge has no long-press event at all; iOS has `onLongPress`, so
   this is blocked on the Android side rather than the design), scrub-to-change
   (a pointer drag on the label), and the `*_class` attrs.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/number-field
   """
 
   import Mob.Sigil

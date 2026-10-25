@@ -61,6 +61,8 @@ defmodule <%= @module %> do
   `id` IS honoured, though not for the web's reason. The bridge turns an `:id`
   into a Compose `testTag`, which is how an instrumented test gets hold of the
   input — and the input here is invisible, so there is nothing else to match on.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/otp-field
   """
 
   import Mob.Sigil

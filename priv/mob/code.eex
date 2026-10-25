@@ -38,6 +38,8 @@ defmodule <%= @module %> do
   than a DOM id.) Syntax highlighting is not part of
   the headless component and would need per-token spans, which Mob's `Text` does
   not expose.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/code
   """
 
   import Mob.Sigil

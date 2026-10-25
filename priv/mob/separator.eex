@@ -144,6 +144,8 @@ defmodule <%= @module %> do
   carries the same workaround for the same reason. On Android the Box's own
   `height` pins it and the Spacer is an invisible `thickness`-square child that
   the background covers. Both can go once item 1 is fixed.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/separator
   """
 
   import Mob.Sigil

@@ -43,6 +43,8 @@ defmodule <%= @module %> do
 
   Not ported: `name`, `value`, `required` (form plumbing) and the `*_class`
   attrs. `readonly` collapses into `disabled` — both omit the handler.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/radio
   """
 
   import Mob.Sigil

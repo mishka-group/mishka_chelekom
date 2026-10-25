@@ -48,6 +48,8 @@ defmodule <%= @module %> do
 
   Like the Accordion, the trigger is a tappable Box rather than a Button,
   because a Material Button centres its label.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/collapsible
   """
 
   import Mob.Sigil

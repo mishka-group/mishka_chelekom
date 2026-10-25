@@ -36,6 +36,8 @@ defmodule <%= @module %> do
   Content is centred with `align: :center`, which Mob maps to
   `Alignment.Center` on Compose and the matching SwiftUI alignment — the same
   string keys on both platforms.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/avatar
   """
 
   import Mob.Sigil

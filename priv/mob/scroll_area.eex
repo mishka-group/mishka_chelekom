@@ -50,6 +50,8 @@ defmodule <%= @module %> do
   An `id` registers the native scroll view so a screen can move it without a
   finger — see `<%= @namespace %>.<%= @module_prefix_camel %>Scroller.nudge/3`, which is what the
   scroller's arrows call.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/scroll-area
   """
 
   import Mob.Sigil

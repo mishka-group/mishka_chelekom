@@ -26,6 +26,8 @@ defmodule <%= @module %> do
 
   Not ported: `label` (an `aria-label`) and the `*_class` attrs. `id` IS ported,
   but as a test handle rather than as a DOM id.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/color-swatch
   """
 
   import Mob.Sigil
