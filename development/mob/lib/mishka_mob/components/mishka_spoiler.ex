@@ -33,6 +33,8 @@ defmodule MishkaMob.Components.MishkaSpoiler do
   Not ported: the `*_class` attrs. `id` is not the DOM anchor the web means by
   it; it is the test tag, and what a device test needs is which of preview and
   content is on screen, and what the control says.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/spoiler
   """
 
   import Mob.Sigil

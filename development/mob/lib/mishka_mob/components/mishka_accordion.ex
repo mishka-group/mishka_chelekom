@@ -96,6 +96,8 @@ defmodule MishkaMob.Components.MishkaAccordion do
   `clickable` modifier for every node type *except* button (`MobBridge.kt`), and
   iOS gives a Box `contentShape(Rectangle()).onTapGesture` (`MobRootView.swift`),
   so a tappable Box has identical tap behaviour with correct alignment.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/accordion
   """
 
   require Logger

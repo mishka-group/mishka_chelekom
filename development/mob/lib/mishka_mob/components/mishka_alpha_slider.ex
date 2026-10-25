@@ -26,6 +26,8 @@ defmodule MishkaMob.Components.MishkaAlphaSlider do
 
   Not ported: `on_commit`, `step`/`large_step`, `name`/`form`/`id` — see
   `MishkaMob.Components.MishkaSlider` for why.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/alpha-slider
   """
 
   import Mob.Sigil

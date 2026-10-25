@@ -49,6 +49,8 @@ defmodule MishkaMob.Components.MishkaHighlight do
   own colour — an `Error` in red beside a `Success` in green — compose
   `MishkaMob.Components.MishkaMark` and `Text` directly; that is what the mark is
   for, and the web component draws the same line (it has one `mark_class`).
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/highlight
   """
 
   import Mob.Sigil

@@ -162,6 +162,8 @@ defmodule MishkaMob.Components.MishkaDialog do
   anchoring are DOM concerns; the classes are replaced by the chrome props
   above. `on_open_change_target` has no analogue either — a Mob event goes to
   the screen process, and there is no second LiveView to target.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/dialog
   """
 
   import Mob.Sigil

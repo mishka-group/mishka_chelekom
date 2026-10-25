@@ -36,6 +36,8 @@ defmodule MishkaMob.Components.MishkaMaskInput do
 
   Not ported: `name` (form plumbing), `inputmode` (derived here) and
   `id` / `class`.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/mask-input
   """
 
   import Mob.Sigil

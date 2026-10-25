@@ -114,6 +114,8 @@ defmodule MishkaMob.Components.MishkaTooltip do
   `trigger_label` — Mob exposes no accessible name on a node, only a testTag.
   `close_on_escape` becomes `close_on_tap`: a phone has no Escape key, and the
   one dismissal a finger can reach is the bubble itself.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/tooltip
   """
 
   import Mob.Sigil

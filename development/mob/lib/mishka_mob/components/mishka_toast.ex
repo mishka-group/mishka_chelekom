@@ -89,6 +89,8 @@ defmodule MishkaMob.Components.MishkaToast do
   and the `<:trigger>` slot, because this viewport is an overlay stretched over
   the whole page; a button inside it would sit under an invisible fill-size Box.
   Put the trigger on the page instead.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/toast
   """
 
   import Mob.Sigil

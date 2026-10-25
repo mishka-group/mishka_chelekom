@@ -148,6 +148,8 @@ defmodule MishkaMob.Components.MishkaToolbar do
   And `Text` has no `max_lines` (item 9), so an over-packed strip stacks letters
   vertically rather than ellipsising. `height` is likewise dropped unless a width
   is also set (item 1), which is what a vertical `overflow: :scroll` needs.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/toolbar
   """
 
   import Mob.Sigil

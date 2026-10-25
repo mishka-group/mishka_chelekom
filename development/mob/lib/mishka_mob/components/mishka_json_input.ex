@@ -46,6 +46,8 @@ defmodule MishkaMob.Components.MishkaJsonInput do
   all render into the same screen. "Is an error showing?" is therefore not a
   question you can ask the page; it is a question about one field. Give the
   field an `id` and its message is addressable as `error_id(id)`.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/json-input
   """
 
   import Mob.Sigil

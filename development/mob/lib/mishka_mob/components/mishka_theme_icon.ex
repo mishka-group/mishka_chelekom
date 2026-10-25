@@ -137,6 +137,8 @@ defmodule MishkaMob.Components.MishkaThemeIcon do
   have), and `border_width` thickens whichever colour is in play. Setting
   `border_width` alone still draws nothing, because the renderer honours a
   border on a box only when the colour is set and the width is non-zero.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/theme-icon
   """
 
   import Bitwise

@@ -101,6 +101,8 @@ defmodule MishkaMob.Components.MishkaTabs do
   Not ported: `orientation: "vertical"`, `activate_on_focus` (there is no focus
   ring to follow), `default_value` (the screen holds state, so "uncontrolled"
   has no meaning here) and the `*_class` attrs.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/tabs
   """
 
   import Mob.Sigil

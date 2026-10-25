@@ -106,6 +106,8 @@ defmodule MishkaMob.Components.MishkaCombobox do
 
   Not ported: `name` / `form` (form plumbing), `auto_highlight` (there is no
   focus ring to highlight) and the `*_class` attrs.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/combobox
   """
 
   import Mob.Sigil

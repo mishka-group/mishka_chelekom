@@ -72,6 +72,8 @@ defmodule MishkaMob.Components.MishkaActionIcon do
   component's business. The container still reads as disabled (the fill drops to
   `:surface`, and no handler is wired), but a child that must look inert has to
   say so itself.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/action-icon
   """
 
   import Mob.Sigil

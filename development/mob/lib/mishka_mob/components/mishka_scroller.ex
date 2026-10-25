@@ -61,6 +61,8 @@ defmodule MishkaMob.Components.MishkaScroller do
 
   Not ported: `scroll_by` (the pixel step belongs with the screen's scroll call),
   `prev_label` / `next_label` (aria-labels) and `id` / `*_class`.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/scroller
   """
 
   import Mob.Sigil

@@ -52,6 +52,8 @@ defmodule MishkaMob.Components.MishkaColorInput do
 
   Not ported: `name`/`form`/`id`, and `phx-click-away` / Escape dismissal — a
   panel in flow has nothing to click away from.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/color-input
   """
 
   import Mob.Sigil

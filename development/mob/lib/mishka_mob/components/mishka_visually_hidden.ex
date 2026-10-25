@@ -33,6 +33,8 @@ defmodule MishkaMob.Components.MishkaVisuallyHidden do
   The moment nodes gain an accessibility-label prop, this component becomes a
   one-liner over it and the API here does not have to change: it already takes
   the content and already reports whether it can be announced.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/visually-hidden
   """
 
   import Mob.Sigil

@@ -102,6 +102,8 @@ defmodule MishkaMob.Components.MishkaChip do
 
   The composite tag ignores its children, as it always has; `trailing={…}` is
   how content gets in.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/chip
   """
 
   import Mob.Sigil

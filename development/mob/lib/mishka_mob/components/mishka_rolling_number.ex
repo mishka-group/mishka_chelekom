@@ -37,6 +37,8 @@ defmodule MishkaMob.Components.MishkaRollingNumber do
   | `id` | string | — | A native testTag on the number, so a device test can read it. |
 
   Not ported: `duration` and `locale` (see above), and the `*_class` attrs.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/rolling-number
   """
 
   import Mob.Sigil

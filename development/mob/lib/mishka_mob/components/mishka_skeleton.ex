@@ -75,6 +75,8 @@ defmodule MishkaMob.Components.MishkaSkeleton do
   | `color` | color token / ARGB int | `:surface_raised` | Placeholder fill. |
   | `corner_radius` | radius token / number | per shape | Override the shape's radius. |
   | `id` | string | — | A native testTag. `:text` numbers its bars `id-0`, `id-1`, … |
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/skeleton
   """
 
   import Mob.Sigil

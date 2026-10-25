@@ -87,6 +87,8 @@ defmodule MishkaMob.Components.MishkaSlider do
   draggable but silently reverts is worse than no control, so a slider that
   should not be touched is better left out of the tree or replaced by
   `MishkaMob.Components.MishkaMeter`.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/slider
   """
 
   import Mob.Sigil

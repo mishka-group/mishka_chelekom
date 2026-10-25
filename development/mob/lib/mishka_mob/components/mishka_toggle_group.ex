@@ -69,6 +69,8 @@ defmodule MishkaMob.Components.MishkaToggleGroup do
 
   Not ported: `name`, `form` (form plumbing), `loop` (arrow-key focus — there is
   no focus ring to move) and the `*_class` attrs.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/toggle-group
   """
 
   import Mob.Sigil

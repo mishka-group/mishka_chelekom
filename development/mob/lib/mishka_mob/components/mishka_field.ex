@@ -46,6 +46,8 @@ defmodule MishkaMob.Components.MishkaField do
 
   Not ported: `id`, `for`, `name` and the `*_class` attrs — the first three are
   DOM plumbing for label/description association.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/field
   """
 
   import Mob.Sigil

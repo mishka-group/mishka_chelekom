@@ -68,6 +68,8 @@ defmodule MishkaMob.Components.MishkaTagsInput do
   lower it for a narrow one.
 
   Not ported: `name` / `input_name` (form plumbing) and the `*_class` attrs.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/tags-input
   """
 
   import Mob.Sigil

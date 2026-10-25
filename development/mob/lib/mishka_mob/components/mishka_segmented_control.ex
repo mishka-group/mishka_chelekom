@@ -170,6 +170,8 @@ defmodule MishkaMob.Components.MishkaSegmentedControl do
   can read.
 
   Not ported: `name` (form plumbing) and the `*_class` attrs.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/segmented-control
   """
 
   import Mob.Sigil
