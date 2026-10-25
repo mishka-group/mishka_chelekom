@@ -1,6 +1,13 @@
 # Changelog for MishkaChelekom 0.0.10
 
 ### Features:
+- Every Mob component template in `priv/mob` links to its page on mishka.tools in its moduledoc
+  (`**Documentation:** https://mishka.tools/chelekom/docs/mob/<name>`), like the styled components
+- `mix mishka.ui.gen.mob` and `mix mishka.ui.gen.mob.components` declare the generated tags in the
+  app's own `config :mob, :extra_tags` instead of writing into `deps/mob/priv/tags/*.txt`, which
+  `mix deps.get` discarded and Mob's docs say not to edit. Only missing tags are added to a `~w()`
+  or plain list, the rest of the list is kept, and `mix mishka.ui.uninstall` removes just the
+  removed tags. Igniter 0.8.5
 - The CMS bundle says which attributes also take a class string. Where every helper an attribute
   reaches ends in a `defp helper(params) when is_binary(params)` catch-all — `size`, `rounded`,
   `padding`, `space`, most `variant`s — the template draws `size="py-1 px-2"` as readily as
