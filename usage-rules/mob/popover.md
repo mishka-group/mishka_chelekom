@@ -1,5 +1,7 @@
 # popover (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/popover
+
 A trigger that toggles a panel of content beside it. See [README](README.md) for the rules every
 Mob component shares.
 

@@ -1,5 +1,7 @@
 # collapsible (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/collapsible
+
 A trigger that shows and hides **one** region — the WAI-ARIA disclosure pattern. See
 [README](README.md) for the event shapes every Mob component shares.
 

@@ -1,5 +1,7 @@
 # nav_link (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/nav-link
+
 A navigation row: a leaf that reports where it goes, or a group that holds nested links. See
 [README](README.md) for the event shapes every Mob component shares.
 

@@ -1,5 +1,7 @@
 # angle_slider (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/angle-slider
+
 A dial you drag to pick a direction, 0–360°. Drawn on a canvas, and the ring **is** the control.
 Same shape as [hue_slider](hue_slider.md) — read that one first; this file is the differences.
 

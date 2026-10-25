@@ -1,5 +1,7 @@
 # theme_icon (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/theme-icon
+
 A themed container around exactly one icon. See [README](README.md) for the rules every Mob
 component shares.
 

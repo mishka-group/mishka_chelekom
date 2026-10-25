@@ -1,5 +1,7 @@
 # preview_card (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/preview-card
+
 A trigger you hold, and the card of detail it reveals. See [README](README.md) for the rules every
 Mob component shares.
 

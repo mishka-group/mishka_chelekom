@@ -1,5 +1,7 @@
 # checkbox (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/checkbox
+
 A box with three states — checked, unchecked and **indeterminate**. See [README](README.md) for the
 rules every Mob component shares.
 

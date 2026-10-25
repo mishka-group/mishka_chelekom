@@ -1,5 +1,7 @@
 # avatar (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/avatar
+
 An image with a text fallback — usually initials. See [README](README.md) for the rules every Mob
 component shares.
 

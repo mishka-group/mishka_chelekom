@@ -1,5 +1,7 @@
 # hue_slider (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/hue-slider
+
 A rainbow strip you touch to pick a hue, 0–360°. Drawn on a canvas — real bands, not an
 approximation. See [README](README.md) for the event shapes every Mob component shares.
 

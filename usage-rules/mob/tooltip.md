@@ -1,5 +1,7 @@
 # tooltip (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/tooltip
+
 A short hint about the control it wraps, revealed by a long press. See [README](README.md) for the
 rules every Mob component shares.
 

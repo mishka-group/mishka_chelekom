@@ -1,5 +1,7 @@
 # meter (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/meter
+
 A gauge for a **measurement** inside a known range — disk usage, battery, a rating. See
 [README](README.md) for the rules every Mob component shares.
 

@@ -1,5 +1,7 @@
 # floating_window (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/floating-window
+
 A titled panel that floats over a stage and is dragged by its title bar. See [README](README.md)
 for the rules every Mob component shares.
 

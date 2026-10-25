@@ -1,5 +1,7 @@
 # skeleton (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/skeleton
+
 A placeholder for content that has not arrived — the grey blocks a list shows while it loads. See
 [README](README.md) for the rules every Mob component shares.
 

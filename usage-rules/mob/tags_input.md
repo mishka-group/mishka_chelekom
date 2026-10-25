@@ -1,5 +1,7 @@
 # tags_input (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/tags-input
+
 Removable tokens plus a text field for entering a list of values. See [README](README.md) for the
 rules every Mob component shares.
 

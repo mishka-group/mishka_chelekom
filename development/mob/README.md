@@ -119,8 +119,8 @@ build treats warnings as errors. An unregistered tag renders *nothing* rather
 than failing, so that warning is worth keeping honest; `TAG_WHITELIST.md` is
 the write-up of the whole problem.
 
-Consumers get the same thing from the CLI: `mix mishka.ui.gen.mob` whitelists
-the tags it generates and wires `register_all/0` into the app's `on_start/0`.
+Consumers get the same thing from the CLI: `mix mishka.ui.gen.mob` adds the
+tags it generates to `config :mob, :extra_tags` and wires `register_all/0` into the app's `on_start/0`.
 
 **Event props must go through `MishkaMob.Components.Event.handler/1`.** The
 renderer only registers a handler when the prop is `{screen_pid, tag}`; a bare

@@ -1,5 +1,7 @@
 # semi_circle_progress (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/semi-circle-progress
+
 A half-circle gauge — a 180° arc with a readout in the middle. See [README](README.md) for the rules
 every Mob component shares.
 

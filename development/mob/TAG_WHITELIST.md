@@ -63,12 +63,13 @@ as plain functions instead:
 
 ## What we do today
 
-We add our tags to `deps/mob/priv/tags/{android,ios}.txt` inside a fenced block
-and then `mix deps.compile mob --force`, because `@known_tags` is baked at Mob's
-compile time and writing the file alone changes nothing.
+The generator adds our tags to `config :mob, :extra_tags` in the app's own `config/config.exs`,
+the app-level setting Mob 0.9.27 documents, and queues `mix compile --force` because Mix does not
+track that config read. Nothing in `deps/` is edited, so `mix deps.get` and a fresh clone keep it.
 
-It works, but it edits a dependency in place, so `mix deps.get`, `deps.clean` and
-a fresh clone all discard it, and each `MIX_ENV` needs its own recompile.
+Before that we wrote a fenced block into `deps/mob/priv/tags/{android,ios}.txt` and recompiled
+`:mob`. That is what the rest of this note was written against; option 1 below is now what Mob
+ships and what we use.
 
 ## The question
 

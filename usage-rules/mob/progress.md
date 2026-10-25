@@ -1,5 +1,7 @@
 # progress (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/progress
+
 A determinate or indeterminate progress bar, optionally labelled. See [README](README.md) for the
 rules every Mob component shares.
 

@@ -1,5 +1,7 @@
 # pill (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/pill
+
 A compact token — a label, optionally with a trailing ✕. See [README](README.md) for the event
 shapes every Mob component shares.
 

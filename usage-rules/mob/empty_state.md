@@ -1,5 +1,7 @@
 # empty_state (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/empty-state
+
 The placeholder a list shows when it has nothing in it — an indicator, a title, supporting text and
 optional actions. See [README](README.md) for the rules every Mob component shares.
 

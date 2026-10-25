@@ -1,5 +1,7 @@
 # spoiler (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/spoiler
+
 Long content that starts collapsed behind a "Show more" control. See [README](README.md) for the
 event shapes every Mob component shares.
 

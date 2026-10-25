@@ -1,5 +1,7 @@
 # mark (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/mark
+
 Highlighted text — the native `<mark>`. See [README](README.md) for the rules every Mob component
 shares, and [highlight](highlight.md) for marking matches inside a sentence automatically.
 

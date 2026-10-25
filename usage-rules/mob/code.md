@@ -1,5 +1,7 @@
 # code (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/code
+
 Inline code and code blocks. See [README](README.md) for the rules every Mob component shares.
 
 ## Generate

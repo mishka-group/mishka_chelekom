@@ -1,5 +1,7 @@
 # dialog (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/dialog
+
 A centred modal over a dimmed backdrop. See [README](README.md) for the rules every Mob component
 shares.
 

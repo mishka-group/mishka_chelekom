@@ -1,5 +1,7 @@
 # color_input (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/color-input
+
 A hex field with a colour swatch and a picker panel. Type the colour or pick it. Wraps
 [color_picker](color_picker.md) — read that one for the panel's two controls.
 

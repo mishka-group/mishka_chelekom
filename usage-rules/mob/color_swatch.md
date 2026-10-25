@@ -1,5 +1,7 @@
 # color_swatch (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/color-swatch
+
 A block of a single colour, optionally selectable. See [README](README.md) for the event shapes
 every Mob component shares, and [color_picker](color_picker.md) for choosing a colour rather than
 showing one.

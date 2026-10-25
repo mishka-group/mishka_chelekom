@@ -14,7 +14,9 @@ mix mishka.ui.uninstall otp_field --mob
 
 Output: `lib/<app>/components/otp_field.ex`, module `<App>.Components.OtpField`, tag
 `<OtpField />`. Each run also maintains `lib/<app>/components.ex`, calls `register_all/0` from
-your `on_start/0`, and adds the tags to Mob's `~MOB` whitelist.
+your `on_start/0`, and adds the tags to `config :mob, :extra_tags` in `config/config.exs` (only the
+missing ones; `--no-tags` leaves it alone). Run `mix compile --force` after, as Mob does not track
+that config read.
 
 `--module-prefix mishka_` renames all three at once: `mishka_otp_field.ex`,
 `MishkaOtpField`, `<MishkaOtpField />`. Worth doing — `Mob.Composite`'s tag table is global, so

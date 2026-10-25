@@ -1,5 +1,7 @@
 # tree_select (mob)
 
+**Documentation:** https://mishka.tools/chelekom/docs/mob/tree-select
+
 A trigger showing the current selection, with a tree in a panel beneath it. See
 [README](README.md) for the rules every Mob component shares.
 
