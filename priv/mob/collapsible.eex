@@ -38,10 +38,13 @@ defmodule <%= @module %> do
   | `color` | color token / ARGB int | `:on_surface` | Title and chevron. Set it whenever you set `background`. |
   | `corner_radius` | radius token / number | `:radius_md` | Rounds the row. |
   | `padding` | spacing token / number | `:space_md` | Padding inside trigger and region. |
+  | `id` | string | `nil` | Test tag on the root; the trigger is `<id>-trigger` and the region `<id>-panel`. |
 
-  Not ported: `id` and the `*_class` attrs (DOM anchoring and styling), and
-  `hidden_until_found`, which exists so a browser's find-in-page can reveal
-  collapsed text — there is no find-in-page over native views.
+  Not ported: the `*_class` attrs (styling), and `hidden_until_found`, which
+  exists so a browser's find-in-page can reveal collapsed text — there is no
+  find-in-page over native views. `id` is not the DOM anchor the web means by
+  it; it is the test tag. The region is only in the tree while it is open, so
+  `<id>-panel` existing is what says so.
 
   Like the Accordion, the trigger is a tappable Box rather than a Button,
   because a Material Button centres its label.
@@ -68,6 +71,7 @@ defmodule <%= @module %> do
     open? = truthy?(Map.get(props, :open, false))
     disabled? = truthy?(Map.get(props, :disabled, false))
     padding = Map.get(props, :padding) || :space_md
+    id = Map.get(props, :id)
 
     ~MOB"""
     <Box
@@ -77,13 +81,50 @@ defmodule <%= @module %> do
     >
       <Column fill_width={true}>
         {trigger(props, open?, disabled?, padding)}
-        <Column fill_width={true} padding={padding} :if={open? and content != []}>
-          {content}
-        </Column>
+        {region(content, padding, id, open?)}
       </Column>
     </Box>
     """
+    |> put(:id, id)
   end
+
+  @doc """
+  The test tag on the trigger, given the collapsible's `id`.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>Collapsible.trigger_tag("shipping")
+      "shipping-trigger"
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>Collapsible.trigger_tag(nil)
+      nil
+  """
+  @spec trigger_tag(id :: String.t() | nil) :: String.t() | nil
+  def trigger_tag(nil), do: nil
+  def trigger_tag(id), do: "#{id}-trigger"
+
+  @doc """
+  The test tag on the region, given the collapsible's `id`. It exists only while
+  the collapsible is open.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>Collapsible.panel_tag("shipping")
+      "shipping-panel"
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>Collapsible.panel_tag(nil)
+      nil
+  """
+  @spec panel_tag(id :: String.t() | nil) :: String.t() | nil
+  def panel_tag(nil), do: nil
+  def panel_tag(id), do: "#{id}-panel"
+
+  # The region is the trigger's sibling and is built only while open, so a closed
+  # collapsible has no node here at all.
+  defp region(content, padding, id, true) when content != [] do
+    ~MOB"""
+    <Column fill_width={true} padding={padding}>
+      {content}
+    </Column>
+    """
+    |> put(:id, panel_tag(id))
+  end
+
+  defp region(_content, _padding, _id, _open?), do: nil
 
   # Label leading, state chevron trailing. A disabled trigger gets no handler at
   # all, so it cannot fire.
@@ -123,8 +164,15 @@ defmodule <%= @module %> do
     </Box>
     """
 
-    if tap, do: %{node | props: Map.put(node.props, :on_tap, tap)}, else: node
+    node
+    |> put(:on_tap, tap)
+    |> put(:id, trigger_tag(Map.get(props, :id)))
   end
+
+  # A prop left out is a prop the node never carries: `nil` serialises as the
+  # string "nil", and the bridge would tag the node with it.
+  defp put(node, _key, nil), do: node
+  defp put(node, key, value), do: %{node | props: Map.put(node.props, key, value)}
 
   defp truthy?(nil), do: false
   defp truthy?(false), do: false

@@ -36,11 +36,20 @@ defmodule <%= @module %> do
   | `panel_color` | color token / ARGB int | `:surface` | The panel behind the indicator. |
   | `color` | color token / ARGB int | `:primary` | Indicator colour. |
   | `corner_radius` | radius token / number | `nil` | Match the region it covers. |
+  | `id` | string | unset | A native testTag stem — see "Test tags". |
 
   Children replace the indicator, panel and all.
 
   Not ported: `label` as an `aria-label` (it renders as visible text instead) and
-  `id` / `*_class`.
+  `*_class`.
+
+  ## Test tags
+
+  `id` stamps `<id>-scrim` on the scrim, which exists only while the overlay is
+  visible, and `<id>-label` on the label's text. A scrim is a fill and a label is
+  a line of text, so a device test that wants to know whether the region is
+  covered, or whether the label sits on the content's centre line, has nothing
+  else to hold on to. Both are left off when `id` is unset.
   """
 
   import Mob.Sigil
@@ -96,6 +105,15 @@ defmodule <%= @module %> do
     """
     |> put(:corner_radius, radius)
     |> put(:on_tap, absorb(ctx))
+    |> put(:id, part_tag(props, "scrim"))
+  end
+
+  # `nil` when the caller gave no `id`, which `put/3` leaves off the node.
+  defp part_tag(props, part) do
+    case Map.get(props, :id) do
+      nil -> nil
+      id -> "#{id}-#{part}"
+    end
   end
 
   # The indicator and its label sit on a panel, not loose on the scrim. Mob's
@@ -124,7 +142,7 @@ defmodule <%= @module %> do
         {centre(~MOB(<Box width={bar}>
           <Progress color={color} />
         </Box>))}
-        {caption(label)}
+        {caption(label, part_tag(props, "label"))}
       </Column>
     </Box>
     """
@@ -136,16 +154,18 @@ defmodule <%= @module %> do
   # left edge on iOS.
   defp body(_props, content), do: centre(content)
 
-  defp caption(label) when is_binary(label) do
+  defp caption(label, tag) when is_binary(label) do
     text =
-      centre(~MOB"""
+      ~MOB"""
       <Text text={label} text_size={:sm} text_color={:muted} text_align={:center} />
-      """)
+      """
+      |> put(:id, tag)
+      |> centre()
 
     [~MOB(<Spacer size={10} />), text]
   end
 
-  defp caption(_label), do: []
+  defp caption(_label, _tag), do: []
 
   # A Column cannot align its children — Android maps it to a bare Compose
   # Column with no horizontalAlignment, iOS to `VStack(alignment: .leading)`.

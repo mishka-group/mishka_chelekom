@@ -404,7 +404,8 @@ defmodule <%= @module %> do
         [] ->
           <%= @module_prefix_camel %>Menu.<%= @component_prefix %>menu(%{open: true}, [
             <%= @module_prefix_camel %>Menu.item(:__empty__, Map.get(props, :empty_text) || "No matches",
-              disabled: true
+              disabled: true,
+              test_id: tag_id(Map.get(props, :id), "empty")
             )
           ])
 
@@ -423,7 +424,10 @@ defmodule <%= @module %> do
     matches
     |> <%= @module_prefix_camel %>Select.group_runs()
     |> Enum.flat_map(fn {group, run} ->
-      heading = if is_binary(group), do: [<%= @module_prefix_camel %>Menu.label(group)], else: []
+      heading =
+        if is_binary(group),
+          do: [<%= @module_prefix_camel %>Menu.label(group, test_id: tag_id(id, "group-#{group}"))],
+          else: []
 
       heading ++
         Enum.map(run, fn option ->
@@ -467,6 +471,10 @@ defmodule <%= @module %> do
 
   defp tag(node, nil, _suffix), do: node
   defp tag(node, id, suffix), do: %{node | props: Map.put(node.props, :id, "#{id}-#{suffix}")}
+
+  # The same tag as a string, for the rows a menu builds from a test_id option.
+  defp tag_id(nil, _suffix), do: nil
+  defp tag_id(id, suffix), do: "#{id}-#{suffix}"
 
   defp widen(props, key, value, disabled?) do
     case handler(props, key, disabled?) do

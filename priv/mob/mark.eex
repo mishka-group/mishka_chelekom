@@ -23,6 +23,7 @@ defmodule <%= @module %> do
   | `background` | color token / ARGB int | `0xFFFDE68A` (amber) | Highlight fill. |
   | `color` | color token / ARGB int | `0xFF111827` | Text colour — dark, so it stays legible on a light highlight in either theme. |
   | `text_size` | size token | `:base` | Text size. |
+  | `id` | string | — | A native testTag on the Box, so a device test can measure the mark. |
 
   The colours default to explicit ARGB rather than theme tokens on purpose: a
   highlight has to stay readable against *itself*, so pairing a light fill with
@@ -66,7 +67,14 @@ defmodule <%= @module %> do
       <Text text={text} text_size={size} text_color={ink} />
     </Box>
     """
+    |> with_id(Map.get(props, :id))
   end
+
+  # Mob turns :id into a native testTag. A mark is a Box around a Text, and a
+  # test that measures one (does it hug its word, does it share a line with its
+  # neighbour) needs a handle on the Box, not on the page's text.
+  defp with_id(node, nil), do: node
+  defp with_id(node, id), do: %{node | props: Map.put(node.props, :id, id)}
 
   @doc "The default highlight fill, so other components can match it."
   @spec default_fill() :: integer()

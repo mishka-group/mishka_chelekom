@@ -272,7 +272,11 @@ defmodule <%= @module %> do
 
   # A named group is introduced by its heading; an ungrouped run is not.
   defp group_items({group, run}, chosen, select_id) do
-    heading = if is_binary(group), do: [<%= @module_prefix_camel %>Menu.label(group)], else: []
+    heading =
+      if is_binary(group),
+        do: [<%= @module_prefix_camel %>Menu.label(group, test_id: group_tag(select_id, group))],
+        else: []
+
     heading ++ Enum.map(run, &item(&1, chosen, select_id))
   end
 
@@ -288,6 +292,9 @@ defmodule <%= @module %> do
       test_id: option_tag(select_id, option_id, picked?)
     )
   end
+
+  defp group_tag(nil, _group), do: nil
+  defp group_tag(select_id, group), do: "#{select_id}-group-#{group}"
 
   defp option_tag(nil, _option_id, _picked?), do: nil
 

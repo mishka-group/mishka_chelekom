@@ -24,6 +24,7 @@ defmodule <%= @module %> do
   | `align` | `:center` `:leading` | `:center` | Indicator above the text, or beside it. |
   | `indicator` | string | `nil` | A glyph or emoji shown above/beside the text. |
   | `padding` | spacing token / number | `:space_xl` | Padding around the block. |
+  | `id` | string | — | A native testTag on the block, fanned out to its parts: `<id>-indicator`, `<id>-title`, `<id>-description`. |
 
   ## Slots
 
@@ -49,7 +50,14 @@ defmodule <%= @module %> do
   a list comprehension is easier to write than generated markup; the slot wins
   when both are given.
 
-  Not ported: `id` and the `*_class` attrs.
+  Not ported: the `*_class` attrs.
+
+  ## Why `id` fans out
+
+  Centred stacks the indicator above the text and leading puts it beside, which
+  is a claim about where two nodes are in relation to each other. The parts are
+  bare `Text` nodes, so without a tag each there is nothing for a device test to
+  measure. An `indicator` slot brings its own nodes and keeps its own tags.
   """
 
   import Mob.Sigil
@@ -127,6 +135,7 @@ defmodule <%= @module %> do
       </Column>
     </Box>
     """
+    |> with_id(Map.get(props, :id))
   end
 
   defp centre(nodes) do
@@ -149,14 +158,21 @@ defmodule <%= @module %> do
       </Column>
     </Row>
     """
+    |> with_id(Map.get(props, :id))
   end
 
   defp indicator(props, []) do
     glyph = Map.get(props, :indicator)
 
+    mark =
+      with_id(
+        ~MOB(<Text text={glyph} text_size={:"2xl"} text_color={:muted} />),
+        part(props, "indicator")
+      )
+
     ~MOB"""
     <Column :if={is_binary(glyph)}>
-      <Text text={glyph} text_size={:"2xl"} text_color={:muted} />
+      {mark}
       <Spacer size={10} />
     </Column>
     """
@@ -175,8 +191,8 @@ defmodule <%= @module %> do
     # this block centres the block. A long description needs both.
     align = if centre?, do: :center, else: nil
 
-    ~MOB"""
-    <Column fill_width={centre? == false}>
+    heading =
+      ~MOB"""
       <Text
         text={title}
         text_size={:xl}
@@ -184,7 +200,11 @@ defmodule <%= @module %> do
         text_align={align}
         :if={is_binary(title)}
       />
-      <Spacer size={6} :if={is_binary(title) and is_binary(description)} />
+      """
+      |> with_id(part(props, "title"))
+
+    supporting =
+      ~MOB"""
       <Text
         text={description}
         text_size={:base}
@@ -192,8 +212,29 @@ defmodule <%= @module %> do
         text_align={align}
         :if={is_binary(description)}
       />
+      """
+      |> with_id(part(props, "description"))
+
+    ~MOB"""
+    <Column fill_width={centre? == false}>
+      {heading}
+      <Spacer size={6} :if={is_binary(title) and is_binary(description)} />
+      {supporting}
     </Column>
     """
+  end
+
+  # Mob turns :id into a native testTag. `nil` passes through twice over: no id
+  # asked for, and a part that was not rendered (the sigil's `:if` leaves nil).
+  defp with_id(node, nil), do: node
+  defp with_id(nil, _id), do: nil
+  defp with_id(node, id), do: %{node | props: Map.put(node.props, :id, id)}
+
+  defp part(props, name) do
+    case Map.get(props, :id) do
+      nil -> nil
+      id -> "#{id}-#{name}"
+    end
   end
 
   defp actions_row([]), do: ~MOB(<Column />)

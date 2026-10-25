@@ -28,8 +28,11 @@ defmodule <%= @module %> do
   | `on_toggle` | event tag (atom) | — | Sent as `{:tap, tag}`. |
   | `color` | color token / ARGB int | `:primary` | Control colour. |
   | `padding` | number | `10` | Vertical padding around the control — it is the tap target, not decoration. |
+  | `id` | string | `nil` | Test tag on the root. The shown text is `<id>-preview` or `<id>-content`, the control `<id>-control`, its label `<id>-label`. |
 
-  Not ported: `id` and the `*_class` attrs.
+  Not ported: the `*_class` attrs. `id` is not the DOM anchor the web means by
+  it; it is the test tag, and what a device test needs is which of preview and
+  content is on screen, and what the control says.
   """
 
   import Mob.Sigil
@@ -50,16 +53,68 @@ defmodule <%= @module %> do
     props = Map.new(props)
     expanded? = truthy?(Map.get(props, :expanded, false))
     body = if expanded?, do: content, else: List.wrap(Map.get(props, :preview, []))
+    id = Map.get(props, :id)
 
     ~MOB"""
     <Column fill_width={true}>
-      <Column fill_width={true} :if={body != []}>
-        {body}
-        <Spacer size={10} />
-      </Column>
+      {shown(body, id, expanded?)}
       {control(props, expanded?)}
     </Column>
     """
+    |> put(:id, id)
+  end
+
+  @doc """
+  The test tag on what the spoiler is showing, given its `id`: `-content` once
+  expanded, `-preview` while collapsed.
+
+  Collapsed content is not in the tree at all (the preview replaces it), so which
+  of the two exists is the answer to "is it open".
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>Spoiler.shown_tag("more", false)
+      "more-preview"
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>Spoiler.shown_tag("more", true)
+      "more-content"
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>Spoiler.shown_tag(nil, true)
+      nil
+  """
+  @spec shown_tag(id :: String.t() | nil, expanded? :: boolean()) :: String.t() | nil
+  def shown_tag(nil, _expanded?), do: nil
+  def shown_tag(id, true), do: "#{id}-content"
+  def shown_tag(id, _collapsed), do: "#{id}-preview"
+
+  @doc """
+  The test tag on the control, the padded tap target, given the spoiler's `id`.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>Spoiler.control_tag("more")
+      "more-control"
+  """
+  @spec control_tag(id :: String.t() | nil) :: String.t() | nil
+  def control_tag(nil), do: nil
+  def control_tag(id), do: "#{id}-control"
+
+  @doc """
+  The test tag on the control's label.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>Spoiler.label_tag("more")
+      "more-label"
+  """
+  @spec label_tag(id :: String.t() | nil) :: String.t() | nil
+  def label_tag(nil), do: nil
+  def label_tag(id), do: "#{id}-label"
+
+  # Nothing at all when there is nothing to show, rather than an empty column that
+  # still reserves the spacer's height.
+  defp shown([], _id, _expanded?), do: nil
+
+  defp shown(body, id, expanded?) do
+    ~MOB"""
+    <Column fill_width={true}>
+      {body}
+      <Spacer size={10} />
+    </Column>
+    """
+    |> put(:id, shown_tag(id, expanded?))
   end
 
   @doc """
@@ -94,17 +149,24 @@ defmodule <%= @module %> do
     color = Map.get(props, :color) || :primary
     pad = Map.get(props, :padding) || 10
 
-    node = ~MOB"""
+    id = Map.get(props, :id)
+
+    label =
+      put(~MOB(<Text text={text} text_size={:base} text_color={color} />), :id, label_tag(id))
+
+    ~MOB"""
     <Box padding_top={pad} padding_bottom={pad} fill_width={false}>
-      <Text text={text} text_size={:base} text_color={color} />
+      {label}
     </Box>
     """
-
-    case Event.handler(Map.get(props, :on_toggle)) do
-      nil -> node
-      tap -> %{node | props: Map.put(node.props, :on_tap, tap)}
-    end
+    |> put(:on_tap, Event.handler(Map.get(props, :on_toggle)))
+    |> put(:id, control_tag(id))
   end
+
+  # A prop left out is a prop the node never carries: `nil` serialises as the
+  # string "nil", and the bridge would tag the node with it.
+  defp put(node, _key, nil), do: node
+  defp put(node, key, value), do: %{node | props: Map.put(node.props, key, value)}
 
   defp truthy?(nil), do: false
   defp truthy?(false), do: false
