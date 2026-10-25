@@ -171,6 +171,8 @@ defmodule MishkaMob.Components.MishkaPopover do
   falls through to `MobNodeTypeColumn`, so an anchored panel degrades to the old
   stacked accordion — it neither errors nor blanks. Floating is Android-only for
   now, and `IOS_TODO.md` §17 records it.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/popover
   """
 
   import Mob.Sigil

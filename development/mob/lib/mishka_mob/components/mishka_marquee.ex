@@ -30,6 +30,8 @@ defmodule MishkaMob.Components.MishkaMarquee do
   | `id` | string | `nil` | Registers the scroller so a screen can drive it. |
 
   Not ported: the animation, `track_class`, `group_class` and `id` / `class`.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/marquee
   """
 
   alias MishkaMob.Components.MishkaScrollArea

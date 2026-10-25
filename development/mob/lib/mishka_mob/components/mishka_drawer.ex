@@ -235,6 +235,8 @@ defmodule MishkaMob.Components.MishkaDrawer do
   Also absent: focus trapping and `modal="trap-focus"` (there is no focus ring
   to trap), the iOS-style page indent behind an open drawer (it would mean
   wrapping the host's whole content tree), `aria-*` wiring, and `*_class`.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/drawer
   """
 
   require Logger

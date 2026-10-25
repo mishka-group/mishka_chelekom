@@ -155,6 +155,8 @@ defmodule <%= @module %> do
   Box's `height` unless the Box also has a `width` (item 1), so a childless
   full-width bar measures 0pt tall and draws nothing. On Android it is an
   invisible `height`-square child that the background covers.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/progress
   """
 
   import Mob.Sigil

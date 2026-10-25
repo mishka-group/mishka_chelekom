@@ -41,6 +41,8 @@ defmodule MishkaMob.Components.MishkaMenu do
   overlays do exist now — `MishkaMob.Components.Anchored`, which `popover`,
   `tooltip` and `preview_card` are built on — this component simply has not been
   moved onto one.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/menu
   """
 
   import Mob.Sigil

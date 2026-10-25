@@ -43,11 +43,14 @@ defmodule <%= @module %> do
   | `color` | color token / ARGB int | Mark's ink | Marked text colour. |
   | `text_color` | color token / ARGB int | `:on_surface` | Unmarked text colour. |
   | `text_size` | size token | `:base` | Size for both. |
+  | `id` | string | — | A native testTag on the block, and `<id>-0`, `<id>-1`, … on its marks in reading order. |
 
   A single fill applies to every match. For a line where each match carries its
   own colour — an `Error` in red beside a `Success` in green — compose
   `<%= @namespace %>.<%= @module_prefix_camel %>Mark` and `Text` directly; that is what the mark is
   for, and the web component draws the same line (it has one `mark_class`).
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/highlight
   """
 
   import Mob.Sigil
@@ -75,11 +78,36 @@ defmodule <%= @module %> do
         case_sensitive: Map.get(props, :case_sensitive, false)
       )
 
-    case Map.get(props, :wrap_at) do
-      budget when is_integer(budget) and budget > 0 -> lines(parts, budget, props)
-      _ -> line(parts, props)
-    end
+    block =
+      case Map.get(props, :wrap_at) do
+        budget when is_integer(budget) and budget > 0 -> lines(parts, budget, props)
+        _ -> line(parts, props)
+      end
+
+    tag(block, Map.get(props, :id))
   end
+
+  # Mob turns :id into a native testTag. A highlighted sentence is many nodes and
+  # the marks are the only ones a reader can point at, so a device test addresses
+  # them by their order in the sentence, across every wrapped line. The only Boxes
+  # in the tree are marks (the rest is Rows, Columns, Spacers and Text), which is
+  # what lets the count walk the tree rather than thread an index through `wrap/2`.
+  defp tag(block, nil), do: block
+
+  defp tag(block, id) do
+    {tagged, _count} = number_marks(block, id, 0)
+    %{tagged | props: Map.put(tagged.props, :id, id)}
+  end
+
+  defp number_marks(%{type: :box} = mark, id, count),
+    do: {%{mark | props: Map.put(mark.props, :id, "#{id}-#{count}")}, count + 1}
+
+  defp number_marks(%{children: children} = node, id, count) when is_list(children) do
+    {children, count} = Enum.map_reduce(children, count, &number_marks(&1, id, &2))
+    {%{node | children: children}, count}
+  end
+
+  defp number_marks(leaf, _id, count), do: {leaf, count}
 
   defp line(parts, props) do
     size = Map.get(props, :text_size) || :base

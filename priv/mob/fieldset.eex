@@ -24,6 +24,8 @@ defmodule <%= @module %> do
   | `corner_radius` | radius token / number | `nil` | Optional rounding. |
 
   Not ported: `id` and the `*_class` attrs.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/fieldset
   """
 
   import Mob.Sigil

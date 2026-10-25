@@ -58,7 +58,9 @@ defmodule MishkaMob.MixProject do
       # The device suite's report for CI: `mix e2e --report DIR` asks for it.
       {:junit_formatter, "~> 3.4", only: :test, runtime: false},
       {:mix_audit, "~> 2.1", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 1.4", only: [:dev], runtime: false}
+      {:dialyxir, "~> 1.4", only: [:dev], runtime: false},
+      {:mishka_chelekom, path: "../..", only: [:dev], runtime: false},
+      {:igniter, "~> 0.8.5", only: [:dev], runtime: false}
     ]
   end
 

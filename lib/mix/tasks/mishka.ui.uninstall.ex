@@ -548,11 +548,19 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     |> MobLocations.assign_namespace()
     |> Igniter.assign(:module_prefix, module_prefix || "")
     |> MobRegistry.write(only: surviving)
-    # The whitelist is rebuilt from the survivors too. Leaving a removed tag in
-    # it is the worse of the two failures: `~MOB` would go on accepting a tag
-    # nothing registers any more, so the markup compiles clean and renders
-    # nothing — precisely what the warning exists to announce.
-    |> MobRegistry.whitelist(only: surviving)
+    # The removed tags leave `config :mob, :extra_tags` too. Leaving one in is the
+    # worse of the two failures: `~MOB` would go on accepting a tag nothing
+    # registers any more, so the markup compiles clean and renders nothing —
+    # precisely what the warning exists to announce.
+    |> unwhitelist_removed(surviving)
+  end
+
+  # The removed files are still on disk here, so `tag_names/2` over everything
+  # minus `tag_names/2` over the survivors is exactly the tags that went away.
+  defp unwhitelist_removed(igniter, surviving) do
+    removed = MobRegistry.tag_names(igniter) -- MobRegistry.tag_names(igniter, only: surviving)
+
+    MobRegistry.unwhitelist(igniter, removed)
   end
 
   defp find_dependency_warnings(configs_remaining, removing) do

@@ -130,22 +130,22 @@ defmodule Mix.Tasks.Mishka.Ui.UninstallMobTest do
       assert registry =~ "{:pill, Test.Components.Pill}"
     end
 
-    test "takes the removed tag out of Mob's ~MOB whitelist too" do
-      tags = "deps/mob/priv/tags/android.txt"
+    test "takes the removed tag out of :extra_tags too, leaving the rest" do
+      config = "import Config\n\nconfig :mob, :extra_tags, ~w(\n  MishkaChip\n)\n"
 
       igniter =
-        [files: %{tags => "Column\nText\n", "deps/mob/priv/tags/ios.txt" => "Column\nText\n"}]
+        [files: %{"config/config.exs" => config}]
         |> test_project_with_formatter()
         |> Igniter.compose_task(GenMobComponents, ["chip,pill", "--yes"])
         |> Igniter.compose_task(Uninstall, ["chip", "--mob", "--yes"])
 
-      whitelist = content(igniter, tags)
+      list = content(igniter, "config/config.exs")
 
-      # A whitelisted tag that nothing registers is the quiet failure: the markup
+      # A declared tag that nothing registers is the quiet failure: the markup
       # compiles without a warning and then renders nothing at all.
-      refute whitelist =~ "Chip"
-      assert whitelist =~ "Pill"
-      assert whitelist =~ "Column"
+      refute list =~ ~r/\bChip\b/
+      assert list =~ "Pill"
+      assert list =~ "MishkaChip"
     end
 
     test "is deleted when the last mob component goes" do

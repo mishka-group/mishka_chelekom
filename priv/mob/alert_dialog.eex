@@ -111,6 +111,8 @@ defmodule <%= @module %> do
   dismiss, which cannot happen here), and `role="alertdialog"` / `aria-modal` —
   Mob's renderers expose no accessibility semantics on either platform, so the
   modality is behavioural rather than announced.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/alert-dialog
   """
 
   require Logger

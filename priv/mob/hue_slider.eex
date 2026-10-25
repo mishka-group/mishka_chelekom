@@ -35,6 +35,8 @@ defmodule <%= @module %> do
   Not ported: `on_commit` (the bridge has no release event — see
   `<%= @namespace %>.<%= @module_prefix_camel %>Slider`), `step`/`large_step` (keyboard nudging),
   and `name`/`form`/`id`.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/hue-slider
   """
 
   import Mob.Sigil

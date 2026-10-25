@@ -297,75 +297,104 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.MobTest do
     end
   end
 
-  describe "the ~MOB tag whitelist" do
-    @android "deps/mob/priv/tags/android.txt"
-    @ios "deps/mob/priv/tags/ios.txt"
+  describe "the ~MOB tag declaration (config :mob, :extra_tags)" do
+    @config "config/config.exs"
+    @seeded "import Config\n\nconfig :mob, :extra_tags, ~w(\n  MishkaChip\n)\n"
 
-    # Stand in for the whitelist Mob ships. The generator only touches these
-    # when they are already there, so without them there is nothing to assert.
-    defp gen_with_tags(args) do
-      [files: %{@android => "Column\nText\n", @ios => "Column\nText\n"}]
+    defp gen_with_config(args, config \\ @seeded) do
+      [files: %{@config => config}]
       |> test_project_with_formatter()
       |> Igniter.compose_task(Mob, args)
+    end
+
+    # Read the way Mob does — evaluating the config — so a ~w() sigil and a plain
+    # list both come back as the same thing.
+    defp tags(igniter) do
+      path = Path.join(System.tmp_dir!(), "extra_tags_#{System.unique_integer([:positive])}.exs")
+      File.write!(path, content(igniter, @config))
+      on_exit(fn -> File.rm(path) end)
+
+      path |> Config.Reader.read!() |> get_in([:mob, :extra_tags]) |> Enum.map(&to_string/1)
     end
 
     # Registering a composite makes the tag render; it does not make it compile
     # without a warning, and on --warnings-as-errors that difference is what
     # decides whether the tag form can be used at all.
     test "adds the generated tag, as ~MOB spells it" do
-      igniter = gen_with_tags(["chip", "--yes"])
-
-      assert content(igniter, @android) =~ "Chip"
-      assert content(igniter, @ios) =~ "Chip"
+      assert "Chip" in tags(gen_with_config(["chip", "--yes"]))
     end
 
-    test "keeps Mob's own tags — the block is fenced, not a replacement" do
-      android = gen_with_tags(["chip", "--yes"]) |> content(@android)
+    test "keeps tags already in the list" do
+      assert "MishkaChip" in tags(gen_with_config(["chip", "--yes"]))
+    end
 
-      assert android =~ "Column"
-      assert android =~ "Text"
+    test "creates the setting when the app has none" do
+      igniter = gen_with_config(["chip", "--yes"], "import Config\n")
+
+      assert tags(igniter) == ["Chip"]
     end
 
     test "carries --module-prefix, which is why it reads the registry not the files" do
-      android = gen_with_tags(["chip", "--module-prefix", "acme_", "--yes"]) |> content(@android)
-
-      assert android =~ "AcmeChip"
+      assert "AcmeChip" in tags(gen_with_config(["chip", "--module-prefix", "acme_", "--yes"]))
     end
 
-    test "whitelists siblings pulled in during the same run" do
-      android = gen_with_tags(["close_button", "--yes"]) |> content(@android)
+    test "declares siblings pulled in during the same run" do
+      tags = tags(gen_with_config(["close_button", "--yes"]))
 
-      assert android =~ "CloseButton"
-      assert android =~ "ActionIcon"
+      assert "CloseButton" in tags
+      assert "ActionIcon" in tags
     end
 
-    # @known_tags is baked at MOB's compile time, so writing the file and
-    # stopping there would leave the sigil serving the old list.
-    test "recompiles :mob, without which the new file changes nothing" do
-      assert {"deps.compile", ["mob", "--force"]} in gen_with_tags(["chip", "--yes"]).tasks
+    # Mob reads the setting at each ~MOB call site's compile time and Mix does
+    # not track that read, so already-compiled screens need a forced compile.
+    test "queues compile --force, without which compiled screens keep warning" do
+      assert {"compile", ["--force"]} in gen_with_config(["chip", "--yes"]).tasks
     end
 
-    test "--no-tags leaves Mob's whitelist alone" do
-      igniter = gen_with_tags(["chip", "--no-tags", "--yes"])
+    test "never writes into Mob's own files under deps/" do
+      igniter = gen_with_config(["chip", "--yes"])
 
-      # The file is seeded, so it is present either way — untouched is the claim.
-      assert content(igniter, @android) == "Column\nText\n"
-      refute {"deps.compile", ["mob", "--force"]} in igniter.tasks
+      refute Enum.any?(Map.keys(igniter.rewrite.sources), &String.starts_with?(&1, "deps/"))
     end
 
-    # Re-running a generator must not accumulate duplicate tags or leave stale
-    # ones behind, which is what appending to the block instead of rebuilding it
-    # would do.
-    test "is idempotent — generating twice yields the same block" do
-      once = gen_with_tags(["chip", "--yes"]) |> content(@android)
+    test "--no-tags leaves :extra_tags alone" do
+      igniter = gen_with_config(["chip", "--no-tags", "--yes"])
+
+      assert tags(igniter) == ["MishkaChip"]
+      refute {"compile", ["--force"]} in igniter.tasks
+    end
+
+    test "edits a plain list too, keeping what is in it" do
+      tags =
+        tags(
+          gen_with_config(
+            ["chip", "--yes"],
+            "import Config\n\nconfig :mob, :extra_tags, [:my_tag]\n"
+          )
+        )
+
+      assert "my_tag" in tags
+      assert "Chip" in tags
+    end
+
+    test "says so when the value is computed, instead of rewriting it" do
+      computed = "import Config\n\nconfig :mob, :extra_tags, Enum.map([:a], & &1)\n"
+      igniter = gen_with_config(["chip", "--yes"], computed)
+
+      assert content(igniter, @config) =~ "Enum.map"
+      assert Enum.any?(igniter.warnings, &(&1 =~ "Chip"))
+    end
+
+    # Re-running a generator must not accumulate duplicate tags.
+    test "is idempotent — generating twice yields the same list" do
+      once = gen_with_config(["chip", "--yes"]) |> content(@config)
 
       twice =
-        [files: %{@android => once, @ios => once}]
+        [files: %{@config => once}]
         |> test_project_with_formatter()
         |> Igniter.compose_task(Mob, ["chip", "--yes"])
-        |> content(@android)
 
-      assert twice == once
+      assert tags(twice) == ["MishkaChip", "Chip"]
     end
   end
 

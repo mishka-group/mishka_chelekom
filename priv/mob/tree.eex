@@ -166,6 +166,8 @@ defmodule <%= @module %> do
   attrs, and the `<:node>` slot — that one renders a custom *label*, which is a
   different thing from the `<<%= @module_prefix_camel %>TreeNode>` above; a node's `:icon` and
   `:meta` keys are the parts of a custom label a row has room for.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/tree
   """
 
   import Mob.Sigil

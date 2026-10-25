@@ -76,6 +76,8 @@ defmodule MishkaMob.Components.MishkaMeter do
   `:progress` stays the default because the drawn gauge inherits none of
   Material's metrics, and no existing caller's pixels may move. On iOS, prefer
   the fixed-`width` form — see `MishkaProgress`'s "Platform note".
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/meter
   """
 
   alias MishkaMob.Components.MishkaProgress

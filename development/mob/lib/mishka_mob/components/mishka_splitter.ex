@@ -56,6 +56,8 @@ defmodule MishkaMob.Components.MishkaSplitter do
 
   Not ported: keyboard resizing (`Arrow`/`Home`/`End` — there is no focus ring
   on a Mob canvas to receive the keys) and `*_class`.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/splitter
   """
 
   import Mob.Sigil

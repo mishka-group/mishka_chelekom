@@ -65,6 +65,8 @@ defmodule MishkaMob.Components.MishkaRadioGroup do
 
   Not ported: `name`, `required`, `form` (HTML form plumbing) and `id` /
   `*_class`. `readonly` collapses into `disabled`.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/radio-group
   """
 
   import Mob.Sigil

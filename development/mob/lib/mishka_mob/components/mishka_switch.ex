@@ -211,6 +211,8 @@ defmodule MishkaMob.Components.MishkaSwitch do
   switch looks normal but cannot be moved. Pair it with a muted label when that
   distinction matters, or, in drawn mode, with `disabled_track_color` /
   `disabled_thumb_color`.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/switch
   """
 
   import Mob.Sigil

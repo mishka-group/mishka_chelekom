@@ -16,6 +16,8 @@ defmodule MishkaMob.Components.MishkaCloseButton do
 
   `label` is not ported — it is an `aria-label`, and Mob exposes no accessible
   name on a box.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/close-button
   """
 
   alias MishkaMob.Components.MishkaActionIcon

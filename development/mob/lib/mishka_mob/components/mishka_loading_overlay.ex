@@ -50,6 +50,8 @@ defmodule MishkaMob.Components.MishkaLoadingOverlay do
   a line of text, so a device test that wants to know whether the region is
   covered, or whether the label sits on the content's centre line, has nothing
   else to hold on to. Both are left off when `id` is unset.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/loading-overlay
   """
 
   import Mob.Sigil

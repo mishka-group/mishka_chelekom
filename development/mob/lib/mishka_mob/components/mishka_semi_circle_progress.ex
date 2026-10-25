@@ -55,6 +55,8 @@ defmodule MishkaMob.Components.MishkaSemiCircleProgress do
   `id`. The web `inner_block` slot — an arbitrary centred readout — is a string
   here (`value_text`), because the readout is painted into the canvas and a
   canvas draws ops, not nodes.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/semi-circle-progress
   """
 
   import Mob.Sigil

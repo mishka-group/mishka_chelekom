@@ -130,6 +130,8 @@ defmodule MishkaMob.Components.MishkaFloatingWindow do
   role or a label on), `class` / `handle_class` / `body_class` (no CSS), and
   Shift+Arrow's 1px step — there are no modifier keys on a touch screen, so
   `step` is the one increment.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/floating-window
   """
 
   import Mob.Sigil

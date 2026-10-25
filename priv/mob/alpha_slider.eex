@@ -26,6 +26,8 @@ defmodule <%= @module %> do
 
   Not ported: `on_commit`, `step`/`large_step`, `name`/`form`/`id` — see
   `<%= @namespace %>.<%= @module_prefix_camel %>Slider` for why.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/alpha-slider
   """
 
   import Mob.Sigil

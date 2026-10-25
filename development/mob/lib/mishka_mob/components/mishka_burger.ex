@@ -26,6 +26,8 @@ defmodule MishkaMob.Components.MishkaBurger do
 
   Not ported: `label` and `controls` (an `aria-label` and `aria-controls`; Mob
   exposes no accessible name), and `id` / `*_class`.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/burger
   """
 
   import Mob.Sigil

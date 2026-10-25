@@ -36,6 +36,8 @@ defmodule MishkaMob.Components.MishkaCheckbox do
   `*_class`, and `parent` — the tristate "select all" behaviour is the screen's
   reducer over its children, and `toggle/1` is the piece of it worth sharing.
   `readonly` collapses into `disabled`: both simply omit the handler.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/checkbox
   """
 
   import Mob.Sigil

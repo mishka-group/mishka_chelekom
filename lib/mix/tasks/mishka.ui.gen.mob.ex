@@ -43,23 +43,23 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob do
   ## Writing components as tags
 
   Registering a composite makes `<Drawer>` *render*. It does not make it compile
-  quietly: `~MOB` validates tag names against a whitelist baked into Mob, and a
-  runtime registration is invisible to a compile-time check, so the sigil warns
-  that the tag is unknown. Mob documents that as expected — but on
-  `--warnings-as-errors` an expected warning is indistinguishable from a real
-  one, and the tag form becomes unusable.
+  quietly: `~MOB` validates tag names at compile time, and a runtime registration
+  is invisible to that check, so the sigil warns that the tag is unknown. On
+  `--warnings-as-errors` that makes the tag form unusable.
 
-  So generating a component also adds its tag to that whitelist and recompiles
-  `:mob`, which is what lets you write
+  Mob's documented fix is `config :mob, :extra_tags`, so generating a component
+  adds its tag to that list in your `config/config.exs` and queues
+  `mix compile --force` (Mob does not track the config read). That is what lets
+  you write
 
       <AcmeDrawer open={@open} />
 
   instead of `{drawer(open: @open)}`. The tags come from the registry above
-  rather than from filenames, so `--module-prefix` is carried through. The
-  change is a fenced block in `deps/mob/priv/tags/`, shown in the diff like any
-  other; `mix deps.get` discards it and re-running the generator restores it.
+  rather than from filenames, so `--module-prefix` is carried through. Only
+  missing tags are added to the `~w(...)` list; entries of yours or of other kits
+  are left alone, and nothing inside `deps/` is touched.
 
-  Pass `--no-tags` to leave Mob's whitelist alone and call the functions.
+  Pass `--no-tags` to leave `:extra_tags` alone and call the functions.
 
   The shared `Event`/`Color` modules are vendored automatically when a component
   needs them (see `mix mishka.ui.gen.mob.kit`).
@@ -79,7 +79,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob do
   * `--sub` - Marks this as a dependency sub-generation
   * `--no-save` - Use prefixes without saving them to config
   * `--no-register` - Do not touch the composite-tag registry
-  * `--no-tags` - Do not add the tags to Mob's `~MOB` whitelist
+  * `--no-tags` - Do not add the tags to `config :mob, :extra_tags`
   * `--no-kit` - Do not vendor the shared support modules
   * `--yes` - Apply without prompts
   """

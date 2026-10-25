@@ -22,6 +22,8 @@ defmodule <%= @module %> do
   The weight prop is `font_weight`, not `weight`. Both bridges read `font_weight`
   for typography; a bare `weight` is a Row/Column **layout** weight, so passing
   it here would style nothing.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/number-formatter
   """
 
   import Mob.Sigil

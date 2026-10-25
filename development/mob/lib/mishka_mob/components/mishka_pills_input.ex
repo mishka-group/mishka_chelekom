@@ -60,6 +60,8 @@ defmodule MishkaMob.Components.MishkaPillsInput do
   chunks by count, which is exactly right for that case.
 
   Not ported: `id` / `input_name` (form plumbing) and the `*_class` attrs.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/pills-input
   """
 
   import Mob.Sigil

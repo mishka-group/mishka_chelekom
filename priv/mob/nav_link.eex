@@ -55,6 +55,8 @@ defmodule <%= @module %> do
   `label_class` / `children_class` / `rest` (no CSS, no DOM attributes), the
   `inner_block` label slot (children are the nested links here), or
   `aria-current` — no node type in the bridge carries accessibility semantics.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/nav-link
   """
 
   import Mob.Sigil

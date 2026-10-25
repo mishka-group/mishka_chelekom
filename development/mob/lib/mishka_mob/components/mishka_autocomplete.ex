@@ -63,6 +63,8 @@ defmodule MishkaMob.Components.MishkaAutocomplete do
   (there is no focus ring to highlight), `inline` (typing the completion into
   the field ahead of the caret fights every mobile IME) and the `*_class` attrs.
   `id` IS ported, as a test handle.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/autocomplete
   """
 
   alias MishkaMob.Components.MishkaCombobox

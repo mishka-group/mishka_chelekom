@@ -48,6 +48,8 @@ defmodule MishkaMob.Components.MishkaContextMenu do
       def handle_info({:tap, {:hold, id}}, socket), do: {:noreply, assign(socket, :open, id)}
 
   Not ported: placement at the pointer, and `id` / `*_class`.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/context-menu
   """
 
   alias MishkaMob.Components.{Event, MishkaMenu}

@@ -166,6 +166,8 @@ defmodule MishkaMob.Components.MishkaPreviewCard do
   the system back gesture — the screen owns it), the `<:arrow>` slot (the arrow
   is a glyph this component draws itself, switched on with `arrow`), and the
   `*_class` attrs.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/preview-card
   """
 
   import Mob.Sigil

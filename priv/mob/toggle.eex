@@ -109,6 +109,8 @@ defmodule <%= @module %> do
 
   Not ported: `name`, `value`, `unchecked_value`, `form` (HTML form plumbing)
   and the `*_class` attrs.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/toggle
   """
 
   import Mob.Sigil
