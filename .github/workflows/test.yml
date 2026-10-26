@@ -66,6 +66,10 @@ jobs:
       - name: Check formatting
         run: mix format --check-formatted
 
+      # mix_audit; Hex's own audit is hex-audit.yml.
+      - name: Audit dependencies
+        run: mix deps.audit
+
       - name: Create formatter for tests
         run: |
           echo '[inputs: ["*.{ex,exs}", "{config,lib,test}/**/*.{ex,exs}"]]' > /tmp/.formatter.exs
