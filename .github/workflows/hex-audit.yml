@@ -1,0 +1,44 @@
+name: Hex audit
+
+# Hex's own check of mix.lock: retired releases, and releases with a security advisory. The report
+# goes to code scanning, which lists the findings in the Security tab and marks them on mix.lock in
+# pull requests. It also runs every day, because an advisory can be published for a release that is
+# already locked, and nothing else here would notice before the next push.
+on:
+  push:
+    branches: [master]
+  pull_request:
+  schedule:
+    - cron: "17 5 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  hex-audit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: erlef/setup-beam@v1.24.1
+        with:
+          otp-version: "29.0.5"
+          elixir-version: "1.20.4"
+      # The audit reads mix.lock and the Hex registry; fetching is enough, nothing is compiled.
+      - run: mix deps.get
+
+      # The SARIF report prints nothing, so a failing audit runs again in the default format to name
+      # the packages in the log. Both exit non-zero while a finding is open.
+      - run: mix hex.audit --format sarif --output hex-audit.sarif || mix hex.audit
+
+      # A pull request from a fork gets a read-only token and cannot upload.
+      - uses: github/codeql-action/upload-sarif@v4
+        if: always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+        with:
+          sarif_file: hex-audit.sarif
+          category: hex-audit
