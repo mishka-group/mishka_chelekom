@@ -1,0 +1,32 @@
+# Dependabot opens one pull request per ecosystem and week: every version update of an ecosystem is
+# grouped into a single PR and checked weekly, so keeping up costs one review a week and not one per
+# package. Security updates are not bound to this schedule: Dependabot opens them as soon as an
+# advisory is published, when they are enabled in the repository settings.
+
+version: 2
+
+updates:
+  # lockfile-only: a library never widens its own mix.exs requirements, only mix.lock moves.
+  - package-ecosystem: mix
+    directory: /
+    schedule:
+      interval: weekly
+    versioning-strategy: lockfile-only
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      hex-dependencies:
+        patterns:
+          - "*"
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      github-actions:
+        applies-to: version-updates
+        patterns:
+          - "*"
