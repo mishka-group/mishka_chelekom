@@ -6,23 +6,23 @@
       {
         "name": "checkbox",
         "attrs": {
-          "value": "product_updates"
+          "value": "news"
         },
-        "body": "Product updates"
+        "body": "News and updates"
       },
       {
         "name": "checkbox",
         "attrs": {
-          "value": "security"
+          "value": "events"
         },
-        "body": "Security alerts"
+        "body": "Upcoming events"
       },
       {
         "name": "checkbox",
         "attrs": {
-          "value": "billing"
+          "value": "tips"
         },
-        "body": "Billing receipts"
+        "body": "Tips and guides"
       }
     ]
   },

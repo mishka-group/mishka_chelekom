@@ -7,27 +7,27 @@
         "name": "checkbox",
         "body": "",
         "attrs": {
-          "value": "starter",
-          "title": "Starter",
-          "description": "Up to 3 projects and 5 GB of asset storage"
+          "value": "one",
+          "title": "First option",
+          "description": "What choosing this one adds."
         }
       },
       {
         "name": "checkbox",
         "body": "",
         "attrs": {
-          "value": "growth",
-          "title": "Growth",
-          "description": "Unlimited projects and 50 GB of asset storage"
+          "value": "two",
+          "title": "Second option",
+          "description": "What this one adds."
         }
       },
       {
         "name": "checkbox",
         "body": "",
         "attrs": {
-          "value": "scale",
-          "title": "Scale",
-          "description": "Dedicated infrastructure and priority support"
+          "value": "three",
+          "title": "Third option",
+          "description": "And what this one adds."
         }
       }
     ]

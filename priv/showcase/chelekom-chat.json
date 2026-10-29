@@ -1,7 +1,7 @@
 {
   "name": "chelekom-chat",
   "furnishing": {
-    "body": "<.component component_name=\"chelekom-chat-section\" site=\"Global\">\n  <div class=\"font-semibold\">Mona Aghili</div>\n  <p>Just pushed the fix &mdash; can you pull and re-run the migration?</p>\n  <:status time=\"09:41\" deliver=\"Delivered\" />\n</.component>",
+    "body": "<.component component_name=\"chelekom-chat-section\" site=\"Global\">\n  <div class=\"font-semibold\">Sam Lee</div>\n  <p>Hi! Are we still on for tomorrow at ten?</p>\n  <:status time=\"09:41\" deliver=\"Read\" />\n</.component>",
     "slots": []
   },
   "examples": [

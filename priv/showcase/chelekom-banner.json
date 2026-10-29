@@ -1,7 +1,7 @@
 {
   "name": "chelekom-banner",
   "furnishing": {
-    "body": "<div class=\"flex items-center gap-2\">\n  <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-bell\" class=\"size-4 shrink-0\" />\n  <span class=\"text-sm\">Scheduled publishing is now available on every plan.</span>\n</div>",
+    "body": "<div class=\"flex items-center gap-2\">\n  <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-bell\" class=\"size-4 shrink-0\" />\n  <span class=\"text-sm\">Share a short announcement with everyone who visits.</span>\n</div>",
     "slots": []
   },
   "examples": [

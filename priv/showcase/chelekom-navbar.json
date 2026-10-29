@@ -8,7 +8,7 @@
         "attrs": {
           "class": "flex items-center gap-2"
         },
-        "body": "<.link navigate=\"/\" class=\"flex items-center gap-2\">\n  <span class=\"text-lg font-semibold tracking-tight\">Northwind</span>\n</.link>"
+        "body": "<.link navigate=\"/\" class=\"flex items-center gap-2\">\n  <span class=\"text-lg font-semibold tracking-tight\">Your site</span>\n</.link>"
       },
       {
         "name": "list",
@@ -23,13 +23,6 @@
           "class": "text-sm hover:opacity-70"
         },
         "body": "<.link navigate=\"/about\">About</.link>"
-      },
-      {
-        "name": "list",
-        "attrs": {
-          "class": "text-sm hover:opacity-70"
-        },
-        "body": "<.link navigate=\"/pricing\">Pricing</.link>"
       },
       {
         "name": "list",

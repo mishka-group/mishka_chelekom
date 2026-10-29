@@ -5,27 +5,27 @@
     "slots": [
       {
         "name": "tab",
-        "body": "Description"
+        "body": "Overview"
       },
       {
         "name": "tab",
-        "body": "Specification"
+        "body": "Details"
       },
       {
         "name": "tab",
-        "body": "Delivery"
+        "body": "Questions"
       },
       {
         "name": "panel",
-        "body": "<p class=\"text-sm leading-6 opacity-80\">A hand-finished walnut desk shelf that lifts your monitor to eye level and gives keyboards, notebooks and cables somewhere to live.</p>"
+        "body": "<p class=\"text-sm leading-6 opacity-80\">Start with a short summary of what this is about.</p>"
       },
       {
         "name": "panel",
-        "body": "<p class=\"text-sm leading-6 opacity-80\">600 x 220 x 120 mm, solid walnut with a hardwax oil finish. Holds up to 25 kg and ships flat with the tools included.</p>"
+        "body": "<p class=\"text-sm leading-6 opacity-80\">Go deeper here, for readers who want the specifics.</p>"
       },
       {
         "name": "panel",
-        "body": "<p class=\"text-sm leading-6 opacity-80\">Free tracked delivery on orders over $60. Most parcels arrive within three working days, and returns stay open for 30 days.</p>"
+        "body": "<p class=\"text-sm leading-6 opacity-80\">Answer the questions people ask most.</p>"
       }
     ]
   },

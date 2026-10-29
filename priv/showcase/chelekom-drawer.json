@@ -1,7 +1,7 @@
 {
   "name": "chelekom-drawer",
   "furnishing": {
-    "body": "<nav class=\"mt-2 space-y-1 text-sm\">\n  <a href=\"/\" class=\"block rounded-md px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Home</a>\n  <a href=\"/features\" class=\"block rounded-md px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Features</a>\n  <a href=\"/pricing\" class=\"block rounded-md px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Pricing</a>\n  <a href=\"/blog\" class=\"block rounded-md px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Blog</a>\n  <a href=\"/contact\" class=\"block rounded-md px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Contact</a>\n</nav>",
+    "body": "<nav class=\"mt-2 space-y-1 text-sm\">\n  <a href=\"/\" class=\"block rounded-md px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Home</a>\n  <a href=\"/about\" class=\"block rounded-md px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">About</a>\n  <a href=\"/blog\" class=\"block rounded-md px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Blog</a>\n  <a href=\"/contact\" class=\"block rounded-md px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Contact</a>\n</nav>",
     "slots": []
   },
   "examples": [

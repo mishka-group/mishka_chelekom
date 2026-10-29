@@ -83,33 +83,67 @@ defmodule MishkaChelekom.CmsBundle.ShowcaseCoverageTest do
 
   # WHAT LANDS ON A DROP IS ANY PAGE'S. An example is browsed and picked; a furnishing is what a page
   # gets the moment a component is dragged onto it, before the author has chosen anything, so it has
-  # to read as a placeholder any page could keep. The timeline's three steps were a parcel's journey,
-  # "Order placed" to "Out for delivery", on every page a timeline was dropped onto.
-  test "a timeline dropped on a page holds steps any page could use" do
-    body = entry("priv/showcase/chelekom-timeline.json")["furnishing"]["body"]
+  # to read as a placeholder any page could keep. The drop defaults read like one shop's pages: a
+  # timeline tracked a parcel from "Order placed" to "Out for delivery", the tabs sold a walnut desk
+  # shelf, a strong said "Free delivery on orders over $50" and an h6 said "Shipping and returns".
+  # A page about anything else had to clear all of that first, so no furnishing sells, prices or
+  # ships anything.
+  @shop_copy ~r/\b(?:orders?|parcels?|courier|deliver(?:y|ies|ed)|warehouse|shipping|shop(?:s|ping)?|carts?|checkout|refunds?|pric(?:e|es|ing)|billing|licen[cs]es?|discounts?|coupons?|invoices?|receipts?|purchases?|buy(?:s|ing|ers?)?|retail|freight|in stock|customers?|products?|pay(?:ment)?s?|paid)\b|[$€£¥]\s?\d/iu
 
-    for word <- ~w(order parcel courier delivery warehouse) do
-      refute body =~ ~r/\b#{word}/i, "the timeline's drop default mentions #{inspect(word)}"
-    end
+  test "no component dropped on a page arrives with a shop's copy" do
+    shop_copy =
+      for path <- @showcase,
+          furnishing = entry(path)["furnishing"],
+          is_map(furnishing),
+          text <- furnishing_text(furnishing),
+          [match | _] <- [Regex.run(@shop_copy, text)],
+          uniq: true,
+          do: {Path.basename(path), String.downcase(match)}
+
+    assert shop_copy == [],
+           "these drop defaults read like a shop's page: #{inspect(shop_copy)}"
   end
 
-  # AND THE SHIPPED KIT DROPS WHAT THE FILE SAYS. The bundle in `priv/cms_ui_kits/` is what a CMS
+  # Every string a drop writes onto the page: the body, each slot's body, and the attribute values on
+  # the component and on its slots (a timeline's steps and a gallery's captions are attributes).
+  defp furnishing_text(furnishing) do
+    slots = furnishing["slots"] || []
+
+    [furnishing["body"], attribute_text(furnishing["attrs"])] ++
+      Enum.flat_map(slots, &[&1["body"], attribute_text(&1["attrs"])])
+  end
+
+  defp attribute_text(value) when is_map(value),
+    do: value |> Map.values() |> Enum.map_join(" ", &attribute_text/1)
+
+  defp attribute_text(value) when is_list(value), do: Enum.map_join(value, " ", &attribute_text/1)
+  defp attribute_text(nil), do: ""
+  defp attribute_text(value), do: to_string(value)
+
+  # AND THE SHIPPED KIT DROPS WHAT THE FILES SAY. The bundle in `priv/cms_ui_kits/` is what a CMS
   # installs, and it is regenerated from these files by an export; a furnishing edited here and not
   # carried into the bundle is a fix no CMS ever sees.
-  test "the shipped kit drops the timeline's showcase furnishing" do
-    [shipped] =
+  test "the shipped kit drops every component's showcase furnishing" do
+    shipped =
+      "priv/cms_ui_kits/chelekom.json"
+      |> File.read!()
+      |> Jason.decode!()
+      |> Map.fetch!("components")
+      |> Map.new(&{&1["name"], get_in(&1, ["extra", "furnishing"])})
+
+    names =
+      for path <- @showcase, entry = entry(path), is_map(entry["furnishing"]), do: entry["name"]
+
+    stale =
       for component <-
-            "priv/cms_ui_kits/chelekom.json"
-            |> File.read!()
-            |> Jason.decode!()
-            |> Map.fetch!("components"),
-          component["name"] == "chelekom-timeline",
-          do: component
+            Showcase.overlay(Enum.map(names, &%{"name" => &1, "extra" => %{}}), "priv/showcase"),
+          shipped[component["name"]] != component["extra"]["furnishing"],
+          do: component["name"]
 
-    [overlaid] =
-      Showcase.overlay([%{"name" => "chelekom-timeline", "extra" => %{}}], "priv/showcase")
+    assert length(names) > 100, "no showcase file carries a furnishing to compare"
 
-    assert shipped["extra"]["furnishing"] == overlaid["extra"]["furnishing"]
+    assert stale == [],
+           "the shipped kit drops something other than these showcase furnishings: #{inspect(stale)}"
   end
 
   # THE GAP THIS CORPUS ACTUALLY DEVELOPS: a component is added and its showcase file is not.

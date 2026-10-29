@@ -1,7 +1,7 @@
 {
   "name": "chelekom-stat-group",
   "furnishing": {
-    "body": "<.component component_name=\"chelekom-stat\" site=\"Global\" title=\"Teams onboarded\" value=\"12,400\" description=\"Across 38 countries\" />\n<.component component_name=\"chelekom-stat\" site=\"Global\" title=\"Platform uptime\" value=\"99.98%\" description=\"Measured over the last 12 months\" />\n<.component component_name=\"chelekom-stat\" site=\"Global\" title=\"Customer rating\" value=\"4.9/5\" description=\"From 2,100 verified reviews\" />",
+    "body": "<.component component_name=\"chelekom-stat\" site=\"Global\" title=\"Members\" value=\"1,200\" description=\"And growing every week\" />\n<.component component_name=\"chelekom-stat\" site=\"Global\" title=\"Events\" value=\"48\" description=\"Held over the last year\" />\n<.component component_name=\"chelekom-stat\" site=\"Global\" title=\"Countries\" value=\"12\" description=\"Where people join from\" />",
     "slots": []
   },
   "examples": [

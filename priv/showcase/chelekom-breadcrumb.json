@@ -14,14 +14,14 @@
       {
         "name": "item",
         "attrs": {
-          "link": "/shop"
+          "link": "/blog"
         },
-        "body": "Headphones"
+        "body": "Blog"
       },
       {
         "name": "item",
         "attrs": {},
-        "body": "Studio Pro X2"
+        "body": "Getting started"
       }
     ]
   },

@@ -12,17 +12,17 @@
       "media": [
         {
           ":src": "/images/scene-1.svg",
-          ":alt": "Rebrand for Parsian Retail",
+          ":alt": "A brand identity project",
           ":category": "Branding"
         },
         {
           ":src": "/images/scene-2.svg",
-          ":alt": "Booking flow for Alborz Travel",
+          ":alt": "A website project",
           ":category": "Web design"
         },
         {
           ":src": "/images/scene-3.svg",
-          ":alt": "Autumn catalogue spread",
+          ":alt": "A printed brochure",
           ":category": "Print"
         }
       ]

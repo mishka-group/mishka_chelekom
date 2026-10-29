@@ -1196,7 +1196,7 @@
         ],
         "function": "card",
         "furnishing": {
-          "body": "<div class=\"p-4 space-y-2\">\n  <h3 class=\"text-lg font-semibold\">Weekly product digest</h3>\n  <p class=\"text-sm leading-6\">Three releases shipped this week, the checkout redesign is in review, and support tickets are down 14 percent.</p>\n</div>",
+          "body": "<div class=\"p-4 space-y-2\">\n  <h3 class=\"text-lg font-semibold\">Getting started</h3>\n  <p class=\"text-sm leading-6\">A short summary of what this card is about and where it leads.</p>\n</div>",
           "slots": []
         },
         "module_attributes": [
@@ -3454,7 +3454,7 @@
         ],
         "function": "card_title",
         "furnishing": {
-          "body": "Monthly usage summary",
+          "body": "Getting started",
           "slots": []
         },
         "module_attributes": [
@@ -7900,7 +7900,7 @@
         ],
         "function": "card_content",
         "furnishing": {
-          "body": "Every plan includes unlimited projects, 50 GB of asset storage, and support that answers within one business day.",
+          "body": "A short summary of what this card is about, in two or three lines.",
           "slots": []
         },
         "module_attributes": [
@@ -15995,11 +15995,11 @@
         ],
         "function": "blockquote",
         "furnishing": {
-          "body": "Switching to Northwind cut our weekly planning meeting from ninety minutes to fifteen. The first Monday nobody had anything to argue about, I knew it had worked.",
+          "body": "A quote worth repeating, in the words of the person who said it.",
           "slots": [
             {
               "attrs": {},
-              "body": "<span class=\"pe-3 font-semibold\">Nadia Kessler</span>\n<span class=\"ps-3 opacity-70\">VP Customer Success, Loop Freight</span>",
+              "body": "<span class=\"pe-3 font-semibold\">Alex Morgan</span>\n<span class=\"ps-3 opacity-70\">Writer</span>",
               "name": "caption"
             }
           ]
@@ -19157,27 +19157,27 @@
           "body": "",
           "slots": [
             {
-              "body": "Description",
+              "body": "Overview",
               "name": "tab"
             },
             {
-              "body": "Specification",
+              "body": "Details",
               "name": "tab"
             },
             {
-              "body": "Delivery",
+              "body": "Questions",
               "name": "tab"
             },
             {
-              "body": "<p class=\"text-sm leading-6 opacity-80\">A hand-finished walnut desk shelf that lifts your monitor to eye level and gives keyboards, notebooks and cables somewhere to live.</p>",
+              "body": "<p class=\"text-sm leading-6 opacity-80\">Start with a short summary of what this is about.</p>",
               "name": "panel"
             },
             {
-              "body": "<p class=\"text-sm leading-6 opacity-80\">600 x 220 x 120 mm, solid walnut with a hardwax oil finish. Holds up to 25 kg and ships flat with the tools included.</p>",
+              "body": "<p class=\"text-sm leading-6 opacity-80\">Go deeper here, for readers who want the specifics.</p>",
               "name": "panel"
             },
             {
-              "body": "<p class=\"text-sm leading-6 opacity-80\">Free tracked delivery on orders over $60. Most parcels arrive within three working days, and returns stay open for 30 days.</p>",
+              "body": "<p class=\"text-sm leading-6 opacity-80\">Answer the questions people ask most.</p>",
               "name": "panel"
             }
           ]
@@ -23203,10 +23203,10 @@
         ],
         "function": "collapse",
         "furnishing": {
-          "body": "<p class=\"py-4 text-sm leading-6 opacity-80\">Refunds go back to the original payment method and usually land within five business days. You keep access until the end of the period you already paid for.</p>",
+          "body": "<p class=\"py-4 text-sm leading-6 opacity-80\">Explain it here in a sentence or two. This part stays hidden until someone opens it.</p>",
           "slots": [
             {
-              "body": "<div class=\"flex cursor-pointer items-center justify-between gap-3 border-b border-neutral-200 py-4 font-medium dark:border-neutral-700\">\n  <span>How do refunds work?</span>\n  <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-chevron-down\" class=\"size-4 shrink-0 opacity-60\" />\n</div>",
+              "body": "<div class=\"flex cursor-pointer items-center justify-between gap-3 border-b border-neutral-200 py-4 font-medium dark:border-neutral-700\">\n  <span>How does this work?</span>\n  <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-chevron-down\" class=\"size-4 shrink-0 opacity-60\" />\n</div>",
               "name": "trigger"
             }
           ]
@@ -41627,17 +41627,17 @@
             ],
             "media": [
               {
-                ":alt": "Rebrand for Parsian Retail",
+                ":alt": "A brand identity project",
                 ":category": "Branding",
                 ":src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAwIDgwMCI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjZmRlNGNmIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZjRhODhhIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9IjEyMDAiIGhlaWdodD0iODAwIiBmaWxsPSJ1cmwoI2cpIi8+PGNpcmNsZSBjeD0iODYwIiBjeT0iMjkwIiByPSI5MiIgZmlsbD0iI2ZmZjRlNiIvPjxwYXRoIGQ9Ik0wIDYxMCAyNjAgMzUwIDQzMCA1MTAgNjUwIDI5MCA5MTAgNTYwIDEwNTAgNDUwIDEyMDAgNTYwVjgwMEgwWiIgZmlsbD0iI2NjN2E2YyIvPjxwYXRoIGQ9Ik0wIDcwMCAyMjAgNTIwIDQ3MCA2OTAgNzIwIDUwMCA5OTAgNzAwIDEyMDAgNjAwVjgwMEgwWiIgZmlsbD0iIzhmNGE1YyIvPjwvc3ZnPgo="
               },
               {
-                ":alt": "Booking flow for Alborz Travel",
+                ":alt": "A website project",
                 ":category": "Web design",
                 ":src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAwIDgwMCI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjY2ZlOGZiIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjN2NiN2U4Ii8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9IjEyMDAiIGhlaWdodD0iODAwIiBmaWxsPSJ1cmwoI2cpIi8+PGNpcmNsZSBjeD0iMzIwIiBjeT0iMjUwIiByPSI4MCIgZmlsbD0iI2ZmZmJlYSIvPjxwYXRoIGQ9Ik0wIDUyMGMxNTAtNDAgMzAwIDQwIDQ1MCAwczMwMC00MCA0NTAgMCAyMjAgMzAgMzAwIDEwVjgwMEgwWiIgZmlsbD0iIzNmODZjNyIvPjxwYXRoIGQ9Ik0wIDYyMGMxNTAtNDAgMzAwIDQwIDQ1MCAwczMwMC00MCA0NTAgMCAyMjAgMzAgMzAwIDEwVjgwMEgwWiIgZmlsbD0iIzI0NWU5YiIvPjxwYXRoIGQ9Ik0wIDcyMGMxNTAtMzAgMzAwIDMwIDQ1MCAwczMwMC0zMCA0NTAgMCAyMjAgMjAgMzAwIDhWODAwSDBaIiBmaWxsPSIjMTYzZjZlIi8+PC9zdmc+Cg=="
               },
               {
-                ":alt": "Autumn catalogue spread",
+                ":alt": "A printed brochure",
                 ":category": "Print",
                 ":src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAwIDgwMCI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMmIyZDVjIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjYzI2NjhiIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9IjEyMDAiIGhlaWdodD0iODAwIiBmaWxsPSJ1cmwoI2cpIi8+PGNpcmNsZSBjeD0iOTYwIiBjeT0iMjAwIiByPSI1NCIgZmlsbD0iI2ZkZTdmMCIvPjxnIGZpbGw9IiMxYjFjM2EiPjxyZWN0IHg9IjYwIiB5PSI0MzAiIHdpZHRoPSIxNTAiIGhlaWdodD0iMzcwIi8+PHJlY3QgeD0iMjMwIiB5PSIzMzAiIHdpZHRoPSIxMjAiIGhlaWdodD0iNDcwIi8+PHJlY3QgeD0iMzcwIiB5PSI0ODAiIHdpZHRoPSIxNzAiIGhlaWdodD0iMzIwIi8+PHJlY3QgeD0iNTYwIiB5PSIyNjAiIHdpZHRoPSIxNDAiIGhlaWdodD0iNTQwIi8+PHJlY3QgeD0iNzIwIiB5PSI0MTAiIHdpZHRoPSIxNjAiIGhlaWdodD0iMzkwIi8+PHJlY3QgeD0iOTAwIiB5PSIzNTAiIHdpZHRoPSIxMjAiIGhlaWdodD0iNDUwIi8+PHJlY3QgeD0iMTA0MCIgeT0iNDYwIiB3aWR0aD0iMTYwIiBoZWlnaHQ9IjM0MCIvPjwvZz48ZyBmaWxsPSIjZjdjODczIj48cmVjdCB4PSIyNjIiIHk9IjM3MCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjI0Ii8+PHJlY3QgeD0iMzAwIiB5PSI0MzAiIHdpZHRoPSIxOCIgaGVpZ2h0PSIyNCIvPjxyZWN0IHg9IjU5MiIgeT0iMzEwIiB3aWR0aD0iMTgiIGhlaWdodD0iMjQiLz48cmVjdCB4PSI2NDAiIHk9IjM4MCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjI0Ii8+PHJlY3QgeD0iNzYwIiB5PSI0NjAiIHdpZHRoPSIxOCIgaGVpZ2h0PSIyNCIvPjxyZWN0IHg9IjkzNSIgeT0iNDAwIiB3aWR0aD0iMTgiIGhlaWdodD0iMjQiLz48L2c+PC9zdmc+Cg=="
               }
@@ -43682,7 +43682,7 @@
               "attrs": {
                 "class": "flex items-center gap-2"
               },
-              "body": "<.link navigate=\"/\" class=\"flex items-center gap-2\">\n  <span class=\"text-lg font-semibold tracking-tight\">Northwind</span>\n</.link>",
+              "body": "<.link navigate=\"/\" class=\"flex items-center gap-2\">\n  <span class=\"text-lg font-semibold tracking-tight\">Your site</span>\n</.link>",
               "name": "start_content"
             },
             {
@@ -43697,13 +43697,6 @@
                 "class": "text-sm hover:opacity-70"
               },
               "body": "<.link navigate=\"/about\">About</.link>",
-              "name": "list"
-            },
-            {
-              "attrs": {
-                "class": "text-sm hover:opacity-70"
-              },
-              "body": "<.link navigate=\"/pricing\">Pricing</.link>",
               "name": "list"
             },
             {
@@ -50810,7 +50803,7 @@
           "body": "",
           "slots": [
             {
-              "body": "Invite code: <span class=\"font-mono font-semibold\">CHELEKOM-2026</span>",
+              "body": "Invite code: <span class=\"font-mono font-semibold\">WELCOME-2026</span>",
               "name": "content"
             },
             {
@@ -52588,10 +52581,10 @@
         ],
         "function": "mega_menu",
         "furnishing": {
-          "body": "<div class=\"grid gap-6 md:grid-cols-3\">\n  <div>\n    <h6 class=\"mb-3 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400\">Build</h6>\n    <ul class=\"space-y-2 text-sm\">\n      <li><a href=\"#\" class=\"hover:underline\">Page builder</a></li>\n      <li><a href=\"#\" class=\"hover:underline\">Component library</a></li>\n    </ul>\n  </div>\n  <div>\n    <h6 class=\"mb-3 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400\">Publish</h6>\n    <ul class=\"space-y-2 text-sm\">\n      <li><a href=\"#\" class=\"hover:underline\">Hosting</a></li>\n      <li><a href=\"#\" class=\"hover:underline\">Domains</a></li>\n    </ul>\n  </div>\n  <div>\n    <h6 class=\"mb-3 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400\">Measure</h6>\n    <ul class=\"space-y-2 text-sm\">\n      <li><a href=\"#\" class=\"hover:underline\">Analytics</a></li>\n      <li><a href=\"#\" class=\"hover:underline\">Experiments</a></li>\n    </ul>\n  </div>\n</div>",
+          "body": "<div class=\"grid gap-6 md:grid-cols-3\">\n  <div>\n    <h6 class=\"mb-3 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400\">Learn</h6>\n    <ul class=\"space-y-2 text-sm\">\n      <li><a href=\"#\" class=\"hover:underline\">Guides</a></li>\n      <li><a href=\"#\" class=\"hover:underline\">Articles</a></li>\n    </ul>\n  </div>\n  <div>\n    <h6 class=\"mb-3 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400\">Connect</h6>\n    <ul class=\"space-y-2 text-sm\">\n      <li><a href=\"#\" class=\"hover:underline\">Events</a></li>\n      <li><a href=\"#\" class=\"hover:underline\">Newsletter</a></li>\n    </ul>\n  </div>\n  <div>\n    <h6 class=\"mb-3 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400\">About</h6>\n    <ul class=\"space-y-2 text-sm\">\n      <li><a href=\"#\" class=\"hover:underline\">Our story</a></li>\n      <li><a href=\"#\" class=\"hover:underline\">Contact</a></li>\n    </ul>\n  </div>\n</div>",
           "slots": [
             {
-              "body": "<button type=\"button\" class=\"flex items-center gap-1 text-sm font-semibold\">Products</button>",
+              "body": "<button type=\"button\" class=\"flex items-center gap-1 text-sm font-semibold\">Explore</button>",
               "name": "trigger"
             }
           ]
@@ -63775,7 +63768,7 @@
         ],
         "function": "banner",
         "furnishing": {
-          "body": "<div class=\"flex items-center gap-2\">\n  <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-bell\" class=\"size-4 shrink-0\" />\n  <span class=\"text-sm\">Scheduled publishing is now available on every plan.</span>\n</div>",
+          "body": "<div class=\"flex items-center gap-2\">\n  <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-bell\" class=\"size-4 shrink-0\" />\n  <span class=\"text-sm\">Share a short announcement with everyone who visits.</span>\n</div>",
           "slots": []
         },
         "module_attributes": [
@@ -69791,7 +69784,7 @@
         ],
         "function": "drawer",
         "furnishing": {
-          "body": "<nav class=\"mt-2 space-y-1 text-sm\">\n  <a href=\"/\" class=\"block rounded-md px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Home</a>\n  <a href=\"/features\" class=\"block rounded-md px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Features</a>\n  <a href=\"/pricing\" class=\"block rounded-md px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Pricing</a>\n  <a href=\"/blog\" class=\"block rounded-md px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Blog</a>\n  <a href=\"/contact\" class=\"block rounded-md px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Contact</a>\n</nav>",
+          "body": "<nav class=\"mt-2 space-y-1 text-sm\">\n  <a href=\"/\" class=\"block rounded-md px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Home</a>\n  <a href=\"/about\" class=\"block rounded-md px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">About</a>\n  <a href=\"/blog\" class=\"block rounded-md px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Blog</a>\n  <a href=\"/contact\" class=\"block rounded-md px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Contact</a>\n</nav>",
           "slots": []
         },
         "module_attributes": [],
@@ -71754,7 +71747,7 @@
         ],
         "function": "h1",
         "furnishing": {
-          "body": "Build and publish your site without touching code",
+          "body": "Welcome",
           "slots": []
         },
         "module_attributes": [],
@@ -72318,7 +72311,7 @@
         ],
         "function": "h2",
         "furnishing": {
-          "body": "Everything you need to launch",
+          "body": "What this is about",
           "slots": []
         },
         "module_attributes": [],
@@ -72886,7 +72879,7 @@
         ],
         "function": "h3",
         "furnishing": {
-          "body": "What you get out of the box",
+          "body": "How it works",
           "slots": []
         },
         "module_attributes": [],
@@ -73457,7 +73450,7 @@
         ],
         "function": "h4",
         "furnishing": {
-          "body": "Built for teams that ship every week",
+          "body": "Before you start",
           "slots": []
         },
         "module_attributes": [],
@@ -74026,7 +74019,7 @@
         ],
         "function": "h5",
         "furnishing": {
-          "body": "What our customers ask most",
+          "body": "Questions we hear most",
           "slots": []
         },
         "module_attributes": [],
@@ -74598,7 +74591,7 @@
         ],
         "function": "h6",
         "furnishing": {
-          "body": "Shipping and returns",
+          "body": "Good to know",
           "slots": []
         },
         "module_attributes": [],
@@ -75887,7 +75880,7 @@
         ],
         "function": "strong",
         "furnishing": {
-          "body": "Free delivery on orders over $50",
+          "body": "Please read this first",
           "slots": []
         },
         "module_attributes": [],
@@ -76970,7 +76963,7 @@
         ],
         "function": "dl",
         "furnishing": {
-          "body": "<.component component_name=\"chelekom-dt\" site=\"Global\">Response time</.component>\n<.component component_name=\"chelekom-dd\" site=\"Global\">Under 200 ms for 95% of requests</.component>\n<.component component_name=\"chelekom-dt\" site=\"Global\">Uptime</.component>\n<.component component_name=\"chelekom-dd\" site=\"Global\">99.98% over the last twelve months</.component>\n<.component component_name=\"chelekom-dt\" site=\"Global\">Support</.component>\n<.component component_name=\"chelekom-dd\" site=\"Global\">Chat and email, answered within one business day</.component>",
+          "body": "<.component component_name=\"chelekom-dt\" site=\"Global\">Where</.component>\n<.component component_name=\"chelekom-dd\" site=\"Global\">Online, from anywhere</.component>\n<.component component_name=\"chelekom-dt\" site=\"Global\">When</.component>\n<.component component_name=\"chelekom-dd\" site=\"Global\">Every weekday, 9:00 to 17:00</.component>\n<.component component_name=\"chelekom-dt\" site=\"Global\">Who</.component>\n<.component component_name=\"chelekom-dd\" site=\"Global\">Anyone who wants to join</.component>",
           "slots": []
         },
         "module_attributes": [],
@@ -77504,7 +77497,7 @@
         ],
         "function": "dt",
         "furnishing": {
-          "body": "Release cadence",
+          "body": "When",
           "slots": []
         },
         "module_attributes": [],
@@ -78038,7 +78031,7 @@
         ],
         "function": "dd",
         "furnishing": {
-          "body": "A copy of your page held on the server nearest the visitor, so it arrives without a round trip to the origin.",
+          "body": "Every weekday, 9:00 to 17:00",
           "slots": []
         },
         "module_attributes": [],
@@ -79090,7 +79083,7 @@
         ],
         "function": "figcaption",
         "furnishing": {
-          "body": "Photo: Mishka Group archive, 2025",
+          "body": "Photo by the author",
           "slots": []
         },
         "module_attributes": [],
@@ -81185,7 +81178,7 @@
         ],
         "function": "s",
         "furnishing": {
-          "body": "$129.00",
+          "body": "This is no longer accurate",
           "slots": []
         },
         "module_attributes": [],
@@ -82744,7 +82737,7 @@
         ],
         "function": "del",
         "furnishing": {
-          "body": "Was $79.00",
+          "body": "This sentence was removed",
           "slots": []
         },
         "module_attributes": [],
@@ -87789,26 +87782,26 @@
           "slots": [
             {
               "attrs": {
-                "id": "acc-furnish-install",
-                "title": "How do I install the theme?"
+                "id": "acc-furnish-about",
+                "title": "What is this about?"
               },
-              "body": "Download the package from your account, unzip it, and upload the folder to your site. The installer walks you through the remaining steps.",
+              "body": "A one or two sentence answer that gets straight to the point.",
               "name": "item"
             },
             {
               "attrs": {
-                "id": "acc-furnish-licence",
-                "title": "Can I use it on more than one site?"
+                "id": "acc-furnish-who",
+                "title": "Who is it for?"
               },
-              "body": "A single licence covers one production site plus as many staging environments as you need.",
+              "body": "Say who will find this useful, so readers know they are in the right place.",
               "name": "item"
             },
             {
               "attrs": {
-                "id": "acc-furnish-expiry",
-                "title": "What happens when my licence expires?"
+                "id": "acc-furnish-contact",
+                "title": "How do I get in touch?"
               },
-              "body": "Your site keeps working exactly as it is. You simply stop receiving new releases and priority support until you renew.",
+              "body": "Tell readers the best way to reach you and when to expect a reply.",
               "name": "item"
             }
           ]
@@ -114704,7 +114697,7 @@
         ],
         "function": "li",
         "furnishing": {
-          "body": "Unlimited projects",
+          "body": "A single list item",
           "slots": []
         },
         "module_attributes": [],
@@ -123660,7 +123653,7 @@
         ],
         "function": "list_group",
         "furnishing": {
-          "body": "<li>Overview</li>\n<li>Billing</li>\n<li>Team</li>",
+          "body": "<li>Overview</li>\n<li>Details</li>\n<li>Settings</li>",
           "slots": []
         },
         "module_attributes": [],
@@ -142442,14 +142435,14 @@
             },
             {
               "attrs": {
-                "link": "/shop"
+                "link": "/blog"
               },
-              "body": "Headphones",
+              "body": "Blog",
               "name": "item"
             },
             {
               "attrs": {},
-              "body": "Studio Pro X2",
+              "body": "Getting started",
               "name": "item"
             }
           ]
@@ -146551,7 +146544,7 @@
         ],
         "function": "timeline_section",
         "furnishing": {
-          "body": "<h3 class=\"text-base font-semibold\">Design review signed off</h3>\n<p class=\"mt-1 text-sm leading-6 opacity-80\">The new checkout layout was approved and moved into the build queue for next sprint.</p>\n<div class=\"mt-2 text-xs opacity-60\">14 March, 11:20</div>",
+          "body": "<h3 class=\"text-base font-semibold\">Plan</h3>\n<p class=\"mt-1 text-sm leading-6 opacity-80\">Agree on the goal, the scope and who does what.</p>\n<div class=\"mt-2 text-xs opacity-60\">Week 1</div>",
           "slots": []
         },
         "module_attributes": [],
@@ -147751,7 +147744,7 @@
         ],
         "function": "footer",
         "furnishing": {
-          "body": "<div class=\"px-6 py-8\">\n  <div class=\"flex flex-wrap items-center justify-between gap-4\">\n    <span class=\"font-semibold\">Mishka CMS</span>\n    <nav class=\"flex flex-wrap gap-6 text-sm\">\n      <a href=\"/about\" class=\"hover:underline\">About</a>\n      <a href=\"/docs\" class=\"hover:underline\">Documentation</a>\n      <a href=\"/pricing\" class=\"hover:underline\">Pricing</a>\n      <a href=\"/contact\" class=\"hover:underline\">Contact</a>\n    </nav>\n  </div>\n  <p class=\"mt-6 text-sm\">© 2025 Mishka Group. All rights reserved.</p>\n</div>",
+          "body": "<div class=\"px-6 py-8\">\n  <div class=\"flex flex-wrap items-center justify-between gap-4\">\n    <span class=\"font-semibold\">Your site</span>\n    <nav class=\"flex flex-wrap gap-6 text-sm\">\n      <a href=\"/about\" class=\"hover:underline\">About</a>\n      <a href=\"/blog\" class=\"hover:underline\">Blog</a>\n      <a href=\"/contact\" class=\"hover:underline\">Contact</a>\n    </nav>\n  </div>\n  <p class=\"mt-6 text-sm\">© Your site. All rights reserved.</p>\n</div>",
           "slots": []
         },
         "module_attributes": [],
@@ -149722,7 +149715,7 @@
         ],
         "function": "footer_section",
         "furnishing": {
-          "body": "<div class=\"mb-3 text-sm font-semibold uppercase tracking-wide\">Product</div>\n<ul class=\"space-y-2 text-sm\">\n  <li><a href=\"/features\" class=\"hover:underline\">Features</a></li>\n  <li><a href=\"/pricing\" class=\"hover:underline\">Pricing</a></li>\n  <li><a href=\"/changelog\" class=\"hover:underline\">Changelog</a></li>\n</ul>",
+          "body": "<div class=\"mb-3 text-sm font-semibold uppercase tracking-wide\">Explore</div>\n<ul class=\"space-y-2 text-sm\">\n  <li><a href=\"/about\" class=\"hover:underline\">About</a></li>\n  <li><a href=\"/blog\" class=\"hover:underline\">Blog</a></li>\n  <li><a href=\"/contact\" class=\"hover:underline\">Contact</a></li>\n</ul>",
           "slots": []
         },
         "module_attributes": [],
@@ -152023,23 +152016,23 @@
           "slots": [
             {
               "attrs": {
-                "value": "starter"
+                "value": "morning"
               },
-              "body": "Starter",
+              "body": "Morning",
               "name": "option"
             },
             {
               "attrs": {
-                "value": "team"
+                "value": "afternoon"
               },
-              "body": "Team",
+              "body": "Afternoon",
               "name": "option"
             },
             {
               "attrs": {
-                "value": "business"
+                "value": "evening"
               },
-              "body": "Business",
+              "body": "Evening",
               "name": "option"
             }
           ]
@@ -159989,7 +159982,7 @@
         ],
         "function": "dropdown_content",
         "furnishing": {
-          "body": "<ul class=\"py-1 text-sm\">\n  <li class=\"cursor-pointer rounded-sm px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Your profile</li>\n  <li class=\"cursor-pointer rounded-sm px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Billing and plan</li>\n  <li class=\"cursor-pointer rounded-sm px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Team members</li>\n  <li class=\"cursor-pointer rounded-sm px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Sign out</li>\n</ul>",
+          "body": "<ul class=\"py-1 text-sm\">\n  <li class=\"cursor-pointer rounded-sm px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Your profile</li>\n  <li class=\"cursor-pointer rounded-sm px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Settings</li>\n  <li class=\"cursor-pointer rounded-sm px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Help</li>\n  <li class=\"cursor-pointer rounded-sm px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Sign out</li>\n</ul>",
           "slots": []
         },
         "module_attributes": [],
@@ -166974,7 +166967,7 @@
           "body": "",
           "slots": [
             {
-              "body": "<label class=\"flex items-center gap-2\"><input type=\"checkbox\" name=\"topics[]\" value=\"product\" checked /> Product updates</label>",
+              "body": "<label class=\"flex items-center gap-2\"><input type=\"checkbox\" name=\"topics[]\" value=\"news\" checked /> News and updates</label>",
               "name": "control"
             },
             {
@@ -177138,27 +177131,27 @@
           "slots": [
             {
               "attrs": {
-                "description": "Drag a section in, edit the copy in place, publish when it reads right.",
+                "description": "Say hello and tell visitors what they will find here.",
                 "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAwIDgwMCI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjZmRlNGNmIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZjRhODhhIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9IjEyMDAiIGhlaWdodD0iODAwIiBmaWxsPSJ1cmwoI2cpIi8+PGNpcmNsZSBjeD0iODYwIiBjeT0iMjkwIiByPSI5MiIgZmlsbD0iI2ZmZjRlNiIvPjxwYXRoIGQ9Ik0wIDYxMCAyNjAgMzUwIDQzMCA1MTAgNjUwIDI5MCA5MTAgNTYwIDEwNTAgNDUwIDEyMDAgNTYwVjgwMEgwWiIgZmlsbD0iI2NjN2E2YyIvPjxwYXRoIGQ9Ik0wIDcwMCAyMjAgNTIwIDQ3MCA2OTAgNzIwIDUwMCA5OTAgNzAwIDEyMDAgNjAwVjgwMEgwWiIgZmlsbD0iIzhmNGE1YyIvPjwvc3ZnPgo=",
-                "title": "Build pages without leaving the browser"
+                "title": "Welcome"
               },
               "body": "",
               "name": "slide"
             },
             {
               "attrs": {
-                "description": "Colours, spacing and rounding are attributes, not a theme you have to fork.",
+                "description": "One or two lines about the work, the idea or the story.",
                 "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAwIDgwMCI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjY2ZlOGZiIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjN2NiN2U4Ii8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9IjEyMDAiIGhlaWdodD0iODAwIiBmaWxsPSJ1cmwoI2cpIi8+PGNpcmNsZSBjeD0iMzIwIiBjeT0iMjUwIiByPSI4MCIgZmlsbD0iI2ZmZmJlYSIvPjxwYXRoIGQ9Ik0wIDUyMGMxNTAtNDAgMzAwIDQwIDQ1MCAwczMwMC00MCA0NTAgMCAyMjAgMzAgMzAwIDEwVjgwMEgwWiIgZmlsbD0iIzNmODZjNyIvPjxwYXRoIGQ9Ik0wIDYyMGMxNTAtNDAgMzAwIDQwIDQ1MCAwczMwMC00MCA0NTAgMCAyMjAgMzAgMzAwIDEwVjgwMEgwWiIgZmlsbD0iIzI0NWU5YiIvPjxwYXRoIGQ9Ik0wIDcyMGMxNTAtMzAgMzAwIDMwIDQ1MCAwczMwMC0zMCA0NTAgMCAyMjAgMjAgMzAwIDhWODAwSDBaIiBmaWxsPSIjMTYzZjZlIi8+PC9zdmc+Cg==",
-                "title": "Every component is yours to change"
+                "title": "What we do"
               },
               "body": "",
               "name": "slide"
             },
             {
               "attrs": {
-                "description": "Write it once as a global component and reuse it across each site you run.",
+                "description": "Tell people how to reach you and what happens next.",
                 "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAwIDgwMCI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iMSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMmIyZDVjIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjYzI2NjhiIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9IjEyMDAiIGhlaWdodD0iODAwIiBmaWxsPSJ1cmwoI2cpIi8+PGNpcmNsZSBjeD0iOTYwIiBjeT0iMjAwIiByPSI1NCIgZmlsbD0iI2ZkZTdmMCIvPjxnIGZpbGw9IiMxYjFjM2EiPjxyZWN0IHg9IjYwIiB5PSI0MzAiIHdpZHRoPSIxNTAiIGhlaWdodD0iMzcwIi8+PHJlY3QgeD0iMjMwIiB5PSIzMzAiIHdpZHRoPSIxMjAiIGhlaWdodD0iNDcwIi8+PHJlY3QgeD0iMzcwIiB5PSI0ODAiIHdpZHRoPSIxNzAiIGhlaWdodD0iMzIwIi8+PHJlY3QgeD0iNTYwIiB5PSIyNjAiIHdpZHRoPSIxNDAiIGhlaWdodD0iNTQwIi8+PHJlY3QgeD0iNzIwIiB5PSI0MTAiIHdpZHRoPSIxNjAiIGhlaWdodD0iMzkwIi8+PHJlY3QgeD0iOTAwIiB5PSIzNTAiIHdpZHRoPSIxMjAiIGhlaWdodD0iNDUwIi8+PHJlY3QgeD0iMTA0MCIgeT0iNDYwIiB3aWR0aD0iMTYwIiBoZWlnaHQ9IjM0MCIvPjwvZz48ZyBmaWxsPSIjZjdjODczIj48cmVjdCB4PSIyNjIiIHk9IjM3MCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjI0Ii8+PHJlY3QgeD0iMzAwIiB5PSI0MzAiIHdpZHRoPSIxOCIgaGVpZ2h0PSIyNCIvPjxyZWN0IHg9IjU5MiIgeT0iMzEwIiB3aWR0aD0iMTgiIGhlaWdodD0iMjQiLz48cmVjdCB4PSI2NDAiIHk9IjM4MCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjI0Ii8+PHJlY3QgeD0iNzYwIiB5PSI0NjAiIHdpZHRoPSIxOCIgaGVpZ2h0PSIyNCIvPjxyZWN0IHg9IjkzNSIgeT0iNDAwIiB3aWR0aD0iMTgiIGhlaWdodD0iMjQiLz48L2c+PC9zdmc+Cg==",
-                "title": "Ship one page to every site"
+                "title": "Get in touch"
               },
               "body": "",
               "name": "slide"
@@ -179325,27 +179318,27 @@
         ],
         "function": "group_radio",
         "furnishing": {
-          "body": "<div class=\"mb-1 text-sm font-medium\">Choose a plan</div>",
+          "body": "<div class=\"mb-1 text-sm font-medium\">How often should we write?</div>",
           "slots": [
+            {
+              "attrs": {
+                "value": "daily"
+              },
+              "body": "Every day",
+              "name": "radio"
+            },
+            {
+              "attrs": {
+                "value": "weekly"
+              },
+              "body": "Once a week",
+              "name": "radio"
+            },
             {
               "attrs": {
                 "value": "monthly"
               },
-              "body": "Monthly billing",
-              "name": "radio"
-            },
-            {
-              "attrs": {
-                "value": "annual"
-              },
-              "body": "Annual billing, two months free",
-              "name": "radio"
-            },
-            {
-              "attrs": {
-                "value": "metered"
-              },
-              "body": "Pay only for what you use",
+              "body": "Once a month",
               "name": "radio"
             }
           ]
@@ -181704,27 +181697,27 @@
           "slots": [
             {
               "attrs": {
-                "description": "Up to 3 projects and 5 GB of asset storage",
-                "title": "Starter",
-                "value": "starter"
+                "description": "What choosing this one adds.",
+                "title": "First option",
+                "value": "one"
               },
               "body": "",
               "name": "checkbox"
             },
             {
               "attrs": {
-                "description": "Unlimited projects and 50 GB of asset storage",
-                "title": "Growth",
-                "value": "growth"
+                "description": "What this one adds.",
+                "title": "Second option",
+                "value": "two"
               },
               "body": "",
               "name": "checkbox"
             },
             {
               "attrs": {
-                "description": "Dedicated infrastructure and priority support",
-                "title": "Scale",
-                "value": "scale"
+                "description": "And what this one adds.",
+                "title": "Third option",
+                "value": "three"
               },
               "body": "",
               "name": "checkbox"
@@ -185618,23 +185611,23 @@
           "slots": [
             {
               "attrs": {
-                "value": "product_updates"
+                "value": "news"
               },
-              "body": "Product updates",
+              "body": "News and updates",
               "name": "checkbox"
             },
             {
               "attrs": {
-                "value": "security"
+                "value": "events"
               },
-              "body": "Security alerts",
+              "body": "Upcoming events",
               "name": "checkbox"
             },
             {
               "attrs": {
-                "value": "billing"
+                "value": "tips"
               },
-              "body": "Billing receipts",
+              "body": "Tips and guides",
               "name": "checkbox"
             }
           ]
@@ -187121,22 +187114,18 @@
         ],
         "function": "table",
         "furnishing": {
-          "body": "<.component component_name=\"chelekom-tr\" site=\"Global\">\n  <.component component_name=\"chelekom-td\" site=\"Global\">Chelekom Starter Licence</.component>\n  <.component component_name=\"chelekom-td\" site=\"Global\">Published</.component>\n  <.component component_name=\"chelekom-td\" site=\"Global\">128</.component>\n  <.component component_name=\"chelekom-td\" site=\"Global\">$49.00</.component>\n</.component>\n<.component component_name=\"chelekom-tr\" site=\"Global\">\n  <.component component_name=\"chelekom-td\" site=\"Global\">Chelekom Team Licence</.component>\n  <.component component_name=\"chelekom-td\" site=\"Global\">Published</.component>\n  <.component component_name=\"chelekom-td\" site=\"Global\">64</.component>\n  <.component component_name=\"chelekom-td\" site=\"Global\">$149.00</.component>\n</.component>\n<.component component_name=\"chelekom-tr\" site=\"Global\">\n  <.component component_name=\"chelekom-td\" site=\"Global\">Chelekom Agency Licence</.component>\n  <.component component_name=\"chelekom-td\" site=\"Global\">Draft</.component>\n  <.component component_name=\"chelekom-td\" site=\"Global\">12</.component>\n  <.component component_name=\"chelekom-td\" site=\"Global\">$399.00</.component>\n</.component>",
+          "body": "<.component component_name=\"chelekom-tr\" site=\"Global\">\n  <.component component_name=\"chelekom-td\" site=\"Global\">Ada Lovelace</.component>\n  <.component component_name=\"chelekom-td\" site=\"Global\">ada@example.com</.component>\n  <.component component_name=\"chelekom-td\" site=\"Global\">Active</.component>\n</.component>\n<.component component_name=\"chelekom-tr\" site=\"Global\">\n  <.component component_name=\"chelekom-td\" site=\"Global\">Grace Hopper</.component>\n  <.component component_name=\"chelekom-td\" site=\"Global\">grace@example.com</.component>\n  <.component component_name=\"chelekom-td\" site=\"Global\">Active</.component>\n</.component>\n<.component component_name=\"chelekom-tr\" site=\"Global\">\n  <.component component_name=\"chelekom-td\" site=\"Global\">Alan Turing</.component>\n  <.component component_name=\"chelekom-td\" site=\"Global\">alan@example.com</.component>\n  <.component component_name=\"chelekom-td\" site=\"Global\">Invited</.component>\n</.component>",
           "slots": [
             {
-              "body": "Product",
+              "body": "Name",
+              "name": "header"
+            },
+            {
+              "body": "Email",
               "name": "header"
             },
             {
               "body": "Status",
-              "name": "header"
-            },
-            {
-              "body": "In stock",
-              "name": "header"
-            },
-            {
-              "body": "Price",
               "name": "header"
             }
           ]
@@ -189999,7 +189988,7 @@
         ],
         "function": "th",
         "furnishing": {
-          "body": "Product",
+          "body": "Name",
           "slots": []
         },
         "module_attributes": [],
@@ -195560,7 +195549,7 @@
         ],
         "function": "td",
         "furnishing": {
-          "body": "Chelekom Starter Licence",
+          "body": "Ada Lovelace",
           "slots": []
         },
         "module_attributes": [],
@@ -198805,7 +198794,7 @@
         ],
         "function": "chat",
         "furnishing": {
-          "body": "<.component component_name=\"chelekom-chat-section\" site=\"Global\">\n  <div class=\"font-semibold\">Mona Aghili</div>\n  <p>Just pushed the fix &mdash; can you pull and re-run the migration?</p>\n  <:status time=\"09:41\" deliver=\"Delivered\" />\n</.component>",
+          "body": "<.component component_name=\"chelekom-chat-section\" site=\"Global\">\n  <div class=\"font-semibold\">Sam Lee</div>\n  <p>Hi! Are we still on for tomorrow at ten?</p>\n  <:status time=\"09:41\" deliver=\"Read\" />\n</.component>",
           "slots": []
         },
         "module_attributes": [],
@@ -200929,11 +200918,11 @@
         ],
         "function": "chat_section",
         "furnishing": {
-          "body": "<div class=\"font-semibold\">Mona Aghili</div>\n<p>Just pushed the fix &mdash; can you pull and re-run the migration?</p>",
+          "body": "<div class=\"font-semibold\">Sam Lee</div>\n<p>Hi! Are we still on for tomorrow at ten?</p>",
           "slots": [
             {
               "attrs": {
-                "deliver": "Delivered",
+                "deliver": "Read",
                 "time": "09:41"
               },
               "body": "",
@@ -213373,7 +213362,7 @@
         ],
         "function": "stat_group",
         "furnishing": {
-          "body": "<.component component_name=\"chelekom-stat\" site=\"Global\" title=\"Teams onboarded\" value=\"12,400\" description=\"Across 38 countries\" />\n<.component component_name=\"chelekom-stat\" site=\"Global\" title=\"Platform uptime\" value=\"99.98%\" description=\"Measured over the last 12 months\" />\n<.component component_name=\"chelekom-stat\" site=\"Global\" title=\"Customer rating\" value=\"4.9/5\" description=\"From 2,100 verified reviews\" />",
+          "body": "<.component component_name=\"chelekom-stat\" site=\"Global\" title=\"Members\" value=\"1,200\" description=\"And growing every week\" />\n<.component component_name=\"chelekom-stat\" site=\"Global\" title=\"Events\" value=\"48\" description=\"Held over the last year\" />\n<.component component_name=\"chelekom-stat\" site=\"Global\" title=\"Countries\" value=\"12\" description=\"Where people join from\" />",
           "slots": []
         },
         "module_attributes": [],

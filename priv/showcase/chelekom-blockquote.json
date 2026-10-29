@@ -1,12 +1,12 @@
 {
   "name": "chelekom-blockquote",
   "furnishing": {
-    "body": "Switching to Northwind cut our weekly planning meeting from ninety minutes to fifteen. The first Monday nobody had anything to argue about, I knew it had worked.",
+    "body": "A quote worth repeating, in the words of the person who said it.",
     "slots": [
       {
         "name": "caption",
         "attrs": {},
-        "body": "<span class=\"pe-3 font-semibold\">Nadia Kessler</span>\n<span class=\"ps-3 opacity-70\">VP Customer Success, Loop Freight</span>"
+        "body": "<span class=\"pe-3 font-semibold\">Alex Morgan</span>\n<span class=\"ps-3 opacity-70\">Writer</span>"
       }
     ]
   },
