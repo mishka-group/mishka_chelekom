@@ -7,6 +7,10 @@ defmodule MishkaChelekom.ModalFocusTest do
   and a command whose `to:` names an element the page does not have does nothing and says nothing:
   `show_modal/2` once focused `#<id>-content`, which the modal never rendered, so a keyboard user
   who opened it was left on the page behind it.
+
+  Escape reaches every modal on the page, open or closed, through `phx-window-keydown`, and
+  `phx-remove` runs on a closed modal that a patch removes, so the commands that move focus run
+  only for the modal that is actually opening or closing.
   """
   use ExUnit.Case, async: true
 
@@ -71,28 +75,118 @@ defmodule MishkaChelekom.ModalFocusTest do
       |> Phoenix.HTML.Safe.to_iodata()
       |> IO.iodata_to_binary()
 
-    %{modal: modal, html: html}
+    [root] = Regex.run(~r/<div\s[^>]*\bid="#{@id}"[^>]*>/, html)
+
+    %{
+      html: html,
+      closed: state(root),
+      show: commands(modal.show_modal(@id), root),
+      hide: commands(modal.hide_modal(@id), root)
+    }
   end
 
-  defp ops(%JS{ops: ops}), do: for([kind, args] <- ops, do: {kind, args[:to]})
+  # `{kind, args, gate}` for each command a `JS` value runs. A `JS.exec/2` is replaced by the
+  # commands of the root attribute it names, each tagged with the exec's `to:`, the selector that
+  # decides whether they run at all. A `JS` value and an attribute both decode from the JSON the
+  # page carries, so either way the args have string keys.
+  defp commands(%JS{} = js, root) do
+    js
+    |> Phoenix.HTML.Safe.to_iodata()
+    |> IO.iodata_to_binary()
+    |> commands(root, nil)
+  end
 
-  defp position(list, kind), do: Enum.find_index(list, &match?({^kind, _to}, &1))
+  defp commands(encoded, root, gate) do
+    encoded
+    |> unescape()
+    |> Jason.decode!()
+    |> Enum.flat_map(fn
+      ["exec", %{"attr" => attr, "to" => to}] ->
+        assert [_match, value] = Regex.run(~r/\s#{attr}="([^"]*)"/, root)
+        commands(value, root, to)
+
+      [kind, args] ->
+        [{kind, args, gate}]
+    end)
+  end
+
+  defp unescape(attribute) do
+    Enum.reduce(
+      [{"&quot;", "\""}, {"&#39;", "'"}, {"&lt;", "<"}, {"&gt;", ">"}, {"&amp;", "&"}],
+      attribute,
+      fn {entity, char}, acc -> String.replace(acc, entity, char) end
+    )
+  end
+
+  # The rendered root as the selectors see it: `[name]` for each attribute, `.name` for each class.
+  defp state(root) do
+    [_match, classes] = Regex.run(~r/\sclass="([^"]*)"/, root)
+    names = String.replace(root, ~r/="[^"]*"/, "")
+    attrs = for [_match, name] <- Regex.scan(~r/\s([\w:-]+)/, names), do: "[#{name}]"
+    MapSet.new(attrs ++ for(class <- String.split(classes), do: ".#{class}"))
+  end
+
+  # Runs `commands` from `state` the way the browser does for what decides the focus stack: the
+  # attributes and classes they set on the root, and the gates they are run under. Returns the
+  # state after them and the focus commands that ran, in order.
+  defp run(commands, state) do
+    target = "##{@id}"
+
+    {state, ran} =
+      Enum.reduce(commands, {state, []}, fn {kind, args, gate}, {state, ran} ->
+        cond do
+          not gate?(gate, state) -> {state, ran}
+          kind in ["push_focus", "focus_first", "pop_focus"] -> {state, [kind | ran]}
+          args["to"] == target -> {change(state, kind, args), ran}
+          true -> {state, ran}
+        end
+      end)
+
+    {state, Enum.reverse(ran)}
+  end
+
+  defp change(state, "set_attr", %{"attr" => [name, _value]}), do: MapSet.put(state, "[#{name}]")
+  defp change(state, "remove_attr", %{"attr" => name}), do: MapSet.delete(state, "[#{name}]")
+
+  defp change(state, "add_class", %{"names" => names}),
+    do: Enum.reduce(names, state, &MapSet.put(&2, ".#{&1}"))
+
+  defp change(state, "remove_class", %{"names" => names}),
+    do: Enum.reduce(names, state, &MapSet.delete(&2, ".#{&1}"))
+
+  defp change(state, _kind, _args), do: state
+
+  # A gate is `#<id>`, `#<id>X` or `#<id>:not(X)`, where X is one `[attr]` or `.class`.
+  defp gate?(nil, _state), do: true
+
+  defp gate?(gate, state) do
+    [_match, rest] = Regex.run(~r/^##{@id}(.*)$/, gate)
+
+    case Regex.run(~r/^:not\((.+)\)$/, rest) do
+      [_match, token] -> not MapSet.member?(state, token)
+      nil -> rest == "" or MapSet.member?(state, rest)
+    end
+  end
+
+  defp position(commands, fun), do: Enum.find_index(commands, fun)
+
+  defp kind?(kind), do: &match?({^kind, _args, _gate}, &1)
 
   test "every element the open and close commands name is in the rendered modal", context do
-    %{modal: modal, html: html} = context
+    %{html: html, show: show, hide: hide} = context
 
     missing =
-      for {kind, "#" <> id} <- ops(modal.show_modal(@id)) ++ ops(modal.hide_modal(@id)),
+      for {_kind, %{"to" => "#" <> selector}, _gate} <- show ++ hide,
+          [id] = Regex.run(~r/^[\w-]+/, selector),
           not String.contains?(html, ~s|id="#{id}"|),
-          do: {kind, "#" <> id}
+          uniq: true,
+          do: id
 
     assert missing == []
   end
 
-  test "opening focuses the first focusable element inside the dialog", context do
-    %{modal: modal, html: html} = context
-
-    assert [to] = for({"focus_first", to} <- ops(modal.show_modal(@id)), do: to)
+  test "opening focuses the first focusable element inside the dialog", %{html: html, show: show} do
+    assert [to] = for({"focus_first", %{"to" => to}, _gate} <- show, do: to)
     "#" <> target = to
 
     [_before, dialog] = String.split(html, ~s|role="dialog"|, parts: 2)
@@ -100,11 +194,25 @@ defmodule MishkaChelekom.ModalFocusTest do
     assert inside =~ ~r/<button[^>]*aria-label="close"/
   end
 
-  test "opening remembers the focused element and closing returns focus to it", %{modal: modal} do
-    show = ops(modal.show_modal(@id))
+  test "opening remembers the focused element and closing returns focus to it", context do
+    %{show: show, hide: hide} = context
 
-    assert {"push_focus", ":focus"} in show
-    assert position(show, "push_focus") < position(show, "focus_first")
-    assert {"pop_focus", nil} in ops(modal.hide_modal(@id))
+    assert {"push_focus", %{"to" => ":focus"}, _gate} = Enum.find(show, kind?("push_focus"))
+    assert position(show, kind?("push_focus")) < position(show, kind?("focus_first"))
+    assert Enum.any?(hide, kind?("pop_focus"))
+  end
+
+  test "closing a modal that is already closed leaves the focus stack alone", context do
+    %{closed: closed, hide: hide} = context
+
+    assert {^closed, []} = run(hide, closed)
+  end
+
+  test "only a real open and a real close touch the focus stack", context do
+    %{closed: closed, show: show, hide: hide} = context
+
+    assert {open, ["push_focus", "focus_first"]} = run(show, closed)
+    assert {^open, []} = run(show, open)
+    assert {^closed, ["pop_focus"]} = run(hide, open)
   end
 end
