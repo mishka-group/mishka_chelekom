@@ -568,31 +568,31 @@ defmodule MishkaChelekom.Config do
   Creates the config file with sample content if it doesn't exist.
   """
   def update_component_prefix(igniter, prefix) when is_binary(prefix) do
+    update_user_config(igniter, &update_prefix_in_content(&1, prefix))
+  end
+
+  # Rewrites the user's config file with `update`, reading it from the pending Igniter change, the
+  # file system or, when there is none yet, the sample config.
+  defp update_user_config(igniter, update) do
     config_path = user_config_path(igniter)
 
-    # Get existing content or create sample config
     existing_content =
       case Rewrite.source(igniter.rewrite, config_path) do
         {:ok, source} ->
           Rewrite.Source.get(source, :content)
 
         {:error, _} ->
-          # Config doesn't exist, check file system
           if File.exists?(config_path) do
             File.read!(config_path)
           else
-            # Create sample config content
             {_igniter, _path, sample_content} = create_sample_config(igniter)
             sample_content
           end
       end
 
-    # Update the component_prefix line
-    updated_content = update_prefix_in_content(existing_content, prefix)
+    updated_content = update.(existing_content)
 
-    # Write the updated content
-    igniter
-    |> Igniter.create_or_update_file(config_path, updated_content, fn source ->
+    Igniter.create_or_update_file(igniter, config_path, updated_content, fn source ->
       Rewrite.Source.update(source, :content, updated_content)
     end)
   end
@@ -626,33 +626,7 @@ defmodule MishkaChelekom.Config do
   Creates the config file with sample content if it doesn't exist.
   """
   def update_module_prefix(igniter, prefix) when is_binary(prefix) do
-    config_path = user_config_path(igniter)
-
-    # Get existing content or create sample config
-    existing_content =
-      case Rewrite.source(igniter.rewrite, config_path) do
-        {:ok, source} ->
-          Rewrite.Source.get(source, :content)
-
-        {:error, _} ->
-          # Config doesn't exist, check file system
-          if File.exists?(config_path) do
-            File.read!(config_path)
-          else
-            # Create sample config content
-            {_igniter, _path, sample_content} = create_sample_config(igniter)
-            sample_content
-          end
-      end
-
-    # Update the module_prefix line
-    updated_content = update_module_prefix_in_content(existing_content, prefix)
-
-    # Write the updated content
-    igniter
-    |> Igniter.create_or_update_file(config_path, updated_content, fn source ->
-      Rewrite.Source.update(source, :content, updated_content)
-    end)
+    update_user_config(igniter, &update_module_prefix_in_content(&1, prefix))
   end
 
   defp update_module_prefix_in_content(content, prefix) do

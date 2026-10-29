@@ -15,6 +15,7 @@ defmodule MishkaChelekom.MCP.Tools.GetComponentInfo do
   use Anubis.Server.Component, type: :tool
 
   alias Anubis.Server.Response
+  alias MishkaChelekom.MCP.ComponentConfig
   alias MishkaChelekom.MCP.PathHelper
 
   schema do
@@ -115,7 +116,7 @@ defmodule MishkaChelekom.MCP.Tools.GetComponentInfo do
     """
     # #{format_name(name)} Component
 
-    📖 Docs: https://mishka.tools/chelekom/docs/#{format_doc_url(name)}
+    📖 Docs: https://mishka.tools/chelekom/docs/#{ComponentConfig.docs_path(name)}
     ⚡ Generate: `mix mishka.ui.gen.component #{name}`
     """
   end
@@ -199,41 +200,6 @@ defmodule MishkaChelekom.MCP.Tools.GetComponentInfo do
     |> String.split("_")
     |> Enum.map(&String.capitalize/1)
     |> Enum.join("")
-  end
-
-  defp format_doc_url(name) do
-    form_components = [
-      "checkbox_card",
-      "checkbox_field",
-      "color_field",
-      "combobox",
-      "date_time_field",
-      "email_field",
-      "fieldset",
-      "file_field",
-      "form_wrapper",
-      "input_field",
-      "native_select",
-      "number_field",
-      "password_field",
-      "radio_card",
-      "radio_field",
-      "range_field",
-      "search_field",
-      "tel_field",
-      "text_field",
-      "textarea_field",
-      "toggle_field",
-      "url_field"
-    ]
-
-    url_name = String.replace(name, "_", "-")
-
-    if name in form_components do
-      "forms/#{url_name}"
-    else
-      url_name
-    end
   end
 
   defp format_helpers(helpers) when is_list(helpers) do

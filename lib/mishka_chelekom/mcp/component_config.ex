@@ -81,6 +81,25 @@ defmodule MishkaChelekom.MCP.ComponentConfig do
     "https://mishka.tools/chelekom/docs/" <> String.replace(name, "_", "-")
   end
 
+  @form_components ~w(checkbox_card checkbox_field color_field combobox date_time_field email_field
+                      fieldset file_field form_wrapper input_field native_select number_field
+                      password_field radio_card radio_field range_field search_field tel_field
+                      text_field textarea_field toggle_field url_field)
+
+  @doc """
+  Returns the path under `https://mishka.tools/chelekom/docs/` that the MCP tools link a component
+  to: `forms/<name>` for a form component, `<name>` otherwise, with `_` written as `-`.
+  """
+  def docs_path(name) when is_binary(name) do
+    url_name = String.replace(name, "_", "-")
+
+    if name in @form_components do
+      "forms/#{url_name}"
+    else
+      url_name
+    end
+  end
+
   @doc """
   Returns a map of all component names to their doc URLs.
   """
