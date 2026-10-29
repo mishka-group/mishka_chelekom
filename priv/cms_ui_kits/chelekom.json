@@ -224040,7 +224040,7 @@
         {
           "args": "js \\\\ %JS{}, id when is_binary(id)",
           "attrs": [],
-          "code": "js\n|> JS.show(to: \"##{id}\")\n|> JS.show(\n  to: \"##{id}-bg\",\n  time: 300,\n  transition: {\"transition-all transform ease-out duration-300\", \"opacity-0\", \"opacity-100\"}\n)\n|> transition_show(\"##{id}-container\")\n|> JS.add_class(\"overflow-hidden\", to: \"body\")\n|> JS.focus_first(to: \"##{id}-content\")",
+          "code": "js\n|> JS.show(to: \"##{id}\")\n|> JS.show(\n  to: \"##{id}-bg\",\n  time: 300,\n  transition: {\"transition-all transform ease-out duration-300\", \"opacity-0\", \"opacity-100\"}\n)\n|> transition_show(\"##{id}-container\")\n|> JS.add_class(\"overflow-hidden\", to: \"body\")\n|> JS.push_focus(to: \":focus\")\n|> JS.focus_first(to: \"##{id}-container\")",
           "discriminators": [],
           "name": "show_modal",
           "slots": []
