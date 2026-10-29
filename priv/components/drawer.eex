@@ -48,6 +48,11 @@ defmodule <%= @module %> do
     doc: "A unique identifier is used to manage state and interaction"
 
   attr :title, :string, default: nil, doc: "Specifies the title of the element"
+
+  attr :description, :string,
+    default: nil,
+    doc: "What screen readers announce as the drawer's description, \"Drawer content\" when nil"
+
   attr :title_class, :string, default: nil, doc: "Determines custom class for the title"
   attr :variant, :string, default: "base", doc: "Determines the style"
   attr :color, :string, default: "natural", doc: "Determines color theme"
@@ -127,7 +132,9 @@ defmodule <%= @module %> do
       tabindex="-1"
       role="dialog"
       aria-modal="true"
-      aria-labelledby={"#{@id}-#{@position}-title"}
+      <%!-- Only a drawer with a title or a header renders the element this names. Without one
+            it has no name unless the caller gives an `aria-label`, which `@rest` passes here. --%>
+      aria-labelledby={(@title || @header != []) && "#{@id}-#{@position}-title"}
       aria-describedby={"#{@id}-#{@position}-desc"}
       <%!-- A closed drawer is only moved off-screen, so this is what keeps its controls out of
             the Tab order and away from screen readers. `show_drawer/3` removes it. --%>
@@ -179,7 +186,7 @@ defmodule <%= @module %> do
           </div>
 
           <div id={"#{@id}-#{@position}-desc"} class="sr-only">
-            {gettext("Drawer content")}
+            {@description || gettext("Drawer content")}
           </div>
 
           <div class={@content_class}>
