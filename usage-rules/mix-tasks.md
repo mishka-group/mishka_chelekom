@@ -615,6 +615,7 @@ mix mishka.mcp.server --transport stdio
 |--------|-------|-------------|
 | `--transport` | `-t` | Transport: `http` (default) or `stdio` |
 | `--port` | `-p` | HTTP port (http only, default: 4003) |
+| `--ip` | | Address to listen on (http only, default: 127.0.0.1; `0.0.0.0` lets other machines connect, with no authentication) |
 
 ### Connecting AI Tools (HTTP)
 

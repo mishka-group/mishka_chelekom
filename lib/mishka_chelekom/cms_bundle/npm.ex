@@ -58,8 +58,8 @@ defmodule MishkaChelekom.CmsBundle.Npm do
 
   defp place_pins(pins, state) do
     Enum.reduce_while(pins, {:ok, state, []}, fn pin, {:ok, state, queue} ->
-      name = to_string(pin[:name] || pin["name"])
-      version = to_string(pin[:version] || pin["version"])
+      name = to_string(pin[:name])
+      version = to_string(pin[:version])
       path = "node_modules/" <> name
 
       with {:ok, doc, state} <- doc(name, state),
@@ -214,13 +214,15 @@ defmodule MishkaChelekom.CmsBundle.Npm do
 
   defp candidates(doc, range) do
     (doc["versions"] || %{})
-    |> Enum.flat_map(fn {v, manifest} ->
-      case Version.parse(v) do
-        {:ok, parsed} -> if satisfies?(parsed, range), do: [{v, parsed, manifest}], else: []
-        :error -> []
-      end
-    end)
+    |> Enum.flat_map(&candidate(&1, range))
     |> Enum.sort_by(fn {_v, parsed, _manifest} -> parsed end, {:desc, Version})
+  end
+
+  defp candidate({v, manifest}, range) do
+    case Version.parse(v) do
+      {:ok, parsed} -> if satisfies?(parsed, range), do: [{v, parsed, manifest}], else: []
+      :error -> []
+    end
   end
 
   defp peers_fit?(manifest, target, state) do
@@ -299,38 +301,44 @@ defmodule MishkaChelekom.CmsBundle.Npm do
         alternative
         |> String.replace(~r/(>=|<=|>|<|=)\s+/, "\\1")
         |> String.split(~r/\s+/, trim: true)
-        |> Enum.reduce_while([], fn token, acc ->
-          case comparator(token) do
-            :invalid -> {:halt, :invalid}
-            list -> {:cont, acc ++ list}
-          end
-        end)
+        |> Enum.reduce_while([], &add_comparator/2)
+    end
+  end
+
+  defp add_comparator(token, acc) do
+    case comparator(token) do
+      :invalid -> {:halt, :invalid}
+      list -> {:cont, acc ++ list}
     end
   end
 
   defp comparator(token) when token in ["*", "x", "X", "latest"], do: []
 
   defp comparator("^" <> rest) do
-    with {:ok, p} <- partial(rest) do
-      upper =
-        cond do
-          p.major > 0 or p.minor == nil -> {p.major + 1, 0, 0}
-          p.minor > 0 or p.patch == nil -> {0, p.minor + 1, 0}
-          true -> {0, 0, p.patch + 1}
-        end
+    case partial(rest) do
+      {:ok, p} ->
+        upper =
+          cond do
+            p.major > 0 or p.minor == nil -> {p.major + 1, 0, 0}
+            p.minor > 0 or p.patch == nil -> {0, p.minor + 1, 0}
+            true -> {0, 0, p.patch + 1}
+          end
 
-      [{:>=, floor_of(p)}, {:ceiling, ceiling(upper)}]
-    else
-      _ -> :invalid
+        [{:>=, floor_of(p)}, {:ceiling, ceiling(upper)}]
+
+      _ ->
+        :invalid
     end
   end
 
   defp comparator("~" <> rest) do
-    with {:ok, p} <- partial(rest) do
-      upper = if p.minor == nil, do: {p.major + 1, 0, 0}, else: {p.major, p.minor + 1, 0}
-      [{:>=, floor_of(p)}, {:ceiling, ceiling(upper)}]
-    else
-      _ -> :invalid
+    case partial(rest) do
+      {:ok, p} ->
+        upper = if p.minor == nil, do: {p.major + 1, 0, 0}, else: {p.major, p.minor + 1, 0}
+        [{:>=, floor_of(p)}, {:ceiling, ceiling(upper)}]
+
+      _ ->
+        :invalid
     end
   end
 

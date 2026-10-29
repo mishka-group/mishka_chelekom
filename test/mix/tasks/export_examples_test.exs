@@ -33,7 +33,7 @@ defmodule Mix.Tasks.Mishka.Ui.ExportExamplesTest do
     end
 
     test "collapses whitespace to a single line and trims" do
-      out = Export.normalize_example_source("  <.x\n     a=\"1\"\n     b=\"2\"  />  ")
+      out = Export.normalize_example_source(~s|  <.x\n     a="1"\n     b="2"  />  |)
       refute out =~ "\n"
       assert out == ~s(<.x a="1" b="2" />)
     end

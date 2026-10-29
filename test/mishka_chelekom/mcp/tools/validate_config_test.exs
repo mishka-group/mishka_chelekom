@@ -9,7 +9,7 @@ defmodule MishkaChelekom.MCP.Tools.ValidateConfigTest do
       schema = ValidateConfig.input_schema()
 
       assert schema["type"] == "object"
-      assert is_map(schema["properties"])
+      assert schema["properties"] == %{}
     end
   end
 

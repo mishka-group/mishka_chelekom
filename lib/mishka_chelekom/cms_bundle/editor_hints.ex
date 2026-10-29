@@ -71,20 +71,30 @@ defmodule MishkaChelekom.CmsBundle.EditorHints do
     end)
   end
 
+  defp hint(attr, _component) when not is_map(attr), do: attr
+
   defp hint(attr, component) do
+    with false <- settled?(attr),
+         editor when is_binary(editor) <- editor_for(attr, component) do
+      put_editor(attr, editor)
+    else
+      _settled_or_none -> attr
+    end
+  end
+
+  defp settled?(attr), do: already_hinted?(attr) or decided_by_type?(attr) or from_a_list?(attr)
+
+  # The first rule that holds names the editor; the order is the order of the sections below.
+  defp editor_for(attr, component) do
     cond do
-      not is_map(attr) -> attr
-      already_hinted?(attr) -> attr
-      decided_by_type?(attr) -> attr
-      from_a_list?(attr) -> attr
-      describes_a_control?(attr) -> put_editor(attr, "text")
-      icon?(attr, component) -> put_editor(attr, "icon")
-      colour?(attr, component) -> put_editor(attr, "color")
-      media?(attr) -> put_editor(attr, "media")
-      url?(attr, component) -> put_editor(attr, "url")
-      number?(attr, component) -> put_editor(attr, "number")
-      prose?(attr, component) -> put_editor(attr, "textarea")
-      true -> attr
+      describes_a_control?(attr) -> "text"
+      icon?(attr, component) -> "icon"
+      colour?(attr, component) -> "color"
+      media?(attr) -> "media"
+      url?(attr, component) -> "url"
+      number?(attr, component) -> "number"
+      prose?(attr, component) -> "textarea"
+      true -> nil
     end
   end
 

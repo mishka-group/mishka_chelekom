@@ -87,6 +87,8 @@ defmodule MishkaChelekom.Kit.Runtime do
   end
 
   # Preserve the attr's type: atom attrs (e.g. alert's `kind`) stay atoms.
+  # A value from the kit's own DSL, compiled into the host.
+  # sobelow_skip ["DOS.StringToAtom"]
   defp safe(current, base) when is_atom(current) and not is_nil(current), do: String.to_atom(base)
   defp safe(_current, base), do: base
 end

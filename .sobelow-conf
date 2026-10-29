@@ -1,0 +1,15 @@
+[
+  exit: :low,
+  format: "txt",
+  ignore: [],
+  ignore_files: [],
+  include_mix_tasks: false,
+  include_scripts: false,
+  out: nil,
+  private: true,
+  router: nil,
+  skip: true,
+  summary: false,
+  threshold: :low,
+  verbose: false
+]

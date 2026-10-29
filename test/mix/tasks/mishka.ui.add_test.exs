@@ -70,7 +70,7 @@ defmodule Mix.Tasks.Mishka.Ui.AddTest do
       eex_source =
         igniter.rewrite.sources["priv/mishka_chelekom/components/component_alert_001.eex"]
 
-      assert eex_source
+      assert %Rewrite.Source{} = eex_source
       eex_content = Rewrite.Source.get(eex_source, :content)
       assert eex_content =~ "defmodule <%= @module %> do"
       assert eex_content =~ "community_alert_001"
@@ -78,7 +78,7 @@ defmodule Mix.Tasks.Mishka.Ui.AddTest do
       exs_source =
         igniter.rewrite.sources["priv/mishka_chelekom/components/component_alert_001.exs"]
 
-      assert exs_source
+      assert %Rewrite.Source{} = exs_source
       exs_content = Rewrite.Source.get(exs_source, :content)
       assert exs_content =~ "component_alert_001:"
       assert exs_content =~ ~s(name: "component_alert_001")
@@ -115,7 +115,7 @@ defmodule Mix.Tasks.Mishka.Ui.AddTest do
       assert_creates(igniter, "priv/mishka_chelekom/presets/button_preset.exs")
 
       eex_source = igniter.rewrite.sources["priv/mishka_chelekom/presets/button_preset.eex"]
-      assert eex_source
+      assert %Rewrite.Source{} = eex_source
       eex_content = Rewrite.Source.get(eex_source, :content)
       assert eex_content == "# Preset button content"
     end
@@ -176,7 +176,7 @@ defmodule Mix.Tasks.Mishka.Ui.AddTest do
       assert_creates(igniter, "priv/mishka_chelekom/javascripts/dropdown_script.js")
 
       js_source = igniter.rewrite.sources["priv/mishka_chelekom/javascripts/dropdown_script.js"]
-      assert js_source
+      assert %Rewrite.Source{} = js_source
       js_content = Rewrite.Source.get(js_source, :content)
       assert js_content == "console.log('Hello from dropdown');"
     end
@@ -254,24 +254,22 @@ defmodule Mix.Tasks.Mishka.Ui.AddTest do
     test "download from actual community URL - component_alert_001" do
       # Mock the GitHub API request for community components
       Req.Test.stub(Req, fn conn ->
-        cond do
-          conn.host == "api.github.com" and
-              String.contains?(
-                conn.request_path,
-                "/repos/mishka-group/mishka_chelekom_community/contents/components/component_alert_001.json"
-              ) ->
-            # GitHub API returns content wrapped in a JSON object with base64 encoded content
-            github_response = %{
-              "content" => Base.encode64(Jason.encode!(@valid_component_json)),
-              "encoding" => "base64"
-            }
+        if conn.host == "api.github.com" and
+             String.contains?(
+               conn.request_path,
+               "/repos/mishka-group/mishka_chelekom_community/contents/components/component_alert_001.json"
+             ) do
+          # GitHub API returns content wrapped in a JSON object with base64 encoded content
+          github_response = %{
+            "content" => Base.encode64(Jason.encode!(@valid_component_json)),
+            "encoding" => "base64"
+          }
 
-            conn
-            |> put_resp_header("content-type", "application/json")
-            |> resp(200, Jason.encode!(github_response))
-
-          true ->
-            resp(conn, 404, "Not found")
+          conn
+          |> put_resp_header("content-type", "application/json")
+          |> resp(200, Jason.encode!(github_response))
+        else
+          resp(conn, 404, "Not found")
         end
       end)
 
@@ -287,7 +285,7 @@ defmodule Mix.Tasks.Mishka.Ui.AddTest do
       eex_source =
         igniter.rewrite.sources["priv/mishka_chelekom/components/component_alert_001.eex"]
 
-      assert eex_source
+      assert %Rewrite.Source{} = eex_source
       eex_content = Rewrite.Source.get(eex_source, :content)
       # The actual content should match what's in @valid_component_json
       assert eex_content =~ "defmodule <%= @module %> do"
@@ -298,17 +296,15 @@ defmodule Mix.Tasks.Mishka.Ui.AddTest do
       # Mock the HTTP request to avoid network dependency
       Req.Test.stub(Req, fn conn ->
         # The stub receives a Plug.Conn struct
-        cond do
-          conn.host == "raw.githubusercontent.com" and
-              String.contains?(conn.request_path, "component_alert_001.json") ->
-            # Return the mock response with proper headers
-            conn
-            |> put_resp_header("content-type", "text/plain; charset=utf-8")
-            |> resp(200, Jason.encode!(@valid_component_json))
-
-          true ->
-            # Return 404 for any other requests
-            resp(conn, 404, "Not found")
+        if conn.host == "raw.githubusercontent.com" and
+             String.contains?(conn.request_path, "component_alert_001.json") do
+          # Return the mock response with proper headers
+          conn
+          |> put_resp_header("content-type", "text/plain; charset=utf-8")
+          |> resp(200, Jason.encode!(@valid_component_json))
+        else
+          # Return 404 for any other requests
+          resp(conn, 404, "Not found")
         end
       end)
 
@@ -418,12 +414,7 @@ defmodule Mix.Tasks.Mishka.Ui.AddTest do
         "files" => []
       }
 
-      assert {:error, errors} = Add.builder(invalid_json)
-      assert is_list(errors)
-
-      assert Enum.any?(errors, fn error ->
-               Map.has_key?(error, :field) && error.field == :type
-             end)
+      assert {:error, [%{field: :type, action: :enum}]} = Add.builder(invalid_json)
     end
 
     test "rejects missing required name field" do
@@ -433,12 +424,7 @@ defmodule Mix.Tasks.Mishka.Ui.AddTest do
         "files" => []
       }
 
-      assert {:error, errors} = Add.builder(incomplete_json)
-      assert is_list(errors)
-
-      assert Enum.any?(errors, fn error ->
-               Map.has_key?(error, :field) && error.field == :name
-             end)
+      assert {:error, [%{field: :name, action: :required_fields}]} = Add.builder(incomplete_json)
     end
 
     test "rejects missing required type field" do
@@ -448,12 +434,7 @@ defmodule Mix.Tasks.Mishka.Ui.AddTest do
         "files" => []
       }
 
-      assert {:error, errors} = Add.builder(incomplete_json)
-      assert is_list(errors)
-
-      assert Enum.any?(errors, fn error ->
-               Map.has_key?(error, :field) && error.field == :type
-             end)
+      assert {:error, [%{field: :type, action: :required_fields}]} = Add.builder(incomplete_json)
     end
 
     test "rejects invalid file structure" do
@@ -470,13 +451,9 @@ defmodule Mix.Tasks.Mishka.Ui.AddTest do
         ]
       }
 
-      assert {:error, errors} = Add.builder(invalid_file_json)
-      assert is_list(errors)
-      # Should have nested errors for the file validation
-      assert Enum.any?(errors, fn error ->
-               Map.has_key?(error, :errors) ||
-                 (Map.has_key?(error, :field) && error.field == :files)
-             end)
+      # The file's own errors are nested under the files field
+      assert {:error, [%{field: :files, errors: [%{field: :type, action: :enum}]}]} =
+               Add.builder(invalid_file_json)
     end
 
     test "rejects files with missing content" do
@@ -492,9 +469,8 @@ defmodule Mix.Tasks.Mishka.Ui.AddTest do
         ]
       }
 
-      assert {:error, errors} = Add.builder(no_content_json)
-      assert is_list(errors)
-      assert length(errors) > 0
+      assert {:error, [%{field: :files, errors: [%{field: :content, action: :required_fields}]}]} =
+               Add.builder(no_content_json)
     end
 
     test "validates multiple files in single JSON" do
@@ -712,9 +688,8 @@ defmodule Mix.Tasks.Mishka.Ui.AddTest do
         ]
       }
 
-      assert {:error, errors} = Add.builder(invalid_name_json)
-      assert is_list(errors)
-      assert length(errors) > 0
+      assert {:error, [%{field: :files, errors: [%{field: :name, action: :regex}]}]} =
+               Add.builder(invalid_name_json)
     end
 
     test "validates string length constraints" do
@@ -725,12 +700,7 @@ defmodule Mix.Tasks.Mishka.Ui.AddTest do
         "files" => []
       }
 
-      assert {:error, errors} = Add.builder(long_name_json)
-      assert is_list(errors)
-
-      assert Enum.any?(errors, fn error ->
-               Map.has_key?(error, :field) && error.field == :name
-             end)
+      assert {:error, [%{field: :name, action: :max_len}]} = Add.builder(long_name_json)
     end
 
     test "validates minimum string length" do
@@ -741,12 +711,7 @@ defmodule Mix.Tasks.Mishka.Ui.AddTest do
         "files" => []
       }
 
-      assert {:error, errors} = Add.builder(short_name_json)
-      assert is_list(errors)
-
-      assert Enum.any?(errors, fn error ->
-               Map.has_key?(error, :field) && error.field == :name
-             end)
+      assert {:error, [%{field: :name, action: :min_len}]} = Add.builder(short_name_json)
     end
   end
 end

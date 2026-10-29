@@ -9,7 +9,10 @@ defmodule MishkaChelekom.MCP.Tools.GenerateComponentTest do
       schema = GenerateComponent.input_schema()
 
       assert schema["type"] == "object"
-      assert is_map(schema["properties"])
+
+      assert Enum.sort(Map.keys(schema["properties"])) ==
+               ~w(color module name only padding rounded size variant)
+
       assert "name" in schema["required"]
     end
 

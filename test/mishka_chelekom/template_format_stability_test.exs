@@ -17,7 +17,7 @@ defmodule MishkaChelekom.TemplateFormatStabilityTest do
   @indent 2
 
   defp templates,
-    do: Path.wildcard(Path.expand("../../priv/{components,headless}/*.eex", __DIR__))
+    do: Path.wildcard(Application.app_dir(:mishka_chelekom, "priv/{components,headless}/*.eex"))
 
   test "there are component templates to check" do
     refute Enum.empty?(templates())
@@ -44,7 +44,7 @@ defmodule MishkaChelekom.TemplateFormatStabilityTest do
     |> Enum.with_index(1)
     |> clauses([])
     |> Enum.flat_map(fn {number, lines} ->
-      clause = lines |> Enum.map(&String.trim/1) |> Enum.join(" ")
+      clause = Enum.map_join(lines, " ", &String.trim/1)
 
       if guard_with_keyword_do?(clause) and not Enum.any?(lines, &block_head?/1) do
         [{number, clause}]

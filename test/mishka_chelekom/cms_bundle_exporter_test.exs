@@ -16,6 +16,8 @@ defmodule MishkaChelekom.CmsBundleExporterTest do
   alias MishkaChelekom.CmsBundleExporter
   alias MishkaChelekom.CmsBundle.Heex, as: HeexTagRewriter
 
+  doctest MishkaChelekom.CmsBundleExporter
+
   @moduletag :unit
 
   @fixture_dir Path.expand("../fixtures/cms_bundle", __DIR__)
@@ -73,8 +75,8 @@ defmodule MishkaChelekom.CmsBundleExporterTest do
     # (FunctionClauseError). The exporter must append a true `_, _` total catch-all to every narrowable
     # dispatcher so the component stays renderable even when trimmed.
     test "every narrowable dispatcher of a real component ends in a `_, …` total catch-all" do
-      exs = File.read!(Path.expand("../../priv/components/progress.exs", __DIR__))
-      eex = File.read!(Path.expand("../../priv/components/progress.eex", __DIR__))
+      exs = File.read!(Application.app_dir(:mishka_chelekom, "priv/components/progress.exs"))
+      eex = File.read!(Application.app_dir(:mishka_chelekom, "priv/components/progress.eex"))
 
       {:ok, %{components: cps}} = CmsBundleExporter.convert(exs, eex, "chelekom", "1.0")
 
@@ -102,8 +104,8 @@ defmodule MishkaChelekom.CmsBundleExporterTest do
       assert {:ok, %{components: cps, scripts: ss}} =
                CmsBundleExporter.convert(e, t, "kit", "1.0")
 
-      assert is_list(cps)
-      assert is_list(ss)
+      assert Enum.map(cps, & &1["name"]) == ["kit-sample-button", "kit-sample-button-link"]
+      assert ss == []
     end
 
     test "every component has the v3 final-form keys", %{button_exs: e, button_eex: t} do
@@ -147,7 +149,7 @@ defmodule MishkaChelekom.CmsBundleExporterTest do
 
       Enum.each(cps, fn c ->
         assert Map.has_key?(c, "type")
-        assert is_list(c["dependencies"])
+        assert c["dependencies"] == ["kit-icon"]
       end)
     end
   end
@@ -407,9 +409,9 @@ defmodule MishkaChelekom.CmsBundleExporterTest do
       cv = Enum.filter(btn["helpers"], &(&1["name"] == "color_variant"))
 
       args = Enum.map(cv, & &1["args"])
-      assert "\"default\", \"primary\"" in args
-      assert "\"default\", \"danger\"" in args
-      assert "\"outline\", \"primary\"" in args
+      assert ~S|"default", "primary"| in args
+      assert ~S|"default", "danger"| in args
+      assert ~S|"outline", "primary"| in args
       assert "%{a: 1} = _multi_line_pattern_match" in args
       assert "_, _" in args
     end
@@ -982,13 +984,9 @@ defmodule MishkaChelekom.CmsBundleExporterTest do
       input = ~s|<input value="<.foo/>"/>|
       siblings = MapSet.new(["foo"])
       out = HeexTagRewriter.rewrite(input, siblings, "kit")
-      # The `<.foo/>` IS in a string literal, but our scanner is
-      # text-mode + `<` initiates tag parse. We don't track double-quoted
-      # context inside an outer tag — but inside `value="..."` the text
-      # is HTML, not HEEx. Phoenix HEEx normally doesn't allow that. We
-      # accept rewriting here as an acceptable limitation; Chelekom
-      # never embeds `<.X/>` in a quoted HTML attribute value.
-      assert out == input or out =~ ~s|component_name="kit-foo"|
+      # The `<.foo/>` sits in the quoted `value="..."` of the enclosing `<input>`, which is HTML
+      # text rather than HEEx, so the rewriter leaves the whole tag as it was.
+      assert out == input
     end
 
     test "EEx interpolation `<%= @foo %>` is left untouched" do

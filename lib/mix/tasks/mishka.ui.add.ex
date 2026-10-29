@@ -195,79 +195,76 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
       Keyword.get(options, :no_github, false)
       |> then(&repo_url(String.trim(repo), igniter, &1))
 
-    http_client = if options[:test], do: Req.new(plug: {Req.Test, Req}), else: Req.new()
-
     final_igniter =
-      if url != "none_url_error" do
-        resp =
-          http_client
-          |> Req.Request.prepend_response_steps(
-            noop: fn {req, res} ->
-              is_text_plain? = res.headers["content-type"] == ["text/plain; charset=utf-8"]
+      if url != "none_url_error",
+        do: add_from_url(igniter, url, repo_action, repo, options),
+        else: add_from_file(igniter, repo)
 
-              if repo_action in [:gist_content, :github_raw] and
-                   !Keyword.get(options, :no_github, false) and is_text_plain? do
-                {converted_req, converted_res} = Req.Steps.decompress_body({req, res})
-                {converted_req, update_in(converted_res.body, &Jason.decode!/1)}
-              else
-                {req, res}
-              end
-            end
-          )
-          |> Req.get!(url: url, headers: convert_headers(Keyword.get(options, :headers, [])))
-
-        igniter =
-          with %Req.Response{status: 200, body: body} <- resp,
-               {:ok, igniter, decoded_body} <-
-                 convert_request_body(body, repo_action, igniter),
-               {:ok, params} <- __MODULE__.builder(decoded_body) do
-            create_requested_files(igniter, params, repo)
-          else
-            %Req.Response{status: 404} ->
-              msg = "The link or repo name entered is wrong."
-              show_errors(igniter, %{fields: :repo, message: msg, action: :get_repo})
-
-            %Req.Response{status: 401} ->
-              msg = "Unauthorized: Access denied. Please check your credentials."
-              show_errors(igniter, %{fields: :repo, message: msg, action: :get_repo})
-
-            {:error, errors} ->
-              show_errors(igniter, errors)
-          end
-
-        igniter
-      else
-        with {:file, {:ok, file}} <- {:file, File.read(String.trim(repo))},
-             {:json, {:ok, decoded_body}} <- {:json, Jason.decode(file)},
-             {:builder, {:ok, params}} <- {:builder, __MODULE__.builder(decoded_body)} do
-          create_requested_files(igniter, params, repo)
-        else
-          {:file, {:error, _result}} ->
-            msg = "Unfortunately, the file cannot be accessed."
-            show_errors(igniter, %{fields: :path, message: msg, action: :get_repo})
-
-          {:json, {:error, _result}} ->
-            msg = "There was a problem reading the JSON file. Please ensure the file is correct."
-            show_errors(igniter, %{fields: :path, message: msg, action: :get_repo})
-
-          {:builder, {:error, errors}} ->
-            show_errors(igniter, errors)
-        end
-      end
-
-    if !options[:test] and tty? do
-      if Map.get(final_igniter, :issues, []) == [],
-        do: Owl.Spinner.stop(id: :my_spinner, resolution: :ok, label: "Done"),
-        else: Owl.Spinner.stop(id: :my_spinner, resolution: :error, label: "Error")
-    end
-
-    final_igniter
+    Core.stop_spinner(final_igniter, !options[:test] and tty?)
   rescue
     errors ->
       show_errors(igniter, errors)
   end
 
-  def supports_umbrella?(), do: false
+  defp add_from_url(igniter, url, repo_action, repo, options) do
+    http_client = if options[:test], do: Req.new(plug: {Req.Test, Req}), else: Req.new()
+
+    resp =
+      http_client
+      |> Req.Request.prepend_response_steps(noop: &decode_text_plain(&1, repo_action, options))
+      |> Req.get!(url: url, headers: convert_headers(Keyword.get(options, :headers, [])))
+
+    with %Req.Response{status: 200, body: body} <- resp,
+         {:ok, igniter, decoded_body} <- convert_request_body(body, repo_action, igniter),
+         {:ok, params} <- __MODULE__.builder(decoded_body) do
+      create_requested_files(igniter, params, repo)
+    else
+      %Req.Response{status: 404} ->
+        msg = "The link or repo name entered is wrong."
+        show_errors(igniter, %{fields: :repo, message: msg, action: :get_repo})
+
+      %Req.Response{status: 401} ->
+        msg = "Unauthorized: Access denied. Please check your credentials."
+        show_errors(igniter, %{fields: :repo, message: msg, action: :get_repo})
+
+      {:error, errors} ->
+        show_errors(igniter, errors)
+    end
+  end
+
+  # A gist or raw GitHub file answers `text/plain`; its body is the JSON this task reads.
+  defp decode_text_plain({req, res}, repo_action, options) do
+    is_text_plain? = res.headers["content-type"] == ["text/plain; charset=utf-8"]
+
+    if repo_action in [:gist_content, :github_raw] and
+         !Keyword.get(options, :no_github, false) and is_text_plain? do
+      {converted_req, converted_res} = Req.Steps.decompress_body({req, res})
+      {converted_req, update_in(converted_res.body, &Jason.decode!/1)}
+    else
+      {req, res}
+    end
+  end
+
+  defp add_from_file(igniter, repo) do
+    with {:file, {:ok, file}} <- {:file, File.read(String.trim(repo))},
+         {:json, {:ok, decoded_body}} <- {:json, Jason.decode(file)},
+         {:builder, {:ok, params}} <- {:builder, __MODULE__.builder(decoded_body)} do
+      create_requested_files(igniter, params, repo)
+    else
+      {:file, {:error, _result}} ->
+        msg = "Unfortunately, the file cannot be accessed."
+        show_errors(igniter, %{fields: :path, message: msg, action: :get_repo})
+
+      {:json, {:error, _result}} ->
+        msg = "There was a problem reading the JSON file. Please ensure the file is correct."
+        show_errors(igniter, %{fields: :path, message: msg, action: :get_repo})
+
+      {:builder, {:error, errors}} ->
+        show_errors(igniter, errors)
+    end
+  end
+
+  def supports_umbrella?, do: false
 
   def uniq_components?(name, value) do
     names = Enum.map(value, & &1[:name]) |> Enum.uniq() |> length()
@@ -315,8 +312,7 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
 
   def format_errors(errors) do
     errors
-    |> Enum.map(&process_error(&1, ""))
-    |> Enum.join("\n")
+    |> Enum.map_join("\n", &process_error(&1, ""))
   end
 
   defp process_error(%{errors: nested_errors} = error, indent) do
@@ -345,8 +341,7 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
 
   defp format_nested_errors(nested_errors, indent) do
     nested_errors
-    |> Enum.map(&process_error(&1, indent))
-    |> Enum.join("\n")
+    |> Enum.map_join("\n", &process_error(&1, indent))
   end
 
   defp repo_url("component_" <> name, igniter, _github?) do
@@ -413,27 +408,21 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
 
   defp convert_request_body(body, url, igniter) when url in @domain_types do
     options = igniter.args.options
-    tty? = IO.ANSI.enabled?()
-    if !options[:test] and tty?, do: Owl.Spinner.stop(id: :my_spinner, resolution: :ok)
+    spin? = !options[:test] and IO.ANSI.enabled?()
 
-    case Igniter.Util.IO.yes?(external_call_warning()) do
-      false ->
-        if !options[:test] and tty?,
-          do: Owl.Spinner.start(id: :my_spinner, labels: [processing: "Please wait..."])
+    # The spinner pauses while the user answers the warning.
+    if spin?, do: Owl.Spinner.stop(id: :my_spinner, resolution: :ok)
+    confirmed? = Igniter.Util.IO.yes?(external_call_warning())
+    if spin?, do: Owl.Spinner.start(id: :my_spinner, labels: [processing: "Please wait..."])
 
-        {:error, "The operation was stopped at your request."}
-
-      true ->
-        if !options[:test] and tty?,
-          do: Owl.Spinner.start(id: :my_spinner, labels: [processing: "Please wait..."])
-
-        if url == :github,
-          do: convert_request_body(body, :community, igniter),
-          else: {:ok, igniter, body}
+    cond do
+      not confirmed? -> {:error, "The operation was stopped at your request."}
+      url == :github -> convert_request_body(body, :community, igniter)
+      true -> {:ok, igniter, body}
     end
   end
 
-  defp external_call_warning() do
+  defp external_call_warning do
     """
     #{IO.ANSI.red()}#{IO.ANSI.bright()}#{IO.ANSI.underline()}This is a security message, please pay attention to it!!!#{IO.ANSI.reset()}
 

@@ -226,8 +226,10 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob.ComponentsTest do
       # the consumer's, which is the worst place to find out.
       leaked =
         igniter.rewrite.sources
-        |> Enum.filter(fn {path, _} -> String.starts_with?(path, "lib/test/") end)
-        |> Enum.filter(fn {_, source} -> Rewrite.Source.get(source, :content) =~ "MishkaMob" end)
+        |> Enum.filter(fn {path, source} ->
+          String.starts_with?(path, "lib/test/") and
+            Rewrite.Source.get(source, :content) =~ "MishkaMob"
+        end)
         |> Enum.map(&elem(&1, 0))
 
       assert leaked == []
@@ -236,8 +238,9 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob.ComponentsTest do
     test "no generated file still contains an unrendered EEx tag", %{igniter: igniter} do
       unrendered =
         igniter.rewrite.sources
-        |> Enum.filter(fn {path, _} -> String.starts_with?(path, "lib/test/") end)
-        |> Enum.filter(fn {_, source} -> Rewrite.Source.get(source, :content) =~ "<%=" end)
+        |> Enum.filter(fn {path, source} ->
+          String.starts_with?(path, "lib/test/") and Rewrite.Source.get(source, :content) =~ "<%="
+        end)
         |> Enum.map(&elem(&1, 0))
 
       assert unrendered == []

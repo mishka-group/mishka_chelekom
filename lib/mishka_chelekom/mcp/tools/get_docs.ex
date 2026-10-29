@@ -127,33 +127,37 @@ defmodule MishkaChelekom.MCP.Tools.GetDocs do
     filename = String.replace(topic, "-", "_")
 
     # Check usage-rules/docs/ for library-level documentation
-    docs_filename = Map.get(@local_docs_map, topic)
+    case Map.get(@local_docs_map, topic) do
+      nil -> local_doc_pointer(filename)
+      docs_filename -> local_lib_doc(PathHelper.lib_doc_path(docs_filename), filename)
+    end
+  end
 
-    docs_path =
-      if docs_filename,
-        do: PathHelper.lib_doc_path(docs_filename),
-        else: nil
+  defp local_lib_doc(docs_path, filename) do
+    if File.exists?(docs_path), do: read_lib_doc(docs_path), else: local_doc_pointer(filename)
+  end
 
-    # Check usage-rules/components/
-    component_path = PathHelper.component_doc_path(filename)
-    # Check usage-rules/js/
-    js_path = PathHelper.js_hook_doc_path(filename)
+  # A path from @local_docs_map, never from the topic as given.
+  # sobelow_skip ["Traversal.FileModule"]
+  defp read_lib_doc(docs_path) do
+    case File.read(docs_path) do
+      {:ok, content} ->
+        """
+        ## Local Documentation
 
+        #{content}
+        """
+
+      _ ->
+        ""
+    end
+  end
+
+  # usage-rules/components/ and usage-rules/js/, for a component or hook this kit ships
+  defp local_doc_pointer(filename) do
     cond do
-      docs_path && File.exists?(docs_path) ->
-        case File.read(docs_path) do
-          {:ok, content} ->
-            """
-            ## Local Documentation
-
-            #{content}
-            """
-
-          _ ->
-            ""
-        end
-
-      File.exists?(component_path) ->
+      ComponentConfig.known_component?(filename) and
+          File.exists?(PathHelper.component_doc_path(filename)) ->
         """
         ## Local Documentation Available
 
@@ -170,7 +174,8 @@ defmodule MishkaChelekom.MCP.Tools.GetDocs do
         ```
         """
 
-      File.exists?(js_path) ->
+      ComponentConfig.known_js_hook?(filename) and
+          File.exists?(PathHelper.js_hook_doc_path(filename)) ->
         """
         ## Local JS Hook Documentation Available
 
@@ -189,8 +194,7 @@ defmodule MishkaChelekom.MCP.Tools.GetDocs do
   defp format_topic_name(topic) do
     topic
     |> String.split("-")
-    |> Enum.map(&String.capitalize/1)
-    |> Enum.join(" ")
+    |> Enum.map_join(" ", &String.capitalize/1)
   end
 
   defp quick_reference(topic) when topic in ["cli", "mix-tasks", "commands"] do

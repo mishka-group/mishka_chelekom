@@ -90,13 +90,7 @@ if Code.ensure_loaded?(Igniter) do
         |> Npm.check_package_manager(package_manager)
         |> Npm.run_command(options)
 
-      if spin? do
-        if Map.get(final, :issues, []) == [],
-          do: Owl.Spinner.stop(id: :my_spinner, resolution: :ok, label: "Done"),
-          else: Owl.Spinner.stop(id: :my_spinner, resolution: :error, label: "Error")
-      end
-
-      final
+      Core.stop_spinner(final, spin?)
     end
 
     defp handle_deps(igniter, deps, options) do

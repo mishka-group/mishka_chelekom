@@ -48,15 +48,15 @@ defmodule MishkaChelekom.Config do
 
   # Load config from a file path
   defp load_config_from_file(config_path) do
-    try do
-      config = Elixir.Config.Reader.read!(config_path)
-      extract_mishka_config(config)
-    rescue
-      _ -> default_config()
-    end
+    config = Elixir.Config.Reader.read!(config_path)
+    extract_mishka_config(config)
+  rescue
+    _ -> default_config()
   end
 
   # Parse config content from string (for test environments)
+  # A temporary file of this call's own, a random name under System.tmp_dir!/0.
+  # sobelow_skip ["Traversal.FileModule"]
   defp load_config_from_string(content) do
     # Write to a temporary file and use Elixir.Config.Reader
     temp_path = Path.join(System.tmp_dir!(), "mishka_config_#{:rand.uniform(999_999)}.exs")
@@ -77,8 +77,8 @@ defmodule MishkaChelekom.Config do
     mishka_config = Keyword.get(config, :mishka_chelekom, [])
 
     # Build the config map by extracting each key with its default
-    Enum.reduce(@config_mappings, %{}, fn {key, default}, acc ->
-      Map.put(acc, key, Keyword.get(mishka_config, key, default))
+    Map.new(@config_mappings, fn {key, default} ->
+      {key, Keyword.get(mishka_config, key, default)}
     end)
   end
 
@@ -111,6 +111,8 @@ defmodule MishkaChelekom.Config do
     Path.join(["priv", "mishka_chelekom", "config.exs"])
   end
 
+  # The stylesheet the project's own config names.
+  # sobelow_skip ["Traversal.FileModule"]
   defp read_custom_css(path, _igniter) do
     full_path =
       if Path.type(path) == :absolute do
@@ -139,6 +141,8 @@ defmodule MishkaChelekom.Config do
     end
   end
 
+  # The library's own stylesheet, in its priv or deps directory.
+  # sobelow_skip ["Traversal.FileModule"]
   defp read_default_css do
     # Get the path from the library's priv directory
     css_path = Path.join(:code.priv_dir(:mishka_chelekom), "assets/css/mishka_chelekom.css")
@@ -568,31 +572,33 @@ defmodule MishkaChelekom.Config do
   Creates the config file with sample content if it doesn't exist.
   """
   def update_component_prefix(igniter, prefix) when is_binary(prefix) do
+    update_user_config(igniter, &update_prefix_in_content(&1, prefix))
+  end
+
+  # Rewrites the user's config file with `update`, reading it from the pending Igniter change, the
+  # file system or, when there is none yet, the sample config.
+  # The project's own config file.
+  # sobelow_skip ["Traversal.FileModule"]
+  defp update_user_config(igniter, update) do
     config_path = user_config_path(igniter)
 
-    # Get existing content or create sample config
     existing_content =
       case Rewrite.source(igniter.rewrite, config_path) do
         {:ok, source} ->
           Rewrite.Source.get(source, :content)
 
         {:error, _} ->
-          # Config doesn't exist, check file system
           if File.exists?(config_path) do
             File.read!(config_path)
           else
-            # Create sample config content
             {_igniter, _path, sample_content} = create_sample_config(igniter)
             sample_content
           end
       end
 
-    # Update the component_prefix line
-    updated_content = update_prefix_in_content(existing_content, prefix)
+    updated_content = update.(existing_content)
 
-    # Write the updated content
-    igniter
-    |> Igniter.create_or_update_file(config_path, updated_content, fn source ->
+    Igniter.create_or_update_file(igniter, config_path, updated_content, fn source ->
       Rewrite.Source.update(source, :content, updated_content)
     end)
   end
@@ -626,33 +632,7 @@ defmodule MishkaChelekom.Config do
   Creates the config file with sample content if it doesn't exist.
   """
   def update_module_prefix(igniter, prefix) when is_binary(prefix) do
-    config_path = user_config_path(igniter)
-
-    # Get existing content or create sample config
-    existing_content =
-      case Rewrite.source(igniter.rewrite, config_path) do
-        {:ok, source} ->
-          Rewrite.Source.get(source, :content)
-
-        {:error, _} ->
-          # Config doesn't exist, check file system
-          if File.exists?(config_path) do
-            File.read!(config_path)
-          else
-            # Create sample config content
-            {_igniter, _path, sample_content} = create_sample_config(igniter)
-            sample_content
-          end
-      end
-
-    # Update the module_prefix line
-    updated_content = update_module_prefix_in_content(existing_content, prefix)
-
-    # Write the updated content
-    igniter
-    |> Igniter.create_or_update_file(config_path, updated_content, fn source ->
-      Rewrite.Source.update(source, :content, updated_content)
-    end)
+    update_user_config(igniter, &update_module_prefix_in_content(&1, prefix))
   end
 
   defp update_module_prefix_in_content(content, prefix) do

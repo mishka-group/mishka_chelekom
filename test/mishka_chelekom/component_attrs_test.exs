@@ -8,10 +8,10 @@ defmodule MishkaChelekom.ComponentAttrsTest do
   """
   use ExUnit.Case, async: true
 
-  @templates Path.wildcard(Path.expand("../../priv/components/*.eex", __DIR__))
-  @catalogs Path.wildcard(Path.expand("../../priv/components/*.exs", __DIR__))
+  @templates Path.wildcard(Application.app_dir(:mishka_chelekom, "priv/components/*.eex"))
+  @catalogs Path.wildcard(Application.app_dir(:mishka_chelekom, "priv/components/*.exs"))
   @rules Path.wildcard(Path.expand("../../usage-rules/components/*.md", __DIR__))
-  @demos Path.wildcard(Path.expand("../../priv/demos/*_live.{ex,html.heex}", __DIR__))
+  @demos Path.wildcard(Application.app_dir(:mishka_chelekom, "priv/demos/*_live.{ex,html.heex}"))
 
   # The HTML boolean attributes: present or absent, never a string.
   @html_booleans ~w(ismap autoplay loop muted playsinline disabled readonly required

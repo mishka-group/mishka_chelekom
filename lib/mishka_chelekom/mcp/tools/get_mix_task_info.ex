@@ -55,6 +55,8 @@ defmodule MishkaChelekom.MCP.Tools.GetMixTaskInfo do
     {:reply, response, frame}
   end
 
+  # The library's own usage-rules/mix-tasks.md, at a fixed path.
+  # sobelow_skip ["Traversal.FileModule"]
   defp get_full_documentation do
     usage_rules_path = PathHelper.mix_tasks_doc_path()
 
@@ -76,6 +78,8 @@ defmodule MishkaChelekom.MCP.Tools.GetMixTaskInfo do
     end
   end
 
+  # The library's own usage-rules/mix-tasks.md, at a fixed path.
+  # sobelow_skip ["Traversal.FileModule"]
   defp get_task_section(task) do
     # Normalize task name
     normalized =

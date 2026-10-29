@@ -60,6 +60,8 @@ defmodule MishkaChelekom.DemoAssignsExtractor do
   Missing files yield `{%{}, []}`.
   """
   @spec extract_from_file(Path.t()) :: extraction_result()
+  # Reads the kit's own demo files.
+  # sobelow_skip ["Traversal.FileModule"]
   def extract_from_file(path) do
     case File.read(path) do
       {:ok, source} -> extract_from_source(source)
@@ -90,7 +92,7 @@ defmodule MishkaChelekom.DemoAssignsExtractor do
 
   defp find_mount_in_block(stmts) do
     Enum.find_value(stmts, fn
-      {:def, _, [{:mount, _, args}, [do: body]]} when length(args) == 3 -> body
+      {:def, _, [{:mount, _, [_params, _session, _socket]}, [do: body]]} -> body
       _ -> nil
     end)
   end
@@ -140,29 +142,33 @@ defmodule MishkaChelekom.DemoAssignsExtractor do
   end
 
   defp to_atom_key(k) when is_atom(k), do: k
+  # Assign names from the kit's own demo files.
+  # sobelow_skip ["DOS.StringToAtom"]
   defp to_atom_key(k) when is_binary(k), do: String.to_atom(k)
   defp to_atom_key({:__aliases__, _, _}), do: nil
   defp to_atom_key(_), do: nil
 
+  # Evaluates a value from the kit's own demo file, once contains_unsafe?/1 found no call outside @safe_modules.
+  # sobelow_skip ["RCE.CodeModule"]
   defp eval_value(ast) do
-    cond do
-      contains_unsafe?(ast) ->
-        {:error, :unsafe_call}
+    if contains_unsafe?(ast) do
+      {:error, :unsafe_call}
+    else
+      try do
+        {value, _bindings} =
+          Code.eval_quoted(ast, [], file: "demo_assigns_extractor", line: 1)
 
-      true ->
-        try do
-          {value, _bindings} =
-            Code.eval_quoted(ast, [], file: "demo_assigns_extractor", line: 1)
-
-          if serializable?(value), do: {:ok, value}, else: {:error, :unsupported_expression}
-        rescue
-          _ -> {:error, :raised}
-        catch
-          _, _ -> {:error, :raised}
-        end
+        if serializable?(value), do: {:ok, value}, else: {:error, :unsupported_expression}
+      rescue
+        _ -> {:error, :raised}
+      catch
+        _, _ -> {:error, :raised}
+      end
     end
   end
 
+  # Joins the alias parts of the kit's own demo source only to compare them with @safe_modules.
+  # sobelow_skip ["DOS.ModuleConcat"]
   defp contains_unsafe?(ast) do
     {_, found?} =
       Macro.prewalk(ast, false, fn
@@ -211,17 +217,15 @@ defmodule MishkaChelekom.DemoAssignsExtractor do
 
   # Anything we couldn't represent in JSON or that the CMS shouldn't
   # accept. Functions, PIDs, refs are all out.
-  defp serializable?(value) do
-    case value do
-      v when is_function(v) -> false
-      v when is_pid(v) -> false
-      v when is_reference(v) -> false
-      v when is_port(v) -> false
-      v when is_tuple(v) -> Enum.all?(Tuple.to_list(v), &serializable?/1)
-      v when is_list(v) -> Enum.all?(v, &serializable?/1)
-      %_struct{} = s -> Map.from_struct(s) |> Map.values() |> Enum.all?(&serializable?/1)
-      v when is_map(v) -> Enum.all?(Map.values(v), &serializable?/1)
-      _ -> true
-    end
-  end
+  defp serializable?(v) when is_function(v) or is_pid(v) or is_reference(v) or is_port(v),
+    do: false
+
+  defp serializable?(v) when is_tuple(v), do: Enum.all?(Tuple.to_list(v), &serializable?/1)
+  defp serializable?(v) when is_list(v), do: Enum.all?(v, &serializable?/1)
+
+  defp serializable?(%_struct{} = s),
+    do: s |> Map.from_struct() |> Map.values() |> Enum.all?(&serializable?/1)
+
+  defp serializable?(v) when is_map(v), do: Enum.all?(Map.values(v), &serializable?/1)
+  defp serializable?(_v), do: true
 end

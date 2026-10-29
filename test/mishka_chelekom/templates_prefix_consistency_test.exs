@@ -13,11 +13,23 @@ defmodule MishkaChelekom.TemplatesPrefixConsistencyTest do
   """
   use ExUnit.Case, async: true
 
+  alias MishkaChelekom.Generators.Core
+
   @prefix_token "<%= @component_prefix %>"
   @templates Path.wildcard("priv/{components,headless}/*.eex")
 
   test "there are component templates to check" do
+    igniter = Igniter.new()
+
+    shipped =
+      for layer <- [:styled, :headless],
+          name <- Core.all_component_names(igniter, layer),
+          do: "priv/#{Path.basename(Core.template_dir(layer))}/#{name}.eex"
+
     assert @templates != [], "expected priv/{components,headless}/*.eex templates to exist"
+
+    assert Enum.sort(@templates) == Enum.sort(shipped),
+           "the wildcard and the generator disagree about which templates ship"
   end
 
   test "every prefixed component is opened and closed with a well-formed prefix" do

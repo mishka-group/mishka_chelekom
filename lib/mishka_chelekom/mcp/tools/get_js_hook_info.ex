@@ -54,22 +54,20 @@ defmodule MishkaChelekom.MCP.Tools.GetJsHookInfo do
     {:reply, response, frame}
   end
 
+  # The path is built only once ComponentConfig.known_js_hook?/1 accepted the name.
+  # sobelow_skip ["Traversal.FileModule"]
   defp get_hook_info(name) do
     # Normalize name (handle both "collapsible" and "Collapsible")
     normalized_name = name |> String.downcase() |> String.replace(" ", "_")
 
-    usage_rules_path = PathHelper.js_hook_doc_path(normalized_name)
-
-    if File.exists?(usage_rules_path) do
-      case File.read(usage_rules_path) do
-        {:ok, content} ->
-          format_hook_doc(normalized_name, content)
-
-        {:error, _} ->
-          fallback_response(normalized_name)
-      end
+    # The path is built only from a hook this kit ships, never from the name as given.
+    with true <- ComponentConfig.known_js_hook?(normalized_name),
+         usage_rules_path = PathHelper.js_hook_doc_path(normalized_name),
+         true <- File.exists?(usage_rules_path),
+         {:ok, content} <- File.read(usage_rules_path) do
+      format_hook_doc(normalized_name, content)
     else
-      fallback_response(normalized_name)
+      _not_found -> fallback_response(normalized_name)
     end
   end
 
@@ -78,17 +76,8 @@ defmodule MishkaChelekom.MCP.Tools.GetJsHookInfo do
     scripts_by_component = ComponentConfig.list_scripts()
 
     hooks_info =
-      Enum.map(hooks, fn hook ->
-        # Find which components use this hook
-        using_components =
-          scripts_by_component
-          |> Enum.filter(fn {_comp, scripts} ->
-            Enum.any?(scripts, fn script ->
-              file = script[:file] || script.file
-              String.contains?(file, hook.name)
-            end)
-          end)
-          |> Enum.map(fn {comp, _} -> comp end)
+      Enum.map_join(hooks, "\n", fn hook ->
+        using_components = using_components(hook, scripts_by_component)
 
         components_str =
           if using_components == [] do
@@ -99,7 +88,6 @@ defmodule MishkaChelekom.MCP.Tools.GetJsHookInfo do
 
         "- **#{hook.module}** (`#{hook.file}`) - Used by: #{components_str}"
       end)
-      |> Enum.join("\n")
 
     """
     # ⚡ JavaScript Hooks
@@ -131,6 +119,13 @@ defmodule MishkaChelekom.MCP.Tools.GetJsHookInfo do
     """
   end
 
+  # The components whose `scripts:` name this hook's file.
+  defp using_components(hook, scripts_by_component) do
+    for {comp, scripts} <- scripts_by_component,
+        Enum.any?(scripts, &String.contains?(&1[:file] || &1.file, hook.name)),
+        do: comp
+  end
+
   defp format_hook_doc(name, content) do
     """
     # #{format_name(name)} JavaScript Hook
@@ -145,7 +140,7 @@ defmodule MishkaChelekom.MCP.Tools.GetJsHookInfo do
 
   defp fallback_response(name) do
     hooks = ComponentConfig.list_js_hooks()
-    hook_names = Enum.map(hooks, & &1.name) |> Enum.join(", ")
+    hook_names = Enum.map_join(hooks, ", ", & &1.name)
 
     """
     # #{format_name(name)} Hook
@@ -176,7 +171,6 @@ defmodule MishkaChelekom.MCP.Tools.GetJsHookInfo do
   defp format_name(name) do
     name
     |> String.split("_")
-    |> Enum.map(&String.capitalize/1)
-    |> Enum.join("")
+    |> Enum.map_join(&String.capitalize/1)
   end
 end

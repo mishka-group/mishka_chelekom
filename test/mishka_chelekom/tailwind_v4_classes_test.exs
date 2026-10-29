@@ -133,32 +133,43 @@ defmodule MishkaChelekom.TailwindV4ClassesTest do
   defp problems(class, in_list?) do
     {segments, raw, utility} = split(class)
 
-    removed =
-      for {pattern, instead} <- removed_rules(), Regex.match?(pattern, utility), do: instead
-
-    bare =
-      for {pattern, instead} <- bare_rules(),
-          Regex.match?(pattern, utility),
-          in_list? or segments != [],
-          do: instead
-
-    important =
-      if String.starts_with?(raw, "!") and Regex.match?(~r/^!-?[a-z]/, raw) and
-           (in_list? or segments != [] or String.contains?(raw, "-")),
-         do: ["a trailing ! (#{String.trim_leading(raw, "!")}!)"],
-         else: []
-
-    variable =
-      if Regex.match?(~r/-\[--[A-Za-z]/, utility), do: ["(--name) instead of [--name]"], else: []
-
-    stacking =
-      case Enum.find_index(segments, &(&1 == "*")) do
-        index when is_integer(index) and index > 0 -> ["*: before the other variants"]
-        _ -> []
-      end
+    removed = removed_problems(utility)
+    bare = bare_problems(utility, segments, in_list?)
+    important = important_problems(raw, segments, in_list?)
+    variable = variable_problems(utility)
+    stacking = stacking_problems(segments)
 
     for instead <- removed ++ bare ++ important ++ variable ++ stacking,
         do: "#{class}: #{instead}"
+  end
+
+  defp removed_problems(utility) do
+    for {pattern, instead} <- removed_rules(), Regex.match?(pattern, utility), do: instead
+  end
+
+  defp bare_problems(utility, segments, in_list?) do
+    for {pattern, instead} <- bare_rules(),
+        Regex.match?(pattern, utility),
+        in_list? or segments != [],
+        do: instead
+  end
+
+  defp important_problems(raw, segments, in_list?) do
+    if String.starts_with?(raw, "!") and Regex.match?(~r/^!-?[a-z]/, raw) and
+         (in_list? or segments != [] or String.contains?(raw, "-")),
+       do: ["a trailing ! (#{String.trim_leading(raw, "!")}!)"],
+       else: []
+  end
+
+  defp variable_problems(utility) do
+    if Regex.match?(~r/-\[--[A-Za-z]/, utility), do: ["(--name) instead of [--name]"], else: []
+  end
+
+  defp stacking_problems(segments) do
+    case Enum.find_index(segments, &(&1 == "*")) do
+      index when is_integer(index) and index > 0 -> ["*: before the other variants"]
+      _ -> []
+    end
   end
 
   # `outline` with `outline-<n>` under the same variants: v4's outline-<n> already sets the style.
@@ -176,20 +187,24 @@ defmodule MishkaChelekom.TailwindV4ClassesTest do
 
   defp violations(path, strings) do
     Enum.flat_map(strings, fn {number, prefix, string} ->
-      words = String.split(string)
-
-      if Enum.any?(words, &String.contains?(&1, @hints)) do
-        size_helper? =
-          Regex.match?(~r/defp?\s+\w*(?:rounded|shadow|blur|filter|ring)\w*\(.*do:\s*$/, prefix)
-
-        in_list? = size_helper? or class_list?(words)
-
-        for problem <- Enum.flat_map(words, &problems(&1, in_list?)) ++ outline_pairs(words),
-            do: "#{path}:#{number}: #{problem}"
-      else
-        []
-      end
+      string_violations(path, number, prefix, string)
     end)
+  end
+
+  defp string_violations(path, number, prefix, string) do
+    words = String.split(string)
+
+    if Enum.any?(words, &String.contains?(&1, @hints)) do
+      size_helper? =
+        Regex.match?(~r/defp?\s+\w*(?:rounded|shadow|blur|filter|ring)\w*\(.*do:\s*$/, prefix)
+
+      in_list? = size_helper? or class_list?(words)
+
+      for problem <- Enum.flat_map(words, &problems(&1, in_list?)) ++ outline_pairs(words),
+          do: "#{path}:#{number}: #{problem}"
+    else
+      []
+    end
   end
 
   defp base_variant_shadows(path, text) do

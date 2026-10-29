@@ -7,8 +7,11 @@ defmodule MishkaChelekom.HeadlessClosedPopupsTest do
   """
   use ExUnit.Case, async: true
 
-  @stylesheet Path.expand("../../priv/assets/css/mishka_chelekom_headless.css", __DIR__)
-  @templates Path.wildcard(Path.expand("../../priv/headless/*.eex", __DIR__))
+  @stylesheet Application.app_dir(
+                :mishka_chelekom,
+                "priv/assets/css/mishka_chelekom_headless.css"
+              )
+  @templates Path.wildcard(Application.app_dir(:mishka_chelekom, "priv/headless/*.eex"))
 
   # The navigation menu's popup sits inside its positioner, and the positioner is what closes.
   @closed_through %{"chelekom-navigation_menu__popup" => "chelekom-navigation_menu__positioner"}

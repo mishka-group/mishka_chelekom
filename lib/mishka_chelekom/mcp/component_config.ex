@@ -18,29 +18,66 @@ defmodule MishkaChelekom.MCP.ComponentConfig do
 
   Returns a list of `{name, config}` tuples where config is a keyword list.
   """
+  # Evaluates the library's own priv/components configs.
+  # sobelow_skip ["RCE.CodeModule"]
   def load_all do
     path = components_path()
 
-    if File.exists?(path) do
-      path
-      |> File.ls!()
-      |> Enum.filter(&String.ends_with?(&1, ".exs"))
-      |> Enum.map(fn file ->
-        file_path = Path.join(path, file)
+    component_names()
+    |> Enum.map(fn name ->
+      file_path = Path.join(path, name <> ".exs")
 
-        try do
-          {[{name, config}], _} = Code.eval_file(file_path)
-          {name, config}
-        rescue
-          _ -> nil
-        end
-      end)
-      |> Enum.reject(&is_nil/1)
-      |> Enum.sort_by(fn {name, _} -> to_string(name) end)
-    else
-      []
+      # A config that does not read, or is not one `name: [...]` entry, is left out.
+      try do
+        {[{name, config}], _} = Code.eval_file(file_path)
+        {name, config}
+      rescue
+        _ in [
+          CompileError,
+          SyntaxError,
+          TokenMissingError,
+          MismatchedDelimiterError,
+          MatchError,
+          File.Error
+        ] ->
+          nil
+      end
+    end)
+    |> Enum.reject(&is_nil/1)
+    |> Enum.sort_by(fn {name, _} -> to_string(name) end)
+  end
+
+  @doc """
+  The names of the components this kit ships, one per `priv/components/*.exs` config.
+  """
+  @spec component_names() :: [String.t()]
+  def component_names do
+    case File.ls(components_path()) do
+      {:ok, files} -> for file <- files, Path.extname(file) == ".exs", do: Path.rootname(file)
+      {:error, _reason} -> []
     end
   end
+
+  @doc """
+  Whether `name` is one of `component_names/0`.
+
+  An MCP tool takes a component name from its client; it checks it here before it builds a path
+  from it, evaluates a file named by it or looks it up, so a name such as `"../../mix"` reaches no
+  file.
+  """
+  @spec known_component?(term()) :: boolean()
+  def known_component?(name) when is_binary(name), do: name in component_names()
+  def known_component?(_name), do: false
+
+  @doc """
+  Whether `name` is one of the JS hooks `list_js_hooks/0` lists, checked the same way as
+  `known_component?/1` before a hook name from the client becomes a path.
+  """
+  @spec known_js_hook?(term()) :: boolean()
+  def known_js_hook?(name) when is_binary(name),
+    do: Enum.any?(list_js_hooks(), &(&1.name == name))
+
+  def known_js_hook?(_name), do: false
 
   @doc """
   Returns all components with their metadata.
@@ -86,11 +123,10 @@ defmodule MishkaChelekom.MCP.ComponentConfig do
   """
   def list_doc_urls do
     load_all()
-    |> Enum.map(fn {name, config} ->
+    |> Map.new(fn {name, config} ->
       name_str = to_string(name)
       {name_str, Keyword.get(config, :doc_url, default_doc_url(name_str))}
     end)
-    |> Enum.into(%{})
   end
 
   @doc """
@@ -275,16 +311,16 @@ defmodule MishkaChelekom.MCP.ComponentConfig do
   @doc """
   Gets configuration for a specific component.
   """
-  def get_component(name) when is_binary(name) do
-    get_component(String.to_atom(name))
-  end
+  def get_component(name) when is_atom(name), do: get_component(Atom.to_string(name))
 
-  def get_component(name) when is_atom(name) do
-    load_all()
-    |> Enum.find(fn {n, _} -> n == name end)
-    |> case do
-      {_name, config} -> config
-      nil -> nil
+  def get_component(name) when is_binary(name) do
+    if known_component?(name) do
+      load_all()
+      |> Enum.find(fn {n, _} -> Atom.to_string(n) == name end)
+      |> case do
+        {_name, config} -> config
+        nil -> nil
+      end
     end
   end
 

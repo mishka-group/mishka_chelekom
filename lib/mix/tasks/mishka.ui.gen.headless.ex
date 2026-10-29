@@ -57,7 +57,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless do
     }
   end
 
-  def supports_umbrella?(), do: false
+  def supports_umbrella?, do: false
 
   def igniter(igniter) do
     Application.ensure_all_started(:owl)
@@ -82,13 +82,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless do
       |> maybe_setup_css()
       |> maybe_save_prefixes()
 
-    if spin? do
-      if Map.get(final, :issues, []) == [],
-        do: Owl.Spinner.stop(id: :my_spinner, resolution: :ok, label: "Done"),
-        else: Owl.Spinner.stop(id: :my_spinner, resolution: :error, label: "Error")
-    end
-
-    final
+    Core.stop_spinner(final, spin?)
   end
 
   defp print_banner(options) do

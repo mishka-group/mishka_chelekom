@@ -59,7 +59,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob.Components do
     }
   end
 
-  def supports_umbrella?(), do: false
+  def supports_umbrella?, do: false
 
   def igniter(igniter) do
     # See mishka.ui.gen.mob — Owl.Spinner needs its supervisor started.
@@ -94,13 +94,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob.Components do
       |> whitelist_tags(options)
       |> Core.maybe_save_prefixes(options)
 
-    if tty? do
-      if Map.get(igniter, :issues, []) == [],
-        do: Owl.Spinner.stop(id: :my_spinner, resolution: :ok, label: "Done"),
-        else: Owl.Spinner.stop(id: :my_spinner, resolution: :error, label: "Error")
-    end
-
-    igniter
+    Core.stop_spinner(igniter, tty?)
   end
 
   defp write_registry(igniter, options) do

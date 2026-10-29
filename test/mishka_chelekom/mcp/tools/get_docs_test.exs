@@ -9,7 +9,7 @@ defmodule MishkaChelekom.MCP.Tools.GetDocsTest do
       schema = GetDocs.input_schema()
 
       assert schema["type"] == "object"
-      assert is_map(schema["properties"])
+      assert Map.keys(schema["properties"]) == ["topic"]
       assert "topic" in schema["required"]
     end
   end
@@ -98,7 +98,8 @@ defmodule MishkaChelekom.MCP.Tools.GetDocsTest do
       text = content["text"]
 
       # Alert has local usage-rules docs
-      assert text =~ "get_example" or text =~ "get_component_info"
+      assert text =~ ~s|get_example(name: "alert")|
+      assert text =~ ~s|get_component_info(name: "alert")|
     end
   end
 
@@ -125,6 +126,17 @@ defmodule MishkaChelekom.MCP.Tools.GetDocsTest do
       text = content["text"]
 
       assert text =~ "Button"
+    end
+
+    test "a topic that walks out of usage-rules/components finds no local doc" do
+      topic = "../components/button"
+      assert File.exists?("usage-rules/components/#{topic}.md")
+
+      {:reply, response, _frame} = GetDocs.execute(%{topic: topic}, %Frame{})
+      [content | _] = response.content
+
+      assert content["text"] =~ "Online Documentation"
+      refute content["text"] =~ "Local Documentation Available"
     end
   end
 end

@@ -68,6 +68,8 @@ defmodule MishkaChelekom.CmsBundleExporter do
 
   def decode_atom_map(value), do: value
 
+  # The atoms come from a kit bundle this library wrote (see decode_atom_map/1), not from a request.
+  # sobelow_skip ["DOS.StringToAtom"]
   defp decode_term(":" <> atom), do: String.to_atom(atom)
   defp decode_term(list) when is_list(list), do: Enum.map(list, &decode_term/1)
   defp decode_term(term), do: term
@@ -307,7 +309,7 @@ defmodule MishkaChelekom.CmsBundleExporter do
   defp total_catch_all(_signature, _clauses, false), do: []
 
   defp total_catch_all({name, arity}, clauses, true) do
-    if is_integer(arity) and length(clauses) > 1 and dispatcher_group?(clauses) and
+    if is_integer(arity) and match?([_, _ | _], clauses) and dispatcher_group?(clauses) and
          not already_total?(clauses) do
       [
         %{
@@ -374,6 +376,8 @@ defmodule MishkaChelekom.CmsBundleExporter do
     end
   end
 
+  # Evaluates the kit's own `.exs` config, from the directory the export task is given.
+  # sobelow_skip ["RCE.CodeModule"]
   defp read_exs(exs_source) when is_binary(exs_source) do
     {value, _binding} = Code.eval_string(exs_source)
 
@@ -385,6 +389,8 @@ defmodule MishkaChelekom.CmsBundleExporter do
     e -> {:error, {:exs_eval_failed, Exception.message(e)}}
   end
 
+  # Renders the kit's own `.eex` with the attr names of its own `.exs`, at export time.
+  # sobelow_skip ["DOS.StringToAtom", "RCE.EEx"]
   defp render_maximal(eex_source, _config) do
     referenced =
       ~r/@([a-z_][a-zA-Z0-9_]*)/
@@ -691,18 +697,14 @@ defmodule MishkaChelekom.CmsBundleExporter do
   defp classify_import(full, _line) when full in @tier1_import_modules, do: {:tier1, full}
 
   defp classify_import(full, line) do
-    cond do
-      String.contains?(full, ".Components.") -> {:icon_companion, full}
-      true -> {:line, line}
-    end
+    if String.contains?(full, ".Components."), do: {:icon_companion, full}, else: {:line, line}
   end
 
   defp format_only_kw(nil), do: nil
 
   defp format_only_kw(only) when is_list(only) do
     only
-    |> Enum.map(fn {name, arity} -> "#{name}: #{arity}" end)
-    |> Enum.join(", ")
+    |> Enum.map_join(", ", fn {name, arity} -> "#{name}: #{arity}" end)
   end
 
   defp parse_use([{:__aliases__, _, parts}]) do
@@ -916,11 +918,9 @@ defmodule MishkaChelekom.CmsBundleExporter do
   defp opt_value({fun, _, args}) when is_atom(fun) and is_list(args), do: :__drop__
 
   defp opt_value(ast) do
-    try do
-      Macro.to_string(ast)
-    rescue
-      _ -> inspect(ast)
-    end
+    Macro.to_string(ast)
+  rescue
+    _ -> inspect(ast)
   end
 
   # Encode each map entry. Returns `{:ok, list}` of `{encoded_k,
@@ -1027,7 +1027,7 @@ defmodule MishkaChelekom.CmsBundleExporter do
   defp head_to_helper_entry(head, body, _visibility, attrs, slots) do
     {name, args, guard} = decompose_head(head)
 
-    args_str = args |> Enum.map(&Macro.to_string/1) |> Enum.join(", ")
+    args_str = Enum.map_join(args, ", ", &Macro.to_string/1)
 
     full_args =
       if guard, do: "#{args_str} when #{Macro.to_string(guard)}", else: args_str
@@ -1176,10 +1176,7 @@ defmodule MishkaChelekom.CmsBundleExporter do
       template =
         MishkaChelekom.CmsBundle.Heex.rewrite(component.template, sibling_names, kit_name)
 
-      body =
-        if is_binary(component.body),
-          do: MishkaChelekom.CmsBundle.Heex.rewrite(component.body, sibling_names, kit_name),
-          else: component.body
+      body = rewrite_body(component.body, sibling_names, kit_name)
 
       helpers =
         Enum.map(component.__private_helpers__, fn h ->
@@ -1189,13 +1186,7 @@ defmodule MishkaChelekom.CmsBundleExporter do
       extra_clauses =
         Enum.map(component.__extra_clauses__, fn c ->
           tpl = MishkaChelekom.CmsBundle.Heex.rewrite(c.template, sibling_names, kit_name)
-
-          bdy =
-            if is_binary(c.body),
-              do: MishkaChelekom.CmsBundle.Heex.rewrite(c.body, sibling_names, kit_name),
-              else: c.body
-
-          %{c | template: tpl, body: bdy}
+          %{c | template: tpl, body: rewrite_body(c.body, sibling_names, kit_name)}
         end)
 
       %{
@@ -1207,6 +1198,12 @@ defmodule MishkaChelekom.CmsBundleExporter do
       }
     end
   end
+
+  # A body is HEEx text to rewrite, or `nil` for a component with none.
+  defp rewrite_body(body, sibling_names, kit_name) when is_binary(body),
+    do: MishkaChelekom.CmsBundle.Heex.rewrite(body, sibling_names, kit_name)
+
+  defp rewrite_body(body, _sibling_names, _kit_name), do: body
 
   # Single-clause defs whose head pattern destructures `assigns`
   # (e.g. `def f(%{a: a, b: b} = assigns)`) lose the destructure when
@@ -1296,7 +1293,7 @@ defmodule MishkaChelekom.CmsBundleExporter do
     Enum.reject(prelude_lines, fn line ->
       case parse_import_only_line(line) do
         {:ok, only_pairs} ->
-          Enum.any?(only_pairs, fn pair -> MapSet.member?(local_sigs, pair) end)
+          Enum.any?(only_pairs, &MapSet.member?(local_sigs, &1))
 
         :no_match ->
           false
@@ -1389,12 +1386,23 @@ defmodule MishkaChelekom.CmsBundleExporter do
 
     script_deps =
       (scripts || [])
-      |> Enum.map(fn s -> s[:file] || s["file"] end)
+      |> Enum.map(& &1[:file])
       |> Enum.reject(&(is_nil(&1) or &1 == ""))
       |> Enum.map(&to_string/1)
 
     (sibling_deps ++ script_deps) |> Enum.uniq()
   end
+
+  defp attr_params(a, opts) do
+    base = %{"name" => a.name, "type" => a.type, "opts" => opts}
+
+    if Map.has_key?(a, :struct_name),
+      do: Map.put(base, "struct_name", a.struct_name),
+      else: base
+  end
+
+  defp slot_params(s),
+    do: %{"name" => s.name, "opts" => stringify_keys(s.opts), "attrs" => s.attrs}
 
   defp finalize_component_params(c) do
     helpers =
@@ -1410,20 +1418,9 @@ defmodule MishkaChelekom.CmsBundleExporter do
         helper_attrs =
           h
           |> Map.get(:attrs, [])
-          |> Enum.map(fn a ->
-            base = %{"name" => a.name, "type" => a.type, "opts" => stringify_keys(a.opts)}
+          |> Enum.map(&attr_params(&1, stringify_keys(&1.opts)))
 
-            if Map.has_key?(a, :struct_name),
-              do: Map.put(base, "struct_name", a.struct_name),
-              else: base
-          end)
-
-        helper_slots =
-          h
-          |> Map.get(:slots, [])
-          |> Enum.map(fn s ->
-            %{"name" => s.name, "opts" => stringify_keys(s.opts), "attrs" => s.attrs}
-          end)
+        helper_slots = h |> Map.get(:slots, []) |> Enum.map(&slot_params/1)
 
         %{
           "name" => h.name,
@@ -1437,18 +1434,13 @@ defmodule MishkaChelekom.CmsBundleExporter do
 
     attrs =
       Enum.map(c.attrs, fn a ->
-        opts = a.opts |> stringify_keys() |> AttrValues.put(Map.get(c.__declared__, a.name))
-        base = %{"name" => a.name, "type" => a.type, "opts" => opts}
-
-        if Map.has_key?(a, :struct_name),
-          do: Map.put(base, "struct_name", a.struct_name),
-          else: base
+        attr_params(
+          a,
+          a.opts |> stringify_keys() |> AttrValues.put(Map.get(c.__declared__, a.name))
+        )
       end)
 
-    slots =
-      Enum.map(c.slots, fn s ->
-        %{"name" => s.name, "opts" => stringify_keys(s.opts), "attrs" => s.attrs}
-      end)
+    slots = Enum.map(c.slots, &slot_params/1)
 
     module_attributes =
       Enum.map(c.__module_attrs__, fn ma ->

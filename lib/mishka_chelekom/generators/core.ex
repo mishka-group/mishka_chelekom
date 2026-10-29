@@ -54,9 +54,8 @@ defmodule MishkaChelekom.Generators.Core do
   @type layer :: :styled | :headless | :mob
 
   @doc """
-  Joins a sub-path onto the library `priv/` dir.
-
-      iex> MishkaChelekom.Generators.Core.lib_priv("components/button.eex")
+  Joins a sub-path onto the library `priv/` dir, for example
+  `lib_priv("components/button.eex")` for the button template.
   """
   @spec lib_priv(String.t()) :: String.t()
   def lib_priv(sub), do: Path.join(lib_priv_dir(), sub)
@@ -310,11 +309,12 @@ defmodule MishkaChelekom.Generators.Core do
   Turns a dotted, lower-case string into a module atom (`"a_b.c" -> :"AB.C"`).
   """
   @spec module_atom(String.t()) :: atom()
+  # Module names given on the command line or in the project's config.
+  # sobelow_skip ["DOS.StringToAtom"]
   def module_atom(field) do
     field
     |> String.split(".", trim: true)
-    |> Enum.map(&Macro.camelize/1)
-    |> Enum.join(".")
+    |> Enum.map_join(".", &Macro.camelize/1)
     |> String.to_atom()
   end
 
@@ -322,6 +322,8 @@ defmodule MishkaChelekom.Generators.Core do
   Like `module_atom/1` but keeps only the last segment (`"a.b.c" -> :C`).
   """
   @spec module_atom(String.t(), :last) :: atom()
+  # Module names given on the command line or in the project's config.
+  # sobelow_skip ["DOS.StringToAtom"]
   def module_atom(field, :last) do
     field
     |> String.split(".", trim: true)
@@ -334,6 +336,8 @@ defmodule MishkaChelekom.Generators.Core do
   Turns a component name string into an atom (used to index a catalog `.exs`).
   """
   @spec component_atom(String.t()) :: atom()
+  # Component names given on the command line or in the project's config.
+  # sobelow_skip ["DOS.StringToAtom"]
   def component_atom(component_str), do: String.to_atom(component_str)
 
   @doc """
@@ -344,6 +348,21 @@ defmodule MishkaChelekom.Generators.Core do
     art = String.trim_trailing(@banner)
     art = if subtitle, do: art <> "\n" <> center_subtitle(art, subtitle), else: art
     IO.puts(color <> art <> IO.ANSI.reset())
+  end
+
+  @doc """
+  Stops the "Please wait..." spinner a task started when `spin?` is true: with "Done", or with
+  "Error" when `igniter` carries issues. Returns `igniter`, so a task ends with it.
+  """
+  @spec stop_spinner(Igniter.t(), boolean()) :: Igniter.t()
+  def stop_spinner(igniter, spin?) do
+    if spin? do
+      if Map.get(igniter, :issues, []) == [],
+        do: Owl.Spinner.stop(id: :my_spinner, resolution: :ok, label: "Done"),
+        else: Owl.Spinner.stop(id: :my_spinner, resolution: :error, label: "Error")
+    end
+
+    igniter
   end
 
   # Center under the widest art line ("Mishka.tools"), anchoring on THAT line's own column span
@@ -374,26 +393,30 @@ defmodule MishkaChelekom.Generators.Core do
         """)
 
       {:ok, dep} ->
-        version_req =
-          case {is_binary(dep), Regex.run(~r/"([^"]+)"/, dep)} do
-            {true, [_, version]} -> version
-            _ -> nil
-          end
-
-        if version_req && !valid_version?(version_req, @phoenix_min, fn _ -> true end) do
-          Igniter.add_issue(igniter, """
-          Phoenix version requirement #{inspect(version_req)} is not compatible.
-          Mishka Chelekom requires Phoenix #{@phoenix_min} or higher.
-          Please update your Phoenix dependency to "~> 1.8" or higher.
-          """)
-        else
-          igniter
-        end
+        check_phoenix_requirement(igniter, dep)
 
       {:error, _} ->
         igniter
     end
     |> check_tailwind()
+  end
+
+  defp check_phoenix_requirement(igniter, dep) do
+    version_req =
+      case {is_binary(dep), Regex.run(~r/"([^"]+)"/, dep)} do
+        {true, [_, version]} -> version
+        _ -> nil
+      end
+
+    if version_req && !valid_version?(version_req, @phoenix_min, fn _ -> true end) do
+      Igniter.add_issue(igniter, """
+      Phoenix version requirement #{inspect(version_req)} is not compatible.
+      Mishka Chelekom requires Phoenix #{@phoenix_min} or higher.
+      Please update your Phoenix dependency to "~> 1.8" or higher.
+      """)
+    else
+      igniter
+    end
   end
 
   defp check_tailwind(igniter) do

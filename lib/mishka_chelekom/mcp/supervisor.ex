@@ -24,11 +24,15 @@ defmodule MishkaChelekom.MCP.Supervisor do
   ## Options
 
   - `:port` - HTTP port to listen on (default: 4003)
+  - `:ip` - address to listen on (default: `{127, 0, 0, 1}`, so only this machine can connect).
+    Pass `{0, 0, 0, 0}` (or another address) to accept connections from other machines; the
+    server has no authentication, so only on a network you trust.
   """
 
   use Supervisor
 
   @default_port 4003
+  @default_ip {127, 0, 0, 1}
 
   def start_link(opts \\ []) do
     Supervisor.start_link(__MODULE__, opts, name: __MODULE__)
@@ -37,26 +41,28 @@ defmodule MishkaChelekom.MCP.Supervisor do
   @impl true
   def init(opts) do
     port = Keyword.get(opts, :port, @default_port)
+    ip = Keyword.get(opts, :ip, @default_ip)
 
     # MCP Server and Registry are already started by MishkaChelekom.Application
     # We only need to start the HTTP server for standalone mode
     children = [
-      http_server_child(port)
+      http_server_child(port, ip)
     ]
 
     Supervisor.init(children, strategy: :one_for_one)
   end
 
-  defp http_server_child(port) do
+  defp http_server_child(port, ip) do
     cond do
       Code.ensure_loaded?(Bandit) ->
-        {Bandit, plug: MishkaChelekom.MCP.Router, port: port}
+        {Bandit, plug: MishkaChelekom.MCP.Router, port: port, ip: ip}
 
       Code.ensure_loaded?(Plug.Cowboy) ->
-        {Plug.Cowboy, scheme: :http, plug: MishkaChelekom.MCP.Router, options: [port: port]}
+        {Plug.Cowboy,
+         scheme: :http, plug: MishkaChelekom.MCP.Router, options: [port: port, ip: ip]}
 
       true ->
-        raise "No HTTP server available. Please add {:bandit, \"~> 1.0\"} or {:plug_cowboy, \"~> 2.7\"} to your dependencies."
+        raise ~s(No HTTP server available. Please add {:bandit, "~> 1.0"} or {:plug_cowboy, "~> 2.7"} to your dependencies.)
     end
   end
 end

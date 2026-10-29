@@ -68,16 +68,18 @@ defmodule MishkaChelekom.CmsBundle.DocsPage do
         # the two numbers agree.
         ast
         |> assign_refs()
-        |> Enum.flat_map(fn {assign_name, n} ->
-          case Map.fetch(bodies, n) do
-            {:ok, body} -> [{assign_name, body}]
-            :error -> []
-          end
-        end)
+        |> Enum.flat_map(&assign_body(&1, bodies))
         |> Map.new()
 
       {:error, _} ->
         %{}
+    end
+  end
+
+  defp assign_body({assign_name, n}, bodies) do
+    case Map.fetch(bodies, n) do
+      {:ok, body} -> [{assign_name, body}]
+      :error -> []
     end
   end
 

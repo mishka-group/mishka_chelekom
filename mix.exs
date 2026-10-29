@@ -24,9 +24,15 @@ defmodule MishkaChelekom.MixProject do
         source_ref: "v#{@version}",
         extras: ["README.md", "MCP.md", "CHANGELOG.md"],
         source_url: @source_url
-      ]
+      ],
+      # `lib/mix/` calls `Mix`, and `test/support` (compiled in :test, where `mix ci` runs dialyzer)
+      # calls ExUnit; neither is in the default PLT. `.dialyzer_ignore.exs` lists what dialyzer
+      # reports that is not a defect, each with the reason.
+      dialyzer: [plt_add_apps: [:mix, :ex_unit], ignore_warnings: ".dialyzer_ignore.exs"]
     ]
   end
+
+  def cli, do: [preferred_envs: [ci: :test]]
 
   def application do
     [
@@ -46,7 +52,19 @@ defmodule MishkaChelekom.MixProject do
   defp aliases do
     [
       "mcp.server": ["mishka.mcp.server"],
-      "mcp.setup": ["mishka.mcp.setup"]
+      "mcp.setup": ["mishka.mcp.setup"],
+      ci: [
+        # First: after `compile`, Mix prunes the code path and the Hex archive's task can no longer be found.
+        "hex.audit",
+        "compile --warnings-as-errors",
+        "format --check-formatted",
+        "credo --strict",
+        "sobelow --config",
+        "deps.audit",
+        "dialyzer",
+        "ex_dna --max-clones 0",
+        "test"
+      ]
     ]
   end
 
@@ -64,6 +82,12 @@ defmodule MishkaChelekom.MixProject do
       # carried it for a while; this project did not, which is how a HIGH-severity bandit
       # advisory sat in all three lockfiles unnoticed. Not forced on consumers.
       {:mix_audit, "~> 2.1", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:sobelow, "~> 0.18", only: [:dev, :test], runtime: false},
+      {:jump_credo_checks, "~> 0.7", only: [:dev, :test], runtime: false},
+      {:ex_slop, "~> 0.4", only: [:dev, :test], runtime: false},
+      {:ex_dna, "~> 1.5", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
       # EXPORT-TIME ONLY, and never forced on a consumer. This kit's components name heroicon
       # CLASSES (`hero-bell`) and leave the pictures to the host's Tailwind plugin — which is right
       # for a Phoenix app and impossible for a CMS installing the bundle, because it has neither the

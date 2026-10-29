@@ -97,7 +97,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
     }
   end
 
-  def supports_umbrella?(), do: false
+  def supports_umbrella?, do: false
 
   def igniter(igniter) do
     Application.ensure_all_started(:owl)
@@ -121,13 +121,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
       |> maybe_setup_css()
       |> maybe_save_prefixes()
 
-    if spin? do
-      if Map.get(final, :issues, []) == [],
-        do: Owl.Spinner.stop(id: :my_spinner, resolution: :ok, label: "Done"),
-        else: Owl.Spinner.stop(id: :my_spinner, resolution: :error, label: "Error")
-    end
-
-    final
+    Core.stop_spinner(final, spin?)
   end
 
   defp print_banner(options) do
@@ -221,21 +215,23 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
   defp validate_args(options, config) do
     options
     |> Keyword.take(Keyword.keys(config[:args]))
-    |> Enum.reduce({[], []}, fn {key, value}, {bad_acc, data_acc} ->
-      case config[:args][key] do
-        args when is_list(args) ->
-          splited_args = Core.convert_options(value)
+    |> Enum.reduce({[], []}, &validate_arg(&1, &2, config[:args]))
+  end
 
-          if !Enum.all?(splited_args, &(&1 in args)) do
-            {[{key, args} | bad_acc], data_acc}
-          else
-            {bad_acc, [{key, splited_args} | data_acc]}
-          end
+  defp validate_arg({key, value}, {bad_acc, data_acc}, allowed) do
+    case allowed[key] do
+      args when is_list(args) ->
+        splited_args = Core.convert_options(value)
 
-        _ ->
-          {bad_acc, [{key, value} | data_acc]}
-      end
-    end)
+        if Enum.all?(splited_args, &(&1 in args)) do
+          {bad_acc, [{key, splited_args} | data_acc]}
+        else
+          {[{key, args} | bad_acc], data_acc}
+        end
+
+      _ ->
+        {bad_acc, [{key, value} | data_acc]}
+    end
   end
 
   defp bad_args_message(bad_args) do
@@ -304,109 +300,110 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
   end
 
   defp necessary_components(igniter) do
-    options = igniter.args.options
     template_config = igniter.assigns.template_config
-    template_path = igniter.assigns.template_path
-    proper_location = igniter.assigns.proper_location
-    assign = igniter.assigns.eex_assigns
 
     if Keyword.get(template_config, :necessary, []) != [] and Igniter.changed?(igniter) do
-      interactive? =
-        !options[:sub] and !options[:yes] and !options[:no_sub_config] and Mix.env() != :test
-
-      prompt? = !options[:yes] and !options[:no_sub_config] and Mix.env() != :test
-
-      if interactive? do
-        IO.puts("#{IO.ANSI.bright() <> "Note:\n" <> IO.ANSI.reset()}")
-
-        msg = """
-        This component is dependent on other components, so it is necessary to build other
-        items along with this component.
-
-        Note: If you have used custom names for your dependent modules, this script will not be able to find them,
-        so it will think that they have not been created.
-
-        Components: #{Enum.join(template_config[:necessary], " - ")}
-        """
-
-        Mix.Shell.IO.info(IO.ANSI.cyan() <> String.trim_trailing(msg) <> IO.ANSI.reset())
-
-        msg =
-          "\nNote: \nIf approved, dependent components will be created without restrictions and you can change them manually."
-
-        IO.puts("#{IO.ANSI.blue() <> msg <> IO.ANSI.reset()}")
-
-        IO.puts(
-          "#{IO.ANSI.cyan() <> "\nYou can run before generating this component:" <> IO.ANSI.reset()}"
-        )
-      end
-
-      if prompt? do
-        IO.puts(
-          "#{IO.ANSI.yellow() <> "#{Enum.map(template_config[:necessary], &"\n   * mix mishka.ui.gen.component #{&1}\n")}" <> IO.ANSI.reset()}"
-        )
-      end
-
-      if interactive? do
-        Mix.Shell.IO.error("""
-
-        In this section you can set your custom args for each dependent component.
-        If you press the enter key, you have selected the default settings
-        """)
-      end
-
-      template_config[:necessary]
-      |> Enum.reduce({[], igniter}, fn item, {module_coms, acc} ->
-        commands =
-          if prompt? do
-            Mix.Shell.IO.prompt("* Component #{String.capitalize(item)}: Enter your args:")
-            |> String.trim()
-            |> String.split(" ", trim: true)
-          else
-            []
-          end
-
-        args =
-          cond do
-            !is_nil(options[:yes]) ->
-              [item, "--sub", "--no-sub-config", "--yes"]
-
-            !is_nil(options[:no_sub_config]) ->
-              [item, "--sub", "--no-sub-config"]
-
-            commands == [] ->
-              [item, "--sub"]
-
-            true ->
-              [item, "--sub"] ++ commands
-          end
-
-        component_acc =
-          if !is_nil(options[:module]) do
-            [{item, Core.module_atom(options[:module])}]
-          else
-            []
-          end
-
-        {module_coms ++ component_acc, Igniter.compose_task(acc, "mishka.ui.gen.component", args)}
-      end)
-      |> case do
-        {[], igniter} ->
-          igniter
-
-        {custom_modules, igniter} ->
-          new_assign =
-            Enum.map(custom_modules, fn {k, v} -> {String.to_atom(k), v} end)
-            |> then(&Keyword.merge(assign, &1))
-
-          igniter
-          |> Igniter.copy_template(template_path, proper_location, new_assign,
-            on_exists: :overwrite
-          )
-      end
+      generate_necessary(igniter, template_config[:necessary])
     else
       igniter
     end
+  end
+
+  defp generate_necessary(igniter, necessary) do
+    options = igniter.args.options
+    assigns = igniter.assigns
+
+    interactive? =
+      !options[:sub] and !options[:yes] and !options[:no_sub_config] and Mix.env() != :test
+
+    prompt? = !options[:yes] and !options[:no_sub_config] and Mix.env() != :test
+
+    if interactive?, do: print_necessary_note(necessary)
+
+    if prompt? do
+      IO.puts(
+        "#{IO.ANSI.yellow() <> "#{Enum.map(necessary, &"\n   * mix mishka.ui.gen.component #{&1}\n")}" <> IO.ANSI.reset()}"
+      )
+    end
+
+    if interactive? do
+      Mix.Shell.IO.error("""
+
+      In this section you can set your custom args for each dependent component.
+      If you press the enter key, you have selected the default settings
+      """)
+    end
+
+    necessary
+    |> Enum.reduce({[], igniter}, &compose_necessary(&1, &2, options, prompt?))
+    |> regenerate_with_custom_modules(assigns)
+  end
+
+  defp print_necessary_note(necessary) do
+    IO.puts("#{IO.ANSI.bright() <> "Note:\n" <> IO.ANSI.reset()}")
+
+    msg = """
+    This component is dependent on other components, so it is necessary to build other
+    items along with this component.
+
+    Note: If you have used custom names for your dependent modules, this script will not be able to find them,
+    so it will think that they have not been created.
+
+    Components: #{Enum.join(necessary, " - ")}
+    """
+
+    Mix.Shell.IO.info(IO.ANSI.cyan() <> String.trim_trailing(msg) <> IO.ANSI.reset())
+
+    msg =
+      "\nNote: \nIf approved, dependent components will be created without restrictions and you can change them manually."
+
+    IO.puts("#{IO.ANSI.blue() <> msg <> IO.ANSI.reset()}")
+
+    IO.puts(
+      "#{IO.ANSI.cyan() <> "\nYou can run before generating this component:" <> IO.ANSI.reset()}"
+    )
+  end
+
+  defp compose_necessary(item, {module_coms, acc}, options, prompt?) do
+    commands = if prompt?, do: prompt_args(item), else: []
+
+    component_acc =
+      if is_nil(options[:module]) do
+        []
+      else
+        [{item, Core.module_atom(options[:module])}]
+      end
+
+    {module_coms ++ component_acc,
+     Igniter.compose_task(acc, "mishka.ui.gen.component", necessary_args(item, options, commands))}
+  end
+
+  defp prompt_args(item) do
+    Mix.Shell.IO.prompt("* Component #{String.capitalize(item)}: Enter your args:")
+    |> String.trim()
+    |> String.split(" ", trim: true)
+  end
+
+  defp necessary_args(item, options, commands) do
+    cond do
+      !is_nil(options[:yes]) -> [item, "--sub", "--no-sub-config", "--yes"]
+      !is_nil(options[:no_sub_config]) -> [item, "--sub", "--no-sub-config"]
+      commands == [] -> [item, "--sub"]
+      true -> [item, "--sub"] ++ commands
+    end
+  end
+
+  defp regenerate_with_custom_modules({[], igniter}, _assigns), do: igniter
+
+  defp regenerate_with_custom_modules({custom_modules, igniter}, assigns) do
+    new_assign =
+      Enum.map(custom_modules, fn {k, v} -> {String.to_atom(k), v} end)
+      |> then(&Keyword.merge(assigns.eex_assigns, &1))
+
+    igniter
+    |> Igniter.copy_template(assigns.template_path, assigns.proper_location, new_assign,
+      on_exists: :overwrite
+    )
   end
 
   # Apply filters for all component attributes from config
@@ -453,21 +450,10 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
       configured_values = config[config_key] || []
       available_values = template_config[:args][option_key] || []
 
-      case {configured_values, available_values} do
-        {[], _} ->
-          options
-
-        {_, []} ->
-          options
-
-        {config_values, component_values} ->
-          valid_values = Enum.filter(config_values, &(&1 in component_values))
-
-          if valid_values != [] do
-            Keyword.put(options, option_key, valid_values)
-          else
-            options
-          end
+      # Only the configured values this component offers; none of them leaves the option alone.
+      case Enum.filter(configured_values, &(&1 in available_values)) do
+        [] -> options
+        valid_values -> Keyword.put(options, option_key, valid_values)
       end
     end
   end

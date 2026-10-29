@@ -2,6 +2,16 @@ defmodule Mix.Tasks.Mishka.Assets.DepsTest do
   use ExUnit.Case
   import Igniter.Test
 
+  alias MishkaChelekom.Generators.Npm
+
+  # The package manager the install task was queued for: the head of its argv.
+  defp queued_manager(igniter) do
+    assert [{"mishka.assets.install", [manager, _package_type, "install"]}] =
+             Enum.filter(igniter.tasks, &match?({"mishka.assets.install", _argv}, &1))
+
+    manager
+  end
+
   describe "ensure_package_json_exists/1" do
     test "creates package.json if it doesn't exist" do
       app_name = :test_app
@@ -222,7 +232,7 @@ defmodule Mix.Tasks.Mishka.Assets.DepsTest do
         }))
         |> Igniter.compose_task("mishka.assets.deps", ["lodash", "--npm", "--yes", "--test"])
 
-      assert igniter.assigns[:package_manager] == :npm
+      assert queued_manager(igniter) == "npm"
     end
 
     test "uses bun when --bun flag is provided" do
@@ -234,7 +244,7 @@ defmodule Mix.Tasks.Mishka.Assets.DepsTest do
         }))
         |> Igniter.compose_task("mishka.assets.deps", ["lodash", "--bun", "--yes", "--test"])
 
-      assert igniter.assigns[:package_manager] == :bun
+      assert queued_manager(igniter) == "bun"
     end
 
     test "uses yarn when --yarn flag is provided" do
@@ -247,7 +257,8 @@ defmodule Mix.Tasks.Mishka.Assets.DepsTest do
         |> Igniter.compose_task("mishka.assets.deps", ["lodash", "--yarn", "--yes", "--test"])
 
       # If yarn is not installed, it will fallback to bun mix dependency
-      assert igniter.assigns[:package_manager] in [:yarn, :bun]
+      expected = if System.find_executable("yarn"), do: "yarn", else: "bun"
+      assert queued_manager(igniter) == expected
     end
 
     test "adds bun as mix dependency when --mix-bun flag is provided" do
@@ -282,9 +293,9 @@ defmodule Mix.Tasks.Mishka.Assets.DepsTest do
         }))
         |> Igniter.compose_task("mishka.assets.deps", ["lodash", "--yes", "--test"])
 
-      # It should either find a package manager or set up mix bun
-      assert igniter.assigns[:package_manager] in [:npm, :bun, :yarn, nil] or
-               igniter.assigns[:package_manager_type] == "mix"
+      # It uses the package manager found on the PATH, or sets up mix bun when there is none
+      expected = (Npm.detect() || :bun) |> Atom.to_string()
+      assert queued_manager(igniter) == expected
     end
   end
 

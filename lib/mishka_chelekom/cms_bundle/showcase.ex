@@ -201,7 +201,7 @@ defmodule MishkaChelekom.CmsBundle.Showcase do
       {:ok, tokens} ->
         Enum.find_value(tokens, %{}, fn
           {:local_component, "component", attrs, _meta} ->
-            for {name, {:string, value, _}, _} <- attrs, into: %{}, do: {name, value}
+            string_attrs(attrs)
 
           _token ->
             nil
@@ -211,6 +211,9 @@ defmodule MishkaChelekom.CmsBundle.Showcase do
         %{}
     end
   end
+
+  defp string_attrs(attrs),
+    do: for({name, {:string, value, _}, _} <- attrs, into: %{}, do: {name, value})
 
   # A leading underscore marks a file that is ABOUT the showcase rather than part
   # of it — `_schema.json`, which authors validate against. Without this it would
@@ -225,6 +228,8 @@ defmodule MishkaChelekom.CmsBundle.Showcase do
     |> Map.new()
   end
 
+  # Reads the kit's own showcase files, from the directory the export is given.
+  # sobelow_skip ["Traversal.FileModule"]
   defp read(path) do
     with {:ok, raw} <- File.read(path),
          {:ok, json} <- Jason.decode(raw),
@@ -293,6 +298,8 @@ defmodule MishkaChelekom.CmsBundle.Showcase do
 
   defp extra(other, _samples), do: other
 
+  # Reads the kit's own showcase files, from the directory the export is given.
+  # sobelow_skip ["Traversal.FileModule"]
   defp samples(dir) do
     files = Path.wildcard(Path.join(dir, "*"))
 

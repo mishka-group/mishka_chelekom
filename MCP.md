@@ -24,6 +24,7 @@ mix mishka.mcp.server
 |:-------|:------|:------------|:--------|
 | `--transport` | `-t` | Transport: `http` or `stdio` | `http` |
 | `--port` | `-p` | HTTP port (http transport only) | `4003` |
+| `--ip` | | Address to listen on (http transport only). `0.0.0.0` lets other machines connect; the server has no authentication | `127.0.0.1` |
 
 **Example:**
 

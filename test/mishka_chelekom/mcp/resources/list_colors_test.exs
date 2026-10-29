@@ -1,6 +1,7 @@
 defmodule MishkaChelekom.MCP.Resources.ListColorsTest do
   use ExUnit.Case, async: true
 
+  alias MishkaChelekom.MCP.ComponentConfig
   alias MishkaChelekom.MCP.Resources.ListColors
   alias Anubis.Server.Frame
 
@@ -26,8 +27,8 @@ defmodule MishkaChelekom.MCP.Resources.ListColorsTest do
 
       data = Jason.decode!(response.contents["text"])
 
-      assert is_list(data["colors"])
-      assert length(data["colors"]) > 0
+      assert data["colors"] != []
+      assert data["colors"] == ComponentConfig.list_colors()
     end
 
     test "includes common color variants" do
@@ -54,10 +55,9 @@ defmodule MishkaChelekom.MCP.Resources.ListColorsTest do
 
       data = Jason.decode!(response.contents["text"])
 
-      assert is_list(data["details"])
-      [detail | _] = data["details"]
+      assert [detail | _] = data["details"]
 
-      assert Map.has_key?(detail, "name")
+      assert detail["name"] == hd(data["colors"])
       assert Map.has_key?(detail, "description")
       assert Map.has_key?(detail, "usage")
     end
@@ -69,8 +69,8 @@ defmodule MishkaChelekom.MCP.Resources.ListColorsTest do
 
       data = Jason.decode!(response.contents["text"])
 
-      assert is_binary(data["usage_example"])
-      assert String.contains?(data["usage_example"], "mix mishka.ui.gen.component")
+      assert data["usage_example"] ==
+               "mix mishka.ui.gen.component alert --color \"info,danger,warning\""
     end
   end
 end

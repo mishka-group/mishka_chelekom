@@ -3,6 +3,7 @@ defmodule Mix.Tasks.Mishka.Mcp.ServerTest do
 
   @moduletag :mcp_server
 
+  alias Mix.Tasks.Mishka.Mcp.Server, as: ServerTask
   alias MishkaChelekom.MCP.Supervisor, as: MCPSupervisor
 
   describe "MCP Server" do
@@ -38,6 +39,24 @@ defmodule Mix.Tasks.Mishka.Mcp.ServerTest do
       assert Process.alive?(pid)
 
       # Clean stop
+      Supervisor.stop(pid, :normal, 1000)
+    end
+
+    test "listens on loopback unless told otherwise", %{port: port} do
+      {:ok, pid} = MCPSupervisor.start_link(port: port)
+      [{_id, listener, _type, _modules}] = Supervisor.which_children(pid)
+
+      assert {:ok, {{127, 0, 0, 1}, ^port}} = ThousandIsland.listener_info(listener)
+
+      Supervisor.stop(pid, :normal, 1000)
+    end
+
+    test "listens on the address it is given", %{port: port} do
+      {:ok, pid} = MCPSupervisor.start_link(port: port, ip: {0, 0, 0, 0})
+      [{_id, listener, _type, _modules}] = Supervisor.which_children(pid)
+
+      assert {:ok, {{0, 0, 0, 0}, ^port}} = ThousandIsland.listener_info(listener)
+
       Supervisor.stop(pid, :normal, 1000)
     end
 
@@ -138,15 +157,18 @@ defmodule Mix.Tasks.Mishka.Mcp.ServerTest do
       # Check that the server module has the expected tools and resources
       components = MishkaChelekom.MCP.Server.__components__()
 
-      assert is_list(components)
-      assert length(components) > 0
+      assert [_ | _] = components
+
+      handlers = Enum.map(components, & &1.handler)
+
+      assert MishkaChelekom.MCP.Tools.GenerateComponent in handlers
+      assert MishkaChelekom.MCP.Resources.ListComponents in handlers
     end
 
     test "server module has tools" do
       tools = MishkaChelekom.MCP.Server.__components__(:tool)
 
-      assert is_list(tools)
-      assert length(tools) > 0
+      assert [_ | _] = tools
 
       # Check for expected tools - components return structs with handler field
       tool_handlers = Enum.map(tools, fn tool -> tool.handler end)
@@ -160,8 +182,7 @@ defmodule Mix.Tasks.Mishka.Mcp.ServerTest do
     test "server module has resources" do
       resources = MishkaChelekom.MCP.Server.__components__(:resource)
 
-      assert is_list(resources)
-      assert length(resources) > 0
+      assert [_ | _] = resources
 
       # Check for expected resources - components return structs with handler field
       resource_handlers = Enum.map(resources, fn resource -> resource.handler end)
@@ -174,27 +195,36 @@ defmodule Mix.Tasks.Mishka.Mcp.ServerTest do
   end
 
   describe "Router" do
-    test "router module exists" do
-      assert Code.ensure_loaded?(MishkaChelekom.MCP.Router)
+    test "router serves the landing page at /" do
+      conn =
+        :get
+        |> Plug.Test.conn("/")
+        |> MishkaChelekom.MCP.Router.call(MishkaChelekom.MCP.Router.init([]))
+
+      assert conn.status == 200
+      assert conn.resp_body =~ "Mishka Chelekom MCP Server"
+      assert conn.resp_body =~ "http://localhost:4003/mcp"
     end
   end
 
   describe "parse_args/1 (transport selection)" do
-    alias Mix.Tasks.Mishka.Mcp.Server, as: ServerTask
-
     test "defaults to http on port 4003 when no args" do
-      assert {:ok, {:http, 4003}} = ServerTask.parse_args([])
+      assert {:ok, {:http, [port: 4003, ip: {127, 0, 0, 1}]}} = ServerTask.parse_args([])
     end
 
     test "--port overrides default http port" do
-      assert {:ok, {:http, 5000}} = ServerTask.parse_args(["--port", "5000"])
-      assert {:ok, {:http, 5000}} = ServerTask.parse_args(["-p", "5000"])
+      assert {:ok, {:http, [port: 5000, ip: {127, 0, 0, 1}]}} =
+               ServerTask.parse_args(["--port", "5000"])
+
+      assert {:ok, {:http, [port: 5000, ip: {127, 0, 0, 1}]}} =
+               ServerTask.parse_args(["-p", "5000"])
     end
 
     test "--transport http is equivalent to default" do
-      assert {:ok, {:http, 4003}} = ServerTask.parse_args(["--transport", "http"])
+      assert {:ok, {:http, [port: 4003, ip: {127, 0, 0, 1}]}} =
+               ServerTask.parse_args(["--transport", "http"])
 
-      assert {:ok, {:http, 5000}} =
+      assert {:ok, {:http, [port: 5000, ip: {127, 0, 0, 1}]}} =
                ServerTask.parse_args(["--transport", "http", "--port", "5000"])
     end
 
@@ -208,6 +238,17 @@ defmodule Mix.Tasks.Mishka.Mcp.ServerTest do
       assert {:ok, :stdio} = ServerTask.parse_args(["--transport", "stdio", "--port", "9999"])
     end
 
+    test "--ip overrides the loopback default, and a bad one is an error" do
+      assert {:ok, {:http, [port: 4003, ip: {0, 0, 0, 0}]}} =
+               ServerTask.parse_args(["--ip", "0.0.0.0"])
+
+      assert {:ok, {:http, [port: 4003, ip: {0, 0, 0, 0, 0, 0, 0, 1}]}} =
+               ServerTask.parse_args(["--ip", "::1"])
+
+      assert {:error, msg} = ServerTask.parse_args(["--ip", "not-an-address"])
+      assert msg =~ "Invalid --ip"
+    end
+
     test "unknown transport returns an error" do
       assert {:error, msg} = ServerTask.parse_args(["--transport", "tcp"])
       assert msg =~ "Unknown --transport"
@@ -217,24 +258,51 @@ defmodule Mix.Tasks.Mishka.Mcp.ServerTest do
   end
 
   describe "Application transport override" do
-    test "Application.start reads :mcp_transport from app env" do
-      # Default: when unset, Application should choose the existing HTTP transport.
-      original = Application.get_env(:mishka_chelekom, :mcp_transport)
+    setup do
+      original = Application.fetch_env(:mishka_chelekom, :mcp_transport)
+
+      on_exit(fn ->
+        Application.stop(:mishka_chelekom)
+
+        case original do
+          {:ok, val} -> Application.put_env(:mishka_chelekom, :mcp_transport, val)
+          :error -> Application.delete_env(:mishka_chelekom, :mcp_transport)
+        end
+
+        {:ok, _} = Application.ensure_all_started(:mishka_chelekom)
+      end)
+
+      Application.stop(:mishka_chelekom)
+      :ok
+    end
+
+    test "Application.start chooses the streamable HTTP transport when :mcp_transport is unset" do
       Application.delete_env(:mishka_chelekom, :mcp_transport)
+      {:ok, sup} = MishkaChelekom.Application.start(:normal, [])
 
       try do
-        default =
-          Application.get_env(:mishka_chelekom, :mcp_transport, {:streamable_http, start: true})
+        assert [{MishkaChelekom.MCP.Server, server, :supervisor, _}] =
+                 Supervisor.which_children(sup)
 
-        assert default == {:streamable_http, start: true}
+        transports = for {id, _pid, _type, _modules} <- Supervisor.which_children(server), do: id
 
-        Application.put_env(:mishka_chelekom, :mcp_transport, :stdio)
-        assert Application.get_env(:mishka_chelekom, :mcp_transport) == :stdio
+        assert Anubis.Server.Transport.StreamableHTTP in transports
       after
-        case original do
-          nil -> Application.delete_env(:mishka_chelekom, :mcp_transport)
-          val -> Application.put_env(:mishka_chelekom, :mcp_transport, val)
-        end
+        Supervisor.stop(sup)
+      end
+    end
+
+    test "Application.start reads :mcp_transport from app env" do
+      Application.put_env(:mishka_chelekom, :mcp_transport, {:streamable_http, start: false})
+      {:ok, sup} = MishkaChelekom.Application.start(:normal, [])
+
+      try do
+        # With `start: false` the transport is left to the host application, so the MCP server
+        # supervisor does not come up at all.
+        assert [{MishkaChelekom.MCP.Server, :undefined, :supervisor, _}] =
+                 Supervisor.which_children(sup)
+      after
+        Supervisor.stop(sup)
       end
     end
   end

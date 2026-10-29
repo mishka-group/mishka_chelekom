@@ -3,6 +3,15 @@ defmodule Mix.Tasks.Mishka.Ui.ExportTest do
   import MishkaChelekom.ComponentTestHelper
   @moduletag :igniter
 
+  # The JSON an export wrote into `dir`. Igniter keys a file outside the project by its path
+  # relative to the working directory.
+  defp exported_json(igniter, dir, file) do
+    key = dir |> Path.join(file) |> Path.relative_to(File.cwd!(), force: true)
+
+    assert %Rewrite.Source{} = source = igniter.rewrite.sources[key]
+    source |> Rewrite.Source.get(:content) |> Jason.decode!()
+  end
+
   describe "template creation" do
     test "creates default JSON template when --template flag is used" do
       test_dir = Path.join(System.tmp_dir!(), "test_template_#{:rand.uniform(100_000)}")
@@ -13,28 +22,16 @@ defmodule Mix.Tasks.Mishka.Ui.ExportTest do
         test_project_with_formatter()
         |> Igniter.compose_task("mishka.ui.export", [test_dir, "--template", "--test"])
 
-      # Find the template file - it might have a relative path key
-      template_file_key =
-        Enum.find_value(igniter.rewrite.sources, fn {key, _} ->
-          if String.ends_with?(key, "template.json"), do: key
-        end)
-
-      assert template_file_key
-      source = igniter.rewrite.sources[template_file_key]
-      content = Rewrite.Source.get(source, :content)
-      json = Jason.decode!(content)
+      json = exported_json(igniter, test_dir, "template.json")
 
       assert json["name"] == "something-new"
       assert json["type"] == "preset"
-      assert is_list(json["files"])
-      assert length(json["files"]) == 1
-
-      file = List.first(json["files"])
+      assert [file] = json["files"]
       assert file["type"] == "component"
       assert file["name"] == "last_message"
       assert Map.has_key?(file, "args")
-      assert is_list(file["optional"])
-      assert is_list(file["necessary"])
+      assert file["optional"] == []
+      assert file["necessary"] == []
     end
 
     test "creates template with custom name" do
@@ -53,15 +50,7 @@ defmodule Mix.Tasks.Mishka.Ui.ExportTest do
         ])
 
       # Find the custom file
-      custom_file_key =
-        Enum.find_value(igniter.rewrite.sources, fn {key, _} ->
-          if String.ends_with?(key, "custom.json"), do: key
-        end)
-
-      assert custom_file_key
-      source = igniter.rewrite.sources[custom_file_key]
-      content = Rewrite.Source.get(source, :content)
-      json = Jason.decode!(content)
+      json = exported_json(igniter, test_dir, "custom.json")
 
       assert json["name"] == "something-new"
     end
@@ -104,15 +93,7 @@ defmodule Mix.Tasks.Mishka.Ui.ExportTest do
         test_project_with_formatter()
         |> Igniter.compose_task("mishka.ui.export", [test_dir, "--test"])
 
-      template_file_key =
-        Enum.find_value(igniter.rewrite.sources, fn {key, _} ->
-          if String.ends_with?(key, "template.json"), do: key
-        end)
-
-      assert template_file_key
-      source = igniter.rewrite.sources[template_file_key]
-      content = Rewrite.Source.get(source, :content)
-      json = Jason.decode!(content)
+      json = exported_json(igniter, test_dir, "template.json")
 
       # Should have both component and JavaScript files
       assert length(json["files"]) == 2
@@ -143,15 +124,7 @@ defmodule Mix.Tasks.Mishka.Ui.ExportTest do
         test_project_with_formatter()
         |> Igniter.compose_task("mishka.ui.export", [test_dir, "--base64", "--test"])
 
-      template_file_key =
-        Enum.find_value(igniter.rewrite.sources, fn {key, _} ->
-          if String.ends_with?(key, "template.json"), do: key
-        end)
-
-      assert template_file_key
-      source = igniter.rewrite.sources[template_file_key]
-      json_content = Rewrite.Source.get(source, :content)
-      json = Jason.decode!(json_content)
+      json = exported_json(igniter, test_dir, "template.json")
 
       js_file = Enum.find(json["files"], &(&1["type"] == "javascript"))
       encoded_content = js_file["content"]
@@ -203,16 +176,7 @@ defmodule Mix.Tasks.Mishka.Ui.ExportTest do
         test_project_with_formatter()
         |> Igniter.compose_task("mishka.ui.export", [test_dir, "--test"])
 
-      # Should create JSON file successfully
-      template_file_key =
-        Enum.find_value(igniter.rewrite.sources, fn {key, _} ->
-          if String.ends_with?(key, "template.json"), do: key
-        end)
-
-      assert template_file_key
-      source = igniter.rewrite.sources[template_file_key]
-      content = Rewrite.Source.get(source, :content)
-      json = Jason.decode!(content)
+      json = exported_json(igniter, test_dir, "template.json")
 
       assert length(json["files"]) == 1
       file = List.first(json["files"])
@@ -242,15 +206,7 @@ defmodule Mix.Tasks.Mishka.Ui.ExportTest do
         test_project_with_formatter()
         |> Igniter.compose_task("mishka.ui.export", [test_dir, "--name", "my_export", "--test"])
 
-      my_export_file_key =
-        Enum.find_value(igniter.rewrite.sources, fn {key, _} ->
-          if String.ends_with?(key, "my_export.json"), do: key
-        end)
-
-      assert my_export_file_key
-      source = igniter.rewrite.sources[my_export_file_key]
-      content = Rewrite.Source.get(source, :content)
-      json = Jason.decode!(content)
+      json = exported_json(igniter, test_dir, "my_export.json")
 
       assert json["name"] == "my_export"
     end
@@ -274,15 +230,7 @@ defmodule Mix.Tasks.Mishka.Ui.ExportTest do
         test_project_with_formatter()
         |> Igniter.compose_task("mishka.ui.export", [test_dir, "--org", "preset", "--test"])
 
-      template_file_key =
-        Enum.find_value(igniter.rewrite.sources, fn {key, _} ->
-          if String.ends_with?(key, "template.json"), do: key
-        end)
-
-      assert template_file_key
-      source = igniter.rewrite.sources[template_file_key]
-      content = Rewrite.Source.get(source, :content)
-      json = Jason.decode!(content)
+      json = exported_json(igniter, test_dir, "template.json")
 
       assert json["type"] == "preset"
     end
@@ -306,15 +254,7 @@ defmodule Mix.Tasks.Mishka.Ui.ExportTest do
         test_project_with_formatter()
         |> Igniter.compose_task("mishka.ui.export", [test_dir, "--org", "invalid_type", "--test"])
 
-      template_file_key =
-        Enum.find_value(igniter.rewrite.sources, fn {key, _} ->
-          if String.ends_with?(key, "template.json"), do: key
-        end)
-
-      assert template_file_key
-      source = igniter.rewrite.sources[template_file_key]
-      content = Rewrite.Source.get(source, :content)
-      json = Jason.decode!(content)
+      json = exported_json(igniter, test_dir, "template.json")
 
       assert json["type"] == "component"
     end
@@ -366,15 +306,7 @@ defmodule Mix.Tasks.Mishka.Ui.ExportTest do
         test_project_with_formatter()
         |> Igniter.compose_task("mishka.ui.export", [test_dir, "--base64", "--test"])
 
-      template_file_key =
-        Enum.find_value(igniter.rewrite.sources, fn {key, _} ->
-          if String.ends_with?(key, "template.json"), do: key
-        end)
-
-      assert template_file_key
-      source = igniter.rewrite.sources[template_file_key]
-      content = Rewrite.Source.get(source, :content)
-      json = Jason.decode!(content)
+      json = exported_json(igniter, test_dir, "template.json")
 
       # Verify the structure
       assert json["name"] == "template"

@@ -2,6 +2,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.MobTest do
   use ExUnit.Case
   import MishkaChelekom.ComponentTestHelper
   alias Mix.Tasks.Mishka.Ui.Gen.Mob
+  alias MishkaChelekom.Generators.Core
   @moduletag :igniter
 
   setup do
@@ -416,7 +417,9 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.MobTest do
 
       igniter = gen(["chip", "--yes"])
 
-      assert igniter.assigns.template_config == Keyword.delete(declared, :docs)
+      # Every generator reads its catalog through `Core.fetch_catalog/3`.
+      assert {:ok, %{config: config}} = Core.fetch_catalog(igniter, "chip", :mob)
+      assert config == Keyword.delete(declared, :docs)
       assert content(igniter, "lib/test/components/chip.ex")
     end
   end

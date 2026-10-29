@@ -249,8 +249,7 @@ defmodule MishkaChelekom.MCP.Tools.UpdateConfig do
       values
       |> String.split(",")
       |> Enum.map(&String.trim/1)
-      |> Enum.map(&"\"#{&1}\"")
-      |> Enum.join(", ")
+      |> Enum.map_join(", ", &"\"#{&1}\"")
 
     """
     # Update #{format_setting_name(setting)}
@@ -309,8 +308,7 @@ defmodule MishkaChelekom.MCP.Tools.UpdateConfig do
     setting
     |> String.replace("_", " ")
     |> String.split(" ")
-    |> Enum.map(&String.capitalize/1)
-    |> Enum.join(" ")
+    |> Enum.map_join(" ", &String.capitalize/1)
   end
 
   defp setting_description("exclude_components") do

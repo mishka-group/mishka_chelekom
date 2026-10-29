@@ -24,8 +24,7 @@ defmodule MishkaChelekom.MCP.Resources.ListComponentsTest do
 
       {:reply, response, _frame} = ListComponents.read(%{}, frame)
 
-      assert response.contents != nil
-      text = response.contents["text"]
+      assert %{"text" => text} = response.contents
 
       # Should contain the header
       assert String.contains?(text, "Mishka Chelekom Components")
@@ -54,7 +53,8 @@ defmodule MishkaChelekom.MCP.Resources.ListComponentsTest do
       text = response.contents["text"]
 
       # Should contain notes about JS and dependencies
-      assert String.contains?(text, "Requires JS") or String.contains?(text, "Has dependencies")
+      assert String.contains?(text, "Requires JS")
+      assert String.contains?(text, "Has dependencies")
     end
 
     test "includes documentation URL" do

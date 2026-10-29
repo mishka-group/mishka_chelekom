@@ -115,7 +115,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob do
     }
   end
 
-  def supports_umbrella?(), do: false
+  def supports_umbrella?, do: false
 
   def igniter(igniter) do
     # Owl's widget supervisor is not running under a bare `mix` invocation, so
@@ -146,13 +146,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob do
       |> whitelist_tags()
       |> maybe_save_prefixes()
 
-    if spin? do
-      if Map.get(final, :issues, []) == [],
-        do: Owl.Spinner.stop(id: :my_spinner, resolution: :ok, label: "Done"),
-        else: Owl.Spinner.stop(id: :my_spinner, resolution: :error, label: "Error")
-    end
-
-    final
+    Core.stop_spinner(final, spin?)
   end
 
   defp print_banner(options) do

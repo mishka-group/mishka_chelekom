@@ -1,6 +1,7 @@
 defmodule MishkaChelekom.MCP.Tools.GetExampleTest do
   use ExUnit.Case, async: true
 
+  alias MishkaChelekom.MCP.ComponentConfig
   alias MishkaChelekom.MCP.Tools.GetExample
   alias Anubis.Server.Frame
 
@@ -9,7 +10,7 @@ defmodule MishkaChelekom.MCP.Tools.GetExampleTest do
       schema = GetExample.input_schema()
 
       assert schema["type"] == "object"
-      assert is_map(schema["properties"])
+      assert Map.keys(schema["properties"]) == ["name"]
       assert "name" in schema["required"]
     end
   end
@@ -80,6 +81,27 @@ defmodule MishkaChelekom.MCP.Tools.GetExampleTest do
       assert text =~ "<.unknown_component>"
       assert text =~ "Content here"
       assert text =~ "Documentation file not found"
+    end
+
+    test "links a component to the docs page its own config names" do
+      for name <- ["toggle_field", "form_wrapper"] do
+        {:reply, response, _frame} = GetExample.execute(%{name: name}, %Frame{})
+        [content | _] = response.content
+        doc_url = Keyword.fetch!(ComponentConfig.get_component(name), :doc_url)
+
+        assert content["text"] =~ "📖 Full docs: #{doc_url}\n"
+      end
+    end
+
+    test "refuses a name that walks out of usage-rules/components, though it names a real doc" do
+      name = "../components/button"
+      assert File.exists?("usage-rules/components/#{name}.md")
+
+      {:reply, response, _frame} = GetExample.execute(%{name: name}, %Frame{})
+      [content | _] = response.content
+
+      assert content["text"] =~ "Documentation file not found"
+      refute content["text"] =~ File.read!("usage-rules/components/button.md")
     end
 
     test "includes component types for multi-type components" do

@@ -1,6 +1,7 @@
 defmodule MishkaChelekom.MCP.Resources.ListSizesTest do
   use ExUnit.Case, async: true
 
+  alias MishkaChelekom.MCP.ComponentConfig
   alias MishkaChelekom.MCP.Resources.ListSizes
   alias Anubis.Server.Frame
 
@@ -26,8 +27,8 @@ defmodule MishkaChelekom.MCP.Resources.ListSizesTest do
 
       data = Jason.decode!(response.contents["text"])
 
-      assert is_list(data["sizes"])
-      assert length(data["sizes"]) > 0
+      assert data["sizes"] != []
+      assert data["sizes"] == ComponentConfig.list_sizes()
     end
 
     test "includes standard size scale" do
@@ -53,10 +54,9 @@ defmodule MishkaChelekom.MCP.Resources.ListSizesTest do
 
       data = Jason.decode!(response.contents["text"])
 
-      assert is_list(data["details"])
-      [detail | _] = data["details"]
+      assert [detail | _] = data["details"]
 
-      assert Map.has_key?(detail, "name")
+      assert detail["name"] == hd(data["sizes"])
       assert Map.has_key?(detail, "description")
       assert Map.has_key?(detail, "usage")
     end
@@ -68,9 +68,10 @@ defmodule MishkaChelekom.MCP.Resources.ListSizesTest do
 
       data = Jason.decode!(response.contents["text"])
 
-      assert is_map(data["related_options"])
-      assert Map.has_key?(data["related_options"], "padding")
-      assert Map.has_key?(data["related_options"], "rounded")
+      assert data["related_options"] == %{
+               "padding" => ComponentConfig.list_padding(),
+               "rounded" => ComponentConfig.list_rounded()
+             }
     end
   end
 end

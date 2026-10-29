@@ -15,6 +15,8 @@ defmodule MishkaChelekom.CmsBundle.ShowcaseCoverageTest do
   """
   use ExUnit.Case, async: true
 
+  alias MishkaChelekom.CmsBundle.Showcase
+
   @showcase Path.wildcard("priv/showcase/*.json")
             |> Enum.reject(&(Path.basename(&1) == "_schema.json"))
   @catalogs Path.wildcard("priv/{components,headless}/*.exs")
@@ -32,6 +34,17 @@ defmodule MishkaChelekom.CmsBundle.ShowcaseCoverageTest do
   test "there are showcase files to check" do
     assert length(@showcase) > 100,
            "the wildcard matched nothing — every test here would vacuously pass"
+
+    # The library's own overlay lays every one of those files over its component.
+    entries = Enum.map(@showcase, &entry/1)
+    bare = Enum.map(entries, &%{"name" => &1["name"], "extra" => %{}})
+
+    for {entry, component} <- Enum.zip(entries, Showcase.overlay(bare, "priv/showcase")) do
+      labels = Enum.map(component["extra"]["examples"], & &1["label"])
+
+      assert labels == Enum.map(entry["examples"], & &1["label"]),
+             "#{entry["name"]}: the overlay did not carry its showcase examples"
+    end
   end
 
   test "every showcase entry carries at least two examples" do

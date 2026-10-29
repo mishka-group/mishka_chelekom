@@ -15,6 +15,7 @@ defmodule MishkaChelekom.MCP.Tools.GetComponentInfo do
   use Anubis.Server.Component, type: :tool
 
   alias Anubis.Server.Response
+  alias MishkaChelekom.MCP.ComponentConfig
   alias MishkaChelekom.MCP.PathHelper
 
   schema do
@@ -26,8 +27,10 @@ defmodule MishkaChelekom.MCP.Tools.GetComponentInfo do
 
   @impl true
   def execute(%{name: name}, frame) do
-    config_info = get_config_info(name)
-    usage_rules_info = get_usage_rules_info(name)
+    {config_info, usage_rules_info} =
+      if ComponentConfig.known_component?(name),
+        do: {get_config_info(name), get_usage_rules_info(name)},
+        else: {%{found: false}, %{found: false}}
 
     content = format_response(name, config_info, usage_rules_info)
 
@@ -39,6 +42,8 @@ defmodule MishkaChelekom.MCP.Tools.GetComponentInfo do
   end
 
   # Read from priv/components/{name}.exs
+  # Reached only for a name ComponentConfig.known_component?/1 accepted.
+  # sobelow_skip ["RCE.CodeModule"]
   defp get_config_info(name) do
     config_path =
       :code.priv_dir(:mishka_chelekom)
@@ -73,6 +78,8 @@ defmodule MishkaChelekom.MCP.Tools.GetComponentInfo do
   end
 
   # Read from priv/usage-rules/components/{name}.md
+  # Reached only for a name ComponentConfig.known_component?/1 accepted.
+  # sobelow_skip ["Traversal.FileModule"]
   defp get_usage_rules_info(name) do
     usage_rules_path = PathHelper.component_doc_path(name)
 
@@ -115,7 +122,7 @@ defmodule MishkaChelekom.MCP.Tools.GetComponentInfo do
     """
     # #{format_name(name)} Component
 
-    📖 Docs: https://mishka.tools/chelekom/docs/#{format_doc_url(name)}
+    📖 Docs: #{ComponentConfig.get_doc_url(name)}
     ⚡ Generate: `mix mishka.ui.gen.component #{name}`
     """
   end
@@ -150,7 +157,7 @@ defmodule MishkaChelekom.MCP.Tools.GetComponentInfo do
 
     lines =
       if config.scripts != [] do
-        scripts_list = config.scripts |> Enum.map(&(&1[:module] || &1.module)) |> Enum.join(", ")
+        scripts_list = Enum.map_join(config.scripts, ", ", &(&1[:module] || &1.module))
         lines ++ ["**JavaScript Hooks:** #{scripts_list}\n"]
       else
         lines
@@ -163,7 +170,7 @@ defmodule MishkaChelekom.MCP.Tools.GetComponentInfo do
         lines
       end
 
-    Enum.join(lines, "")
+    Enum.join(lines)
   end
 
   defp add_if_not_empty(lines, list, label) do
@@ -197,43 +204,7 @@ defmodule MishkaChelekom.MCP.Tools.GetComponentInfo do
   defp format_name(name) do
     name
     |> String.split("_")
-    |> Enum.map(&String.capitalize/1)
-    |> Enum.join("")
-  end
-
-  defp format_doc_url(name) do
-    form_components = [
-      "checkbox_card",
-      "checkbox_field",
-      "color_field",
-      "combobox",
-      "date_time_field",
-      "email_field",
-      "fieldset",
-      "file_field",
-      "form_wrapper",
-      "input_field",
-      "native_select",
-      "number_field",
-      "password_field",
-      "radio_card",
-      "radio_field",
-      "range_field",
-      "search_field",
-      "tel_field",
-      "text_field",
-      "textarea_field",
-      "toggle_field",
-      "url_field"
-    ]
-
-    url_name = String.replace(name, "_", "-")
-
-    if name in form_components do
-      "forms/#{url_name}"
-    else
-      url_name
-    end
+    |> Enum.map_join(&String.capitalize/1)
   end
 
   defp format_helpers(helpers) when is_list(helpers) do

@@ -148,11 +148,15 @@ defmodule MishkaChelekom.Kit.Transformers.Generate do
 
   # Resolve the real component module: an explicit namespace (from `components`/`headless` options)
   # wins; otherwise convention from the Kit module's web namespace.
+  # Modules named by the kit's own DSL, at compile time.
+  # sobelow_skip ["DOS.ModuleConcat"]
   defp resolve(nil, kit_module, segments, name) do
     web = kit_module |> Module.split() |> Enum.drop(-1)
     Module.concat(web ++ segments ++ [Macro.camelize(to_string(name))])
   end
 
+  # Modules named by the kit's own DSL, at compile time.
+  # sobelow_skip ["DOS.ModuleConcat"]
   defp resolve(namespace, _kit_module, _segments, name) do
     Module.concat([namespace, Macro.camelize(to_string(name))])
   end

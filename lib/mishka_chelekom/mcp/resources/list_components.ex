@@ -49,7 +49,7 @@ defmodule MishkaChelekom.MCP.Resources.ListComponents do
     category_sections =
       categories
       |> Enum.sort_by(fn {_cat, comps} -> -length(comps) end)
-      |> Enum.map(fn {category, comps} ->
+      |> Enum.map_join("\n", fn {category, comps} ->
         icon = Map.get(@category_icons, category, "📦")
         count = length(comps)
 
@@ -60,12 +60,12 @@ defmodule MishkaChelekom.MCP.Resources.ListComponents do
         components_list = comps |> Enum.sort() |> Enum.join(", ")
 
         js_note =
-          if length(with_js) > 0,
+          if with_js != [],
             do: "\n   ⚡ Requires JS: #{Enum.join(Enum.sort(with_js), ", ")}",
             else: ""
 
         deps_note =
-          if length(with_deps) > 0,
+          if with_deps != [],
             do: "\n   🔗 Has dependencies: #{Enum.join(Enum.sort(with_deps), ", ")}",
             else: ""
 
@@ -74,10 +74,9 @@ defmodule MishkaChelekom.MCP.Resources.ListComponents do
            #{components_list}#{js_note}#{deps_note}
         """
       end)
-      |> Enum.join("\n")
 
     # JS Hooks section
-    hooks_list = js_hooks |> Enum.map(& &1.module) |> Enum.join(", ")
+    hooks_list = Enum.map_join(js_hooks, ", ", & &1.module)
 
     """
     # 🎨 Mishka Chelekom Components

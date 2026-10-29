@@ -28,25 +28,26 @@ defmodule MishkaChelekom.Test.Runtime.KitModuleStubs do
 
   defp define_stub_module(mod) do
     if not :erlang.module_loaded(mod) do
-      ast =
-        quote do
-          defmodule unquote(mod) do
-            def show_drawer(_id, _position \\ "left"), do: %Phoenix.LiveView.JS{}
-            def hide_drawer(_id, _position \\ "left"), do: %Phoenix.LiveView.JS{}
-            def show_modal(_id), do: %Phoenix.LiveView.JS{}
-            def hide_modal(_id), do: %Phoenix.LiveView.JS{}
-            def show_sidebar(_id, _position \\ "left"), do: %Phoenix.LiveView.JS{}
-            def hide_sidebar(_id, _position \\ "left"), do: %Phoenix.LiveView.JS{}
-            def show_tab(_tab_id, _container_id), do: %Phoenix.LiveView.JS{}
-            def hide_tab(_tab_id), do: %Phoenix.LiveView.JS{}
-          end
-        end
-
       # Ensure JS is loaded before stub modules try to embed `%JS{}`.
       Code.ensure_loaded!(Phoenix.LiveView.JS)
-      Code.compile_quoted(ast)
+      Code.compile_quoted(stub_module_ast(mod))
     end
 
     :ok
+  end
+
+  defp stub_module_ast(mod) do
+    quote do
+      defmodule unquote(mod) do
+        def show_drawer(_id, _position \\ "left"), do: %Phoenix.LiveView.JS{}
+        def hide_drawer(_id, _position \\ "left"), do: %Phoenix.LiveView.JS{}
+        def show_modal(_id), do: %Phoenix.LiveView.JS{}
+        def hide_modal(_id), do: %Phoenix.LiveView.JS{}
+        def show_sidebar(_id, _position \\ "left"), do: %Phoenix.LiveView.JS{}
+        def hide_sidebar(_id, _position \\ "left"), do: %Phoenix.LiveView.JS{}
+        def show_tab(_tab_id, _container_id), do: %Phoenix.LiveView.JS{}
+        def hide_tab(_tab_id), do: %Phoenix.LiveView.JS{}
+      end
+    end
   end
 end
