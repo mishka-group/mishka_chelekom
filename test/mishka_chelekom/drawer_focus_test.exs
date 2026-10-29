@@ -10,7 +10,8 @@ defmodule MishkaChelekom.DrawerFocusTest do
   `to:` names an element the page does not have does nothing and says nothing.
 
   Escape reaches every drawer on the page, open or closed, through `phx-window-keydown`, so the
-  commands that move focus run only for the drawer that is actually opening or closing.
+  commands that move focus and unlock the page's scroll run only for the drawer that is actually
+  opening or closing.
 
   The focus stack is shared by every dialog on the page, so an open pushes one entry whatever has
   focus, nothing included, and the close pops that entry and not one another dialog pushed.
@@ -134,14 +135,15 @@ defmodule MishkaChelekom.DrawerFocusTest do
     MapSet.new(attrs ++ for(class <- String.split(classes), do: ".#{class}"))
   end
 
-  # The rest of the page the commands change: the element that has focus ("opener", the control
-  # that opened the drawer, or `nil` when nothing has focus, as after a page load or in Safari
-  # after a click on a button) and the focus stack, top first.
-  @page %{focus: "opener", stack: []}
+  # The rest of the page the commands change: `<body>`'s classes, the element that has focus
+  # ("opener", the control that opened the drawer, or `nil` when nothing has focus, as after a page
+  # load or in Safari after a click on a button) and the focus stack, top first.
+  @page %{body: MapSet.new(), focus: "opener", stack: []}
 
   # Runs `commands` from `state` and `page` the way the browser does for what decides the focus
-  # stack: the attributes and classes they set on the root, the gates they are run under, and the
-  # focus commands. Returns the root's state and the page after them.
+  # stack and the page's scroll: the attributes and classes they set on the root and on `<body>`,
+  # the gates they are run under, and the focus commands. Returns the root's state and the page
+  # after them.
   defp play(commands, state, page) do
     target = "##{@id}"
 
@@ -149,6 +151,7 @@ defmodule MishkaChelekom.DrawerFocusTest do
       cond do
         not gate?(gate, state) -> {state, page}
         kind in ["push_focus", "focus_first", "pop_focus"] -> {state, focus(page, kind, args)}
+        args["to"] == "body" -> {state, %{page | body: change(page.body, kind, args)}}
         args["to"] == target -> {change(state, kind, args), page}
         true -> {state, page}
       end
@@ -328,5 +331,17 @@ defmodule MishkaChelekom.DrawerFocusTest do
 
     assert {"pop_focus", _args, "##{@id}.drawer-showed"} = Enum.find(hide, kind?("pop_focus"))
     assert position(hide, kind?("pop_focus")) < position(hide, hidden)
+  end
+
+  test "opening locks the page's scroll and only a real close unlocks it", context do
+    %{closed: closed, show: show, hide: hide} = context
+    locked = MapSet.new([".overflow-hidden"])
+
+    assert {open, %{body: ^locked} = page} = play(show, closed, @page)
+    assert {_closed, %{body: body}} = play(hide, open, page)
+    assert MapSet.size(body) == 0
+
+    # Another dialog is open and locked it; Escape reaches this drawer, which is closed.
+    assert {_closed, %{body: ^locked}} = play(hide, closed, %{@page | body: locked})
   end
 end

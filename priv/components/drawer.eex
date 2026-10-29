@@ -122,6 +122,9 @@ defmodule <%= @module %> do
         |> JS.focus_first(to: "##{@id}-container")
       }
       data-close-focus={JS.pop_focus()}
+      <%!-- Unlocks the page's scroll, run by `hide_drawer/3` behind the same gate as the pop, so
+            a closed drawer never unlocks it under another open dialog. --%>
+      data-close-scroll={JS.remove_class("overflow-hidden", to: "body")}
       class={[
         "fixed z-50 transition-transform",
         "[&:not(.drawer-showed)_.drawer-overlay]:opacity-0 [&.drawer-showed_.drawer-overlay]:opacity-100",
@@ -818,9 +821,10 @@ defmodule <%= @module %> do
 
   ## Behavior:
   Removes the CSS class that keeps the drawer off-screen and adds the class `"translate-none"`
-  to bring the drawer into view. It puts the drawer back in the Tab order, remembers the element
-  that has focus and moves focus to the first focusable element inside the drawer, where Tab
-  then stays until the drawer closes. A drawer that is already open keeps its focus.
+  to bring the drawer into view. It puts the drawer back in the Tab order, locks the page's scroll,
+  remembers the element that has focus and moves focus to the first focusable element inside the
+  drawer, where Tab then stays until the drawer closes. A drawer that is already open keeps its
+  focus.
 
   ## Examples:
 
@@ -836,6 +840,7 @@ defmodule <%= @module %> do
     |> JS.remove_attribute("inert", to: "##{id}")
     |> JS.remove_class(translate_position(position), to: "##{id}")
     |> JS.add_class("translate-none", to: "##{id}")
+    |> JS.add_class("overflow-hidden", to: "body")
     # Before `drawer-showed` is added, so only a drawer that was closed runs it.
     |> JS.exec("data-open-focus", to: "##{id}:not(.drawer-showed)")
     |> JS.add_class("drawer-showed", to: "##{id}")
@@ -851,8 +856,9 @@ defmodule <%= @module %> do
 
   ## Behavior:
   Removes the `"translate-none"` CSS class that keeps the drawer visible and adds the class based on the drawer's position (e.g., `"-translate-x-full"` for a left-positioned drawer) to move the drawer off-screen.
-  It gives focus back to the element that had it when the drawer opened and takes the drawer out
-  of the Tab order. A drawer that is already closed leaves focus where it is.
+  It gives focus back to the element that had it when the drawer opened, unlocks the page's
+  scroll and takes the drawer out of the Tab order. A drawer that is already closed leaves focus
+  and the page's scroll as they are.
 
   ## Examples:
 
@@ -864,8 +870,10 @@ defmodule <%= @module %> do
   """
   def hide_drawer(js \\ %JS{}, id, position) do
     js
-    # Before `drawer-showed` is removed, so only a drawer that was open runs it.
+    # Before `drawer-showed` is removed, so only a drawer that was open gives focus back and
+    # unlocks the page's scroll.
     |> JS.exec("data-close-focus", to: "##{id}.drawer-showed")
+    |> JS.exec("data-close-scroll", to: "##{id}.drawer-showed")
     |> JS.remove_class("drawer-showed", to: "##{id}")
     |> JS.remove_class("translate-none", to: "##{id}")
     |> JS.add_class(translate_position(position), to: "##{id}")
