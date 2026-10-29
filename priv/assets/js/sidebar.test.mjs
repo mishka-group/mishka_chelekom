@@ -1,4 +1,5 @@
-// Tests for the Sidebar hook: what minimizing does to the sidebar's transitions.
+// Tests for the Sidebar hook: what minimizing does to the sidebar's transitions, and that the hook
+// takes its listener off when LiveView destroys it.
 // Run with: node --test  (from priv/assets/js/)
 //
 // The sidebar slides in and out, and is hidden once it is off-screen, through the transition its
@@ -103,4 +104,13 @@ test("minimizing and expanding again add width once", () => {
   const properties = list(sidebar.style.transitionProperty);
   assert.equal(properties.filter((property) => property === "width").length, 1);
   assert.equal(list(sidebar.style.transitionDuration).length, properties.length);
+});
+
+test("destroying the hook takes its click listener off the button", () => {
+  const hook = mounted();
+  assert.ok(hook.el.listeners.has("click"));
+
+  assert.equal(typeof hook.destroyed, "function", "LiveView calls destroyed(), not destroy()");
+  hook.destroyed();
+  assert.equal(hook.el.listeners.has("click"), false);
 });

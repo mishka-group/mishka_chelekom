@@ -170,7 +170,7 @@ const Sidebar = {
     }
   },
 
-  destroy() {
+  destroyed() {
     if (this.el && this.clickHandler) {
       this.el.removeEventListener("click", this.clickHandler);
       this.clickHandler = null;
