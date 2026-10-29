@@ -27,7 +27,8 @@ mix mishka.ui.gen.component drawer --module MyAppWeb.Components.CustomDrawer
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `id` | `:string` | **required** | Unique identifier; the helpers take it |
-| `title` | `:string` | `nil` | Title in the header; the `header` slot is used when it is `nil` |
+| `title` | `:string` | `nil` | Title in the header, and the dialog's name; the `header` slot is used when it is `nil` |
+| `description` | `:string` | `nil` | What screen readers announce as the drawer's description; `"Drawer content"` when `nil` |
 | `position` | `:string` | `"left"` | `left`, `right`, `top`, `bottom` |
 | `variant` | `:string` | `"base"` | Style variant — see Variants |
 | `color` | `:string` | `"natural"` | Color theme — see Colors |
@@ -45,6 +46,10 @@ mix mishka.ui.gen.component drawer --module MyAppWeb.Components.CustomDrawer
 | `overlay_class` | `:string` | `nil` | Class of the backdrop |
 
 Global attributes are passed to the root. The close button is always rendered.
+
+The title or the `header` slot names the dialog (`aria-labelledby`). A drawer with neither has no
+name unless you pass one with `aria-label`, a global attribute the root takes:
+`<.drawer id="filters" aria-label="Filters">`.
 
 ## Slots
 
@@ -69,8 +74,52 @@ hide_drawer(js \\ %JS{}, id, position)
   the Tab order and away from screen readers.
 - Opening moves focus to the first focusable element in the drawer (the close button), and Tab
   stays inside the drawer while it is open.
-- Closing gives focus back to the element that had it when the drawer opened.
-- Opening a drawer that is already open, or closing one that is already closed, leaves focus alone.
+- Closing gives focus back to the element that had it when the drawer opened. A drawer opened
+  while nothing had focus (with `show`, or from a button in Safari, which does not focus a clicked
+  button) moves no focus when it closes.
+- Opening locks the page's scroll (`overflow-hidden` on `<body>`) and closing unlocks it.
+- Opening a drawer that is already open, or closing one that is already closed, leaves focus and
+  the page's scroll alone, so a closed drawer never takes focus from another open dialog or unlocks
+  the scroll under it.
+
+## The Trigger
+
+The drawer cannot reach the button that opens it, so the button's state is yours to keep. Give it
+`aria-haspopup="dialog"`, `aria-controls` with the drawer's id, and an `aria-expanded` that the
+open sets to `"true"` and every way of closing sets back to `"false"`: `on_hide` runs on Escape and
+the close button, `on_hide_away` on a click outside, and a `hide_drawer/3` you call yourself runs
+neither, so chain the same command to it.
+
+```heex
+<.button
+  id="cart-trigger"
+  aria-haspopup="dialog"
+  aria-controls="cart-drawer"
+  aria-expanded="false"
+  phx-click={
+    show_drawer("cart-drawer", "right")
+    |> JS.set_attribute({"aria-expanded", "true"}, to: "#cart-trigger")
+  }
+>
+  Cart
+</.button>
+
+<.drawer
+  id="cart-drawer"
+  position="right"
+  title="Cart"
+  on_hide={JS.set_attribute({"aria-expanded", "false"}, to: "#cart-trigger")}
+  on_hide_away={JS.set_attribute({"aria-expanded", "false"}, to: "#cart-trigger")}
+>
+  <p>Content...</p>
+  <.button phx-click={
+    hide_drawer("cart-drawer", "right")
+    |> JS.set_attribute({"aria-expanded", "false"}, to: "#cart-trigger")
+  }>
+    Keep shopping
+  </.button>
+</.drawer>
+```
 
 ## Available Options
 
