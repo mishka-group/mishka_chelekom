@@ -59,7 +59,7 @@ defmodule MishkaChelekom.MCP.Tools.GetExample do
     #{content}
 
     ---
-    📖 Full docs: https://mishka.tools/chelekom/docs/#{ComponentConfig.docs_path(name)}
+    📖 Full docs: #{ComponentConfig.get_doc_url(name)}
     ⚡ Generate: `mix mishka.ui.gen.component #{name}`
     """
   end
@@ -80,7 +80,7 @@ defmodule MishkaChelekom.MCP.Tools.GetExample do
 
     ## Get Full Documentation
 
-    📖 Visit: https://mishka.tools/chelekom/docs/#{ComponentConfig.docs_path(name)}
+    📖 Visit: #{ComponentConfig.get_doc_url(name)}
 
     ## Generate This Component
 

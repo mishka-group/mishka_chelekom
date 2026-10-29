@@ -1,6 +1,7 @@
 defmodule MishkaChelekom.MCP.Tools.GetComponentInfoTest do
   use ExUnit.Case, async: true
 
+  alias MishkaChelekom.MCP.ComponentConfig
   alias MishkaChelekom.MCP.Tools.GetComponentInfo
   alias Anubis.Server.Frame
 
@@ -94,6 +95,16 @@ defmodule MishkaChelekom.MCP.Tools.GetComponentInfoTest do
       assert text =~ "NonexistentComponent Component"
       # Should include generation command even for unknown components
       assert text =~ "mix mishka.ui.gen.component nonexistent_component"
+    end
+
+    test "links a component to the docs page its own config names" do
+      for name <- ["toggle_field", "form_wrapper"] do
+        {:reply, response, _frame} = GetComponentInfo.execute(%{name: name}, %Frame{})
+        [content | _] = response.content
+        doc_url = Keyword.fetch!(ComponentConfig.get_component(name), :doc_url)
+
+        assert content["text"] =~ "📖 Docs: #{doc_url}\n"
+      end
     end
 
     test "refuses a name that walks out of priv/components, though it points at a real config" do

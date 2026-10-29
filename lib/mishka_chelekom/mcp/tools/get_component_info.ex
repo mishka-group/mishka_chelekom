@@ -118,7 +118,7 @@ defmodule MishkaChelekom.MCP.Tools.GetComponentInfo do
     """
     # #{format_name(name)} Component
 
-    📖 Docs: https://mishka.tools/chelekom/docs/#{ComponentConfig.docs_path(name)}
+    📖 Docs: #{ComponentConfig.get_doc_url(name)}
     ⚡ Generate: `mix mishka.ui.gen.component #{name}`
     """
   end
