@@ -58,18 +58,14 @@ defmodule MishkaChelekom.MCP.Tools.GetJsHookInfo do
     # Normalize name (handle both "collapsible" and "Collapsible")
     normalized_name = name |> String.downcase() |> String.replace(" ", "_")
 
-    usage_rules_path = PathHelper.js_hook_doc_path(normalized_name)
-
-    if File.exists?(usage_rules_path) do
-      case File.read(usage_rules_path) do
-        {:ok, content} ->
-          format_hook_doc(normalized_name, content)
-
-        {:error, _} ->
-          fallback_response(normalized_name)
-      end
+    # The path is built only from a hook this kit ships, never from the name as given.
+    with true <- ComponentConfig.known_js_hook?(normalized_name),
+         usage_rules_path = PathHelper.js_hook_doc_path(normalized_name),
+         true <- File.exists?(usage_rules_path),
+         {:ok, content} <- File.read(usage_rules_path) do
+      format_hook_doc(normalized_name, content)
     else
-      fallback_response(normalized_name)
+      _not_found -> fallback_response(normalized_name)
     end
   end
 

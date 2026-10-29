@@ -134,11 +134,6 @@ defmodule MishkaChelekom.MCP.Tools.GetDocs do
         do: PathHelper.lib_doc_path(docs_filename),
         else: nil
 
-    # Check usage-rules/components/
-    component_path = PathHelper.component_doc_path(filename)
-    # Check usage-rules/js/
-    js_path = PathHelper.js_hook_doc_path(filename)
-
     cond do
       docs_path && File.exists?(docs_path) ->
         case File.read(docs_path) do
@@ -153,7 +148,9 @@ defmodule MishkaChelekom.MCP.Tools.GetDocs do
             ""
         end
 
-      File.exists?(component_path) ->
+      # usage-rules/components/ and usage-rules/js/, for a component or hook this kit ships
+      ComponentConfig.known_component?(filename) and
+          File.exists?(PathHelper.component_doc_path(filename)) ->
         """
         ## Local Documentation Available
 
@@ -170,7 +167,8 @@ defmodule MishkaChelekom.MCP.Tools.GetDocs do
         ```
         """
 
-      File.exists?(js_path) ->
+      ComponentConfig.known_js_hook?(filename) and
+          File.exists?(PathHelper.js_hook_doc_path(filename)) ->
         """
         ## Local JS Hook Documentation Available
 

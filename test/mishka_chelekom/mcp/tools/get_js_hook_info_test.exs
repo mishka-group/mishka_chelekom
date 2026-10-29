@@ -75,5 +75,16 @@ defmodule MishkaChelekom.MCP.Tools.GetJsHookInfoTest do
       real_hook = ComponentConfig.list_js_hooks() |> List.first()
       assert text =~ real_hook.name
     end
+
+    test "a name that walks out of usage-rules/js is refused, though it names a real doc" do
+      hook = a_documented_hook()
+      name = "../js/#{hook}"
+      assert File.exists?("usage-rules/js/#{name}.md")
+
+      text = run(%{name: name})
+
+      assert text =~ "Documentation not found"
+      refute String.contains?(text, String.trim(File.read!("usage-rules/js/#{hook}.md")))
+    end
   end
 end

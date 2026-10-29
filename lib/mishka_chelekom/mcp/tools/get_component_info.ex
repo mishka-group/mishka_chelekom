@@ -27,8 +27,10 @@ defmodule MishkaChelekom.MCP.Tools.GetComponentInfo do
 
   @impl true
   def execute(%{name: name}, frame) do
-    config_info = get_config_info(name)
-    usage_rules_info = get_usage_rules_info(name)
+    {config_info, usage_rules_info} =
+      if ComponentConfig.known_component?(name),
+        do: {get_config_info(name), get_usage_rules_info(name)},
+        else: {%{found: false}, %{found: false}}
 
     content = format_response(name, config_info, usage_rules_info)
 

@@ -82,6 +82,17 @@ defmodule MishkaChelekom.MCP.Tools.GetExampleTest do
       assert text =~ "Documentation file not found"
     end
 
+    test "refuses a name that walks out of usage-rules/components, though it names a real doc" do
+      name = "../components/button"
+      assert File.exists?("usage-rules/components/#{name}.md")
+
+      {:reply, response, _frame} = GetExample.execute(%{name: name}, %Frame{})
+      [content | _] = response.content
+
+      assert content["text"] =~ "Documentation file not found"
+      refute content["text"] =~ File.read!("usage-rules/components/button.md")
+    end
+
     test "includes component types for multi-type components" do
       frame = %Frame{}
       params = %{name: "alert"}

@@ -95,5 +95,17 @@ defmodule MishkaChelekom.MCP.Tools.GetComponentInfoTest do
       # Should include generation command even for unknown components
       assert text =~ "mix mishka.ui.gen.component nonexistent_component"
     end
+
+    test "refuses a name that walks out of priv/components, though it points at a real config" do
+      name = "../components/button"
+      assert File.exists?(Path.join(:code.priv_dir(:mishka_chelekom), "components/#{name}.exs"))
+
+      {:reply, response, _frame} = GetComponentInfo.execute(%{name: name}, %Frame{})
+      [content | _] = response.content
+      text = content["text"]
+
+      refute text =~ "Variants:"
+      refute text =~ "Full Documentation"
+    end
   end
 end

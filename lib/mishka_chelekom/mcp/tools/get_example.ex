@@ -36,19 +36,15 @@ defmodule MishkaChelekom.MCP.Tools.GetExample do
   end
 
   defp read_usage_rules(name) do
-    # Try to read from usage-rules/components/{name}.md
-    usage_rules_path = get_usage_rules_path(name)
-
-    if File.exists?(usage_rules_path) do
-      case File.read(usage_rules_path) do
-        {:ok, content} ->
-          format_component_doc(name, content)
-
-        {:error, _} ->
-          fallback_response(name)
-      end
+    # Read usage-rules/components/{name}.md, with the path built only from a component this kit
+    # ships, never from the name as given.
+    with true <- ComponentConfig.known_component?(name),
+         usage_rules_path = get_usage_rules_path(name),
+         true <- File.exists?(usage_rules_path),
+         {:ok, content} <- File.read(usage_rules_path) do
+      format_component_doc(name, content)
     else
-      fallback_response(name)
+      _not_found -> fallback_response(name)
     end
   end
 

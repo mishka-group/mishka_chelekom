@@ -126,5 +126,16 @@ defmodule MishkaChelekom.MCP.Tools.GetDocsTest do
 
       assert text =~ "Button"
     end
+
+    test "a topic that walks out of usage-rules/components finds no local doc" do
+      topic = "../components/button"
+      assert File.exists?("usage-rules/components/#{topic}.md")
+
+      {:reply, response, _frame} = GetDocs.execute(%{topic: topic}, %Frame{})
+      [content | _] = response.content
+
+      assert content["text"] =~ "Online Documentation"
+      refute content["text"] =~ "Local Documentation Available"
+    end
   end
 end
