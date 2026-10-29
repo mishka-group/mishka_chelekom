@@ -4,24 +4,49 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
   alias Mix.Tasks.Mishka.Ui.Gen.Component
   @moduletag :igniter
 
+  # `mishka.ui.gen.component` reads three things from the real disk, relative to the working
+  # directory, that Igniter's virtual project does not hold: a host template (`component_*`)
+  # under the app's build priv dir (`_build/<env>/lib/<app>/priv/mishka_chelekom/components`,
+  # which a real project reaches through its `priv` symlink), the `lib/<app>_web/components`
+  # folder, and the Tailwind version in `config/config.exs`. So each test runs in its own
+  # temporary project directory that holds them.
+  @app :chelekom_it
+
   setup do
-    # Ensure Owl is started
     Application.ensure_all_started(:owl)
-    # Setup test config
+
+    root = File.cwd!()
+    tmp = Path.join(System.tmp_dir!(), "chelekom_it_#{System.unique_integer([:positive])}")
+    File.mkdir_p!(Path.join(tmp, "lib/#{@app}_web/components"))
+    File.cd!(tmp)
     MishkaChelekom.ComponentTestHelper.setup_config()
 
     on_exit(fn ->
-      MishkaChelekom.ComponentTestHelper.cleanup_config()
+      File.cd!(root)
+      File.rm_rf!(tmp)
     end)
 
     :ok
+  end
+
+  defp project do
+    test_project_with_formatter(app_name: @app)
+    |> Igniter.Project.Deps.add_dep({:phoenix, "~> 1.8"})
+    |> Igniter.Project.Config.configure("config.exs", :tailwind, [:version], "4.0.0")
+  end
+
+  defp host_template(igniter, file, content) do
+    dir = Igniter.Project.Application.priv_dir(igniter, ["mishka_chelekom", "components"])
+    File.mkdir_p!(dir)
+    File.write!(Path.join(dir, file), content)
+    igniter
   end
 
   describe "component generation integration" do
     test "generates button component with correct HTML structure" do
       # Create a button component template with specific HTML
       button_template = """
-      defmodule <%= @web_module %>.Components.<%= @module %> do
+      defmodule <%= @module %> do
         use Phoenix.Component
 
         @doc \"\"\"
@@ -46,7 +71,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
             ]}
             {@rest}
           >
-            <%= render_slot(@inner_block) %>
+            {render_slot(@inner_block)}
           </button>
           \"\"\"
         end
@@ -54,18 +79,15 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
       """
 
       igniter =
-        test_project_with_formatter()
-        |> Igniter.create_new_file(".formatter.exs", """
-        [inputs: ["*.{ex,exs}", "{config,lib,test}/**/*.{ex,exs}"]]
-        """)
-        |> Igniter.create_new_file("lib/test_project_web/components/.gitkeep", "")
-        |> Igniter.create_new_file(
-          "priv/mishka_chelekom/components/component_button.eex",
+        project()
+        |> host_template(
+          "component_button.eex",
           button_template
         )
-        |> Igniter.create_new_file("priv/mishka_chelekom/components/component_button.exs", """
+        |> host_template("component_button.exs", """
         [
           component_button: [
+            name: "component_button",
             args: [
               variant: ["default", "outline", "ghost", "link"],
               color: ["primary", "secondary", "danger", "warning", "success"],
@@ -89,62 +111,47 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
           "--no-deps"
         ])
 
-      # Check that the component file was created (it might not be created due to path issues)
+      # The component file was generated
       component_created =
-        igniter.rewrite.sources["lib/test_project_web/components/component_button.ex"]
+        igniter.rewrite.sources["lib/chelekom_it_web/components/component_button.ex"]
 
-      # Check the generated content; if the component wasn't created, at least verify the
-      # template was found
-      if component_created do
-        assert %Rewrite.Source{} = component_created
+      assert %Rewrite.Source{} = component_created, "the component was not generated"
 
-        # Get the generated content
-        source = igniter.rewrite.sources["lib/test_project_web/components/component_button.ex"]
-        content = Rewrite.Source.get(source, :content)
+      # Get the generated content
+      source = igniter.rewrite.sources["lib/chelekom_it_web/components/component_button.ex"]
+      content = Rewrite.Source.get(source, :content)
 
-        # Verify the module name is correct
-        assert String.contains?(content, "defmodule TestProjectWeb.Components.ComponentButton do")
+      # Verify the module name is correct
+      assert String.contains?(content, "defmodule ChelekomItWeb.Components.ComponentButton do")
 
-        # Verify Phoenix.Component is used
-        assert String.contains?(content, "use Phoenix.Component")
+      # Verify Phoenix.Component is used
+      assert String.contains?(content, "use Phoenix.Component")
 
-        # Verify the button function exists
-        assert String.contains?(content, "def button(assigns) do")
+      # Verify the button function exists
+      assert String.contains?(content, "def button(assigns) do")
 
-        # Verify HTML structure
-        assert String.contains?(content, "<button")
-        assert String.contains?(content, "render_slot(@inner_block)")
+      # Verify HTML structure
+      assert String.contains?(content, "<button")
+      assert String.contains?(content, "render_slot(@inner_block)")
 
-        # Verify the variants were properly injected
-        assert String.contains?(content, ~s(values: ["default", "outline"]))
+      # Verify the variants were properly injected
+      assert String.contains?(content, ~s(values: ["default", "outline"]))
 
-        # Verify the colors were properly injected
-        assert String.contains?(content, ~s(values: ["primary", "secondary"]))
+      # Verify the colors were properly injected
+      assert String.contains?(content, ~s(values: ["primary", "secondary"]))
 
-        # Verify the sizes were properly injected
-        assert String.contains?(content, ~s(values: ["md", "lg"]))
+      # Verify the sizes were properly injected
+      assert String.contains?(content, ~s(values: ["md", "lg"]))
 
-        # Verify CSS classes are applied
-        assert String.contains?(content, "btn-\#{@variant}")
-        assert String.contains?(content, "btn-\#{@color}")
-        assert String.contains?(content, "btn-\#{@size}")
-      else
-        # The component generation might fail due to path resolution in test environment
-        # but we can verify the template content we created is correct
-        template = igniter.rewrite.sources["priv/mishka_chelekom/components/component_button.eex"]
-        assert %Rewrite.Source{} = template
-
-        template_content = Rewrite.Source.get(template, :content)
-        assert String.contains?(template_content, "defmodule")
-        assert String.contains?(template_content, "Phoenix.Component")
-        assert String.contains?(template_content, "def button(assigns)")
-        assert String.contains?(template_content, "<button")
-      end
+      # Verify CSS classes are applied
+      assert String.contains?(content, "btn-\#{@variant}")
+      assert String.contains?(content, "btn-\#{@color}")
+      assert String.contains?(content, "btn-\#{@size}")
     end
 
     test "generates alert component with dismiss functionality" do
       alert_template = """
-      defmodule <%= @web_module %>.Components.<%= @module %> do
+      defmodule <%= @module %> do
         use Phoenix.Component
         alias Phoenix.LiveView.JS
 
@@ -169,9 +176,9 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
             ]}
           >
             <div class="alert-content">
-              <%= render_slot(@inner_block) %>
+              {render_slot(@inner_block)}
             </div>
-            <%= if @dismissible do %>
+            <%%= if @dismissible do %>
               <button
                 type="button"
                 class="alert-dismiss"
@@ -179,7 +186,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
               >
                 <span aria-hidden="true">&times;</span>
               </button>
-            <% end %>
+            <%% end %>
           </div>
           \"\"\"
         end
@@ -187,18 +194,15 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
       """
 
       igniter =
-        test_project_with_formatter()
-        |> Igniter.create_new_file(".formatter.exs", """
-        [inputs: ["*.{ex,exs}", "{config,lib,test}/**/*.{ex,exs}"]]
-        """)
-        |> Igniter.create_new_file("lib/test_project_web/components/.gitkeep", "")
-        |> Igniter.create_new_file(
-          "priv/mishka_chelekom/components/component_alert.eex",
+        project()
+        |> host_template(
+          "component_alert.eex",
           alert_template
         )
-        |> Igniter.create_new_file("priv/mishka_chelekom/components/component_alert.exs", """
+        |> host_template("component_alert.exs", """
         [
           component_alert: [
+            name: "component_alert",
             args: [
               variant: ["info", "success", "warning", "danger"]
             ],
@@ -216,45 +220,39 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
           "--no-deps"
         ])
 
-      # Check that the component file was created (might not be created due to path issues)
+      # The component file was generated
       component_created =
-        igniter.rewrite.sources["lib/test_project_web/components/component_alert.ex"]
+        igniter.rewrite.sources["lib/chelekom_it_web/components/component_alert.ex"]
 
-      if component_created do
-        # Get the generated content
-        source = igniter.rewrite.sources["lib/test_project_web/components/component_alert.ex"]
-        content = Rewrite.Source.get(source, :content)
+      assert %Rewrite.Source{} = component_created, "the component was not generated"
 
-        # Verify the module structure
-        assert String.contains?(content, "defmodule TestProjectWeb.Components.ComponentAlert do")
-        assert String.contains?(content, "alias Phoenix.LiveView.JS")
+      # Get the generated content
+      source = igniter.rewrite.sources["lib/chelekom_it_web/components/component_alert.ex"]
+      content = Rewrite.Source.get(source, :content)
 
-        # Verify the alert function
-        assert String.contains?(content, "def alert(assigns) do")
+      # Verify the module structure
+      assert String.contains?(content, "defmodule ChelekomItWeb.Components.ComponentAlert do")
+      assert String.contains?(content, "alias Phoenix.LiveView.JS")
 
-        # Verify HTML structure
-        assert String.contains?(content, ~s(role="alert"))
-        assert String.contains?(content, "alert-\#{@variant}")
+      # Verify the alert function
+      assert String.contains?(content, "def alert(assigns) do")
 
-        # Verify dismissible functionality
-        assert String.contains?(content, "if @dismissible do")
-        assert String.contains?(content, "JS.hide")
-        assert String.contains?(content, "&times;")
+      # Verify HTML structure
+      assert String.contains?(content, ~s(role="alert"))
+      assert String.contains?(content, "alert-\#{@variant}")
 
-        # Verify the variants were properly injected
-        assert String.contains?(content, ~s(values: ["success", "warning", "danger"]))
-      else
-        # Verify template was created correctly
-        template = igniter.rewrite.sources["priv/mishka_chelekom/components/component_alert.eex"]
-        assert %Rewrite.Source{} = template
-        template_content = Rewrite.Source.get(template, :content)
-        assert String.contains?(template_content, "def alert(assigns)")
-      end
+      # Verify dismissible functionality
+      assert String.contains?(content, "if @dismissible do")
+      assert String.contains?(content, "JS.hide")
+      assert String.contains?(content, "&times;")
+
+      # Verify the variants were properly injected
+      assert String.contains?(content, ~s(values: ["success", "warning", "danger"]))
     end
 
     test "generates modal component with necessary dependencies" do
       modal_template = """
-      defmodule <%= @web_module %>.Components.<%= @module %> do
+      defmodule <%= @module %> do
         use Phoenix.Component
         alias Phoenix.LiveView.JS
 
@@ -276,7 +274,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
           >
             <div class="modal-backdrop" phx-click={hide_modal(@id)}></div>
             <div class="modal-content modal-\#{@size}">
-              <%= render_slot(@inner_block) %>
+              {render_slot(@inner_block)}
             </div>
           </div>
           \"\"\"
@@ -295,18 +293,15 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
       """
 
       igniter =
-        test_project_with_formatter()
-        |> Igniter.create_new_file(".formatter.exs", """
-        [inputs: ["*.{ex,exs}", "{config,lib,test}/**/*.{ex,exs}"]]
-        """)
-        |> Igniter.create_new_file("lib/test_project_web/components/.gitkeep", "")
-        |> Igniter.create_new_file(
-          "priv/mishka_chelekom/components/component_modal.eex",
+        project()
+        |> host_template(
+          "component_modal.eex",
           modal_template
         )
-        |> Igniter.create_new_file("priv/mishka_chelekom/components/component_modal.exs", """
+        |> host_template("component_modal.exs", """
         [
           component_modal: [
+            name: "component_modal",
             args: [
               size: ["sm", "md", "lg", "xl", "full"]
             ],
@@ -324,48 +319,42 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
           "--no-deps"
         ])
 
-      # Check that the component file was created (might not be created due to path issues)
+      # The component file was generated
       component_created =
-        igniter.rewrite.sources["lib/test_project_web/components/component_modal.ex"]
+        igniter.rewrite.sources["lib/chelekom_it_web/components/component_modal.ex"]
 
-      if component_created do
-        # Get the generated content
-        source = igniter.rewrite.sources["lib/test_project_web/components/component_modal.ex"]
-        content = Rewrite.Source.get(source, :content)
+      assert %Rewrite.Source{} = component_created, "the component was not generated"
 
-        # Verify the module structure
-        assert String.contains?(content, "defmodule TestProjectWeb.Components.ComponentModal do")
+      # Get the generated content
+      source = igniter.rewrite.sources["lib/chelekom_it_web/components/component_modal.ex"]
+      content = Rewrite.Source.get(source, :content)
 
-        # Verify helper functions
-        assert String.contains?(content, "def show_modal(id)")
-        assert String.contains?(content, "def hide_modal(id)")
+      # Verify the module structure
+      assert String.contains?(content, "defmodule ChelekomItWeb.Components.ComponentModal do")
 
-        # Verify JS interactions
-        assert String.contains?(content, "JS.show")
-        assert String.contains?(content, "JS.hide")
-        assert String.contains?(content, "JS.add_class")
-        assert String.contains?(content, "JS.remove_class")
+      # Verify helper functions
+      assert String.contains?(content, "def show_modal(id)")
+      assert String.contains?(content, "def hide_modal(id)")
 
-        # Verify HTML structure
-        assert String.contains?(content, "modal-container")
-        assert String.contains?(content, "modal-backdrop")
-        assert String.contains?(content, "modal-content")
+      # Verify JS interactions
+      assert String.contains?(content, "JS.show")
+      assert String.contains?(content, "JS.hide")
+      assert String.contains?(content, "JS.add_class")
+      assert String.contains?(content, "JS.remove_class")
 
-        # Verify size variants
-        assert String.contains?(content, ~s(values: ["sm", "md", "lg"]))
-        assert String.contains?(content, "modal-\#{@size}")
-      else
-        # Verify template was created correctly
-        template = igniter.rewrite.sources["priv/mishka_chelekom/components/component_modal.eex"]
-        assert %Rewrite.Source{} = template
-        template_content = Rewrite.Source.get(template, :content)
-        assert String.contains?(template_content, "def modal(assigns)")
-      end
+      # Verify HTML structure
+      assert String.contains?(content, "modal-container")
+      assert String.contains?(content, "modal-backdrop")
+      assert String.contains?(content, "modal-content")
+
+      # Verify size variants
+      assert String.contains?(content, ~s(values: ["sm", "md", "lg"]))
+      assert String.contains?(content, "modal-\#{@size}")
     end
 
     test "generates form input component with validation states" do
       input_template = """
-      defmodule <%= @web_module %>.Components.<%= @module %> do
+      defmodule <%= @module %> do
         use Phoenix.Component
         import Phoenix.HTML.Form
 
@@ -383,11 +372,11 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
         def input(assigns) do
           ~H\"\"\"
           <div class="form-field">
-            <%= if @label do %>
+            <%%= if @label do %>
               <label for={@id || @name} class="form-label">
-                <%= @label %>
+                <%%= @label %>
               </label>
-            <% end %>
+            <%% end %>
             <input
               id={@id || @name}
               name={@name}
@@ -399,11 +388,11 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
               ]}
               {@rest}
             />
-            <%= if @error != [] do %>
+            <%%= if @error != [] do %>
               <span class="form-error">
-                <%= Enum.join(@error, ", ") %>
+                <%%= Enum.join(@error, ", ") %>
               </span>
-            <% end %>
+            <%% end %>
           </div>
           \"\"\"
         end
@@ -411,18 +400,15 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
       """
 
       igniter =
-        test_project_with_formatter()
-        |> Igniter.create_new_file(".formatter.exs", """
-        [inputs: ["*.{ex,exs}", "{config,lib,test}/**/*.{ex,exs}"]]
-        """)
-        |> Igniter.create_new_file("lib/test_project_web/components/.gitkeep", "")
-        |> Igniter.create_new_file(
-          "priv/mishka_chelekom/components/component_input.eex",
+        project()
+        |> host_template(
+          "component_input.eex",
           input_template
         )
-        |> Igniter.create_new_file("priv/mishka_chelekom/components/component_input.exs", """
+        |> host_template("component_input.exs", """
         [
           component_input: [
+            name: "component_input",
             args: [
               type: ["text", "email", "password", "number", "tel", "url", "search"]
             ],
@@ -440,41 +426,35 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
           "--no-deps"
         ])
 
-      # Check that the component file was created (might not be created due to path issues)
+      # The component file was generated
       component_created =
-        igniter.rewrite.sources["lib/test_project_web/components/component_input.ex"]
+        igniter.rewrite.sources["lib/chelekom_it_web/components/component_input.ex"]
 
-      if component_created do
-        # Get the generated content
-        source = igniter.rewrite.sources["lib/test_project_web/components/component_input.ex"]
-        content = Rewrite.Source.get(source, :content)
+      assert %Rewrite.Source{} = component_created, "the component was not generated"
 
-        # Verify imports
-        assert String.contains?(content, "import Phoenix.HTML.Form")
+      # Get the generated content
+      source = igniter.rewrite.sources["lib/chelekom_it_web/components/component_input.ex"]
+      content = Rewrite.Source.get(source, :content)
 
-        # Verify the input function
-        assert String.contains?(content, "def input(assigns) do")
+      # Verify imports
+      assert String.contains?(content, "import Phoenix.HTML.Form")
 
-        # Verify HTML structure
-        assert String.contains?(content, "form-field")
-        assert String.contains?(content, "form-label")
-        assert String.contains?(content, "form-input")
+      # Verify the input function
+      assert String.contains?(content, "def input(assigns) do")
 
-        # Verify error handling
-        assert String.contains?(content, "@error != []")
-        assert String.contains?(content, "form-input-error")
-        assert String.contains?(content, "form-error")
-        assert String.contains?(content, "Enum.join(@error")
+      # Verify HTML structure
+      assert String.contains?(content, "form-field")
+      assert String.contains?(content, "form-label")
+      assert String.contains?(content, "form-input")
 
-        # Verify type variants
-        assert String.contains?(content, ~s(values: ["text", "email", "password"]))
-      else
-        # Verify template was created correctly
-        template = igniter.rewrite.sources["priv/mishka_chelekom/components/component_input.eex"]
-        assert %Rewrite.Source{} = template
-        template_content = Rewrite.Source.get(template, :content)
-        assert String.contains?(template_content, "def input(assigns)")
-      end
+      # Verify error handling
+      assert String.contains?(content, "@error != []")
+      assert String.contains?(content, "form-input-error")
+      assert String.contains?(content, "form-error")
+      assert String.contains?(content, "Enum.join(@error")
+
+      # Verify type variants
+      assert String.contains?(content, ~s(values: ["text", "email", "password"]))
     end
 
     test "generates component with filtered colors from config" do
@@ -488,7 +468,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
 
       # Create a button component template
       button_template = """
-      defmodule <%= @web_module %>.Components.<%= @module %> do
+      defmodule <%= @module %> do
         use Phoenix.Component
 
         attr :color, :string, default: "base", values: <%= inspect(@color || ["base", "primary", "secondary", "danger", "warning", "success"]) %>
@@ -499,7 +479,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
         def button(assigns) do
           ~H\"\"\"
           <button class={["btn", "btn-\#{@color}", @class]} {@rest}>
-            <%= render_slot(@inner_block) %>
+            {render_slot(@inner_block)}
           </button>
           \"\"\"
         end
@@ -521,49 +501,42 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
 
       # Run the task
       igniter =
-        test_project_with_formatter()
+        project()
         |> Igniter.create_new_file("priv/mishka_chelekom/config.exs", config_content)
-        |> Igniter.create_new_file(
-          "priv/mishka_chelekom/components/component_button.eex",
+        |> host_template(
+          "component_button.eex",
           button_template
         )
-        |> Igniter.create_new_file(
-          "priv/mishka_chelekom/components/component_button.exs",
+        |> host_template(
+          "component_button.exs",
           button_config
         )
         |> Igniter.compose_task(Component, ["component_button", "--yes"])
 
-      # Check if the component was created
-      component_created =
-        Map.has_key?(
-          igniter.rewrite.sources,
-          "lib/test_project_web/components/component_button.ex"
-        )
+      assert Map.has_key?(
+               igniter.rewrite.sources,
+               "lib/chelekom_it_web/components/component_button.ex"
+             ),
+             "the component was not generated"
 
-      if component_created do
-        # Get the generated content
-        source = igniter.rewrite.sources["lib/test_project_web/components/component_button.ex"]
-        content = Rewrite.Source.get(source, :content)
+      # Get the generated content
+      source = igniter.rewrite.sources["lib/chelekom_it_web/components/component_button.ex"]
+      content = Rewrite.Source.get(source, :content)
 
-        # Verify that only the configured colors are present
-        assert String.contains?(content, ~s(values: ["base", "danger"]))
+      # Verify that only the configured colors are present
+      assert String.contains?(content, ~s(values: ["base", "danger"]))
 
-        # Verify that other colors are NOT present in the values list
-        refute String.contains?(
-                 content,
-                 ~s(values: ["base", "primary", "secondary", "danger", "warning", "success"])
-               )
+      # Verify that other colors are NOT present in the values list
+      refute String.contains?(
+               content,
+               ~s(values: ["base", "primary", "secondary", "danger", "warning", "success"])
+             )
 
-        # Verify the component structure is still correct
-        assert String.contains?(content, "defmodule TestProjectWeb.Components.ComponentButton do")
-        assert String.contains?(content, "use Phoenix.Component")
-        assert String.contains?(content, "def button(assigns) do")
-        assert String.contains?(content, "btn-\#{@color}")
-      else
-        # When running in test mode, the template might not be compiled
-        template = igniter.rewrite.sources["priv/mishka_chelekom/components/component_button.eex"]
-        assert Rewrite.Source.get(template, :content) == button_template
-      end
+      # Verify the component structure is still correct
+      assert String.contains?(content, "defmodule ChelekomItWeb.Components.ComponentButton do")
+      assert String.contains?(content, "use Phoenix.Component")
+      assert String.contains?(content, "def button(assigns) do")
+      assert String.contains?(content, "btn-\#{@color}")
     end
 
     test "generates component with component_prefix from config" do
@@ -577,7 +550,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
 
       # Create a simple button component template
       button_template = """
-      defmodule <%= @web_module %>.Components.<%= @module %> do
+      defmodule <%= @module %> do
         use Phoenix.Component
 
         attr :class, :any, default: ""
@@ -587,7 +560,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
         def <%= @component_prefix %>button(assigns) do
           ~H\"\"\"
           <button class={[@class]} {@rest}>
-            <%= render_slot(@inner_block) %>
+            {render_slot(@inner_block)}
           </button>
           \"\"\"
         end
@@ -607,40 +580,33 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
 
       # Run the task
       igniter =
-        test_project_with_formatter()
+        project()
         |> Igniter.create_new_file("priv/mishka_chelekom/config.exs", config_content)
-        |> Igniter.create_new_file(
-          "priv/mishka_chelekom/components/component_button.eex",
+        |> host_template(
+          "component_button.eex",
           button_template
         )
-        |> Igniter.create_new_file(
-          "priv/mishka_chelekom/components/component_button.exs",
+        |> host_template(
+          "component_button.exs",
           button_config
         )
         |> Igniter.compose_task(Component, ["component_button", "--yes"])
 
-      # Check if the component was created
-      component_created =
-        Map.has_key?(
-          igniter.rewrite.sources,
-          "lib/test_project_web/components/component_button.ex"
-        )
+      assert Map.has_key?(
+               igniter.rewrite.sources,
+               "lib/chelekom_it_web/components/component_button.ex"
+             ),
+             "the component was not generated"
 
-      if component_created do
-        # Get the generated content
-        source = igniter.rewrite.sources["lib/test_project_web/components/component_button.ex"]
-        content = Rewrite.Source.get(source, :content)
+      # Get the generated content
+      source = igniter.rewrite.sources["lib/chelekom_it_web/components/component_button.ex"]
+      content = Rewrite.Source.get(source, :content)
 
-        # Verify that the prefix was applied
-        assert String.contains?(content, "def mishka_button(assigns) do")
+      # Verify that the prefix was applied
+      assert String.contains?(content, "def mishka_button(assigns) do")
 
-        # Verify that unprefixed function doesn't exist
-        refute String.contains?(content, "def button(assigns) do")
-      else
-        # When running in test mode, the template might not be compiled
-        template = igniter.rewrite.sources["priv/mishka_chelekom/components/component_button.eex"]
-        assert Rewrite.Source.get(template, :content) == button_template
-      end
+      # Verify that unprefixed function doesn't exist
+      refute String.contains?(content, "def button(assigns) do")
     end
 
     test "generates component with component_prefix from CLI overriding config" do
@@ -654,7 +620,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
 
       # Create a simple button component template
       button_template = """
-      defmodule <%= @web_module %>.Components.<%= @module %> do
+      defmodule <%= @module %> do
         use Phoenix.Component
 
         attr :class, :any, default: ""
@@ -664,7 +630,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
         def <%= @component_prefix %>button(assigns) do
           ~H\"\"\"
           <button class={[@class]} {@rest}>
-            <%= render_slot(@inner_block) %>
+            {render_slot(@inner_block)}
           </button>
           \"\"\"
         end
@@ -684,14 +650,14 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
 
       # Run the task with CLI prefix (should override config)
       igniter =
-        test_project_with_formatter()
+        project()
         |> Igniter.create_new_file("priv/mishka_chelekom/config.exs", config_content)
-        |> Igniter.create_new_file(
-          "priv/mishka_chelekom/components/component_button.eex",
+        |> host_template(
+          "component_button.eex",
           button_template
         )
-        |> Igniter.create_new_file(
-          "priv/mishka_chelekom/components/component_button.exs",
+        |> host_template(
+          "component_button.exs",
           button_config
         )
         |> Igniter.compose_task(Component, [
@@ -701,37 +667,30 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
           "--yes"
         ])
 
-      # Check if the component was created
-      component_created =
-        Map.has_key?(
-          igniter.rewrite.sources,
-          "lib/test_project_web/components/component_button.ex"
-        )
+      assert Map.has_key?(
+               igniter.rewrite.sources,
+               "lib/chelekom_it_web/components/component_button.ex"
+             ),
+             "the component was not generated"
 
-      if component_created do
-        # Get the generated content
-        source = igniter.rewrite.sources["lib/test_project_web/components/component_button.ex"]
-        content = Rewrite.Source.get(source, :content)
+      # Get the generated content
+      source = igniter.rewrite.sources["lib/chelekom_it_web/components/component_button.ex"]
+      content = Rewrite.Source.get(source, :content)
 
-        # Verify that the CLI prefix was applied (not the config prefix)
-        assert String.contains?(content, "def cli_prefix_button(assigns) do")
+      # Verify that the CLI prefix was applied (not the config prefix)
+      assert String.contains?(content, "def cli_prefix_button(assigns) do")
 
-        # Verify that config prefix was NOT applied
-        refute String.contains?(content, "def config_prefix_button(assigns) do")
+      # Verify that config prefix was NOT applied
+      refute String.contains?(content, "def config_prefix_button(assigns) do")
 
-        # Verify that unprefixed function doesn't exist
-        refute String.contains?(content, "def button(assigns) do")
-      else
-        # When running in test mode, the template might not be compiled
-        template = igniter.rewrite.sources["priv/mishka_chelekom/components/component_button.eex"]
-        assert Rewrite.Source.get(template, :content) == button_template
-      end
+      # Verify that unprefixed function doesn't exist
+      refute String.contains?(content, "def button(assigns) do")
     end
 
     test "updates config.exs when component_prefix provided in CLI (not sub mode)" do
       # Create a simple button component template
       button_template = """
-      defmodule <%= @web_module %>.Components.<%= @module %> do
+      defmodule <%= @module %> do
         use Phoenix.Component
 
         attr :class, :any, default: ""
@@ -740,7 +699,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
         def <%= @component_prefix %>button(assigns) do
           ~H\"\"\"
           <button class={[@class]}>
-            <%= render_slot(@inner_block) %>
+            {render_slot(@inner_block)}
           </button>
           \"\"\"
         end
@@ -768,14 +727,14 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
 
       # Run the task with CLI prefix
       igniter =
-        test_project_with_formatter()
+        project()
         |> Igniter.create_new_file("priv/mishka_chelekom/config.exs", existing_config)
-        |> Igniter.create_new_file(
-          "priv/mishka_chelekom/components/component_button.eex",
+        |> host_template(
+          "component_button.eex",
           button_template
         )
-        |> Igniter.create_new_file(
-          "priv/mishka_chelekom/components/component_button.exs",
+        |> host_template(
+          "component_button.exs",
           button_config
         )
         |> Igniter.compose_task(Component, [
@@ -799,7 +758,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
     test "does NOT update config.exs when in sub mode (batch generation)" do
       # Create a simple button component template
       button_template = """
-      defmodule <%= @web_module %>.Components.<%= @module %> do
+      defmodule <%= @module %> do
         use Phoenix.Component
 
         attr :class, :any, default: ""
@@ -808,7 +767,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
         def <%= @component_prefix %>button(assigns) do
           ~H\"\"\"
           <button class={[@class]}>
-            <%= render_slot(@inner_block) %>
+            {render_slot(@inner_block)}
           </button>
           \"\"\"
         end
@@ -836,14 +795,14 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
 
       # Run the task with --sub flag (simulating batch generation)
       igniter =
-        test_project_with_formatter()
+        project()
         |> Igniter.create_new_file("priv/mishka_chelekom/config.exs", existing_config)
-        |> Igniter.create_new_file(
-          "priv/mishka_chelekom/components/component_button.eex",
+        |> host_template(
+          "component_button.eex",
           button_template
         )
-        |> Igniter.create_new_file(
-          "priv/mishka_chelekom/components/component_button.exs",
+        |> host_template(
+          "component_button.exs",
           button_config
         )
         |> Igniter.compose_task(Component, [
@@ -886,7 +845,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
         def <%= @component_prefix %>chat(assigns) do
           ~H\"\"\"
           <div class={["chat", @class]} {@rest}>
-            <%= render_slot(@inner_block) %>
+            {render_slot(@inner_block)}
           </div>
           \"\"\"
         end
@@ -906,45 +865,38 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
 
       # Run the task
       igniter =
-        test_project_with_formatter()
+        project()
         |> Igniter.create_new_file("priv/mishka_chelekom/config.exs", config_content)
-        |> Igniter.create_new_file(
-          "priv/mishka_chelekom/components/component_chat.eex",
+        |> host_template(
+          "component_chat.eex",
           chat_template
         )
-        |> Igniter.create_new_file(
-          "priv/mishka_chelekom/components/component_chat.exs",
+        |> host_template(
+          "component_chat.exs",
           chat_config
         )
         |> Igniter.compose_task(Component, ["component_chat", "--yes"])
 
-      # Check if the component was created with the prefixed file name
-      component_created =
-        Map.has_key?(
-          igniter.rewrite.sources,
-          "lib/test_project_web/components/mishka_component_chat.ex"
-        )
+      assert Map.has_key?(
+               igniter.rewrite.sources,
+               "lib/chelekom_it_web/components/mishka_component_chat.ex"
+             ),
+             "the component was not generated"
 
-      if component_created do
-        # Get the generated content
-        source =
-          igniter.rewrite.sources["lib/test_project_web/components/mishka_component_chat.ex"]
+      # Get the generated content
+      source =
+        igniter.rewrite.sources["lib/chelekom_it_web/components/mishka_component_chat.ex"]
 
-        content = Rewrite.Source.get(source, :content)
+      content = Rewrite.Source.get(source, :content)
 
-        # Verify the module name has the prefix (MishkaComponentChat)
-        assert String.contains?(
-                 content,
-                 "defmodule TestProjectWeb.Components.MishkaComponentChat do"
-               )
+      # Verify the module name has the prefix (MishkaComponentChat)
+      assert String.contains?(
+               content,
+               "defmodule ChelekomItWeb.Components.MishkaComponentChat do"
+             )
 
-        assert String.contains?(content, "use Phoenix.Component")
-        assert String.contains?(content, "def chat(assigns) do")
-      else
-        # When running in test mode, the template might not be compiled
-        template = igniter.rewrite.sources["priv/mishka_chelekom/components/component_chat.eex"]
-        assert Rewrite.Source.get(template, :content) == chat_template
-      end
+      assert String.contains?(content, "use Phoenix.Component")
+      assert String.contains?(content, "def chat(assigns) do")
     end
 
     test "generates component with module_prefix from CLI (prefixed file and module name)" do
@@ -960,7 +912,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
         def <%= @component_prefix %>chat(assigns) do
           ~H\"\"\"
           <div class={["chat", @class]} {@rest}>
-            <%= render_slot(@inner_block) %>
+            {render_slot(@inner_block)}
           </div>
           \"\"\"
         end
@@ -980,13 +932,13 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
 
       # Run the task with CLI module_prefix
       igniter =
-        test_project_with_formatter()
-        |> Igniter.create_new_file(
-          "priv/mishka_chelekom/components/component_chat.eex",
+        project()
+        |> host_template(
+          "component_chat.eex",
           chat_template
         )
-        |> Igniter.create_new_file(
-          "priv/mishka_chelekom/components/component_chat.exs",
+        |> host_template(
+          "component_chat.exs",
           chat_config
         )
         |> Igniter.compose_task(Component, [
@@ -996,30 +948,23 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
           "--yes"
         ])
 
-      # Check if the component was created with the prefixed file name
-      component_created =
-        Map.has_key?(
-          igniter.rewrite.sources,
-          "lib/test_project_web/components/custom_component_chat.ex"
-        )
+      assert Map.has_key?(
+               igniter.rewrite.sources,
+               "lib/chelekom_it_web/components/custom_component_chat.ex"
+             ),
+             "the component was not generated"
 
-      if component_created do
-        # Get the generated content
-        source =
-          igniter.rewrite.sources["lib/test_project_web/components/custom_component_chat.ex"]
+      # Get the generated content
+      source =
+        igniter.rewrite.sources["lib/chelekom_it_web/components/custom_component_chat.ex"]
 
-        content = Rewrite.Source.get(source, :content)
+      content = Rewrite.Source.get(source, :content)
 
-        # Verify the module name has the prefix (CustomComponentChat)
-        assert String.contains?(
-                 content,
-                 "defmodule TestProjectWeb.Components.CustomComponentChat do"
-               )
-      else
-        # When running in test mode, the template might not be compiled
-        template = igniter.rewrite.sources["priv/mishka_chelekom/components/component_chat.eex"]
-        assert Rewrite.Source.get(template, :content) == chat_template
-      end
+      # Verify the module name has the prefix (CustomComponentChat)
+      assert String.contains?(
+               content,
+               "defmodule ChelekomItWeb.Components.CustomComponentChat do"
+             )
     end
 
     test "CLI module_prefix overrides config module_prefix" do
@@ -1042,7 +987,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
         def chat(assigns) do
           ~H\"\"\"
           <div class={["chat", @class]}>
-            <%= render_slot(@inner_block) %>
+            {render_slot(@inner_block)}
           </div>
           \"\"\"
         end
@@ -1062,14 +1007,14 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
 
       # Run the task with CLI module_prefix (should override config)
       igniter =
-        test_project_with_formatter()
+        project()
         |> Igniter.create_new_file("priv/mishka_chelekom/config.exs", config_content)
-        |> Igniter.create_new_file(
-          "priv/mishka_chelekom/components/component_chat.eex",
+        |> host_template(
+          "component_chat.eex",
           chat_template
         )
-        |> Igniter.create_new_file(
-          "priv/mishka_chelekom/components/component_chat.exs",
+        |> host_template(
+          "component_chat.exs",
           chat_config
         )
         |> Igniter.compose_task(Component, [
@@ -1079,39 +1024,30 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
           "--yes"
         ])
 
-      # Check if the component was created with CLI prefix (not config prefix)
-      cli_prefixed =
-        Map.has_key?(
-          igniter.rewrite.sources,
-          "lib/test_project_web/components/cli_component_chat.ex"
-        )
+      # The CLI prefix wins over the config prefix
+      assert Map.has_key?(
+               igniter.rewrite.sources,
+               "lib/chelekom_it_web/components/cli_component_chat.ex"
+             ),
+             "the component was not generated"
 
-      config_prefixed =
-        Map.has_key?(
-          igniter.rewrite.sources,
-          "lib/test_project_web/components/config_component_chat.ex"
-        )
+      refute Map.has_key?(
+               igniter.rewrite.sources,
+               "lib/chelekom_it_web/components/config_component_chat.ex"
+             )
 
-      if cli_prefixed do
-        refute config_prefixed
+      source =
+        igniter.rewrite.sources["lib/chelekom_it_web/components/cli_component_chat.ex"]
 
-        source =
-          igniter.rewrite.sources["lib/test_project_web/components/cli_component_chat.ex"]
+      content = Rewrite.Source.get(source, :content)
 
-        content = Rewrite.Source.get(source, :content)
+      # Verify the CLI prefix was applied (not the config prefix)
+      assert String.contains?(
+               content,
+               "defmodule ChelekomItWeb.Components.CliComponentChat do"
+             )
 
-        # Verify the CLI prefix was applied (not the config prefix)
-        assert String.contains?(
-                 content,
-                 "defmodule TestProjectWeb.Components.CliComponentChat do"
-               )
-
-        refute String.contains?(content, "ConfigComponentChat")
-      else
-        # When running in test mode, the template might not be compiled
-        template = igniter.rewrite.sources["priv/mishka_chelekom/components/component_chat.eex"]
-        assert Rewrite.Source.get(template, :content) == chat_template
-      end
+      refute String.contains?(content, "ConfigComponentChat")
     end
 
     test "updates config.exs when module_prefix provided in CLI (not sub mode)" do
@@ -1126,7 +1062,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
         def chat(assigns) do
           ~H\"\"\"
           <div class={["chat", @class]}>
-            <%= render_slot(@inner_block) %>
+            {render_slot(@inner_block)}
           </div>
           \"\"\"
         end
@@ -1154,14 +1090,14 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
 
       # Run the task with CLI module_prefix
       igniter =
-        test_project_with_formatter()
+        project()
         |> Igniter.create_new_file("priv/mishka_chelekom/config.exs", existing_config)
-        |> Igniter.create_new_file(
-          "priv/mishka_chelekom/components/component_chat.eex",
+        |> host_template(
+          "component_chat.eex",
           chat_template
         )
-        |> Igniter.create_new_file(
-          "priv/mishka_chelekom/components/component_chat.exs",
+        |> host_template(
+          "component_chat.exs",
           chat_config
         )
         |> Igniter.compose_task(Component, [
@@ -1194,7 +1130,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
         def chat(assigns) do
           ~H\"\"\"
           <div class={["chat", @class]}>
-            <%= render_slot(@inner_block) %>
+            {render_slot(@inner_block)}
           </div>
           \"\"\"
         end
@@ -1222,14 +1158,14 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
 
       # Run the task with --sub flag (simulating batch generation)
       igniter =
-        test_project_with_formatter()
+        project()
         |> Igniter.create_new_file("priv/mishka_chelekom/config.exs", existing_config)
-        |> Igniter.create_new_file(
-          "priv/mishka_chelekom/components/component_chat.eex",
+        |> host_template(
+          "component_chat.eex",
           chat_template
         )
-        |> Igniter.create_new_file(
-          "priv/mishka_chelekom/components/component_chat.exs",
+        |> host_template(
+          "component_chat.exs",
           chat_config
         )
         |> Igniter.compose_task(Component, [
@@ -1273,7 +1209,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
         def <%= @component_prefix %>chat(assigns) do
           ~H\"\"\"
           <div class={["chat", @class]} {@rest}>
-            <%= render_slot(@inner_block) %>
+            {render_slot(@inner_block)}
           </div>
           \"\"\"
         end
@@ -1293,48 +1229,41 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
 
       # Run the task
       igniter =
-        test_project_with_formatter()
+        project()
         |> Igniter.create_new_file("priv/mishka_chelekom/config.exs", config_content)
-        |> Igniter.create_new_file(
-          "priv/mishka_chelekom/components/component_chat.eex",
+        |> host_template(
+          "component_chat.eex",
           chat_template
         )
-        |> Igniter.create_new_file(
-          "priv/mishka_chelekom/components/component_chat.exs",
+        |> host_template(
+          "component_chat.exs",
           chat_config
         )
         |> Igniter.compose_task(Component, ["component_chat", "--yes"])
 
-      # Check if the component was created with module_prefix in file name
-      component_created =
-        Map.has_key?(
-          igniter.rewrite.sources,
-          "lib/test_project_web/components/mishka_component_chat.ex"
-        )
+      assert Map.has_key?(
+               igniter.rewrite.sources,
+               "lib/chelekom_it_web/components/mishka_component_chat.ex"
+             ),
+             "the component was not generated"
 
-      if component_created do
-        # Get the generated content
-        source =
-          igniter.rewrite.sources["lib/test_project_web/components/mishka_component_chat.ex"]
+      # Get the generated content
+      source =
+        igniter.rewrite.sources["lib/chelekom_it_web/components/mishka_component_chat.ex"]
 
-        content = Rewrite.Source.get(source, :content)
+      content = Rewrite.Source.get(source, :content)
 
-        # Verify the module name has the module_prefix (MishkaComponentChat)
-        assert String.contains?(
-                 content,
-                 "defmodule TestProjectWeb.Components.MishkaComponentChat do"
-               )
+      # Verify the module name has the module_prefix (MishkaComponentChat)
+      assert String.contains?(
+               content,
+               "defmodule ChelekomItWeb.Components.MishkaComponentChat do"
+             )
 
-        # Verify the function name has the component_prefix (mc_chat)
-        assert String.contains?(content, "def mc_chat(assigns) do")
+      # Verify the function name has the component_prefix (mc_chat)
+      assert String.contains?(content, "def mc_chat(assigns) do")
 
-        # Verify unprefixed function doesn't exist
-        refute String.contains?(content, "def chat(assigns) do")
-      else
-        # When running in test mode, the template might not be compiled
-        template = igniter.rewrite.sources["priv/mishka_chelekom/components/component_chat.eex"]
-        assert Rewrite.Source.get(template, :content) == chat_template
-      end
+      # Verify unprefixed function doesn't exist
+      refute String.contains?(content, "def chat(assigns) do")
     end
 
     test "generates component with module_prefix_camel in import statements" do
@@ -1359,7 +1288,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
         def button(assigns) do
           ~H\"\"\"
           <button class={["btn", @class]} {@rest}>
-            <%= render_slot(@inner_block) %>
+            {render_slot(@inner_block)}
           </button>
           \"\"\"
         end
@@ -1379,56 +1308,47 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
 
       # Run the task
       igniter =
-        test_project_with_formatter()
+        project()
         |> Igniter.create_new_file("priv/mishka_chelekom/config.exs", config_content)
-        |> Igniter.create_new_file(
-          "priv/mishka_chelekom/components/component_button.eex",
+        |> host_template(
+          "component_button.eex",
           button_template
         )
-        |> Igniter.create_new_file(
-          "priv/mishka_chelekom/components/component_button.exs",
+        |> host_template(
+          "component_button.exs",
           button_config
         )
         |> Igniter.compose_task(Component, ["component_button", "--yes"])
 
-      # Check if the component was created with the prefixed file name
-      component_created =
-        Map.has_key?(
-          igniter.rewrite.sources,
-          "lib/test_project_web/components/mishka_component_button.ex"
-        )
+      assert Map.has_key?(
+               igniter.rewrite.sources,
+               "lib/chelekom_it_web/components/mishka_component_button.ex"
+             ),
+             "the component was not generated"
 
-      if component_created do
-        # Get the generated content
-        source =
-          igniter.rewrite.sources["lib/test_project_web/components/mishka_component_button.ex"]
+      # Get the generated content
+      source =
+        igniter.rewrite.sources["lib/chelekom_it_web/components/mishka_component_button.ex"]
 
-        content = Rewrite.Source.get(source, :content)
+      content = Rewrite.Source.get(source, :content)
 
-        # Verify the module name has the prefix (MishkaComponentButton)
-        assert String.contains?(
-                 content,
-                 "defmodule TestProjectWeb.Components.MishkaComponentButton do"
-               )
+      # Verify the module name has the prefix (MishkaComponentButton)
+      assert String.contains?(
+               content,
+               "defmodule ChelekomItWeb.Components.MishkaComponentButton do"
+             )
 
-        # Verify the import statement has the camelized prefix (MishkaIcon)
-        assert String.contains?(
-                 content,
-                 "import TestProjectWeb.Components.MishkaIcon"
-               )
+      # Verify the import statement has the camelized prefix (MishkaIcon)
+      assert String.contains?(
+               content,
+               "import ChelekomItWeb.Components.MishkaIcon"
+             )
 
-        # Verify it does NOT have unprefixed import
-        refute String.contains?(
-                 content,
-                 "import TestProjectWeb.Components.Icon,"
-               )
-      else
-        # When running in test mode, the template might not be compiled
-        template =
-          igniter.rewrite.sources["priv/mishka_chelekom/components/component_button.eex"]
-
-        assert Rewrite.Source.get(template, :content) == button_template
-      end
+      # Verify it does NOT have unprefixed import
+      refute String.contains?(
+               content,
+               "import ChelekomItWeb.Components.Icon,"
+             )
     end
 
     test "generates component with empty module_prefix_camel when no prefix" do
@@ -1444,7 +1364,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
         def button(assigns) do
           ~H\"\"\"
           <button class={["btn", @class]}>
-            <%= render_slot(@inner_block) %>
+            {render_slot(@inner_block)}
           </button>
           \"\"\"
         end
@@ -1464,52 +1384,43 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
 
       # Run the task without module_prefix
       igniter =
-        test_project_with_formatter()
-        |> Igniter.create_new_file(
-          "priv/mishka_chelekom/components/component_button.eex",
+        project()
+        |> host_template(
+          "component_button.eex",
           button_template
         )
-        |> Igniter.create_new_file(
-          "priv/mishka_chelekom/components/component_button.exs",
+        |> host_template(
+          "component_button.exs",
           button_config
         )
         |> Igniter.compose_task(Component, ["component_button", "--yes"])
 
-      # Check if the component was created (no prefix in file name)
-      component_created =
-        Map.has_key?(
-          igniter.rewrite.sources,
-          "lib/test_project_web/components/component_button.ex"
-        )
+      assert Map.has_key?(
+               igniter.rewrite.sources,
+               "lib/chelekom_it_web/components/component_button.ex"
+             ),
+             "the component was not generated"
 
-      if component_created do
-        # Get the generated content
-        source =
-          igniter.rewrite.sources["lib/test_project_web/components/component_button.ex"]
+      # Get the generated content
+      source =
+        igniter.rewrite.sources["lib/chelekom_it_web/components/component_button.ex"]
 
-        content = Rewrite.Source.get(source, :content)
+      content = Rewrite.Source.get(source, :content)
 
-        # Verify the module name has no prefix
-        assert String.contains?(
-                 content,
-                 "defmodule TestProjectWeb.Components.ComponentButton do"
-               )
+      # Verify the module name has no prefix
+      assert String.contains?(
+               content,
+               "defmodule ChelekomItWeb.Components.ComponentButton do"
+             )
 
-        # Verify the import statement has no prefix (just Icon)
-        assert String.contains?(
-                 content,
-                 "import TestProjectWeb.Components.Icon"
-               )
+      # Verify the import statement has no prefix (just Icon)
+      assert String.contains?(
+               content,
+               "import ChelekomItWeb.Components.Icon"
+             )
 
-        # Verify it does NOT have prefixed import
-        refute String.contains?(content, "MishkaIcon")
-      else
-        # When running in test mode, the template might not be compiled
-        template =
-          igniter.rewrite.sources["priv/mishka_chelekom/components/component_button.eex"]
-
-        assert Rewrite.Source.get(template, :content) == button_template
-      end
+      # Verify it does NOT have prefixed import
+      refute String.contains?(content, "MishkaIcon")
     end
 
     test "does NOT save prefix to config when --no-save is used" do
@@ -1524,7 +1435,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
         def chat(assigns) do
           ~H\"\"\"
           <div class={["chat", @class]}>
-            <%= render_slot(@inner_block) %>
+            {render_slot(@inner_block)}
           </div>
           \"\"\"
         end
@@ -1553,14 +1464,14 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
 
       # Run the task with --no-save flag
       igniter =
-        test_project_with_formatter()
+        project()
         |> Igniter.create_new_file("priv/mishka_chelekom/config.exs", existing_config)
-        |> Igniter.create_new_file(
-          "priv/mishka_chelekom/components/component_chat.eex",
+        |> host_template(
+          "component_chat.eex",
           chat_template
         )
-        |> Igniter.create_new_file(
-          "priv/mishka_chelekom/components/component_chat.exs",
+        |> host_template(
+          "component_chat.exs",
           chat_config
         )
         |> Igniter.compose_task(Component, [
@@ -1599,7 +1510,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
         def chat(assigns) do
           ~H\"\"\"
           <div class={["chat", @class]}>
-            <%= render_slot(@inner_block) %>
+            {render_slot(@inner_block)}
           </div>
           \"\"\"
         end
@@ -1628,14 +1539,14 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.ComponentIntegrationTest do
 
       # Run the task WITHOUT --no-save flag
       igniter =
-        test_project_with_formatter()
+        project()
         |> Igniter.create_new_file("priv/mishka_chelekom/config.exs", existing_config)
-        |> Igniter.create_new_file(
-          "priv/mishka_chelekom/components/component_chat.eex",
+        |> host_template(
+          "component_chat.eex",
           chat_template
         )
-        |> Igniter.create_new_file(
-          "priv/mishka_chelekom/components/component_chat.exs",
+        |> host_template(
+          "component_chat.exs",
           chat_config
         )
         |> Igniter.compose_task(Component, [
