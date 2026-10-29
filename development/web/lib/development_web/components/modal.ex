@@ -113,6 +113,8 @@ defmodule DevelopmentWeb.Components.Modal do
       data-cancel={JS.exec(@on_cancel, "phx-remove")}
       data-pb-open={show_modal(@id)}
       data-pb-close={JS.exec("phx-remove", to: "##{@id}")}
+      data-open-focus={JS.push_focus(to: ":focus") |> JS.focus_first(to: "##{@id}-container")}
+      data-close-focus={JS.pop_focus()}
       class={["relative z-50 hidden", @class]}
     >
       <div
@@ -549,11 +551,12 @@ defmodule DevelopmentWeb.Components.Modal do
     )
     |> transition_show("##{id}-container")
     |> JS.add_class("overflow-hidden", to: "body")
-    # `hide_modal/2` pops this to give focus back. `:focus` rather than the default source
-    # element, because opened through `data-pb-open` or `phx-mounted` the source is the modal.
-    |> JS.push_focus(to: ":focus")
-    # The focus wrap holds the close button, so there is always something here to focus.
-    |> JS.focus_first(to: "##{id}-container")
+    # Pushes the focused element, which `hide_modal/2` pops to give focus back, and focuses the
+    # first element of the focus wrap, which holds the close button. `:focus` rather than the
+    # default source element, because opened through `data-pb-open` or `phx-mounted` the source
+    # is the modal. Before `data-open` is set, so only a modal that was closed runs it.
+    |> JS.exec("data-open-focus", to: "##{id}:not([data-open])")
+    |> JS.set_attribute({"data-open", ""}, to: "##{id}")
   end
 
   def hide_modal(js \\ %JS{}, id) do
@@ -565,7 +568,9 @@ defmodule DevelopmentWeb.Components.Modal do
     |> transition_hide("##{id}-container")
     |> JS.hide(to: "##{id}", transition: {"block", "block", "hidden"})
     |> JS.remove_class("overflow-hidden", to: "body")
-    |> JS.pop_focus()
+    # Before `data-open` is removed, so only a modal that was open gives focus back.
+    |> JS.exec("data-close-focus", to: "##{id}[data-open]")
+    |> JS.remove_attribute("data-open", to: "##{id}")
   end
 
   defp transition_show(js, selector) do
